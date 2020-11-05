@@ -1,4 +1,6 @@
-## /tg/station codebase
+## fulpstation codebase
+
+# readme is WIP
 
 [![Build Status](https://github.com/tgstation/tgstation/workflows/Run%20tests/badge.svg)](https://github.com/tgstation/tgstation/actions?query=workflow%3A%22Run+tests%22) 
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/tgstation/tgstation.svg)](https://isitmaintained.com/project/tgstation/tgstation "Percentage of issues still open")
