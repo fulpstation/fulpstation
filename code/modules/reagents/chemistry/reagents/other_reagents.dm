@@ -30,7 +30,17 @@
 				exposed_mob.ContactContractDisease(strain)
 			else //ingest, patch or inject
 				exposed_mob.ForceContractDisease(strain)
-
+	if(data["blood_type"] == "SY")
+		//Synthblood is very disgusting to bloodsuckers. They will puke it out to expel it, unless they have masquarade on
+		switch(reac_volume)
+			if(0 to 3)
+				disgust_bloodsucker(L, 3, FALSE, FALSE, FALSE)
+			if(3 to 6)
+				//If theres more than 8 units, they will start expelling it, even if they are masquarading.
+				disgust_bloodsucker(L, 5, FALSE, FALSE, TRUE)
+			else
+				//If they have too much in them, they will also puke out their blood.
+				disgust_bloodsucker(L, 7, -5, TRUE, TRUE)
 	if(iscarbon(exposed_mob))
 		var/mob/living/carbon/exposed_carbon = exposed_mob
 		if(exposed_carbon.get_blood_id() == /datum/reagent/blood && ((methods & INJECT) || ((methods & INGEST) && exposed_carbon.dna && exposed_carbon.dna.species && (DRINKSBLOOD in exposed_carbon.dna.species.species_traits))))

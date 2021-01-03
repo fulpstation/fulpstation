@@ -38,6 +38,7 @@
 #define ROLE_DEATHSQUAD			"Deathsquad"
 #define ROLE_LAVALAND			"Lavaland"
 #define ROLE_INTERNAL_AFFAIRS	"Internal Affairs Agent"
+#define ROLE_BLOODSUCKER			"bloodsucker"
 #define ROLE_FAMILIES			"Familes Antagonists"
 #define ROLE_SYNDICATE_CYBERSUN			"Cybersun Space Syndicate"		//Ghost role syndi from Forgottenship ruin
 #define ROLE_SYNDICATE_CYBERSUN_CAPTAIN	"Cybersun Space Syndicate Captain"		//Forgottenship captain syndie
@@ -65,6 +66,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_ABDUCTOR,
 	ROLE_INTERNAL_AFFAIRS = /datum/game_mode/traitor/internal_affairs,
 	ROLE_SENTIENCE,
+	ROLE_BLOODSUCKER = /datum/game_mode/bloodsucker,
 	ROLE_FAMILIES = /datum/game_mode/gang,
 	ROLE_HERETIC = /datum/game_mode/heretics
 ))

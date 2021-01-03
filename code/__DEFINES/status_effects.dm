@@ -93,6 +93,10 @@
 /// Read the documentation for /datum/status_effect/confusion for more information.
 #define STATUS_EFFECT_CONFUSION /datum/status_effect/confusion
 
+//Fulpstation's Bloodsuckers
+#define STATUS_EFFECT_NO_COMBAT_MODE /datum/status_effect/no_combat_mode //Wont allow combat mode and will disable it
+#define STATUS_EFFECT_MESMERIZE /datum/status_effect/no_combat_mode/mesmerize //Just reskinned no_combat_mode
+
 /////////////
 // NEUTRAL //
 /////////////

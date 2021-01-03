@@ -259,6 +259,34 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	grind_results = list(/datum/reagent/cellulose = 20) //no lignocellulose or lignin reagents yet,
 	walltype = /turf/closed/wall/mineral/wood
 
+/obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params) // NOTE: sheet_types.dm is where the WOOD stack lives. Maybe move this over there.
+	// Taken from /obj/item/stack/rods/attackby in [rods.dm]
+	if(W.get_sharpness())
+		user.visible_message("[user] begins whittling [src] into a pointy object.", \
+				 "<span class='notice'>You begin whittling [src] into a sharp point at one end.</span>", \
+				 "<span class='italics'>You hear wood carving.</span>")
+		// 8 Second Timer
+		if(!do_after(user, 80, TRUE, src))
+			return
+		// Make Stake
+		var/obj/item/stake/basic/new_item = new(user.loc)
+		user.visible_message("[user] finishes carving a stake out of [src].", \
+				 "<span class='notice'>You finish carving a stake out of [src].</span>")
+		// Prepare to Put in Hands (if holding wood)
+		var/obj/item/stack/sheet/mineral/wood/N = src
+		var/replace = (user.get_inactive_held_item() == N)
+		// Use Wood
+		N.use(1)
+		// If stack depleted, put item in that hand (if it had one)
+		if (!N && replace)
+			user.put_in_hands(new_item)
+	if(istype(W, merge_type))
+		var/obj/item/stack/S = W
+		if(merge(S))
+			to_chat(user, "<span class='notice'>Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s.</span>")
+	else
+		. = ..()
+
 /obj/item/stack/sheet/mineral/wood/get_main_recipes()
 	. = ..()
 	. += GLOB.wood_recipes

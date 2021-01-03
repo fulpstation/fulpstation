@@ -84,7 +84,8 @@
 	amt *= physiology.bleed_mod
 	if(!(NOBLOOD in dna.species.species_traits))
 		..()
-
+	if(HAS_TRAIT(src, TRAIT_NOMARROW)) //Bloodsuckers don't need to be here.
+		..()
 
 
 /mob/living/proc/restore_blood()

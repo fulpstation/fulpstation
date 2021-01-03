@@ -85,6 +85,22 @@ GLOBAL_LIST_INIT(heretic_start_knowledge,list(/datum/eldritch_knowledge/spell/ba
 #define PATH_FLESH "Flesh"
 #define PATH_VOID "Void"
 
+//Bloodsucker defines
+// Bloodsucker related antag datums
+#define ANTAG_DATUM_BLOODSUCKER			/datum/antagonist/bloodsucker
+#define ANTAG_DATUM_VASSAL				/datum/antagonist/vassal
+//#define ANTAG_DATUM_HUNTER				/datum/antagonist/vamphunter   Disabled for now
+
+// BLOODSUCKER
+#define BLOODSUCKER_LEVEL_TO_EMBRACE	3
+#define BLOODSUCKER_FRENZY_TIME	25		// How long the vamp stays in frenzy.
+#define BLOODSUCKER_FRENZY_OUT_TIME	300	// How long the vamp goes back into frenzy.
+#define BLOODSUCKER_STARVE_VOLUME	5	// Amount of blood, below which a Vamp is at risk of frenzy.
+
+#define CAT_STRUCTURE	"Structures"
+
+#define MARTIALART_HUNTER "hunter-fu"
+
 /// How much does it cost to reroll strains?
 #define BLOB_REROLL_COST 40
 

@@ -201,6 +201,13 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_ABDUCTOR_TRAINING "abductor-training"
 #define TRAIT_ABDUCTOR_SCIENTIST_TRAINING "abductor-scientist-training"
 #define TRAIT_SURGEON           "surgeon"
+#define TRAIT_COLDBLOODED		"coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp.
+#define TRAIT_NONATURALHEAL		"nonaturalheal"	// Only Admins can heal you. NOTHING else does it unless it's given the god tag.
+#define TRAIT_NORUNNING			"norunning"		// You walk!
+#define TRAIT_NOMARROW			"nomarrow"		// You don't make blood, with chemicals or nanites.
+#define TRAIT_NOPULSE			"nopulse"		// Your heart doesn't beat.
+#define TRAIT_NOGUT				"nogutting"		//Your chest cant be gutted of organs
+#define TRAIT_NODECAP			"nodecapping"	//Your head cant be cut off in combat
 #define	TRAIT_STRONG_GRABBER	"strong_grabber"
 #define	TRAIT_MAGIC_CHOKE		"magic_choke"
 #define TRAIT_SOOTHED_THROAT    "soothed-throat"
