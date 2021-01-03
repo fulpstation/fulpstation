@@ -40,7 +40,7 @@
 		else
 			.["present"]++
 
-/proc/key_name_mentor(var/whom, var/include_link = null, var/include_name = 0, var/include_follow = 0, var/char_name_only = 0)
+/proc/key_name_mentor(whom, include_link = null, include_name = TRUE, var/include_follow = TRUE, var/char_name_only = TRUE)
 	var/mob/M
 	var/client/C
 	var/key
