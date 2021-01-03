@@ -9,7 +9,7 @@
 	hotkey_keys = list("F4")
 	name = "mentor_say"
 	full_name = "Mentor say"
-	description = "Talk with fellow mentors."
+	description = "Talk with fellow mentors and admins."
 
 /datum/keybinding/mentor/mentor_say/down(client/user)
 	user.get_mentor_say()

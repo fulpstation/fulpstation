@@ -129,7 +129,6 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/client/proc/panicbunker,
 	/client/proc/toggle_interviews,
 	/client/proc/toggle_hub,
-	/client/proc/mentor_memo, //Fulp Mentorhelp
 	/client/proc/toggle_cdn
 	)
 GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())
