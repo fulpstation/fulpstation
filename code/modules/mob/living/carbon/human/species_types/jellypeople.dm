@@ -33,7 +33,7 @@
 		regenerate_limbs.Grant(C)
 
 /datum/species/jelly/spec_life(mob/living/carbon/human/H)
-	if(H.stat == DEAD) //can't farm slime jelly from a dead slime/jelly person indefinitely
+	if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_NOMARROW)) //can't farm slime jelly from a dead slime/jelly person indefinitely, and no regeneration for bloodsuckers
 		return
 	if(!H.blood_volume)
 		H.blood_volume += 5
@@ -167,6 +167,8 @@
 	bodies = old_species.bodies
 
 /datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
+	if((HAS_TRAIT(H, TRAIT_NOMARROW)))
+		return
 	if(H.blood_volume >= BLOOD_VOLUME_SLIME_SPLIT)
 		if(prob(5))
 			to_chat(H, "<span class='notice'>You feel very bloated!</span>")

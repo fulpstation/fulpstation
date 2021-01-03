@@ -672,6 +672,14 @@
 	lose_text = "<span class='notice'>Your mind finally feels calm.</span>"
 	medical_record_text = "Patient's mind is in a vulnerable state, and cannot recover from traumatic events."
 	hardcore_value = 9
+/datum/quirk/coldblooded
+	name = "Cold-blooded"
+	desc = "Your body doesn't create its own internal heat, requiring external heat regulation."
+	value = -2
+	medical_record_text = "Patient is ectothermic."
+	mob_trait = TRAIT_COLDBLOODED
+	gain_text = "<span class='notice'>You feel cold-blooded.</span>"
+	lose_text = "<span class='notice'>You feel more warm-blooded.</span>"
 
 /datum/quirk/allergic
 	name = "Extreme Medicine Allergy"

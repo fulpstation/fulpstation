@@ -41,6 +41,7 @@
 			else
 				//If they have too much in them, they will also puke out their blood.
 				disgust_bloodsucker(L, 7, -5, TRUE, TRUE)
+
 	if(iscarbon(exposed_mob))
 		var/mob/living/carbon/exposed_carbon = exposed_mob
 		if(exposed_carbon.get_blood_id() == /datum/reagent/blood && ((methods & INJECT) || ((methods & INGEST) && exposed_carbon.dna && exposed_carbon.dna.species && (DRINKSBLOOD in exposed_carbon.dna.species.species_traits))))
@@ -48,6 +49,15 @@
 				exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
 			else
 				exposed_carbon.blood_volume = min(exposed_carbon.blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+	if(reac_volume >= 10 && istype(L) && method != INJECT)
+		L.add_blood_DNA(list(data["blood_DNA"] = data["blood_type"]))
+
+/datum/reagent/blood/on_mob_life(mob/living/carbon/C)	//Because lethals are preferred over stamina.
+	var/blood_id = C.get_blood_id()
+	if((blood_id in GLOB.blood_reagent_types) && !HAS_TRAIT(C, TRAIT_NOMARROW))
+		if(!data || !(data["blood_type"] in get_safe_blood(C.dna.blood_type)))	//we only care about bloodtype here because this is where the poisoning should be
+			C.adjustToxLoss(rand(2,8)*REM, TRUE, TRUE)	//forced to ensure people don't use it to gain beneficial toxin as slime person
+	..()
 
 
 /datum/reagent/blood/on_new(list/data)
@@ -934,6 +944,8 @@
 	color = "#606060" //pure iron? let's make it violet of course
 
 /datum/reagent/iron/on_mob_life(mob/living/carbon/C)
+	if((HAS_TRAIT(C, TRAIT_NOMARROW)))
+		return
 	if(C.blood_volume < BLOOD_VOLUME_NORMAL)
 		C.blood_volume += 0.5
 	..()
