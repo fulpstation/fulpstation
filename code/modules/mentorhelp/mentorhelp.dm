@@ -10,6 +10,11 @@
 	spawn(300)
 		verbs += /client/verb/mentorhelp	// 30 second cool-down for mentorhelp
 
+	if(usr.client)
+		if(usr.client.prefs.muted & MUTE_MENTORHELP)
+			to_chat(usr, "<span class='danger'>You cannot mhelp (muted).</span>", confidential = TRUE)
+			return
+
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	if(!msg)	return
 	if(!mob)	return						//this doesn't happen

@@ -4,6 +4,10 @@
 	if(!is_mentor())
 		to_chat(src, "<span class='danger'>Error: Mentor-PM-Context: Only mentors and administrators may use this command.</span>", confidential = TRUE)
 		return
+	if(usr.client)
+		if(usr.client.prefs.muted & MUTE_MENTORHELP)
+			to_chat(usr, "<span class='danger'>You cannot mhelp (muted).</span>", confidential = TRUE)
+			return
 	if( !ismob(M) || !M.client )
 		return
 	cmd_mentor_pm(M.client,null)
