@@ -10,6 +10,7 @@
 
 #define LANGUAGE_ABSORB			"absorb"
 #define LANGUAGE_APHASIA		"aphasia"
+#define LANGUAGE_BLOODSUCKER	"bloodsucker"
 #define LANGUAGE_CULTIST		"cultist"
 #define LANGUAGE_CURATOR 		"curator"
 #define LANGUAGE_GLAND			"gland"
@@ -19,4 +20,5 @@
 #define LANGUAGE_MASTER			"master"
 #define LANGUAGE_SOFTWARE		"software"
 #define LANGUAGE_STONER			"stoner"
+#define LANGUAGE_VASSAL			"vassal"
 #define LANGUAGE_VOICECHANGE	"voicechange"
