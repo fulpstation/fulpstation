@@ -10,7 +10,11 @@
 	name = "mentor_say"
 	full_name = "Mentor say"
 	description = "Talk with fellow mentors and admins."
+	keybind_signal = COMSIG_KB_ADMIN_MSAY_DOWN
 
 /datum/keybinding/mentor/mentor_say/down(client/user)
+	. = ..()
+	if(.)
+		return
 	user.get_mentor_say()
-	return ..()
+	return TRUE
