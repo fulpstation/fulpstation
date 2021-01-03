@@ -1,6 +1,3 @@
-
-
-
 //shows a list of clients we could send PMs to, then forwards our choice to cmd_Mentor_pm
 /client/proc/cmd_mentor_pm_panel()
 	set category = "Mentor"
