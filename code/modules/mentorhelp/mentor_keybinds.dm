@@ -13,4 +13,4 @@
 
 /datum/keybinding/mentor/mentor_say/down(client/user)
 	user.get_mentor_say()
-	return TRUE
+	return ..()
