@@ -406,6 +406,52 @@
 	tools = list(TOOL_WIRECUTTER)
 	category = CAT_CLOTHING
 
+//Start of Bloodsucker crafting
+/datum/crafting_recipe/blackcoffin
+	name = "Black Coffin"
+	result = /obj/structure/closet/crate/coffin/blackcoffin
+	tools = list(TOOL_WELDER, TOOL_SCREWDRIVER)
+	time = 15 SECONDS
+	reqs = list(/obj/item/stack/sheet/cloth = 1, /obj/item/stack/sheet/mineral/wood = 5, /obj/item/stack/sheet/metal = 1)
+	category = CAT_MISC
+
+/datum/crafting_recipe/meatcoffin
+	name = "Meat Coffin"
+	result = /obj/structure/closet/crate/coffin/meatcoffin
+	tools = list(TOOL_KNIFE, TOOL_ROLLINGPIN)
+	reqs = list(/obj/item/food/meat/slab = 5, /obj/item/restraints/handcuffs/cable = 1)
+	time = 15 SECONDS
+	category = CAT_MISC
+	always_available = FALSE //The sacred coffin!
+
+/datum/crafting_recipe/metalcoffin
+	name = "Metal Coffin"
+	result = /obj/structure/closet/crate/coffin/metalcoffin
+	tools = list(TOOL_WELDER, TOOL_SCREWDRIVER)
+	reqs = list(/obj/item/stack/sheet/metal = 5)
+	time = 10 SECONDS
+	category = CAT_MISC
+
+/datum/crafting_recipe/vassalrack
+	name = "Persuasion Rack"
+	result = /obj/structure/bloodsucker/vassalrack
+	tools = list(TOOL_WELDER, TOOL_WRENCH)
+	reqs = list(/obj/item/stack/sheet/mineral/wood = 3, /obj/item/stack/sheet/metal = 2, /obj/item/restraints/handcuffs/cable = 2)
+	time = 15 SECONDS
+	category = CAT_MISC
+	always_available = FALSE
+
+
+/datum/crafting_recipe/candelabrum
+	name = "Candelabrum"
+	tools = list(TOOL_WELDER, TOOL_WRENCH)
+	result = /obj/structure/bloodsucker/candelabrum
+	reqs = list(/obj/item/stack/sheet/metal = 3, /obj/item/stack/rods = 1, /obj/item/candle = 1)
+	time = 10 SECONDS
+	category = CAT_MISC
+	always_available = FALSE
+//End of Bloodsucker crafting
+
 /datum/crafting_recipe/mixedbouquet
 	name = "Mixed bouquet"
 	result = /obj/item/bouquet
@@ -932,3 +978,4 @@
 				/obj/item/grenade/gas_crystal/zauker_crystal = 1
 				)
 	category = CAT_MISC
+

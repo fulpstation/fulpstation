@@ -18,21 +18,21 @@
 		return FALSE
 	. = TRUE
 	// Break Out of Restraints! (And then cancel)
-	if(CheckBreakRestraints())
-		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
+	if (CheckBreakRestraints())
+		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
 		. = FALSE //return FALSE
 	// Throw Off Attacker! (And then cancel)
-	if(CheckEscapePuller())
-		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
+	if (CheckEscapePuller())
+		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
 		. = FALSE //return FALSE
-	/*if(CheckBreakLocker())
-		.= FALSE */
-	// Did we successfuly use power to BREAK CUFFS and/or ESCAPE PULLER and/or escape from a locker?
+	// Did we successfuly use power to BREAK CUFFS and/or ESCAPE PULLER?
 	// Then PAY COST!
-	if(. == FALSE)
+	if (. == FALSE)
 		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
+
 	// NOTE: We use . = FALSE so that we can break cuffs AND throw off our attacker in one use!
-	return TRUE
+	//return TRUE
+
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
 	return isliving(A) || istype(A, /obj/machinery/door)
 
@@ -100,8 +100,8 @@
 			return FALSE
 		user.visible_message("<span class='warning'>[user] breaks through the [user.p_their()] [O] like it's nothing!</span>", \
 			"<span class='warning'>We break through our handcuffs!</span>")
-		if(O && user.handcuffed == O)
-			qdel(O)
+		user.clear_cuffs(O,TRUE)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		return TRUE
 	if(user.legcuffed) //Removes Legcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
@@ -109,8 +109,8 @@
 			return FALSE
 		user.visible_message("<span class='warning'>[user] kicks away the [user.p_their()] [O] like it's nothing!</span>", \
 			"<span class='warning'>We discard our legcuffs!</span>")
-		if(O && user.legcuffed == O)
-			qdel(O)
+		user.clear_cuffs(O,TRUE)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		return TRUE
 	if(user.wear_suit && user.wear_suit.breakouttime) //Removes straightjacket
 		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
@@ -118,8 +118,8 @@
 			return FALSE
 		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
 			"<span class='warning'>We tore through our straightjacket!</span>")
-		if(S && user.wear_suit == S)
-			qdel(S)
+		user.clear_cuffs(S,TRUE)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		return TRUE
 	..()
 	return FALSE
