@@ -14,9 +14,8 @@
 	var/upgrade_canDoor = FALSE
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
+	if(!..(display_error))// DEFAULT CHECKS
+		return FALSE
 	. = TRUE
 	// Break Out of Restraints! (And then cancel)
 	if(CheckBreakRestraints())

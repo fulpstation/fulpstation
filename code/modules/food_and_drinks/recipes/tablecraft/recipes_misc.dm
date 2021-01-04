@@ -353,7 +353,7 @@
 	tools = list(TOOL_WELDER, TOOL_SCREWDRIVER)
 	time = 150
 	reqs = list(/obj/item/stack/sheet/cloth = 1, /obj/item/stack/sheet/mineral/wood = 5, /obj/item/stack/sheet/metal = 1)
-	category = CAT_MISC
+	category = CAT_STRUCTURE
 
 /datum/crafting_recipe/meatcoffin
 	name = "Meat Coffin"
@@ -361,7 +361,7 @@
 	tools = list(TOOL_KNIFE, TOOL_ROLLINGPIN)
 	reqs = list(/obj/item/food/meat/slab = 5, /obj/item/restraints/handcuffs/cable = 1)
 	time = 150
-	category = CAT_MISC
+	category = CAT_STRUCTURE
 	always_available = FALSE //The sacred coffin!
 
 /datum/crafting_recipe/metalcoffin
@@ -370,7 +370,7 @@
 	tools = list(TOOL_WELDER, TOOL_SCREWDRIVER)
 	reqs = list(/obj/item/stack/sheet/metal = 5)
 	time = 100
-	category = CAT_MISC
+	category = CAT_STRUCTURE
 
 /datum/crafting_recipe/vassalrack
 	name = "Persuasion Rack"
@@ -378,7 +378,7 @@
 	tools = list(TOOL_WELDER, TOOL_WRENCH)
 	reqs = list(/obj/item/stack/sheet/mineral/wood = 3, /obj/item/stack/sheet/metal = 2, /obj/item/restraints/handcuffs/cable = 2)
 	time = 150
-	category = CAT_MISC
+	category = CAT_STRUCTURE
 	always_available = FALSE
 
 
@@ -388,5 +388,5 @@
 	result = /obj/structure/bloodsucker/candelabrum
 	reqs = list(/obj/item/stack/sheet/metal = 3, /obj/item/stack/rods = 1, /obj/item/candle = 1)
 	time = 100
-	category = CAT_MISC
+	category = CAT_STRUCTURE
 	always_available = FALSE
