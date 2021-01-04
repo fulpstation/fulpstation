@@ -113,30 +113,25 @@
 	return ..()
 
 /obj/structure/closet/crate/coffin/close(mob/living/user)
-	var/turf/Turf = get_turf(src)
 	if (!..())
 		return FALSE
-	// Only the User can put themself into Torpor (if you're already in it, you'll start to heal)
-	if((user in src))
-		// Bloodsucker Only
+	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
+	if ((user in src))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
-		if(bloodsuckerdatum)
+		if (bloodsuckerdatum)
 			LockMe(user)
-			Turf = get_turf(user) //we may have moved. adjust as needed...
-			// Claim?
-			if(!bloodsuckerdatum.coffin && !resident && (is_station_level(Turf.z) || !A.map_name == "Space"))
+			if (!bloodsuckerdatum.coffin && !resident) //Claim?
 				switch(alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair","Yes", "No"))
 					if("Yes")
 						ClaimCoffin(user)
-			if (user.AmStaked()) // Stake? No Heal!
+			if (user.AmStaked()) //Staked? Dont heal
 				to_chat(bloodsuckerdatum.owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
 			// Heal
-			if(bloodsuckerdatum.HandleHealing(0)) // Healing Mult 0 <--- We only want to check if healing is valid!
+			if (bloodsuckerdatum.HandleHealing(0)) // Healing Mult 0 <--- We only want to check if healing is valid!
 				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 				bloodsuckerdatum.Torpor_Begin()
-			// Level Up?
-			bloodsuckerdatum.SpendRank() // Auto-Fails if not appropriate
+			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
 	return TRUE
 
 /obj/structure/closet/crate/coffin/attackby(obj/item/W, mob/user, params)

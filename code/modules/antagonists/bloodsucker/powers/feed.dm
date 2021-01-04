@@ -195,7 +195,6 @@
 	var/warning_target_bloodvol = 99999
 	var/amount_taken = 0
 	var/blood_take_mult = amSilent ? 0.3 : 1 // Quantity to take per tick, based on Silent or not.
-	var/was_alive = target.stat < DEAD && ishuman(target)
 	// Activate Effects
 	//target.add_trait(TRAIT_MUTE, "bloodsucker_victim")  // <----- Make mute a power you buy?
 

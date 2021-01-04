@@ -63,9 +63,7 @@
 	AddBloodVolume(blood_taken)
 	// Reagents (NOT Blood!)
 	if(target.reagents && target.reagents.total_volume)
-		var/fraction = min(bite_consumption / target.reagents.total_volume, 1)
-		reagents.reaction(target, INGEST, fraction)
-		reagents.trans_to(target, bitesize)
+		target.reagents.trans_to(owner.current, INGEST, 1)	// Run transfer of 1 unit of reagent from them to me.
 	// Blood Gulp Sound
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 
@@ -99,7 +97,7 @@
 		if(istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0 || HAS_TRAIT(C, TRAIT_FAKEDEATH)))
 			mult *= 4 // Increase multiplier if we're sleeping in a coffin.
 			fireheal = min(C.getFireLoss(), regen_rate) // NOTE: Burn damage ONLY heals in torpor.
-			C.ExtinguishMob()
+			C.extinguish_mob()
 			CureDisabilities() 	// Extinguish Fire
 			C.remove_all_embedded_objects() // Remove Embedded!
 			owner.current.regenerate_organs() // Heal Organs (will respawn original eyes etc. but we replace right away, next)
@@ -280,8 +278,6 @@
 	owner.current.unequip_everything()
 	var/mob/living/carbon/C = owner.current
 	C.remove_all_embedded_objects()
-	// Make me UN-CLONEABLE
-	owner.current.hellbound = TRUE // This was done during creation, but let's do it again one more time...to make SURE this guy stays dead, but they dont stay dead because brains can be cloned!
 	// Free my Vassals!
 	FreeAllVassals()
 	// Elders get Dusted

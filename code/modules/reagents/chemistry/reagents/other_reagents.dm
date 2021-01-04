@@ -41,6 +41,7 @@
 				//If they have too much in them, they will also puke out their blood.
 				disgust_bloodsucker(exposed_mob, 7, -5, TRUE, TRUE)
 
+
 	if(iscarbon(exposed_mob))
 		var/mob/living/carbon/exposed_carbon = exposed_mob
 		if(exposed_carbon.get_blood_id() == /datum/reagent/blood && ((methods & INJECT) || ((methods & INGEST) && exposed_carbon.dna && exposed_carbon.dna.species && (DRINKSBLOOD in exposed_carbon.dna.species.species_traits))))
