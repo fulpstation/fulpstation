@@ -18,7 +18,7 @@
 	. = ..()
 	if(!.)
 		return
-	if(owner.mob_transforming || !get_turf(owner))
+	if(owner.notransform || !get_turf(owner))
 		return FALSE
 
 	return TRUE

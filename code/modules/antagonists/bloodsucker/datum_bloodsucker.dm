@@ -6,7 +6,6 @@
 	roundend_category = "bloodsuckers"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
-	threat = 5
 	// NAME
 	var/bloodsucker_name						// My Dracula style name
 	var/bloodsucker_title						// My Dracula style title
@@ -89,9 +88,6 @@
 			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
 	// Refill with Blood
 	owner.current.blood_volume = max(owner.current.blood_volume,BLOOD_VOLUME_SAFE)
-
-/datum/antagonist/bloodsucker/threat()
-	return ..() + 3 * bloodsucker_level
 
 
 /datum/antagonist/bloodsucker/proc/SelectFirstName()

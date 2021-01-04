@@ -24,7 +24,8 @@
 	inhand_icon_state = "wood" // In-hand Icon
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi' // File for in-hand icon
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
-	attack_verb = list("staked")
+	attack_verb_continuous = list("staked", "stabbed", "tore into")
+	attack_verb_simple = list("staked", "stabbed", "tore into")
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -127,7 +128,7 @@
 	name = "silver stake"
 	desc = "Polished and sharp at the end. For when some mofo is always trying to iceskate uphill."
 	icon_state = "silver" // Inventory Icon
-	item_state = "silver" // In-hand Icon
+	inhand_icon_state = "silver" // In-hand Icon
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
@@ -166,4 +167,3 @@
 				///obj/item/pipe = 2)
 	time = 80
 	category = CAT_WEAPONRY
-	subcategory = CAT_MELEE

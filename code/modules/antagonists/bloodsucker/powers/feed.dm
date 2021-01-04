@@ -292,7 +292,7 @@
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
 
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
-	return ..()  && target && (!target_grappled || user.pulling == target) && blood_sucking_checks(target, TRUE, TRUE) // Active, and still antag,
+	return ..()  && target && (!target_grappled || user.pulling == target) // Active, and still antag,
 	// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)

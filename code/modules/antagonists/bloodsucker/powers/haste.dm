@@ -75,17 +75,15 @@
 			sleep(speed)
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 	hit = null
-	user.update_mobility()
 
 /datum/action/bloodsucker/targeted/haste/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..() // activate = FALSE
-	user.update_mobility()
 
 /datum/action/bloodsucker/targeted/haste/proc/on_move()
 	for(var/mob/living/L in dview(1, get_turf(owner)))
 		if(!hit[L] && (L != owner))
 			hit[L] = TRUE
 			playsound(L, "sound/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
-			L.Knockdownn(10 + level_current * 5)
+			L.Knockdown(10 + level_current * 5)
 			L.Paralyze(0.1)
 			L.spin(10, 1)

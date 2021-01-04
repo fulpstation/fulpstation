@@ -49,14 +49,6 @@
 			else
 				exposed_carbon.blood_volume = min(exposed_carbon.blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
 
-/datum/reagent/blood/on_mob_life(mob/living/exposed_carbon)	//Because lethals are preferred over stamina.
-	var/blood_id = exposed_carbon.get_blood_id()
-	if((blood_id in GLOB.blood_reagent_types) && !HAS_TRAIT(exposed_carbon, TRAIT_NOMARROW))
-		if(!data || !(data["blood_type"] in get_safe_blood(exposed_carbon.dna.blood_type)))	//we only care about bloodtype here because this is where the poisoning should be
-			exposed_carbon.adjustToxLoss(rand(2,8)*REM, TRUE, TRUE)	//forced to ensure people don't use it to gain beneficial toxin as slime person
-	..()
-
-
 /datum/reagent/blood/on_new(list/data)
 	if(istype(data))
 		SetViruses(src, data)

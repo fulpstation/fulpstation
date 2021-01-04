@@ -99,7 +99,7 @@
 				///obj/item/pipe = 2)
 	time = 150
 	category = CAT_MISC
-	always_availible = TRUE
+	always_available = TRUE
 
 /datum/crafting_recipe/bloodsucker/meatcoffin
 	name = "Meat Coffin"
@@ -110,7 +110,7 @@
 				/obj/item/restraints/handcuffs/cable = 1)
 	time = 150
 	category = CAT_MISC
-	always_availible = TRUE
+	always_available = TRUE
 
 /datum/crafting_recipe/bloodsucker/metalcoffin
 	name = "Metal Coffin"
@@ -120,7 +120,7 @@
 	reqs = list(/obj/item/stack/sheet/metal = 5)
 	time = 100
 	category = CAT_MISC
-	always_availible = TRUE
+	always_available = TRUE
 
 /datum/crafting_recipe/bloodsucker/vassalrack
 	name = "Persuasion Rack"
@@ -142,7 +142,7 @@
 		//			 )
 	time = 150
 	category = CAT_MISC
-	always_availible = FALSE	// Disabled until learned
+	always_available = FALSE	// Disabled until learned
 
 
 /datum/crafting_recipe/bloodsucker/candelabrum
@@ -158,5 +158,5 @@
 				)
 	time = 100
 	category = CAT_MISC
-	always_availible = FALSE	// Disabled til learned
+	always_available = FALSE
 	//End of Boodsucker construction recipes
