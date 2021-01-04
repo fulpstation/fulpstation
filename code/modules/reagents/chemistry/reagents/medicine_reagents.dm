@@ -291,8 +291,6 @@
 	var/extra_regen = 0.25 // in addition to acting as temporary blood, also add this much to their actual blood per tick
 
 /datum/reagent/medicine/salglu_solution/on_mob_life(mob/living/carbon/M)
-	if((HAS_TRAIT(M, TRAIT_NOMARROW)))
-		return
 	if(last_added)
 		M.blood_volume -= last_added
 		last_added = 0

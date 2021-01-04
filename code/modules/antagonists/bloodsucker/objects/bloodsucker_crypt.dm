@@ -120,13 +120,10 @@
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
 		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
 		. += {"<span class='cult'>To convert the victim, simply click on the vassal rack itself. Sharp weapons work faster than other tools.</span>"}
-		. += {"<span class='cult'> You have only the power for [B.bloodsucker_level - B.count_vassals(user.mind)] vassals</span>"}
 	if(user.mind.has_antag_datum(/datum/antagonist/vassal, TRUE))
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into his minions.</span>"
 		. += "<span class='notice'> Aid your master in bringing their victims here and keeping them secure.</span>"
 		. += "<span class='notice'> You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
-	else
-		. += "<span class='notice'>A strange rack used to hold people in place.</span>"
 
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
 	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
@@ -195,7 +192,7 @@
 			return
 	// Did the time. Now try to do it.
 	..()
-	unbuckle_mob(M)
+	user_unbuckle_mob(M)
 
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	if(!..())
@@ -209,13 +206,7 @@
 	update_icon()
 	useLock = FALSE // Failsafe
 
-/obj/structure/bloodsucker/vassalrack/attackby(obj/item/W, mob/user, params)
-	if(has_buckled_mobs()) // Attack w/weapon vs guy standing there? Don't do an attack.
-		attack_hand(user)
-		return FALSE
-	return ..()
-
-/obj/structure/bloodsucker/vassalrack/proc/on_attack_hand(mob/user, act_intent = user.a_intent, unarmed_attack_flags)
+/obj/structure/bloodsucker/vassalrack/attack_hand(mob/user)
 	//. = ..()	// Taken from sacrificial altar in divine.dm
 	//if(.)
 	//	return
@@ -236,6 +227,8 @@
 				density = FALSE
 				anchored = TRUE
 				return //No, you cant move this ever again
+			if("No")
+				return
 	// No One Home
 	if(!has_buckled_mobs())
 		return
@@ -471,7 +464,7 @@
 		. += "<span class='notice'>In Greek myth, Prometheus stole fire from the Gods and gave it to \
 		humankind. The jewelry he kept for himself.</span>"
 
-/obj/structure/bloodsucker/candelabrum/proc/on_attack_hand(mob/user, act_intent = user.a_intent, unarmed_attack_flags)
+/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
 	if(AmBloodsucker(user) || istype(T))
 		toggle()
@@ -491,7 +484,7 @@
 		STOP_PROCESSING(SSobj, src)
 	update_icon()
 
-/obj/structure/bloodsucker/candelabrum/process(var/mob/living/carbon/human/H)
+/obj/structure/bloodsucker/candelabrum/process(var/mob/living/carbon/human/H) //Currently doesnt seem to work, fix would be appreciated!
 	if(!lit)
 		return
 	if(H.mind.has_antag_datum(/datum/antagonist/vassal, TRUE))

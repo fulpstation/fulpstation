@@ -201,7 +201,7 @@
 	// FEEEEEEEEED!!! //
 	bloodsuckerdatum.poweron_feed = TRUE
 	while(bloodsuckerdatum && target && active)
-	//user.mobility_flags &= ~MOBILITY_MOVE // user.canmove = 0 // Prevents spilling blood accidentally.
+	//ADD_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized") // user.canmove = 0 // Prevents spilling blood accidentally.
 
 		// Abort? A bloody mistake.
 		if(!do_mob(user, target, 20, 0, 0, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
@@ -311,3 +311,5 @@
 	feed_target = null
 	// My mouth is no longer full
 	REMOVE_TRAIT(owner, TRAIT_MUTE, "bloodsucker_feed")
+	//Let me move!
+	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized")

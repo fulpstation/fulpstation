@@ -9,6 +9,7 @@
 	// Bloodsucker Learns new Recipes!
 	owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
+	owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
 	// This is my Lair
 	coffin = claimed
 	lair = get_area(claimed)
@@ -38,6 +39,7 @@
 	resistance_flags = NONE
 	material_drop = /obj/item/stack/sheet/metal
 	material_drop_amount = 2
+	armor = list("melee" = 50, "bullet" = 20, "laser" = 30, "energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 60)
 
 /obj/structure/closet/crate/coffin/meatcoffin
 	name = "meat coffin"
@@ -52,6 +54,7 @@
 	resistance_flags = NONE
 	material_drop = /obj/item/food/meat/slab/human
 	material_drop_amount = 3
+	armor = list("melee" = 70, "bullet" = 10, "laser" = 10, "energy" = 0, "bomb" = 70, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 100)
 
 /obj/structure/closet/crate/coffin/metalcoffin
 	name = "metal coffin"
@@ -65,6 +68,7 @@
 	pryLidTimer = 200
 	material_drop = /obj/item/stack/sheet/metal
 	material_drop_amount = 5
+	armor = list("melee" = 40, "bullet" = 15, "laser" = 50, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 60)
 
 //////////////////////////////////////////////
 

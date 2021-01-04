@@ -93,7 +93,7 @@
 /datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
 	if(!iscarbon(owner)) // || !owner.restrained()
 		return FALSE
-	var/mob/living/carbon/user = owner
+	var/mob/living/carbon/human/user = owner
 	// (NOTE: Just like biodegrade.dm, we only remove one thing per use) //
 	if(user.handcuffed) //Removes Handcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
@@ -113,10 +113,10 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		return TRUE
-	if (ishuman(owner)) //Removes straightjacket
+	if(ishuman(owner)) //Removes straightjacket
 		var/mob/living/carbon/human/user_H = owner
 		if(user_H.wear_suit && user_H.wear_suit.breakouttime)
-			var/obj/item/clothing/suit/S = user_H.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+			var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_ICLOTHING)
 			if(istype(S))
 				user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
 			"<span class='warning'>We tore through our straightjacket!</span>")

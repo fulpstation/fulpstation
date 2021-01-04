@@ -246,12 +246,13 @@
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	owner.current.stat = SOFT_CRIT
 	owner.current.remove_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, "bloodsucker")
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, "bloodsucker")
 	REMOVE_TRAIT(owner.current, TRAIT_RESISTHIGHPRESSURE, "bloodsucker")
 	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, "bloodsucker")
+	owner.current.regenerate_organs() // So the eyes arent dead (will respawn original eyes etc. but we replace right away, next)
+	CheckVampOrgans() // Same reason as above Eyes
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 
 

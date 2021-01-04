@@ -160,10 +160,8 @@
 /datum/crafting_recipe/silver_stake
 	name = "Silver Stake"
 	result = /obj/item/stake/hardened/silver
-	tools = list(/obj/item/weldingtool)
-	reqs = list(/obj/item/stack/sheet/mineral/silver = 1,
-				/obj/item/stake/hardened = 1)
-				///obj/item/stack/packageWrap = 8,
-				///obj/item/pipe = 2)
-	time = 80
+	tools = list(TOOL_WELDER)
+	reqs = list(/obj/item/stack/sheet/mineral/silver = 1, /obj/item/stake/hardened = 1)
+	time = 8 SECONDS
 	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON

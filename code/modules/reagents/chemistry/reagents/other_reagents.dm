@@ -934,7 +934,7 @@
 	color = "#606060" //pure iron? let's make it violet of course
 
 /datum/reagent/iron/on_mob_life(mob/living/carbon/C)
-	if((HAS_TRAIT(C, TRAIT_NOMARROW)))
+	if((HAS_TRAIT(C, BLOODSUCKER_TRAIT)))
 		return
 	if(C.blood_volume < BLOOD_VOLUME_NORMAL)
 		C.blood_volume += 0.5
