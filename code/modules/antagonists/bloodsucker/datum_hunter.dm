@@ -1,39 +1,31 @@
-/*
 #define HUNTER_SCAN_MIN_DISTANCE 8
 #define HUNTER_SCAN_MAX_DISTANCE 35
 #define HUNTER_SCAN_PING_TIME 20 //5s update time.
-
 
 /datum/antagonist/vamphunter
 	name = "Hunter"
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
-	var/list/datum/action/powers = list()// Purchased powers
+	var/list/datum/action/powers = list() // Purchased powers
 	var/list/datum/objective/objectives_given = list()	// For removal if needed.
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
-	var/bad_dude = FALSE  	// Every first hunter spawned is a SHIT LORD.
-	threat = -3
-
-/datum/antagonist/vamphunter/threat()
-	return bad_dude ? -(..()) : ..()
+	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.
 
 /datum/antagonist/vamphunter/on_gain()
 
-	SSticker.mode.vamphunters |= owner // Add if not already in here (and you might be, if you were picked at round start)
-
 	// Hunter Pinpointer
-	//owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
+	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
 
 	// Give Hunter Power
 	var/datum/action/P = new /datum/action/bloodsucker/trackvamp
 	P.Grant(owner.current)
 
 	// Give Hunter Martial Arts
-	//if (rand(1,3) == 1)
-	//	var/datum/martial_art/pick_type = pick (/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/wrestling)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
-	//	my_kungfu = new pick_type //pick (/datum/martial_art/boxing, /datum/martial_art/cqc) // ick_type
-	//	my_kungfu.teach(owner.current, 0)
+	if (rand(1,3) == 1)
+		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/krav_maga, /datum/martial_art/wrestling)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
+		my_kungfu = new pick_type //pick (/datum/martial_art/boxing, /datum/martial_art/cqc) // ick_type
+		my_kungfu.teach(owner.current, 0)
 
 	// Give Hunter Objective
 	var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
@@ -62,10 +54,8 @@
 
 /datum/antagonist/vamphunter/on_removal()
 
-	SSticker.mode.vamphunters -= owner // Add if not already in here (and you might be, if you were picked at round start)
-
 	// Master Pinpointer
-	//owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
+	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
 
 	// Take Hunter Power
 	if (owner.current)
@@ -73,7 +63,7 @@
 			P.Remove(owner.current)
 
 	// Take Hunter Martial Arts
-	//my_kungfu.remove(owner.current)
+	my_kungfu.remove(owner.current)
 
 	// Remove Hunter Objectives
 	for(var/O in objectives_given)
@@ -159,12 +149,9 @@
 	if (scan_target)
 		to_chat(owner, "<span class='notice'>You've lost the trail.</span>")
 	..()
-*/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-
 
 /datum/action/bloodsucker/trackvamp/
 	name = "Track Monster"//"Cellular Emporium"
@@ -202,11 +189,9 @@
 	// Track ALL MONSTERS in Game Mode
 	var/list/datum/mind/monsters = list()
 	monsters += SSticker.mode.bloodsuckers
-	monsters += SSticker.mode.devils
 	//monsters += SSticker.mode.cult
 	monsters += SSticker.mode.wizards
 	monsters += SSticker.mode.apprentices
-	monsters += SSticker.mode.servants_of_ratvar
 	//monsters += SSticker.mode.changelings Disabled anyways
 	//
 	for(var/datum/mind/M in monsters)
@@ -251,7 +236,6 @@
 
 // From martial.dm
 
-/*
 /datum/martial_art/hunter
 	name = "Hunter-Fu"
 	id = "MARTIALART_HUNTER" //ID, used by mind/has_martialart
@@ -284,15 +268,7 @@
 	if(D != current_target)
 		current_target = D
 		streak = ""
-		restraining = 0
 	streak = streak+element
 	if(length_char(streak) > max_streak_length)
 		streak = streak[1]
 	return
-
-
-/datum/martial_art/hunter/basic_hit(mob/living/carbon/human/A,mob/living/carbon/human/D)
-
-	var/damage = rand(A.dna.species.punchdamagelow, A.dna.species.punchdamagehigh)
-*/
-*/

@@ -2,7 +2,7 @@
 	name = "Brawn"
 	desc = "Snap restraints with ease, or deal terrible damage with your bare hands."
 	button_icon_state = "power_strength"
-	bloodcost = 10
+	bloodcost = 8
 	cooldown = 90
 	target_range = 1
 	power_activates_immediately = TRUE
@@ -16,9 +16,8 @@
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
 	if(!..(display_error))// DEFAULT CHECKS
 		return FALSE
-	. = TRUE
-	// Break Out of Restraints! (And then cancel)
-	if (CheckBreakRestraints())
+	. = TRUE // Break Out of Restraints! (And then cancel)
+	if(CheckBreakRestraints())
 		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
 		. = FALSE //return FALSE
 	// Throw Off Attacker! (And then cancel)
@@ -29,12 +28,11 @@
 	// Then PAY COST!
 	if (. == FALSE)
 		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
-
 	// NOTE: We use . = FALSE so that we can break cuffs AND throw off our attacker in one use!
 	//return TRUE
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
-	return isliving(A) || istype(A, /obj/machinery/door)
+	return isliving(A) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet)
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/A, display_error)
 	// DEFAULT CHECKS (Distance)
@@ -92,7 +90,10 @@
 				D.open(2) // open(2) is like a crowbar or jaws of life.
 	// Target Type: Closet
 
-/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints(mob/living/carbon/human/user)
+/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
+	if(!iscarbon(owner)) // || !owner.restrained()
+		return FALSE
+	var/mob/living/carbon/user = owner
 	// (NOTE: Just like biodegrade.dm, we only remove one thing per use) //
 	if(user.handcuffed) //Removes Handcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
@@ -112,15 +113,16 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		return TRUE
-	if(user.wear_suit && user.wear_suit.breakouttime) //Removes straightjacket
-		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-		if(!istype(S))
-			return FALSE
-		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
+	if (ishuman(owner)) //Removes straightjacket
+		var/mob/living/carbon/human/user_H = owner
+		if(user_H.wear_suit && user_H.wear_suit.breakouttime)
+			var/obj/item/clothing/suit/S = user_H.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+			if(istype(S))
+				user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
 			"<span class='warning'>We tore through our straightjacket!</span>")
-		user.clear_cuffs(S,TRUE)
-		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
-		return TRUE
+				user.clear_cuffs(S,TRUE)
+				playsound(get_turf(usr), 'sound/effects/grillehit.ogg', 80, 1, -1)
+				return TRUE
 	..()
 	return FALSE
 
