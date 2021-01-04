@@ -173,7 +173,7 @@
 						 	 vision_distance = notice_range, ignored_mobs = target) // Only people who AREN'T the target will notice this action.
 		// Warn Feeder about Witnesses...
 		var/was_unnoticed = TRUE
-		for(var/mob/living/M in fov_viewers(notice_range, owner) - owner - target)
+		for(var/mob/living/M in viewers(notice_range, owner) - owner - target)
 			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind && !M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
 				was_unnoticed = FALSE
 				break
@@ -233,10 +233,6 @@
 				target.take_overall_damage(10,0)
 				target.emote("scream")
 
-			// Killed Target?
-			if(was_alive)
-				CheckKilledTarget(user,target)
-
 			return
 
 		///////////////////////////////////////////////////////////
@@ -294,10 +290,6 @@
 
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
-
-	// Killed Target?
-	if(was_alive)
-		CheckKilledTarget(user,target)
 
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
 	return ..()  && target && (!target_grappled || user.pulling == target) && blood_sucking_checks(target, TRUE, TRUE) // Active, and still antag,

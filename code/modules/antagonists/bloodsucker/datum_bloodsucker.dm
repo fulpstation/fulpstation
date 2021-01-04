@@ -210,8 +210,7 @@
 	// Physiology
 	CheckVampOrgans() // Heart, Eyes
 	// Language
-	owner.current.grant_language(/datum/language/vampiric, TRUE, TRUE, LANGUAGE_BLOODSUCKER)
-	owner.hasSoul = FALSE 		// If false, renders the character unable to sell their soul.
+	owner.current.grant_language(/datum/language/vampiric)
 	owner.isholy = FALSE 		// is this person a chaplain or admin role allowed to use bibles
 	// Disabilities
 	CureDisabilities()
@@ -247,10 +246,7 @@
 	// Update Health
 	owner.current.setMaxHealth(100)
 	// Language
-	owner.current.remove_language(/datum/language/vampiric, TRUE, TRUE, LANGUAGE_BLOODSUCKER)
-	// Soul
-	if (owner.soulOwner == owner) // Return soul, if *I* own it.
-		owner.hasSoul = TRUE
+	owner.current.remove_language(/datum/language/vampiric)
 //owner.current.hellbound = FALSE
 
 /datum/antagonist/bloodsucker/proc/RankUp()
@@ -341,12 +337,10 @@
 
 //This handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	RegisterSignal(owner.current,COMSIG_LIVING_BIOLOGICAL_LIFE,.proc/LifeTick)
 	return
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	UnregisterSignal(owner.current,COMSIG_LIVING_BIOLOGICAL_LIFE)
 	return
 
 //Assign default team and creates one for one of a kind team antagonists

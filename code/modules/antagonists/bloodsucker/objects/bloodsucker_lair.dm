@@ -106,7 +106,7 @@
 	result =/obj/structure/closet/crate/coffin/meatcoffin
 	tools = list(/obj/item/kitchen/knife,
 				 /obj/item/kitchen/rollingpin)
-	reqs = list(/obj/item/reagent_containers/food/snacks/meat/slab = 5,
+	reqs = list(/obj/item/food/meat/slab = 5,
 				/obj/item/restraints/handcuffs/cable = 1)
 	time = 150
 	category = CAT_MISC

@@ -7,12 +7,12 @@
 
 	flags = TONGUELESS_SPEECH | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD // Hide the icon next to your text if someone doesn't know this language.
 	syllables = list(
-		"luk","cha","no","kra","pru","chi","busi","tam","pol","spu","och",		// Start: Vampiric
+		"luk","cha","no","kra","pru","chi","busi","tam","pol","spu","och",
 		"umf","ora","stu","si","ri","li","ka","red","ani","lup","ala","pro",
 		"to","siz","nu","pra","ga","ump","ort","a","ya","yach","tu","lit",
 		"wa","mabo","mati","anta","tat","tana","prol",
-		"tsa","si","tra","te","ele","fa","inz",									// Start: Romanian
-		"nza","est","sti","ra","pral","tsu","ago","esch","chi","kys","praz",	// Start: Custom
+		"tsa","si","tra","te","ele","fa","inz",
+		"nza","est","sti","ra","pral","tsu","ago","esch","chi","kys","praz",
 		"froz","etz","tzil",
 		"t'","k'","t'","k'","th'","tz'"
 		)

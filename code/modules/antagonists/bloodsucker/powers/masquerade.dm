@@ -1,17 +1,11 @@
 // 		WITHOUT THIS POWER:
-//
 //	- Mid-Blood: SHOW AS PALE
 //	- Low-Blood: SHOW AS DEAD
 //	- No Heartbeat
 //  - Examine shows actual blood
 //	- Thermal homeostasis (ColdBlooded)
-
-
-
 // 		WITH THIS POWER:
 //	- Normal body temp -- remove Cold Blooded (return on deactivate)
-//	-
-
 
 /datum/action/bloodsucker/masquerade
 	name = "Masquerade"
@@ -35,7 +29,6 @@
 	return TRUE
 */
 
-
 /datum/action/bloodsucker/masquerade/ActivatePower()
 
 	var/mob/living/user = owner
@@ -43,7 +36,6 @@
 
 	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
-
 
 	// Remove ColdBlooded & Hard/SoftCrit
 	REMOVE_TRAIT(user, TRAIT_COLDBLOODED, "bloodsucker")
@@ -74,13 +66,11 @@
 
 		sleep(20) // Check every few ticks that we haven't disabled this power
 
-
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
 	//if (user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
 	//	return FALSE
 	return ..() // Active, and still Antag
-
 
 /datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..() // activate = FALSE
