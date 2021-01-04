@@ -201,8 +201,7 @@
 	// FEEEEEEEEED!!! //
 	bloodsuckerdatum.poweron_feed = TRUE
 	while(bloodsuckerdatum && target && active)
-	//ADD_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized") // user.canmove = 0 // Prevents spilling blood accidentally.
-
+		ADD_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized") // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
 		if(!do_mob(user, target, 20, 0, 0, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
 			// May have disabled Feed during do_mob
@@ -215,6 +214,7 @@
 				to_chat(user, "<span class='warning'>Your feeding has been interrupted!</span>")
 				user.visible_message("<span class='danger'>[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>", \
 						 			 "<span class='userdanger'>Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>")
+				REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized")
 
 				// Deal Damage to Target (should have been more careful!)
 				if(iscarbon(target))
@@ -286,6 +286,7 @@
 	else
 		user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
 							 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
+		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized")
 
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")

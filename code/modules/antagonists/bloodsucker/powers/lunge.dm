@@ -89,7 +89,7 @@
 		//target.Paralyze(10,1)
 		target.grabbedby(owner) 										// Taken from mutations.dm under changelings
 		target.grippedby(owner, instant = TRUE) //instant aggro grab
-
+		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized")
 		//	UNCONSCIOUS or MUTE!
 		//owner.start_pulling(target,GRAB_AGGRESSIVE)    // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
 

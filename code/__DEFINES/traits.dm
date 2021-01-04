@@ -206,7 +206,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NORUNNING			"norunning"		// You walk!
 #define TRAIT_NOPULSE			"nopulse"		// Your heart doesn't beat.
 #define TRAIT_NOGUT				"nogutting"		//Your chest cant be gutted of organs
-#define TRAIT_NODECAP			"nodecapping"	//Your head cant be cut off in combat
 #define	TRAIT_STRONG_GRABBER	"strong_grabber"
 #define	TRAIT_MAGIC_CHOKE		"magic_choke"
 #define TRAIT_SOOTHED_THROAT    "soothed-throat"

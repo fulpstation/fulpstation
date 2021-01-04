@@ -48,11 +48,6 @@
 	throw_at(target_turf, throw_range, throw_speed)
 	return TRUE
 
-/obj/item/bodypart/head/dismember()
-	if(HAS_TRAIT(owner, TRAIT_NODECAP))
-		return FALSE
-	..()
-
 /obj/item/bodypart/chest/dismember()
 	if(!owner)
 		return FALSE
