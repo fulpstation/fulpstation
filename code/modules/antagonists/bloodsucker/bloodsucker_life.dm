@@ -63,8 +63,8 @@
 	AddBloodVolume(blood_taken)
 	// Reagents (NOT Blood!)
 	if(target.reagents && target.reagents.total_volume)
-		target.reagents.reaction(owner.current, INGEST, 1) // Run Reaction: what happens when what they have mixes with what I have?
-		target.reagents.trans_to(owner.current, 1)	// Run transfer of 1 unit of reagent from them to me.
+		var/fraction = min(bite_consumption / target.reagents.total_volume, 1)
+		target.reagents.trans_to(eater, bite_consumption, transfered_by = feeder, methods = INGEST)
 	// Blood Gulp Sound
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 
@@ -81,8 +81,6 @@
 	if(poweron_masquerade|| owner.current.AmStaked())
 		return FALSE
 	if(owner.current.reagents.has_reagent(/datum/reagent/consumable/garlic))
-		return FALSE
-	if(istype(owner.current.get_item_by_slot(SLOT_NECK), /obj/item/clothing/neck/garlic_necklace))
 		return FALSE
 	owner.current.adjustStaminaLoss(-1.5 + (actual_regen * -7) * mult, 0) // Humans lose stamina damage really quickly. Vamps should heal more.
 	owner.current.adjustCloneLoss(-0.1 * (actual_regen * 2) * mult, 0)

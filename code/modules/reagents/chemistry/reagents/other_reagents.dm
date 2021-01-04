@@ -30,17 +30,16 @@
 				exposed_mob.ContactContractDisease(strain)
 			else //ingest, patch or inject
 				exposed_mob.ForceContractDisease(strain)
-	if(data["blood_type"] == "SY")
-		//Synthblood is very disgusting to bloodsuckers. They will puke it out to expel it, unless they have masquarade on
+	if(data["blood_type"] == "SY") //Synthblood is very disgusting to bloodsuckers. Without masquarade, they will puke it out to expel it.
 		switch(reac_volume)
 			if(0 to 3)
-				disgust_bloodsucker(L, 3, FALSE, FALSE, FALSE)
+				disgust_bloodsucker(exposed_mob, 3, FALSE, FALSE, FALSE)
 			if(3 to 6)
 				//If theres more than 8 units, they will start expelling it, even if they are masquarading.
-				disgust_bloodsucker(L, 5, FALSE, FALSE, TRUE)
+				disgust_bloodsucker(exposed_mob, 5, FALSE, FALSE, TRUE)
 			else
 				//If they have too much in them, they will also puke out their blood.
-				disgust_bloodsucker(L, 7, -5, TRUE, TRUE)
+				disgust_bloodsucker(exposed_mob, 7, -5, TRUE, TRUE)
 
 	if(iscarbon(exposed_mob))
 		var/mob/living/carbon/exposed_carbon = exposed_mob
@@ -49,14 +48,14 @@
 				exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
 			else
 				exposed_carbon.blood_volume = min(exposed_carbon.blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
-	if(reac_volume >= 10 && istype(L) && method != INJECT)
-		L.add_blood_DNA(list(data["blood_DNA"] = data["blood_type"]))
+	if(reac_volume >= 10 && istype(exposed_mob) && methods=!INJECT)
+		exposed_mob.add_blood_DNA(list(data["blood_DNA"] = data["blood_type"]))
 
-/datum/reagent/blood/on_mob_life(mob/living/carbon/C)	//Because lethals are preferred over stamina.
-	var/blood_id = C.get_blood_id()
-	if((blood_id in GLOB.blood_reagent_types) && !HAS_TRAIT(C, TRAIT_NOMARROW))
-		if(!data || !(data["blood_type"] in get_safe_blood(C.dna.blood_type)))	//we only care about bloodtype here because this is where the poisoning should be
-			C.adjustToxLoss(rand(2,8)*REM, TRUE, TRUE)	//forced to ensure people don't use it to gain beneficial toxin as slime person
+/datum/reagent/blood/on_mob_life(mob/living/exposed_carbon)	//Because lethals are preferred over stamina.
+	var/blood_id = exposed_carbon.get_blood_id()
+	if((blood_id in GLOB.blood_reagent_types) && !HAS_TRAIT(exposed_carbon, TRAIT_NOMARROW))
+		if(!data || !(data["blood_type"] in get_safe_blood(exposed_carbon.dna.blood_type)))	//we only care about bloodtype here because this is where the poisoning should be
+			exposed_carbon.adjustToxLoss(rand(2,8)*REM, TRUE, TRUE)	//forced to ensure people don't use it to gain beneficial toxin as slime person
 	..()
 
 

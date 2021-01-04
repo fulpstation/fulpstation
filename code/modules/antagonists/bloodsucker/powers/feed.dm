@@ -314,7 +314,7 @@
 	if(!target.mind || !target.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
 		target.Unconscious(50,0)
 		target.DefaultCombatKnockdown(40 + 5 * level_current,1)
-		// NOTE: THis is based on level of power!
+		// NOTE: This is based on level of power!
 		if(ishuman(target))
 			target.adjustStaminaLoss(5, forced = TRUE)// Base Stamina Damage
 

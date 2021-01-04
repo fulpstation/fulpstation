@@ -59,7 +59,6 @@
 //		LIVER		//
 /obj/item/organ/liver/vampliver
 	// Livers run on_life(), which calls reagents.metabolize() in holder.dm, which calls on_mob_life.dm in the cheam (medicine_reagents.dm)
-	//															Holder also calls reagents.reaction_mob for the moment it happens
 
 /obj/item/organ/liver/vampliver/on_life()
 	var/mob/living/carbon/C = owner

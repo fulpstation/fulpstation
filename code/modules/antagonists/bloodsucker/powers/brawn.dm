@@ -58,19 +58,18 @@
 	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
 
 /datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/A)
-	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
+	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/carbon/target = A
 	var/mob/living/user = owner
 	// Target Type: Mob
 	if(isliving(target))
-		var/mob/living/carbon/user_C = user
-		var/hitStrength = user_C.dna.species.punchdamagehigh * 1.4 + 15
+		var/hitStrength = user.dna.species.punchdamagehigh * 1.25 + 2
 		// Knockdown!
 		var/powerlevel = min(5, 1 + level_current)
 		if(rand(5 + powerlevel) >= 5)
 			target.visible_message("<span class='danger'>[user] lands a vicious punch, sending [target] away!</span>", \
 							  "<span class='userdanger'>[user] has landed a horrifying punch on you, sending you flying!!</span>", null, COMBAT_MESSAGE_RANGE)
-			target.DefaultCombatKnockdown(min(5, rand(10, 10 * powerlevel)) )
+			target.Knockdown( min(5, rand(10, 10 * powerlevel)) )
 		// Attack!
 		playsound(get_turf(target), 'sound/weapons/punch4.ogg', 60, 1, -1)
 		user.do_attack_animation(target, ATTACK_EFFECT_SMASH)
@@ -95,38 +94,50 @@
 				D.open(2) // open(2) is like a crowbar or jaws of life.
 	// Target Type: Closet
 
-/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
-	if(!iscarbon(owner)) // || !owner.restrained()
-		return FALSE
-	// (NOTE: Just like biodegrade.dm, we only remove one thing per use //
-	// Destroy Cuffs
-	var/mob/living/carbon/user_C = owner
-	//message_admins("DEBUG3: attempt_cast() [name] / [user_C.handcuffed] ")
-	if(user_C.handcuffed)
-		var/obj/O = user_C.get_item_by_slot(SLOT_HANDCUFFED)
-		if(istype(O))
-			user_C.clear_cuffs(O,TRUE)
-			playsound(get_turf(usr), 'sound/effects/grillehit.ogg', 80, 1, -1)
+/obj/item/restraints/Destroy()
+	if(iscarbon(loc))
+		var/mob/living/carbon/M = loc
+		if(M.handcuffed == src)
+			M.set_handcuffed(null)
+			M.update_handcuffed()
+			if(M.buckled && M.buckled.buckle_requires_restraints)
+				M.buckled.unbuckle_mob(M)
+		if(M.legcuffed == src)
+			M.legcuffed = null
+			M.update_inv_legcuffed()
+	return ..()
+
+/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints(mob/living/carbon/human/user)
+	// (NOTE: Just like biodegrade.dm, we only remove one thing per use) //
+	if(iscarbon(user))
+		if(user.handcuffed) //Removes Handcuffs
+			var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
+			if(!istype(O))
+				return FALSE
+			user.visible_message("<span class='warning'>[user] breaks through the [user.p_their()] [O] like it's nothing!</span>", \
+				"<span class='warning'>We break through our handcuffs!</span>")
+			if(O && user.handcuffed == O)
+				qdel(O)
 			return TRUE
-/* Doesnt work
-	// Destroy Straightjacket
-	if(ishuman(owner))
-		var/mob/living/carbon/human/user_H = owner
-		if(user_H.wear_suit && user_H.wear_suit.breakouttime)
-			var/obj/item/clothing/suit/straight_jacket/S = user_H.get_item_by_slot(ITEM_SLOT_ICLOTHING)
-			if(istype(S))
-				user_C.visible_message("<span class='warning'>[user_C] attempts to remove [S]!</span>", \
-						 			"<span class='warning'>You rip through [S] like it's nothing!</span>")
-				user_C.clear_cuffs(S,TRUE)
-				playsound(get_turf(usr), 'sound/effects/grillehit.ogg', 80, 1, -1)
-				return TRUE */
-	// Destroy Leg Cuffs
-	if(user_C.legcuffed)
-		var/obj/O = user_C.get_item_by_slot(SLOT_LEGCUFFED)
-		if(istype(O))
-			user_C.clear_cuffs(O,TRUE)
-			playsound(get_turf(usr), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		if(user.legcuffed) //Removes Legcuffs
+			var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
+			if(!istype(O))
+				return FALSE
+			user.visible_message("<span class='warning'>[user] kicks away the [user.p_their()] [O] like it's nothing!</span>", \
+				"<span class='warning'>We discard our legcuffs!</span>")
+			if(O && user.legcuffed == O)
+				qdel(O)
 			return TRUE
+		if(user.wear_suit && user.wear_suit.breakouttime && !used) //Removes straightjacket
+			var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+			if(!istype(S))
+				return FALSE
+			user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
+				"<span class='warning'>We tore through our straightjacket!</span>")
+			if(S && user.wear_suit == S)
+				qdel(S)
+			return TRUE
+	..()
 	return FALSE
 
 /datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
@@ -136,9 +147,8 @@
 	var/pull_power = M.grab_state
 	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
 	// Knock Down (if Living)
-	if (isliving(M))
-		var/mob/living/L = M
-		L.DefaultCombatKnockdown(pull_power * 10 + 20)
+	if (isliving(target))
+		target.Knockdown(pull_power * 10 + 20)
 	// Knock Back (before Knockdown, which probably cancels pull)
 	var/send_dir = get_dir(owner, M)
 	var/turf/T = get_ranged_target_turf(M, send_dir, pull_power)

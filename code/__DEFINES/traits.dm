@@ -346,6 +346,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define ADMIN_TRAIT "admin" // (B)admins only.
 #define CHANGELING_TRAIT "changeling"
 #define CULT_TRAIT "cult"
+#define BLOODSUCKER_TRAIT "bloodsucker"
 #define CURSED_ITEM_TRAIT "cursed-item" // The item is magically cursed
 #define ABSTRACT_ITEM_TRAIT "abstract-item"
 #define STATUS_EFFECT_TRAIT "status-effect"
