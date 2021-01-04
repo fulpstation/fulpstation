@@ -211,7 +211,6 @@
 	CheckVampOrgans() // Heart, Eyes
 	// Language
 	owner.current.grant_language(/datum/language/vampiric)
-	owner.isholy = FALSE 		// is this person a chaplain or admin role allowed to use bibles
 	// Disabilities
 	CureDisabilities()
 
