@@ -92,19 +92,6 @@
 				D.open(2) // open(2) is like a crowbar or jaws of life.
 	// Target Type: Closet
 
-/obj/item/restraints/Destroy()
-	if(iscarbon(loc))
-		var/mob/living/carbon/M = loc
-		if(M.handcuffed == src)
-			M.set_handcuffed(null)
-			M.update_handcuffed()
-			if(M.buckled && M.buckled.buckle_requires_restraints)
-				M.buckled.unbuckle_mob(M)
-		if(M.legcuffed == src)
-			M.legcuffed = null
-			M.update_inv_legcuffed()
-	return ..()
-
 /datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints(mob/living/carbon/human/user)
 	// (NOTE: Just like biodegrade.dm, we only remove one thing per use) //
 	if(user.handcuffed) //Removes Handcuffs
