@@ -440,3 +440,11 @@
 	for(var/reagent in reagents)
 		var/datum/reagent/R = reagent
 		. |= R.expose_mob(src, methods, reagents[R], show_message, touch_protection)
+
+//Fulpstation Bloodsuckers
+/mob/living/proc/getBruteLoss_nonProsthetic()
+	return getBruteLoss()
+
+/mob/living/proc/getFireLoss_nonProsthetic()
+	return getFireLoss()
+//End of Fulpstation Bloodsuckers

@@ -64,7 +64,8 @@
 	// Reagents (NOT Blood!)
 	if(target.reagents && target.reagents.total_volume)
 		var/fraction = min(bite_consumption / target.reagents.total_volume, 1)
-		target.reagents.trans_to(eater, bite_consumption, transfered_by = feeder, methods = INGEST)
+		reagents.reaction(target, INGEST, fraction)
+		reagents.trans_to(target, bitesize)
 	// Blood Gulp Sound
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 
@@ -118,18 +119,10 @@
 				return TRUE
 
 			// We have damage. Let's heal (one time)
-			var/list/damaged_parts = C.get_damaged_bodyparts(TRUE,TRUE, status = list(BODYPART_ORGANIC, BODYPART_HYBRID, BODYPART_NANITES))
-			if(damaged_parts.len)
-				for(var/obj/item/bodypart/part in damaged_parts)	// Heal BRUTE / BURN equally distibuted over all damaged bodyparts.
-					part.heal_damage((bruteheal * mult)/damaged_parts.len, (fireheal * mult)/damaged_parts.len, only_organic = FALSE, updating_health = FALSE)
-				C.updatehealth()
-				C.update_damage_overlays()
-			C.adjustToxLoss(-toxinheal * mult * 2, forced = TRUE) //Toxin healing because vamps arent immune
-			//C.heal_overall_damage(bruteheal * mult, fireheal * mult)				 // REMOVED: We need to FORCE this, because otherwise, vamps won't heal EVER. Swapped to above.
+			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE)// Heal BRUTE / BURN in random portions throughout the body.
+			C.adjustFireLoss(-fireheal * mult, forced=TRUE)
 			AddBloodVolume((bruteheal * -0.5 + fireheal * -1 + toxinheal * -0.2) / mult * costMult)	// Costs blood to heal
 			return TRUE // Healed! Done for this tick.
-
-
 
 /datum/antagonist/bloodsucker/proc/check_limbs(costMult)
 	var/limb_regen_cost = 50 * costMult
