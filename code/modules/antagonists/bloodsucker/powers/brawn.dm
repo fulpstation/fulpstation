@@ -6,7 +6,6 @@
 	cooldown = 90
 	target_range = 1
 	power_activates_immediately = TRUE
-	message_Trigger = ""//"Whom will you subvert to your will?"
 	must_be_capacitated = TRUE
 	can_be_immobilized = TRUE
 	bloodsucker_can_buy = TRUE
@@ -21,11 +20,11 @@
 	. = TRUE
 	// Break Out of Restraints! (And then cancel)
 	if(CheckBreakRestraints())
-		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
+		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
 		. = FALSE //return FALSE
 	// Throw Off Attacker! (And then cancel)
 	if(CheckEscapePuller())
-		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
+		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
 		. = FALSE //return FALSE
 	/*if(CheckBreakLocker())
 		.= FALSE */
@@ -33,9 +32,8 @@
 	// Then PAY COST!
 	if(. == FALSE)
 		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
-
 	// NOTE: We use . = FALSE so that we can break cuffs AND throw off our attacker in one use!
-	//return TRUE
+	return TRUE
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
 	return isliving(A) || istype(A, /obj/machinery/door)
 
@@ -110,39 +108,38 @@
 
 /datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints(mob/living/carbon/human/user)
 	// (NOTE: Just like biodegrade.dm, we only remove one thing per use) //
-	if(iscarbon(user))
-		if(user.handcuffed) //Removes Handcuffs
-			var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
-			if(!istype(O))
-				return FALSE
-			user.visible_message("<span class='warning'>[user] breaks through the [user.p_their()] [O] like it's nothing!</span>", \
-				"<span class='warning'>We break through our handcuffs!</span>")
-			if(O && user.handcuffed == O)
-				qdel(O)
-			return TRUE
-		if(user.legcuffed) //Removes Legcuffs
-			var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
-			if(!istype(O))
-				return FALSE
-			user.visible_message("<span class='warning'>[user] kicks away the [user.p_their()] [O] like it's nothing!</span>", \
-				"<span class='warning'>We discard our legcuffs!</span>")
-			if(O && user.legcuffed == O)
-				qdel(O)
-			return TRUE
-		if(user.wear_suit && user.wear_suit.breakouttime) //Removes straightjacket
-			var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-			if(!istype(S))
-				return FALSE
-			user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
-				"<span class='warning'>We tore through our straightjacket!</span>")
-			if(S && user.wear_suit == S)
-				qdel(S)
-			return TRUE
+	if(user.handcuffed) //Removes Handcuffs
+		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
+		if(!istype(O))
+			return FALSE
+		user.visible_message("<span class='warning'>[user] breaks through the [user.p_their()] [O] like it's nothing!</span>", \
+			"<span class='warning'>We break through our handcuffs!</span>")
+		if(O && user.handcuffed == O)
+			qdel(O)
+		return TRUE
+	if(user.legcuffed) //Removes Legcuffs
+		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
+		if(!istype(O))
+			return FALSE
+		user.visible_message("<span class='warning'>[user] kicks away the [user.p_their()] [O] like it's nothing!</span>", \
+			"<span class='warning'>We discard our legcuffs!</span>")
+		if(O && user.legcuffed == O)
+			qdel(O)
+		return TRUE
+	if(user.wear_suit && user.wear_suit.breakouttime) //Removes straightjacket
+		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+		if(!istype(S))
+			return FALSE
+		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
+			"<span class='warning'>We tore through our straightjacket!</span>")
+		if(S && user.wear_suit == S)
+			qdel(S)
+		return TRUE
 	..()
 	return FALSE
 
 /datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
-	if(!owner.pulledby)// || owner.pulledby.grab_state <= GRAB_PASSIVE)
+	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
 		return FALSE
 	var/mob/M = owner.pulledby
 	var/pull_power = M.grab_state

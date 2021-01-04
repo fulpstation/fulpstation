@@ -194,7 +194,6 @@
 		return FALSE
 	if(target.stat > UNCONSCIOUS)
 		return FALSE
-
 				// Check Overdose: Am I even addicted to blood? Do I even have any in me?
 				//if (!target.reagents.addiction_list || !target.reagents.reagent_list)
 					//message_admins("DEBUG2: can_make_vassal() Abort: No reagents")
