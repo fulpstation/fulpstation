@@ -463,7 +463,7 @@
 	if((AmBloodsucker(user)) || isobserver(user))
 		. += {"<span class='cult'>This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.</span>"}
 		. += {"<span class='cult'>You can alt click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.</span>"}
-/*	if(user.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	if(user.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
 		. += {"<span class='cult'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n
 		You can turn it on and off by clicking on it while you are next to it</span>"} */
 

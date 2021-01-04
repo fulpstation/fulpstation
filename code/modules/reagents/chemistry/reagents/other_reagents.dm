@@ -48,8 +48,6 @@
 				exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
 			else
 				exposed_carbon.blood_volume = min(exposed_carbon.blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
-	if(reac_volume >= 10 && istype(exposed_mob) && methods=!INJECT)
-		exposed_mob.add_blood_DNA(list(data["blood_DNA"] = data["blood_type"]))
 
 /datum/reagent/blood/on_mob_life(mob/living/exposed_carbon)	//Because lethals are preferred over stamina.
 	var/blood_id = exposed_carbon.get_blood_id()

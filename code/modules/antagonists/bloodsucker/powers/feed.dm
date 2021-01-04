@@ -299,12 +299,6 @@
 	if(was_alive)
 		CheckKilledTarget(user,target)
 
-
-/datum/action/bloodsucker/feed/proc/CheckKilledTarget(mob/living/user, mob/living/target)
-	// Bad Bloodsucker. You shouldn't do that.
-	if(target && target.stat >= DEAD && ishuman(target))
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankkilled", /datum/mood_event/drankkilled) // BAD // in bloodsucker_life.dm
-
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
 	return ..()  && target && (!target_grappled || user.pulling == target) && blood_sucking_checks(target, TRUE, TRUE) // Active, and still antag,
 	// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.

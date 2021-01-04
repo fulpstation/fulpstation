@@ -62,8 +62,9 @@
 	var/mob/living/carbon/target = A
 	var/mob/living/user = owner
 	// Target Type: Mob
-	if(isliving(target))
-		var/hitStrength = user.dna.species.punchdamagehigh * 1.25 + 2
+	if (isliving(target))
+		var/mob/living/carbon/user_C = user
+		var/hitStrength = user_C.dna.species.punchdamagehigh * 1.25 + 2
 		// Knockdown!
 		var/powerlevel = min(5, 1 + level_current)
 		if(rand(5 + powerlevel) >= 5)
@@ -128,7 +129,7 @@
 			if(O && user.legcuffed == O)
 				qdel(O)
 			return TRUE
-		if(user.wear_suit && user.wear_suit.breakouttime && !used) //Removes straightjacket
+		if(user.wear_suit && user.wear_suit.breakouttime) //Removes straightjacket
 			var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 			if(!istype(S))
 				return FALSE
@@ -147,8 +148,9 @@
 	var/pull_power = M.grab_state
 	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
 	// Knock Down (if Living)
-	if (isliving(target))
-		target.Knockdown(pull_power * 10 + 20)
+	if (isliving(M))
+		var/mob/living/L = M
+		L.Knockdown(pull_power * 10 + 20)
 	// Knock Back (before Knockdown, which probably cancels pull)
 	var/send_dir = get_dir(owner, M)
 	var/turf/T = get_ranged_target_turf(M, send_dir, pull_power)
