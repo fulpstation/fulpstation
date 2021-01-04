@@ -207,38 +207,6 @@
 
 //////////////////////////////////////////////
 //                                          //
-//              BLOODSUCKERS                //
-//                                          //
-//////////////////////////////////////////////
-
-/datum/dynamic_ruleset/minor/bloodsucker
-	name = "Bloodsuckers"
-	config_tag = "bloodsucker"
-	antag_flag = ROLE_BLOODSUCKER
-	antag_datum = ANTAG_DATUM_BLOODSUCKER
-	minimum_required_age = 0
-	protected_roles = list("Chaplain", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Chief Engineer", "Chief Medical Officer", "Research Director", "Quartermaster")
-	restricted_roles = list("Cyborg", "AI")
-	required_candidates = 1
-	weight = 2
-	cost = 15
-	scaling_cost = 10
-	property_weights = list("story_potential" = 1, "extended" = 1, "trust" = -2, "valid" = 1)
-	requirements = list(70,65,60,55,50,50,50,50,50,50)
-	high_population_requirement = 50
-
-/datum/dynamic_ruleset/minor/bloodsucker/execute()
-	var/mob/M = pick_n_take(candidates)
-	assigned += M.mind
-	M.mind.special_role = ROLE_BLOODSUCKER
-	M.mind.restricted_roles = restricted_roles
-	mode.check_start_sunlight()
-	if(mode.make_bloodsucker(M.mind))
-		mode.bloodsuckers += M.mind
-	return TRUE
-
-//////////////////////////////////////////////
-//                                          //
 //                 FAMILIES                 //
 //                                          //
 //////////////////////////////////////////////
