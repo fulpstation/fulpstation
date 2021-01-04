@@ -174,7 +174,7 @@
 		// Warn Feeder about Witnesses...
 		var/was_unnoticed = TRUE
 		for(var/mob/living/M in fov_viewers(notice_range, owner) - owner - target)
-			if(M.client && !M.silicon_privileges && !M.eye_blind && !M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind && !M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
 				was_unnoticed = FALSE
 				break
 		if(was_unnoticed)
@@ -307,8 +307,7 @@
 	// Bloodsuckers not affected by "the Kiss" of another vampire
 	if(!target.mind || !target.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
 		target.Unconscious(50,0)
-		target.DefaultCombatKnockdown(40 + 5 * level_current,1)
-		// NOTE: This is based on level of power!
+		target.Paralyze(40 + 5 * level_current,1) // NOTE: This is based on level of power!
 		if(ishuman(target))
 			target.adjustStaminaLoss(5, forced = TRUE)// Base Stamina Damage
 
@@ -321,5 +320,3 @@
 	feed_target = null
 	// My mouth is no longer full
 	REMOVE_TRAIT(owner, TRAIT_MUTE, "bloodsucker_feed")
-	// Let me move immediately
-	user.update_mobility()

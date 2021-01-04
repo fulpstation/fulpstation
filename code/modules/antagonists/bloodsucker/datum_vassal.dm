@@ -2,7 +2,6 @@
 #define VASSAL_SCAN_MAX_DISTANCE 500
 #define VASSAL_SCAN_PING_TIME 20 //2s update time.
 
-
 /datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
 	C.silent = 0
 	return SSticker.mode.make_vassal(C,owner)
@@ -12,13 +11,13 @@
 		SSticker.mode.remove_vassal(V.owner)
 
 /datum/antagonist/vassal
-	name = "Vassal"//WARNING: DO NOT SELECT" // "Vassal"
+	name = "Vassal" //WARNING: DO NOT SELECT" // "Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
 	var/datum/antagonist/bloodsucker/master		// Who made me?
-	var/list/datum/action/powers = list()// Purchased powers
-	var/list/datum/objective/objectives_given = list()	// For removal if needed.
+	var/list/datum/action/powers = list() // Purchased powers
+	var/list/datum/objective/objectives_given = list() // For removal if needed.
 	threat = 1
 
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
@@ -48,7 +47,7 @@
 	objectives += vassal_objective
 	objectives_given += vassal_objective
 	give_thrall_eyes()
-	owner.current.grant_language(/datum/language/vampiric, TRUE, TRUE, LANGUAGE_VASSAL)
+	owner.current.grant_language(/datum/language/vampiric, TRUE, TRUE, LANGUAGE_BLOODSUCKER)
 	// Add Antag HUD
 	update_vassal_icons_added(owner.current, "vassal")
 	. = ..()
@@ -81,7 +80,7 @@
 		qdel(O)
 	objectives_given = list()
 	remove_thrall_eyes()
-	owner.current.remove_language(/datum/language/vampiric, TRUE, TRUE, LANGUAGE_VASSAL)
+	owner.current.remove_language(/datum/language/vampiric, TRUE, TRUE, LANGUAGE_BLOODSUCKER)
 	// Clear Antag HUD
 	update_vassal_icons_removed(owner.current)
 

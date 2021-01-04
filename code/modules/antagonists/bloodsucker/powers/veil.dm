@@ -86,10 +86,9 @@
 	REMOVE_TRAIT(H, TRAIT_DISFIGURED, null) //
 	H.dna.features = random_features()
 
-	// Beefmen
-	proof_beefman_features(H.dna.features)
-	H.dna.species.set_beef_color(H)
-
+	// Beefmen - PLEASE ADD THIS ONCE WE HAVE BEEFMEN WORKING
+	//proof_beefman_features(H.dna.features)
+	//H.dna.species.set_beef_color(H)
 
 	// Apply Appearance
 	H.update_body() // Outfit and underware, also body.

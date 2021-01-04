@@ -21,7 +21,7 @@
 	desc = "A simple wooden stake carved to a sharp point."
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "wood" // Inventory Icon
-	item_state = "wood" // In-hand Icon
+	inhand_icon_state = "wood" // In-hand Icon
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi' // File for in-hand icon
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
 	attack_verb = list("staked")
@@ -107,8 +107,7 @@
 
 // Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/carbon/proc/can_be_staked()
-	return !CHECK_MOBILITY(src, MOBILITY_STAND)
-	// ABOVE:  Taken from update_mobility() in living.dm
+	return !(mobility_flags & MOBILITY_MOVE)
 
 /obj/item/stake/hardened
 	// Created by welding and acid-treating a simple stake.
@@ -118,7 +117,7 @@
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
-	embedding = list("embed_chance" = 50, "fall_chance" = 0) // UPDATE 2/10/18 embedding_behavior.dm is how this is handled
+	embedding = list("embed_chance" = 50, "fall_chance" = 0)
 	obj_integrity = 120
 	max_integrity = 120
 
@@ -132,7 +131,7 @@
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
-	embedding = list("embed_chance" = 65) // UPDATE 2/10/18 embedding_behavior.dm is how this is handled
+	embedding = list("embed_chance" = 65)
 	obj_integrity = 300
 	max_integrity = 300
 

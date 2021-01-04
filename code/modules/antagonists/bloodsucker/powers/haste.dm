@@ -86,6 +86,6 @@
 		if(!hit[L] && (L != owner))
 			hit[L] = TRUE
 			playsound(L, "sound/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
-			L.DefaultCombatKnockdown(10 + level_current * 5)
+			L.Knockdownn(10 + level_current * 5)
 			L.Paralyze(0.1)
 			L.spin(10, 1)

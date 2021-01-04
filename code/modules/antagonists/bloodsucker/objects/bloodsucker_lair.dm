@@ -98,7 +98,6 @@
 				///obj/item/stack/packageWrap = 8,
 				///obj/item/pipe = 2)
 	time = 150
-	subcategory = CAT_FURNITURE
 	category = CAT_MISC
 	always_availible = TRUE
 
@@ -110,7 +109,6 @@
 	reqs = list(/obj/item/reagent_containers/food/snacks/meat/slab = 5,
 				/obj/item/restraints/handcuffs/cable = 1)
 	time = 150
-	subcategory = CAT_FURNITURE
 	category = CAT_MISC
 	always_availible = TRUE
 
@@ -121,7 +119,6 @@
 				 /obj/item/screwdriver)
 	reqs = list(/obj/item/stack/sheet/metal = 5)
 	time = 100
-	subcategory = CAT_FURNITURE
 	category = CAT_MISC
 	always_availible = TRUE
 
@@ -144,7 +141,6 @@
 		//parts = list(/obj/item/storage/belt = 1
 		//			 )
 	time = 150
-	subcategory = CAT_MISCELLANEOUS
 	category = CAT_MISC
 	always_availible = FALSE	// Disabled until learned
 
@@ -161,7 +157,6 @@
 				/obj/item/candle = 1
 				)
 	time = 100
-	subcategory = CAT_MISCELLANEOUS
 	category = CAT_MISC
 	always_availible = FALSE	// Disabled til learned
 	//End of Boodsucker construction recipes
