@@ -7,8 +7,8 @@
 			to_chat(owner, "This [src] has already been claimed by another.")
 		return FALSE
 	// Bloodsucker Learns new Recipes!
-	owner.teach_crafting_recipe(/datum/crafting_recipe/bloodsucker/vassalrack)
-	owner.teach_crafting_recipe(/datum/crafting_recipe/bloodsucker/candelabrum)
+	owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
+	owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
 	// This is my Lair
 	coffin = claimed
 	lair = get_area(claimed)
@@ -36,15 +36,15 @@
 	breakout_time = 600
 	pryLidTimer = 400
 	resistance_flags = NONE
-	max_integrity = 100
-	integrity_failure = 0.5
-	armor = list("melee" = 50, "bullet" = 20, "laser" = 30, "energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 60)
+	material_drop = /obj/item/stack/sheet/metal
+	material_drop_amount = 2
 
 /obj/structure/closet/crate/coffin/meatcoffin
 	name = "meat coffin"
 	desc = "When you're ready to meat your maker, the steaks can never be too high."
 	icon_state = "meatcoffin"
 	icon = 'icons/obj/vamp_obj.dmi'
+	resistance_flags = FIRE_PROOF
 	open_sound = 'sound/effects/footstep/slime1.ogg'
 	close_sound = 'sound/effects/footstep/slime1.ogg'
 	breakout_time = 200
@@ -52,8 +52,6 @@
 	resistance_flags = NONE
 	material_drop = /obj/item/food/meat/slab/human
 	material_drop_amount = 3
-	integrity_failure = 0.57
-	armor = list("melee" = 70, "bullet" = 10, "laser" = 10, "energy" = 0, "bomb" = 70, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 100)
 
 /obj/structure/closet/crate/coffin/metalcoffin
 	name = "metal coffin"
@@ -67,9 +65,6 @@
 	pryLidTimer = 200
 	material_drop = /obj/item/stack/sheet/metal
 	material_drop_amount = 5
-	max_integrity = 200
-	integrity_failure = 0.25
-	armor = list("melee" = 40, "bullet" = 15, "laser" = 50, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 60)
 
 //////////////////////////////////////////////
 
