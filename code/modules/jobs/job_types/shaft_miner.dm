@@ -1,6 +1,6 @@
 /datum/job/mining
 	title = "Shaft Miner"
-	department_head = list("Head of Personnel")
+	department_head = list("Head of Personnel", , "Quartermaster") //Fulp requirement for Bloodsucker objectives
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 3

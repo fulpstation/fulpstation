@@ -139,7 +139,7 @@
 	return TRUE
 
 /obj/structure/closet/crate/coffin/attackby(obj/item/W, mob/user, params)
-	// You cannot weld or deconstruct an owned coffin. STILL NOT SORRY.
+	// You cannot weld or deconstruct an owned coffin.
 	if (resident != null && user != resident) // Owner can destroy their own coffin.
 		if(opened)
 			if(istype(W, cutting_tool))

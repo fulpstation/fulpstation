@@ -121,10 +121,12 @@
 		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
 		. += {"<span class='cult'>To convert the victim, simply click on the vassal rack itself. Sharp weapons work faster than other tools.</span>"}
 		. += {"<span class='cult'> You have only the power for [B.bloodsucker_level - B.count_vassals(user.mind)] vassals</span>"}
-/*	if(user.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
-	. += {"<span class='cult'>This is the vassal rack, which allows your master to thrall crewmembers into his minions.\n
-	Aid your master in bringing their victims here and keeping them secure.\n
-	You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured</span>"} */
+	if(user.mind.has_antag_datum(/datum/antagonist/vassal, TRUE))
+		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into his minions.</span>"
+		. += "<span class='notice'> Aid your master in bringing their victims here and keeping them secure.</span>"
+		. += "<span class='notice'> You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
+	else
+		. += "<span class='notice'>A strange rack used to hold people in place.</span>"
 
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
 	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
@@ -201,10 +203,9 @@
 	var/matrix/m180 = matrix(buckled_mob.transform)
 	m180.Turn(180)//-90)//180
 	animate(buckled_mob, transform = m180, time = 2)
-	buckled_mob.pixel_y = buckled_mob.get_standard_pixel_y_offset(180)
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack.</span>"))
 	density = FALSE
-	buckled_mob.DefaultCombatKnockdown(30)
+	buckled_mob.AdjustParalyzed(30)
 	update_icon()
 	useLock = FALSE // Failsafe
 
@@ -214,7 +215,7 @@
 		return FALSE
 	return ..()
 
-/obj/structure/bloodsucker/vassalrack/on_attack_hand(mob/user, act_intent = user.a_intent, unarmed_attack_flags)
+/obj/structure/bloodsucker/vassalrack/proc/on_attack_hand(mob/user, act_intent = user.a_intent, unarmed_attack_flags)
 	//. = ..()	// Taken from sacrificial altar in divine.dm
 	//if(.)
 	//	return
@@ -351,18 +352,18 @@
 	if(!istype(I))
 		I = user.get_inactive_held_item()
 	// Create Strings
-	var/method_string =  I?.attack_verb?.len ? pick(I.attack_verb) : pick("harmed","tortured","wrenched","twisted","scoured","beaten","lashed","scathed")
-	var/weapon_string = I ? I.name : pick("bare hands","hands","fingers","fists")
+	var/method_string = length(I.attack_verb_continuous) ? "[pick(I.attack_verb_continuous)]" : list("harmed","tortured","wrenched","twisted","scoured","beaten","lashed","scathed")
+	var/weapon_string = length(I.attack_verb_simple) ? "[pick(I.attack_verb_simple)]" : list("bare hands","hands","fingers","fists")
 	// Weapon Bonus + SFX
-	if(I)
+	if (I)
 		torture_time -= I.force / 4
 		torture_dmg_brute += I.force / 4
 		//torture_dmg_burn += I.
-		if(I.sharpness == SHARP_EDGED)
+		if (I.sharpness == SHARP_EDGED)
 			torture_time -= 1
-		else if(I.sharpness == SHARP_POINTY)
+		else if (I.sharpness == SHARP_POINTY)
 			torture_time -= 2
-		if(istype(I, /obj/item/weldingtool))
+		if (istype(I, /obj/item/weldingtool))
 			var/obj/item/weldingtool/welder = I
 			welder.welding = TRUE
 			torture_time -= 5
@@ -470,7 +471,7 @@
 		. += "<span class='notice'>In Greek myth, Prometheus stole fire from the Gods and gave it to \
 		humankind. The jewelry he kept for himself.</span>"
 
-/obj/structure/bloodsucker/candelabrum/on_attack_hand(mob/user, act_intent = user.a_intent, unarmed_attack_flags)
+/obj/structure/bloodsucker/candelabrum/proc/on_attack_hand(mob/user, act_intent = user.a_intent, unarmed_attack_flags)
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
 	if(AmBloodsucker(user) || istype(T))
 		toggle()
@@ -490,15 +491,15 @@
 		STOP_PROCESSING(SSobj, src)
 	update_icon()
 
-/obj/structure/bloodsucker/candelabrum/process()
+/obj/structure/bloodsucker/candelabrum/process(var/mob/living/carbon/human/H)
 	if(!lit)
 		return
-	for(var/mob/living/carbon/human/H in fov_viewers(7, src))
-		var/datum/antagonist/vassal/T = H.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
-		if(AmBloodsucker(H) || T) //We dont want vassals or vampires affected by this
-			return
-		H.hallucination = 20
-		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+	if(H.mind.has_antag_datum(/datum/antagonist/vassal, TRUE))
+		return
+	if(AmBloodsucker(H))//We dont want vassals or vampires affected by this
+		return
+	H.hallucination = 20
+	SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
 

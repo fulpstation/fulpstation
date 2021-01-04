@@ -124,7 +124,7 @@
 			to_chat(creator, "<span class='danger'>[bloodsucker]'s DNA isn't compatible!</span>")
 		return FALSE
 	// Already a Non-Human Antag
-	if(bloodsucker.has_antag_datum(/datum/antagonist/abductor) || bloodsucker.has_antag_datum(/datum/antagonist/devil) || bloodsucker.has_antag_datum(/datum/antagonist/changeling))
+	if(bloodsucker.has_antag_datum(/datum/antagonist/abductor) || bloodsucker.has_antag_datum(/datum/antagonist/changeling))
 		return FALSE
 	// Already a vamp
 	if(bloodsucker.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
