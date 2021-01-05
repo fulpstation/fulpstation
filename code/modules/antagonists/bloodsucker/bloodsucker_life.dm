@@ -84,12 +84,6 @@
 	owner.current.adjustStaminaLoss(-1.5 + (actual_regen * -7) * mult, 0) // Humans lose stamina damage really quickly. Vamps should heal more.
 	owner.current.adjustCloneLoss(-0.1 * (actual_regen * 2) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult)
-	// No Bleeding
-	if(ishuman(owner.current)) //NOTE Current bleeding is horrible, not to count the amount of blood ballistics delete.
-		var/bleed_rate = 0
-		var/mob/living/carbon/human/C = owner.current
-		if(C.bleed_rate >= 0) //Only heal bleeding if we are actually bleeding
-			C.bleed_rate -= 0.5 + actual_regen * 0.2
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
 		var/mob/living/carbon/C = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
@@ -108,7 +102,6 @@
 		else if(owner.current.stat >= UNCONSCIOUS) //Faster regeneration and slight burn healing while unconcious
 			mult *= 2
 			fireheal = min(C.getFireLoss(), regen_rate * 0.2)
-
 		// BRUTE: Always Heal
 		var/bruteheal = min(C.getBruteLoss(), actual_regen)
 		var/toxinheal = min(C.getToxLoss(), actual_regen)
@@ -116,7 +109,6 @@
 		if(bruteheal + fireheal + toxinheal > 0) 	// Just a check? Don't heal/spend, and return.
 			if(mult == 0)
 				return TRUE
-
 			// We have damage. Let's heal (one time)
 			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE)// Heal BRUTE / BURN in random portions throughout the body.
 			C.adjustFireLoss(-fireheal * mult, forced=TRUE)
@@ -142,11 +134,11 @@
 	var/mob/living/carbon/C = owner.current
 	C.cure_blind(list(EYE_DAMAGE))//()
 	C.cure_nearsighted(EYE_DAMAGE)
-	C.set_blindness(0) 	// Added 9/2/19
-	C.set_blurriness(0) // Added 9/2/19
-	C.update_tint() 	// Added 9/2/19
-	C.update_sight() 	// Added 9/2/19
-	for(var/O in C.internal_organs) //owner.current.adjust_eye_damage(-100)  // This was removed by TG
+	C.set_blindness(0)
+	C.set_blurriness(0)
+	C.update_tint()
+	C.update_sight()
+	for(var/O in C.internal_organs) //owner.current.adjust_eye_damage(-100)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
 	owner.current.cure_husk()
@@ -233,8 +225,6 @@
 	owner.current.apply_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, "bloodsucker") // Come after UNCONSCIOUS or else it fails
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, "bloodsucker")	// Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_RESISTHIGHPRESSURE, "bloodsucker")	// So you can heal in space. Otherwise you just...heal forever.
-	ADD_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, "bloodsucker")
 	owner.current.Jitter(0)
 	// Visuals
 	owner.current.update_sight()
@@ -252,10 +242,7 @@
 	owner.current.remove_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, "bloodsucker")
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, "bloodsucker")
-	REMOVE_TRAIT(owner.current, TRAIT_RESISTHIGHPRESSURE, "bloodsucker")
-	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, "bloodsucker")
-	owner.current.regenerate_organs() // So the eyes arent dead (will respawn original eyes etc. but we replace right away, next)
-	CheckVampOrgans() // Same reason as above Eyes
+	CureDisabilities()
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 
 

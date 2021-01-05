@@ -105,7 +105,6 @@
 	var/disloyalty_confirm = FALSE	// Command & Antags need to CONFIRM they are willing to lose their role (and will only do it if the Vassal'ing succeeds)
 	var/disloyalty_offered = FALSE	// Has the popup been issued? Don't spam them.
 
-
 /obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
 	new /obj/item/stack/sheet/metal(src.loc, 4)
 	new /obj/item/stack/rods(loc, 4)

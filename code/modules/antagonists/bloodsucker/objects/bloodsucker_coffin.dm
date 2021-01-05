@@ -16,7 +16,7 @@
 	// DONE
 	to_chat(owner, "<span class='userdanger'>You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair].</span>")
 	to_chat(owner, "<span class='danger'>You have learned new construction recipes to improve your lair.</span>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Find new lair recipes in the misc tab of the <i>Crafting Menu</i> at the bottom of the screen, including the <i>Persuasion Rack</i> for converting crew into Vassals.</span><br><br>")
+	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Find new lair recipes in the Misc tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals.</span><br><br>")
 	RunLair() // Start
 	return TRUE
 
@@ -123,11 +123,11 @@
 				switch(alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair","Yes", "No"))
 					if("Yes")
 						ClaimCoffin(user)
-			if (user.AmStaked()) //Staked? Dont heal
+			if(user.AmStaked()) //Staked? Dont heal
 				to_chat(bloodsuckerdatum.owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
 			// Heal
-			if (bloodsuckerdatum.HandleHealing(0)) // Healing Mult 0 <--- We only want to check if healing is valid!
+			if(bloodsuckerdatum.HandleHealing(0)) // Healing Mult 0 <--- We only want to check if healing is valid!
 				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 				bloodsuckerdatum.Torpor_Begin()
 			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
@@ -155,8 +155,6 @@
 							  "<span class='notice'>The door of [src] snaps open.</span>")
 		return
 	..()
-
-
 
 /obj/structure/closet/crate/coffin/AltClick(mob/user)
 	// Distance Check (Inside Of)

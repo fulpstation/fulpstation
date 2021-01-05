@@ -35,11 +35,11 @@
 	var/warn_sun_burn 				// So we only get the sun burn message once per day.
 	var/had_toxlover
 	var/level_bloodcost
-	var/passive_blood_drain = -0.1        //The amount of blood we loose each bloodsucker life() tick
+	var/passive_blood_drain = -0.05        //The amount of blood we loose each bloodsucker life() tick
 	var/notice_healing                    //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	// LISTS
-	var/static/list/defaultTraits = list (TRAIT_STABLEHEART, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, \
+	var/static/list/defaultTraits = list (BLOODSUCKER_TRAIT, TRAIT_STABLEHEART, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, \
 										  TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NONATURALHEAL, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NOGUT)
 
 /datum/antagonist/bloodsucker/on_gain()
@@ -177,8 +177,6 @@
 	BuyPower(new /datum/action/bloodsucker/masquerade)
 	BuyPower(new /datum/action/bloodsucker/veil)
 	// Traits
-	for(var/T in defaultTraits)
-		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	if(HAS_TRAIT(owner.current, TRAIT_TOXINLOVER)) //No slime bonuses here, no thank you
 		had_toxlover = TRUE
 		REMOVE_TRAIT(owner.current, TRAIT_TOXINLOVER, SPECIES_TRAIT)
@@ -220,8 +218,6 @@
 		power.Remove(owner.current)
 		// owner.RemoveSpell(power)
 	// Traits
-	for(var/T in defaultTraits)
-		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	if(had_toxlover)
 		ADD_TRAIT(owner.current, TRAIT_TOXINLOVER, SPECIES_TRAIT)
 
@@ -268,7 +264,6 @@
 	var/mob/living/L = owner.current
 	level_bloodcost = max_blood_volume * 0.2
 	//If the blood volume of the bloodsucker is lower than the cost to level up, return and inform the bloodsucker
-
 	//TODO: Make this into a radial, or perhaps a tgui next UI
 		// Purchase Power Prompt
 	var/list/options = list()
