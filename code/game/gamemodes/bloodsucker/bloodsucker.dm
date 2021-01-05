@@ -24,11 +24,11 @@
 	antag_flag = ROLE_BLOODSUCKER
 	false_report_weight = 1
 	restricted_jobs = list("AI","Cyborg")
-	protected_jobs = list("Chaplain", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Chief Engineer", "Chief Medical Officer", "Research Director", "Quartermaster")
-	required_players = 20
-	required_enemies = 2
+	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")
+	required_players = 0
+	required_enemies = 1
 	recommended_enemies = 4
-	reroll_friendly = FALSE
+	reroll_friendly = 1
 	enemy_minimum_age = 7
 	round_ends_with_antag_death = FALSE
 
