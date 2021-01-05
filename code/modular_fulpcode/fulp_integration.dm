@@ -13,16 +13,21 @@
 	var/datum/job/linkedJobType         // This is a TYPE, not a ref to a particular instance. We'll use this for finding the job and hud icon of each job.
 
 /obj/item/card/id/proc/return_icon_job()
-	if (!linkedJobType || assignment == "Unassigned")
-		return 'icons/obj/card.dmi'
 	if (!linkedJobType || assignment == "Brig Physician")
 		return 'code/modular_fulpcode/modules/jobs/cards.dmi'
+
+	if (!linkedJobType || assignment == "Unassigned")
+		return 'icons/obj/card.dmi'
+
 	return initial(linkedJobType.id_icon)
+
 /obj/item/card/id/proc/return_icon_hud()
 	if (assignment == "Brig Physician")
 		return 'code/modular_fulpcode/modules/jobs/huds.dmi'
+
 	if (!linkedJobType || assignment == "Unassigned")
 		return 'icons/mob/hud.dmi'
+
 	return initial(linkedJobType.hud_icon)
 
 
