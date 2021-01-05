@@ -227,6 +227,7 @@
 			owner.current.Unconscious(20, 1)
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
+	REMOVE_TRAIT(owner.current, "TRAIT_SLEEPIMMUNE", "sleep_immunity") // Go to sleep
 	owner.current.stat = UNCONSCIOUS
 	owner.current.apply_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, "bloodsucker") // Come after UNCONSCIOUS or else it fails
@@ -246,6 +247,7 @@
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
+	ADD_TRAIT(owner.current, "TRAIT_SLEEPIMMUNE", "sleep_immunity") // Wake up
 	owner.current.remove_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, "bloodsucker")
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, "bloodsucker")

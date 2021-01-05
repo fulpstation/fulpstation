@@ -186,9 +186,8 @@
 			M.visible_message("<span class='danger'>[user] tries to release themself from the rack!</span>",\
 							"<span class='danger'>You attempt to release yourself from the rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
 		else
-			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>",\
-							"<span class='danger'>[user] attempts to release you from the rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
-		if(!do_mob(user, M, 200))
+			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
+		if(!do_mob(user, M, 500))
 			return
 	// Did the time. Now try to do it.
 	..()
@@ -273,16 +272,10 @@
 			convert_progress -- // Ouch. Stop. Don't.
 			// All done!
 			if(convert_progress <= 0)
-				// FAIL: Can't be Vassal
-				if(!SSticker.mode.can_make_vassal(target, user, display_warning = FALSE) || HAS_TRAIT(target, TRAIT_MINDSHIELD)) // If I'm an unconvertable Antag ONLY
-					to_chat(user, "<span class='danger'>[target] doesn't respond to your persuasion. It doesn't appear they can be converted to follow you, they either have a mindshield or their external loyalties are too difficult for you to break.<i>\[ALT+click to release\]</span>")
-					convert_progress ++ // Pop it back up some. Avoids wasting Blood on a lost cause.
-				// SUCCESS: All done!
+				if(RequireDisloyalty(target))
+					to_chat(user, "<span class='boldwarning'>[target] has external loyalties! [target.p_they(TRUE)] will require more <i>persuasion</i> to break [target.p_them()] to your will!</span>")
 				else
-					if(RequireDisloyalty(target))
-						to_chat(user, "<span class='boldwarning'>[target] has external loyalties! [target.p_they(TRUE)] will require more <i>persuasion</i> to break [target.p_them()] to your will!</span>")
-					else
-						to_chat(user, "<span class='notice'>[target] looks ready for the <b>Dark Communion</b>.</span>")
+					to_chat(user, "<span class='notice'>[target] looks ready for the <b>Dark Communion</b>.</span>")
 			// Still Need More Persuasion...
 			else
 				to_chat(user, "<span class='notice'>[target] could use [convert_progress == 1?"a little":"some"] more <i>persuasion</i>.</span>")
@@ -344,9 +337,6 @@
 	var/obj/item/I = user.get_active_held_item()
 	if(!istype(I))
 		I = user.get_inactive_held_item()
-	// Create Strings
-	var/method_string = length(I.attack_verb_continuous) ? "[pick(I.attack_verb_continuous)]" : list("harmed","tortured","wrenched","twisted","scoured","beaten","lashed","scathed")
-	var/weapon_string = length(I.attack_verb_simple) ? "[pick(I.attack_verb_simple)]" : list("bare hands","hands","fingers","fists")
 	// Weapon Bonus + SFX
 	if (I)
 		torture_time -= I.force / 4
@@ -370,8 +360,8 @@
 	if(I)
 		playsound(loc, I.hitsound, 30, 1, -1)
 		I.play_tool_sound(target)
-	target.visible_message("<span class='danger'>[user] has [method_string] [target]'s [target_string] with [user.p_their()] [weapon_string]!</span>", \
-						   "<span class='userdanger'>[user] has [method_string] your [target_string] with [user.p_their()] [weapon_string]!</span>")
+	target.visible_message("<span class='danger'>[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!</span>", \
+						   "<span class='userdanger'>[user] performs a ritual, spilling some blood from your [target_string], shaking you up!</span>")
 	if(!target.is_muzzled())
 		target.emote("scream")
 	target.Jitter(5)
@@ -379,7 +369,6 @@
 	return TRUE
 
 /obj/structure/bloodsucker/vassalrack/proc/do_disloyalty(mob/living/user, mob/living/target)
-
 	// OFFER YES/NO NOW!
 	spawn(10)
 		if(useLock && target && target.client) // Are we still torturing? Did we cancel? Are they still here?
@@ -401,7 +390,7 @@
 	return TRUE
 
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/target)
-	return SSticker.mode.AmValidAntag(target.mind) //|| HAS_TRAIT(target, TRAIT_MINDSHIELD)
+	return SSticker.mode.AmValidAntag(target.mind) || HAS_TRAIT(target, TRAIT_MINDSHIELD)
 
 /obj/structure/bloodsucker/vassalrack/proc/disloyalty_accept(mob/living/target)
 	// FAILSAFE: Still on the rack?
@@ -409,9 +398,9 @@
 		return
 	// NOTE: You can say YES after torture. It'll apply to next time.
 	disloyalty_confirm = TRUE
-	/*if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
+	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 		to_chat(target, "<span class='boldnotice'>You give in to the will of your torturer. If they are successful, you will no longer be loyal to the station!</span>")
-*/
+
 /obj/structure/bloodsucker/vassalrack/proc/disloyalty_refuse(mob/living/target)
 	// FAILSAFE: Still on the rack?
 	if(!(locate(target) in buckled_mobs))
