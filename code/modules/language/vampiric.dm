@@ -18,4 +18,4 @@
 		)
 
 	icon_state = "bloodsucker"
-	icon = 'icons/mob/actions/bloodsucker.dmi'
+	icon = 'icons/hud/bloodsucker_icons.dmi'

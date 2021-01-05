@@ -15,7 +15,7 @@
 	for(var/pickedpower in typesof(/datum/action/bloodsucker))
 		var/obj/effect/proc_holder/spell/bloodsucker/power = pickedpower
 		// NAME
-		dat += "<A href='byond://?src=[REF(src)];[module.mod_pick_name]=1'>[power.name]</A>"
+		dat += "<A href='?byond://src=[REF(src)];[module.mod_pick_name]=1'>[power.name]</A>"
 		// COST
 		dat += "<td align='right'><b>[power.name]&nbsp;</b><a href='byond://?src=[REF(src)];vend=[REF(R)]'>Vend</a></td>"
 		dat == "<BR>"
@@ -26,14 +26,7 @@
 
 /datum/antagonist/bloodsucker/Topic(href, href_list)
 	if(..())
-		return
-*/
-
-
-// From browser.dm:   /datum/browser/New(nuser, nwindow_id, ntitle = 0, nwidth = 0, nheight = 0, var/atom/nref = null)
-
-
-/*
+		return   // From browser.dm:   /datum/browser/New(nuser, nwindow_id, ntitle = 0, nwidth = 0, nheight = 0, var/atom/nref = null)
 	var/list/dat = list()
 	dat += "<B>Select use of processing time: (currently #[processing_time] left.)</B><BR>"
 	dat += "<HR>"

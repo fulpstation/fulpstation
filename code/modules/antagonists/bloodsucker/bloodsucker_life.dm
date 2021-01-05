@@ -85,10 +85,11 @@
 	owner.current.adjustCloneLoss(-0.1 * (actual_regen * 2) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult)
 	// No Bleeding
-	/*if(ishuman(owner.current)) //NOTE Current bleeding is horrible, not to count the amount of blood ballistics delete.
-		var/mob/living/carbon/human/H = owner.current
-		if(H.bleed_rate > 0) //Only heal bleeding if we are actually bleeding
-			H.bleed_rate =- 0.5 + actual_regen * 0.2 */
+	if(ishuman(owner.current)) //NOTE Current bleeding is horrible, not to count the amount of blood ballistics delete.
+		var/bleed_rate = 0
+		var/mob/living/carbon/human/C = owner.current
+		if(C.bleed_rate >= 0) //Only heal bleeding if we are actually bleeding
+			C.bleed_rate -= 0.5 + actual_regen * 0.2
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
 		var/mob/living/carbon/C = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
