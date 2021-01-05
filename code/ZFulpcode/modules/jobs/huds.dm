@@ -1,3 +1,5 @@
+// Overwrites sec_hud_set_ID to make fulp jobs get their HUD icons.
+
 /mob/living/carbon/human/sec_hud_set_ID()
 	var/image/holder = hud_list[ID_HUD]
 	var/icon/I = icon(icon, icon_state, dir)

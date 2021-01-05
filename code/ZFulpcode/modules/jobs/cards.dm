@@ -1,3 +1,5 @@
+// Overwrites the update_overlays on cards.dm to ensure fulp jobs get their icons.
+
 /obj/item/card/id/update_overlays()
 	. = ..()
 	if(!uses_overlays)
