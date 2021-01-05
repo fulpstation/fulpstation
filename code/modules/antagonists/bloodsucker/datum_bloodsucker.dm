@@ -35,7 +35,7 @@
 	var/warn_sun_burn 				// So we only get the sun burn message once per day.
 	var/had_toxlover
 	var/level_bloodcost
-	var/passive_blood_drain = -0.05        //The amount of blood we loose each bloodsucker life() tick
+	var/passive_blood_drain = -0.1        //The amount of blood we loose each bloodsucker life() tick
 	var/notice_healing                    //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	// LISTS
