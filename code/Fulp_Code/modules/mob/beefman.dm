@@ -320,8 +320,7 @@
 				return FALSE
 
 			// Pry it off...
-			user.visible_message("[user] grabs onto [p_their()] own [affecting.name] and pulls.", \
-					 	 "<span class='notice'>You grab hold of your [affecting.name] and yank hard.</span>")
+			user.visible_message("[user] grabs onto [p_their()] own [affecting.name] and pulls.", "<span class='notice'>You grab hold of your [affecting.name] and yank hard.</span>")
 			if (!do_mob(user,target))
 				return TRUE
 
