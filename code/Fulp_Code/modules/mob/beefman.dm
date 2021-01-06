@@ -351,11 +351,9 @@
 
 		if ((target_zone in allowedList))
 			if (user == H)
-				user.visible_message("[user] begins mashing [I] into [H]'s torso.", \
-						 	 "<span class='notice'>You begin mashing [I] into your torso.</span>")
+				user.visible_message("[user] begins mashing [I] into [H]'s torso.", "<span class='notice'>You begin mashing [I] into your torso.</span>")
 			else
-				user.visible_message("[user] begins mashing [I] into [H]'s torso.", \
-						 	 "<span class='notice'>You begin mashing [I] into [H]'s torso.</span>")
+				user.visible_message("[user] begins mashing [I] into [H]'s torso.", "<span class='notice'>You begin mashing [I] into [H]'s torso.</span>")
 
 			// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
 			spawn(1)
@@ -385,23 +383,6 @@
 // taken from _HELPERS/names.dm
 /proc/beefman_name(gender)
 	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.russian_names)]'"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 			// INTEGRATION //
@@ -440,7 +421,7 @@
 /mob/living/carbon/human/species/beefman
 	race = /datum/species/beefman
 
-/obj/item/bodypart/
+/obj/item/bodypart
 	var/icon/icon_greyscale = 'icons/mob/human_parts_greyscale.dmi' // Keep an eye on _DEFINES/mobs.dm to see if DEFAULT_BODYPART_ICON_ORGANIC / _ROBOTIC change.
 	var/icon/icon_greyscale_robotic = 'icons/mob/augmentation/augments.dmi'
 	var/obj/item/food/meat/slab/myMeatType = /obj/item/food/meat/slab // For remembering what kind of meat this was made of. Default is base meat slab.
@@ -620,21 +601,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // SPRITE PARTS //
 
 //GLOBAL_LIST_INIT(eyes_beefman, list( "Peppercorns", "Capers", "Olives" ))
@@ -688,7 +654,7 @@
 
 /// found in cargo.dm etc. in modules/clothing/under/job
 
-/obj/item/clothing/under/bodysash/
+/obj/item/clothing/under/bodysash
 	name = "body sash"
 	desc = "A simple body sash, slung from shoulder to hip."
 	icon = 'icons/Fulp_Icons/mob/clothing/beefclothing.dmi' // item icon
