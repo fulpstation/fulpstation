@@ -57,7 +57,7 @@
 	cellulardamage_desc = "meat degradation"
 
 
-/proc/proof_beefman_features(var/list/inFeatures)
+/proc/proof_beefman_features(list/inFeatures)
 	// Missing Defaults in DNA? Randomize!
 	if (inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
 		inFeatures["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
@@ -66,7 +66,7 @@
 	if (inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
 		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
 
-/mob/living/carbon/human/proc/adjust_bl_all(var/type = "add", var/amount)
+/mob/living/carbon/human/proc/adjust_bl_all(type = "add", amount)
 	for(var/i in bodyparts)
 		var/obj/item/bodypart/BP = i
 		switch(type)
@@ -110,6 +110,7 @@
 
 /datum/species/proc/set_beef_color(mob/living/carbon/human/H)
 	return // Do Nothing
+
 /datum/species/beefman/set_beef_color(mob/living/carbon/human/H)
 	// Called on Assign, or on Color Change (or any time proof_beefman_features() is used, such as in bs_veil.dm)
 	fixed_mut_color = H.dna.features["beefcolor"]
@@ -181,10 +182,10 @@
 
 	// Step 2) Bleed out those juices by warmth, minus burn damage. If we are salted - bleed more
 	if (dehydrate > 0)
-		H.adjust_bl_all("=", clamp((H.bodytemperature - 300) / 20 - searJuices, 2, 10))
+		H.adjust_bl_all("=", clamp((H.bodytemperature - 296.15) / 20 - searJuices, 2, 10))
 		dehydrate -= 0.5
 	else
-		H.adjust_bl_all("=", clamp((H.bodytemperature - 300) / 20 - searJuices, 0, 5))
+		H.adjust_bl_all("=", clamp((H.bodytemperature - 296.15) / 20 - searJuices, 0, 5))
 
 	// Replenish Blood Faster! (But only if you actually make blood)
 	var/bleed_rate = 0
@@ -282,7 +283,6 @@
 // TO-DO // Do funny stuff with Radiation
 /datum/species/beefman/handle_mutations_and_radiation(mob/living/carbon/human/H)
 	. = ..()
-
 
 
 //////////////////
@@ -544,6 +544,7 @@
 	icon_greyscale_robotic = 'icons/Fulp_Icons/mob/fulp_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+
 /obj/item/bodypart/chest/beef/drop_limb(special) // from dismemberment.dm
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
@@ -556,6 +557,7 @@
 	icon_greyscale_robotic = 'icons/Fulp_Icons/mob/fulp_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+
 /obj/item/bodypart/r_arm/beef/drop_limb(special) // from dismemberment.dm
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
@@ -568,6 +570,7 @@
 	icon_greyscale_robotic = 'icons/Fulp_Icons/mob/fulp_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+
 /obj/item/bodypart/l_arm/beef/drop_limb(special) // from dismemberment.dm
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
@@ -580,6 +583,7 @@
 	icon_greyscale_robotic = 'icons/Fulp_Icons/mob/fulp_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+
 /obj/item/bodypart/r_leg/beef/drop_limb(special) // from dismemberment.dm
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
@@ -592,18 +596,18 @@
 	icon_greyscale_robotic = 'icons/Fulp_Icons/mob/fulp_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+
 /obj/item/bodypart/l_leg/beef/drop_limb(special) // from dismemberment.dm
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
 	..() // Create Meat, Remove Limb
 	return drop_meat(owner_cache)
 
-
-
 // SPRITE PARTS //
 
 //GLOBAL_LIST_INIT(eyes_beefman, list( "Peppercorns", "Capers", "Olives" ))
 //GLOBAL_LIST_INIT(mouths_beefman, list( "Smile1", "Smile2", "Frown1", "Frown2", "Grit1", "Grit2" ))
+
 /datum/sprite_accessory/beef/
 	icon = 'icons/Fulp_Icons/mob/fulp_bodyparts.dmi'
 
@@ -614,15 +618,19 @@
 
 /datum/sprite_accessory/beef/eyes
 	color_src = EYECOLOR	//Currently only used by mutantparts so don't worry about hair and stuff. This is the source that this accessory will get its color from. Default is MUTCOLOR, but can also be HAIR, FACEHAIR, EYECOLOR and 0 if none.
+
 /datum/sprite_accessory/beef/eyes/peppercorns
 	name = "Peppercorns"
 	icon_state = "peppercorns"
+
 /datum/sprite_accessory/beef/eyes/olives
 	name = "Olives"
 	icon_state = "olives"
+
 /datum/sprite_accessory/beef/eyes/capers
 	name = "Capers"
 	icon_state = "capers"
+
 /datum/sprite_accessory/beef/eyes/cloves
 	name = "Cloves"
 	icon_state = "cloves"
@@ -630,25 +638,30 @@
 /datum/sprite_accessory/beef/mouth
 	use_static = TRUE
 	color_src = 0
+
 /datum/sprite_accessory/beef/mouth/smile1
 	name = "Smile 1"
 	icon_state = "smile1"
+
 /datum/sprite_accessory/beef/mouth/smile2
 	name = "Smile 2"
 	icon_state = "smile2"
+
 /datum/sprite_accessory/beef/mouth/frown1
 	name = "Frown 1"
 	icon_state = "frown1"
+
 /datum/sprite_accessory/beef/mouth/frown2
 	name = "Frown 2"
 	icon_state = "frown2"
+
 /datum/sprite_accessory/beef/mouth/grit1
 	name = "Grit 1"
 	icon_state = "grit1"
+
 /datum/sprite_accessory/beef/mouth/grit2
 	name = "Grit 2"
 	icon_state = "grit2"
-
 
 
 /// found in cargo.dm etc. in modules/clothing/under/job
@@ -670,35 +683,43 @@
 	icon_state = "security"
 	//item_color = "security" // The worn item state
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small
+
 /obj/item/clothing/under/bodysash/medical
 	name = "medical sash"
 	icon_state = "medical"
 	//item_color = "medical" // The worn item state
+
 /obj/item/clothing/under/bodysash/science
 	name = "science sash"
 	icon_state = "science"
 	//item_color = "science" // The worn item state
+
 /obj/item/clothing/under/bodysash/cargo
 	name = "cargo sash"
 	icon_state = "cargo"
 	//item_color = "cargo" // The worn item state
+
 /obj/item/clothing/under/bodysash/engineer
 	name = "engineer sash"
 	icon_state = "engineer"
 	//item_color = "engineer" // The worn item state
+
 /obj/item/clothing/under/bodysash/civilian
 	name = "civilian sash"
 	icon_state = "civilian"
 	//item_color = "civilian" // The worn item state
+
 /obj/item/clothing/under/bodysash/command
 	name = "command sash"
 	icon_state = "command"
 	//item_color = "command" // The worn item state
+
 /obj/item/clothing/under/bodysash/clown
 	name = "clown sash"
 	icon_state = "clown"
 	//item_color = "clown" // The worn item state
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small
+
 /obj/item/clothing/under/bodysash/mime
 	name = "mime sash"
 	icon_state = "mime"
@@ -718,7 +739,6 @@
 			if(M != subject && isliving(M) && M.mind && !M.has_unlimited_silicon_privilege && !M.eye_blind) // M.client <--- add this in after testing!
 				return TRUE
 	return FALSE
-
 
 
 /proc/return_valid_floor_in_range(atom/A, checkRange = 8, minRange = 0, checkFloor = TRUE)
