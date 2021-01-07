@@ -320,7 +320,7 @@
 	vamprank_display.hud = src
 	infodisplay += vamprank_display
 	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter	// FULPSTATION: Sunlight
-	sunlight_display.hud =src
+	sunlight_display.hud = src
 	infodisplay += sunlight_display
 
 	zone_select =  new /atom/movable/screen/zone_sel()
