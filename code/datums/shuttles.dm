@@ -235,6 +235,12 @@
 	admin_notes = "Due to the limited space for non paying crew, this shuttle may cause a riot."
 	credit_cost = CARGO_CRATE_VALUE * 20
 
+/datum/map_template/shuttle/emergency/helio
+	suffix = "helio"
+	name = "Helio Station Emergency Shuttle"
+	description = "The good ol' maze that is this shuttle. enjoy trying to leave early. comes with plenty of power and seats. security section is also a decient size!"
+	credit_cost = CARGO_CRATE_VALUE * 20
+
 /datum/map_template/shuttle/emergency/medisim
 	suffix = "medisim"
 	name = "Medieval Reality Simulation Dome"
