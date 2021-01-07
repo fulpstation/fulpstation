@@ -687,9 +687,9 @@
 	// Update Rank Counter
 	if(owner.current.hud_used.vamprank_display)
 		var/valuecolor = bloodsucker_level_unspent ? "#FFFF00" : "#FF0000"
+		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
 		if(updateRank) // Only change icon on special request.
 			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
-			owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
 
 
 /atom/movable/screen/bloodsucker
