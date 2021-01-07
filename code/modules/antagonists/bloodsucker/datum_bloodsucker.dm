@@ -654,9 +654,9 @@
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"   // 2 tiles down
 
 /datum/hud
-	var/obj/screen/bloodsucker/blood_counter/blood_display
-	var/obj/screen/bloodsucker/rank_counter/vamprank_display
-	var/obj/screen/bloodsucker/sunlight_counter/sunlight_display
+	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
+	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
+	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 /datum/antagonist/bloodsucker/proc/add_hud()
 	return
@@ -687,21 +687,21 @@
 	// Update Rank Counter
 	if(owner.current.hud_used.vamprank_display)
 		var/valuecolor = bloodsucker_level_unspent ? "#FFFF00" : "#FF0000"
-		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
 		if(updateRank) // Only change icon on special request.
 			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
+			owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
 
 
-/obj/screen/bloodsucker
+/atom/movable/screen/bloodsucker
 	invisibility = INVISIBILITY_ABSTRACT
 
-/obj/screen/bloodsucker/proc/clear()
+/atom/movable/screen/bloodsucker/proc/clear()
 	invisibility = INVISIBILITY_ABSTRACT
 
 /obj/screen/bloodsucker/proc/update_counter(value, valuecolor)
 	invisibility = 0
 
-/obj/screen/bloodsucker/blood_counter
+/atom/movable/screen/bloodsucker/blood_counter
 	icon = 'icons/mob/actions/bloodsucker.dmi'
 	name = "Blood Consumed"
 	icon_state = "blood_display"
@@ -711,7 +711,7 @@
 	..()
 	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
 
-/obj/screen/bloodsucker/rank_counter
+/atom/movable/screen/bloodsucker/rank_counter
 	name = "Bloodsucker Rank"
 	icon = 'icons/mob/actions/bloodsucker.dmi'
 	icon_state = "rank"
@@ -721,7 +721,7 @@
 	..()
 	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
 
-/obj/screen/bloodsucker/sunlight_counter
+/atom/movable/screen/bloodsucker/sunlight_counter
 	icon = 'icons/mob/actions/bloodsucker.dmi'
 	name = "Solar Flare Timer"
 	icon_state = "sunlight_night"
@@ -743,7 +743,6 @@
 		var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
 		owner.current.hud_used.sunlight_display.update_counter( value_string, valuecolor )
 		owner.current.hud_used.sunlight_display.icon_state = "sunlight_" + (amDay ? "day":"night")
-
 
 /obj/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
