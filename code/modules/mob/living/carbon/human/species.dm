@@ -865,6 +865,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					S = GLOB.horns_list[H.dna.features["horns"]]
 				if("ears")
 					S = GLOB.ears_list[H.dna.features["ears"]]
+				if("beefeyes") // [FULP]
+					if (H.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
+						S = GLOB.eyes_beefman[H.dna.features["beefeyes"]]
+				if("beefmouth") // [FULP]
+					S = GLOB.mouths_beefman[H.dna.features["beefmouth"]]
 				if("body_markings")
 					S = GLOB.body_markings_list[H.dna.features["body_markings"]]
 				if("wings")
@@ -1633,6 +1638,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
  */
 /datum/species/proc/handle_environment(datum/gas_mixture/environment, mob/living/carbon/human/humi)
 	handle_environment_pressure(environment, humi)
+
+	if(humi.stat != DEAD && !HAS_TRAIT(humi, TRAIT_COLDBLOODED)) // [FULP] If you are dead your body does not stabilize naturally // FULPSTATION: Or if you're cold blooded
+		body_temperature_core(environment, humi)
 
 /**
  * Body temperature handler for species
