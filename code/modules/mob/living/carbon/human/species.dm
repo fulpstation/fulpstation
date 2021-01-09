@@ -1639,9 +1639,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/handle_environment(datum/gas_mixture/environment, mob/living/carbon/human/humi)
 	handle_environment_pressure(environment, humi)
 
-	if(humi.stat != DEAD && !HAS_TRAIT(humi, TRAIT_COLDBLOODED)) // [FULP] If you are dead your body does not stabilize naturally // FULPSTATION: Or if you're cold blooded
-		body_temperature_core(environment, humi)
-
 /**
  * Body temperature handler for species
  *
