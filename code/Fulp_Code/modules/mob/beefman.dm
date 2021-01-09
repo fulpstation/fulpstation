@@ -165,8 +165,6 @@
 	C.cure_trauma_type(/datum/brain_trauma/mild/phobia/strangers, TRAUMA_RESILIENCE_ABSOLUTE)
 	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
-	C.adjust_bodytemperature(-80 * TEMPERATURE_DAMAGE_COEFFICIENT, C.get_body_temp_normal()) //--Beefman join refrigerated.
-
 /datum/species/beefman/random_name(gender,unique,lastname)
 	if(unique)
 		return random_unique_beefman_name(gender)
@@ -182,10 +180,10 @@
 
 	// Step 2) Bleed out those juices by warmth, minus burn damage. If we are salted - bleed more
 	if (dehydrate > 0)
-		H.adjust_bl_all("=", clamp((H.bodytemperature - 296.15) / 20 - searJuices, 2, 10))
+		H.adjust_bl_all("=", clamp((H.bodytemperature - 297.15) / 20 - searJuices, 2, 10))
 		dehydrate -= 0.5
 	else
-		H.adjust_bl_all("=", clamp((H.bodytemperature - 296.15) / 20 - searJuices, 0, 5))
+		H.adjust_bl_all("=", clamp((H.bodytemperature - 297.15) / 20 - searJuices, 0, 5))
 
 	// Replenish Blood Faster! (But only if you actually make blood)
 	var/bleed_rate = 0
@@ -799,7 +797,6 @@
 		var/turf/first_turf = pick(possible_turfs)
 		if(!first_turf)
 			return
-
 		// Round Two: Pick an even Further Turf
 		possible_turfs = return_valid_floors_in_range(first_turf, 20, 6, TRUE) // Source, Range, Has Floor
 		possible_turfs -= first_turf
