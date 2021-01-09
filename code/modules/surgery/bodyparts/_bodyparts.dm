@@ -825,7 +825,11 @@
 
 	if(is_organic_limb())
 		if(should_draw_greyscale)
-			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
+			switch(species_id) // [FULP EDIT]
+				if("beefman") //If we ever add more unique races - this should be a list of them.
+					limb.icon = 'icons/Fulp_Icons/mob/fulp_bodyparts.dmi'
+				else
+					limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 			if(should_draw_gender)
 				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 			else if(use_digitigrade)
@@ -833,7 +837,11 @@
 			else
 				limb.icon_state = "[species_id]_[body_zone]"
 		else
-			limb.icon = 'icons/mob/human_parts.dmi'
+			switch(species_id) // [FULP]
+				if("beefman")
+					limb.icon = 'icons/Fulp_Icons/mob/fulp_bodyparts.dmi'
+				else
+					limb.icon = 'icons/mob/human_parts.dmi'
 			if(should_draw_gender)
 				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 			else
@@ -841,6 +849,7 @@
 		if(aux_zone)
 			aux = image(limb.icon, "[species_id]_[aux_zone]", -aux_layer, image_dir)
 			. += aux
+
 
 	else
 		limb.icon = icon
