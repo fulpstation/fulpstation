@@ -15,7 +15,7 @@
 // Used in overwrites to assign the ID card's icon.
 /obj/item/card/id/proc/return_icon_job()
 	if (!linkedJobType || assignment == "Brig Physician") // Using the global list here breaks Fulp Job's ID Card Overlays.
-		return 'icons/fulp_icons/obj/cards.dmi'
+		return 'code/fulp_modules/jobs/cards.dmi'
 
 	if (!linkedJobType || assignment == "Unassigned")
 		return 'icons/obj/card.dmi'
@@ -25,7 +25,7 @@
 // Used to assign the HUD icon linked to the job ID Card.
 /obj/item/card/id/proc/return_icon_hud()
 	if (assignment in GLOB.fulp_job_assignments)
-		return 'icons/fulp_icons/mob/huds.dmi'
+		return 'code/fulp_modules/jobs/huds.dmi'
 
 	if (!linkedJobType || assignment == "Unassigned")
 		return 'icons/mob/hud.dmi'
