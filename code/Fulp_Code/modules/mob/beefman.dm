@@ -646,154 +646,58 @@
 	icon = 'icons/Fulp_Icons/mob/clothing/beefclothing.dmi' // item icon
 	worn_icon =  'icons/Fulp_Icons/mob/clothing/beefclothing_worn.dmi' // mob worn icon
 	icon_state = "assistant" // Inventory Icon
+	//item_color = "assistant" // The worn item Icon
 	body_parts_covered = CHEST // |GROIN|ARMS
 	lefthand_file = 'icons/Fulp_Icons/mob/clothing/beefclothing_hold_left.dmi'
 	righthand_file = 'icons/Fulp_Icons/mob/clothing/beefclothing_hold_right.dmi'
 	inhand_icon_state = "sash" // In-hand Icon
-	can_adjust = FALSE
-
-/obj/item/clothing/under/bodysash/Initialize()
-	. = ..()
-	desc = "A simple [name], slung from shoulder to hip."
-
-//Captain
-/obj/item/clothing/under/bodysash/captain
-	name = "captain's sash"
-	icon_state = "captain"
-
-//Security
-/obj/item/clothing/under/bodysash/hos
-	name = "head of security's sash"
-	icon_state = "hos"
-
-/obj/item/clothing/under/bodysash/warden
-	name = "warden's sash"
-	icon_state = "warden"
 
 /obj/item/clothing/under/bodysash/security
-	name = "security's sash"
+	name = "security sash"
 	icon_state = "security"
-
-/obj/item/clothing/under/bodysash/detective
-	name = "detective's sash"
-	icon_state = "detective"
-
-//Medical
-/obj/item/clothing/under/bodysash/cmo
-	name = "chief medical officer's sash"
-	icon_state = "cmo"
+	//item_color = "security" // The worn item state
+	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small
 
 /obj/item/clothing/under/bodysash/medical
-	name = "medical's sash"
+	name = "medical sash"
 	icon_state = "medical"
+	//item_color = "medical" // The worn item state
 
-/obj/item/clothing/under/bodysash/chemist
-	name = "chemist's sash"
-	icon_state = "chemist"
-
-/obj/item/clothing/under/bodysash/virologist
-	name = "virologist's sash"
-	icon_state = "virologist"
-
-/obj/item/clothing/under/bodysash/paramedic
-	name = "paramedic's sash"
-	icon_state = "paramedic"
-
-//Engineering
-/obj/item/clothing/under/bodysash/ce
-	name = "chief engineer's sash"
-	icon_state = "ce"
-
-/obj/item/clothing/under/bodysash/engineer
-	name = "engineer's sash"
-	icon_state = "engineer"
-
-/obj/item/clothing/under/bodysash/atmos
-	name = "atmospherics technician's sash"
-	icon_state = "atmos"
-
-//Science
-/obj/item/clothing/under/bodysash/rd
-	name = "research director's sash"
-	icon_state = "rd"
-
-/obj/item/clothing/under/bodysash/scientist
-	name = "scientist's sash"
+/obj/item/clothing/under/bodysash/science
+	name = "science sash"
 	icon_state = "science"
-
-/obj/item/clothing/under/bodysash/roboticist
-	name = "roboticist's sash"
-	icon_state = "roboticist"
-
-/obj/item/clothing/under/bodysash/geneticist
-	name = "geneticist's sash"
-	icon_state = "geneticist"
-
-//Supply/Civilian
-/obj/item/clothing/under/bodysash/hop
-	name = "head of personnel's sash"
-	icon_state = "hop"
-
-/obj/item/clothing/under/bodysash/qm
-	name = "quarter master's sash"
-	icon_state = "qm"
+	//item_color = "science" // The worn item state
 
 /obj/item/clothing/under/bodysash/cargo
-	name = "cargo technician's sash"
+	name = "cargo sash"
 	icon_state = "cargo"
+	//item_color = "cargo" // The worn item state
 
-/obj/item/clothing/under/bodysash/miner
-	name = "shaft miner's sash"
-	icon_state = "miner"
+/obj/item/clothing/under/bodysash/engineer
+	name = "engineer sash"
+	icon_state = "engineer"
+	//item_color = "engineer" // The worn item state
+
+/obj/item/clothing/under/bodysash/civilian
+	name = "civilian sash"
+	icon_state = "civilian"
+	//item_color = "civilian" // The worn item state
+
+/obj/item/clothing/under/bodysash/command
+	name = "command sash"
+	icon_state = "command"
+	//item_color = "command" // The worn item state
 
 /obj/item/clothing/under/bodysash/clown
-	name = "clown's sash"
+	name = "clown sash"
 	icon_state = "clown"
+	//item_color = "clown" // The worn item state
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small
 
 /obj/item/clothing/under/bodysash/mime
-	name = "mime's sash"
+	name = "mime sash"
 	icon_state = "mime"
-
-/obj/item/clothing/under/bodysash/prisoner
-	name = "prisoner's sash"
-	icon_state = "prisoner"
-
-/obj/item/clothing/under/bodysash/cook
-	name = "cook's sash"
-	icon_state = "cook"
-
-/obj/item/clothing/under/bodysash/bartender
-	name = "bartender's sash"
-	icon_state = "bartender"
-
-/obj/item/clothing/under/bodysash/chaplain
-	name = "chaplain's sash"
-	icon_state = "chaplain"
-
-/obj/item/clothing/under/bodysash/curator
-	name = "curator's sash"
-	icon_state = "curator"
-
-/obj/item/clothing/under/bodysash/lawyer
-	name = "lawyer's sash"
-	icon_state = "lawyer"
-
-/obj/item/clothing/under/bodysash/botanist
-	name = "botanist's sash"
-	icon_state = "botanist"
-
-/obj/item/clothing/under/bodysash/janitor
-	name = "janitor's sash"
-	icon_state = "janitor"
-
-/obj/item/clothing/under/bodysash/psychologist
-	name = "psychologist's sash"
-	icon_state = "psychologist"
-
-/obj/item/clothing/under/bodysash/civilian
-	name = "civilian's sash"
-	icon_state = "civilian"
+	//item_color = "mime" // The worn item state
 
 ////////////	CUSTOM TRAUMAS
 
