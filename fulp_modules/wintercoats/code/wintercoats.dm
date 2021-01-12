@@ -4,10 +4,10 @@
 /obj/item/clothing/suit/hooded/wintercoat/fulp //the baseline fulp wintercoat, so i dont have to repete the same exact lines every 5 seconds.
 	name = "fulp"
 	desc = "fulp"
-	icon = 'icons/fulpicons/wintercoats/wintercoats_icons.dmi'
-	worn_icon = 'icons/fulpicons/wintercoats/wintercoats.dmi'
-	lefthand_file = 'icons/fulpicons/wintercoats/wintercoat_lefthand.dmi'
-	righthand_file = 'icons/fulpicons/wintercoats/wintercoat_righthand.dmi'
+	icon = 'fulp_modules/wintercoats/icons/wintercoats_icons.dmi'
+	worn_icon = 'fulp_modules/wintercoats/icons/wintercoats.dmi'
+	lefthand_file = 'fulp_modules/wintercoats/icons/wintercoat_lefthand.dmi'
+	righthand_file = 'fulp_modules/wintercoats/icons/wintercoat_righthand.dmi'
 	armor = list("melee" = 5, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
@@ -18,8 +18,8 @@
 //All head of staff wintercoats were made by Papaporo Paprito
 
 /obj/item/clothing/head/hooded/winterhood/fulp
-	worn_icon = 'icons/fulpicons/wintercoats/wintercoats.dmi'
-	icon = 'icons/fulpicons/wintercoats/wintercoathoods.dmi'
+	worn_icon = 'fulp_modules/wintercoats/icons/wintercoats.dmi'
+	icon = 'fulp_modules/wintercoats/icons/wintercoathoods.dmi'
 
 /obj/item/clothing/suit/hooded/wintercoat/fulp/security/head
 	name = "\improper Head of Security's winter coat"
