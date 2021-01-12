@@ -3,12 +3,7 @@
 
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 
-
-// TO DO:
-//
-// Death Sound
-//
-/datum/species/
+/datum/species
 	var/bruising_desc = "bruising"
 	var/burns_desc = "burns"
 	var/cellulardamage_desc = "cellular damage"
@@ -21,8 +16,8 @@
 	default_color = "e73f4e"
 	species_traits = list(NOEYESPRITES, NO_UNDERWEAR, DYNCOLORS, AGENDER, EYECOLOR, HAS_FLESH, HAS_BONE)
 	mutant_bodyparts = list("beefmouth", "beefeyes")
-	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_RESISTCOLD, TRAIT_EASYDISMEMBER, TRAIT_COLDBLOODED, TRAIT_SLEEPIMMUNE ) // , TRAIT_LIMBATTACHMENT)
-	mutant_bodyparts = list("beefcolor" = "e73f4e","beefmouth" = "Smile 1", "beefeyes" = "Olives")
+	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_RESISTCOLD, TRAIT_EASYDISMEMBER, TRAIT_COLDBLOODED, TRAIT_SLEEPIMMUNE )
+	mutant_bodyparts = list("beefcolor" = "e73f4e","beefmouth" = "Smile1", "beefeyes" = "Olives")
 	offset_features = list(OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3), OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), \
 						   OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3), OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2), \
 						   OFFSET_SUIT = list(0,2), OFFSET_NECK = list(0,3))
@@ -40,11 +35,10 @@
 	punchdamagelow = 1       //lowest possible punch damage. if this is set to 0, punches will always miss
 	punchdamagehigh = 5 // 10      //highest possible punch damage
 	siemens_coeff = 0.7 // Due to lack of density.   //base electrocution coefficient
-	inert_mutation = MUTATE // in DNA.dm
-	deathsound = 'sound/Fulp_sounds/beef_die.ogg'
-	attack_sound = 'sound/Fulp_sounds/beef_hit.ogg'
-	special_step_sounds = list('sound/Fulp_sounds/footstep_splat1.ogg','sound/Fulp_sounds/footstep_splat2.ogg','sound/Fulp_sounds/footstep_splat3.ogg','sound/Fulp_sounds/footstep_splat4.ogg')//Sounds to override barefeet walkng
-	grab_sound = 'sound/Fulp_sounds/beef_grab.ogg'//Special sound for grabbing
+	deathsound = 'sound/Fulp_Sounds/beef_die.ogg'
+	attack_sound = 'sound/Fulp_Sounds/beef_hit.ogg'
+	special_step_sounds = list('sound/Fulp_Sounds/footstep_splat1.ogg','sound/Fulp_Sounds/footstep_splat2.ogg','sound/Fulp_Sounds/footstep_splat3.ogg','sound/Fulp_Sounds/footstep_splat4.ogg')//Sounds to override barefeet walkng
+	grab_sound = 'sound/Fulp_Sounds/beef_grab.ogg'//Special sound for grabbing
 	species_language_holder = /datum/language_holder/russian //--Speak Russian
 	bodytemp_normal = T20C
 
@@ -56,6 +50,13 @@
 	burns_desc = "searing"
 	cellulardamage_desc = "meat degradation"
 
+	bodypart_overides = list(
+	BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,\
+	BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,\
+	BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,\
+	BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,\
+	BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,\
+	BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef)
 
 /proc/proof_beefman_features(list/inFeatures)
 	// Missing Defaults in DNA? Randomize!
@@ -78,8 +79,6 @@
 				BP.generic_bleedstacks -= amount
 
 /datum/species/beefman/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
-
-
 	// Missing Defaults in DNA? Randomize!
 	proof_beefman_features(C.dna.features)
 
@@ -98,8 +97,6 @@
 		C.part_default_l_leg = /obj/item/bodypart/l_leg/beef
 		C.part_default_r_leg = /obj/item/bodypart/r_leg/beef
 		C.ReassignForeignBodyparts()
-
-	C.adjust_bodytemperature(-100 * TEMPERATURE_DAMAGE_COEFFICIENT, 0, C.get_body_temp_normal())//--Join refrigerated
 
 	// Be Spooked but Educated
 	//C.gain_trauma(pick(startTraumas))
@@ -170,7 +167,6 @@
 		return random_unique_beefman_name(gender)
 	return capitalize(beefman_name(gender))
 
-
 /datum/species/beefman/spec_life(mob/living/carbon/human/H)	// This is your life ticker.
 	..()
 	// 		** BLEED YOUR JUICES **         //-- BODYTEMP_NORMAL = 293.15
@@ -190,15 +186,13 @@
 	for(var/i in H.bodyparts)
 		var/obj/item/bodypart/BP = i
 		bleed_rate += BP.generic_bleedstacks
-//	if (dehydrate <= 0 && bleed_rate <= 0 && H.blood_volume < BLOOD_VOLUME_NORMAL && !HAS_TRAIT(H, TRAIT_NOMARROW))
-//		H.blood_volume += 4 //--Disabled improved blood regen
 
 /datum/species/beefman/before_equip_job(datum/job/J, mob/living/carbon/human/H)
 
 	// Pre-Equip: Give us a sash so we don't end up with a Uniform!
-
 	var/obj/item/clothing/under/bodysash/newSash
 	switch(J.title)
+
 		// Assistant
 		if("Assistant")
 			newSash = new /obj/item/clothing/under/bodysash()
@@ -236,18 +230,6 @@
 	H.equip_to_slot_or_del(newSash, ITEM_SLOT_ICLOTHING, TRUE) // TRUE is whether or not this is "INITIAL", as in startup
 	return ..()
 
-/datum/species/beefman/after_equip_job(datum/job/J, mob/living/carbon/human/H)
-	..() //  H.update_mutant_bodyparts()   <--- SWAIN NOTE base does that only
-
-	// DO NOT DO THESE DURING GAIN/LOSS (we only want to assign them once on round start)
-
-	// 		JOB GEAR
-
-	// Remove coat! We don't wear that as a Beefboi
-	if (H.wear_suit)
-		qdel(H.wear_suit)
-
-
 /datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	. = ..() // Let species run its thing by default, TRUST ME
 	// Salt HURTS
@@ -268,7 +250,6 @@
 // TO-DO // Weak to salt etc!
 /datum/species/beefman/check_species_weakness(obj/item, mob/living/attacker)
 	return ..() // 0  //This is not a boolean, it's the multiplier for the damage that the user takes from the item.It is added onto the check_weakness value of the mob, and then the force of the item is multiplied by this value
-
 
 
 ////////
@@ -323,7 +304,7 @@
 				return TRUE
 
 			user.visible_message("[user]'s [affecting.name] comes right off in their hand.", "<span class='notice'>Your [affecting.name] pops right off.</span>")
-			playsound(get_turf(user), 'sound/Fulp_sounds/beef_hit.ogg', 40, 1)
+			playsound(get_turf(user), 'sound/Fulp_Sounds/beef_hit.ogg', 40, 1)
 
 			// Destroy Limb, Drop Meat, Pick Up
 			var/obj/item/I = affecting.drop_limb() //  <--- This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
@@ -361,7 +342,7 @@
 				H.visible_message("The meat sprouts digits and becomes [H]'s new [newBP.name]!", "<span class='notice'>The meat sprouts digits and becomes your new [newBP.name]!</span>")
 				newBP.attach_limb(H)
 				newBP.give_meat(H, I)
-				playsound(get_turf(H), 'sound/Fulp_sounds/beef_grab.ogg', 50, 1)
+				playsound(get_turf(H), 'sound/Fulp_Sounds/beef_grab.ogg', 50, 1)
 
 			return TRUE // True CANCELS the sequence.
 
@@ -378,15 +359,15 @@
 			break
 
 // taken from _HELPERS/names.dm
-/proc/beefman_name(gender)
-	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.russian_names)]'"
-
-
+/proc/beefman_name()
+	if (prob(50))
+		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.russian_names)]'"
+	else
+		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.beefman_names)]'"
 			// INTEGRATION //
 
+
 // NOTE: the proc for a bodypart appearing on a mob is get_limb_icon() in bodypart.dm    !! We tracked it from limb_augmentation.dm -> carbon/update_icons.dm -> bodyparts.dm
-
-
 // Return what the robot part should look like on the current mob.
 /obj/item/bodypart/proc/ReturnLocalAugmentIcon()
 	// Default: No Owner  --> use default
@@ -602,11 +583,7 @@
 	return drop_meat(owner_cache)
 
 // SPRITE PARTS //
-
-//GLOBAL_LIST_INIT(eyes_beefman, list( "Peppercorns", "Capers", "Olives" ))
-//GLOBAL_LIST_INIT(mouths_beefman, list( "Smile1", "Smile2", "Frown1", "Frown2", "Grit1", "Grit2" ))
-
-/datum/sprite_accessory/beef/
+/datum/sprite_accessory/beef
 	icon = 'icons/Fulp_Icons/mob/fulp_bodyparts.dmi'
 
 	// please make sure they're sorted alphabetically and, where needed, categorized
@@ -617,14 +594,6 @@
 /datum/sprite_accessory/beef/eyes
 	color_src = EYECOLOR	//Currently only used by mutantparts so don't worry about hair and stuff. This is the source that this accessory will get its color from. Default is MUTCOLOR, but can also be HAIR, FACEHAIR, EYECOLOR and 0 if none.
 
-/datum/sprite_accessory/beef/eyes/peppercorns
-	name = "Peppercorns"
-	icon_state = "peppercorns"
-
-/datum/sprite_accessory/beef/eyes/olives
-	name = "Olives"
-	icon_state = "olives"
-
 /datum/sprite_accessory/beef/eyes/capers
 	name = "Capers"
 	icon_state = "capers"
@@ -633,96 +602,198 @@
 	name = "Cloves"
 	icon_state = "cloves"
 
+/datum/sprite_accessory/beef/eyes/peppercorns
+	name = "Peppercorns"
+	icon_state = "peppercorns"
+
+/datum/sprite_accessory/beef/eyes/olives
+	name = "Olives"
+	icon_state = "olives"
+
 /datum/sprite_accessory/beef/mouth
 	use_static = TRUE
 	color_src = 0
 
 /datum/sprite_accessory/beef/mouth/smile1
-	name = "Smile 1"
+	name = "Smile1"
 	icon_state = "smile1"
 
 /datum/sprite_accessory/beef/mouth/smile2
-	name = "Smile 2"
+	name = "Smile2"
 	icon_state = "smile2"
 
 /datum/sprite_accessory/beef/mouth/frown1
-	name = "Frown 1"
+	name = "Frown1"
 	icon_state = "frown1"
 
 /datum/sprite_accessory/beef/mouth/frown2
-	name = "Frown 2"
+	name = "Frown2"
 	icon_state = "frown2"
 
 /datum/sprite_accessory/beef/mouth/grit1
-	name = "Grit 1"
+	name = "Grit1"
 	icon_state = "grit1"
 
 /datum/sprite_accessory/beef/mouth/grit2
-	name = "Grit 2"
+	name = "Grit2"
 	icon_state = "grit2"
 
 
 /// found in cargo.dm etc. in modules/clothing/under/job
-
 /obj/item/clothing/under/bodysash
 	name = "body sash"
 	desc = "A simple body sash, slung from shoulder to hip."
 	icon = 'icons/Fulp_Icons/mob/clothing/beefclothing.dmi' // item icon
 	worn_icon =  'icons/Fulp_Icons/mob/clothing/beefclothing_worn.dmi' // mob worn icon
 	icon_state = "assistant" // Inventory Icon
-	//item_color = "assistant" // The worn item Icon
 	body_parts_covered = CHEST // |GROIN|ARMS
 	lefthand_file = 'icons/Fulp_Icons/mob/clothing/beefclothing_hold_left.dmi'
 	righthand_file = 'icons/Fulp_Icons/mob/clothing/beefclothing_hold_right.dmi'
 	inhand_icon_state = "sash" // In-hand Icon
+	can_adjust = FALSE
+
+/obj/item/clothing/under/bodysash/Initialize()
+	. = ..()
+	desc = "A simple [name], slung from shoulder to hip."
+
+//Captain
+/obj/item/clothing/under/bodysash/captain
+	name = "captain's sash"
+	icon_state = "captain"
+
+//Security
+/obj/item/clothing/under/bodysash/hos
+	name = "head of security's sash"
+	icon_state = "hos"
+
+/obj/item/clothing/under/bodysash/warden
+	name = "warden's sash"
+	icon_state = "warden"
 
 /obj/item/clothing/under/bodysash/security
-	name = "security sash"
+	name = "security's sash"
 	icon_state = "security"
-	//item_color = "security" // The worn item state
-	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small
+
+/obj/item/clothing/under/bodysash/detective
+	name = "detective's sash"
+	icon_state = "detective"
+
+//Medical
+/obj/item/clothing/under/bodysash/cmo
+	name = "chief medical officer's sash"
+	icon_state = "cmo"
 
 /obj/item/clothing/under/bodysash/medical
-	name = "medical sash"
+	name = "medical's sash"
 	icon_state = "medical"
-	//item_color = "medical" // The worn item state
 
-/obj/item/clothing/under/bodysash/science
-	name = "science sash"
-	icon_state = "science"
-	//item_color = "science" // The worn item state
+/obj/item/clothing/under/bodysash/chemist
+	name = "chemist's sash"
+	icon_state = "chemist"
 
-/obj/item/clothing/under/bodysash/cargo
-	name = "cargo sash"
-	icon_state = "cargo"
-	//item_color = "cargo" // The worn item state
+/obj/item/clothing/under/bodysash/virologist
+	name = "virologist's sash"
+	icon_state = "virologist"
+
+/obj/item/clothing/under/bodysash/paramedic
+	name = "paramedic's sash"
+	icon_state = "paramedic"
+
+//Engineering
+/obj/item/clothing/under/bodysash/ce
+	name = "chief engineer's sash"
+	icon_state = "ce"
 
 /obj/item/clothing/under/bodysash/engineer
-	name = "engineer sash"
+	name = "engineer's sash"
 	icon_state = "engineer"
-	//item_color = "engineer" // The worn item state
 
-/obj/item/clothing/under/bodysash/civilian
-	name = "civilian sash"
-	icon_state = "civilian"
-	//item_color = "civilian" // The worn item state
+/obj/item/clothing/under/bodysash/atmos
+	name = "atmospherics technician's sash"
+	icon_state = "atmos"
 
-/obj/item/clothing/under/bodysash/command
-	name = "command sash"
-	icon_state = "command"
-	//item_color = "command" // The worn item state
+//Science
+/obj/item/clothing/under/bodysash/rd
+	name = "research director's sash"
+	icon_state = "rd"
+
+/obj/item/clothing/under/bodysash/scientist
+	name = "scientist's sash"
+	icon_state = "science"
+
+/obj/item/clothing/under/bodysash/roboticist
+	name = "roboticist's sash"
+	icon_state = "roboticist"
+
+/obj/item/clothing/under/bodysash/geneticist
+	name = "geneticist's sash"
+	icon_state = "geneticist"
+
+//Supply/Civilian
+/obj/item/clothing/under/bodysash/hop
+	name = "head of personnel's sash"
+	icon_state = "hop"
+
+/obj/item/clothing/under/bodysash/qm
+	name = "quarter master's sash"
+	icon_state = "qm"
+
+/obj/item/clothing/under/bodysash/cargo
+	name = "cargo technician's sash"
+	icon_state = "cargo"
+
+/obj/item/clothing/under/bodysash/miner
+	name = "shaft miner's sash"
+	icon_state = "miner"
 
 /obj/item/clothing/under/bodysash/clown
-	name = "clown sash"
+	name = "clown's sash"
 	icon_state = "clown"
-	//item_color = "clown" // The worn item state
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small
 
 /obj/item/clothing/under/bodysash/mime
-	name = "mime sash"
+	name = "mime's sash"
 	icon_state = "mime"
-	//item_color = "mime" // The worn item state
 
+/obj/item/clothing/under/bodysash/prisoner
+	name = "prisoner's sash"
+	icon_state = "prisoner"
+
+/obj/item/clothing/under/bodysash/cook
+	name = "cook's sash"
+	icon_state = "cook"
+
+/obj/item/clothing/under/bodysash/bartender
+	name = "bartender's sash"
+	icon_state = "bartender"
+
+/obj/item/clothing/under/bodysash/chaplain
+	name = "chaplain's sash"
+	icon_state = "chaplain"
+
+/obj/item/clothing/under/bodysash/curator
+	name = "curator's sash"
+	icon_state = "curator"
+
+/obj/item/clothing/under/bodysash/lawyer
+	name = "lawyer's sash"
+	icon_state = "lawyer"
+
+/obj/item/clothing/under/bodysash/botanist
+	name = "botanist's sash"
+	icon_state = "botanist"
+
+/obj/item/clothing/under/bodysash/janitor
+	name = "janitor's sash"
+	icon_state = "janitor"
+
+/obj/item/clothing/under/bodysash/psychologist
+	name = "psychologist's sash"
+	icon_state = "psychologist"
+
+/obj/item/clothing/under/bodysash/civilian
+	name = "civilian's sash"
+	icon_state = "civilian"
 
 ////////////	CUSTOM TRAUMAS
 
@@ -738,7 +809,6 @@
 				return TRUE
 	return FALSE
 
-
 /proc/return_valid_floor_in_range(atom/A, checkRange = 8, minRange = 0, checkFloor = TRUE)
 	// FAIL: Atom doesn't exist. Aren't you real?
 	if (!istype(A))
@@ -753,7 +823,6 @@
 	if (check_turf_is_valid(target, checkFloor))
 		return target
 	return null
-
 
 /proc/check_turf_is_valid(turf/T, checkFloor = TRUE)
 	// Checking for Floor...
@@ -774,9 +843,6 @@
 	scan_desc = "awoken sleeper"
 	gain_text = "<span class='notice'>Your mind snaps, and you wake up. You <i>really</i> wake up.</span>"
 	lose_text = "<span class='warning'>You succumb once more to the sleepless dream of the unwoken.</span>"
-
-	can_gain = FALSE
-	random_gain = FALSE
 
 	var/list/created_firsts = list()
 
@@ -832,6 +898,8 @@
 		second.seer = owner
 		first.desc += " This one leads to [get_area(second)]."
 		second.desc += " This one leads to [get_area(first)]."
+		first.name += " ([get_area(second)])."
+		second.name += " ([get_area(first)])."
 
 		// Remember this Portal...it's gonna get checked for deletion.
 		created_firsts += first
@@ -848,13 +916,9 @@
 	for (var/BT in created_firsts)
 		qdel(BT)
 
-
 /obj/effect/hallucination/simple/phobetor
 	name = "phobetor tear"
 	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
-	/*light_color = "#FF88AA"
-	light_range = 2
-	light_power = 2*/
 	image_icon = 'icons/Fulp_Icons/mob/fulp_effects.dmi'
 	image_state = "phobetor_tear"
 	image_layer = ABOVE_LIGHTING_LAYER // Place this above shadows so it always glows.
@@ -880,8 +944,6 @@
 	to_chat(user, "<span class='notice'>You slip unseen through the Phobetor Tear.</span>")
 	user.playsound_local(null, 'sound/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
 
-	//new /obj/effect/temp_visual/bluespace_fissure(get_turf(src))
-	//new /obj/effect/temp_visual/bluespace_fissure(get_turf(linked_to))
 	user.forceMove(get_turf(linked_to))
 
 /obj/effect/hallucination/simple/phobetor/Initialize()
