@@ -206,19 +206,19 @@
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.burns_desc]!\n"
 			else
 //				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
-				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n" // [FULP EDIT END] Species Descriptors
+				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n"
 
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_has] minor cellular damage.\n"
-				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"	 // [FULP] Species Descriptors
+//				msg += "[t_He] [t_has] minor cellular damage.\n"
+				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"
 			else if(temp < 50)
-				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.cellulardamage_desc]!\n"
 			else
-				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
-				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n"
+//				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
+				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n" // [FULP EDIT END] Species Descriptors
 
 
 	if(fire_stacks > 0)
