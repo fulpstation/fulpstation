@@ -1,3 +1,5 @@
+//-- FULP EDIT
+
 /mob/living/carbon/human/examine(mob/user)
 //this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
 	var/t_He = p_they(TRUE)
@@ -124,16 +126,7 @@
 			if(suiciding)
 				. += "<span class='warning'>[t_He] appear[p_s()] to have committed suicide... there is no hope of recovery.</span>"
 
-			var/mob/dead/observer/ghost = get_ghost(TRUE, TRUE)
-			if(getorgan(/obj/item/organ/brain))
-				if(!ghost && !client) //There's no ghost with a mind matching the body's (and there's no client still in the body, if they haven't left the body once yet), the ghost has likely disconnected
-					. += "<span class='deadsay'>[t_He] [t_is] limp and unresponsive; there are no signs of life and [t_his] soul has departed...</span>"
-				else if (!ghost.can_reenter_corpse || ghost.pushed_do_not_resuscitate) //There is a ghost with a matching mind but they pushed DNR or otherwise can't reenter
-					. += "<span class='deadsay'>[t_He] [t_is] limp and unresponsive; there are no signs of life and [t_his] soul has lost the will to live...</span>"
-				else
-					. += "<span class='deadsay'>[t_He] [t_is] limp and unresponsive; there are no signs of life...</span>"
-			else
-				. += "<span class='deadsay'>[t_He] [t_is] limp and unresponsive; there are no signs of life...</span>"
+			. += generate_death_examine_text()
 
 	if(get_bodypart(BODY_ZONE_HEAD) && !getorgan(/obj/item/organ/brain))
 		. += "<span class='deadsay'>It appears that [t_his] brain is missing...</span>"
@@ -194,29 +187,38 @@
 	if(!(user == src && src.hal_screwyhud == SCREWYHUD_HEALTHY)) //fake healthy
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_has] minor bruising.\n"
+//				msg += "[t_He] [t_has] minor bruising.\n"
+				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n" // [FULP EDIT START] Species Descriptors
 			else if(temp < 50)
-				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.bruising_desc]!\n"
 			else
-				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
+//				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
+				msg += "<B>[t_He] [t_has] severe [dna.species.bruising_desc]!</B>\n"
 
 		temp = getFireLoss()
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_has] minor burns.\n"
+//				msg += "[t_He] [t_has] minor burns.\n"
+				msg += "[t_He] [t_has] minor [dna.species.burns_desc].\n"
 			else if (temp < 50)
-				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.burns_desc]!\n"
 			else
-				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
+//				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
+				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n"
 
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_has] minor cellular damage.\n"
+//				msg += "[t_He] [t_has] minor cellular damage.\n"
+				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"
 			else if(temp < 50)
-				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.cellulardamage_desc]!\n"
 			else
-				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
+//				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
+				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n" // [FULP EDIT END] Species Descriptors
 
 
 	if(fire_stacks > 0)
