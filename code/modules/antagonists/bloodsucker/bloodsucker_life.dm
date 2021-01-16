@@ -76,7 +76,7 @@
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
 	// NOTE: Mult of 0 is just a TEST to see if we are injured and need to go into Torpor!
 	//It is called from your coffin on close (by you only)
-	var/actual_regen = regen_rate + additional_regen
+	var/actual_regen = bloodsucker_regen_rate + additional_regen
 	if(poweron_masquerade|| owner.current.AmStaked())
 		return FALSE
 	if(owner.current.reagents.has_reagent(/datum/reagent/consumable/garlic))
@@ -91,7 +91,7 @@
 			// Check for mult 0 OR death coma. (mult 0 means we're testing from coffin)
 		if(istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0 || HAS_TRAIT(C, TRAIT_FAKEDEATH)))
 			mult *= 4 // Increase multiplier if we're sleeping in a coffin.
-			fireheal = min(C.getFireLoss(), regen_rate) // NOTE: Burn damage ONLY heals in torpor.
+			fireheal = min(C.getFireLoss(), bloodsucker_regen_rate) // NOTE: Burn damage ONLY heals in torpor.
 			C.extinguish_mob()
 			CureDisabilities() 	// Extinguish Fire
 			C.remove_all_embedded_objects() // Remove Embedded!
@@ -101,7 +101,7 @@
 				return TRUE
 		else if(owner.current.stat >= UNCONSCIOUS) //Faster regeneration and slight burn healing while unconcious
 			mult *= 2
-			fireheal = min(C.getFireLoss(), regen_rate * 0.2)
+			fireheal = min(C.getFireLoss(), bloodsucker_regen_rate * 0.2)
 		// BRUTE: Always Heal
 		var/bruteheal = min(C.getBruteLoss(), actual_regen)
 		var/toxinheal = min(C.getToxLoss(), actual_regen)

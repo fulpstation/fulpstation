@@ -1,3 +1,5 @@
+
+
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
 
@@ -6,6 +8,10 @@
 	roundend_category = "bloodsuckers"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
+	var/give_objectives = TRUE
+	// HUDS
+	antag_hud_type = ANTAG_HUD_BLOODSUCKER
+	antag_hud_name = "bloodsucker"
 	// NAME
 	var/bloodsucker_name						// My Dracula style name
 	var/bloodsucker_title						// My Dracula style title
@@ -21,8 +27,8 @@
 	// STATS
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
-	var/regen_rate = 0.3				// How fast do I regenerate?
 	var/additional_regen                // How much additional blood regen we gain from bonuses such as high blood.
+	var/bloodsucker_regen_rate = 0.3	// How fast do I regenerate?
 	var/feed_amount = 15				// Amount of blood drawn from a target per tick.
 	var/max_blood_volume = 600			// Maximum blood a Vamp can hold via feeding.
 	// OBJECTIVES
@@ -44,13 +50,11 @@
 
 /datum/antagonist/bloodsucker/on_gain()
 	SSticker.mode.bloodsuckers |= owner // Add if not already in here (and you might be, if you were picked at round start)
-	SSticker.mode.check_start_sunlight()// Start Sunlight? (if first Vamp)
-	SelectFirstName()// Name & Title
+	SSticker.mode.check_start_sunlight() // Start Sunlight? (if first Vamp)
+	SelectFirstName() // Name & Title
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
-	AssignStarterPowersAndStats()// Give Powers & Stats
-	forge_bloodsucker_objectives()// Objectives & Team
-	update_bloodsucker_icons_added(owner.current, "bloodsucker")	// Add Antag HUD
+	AssignStarterPowersAndStats() // Give Powers & Stats
 	. = ..()
 
 
@@ -58,8 +62,6 @@
 	SSticker.mode.bloodsuckers -= owner
 	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
 	ClearAllPowersAndStats()// Clear Powers & Stats
-	clear_bloodsucker_objectives()	// Objectives
-	update_bloodsucker_icons_removed(owner.current)// Clear Antag HUD
 	. = ..()
 
 
@@ -169,8 +171,6 @@
 	power.Grant(owner.current)// owner.AddSpell(power)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	// Blood/Rank Counter
-	add_hud()
 	update_hud(TRUE) 	// Set blood value, current rank
 	// Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
@@ -209,8 +209,6 @@
 	CureDisabilities()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
-	// Blood/Rank Counter
-	remove_hud()
 	// Powers
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
@@ -308,7 +306,7 @@
 	// More Health
 	owner.current.setMaxHealth(owner.current.maxHealth + 10)
 	// Vamp Stats
-	regen_rate += 0.05			// Points of brute healed (starts at 0.3)
+	bloodsucker_regen_rate += 0.05			// Points of brute healed (starts at 0.3)
 	feed_amount += 2				// Increase how quickly I munch down vics (15)
 	max_blood_volume += 100		// Increase my max blood (600)
 	/////////
@@ -326,19 +324,23 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //This handles the application of antag huds/special abilities
+
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	return
+	var/mob/living/M = mob_override || owner.current
+	add_antag_hud(antag_hud_type, antag_hud_name, M)
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	return
+	var/mob/living/M = mob_override || owner.current
+	remove_antag_hud(antag_hud_type, M)
 
 //Assign default team and creates one for one of a kind team antagonists
 /datum/antagonist/bloodsucker/create_team(datum/team/team)
 	return
 
 // Create Objectives
-/datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives() // Fledgling vampires can have different objectives.
+
+/datum/antagonist/bloodsucker/proc/give_objectives() // Fledgling vampires can have different objectives.
 
 	// TEAM
 	//clan = new /datum/team/vampireclan(owner)
@@ -382,7 +384,7 @@
 	objectives += O
 	objectives_given += O
 
-/datum/antagonist/bloodsucker/proc/clear_bloodsucker_objectives()
+/datum/antagonist/bloodsucker/proc/remove_objectives()
 
 	var/datum/team/team = get_team()
 	if(team)
@@ -511,13 +513,7 @@
 //
 // - Loyal to (and In Love With) Master
 // - Master can speak to, summon, or punish his Vassals, even while asleep or torpid.
-// - Master may have as many Vassals as Rank
-// - Vassals see their Master's speech emboldened!
-
-
-
-
-
+// - Master may have as many Vassals as they want
 
 
 
@@ -592,19 +588,6 @@
 
 		// HUD! //
 
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.join_hud(owner.current)
-	set_antag_hud(owner.current, "bloodsucker") // "bloodsucker"
-	owner.current.hud_list[ANTAG_HUD].icon = image('icons/mob/hud.dmi', owner.current, "bloodsucker")	//Check prepare_huds in mob.dm to see why.
-
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.leave_hud(owner.current)
-	set_antag_hud(owner.current, null)
-
-/datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
-
 /datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
 	if (!check_valid_hud_user(M,A)) 	// FULP: This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
 		return
@@ -642,10 +625,7 @@
 		return TRUE
 	return FALSE
 
-
-
 		/////////////////////////////////////
-
 
 		// BLOOD COUNTER & RANK MARKER ! //
 
@@ -658,17 +638,7 @@
 	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
-/datum/antagonist/bloodsucker/proc/add_hud()
-	return
-
-/datum/antagonist/bloodsucker/proc/remove_hud()
-	// No Hud? Get out.
-	if (!owner.current.hud_used)
-		return
-	owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
-	owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
-	owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
-
+var/valuecolor = "valuecolor"
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
@@ -676,21 +646,16 @@
 	if(!owner.current.hud_used)
 		return
 	// Update Blood Counter
-	if (owner.current.hud_used.blood_display)
-		var/valuecolor = "#FF6666"
+	if(owner.current.hud_used && owner.current.hud_used.blood_display)
 		if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
 			valuecolor =  "#FFDDDD"
 		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
 			valuecolor =  "#FFAAAA"
-		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
 
 	// Update Rank Counter
-	if(owner.current.hud_used.vamprank_display)
-		var/valuecolor = bloodsucker_level_unspent ? "#FFFF00" : "#FF0000"
-		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
+	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
 		if(updateRank) // Only change icon on special request.
 			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
-
 
 /atom/movable/screen/bloodsucker
 	invisibility = INVISIBILITY_ABSTRACT
@@ -727,21 +692,18 @@
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
-/datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
+/datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay)
 	// No Hud? Get out.
 	if(!owner.current.hud_used)
 		return
 	// Update Sun Time
-	if(owner.current.hud_used.sunlight_display)
-		var/valuecolor = "#BBBBFF"
+	if(owner.current.hud_used && owner.current.hud_used.sunlight_display)
 		if(amDay)
 			valuecolor =  "#FF5555"
 		else if(value <= 25)
 			valuecolor =  "#FFCCCC"
 		else if(value < 10)
 			valuecolor =  "#FF5555"
-		var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
-		owner.current.hud_used.sunlight_display.update_counter( value_string, valuecolor )
 		owner.current.hud_used.sunlight_display.icon_state = "sunlight_" + (amDay ? "day":"night")
 
 /obj/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
