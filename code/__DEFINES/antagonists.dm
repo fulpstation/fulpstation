@@ -85,14 +85,6 @@ GLOBAL_LIST_INIT(heretic_start_knowledge,list(/datum/eldritch_knowledge/spell/ba
 #define PATH_FLESH "Flesh"
 #define PATH_VOID "Void"
 
-//Bloodsucker defines
-// Bloodsucker related antag datums
-#define ANTAG_DATUM_BLOODSUCKER			/datum/antagonist/bloodsucker
-#define ANTAG_DATUM_VASSAL				/datum/antagonist/vassal
-#define ANTAG_DATUM_HUNTER				/datum/antagonist/vamphunter   Disabled for now
-#define BLOODSUCKER_LEVEL_TO_EMBRACE	3
-#define MARTIALART_HUNTER "hunter-fu"
-
 /// How much does it cost to reroll strains?
 #define BLOB_REROLL_COST 40
 

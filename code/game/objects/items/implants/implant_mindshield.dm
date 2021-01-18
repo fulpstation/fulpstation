@@ -27,7 +27,7 @@
 			target.mind.remove_antag_datum(/datum/antagonist/brainwashed)
 			deconverted = TRUE
 
-		if(target.mind.has_antag_datum(ANTAG_DATUM_VASSAL))
+		if(target.mind.has_antag_datum(ANTAG_DATUM_VASSAL)) // Fulpstation Bloodsuckers
 			SSticker.mode.remove_vassal(target.mind)
 
 		if(target.mind.has_antag_datum(/datum/antagonist/rev/head)|| target.mind.unconvertable)

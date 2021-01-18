@@ -201,11 +201,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_ABDUCTOR_TRAINING "abductor-training"
 #define TRAIT_ABDUCTOR_SCIENTIST_TRAINING "abductor-scientist-training"
 #define TRAIT_SURGEON           "surgeon"
-#define TRAIT_COLDBLOODED		"coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp.
-#define TRAIT_NONATURALHEAL		"nonaturalheal"	// Only Admins can heal you. NOTHING else does it unless it's given the god tag.
-#define TRAIT_NORUNNING			"norunning"		// You walk!
-#define TRAIT_NOPULSE			"nopulse"		// Your heart doesn't beat.
-#define TRAIT_NOGUT				"nogutting"		//Your chest cant be gutted of organs
 #define	TRAIT_STRONG_GRABBER	"strong_grabber"
 #define	TRAIT_MAGIC_CHOKE		"magic_choke"
 #define TRAIT_SOOTHED_THROAT    "soothed-throat"
@@ -347,7 +342,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define ADMIN_TRAIT "admin" // (B)admins only.
 #define CHANGELING_TRAIT "changeling"
 #define CULT_TRAIT "cult"
-#define BLOODSUCKER_TRAIT "bloodsucker"
 #define CURSED_ITEM_TRAIT "cursed-item" // The item is magically cursed
 #define ABSTRACT_ITEM_TRAIT "abstract-item"
 #define STATUS_EFFECT_TRAIT "status-effect"
