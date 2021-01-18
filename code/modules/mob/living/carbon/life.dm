@@ -591,7 +591,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
  * * environment The environment gas mix
  */
 /mob/living/carbon/proc/natural_bodytemperature_stabilization(datum/gas_mixture/environment)
-	if (HAS_TRAIT(src, TRAIT_COLDBLOODED))
+	if (HAS_TRAIT(src, TRAIT_COLDBLOODED)) // Fulpstation Bloodsuckers + Beefmen edit
 		return 0 //Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
 
 	var/areatemp = get_temperature(environment)

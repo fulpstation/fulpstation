@@ -626,6 +626,7 @@
 	if(ears && !HAS_TRAIT(src, TRAIT_DEAF))
 		. = TRUE
 
+
 /mob/living/carbon/adjustOxyLoss(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
 	if(isnull(.))

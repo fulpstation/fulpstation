@@ -229,7 +229,7 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 
 	return rs.Join(" | ")
 
-//For easy bloodsucker disgusting and blood removal
+// Fulpstation Bloodsuckers edit: Easy bloodsucker disgusting/blood removal
 /datum/reagent/proc/disgust_bloodsucker(mob/living/carbon/C, disgust, blood_change, blood_puke = TRUE, force)
 	if(AmBloodsucker(C))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = C.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)

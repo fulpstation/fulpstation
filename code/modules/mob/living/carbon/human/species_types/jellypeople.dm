@@ -33,7 +33,7 @@
 		regenerate_limbs.Grant(C)
 
 /datum/species/jelly/spec_life(mob/living/carbon/human/H)
-	if(H.stat == DEAD || HAS_TRAIT(H, BLOODSUCKER_TRAIT)) //can't farm slime jelly from a dead slime/jelly person indefinitely, and no regeneration for bloodsuckers
+	if(H.stat == DEAD || HAS_TRAIT(H, BLOODSUCKER_TRAIT)) // Fulpstation Bloodsuckers edit: Can't farm slime jelly from a dead slime/jelly + No regeneration!
 		return
 	if(!H.blood_volume)
 		H.blood_volume += 5
@@ -167,7 +167,7 @@
 	bodies = old_species.bodies
 
 /datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
-	if((HAS_TRAIT(H, BLOODSUCKER_TRAIT)))
+	if((HAS_TRAIT(H, BLOODSUCKER_TRAIT))) // Fulpstation Bloodsuckers edit
 		return
 	if(H.blood_volume >= BLOOD_VOLUME_SLIME_SPLIT)
 		if(prob(5))

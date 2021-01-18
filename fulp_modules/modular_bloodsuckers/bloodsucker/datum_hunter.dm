@@ -242,13 +242,13 @@
 	//streak = ""
 	//max_streak_length = 6
 	//current_target
-	datum/martial_art/base // The permanent style. This will be null unless the martial art is temporary
-	deflection_chance = 0 //Chance to deflect projectiles
-	reroute_deflection = FALSE //Delete the bullet, or actually deflect it in some direction?
-	block_chance = 0 //Chance to block melee attacks using items while on throw mode.
-	restraining = 0 //used in cqc's disarm_act to check if the disarmed is being restrained and so whether they should be put in a chokehold or not
+	//datum/martial_art/base // The permanent style. This will be null unless the martial art is temporary
+	//deflection_chance = 0 //Chance to deflect projectiles
+	//reroute_deflection = FALSE //Delete the bullet, or actually deflect it in some direction?
+	//block_chance = 0 //Chance to block melee attacks using items while on throw mode.
+	//restraining = 0 //used in cqc's disarm_act to check if the disarmed is being restrained and so whether they should be put in a chokehold or not
 	//help_verb
-	no_guns = FALSE
+	//no_guns = FALSE
 	allow_temp_override = TRUE //if this martial art can be overridden by temporary martial arts
 
 /datum/martial_art/hunter/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)

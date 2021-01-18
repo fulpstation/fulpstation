@@ -84,7 +84,7 @@
 	amt *= physiology.bleed_mod
 	if(!(NOBLOOD in dna.species.species_traits))
 		..()
-	if(HAS_TRAIT(src, BLOODSUCKER_TRAIT)) //Bloodsuckers don't need to be here.
+	if(HAS_TRAIT(src, BLOODSUCKER_TRAIT)) // Fulpstation Bloodsuckers edit: They don't need to be here.
 		..()
 
 
