@@ -43,6 +43,8 @@
 	REMOVE_TRAIT(user, TRAIT_NOSOFTCRIT, "bloodsucker")
 	REMOVE_TRAIT(user, TRAIT_VIRUSIMMUNE, "bloodsucker")
 	REMOVE_TRAIT(user, TRAIT_NOBREATH, "bloodsucker")
+	REMOVE_TRAIT(user, TRAIT_NOPULSE, "bloodsucker")
+	REMOVE_TRAIT(user, BLOODSUCKER_TRAIT, "bloodsucker")
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
 	var/obj/item/organ/eyes/vassal/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = 0
@@ -83,6 +85,8 @@
 	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, "bloodsucker")
 	ADD_TRAIT(user, TRAIT_VIRUSIMMUNE, "bloodsucker")
 	ADD_TRAIT(user, TRAIT_NOBREATH, "bloodsucker")
+	ADD_TRAIT(user, TRAIT_NOPULSE, "bloodsucker")
+	ADD_TRAIT(user, BLOODSUCKER_TRAIT, "bloodsucker")
 
 	// HEART
 	var/obj/item/organ/heart/H = user.getorganslot(ORGAN_SLOT_HEART)

@@ -43,9 +43,6 @@
 	var/passive_blood_drain = -0.1        //The amount of blood we loose each bloodsucker life() tick
 	var/notice_healing                    //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
-	// LISTS
-	var/static/list/defaultTraits = list (BLOODSUCKER_TRAIT, TRAIT_STABLEHEART, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, \
-										  TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NOGUT)
 
 /datum/antagonist/bloodsucker/on_gain()
 	SSticker.mode.bloodsuckers |= owner // Add if not already in here (and you might be, if you were picked at round start)
@@ -326,12 +323,42 @@
 
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
+	ADD_TRAIT(M, BLOODSUCKER_TRAIT, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_NOBREATH, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_SLEEPIMMUNE, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_NOCRITDAMAGE, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_RESISTCOLD, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_RADIMMUNE, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_NIGHT_VISION, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_NOSOFTCRIT, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_NOHARDCRIT, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_AGEUSIA, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_COLDBLOODED, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_NOPULSE, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_VIRUSIMMUNE, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_HARDLY_WOUNDED, "bloodsucker")
+	ADD_TRAIT(M, TRAIT_NOGUT, "bloodsucker")
 	add_antag_hud(antag_hud_type, antag_hud_name, M)
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
+	REMOVE_TRAIT(M, BLOODSUCKER_TRAIT, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_NOBREATH, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_SLEEPIMMUNE, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_NOCRITDAMAGE, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_RESISTCOLD, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_RADIMMUNE, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_NIGHT_VISION, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_NOSOFTCRIT, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_NOHARDCRIT, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_AGEUSIA, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_COLDBLOODED, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_NOPULSE, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_VIRUSIMMUNE, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_HARDLY_WOUNDED, "bloodsucker")
+	REMOVE_TRAIT(M, TRAIT_NOGUT, "bloodsucker")
+	remove_antag_hud(antag_hud_type, antag_hud_name, M)
 
 //Assign default team and creates one for one of a kind team antagonists
 /datum/antagonist/bloodsucker/create_team(datum/team/team)
