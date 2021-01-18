@@ -11,8 +11,8 @@
 	exp_requirements = 300
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_SECURITY
-	id_icon = 'code/fulp_modules/jobs/cards.dmi'
-	hud_icon = 'code/fulp_modules/jobs/huds.dmi'
+	id_icon = 'fulp_modules/jobs/cards.dmi'
+	hud_icon = 'fulp_modules/jobs/huds.dmi'
 	fulp_spawn = /obj/effect/landmark/start/brigdoc
 
 	outfit = /datum/outfit/job/brigdoc

@@ -1,5 +1,6 @@
 /obj/effect/landmark/start/brigdoc
 	name = "Brig Physician"
+	icon_state = "Medical Doctor"
 
 /obj/effect/landmark/start/security_officer/Initialize()
 	. = ..()

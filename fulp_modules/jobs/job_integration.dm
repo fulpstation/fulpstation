@@ -1,6 +1,6 @@
 /*
- *	This file is for any additions to existing object classes that don't explicitly
- *	belong to another subject (such as checking for Vampire status on a mob).
+ *	This file is for any additions related to jobs to make fulp-only jobs
+ *	functional with little conflict.
  *
  *
  *
@@ -15,7 +15,7 @@
 // Used in overwrites to assign the ID card's icon.
 /obj/item/card/id/proc/return_icon_job()
 	if (!linkedJobType || assignment == "Brig Physician") // Using the global list here breaks Fulp Job's ID Card Overlays.
-		return 'code/fulp_modules/jobs/cards.dmi'
+		return 'fulp_modules/jobs/cards.dmi'
 
 	if (!linkedJobType || assignment == "Unassigned")
 		return 'icons/obj/card.dmi'
@@ -25,7 +25,7 @@
 // Used to assign the HUD icon linked to the job ID Card.
 /obj/item/card/id/proc/return_icon_hud()
 	if (assignment in GLOB.fulp_job_assignments)
-		return 'code/fulp_modules/jobs/huds.dmi'
+		return 'fulp_modules/jobs/huds.dmi'
 
 	if (!linkedJobType || assignment == "Unassigned")
 		return 'icons/mob/hud.dmi'
