@@ -626,22 +626,6 @@
 	if(ears && !HAS_TRAIT(src, TRAIT_DEAF))
 		. = TRUE
 
-//Fulpstation Bloodsuckers
-/mob/living/carbon/getBruteLoss_nonProsthetic()
-	var/amount = 0
-	for(var/obj/item/bodypart/BP in bodyparts)
-		if (BP.is_organic_limb())
-			amount += BP.brute_dam
-	return amount
-
-/mob/living/carbon/getFireLoss_nonProsthetic()
-	var/amount = 0
-	for(var/obj/item/bodypart/BP in bodyparts)
-		if (BP.is_organic_limb())
-			amount += BP.burn_dam
-	return amount
-//End of Fulpstation Bloodsuckers
-
 /mob/living/carbon/adjustOxyLoss(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
 	if(isnull(.))

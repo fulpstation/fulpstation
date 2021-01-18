@@ -8,7 +8,6 @@
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
 	var/list/datum/action/powers = list() // Purchased powers
-	var/list/datum/objective/objectives_given = list()	// For removal if needed.
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.
 
@@ -32,7 +31,6 @@
 	monsterhunter_objective.owner = owner
 	monsterhunter_objective.generate_objective()
 	objectives += monsterhunter_objective
-	objectives_given += monsterhunter_objective
 	// Badguy Hunter? (Give him BADGUY objectives)
 	if (bad_dude)
 		// Stolen DIRECTLY from datum_traitor.dm
@@ -41,16 +39,21 @@
 			download_objective.owner = owner
 			download_objective.gen_amount_goal()
 			objectives += download_objective
-			objectives_given += download_objective
+
 		else
 			var/datum/objective/steal/steal_objective = new
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
-			objectives_given += steal_objective
 
 
 	. = ..()
+
+/datum/antagonist/vamphunter/proc/add_objective(datum/objective/O)
+	objectives += O
+
+/datum/antagonist/vamphunter/proc/remove_objective(datum/objective/O)
+	objectives -= O
 
 /datum/antagonist/vamphunter/on_removal()
 
@@ -66,10 +69,7 @@
 	my_kungfu.remove(owner.current)
 
 	// Remove Hunter Objectives
-	for(var/O in objectives_given)
-		objectives -= O
-		qdel(O)
-	objectives_given = list()
+	remove_objective()
 
 	. = ..()
 

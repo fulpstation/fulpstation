@@ -65,6 +65,8 @@
 		"Quartermaster"
 	)
 	var/list/departs = list(
+		"Head of Security",
+		"Head of Personnel",
 		"Research Director",
 		"Chief Engineer",
 		"Chief Medical Officer",
@@ -86,6 +88,10 @@
 	// Department?
 	else
 		switch(target_role)
+			if("Head of Security")
+				department_string = "Security"
+			if("Head of Personnel")
+				department_string = "Cargo"
 			if("Research Director")
 				department_string = "Science"
 			if("Chief Engineer")
@@ -317,7 +323,6 @@
 	monsters += SSticker.mode.cult
 	monsters += SSticker.mode.wizards
 	monsters += SSticker.mode.apprentices
-	//monsters += SSticker.mode.servants_of_ratvar
 	//monsters += SSticker.mode.changelings disabled anyways
 
 	for (var/datum/mind/M in monsters)

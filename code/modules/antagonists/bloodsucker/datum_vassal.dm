@@ -17,7 +17,6 @@
 	job_rank = ROLE_BLOODSUCKER
 	var/datum/antagonist/bloodsucker/master		// Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
-	var/list/datum/objective/objectives_given = list() // For removal if needed.
 	// HUDS
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
 	antag_hud_name = "vassal"
@@ -47,7 +46,6 @@
 	vassal_objective.owner = owner
 	vassal_objective.generate_objective()
 	objectives += vassal_objective
-	objectives_given += vassal_objective
 	give_thrall_eyes()
 	owner.current.grant_language(/datum/language/vampiric)
 	. = ..()
@@ -59,6 +57,12 @@
 /datum/antagonist/vassal/proc/remove_thrall_eyes()
 	var/obj/item/organ/eyes/E = new
 	E.Insert(owner.current)
+
+/datum/antagonist/vassal/proc/add_objective(datum/objective/O)
+	objectives += O
+
+/datum/antagonist/vassal/proc/remove_objective(datum/objective/O)
+	objectives -= O
 
 /datum/antagonist/vassal/on_removal()
 	SSticker.mode.vassals -= owner // Add if not already in here (and you might be, if you were picked at round start)
@@ -75,10 +79,7 @@
 		powers -= power
 		power.Remove(owner.current)
 	// Remove Hunter Objectives
-	for(var/O in objectives_given)
-		objectives -= O
-		qdel(O)
-	objectives_given = list()
+	remove_objective()
 	remove_thrall_eyes()
 	owner.current.remove_language(/datum/language/vampiric)
 	// Clear Antag HUD

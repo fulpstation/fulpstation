@@ -1,7 +1,7 @@
 
 
 /datum/team/vampireclan
-	name = "Clan" // Teravanni,
+	name = "Vampire Clan" // Teravanni,
 
 /datum/antagonist/bloodsucker
 	name = "Bloodsucker"
@@ -17,7 +17,7 @@
 	var/bloodsucker_title						// My Dracula style title
 	var/bloodsucker_reputation					// My "Surname" or description of my deeds
 	// CLAN
-	var/datum/team/vampireclan/clan
+	var/datum/team/vampireclan/vampire_clan
 	var/list/datum/antagonist/vassal/vassals = list()// Vassals under my control. Periodically remove the dead ones.
 	var/datum/mind/creator				// Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	// POWERS
@@ -32,7 +32,6 @@
 	var/feed_amount = 15				// Amount of blood drawn from a target per tick.
 	var/max_blood_volume = 600			// Maximum blood a Vamp can hold via feeding.
 	// OBJECTIVES
-	var/list/datum/objective/objectives_given = list()	// For removal if needed.
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	// TRACKING
@@ -55,15 +54,15 @@
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
 	AssignStarterPowersAndStats() // Give Powers & Stats
+	if(give_objectives)
+		forge_bloodsucker_objectives()
 	. = ..()
-
 
 /datum/antagonist/bloodsucker/on_removal()
 	SSticker.mode.bloodsuckers -= owner
 	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
 	ClearAllPowersAndStats()// Clear Powers & Stats
 	. = ..()
-
 
 
 /datum/antagonist/bloodsucker/greet()
@@ -340,7 +339,7 @@
 
 // Create Objectives
 
-/datum/antagonist/bloodsucker/proc/give_objectives() // Fledgling vampires can have different objectives.
+/datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives() // Fledgling vampires can have different objectives.
 
 	// TEAM
 	//clan = new /datum/team/vampireclan(owner)
@@ -381,23 +380,21 @@
 
 
 /datum/antagonist/bloodsucker/proc/add_objective(var/datum/objective/O)
+	O.team = src
+	O.update_explanation_text()
 	objectives += O
-	objectives_given += O
 
 /datum/antagonist/bloodsucker/proc/remove_objectives()
-
 	var/datum/team/team = get_team()
 	if(team)
 		team.remove_member(owner)
 
-	for(var/O in objectives_given)
+	for(var/O in objectives)
 		objectives -= O
 		qdel(O)
-	objectives_given = list() // Traitors had this, so I added it. Not sure why.
-
 
 /datum/antagonist/bloodsucker/get_team()
-	return clan
+	return vampire_clan
 
 //Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()

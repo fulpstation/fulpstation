@@ -90,11 +90,10 @@
 				D.open(2) // open(2) is like a crowbar or jaws of life.
 	// Target Type: Closet
 
-/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
-	if(!iscarbon(owner)) // || !owner.restrained()
-		return FALSE
+/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints() 	// NOTE: Just like biodegrade.dm, we only remove one thing per use
 	var/mob/living/carbon/human/user = owner
-	// (NOTE: Just like biodegrade.dm, we only remove one thing per use) //
+	if(!HAS_TRAIT(owner, TRAIT_RESTRAINED)) // || !owner.restrained()
+		return FALSE
 	if(user.handcuffed) //Removes Handcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 		if(!istype(O))
@@ -113,18 +112,16 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		return TRUE
-	if(ishuman(owner)) //Removes straightjacket
-		var/mob/living/carbon/human/user_H = owner
-		if(user_H.wear_suit && user_H.wear_suit.breakouttime)
-			var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_ICLOTHING)
-			if(istype(S))
-				user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
-			"<span class='warning'>We tore through our straightjacket!</span>")
-				user.clear_cuffs(S,TRUE)
-				playsound(get_turf(usr), 'sound/effects/grillehit.ogg', 80, 1, -1)
-				return TRUE
-	..()
+	if(user.wear_suit && user.wear_suit.breakouttime) //Removes straightjacket
+		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+		if(S && user.wear_suit == S)
+			user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
+		"<span class='warning'>We tear through our straightjacket!</span>")
+			qdel(S)
+			playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+			return TRUE
 	return FALSE
+	..()
 
 /datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
 	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
