@@ -179,12 +179,10 @@
 				C.put_in_hands(new /obj/item/food/cookie, del_on_fail = TRUE)
 			while(nutrients >= nutrient_to_meat)
 				nutrients -= nutrient_to_meat
-				var/atom/meat = new C.type_of_meat (drop_location())
-				meat.set_custom_materials(list(GET_MATERIAL_REF(/datum/material/meat/mob_meat, C) = MINERAL_MATERIAL_AMOUNT * 4))
+				new C.type_of_meat (drop_location())
 			while(nutrients >= nutrient_to_meat / 3)
 				nutrients -= nutrient_to_meat / 3
-				var/atom/meat = new /obj/item/food/meat/rawcutlet/plain (drop_location())
-				meat.set_custom_materials(list(GET_MATERIAL_REF(/datum/material/meat/mob_meat, C) = round(MINERAL_MATERIAL_AMOUNT * (4/3))))
+				new /obj/item/food/meat/rawcutlet/plain (drop_location())
 			nutrients = 0
 
 /obj/machinery/fat_sucker/screwdriver_act(mob/living/user, obj/item/I)

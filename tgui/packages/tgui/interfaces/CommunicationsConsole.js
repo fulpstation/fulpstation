@@ -635,7 +635,7 @@ const PageMessages = (props, context) => {
               color={message.answered === answerIndex + 1 ? "good" : undefined}
               key={answerIndex}
               onClick={message.answered ? undefined : () => act("answerMessage", {
-                message: parseInt(messageIndex, 10) + 1,
+                message: messageIndex + 1,
                 answer: answerIndex + 1,
               })}
             />

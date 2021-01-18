@@ -139,11 +139,7 @@
 
 			iter_reagent.on_merge(data, amount)
 			if(reagtemp != cached_temp)
-				var/new_heat_capacity = heat_capacity()
-				if(new_heat_capacity)
-					set_temperature(((old_heat_capacity * cached_temp) + (iter_reagent.specific_heat * amount * reagtemp)) / new_heat_capacity)
-				else
-					set_temperature(reagtemp)
+				set_temperature(((old_heat_capacity * cached_temp) + (iter_reagent.specific_heat * amount * reagtemp)) / heat_capacity())
 
 			SEND_SIGNAL(src, COMSIG_REAGENTS_ADD_REAGENT, iter_reagent, amount, reagtemp, data, no_react)
 			if(!no_react)
@@ -164,11 +160,7 @@
 
 	update_total()
 	if(reagtemp != cached_temp)
-		var/new_heat_capacity = heat_capacity()
-		if(new_heat_capacity)
-			set_temperature(((old_heat_capacity * cached_temp) + (new_reagent.specific_heat * amount * reagtemp)) / new_heat_capacity)
-		else
-			set_temperature(reagtemp)
+		set_temperature(((old_heat_capacity * cached_temp) + (new_reagent.specific_heat * amount * reagtemp)) / heat_capacity())
 
 	SEND_SIGNAL(src, COMSIG_REAGENTS_NEW_REAGENT, new_reagent, amount, reagtemp, data, no_react)
 	if(!no_react)
@@ -986,8 +978,6 @@
  */
 /datum/reagents/proc/adjust_thermal_energy(delta_energy, min_temp = 2.7, max_temp = 1000)
 	var/heat_capacity = heat_capacity()
-	if(!heat_capacity)
-		return	// no div/0 please
 	set_temperature(clamp(chem_temp + (delta_energy / heat_capacity), min_temp, max_temp))
 
 /// Applies heat to this holder

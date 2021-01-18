@@ -51,8 +51,6 @@
 	backpack = /obj/item/storage/backpack/science
 	satchel = /obj/item/storage/backpack/satchel/tox
 
-	skillchips = list(/obj/item/skillchip/job/research_director)
-
 	chameleon_extras = /obj/item/stamp/rd
 
 /datum/outfit/job/rd/rig

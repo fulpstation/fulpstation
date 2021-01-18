@@ -57,7 +57,7 @@
 
 /datum/reagent/consumable/nutriment/on_mob_life(mob/living/carbon/M)
 	if(prob(50))
-		M.heal_bodypart_damage(brute = brute_heal, burn = burn_heal)
+		M.heal_bodypart_damage(brute_heal,burn_heal, 0)
 		. = 1
 	..()
 
@@ -428,11 +428,11 @@
 			to_chat(M, "<span class='danger'>You can't get the scent of garlic out of your nose! You can barely think...</span>")
 			M.Paralyze(10)
 			M.Jitter(10)
-	else
-		var/obj/item/organ/liver/liver = M.getorganslot(ORGAN_SLOT_LIVER)
-		if(liver && HAS_TRAIT(liver, TRAIT_CULINARY_METABOLISM))
+	else if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(H.job == "Cook")
 			if(prob(20)) //stays in the system much longer than sprinkles/banana juice, so heals slower to partially compensate
-				M.heal_bodypart_damage(brute = 1, burn = 1)
+				H.heal_bodypart_damage(1,1, 0)
 				. = 1
 	..()
 
@@ -443,9 +443,8 @@
 	taste_description = "childhood whimsy"
 
 /datum/reagent/consumable/sprinkles/on_mob_life(mob/living/carbon/M)
-	var/obj/item/organ/liver/liver = M.getorganslot(ORGAN_SLOT_LIVER)
-	if(liver && HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
-		M.heal_bodypart_damage(brute = 1, burn = 1)
+	if(M.mind && HAS_TRAIT(M.mind, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+		M.heal_bodypart_damage(1,1, 0)
 		. = 1
 	..()
 

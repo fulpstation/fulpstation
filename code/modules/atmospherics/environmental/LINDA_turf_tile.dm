@@ -424,7 +424,7 @@
 /datum/excited_group/proc/add_turf(turf/open/T)
 	turf_list += T
 	T.excited_group = src
-	dismantle_cooldown = 0
+	reset_cooldowns()
 	if(should_display || SSair.display_all_groups)
 		display_turf(T)
 
@@ -439,14 +439,14 @@
 		if(should_display || SSair.display_all_groups)
 			E.hide_turfs()
 			display_turfs()
-		dismantle_cooldown = 0
+		reset_cooldowns()
 	else
 		SSair.excited_groups -= src
 		for(var/t in turf_list)
 			var/turf/open/T = t
 			T.excited_group = E
 			E.turf_list += T
-		E.dismantle_cooldown = 0
+		E.reset_cooldowns()
 		E.should_display = E.should_display | should_display
 		if(E.should_display || SSair.display_all_groups)
 			hide_turfs()

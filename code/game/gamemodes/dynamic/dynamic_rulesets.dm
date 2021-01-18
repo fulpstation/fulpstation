@@ -29,7 +29,7 @@
 	var/list/protected_roles = list()
 	/// If set, rule will deny candidates from those roles always.
 	var/list/restricted_roles = list()
-	/// If set, rule will only accept candidates from those roles.
+	/// If set, rule will only accept candidates from those roles, IMPORTANT: DOES NOT WORK ON ROUNDSTART RULESETS.
 	var/list/exclusive_roles = list()
 	/// If set, there needs to be a certain amount of players doing those roles (among the players who won't be drafted) for the rule to be drafted IMPORTANT: DOES NOT WORK ON ROUNDSTART RULESETS.
 	var/list/enemy_roles = list()
@@ -82,7 +82,7 @@
 	..()
 	if (istype(SSticker.mode, /datum/game_mode/dynamic))
 		mode = SSticker.mode
-	else if (!SSticker.is_mode("dynamic")) // This is here to make roundstart forced ruleset function.
+	else if (GLOB.master_mode != "dynamic") // This is here to make roundstart forced ruleset function.
 		qdel(src)
 
 /datum/dynamic_ruleset/roundstart // One or more of those drafted at roundstart
@@ -138,8 +138,6 @@
 /// Do everything you need to do before job is assigned here.
 /// IMPORTANT: ASSIGN special_role HERE
 /datum/dynamic_ruleset/proc/pre_execute()
-	if(exclusive_roles.len)
-		restricted_roles |= get_all_jobs() - exclusive_roles
 	return TRUE
 
 /// Called on post_setup on roundstart and when the rule executes on midround and latejoin.
@@ -183,6 +181,11 @@
 /// Set mode result and news report here.
 /// Only called if ruleset is flagged as HIGHLANDER_RULESET
 /datum/dynamic_ruleset/proc/round_result()
+
+/// Checks if round is finished, return true to end the round.
+/// Only called if ruleset is flagged as HIGHLANDER_RULESET
+/datum/dynamic_ruleset/proc/check_finished()
+	return FALSE
 
 //////////////////////////////////////////////
 //                                          //

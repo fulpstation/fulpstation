@@ -442,10 +442,7 @@
 /obj/item/food/cake/brioche
 	name = "brioche cake"
 	desc = "A ring of sweet, glazed buns."
-	icon_state = "briochecake"
 	food_reagents = list(/datum/reagent/consumable/nutriment = 20, /datum/reagent/consumable/nutriment/vitamin = 5)
-	tastes = list("cake" = 4, "butter" = 2, "cream" = 1)
-	foodtypes = GRAIN | DAIRY | SUGAR
 
 /obj/item/food/cake/brioche/MakeProcessable()
 	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/cakeslice/brioche, 6, 30)
@@ -455,5 +452,3 @@
 	desc = "Delicious sweet-bread. Who needs anything else?"
 	icon_state = "briochecake_slice"
 	food_reagents = list(/datum/reagent/consumable/nutriment = 3, /datum/reagent/consumable/nutriment/vitamin = 1)
-	tastes = list("cake" = 4, "butter" = 2, "cream" = 1)
-	foodtypes = GRAIN | DAIRY | SUGAR

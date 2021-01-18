@@ -361,13 +361,13 @@
 	name = "eldritch whetstone"
 	desc = "A block, empowered by dark magic. Sharp weapons will be enhanced when used on the stone."
 	icon_state = "cult_sharpener"
-	uses = 1
+	used = 0
 	increment = 5
 	max = 40
 	prefix = "darkened"
 
 /obj/item/sharpener/cult/update_icon_state()
-	icon_state = "cult_sharpener[(uses == 0) ? "_used" : ""]"
+	icon_state = "cult_sharpener[used ? "_used" : ""]"
 
 /obj/item/clothing/suit/hooded/cultrobes/cult_shield
 	name = "empowered cultist armor"

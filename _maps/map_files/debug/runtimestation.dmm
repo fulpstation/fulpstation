@@ -499,9 +499,6 @@
 /obj/item/storage/backpack/holding,
 /turf/open/floor/plasteel,
 /area/bridge)
-"bL" = (
-/turf/closed/wall/r_wall,
-/area/maintenance/aft)
 "bM" = (
 /obj/machinery/camera/autoname,
 /obj/effect/turf_decal/tile/blue,
@@ -1553,9 +1550,11 @@
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "fd" = (
-/obj/structure/sign/departments/nanites,
-/turf/closed/wall/r_wall,
-/area/construction)
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/hallway/secondary/entry)
 "fe" = (
 /obj/machinery/button/door{
 	id = "cargounload";
@@ -2181,12 +2180,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
-"kp" = (
-/obj/machinery/computer/rdconsole{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "kQ" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 8
@@ -2214,12 +2207,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
-"nn" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "nq" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -2263,22 +2250,9 @@
 /obj/machinery/door/airlock,
 /turf/open/floor/plating,
 /area/engine/atmos)
-"qd" = (
-/obj/machinery/airalarm/unlocked{
-	pixel_y = 23
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "qQ" = (
 /turf/open/floor/engine,
 /area/quartermaster/miningoffice)
-"rn" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/hallway/secondary/entry)
 "rK" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -2290,11 +2264,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
-"sr" = (
-/obj/machinery/public_nanite_chamber,
-/obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plasteel,
-/area/hallway/secondary/entry)
 "sE" = (
 /obj/machinery/power/rtg/advanced,
 /obj/structure/cable,
@@ -2342,17 +2311,9 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/storage/primary)
-"uQ" = (
-/obj/machinery/nanite_programmer,
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "vm" = (
-/obj/machinery/computer/nanite_cloud_controller,
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
+/turf/closed/wall/r_wall,
+/area/maintenance/aft)
 "vv" = (
 /obj/machinery/door/airlock,
 /turf/open/floor/plating,
@@ -2405,9 +2366,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
-"wU" = (
-/turf/closed/wall/r_wall,
-/area/science/nanite)
 "yK" = (
 /obj/structure/fans/tiny/invisible,
 /obj/effect/turf_decal/stripes/line{
@@ -2420,10 +2378,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
-"AE" = (
-/obj/item/disk/tech_disk/debug,
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "AP" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 8
@@ -2460,24 +2414,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
-"CT" = (
-/obj/machinery/computer/nanite_chamber_control{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "CV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/medical/chemistry)
-"Df" = (
-/mob/living/carbon/human,
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "DW" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -2535,10 +2476,6 @@
 /obj/machinery/rnd/production/techfab/department,
 /turf/open/floor/plasteel,
 /area/science)
-"Ir" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/science/nanite)
 "Iy" = (
 /obj/structure/closet/secure_closet/research_director{
 	locked = 0
@@ -2584,14 +2521,6 @@
 /obj/machinery/chem_dispenser/chem_synthesizer,
 /turf/open/floor/plasteel/dark,
 /area/medical/chemistry)
-"LH" = (
-/obj/machinery/door/airlock,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/science/nanite)
 "LW" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plasteel,
@@ -2611,10 +2540,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
-"Nb" = (
-/obj/machinery/nanite_chamber,
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "Ns" = (
 /obj/machinery/door/airlock/public/glass,
 /obj/structure/cable,
@@ -2624,21 +2549,10 @@
 /obj/machinery/rnd/production/protolathe/department,
 /turf/open/floor/plasteel,
 /area/science)
-"Ov" = (
-/obj/machinery/nanite_program_hub,
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "OU" = (
 /obj/item/disk/tech_disk/debug,
 /turf/open/floor/plasteel,
 /area/science)
-"Qi" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden{
-	dir = 8
-	},
-/turf/open/floor/plasteel,
-/area/hallway/secondary/entry)
 "Qt" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -2706,14 +2620,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
-"Vr" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/north,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "Vy" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel,
@@ -2773,18 +2679,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/science)
-"XN" = (
-/obj/structure/table,
-/obj/item/nanite_remote{
-	pixel_x = -4;
-	pixel_y = 4
-	},
-/obj/item/nanite_scanner{
-	pixel_x = 4;
-	pixel_y = -4
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "XR" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 9
@@ -2798,11 +2692,6 @@
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
-"Ym" = (
-/obj/structure/table,
-/obj/item/storage/box/disks_nanite,
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 "Yy" = (
 /obj/machinery/light{
 	dir = 1
@@ -2816,9 +2705,6 @@
 /obj/machinery/suit_storage_unit/ce,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
-"ZP" = (
-/turf/open/floor/plasteel/dark,
-/area/science/nanite)
 
 (1,1,1) = {"
 aa
@@ -5889,17 +5775,17 @@ ei
 ei
 ei
 ei
-ei
-ei
-ei
-gu
-ei
-ei
-ei
-ei
-ei
-ei
-Qi
+eL
+eL
+eL
+fd
+eL
+eL
+eL
+eL
+eL
+eL
+eL
 fZ
 eh
 dY
@@ -5991,8 +5877,8 @@ eh
 eh
 eh
 eh
-rn
-sr
+eh
+eh
 eh
 ge
 aa
@@ -6083,11 +5969,11 @@ cN
 cN
 cN
 cN
-LH
-en
+fI
+dY
 dY
 ge
-dY
+aa
 aa
 aa
 aa
@@ -6175,11 +6061,11 @@ dy
 dm
 dM
 cN
-Vr
+Tt
 vm
-uQ
-Ov
-Ir
+fg
+aa
+aa
 aa
 aa
 aa
@@ -6266,12 +6152,12 @@ dn
 dn
 dn
 dL
-ef
-nn
-ZP
-ZP
-ZP
-Ir
+cN
+Tt
+vm
+fg
+aa
+aa
 aa
 aa
 aa
@@ -6358,12 +6244,12 @@ dn
 dn
 dn
 dL
-ef
-AE
-kp
-XN
-Ym
-Ir
+cN
+Tt
+vm
+fg
+aa
+aa
 aa
 aa
 aa
@@ -6451,11 +6337,11 @@ dn
 dn
 dL
 cN
-qd
-ZP
-ZP
-ZP
-Ir
+Tt
+vm
+fg
+aa
+aa
 aa
 aa
 aa
@@ -6542,12 +6428,12 @@ dn
 dn
 dn
 dL
-fd
-ZP
-Df
-Nb
-CT
-Ir
+cN
+Tt
+vm
+fg
+aa
+aa
 aa
 aa
 aa
@@ -6635,11 +6521,11 @@ dn
 dn
 dL
 cN
-fI
-wU
-wU
-wU
-wU
+Tt
+vm
+fg
+aa
+aa
 aa
 aa
 aa
@@ -6728,7 +6614,7 @@ dn
 dZ
 cN
 Tt
-bL
+Rb
 fg
 aa
 aa
@@ -6820,7 +6706,7 @@ dn
 dL
 cN
 Tt
-bL
+Rb
 fg
 aa
 aa
@@ -6912,7 +6798,7 @@ dn
 dL
 cN
 Tt
-bL
+Rb
 fg
 aa
 aa
