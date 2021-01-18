@@ -254,9 +254,6 @@
 	if(user.blood_volume < CONVERT_COST + 5)
 		to_chat(user, "<span class='notice'>You don't have enough blood to initiate the Dark Communion with [target].</span>")
 		return
-	if(B.count_vassals(user.mind) > B.bloodsucker_level)
-		to_chat(user, "<span class='notice'>Your power is yet too weak to bring more vassals under your control....</span>")
-		return
 	// Prep...
 	useLock = TRUE
 	// Step One:	Tick Down Conversion from 3 to 0

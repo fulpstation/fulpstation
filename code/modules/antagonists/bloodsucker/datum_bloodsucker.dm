@@ -315,7 +315,7 @@
 	// Assign True Reputation
 	if(bloodsucker_level == 4)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
-	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, can have up to [bloodsucker_level - count_vassals(owner.current.mind)] vassals, and maximum blood have all increased!</span>")
+	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood have all increased!</span>")
 	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")
 	update_hud(TRUE)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
@@ -631,16 +631,38 @@
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"   // 2 tiles down
 
 /datum/hud
+
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
 	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
+
+/atom/movable/screen/bloodsucker
+	icon = 'icons/mob/actions/bloodsucker.dmi'
+	invisibility = INVISIBILITY_ABSTRACT
+
+/atom/movable/screen/bloodsucker/proc/update_counter(value, valuecolor)
+	invisibility = 0
+
+/atom/movable/screen/bloodsucker/blood_counter
+	name = "Blood Consumed"
+	icon_state = "blood_display"
+	screen_loc = ui_blood_display
+
+/atom/movable/screen/bloodsucker/rank_counter
+	name = "Bloodsucker Rank"
+	icon_state = "rank"
+	screen_loc = ui_vamprank_display
+
+/atom/movable/screen/bloodsucker/sunlight_counter
+	name = "Solar Flare Timer"
+	icon_state = "sunlight_night"
+	screen_loc = ui_sunlight_display
 
 var/valuecolor = "valuecolor"
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
-	// No Hud? Get out.
-	if(!owner.current.hud_used)
+	if(!owner.current.hud_used) // No Hud? Get out.
 		return
 	// Update Blood Counter
 	if(owner.current.hud_used && owner.current.hud_used.blood_display)
@@ -648,46 +670,12 @@ var/valuecolor = "valuecolor"
 			valuecolor =  "#FFDDDD"
 		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
 			valuecolor =  "#FFAAAA"
-
+		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
 	// Update Rank Counter
 	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
+		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
 		if(updateRank) // Only change icon on special request.
 			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
-
-/atom/movable/screen/bloodsucker
-	invisibility = INVISIBILITY_ABSTRACT
-
-/atom/movable/screen/bloodsucker/proc/clear()
-	invisibility = INVISIBILITY_ABSTRACT
-
-/obj/screen/bloodsucker/proc/update_counter(value, valuecolor)
-	invisibility = 0
-
-/atom/movable/screen/bloodsucker/blood_counter
-	icon = 'icons/mob/actions/bloodsucker.dmi'
-	name = "Blood Consumed"
-	icon_state = "blood_display"
-	screen_loc = ui_blood_display
-
-/obj/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
-	..()
-	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
-
-/atom/movable/screen/bloodsucker/rank_counter
-	name = "Bloodsucker Rank"
-	icon = 'icons/mob/actions/bloodsucker.dmi'
-	icon_state = "rank"
-	screen_loc = ui_vamprank_display
-
-/obj/screen/bloodsucker/rank_counter/update_counter(value, valuecolor)
-	..()
-	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
-
-/atom/movable/screen/bloodsucker/sunlight_counter
-	icon = 'icons/mob/actions/bloodsucker.dmi'
-	name = "Solar Flare Timer"
-	icon_state = "sunlight_night"
-	screen_loc = ui_sunlight_display
 
 /datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay)
 	// No Hud? Get out.
@@ -701,13 +689,18 @@ var/valuecolor = "valuecolor"
 			valuecolor =  "#FFCCCC"
 		else if(value < 10)
 			valuecolor =  "#FF5555"
+		var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
+		owner.current.hud_used.sunlight_display.update_counter(value_string, valuecolor)
 		owner.current.hud_used.sunlight_display.icon_state = "sunlight_" + (amDay ? "day":"night")
 
-/obj/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
+/atom/movable/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
+	..()
+	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
+
+/atom/movable/screen/bloodsucker/rank_counter/update_counter(value, valuecolor)
+	..()
+	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
+
+/atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"
-
-/datum/antagonist/bloodsucker/proc/count_vassals(datum/mind/master)
-	var/datum/antagonist/bloodsucker/B = master.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
-	var/vassal_amount = B.vassals.len
-	return vassal_amount
