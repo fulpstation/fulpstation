@@ -1,5 +1,3 @@
-
-
 /datum/team/vampireclan
 	name = "Vampire Clan" // Teravanni,
 
@@ -358,7 +356,17 @@
 	REMOVE_TRAIT(M, TRAIT_VIRUSIMMUNE, "bloodsucker")
 	REMOVE_TRAIT(M, TRAIT_HARDLY_WOUNDED, "bloodsucker")
 	REMOVE_TRAIT(M, TRAIT_NOGUT, "bloodsucker")
-	remove_antag_hud(antag_hud_type, antag_hud_name, M)
+	remove_antag_hud(antag_hud_type, M)
+	remove_bloodsucker_powers()
+
+/datum/antagonist/bloodsucker/proc/remove_bloodsucker_powers()
+	if(owner.current.hud_used)
+		owner.current.hud_used.blood_display.icon_state = null
+		owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
+		owner.current.hud_used.vamprank_display.icon_state = null
+		owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
+		owner.current.hud_used.sunlight_display.icon_state = null
+		owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
 
 //Assign default team and creates one for one of a kind team antagonists
 /datum/antagonist/bloodsucker/create_team(datum/team/team)
@@ -664,7 +672,7 @@
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 /atom/movable/screen/bloodsucker
-	icon = 'icons/mob/actions/bloodsucker.dmi'
+	icon = 'icons/mob/actions/actions_bloodsucker.dmi'
 	invisibility = INVISIBILITY_ABSTRACT
 
 /atom/movable/screen/bloodsucker/proc/update_counter(value, valuecolor)

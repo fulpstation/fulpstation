@@ -20,6 +20,7 @@
 	// HUDS
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
 	antag_hud_name = "vassal"
+	var/datum/team/vampireclan/vampire_clan
 
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
 	// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)

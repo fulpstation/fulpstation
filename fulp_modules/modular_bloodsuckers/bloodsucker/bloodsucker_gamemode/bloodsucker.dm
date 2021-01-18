@@ -162,6 +162,12 @@
 /datum/game_mode/proc/remove_bloodsucker(datum/mind/bloodsucker)
 	bloodsucker.remove_antag_datum(ANTAG_DATUM_BLOODSUCKER)
 
+/datum/mind/proc/remove_bloodsucker()
+	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
+	if(C)
+		remove_antag_datum(/datum/antagonist/bloodsucker)
+		special_role = null
+
 /datum/game_mode/proc/clean_invalid_species(datum/mind/bloodsucker)
 	// Only checking for Humans here
 	if(!ishuman(bloodsucker.current) || !bloodsucker.current.client)

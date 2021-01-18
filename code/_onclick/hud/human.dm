@@ -313,17 +313,17 @@
 	lingstingdisplay.hud = src
 	infodisplay += lingstingdisplay
 
-	blooddisplay = new /atom/movable/screen/bloodsucker/blood_counter()	// FULPSTATION: Blood Volume
-	blooddisplay.hud = src
-	infodisplay += blooddisplay
+	blood_display = new /atom/movable/screen/bloodsucker/blood_counter()	// FULPSTATION: Blood Volume
+	blood_display.hud = src
+	infodisplay += blood_display
 
-	vamprankdisplay = new /atom/movable/screen/bloodsucker/rank_counter()	// FULPSTATION: Vampire Rank
-	vamprankdisplay.hud = src
-	infodisplay += vamprankdisplay
+	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter()	// FULPSTATION: Vampire Rank
+	vamprank_display.hud = src
+	infodisplay += vamprank_display
 
-	sunlightdisplay = new /atom/movable/screen/bloodsucker/sunlight_counter()	// FULPSTATION: Sunlight
-	sunlightdisplay.hud = src
-	infodisplay += sunlightdisplay
+	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter()	// FULPSTATION: Sunlight
+	sunlight_display.hud = src
+	infodisplay += sunlight_display
 
 	zone_select =  new /atom/movable/screen/zone_sel()
 	zone_select.icon = ui_style
