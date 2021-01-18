@@ -323,7 +323,8 @@
 	monsters += SSticker.mode.cult
 	monsters += SSticker.mode.wizards
 	monsters += SSticker.mode.apprentices
-	//monsters += SSticker.mode.changelings disabled anyways
+	//monsters += SSticker.mode.cultie // Disabled, not working (Heretics)
+	//monsters += SSticker.mode.changelings(ROLE_CHANGELING) // Disabled, not working
 
 	for (var/datum/mind/M in monsters)
 		if (M && M != owner && M.current && M.current.stat != DEAD && get_turf(M.current))

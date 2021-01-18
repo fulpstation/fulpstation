@@ -21,8 +21,8 @@
 	P.Grant(owner.current)
 
 	// Give Hunter Martial Arts
-	if (rand(1,3) == 1)
-		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/krav_maga, /datum/martial_art/wrestling)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
+	if (rand(1,2) == 1)
+		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/krav_maga, /datum/martial_art/wrestling, /datum/martial_art/hunterfu)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
 		my_kungfu = new pick_type //pick (/datum/martial_art/boxing, /datum/martial_art/cqc) // ick_type
 		my_kungfu.teach(owner.current, 0)
 
@@ -32,9 +32,9 @@
 	monsterhunter_objective.generate_objective()
 	objectives += monsterhunter_objective
 	// Badguy Hunter? (Give him BADGUY objectives)
-	if (bad_dude)
+	if(bad_dude)
 		// Stolen DIRECTLY from datum_traitor.dm
-		if(prob(15) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist")))
+		if(prob(15) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
 			var/datum/objective/download/download_objective = new
 			download_objective.owner = owner
 			download_objective.gen_amount_goal()
@@ -49,47 +49,38 @@
 
 	. = ..()
 
+/datum/antagonist/vamphunter/on_removal()
+	// Master Pinpointer
+	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
+	// Powers
+	if(owner.current)
+		for (var/datum/action/bloodsucker/P in owner.current.actions)
+			P.Remove(owner.current)
+		my_kungfu.remove(owner.current)
+	// Remove Hunter Objectives
+	remove_objective()
+	// Clear Antag
+	owner.special_role = null
+	// Remove martial arts
+
+	. = ..()
+
 /datum/antagonist/vamphunter/proc/add_objective(datum/objective/O)
 	objectives += O
 
 /datum/antagonist/vamphunter/proc/remove_objective(datum/objective/O)
 	objectives -= O
-
-/datum/antagonist/vamphunter/on_removal()
-
-	// Master Pinpointer
-	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
-
-	// Take Hunter Power
-	if (owner.current)
-		for (var/datum/action/bloodsucker/P in owner.current.actions)
-			P.Remove(owner.current)
-
-	// Take Hunter Martial Arts
-	my_kungfu.remove(owner.current)
-
-	// Remove Hunter Objectives
-	remove_objective()
-
-	. = ..()
-
 /datum/antagonist/vamphunter/greet()
-	var/vamp_hunter_greet = "<span class='userdanger'>You are a fearless Monster Hunter!</span>"
-	vamp_hunter_greet += "<span class='boldannounce'>You know there's one or more filthy creature onboard the station, though their identities elude you.<span>"
-	vamp_hunter_greet += "<span class='boldannounce'>It's your job to root them out, destroy their nests, and save the crew.<span>"
-	vamp_hunter_greet += "<span class='boldannounce'>Use <b>WHATEVER MEANS NECESSARY</b> to find these creatures...no matter who gets hurt or what you have to destroy to do it.</span>"
-	vamp_hunter_greet += "There are greater stakes at hand than the safety of the station!<span>"
-	vamp_hunter_greet += "<span class='boldannounce'>However, security may detain you if they discover your mission...<span>"
-	antag_memory += "You remember your training:<br>"
-	antag_memory += " -Bloodsuckers are weak to fire, or a stake to the heart. Removing their head or heart will also destroy them permanently.<br>"
-	//antag_memory += " -Wooden stakes can be made from planks, and hardened by a welding tool. Your recipes list has ways of making them even stronger.<br>"
-	antag_memory += " -Changelings return to life unless their body is destroyed. Not even decapitation can stop them for long.<br>"
-	antag_memory += " -Cultists are weak to the Chaplain's holy water.<br>"
-	antag_memory += " -Wizards are notoriously hard to outmatch. Rob or steal whatever weapons you need to destroy them, and shoot before asking questions.<br><br>"
-	if (my_kungfu != null)
-		vamp_hunter_greet += "<span class='announce'>Hunter Tip: Use your [my_kungfu.name] techniques to give you an advantage over the enemy.</span><br>"
-		antag_memory += "You remember your training: You are skilled in the [my_kungfu.name] style of combat.<br>"
-	to_chat(owner, vamp_hunter_greet)
+	var/vamphunter_greet
+	vamphunter_greet += "<span class='userdanger'>You are a fearless Monster Hunter!</span>"
+	vamphunter_greet += "<span class='announce'>You know there's one or more filthy creature onboard the station, though their identities elude you.</span><br>"
+	vamphunter_greet += "<span class='announce'>It's your job to root them out, destroy their nests, and save the crew.</span><br>"
+	vamphunter_greet += "<span class='announce'>Use <b>WHATEVER MEANS NECESSARY</b> to find these creatures, no matter who gets hurt or what you have to destroy to do it.</span><br>"
+	vamphunter_greet += "<span class='announce'>There are greater stakes at hand than the safety of the station!</span><br>"
+	vamphunter_greet += "<span class='announce'>However, security may detain you if they discover your mission.</span><br>"
+	if(my_kungfu != null)
+		vamphunter_greet += "<span class='boldannounce'>Hunter Tip: Use your [my_kungfu.name] techniques to give you an advantage over the enemy.</span><br>"
+	to_chat(owner, vamphunter_greet)
 
 /datum/antagonist/vamphunter/farewell()
 	to_chat(owner, "<span class='userdanger'>Your hunt has ended: you are no longer a monster hunter!</span>")
@@ -99,13 +90,13 @@
 
 
 /datum/status_effect/agent_pinpointer/hunter_edition
-	alert_type = /obj/screen/alert/status_effect/agent_pinpointer/hunter_edition
+	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	minimum_range = HUNTER_SCAN_MIN_DISTANCE
 	tick_interval = HUNTER_SCAN_PING_TIME
 	duration = 160 // Lasts 10s
 	range_fuzz_factor = 5//PINPOINTER_EXTRA_RANDOM_RANGE
 
-/obj/screen/alert/status_effect/agent_pinpointer/hunter_edition
+/atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	name = "Monster Tracking"
 	desc = "You always know where the hellspawn are."
 
@@ -189,10 +180,11 @@
 	// Track ALL MONSTERS in Game Mode
 	var/list/datum/mind/monsters = list()
 	monsters += SSticker.mode.bloodsuckers
-	//monsters += SSticker.mode.cult
+	monsters += SSticker.mode.cult
 	monsters += SSticker.mode.wizards
 	monsters += SSticker.mode.apprentices
-	//monsters += SSticker.mode.changelings Disabled anyways
+	//monsters += SSticker.mode.cultie // Disabled, not working (Heretics)
+	//monsters += SSticker.mode.changelings(ROLE_CHANGELING) // Disabled, not working
 	//
 	for(var/datum/mind/M in monsters)
 		if (!M.current || M.current == owner)//   || !get_turf(M.current) || !get_turf(owner))
@@ -224,47 +216,167 @@
 
 
 
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // From martial.dm
 
-/datum/martial_art/hunter
+#define BODYSLAM_COMBO "GH"
+#define STAKESTAB_COMBO "HH"
+#define NECKSNAP_COMBO "GD"
+#define HOLYKICK_COMBO "DG"
+#define FINALFU_COMBO "HDG"
+
+/datum/martial_art/hunterfu
 	name = "Hunter-Fu"
 	id = "MARTIALART_HUNTER" //ID, used by mind/has_martialart
-	//streak = ""
-	//max_streak_length = 6
-	//current_target
-	//datum/martial_art/base // The permanent style. This will be null unless the martial art is temporary
-	//deflection_chance = 0 //Chance to deflect projectiles
-	//reroute_deflection = FALSE //Delete the bullet, or actually deflect it in some direction?
-	//block_chance = 0 //Chance to block melee attacks using items while on throw mode.
-	//restraining = 0 //used in cqc's disarm_act to check if the disarmed is being restrained and so whether they should be put in a chokehold or not
-	//help_verb
-	//no_guns = FALSE
+	help_verb = /mob/living/carbon/human/proc/hunterfu_help
+	block_chance = 60
 	allow_temp_override = TRUE //if this martial art can be overridden by temporary martial arts
+	smashes_tables = FALSE
+	var/restraining = FALSE
+	var/old_grab_state = null
 
-/datum/martial_art/hunter/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+/datum/martial_art/hunterfu/reset_streak(mob/living/carbon/human/new_target)
+	. = ..()
+	restraining = FALSE
+
+/datum/martial_art/hunterfu/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(!can_use(A))
+		return FALSE
+	if(findtext(streak,BODYSLAM_COMBO))
+		streak = ""
+		BodySlam(A,D)
+		return TRUE
+	if(findtext(streak,STAKESTAB_COMBO))
+		streak = ""
+		StakeStab(A,D)
+		return TRUE
+	if(findtext(streak,NECKSNAP_COMBO))
+		streak = ""
+		NeckSnap(A,D)
+		return TRUE
+	if(findtext(streak,HOLYKICK_COMBO))
+		streak = ""
+		HolyKick(A,D)
+		return TRUE
+	if(findtext(streak,FINALFU_COMBO))
+		streak = ""
+		FinalFu(A,D)
 	return FALSE
 
-/datum/martial_art/hunter/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	return FALSE
-
-/datum/martial_art/hunter/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	return FALSE
-
-/datum/martial_art/hunter/can_use(mob/living/carbon/human/H)
+/datum/martial_art/hunterfu/proc/BodySlam(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(!can_use(A))
+		return FALSE
+	if(D.body_position == STANDING_UP)
+		D.visible_message("<span class='danger'>[A] slams both them and [D] into the ground!</span>", \
+						"<span class='userdanger'>You're slammed into the ground by [A]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", null, A)
+		to_chat(A, "<span class='danger'>You slam [D] into the ground!</span>")
+		playsound(get_turf(A), 'sound/weapons/slam.ogg', 50, TRUE, -1)
+		D.apply_damage(10, BRUTE)
+		D.Paralyze(60)
+		A.Paralyze(40)
+		log_combat(A, D, "bodyslammed (Hunter-Fu)")
 	return TRUE
 
+/datum/martial_art/hunterfu/proc/StakeStab(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(!can_use(A))
+		return FALSE
+	if(!D.stat)
+		D.visible_message("<span class='danger'>[A] stabs [D] in the heart!</span>", \
+						"<span class='userdanger'>You're stabbed in the heart by [A]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
+		to_chat(A, "<span class='danger'>You stab [D] in the heart!</span>")
+		playsound(get_turf(A), 'sound/weapons/bladeslice.ogg', 50, TRUE, -1)
+		D.apply_damage(15, A.dna.species.attack_type)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = D.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		if(bloodsuckerdatum)
+			D.apply_damage(50, A.dna.species.attack_type)
+		log_combat(A, D, "stakestabbed (Hunter-Fu)")
+	return TRUE
 
-/datum/martial_art/hunter/add_to_streak(element,mob/living/carbon/human/D)
+/datum/martial_art/hunterfu/proc/NeckSnap(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(!can_use(A))
+		return FALSE
+	log_combat(A, D, "neck snapped (Hunter-Fu)")
+	D.visible_message("<span class='danger'>[A] snapped [D]'s neck!</span>", \
+					"<span class='userdanger'>Your neck is snapped by [A]!</span>", "<span class='hear'>You hear a snap!</span>", COMBAT_MESSAGE_RANGE, A)
+	to_chat(A, "<span class='danger'>You snap [D]'s neck!</span>")
+	D.SetSleeping(60)
+	playsound(get_turf(A), 'sound/effects/snap.ogg', 50, TRUE, -1)
+	return TRUE
+
+/datum/martial_art/hunterfu/proc/HolyKick(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(restraining)
+		return
+	if(!can_use(A))
+		return FALSE
+	if(!D.stat)
+		log_combat(A, D, "holy kicked (Hunter-Fu)")
+		D.visible_message("<span class='warning'>[A] kicks [D], splashing holy water in every direction!</span>", \
+						"<span class='userdanger'>You're kicked by [A], with holy water dripping down on you!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", null, A)
+		to_chat(A, "<span class='danger'>You holy kick [D]!</span>")
+		D.adjustStaminaLoss(60)
+		D.Paralyze(50)
+		if(iscultist(D))
+			for(var/datum/action/innate/cult/blood_magic/BD in D.actions)
+				to_chat(D, "<span class='cultlarge'>Your blood rites falter as the holy water drips onto your body!</span>")
+				for(var/datum/action/innate/cult/blood_spell/BS in BD.spells)
+					qdel(BS)
+		restraining = TRUE
+		addtimer(VARSET_CALLBACK(src, restraining, FALSE), 50, TIMER_UNIQUE)
+	return TRUE
+
+/datum/martial_art/hunterfu/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	add_to_streak("D",D)
+	log_combat(A, D, "disarmed (Hunter-Fu)")
+	if(check_streak(A,D))
+		return TRUE
+	else
+		return FALSE
+
+/datum/martial_art/hunterfu/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(!can_use(A))
+		return FALSE
+	add_to_streak("H",D)
+	if(check_streak(A,D))
+		return TRUE
+	log_combat(A, D, "attacked (Hunter-Fu)")
+	A.do_attack_animation(D)
+	var/picked_hit_type = pick("fighter-fu'd", "staked", "assaulted", "hunted")
+	var/bonus_damage = 13
+	if(D.body_position == LYING_DOWN)
+		bonus_damage += 5
+		picked_hit_type = "stomp"
+	D.apply_damage(bonus_damage, BRUTE)
+	if(picked_hit_type == "kick" || picked_hit_type == "stomp")
+		playsound(get_turf(D), 'sound/weapons/cqchit2.ogg', 50, TRUE, -1)
+	else
+		playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, TRUE, -1)
+	D.visible_message("<span class='danger'>[A] [picked_hit_type]ed [D]!</span>", \
+					"<span class='userdanger'>You're [picked_hit_type]ed by [A]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
+	to_chat(A, "<span class='danger'>You [picked_hit_type] [D]!</span>")
+	return TRUE
+
+/datum/martial_art/hunterfu/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(A.a_intent == INTENT_GRAB && A!=D && can_use(A)) // A!=D prevents grabbing yourself
+		add_to_streak("G",D)
+		if(check_streak(A,D)) //if a combo is made no grab upgrade is done
+			return TRUE
+		log_combat(A, D, "grabbed (Hunter-Fu)")
+		old_grab_state = A.grab_state
+		D.grabbedby(A, 1)
+		if(old_grab_state == GRAB_PASSIVE)
+			D.drop_all_held_items()
+			A.setGrabState(GRAB_AGGRESSIVE) //Instant agressive grab if on grab intent
+			D.visible_message("<span class='danger'>[A] gets [D] by surprise with a grab!</span>", \
+					"<span class='userdanger'>You're taken by surprise when [A] grabs you!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", COMBAT_MESSAGE_RANGE, A)
+			to_chat(A, "<span class='danger'>You quickly grab hold of [D]!</span>")
+			D.Stun(rand(15,25))
+		return TRUE
+	else
+		return FALSE
+
+/datum/martial_art/hunterfu/add_to_streak(element,mob/living/carbon/human/D)
 	if(D != current_target)
 		current_target = D
 		streak = ""
@@ -272,3 +384,16 @@
 	if(length_char(streak) > max_streak_length)
 		streak = streak[1]
 	return
+
+/mob/living/carbon/human/proc/hunterfu_help()
+	set name = "Remember The Basics"
+	set desc = "You try to remember some of the basics of Hunter-Fu."
+	set category = "Hunter-Fu"
+	to_chat(usr, "<b><i>You try to remember some of the basics of Hunter-Fu.</i></b>")
+
+	to_chat(usr, "<span class='notice'>Body Slam</span>: Grab Harm. Slam opponent into the ground, knocking you both down.")
+	to_chat(usr, "<span class='notice'>Stake Stab</span>: Harm Harm. Stabs opponent with your bare fist, as strong as a Stake. Deals heavy damage to Bloodsuckers.")
+	to_chat(usr, "<span class='notice'>Neck Snap</span>: Grab Disarm. Snaps an opponents neck, temporarily knocking them out.")
+	to_chat(usr, "<span class='notice'>Holy Kick</span>: Disarm Grab. Splashes the user with Holy Water, removing Cult Spells, while dealing stamina damage.")
+
+	to_chat(usr, "<b><i>In addition, by having your throw mode on, you take a defensive position, allowing you to block and sometimes even counter attacks done to you.</i></b>")
