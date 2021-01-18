@@ -225,7 +225,6 @@
 #define STAKESTAB_COMBO "HH"
 #define NECKSNAP_COMBO "GD"
 #define HOLYKICK_COMBO "DG"
-#define FINALFU_COMBO "HDG"
 
 /datum/martial_art/hunterfu
 	name = "Hunter-Fu"
@@ -260,9 +259,6 @@
 		streak = ""
 		HolyKick(A,D)
 		return TRUE
-	if(findtext(streak,FINALFU_COMBO))
-		streak = ""
-		FinalFu(A,D)
 	return FALSE
 
 /datum/martial_art/hunterfu/proc/BodySlam(mob/living/carbon/human/A, mob/living/carbon/human/D)
