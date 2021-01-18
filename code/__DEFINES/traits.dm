@@ -202,7 +202,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_ABDUCTOR_SCIENTIST_TRAINING "abductor-scientist-training"
 #define TRAIT_SURGEON           "surgeon"
 #define TRAIT_COLDBLOODED		"coldblooded"	// Fulpstation Bloodsuckers Your body is literal room temperature. Does not make you immune to the temp.
-#define TRAIT_NONATURALHEAL		"nonaturalheal"	// Fulpstation Bloodsuckers Only Admins can heal you. NOTHING else does it unless it's given the god tag.
 #define TRAIT_NORUNNING			"norunning"		// Fulpstation Bloodsuckers You walk!
 #define TRAIT_NOPULSE			"nopulse"		// Fulpstation Bloodsuckers Your heart doesn't beat.
 #define TRAIT_NOGUT				"nogutting"		// Fulpstation Bloodsuckers Your chest cant be gutted of organs

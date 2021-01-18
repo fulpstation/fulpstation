@@ -45,7 +45,7 @@
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	// LISTS
 	var/static/list/defaultTraits = list (BLOODSUCKER_TRAIT, TRAIT_STABLEHEART, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, \
-										  TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NONATURALHEAL, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NOGUT)
+										  TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NOGUT)
 
 /datum/antagonist/bloodsucker/on_gain()
 	SSticker.mode.bloodsuckers |= owner // Add if not already in here (and you might be, if you were picked at round start)
