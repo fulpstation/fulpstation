@@ -1,16 +1,12 @@
-// __DEFIINES/antagonists.dm
+// __DEFINES/antagonists.dm
 #define ANTAG_DATUM_BLOODSUCKER			/datum/antagonist/bloodsucker
 #define ANTAG_DATUM_VASSAL				/datum/antagonist/vassal
-#define ANTAG_DATUM_HUNTER				/datum/antagonist/vamphunter   Disabled for now
+#define ANTAG_DATUM_HUNTER				/datum/antagonist/vamphunter   //Disabled for now
 #define BLOODSUCKER_LEVEL_TO_EMBRACE	3
 #define MARTIALART_HUNTER "hunter-fu"
 
 // language.dm
 #define LANGUAGE_BLOODSUCKER	"bloodsucker"
-
-// role_preferences.dm
-#define ROLE_BLOODSUCKER			"bloodsucker"
-#define ROLE_MONSTERHUNTER			"monster hunter"
 
 // traits.dm
 #define TRAIT_COLDBLOODED		"coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp.
