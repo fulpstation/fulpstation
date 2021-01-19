@@ -164,7 +164,7 @@
 	power.Grant(owner.current)// owner.AddSpell(power)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	update_hud(TRUE) 	// Set blood value, current rank
+	update_hud(owner.current)
 	// Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
@@ -315,7 +315,7 @@
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood have all increased!</span>")
 	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")
-	update_hud(TRUE)
+	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,17 +330,15 @@
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
 	remove_antag_hud(antag_hud_type, M)
-/*	remove_bloodsucker_powers()
-
-/datum/antagonist/bloodsucker/proc/remove_bloodsucker_powers()
-	if(owner.current.hud_used)
+/*	if(owner.current.hud_used)
+		owner.current.hud_used.sunlight_display.icon_state = null
+		owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
 		owner.current.hud_used.blood_display.icon_state = null
 		owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
 		owner.current.hud_used.vamprank_display.icon_state = null
 		owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
-		owner.current.hud_used.sunlight_display.icon_state = null
-		owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
 */
+
 //Assign default team and creates one for one of a kind team antagonists
 
 // Create Objectives
@@ -587,6 +585,7 @@
 /////////////////////////////////////
 
 		// HUD! //
+
 
 		/////////////////////////////////////
 
