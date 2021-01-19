@@ -1,11 +1,11 @@
 /datum/action/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
-	button_icon = 'icons/mob/actions/bloodsucker.dmi'	//This is the file for the BACKGROUND icon
+	button_icon = 'icons/mob/actions/actions_bloodsucker.dmi'	//This is the file for the BACKGROUND icon
 	background_icon_state = "vamp_power_off"		//And this is the state for the background icon
 	var/background_icon_state_on = "vamp_power_on"		// FULP: Our "ON" icon alternative.
 	var/background_icon_state_off = "vamp_power_off"	// FULP: Our "OFF" icon alternative.
-	icon_icon = 'icons/mob/actions/bloodsucker.dmi'		//This is the file for the ACTION icon
+	icon_icon = 'icons/mob/actions/actions_bloodsucker.dmi'		//This is the file for the ACTION icon
 	button_icon_state = "power_feed" 				//And this is the state for the action icon
 	buttontooltipstyle = "cult"
 

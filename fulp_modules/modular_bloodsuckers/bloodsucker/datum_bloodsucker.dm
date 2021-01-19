@@ -1,11 +1,10 @@
-/datum/team/vampireclan
-	name = "Vampire Clan" // Teravanni,
-
 /datum/antagonist/bloodsucker
 	name = "Bloodsucker"
+	show_in_antagpanel = TRUE
 	roundend_category = "bloodsuckers"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
+	show_name_in_check_antagonists = TRUE
 	var/give_objectives = TRUE
 	// HUDS
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
@@ -15,7 +14,7 @@
 	var/bloodsucker_title						// My Dracula style title
 	var/bloodsucker_reputation					// My "Surname" or description of my deeds
 	// CLAN
-	var/datum/team/vampireclan/vampire_clan
+	var/datum/team/bloodsucker/bloodsucker_team
 	var/list/datum/antagonist/vassal/vassals = list()// Vassals under my control. Periodically remove the dead ones.
 	var/datum/mind/creator				// Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	// POWERS
@@ -41,9 +40,12 @@
 	var/passive_blood_drain = -0.1        //The amount of blood we loose each bloodsucker life() tick
 	var/notice_healing                    //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
+	var/static/list/defaultTraits = list (BLOODSUCKER_TRAIT, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NOGUT)
+
 
 /datum/antagonist/bloodsucker/on_gain()
-	SSticker.mode.bloodsuckers |= owner // Add if not already in here (and you might be, if you were picked at round start)
+	. = ..()
+	SSticker.mode.bloodsuckers |= owner // Only add after they've been given objectives
 	SSticker.mode.check_start_sunlight() // Start Sunlight? (if first Vamp)
 	SelectFirstName() // Name & Title
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
@@ -51,7 +53,6 @@
 	AssignStarterPowersAndStats() // Give Powers & Stats
 	if(give_objectives)
 		forge_bloodsucker_objectives()
-	. = ..()
 
 /datum/antagonist/bloodsucker/on_removal()
 	SSticker.mode.bloodsuckers -= owner
@@ -59,7 +60,6 @@
 	ClearAllPowersAndStats()// Clear Powers & Stats
 	owner.special_role = null
 	. = ..()
-
 
 /datum/antagonist/bloodsucker/greet()
 	var/fullname = ReturnFullName(TRUE)
@@ -173,6 +173,8 @@
 	if(HAS_TRAIT(owner.current, TRAIT_TOXINLOVER)) //No slime bonuses here, no thank you
 		had_toxlover = TRUE
 		REMOVE_TRAIT(owner.current, TRAIT_TOXINLOVER, SPECIES_TRAIT)
+	for(var/T in defaultTraits)
+		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	// Traits: Species
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
@@ -223,6 +225,8 @@
 		// Clown
 		if(istype(H) && owner.assigned_role == "Clown")
 			H.dna.add_mutation(CLOWNMUT)
+	for(var/T in defaultTraits)
+		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	// Physiology
 	owner.current.regenerate_organs()
 	// Update Health
@@ -320,43 +324,13 @@
 
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
-	ADD_TRAIT(M, BLOODSUCKER_TRAIT, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_NOBREATH, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_SLEEPIMMUNE, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_NOCRITDAMAGE, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_RESISTCOLD, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_RADIMMUNE, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_NIGHT_VISION, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_NOSOFTCRIT, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_NOHARDCRIT, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_AGEUSIA, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_COLDBLOODED, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_NOPULSE, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_VIRUSIMMUNE, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_HARDLY_WOUNDED, "bloodsucker")
-	ADD_TRAIT(M, TRAIT_NOGUT, "bloodsucker")
 	add_antag_hud(antag_hud_type, antag_hud_name, M)
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
-	REMOVE_TRAIT(M, BLOODSUCKER_TRAIT, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_NOBREATH, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_SLEEPIMMUNE, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_NOCRITDAMAGE, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_RESISTCOLD, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_RADIMMUNE, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_NIGHT_VISION, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_NOSOFTCRIT, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_NOHARDCRIT, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_AGEUSIA, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_COLDBLOODED, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_NOPULSE, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_VIRUSIMMUNE, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_HARDLY_WOUNDED, "bloodsucker")
-	REMOVE_TRAIT(M, TRAIT_NOGUT, "bloodsucker")
 	remove_antag_hud(antag_hud_type, M)
-	remove_bloodsucker_powers()
+/*	remove_bloodsucker_powers()
 
 /datum/antagonist/bloodsucker/proc/remove_bloodsucker_powers()
 	if(owner.current.hud_used)
@@ -366,10 +340,8 @@
 		owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
 		owner.current.hud_used.sunlight_display.icon_state = null
 		owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
-
+*/
 //Assign default team and creates one for one of a kind team antagonists
-/datum/antagonist/bloodsucker/create_team(datum/team/team)
-	return
 
 // Create Objectives
 
@@ -426,9 +398,6 @@
 	for(var/O in objectives)
 		objectives -= O
 		qdel(O)
-
-/datum/antagonist/bloodsucker/get_team()
-	return vampire_clan
 
 //Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
@@ -618,45 +587,6 @@
 /////////////////////////////////////
 
 		// HUD! //
-
-/*
-/datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
-	if (!check_valid_hud_user(M,A)) 	// FULP: This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
-		return
-	..()
-
-/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
-	// Ghost Admins always see Bloodsuckers/Vassals
-	if (isobserver(M))
-		return TRUE
-	// GOAL: Vassals see their Master and his other Vassals.
-	// GOAL: Vassals can BE seen by their Bloodsucker and his other Vassals.
-	// GOAL: Bloodsuckers can see each other.
-	if (!M || !A || !ismob(A) || !M.mind)// || !A.mind)
-		return FALSE
-	var/mob/A_mob = A
-	if (!A_mob.mind)
-		return FALSE
-	// Find Datums: Bloodsucker
-	var/datum/antagonist/bloodsucker/atom_B = A_mob.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
-	var/datum/antagonist/bloodsucker/mob_B = M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
-	// Check 1) Are we both Bloodsuckers?
-	if (atom_B && mob_B)
-		return TRUE
-	// Find Datums: Vassal
-	var/datum/antagonist/vassal/atom_V = A_mob.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
-	var/datum/antagonist/vassal/mob_V = M.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
-	// Check 2) If they are a BLOODSUCKER, then are they my Master?
-	if (mob_V && atom_B == mob_V.master)
-		return TRUE
-	// Check 3) If I am a BLOODSUCKER, then are they my Vassal?
-	if (mob_B && atom_V && (atom_V in mob_B.vassals))
-		return TRUE
-	// Check 4) If we are both VASSAL, then do we have the same master?
-	if (atom_V && mob_V && atom_V.master == mob_V.master)
-		return TRUE
-	return FALSE
-*/
 
 		/////////////////////////////////////
 

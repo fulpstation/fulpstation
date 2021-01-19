@@ -15,7 +15,6 @@
 		return FALSE
 	return TRUE
 
-/*
 // 			EXAMINING
 /mob/living/carbon/human/proc/ReturnVampExamine(var/mob/viewer)
 	if(!mind || !viewer.mind)
@@ -104,13 +103,3 @@
 		if (istype(bloodsuckerdatum) && bloodsuckerdatum.poweron_masquerade)
 			return BLOOD_VOLUME_NORMAL
 	return blood_volume
-*/ // Being commented out until I can fix huds.
-
-/* // Leftover Frenzy stuff, meant for deletion?
-/mob/living/proc/IsFrenzied()
-	return FALSE
-
-/mob/living/proc/StartFrenzy(inTime = 120)
-	set waitfor = FALSE
-
-*/

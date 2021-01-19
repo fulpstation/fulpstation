@@ -20,6 +20,7 @@
 	// HUDS
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
 	antag_hud_name = "vassal"
+	var/datum/team/bloodsucker/bloodsucker_team
 
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
