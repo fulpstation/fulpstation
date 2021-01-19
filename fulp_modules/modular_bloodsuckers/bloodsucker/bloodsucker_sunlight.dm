@@ -73,7 +73,7 @@
 				return
 			//daylight_time -= TIME_BLOODSUCKER_BURN_INTERVAL
 			// Issue Level Up!
-			if(!issued_XP && time_til_cycle <= 5)
+			if(!issued_XP && time_til_cycle <= 30)
 				issued_XP = TRUE
 				vamps_rank_up()
 

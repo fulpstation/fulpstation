@@ -2,16 +2,27 @@
 #define HUNTER_SCAN_MAX_DISTANCE 35
 #define HUNTER_SCAN_PING_TIME 20 //5s update time.
 
-/datum/antagonist/vamphunter
+/datum/antagonist/monsterhunter
 	name = "Hunter"
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
+	antag_hud_type = ANTAG_HUD_BLOODSUCKER
+	antag_hud_name = "monter hunter"
 	var/list/datum/action/powers = list() // Purchased powers
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.
 
-/datum/antagonist/vamphunter/on_gain()
+/datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
+	var/mob/living/M = mob_override || owner.current
+	add_antag_hud(antag_hud_type, antag_hud_name, M)
+
+//This handles the removal of antag huds/special abilities
+/datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
+	var/mob/living/M = mob_override || owner.current
+	remove_antag_hud(antag_hud_type, M)
+
+/datum/antagonist/monsterhunter/on_gain()
 
 	// Hunter Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
@@ -49,7 +60,7 @@
 
 	. = ..()
 
-/datum/antagonist/vamphunter/on_removal()
+/datum/antagonist/monsterhunter/on_removal()
 	// Master Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
 	// Powers
@@ -62,33 +73,30 @@
 	// Clear Antag
 	owner.special_role = null
 	// Remove martial arts
-
 	. = ..()
 
-/datum/antagonist/vamphunter/proc/add_objective(datum/objective/O)
+/datum/antagonist/monsterhunter/proc/add_objective(datum/objective/O)
 	objectives += O
 
-/datum/antagonist/vamphunter/proc/remove_objective(datum/objective/O)
+/datum/antagonist/monsterhunter/proc/remove_objective(datum/objective/O)
 	objectives -= O
-/datum/antagonist/vamphunter/greet()
-	var/vamphunter_greet
-	vamphunter_greet += "<span class='userdanger'>You are a fearless Monster Hunter!</span>"
-	vamphunter_greet += "<span class='announce'>You know there's one or more filthy creature onboard the station, though their identities elude you.</span><br>"
-	vamphunter_greet += "<span class='announce'>It's your job to root them out, destroy their nests, and save the crew.</span><br>"
-	vamphunter_greet += "<span class='announce'>Use <b>WHATEVER MEANS NECESSARY</b> to find these creatures, no matter who gets hurt or what you have to destroy to do it.</span><br>"
-	vamphunter_greet += "<span class='announce'>There are greater stakes at hand than the safety of the station!</span><br>"
-	vamphunter_greet += "<span class='announce'>However, security may detain you if they discover your mission.</span><br>"
-	if(my_kungfu != null)
-		vamphunter_greet += "<span class='boldannounce'>Hunter Tip: Use your [my_kungfu.name] techniques to give you an advantage over the enemy.</span><br>"
-	to_chat(owner, vamphunter_greet)
 
-/datum/antagonist/vamphunter/farewell()
+/datum/antagonist/monsterhunter/greet()
+	var/monsterhunter_greet
+	monsterhunter_greet += "<span class='userdanger'>You are a fearless Monster Hunter!</span>"
+	monsterhunter_greet += "<span class='announce'>You know there's one or more filthy creature onboard the station, though their identities elude you.</span><br>"
+	monsterhunter_greet += "<span class='announce'>It's your job to root them out, destroy their nests, and save the crew.</span><br>"
+	monsterhunter_greet += "<span class='announce'>Use <b>WHATEVER MEANS NECESSARY</b> to find these creatures, no matter who gets hurt or what you have to destroy to do it.</span><br>"
+	monsterhunter_greet += "<span class='announce'>There are greater stakes at hand than the safety of the station!</span><br>"
+	monsterhunter_greet += "<span class='announce'>However, security may detain you if they discover your mission.</span><br>"
+	if(my_kungfu != null)
+		monsterhunter_greet += "<span class='boldannounce'>Hunter Tip: Use your [my_kungfu.name] techniques to give you an advantage over the enemy.</span><br>"
+	to_chat(owner, monsterhunter_greet)
+
+/datum/antagonist/monsterhunter/farewell()
 	to_chat(owner, "<span class='userdanger'>Your hunt has ended: you are no longer a monster hunter!</span>")
 
-
 // TAKEN FROM:  /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm      for a version of tracking that Changelings have!
-
-
 /datum/status_effect/agent_pinpointer/hunter_edition
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	minimum_range = HUNTER_SCAN_MIN_DISTANCE
@@ -99,7 +107,6 @@
 /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	name = "Monster Tracking"
 	desc = "You always know where the hellspawn are."
-
 
 /datum/status_effect/agent_pinpointer/hunter_edition/on_creation(mob/living/new_owner, ...)
 	..()
@@ -156,7 +163,6 @@
 	bloodcost = 0
 
 /datum/action/bloodsucker/trackvamp/ActivatePower()
-
 	var/mob/living/user = owner
 	to_chat(user, "<span class='notice'>You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order.</span>")
 
@@ -183,7 +189,7 @@
 	monsters += SSticker.mode.cult
 	monsters += SSticker.mode.wizards
 	monsters += SSticker.mode.apprentices
-	//monsters += SSticker.mode.cultie // Disabled, not working (Heretics)
+	// monsters += ROLE_HERETIC // Disabled, not working (Heretics) var/list/culties
 	//monsters += SSticker.mode.changelings(ROLE_CHANGELING) // Disabled, not working
 	//
 	for(var/datum/mind/M in monsters)

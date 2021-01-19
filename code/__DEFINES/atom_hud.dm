@@ -80,7 +80,8 @@
 #define ANTAG_HUD_GANGSTER		23
 #define ANTAG_HUD_SPACECOP		24
 #define ANTAG_HUD_HERETIC		25
-#define ANTAG_HUD_BLOODSUCKER   26  // FULPSTATION // Check atom_hud.dm to see what the current top number is. Put this one last! DON'T LEAVE SPACE BETWEEN HUDS!
+#define ANTAG_HUD_BLOODSUCKER   26  // Fulpstation Bloodsucker // Check atom_hud.dm to see what the current top number is. Put this one last! DON'T LEAVE SPACE BETWEEN HUDS!
+#define ANTAG_HUD_MONSTERHUNTER 27  // Fulpstation Bloodsucker // Check atom_hud.dm to see what the current top number is. Put this one last! DON'T LEAVE SPACE BETWEEN HUDS!
 
 // Notification action types
 #define NOTIFY_JUMP "jump"

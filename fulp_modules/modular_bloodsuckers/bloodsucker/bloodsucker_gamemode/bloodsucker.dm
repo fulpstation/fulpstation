@@ -1,7 +1,7 @@
 /datum/game_mode
 	var/list/datum/mind/bloodsuckers = list() 		// List of minds belonging to this game mode.
 	var/list/datum/mind/vassals = list() 			// List of minds that have been turned into Vassals.
-	var/list/datum/mind/vamphunters = list() 		// List of minds hunting vampires. Disabled at the moment
+	var/list/datum/mind/monsterhunters = list() 		// List of minds hunting vampires. Disabled at the moment
 	var/obj/effect/sunlight/bloodsucker_sunlight	// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 
 	// LISTS //
@@ -67,7 +67,7 @@
 		antag_candidates.Remove(bloodsucker) // Apparently you can also write antag_candidates -= bloodsucker
 
 	//  Assign Hunters (as many as monsters, plus one)
-	//assign_monster_hunters(bloodsuckers.len, TRUE, bloodsuckers)	// Disabled for now
+	//assign_monster_hunters(bloodsuckers.len, TRUE, bloodsuckers)	// Disabled, monster hunters are meant to be Admin only!
 
 	// Do we have enough vamps to continue?
 	return bloodsuckers.len >= required_enemies

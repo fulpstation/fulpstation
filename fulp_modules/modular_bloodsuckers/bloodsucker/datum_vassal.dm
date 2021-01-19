@@ -20,7 +20,15 @@
 	// HUDS
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
 	antag_hud_name = "vassal"
-	var/datum/team/vampireclan/vampire_clan
+
+/datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
+	var/mob/living/M = mob_override || owner.current
+	add_antag_hud(antag_hud_type, antag_hud_name, M)
+
+//This handles the removal of antag huds/special abilities
+/datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
+	var/mob/living/M = mob_override || owner.current
+	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
 	// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
@@ -83,8 +91,7 @@
 	remove_objective()
 	remove_thrall_eyes()
 	owner.current.remove_language(/datum/language/vampiric)
-	// Clear Antag HUD
-	update_vassal_icons_removed(owner.current)
+	// Clear Antag
 	owner.special_role = null
 
 	. = ..()
@@ -132,17 +139,6 @@
 
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
 	// DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
-
-/datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype="vassal")
-	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	hud.join_hud(vassal)
-	set_antag_hud(vassal, icontype) // Located in icons/mob/hud.dmi
-	owner.current.hud_list[ANTAG_HUD].icon = image('icons/mob/hud.dmi', owner.current, "bloodsucker")
-
-/datum/antagonist/vassal/proc/update_vassal_icons_removed(mob/living/vassal)
-	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	hud.leave_hud(vassal)
-	set_antag_hud(vassal, null)
 
 //Displayed at the start of roundend_category section, default to roundend_category header
 /*/datum/antagonist/vassal/roundend_report_header()

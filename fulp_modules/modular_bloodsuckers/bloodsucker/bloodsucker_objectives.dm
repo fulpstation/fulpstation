@@ -286,26 +286,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/datum/objective/bloodsucker/vamphunter
-
-//						 GENERATE!
-/datum/objective/bloodsucker/vamphunter/generate_objective()
-	update_explanation_text()
-
-//						EXPLANATION
-/datum/objective/bloodsucker/vamphunter/update_explanation_text()
-	explanation_text = "Destroy all Bloodsuckers on [station_name()]."
-
-//						WIN CONDITIONS?
-/datum/objective/bloodsucker/vamphunter/check_completion()
-	for (var/datum/mind/M in SSticker.mode.bloodsuckers)
-		if (M && M.current && M.current.stat != DEAD && get_turf(M.current))
-			return FALSE
-	return TRUE
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /datum/objective/bloodsucker/monsterhunter
 
 //						 GENERATE!
@@ -323,7 +303,7 @@
 	monsters += SSticker.mode.cult
 	monsters += SSticker.mode.wizards
 	monsters += SSticker.mode.apprentices
-	//monsters += SSticker.mode.cultie // Disabled, not working (Heretics)
+	monsters += ROLE_HERETIC // Disabled, not working (Heretics)
 	//monsters += SSticker.mode.changelings(ROLE_CHANGELING) // Disabled, not working
 
 	for (var/datum/mind/M in monsters)

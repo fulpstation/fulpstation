@@ -1,6 +1,3 @@
-
-
-/*
 // Called from game mode pre_setup()
 /datum/game_mode/proc/assign_monster_hunters(monster_count = 4, guaranteed_hunters = FALSE, list/datum/mind/exclude_from_hunter)
 
@@ -35,16 +32,15 @@
 			i --
 			continue
 		// NOTE:
-		vamphunters += hunter
+		monsterhunters += hunter
 		hunter.restricted_roles = no_hunter_jobs
 		log_game("[hunter.key] (ckey) has been selected as a Hunter.")
 
 // Called from game mode post_setup()
 /datum/game_mode/proc/finalize_monster_hunters(monster_count = 4)
 	var/amEvil = TRUE // First hunter is always an evil boi
-	for(var/datum/mind/hunter in vamphunters)
-		var/datum/antagonist/vamphunter/A = new (hunter)
+	for(var/datum/mind/hunter in monsterhunters)
+		var/datum/antagonist/monsterhunter/A = new (hunter)
 		A.bad_dude = amEvil
 		hunter.add_antag_datum(A)
 		amEvil = FALSE  // Every other hunter is just a boring greytider
-*/
