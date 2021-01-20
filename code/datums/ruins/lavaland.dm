@@ -53,6 +53,16 @@
 	cost = 20
 	allow_duplicates = FALSE
 
+/datum/map_template/ruin/lavaland/ash_walker2
+	name = "Ash Walker Town"
+	id = "ash-walker2"
+	description = "A tribe of cursed lizardpeople live here, but they don't seem related to normal imperial or terran lizards. \
+	Fast, deadly, and able to make more of their kin via ritual sacrifice. They hold the tendrils of the land with reverence, and you just destroyed several for phat loot.\
+	Maybe don't mention that to them."
+	suffix = "lavaland_surface_ash_walker2.dmm"
+	cost = 20
+	allow_duplicates = FALSE
+
 /datum/map_template/ruin/lavaland/syndicate_base
 	name = "Syndicate Lava Base"
 	id = "lava-base"
