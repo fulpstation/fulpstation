@@ -870,8 +870,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if("beefeyes") // [FULP EDIT START]
 					if (H.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
 						S = GLOB.eyes_beefman[H.dna.features["beefeyes"]]
-				if("beefmouth") // [FULP EDIT END]
+				if("beefmouth")
 					S = GLOB.mouths_beefman[H.dna.features["beefmouth"]]
+				if("ipc_screen")
+					S = GLOB.ipc_screens_list[H.dna.features["ipc_screen"]]
+				if("ipc_antenna")
+					S = GLOB.ipc_antennas_list[H.dna.features["ipc_antenna"]]
+				if("ipc_chassis")
+					S = GLOB.ipc_chassis_list[H.dna.features["ipc_chassis"]]  // [FULP EDIT END]
 				if("body_markings")
 					S = GLOB.body_markings_list[H.dna.features["body_markings"]]
 				if("wings")

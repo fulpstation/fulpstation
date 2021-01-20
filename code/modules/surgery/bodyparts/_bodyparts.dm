@@ -509,6 +509,11 @@
 			update_disabled()
 		if(updating_health)
 			owner.updatehealth()
+		// FULP EDIT BEGIN
+		if(owner.stat == DEAD && owner?.dna?.species && (REVIVES_BY_HEALING in owner.dna.species.species_traits))
+			if(owner.health > 50)
+				owner.revive(FALSE)
+		// FULP EDIT END
 	cremation_progress = min(0, cremation_progress - ((brute_dam + burn_dam)*(100/max_damage)))
 	return update_bodypart_damage_state()
 
@@ -743,6 +748,7 @@
 
 		var/datum/species/S = H.dna.species
 		species_id = S.limbs_id
+		rendered_bp_icon = S.limbs_icon // FULP EDIT
 		species_flags_list = H.dna.species.species_traits
 
 		if(S.use_skintones)
@@ -829,12 +835,7 @@
 
 	if(is_organic_limb())
 		if(should_draw_greyscale)
-//			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
-			switch(species_id) // [FULP EDIT STARTS]
-				if("beefman") //If we ever add more unique races - this should be a list of them.
-					limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-				else
-					limb.icon = 'icons/mob/human_parts_greyscale.dmi'// [FULP EDIT END]
+			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 			if(should_draw_gender)
 				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 			else if(use_digitigrade)
@@ -842,12 +843,7 @@
 			else
 				limb.icon_state = "[species_id]_[body_zone]"
 		else
-//			limb.icon = 'icons/mob/human_parts.dmi'
-			switch(species_id) // [FULP EDIT STARTS]
-				if("beefman")
-					limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-				else
-					limb.icon = 'icons/mob/human_parts.dmi' // [FULP EDIT END]
+			limb.icon = 'icons/mob/human_parts.dmi'
 			if(should_draw_gender)
 				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 			else

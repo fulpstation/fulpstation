@@ -436,7 +436,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!features["beefeyes"] || features["beefeyes"] == "")
 		features["beefeyes"] = pick(GLOB.eyes_beefman)
 	if(!features["beefmouth"] || features["beefmouth"] == "")
-		features["beefmouth"] = pick(GLOB.mouths_beefman) // [FULP EDIT END]
+		features["beefmouth"] = pick(GLOB.mouths_beefman)
+	if(!features["ipc_screen"] || features["ipc_screen"] == "")
+		features["ipc_screen"] = pick(GLOB.ipc_screens_list)
+	if(!features["ipc_antenna"] || features["ipc_antenna"] == "")
+		features["ipc_antenna"] = pick(GLOB.ipc_antennas_list)
+	if(!features["ipc_chassis"] || features["ipc_chassis"] == "")
+		features["ipc_chassis"] = pick(GLOB.ipc_chassis_list) // [FULP EDIT END]
 
 	if(!features["mcolor"] || features["mcolor"] == "#000")
 		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
@@ -475,7 +481,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	playtime_reward_cloak = sanitize_integer(playtime_reward_cloak)
 	features["beefcolor"]	= copytext_char(features["beefcolor"], 1, 7) // [FULP EDIT START]
 	features["beefeyes"]	= sanitize_inlist(features["beefeyes"], GLOB.eyes_beefman)
-	features["beefmouth"]	= sanitize_inlist(features["beefmouth"], GLOB.mouths_beefman) // [FULP EDIT END]	
+	features["beefmouth"]	= sanitize_inlist(features["beefmouth"], GLOB.mouths_beefman)
+	features["ipc_screen"]	= sanitize_inlist(features["ipc_screen"], GLOB.ipc_screens_list)
+	features["ipc_antenna"]	= sanitize_inlist(features["ipc_antenna"], GLOB.ipc_antennas_list)
+	features["ipc_chassis"]	= sanitize_inlist(features["ipc_chassis"], GLOB.ipc_chassis_list) // [FULP EDIT END]
 	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
 	features["ethcolor"]	= copytext_char(features["ethcolor"], 1, 7)
 	features["tail_lizard"]	= sanitize_inlist(features["tail_lizard"], GLOB.tails_list_lizard)
@@ -537,7 +546,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["phobia"], phobia)
 	WRITE_FILE(S["feature_beefcolor"]					, features["beefcolor"]) // [FULP EDIT START]
 	WRITE_FILE(S["feature_beefeyes"]					, features["beefeyes"])
-	WRITE_FILE(S["feature_beefmouth"]					, features["beefmouth"]) // [FULP EDIT END]
+	WRITE_FILE(S["feature_beefmouth"]					, features["beefmouth"])
+	WRITE_FILE(S["feature_ipc_antenna"]					, features["ipc_antenna"])
+	WRITE_FILE(S["feature_ipc_screen"]					, features["ipc_screen"])
+	WRITE_FILE(S["feature_ipc_chassis"]					, features["ipc_chassis"]) // [FULP EDIT END]
 	WRITE_FILE(S["feature_mcolor"]					, features["mcolor"])
 	WRITE_FILE(S["feature_ethcolor"]					, features["ethcolor"])
 	WRITE_FILE(S["feature_lizard_tail"]			, features["tail_lizard"])

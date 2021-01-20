@@ -461,6 +461,10 @@
 			L.set_burn_dam(0)
 			L.brutestate = 0
 			L.burnstate = 0
+		// FULP ADDITION BEGIN
+		if(dna?.species && (ROBOTIC_LIMBS in dna.species.species_traits))
+			L.change_bodypart_status(BODYPART_ROBOTIC)
+		// FULP ADDITION END
 
 		if(!L.attach_limb(src, 1))
 			qdel(L)

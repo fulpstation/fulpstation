@@ -393,6 +393,45 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			//Mutant stuff
 			var/mutant_category = 0
 
+			// FULP EDIT BEGIN
+			if("ipc_screen" in pref_species.mutant_bodyparts)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Screen</h3>"
+
+				dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=ipc_screen;task=input'>[features["ipc_screen"]]</a>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+			if("ipc_antenna" in pref_species.mutant_bodyparts)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Antenna</h3>"
+
+				dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=ipc_antenna;task=input'>[features["ipc_antenna"]]</a>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+			if("ipc_chassis" in pref_species.mutant_bodyparts)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Chassis</h3>"
+
+				dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=ipc_chassis;task=input'>[features["ipc_chassis"]]</a>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+			// FULP EDIT END
+
 			if(pref_species.mutant_bodyparts["tail_lizard"])
 				if(!mutant_category)
 					dat += APPEARANCE_CATEGORY_COLUMN
@@ -1441,7 +1480,22 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("mouth_beef")
 					var/new_mouth = input(user, "Choose your Mouth:", "Character Preference")  as null|anything in GLOB.mouths_beefman
 					if(new_mouth)
-						features["beefmouth"] = new_mouth // [FULP EDIT END] 
+						features["beefmouth"] = new_mouth
+				if("ipc_screen")
+					var/new_ipc_screen
+					new_ipc_screen = input(user, "Choose your character's screen:", "Character Preference") as null|anything in GLOB.ipc_screens_list
+					if(new_ipc_screen)
+						features["ipc_screen"] = new_ipc_screen
+				if("ipc_antenna")
+					var/new_ipc_antenna
+					new_ipc_antenna = input(user, "Choose your character's antenna:", "Character Preference") as null|anything in GLOB.ipc_antennas_list
+					if(new_ipc_antenna)
+						features["ipc_antenna"] = new_ipc_antenna
+				if("ipc_chassis")
+					var/new_ipc_chassis
+					new_ipc_chassis = input(user, "Choose your character's chassis:", "Character Preference") as null|anything in GLOB.ipc_chassis_list
+					if(new_ipc_chassis)
+						features["ipc_chassis"] = new_ipc_chassis	// [FULP EDIT END]
 
 				if("tail_lizard")
 					var/new_tail
