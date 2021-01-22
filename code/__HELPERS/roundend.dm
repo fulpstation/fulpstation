@@ -220,7 +220,7 @@
 	for(var/client/C in GLOB.clients)
 		if(!C.credits)
 			C.RollCredits()
-		C.playtitlemusic(40)
+		C.playcreditsmusic(40)  // FULP - Yay, round-end music is back! src: C.playtitlemusic(40)
 		if(speed_round)
 			C.give_award(/datum/award/achievement/misc/speed_round, C.mob)
 		HandleRandomHardcoreScore(C)
@@ -366,8 +366,8 @@
  *
  * Composits the roundend report, and saves it in two locations.
  * The report is first saved along with the round's logs
- * Then, the report is copied to a fixed directory specifically for 
- * housing the server's last roundend report. In this location, 
+ * Then, the report is copied to a fixed directory specifically for
+ * housing the server's last roundend report. In this location,
  * the file will be overwritten at the end of each shift.
  */
 /datum/controller/subsystem/ticker/proc/log_roundend_report()
@@ -381,7 +381,7 @@
 	//Log the rendered HTML in the round log directory
 	fdel(filename)
 	text2file(content, filename)
-	//Place a copy in the root folder, to be overwritten each round. 
+	//Place a copy in the root folder, to be overwritten each round.
 	filename = "data/server_last_roundend_report.html"
 	fdel(filename)
 	text2file(content, filename)
