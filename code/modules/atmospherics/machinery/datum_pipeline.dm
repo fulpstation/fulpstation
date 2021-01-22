@@ -182,7 +182,7 @@
 			var/self_temperature_delta = 0
 			var/sharer_temperature_delta = 0
 
-			if((sharer_heat_capacity <= 0) && (partial_heat_capacity <= 0))
+			if((sharer_heat_capacity <= 0) || (partial_heat_capacity <= 0))
 				return TRUE
 			var/heat = thermal_conductivity * delta_temperature * (partial_heat_capacity * sharer_heat_capacity / (partial_heat_capacity + sharer_heat_capacity))
 
@@ -196,8 +196,9 @@
 	else
 		if((target.heat_capacity > 0) && (partial_heat_capacity > 0))
 			var/delta_temperature = air.temperature - target.temperature
-
-			var/heat = thermal_conductivity * delta_temperature * (partial_heat_capacity * target.heat_capacity / (partial_heat_capacity + target.heat_capacity))
+			//Temp share things, see superconduction for more like this
+			var/heat = thermal_conductivity*delta_temperature* \
+				(partial_heat_capacity*target.heat_capacity/(partial_heat_capacity+target.heat_capacity))
 
 			air.temperature -= heat / total_heat_capacity
 	update = TRUE
