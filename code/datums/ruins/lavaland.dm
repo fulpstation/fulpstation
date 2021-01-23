@@ -53,6 +53,16 @@
 	cost = 20
 	allow_duplicates = FALSE
 
+/datum/map_template/ruin/lavaland/ash_walker3
+    name = "Abandoned Observation Outpost"
+    id = "ash-walker"
+    description = "This used to be Nanotrasen Research Outpost Lambda, crewed by a team of six to excavate and observe a dormant tendril, waiting for it to wake up and make contact. \
+    The tendril never woke, so the facility was mothballed after severe storms and supply shortages tormented the crew until the shuttle finally picked them up. \
+    Wouldn't it be funny if the tendril woke up shortly after they left? And some cursed lizards without a need to breathe came across the mostly vented facility? Yeah, funny."
+    suffix = "lavaland_surface_ash_walker3.dmm"
+    cost = 20
+    allow_duplicates = FALSE
+
 /datum/map_template/ruin/lavaland/syndicate_base
 	name = "Syndicate Lava Base"
 	id = "lava-base"
