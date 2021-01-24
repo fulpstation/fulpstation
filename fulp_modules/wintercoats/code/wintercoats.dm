@@ -160,7 +160,7 @@
 
 /obj/item/clothing/suit/hooded/wintercoat/fulp/service/chap
 	name = "\improper Chaplins's winter coat"
-	desc = "Warm, Stylish, approved by the church. Everything you need in a winter coat."
+	desc = "Warm, Stylish, approved by the pope. Everything you need in a winter coat."
 	icon_state = "wintercoat_chap"
 	inhand_icon_state = "wintercoat_chap"
 	allowed = list(/obj/item/analyzer, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/soap, /obj/item/sensor_device, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
@@ -169,3 +169,15 @@
 
 /obj/item/clothing/head/hooded/winterhood/fulp/service/chap
 	icon_state = "winterhood_chap"
+
+/obj/item/clothing/suit/hooded/wintercoat/fulp/engineering/mech
+	name = "\improper Mechanicists's winter coat"
+	desc = "A warm alternitive to the workers jumpsuit, it not only provides protection from explosions, but is also warm just in case you get spaced.."
+	icon_state = "wintercoat_mech"
+	inhand_icon_state = "wintercoat_mech"
+	allowed = list()
+	armor = list("melee" = 5, "bullet" = 0, "laser" = 0,"energy" = 40, "bomb" = 20, "bio" = 0, "rad" = 20, "fire" = 30, "acid" = 80)
+	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/engineering/mech
+
+/obj/item/clothing/head/hooded/winterhood/fulp/engineering/mech
+	icon_state = "winterhood_mech"
