@@ -13,7 +13,8 @@ GLOBAL_LIST_INIT(credits_music,list(
 GLOBAL_LIST_INIT(round_end_tracks,list(
 	'sound/roundend/newroundsexy.ogg', 'sound/roundend/apcdestroyed.ogg',
 	'sound/roundend/bangindonk.ogg', 'sound/roundend/imaghoul.ogg',
-	'sound/roundend/petersondisappointed.ogg', 'sound/roundend/its_only_game.ogg'))
+	'sound/roundend/petersondisappointed.ogg', 'sound/roundend/its_only_game.ogg'
+	'fulp_modules/fulp_exclusive_sounds/sound/i_got_banned_on_fulpstation.ogg'))
 
 // This is triggered in roundend.dm, so that we have some round-end music instead of just playing lobby music again.
 /client/proc/playcreditsmusic(vol = 85)
