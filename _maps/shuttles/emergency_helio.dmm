@@ -195,8 +195,11 @@
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/escape)
 "az" = (
-/turf/closed/wall/mineral/titanium/nodiagonal,
-/turf/closed/wall/mineral/titanium,
+/obj/structure/shuttle/engine/propulsion{
+	dir = 1
+	},
+/turf/open/space/basic,
+/turf/open/space/basic,
 /area/shuttle/escape)
 "aA" = (
 /obj/structure/window/reinforced,
@@ -226,11 +229,6 @@
 	},
 /obj/item/toy/figure/hos,
 /turf/open/floor/mineral/plastitanium,
-/area/shuttle/escape)
-"aE" = (
-/obj/effect/spawner/structure/window/shuttle,
-/turf/open/space/basic,
-/turf/open/space/basic,
 /area/shuttle/escape)
 "aF" = (
 /obj/structure/chair/comfy/shuttle,
@@ -580,12 +578,9 @@
 /turf/open/floor/mineral/titanium/purple,
 /area/shuttle/escape)
 "bn" = (
-/obj/machinery/door/airlock/titanium{
-	req_access_txt = "18"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/structure/lattice/catwalk,
 /turf/open/space/basic,
-/turf/open/floor/mineral/titanium/purple,
+/turf/open/space/basic,
 /area/shuttle/escape)
 "bo" = (
 /obj/structure/table/reinforced,
@@ -1172,18 +1167,6 @@
 	},
 /turf/open/floor/mineral/titanium/brown,
 /area/shuttle/escape)
-"cT" = (
-/obj/machinery/door/airlock/titanium,
-/obj/docking_port/mobile/emergency{
-	dwidth = 13;
-	height = 18;
-	name = "Helio emergency shuttle";
-	port_direction = 4;
-	preferred_direction = 8;
-	width = 30
-	},
-/turf/open/floor/mineral/titanium,
-/area/shuttle/escape)
 "cU" = (
 /obj/machinery/light{
 	dir = 1
@@ -1551,10 +1534,16 @@
 /obj/machinery/light,
 /turf/open/floor/mineral/titanium/brown,
 /area/shuttle/escape)
+"ek" = (
+/obj/machinery/door/airlock/titanium{
+	req_access_txt = "18"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/mineral/titanium/purple,
+/area/shuttle/escape)
 "gs" = (
-/obj/structure/shuttle/engine/propulsion,
 /turf/open/space/basic,
-/turf/open/space/basic,
+/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
 "hn" = (
 /obj/structure/window/reinforced,
@@ -1615,6 +1604,19 @@
 /area/shuttle/escape)
 "tC" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
+/area/shuttle/escape)
+"vc" = (
+/turf/open/space/basic,
+/turf/open/space/basic,
+/area/template_noop)
+"vr" = (
+/obj/machinery/door/airlock/shuttle{
+	req_access_txt = "19"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/mineral/titanium/purple,
 /area/shuttle/escape)
 "wn" = (
 /obj/structure/window/reinforced,
@@ -1723,14 +1725,17 @@
 	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/escape)
-"SH" = (
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
+"QQ" = (
+/obj/machinery/door/airlock/titanium,
+/obj/docking_port/mobile/emergency{
+	dwidth = 13;
+	height = 18;
+	name = "Helio emergency shuttle";
+	port_direction = 4;
+	preferred_direction = 2;
+	width = 30
 	},
-/obj/machinery/door/airlock/shuttle{
-	req_access_txt = "19"
-	},
-/turf/open/floor/mineral/titanium/purple,
+/turf/open/floor/mineral/titanium,
 /area/shuttle/escape)
 "Up" = (
 /obj/structure/window/reinforced,
@@ -1756,10 +1761,6 @@
 	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/escape)
-"Yi" = (
-/obj/structure/shuttle/engine/propulsion,
-/turf/open/space/basic,
-/area/shuttle/escape)
 "ZQ" = (
 /obj/structure/toilet{
 	dir = 4
@@ -1782,9 +1783,10 @@ tC
 tC
 tC
 tC
+tC
 ck
 tC
-cT
+QQ
 tC
 tC
 tC
@@ -1796,7 +1798,6 @@ dl
 tC
 tC
 tC
-Yi
 aa
 aa
 aa
@@ -1804,7 +1805,8 @@ aa
 (2,1,1) = {"
 aq
 aa
-aE
+az
+tC
 bo
 ay
 aP
@@ -1828,13 +1830,13 @@ db
 dg
 tC
 tC
-tC
 gs
-aa
+vc
 "}
 (3,1,1) = {"
 aq
 az
+tC
 tC
 bx
 aP
@@ -1861,11 +1863,11 @@ dH
 tC
 tC
 tC
-Yi
 "}
 (4,1,1) = {"
 aq
-aE
+az
+tC
 bf
 ak
 aA
@@ -1892,11 +1894,11 @@ dI
 tC
 ZQ
 tC
-Yi
 "}
 (5,1,1) = {"
 aq
-aE
+az
+tC
 bg
 al
 aB
@@ -1923,9 +1925,9 @@ bM
 du
 da
 tC
-Yi
 "}
 (6,1,1) = {"
+aq
 tC
 tC
 bh
@@ -1954,9 +1956,9 @@ dJ
 tC
 tC
 tC
-Yi
 "}
 (7,1,1) = {"
+aq
 tC
 tC
 tC
@@ -1985,9 +1987,9 @@ ld
 tC
 GO
 tC
-Yi
 "}
 (8,1,1) = {"
+aq
 bp
 aO
 ad
@@ -2016,9 +2018,9 @@ oq
 tC
 qq
 tC
-Yi
 "}
 (9,1,1) = {"
+aq
 bp
 aZ
 ae
@@ -2047,9 +2049,9 @@ wn
 tC
 Pg
 tC
-Yi
 "}
 (10,1,1) = {"
+aq
 bp
 ba
 af
@@ -2078,9 +2080,9 @@ KY
 tC
 du
 tC
-Yi
 "}
 (11,1,1) = {"
+aq
 bp
 bb
 ag
@@ -2109,9 +2111,9 @@ bM
 du
 tw
 tC
-Yi
 "}
 (12,1,1) = {"
+aq
 bp
 bc
 ah
@@ -2140,9 +2142,9 @@ xE
 tC
 du
 tC
-Yi
 "}
 (13,1,1) = {"
+aq
 bp
 bd
 ai
@@ -2171,9 +2173,9 @@ hn
 tC
 Pg
 tC
-Yi
 "}
 (14,1,1) = {"
+aq
 bp
 be
 aj
@@ -2202,9 +2204,9 @@ oq
 tC
 qq
 tC
-Yi
 "}
 (15,1,1) = {"
+aq
 tC
 tC
 tC
@@ -2233,9 +2235,9 @@ WK
 tC
 ng
 tC
-Yi
 "}
 (16,1,1) = {"
+aq
 tC
 tC
 bi
@@ -2264,11 +2266,11 @@ Up
 tC
 tC
 tC
-Yi
 "}
 (17,1,1) = {"
 aq
-aE
+az
+tC
 bl
 av
 aL
@@ -2295,11 +2297,11 @@ bM
 du
 da
 tC
-Yi
 "}
 (18,1,1) = {"
 aq
-aE
+az
+tC
 bm
 aw
 aM
@@ -2326,11 +2328,11 @@ BF
 tC
 Cr
 tC
-Yi
 "}
 (19,1,1) = {"
 aq
 az
+tC
 tC
 tC
 tC
@@ -2357,14 +2359,14 @@ Lj
 tC
 tC
 tC
-Yi
 "}
 (20,1,1) = {"
 aq
 aa
 bn
+ek
 ax
-SH
+vr
 aN
 bF
 bw
@@ -2386,9 +2388,8 @@ dG
 dn
 tC
 tC
-tC
 gs
-aa
+vc
 "}
 (21,1,1) = {"
 aq
@@ -2400,11 +2401,6 @@ tC
 tC
 tC
 tC
-bp
-bp
-bp
-tC
-tC
 tC
 bp
 bp
@@ -2416,7 +2412,12 @@ bp
 bp
 bp
 tC
-Yi
+tC
+tC
+bp
+bp
+bp
+tC
 aa
 aa
 aa
