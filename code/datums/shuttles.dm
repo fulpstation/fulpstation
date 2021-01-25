@@ -237,9 +237,9 @@
 
 /datum/map_template/shuttle/emergency/helio
 	suffix = "helio"
-	name = "Helio Station Emergency Shuttle"
+	name = "Heliostation Emergency Shuttle"
+	credit_cost = CARGO_CRATE_VALUE * 10
 	description = "The good ol' maze that is this shuttle. Enjoy trying to leave early. Comes with plenty of power and seats. Security section is also a decent size!"
-	credit_cost = CARGO_CRATE_VALUE * 20
 
 /datum/map_template/shuttle/emergency/medisim
 	suffix = "medisim"
