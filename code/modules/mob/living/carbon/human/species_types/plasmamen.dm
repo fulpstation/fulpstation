@@ -144,11 +144,6 @@
 		if("Mime")
 			O = new /datum/outfit/plasmaman/mime
 
-		// FULP EDIT - Plasmaman outfits for fulp-exclusive jobs. Place jobs between mime and clown.
-		if("Brig Physician")
-			O = new /datum/outfit/plasmaman/brigdoc
-		// FULP EDIT ENDS
-
 		if("Clown")
 			O = new /datum/outfit/plasmaman/clown
 

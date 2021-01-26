@@ -176,10 +176,6 @@
 				heirloom_type = pick(/obj/item/gavelhammer, /obj/item/book/manual/wiki/security_space_law)
 			if("Prisoner")
 				heirloom_type = /obj/item/pen/blue
-			//FULP EDIT ADDITION - Place other fulp jobs until the END mark
-			if("Brig Physician")
-				heirloom_type = /obj/item/storage/firstaid/ancient/heirloom
-			//FULP EDIT ENDS
 			//RnD
 			if("Research Director")
 				heirloom_type = /obj/item/toy/plush/slimeplushie
