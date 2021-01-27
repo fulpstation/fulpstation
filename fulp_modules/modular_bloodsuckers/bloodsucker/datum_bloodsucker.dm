@@ -5,8 +5,9 @@
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
 	show_name_in_check_antagonists = TRUE
+	can_coexist_with_others = FALSE
+	hijack_speed = 0
 	var/give_objectives = TRUE
-	// HUDS
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
 	antag_hud_name = "bloodsucker"
 	// NAME
@@ -42,7 +43,7 @@
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list (BLOODSUCKER_TRAIT, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NOGUT)
 
-
+///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	. = ..()
 	SSticker.mode.bloodsuckers |= owner // Only add after they've been given objectives
@@ -51,14 +52,46 @@
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
 	AssignStarterPowersAndStats() // Give Powers & Stats
+	add_antag_hud(antag_hud_type, antag_hud_name, owner.current)
+	if(is_banned(owner.current) && replace_banned)
+		replace_banned_player()
+	else if(owner.current.client?.holder && (CONFIG_GET(flag/auto_deadmin_antagonists) || owner.current.client.prefs?.toggles & DEADMIN_ANTAGONIST))
+		owner.current.client.holder.auto_deadmin()
+	if(owner.current.stat != DEAD)
+		owner.current.add_to_current_living_antags()
 	if(give_objectives)
 		forge_bloodsucker_objectives()
 
+/datum/antagonist/bloodsucker/is_banned(mob/M)
+	if(!M)
+		return FALSE
+	. = (is_banned_from(M.ckey, list(ROLE_SYNDICATE, job_rank)) || QDELETED(M))
+
+/datum/antagonist/bloodsucker/replace_banned_player()
+	set waitfor = FALSE
+
+	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a [name]?", "[name]", null, job_rank, 50, owner.current)
+	if(LAZYLEN(candidates))
+		var/mob/dead/observer/C = pick(candidates)
+		to_chat(owner, "Your mob has been taken over by a ghost! Appeal your job ban if you want to avoid this in the future!")
+		message_admins("[key_name_admin(C)] has taken control of ([key_name_admin(owner)]) to replace a jobbanned player.")
+		owner.current.ghostize(0)
+		owner.current.key = C.key
+
+///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	SSticker.mode.bloodsuckers -= owner
 	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
 	ClearAllPowersAndStats()// Clear Powers & Stats
+	remove_antag_hud(antag_hud_type, owner.current)
 	owner.special_role = null
+	if(!LAZYLEN(owner.antag_datums))
+		owner.current.remove_from_current_living_antags()
+	if(!silent && owner.current)
+		farewell()
+	var/datum/team/team = get_team()
+	if(team)
+		team.remove_member(owner)
 	. = ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -83,7 +116,6 @@
 			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
 	// Refill with Blood
 	owner.current.blood_volume = max(owner.current.blood_volume,BLOOD_VOLUME_SAFE)
-
 
 /datum/antagonist/bloodsucker/proc/SelectFirstName()
 	// Names (EVERYONE gets one))
@@ -140,7 +172,6 @@
 		bloodsucker_reputation = pick ("Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned","Fledgling","Young","Neonate","Scrapling","Untested","Unproven","Unknown","Newly Risen","Born","Scavenger","Unknowing",\
 							   "Unspoiled","Disgraced","Defrocked","Shamed","Meek","Timid","Broken")//,"Fresh")
 
-
 /datum/antagonist/bloodsucker/proc/AmFledgling()
 	return !bloodsucker_title
 
@@ -158,10 +189,70 @@
 
 	return fullname
 
+//Bloodsucker team
+/datum/team/bloodsucker
+	name = "Bloodsucker"
 
+/datum/antagonist/bloodsucker/get_team()
+	return bloodsucker_team
+
+/datum/antagonist/bloodsucker/create_team(datum/team/bloodsucker/new_team)
+	if(!new_team)
+		for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
+			if(!H.owner)
+				continue
+			if(H.bloodsucker_team)
+				bloodsucker_team = H.bloodsucker_team
+				return
+	if(!istype(new_team))
+		stack_trace("Wrong team type passed to [type] initialization.")
+	bloodsucker_team = new_team
+
+//Individual roundend report
+/datum/antagonist/bloodsucker/roundend_report()
+	// Get the default Objectives
+	var/list/report = list()
+
+	// Vamp Name
+	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
+
+	// Default Report
+	report += ..()
+
+	// Now list their vassals
+	if (vassals.len > 0)
+		report += "<span class='header'>Their Vassals were...</span>"
+		for (var/datum/antagonist/vassal/V in vassals)
+			if (V.owner)
+				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role]" : ""
+				report += "<b>[V.owner.name]</b> [jobname]"
+
+	return report.Join("<br>")
+
+//Displayed at the start of roundend_category section, default to roundend_category header
+/datum/antagonist/bloodsucker/roundend_report_header()
+	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
+
+//ADMIN TOOLS
+
+//Called when using admin tools to give antag status
+/datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
+	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
+	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
+	new_owner.add_antag_datum(src)
+
+//Called when removing antagonist using admin tools
+/datum/antagonist/bloodsucker/admin_remove(mob/user)
+	if(!user)
+		return
+	message_admins("[key_name_admin(user)] has removed [name] antagonist status from [key_name_admin(owner)].")
+	log_admin("[key_name(user)] has removed [name] antagonist status from [key_name(owner)].")
+	on_removal()
+
+// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)//(obj/effect/proc_holder/spell/power)
 	powers += power
-	power.Grant(owner.current)// owner.AddSpell(power)
+	power.Grant(owner.current) // owner.AddSpell(power)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	update_hud(owner.current)
@@ -320,25 +411,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//This handles the application of antag huds/special abilities
-
-/datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
-
-//This handles the removal of antag huds/special abilities
-/datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
-/*	if(owner.current.hud_used)
-		owner.current.hud_used.sunlight_display.icon_state = null
-		owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
-		owner.current.hud_used.blood_display.icon_state = null
-		owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
-		owner.current.hud_used.vamprank_display.icon_state = null
-		owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
-*/
-
 //Assign default team and creates one for one of a kind team antagonists
 
 // Create Objectives
@@ -408,32 +480,6 @@
 		return "<font color=red>Final Death</font>"
 	return ..()
 
-
-
-//Individual roundend report
-/datum/antagonist/bloodsucker/roundend_report()
-	// Get the default Objectives
-	var/list/report = list()
-
-	// Vamp Name
-	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
-
-	// Default Report
-	report += ..()
-
-	// Now list their vassals
-	if (vassals.len > 0)
-		report += "<span class='header'>Their Vassals were...</span>"
-		for (var/datum/antagonist/vassal/V in vassals)
-			if (V.owner)
-				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role]" : ""
-				report += "<b>[V.owner.name]</b> [jobname]"
-
-	return report.Join("<br>")
-
-//Displayed at the start of roundend_category section, default to roundend_category header
-/datum/antagonist/bloodsucker/roundend_report_header()
-	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
 
 
 

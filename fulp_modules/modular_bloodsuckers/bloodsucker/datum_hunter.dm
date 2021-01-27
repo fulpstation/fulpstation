@@ -8,7 +8,7 @@
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
-	antag_hud_name = "monter hunter"
+	antag_hud_name = "vassal_grey"
 	var/list/datum/action/powers = list() // Purchased powers
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.

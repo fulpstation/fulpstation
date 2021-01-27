@@ -30,17 +30,6 @@
 				exposed_mob.ContactContractDisease(strain)
 			else //ingest, patch or inject
 				exposed_mob.ForceContractDisease(strain)
-	if(data["blood_type"] == "SY") //Fulpstation Bloodsuckers edit: Synthblood is very disgusting, they will puke it out without masquarade.
-		switch(reac_volume)
-			if(0 to 3)
-				disgust_bloodsucker(exposed_mob, 3, FALSE, FALSE, FALSE)
-			if(3 to 6)
-				//If theres more than 8 units, they will start expelling it, even if they are masquarading.
-				disgust_bloodsucker(exposed_mob, 5, FALSE, FALSE, TRUE)
-			else
-				//If they have too much in them, they will also puke out their blood.
-				disgust_bloodsucker(exposed_mob, 7, -5, TRUE, TRUE)
-
 
 	if(iscarbon(exposed_mob))
 		var/mob/living/carbon/exposed_carbon = exposed_mob
