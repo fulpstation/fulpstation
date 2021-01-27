@@ -1,7 +1,7 @@
 /datum/game_mode
 	var/list/datum/mind/bloodsuckers = list() 		// List of minds belonging to this game mode.
 	var/list/datum/mind/vassals = list() 			// List of minds that have been turned into Vassals.
-	var/list/datum/mind/monsterhunters = list() 		// List of minds hunting vampires. Disabled at the moment
+	var/list/datum/mind/monsterhunters = list() 		// List of minds hunting monsters.
 	var/obj/effect/sunlight/bloodsucker_sunlight	// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 
 	// LISTS //
@@ -31,7 +31,6 @@
 	reroll_friendly = 1
 	enemy_minimum_age = 7
 	round_ends_with_antag_death = FALSE
-
 
 	announce_span = "danger"
 	announce_text = "Filthy, bloodsucking vampires are crawling around disguised as crewmembers!\n\
@@ -112,11 +111,6 @@
 		//if(creator) // REMOVED. You wouldn't see their name if there is no mind, so why say anything?
 		//	to_chat(creator, "<span class='danger'>[bloodsucker] isn't self-aware enough to be raised as a Bloodsucker!</span>")
 		return FALSE
-	// Current body is invalid
-	if(!ishuman(bloodsucker.current))// && !ismonkey(bloodsucker.current))
-		if(display_warning && creator)
-			to_chat(creator, "<span class='danger'>[bloodsucker] isn't evolved enough to be raised as a Bloodsucker!</span>")
-		return FALSE
 	// Species Must have a HEART (Sorry Plasmabois)
 	var/mob/living/carbon/human/H = bloodsucker.current
 	if(NOBLOOD in H.dna.species.species_traits)
@@ -131,12 +125,6 @@
 		if(display_warning && creator)
 			to_chat(creator, "<span class='danger'>[bloodsucker] is already a Bloodsucker!</span>")
 		return FALSE
-	// Not High Enough
-	if(creator)
-		var/datum/antagonist/bloodsucker/creator_bloodsucker = creator.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
-		if(!istype(creator_bloodsucker) || creator_bloodsucker.bloodsucker_level < BLOODSUCKER_LEVEL_TO_EMBRACE)
-			to_chat(creator, "<span class='danger'>Your blood is too thin to turn this corpse!</span>")
-			return FALSE
 	return TRUE
 
 
@@ -145,7 +133,6 @@
 		return FALSE
 	// Create Datum: Fledgling
 	var/datum/antagonist/bloodsucker/A
-
 	// [FLEDGLING]
 	if(creator)
 		A = new (bloodsucker)

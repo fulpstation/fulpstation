@@ -55,11 +55,6 @@
 	update_icon()
 	return 1
 
-/obj/item/organ/heart/proc/HeartStrengthMessage() // Fulpstation Bloodsuckers
-	if(beating)
-		return "a healthy"
-	return "<span class='danger'>an unstable</span>"
-
 /obj/item/organ/heart/OnEatFrom(eater, feeder)
 	. = ..()
 	beating = FALSE

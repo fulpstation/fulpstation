@@ -12,6 +12,7 @@
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NODISMEMBER))
 		return FALSE
+
 	if(HAS_TRAIT(C, TRAIT_NOGUT)) // Fulpstation Bloodsuckers
 		return FALSE
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
