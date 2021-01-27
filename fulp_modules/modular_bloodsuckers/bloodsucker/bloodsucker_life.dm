@@ -413,3 +413,4 @@
 	description = "<span class='boldwarning'>Something I recently ate was horrifyingly disgusting.</span>\n"
 	mood_change = -5
 	timeout = 5 MINUTES
+//End of Bloodsucker moodlets
