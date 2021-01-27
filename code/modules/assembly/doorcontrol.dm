@@ -13,6 +13,11 @@
 	if(id)
 		. += "<span class='notice'>Its channel ID is '[id]'.</span>"
 
+/obj/item/assembly/control/multitool_act(mob/living/user)
+	var/change_id = input("Set the shutters/blast door/blast door controllers ID. It must be a number between 1 and 100.", "ID", id) as num|null
+	if(change_id)
+		id = clamp(round(change_id, 1), 1, 100)
+
 /obj/item/assembly/control/activate()
 	var/openclose
 	if(cooldown)
