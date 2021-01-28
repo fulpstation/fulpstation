@@ -5,17 +5,14 @@
 	default_color = "00FF00"
 	inherent_biotypes = MOB_ROBOTIC|MOB_HUMANOID
 	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER,TRAIT_RADIMMUNE,TRAIT_VIRUSIMMUNE,TRAIT_NOBREATH,TRAIT_TOXIMMUNE,TRAIT_NOCLONELOSS,TRAIT_GENELESS,TRAIT_STABLEHEART,TRAIT_NO_HUSK)
-	species_traits = list(MUTCOLORS_PARTSONLY,LIPS,NOEYESPRITES,NOTRANSSTING,REVIVES_BY_HEALING,ROBOTIC_LIMBS,TRAIT_RESISTCOLD,TRAIT_NOMETABOLISM,NOZOMBIE,TRAIT_PIERCEIMMUNE)
-	// mutant_bodyparts = list("ipc_screen", "ipc_antenna", "ipc_chassis")
+	species_traits = list(MUTCOLORS_PARTSONLY,LIPS,NOEYESPRITES,NOTRANSSTING,REVIVES_BY_HEALING,ROBOTIC_LIMBS,TRAIT_RESISTCOLD,NOZOMBIE,TRAIT_PIERCEIMMUNE, TRAIT_NOFLASH)
 	mutant_bodyparts = list("ipc_screen" = "BSOD", "ipc_antenna" = "None", "ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)")
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
-	coldmod = 0.5
-	burnmod = 1.1
+	burnmod = 1.5
 	heatmod = 1.2
-	brutemod = 1.1
+	brutemod = 1.5
 	siemens_coeff = 1.2 //Not more because some shocks will outright crit you, which is very unfun
 	limbs_icon = 'fulp_modules/ipc/icons/ipc_parts.dmi'
-	hair_alpha = 210
 	sexes = 0
 	mutant_organs = list(/obj/item/organ/cyberimp/arm/power_cord)
 	mutantbrain = /obj/item/organ/brain/ipc_positron
@@ -28,8 +25,17 @@
 	mutantliver = /obj/item/organ/liver/robot_ipc
 	exotic_blood = /datum/reagent/fuel/oil
 	species_language_holder = /datum/language_holder/ipc
+	reagent_flags = PROCESS_SYNTHETIC
 	var/datum/action/innate/monitor_change/screen
 	var/saved_screen = "Blank"
+
+/datum/species/ipc/spec_life(mob/living/carbon/human/H)
+	if(H.stat == SOFT_CRIT || H.stat == HARD_CRIT)
+		H.adjustFireLoss(1)
+		H.adjust_bodytemperature(13) //We're overheating!!
+		if(prob(10))
+			to_chat(H, "<span class='warning'>Alert: Critical damage taken! Cooling systems failing!</span>")
+			do_sparks(3, TRUE, H)
 
 /datum/species/ipc/spec_revival(mob/living/carbon/human/H)
 	. = ..()

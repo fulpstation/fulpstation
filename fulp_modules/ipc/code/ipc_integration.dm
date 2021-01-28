@@ -1,6 +1,11 @@
 /datum/species
 	///Override of icon file of which we're taking the icons from for our limbs
 	var/limbs_icon
+	var/reagent_flags = PROCESS_ORGANIC
+
+/datum/species/android
+	limbs_icon = 'icons/mob/augmentation/augments.dmi'
+	reagent_flags = PROCESS_SYNTHETIC
 
 /obj/item/bodypart
 	//Works in conjuction with limbs_icon to provide the overlay of the limb.

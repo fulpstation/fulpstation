@@ -1,4 +1,4 @@
-/obj/item/organ/lungs/cybernetic/robot_ipc
+/obj/item/organ/lungs/robot_ipc
 	name = "heat sink"
 	desc = "A device that transfers generated heat to a fluid medium to cool it down. Required to keep your synthetics cool-headed. It's shape resembles lungs." //Purposefully left the 'fluid medium' ambigious for interpretation of the character, whether it be air or fluid cooling
 	icon = 'fulp_modules/ipc/icons/ipc_organs.dmi'
@@ -16,6 +16,7 @@
 	cold_level_3_damage = 0
 	status = ORGAN_ROBOTIC
 	organ_flags = ORGAN_SYNTHETIC
+	slot = ORGAN_SLOT_LUNGS
 
 /obj/item/organ/lungs/robot_ipc/emp_act(severity)
 	. = ..()
