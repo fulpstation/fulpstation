@@ -23,11 +23,6 @@
 	if(id)
 		. += "<span class='notice'>Its channel ID is '[id]'.</span>"
 
-/obj/machinery/door/poddoor/multitool_act(mob/living/user)
-	var/change_id = input("Set the shutters/blast door/blast door controllers ID. It must be a number between 1 and 100.", "ID", id) as num|null
-	if(change_id)
-		id = clamp(round(change_id, 1), 1, 100)
-
 /obj/machinery/door/poddoor/attackby(obj/item/W, mob/user, params)
 	. = ..()
 	if(ertblast && W.tool_behaviour == TOOL_SCREWDRIVER) // This makes it so ERT members cannot cheese by opening their blast doors.
@@ -43,6 +38,12 @@
 			return TRUE
 
 	if(panel_open)
+		if(W.tool_behaviour == TOOL_MULTITOOL)
+			var/change_id = input("Set the shutters/blast door/blast door controllers ID. It must be a number between 1 and 100.", "ID", id) as num|null
+			if(change_id)
+				id = clamp(round(change_id, 1), 1, 100)
+				to_chat(user, "<span class='notice'>You change the ID to [id].</span>")
+
 		if(W.tool_behaviour == TOOL_CROWBAR && deconstruction == INTACT)
 			to_chat(user, "<span class='notice'>You start to remove the airlock electronics.</span>")
 			if(do_after(user, 10 SECONDS, target = src))
