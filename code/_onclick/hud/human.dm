@@ -313,19 +313,16 @@
 	lingstingdisplay.hud = src
 	infodisplay += lingstingdisplay
 
-	blood_display = new /atom/movable/screen/bloodsucker/blood_counter()	// Fulpstation Bloodsuckers
+	blood_display = new /atom/movable/screen/bloodsucker/blood_counter() // Fulpstation Bloodsuckers
 	blood_display.hud = src
-	blood_display.update_icon()
 	infodisplay += blood_display
 
-	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter()	// Fulpstation Bloodsuckers
+	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter() // Fulpstation Bloodsuckers
 	vamprank_display.hud = src
-	vamprank_display.update_icon()
 	infodisplay += vamprank_display
 
-	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter()	// Fulpstation Bloodsuckers
+	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter() // Fulpstation Bloodsuckers
 	sunlight_display.hud = src
-	sunlight_display.update_icon()
 	infodisplay += sunlight_display
 
 	zone_select =  new /atom/movable/screen/zone_sel()

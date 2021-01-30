@@ -636,7 +636,6 @@
 		/////////////////////////////////////
 
 		// BLOOD COUNTER & RANK MARKER ! //
-
 #define ui_blood_display "WEST:6,CENTER-1:0"  	  // 1 tile down
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"   // 2 tiles down
 #define ui_sunlight_display "WEST:6,CENTER-0:0"  // 6 pixels to the right, zero tiles & 5 pixels DOWN.
