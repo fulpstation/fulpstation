@@ -17,8 +17,6 @@
 	job_rank = ROLE_BLOODSUCKER
 	var/datum/antagonist/bloodsucker/master		// Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
-	antag_hud_type = ANTAG_HUD_BLOODSUCKER
-	antag_hud_name = "vassal"
 
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
@@ -56,7 +54,7 @@
 	objectives += vassal_objective
 	give_thrall_eyes()
 	owner.current.grant_language(/datum/language/vampiric)
-	. = ..()
+	return ..()
 
 /datum/antagonist/vassal/proc/give_thrall_eyes()
 	var/obj/item/organ/eyes/vassal/E = new
@@ -92,8 +90,7 @@
 	owner.current.remove_language(/datum/language/vampiric)
 	// Clear Antag
 	owner.special_role = null
-
-	. = ..()
+	return ..()
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, "<span class='userdanger'>You are now the mortal servant of [master.owner.current], a bloodsucking vampire!</span>")

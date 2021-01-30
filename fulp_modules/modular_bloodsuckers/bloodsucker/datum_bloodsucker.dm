@@ -43,6 +43,14 @@
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list (BLOODSUCKER_TRAIT, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NOGUT)
 
+//This handles the application of antag huds/special abilities
+/datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
+	return
+
+//This handles the removal of antag huds/special abilities
+/datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
+	return
+
 ///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	. = ..()
@@ -61,6 +69,8 @@
 		owner.current.add_to_current_living_antags()
 	if(give_objectives)
 		forge_bloodsucker_objectives()
+	update_bloodsucker_icons_added(owner.current, "bloodsucker")
+	return ..()
 
 /datum/antagonist/bloodsucker/is_banned(mob/M)
 	if(!M)
@@ -92,7 +102,8 @@
 	var/datum/team/team = get_team()
 	if(team)
 		team.remove_member(owner)
-	. = ..()
+	update_bloodsucker_icons_removed(owner.current)
+	return ..()
 
 /datum/antagonist/bloodsucker/greet()
 	var/fullname = ReturnFullName(TRUE)
@@ -255,7 +266,9 @@
 	power.Grant(owner.current) // owner.AddSpell(power)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	update_hud(owner.current)
+	// Blood/Rank Counter
+	add_hud()
+	update_hud(owner.current) 	// Set blood value, current rank
 	// Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
@@ -295,6 +308,8 @@
 	CureDisabilities()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
+	// Blood/Rank Counter
+	remove_hud()
 	// Powers
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
@@ -629,13 +644,64 @@
 
 
 /////////////////////////////////////
-
 		// HUD! //
+/////////////////////////////////////
 
+/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
+	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	vamphud.join_hud(owner.current)
+	set_antag_hud(owner.current, "bloodsucker") // "bloodsucker"
+	owner.current.hud_list[ANTAG_HUD].icon = image('icons/mob/actions/actions_bloodsucker.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
+
+/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
+	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	vamphud.leave_hud(owner.current)
+	set_antag_hud(owner.current, null)
+
+
+/datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
+
+/datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
+	if (!check_valid_hud_user(M,A)) 	// FULP: This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
+		return
+	..()
+
+/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
+	// Ghost Admins always see Bloodsuckers/Vassals
+	if (isobserver(M))
+		return TRUE
+	// GOAL: Vassals see their Master and his other Vassals.
+	// GOAL: Vassals can BE seen by their Bloodsucker and his other Vassals.
+	// GOAL: Bloodsuckers can see each other.
+	if (!M || !A || !ismob(A) || !M.mind)// || !A.mind)
+		return FALSE
+	var/mob/A_mob = A
+	if (!A_mob.mind)
+		return FALSE
+	// Find Datums: Bloodsucker
+	var/datum/antagonist/bloodsucker/atom_B = A_mob.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/mob_B = M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	// Check 1) Are we both Bloodsuckers?
+	if (atom_B && mob_B)
+		return TRUE
+	// Find Datums: Vassal
+	var/datum/antagonist/vassal/atom_V = A_mob.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	var/datum/antagonist/vassal/mob_V = M.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	// Check 2) If they are a BLOODSUCKER, then are they my Master?
+	if (mob_V && atom_B == mob_V.master)
+		return TRUE // SUCCESS!
+	// Check 3) If I am a BLOODSUCKER, then are they my Vassal?
+	if (mob_B && atom_V && (atom_V in mob_B.vassals))
+		return TRUE // SUCCESS!
+	// Check 4) If we are both VASSAL, then do we have the same master?
+	if (atom_V && mob_V && atom_V.master == mob_V.master)
+		return TRUE // SUCCESS!
+	return FALSE
 
 		/////////////////////////////////////
-
 		// BLOOD COUNTER & RANK MARKER ! //
+		/////////////////////////////////////
+
 #define ui_blood_display "WEST:6,CENTER-1:0"  	  // 1 tile down
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"   // 2 tiles down
 #define ui_sunlight_display "WEST:6,CENTER-0:0"  // 6 pixels to the right, zero tiles & 5 pixels DOWN.
@@ -646,29 +712,45 @@
 	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
+/datum/antagonist/bloodsucker/proc/add_hud()
+	return
+
+/datum/antagonist/bloodsucker/proc/remove_hud()
+	// No Hud? Get out.
+	if (!owner.current.hud_used)
+		return
+	owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
+	owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
+	owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
+
 /atom/movable/screen/bloodsucker
-	icon = 'icons/mob/actions/actions_bloodsucker.dmi'
 	invisibility = INVISIBILITY_ABSTRACT
 
-/atom/movable/screen/bloodsucker/proc/update_counter(value, valuecolor)
+/atom/movable/screen/bloodsucker/proc/clear()
+	invisibility = INVISIBILITY_ABSTRACT
+
+/atom/movable/screen/bloodsucker/proc/update_counter()
 	invisibility = 0
 
 /atom/movable/screen/bloodsucker/blood_counter
+	icon = 'icons/mob/actions/actions_bloodsucker.dmi'
 	name = "Blood Consumed"
 	icon_state = "blood_display"
 	screen_loc = ui_blood_display
 
 /atom/movable/screen/bloodsucker/rank_counter
+	icon = 'icons/mob/actions/actions_bloodsucker.dmi'
 	name = "Bloodsucker Rank"
 	icon_state = "rank"
 	screen_loc = ui_vamprank_display
 
 /atom/movable/screen/bloodsucker/sunlight_counter
+	icon = 'icons/mob/actions/actions_bloodsucker.dmi'
 	name = "Solar Flare Timer"
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
-var/valuecolor = "valuecolor"
+var/valuecolor
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
@@ -687,7 +769,7 @@ var/valuecolor = "valuecolor"
 		if(updateRank) // Only change icon on special request.
 			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
 
-/datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay)
+/datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
 	// No Hud? Get out.
 	if(!owner.current.hud_used)
 		return

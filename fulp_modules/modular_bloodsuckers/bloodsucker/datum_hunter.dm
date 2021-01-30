@@ -2,41 +2,37 @@
 #define HUNTER_SCAN_MAX_DISTANCE 35
 #define HUNTER_SCAN_PING_TIME 20 //5s update time.
 
+/datum/game_mode
+	var/list/datum/mind/monsterhunter = list()
+
 /datum/antagonist/monsterhunter
 	name = "Hunter"
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
-	antag_hud_type = ANTAG_HUD_BLOODSUCKER
-	antag_hud_name = "vassal_grey"
 	var/list/datum/action/powers = list() // Purchased powers
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.
 
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
+	return
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
+	return
 
 /datum/antagonist/monsterhunter/on_gain()
-
+	SSticker.mode.monsterhunter += owner
 	// Hunter Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
-
 	// Give Hunter Power
 	var/datum/action/P = new /datum/action/bloodsucker/trackvamp
 	P.Grant(owner.current)
-
 	// Give Hunter Martial Arts
 	if (rand(1,2) == 1)
 		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/krav_maga, /datum/martial_art/wrestling, /datum/martial_art/hunterfu)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
 		my_kungfu = new pick_type //pick (/datum/martial_art/boxing, /datum/martial_art/cqc) // ick_type
 		my_kungfu.teach(owner.current, 0)
-
 	// Give Hunter Objective
 	var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
 	monsterhunter_objective.owner = owner
@@ -50,36 +46,40 @@
 			download_objective.owner = owner
 			download_objective.gen_amount_goal()
 			objectives += download_objective
-
 		else
 			var/datum/objective/steal/steal_objective = new
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
+	return ..()
 
-
-	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()
+	// Clear Antag
+	SSticker.mode.monsterhunter -= owner
+	owner.special_role = null
+	if(!LAZYLEN(owner.antag_datums))
+		owner.current.remove_from_current_living_antags()
+	if(!silent && owner.current)
+		farewell()
 	// Master Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
-	// Powers
+	// Remove martial arts
 	if(owner.current)
 		for (var/datum/action/bloodsucker/P in owner.current.actions)
 			P.Remove(owner.current)
 		my_kungfu.remove(owner.current)
 	// Remove Hunter Objectives
 	remove_objective()
-	// Clear Antag
-	owner.special_role = null
-	// Remove martial arts
-	. = ..()
+	return ..()
 
 /datum/antagonist/monsterhunter/proc/add_objective(datum/objective/O)
 	objectives += O
 
-/datum/antagonist/monsterhunter/proc/remove_objective(datum/objective/O)
-	objectives -= O
+/datum/antagonist/monsterhunter/proc/remove_objective()
+	for(var/O in objectives)
+		objectives -= O
+		qdel(O)
 
 /datum/antagonist/monsterhunter/greet()
 	var/monsterhunter_greet
@@ -237,7 +237,7 @@
 	id = "MARTIALART_HUNTER" //ID, used by mind/has_martialart
 	help_verb = /mob/living/carbon/human/proc/hunterfu_help
 	block_chance = 60
-	allow_temp_override = TRUE //if this martial art can be overridden by temporary martial arts
+	allow_temp_override = TRUE
 	smashes_tables = FALSE
 	var/restraining = FALSE
 	var/old_grab_state = null
