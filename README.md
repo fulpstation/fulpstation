@@ -1,6 +1,6 @@
 ## Fulpstation codebase
 
-[![Build Status](https://github.com/fulpstation/fulpstation/workflows/CI%20Suite/badge.svg)](https://github.com/fulpstation/fulpstation/actions?query=workflow%3A%22CI+Suite%22) 
+[![Build Status](https://github.com/fulpstation/fulpstation/workflows/CI%20Suite/badge.svg)](https://github.com/fulpstation/fulpstation/actions?query=event%3Apush+branch%3Amaster) 
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/fulpstation/fulpstation.svg)](https://isitmaintained.com/project/fulpstation/fulpstation "Percentage of issues still open")
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/fulpstation/fulpstation.svg)](https://isitmaintained.com/project/fulpstation/fulpstation "Average time to resolve an issue")
 
