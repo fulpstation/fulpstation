@@ -2178,8 +2178,9 @@
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
-	location = "Security";
+	location = "Security Meeting Room";
 	name = "Delivery Beacon - Security Main"
 	},
 /obj/effect/turf_decal/bot,
@@ -31861,7 +31862,7 @@
 	dir = 1
 	},
 /turf/open/floor/plasteel/white,
-/area/medical/pharmacy)
+/area/hallway/primary/starboard)
 "brH" = (
 /turf/open/floor/plating/rust,
 /area/maintenance/department/medical)
@@ -34207,7 +34208,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/structure/window,
 /turf/open/floor/plasteel,
-/area/janitor)
+/area/hallway/primary/port)
 "byl" = (
 /obj/item/kirbyplants/random,
 /obj/machinery/light{
@@ -34254,7 +34255,7 @@
 /obj/structure/window,
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel,
-/area/crew_quarters/kitchen)
+/area/hallway/primary/central)
 "byq" = (
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
@@ -34342,7 +34343,7 @@
 	req_access_txt = "25"
 	},
 /turf/open/floor/carpet,
-/area/crew_quarters/bar)
+/area/hallway/primary/central)
 "byA" = (
 /obj/structure/table,
 /obj/item/reagent_containers/food/drinks/shaker,
@@ -34367,7 +34368,7 @@
 /obj/structure/window,
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel,
-/area/hydroponics)
+/area/hallway/primary/port)
 "byC" = (
 /obj/machinery/light{
 	dir = 8;
@@ -34626,7 +34627,7 @@
 	},
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/white,
-/area/science/robotics/lab)
+/area/hallway/primary/starboard)
 "bzg" = (
 /obj/effect/turf_decal/siding/purple{
 	color = "#4D0067";
@@ -35446,7 +35447,7 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/white,
-/area/science/lab)
+/area/hallway/primary/starboard)
 "bAX" = (
 /obj/structure/table/glass,
 /obj/machinery/status_display/evac{
@@ -38907,8 +38908,9 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
-	location = "Research";
+	location = "Library";
 	name = "Delivery Beacon - Library"
 	},
 /turf/open/floor/wood,
@@ -52825,6 +52827,7 @@
 "col" = (
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
 	location = "QM#1";
 	name = "Delivery Beacon - QM"
@@ -52849,18 +52852,20 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
 	location = "QM#2";
 	name = "Delivery Beacon - QM"
-	},
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	suffix = "#2"
 	},
 /obj/effect/turf_decal/siding/brown{
 	dir = 1
 	},
 /obj/effect/turf_decal/bot,
+/mob/living/simple_animal/bot/mulebot{
+	beacon_freq = 1400;
+	home_destination = "QM #1";
+	suffix = "#1"
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "coo" = (
@@ -52873,6 +52878,7 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
 	location = "QM#3";
 	name = "Delivery Beacon - QM"
@@ -52881,6 +52887,11 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/bot,
+/mob/living/simple_animal/bot/mulebot{
+	beacon_freq = 1400;
+	home_destination = "QM #1";
+	suffix = "#1"
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "cop" = (
@@ -53194,6 +53205,7 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
 	location = "QM#4";
 	name = "Delivery Beacon - QM"
@@ -53202,6 +53214,11 @@
 	dir = 5
 	},
 /obj/effect/turf_decal/bot,
+/mob/living/simple_animal/bot/mulebot{
+	beacon_freq = 1400;
+	home_destination = "QM #1";
+	suffix = "#1"
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "coQ" = (
@@ -68343,7 +68360,7 @@
 	codes_txt = "delivery;dir=1";
 	dir = 1;
 	freq = 1400;
-	location = "Research";
+	location = "Medbay";
 	name = "Delivery Beacon - Medbay"
 	},
 /turf/open/floor/plating,
@@ -69214,14 +69231,14 @@
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 8;
+	dir = 1;
 	freq = 1400;
 	location = "Engineering";
 	name = "Delivery Beacon - Engineering"
 	},
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plasteel,
-/area/engine/lobby)
+/area/hallway/primary/aft)
 "eEh" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 9
@@ -71315,14 +71332,15 @@
 "hUd" = (
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=1";
+	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
 	location = "Bar";
 	name = "Delivery Beacon - Bar"
 	},
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plating,
-/area/crew_quarters/bar)
+/area/hallway/primary/central)
 "hVe" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
@@ -71605,12 +71623,13 @@
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
-	location = "Bar";
+	location = "Kitchen";
 	name = "Delivery Beacon - Kitchen"
 	},
 /turf/open/floor/plating,
-/area/crew_quarters/kitchen)
+/area/hallway/primary/central)
 "itB" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
@@ -71807,12 +71826,13 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
+	dir = 1;
 	freq = 1400;
-	location = "Bar";
+	location = "Janitor";
 	name = "Delivery Beacon - Janitor"
 	},
 /turf/open/floor/plasteel,
-/area/janitor)
+/area/hallway/primary/port)
 "iIX" = (
 /obj/structure/cable,
 /turf/closed/wall,
@@ -72461,9 +72481,9 @@
 /obj/structure/plasticflaps,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=8";
-	dir = 8;
+	dir = 1;
 	freq = 1400;
-	location = "Research";
+	location = "Security Front Desk";
 	name = "Delivery Beacon - Security Front Desk"
 	},
 /turf/open/floor/plasteel,
@@ -76094,12 +76114,13 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
-	location = "Bar";
+	location = "Botany";
 	name = "Delivery Beacon - Botany"
 	},
 /turf/open/floor/plating,
-/area/hydroponics)
+/area/hallway/primary/port)
 "oFP" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/structure/fluff/broken_flooring{
@@ -77742,13 +77763,14 @@
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
-	location = "Research";
+	location = "Robotics";
 	name = "Delivery Beacon - Robotics"
 	},
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plasteel,
-/area/science/robotics/lab)
+/area/hallway/primary/starboard)
 "rfQ" = (
 /obj/structure/fluff/broken_flooring{
 	dir = 4;
@@ -77930,12 +77952,12 @@
 	codes_txt = "delivery;dir=1";
 	dir = 1;
 	freq = 1400;
-	location = "Research";
+	location = "Pharmacy";
 	name = "Delivery Beacon - Pharmacy"
 	},
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plasteel,
-/area/medical/pharmacy)
+/area/hallway/primary/starboard)
 "rrC" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
@@ -78668,12 +78690,13 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
+	dir = 1;
 	freq = 1400;
 	location = "Research";
 	name = "Delivery Beacon - Research"
 	},
 /turf/open/floor/plasteel/white,
-/area/science/lab)
+/area/hallway/primary/starboard)
 "svS" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/decal/cleanable/dirt,
@@ -82004,7 +82027,7 @@
 	},
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel,
-/area/engine/lobby)
+/area/hallway/primary/aft)
 "xaF" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
