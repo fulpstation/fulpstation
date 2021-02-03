@@ -3,7 +3,6 @@
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
 
-
 /datum/antagonist/bloodsucker
 	name = "Bloodsucker"
 	roundend_category = "bloodsuckers"
@@ -14,29 +13,24 @@
 	var/vampname						// My Dracula name
 	var/vamptitle						// My Dracula title
 	var/vampreputation					// My "Surname" or description of my deeds
-
 	// CLAN
 	var/datum/team/vampireclan/clan
 	var/list/datum/antagonist/vassal/vassals = list()// Vassals under my control. Periodically remove the dead ones.
 	var/datum/mind/creator				// Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
-
 	// POWERS
 	var/list/datum/action/powers = list()// Purchased powers
 	var/poweron_feed = FALSE			// Am I feeding?
 	var/poweron_masquerade = FALSE
-
 	// STATS
 	var/vamplevel = 0
 	var/vamplevel_unspent = 1
 	var/regenRate = 0.3					// How many points of Brute do I heal per tick?
 	var/feedAmount = 15					// Amount of blood drawn from a target per tick.
 	var/maxBloodVolume = 600			// Maximum blood a Vamp can hold via feeding. // BLOOD_VOLUME_NORMAL  550 // BLOOD_VOLUME_SAFE 475 //BLOOD_VOLUME_OKAY 336 //BLOOD_VOLUME_BAD 224 // BLOOD_VOLUME_SURVIVE 122
-
 	// OBJECTIVES
 	var/list/datum/objective/objectives_given = list()	// For removal if needed.
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
-
 	// TRACKING
 	var/foodInGut = 0					// How much food to throw up later. You shouldn't have eaten that.
 	var/warn_sun_locker = FALSE			// So we only get the locker burn message once per day.
@@ -55,47 +49,34 @@
 /datum/antagonist/bloodsucker/on_gain()
 
 	SSticker.mode.bloodsuckers |= owner // Add if not already in here (and you might be, if you were picked at round start)
-
 	// Start Sunlight? (if first Vamp)
 	SSticker.mode.check_start_sunlight()
-
 	// Name & Title
 	SelectFirstName()
 	SelectTitle(am_fledgling=TRUE) // creator ? 1 : 0) 		// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling=TRUE) // creator ? 1 : 0)
-
 	// Give Powers & Stats
 	AssignStarterPowersAndStats()
-
 	// Objectives & Team
 	forge_bloodsucker_objectives()
-
 	// Add Antag HUD
 	update_bloodsucker_icons_added(owner.current, "bloodsucker")
-
 	// Run Life Function
 	LifeTick()
 	. = ..()
 
-
 /datum/antagonist/bloodsucker/on_removal()
 
 	SSticker.mode.bloodsuckers -= owner
-
 	// End Sunlight? (if last Vamp)
 	SSticker.mode.check_cancel_sunlight()
-
 	// Clear Powers & Stats
 	ClearAllPowersAndStats()
-
 	// Objectives
 	clear_bloodsucker_objectives()
-
 	// Clear Antag HUD
 	update_bloodsucker_icons_removed(owner.current)
-
 	. = ..()
-
 
 
 /datum/antagonist/bloodsucker/greet()
@@ -113,15 +94,11 @@
 	owner.current.playsound_local(null, 'sound/Fulpsounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in un-death you earned the name <b>[fullname]</b>.<br>"
 
-
 /datum/antagonist/bloodsucker/farewell()
 	owner.current.visible_message("[owner.current]'s skin flushes with color, their eyes growing glossier. They look...alive.",\
 			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
 	// Refill with Blood
 	owner.current.blood_volume = max(owner.current.blood_volume,BLOOD_VOLUME_SAFE)
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -153,7 +130,6 @@
 			vamptitle = pick ("Count","Baron","Viscount","Prince","Duke","Tzar","Dreadlord","Lord","Master")
 		else
 			vamptitle = pick ("Countess","Baroness","Viscountess","Princess","Duchess","Tzarina","Dreadlady","Lady","Mistress")
-
 		to_chat(owner, "<span class='announce'>You have earned a title! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
 	// Titles [Fledgling]
 	else
@@ -176,7 +152,6 @@
 				vampreputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
 
 		to_chat(owner, "<span class='announce'>You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
-
 	// Reputations [Fledgling]
 	else
 		vampreputation = pick ("Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned","Fledgling","Young","Neonate","Scrapling","Untested","Unproven","Unknown","Newly Risen","Born","Scavenger","Unknowing",\
@@ -187,7 +162,6 @@
 	return !vamptitle
 
 /datum/antagonist/bloodsucker/proc/ReturnFullName(var/include_rep=0)
-
 	var/fullname
 	// Name First
 	fullname = (vampname ? vampname : owner.current.name)
@@ -197,7 +171,6 @@
 	// Rep
 	if (include_rep && vampreputation)
 		fullname = fullname + " the " + vampreputation
-
 	return fullname
 
 
@@ -215,19 +188,20 @@
 	// Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
-
+	BuyPower(new /datum/action/bloodsucker/veil)
 	// Traits
-	for (var/T in defaultTraits)
-		ADD_TRAIT(owner.current, T, "bloodsucker")
+	if(HAS_TRAIT(owner.current, TRAIT_TOXINLOVER)) //No slime bonuses here, no thank you
+		had_toxlover = TRUE
+		REMOVE_TRAIT(owner.current, TRAIT_TOXINLOVER, SPECIES_TRAIT)
+	for(var/T in defaultTraits)
+		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	// Traits: Species
 	if (ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
 		S.species_traits |= DRINKSBLOOD
-
 	// Clear Addictions
 	owner.current.reagents.addiction_list = list() // Start over from scratch. Lucky you! At least you're not addicted to blood anymore (if you were)
-
 	// Stats
 	if (ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
@@ -247,18 +221,14 @@
 			//to_chat(H, "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself.")
 			H.dna.remove_mutation(CLOWNMUT)
 			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your nature is subdued.")
-
 	// Physiology
 	CheckVampOrgans() // Heart, Eyes
-
 	// Language
 	owner.current.grant_language(/datum/language/vampiric)
-
 	// Soul
 	owner.current.hellbound = TRUE
 	owner.hasSoul = FALSE 		// If false, renders the character unable to sell their soul.
 	REMOVE_TRAIT(owner.current, TRAIT_HOLY, null) // owner.isholy = FALSE 		// is this person a chaplain or admin role allowed to use bibles
-
 	// Disabilities
 	CureDisabilities()
 
@@ -266,14 +236,12 @@
 
 	// Blood/Rank Counter
 	remove_hud()
-
 	// Powers
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
 		powers -= power
 		power.Remove(owner.current)
 		// owner.RemoveSpell(power)
-
 	// Traits
 	for (var/T in defaultTraits)
 		REMOVE_TRAIT(owner.current, T, "bloodsucker")
@@ -281,27 +249,21 @@
 	if (ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		H.set_species(H.dna.species.type)
-
 	// Stats
 	if (ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		H.set_species(H.dna.species.type)
-
 		// Clown
 		if(istype(H) && owner.assigned_role == "Clown")
 			H.dna.add_mutation(CLOWNMUT)
 
 	// NOTE: Use initial() to return things to default!
-
 	// Physiology
 	owner.current.regenerate_organs()
-
 	// Update Health
 	owner.current.setMaxHealth(100)
-
 	// Language
 	owner.current.remove_language(/datum/language/vampiric)
-
 	// Soul
 	if (owner.soulOwner == owner) // Return soul, if *I* own it.
 		owner.hasSoul = TRUE
@@ -312,7 +274,6 @@
 	set waitfor = FALSE
 	if (!owner || !owner.current)
 		return
-
 	vamplevel_unspent ++
 	// Spend Rank Immediately?
 	if (istype(owner.current.loc, /obj/structure/closet/crate/coffin))
@@ -334,7 +295,6 @@
 
 	/////////
 	// Powers
-
 		// Purchase Power Prompt
 	var/list/options = list() // Taken from gasmask.dm, for Clown Masks.
 	for(var/pickedpower in typesof(/datum/action/bloodsucker))
@@ -408,8 +368,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 //This handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	return
@@ -421,8 +379,6 @@
 //Assign default team and creates one for one of a kind team antagonists
 /datum/antagonist/bloodsucker/create_team(datum/team/team)
 	return
-
-
 
 // Create Objectives
 /datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives() // Fledgling vampires can have different objectives.
@@ -485,10 +441,6 @@
 	return clan
 
 
-
-
-
-
 //Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
 	return ..() + "([ReturnFullName(TRUE)])"
@@ -499,12 +451,6 @@
 	if (owner && owner.AmFinalDeath())
 		return "<font color=red>Final Death</font>"
 	return ..()
-
-
-
-
-
-
 
 
 //Individual roundend report
@@ -531,9 +477,6 @@
 //Displayed at the start of roundend_category section, default to roundend_category header
 /datum/antagonist/bloodsucker/roundend_report_header()
 	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-
-
-
 
 
 //  		2019 Breakdown of Bloodsuckers:

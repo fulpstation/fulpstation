@@ -1,4 +1,3 @@
-
 // Level 1: Grapple level 2
 // Level 2: Grapple 3 from Behind
 // Level 3: Grapple 3 from Shadows
@@ -67,13 +66,13 @@
 	walk_towards(owner, T, 0.1, 10) // NOTE: this runs in the background! to cancel it, you need to use walk(owner.current,0), or give them a new path.
 	var/safety = 10
 	while(get_turf(owner) != T && safety > 0 && !(isliving(target) && target.Adjacent(owner)))
-		user.mobility_flags &= ~MOBILITY_MOVE // No Motion Bro
+		ADD_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized") // No Motion Bro
 		sleep(1)
 		safety --
 
 		// Did I get knocked down?
 		if (owner && owner.incapacitated())
-			if (!(user.mobility_flags & MOBILITY_STAND))
+			if (!(user.body_position == LYING_DOWN))
 				var/send_dir = get_dir(owner, T)
 				new /datum/forced_movement(owner, get_ranged_target_turf(owner, send_dir, 1), 1, FALSE)
 				owner.spin(10)
@@ -90,7 +89,7 @@
 		//target.Paralyze(10,1)
 		target.grabbedby(owner) 										// Taken from mutations.dm under changelings
 		target.grippedby(owner, instant = TRUE) //instant aggro grab
-
+		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized")
 		//	UNCONSCIOUS or MUTE!
 		//owner.start_pulling(target,GRAB_AGGRESSIVE)    // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
 
@@ -98,5 +97,5 @@
 
 
 /datum/action/bloodsucker/targeted/lunge/DeactivatePower(mob/living/user = owner, mob/living/target)
+	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "immobilized")
 	..() // activate = FALSE
-	user.update_mobility()
