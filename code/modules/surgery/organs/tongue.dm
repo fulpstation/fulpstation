@@ -24,6 +24,7 @@
 		/datum/language/beachbum,
 		/datum/language/aphasia,
 		/datum/language/piratespeak,
+		/datum/language/vampiric, // Fulpstation Bloodsuckers edit
 		/datum/language/moffic,
 		/datum/language/sylvan,
 		/datum/language/shadowtongue,

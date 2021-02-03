@@ -32,6 +32,9 @@
 	for(var/mob/living/simple_animal/hostile/guardian/G in GLOB.parasites)
 		if(G.summoner && locate(/obj/effect/proc_holder/spell/aoe_turf/timestop) in G.summoner.mind.spell_list) //It would only make sense that a person's stand would also be immune.
 			immune[G] = TRUE
+		if(G.summoner && locate(/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/guardian) in G.mob_spell_list) // Fulpstation Bloodsuckers
+			immune[G] = TRUE
+			immune[G.summoner] = TRUE
 	if(start)
 		INVOKE_ASYNC(src, .proc/timestop)
 
