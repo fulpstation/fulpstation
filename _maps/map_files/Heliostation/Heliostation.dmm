@@ -2178,8 +2178,6 @@
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
 	location = "Security Meeting Room";
 	name = "Delivery Beacon - Security Main"
 	},
@@ -10045,15 +10043,16 @@
 /turf/open/floor/plating,
 /area/security/warden)
 "auJ" = (
-/obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=4";
 	dir = 4;
-	freq = 1400;
 	location = "Bridge";
 	name = "Delivery Beacon - Bridge"
 	},
 /obj/effect/turf_decal/bot,
+/obj/structure/plasticflaps/opaque{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/ai_monitored/storage/eva)
 "auK" = (
@@ -31966,7 +31965,6 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
 	dir = 1;
-	freq = 1400;
 	location = "Tool Closet";
 	name = "Delivery Beacon - Tool Closet"
 	},
@@ -34206,7 +34204,7 @@
 	req_access_txt = "26"
 	},
 /obj/effect/turf_decal/delivery,
-/obj/structure/window,
+/obj/structure/window/reinforced,
 /turf/open/floor/plasteel,
 /area/hallway/primary/port)
 "byl" = (
@@ -34252,8 +34250,8 @@
 	name = "Bar Delivery";
 	req_access_txt = "28;35"
 	},
-/obj/structure/window,
 /obj/effect/turf_decal/delivery,
+/obj/structure/window/reinforced,
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "byq" = (
@@ -34365,8 +34363,8 @@
 	name = "Hydroponics Delivery";
 	req_access_txt = "35"
 	},
-/obj/structure/window,
 /obj/effect/turf_decal/delivery,
+/obj/structure/window/reinforced,
 /turf/open/floor/plasteel,
 /area/hallway/primary/port)
 "byC" = (
@@ -38908,8 +38906,6 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
 	location = "Library";
 	name = "Delivery Beacon - Library"
 	},
@@ -52828,15 +52824,13 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
 	dir = 1;
-	freq = 1400;
-	location = "QM#1";
+	location = "QM #1";
 	name = "Delivery Beacon - QM"
 	},
 /obj/structure/sign/departments/drop{
 	pixel_y = 30
 	},
 /mob/living/simple_animal/bot/mulebot{
-	beacon_freq = 1400;
 	home_destination = "QM #1";
 	suffix = "#1"
 	},
@@ -52853,8 +52847,7 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
 	dir = 1;
-	freq = 1400;
-	location = "QM#2";
+	location = "QM #2";
 	name = "Delivery Beacon - QM"
 	},
 /obj/effect/turf_decal/siding/brown{
@@ -52862,9 +52855,8 @@
 	},
 /obj/effect/turf_decal/bot,
 /mob/living/simple_animal/bot/mulebot{
-	beacon_freq = 1400;
-	home_destination = "QM #1";
-	suffix = "#1"
+	home_destination = "QM #2";
+	suffix = "#2"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -52879,8 +52871,7 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
 	dir = 1;
-	freq = 1400;
-	location = "QM#3";
+	location = "QM #3";
 	name = "Delivery Beacon - QM"
 	},
 /obj/effect/turf_decal/siding/brown{
@@ -52888,9 +52879,8 @@
 	},
 /obj/effect/turf_decal/bot,
 /mob/living/simple_animal/bot/mulebot{
-	beacon_freq = 1400;
-	home_destination = "QM #1";
-	suffix = "#1"
+	home_destination = "QM #3";
+	suffix = "#3"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -53206,8 +53196,7 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
 	dir = 1;
-	freq = 1400;
-	location = "QM#4";
+	location = "QM #4";
 	name = "Delivery Beacon - QM"
 	},
 /obj/effect/turf_decal/siding/brown{
@@ -53215,9 +53204,8 @@
 	},
 /obj/effect/turf_decal/bot,
 /mob/living/simple_animal/bot/mulebot{
-	beacon_freq = 1400;
-	home_destination = "QM #1";
-	suffix = "#1"
+	home_destination = "QM #4";
+	suffix = "#4"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -68359,7 +68347,6 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
 	dir = 1;
-	freq = 1400;
 	location = "Medbay";
 	name = "Delivery Beacon - Medbay"
 	},
@@ -69230,9 +69217,8 @@
 "eDW" = (
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
+	codes_txt = "delivery;dir=8";
+	dir = 8;
 	location = "Engineering";
 	name = "Delivery Beacon - Engineering"
 	},
@@ -71330,15 +71316,15 @@
 /turf/open/floor/plasteel/white,
 /area/science/research)
 "hUd" = (
-/obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
 	location = "Bar";
 	name = "Delivery Beacon - Bar"
 	},
 /obj/effect/turf_decal/bot,
+/obj/structure/plasticflaps/opaque{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/hallway/primary/central)
 "hVe" = (
@@ -71620,14 +71606,12 @@
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "isz" = (
-/obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
 	location = "Kitchen";
 	name = "Delivery Beacon - Kitchen"
 	},
+/obj/structure/plasticflaps/opaque,
 /turf/open/floor/plating,
 /area/hallway/primary/central)
 "itB" = (
@@ -71825,9 +71809,7 @@
 /obj/structure/plasticflaps/opaque,
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=1";
-	dir = 1;
-	freq = 1400;
+	codes_txt = "delivery;dir=2";
 	location = "Janitor";
 	name = "Delivery Beacon - Janitor"
 	},
@@ -72481,8 +72463,7 @@
 /obj/structure/plasticflaps,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=8";
-	dir = 1;
-	freq = 1400;
+	dir = 8;
 	location = "Security Front Desk";
 	name = "Delivery Beacon - Security Front Desk"
 	},
@@ -75438,6 +75419,12 @@
 	},
 /obj/effect/turf_decal/delivery,
 /obj/structure/window/reinforced,
+/obj/machinery/door/window/eastright{
+	base_state = "left";
+	icon_state = "left";
+	name = "Library Delivery";
+	req_access_txt = "29"
+	},
 /turf/open/floor/wood,
 /area/library)
 "nKq" = (
@@ -76110,15 +76097,13 @@
 	},
 /area/maintenance/department/engine)
 "oFl" = (
-/obj/structure/plasticflaps/opaque,
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
 	location = "Botany";
 	name = "Delivery Beacon - Botany"
 	},
+/obj/structure/plasticflaps/opaque,
 /turf/open/floor/plating,
 /area/hallway/primary/port)
 "oFP" = (
@@ -77476,16 +77461,6 @@
 /obj/effect/spawner/lootdrop/gross_decal_spawner,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
-"qMM" = (
-/obj/machinery/door/window/eastright{
-	base_state = "left";
-	dir = 8;
-	icon_state = "left";
-	name = "Library Delivery";
-	req_access_txt = "29"
-	},
-/turf/open/floor/carpet/green,
-/area/library)
 "qNB" = (
 /obj/structure/grille/broken,
 /obj/effect/loot_site_spawner,
@@ -77763,8 +77738,6 @@
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
 	location = "Robotics";
 	name = "Delivery Beacon - Robotics"
 	},
@@ -77951,7 +77924,6 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
 	dir = 1;
-	freq = 1400;
 	location = "Pharmacy";
 	name = "Delivery Beacon - Pharmacy"
 	},
@@ -78690,8 +78662,6 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=2";
-	dir = 1;
-	freq = 1400;
 	location = "Research";
 	name = "Delivery Beacon - Research"
 	},
@@ -120796,7 +120766,7 @@ byN
 byN
 byN
 bJr
-qMM
+byN
 byN
 bOg
 bxo
