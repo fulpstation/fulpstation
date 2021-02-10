@@ -19,147 +19,166 @@
 /obj/item/clothing/under/rank/security/mallcop
 	name = "deputy shirt"
 	desc = "An awe-inspiring tactical shirt-and-pants combo; because safety never takes a holiday."
-	mob_overlay_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_icons.dmi'
 	icon_state = "mallcop"
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
+	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	strip_delay = 50
+	alt_covers_chest = TRUE
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
-	fulp_item = TRUE
+
+/obj/item/clothing/under/rank/security/mallcop/skirt
+	name = "deputy skirt"
+	desc = "An awe-inspiring tactical shirt-and-pants combo; because safety never takes a holiday."
+	icon_state = "mallcop_skirt"
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
+	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
+	body_parts_covered = CHEST|GROIN|ARMS
+	strip_delay = 50
+	alt_covers_chest = TRUE
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 //Berets
-/obj/item/clothing/head/beret/sec/engineering
+/obj/item/clothing/head/fulpberet/sec/engineering
 	name = "engineering deputy beret"
 	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
-	mob_overlay_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_engi"
-	fulp_item = TRUE
 
-/obj/item/clothing/head/beret/sec/medical
+/obj/item/clothing/head/fulpberet/sec/medical
 	name = "medical deputy beret"
 	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
-	mob_overlay_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_medbay"
-	fulp_item = TRUE
 
-/obj/item/clothing/head/beret/sec/science
+/obj/item/clothing/head/fulpberet/sec/science
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
-	mob_overlay_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_science"
-	fulp_item = TRUE
 
-/obj/item/clothing/head/beret/sec/supply
+/obj/item/clothing/head/fulpberet/sec/supply
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
-	mob_overlay_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_supply"
-	fulp_item = TRUE
 
-//Supply Skillchip
+//Supply Deputy Skillchip
 /obj/item/skillchip/job/supply_deputy
 	name = "5UPP1Y-DEPUTY skillchip"
 	desc = "Do you think Deputies know this naturally?"
-	auto_traits = list(SUPPLY_DEPUTY)
+	auto_traits = list(TRAIT_SUPPLYDEPUTY)
 	skill_name = "Supply Deputy"
 	skill_description = "Recognizes Supply as their home, and has a greater fighting advantage while in it."
 	skill_icon = "sitemap"
 	activate_message = "<span class='notice'>You suddenly feel safe in Cargo.</span>"
 	deactivate_message = "<span class='notice'>Cargo no longer feels safe.</span>"
 
-/obj/item/skillchip/job/supply_deputy/Initialize()
+/obj/item/skillchip/job/supply_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
+
 	var/list/valid_areas = list(/area/maintenance/department/cargo)
-	if(!is_type_in_list(get_area(H), valid_areas))
+	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
-	return ..()
 
 /obj/item/skillchip/job/supply_deputy/on_activate(mob/living/carbon/user, silent = FALSE)
 	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
+
+	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
 
 /obj/item/skillchip/job/supply_deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
+	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
+
 	return ..()
 
-//Engineering Skillchip
+//Engineering Deputy Skillchip
 /obj/item/skillchip/job/engineering_deputy
 	name = "3NG1N3ER1N9-DEPUTY skillchip"
 	desc = "Do you think Deputies know this naturally?"
-	auto_traits = list(ENGINEERING_DEPUTY)
+	auto_traits = list(TRAIT_ENGINEERINGDEPUTY)
 	skill_name = "Engineering Deputy"
 	skill_description = "Recognizes Engineering as their home, and has a greater fighting advantage while in it."
 	skill_icon = "sitemap"
 	activate_message = "<span class='notice'>You suddenly feel safe in Engineering.</span>"
 	deactivate_message = "<span class='notice'>Engineering no longer feels safe.</span>"
 
-/obj/item/skillchip/job/engineering_deputy/Initialize()
+/obj/item/skillchip/job/engineering_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
+
 	var/list/valid_areas = list(/area/engine/engineering)
-	if(!is_type_in_list(get_area(H), valid_areas))
+	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
-	return ..()
 
 /obj/item/skillchip/job/engineering_deputy/on_activate(mob/living/carbon/user, silent = FALSE)
 	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
+
+	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
 
 /obj/item/skillchip/job/engineering_deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
+	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
+
 	return ..()
 
-//Medical Skillchip
+//Medical Deputy Skillchip
 /obj/item/skillchip/job/medical_deputy
 	name = "M3D1C4L-DEPUTY skillchip"
 	desc = "Do you think Deputies know this naturally?"
-	auto_traits = list(MEDICAL_DEPUTY)
+	auto_traits = list(TRAIT_MEDICALDEPUTY)
 	skill_name = "Medical Deputy"
 	skill_description = "Recognizes Medbay as their home, and has a greater fighting advantage while in it."
 	skill_icon = "sitemap"
 	activate_message = "<span class='notice'>You suddenly feel safe in Medical.</span>"
 	deactivate_message = "<span class='notice'>Medical no longer feels safe.</span>"
 
-/obj/item/skillchip/job/medical_deputy/Initialize()
+/obj/item/skillchip/job/medical_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
+
 	var/list/valid_areas = list(/area/medical)
-	if(!is_type_in_list(get_area(H), valid_areas))
+	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
-	return ..()
 
 /obj/item/skillchip/job/medical_deputy/on_activate(mob/living/carbon/user, silent = FALSE)
 	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
+
+	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
 
 /obj/item/skillchip/job/medical_deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
+	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
+
 	return ..()
 
-//Science Skillchip
+//Science Deputy Skillchip
 /obj/item/skillchip/job/science_deputy
 	name = "5C1ENC3-DEPUTY skillchip"
 	desc = "Do you think Deputies know this naturally?"
-	auto_traits = list(SCIENCE_DEPUTY)
+	auto_traits = list(TRAIT_SCIENCEDEPUTY)
 	skill_name = "Science Deputy"
 	skill_description = "Recognizes Science as their home, and has a greater fighting advantage while in it."
 	skill_icon = "sitemap"
 	activate_message = "<span class='notice'>You suddenly feel safe in Science.</span>"
 	deactivate_message = "<span class='notice'>Science no longer feels safe.</span>"
 
-/obj/item/skillchip/job/science_deputy/Initialize()
+/obj/item/skillchip/job/science_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
+
 	var/list/valid_areas = list(/area/science)
-	if(!is_type_in_list(get_area(H), valid_areas))
+	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
-	return ..()
 
 /obj/item/skillchip/job/science_deputy/on_activate(mob/living/carbon/user, silent = FALSE)
 	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
 
-/obj/item/skillchip/job/sciencce_deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, src)
+	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
+
+/obj/item/skillchip/job/science_deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
+	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, make_temporary = TRUE)
+
 	return ..()
