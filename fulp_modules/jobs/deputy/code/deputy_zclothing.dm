@@ -44,30 +44,35 @@
 	icon_state = "mallcop_skirt"
 	body_parts_covered = CHEST|GROIN|ARMS
 
-//Berets
+//Berets - Clown shoes will be used to give them mood benefits for their department
 /obj/item/clothing/head/fulpberet
+	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as crusader armor, because this is the Deputy's holy clothing
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
-
-/obj/item/clothing/head/fulpberet/engineering
-	name = "engineering deputy beret"
-	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
-	icon_state = "beret_engi"
-
-/obj/item/clothing/head/fulpberet/medical
-	name = "medical deputy beret"
-	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
-	icon_state = "beret_medbay"
-
-/obj/item/clothing/head/fulpberet/science
-	name = "science deputy beret"
-	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
-	icon_state = "beret_science"
 
 /obj/item/clothing/head/fulpberet/supply
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
 	icon_state = "beret_supply"
+//list(typesof(/area/quartermaster))
+
+/obj/item/clothing/head/fulpberet/engineering
+	name = "engineering deputy beret"
+	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
+	icon_state = "beret_engi"
+//list(typesof(/area/engine))
+
+/obj/item/clothing/head/fulpberet/medical
+	name = "medical deputy beret"
+	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
+	icon_state = "beret_medbay"
+//list(typesof(/area/medical))
+
+/obj/item/clothing/head/fulpberet/science
+	name = "science deputy beret"
+	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
+	icon_state = "beret_science"
+//list(typesof(/area/science))
 
 //Base Deputy Skillchip
 /obj/item/skillchip/job/deputy

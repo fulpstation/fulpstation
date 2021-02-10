@@ -30,7 +30,7 @@ Contains:
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|ARMS|GROIN
 	allowed = list(/obj/item/analyzer, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/soap, /obj/item/sensor_device, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/melee/baton)
-	armor = list("melee" = 25, "bullet" = 25, "laser" = 25, "energy" = 30, "bomb" = 20, "bio" = 50, "rad" = 0, "fire" = 50, "acid" = 50, "wound" = 10)
+	armor = list(MELEE = 25, BULLET = 25, LASER = 25,ENERGY = 30, BOMB = 20, BIO = 50, RAD = 0, FIRE = 50, ACID = 50, WOUND = 10)
 
 // Surgery belt
 
@@ -52,7 +52,7 @@ Contains:
 	icon = 'fulp_modules/jobs/brigdoc/icons/clothing_icons.dmi'
 	icon_state = "jumpsuit_brigdoc"
 	permeability_coefficient = 0.5
-	armor = list("melee" = 10, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 10, "rad" = 0, "fire" = 30, "acid" = 30)
+	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
 	can_adjust = FALSE
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
@@ -71,7 +71,7 @@ Contains:
 	icon = 'fulp_modules/jobs/brigdoc/icons/clothing_icons.dmi'
 	icon_state = "envirosuit_brigdoc"
 	permeability_coefficient = 0.5
-	armor = list("melee" = 10, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 0, "fire" = 95, "acid" = 95)
+	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 100, RAD = 0, FIRE = 95, ACID = 95, WOUND = 10)
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
 
