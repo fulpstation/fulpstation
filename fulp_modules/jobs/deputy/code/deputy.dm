@@ -58,7 +58,7 @@
 	head = /obj/item/clothing/head/fulpberet/sec/supply
 
 	accessory = /obj/item/clothing/accessory/armband/cargo
-	skillchips = list(/obj/item/skillchip/job/supply_deputy)
+	skillchips = list(/obj/item/skillchip/job/deputy/supply)
 
 //Engineering Deputy
 /datum/outfit/job/deputy/engineering
@@ -69,7 +69,7 @@
 	head = /obj/item/clothing/head/fulpberet/sec/engineering
 
 	accessory = /obj/item/clothing/accessory/armband/engine
-	skillchips = list(/obj/item/skillchip/job/engineering_deputy)
+	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
 
 //Medical Deputy
 /datum/outfit/job/deputy/medical
@@ -80,7 +80,7 @@
 	head = /obj/item/clothing/head/fulpberet/sec/medical
 
 	accessory = /obj/item/clothing/accessory/armband/medblue
-	skillchips = list(/obj/item/skillchip/job/medical_deputy)
+	skillchips = list(/obj/item/skillchip/job/deputy/medical)
 
 //Science Deputy
 /datum/outfit/job/deputy/science
@@ -91,7 +91,7 @@
 	head = /obj/item/clothing/head/fulpberet/sec/science
 
 	accessory = /obj/item/clothing/accessory/armband/science
-	skillchips = list(/obj/item/skillchip/job/science_deputy)
+	skillchips = list(/obj/item/skillchip/job/deputy/science)
 
 /datum/job/deputy/get_access()
 	var/list/L = list()
@@ -114,39 +114,29 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 			department = pick_n_take(GLOB.available_deputy_depts)
 	var/list/dep_access = null
 	var/destination = null
-	var/outfit = null
 	var/spawn_point = null
 	switch(department)
 		if(SEC_DEPT_SUPPLY)
 			dep_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE)
 			destination = /area/security/checkpoint/supply
-			outfit = /datum/outfit/job/deputy/supply
+			H.equipOutfit(/datum/outfit/job/deputy/supply)
 			spawn_point = get_fulp_spawn(destination)
 		if(SEC_DEPT_ENGINEERING)
 			dep_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
 			destination = /area/security/checkpoint/engineering
-			outfit = /datum/outfit/job/deputy/engineering
+			H.equipOutfit(/datum/outfit/job/deputy/engineering)
 			spawn_point = get_fulp_spawn(destination)
 		if(SEC_DEPT_MEDICAL)
 			dep_access = list(ACCESS_MEDICAL, ACCESS_PSYCHOLOGY, ACCESS_MORGUE, ACCESS_VIROLOGY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_SURGERY, ACCESS_MECH_MEDICAL)
 			destination = /area/security/checkpoint/medical
-			outfit = /datum/outfit/job/deputy/medical
+			H.equipOutfit(/datum/outfit/job/deputy/medical)
 			spawn_point = get_fulp_spawn(destination)
 		if(SEC_DEPT_SCIENCE)
 			dep_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_TOXINS, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_TOXINS_STORAGE)
 			destination = /area/security/checkpoint/science
-			outfit = /datum/outfit/job/deputy/science
+			H.equipOutfit(/datum/outfit/job/deputy/science)
 			spawn_point = get_fulp_spawn(destination)
 
-	if(outfit)
-		if("/datum/outfit/job/deputy/supply")
-			S.equipOutfit(outfit)
-		if("/datum/outfit/job/deputy/engineering")
-			S.equipOutfit(outfit)
-		if("/datum/outfit/job/deputy/medical")
-			S.equipOutfit(outfit)
-		if("/datum/outfit/job/deputy/science")
-			S.equipOutfit(outfit)
 	if(destination)
 		var/turf/T
 		if(spawn_point)
