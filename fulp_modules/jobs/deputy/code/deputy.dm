@@ -55,7 +55,7 @@
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/supply
-	head = /obj/item/clothing/head/fulpberet/sec/supply
+	head = /obj/item/clothing/head/fulpberet/supply
 
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
@@ -66,7 +66,7 @@
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/engi
-	head = /obj/item/clothing/head/fulpberet/sec/engineering
+	head = /obj/item/clothing/head/fulpberet/engineering
 
 	accessory = /obj/item/clothing/accessory/armband/engine
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
@@ -77,7 +77,7 @@
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/med
-	head = /obj/item/clothing/head/fulpberet/sec/medical
+	head = /obj/item/clothing/head/fulpberet/medical
 
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
@@ -88,7 +88,7 @@
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/sci
-	head = /obj/item/clothing/head/fulpberet/sec/science
+	head = /obj/item/clothing/head/fulpberet/science
 
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)

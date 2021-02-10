@@ -40,37 +40,33 @@
 
 /obj/item/clothing/under/rank/security/mallcop/skirt
 	name = "deputy skirt"
-	desc = "An awe-inspiring tactical shirt-and-pants combo; because safety never takes a holiday."
+	desc = "An awe-inspiring tactical shirt-and-skirt combo; because safety never takes a holiday."
 	icon_state = "mallcop_skirt"
 	body_parts_covered = CHEST|GROIN|ARMS
 
 //Berets
-/obj/item/clothing/head/fulpberet/sec/engineering
+/obj/item/clothing/head/fulpberet
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
+
+/obj/item/clothing/head/fulpberet/engineering
 	name = "engineering deputy beret"
 	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_engi"
 
-/obj/item/clothing/head/fulpberet/sec/medical
+/obj/item/clothing/head/fulpberet/medical
 	name = "medical deputy beret"
 	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_medbay"
 
-/obj/item/clothing/head/fulpberet/sec/science
+/obj/item/clothing/head/fulpberet/science
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_science"
 
-/obj/item/clothing/head/fulpberet/sec/supply
+/obj/item/clothing/head/fulpberet/supply
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	icon_state = "beret_supply"
 
 //Base Deputy Skillchip
