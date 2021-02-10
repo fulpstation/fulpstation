@@ -36,6 +36,14 @@
 	name = "detective's sash"
 	icon_state = "detective"
 
+/obj/item/clothing/under/bodysash/brigdoc
+	name = "brig physician's sash"
+	icon_state = "brigdoc"
+
+/obj/item/clothing/under/bodysash/deputy
+	name = "deputy's sash"
+	icon_state = "deputy"
+
 //Medical
 /obj/item/clothing/under/bodysash/cmo
 	name = "chief medical officer's sash"

@@ -3,8 +3,8 @@
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security")
 	faction = "Station"
-	total_positions = 4 //Kept in for posterity
-	spawn_positions = 4 //ditto
+	total_positions = 4
+	spawn_positions = 4
 	supervisors = "the head of security, and the head of your assigned department"
 	selection_color = "#ffeeee"
 	minimal_player_age = 7
@@ -13,6 +13,7 @@
 	exp_type_department = EXP_TYPE_SECURITY
 	id_icon = 'fulp_modules/jobs/cards.dmi'
 	hud_icon = 'fulp_modules/jobs/huds.dmi'
+	fulp_spawn = /obj/effect/landmark/start/deputy
 
 	outfit = /datum/outfit/job/deputy
 
@@ -31,7 +32,7 @@
 	jobtype = /datum/job/fulp/deputy
 
 	belt = /obj/item/pda/security
-	ears = /obj/item/radio/headset/headset_sec/alt
+	ears = /obj/item/radio/headset/headset_sec
 	uniform = /obj/item/clothing/under/rank/security/mallcop
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/sec
@@ -93,6 +94,19 @@
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
 
+//Plasmamen clothing - For some reason, internals dont automatically turn on for them?
+/datum/outfit/plasmaman/deputy
+	name = "Deputy Plasmaman"
+
+	head = /obj/item/clothing/head/helmet/space/plasmaman/security
+	uniform = /obj/item/clothing/under/plasmaman/security
+	gloves = /obj/item/clothing/gloves/color/plasmaman/black
+
+//Beefman clothing
+/datum/outfit/job/deputy/beefman
+
+	uniform = /obj/item/clothing/under/bodysash/deputy
+
 /datum/job/deputy/get_access()
 	var/list/L = list()
 	L |= ..()
@@ -100,9 +114,8 @@
 
 GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))
 
-/datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M)
+/datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M) // Mostly copied from security_officer.dm
 	. = ..()
-	// Assign department
 	var/department
 	if(M && M.client && M.client.prefs)
 		department = M.client.prefs.prefered_security_department
@@ -113,48 +126,49 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		else
 			department = pick_n_take(GLOB.available_deputy_depts)
 	var/list/dep_access = null
-	var/destination = null
-	var/spawn_point = null
 	H.delete_equipment()
-	switch(department)
+	switch(department) // Spawn points have been moved, read landmark.dm for more info
 		if(SEC_DEPT_SUPPLY)
 			dep_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE)
-			destination = /area/security/checkpoint/supply
+			if(isplasmaman(H))
+				H.delete_equipment()
+				H.equipOutfit(/datum/outfit/plasmaman/deputy)
+			if(isbeefman(H))
+				H.delete_equipment()
+				H.equipOutfit(/obj/item/clothing/under/bodysash/deputy)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			spawn_point = get_fulp_spawn(destination)
 		if(SEC_DEPT_ENGINEERING)
 			dep_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
-			destination = /area/security/checkpoint/engineering
+			if(isplasmaman(H))
+				H.delete_equipment()
+				H.equipOutfit(/datum/outfit/plasmaman/deputy)
+			if(isbeefman(H))
+				H.delete_equipment()
+				H.equipOutfit(/obj/item/clothing/under/bodysash/deputy)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
-			spawn_point = get_fulp_spawn(destination)
 		if(SEC_DEPT_MEDICAL)
 			dep_access = list(ACCESS_MEDICAL, ACCESS_PSYCHOLOGY, ACCESS_MORGUE, ACCESS_VIROLOGY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_SURGERY, ACCESS_MECH_MEDICAL)
-			destination = /area/security/checkpoint/medical
+			if(isplasmaman(H))
+				H.delete_equipment()
+				H.equipOutfit(/datum/outfit/plasmaman/deputy)
+			if(isbeefman(H))
+				H.delete_equipment()
+				H.equipOutfit(/obj/item/clothing/under/bodysash/deputy)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
-			spawn_point = get_fulp_spawn(destination)
 		if(SEC_DEPT_SCIENCE)
 			dep_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_TOXINS, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_TOXINS_STORAGE)
-			destination = /area/security/checkpoint/science
+			if(isplasmaman(H))
+				H.delete_equipment()
+				H.equipOutfit(/datum/outfit/plasmaman/deputy)
+			if(isbeefman(H))
+				H.delete_equipment()
+				H.equipOutfit(/obj/item/clothing/under/bodysash/deputy)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
-			spawn_point = get_fulp_spawn(destination)
 
-	if(destination)
-		var/turf/T
-		if(spawn_point)
-			T = get_turf(spawn_point)
-			H.Move(T)
-		else
-			var/list/possible_turfs = get_area_turfs(destination)
-			while (length(possible_turfs))
-				var/I = rand(1, possible_turfs.len)
-				var/turf/target = possible_turfs[I]
-				if (H.Move(target))
-					break
-				possible_turfs.Cut(I,I+1)
 	if(department)
 		to_chat(M, "<b>You have been assigned to [department]!</b>")
 	else
-		to_chat(M, "<b>You have not been assigned to any department. Please report this to a coder.</b>")
+		to_chat(M, "<b>You have not been assigned to any department. Please report this to the Head of Personnel.</b>")
 
 	var/obj/item/card/id/W = H.wear_id
 	W.access |= dep_access

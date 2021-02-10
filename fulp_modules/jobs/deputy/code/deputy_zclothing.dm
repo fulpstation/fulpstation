@@ -110,10 +110,3 @@
 	deputy = "5C1ENC3"
 	department = "Science"
 	auto_traits = list(TRAIT_SCIENCEDEPUTY)
-
-/*
-	if(force)
-		on_activate(holding_brain.owner, silent)
-		return
-This is the line of text I'm redirected to from the crashing
-*/a

@@ -31,3 +31,4 @@ Skyrat - .md template.
 Mithrandalf - Original Deputies PR and sprites (https://github.com/TheSwain/Fulpstation/pull/108)
 SgtHunk/John Willard - Coding rework
 Guillaume H. Prata - New sprites for rolled up Jumpsuits/Jumpskirts
+Montague Joyce - New sprites for Plasmamen/Beefmen
