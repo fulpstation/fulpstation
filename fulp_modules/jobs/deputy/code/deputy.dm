@@ -51,7 +51,7 @@
 
 //Supply Deputy
 /datum/outfit/job/deputy/supply
-	name = "Supply Deputy"
+	name = "Deputy - Supply"
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/supply
@@ -62,7 +62,7 @@
 
 //Engineering Deputy
 /datum/outfit/job/deputy/engineering
-	name = "Engineering Deputy"
+	name = "Deputy - Engineering"
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/engi
@@ -73,7 +73,7 @@
 
 //Medical Deputy
 /datum/outfit/job/deputy/medical
-	name = "Medical Deputy"
+	name = "Deputy - Medical"
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/med
@@ -84,7 +84,7 @@
 
 //Science Deputy
 /datum/outfit/job/deputy/science
-	name = "Science Deputy"
+	name = "Deputy - Science"
 	jobtype = /datum/job/fulp/deputy
 
 	ears = /obj/item/radio/headset/headset_sec/department/sci
@@ -115,6 +115,7 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	var/list/dep_access = null
 	var/destination = null
 	var/spawn_point = null
+	H.delete_equipment()
 	switch(department)
 		if(SEC_DEPT_SUPPLY)
 			dep_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE)
