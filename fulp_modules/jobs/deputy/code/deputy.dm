@@ -55,6 +55,7 @@
 	name = "Deputy - Supply"
 	jobtype = /datum/job/fulp/deputy
 
+//	neck = /obj/item/clothing/neck/fulptie/supply -- Uncomment when sprites are made, in deputy_zclothing.dm
 	ears = /obj/item/radio/headset/headset_sec/department/supply
 	head = /obj/item/clothing/head/fulpberet/supply
 
@@ -66,6 +67,7 @@
 	name = "Deputy - Engineering"
 	jobtype = /datum/job/fulp/deputy
 
+//	neck = /obj/item/clothing/neck/fulptie/engineering -- Uncomment when sprites are made, in deputy_zclothing.dm
 	ears = /obj/item/radio/headset/headset_sec/department/engi
 	head = /obj/item/clothing/head/fulpberet/engineering
 
@@ -77,6 +79,7 @@
 	name = "Deputy - Medical"
 	jobtype = /datum/job/fulp/deputy
 
+//	neck = /obj/item/clothing/neck/fulptie/medical -- Uncomment when sprites are made, in deputy_zclothing.dm
 	ears = /obj/item/radio/headset/headset_sec/department/med
 	head = /obj/item/clothing/head/fulpberet/medical
 
@@ -88,6 +91,7 @@
 	name = "Deputy - Science"
 	jobtype = /datum/job/fulp/deputy
 
+//	neck = /obj/item/clothing/neck/fulptie/science -- Uncomment when sprites are made, in deputy_zclothing.dm
 	ears = /obj/item/radio/headset/headset_sec/department/sci
 	head = /obj/item/clothing/head/fulpberet/science
 
@@ -174,3 +178,8 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	W.access |= dep_access
 	W.access |= dep_access
 	W.update_icon()
+
+//Mood buff from being within your department. Used in deputy_zclothing.dm
+/datum/mood_event/deputydepartment
+	description = "<span class='nicegreen'>I love helping out my department!</span>\n"
+	mood_change = 5

@@ -44,9 +44,40 @@
 	icon_state = "mallcop_skirt"
 	body_parts_covered = CHEST|GROIN|ARMS
 
-//Berets - Clown shoes will be used to give them mood benefits for their department
+/* -- These can be uncommented when proper sprites are done for them
+//Ties
+/obj/item/clothing/neck/fulptie
+	name = "departmental tie"
+	desc = "A tie showing off the department colors of a deputy."
+	icon = 'icons/obj/clothing/neck.dmi'
+	icon_state = "bluetie"
+	inhand_icon_state = ""	//no inhands
+	w_class = WEIGHT_CLASS_SMALL
+	custom_price = PAYCHECK_EASY
+	var/department
+
+/obj/item/clothing/neck/fulptie/Initialize()
+	. = ..()
+	if(department)
+		name = "[department] tie"
+		icon_state = "[department]_tie"
+
+/obj/item/clothing/neck/fulptie/supply
+	department = "supply"
+
+/obj/item/clothing/neck/fulptie/engineering
+	department = "engineering"
+
+/obj/item/clothing/neck/fulptie/medical
+	department = "medical"
+
+/obj/item/clothing/neck/fulptie/science
+	department = "science"
+*/
+
+//Berets - Clown shoes will be used to give them benefits for being in their department while wearing them
 /obj/item/clothing/head/fulpberet
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as crusader armor, because this is the Deputy's holy clothing
+	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as crusader armor, it's the Deputy's holy beret.
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 
@@ -54,27 +85,23 @@
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
 	icon_state = "beret_supply"
-//list(typesof(/area/quartermaster))
 
 /obj/item/clothing/head/fulpberet/engineering
 	name = "engineering deputy beret"
 	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
 	icon_state = "beret_engi"
-//list(typesof(/area/engine))
 
 /obj/item/clothing/head/fulpberet/medical
 	name = "medical deputy beret"
 	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
 	icon_state = "beret_medbay"
-//list(typesof(/area/medical))
 
 /obj/item/clothing/head/fulpberet/science
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
 	icon_state = "beret_science"
-//list(typesof(/area/science))
 
-//Base Deputy Skillchip
+//Base Skillchip
 /obj/item/skillchip/job/deputy
 	name = "D3PU7Y skillchip"
 	desc = "You think Deputies learn this stuff naturally?"
@@ -92,26 +119,54 @@
 		activate_message = "<span class='notice'>You suddenly feel safe in [department].</span>"
 		deactivate_message = "<span class='notice'>[department] no longer feels safe.</span>"
 
-//Supply Deputy Skillchip
+//Supply Skillchip - list(typesof(/area/quartermaster))
 /obj/item/skillchip/job/deputy/supply
 	deputy = "5UPP1Y"
 	department = "Cargo"
 	auto_traits = list(TRAIT_SUPPLYDEPUTY)
 
-//Engineering Deputy Skillchip
+/* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
+/area/quartermaster
+	mood_bonus = 5
+	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
+	mood_trait = TRAIT_SUPPLYDEPUTY
+*/
+
+//Engineering Skillchip - list(typesof(/area/engine))
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
 	department = "Engineering"
 	auto_traits = list(TRAIT_ENGINEERINGDEPUTY)
 
-//Medical Deputy Skillchip
+/* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
+/area/engine
+	mood_bonus = 5
+	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
+	mood_trait = TRAIT_ENGINEERINGDEPUTY
+*/
+
+//Medical Skillchip - list(typesof(/area/medical))
 /obj/item/skillchip/job/deputy/medical
 	deputy = "M3D1C4L"
 	department = "Medbay"
 	auto_traits = list(TRAIT_MEDICALDEPUTY)
 
-//Science Deputy Skillchip
+/* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
+/area/medical
+	mood_bonus = 5
+	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
+	mood_trait = TRAIT_MEDICALDEPUTY
+*/
+
+//Science Skillchip - list(typesof(/area/science))
 /obj/item/skillchip/job/deputy/science
 	deputy = "5C1ENC3"
 	department = "Science"
 	auto_traits = list(TRAIT_SCIENCEDEPUTY)
+
+/* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
+/area/science
+	mood_bonus = 5
+	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
+	mood_trait = TRAIT_SCIENCEDEPUTY
+*/
