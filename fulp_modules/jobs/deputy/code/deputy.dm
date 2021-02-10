@@ -102,9 +102,9 @@
 /datum/outfit/plasmaman/deputy
 	name = "Deputy Plasmaman"
 
-	head = /obj/item/clothing/head/helmet/space/plasmaman/security
-	uniform = /obj/item/clothing/under/plasmaman/security
-	gloves = /obj/item/clothing/gloves/color/plasmaman/black
+	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made
+	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made
+	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
 
 //Beefman clothing
 /datum/outfit/job/deputy/beefman
