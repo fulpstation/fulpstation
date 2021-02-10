@@ -4,7 +4,7 @@ MODULE ID: DEPUTIES
 
 ### Description:
 
-Adds Deputies job to the game. This includes all the deputy, landmark, and gamemode overwrites.
+Adds Deputies job to the game. This includes all code for deputies, skillchips, and gamemode overwrites.
 
 ### TG Proc Changes:
 
@@ -29,4 +29,5 @@ This adds 100% support for new fulp-exclusive jobs, trying to avoid as much conf
 
 Skyrat - .md template.
 Mithrandalf - Original Deputies PR and sprites (https://github.com/TheSwain/Fulpstation/pull/108)
-John Willard - Coding rework
+SgtHunk/John Willard - Coding rework
+Guillaume H. Prata - New sprites for rolled up Jumpsuits/Jumpskirts
