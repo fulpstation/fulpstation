@@ -175,7 +175,28 @@
 	if(href_list["manifest"])
 		ViewManifest()
 
+	if(href_list["cancrand"])
+		src << browse(null, "window=randjob") //closes the random job window
+		LateChoices()
+		return
+
 	if(href_list["SelectedJob"])
+		if(href_list["SelectedJob"] == "Random")
+			var/list/dept_dat = list()
+			for(var/category in GLOB.position_categories)
+				for(var/job in GLOB.position_categories[category]["jobs"])
+					var/datum/job/jobs = SSjob.name_occupations[job]
+					if(jobs && IsJobUnavailable(jobs.title, TRUE) == JOB_AVAILABLE)
+						dept_dat += jobs.title
+			var/rando = dept_dat[rand(1, dept_dat.len)]
+			var/randomjob = "<p><center><a href='byond://?src=[REF(src)];SelectedJob=[rando]'>[rando]</a></center><center><a href='byond://?src=[REF(src)];SelectedJob=Random'>Reroll</a></center><center><a href='byond://?src=[REF(src)];cancrand=[1]'>Cancel</a></center></p>"
+
+			var/datum/browser/popup = new(src, "randjob", "<div align='center'>Random Job</div>", 200)
+			popup.set_window_options("can_close=0")
+			popup.set_content(randomjob)
+			popup.open(FALSE)
+			return
+
 		if(!SSticker?.IsRoundInProgress())
 			to_chat(usr, "<span class='danger'>The round is either not ready, or has already finished...</span>")
 			return
@@ -420,6 +441,11 @@
 		column_counter++
 		if(column_counter > 0 && (column_counter % 3 == 0))
 			dat += "</td><td valign='top'>"
+	dat += "<fieldset style='width: 185px; border: 2px solid '#424242'; display: inline'>"
+	dat += "<legend align='center' style='color: '#424242'>Random</legend>"
+	dat += "<a class='job' href='byond://?src=[REF(src)];SelectedJob=Random'>Random</a>"
+	dat += "</fieldset><br>"
+
 	dat += "</td></tr></table></center>"
 	dat += "</div></div>"
 	var/datum/browser/popup = new(src, "latechoices", "Choose Profession", 680, 580)
@@ -501,6 +527,7 @@
 	src << browse(null, "window=preferences") //closes job selection
 	src << browse(null, "window=mob_occupation")
 	src << browse(null, "window=latechoices") //closes late job selection
+	src << browse(null, "window=randjob") //closes the random job window
 
 // Used to make sure that a player has a valid job preference setup, used to knock players out of eligibility for anything if their prefs don't make sense.
 // A "valid job preference setup" in this situation means at least having one job set to low, or not having "return to lobby" enabled
