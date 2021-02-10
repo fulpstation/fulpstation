@@ -75,7 +75,7 @@
 
 	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/armband/cargo
-	skillchips = list(/obj/item/skillchip/job/supply_deputy
+	skillchips = list(/obj/item/skillchip/job/supply_deputy)
 
 //Engineering Deputy
 /datum/outfit/job/deputy/engineering
