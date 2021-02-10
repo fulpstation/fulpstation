@@ -15,6 +15,14 @@
 	keyslot = new /obj/item/encryptionkey/headset_sec
 	keyslot2 = new /obj/item/encryptionkey/headset_sci
 
+//Plasmamen
+/datum/outfit/plasmaman/deputy
+	name = "Plasmaman Deputy"
+
+	head = /obj/item/clothing/head/helmet/space/plasmaman/security
+	uniform = /obj/item/clothing/under/plasmaman/security
+	gloves = /obj/item/clothing/gloves/color/plasmaman/black
+
 //Shirt
 /obj/item/clothing/under/rank/security/mallcop
 	name = "deputy shirt"
@@ -85,7 +93,7 @@
 /obj/item/skillchip/job/supply_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
 
-	var/list/valid_areas = list(/area/maintenance/department/cargo)
+	var/list/valid_areas = list(typesof(/area/quartermaster))
 	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
 
@@ -113,7 +121,7 @@
 /obj/item/skillchip/job/engineering_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
 
-	var/list/valid_areas = list(/area/engine/engineering)
+	var/list/valid_areas = list(typesof(/area/engine))
 	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
 
@@ -141,7 +149,7 @@
 /obj/item/skillchip/job/medical_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
 
-	var/list/valid_areas = list(/area/medical)
+	var/list/valid_areas = list(typesof(/area/medical))
 	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
 
@@ -169,7 +177,7 @@
 /obj/item/skillchip/job/science_deputy/Initialize(mapload, is_removable = FALSE)
 	. = ..()
 
-	var/list/valid_areas = list(/area/science)
+	var/list/valid_areas =list(typesof(/area/science))
 	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
 
