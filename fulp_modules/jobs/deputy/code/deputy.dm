@@ -13,7 +13,6 @@
 	exp_type_department = EXP_TYPE_SECURITY
 	id_icon = 'fulp_modules/jobs/cards.dmi'
 	hud_icon = 'fulp_modules/jobs/huds.dmi'
-//	fulp_spawn = /obj/effect/landmark/start/deputy
 
 	outfit = /datum/outfit/job/deputy
 
