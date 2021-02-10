@@ -99,39 +99,11 @@
 	department = "Cargo"
 	auto_traits = list(TRAIT_SUPPLYDEPUTY)
 
-/obj/item/skillchip/job/deputy/supply/Initialize(mob/living/carbon/user)
-	. = ..()
-	var/list/valid_areas = list(typesof(/area/quartermaster))
-	if(!is_type_in_list(get_area(user), valid_areas))
-		return FALSE
-
-/obj/item/skillchip/job/deputy/supply/on_activate(mob/living/carbon/user, silent = FALSE)
-	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-
-/obj/item/skillchip/job/deputy/supply/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-	return ..()
-
 //Engineering Deputy Skillchip
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
 	department = "Engineering"
 	auto_traits = list(TRAIT_ENGINEERINGDEPUTY)
-
-/obj/item/skillchip/job/deputy/engineering/Initialize(mob/living/carbon/user)
-	. = ..()
-	var/list/valid_areas = list(typesof(/area/engine))
-	if(!is_type_in_list(get_area(user), valid_areas))
-		return FALSE
-
-/obj/item/skillchip/job/deputy/engineering/on_activate(mob/living/carbon/user, silent = FALSE)
-	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-
-/obj/item/skillchip/job/deputy/engineering/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-	return ..()
 
 //Medical Deputy Skillchip
 /obj/item/skillchip/job/deputy/medical
@@ -139,40 +111,11 @@
 	department = "Medbay"
 	auto_traits = list(TRAIT_MEDICALDEPUTY)
 
-/obj/item/skillchip/job/deputy/medical/Initialize(mob/living/carbon/user)
-	. = ..()
-	var/list/valid_areas = list(typesof(/area/medical))
-	if(!is_type_in_list(get_area(user), valid_areas))
-		return FALSE
-
-/obj/item/skillchip/job/deputy/medical/on_activate(mob/living/carbon/user, silent = FALSE)
-	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-
-/obj/item/skillchip/job/deputy/medical/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-	return ..()
-
 //Science Deputy Skillchip
 /obj/item/skillchip/job/deputy/science
 	deputy = "5C1ENC3"
 	department = "Science"
 	auto_traits = list(TRAIT_SCIENCEDEPUTY)
-
-/obj/item/skillchip/job/deputy/science/Initialize(mob/living/carbon/user)
-	. = ..()
-	var/list/valid_areas =list(typesof(/area/science))
-	if(!is_type_in_list(get_area(user), valid_areas))
-		return FALSE
-
-/obj/item/skillchip/job/deputy/science/on_activate(mob/living/carbon/user, silent = FALSE)
-	. = ..()
-	ADD_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-
-/obj/item/skillchip/job/deputy/science/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	REMOVE_TRAIT(user, BLOCKS_SHOVE_KNOCKDOWN, DEPARTMENT_TRAIT)
-	return ..()
-
 
 /*
 	if(force)
