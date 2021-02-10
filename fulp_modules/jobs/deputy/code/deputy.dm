@@ -55,25 +55,9 @@
 	name = "Supply Deputy"
 	jobtype = /datum/job/fulp/deputy
 
-	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/department/supply
-	uniform = /obj/item/clothing/under/rank/security/mallcop
-	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/fulpberet/sec/supply
-	suit = /obj/item/clothing/suit/armor/vest/alt
-	shoes = /obj/item/clothing/shoes/jackboots
-	l_pocket = /obj/item/restraints/handcuffs/cable/zipties
-	r_pocket = /obj/item/assembly/flash/handheld
-	accessory = /obj/item/clothing/accessory/armband/cargo
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	backpack_contents = list(/obj/item/melee/baton/loaded=1)
 
-	backpack = /obj/item/storage/backpack/security
-	satchel = /obj/item/storage/backpack/satchel/sec
-	duffelbag = /obj/item/storage/backpack/duffelbag/sec
-	box = /obj/item/storage/box/survival/security
-
-	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	skillchips = list(/obj/item/skillchip/job/supply_deputy)
 
@@ -82,24 +66,9 @@
 	name = "Engineering Deputy"
 	jobtype = /datum/job/fulp/deputy
 
-	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/department/engi
-	uniform = /obj/item/clothing/under/rank/security/mallcop
-	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/fulpberet/sec/engineering
-	suit = /obj/item/clothing/suit/armor/vest/alt
-	shoes = /obj/item/clothing/shoes/jackboots
-	l_pocket = /obj/item/restraints/handcuffs/cable/zipties
-	r_pocket = /obj/item/assembly/flash/handheld
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	backpack_contents = list(/obj/item/melee/baton/loaded=1)
 
-	backpack = /obj/item/storage/backpack/security
-	satchel = /obj/item/storage/backpack/satchel/sec
-	duffelbag = /obj/item/storage/backpack/duffelbag/sec
-	box = /obj/item/storage/box/survival/security
-
-	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/armband/engine
 	skillchips = list(/obj/item/skillchip/job/engineering_deputy)
 
@@ -108,24 +77,9 @@
 	name = "Medical Deputy"
 	jobtype = /datum/job/fulp/deputy
 
-	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/department/med
-	uniform = /obj/item/clothing/under/rank/security/mallcop
-	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/fulpberet/sec/medical
-	suit = /obj/item/clothing/suit/armor/vest/alt
-	shoes = /obj/item/clothing/shoes/jackboots
-	l_pocket = /obj/item/restraints/handcuffs/cable/zipties
-	r_pocket = /obj/item/assembly/flash/handheld
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	backpack_contents = list(/obj/item/melee/baton/loaded=1)
 
-	backpack = /obj/item/storage/backpack/security
-	satchel = /obj/item/storage/backpack/satchel/sec
-	duffelbag = /obj/item/storage/backpack/duffelbag/sec
-	box = /obj/item/storage/box/survival/security
-
-	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	skillchips = list(/obj/item/skillchip/job/medical_deputy)
 
@@ -134,24 +88,9 @@
 	name = "Science Deputy"
 	jobtype = /datum/job/fulp/deputy
 
-	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/department/sci
-	uniform = /obj/item/clothing/under/rank/security/mallcop
-	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/fulpberet/sec/science
-	suit = /obj/item/clothing/suit/armor/vest/alt
-	shoes = /obj/item/clothing/shoes/jackboots
-	l_pocket = /obj/item/restraints/handcuffs/cable/zipties
-	r_pocket = /obj/item/assembly/flash/handheld
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	backpack_contents = list(/obj/item/melee/baton/loaded=1)
 
-	backpack = /obj/item/storage/backpack/security
-	satchel = /obj/item/storage/backpack/satchel/sec
-	duffelbag = /obj/item/storage/backpack/duffelbag/sec
-	box = /obj/item/storage/box/survival/security
-
-	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/science_deputy)
 
