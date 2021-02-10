@@ -1,10 +1,10 @@
 ## Title: Brig Physician
 
-MODULE ID: BRIGDOC
+MODULE ID: DEPUTIES
 
 ### Description:
 
-Adds the Brig Physician job to the game. This includes all the brig physician clothing, landmark, and gamemode overwrites.
+Adds Deputies job to the game. This includes all the deputy, landmark, and gamemode overwrites.
 
 ### TG Proc Changes:
 
@@ -13,9 +13,8 @@ Adds the Brig Physician job to the game. This includes all the brig physician cl
 
 ### TG files changed:
 
-- code/modules/mob/living/carbon/human/species_types/plasmamen.dm > Added brig physician plasmaman outfit.
-- code/datums/traits/negative.dm > Added brig physician heirloom.
-- code/game/machinery/crew.dm > Added brig physician to the job list datum.
+- code/modules/mob/living/carbon/human/species_types/plasmamen.dm > Added deputy plasmaman outfit.
+- code/game/machinery/crew.dm > Added deputy to the job list datum.
 
 ### TG procs overwrites:
 
@@ -28,8 +27,6 @@ This adds 100% support for new fulp-exclusive jobs, trying to avoid as much conf
 
 ### Credits:
 
-Skyrat - .md template, Original plasmaman envirosuit sprites (https://github.com/Skyrat-SS13/Skyrat13/pull/933)
-HomingPenguins - Armored labcoat sprites
-MaltVinegar - HUD/Card sprites
-Mithrandalf - Original jumpsuit and beret sprites (https://github.com/TheSwain/Fulpstation/pull/163 || https://github.com/TheSwain/Fulpstation/pull/108)
-SgtHunk - Coding
+Skyrat - .md template.
+Mithrandalf - Original Deputies PR and sprites (https://github.com/TheSwain/Fulpstation/pull/108)
+John Willard - Coding rework
