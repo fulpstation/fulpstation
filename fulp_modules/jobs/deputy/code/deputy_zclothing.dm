@@ -57,16 +57,14 @@
 
 //Plasmamen Datum
 /datum/outfit/plasmaman/deputy
-	name = "Plasmaman Deputy - Unassigned"
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
 	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
-	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
 //	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
 //	uniform = /obj/item/clothing/under/plasmaman/security/deputy
+	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
 
 //Beefmen Datum
 /datum/outfit/job/deputy/beefman
-	name = "Beefman Deputy - Unassigned"
 	uniform = /obj/item/clothing/under/bodysash/deputy
 
 //Shirt

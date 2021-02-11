@@ -13,6 +13,7 @@ Adds Deputies to the game. This includes all code for deputies, skillchips, and 
 
 ### TG files changed:
 
+- code/modules/mob/living/carbon/human/species_types/plasmamen.dm > Added deputy plasmaman outfit.
 - code/game/machinery/crew.dm > Added deputy to the job list datum.
 
 ### TG procs overwrites:
