@@ -108,6 +108,7 @@
 	skill_icon = "sitemap"
 	var/deputy
 	var/department
+	var/datum/martial_art/deputygrab/style
 
 /obj/item/skillchip/job/deputy/Initialize()
 	. = ..()
@@ -118,12 +119,21 @@
 		skill_description = "Recognizes [department] as their home, and has a greater fighting advantage while in it."
 		activate_message = "<span class='notice'>You suddenly feel safe in [department].</span>"
 		deactivate_message = "<span class='notice'>[department] no longer feels safe.</span>"
+	style = new
 
-//Supply Skillchip - list(typesof(/area/quartermaster))
+/obj/item/skillchip/job/deputy/on_activate(mob/living/carbon/user, silent = FALSE)
+	. = ..()
+	style.teach(user, make_temporary = TRUE)
+
+/obj/item/skillchip/job/deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
+	style.remove(user)
+	return ..()
+
+//Supply Skillchip
 /obj/item/skillchip/job/deputy/supply
 	deputy = "5UPP1Y"
 	department = "Cargo"
-	auto_traits = list(TRAIT_SUPPLYDEPUTY)
+	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/quartermaster
@@ -132,11 +142,11 @@
 	mood_trait = TRAIT_SUPPLYDEPUTY
 */
 
-//Engineering Skillchip - list(typesof(/area/engine))
+//Engineering Skillchip
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
 	department = "Engineering"
-	auto_traits = list(TRAIT_ENGINEERINGDEPUTY)
+	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/engine
@@ -145,11 +155,11 @@
 	mood_trait = TRAIT_ENGINEERINGDEPUTY
 */
 
-//Medical Skillchip - list(typesof(/area/medical))
+//Medical Skillchip
 /obj/item/skillchip/job/deputy/medical
 	deputy = "M3D1C4L"
 	department = "Medbay"
-	auto_traits = list(TRAIT_MEDICALDEPUTY)
+	auto_traits = list(TRAIT_MEDICALDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/medical
@@ -158,11 +168,11 @@
 	mood_trait = TRAIT_MEDICALDEPUTY
 */
 
-//Science Skillchip - list(typesof(/area/science))
+//Science Skillchip
 /obj/item/skillchip/job/deputy/science
 	deputy = "5C1ENC3"
 	department = "Science"
-	auto_traits = list(TRAIT_SCIENCEDEPUTY)
+	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/science
