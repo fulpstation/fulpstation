@@ -100,7 +100,6 @@
 
 //Plasmamen clothing - For some reason, internals dont automatically turn on for them?
 /datum/outfit/plasmaman/deputy
-	name = "Deputy Plasmaman"
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made
 	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made
