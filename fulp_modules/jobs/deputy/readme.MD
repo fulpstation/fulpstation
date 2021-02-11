@@ -1,10 +1,10 @@
-## Title: Brig Physician
+## Title: Deputies
 
 MODULE ID: DEPUTIES
 
 ### Description:
 
-Adds Deputies job to the game. This includes all code for deputies, skillchips, and gamemode overwrites.
+Adds Deputies to the game. This includes all code for deputies, skillchips, and gamemode overwrites.
 
 ### TG Proc Changes:
 
@@ -13,7 +13,6 @@ Adds Deputies job to the game. This includes all code for deputies, skillchips, 
 
 ### TG files changed:
 
-- code/modules/mob/living/carbon/human/species_types/plasmamen.dm > Added deputy plasmaman outfit.
 - code/game/machinery/crew.dm > Added deputy to the job list datum.
 
 ### TG procs overwrites:
@@ -23,12 +22,13 @@ Adds Deputies job to the game. This includes all code for deputies, skillchips, 
 
 ### Additional information:
 
-This adds 100% support for new fulp-exclusive jobs, trying to avoid as much conflicts. For more info on how to (mostly) create a new fulp-exclusive job, contact SgtHunk on the Fulpstation discord.
+This uses code made in the BrigDoc PR to make a new fulp-exclusive job while avoiding as many conflicts as possible.
 
 ### Credits:
 
 Skyrat - .md template.
 Mithrandalf - Original Deputies PR and sprites (https://github.com/TheSwain/Fulpstation/pull/108)
-SgtHunk/John Willard - Coding rework
-Guillaume H. Prata - New sprites for rolled up Jumpsuits/Jumpskirts
+John Willard - Coding rework
+SgtHunk - Original Brig Doc PR + Helping abswer coding questions (https://github.com/fulpstation/fulpstation/pull/16)
+Guillaume H. Prata - New sprites for rolled up Jumpsuits/Jumpskirts + Helping answer coding questions
 Montague Joyce - New sprites for Plasmamen/Beefmen
