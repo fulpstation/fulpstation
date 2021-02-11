@@ -4,4 +4,3 @@
 #define TRAIT_SCIENCEDEPUTY		"sciencedeputy"
 
 #define MARTIALART_DEPUTYGRAB "deputy grab"
-//#define DEPARTMENT_TRAIT		"department_trait" // To use when giving a Deputy a trait while in their department.

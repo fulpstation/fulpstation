@@ -15,26 +15,69 @@
 	keyslot = new /obj/item/encryptionkey/headset_sec
 	keyslot2 = new /obj/item/encryptionkey/headset_sci
 
-//Plasmamen
-/datum/outfit/plasmaman/deputy
-	name = "Plasmaman Deputy"
+//Supply Deputy Datum
+/datum/outfit/job/deputy/supply
+	name = "Deputy - Supply"
+	jobtype = /datum/job/fulp/deputy
+//	neck = /obj/item/clothing/neck/fulptie/supply -- Uncomment when sprites are made, in deputy_zclothing.dm
+	ears = /obj/item/radio/headset/headset_sec/department/supply
+	head = /obj/item/clothing/head/fulpberet/supply
+	accessory = /obj/item/clothing/accessory/armband/cargo
+	skillchips = list(/obj/item/skillchip/job/deputy/supply)
 
-	head = /obj/item/clothing/head/helmet/space/plasmaman/security
-	uniform = /obj/item/clothing/under/plasmaman/security
-	gloves = /obj/item/clothing/gloves/color/plasmaman/black
+//Engineering Deputy Datum
+/datum/outfit/job/deputy/engineering
+	name = "Deputy - Engineering"
+	jobtype = /datum/job/fulp/deputy
+//	neck = /obj/item/clothing/neck/fulptie/engineering -- Uncomment when sprites are made, in deputy_zclothing.dm
+	ears = /obj/item/radio/headset/headset_sec/department/engi
+	head = /obj/item/clothing/head/fulpberet/engineering
+	accessory = /obj/item/clothing/accessory/armband/engine
+	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
+
+//Medical Deputy Datum
+/datum/outfit/job/deputy/medical
+	name = "Deputy - Medical"
+	jobtype = /datum/job/fulp/deputy
+//	neck = /obj/item/clothing/neck/fulptie/medical -- Uncomment when sprites are made, in deputy_zclothing.dm
+	ears = /obj/item/radio/headset/headset_sec/department/med
+	head = /obj/item/clothing/head/fulpberet/medical
+	accessory = /obj/item/clothing/accessory/armband/medblue
+	skillchips = list(/obj/item/skillchip/job/deputy/medical)
+
+//Science Deputy Datum
+/datum/outfit/job/deputy/science
+	name = "Deputy - Science"
+	jobtype = /datum/job/fulp/deputy
+//	neck = /obj/item/clothing/neck/fulptie/science -- Uncomment when sprites are made, in deputy_zclothing.dm
+	ears = /obj/item/radio/headset/headset_sec/department/sci
+	head = /obj/item/clothing/head/fulpberet/science
+	accessory = /obj/item/clothing/accessory/armband/science
+	skillchips = list(/obj/item/skillchip/job/deputy/science)
+
+//Plasmamen Datum
+/datum/outfit/plasmaman/deputy
+	name = "Plasmaman Deputy - Unassigned"
+	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
+	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
+	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
+//	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
+//	uniform = /obj/item/clothing/under/plasmaman/security/deputy
+
+//Beefmen Datum
+/datum/outfit/job/deputy/beefman
+	name = "Beefman Deputy - Unassigned"
+	uniform = /obj/item/clothing/under/bodysash/deputy
 
 //Shirt
-/obj/item/clothing/under/rank/security/mallcop
+/obj/item/clothing/under/rank/security/officer/mallcop
 	name = "deputy shirt"
 	desc = "An awe-inspiring tactical shirt-and-pants combo; because safety never takes a holiday."
 	icon_state = "mallcop"
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
-	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	can_adjust = TRUE
 
-/obj/item/clothing/under/rank/security/mallcop/skirt
+/obj/item/clothing/under/rank/security/officer/mallcop/skirt
 	name = "deputy skirt"
 	desc = "An awe-inspiring tactical shirt-and-skirt combo; because safety never takes a holiday."
 	icon_state = "mallcop_skirt"
@@ -90,7 +133,7 @@
 	inhand_icon_state = "security_envirohelm"
 */
 
-//Berets - Clown shoes will be used to give them benefits for being in their department while wearing them
+//Berets
 /obj/item/clothing/head/fulpberet
 	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as Chaplain armor, it's the Deputy's holy beret.
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
