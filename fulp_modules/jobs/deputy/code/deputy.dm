@@ -38,6 +38,7 @@
 	head = /obj/item/clothing/head/beret/sec
 	suit = /obj/item/clothing/suit/armor/vest/alt
 	shoes = /obj/item/clothing/shoes/jackboots
+	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/assembly/flash/handheld
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs/cable/zipties=1)
@@ -101,7 +102,6 @@
 /datum/outfit/plasmaman/deputy
 	name = "Deputy Plasmaman"
 
-	l_pocket = /obj/item/tank/internals/plasmaman/belt/full
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made
 	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made
 	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
