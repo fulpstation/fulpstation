@@ -133,7 +133,7 @@
 /obj/item/skillchip/job/deputy/supply
 	deputy = "5UPP1Y"
 	department = "Cargo"
-	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
+	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_NOGUNS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/quartermaster
@@ -146,7 +146,7 @@
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
 	department = "Engineering"
-	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
+	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/engine
@@ -159,7 +159,7 @@
 /obj/item/skillchip/job/deputy/medical
 	deputy = "M3D1C4L"
 	department = "Medbay"
-	auto_traits = list(TRAIT_MEDICALDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
+	auto_traits = list(TRAIT_MEDICALDEPUTY, TRAIT_NOGUNS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/medical
@@ -172,7 +172,7 @@
 /obj/item/skillchip/job/deputy/science
 	deputy = "5C1ENC3"
 	department = "Science"
-	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_CHUNKYFINGERS) // Deputies aren't trained to use guns
+	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS) // Deputies aren't trained to use guns
 
 /* -- These must be commented out until the next TG update when they're adding mood_trait! THESE ARE NOT TESTED EITHER. DONT JUST UNCOMMENT AND GO ABOUT YOUR DAY
 /area/science
