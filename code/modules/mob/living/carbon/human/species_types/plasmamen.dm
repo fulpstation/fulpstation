@@ -145,8 +145,12 @@
 			O = new /datum/outfit/plasmaman/mime
 
 		// FULP EDIT - Plasmaman outfits for fulp-exclusive jobs. Place jobs between mime and clown.
+		if("Deputy")
+			O = new /datum/outfit/plasmaman/security // Placeholder until actual sprites are made
+
 		if("Brig Physician")
-			O = new /datum/outfit/plasmaman/brigdoc
+			O = new /datum/outfit/plasmaman/security/brigdoc
+
 		// FULP EDIT ENDS
 
 		if("Clown")

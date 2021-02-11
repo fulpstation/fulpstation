@@ -64,7 +64,7 @@ Contains:
 
 // Envirosuit and Envirohelmet
 
-/obj/item/clothing/under/plasmaman/brigdoc
+/obj/item/clothing/under/plasmaman/security/brigdoc
 	name = "brig physician's envirosuit"
 	desc = "A lightly armoured envirosuit for our plasmamen Brig Physicians."
 	worn_icon = 'fulp_modules/jobs/brigdoc/icons/clothing_worn.dmi'
@@ -72,10 +72,8 @@ Contains:
 	icon_state = "envirosuit_brigdoc"
 	permeability_coefficient = 0.5
 	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 100, RAD = 0, FIRE = 95, ACID = 95, WOUND = 10)
-	sensor_mode = SENSOR_COORDS
-	random_sensor = FALSE
 
-/obj/item/clothing/head/helmet/space/plasmaman/brigdoc
+/obj/item/clothing/head/helmet/space/plasmaman/security/brigdoc
 	name = "brig physician's plasma envirosuit helmet"
 	desc = "A plasmaman containment helmet for brig physicians."
 	worn_icon = 'fulp_modules/jobs/brigdoc/icons/clothing_worn.dmi'

@@ -9,19 +9,19 @@
 	if(!can_use(A))
 		return FALSE
 	if(in_department)
-		if(!is_type_in_list(get_area(A), valid_area))
+		if(is_type_in_list(get_area(A), valid_area))
+			old_grab_state = A.grab_state
+			D.grabbedby(A, 1)
+			if(old_grab_state == GRAB_PASSIVE)
+				D.drop_all_held_items()
+				A.setGrabState(GRAB_AGGRESSIVE)
+				log_combat(A, D, "grabbed", addition="aggressively")
+				D.visible_message("<span class='warning'>[A] violently grabs [D]!</span>", \
+								"<span class='userdanger'>You're grabbed violently by [A]!</span>", "<span class='hear'>You hear sounds of aggressive fondling!</span>", COMBAT_MESSAGE_RANGE, A)
+				to_chat(A, "<span class='danger'>You violently grab [D]!</span>")
+				return TRUE
+		else
 			return FALSE
-	else
-		old_grab_state = A.grab_state
-		D.grabbedby(A, 1)
-		if(old_grab_state == GRAB_PASSIVE)
-			D.drop_all_held_items()
-			A.setGrabState(GRAB_AGGRESSIVE)
-			log_combat(A, D, "grabbed", addition="aggressively")
-			D.visible_message("<span class='warning'>[A] violently grabs [D]!</span>", \
-							"<span class='userdanger'>You're grabbed violently by [A]!</span>", "<span class='hear'>You hear sounds of aggressive fondling!</span>", COMBAT_MESSAGE_RANGE, A)
-			to_chat(A, "<span class='danger'>You violently grab [D]!</span>")
-			return TRUE
 
 // This is used to limit it to the Deputy's department.
 /datum/martial_art/deputygrab/can_use(mob/living/carbon/human/H)

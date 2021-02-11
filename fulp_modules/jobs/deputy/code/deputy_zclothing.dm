@@ -32,10 +32,6 @@
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
 	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	strip_delay = 50
-	alt_covers_chest = TRUE
-	sensor_mode = SENSOR_COORDS
-	random_sensor = FALSE
 	can_adjust = TRUE
 
 /obj/item/clothing/under/rank/security/mallcop/skirt

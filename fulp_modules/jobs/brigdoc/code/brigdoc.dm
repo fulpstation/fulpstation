@@ -51,9 +51,9 @@
 
 	implants = list(/obj/item/implant/mindshield)
 
-/datum/outfit/plasmaman/brigdoc
+/datum/outfit/plasmaman/security/brigdoc
 	name = "Plasmaman Brig Physician"
 
-	head = /obj/item/clothing/head/helmet/space/plasmaman/brigdoc
-	uniform = /obj/item/clothing/under/plasmaman/brigdoc
+	head = /obj/item/clothing/head/helmet/space/plasmaman/security/brigdoc
+	uniform = /obj/item/clothing/under/plasmaman/security/brigdoc
 	gloves = /obj/item/clothing/gloves/color/plasmaman/white
