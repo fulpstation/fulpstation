@@ -110,9 +110,8 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	W.access |= dep_access
 	W.update_icon()
 
-/*
 //Mood buff from being within your department. Used in deputy_zclothing.dm
 /datum/mood_event/deputy_helpful
 	description = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_change = 5
-*/
+

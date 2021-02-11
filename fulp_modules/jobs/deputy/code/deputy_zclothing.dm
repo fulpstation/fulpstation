@@ -57,11 +57,9 @@
 
 //Plasmamen Datum
 /datum/outfit/plasmaman/deputy
-	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
-	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
-//	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
-//	uniform = /obj/item/clothing/under/plasmaman/security/deputy
-	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
+	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
+	uniform = /obj/item/clothing/under/plasmaman/security/deputy
+	gloves = /obj/item/clothing/gloves/color/plasmaman/white
 
 //Beefmen Datum
 /datum/outfit/job/deputy/beefman
@@ -112,24 +110,22 @@
 	department = "science"
 */
 
-//Plasmaman clothes, commented out until sprites are made.
-/*
+//Plasmamen clothes
 /obj/item/clothing/under/plasmaman/security/deputy
-	icon = 'icons/obj/clothing/under/plasmaman.dmi'
-	worn_icon = 'icons/mob/clothing/under/plasmaman.dmi'
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
 	name = "deputy plasma envirosuit"
 	desc = "A plasmaman containment suit designed for deputies, offering a limited amount of extra protection."
-	icon_state = "security_envirosuit"
-	inhand_icon_state = "security_envirosuit"
+	icon_state = "deputy_envirosuit"
+	inhand_icon_state = "deputy_envirosuit"
 
 /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
-	icon = 'icons/obj/clothing/under/plasmaman.dmi'
-	worn_icon = 'icons/mob/clothing/under/plasmaman.dmi'
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	name = "deputy envirosuit helmet"
 	desc = "A plasmaman containment helmet designed for deputies, protecting them from being flashed and burning alive, alongside other undesirables."
-	icon_state = "security_envirohelm"
-	inhand_icon_state = "security_envirohelm"
-*/
+	icon_state = "deputy_envirohelm"
+	inhand_icon_state = "deputy_envirohelm"
 
 //Berets
 /obj/item/clothing/head/fulpberet
