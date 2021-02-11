@@ -15,8 +15,6 @@
 	hud_icon = 'fulp_modules/jobs/huds.dmi'
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
-	outfit = /datum/outfit/job/deputy
-
 	access = list(ACCESS_SECURITY, ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS)
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS)
 	paycheck = PAYCHECK_MEDIUM
@@ -90,7 +88,7 @@
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
 
-//Plasmamen clothing - For some reason, internals dont automatically turn on for them?
+//Plasmamen clothing
 /datum/outfit/plasmaman/deputy
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made
 	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made
@@ -119,7 +117,6 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		else
 			department = pick_n_take(GLOB.available_deputy_depts)
 	var/list/dep_access = null
-	H.delete_equipment()
 	switch(department) // Spawn points have been moved, read landmark.dm for more info
 		if(SEC_DEPT_SUPPLY)
 			dep_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE)
