@@ -622,8 +622,6 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_desc = "Tomato juice, mixed with Vodka and a li'l bit of lime. Tastes like liquid murder."
 
 /datum/reagent/consumable/ethanol/bloody_mary/on_mob_life(mob/living/carbon/C)
-	if(AmBloodsucker(C))
-		disgust_bloodsucker(FALSE, 1) // Fulpstation Bloodsucker edit: They get some blood for style reasons
 	if(C.blood_volume < BLOOD_VOLUME_NORMAL)
 		C.blood_volume = min(BLOOD_VOLUME_NORMAL, C.blood_volume + 3) //Bloody Mary quickly restores blood loss.
 	..()

@@ -1,6 +1,6 @@
 /datum/job/mining
 	title = "Shaft Miner"
-	department_head = list("Head of Personnel", , "Quartermaster") // Fulpstation Bloodsuckers edit: Added Quartermaster so Cargo objective works
+	department_head = list("Head of Personnel")
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 3
