@@ -90,8 +90,10 @@
 
 //Plasmamen clothing
 /datum/outfit/plasmaman/deputy
-	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made
-	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made
+	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
+	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made, commented out code below is the real suit
+//	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
+//	uniform = /obj/item/clothing/under/plasmaman/security/deputy
 	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
 
 //Beefman clothing

@@ -71,9 +71,28 @@
 	department = "science"
 */
 
+//Plasmaman clothes, commented out until sprites are made.
+/*
+/obj/item/clothing/under/plasmaman/security/deputy
+	icon = 'icons/obj/clothing/under/plasmaman.dmi'
+	worn_icon = 'icons/mob/clothing/under/plasmaman.dmi'
+	name = "deputy plasma envirosuit"
+	desc = "A plasmaman containment suit designed for deputies, offering a limited amount of extra protection."
+	icon_state = "security_envirosuit"
+	inhand_icon_state = "security_envirosuit"
+
+/obj/item/clothing/head/helmet/space/plasmaman/security/deputy
+	icon = 'icons/obj/clothing/under/plasmaman.dmi'
+	worn_icon = 'icons/mob/clothing/under/plasmaman.dmi'
+	name = "deputy envirosuit helmet"
+	desc = "A plasmaman containment helmet designed for deputies, protecting them from being flashed and burning alive, alongside other undesirables."
+	icon_state = "security_envirohelm"
+	inhand_icon_state = "security_envirohelm"
+*/
+
 //Berets - Clown shoes will be used to give them benefits for being in their department while wearing them
 /obj/item/clothing/head/fulpberet
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as crusader armor, it's the Deputy's holy beret.
+	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as Chaplain armor, it's the Deputy's holy beret.
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 
