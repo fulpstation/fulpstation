@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
-	supervisors = "the head of security, and the head of your assigned department"
+	supervisors = "the head of your assigned department, and the head of security when outside your post"
 	selection_color = "#ffeeee"
 	minimal_player_age = 7
 	exp_requirements = 300
@@ -17,8 +17,8 @@
 
 	outfit = /datum/outfit/job/deputy
 
-	access = list(ACCESS_SECURITY, ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MAINT_TUNNELS)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_BRIG, ACCESS_SEC_DOORS)
+	access = list(ACCESS_SECURITY, ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS)
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
@@ -38,10 +38,9 @@
 	head = /obj/item/clothing/head/beret/sec
 	suit = /obj/item/clothing/suit/armor/vest/alt
 	shoes = /obj/item/clothing/shoes/jackboots
-	l_pocket = /obj/item/restraints/handcuffs/cable/zipties
 	r_pocket = /obj/item/assembly/flash/handheld
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	backpack_contents = list(/obj/item/melee/baton/loaded=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs/cable/zipties=1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -102,6 +101,7 @@
 /datum/outfit/plasmaman/deputy
 	name = "Deputy Plasmaman"
 
+	l_pocket = /obj/item/tank/internals/plasmaman/belt/full
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security // Placeholder until actual sprites are made
 	uniform = /obj/item/clothing/under/plasmaman/security // Placeholder until actual sprites are made
 	gloves = /obj/item/clothing/gloves/color/plasmaman/black // When sprite are made, this should likely be changed to fit it. Best to be white, like the bartender's.
