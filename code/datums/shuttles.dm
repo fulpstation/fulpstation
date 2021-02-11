@@ -572,10 +572,6 @@
 	suffix = "delta"
 	name = "cargo ferry (Delta)"
 
-/datum/map_template/shuttle/cargo/helio
-	suffix = "helio"
-	name = "cargo ferry (Helio)"
-
 /datum/map_template/shuttle/mining/delta
 	suffix = "delta"
 	name = "mining shuttle (Delta)"

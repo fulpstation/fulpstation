@@ -84,6 +84,8 @@
 	amt *= physiology.bleed_mod
 	if(!(NOBLOOD in dna.species.species_traits))
 		..()
+	if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: They don't need to be here
+		..()
 
 /// A helper to see how much blood we're losing per tick
 /mob/living/carbon/proc/get_bleed_rate()

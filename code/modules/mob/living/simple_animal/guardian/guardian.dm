@@ -593,6 +593,9 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 		if("Gravitokinetic")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/gravitokinetic
 
+	if(user.mind && user.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // FULPSTATION BLOODSUCKERS
+		pickedtype = /mob/living/simple_animal/hostile/guardian/timestop
+
 	var/list/guardians = user.hasparasites()
 	if(guardians.len && !allowmultiple)
 		to_chat(user, "<span class='holoparasite'>You already have a [mob_name]!</span>" )

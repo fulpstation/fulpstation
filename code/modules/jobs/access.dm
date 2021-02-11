@@ -375,7 +375,7 @@
 				// FULP EDIT ADDITION - BRIG DOCTOR & DEPUTY
 				"Brig Psysician", "Deputy",
 				// FULP EDIT ENDS
-				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Prisoner")
+				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Prisoner", "Cyborg", "AI")
 
 /proc/get_all_job_icons() //For all existing HUD icons
 	return get_all_jobs() + list("Emergency Response Team Commander", "Security Response Officer", "Engineering Response Officer", "Medical Response Officer", "Entertainment Response Officer", "Religious Response Officer", "Janitorial Response Officer", "Death Commando") - list("Cyborg", "AI")

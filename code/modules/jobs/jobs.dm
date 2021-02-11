@@ -54,6 +54,7 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
 	"Detective",
+
 	// FULP EDIT ADDITION - BRIG DOCTOR & DEPUTY
 	"Brig Physician",
 	"Deputy",
