@@ -30,7 +30,7 @@ This uses code made in the BrigDoc PR to make a new fulp-exclusive job while avo
 Skyrat - .md template.
 Mithrandalf - Original Deputies PR and original sprites (https://github.com/TheSwain/Fulpstation/pull/108)
 John Willard - Coding rework
-SgtHunk - Original Brig Doc PR (https://github.com/fulpstation/fulpstation/pull/16) + Helping abswer coding questions
-Guillaume H. Prata - New sprites for rolled up Jumpsuits/Jumpskirts + Helping answer coding questions
+SgtHunk - Original Brig Doc PR (https://github.com/fulpstation/fulpstation/pull/16) + Answering coding questions
+Guillaume H. Prata - New sprites for rolled up Jumpsuits/Jumpskirts + Answering coding questions
 Montague Joyce - New sprites for Plasmamen/Beefmen
 Sheets - New sprites for their ties
