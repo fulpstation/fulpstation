@@ -78,7 +78,7 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 				H.equipOutfit(/datum/outfit/job/deputy/beefman)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
 		if(SEC_DEPT_ENGINEERING)
-			dep_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
+			dep_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_MECH_ENGINE, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
 			if(isplasmaman(H))
 				H.equipOutfit(/datum/outfit/plasmaman/deputy)
 			if(isbeefman(H))
@@ -105,7 +105,6 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		to_chat(M, "<b>You have not been assigned to any department. Please report this to the Head of Personnel.</b>")
 
 	var/obj/item/card/id/W = H.wear_id
-	W.access |= dep_access
 	W.access |= dep_access
 	W.update_icon()
 
