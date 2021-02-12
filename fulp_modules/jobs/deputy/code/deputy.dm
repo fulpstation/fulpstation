@@ -34,7 +34,6 @@
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/sec
-	suit = /obj/item/clothing/suit/armor/vest/alt
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/assembly/flash/handheld
@@ -114,4 +113,3 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 /datum/mood_event/deputy_helpful
 	description = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_change = 5
-

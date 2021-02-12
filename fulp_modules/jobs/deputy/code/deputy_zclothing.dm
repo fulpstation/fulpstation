@@ -1,25 +1,8 @@
-//Headsets
-/obj/item/radio/headset/headset_sec/department/engi
-	keyslot = new /obj/item/encryptionkey/headset_sec
-	keyslot2 = new /obj/item/encryptionkey/headset_eng
-
-/obj/item/radio/headset/headset_sec/department/supply
-	keyslot = new /obj/item/encryptionkey/headset_sec
-	keyslot2 = new /obj/item/encryptionkey/headset_cargo
-
-/obj/item/radio/headset/headset_sec/department/med
-	keyslot = new /obj/item/encryptionkey/headset_sec
-	keyslot2 = new /obj/item/encryptionkey/headset_med
-
-/obj/item/radio/headset/headset_sec/department/sci
-	keyslot = new /obj/item/encryptionkey/headset_sec
-	keyslot2 = new /obj/item/encryptionkey/headset_sci
-
 //Supply Deputy Datum
 /datum/outfit/job/deputy/supply
 	name = "Deputy - Supply"
 	jobtype = /datum/job/fulp/deputy
-//	neck = /obj/item/clothing/neck/fulptie/supply -- Uncomment when sprites are made, in deputy_zclothing.dm
+	neck = /obj/item/clothing/neck/fulptie/supply
 	ears = /obj/item/radio/headset/headset_sec/department/supply
 	head = /obj/item/clothing/head/fulpberet/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
@@ -29,7 +12,7 @@
 /datum/outfit/job/deputy/engineering
 	name = "Deputy - Engineering"
 	jobtype = /datum/job/fulp/deputy
-//	neck = /obj/item/clothing/neck/fulptie/engineering -- Uncomment when sprites are made, in deputy_zclothing.dm
+	neck = /obj/item/clothing/neck/fulptie/engineering
 	ears = /obj/item/radio/headset/headset_sec/department/engi
 	head = /obj/item/clothing/head/fulpberet/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
@@ -39,7 +22,7 @@
 /datum/outfit/job/deputy/medical
 	name = "Deputy - Medical"
 	jobtype = /datum/job/fulp/deputy
-//	neck = /obj/item/clothing/neck/fulptie/medical -- Uncomment when sprites are made, in deputy_zclothing.dm
+	neck = /obj/item/clothing/neck/fulptie/medical
 	ears = /obj/item/radio/headset/headset_sec/department/med
 	head = /obj/item/clothing/head/fulpberet/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
@@ -49,7 +32,7 @@
 /datum/outfit/job/deputy/science
 	name = "Deputy - Science"
 	jobtype = /datum/job/fulp/deputy
-//	neck = /obj/item/clothing/neck/fulptie/science -- Uncomment when sprites are made, in deputy_zclothing.dm
+	neck = /obj/item/clothing/neck/fulptie/science
 	ears = /obj/item/radio/headset/headset_sec/department/sci
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
@@ -79,13 +62,13 @@
 	icon_state = "mallcop_skirt"
 	body_parts_covered = CHEST|GROIN|ARMS
 
-/* -- These can be uncommented when proper sprites are done for them
 //Ties
 /obj/item/clothing/neck/fulptie
 	name = "departmental tie"
 	desc = "A tie showing off the department colors of a deputy."
-	icon = 'icons/obj/clothing/neck.dmi'
-	icon_state = "bluetie"
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/ties_icons.dmi'
+	worn_icon =  'fulp_modules/jobs/deputy/deputy_clothing/ties_worn.dmi'
+	icon_state = "supply_tie"
 	inhand_icon_state = ""	//no inhands
 	w_class = WEIGHT_CLASS_SMALL
 	custom_price = PAYCHECK_EASY
@@ -95,6 +78,7 @@
 	. = ..()
 	if(department)
 		name = "[department] tie"
+		desc = "A tie showing off that the user belongs to the [department] department."
 		icon_state = "[department]_tie"
 
 /obj/item/clothing/neck/fulptie/supply
@@ -108,11 +92,10 @@
 
 /obj/item/clothing/neck/fulptie/science
 	department = "science"
-*/
 
 //Plasmamen clothes
 /obj/item/clothing/under/plasmaman/security/deputy
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
 	name = "deputy plasma envirosuit"
 	desc = "A plasmaman containment suit designed for deputies, offering a limited amount of extra protection."
@@ -120,7 +103,7 @@
 	inhand_icon_state = "deputy_envirosuit"
 
 /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	name = "deputy envirosuit helmet"
 	desc = "A plasmaman containment helmet designed for deputies, protecting them from being flashed and burning alive, alongside other undesirables."
@@ -152,6 +135,39 @@
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
 	icon_state = "beret_science"
+
+//Headsets
+/obj/item/encryptionkey/headset_depsupply
+	name = "supply deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SUPPLY = 1)
+
+/obj/item/encryptionkey/headset_depengineering
+	name = "engineering deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 1)
+
+/obj/item/encryptionkey/headset_depmedical
+	name = "medical deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_MEDICAL = 1)
+
+/obj/item/encryptionkey/headset_depscience
+	name = "science deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SCIENCE = 1)
+
+/obj/item/radio/headset/headset_sec/department/supply
+	keyslot = new /obj/item/encryptionkey/headset_depsupply
+
+/obj/item/radio/headset/headset_sec/department/engi
+	keyslot = new /obj/item/encryptionkey/headset_depengineering
+
+/obj/item/radio/headset/headset_sec/department/med
+	keyslot = new /obj/item/encryptionkey/headset_depmedical
+
+/obj/item/radio/headset/headset_sec/department/sci
+	keyslot = new /obj/item/encryptionkey/headset_depscience
 
 //Base Skillchip
 /obj/item/skillchip/job/deputy
