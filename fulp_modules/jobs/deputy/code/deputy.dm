@@ -16,7 +16,7 @@
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
 	access = list(ACCESS_SECURITY, ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS)
+	minimal_access = list(ACCESS_SECURITY, ACCESS_BRIG, ACCESS_SEC_DOORS) // ACCESS_BRIG due to delta departmental cells, sadly.
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
