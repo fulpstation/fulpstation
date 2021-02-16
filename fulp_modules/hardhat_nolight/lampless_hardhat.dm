@@ -7,3 +7,4 @@
     actions_types = list()
 
 /obj/item/clothing/head/hardhat/lampless_hardhat/attack_self(mob/living/user)
+	return
