@@ -2,19 +2,13 @@
 // It's meant to be fully modular and to be a good example of how to
 // implement such modularity. Enjoy.
 
-// Starting off by adding some stuff to the initial definition of minebots
-/mob/living/simple_animal/hostile/mining_drone
-	..()
-	var/gpstag // Adding this here so it doesn't cause any issues later
-
 
 // Making small changes to the Initialize() proc means that when it gets created, whatever is in
 // here gets called. In this case, we give it a name with a serial number and a GPS signal!
 /mob/living/simple_animal/hostile/mining_drone/Initialize()
 	. = ..()  // This makes it so it does whatever the original Initialize() in the minebot.dm file does before anything that comes after this.
 	name = "[name] #[rand(1,999)]"
-	gpstag = name
-	AddComponent(/datum/component/gps, gpstag)
+	AddComponent(/datum/component/gps, name)
 	weather_immunities = list("ash") // Makes them ash-proof by default. This makes them more viable
 	maxbodytemp = INFINITY // To avoid problems with temperature, since they're ash-proof.
 	wanted_objects += /obj/item/stack/ore/bluespace_crystal
@@ -42,7 +36,7 @@
 	name = "minebot speed upgrade"
 
 /obj/item/mine_bot_upgrade/speed/upgrade_bot(mob/living/simple_animal/hostile/mining_drone/M, mob/user)
-	if(M.cached_multiplicative_slowdown != 2.5)  //Checks for the current slowdown of the Minebot, to see if it's not different from the default value, which is 3.
+	if(M.cached_multiplicative_slowdown != 2.5)  //Checks for the current slowdown of the Minebot, to see if it's not different from the default value, which is 2.5
 		to_chat(user, "<span class='warning'>[M] already has a speed upgrade installed!</span>")
 		return
 	M.add_movespeed_modifier(/datum/movespeed_modifier/minebot_speedupgrade)  //This makes it so a normal miner would still go twice as fast, but this would still be a significant speed upgrade for the Minebots, going from a slowdown of 3 to a slowdown of 2.
@@ -75,8 +69,8 @@
 
 	M.visible_message("<span class='notice'><span class='name'>[M]</span> has a new name, <span class='name'>[new_name]</span>.</span>", "<span class='notice'>Your old name of <span class='name'>[M.real_name]</span> fades away, and your new name <span class='name'>[new_name]</span> anchors itself in your mind.</span>")
 	message_admins("[ADMIN_LOOKUPFLW(user)] used [src] on [ADMIN_LOOKUPFLW(M)], renaming them into [new_name].")
-	var/datum/component/gps/gps = M.GetComponent(/datum/component/gps, M.gpstag) // This is how components work, but I was told there's better ways to do it with signals, might change it later, but hey, it works now at long last.
-	gps.gpstag = "[new_name] - Minebot"
+	var/new_tag = "[new_name] - Minebot"
+	SEND_SIGNAL(M, COMSIG_SIGNAL_SOURCE_RENAMED, new_tag) // Using a variable here because it didn't work as intended when I put the string directly in it
 
 	// pass null as first arg to not update records or ID/PDA
 	M.fully_replace_character_name(null, new_name)
