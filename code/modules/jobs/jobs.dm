@@ -54,10 +54,11 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
 	"Detective",
-	"Security Officer",
 	// FULP EDIT ADDITION - BRIG DOCTOR
-	"Brig Physician"))
+	"Brig Physician",
 	// FULP ADDITION END
+	"Security Officer"))
+
 
 GLOBAL_LIST_INIT(nonhuman_positions, list(
 	"AI",
