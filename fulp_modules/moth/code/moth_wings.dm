@@ -17,4 +17,3 @@
     icon = 'fulp_modules/moth/icons/fulp_moth_wings.dmi'
     name = "Plasmafire"
     icon_state = "plasmafire"
-    
