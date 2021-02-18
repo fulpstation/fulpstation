@@ -17,3 +17,4 @@
     icon = 'fulp_modules/moth/icons/fulp_moth_antannae'
     name = "Plasmafire"
     icon_state = "plasmafire"
+    
