@@ -17,9 +17,7 @@
 	set name = "Stop Following"
 	set desc = "Stop following the followed."
 
-	if(!is_mentor())
-		return
-	usr.reset_perspective()
+	usr.reset_perspective(null)
 	verbs -= /client/proc/mentor_unfollow
 	to_chat(GLOB.admins, "<span class='mentor'><span class='prefix'>MENTOR:</span> <EM>[key_name(usr)]</EM> is no longer following <EM>[key_name(mentor_datum.following)]</span>")
 	log_mentor("[key_name(usr)] stopped following [key_name(mentor_datum.following)]")
