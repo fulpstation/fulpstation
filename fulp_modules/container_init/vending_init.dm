@@ -61,3 +61,11 @@
 /obj/structure/closet/secure_closet/psychology/Initialize()
 	new /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/psych(src)
 	. = ..()
+
+/obj/machinery/vending/autodrobe/Initialize()
+	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/service/mime = 2, /obj/item/clothing/suit/hooded/wintercoat/fulp/service/clown = 2)
+	. = ..()
+
+/obj/machinery/vending/wardrobe/chef_wardrobe/Initialize()
+	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/service/chef = 2)
+	. = ..()

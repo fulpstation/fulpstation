@@ -32,10 +32,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/security/head
 	icon_state = "winterhood_hos"
 
-/obj/structure/closet/secure_closet/hos/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/fulp/security/head(src)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/head
 	name = "\improper chief medical officer's winter coat"
 	desc = "This is the Chief Medical Officer's personal winter coat."
@@ -47,10 +43,6 @@
 
 /obj/item/clothing/head/hooded/winterhood/fulp/medical/head
 	icon_state = "winterhood_cmo"
-
-/obj/structure/closet/secure_closet/chief_medical/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/head(src)
-	. = ..()
 
 /obj/item/clothing/suit/hooded/wintercoat/fulp/science/head
 	name = "\improper research director's winter coat"
@@ -64,10 +56,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/science/head
 	icon_state = "winterhood_rd"
 
-/obj/structure/closet/secure_closet/research_director/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/fulp/science/head(src)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/engineering/head
 	name = "\improper chief engineer's winter coat"
 	desc = "This is the Chief Engineer's personal winter coat."
@@ -80,10 +68,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/engineering/head
 	icon_state = "winterhood_ce"
 
-/obj/structure/closet/secure_closet/engineering_chief/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/fulp/engineering/head(src)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/captain/hop
 	name = "\improper head of personel's winter coat"
 	desc = "This is the Head of Personel's personal winter coat. It has a small armor vest woven inside."
@@ -95,17 +79,9 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/captain/hop
 	icon_state = "winterhood_hop"
 
-/obj/structure/closet/secure_closet/hop/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/fulp/captain/hop(src)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/cargo/head // :(
 	name = "\improper quartermaster's cargo winter coat"
 	desc = "It's just a regular cargo winter coat... it seems the Quarter Master still isn't a head of staff..."
-
-/obj/structure/closet/secure_closet/quartermaster/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/cargo/head(src)
-	. = ..()
 
 //This starts normal job related wintercoats that TG decided not to put into the game
 //The code here is purly mine, and the credits to the sprites go to diffrent people, if there isnt any credits beside the obj path, i made them.
@@ -121,10 +97,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/security/law
 	icon_state = "winterhood_law"
 
-/obj/machinery/vending/wardrobe/law_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/security/lawyer = 2)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/service/bartender //credit to this wintercoat goes to YouTubeBoy
 	name = "\improper bartender's winter coat"
 	desc = "This is a winter coat made to look like a butler's suit."
@@ -136,10 +108,6 @@
 
 /obj/item/clothing/head/hooded/winterhood/fulp/service/bar
 	icon_state = "winterhood_bar"
-
-/obj/machinery/vending/wardrobe/bar_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/service/bartender = 2)
-	. = ..()
 
 /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/chem
 	name = "\improper chemist's winter coat"
@@ -153,10 +121,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/medical/chem
 	icon_state = "winterhood_chem"
 
-/obj/machinery/vending/wardrobe/chem_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/medical/chem = 3)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/gen //credit to this wintercoat goes to beardlessjoe (not to be confused with jo)
 	name = "\improper geneticist's winter coat"
 	desc = "This winter coat is made out of a comfortable material and dyed to the geneticist's color scheme."
@@ -168,10 +132,6 @@
 
 /obj/item/clothing/head/hooded/winterhood/fulp/medical/gen
 	icon_state = "winterhood_gen"
-
-/obj/machinery/vending/wardrobe/gene_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/medical/gen = 3)
-	. = ..()
 
 
 /obj/item/clothing/suit/hooded/wintercoat/fulp/security/pris
@@ -186,10 +146,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/security/pris
 	icon_state = "winterhood_pris"
 
-/obj/structure/closet/secure_closet/brig/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/fulp/security/pris(src)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/para
 	name = "\improper paramedic's winter coat"
 	desc = "Comfy alternitive to the paramedic's vest."
@@ -202,10 +158,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/medical/para
 	icon_state = "winterhood_para"
 
-/obj/machinery/vending/wardrobe/medi_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/medical/para = 3)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/service/chap
 	name = "\improper chaplins's winter coat"
 	desc = "Warm, Stylish, approved by the pope. Everything you need in a winter coat."
@@ -217,10 +169,6 @@
 
 /obj/item/clothing/head/hooded/winterhood/fulp/service/chap
 	icon_state = "winterhood_chap"
-
-/obj/machinery/vending/wardrobe/chap_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/service/chap = 2)
-	. = ..()
 
 /*
 /obj/item/clothing/suit/hooded/wintercoat/fulp/engineering/mech
@@ -248,10 +196,6 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/medical/viro
 	icon_state = "winterhood_viro"
 
-/obj/machinery/vending/wardrobe/viro_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/medical/viro = 2)
-	. = ..()
-
 /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/psych
 	name = "\improper psychologist's winter coat"
 	desc = "A simple white coat with a brown trim, perfect for its job. Just a tad bit resistant to chemicals."
@@ -264,6 +208,40 @@
 /obj/item/clothing/head/hooded/winterhood/fulp/medical/psych
 	icon_state = "winterhood_viro"
 
-/obj/machinery/vending/wardrobe/viro_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/medical/psych = 2)
-	. = ..()
+
+/obj/item/clothing/suit/hooded/wintercoat/fulp/service/chef
+	name = "\improper chef's winter coat"
+	desc = "A white wintercoat that somehow isnt stained yet, maybe it will be one day."
+	icon_state = "wintercoat_chef"
+	inhand_icon_state = "wintercoat_chef"
+	allowed = list(/obj/item/reagent_containers/spray/plantbgone, /obj/item/plant_analyzer, /obj/item/seeds, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/cultivator, /obj/item/reagent_containers/spray/pestspray, /obj/item/hatchet, /obj/item/storage/bag/plants, /obj/item/graft, /obj/item/secateurs, /obj/item/geneshears)
+	armor = list("melee" = 5, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/service/chef
+
+
+/obj/item/clothing/head/hooded/winterhood/fulp/service/chef
+	icon_state = "winterhood_chef"
+
+/obj/item/clothing/suit/hooded/wintercoat/fulp/service/mime
+	name = "\improper mime's winter coat"
+	desc = "A black and white striped coat that the mimes made for themselves, who knows what this can do..."
+	icon_state = "wintercoat_mime"
+	inhand_icon_state = "wintercoat_mime"
+	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/service/mime
+
+
+/obj/item/clothing/head/hooded/winterhood/fulp/service/mime
+	icon_state = "winterhood_mime"
+
+/obj/item/clothing/suit/hooded/wintercoat/fulp/service/clown
+	name = "\improper clown's winter coat"
+	desc = "A wintercoat made specially made for the clowns from an unknown place. All clowns have one, but not all of them wear it."
+	icon_state = "wintercoat_clown"
+	inhand_icon_state = "wintercoat_clown"
+	armor = list("melee" = 5, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/service/clown
+
+
+/obj/item/clothing/head/hooded/winterhood/fulp/service/clown
+	icon_state = "winterhood_clown"
