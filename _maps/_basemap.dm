@@ -12,6 +12,7 @@
 		#include "map_files\MetaStation\MetaStation.dmm"
 		#include "map_files\IceBoxStation\IceBoxStation.dmm"
 		#include "map_files\HelioStation\HelioStation.dmm"
+		#include "map_files\SpaceBoxStation\SpaceBoxMain.dmm"
 
 		#ifdef CIBUILDING
 			#include "templates.dm"
