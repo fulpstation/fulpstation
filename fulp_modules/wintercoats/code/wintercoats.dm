@@ -206,7 +206,7 @@
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/medical/psych
 
 /obj/item/clothing/head/hooded/winterhood/fulp/medical/psych
-	icon_state = "winterhood_viro"
+	icon_state = "winterhood_psych"
 
 
 /obj/item/clothing/suit/hooded/wintercoat/fulp/service/chef
@@ -245,3 +245,14 @@
 
 /obj/item/clothing/head/hooded/winterhood/fulp/service/clown
 	icon_state = "winterhood_clown"
+
+/obj/item/clothing/suit/hooded/wintercoat/fulp/security/det
+	name = "\improper detective's winter coat"
+	desc = "A random dectective decided to throw away the typical trenchcoat stariotype and make himself a wintercoat, this was the result."
+	icon_state = "wintercoat_det"
+	inhand_icon_state = "wintercoat_det"
+	armor = list("melee" = 35, "bullet" = 30, "laser" = 30,"energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
+	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/security/det
+
+/obj/item/clothing/head/hooded/winterhood/fulp/security/det
+	icon_state = "winterhood_det"
