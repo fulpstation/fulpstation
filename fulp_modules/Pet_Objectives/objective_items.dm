@@ -55,7 +55,7 @@
 	return FALSE
 
 /datum/objective_item/steal/runtimecat
-	name = "Runtime, the Cheif Medical Officer's pet, alive."
+	name = "Runtime, the Chief Medical Officer's pet, alive."
 	targetitem = /obj/item/pet_carrier
 	difficulty = 20
 	excludefromjob = list("Chief Medical Officer")
