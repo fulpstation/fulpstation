@@ -1,5 +1,5 @@
 GLOBAL_LIST_INIT(mentor_verbs, list(
-	/client/proc/cmd_mentor_say // Add /client/proc/cmd_mentor_pm_panel + /client/proc/cmd_mentor_pm_context for MentorPM
+	/client/proc/cmd_mentor_say
 	))
 GLOBAL_PROTECT(mentor_verbs)
 
