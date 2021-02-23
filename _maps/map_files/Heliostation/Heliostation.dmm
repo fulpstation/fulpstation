@@ -27483,6 +27483,16 @@
 /obj/structure/disposalpipe/segment,
 /turf/closed/wall,
 /area/storage/tools)
+"bhw" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/science/xenobiology)
 "bhx" = (
 /obj/machinery/camera{
 	c_tag = "Medbay Hall - Morgue";
@@ -53507,12 +53517,12 @@
 /turf/open/floor/engine,
 /area/science/misc_lab)
 "coF" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
 /obj/machinery/sparker{
 	id = "xenoignite";
 	pixel_y = 30
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
 	},
 /turf/open/floor/engine,
 /area/science/xenobiology)
@@ -56083,15 +56093,14 @@
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "cuy" = (
-/obj/item/stack/cable_coil/five,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
-	dir = 4
+/obj/machinery/camera{
+	c_tag = "Xenobiology - Test Chamber";
+	dir = 8;
+	name = "Xenobiology Camera";
+	network = list("ss13","rd","xeno")
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/maintenance/department/science/xenobiology)
+/turf/open/floor/engine,
+/area/science/xenobiology)
 "cuA" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable,
@@ -56654,8 +56663,12 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
+	dir = 6
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "cvO" = (
@@ -70123,11 +70136,8 @@
 /turf/open/floor/plasteel,
 /area/engine/lobby)
 "gGz" = (
-/obj/machinery/camera{
-	c_tag = "Xenobiology - Test Chamber";
-	dir = 8;
-	name = "Xenobiology Camera";
-	network = list("ss13","rd","xeno")
+/obj/structure/sign/departments/xenobio{
+	pixel_y = -30
 	},
 /turf/open/floor/engine,
 /area/science/xenobiology)
@@ -71555,6 +71565,19 @@
 "kOH" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer2,
+/turf/open/floor/plating,
+/area/maintenance/department/science/xenobiology)
+"kPM" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "kQG" = (
@@ -75348,11 +75371,15 @@
 /turf/open/floor/plasteel/dark,
 /area/security/prison)
 "uMj" = (
-/obj/structure/sign/departments/xenobio{
-	pixel_y = -30
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 6
 	},
-/turf/open/floor/engine,
-/area/science/xenobiology)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
+	dir = 6
+	},
+/obj/item/stack/cable_coil/five,
+/turf/open/floor/plating,
+/area/maintenance/department/science/xenobiology)
 "uMD" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
@@ -123002,9 +123029,9 @@ cmB
 bxx
 coF
 cpI
-cpJ
 cpI
-uMj
+cpI
+cpI
 chn
 cvL
 cxa
@@ -123259,9 +123286,9 @@ cnh
 bxx
 cpa
 cpI
-cry
-gGz
+cpJ
 cpI
+gGz
 chn
 cvM
 ckk
@@ -123513,12 +123540,12 @@ ciV
 bLc
 bNl
 cnk
-chn
-chn
-chn
-chn
-chn
-chn
+bxx
+cpI
+cpI
+cry
+cuy
+cpI
 chn
 cvN
 qva
@@ -123776,8 +123803,8 @@ cle
 cle
 cle
 cle
-cuy
-cvM
+chn
+bhw
 chq
 ckj
 ckj
@@ -124033,8 +124060,8 @@ cpL
 cqZ
 csi
 cle
-gtZ
-cvM
+uMj
+kPM
 cxb
 ckj
 aaa
