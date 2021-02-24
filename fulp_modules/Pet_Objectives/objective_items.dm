@@ -1,15 +1,15 @@
-/datum/objective_item/steal/iandog
+/datum/objective_item/steal/pet/ian
 	name = "Ian, the Head of Personnel's pet corgi, alive."
 	targetitem = /obj/item/pet_carrier
 	difficulty = 20
 	excludefromjob = list("Head of Personnel")
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
-/datum/objective_item/steal/iandog/New()
-	special_equipment += /obj/item/lazarus_injector
+/datum/objective_item/steal/pet/ian/New()
+	special_equipment += /obj/item/pen/lazarus_injector
 	..()
 
-/datum/objective_item/steal/iandog/check_special_completion(obj/item/I)
+/datum/objective_item/steal/pet/ian/check_special_completion(obj/item/I)
 	if(istype(I, /obj/item/pet_carrier))
 		var/obj/item/pet_carrier/C = I
 		for(var/mob/living/simple_animal/pet/dog/corgi/ian/D in C)
@@ -38,7 +38,7 @@
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
 /datum/objective_item/steal/poly/New()
-	special_equipment += /obj/item/lazarus_injector
+	special_equipment += /obj/item/pen/lazarus_injector
 	..()
 
 /datum/objective_item/steal/poly/check_special_completion(obj/item/B)
@@ -62,7 +62,7 @@
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
 /datum/objective_item/steal/runtimecat/New()
-	special_equipment += /obj/item/lazarus_injector
+	special_equipment += /obj/item/pen/lazarus_injector
 	..()
 
 /datum/objective_item/steal/runtimecat/check_special_completion(obj/item/H)
@@ -86,7 +86,7 @@
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
 /datum/objective_item/steal/renaultfox/New()
-	special_equipment += /obj/item/lazarus_injector
+	special_equipment += /obj/item/pen/lazarus_injector
 	..()
 
 /datum/objective_item/steal/renaultfox/check_special_completion(obj/item/K)
