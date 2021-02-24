@@ -8979,7 +8979,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
-/obj/structure/closet/secure_closet/cytology,
+/obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "bfE" = (
@@ -17558,6 +17558,9 @@
 	},
 /obj/structure/cable,
 /obj/effect/landmark/event_spawn,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 6
+	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "crZ" = (
@@ -21260,6 +21263,9 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
+/obj/machinery/light_switch{
+	pixel_x = 38
+	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "dbC" = (
@@ -23933,8 +23939,11 @@
 	req_access_txt = "47"
 	},
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/cyan/visible,
 /obj/effect/turf_decal/siding/purple/end{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/atmospherics/pipe/simple/supplymain/hidden/layer4{
 	dir = 1
 	},
 /turf/open/floor/plasteel/white,
@@ -25846,9 +25855,6 @@
 /area/hallway/primary/port)
 "egg" = (
 /obj/structure/table/reinforced,
-/obj/machinery/light_switch{
-	pixel_x = 38
-	},
 /obj/effect/turf_decal/siding/purple{
 	dir = 4
 	},
@@ -25867,11 +25873,8 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/item/construction/plumbing/research,
-/obj/item/stack/sheet/metal/twenty,
-/obj/item/biopsy_tool{
-	pixel_x = 14;
-	pixel_y = 4
+/obj/machinery/reagentgrinder{
+	pixel_y = 5
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
@@ -29875,10 +29878,11 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/machinery/shower{
-	dir = 1
-	},
-/obj/effect/turf_decal/bot,
+/obj/structure/table/reinforced,
+/obj/item/stack/sheet/metal/twenty,
+/obj/item/stack/sheet/metal/twenty,
+/obj/item/construction/plumbing/research,
+/obj/item/book/manual/wiki/cytology,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "faW" = (
@@ -32659,7 +32663,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/structure/reagent_dispensers/watertank,
+/obj/structure/closet/secure_closet/cytology,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "fGN" = (
@@ -37271,12 +37275,6 @@
 	},
 /area/maintenance/starboard/aft)
 "gKX" = (
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/glasses/science,
-/obj/item/clothing/glasses/science,
-/obj/structure/table,
 /obj/effect/turf_decal/siding/purple{
 	dir = 9
 	},
@@ -37288,6 +37286,7 @@
 	},
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/purple,
+/obj/machinery/power/shieldwallgen/xenobiologyaccess,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "gLg" = (
@@ -39151,11 +39150,6 @@
 /area/maintenance/disposal)
 "hjM" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
-	dir = 4;
-	initialize_directions = 4;
-	name = "euthanization chamber freezer"
-	},
 /obj/effect/turf_decal/siding/purple{
 	dir = 1
 	},
@@ -39169,6 +39163,19 @@
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
+	},
+/obj/machinery/disposal/delivery_chute,
+/obj/machinery/door/window{
+	req_access_txt = "55"
+	},
+/obj/structure/window/reinforced/spawner{
+	dir = 8
+	},
+/obj/structure/window/reinforced/spawner{
+	dir = 4
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 1
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
@@ -42684,6 +42691,12 @@
 	},
 /obj/structure/cable,
 /obj/effect/landmark/start/scientist,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/supplymain/hidden/layer4{
+	dir = 1
+	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "hWf" = (
@@ -52853,7 +52866,6 @@
 /turf/open/floor/plasteel/dark,
 /area/security/prison/safe)
 "kfj" = (
-/obj/structure/table/reinforced,
 /obj/machinery/power/apc{
 	areastring = "/area/science/xenobiology";
 	dir = 4;
@@ -52879,7 +52891,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/structure/microscope,
+/obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "kfm" = (
@@ -58565,6 +58577,15 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 9
+	},
+/obj/structure/table/reinforced,
+/obj/item/book/manual/wiki/experimentor,
+/obj/item/clothing/mask/gas,
+/obj/item/clothing/mask/gas,
+/obj/item/clothing/glasses/science,
+/obj/item/clothing/glasses/science,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "lqf" = (
@@ -65202,12 +65223,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/security/checkpoint/science/research)
-"mNr" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible{
-	dir = 4
-	},
-/turf/open/floor/circuit/telecomms,
-/area/science/xenobiology)
 "mNx" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk,
@@ -65325,11 +65340,9 @@
 /turf/open/floor/circuit/telecomms/server,
 /area/science/server)
 "mPq" = (
-/obj/structure/table/reinforced,
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/item/book/manual/wiki/experimentor,
 /obj/effect/turf_decal/siding/purple{
 	dir = 5
 	},
@@ -65342,6 +65355,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
+/obj/machinery/power/shieldwallgen/xenobiologyaccess,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "mPy" = (
@@ -71147,9 +71161,6 @@
 /area/chapel/office)
 "obs" = (
 /obj/effect/turf_decal/siding/purple,
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
@@ -71162,10 +71173,15 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/machinery/shower{
-	dir = 1
+/obj/machinery/smartfridge/organ{
+	pixel_y = -32
 	},
-/obj/effect/turf_decal/bot,
+/obj/structure/table/reinforced,
+/obj/structure/microscope,
+/obj/item/biopsy_tool{
+	pixel_x = 8;
+	pixel_y = 4
+	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "obt" = (
@@ -76758,6 +76774,15 @@
 /obj/machinery/recharger,
 /turf/open/floor/plasteel,
 /area/gateway)
+"peK" = (
+/obj/machinery/disposal/delivery_chute{
+	dir = 4
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/turf/open/floor/circuit/telecomms,
+/area/science/xenobiology)
 "peR" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 6
@@ -79865,7 +79890,10 @@
 	},
 /area/medical/medbay/central)
 "pOH" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/supplymain/hidden/layer4{
 	dir = 5
 	},
 /turf/open/floor/circuit/telecomms,
@@ -87755,9 +87783,6 @@
 /turf/open/floor/wood,
 /area/library)
 "rDn" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible{
-	dir = 9
-	},
 /obj/effect/turf_decal/siding/purple/corner{
 	dir = 1
 	},
@@ -87775,6 +87800,8 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
+/obj/machinery/atmospherics/components/binary/valve/on,
+/obj/machinery/atmospherics/components/binary/valve/on/layer4,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "rDD" = (
@@ -94551,10 +94578,7 @@
 	},
 /area/medical/medbay/central)
 "tkC" = (
-/obj/machinery/atmospherics/pipe/manifold/cyan/visible{
-	dir = 1;
-	initialize_directions = 11
-	},
+/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4,
 /turf/open/floor/circuit/telecomms,
 /area/science/xenobiology)
 "tkE" = (
@@ -100946,6 +100970,10 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4{
+	dir = 1
+	},
+/obj/machinery/portable_atmospherics/canister/bz,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "uCs" = (
@@ -104133,6 +104161,9 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/purple,
+/obj/item/stack/sheet/mineral/plasma{
+	amount = 5
+	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "vmN" = (
@@ -104210,7 +104241,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/structure/reagent_dispensers/fueltank,
+/obj/structure/tank_holder/extinguisher/advanced,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "vnD" = (
@@ -104389,6 +104420,7 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer4,
 /obj/structure/cable,
+/obj/structure/chair/office/light,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "vqq" = (
@@ -111745,6 +111777,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"xby" = (
+/obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/atmospherics/pipe/simple/supplymain/hidden/layer4{
+	dir = 10
+	},
+/turf/open/floor/circuit/telecomms,
+/area/science/xenobiology)
 "xbM" = (
 /obj/machinery/atmospherics/pipe/simple/supplymain/visible{
 	dir = 8
@@ -112790,7 +112829,6 @@
 	dir = 1;
 	pixel_y = -25
 	},
-/obj/structure/tank_holder/extinguisher/advanced,
 /obj/effect/turf_decal/siding/purple{
 	dir = 10
 	},
@@ -112802,6 +112840,11 @@
 	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
+	dir = 4;
+	initialize_directions = 4;
+	name = "euthanization chamber freezer"
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
@@ -143542,8 +143585,8 @@ oaN
 oaN
 mXr
 psM
-pZq
-xyx
+psM
+peK
 wzn
 gKX
 bfz
@@ -144056,8 +144099,8 @@ qcd
 vht
 mXr
 psM
-mNr
-swo
+pZq
+xby
 dHd
 rDn
 hVZ
