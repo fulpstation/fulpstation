@@ -6,7 +6,7 @@
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
 /datum/objective_item/steal/iandog/New()
-	special_equipment += /obj/item/pen/lazarus_injector
+	special_equipment += /obj/item/lazarus_injector
 	..()
 
 /datum/objective_item/steal/iandog/check_special_completion(obj/item/I)
@@ -38,7 +38,7 @@
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
 /datum/objective_item/steal/poly/New()
-	special_equipment += /obj/item/pen/lazarus_injector
+	special_equipment += /obj/item/lazarus_injector
 	..()
 
 /datum/objective_item/steal/poly/check_special_completion(obj/item/B)
@@ -62,7 +62,7 @@
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
 /datum/objective_item/steal/runtimecat/New()
-	special_equipment += /obj/item/pen/lazarus_injector
+	special_equipment += /obj/item/lazarus_injector
 	..()
 
 /datum/objective_item/steal/runtimecat/check_special_completion(obj/item/H)
@@ -86,7 +86,7 @@
 	altitems = list(/obj/item/clothing/head/mob_holder)
 
 /datum/objective_item/steal/renaultfox/New()
-	special_equipment += /obj/item/pen/lazarus_injector
+	special_equipment += /obj/item/lazarus_injector
 	..()
 
 /datum/objective_item/steal/renaultfox/check_special_completion(obj/item/K)
