@@ -1,23 +1,3 @@
-/obj/item/pen/lazarus_injector
-	desc = "It's a normal black ink pen."
-	name = "pen"
-	icon = 'icons/obj/bureaucracy.dmi'
-	icon_state = "pen"
-	inhand_icon_state = "pen"
-	worn_icon_state = "pen"
-	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_EARS
-	throwforce = 0
-	w_class = WEIGHT_CLASS_TINY
-	throw_speed = 3
-	throw_range = 7
-	custom_materials = list(/datum/material/iron=10)
-	pressure_resistance = 2
-	grind_results = list(/datum/reagent/iron = 2, /datum/reagent/iodine = 1)
-	var/colour = "black"	//what colour the ink is!
-	var/degrees = 0
-	var/font = PEN_FONT
-	embedding = list()
-	sharpness = SHARP_POINTY
     var/loaded = 1
 	var/malfunctioning = 0
 	var/revive_type = SENTIENCE_ORGANIC //So you can't revive boss monsters or robots 
