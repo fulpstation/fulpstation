@@ -39,6 +39,7 @@
 
 /datum/objective_item/steal/poly/New()
 	special_equipment += /obj/item/pen/lazarus_injector
+	special_equipment += /obj/item/pet_carrier/mini
 	..()
 
 /datum/objective_item/steal/poly/check_special_completion(obj/item/B)
