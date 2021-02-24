@@ -53,3 +53,4 @@ var/revive_type = SENTIENCE_ORGANIC //So you can't revive boss monsters or robot
 		. += "<span class='info'>The display on [src] seems to be flickering.</span>"
 
 /obj/item/pen/lazarus_injector/Initialize()
+	. = ..()
