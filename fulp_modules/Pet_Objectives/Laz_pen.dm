@@ -1,6 +1,6 @@
-    var/loaded = 1
-	var/malfunctioning = 0
-	var/revive_type = SENTIENCE_ORGANIC //So you can't revive boss monsters or robots 
+var/loaded = 1
+var/malfunctioning = 0
+var/revive_type = SENTIENCE_ORGANIC //So you can't revive boss monsters or robots 
 
 /obj/item/pen/lazarus_injector/afterattack(atom/target, mob/user, proximity_flag)
 	. = ..()
