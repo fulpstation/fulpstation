@@ -1,7 +1,6 @@
 /datum/objective_item/steal/pet_objectives
 	targetitem = /obj/item/pet_carrier
 	altitems = list(/obj/item/clothing/head/mob_holder)
-	var/mob/targetpet
 
 /datum/objective_item/steal/pet_objectives/New()
 	special_equipment += /obj/item/pen/lazarus_injector
@@ -10,7 +9,8 @@
 /datum/objective_item/steal/pet_objectives/check_special_completion(obj/item/B)
 	if(istype(B, /obj/item/pet_carrier))
 		var/obj/item/pet_carrier/A = B
-		for(var/mob/targetpet/D in A)
+		var/targetpet
+		for(var/targetpet/D in A)
 			if(D.stat != DEAD)//checks if pet is alive.
 				return TRUE
 	if(istype(B, /obj/item/clothing/head/mob_holder))
