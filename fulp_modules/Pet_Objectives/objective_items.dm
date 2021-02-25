@@ -1,37 +1,36 @@
 /datum/objective_item/steal/pet_objectives
 	targetitem = /obj/item/pet_carrier
 	altitems = list(/obj/item/clothing/head/mob_holder)
-	var/targetpets + list()
+	var/targetpet
 
 /datum/objective_item/steal/pet_objectives/New()
 	special_equipment += /obj/item/pen/lazarus_injector
 	..()
 
 /datum/objective_item/steal/pet_objectives/check_special_completion(obj/item/B)
-	for(var/targetpet in targetpets)
-		if(istype(B, /obj/item/pet_carrier))
-			var/obj/item/pet_carrier/A = B
-			for(var/targetpet/D in A)
-				if(D.stat != DEAD)//checks if pet is alive.
-					return TRUE
-		if(istype(B, /obj/item/clothing/head/mob_holder))
-			var/obj/item/clothing/head/mob_holder/A = B
-			for(var/targetpet/D in A)
-				if(D.stat != DEAD)//checks if pet is alive.
-					return TRUE
-		return FALSE
+	if(istype(B, /obj/item/pet_carrier))
+		var/obj/item/pet_carrier/A = B
+		for(var/targetpet/D in A)
+			if(D.stat != DEAD)//checks if pet is alive.
+				return TRUE
+	if(istype(B, /obj/item/clothing/head/mob_holder))
+		var/obj/item/clothing/head/mob_holder/A = B
+		for(var/targetpet/D in A)
+			if(D.stat != DEAD)//checks if pet is alive.
+				return TRUE
+	return FALSE
 
 /datum/objective_item/steal/pet_objectives/ian
 	name = "Ian, the Head of Personnel's pet corgi, alive."
 	difficulty = 20
 	excludefromjob = list("Head of Personnel")
-	targetpets = list(mob/living/simple_animal/pet/dog/corgi/ian, /mob/living/simple_animal/pet/dog/corgi/narsie, mob/living/simple_animal/pet/dog/corgi/puppy)
+	targetpet = mob/living/simple_animal/pet/dog/corgi/ian
 
 /datum/objective_item/steal/pet_objectives/poly
 	name = "Poly, the Chief Engineer's pet parrot, alive"
 	difficulty = 30
 	excludefromjob = list("Chief Engineer")
-	targetpets = list(mob/living/simple_animal/parrot/poly)
+	targetpet = mob/living/simple_animal/parrot/poly
 
 /datum/objective_item/steal/pet_objectives/poly/New()
 	special_equipment += /obj/item/pet_carrier/mini
@@ -41,13 +40,13 @@
 	name = "Runtime, the Chief Medical Officer's pet, alive."
 	difficulty = 20
 	excludefromjob = list("Chief Medical Officer")
-	targetpets = list(mob/living/simple_animal/pet/cat/runtime)
+	targetpet = mob/living/simple_animal/pet/cat/runtime
 
 /datum/objective_item/steal/pet_objectives/renaultfox
 	name = "Renault, the Captain's prized fox, alive!"
 	difficulty = 20
 	excludefromjob = list("Captain")
-	targetpets = list(mob/living/simple_animal/pet/fox/renault)
+	targetpet = mob/living/simple_animal/pet/fox/renault
 
 /datum/objective_item/steal/lamarr
 	name = "Lamarr The subject of study by the research director."
