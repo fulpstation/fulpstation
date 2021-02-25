@@ -1,7 +1,7 @@
 /datum/objective_item/steal/pet_objectives
 	targetitem = /obj/item/pet_carrier
 	altitems = list(/obj/item/clothing/head/mob_holder)
-	var/targetpet
+	var/targetpet = mob/living/simple_animal/pet/dog/corgi/ian
 
 /datum/objective_item/steal/pet_objectives/New()
 	special_equipment += /obj/item/pen/lazarus_injector
