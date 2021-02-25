@@ -6,19 +6,7 @@
 	special_equipment += /obj/item/pen/lazarus_injector
 	..()
 
-/datum/objective_item/steal/pet_objectives/check_special_completion(obj/item/B)
-	if(istype(B, /obj/item/pet_carrier))
-		var/obj/item/pet_carrier/A = B
-		var/targetpet
-		for(var/targetpet/D in A)
-			if(D.stat != DEAD)//checks if pet is alive.
-				return TRUE
-	if(istype(B, /obj/item/clothing/head/mob_holder))
-		var/obj/item/clothing/head/mob_holder/A = B
-		for(var/targetpet/D in A)
-			if(D.stat != DEAD)//checks if pet is alive.
-				return TRUE
-	return FALSE
+
 
 /datum/objective_item/steal/pet_objectives/ian
 	name = "Ian, the Head of Personnel's pet corgi, alive."
@@ -53,3 +41,17 @@
 	targetitem = /obj/item/clothing/mask/facehugger/lamarr
 	difficulty = 40
 	excludefromjob = list("Research Director")
+
+/datum/objective_item/steal/pet_objectives/check_special_completion(obj/item/B)
+	if(istype(B, /obj/item/pet_carrier))
+		var/obj/item/pet_carrier/A = B
+		var/targetpet
+		for(var/targetpet/D in A)
+			if(D.stat != DEAD)//checks if pet is alive.
+				return TRUE
+	if(istype(B, /obj/item/clothing/head/mob_holder))
+		var/obj/item/clothing/head/mob_holder/A = B
+		for(var/targetpet/D in A)
+			if(D.stat != DEAD)//checks if pet is alive.
+				return TRUE
+	return FALSE
