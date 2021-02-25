@@ -23,5 +23,5 @@
 	SSblackbox.record_feedback("tally", "mentor_verb", 1, "Msay") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/get_mentor_say()
-	var/msg = input(src, null, "msay \"text\"") as text
+	var/msg = input(src, null, "msay \"text\"") as text|null
 	cmd_mentor_say(msg)
