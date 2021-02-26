@@ -423,7 +423,7 @@
 	response_harm_continuous = "kicks"
 	response_harm_simple = "kick"
 	gold_core_spawnable = NO_SPAWN
-	unique_pet = TRUE`
+	unique_pet = TRUE
 	var/age = 0
 	var/record_age = 1
 	var/memory_saved = FALSE
