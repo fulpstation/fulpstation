@@ -423,7 +423,7 @@
 	response_harm_continuous = "kicks"
 	response_harm_simple = "kick"
 	gold_core_spawnable = NO_SPAWN
-	unique_pet = TRUE
+	unique_pet = TRUE`
 	var/age = 0
 	var/record_age = 1
 	var/memory_saved = FALSE
@@ -437,11 +437,7 @@
 	if(age == 0)
 		var/turf/target = get_turf(loc)
 		if(target)
-			var/mob/living/simple_animal/pet/dog/corgi/puppy/P = new /mob/living/simple_animal/pet/dog/corgi/puppy(target)
-			P.name = "Ian"
-			P.real_name = "Ian"
-			P.gender = MALE
-			P.desc = "It's the HoP's beloved corgi puppy."
+			new /mob/living/simple_animal/pet/dog/corgi/ian/puppy(target)
 			Write_Memory(FALSE)
 			return INITIALIZE_HINT_QDEL
 	else if(age == record_age)
@@ -505,13 +501,13 @@
 	fdel(json_file)
 	WRITE_FILE(json_file, json_encode(file_data))
 
-/mob/living/simple_animal/pet/dog/corgi/ian/narsie_act()
+/mob/living/simple_animal/pet/dog/corgi/ian/ian/narsie_act()
 	playsound(src, 'sound/magic/demon_dies.ogg', 75, TRUE)
-	var/mob/living/simple_animal/pet/dog/corgi/narsie/N = new(loc)
+	var/mob/living/simple_animal/pet/dog/corgi/ian/narsie/N = new(loc)
 	N.setDir(dir)
 	gib()
 
-/mob/living/simple_animal/pet/dog/corgi/narsie
+/mob/living/simple_animal/pet/dog/corgi/ian/narsie
 	name = "Nars-Ian"
 	desc = "Ia! Ia!"
 	icon_state = "narsian"
@@ -523,24 +519,24 @@
 	unique_pet = TRUE
 	held_state = "narsian"
 
-/mob/living/simple_animal/pet/dog/corgi/narsie/Life()
+/mob/living/simple_animal/pet/dog/corgi/ian/narsie/Life()
 	..()
 	for(var/mob/living/simple_animal/pet/P in range(1, src))
-		if(P != src && !istype(P,/mob/living/simple_animal/pet/dog/corgi/narsie))
+		if(P != src && !istype(P,/mob/living/simple_animal/pet/dog/corgi/ian/narsie))
 			visible_message("<span class='warning'>[src] devours [P]!</span>", \
 			"<span class='cult big bold'>DELICIOUS SOULS</span>")
 			playsound(src, 'sound/magic/demon_attack1.ogg', 75, TRUE)
 			narsie_act()
 			P.gib()
 
-/mob/living/simple_animal/pet/dog/corgi/narsie/update_corgi_fluff()
+/mob/living/simple_animal/pet/dog/corgi/ian/narsie/update_corgi_fluff()
 	..()
 	speak = list("Tari'karat-pasnar!", "IA! IA!", "BRRUUURGHGHRHR")
 	speak_emote = list("growls", "barks ominously")
 	emote_hear = list("barks echoingly!", "woofs hauntingly!", "yaps in an eldritch manner.", "mutters something unspeakable.")
 	emote_see = list("communes with the unnameable.", "ponders devouring some souls.", "shakes.")
 
-/mob/living/simple_animal/pet/dog/corgi/narsie/narsie_act()
+/mob/living/simple_animal/pet/dog/corgi/ian/narsie/ian/narsie_act()
 	adjustBruteLoss(-maxHealth)
 
 
@@ -593,6 +589,19 @@
 	name = "\improper corgi puppy"
 	real_name = "corgi"
 	desc = "It's a corgi puppy!"
+	icon_state = "puppy"
+	icon_living = "puppy"
+	icon_dead = "puppy_dead"
+	density = FALSE
+	pass_flags = PASSMOB
+	mob_size = MOB_SIZE_SMALL
+	collar_type = "puppy"
+
+/mob/living/simple_animal/pet/dog/corgi/ian/puppy
+	name = "ian"
+	real_name = "ian"
+	gender = MALE
+	desc = "It's the HoP's beloved corgi puppy."
 	icon_state = "puppy"
 	icon_living = "puppy"
 	icon_dead = "puppy_dead"

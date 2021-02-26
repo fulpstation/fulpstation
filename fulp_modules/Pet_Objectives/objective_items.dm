@@ -11,12 +11,12 @@
 	if(istype(B, /obj/item/pet_carrier))
 		var/obj/item/pet_carrier/A = B
 		for(var/mob/living/simple_animal/D in A)
-			if(D.stat != DEAD && istype(D,targetanimal))//checks if pet is alive.
+			if(D.stat != DEAD && ispath(D,targetanimal))//checks if pet is alive.
 				return TRUE
 	if(istype(B, /obj/item/clothing/head/mob_holder))
 		var/obj/item/clothing/head/mob_holder/A = B
 		for(var/mob/living/simple_animal/D in A)
-			if(D.stat != DEAD && istype(D,targetanimal))//checks if pet is alive.
+			if(D.stat != DEAD && ispath(D,targetanimal))//checks if pet is alive.
 				return TRUE
 	return FALSE
 
@@ -24,13 +24,13 @@
 	name = "Ian, the Head of Personnel's pet corgi, alive."
 	difficulty = 20
 	excludefromjob = list("Head of Personnel")
-	targetanimal = mob/living/simple_animal/pet/dog/corgi/ian
+	targetanimal = /mob/living/simple_animal/pet/dog/corgi/ian
 
 /datum/objective_item/steal/pet_objectives/poly
 	name = "Poly, the Chief Engineer's pet parrot, alive"
 	difficulty = 30
 	excludefromjob = list("Chief Engineer")
-	targetanimal = mob/living/simple_animal/parrot/poly
+	targetanimal = /mob/living/simple_animal/parrot/poly
 
 /datum/objective_item/steal/pet_objectives/poly/New()
 	special_equipment += /obj/item/pet_carrier/mini
@@ -40,13 +40,13 @@
 	name = "Runtime, the Chief Medical Officer's pet, alive."
 	difficulty = 20
 	excludefromjob = list("Chief Medical Officer")
-	targetanimal = mob/living/simple_animal/pet/cat/runtime
+	targetanimal = /mob/living/simple_animal/pet/cat/runtime
 
 /datum/objective_item/steal/pet_objectives/renaultfox
 	name = "Renault, the Captain's prized fox, alive!"
 	difficulty = 20
 	excludefromjob = list("Captain")
-	targetanimal = mob/living/simple_animal/pet/fox/renault
+	targetanimal = /mob/living/simple_animal/pet/fox/renault
 
 /datum/objective_item/steal/lamarr
 	name = "Lamarr The subject of study by the research director."
