@@ -437,7 +437,7 @@
 	if(age == 0)
 		var/turf/target = get_turf(loc)
 		if(target)
-			var/mob/living/simple_animal/pet/dog/corgi/puppy/ = new /mob/living/simple_animal/pet/dog/corgi/puppy(target)
+			var/mob/living/simple_animal/pet/dog/corgi/puppy/P = new /mob/living/simple_animal/pet/dog/corgi/puppy(target)
 			P.name = "Ian"
 			P.real_name = "Ian"
 			P.gender = MALE
