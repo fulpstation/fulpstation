@@ -437,7 +437,7 @@
 	if(age == 0)
 		var/turf/target = get_turf(loc)
 		if(target)
-			new /mob/living/simple_animal/pet/dog/corgi/ian/puppy(target)
+			var/mob/living/simple_animal/pet/dog/corgi/puppy/P = new /mob/living/simple_animal/pet/dog/corgi/puppy(target)
 			Write_Memory(FALSE)
 			return INITIALIZE_HINT_QDEL
 	else if(age == record_age)
