@@ -5,8 +5,6 @@
 	job_rank = ROLE_BLOODSUCKER
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
-	antag_hud_type = ANTAG_HUD_BLOODSUCKER
-	antag_hud_name = "bloodsucker"
 	hijack_speed = 0.5
 	var/give_objectives = TRUE
 	// NAME
@@ -46,16 +44,11 @@
 
 //This handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
-	handle_clown_mutation(M, "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself.")
+	return
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
-	handle_clown_mutation(M, removing = FALSE)
-	UnregisterSignal(owner.current, list(COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON))
+	return
 
 ///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
