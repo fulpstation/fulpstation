@@ -74,7 +74,7 @@
 
 /obj/structure/closet/crate/proc/ClaimCoffin(mob/living/claimant) // NOTE: This can be any "closet" that you are resting AND inside of.
 	// Bloodsucker Claim
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum)
 		// Vamp Successfuly Claims Me?
 		if(bloodsuckerdatum.ClaimCoffin(src))
@@ -89,7 +89,7 @@
 	if (resident)
 		// Vamp Un-Claim
 		if (resident.mind)
-			var/datum/antagonist/bloodsucker/bloodsuckerdatum = resident.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+			var/datum/antagonist/bloodsucker/bloodsuckerdatum = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 			if (bloodsuckerdatum && bloodsuckerdatum.coffin == src)
 				bloodsuckerdatum.coffin = null
 				bloodsuckerdatum.lair = null
@@ -116,7 +116,7 @@
 		return FALSE
 	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
 	if ((user in src))
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if (bloodsuckerdatum)
 			LockMe(user)
 			if (!bloodsuckerdatum.coffin && !resident) //Claim?

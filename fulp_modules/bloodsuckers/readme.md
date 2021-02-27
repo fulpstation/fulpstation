@@ -19,6 +19,7 @@ Adds Bloodsuckers, vassals and Monster hunter antagonists to the game.
 - code/modules/mob/mob_movement.dm > Cant run while on Fortitude
 - code/modules/surgery/organs/heart.dm > Adds HeartStrengthMessage
 - code/modules/surgery/organs/tongue.dm > Adds vampiric language to the tongue
+- code/__DEFINES/traits.dm > Adds Bloodsucker traits
 
 ### Credits:
 

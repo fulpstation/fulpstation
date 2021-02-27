@@ -17,7 +17,7 @@
 		if (reagents.total_volume <= 0)
 			return
 		// Taken from drinks.dm
-		var/transfer_amount = 5
+		var/gulp_size = 5
 		reagents.trans_to(M, gulp_size, transfered_by = user, methods = INGEST)
 		playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
 	..()
@@ -225,7 +225,7 @@
 	loc = C // Put INSIDE the character
 	B.receive_damage(w_class * embedding["pain_mult"])
 	if(C.mind)
-		var/datum/antagonist/bloodsucker/bloodsucker = C.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsucker = C.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsucker)
 			// If DEAD or TORPID...kill vamp!
 			if(C.StakeCanKillMe()) // NOTE: This is the ONLY time a staked Torpid vamp dies.

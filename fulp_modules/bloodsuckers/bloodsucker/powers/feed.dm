@@ -45,7 +45,7 @@
 			var/mob/living/carbon/human/H = target
 			if(!H.can_inject(owner, TRUE, BODY_ZONE_CHEST))
 				return FALSE
-			if(target.mind && target.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+			if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 				if(display_error)
 					to_chat(owner, "<span class='warning'>Other Bloodsuckers will not fall for your subtle approach.</span>")
 				return FALSE
@@ -134,7 +134,7 @@
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up Activate(), so Deactivate() can happen after.
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/mob/living/user = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
 	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_PASSIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
@@ -174,7 +174,7 @@
 		// Warn Feeder about Witnesses...
 		var/was_unnoticed = TRUE
 		for(var/mob/living/M in viewers(notice_range, owner) - owner - target)
-			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind && !M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind && !M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 				was_unnoticed = FALSE
 				break
 		if(was_unnoticed)
@@ -297,7 +297,7 @@
 
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
 	// Bloodsuckers not affected by "the Kiss" of another vampire
-	if(!target.mind || !target.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+	if(!target.mind || !target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		target.Unconscious(50,0)
 		target.Paralyze(40 + 5 * level_current,1) // NOTE: This is based on level of power!
 		if(ishuman(target))
@@ -305,7 +305,7 @@
 
 /datum/action/bloodsucker/feed/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..() // activate = FALSE
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// No longer Feeding
 	if(bloodsuckerdatum)
 		bloodsuckerdatum.poweron_feed = FALSE

@@ -22,7 +22,7 @@
 		// Check One: Default Valid User
 		if(possible_target != owner && ishuman(possible_target.current) && possible_target.current.stat != DEAD)// && is_unique_objective(possible_target))
 			// Check Two: Am Bloodsucker? OR in Bloodsucker list?
-			if (possible_target.has_antag_datum(ANTAG_DATUM_BLOODSUCKER) || (possible_target in SSticker.mode.bloodsuckers))
+			if (possible_target.has_antag_datum(/datum/antagonist/bloodsucker) || (possible_target in SSticker.mode.bloodsuckers))
 				continue
 			else
 				possible_targets += possible_target
@@ -42,7 +42,7 @@
 
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/lair/check_completion()
-	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	if (antagdatum && antagdatum.coffin && antagdatum.lair)
 		return TRUE
 	return FALSE
@@ -117,7 +117,7 @@
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/protege/check_completion()
 
-	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	if (!antagdatum || antagdatum.vassals.len == 0)
 		return FALSE
 
@@ -325,5 +325,5 @@
 
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/vassal/check_completion()
-	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(ANTAG_DATUM_VASSAL)
+	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
 	return antag_datum.master && antag_datum.master.owner && antag_datum.master.owner.current && antag_datum.master.owner.current.stat != DEAD

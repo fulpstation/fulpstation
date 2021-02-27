@@ -94,7 +94,7 @@
 		for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 			if(!istype(M) || !istype(M.current))
 				continue
-			var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+			var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 			if(istype(bloodsuckerdatum))
 				bloodsuckerdatum.update_sunlight(max(0, time_til_cycle), amDay) // This pings all HUDs
 		sleep(10)
@@ -129,7 +129,7 @@
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M) || !istype(M.current))
 			continue
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(!istype(bloodsuckerdatum))
 			continue
 		// Closets offer SOME protection
@@ -166,7 +166,7 @@
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M) || !istype(M.current))
 			continue
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(!istype(bloodsuckerdatum))
 			continue
 		// Reset Warnings
@@ -184,7 +184,7 @@
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M) || !istype(M.current))
 			continue
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(istype(bloodsuckerdatum))
 			bloodsuckerdatum.RankUp()	// Rank up! Must still be in a coffin to level!
 
@@ -193,6 +193,6 @@
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M) || !istype(M.current))
 			continue
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(istype(bloodsuckerdatum) && bloodsuckerdatum.lair && !(locate(/datum/action/bloodsucker/gohome) in bloodsuckerdatum.powers))
 			bloodsuckerdatum.BuyPower(new /datum/action/bloodsucker/gohome)

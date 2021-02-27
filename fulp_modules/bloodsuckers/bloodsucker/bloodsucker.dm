@@ -74,7 +74,7 @@
 		owner.current.add_to_current_living_antags()
 	if(give_objectives)
 		forge_bloodsucker_objectives()
-//	update_bloodsucker_icons_added(owner.current, "bloodsucker")
+	update_bloodsucker_icons_added(owner.current, "bloodsucker")
 	. = ..()
 
 /datum/antagonist/bloodsucker/is_banned(mob/M)
@@ -98,7 +98,7 @@
 	SSticker.mode.bloodsuckers -= owner
 	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
 	ClearAllPowersAndStats()// Clear Powers & Stats
-//	update_bloodsucker_icons_removed(owner.current)
+	update_bloodsucker_icons_removed(owner.current)
 	. = ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -253,8 +253,6 @@
 	power.Grant(owner.current) // owner.AddSpell(power)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	// Blood/Rank Counter
-	add_hud()
 	update_hud(owner.current) 	// Set blood value, current rank
 	// Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
@@ -295,8 +293,6 @@
 	CureDisabilities()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
-	// Blood/Rank Counter
-	remove_hud()
 	// Powers
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
@@ -638,6 +634,7 @@
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.leave_hud(owner.current)
 	set_antag_hud(owner.current, null)
+*/
 
 /datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
 
@@ -659,14 +656,14 @@
 	if (!A_mob.mind)
 		return FALSE
 	// Find Datums: Bloodsucker
-	var/datum/antagonist/bloodsucker/atom_B = A_mob.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
-	var/datum/antagonist/bloodsucker/mob_B = M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/atom_B = A_mob.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/mob_B = M.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Check 1) Are we both Bloodsuckers?
 	if (atom_B && mob_B)
 		return TRUE
 	// Find Datums: Vassal
-	var/datum/antagonist/vassal/atom_V = A_mob.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
-	var/datum/antagonist/vassal/mob_V = M.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	var/datum/antagonist/vassal/atom_V = A_mob.mind.has_antag_datum(/datum/antagonist/vassal)
+	var/datum/antagonist/vassal/mob_V = M.mind.has_antag_datum(/datum/antagonist/vassal)
 	// Check 2) If they are a BLOODSUCKER, then are they my Master?
 	if (mob_V && atom_B == mob_V.master)
 		return TRUE // SUCCESS!
@@ -678,7 +675,6 @@
 		return TRUE // SUCCESS!
 	return FALSE
 
-*/
 
 		/////////////////////////////////////
 		// BLOOD COUNTER & RANK MARKER ! //
@@ -698,6 +694,9 @@
 	icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi'
 	invisibility = INVISIBILITY_ABSTRACT
 
+/atom/movable/screen/bloodsucker/proc/update_counter()
+	invisibility = 0
+
 /atom/movable/screen/bloodsucker/blood_counter
 	name = "Blood Consumed"
 	icon_state = "blood_display"
@@ -713,6 +712,7 @@
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
+/*
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
@@ -758,3 +758,4 @@
 /atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"
+*/

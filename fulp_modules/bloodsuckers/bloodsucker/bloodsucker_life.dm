@@ -302,7 +302,7 @@
 	if(!AmBloodsucker(L))
 		return
 	// We're a bloodsucker? Try to eat food...
-	var/datum/antagonist/bloodsucker/B = L.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/B = L.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	B.handle_eat_human_food(food_nutrition)
 
 
@@ -414,3 +414,12 @@
 	mood_change = -5
 	timeout = 5 MINUTES
 //End of Bloodsucker moodlets
+
+// Fulpstation Bloodsuckers edit: Easy bloodsucker disgusting/blood removal
+/datum/reagent/proc/disgust_bloodsucker(mob/living/carbon/C, disgust, blood_change, blood_puke = TRUE, force)
+	if(AmBloodsucker(C))
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = C.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(disgust)
+			bloodsuckerdatum.handle_eat_human_food(disgust, blood_puke, force)
+		if(blood_change)
+			bloodsuckerdatum.AddBloodVolume(blood_change)

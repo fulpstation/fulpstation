@@ -20,17 +20,17 @@
 	if(!mind || !viewer.mind)
 		return ""
 	// Target must be a Vamp
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return ""
 	// Viewer is Target's Vassal?
-	if(viewer.mind.has_antag_datum(ANTAG_DATUM_VASSAL) in bloodsuckerdatum.vassals)
+	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
 		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
 		var/returnIcon = "[icon2html('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', world, "bloodsucker")]"
 		returnString += "\n"
 		return returnIcon + returnString
 	// Viewer not a Vamp AND not the target's vassal?
-	if(!viewer.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER) && !(viewer in bloodsuckerdatum.vassals))
+	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
 		return ""
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName(1)]</EM></span>\]"
@@ -47,11 +47,11 @@
 	if(!mind || !viewer.mind)
 		return ""
 	// Am I not even a Vassal? Then I am not marked.
-	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
 	if(!vassaldatum)
 		return ""
 	// Only Vassals and Bloodsuckers can recognize marks.
-	if(!viewer.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER) && !viewer.mind.has_antag_datum(ANTAG_DATUM_VASSAL))
+	if(!viewer.mind.has_antag_datum(/datum/antagonist/bloodsucker) && !viewer.mind.has_antag_datum(/datum/antagonist/vassal))
 		return ""
 
 	// Default String
@@ -62,11 +62,11 @@
 		returnString += "This [dna.species.name] bears YOUR mark!"
 		returnIcon = "[icon2html('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', world, "vassal")]"
 	// Am I someone ELSE'S Vassal?
-	else if(viewer.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+	else if(viewer.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		returnString +=	"This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName(vassaldatum.master.owner.current,1)]</span>"
 		returnIcon = "[icon2html('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', world, "vassal_grey")]"
 	// Are you serving the same master as I am?
-	else if(viewer.mind.has_antag_datum(ANTAG_DATUM_VASSAL) in vassaldatum.master.vassals)
+	else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum.master.vassals)
 		returnString += "[p_they(TRUE)] bears the mark of your Master"
 		returnIcon = "[icon2html('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', world, "vassal")]"
 	// You serve a different Master than I do.
@@ -80,10 +80,10 @@
 // Am I "pale" when examined? Bloodsuckers can trick this.
 /mob/living/carbon/proc/ShowAsPaleExamine()
 	// Normal Creatures:
-	if(!mind || !mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+	if(!mind || !mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		return blood_volume < BLOOD_VOLUME_SAFE
 
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.poweron_masquerade)
 		return FALSE
 	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)...
@@ -99,7 +99,7 @@
 /mob/living/carbon/proc/scan_blood_volume()
 	// Vamps don't show up normally to scanners unless Masquerade power is on ----> scanner.dm
 	if(mind)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if (istype(bloodsuckerdatum) && bloodsuckerdatum.poweron_masquerade)
 			return BLOOD_VOLUME_NORMAL
 	return blood_volume

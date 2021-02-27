@@ -29,6 +29,7 @@ GLOBAL_LIST_INIT(huds, list(
 	ANTAG_HUD_GANGSTER = new/datum/atom_hud/antag/hidden(),
 	ANTAG_HUD_SPACECOP = new/datum/atom_hud/antag(),
 	ANTAG_HUD_BLOODSUCKER = new/datum/atom_hud/antag(), // Fulpstation Bloodsuckers
+	ANTAG_HUD_MONSTERHUNTER = new/datum/atom_hud/antag/hidden(), // Fulpstation Bloodsuckers
 	ANTAG_HUD_HERETIC = new/datum/atom_hud/antag/hidden()
 	))
 

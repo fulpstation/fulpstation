@@ -32,7 +32,7 @@
 /datum/action/bloodsucker/masquerade/ActivatePower()
 
 	var/mob/living/user = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 
 	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
@@ -77,7 +77,7 @@
 /datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..() // activate = FALSE
 
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	bloodsuckerdatum.poweron_masquerade = FALSE
 
 	ADD_TRAIT(user, TRAIT_COLDBLOODED, "bloodsucker")

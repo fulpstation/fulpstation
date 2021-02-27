@@ -15,6 +15,8 @@
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
+	antag_hud_type = ANTAG_HUD_BLOODSUCKER
+	antag_hud_name = "vassal"
 	var/datum/antagonist/bloodsucker/master		// Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
 
@@ -40,7 +42,7 @@
 	SSticker.mode.vassals |= owner // Add if not already in here (and you might be, if you were picked at round start)
 	// Mindslave Add
 	if(master)
-		var/datum/antagonist/bloodsucker/B = master.owner.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/B = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(B)
 			B.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
@@ -133,7 +135,7 @@
 /datum/status_effect/agent_pinpointer/vassal_edition/on_creation(mob/living/new_owner, ...)
 	..()
 
-	var/datum/antagonist/vassal/antag_datum = new_owner.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	var/datum/antagonist/vassal/antag_datum = new_owner.mind.has_antag_datum(/datum/antagonist/vassal)
 	scan_target = antag_datum?.master?.owner?.current
 
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
@@ -142,3 +144,6 @@
 //Displayed at the start of roundend_category section, default to roundend_category header
 /*/datum/antagonist/vassal/roundend_report_header()
 	return 	"<span class='header'>Loyal to their bloodsucking masters, the Vassals were:</span><br><br>"*/
+
+/datum/game_mode/proc/remove_vassal(datum/mind/vassal)
+	vassal.remove_antag_datum(/datum/antagonist/vassal)

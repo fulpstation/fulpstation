@@ -106,7 +106,7 @@
 	qdel(src)
 
 /obj/structure/bloodsucker/vassalrack/examine(mob/user)
-	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	. = ..()
 	if(B || isobserver(user))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
@@ -206,7 +206,7 @@
 	// Go away. Torturing.
 	if(useLock)
 		return
-	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// CHECK ONE: Am I claiming this? Is it in the right place?
 	if(istype(B) && !owner)
 		if(!B.lair)
@@ -233,7 +233,7 @@
 		return
 	// Bloodsucker Owner! Let the boy go.
 	if(C.mind)
-		var/datum/antagonist/vassal/V = C.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+		var/datum/antagonist/vassal/V = C.mind.has_antag_datum(/datum/antagonist/vassal)
 		if(istype(V) && V.master == B || C.stat >= DEAD)
 			unbuckle_mob(C)
 			useLock = FALSE // Failsafe
@@ -244,7 +244,7 @@
 #define CONVERT_COST 150
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
-	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Check Bloodmob/living/M, force = FALSE, check_loc = TRUE
 	if(user.blood_volume < CONVERT_COST + 5)
 		to_chat(user, "<span class='notice'>You don't have enough blood to initiate the Dark Communion with [target].</span>")
@@ -445,7 +445,7 @@
 		humankind. The jewelry he kept for himself.</span>"
 
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
-	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(AmBloodsucker(user) || istype(T))
 		toggle()
 

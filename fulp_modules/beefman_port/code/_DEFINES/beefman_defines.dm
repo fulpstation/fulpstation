@@ -1,6 +1,3 @@
-// TRAITS
-#define TRAIT_COLDBLOODED		"coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp.
-
 // Names
 GLOBAL_LIST_INIT(russian_names, world.file2list("fulp_modules/beefman_port/strings/fulp_russian.txt")) // Backtracked from names.dm
 GLOBAL_LIST_INIT(experiment_names, world.file2list("fulp_modules/beefman_port/strings/fulp_experiment.txt")) // Backtracked from names.dm

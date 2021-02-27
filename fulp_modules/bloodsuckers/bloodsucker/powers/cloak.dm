@@ -23,7 +23,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/cloak/ActivatePower()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/mob/living/user = owner
 
 	moveintent_was_run = (user.m_intent == MOVE_INTENT_RUN)

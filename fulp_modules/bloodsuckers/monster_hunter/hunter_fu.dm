@@ -63,7 +63,7 @@
 		to_chat(A, "<span class='danger'>You stab [D] in the heart!</span>")
 		playsound(get_turf(A), 'sound/weapons/bladeslice.ogg', 50, TRUE, -1)
 		D.apply_damage(15, A.dna.species.attack_type)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = D.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = D.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			D.apply_damage(50, A.dna.species.attack_type)
 		log_combat(A, D, "stakestabbed (Hunter-Fu)")

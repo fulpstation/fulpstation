@@ -40,7 +40,7 @@
 		return FALSE
 	var/mob/living/carbon/target = A // We already know it's carbon due to CheckValidTarget()
 	// Bloodsucker
-	if (target.mind && target.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+	if (target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		if (display_error)
 			to_chat(owner, "<span class='warning'>Bloodsuckers are immune to [src].</span>")
 		return FALSE

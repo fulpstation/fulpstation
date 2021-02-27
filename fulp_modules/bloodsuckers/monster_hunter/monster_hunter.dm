@@ -2,13 +2,12 @@
 #define HUNTER_SCAN_MAX_DISTANCE 35
 #define HUNTER_SCAN_PING_TIME 20 //5s update time.
 
-/datum/game_mode
-	var/list/datum/mind/monsterhunter = list()
-
 /datum/antagonist/monsterhunter
 	name = "Hunter"
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
+	antag_hud_type = ANTAG_HUD_MONSTERHUNTER
+	antag_hud_name = "monsterhunter"
 	job_rank = ROLE_MONSTERHUNTER
 	var/list/datum/action/powers = list() // Purchased powers
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
@@ -122,7 +121,7 @@
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if (!M.current || M.current == owner || !get_turf(M.current) || !get_turf(new_owner))
 			continue
-		var/datum/antagonist/bloodsucker/antag_datum = M.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+		var/datum/antagonist/bloodsucker/antag_datum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(!istype(antag_datum))
 			continue
 		var/their_loc = get_turf(M.current)
@@ -199,7 +198,7 @@
 		if (!M.current || M.current == owner)//   || !get_turf(M.current) || !get_turf(owner))
 			continue
 		for(var/a in M.antag_datums)
-			var/datum/antagonist/antag_datum = a // var/datum/antagonist/antag_datum = M.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+			var/datum/antagonist/antag_datum = a // var/datum/antagonist/antag_datum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 			if(!istype(antag_datum) || antag_datum.AmFinalDeath())
 				continue
 			var/their_loc = get_turf(M.current)

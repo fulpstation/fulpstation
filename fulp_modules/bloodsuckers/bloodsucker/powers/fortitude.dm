@@ -12,7 +12,7 @@
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
 /datum/action/bloodsucker/fortitude/ActivatePower()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/mob/living/user = owner
 	to_chat(user, "<span class='notice'>Your flesh, skin, and muscles become as steel.</span>")
 	// Traits & Effects

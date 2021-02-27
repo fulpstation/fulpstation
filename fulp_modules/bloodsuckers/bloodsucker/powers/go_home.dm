@@ -21,7 +21,7 @@
 	if(!.)
 		return
 	// Have No Lair  (NOTE: You only got this power if you had a lair, so this means it's destroyed)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
 		if(display_error)
 			to_chat(owner, "<span class='warning'>Your coffin has been destroyed!</span>")
@@ -35,7 +35,7 @@
 
 /datum/action/bloodsucker/gohome/ActivatePower()
 	var/mob/living/carbon/user = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 			// IMPORTANT: Check for lair at every step! It might get destroyed.
 	to_chat(user, "<span class='notice'>You focus on separating your consciousness from your physical form...</span>")
 	// STEP ONE: Flicker Lights
@@ -66,7 +66,7 @@
 			for(var/mob/living/M in viewers(world.view, get_turf(owner)) - owner)
 				if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind)
 					am_seen = TRUE
-					if (!M.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+					if (!M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 						drop_item = TRUE
 						break
 	// LOSE CUFFS

@@ -162,7 +162,7 @@
 
 /datum/action/bloodsucker/proc/RemoveAfterUse()
 	// Un-Learn Me! (GO HOME
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if (istype(bloodsuckerdatum))
 		bloodsuckerdatum.powers -= src
 	Remove(owner)

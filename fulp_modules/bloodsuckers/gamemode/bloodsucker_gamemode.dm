@@ -1,5 +1,17 @@
 /datum/game_mode
 	var/list/datum/mind/bloodsuckers = list()
+	var/list/datum/mind/vassals = list() 			// List of minds that have been turned into Vassals.
+	var/obj/effect/sunlight/bloodsucker_sunlight	// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
+	// The antags you're allowed to be if turning Vassal.
+	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/survivalist, /datum/antagonist/rev, /datum/antagonist/nukeop, /datum/antagonist/pirate, /datum/antagonist/cult, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
+
+/proc/AmBloodsucker(mob/living/M, falseIfInDisguise = FALSE)
+	if(!M.mind)
+		return FALSE
+	// No Datum
+	if(!M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		return FALSE
+	return TRUE
 
 /datum/game_mode/bloodsucker
 	name = "bloodsucker"
@@ -82,15 +94,15 @@
 			Please take care of the crew and their health, as it is impossible to tell if one is lurking in the darkness behind."
 
 /datum/game_mode/bloodsucker/make_antag_chance(mob/living/carbon/human/character) //Assigns changeling to latejoiners
-	var/bloodsuckercap = min(round(GLOB.joined_player_list.len / (csc * 2)) + 2, round(GLOB.joined_player_list.len / csc))
+	var/bloodsuckercap = min(round(GLOB.joined_player_list.len / (3 * 2)) + 2, round(GLOB.joined_player_list.len / 3))
 	if(bloodsuckers.len >= bloodsuckercap) //Caps number of latejoin antagonists
 		return
-	if(bloodsuckers.len <= (bloodsuckercap - 2) || prob(100 - (csc * 2)))
+	if(bloodsuckers.len <= (bloodsuckercap - 2) || prob(100 - (3 * 2)))
 		if(ROLE_BLOODSUCKER in character.client.prefs.be_special)
 			if(!is_banned_from(character.ckey, list(ROLE_BLOODSUCKER, ROLE_SYNDICATE)) && !QDELETED(character))
 				if(age_check(character.client))
 					if(!(character.job in restricted_jobs))
-						character.mind.make_Bloodsucker()
+						character.mind.make_bloodsucker()
 						bloodsuckers += character.mind
 
 //////////////////////////////////////////////////////////////////////////////
@@ -111,7 +123,7 @@
 	if(bloodsucker.has_antag_datum(/datum/antagonist/abductor) || bloodsucker.has_antag_datum(/datum/antagonist/changeling))
 		return FALSE
 	// Already a vamp
-	if(bloodsucker.has_antag_datum(ANTAG_DATUM_BLOODSUCKER))
+	if(bloodsucker.has_antag_datum(/datum/antagonist/bloodsucker))
 		if(display_warning && creator)
 			to_chat(creator, "<span class='danger'>[bloodsucker] is already a Bloodsucker!</span>")
 		return FALSE
@@ -129,7 +141,7 @@
 			to_chat(creator, "<span class='danger'>[target] isn't self-aware enough to be made into a Vassal.</span>")
 		return FALSE
 	// Already MY Vassal
-	var/datum/antagonist/vassal/V = target.mind.has_antag_datum(ANTAG_DATUM_VASSAL)
+	var/datum/antagonist/vassal/V = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(istype(V) && V.master)
 		if(V.master.owner == creator)
 			if(display_warning)
@@ -144,6 +156,38 @@
 			to_chat(creator, "<span class='danger'>[target] resists the power of your blood to dominate their mind!</span>")
 		return FALSE
 	return TRUE
+
+/datum/game_mode/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null) // NOTE: This is a game_mode/proc, NOT a game_mode/bloodsucker/proc! We need to access this function despite the game mode.
+	if(!can_make_bloodsucker(bloodsucker))
+		return FALSE
+	// Create Datum: Fledgling
+	var/datum/antagonist/bloodsucker/A
+	// [FLEDGLING]
+	if(creator)
+		A = new (bloodsucker)
+		A.creator = creator
+		bloodsucker.add_antag_datum(A)
+		// Log
+		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
+		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
+	// [MASTER]
+	else
+		A = bloodsucker.add_antag_datum(/datum/antagonist/bloodsucker)
+	return TRUE
+
+//Mind version
+/datum/mind/proc/make_bloodsucker()
+	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!C)
+		C = add_antag_datum(/datum/antagonist/bloodsucker)
+		special_role = ROLE_BLOODSUCKER
+	return C
+
+/datum/mind/proc/remove_bloodsucker()
+	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
+	if(C)
+		remove_antag_datum(/datum/antagonist/bloodsucker)
+		special_role = null
 
 /datum/game_mode/proc/AmValidAntag(datum/mind/M)
 	// No List?
@@ -170,7 +214,7 @@
 		return FALSE
 	// Make Vassal
 	var/datum/antagonist/vassal/V = new(target.mind)
-	var/datum/antagonist/bloodsucker/B = creator.has_antag_datum(ANTAG_DATUM_BLOODSUCKER)
+	var/datum/antagonist/bloodsucker/B = creator.has_antag_datum(/datum/antagonist/bloodsucker)
 	V.master = B
 	target.mind.add_antag_datum(V, V.master.get_team())
 	// Update Bloodsucker Title (we're a daddy now)
