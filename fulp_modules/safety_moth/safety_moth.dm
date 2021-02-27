@@ -46,7 +46,7 @@
 	mask = /obj/item/clothing/mask/gas
 	r_hand = /obj/item/clipboard
 	backpack_contents = list(/obj/item/storage/box/survival/engineer=1,\
-		/obj/item/construction/rcd/loaded/=1,\
+		/obj/item/construction/rcd/loaded=1,\
 		/obj/item/toy/plush/moth=1,\
 		/obj/item/pipe_dispenser=1)
 		
