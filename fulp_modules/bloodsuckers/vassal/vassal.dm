@@ -15,8 +15,6 @@
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
-	antag_hud_type = ANTAG_HUD_BLOODSUCKER
-	antag_hud_name = "vassal"
 	var/datum/antagonist/bloodsucker/master		// Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
 
