@@ -21,6 +21,7 @@
 		/datum/language/codespeak,
 		/datum/language/monkey,
 		/datum/language/narsie,
+		/datum/language/vampiric, // Fulpstation Bloodsuckers
 		/datum/language/beachbum,
 		/datum/language/aphasia,
 		/datum/language/piratespeak,

@@ -476,6 +476,9 @@
 	if(m_intent == MOVE_INTENT_RUN)
 		m_intent = MOVE_INTENT_WALK
 	else
+		if(HAS_TRAIT(src,TRAIT_NORUNNING)) // Fulpstation Bloodsuckers edit: You can't run when using Fortitude.
+			to_chat(user, "<span class='warning'>You find yourself unable to run.</span>")
+			return FALSE
 		m_intent = MOVE_INTENT_RUN
 	if(hud_used?.static_inventory)
 		for(var/atom/movable/screen/mov_intent/selector in hud_used.static_inventory)

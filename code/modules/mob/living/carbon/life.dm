@@ -595,6 +595,9 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	var/body_temperature_difference = get_body_temp_normal() - bodytemperature
 	var/natural_change = 0
 
+	if(HAS_TRAIT(src, TRAIT_COLDBLOODED)) // Fulpstation Bloodsuckers + Beefmen edit
+		return 0 //Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
+
 	// We are very cold, increate body temperature
 	if(bodytemperature <= BODYTEMP_COLD_DAMAGE_LIMIT)
 		natural_change = max((body_temperature_difference * metabolism_efficiency / BODYTEMP_AUTORECOVERY_DIVISOR), \
