@@ -49,3 +49,4 @@
 		/obj/item/construction/rcd/loaded/upgraded=1,\
 		/obj/item/toy/plush/moth=1,\
 		/obj/item/pipe_dispenser=1)
+		
