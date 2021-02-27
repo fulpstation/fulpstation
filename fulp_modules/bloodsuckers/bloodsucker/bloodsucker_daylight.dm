@@ -3,7 +3,6 @@
 #define TIME_BLOODSUCKER_DAY	60 			// 1.5 minutes // 10 is a second, 600 is a minute.
 #define TIME_BLOODSUCKER_BURN_INTERVAL	40 	// 4 sec
 
-
 // Over Time, tick down toward a "Solar Flare" of UV buffeting the station. This period is harmful to vamps.
 /obj/effect/sunlight
 	//var/amDay = FALSE
@@ -85,8 +84,6 @@
 		nightime_duration += 100 //Each day makes the night a minute longer.
 		message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [nightime_duration / 60] minutes.)")
 
-
-
 /obj/effect/sunlight/proc/hud_tick()
 	set waitfor = FALSE
 	while(!cancel_me)
@@ -97,14 +94,13 @@
 			var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 			if(istype(bloodsuckerdatum))
 				bloodsuckerdatum.update_sunlight(max(0, time_til_cycle), amDay) // This pings all HUDs
-		sleep(10)
 		time_til_cycle --
 
 /obj/effect/sunlight/proc/warn_daylight(danger_level =0, vampwarn = "", vassalwarn = "")
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M))
 			continue
-		to_chat(M,vampwarn)
+		to_chat(M, vampwarn)
 		if(M.current)
 			if(danger_level == 1)
 				M.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
@@ -122,7 +118,6 @@
 			if(!istype(M))
 				continue
 			to_chat(M,vassalwarn)
-
 
 /obj/effect/sunlight/proc/punish_vamps()
 	// Cycle through all vamp antags and check if they're inside a closet.

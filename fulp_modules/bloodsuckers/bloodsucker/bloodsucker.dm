@@ -623,18 +623,16 @@
 		// HUD! //
 /////////////////////////////////////
 
-/*
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/bloodsucker/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
 	set_antag_hud(owner.current, "bloodsucker") // "bloodsucker"
 	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/bloodsucker/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.leave_hud(owner.current)
 	set_antag_hud(owner.current, null)
-*/
 
 /datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
 
@@ -712,7 +710,6 @@
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
-/*
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
@@ -758,4 +755,3 @@
 /atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"
-*/
