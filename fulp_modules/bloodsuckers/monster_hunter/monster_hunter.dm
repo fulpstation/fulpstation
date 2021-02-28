@@ -17,14 +17,11 @@
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
 	add_antag_hud(antag_hud_type, antag_hud_name, M)
-	handle_clown_mutation(M, "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself.")
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
 	remove_antag_hud(antag_hud_type, M)
-	handle_clown_mutation(M, removing = FALSE)
-	UnregisterSignal(owner.current, list(COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON))
 
 /datum/antagonist/monsterhunter/on_gain()
 	SSticker.mode.monsterhunter += owner
@@ -187,15 +184,28 @@
 
 	// Track ALL MONSTERS in Game Mode
 	var/list/datum/mind/monsters = list()
-	monsters += SSticker.mode.bloodsuckers
-	monsters += SSticker.mode.cult
-	monsters += SSticker.mode.wizards
-	monsters += SSticker.mode.apprentices
-	// monsters += ROLE_HERETIC // Disabled, not working (Heretics) var/list/culties
-	//monsters += SSticker.mode.changelings(ROLE_CHANGELING) // Disabled, not working
-	//
+	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
+		if(C.mind)
+			var/datum/mind/UM = C.mind
+			if(UM.has_antag_datum(/datum/antagonist/changeling))
+				monsters += UM
+			else if(UM.has_antag_datum(/datum/antagonist/heretic))
+				monsters += UM
+			else if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
+				monsters += UM
+			else if(UM.has_antag_datum(/datum/antagonist/cult))
+				monsters += UM
+			else if(UM.has_antag_datum(/datum/antagonist/ashwalker))
+				monsters += UM
+			else if(UM.has_antag_datum(/datum/antagonist/wizard))
+				monsters += UM
+			else if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
+				monsters += UM
+//	monsters += SSticker.mode.culties // Not working, TG uses 'var/list/culties' rather than 'var/list/datum/mind/culties'
+//	monsters += SSticker.mode.changelings // Not working, TG uses 'var/list/changelings' rather than 'var/list/datum/mind/changelings'
+
 	for(var/datum/mind/M in monsters)
-		if (!M.current || M.current == owner)//   || !get_turf(M.current) || !get_turf(owner))
+		if (!M.current || M.current == owner) // || !get_turf(M.current) || !get_turf(owner))
 			continue
 		for(var/a in M.antag_datums)
 			var/datum/antagonist/antag_datum = a // var/datum/antagonist/antag_datum = M.has_antag_datum(/datum/antagonist/bloodsucker)

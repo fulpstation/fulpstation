@@ -38,13 +38,12 @@
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
 
 	// Remove ColdBlooded & Hard/SoftCrit
-	REMOVE_TRAIT(user, TRAIT_COLDBLOODED, "bloodsucker")
-	REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, "bloodsucker")
-	REMOVE_TRAIT(user, TRAIT_NOSOFTCRIT, "bloodsucker")
-	REMOVE_TRAIT(user, TRAIT_VIRUSIMMUNE, "bloodsucker")
-	REMOVE_TRAIT(user, TRAIT_NOBREATH, "bloodsucker")
-	REMOVE_TRAIT(user, TRAIT_NOPULSE, "bloodsucker")
-	REMOVE_TRAIT(user, BLOODSUCKER_TRAIT, "bloodsucker")
+	REMOVE_TRAIT(user, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
 	var/obj/item/organ/eyes/vassal/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = 0
@@ -80,13 +79,12 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	bloodsuckerdatum.poweron_masquerade = FALSE
 
-	ADD_TRAIT(user, TRAIT_COLDBLOODED, "bloodsucker")
-	ADD_TRAIT(user, TRAIT_NOHARDCRIT, "bloodsucker")
-	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, "bloodsucker")
-	ADD_TRAIT(user, TRAIT_VIRUSIMMUNE, "bloodsucker")
-	ADD_TRAIT(user, TRAIT_NOBREATH, "bloodsucker")
-	ADD_TRAIT(user, TRAIT_NOPULSE, "bloodsucker")
-	ADD_TRAIT(user, BLOODSUCKER_TRAIT, "bloodsucker")
+	ADD_TRAIT(user, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
 
 	// HEART
 	var/obj/item/organ/heart/H = user.getorganslot(ORGAN_SLOT_HEART)

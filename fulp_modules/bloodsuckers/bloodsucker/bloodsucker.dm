@@ -5,6 +5,8 @@
 	job_rank = ROLE_BLOODSUCKER
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
+	antag_hud_type = ANTAG_HUD_BLOODSUCKER
+	antag_hud_name = "bloodsucker"
 	hijack_speed = 0.5
 	var/give_objectives = TRUE
 	// NAME
@@ -40,58 +42,39 @@
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	// HUD
 	var/valuecolor
-	var/static/list/defaultTraits = list (BLOODSUCKER_TRAIT, TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NODISMEMBER)
+	var/value
+	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NODISMEMBER)
 
 //This handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	return
+	var/mob/living/M = mob_override || owner.current
+	add_antag_hud(antag_hud_type, antag_hud_name, M)
+	M.faction |= ROLE_BLOODSUCKER
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	return
+	var/mob/living/M = mob_override || owner.current
+	remove_antag_hud(antag_hud_type, M)
+	M.faction -= ROLE_BLOODSUCKER
 
 ///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	. = ..()
 	SSticker.mode.bloodsuckers |= owner // Only add after they've been given objectives
-	SSticker.mode.check_start_sunlight() // Start Sunlight? (if first Vamp)
+	SSticker.mode.check_start_sunlight() // Start Sunlight if first Vamp
 	SelectFirstName() // Name & Title
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
 	AssignStarterPowersAndStats() // Give Powers & Stats
-	if(is_banned(owner.current) && replace_banned)
-		replace_banned_player()
-	else if(owner.current.client?.holder && (CONFIG_GET(flag/auto_deadmin_antagonists) || owner.current.client.prefs?.toggles & DEADMIN_ANTAGONIST))
-		owner.current.client.holder.auto_deadmin()
-	if(owner.current.stat != DEAD)
-		owner.current.add_to_current_living_antags()
 	if(give_objectives)
 		forge_bloodsucker_objectives()
 	update_bloodsucker_icons_added(owner.current, "bloodsucker")
 	. = ..()
 
-/datum/antagonist/bloodsucker/is_banned(mob/M)
-	if(!M)
-		return FALSE
-	. = (is_banned_from(M.ckey, list(ROLE_SYNDICATE, job_rank)) || QDELETED(M))
-
-/datum/antagonist/bloodsucker/replace_banned_player()
-	set waitfor = FALSE
-
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a [name]?", "[name]", null, job_rank, 50, owner.current)
-	if(LAZYLEN(candidates))
-		var/mob/dead/observer/C = pick(candidates)
-		to_chat(owner, "Your mob has been taken over by a ghost! Appeal your job ban if you want to avoid this in the future!")
-		message_admins("[key_name_admin(C)] has taken control of ([key_name_admin(owner)]) to replace a jobbanned player.")
-		owner.current.ghostize(0)
-		owner.current.key = C.key
-
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	SSticker.mode.bloodsuckers -= owner
-	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
+	SSticker.mode.check_cancel_sunlight() // End Sunlight if last Vamp
 	ClearAllPowersAndStats()// Clear Powers & Stats
-	update_bloodsucker_icons_removed(owner.current)
 	. = ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -104,7 +87,6 @@
 	bloodsucker_greet +=  "<span class='boldannounce'>* Other Bloodsuckers are not necessarily your friends, but your survival may depend on cooperation. Betray them at your own discretion and peril.</span><br>"
 	bloodsucker_greet += "<span class='announce'>Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.</span><br>"
 	bloodsucker_greet += "<span class='announce'>Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and only your coffin can guarantee your safety.</span><br>"
-	bloodsucker_greet += "<span class='announce'>Bloodsucker Tip: You wont loose blood if you are unconcious or sleeping. Use this to your advantage to conserve blood.</span><br>"
 	to_chat(owner, bloodsucker_greet)
 	owner.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in un-death you earned the name <b>[fullname]</b>.<br>"
@@ -124,7 +106,6 @@
 						"Melanthus","Teuthras","Orchamus","Amyntor","Axion",  // Greek
 						"Thoth","Thutmose","Osorkon,","Nofret","Minmotu","Khafra", // Egyptian
 						"Dio")
-
 	else
 		bloodsucker_name = pick("Islana","Tyrra","Greganna","Pytra","Hilda","Andra","Crina","Viorela","Viorica","Anemona","Camelia","Narcisa","Sorina","Alessia","Sophia","Gladda","Arcana","Morgan","Lasarra","Ioana","Elena", \
 						"Alina","Rodica","Teodora","Denisa","Mihaela","Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
@@ -174,7 +155,6 @@
 	return !bloodsucker_title
 
 /datum/antagonist/bloodsucker/proc/ReturnFullName(var/include_rep=0)
-
 	var/fullname
 	// Name First
 	fullname = (bloodsucker_name ? bloodsucker_name : owner.current.name)
@@ -184,7 +164,6 @@
 	// Rep
 	if(include_rep && bloodsucker_reputation)
 		fullname = fullname + " the " + bloodsucker_reputation
-
 	return fullname
 
 //Bloodsucker team
@@ -617,15 +596,7 @@
 /////////////////////////////////////
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
-	var/datum/atom_hud/antag/bloodsucker/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.join_hud(owner.current)
-	set_antag_hud(owner.current, "bloodsucker") // "bloodsucker"
 	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
-
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
-	var/datum/atom_hud/antag/bloodsucker/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.leave_hud(owner.current)
-	set_antag_hud(owner.current, null)
 
 /datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
 
@@ -666,7 +637,6 @@
 		return TRUE // SUCCESS!
 	return FALSE
 
-
 		/////////////////////////////////////
 		// BLOOD COUNTER & RANK MARKER ! //
 		/////////////////////////////////////
@@ -703,11 +673,37 @@
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
+/mob/living/carbon/proc/handle_bloodsucker()
+	return
+/* -- Just some testing I've done
+	var/datum/antagonist/bloodsucker/bloodsucker = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(mind && hud_used?.blood_display)
+		if(bloodsucker)
+			hud_used.blood_display.invisibility = 0
+			// Placeholders until I can get it to work
+			hud_used.blood_display.maptext = MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='#FFDDDD'>'>[round(1)]</font></div>")
+//			hud_used.blood_display.maptext = MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>")
+		else
+			hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
+	if(mind && hud_used?.vamprank_display)
+		if(bloodsucker)
+			hud_used.vamprank_display.invisibility = 0
+			// Placeholders until I can get it to work
+			hud_used.vamprank_display.maptext = MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='#FFDDDD'>[round(1)]</font></div>")
+//			hud_used.vamprank_display.maptext = MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>")
+		else
+			hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
+	if(mind && hud_used?.sunlight_display)
+		if(bloodsucker)
+			hud_used.sunlight_display.invisibility = 0
+			// Placeholders until I can get it to work
+			hud_used.sunlight_display.maptext = MAPTEXT("<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='#FF5555'>[round(1)]</font></div>")
+//			hud_used.sunlight_display.maptext = MAPTEXT("<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>")
+		else
+			hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
+*/
+
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
-	if(FinalDeath)
-		return
-	if(!owner.current.hud_used) // No Hud? Get out.
-		return
 	// Update Blood Counter
 	if(owner.current.hud_used && owner.current.hud_used.blood_display)
 		if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)

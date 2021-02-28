@@ -13,8 +13,6 @@
 	var/restraining = FALSE
 	var/old_grab_state = null
 
-
-
 /datum/martial_art/hunterfu/reset_streak(mob/living/carbon/human/new_target)
 	. = ..()
 	restraining = FALSE

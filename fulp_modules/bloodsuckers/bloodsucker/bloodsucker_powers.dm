@@ -10,7 +10,6 @@
 	buttontooltipstyle = "cult"
 
 	// Action-Related
-	//var/amPassive = FALSE		// REMOVED: Just made it its own kind. // Am I just "on" at all times? (aka NO ICON)
 	var/amTargetted = FALSE		// Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
 	var/amToggle = FALSE		// Can I be actively turned on and off?
 	var/amSingleUse = FALSE		// Am I removed after a single use?
@@ -142,15 +141,12 @@
 	background_icon_state = active? background_icon_state_on : background_icon_state_off
 	..()//UpdateButtonIcon()
 
-
 /datum/action/bloodsucker/proc/PayCost()
 	// owner for actions is the mob, not mind.
 	var/mob/living/L = owner
 	L.blood_volume -= bloodcost
 
-
 /datum/action/bloodsucker/proc/ActivatePower()
-
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
 	active = FALSE
@@ -161,7 +157,7 @@
 	return active && user && (!warn_constant_cost || user.blood_volume > 0)
 
 /datum/action/bloodsucker/proc/RemoveAfterUse()
-	// Un-Learn Me! (GO HOME
+	// Un-Learn Me! (GO HOME)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if (istype(bloodsuckerdatum))
 		bloodsuckerdatum.powers -= src
@@ -176,7 +172,7 @@
 /datum/action/bloodsucker/passive
 
 /datum/action/bloodsucker/passive/New()
-	// REMOVED: DO NOTHBING!
+	// REMOVED: DO NOTHING!
 	..()
 	// Don't Display Button! (it doesn't do anything anyhow)
 	button.screen_loc = DEFAULT_BLOODSPELLS

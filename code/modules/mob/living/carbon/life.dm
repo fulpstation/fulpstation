@@ -38,6 +38,7 @@
 
 	//Updates the number of stored chemicals for powers
 	handle_changeling()
+	handle_bloodsucker()
 
 	if(stat != DEAD)
 		return 1
