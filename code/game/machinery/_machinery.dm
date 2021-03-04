@@ -78,7 +78,7 @@
  *
  *  process_atmos()
  *     Called by the 'air subsystem' once per atmos tick for each machine that is listed in its 'atmos_machines' list.
- *	Compiled by Aygar
+ * Compiled by Aygar
  */
 /obj/machinery
 	name = "machinery"
@@ -166,6 +166,7 @@
 /obj/machinery/LateInitialize()
 	. = ..()
 	power_change()
+	become_area_sensitive(ROUNDSTART_TRAIT)
 	RegisterSignal(src, COMSIG_ENTER_AREA, .proc/power_change)
 
 /obj/machinery/Destroy()
@@ -222,7 +223,7 @@
 	density = FALSE
 	if(drop)
 		dump_inventory_contents()
-	update_icon()
+	update_appearance()
 	updateUsrDialog()
 
 /**
@@ -305,7 +306,7 @@
 		set_occupant(target)
 		target.forceMove(src)
 	updateUsrDialog()
-	update_icon()
+	update_appearance()
 
 /obj/machinery/proc/auto_use_power()
 	if(!powered(power_channel))
@@ -420,8 +421,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/machinery/attack_paw(mob/living/user)
-	if(user.a_intent != INTENT_HARM)
+/obj/machinery/attack_paw(mob/living/user, list/modifiers)
+	if(!user.combat_mode)
 		return attack_hand(user)
 	else
 		user.changeNext_move(CLICK_CD_MELEE)
@@ -495,15 +496,34 @@
 			LAZYCLEARLIST(component_parts)
 	return ..()
 
+/**
+ * Spawns a frame where this machine is. If the machine was not disassmbled, the
+ * frame is spawned damaged. If the frame couldn't exist on this turf, it's smashed
+ * down to metal sheets.
+ *
+ * Arguments:
+ * * disassembled - If FALSE, the machine was destroyed instead of disassembled and the frame spawns at reduced integrity.
+ */
 /obj/machinery/proc/spawn_frame(disassembled)
-	var/obj/structure/frame/machine/M = new /obj/structure/frame/machine(loc)
-	. = M
-	M.set_anchored(anchored)
+	var/obj/structure/frame/machine/new_frame = new /obj/structure/frame/machine(loc)
+
+	new_frame.state = 2
+
+	// If the new frame shouldn't be able to fit here due to the turf being blocked, spawn the frame deconstructed.
+	if(isturf(loc))
+		var/turf/machine_turf = loc
+		// We're spawning a frame before this machine is qdeleted, so we want to ignore it. We've also just spawned a new frame, so ignore that too.
+		if(machine_turf.is_blocked_turf(TRUE, source_atom = new_frame, ignore_atoms = list(src)))
+			new_frame.deconstruct(disassembled)
+			return
+
+	new_frame.icon_state = "box_1"
+	. = new_frame
+	new_frame.set_anchored(anchored)
 	if(!disassembled)
-		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
-	transfer_fingerprints_to(M)
-	M.state = 2
-	M.icon_state = "box_1"
+		new_frame.obj_integrity = new_frame.max_integrity * 0.5 //the frame is already half broken
+	transfer_fingerprints_to(new_frame)
+
 
 /obj/machinery/obj_break(damage_flag)
 	SHOULD_CALL_PARENT(TRUE)
@@ -511,7 +531,7 @@
 	if(!(machine_stat & BROKEN) && !(flags_1 & NODECONSTRUCT_1))
 		set_machine_stat(machine_stat | BROKEN)
 		SEND_SIGNAL(src, COMSIG_MACHINERY_BROKEN, damage_flag)
-		update_icon()
+		update_appearance()
 		return TRUE
 
 /obj/machinery/contents_explosion(severity, target)
@@ -520,7 +540,7 @@
 /obj/machinery/handle_atom_del(atom/A)
 	if(A == occupant)
 		set_occupant(null)
-		update_icon()
+		update_appearance()
 		updateUsrDialog()
 		return ..()
 
@@ -564,7 +584,7 @@
 /obj/proc/default_unfasten_wrench(mob/user, obj/item/I, time = 20) //try to unwrench an object in a WONDERFUL DYNAMIC WAY
 	if(!(flags_1 & NODECONSTRUCT_1) && I.tool_behaviour == TOOL_WRENCH)
 		var/turf/ground = get_turf(src)
-		if(!anchored && ground.is_blocked_turf(exclude_mobs = TRUE, excluded_object = src))
+		if(!anchored && ground.is_blocked_turf(exclude_mobs = TRUE, source_atom = src))
 			to_chat(user, "<span class='notice'>You fail to secure [src].</span>")
 			return CANT_UNFASTEN
 		var/can_be_unfasten = can_be_unfasten_wrench(user)
@@ -576,7 +596,7 @@
 		var/prev_anchored = anchored
 		//as long as we're the same anchored state and we're either on a floor or are anchored, toggle our anchored state
 		if(I.use_tool(src, user, time, extra_checks = CALLBACK(src, .proc/unfasten_wrench_check, prev_anchored, user)))
-			if(!anchored && ground.is_blocked_turf(exclude_mobs = TRUE, excluded_object = src))//i know what you tryin to sneak in
+			if(!anchored && ground.is_blocked_turf(exclude_mobs = TRUE, source_atom = src))
 				to_chat(user, "<span class='notice'>You fail to secure [src].</span>")
 				return CANT_UNFASTEN
 			to_chat(user, "<span class='notice'>You [anchored ? "un" : ""]secure [src].</span>")
@@ -702,8 +722,8 @@
 		LAZYREMOVE(component_parts, AM)
 		circuit = null
 
-/obj/machinery/proc/adjust_item_drop_location(atom/movable/AM)	// Adjust item drop location to a 3x3 grid inside the tile, returns slot id from 0 to 8
-	var/md5 = md5(AM.name)										// Oh, and it's deterministic too. A specific item will always drop from the same slot.
+/obj/machinery/proc/adjust_item_drop_location(atom/movable/AM) // Adjust item drop location to a 3x3 grid inside the tile, returns slot id from 0 to 8
+	var/md5 = md5(AM.name) // Oh, and it's deterministic too. A specific item will always drop from the same slot.
 	for (var/i in 1 to 32)
 		. += hex2num(md5[i])
 	. = . % 9
@@ -730,4 +750,3 @@
 	var/alertstr = "<span class='userdanger'>Network Alert: Hacking attempt detected[get_area(src)?" in [get_area_name(src, TRUE)]":". Unable to pinpoint location"].</span>"
 	for(var/mob/living/silicon/ai/AI in GLOB.player_list)
 		to_chat(AI, alertstr)
-

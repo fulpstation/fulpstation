@@ -144,7 +144,7 @@
 
 /datum/award/achievement/misc/void_ascension
 	name = "All that perish"
-	desc = "Place of a diffrent being, diffrent time. Everything ends there... but maybe it is just the beginning?"
+	desc = "Place of a different being, different time. Everything ends there... but maybe it is just the beginning?"
 	database_id = MEDAL_VOID_ASCENSION
 	icon = "voidascend"
 
@@ -153,3 +153,15 @@
 	desc = "My eternal soul was destroyed to make a toolbox look funny and all I got was this achievement..."
 	database_id = MEDAL_TOOLBOX_SOUL
 	icon = "toolbox_soul"
+
+/datum/award/achievement/misc/chemistry_tut
+	name = "Perfect chemistry blossom"
+	desc = "Passed the chemistry tutorial with perfect purity!"
+	database_id = MEDAL_CHEM_TUT
+	icon = "chem_tut"
+
+/datum/award/achievement/misc/hot_damn
+	name = "Hot Damn!"
+	desc = "Sometimes you need to make some noise to make a point."
+	database_id = MEDAL_HOT_DAMN
+	icon = "hotdamn"
