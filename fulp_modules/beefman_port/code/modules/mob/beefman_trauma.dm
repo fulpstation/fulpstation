@@ -45,16 +45,18 @@
 	gain_text = "<span class='notice'>Your mind snaps, and you wake up. You <i>really</i> wake up.</span>"
 	lose_text = "<span class='warning'>You succumb once more to the sleepless dream of the unwoken.</span>"
 
+
 	var/list/created_firsts = list()
 
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_life()
 
 	var/turf/first_turf
 	var/turf/second_turf
+	if(!COOLDOWN_FINISHED(src, portal_cooldown))
+		return
 
+	COOLDOWN_START(src, portal_cooldown, 10 SECONDS)
 	// Make Next Portal
-	if(world.time > next_portal)
-
 /*
 		// Round One: Pick a Nearby Turf
 		var/list/turf/possible_turfs = return_valid_floors_in_range(owner, 6, 0, TRUE) // Source, Range, Has Floor
@@ -78,16 +80,12 @@
 		// Round One: Pick a Nearby Turf
 		first_turf = return_valid_floor_in_range(owner, 6, 0, TRUE)
 		if (!first_turf)
-			next_portal = world.time + 10
 			return
 
 		// Round Two: Pick an even Further Turf
 		second_turf = return_valid_floor_in_range(first_turf, 20, 6, TRUE)
 		if (!second_turf)
-			next_portal = world.time + 10
 			return
-
-		next_portal = world.time + 100
 
 
 		var/obj/effect/hallucination/simple/phobetor/first = new (first_turf, owner)

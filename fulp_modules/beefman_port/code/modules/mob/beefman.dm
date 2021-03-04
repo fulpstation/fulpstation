@@ -387,9 +387,10 @@
 	return ..()
 
 /datum/species/beefman/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, intent, mob/living/carbon/human/H)
+	var/list/params = params2list(click_parameters)
 
 	// MEAT LIMBS: If our limb is missing, and we're using meat, stick it in!
-	if (H.stat < DEAD && !affecting && intent == INTENT_HARM && istype(I, /obj/item/food/meat/slab))
+	if (H.stat < DEAD && !affecting && params["right"] && istype(I, /obj/item/food/meat/slab))
 		var/target_zone = user.zone_selected
 		var/list/allowedList = list ( BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG )
 
