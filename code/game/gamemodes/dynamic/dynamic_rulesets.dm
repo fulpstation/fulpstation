@@ -138,8 +138,6 @@
 /// Do everything you need to do before job is assigned here.
 /// IMPORTANT: ASSIGN special_role HERE
 /datum/dynamic_ruleset/proc/pre_execute()
-	if(exclusive_roles.len)
-		restricted_roles |= get_all_jobs() - exclusive_roles
 	return TRUE
 
 /// Called on post_setup on roundstart and when the rule executes on midround and latejoin.

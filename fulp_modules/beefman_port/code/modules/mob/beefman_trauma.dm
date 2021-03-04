@@ -47,7 +47,7 @@
 
 
 	var/list/created_firsts = list()
-
+/*
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_life()
 
 	var/turf/first_turf
@@ -157,3 +157,5 @@
 		qdel(linked_to)
 		// WHY DO THIS?	Because our trauma only gets rid of all the FIRST gates created.
 	. = ..()
+
+*/
