@@ -387,9 +387,8 @@
 	return ..()
 
 
-/*
+
 /datum/species/beefman/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, params, mob/living/carbon/human/H)
-	var/list/params = params2list(click_parameters)
 
 	// MEAT LIMBS: If our limb is missing, and we're using meat, stick it in!
 	if (H.stat < DEAD && !affecting && params["right"] && istype(I, /obj/item/food/meat/slab))
@@ -415,7 +414,7 @@
 			return TRUE // True CANCELS the sequence.
 
 	return ..() // TRUE FALSE
-*/
+
 			//// OUTSIDE PROCS ////
 
 // taken from _HELPERS/mobs.dm
