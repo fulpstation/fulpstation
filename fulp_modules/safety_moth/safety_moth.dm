@@ -30,8 +30,8 @@
     var/mob/living/carbon/human/H = owner.current
     if(!istype(H))
         return
-    H.equipOutfit(/datum/outfit/centcom/centcom_official)
     H.set_species(/datum/species/moth)
+    H.equipOutfit(outfit)
 
 /datum/antagonist/ert/safety_moth/create_team(datum/team/new_team)
     if(istype(new_team))
@@ -39,11 +39,11 @@
 
 /datum/outfit/centcom/ert/engineer/safety_moth
 	name = "Safety Moth Engineer"
-	suit_store = /obj/item/melee/baton/loaded
-	mask = /obj/item/clothing/mask/gas
+
+	suit_store = /obj/item/tank/internals/oxygen
+	mask = /obj/item/clothing/mask/breath
+	r_pocket = /obj/item/toy/plush/moth
 	r_hand = /obj/item/clipboard
-	backpack_contents = list(/obj/item/storage/box/survival/engineer=1,\
-		/obj/item/construction/rcd/loaded=1,\
-		/obj/item/toy/plush/moth=1,\
-		/obj/item/pipe_dispenser=1)
-		
+	
+	internals_slot = ITEM_SLOT_SUITSTORE
+
