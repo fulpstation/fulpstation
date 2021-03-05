@@ -13,9 +13,6 @@
     name = "Safety Moth"
     outfit = /datum/outfit/centcom/ert/engineer/safety_moth
     role = "Safety Moth"
-    show_in_antagpanel = TRUE
-    show_to_ghosts = TRUE
-    antag_moodlet = /datum/mood_event/focused
 
 /datum/antagonist/ert/safety_moth/on_gain()
     forge_objectives()
