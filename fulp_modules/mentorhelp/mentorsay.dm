@@ -1,6 +1,7 @@
 /client/proc/cmd_mentor_say(msg as text)
 	set category = "Mentor"
-	set name = "Msay"
+	set name = "Mentorsay"
+
 	if(!is_mentor())
 		to_chat(src, "<span class='danger'>Error: Only mentors and administrators may use this command.</span>", confidential = TRUE)
 		return
@@ -25,3 +26,16 @@
 /client/proc/get_mentor_say()
 	var/msg = input(src, null, "msay \"text\"") as text|null
 	cmd_mentor_say(msg)
+
+/// Gives Mentors/Admins the MSAY verb
+GLOBAL_LIST_INIT(mentor_verbs, list(
+	/client/proc/cmd_mentor_say
+	))
+GLOBAL_PROTECT(mentor_verbs)
+
+/client/proc/add_mentor_verbs()
+	if(mentor_datum || holder) //Both mentors and admins will get those verbs.
+		add_verb(src, GLOB.mentor_verbs)
+
+/client/proc/remove_mentor_verbs()
+	remove_verb(src, GLOB.mentor_verbs)
