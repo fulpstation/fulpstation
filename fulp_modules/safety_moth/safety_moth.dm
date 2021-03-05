@@ -3,7 +3,7 @@
     leader_role = /datum/antagonist/ert/safety_moth
     enforce_human = FALSE
     roles = /datum/antagonist/ert/safety_moth
-    mission = "ensure that proper safety protocols are being followed by the crew."
+    mission = "Ensure that proper safety protocols are being followed by the crew."
     teamsize = 1
     polldesc = "an experienced Nanotrasen engineering expert"
     opendoors = FALSE
