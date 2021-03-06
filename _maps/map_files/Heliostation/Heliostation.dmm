@@ -3157,9 +3157,7 @@
 	dir = 8;
 	light_color = "#e8eaff"
 	},
-/mob/living/simple_animal/pet/fox{
-	ventcrawler = null
-	},
+/mob/living/simple_animal/pet/fox/ventcrawl,
 /turf/open/floor/plating/grass,
 /area/security/prison)
 "ahE" = (
@@ -3538,9 +3536,7 @@
 /turf/open/floor/plating/grass,
 /area/security/prison)
 "aiB" = (
-/mob/living/simple_animal/deer{
-	ventcrawler = 1
-	},
+/mob/living/simple_animal/deer/ventcrawl,
 /turf/open/floor/plating/grass,
 /area/security/prison)
 "aiC" = (
@@ -16880,12 +16876,6 @@
 /turf/open/floor/iron/white,
 /area/medical/virology)
 "aIr" = (
-/obj/machinery/power/apc/highcap/five_k{
-	areastring = "/area/medical/virology";
-	dir = 1;
-	name = "Virology APC";
-	pixel_y = 23
-	},
 /obj/structure/cable,
 /obj/machinery/light{
 	dir = 1;
@@ -16893,6 +16883,12 @@
 	},
 /obj/effect/turf_decal/siding/green{
 	dir = 1
+	},
+/obj/machinery/power/apc/highcap/five_k{
+	areastring = "/area/medical/virology";
+	dir = 1;
+	name = "Virology APC";
+	pixel_y = 23
 	},
 /turf/open/floor/iron/white,
 /area/medical/virology)
@@ -36301,18 +36297,18 @@
 /turf/open/floor/iron,
 /area/commons/lounge)
 "bBP" = (
-/obj/machinery/power/apc{
-	areastring = "/area/service/janitor";
-	dir = 8;
-	name = "Custodial Closet APC";
-	pixel_x = -25
-	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 6
+	},
+/obj/machinery/power/apc{
+	areastring = "/area/service/janitor";
+	dir = 8;
+	name = "Custodial Closet APC";
+	pixel_x = -25
 	},
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
@@ -37097,8 +37093,7 @@
 	areastring = "/area/service/library";
 	dir = 8;
 	name = "Library APC";
-	pixel_x = -25;
-	pixel_y = 3
+	pixel_x = -25
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard)
@@ -54270,12 +54265,6 @@
 /area/engineering/atmos)
 "cqq" = (
 /obj/structure/table,
-/obj/machinery/power/apc/highcap/five_k{
-	areastring = "/area/engineering/atmos";
-	dir = 1;
-	name = "Atmospherics APC";
-	pixel_y = 23
-	},
 /obj/structure/cable,
 /obj/item/book/manual/wiki/atmospherics,
 /obj/item/storage/belt/utility/atmostech,
@@ -54283,6 +54272,12 @@
 	color = "#FFD700";
 	dir = 1;
 	name = "engineering yellow"
+	},
+/obj/machinery/power/apc/highcap/five_k{
+	areastring = "/area/engineering/atmos";
+	dir = 1;
+	name = "Atmospherics APC";
+	pixel_y = 23
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
@@ -60538,17 +60533,17 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "cEH" = (
-/obj/machinery/power/apc{
-	areastring = "/area/engineering/atmos/upper";
-	dir = 4;
-	name = "Atmospherics Upper APC";
-	pixel_x = 25
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 4;
 	name = "engineering yellow"
+	},
+/obj/machinery/power/apc{
+	areastring = "/area/engineering/atmos/upper";
+	dir = 4;
+	name = "Atmospherics Upper APC";
+	pixel_x = 25
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)

@@ -49,13 +49,14 @@
 	var/list/created_firsts = list()
 /*
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_life()
-
-	var/turf/first_turf
-	var/turf/second_turf
 	if(!COOLDOWN_FINISHED(src, portal_cooldown))
 		return
 
 	COOLDOWN_START(src, portal_cooldown, 10 SECONDS)
+
+	var/turf/first_turf
+	var/turf/second_turf
+
 	// Make Next Portal
 /*
 		// Round One: Pick a Nearby Turf
@@ -114,7 +115,7 @@
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
 	for (var/BT in created_firsts)
 		qdel(BT)
-
+*/
 /obj/effect/hallucination/simple/phobetor
 	name = "phobetor tear"
 	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
@@ -158,4 +159,3 @@
 		// WHY DO THIS?	Because our trauma only gets rid of all the FIRST gates created.
 	. = ..()
 
-*/
