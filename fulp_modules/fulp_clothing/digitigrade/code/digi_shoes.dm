@@ -32,7 +32,7 @@
 //	item_state = "digi_combats"
 	resistance_flags = FIRE_PROOF
 	permeability_coefficient = 0.05
-	body_parts_covered = FEET|LEG_LEFT|LEG_RIGHT //does this actually do anything?
+	body_parts_covered = LEG_LEFT|LEG_RIGHT
 	armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = 20, "bio" = 5, "rad" = 0, "fire" = 40, "acid" = 20)
 
 ///Jackboots
@@ -57,7 +57,7 @@
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 //	item_state = "digi_clown"
 
-///Wizard Sandals
+///Sandals
 
 /obj/item/clothing/shoes/sandal/digitigrade
 	name = "digitigrade sandals"
