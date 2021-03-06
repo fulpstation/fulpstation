@@ -54,9 +54,11 @@
 
 //the future mechanic wintercoat goes here.
 
-/obj/machinery/vending/wardrobe/viro_wardrobe/Initialize()
-	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/medical/viro = 2)
+/*
+/obj/machinery/vending/wardrobe/mech_wardrobe/Initialize()
+	products += list(/obj/item/clothing/suit/hooded/wintercoat/fulp/engineering/mech = 2)
 	. = ..()
+*/
 
 /obj/structure/closet/secure_closet/psychology/Initialize()
 	new /obj/item/clothing/suit/hooded/wintercoat/fulp/medical/psych(src)
