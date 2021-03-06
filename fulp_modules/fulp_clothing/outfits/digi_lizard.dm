@@ -1,4 +1,4 @@
-///hacky solution probably, but if it works, it works!
+///It doesn't work at the moment, even with the written down jobs, I'm gonna try to fix it.
 
 /datum/species/lizard/before_equip_job(datum/job/J, mob/living/carbon/human/H, visualsOnly = FALSE)
 	var/current_job = J.title

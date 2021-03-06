@@ -1,4 +1,5 @@
 ///Vending Machines
+///Vending machines are currently broken and show up as "Falling Apart!" In game, gonna try to fix it.
 
 /obj/machinery/vending/autodrobe/Initialize()
 	products += list(/obj/item/clothing/shoes/clown_shoes/digitigrade = 1,
