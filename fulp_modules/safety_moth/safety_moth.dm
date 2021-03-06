@@ -31,7 +31,6 @@
     if(!istype(H))
         return
     H.set_species(/datum/species/moth)
-    H.equipOutfit(outfit)
 
 /datum/antagonist/ert/safety_moth/create_team(datum/team/new_team)
     if(istype(new_team))
