@@ -108,6 +108,10 @@
 	new /obj/item/clothing/shoes/workboots/digitigrade(src)
 	. = ..()
 
+/obj/structure/closet/secure_closet/detective/Initialice()
+	new /obj/item/clothing/shoes/laceup/digitigrade(src)
+	. = ..()
+
 ///Mining Equipment Vendor
 
 /obj/machinery/mineral/equipment_vendor/Initialize()
