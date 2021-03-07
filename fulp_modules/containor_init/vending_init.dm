@@ -116,6 +116,6 @@
 
 /obj/machinery/mineral/equipment_vendor/Initialize()
 	prize_list += list(
-			new /datum/data/mining_equipment("Digitigrate Combat Boots",	/obj/item/clothing/shoes/digicombat,							300),
+			new /datum/data/mining_equipment("Digitigrate Combat Boots",	/obj/item/clothing/shoes/digicombat,							450),
 		)
 	return ..()
