@@ -1,12 +1,11 @@
 ///Vending Machines
-///Vending machines are currently broken and show up as "Falling Apart!" In game, gonna try to fix it.
 
 /obj/machinery/vending/autodrobe/Initialize()
 	products += list(/obj/item/clothing/shoes/clown_shoes/digitigrade = 1,
 	/obj/item/clothing/shoes/sneakers/mime/digitigrade = 1)
 	. = ..()
 
-/obj/machinery/vending/clothesmate/Initialize()
+/obj/machinery/vending/clothing/Initialize()
 	products += list(/obj/item/clothing/shoes/sandal/digitigrade = 1,
 	/obj/item/clothing/shoes/sneakers/brown/digitigrade = 3)
 	. = ..()
@@ -102,8 +101,13 @@
 	. = ..()
 
 /obj/structure/closet/secure_closet/medical3/Initialize()
-	new /obj/item/clothing/shoes/jackboots/digitigrade(src)
+	new /obj/item/clothing/shoes/sneakers/brown/digitigrade(src)
 	. = ..()
+
+/obj/structure/closet/secure_closet/miner/Initialize()
+	new /obj/item/clothing/shoes/workboots/digitigrade(src)
+	. = ..()
+
 ///Mining Equipment Vendor
 
 /obj/machinery/mineral/equipment_vendor/Initialize()
