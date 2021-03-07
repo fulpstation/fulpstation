@@ -11,6 +11,28 @@
 	install_component(new /obj/item/computer_hardware/hard_drive/small)
 	install_component(new /obj/item/computer_hardware/network_card)
 
+/obj/item/modular_computer/tablet/preset/fulp/update_overlays()
+	// /obj/item/modular_computer/update_overlays() returns early if !display_overlays, allowing us to bypass it
+	var/temp = display_overlays
+	display_overlays = FALSE
+	. = ..()
+	display_overlays = temp
+
+	if(!display_overlays)
+		return
+
+	if(enabled)
+		var/icostate = icon_state_menu
+		if(active_program)
+			icostate = active_program.program_icon_state ? active_program.program_icon_state : icon_state_menu
+		else
+			icostate = icon_state_menu
+		. += image('icons/obj/modular_tablet.dmi', icon_state=icostate)
+
+	if(obj_integrity <= integrity_failure * max_integrity)
+		. += "bsod"
+		. += "broken"
+
 // Engineer
 /obj/item/modular_computer/tablet/preset/fulp/engi
 	name = "engineering tablet"
@@ -19,7 +41,7 @@
 /obj/item/modular_computer/tablet/preset/fulp/engi/Initialize()
 	. = ..()
 	install_component(new /obj/item/computer_hardware/sensorpackage)
-	
+
 	var/obj/item/computer_hardware/hard_drive/small/hard_drive = find_hardware_by_name("solid state drive")
 	hard_drive.store_file(new /datum/computer_file/program/alarm_monitor)
 	hard_drive.store_file(new /datum/computer_file/program/supermatter_monitor)
@@ -44,7 +66,7 @@
 	install_component(new /obj/item/computer_hardware/card_slot)
 	install_component(new /obj/item/computer_hardware/card_slot/secondary)
 	install_component(new /obj/item/computer_hardware/printer/mini)
-	
+
 	var/obj/item/computer_hardware/hard_drive/small/hard_drive = find_hardware_by_name("solid state drive")
 	hard_drive.store_file(new /datum/computer_file/program/atmosscan)
 	hard_drive.store_file(new /datum/computer_file/program/budgetorders)
