@@ -42,7 +42,7 @@
 		if("Station Engineer")
 			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
 		if("Atmospheric Technician")
-			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
 
 		// Science
 		if("Research Director")
@@ -96,8 +96,8 @@
 
 	// Deletes the stinky non-digitigrade shoes (if for some reason they spawn with them)
 
-    if (H.shoes)
-        qdel(H.shoes)
-    // Equip New
-    H.equip_to_slot_or_del(new shoes(H),ITEM_SLOT_FEET, TRUE)
-    return ..()
+	f (H.shoes)
+		qdel(H.shoes)
+	// Equip New
+	H.equip_to_slot_or_del(new shoes(H),ITEM_SLOT_FEET, TRUE)
+	return ..()
