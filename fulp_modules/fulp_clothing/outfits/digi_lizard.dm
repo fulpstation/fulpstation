@@ -96,7 +96,7 @@
 
 	// Deletes the stinky non-digitigrade shoes (if for some reason they spawn with them)
 
-	f (H.shoes)
+	if (H.shoes)
 		qdel(H.shoes)
 	// Equip New
 	H.equip_to_slot_or_del(new shoes(H),ITEM_SLOT_FEET, TRUE)
