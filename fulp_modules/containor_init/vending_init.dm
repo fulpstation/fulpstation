@@ -71,6 +71,9 @@
 	products += list(/obj/item/clothing/shoes/sneakers/brown/digitigrade = 1)
 	. = ..()
 
+/obj/machinery/vending/wardrobe/det_wardrobe/Initialize()
+	products += list(/obj/item/clothing/shoes/laceup/digitigrade = 1)
+
 ///Lockers
 
 /obj/structure/closet/secure_closet/engineering_chief/Initialize()
@@ -106,10 +109,6 @@
 
 /obj/structure/closet/secure_closet/miner/Initialize()
 	new /obj/item/clothing/shoes/workboots/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/detective/Initialice()
-	new /obj/item/clothing/shoes/laceup/digitigrade(src)
 	. = ..()
 
 ///Mining Equipment Vendor
