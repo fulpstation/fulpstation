@@ -611,3 +611,12 @@
 	attack_verb_continuous = list("hugs", "squeezes")
 	attack_verb_simple = list("hug", "squeeze")
 	squeak_override = list('sound/weapons/thudswoosh.ogg'=1)
+
+/obj/item/toy/plush/batong
+	name = "\improper batong"
+	desc = "A cheaply made toy. looks like it need some recahrge"
+	icon_state = "batong"
+	inhand_icon_state = "batong"
+	attack_verb_continuous = list("stung")
+	attack_verb_simple = list("stung")
+	squeak_override = list('sound/weapons/batong.ogg'=1)
