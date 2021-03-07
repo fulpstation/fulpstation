@@ -1,36 +1,103 @@
-///It doesn't work at the moment, even with the written down jobs, I'm gonna try to fix it.
+/datum/species/lizard/before_equip_job(datum/job/J, mob/living/carbon/human/H)
 
-///datum/species/lizard/before_equip_job(datum/job/J, mob/living/carbon/human/H, visualsOnly = FALSE)
-//	var/current_job = J.title
-//	var/datum/outfit/digitigrade/O = new /datum/outfit/digitigrade
-//	if(!(DIGITIGRADE in H.dna.species.species_traits))
-//		return //not sure this is neccessary since its 'equip or delete', but removes redundancy
-//	switch(current_job)
-//		if("Chaplain", "Janitor", "Cook", "Botanist", "Medical Doctor", "Chemist", "Geneticist", "Roboticist", "Virologist", "Scientist", "Chief Medical Officer", "Captain")
-//			O = new /datum/outfit/digitigrade
+	// What gives them the shoes
+	var/obj/item/clothing/shoes/newShoes
+	if(!(DIGITIGRADE in H.dna.species_traits))
+		return
+	switch(J.title)
 
-//		if("Curator", "Bartender", "Lawyer", "Detective", "Head of Personnel", "Research Director")
-//			O = new /datum/outfit/digitigrade/laceups
+		// Assistant
+		if("Assistant")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		// Captain
+		if("Captain")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		// Security
+		if("Head of Security")
+			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
+		if("Warden")
+			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
+		if("Security Officer")
+			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
+		if("Detective")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Brig Physician")
+			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
 
-//		if("Security Officer", "Warden", "Head of Security")
-//			O = new /datum/outfit/digitigrade/jackboots
+		// Medical
+		if("Chief Medical Officer")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Medical Doctor")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Chemist")
+			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Virologist")
+			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Paramedic")
+			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
 
-//		if("Cargo Technician", "Quartermaster", "Shaft Miner", "Station Engineer", "Atmospheric Technician", "Chief Engineer")
-//			O = new /datum/outfit/digitigrade/workboots
+		// Engineering
+		if("Chief Engineer")
+			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
+		if("Station Engineer")
+			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
+		if("Atmospheric Technician")
+			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
 
-//		if("Mime")
-//			O = new /datum/outfit/digitigrade/mime
+		// Science
+		if("Research Director")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Scientist")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Roboticist")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Geneticist")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
 
-//		if("Clown")
-//			O = new /datum/outfit/digitigrade/clown
+		// Supply/Service
+		if("Head of Personnel")
+			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Quartermaster")
+			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Cargo Technician")
+			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Shaft Miner")
+			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
 
-//	H.equipOutfit(O, visualsOnly)
-//	return 0
+		// Clown
+		if("Clown")
+			newShoes = new /obj/item/clothing/shoes/clown_shoes/digitigrade
+		// Mime
+		if("Mime")
+			newShoes = new /obj/item/clothing/shoes/sneakers/mime/digitigrade
 
-///Pray
-///didn't work, I cry
-//datum/outfit/digitigrade
-//	name = "Digitigrade Assistant"
-//		/datum/outfit/job/assistant
+		if("Prisoner")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Cook")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Bartender")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Chaplain")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Curator")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Lawyer")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Botanist")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Janitor")
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		if("Psychologist")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 
-//		shoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+		// Civilian
+		else
+			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+
+	// Deletes the stinky non-digitigrade shoes (if for some reason they spawn with them)
+
+    if (H.shoes)
+        qdel(H.shoes)
+    // Equip New
+    H.equip_to_slot_or_del(new shoes(H),ITEM_SLOT_FEET, TRUE)
+    return ..()

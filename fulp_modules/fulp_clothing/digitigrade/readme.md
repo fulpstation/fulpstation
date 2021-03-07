@@ -24,5 +24,7 @@ It adds a folder for clothing and outfits that others can use, maybe.
 
 ### Credits:
 
-Mithrandalf - Pretty much all the code (and sprites afaik)
+Mithrandalf - Pretty much all the original code (and sprites afaik)
 CyoTheProtogen - Code tweaks and modularization (does this count?)
+GuillaumePrata - Stole the equip code they used for beefmen :^)
+JohnFulpWillard & SgtHunk - Helped my dumbass with stuff
