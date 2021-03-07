@@ -20,12 +20,13 @@
 			return
 
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
+	if(!msg)
+		return
 	if(!mob)
 		return // This doesn't happen
 
-	var/show_char = CONFIG_GET(flag/mentors_mobname_only)
-	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0, 1, show_char)]</b>: [msg]</font></span>"
-	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0, 0, 0)]: [msg]")
+	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0)]</b>: [msg]</font></span>"
+	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0)]: [msg]")
 
 	// Send the Mhelp to all Mentors/Admins
 	for(var/client/X in GLOB.mentors | GLOB.admins)
@@ -86,20 +87,10 @@
 
 	if(key)
 		if(include_link)
-			if(CONFIG_GET(flag/mentors_mobname_only))
-				. += "<a href='?_src_=mentor;mentor_msg=[REF(M)];[MentorHrefToken(TRUE)]'>"
-			else
-				. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
+			. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
 
 		if(C && C.holder && C.holder.fakekey)
 			. += "Administrator"
-		else if (char_name_only && CONFIG_GET(flag/mentors_mobname_only))
-			if(istype(C.mob,/mob/dead/new_player) || istype(C.mob, /mob/dead/observer)) //If they're in the lobby or observing, display their ckey
-				. += key
-			else if(C && C.mob) //If they're playing/in the round, only show the mob name
-				. += C.mob.name
-			else //If for some reason neither of those are applicable and they're mentorhelping, show ckey
-				. += key
 		else
 			. += key
 		if(!C)

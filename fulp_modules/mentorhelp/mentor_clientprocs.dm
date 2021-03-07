@@ -4,11 +4,7 @@
 
 /client/proc/mentor_client_procs(href_list)
 	if(href_list["mentor_msg"])
-		if(CONFIG_GET(flag/mentors_mobname_only))
-			var/mob/M = locate(href_list["mentor_msg"])
-			cmd_mentor_pm(M,null)
-		else
-			cmd_mentor_pm(href_list["mentor_msg"],null)
+		cmd_mentor_pm(href_list["mentor_msg"],null)
 		return TRUE
 
 	//Mentor Follow

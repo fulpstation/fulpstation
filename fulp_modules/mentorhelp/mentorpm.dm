@@ -61,43 +61,40 @@
 
 	msg = emoji_parse(msg)
 	C << 'sound/items/bikehorn.ogg'
-	var/show_char = CONFIG_GET(flag/mentors_mobname_only)
 	if(C.is_mentor())
 		if(is_mentor()) // Both are Mentors
 			to_chat(C,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>",
+				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 		else // Sender is a Non-Mentor
 			to_chat(C,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Reply PM from-<b>[key_name_mentor(src, C, 1, 0, show_char)]</b>: [msg]</font>",
+				html = "<font color='purple'>Reply PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 	else // Reciever is a Non-Mentor
 		if(is_mentor())
 			to_chat(C,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>",
+				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0, show_char)]</b>: [msg]</font>",
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 
 	// We don't use message_Mentors here because the sender/receiver might get it too
-	var/show_char_sender = !is_mentor() && CONFIG_GET(flag/mentors_mobname_only)
-	var/show_char_recip = !C.is_mentor() && CONFIG_GET(flag/mentors_mobname_only)
 	for(var/client/X in GLOB.mentors | GLOB.admins)
-		if(X.key!=key && X.key!=C.key)	// Check client/X is an Mentor and isn't the Sender/Recipient
-			to_chat(src,
+		if(X.key!=key && X.key!=C.key) // Check client/X is an Mentor and isn't the Sender/Recipient
+			to_chat(X,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, 0, 0, show_char_sender)]-&gt;[key_name_mentor(C, X, 0, 0, show_char_recip)]:</B> <font color = #5c00e6> [msg]</font>",
+				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, 0, 0)]-&gt;[key_name_mentor(C, X, 0, 0)]:</B> <font color = #5c00e6> [msg]</font>",
 				confidential = TRUE)
