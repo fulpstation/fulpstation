@@ -84,7 +84,7 @@
 		if(is_mentor())
 			to_chat(C,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
