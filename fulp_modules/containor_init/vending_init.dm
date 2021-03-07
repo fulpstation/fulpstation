@@ -73,7 +73,7 @@
 
 /obj/machinery/vending/wardrobe/det_wardrobe/Initialize()
 	products += list(/obj/item/clothing/shoes/laceup/digitigrade = 1)
-
+	. = ..()
 ///Lockers
 
 /obj/structure/closet/secure_closet/engineering_chief/Initialize()
