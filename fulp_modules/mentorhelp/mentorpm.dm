@@ -47,8 +47,8 @@
 					type = MESSAGE_TYPE_MODCHAT,
 					html = "<font color='red'>Error: Mentor-PM: Client not found.</font>",
 					confidential = TRUE)
-			else
-				mentorhelp(msg)	// Mentor we are replying to has vanished, Mentorhelp instead (how the fuck does this work?let's hope it works,shrug)
+			else // Mentor we are replying to has vanished, Mentorhelp instead
+				mentorhelp(msg)
 				return
 
 		if(!C.is_mentor() && !is_mentor()) // Neither party is a mentor, they shouldn't be PMing!

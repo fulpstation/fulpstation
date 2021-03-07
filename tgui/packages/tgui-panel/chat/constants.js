@@ -111,10 +111,9 @@ export const MESSAGE_TYPES = [
   },
   {
     type: MESSAGE_TYPE_MODCHAT,
-    name: 'Mod Chat',
+    name: 'Mentorhelp',
     description: 'MSAY messages',
     selector: '.mod_channel',
-    admin: true,
   },
   {
     type: MESSAGE_TYPE_ADMINLOG,
