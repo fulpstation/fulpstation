@@ -71,6 +71,6 @@ GLOBAL_PROTECT(mentor_href_token)
 			continue
 		new /datum/mentors(line)
 
-// new client var: mentor_datum. Acts the same way holder does towards admin: it holds the mentor datum. if set, the guy's a mentor.
+/// New client var: mentor_datum. Acts the same way holder does towards admin: it holds the mentor datum. if set, the guy's a mentor.
 /client
 	var/datum/mentors/mentor_datum
