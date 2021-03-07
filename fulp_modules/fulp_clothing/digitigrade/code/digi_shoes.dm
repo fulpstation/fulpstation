@@ -7,7 +7,6 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_laceups"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_laceups"
 
 ///Workboots
 
@@ -18,7 +17,6 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_workboots"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_workboots"
 
 ///Combat Boots
 
@@ -29,7 +27,6 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_combats"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_combats"
 	resistance_flags = FIRE_PROOF
 	permeability_coefficient = 0.05
 	body_parts_covered = LEG_LEFT|LEG_RIGHT
@@ -44,7 +41,6 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_jackboots"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_jackboots"
 
 ///Clown Shoes
 
@@ -55,7 +51,6 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_clown"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_clown"
 
 ///Sandals
 
@@ -66,7 +61,6 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_wizard"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_wizard"
 
 ///Generic Shoes
 
@@ -77,7 +71,6 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_brown"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_brown"
 
 ///Magboots
 
@@ -89,7 +82,6 @@
 //		icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 //		icon_state = "digi_magboots0"
 //		alternate_worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//		item_state = "digi_magboots0"
 
 ///Mime Shoes
 
@@ -100,4 +92,3 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_mime"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
-//	item_state = "digi_mime"
