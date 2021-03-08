@@ -25,7 +25,7 @@
 
 /datum/outfit/russian_beefman
 	name = "Russian Beefman"
-	uniform = /obj/item/clothing/under/bodysash/russian
+	uniform = /obj/item/clothing/under/bodysash/russia
 	shoes = /obj/item/clothing/shoes/winterboots
 	back = /obj/item/storage/backpack
 	box = /obj/item/storage/box/survival
