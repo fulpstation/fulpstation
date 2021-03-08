@@ -1,7 +1,7 @@
 
 
 /obj/item/toy/plush/batong
-	name = "\improper batong"
+	name = "batong"
 	desc = "A cheaply made toy. looks like it need some recharge"
 	icon = 'fulp_modules/batong/icon/toybatong.dmi'
 	icon_state = "toy"
