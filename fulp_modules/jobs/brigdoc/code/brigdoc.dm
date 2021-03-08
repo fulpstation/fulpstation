@@ -49,6 +49,7 @@
 	box = /obj/item/storage/box/survival/medical
 
 	implants = list(/obj/item/implant/mindshield)
+	skillchips = list(/obj/item/skillchip/entrails_reader, /obj/item/skillchip/quickercarry)
 
 	id_trim = /datum/id_trim/job/brig_physician
 
@@ -64,6 +65,6 @@
 	trim_icon = 'fulp_modules/jobs/cards.dmi'
 	trim_state = "trim_brigphysician"
 	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
-	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
 	config_job = "brig_physician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_HOS, ACCESS_CHANGE_IDS)
