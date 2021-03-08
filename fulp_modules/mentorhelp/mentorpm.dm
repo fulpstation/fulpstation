@@ -82,10 +82,8 @@
 				confidential = TRUE)
 	else // Reciever is a Non-Mentor
 		if(is_mentor())
-			to_chat(C,
-				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>",
-				confidential = TRUE)
+			// Left unsorted so people dont Mhelp with Mod chat off, you signed up for this!
+			to_chat(C, "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>")
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
 				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
