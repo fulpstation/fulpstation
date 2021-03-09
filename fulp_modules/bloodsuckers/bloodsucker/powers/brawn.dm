@@ -60,7 +60,7 @@
 			return FALSE
 		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
 			"<span class='warning'>We tear through our straightjacket!</span>")
-		addtimer(CALLBACK(src, .proc/rip_straightjacket, user, S), 10)
+		addtimer(CALLBACK(src, .proc/rip_straightjacket, user, S), 5)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
 	if(istype(user.loc, /obj/structure/closet) && !used) //Breaks out of lockers
@@ -69,14 +69,13 @@
 			return FALSE
 		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes the locker open from within!</span>")
 		to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
-		addtimer(CALLBACK(src, .proc/break_closet, user, C), 10)
+		addtimer(CALLBACK(src, .proc/break_closet, user, C), 5)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
 	return used
 
-/datum/action/changeling/biodegrade/proc/rip_straightjacket(mob/living/carbon/human/user, obj/S)
+/datum/action/bloodsucker/targeted/brawn/proc/rip_straightjacket(mob/living/carbon/human/user, obj/S)
 	if(S && user.wear_suit == S)
-		new /obj/effect/decal/cleanable/greenglow(S.drop_location())
 		qdel(S)
 
 /datum/action/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/C)

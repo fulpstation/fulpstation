@@ -86,11 +86,11 @@
 	return ..()
 
 /obj/structure/closet/crate/proc/UnclaimCoffin()
-	if (resident)
+	if(resident)
 		// Vamp Un-Claim
-		if (resident.mind)
+		if(resident.mind)
 			var/datum/antagonist/bloodsucker/bloodsuckerdatum = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-			if (bloodsuckerdatum && bloodsuckerdatum.coffin == src)
+			if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
 				bloodsuckerdatum.coffin = null
 				bloodsuckerdatum.lair = null
 			to_chat(resident, "<span class='danger'><span class='italics'>You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another.</span></span>")
@@ -98,9 +98,9 @@
 
 /obj/structure/closet/crate/coffin/can_open(mob/living/user)
 	// You cannot lock in/out a coffin's owner. SORRY.
-	if (locked)
+	if(locked)
 		if(user == resident)
-			if (welded)
+			if(welded)
 				welded = FALSE
 				update_icon()
 			//to_chat(user, "<span class='notice'>You flip a secret latch and unlock [src].</span>") // Don't bother. We know it's unlocked.
@@ -112,14 +112,14 @@
 	return ..()
 
 /obj/structure/closet/crate/coffin/close(mob/living/user)
-	if (!..())
+	if(!..())
 		return FALSE
 	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
-	if ((user in src))
+	if((user in src))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if (bloodsuckerdatum)
+		if(bloodsuckerdatum)
 			LockMe(user)
-			if (!bloodsuckerdatum.coffin && !resident) //Claim?
+			if(!bloodsuckerdatum.coffin && !resident) //Claim?
 				switch(alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair","Yes", "No"))
 					if("Yes")
 						ClaimCoffin(user)
@@ -129,13 +129,13 @@
 			// Heal
 			if(bloodsuckerdatum.HandleHealing(0)) // Healing Mult 0 <--- We only want to check if healing is valid!
 				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-				bloodsuckerdatum.Torpor_Begin()
+			//	bloodsuckerdatum.Torpor_Begin() // In case you're entering a coffin to heal, not entering Torpor.
 			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
 	return TRUE
 
 /obj/structure/closet/crate/coffin/attackby(obj/item/W, mob/user, params)
 	// You cannot weld or deconstruct an owned coffin.
-	if (resident != null && user != resident) // Owner can destroy their own coffin.
+	if(resident != null && user != resident) // Owner can destroy their own coffin.
 		if(opened)
 			if(istype(W, cutting_tool))
 				to_chat(user, "<span class='notice'>This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src].</span>")
@@ -148,7 +148,7 @@
 		var/pry_time = pryLidTimer * W.toolspeed // Pry speed must be affected by the speed of the tool.
 		user.visible_message("<span class='notice'>[user] tries to pry the lid off of [src] with [W].</span>", \
 							  "<span class='notice'>You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)].</span>")
-		if (!do_mob(user,src,pry_time))
+		if(!do_mob(user,src,pry_time))
 			return
 		bust_open()
 		user.visible_message("<span class='notice'>[user] snaps the door of [src] wide open.</span>", \
@@ -158,19 +158,19 @@
 
 /obj/structure/closet/crate/coffin/AltClick(mob/user)
 	// Distance Check (Inside Of)
-	if (user in src) // user.Adjacent(src)
+	if(user in src) // user.Adjacent(src)
 		LockMe(user, !locked)
 
 /obj/structure/closet/crate/proc/LockMe(mob/user, inLocked = TRUE)
 		// Lock
-	if (user == resident)
-		if (!broken)
+	if(user == resident)
+		if(!broken)
 			locked = inLocked
 			to_chat(user, "<span class='notice'>You flip a secret latch and [locked?"":"un"]lock yourself inside [src].</span>")
 		else
 			to_chat(resident, "<span class='notice'>The secret latch to lock [src] from the inside is broken. You set it back into place...</span>")
-			if (do_mob(resident, src, 50))//sleep(10)
-				if (broken) // Spam Safety
+			if(do_mob(resident, src, 50))//sleep(10)
+				if(broken) // Spam Safety
 					to_chat(resident, "<span class='notice'>You fix the mechanism and lock it.</span>")
 					broken = FALSE
 					locked = TRUE
