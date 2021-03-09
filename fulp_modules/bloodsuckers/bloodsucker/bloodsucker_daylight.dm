@@ -88,6 +88,7 @@
 			var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 			if(istype(bloodsuckerdatum))
 				bloodsuckerdatum.update_sunlight(max(0, time_til_cycle), amDay) // This pings all HUDs
+		sleep(10)
 		time_til_cycle--
 
 /obj/effect/sunlight/proc/warn_daylight(danger_level = 0, vampwarn = "", vassalwarn = "")

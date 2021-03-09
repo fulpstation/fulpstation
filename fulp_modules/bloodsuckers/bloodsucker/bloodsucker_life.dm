@@ -20,7 +20,6 @@
 	else if(notice_healing)
 		notice_healing = FALSE 	// Apply Low Blood Effects
 	HandleStarving()  // Death
-	update_hud() // Daytime Sleep in Coffin
 	HandleDeath() // Standard Update
 	if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
 		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
