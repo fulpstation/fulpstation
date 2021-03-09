@@ -10,24 +10,20 @@
 		//	ID CARDS	//
 
 /obj/item/card
-	var/datum/job/linkedJobType         // This is a TYPE, not a ref to a particular instance. We'll use this for finding the job and hud icon of each job.
-
-// Used in overwrites to assign the ID card's icon.
-/obj/item/card/id/proc/return_icon_job()
-	if (!linkedJobType || assignment == "Brig Physician") // Using the global list here breaks Fulp Job's ID Card Overlays.
-		return 'fulp_modules/jobs/cards.dmi'
-
-	if (!linkedJobType || assignment == "Unassigned")
-		return 'icons/obj/card.dmi'
-
-	return initial(linkedJobType.id_icon)
+	// var/datum/job/linkedJobType         // This is a TYPE, not a ref to a particular instance. We'll use this for finding the job and hud icon of each job.
 
 // Used to assign the HUD icon linked to the job ID Card.
-/obj/item/card/id/proc/return_icon_hud()
-	if (assignment in GLOB.fulp_job_assignments)
+/obj/item/proc/return_icon_hud()
+	var/datum/job/linkedJobType
+	var/obj/item/card/id/id_card = GetID()
+
+	if(!id_card)
+		return
+	var/card_assignment = id_card.trim?.assignment
+	if (card_assignment in GLOB.fulp_job_assignments)
 		return 'fulp_modules/jobs/huds.dmi'
 
-	if (!linkedJobType || assignment == "Unassigned")
+	if (!linkedJobType || card_assignment == "Unassigned")
 		return 'icons/mob/hud.dmi'
 
 	return initial(linkedJobType.hud_icon)
