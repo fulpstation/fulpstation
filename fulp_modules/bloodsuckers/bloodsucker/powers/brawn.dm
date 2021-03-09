@@ -36,8 +36,6 @@
 /datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
 	var/mob/living/carbon/human/user = owner
 	var/used = FALSE // only one form of shackles removed per use
-	if(!HAS_TRAIT(owner, TRAIT_RESTRAINED)) // || !owner.restrained()
-		return FALSE
 	if(user.handcuffed) //Removes Handcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 		if(!istype(O))
@@ -57,13 +55,12 @@
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
 	if(user.wear_suit && user.wear_suit.breakouttime && !used) //Removes straightjacket
-		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 		if(!istype(S))
 			return FALSE
 		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
 			"<span class='warning'>We tear through our straightjacket!</span>")
-		if(S && user.wear_suit == S)
-			qdel(S)
+		addtimer(CALLBACK(src, .proc/rip_straightjacket, user, S), 10)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
 	if(istype(user.loc, /obj/structure/closet) && !used) //Breaks out of lockers
@@ -76,6 +73,11 @@
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
 	return used
+
+/datum/action/changeling/biodegrade/proc/rip_straightjacket(mob/living/carbon/human/user, obj/S)
+	if(S && user.wear_suit == S)
+		new /obj/effect/decal/cleanable/greenglow(S.drop_location())
+		qdel(S)
 
 /datum/action/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/C)
 	if(C && user.loc == C)

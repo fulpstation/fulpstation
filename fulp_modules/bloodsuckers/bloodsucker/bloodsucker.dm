@@ -91,7 +91,6 @@
 	bloodsucker_greet += "<span class='announce'>Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.</span><br>"
 	bloodsucker_greet += "<span class='announce'>Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.</span><br>"
 	bloodsucker_greet += "<span class='announce'>Bloodsucker Tip: If you don't have a coffin claimed/can't reach it for reasons, lockers can partially guard you from Solar flares.</span><br>"
-	to_chat(owner, bloodsucker_greet)
 	owner.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in un-death you earned the name <b>[fullname]</b>.<br>"
 
