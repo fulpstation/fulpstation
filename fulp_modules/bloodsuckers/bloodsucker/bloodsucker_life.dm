@@ -20,9 +20,9 @@
 	else if(notice_healing)
 		notice_healing = FALSE 	// Apply Low Blood Effects
 	HandleStarving()  // Death
+	update_hud() // Daytime Sleep in Coffin
 	HandleDeath() // Standard Update
-	update_hud()// Daytime Sleep in Coffin
-	if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, "bloodsucker"))
+	if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
 		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			Torpor_Begin()
 				// Wait before next pass
@@ -81,17 +81,21 @@
 		return FALSE
 	if(owner.current.reagents.has_reagent(/datum/reagent/consumable/garlic))
 		return FALSE
-	owner.current.adjustStaminaLoss(-1.5 + (actual_regen * -7) * mult, 0) // Humans lose stamina damage really quickly. Vamps should heal more.
-	owner.current.adjustCloneLoss(-0.1 * (actual_regen * 2) * mult, 0)
-	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult)
+	if(HAS_TRAIT(owner.current, TRAIT_TOXINLOVER)) // Removes slimeperson bonus
+		REMOVE_TRAIT(owner.current, TRAIT_TOXINLOVER, SPECIES_TRAIT)
+	owner.current.adjustStaminaLoss(-5 * (actual_regen * 4) * mult, 0) // Humans lose stamina damage really quickly. Vamps should heal more.
+	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
+	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
+	owner.current.setOxyLoss(0)
+	owner.current.setToxLoss(0)
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
 		var/mob/living/carbon/C = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
 		var/fireheal = 0 	// BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
 			// Check for mult 0 OR death coma. (mult 0 means we're testing from coffin)
 		if(istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0 || HAS_TRAIT(C, TRAIT_FAKEDEATH)))
-			mult *= 4 // Increase multiplier if we're sleeping in a coffin.
-			fireheal = min(C.getFireLoss(), bloodsucker_regen_rate) // NOTE: Burn damage ONLY heals in torpor.
+			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
+			fireheal = min(C.getFireLoss_nonProsthetic(), bloodsucker_regen_rate) // NOTE: Burn damage ONLY heals in torpor.
 			C.extinguish_mob()
 			CureDisabilities() 	// Extinguish Fire
 			C.remove_all_embedded_objects() // Remove Embedded!
@@ -101,18 +105,17 @@
 				return TRUE
 		else if(owner.current.stat >= UNCONSCIOUS) //Faster regeneration and slight burn healing while unconcious
 			mult *= 2
-			fireheal = min(C.getFireLoss(), bloodsucker_regen_rate * 0.2)
+			fireheal = min(C.getFireLoss_nonProsthetic(), bloodsucker_regen_rate * 0.2)
 		// BRUTE: Always Heal
-		var/bruteheal = min(C.getBruteLoss(), actual_regen)
-		var/toxinheal = min(C.getToxLoss(), actual_regen)
+		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen)
 		// Heal if Damaged
-		if(bruteheal + fireheal + toxinheal > 0) 	// Just a check? Don't heal/spend, and return.
+		if(bruteheal + fireheal > 0) 	// Just a check? Don't heal/spend, and return.
 			if(mult == 0)
 				return TRUE
 			// We have damage. Let's heal (one time)
 			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE)// Heal BRUTE / BURN in random portions throughout the body.
 			C.adjustFireLoss(-fireheal * mult, forced=TRUE)
-			AddBloodVolume((bruteheal * -0.5 + fireheal * -1 + toxinheal * -0.2) / mult * costMult)	// Costs blood to heal
+			AddBloodVolume((bruteheal * -0.5 + fireheal * -1) / mult * costMult)	// Costs blood to heal
 			return TRUE // Healed! Done for this tick.
 
 /datum/antagonist/bloodsucker/proc/check_limbs(costMult)
@@ -213,18 +216,18 @@
 	else	// No damage, OR toxin healed AND brute healed and NOT in coffin (since you cannot heal burn)
 		if(total_damage <= 0 || total_toxloss <= 0 && total_brute <= 0 && !istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			// Not Daytime, Not in Torpor, enough health to not die the moment you end torpor
-			if(!SSticker.mode.is_daylight() && HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, "bloodsucker") && total_damage < owner.current.getMaxHealth())
+			if(!SSticker.mode.is_daylight() && HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) && total_damage < owner.current.getMaxHealth())
 				Torpor_End()
 		// Fake Unconscious
 		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)
 			owner.current.Unconscious(20, 1)
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
-	REMOVE_TRAIT(owner.current, "TRAIT_SLEEPIMMUNE", "sleep_immunity") // Go to sleep
+	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep
 	owner.current.stat = UNCONSCIOUS
 	owner.current.apply_status_effect(STATUS_EFFECT_UNCONSCIOUS)
-	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, "bloodsucker") // Come after UNCONSCIOUS or else it fails
-	ADD_TRAIT(owner.current, TRAIT_NODEATH, "bloodsucker")	// Without this, you'll just keep dying while you recover.
+	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
+	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)	// Without this, you'll just keep dying while you recover.
 	owner.current.Jitter(0)
 	// Visuals
 	owner.current.update_sight()
@@ -234,14 +237,14 @@
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
 	if(owner.current.suiciding)
-		owner.current.suiciding = FALSE //Youll die but not for long.
+		owner.current.suiciding = FALSE // You'll die, but not for long.
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	ADD_TRAIT(owner.current, "TRAIT_SLEEPIMMUNE", "sleep_immunity") // Wake up
+	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Wake up
 	owner.current.remove_status_effect(STATUS_EFFECT_UNCONSCIOUS)
-	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, "bloodsucker")
-	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, "bloodsucker")
+	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	CureDisabilities()
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 
@@ -358,7 +361,7 @@
 				SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "vampdisgust", /datum/mood_event/bloodsucker_disgust)
 		sickphase ++
 
-//Start of Bloodsuckers moodlets
+/// Bloodsuckers moodlets
 /datum/mood_event/drankblood
 	description = "<span class='nicegreen'>I have fed greedly from that which nourishes me.</span>\n"
 	mood_change = 10
@@ -413,9 +416,8 @@
 	description = "<span class='boldwarning'>Something I recently ate was horrifyingly disgusting.</span>\n"
 	mood_change = -5
 	timeout = 5 MINUTES
-//End of Bloodsucker moodlets
 
-// Fulpstation Bloodsuckers edit: Easy bloodsucker disgusting/blood removal
+/// Easy bloodsucker 'disgusting blood' removal
 /datum/reagent/proc/disgust_bloodsucker(mob/living/carbon/C, disgust, blood_change, blood_puke = TRUE, force)
 	if(AmBloodsucker(C))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = C.mind.has_antag_datum(/datum/antagonist/bloodsucker)

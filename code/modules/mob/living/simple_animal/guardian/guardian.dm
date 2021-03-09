@@ -550,8 +550,8 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 /obj/item/guardiancreator/proc/spawn_guardian(mob/living/user, mob/dead/candidate)
 	var/guardiantype = "Standard"
 	if(user.mind && user.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Fulpstation Bloodsuckers
-		guardiantype = pick(/mob/living/simple_animal/hostile/guardian/timestop)
-	if(random)
+		guardiantype = /mob/living/simple_animal/hostile/guardian/timestop
+	else if(random) // Fulpstation Bloodsuckers edit: Added 'else'
 		guardiantype = pick(possible_guardians)
 	else
 		guardiantype = input(user, "Pick the type of [mob_name]", "[mob_name] Creation") as null|anything in sortList(possible_guardians)

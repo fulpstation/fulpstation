@@ -82,12 +82,14 @@
 	target_role = rand(0,2) == 0 ? "HEAD" : pick(departs)
 
 	// Heads?
-	if (target_role == "HEAD")
+	if(target_role == "HEAD")
 		target_amount = rand(1, round(SSticker.mode.num_players() / 20))
 		target_amount = clamp(target_amount,1,3)
 	// Department?
 	else
 		switch(target_role)
+			if("Captain")
+				department_string = "Security" // They aren't security, but they do start mindshielded.
 			if("Head of Security")
 				department_string = "Security"
 			if("Head of Personnel")
@@ -106,7 +108,7 @@
 
 //						EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
-	if (target_role == "HEAD")
+	if(target_role == "HEAD")
 		if (target_amount == 1)
 			explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
 		else

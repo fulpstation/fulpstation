@@ -14,50 +14,104 @@
 	var/upgrade_canDoor = FALSE
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
+	. = ..()
 	if(!..(display_error))// DEFAULT CHECKS
 		return FALSE
-	. = TRUE // Break Out of Restraints! (And then cancel)
+	var/usedPower = TRUE // Break Out of Restraints! (And then cancel)
 	if(CheckBreakRestraints())
-		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
-		. = FALSE //return FALSE
+		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN! DEACTIVATE!
+		usedPower = FALSE //return FALSE
 	// Throw Off Attacker! (And then cancel)
-	if (CheckEscapePuller())
-		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
-		. = FALSE //return FALSE
+	if(CheckEscapePuller())
+		//PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN! DEACTIVATE!
+		usedPower = FALSE //return FALSE
 	// Did we successfuly use power to BREAK CUFFS and/or ESCAPE PULLER?
 	// Then PAY COST!
-	if (. == FALSE)
-		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!DEACTIVATE!
-	// NOTE: We use . = FALSE so that we can break cuffs AND throw off our attacker in one use!
+	if(usedPower == FALSE)
+		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN! DEACTIVATE!
+	// NOTE: We use usedPower = FALSE so that we can break cuffs AND throw off our attacker in one use!
 	//return TRUE
 
-/datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
-	return isliving(A) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet)
+/// NOTE: Just like biodegrade.dm, we only remove one thing per use
+/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
+	var/mob/living/carbon/human/user = owner
+	var/used = FALSE // only one form of shackles removed per use
+	if(!HAS_TRAIT(owner, TRAIT_RESTRAINED)) // || !owner.restrained()
+		return FALSE
+	if(user.handcuffed) //Removes Handcuffs
+		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
+		if(!istype(O))
+			return FALSE
+		user.visible_message("<span class='warning'>[user] breaks through the [user.p_their()] [O] like it's nothing!</span>", \
+			"<span class='warning'>We break through our handcuffs!</span>")
+		user.clear_cuffs(O,TRUE)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		used = TRUE
+	if(user.legcuffed) //Removes Legcuffs
+		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
+		if(!istype(O))
+			return FALSE
+		user.visible_message("<span class='warning'>[user] kicks away the [user.p_their()] [O] like it's nothing!</span>", \
+			"<span class='warning'>We discard our legcuffs!</span>")
+		user.clear_cuffs(O,TRUE)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		used = TRUE
+	if(user.wear_suit && user.wear_suit.breakouttime && !used) //Removes straightjacket
+		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+		if(!istype(S))
+			return FALSE
+		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
+			"<span class='warning'>We tear through our straightjacket!</span>")
+		if(S && user.wear_suit == S)
+			qdel(S)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		used = TRUE
+	if(istype(user.loc, /obj/structure/closet) && !used) //Breaks out of lockers
+		var/obj/structure/closet/C = user.loc
+		if(!istype(C))
+			return FALSE
+		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes the locker open from within!</span>")
+		to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
+		addtimer(CALLBACK(src, .proc/break_closet, user, C), 10)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		used = TRUE
+	return used
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/A, display_error)
-	// DEFAULT CHECKS (Distance)
-	if(!..()) // Disable range notice for Brawn.
+/datum/action/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/C)
+	if(C && user.loc == C)
+		C.welded = FALSE
+		C.locked = FALSE
+		C.broken = TRUE
+		C.open()
+
+/datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
+	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
 		return FALSE
-	// Must outside Closet to target anyone!
-	if(!isturf(owner.loc))
-		return FALSE
-	// Check: Self
-	if(A == owner)
-		return FALSE
-	// Target Type: Living
-	if(isliving(A))
-		return TRUE
-	// Target Type: Door
-	else if(istype(A, /obj/machinery/door))
-		return TRUE
-	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
+	var/mob/M = owner.pulledby
+	var/pull_power = M.grab_state
+	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
+	// Knock Down (if Living)
+	if (isliving(M))
+		var/mob/living/L = M
+		L.Knockdown(pull_power * 10 + 20)
+	// Knock Back (before Knockdown, which probably cancels pull)
+	var/send_dir = get_dir(owner, M)
+	var/turf/T = get_ranged_target_turf(M, send_dir, pull_power)
+	owner.newtonian_move(send_dir) // Bounce back in 0 G
+	M.throw_at(T, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
+	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
+	log_combat(owner, M, "used Brawn power")
+	owner.visible_message("<span class='warning'>[owner] tears free of [M]'s grasp!</span>", \
+			 			"<span class='warning'>You shrug off [M]'s grasp!</span>")
+	owner.pulledby = null // It's already done, but JUST IN CASE.
+	return TRUE
 
 /datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/A)
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/carbon/target = A
 	var/mob/living/user = owner
 	// Target Type: Mob
-	if (isliving(target))
+	if(isliving(target))
 		var/mob/living/carbon/user_C = user
 		var/hitStrength = user_C.dna.species.punchdamagehigh * 1.25 + 2
 		// Knockdown!
@@ -88,72 +142,24 @@
 				user.do_attack_animation(D, ATTACK_EFFECT_SMASH)
 				playsound(get_turf(D), 'sound/effects/bang.ogg', 30, 1, -1)
 				D.open(2) // open(2) is like a crowbar or jaws of life.
-	// Target Type: Closet
 
-/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints() 	// NOTE: Just like biodegrade.dm, we only remove one thing per use
-	var/mob/living/carbon/human/user = owner
-	if(!HAS_TRAIT(owner, TRAIT_RESTRAINED)) // || !owner.restrained()
-		return FALSE
-	if(user.handcuffed) //Removes Handcuffs
-		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
-		if(!istype(O))
-			return FALSE
-		user.visible_message("<span class='warning'>[user] breaks through the [user.p_their()] [O] like it's nothing!</span>", \
-			"<span class='warning'>We break through our handcuffs!</span>")
-		user.clear_cuffs(O,TRUE)
-		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
-		return TRUE
-	if(user.legcuffed) //Removes Legcuffs
-		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
-		if(!istype(O))
-			return FALSE
-		user.visible_message("<span class='warning'>[user] kicks away the [user.p_their()] [O] like it's nothing!</span>", \
-			"<span class='warning'>We discard our legcuffs!</span>")
-		user.clear_cuffs(O,TRUE)
-		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
-		return TRUE
-	if(user.wear_suit && user.wear_suit.breakouttime) //Removes straightjacket
-		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_ICLOTHING)
-		if(S && user.wear_suit == S)
-			user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
-		"<span class='warning'>We tear through our straightjacket!</span>")
-			qdel(S)
-			playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
-			return TRUE
-	..()
-	return FALSE
+/datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
+	return isliving(A) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet)
 
-/datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
-	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
+/datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/A, display_error)
+	// DEFAULT CHECKS (Distance)
+	if(!..()) // Disable range notice for Brawn.
 		return FALSE
-	var/mob/M = owner.pulledby
-	var/pull_power = M.grab_state
-	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
-	// Knock Down (if Living)
-	if (isliving(M))
-		var/mob/living/L = M
-		L.Knockdown(pull_power * 10 + 20)
-	// Knock Back (before Knockdown, which probably cancels pull)
-	var/send_dir = get_dir(owner, M)
-	var/turf/T = get_ranged_target_turf(M, send_dir, pull_power)
-	owner.newtonian_move(send_dir) // Bounce back in 0 G
-	M.throw_at(T, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
-	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
-	log_combat(owner, M, "used Brawn power")
-	owner.visible_message("<span class='warning'>[owner] tears free of [M]'s grasp!</span>", \
-			 			"<span class='warning'>You shrug off [M]'s grasp!</span>")
-	owner.pulledby = null // It's already done, but JUST IN CASE.
-	return TRUE
-/* Doesnt work
-/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakLocker()
-	if(!istype(owner.loc, /obj/structure/closet))
+	// Must outside Closet to target anyone!
+	if(!isturf(owner.loc))
 		return FALSE
-		playsound(get_turf(owner), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
-		if(do_mob(owner ,target, 25))
-			var/obj/structure/closet/C = owner.loc
-			to_chat(owner, "<span class='notice'>You prepare to tear open the [C].</span>")
-			owner.do_attack_animation(C, ATTACK_EFFECT_SMASH)
-			playsound(get_turf(C), 'sound/effects/bang.ogg', 30, 1, -1)
-			C.bust_open()
-			return TRUE
-*/
+	// Check: Self
+	if(A == owner)
+		return FALSE
+	// Target Type: Living
+	if(isliving(A))
+		return TRUE
+	// Target Type: Door
+	else if(istype(A, /obj/machinery/door))
+		return TRUE
+	return ..() // yes, FALSE! You failed if you got here! BAD TARGET

@@ -130,7 +130,7 @@
 
 		//H.disabilities = prev_disabilities // Restore HUSK, CLUMSY, etc.
 		if (prev_disfigured)
-			ADD_TRAIT(H, TRAIT_DISFIGURED, "husk") // NOTE: We are ASSUMING husk. // H.status_flags |= DISFIGURED	// Restore "Unknown" disfigurement
+			ADD_TRAIT(H, TRAIT_DISFIGURED, TRAIT_HUSK) // NOTE: We are ASSUMING husk. // H.status_flags |= DISFIGURED	// Restore "Unknown" disfigurement
 		H.dna.features = prev_features
 
 		// Apply Appearance
