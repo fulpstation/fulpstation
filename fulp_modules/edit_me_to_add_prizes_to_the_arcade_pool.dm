@@ -1,7 +1,7 @@
 /obj/machinery/computer/arcade/Initialize()
 	. = ..()
 	if(GLOB.arcade_prize_pool)
-	//add item here so it gets in the prize pool
+	///add item here so it gets in the prize pool
 		GLOB.arcade_prize_pool += list(
 		/obj/item/toy/plush/batong = 1,
 		/obj/item/storage/box/snappops = 2,
@@ -62,4 +62,3 @@
 		/obj/item/clothing/glasses/trickblindfold = 2)
 
 
-	///code made by Jhon fucking Willard.
