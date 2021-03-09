@@ -9,7 +9,7 @@
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
 	short_desc = "You are a cytological researcher in a remote scientific outpost."
-	flavour_text = "You and your fellow researcher are studying cellular biology to better understand the origins of your species.Sample the subjects provided and the surrounding area for testing."
+	flavour_text = "You and your fellow researcher are studying cellular biology to better understand the origins of your species. Sample the subjects provided and the surrounding area for testing."
 	assignedrole = "Cytological Researcher"
 	outfit = /datum/outfit/russian_beefman
 
