@@ -1,5 +1,3 @@
-
-
 /obj/item/toy/plush/batong
 	name = "Batong"
 	desc = "A cheaply made toy. Looks like it need some recharge maybe security can help you"
