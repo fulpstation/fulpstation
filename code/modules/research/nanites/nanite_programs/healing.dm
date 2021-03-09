@@ -92,7 +92,7 @@
 /datum/nanite_program/blood_restoring/check_conditions()
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/C = host_mob
-		if(C.blood_volume >= (BLOOD_VOLUME_SAFE) || (HAS_TRAIT(C, BLOODSUCKER_TRAIT))) // Fulpstation Bloodsucker edit: No Nanites heaing!
+		if(C.blood_volume >= (BLOOD_VOLUME_SAFE)
 			return FALSE
 	else
 		return FALSE
