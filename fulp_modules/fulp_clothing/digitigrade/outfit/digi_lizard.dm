@@ -2,7 +2,7 @@
 
 	// What gives them the shoes
 	var/obj/item/clothing/shoes/newShoes
-	if(!(DIGITIGRADE in H.dna.species_traits))
+	if(!(DIGITIGRADE in H.dna.species.species_traits))
 		return
 	switch(J.title)
 

@@ -20,7 +20,7 @@ Ports over Digigrade Shoes from the old repo!
 
 ### Additional information:
 
-It adds a folder for clothing and outfits that others can use, maybe.
+It adds a folder for clothing that others can use, maybe.
 
 ### Credits:
 
