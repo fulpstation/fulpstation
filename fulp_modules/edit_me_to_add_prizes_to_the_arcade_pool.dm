@@ -1,5 +1,6 @@
 /obj/machinery/computer/arcade/Initialize()
 	. = ..()
+	// this overwrites the prize poll from the TG files (code\game\machinery\computer\arcades.dm)
 	if(GLOB.arcade_prize_pool)
 	///add item here so it gets in the prize pool
 		GLOB.arcade_prize_pool += list(
