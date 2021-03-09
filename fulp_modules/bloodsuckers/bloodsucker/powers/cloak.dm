@@ -41,12 +41,12 @@
 			if(lum > walk_threshold)
 				if(runintent)
 					user.toggle_move_intent()
-					ADD_TRAIT(user, TRAIT_NORUNNING, "cloak of darkness")
+					ADD_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 
 			if(lum < walk_threshold)
 				if(!runintent)
 					user.toggle_move_intent()
-					REMOVE_TRAIT(user, TRAIT_NORUNNING, "cloak of darkness")
+					REMOVE_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 
 		sleep(5) // Check every few ticks
 
@@ -60,7 +60,7 @@
 
 /datum/action/bloodsucker/cloak/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()
-	REMOVE_TRAIT(user, TRAIT_NORUNNING, "cloak of darkness")
+	REMOVE_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 	user.alpha = 255
 
 	runintent = (user.m_intent == MOVE_INTENT_RUN)

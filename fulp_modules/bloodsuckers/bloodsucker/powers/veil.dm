@@ -7,10 +7,8 @@
 	amToggle = TRUE
 	bloodsucker_can_buy = TRUE
 	warn_constant_cost = TRUE
-
 	// Outfit Vars
 	var/list/original_items = list()
-
 	// Identity Vars
 	var/prev_gender
 	var/prev_skin_tone
@@ -33,19 +31,15 @@
 
 
 /datum/action/bloodsucker/veil/ActivatePower()
-
 	cast_effect() // POOF
-
 	//if (blahblahblah)
 	//	Disguise_Outfit()
-
 	Disguise_FaceName()
 
 
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
-
+	return
 	// Step One: Back up original items
-
 
 
 
@@ -83,33 +77,33 @@
 	H.undershirt = random_undershirt(H.gender)
 	H.socks = random_socks(H.gender)
 	//H.eye_color = random_eye_color()
-	REMOVE_TRAIT(H, TRAIT_DISFIGURED, null) //
+	REMOVE_TRAIT(H, TRAIT_DISFIGURED, null)
 	H.dna.features = random_features()
 
-	// Beefmen - PLEASE ADD THIS ONCE WE HAVE BEEFMEN WORKING
-	//proof_beefman_features(H.dna.features)
-	//H.dna.species.set_beef_color(H)
+	// Beefmen
+	proof_beefman_features(H.dna.features)
+	H.dna.species.set_beef_color(H)
 
 	// Apply Appearance
 	H.update_body() // Outfit and underware, also body.
-	//H.update_mutant_bodyparts() // Lizard tails etc
+	H.update_mutant_bodyparts() // Lizard tails etc
 	H.update_hair()
 	H.update_body_parts()
 
 	// Wait here til we deactivate power or go unconscious
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	while (ContinueActive(owner) && istype(bloodsuckerdatum))//active && owner && owner.stat == CONSCIOUS)
+	while(ContinueActive(owner) && istype(bloodsuckerdatum))//active && owner && owner.stat == CONSCIOUS)
 		bloodsuckerdatum.AddBloodVolume(-0.2)
 		sleep(10)
 
 	// Wait for a moment if you fell unconscious...
-	if (owner && owner.stat > CONSCIOUS)
+	if(owner && owner.stat > CONSCIOUS)
 		sleep(50)
 
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()
-	if (ishuman(user))
+	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 
 		// Revert Identity
@@ -141,8 +135,6 @@
 		cast_effect() // POOF
 
 
-
-
 	// CAST EFFECT //	// General effect (poof, splat, etc) when you cast. Doesn't happen automatically!
 /datum/action/bloodsucker/veil/proc/cast_effect()
 	// Effect
@@ -158,5 +150,6 @@
 	opaque = FALSE
 	amount = 0
 	lifetime = 0
+
 /obj/effect/particle_effect/smoke/vampsmoke/fade_out(frames = 6)
 	..(frames)

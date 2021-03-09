@@ -45,7 +45,7 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	if(user.legcuffed) //Removes Legcuffs
+	else if(user.legcuffed) //Removes Legcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 		if(!istype(O))
 			return FALSE
@@ -54,22 +54,22 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	if(user.wear_suit && user.wear_suit.breakouttime && !used) //Removes straightjacket
+	else if(user.wear_suit && user.wear_suit.breakouttime && !used) //Removes straightjacket
 		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 		if(!istype(S))
 			return FALSE
 		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
 			"<span class='warning'>We tear through our straightjacket!</span>")
-		addtimer(CALLBACK(src, .proc/rip_straightjacket, user, S), 5)
+		addtimer(CALLBACK(src, .proc/rip_straightjacket, user, S), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	if(istype(user.loc, /obj/structure/closet) && !used) //Breaks out of lockers
+	else if(istype(user.loc, /obj/structure/closet) && !used) //Breaks out of lockers
 		var/obj/structure/closet/C = user.loc
 		if(!istype(C))
 			return FALSE
 		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes the locker open from within!</span>")
 		to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
-		addtimer(CALLBACK(src, .proc/break_closet, user, C), 5)
+		addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
 	return used

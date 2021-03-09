@@ -66,7 +66,7 @@
 	walk_towards(owner, T, 0.1, 10) // NOTE: this runs in the background! to cancel it, you need to use walk(owner.current,0), or give them a new path.
 	var/safety = 10
 	while(get_turf(owner) != T && safety > 0 && !(isliving(target) && target.Adjacent(owner)))
-		ADD_TRAIT(user, TRAIT_IMMOBILIZED, "lunging") // No Motion
+		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // No Motion
 		sleep(1)
 		safety --
 
@@ -89,7 +89,7 @@
 		//target.Paralyze(10,1)
 		target.grabbedby(owner) 										// Taken from mutations.dm under changelings
 		target.grippedby(owner, instant = TRUE) //instant aggro grab
-		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "lunging")
+		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 		//	UNCONSCIOUS or MUTE!
 		//owner.start_pulling(target,GRAB_AGGRESSIVE)    // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
 
@@ -97,5 +97,5 @@
 
 
 /datum/action/bloodsucker/targeted/lunge/DeactivatePower(mob/living/user = owner, mob/living/target)
-	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "lunging")
+	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	..() // activate = FALSE

@@ -186,7 +186,7 @@
 		user.visible_message("<span class='warning'>[user] closes [user.p_their()] mouth around [target]'s neck!</span>", \
 						 "<span class='warning'>You sink your fangs into [target]'s neck.</span>")
 	// My mouth is full!
-	ADD_TRAIT(user, TRAIT_MUTE, "bloodsucker_feed")
+	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 
 	// Begin Feed Loop
 	var/warning_target_inhuman = FALSE
@@ -196,12 +196,12 @@
 	var/amount_taken = 0
 	var/blood_take_mult = amSilent ? 0.3 : 1 // Quantity to take per tick, based on Silent or not.
 	// Activate Effects
-	//target.add_trait(TRAIT_MUTE, "bloodsucker_victim")  // <----- Make mute a power you buy?
+	//target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
 
 	// FEEEEEEEEED!!! //
 	bloodsuckerdatum.poweron_feed = TRUE
 	while(bloodsuckerdatum && target && active)
-		ADD_TRAIT(user, TRAIT_IMMOBILIZED, "bloodsucker_feed") // user.canmove = 0 // Prevents spilling blood accidentally.
+		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
 		if(!do_mob(user, target, 20, 0, 0, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
 			// May have disabled Feed during do_mob
@@ -214,7 +214,7 @@
 				to_chat(user, "<span class='warning'>Your feeding has been interrupted!</span>")
 				user.visible_message("<span class='danger'>[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>", \
 						 			 "<span class='userdanger'>Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>")
-				REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "bloodsucker_feed")
+				REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 
 				// Deal Damage to Target (should have been more careful!)
 				if(iscarbon(target))
