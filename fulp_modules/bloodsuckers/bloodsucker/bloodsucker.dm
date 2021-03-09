@@ -31,6 +31,8 @@
 	// OBJECTIVES
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
+	// HUD
+	var/valuecolor
 	// TRACKING
 	var/foodInGut 					// How much food to throw up later. You shouldn't have eaten that.
 	var/warn_sun_locker				// So we only get the locker burn message once per day.
@@ -466,7 +468,7 @@
 
 //					G A M E P L A Y
 //
-//	Bloodsuckers should be inherrently powerful: they never stay dead, and they can hide in plain sight
+//	Bloodsuckers should be inherently powerful: they never stay dead, and they can hide in plain sight
 //  better than any other antagonist aboard the station.
 //
 //	However, only elder Bloodsuckers are the powerful creatures of legend. Ranking up as a Bloodsucker
@@ -525,14 +527,14 @@
 //
 //	2) BIBLIOPHILE:		Research objects of interest, study items looking for clues of ancient secrets, and hunt down the clues to a Vampiric artifact of horrible power.
 //
-//	3) CRYPT LORD:		Build a terrifying sepulcher to your evil, with servants to lavish upon you in undeath. The trappings of a true crypt lord come at grave cost.
+//	3) CRYPT LORD:		Build a terrifying sepulcher to your evil, with servants to lavish upon you in undeath. The trappings of a true crypt lord come at a grave cost.
 //
-//	4) GOURMOND:		Oh, to taste all the delicacies the station has to offer! DRINK ## BLOOD FROM VICTIMS WHO LIVE, EAT ## ORGANS FROM VICTIMS WHO LIVE
+//	4) GOURMAND:		Oh, to taste all the delicacies the station has to offer! DRINK ## BLOOD FROM VICTIMS WHO LIVE, EAT ## ORGANS FROM VICTIMS WHO LIVE
 
 
 //			Vassals
 //
-// - Loyal to (and In Love With) Master
+// - Loyal to their Master
 // - Master can speak to, summon, or punish his Vassals, even while asleep or torpid.
 // - Master may have as many Vassals as they want
 
@@ -545,7 +547,7 @@
 //			** shadowpeople.dm has rules for healing.
 //
 // KILLING: It's almost impossible to track who someone has directly killed. But an Admin could be given
-//			an easy way to whip a Bloodsucker for cruel behavior, as a RP mechanic but not a punishment.
+//			an easy way to whip a Bloodsucker for cruel behavior, as an RP mechanic but not a punishment.
 //			**
 //
 // HUNGER:  Just keep adjusting mob's nutrition to Blood Hunger level. No need to cancel nutrition from eating.
@@ -627,12 +629,12 @@
 
 /datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
 	// Ghost Admins always see Bloodsuckers/Vassals
-	if (isobserver(M))
+	if(isobserver(M))
 		return TRUE
 	// GOAL: Vassals see their Master and his other Vassals.
 	// GOAL: Vassals can BE seen by their Bloodsucker and his other Vassals.
 	// GOAL: Bloodsuckers can see each other.
-	if (!M || !A || !ismob(A) || !M.mind)// || !A.mind)
+	if(!M || !A || !ismob(A) || !M.mind)// || !A.mind)
 		return FALSE
 	var/mob/A_mob = A
 	if (!A_mob.mind)
@@ -641,19 +643,19 @@
 	var/datum/antagonist/bloodsucker/atom_B = A_mob.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/datum/antagonist/bloodsucker/mob_B = M.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Check 1) Are we both Bloodsuckers?
-	if (atom_B && mob_B)
+	if(atom_B && mob_B)
 		return TRUE
 	// Find Datums: Vassal
 	var/datum/antagonist/vassal/atom_V = A_mob.mind.has_antag_datum(/datum/antagonist/vassal)
 	var/datum/antagonist/vassal/mob_V = M.mind.has_antag_datum(/datum/antagonist/vassal)
 	// Check 2) If they are a BLOODSUCKER, then are they my Master?
-	if (mob_V && atom_B == mob_V.master)
+	if(mob_V && atom_B == mob_V.master)
 		return TRUE // SUCCESS!
 	// Check 3) If I am a BLOODSUCKER, then are they my Vassal?
-	if (mob_B && atom_V && (atom_V in mob_B.vassals))
+	if(mob_B && atom_V && (atom_V in mob_B.vassals))
 		return TRUE // SUCCESS!
 	// Check 4) If we are both VASSAL, then do we have the same master?
-	if (atom_V && mob_V && atom_V.master == mob_V.master)
+	if(atom_V && mob_V && atom_V.master == mob_V.master)
 		return TRUE // SUCCESS!
 	return FALSE
 
@@ -706,7 +708,6 @@
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
-var/valuecolor
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
