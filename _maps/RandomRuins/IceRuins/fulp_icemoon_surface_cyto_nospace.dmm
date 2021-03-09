@@ -15,9 +15,8 @@
 /turf/open/floor/grass,
 /area/ruin/powered/beefcyto)
 "bx" = (
-/obj/structure/table/reinforced,
-/obj/item/wrench,
-/obj/item/storage/box/beakers/bluespace,
+/obj/structure/closet/emcloset/anchored,
+/obj/item/defibrillator/loaded,
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "bC" = (
@@ -58,6 +57,11 @@
 /area/ruin/powered/beefcyto)
 "dr" = (
 /obj/structure/table/glass,
+/obj/item/hatchet,
+/obj/item/cultivator,
+/obj/item/reagent_containers/glass/bucket,
+/obj/item/seeds/chanter/jupitercup,
+/obj/item/seeds/chanter/jupitercup,
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "dI" = (
@@ -66,8 +70,8 @@
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "dW" = (
-/obj/structure/fence/corner{
-	dir = 1
+/obj/structure/fence{
+	dir = 8
 	},
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
@@ -130,9 +134,23 @@
 /turf/open/floor/plasteel/kitchen_coldroom,
 /area/ruin/powered/beefcyto)
 "gN" = (
-/obj/structure/fans/tiny/invisible,
-/turf/open/floor/plating/asteroid/snow/atmosphere,
-/area/icemoon/underground/explored)
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/structure/closet/crate,
+/obj/item/borg/upgrade/modkit/damage,
+/obj/item/borg/upgrade/modkit/damage,
+/obj/item/borg/upgrade/modkit/range,
+/obj/item/borg/upgrade/modkit/cooldown,
+/turf/open/floor/plasteel/white,
+/area/ruin/powered/beefcyto)
 "hn" = (
 /obj/effect/decal/cleanable/garbage,
 /turf/open/floor/plating/asteroid/snow/atmosphere,
@@ -146,8 +164,11 @@
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "hX" = (
-/obj/machinery/vending/boozeomat/all_access,
-/turf/open/floor/plasteel/cafeteria,
+/obj/machinery/vending/boozeomat{
+	req_access = null;
+	set_obj_flags = "EMAGGED"
+	},
+/turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "ie" = (
 /turf/open/floor/mineral/plastitanium/red,
@@ -182,6 +203,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
+"lr" = (
+/obj/structure/sign/warning/biohazard,
+/turf/closed/wall/r_wall,
+/area/ruin/powered/beefcyto)
 "lv" = (
 /obj/machinery/light{
 	dir = 8
@@ -204,7 +229,7 @@
 /area/ruin/powered/beefcyto)
 "mV" = (
 /obj/machinery/button/door{
-	id_tag = "carp door";
+	id = "carp door";
 	name = "carp door bolt";
 	normaldoorcontrol = 1;
 	specialfunctions = 4
@@ -231,12 +256,12 @@
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "ng" = (
-/obj/machinery/plumbing/growing_vat,
-/turf/open/floor/plasteel/white,
-/area/ruin/powered/beefcyto)
+/obj/structure/fans/tiny/invisible,
+/turf/open/floor/plating/asteroid/snow/atmosphere,
+/area/icemoon/underground/explored)
 "nh" = (
-/obj/machinery/plumbing/input,
-/turf/open/floor/plasteel/white,
+/obj/item/wallframe/extinguisher_cabinet,
+/turf/closed/wall/r_wall,
 /area/ruin/powered/beefcyto)
 "nH" = (
 /obj/effect/turf_decal/trimline/blue/filled/line,
@@ -465,6 +490,15 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
+"yQ" = (
+/obj/effect/turf_decal/trimline/purple/filled/line{
+	dir = 1
+	},
+/obj/structure/table/reinforced,
+/obj/item/wrench,
+/obj/item/wrench,
+/turf/open/floor/plasteel/white,
+/area/ruin/powered/beefcyto)
 "yV" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 8
@@ -476,11 +510,8 @@
 /turf/open/floor/grass,
 /area/ruin/powered/beefcyto)
 "zl" = (
-/obj/machinery/vending/hydronutrients{
-	default_price = null;
-	extra_price = null;
-	fair_market_price = null
-	},
+/obj/machinery/vending/hydronutrients,
+/obj/effect/turf_decal/trimline/green/filled/line,
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "zO" = (
@@ -542,6 +573,10 @@
 	},
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"Fm" = (
+/obj/structure/sign/warning/xeno_mining,
+/turf/closed/wall/r_wall,
+/area/ruin/powered/beefcyto)
 "Fv" = (
 /obj/machinery/smartfridge/chemistry/preloaded,
 /turf/open/floor/plasteel/white,
@@ -622,6 +657,7 @@
 	},
 /obj/structure/table/reinforced,
 /obj/item/construction/plumbing,
+/obj/item/storage/box/beakers/bluespace,
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "JF" = (
@@ -719,7 +755,7 @@
 /area/ruin/powered/beefcyto)
 "Nu" = (
 /obj/machinery/button/door{
-	id_tag = "migo door";
+	id = "migo door";
 	name = "migo door bolt";
 	normaldoorcontrol = 1;
 	specialfunctions = 4
@@ -775,6 +811,7 @@
 /obj/item/stack/sheet/mineral/plasma{
 	amount = 5
 	},
+/obj/item/storage/box/syringes,
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "Qk" = (
@@ -830,6 +867,7 @@
 /area/ruin/powered/beefcyto)
 "Sx" = (
 /obj/machinery/vending/hydroseeds,
+/obj/effect/turf_decal/trimline/green/filled/line,
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "SG" = (
@@ -850,7 +888,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/beefcyto)
 "TQ" = (
-/obj/structure/sign/warning/biohazard,
+/obj/structure/sign/departments/xenobio,
 /turf/closed/wall/r_wall,
 /area/ruin/powered/beefcyto)
 "Ue" = (
@@ -914,6 +952,14 @@
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 9
 	},
+/obj/structure/closet/crate,
+/obj/item/reagent_containers/blood/ethereal,
+/obj/item/reagent_containers/blood/ethereal,
+/obj/item/reagent_containers/blood/o_minus,
+/obj/item/reagent_containers/blood/o_minus,
+/obj/item/reagent_containers/blood/o_minus,
+/obj/item/reagent_containers/blood/ethereal,
+/obj/item/reagent_containers/blood/ethereal,
 /turf/open/floor/plasteel/white,
 /area/ruin/powered/beefcyto)
 "Xf" = (
@@ -952,6 +998,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/item/clothing/head/chicken,
 /turf/open/floor/grass,
 /area/ruin/powered/beefcyto)
 "YF" = (
@@ -1184,7 +1231,7 @@ ug
 ug
 ug
 ug
-bI
+lr
 xl
 xF
 bI
@@ -1192,7 +1239,7 @@ bI
 bI
 bI
 TQ
-bI
+nh
 Sv
 fu
 fu
@@ -1266,15 +1313,15 @@ bI
 rj
 Gb
 bI
-bI
+nh
 bI
 ii
 tF
 JF
-Lt
+yQ
 fu
-ng
-nh
+fu
+fu
 fu
 tt
 bI
@@ -1310,7 +1357,7 @@ bI
 bI
 ii
 JF
-Sv
+Lt
 fu
 fu
 fu
@@ -1331,7 +1378,7 @@ ug
 bI
 bI
 bI
-bI
+Fm
 bI
 bI
 bI
@@ -1419,7 +1466,7 @@ ww
 Kz
 fu
 fu
-bx
+YF
 Fv
 fu
 fu
@@ -1531,7 +1578,7 @@ ug
 ug
 ug
 ug
-ug
+mY
 bI
 bI
 XH
@@ -1571,7 +1618,7 @@ ug
 ug
 ug
 dW
-SG
+ng
 bI
 bI
 bI
@@ -1610,7 +1657,7 @@ bI
 bI
 bI
 bI
-gN
+ii
 ii
 hn
 bI
@@ -1652,7 +1699,7 @@ JF
 ii
 ii
 ii
-bI
+lr
 xl
 xF
 bI
@@ -1686,7 +1733,7 @@ qf
 JF
 fu
 nd
-yi
+gN
 JF
 ii
 Is
@@ -1723,7 +1770,7 @@ On
 bI
 bI
 bI
-Sp
+bx
 nd
 PB
 bI
@@ -1842,7 +1889,7 @@ qf
 JF
 fu
 nd
-yi
+gN
 JF
 ug
 ug
