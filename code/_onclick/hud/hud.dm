@@ -108,9 +108,6 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	spacesuit = null
 	lingchemdisplay = null
 	lingstingdisplay = null
-	blood_display = null // Fulpstation Bloodsuckers
-	vamprank_display = null
-	sunlight_display = null // Fulpstation Bloodsuckers
 	blobpwrdisplay = null
 	alien_plasma_display = null
 	alien_queen_finder = null
