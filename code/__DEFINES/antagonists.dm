@@ -71,6 +71,13 @@
 #define CONTRACT_UPLINK_PAGE_CONTRACTS "CONTRACTS"
 #define CONTRACT_UPLINK_PAGE_HUB "HUB"
 
+// Fulpstation Bloodsuckers
+#define ANTAG_DATUM_BLOODSUCKER			/datum/antagonist/bloodsucker
+#define ANTAG_DATUM_VASSAL				/datum/antagonist/vassal
+#define ANTAG_DATUM_HUNTER				/datum/antagonist/monsterhunter
+#define BLOODSUCKER_LEVEL_TO_EMBRACE	3
+#define MARTIALART_HUNTER "hunter-fu"
+
 ///It is faster as a macro than a proc
 #define IS_HERETIC(mob) (mob.mind?.has_antag_datum(/datum/antagonist/heretic))
 #define IS_HERETIC_MONSTER(mob) (mob.mind?.has_antag_datum(/datum/antagonist/heretic_monster))

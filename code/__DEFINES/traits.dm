@@ -204,7 +204,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NORUNNING         "norunning"		// Fulpstation Bloodsuckers edit: You walk!
 #define TRAIT_NOPULSE           "nopulse"		// Fulpstation Bloodsuckers edit: Your heart doesn't beat.
 #define TRAIT_COLDBLOODED     "coldblooded"	// Fulpstation Bloodsuckers edit: Your body is literal room temperature. Does not make you immune to the temp.
-//#define TRAIT_NOGUT           "nogut"		// Fulpstation Bloodsuckers edit: Your chest cant be gutted of organs -- Replaced with TRAIT_NODISMEMBER, kept here in case a revert is needed.
 #define	TRAIT_STRONG_GRABBER	"strong_grabber"
 #define	TRAIT_MAGIC_CHOKE		"magic_choke"
 #define TRAIT_SOOTHED_THROAT    "soothed-throat"
