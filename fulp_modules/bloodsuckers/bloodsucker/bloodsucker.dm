@@ -7,7 +7,6 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	antag_hud_type = ANTAG_HUD_BLOODSUCKER
-	antag_hud_name = "bloodsucker"
 	hijack_speed = 0.5
 	// NAME
 	var/bloodsucker_name						// My Dracula style name
@@ -44,23 +43,24 @@
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NODISMEMBER)
 
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
+	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	vamphud.join_hud(owner.current)
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
+
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
+	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	vamphud.leave_hud(owner.current)
 
 ///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	SSticker.mode.bloodsuckers |= owner // Only add after they've been given objectives
 	SSticker.mode.check_start_sunlight() // Start Sunlight? (if first Vamp)
+	AssignStarterPowersAndStats() // Give Powers & Stats
 	SelectFirstName() // Name & Title
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
-	AssignStarterPowersAndStats() // Give Powers & Stats
 	forge_bloodsucker_objectives()
-	add_antag_hud(antag_hud_type, antag_hud_name, owner.current)
 	LifeTick()
 	. = ..()
 
@@ -68,9 +68,8 @@
 /datum/antagonist/bloodsucker/on_removal()
 	SSticker.mode.bloodsuckers -= owner
 	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
-	ClearAllPowersAndStats()// Clear Powers & Stats
-	remove_antag_hud(antag_hud_type, owner.current)
 	owner.special_role = null
+	ClearAllPowersAndStats()// Clear Powers & Stats
 	if(!LAZYLEN(owner.antag_datums))
 		owner.current.remove_from_current_living_antags()
 	if(!silent && owner.current)
@@ -611,23 +610,12 @@
 		// HUD! //
 /////////////////////////////////////
 
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.join_hud(owner.current)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
-
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.leave_hud(owner.current)
-
-/datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
-
-/datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
-	if (!check_valid_hud_user(M,A)) 	// FULP: This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
+/datum/atom_hud/antag/add_to_single_hud(mob/M, atom/A)
+	if(!check_valid_hud_user(M,A)) // FULP: This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
 		return
 	..()
 
-/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
+/datum/atom_hud/antag/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
 	// Ghost Admins always see Bloodsuckers/Vassals
 	if(isobserver(M))
 		return TRUE
