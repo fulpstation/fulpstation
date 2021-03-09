@@ -2,7 +2,7 @@
 	. = ..()
 	// this overwrites the prize poll from the TG files (code\game\machinery\computer\arcades.dm)
 	if(GLOB.arcade_prize_pool)
-	///add item here so it gets in the prize pool
+	///add item below to add it to the prize pool
 		GLOB.arcade_prize_pool += list(
 		/obj/item/toy/plush/batong = 1,
 		/obj/item/storage/box/snappops = 2,
