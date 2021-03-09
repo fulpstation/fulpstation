@@ -24,6 +24,7 @@
 	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/monsterhunter/on_gain()
+	. = ..()
 	SSticker.mode.monsterhunter += owner
 	// Hunter Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
@@ -53,7 +54,7 @@
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
-	. = ..()
+	return ..()
 
 /datum/antagonist/monsterhunter/on_removal()
 	// Clear Antag
@@ -72,7 +73,7 @@
 		my_kungfu.remove(owner.current)
 	// Remove Hunter Objectives
 	remove_objective()
-	. = ..()
+	return ..()
 
 /datum/antagonist/monsterhunter/proc/add_objective(datum/objective/O)
 	objectives += O

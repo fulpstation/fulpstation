@@ -51,6 +51,7 @@
 
 ///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
+	. = ..()
 	SSticker.mode.bloodsuckers |= owner // Only add after they've been given objectives
 	SSticker.mode.check_start_sunlight() // Start Sunlight? (if first Vamp)
 	SelectFirstName() // Name & Title
@@ -60,7 +61,7 @@
 	add_antag_hud(antag_hud_type, antag_hud_name, owner.current)
 	forge_bloodsucker_objectives()
 	update_bloodsucker_icons_added(owner.current, "bloodsucker")
-	. = ..()
+	return ..()
 
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
