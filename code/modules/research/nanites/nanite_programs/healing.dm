@@ -92,7 +92,7 @@
 /datum/nanite_program/blood_restoring/check_conditions()
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/C = host_mob
-		if(C.blood_volume >= (BLOOD_VOLUME_SAFE)
+		if(C.blood_volume >= BLOOD_VOLUME_SAFE)
 			return FALSE
 	else
 		return FALSE
