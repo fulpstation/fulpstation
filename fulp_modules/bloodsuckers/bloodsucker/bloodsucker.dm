@@ -64,7 +64,7 @@
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	SSticker.mode.bloodsuckers -= owner
-	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
+	SSticker.mode.check_cancel_sunlight() // End Sunlight? (if last Vamp)
 	owner.special_role = null
 	ClearAllPowersAndStats() // Clear Powers & Stats
 	update_bloodsucker_icons_removed(owner.current) // Huds -- Currently broken

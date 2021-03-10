@@ -49,7 +49,7 @@
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
-	return ..()
+	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()
 	// Clear Antag

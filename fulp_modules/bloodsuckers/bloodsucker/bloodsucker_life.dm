@@ -8,7 +8,7 @@
 //
 // Show as dead when...
 
-/datum/antagonist/bloodsucker/proc/LifeTick()  //Runs from BiologicalLife, handles all the bloodsucker constant proccesses
+/datum/antagonist/bloodsucker/proc/LifeTick() //Runs from BiologicalLife, handles all the bloodsucker constant proccesses
 	if(!owner || AmFinalDeath())
 		return
 	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) // Deduct Blood
@@ -133,7 +133,7 @@
 
 /datum/antagonist/bloodsucker/proc/CureDisabilities()
 	var/mob/living/carbon/C = owner.current
-	C.cure_blind(list(EYE_DAMAGE))//()
+	C.cure_blind(list(EYE_DAMAGE))
 	C.cure_nearsighted(EYE_DAMAGE)
 	C.set_blindness(0)
 	C.set_blurriness(0)
@@ -170,6 +170,7 @@
 		additional_regen = 0.2
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen  = 0.1
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //			DEATH
