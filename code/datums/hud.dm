@@ -28,8 +28,8 @@ GLOBAL_LIST_INIT(huds, list(
 	ANTAG_HUD_FUGITIVE = new/datum/atom_hud/antag(),
 	ANTAG_HUD_GANGSTER = new/datum/atom_hud/antag/hidden(),
 	ANTAG_HUD_SPACECOP = new/datum/atom_hud/antag(),
-	//ANTAG_HUD_BLOODSUCKER = new/datum/atom_hud/antag/bloodsucker(), // Fulpstation Bloodsuckers [Currently broken]
-	ANTAG_HUD_HERETIC = new/datum/atom_hud/antag/hidden()
+	ANTAG_HUD_HERETIC = new/datum/atom_hud/antag/hidden(),
+	ANTAG_HUD_BLOODSUCKER = new/datum/atom_hud/antag/bloodsucker() // Fulpstation Bloodsuckers edit: This has to be last on the list! Even if it destroys modular code
 	))
 
 /datum/atom_hud

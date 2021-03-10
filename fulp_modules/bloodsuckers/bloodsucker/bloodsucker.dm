@@ -41,6 +41,7 @@
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NODISMEMBER)
 
+/// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	return
 
@@ -56,7 +57,7 @@
 	SelectFirstName() // Name & Title
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
-//	update_bloodsucker_icons_added(owner.current, "bloodsucker") // Huds -- Currently broken
+	update_bloodsucker_icons_added(owner.current, "bloodsucker") // Huds -- Currently broken
 //	LifeTick()
 	. = ..()
 
@@ -66,7 +67,7 @@
 	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
 	owner.special_role = null
 	ClearAllPowersAndStats() // Clear Powers & Stats
-//	update_bloodsucker_icons_removed(owner.current) // Huds -- Currently broken
+	update_bloodsucker_icons_removed(owner.current) // Huds -- Currently broken
 	if(!LAZYLEN(owner.antag_datums))
 		owner.current.remove_from_current_living_antags()
 	if(!silent && owner.current)
@@ -592,18 +593,18 @@
 /////////////////////////////////////
 		// HUD! //
 /////////////////////////////////////
-/* -- Currently broken
+
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
 	set_antag_hud(owner.current, "bloodsucker") // "bloodsucker"
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.leave_hud(owner.current)
 	set_antag_hud(owner.current, null)
-*/
+
 /datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
 
 /datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
