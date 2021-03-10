@@ -8,23 +8,25 @@
 //
 // Show as dead when...
 
-/datum/antagonist/bloodsucker/proc/LifeTick() //Runs from BiologicalLife, handles all the bloodsucker constant proccesses
-	if(!owner || AmFinalDeath())
-		return
-	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) // Deduct Blood
-		AddBloodVolume(passive_blood_drain) // -.1 currently
-	if(HandleHealing(1)) // Heal
-		if(!notice_healing && owner.current.blood_volume > 0)
-			to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
-			notice_healing = TRUE
-	else if(notice_healing)
-		notice_healing = FALSE 	// Apply Low Blood Effects
-	HandleStarving()  // Death
-	HandleDeath() // Standard Update
-	if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
-		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-			Torpor_Begin()
-				// Wait before next pass
+///Runs from BiologicalLife, handles all the bloodsucker constant proccesses
+/datum/antagonist/bloodsucker/proc/LifeTick()
+	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
+	while(owner && !AmFinalDeath())
+		if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+			AddBloodVolume(passive_blood_drain) // -.1 Blood currently
+		if(HandleHealing(1))
+			if(!notice_healing && owner.current.blood_volume > 0)
+				to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
+				notice_healing = TRUE
+		else if(notice_healing)
+			notice_healing = FALSE
+		HandleStarving() // Handle Low Blood effects
+		HandleDeath() // Handle Death
+		update_hud() // Standard Update
+		if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
+			if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+				Torpor_Begin()
+		sleep(10) // Wait before next pass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -192,6 +194,7 @@
 		FinalDeath()
 		return
 	// Missing Brain or Heart?
+	/* -- Disabled due to it killing Slimepeople. They should be getting the organs back later anyways.
 	if(!owner.current.HaveBloodsuckerBodyparts())
 		FinalDeath()
 		return
@@ -199,7 +202,8 @@
 				//if (stat >= UNCONSCIOUS)
 				//	for (var/datum/action/bloodsucker/masquerade/P in powers)
 				//		P.Deactivate()
-		//	TEMP DEATH
+	*/
+			//	TEMP DEATH
 	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
@@ -222,10 +226,10 @@
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep
-	owner.current.stat = UNCONSCIOUS
-	owner.current.apply_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)	// Without this, you'll just keep dying while you recover.
+	owner.current.stat = UNCONSCIOUS
+	owner.current.apply_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	owner.current.Jitter(0)
 	// Visuals
 	owner.current.update_sight()
@@ -239,8 +243,8 @@
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Wake up
 	owner.current.remove_status_effect(STATUS_EFFECT_UNCONSCIOUS)
+	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Wake up
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	CureDisabilities()
@@ -257,8 +261,8 @@
 /datum/mind/proc/AmFinalDeath()
  	return !current || QDELETED(current) || !isliving(current) || isbrain(current) || !get_turf(current) // NOTE: "isliving()" is not the same as STAT == CONSCIOUS. This is to make sure you're not a BORG (aka silicon)
 
+/// Dont bother if we are already supposed to be dead
 /datum/antagonist/bloodsucker/proc/FinalDeath()
-		//Dont bother if we are already supposed to be dead
 	if(FinalDeath)
 		return
 	FinalDeath = TRUE //We are now supposed to die. Lets not spam it.
