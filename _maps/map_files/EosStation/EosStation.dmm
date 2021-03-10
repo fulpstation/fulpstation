@@ -19904,10 +19904,6 @@
 /area/hallway/secondary/entry)
 "cJR" = (
 /obj/effect/turf_decal/delivery,
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #1";
-	suffix = "#1"
-	},
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=4";
 	dir = 4;
@@ -29129,6 +29125,9 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/yellow,
+/obj/structure/window/reinforced/spawner{
+	dir = 1
+	},
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -32191,10 +32190,6 @@
 /area/security/warden)
 "fyS" = (
 /obj/effect/turf_decal/delivery,
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #3";
-	suffix = "#3"
-	},
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=4";
 	dir = 4;
@@ -34519,9 +34514,18 @@
 /turf/open/floor/carpet/black,
 /area/hallway/primary/fore)
 "fXq" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "cargodisposals"
+/obj/machinery/disposal/delivery_chute{
+	dir = 8
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/structure/window/reinforced/spawner{
+	dir = 4
 	},
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/airless
@@ -47148,13 +47152,18 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
 "iLM" = (
-/obj/machinery/door/poddoor{
-	id = "cargo_stacker";
-	name = "supply dock loading door"
+/obj/structure/disposaloutlet{
+	dir = 4
 	},
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "stacker"
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/structure/window/reinforced/spawner{
+	dir = 8
 	},
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/airless
@@ -62915,6 +62924,9 @@
 	name = "Cargo Stacker Security Door Button";
 	pixel_x = 23;
 	pixel_y = 23
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/airless
@@ -96868,6 +96880,25 @@
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
 /area/maintenance/starboard/aft)
+"tlL" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/machinery/door/window/eastright{
+	base_state = "left";
+	dir = 1;
+	icon_state = "left";
+	name = "Danger: Conveyor Access";
+	req_access_txt = "12"
+	},
+/turf/open/floor/plasteel{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/maintenance/disposal)
 "tlV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
@@ -173773,7 +173804,7 @@ oyG
 iGL
 gyc
 eWk
-oJk
+tlL
 eYI
 pnX
 fYA
