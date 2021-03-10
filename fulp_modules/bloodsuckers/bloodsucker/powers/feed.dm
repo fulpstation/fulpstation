@@ -215,7 +215,6 @@
 				user.visible_message("<span class='danger'>[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>", \
 						 			 "<span class='userdanger'>Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>")
 				REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-
 				// Deal Damage to Target (should have been more careful!)
 				if(iscarbon(target))
 					var/mob/living/carbon/C = target
@@ -287,7 +286,6 @@
 		user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
 							 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
 		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
 
@@ -301,7 +299,7 @@
 		target.Unconscious(50,0)
 		target.Paralyze(40 + 5 * level_current,1) // NOTE: This is based on level of power!
 		if(ishuman(target))
-			target.adjustStaminaLoss(5, forced = TRUE)// Base Stamina Damage
+			target.adjustStaminaLoss(5, forced = TRUE) // Base Stamina Damage
 
 /datum/action/bloodsucker/feed/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..() // activate = FALSE
