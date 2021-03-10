@@ -87,6 +87,7 @@
 	to_chat(owner.current,"<span class='announce'>However, security may detain you if they discover your mission.</span><br>")
 	if(my_kungfu != null)
 		to_chat(owner.current, "<span class='boldannounce'>Hunter Tip: Use your [my_kungfu.name] techniques to give you an advantage over the enemy.</span><br>")
+	owner.current.playsound_local(null, 'sound/effects/his_grace_ascend.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
 /datum/antagonist/monsterhunter/farewell()
