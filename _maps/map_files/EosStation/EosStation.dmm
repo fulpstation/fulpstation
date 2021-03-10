@@ -105,12 +105,13 @@
 /turf/open/floor/plasteel,
 /area/engine/lobby)
 "aaA" = (
-/obj/machinery/ai_slipper{
-	uses = 10
-	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/teleport/station,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -152,15 +153,9 @@
 	},
 /area/maintenance/port/fore)
 "aaL" = (
-/obj/structure/table/reinforced,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/structure/showcase/cyborg/old{
+	dir = 1
 	},
-/obj/item/radio/intercom{
-	pixel_y = -28
-	},
-/obj/item/folder,
-/obj/item/pen,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -412,20 +407,6 @@
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
 /area/vacant_room)
-"acm" = (
-/obj/structure/table/reinforced,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/item/radio/intercom{
-	pixel_y = -28
-	},
-/obj/item/folder,
-/obj/item/pen,
-/turf/open/floor/plasteel/dark{
-	baseturf = /turf/open/floor/plating/asteroid/airless
-	},
-/area/ai_monitored/turret_protected/aisat/foyer)
 "acn" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
@@ -5484,22 +5465,6 @@
 	},
 /turf/open/floor/carpet/cyan,
 /area/vacant_room)
-"aSp" = (
-/obj/machinery/teleport/hub,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the RD's goons from the safety of his office.";
-	dir = 4;
-	name = "Research Monitor";
-	network = list("rd");
-	pixel_x = -28
-	},
-/turf/open/floor/plasteel/dark{
-	baseturf = /turf/open/floor/plating/asteroid/airless
-	},
-/area/ai_monitored/turret_protected/aisat/foyer)
 "aSx" = (
 /obj/structure/bed,
 /obj/item/bedsheet/hos,
@@ -22516,6 +22481,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
+/obj/structure/railing/corner{
+	pixel_y = 1
+	},
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -25576,6 +25544,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 4
 	},
+/obj/machinery/holopad/secure,
+/obj/structure/railing,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -28716,15 +28686,6 @@
 /obj/item/toy/plush/carpplushie,
 /turf/open/floor/carpet/royalblue,
 /area/bridge)
-"eJp" = (
-/obj/machinery/teleport/station,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark{
-	baseturf = /turf/open/floor/plating/asteroid/airless
-	},
-/area/ai_monitored/turret_protected/aisat/foyer)
 "eJr" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 5
@@ -31993,14 +31954,11 @@
 	},
 /area/janitor)
 "ftn" = (
-/obj/structure/table/reinforced,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/machinery/newscaster/security_unit{
+	dir = 4;
+	pixel_y = 32
 	},
-/obj/item/paper_bin{
-	pixel_x = -1;
-	pixel_y = 6
-	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -34294,22 +34252,6 @@
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
 /area/ai_monitored/turret_protected/aisat_interior)
-"fRE" = (
-/obj/machinery/computer/teleporter{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/newscaster/security_unit{
-	dir = 4;
-	pixel_x = 26;
-	pixel_y = 12
-	},
-/turf/open/floor/plasteel/dark{
-	baseturf = /turf/open/floor/plating/asteroid/airless
-	},
-/area/ai_monitored/turret_protected/aisat/foyer)
 "fRF" = (
 /obj/item/toy/beach_ball/holoball,
 /obj/effect/turf_decal/siding/yellow{
@@ -35834,6 +35776,14 @@
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
+"gmb" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/ai_monitored/turret_protected/aisat/foyer)
 "gmh" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 5
@@ -39683,10 +39633,6 @@
 "hfS" = (
 /obj/machinery/airalarm{
 	pixel_y = 26
-	},
-/obj/machinery/camera/motion{
-	c_tag = "AI- MiniSat Foyer";
-	network = list("minisat")
 	},
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
@@ -43885,6 +43831,10 @@
 /obj/machinery/firealarm{
 	pixel_y = 24
 	},
+/obj/machinery/camera/motion{
+	c_tag = "AI- MiniSat Foyer";
+	network = list("minisat")
+	},
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -46189,6 +46139,11 @@
 "ixw" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
+	},
+/obj/structure/railing/corner{
+	dir = 8;
+	pixel_x = -1;
+	pixel_y = 1
 	},
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
@@ -59724,6 +59679,10 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/machinery/ai_slipper{
+	uses = 10
+	},
+/obj/structure/railing,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -65292,22 +65251,6 @@
 	},
 /turf/open/floor/carpet/stellar,
 /area/vacant_room)
-"mwK" = (
-/obj/machinery/teleport/hub,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the RD's goons from the safety of his office.";
-	dir = 8;
-	name = "Research Monitor";
-	network = list("rd");
-	pixel_x = 28
-	},
-/turf/open/floor/plasteel/dark{
-	baseturf = /turf/open/floor/plating/asteroid/airless
-	},
-/area/ai_monitored/turret_protected/aisat/foyer)
 "mwM" = (
 /obj/effect/spawner/structure/window,
 /obj/structure/sign/departments/examroom,
@@ -73457,14 +73400,7 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "ogg" = (
-/obj/structure/table/reinforced,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/item/paper_bin{
-	pixel_x = -1;
-	pixel_y = 6
-	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -76385,6 +76321,17 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/lobby)
+"oGm" = (
+/obj/structure/stairs/north,
+/obj/structure/railing{
+	dir = 8;
+	pixel_x = -2;
+	pixel_y = 1
+	},
+/turf/open/floor/plasteel/dark{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/ai_monitored/turret_protected/aisat/foyer)
 "oGt" = (
 /obj/machinery/chem_master/condimaster{
 	name = "BrewMaster 3000"
@@ -88483,6 +88430,17 @@
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
 /area/quartermaster/miningoffice)
+"rkp" = (
+/obj/structure/stairs/north,
+/obj/structure/railing{
+	dir = 4;
+	pixel_x = 2;
+	pixel_y = 1
+	},
+/turf/open/floor/plasteel/dark{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/ai_monitored/turret_protected/aisat/foyer)
 "rkH" = (
 /obj/machinery/power/smes{
 	capacity = 9e+006;
@@ -89148,6 +89106,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/structure/railing,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -90560,10 +90519,7 @@
 	},
 /area/quartermaster/storage)
 "rHV" = (
-/obj/machinery/teleport/station,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
+/obj/structure/stairs/north,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -94992,9 +94948,15 @@
 	},
 /area/vacant_room)
 "sJc" = (
-/obj/item/kirbyplants/random,
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching the RD's goons from the safety of his office.";
+	dir = 1;
+	name = "Research Monitor";
+	network = list("rd");
+	pixel_y = 25
 	},
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
@@ -95178,7 +95140,10 @@
 /turf/open/floor/eighties,
 /area/vacant_room)
 "sKv" = (
-/obj/machinery/holopad/secure,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/teleport/hub,
 /turf/open/floor/plasteel/dark{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
@@ -99690,22 +99655,6 @@
 	},
 /turf/closed/wall/r_wall,
 /area/hallway/primary/fore)
-"tLz" = (
-/obj/machinery/computer/teleporter{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/newscaster/security_unit{
-	dir = 4;
-	pixel_x = -26;
-	pixel_y = 12
-	},
-/turf/open/floor/plasteel/dark{
-	baseturf = /turf/open/floor/plating/asteroid/airless
-	},
-/area/ai_monitored/turret_protected/aisat/foyer)
 "tLA" = (
 /obj/structure/fluff/broken_flooring{
 	dir = 1
@@ -118830,6 +118779,15 @@
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
 /area/vacant_room)
+"xJe" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/computer/teleporter,
+/turf/open/floor/plasteel/dark{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/ai_monitored/turret_protected/aisat/foyer)
 "xJj" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -161991,9 +161949,9 @@ vyJ
 hpZ
 xMf
 ftn
-tLz
+hSV
 rHV
-aSp
+hSV
 aaL
 xMf
 oiX
@@ -162249,7 +162207,7 @@ vzw
 xMf
 hYD
 dkk
-hSV
+rkp
 hSV
 wES
 xMf
@@ -163018,9 +162976,9 @@ tQa
 vQJ
 naL
 xMf
-sJc
+gmb
 rrk
-hSV
+xJe
 hSV
 hSV
 rhw
@@ -163277,7 +163235,7 @@ tjj
 xMf
 hfS
 ixw
-hSV
+oGm
 hSV
 hSV
 xMf
@@ -163533,10 +163491,10 @@ waD
 cNn
 xMf
 ogg
-fRE
-eJp
-mwK
-acm
+hSV
+rHV
+hSV
+aaL
 xMf
 oiX
 oiX
