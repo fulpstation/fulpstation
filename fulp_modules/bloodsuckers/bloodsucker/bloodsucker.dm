@@ -419,8 +419,8 @@
 		// Vassalize Target Objective
 		var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
 		vassalhim_objective.owner = owner
-		vassalhim_objective.generate_objective()
-		add_objective(vassalhim_objective)
+		vassalhim_objective.find_target()
+		objectives += vassalhim_objective
 
 	// Survive Objective
 	var/datum/objective/bloodsucker/survive/survive_objective = new

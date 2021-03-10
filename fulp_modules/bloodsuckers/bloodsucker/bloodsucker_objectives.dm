@@ -280,11 +280,6 @@
 		target_role_type = role_type
 	..()
 
-//						 GENERATE!
-/datum/objective/bloodsucker/vassalhim/generate_objective()
-	target_amount = 1
-	update_explanation_text()
-
 //						EXPLANATION
 /datum/objective/bloodsucker/vassalhim/update_explanation_text()
 	..()
@@ -296,6 +291,9 @@
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/vassalhim/check_completion()
 	return completed || (target.has_antag_datum(/datum/antagonist/vassal))
+
+/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
+	admin_simple_target_pick(admin)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
