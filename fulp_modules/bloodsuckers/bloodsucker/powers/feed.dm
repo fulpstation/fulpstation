@@ -289,12 +289,16 @@
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
 
+/// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
-	return ..()  && target && (!target_grappled || user.pulling == target) // Active, and still antag,
-	// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
+	if(!..())
+		return FALSE
+	if(!target_grappled || user.pulling == target)
+		return ..()
+	return TRUE
 
+/// Bloodsuckers not affected by "the Kiss" of another vampire
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
-	// Bloodsuckers not affected by "the Kiss" of another vampire
 	if(!target.mind || !target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		target.Unconscious(50,0)
 		target.Paralyze(40 + 5 * level_current,1) // NOTE: This is based on level of power!
