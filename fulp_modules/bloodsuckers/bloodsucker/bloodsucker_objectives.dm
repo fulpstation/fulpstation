@@ -211,9 +211,10 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 // Destroy the Solar Arrays
 /datum/objective/bloodsucker/solars
+/* -- Removed due to TG updates breaking it + It's not a good objective, replaced with Vassalhim objective instead.
 // Space_Station_13_areas.dm  <--- all the areas
 /datum/objective/bloodsucker/solars/update_explanation_text()
 	explanation_text = "Prevent all solar arrays on the station from functioning."
@@ -235,6 +236,7 @@
 
 // Steal hearts. You just really wanna have some hearts.
 /datum/objective/bloodsucker/heartthief
+	martyr_compatible = FALSE // Why is this defined, Bloodsuckers cant roll DAGD anyways.
 	// NOTE: Look up /steal in objective.dm for inspiration.
 
 //						 GENERATE!
@@ -263,13 +265,43 @@
 				return TRUE
 
 	return FALSE
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Vassalize a target.
+/datum/objective/bloodsucker/vassalhim
+	var/target_role_type=FALSE
+	martyr_compatible = FALSE // Why is this defined, Bloodsuckers cant roll DAGD anyways.
+	// NOTE: Look up /assassinate in objective.dm for inspiration.
+
+//						FIND TARGET!
+/datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE,invert=FALSE)
+	if(!invert)
+		target_role_type = role_type
+	..()
+
+//						 GENERATE!
+/datum/objective/bloodsucker/vassalhim/generate_objective()
+	target_amount = 1
+	update_explanation_text()
+
+//						EXPLANATION
+/datum/objective/bloodsucker/vassalhim/update_explanation_text()
+	..()
+	if(target?.current)
+		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized."
+	else
+		explanation_text = "Free Objective"
+
+//						WIN CONDITIONS?
+/datum/objective/bloodsucker/vassalhim/check_completion()
+	return completed || (target.has_antag_datum(/datum/antagonist/vassal))
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/survive
-	martyr_compatible = FALSE
-
+	martyr_compatible = FALSE // Why is this defined, Bloodsuckers cant roll DAGD anyways.
 
 //						EXPLANATION
 /datum/objective/bloodsucker/survive/update_explanation_text()

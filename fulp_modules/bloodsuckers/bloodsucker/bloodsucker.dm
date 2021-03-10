@@ -43,6 +43,7 @@
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
+	LifeTick() // Vampiric healing + Blood loss
 	return
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
@@ -265,7 +266,6 @@
 			H.dna.remove_mutation(CLOWNMUT)
 			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	// Physiology
-	LifeTick() // Vampiric healing + Blood loss
 	CheckVampOrgans() // Heart, Eyes
 	// Language
 	owner.current.grant_language(/datum/language/vampiric)
@@ -409,20 +409,19 @@
 	protege_objective.generate_objective()
 	add_objective(protege_objective)
 
-	//if (rand(0,1) == 0)
+	if(rand(0,1) == 0)
 		// Heart Thief Objective
-	var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
-	heartthief_objective.owner = owner
-	heartthief_objective.generate_objective()
-	add_objective(heartthief_objective)
-	/*
+		var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
+		heartthief_objective.owner = owner
+		heartthief_objective.generate_objective()
+		add_objective(heartthief_objective)
 	else
-		// Solars Objective, doesnt work due to TG updates.
-		var/datum/objective/bloodsucker/solars/solars_objective = new
-		solars_objective.owner = owner
-		solars_objective.generate_objective()
-		add_objective(solars_objective)
-*/
+		// Vassalize Target Objective
+		var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
+		vassalhim_objective.owner = owner
+		vassalhim_objective.generate_objective()
+		add_objective(vassalhim_objective)
+
 	// Survive Objective
 	var/datum/objective/bloodsucker/survive/survive_objective = new
 	survive_objective.owner = owner

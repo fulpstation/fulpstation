@@ -16,10 +16,10 @@
 	var/mob/living/user = owner
 	to_chat(user, "<span class='notice'>Your flesh, skin, and muscles become as steel.</span>")
 	// Traits & Effects
-	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, "fortitude")
-	ADD_TRAIT(user, TRAIT_NODISMEMBER, "fortitude")
-	ADD_TRAIT(user, TRAIT_STUNIMMUNE, "fortitude")
-	ADD_TRAIT(user, TRAIT_NORUNNING, "fortitude")
+	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
@@ -29,7 +29,7 @@
 	if(was_running)
 		user.toggle_move_intent()
 	while(B && ContinueActive(user) || user.m_intent == MOVE_INTENT_RUN)
-		if(istype(user.buckled, /obj/vehicle)) //We dont want people using fortitude being able to use vehicles
+		if(istype(user.buckled, /obj/vehicle)) // We dont want people using fortitude being able to use vehicles
 			var/obj/vehicle/V = user.buckled
 			V.unbuckle_mob(user, force = TRUE)
 			to_chat(user, "<span class='notice'>You fall over, your weight making you too heavy to be able to ride any vehicle!</span>")
@@ -42,10 +42,10 @@
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()
 	// Restore Traits & Effects
-	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, "fortitude")
-	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, "fortitude")
-	REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, "fortitude")
-	REMOVE_TRAIT(user, TRAIT_NORUNNING, "fortitude")
+	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/H = owner

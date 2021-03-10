@@ -142,9 +142,8 @@
 	..()//UpdateButtonIcon()
 
 /datum/action/bloodsucker/proc/PayCost()
-	// owner for actions is the mob, not mind.
-	var/mob/living/L = owner
-	L.blood_volume -= bloodcost
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	B.AddBloodVolume(-bloodcost)
 
 /datum/action/bloodsucker/proc/ActivatePower()
 

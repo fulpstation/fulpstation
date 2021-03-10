@@ -4,7 +4,7 @@ MODULE ID: BLOODSUCKERS
 
 ### Description:
 
-Adds Bloodsuckers, vassals and Monster hunter antagonists to the game.
+Adds the Bloodsucker, Vassal and Monster Hunter antagonists to the game, with all code, sprites and sounds necessary.
 
 ### TG files changed:
 
@@ -16,11 +16,10 @@ Adds Bloodsuckers, vassals and Monster hunter antagonists to the game.
 - code/modules/mob/living/blood.dm > Makes bloodsuckers not affected by usual bleeding
 - code/modules/mob/living/carbon/human/species_types/jellypeople.dm > Prevents bloodsucker jellypeople powergaming
 - code/modules/mob/living/carbon/life.dm > Makes trait COLDBLOODED make you unnaffected by the cold
-- code/modules/mob/mob_movement.dm > Cant run while on Fortitude
+- code/modules/mob/mob_movement.dm > Makes Bloodsuckers unable to run while on Fortitude
 - code/modules/surgery/organs/heart.dm > Adds HeartStrengthMessage
-- code/modules/surgery/organs/tongue.dm > Adds vampiric language to the tongue
-- code/__DEFINES/traits.dm > Adds Bloodsucker traits
-- code/modules/mob/living/carbon/life.dm > Proc to handle bloodsucker huds
+- code/modules/surgery/organs/tongue.dm > Adds Vampiric language to tongues
+- code/__DEFINES/traits.dm > Adds Bloodsucker traits. Since we added traits doing different things in TG core files, having said traits defined in the fulp files won't work.
 
 ### Credits:
 
@@ -28,3 +27,8 @@ Skyrat - .md template
 TheSwain - Original Bloodsuckers
 Citadel - New Bloodsucker code
 John Willard - Coding
+
+## NOTES:
+
+- bloodsucker_objects.dm >> Once Combat mode is merged, add Help intent to Bloodbag drinking
+- vassal.dm >> Once New Traits is merged, swap REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, "implant") -> REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, IMPLANT_TRAIT)
