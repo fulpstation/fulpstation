@@ -12,7 +12,7 @@
 	var/bloodsucker_title						// My Dracula style title
 	var/bloodsucker_reputation					// My "Surname" or description of my deeds
 	// CLAN
-	var/datum/team/bloodsucker/bloodsucker_team
+	var/datum/team/vampireclan/clan
 	var/list/datum/antagonist/vassal/vassals = list()// Vassals under my control. Periodically remove the dead ones.
 	var/datum/mind/creator				// Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	// POWERS
@@ -71,9 +71,6 @@
 		owner.current.remove_from_current_living_antags()
 	if(!silent && owner.current)
 		farewell()
-	var/datum/team/team = get_team()
-	if(team)
-		team.remove_member(owner)
 	return ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -169,23 +166,25 @@
 	return fullname
 
 //Bloodsucker team
-/datum/team/bloodsucker
-	name = "Bloodsucker"
+/datum/team/vampireclan
+	name = "Clan" // Teravanni,
+
+/datum/antagonist/bloodsucker/create_team(datum/team/team)
+	return
 
 /datum/antagonist/bloodsucker/get_team()
-	return bloodsucker_team
+	return clan
 
-/datum/antagonist/bloodsucker/create_team(datum/team/bloodsucker/new_team)
-	if(!new_team)
-		for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
-			if(!H.owner)
-				continue
-			if(H.bloodsucker_team)
-				bloodsucker_team = H.bloodsucker_team
-				return
-	if(!istype(new_team))
-		stack_trace("Wrong team type passed to [type] initialization.")
-	bloodsucker_team = new_team
+/datum/antagonist/bloodsucker/proc/add_objective(var/datum/objective/O)
+	O.team = src
+	O.update_explanation_text()
+	objectives += O
+
+/datum/antagonist/bloodsucker/proc/remove_objectives()
+	objectives -= clan.objectives
+	for(var/O in objectives)
+		objectives -= O
+		qdel(O)
 
 //Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
@@ -430,19 +429,6 @@
 	add_objective(survive_objective)
 
 
-/datum/antagonist/bloodsucker/proc/add_objective(var/datum/objective/O)
-	O.team = src
-	O.update_explanation_text()
-	objectives += O
-
-/datum/antagonist/bloodsucker/proc/remove_objectives()
-	var/datum/team/team = get_team()
-	if(team)
-		team.remove_member(owner)
-
-	for(var/O in objectives)
-		objectives -= O
-		qdel(O)
 
 //Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()

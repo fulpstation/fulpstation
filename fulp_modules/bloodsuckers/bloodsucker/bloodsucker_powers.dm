@@ -8,7 +8,6 @@
 	icon_icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi'		//This is the file for the ACTION icon
 	button_icon_state = "power_feed" 				//And this is the state for the action icon
 	buttontooltipstyle = "cult"
-
 	// Action-Related
 	var/amTargetted = FALSE		// Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
 	var/amToggle = FALSE		// Can I be actively turned on and off?
@@ -19,7 +18,7 @@
 	// Power-Related
 	var/level_current = 0		// Can increase to yield new abilities. Each power goes up in strength each Rank.
 	//var/level_max = 1			//
-	var/bloodcost = 10
+	var/bloodcost
 	var/needs_button = TRUE 			// Taken from Changeling - for passive abilities that dont need a button
 	var/bloodsucker_can_buy = FALSE 	// Must be a bloodsucker to use this power.
 	var/warn_constant_cost = FALSE		// Some powers charge you for staying on. Masquerade, Cloak, Veil, etc.
