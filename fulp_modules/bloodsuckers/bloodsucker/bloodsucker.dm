@@ -43,24 +43,20 @@
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NODISMEMBER)
 
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.join_hud(owner.current)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
-
+	return
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.leave_hud(owner.current)
+	return
 
 ///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	SSticker.mode.bloodsuckers |= owner // Only add after they've been given objectives
+	forge_bloodsucker_objectives()
+	SSticker.mode.bloodsuckers += owner
 	SSticker.mode.check_start_sunlight() // Start Sunlight? (if first Vamp)
 	AssignStarterPowersAndStats() // Give Powers & Stats
 	SelectFirstName() // Name & Title
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
-	forge_bloodsucker_objectives()
 	LifeTick()
 	. = ..()
 
