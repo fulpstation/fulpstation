@@ -40,8 +40,9 @@
 	var/notice_healing                    //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
-		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_NEVER_WOUNDED, TRAIT_NODISMEMBER)
-// TRAIT_NEVER_WOUNDED might be removed in favor of TRAIT_HARDLY_WOUNDED. Should check how it plays out in game first
+		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_NODISMEMBER)
+/// TRAIT_HARDLY_WOUNDED might be removed in favor of TRAIT_NEVER_WOUNDED.
+
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	LifeTick() // Vampiric healing + Blood loss
