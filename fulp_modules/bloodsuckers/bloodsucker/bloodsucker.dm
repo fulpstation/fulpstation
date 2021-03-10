@@ -58,7 +58,7 @@
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
 	update_bloodsucker_icons_added(owner.current, "bloodsucker") // Huds -- Currently broken
-//	LifeTick()
+	LifeTick()
 	. = ..()
 
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
