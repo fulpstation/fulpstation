@@ -8,18 +8,20 @@ Adds the Bloodsucker, Vassal and Monster Hunter antagonists to the game, with al
 
 ### TG files changed:
 
-- code/__DEFINES/role_preferences.dm > Added Bloodsuckers/Monster hunters as selectable antags.
-- code/_onclick/hud/hud.dm // code/datums/hud.dm // code/_onclick/hud/human.dm // code/__DEFINES/atom_hud.dm > Added Bloodsucker huds
-- code/game/objects/items/implants/implant_mindshield.dm > Makes mindshielding unvassalize
-- code/modules/clothing/neck/_neck.dm > adds a check for NOPULSE
-- code/modules/fields/timestop.dm // code/modules/mob/living/simple_animal/guardian/guardian.dm > Bloodsucker timestop guardian	
-- code/modules/mob/living/blood.dm > Makes bloodsuckers not affected by usual bleeding
-- code/modules/mob/living/carbon/human/species_types/jellypeople.dm > Prevents bloodsucker jellypeople powergaming
-- code/modules/mob/living/carbon/life.dm > Makes trait COLDBLOODED make you unnaffected by the cold
-- code/modules/mob/mob_movement.dm > Makes Bloodsuckers unable to run while on Fortitude
-- code/modules/surgery/organs/heart.dm > Adds HeartStrengthMessage
-- code/modules/surgery/organs/tongue.dm > Adds Vampiric language to tongues
-- code/__DEFINES/traits.dm > Adds Bloodsucker traits. Since we added traits doing different things in TG core files, having said traits defined in the fulp files won't work.
+- code/__DEFINES/atom_hud.dm | code/_onclick/hud/human.dm | code/datums/hud.dm > Added Bloodsucker huds
+- code/__DEFINES/role_preferences.dm > Added Bloodsuckers/Monster Hunters as Antags
+- code/__DEFINES/traits.dm > Added Bloodsucker-related Traits. They have to be in this file, as the traits are also used in TG files. defining it in the fulp_modules makes the define not read in time, therefore you get errors.
+- code/game/objects/items/implants/implant_mindshield.dm > Makes Mindshields remove Vassalization
+- code/modules/clothing/neck/_neck.dm > Added a NOPULSE check to scanning a heart
+- code/modules/fields/timestop.dm > Bloodsucker Holoparasite code edit
+- code/modules/mining/lavaland/necropolis_chests.dm > Prevents Bloodsuckers from using a Memento Mori
+- code/modules/mob/living/blood.dm > Kicks Bloodsuckers out of blood.dm
+- code/modules/mob/living/carbon/human/species_types/jellypeople.dm > Prevents Slimesuckers from getting Toxin/Several body bonuses
+- code/modules/mob/living/carbon/life.dm > Kicks Bloodsuckers out of body temperature
+- code/modules/mob/mob_movement.dm > Prevents running while on Fortitude
+- code/modules/reagents/chemistry/reagents/alcohol_reagents.dm > Gives Bloodsuckers blood for drinking Bloody Mary
+- code/modules/surgery/organs/heart.dm > Added HeartStrengthMessage
+- code/modules/surgery/organs/tongue.dm > Added Vampiric language
 
 ### Credits:
 
