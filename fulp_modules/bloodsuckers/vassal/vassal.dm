@@ -39,6 +39,8 @@
 		if(B)
 			B.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
+	if(HAS_TRAIT(owner.current, TRAIT_MINDSHIELD))
+		REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, "implant") // REPLACE WITH IMPLANT_TRAIT WHEN TG UPDATE HAPPENS -- John Willard
 	// Master Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	// Powers
@@ -52,7 +54,8 @@
 	objectives += vassal_objective
 	give_thrall_eyes()
 	owner.current.grant_language(/datum/language/vampiric)
-	return ..()
+	update_vassal_icons_added(owner.current, "vassal")
+	. = ..()
 
 /datum/antagonist/vassal/proc/give_thrall_eyes()
 	var/obj/item/organ/eyes/vassal/E = new
@@ -88,6 +91,7 @@
 	owner.current.remove_language(/datum/language/vampiric)
 	// Clear Antag
 	owner.special_role = null
+	update_vassal_icons_removed(owner.current)
 	return ..()
 
 /datum/antagonist/vassal/greet()

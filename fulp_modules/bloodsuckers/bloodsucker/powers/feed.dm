@@ -286,7 +286,7 @@
 	else
 		user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
 							 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
-		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "bloodsucker_feed")
+		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
@@ -311,6 +311,6 @@
 		bloodsuckerdatum.poweron_feed = FALSE
 	feed_target = null
 	// My mouth is no longer full
-	REMOVE_TRAIT(owner, TRAIT_MUTE, "bloodsucker_feed")
+	REMOVE_TRAIT(owner, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	//Let me move!
-	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, "bloodsucker_feed")
+	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)

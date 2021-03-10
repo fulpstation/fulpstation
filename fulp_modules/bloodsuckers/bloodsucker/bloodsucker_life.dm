@@ -86,7 +86,6 @@
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.setOxyLoss(0)
-	owner.current.setToxLoss(0)
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
 		var/mob/living/carbon/C = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
@@ -202,8 +201,7 @@
 		//	TEMP DEATH
 	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
-	var/total_toxloss = owner.current.getToxLoss() //This is neater than just putting it in total_damage
-	var/total_damage = total_brute + total_burn + total_toxloss
+	var/total_damage = total_brute + total_burn
 	// Died? Convert to Torpor (fake death)
 	if(owner.current.stat >= DEAD)
 		Torpor_Begin()
@@ -212,8 +210,8 @@
 		if(poweron_masquerade)
 			to_chat(owner, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
 	// End Torpor:
-	else	// No damage, OR toxin healed AND brute healed and NOT in coffin (since you cannot heal burn)
-		if(total_damage <= 0 || total_toxloss <= 0 && total_brute <= 0 && !istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+	else	// No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
+		if(total_damage <= 0 && total_brute <= 0 && !istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			// Not Daytime, Not in Torpor, enough health to not die the moment you end torpor
 			if(!SSticker.mode.is_daylight() && HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) && total_damage < owner.current.getMaxHealth())
 				Torpor_End()
