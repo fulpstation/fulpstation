@@ -17,7 +17,7 @@
 //
 // 	PODIUM		Stores your Relics
 //
-// 	ALTAR		Transmute items into sacred items.
+// 	ALTAR		Transmute items into unholy items.
 //
 //	PORTRAIT	Gaze into your past to: restore mood boost?
 //
@@ -66,18 +66,18 @@
 /*
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
-	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a sadistic sort to sit on this jagged piece of furniture."
+	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
 /obj/structure/bloodsucker/bloodaltar
 	name = "bloody altar"
-	desc = "It is marble, lined with basalt, and radiates an unnerving chill that puts your skin on edge."
+	desc = "It is made of marble, lined with basalt, and radiates an unnerving chill that puts your skin on edge."
 /obj/structure/bloodsucker/bloodstatue
 	name = "bloody countenance"
 	desc = "It looks upsettingly familiar..."
 /obj/structure/bloodsucker/bloodportrait
 	name = "oil portrait"
-	desc = "A disturbingly familiar face stares back at you. On second thought, the reds don't seem to be painted in oil..."
-/obj/structure/bloodsucker/bloodbrazer
-	name = "lit brazer"
+	desc = "A disturbingly familiar face stares back at you. Those reds don't seem to be painted in oil..."
+/obj/structure/bloodsucker/bloodbrazier
+	name = "lit brazier"
 	desc = "It burns slowly, but doesn't radiate any heat."
 /obj/structure/bloodsucker/bloodmirror
 	name = "faded mirror"
@@ -241,14 +241,8 @@
 	// Just torture the boy
 	torture_victim(user, C)
 
-#define CONVERT_COST 150
-
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	// Check Bloodmob/living/M, force = FALSE, check_loc = TRUE
-	if(user.blood_volume < CONVERT_COST + 5)
-		to_chat(user, "<span class='notice'>You don't have enough blood to initiate the Dark Communion with [target].</span>")
-		return
 	// Prep...
 	useLock = TRUE
 	// Step One:	Tick Down Conversion from 3 to 0
@@ -282,14 +276,6 @@
 			to_chat(user, "<span class='notice'>[target] looks ready for the <b>Dark Communion</b>.</span>")
 		useLock = FALSE
 		return
-	// Check: Blood
-	if(user.blood_volume < CONVERT_COST)
-		to_chat(user, "<span class='notice'>You don't have enough blood to initiate the Dark Communion with [target], you need [CONVERT_COST - user.blood_volume] units more!</span>")
-		useLock = FALSE
-		return
-	B.AddBloodVolume(-CONVERT_COST)
-	target.add_mob_blood(user, "<span class='danger'>Youve used [CONVERT_COST] amount of blood to gain a new vassal!</span>")
-	to_chat(user, )
 	user.visible_message("<span class='notice'>[user] marks a bloody smear on [target]'s forehead and puts a wrist up to [target.p_their()] mouth!</span>", \
 				  	  "<span class='notice'>You paint a bloody marking across [target]'s forehead, place your wrist to [target.p_their()] mouth, and subject [target.p_them()] to the Dark Communion.</span>")
 	if(!do_mob(user, src, 50))
@@ -311,7 +297,6 @@
 		//remove_victim(target) // Remove on CLICK ONLY!
 	useLock = FALSE
 
-#undef CONVERT_COST
 /obj/structure/bloodsucker/vassalrack/proc/do_torture(mob/living/user, mob/living/target, mult = 1)
 	var/torture_time = 15 // Fifteen seconds if you aren't using anything. Shorter with weapons and such.
 	var/torture_dmg_brute = 2

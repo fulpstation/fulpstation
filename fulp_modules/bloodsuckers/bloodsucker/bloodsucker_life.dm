@@ -8,7 +8,7 @@
 //
 // Show as dead when...
 
-/datum/antagonist/bloodsucker/proc/LifeTick()  //Runs from BiologicalLife, handles all the bloodsucker constant proccesses
+/datum/antagonist/bloodsucker/proc/on_life()  //Runs from BiologicalLife, handles all the bloodsucker constant proccesses
 	if(!owner || AmFinalDeath())
 		return
 	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) // Deduct Blood

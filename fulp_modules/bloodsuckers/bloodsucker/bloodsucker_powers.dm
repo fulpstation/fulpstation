@@ -164,7 +164,7 @@
 	Remove(owner)
 
 /datum/action/bloodsucker/proc/Upgrade()
-	level_current ++
+	level_current++
 
 ///////////////////////////////////  PASSIVE POWERS	///////////////////////////////////
 

@@ -6,8 +6,6 @@
 	name = "Hunter"
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
-	antag_hud_type = ANTAG_HUD_MONSTERHUNTER
-	antag_hud_name = "monsterhunter"
 	job_rank = ROLE_MONSTERHUNTER
 	var/list/datum/action/powers = list() // Purchased powers
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
@@ -15,13 +13,10 @@
 	var/give_objectives = TRUE
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
+	return
 
-//This handles the removal of antag huds/special abilities
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
+	return
 
 /datum/antagonist/monsterhunter/on_gain()
 	. = ..()
@@ -190,17 +185,17 @@
 			var/datum/mind/UM = C.mind
 			if(UM.has_antag_datum(/datum/antagonist/changeling))
 				monsters += UM
-			else if(UM.has_antag_datum(/datum/antagonist/heretic))
+			if(UM.has_antag_datum(/datum/antagonist/heretic))
 				monsters += UM
-			else if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
+			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
 				monsters += UM
-			else if(UM.has_antag_datum(/datum/antagonist/cult))
+			if(UM.has_antag_datum(/datum/antagonist/cult))
 				monsters += UM
-			else if(UM.has_antag_datum(/datum/antagonist/ashwalker))
+			if(UM.has_antag_datum(/datum/antagonist/ashwalker))
 				monsters += UM
-			else if(UM.has_antag_datum(/datum/antagonist/wizard))
+			if(UM.has_antag_datum(/datum/antagonist/wizard))
 				monsters += UM
-			else if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
+			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
 				monsters += UM
 //	monsters += SSticker.mode.culties // Not working, TG uses 'var/list/culties' rather than 'var/list/datum/mind/culties'
 //	monsters += SSticker.mode.changelings // Not working, TG uses 'var/list/changelings' rather than 'var/list/datum/mind/changelings'

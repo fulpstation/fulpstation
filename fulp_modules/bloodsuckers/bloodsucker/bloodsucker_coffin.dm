@@ -24,7 +24,6 @@
 /obj/structure/closet/crate
 	var/mob/living/resident	// This lets bloodsuckers claim any "closet" as a Coffin, so long as they could get into it and close it. This locks it in place, too.
 	var/pryLidTimer = 250
-	can_weld_shut = FALSE
 	breakout_time = 200
 
 /obj/structure/closet/crate/coffin/blackcoffin

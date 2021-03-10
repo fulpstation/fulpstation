@@ -6,7 +6,6 @@
 	job_rank = ROLE_BLOODSUCKER
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
-	antag_hud_type = ANTAG_HUD_BLOODSUCKER
 	hijack_speed = 0.5
 	// NAME
 	var/bloodsucker_name						// My Dracula style name
@@ -57,7 +56,8 @@
 	SelectFirstName() // Name & Title
 	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
-	LifeTick()
+//	update_bloodsucker_icons_added(owner.current, "bloodsucker") // Huds -- Currently broken
+//	LifeTick()
 	. = ..()
 
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
@@ -65,7 +65,8 @@
 	SSticker.mode.bloodsuckers -= owner
 	SSticker.mode.check_cancel_sunlight()// End Sunlight? (if last Vamp)
 	owner.special_role = null
-	ClearAllPowersAndStats()// Clear Powers & Stats
+	ClearAllPowersAndStats() // Clear Powers & Stats
+//	update_bloodsucker_icons_removed(owner.current) // Huds -- Currently broken
 	if(!LAZYLEN(owner.antag_datums))
 		owner.current.remove_from_current_living_antags()
 	if(!silent && owner.current)
@@ -77,7 +78,7 @@
 
 /datum/antagonist/bloodsucker/greet()
 	var/fullname = ReturnFullName(TRUE)
-	to_chat(owner, "<span class='userdanger'>You are [fullname], a strain of vampire dubbed bloodsucker!</span><br>")
+	to_chat(owner, "<span class='userdanger'>You are [fullname], a strain of vampire known as a bloodsucker!</span><br>")
 	owner.announce_objectives()
 	to_chat(owner, "<span class='boldannounce'>* You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Allow your stolen blood to run too low, and you will find yourself at \
 	risk of being discovered!</span><br>")
@@ -86,14 +87,14 @@
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.</span><br>")
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: If you don't have a coffin claimed/can't reach it for reasons, lockers can partially guard you from Solar flares.</span><br>")
 	owner.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
-	antag_memory += "Although you were born a mortal, in un-death you earned the name <b>[fullname]</b>.<br>"
+	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
 
 /datum/antagonist/bloodsucker/farewell()
 	owner.current.visible_message("[owner.current]'s skin flushes with color, their eyes growing glossier. They look...alive.",\
 			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
 	// Refill with Blood
-	owner.current.blood_volume = max(owner.current.blood_volume,BLOOD_VOLUME_SAFE)
+	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_SAFE)
 
 /datum/antagonist/bloodsucker/proc/SelectFirstName()
 	// Names (EVERYONE gets one))
@@ -605,13 +606,26 @@
 /////////////////////////////////////
 		// HUD! //
 /////////////////////////////////////
+/* -- Currently broken
+/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
+	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	vamphud.join_hud(owner.current)
+	set_antag_hud(owner.current, "bloodsucker") // "bloodsucker"
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
-/datum/atom_hud/antag/add_to_single_hud(mob/M, atom/A)
+/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
+	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	vamphud.leave_hud(owner.current)
+	set_antag_hud(owner.current, null)
+*/
+/datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
+
+/datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
 	if(!check_valid_hud_user(M,A)) // FULP: This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
 		return
 	..()
 
-/datum/atom_hud/antag/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
+/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
 	// Ghost Admins always see Bloodsuckers/Vassals
 	if(isobserver(M))
 		return TRUE
@@ -621,7 +635,7 @@
 	if(!M || !A || !ismob(A) || !M.mind)// || !A.mind)
 		return FALSE
 	var/mob/A_mob = A
-	if (!A_mob.mind)
+	if(!A_mob.mind)
 		return FALSE
 	// Find Datums: Bloodsucker
 	var/datum/antagonist/bloodsucker/atom_B = A_mob.mind.has_antag_datum(/datum/antagonist/bloodsucker)
