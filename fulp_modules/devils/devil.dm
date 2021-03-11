@@ -1,6 +1,4 @@
-/mob/living/carbon/true_devil/UnarmedAttack(atom/A, proximity)
-	A.attack_hand(src)
-
+#define DEVIL_BODYPART "devil"
 #define DEVIL_HANDS_LAYER 1
 #define DEVIL_HEAD_LAYER 2
 #define DEVIL_TOTAL_LAYERS 2
@@ -28,10 +26,16 @@
 		/obj/item/bodypart/r_leg/devil,
 		/obj/item/bodypart/l_leg/devil,
 		)
-	hud_type = /datum/hud/devil
 	var/ascended = FALSE
 	var/mob/living/oldform
 	var/list/devil_overlays[DEVIL_TOTAL_LAYERS]
+
+/// Arch devil
+/mob/living/carbon/true_devil/arch_devil
+	maxHealth = 500
+	ascended = TRUE
+	health = maxHealth
+	icon_state = "arch_devil"
 
 /mob/living/carbon/true_devil/Initialize()
 	create_bodyparts()
@@ -39,6 +43,8 @@
 	grant_all_languages()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_ADVANCEDTOOLUSER, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_NOBREATH, INNATE_TRAIT)
 
 /mob/living/carbon/true_devil/create_internal_organs()
 	internal_organs += new /obj/item/organ/brain
@@ -47,55 +53,28 @@
 	internal_organs += new /obj/item/organ/ears/invincible //Prevents hearing loss from poorly aimed fireballs.
 	..()
 
-/mob/living/carbon/true_devil/proc/convert_to_archdevil()
-	maxHealth = 500
-	ascended = TRUE
-	health = maxHealth
-	icon_state = "arch_devil"
-
-/mob/living/carbon/true_devil/proc/set_devil_name()
-	var/datum/antagonist/devil/devilinfo = mind.has_antag_datum(/datum/antagonist/devil)
-	name = devilinfo.truename
-	real_name = name
-
-/mob/living/carbon/true_devil/Login()
-	. = ..()
-	if(!. || !client)
-		return FALSE
-	var/datum/antagonist/devil/devilinfo = mind.has_antag_datum(/datum/antagonist/devil)
-	devilinfo.greet()
-	mind.announce_objectives()
-
 /mob/living/carbon/true_devil/death(gibbed)
 	set_stat(DEAD)
 	..(gibbed)
 	drop_all_held_items()
-	INVOKE_ASYNC(mind.has_antag_datum(/datum/antagonist/devil), /datum/antagonist/devil/proc/beginResurrectionCheck, src)
-
 
 /mob/living/carbon/true_devil/examine(mob/user)
 	. = list("<span class='info'>*---------*\nThis is [icon2html(src, user)] <b>[src]</b>!")
 
-	//Left hand items
-	for(var/obj/item/I in held_items)
+	for(var/obj/item/I in held_items) // Left hand items
 		if(!(I.item_flags & ABSTRACT))
 			. += "It is holding [I.get_examine_string(user)] in its [get_held_index_name(get_held_index_of_item(I))]."
 
-	//Braindead
-	if(!client && stat != DEAD)
+	if(!client && stat != DEAD) // Braindead
 		. += "The devil seems to be in deep contemplation."
 
-	//Damaged
-	if(stat == DEAD)
+	if(stat == DEAD) // Damaged
 		. += "<span class='deadsay'>The hellfire seems to have been extinguished, for now at least.</span>"
 	else if(health < (maxHealth/10))
 		. += "<span class='warning'>You can see hellfire inside its gaping wounds.</span>"
 	else if(health < (maxHealth/2))
 		. += "<span class='warning'>You can see hellfire inside its wounds.</span>"
 	. += "*---------*</span>"
-
-/mob/living/carbon/true_devil/IsAdvancedToolUser()
-	return 1
 
 /mob/living/carbon/true_devil/resist_buckle()
 	if(buckled)
@@ -115,21 +94,14 @@
 /mob/living/carbon/true_devil/assess_threat(judgement_criteria, lasercolor = "", datum/callback/weaponcheck=null)
 	return 666
 
-/mob/living/carbon/true_devil/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0)
-	if(mind && has_bane(BANE_LIGHT))
-		mind.disrupt_spells(-500)
-		return ..() //flashes don't stop devils UNLESS it's their bane.
-
 /mob/living/carbon/true_devil/soundbang_act()
 	return FALSE
 
 /mob/living/carbon/true_devil/get_ear_protection()
 	return 2
 
-
 /mob/living/carbon/true_devil/attacked_by(obj/item/I, mob/living/user, def_zone)
-	var/weakness = check_weakness(I, user)
-	apply_damage(I.force * weakness, I.damtype, def_zone)
+	apply_damage(I.force, I.damtype, def_zone)
 	var/message_verb = ""
 	if(length(I.attack_verb_continuous))
 		message_verb = "[pick(I.attack_verb_continuous)]"
@@ -146,14 +118,9 @@
 		"<span class='userdanger'>[attack_message]</span>", null, COMBAT_MESSAGE_RANGE)
 	return TRUE
 
-/mob/living/carbon/true_devil/singularity_act()
-	if(ascended)
-		return FALSE
-	return ..()
-
-//ATTACK GHOST IGNORING PARENT RETURN VALUE
+/// ATTACK GHOST IGNORING PARENT RETURN VALUE
 /mob/living/carbon/true_devil/attack_ghost(mob/dead/observer/user as mob)
-	if(ascended || user.mind.soulOwner == src.mind)
+	if(ascended)
 		var/mob/living/simple_animal/hostile/imp/S = new(get_turf(loc))
 		S.key = user.key
 		var/datum/antagonist/imp/A = new()
@@ -165,8 +132,9 @@
 /mob/living/carbon/true_devil/can_be_revived()
 	return 1
 
+/// They're immune to fire.
 /mob/living/carbon/true_devil/resist_fire()
-	//They're immune to fire.
+
 
 /mob/living/carbon/true_devil/attack_hand(mob/living/carbon/human/M)
 	. = ..()
@@ -199,27 +167,24 @@
 							visible_message("<span class='danger'>[M] fails to disarm [src]!</span>", \
 							"<span class='userdanger'>[M] fails to disarm you!</span>")
 
-/// Devils do not need to breathe
-/mob/living/carbon/true_devil/handle_breathing()
-
-
 /mob/living/carbon/true_devil/is_literate()
 	return TRUE
 
 /mob/living/carbon/true_devil/ex_act(severity, ex_target)
 	if(!ascended)
 		var/b_loss
-		switch (severity)
-			if (EXPLODE_DEVASTATE)
+		switch(severity)
+			if(EXPLODE_DEVASTATE)
 				b_loss = 500
-			if (EXPLODE_HEAVY)
+			if(EXPLODE_HEAVY)
 				b_loss = 150
-			if (EXPLODE_LIGHT)
+			if(EXPLODE_LIGHT)
 				b_loss = 30
-		if(has_bane(BANE_LIGHT))
-			b_loss *=2
 		adjustBruteLoss(b_loss)
 	return ..()
+
+/mob/living/carbon/true_devil/UnarmedAttack(atom/A, proximity)
+	A.attack_hand(src)
 
 /// We don't use the bodyparts layer for devils
 /mob/living/carbon/true_devil/update_body()
@@ -244,7 +209,7 @@
 /mob/living/carbon/true_devil/update_inv_hands()
 	remove_overlay(DEVIL_HANDS_LAYER)
 	var/list/hands_overlays = list()
-	var/obj/item/l_hand = get_item_for_held_index(1) //hardcoded 2-hands only, for now.
+	var/obj/item/l_hand = get_item_for_held_index(1) // Hardcoded 2-hands only, for now.
 	var/obj/item/r_hand = get_item_for_held_index(2)
 
 	if(r_hand)
@@ -268,6 +233,7 @@
 			l_hand.plane = ABOVE_HUD_PLANE
 			l_hand.screen_loc = ui_hand_position(get_held_index_of_item(l_hand))
 			client.screen |= l_hand
+
 	if(hands_overlays.len)
 		devil_overlays[DEVIL_HANDS_LAYER] = hands_overlays
 	apply_overlay(DEVIL_HANDS_LAYER)
@@ -277,7 +243,6 @@
 	if(I)
 		cut_overlay(I)
 		devil_overlays[cache_index] = null
-
 
 /mob/living/carbon/true_devil/apply_overlay(cache_index)
 	if((. = devil_overlays[cache_index]))
