@@ -11,13 +11,15 @@
 	school = "conjuration"
 	charge_max = 150
 	cooldown_min = 10
-	action_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	action_icon = 'fulp_modules/devils/devil_icon/devil_icons.dmi'
 	action_icon_state = "pitchfork"
 	action_background_icon_state = "bg_demon"
 
 /obj/item/pitchfork/demonic
 	name = "demonic pitchfork"
 	desc = "A red pitchfork, it looks like the work of the devil."
+	lefthand_file = 'fulp_modules/devils/devil_icon/devils_lefthand.dmi'
+	righthand_file = 'fulp_modules/devils/devil_icon/devils_righthand.dmi'
 	force = 19
 	throwforce = 24
 	light_system = MOVABLE_LIGHT
@@ -48,15 +50,24 @@
 
 /// Summon Violin
 /obj/effect/proc_holder/spell/targeted/conjure_item/violin
-	item_type = /obj/item/instrument/violin/golden
+	item_type = /obj/item/instrument/violin/golden/devil
 	desc = "A devil's instrument of choice.  Use this to summon/unsummon your golden violin."
 	invocation_type = INVOCATION_WHISPER
 	invocation = "I ain't had this much fun since Georgia."
 	action_icon_state = "golden_violin"
 	name = "Summon golden violin"
-	action_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	action_icon = 'fulp_modules/devils/devil_icon/devil_icons.dmi'
 	action_background_icon_state = "bg_demon"
 
+/obj/item/instrument/violin/golden/devil
+	name = "golden violin"
+	desc = "A golden musical instrument with four strings and a bow. \"The devil went down to space, he was looking for an assistant to grief.\""
+	icon = 'fulp_modules/devils/devil_icon/violin.dmi'
+	lefthand_file = 'fulp_modules/devils/devil_icon/devils_lefthand.dmi'
+	righthand_file = 'fulp_modules/devils/devil_icon/devils_righthand.dmi'
+	icon_state = "golden_violin"
+	inhand_icon_state = "golden_violin"
+	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 
 /// Summon Fireball
 /obj/effect/proc_holder/spell/aimed/fireball/hellish
@@ -103,7 +114,7 @@
 	school = "conjuration"
 	charge_max = 10
 	cooldown_min = 50 //5 seconds, so the smoke can't be spammed
-	action_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	action_icon = 'fulp_modules/devils/devil_icon/devil_icons.dmi'
 	action_icon_state = "funk"
 	action_background_icon_state = "bg_demon"
 

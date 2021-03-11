@@ -6,7 +6,7 @@
 /mob/living/carbon/true_devil
 	name = "True Devil"
 	desc = "A pile of infernal energy, taking a vaguely humanoid form."
-	icon = 'icons/mob/32x64.dmi'
+	icon = 'fulp_modules/devils/devil_icon/devils.dmi'
 	icon_state = "true_devil"
 	gender = NEUTER
 	health = 350
