@@ -22,7 +22,7 @@
 		// Check One: Default Valid User
 		if(possible_target != owner && ishuman(possible_target.current) && possible_target.current.stat != DEAD)// && is_unique_objective(possible_target))
 			// Check Two: Am Bloodsucker? OR in Bloodsucker list?
-			if (possible_target.has_antag_datum(/datum/antagonist/bloodsucker) || (possible_target in SSticker.mode.bloodsuckers))
+			if(possible_target.has_antag_datum(/datum/antagonist/bloodsucker) || (possible_target in SSticker.mode.bloodsuckers))
 				continue
 			else
 				possible_targets += possible_target
@@ -43,7 +43,7 @@
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/lair/check_completion()
 	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if (antagdatum && antagdatum.coffin && antagdatum.lair)
+	if(antagdatum && antagdatum.coffin && antagdatum.lair)
 		return TRUE
 	return FALSE
 
@@ -65,6 +65,7 @@
 		"Quartermaster"
 	)
 	var/list/departs = list(
+		"Captain",
 		"Head of Security",
 		"Head of Personnel",
 		"Research Director",
@@ -109,7 +110,7 @@
 //						EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
 	if(target_role == "HEAD")
-		if (target_amount == 1)
+		if(target_amount == 1)
 			explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
 		else
 			explanation_text = "Guarantee [target_amount] Vassals end up as different Leadership or Department Heads."
@@ -120,22 +121,22 @@
 /datum/objective/bloodsucker/protege/check_completion()
 
 	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if (!antagdatum || antagdatum.vassals.len == 0)
+	if(!antagdatum || antagdatum.vassals.len == 0)
 		return FALSE
 
 	// Get list of all jobs that are qualified (for HEAD, this is already done)
 	var/list/valid_jobs
-	if (target_role == "HEAD")
+	if(target_role == "HEAD")
 		valid_jobs = roles
 	else
 		valid_jobs = list()
 		var/list/alljobs = subtypesof(/datum/job) // This is just a list of TYPES, not the actual variables!
 		for(var/T in alljobs)
 			var/datum/job/J = SSjob.GetJobType(T) //
-			if (!istype(J))
+			if(!istype(J))
 				continue
 			// Found a job whose Dept Head matches either list of heads, or this job IS the head
-			if ((target_role in J.department_head) || target_role == J.title)
+			if((target_role in J.department_head) || target_role == J.title)
 				valid_jobs += J.title
 
 
@@ -143,21 +144,21 @@
 	var/objcount = 0
 	var/list/counted_roles = list() // So you can't have more than one Captain count.
 	for(var/datum/antagonist/vassal/V in antagdatum.vassals)
-		if (!V || !V.owner)	// Must exist somewhere, and as a vassal.
+		if(!V || !V.owner)	// Must exist somewhere, and as a vassal.
 			continue
 
 		var/thisRole = "none"
 
 		// Mind Assigned
-		if ((V.owner.assigned_role in valid_jobs) && !(V.owner.assigned_role in counted_roles))
+		if((V.owner.assigned_role in valid_jobs) && !(V.owner.assigned_role in counted_roles))
 			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MIND ROLE)</span>")
 			thisRole = V.owner.assigned_role
 		// Mob Assigned
-		else if ((V.owner.current.job in valid_jobs) && !(V.owner.current.job in counted_roles))
+		else if((V.owner.current.job in valid_jobs) && !(V.owner.current.job in counted_roles))
 			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MOB JOB)</span>")
 			thisRole = V.owner.current.job
 		// PDA Assigned
-		else if (V.owner.current && ishuman(V.owner.current))
+		else if(V.owner.current && ishuman(V.owner.current))
 			var/mob/living/carbon/human/H = V.owner.current
 			var/obj/item/card/id/I =  H.wear_id ? H.wear_id.GetID() : null
 			if (I && (I.assignment in valid_jobs) && !(I.assignment in counted_roles))
@@ -165,12 +166,12 @@
 				thisRole = I.assignment
 
 		// NO MATCH
-		if (thisRole == "none")
+		if(thisRole == "none")
 			continue
 
 		// SUCCESS!
 		objcount ++
-		if (target_role == "HEAD")
+		if(target_role == "HEAD")
 			counted_roles += thisRole // Add to list so we don't count it again (but only if it's a Head)
 
 	// 			NOTE!!!!!!!!!!!
@@ -329,15 +330,25 @@
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/monsterhunter/check_completion()
 	var/list/datum/mind/monsters = list()
-	monsters += SSticker.mode.bloodsuckers
-	monsters += SSticker.mode.cult
-	monsters += SSticker.mode.wizards
-	monsters += SSticker.mode.apprentices
-	monsters += ROLE_HERETIC // Disabled, not working (Heretics)
-	//monsters += SSticker.mode.changelings(ROLE_CHANGELING) // Disabled, not working
-
-	for (var/datum/mind/M in monsters)
-		if (M && M != owner && M.current && M.current.stat != DEAD && get_turf(M.current))
+	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
+		if(C.mind)
+			var/datum/mind/UM = C.mind
+			if(UM.has_antag_datum(/datum/antagonist/changeling))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/heretic))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/cult))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/ashwalker))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/wizard))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
+				monsters += UM
+	for(var/datum/mind/M in monsters)
+		if(M && M != owner && M.current && M.current.stat != DEAD && get_turf(M.current))
 			return FALSE
 	return TRUE
 
