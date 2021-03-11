@@ -20,17 +20,16 @@ Adds the Bloodsucker, Vassal and Monster Hunter antagonists to the game, with al
 - code/modules/mob/living/carbon/life.dm > Kicks Bloodsuckers out of body temperature
 - code/modules/mob/mob_movement.dm > Prevents running while on Fortitude
 - code/modules/reagents/chemistry/reagents/alcohol_reagents.dm > Gives Bloodsuckers blood for drinking Bloody Mary
-- code/modules/surgery/organs/heart.dm > Added HeartStrengthMessage
 - code/modules/surgery/organs/tongue.dm > Added Vampiric language
 
 ### Credits:
 
 Skyrat - .md template
-TheSwain - Original Bloodsuckers
-Citadel - New Bloodsucker code
+Fulpstation/TheSwain - Original Bloodsuckers
 John Willard - Coding
+Citadel - Help with some coding
 
 ## NOTES:
 
-- bloodsucker_objects.dm >> Once Combat mode is merged, add Help intent to Bloodbag drinking
+- bloodsucker_objects.dm >> Once Combat mode is merged, add Help intent to Blood bag's drinking
 - vassal.dm >> Once New Traits is merged, swap REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, "implant") -> REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, IMPLANT_TRAIT)

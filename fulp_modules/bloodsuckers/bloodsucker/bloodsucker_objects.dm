@@ -25,6 +25,7 @@
 //////////////////////
 //      HEART       //
 //////////////////////
+
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
 	// Do I have any parts that need replacing?
 	var/obj/item/organ/O
@@ -73,6 +74,11 @@
 	if(fakingit)
 		return "a healthy"
 	return "<span class='danger'>no</span>"	// Bloodsuckers don't have a heartbeat at all when stopped (default is "an unstable")
+
+/obj/item/organ/heart/proc/HeartStrengthMessage() // Proc for the default (Non-Bloodsucker) Heart!
+	if(beating)
+		return "a healthy"
+	return "<span class='danger'>an unstable</span>"
 
 //////////////////////
 //      EYES        //
