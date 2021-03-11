@@ -26,15 +26,16 @@
 		/obj/item/bodypart/r_leg/devil,
 		/obj/item/bodypart/l_leg/devil,
 		)
+	hud_type = /datum/hud/devil
 	var/ascended = FALSE
 	var/mob/living/oldform
 	var/list/devil_overlays[DEVIL_TOTAL_LAYERS]
 
 /// Arch devil
 /mob/living/carbon/true_devil/arch_devil
+	health = 500
 	maxHealth = 500
 	ascended = TRUE
-	health = maxHealth
 	icon_state = "arch_devil"
 
 /mob/living/carbon/true_devil/Initialize()
@@ -45,6 +46,11 @@
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_ADVANCEDTOOLUSER, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_NOBREATH, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_NEVER_WOUNDED, INNATE_TRAIT)
+	AddSpell(new /obj/effect/proc_holder/spell/targeted/conjure_item/summon_pitchfork(null))
+	AddSpell(new /obj/effect/proc_holder/spell/targeted/conjure_item/violin(null))
+	AddSpell(new /obj/effect/proc_holder/spell/aimed/fireball/hellish(null))
+	AddSpell(new /obj/effect/proc_holder/spell/targeted/summon_dancefloor(null))
 
 /mob/living/carbon/true_devil/create_internal_organs()
 	internal_organs += new /obj/item/organ/brain
@@ -118,23 +124,26 @@
 		"<span class='userdanger'>[attack_message]</span>", null, COMBAT_MESSAGE_RANGE)
 	return TRUE
 
-/// ATTACK GHOST IGNORING PARENT RETURN VALUE
-/mob/living/carbon/true_devil/attack_ghost(mob/dead/observer/user as mob)
-	if(ascended)
-		var/mob/living/simple_animal/hostile/imp/S = new(get_turf(loc))
-		S.key = user.key
-		var/datum/antagonist/imp/A = new()
-		S.mind.add_antag_datum(A)
-		to_chat(S, S.playstyle_string)
-	else
-		return ..()
-
 /mob/living/carbon/true_devil/can_be_revived()
 	return 1
 
 /// They're immune to fire.
-/mob/living/carbon/true_devil/resist_fire()
+/mob/living/carbon/true_devil/resist()
+	set name = "Resist"
+	set category = "IC"
 
+	if(!can_resist())
+		return
+	changeNext_move(CLICK_CD_RESIST)
+
+	SEND_SIGNAL(src, COMSIG_LIVING_RESIST, src)
+	if(!HAS_TRAIT(src, TRAIT_RESTRAINED) && pulledby) // Resisting Grabs
+		log_combat(src, pulledby, "resisted grab")
+		resist_grab()
+		return
+
+	if(on_fire)
+		resist_fire() // Resisting out of Fires
 
 /mob/living/carbon/true_devil/attack_hand(mob/living/carbon/human/M)
 	. = ..()
@@ -291,3 +300,66 @@
 	can_be_disabled = FALSE
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
+
+/////////////////////
+///     HUDS      ///
+/////////////////////
+
+/datum/hud/devil/New(mob/owner)
+	. = ..()
+	var/atom/movable/screen/using
+
+	using = new /atom/movable/screen/drop()
+	using.icon = ui_style
+	using.screen_loc = ui_drone_drop
+	using.hud = src
+	static_inventory += using
+
+	pull_icon = new /atom/movable/screen/pull()
+	pull_icon.icon = ui_style
+	pull_icon.update_icon()
+	pull_icon.screen_loc = ui_drone_pull
+	pull_icon.hud = src
+	static_inventory += pull_icon
+
+	build_hand_slots()
+
+	using = new /atom/movable/screen/inventory()
+	using.name = "hand"
+	using.icon = ui_style
+	using.icon_state = "swap_1_m"
+	using.screen_loc = ui_swaphand_position(owner,1)
+	using.layer = HUD_LAYER
+	using.plane = HUD_PLANE
+	using.hud = src
+	static_inventory += using
+
+	using = new /atom/movable/screen/inventory()
+	using.name = "hand"
+	using.icon = ui_style
+	using.icon_state = "swap_2"
+	using.screen_loc = ui_swaphand_position(owner,2)
+	using.layer = HUD_LAYER
+	using.plane = HUD_PLANE
+	using.hud = src
+	static_inventory += using
+
+	zone_select = new /atom/movable/screen/zone_sel()
+	zone_select.icon = ui_style
+	zone_select.hud = src
+	zone_select.update_icon()
+
+
+/datum/hud/devil/persistent_inventory_update()
+	if(!mymob)
+		return
+	var/mob/living/carbon/true_devil/D = mymob
+
+	if(hud_version != HUD_STYLE_NOHUD)
+		for(var/obj/item/I in D.held_items)
+			I.screen_loc = ui_hand_position(D.get_held_index_of_item(I))
+			D.client.screen += I
+	else
+		for(var/obj/item/I in D.held_items)
+			I.screen_loc = null
+			D.client.screen -= I
