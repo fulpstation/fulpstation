@@ -1,6 +1,5 @@
 #define DEVIL_BODYPART "devil"
 #define DEVIL_HANDS_LAYER 1
-#define DEVIL_HEAD_LAYER 2
 #define DEVIL_TOTAL_LAYERS 2
 
 /mob/living/carbon/true_devil
@@ -97,6 +96,7 @@
 		return FALSE
 	return TRUE
 
+/// Beepsky doesn't like Devils
 /mob/living/carbon/true_devil/assess_threat(judgement_criteria, lasercolor = "", datum/callback/weaponcheck=null)
 	return 666
 
@@ -125,7 +125,7 @@
 	return TRUE
 
 /mob/living/carbon/true_devil/can_be_revived()
-	return 1
+	return TRUE
 
 /// They're immune to fire.
 /mob/living/carbon/true_devil/resist()
@@ -261,40 +261,40 @@
 ///     LIMBS     ///
 /////////////////////
 
-///HEAD
+/// HEAD
 /obj/item/bodypart/head/devil
 	dismemberable = 0
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
 
-///CHEST
+/// CHEST
 /obj/item/bodypart/chest/devil
 	dismemberable = 0
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
 
-///LEFT ARM
+/// LEFT ARM
 /obj/item/bodypart/l_arm/devil
 	dismemberable = FALSE
 	can_be_disabled = FALSE
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
 
-///RIGHT ARM
+/// RIGHT ARM
 /obj/item/bodypart/r_arm/devil
 	dismemberable = FALSE
 	can_be_disabled = FALSE
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
 
-///LEFT LEG
+/// LEFT LEG
 /obj/item/bodypart/l_leg/devil
 	dismemberable = FALSE
 	can_be_disabled = FALSE
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
 
-///RIGHT LEG
+/// RIGHT LEG
 /obj/item/bodypart/r_leg/devil
 	dismemberable = FALSE
 	can_be_disabled = FALSE
