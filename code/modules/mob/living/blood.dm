@@ -7,11 +7,11 @@
 // Takes care blood loss and regeneration
 /mob/living/carbon/human/handle_blood()
 
-	if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: Dont regenerate blood, damnmit!
-		return // We cant use the TRAIT_NOBLEED below as its a species_trait only
-
 	if(NOBLOOD in dna.species.species_traits || HAS_TRAIT(src, TRAIT_NOBLEED) || (HAS_TRAIT(src, TRAIT_FAKEDEATH)))
 		return
+
+	else if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: Dont regenerate blood, damnmit!
+		return // We cant use the TRAIT_NOBLEED above as its a species_trait only
 
 	if(bodytemperature >= TCRYO && !(HAS_TRAIT(src, TRAIT_HUSK))) //cryosleep or husked people do not pump the blood.
 
