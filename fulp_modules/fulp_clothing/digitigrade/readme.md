@@ -12,7 +12,7 @@ Ports over Digigrade Shoes from the old repo!
 
 ### TG files changed:
 
--code\modules\mob\living\carbon\human\species.dm > What makes the shoes work, also some text changes.
+- code\modules\mob\living\carbon\human\species.dm > What makes the shoes work, also some text changes.
 
 ### TG procs overwrites:
 
