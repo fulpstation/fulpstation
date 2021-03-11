@@ -228,7 +228,7 @@
 		if(MUTE_DEADCHAT)
 			mute_string = "deadchat and DSAY"
 			feedback_string = "Deadchat"
-		if(MUTE_MENTORHELP)
+		if(MUTE_MENTORHELP) // Fulpstation Mentorhelp
 			mute_string = "mhelp"
 			feedback_string = "Mentor Help"
 		if(MUTE_ALL)

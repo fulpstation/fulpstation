@@ -32,6 +32,9 @@ const taskTgui = new Task('tgui')
 
 const taskDm = new Task('dm')
   .depends('code/**')
+  // FULP - We add our modular folder as part of the dependecies, so that build doesn't fail if the only file edited is inside it.
+  .depends('fulp_modules/**')
+  // FULP EDIT END
   .depends('goon/**')
   .depends('html/**')
   .depends('interface/**')
