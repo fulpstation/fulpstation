@@ -30,7 +30,7 @@
 	. = ..()
 	AddComponent(/datum/component/two_handed, force_unwielded=19, force_wielded=25)
 
-/obj/item/pitchfork/suicide_act(mob/user)
+/obj/item/pitchfork/suicide_act(mob/living/user)
 	user.visible_message("<span class='suicide'>[user] repeatedly stabs [user.p_them()]selves in [user.p_their()] abdomen with [src]! It looks like [user.p_theyre()] trying to send themselves to Hell!</span>")
 	playsound(loc, 'sound/hallucinations/veryfar_noise.ogg', 50, TRUE, -1)
 	sleep(20)
