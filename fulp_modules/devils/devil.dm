@@ -145,6 +145,7 @@
 	if(on_fire)
 		resist_fire() // Resisting out of Fires
 
+/// Intents
 /mob/living/carbon/true_devil/attack_hand(mob/living/carbon/human/M)
 	. = ..()
 	if(.)
@@ -175,6 +176,22 @@
 							playsound(loc, 'sound/weapons/punchmiss.ogg', 25, TRUE, -1)
 							visible_message("<span class='danger'>[M] fails to disarm [src]!</span>", \
 							"<span class='userdanger'>[M] fails to disarm you!</span>")
+
+/* -- REPLACE ABOVE WITH THIS ONCE COMBAT MODE IS MERGED
+/mob/living/carbon/true_devil/attack_hand(mob/living/carbon/human/M, list/modifiers)
+	. = ..()
+	if(.) // To allow surgery to return properly.
+		return FALSE
+
+	if(user.combat_mode)
+		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+			user.do_attack_animation(src, ATTACK_EFFECT_DISARM)
+			return TRUE
+		user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
+		return TRUE
+	else
+		help_shake_act(user)
+*/
 
 /mob/living/carbon/true_devil/is_literate()
 	return TRUE
