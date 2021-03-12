@@ -11,7 +11,6 @@
 	// "the monkey (958) Tries to recharge the batong in you in the chest with the batong" people wanted this.
 	squeak_override = list('fulp_modules/things/toys/sound/batong.ogg'= 1)
 
-
 /obj/item/toy/plush/supermatter
 	name = "Supermatter toy"
 	desc = "A Supermatter plushe! you shouldnt pet the real one without Chief Engineer permission!."
