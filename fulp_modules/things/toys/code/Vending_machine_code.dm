@@ -3,5 +3,5 @@
     . = ..()
 
 /obj/machinery/vending/tool/Initialize()
-	contraband += list(/obj/item/toy/plush/supermatter = 2)
+	contraband += list(/obj/item/toy/plush/supermatter = 1)
 	. = ..()
