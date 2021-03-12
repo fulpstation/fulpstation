@@ -1,5 +1,5 @@
 /obj/item/food/burger/catburger
-	name = "Cat burger	"
+	name = "Catburger	"
 	desc = "Finally those catpeople are worth something!"
 	icon = 'fulp_modules/things/food/icon/food.dmi'
 	icon_state = "catburger"
