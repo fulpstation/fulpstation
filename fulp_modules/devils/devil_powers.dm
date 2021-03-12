@@ -7,7 +7,6 @@
 	range = -1
 	clothes_req = FALSE
 	item_type = /obj/item/pitchfork/demonic
-
 	school = "conjuration"
 	charge_max = 150
 	cooldown_min = 10
@@ -32,8 +31,13 @@
 	AddComponent(/datum/component/two_handed, force_unwielded=19, force_wielded=25)
 
 /obj/item/pitchfork/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] impales [user.p_them()]self in [user.p_their()] abdomen with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
-	return (BRUTELOSS)
+	user.visible_message("<span class='suicide'>[user] repeatedly stabs [user.p_them()]selves in [user.p_their()] abdomen with [src]! It looks like [user.p_theyre()] trying to send themselves to Hell!</span>")
+	playsound(loc, 'sound/hallucinations/veryfar_noise.ogg', 50, TRUE, -1)
+	sleep(20)
+	for(var/obj/item/W in user)
+		user.dropItemToGround(W)
+	user.dust()
+	return OXYLOSS
 
 /obj/item/pitchfork/demonic/ascended/afterattack(atom/target, mob/user, proximity)
 	. = ..()
@@ -73,16 +77,13 @@
 /obj/effect/proc_holder/spell/aimed/fireball/hellish
 	name = "Hellfire"
 	desc = "This spell launches hellfire at the target."
-
 	school = "evocation"
 	charge_max = 80
 	clothes_req = FALSE
 	invocation = "Your very soul will catch fire!"
 	invocation_type = INVOCATION_SHOUT
 	range = 2
-
 	projectile_type = /obj/projectile/magic/aoe/fireball/infernal
-
 	action_background_icon_state = "bg_demon"
 
 /obj/projectile/magic/aoe/fireball/infernal
@@ -94,10 +95,6 @@
 
 /obj/projectile/magic/aoe/fireball/infernal/on_hit(target)
 	. = ..()
-	if(ismob(target))
-		var/mob/living/M = target
-		if(M.anti_magic_check())
-			return BULLET_ACT_BLOCK
 	var/turf/T = get_turf(target)
 	for(var/i=0, i<50, i+=10)
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/explosion, T, -1, exp_heavy, exp_light, exp_flash, FALSE, FALSE, exp_fire), i)

@@ -54,7 +54,7 @@
 /mob/living/carbon/true_devil/create_internal_organs()
 	internal_organs += new /obj/item/organ/brain
 	internal_organs += new /obj/item/organ/tongue
-	internal_organs += new /obj/item/organ/eyes
+	internal_organs += new /obj/item/organ/eyes/robotic/shield
 	internal_organs += new /obj/item/organ/ears/invincible //Prevents hearing loss from poorly aimed fireballs.
 	..()
 
@@ -74,7 +74,7 @@
 		. += "The devil seems to be in deep contemplation."
 
 	if(stat == DEAD) // Damaged
-		. += "<span class='deadsay'>The hellfire seems to have been extinguished, for now at least.</span>"
+		. += "<span class='deadsay'>The hellfire inside of its wounds seems to have been extinguished, for now at least.</span>"
 	else if(health < (maxHealth/10))
 		. += "<span class='warning'>You can see hellfire inside its gaping wounds.</span>"
 	else if(health < (maxHealth/2))
@@ -127,7 +127,6 @@
 /mob/living/carbon/true_devil/can_be_revived()
 	return TRUE
 
-/// They're immune to fire.
 /mob/living/carbon/true_devil/resist()
 	set name = "Resist"
 	set category = "IC"
@@ -159,23 +158,16 @@
 				log_combat(M, src, "attacked")
 				updatehealth()
 			if("disarm")
-				if(!(mobility_flags & MOBILITY_STAND) && !ascended) //No stealing the arch devil's pitchfork.
-					if(prob(5))
-						Unconscious(40)
+				if(!(mobility_flags & MOBILITY_STAND))
+					if(prob(25))
+						dropItemToGround(get_active_held_item())
 						playsound(loc, 'sound/weapons/thudswoosh.ogg', 50, TRUE, -1)
-						log_combat(M, src, "pushed")
-						visible_message("<span class='danger'>[M] pushes [src] down!</span>", \
-							"<span class='userdanger'>[M] pushes you down!</span>")
+						visible_message("<span class='danger'>[M] disarms [src]!</span>", \
+						"<span class='userdanger'>[M] disarms you!</span>")
 					else
-						if(prob(25))
-							dropItemToGround(get_active_held_item())
-							playsound(loc, 'sound/weapons/thudswoosh.ogg', 50, TRUE, -1)
-							visible_message("<span class='danger'>[M] disarms [src]!</span>", \
-							"<span class='userdanger'>[M] disarms you!</span>")
-						else
-							playsound(loc, 'sound/weapons/punchmiss.ogg', 25, TRUE, -1)
-							visible_message("<span class='danger'>[M] fails to disarm [src]!</span>", \
-							"<span class='userdanger'>[M] fails to disarm you!</span>")
+						playsound(loc, 'sound/weapons/punchmiss.ogg', 25, TRUE, -1)
+						visible_message("<span class='danger'>[M] fails to disarm [src]!</span>", \
+						"<span class='userdanger'>[M] fails to disarm you!</span>")
 
 /* -- REPLACE ABOVE WITH THIS ONCE COMBAT MODE IS MERGED
 /mob/living/carbon/true_devil/attack_hand(mob/living/carbon/human/M, list/modifiers)
