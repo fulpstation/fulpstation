@@ -9,7 +9,7 @@
 	subcategory = CAT_BURGER
 
 /datum/crafting_recipe/food/meatbread
-	name = "Sausage bread "
+	name = "Sausage bread"
 	reqs = list(
 		/obj/item/food/bread/plain = 1,
 		/obj/item/food/sausage = 2
