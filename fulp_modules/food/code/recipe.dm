@@ -2,6 +2,7 @@
 	name = "Catperson burger"
 	reqs = list(
 		/obj/item/food/bun = 1,
+		/obj/item/food/patty/plain = 1,
 		/obj/item/organ/ears/cat = 1,
 		/obj/item/organ/tail/cat = 1
 	)
