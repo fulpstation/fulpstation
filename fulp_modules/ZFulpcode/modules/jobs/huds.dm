@@ -4,7 +4,7 @@
 	var/image/holder = hud_list[ID_HUD]
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
-	holder.icon = wear_id.return_icon_hud() 					// FULP: Reset to default icon, in case you swapped to a FULP .dmi but we need to restore it.  **THIS IS TEMPORARY**
+	holder.icon = 'fulp_modules/jobs/huds.dmi' || 'icons/mob/hud.dmi'			// FULP: Reset to default icon, in case you swapped to a FULP .dmi but we need to restore it.  **THIS IS TEMPORARY**
 	var/sechud_icon_state = wear_id?.GetJobName()
 	if(!sechud_icon_state)
 		sechud_icon_state = "hudno_id"

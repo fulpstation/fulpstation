@@ -34696,10 +34696,10 @@
 	dir = 4;
 	pixel_x = -24
 	},
-/obj/machinery/vending/dinnerware,
 /obj/effect/turf_decal/siding/thinplating/light{
 	dir = 9
 	},
+/obj/machinery/vending/dinnerware,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "byq" = (
@@ -39179,7 +39179,11 @@
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "bIU" = (
-/obj/effect/turf_decal/siding/thinplating/light/corner,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/thinplating/light,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "bIV" = (
@@ -39188,11 +39192,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 5
-	},
-/obj/effect/turf_decal/siding/thinplating/light,
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 4
 	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
@@ -39345,9 +39344,6 @@
 /turf/open/floor/iron/dark,
 /area/engineering/gravity_generator)
 "bJo" = (
-/obj/structure/disposalpipe/segment{
-	dir = 10
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 10
 	},
@@ -39355,7 +39351,7 @@
 	dir = 10
 	},
 /obj/effect/turf_decal/siding/thinplating/light{
-	dir = 6
+	dir = 4
 	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
@@ -39753,14 +39749,16 @@
 /turf/open/floor/iron,
 /area/service/hydroponics)
 "bKn" = (
-/obj/machinery/door/airlock{
-	name = "Kitchen Coldroom";
-	req_access_txt = "28"
-	},
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
-/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/effect/turf_decal/siding/thinplating/light{
+	dir = 6
+	},
+/turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "bKo" = (
 /obj/machinery/door/window{
@@ -40510,9 +40508,7 @@
 /area/medical/chemistry)
 "bMa" = (
 /obj/machinery/deepfryer,
-/obj/effect/turf_decal/siding/thinplating/light{
-	dir = 6
-	},
+/obj/effect/turf_decal/siding/thinplating/light,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "bMc" = (
@@ -41150,6 +41146,10 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
+/obj/machinery/door/airlock{
+	name = "Kitchen Coldroom";
+	req_access_txt = "28"
+	},
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/service/kitchen)
 "bNP" = (
@@ -71282,9 +71282,6 @@
 	},
 /turf/open/floor/iron,
 /area/commons/fitness/recreation)
-"jOc" = (
-/turf/open/space/basic,
-/area/command/bridge)
 "jOg" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 4
@@ -104805,7 +104802,7 @@ bFa
 bFa
 bGv
 byq
-bIU
+byq
 bMa
 bxa
 bxa
@@ -105063,7 +105060,7 @@ bFb
 bGw
 bHE
 bIV
-bxa
+bIU
 bxa
 bNM
 bPq
@@ -117321,7 +117318,7 @@ aaa
 aaa
 aaa
 aaa
-jOc
+aaa
 ajn
 ajn
 ajn

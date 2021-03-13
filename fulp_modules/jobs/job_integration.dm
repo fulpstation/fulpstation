@@ -9,7 +9,7 @@
 
 		//	ID CARDS	//
 
-/obj/item/card
+// /obj/item/card
 	// var/datum/job/linkedJobType         // This is a TYPE, not a ref to a particular instance. We'll use this for finding the job and hud icon of each job.
 
 // Used to assign the HUD icon linked to the job ID Card.
@@ -17,8 +17,6 @@
 	var/datum/job/linkedJobType
 	var/obj/item/card/id/id_card = GetID()
 
-	if(!id_card)
-		return
 	var/card_assignment = id_card.trim?.assignment
 	if (card_assignment in GLOB.fulp_job_assignments)
 		return 'fulp_modules/jobs/huds.dmi'
