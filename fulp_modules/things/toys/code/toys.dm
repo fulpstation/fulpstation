@@ -1,5 +1,5 @@
 /obj/item/toy/plush/batong
-	name = "Batong"
+	name = "batong"
 	desc = "A cheaply made toy. Looks like it need some recharge maybe security can help you"
 	icon = 'fulp_modules/things/toys/icon/toys.dmi'
 	icon_state = "batong"
