@@ -8,7 +8,6 @@
 	result = /obj/item/food/burger/catburger
 	subcategory = CAT_BURGER
 
-
 /datum/crafting_recipe/food/meatbread
 	name = "Sausage bread "
 	reqs = list(
@@ -17,3 +16,12 @@
 	)
 	result = /obj/item/food/bread/sausage
 	subcategory = CAT_BREAD
+
+/datum/crafting_recipe/food/friedegg
+	name = "Fried egg"
+	reqs = list(
+		/obj/item/food/sausage = 1,
+		/obj/item/food/egg = 1
+	)
+	result = /obj/item/food/eggssausage
+	subcategory = CAT_EGG

@@ -27,3 +27,12 @@
 	foodtypes = GRAIN | MEAT
 	food_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/nutriment/vitamin = 2, /datum/reagent/consumable/nutriment/protein = 2.4)
 	tastes = list("bread" = 10, "meat" = 10)
+
+/obj/item/food/eggssausage
+	name = "egg with sausage"
+	desc = "Better than a single fried egg."
+	icon = 'fulp_modules/things/food/icon/food.dmi'
+	icon_state = "eggsausage"
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 8, /datum/reagent/consumable/nutriment/vitamin = 2, /datum/reagent/consumable/nutriment = 4)
+	foodtypes = MEAT | FRIED | BREAKFAST
+	tastes = list("egg" = 4, "meat" = 4)
