@@ -31,7 +31,7 @@
 /obj/item/food/eggssausage
 	name = "egg with sausage"
 	desc = "Better than a single fried egg."
-	icon = 'fulp_modules//food/icon/food.dmi'
+	icon = 'fulp_modules/food/icon/food.dmi'
 	icon_state = "eggsausage"
 	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 8, /datum/reagent/consumable/nutriment/vitamin = 2, /datum/reagent/consumable/nutriment = 4)
 	foodtypes = MEAT | FRIED | BREAKFAST
