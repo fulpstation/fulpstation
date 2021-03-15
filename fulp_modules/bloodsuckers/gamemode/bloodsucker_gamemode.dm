@@ -3,7 +3,7 @@
 	var/list/datum/mind/vassals = list() 			// List of minds that have been turned into Vassals.
 	var/obj/effect/sunlight/bloodsucker_sunlight	// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 	// The antags you're allowed to be if turning Vassal.
-	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/survivalist, /datum/antagonist/rev, /datum/antagonist/nukeop, /datum/antagonist/pirate, /datum/antagonist/cult, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
+	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/survivalist, /datum/antagonist/rev, /datum/antagonist/nukeop, /datum/antagonist/pirate, /datum/antagonist/cult, /datum/antagonist/heretic, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
 
 /proc/AmBloodsucker(mob/living/M, falseIfInDisguise = FALSE)
 	if(!M.mind)
@@ -20,7 +20,7 @@
 	antag_flag = ROLE_BLOODSUCKER
 	false_report_weight = 10
 	restricted_jobs = list("AI", "Cyborg")
-	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")
+	protected_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician") //, "Deputy")
 	required_players = 0
 	required_enemies = 1
 	recommended_enemies = 4
