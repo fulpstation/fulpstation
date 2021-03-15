@@ -411,7 +411,7 @@
 	desc = "Will stun and mute a weak-minded victim on contact."
 	color = RUNE_COLOR_RED
 	invocation = "Fuu ma'jin!"
-
+/* // Fulpstation Cult Stun edit
 /obj/item/melee/blood_magic/stun/afterattack(atom/target, mob/living/carbon/user, proximity)
 	if(!isliving(target) || !proximity)
 		return
@@ -455,7 +455,7 @@
 				C.Jitter(1.5 SECONDS)
 		uses--
 	..()
-
+*/
 //Teleportation
 /obj/item/melee/blood_magic/teleport
 	name = "Teleporting Aura"

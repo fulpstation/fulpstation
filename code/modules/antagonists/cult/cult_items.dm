@@ -438,7 +438,7 @@
 	icon_state = "blindfold"
 	inhand_icon_state = "blindfold"
 	flash_protect = FLASH_PROTECTION_WELDER
-
+/* // Fulpstation Cult Stun edit
 /obj/item/clothing/glasses/hud/health/night/cultblind/equipped(mob/living/user, slot)
 	..()
 	if(!iscultist(user))
@@ -447,7 +447,7 @@
 		user.Dizzy(30)
 		user.Paralyze(100)
 		user.blind_eyes(30)
-
+*/
 /obj/item/reagent_containers/glass/beaker/unholywater
 	name = "flask of unholy water"
 	desc = "Toxic to nonbelievers; reinvigorating to the faithful - this flask may be sipped or thrown."
