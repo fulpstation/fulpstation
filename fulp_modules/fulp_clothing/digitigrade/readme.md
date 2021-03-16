@@ -27,4 +27,5 @@ It adds a folder for clothing that others can use, maybe.
 Mithrandalf - Pretty much all the original code (and sprites afaik)
 CyoTheProtogen - Code tweaks and modularization (does this count?)
 GuillaumePrata - Stole the equip code they used for beefmen :^)
-JohnFulpWillard & SgtHunk - Helped my dumbass with stuff
+SgtHunk - Yoinked their magboots and jumpboots
+JohnFulpWillard - Helped my dumbass with stuff

@@ -108,14 +108,20 @@
 	new /obj/item/clothing/shoes/sneakers/brown/digitigrade(src)
 	. = ..()
 
-/obj/structure/closet/secure_closet/miner/Initialize()
+/obj/structure/closet/wardrobe/miner/Initialize()
 	new /obj/item/clothing/shoes/workboots/digitigrade(src)
 	. = ..()
+
+///Techtree
+
+/datum/techweb_node/adv_engi/New()
+	design_ids += "digimagboot-design"
 
 ///Mining Equipment Vendor
 
 /obj/machinery/mineral/equipment_vendor/Initialize()
 	prize_list += list(
 			new /datum/data/mining_equipment("Digitigrate Combat Boots",	/obj/item/clothing/shoes/digicombat,							450),
+			new /datum/data/mining_equipment("Digitigrade Jump Boots",		/obj/item/clothing/shoes/bhop/digitigrade,						2500),
 		)
 	return ..()

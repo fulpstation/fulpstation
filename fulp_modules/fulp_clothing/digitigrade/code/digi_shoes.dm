@@ -74,14 +74,24 @@
 
 ///Magboots
 
-// broken, might fix later
-//	/obj/item/clothing/shoes/magboots/digitigrade
-//		name = "digitigrade magboots"
-//		desc = "A custom-made variant set of magnetic boots, intended to ensure lizardfolk can safely perform EVA."
-//		flags_inv = FULL_DIGITIGRADE
-//		icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
-//		icon_state = "digi_magboots0"
-//		alternate_worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
+/obj/item/clothing/shoes/magboots/digitigrade
+	name = "digitigrade magboots"
+	desc = "A custom-made variant set of magnetic boots, intended to ensure lizardfolk can safely perform EVA."
+	flags_inv = FULL_DIGITIGRADE
+	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
+	icon_state = "digi_magboots0"
+	magboot_state = "digi_magboots"
+	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
+
+/datum/design/digi_magboots
+	name = "Digitigrade Magnetic Boots"
+	desc = "A custom-made variant set of magnetic boots, intended to ensure lizardfolk can safely perform EVA."
+	id = "digi_magboots"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 4500, /datum/material/silver = 1500, /datum/material/gold = 2500)
+	build_path = /obj/item/clothing/shoes/magboots/digitigrade
+	category = list("Equipment")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 ///Mime Shoes
 
@@ -92,3 +102,15 @@
 	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_mime"
 	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
+
+///Jump Boots
+
+/obj/item/clothing/shoes/bhop/digitigrade
+	name = "digitigrade jump boots"
+	desc = "A specialized pair of combat boots with a built-in propulsion system for rapid foward movement. Customized for Digitigrade lizards."
+	flags_inv = FULL_DIGITIGRADE
+	icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_shoes.dmi'
+	icon_state = "digi_jumpboots"
+	worn_icon = 'fulp_modules/fulp_clothing/digitigrade/icons/digi_feet.dmi'
+	resistance_flags = FIRE_PROOF
+	permeability_coefficient = 0.05
