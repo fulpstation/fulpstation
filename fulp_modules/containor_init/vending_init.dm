@@ -115,7 +115,7 @@
 ///Techtree
 
 /datum/techweb_node/adv_engi/New()
-	design_ids += "digimagboot-design"
+	design_ids += list("digimagboot-design")
 
 ///Mining Equipment Vendor
 
