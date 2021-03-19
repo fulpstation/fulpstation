@@ -41,10 +41,17 @@ GLOBAL_VAR_INIT(normal_looc_colour, "#ec0303")
 		if(isdead(mob))
 			to_chat(src, "<span class='danger'>You cannot use LOOC while ghosting.</span>")
 			return
-
-
+	if(is_banned_from(ckey, "OOC"))
+		to_chat(src, "<span class='danger'>You have been banned from OOC.</span>")
+		return
+	if(QDELETED(src))
+		return
 
 	msg = emoji_parse(msg)
+
+	if(SSticker.HasRoundStarted() && (msg[1] in list(".",";",":","#") || findtext_char(msg, "say", 1, 5)))
+		if(alert("Your message \"[raw_msg]\" looks like it was meant for in game communication, say it in LOOC?", "Meant for LOOC?", "Yes", "No") != "Yes")
+			return
 
 	mob.log_talk(msg,LOG_OOC, tag="LOOC")
 
@@ -86,5 +93,4 @@ proc/get_top_level_mob(var/mob/S)
         var/mob/M=src.loc
         return M.get_top_level_mob()
     return src
-
 
