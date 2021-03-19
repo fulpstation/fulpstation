@@ -41,8 +41,11 @@ GLOBAL_VAR_INIT(normal_looc_colour, "#ec0303")
 		if(isdead(mob))
 			to_chat(src, "<span class='danger'>You cannot use LOOC while ghosting.</span>")
 			return
-
-
+	if(is_banned_from(ckey, "OOC"))
+		to_chat(src, "<span class='danger'>You have been banned from OOC.</span>")
+		return
+	if(QDELETED(src))
+		return
 
 	msg = emoji_parse(msg)
 
