@@ -75,14 +75,16 @@ GLOBAL_VAR_INIT(normal_looc_colour, "#ec0303")
 			else
 				to_chat(C, "<span class='looc'>[ADMIN_FLW(usr)] <span class='prefix'>[prefix]:</span> <EM>[src.key]/[src.mob.name]:</EM> <span class='message'>[msg]</span></span>")
 
+proc/get_top_level_mob(var/mob/S)
+    if(istype(S.loc,/mob)&&S.loc!=S)
+        var/mob/M=S.loc
+        return M.get_top_level_mob()
+    return S
+
 /mob/proc/get_top_level_mob()
     if(istype(src.loc,/mob)&&src.loc!=src)
         var/mob/M=src.loc
         return M.get_top_level_mob()
     return src
 
-proc/get_top_level_mob(var/mob/S)
-    if(istype(S.loc,/mob)&&S.loc!=S)
-        var/mob/M=S.loc
-        return M.get_top_level_mob()
-    return S
+
