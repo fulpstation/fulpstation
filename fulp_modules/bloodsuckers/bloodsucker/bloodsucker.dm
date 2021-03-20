@@ -89,7 +89,6 @@
 	owner.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
-
 /datum/antagonist/bloodsucker/farewell()
 	owner.current.visible_message("[owner.current]'s skin flushes with color, their eyes growing glossier. They look...alive.",\
 			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
@@ -168,7 +167,7 @@
 
 	return fullname
 
-//Bloodsucker team
+/// Bloodsucker team
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
 
@@ -179,12 +178,9 @@
 	return clan
 
 /datum/antagonist/bloodsucker/proc/add_objective(var/datum/objective/O)
-	O.team = src
-	O.update_explanation_text()
 	objectives += O
 
 /datum/antagonist/bloodsucker/proc/remove_objectives()
-	objectives -= clan.objectives
 	for(var/O in objectives)
 		objectives -= O
 		qdel(O)
@@ -391,15 +387,14 @@
 
 //Assign default team and creates one for one of a kind team antagonists
 
-// Create Objectives
-
+/// Create Objectives
 /datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives() // Fledgling vampires can have different objectives.
 
 	// TEAM
 	//clan = new /datum/team/vampireclan(owner)
 
 
-	// Lair Objective:		Create a Lair
+	// Lair Objective
 	var/datum/objective/bloodsucker/lair/lair_objective = new
 	lair_objective.owner = owner
 	lair_objective.generate_objective()
@@ -411,18 +406,17 @@
 	protege_objective.generate_objective()
 	add_objective(protege_objective)
 
-	if(rand(0,1) == 0)
-		// Heart Thief Objective
-		var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
-		heartthief_objective.owner = owner
-		heartthief_objective.generate_objective()
-		add_objective(heartthief_objective)
-	else
-		// Vassalize Target Objective
-		var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
-		vassalhim_objective.owner = owner
-		vassalhim_objective.find_target()
-		objectives += vassalhim_objective
+	switch(rand(0,1))
+		if(0) // Heart Thief Objective
+			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
+			heartthief_objective.owner = owner
+			heartthief_objective.generate_objective()
+			add_objective(heartthief_objective)
+		if(1) // Vassalize Target Objective
+			var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
+			vassalhim_objective.owner = owner
+			vassalhim_objective.generate_objective()
+			add_objective(vassalhim_objective)
 
 	// Survive Objective
 	var/datum/objective/bloodsucker/survive/survive_objective = new

@@ -39,9 +39,9 @@
 		H.Stop() // Now...stop beating!
 	// Eyes
 	O = owner.current.getorganslot(ORGAN_SLOT_EYES)
-	if(!istype(O, /obj/item/organ/eyes/vassal/bloodsucker))
+	if(!istype(O, /obj/item/organ/eyes/vassal))
 		qdel(O)
-		var/obj/item/organ/eyes/vassal/bloodsucker/E = new
+		var/obj/item/organ/eyes/vassal/E = new
 		E.Insert(owner.current)
 
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
@@ -83,13 +83,10 @@
 //////////////////////
 //      EYES        //
 //////////////////////
-/obj/item/organ/eyes/vassal/
+/obj/item/organ/eyes/vassal
 	lighting_alpha = 180 //  LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
 	see_in_dark = 12
 	flash_protect = -1 //These eyes are weaker to flashes, but let you see in the dark
-
-/obj/item/organ/eyes/vassal/bloodsucker
-	flash_protect = 2 //Eye healing isnt working properly
 	sight_flags = SEE_MOBS // Taken from augmented_eyesight.dm
 
 /*

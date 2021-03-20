@@ -30,7 +30,6 @@
 	return possible_targets
 
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +46,7 @@
 		return TRUE
 	return FALSE
 
-	// Space_Station_13_areas.dm  <--- all the areas
+// Space_Station_13_areas.dm  <--- all the areas
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -243,12 +242,13 @@
 //						 GENERATE!
 /datum/objective/bloodsucker/heartthief/generate_objective()
 	target_amount = rand(2,3)
-
 	update_explanation_text()
 	//dangerrating += target_amount * 2
+	return target_amount
 
 //						EXPLANATION
 /datum/objective/bloodsucker/heartthief/update_explanation_text()
+	. = ..()
 	explanation_text = "Steal and keep [target_amount] heart[target_amount == 1 ? "" : "s"]."			// TO DO:     Limit them to Human Only!
 
 //						WIN CONDITIONS?
@@ -275,7 +275,7 @@
 	martyr_compatible = FALSE // Why is this defined, Bloodsuckers cant roll DAGD anyways.
 	// NOTE: Look up /assassinate in objective.dm for inspiration.
 
-//						FIND TARGET!
+//				FIND TARGET/GENERATE OBJECTIVE
 /datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE,invert=FALSE)
 	if(!invert)
 		target_role_type = role_type
@@ -309,7 +309,7 @@
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/survive/check_completion()
 	// -Must have a body.
-	if (!owner.current || !isliving(owner.current))
+	if(!owner.current || !isliving(owner.current))
 		return FALSE
 	// Dead, without a head or heart? Cya
 	return owner.current.stat != DEAD// || owner.current.HaveBloodsuckerBodyparts()

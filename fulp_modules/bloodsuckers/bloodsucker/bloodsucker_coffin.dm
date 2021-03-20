@@ -128,7 +128,7 @@
 			// Heal
 			if(bloodsuckerdatum.HandleHealing(0)) // Healing Mult 0 <--- We only want to check if healing is valid!
 				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-			//	bloodsuckerdatum.Torpor_Begin() // In case you're entering a coffin to heal, not entering Torpor.
+				//Torpor_Begin() // In case you're entering a coffin to heal, not entering Torpor.
 			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
 	return TRUE
 

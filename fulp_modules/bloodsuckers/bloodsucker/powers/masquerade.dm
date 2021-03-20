@@ -51,7 +51,7 @@
 	// Falsifies Health Analyzers
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	var/obj/item/organ/eyes/vassal/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/vassal/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = 0
 
 	// WE ARE ALIVE! //
@@ -99,7 +99,7 @@
 
 	// HEART
 	var/obj/item/organ/heart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	var/obj/item/organ/eyes/vassal/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/vassal/E = user.getorganslot(ORGAN_SLOT_EYES)
 	H.Stop()
 
 	E.flash_protect = 2

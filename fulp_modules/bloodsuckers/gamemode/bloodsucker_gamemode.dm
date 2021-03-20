@@ -107,25 +107,18 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
-/datum/game_mode/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator, display_warning=TRUE) // Creator is just here so we can display fail messages to whoever is turning us.
-	// No Mind
-	if(!bloodsucker || !bloodsucker.key) // KEY is client login?
-		//if(creator) // REMOVED. You wouldn't see their name if there is no mind, so why say anything?
-		//	to_chat(creator, "<span class='danger'>[bloodsucker] isn't self-aware enough to be raised as a Bloodsucker!</span>")
-		return FALSE
+/datum/game_mode/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator) // Creator is just here so we can display fail messages to whoever is turning us.
 	// Species Must have a HEART (Sorry Plasmabois)
 	var/mob/living/carbon/human/H = bloodsucker.current
 	if(NOBLOOD in H.dna.species.species_traits)
-		if(display_warning && creator)
-			to_chat(creator, "<span class='danger'>[bloodsucker]'s DNA isn't compatible!</span>")
+		to_chat(creator, "<span class='danger'>[bloodsucker]'s DNA isn't compatible!</span>")
 		return FALSE
 	// Already a Non-Human Antag
 	if(bloodsucker.has_antag_datum(/datum/antagonist/abductor) || bloodsucker.has_antag_datum(/datum/antagonist/changeling))
 		return FALSE
 	// Already a vamp
 	if(bloodsucker.has_antag_datum(/datum/antagonist/bloodsucker))
-		if(display_warning && creator)
-			to_chat(creator, "<span class='danger'>[bloodsucker] is already a Bloodsucker!</span>")
+		to_chat(creator, "<span class='danger'>[bloodsucker] is already a Bloodsucker!</span>")
 		return FALSE
 	return TRUE
 

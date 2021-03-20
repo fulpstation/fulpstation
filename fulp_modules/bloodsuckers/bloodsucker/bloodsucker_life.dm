@@ -10,6 +10,9 @@
 
 ///Runs from BiologicalLife, handles all the bloodsucker constant proccesses
 /datum/antagonist/bloodsucker/proc/LifeTick()
+	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
+	var/total_burn = owner.current.getFireLoss_nonProsthetic()
+	var/total_damage = total_brute + total_burn
 	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
 	while(owner && !AmFinalDeath())
 		if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
@@ -23,7 +26,7 @@
 		HandleStarving() // Handle Low Blood effects
 		HandleDeath() // Handle Death
 		update_hud() // Standard Update
-		if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
+		if(SSticker.mode.is_daylight() && total_damage > owner.current.getMaxHealth())
 			if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 				Torpor_Begin()
 		sleep(10) // Wait before next pass
@@ -92,8 +95,9 @@
 		var/mob/living/carbon/C = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
 		var/fireheal = 0 	// BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-			// Check for mult 0 OR death coma. (mult 0 means we're testing from coffin)
-		if(istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0 || HAS_TRAIT(C, TRAIT_FAKEDEATH)))
+		// Check for mult 0 OR death coma. (mult 0 means we're testing from coffin)
+		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0 || HAS_TRAIT(C, TRAIT_DEATHCOMA))
+		if(amInCoffinWhileTorpor)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			fireheal = min(C.getFireLoss_nonProsthetic(), bloodsucker_regen_rate) // NOTE: Burn damage ONLY heals in torpor.
 			C.extinguish_mob()
@@ -225,6 +229,9 @@
 			owner.current.Unconscious(20, 1)
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
+	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
+	var/total_burn = owner.current.getFireLoss_nonProsthetic()
+	var/total_damage = total_brute + total_burn
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)	// Without this, you'll just keep dying while you recover.
@@ -249,7 +256,6 @@
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	CureDisabilities()
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
-
 
 /datum/antagonist/proc/AmFinalDeath()
 	// Standard Antags can be dead OR final death

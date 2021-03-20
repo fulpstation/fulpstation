@@ -6,7 +6,6 @@
 
 // Over Time, tick down toward a "Solar Flare" of UV buffeting the station. This period is harmful to vamps.
 /obj/effect/sunlight
-	//var/amDay = FALSE
 	var/cancel_me = FALSE
 	var/amDay = FALSE
 	var/time_til_cycle = 0

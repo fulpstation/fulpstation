@@ -52,24 +52,17 @@
 	vassal_objective.owner = owner
 	vassal_objective.generate_objective()
 	objectives += vassal_objective
-	give_thrall_eyes()
 	owner.current.grant_language(/datum/language/vampiric)
 	update_vassal_icons_added(owner.current, "vassal")
 	. = ..()
 
-/datum/antagonist/vassal/proc/give_thrall_eyes()
-	var/obj/item/organ/eyes/vassal/E = new
-	E.Insert(owner.current)
-
-/datum/antagonist/vassal/proc/remove_thrall_eyes()
-	var/obj/item/organ/eyes/E = new
-	E.Insert(owner.current)
-
 /datum/antagonist/vassal/proc/add_objective(datum/objective/O)
 	objectives += O
 
-/datum/antagonist/vassal/proc/remove_objective(datum/objective/O)
-	objectives -= O
+/datum/antagonist/vassal/proc/remove_objective()
+	for(var/O in objectives)
+		objectives -= O
+		qdel(O)
 
 /datum/antagonist/vassal/on_removal()
 	SSticker.mode.vassals -= owner // Add if not already in here (and you might be, if you were picked at round start)
@@ -87,7 +80,6 @@
 		power.Remove(owner.current)
 	// Remove Hunter Objectives
 	remove_objective()
-	remove_thrall_eyes()
 	owner.current.remove_language(/datum/language/vampiric)
 	// Clear Antag
 	owner.special_role = null
@@ -100,11 +92,10 @@
 			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotransen do not apply to you now; only your vampiric master's word must be obeyed.<span>")
 	// Effects...
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
-	//owner.store_memory("You became the mortal servant of [master.owner.current], a bloodsucking vampire!")
-	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 	// And to your new Master...
 	to_chat(master.owner, "<span class='userdanger'>[owner.current] has become addicted to your immortal blood. [owner.current.p_they(TRUE)] [owner.current.p_are()] now your undying servant!</span>")
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
+	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 
 /datum/antagonist/vassal/farewell()
 	owner.current.visible_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm, \
