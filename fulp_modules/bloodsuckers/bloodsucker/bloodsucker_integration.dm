@@ -16,7 +16,7 @@
 	return TRUE
 
 // 			EXAMINING
-/mob/living/carbon/human/proc/ReturnVampExamine(var/mob/viewer)
+/mob/living/carbon/proc/ReturnVampExamine(var/mob/viewer)
 	if(!mind || !viewer.mind)
 		return ""
 	// Target must be a Vamp
@@ -43,7 +43,7 @@
 	//returnString += "\n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-/mob/living/carbon/human/proc/ReturnVassalExamine(var/mob/viewer)
+/mob/living/carbon/proc/ReturnVassalExamine(var/mob/viewer)
 	if(!mind || !viewer.mind)
 		return ""
 	// Am I not even a Vassal? Then I am not marked.
