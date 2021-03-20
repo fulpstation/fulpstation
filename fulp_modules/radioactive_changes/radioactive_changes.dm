@@ -4,3 +4,4 @@
 /// Makes the radioactive mutation inherent to ethereals
 /datum/species/ethereal
     inert_mutation = RADIOACTIVE
+    
