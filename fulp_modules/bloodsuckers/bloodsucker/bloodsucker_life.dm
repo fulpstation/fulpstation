@@ -229,9 +229,6 @@
 			owner.current.Unconscious(20, 1)
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
-	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
-	var/total_burn = owner.current.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)	// Without this, you'll just keep dying while you recover.
