@@ -135,7 +135,7 @@
 		else
 			D.adjustStaminaLoss(60)
 			D.Paralyze(20)
-		playsound(get_turf(A), 'sound/effects/slash.ogg', 50, TRUE, -1)
+		playsound(get_turf(A), 'sound/weapons/slash.ogg', 50, TRUE, -1)
 		log_combat(A, D, "holy kicked (Hunter-Fu)")
 	return TRUE
 
