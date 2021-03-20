@@ -23,6 +23,9 @@
 		HandleStarving() // Handle Low Blood effects
 		HandleDeath() // Handle Death
 		update_hud() // Standard Update
+		var/total_brute = owner.current.getBruteLoss_nonProsthetic()
+		var/total_burn = owner.current.getFireLoss_nonProsthetic()
+		var/total_damage = total_brute + total_burn
 		if(SSticker.mode.is_daylight() && total_damage > owner.current.getMaxHealth())
 			if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 				Torpor_Begin()
