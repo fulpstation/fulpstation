@@ -59,10 +59,8 @@
 /datum/antagonist/vassal/proc/add_objective(datum/objective/O)
 	objectives += O
 
-/datum/antagonist/vassal/proc/remove_objective()
-	for(var/O in objectives)
-		objectives -= O
-		qdel(O)
+/datum/antagonist/vassal/proc/remove_objective(datum/objective/O)
+	objectives -= O
 
 /datum/antagonist/vassal/on_removal()
 	SSticker.mode.vassals -= owner // Add if not already in here (and you might be, if you were picked at round start)

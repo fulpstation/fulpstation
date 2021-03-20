@@ -341,8 +341,6 @@
 				monsters += UM
 			if(UM.has_antag_datum(/datum/antagonist/cult))
 				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/ashwalker))
-				monsters += UM
 			if(UM.has_antag_datum(/datum/antagonist/wizard))
 				monsters += UM
 			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))

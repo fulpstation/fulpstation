@@ -41,7 +41,7 @@
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
 		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
-/// TRAIT_HARDLY_WOUNDED might be removed in favor of TRAIT_NEVER_WOUNDED in the future, we'd have to see the balance of Bloodsuckers in-game.
+/// TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -Willard
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -177,13 +177,11 @@
 /datum/antagonist/bloodsucker/get_team()
 	return clan
 
-/datum/antagonist/bloodsucker/proc/add_objective(var/datum/objective/O)
+/datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
 	objectives += O
 
-/datum/antagonist/bloodsucker/proc/remove_objectives()
-	for(var/O in objectives)
-		objectives -= O
-		qdel(O)
+/datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
+	objectives -= O
 
 //Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
@@ -211,14 +209,13 @@
 	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
 
 //ADMIN TOOLS
-
-//Called when using admin tools to give antag status
+/// Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
 	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
 	new_owner.add_antag_datum(src)
 
-//Called when removing antagonist using admin tools
+/// Called when removing antagonist using admin tools
 /datum/antagonist/bloodsucker/admin_remove(mob/user)
 	if(!user)
 		return
