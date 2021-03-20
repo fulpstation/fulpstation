@@ -64,11 +64,11 @@
 						"<span class='userdanger'>You're staked in the heart by [A]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
 		to_chat(A, "<span class='danger'>You stab [D] viciously!</span>")
 		if(D.mind.has_antag_datum(/datum/antagonist/changeling))
-			to_chat(D, "<span class='danger'>Their arm tears our monstrous form!</span>")
+			to_chat(D, "<span class='danger'>Their arm tears through our monstrous form!</span>")
 			D.apply_damage(25, A.dna.species.attack_type)
 			return
 		if(D.mind.has_antag_datum(/datum/antagonist/bloodsucker))
-			to_chat(D, "<span class='cultlarge'>Their arm stakes straight into your undead flesh!</span>")
+			to_chat(D, "<span class='cultlarge'>Their arm stakes straight into our undead flesh!</span>")
 			D.apply_damage(30, BURN)
 			return
 		else
@@ -109,7 +109,7 @@
 						"<span class='userdanger'>You're kicked by [A], with holy water dripping down on you!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", null, A)
 		to_chat(A, "<span class='danger'>You holy kick [D]!</span>")
 		if(D.mind.has_antag_datum(/datum/antagonist/heretic))
-			to_chat(D, "<span class='cultlarge'>The holy water burns your flesh!</span>")
+			to_chat(D, "<span class='cultlarge'>The holy water burns our flesh!</span>")
 			D.apply_damage(25, BURN)
 			D.adjustStaminaLoss(60)
 			D.Paralyze(20)
@@ -119,14 +119,14 @@
 			return
 		if(D.mind.has_antag_datum(/datum/antagonist/cult))
 			for(var/datum/action/innate/cult/blood_magic/BD in D.actions)
-				to_chat(D, "<span class='cultlarge'>Your blood rites falter as the holy water drips onto your body!</span>")
+				to_chat(D, "<span class='cultlarge'>Our blood rites falter as the holy water drips onto our body!</span>")
 				for(var/datum/action/innate/cult/blood_spell/BS in BD.spells)
 					qdel(BS)
 			D.adjustStaminaLoss(60)
 			D.Paralyze(20)
 			return
 		if(D.mind.has_antag_datum(/datum/antagonist/wizard) || (/datum/antagonist/wizard/apprentice))
-			to_chat(D, "<span class='danger'>The holy water seems to be muting you somehow!</span>")
+			to_chat(D, "<span class='danger'>The holy water seems to be muting us somehow!</span>")
 			if(D.silent <= 10)
 				D.silent = clamp(D.silent + 10, 0, 10)
 			D.adjustStaminaLoss(60)
