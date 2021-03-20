@@ -10,8 +10,8 @@ Adds the Bloodsucker, Vassal and Monster Hunter antagonists to the game, with al
 
 - code/__DEFINES/atom_hud.dm | code/_onclick/hud/human.dm | code/datums/hud.dm > Added Bloodsucker huds
 - code/__DEFINES/role_preferences.dm > Added Bloodsuckers/Monster Hunters as Antags
-- code/__DEFINES/traits.dm > Added Bloodsucker-related Traits. They have to be in this file, as the traits are also used in TG files. defining it in the fulp_modules makes the define not read in time, therefore you get errors.
 - code/game/objects/items/implants/implant_mindshield.dm > Makes Mindshields remove Vassalization
+- code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 - code/modules/clothing/neck/_neck.dm > Added a NOPULSE check to scanning a heart
 - code/modules/fields/timestop.dm > Bloodsucker Holoparasite code edit
 - code/modules/mining/lavaland/necropolis_chests.dm > Prevents Bloodsuckers from using a Memento Mori

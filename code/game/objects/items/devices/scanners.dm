@@ -385,7 +385,29 @@ GENE SCANNER
 			</span>" // divs do not need extra linebreak
 
 	// Blood Level
-	if(M.has_dna())
+	// Fulpstation Bloodsuckers edit STARTS
+	if(HAS_TRAIT(M, TRAIT_MASQUERADE))
+		var/mob/living/carbon/C = M
+		var/blood_id = C.get_blood_id()
+		if(blood_id)
+			if(ishuman(C))
+				var/mob/living/carbon/human/H = C
+				if(H.is_bleeding())
+					render_list += "<span class='alert ml-1'><b>Subject is bleeding!</b></span>\n"
+			var/blood_type = C.dna.blood_type
+			if(blood_id != /datum/reagent/blood) // special blood substance
+				var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
+				blood_type = R ? R.name : blood_id
+			render_list += "<span class='info ml-1'>Blood level: 100 %, 560 cl, type: [blood_type]</span>\n"
+
+		var/cyberimp_detect
+		for(var/obj/item/organ/cyberimp/CI in C.internal_organs)
+			if(CI.status == ORGAN_ROBOTIC && !CI.syndicate_implant)
+				cyberimp_detect += "[!cyberimp_detect ? "[CI.get_examine_string(user)]" : ", [CI.get_examine_string(user)]"]"
+		if(cyberimp_detect)
+			render_list += "<span class='notice ml-1'>Detected cybernetic modifications:</span>\n"
+			render_list += "<span class='notice ml-2'>[cyberimp_detect]</span>\n"
+	else if(M.has_dna()) // Fulpstation Bloodsuckers edit ENDS
 		var/mob/living/carbon/C = M
 		var/blood_id = C.get_blood_id()
 		if(blood_id)
