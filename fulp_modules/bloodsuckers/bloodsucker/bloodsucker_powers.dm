@@ -186,13 +186,12 @@
 
 ///////////////////////////////////  TARGETTED POWERS	///////////////////////////////////
 
+/// NOTE: All Targeted spells are Toggles! We just don't bother checking here.
 /datum/action/bloodsucker/targeted
-	// NOTE: All Targeted spells are Toggles! We just don't bother checking here.
 	var/target_range = 99
 	var/message_Trigger = "Select a target."
 	var/obj/effect/proc_holder/bloodsucker/bs_proc_holder
 	var/power_activates_immediately = TRUE	// Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.
-
 	var/power_in_use = FALSE // Is this power LOCKED due to being used?
 
 /datum/action/bloodsucker/targeted/New(Target)
@@ -202,7 +201,7 @@
 	bs_proc_holder = new ()
 	bs_proc_holder.linked_power = src
 
-// Click power: Begin Aim
+/// Click power: Begin Aim
 /datum/action/bloodsucker/targeted/Trigger()
 	if(active && CheckCanDeactivate(TRUE))
 		DeactivateRangedAbility()
@@ -217,7 +216,6 @@
 	if(L.ranged_ability)
 		L.ranged_ability.remove_ranged_ability()
 	bs_proc_holder.add_ranged_ability(L)
-
 	if(message_Trigger != "")
 		to_chat(owner, "<span class='announce'>[message_Trigger]</span>")
 

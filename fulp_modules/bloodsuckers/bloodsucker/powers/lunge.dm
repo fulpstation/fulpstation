@@ -19,20 +19,18 @@
 	if(!..(display_error))// DEFAULT CHECKS
 		return FALSE
 	// Being Grabbed
-	if (owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
-		if (display_error)
+	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
+		if(display_error)
 			to_chat(owner, "<span class='warning'>You're being grabbed!</span>")
 		return FALSE
 	return TRUE
 
-
 /datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/A)
 	return isliving(A)
 
-
 /datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/A, display_error)
 	// Check: Self
-	if (target == owner)
+	if(target == owner)
 		return FALSE
 	// Check: Range
 	//if (!(target in view(target_range, get_turf(owner))))
@@ -40,24 +38,22 @@
 	//		to_chat(owner, "<span class='warning'>Your victim is too far away.</span>")
 	//	return FALSE
 	// DEFAULT CHECKS (Distance)
-	if (!..())
+	if(!..())
 		return FALSE
 	// Check: Turf
 	var/mob/living/L = A
-	if (!isturf(L.loc))
+	if(!isturf(L.loc))
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/A)
-	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
-
+	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = A
 	var/turf/T = get_turf(target)
 
 	// Clear Vars
 	owner.pulling = null
-
 	// Will we Knock them Down?
 	var/do_knockdown = !is_A_facing_B(target,owner) || owner.alpha <= 0 || istype(owner.loc, /obj/structure/closet)
 	// CAUSES: Target has their back to me, I'm invisible, or I'm in a Closet
@@ -71,18 +67,17 @@
 		safety --
 
 		// Did I get knocked down?
-		if (owner && owner.incapacitated())
-			if (!(user.body_position == LYING_DOWN))
+		if(owner && owner.incapacitated())
+			if(!(user.body_position == LYING_DOWN))
 				var/send_dir = get_dir(owner, T)
 				new /datum/forced_movement(owner, get_ranged_target_turf(owner, send_dir, 1), 1, FALSE)
 				owner.spin(10)
 			break
 
-
 	// Step Two: Check if I'm at/adjectent to Target's CURRENT turf (not original...that was just a destination)
-	if (target.Adjacent(owner))
+	if(target.Adjacent(owner))
 		// LEVEL 2: If behind target, mute or unconscious!
-		if (do_knockdown) // && level_current >= 1)
+		if(do_knockdown) // && level_current >= 1)
 			target.Paralyze(15 + 10 * level_current,1)
 		// Cancel Walk (we were close enough to contact them)
 		walk(owner,0)
@@ -94,7 +89,6 @@
 		//owner.start_pulling(target,GRAB_AGGRESSIVE)    // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
 
 	//DeactivatePower()
-
 
 /datum/action/bloodsucker/targeted/lunge/DeactivatePower(mob/living/user = owner, mob/living/target)
 	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
