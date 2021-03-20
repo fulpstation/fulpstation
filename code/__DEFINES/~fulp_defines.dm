@@ -1,3 +1,8 @@
+/*
+	Due to how DEFINES work, they have to be in a file read before the code actually using said defines
+	Therefore, Fulp DEFINES must all be placed in this folder, despite modularity.
+*/
+
 ///Bloodsucker defines
 #define TRAIT_NORUNNING "norunning"		// You walk!
 #define TRAIT_NOPULSE "nopulse"		// Your heart doesn't beat.
