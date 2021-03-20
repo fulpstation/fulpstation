@@ -9,9 +9,9 @@
 	. = list("<span class='info'>*---------*\nThis is [icon2html(src, user)] \a <EM>[src]</EM>!")
 	var/vampDesc = ReturnVampExamine(user) // Fulpstation Bloodsuckers edit starts
 	var/vassDesc = ReturnVassalExamine(user)
-	if (vampDesc != "")
+	if (vampDesc != null)
 		. += vampDesc
-	if (vassDesc != "")
+	if (vassDesc != null)
 		. += vassDesc // Fulpstation Bloodsuckers edit ends
 	var/obscured = check_obscured_slots()
 

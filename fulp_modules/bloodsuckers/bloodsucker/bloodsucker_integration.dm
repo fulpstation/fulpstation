@@ -17,12 +17,10 @@
 
 // 			EXAMINING
 /mob/living/carbon/proc/ReturnVampExamine(var/mob/viewer)
-	if(!mind || !viewer.mind)
-		return ""
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
-		return ""
+		return null
 	// Viewer is Target's Vassal?
 	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
 		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
@@ -31,7 +29,7 @@
 		return returnIcon + returnString
 	// Viewer not a Vamp AND not the target's vassal?
 	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
-		return ""
+		return null
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName(1)]</EM></span>\]"
 	var/returnIcon = "[icon2html('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', world, "bloodsucker")]"
@@ -44,15 +42,13 @@
 	return returnIcon + returnString
 
 /mob/living/carbon/proc/ReturnVassalExamine(var/mob/viewer)
-	if(!mind || !viewer.mind)
-		return ""
 	// Am I not even a Vassal? Then I am not marked.
 	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
 	if(!vassaldatum)
-		return ""
+		return null
 	// Only Vassals and Bloodsuckers can recognize marks.
 	if(!viewer.mind.has_antag_datum(/datum/antagonist/bloodsucker) && !viewer.mind.has_antag_datum(/datum/antagonist/vassal))
-		return ""
+		return null
 
 	// Default String
 	var/returnString = "\[<span class='warning'>"
