@@ -96,6 +96,7 @@
 
 	return ..() // Return vamp check
 
+/*
 /mob/living/carbon/proc/scan_blood_volume()
 	// Vamps don't show up normally to scanners unless Masquerade power is on ----> scanner.dm
 	if(mind)
@@ -103,3 +104,4 @@
 		if(istype(bloodsuckerdatum) && bloodsuckerdatum.poweron_masquerade)
 			return BLOOD_VOLUME_NORMAL
 	return blood_volume
+*/
