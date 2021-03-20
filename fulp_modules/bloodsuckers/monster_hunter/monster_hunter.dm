@@ -13,6 +13,7 @@
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.
+	var/max_blood_volume = 600 // Required so the pinpointer doesnt runtime
 	var/give_objectives = TRUE
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
@@ -51,11 +52,11 @@
 			objectives += steal_objective
 	. = ..()
 
-/datum/antagonist/monsterhunter/on_removal()
+/datum/antagonist/monsterhunter/on_removal() // This currently runtimes for some reason
 	// Remove martial arts
-	if(owner.current)
-		for(var/datum/action/bloodsucker/P in owner.current.actions)
-			P.Remove(owner.current)
+	for(var/datum/action/bloodsucker/P in owner.current.actions)
+		P.Remove(owner.current)
+	if(my_kungfu)
 		my_kungfu.remove(owner.current)
 	SSticker.mode.monsterhunter -= owner
 	if(!silent && owner.current)
@@ -109,20 +110,20 @@
 	button_icon_state = "power_hunter" 				// And this is the state for the action icon
 	amToggle = FALSE  // Action-Related
 	cooldown = 300 // 10 ticks, 1 second.
-	bloodcost = 0
+	bloodcost = 5
 	var/give_pinpointer = FALSE // Removed, set to TRUE to re-add -Willard
 
 /datum/action/bloodsucker/trackvamp/ActivatePower()
 	. = ..()
 	var/mob/living/carbon/user = owner
+	// Return text indicating direction
 	to_chat(user, "<span class='notice'>You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order.</span>")
 	if(!do_mob(user, owner, 80))
 		return
 	if(give_pinpointer)
 		user.apply_status_effect(STATUS_EFFECT_HUNTERPINPOINTER)
-	// Return text indicating direction
 	display_proximity()
-	PayCost() // To prevent runtiming
+	PayCost()
 	// NOTE: DON'T DEACTIVATE!
 	//DeactivatePower()
 
@@ -154,7 +155,7 @@
 				monsters += UM
 
 	for(var/datum/mind/M in monsters)
-		if (!M.current || M.current == owner) // || !get_turf(M.current) || !get_turf(owner))
+		if(!M.current || M.current == owner) // || !get_turf(M.current) || !get_turf(owner))
 			continue
 		for(var/a in M.antag_datums)
 			var/datum/antagonist/antag_datum = a // var/datum/antagonist/antag_datum = M.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -171,7 +172,6 @@
 	// Found one!
 	if(best_vamp)
 		var/distString = best_dist <= HUNTER_SCAN_MAX_DISTANCE / 2 ? "<b>somewhere closeby!</b>" : "somewhere in the distance."
-		//to_chat(owner, "<span class='warning'>You detect signs of Bloodsuckers to the <b>[dir2text(get_dir(my_loc,get_turf(targetVamp)))]!</b></span>")
 		to_chat(owner, "<span class='warning'>You detect signs of monsters [distString]</span>")
 
 	// Will yield a "?"

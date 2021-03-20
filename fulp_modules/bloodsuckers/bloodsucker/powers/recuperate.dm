@@ -11,7 +11,7 @@
 	. = ..()
 	if(!.)
 		return
-	if (owner.stat >= DEAD)
+	if(owner.stat >= DEAD)
 		return FALSE
 	return TRUE
 

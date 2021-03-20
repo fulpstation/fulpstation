@@ -17,6 +17,7 @@
 	job_rank = ROLE_BLOODSUCKER
 	var/datum/antagonist/bloodsucker/master		// Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
+	var/max_blood_volume = 600 // Required so the pinpointer doesnt runtime
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return

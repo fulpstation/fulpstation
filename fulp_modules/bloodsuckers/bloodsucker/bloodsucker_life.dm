@@ -41,6 +41,12 @@
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
 	update_hud()
 
+/datum/antagonist/vassal/proc/AddBloodVolume(value)
+	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
+
+/datum/antagonist/monsterhunter/proc/AddBloodVolume(value)
+	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
+
 /datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
 	// mult: SILENT feed is 1/3 the amount
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult	// Starts at 15 (now 8 since we doubled the Feed time)

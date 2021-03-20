@@ -139,10 +139,10 @@
 
 /datum/action/bloodsucker/UpdateButtonIcon(force = FALSE)
 	background_icon_state = active? background_icon_state_on : background_icon_state_off
-	..()//UpdateButtonIcon()
+	..() //UpdateButtonIcon()
 
 /datum/action/bloodsucker/proc/PayCost()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)// /bloodsucker - Removed because Monster Hunters/Vassals also use them.
 	B.AddBloodVolume(-bloodcost)
 
 /datum/action/bloodsucker/proc/ActivatePower()
@@ -158,7 +158,7 @@
 /datum/action/bloodsucker/proc/RemoveAfterUse()
 	// Un-Learn Me! (GO HOME)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if (istype(bloodsuckerdatum))
+	if(istype(bloodsuckerdatum))
 		bloodsuckerdatum.powers -= src
 	Remove(owner)
 
@@ -167,7 +167,7 @@
 
 ///////////////////////////////////  PASSIVE POWERS	///////////////////////////////////
 
-// New Type: Passive (Always on, no button)
+/// New Type: Passive (Always on, no button)
 /datum/action/bloodsucker/passive
 
 /datum/action/bloodsucker/passive/New()
@@ -194,8 +194,9 @@
 	var/power_activates_immediately = TRUE	// Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.
 	var/power_in_use = FALSE // Is this power LOCKED due to being used?
 
+/// Modify description to add notice that this is aimed.
 /datum/action/bloodsucker/targeted/New(Target)
-	desc += "<br>\[<i>Targeted Power</i>\]"	// Modify description to add notice that this is aimed.
+	desc += "<br>\[<i>Targeted Power</i>\]"
 	..()
 	// Create Proc Holder for intercepting clicks
 	bs_proc_holder = new ()
