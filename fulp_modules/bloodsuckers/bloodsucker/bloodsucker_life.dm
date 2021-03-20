@@ -10,9 +10,6 @@
 
 ///Runs from BiologicalLife, handles all the bloodsucker constant proccesses
 /datum/antagonist/bloodsucker/proc/LifeTick()
-	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
-	var/total_burn = owner.current.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
 	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
 	while(owner && !AmFinalDeath())
 		if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
