@@ -60,8 +60,6 @@
 	return bloodsuckers.len >= required_enemies
 
 /datum/game_mode/bloodsucker/post_setup()
-	// Sunlight (Creating Bloodsuckers manually will check to create this, too)
-	check_start_sunlight()
 	// Vamps
 	for(var/datum/mind/bloodsucker in bloodsuckers)
 		if(!make_bloodsucker(bloodsucker))
