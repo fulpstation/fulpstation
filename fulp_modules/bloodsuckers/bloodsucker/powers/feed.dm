@@ -149,7 +149,7 @@
 		//DeactivatePower()
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
-	if(!amSilent && owner.grab_state >= GRAB_AGGRESSIVE)
+	if(!amSilent)
 		ApplyVictimEffects(target)	// Sleep, paralysis, immobile, unconscious, and mute
 		if(target.stat <= UNCONSCIOUS)
 			sleep(1)
