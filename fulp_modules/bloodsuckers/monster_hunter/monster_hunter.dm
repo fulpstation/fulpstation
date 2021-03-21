@@ -34,9 +34,9 @@
 	if(give_objectives)
 		objectives += monsterhunter_objective
 	// Give Hunter Martial Arts
-	if(rand(1,2) == 1)
-		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/krav_maga, /datum/martial_art/wrestling, /datum/martial_art/hunterfu)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
-		my_kungfu = new pick_type //pick (/datum/martial_art/boxing, /datum/martial_art/cqc) // ick_type
+	if(rand(0,4) <= 1)
+		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/wrestling, /datum/martial_art/hunterfu)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
+		my_kungfu = new pick_type
 		my_kungfu.teach(owner.current, 0)
 	// Badguy Hunter?
 	if(bad_dude) // Stolen DIRECTLY from datum_traitor.dm
