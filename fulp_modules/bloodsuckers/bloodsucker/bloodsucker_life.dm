@@ -23,6 +23,10 @@
 		HandleStarving() // Handle Low Blood effects
 		HandleDeath() // Handle Death
 		update_hud() // Standard Update
+		if(SSticker.mode.is_daylight() && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+			if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+				Torpor_Begin()
+
 		sleep(10) // Wait before next pass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +103,6 @@
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			C.extinguish_mob()
-			CureDisabilities() 	// Extinguish Fire
 			C.remove_all_embedded_objects() // Remove Embedded!
 			owner.current.regenerate_organs() // Heal Organs (will respawn original eyes etc. but we replace right away, next)
 			CheckVampOrgans() // Heart, Eyes
@@ -143,7 +146,7 @@
 		organ.setOrganDamage(0)
 	C.adjust_blindness(-25)
 	C.adjust_blurriness(-25)
-	C.reagents.add_reagent(/datum/reagent/medicine/oculine, 4) // I'm sorry
+	C.reagents.add_reagent(/datum/reagent/medicine/oculine,10) // I'm sorry
 	owner.current.cure_husk()
 
 // I am thirsty for blood!
