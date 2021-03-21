@@ -290,11 +290,8 @@
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
-	if(!..())
-		return FALSE
-	if(!target_grappled || !user.pulling == target)
-		return FALSE
-	return TRUE
+	return ..() && target && (!target_grappled || user.pulling == target) // Active, and still antag,
+	// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
