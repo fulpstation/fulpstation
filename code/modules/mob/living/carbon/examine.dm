@@ -7,12 +7,6 @@
 	var/t_is = p_are()
 
 	. = list("<span class='info'>*---------*\nThis is [icon2html(src, user)] \a <EM>[src]</EM>!")
-	var/vampDesc = ReturnVampExamine(user) // Fulpstation Bloodsuckers edit starts
-	var/vassDesc = ReturnVassalExamine(user)
-	if (vampDesc != null)
-		. += vampDesc
-	if (vassDesc != null)
-		. += vassDesc // Fulpstation Bloodsuckers edit ends
 	var/obscured = check_obscured_slots()
 
 	if (handcuffed)

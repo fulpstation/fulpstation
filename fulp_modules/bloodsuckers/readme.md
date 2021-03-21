@@ -10,7 +10,7 @@ Adds the Bloodsucker, Vassal and Monster Hunter antagonists to the game, with al
 
 - code/__DEFINES/atom_hud.dm | code/_onclick/hud/human.dm | code/datums/hud.dm > Added Bloodsucker huds
 - code/__DEFINES/role_preferences.dm > Added Bloodsuckers/Monster Hunters as Antags
-- code/modules/mob/living/carbon/examine.dm > Added Bloodsucker examine text
+- code/modules/mob/living/carbon/human/examine.dm > Added Bloodsucker examine text
 - code/modules/mob/living/carbon/life.dm > Kicks Bloodsuckers out of body temperature
 - code/modules/mob/living/blood.dm > Kicks Bloodsuckers out of blood.dm
 - code/modules/mob/living/carbon/human/species_types/jellypeople.dm > Prevents Slimesuckers from getting Toxin/Several body bonuses
