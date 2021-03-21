@@ -312,15 +312,15 @@
 	if(!istype(I))
 		I = user.get_inactive_held_item()
 	// Weapon Bonus + SFX
-	if (I)
+	if(I)
 		torture_time -= I.force / 4
 		torture_dmg_brute += I.force / 4
 		//torture_dmg_burn += I.
-		if (I.sharpness == SHARP_EDGED)
+		if(I.sharpness == SHARP_EDGED)
 			torture_time -= 1
-		else if (I.sharpness == SHARP_POINTY)
+		else if(I.sharpness == SHARP_POINTY)
 			torture_time -= 2
-		if (istype(I, /obj/item/weldingtool))
+		if(istype(I, /obj/item/weldingtool))
 			var/obj/item/weldingtool/welder = I
 			welder.welding = TRUE
 			torture_time -= 5
@@ -417,10 +417,10 @@
 
 /obj/structure/bloodsucker/candelabrum/examine(mob/user)
 	. = ..()
-	if((AmBloodsucker(user)) || isobserver(user))
+	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker) || isobserver(user))
 		. += "<span class='cult'>This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.</span>"
 		. += "<span class='cult'>You can alt click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.</span>"
-	if(user.mind.has_antag_datum(/datum/antagonist/vassal, TRUE))
+	if(user.mind.has_antag_datum(/datum/antagonist/vassal))
 		. += "<span class='notice'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\
 		You can turn it on and off by clicking on it while you are next to it.</span>"
 	else
@@ -450,13 +450,14 @@
 /obj/structure/bloodsucker/candelabrum/process(var/mob/living/carbon/human/H) //Currently doesnt seem to work, fix would be appreciated!
 	if(!lit)
 		return
-	if(H.mind.has_antag_datum(/datum/antagonist/vassal, TRUE))
+	if(H.mind.has_antag_datum(/datum/antagonist/vassal))
 		return
-	if(AmBloodsucker(H))//We dont want vassals or vampires affected by this
+	if(H.mind.has_antag_datum(/datum/antagonist/bloodsucker))//We dont want vassals or vampires affected by this
 		return
 	H.hallucination = 20
 	SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
 
-/obj/item/restraints/legcuffs/beartrap/bloodsucker
+// /obj/item/restraints/legcuffs/beartrap/bloodsucker
