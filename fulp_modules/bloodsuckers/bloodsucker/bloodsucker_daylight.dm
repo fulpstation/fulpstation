@@ -67,7 +67,7 @@
 				return
 			//daylight_time -= TIME_BLOODSUCKER_BURN_INTERVAL
 			// Issue Level Up!
-			if(!issued_XP && time_til_cycle <= 30)
+			if(!issued_XP && time_til_cycle <= 15)
 				issued_XP = TRUE
 				vamps_rank_up()
 
@@ -167,7 +167,6 @@
 				bloodsuckerdatum.powers -= P
 				P.Remove(M.current)
 
-
 /obj/effect/sunlight/proc/vamps_rank_up()
 	set waitfor = FALSE
 	// Cycle through all vamp antags and check if they're inside a closet.
@@ -177,7 +176,6 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(istype(bloodsuckerdatum))
 			bloodsuckerdatum.RankUp()	// Rank up! Must still be in a coffin to level!
-
 
 /obj/effect/sunlight/proc/give_home_power()
 	// It's late...! Give the "Vanishing Act" gohome power to bloodsuckers.

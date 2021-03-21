@@ -271,12 +271,13 @@
 
 // Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
-	var/target_role_type=FALSE
+	var/target_role_type = FALSE
 	martyr_compatible = FALSE // Why is this defined, Bloodsuckers cant roll DAGD anyways.
 	// NOTE: Look up /assassinate in objective.dm for inspiration.
 
 //				FIND TARGET/GENERATE OBJECTIVE
-/datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE,invert=FALSE)
+/datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
+	return_possible_targets()
 	if(!invert)
 		target_role_type = role_type
 	..()
@@ -291,7 +292,9 @@
 
 //						WIN CONDITIONS?
 /datum/objective/bloodsucker/vassalhim/check_completion()
-	return completed || (target.has_antag_datum(/datum/antagonist/vassal))
+	if(target.has_antag_datum(/datum/antagonist/vassal))
+		return TRUE
+	return FALSE
 
 /datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
 	admin_simple_target_pick(admin)

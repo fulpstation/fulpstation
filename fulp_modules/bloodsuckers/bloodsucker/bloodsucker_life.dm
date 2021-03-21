@@ -29,6 +29,8 @@
 		if(SSticker.mode.is_daylight() && total_damage > owner.current.getMaxHealth())
 			if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 				Torpor_Begin()
+		if(!SSticker.mode.is_daylight() && total_damage < owner.current.getMaxHealth())
+			Torpor_End()
 		sleep(10) // Wait before next pass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,11 +103,10 @@
 		var/mob/living/carbon/C = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
 		var/fireheal = 0 	// BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-		// Check for mult 0 OR death coma. (mult 0 means we're testing from coffin)
-		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0 || HAS_TRAIT(C, TRAIT_DEATHCOMA))
-		if(amInCoffinWhileTorpor)
+		// Check for mult 0. (mult 0 means we're testing from coffin)
+		if(istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0))
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
-			fireheal = min(C.getFireLoss_nonProsthetic(), bloodsucker_regen_rate) // NOTE: Burn damage ONLY heals in torpor.
+			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen) // NOTE: Burn damage ONLY heals in torpor.
 			C.extinguish_mob()
 			CureDisabilities() 	// Extinguish Fire
 			C.remove_all_embedded_objects() // Remove Embedded!
@@ -115,13 +116,11 @@
 				return TRUE
 		else if(owner.current.stat >= UNCONSCIOUS) //Faster regeneration and slight burn healing while unconcious
 			mult *= 2
-			fireheal = min(C.getFireLoss_nonProsthetic(), bloodsucker_regen_rate * 0.2)
+			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen * 0.2)
 		// BRUTE: Always Heal
 		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen)
 		// Heal if Damaged
-		if(bruteheal + fireheal > 0) 	// Just a check? Don't heal/spend, and return.
-			if(mult == 0)
-				return TRUE
+		if(bruteheal + fireheal > 0) // Just a check? Don't heal/spend, and return.
 			// We have damage. Let's heal (one time)
 			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE)// Heal BRUTE / BURN in random portions throughout the body.
 			C.adjustFireLoss(-fireheal * mult, forced=TRUE)
@@ -238,8 +237,6 @@
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)	// Without this, you'll just keep dying while you recover.
-	owner.current.stat = UNCONSCIOUS
-	owner.current.apply_status_effect(STATUS_EFFECT_UNCONSCIOUS)
 	owner.current.Jitter(0)
 	// Visuals
 	owner.current.update_sight()
@@ -253,15 +250,14 @@
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	owner.current.remove_status_effect(STATUS_EFFECT_UNCONSCIOUS)
-	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Wake up
-	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	CureDisabilities()
+	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Wake up
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
+	CureDisabilities()
 
+/// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()
-	// Standard Antags can be dead OR final death
  	return owner && (owner.current && owner.current.stat >= DEAD || owner.AmFinalDeath())
 
 /datum/antagonist/bloodsucker/AmFinalDeath()
@@ -308,7 +304,7 @@
 //			HUMAN FOOD
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/* /// What even is this? It's never called
 /mob/proc/CheckBloodsuckerEatFood(food_nutrition)
 	if(!isliving(src))
 		return
@@ -318,7 +314,7 @@
 	// We're a bloodsucker? Try to eat food...
 	var/datum/antagonist/bloodsucker/B = L.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	B.handle_eat_human_food(food_nutrition)
-
+*/
 
 /datum/antagonist/bloodsucker/proc/handle_eat_human_food(food_nutrition, puke_blood = TRUE, masquerade_override) // Called from snacks.dm and drinks.dm
 	set waitfor = FALSE

@@ -71,14 +71,15 @@
 
 //////////////////////////////////////////////
 
-/obj/structure/closet/crate/proc/ClaimCoffin(mob/living/claimant) // NOTE: This can be any "closet" that you are resting AND inside of.
+/// NOTE: This can be any "closet" that you are resting AND inside of.
+/obj/structure/closet/crate/proc/ClaimCoffin(mob/living/claimant)
 	// Bloodsucker Claim
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum)
 		// Vamp Successfuly Claims Me?
 		if(bloodsuckerdatum.ClaimCoffin(src))
 			resident = claimant
-			anchored = 1					// No moving this
+			anchored = 1 // No moving this
 
 /obj/structure/closet/crate/coffin/Destroy()
 	UnclaimCoffin()
@@ -122,14 +123,17 @@
 				switch(alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair","Yes", "No"))
 					if("Yes")
 						ClaimCoffin(user)
+			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
 			if(user.AmStaked()) //Staked? Dont heal
 				to_chat(bloodsuckerdatum.owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
 			// Heal
-			if(bloodsuckerdatum.HandleHealing(0)) // Healing Mult 0 <--- We only want to check if healing is valid!
+			var/total_brute = user.getBruteLoss_nonProsthetic()
+			var/total_burn = user.getFireLoss_nonProsthetic()
+			var/total_damage = total_brute + total_burn
+			if(total_damage >= 10)
 				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-				//Torpor_Begin() // In case you're entering a coffin to heal, not entering Torpor.
-			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
+				bloodsuckerdatum.Torpor_Begin()
 	return TRUE
 
 /obj/structure/closet/crate/coffin/attackby(obj/item/W, mob/user, params)

@@ -35,13 +35,13 @@
 	var/foodInGut 					// How much food to throw up later. You shouldn't have eaten that.
 	var/warn_sun_locker				// So we only get the locker burn message once per day.
 	var/warn_sun_burn 				// So we only get the sun burn message once per day.
-	var/level_bloodcost
 	var/passive_blood_drain = -0.1        //The amount of blood we loose each bloodsucker life tick LifeTick()
 	var/notice_healing                    //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
 		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
 /// TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -Willard
+/// Remember that Fortitude gives NODISMEMBER when balancing Traits!
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -239,6 +239,7 @@
 	// Traits
 	for(var/T in defaultTraits)
 		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_GENELESS, SPECIES_TRAIT)
 	// Traits: Species
 	if(iscarbon(owner.current))
 		var/mob/living/carbon/human/H = owner.current
@@ -318,9 +319,6 @@
 	set waitfor = FALSE
 	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client || !isliving(owner.current))
 		return
-	var/mob/living/L = owner.current
-	level_bloodcost = max_blood_volume * 0.2
-	//If the blood volume of the bloodsucker is lower than the cost to level up, return and inform the bloodsucker
 	//TODO: Make this into a radial, or perhaps a tgui next UI
 		// Purchase Power Prompt
 	var/list/options = list()
@@ -332,7 +330,7 @@
 	options["\[ Not Now \]"] = null
 	// Abort?
 	if(options.len > 1)
-		var/choice = input(owner.current, "You have the opportunity to grow more ancient at the cost of [level_bloodcost] units of blood. Select a power to advance your Rank.", "Your Blood Thickens...") in options
+		var/choice = input(owner.current, "You have the opportunity to grow more ancient. Select a power to advance your Rank.", "Your Blood Thickens...") in options
 		// Cheat-Safety: Can't keep opening/closing coffin to spam levels
 		if(bloodsucker_level_unspent <= 0) // Already spent all your points, and tried opening/closing your coffin, pal.
 			return
@@ -342,14 +340,10 @@
 		if(!choice || !options[choice] || (locate(options[choice]) in powers)) // ADDED: Check to see if you already have this power, due to window stacking.
 			to_chat(owner.current, "<span class='notice'>You prevent your blood from thickening just yet, but you may try again later.</span>")
 			return
-		if(L.blood_volume < level_bloodcost)
-			to_chat(owner.current, "<span class='warning'>You dont have enough blood to thicken your blood, you need [level_bloodcost - L.blood_volume] units more!</span>")
-			return
 		// Buy New Powers
 		var/datum/action/bloodsucker/P = options[choice]
-		AddBloodVolume(-level_bloodcost)
 		BuyPower(new P)
-		to_chat(owner.current, "<span class='notice'>You have used [level_bloodcost] units of blood and learned [initial(P.name)]!</span>")
+		to_chat(owner.current, "<span class='notice'>You have learned how to use [initial(P.name)]!</span>")
 	else
 		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
 	/////////
