@@ -94,7 +94,7 @@
 			Please take care of the crew and their health, as it is impossible to tell if one is lurking in the darkness behind."
 
 /datum/game_mode/bloodsucker/make_antag_chance(mob/living/carbon/human/character) //Assigns changeling to latejoiners
-	var/bloodsuckercap = min(round(GLOB.joined_player_list.len / (3 * 2)) + 2, round(GLOB.joined_player_list.len / 3))
+	var/bloodsuckercap = min(round(GLOB.joined_player_list.len / (3 * 4)) + 2, round(GLOB.joined_player_list.len / 2))
 	if(bloodsuckers.len >= bloodsuckercap) //Caps number of latejoin antagonists
 		return
 	if(bloodsuckers.len <= (bloodsuckercap - 2) || prob(100 - (3 * 2)))
