@@ -84,7 +84,6 @@
 	desc = "You get the sense that the foggy reflection looking back at you has an alien intelligence to it."
 */
 
-
 /obj/structure/bloodsucker/vassalrack
 	name = "persuasion rack"
 	desc = "If this wasn't meant for torture, then someone has some fairly horrifying hobbies."
@@ -106,15 +105,14 @@
 	qdel(src)
 
 /obj/structure/bloodsucker/vassalrack/examine(mob/user)
-	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	. = ..()
-	if(B || isobserver(user))
+	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker) || isobserver(user))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
 		. += {"<span class='cult'>You need to first secure the vassal rack by clicking on it while it is in your lair.</span>"}
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
 		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
 		. += {"<span class='cult'>To convert the victim, simply click on the vassal rack itself. Sharp weapons work faster than other tools.</span>"}
-	if(user.mind.has_antag_datum(/datum/antagonist/vassal, TRUE))
+	if(user.mind.has_antag_datum(/datum/antagonist/vassal))
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into his minions.</span>"
 		. += "<span class='notice'> Aid your master in bringing their victims here and keeping them secure.</span>"
 		. += "<span class='notice'> You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
@@ -185,7 +183,7 @@
 			return
 	// Did the time. Now try to do it.
 	..()
-	user_unbuckle_mob(M)
+	unbuckle_mob(M)
 
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	if(!..())
