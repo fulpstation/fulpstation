@@ -41,7 +41,7 @@
 			B.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
 	if(HAS_TRAIT(owner.current, TRAIT_MINDSHIELD))
-		REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, "implant") // REPLACE WITH IMPLANT_TRAIT WHEN TG UPDATE HAPPENS -- John Willard
+		REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, "implant") // REPLACE WITH IMPLANT_TRAIT WHEN TG UPDATE HAPPENS - Willard
 	// Master Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	// Powers

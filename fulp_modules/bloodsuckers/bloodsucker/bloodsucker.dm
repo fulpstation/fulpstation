@@ -531,7 +531,7 @@
 //			** traits.dm /TRAIT_NOBREATH /TRAIT_SLEEPIMMUNE /TRAIT_RESISTCOLD /TRAIT_RADIMMUNE  /TRAIT_VIRUSIMMUNE
 //			*  MASQUERADE ON/OFF: /TRAIT_FAKEDEATH (M)
 //			* /TRAIT_NIGHT_VISION
-//			* /TRAIT_DEATHCOMA <-- This basically makes you immobile. When using status_procs /fakedeath(), make sure to remove Coma unless we're in Torpor!
+//			* /TRAIT_FAKEDEATH <-- This basically makes you immobile. When using status_procs /fakedeath(), make sure to remove Coma unless we're in Torpor!
 //			* /TRAIT_NODEATH <--- ???
 //			** species  /NOZOMBIE
 //			* ADD: TRAIT_COLDBLOODED <-- add to carbon/life.dm /natural_bodytemperature_stabilization()
