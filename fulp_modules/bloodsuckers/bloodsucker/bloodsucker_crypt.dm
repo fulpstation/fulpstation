@@ -290,7 +290,7 @@
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
-		target.Jitter(25)
+		target.Jitter(15)
 		target.emote("laugh")
 		//remove_victim(target) // Remove on CLICK ONLY!
 	useLock = FALSE
