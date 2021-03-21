@@ -51,7 +51,7 @@ GLOBAL_VAR_INIT(normal_looc_colour, "#ec0303")
 
 	mob.log_talk(msg,LOG_OOC, tag="LOOC")
 
-	var/list/heard = get_hearers_in_view(7, get_top_level_mob(src.mob))
+	var/list/heard = get_hearers_in_view(7, src.mob.get_top_level_mob())
 	for(var/mob/M in heard)
 		if(!M.client)
 			continue
@@ -89,4 +89,3 @@ proc/get_top_level_mob(var/mob/S)
         var/mob/M=src.loc
         return M.get_top_level_mob()
     return src
-
