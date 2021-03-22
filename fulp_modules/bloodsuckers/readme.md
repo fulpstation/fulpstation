@@ -29,3 +29,7 @@ Skyrat - .md template
 Fulpstation/TheSwain - Original Bloodsuckers
 John Willard - Coding
 Citadel - Help with some coding
+
+### NOTES:
+
+- Once SgtHunk's TG update PR happens, traits should have a look-over, I know Mindshielding's source trait has changed.
