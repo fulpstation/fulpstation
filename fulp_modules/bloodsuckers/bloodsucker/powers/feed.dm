@@ -295,7 +295,7 @@
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
-	if(!target.mind || !target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+	if(!AmBloodsucker(target))
 		target.Unconscious(50,0)
 		target.Paralyze(40 + 5 * level_current,1) // NOTE: This is based on level of power!
 		if(ishuman(target))
