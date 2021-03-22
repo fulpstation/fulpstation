@@ -15,6 +15,8 @@
 	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.
 	var/max_blood_volume = 600 // Required so the pinpointer doesnt runtime
 	var/give_objectives = TRUE
+	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
+	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	return
@@ -24,9 +26,9 @@
 
 /datum/antagonist/monsterhunter/on_gain()
 	SSticker.mode.monsterhunter += owner
-	// Give Hunter Power
-	var/datum/action/P = new /datum/action/bloodsucker/trackvamp
-	P.Grant(owner.current)
+	// Give Monster Hunter powers
+	trackvamp.Grant(owner.current)
+	fortitude.Grant(owner.current)
 	// Give Hunter Objective
 	var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
 	monsterhunter_objective.owner = owner
@@ -52,10 +54,11 @@
 			objectives += steal_objective
 	. = ..()
 
-/datum/antagonist/monsterhunter/on_removal() // This currently runtimes for some reason
-	// Remove martial arts
-	for(var/datum/action/bloodsucker/P in owner.current.actions)
-		P.Remove(owner.current)
+/datum/antagonist/monsterhunter/on_removal()
+	// Remove Monster Hunter powers
+	trackvamp.Remove(owner.current)
+	fortitude.Remove(owner.current)
+	// Remove Martial Arts
 	if(my_kungfu)
 		my_kungfu.remove(owner.current)
 	SSticker.mode.monsterhunter -= owner

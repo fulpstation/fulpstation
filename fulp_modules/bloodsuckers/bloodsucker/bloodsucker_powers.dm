@@ -142,8 +142,12 @@
 	..() //UpdateButtonIcon()
 
 /datum/action/bloodsucker/proc/PayCost()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)// /bloodsucker - Removed because Monster Hunters/Vassals also use them.
-	B.AddBloodVolume(-bloodcost)
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(B)
+		B.AddBloodVolume(-bloodcost)
+	else
+		var/mob/living/carbon/human/H = owner
+		H.blood_volume -= bloodcost
 
 /datum/action/bloodsucker/proc/ActivatePower()
 

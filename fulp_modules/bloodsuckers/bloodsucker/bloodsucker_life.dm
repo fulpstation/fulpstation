@@ -39,12 +39,6 @@
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
 	update_hud()
 
-/datum/antagonist/vassal/proc/AddBloodVolume(value)
-	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
-
-/datum/antagonist/monsterhunter/proc/AddBloodVolume(value)
-	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
-
 /datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
 	// mult: SILENT feed is 1/3 the amount
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult	// Starts at 15 (now 8 since we doubled the Feed time)
@@ -91,7 +85,6 @@
 		return FALSE
 	if(HAS_TRAIT(owner.current, TRAIT_TOXINLOVER)) // Removes slimeperson bonus
 		REMOVE_TRAIT(owner.current, TRAIT_TOXINLOVER, SPECIES_TRAIT)
-	owner.current.adjustStaminaLoss(-5 * (actual_regen * 4) * mult, 0) // Humans lose stamina damage really quickly. Vamps should heal more.
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?

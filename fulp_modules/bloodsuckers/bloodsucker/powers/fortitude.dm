@@ -12,7 +12,7 @@
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
 /datum/action/bloodsucker/fortitude/ActivatePower()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
 	var/mob/living/user = owner
 	to_chat(user, "<span class='notice'>Your flesh, skin, and muscles become as steel.</span>")
 	// Traits & Effects
@@ -35,8 +35,9 @@
 			V.unbuckle_mob(user, force = TRUE)
 			to_chat(user, "<span class='notice'>You fall over, your weight making you too heavy to be able to ride any vehicle!</span>")
 		// Pay Blood Toll (if awake)
-		if(user.stat == CONSCIOUS)
-			B.AddBloodVolume(-0.5)
+		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
+			if(user.stat == CONSCIOUS)
+				B.AddBloodVolume(-0.5)
 		sleep(20) // Check every few ticks that we haven't disabled this power
 	// Return to Running (if you were before)
 
@@ -55,3 +56,15 @@
 	H.physiology.burn_mod /= fortitude_resist
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
+
+/// Monster Hunter version
+/datum/action/bloodsucker/fortitude/hunter
+	name = "Flow"
+	desc = "Use knowledge learned from Monsters to survive attacks that would otherwise stun, pierce, and dismember. Like the ones you've learned this from, you cannot run while active."
+	button_icon_state = "power_fortitude"
+	bloodcost = 2 // Powers don't like working when there's no bloodcost
+	cooldown = 80
+	bloodsucker_can_buy = FALSE
+	amToggle = TRUE
+	warn_constant_cost = FALSE
+

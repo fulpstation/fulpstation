@@ -1,4 +1,4 @@
-/datum/action/bloodsucker/vassal/recuperate
+/datum/action/bloodsucker/recuperate
 	name = "Sanguine Recuperation"
 	desc = "Slowly heals you overtime using your master's blood, in exchange for some of your own blood and effort."
 	button_icon_state = "power_recup"
@@ -7,7 +7,7 @@
 	cooldown = 100
 	var/stacks = 0 //Increments every 5 seconds; damage increases over time
 
-/datum/action/bloodsucker/vassal/recuperate/CheckCanUse(display_error)
+/datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
 	. = ..()
 	if(!.)
 		return
@@ -15,7 +15,7 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/vassal/recuperate/ActivatePower()
+/datum/action/bloodsucker/recuperate/ActivatePower()
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
 	var/mob/living/carbon/C = owner
 	var/mob/living/carbon/human/H
@@ -36,5 +36,5 @@
 	// DONE!
 	//DeactivatePower(owner)
 
-/datum/action/bloodsucker/vassal/recuperate/ContinueActive(mob/living/user, mob/living/target)
+/datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && user.stat <= DEAD && user.blood_volume > 500
