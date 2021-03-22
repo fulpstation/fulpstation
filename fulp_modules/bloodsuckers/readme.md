@@ -29,7 +29,3 @@ Skyrat - .md template
 Fulpstation/TheSwain - Original Bloodsuckers
 John Willard - Coding
 Citadel - Help with some coding
-
-## NOTES:
-
-- bloodsucker_objects.dm >> Once Combat mode is merged, add Help intent to Blood bag's drinking maybe? 
