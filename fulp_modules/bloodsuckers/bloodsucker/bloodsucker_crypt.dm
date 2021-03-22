@@ -138,7 +138,7 @@
 		// NOTE: in bs_lunge.dm, we use [target.grabbedby(owner)], which simulates doing a grab action. We don't want that though...we're cutting directly back to where we were in a grab.
 	// Do Action!
 	useLock = TRUE
-	if(do_mob(user, O, 50))
+	if(do_mob(user, O, 5 SECONDS))
 		attach_victim(O,user)
 	useLock = FALSE
 
@@ -183,7 +183,7 @@
 							"<span class='danger'>You attempt to release yourself from the rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
 		else
 			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
-		if(!do_mob(user, M, 500))
+		if(!do_mob(user, M, 45 SECONDS))
 			return
 	// Did the time. Now try to do it.
 	..()
@@ -280,7 +280,7 @@
 		return
 	user.visible_message("<span class='notice'>[user] marks a bloody smear on [target]'s forehead and puts a wrist up to [target.p_their()] mouth!</span>", \
 				  	  "<span class='notice'>You paint a bloody marking across [target]'s forehead, place your wrist to [target.p_their()] mouth, and subject [target.p_them()] to the Dark Communion.</span>")
-	if(!do_mob(user, src, 50))
+	if(!do_mob(user, src, 5 SECONDS))
 		to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		useLock = FALSE
 		return

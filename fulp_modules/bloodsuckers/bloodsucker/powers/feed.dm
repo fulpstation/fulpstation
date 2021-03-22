@@ -144,7 +144,7 @@
 		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
 	else
 		to_chat(user, "<span class='warning'>You pull [target] close to you and draw out your fangs...</span>")
-	if(!do_mob(user, target, feed_time, 0, 1, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
+	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
 		to_chat(user, "<span class='warning'>Your feeding was interrupted.</span>")
 		//DeactivatePower()
 		return

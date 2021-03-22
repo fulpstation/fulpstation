@@ -6,10 +6,10 @@
 		if(user != M)
 			user.visible_message("<span class='notice'>[user] forces [M] to drink from the [src].</span>", \
 							  	"<span class='notice'>You put the [src] up to [M]'s mouth.</span>")
-			if(!do_mob(user, M, 50))
+			if(!do_mob(user, M, 5 SECONDS))
 				return
 		else
-			if(!do_mob(user, M, 10))
+			if(!do_mob(user, M, 1 SECONDS))
 				return
 			user.visible_message("<span class='notice'>[user] puts the [src] up to their mouth.</span>", \
 		  		"<span class='notice'>You take a sip from the [src].</span>")
@@ -83,11 +83,12 @@
 //////////////////////
 //      EYES        //
 //////////////////////
+/// Taken from augmented_eyesight.dm
 /obj/item/organ/eyes/vassal
-	lighting_alpha = 180 //  LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
+	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
 	see_in_dark = 12
-	flash_protect = -1 //These eyes are weaker to flashes, but let you see in the dark
-	sight_flags = SEE_MOBS // Taken from augmented_eyesight.dm
+	flash_protect = -1 // These eyes are weaker to flashes, but let you see in the dark
+	sight_flags = SEE_MOBS // Vampires can scan living things near them
 
 /*
 //////////////////////
@@ -106,7 +107,8 @@
 //////////////////////
 // Crafting the stake!
 
-/obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params) // NOTE: sheet_types.dm is where the WOOD stack lives. Maybe move this over there.
+/// NOTE: sheet_types.dm is where the WOOD stack lives. Maybe move this over there.
+/obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params)
 	// Taken from /obj/item/stack/rods/attackby in [rods.dm]
 	if(W.get_sharpness())
 		user.visible_message("[user] begins whittling [src] into a pointy object.", \
@@ -134,13 +136,13 @@
 	else
 		. = ..()
 
-// Do I have a stake in my heart?
+/// Do I have a stake in my heart?
 /mob/living/AmStaked()
 	var/obj/item/bodypart/BP = get_bodypart("chest")
-	if (!BP)
+	if(!BP)
 		return FALSE
 	for(var/obj/item/I in BP.embedded_objects)
-		if (istype(I,/obj/item/stake/))
+		if(istype(I,/obj/item/stake))
 			return TRUE
 	return FALSE
 
@@ -165,17 +167,14 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	force = 6
 	throwforce = 10
-	embedding = list("embed_chance" = 25, "fall_chance" = 0.5) // UPDATE 2/10/18 embedding_behavior.dm is how this is handled
-	//embed_chance = 25  // Look up "is_pointed" to see where we set stakes able to do this.
-	//embedded_fall_chance = 0.5 // Chance it will fall out.
+	embedding = list("embed_chance" = 25, "fall_chance" = 0.5)
 	obj_integrity = 30
 	max_integrity = 30
-	//embedded_fall_pain_multiplier
 	var/staketime = 120		// Time it takes to embed the stake into someone's chest.
 
+/// This exists so Hardened/Silver Stake can't have a welding torch used on them.
 /obj/item/stake/basic
 	name = "wooden stake"
-	// This exists so Hardened/Silver Stake can't have a welding torch used on them.
 
 /obj/item/stake/basic/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/weldingtool))
@@ -190,7 +189,7 @@
 						 "<span class='notice'>You scorch the pointy end of [src] with the welding tool.</span>", \
 						 "<span class='italics'>You hear welding.</span>")
 		// 8 Second Timer
-		if(!do_mob(user, src, 80))
+		if(!do_mob(user, src, 8 SECONDS))
 			return
 		// Create the Stake
 		qdel(src)
@@ -202,7 +201,7 @@
 /obj/item/stake/afterattack(atom/target, mob/user, proximity)
 	//to_chat(world, "<span class='notice'>DEBUG: Staking </span>")
 	// Invalid Target, or not targetting chest with HARM intent?
-	if(!iscarbon(target) || check_zone(user.zone_selected) != "chest" || user.a_intent != INTENT_HARM)
+	if(!iscarbon(target) || check_zone(user.zone_selected) != "chest")
 		return
 	var/mob/living/carbon/C = target
 	// Needs to be Down/Slipped in some way to Stake.
@@ -216,7 +215,7 @@
 	// Make Attempt...
 	to_chat(user, "<span class='notice'>You put all your weight into embedding the stake into [target]'s chest...</span>")
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
-	if(!do_mob(user, C, staketime, 0, 1, extra_checks=CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
+	if(!do_mob(user, C, staketime, NONE, TRUE, extra_checks=CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
 	user.visible_message("<span class='danger'>[user.name] drives the [src] into [target]'s chest!</span>", \

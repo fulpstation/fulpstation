@@ -151,7 +151,7 @@
 		var/pry_time = pryLidTimer * W.toolspeed // Pry speed must be affected by the speed of the tool.
 		user.visible_message("<span class='notice'>[user] tries to pry the lid off of [src] with [W].</span>", \
 							  "<span class='notice'>You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)].</span>")
-		if(!do_mob(user,src,pry_time))
+		if(!do_mob(user, src, pry_time))
 			return
 		bust_open()
 		user.visible_message("<span class='notice'>[user] snaps the door of [src] wide open.</span>", \
@@ -172,7 +172,7 @@
 			to_chat(user, "<span class='notice'>You flip a secret latch and [locked?"":"un"]lock yourself inside [src].</span>")
 		else
 			to_chat(resident, "<span class='notice'>The secret latch to lock [src] from the inside is broken. You set it back into place...</span>")
-			if(do_mob(resident, src, 50))//sleep(10)
+			if(do_mob(resident, src, 5 SECONDS))//sleep(10)
 				if(broken) // Spam Safety
 					to_chat(resident, "<span class='notice'>You fix the mechanism and lock it.</span>")
 					broken = FALSE
