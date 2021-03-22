@@ -203,7 +203,7 @@
 	while(bloodsuckerdatum && target && active)
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
-		if(!do_mob(user, target, 20, 0, 0, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
+		if(!do_mob(user, target, 2 SECONDS, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
 			// May have disabled Feed during do_mob
 			if(!active || !ContinueActive(user, target))
 				break
