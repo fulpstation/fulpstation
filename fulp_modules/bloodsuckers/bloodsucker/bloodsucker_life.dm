@@ -139,7 +139,7 @@
 		organ.setOrganDamage(0)
 	C.adjust_blindness(-25)
 	C.adjust_blurriness(-25)
-	C.reagents.add_reagent(/datum/reagent/medicine/oculine,10) // I'm sorry
+	C.reagents.add_reagent(/datum/reagent/medicine/oculine,20) // I'm sorry
 	owner.current.cure_husk()
 
 // I am thirsty for blood!
