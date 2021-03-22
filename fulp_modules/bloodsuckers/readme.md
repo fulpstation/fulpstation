@@ -32,5 +32,4 @@ Citadel - Help with some coding
 
 ## NOTES:
 
-- bloodsucker_objects.dm >> Once Combat mode is merged, add Help intent to Blood bag's drinking
-- vassal.dm >> Once New Traits is merged, swap REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, "implant") -> REMOVE_TRAIT(owner.current, TRAIT_MINDSHIELD, IMPLANT_TRAIT)
+- bloodsucker_objects.dm >> Once Combat mode is merged, add Help intent to Blood bag's drinking maybe? 

@@ -116,6 +116,10 @@
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into his minions.</span>"
 		. += "<span class='notice'> Aid your master in bringing their victims here and keeping them secure.</span>"
 		. += "<span class='notice'> You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
+	if(user.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+		. += {"<span class='cult'>This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.</span>"}
+		. += {"<span class='cult'>They usually ensure that victims are handcuffed, to prevent them from running away.</span>"}
+		. += {"<span class='cult'>Their rituals take time, allowing us to disrupt it.</span>"}
 
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
 	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
@@ -167,7 +171,7 @@
 	M.pixel_y = -2 //M.get_standard_pixel_y_offset(120)//180)
 	update_icon()
 	// Torture Stuff
-	convert_progress = 4 			// Goes down unless you start over.
+	convert_progress = 3 			// Goes down unless you start over.
 	disloyalty_confirm = FALSE		// New guy gets the chance to say NO if he's special.
 	disloyalty_offered = FALSE		// Prevents spamming torture window.
 
@@ -282,11 +286,12 @@
 		return
 	// Convert to Vassal!
 	if(B && B.attempt_turn_vassal(target))
-		//remove_loyalties(target) // In case of Mindshield, or appropriate Antag (Traitor, Internal, etc)
 		//if (!target.buckled)
 		//	to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		//	useLock = FALSE
 		//	return
+		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
+			remove_loyalties(target)
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
