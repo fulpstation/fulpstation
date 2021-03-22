@@ -47,62 +47,56 @@
 
 
 	var/list/created_firsts = list()
-/*
-/datum/brain_trauma/special/bluespace_prophet/phobetor/on_life()
+
+/datum/brain_trauma/special/bluespace_prophet/phobetor/on_life(delta_time, times_fired)
 	if(!COOLDOWN_FINISHED(src, portal_cooldown))
 		return
 
 	COOLDOWN_START(src, portal_cooldown, 10 SECONDS)
+	var/list/turf/possible_tears = list()
+	for(var/turf/T as anything in RANGE_TURFS(8, owner))
+		if(T.density)
+			continue
 
-	var/turf/first_turf
-	var/turf/second_turf
+		var/clear = TRUE
+		for(var/obj/O in T)
+			if(O.density)
+				clear = FALSE
+				break
+		if(clear)
+			possible_tears += T
 
-	// Make Next Portal
-/*
-		// Round One: Pick a Nearby Turf
-		var/list/turf/possible_turfs = return_valid_floors_in_range(owner, 6, 0, TRUE) // Source, Range, Has Floor
-		if(!LAZYLEN(possible_turfs))
-			return
-		// First Pick:
-		var/turf/first_turf = pick(possible_turfs)
-		if(!first_turf)
-			return
-		// Round Two: Pick an even Further Turf
-		possible_turfs = return_valid_floors_in_range(first_turf, 20, 6, TRUE) // Source, Range, Has Floor
-		possible_turfs -= first_turf
-		if(!LAZYLEN(possible_turfs))
-			return
-		// Second Pick:
-		var/turf/second_turf = pick(possible_turfs)
-		if(!second_turf)
-			return
-*/
+	if(!LAZYLEN(possible_tears))
+		return
 
-		// Round One: Pick a Nearby Turf
-		first_turf = return_valid_floor_in_range(owner, 6, 0, TRUE)
-		if (!first_turf)
-			return
+	var/turf/first_tear
+	var/turf/second_tear
 
-		// Round Two: Pick an even Further Turf
-		second_turf = return_valid_floor_in_range(first_turf, 20, 6, TRUE)
-		if (!second_turf)
-			return
+	// Round One: Pick a Nearby Turf
+	first_tear = return_valid_floor_in_range(owner, 6, 0, TRUE)
+	if (!first_tear)
+		return
+
+	// Round Two: Pick an even Further Turf
+	second_tear = return_valid_floor_in_range(first_tear, 20, 6, TRUE)
+	if (!second_tear)
+		return
 
 
-		var/obj/effect/hallucination/simple/phobetor/first = new (first_turf, owner)
-		var/obj/effect/hallucination/simple/phobetor/second = new (second_turf, owner)
+	var/obj/effect/hallucination/simple/phobetor/first = new(first_tear, owner)
+	var/obj/effect/hallucination/simple/phobetor/second = new(second_tear, owner)
 
-		first.linked_to = second
-		second.linked_to = first
-		first.seer = owner
-		second.seer = owner
-		first.desc += " This one leads to [get_area(second)]."
-		second.desc += " This one leads to [get_area(first)]."
-		first.name += " ([get_area(second)])."
-		second.name += " ([get_area(first)])."
+	first.linked_to = second
+	second.linked_to = first
+	first.seer = owner
+	second.seer = owner
+	first.desc += " This one leads to [get_area(second)]."
+	second.desc += " This one leads to [get_area(first)]."
+	first.name += " ([get_area(second)])."
+	second.name += " ([get_area(first)])."
 
-		// Remember this Portal...it's gonna get checked for deletion.
-		created_firsts += first
+	// Remember this Portal...it's gonna get checked for deletion.
+	created_firsts += first
 
 	// Delete Next Portal if it's time (it will remove its partner)
 	var/obj/effect/hallucination/simple/phobetor/first_on_the_stack = created_firsts[1]
@@ -115,7 +109,7 @@
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
 	for (var/BT in created_firsts)
 		qdel(BT)
-*/
+
 /obj/effect/hallucination/simple/phobetor
 	name = "phobetor tear"
 	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
@@ -158,4 +152,3 @@
 		qdel(linked_to)
 		// WHY DO THIS?	Because our trauma only gets rid of all the FIRST gates created.
 	. = ..()
-

@@ -16,6 +16,7 @@
 	fulp_spawn = /obj/effect/landmark/start/brigdoc
 
 	outfit = /datum/outfit/job/brigdoc
+	plasmaman_outfit = /datum/outfit/plasmaman/brigdoc
 
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
