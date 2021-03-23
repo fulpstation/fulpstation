@@ -65,8 +65,6 @@
 	for(var/datum/mind/bloodsucker in bloodsuckers)
 		if(!make_bloodsucker(bloodsucker))
 			bloodsuckers -= bloodsucker
-	// Spawn Monster Hunters 30 minutes into the round
-	addtimer(CALLBACK(src, .proc/assign_monster_hunters), 35 MINUTES)
 	..()
 
 /// Init Sunlight (called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
@@ -75,6 +73,8 @@
 	if(istype(bloodsucker_sunlight) && !bloodsucker_sunlight.cancel_me)
 		return
 	bloodsucker_sunlight = new()
+	// Spawn 2-4 Monster Hunters 35 minutes into the round
+	addtimer(CALLBACK(src, .proc/assign_monster_hunters), 35 MINUTES)
 
 /// End Sun (last bloodsucker removed)
 /datum/game_mode/proc/check_cancel_sunlight()
