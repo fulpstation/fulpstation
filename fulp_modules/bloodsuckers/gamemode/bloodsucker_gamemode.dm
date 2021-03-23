@@ -54,9 +54,6 @@
 		log_game("[bloodsucker.key] (ckey) has been selected as a Bloodsucker.")
 		antag_candidates.Remove(bloodsucker) // Apparently you can also write antag_candidates -= bloodsucker
 
-	//  Assign Hunters (as many as monsters, plus one)
-	//assign_monster_hunters(bloodsuckers.len, TRUE, bloodsuckers)	// Disabled, monster hunters are meant to be Admin only!
-
 	// Do we have enough vamps to continue?
 	return bloodsuckers.len >= required_enemies
 
