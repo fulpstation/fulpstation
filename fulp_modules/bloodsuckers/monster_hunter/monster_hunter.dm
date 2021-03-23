@@ -25,6 +25,9 @@
 
 /datum/antagonist/monsterhunter/on_gain()
 	SSticker.mode.monsterhunter += owner
+	// Buffs Monster Hunters
+	ADD_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	// Give Monster Hunter powers
 	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
@@ -52,6 +55,9 @@
 	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()
+	// Remove buffs
+	REMOVE_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	// Remove Monster Hunter powers
 	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)
@@ -86,12 +92,12 @@
 	objectives -= O
 
 /datum/antagonist/monsterhunter/greet()
-	to_chat(owner.current, "<span class='userdanger'>You are a fearless Monster Hunter!</span>")
-	to_chat(owner.current, "<span class='announce'>You know there's one or more filthy creature onboard the station, though their identities elude you.</span><br>")
-	to_chat(owner.current, "<span class='announce'>It's your job to root them out, destroy their nests, and save the crew.</span><br>")
-	to_chat(owner.current, "<span class='announce'>Use <b>WHATEVER MEANS NECESSARY</b> to find these creatures, no matter who gets hurt or what you have to destroy to do it.</span><br>")
-	to_chat(owner.current, "<span class='announce'>There are greater stakes at hand than the safety of the station!</span><br>")
-	to_chat(owner.current,"<span class='announce'>However, security may detain you if they discover your mission.</span><br>")
+	to_chat(owner.current, "<span class='userdanger'>Finished hiding in the shadows, you return to your profession, you are a Monster Hunter!</span>")
+	to_chat(owner.current, "<span class='announce'>You know there's one or more filthy creature onboard the station.</span><br>")
+	to_chat(owner.current, "<span class='announce'>Use <b>WHATEVER MEANS NECESSARY</b> to destroy these creatures, no matter who gets hurt.</span><br>")
+	to_chat(owner.current, "<span class='announce'>However, security may detain you if they discover your mission.</span><br>")
+	to_chat(owner.current, "<span class='announce'>Our training of Monster fighting throughout the years have prepared us for this.</span><br>")
+	to_chat(owner.current, "<span class='announce'>In exchange for our services, it shouldn't matter if one or two things are gone missing.</span><br>")
 	if(my_kungfu != null)
 		to_chat(owner.current, "<span class='boldannounce'>Hunter Tip: Use your [my_kungfu.name] techniques to give you an advantage over the enemy.</span><br>")
 	owner.current.playsound_local(null, 'sound/effects/his_grace_ascend.ogg', 100, FALSE, pressure_affected = FALSE)

@@ -53,6 +53,13 @@
 	objectives += vassal_objective
 	owner.current.grant_language(/datum/language/vampiric)
 	update_vassal_icons_added(owner.current, "vassal")
+	// Red eyes
+	if(ishuman(owner.current))
+		var/mob/living/carbon/human/H = owner.current
+		H.eye_color = "f00"
+		H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
+		ADD_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
+		H.update_body()
 	. = ..()
 
 /datum/antagonist/vassal/proc/add_objective(datum/objective/O)
@@ -81,6 +88,13 @@
 	// Clear Antag
 	owner.special_role = null
 	update_vassal_icons_removed(owner.current)
+	// Remove red eyes
+	if(ishuman(owner.current))
+		var/mob/living/carbon/human/H = owner.current
+		H.eye_color = initial(H.eye_color)
+		H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
+		REMOVE_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
+		H.update_body()
 	return ..()
 
 /datum/antagonist/vassal/greet()
