@@ -52,7 +52,8 @@
 				return
 		//sleep(50)
 		warn_daylight(4,"<span class = 'userdanger'>Solar flares bombard the station with deadly UV light!</span><br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!</span>",\
-				  	  "<span class = 'danger'>Solar flares bombard the station with UV light!</span>")
+				  	  "<span class = 'danger'>Solar flares bombard the station with UV light!</span>",\
+					  "<span class = 'userdanger'>The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!</span>")
 		// Part 4: Day
 		amDay = TRUE
 		message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
@@ -90,7 +91,7 @@
 		sleep(10)
 		time_til_cycle--
 
-/obj/effect/sunlight/proc/warn_daylight(danger_level = 0, vampwarn = "", vassalwarn = "")
+/obj/effect/sunlight/proc/warn_daylight(danger_level = 0, vampwarn = "", vassalwarn = "", hunteralert = "")
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M))
 			continue
@@ -106,11 +107,16 @@
 				M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
 			else if(danger_level == 5)
 				M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
-	if (vassalwarn != "")
+	if(vassalwarn != "")
 		for(var/datum/mind/M in SSticker.mode.vassals)
 			if(!istype(M))
 				continue
 			to_chat(M, vassalwarn)
+	if(hunteralert != "")
+		for(var/datum/mind/M in SSticker.mode.monsterhunter)
+			if(!istype(M))
+				continue
+			to_chat(M, hunteralert)
 
 /obj/effect/sunlight/proc/punish_vamps()
 	// Cycle through all vamp antags and check if they're inside a closet.

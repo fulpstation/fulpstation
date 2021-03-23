@@ -12,7 +12,6 @@
 	job_rank = ROLE_MONSTERHUNTER
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
-	var/bad_dude = FALSE // Every first hunter spawned is a SHIT LORD.
 	var/max_blood_volume = 600 // Required so the pinpointer doesnt runtime
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
@@ -29,20 +28,13 @@
 	// Give Monster Hunter powers
 	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
-	// Give Hunter Objective
-	var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
-	monsterhunter_objective.owner = owner
-	monsterhunter_objective.generate_objective()
-	if(give_objectives)
+	if(give_objectives) // Give Hunter Objective
+		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
+		monsterhunter_objective.owner = owner
+		monsterhunter_objective.generate_objective()
 		objectives += monsterhunter_objective
-	// Give Hunter Martial Arts
-	if(rand(0,4) <= 1)
-		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/krav_maga, /datum/martial_art/wrestling, /datum/martial_art/hunterfu)  // /datum/martial_art/boxing  <--- doesn't include grabbing, so don't use!
-		my_kungfu = new pick_type
-		my_kungfu.teach(owner.current, 0)
-	// Badguy Hunter?
-	if(bad_dude) // Stolen DIRECTLY from datum_traitor.dm
-		if(prob(15) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
+		// Give Theft objectives
+		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
 			var/datum/objective/download/download_objective = new
 			download_objective.owner = owner
 			download_objective.gen_amount_goal()
@@ -52,6 +44,11 @@
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
+	// Give Martial Arts
+	if(rand(0,4) <= 1)
+		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // 2x the chance at Hunter-Fu
+		my_kungfu = new pick_type
+		my_kungfu.teach(owner.current, 0)
 	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()

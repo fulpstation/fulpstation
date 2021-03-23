@@ -69,7 +69,7 @@
 			return
 		if(D.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 			to_chat(D, "<span class='cultlarge'>Their arm stakes straight into our undead flesh!</span>")
-			D.apply_damage(30, BURN)
+			D.apply_damage(20, BURN)
 			return
 		else
 			D.apply_damage(15, A.dna.species.attack_type)

@@ -1,7 +1,8 @@
 /datum/game_mode
 	var/list/datum/mind/bloodsuckers = list()
-	var/list/datum/mind/vassals = list() 			// List of minds that have been turned into Vassals.
-	var/obj/effect/sunlight/bloodsucker_sunlight	// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
+	var/list/datum/mind/vassals = list() // List of minds that have been turned into Vassals.
+	var/list/datum/mind/monsterhunter = list() // List of all Monster Hunters
+	var/obj/effect/sunlight/bloodsucker_sunlight // Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 	// The antags you're allowed to be if turning Vassal.
 	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/survivalist, /datum/antagonist/rev, /datum/antagonist/nukeop, /datum/antagonist/pirate, /datum/antagonist/cult, /datum/antagonist/heretic, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
 
@@ -64,6 +65,8 @@
 	for(var/datum/mind/bloodsucker in bloodsuckers)
 		if(!make_bloodsucker(bloodsucker))
 			bloodsuckers -= bloodsucker
+	// Spawn Monster Hunters 30 minutes into the round
+	addtimer(CALLBACK(src, .proc/assign_monster_hunters), 30 MINUTES)
 	..()
 
 // Init Sunlight (called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
