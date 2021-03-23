@@ -5,7 +5,7 @@
 	amToggle = TRUE
 	bloodcost = 5
 	cooldown = 100
-	var/stacks = 0 //Increments every 5 seconds; damage increases over time
+	var/stacks = 1 //Increments every 5 seconds; damage increases over time
 
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
 	. = ..()
@@ -25,12 +25,12 @@
 		C.adjustBruteLoss(-1.5)
 		C.adjustFireLoss(-0.5)
 		C.adjustToxLoss(-2, forced = TRUE)
-		C.blood_volume -= 0.2
+		C.blood_volume -= (stacks * 1.5)
 		C.adjustStaminaLoss(stacks * 1.5)
 		// Stop Bleeding
 		if(istype(H) && H.is_bleeding() && rand(20) == 0)
 			for(var/obj/item/bodypart/part in H.bodyparts)
-				part.generic_bleedstacks --
+				part.generic_bleedstacks--
 		C.Jitter(5)
 		sleep(10)
 	// DONE!
