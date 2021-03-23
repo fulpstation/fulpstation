@@ -5,7 +5,7 @@
 	amToggle = TRUE
 	bloodcost = 5
 	cooldown = 100
-	var/stacks = 1 //Increments every 5 seconds; damage increases over time
+	var/stacks = 1.2 //Increments every 5 seconds; damage increases over time
 
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
 	. = ..()
