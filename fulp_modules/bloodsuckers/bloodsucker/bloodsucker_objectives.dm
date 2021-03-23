@@ -1,23 +1,22 @@
-// Hide a random object somewhere on the station:
-//		var/turf/targetturf = get_random_station_turf()
-//		var/turf/targetturf = get_safe_random_station_turf()
+/* Hide a random object somewhere on the station:
+ *		var/turf/targetturf = get_random_station_turf()
+ *		var/turf/targetturf = get_safe_random_station_turf()
+ */
 
 /datum/objective/bloodsucker
 	martyr_compatible = TRUE
 
-//						 GENERATE!
+// GENERATE!
 /datum/objective/bloodsucker/proc/generate_objective()
 	update_explanation_text()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////////////////////
 //	//							 PROCS 									//	//
 
 
+/// Look at all crew members, and for/loop through.
 /datum/objective/bloodsucker/proc/return_possible_targets()
 	var/list/possible_targets = list()
-
-	 // Look at all crew members, and for/loop through.
 	for(var/datum/mind/possible_target in get_crewmember_minds())
 		// Check One: Default Valid User
 		if(possible_target != owner && ishuman(possible_target.current) && possible_target.current.stat != DEAD)// && is_unique_objective(possible_target))
@@ -30,31 +29,30 @@
 	return possible_targets
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//	//							 OBJECTIVES 									//	//
 
 /datum/objective/bloodsucker/lair
 
-//						EXPLANATION
+// EXPLANATION
 /datum/objective/bloodsucker/lair/update_explanation_text()
 	explanation_text = "Create a lair by claiming a coffin, and protect it until the end of the shift."//  Make sure to keep it safe!"
 
-//						WIN CONDITIONS?
+// WIN CONDITIONS?
 /datum/objective/bloodsucker/lair/check_completion()
 	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(antagdatum && antagdatum.coffin && antagdatum.lair)
 		return TRUE
 	return FALSE
 
-// Space_Station_13_areas.dm  <--- all the areas
+/// Space_Station_13_areas.dm  <--- all the areas
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
-// Vassal becomes a Head, or part of a department
+/// Vassalize someone in charge (Head of Staff + QM)
+/// LOOKUP: /datum/crewmonitor/proc/update_data(z) for .assignment to see how to get a person's PDA.
 /datum/objective/bloodsucker/protege
 
-	// LOOKUP: /datum/crewmonitor/proc/update_data(z)  for .assignment to see how to get a person's PDA.
 	var/list/roles = list(
 		"Captain",
 		"Head of Personnel",
@@ -77,7 +75,7 @@
 	var/target_role	// Equals "HEAD" when it's not a department role.
 	var/department_string
 
-//						 GENERATE!
+// GENERATE!
 /datum/objective/bloodsucker/protege/generate_objective()
 	target_role = rand(0,2) == 0 ? "HEAD" : pick(departs)
 
@@ -106,7 +104,7 @@
 		target_amount = clamp(target_amount, 2, 4)
 	..()
 
-//						EXPLANATION
+// EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
 	if(target_role == "HEAD")
 		if(target_amount == 1)
@@ -116,7 +114,7 @@
 	else
 		explanation_text = "Have [target_amount] Vassal[target_amount==1?"":"s"] in the [department_string] department."
 
-//						WIN CONDITIONS?
+// WIN CONDITIONS?
 /datum/objective/bloodsucker/protege/check_completion()
 
 	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -131,13 +129,12 @@
 		valid_jobs = list()
 		var/list/alljobs = subtypesof(/datum/job) // This is just a list of TYPES, not the actual variables!
 		for(var/T in alljobs)
-			var/datum/job/J = SSjob.GetJobType(T) //
+			var/datum/job/J = SSjob.GetJobType(T)
 			if(!istype(J))
 				continue
 			// Found a job whose Dept Head matches either list of heads, or this job IS the head
 			if((target_role in J.department_head) || target_role == J.title)
 				valid_jobs += J.title
-
 
 	// Check Vassals, and see if they match
 	var/objcount = 0
@@ -173,46 +170,41 @@
 		if(target_role == "HEAD")
 			counted_roles += thisRole // Add to list so we don't count it again (but only if it's a Head)
 
-	// 			NOTE!!!!!!!!!!!
-
-	//			Look for jobs value on mobs! This is assigned at start, but COULD be assigned from HoP?
-	//
-	//			ALSO - Search through all jobs (look for prefs earlier that look for all jobs, and search through all jobs to see if their head matches the head listed, or it IS the head)
-	//
-	//			ALSO - registered_account in _vending.dm for banks, and assigning new ones.
-
-	//to_chat(antagdatum.owner, "<span class='userdanger'>PROTEGE OBJECTIVE: Final Count: [objcount] of [antagdatum.vassals.len] vassals</span>")
 	return objcount >= target_amount
+	/* 			NOTE!!!!!!!!!!!
+	 *
+	 *			Look for jobs value on mobs! This is assigned at start, but COULD be assigned from HoP?
+	 *
+	 *			ALSO - Search through all jobs (look for prefs earlier that look for all jobs, and search through all jobs to see if their head matches the head listed, or it IS the head)
+	 *
+	 *			ALSO - registered_account in _vending.dm for banks, and assigning new ones.
+	 *
+	 */
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
-// Eat blood from a lot of people
+/// Eat blood from a lot of people
 /datum/objective/bloodsucker/gourmand
 
 // HOW: Track each feed (if human). Count victory.
 
+//////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Convert a crewmate
+/// Convert a crewmate
 /datum/objective/bloodsucker/embrace
 
 // HOW: Find crewmate. Check if person is a bloodsucker
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
-// Defile a facility with blood
+/// Defile a facility with blood
 /datum/objective/bloodsucker/desecrate
 
 	// Space_Station_13_areas.dm  <--- all the areas
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
-// Destroy the Solar Arrays
+/// Destroy the Solar Arrays
 /datum/objective/bloodsucker/solars
 /* -- Removed due to TG updates breaking it + It's not a good objective, replaced with Vassalhim objective instead.
 // Space_Station_13_areas.dm  <--- all the areas
@@ -231,56 +223,53 @@
 			return FALSE
 	return TRUE
 */
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Steal hearts. You just really wanna have some hearts.
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// NOTE: Look up /steal in objective.dm for inspiration.
+/// Steal hearts. You just really wanna have some hearts.
 /datum/objective/bloodsucker/heartthief
-	martyr_compatible = FALSE // Why is this defined, Bloodsuckers cant roll DAGD anyways.
-	// NOTE: Look up /steal in objective.dm for inspiration.
+	martyr_compatible = FALSE
 
-//						 GENERATE!
+// GENERATE!
 /datum/objective/bloodsucker/heartthief/generate_objective()
 	target_amount = rand(2,3)
 	update_explanation_text()
-	//dangerrating += target_amount * 2
 	return target_amount
 
-//						EXPLANATION
+// EXPLANATION
 /datum/objective/bloodsucker/heartthief/update_explanation_text()
 	. = ..()
 	explanation_text = "Steal and keep [target_amount] heart[target_amount == 1 ? "" : "s"]."			// TO DO:     Limit them to Human Only!
 
-//						WIN CONDITIONS?
+// WIN CONDITIONS?
 /datum/objective/bloodsucker/heartthief/check_completion()
-	// -Must have a body.
 	if(!owner.current)
 		return FALSE
-	// Taken from /steal in objective.dm
-	var/list/all_items = owner.current.GetAllContents() // Includes items inside other items.
+	var/list/all_items = owner.current.GetAllContents()
 	var/itemcount = FALSE
-	for(var/obj/I in all_items) //Check for items
+	for(var/obj/I in all_items)
 		if(istype(I, /obj/item/organ/heart/))
 			itemcount++
-			if(itemcount >= target_amount) // Got the right amount?
+			if(itemcount >= target_amount)
 				return TRUE
 
 	return FALSE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Vassalize a target.
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// NOTE: Look up /assassinate in objective.dm for inspiration.
+/// Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
 	var/target_role_type = FALSE
-	// NOTE: Look up /assassinate in objective.dm for inspiration.
 
-//				FIND TARGET/GENERATE OBJECTIVE
+// FIND TARGET/GENERATE OBJECTIVE
 /datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
 	if(!invert)
 		target_role_type = role_type
 	..()
 
-//						EXPLANATION
+// EXPLANATION
 /datum/objective/bloodsucker/vassalhim/update_explanation_text()
 	..()
 	if(target?.current)
@@ -288,7 +277,7 @@
 	else
 		explanation_text = "Free Objective"
 
-//						WIN CONDITIONS?
+// WIN CONDITIONS?
 /datum/objective/bloodsucker/vassalhim/check_completion()
 	if(target.has_antag_datum(/datum/antagonist/vassal))
 		return TRUE
@@ -297,38 +286,36 @@
 /datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
 	admin_simple_target_pick(admin)
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/survive
-	martyr_compatible = FALSE // Why is this defined, Bloodsuckers cant roll DAGD anyways.
+	martyr_compatible = FALSE
 
-//						EXPLANATION
+// EXPLANATION
 /datum/objective/bloodsucker/survive/update_explanation_text()
 	explanation_text = "Survive the entire shift without succumbing to Final Death."
 
-//						WIN CONDITIONS?
+// WIN CONDITIONS?
 /datum/objective/bloodsucker/survive/check_completion()
-	// -Must have a body.
+	// Must have a body.
 	if(!owner.current || !isliving(owner.current))
 		return FALSE
 	// Dead, without a head or heart? Cya
-	return owner.current.stat != DEAD// || owner.current.HaveBloodsuckerBodyparts()
+	return owner.current.stat != DEAD
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/monsterhunter
 
-//						 GENERATE!
+// GENERATE!
 /datum/objective/bloodsucker/monsterhunter/generate_objective()
 	update_explanation_text()
 
-//						EXPLANATION
+// EXPLANATION
 /datum/objective/bloodsucker/monsterhunter/update_explanation_text()
 	explanation_text = "Destroy all monsters on [station_name()]."
 
-//						WIN CONDITIONS?
+// WIN CONDITIONS?
 /datum/objective/bloodsucker/monsterhunter/check_completion()
 	var/list/datum/mind/monsters = list()
 	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
@@ -352,20 +339,19 @@
 	return TRUE
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/vassal
 
-//						 GENERATE!
+// GENERATE!
 /datum/objective/bloodsucker/vassal/generate_objective()
 	update_explanation_text()
 
-//						EXPLANATION
+// EXPLANATION
 /datum/objective/bloodsucker/vassal/update_explanation_text()
 	explanation_text = "Guarantee the success of your Master's mission!"
 
-//						WIN CONDITIONS?
+// WIN CONDITIONS?
 /datum/objective/bloodsucker/vassal/check_completion()
 	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
 	return antag_datum.master && antag_datum.master.owner && antag_datum.master.owner.current && antag_datum.master.owner.current.stat != DEAD

@@ -1,11 +1,12 @@
-// 		WITHOUT THIS POWER:
-//	- Mid-Blood: SHOW AS PALE
-//	- Low-Blood: SHOW AS DEAD
-//	- No Heartbeat
-//  - Examine shows actual blood
-//	- Thermal homeostasis (ColdBlooded)
-// 		WITH THIS POWER:
-//	- Normal body temp -- remove Cold Blooded (return on deactivate)
+/* 		WITHOUT THIS POWER:
+ *	- Mid-Blood: SHOW AS PALE
+ *	- Low-Blood: SHOW AS DEAD
+ *	- No Heartbeat
+ *  - Examine shows actual blood
+ *	- Thermal homeostasis (ColdBlooded)
+ * 		WITH THIS POWER:
+ *	- Normal body temp -- remove Cold Blooded (return on deactivate)
+ */
 
 /datum/action/bloodsucker/masquerade
 	name = "Masquerade"
@@ -20,10 +21,10 @@
 	cooldown_static = TRUE
 	must_be_concious = FALSE
 
-// NOTE: Firing off vulgar powers disables your Masquerade!
-
-/*/datum/action/bloodsucker/masquerade/CheckCanUse(display_error)
-	if(!..(display_error))// DEFAULT CHECKS
+/*
+/// NOTE: Firing off vulgar powers disables your Masquerade!
+/datum/action/bloodsucker/masquerade/CheckCanUse(display_error)
+	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
 	// DONE!
 	return TRUE

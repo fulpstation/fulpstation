@@ -20,11 +20,11 @@
 	var/prev_undershirt
 	var/prev_socks
 	var/prev_disfigured
-	var/list/prev_features	// For lizards and such
+	var/list/prev_features // For lizards and such
 
 
 /datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	if(!..(display_error))// DEFAULT CHECKS
+	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
 
 	return TRUE
@@ -32,7 +32,7 @@
 
 /datum/action/bloodsucker/veil/ActivatePower()
 	cast_effect() // POOF
-	//if (blahblahblah)
+	//if(blahblahblah)
 	//	Disguise_Outfit()
 	Disguise_FaceName()
 

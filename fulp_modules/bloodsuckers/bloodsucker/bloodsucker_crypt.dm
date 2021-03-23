@@ -1,64 +1,61 @@
-//									IDEAS		--
-//					An object that disguises your coffin while you're in it!
-//
-//					An object that lets your lair itself protect you from sunlight, like a coffin would (no healing tho)
-
-
-
-// Hide a random object somewhere on the station:
-//		var/turf/targetturf = get_random_station_turf()
-//		var/turf/targetturf = get_safe_random_station_turf()
-
-
-
-
-// 		CRYPT OBJECTS
-//
-//
-// 	PODIUM		Stores your Relics
-//
-// 	ALTAR		Transmute items into unholy items.
-//
-//	PORTRAIT	Gaze into your past to: restore mood boost?
-//
-//	BOOKSHELF	Discover secrets about crew and locations. Learn languages. Learn marial arts.
-//
-//	BRAZER		Burn rare ingredients to gleen insights.
-//
-//	RUG			Ornate, and creaks when stepped upon by any humanoid other than yourself and your vassals.
-//
-//	X COFFIN		(Handled elsewhere)
-//
-//	X CANDELABRA	(Handled elsewhere)
-//
-//	THRONE		Your mental powers work at any range on anyone inside your crypt.
-//
-//	MIRROR		Find any person
-//
-//	BUST/STATUE	Create terror, but looks just like you (maybe just in Examine?)
-
-
-//		RELICS
-//
-//	RITUAL DAGGER
-//
-// 	SKULL
-//
-//	VAMPIRIC SCROLL
-//
-//	SAINTS BONES
-//
-//	GRIMOIRE
-
-
-// 		RARE INGREDIENTS
-// Ore
-// Books (Manuals)
-
-
-// 										NOTE:  Look up AI and Sentient Disease to see how the game handles the selector logo that only one player is allowed to see. We could add hud for vamps to that?
-//											   ALTERNATIVELY, use the Vamp Huds on relics to mark them, but only show to relevant vamps?
-
+/*									IDEAS		--
+ *					An object that disguises your coffin while you're in it!
+ *
+ *					An object that lets your lair itself protect you from sunlight, like a coffin would (no healing tho)
+ *
+ *
+ * Hide a random object somewhere on the station:
+ *		var/turf/targetturf = get_random_station_turf()
+ *		var/turf/targetturf = get_safe_random_station_turf()
+ *
+ *
+ * 		CRYPT OBJECTS
+ *
+ *
+ * 	PODIUM		Stores your Relics
+ *
+ * 	ALTAR		Transmute items into unholy items.
+ *
+ *	PORTRAIT	Gaze into your past to: restore mood boost?
+ *
+ *	BOOKSHELF	Discover secrets about crew and locations. Learn languages. Learn marial arts.
+ *
+ *	BRAZER		Burn rare ingredients to gleen insights.
+ *
+ *	RUG			Ornate, and creaks when stepped upon by any humanoid other than yourself and your vassals.
+ *
+ *	X COFFIN		(Handled elsewhere)
+ *
+ *	X CANDELABRA	(Handled elsewhere)
+ *
+ *	THRONE		Your mental powers work at any range on anyone inside your crypt.
+ *
+ *	MIRROR		Find any person
+ *
+ *	BUST/STATUE	Create terror, but looks just like you (maybe just in Examine?)
+ *
+ *
+ *		RELICS
+ *
+ *	RITUAL DAGGER
+ *
+ * 	SKULL
+ *
+ *	VAMPIRIC SCROLL
+ *
+ *	SAINTS BONES
+ *
+ *	GRIMOIRE
+ *
+ *
+ * 		RARE INGREDIENTS
+ * Ore
+ * Books (Manuals)
+ *
+ *
+ * 										NOTE:  Look up AI and Sentient Disease to see how the game handles the selector logo that only one player is allowed to see. We could add hud for vamps to that?
+ *											   ALTERNATIVELY, use the Vamp Huds on relics to mark them, but only show to relevant vamps?
+ */
 
 /obj/structure/bloodsucker
 	var/mob/living/owner
@@ -67,18 +64,23 @@
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
 	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
+
 /obj/structure/bloodsucker/bloodaltar
 	name = "bloody altar"
 	desc = "It is made of marble, lined with basalt, and radiates an unnerving chill that puts your skin on edge."
+
 /obj/structure/bloodsucker/bloodstatue
 	name = "bloody countenance"
 	desc = "It looks upsettingly familiar..."
+
 /obj/structure/bloodsucker/bloodportrait
 	name = "oil portrait"
 	desc = "A disturbingly familiar face stares back at you. Those reds don't seem to be painted in oil..."
+
 /obj/structure/bloodsucker/bloodbrazier
 	name = "lit brazier"
 	desc = "It burns slowly, but doesn't radiate any heat."
+
 /obj/structure/bloodsucker/bloodmirror
 	name = "faded mirror"
 	desc = "You get the sense that the foggy reflection looking back at you has an alien intelligence to it."
@@ -91,13 +93,13 @@
 	icon_state = "vassalrack"
 	buckle_lying = FALSE
 	anchored = FALSE
-	density = TRUE					// Start dense. Once fixed in place, go non-dense.
+	density = TRUE // Start dense. Once fixed in place, go non-dense.
 	can_buckle = TRUE
-	var/useLock = FALSE				// So we can't just keep dragging ppl on here.
+	var/useLock = FALSE // So we can't just keep dragging ppl on here.
 	var/mob/buckled
-	var/convert_progress = 3		// Resets on each new character to be added to the chair. Some effects should lower it...
-	var/disloyalty_confirm = FALSE	// Command & Antags need to CONFIRM they are willing to lose their role (and will only do it if the Vassal'ing succeeds)
-	var/disloyalty_offered = FALSE	// Has the popup been issued? Don't spam them.
+	var/convert_progress = 3 // Resets on each new character to be added to the chair. Some effects should lower it...
+	var/disloyalty_confirm = FALSE // Command & Antags need to CONFIRM they are willing to lose their role (and will only do it if the Vassal'ing succeeds)
+	var/disloyalty_offered = FALSE // Has the popup been issued? Don't spam them.
 
 /obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
 	new /obj/item/stack/sheet/metal(src.loc, 4)
@@ -135,17 +137,16 @@
 	// PULL TARGET: Restore?
 	if(waspulling)
 		owner.start_pulling(O, wasgrabstate, TRUE)
-		// NOTE: in bs_lunge.dm, we use [target.grabbedby(owner)], which simulates doing a grab action. We don't want that though...we're cutting directly back to where we were in a grab.
-	// Do Action!
+		// NOTE: in lunge.dm, we use [target.grabbedby(owner)], which simulates doing a grab action. We don't want that though...we're cutting directly back to where we were in a grab.
 	useLock = TRUE
 	if(do_mob(user, O, 5 SECONDS))
 		attach_victim(O,user)
 	useLock = FALSE
 
+/// Attempt Release (Owner vs Non Owner)
 /obj/structure/bloodsucker/vassalrack/AltClick(mob/user)
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
 		return
-	// Attempt Release (Owner vs Non Owner)
 	var/mob/living/carbon/C = pick(buckled_mobs)
 	if(C)
 		if(user == owner)
@@ -153,11 +154,11 @@
 		else
 			user_unbuckle_mob(C,user)
 
+/// Attempt Buckle
 /obj/structure/bloodsucker/vassalrack/proc/attach_victim(mob/living/M, mob/living/user)
 	// Standard Buckle Check
-	if(!buckle_mob(M)) // force=TRUE))
+	if(!buckle_mob(M))
 		return
-	// Attempt Buckle
 	user.visible_message("<span class='notice'>[user] straps [M] into the rack, immobilizing them.</span>", \
 			  		 "<span class='boldnotice'>You secure [M] tightly in place. They won't escape you now.</span>")
 
@@ -166,17 +167,17 @@
 	M.setDir(2)
 	density = TRUE
 	var/matrix/m180 = matrix(M.transform)
-	m180.Turn(180)//90)//180
+	m180.Turn(180)
 	animate(M, transform = m180, time = 2)
-	M.pixel_y = -2 //M.get_standard_pixel_y_offset(120)//180)
+	M.pixel_y = -2
 	update_icon()
 	// Torture Stuff
-	convert_progress = 3 			// Goes down unless you start over.
-	disloyalty_confirm = FALSE		// New guy gets the chance to say NO if he's special.
-	disloyalty_offered = FALSE		// Prevents spamming torture window.
+	convert_progress = 3 // Goes down unless you start over.
+	disloyalty_confirm = FALSE // New guy gets the chance to say NO if he's special.
+	disloyalty_offered = FALSE // Prevents spamming torture window.
 
+/// Attempt Unbuckle
 /obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/M, mob/user)
-	// Attempt Unbuckle
 	if(!AmBloodsucker(user))
 		if(M == user)
 			M.visible_message("<span class='danger'>[user] tries to release themself from the rack!</span>",\
@@ -185,7 +186,6 @@
 			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
 		if(!do_mob(user, M, 45 SECONDS))
 			return
-	// Did the time. Now try to do it.
 	..()
 	unbuckle_mob(M)
 
@@ -193,7 +193,7 @@
 	if(!..())
 		return
 	var/matrix/m180 = matrix(buckled_mob.transform)
-	m180.Turn(180)//-90)//180
+	m180.Turn(180)
 	animate(buckled_mob, transform = m180, time = 2)
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack.</span>"))
 	density = FALSE
@@ -202,9 +202,6 @@
 	useLock = FALSE // Failsafe
 
 /obj/structure/bloodsucker/vassalrack/attack_hand(mob/user)
-	//. = ..()	// Taken from sacrificial altar in divine.dm
-	//if(.)
-	//	return
 	// Go away. Torturing.
 	if(useLock)
 		return
@@ -243,13 +240,16 @@
 	// Just torture the boy
 	torture_victim(user, C)
 
+/*
+ * 	// Step One:	Tick Down Conversion from 3 to 0
+ *	// Step Two:	Break mindshielding/antag (on approve)
+ *	// Step Three:	Blood Ritual
+ */
+
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Prep...
 	useLock = TRUE
-	// Step One:	Tick Down Conversion from 3 to 0
-	// Step Two:	Break mindshielding/antag (on approve)
-	// Step Three:	Blood Ritual
 	// Conversion Process
 	if(convert_progress > 0)
 		to_chat(user, "<span class='notice'>You prepare to initiate [target] into your service.</span>")
@@ -286,10 +286,6 @@
 		return
 	// Convert to Vassal!
 	if(B && B.attempt_turn_vassal(target))
-		//if (!target.buckled)
-		//	to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
-		//	useLock = FALSE
-		//	return
 		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 			remove_loyalties(target)
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
@@ -347,8 +343,8 @@
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (BP ? BP.body_zone : null)) // take_overall_damage(6,0)
 	return TRUE
 
+/// OFFER YES/NO NOW!
 /obj/structure/bloodsucker/vassalrack/proc/do_disloyalty(mob/living/user, mob/living/target)
-	// OFFER YES/NO NOW!
 	spawn(10)
 		if(useLock && target && target.client) // Are we still torturing? Did we cancel? Are they still here?
 			to_chat(user, "<span class='notice'>[target] has been given the opportunity for servitude. You await their decision...</span>")
@@ -357,7 +353,7 @@
 				alert_text += "\n\nYou will no longer be loyal to the station!"
 			if(SSticker.mode.AmValidAntag(target.mind))  */
 			alert_text += "\n\nYou will not lose your current objectives, but they come second to the will of your new master!"
-			switch(alert(target, alert_text,"THE HORRIBLE PAIN! WHEN WILL IT END?!","Yes, Master!", "NEVER!"))
+			switch(alert(target, alert_text,"THE HORRIBLE PAIN! WHEN WILL IT END?!","Yes, Master.", "Never!"))
 				if("Yes, Master!")
 					disloyalty_accept(target)
 				else
@@ -389,7 +385,6 @@
 		return
 	to_chat(target, "<span class='notice'>You refuse to give in! You <i>will not</i> break!</span>")
 
-
 /obj/structure/bloodsucker/vassalrack/proc/remove_loyalties(mob/living/target)
 	// Find Mind Implant & Destroy
 	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
@@ -410,12 +405,16 @@
 	density = FALSE
 	anchored = FALSE
 	var/lit = FALSE
-///obj/structure/bloodsucker/candelabrum/is_hot() // candle.dm
-	//return FALSE
+
+/*
+/// From candle.dm
+/obj/structure/bloodsucker/candelabrum/is_hot()
+	return FALSE
+*/
 
 /obj/structure/bloodsucker/candelabrum/Destroy()
 	STOP_PROCESSING(SSobj, src)
-	return ..() //return a hint
+	return ..()
 
 /obj/structure/bloodsucker/candelabrum/update_icon_state()
 	icon_state = "candelabrum[lit ? "_lit" : ""]"
@@ -437,8 +436,8 @@
 	if(AmBloodsucker(user) || istype(T))
 		toggle()
 
+/// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
 /obj/structure/bloodsucker/candelabrum/AltClick(mob/user)
-	// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
 	if(AmBloodsucker(user))
 		toggle()
 
@@ -462,7 +461,10 @@
 	H.hallucination = 20
 	SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
 
+/*
+/obj/item/restraints/legcuffs/beartrap/bloodsucker
+*/
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
 
-// /obj/item/restraints/legcuffs/beartrap/bloodsucker

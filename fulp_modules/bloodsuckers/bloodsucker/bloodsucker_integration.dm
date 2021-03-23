@@ -1,4 +1,4 @@
-//				INTEGRATION: Adding Procs and Datums to existing "classes"
+/// INTEGRATION: Adding Procs and Datums to existing "classes"
 
 /mob/living/proc/HaveBloodsuckerBodyparts(displaymessage = "") // displaymessage can be something such as "rising from death" for Torpid Sleep. givewarningto is the person receiving messages.
 	if(!getorganslot(ORGAN_SLOT_HEART))
@@ -15,7 +15,7 @@
 		return FALSE
 	return TRUE
 
-// 			EXAMINING
+// EXAMINING
 /mob/living/carbon/proc/ReturnVampExamine(var/mob/viewer)
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -74,7 +74,7 @@
 	returnString += "</span>\]" // \n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-// Am I "pale" when examined? Bloodsuckers can trick this.
+/// Am I "pale" when examined? Bloodsuckers can trick this.
 /mob/living/carbon/proc/ShowAsPaleExamine()
 	// Normal Creatures:
 	if(!mind || !mind.has_antag_datum(/datum/antagonist/bloodsucker))
@@ -83,7 +83,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.poweron_masquerade)
 		return FALSE
-	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)...
+	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)
 	return blood_volume < BLOOD_VOLUME_OKAY // && !(bodytemperature <= get_temperature() + 2)
 
 /mob/living/carbon/human/ShowAsPaleExamine()

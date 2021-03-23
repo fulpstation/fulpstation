@@ -8,40 +8,41 @@
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
 	// NAME
-	var/bloodsucker_name						// My Dracula style name
-	var/bloodsucker_title						// My Dracula style title
-	var/bloodsucker_reputation					// My "Surname" or description of my deeds
+	var/bloodsucker_name // My Dracula style name
+	var/bloodsucker_title // My Dracula style title
+	var/bloodsucker_reputation // My "Surname" or description of my deeds
 	// CLAN
 	var/datum/team/vampireclan/clan
-	var/list/datum/antagonist/vassal/vassals = list()// Vassals under my control. Periodically remove the dead ones.
-	var/datum/mind/creator				// Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
+	var/list/datum/antagonist/vassal/vassals = list() // Vassals under my control. Periodically remove the dead ones.
+	var/datum/mind/creator // Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	// POWERS
-	var/list/datum/action/powers = list()// Purchased powers
-	var/poweron_feed = FALSE			// Am I feeding?
+	var/list/datum/action/powers = list() // Purchased powers
+	var/poweron_feed = FALSE // Am I feeding?
 	var/poweron_masquerade = FALSE
 	// STATS
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
-	var/additional_regen                // Bonus regen the more blood we have.
-	var/bloodsucker_regen_rate = 0.3	// How fast do I regenerate?
-	var/feed_amount = 15				// Amount of blood drawn from a target per tick.
-	var/max_blood_volume = 600			// Maximum blood a Vamp can hold via feeding.
+	var/additional_regen // Bonus regen the more blood we have.
+	var/bloodsucker_regen_rate = 0.3 // How fast do I regenerate?
+	var/feed_amount = 15 // Amount of blood drawn from a target per tick.
+	var/max_blood_volume = 600 // Maximum blood a Vamp can hold via feeding.
 	// OBJECTIVES
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	// HUD
 	var/valuecolor
 	// TRACKING
-	var/foodInGut 					// How much food to throw up later. You shouldn't have eaten that.
-	var/warn_sun_locker				// So we only get the locker burn message once per day.
-	var/warn_sun_burn 				// So we only get the sun burn message once per day.
-	var/passive_blood_drain = -0.1        //The amount of blood we loose each bloodsucker life tick LifeTick()
-	var/notice_healing                    //Var to see if you are healing for preventing spam of the chat message inform the user of such
-	var/FinalDeath                  //Have we reached final death? Used to prevent spam.
+	var/foodInGut // How much food to throw up later. You shouldn't have eaten that.
+	var/warn_sun_locker // So we only get the locker burn message once per day.
+	var/warn_sun_burn // So we only get the sun burn message once per day.
+	var/passive_blood_drain = -0.1 //The amount of blood we loose each bloodsucker life tick LifeTick()
+	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
+	var/FinalDeath //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
 		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
-/// TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -Willard
-/// Remember that Fortitude gives NODISMEMBER when balancing Traits!
+/* TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -Willard
+ * Remember that Fortitude gives NODISMEMBER when balancing Traits!
+ */
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -51,16 +52,16 @@
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	return
 
-///Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
+/// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	forge_bloodsucker_objectives()
 	SSticker.mode.bloodsuckers += owner
-	SSticker.mode.check_start_sunlight() // Start Sunlight? (if first Vamp)
+	SSticker.mode.check_start_sunlight() // Start Sunlight if first Bloodsucker
 	AssignStarterPowersAndStats() // Give Powers & Stats
 	SelectFirstName() // Name & Title
-	SelectTitle(am_fledgling = TRUE) 	// If I have a creator, then set as Fledgling.
+	SelectTitle(am_fledgling = TRUE) // If I have a creator, then set as Fledgling.
 	SelectReputation(am_fledgling = TRUE)
-	update_bloodsucker_icons_added(owner.current, "bloodsucker") // Huds -- Currently broken
+	update_bloodsucker_icons_added(owner.current, "bloodsucker")
 	. = ..()
 
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
@@ -69,7 +70,7 @@
 	SSticker.mode.check_cancel_sunlight() // End Sunlight? (if last Vamp)
 	owner.special_role = null
 	ClearAllPowersAndStats() // Clear Powers & Stats
-	update_bloodsucker_icons_removed(owner.current) // Huds -- Currently broken
+	update_bloodsucker_icons_removed(owner.current)
 	if(!LAZYLEN(owner.antag_datums))
 		owner.current.remove_from_current_living_antags()
 	if(!silent && owner.current)
@@ -96,8 +97,8 @@
 	// Refill with Blood
 	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_SAFE)
 
+/// Names (EVERYONE gets one))
 /datum/antagonist/bloodsucker/proc/SelectFirstName()
-	// Names (EVERYONE gets one))
 	if(owner.current.gender == MALE)
 		bloodsucker_name = pick("Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
 						"Sveyn","Aurel","Alexe","Iustin","Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
@@ -184,7 +185,7 @@
 /datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
 	objectives -= O
 
-//Individual roundend report
+/// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
 	// Get the default Objectives
 	var/list/report = list()
@@ -205,11 +206,12 @@
 
 	return report.Join("<br>")
 
-//Displayed at the start of roundend_category section, default to roundend_category header
+/// Displayed at the start of roundend_category section, default to roundend_category header
 /datum/antagonist/bloodsucker/roundend_report_header()
 	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
 
-//ADMIN TOOLS
+// ADMIN TOOLS //
+
 /// Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
@@ -224,15 +226,15 @@
 	log_admin("[key_name(user)] has removed [name] antagonist status from [key_name(owner)].")
 	on_removal()
 
-// Buying powers
-/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)//(obj/effect/proc_holder/spell/power)
+/// Buying powers
+/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current) // owner.AddSpell(power)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Blood/Rank Counter
 	add_hud()
-	update_hud(owner.current) 	// Set blood value, current rank
+	update_hud(owner.current) // Set blood value, current rank
 	// Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
@@ -256,9 +258,9 @@
 		H.physiology.brute_mod *= 0.8
 		H.physiology.cold_mod = 0
 		H.physiology.stun_mod *= 0.5
-		H.physiology.siemens_coeff *= 0.75 	//base electrocution coefficient  1
-		S.punchdamagelow += 1       //lowest possible punch damage   0
-		S.punchdamagehigh += 1      //highest possible punch damage	 9
+		H.physiology.siemens_coeff *= 0.75 //base electrocution coefficient  1
+		S.punchdamagelow += 1 //lowest possible punch damage   0
+		S.punchdamagehigh += 1 //highest possible punch damage	 9
 		if(istype(H) && owner.assigned_role == "Clown")
 			H.dna.remove_mutation(CLOWNMUT)
 			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
@@ -297,7 +299,7 @@
 	owner.current.setMaxHealth(100)
 	// Language
 	owner.current.remove_language(/datum/language/vampiric)
-//owner.current.hellbound = FALSE
+//	owner.current.hellbound = FALSE
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	set waitfor = FALSE
@@ -356,13 +358,13 @@
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
 		S.punchdamagelow += 0.5
-		S.punchdamagehigh += 0.5    // NOTE: This affects the hitting power of Brawn.
+		S.punchdamagehigh += 0.5 // NOTE: This affects the hitting power of Brawn.
 	// More Health
 	owner.current.setMaxHealth(owner.current.maxHealth + 10)
 	// Vamp Stats
-	bloodsucker_regen_rate += 0.05			// Points of brute healed (starts at 0.3)
-	feed_amount += 2				// Increase how quickly I munch down vics (15)
-	max_blood_volume += 100		// Increase my max blood (600)
+	bloodsucker_regen_rate += 0.05 // Points of brute healed (starts at 0.3)
+	feed_amount += 2 // Increase how quickly I munch down vics (15)
+	max_blood_volume += 100 // Increase my max blood (600)
 	/////////
 	bloodsucker_level++
 	bloodsucker_level_unspent--
@@ -418,12 +420,12 @@
 
 
 
-//Name shown on antag list
+/// Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
 	return ..() + "([ReturnFullName(TRUE)])"
 
-//Whatever interesting things happened to the antag admins should know about
-//Include additional information about antag in this part
+/// Whatever interesting things happened to the antag admins should know about
+/// Include additional information about antag in this part
 /datum/antagonist/bloodsucker/antag_listing_status()
 	if (owner && owner.AmFinalDeath())
 		return "<font color=red>Final Death</font>"
@@ -434,147 +436,145 @@
 
 
 
-//  		2019 Breakdown of Bloodsuckers:
-
-//					G A M E P L A Y
-//
-//	Bloodsuckers should be inherently powerful: they never stay dead, and they can hide in plain sight
-//  better than any other antagonist aboard the station.
-//
-//	However, only elder Bloodsuckers are the powerful creatures of legend. Ranking up as a Bloodsucker
-//  should impart slight strength and health benefits, as well as powers that can grow over time. But
-//  their weaknesses should grow as well, and not just to fire.
-
-
-//					A B I L I T I E S
-//
-// 	* Bloodsuckers can FEIGN LIFE + DEATH.
-//		Feigning LIFE:
-//			- Warms up the body
-//			- Creates a heartbeat
-//			- Fake blood amount (550)
-//		Feign DEATH: Not yet done
-//			- When lying down or sitting, you appear "dead and lifeless"
-
-//	* Bloodsuckers REGENERATE
-//		- Brute damage heals rather rapidly. Burn damage heals slowly.
-//		- Healing is reduced when hungry or starved.
-//		- Burn does not heal when starved. A starved vampire remains "dead" until burns can heal.
-//		- Bodyparts and organs regrow in Torpor (except for the Heart and Brain).
-//
-//	* Bloodsuckers are IMMORTAL
-//		- Brute damage cannot destroy them (and it caps very low, so they don't stack too much)
-//		- Burn damage can only kill them at very high amounts.
-//		- Removing the head kills the vamp forever.
-//		- Removing the heart kills the vamp until replaced.
-//
-//	* Bloodsuckers are DEAD
-//		- They do not breathe.
-//		- Cold affects them less.
-//		- They are immune to disease (but can spread it)
-//		- Food is useless and cause sickness.
-//		- Nothing can heal the vamp other than his own blood.
-//
-//	* Bloodsuckers are PREDATORS
-//		- They detect life/heartbeats nearby.
-//		- They know other predators instantly (Vamps, Werewolves, and alien types) regardless of disguise.
-//
-//
-//
-// 	* Bloodsuckers enter Torpor when DEAD or RESTING in coffin
-//		- Torpid vampires regenerate their health. Coffins negate cost and speed up the process.
-//		** To rest in a coffin, either SLEEP or CLOSE THE LID while you're in it. You will be given a prompt to sleep until healed. Healing in a coffin costs NO blood!
-//
-
-
-
-// 					O B J E C T I V E S
-//
-//
-//
-//
-//	1) GROOM AN HEIR:	Find a person with appropriate traits (hair, blood type, gender) to be turned as a Vampire. Before they rise, they must be properly trained. Raise them to great power after their change.
-//
-//	2) BIBLIOPHILE:		Research objects of interest, study items looking for clues of ancient secrets, and hunt down the clues to a Vampiric artifact of horrible power.
-//
-//	3) CRYPT LORD:		Build a terrifying sepulcher to your evil, with servants to lavish upon you in undeath. The trappings of a true crypt lord come at a grave cost.
-//
-//	4) GOURMAND:		Oh, to taste all the delicacies the station has to offer! DRINK ## BLOOD FROM VICTIMS WHO LIVE, EAT ## ORGANS FROM VICTIMS WHO LIVE
-
-
-//			Vassals
-//
-// - Loyal to their Master
-// - Master can speak to, summon, or punish his Vassals, even while asleep or torpid.
-// - Master may have as many Vassals as they want
-
-
-
-// 			Dev Notes
-//
-// HEALING: Maybe Vamps metabolize specially? Like, they slowly drip their own blood into their system?
-//			- Give Vamps their own metabolization proc, perhaps?
-//			** shadowpeople.dm has rules for healing.
-//
-// KILLING: It's almost impossible to track who someone has directly killed. But an Admin could be given
-//			an easy way to whip a Bloodsucker for cruel behavior, as an RP mechanic but not a punishment.
-//			**
-//
-// HUNGER:  Just keep adjusting mob's nutrition to Blood Hunger level. No need to cancel nutrition from eating.
-//			** mob.dm /set_nutrition()
-//			** snacks.dm / attack()  <-- Stop food from doing anything?
-
-// ORGANS:  Liver
-//			** life.dm /handle_liver()
-//
-// CORPSE:	Most of these effects likely go away when using "Masquerade" to appear alive.
-//			** status_procs.dm /adjust_bodytemperature()
-//			** traits.dm /TRAIT_NOBREATH /TRAIT_SLEEPIMMUNE /TRAIT_RESISTCOLD /TRAIT_RADIMMUNE  /TRAIT_VIRUSIMMUNE
-//			*  MASQUERADE ON/OFF: /TRAIT_FAKEDEATH (M)
-//			* /TRAIT_NIGHT_VISION
-//			* /TRAIT_FAKEDEATH <-- This basically makes you immobile. When using status_procs /fakedeath(), make sure to remove Coma unless we're in Torpor!
-//			* /TRAIT_NODEATH <--- ???
-//			** species  /NOZOMBIE
-//			* ADD: TRAIT_COLDBLOODED <-- add to carbon/life.dm /natural_bodytemperature_stabilization()
-//
-// MASQUERADE	Appear as human!
-//				** examine.dm /examine() <-- Change "blood_volume < BLOOD_VOLUME_SAFE" to a new examine
-//
-// NOSFERATU ** human.add_trait(TRAIT_DISFIGURED, "insert_vamp_datum_here") <-- Makes you UNKNOWN unless your ID says otherwise.
-// STEALTH   ** human_helpers.dm /get_visible_name()     ** shadowpeople.dm has rules for Light.
-//
-// FRENZY	** living.dm /update_mobility() (USED TO be update_canmove)
-//
-// PREDATOR See other Vamps!
-//		    * examine.dm /examine()
-//
-// WEAKNESSES:	-Poor mood in Chapel or near Chaplain.  -Stamina damage from Bible
-
-
-
-	//message_admins("DEBUG3: attempt_cast() [name] / [user_C.handcuffed] ")
-
-
-// TODO:
-//
-// Death (fire, heart, brain, head)
-// Disable Life: BLOOD
-// Body Temp
-// Spend blood over time (more if imitating life) (none if sleeping in coffin)
-// Auto-Heal (brute to 0, fire to 99) (toxin/o2 always 0)
-//
-// Hud Icons
-// UI Blood Counter
-// Examine Name (+Masquerade, only "Dead and lifeless" if not standing?)
-//
-//
-// Turn vamps
-// Create vassals
-//
-
-
-// FIX LIST
-//
+/*  		2019 Breakdown of Bloodsuckers:
+ *
+ *					G A M E P L A Y
+ *
+ *	Bloodsuckers should be inherently powerful: they never stay dead, and they can hide in plain sight
+ *  better than any other antagonist aboard the station.
+ *
+ *	However, only elder Bloodsuckers are the powerful creatures of legend. Ranking up as a Bloodsucker
+ *  should impart slight strength and health benefits, as well as powers that can grow over time. But
+ *  their weaknesses should grow as well, and not just to fire.
+ *
+ *
+ *					A B I L I T I E S
+ *
+ * 	* Bloodsuckers can FEIGN LIFE + DEATH.
+ *		Feigning LIFE:
+ *			- Warms up the body
+ *			- Creates a heartbeat
+ *			- Fake blood amount (550)
+ *		Feign DEATH: Not yet done
+ *			- When lying down or sitting, you appear "dead and lifeless"
+ *
+ *	* Bloodsuckers REGENERATE
+ *		- Brute damage heals rather rapidly. Burn damage heals slowly.
+ *		- Healing is reduced when hungry or starved.
+ *		- Burn does not heal when starved. A starved vampire remains "dead" until burns can heal.
+ *		- Bodyparts and organs regrow in Torpor (except for the Heart and Brain).
+ *
+ *	* Bloodsuckers are IMMORTAL
+ *		- Brute damage cannot destroy them (and it caps very low, so they don't stack too much)
+ *		- Burn damage can only kill them at very high amounts.
+ *		- Removing the head kills the vamp forever.
+ *		- Removing the heart kills the vamp until replaced.
+ *
+ *	* Bloodsuckers are DEAD
+ *		- They do not breathe.
+ *		- Cold affects them less.
+ *		- They are immune to disease (but can spread it)
+ *		- Food is useless and cause sickness.
+ *		- Nothing can heal the vamp other than his own blood.
+ *
+ *	* Bloodsuckers are PREDATORS
+ *		- They detect life/heartbeats nearby.
+ *		- They know other predators instantly (Vamps, Werewolves, and alien types) regardless of disguise.
+ *
+ *
+ *
+ * 	* Bloodsuckers enter Torpor when DEAD or RESTING in coffin
+ *		- Torpid vampires regenerate their health. Coffins negate cost and speed up the process.
+ *		** To rest in a coffin, either SLEEP or CLOSE THE LID while you're in it. You will be given a prompt to sleep until healed. Healing in a coffin costs NO blood!
+ *
+ *
+ *
+ *
+ * 					O B J E C T I V E S
+ *
+ *
+ *
+ *	1) GROOM AN HEIR:	Find a person with appropriate traits (hair, blood type, gender) to be turned as a Vampire. Before they rise, they must be properly trained. Raise them to great power after their change.
+ *
+ *	2) BIBLIOPHILE:		Research objects of interest, study items looking for clues of ancient secrets, and hunt down the clues to a Vampiric artifact of horrible power.
+ *
+ *	3) CRYPT LORD:		Build a terrifying sepulcher to your evil, with servants to lavish upon you in undeath. The trappings of a true crypt lord come at a grave cost.
+ *
+ *	4) GOURMAND:		Oh, to taste all the delicacies the station has to offer! DRINK ## BLOOD FROM VICTIMS WHO LIVE, EAT ## ORGANS FROM VICTIMS WHO LIVE
+ *
+ *			Vassals
+ *
+ * - Loyal to their Master
+ * - Master can speak to, summon, or punish his Vassals, even while asleep or torpid.
+ * - Master may have as many Vassals as they want
+ *
+ *
+ *
+ *			Dev Notes
+ *
+ * HEALING: Maybe Vamps metabolize specially? Like, they slowly drip their own blood into their system?
+ *			- Give Vamps their own metabolization proc, perhaps?
+ *			** shadowpeople.dm has rules for healing.
+ *
+ * KILLING: It's almost impossible to track who someone has directly killed. But an Admin could be given
+ *			an easy way to whip a Bloodsucker for cruel behavior, as an RP mechanic but not a punishment.
+ *			**
+ *
+ * HUNGER:  Just keep adjusting mob's nutrition to Blood Hunger level. No need to cancel nutrition from eating.
+ *			** mob.dm /set_nutrition()
+ *			** snacks.dm / attack()  <-- Stop food from doing anything?
+ *
+ * ORGANS:  Liver
+ *			** life.dm /handle_liver()
+ *
+ * CORPSE:	Most of these effects likely go away when using "Masquerade" to appear alive.
+ *			** status_procs.dm /adjust_bodytemperature()
+ *			** traits.dm /TRAIT_NOBREATH /TRAIT_SLEEPIMMUNE /TRAIT_RESISTCOLD /TRAIT_RADIMMUNE  /TRAIT_VIRUSIMMUNE
+ *			*  MASQUERADE ON/OFF: /TRAIT_FAKEDEATH (M)
+ *			* /TRAIT_NIGHT_VISION
+ *			* /TRAIT_FAKEDEATH <-- This basically makes you immobile. When using status_procs /fakedeath(), make sure to remove Coma unless we're in Torpor!
+ *			* /TRAIT_NODEATH <--- ???
+ *			** species  /NOZOMBIE
+ *			* ADD: TRAIT_COLDBLOODED <-- add to carbon/life.dm /natural_bodytemperature_stabilization()
+ *
+ *	MASQUERADE	Appear as human!
+ *				** examine.dm /examine() <-- Change "blood_volume < BLOOD_VOLUME_SAFE" to a new examine
+ *
+ *	NOSFERATU ** human.add_trait(TRAIT_DISFIGURED, "insert_vamp_datum_here") <-- Makes you UNKNOWN unless your ID says otherwise.
+ *	STEALTH   ** human_helpers.dm /get_visible_name()     ** shadowpeople.dm has rules for Light.
+ *
+ *	FRENZY	** living.dm /update_mobility() (USED TO be update_canmove)
+ *
+ *	PREDATOR See other Vamps!
+ *		    * examine.dm /examine()
+ *
+ *	WEAKNESSES:	-Poor mood in Chapel or near Chaplain.  -Stamina damage from Bible
+ *
+ *
+ *
+ *	//message_admins("DEBUG3: attempt_cast() [name] / [user_C.handcuffed] ")
+ *
+ *
+ * TODO:
+ *
+ * Death (fire, heart, brain, head)
+ * Disable Life: BLOOD
+ * Body Temp
+ * Spend blood over time (more if imitating life) (none if sleeping in coffin)
+ * Auto-Heal (brute to 0, fire to 99) (toxin/o2 always 0)
+ *
+ * Hud Icons
+ * UI Blood Counter
+ * Examine Name (+Masquerade, only "Dead and lifeless" if not standing?)
+ *
+ *
+ * Turn vamps
+ * Create vassals
+ *
+ *
+ *
+ * FIX LIST
+ */
 
 
 /////////////////////////////////////
@@ -584,28 +584,35 @@
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
-	set_antag_hud(owner.current, "bloodsucker") // "bloodsucker"
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
+	set_antag_hud(owner.current, "bloodsucker")
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.leave_hud(owner.current)
 	set_antag_hud(owner.current, null)
 
-/datum/atom_hud/antag/bloodsucker  // from hud.dm in /datums/   Also see data_huds.dm + antag_hud.dm
+/// From hud.dm -- Also see data_huds.dm + antag_hud.dm
+/datum/atom_hud/antag/bloodsucker
 
+/// This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
 /datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
-	if(!check_valid_hud_user(M,A)) // FULP: This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
+	if(!check_valid_hud_user(M,A))
 		return
 	..()
 
-/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A) // Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
+ /*
+ * 	// GOAL: Vassals see their Master and his other Vassals.
+ *	// GOAL: Vassals can BE seen by their Bloodsucker and his other Vassals.
+ *	// GOAL: Bloodsuckers can see each other.
+ */
+
+/// Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
+/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A)
 	// Ghost Admins always see Bloodsuckers/Vassals
 	if(isobserver(M))
 		return TRUE
-	// GOAL: Vassals see their Master and his other Vassals.
-	// GOAL: Vassals can BE seen by their Bloodsucker and his other Vassals.
-	// GOAL: Bloodsuckers can see each other.
+
 	if(!M || !A || !ismob(A) || !M.mind)// || !A.mind)
 		return FALSE
 	var/mob/A_mob = A
@@ -631,13 +638,13 @@
 		return TRUE // SUCCESS!
 	return FALSE
 
-		/////////////////////////////////////
-		// BLOOD COUNTER & RANK MARKER ! //
-		/////////////////////////////////////
+/////////////////////////////////////
+// BLOOD COUNTER & RANK MARKER ! //
+/////////////////////////////////////
 
-#define ui_blood_display "WEST:6,CENTER-1:0"  	  // 1 tile down
-#define ui_vamprank_display "WEST:6,CENTER-2:-5"   // 2 tiles down
-#define ui_sunlight_display "WEST:6,CENTER-0:0"  // 6 pixels to the right, zero tiles & 5 pixels DOWN.
+#define ui_blood_display "WEST:6,CENTER-1:0" // 1 tile down
+#define ui_vamprank_display "WEST:6,CENTER-2:-5" // 2 tiles down
+#define ui_sunlight_display "WEST:6,CENTER-0:0" // 6 pixels to the right, zero tiles & 5 pixels DOWN.
 
 /datum/hud
 
@@ -678,29 +685,27 @@
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
+// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
-	if(!owner.current.hud_used) // No Hud? Get out.
+	if(!owner.current.hud_used)
 		return
-	// Update Blood Counter
 	if(owner.current.hud_used && owner.current.hud_used.blood_display)
 		if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
 			valuecolor =  "#FFDDDD"
 		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
 			valuecolor =  "#FFAAAA"
 		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
-	// Update Rank Counter
 	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
 		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
 		if(updateRank) // Only change icon on special request.
 			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
 
+/// Update Sun Time
 /datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
-	// No Hud? Get out.
 	if(!owner.current.hud_used)
 		return
-	// Update Sun Time
 	if(owner.current.hud_used && owner.current.hud_used.sunlight_display)
 		if(amDay)
 			valuecolor =  "#FF5555"

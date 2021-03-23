@@ -9,14 +9,14 @@
 	warn_constant_cost = TRUE
 	var/moveintent_was_run
 	var/runintent
-	var/walk_threshold = 0.4 // arbitrary number, to be changed. edit in last commit: this is fine after testing on box station for a bit
+	var/walk_threshold = 0.4 // arbitrary number, to be changed, this is fine after testing on box station for a bit (Last edit: 2019)
 	var/lum
 
+/// Must have nobody around to see the cloak
 /datum/action/bloodsucker/cloak/CheckCanUse(display_error)
 	. = ..()
 	if(!.)
 		return
-	// must have nobody around to see the cloak
 	for(var/mob/living/M in viewers(9, owner) - owner)
 		to_chat(owner, "<span class='warning'>You may only vanish into the shadows unseen.</span>")
 		return FALSE

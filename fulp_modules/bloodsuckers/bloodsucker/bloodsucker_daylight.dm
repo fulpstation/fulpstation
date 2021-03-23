@@ -1,7 +1,7 @@
 #define TIME_BLOODSUCKER_DAY_WARN	90 		// 1.5 minutes
-#define TIME_BLOODSUCKER_DAY_FINAL_WARN	25 	// 25 sec
-#define TIME_BLOODSUCKER_DAY	60 			// 1.5 minutes // 10 is a second, 600 is a minute.
-#define TIME_BLOODSUCKER_BURN_INTERVAL	40 	// 4 sec
+#define TIME_BLOODSUCKER_DAY_FINAL_WARN 25 // 25 sec
+#define TIME_BLOODSUCKER_DAY 60 // 1.5 minutes // 10 is a second, 600 is a minute.
+#define TIME_BLOODSUCKER_BURN_INTERVAL 40 // 4 sec
 
 
 // Over Time, tick down toward a "Solar Flare" of UV buffeting the station. This period is harmful to vamps.
@@ -26,7 +26,6 @@
 			sleep(10)
 			if(cancel_me)
 				return
-		//sleep(nightime_duration - TIME_BLOODSUCKER_DAY_WARN)
 		warn_daylight(1,"<span class = 'danger'>Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b></span>")  // time2text <-- use Help On
 		give_home_power() // Give VANISHING ACT power to all vamps with a lair!
 		// Part 2: Night Ending
@@ -34,7 +33,6 @@
 			sleep(10)
 			if(cancel_me)
 				return
-		//sleep(TIME_BLOODSUCKER_DAY_WARN - TIME_BLOODSUCKER_DAY_FINAL_WARN)
 		message_admins("BLOODSUCKER NOTICE: Daylight beginning in [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds.")
 		warn_daylight(2,"<span class = 'userdanger'>Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!</span>",\
 					  "<span class = 'danger'>In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!</span>")
@@ -43,14 +41,12 @@
 			sleep(10)
 			if(cancel_me)
 				return
-		//sleep(TIME_BLOODSUCKER_DAY_FINAL_WARN - 50)
 		warn_daylight(3,"<span class = 'userdanger'>Seek cover, for Sol rises!</span>")
 		// Part 3: Night Ending
 		while(time_til_cycle > 0)
 			sleep(10)
 			if(cancel_me)
 				return
-		//sleep(50)
 		warn_daylight(4,"<span class = 'userdanger'>Solar flares bombard the station with deadly UV light!</span><br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!</span>",\
 				  	  "<span class = 'danger'>Solar flares bombard the station with UV light!</span>",\
 					  "<span class = 'userdanger'>The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!</span>")
@@ -59,14 +55,12 @@
 		message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
 		time_til_cycle = TIME_BLOODSUCKER_DAY
 		sleep(10) // One second grace period.
-		//var/daylight_time = TIME_BLOODSUCKER_DAY
 		var/issued_XP = FALSE
 		while(time_til_cycle > 0)
 			punish_vamps()
 			sleep(TIME_BLOODSUCKER_BURN_INTERVAL)
 			if(cancel_me)
 				return
-			//daylight_time -= TIME_BLOODSUCKER_BURN_INTERVAL
 			// Issue Level Up!
 			if(!issued_XP && time_til_cycle <= 15)
 				issued_XP = TRUE
@@ -75,13 +69,13 @@
 		warn_daylight(5,"<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
 				  	  "<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>")
 		amDay = FALSE
-		day_end()   // Remove VANISHING ACT power from all vamps who have it! Clear Warnings (sunlight, locker protection)
+		day_end() // Remove VANISHING ACT power from all vamps who have it! Clear Warnings (sunlight, locker protection)
 		message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [nightime_duration / 60] minutes.)")
 
+/// Update all Bloodsucker sunlight huds
 /obj/effect/sunlight/proc/hud_tick()
 	set waitfor = FALSE
 	while(!cancel_me)
-		// Update all Bloodsucker sunlight huds
 		for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 			if(!istype(M) || !istype(M.current))
 				continue
@@ -118,8 +112,8 @@
 				continue
 			to_chat(M, hunteralert)
 
+/// Cycle through all vamp antags and check if they're inside a closet.
 /obj/effect/sunlight/proc/punish_vamps()
-	// Cycle through all vamp antags and check if they're inside a closet.
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M) || !istype(M.current))
 			continue
@@ -173,18 +167,18 @@
 				bloodsuckerdatum.powers -= P
 				P.Remove(M.current)
 
+/// Cycle through all vamp antags and check if they're inside a closet.
 /obj/effect/sunlight/proc/vamps_rank_up()
 	set waitfor = FALSE
-	// Cycle through all vamp antags and check if they're inside a closet.
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M) || !istype(M.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(istype(bloodsuckerdatum))
-			bloodsuckerdatum.RankUp()	// Rank up! Must still be in a coffin to level!
+			bloodsuckerdatum.RankUp() // Rank up! Must still be in a coffin to level!
 
+/// It's late...! Give the "Vanishing Act" gohome power to bloodsuckers.
 /obj/effect/sunlight/proc/give_home_power()
-	// It's late...! Give the "Vanishing Act" gohome power to bloodsuckers.
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M) || !istype(M.current))
 			continue

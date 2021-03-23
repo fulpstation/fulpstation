@@ -1,8 +1,10 @@
 //////////////////////
 //     BLOODBAG     //
 //////////////////////
+
+/// Taken from drinks.dm
 /obj/item/reagent_containers/blood/attack(mob/M, mob/user, def_zone)
-	if(reagents.total_volume > 0) // TO DO: ADD HELP INTENT ONCE COMBAT MODE IS MERGED
+	if(reagents.total_volume > 0)
 		if(user != M)
 			user.visible_message("<span class='notice'>[user] forces [M] to drink from the [src].</span>", \
 							  	"<span class='notice'>You put the [src] up to [M]'s mouth.</span>")
@@ -16,7 +18,6 @@
 		// Safety: In case you spam clicked the blood bag on yourself, and it is now empty (below will divide by zero)
 		if(reagents.total_volume <= 0)
 			return
-		// Taken from drinks.dm
 		var/gulp_size = 5
 		reagents.trans_to(M, gulp_size, transfered_by = user, methods = INGEST)
 		playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
@@ -36,7 +37,7 @@
 		qdel(O)
 		var/obj/item/organ/heart/vampheart/H = new
 		H.Insert(owner.current)
-		H.Stop() // Now...stop beating!
+		H.Stop() // Now... stop beating!
 	// Eyes
 	O = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	if(!istype(O, /obj/item/organ/eyes/vassal))
@@ -60,7 +61,7 @@
 	var/fakingit = 0
 
 /obj/item/organ/heart/vampheart/Restart()
-	beating = 0	// DONT run ..(). We don't want to start beating again.
+	beating = 0	// DONT run ..() -- We don't want to start beating again.
 	return 0
 
 /obj/item/organ/heart/vampheart/Stop()
@@ -70,12 +71,14 @@
 /obj/item/organ/heart/vampheart/proc/FakeStart()
 	fakingit = 1 // We're pretending to beat, to fool people.
 
+/// Bloodsuckers don't have a heartbeat at all when stopped (default is "an unstable")
 /obj/item/organ/heart/vampheart/HeartStrengthMessage()
 	if(fakingit)
 		return "a healthy"
-	return "<span class='danger'>no</span>"	// Bloodsuckers don't have a heartbeat at all when stopped (default is "an unstable")
+	return "<span class='danger'>no</span>"
 
-/obj/item/organ/heart/proc/HeartStrengthMessage() // Proc for the default (Non-Bloodsucker) Heart!
+/// Proc for the default (Non-Bloodsucker) Heart!
+/obj/item/organ/heart/proc/HeartStrengthMessage()
 	if(beating)
 		return "a healthy"
 	return "<span class='danger'>an unstable</span>"
@@ -83,6 +86,7 @@
 //////////////////////
 //      EYES        //
 //////////////////////
+
 /// Taken from augmented_eyesight.dm
 /obj/item/organ/eyes/vassal
 	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
@@ -94,8 +98,10 @@
 //////////////////////
 //      LIVER       //
 //////////////////////
+
+/// Livers run on_life(), which calls reagents.metabolize() in holder.dm, which calls on_mob_life.dm in the cheam (medicine_reagents.dm)
 /obj/item/organ/liver/vampliver
-	// Livers run on_life(), which calls reagents.metabolize() in holder.dm, which calls on_mob_life.dm in the cheam (medicine_reagents.dm)
+
 /obj/item/organ/liver/vampliver/on_life()
 	var/mob/living/carbon/C = owner
 	if(!istype(C))
@@ -105,17 +111,17 @@
 //////////////////////
 //      STAKES      //
 //////////////////////
-// Crafting the stake!
 
 /// NOTE: sheet_types.dm is where the WOOD stack lives. Maybe move this over there.
+/// Taken from /obj/item/stack/rods/attackby in [rods.dm]
+/// Crafting the stake!
 /obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params)
-	// Taken from /obj/item/stack/rods/attackby in [rods.dm]
 	if(W.get_sharpness())
 		user.visible_message("[user] begins whittling [src] into a pointy object.", \
 				 "<span class='notice'>You begin whittling [src] into a sharp point at one end.</span>", \
 				 "<span class='italics'>You hear wood carving.</span>")
 		// 8 Second Timer
-		if(!do_after(user, 80, TRUE, src))
+		if(!do_after(user, 8 SECONDS, TRUE, src))
 			return
 		// Make Stake
 		var/obj/item/stake/basic/new_item = new(user.loc)
@@ -127,7 +133,7 @@
 		// Use Wood
 		N.use(1)
 		// If stack depleted, put item in that hand (if it had one)
-		if (!N && replace)
+		if(!N && replace)
 			user.put_in_hands(new_item)
 	if(istype(W, merge_type))
 		var/obj/item/stack/S = W
@@ -149,16 +155,17 @@
 /mob/proc/AmStaked()
 	return FALSE
 
+/// NOTE: You can't go to sleep in a coffin with a stake in you.
 /mob/living/proc/StakeCanKillMe()
-	return IsSleeping() || stat >= UNCONSCIOUS || blood_volume <= 0 || HAS_TRAIT(src, TRAIT_FAKEDEATH) // NOTE: You can't go to sleep in a coffin with a stake in you.
+	return IsSleeping() || stat >= UNCONSCIOUS || blood_volume <= 0 || HAS_TRAIT(src, TRAIT_FAKEDEATH)
 
 /obj/item/stake
 	name = "wooden stake"
 	desc = "A simple wooden stake carved to a sharp point."
 	icon = 'icons/obj/items_and_weapons.dmi'
-	icon_state = "wood" // Inventory Icon
-	inhand_icon_state = "wood" // In-hand Icon
-	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi' // File for in-hand icon
+	icon_state = "wood"
+	inhand_icon_state = "wood"
+	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
 	attack_verb_continuous = list("staked", "stabbed", "tore into")
 	attack_verb_simple = list("staked", "stabbed", "tore into")
@@ -170,7 +177,7 @@
 	embedding = list("embed_chance" = 25, "fall_chance" = 0.5)
 	obj_integrity = 30
 	max_integrity = 30
-	var/staketime = 120		// Time it takes to embed the stake into someone's chest.
+	var/staketime = 120	 // Time it takes to embed the stake into someone's chest.
 
 /// This exists so Hardened/Silver Stake can't have a welding torch used on them.
 /obj/item/stake/basic
@@ -178,13 +185,13 @@
 
 /obj/item/stake/basic/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/weldingtool))
-		//if (amWelded)
+		//if(amWelded)
 		//	to_chat(user, "<span class='warning'>This stake has already been treated with fire.</span>")
 		//	return
 		//amWelded = TRUE
 		// Weld it
 		var/obj/item/weldingtool/WT = W
-		if(WT.use(0))//remove_fuel(0,user))
+		if(WT.use(0)) //remove_fuel(0,user))
 			user.visible_message("[user.name] scorched the pointy end of [src] with the welding tool.", \
 						 "<span class='notice'>You scorch the pointy end of [src] with the welding tool.</span>", \
 						 "<span class='italics'>You hear welding.</span>")
@@ -199,7 +206,6 @@
 		return ..()
 
 /obj/item/stake/afterattack(atom/target, mob/user, proximity)
-	//to_chat(world, "<span class='notice'>DEBUG: Staking </span>")
 	// Invalid Target, or not targetting chest with HARM intent?
 	if(!iscarbon(target) || check_zone(user.zone_selected) != "chest")
 		return
@@ -239,15 +245,15 @@
 				to_chat(target, "<span class='userdanger'>You have been staked! Your powers are useless, your death forever, while it remains in place.</span>")
 				to_chat(user, "<span class='warning'>You missed [C.p_their(TRUE)]'s heart! It would be easier if [C.p_they(TRUE)] weren't struggling so much.</span>")
 
-// Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
+/// Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/carbon/proc/can_be_staked()
 	return !(mobility_flags & MOBILITY_MOVE)
 
+/// Created by welding and acid-treating a simple stake.
 /obj/item/stake/hardened
-	// Created by welding and acid-treating a simple stake.
 	name = "hardened stake"
 	desc = "A hardened wooden stake carved to a sharp point and scorched at the end."
-	icon_state = "hardened" // Inventory Icon
+	icon_state = "hardened"
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
@@ -260,8 +266,8 @@
 /obj/item/stake/hardened/silver
 	name = "silver stake"
 	desc = "Polished and sharp at the end. For when some mofo is always trying to iceskate uphill."
-	icon_state = "silver" // Inventory Icon
-	inhand_icon_state = "silver" // In-hand Icon
+	icon_state = "silver"
+	inhand_icon_state = "silver"
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
@@ -271,11 +277,11 @@
 
 	staketime = 60
 
-// Convert back to Silver
+/// Convert back to Silver
 /obj/item/stake/hardened/silver/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weldingtool))
 		var/obj/item/weldingtool/WT = I
-		if(WT.use(0))//remove_fuel(0, user))
+		if(WT.use(0)) //remove_fuel(0, user))
 			var/obj/item/stack/sheet/mineral/silver/newsheet = new (user.loc)
 			for(var/obj/item/stack/sheet/mineral/silver/S in user.loc)
 				if(S == newsheet)

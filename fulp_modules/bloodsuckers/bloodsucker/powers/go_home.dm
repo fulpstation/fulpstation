@@ -2,11 +2,11 @@
 	name = "Vanishing Act"
 	desc = "As dawn aproaches, disperse into mist and return directly to your Lair.<br><b>WARNING:</b> You will drop <b>ALL</b> of your possessions if observed by mortals."
 	button_icon_state = "power_gohome"
-	background_icon_state_on = "vamp_power_off_oneshot"		// Even though this never goes off.
+	background_icon_state_on = "vamp_power_off_oneshot" // Even though this never goes off.
 	background_icon_state_off = "vamp_power_off_oneshot"
 
 	bloodcost = 50
-	cooldown = 99999 			// It'll never come back.
+	cooldown = 99999 // It'll never come back.
 	amToggle = FALSE
 	amSingleUse = TRUE
 
@@ -20,7 +20,7 @@
 	. = ..()
 	if(!.)
 		return
-	// Have No Lair  (NOTE: You only got this power if you had a lair, so this means it's destroyed)
+	// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
 		if(display_error)
@@ -33,10 +33,10 @@
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 
+/// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower()
 	var/mob/living/carbon/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-			// IMPORTANT: Check for lair at every step! It might get destroyed.
 	to_chat(user, "<span class='notice'>You focus on separating your consciousness from your physical form...</span>")
 	// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)

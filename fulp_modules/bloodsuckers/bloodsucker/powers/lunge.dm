@@ -1,6 +1,7 @@
-// Level 1: Grapple level 2
-// Level 2: Grapple 3 from Behind
-// Level 3: Grapple 3 from Shadows
+/* Level 1: Grapple level 2
+ * Level 2: Grapple 3 from Behind
+ * Level 3: Grapple 3 from Shadows
+ */
 
 /datum/action/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
@@ -10,13 +11,13 @@
 	cooldown = 100
 	target_range = 3
 	power_activates_immediately = TRUE
-	message_Trigger = ""//"Whom will you subvert to your will?"
+	message_Trigger = "" //"Whom will you subvert to your will?"
 	must_be_capacitated = TRUE
 	bloodsucker_can_buy = TRUE
 
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
-	if(!..(display_error))// DEFAULT CHECKS
+	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
 	// Being Grabbed
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
@@ -92,4 +93,4 @@
 
 /datum/action/bloodsucker/targeted/lunge/DeactivatePower(mob/living/user = owner, mob/living/target)
 	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-	..() // activate = FALSE
+	..()

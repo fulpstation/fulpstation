@@ -1,8 +1,9 @@
-// For all things visual, such as leveling up
-
-
-// Look up: _vending.dm    		proc/ui_interact()
-//			Malf_Modules.dm 	proc/use()
+/* For all things visual, such as leveling up
+ *
+ *
+ * Look up: _vending.dm    		proc/ui_interact()
+ *			Malf_Modules.dm 	proc/use()
+ */
 
 /*
 /datum/antagonist/bloodsucker/proc/LevelUpMenu()
@@ -39,7 +40,6 @@
 	popup.set_content(dat.Join())
 	popup.open()
 */
-
 /*
 	var/dat = ""
 	var/datum/bank_account/account

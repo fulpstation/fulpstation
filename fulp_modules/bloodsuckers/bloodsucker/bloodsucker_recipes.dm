@@ -1,4 +1,4 @@
-// recipes.dm
+/// From recipes.dm
 /datum/crafting_recipe/blackcoffin
 	name = "Black Coffin"
 	result = /obj/structure/closet/crate/coffin/blackcoffin

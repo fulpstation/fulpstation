@@ -3,13 +3,13 @@
 	var/list/datum/mind/vassals = list() // List of minds that have been turned into Vassals.
 	var/list/datum/mind/monsterhunter = list() // List of all Monster Hunters
 	var/obj/effect/sunlight/bloodsucker_sunlight // Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
-	// The antags you're allowed to be if turning Vassal.
+	// The antags you're allowed to be if turning Vassal:
 	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/survivalist, /datum/antagonist/rev, /datum/antagonist/nukeop, /datum/antagonist/pirate, /datum/antagonist/cult, /datum/antagonist/heretic, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
 
 /proc/AmBloodsucker(mob/living/M, falseIfInDisguise = FALSE)
 	if(!M.mind)
 		return FALSE
-	// No Datum
+
 	if(!M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		return FALSE
 	return TRUE
@@ -48,7 +48,7 @@
 			break
 		var/datum/mind/bloodsucker = pick(antag_candidates)
 		// Can we even BE a bloodsucker?
-		//if (can_make_bloodsucker(bloodsucker, display_warning=FALSE))
+		//if(can_make_bloodsucker(bloodsucker, display_warning=FALSE))
 		bloodsuckers += bloodsucker
 		bloodsucker.restricted_roles = restricted_jobs
 		log_game("[bloodsucker.key] (ckey) has been selected as a Bloodsucker.")
@@ -105,8 +105,9 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
-/datum/game_mode/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator) // Creator is just here so we can display fail messages to whoever is turning us.
-	// Species Must have a HEART (Sorry Plasmabois)
+/// Creator is just here so we can display fail messages to whoever is turning us.
+/datum/game_mode/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
+	// Species Must have a HEART (Sorry Plasmamen)
 	var/mob/living/carbon/human/H = bloodsucker.current
 	if(NOBLOOD in H.dna.species.species_traits)
 		to_chat(creator, "<span class='danger'>[bloodsucker]'s DNA isn't compatible!</span>")
@@ -148,7 +149,8 @@
 		return FALSE
 	return TRUE
 
-/datum/game_mode/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null) // NOTE: This is a game_mode/proc, NOT a game_mode/bloodsucker/proc! We need to access this function despite the game mode.
+/// NOTE: This is a game_mode/proc, NOT a game_mode/bloodsucker/proc! We need to access this function despite the game mode.
+/datum/game_mode/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
 	if(!can_make_bloodsucker(bloodsucker))
 		return FALSE
 	// Create Datum: Fledgling
@@ -184,7 +186,7 @@
 	// No List?
 	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
 		return FALSE
-	// Am I NOT an invalid Antag?    NOTE: We already excluded non-antags above. Don't worry about the "No List?" check in AmInvalidIntag()
+	// Am I NOT an invalid Antag? NOTE: We already excluded non-antags above. Don't worry about the "No List?" check in AmInvalidIntag()
 	return !AmInvalidAntag(M)
 
 /datum/game_mode/proc/AmInvalidAntag(datum/mind/M)
@@ -208,7 +210,7 @@
 	var/datum/antagonist/bloodsucker/B = creator.has_antag_datum(/datum/antagonist/bloodsucker)
 	V.master = B
 	target.mind.add_antag_datum(V, V.master.get_team())
-	// Update Bloodsucker Title (we're a daddy now)
+	// Update Bloodsucker Title
 	B.SelectTitle(am_fledgling = FALSE) // Only works if you have no title yet.
 	// Log it
 	message_admins("[target] has become a Vassal, and is enslaved to [creator].")

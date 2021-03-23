@@ -1,2 +1,0 @@
-#define MARTIALART_HUNTER "hunter-fu"
-#define BLOODSUCKER_LEVEL_TO_EMBRACE 3

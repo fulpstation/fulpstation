@@ -10,8 +10,8 @@
 	can_be_staked = TRUE
 	cooldown_static = TRUE
 
-	var/notice_range = 2 		// Distance before silent feeding is noticed.
-	var/mob/living/feed_target 	// So we can validate more than just the guy we're grappling.
+	var/notice_range = 2 // Distance before silent feeding is noticed.
+	var/mob/living/feed_target // So we can validate more than just the guy we're grappling.
 	var/target_grappled = FALSE // If you started grappled, then ending it will end your Feed.
 
 /datum/action/bloodsucker/feed/CheckCanUse(display_error)
@@ -31,7 +31,8 @@
 	// DONE!
 	return TRUE
 
-/datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error) // Called twice: validating a subtle victim, or validating your grapple victim.
+/// Called twice: validating a subtle victim, or validating your grapple victim.
+/datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
 	// Bloodsuckers + Animals MUST be grabbed aggressively!
 	if(!owner.pulling || target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
 		// NOTE: It's OKAY that we are checking if(!target) below, AFTER animals here. We want passive check vs animal to warn you first, THEN the standard warning.
@@ -73,7 +74,7 @@
 			return FALSE
 	return TRUE
 
-// If I'm not grabbing someone, find me someone nearby.
+/// If I'm not grabbing someone, find me someone nearby.
 /datum/action/bloodsucker/feed/proc/FindMyTarget(display_error)
 	// Default
 	feed_target = null
@@ -120,8 +121,8 @@
 		else
 			ValidateTarget(seen_mobs[1], display_error)
 		return FALSE
-	// Too Many Targets
-	//else if (targets.len > 1)
+	//BLOODSUCKER_TRAIT Too Many Targets
+	// else if (targets.len > 1)
 	//	if (display_error)
 	//		to_chat(owner, "<span class='warning'>You are adjecent to too many witnesses. Either grab your victim or move away.</span>")
 	//	return FALSE
@@ -291,7 +292,6 @@
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && target && (!target_grappled || user.pulling == target) // Active, and still antag,
-	// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)

@@ -12,7 +12,7 @@
 	must_be_capacitated = FALSE
 	can_be_immobilized = TRUE
 
-	var/turf/target_turf		// We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
+	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
 	. = ..()
@@ -29,7 +29,7 @@
 	if(A == get_turf(owner) || get_turf(A) == get_turf(owner))
 		return FALSE
 
-	return TRUE //  All we care about is destination. Anything you click is fine.
+	return TRUE // All we care about is destination. Anything you click is fine.
 
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanTarget(atom/A, display_error)

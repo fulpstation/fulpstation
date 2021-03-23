@@ -1,19 +1,20 @@
-// 		TO PLUG INTO LIFE:
+/* 		TO PLUG INTO LIFE:
+ *
+ * Cancel BLOOD life
+ * Cancel METABOLISM life   (or find a way to control what gets digested)
+ * Create COLDBLOODED trait (thermal homeostasis)
+ *
+ * 		EXAMINE
+ *
+ * Show as dead when...
+ */
 
-// Cancel BLOOD life
-// Cancel METABOLISM life   (or find a way to control what gets digested)
-// Create COLDBLOODED trait (thermal homeostasis)
-
-// 		EXAMINE
-//
-// Show as dead when...
-
-///Runs from BiologicalLife, handles all the bloodsucker constant proccesses
+/// Runs from BiologicalLife, handles all the bloodsucker constant proccesses
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
 	while(owner && !AmFinalDeath())
 		if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			AddBloodVolume(passive_blood_drain) // -.1 Blood currently
+			AddBloodVolume(passive_blood_drain)
 		if(HandleHealing(1))
 			if(!notice_healing && owner.current.blood_volume > 0)
 				to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
@@ -39,8 +40,8 @@
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
 	update_hud()
 
+/// mult: SILENT feed is 1/3 the amount
 /datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
-	// mult: SILENT feed is 1/3 the amount
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult	// Starts at 15 (now 8 since we doubled the Feed time)
 	target.blood_volume -= blood_taken
 	// Simple Animals lose a LOT of blood, and take damage. This is to keep cats, cows, and so forth from giving you insane amounts of blood.
@@ -56,17 +57,16 @@
 	// our volume * temp, + their volume * temp, / total volume
 	///////////
 	// Reduce Value Quantity
-	if(target.stat == DEAD)	// Penalty for Dead Blood
+	if(target.stat == DEAD) // Penalty for Dead Blood
 		blood_taken /= 3
-	if(!ishuman(target))		// Penalty for Non-Human Blood
+	if(!ishuman(target)) // Penalty for Non-Human Blood
 		blood_taken /= 2
-	//if (!iscarbon(target))	// Penalty for Animals (they're junk food)
+	//if (!iscarbon(target)) // Penalty for Animals (they're junk food)
 	// Apply to Volume
 	AddBloodVolume(blood_taken)
 	// Reagents (NOT Blood!)
 	if(target.reagents && target.reagents.total_volume)
-		target.reagents.trans_to(owner.current, INGEST, 1)	// Run transfer of 1 unit of reagent from them to me.
-	// Blood Gulp Sound
+		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +75,9 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// NOTE: Mult of 0 is just a TEST to see if we are injured and need to go into Torpor!
+/// It is called from your coffin on close (by you only)
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
-	// NOTE: Mult of 0 is just a TEST to see if we are injured and need to go into Torpor!
-	//It is called from your coffin on close (by you only)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
 	if(poweron_masquerade|| owner.current.AmStaked())
 		return FALSE
@@ -108,10 +108,10 @@
 		// Heal if Damaged
 		if(bruteheal + fireheal > 0) // Just a check? Don't heal/spend, and return.
 			// We have damage. Let's heal (one time)
-			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE)// Heal BRUTE / BURN in random portions throughout the body.
+			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
 			C.adjustFireLoss(-fireheal * mult, forced=TRUE)
 			AddBloodVolume((bruteheal * -0.5 + fireheal * -1) / mult * costMult) // Costs blood to heal
-			return TRUE // Healed! Done for this tick.
+			return TRUE
 
 /datum/antagonist/bloodsucker/proc/check_limbs(costMult)
 	var/limb_regen_cost = 50 * costMult
@@ -119,8 +119,8 @@
 	var/list/missing = C.get_missing_limbs()
 	if(missing.len && C.blood_volume < limb_regen_cost + 5)
 		return FALSE
-	for(var/targetLimbZone in missing) 			// 1) Find ONE Limb and regenerate it.
-		C.regenerate_limb(targetLimbZone, FALSE)		// regenerate_limbs() <--- If you want to EXCLUDE certain parts, do it like this ----> regenerate_limbs(0, list("head"))
+	for(var/targetLimbZone in missing) // 1) Find ONE Limb and regenerate it.
+		C.regenerate_limb(targetLimbZone, FALSE) // regenerate_limbs() <--- If you want to EXCLUDE certain parts, do it like this ----> regenerate_limbs(0, list("head"))
 		AddBloodVolume(50)
 		var/obj/item/bodypart/L = C.get_bodypart(targetLimbZone) // 2) Limb returns Damaged
 		L.brute_dam = 60
@@ -141,15 +141,16 @@
 	C.adjust_blurriness(-25)
 	C.reagents.add_reagent(/datum/reagent/medicine/oculine,20) // I'm sorry
 	owner.current.cure_husk()
+/*
+ * 	// High: 	Faster Healing
+ *	// Med: 	Pale
+ *	// Low: 	Twitch
+ *	// V.Low:   Blur Vision
+ *	// EMPTY:	Frenzy!
+ */
 
-// I am thirsty for blood!
+/// I am thirsty for blood!
 /datum/antagonist/bloodsucker/proc/HandleStarving()
-
-	// High: 	Faster Healing
-	// Med: 	Pale
-	// Low: 	Twitch
-	// V.Low:   Blur Vision
-	// EMPTY:	Frenzy!
 	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm
 	// BLOOD_VOLUME_BAD: [224]  Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_FAKEDEATH)) && !poweron_masquerade)
@@ -159,7 +160,7 @@
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 	// Nutrition
 	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED)) //The amount of blood is how full we are.
-	//A bit higher regeneration based on blood volume
+	// A bit higher regeneration based on blood volume
 	if(owner.current.blood_volume < 700)
 		additional_regen = 0.4
 	else if(owner.current.blood_volume < BLOOD_VOLUME_NORMAL)
@@ -175,8 +176,8 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// FINAL DEATH
 /datum/antagonist/bloodsucker/proc/HandleDeath()
-	// 	FINAL DEATH
 	// Fire Damage? (above double health)
 	if(owner.current.getFireLoss() >= owner.current.maxHealth * 3)
 		FinalDeath()
@@ -190,7 +191,7 @@
 		FinalDeath()
 		return
 	// Missing Brain or Heart?
-	/* -- Disabled due to it killing Slimepeople. They should be getting the organs back later anyways.
+	/* // Disabled due to it killing Slimepeople. They should be getting the organs back when they sleep through Sol anyhow.
 	if(!owner.current.HaveBloodsuckerBodyparts())
 		FinalDeath()
 		return
@@ -199,7 +200,7 @@
 				//	for (var/datum/action/bloodsucker/masquerade/P in powers)
 				//		P.Deactivate()
 	*/
-			//	TEMP DEATH
+	// TEMP DEATH
 	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
@@ -211,7 +212,7 @@
 		if(poweron_masquerade)
 			to_chat(owner, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
 	// End Torpor:
-	else	// No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
+	else // No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
 		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage < owner.current.getMaxHealth())
 			if(total_damage <= 0 && total_brute <= 0)
 				Torpor_End()
@@ -219,8 +220,8 @@
 		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)
 			owner.current.Unconscious(20, 1)
 
+/// Disable ALL Powers
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
-	// Disable ALL Powers
 	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
@@ -270,7 +271,7 @@
 	// Free my Vassals!
 	FreeAllVassals()
 	// Elders get Dusted
-	if(bloodsucker_level >= 4) // (bloodsucker_title)
+	if(bloodsucker_level >= 4)
 		owner.current.visible_message("<span class='warning'>[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains.</span>", \
 			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
 			 "<span class='italics'>You hear a dry, crackling sound.</span>")
@@ -281,7 +282,7 @@
 		owner.current.visible_message("<span class='warning'>[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat.</span>", \
 			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
 			 "<span class='italics'>You hear a wet, bursting sound.</span>")
-		owner.current.gib(TRUE, FALSE, FALSE) //Brain cloning is wierd and allows hellbounds. Lets destroy the brain for safety.
+		owner.current.gib(TRUE, FALSE, FALSE)
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 
 
@@ -292,7 +293,8 @@
 //			HUMAN FOOD
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/* /// What even is this? It's never called
+
+/* /// What even is this? It's never called...
 /mob/proc/CheckBloodsuckerEatFood(food_nutrition)
 	if(!isliving(src))
 		return
@@ -354,7 +356,7 @@
 				//C.Dizzy(50)
 				foodInGut = 0
 				SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "vampdisgust", /datum/mood_event/bloodsucker_disgust)
-		sickphase ++
+		sickphase++
 
 /// Bloodsuckers moodlets
 /datum/mood_event/drankblood

@@ -1,6 +1,7 @@
-// Level 1: Speed to location
-// Level 2: Dodge Bullets
-// Level 3: Stun People Passed
+/* Level 1: Speed to location
+ * Level 2: Dodge Bullets
+ * Level 3: Stun People Passed
+ */
 
 /datum/action/bloodsucker/targeted/haste
 	name = "Immortal Haste"
@@ -10,10 +11,10 @@
 	cooldown = 120
 	target_range = 15
 	power_activates_immediately = TRUE
-	message_Trigger = ""//"Whom will you subvert to your will?"
+	message_Trigger = "" // "Whom will you subvert to your will?"
 	bloodsucker_can_buy = TRUE
 	must_be_capacitated = TRUE
-	var/list/hit			//current hit, set while power is in use as we can't pass the list as an extra calling argument in registersignal.
+	var/list/hit //current hit, set while power is in use as we can't pass the list as an extra calling argument in registersignal.
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 
@@ -32,8 +33,9 @@
 		return FALSE
 	return TRUE
 
+/// Anything will do, if it's not me or my square
 /datum/action/bloodsucker/targeted/haste/CheckValidTarget(atom/A)
-	return isturf(A) || A.loc != owner.loc // Anything will do, if it's not me or my square
+	return isturf(A) || A.loc != owner.loc
 
 /datum/action/bloodsucker/targeted/haste/CheckCanTarget(atom/A, display_error)
 	// DEFAULT CHECKS (Distance)
@@ -44,8 +46,8 @@
 	//	return FALSE
 	return TRUE
 
+/// This is a non-async proc to make sure the power is "locked" until this finishes.
 /datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/A)
-	// This is a non-async proc to make sure the power is "locked" until this finishes.
 	hit = list()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/on_move)
 	var/mob/living/user = owner
@@ -59,19 +61,19 @@
 	var/consequetive_failures = 0
 	var/speed = isnull(speed_override)? world.tick_lag : speed_override
 	while(--safety && (get_turf(user) != T))
-		var/success = step_towards(user, T)		//This does not try to go around obstacles.
+		var/success = step_towards(user, T) //This does not try to go around obstacles.
 		if(!success)
-			success = step_to(user, T)			//this does
+			success = step_to(user, T) //this does
 		if(!success)
-			if(++consequetive_failures >= 3)		//if 3 steps don't work
-				break			//just stop
+			if(++consequetive_failures >= 3) //if 3 steps don't work
+				break //just stop
 		else
 			consequetive_failures = 0
 		if(user.resting)
-			user.setDir(turn(user.dir, 90))		//down? spin2win :^)
-		if(user.incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE))		//actually down? stop.
+			user.setDir(turn(user.dir, 90)) //down? spin2win :^)
+		if(user.incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE)) //actually down? stop.
 			break
-		if(success)		//don't sleep if we failed to move.
+		if(success) //don't sleep if we failed to move.
 			sleep(speed)
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 	hit = null

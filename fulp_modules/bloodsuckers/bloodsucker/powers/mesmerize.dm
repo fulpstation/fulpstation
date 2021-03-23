@@ -1,8 +1,9 @@
-//	* MEZMERIZE
-//		LOVE:		Target falls in love with you. Being harmed directly causes them harm if they see it?
-//		STAY:		Target will do everything they can to stand in the same place.
-//		FOLLOW:		Target follows you, spouting random phrases from their history (or maybe Poly's or NPC's vocab?)
-//		ATTACK:		Target finds a nearby non-Bloodsucker victim to attack.
+/*	* MEZMERIZE
+ *		LOVE:		Target falls in love with you. Being harmed directly causes them harm if they see it?
+ *		STAY:		Target will do everything they can to stand in the same place.
+ *		FOLLOW:		Target follows you, spouting random phrases from their history (or maybe Poly's or NPC's vocab?)
+ *		ATTACK:		Target finds a nearby non-Bloodsucker victim to attack.
+ */
 
 /datum/action/bloodsucker/targeted/mesmerize
 	name = "Mesmerize"
@@ -17,7 +18,7 @@
 	bloodsucker_can_buy = TRUE
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(display_error)
-	if(!..(display_error))// DEFAULT CHECKS
+	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
 	if(!owner.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)

@@ -1,39 +1,41 @@
-// Created by claiming a Coffin.
-
-
-
-// 		THINGS TO SPAWN:
-//
-//	/obj/effect/decal/cleanable/cobweb && /obj/effect/decal/cleanable/cobweb/cobweb2
-//	/obj/effect/decal/cleanable/generic
-//	/obj/effect/decal/cleanable/dirt/dust <-- Pretty cool, just stains the tile itself.
-//	/obj/effect/decal/cleanable/blood/old
+/* Created by claiming a Coffin.
+ *
+ *
+ *
+ * 		THINGS TO SPAWN:
+ *
+ *	/obj/effect/decal/cleanable/cobweb && /obj/effect/decal/cleanable/cobweb/cobweb2
+ *	/obj/effect/decal/cleanable/generic
+ *	/obj/effect/decal/cleanable/dirt/dust <-- Pretty cool, just stains the tile itself.
+ *	/obj/effect/decal/cleanable/blood/old
+ */
 
 /*
+/// All coffins assigned to this area
 /area/
-	// All coffins assigned to this area
 	var/list/obj/structure/closet/crate/laircoffins = new list()
-// Called by Coffin when an area is claimed as a vamp's lair
+
+/// Called by Coffin when an area is claimed as a vamp's lair
 /area/proc/ClaimAsLair(/obj/structure/closet/crate/inClaimant)
 	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
 	laircoffins += laircoffins
 	sleep()
 	// Cancel!
-	if (laircoffins.len == 0)
+	if(laircoffins.len == 0)
 		return
-		*/
+*/
 
+/// Don't make on_gain() wait for this function to finish. This lets this code run on the side.
 /datum/antagonist/bloodsucker/proc/RunLair()
-	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
+	set waitfor = FALSE
 	while(!AmFinalDeath() && coffin && lair)
-		// WAit 2 min and Repeat
+		// Wait 2 min, then Repeat
 		sleep(120)
-		// Coffin Moved SOMEHOW?
+		// Coffin Moved?
 		if(lair != get_area(coffin))
 			if(coffin)
 				coffin.UnclaimCoffin()
-			//lair = get_area(coffin)
-			break // DONE
+			break
 		var/list/turf/area_turfs = get_area_turfs(lair)
 		// Create Dirt etc.
 		var/turf/T_Dirty = pick(area_turfs)

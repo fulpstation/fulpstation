@@ -15,7 +15,7 @@
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
 	. = ..()
-	if(!..(display_error))// DEFAULT CHECKS
+	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
 	var/usedPower = TRUE // Break Out of Restraints! (And then cancel)
 	if(CheckBreakRestraints())
@@ -35,8 +35,8 @@
 /// NOTE: Just like biodegrade.dm, we only remove one thing per use
 /datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
 	var/mob/living/carbon/human/user = owner
-	var/used = FALSE // only one form of shackles removed per use
-	if(user.handcuffed) //Removes Handcuffs
+	var/used = FALSE // Only one form of shackles removed per use
+	if(user.handcuffed) // Removes Handcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 		if(!istype(O))
 			return FALSE
@@ -45,7 +45,7 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	else if(user.legcuffed) //Removes Legcuffs
+	else if(user.legcuffed) // Removes Legcuffs
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 		if(!istype(O))
 			return FALSE
@@ -54,7 +54,7 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	else if(user.wear_suit && user.wear_suit.breakouttime && !used) //Removes straightjacket
+	else if(user.wear_suit && user.wear_suit.breakouttime && !used) // Removes straightjacket
 		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 		if(!istype(S))
 			return FALSE
@@ -63,7 +63,7 @@
 		addtimer(CALLBACK(src, .proc/rip_straightjacket, user, S), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	else if(istype(user.loc, /obj/structure/closet) && !used) //Breaks out of lockers
+	else if(istype(user.loc, /obj/structure/closet) && !used) // Breaks out of lockers
 		var/obj/structure/closet/C = user.loc
 		if(!istype(C))
 			return FALSE
