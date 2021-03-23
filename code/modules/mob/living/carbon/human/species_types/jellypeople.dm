@@ -167,7 +167,7 @@
 	bodies = old_species.bodies
 
 /datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
-	if((HAS_TRAIT(H, TRAIT_NOPULSE))) // Fulpstation Bloodsuckers edit
+	if(HAS_TRAIT(H, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit
 		return
 	if(H.blood_volume >= BLOOD_VOLUME_SLIME_SPLIT)
 		if(prob(5))
