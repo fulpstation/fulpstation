@@ -64,14 +64,14 @@
 			bloodsuckers -= bloodsucker
 	..()
 
-/// Init Sunlight (called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
+/// Init Sunlight, called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
 /datum/game_mode/proc/check_start_sunlight()
 	// Already Sunlight (and not about to cancel)
 	if(istype(bloodsucker_sunlight) && !bloodsucker_sunlight.cancel_me)
 		return
 	bloodsucker_sunlight = new()
-	// Spawn 2-4 Monster Hunters 35 minutes into the round
-	addtimer(CALLBACK(src, .proc/assign_monster_hunters), 35 MINUTES)
+	// Spawn 2-4 Monster Hunters 35 minutes into the round // Disabled because I don't like how this is implemented.
+//	addtimer(CALLBACK(src, .proc/assign_monster_hunters), 35 MINUTES)
 
 /// End Sun (last bloodsucker removed)
 /datum/game_mode/proc/check_cancel_sunlight()
