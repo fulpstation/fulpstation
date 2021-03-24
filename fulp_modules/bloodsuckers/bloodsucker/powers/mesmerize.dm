@@ -33,13 +33,13 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckValidTarget(atom/A)
-	return iscarbon(A)
+	return isliving(A)
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/A, display_error)
 	// Check: Self
 	if(A == owner)
 		return FALSE
-	var/mob/living/carbon/target = A // We already know it's carbon due to CheckValidTarget()
+	var/mob/living/target = A // We already know it's carbon due to CheckValidTarget()
 	// Bloodsucker
 	if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		if(display_error)
@@ -70,7 +70,7 @@
 			to_chat(owner, "<span class='warning'>You're too far outside your victim's view.</span>")
 		return FALSE
 	// Check: Facing target?
-	if(!is_A_facing_B(owner,target))	// in unsorted.dm
+	if(!is_A_facing_B(owner,target)) // in unsorted.dm
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You must be facing your victim.</span>")
 		return FALSE
@@ -85,7 +85,7 @@
 /datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/A)
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 
-	var/mob/living/carbon/target = A
+	var/mob/living/target = A
 	var/mob/living/user = owner
 
 	if(istype(target))
@@ -94,19 +94,28 @@
 	if(do_mob(user, target, 4 SECONDS, NONE, TRUE, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
 		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
 		var/power_time = 90 + level_current * 15
-		ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		to_chat(user, "<span class='notice'>[target] is fixed in place by your hypnotic gaze.</span>")
-		target.Immobilize(power_time)
-		//target.silent += power_time / 10 // Silent isn't based on ticks.
-		target.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move //    target.changeNext_move(power_time) // check click.dm
-		target.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
-		spawn(power_time)
-			if(istype(target))
-				target.notransform = FALSE
-				REMOVE_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-				// They Woke Up! (Notice if within view)
-				if(istype(user) && target.stat == CONSCIOUS && (target in view(10, get_turf(user)))  )
-					to_chat(user, "<span class='warning'>[target] has snapped out of their trance.</span>")
+		if(iscarbon(target))
+			var/mob/living/carbon/mesmerized = target
+			if(mesmerized.mind && mesmerized.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+				to_chat(mesmerized, "<span class='notice'>You feel your eyes burn for a while, but it passes.</span>")
+				return
+			ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+			to_chat(user, "<span class='notice'>[mesmerized] is fixed in place by your hypnotic gaze.</span>")
+			mesmerized.Immobilize(power_time)
+			//mesmerized.silent += power_time / 10 // Silent isn't based on ticks.
+			mesmerized.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized.changeNext_move(power_time) // check click.dm
+			mesmerized.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
+			spawn(power_time)
+				if(istype(mesmerized))
+					mesmerized.notransform = FALSE
+					REMOVE_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+					// They Woke Up! (Notice if within view)
+					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(10, get_turf(user))))
+						to_chat(user, "<span class='warning'>[mesmerized] has snapped out of their trance.</span>")
+		if(issilicon(target))
+			var/mob/living/silicon/mesmerized = target
+			mesmerized.emp_act(EMP_HEAVY)
+			to_chat(user, "<span class='warning'>You have temporarily shut [mesmerized] down.</span>")
 
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
