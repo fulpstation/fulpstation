@@ -26,7 +26,7 @@
 		C.adjustBruteLoss(-1.5)
 		C.adjustFireLoss(-0.5)
 		C.adjustToxLoss(-2, forced = TRUE)
-		C.blood_volume -= (stacks * 1.5)
+		C.blood_volume -= 1
 		C.adjustStaminaLoss(stacks * 1.5)
 		// Stop Bleeding
 		if(istype(H) && H.is_bleeding())

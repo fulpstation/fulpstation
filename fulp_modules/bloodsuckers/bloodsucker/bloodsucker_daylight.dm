@@ -26,7 +26,9 @@
 			sleep(10)
 			if(cancel_me)
 				return
-		warn_daylight(1,"<span class = 'danger'>Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b></span>")  // time2text <-- use Help On
+		warn_daylight(1,"<span class = 'danger'>Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b></span>",\
+				  	  "",\
+					  "")
 		give_home_power() // Give VANISHING ACT power to all vamps with a lair!
 		// Part 2: Night Ending
 		while(time_til_cycle > TIME_BLOODSUCKER_DAY_FINAL_WARN)
@@ -35,7 +37,8 @@
 				return
 		message_admins("BLOODSUCKER NOTICE: Daylight beginning in [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds.")
 		warn_daylight(2,"<span class = 'userdanger'>Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!</span>",\
-					  "<span class = 'danger'>In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!</span>")
+					  "<span class = 'danger'>In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!</span>",\
+					  "")
 		// (FINAL LIL WARNING)
 		while(time_til_cycle > 5)
 			sleep(10)
@@ -67,7 +70,8 @@
 				vamps_rank_up()
 
 		warn_daylight(5,"<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
-				  	  "<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>")
+				  	  "<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
+					  "")
 		amDay = FALSE
 		day_end() // Remove VANISHING ACT power from all vamps who have it! Clear Warnings (sunlight, locker protection)
 		message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [nightime_duration / 60] minutes.)")

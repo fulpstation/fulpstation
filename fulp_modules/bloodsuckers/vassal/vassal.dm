@@ -17,7 +17,6 @@
 	job_rank = ROLE_BLOODSUCKER
 	var/datum/antagonist/bloodsucker/master		// Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
-	var/max_blood_volume = 600 // Required so the pinpointer doesnt runtime
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
@@ -53,20 +52,13 @@
 	objectives += vassal_objective
 	owner.current.grant_language(/datum/language/vampiric)
 	update_vassal_icons_added(owner.current, "vassal")
-	// Red eyes
-	if(ishuman(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		H.eye_color = "f00"
-		H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
-		ADD_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
-		H.update_body()
+	// Cult eyes
+	var/mob/living/carbon/human/H = owner.current
+	H.eye_color = "f00"
+	H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
+	ADD_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
+	H.update_body()
 	. = ..()
-
-/datum/antagonist/vassal/proc/add_objective(datum/objective/O)
-	objectives += O
-
-/datum/antagonist/vassal/proc/remove_objective(datum/objective/O)
-	objectives -= O
 
 /datum/antagonist/vassal/on_removal()
 	SSticker.mode.vassals -= owner // Add if not already in here (and you might be, if you were picked at round start)
@@ -88,14 +80,19 @@
 	// Clear Antag
 	owner.special_role = null
 	update_vassal_icons_removed(owner.current)
-	// Remove red eyes
-	if(ishuman(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		H.eye_color = initial(H.eye_color)
-		H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
-		REMOVE_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
-		H.update_body()
+	// Remove cult eyes
+	var/mob/living/carbon/human/H = owner.current
+	H.eye_color = initial(H.eye_color)
+	H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
+	REMOVE_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
+	H.update_body()
 	return ..()
+
+/datum/antagonist/vassal/proc/add_objective(datum/objective/O)
+	objectives += O
+
+/datum/antagonist/vassal/proc/remove_objective(datum/objective/O)
+	objectives -= O
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, "<span class='userdanger'>You are now the mortal servant of [master.owner.current], a bloodsucking vampire!</span>")

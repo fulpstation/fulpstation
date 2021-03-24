@@ -10,9 +10,10 @@
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
+	antag_hud_type = ANTAG_HUD_SHADOW
+	antag_hud_name = "shadow"
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
-	var/max_blood_volume = 600 // Required so the pinpointer doesnt runtime
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
@@ -48,10 +49,9 @@
 			steal_objective.find_target()
 			objectives += steal_objective
 	// Give Martial Arts
-	if(rand(0,4) <= 1)
-		var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // 2x the chance at Hunter-Fu
-		my_kungfu = new pick_type
-		my_kungfu.teach(owner.current, 0)
+	var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/wrestling, /datum/martial_art/krav_maga, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // 3x the chance at Hunter-Fu than the rest
+	my_kungfu = new pick_type
+	my_kungfu.teach(owner.current, 0)
 	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()

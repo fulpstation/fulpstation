@@ -121,7 +121,7 @@
 				 "<span class='notice'>You begin whittling [src] into a sharp point at one end.</span>", \
 				 "<span class='italics'>You hear wood carving.</span>")
 		// 8 Second Timer
-		if(!do_after(user, 8 SECONDS, TRUE, src))
+		if(!do_after(user, 8 SECONDS, src, NONE, TRUE))
 			return
 		// Make Stake
 		var/obj/item/stake/basic/new_item = new(user.loc)
@@ -162,11 +162,11 @@
 /obj/item/stake
 	name = "wooden stake"
 	desc = "A simple wooden stake carved to a sharp point."
-	icon = 'icons/obj/items_and_weapons.dmi'
+	icon = 'fulp_modules/bloodsuckers/icons/stakes.dmi'
 	icon_state = "wood"
 	inhand_icon_state = "wood"
-	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
+	lefthand_file = 'fulp_modules/bloodsuckers/icons/stake_leftinhand.dmi'
+	righthand_file = 'fulp_modules/bloodsuckers/icons/stake_rightinhand.dmi'
 	attack_verb_continuous = list("staked", "stabbed", "tore into")
 	attack_verb_simple = list("staked", "stabbed", "tore into")
 	slot_flags = ITEM_SLOT_BELT
@@ -174,10 +174,10 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	force = 6
 	throwforce = 10
-	embedding = list("embed_chance" = 25, "fall_chance" = 0.5)
+	embedding = list("embed_chance" = 25, "fall_chance" = 50)
 	obj_integrity = 30
 	max_integrity = 30
-	var/staketime = 120	 // Time it takes to embed the stake into someone's chest.
+	var/staketime = 120 // Time it takes to embed the stake into someone's chest.
 
 /// This exists so Hardened/Silver Stake can't have a welding torch used on them.
 /obj/item/stake/basic
@@ -257,7 +257,7 @@
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
-	embedding = list("embed_chance" = 50, "fall_chance" = 0)
+	embedding = list("embed_chance" = 40, "fall_chance" = 30)
 	obj_integrity = 120
 	max_integrity = 120
 
@@ -271,7 +271,7 @@
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
-	embedding = list("embed_chance" = 65)
+	embedding = list("embed_chance" = 60, "fall_chance" = 15)
 	obj_integrity = 300
 	max_integrity = 300
 
