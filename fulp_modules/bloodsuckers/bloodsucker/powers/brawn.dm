@@ -92,7 +92,7 @@
 	var/pull_power = M.grab_state
 	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
 	// Knock Down (if Living)
-	if (isliving(M))
+	if(isliving(M))
 		var/mob/living/L = M
 		L.Knockdown(pull_power * 10 + 20)
 	// Knock Back (before Knockdown, which probably cancels pull)
@@ -109,7 +109,7 @@
 
 /datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/A)
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
-	var/mob/living/carbon/target = A
+	var/mob/living/target = A
 	var/mob/living/user = owner
 	// Target Type: Mob
 	if(isliving(target))
@@ -130,14 +130,18 @@
 		var/send_dir = get_dir(owner, target)
 		var/turf/T = get_ranged_target_turf(target, send_dir, powerlevel)
 		owner.newtonian_move(send_dir) // Bounce back in 0 G
-		target.throw_at(T, powerlevel, TRUE, owner)  //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
+		target.throw_at(T, powerlevel, TRUE, owner) //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
+	// Target Type: Cyborg (Also gets the effects above)
+	if(issilicon(target))
+		var/mob/living/silicon/robot/R = target
+			R.emp_act(EMP_HEAVY)
 	// Target Type: Door
 	else if(istype(target, /obj/machinery/door))
 		var/obj/machinery/door/D = target
 		playsound(get_turf(usr), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
 		to_chat(user, "<span class='notice'>You prepare to tear open [D].</span>")
 		if(do_mob(usr, target, 2.5 SECONDS))
-			if (D.Adjacent(user))
+			if(D.Adjacent(user))
 				to_chat(user, "<span class='notice'>You tear open the [D].</span>")
 				user.Stun(10)
 				user.do_attack_animation(D, ATTACK_EFFECT_SMASH)

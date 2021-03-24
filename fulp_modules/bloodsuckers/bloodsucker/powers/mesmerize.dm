@@ -27,7 +27,7 @@
 	// Check: Eyes covered?
 	var/mob/living/L = owner
 	if(istype(L) && L.is_eyes_covered() || !isturf(owner.loc))
-		if (display_error)
+		if(display_error)
 			to_chat(owner, "<span class='warning'>Your eyes are concealed from sight.</span>")
 		return FALSE
 	return TRUE
@@ -35,7 +35,7 @@
 /datum/action/bloodsucker/targeted/mesmerize/CheckValidTarget(atom/A)
 	return iscarbon(A)
 
-/datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/A,display_error)
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/A, display_error)
 	// Check: Self
 	if(A == owner)
 		return FALSE
