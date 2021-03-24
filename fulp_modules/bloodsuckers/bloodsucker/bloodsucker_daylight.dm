@@ -6,7 +6,6 @@
 
 // Over Time, tick down toward a "Solar Flare" of UV buffeting the station. This period is harmful to vamps.
 /obj/effect/sunlight
-	var/cancel_me = FALSE
 	var/amDay = FALSE
 	var/time_til_cycle = 0
 	var/nightime_duration = 720 // 12 Minutes
@@ -20,75 +19,63 @@
 /obj/effect/sunlight/proc/countdown()
 	set waitfor = FALSE
 
-	while(!cancel_me)
-		time_til_cycle = nightime_duration
-		// Part 1: Night (all is well)
-		while(time_til_cycle > TIME_BLOODSUCKER_DAY_WARN)
-			sleep(10)
-			if(cancel_me)
-				return
-		warn_daylight(1,"<span class = 'danger'>Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b></span>",\
-				  	  "",\
-					  "")
-		give_home_power() // Give VANISHING ACT power to all vamps with a lair!
-		// Part 2: Night Ending
-		while(time_til_cycle > TIME_BLOODSUCKER_DAY_FINAL_WARN)
-			sleep(10)
-			if(cancel_me)
-				return
-		message_admins("BLOODSUCKER NOTICE: Daylight beginning in [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds.")
-		warn_daylight(2,"<span class = 'userdanger'>Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!</span>",\
-					  "<span class = 'danger'>In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!</span>",\
-					  "")
-		// (FINAL LIL WARNING)
-		while(time_til_cycle > 5)
-			sleep(10)
-			if(cancel_me)
-				return
-		warn_daylight(3,"<span class = 'userdanger'>Seek cover, for Sol rises!</span>")
-		// Part 3: Night Ending
-		while(time_til_cycle > 0)
-			sleep(10)
-			if(cancel_me)
-				return
-		warn_daylight(4,"<span class = 'userdanger'>Solar flares bombard the station with deadly UV light!</span><br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!</span>",\
-				  	  "<span class = 'danger'>Solar flares bombard the station with UV light!</span>",\
-					  "<span class = 'userdanger'>The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!</span>")
-		// Part 4: Day
-		amDay = TRUE
-		message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
-		time_til_cycle = TIME_BLOODSUCKER_DAY
-		sleep(10) // One second grace period.
-		while(time_til_cycle > 0)
-			punish_vamps()
-			sleep(TIME_BLOODSUCKER_BURN_INTERVAL)
-			if(cancel_me)
-				return
-			// Issue Level Up!
-			if(!issued_XP && time_til_cycle <= 15)
-				issued_XP = TRUE
-				vamps_rank_up()
+	time_til_cycle = nightime_duration
+	// Part 1: Night (all is well)
+	while(time_til_cycle > TIME_BLOODSUCKER_DAY_WARN)
+		sleep(10)
+	warn_daylight(1,"<span class = 'danger'>Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b></span>",\
+			  	  "",\
+				  "")
+	give_home_power() // Give VANISHING ACT power to all vamps with a lair!
+	// Part 2: Night Ending
+	while(time_til_cycle > TIME_BLOODSUCKER_DAY_FINAL_WARN)
+		sleep(10)
+	message_admins("BLOODSUCKER NOTICE: Daylight beginning in [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds.")
+	warn_daylight(2,"<span class = 'userdanger'>Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!</span>",\
+				  "<span class = 'danger'>In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!</span>",\
+				  "")
+	// (FINAL LIL WARNING)
+	while(time_til_cycle > 5)
+		sleep(10)
+	warn_daylight(3,"<span class = 'userdanger'>Seek cover, for Sol rises!</span>")
+	// Part 3: Night Ending
+	while(time_til_cycle > 0)
+		sleep(10)
+	warn_daylight(4,"<span class = 'userdanger'>Solar flares bombard the station with deadly UV light!</span><br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!</span>",\
+			  	  "<span class = 'danger'>Solar flares bombard the station with UV light!</span>",\
+				  "<span class = 'userdanger'>The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!</span>")
+	// Part 4: Day
+	amDay = TRUE
+	message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
+	time_til_cycle = TIME_BLOODSUCKER_DAY
+	sleep(10) // One second grace period.
+	while(time_til_cycle > 0)
+		punish_vamps()
+		sleep(TIME_BLOODSUCKER_BURN_INTERVAL)
+		// Issue Level Up!
+		if(!issued_XP && time_til_cycle <= 15)
+			issued_XP = TRUE
+			vamps_rank_up()
 
-		warn_daylight(5,"<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
-				  	  "<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
-					  "")
-		amDay = FALSE
-		day_end() // Remove VANISHING ACT power from all vamps who have it! Clear Warnings (sunlight, locker protection)
-		message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [nightime_duration / 60] minutes.)")
+	warn_daylight(5,"<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
+			  	  "<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
+				  "")
+	amDay = FALSE
+	day_end() // Remove VANISHING ACT power from all vamps who have it! Clear Warnings (sunlight, locker protection)
+	message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [nightime_duration / 60] minutes.)")
 
 /// Update all Bloodsucker sunlight huds
 /obj/effect/sunlight/proc/hud_tick()
 	set waitfor = FALSE
-	while(!cancel_me)
-		issued_XP = FALSE
-		for(var/datum/mind/M in SSticker.mode.bloodsuckers)
-			if(!istype(M) || !istype(M.current))
-				continue
-			var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
-			if(istype(bloodsuckerdatum))
-				bloodsuckerdatum.update_sunlight(max(0, time_til_cycle), amDay) // This pings all HUDs
-		sleep(10)
-		time_til_cycle--
+	issued_XP = FALSE
+	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+		if(!istype(M) || !istype(M.current))
+			continue
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(istype(bloodsuckerdatum))
+			bloodsuckerdatum.update_sunlight(max(0, time_til_cycle), amDay) // This pings all HUDs
+	sleep(10)
+	time_til_cycle--
 
 /obj/effect/sunlight/proc/warn_daylight(danger_level = 0, vampwarn = "", vassalwarn = "", hunteralert = "")
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
