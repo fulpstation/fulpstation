@@ -10,8 +10,8 @@
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
-	antag_hud_type = ANTAG_HUD_SHADOW
-	antag_hud_name = "shadow"
+	antag_hud_type = ANTAG_HUD_GANGSTER
+	antag_hud_name = "hud_gangster"
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/give_objectives = TRUE
@@ -19,10 +19,12 @@
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
-	return
+	var/mob/living/M = mob_override || owner.current
+	add_antag_hud(antag_hud_type, antag_hud_name, M)
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
-	return
+	var/mob/living/M = mob_override || owner.current
+	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/monsterhunter/on_gain()
 	SSticker.mode.monsterhunter += owner
