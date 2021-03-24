@@ -211,7 +211,6 @@
 	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
 
 // ADMIN TOOLS //
-
 /// Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
