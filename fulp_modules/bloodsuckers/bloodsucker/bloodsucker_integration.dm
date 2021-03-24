@@ -48,7 +48,7 @@
 	if(!vassaldatum || !hunterdatum)
 		return null
 	// Vassals and Bloodsuckers recognize eachother, and Monster Hunters can tell Vassals.
-	if(!viewer.mind.has_antag_datum(/datum/antagonist/bloodsucker) && if(!viewer.mind.has_antag_datum(/datum/antagonist/vassal) || !viewer.mind.has_antag_datum(/datum/antagonist/monsterhunter)))
+	if(!viewer.mind.has_antag_datum(/datum/antagonist/bloodsucker) && !viewer.mind.has_antag_datum(/datum/antagonist/vassal || /datum/antagonist/monsterhunter))
 		return null
 
 	// Default String
