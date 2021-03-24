@@ -132,9 +132,8 @@
 		owner.newtonian_move(send_dir) // Bounce back in 0 G
 		target.throw_at(T, powerlevel, TRUE, owner) //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
 	// Target Type: Cyborg (Also gets the effects above)
-/*		if(issilicon(target))
-			var/mob/living/silicon/robot/R = target
-				R.emp_act(EMP_HEAVY)*/
+		if(issilicon(target))
+			target.emp_act(EMP_HEAVY)
 	// Target Type: Door
 	else if(istype(target, /obj/machinery/door))
 		var/obj/machinery/door/D = target
