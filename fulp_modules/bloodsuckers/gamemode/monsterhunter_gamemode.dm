@@ -8,10 +8,7 @@
  * 	- Ect.
 */
 
-/// 50% of the time, we get half the Monster Hunters than usual
-/datum/game_mode/proc/assign_monster_hunters(monster_count = 4, list/datum/mind/exclude_from_hunter)
-	if(rand(1,2) == 1)
-		monster_count /= 2
+/datum/game_mode/proc/assign_monster_hunters(monster_count = 2, list/datum/mind/exclude_from_hunter)
 
 	var/list/no_hunter_jobs = list("AI","Cyborg")
 	if(CONFIG_GET(flag/protect_roles_from_antagonist))

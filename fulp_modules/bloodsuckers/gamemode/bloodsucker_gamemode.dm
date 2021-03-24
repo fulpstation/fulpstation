@@ -3,6 +3,7 @@
 	var/list/datum/mind/vassals = list() // List of minds that have been turned into Vassals.
 	var/list/datum/mind/monsterhunter = list() // List of all Monster Hunters
 	var/obj/effect/sunlight/bloodsucker_sunlight // Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
+	var/spawned_hunters = FALSE
 	// The antags you're allowed to be if turning Vassal:
 	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/survivalist, /datum/antagonist/rev, /datum/antagonist/nukeop, /datum/antagonist/pirate, /datum/antagonist/cult, /datum/antagonist/heretic, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
 
@@ -70,8 +71,10 @@
 	if(istype(bloodsucker_sunlight) && !bloodsucker_sunlight.cancel_me)
 		return
 	bloodsucker_sunlight = new()
-	// Spawn 2-4 Monster Hunters 35 minutes into the round // Disabled because I don't like how this is implemented.
-//	addtimer(CALLBACK(src, .proc/assign_monster_hunters), 35 MINUTES)
+	// Spawn 2 Monster Hunters 35 minutes into the round
+	if(!spawned_hunters)
+		addtimer(CALLBACK(src, .proc/assign_monster_hunters), 35 MINUTES)
+		spawned_hunters = TRUE
 
 /// End Sun (last bloodsucker removed)
 /datum/game_mode/proc/check_cancel_sunlight()
@@ -82,6 +85,18 @@
 		bloodsucker_sunlight.cancel_me = TRUE
 		qdel(bloodsucker_sunlight)
 		bloodsucker_sunlight = null
+		/* All Vampires dead? Remove all Monster hunter antags.
+		 * This means that technically it is impossible for a Monster Hunter to greentext.
+		 * Monster hunter objectives are solely meant to just prevent them from working with Security.
+		 * Therefore, we don't care if they get their greentext.
+		 * If we let them keep their antag status and gear, with no antags to hunt, they'll likely greytide.
+		 * 	- Willard
+		 */
+		for(var/mob/living/carbon/C in GLOB.alive_mob_list)
+			if(C.mind)
+				var/datum/mind/UM = C.mind
+				if(UM.has_antag_datum(/datum/antagonist/monsterhunter))
+					UM -= monsterhunter
 
 /datum/game_mode/proc/is_daylight()
 	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay
