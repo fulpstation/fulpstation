@@ -82,6 +82,23 @@ GLOBAL_VAR_INIT(normal_looc_colour, "#ec0303")
 			else
 				to_chat(C, "<span class='looc'>[ADMIN_FLW(usr)] <span class='prefix'>[prefix]:</span> <EM>[src.key]/[src.mob.name]:</EM> <span class='message'>[msg]</span></span>")
 
+	for(var/mob/M in GLOB.player_list)
+		if(QDELETED(M))
+			continue
+		if(!isobserver(M))
+			continue
+		if(M.client in GLOB.admins)
+			continue //Already handled
+		if(!(M.client.prefs.chat_toggles & CHAT_OOC))
+			continue
+		if((!(M.client.prefs.chat_toggles & CHAT_GHOSTWHISPER)) && !(M in heard))
+			continue //Piggyback on the ghost whispers preference to show/hide distant LOOC for ghosts
+		
+		var/link = FOLLOW_LINK(M, mob)
+		if(GLOB.LOOC_COLOR)
+			to_chat(M.client, "[link] <font color='[GLOB.LOOC_COLOR]'><b><span class='prefix'>LOOC:</span> <EM>[src.mob.name]:</EM> <span class='message'>[msg]</span></b></font>")
+		else
+			to_chat(M.client, "[link] <span class='looc'><span class='prefix'>LOOC:</span> <EM>[src.mob.name]:</EM> <span class='message'>[msg]</span></span>")
 
 /mob/proc/get_top_level_mob()
     if(istype(src.loc,/mob)&&src.loc!=src)
