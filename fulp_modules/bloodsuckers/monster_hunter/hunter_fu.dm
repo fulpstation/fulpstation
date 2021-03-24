@@ -171,20 +171,9 @@
 	return TRUE
 
 /datum/martial_art/hunterfu/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	if(A!=D && can_use(A)) // A!=D prevents grabbing yourself
-		add_to_streak("G",D)
-		if(check_streak(A,D)) //if a combo is made no grab upgrade is done
-			return TRUE
-		log_combat(A, D, "grabbed (Hunter-Fu)")
-		old_grab_state = A.grab_state
-		D.grabbedby(A, 1)
-		if(old_grab_state == GRAB_PASSIVE)
-			D.drop_all_held_items()
-			A.setGrabState(GRAB_AGGRESSIVE) //Instant agressive grab if on grab intent
-			D.visible_message("<span class='danger'>[A] gets [D] by surprise with a grab!</span>", \
-					"<span class='userdanger'>You're taken by surprise when [A] grabs you!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", COMBAT_MESSAGE_RANGE, A)
-			to_chat(A, "<span class='danger'>You quickly grab hold of [D]!</span>")
-			D.Stun(rand(15,25))
+	add_to_streak("G",D)
+	log_combat(A, D, "grabbed (Hunter-Fu)")
+	if(check_streak(A,D))
 		return TRUE
 	else
 		return FALSE
@@ -392,20 +381,9 @@
 	return TRUE
 
 /datum/martial_art/hunterfu/grab_act(mob/living/A, mob/living/D)
-	if(A!=D && can_use(A)) // A!=D prevents grabbing yourself
-		add_to_streak("G",D)
-		if(check_streak(A,D)) //if a combo is made no grab upgrade is done
-			return TRUE
-		log_combat(A, D, "grabbed (Hunter-Fu)")
-		old_grab_state = A.grab_state
-		D.grabbedby(A, 1)
-		if(old_grab_state == GRAB_PASSIVE)
-			D.drop_all_held_items()
-			A.setGrabState(GRAB_AGGRESSIVE) //Instant agressive grab if on grab intent
-			D.visible_message("<span class='danger'>[A] gets [D] by surprise with a grab!</span>", \
-					"<span class='userdanger'>You're taken by surprise when [A] grabs you!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", COMBAT_MESSAGE_RANGE, A)
-			to_chat(A, "<span class='danger'>You quickly grab hold of [D]!</span>")
-			D.Stun(rand(15,25))
+	add_to_streak("G",D)
+	log_combat(A, D, "grabbed (Hunter-Fu)")
+	if(check_streak(A,D))
 		return TRUE
 	else
 		return FALSE
