@@ -10,8 +10,8 @@
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
-	antag_hud_type = ANTAG_HUD_GANGSTER
-	antag_hud_name = "hud_gangster"
+	antag_hud_type = ANTAG_HUD_OBSESSED
+	antag_hud_name = "obsessed"
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/give_objectives = TRUE
