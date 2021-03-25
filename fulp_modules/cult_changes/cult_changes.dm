@@ -28,14 +28,16 @@
 									   "<span class='userdanger'>A feeling of warmth washes over you, rays of holy light surround your body and protect you from the flash of light!</span>")
 
 		else
-			if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
+			if(HAS_TRAIT(target, TRAIT_MINDSHIELD)) // Mindshield just re-directs the stun's spell from their brain to their body.
 				var/mob/living/carbon/C = L
-				to_chat(user, "<span class='cultitalic'>Their mind is too strong, resisting the spell, but it damaged them nonetheless!</span>")
+				to_chat(user, "<span class='cultitalic'>Our spell fails to brainwash their strong mind, tearing their skull open!</span>")
 				C.stuttering += 8
-				C.dizziness += 20
 				C.Jitter(6)
 				C.bleed(30)
-				C.apply_damage(60, STAMINA, BODY_ZONE_CHEST)
+				var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
+				var/datum/wound/slash/moderate/crit_wound = new
+				crit_wound.apply_wound(head)
+				C.apply_damage(12, BRUTE)
 			else
 				to_chat(user, "<span class='cultitalic'>In a brilliant flash of red, [L] falls to the ground!</span>")
 				L.Paralyze(160)
