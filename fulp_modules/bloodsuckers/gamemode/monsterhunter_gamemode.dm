@@ -11,7 +11,7 @@
 
 /// The default, for Bloodsucker rounds.
 /datum/round_event_control/bloodsucker_hunters
-	name = "Monster Hunters"
+	name = "Spawn Monster Hunter - Bloodsucker"
 	typepath = /datum/round_event/bloodsucker_hunters
 	max_occurrences = 2
 	weight = 2000
@@ -40,7 +40,7 @@
 
 /// Randomly spawned Monster hunters during TraitorChangeling, Changeling, Heretic and Cult rounds.
 /datum/round_event_control/monster_hunters
-	name = "Monster Hunters"
+	name = "Spawn Monster Hunter - Misc"
 	typepath = /datum/round_event/monster_hunters
 	max_occurrences = 1
 	weight = 3
