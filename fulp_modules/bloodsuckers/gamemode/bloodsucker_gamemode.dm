@@ -67,8 +67,8 @@
 
 /// Init Sunlight, called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
 /datum/game_mode/proc/check_start_sunlight()
-	// Already Sunlight
-	if(istype(bloodsucker_sunlight))
+	// Already Sunlight (and not about to cancel)
+	if(istype(bloodsucker_sunlight) && !bloodsucker_sunlight.cancel_me)
 		return
 	bloodsucker_sunlight = new()
 	// Spawn 2 Monster Hunters 35 minutes into the round
@@ -82,15 +82,15 @@
 	if(!istype(bloodsucker_sunlight))
 		return
 	if(bloodsuckers.len <= 0)
-		bloodsucker_sunlight = null
+		bloodsucker_sunlight.cancel_me = TRUE
 		qdel(bloodsucker_sunlight)
-		/*
-		 *	All Vampires dead? Remove all Monster hunter antags.
-		 *	This means that technically it is impossible for a Monster Hunter to greentext.
-		 *	Monster hunter objectives are solely meant to just prevent them from working with Security.
-		 *	Therefore, we don't care if they get their greentext.
-		 *	If we let them keep their antag status and gear, with no antags to hunt, they'll likely greytide.
-		 *	- Willard
+		bloodsucker_sunlight = null
+		/* All Vampires dead? Remove all Monster hunter antags.
+		 * This means that technically it is impossible for a Monster Hunter to greentext.
+		 * Monster hunter objectives are solely meant to just prevent them from working with Security.
+		 * Therefore, we don't care if they get their greentext.
+		 * If we let them keep their antag status and gear, with no antags to hunt, they'll likely greytide.
+		 * 	- Willard
 		 */
 		for(var/mob/living/carbon/C in GLOB.alive_mob_list)
 			if(C.mind)
