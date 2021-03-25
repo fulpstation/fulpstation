@@ -71,7 +71,7 @@
 
 		warn_daylight(5,"<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
 				  	  "<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
-					  "")
+					  "null")
 		amDay = FALSE
 		day_end() // Remove VANISHING ACT power from all vamps who have it! Clear Warnings (sunlight, locker protection)
 		message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [nightime_duration / 60] minutes.)")
@@ -90,22 +90,22 @@
 		time_til_cycle--
 
 /obj/effect/sunlight/proc/warn_daylight(danger_level = 0, vampwarn = "", vassalwarn = "", hunteralert = "")
-	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
-		if(!istype(M))
-			continue
-		if(M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+	if(vampwarn != "")
+		for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+			if(!istype(M))
+				continue
 			to_chat(M,vampwarn)
-		if(M.current)
-			if(danger_level == 1)
-				M.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
-			else if(danger_level == 2)
-				M.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
-			else if(danger_level == 3)
-				M.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
-			else if(danger_level == 4)
-				M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
-			else if(danger_level == 5)
-				M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
+			if(M.current)
+				if(danger_level == 1)
+					M.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
+				else if(danger_level == 2)
+					M.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
+				else if(danger_level == 3)
+					M.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
+				else if(danger_level == 4)
+					M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
+				else if(danger_level == 5)
+					M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
 	if(vassalwarn != "")
 		for(var/datum/mind/M in SSticker.mode.vassals)
 			if(!istype(M))
