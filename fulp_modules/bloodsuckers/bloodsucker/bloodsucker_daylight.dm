@@ -93,7 +93,8 @@
 	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 		if(!istype(M))
 			continue
-		to_chat(M,vampwarn)
+		if(M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			to_chat(M,vampwarn)
 		if(M.current)
 			if(danger_level == 1)
 				M.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
