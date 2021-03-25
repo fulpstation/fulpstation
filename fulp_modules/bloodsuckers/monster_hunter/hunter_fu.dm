@@ -91,13 +91,13 @@
 		if(D.mind.has_antag_datum(/datum/antagonist/heretic))
 			to_chat(D, "<span class='cultlarge'>The power of the Codex Cicatrix flares as we are swiftly put to sleep!</span>")
 			D.apply_damage(15, A.dna.species.attack_type)
-			D.SetSleeping(50)
+			D.SetSleeping(120)
 			return
 		if(D.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 			to_chat(D, "<span class='warning'>Our undead form protects us from being put to sleep!</span>")
 			return
 		else
-			D.SetSleeping(45)
+			D.SetSleeping(90)
 		playsound(get_turf(A), 'sound/effects/snap.ogg', 50, TRUE, -1)
 		log_combat(A, D, "neck snapped (Hunter-Fu)")
 	return TRUE
