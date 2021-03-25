@@ -50,3 +50,4 @@ datum/map_template/ruin/space/beef_station
 			/obj/item/food/pie/baklava = 1,
 			/obj/item/reagent_containers/glass/bottle/frostoil = 1,
 			/obj/item/food/khachapuri = 1)
+			
