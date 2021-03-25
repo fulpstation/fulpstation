@@ -51,7 +51,8 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/H = owner
-	H.physiology.brute_mod /= fortitude_resist
+	if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		H.physiology.brute_mod /= fortitude_resist
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
 
@@ -60,7 +61,7 @@
 	name = "Flow"
 	desc = "Use knowledge learned from Monsters to survive attacks that would otherwise stun, pierce, and dismember. Like the ones you've learned this from, you cannot run while active."
 	button_icon_state = "power_fortitude"
-	bloodcost = 2 // Powers don't like working when there's no bloodcost
+	bloodcost = 0
 	cooldown = 80
 	bloodsucker_can_buy = FALSE
 	amToggle = TRUE

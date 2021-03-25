@@ -17,6 +17,8 @@
 
 // EXAMINING
 /mob/living/carbon/human/proc/ReturnVampExamine(mob/viewer)
+	if(!mind)
+		return null
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
@@ -43,12 +45,13 @@
 
 /mob/living/carbon/human/proc/ReturnVassalExamine(mob/viewer)
 	// Am I not even a Vassal? Then I am not marked.
+	if(!mind)
+		return null
 	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
-	var/datum/antagonist/monsterhunter/hunterdatum = mind.has_antag_datum(/datum/antagonist/monsterhunter)
-	if(!vassaldatum || !hunterdatum)
+	if(!vassaldatum)
 		return null
 	// Vassals and Bloodsuckers recognize eachother, and Monster Hunters can tell Vassals.
-	if(!viewer.mind.has_antag_datum(/datum/antagonist/bloodsucker) && !viewer.mind.has_antag_datum(/datum/antagonist/vassal || /datum/antagonist/monsterhunter))
+	if(!viewer.mind.has_antag_datum(/datum/antagonist/bloodsucker) && !viewer.mind.has_antag_datum(/datum/antagonist/vassal))
 		return null
 
 	// Default String

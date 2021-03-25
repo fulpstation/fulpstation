@@ -4,9 +4,8 @@
 	desc = "Slowly heals you overtime using your master's blood, in exchange for some of your own blood and effort."
 	button_icon_state = "power_recup"
 	amToggle = TRUE
-	bloodcost = 5
+	bloodcost = 5 // Increments every 5 seconds; damage increases over time
 	cooldown = 100
-	var/stacks = 1.2 // Increments every 5 seconds; damage increases over time
 
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
 	. = ..()
@@ -27,7 +26,7 @@
 		C.adjustFireLoss(-0.5)
 		C.adjustToxLoss(-2, forced = TRUE)
 		C.blood_volume -= 1
-		C.adjustStaminaLoss(stacks * 1.5)
+		C.adjustStaminaLoss(bloodcost * 1.1)
 		// Stop Bleeding
 		if(istype(H) && H.is_bleeding())
 			for(var/obj/item/bodypart/part in H.bodyparts)
