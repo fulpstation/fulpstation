@@ -16,7 +16,7 @@
 	return TRUE
 
 // EXAMINING
-/mob/living/carbon/proc/ReturnVampExamine(mob/viewer)
+/mob/living/carbon/human/proc/ReturnVampExamine(mob/viewer)
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
@@ -41,7 +41,7 @@
 	//returnString += "\n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-/mob/living/carbon/proc/ReturnVassalExamine(mob/viewer)
+/mob/living/carbon/human/proc/ReturnVassalExamine(mob/viewer)
 	// Am I not even a Vassal? Then I am not marked.
 	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
 	var/datum/antagonist/monsterhunter/hunterdatum = mind.has_antag_datum(/datum/antagonist/monsterhunter)
@@ -75,7 +75,7 @@
 	return returnIcon + returnString
 
 /// Am I "pale" when examined? Bloodsuckers can trick this.
-/mob/living/carbon/proc/ShowAsPaleExamine()
+/mob/living/carbon/human/proc/ShowAsPaleExamine()
 	// Normal Creatures:
 	if(!mind || !mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		return blood_volume < BLOOD_VOLUME_SAFE
