@@ -1,6 +1,6 @@
 #define VASSAL_SCAN_MIN_DISTANCE 5
 #define VASSAL_SCAN_MAX_DISTANCE 500
-#define VASSAL_SCAN_PING_TIME 20 //2s update time.
+#define VASSAL_SCAN_PING_TIME 20 // 2s update time.
 
 /datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
 	C.silent = 0
@@ -15,18 +15,18 @@
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
-	var/datum/antagonist/bloodsucker/master		// Who made me?
+	var/datum/antagonist/bloodsucker/master // Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
 
-//This handles the removal of antag huds/special abilities
+/// This handles the removal of antag huds/special abilities
 /datum/antagonist/vassal/remove_innate_effects(mob/living/mob_override)
 	return
 
+/// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
-	// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 	if(!master)
 		return FALSE
 	return ..()
@@ -52,12 +52,6 @@
 	objectives += vassal_objective
 	owner.current.grant_language(/datum/language/vampiric)
 	update_vassal_icons_added(owner.current, "vassal")
-	// Cult eyes
-	var/mob/living/carbon/human/H = owner.current
-	H.eye_color = "f00"
-	H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
-	ADD_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
-	H.update_body()
 	. = ..()
 
 /datum/antagonist/vassal/on_removal()
@@ -80,12 +74,6 @@
 	// Clear Antag
 	owner.special_role = null
 	update_vassal_icons_removed(owner.current)
-	// Remove cult eyes
-	var/mob/living/carbon/human/H = owner.current
-	H.eye_color = initial(H.eye_color)
-	H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
-	REMOVE_TRAIT(H, CULT_EYES, BLOODSUCKER_TRAIT)
-	H.update_body()
 	return ..()
 
 /datum/antagonist/vassal/proc/add_objective(datum/objective/O)

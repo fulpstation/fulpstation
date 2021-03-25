@@ -53,7 +53,7 @@
 	// Falsifies Genetic Analyzers
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	var/obj/item/organ/eyes/vassal/E = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = 0
 
 	// WE ARE ALIVE! //
@@ -69,9 +69,9 @@
 		// Don't vomit food
 		// Don't Heal
 
-		// Pay Blood Toll (if awake)
+		// Pay Blood Toll if awake. This is rather high, as we're removing all Bloodsucker abilities, meaning they will regenerate blood like a normal human.
 		if(user.stat == CONSCIOUS)
-			bloodsuckerdatum.AddBloodVolume(-0.2)
+			bloodsuckerdatum.AddBloodVolume(-0.3)
 
 		sleep(20) // Check every few ticks that we haven't disabled this power
 
@@ -97,11 +97,13 @@
 	ADD_TRAIT(user, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
+	var/mob/living/carbon/human/bloodsucker = user
+	bloodsucker.dna.remove_all_mutations()
 	ADD_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 
 	// HEART
 	var/obj/item/organ/heart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	var/obj/item/organ/eyes/vassal/E = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
 	H.Stop()
 
 	E.flash_protect = -1

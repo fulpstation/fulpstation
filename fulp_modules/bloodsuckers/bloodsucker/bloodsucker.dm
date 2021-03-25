@@ -435,21 +435,22 @@
 
 
 
-/*  		2019 Breakdown of Bloodsuckers:
+/*
+ *			2019 Breakdown of Bloodsuckers:
  *
  *					G A M E P L A Y
  *
  *	Bloodsuckers should be inherently powerful: they never stay dead, and they can hide in plain sight
- *  better than any other antagonist aboard the station.
+ * 	better than any other antagonist aboard the station.
  *
  *	However, only elder Bloodsuckers are the powerful creatures of legend. Ranking up as a Bloodsucker
- *  should impart slight strength and health benefits, as well as powers that can grow over time. But
- *  their weaknesses should grow as well, and not just to fire.
+ *	should impart slight strength and health benefits, as well as powers that can grow over time. But
+ *	their weaknesses should grow as well, and not just to fire.
  *
  *
  *					A B I L I T I E S
  *
- * 	* Bloodsuckers can FEIGN LIFE + DEATH.
+ *	* Bloodsuckers can FEIGN LIFE + DEATH.
  *		Feigning LIFE:
  *			- Warms up the body
  *			- Creates a heartbeat
@@ -482,14 +483,14 @@
  *
  *
  *
- * 	* Bloodsuckers enter Torpor when DEAD or RESTING in coffin
+ *	* Bloodsuckers enter Torpor when DEAD or RESTING in coffin
  *		- Torpid vampires regenerate their health. Coffins negate cost and speed up the process.
  *		** To rest in a coffin, either SLEEP or CLOSE THE LID while you're in it. You will be given a prompt to sleep until healed. Healing in a coffin costs NO blood!
  *
  *
  *
  *
- * 					O B J E C T I V E S
+ *				O B J E C T I V E S
  *
  *
  *
@@ -503,30 +504,30 @@
  *
  *			Vassals
  *
- * - Loyal to their Master
- * - Master can speak to, summon, or punish his Vassals, even while asleep or torpid.
- * - Master may have as many Vassals as they want
+ *	- Loyal to their Master
+ *	- Master can speak to, summon, or punish his Vassals, even while asleep or torpid.
+ *	- Master may have as many Vassals as they want
  *
  *
  *
  *			Dev Notes
  *
- * HEALING: Maybe Vamps metabolize specially? Like, they slowly drip their own blood into their system?
+ *	HEALING: Maybe Vamps metabolize specially? Like, they slowly drip their own blood into their system?
  *			- Give Vamps their own metabolization proc, perhaps?
  *			** shadowpeople.dm has rules for healing.
  *
- * KILLING: It's almost impossible to track who someone has directly killed. But an Admin could be given
+ *	KILLING: It's almost impossible to track who someone has directly killed. But an Admin could be given
  *			an easy way to whip a Bloodsucker for cruel behavior, as an RP mechanic but not a punishment.
  *			**
  *
- * HUNGER:  Just keep adjusting mob's nutrition to Blood Hunger level. No need to cancel nutrition from eating.
+ *	HUNGER:  Just keep adjusting mob's nutrition to Blood Hunger level. No need to cancel nutrition from eating.
  *			** mob.dm /set_nutrition()
  *			** snacks.dm / attack()  <-- Stop food from doing anything?
  *
- * ORGANS:  Liver
+ *	ORGANS:  Liver
  *			** life.dm /handle_liver()
  *
- * CORPSE:	Most of these effects likely go away when using "Masquerade" to appear alive.
+ *	CORPSE:	Most of these effects likely go away when using "Masquerade" to appear alive.
  *			** status_procs.dm /adjust_bodytemperature()
  *			** traits.dm /TRAIT_NOBREATH /TRAIT_SLEEPIMMUNE /TRAIT_RESISTCOLD /TRAIT_RADIMMUNE  /TRAIT_VIRUSIMMUNE
  *			*  MASQUERADE ON/OFF: /TRAIT_FAKEDEATH (M)
@@ -554,25 +555,25 @@
  *	//message_admins("DEBUG3: attempt_cast() [name] / [user_C.handcuffed] ")
  *
  *
- * TODO:
+ *	TODO:
  *
- * Death (fire, heart, brain, head)
- * Disable Life: BLOOD
- * Body Temp
- * Spend blood over time (more if imitating life) (none if sleeping in coffin)
- * Auto-Heal (brute to 0, fire to 99) (toxin/o2 always 0)
+ *	Death (fire, heart, brain, head)
+ *	Disable Life: BLOOD
+ *	Body Temp
+ *	Spend blood over time (more if imitating life) (none if sleeping in coffin)
+ *	Auto-Heal (brute to 0, fire to 99) (toxin/o2 always 0)
  *
- * Hud Icons
- * UI Blood Counter
- * Examine Name (+Masquerade, only "Dead and lifeless" if not standing?)
- *
- *
- * Turn vamps
- * Create vassals
+ *	Hud Icons
+ *	UI Blood Counter
+ *	Examine Name (+Masquerade, only "Dead and lifeless" if not standing?)
  *
  *
+ *	Turn vamps
+ *	Create vassals
  *
- * FIX LIST
+ *
+ *
+ *	FIX LIST
  */
 
 

@@ -18,11 +18,11 @@
 
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
 
-	var/vampDesc = ReturnVampExamine() // Fulpstation Bloodsuckers edit STARTS
-	var/vassDesc = ReturnVassalExamine()
-	if(vampDesc != null)
+	var/vampDesc = ReturnVampExamine(user) // Fulpstation Bloodsuckers edit STARTS
+	var/vassDesc = ReturnVassalExamine(user)
+	if(vampDesc != "")
 		. += vampDesc
-	if(vassDesc != null)
+	if(vassDesc != "")
 		. += vassDesc // Fulpstation Bloodsucker edit ENDS
 
 	var/obscured = check_obscured_slots()

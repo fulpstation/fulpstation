@@ -40,9 +40,9 @@
 		H.Stop() // Now... stop beating!
 	// Eyes
 	O = owner.current.getorganslot(ORGAN_SLOT_EYES)
-	if(!istype(O, /obj/item/organ/eyes/vassal))
+	if(!istype(O, /obj/item/organ/eyes/bloodsucker))
 		qdel(O)
-		var/obj/item/organ/eyes/vassal/E = new
+		var/obj/item/organ/eyes/bloodsucker/E = new
 		E.Insert(owner.current)
 
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
@@ -88,11 +88,11 @@
 //////////////////////
 
 /// Taken from augmented_eyesight.dm
-/obj/item/organ/eyes/vassal
+/obj/item/organ/eyes/bloodsucker
 	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
 	see_in_dark = 12
+	sight_flags = SEE_MOBS // Bloodsuckers are predators, and detect life/heartbeats nearby. - 2019 Breakdown of Bloodsuckers
 	flash_protect = -1 // These eyes are weaker to flashes, but let you see in the dark
-	sight_flags = SEE_MOBS // Vampires can scan living things near them
 
 /*
 //////////////////////

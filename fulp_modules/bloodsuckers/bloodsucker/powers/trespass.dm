@@ -2,16 +2,13 @@
 	name = "Trespass"
 	desc = "Become mist and advance two tiles in one direction, ignoring all obstacles except for walls. Useful for skipping past doors and barricades."
 	button_icon_state = "power_tres"
-
 	bloodcost = 10
 	cooldown = 80
 	amToggle = FALSE
 	//target_range = 2
-
 	bloodsucker_can_buy = TRUE
 	must_be_capacitated = FALSE
 	can_be_immobilized = TRUE
-
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
@@ -28,7 +25,6 @@
 	// Can't target my tile
 	if(A == get_turf(owner) || get_turf(A) == get_turf(owner))
 		return FALSE
-
 	return TRUE // All we care about is destination. Anything you click is fine.
 
 
@@ -66,8 +62,6 @@
 
 	user.visible_message("<span class='warning'>[user]'s form dissipates into a cloud of mist!</span>", \
 					 	 "<span class='notice'>You disspiate into formless mist.</span>")
-
-
 	// Effect Origin
 	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
 	var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread/()
