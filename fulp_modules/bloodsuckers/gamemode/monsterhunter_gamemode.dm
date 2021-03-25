@@ -64,7 +64,6 @@
 			continue
 		if(!H.getorgan(/obj/item/organ/brain))
 			continue
-		var/datum/antagonist/monsterhunter/monster_hunter = new()
 		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
 		break
 
