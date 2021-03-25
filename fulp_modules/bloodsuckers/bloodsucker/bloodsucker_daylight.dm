@@ -1,4 +1,4 @@
-#define TIME_BLOODSUCKER_DAY_WARN 90 // 1.5 minutes
+#define TIME_BLOODSUCKER_DAY_WARN	90 		// 1.5 minutes
 #define TIME_BLOODSUCKER_DAY_FINAL_WARN 25 // 25 sec
 #define TIME_BLOODSUCKER_DAY 60 // 1.5 minutes // 10 is a second, 600 is a minute.
 #define TIME_BLOODSUCKER_BURN_INTERVAL 40 // 4 sec
@@ -10,7 +10,6 @@
 	var/amDay = FALSE
 	var/time_til_cycle = 0
 	var/nightime_duration = 720 // 12 Minutes
-	var/issued_XP = FALSE
 
 /obj/effect/sunlight/Initialize()
 	. = ..()
@@ -59,6 +58,7 @@
 		message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
 		time_til_cycle = TIME_BLOODSUCKER_DAY
 		sleep(10) // One second grace period.
+		var/issued_XP = FALSE
 		while(time_til_cycle > 0)
 			punish_vamps()
 			sleep(TIME_BLOODSUCKER_BURN_INTERVAL)
@@ -80,7 +80,6 @@
 /obj/effect/sunlight/proc/hud_tick()
 	set waitfor = FALSE
 	while(!cancel_me)
-		issued_XP = FALSE
 		for(var/datum/mind/M in SSticker.mode.bloodsuckers)
 			if(!istype(M) || !istype(M.current))
 				continue
