@@ -51,7 +51,7 @@
 			steal_objective.find_target()
 			objectives += steal_objective
 	// Give Martial Arts
-	var/datum/martial_art/pick_type = pick(/datum/martial_art/cqc, /datum/martial_art/wrestling, /datum/martial_art/krav_maga, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // 3x the chance at Hunter-Fu than the rest
+	var/datum/martial_art/pick_type = pick(/datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // Hunter-Fu, 25% chance at Wrestling
 	my_kungfu = new pick_type
 	my_kungfu.teach(owner.current, 0)
 	. = ..()
