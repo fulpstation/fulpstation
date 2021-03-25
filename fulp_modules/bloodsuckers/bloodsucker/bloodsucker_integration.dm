@@ -16,7 +16,7 @@
 	return TRUE
 
 // EXAMINING
-/mob/living/carbon/proc/ReturnVampExamine(var/mob/viewer)
+/mob/living/carbon/proc/ReturnVampExamine(mob/viewer)
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
@@ -41,7 +41,7 @@
 	//returnString += "\n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-/mob/living/carbon/proc/ReturnVassalExamine(var/mob/viewer)
+/mob/living/carbon/proc/ReturnVassalExamine(mob/viewer)
 	// Am I not even a Vassal? Then I am not marked.
 	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
 	var/datum/antagonist/monsterhunter/hunterdatum = mind.has_antag_datum(/datum/antagonist/monsterhunter)
