@@ -4,12 +4,13 @@
 	var/list/datum/mind/monsterhunter = list() // List of all Monster Hunters
 	var/obj/effect/sunlight/bloodsucker_sunlight // Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 	// The antags you're allowed to be if turning Vassal:
-	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/survivalist, /datum/antagonist/rev, /datum/antagonist/nukeop, /datum/antagonist/pirate, /datum/antagonist/cult, /datum/antagonist/heretic, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
+	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/nukeop/lone, \ // Regular ops are bonded by team
+		/datum/antagonist/fugitive, /datum/antagonist/fugitive_hunter, /datum/antagonist/separatist, /datum/antagonist/gang, /datum/antagonist/survivalist, /datum/antagonist/rev, \
+		/datum/antagonist/pirate, /datum/antagonist/ert, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker)
 
 /proc/AmBloodsucker(mob/living/M, falseIfInDisguise = FALSE)
 	if(!M.mind)
 		return FALSE
-
 	if(!M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		return FALSE
 	return TRUE
