@@ -29,6 +29,7 @@
 /datum/antagonist/monsterhunter/on_gain()
 	SSticker.mode.monsterhunter += owner
 	// Buffs Monster Hunters
+	owner.unconvertable = TRUE
 	ADD_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	// Give Monster Hunter powers

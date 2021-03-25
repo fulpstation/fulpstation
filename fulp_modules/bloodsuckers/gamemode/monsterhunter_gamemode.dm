@@ -1,13 +1,81 @@
 /*
  * 		MONSTER HUNTERS:
  * 	Their job is to hunt Monsters.
- * 	They spawn by default 30 minutes into a Bloodsucker round,
- * 	but they can also be used as Admin-only antags during rounds such as;
+ * 	They spawn by default 20 minutes into a Bloodsucker round,
+ * 	They also randomly spawn in other rounds, as some unique flavor.
+ * 	They can also be used as Admin-only antags during rounds such as;
  * 	- Changeling murderboning rounds
  * 	- Lategame Cult round
  * 	- Ect.
-*/
+ */
 
+/// The default, for Bloodsucker rounds.
+/datum/round_event_control/bloodsucker_hunters
+	name = "Monster Hunters"
+	typepath = /datum/round_event/bloodsucker_hunters
+	max_occurrences = 2
+	weight = 2000
+	min_players = 10
+	earliest_start = 20 MINUTES
+	alert_observers = FALSE
+	gamemode_whitelist = list("bloodsucker")
+
+/datum/round_event/bloodsucker_hunters
+	fakeable = FALSE
+
+/datum/round_event/bloodsucker_hunters/start()
+	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
+			continue
+		if(H.stat == DEAD)
+			continue
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions)) // Only crewmembers on-station.
+			continue
+		if(H.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			continue
+		if(!H.getorgan(/obj/item/organ/brain))
+			continue
+		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
+		break
+
+/// Randomly spawned Monster hunters during TraitorChangeling, Changeling, Heretic and Cult rounds.
+/datum/round_event_control/monster_hunters
+	name = "Monster Hunters"
+	typepath = /datum/round_event/monster_hunters
+	max_occurrences = 1
+	weight = 3
+	min_players = 10
+	earliest_start = 30 MINUTES
+	alert_observers = FALSE
+	gamemode_whitelist = list("traitorchan", "changeling", "heresy", "cult")
+
+/datum/round_event/monster_hunters
+	fakeable = FALSE
+
+/datum/round_event/monster_hunters/start()
+	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
+			continue
+		if(H.stat == DEAD)
+			continue
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions))
+			continue
+		if(H.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			continue
+		if(!H.getorgan(/obj/item/organ/brain))
+			continue
+		var/datum/antagonist/monsterhunter/monster_hunter = new()
+		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
+		break
+
+/*
+ *	Old version below.
+ * 	I have no idea how its meant to work, but I replaced it with the above for now.
+ *	If someone wants to use it, go ahead, I got enough headaches.
+ *	-Willard
+ */
+
+/*
 /datum/game_mode/proc/assign_monster_hunters(monster_count = 2, list/datum/mind/exclude_from_hunter)
 
 	var/list/no_hunter_jobs = list("AI","Cyborg")
@@ -33,3 +101,4 @@
 		monsterhunter += hunter
 		hunter.restricted_roles = no_hunter_jobs
 		log_game("[hunter.key] (ckey) has been selected as a Hunter.")
+*/

@@ -46,7 +46,7 @@
 	recommended_enemies = clamp(round(num_players()/10), 1, 6);
 
 	for(var/i = 0, i < recommended_enemies, i++)
-		if (!antag_candidates.len)
+		if(!antag_candidates.len)
 			break
 		var/datum/mind/bloodsucker = pick(antag_candidates)
 		// Can we even BE a bloodsucker?
