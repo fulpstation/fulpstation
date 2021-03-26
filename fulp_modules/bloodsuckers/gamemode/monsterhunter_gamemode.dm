@@ -36,6 +36,7 @@
 		if(!H.getorgan(/obj/item/organ/brain))
 			continue
 		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
+		message_admins("BLOODSUCKER NOTICE: [H] has awoken as a Monster Hunter.")
 		break
 
 /// Randomly spawned Monster hunters during TraitorChangeling, Changeling, Heretic and Cult rounds.
@@ -65,6 +66,7 @@
 		if(!H.getorgan(/obj/item/organ/brain))
 			continue
 		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
+		message_admins("[H] has awoken as a Monster Hunter.")
 		break
 
 /*
