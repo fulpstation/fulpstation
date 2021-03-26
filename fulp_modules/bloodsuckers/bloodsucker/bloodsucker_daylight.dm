@@ -1,3 +1,4 @@
+#define TIME_BLOODSUCKER_NIGHT 100 // 12 minutes
 #define TIME_BLOODSUCKER_DAY_WARN 90 // 1.5 minutes
 #define TIME_BLOODSUCKER_DAY_FINAL_WARN 25 // 25 sec
 #define TIME_BLOODSUCKER_DAY 60 // 1.5 minutes // 10 is a second, 600 is a minute.
@@ -9,7 +10,6 @@
 	var/cancel_me = FALSE
 	var/amDay = FALSE
 	var/time_til_cycle = 0
-	var/nightime_duration = 720 // 12 Minutes
 
 /obj/effect/sunlight/Initialize()
 	. = ..()
@@ -20,7 +20,7 @@
 	set waitfor = FALSE
 
 	while(!cancel_me)
-		time_til_cycle = nightime_duration
+		time_til_cycle = TIME_BLOODSUCKER_NIGHT
 		// Part 1: Night (all is well)
 		while(time_til_cycle > TIME_BLOODSUCKER_DAY_WARN)
 			sleep(10)
@@ -74,7 +74,7 @@
 					  "")
 		amDay = FALSE
 		day_end() // Remove VANISHING ACT power from all vamps who have it! Clear Warnings (sunlight, locker protection)
-		message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [nightime_duration / 60] minutes.)")
+		message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [TIME_BLOODSUCKER_NIGHT / 60] minutes.)")
 
 /// Update all Bloodsucker sunlight huds
 /obj/effect/sunlight/proc/hud_tick()

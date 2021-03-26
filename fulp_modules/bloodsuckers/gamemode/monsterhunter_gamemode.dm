@@ -25,7 +25,7 @@
 
 /datum/round_event/bloodsucker_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician") //, "Deputy")
+		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner") //, "Deputy")
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
@@ -58,7 +58,7 @@
 
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician") //, "Deputy")
+		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner") //, "Deputy")
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
