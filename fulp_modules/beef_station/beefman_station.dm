@@ -16,11 +16,10 @@
 	name = "beef station"
 	icon_state = "green"
 
-datum/map_template/ruin/space/beef_station
+/datum/map_template/ruin/space/beef_station
 	name = "Govyadina Station"
 	id = "beef station"
 	description = "A station built for beefmen"
-	prefix = "_fulp_modules/beefstation/"
 	suffix = "fulp_beef_station.dmm"
 
 /obj/item/toy/plush/beefplushie
