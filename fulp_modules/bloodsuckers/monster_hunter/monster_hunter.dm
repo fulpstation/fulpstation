@@ -51,8 +51,16 @@
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
+/*		// If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
+		// Give Assassinate objective
+		var/sec_members = SSjob.get_all_sec()
+		for(var/datum/mind/M in sec_members)
+			var/datum/objective/assassinate/kill_objective = new()
+			kill_objective.owner = owner
+			kill_objective.find_target()
+			objectives += kill_objective */
 	// Give Martial Arts
-	var/datum/martial_art/pick_type = pick(/datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // Hunter-Fu, 25% chance at Wrestling
+	var/datum/martial_art/pick_type = pick(/datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // Hunter-Fu, 20% chance at Wrestling
 	my_kungfu = new pick_type
 	my_kungfu.teach(owner.current, 0)
 	. = ..()
