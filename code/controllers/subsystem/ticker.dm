@@ -666,18 +666,19 @@ SUBSYSTEM_DEF(ticker)
 		// Original code left in comment
 
 		round_end_sound = pick_round_end_sound()
-
-		// round_end_sound = pick(\
-		// 'sound/roundend/newroundsexy.ogg',
-		// 'sound/roundend/apcdestroyed.ogg',
-		// 'sound/roundend/bangindonk.ogg',
-		// 'sound/roundend/leavingtg.ogg',
-		// 'sound/roundend/its_only_game.ogg',
-		// 'sound/roundend/yeehaw.ogg',
-		// 'sound/roundend/disappointed.ogg',
-		// 'sound/roundend/scrunglartiy.ogg',
-		// 'sound/roundend/petersondisappointed.ogg'\
-		// )
+		/*
+		round_end_sound = pick(\
+		'sound/roundend/newroundsexy.ogg',
+		'sound/roundend/apcdestroyed.ogg',
+		'sound/roundend/bangindonk.ogg',
+		'sound/roundend/leavingtg.ogg',
+		'sound/roundend/its_only_game.ogg',
+		'sound/roundend/yeehaw.ogg',
+		'sound/roundend/disappointed.ogg',
+		'sound/roundend/scrunglartiy.ogg',
+		'sound/roundend/petersondisappointed.ogg'\
+		)
+		*/
 		// FULP-ONLY ENDS
 	///The reference to the end of round sound that we have chosen.
 	var/sound/end_of_round_sound_ref = sound(round_end_sound)
