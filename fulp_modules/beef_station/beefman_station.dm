@@ -20,8 +20,8 @@ datum/map_template/ruin/space/beef_station
 	name = "Govyadina Station"
 	id = "beef station"
 	description = "A station built for beefmen"
+	prefix = "_fulp_modules/beefstation/"
 	suffix = "fulp_beef_station.dmm"
-	prefix = "fulp_modules/beefstation/" 
 
 /obj/item/toy/plush/beefplushie
 	name = "beef plushie"
