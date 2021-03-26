@@ -119,11 +119,11 @@
 /datum/action/bloodsucker/trackvamp
 	name = "Track Monster" // "Cellular Emporium"
 	desc = "Take a moment to look for clues of any nearby monsters.<br>These creatures are slippery, and often look like the crew."
-	button_icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi'	// This is the file for the BACKGROUND icon
-	background_icon_state = "vamp_power_off"		// And this is the state for the background icon
-	icon_icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi'		// This is the file for the ACTION icon
-	button_icon_state = "power_hunter" 				// And this is the state for the action icon
-	amToggle = FALSE  // Action-Related
+	button_icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi' // This is the file for the BACKGROUND icon
+	background_icon_state = "vamp_power_off" // And this is the state for the background icon
+	icon_icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi' // This is the file for the ACTION icon
+	button_icon_state = "power_hunter" // And this is the state for the action icon
+	amToggle = FALSE // Action-Related
 	cooldown = 300 // 10 ticks, 1 second.
 	bloodcost = 5
 	var/give_pinpointer = FALSE // Removed, set to TRUE to re-add -Willard
@@ -197,7 +197,7 @@
 //			Monster Hunter Pinpointer
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// TAKEN FROM:  /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm      for a version of tracking that Changelings have!
+/// TAKEN FROM:  /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
 /datum/status_effect/agent_pinpointer/hunter_edition
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	minimum_range = HUNTER_SCAN_MIN_DISTANCE
@@ -237,7 +237,7 @@
 					monsters[C] = (HUNTER_SCAN_MAX_DISTANCE ** 2) - (distance ** 2)
 
 	if(monsters.len)
-		scan_target = pickweight(monsters) //Point at a 'random' monster, biasing heavily towards closer ones.
+		scan_target = pickweight(monsters) // Point at a 'random' monster, biasing heavily towards closer ones.
 		to_chat(owner, "<span class='warning'>You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b></span>")
 	else
 		scan_target = null
