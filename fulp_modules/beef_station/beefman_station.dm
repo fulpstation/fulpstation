@@ -21,6 +21,7 @@ datum/map_template/ruin/space/beef_station
 	id = "beef station"
 	description = "A station built for beefmen"
 	suffix = "fulp_beef_station.dmm"
+	prefix = "fulp_modules/beefstation/" 
 
 /obj/item/toy/plush/beefplushie
 	name = "beef plushie"
