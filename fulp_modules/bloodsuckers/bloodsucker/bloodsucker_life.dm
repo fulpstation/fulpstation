@@ -130,17 +130,22 @@
 
 /datum/antagonist/bloodsucker/proc/CureDisabilities()
 	var/mob/living/carbon/C = owner.current
-	C.cure_blind(EYE_DAMAGE)
-	C.cure_nearsighted(EYE_DAMAGE)
-	C.update_tint()
-	C.update_sight()
 	for(var/O in C.internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	C.adjust_blindness(-25)
-	C.adjust_blurriness(-25)
-	C.reagents.add_reagent(/datum/reagent/medicine/oculine,20) // I'm sorry
+	// NOTE: None of these work to fix Torpor's eye damage.
+//	C.cure_blind(EYE_DAMAGE)
+//	C.cure_nearsighted(EYE_DAMAGE)
+//	C.adjust_blindness(-25)
+//	C.adjust_blurriness(-25)
+//	C.reagents.add_reagent(/datum/reagent/medicine/oculine,20) // I'm sorry
+//	C.update_tint()
+//	C.update_sight()
+//	C.adjust_blindness(-25)
+//	C.adjust_blurriness(-25)
 	owner.current.cure_husk()
+
+
 /*
  * 	// High: 	Faster Healing
  *	// Med: 	Pale
@@ -148,7 +153,6 @@
  *	// V.Low:   Blur Vision
  *	// EMPTY:	Frenzy!
  */
-
 /// I am thirsty for blood!
 /datum/antagonist/bloodsucker/proc/HandleStarving()
 	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm
@@ -233,9 +237,6 @@
 	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT) // Go to sleep.
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	owner.current.Jitter(0)
-	// Visuals
-	owner.current.update_sight()
-	owner.current.reload_fullscreen()
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
@@ -244,6 +245,8 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Wake up
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 	CureDisabilities()
+	owner.current.update_sight()
+	owner.current.reload_fullscreen()
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()
