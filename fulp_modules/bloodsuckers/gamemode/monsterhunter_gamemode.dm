@@ -25,11 +25,14 @@
 
 /datum/round_event/bloodsucker_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician") //, "Deputy")
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions)) // Only crewmembers on-station.
+			continue
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in no_hunter_jobs))
 			continue
 		if(H.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 			continue
@@ -55,11 +58,14 @@
 
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician") //, "Deputy")
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions))
+			continue
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in no_hunter_jobs))
 			continue
 		if(H.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 			continue
