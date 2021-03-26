@@ -16,7 +16,7 @@
 	name = "beef station"
 	icon_state = "green"
 
-datum/map_template/ruin/space/has_grav/beef_station
+datum/map_template/randomruins/spaceruins/fulp/beef_station
 	name = "Govyadina Station"
 	id = "beef station"
 	description = "A station built for beefmen"
