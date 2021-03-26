@@ -65,7 +65,7 @@
 	while(get_turf(owner) != T && safety > 0 && !(isliving(target) && target.Adjacent(owner)))
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // No Motion
 		sleep(1)
-		safety --
+		safety--
 
 		// Did I get knocked down?
 		if(owner && owner.incapacitated())
@@ -83,11 +83,11 @@
 		// Cancel Walk (we were close enough to contact them)
 		walk(owner,0)
 		//target.Paralyze(10,1)
-		target.grabbedby(owner) 										// Taken from mutations.dm under changelings
+		target.grabbedby(owner) // Taken from mutations.dm under changelings
 		target.grippedby(owner, instant = TRUE) //instant aggro grab
 		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 		//	UNCONSCIOUS or MUTE!
-		//owner.start_pulling(target,GRAB_AGGRESSIVE)    // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
+		//owner.start_pulling(target,GRAB_AGGRESSIVE) // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
 
 	//DeactivatePower()
 
