@@ -40,7 +40,7 @@
 	loot = list(/obj/item/clothing/neck/bfeemam = 3,
 			/obj/item/toy/plush/beefplushie = 3,
 			/obj/item/food/meat/slab/meatwheat = 1,
-			/datum/bounty/item/botany/ice_chili = 1,
+			/obj/item/food/grown/icepepper = 1,
 			/obj/item/clothing/under/costume/russian_officer = 1,
 			/obj/item/clothing/suit/armor/vest/russian_coat = 1,
 			/obj/item/reagent_containers/food/drinks/bottle/vodka/badminka = 1,
