@@ -34,7 +34,11 @@
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in no_hunter_jobs))
 			continue
-		if(H.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+		if(!H.mind.has_antag_datum(/datum/antagonist/vassal))
+			continue
+		if(!H.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			continue
+		if(!H.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 			continue
 		if(!H.getorgan(/obj/item/organ/brain))
 			continue
@@ -66,6 +70,12 @@
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions))
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in no_hunter_jobs))
+			continue
+		if(!H.mind.has_antag_datum(/datum/antagonist/changeling))
+			continue
+		if(!H.mind.has_antag_datum(/datum/antagonist/heretic))
+			continue
+		if(!H.mind.has_antag_datum(/datum/antagonist/cult))
 			continue
 		if(H.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 			continue
