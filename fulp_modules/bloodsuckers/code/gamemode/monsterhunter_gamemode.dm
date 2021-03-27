@@ -13,7 +13,7 @@
 /datum/round_event_control/bloodsucker_hunters
 	name = "Spawn Monster Hunter - Bloodsucker"
 	typepath = /datum/round_event/bloodsucker_hunters
-	max_occurrences = 2
+	max_occurrences = 1 // We have to see how Bloodsuckers are in game to decide if having more than 1 is beneficial.
 	weight = 2000
 	min_players = 10
 	earliest_start = 20 MINUTES
