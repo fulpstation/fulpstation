@@ -319,7 +319,7 @@
 
 /datum/antagonist/bloodsucker/proc/SpendRank()
 	set waitfor = FALSE
-	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client || !isliving(owner.current))
+	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
 		return
 	//TODO: Make this into a radial, or perhaps a tgui next UI
 		// Purchase Power Prompt
