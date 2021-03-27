@@ -37,6 +37,14 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/mob/living/carbon/human/handle_blood()
+	if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: Dont regenerate blood, damnmit!
+		return // We cant use the TRAIT_NOBLEED above as its a species_trait only
+
+/mob/living/carbon/human/bleed(amt)
+	if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: They don't need to be here
+		..()
+
 /datum/antagonist/bloodsucker/proc/AddBloodVolume(value)
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
 	update_hud()

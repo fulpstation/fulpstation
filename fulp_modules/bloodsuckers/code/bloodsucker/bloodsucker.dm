@@ -87,7 +87,7 @@
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.</span><br>")
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.</span><br>")
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: If you don't have a coffin claimed/can't reach it for reasons, lockers can partially guard you from Solar flares.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge some for you to prevent this.</span><br>")
+	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.</span><br>")
 	owner.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 

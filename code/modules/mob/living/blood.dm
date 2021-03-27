@@ -10,9 +10,6 @@
 	if(NOBLOOD in dna.species.species_traits || HAS_TRAIT(src, TRAIT_NOBLEED) || (HAS_TRAIT(src, TRAIT_FAKEDEATH)))
 		return
 
-	else if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: Dont regenerate blood, damnmit!
-		return // We cant use the TRAIT_NOBLEED above as its a species_trait only
-
 	if(bodytemperature >= TCRYO && !(HAS_TRAIT(src, TRAIT_HUSK))) //cryosleep or husked people do not pump the blood.
 
 		//Blood regeneration if there is some space
@@ -86,9 +83,6 @@
 /mob/living/carbon/human/bleed(amt)
 	amt *= physiology.bleed_mod
 	if(!(NOBLOOD in dna.species.species_traits))
-		..()
-
-	else if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: They don't need to be here
 		..()
 
 /// A helper to see how much blood we're losing per tick
