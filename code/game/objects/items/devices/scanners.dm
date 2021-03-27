@@ -385,29 +385,7 @@ GENE SCANNER
 			</span>" // divs do not need extra linebreak
 
 	// Blood Level
-	// Fulpstation Bloodsuckers edit STARTS
-	if(HAS_TRAIT(M, TRAIT_MASQUERADE))
-		var/mob/living/carbon/C = M
-		var/blood_id = C.get_blood_id()
-		if(blood_id)
-			if(ishuman(C))
-				var/mob/living/carbon/human/H = C
-				if(H.is_bleeding())
-					render_list += "<span class='alert ml-1'><b>Subject is bleeding!</b></span>\n"
-			var/blood_type = C.dna.blood_type
-			if(blood_id != /datum/reagent/blood) // special blood substance
-				var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
-				blood_type = R ? R.name : blood_id
-			render_list += "<span class='info ml-1'>Blood level: 100 %, 560 cl, type: [blood_type]</span>\n"
-
-		var/cyberimp_detect
-		for(var/obj/item/organ/cyberimp/CI in C.internal_organs)
-			if(CI.status == ORGAN_ROBOTIC && !CI.syndicate_implant)
-				cyberimp_detect += "[!cyberimp_detect ? "[CI.get_examine_string(user)]" : ", [CI.get_examine_string(user)]"]"
-		if(cyberimp_detect)
-			render_list += "<span class='notice ml-1'>Detected cybernetic modifications:</span>\n"
-			render_list += "<span class='notice ml-2'>[cyberimp_detect]</span>\n"
-	else if(M.has_dna()) // Fulpstation Bloodsuckers edit ENDS
+	if(M.has_dna())
 		var/mob/living/carbon/C = M
 		var/blood_id = C.get_blood_id()
 		if(blood_id)
@@ -420,7 +398,9 @@ GENE SCANNER
 			if(blood_id != /datum/reagent/blood) // special blood substance
 				var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
 				blood_type = R ? R.name : blood_id
-			if(C.blood_volume <= BLOOD_VOLUME_SAFE && C.blood_volume > BLOOD_VOLUME_OKAY)
+			if(HAS_TRAIT(M, TRAIT_MASQUERADE)) // Fulpstation Bloodsuckers edit: ALSO ADDING 'else' TO LINE BELOW!
+				render_list += "<span class='info ml-1'>Blood level: 100 %, 560 cl, type: [blood_type]</span>\n"
+			else if(C.blood_volume <= BLOOD_VOLUME_SAFE && C.blood_volume > BLOOD_VOLUME_OKAY)
 				render_list += "<span class='alert ml-1'>Blood level: LOW [blood_percent] %, [C.blood_volume] cl,</span> <span class='info'>type: [blood_type]</span>\n"
 			else if(C.blood_volume <= BLOOD_VOLUME_OKAY)
 				render_list += "<span class='alert ml-1'>Blood level: <b>CRITICAL [blood_percent] %</b>, [C.blood_volume] cl,</span> <span class='info'>type: [blood_type]</span>\n"
