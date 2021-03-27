@@ -105,6 +105,51 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////
+//                                          //
+//        ROUNDSTART BLOODSUCKER            //
+//                                          //
+//////////////////////////////////////////////
+
+/datum/dynamic_ruleset/roundstart/bloodsucker
+	name = "Bloodsuckers"
+	antag_flag = ROLE_BLOODSUCKER
+	antag_datum = /datum/antagonist/bloodsucker
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician") //, "Deputy")
+	restricted_roles = list("AI", "Cyborg")
+	required_candidates = 1
+	weight = 3
+	cost = 10
+	scaling_cost = 15
+	requirements = list(70,70,60,50,40,20,20,10,10,10)
+	antag_cap = list(1,1,1,1,1,2,2,2,2,3)
+
+/datum/dynamic_ruleset/roundstart/bloodsucker/pre_execute()
+	. = ..()
+	var/num_bloodsuckers = antag_cap[indice_pop] * (scaled_times + 1)
+	for (var/i = 1 to num_bloodsuckers)
+		var/mob/M = pick_n_take(candidates)
+		assigned += M.mind
+		M.mind.restricted_roles = restricted_roles
+		M.mind.special_role = ROLE_BLOODSUCKER
+		GLOB.pre_setup_antags += M.mind
+	return TRUE
+
+/datum/dynamic_ruleset/roundstart/bloodsucker/execute()
+	for(var/datum/mind/bloodsucker in assigned)
+		var/datum/antagonist/bloodsucker/new_antag = new antag_datum()
+		bloodsucker.add_antag_datum(new_antag)
+		GLOB.pre_setup_antags -= bloodsucker
+	return TRUE
+
+/*
+ *	DON'T ADD DYNAMIC MIDROUNDS TO BLOODSUCKERS
+ *	By the time they'll spawn, they'd have missed several Sol's, and Security would likely be geared up.
+ *	-Willard
+ */
+
+//////////////////////////////////////////////////////////////////////////////
+
 /// Creator is just here so we can display fail messages to whoever is turning us.
 /datum/game_mode/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
 	// Species Must have a HEART (Sorry Plasmamen)
@@ -168,7 +213,7 @@
 		A = bloodsucker.add_antag_datum(/datum/antagonist/bloodsucker)
 	return TRUE
 
-//Mind version
+/// Mind version
 /datum/mind/proc/make_bloodsucker()
 	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!C)
