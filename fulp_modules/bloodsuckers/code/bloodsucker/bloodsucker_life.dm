@@ -1,4 +1,5 @@
-/* 		TO PLUG INTO LIFE:
+/*
+ *		TO PLUG INTO LIFE:
  *
  * Cancel BLOOD life
  * Cancel METABOLISM life   (or find a way to control what gets digested)
@@ -287,12 +288,6 @@
 			 "<span class='italics'>You hear a wet, bursting sound.</span>")
 		owner.current.gib(TRUE, FALSE, FALSE)
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
-
-
-/// Prevents Slimeperson 'gaming
-/datum/species/jelly/spec_life(mob/living/carbon/human/H)
- 	if(HAS_TRAIT(H, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: Can't farm slime jelly from a dead slime/jelly + No regeneration!
-		return
 
 /// Prevents Slimeperson 'gaming
 /datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
