@@ -1026,8 +1026,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 //			if(DIGITIGRADE in species_traits)
 			if((DIGITIGRADE in species_traits) == !(I.flags_inv & FULL_DIGITIGRADE)) //fulp edit oh god oh fuck
 				if(!disable_warning)
-//					to_chat(H, "<span class='warning'>The footwear around here isn't compatible with your feet!</span>")
-					to_chat(H, "<span class='warning'>These shoes aren't compatible with your feet!</span>") //fulp edit 2, electric boogaloo
+					to_chat(H, "<span class='warning'>The footwear around here isn't compatible with your feet!</span>")
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(ITEM_SLOT_BELT)
