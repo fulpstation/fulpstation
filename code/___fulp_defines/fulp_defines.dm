@@ -10,6 +10,8 @@
 #define TRAIT_MASQUERADE "masquerade" // Falsifies Health analyzers
 #define MARTIALART_HUNTER "hunter-fu"
 #define BLOODSUCKER_LEVEL_TO_EMBRACE 3
+#define ROLE_BLOODSUCKER "bloodsucker" // Fulpstation Bloodsuckers
+#define ROLE_MONSTERHUNTER "monster hunter" // Fulpstation Bloodsuckers
 
 ///Source Traits
 #define BLOODSUCKER_TRAIT "bloodsucker" // Fulpstation Bloodsuckers trait
