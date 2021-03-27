@@ -32,10 +32,7 @@
 
 	if(sign.rename_area && sign.name)
 		rename_area(src, sign.name)
-
-	if(sign.icon) // Fulpstation Barsigns edit
-		icon = sign.fulpbarsign || 'icons/obj/barsigns.dmi' // Fulpstation Barsigns edit
-
+	icon = sign.fulpbarsign ? 'fulp_modules/barsigns_port/barsigns.dmi' : 'icons/obj/barsigns.dmi' // Fulpstation Barsigns edit
 	return sign
 
 /obj/structure/sign/barsign/proc/set_sign_by_name(sign_name)
