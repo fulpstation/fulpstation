@@ -417,11 +417,16 @@
 	mood_change = -5
 	timeout = 5 MINUTES
 
-/// Easy bloodsucker 'disgusting blood' removal
-/datum/reagent/proc/disgust_bloodsucker(mob/living/carbon/C, disgust, blood_change, blood_puke = TRUE, force)
-	if(AmBloodsucker(C))
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = C.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(disgust)
-			bloodsuckerdatum.handle_eat_human_food(disgust, blood_puke, force)
-		if(blood_change)
-			bloodsuckerdatum.AddBloodVolume(blood_change)
+/// Prevents using a Memento Mori
+/obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
+	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		to_chat(user, "<span class='warning'>You fiddle around with the pendant, but it doesn't react.</span>")
+		return
+	to_chat(user, "<span class='warning'>You feel your life being drained by the pendant...</span>")
+	if(do_after(user, 40, target = user))
+		to_chat(user, "<span class='notice'>Your lifeforce is now linked to the pendant! You feel like removing it would kill you, and yet you instinctively know that until then, you won't die.</span>")
+		ADD_TRAIT(user, TRAIT_NODEATH, "memento_mori")
+		ADD_TRAIT(user, TRAIT_NOHARDCRIT, "memento_mori")
+		ADD_TRAIT(user, TRAIT_NOCRITDAMAGE, "memento_mori")
+		icon_state = "memento_mori_active"
+		active_owner = user

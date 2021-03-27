@@ -108,7 +108,7 @@
 
 /obj/structure/bloodsucker/vassalrack/examine(mob/user)
 	. = ..()
-	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker) || isobserver(user))
+	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
 		. += {"<span class='cult'>You need to first secure the vassal rack by clicking on it while it is in your lair.</span>"}
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}

@@ -28,7 +28,11 @@
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
-	while(B && ContinueActive(user) || user.m_intent == MOVE_INTENT_RUN)
+	while(B && ContinueActive(user))
+		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
+			user.toggle_move_intent()
+			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+			user.adjustBruteLoss(rand(5,15))
 		if(istype(user.buckled, /obj/vehicle)) // We dont want people using fortitude being able to use vehicles
 			var/obj/vehicle/V = user.buckled
 			V.unbuckle_mob(user, force = TRUE)
@@ -66,4 +70,3 @@
 	bloodsucker_can_buy = FALSE
 	amToggle = TRUE
 	warn_constant_cost = FALSE
-

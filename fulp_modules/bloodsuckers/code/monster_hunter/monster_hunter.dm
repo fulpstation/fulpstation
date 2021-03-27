@@ -6,7 +6,7 @@
 #define STATUS_EFFECT_HUNTERPINPOINTER /datum/status_effect/agent_pinpointer/hunter_edition
 
 /datum/antagonist/monsterhunter
-	name = "Monster Hunter"
+	name = "monsterhunter"
 	roundend_category = "hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
