@@ -1,33 +1,47 @@
+/client/var/mhelptimer = 0 // Timer for returning the Mhelp verb
+
 /client/verb/mentorhelp(msg as text)
 	set category = "Mentor"
 	set name = "Mentorhelp"
 
-	//clean the input msg
-	if(!msg)	return
+	// Cleans the input message
+	if(!msg)
+		return
 
-	//remove out mentorhelp verb temporarily to prevent spamming of mentors.
-	verbs -= /client/verb/mentorhelp
-	spawn(300)
-		verbs += /client/verb/mentorhelp	// 30 second cool-down for mentorhelp
+	remove_verb(usr.client, /client/verb/mentorhelp) // 30 second cool-down for mentorhelp
+	usr.client.mhelptimer = addtimer(CALLBACK(usr.client, /client/proc/givemhelpverb), 300, TIMER_STOPPABLE)
 
 	if(usr.client)
 		if(usr.client.prefs.muted & MUTE_MENTORHELP)
-			to_chat(usr, "<span class='danger'>You cannot mhelp (muted).</span>", confidential = TRUE)
+			to_chat(src,
+				type = MESSAGE_TYPE_MODCHAT,
+				html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
+				confidential = TRUE)
 			return
 
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
-	if(!msg)	return
-	if(!mob)	return						//this doesn't happen
+	if(!msg)
+		return
+	if(!mob)
+		return // This doesn't happen
 
-	var/show_char = CONFIG_GET(flag/mentors_mobname_only)
-	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0, 1, show_char)]</b>: [msg]</font></span>"
-	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0, 0, 0)]: [msg]")
+	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0)]</b>: [msg]</font></span>"
+	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0)]: [msg]")
 
+	// Send the Mhelp to all Mentors/Admins
 	for(var/client/X in GLOB.mentors | GLOB.admins)
 		X << 'sound/items/bikehorn.ogg'
-		to_chat(X, mentor_msg)
+		to_chat(X,
+			type = MESSAGE_TYPE_MODCHAT,
+			html = mentor_msg,
+			confidential = TRUE)
 
-	to_chat(src, "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>")
+	// Also show it to person Mhelping
+	to_chat(usr,
+		type = MESSAGE_TYPE_MODCHAT,
+		html = "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>",
+		confidential = TRUE)
+
 	return
 
 /proc/get_mentor_counts()
@@ -73,20 +87,10 @@
 
 	if(key)
 		if(include_link)
-			if(CONFIG_GET(flag/mentors_mobname_only))
-				. += "<a href='?_src_=mentor;mentor_msg=[REF(M)];[MentorHrefToken(TRUE)]'>"
-			else
-				. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
+			. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
 
 		if(C && C.holder && C.holder.fakekey)
 			. += "Administrator"
-		else if (char_name_only && CONFIG_GET(flag/mentors_mobname_only))
-			if(istype(C.mob,/mob/dead/new_player) || istype(C.mob, /mob/dead/observer)) //If they're in the lobby or observing, display their ckey
-				. += key
-			else if(C && C.mob) //If they're playing/in the round, only show the mob name
-				. += C.mob.name
-			else //If for some reason neither of those are applicable and they're mentorhelping, show ckey
-				. += key
 		else
 			. += key
 		if(!C)
@@ -101,3 +105,9 @@
 		. += " (<a href='?_src_=mentor;mentor_follow=[REF(M)];[MentorHrefToken(TRUE)]'>F</a>)"
 
 	return .
+
+/// Used for the 30 second Mhelp cooldown timer
+/client/proc/givemhelpverb()
+	add_verb(src, /client/verb/mentorhelp)
+	deltimer(mhelptimer)
+	mhelptimer = 0
