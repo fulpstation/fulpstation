@@ -67,7 +67,7 @@
 /// Monster Hunter version
 /datum/action/bloodsucker/fortitude/hunter
 	name = "Flow"
-	desc = "Use knowledge learned from Monsters to survive attacks that would otherwise stun, pierce, and dismember. Like the ones you've learned this from, you cannot run while active."
+	desc = "Use the arts to Flow to your advantage, giving stun and shove immunity, as well as dismember and pierce resistance. Like the Vampire you learned from, you are unable to run while it is active."
 	button_icon_state = "power_fortitude"
 	bloodcost = 0
 	cooldown = 80
