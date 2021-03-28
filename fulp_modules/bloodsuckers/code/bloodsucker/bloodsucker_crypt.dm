@@ -98,7 +98,7 @@
 	var/useLock = FALSE // So we can't just keep dragging ppl on here.
 	var/mob/buckled
 	var/convert_progress = 3 // Resets on each new character to be added to the chair. Some effects should lower it...
-	var/disloyalty_confirm = FALSE // Command & Antags need to CONFIRM they are willing to lose their role (and will only do it if the Vassal'ing succeeds)
+	var/disloyalty_confirm = FALSE // Security & Antags need to CONFIRM they are willing to lose their role (and will only do it if the Vassal'ing succeeds)
 	var/disloyalty_offered = FALSE // Has the popup been issued? Don't spam them.
 
 /obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
@@ -275,7 +275,7 @@
 	if(!disloyalty_confirm && RequireDisloyalty(target))
 		if(!do_disloyalty(user,target))
 			to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
-		else if (!disloyalty_confirm)
+		else if(!disloyalty_confirm)
 			to_chat(user, "<span class='danger'>[target] refuses to give into your persuasion. Perhaps a little more?</span>")
 		else
 			to_chat(user, "<span class='notice'>[target] looks ready for the <b>Dark Communion</b>.</span>")
@@ -357,7 +357,7 @@
 			if(SSticker.mode.AmValidAntag(target.mind))  */
 			alert_text += "\n\nYou will not lose your current objectives, but they come second to the will of your new master!"
 			switch(alert(target, alert_text,"THE HORRIBLE PAIN! WHEN WILL IT END?!","Yes, Master.", "Never!"))
-				if("Yes, Master!")
+				if("Yes, Master.")
 					disloyalty_accept(target)
 				else
 					disloyalty_refuse(target)
