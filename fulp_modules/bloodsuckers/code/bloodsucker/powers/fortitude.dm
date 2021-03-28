@@ -25,6 +25,8 @@
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
 		H.physiology.brute_mod *= fortitude_resist
 		H.physiology.stamina_mod *= fortitude_resist
+	if(owner.mind.has_antag_datum(/datum/antagonist/monsterhunter)) // Monster hunters get the pre-nerf effects
+		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
@@ -57,6 +59,8 @@
 	if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		H.physiology.brute_mod /= fortitude_resist
 		H.physiology.stamina_mod /= fortitude_resist
+	if(owner.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+		REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
 
