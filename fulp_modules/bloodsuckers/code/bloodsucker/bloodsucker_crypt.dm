@@ -109,6 +109,7 @@
 /obj/structure/bloodsucker/vassalrack/examine(mob/user)
 	. = ..()
 	if(!user.mind)
+		. += {"<span class='cult'>This is a vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions.</span>"}
 		return
 	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
@@ -118,8 +119,8 @@
 		. += {"<span class='cult'>To convert the victim, simply click on the vassal rack itself. Sharp weapons work faster than other tools.</span>"}
 	if(user.mind.has_antag_datum(/datum/antagonist/vassal))
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into his minions.</span>"
-		. += "<span class='notice'> Aid your master in bringing their victims here and keeping them secure.</span>"
-		. += "<span class='notice'> You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
+		. += "<span class='notice'>Aid your master in bringing their victims here and keeping them secure.</span>"
+		. += "<span class='notice'>You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
 	if(user.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 		. += {"<span class='cult'>This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.</span>"}
 		. += {"<span class='cult'>They usually ensure that victims are handcuffed, to prevent them from running away.</span>"}
