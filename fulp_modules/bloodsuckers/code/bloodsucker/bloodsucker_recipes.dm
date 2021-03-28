@@ -58,6 +58,7 @@
 	time = 6 SECONDS
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
+	always_available = FALSE
 
 /datum/crafting_recipe/silver_stake
 	name = "Silver Stake"
@@ -67,4 +68,4 @@
 	time = 8 SECONDS
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
-
+	always_available = FALSE

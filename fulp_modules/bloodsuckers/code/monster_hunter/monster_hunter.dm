@@ -63,6 +63,9 @@
 	var/datum/martial_art/pick_type = pick(/datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // Hunter-Fu, 20% chance at Wrestling
 	my_kungfu = new pick_type
 	my_kungfu.teach(owner.current, 0)
+	// Teach stake crafting
+	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
+	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()

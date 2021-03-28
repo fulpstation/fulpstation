@@ -124,7 +124,7 @@
 		if(!do_after(user, 8 SECONDS, src, NONE, TRUE))
 			return
 		// Make Stake
-		var/obj/item/stake/basic/new_item = new(user.loc)
+		var/obj/item/stake/new_item = new(user.loc)
 		user.visible_message("[user] finishes carving a stake out of [src].", \
 				 "<span class='notice'>You finish carving a stake out of [src].</span>")
 		// Prepare to Put in Hands (if holding wood)
@@ -174,36 +174,10 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	force = 6
 	throwforce = 10
-	embedding = list("embed_chance" = 25, "fall_chance" = 50)
+	embedding = list("embed_chance" = 20, "fall_chance" = 80)
 	obj_integrity = 30
 	max_integrity = 30
 	var/staketime = 120 // Time it takes to embed the stake into someone's chest.
-
-/// This exists so Hardened/Silver Stake can't have a welding torch used on them.
-/obj/item/stake/basic
-	name = "wooden stake"
-
-/obj/item/stake/basic/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/weldingtool))
-		//if(amWelded)
-		//	to_chat(user, "<span class='warning'>This stake has already been treated with fire.</span>")
-		//	return
-		//amWelded = TRUE
-		// Weld it
-		var/obj/item/weldingtool/WT = W
-		if(WT.use(0)) //remove_fuel(0,user))
-			user.visible_message("[user.name] scorched the pointy end of [src] with the welding tool.", \
-						 "<span class='notice'>You scorch the pointy end of [src] with the welding tool.</span>", \
-						 "<span class='italics'>You hear welding.</span>")
-		// 8 Second Timer
-		if(!do_mob(user, src, 8 SECONDS))
-			return
-		// Create the Stake
-		qdel(src)
-		var/obj/item/stake/hardened/new_item = new(usr.loc)
-		user.put_in_hands(new_item)
-	else
-		return ..()
 
 /obj/item/stake/afterattack(atom/target, mob/user, proximity)
 	// Invalid Target, or not targetting chest with HARM intent?
@@ -257,10 +231,9 @@
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
-	embedding = list("embed_chance" = 40, "fall_chance" = 30)
+	embedding = list("embed_chance" = 35, "fall_chance" = 50)
 	obj_integrity = 120
 	max_integrity = 120
-
 	staketime = 80
 
 /obj/item/stake/hardened/silver
@@ -271,25 +244,7 @@
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
-	embedding = list("embed_chance" = 60, "fall_chance" = 15)
+	embedding = list("embed_chance" = 65, "fall_chance" = 25)
 	obj_integrity = 300
 	max_integrity = 300
-
 	staketime = 60
-
-/// Convert back to Silver
-/obj/item/stake/hardened/silver/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/weldingtool))
-		var/obj/item/weldingtool/WT = I
-		if(WT.use(0)) //remove_fuel(0, user))
-			var/obj/item/stack/sheet/mineral/silver/newsheet = new (user.loc)
-			for(var/obj/item/stack/sheet/mineral/silver/S in user.loc)
-				if(S == newsheet)
-					continue
-				if(S.amount >= S.max_amount)
-					continue
-				S.attackby(newsheet, user)
-			to_chat(user, "<span class='notice'>You melt down the stake and add it to the stack. It now contains [newsheet.amount] sheet\s.</span>")
-			qdel(src)
-	else
-		return ..()
