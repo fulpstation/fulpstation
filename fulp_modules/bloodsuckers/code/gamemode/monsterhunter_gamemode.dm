@@ -1,7 +1,7 @@
 /*
  * 		MONSTER HUNTERS:
  * 	Their job is to hunt Monsters.
- * 	They spawn by default 20 minutes into a Bloodsucker round,
+ * 	They spawn by default 25 minutes into a Bloodsucker round,
  * 	They also randomly spawn in other rounds, as some unique flavor.
  * 	They can also be used as Admin-only antags during rounds such as;
  * 	- Changeling murderboning rounds
@@ -16,9 +16,9 @@
 	max_occurrences = 1 // We have to see how Bloodsuckers are in game to decide if having more than 1 is beneficial.
 	weight = 2000
 	min_players = 10
-	earliest_start = 20 MINUTES
+	earliest_start = 25 MINUTES
 	alert_observers = FALSE
-	gamemode_whitelist = list("bloodsucker")
+	gamemode_whitelist = list("bloodsucker", "traitorsucker")
 
 /datum/round_event/bloodsucker_hunters
 	fakeable = FALSE
