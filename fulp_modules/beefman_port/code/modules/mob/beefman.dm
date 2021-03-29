@@ -387,8 +387,11 @@
 	return ..()
 
 
-/datum/species/beefman/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/H, modifiers)
+/datum/species/beefman/proc/handle_limb_mashing()
 	SIGNAL_HANDLER
+
+/datum/species/beefman/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/H, modifiers)
+	handle_limb_mashing()
 	// MEAT LIMBS: If our limb is missing, and we're using meat, stick it in!
 	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		return
