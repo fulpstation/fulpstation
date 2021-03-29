@@ -365,8 +365,6 @@
 			switch(torture_response)
 				if("Accept")
 					disloyalty_accept(target)
-				if("Refuse")
-					disloyalty_refuse(target)
 				else
 					disloyalty_refuse(target)
 	if(!do_torture(user,target, 2))
