@@ -6,12 +6,11 @@
 ///Bloodsucker defines
 #define TRAIT_NORUNNING "norunning" // You walk!
 #define TRAIT_NOPULSE "nopulse" // Your heart doesn't beat.
-#define TRAIT_COLDBLOODED "coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp.
 #define TRAIT_MASQUERADE "masquerade" // Falsifies Health analyzers
+//#define TRAIT_COLDBLOODED "coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp. // REMOVED - God this is a broken fucking mess for Beefmen.
 #define MARTIALART_HUNTER "hunter-fu"
 #define BLOODSUCKER_LEVEL_TO_EMBRACE 3
 #define ROLE_BLOODSUCKER "bloodsucker" // Fulpstation Bloodsuckers
 #define ROLE_MONSTERHUNTER "monster hunter" // Fulpstation Bloodsuckers
-
 ///Source Traits
 #define BLOODSUCKER_TRAIT "bloodsucker" // Fulpstation Bloodsuckers trait

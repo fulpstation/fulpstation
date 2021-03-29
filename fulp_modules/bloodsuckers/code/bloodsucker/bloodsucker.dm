@@ -39,7 +39,7 @@
 	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath //Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
-		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_COLDBLOODED, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
+		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
 /* TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -Willard
  * Remember that Fortitude gives NODISMEMBER when balancing Traits!
  */

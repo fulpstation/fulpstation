@@ -3,7 +3,6 @@
  *
  * Cancel BLOOD life
  * Cancel METABOLISM life   (or find a way to control what gets digested)
- * Create COLDBLOODED trait (thermal homeostasis)
  *
  * 		EXAMINE
  *
