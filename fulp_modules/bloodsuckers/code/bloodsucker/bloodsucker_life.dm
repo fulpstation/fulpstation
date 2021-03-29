@@ -1,3 +1,33 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//			TG OVERWRITES
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Prevents using a Memento Mori
+/obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
+	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		to_chat(user, "<span class='warning'>You fiddle around with the pendant, but it doesn't react.</span>")
+		return
+	to_chat(user, "<span class='warning'>You feel your life being drained by the pendant...</span>")
+	if(do_after(user, 40, target = user))
+		to_chat(user, "<span class='notice'>Your lifeforce is now linked to the pendant! You feel like removing it would kill you, and yet you instinctively know that until then, you won't die.</span>")
+		ADD_TRAIT(user, TRAIT_NODEATH, "memento_mori")
+		ADD_TRAIT(user, TRAIT_NOHARDCRIT, "memento_mori")
+		ADD_TRAIT(user, TRAIT_NOCRITDAMAGE, "memento_mori")
+		icon_state = "memento_mori_active"
+		active_owner = user
+
+/// Prevents Slimeperson 'gaming
+/datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_NOPULSE))
+		return
+
+/// No regeneration for vampires
+/datum/species/jelly/spec_life(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_NOPULSE))
+		return
+
 /*
  *		TO PLUG INTO LIFE:
  *
@@ -296,11 +326,6 @@
 		owner.current.gib(TRUE, FALSE, FALSE)
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 
-/// Prevents Slimeperson 'gaming
-/datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
-	if(HAS_TRAIT(H, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit
-		return
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //			HUMAN FOOD
@@ -426,17 +451,3 @@
 	description = "<span class='boldwarning'>Something I recently ate was horrifyingly disgusting.</span>\n"
 	mood_change = -5
 	timeout = 5 MINUTES
-
-/// Prevents using a Memento Mori
-/obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
-	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
-		to_chat(user, "<span class='warning'>You fiddle around with the pendant, but it doesn't react.</span>")
-		return
-	to_chat(user, "<span class='warning'>You feel your life being drained by the pendant...</span>")
-	if(do_after(user, 40, target = user))
-		to_chat(user, "<span class='notice'>Your lifeforce is now linked to the pendant! You feel like removing it would kill you, and yet you instinctively know that until then, you won't die.</span>")
-		ADD_TRAIT(user, TRAIT_NODEATH, "memento_mori")
-		ADD_TRAIT(user, TRAIT_NOHARDCRIT, "memento_mori")
-		ADD_TRAIT(user, TRAIT_NOCRITDAMAGE, "memento_mori")
-		icon_state = "memento_mori_active"
-		active_owner = user
