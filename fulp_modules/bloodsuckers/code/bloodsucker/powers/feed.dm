@@ -6,7 +6,7 @@
 	bloodcost = 0
 	cooldown = 30
 	amToggle = TRUE
-	bloodsucker_can_buy = TRUE
+	bloodsucker_can_buy = FALSE
 	can_be_staked = TRUE
 	cooldown_static = TRUE
 

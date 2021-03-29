@@ -172,6 +172,7 @@
 
 ///////////////////////////////////  PASSIVE POWERS	///////////////////////////////////
 
+/*
 /// New Type: Passive (Always on, no button)
 /datum/action/bloodsucker/passive
 
@@ -187,6 +188,7 @@
 		Remove(owner)
 	target = null
 	return ..()
+*/
 
 ///////////////////////////////////  TARGETTED POWERS	///////////////////////////////////
 
