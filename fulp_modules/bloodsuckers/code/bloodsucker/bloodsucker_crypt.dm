@@ -356,9 +356,17 @@
 				alert_text += "\n\nYou will no longer be loyal to the station!"
 			if(SSticker.mode.AmValidAntag(target.mind))  */
 			alert_text += "\n\nYou will not lose your current objectives, but they come second to the will of your new master!"
-			switch(alert(target, alert_text,"THE HORRIBLE PAIN! WHEN WILL IT END?!","Yes, Master.", "Never!"))
-				if("Yes, Master.")
+			to_chat(target, "<span class='cultlarge'>THE HORRIBLE PAIN! WHEN WILL IT END?!</span>")
+			var/list/torture_icons = list(
+				"Accept" = image(icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "power_recup"),
+				"Refuse" = image(icon = 'icons/obj/items_and_weapons.dmi', icon_state = "stunbaton_active")
+				)
+			var/torture_response = show_radial_menu(target, src, torture_icons, radius = 36, require_near = TRUE)
+			switch(torture_response)
+				if("Accept")
 					disloyalty_accept(target)
+				if("Refuse")
+					disloyalty_refuse(target)
 				else
 					disloyalty_refuse(target)
 	if(!do_torture(user,target, 2))
