@@ -199,46 +199,46 @@
 						"<span class='danger'>You climb onto [surface]!</span>")
 		A.pixel_y = A.base_pixel_y + 10
 		falling = 1
-		if(do_after(A, 1 SECONDS))
-		if(A && D)
-			if((falling == 0 && get_dist(A, D) > 1) || (falling == 1 && get_dist(A, D) > 2)) // We climbed onto stuff.
-				A.pixel_y = A.base_pixel_y
-				if(falling == 1)
-					A.visible_message("<span class='danger'>...and dives head-first into the ground, ouch!</span>", \
-									"<span class='userdanger'>...and dive head-first into the ground, ouch!</span>")
-					A.adjustBruteLoss(rand(10,15))
-					A.Paralyze(40)
-				to_chat(A, "<span class='warning'>[D] is too far away!</span>")
-				return
-			if(!isturf(A.loc) || !isturf(D.loc))
-				A.pixel_y = A.base_pixel_y
-				to_chat(A, "<span class='warning'>You can't drop onto [D] from here!</span>")
-				return
-			if(A)
-				animate(A, transform = matrix(90, MATRIX_ROTATE), time = 1, loop = 0)
-			sleep(10)
-			if(A)
-				animate(A, transform = null, time = 1, loop = 0)
-
-			A.forceMove(D.loc)
-			D.visible_message("<span class='danger'>[A] leg-drops [D]!</span>", \
-							"<span class='userdanger'>You're leg-dropped by [A]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", null, A)
-			to_chat(A, "<span class='danger'>You leg-drop [D]!</span>")
-			playsound(A.loc, "swing_hit", 50, TRUE)
-			A.emote("scream")
-
-			if(falling == 1)
-				if(D.stat)
-					D.adjustBruteLoss(rand(15,20))
-			else
-				D.adjustBruteLoss(rand(15,20))
-			D.Paralyze(30)
+		sleep(10)
+	if(A && D)
+		if((falling == 0 && get_dist(A, D) > 1) || (falling == 1 && get_dist(A, D) > 2)) // We climbed onto stuff.
 			A.pixel_y = A.base_pixel_y
+			if(falling == 1)
+				A.visible_message("<span class='danger'>...and dives head-first into the ground, ouch!</span>", \
+								"<span class='userdanger'>...and dive head-first into the ground, ouch!</span>")
+				A.adjustBruteLoss(rand(10,15))
+				A.Paralyze(40)
+			to_chat(A, "<span class='warning'>[D] is too far away!</span>")
+			return
+		if(!isturf(A.loc) || !isturf(D.loc))
+			A.pixel_y = A.base_pixel_y
+			to_chat(A, "<span class='warning'>You can't drop onto [D] from here!</span>")
+			return
+		if(A)
+			animate(A, transform = matrix(90, MATRIX_ROTATE), time = 1, loop = 0)
+		sleep(10)
+		if(A)
+			animate(A, transform = null, time = 1, loop = 0)
+
+		A.forceMove(D.loc)
+		D.visible_message("<span class='danger'>[A] leg-drops [D]!</span>", \
+						"<span class='userdanger'>You're leg-dropped by [A]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", null, A)
+		to_chat(A, "<span class='danger'>You leg-drop [D]!</span>")
+		playsound(A.loc, "swing_hit", 50, TRUE)
+		A.emote("scream")
+
+		if(falling == 1)
+			if(D.stat)
+				D.adjustBruteLoss(rand(15,20))
 		else
-			if(A)
-				A.pixel_y = A.base_pixel_y
-		log_combat(A, D, "leg-dropped (Wrestling)")
-		return
+			D.adjustBruteLoss(rand(15,20))
+		D.Paralyze(30)
+		A.pixel_y = A.base_pixel_y
+	else
+		if(A)
+			A.pixel_y = A.base_pixel_y
+	log_combat(A, D, "leg-dropped (Wrestling)")
+	return
 
 /// Run a barrage of checks to see if any given click is actually able to swing
 /datum/martial_art/fulpwrestling/proc/check_swing(mob/living/user, atom/clicked_atom, params)
