@@ -12,35 +12,35 @@
 
 /datum/martial_art/fulpwrestling
 	name = "Wrestling"
-	id = MARTIALART_QMWRESTLING
+	id = MARTIALART_FULPWRESTLING
 	help_verb = /mob/living/proc/FulpWrestling_help
 	smashes_tables = TRUE
-	var/datum/action/slam/slam = new/datum/action/fulpslam()
-	var/datum/action/drop/drop = new/datum/action/fulpdrop()
+	var/datum/action/fulpslam/slam = new/datum/action/fulpslam()
+	var/datum/action/fulpdrop/drop = new/datum/action/fulpdrop()
 
 /datum/martial_art/fulpwrestling/proc/check_streak(mob/living/A, mob/living/D)
-	if(!can_use(A))
-		return FALSE
-	if(findtext("fulpdrop"))
-		streak = ""
-		Drop(A,D)
-		return TRUE
-	if(findtext("fulpslam"))
-		streak = ""
-		Slam(A,D)
+	switch(streak)
+		if("fulpslam")
+			streak = ""
+			fulpslam(A,D)
+			return TRUE
+		if("fulpdrop")
+			streak = ""
+			fulpdrop(A,D)
+			return TRUE
 	return FALSE
 
 /// Teaches moves
 /datum/martial_art/fulpwrestling/teach(mob/living/H, make_temporary = FALSE)
 	if(..())
-	to_chat(H, "<span class='userdanger'>You suddenly remember how to Wrestle!</span>")
-	fulpdrop.Grant(H)
-	fulpslam.Grant(H)
+		slam.Grant(H)
+		drop.Grant(H)
+		RegisterSignal(H, COMSIG_MOB_CLICKON, .proc/check_swing)
 
 /datum/martial_art/fulpwrestling/on_remove(mob/living/H)
-	to_chat(H, "<span class='userdanger'>You suddenly forget how to Wrestle...</span>")
-	fulpdrop.Remove(H)
-	fulpslam.Remove(H)
+	slam.Remove(H)
+	drop.Remove(H)
+	UnregisterSignal(H, COMSIG_MOB_CLICKON)
 
 /// Slam icon
 /datum/action/fulpslam
@@ -52,9 +52,12 @@
 	if(owner.incapacitated())
 		to_chat(owner, "<span class='warning'>You can't WRESTLE while you're OUT FOR THE COUNT.</span>")
 		return
-	owner.visible_message("<span class='danger'>[owner] prepares to BODY SLAM!</span>", "<b><i>Your next attack will be a BODY SLAM.</i></b>")
-	var/mob/living/H = owner
-	H.mind.martial_art.streak = "slam"
+	if(owner.mind.martial_art.streak == "fulpslam")
+		owner.visible_message("<span class='danger'>[owner] assumes a neutral stance.</span>", "<b><i>Your next attack is cleared.</i></b>")
+		owner.mind.martial_art.streak = ""
+	else
+		owner.visible_message("<span class='danger'>[owner] prepares to BODY SLAM!</span>", "<b><i>Your next attack will be a BODY SLAM.</i></b>")
+		owner.mind.martial_art.streak = "fulpslam"
 
 /// Drop icon
 /datum/action/fulpdrop
@@ -66,13 +69,16 @@
 	if(owner.incapacitated())
 		to_chat(owner, "<span class='warning'>You can't WRESTLE while you're OUT FOR THE COUNT.</span>")
 		return
-	owner.visible_message("<span class='danger'>[owner] prepares to LEG DROP!</span>", "<b><i>Your next attack will be a LEG DROP.</i></b>")
-	var/mob/living/H = owner
-	H.mind.martial_art.streak = "drop"
+	if(owner.mind.martial_art.streak == "fulpdrop")
+		owner.visible_message("<span class='danger'>[owner] assumes a neutral stance.</span>", "<b><i>Your next attack is cleared.</i></b>")
+		owner.mind.martial_art.streak = ""
+	else
+		owner.visible_message("<span class='danger'>[owner] prepares to LEG DROP!</span>", "<b><i>Your next attack will be a LEG DROP.</i></b>")
+		owner.mind.martial_art.streak = "fulpdrop"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Slam
-/datum/martial_art/fulpwrestling/proc/slam(mob/living/A, mob/living/D)
+/datum/martial_art/fulpwrestling/proc/fulpslam(mob/living/A, mob/living/D)
 	if(!D)
 		return
 	if(!A.pulling || A.pulling != D)
@@ -84,7 +90,6 @@
 	D.visible_message("<span class='danger'>[A] lifts [D] up!</span>", \
 					"<span class='userdanger'>You're lifted up by [A]!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", null, A)
 	to_chat(A, "<span class='danger'>You lift [D] up!</span>")
-
 	FlipAnimation()
 	for(var/i = 0, i < 3, i++)
 		if(A && D)
@@ -123,9 +128,7 @@
 				D.pixel_x = D.base_pixel_x
 				D.pixel_y = D.base_pixel_y
 			return
-		addtimer(CALLBACK(src, .proc/perform_slam), 1 SECONDS)
-
-/datum/martial_art/fulpwrestling/proc/perform_slam(mob/living/A, mob/living/D)
+		sleep(1)
 	if(A && D)
 		A.pixel_x = A.base_pixel_x
 		A.pixel_y = A.base_pixel_y
@@ -151,18 +154,26 @@
 		else
 			D.adjustBruteLoss(rand(10,15))
 	else
-		if (A)
+		if(A)
 			A.pixel_x = A.base_pixel_x
 			A.pixel_y = A.base_pixel_y
-		if (D)
+		if(D)
 			D.pixel_x = D.base_pixel_x
 			D.pixel_y = D.base_pixel_y
 
 	log_combat(A, D, "body-slammed (Wrestling)")
 	return
 
+/datum/martial_art/fulpwrestling/proc/FlipAnimation(mob/living/D)
+	set waitfor = FALSE
+	if(D)
+		animate(D, transform = matrix(180, MATRIX_ROTATE), time = 1, loop = 0)
+	if(do_after(D, 10 SECONDS))
+		if(D)
+			animate(D, transform = null, time = 1, loop = 0)
+
 /// Drop
-/datum/martial_art/fulpwrestling/proc/drop(mob/living/A, mob/living/D)
+/datum/martial_art/fulpwrestling/proc/fulpdrop(mob/living/A, mob/living/D)
 	if(!D)
 		return
 	var/obj/surface = null
@@ -188,8 +199,7 @@
 						"<span class='danger'>You climb onto [surface]!</span>")
 		A.pixel_y = A.base_pixel_y + 10
 		falling = 1
-		if(!do_after(user, 10 SECONDS, target))
-			return
+		if(do_after(A, 1 SECONDS))
 		if(A && D)
 			if((falling == 0 && get_dist(A, D) > 1) || (falling == 1 && get_dist(A, D) > 2)) // We climbed onto stuff.
 				A.pixel_y = A.base_pixel_y
@@ -252,24 +262,24 @@
 /datum/martial_art/fulpwrestling/proc/setup_swing(mob/living/user, mob/living/target)
 	var/original_dir = user.dir
 
-	target.forceMove(the_hulk.loc)
-	target.setDir(get_dir(target, the_hulk))
+	target.forceMove(user.loc)
+	target.setDir(get_dir(target, user))
 
 	target.Stun(2 SECONDS)
 	target.visible_message("<span class='danger'>[user] starts grasping [target]...</span>", \
-					"<span class='userdanger'>[user] begins grasping you!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", null, the_hulk)
+					"<span class='userdanger'>[user] begins grasping you!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", null, user)
 	to_chat(user, "<span class='danger'>You start grasping [target]...</span>")
 
 	if(!do_after(user, 2 SECONDS, target))
 		target.visible_message("<span class='danger'>[target] breaks free of [user]'s grasp!</span>", \
-					"<span class='userdanger'>You break free from [user]'s grasp!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", null, the_hulk)
+					"<span class='userdanger'>You break free from [user]'s grasp!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", null, user)
 		to_chat(user, "<span class='danger'>You lose your grasp on [target]!</span>")
 		return
 
 	// we're officially a-go!
 	target.Paralyze(8 SECONDS)
 	target.visible_message("<span class='danger'>[user] starts spinning [target] around!</span>", \
-					"<span class='userdanger'>[user] starts spinning you around!</span>", "<span class='hear'>You hear wooshing sounds!</span>", null, the_hulk)
+					"<span class='userdanger'>[user] starts spinning you around!</span>", "<span class='hear'>You hear wooshing sounds!</span>", null, user)
 	to_chat(user, "<span class='danger'>You start spinning [target] around!</span>")
 	user.emote("scream")
 	target.emote("scream")
@@ -309,26 +319,26 @@
 		target.face_atom(user)
 
 	var/list/collateral_check = intermediate_spin_turf.contents + next_spin_turf.contents // Check the cardinal and the diagonal tiles we swung past
-	var/turf/collat_throw_target = get_edge_target_turf(target_person, get_dir(current_spin_turf, next_spin_turf)) // What direction we're swinging
+	var/turf/collat_throw_target = get_edge_target_turf(target, get_dir(current_spin_turf, next_spin_turf)) // What direction we're swinging
 
 	for(var/mob/living/collateral_mob in collateral_check)
-		if(!collateral_mob.density || collateral_mob == target_person)
+		if(!collateral_mob.density || collateral_mob == target)
 			continue
 
-		target_person.adjustBruteLoss(step*0.5)
+		target.adjustBruteLoss(step*0.5)
 		playsound(collateral_mob,'sound/weapons/punch1.ogg',50,TRUE)
 		log_combat(user, collateral_mob, "has smacked with swung victim (Wrestling)")
-		log_combat(user, target_person, "has smacked this person into someone while being swung (Wrestling)")
+		log_combat(user, target, "has smacked this person into someone while being swung (Wrestling)")
 
 		if(collateral_mob == user)
-			user.visible_message("<span class='warning'>[user] smacks [user.p_them()]self with [target_person]!</span>", "<span class='userdanger'>You end up smacking [yeeted_person] into yourself!</span>", ignored_mobs = yeeted_person)
-			to_chat(target_person, "<span class='userdanger'>[user] smacks you into [user.p_them()]self, turning you free!</span>")
+			user.visible_message("<span class='warning'>[user] smacks [user.p_them()]self with [target]!</span>", "<span class='userdanger'>You end up smacking [target] into yourself!</span>", ignored_mobs = target)
+			to_chat(target, "<span class='userdanger'>[user] smacks you into [user.p_them()]self, turning you free!</span>")
 			user.adjustBruteLoss(step)
 			return
 
-		target.visible_message("<span class='warning'>[user] swings [target_person] directly into [collateral_mob], sending [collateral_mob.p_them()] flying!</span>", \
+		target.visible_message("<span class='warning'>[user] swings [target] directly into [collateral_mob], sending [collateral_mob.p_them()] flying!</span>", \
 			"<span class='userdanger'>You're smacked into [collateral_mob]!</span>", ignored_mobs = collateral_mob)
-		to_chat(collateral_mob, "<span class='userdanger'>[user] swings [target_person] directly into you, sending you flying!</span>")
+		to_chat(collateral_mob, "<span class='userdanger'>[user] swings [target] directly into you, sending you flying!</span>")
 
 		collateral_mob.adjustBruteLoss(step*0.5)
 		collateral_mob.throw_at(collat_throw_target, round(step * 0.25) + 1, round(step * 0.25) + 1)
@@ -339,7 +349,7 @@
 	if(step >= WRESTLING_THROW_STEPS)
 		finish_swing(user, target, original_dir)
 	else if(step < 0)
-		user.visible_message("<span class='danger'>[user] loses [user.p_their()] momentum on [target]!</span>", "<span class='warning'>You lose your momentum on swinging [yeeted_person]!</span>", ignored_mobs = yeeted_person)
+		user.visible_message("<span class='danger'>[user] loses [user.p_their()] momentum on [target]!</span>", "<span class='warning'>You lose your momentum on swinging [target]!</span>", ignored_mobs = target)
 		to_chat(target, "<span class='userdanger'>[user] loses [user.p_their()] momentum and lets go of you!</span>")
 	else
 		addtimer(CALLBACK(src, .proc/swing_loop, user, target, step, original_dir), delay)
@@ -355,7 +365,7 @@
 	user.setDir(original_dir)
 	target.forceMove(user.loc)
 	target.visible_message("<span class='danger'>[user] throws [target]!</span>", \
-					"<span class='userdanger'>You're thrown by [user]!</span>", "<span class='hear'>You hear aggressive shuffling and a loud thud!</span>", null, the_hulk)
+					"<span class='userdanger'>You're thrown by [user]!</span>", "<span class='hear'>You hear aggressive shuffling and a loud thud!</span>", null, user)
 	to_chat(user, "<span class='danger'>You throw [target]!</span>")
 	playsound(user.loc, "swing_hit", 50, TRUE)
 	var/turf/T = get_edge_target_turf(user, user.dir)
@@ -398,20 +408,19 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Adds the Wrestling to the belt
 /obj/item/storage/belt/champion
-	var/datum/martial_art/fulpwrestling/style = new
+	var/datum/martial_art/fulpwrestling/wrestling = new
 
 /obj/item/storage/belt/champion/equipped(mob/living/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_BELT)
-		if(user.job in list("Quartermaster"))
-			style.teach(user, TRUE)
+		if(user.mind && user.mind.assigned_role == "Quartermaster")
+			wrestling.teach(user, TRUE)
 	return
 
 /obj/item/storage/belt/champion/dropped(mob/living/user)
 	. = ..()
-	var/mob/living/H = user
-	if(H.get_item_by_slot(ITEM_SLOT_BELT) == src)
-		style.remove(user)
+	if(wrestling)
+		wrestling.remove(user)
 	return
 
 /mob/living/proc/FulpWrestling_help()
