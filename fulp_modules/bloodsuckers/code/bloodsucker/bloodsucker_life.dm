@@ -65,12 +65,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /mob/living/carbon/human/handle_blood()
+	. = ..()
 	if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: Dont regenerate blood, damnmit!
 		return // We cant use the TRAIT_NOBLEED above as its a species_trait only
-
-/mob/living/carbon/human/bleed(amt)
-	if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Fulpstation Bloodsuckers edit: They don't need to be here
-		..()
 
 /datum/antagonist/bloodsucker/proc/AddBloodVolume(value)
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
@@ -278,7 +275,7 @@
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Wake up
+	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 	CureDisabilities()
 	owner.current.update_sight()
@@ -294,7 +291,6 @@
 /datum/mind/proc/AmFinalDeath()
  	return !current || QDELETED(current) || !isliving(current) || isbrain(current) || !get_turf(current) // NOTE: "isliving()" is not the same as STAT == CONSCIOUS. This is to make sure you're not a BORG (aka silicon)
 
-/// Dont bother if we are already supposed to be dead
 /datum/antagonist/bloodsucker/proc/FinalDeath()
 	if(FinalDeath)
 		return
