@@ -1023,7 +1023,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(ITEM_SLOT_FEET)
 			if(H.num_legs < 2)
 				return FALSE
-			if(DIGITIGRADE in species_traits)
+//			if(DIGITIGRADE in species_traits)
+			if((DIGITIGRADE in species_traits) == !(I.flags_inv & FULL_DIGITIGRADE)) //fulp edit oh god oh fuck
 				if(!disable_warning)
 					to_chat(H, "<span class='warning'>The footwear around here isn't compatible with your feet!</span>")
 				return FALSE
