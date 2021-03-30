@@ -32,7 +32,6 @@
 	var/obj/item/organ/O
 	// Heart
 	O = owner.current.getorganslot(ORGAN_SLOT_HEART)
-
 	if(!istype(O, /obj/item/organ/heart/vampheart) && !istype(O, /obj/item/organ/heart/demon))
 		qdel(O)
 		var/obj/item/organ/heart/vampheart/H = new
@@ -44,6 +43,11 @@
 		qdel(O)
 		var/obj/item/organ/eyes/bloodsucker/E = new
 		E.Insert(owner.current)
+	O = owner.current.getorganslot(ORGAN_SLOT_TONGUE)
+	if(!istype(O, /obj/item/organ/tongue/bloodsucker))
+		qdel(O)
+		var/obj/item/organ/tongue/bloodsucker/E = new
+		E.Insert(owner.current)
 
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
 	// Heart
@@ -52,6 +56,9 @@
 	// Eyes
 	var/obj/item/organ/eyes/E = new
 	E.Insert(owner.current)
+	// Tongue
+	var/obj/item/organ/tongue/O = new
+	O.Insert(owner.current)
 
 // 		HEART: OVERWRITE	//
 // 		HEART 		//
@@ -93,6 +100,34 @@
 	see_in_dark = 12
 	sight_flags = SEE_MOBS // Bloodsuckers are predators, and detect life/heartbeats nearby. - 2019 Breakdown of Bloodsuckers
 	flash_protect = -1 // These eyes are weaker to flashes, but let you see in the dark
+
+//////////////////////
+//     TONGUE       //
+//////////////////////
+
+/obj/item/organ/tongue/bloodsucker
+	sense_of_taste = FALSE
+	var/static/list/languages_possible_bloodsucker = typecacheof(list(
+		/datum/language/common,
+		/datum/language/draconic,
+		/datum/language/codespeak,
+		/datum/language/monkey,
+		/datum/language/narsie,
+		/datum/language/vampiric,
+		/datum/language/beachbum,
+		/datum/language/aphasia,
+		/datum/language/piratespeak,
+		/datum/language/moffic,
+		/datum/language/sylvan,
+		/datum/language/shadowtongue,
+		/datum/language/terrum,
+		/datum/language/nekomimetic,
+		/datum/language/buzzwords
+	))
+
+/obj/item/organ/tongue/bloodsucker/Initialize(mapload)
+	. = ..()
+	languages_possible = languages_possible_bloodsucker
 
 /*
 //////////////////////

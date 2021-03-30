@@ -644,11 +644,11 @@
 
 /datum/hud/human/New(mob/living/carbon/human/owner)
 	..()
-	blood_display = new /atom/movable/screen/bloodsucker/blood_counter // Fulpstation Bloodsuckers
+	blood_display = new /atom/movable/screen/bloodsucker/blood_counter
 	infodisplay += blood_display
-	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter // Fulpstation Bloodsuckers
+	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter
 	infodisplay += vamprank_display
-	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter // Fulpstation Bloodsuckers
+	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter
 	infodisplay += sunlight_display
 
 #define ui_blood_display "WEST:6,CENTER-1:0" // 1 tile down

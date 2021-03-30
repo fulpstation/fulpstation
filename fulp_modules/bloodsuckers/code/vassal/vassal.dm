@@ -50,6 +50,7 @@
 	vassal_objective.owner = owner
 	vassal_objective.generate_objective()
 	objectives += vassal_objective
+	give_tongue()
 	owner.current.grant_language(/datum/language/vampiric)
 	update_vassal_icons_added(owner.current, "vassal")
 	. = ..()
@@ -70,6 +71,7 @@
 		power.Remove(owner.current)
 	// Remove Hunter Objectives
 	remove_objective()
+	remove_tongue()
 	owner.current.remove_language(/datum/language/vampiric)
 	// Clear Antag
 	owner.special_role = null
@@ -101,6 +103,18 @@
 	// And to your former Master...
 	if(master && master.owner)
 		to_chat(master.owner, "<span class='userdanger'>You feel the bond with your vassal [owner.current] has somehow been broken!</span>")
+
+/datum/antagonist/vassal/proc/give_tongue()
+	var/obj/item/organ/O
+	O = owner.current.getorganslot(ORGAN_SLOT_TONGUE)
+	if(!istype(O, /obj/item/organ/tongue/bloodsucker))
+		qdel(O)
+		var/obj/item/organ/tongue/bloodsucker/E = new
+		E.Insert(owner.current)
+
+/datum/antagonist/vassal/proc/remove_tongue()
+	var/obj/item/organ/tongue/O = new
+	O.Insert(owner.current)
 
 /datum/status_effect/agent_pinpointer/vassal_edition
 	id = "agent_pinpointer"
