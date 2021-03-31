@@ -11,7 +11,7 @@
 
 
 /datum/martial_art/fulpwrestling
-	name = "Wrestling"
+	name = "Quartermaster Wrestling"
 	id = MARTIALART_FULPWRESTLING
 	help_verb = /mob/living/proc/FulpWrestling_help
 	smashes_tables = TRUE
