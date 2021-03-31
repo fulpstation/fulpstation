@@ -1,8 +1,8 @@
 /client/var/mhelptimer = 0 // Timer for returning the Mhelp verb
 
 /client/verb/mentorhelp(msg as text)
-	set category = "Mentor"
-	set name = "Mentorhelp"
+	set category = "Contributor"
+	set name = "Contributorhelp"
 
 	// Cleans the input message
 	if(!msg)
@@ -15,7 +15,7 @@
 		if(usr.client.prefs.muted & MUTE_MENTORHELP)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
+				html = "<span class='danger'>Error: MentorPM: You are muted from Contributorhelps. (muted).</span>",
 				confidential = TRUE)
 			return
 
@@ -25,8 +25,8 @@
 	if(!mob)
 		return // This doesn't happen
 
-	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0)]</b>: [msg]</font></span>"
-	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0)]: [msg]")
+	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>CONTRIBUTORHELP:</b> <b>[key_name_mentor(src, 1, 0)]</b>: [msg]</font></span>"
+	log_mentor("CONTRIBUTORHELP: [key_name_mentor(src, 0, 0)]: [msg]")
 
 	// Send the Mhelp to all Mentors/Admins
 	for(var/client/X in GLOB.mentors | GLOB.admins)
@@ -39,7 +39,7 @@
 	// Also show it to person Mhelping
 	to_chat(usr,
 		type = MESSAGE_TYPE_MODCHAT,
-		html = "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>",
+		html = "<span class='mentornotice'><font color='purple'>PM to-<b>Contributors</b>: [msg]</font></span>",
 		confidential = TRUE)
 
 	return

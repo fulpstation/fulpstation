@@ -1,7 +1,7 @@
 //shows a list of clients we could send PMs to, then forwards our choice to cmd_Mentor_pm
 /client/proc/cmd_mentor_pm_panel()
-	set category = "Mentor"
-	set name = "Mentor PM"
+	set category = "Contributor"
+	set name = "Contributor PM"
 	if(!is_mentor())
 		to_chat(src, "<font color='red'>Error: Mentor-PM-Panel: Only Mentors and Admins may use this command.</font>")
 		return
@@ -10,7 +10,7 @@
 		targets["[T]"] = T
 
 	var/list/sorted = sortList(targets)
-	var/target = input(src,"To whom shall we send a message?","Mentor PM",null) in sorted|null
+	var/target = input(src,"To whom shall we send a message?","Contributor PM",null) in sorted|null
 	cmd_mentor_pm(targets[target],null)
 	SSblackbox.record_feedback("tally", "Mentor_verb", 1, "MentorPM") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
@@ -57,7 +57,7 @@
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	if(!msg)	return
 
-	log_mentor("Mentor PM: [key_name(src)]->[key_name(C)]: [msg]")
+	log_mentor("Contributor PM: [key_name(src)]->[key_name(C)]: [msg]")
 
 	msg = emoji_parse(msg)
 	C << 'sound/items/bikehorn.ogg'
@@ -65,11 +65,11 @@
 		if(is_mentor()) // Both are Mentors
 			to_chat(C,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='purple'>Contributor PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Contributor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 		else // Sender is a Non-Mentor
 			to_chat(C,
@@ -78,15 +78,15 @@
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Contributor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 	else // Reciever is a Non-Mentor
 		if(is_mentor())
 			// Left unsorted so people dont Mhelp with Mod chat off, you signed up for this!
-			to_chat(C, "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>")
+			to_chat(C, "<font color='purple'>Contributor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>")
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Contributor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
 				confidential = TRUE)
 
 	// We don't use message_Mentors here because the sender/receiver might get it too
@@ -94,5 +94,5 @@
 		if(X.key!=key && X.key!=C.key) // Check client/X is an Mentor and isn't the Sender/Recipient
 			to_chat(X,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, 0, 0)]-&gt;[key_name_mentor(C, X, 0, 0)]:</B> <font color = #5c00e6> [msg]</font>",
+				html = "<B><font color='green'>Contributor PM: [key_name_mentor(src, X, 0, 0)]-&gt;[key_name_mentor(C, X, 0, 0)]:</B> <font color = #5c00e6> [msg]</font>",
 				confidential = TRUE)

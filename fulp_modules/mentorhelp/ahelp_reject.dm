@@ -12,11 +12,11 @@
 		SEND_SOUND(initiator, sound('sound/effects/adminhelp.ogg'))
 
 		to_chat(initiator, "<font color='red' size='4'><b>- AdminHelp Rejected! -</b></font>")
-		to_chat(initiator, "<font color='red'>This question may regard <b>game mechanics or how-tos</b>. Such questions should be asked with <b>Mentorhelp</b>.</font>")
+		to_chat(initiator, "<font color='red'>This question may regard <b>game mechanics or how-tos</b>. Such questions should be asked with <b>Contributorhelp</b>.</font>")
 
 	SSblackbox.record_feedback("tally", "ahelp_stats", 1, "mhelp this")
-	var/msg = "Ticket [TicketHref("#[id]")] told to mentorhelp by [key_name]"
+	var/msg = "Ticket [TicketHref("#[id]")] told to contributorhelp by [key_name]"
 	message_admins(msg)
 	log_admin_private(msg)
-	AddInteraction("Told to mentorhelp by [key_name].")
+	AddInteraction("Told to contributorhelp by [key_name].")
 	Close(silent = TRUE)
