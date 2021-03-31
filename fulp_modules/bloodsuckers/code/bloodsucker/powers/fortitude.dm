@@ -44,7 +44,6 @@
 			if(user.stat == CONSCIOUS)
 				B.AddBloodVolume(-0.5)
 		sleep(20) // Check every few ticks that we haven't disabled this power
-	// Return to Running (if you were before)
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()
