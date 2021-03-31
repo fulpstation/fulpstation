@@ -12,7 +12,7 @@
 	var/list/sorted = sortList(targets)
 	var/target = input(src,"To whom shall we send a message?","Contributor PM",null) in sorted|null
 	cmd_mentor_pm(targets[target],null)
-	SSblackbox.record_feedback("tally", "Mentor_verb", 1, "MentorPM") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	SSblackbox.record_feedback("tally", "Mentor_verb", 1, "ContributorPM") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /// Takes input from cmd_Mentor_pm_panel or /client/Topic and sends them a PM, fetching messages if needed. src is the sender and C is the target client
 /client/proc/cmd_mentor_pm(whom, msg)

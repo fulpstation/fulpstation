@@ -15,7 +15,7 @@
 		if(usr.client.prefs.muted & MUTE_MENTORHELP)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<span class='danger'>Error: MentorPM: You are muted from Contributorhelps. (muted).</span>",
+				html = "<span class='danger'>Error: ContributorPM: You are muted from Contributorhelps. (muted).</span>",
 				confidential = TRUE)
 			return
 
