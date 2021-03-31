@@ -32,6 +32,7 @@
 
 	if(sign.rename_area && sign.name)
 		rename_area(src, sign.name)
+
 	return sign
 
 /obj/structure/sign/barsign/proc/set_sign_by_name(sign_name)
