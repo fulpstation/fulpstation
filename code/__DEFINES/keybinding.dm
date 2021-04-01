@@ -7,7 +7,7 @@
 //Admin
 #define COMSIG_KB_ADMIN_ASAY_DOWN "keybinding_admin_asay_down"
 #define COMSIG_KB_ADMIN_DSAY_DOWN "keybinding_admin_dsay_down"
-#define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
+#define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down" // Fulpstation Mentorhelp
 #define COMSIG_KB_ADMIN_TOGGLEBUILDMODE_DOWN "keybinding_admin_togglebuildmode_down"
 #define COMSIG_KB_ADMIN_AGHOST_DOWN "keybinding_admin_aghost_down"
 #define COMSIG_KB_ADMIN_PLAYERPANELNEW_DOWN "keybinding_admin_playerpanelnew_down"
@@ -20,10 +20,7 @@
 #define COMSIG_KB_CARBON_HOLDRUNMOVEINTENT_DOWN "keybinding_carbon_holdrunmoveintent_down"
 #define COMSIG_KB_CARBON_HOLDRUNMOVEINTENT_UP "keybinding_carbon_holdrunmoveintent_up"
 #define COMSIG_KB_CARBON_TOGGLETHROWMODE_DOWN "keybinding_carbon_togglethrowmode_down"
-#define COMSIG_KB_CARBON_SELECTHELPINTENT_DOWN "keybinding_carbon_selecthelpintent_down"
-#define COMSIG_KB_CARBON_SELECTDISARMINTENT_DOWN "keybinding_carbon_selectdisarmintent_down"
-#define COMSIG_KB_CARBON_SELECTGRABINTENT_DOWN "keybinding_carbon_selectgrabintent_down"
-#define COMSIG_KB_CARBON_SELECTHARMINTENT_DOWN "keybinding_carbon_selectharmintent_down"
+#define COMSIG_KB_CARBON_HOLDTHROWMODE_DOWN "keybinding_carbon_holdthrowmode_down"
 #define COMSIG_KB_CARBON_GIVEITEM_DOWN "keybinding_carbon_giveitem_down"
 
 //Client
@@ -47,6 +44,9 @@
 #define COMSIG_KB_LIVING_LOOKUP_DOWN "keybinding_living_lookup_down"
 #define COMSIG_KB_LIVING_LOOKDOWN_DOWN "keybinding_living_lookdown_down"
 #define COMSIG_KB_LIVING_REST_DOWN "keybinding_living_rest_down"
+#define COMSIG_KB_LIVING_TOGGLE_COMBAT_DOWN "keybinding_living_toggle_combat_down"
+#define COMSIG_KB_LIVING_ENABLE_COMBAT_DOWN "keybinding_living_enable_combat_down"
+#define COMSIG_KB_LIVING_DISABLE_COMBAT_DOWN "keybinding_living_disable_combat_down"
 
 //Mob
 #define COMSIG_KB_MOB_FACENORTH_DOWN "keybinding_mob_facenorth_down"
@@ -76,7 +76,6 @@
 #define COMSIG_KB_SILICON_TOGGLEMODULEONE_DOWN "keybinding_silicon_togglemoduleone_down"
 #define COMSIG_KB_SILICON_TOGGLEMODULETWO_DOWN "keybinding_silicon_togglemoduletwo_down"
 #define COMSIG_KB_SILICON_TOGGLEMODULETHREE_DOWN "keybinding_silicon_togglemodulethree_down"
-#define COMSIG_KB_SILICON_CYCLEINTENT_DOWN "keybinding_silicon_cycleintent_down"
 #define COMSIG_KB_SILICON_UNEQUIPMODULE_DOWN "keybinding_silicon_unequipmodule_down"
 
 //Movement
