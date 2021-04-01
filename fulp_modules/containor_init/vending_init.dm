@@ -16,6 +16,7 @@
 
 /obj/machinery/vending/wardrobe/engi_wardrobe/Initialize()
 	products += list(/obj/item/clothing/shoes/workboots/digitigrade = 3)
+	contraband += list(/obj/item/toy/plush/supermatter = 2)
 	. = ..()
 
 /obj/machinery/vending/wardrobe/atmos_wardrobe/Initialize()
@@ -125,3 +126,8 @@
 			new /datum/data/mining_equipment("Digitigrade Jump Boots",		/obj/item/clothing/shoes/bhop/digitigrade,						2500),
 		)
 	return ..()
+
+//GAMES VENDING MACHINE, THE ONE IN LIBRARY, YES, THE ONE THAT NOBODY USE.
+/obj/machinery/vending/games/Initialize()
+    products += list(/obj/item/toy/plush/batong = 3)
+    . = ..()
