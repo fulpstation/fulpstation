@@ -61,6 +61,7 @@
 	uniform = /obj/item/clothing/under/plasmaman/brigdoc
 	gloves = /obj/item/clothing/gloves/color/plasmaman/white
 
+
 /datum/id_trim/job/brig_physician
 	assignment = "Brig Physician"
 	trim_icon = 'fulp_modules/jobs/cards.dmi'
