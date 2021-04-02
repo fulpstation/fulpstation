@@ -164,3 +164,9 @@
 /obj/item/clothing/under/bodysash/civilian
 	name = "civilian's sash"
 	icon_state = "civilian"
+
+///Misc
+
+/obj/item/clothing/under/bodysash/russia
+	name = "Russian sash"
+	icon_state = "russia"
