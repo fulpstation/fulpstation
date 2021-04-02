@@ -3,10 +3,10 @@
 /obj/item/clothing/suit/hooded/wintercoat/security/pris
 	name = "\improper prisioner's winter coat"
 	desc = "Made just for the times when the prison runs out of working space heaters."
-	icon = 'fulp_modules/wintercoats/icons/wintercoats_icons.dmi'
-	worn_icon = 'fulp_modules/wintercoats/icons/wintercoats.dmi'
-	lefthand_file = 'fulp_modules/wintercoats/icons/wintercoat_lefthand.dmi'
-	righthand_file = 'fulp_modules/wintercoats/icons/wintercoat_righthand.dmi'
+	icon = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoats_icons.dmi'
+	worn_icon = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoats.dmi'
+	lefthand_file = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoat_lefthand.dmi'
+	righthand_file = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoat_righthand.dmi'
 	icon_state = "wintercoat_pris"
 	inhand_icon_state = "wintercoat_pris"
 	cold_protection = CHEST|GROIN|LEGS|ARMS
@@ -16,6 +16,6 @@
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/security/pris
 
 /obj/item/clothing/head/hooded/winterhood/fulp/security/pris
-	worn_icon = 'fulp_modules/wintercoats/icons/wintercoats.dmi'
-	icon = 'fulp_modules/wintercoats/icons/wintercoathoods.dmi'
+	worn_icon = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoats.dmi'
+	icon = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoathoods.dmi'
 	icon_state = "winterhood_pris"
