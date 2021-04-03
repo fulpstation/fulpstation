@@ -106,16 +106,12 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	switch(department)
 		if(SEC_DEPT_SUPPLY)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			dep_trim = /datum/id_trim/job/deputy/supply
 		if(SEC_DEPT_ENGINEERING)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
-			dep_trim = /datum/id_trim/job/deputy/engineering
 		if(SEC_DEPT_MEDICAL)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
-			dep_trim = /datum/id_trim/job/deputy/medical
 		if(SEC_DEPT_SCIENCE)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
-			dep_trim = /datum/id_trim/job/deputy/science
 		else
 			H.equipOutfit(/datum/outfit/job/deputy)
 

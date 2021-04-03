@@ -7,6 +7,7 @@
 	head = /obj/item/clothing/head/fulpberet/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
+	id_trim = /datum/id_trim/job/deputy/supply
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering
@@ -17,6 +18,7 @@
 	head = /obj/item/clothing/head/fulpberet/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
+	id_trim = /datum/id_trim/job/deputy/engineering
 
 /// Medical Deputy
 /datum/outfit/job/deputy/medical
@@ -27,6 +29,7 @@
 	head = /obj/item/clothing/head/fulpberet/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
+	id_trim = /datum/id_trim/job/deputy/medical
 
 /// Science Deputy
 /datum/outfit/job/deputy/science
@@ -37,6 +40,7 @@
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
+	id_trim = /datum/id_trim/job/deputy/science
 
 /// Plasmamen Datum
 /datum/outfit/plasmaman/deputy
