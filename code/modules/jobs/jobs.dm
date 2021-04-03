@@ -60,8 +60,9 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
 	"Detective",
-	// FULP EDIT ADDITION - BRIG DOCTOR
+	// FULP EDIT ADDITION - Fulp jobs - Deputy + Brig Physician
 	"Brig Physician",
+	"Deputy",
 	// FULP ADDITION END
 	"Security Officer"
 	))
