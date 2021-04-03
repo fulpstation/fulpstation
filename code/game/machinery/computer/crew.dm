@@ -77,6 +77,10 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 		// FULP EDIT ADDITION - Fulp jobs. Place between this and the END mark.
 		"Brig Physician" = 17,
 		"Deputy" = 18,
+		"Deputy (Cargo)" = 19,
+		"Deputy (Engineering)" = 20,
+		"Deputy (Medical)" = 21,
+		"Deputy (Science)" = 22,
 		// FULP EDIT END
 		// ANYTHING ELSE = UNKNOWN_JOB_ID, Unknowns/custom jobs will appear after civilians, and before assistants
 		"Assistant" = 999,

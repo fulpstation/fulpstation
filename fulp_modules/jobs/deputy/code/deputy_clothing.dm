@@ -208,7 +208,38 @@
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_SCIENCEDEPUTY
 
+/// Headsets
+/obj/item/encryptionkey/headset_depsupply
+	name = "supply deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SUPPLY = 1)
 
+/obj/item/encryptionkey/headset_depengineering
+	name = "engineering deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 1)
+
+/obj/item/encryptionkey/headset_depmedical
+	name = "medical deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_MEDICAL = 1)
+
+/obj/item/encryptionkey/headset_depscience
+	name = "science deputy radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SCIENCE = 1)
+
+/obj/item/radio/headset/headset_sec/department/supply
+	keyslot = new /obj/item/encryptionkey/headset_depsupply
+
+/obj/item/radio/headset/headset_sec/department/engi
+	keyslot = new /obj/item/encryptionkey/headset_depengineering
+
+/obj/item/radio/headset/headset_sec/department/med
+	keyslot = new /obj/item/encryptionkey/headset_depmedical
+
+/obj/item/radio/headset/headset_sec/department/sci
+	keyslot = new /obj/item/encryptionkey/headset_depscience
 
 /// Mood buff from being within your department.
 /datum/mood_event/deputy_helpful

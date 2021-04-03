@@ -15,7 +15,6 @@
 	hud_icon = 'fulp_modules/jobs/huds.dmi'
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
-	outfit = /datum/outfit/job/brigdoc
 	plasmaman_outfit = /datum/outfit/plasmaman/deputy
 
 	paycheck = PAYCHECK_MEDIUM
@@ -26,7 +25,7 @@
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
 	bounty_types = CIV_JOB_SEC
 
-//Default Deputy Clothes
+/// Default Deputy Clothes
 /datum/outfit/job/deputy
 	name = "Deputy"
 	jobtype = /datum/job/fulp/deputy
@@ -49,6 +48,41 @@
 
 	implants = list(/obj/item/implant/mindshield)
 
+	id_trim = /datum/id_trim/job/deputy
+
+/// Default Deputy trim, this should never be used in game.
+/datum/id_trim/job/deputy
+	assignment = "Deputy"
+	trim_state = "trim_deputy"
+	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
+	config_job = "deputy"
+	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
+	/// Used to give the Departmental access
+	var/department_access = list()
+
+/datum/id_trim/job/deputy/refresh_trim_access()
+	. = ..()
+	if(!.)
+		return
+	access |= department_access
+
+/datum/id_trim/job/deputy/supply
+	assignment = "Deputy (Cargo)"
+	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE)
+
+/datum/id_trim/job/deputy/engineering
+	assignment = "Deputy (Engineering)"
+	department_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_MECH_ENGINE, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
+
+/datum/id_trim/job/deputy/medical
+	assignment = "Deputy (Medical)"
+	department_access = list(ACCESS_MEDICAL, ACCESS_PSYCHOLOGY, ACCESS_MORGUE, ACCESS_VIROLOGY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_SURGERY, ACCESS_MECH_MEDICAL)
+
+/datum/id_trim/job/deputy/science
+	assignment = "Deputy (Science)"
+	department_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_TOXINS, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_TOXINS_STORAGE)
+
 GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))
 
 /datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
@@ -67,31 +101,27 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		if(latejoin)
 			announce_latejoin(H, department, GLOB.security_officer_distribution)
 
+	var/list/dep_trim = null
 	switch(department)
 		if(SEC_DEPT_SUPPLY)
-			if(isplasmaman(H))
-				H.equipOutfit(/datum/outfit/plasmaman/deputy)
-			if(isbeefman(H))
-				H.equipOutfit(/datum/outfit/job/deputy/beefman)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
+			dep_trim = /datum/id_trim/job/deputy/supply
 		if(SEC_DEPT_ENGINEERING)
-			if(isplasmaman(H))
-				H.equipOutfit(/datum/outfit/plasmaman/deputy)
-			if(isbeefman(H))
-				H.equipOutfit(/datum/outfit/job/deputy/beefman)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
+			dep_trim = /datum/id_trim/job/deputy/engineering
 		if(SEC_DEPT_MEDICAL)
-			if(isplasmaman(H))
-				H.equipOutfit(/datum/outfit/plasmaman/deputy)
-			if(isbeefman(H))
-				H.equipOutfit(/datum/outfit/job/deputy/beefman)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
+			dep_trim = /datum/id_trim/job/deputy/medical
 		if(SEC_DEPT_SCIENCE)
-			if(isplasmaman(H))
-				H.equipOutfit(/datum/outfit/plasmaman/deputy)
-			if(isbeefman(H))
-				H.equipOutfit(/datum/outfit/job/deputy/beefman)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
+			dep_trim = /datum/id_trim/job/deputy/science
+		else
+			H.equipOutfit(/datum/outfit/job/deputy)
+
+	if(dep_trim)
+		var/obj/item/card/id/worn_id = H.wear_id
+		SSid_access.apply_trim_to_card(worn_id, dep_trim)
+		H.sec_hud_set_ID()
 
 	if(department)
 		to_chat(M, "<b>You have been assigned to [department]!</b>")
@@ -113,7 +143,7 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	var/datum/signal/subspace/messaging/pda/signal = new(announcement_system, list(
 		"name" = "Security Department Update",
 		"job" = "Automated Announcement System",
-		"message" = "Officer [officer.real_name] has been assigned to your department, [department].",
+		"message" = "[officer.real_name] arrived as the [department] departmental Deputy.",
 		"targets" = targets,
 		"automated" = TRUE,
 	))

@@ -2,9 +2,10 @@
 	name = "Deputy Grab"
 	id = MARTIALART_DEPUTYGRAB
 	var/old_grab_state = null
-	var/list/valid_area = null
+	var/list/valid_area = list()
 
-/datum/martial_art/deputygrab/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D) // From CQC.dm
+/// From CQC.dm
+/datum/martial_art/deputygrab/grab_act(mob/living/A, mob/living/D)
 	if(!can_use(A))
 		return FALSE
 	if(is_type_in_list(get_area(A), valid_area))
@@ -22,18 +23,18 @@
 		return FALSE
 
 // This is used to limit it to the Deputy's department.
-/datum/martial_art/deputygrab/can_use(mob/living/carbon/human/H)
+/datum/martial_art/deputygrab/can_use(mob/living/H)
 	if(HAS_TRAIT(H, TRAIT_SUPPLYDEPUTY))
 		valid_area = typesof(/area/cargo)
-		return ..()
+		return TRUE
 	if(HAS_TRAIT(H, TRAIT_ENGINEERINGDEPUTY))
 		valid_area = typesof(/area/engineering)
-		return ..()
+		return TRUE
 	if(HAS_TRAIT(H, TRAIT_MEDICALDEPUTY))
 		valid_area = typesof(/area/medical)
-		return ..()
+		return TRUE
 	if(HAS_TRAIT(H, TRAIT_SCIENCEDEPUTY))
 		valid_area = typesof(/area/science)
-		return ..()
+		return TRUE
 	else
-		return FALSE
+		return ..()
