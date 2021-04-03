@@ -35,7 +35,7 @@
 	breakout_time = 600
 	pryLidTimer = 400
 	resistance_flags = NONE
-	material_drop = /obj/item/stack/sheet/metal
+	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
 	armor = list(MELEE = 50, BULLET = 20, LASER = 30, ENERGY = 0, BOMB = 50, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
 
@@ -64,7 +64,7 @@
 	close_sound = 'sound/effects/pressureplate.ogg'
 	breakout_time = 300
 	pryLidTimer = 200
-	material_drop = /obj/item/stack/sheet/metal
+	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 5
 	armor = list(MELEE = 40, BULLET = 15, LASER = 50, ENERGY = 0, BOMB = 10, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
 

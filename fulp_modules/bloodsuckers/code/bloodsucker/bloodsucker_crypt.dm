@@ -102,7 +102,7 @@
 	var/disloyalty_offered = FALSE // Has the popup been issued? Don't spam them.
 
 /obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
-	new /obj/item/stack/sheet/metal(src.loc, 4)
+	new /obj/item/stack/sheet/iron(src.loc, 4)
 	new /obj/item/stack/rods(loc, 4)
 	qdel(src)
 

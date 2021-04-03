@@ -248,7 +248,8 @@
 		var/datum/species/S = H.dna.species
 		S.species_traits += DRINKSBLOOD
 	// Clear Addictions
-	owner.current.reagents.addiction_list = list() // Start over from scratch. Lucky you! At least you're not addicted to blood anymore (if you were)
+	for(var/addiction_type in subtypesof(/datum/addiction))
+		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS) //Remove the addiction!
 	// Stats
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current

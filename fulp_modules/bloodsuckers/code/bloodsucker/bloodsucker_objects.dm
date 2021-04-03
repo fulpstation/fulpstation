@@ -215,7 +215,7 @@
 	var/staketime = 120 // Time it takes to embed the stake into someone's chest.
 
 /obj/item/stake/afterattack(atom/target, mob/user, proximity)
-	// Invalid Target, or not targetting chest with HARM intent?
+	// Invalid Target, or not targetting the chest?
 	if(!iscarbon(target) || check_zone(user.zone_selected) != "chest")
 		return
 	var/mob/living/carbon/C = target
