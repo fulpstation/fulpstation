@@ -18,9 +18,9 @@
 	back = /obj/item/storage/backpack/ert/medical
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	gloves = /obj/item/clothing/gloves/combat/nitrile
+	suit_store = /obj/item/gun/energy/e_gun
 	backpack_contents = list(/obj/item/storage/box/survival/engineer=1,\
 		/obj/item/melee/baton/loaded=1,\
-		/obj/item/gun/energy/e_gun=1,\
 		/obj/item/reagent_containers/hypospray/combat/nanites=1,\
 		/obj/item/gun/medbeam=1)
 
@@ -105,9 +105,9 @@
 	back = /obj/item/storage/backpack/ert/engineer
 	suit_store = /obj/item/tank/internals/oxygen
 	r_pocket = /obj/item/rcd_ammo/large
+	r_hand = /obj/item/gun/energy/e_gun
 	backpack_contents = list(/obj/item/storage/box/survival/engineer=1,\
 		/obj/item/melee/baton/loaded=1,\
-		/obj/item/gun/energy/e_gun=1,\
 		/obj/item/construction/rcd/combat=1)
 
 // CLOWN ERT OUTFITS
@@ -138,7 +138,7 @@
 	glasses = /obj/item/clothing/glasses/night
 	shoes = /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/clown/commander
-	suit_store = /obj/item/pneumatic_cannon/pie/selfcharge
+	r_hand = /obj/item/pneumatic_cannon/pie/selfcharge
 	backpack_contents = list(/obj/item/storage/box/hug/survival=1,\
 		/obj/item/melee/transforming/energy/sword/bananium=1,\
 		/obj/item/shield/energy/bananium=1,\
