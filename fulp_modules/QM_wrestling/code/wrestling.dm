@@ -4,7 +4,7 @@
  *	The original authors are: cogwerks, pistoleer, spyguy, angriestibm, marquesas, and stuntwaffle.
  */
 
-/// Defines the Martial Art - Move to fulp_defines.dm once said file exists -Willard
+/// Defines the Martial Art
 #define MARTIALART_FULPWRESTLING "Quartermaster Wrestling"
 /// How many steps it takes to throw the target - Used for throwing
 #define WRESTLING_THROW_STEPS 28
@@ -17,7 +17,7 @@
 	smashes_tables = TRUE
 	var/datum/action/fulpslam/slam = new/datum/action/fulpslam()
 	var/datum/action/fulpdrop/drop = new/datum/action/fulpdrop()
-	var/list/valid_areas = list(/area/quartermaster)
+	var/list/valid_areas = list(/area/cargo)
 
 /datum/martial_art/fulpwrestling/proc/check_streak(mob/living/user, mob/living/target)
 	if(!can_use(user))
@@ -256,7 +256,7 @@
 		return FALSE
 	if(modifiers["alt"] || modifiers["shift"] || modifiers["ctrl"] || modifiers["middle"])
 		return
-	if(!user.in_throw_mode || user.get_active_held_item())
+	if(!user.throw_mode || user.get_active_held_item())
 		return
 	if(user.grab_state < GRAB_PASSIVE || !iscarbon(user.pulling) || user.buckled || user.incapacitated())
 		return
