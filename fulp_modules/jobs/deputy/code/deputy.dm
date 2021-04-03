@@ -54,6 +54,7 @@
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
 	trim_state = "trim_deputy"
+	trim_icon = 'fulp_modules/jobs/cards.dmi'
 	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
@@ -99,7 +100,7 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 			department = pick_n_take(GLOB.available_deputy_depts)
 
 		if(latejoin)
-			announce_latejoin(H, department, GLOB.security_officer_distribution)
+			announce_latejoin(H, department)
 
 	var/list/dep_trim = null
 	switch(department)
@@ -128,7 +129,7 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	else
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
-/datum/job/fulp/deputy/proc/announce_latejoin(mob/officer, department, distribution)
+/datum/job/fulp/deputy/proc/announce_latejoin(mob/officer, department)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
