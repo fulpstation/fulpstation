@@ -369,7 +369,12 @@
 "acn" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
-/area/security/brig)
+/obj/structure/table/reinforced,
+/obj/item/cigbutt/cigarbutt{
+	pixel_x = 12;
+	pixel_y = 7
+	},
+/area/security/interrogation)
 "acz" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 8
@@ -3774,6 +3779,26 @@
 	},
 /turf/open/floor/iron/white,
 /area/hallway/primary/fore)
+"aEs" = (
+/obj/machinery/door/firedoor,
+/obj/structure/cable,
+/obj/machinery/door/window/brigdoor/security/cell{
+	dir = 4;
+	id = "Cell 1";
+	name = "Cell 1"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/effect/turf_decal/siding/red,
+/obj/effect/turf_decal/siding/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/delivery,
+/area/security/brig)
 "aEy" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 10
@@ -11982,7 +12007,8 @@
 /obj/machinery/camera{
 	c_tag = "Security- Prison Main Hall 3";
 	dir = 8;
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/iron,
@@ -12311,6 +12337,19 @@
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
+"bPu" = (
+/obj/machinery/flasher{
+	id = "Cell 1";
+	pixel_y = 30
+	},
+/obj/effect/turf_decal/siding/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile,
+/obj/effect/turf_decal/tile{
+	dir = 8
+	},
+/area/security/brig)
 "bPN" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -21183,6 +21222,13 @@
 /obj/effect/turf_decal/tile{
 	dir = 4
 	},
+/obj/machinery/power/apc{
+	areastring = "/area/hallway/primary/central";
+	dir = 1;
+	name = "Security Bridge APC";
+	pixel_x = -25
+	},
+/obj/structure/cable,
 /area/security/brig)
 "dmh" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
@@ -24129,6 +24175,17 @@
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
 /area/maintenance/starboard/aft)
+"dWK" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/machinery/door/poddoor/preopen{
+	id = "Secure Gate";
+	name = "brig shutters"
+	},
+/turf/open/floor/plating{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/security/interrogation)
 "dWM" = (
 /obj/machinery/light{
 	dir = 8
@@ -24216,6 +24273,19 @@
 	},
 /obj/structure/cable,
 /area/cargo/storage)
+"dXr" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/red,
+/obj/effect/turf_decal/tile{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile{
+	dir = 4
+	},
+/obj/machinery/light,
+/area/security/interrogation)
 "dXC" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 8
@@ -25449,7 +25519,8 @@
 /obj/machinery/camera{
 	c_tag = "Security- Prison Kitchen Room";
 	dir = 4;
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/mess)
@@ -25644,7 +25715,7 @@
 	dir = 4
 	},
 /obj/machinery/button/flasher{
-	id = "Cell 4";
+	id = "Cell 3";
 	name = "Brig Entrance Flasher";
 	pixel_x = 20;
 	pixel_y = 20;
@@ -27583,19 +27654,6 @@
 /obj/effect/turf_decal/siding/yellow,
 /turf/open/floor/iron,
 /area/security/checkpoint/engineering)
-"eMj" = (
-/obj/machinery/flasher{
-	id = "Cell 4";
-	pixel_y = 30
-	},
-/obj/effect/turf_decal/siding/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile,
-/obj/effect/turf_decal/tile{
-	dir = 8
-	},
-/area/security/brig)
 "eMz" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 9
@@ -28017,8 +28075,8 @@
 /area/security/prison)
 "eQX" = (
 /obj/machinery/button/flasher{
-	id = "Cell 1";
-	name = "Brig Entrance Flasher";
+	id = "Interrogation Room ";
+	name = " Interrogation Room Flasher";
 	pixel_x = 25;
 	pixel_y = -3;
 	req_access_txt = "1"
@@ -30232,6 +30290,11 @@
 /obj/item/clothing/under/misc/assistantformal,
 /turf/open/floor/carpet/donk,
 /area/commons/dorms)
+"fqq" = (
+/turf/closed/wall{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/security/interrogation)
 "fqs" = (
 /obj/item/kirbyplants/random,
 /obj/effect/turf_decal/tile/brown{
@@ -32587,7 +32650,7 @@
 	pixel_x = 24
 	},
 /obj/machinery/button/flasher{
-	id = "Cell 3";
+	id = "Cell 2";
 	name = "Brig Entrance Flasher";
 	pixel_x = 40;
 	pixel_y = -3;
@@ -34298,6 +34361,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/item/clothing/neck/petcollar,
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "gns" = (
@@ -38645,7 +38709,8 @@
 /obj/structure/closet,
 /obj/machinery/camera{
 	c_tag = "Security- Prison Hall 1";
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile,
 /obj/effect/turf_decal/tile{
@@ -44355,7 +44420,8 @@
 /obj/machinery/camera{
 	c_tag = "Security- Prison Library Room";
 	dir = 4;
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -44980,8 +45046,8 @@
 /obj/structure/cable,
 /obj/machinery/door/window/brigdoor/security/cell{
 	dir = 4;
-	id = "Cell 4";
-	name = "Cell 4"
+	id = "Cell 3";
+	name = "Cell 3"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 4
@@ -47210,7 +47276,10 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile,
-/area/security/brig)
+/obj/structure/chair{
+	dir = 4
+	},
+/area/security/interrogation)
 "jfT" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -47825,6 +47894,7 @@
 /obj/effect/turf_decal/tile{
 	dir = 4
 	},
+/obj/structure/cable,
 /area/security/brig)
 "jon" = (
 /obj/structure/disposalpipe/segment,
@@ -54258,7 +54328,8 @@
 /obj/machinery/camera{
 	c_tag = "Security- Prison Botany Room";
 	dir = 8;
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/iron,
@@ -54685,6 +54756,14 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/lab)
+"kJw" = (
+/obj/effect/turf_decal/siding/red{
+	dir = 10
+	},
+/obj/effect/turf_decal/tile{
+	dir = 4
+	},
+/area/security/interrogation)
 "kJz" = (
 /obj/machinery/suit_storage_unit/engine,
 /obj/effect/turf_decal/siding/yellow{
@@ -55396,6 +55475,12 @@
 	},
 /turf/open/floor/iron/grimy,
 /area/service/chapel/office)
+"kRe" = (
+/obj/structure/cable,
+/turf/closed/wall{
+	baseturf = /turf/open/floor/plating/asteroid/airless
+	},
+/area/security/interrogation)
 "kRh" = (
 /obj/machinery/status_display/ai{
 	pixel_y = 32
@@ -58257,7 +58342,8 @@
 /obj/item/reagent_containers/glass/bottle/morphine,
 /obj/machinery/camera{
 	c_tag = "Security- Prison Medical Room";
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/item/clothing/suit/straight_jacket,
 /obj/item/clothing/suit/straight_jacket,
@@ -64812,17 +64898,13 @@
 /turf/open/floor/iron,
 /area/service/janitor)
 "mSr" = (
-/obj/structure/closet/secure_closet/brig{
-	id = "brig1";
-	name = "Cell 1 Locker"
-	},
 /obj/effect/turf_decal/siding/red{
 	dir = 5
 	},
 /obj/effect/turf_decal/tile{
 	dir = 8
 	},
-/area/security/brig)
+/area/security/interrogation)
 "mSv" = (
 /obj/structure/closet/firecloset/full,
 /obj/machinery/light{
@@ -65246,6 +65328,7 @@
 	dir = 4;
 	pixel_x = -4
 	},
+/obj/item/food/meat/steak,
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "mWw" = (
@@ -65778,7 +65861,8 @@
 	},
 /obj/machinery/camera{
 	c_tag = "Security- Prison Meet Room";
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -66994,7 +67078,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile,
-/area/security/brig)
+/obj/machinery/firealarm{
+	pixel_y = 28
+	},
+/area/security/interrogation)
 "npD" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 5
@@ -74619,7 +74706,8 @@
 "oTK" = (
 /obj/machinery/camera{
 	c_tag = "Security- Prison Main Hall 1";
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -77527,7 +77615,7 @@
 /area/science/robotics/mechbay)
 "pBg" = (
 /obj/machinery/flasher{
-	id = "Cell 1";
+	id = "Interrogation Room ";
 	pixel_y = 30
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
@@ -77540,7 +77628,12 @@
 /obj/effect/turf_decal/tile{
 	dir = 8
 	},
-/area/security/brig)
+/obj/machinery/camera{
+	c_tag = "Security- Front Desk Backroom";
+	name = "Camera";
+	network = list("interrogation")
+	},
+/area/security/interrogation)
 "pBr" = (
 /turf/open/floor/circuit/green,
 /area/ai_monitored/turret_protected/ai)
@@ -81718,12 +81811,6 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "qyX" = (
-/obj/machinery/power/apc{
-	areastring = "/area/hallway/primary/central";
-	dir = 1;
-	name = "Security Bridge APC";
-	pixel_x = -25
-	},
 /obj/structure/cable,
 /obj/machinery/light{
 	dir = 8
@@ -83883,20 +83970,18 @@
 /area/engineering/break_room)
 "qYi" = (
 /obj/structure/table/reinforced,
-/obj/item/clothing/neck/petcollar,
-/obj/item/food/meat/steak/chicken,
-/obj/item/food/meat/steak,
 /obj/item/radio/intercom{
 	pixel_x = 24
-	},
-/obj/machinery/recharger{
-	pixel_y = 4
 	},
 /obj/effect/turf_decal/siding/red{
 	dir = 6
 	},
 /obj/effect/turf_decal/tile{
 	dir = 1
+	},
+/obj/machinery/computer/security/telescreen/interrogation{
+	dir = 8;
+	pixel_x = -2
 	},
 /area/security/warden)
 "qYq" = (
@@ -90996,6 +91081,21 @@
 /obj/machinery/atmospherics/pipe/simple/supplymain/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos)
+"sDg" = (
+/obj/structure/cable,
+/obj/effect/turf_decal/siding/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile{
+	dir = 1
+	},
+/obj/structure/chair{
+	dir = 8
+	},
+/area/security/interrogation)
 "sDi" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
@@ -95147,12 +95247,6 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/command)
 "tBS" = (
-/obj/machinery/door/firedoor,
-/obj/machinery/door/window/brigdoor/security/cell{
-	dir = 4;
-	id = "Cell 1";
-	name = "Cell 1"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 4
 	},
@@ -95163,8 +95257,14 @@
 /obj/effect/turf_decal/siding/red{
 	dir = 1
 	},
+/obj/machinery/door/airlock/security/glass{
+	id_tag = "innerbrig";
+	name = "Brig";
+	req_access_txt = "63"
+	},
 /obj/effect/turf_decal/delivery,
-/area/security/brig)
+/obj/machinery/door/firedoor,
+/area/security/interrogation)
 "tBX" = (
 /obj/structure/window/reinforced{
 	dir = 8
@@ -98519,7 +98619,8 @@
 /obj/machinery/camera{
 	c_tag = "Security- Prison Main Hall 2";
 	dir = 5;
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -100762,8 +100863,6 @@
 /obj/effect/turf_decal/tile,
 /area/security/brig)
 "uIF" = (
-/obj/structure/bed,
-/obj/item/bedsheet,
 /obj/machinery/door_timer{
 	id = "Cell 1";
 	name = "Cell 1";
@@ -100775,7 +100874,7 @@
 /obj/effect/turf_decal/tile{
 	dir = 1
 	},
-/area/security/brig)
+/area/security/interrogation)
 "uIK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 6
@@ -103947,7 +104046,7 @@
 /turf/closed/wall{
 	baseturf = /turf/open/floor/plating/asteroid/airless
 	},
-/area/security/brig)
+/area/security/interrogation)
 "vrf" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 4
@@ -105823,7 +105922,8 @@
 	},
 /obj/machinery/camera{
 	c_tag = "Security- Prison Hall 2";
-	name = "Camera"
+	name = "Camera";
+	network = list("ss13","prison")
 	},
 /obj/effect/turf_decal/tile,
 /obj/effect/turf_decal/tile{
@@ -111140,26 +111240,6 @@
 	dir = 1
 	},
 /area/maintenance/disposal)
-"xbh" = (
-/obj/machinery/door/firedoor,
-/obj/structure/cable,
-/obj/machinery/door/window/brigdoor/security/cell{
-	dir = 4;
-	id = "Cell 3";
-	name = "Cell 3"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/obj/effect/turf_decal/siding/red,
-/obj/effect/turf_decal/siding/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/delivery,
-/area/security/brig)
 "xbj" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /area/cargo/warehouse)
@@ -111771,7 +111851,7 @@
 	pixel_x = 24
 	},
 /obj/machinery/button/flasher{
-	id = "Cell 2";
+	id = "Cell 1";
 	name = "Brig Entrance Flasher";
 	pixel_x = 35;
 	pixel_y = -3;
@@ -115612,6 +115692,7 @@
 	pixel_x = -7;
 	pixel_y = -5
 	},
+/obj/item/food/meat/steak/chicken,
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "xSI" = (
@@ -131239,17 +131320,17 @@ iHs
 mYh
 wtB
 mYh
-xbh
-mYh
-wtB
-mYh
 ctW
 mYh
 wtB
-tBS
 mYh
-wtB
-wtB
+aEs
+mYh
+fqq
+tBS
+dWK
+fqq
+fqq
 pKt
 sdu
 myW
@@ -131502,11 +131583,11 @@ wtB
 kqf
 hzV
 meL
-wtB
+fqq
 npA
 jfM
-tOo
-wtB
+kJw
+fqq
 xIm
 sdu
 xvT
@@ -131748,10 +131829,6 @@ akV
 kdN
 xnG
 wtB
-eMj
-cMo
-vEV
-wtB
 sgU
 cMo
 vEV
@@ -131760,10 +131837,14 @@ gCX
 cMo
 vEV
 wtB
+bPu
+cMo
+vEV
+fqq
 pBg
 acn
-vEV
-wtB
+dXr
+fqq
 kSh
 arb
 fTt
@@ -132016,11 +132097,11 @@ wtB
 ulA
 rVn
 pBS
-wtB
+fqq
 mSr
-rVn
+sDg
 uIF
-wtB
+fqq
 fYL
 xvT
 xvT
@@ -132274,10 +132355,10 @@ mYh
 mYh
 mYh
 vrd
-mYh
-mYh
-mYh
-wtB
+kRe
+kRe
+kRe
+fqq
 cXG
 rqa
 rqa
