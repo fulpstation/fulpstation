@@ -161,7 +161,7 @@
 /datum/outfit/centcom/ert/miner
 	name = "ERT Miner"
 
-	id = /obj/item/card/id/ert/miner
+	id = /obj/item/card/id/advanced/centcom/ert/miner
 	glasses = /obj/item/clothing/glasses/meson/night
 	shoes = /obj/item/clothing/shoes/bhop/combat
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/miner
