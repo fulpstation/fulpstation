@@ -427,6 +427,7 @@
 
 /obj/structure/bloodsucker/candelabrum/update_icon_state()
 	icon_state = "candelabrum[lit ? "_lit" : ""]"
+	return ..()
 
 /obj/structure/bloodsucker/candelabrum/examine(mob/user)
 	. = ..()
