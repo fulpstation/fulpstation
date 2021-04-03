@@ -6,20 +6,14 @@ MODULE ID: BRIGDOC
 
 Adds the Brig Physician job to the game. This includes all the brig physician clothing, landmark, and gamemode overwrites.
 
-### TG Proc Changes:
-
-- code/modules/jobs/jobs.dm > GLOBAL_LIST_INIT(security_positions, list()
-- code/modules/jobs/access.dm > /proc/get_all_accesses()
-
 ### TG files changed:
 
 - code/modules/mob/living/carbon/human/species_types/plasmamen.dm > Added brig physician plasmaman outfit.
-- code/datums/traits/negative.dm > Added brig physician heirloom.
-- code/game/machinery/crew.dm > Added brig physician to the job list datum.
+- code/controllers/subsystem/job.dm > Added brig physician to the station job list datum.
+- code/modules/jobs/jobs.dm > Added brig physician to GLOBAL_LIST_INIT(security_positions, list()
 
 ### TG procs overwrites:
 
-- update_overlays() (code/game/objects/items/cards_ids.dm) > Assigns ID Overlays for Fulp jobs.
 - sec_hud_set_ID() (code/game/data_huds.dm) > Assigns HUD Overlays for Fulp jobs.
 
 ### Additional information:

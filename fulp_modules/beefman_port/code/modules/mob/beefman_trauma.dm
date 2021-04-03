@@ -45,65 +45,58 @@
 	gain_text = "<span class='notice'>Your mind snaps, and you wake up. You <i>really</i> wake up.</span>"
 	lose_text = "<span class='warning'>You succumb once more to the sleepless dream of the unwoken.</span>"
 
+
 	var/list/created_firsts = list()
 
-/datum/brain_trauma/special/bluespace_prophet/phobetor/on_life()
+/datum/brain_trauma/special/bluespace_prophet/phobetor/on_life(delta_time, times_fired)
+	if(!COOLDOWN_FINISHED(src, portal_cooldown))
+		return
 
-	var/turf/first_turf
-	var/turf/second_turf
+	COOLDOWN_START(src, portal_cooldown, 10 SECONDS)
+	var/list/turf/possible_tears = list()
+	for(var/turf/T as anything in RANGE_TURFS(8, owner))
+		if(T.density)
+			continue
 
-	// Make Next Portal
-	if(world.time > next_portal)
+		var/clear = TRUE
+		for(var/obj/O in T)
+			if(O.density)
+				clear = FALSE
+				break
+		if(clear)
+			possible_tears += T
 
-/*
-		// Round One: Pick a Nearby Turf
-		var/list/turf/possible_turfs = return_valid_floors_in_range(owner, 6, 0, TRUE) // Source, Range, Has Floor
-		if(!LAZYLEN(possible_turfs))
-			return
-		// First Pick:
-		var/turf/first_turf = pick(possible_turfs)
-		if(!first_turf)
-			return
-		// Round Two: Pick an even Further Turf
-		possible_turfs = return_valid_floors_in_range(first_turf, 20, 6, TRUE) // Source, Range, Has Floor
-		possible_turfs -= first_turf
-		if(!LAZYLEN(possible_turfs))
-			return
-		// Second Pick:
-		var/turf/second_turf = pick(possible_turfs)
-		if(!second_turf)
-			return
-*/
+	if(!LAZYLEN(possible_tears))
+		return
 
-		// Round One: Pick a Nearby Turf
-		first_turf = return_valid_floor_in_range(owner, 6, 0, TRUE)
-		if (!first_turf)
-			next_portal = world.time + 10
-			return
+	var/turf/first_tear
+	var/turf/second_tear
 
-		// Round Two: Pick an even Further Turf
-		second_turf = return_valid_floor_in_range(first_turf, 20, 6, TRUE)
-		if (!second_turf)
-			next_portal = world.time + 10
-			return
+	// Round One: Pick a Nearby Turf
+	first_tear = return_valid_floor_in_range(owner, 6, 0, TRUE)
+	if (!first_tear)
+		return
 
-		next_portal = world.time + 100
+	// Round Two: Pick an even Further Turf
+	second_tear = return_valid_floor_in_range(first_tear, 20, 6, TRUE)
+	if (!second_tear)
+		return
 
 
-		var/obj/effect/hallucination/simple/phobetor/first = new (first_turf, owner)
-		var/obj/effect/hallucination/simple/phobetor/second = new (second_turf, owner)
+	var/obj/effect/hallucination/simple/phobetor/first = new(first_tear, owner)
+	var/obj/effect/hallucination/simple/phobetor/second = new(second_tear, owner)
 
-		first.linked_to = second
-		second.linked_to = first
-		first.seer = owner
-		second.seer = owner
-		first.desc += " This one leads to [get_area(second)]."
-		second.desc += " This one leads to [get_area(first)]."
-		first.name += " ([get_area(second)])."
-		second.name += " ([get_area(first)])."
+	first.linked_to = second
+	second.linked_to = first
+	first.seer = owner
+	second.seer = owner
+	first.desc += " This one leads to [get_area(second)]."
+	second.desc += " This one leads to [get_area(first)]."
+	first.name += " ([get_area(second)])."
+	second.name += " ([get_area(first)])."
 
-		// Remember this Portal...it's gonna get checked for deletion.
-		created_firsts += first
+	// Remember this Portal...it's gonna get checked for deletion.
+	created_firsts += first
 
 	// Delete Next Portal if it's time (it will remove its partner)
 	var/obj/effect/hallucination/simple/phobetor/first_on_the_stack = created_firsts[1]
@@ -122,7 +115,7 @@
 	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
 	image_icon = 'fulp_modules/beefman_port/icons/phobetor_tear.dmi'
 	image_state = "phobetor_tear"
-	image_layer = ABOVE_LIGHTING_LAYER // Place this above shadows so it always glows.
+	image_layer = ABOVE_LIGHTING_PLANE // Place this above shadows so it always glows.
 	var/exist_length = 500
 	var/created_on
 	use_without_hands = TRUE // A Swain addition.

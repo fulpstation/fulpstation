@@ -386,22 +386,28 @@
 		target.add_mob_blood(user) //  from atoms.dm, this is how you bloody something!s
 	return ..()
 
-/datum/species/beefman/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, intent, mob/living/carbon/human/H)
 
+/datum/species/beefman/proc/handle_limb_mashing()
+	SIGNAL_HANDLER
+
+/datum/species/beefman/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/H, modifiers)
+	handle_limb_mashing()
 	// MEAT LIMBS: If our limb is missing, and we're using meat, stick it in!
-	if (H.stat < DEAD && !affecting && intent == INTENT_HARM && istype(I, /obj/item/food/meat/slab))
+	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		return
+	if(H.stat < DEAD && !affecting && istype(I, /obj/item/food/meat/slab))
 		var/target_zone = user.zone_selected
-		var/list/allowedList = list ( BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG )
+		var/list/limbs = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 
-		if ((target_zone in allowedList))
-			if (user == H)
+		if((target_zone in limbs))
+			if(user == H)
 				user.visible_message("[user] begins mashing [I] into [H]'s torso.", "<span class='notice'>You begin mashing [I] into your torso.</span>")
 			else
 				user.visible_message("[user] begins mashing [I] into [H]'s torso.", "<span class='notice'>You begin mashing [I] into [H]'s torso.</span>")
 
 			// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
 			spawn(1)
-				if (do_mob(user,H))
+				if(do_mob(user,H))
 					// Attach the part!
 					var/obj/item/bodypart/newBP = H.newBodyPart(target_zone, FALSE)
 					H.visible_message("The meat sprouts digits and becomes [H]'s new [newBP.name]!", "<span class='notice'>The meat sprouts digits and becomes your new [newBP.name]!</span>")

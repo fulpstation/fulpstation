@@ -16,12 +16,12 @@
 	fulp_spawn = /obj/effect/landmark/start/brigdoc
 
 	outfit = /datum/outfit/job/brigdoc
+	plasmaman_outfit = /datum/outfit/plasmaman/brigdoc
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
-	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
-	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
 	bounty_types = CIV_JOB_SEC
@@ -50,6 +50,9 @@
 	box = /obj/item/storage/box/survival/medical
 
 	implants = list(/obj/item/implant/mindshield)
+	skillchips = list(/obj/item/skillchip/entrails_reader, /obj/item/skillchip/quickercarry)
+
+	id_trim = /datum/id_trim/job/brig_physician
 
 /datum/outfit/plasmaman/brigdoc
 	name = "Plasmaman Brig Physician"
@@ -57,3 +60,13 @@
 	head = /obj/item/clothing/head/helmet/space/plasmaman/brigdoc
 	uniform = /obj/item/clothing/under/plasmaman/brigdoc
 	gloves = /obj/item/clothing/gloves/color/plasmaman/white
+
+
+/datum/id_trim/job/brig_physician
+	assignment = "Brig Physician"
+	trim_icon = 'fulp_modules/jobs/cards.dmi'
+	trim_state = "trim_brigphysician"
+	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
+	config_job = "brig_physician"
+	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
