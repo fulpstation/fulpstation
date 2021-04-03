@@ -21,16 +21,6 @@
 	new /obj/item/melee/baton/loaded(src)
 	update_icon()
 
-/obj/item/storage/belt/utility/advanced/PopulateContents()
-	new /obj/item/screwdriver/power(src)
-	new /obj/item/crowbar/power(src)
-	new /obj/item/weldingtool/experimental(src)
-	new /obj/item/multitool(src)
-	new /obj/item/stack/cable_coil(src)
-	new /obj/item/pipe_dispenser(src)
-	new /obj/item/inducer(src)
-	update_icon()
-
 /obj/item/storage/belt/mining/advanced/PopulateContents()
 	new /obj/item/reagent_containers/hypospray/medipen/survival/luxury(src)
 	new /obj/item/reagent_containers/hypospray/medipen/survival/luxury(src)

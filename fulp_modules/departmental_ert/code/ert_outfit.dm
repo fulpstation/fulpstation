@@ -90,7 +90,7 @@
 /datum/outfit/centcom/ert/engineer/specialized
 	name = "ERT Engineer - Specialized"
 
-	belt = /obj/item/storage/belt/utility/advanced
+	belt = /obj/item/storage/belt/utility/full/powertools
 	mask = /obj/item/clothing/mask/gas
 	suit_store = /obj/item/tank/internals/oxygen
 	r_hand = /obj/item/analyzer
@@ -98,7 +98,7 @@
 /datum/outfit/centcom/ert/commander/engineer
 	name = "ERT Commander - Engineer"
 
-	belt = /obj/item/storage/belt/utility/advanced
+	belt = /obj/item/storage/belt/utility/full/powertools
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/commandereng
 	mask = /obj/item/clothing/mask/gas
 	glasses =  /obj/item/clothing/glasses/meson/engine
