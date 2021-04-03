@@ -17,6 +17,6 @@
 
 - Skyrat - Original plasmaman envirosuit sprites (https://github.com/Skyrat-SS13/Skyrat13/pull/933)
 - HomingPenguins - Armored labcoat sprites
-- MaltVinegar - HUD/Card sprites
-- Horatio22 - Deputy Plasmamen sprites
+- MaltVinegar - Brig Physician HUD/Card sprites
 - Mithrandalf - Original Deputies (https://github.com/TheSwain/Fulpstation/pull/108)
+- Horatio22 - Deputy Plasmamen sprites
