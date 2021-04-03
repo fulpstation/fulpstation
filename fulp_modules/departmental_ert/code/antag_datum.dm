@@ -34,14 +34,6 @@
 	role = "Honk Prime"
 	outfit = /datum/outfit/centcom/ert/clown/commander
 
-/datum/antagonist/ert/miner
-	role = "Mining Officer"
-	outfit = /datum/outfit/centcom/ert/miner
-
-/datum/antagonist/ert/commander/miner
-	role = "Mining Commander"
-	outfit = /datum/outfit/centcom/ert/commander/miner
-
 /datum/antagonist/ert/engineer/specialized/on_gain()
 	engi_ert_alert()
 	. = ..()

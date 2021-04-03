@@ -25,10 +25,3 @@
 	rename_team = "Clown ERT"
 	mission = "Honk the crew!"
 	polldesc = "a Code HONK Nanotrasen Emergency Response Team"
-
-/datum/ert/mining
-	roles = list(/datum/antagonist/ert/miner)
-	leader_role = /datum/antagonist/ert/commander/miner
-	rename_team = "Mining ERT"
-	mission = "Assist Mining Operations, along with neutralization of Fauna either on Station or Lavaland."
-	polldesc = "a Mining Nanotrasen Emergency Response Team"
