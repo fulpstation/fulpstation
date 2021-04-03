@@ -80,9 +80,9 @@
 	glasses = /obj/item/clothing/glasses/thermal/eyepatch
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
 	back = /obj/item/storage/backpack/ert/security
+	suit_store = /obj/item/gun/energy/e_gun/stun
 	backpack_contents = list(/obj/item/storage/box/survival/engineer=1,\
 		/obj/item/storage/box/handcuffs=1,\
-		/obj/item/gun/energy/e_gun/stun=1,\
 		/obj/item/melee/baton/loaded=1)
 
 // ENGINEERING ERT OUTFITS
