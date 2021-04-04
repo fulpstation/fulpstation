@@ -1,3 +1,8 @@
+/*
+ *	This file is overwriting /datum/customer_data/malfunction from 'code\modules\food_and_drinks\restaurant\customers\_customer.dm'
+ *
+ */
+
 ///MALFUNCTIONING - only shows up once per venue, very rare
 /datum/customer_data/malfunction
 	base_icon = "defect"
@@ -14,14 +19,14 @@
 			/obj/item/toy/crayon/blue = 1,
 			/obj/item/toy/crayon/purple = 1,
 			/obj/item/food/canned/peaches/maint = 6,
-			/obj/item/food/monkeycube = 1,
+			/obj/item/food/tofu = 1,
 		),
 		/datum/venue/bar = list(
-			/datum/reagent/toxin/formaldehyde = 1,
-			/datum/reagent/water = 1,
-			/datum/reagent/lube = 1,
-			/datum/reagent/consumable/ethanol/quadruple_sec = 1,
-			/datum/reagent/consumable/ethanol/hooch = 1,
+			/datum/reagent/consumable/ethanol/beer = 1,
+			/datum/reagent/consumable/failed_reaction = 1,
+			/datum/reagent/spraytan = 1,
+			/datum/reagent/reaction_agent/basic_buffer = 1,
+			/datum/reagent/reaction_agent/acidic_buffer = 1,
 		),
 	)
 
