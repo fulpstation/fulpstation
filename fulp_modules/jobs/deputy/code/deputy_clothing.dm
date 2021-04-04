@@ -1,9 +1,33 @@
+/// Default Deputy
+/datum/outfit/job/deputy
+	name = "Deputy"
+	jobtype = /datum/job/fulp/deputy
+
+	belt = /obj/item/pda/security
+	ears = /obj/item/radio/headset/headset_sec/alt
+	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
+	gloves = /obj/item/clothing/gloves/color/black
+	head = /obj/item/clothing/head/beret/sec
+	shoes = /obj/item/clothing/shoes/jackboots
+	l_pocket = /obj/item/flashlight/seclite
+	r_pocket = /obj/item/assembly/flash/handheld
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs/cable/zipties=1)
+
+	backpack = /obj/item/storage/backpack/security
+	satchel = /obj/item/storage/backpack/satchel/sec
+	duffelbag = /obj/item/storage/backpack/duffelbag/sec
+	box = /obj/item/storage/box/survival/security
+
+	implants = list(/obj/item/implant/mindshield)
+
+	id_trim = /datum/id_trim/job/deputy
+
 /// Supply Deputy
 /datum/outfit/job/deputy/supply
 	name = "Deputy - Supply"
-	jobtype = /datum/job/fulp/deputy
 	neck = /obj/item/clothing/neck/fulptie/supply
-	ears = /obj/item/radio/headset/headset_sec/department/supply
+	ears = /obj/item/radio/headset/headset_sec/alt/department/supply
 	head = /obj/item/clothing/head/fulpberet/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
@@ -12,9 +36,8 @@
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering
 	name = "Deputy - Engineering"
-	jobtype = /datum/job/fulp/deputy
 	neck = /obj/item/clothing/neck/fulptie/engineering
-	ears = /obj/item/radio/headset/headset_sec/department/engi
+	ears = /obj/item/radio/headset/headset_sec/alt/department/engi
 	head = /obj/item/clothing/head/fulpberet/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
@@ -23,9 +46,8 @@
 /// Medical Deputy
 /datum/outfit/job/deputy/medical
 	name = "Deputy - Medical"
-	jobtype = /datum/job/fulp/deputy
 	neck = /obj/item/clothing/neck/fulptie/medical
-	ears = /obj/item/radio/headset/headset_sec/department/med
+	ears = /obj/item/radio/headset/headset_sec/alt/department/med
 	head = /obj/item/clothing/head/fulpberet/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
@@ -34,9 +56,8 @@
 /// Science Deputy
 /datum/outfit/job/deputy/science
 	name = "Deputy - Science"
-	jobtype = /datum/job/fulp/deputy
 	neck = /obj/item/clothing/neck/fulptie/science
-	ears = /obj/item/radio/headset/headset_sec/department/sci
+	ears = /obj/item/radio/headset/headset_sec/alt/department/sci
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
@@ -233,16 +254,16 @@
 	icon_state = "sec_cypherkey"
 	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SCIENCE = 1)
 
-/obj/item/radio/headset/headset_sec/department/supply
+/obj/item/radio/headset/headset_sec/alt/department/supply
 	keyslot = new /obj/item/encryptionkey/headset_depsupply
 
-/obj/item/radio/headset/headset_sec/department/engi
+/obj/item/radio/headset/headset_sec/alt/department/engi
 	keyslot = new /obj/item/encryptionkey/headset_depengineering
 
-/obj/item/radio/headset/headset_sec/department/med
+/obj/item/radio/headset/headset_sec/alt/department/med
 	keyslot = new /obj/item/encryptionkey/headset_depmedical
 
-/obj/item/radio/headset/headset_sec/department/sci
+/obj/item/radio/headset/headset_sec/alt/department/sci
 	keyslot = new /obj/item/encryptionkey/headset_depscience
 
 /// Mood buff from being within your department.
