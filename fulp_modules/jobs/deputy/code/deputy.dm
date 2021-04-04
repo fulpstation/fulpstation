@@ -46,10 +46,6 @@
 		return
 	access |= department_access
 
-/datum/id_trim/job/deputy/supply
-	assignment = "Deputy (Cargo)"
-	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE)
-
 /datum/id_trim/job/deputy/engineering
 	assignment = "Deputy (Engineering)"
 	department_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_MECH_ENGINE, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
@@ -61,6 +57,10 @@
 /datum/id_trim/job/deputy/science
 	assignment = "Deputy (Science)"
 	department_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_TOXINS, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_TOXINS_STORAGE)
+
+/datum/id_trim/job/deputy/supply
+	assignment = "Deputy (Cargo)"
+	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE)
 
 GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))
 
@@ -78,10 +78,6 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 			department = pick_n_take(GLOB.available_deputy_depts)
 	var/ears = null
 	switch(department)
-		if(SEC_DEPT_SUPPLY)
-			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			ears = /obj/item/radio/headset/headset_sec/alt/department/supply
-			announce_supply(H, department)
 		if(SEC_DEPT_ENGINEERING)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
 			ears = /obj/item/radio/headset/headset_sec/alt/department/engi
@@ -94,6 +90,10 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 			H.equipOutfit(/datum/outfit/job/deputy/science)
 			ears = /obj/item/radio/headset/headset_sec/alt/department/sci
 			announce_science(H, department)
+		if(SEC_DEPT_SUPPLY)
+			H.equipOutfit(/datum/outfit/job/deputy/supply)
+			ears = /obj/item/radio/headset/headset_sec/alt/department/supply
+			announce_supply(H, department)
 
 	if(ears)
 		if(H.ears)
@@ -104,18 +104,6 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		to_chat(M, "<b>You have been assigned to [department]!</b>")
 	else
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
-
-/// Supply
-/datum/job/fulp/deputy/proc/announce_supply(mob/officer, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_supply(officer, department)
-
-/obj/machinery/announcement_system/proc/announce_supply(mob/officer, department)
-	if(!is_operational)
-		return
-	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
 
 /// Engineering
 /datum/job/fulp/deputy/proc/announce_engineering(mob/officer, department)
@@ -152,3 +140,26 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	if(!is_operational)
 		return
 	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SCIENCE))
+
+/// Supply
+/datum/job/fulp/deputy/proc/announce_supply(mob/officer, department)
+	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
+	if(isnull(announcement_system))
+		return
+	announcement_system.announce_supply(officer, department)
+
+/obj/machinery/announcement_system/proc/announce_supply(mob/officer, department)
+	if(!is_operational)
+		return
+	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
+
+/// Used for Science Deputies
+/obj/item/reagent_containers/hypospray/medipen/mutadone
+	name = "mutadone medipen"
+	desc = "Hulked lings in the RD office? Space adapt traitors bombing the Armory? You know what to do! Comes with 2 uses."
+	icon_state = "firstaid"
+	inhand_icon_state = "firstaid"
+	base_icon_state = "firstaid"
+	volume = 60
+	amount_per_transfer_from_this = 30
+	list_reagents = list(/datum/reagent/medicine/mutadone = 60)

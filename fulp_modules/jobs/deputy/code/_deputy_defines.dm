@@ -5,9 +5,9 @@
  *	- Willard
  */
 
-#define TRAIT_SUPPLYDEPUTY "supplydeputy"
 #define TRAIT_ENGINEERINGDEPUTY "engineeringdeputy"
 #define TRAIT_MEDICALDEPUTY "medicaldeputy"
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
+#define TRAIT_SUPPLYDEPUTY "supplydeputy"
 
 #define MARTIALART_DEPUTYGRAB "deputy grab"

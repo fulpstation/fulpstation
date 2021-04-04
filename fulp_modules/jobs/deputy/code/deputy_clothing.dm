@@ -2,67 +2,90 @@
 /datum/outfit/job/deputy
 	jobtype = /datum/job/fulp/deputy
 
-	belt = /obj/item/pda/security
+	id_trim = /datum/id_trim/job/deputy
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
+	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/assembly/flash/handheld
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
+
 	box = /obj/item/storage/box/survival/security
-
 	implants = list(/obj/item/implant/mindshield)
-
-	id_trim = /datum/id_trim/job/deputy
-
-/// Supply Deputy
-/datum/outfit/job/deputy/supply
-	name = "Deputy - Supply"
-	neck = /obj/item/clothing/neck/fulptie/supply
-	head = /obj/item/clothing/head/fulpberet/supply
-	accessory = /obj/item/clothing/accessory/armband/cargo
-	skillchips = list(/obj/item/skillchip/job/deputy/supply)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/spray/pepper=1)
-	box = null // This is to prevent getting double the boxes.
-	id_trim = /datum/id_trim/job/deputy/supply
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering
 	name = "Deputy - Engineering"
-	neck = /obj/item/clothing/neck/fulptie/engineering
-	head = /obj/item/clothing/head/fulpberet/engineering
-	accessory = /obj/item/clothing/accessory/armband/engine
-	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/spray/pepper=1)
-	box = null
+
 	id_trim = /datum/id_trim/job/deputy/engineering
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		)
+	head = /obj/item/clothing/head/fulpberet/engineering
+	neck = /obj/item/clothing/neck/fulptie/engineering
+	accessory = /obj/item/clothing/accessory/armband/engine
+	box = null // This is to prevent getting double the boxes.
+	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
 
 /// Medical Deputy
 /datum/outfit/job/deputy/medical
 	name = "Deputy - Medical"
-	neck = /obj/item/clothing/neck/fulptie/medical
-	head = /obj/item/clothing/head/fulpberet/medical
-	accessory = /obj/item/clothing/accessory/armband/medblue
-	skillchips = list(/obj/item/skillchip/job/deputy/medical)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/spray/pepper=1)
-	box = null
+
 	id_trim = /datum/id_trim/job/deputy/medical
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		)
+	head = /obj/item/clothing/head/fulpberet/medical
+	neck = /obj/item/clothing/neck/fulptie/medical
+	accessory = /obj/item/clothing/accessory/armband/medblue
+	box = null
+	skillchips = list(/obj/item/skillchip/job/deputy/medical)
 
 /// Science Deputy
 /datum/outfit/job/deputy/science
 	name = "Deputy - Science"
+
+	id_trim = /datum/id_trim/job/deputy/science
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/restraints/handcuffs=1,
+		/obj/item/reagent_containers/hypospray/medipen/mutadone=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		)
 	neck = /obj/item/clothing/neck/fulptie/science
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
-	skillchips = list(/obj/item/skillchip/job/deputy/science)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/hypospray/medipen/mutadone=1, /obj/item/reagent_containers/spray/pepper=1)
 	box = null
-	id_trim = /datum/id_trim/job/deputy/science
+	skillchips = list(/obj/item/skillchip/job/deputy/science)
+
+/// Supply Deputy
+/datum/outfit/job/deputy/supply
+	name = "Deputy - Supply"
+
+	id_trim = /datum/id_trim/job/deputy/supply
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		)
+	head = /obj/item/clothing/head/fulpberet/supply
+	neck = /obj/item/clothing/neck/fulptie/supply
+	accessory = /obj/item/clothing/accessory/armband/cargo
+	box = null
+	skillchips = list(/obj/item/skillchip/job/deputy/supply)
 
 /// Plasmamen Datum
 /datum/outfit/plasmaman/deputy
@@ -111,9 +134,6 @@
 		desc = "A tie showing off that the user belongs to the [department] department."
 		icon_state = "[department]_tie"
 
-/obj/item/clothing/neck/fulptie/supply
-	department = "supply"
-
 /obj/item/clothing/neck/fulptie/engineering
 	department = "engineering"
 
@@ -122,6 +142,9 @@
 
 /obj/item/clothing/neck/fulptie/science
 	department = "science"
+
+/obj/item/clothing/neck/fulptie/supply
+	department = "supply"
 
 /// Plasmamen clothes
 /obj/item/clothing/under/plasmaman/security/deputy
@@ -146,11 +169,6 @@
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
 
-/obj/item/clothing/head/fulpberet/supply
-	name = "supply deputy beret"
-	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
-	icon_state = "beret_supply"
-
 /obj/item/clothing/head/fulpberet/engineering
 	name = "engineering deputy beret"
 	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
@@ -165,6 +183,11 @@
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
 	icon_state = "beret_science"
+
+/obj/item/clothing/head/fulpberet/supply
+	name = "supply deputy beret"
+	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
+	icon_state = "beret_supply"
 
 /// Base Skillchip
 /obj/item/skillchip/job/deputy
@@ -194,21 +217,10 @@
 	style.remove(user)
 	return ..()
 
-/// Supply Skillchip
-/obj/item/skillchip/job/deputy/supply
-	deputy = "5UPP1Y"
-	department = "Cargo"
-	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_NOGUNS) // Deputies aren't trained to use guns
-
-/area/cargo
-	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
-	mood_trait = TRAIT_SUPPLYDEPUTY
-
 /// Engineering Skillchip
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
-	department = "Engineering"
+	department = "Engineering" /// Deputies aren't trained to use guns.
 	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
 
 /area/engineering
@@ -238,18 +250,19 @@
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_SCIENCEDEPUTY
 
+/// Supply Skillchip
+/obj/item/skillchip/job/deputy/supply
+	deputy = "5UPP1Y"
+	department = "Cargo"
+	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_NOGUNS)
+
+/area/cargo
+	mood_bonus = 5
+	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
+	mood_trait = TRAIT_SUPPLYDEPUTY
+
 /// Mood buff from being within your department.
 /datum/mood_event/deputy_helpful
 	description = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_change = 5
 
-/// Used for Science Deputies
-/obj/item/reagent_containers/hypospray/medipen/mutadone
-	name = "mutadone medipen"
-	desc = "Hulked lings in the RD office? Space adapt traitors bombing the Armory? You know what to do! Comes with 2 uses."
-	icon_state = "firstaid"
-	inhand_icon_state = "firstaid"
-	base_icon_state = "firstaid"
-	volume = 60
-	amount_per_transfer_from_this = 30
-	list_reagents = list(/datum/reagent/medicine/mutadone = 60)
