@@ -23,6 +23,8 @@
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		if("Brig Physician")
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
+		if("Deputy")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 
 		// Medical
 		if("Chief Medical Officer")
