@@ -99,19 +99,21 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		else
 			department = pick_n_take(GLOB.available_deputy_depts)
 
-		if(latejoin)
-			announce_latejoin(H, department)
 
 	var/list/dep_trim = null
 	switch(department)
 		if(SEC_DEPT_SUPPLY)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
+			announce_supply(H, department)
 		if(SEC_DEPT_ENGINEERING)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
+			announce_engineering(H, department)
 		if(SEC_DEPT_MEDICAL)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
+			announce_medical(H, department)
 		if(SEC_DEPT_SCIENCE)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
+			announce_science(H, department)
 		else
 			H.equipOutfit(/datum/outfit/job/deputy)
 
@@ -125,24 +127,50 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	else
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
-/datum/job/fulp/deputy/proc/announce_latejoin(mob/officer, department)
+/// Supply
+/datum/job/fulp/deputy/proc/announce_supply(mob/officer, department)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
+	announcement_system.announce_supply(officer, department)
 
-	announcement_system.announce_officer(officer, department)
-
-	var/list/targets = list()
-
-	if(!targets.len)
+/obj/machinery/announcement_system/proc/announce_supply(mob/officer, department)
+	if(!is_operational)
 		return
+	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
 
-	var/datum/signal/subspace/messaging/pda/signal = new(announcement_system, list(
-		"name" = "Security Department Update",
-		"job" = "Automated Announcement System",
-		"message" = "[officer.real_name] arrived as the [department] departmental Deputy.",
-		"targets" = targets,
-		"automated" = TRUE,
-	))
+/// Engineering
+/datum/job/fulp/deputy/proc/announce_engineering(mob/officer, department)
+	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
+	if(isnull(announcement_system))
+		return
+	announcement_system.announce_engineering(officer, department)
 
-	signal.send_to_receivers()
+/obj/machinery/announcement_system/proc/announce_engineering(mob/officer, department)
+	if(!is_operational)
+		return
+	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_ENGINEERING))
+
+/// Medical
+/datum/job/fulp/deputy/proc/announce_medical(mob/officer, department)
+	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
+	if(isnull(announcement_system))
+		return
+	announcement_system.announce_medical(officer, department)
+
+/obj/machinery/announcement_system/proc/announce_medical(mob/officer, department)
+	if(!is_operational)
+		return
+	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_MEDICAL))
+
+/// Science
+/datum/job/fulp/deputy/proc/announce_science(mob/officer, department)
+	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
+	if(isnull(announcement_system))
+		return
+	announcement_system.announce_science(officer, department)
+
+/obj/machinery/announcement_system/proc/announce_science(mob/officer, department)
+	if(!is_operational)
+		return
+	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SCIENCE))
