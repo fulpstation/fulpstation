@@ -207,7 +207,9 @@
 		if("Detective")
 			newSash = new /obj/item/clothing/under/bodysash/detective()
 		if("Brig Physician")
-			newSash = new /obj/item/clothing/under/bodysash/security() // Placeholder until an actual sash gets sprited.
+			newSash = new /obj/item/clothing/under/bodysash/brigdoc()
+		if("Deputy")
+			newSash = new /obj/item/clothing/under/bodysash/deputy()
 
 		// Medical
 		if("Chief Medical Officer")
