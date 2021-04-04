@@ -15,7 +15,7 @@
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
 
-	box = /obj/item/storage/box/survival/security
+	box = /obj/item/storage/box/survival
 	implants = list(/obj/item/implant/mindshield)
 
 /// Engineering Deputy
