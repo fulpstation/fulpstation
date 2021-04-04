@@ -89,6 +89,8 @@
 	desc = "An awe-inspiring tactical shirt-and-skirt combo; because safety never takes a holiday."
 	icon_state = "mallcop_skirt"
 	body_parts_covered = CHEST|GROIN|ARMS
+	dying_key = DYE_REGISTRY_JUMPSKIRT
+	fitted = FEMALE_UNIFORM_TOP
 
 /// Ties
 /obj/item/clothing/neck/fulptie
