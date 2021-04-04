@@ -12,7 +12,7 @@
 	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/assembly/flash/handheld
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs/cable/zipties=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -164,7 +164,7 @@
 /// Base Skillchip
 /obj/item/skillchip/job/deputy
 	name = "D3PU7Y skillchip"
-	desc = "You think Deputies learn this stuff naturally?"
+	desc = "You think we learn this stuff naturally?"
 	skill_icon = "sitemap"
 	var/deputy
 	var/department
@@ -173,10 +173,10 @@
 /obj/item/skillchip/job/deputy/Initialize()
 	. = ..()
 	if(deputy)
-		name = "[deputy]-D3PUT7 skillchip"
+		name = "[deputy]-D3PU7Y skillchip"
 	if(department)
-		skill_name = "[department] Deputy"
-		skill_description = "Recognizes [department] as their home, and has a greater fighting advantage while in it."
+		skill_name = "[department] deputy"
+		skill_description = "Recognizes [department] as their home, making them feel happy in it, and tends to be harsher on criminals with their grabs."
 		activate_message = "<span class='notice'>You suddenly feel safe in [department].</span>"
 		deactivate_message = "<span class='notice'>[department] no longer feels safe.</span>"
 	style = new
@@ -204,7 +204,7 @@
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
 	department = "Engineering"
-	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS)
+	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
 
 /area/engineering
 	mood_bonus = 5
@@ -215,7 +215,7 @@
 /obj/item/skillchip/job/deputy/medical
 	deputy = "M3D1C4L"
 	department = "Medbay"
-	auto_traits = list(TRAIT_MEDICALDEPUTY, TRAIT_NOGUNS)
+	auto_traits = list(TRAIT_MEDICALDEPUTY, TRAIT_NOGUNS, TRAIT_QUICK_CARRY) /// Medical deputies on their way to arrest dead bodies?
 
 /area/medical
 	mood_bonus = 5
@@ -226,7 +226,7 @@
 /obj/item/skillchip/job/deputy/science
 	deputy = "5C1ENC3"
 	department = "Science"
-	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS)
+	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS, TRAIT_ROD_SUPLEX) /// Science deputies on their way to arrest the Immovable rod
 
 /area/science
 	mood_bonus = 5
