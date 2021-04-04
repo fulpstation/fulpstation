@@ -1,3 +1,5 @@
+///This is a file for all the machine Initializations that one may need to change a tg file without actually changing it.
+
 ///Vending Machines
 
 /obj/machinery/vending/autodrobe/Initialize()
@@ -113,6 +115,10 @@
 	new /obj/item/clothing/shoes/workboots/digitigrade(src)
 	. = ..()
 
+/obj/structure/closet/secure_closet/brig/Initialize()
+	new /obj/item/clothing/suit/hooded/wintercoat/security/pris(src)
+	. = ..()
+
 ///Techtree
 
 /datum/techweb_node/adv_engi/New()
@@ -127,7 +133,7 @@
 		)
 	return ..()
 
-//GAMES VENDING MACHINE, THE ONE IN LIBRARY, YES, THE ONE THAT NOBODY USE.
+///GAMES VENDING MACHINE, THE ONE IN LIBRARY, YES, THE ONE THAT NOBODY USE.
 /obj/machinery/vending/games/Initialize()
     products += list(/obj/item/toy/plush/batong = 3)
     . = ..()
