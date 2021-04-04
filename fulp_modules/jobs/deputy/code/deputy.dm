@@ -157,9 +157,6 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 /obj/item/reagent_containers/hypospray/medipen/mutadone
 	name = "mutadone medipen"
 	desc = "Hulked lings in the RD office? Space adapt traitors bombing the Armory? You know what to do! Comes with 2 uses."
-	icon_state = "firstaid"
-	inhand_icon_state = "firstaid"
-	base_icon_state = "firstaid"
 	volume = 60
 	amount_per_transfer_from_this = 30
 	list_reagents = list(/datum/reagent/medicine/mutadone = 60)
