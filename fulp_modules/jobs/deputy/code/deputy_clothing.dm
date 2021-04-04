@@ -1,18 +1,15 @@
 /// Default Deputy
 /datum/outfit/job/deputy
-	name = "Deputy"
 	jobtype = /datum/job/fulp/deputy
 
 	belt = /obj/item/pda/security
-	ears = /obj/item/radio/headset/headset_sec/alt
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
+	ears = /obj/item/radio/headset/headset_sec/alt
 	gloves = /obj/item/clothing/gloves/color/black
-	head = /obj/item/clothing/head/beret/sec
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/assembly/flash/handheld
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -27,44 +24,50 @@
 /datum/outfit/job/deputy/supply
 	name = "Deputy - Supply"
 	neck = /obj/item/clothing/neck/fulptie/supply
-	ears = /obj/item/radio/headset/headset_sec/alt/department/supply
 	head = /obj/item/clothing/head/fulpberet/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1)
+	box = null // This is to prevent getting double the boxes.
 	id_trim = /datum/id_trim/job/deputy/supply
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering
 	name = "Deputy - Engineering"
 	neck = /obj/item/clothing/neck/fulptie/engineering
-	ears = /obj/item/radio/headset/headset_sec/alt/department/engi
 	head = /obj/item/clothing/head/fulpberet/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1)
+	box = null
 	id_trim = /datum/id_trim/job/deputy/engineering
 
 /// Medical Deputy
 /datum/outfit/job/deputy/medical
 	name = "Deputy - Medical"
 	neck = /obj/item/clothing/neck/fulptie/medical
-	ears = /obj/item/radio/headset/headset_sec/alt/department/med
 	head = /obj/item/clothing/head/fulpberet/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1)
+	box = null
 	id_trim = /datum/id_trim/job/deputy/medical
 
 /// Science Deputy
 /datum/outfit/job/deputy/science
 	name = "Deputy - Science"
 	neck = /obj/item/clothing/neck/fulptie/science
-	ears = /obj/item/radio/headset/headset_sec/alt/department/sci
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/hypospray/medipen/mutadone=1)
+	box = null
 	id_trim = /datum/id_trim/job/deputy/science
 
 /// Plasmamen Datum
 /datum/outfit/plasmaman/deputy
+	name = "Deputy Plasmaman"
+
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
 	uniform = /obj/item/clothing/under/plasmaman/security/deputy
 	gloves = /obj/item/clothing/gloves/color/plasmaman/white
@@ -226,47 +229,25 @@
 /obj/item/skillchip/job/deputy/science
 	deputy = "5C1ENC3"
 	department = "Science"
-	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS, TRAIT_ROD_SUPLEX) /// Science deputies on their way to arrest the Immovable rod
+	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS)
 
 /area/science
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_SCIENCEDEPUTY
 
-/// Headsets
-/obj/item/encryptionkey/headset_depsupply
-	name = "supply deputy radio encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SUPPLY = 1)
-
-/obj/item/encryptionkey/headset_depengineering
-	name = "engineering deputy radio encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 1)
-
-/obj/item/encryptionkey/headset_depmedical
-	name = "medical deputy radio encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_MEDICAL = 1)
-
-/obj/item/encryptionkey/headset_depscience
-	name = "science deputy radio encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SCIENCE = 1)
-
-/obj/item/radio/headset/headset_sec/alt/department/supply
-	keyslot = new /obj/item/encryptionkey/headset_depsupply
-
-/obj/item/radio/headset/headset_sec/alt/department/engi
-	keyslot = new /obj/item/encryptionkey/headset_depengineering
-
-/obj/item/radio/headset/headset_sec/alt/department/med
-	keyslot = new /obj/item/encryptionkey/headset_depmedical
-
-/obj/item/radio/headset/headset_sec/alt/department/sci
-	keyslot = new /obj/item/encryptionkey/headset_depscience
-
 /// Mood buff from being within your department.
 /datum/mood_event/deputy_helpful
 	description = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_change = 5
+
+/// Used for Science Deputies
+/obj/item/reagent_containers/hypospray/medipen/mutadone
+	name = "mutadone medipen"
+	desc = "Hulked lings in the RD office? Space adapt traitors bombing the Armory? You know what to do! Comes with 2 uses."
+	icon_state = "firstaid"
+	inhand_icon_state = "firstaid"
+	base_icon_state = "firstaid"
+	volume = 60
+	amount_per_transfer_from_this = 30
+	list_reagents = list(/datum/reagent/medicine/mutadone = 60)

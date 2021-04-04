@@ -76,22 +76,29 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 			LAZYREMOVE(GLOB.available_deputy_depts, department)
 		else
 			department = pick_n_take(GLOB.available_deputy_depts)
-
-
-	H.delete_equipment()
+	var/ears = null
 	switch(department)
 		if(SEC_DEPT_SUPPLY)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
+			ears = /obj/item/radio/headset/headset_sec/alt/department/supply
 			announce_supply(H, department)
 		if(SEC_DEPT_ENGINEERING)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
+			ears = /obj/item/radio/headset/headset_sec/alt/department/engi
 			announce_engineering(H, department)
 		if(SEC_DEPT_MEDICAL)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
+			ears = /obj/item/radio/headset/headset_sec/alt/department/med
 			announce_medical(H, department)
 		if(SEC_DEPT_SCIENCE)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
+			ears = /obj/item/radio/headset/headset_sec/alt/department/sci
 			announce_science(H, department)
+
+	if(ears)
+		if(H.ears)
+			qdel(H.ears)
+		H.equip_to_slot_or_del(new ears(H), ITEM_SLOT_EARS)
 
 	if(department)
 		to_chat(M, "<b>You have been assigned to [department]!</b>")
