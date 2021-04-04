@@ -1,7 +1,7 @@
 // This is a code file for everything to do with wintercoats made by fulp. - Homingpenguins
 
 /obj/item/clothing/suit/hooded/wintercoat/security/pris
-	name = "\improper prisioner's winter coat"
+	name = "\improper prisoner's winter coat"
 	desc = "Made just for the times when the prison runs out of working space heaters."
 	icon = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoats_icons.dmi'
 	worn_icon = 'fulp_modules/fulp_clothing/wintercoats/icons/wintercoats.dmi'
