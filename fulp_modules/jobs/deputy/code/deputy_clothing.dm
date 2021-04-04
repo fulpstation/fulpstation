@@ -27,7 +27,7 @@
 	head = /obj/item/clothing/head/fulpberet/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/spray/pepper=1)
 	box = null // This is to prevent getting double the boxes.
 	id_trim = /datum/id_trim/job/deputy/supply
 
@@ -38,7 +38,7 @@
 	head = /obj/item/clothing/head/fulpberet/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/spray/pepper=1)
 	box = null
 	id_trim = /datum/id_trim/job/deputy/engineering
 
@@ -49,7 +49,7 @@
 	head = /obj/item/clothing/head/fulpberet/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/spray/pepper=1)
 	box = null
 	id_trim = /datum/id_trim/job/deputy/medical
 
@@ -60,7 +60,7 @@
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/hypospray/medipen/mutadone=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/restraints/handcuffs=1, /obj/item/grenade/smokebomb=1, /obj/item/reagent_containers/hypospray/medipen/mutadone=1, /obj/item/reagent_containers/spray/pepper=1)
 	box = null
 	id_trim = /datum/id_trim/job/deputy/science
 

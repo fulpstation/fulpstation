@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
-	supervisors = "the head of your assigned department, the head of security during red alert"
+	supervisors = "the head of your assigned department, and the head of security, but only on red alert"
 	selection_color = "#ffeeee"
 	minimal_player_age = 14
 	exp_requirements = 300
