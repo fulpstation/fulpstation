@@ -309,7 +309,7 @@
 	leave_mad_lines = list("Seems that the Bill shan't be paying a bill today.", "Were rudeness a crime, you'd be nicked right now!", "You're no better than a common gangster, you loathesome rapscallion!", "We should bring back deportation for the likes of you, let the Outback sort you out.")
 	leave_happy_lines = list("My word, just what I needed.", "Back to the beat I go. Thank you kindly for the meal!", "I tip my helmet to you, good sir.")
 	wait_for_food_lines = list("Dear Lord, I've had paperwork take less time...", "Any word on my order, sir?")
-
+/* /// FULP EDIT - This is placed in 'fulp_modules/malfunction_bot/code.dm'
 ///MALFUNCTIONING - only shows up once per venue, very rare
 /datum/customer_data/malfunction
 	base_icon = "defect"
@@ -344,5 +344,5 @@
 	first_warning_line = "You'd fit in well where I'm from. But you better stop."
 	second_warning_line = "Breaking-you-so-bad-you'll-reminisce-the-days-before-I-made-you-crooked.exe: booting..."
 	self_defense_line = "I have been designed to do two things: Order food, and break every bone in your body."
-
+*/
 
