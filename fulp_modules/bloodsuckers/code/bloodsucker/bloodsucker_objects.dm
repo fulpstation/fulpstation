@@ -122,7 +122,7 @@
 		/datum/language/shadowtongue,
 		/datum/language/terrum,
 		/datum/language/nekomimetic,
-		/datum/language/buzzwords
+		/datum/language/buzzwords,
 	))
 
 /obj/item/organ/tongue/bloodsucker/Initialize(mapload)
