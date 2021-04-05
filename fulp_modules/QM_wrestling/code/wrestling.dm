@@ -416,7 +416,7 @@
 	target.visible_message("<span class='danger'>[user] gets [target] in a cinch!</span>", \
 					"<span class='userdanger'>You're put into a cinch by [user]!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", COMBAT_MESSAGE_RANGE, user)
 	to_chat(user, "<span class='danger'>You get [target] in a cinch!</span>")
-	target.Stun(rand(20,40))
+	target.adjustStaminaLoss(40)
 	log_combat(user, target, "grabbed (Wrestling)")
 	return TRUE
 
