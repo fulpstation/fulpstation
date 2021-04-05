@@ -261,6 +261,7 @@
 	/// The kind of projectile this version of the kiss blower fires
 	var/kiss_type = /obj/projectile/kiss
 
+/* /// FULP EDIT - No ERP
 /obj/item/kisser/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
 	var/obj/projectile/blown_kiss = new kiss_type(get_turf(user))
@@ -275,6 +276,7 @@
 	blown_kiss.preparePixelProjectile(target, user)
 	blown_kiss.fire()
 	qdel(src)
+*/
 
 /obj/item/kisser/death
 	name = "kiss of death"
