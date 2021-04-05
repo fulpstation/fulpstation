@@ -140,7 +140,7 @@
 	glasses = /obj/item/clothing/glasses/night
 	shoes = /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/clown/commander
-	r_hand = /obj/item/pneumatic_cannon/pie/selfcharge
+	l_hand = /obj/item/pneumatic_cannon/pie/selfcharge
 	backpack_contents = list(/obj/item/storage/box/hug/survival=1,\
 		/obj/item/melee/transforming/energy/sword/bananium=1,\
 		/obj/item/shield/energy/bananium=1,\
