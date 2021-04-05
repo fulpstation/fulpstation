@@ -38,8 +38,9 @@
 /datum/outfit/centcom/ert/medic/specialized/oath
 	name = "ERT Medic - Oath"
 
-	r_hand = /obj/item/rod_of_asclepius
+	l_hand = /obj/item/rod_of_asclepius
 	backpack_contents = list(/obj/item/storage/box/survival/engineer=1,\
+		/obj/item/storage/firstaid/regular=1,\
 		/obj/item/reagent_containers/hypospray/combat=1,\
 		/obj/item/gun/medbeam=1)
 
@@ -57,9 +58,10 @@
 /datum/outfit/centcom/ert/commander/medical/oath
 	name = "ERT Commander - Medical Oath"
 
-	r_hand = /obj/item/rod_of_asclepius
+	l_hand = /obj/item/rod_of_asclepius
 	l_pocket = /obj/item/flashlight/pen/paramedic
 	backpack_contents = list(/obj/item/storage/box/survival/engineer=1,\
+		/obj/item/storage/firstaid/regular=1,\
 		/obj/item/reagent_containers/hypospray/combat/nanites=1,\
 		/obj/item/gun/medbeam=1)
 
