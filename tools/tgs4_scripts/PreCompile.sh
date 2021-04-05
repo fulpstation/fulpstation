@@ -44,14 +44,8 @@ if ! ( [ -x "$has_git" ] && [ -x "$has_grep" ] && [ -f "/usr/lib/i386-linux-gnu/
 fi
 dpkg --add-architecture i386
 apt-get update
-<<<<<<< HEAD
-#apt-get upgrade -y
-apt-get install -y lib32z1 pkg-config libssl-dev:i386 libssl-dev libssl1.1:i386
-#update rust-g
-=======
 apt-get install -y lib32z1 pkg-config libssl-dev:i386 libssl-dev libssl1.1:i386
 # update rust-g
->>>>>>> tgstation/master
 if [ ! -d "rust-g" ]; then
 	echo "Cloning rust-g..."
 	git clone https://github.com/tgstation/rust-g
@@ -70,8 +64,6 @@ env PKG_CONFIG_ALLOW_CROSS=1 ~/.cargo/bin/cargo build --release --target=i686-un
 mv target/i686-unknown-linux-gnu/release/librust_g.so "$1/librust_g.so"
 cd ..
 
-<<<<<<< HEAD
-=======
 # get dependencies for extools
 apt-get install -y cmake build-essential gcc-multilib g++-multilib cmake wget
 
@@ -98,7 +90,6 @@ make
 mv libbyond-extools.so "$1/libbyond-extools.so"
 cd ../../..
 
->>>>>>> tgstation/master
 # compile tgui
 echo "Compiling tgui..."
 cd "$1"
