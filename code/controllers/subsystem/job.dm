@@ -47,7 +47,8 @@ SUBSYSTEM_DEF(job)
 		"Research Director" = 4,
 		"Chief Engineer" = 5,
 		"Chief Medical Officer" = 6,
-		"Quartermaster" = 7)
+		"Quartermaster" = 7,
+		)
 	/// If TRUE, some player has been assigned Captaincy or Acting Captaincy at some point during the shift and has been given the spare ID safe code.
 	var/assigned_captain = FALSE
 	/// Whether the emergency safe code has been requested via a comms console on shifts with no Captain or Acting Captain.
