@@ -510,9 +510,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	jumpsuit_style = sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
 	playtime_reward_cloak = sanitize_integer(playtime_reward_cloak)
-	features["beefcolor"]	= copytext_char(features["beefcolor"], 1, 7) // [FULP EDIT START]
-	features["beefeyes"]	= sanitize_inlist(features["beefeyes"], GLOB.eyes_beefman)
-	features["beefmouth"]	= sanitize_inlist(features["beefmouth"], GLOB.mouths_beefman) // [FULP EDIT END]
+	features["beefcolor"] = copytext_char(features["beefcolor"], 1, 7) // [FULP EDIT START]
+	features["beefeyes"] = sanitize_inlist(features["beefeyes"], GLOB.eyes_beefman)
+	features["beefmouth"] = sanitize_inlist(features["beefmouth"], GLOB.mouths_beefman) // [FULP EDIT END]
 	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
 	features["ethcolor"]	= copytext_char(features["ethcolor"], 1, 7)
 	features["tail_lizard"]	= sanitize_inlist(features["tail_lizard"], GLOB.tails_list_lizard)
@@ -573,9 +573,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["randomise"] , randomise)
 	WRITE_FILE(S["species"] , pref_species.id)
 	WRITE_FILE(S["phobia"], phobia)
-	WRITE_FILE(S["feature_beefcolor"]					, features["beefcolor"]) // [FULP EDIT START]
-	WRITE_FILE(S["feature_beefeyes"]					, features["beefeyes"])
-	WRITE_FILE(S["feature_beefmouth"]					, features["beefmouth"]) // [FULP EDIT END]
+	WRITE_FILE(S["feature_beefcolor"] , features["beefcolor"]) // [FULP EDIT START]
+	WRITE_FILE(S["feature_beefeyes"] , features["beefeyes"])
+	WRITE_FILE(S["feature_beefmouth"] 	, features["beefmouth"]) // [FULP EDIT END]
 	WRITE_FILE(S["feature_mcolor"]					, features["mcolor"])
 	WRITE_FILE(S["feature_ethcolor"]					, features["ethcolor"])
 	WRITE_FILE(S["feature_lizard_tail"]			, features["tail_lizard"])

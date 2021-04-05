@@ -1,5 +1,3 @@
-#define isbeefman(A) (is_species(A,/datum/species/beefman))
-
 /datum/species
 	var/bruising_desc = "bruising"
 	var/burns_desc = "burns"
@@ -12,10 +10,9 @@
 	say_mod = "gurgles"
 	sexes = FALSE
 	default_color = "e73f4e"
-	species_traits = list(NOEYESPRITES, NO_UNDERWEAR, DYNCOLORS, AGENDER, EYECOLOR, HAS_FLESH, HAS_BONE)
-	mutant_bodyparts = list("beefmouth", "beefeyes")
-	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_RESISTCOLD, TRAIT_EASYDISMEMBER, TRAIT_COLDBLOODED, TRAIT_SLEEPIMMUNE )
-	mutant_bodyparts = list("beefcolor" = "e73f4e","beefmouth" = "Smile1", "beefeyes" = "Olives")
+	species_traits = list(NOEYESPRITES, NO_UNDERWEAR, DYNCOLORS, AGENDER, HAS_FLESH, HAS_BONE)
+	mutant_bodyparts = list("beefcolor" = "Medium Rare","beefmouth" = "Smile1", "beefeyes" = "Olives")
+	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_RESISTCOLD, TRAIT_EASYDISMEMBER, TRAIT_SLEEPIMMUNE)
 	offset_features = list(OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3), OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), \
 						   OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3), OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2), \
 						   OFFSET_SUIT = list(0,2), OFFSET_NECK = list(0,3))
@@ -28,15 +25,15 @@
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	attack_verb = "meat"
 	payday_modifier = 0.75 //-- "Equality"
-	speedmod = -0.2	// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
-	armor = -2		// overall defense for the race... or less defense, if it's negative.
-	punchdamagelow = 1       //lowest possible punch damage. if this is set to 0, punches will always miss
-	punchdamagehigh = 5 // 10      //highest possible punch damage
+	speedmod = -0.2 // this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
+	armor = -2 // overall defense for the race... or less defense, if it's negative.
+	punchdamagelow = 1 //lowest possible punch damage. if this is set to 0, punches will always miss
+	punchdamagehigh = 5 // 10 //highest possible punch damage
 	siemens_coeff = 0.7 // Due to lack of density.   //base electrocution coefficient
 	deathsound = 'fulp_modules/beefman_port/sounds/beef_die.ogg'
 	attack_sound = 'fulp_modules/beefman_port/sounds/beef_hit.ogg'
 	special_step_sounds = list('fulp_modules/beefman_port/sounds/footstep_splat1.ogg','fulp_modules/beefman_port/sounds/footstep_splat2.ogg','fulp_modules/beefman_port/sounds/footstep_splat3.ogg','fulp_modules/beefman_port/sounds/footstep_splat4.ogg')//Sounds to override barefeet walkng
-	grab_sound = 'fulp_modules/beefman_port/sounds/beef_grab.ogg'//Special sound for grabbing
+	grab_sound = 'fulp_modules/beefman_port/sounds/beef_grab.ogg' //Special sound for grabbing
 	species_language_holder = /datum/language_holder/russian //--Speak Russian
 	bodytemp_normal = T20C
 
@@ -58,11 +55,11 @@
 
 /proc/proof_beefman_features(list/inFeatures)
 	// Missing Defaults in DNA? Randomize!
-	if (inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
+	if(inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
 		inFeatures["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
-	if (inFeatures["beefeyes"] == null || inFeatures["beefeyes"] == "")
+	if(inFeatures["beefeyes"] == null || inFeatures["beefeyes"] == "")
 		inFeatures["beefeyes"] = pick(GLOB.eyes_beefman)
-	if (inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
+	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
 		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
 
 /mob/living/carbon/human/proc/adjust_bl_all(type = "add", amount)
@@ -80,7 +77,7 @@
 	// Missing Defaults in DNA? Randomize!
 	proof_beefman_features(C.dna.features)
 
-	.=..()
+	. = ..()
 
 	if(ishuman(C)) // Taken DIRECTLY from ethereal!
 		var/mob/living/carbon/human/H = C
@@ -583,7 +580,7 @@
 	qdel(src)
 	//QDEL_IN(src,1) // Delete later. If we do it now, we screw up the "attack chain" that called this meat to attack the Beefman's stump.
 
-//Limbs
+///Limbs
 /obj/item/bodypart/head/beef
 	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
@@ -598,7 +595,8 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/obj/item/bodypart/chest/beef/drop_limb(special) // from dismemberment.dm
+/// from dismemberment.dm
+/obj/item/bodypart/chest/beef/drop_limb(special)
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
 	..() // Create Meat, Remove Limb
@@ -611,7 +609,8 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/obj/item/bodypart/r_arm/beef/drop_limb(special) // from dismemberment.dm
+/// from dismemberment.dm
+/obj/item/bodypart/r_arm/beef/drop_limb(special)
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
 	..() // Create Meat, Remove Limb
@@ -624,7 +623,8 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/obj/item/bodypart/l_arm/beef/drop_limb(special) // from dismemberment.dm
+// from dismemberment.dm
+/obj/item/bodypart/l_arm/beef/drop_limb(special)
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
 	..() // Create Meat, Remove Limb
@@ -637,7 +637,8 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/obj/item/bodypart/r_leg/beef/drop_limb(special) // from dismemberment.dm
+/// from dismemberment.dm
+/obj/item/bodypart/r_leg/beef/drop_limb(special)
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
 	..() // Create Meat, Remove Limb
@@ -650,7 +651,8 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/obj/item/bodypart/l_leg/beef/drop_limb(special) // from dismemberment.dm
+/// from dismemberment.dm
+/obj/item/bodypart/l_leg/beef/drop_limb(special)
 	amCondemned = TRUE
 	var/mob/owner_cache = owner
 	..() // Create Meat, Remove Limb
@@ -665,8 +667,9 @@
 	// try to spell
 	// you do not need to define _s or _l sub-states, game automatically does this for you
 
+///Currently only used by mutantparts so don't worry about hair and stuff. This is the source that this accessory will get its color from. Default is MUTCOLOR, but can also be HAIR, FACEHAIR, EYECOLOR and 0 if none.
 /datum/sprite_accessory/beef/eyes
-	color_src = EYECOLOR	//Currently only used by mutantparts so don't worry about hair and stuff. This is the source that this accessory will get its color from. Default is MUTCOLOR, but can also be HAIR, FACEHAIR, EYECOLOR and 0 if none.
+	color_src = EYECOLOR
 
 /datum/sprite_accessory/beef/eyes/capers
 	name = "Capers"
