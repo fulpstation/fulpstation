@@ -13,9 +13,7 @@
 /datum/martial_art/fulpwrestling
 	name = "Quartermaster Wrestling"
 	id = MARTIALART_FULPWRESTLING
-	help_verb = /mob/living/proc/FulpWrestling_help
 	smashes_tables = TRUE
-	var/datum/action/fulpslam/slam = new/datum/action/fulpslam()
 	var/datum/action/fulpdrop/drop = new/datum/action/fulpdrop()
 	var/list/valid_areas = list(/area/cargo)
 
@@ -23,10 +21,6 @@
 	if(!can_use(user))
 		return FALSE
 	switch(streak)
-		if("fulpslam")
-			streak = ""
-			fulpslam(user,target)
-			return TRUE
 		if("fulpdrop")
 			streak = ""
 			fulpdrop(user,target)
@@ -36,31 +30,12 @@
 /// Teaches moves
 /datum/martial_art/fulpwrestling/teach(mob/living/user, make_temporary = FALSE)
 	if(..())
-		slam.Grant(user)
 		drop.Grant(user)
 		RegisterSignal(user, COMSIG_MOB_CLICKON, .proc/check_swing)
 
 /datum/martial_art/fulpwrestling/on_remove(mob/living/user)
-	slam.Remove(user)
 	drop.Remove(user)
 	UnregisterSignal(user, COMSIG_MOB_CLICKON)
-
-/// Slam icon
-/datum/action/fulpslam
-	name = "Slam (Cinch) - Slam a grappled opponent into the floor."
-	button_icon_state = "wrestle_slam"
-	icon_icon = 'fulp_modules/QM_wrestling/icons/actions_wrestling.dmi'
-
-/datum/action/fulpslam/Trigger()
-	if(owner.incapacitated())
-		to_chat(owner, "<span class='warning'>You can't WRESTLE while you're OUT FOR THE COUNT.</span>")
-		return
-	if(owner.mind.martial_art.streak == "fulpslam")
-		owner.visible_message("<span class='danger'>[owner] assumes a neutral stance.</span>", "<b><i>Your next attack is cleared.</i></b>")
-		owner.mind.martial_art.streak = ""
-	else
-		owner.visible_message("<span class='danger'>[owner] prepares to BODY SLAM!</span>", "<b><i>Your next attack will be a BODY SLAM.</i></b>")
-		owner.mind.martial_art.streak = "fulpslam"
 
 /// Drop icon
 /datum/action/fulpdrop
@@ -80,103 +55,6 @@
 		owner.mind.martial_art.streak = "fulpdrop"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Slam
-/datum/martial_art/fulpwrestling/proc/fulpslam(mob/living/user, mob/living/target)
-	if(!can_use(user))
-		return FALSE
-	if(!target)
-		return
-	if(!user.pulling || user.pulling != target)
-		to_chat(user, "<span class='warning'>You need to have [target] in a cinch!</span>")
-		return
-	target.forceMove(user.loc)
-	user.setDir(get_dir(user, target))
-	target.setDir(get_dir(target, user))
-	target.visible_message("<span class='danger'>[user] lifts [target] up!</span>", \
-					"<span class='userdanger'>You're lifted up by [user]!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", null, user)
-	to_chat(user, "<span class='danger'>You lift [target] up!</span>")
-	FlipAnimation()
-	for(var/i = 0, i < 3, i++)
-		if(user && target)
-			user.pixel_y += 3
-			target.pixel_y += 3
-			user.setDir(turn(user.dir, 90))
-			target.setDir(turn(target.dir, 90))
-			switch(user.dir)
-				if(NORTH)
-					target.pixel_x = user.pixel_x
-				if(SOUTH)
-					target.pixel_x = user.pixel_x
-				if(EAST)
-					target.pixel_x = user.pixel_x - 8
-				if(WEST)
-					target.pixel_x = user.pixel_x + 8
-			if(get_dist(user, target) > 1)
-				to_chat(user, "<span class='warning'>[target] is too far away!</span>")
-				user.pixel_x = user.base_pixel_x
-				user.pixel_y = user.base_pixel_y
-				target.pixel_x = target.base_pixel_x
-				target.pixel_y = target.base_pixel_y
-				return
-			if(!isturf(user.loc) || !isturf(target.loc))
-				to_chat(user, "<span class='warning'>You can't slam [target] here!</span>")
-				user.pixel_x = user.base_pixel_x
-				user.pixel_y = user.base_pixel_y
-				target.pixel_x = target.base_pixel_x
-				target.pixel_y = target.base_pixel_y
-				return
-		else
-			if(user)
-				user.pixel_x = user.base_pixel_x
-				user.pixel_y = user.base_pixel_y
-			if(target)
-				target.pixel_x = target.base_pixel_x
-				target.pixel_y = target.base_pixel_y
-			return
-		sleep(1)
-	if(user && target)
-		user.pixel_x = user.base_pixel_x
-		user.pixel_y = user.base_pixel_y
-		target.pixel_x = target.base_pixel_x
-		target.pixel_y = target.base_pixel_y
-
-		if(get_dist(user, target) > 1)
-			to_chat(user, "<span class='warning'>[target] is too far away!</span>")
-			return
-		if(!isturf(user.loc) || !isturf(target.loc))
-			to_chat(user, "<span class='warning'>You can't slam [target] here!</span>")
-			return
-		target.forceMove(user.loc)
-		var/fluff = "body-slam"
-		target.visible_message("<span class='danger'>[user] [fluff] [target]!</span>", \
-						"<span class='userdanger'>You're [fluff]ed by [user]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, user)
-		to_chat(user, "<span class='danger'>You [fluff] [target]!</span>")
-		playsound(user.loc, "swing_hit", 50, TRUE)
-		if(!target.stat)
-			target.emote("scream")
-			target.Paralyze(30)
-			target.adjustBruteLoss(rand(10,15))
-		else
-			target.adjustBruteLoss(rand(10,15))
-	else
-		if(user)
-			user.pixel_x = user.base_pixel_x
-			user.pixel_y = user.base_pixel_y
-		if(target)
-			target.pixel_x = target.base_pixel_x
-			target.pixel_y = target.base_pixel_y
-
-	log_combat(user, target, "body-slammed (Wrestling)")
-	return
-
-/datum/martial_art/fulpwrestling/proc/FlipAnimation(mob/living/D)
-	set waitfor = FALSE
-	if(D)
-		animate(D, transform = matrix(180, MATRIX_ROTATE), time = 1, loop = 0)
-	if(do_after(D, 10 SECONDS))
-		if(D)
-			animate(D, transform = null, time = 1, loop = 0)
-
 /// Drop
 /datum/martial_art/fulpwrestling/proc/fulpdrop(mob/living/user, mob/living/target)
 	if(!can_use(user))
@@ -416,7 +294,6 @@
 	target.visible_message("<span class='danger'>[user] gets [target] in a cinch!</span>", \
 					"<span class='userdanger'>You're put into a cinch by [user]!</span>", "<span class='hear'>You hear aggressive shuffling!</span>", COMBAT_MESSAGE_RANGE, user)
 	to_chat(user, "<span class='danger'>You get [target] in a cinch!</span>")
-	target.adjustStaminaLoss(30)
 	log_combat(user, target, "grabbed (Wrestling)")
 	return TRUE
 
@@ -443,13 +320,3 @@
 	if(!is_type_in_list(get_area(user), valid_areas))
 		return FALSE
 	return ..()
-
-/mob/living/proc/FulpWrestling_help()
-	set name = "Recall Teachings"
-	set desc = "Remember how to Wrestle."
-	set category = "Wrestling"
-	to_chat(usr, "<b><i>You flex your muscles and have a revelation...</i></b>")
-
-	to_chat(usr, "<span class='notice'>Clinch</span>: Grab. Instantly grabs someone, stunning them. Throw intent to launch them.")
-	to_chat(usr, "<span class='notice'>Drop</span>: Slam a grappled opponent into the floor.")
-	to_chat(usr, "<span class='notice'>Slam</span>: Smash down onto an opponent.")
