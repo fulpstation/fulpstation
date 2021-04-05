@@ -31,10 +31,6 @@
 	protected_jobs += list(
 	"Brig Physician",
 	"Deputy",
-	"Head of Personnel",
-	"Research Director",
-	"Chief Engineer",
-	"Chief Medical Officer",
 	)
 	. = ..()
 
