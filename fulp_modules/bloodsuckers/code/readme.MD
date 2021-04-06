@@ -11,6 +11,7 @@
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 - code/game/objects/items/implants/implant_mindshield.dm > Makes Mindshields remove Vassalization
 - code/modules/mob/living/carbon/human/examine.dm > Added Bloodsucker examine text
+- code/modules/mob/living/blood.dm > Kicks Bloodsuckers out of naturally regenerating blood
 
 ## TG proc overwrites:
 
