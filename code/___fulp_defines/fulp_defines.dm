@@ -14,7 +14,7 @@
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 
 /// Martial art defines
-#define MARTIALART_HUNTER "hunter-fu"
+#define MARTIALART_HUNTERFU "hunter-fu"
 #define MARTIALART_DEPUTYGRAB "deputy grab"
 
 /// Bloodsucker defines

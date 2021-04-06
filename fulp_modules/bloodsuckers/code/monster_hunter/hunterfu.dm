@@ -3,9 +3,10 @@
 #define NECKSNAP_COMBO "GD"
 #define HOLYKICK_COMBO "DG"
 
+/// From CQC.dm
 /datum/martial_art/hunterfu
 	name = "Hunter-Fu"
-	id = "MARTIALART_HUNTER" //ID, used by mind/has_martialart
+	id = MARTIALART_HUNTERFU
 	help_verb = /mob/living/carbon/human/proc/hunterfu_help
 	block_chance = 60
 	allow_temp_override = TRUE

@@ -17,6 +17,7 @@
 - /obj/item/clothing/neck/necklace/memento_mori/memento() - Prevents Bloodsuckers from getting complete immunity
 - /datum/species/jelly/slime/spec_life() - Prevents Bloodsuckers from abusing Slimepeople
 - /datum/species/jelly/spec_life() - Prevents Bloodsuckers from abusing Slimepeople
+- /mob/living/carbon/natural_bodytemperature_stabilization() - Makes Bloodsucker's blood, cold
 
 ## Notes/Credits:
 

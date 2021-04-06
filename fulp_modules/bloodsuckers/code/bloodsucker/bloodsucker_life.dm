@@ -26,6 +26,12 @@
 	if(HAS_TRAIT(H, TRAIT_NOPULSE))
 		return
 
+/// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
+/mob/living/carbon/natural_bodytemperature_stabilization()
+	. = ..()
+	if (HAS_TRAIT(src, TRAIT_COLDBLOODED))
+		return 0
+
 /*
  *		TO PLUG INTO LIFE:
  *
