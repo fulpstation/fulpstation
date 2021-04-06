@@ -9,9 +9,9 @@
 	. = ..()
 	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		to_chat(user, "<span class='warning'>Noticing your undead soul, the Memento reverts back to its original state.</span>")
-		REMOVE_TRAIT(user, TRAIT_NODEATH, "memento_mori")
-		REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, "memento_mori")
-		REMOVE_TRAIT(user, TRAIT_NOCRITDAMAGE, "memento_mori")
+		REMOVE_TRAIT(user, TRAIT_NODEATH, CLOTHING_TRAIT)
+		REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, CLOTHING_TRAIT)
+		REMOVE_TRAIT(user, TRAIT_NOCRITDAMAGE, CLOTHING_TRAIT)
 		icon_state = "memento_mori"
 		active_owner = null
 		return
@@ -29,8 +29,13 @@
 /// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
 /mob/living/carbon/natural_bodytemperature_stabilization()
 	. = ..()
-	if (HAS_TRAIT(src, TRAIT_COLDBLOODED))
+	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
 		return 0
+
+/// Overwrites mob/living/life.dm for LifeTick
+/mob/living/Life(delta_time = SSMOBS_DT, times_fired)
+	. = ..()
+	SEND_SIGNAL(src,COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
 
 /*
  *		TO PLUG INTO LIFE:
@@ -45,35 +50,29 @@
 
 /// Runs from BiologicalLife, handles all the bloodsucker constant proccesses
 /datum/antagonist/bloodsucker/proc/LifeTick()
-	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
-	while(owner && !AmFinalDeath())
-		if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			AddBloodVolume(passive_blood_drain)
-		if(HandleHealing(1))
-			if(!notice_healing && owner.current.blood_volume > 0)
-				to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
-				notice_healing = TRUE
-		else if(notice_healing)
-			notice_healing = FALSE
-		HandleStarving() // Handle Low Blood effects
-		HandleDeath() // Handle Death
-		update_hud() // Standard Update
-		if(SSticker.mode.is_daylight() && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-				Torpor_Begin()
-
-		sleep(10) // Wait before next pass
+	if(!owner || AmFinalDeath())
+		return
+	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) // Deduct Blood
+		AddBloodVolume(passive_blood_drain) // -.1 currently
+	if(HandleHealing(1)) // Heal
+		if(!notice_healing && owner.current.blood_volume > 0)
+			to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
+			notice_healing = TRUE
+	else if(notice_healing)
+		notice_healing = FALSE // Apply Low Blood Effects
+	HandleStarving() // Death
+	HandleDeath() // Standard Update
+	update_hud()// Daytime Sleep in Coffin
+	if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
+		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+			Torpor_Begin()
+				// Wait before next pass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //			BLOOD
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/mob/living/carbon/human/handle_blood()
-	. = ..()
-	if(HAS_TRAIT(src, TRAIT_NOPULSE)) // Dont regenerate blood, damnmit!
-		return
 
 /datum/antagonist/bloodsucker/proc/AddBloodVolume(value)
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
@@ -300,7 +299,7 @@
 /datum/antagonist/bloodsucker/proc/FinalDeath()
 	if(FinalDeath)
 		return
-	FinalDeath = TRUE //We are now supposed to die. Lets not spam it.
+	FinalDeath = TRUE // We are now supposed to die. Lets not spam it.
 	if(!iscarbon(owner.current)) //Check for non carbons.
 		owner.current.gib()
 		return

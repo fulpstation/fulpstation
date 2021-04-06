@@ -43,8 +43,8 @@
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	// Powers
 	var/datum/action/bloodsucker/recuperate/new_Recuperate = new()
-	new_Recuperate.Grant(owner.current)
 	powers += new_Recuperate
+	new_Recuperate.Grant(owner.current)
 	// Give Vassal Objective
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
@@ -147,12 +147,12 @@
 	vassal.remove_antag_datum(/datum/antagonist/vassal)
 
 /datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype="vassal")
-	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]// ANTAG_HUD_DEVIL
+	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	hud.join_hud(vassal)
 	set_antag_hud(vassal, icontype) // Located in icons/mob/hud.dmi
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker")	// FULP ADDITION! Check prepare_huds in mob.dm to see why.
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/vassal/proc/update_vassal_icons_removed(mob/living/vassal)
-	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]//ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	hud.leave_hud(vassal)
 	set_antag_hud(vassal, null)
