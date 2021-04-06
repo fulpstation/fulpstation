@@ -124,7 +124,7 @@
 	glasses =  /obj/item/clothing/glasses/meson/engine
 	mask = /obj/item/clothing/mask/gas
 	r_pocket = /obj/item/rcd_ammo/large
-	r_hand = /obj/item/gun/energy/e_gun
+	l_hand = /obj/item/gun/energy/e_gun
 
 // CLOWN ERT OUTFITS
 
