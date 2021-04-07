@@ -5,16 +5,16 @@
 // For the credits music, the number associated is its relative weight,
 // values can be tweaked as much as needed and don't need to equal to a hundred.
 GLOBAL_LIST_INIT(credits_music,list(
-	'fulp_modules/fulp_exclusive_sounds/sound/Fulp_Piano.ogg' = 80,
-	'fulp_modules/fulp_exclusive_sounds/sound/Fulp_Piano_Old.ogg' = 15,
-	'fulp_modules/fulp_exclusive_sounds/sound/Fulp_Uhoh_Stinky.ogg' = 5))
+	'fulp_modules/fulp_configs/sound/Fulp_Piano.ogg' = 80,
+	'fulp_modules/fulp_configs/sound/Fulp_Piano_Old.ogg' = 15,
+	'fulp_modules/fulp_configs/sound/Fulp_Uhoh_Stinky.ogg' = 5))
 
 // This is for when the server restarts. Not weighted because it wasn't weighted to begin with.
 GLOBAL_LIST_INIT(round_end_tracks,list(
 	'sound/roundend/newroundsexy.ogg', 'sound/roundend/apcdestroyed.ogg',
 	'sound/roundend/bangindonk.ogg', 'sound/roundend/imaghoul.ogg',
 	'sound/roundend/petersondisappointed.ogg', 'sound/roundend/its_only_game.ogg',
-	'fulp_modules/fulp_exclusive_sounds/sound/i_got_banned_on_fulpstation.ogg'))
+	'fulp_modules/fulp_configs/sound/i_got_banned_on_fulpstation.ogg'))
 
 // This is triggered in roundend.dm, so that we have some round-end music instead of just playing lobby music again.
 /client/proc/playcreditsmusic(vol = 85)
