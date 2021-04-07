@@ -6,4 +6,4 @@
 /datum/controller/subsystem/sounds/setup_available_channels()
 	..()
 	//Space-ambience music addition.
-	GLOB.space_ambience += 'fulp_modules/fulp_exclusive_sounds/sound/spacepad.ogg'
+	GLOB.space_ambience += 'fulp_modules/fulp_configs/sound/spacepad.ogg'
