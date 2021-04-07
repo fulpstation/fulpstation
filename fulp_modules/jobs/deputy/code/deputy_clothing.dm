@@ -8,7 +8,7 @@
 	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black
-	shoes = /obj/item/clothing/shoes/jackboots
+	shoes = /obj/item/clothing/shoes/laceup
 	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/assembly/flash/handheld
 	backpack = /obj/item/storage/backpack/security
@@ -192,7 +192,7 @@
 /// Base Skillchip
 /obj/item/skillchip/job/deputy
 	name = "D3PU7Y skillchip"
-	desc = "You think we learn this stuff naturally?"
+	desc = "You think they learn this stuff naturally?"
 	skill_icon = "sitemap"
 	var/deputy
 	var/department
@@ -211,7 +211,7 @@
 
 /obj/item/skillchip/job/deputy/on_activate(mob/living/carbon/user, silent = FALSE)
 	. = ..()
-	style.teach(user, make_temporary = TRUE)
+	style.teach(user, TRUE)
 
 /obj/item/skillchip/job/deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
 	style.remove(user)
