@@ -31,6 +31,7 @@ SUBSYSTEM_DEF(job)
 	 * See [/datum/controller/subsystem/ticker/proc/equip_characters]
 	 */
 	var/list/chain_of_command = list(
+/*
 		"Captain" = 1,
 		"Head of Personnel" = 2,
 		"Research Director" = 3,
@@ -39,6 +40,15 @@ SUBSYSTEM_DEF(job)
 		"Head of Security" = 6,
 		"Quartermaster" = 7)
 
+*/ // FULP EDIT - Chain of Command is different here!
+		"Captain" = 1,
+		"Head of Personnel" = 2,
+		"Head of Security" = 3,
+		"Research Director" = 4,
+		"Chief Engineer" = 5,
+		"Chief Medical Officer" = 6,
+		"Quartermaster" = 7,
+		)
 	/// If TRUE, some player has been assigned Captaincy or Acting Captaincy at some point during the shift and has been given the spare ID safe code.
 	var/assigned_captain = FALSE
 	/// Whether the emergency safe code has been requested via a comms console on shifts with no Captain or Acting Captain.
