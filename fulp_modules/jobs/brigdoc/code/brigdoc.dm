@@ -38,12 +38,11 @@
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	head = /obj/item/clothing/head/beret/sec/medical
-	l_hand = /obj/item/storage/firstaid/regular
+	l_hand = /obj/item/storage/firstaid/medical/brigdoc
 	l_pocket = /obj/item/pda/medical
 	r_pocket = /obj/item/assembly/flash
 	suit_store = /obj/item/flashlight/pen
-	backpack_contents = list(/obj/item/choice_beacon)
-	// backpack_contents = list(/obj/item/storage/pill_bottle/paxpsych=1, /obj/item/reagent_containers/glass/bottle/formaldehyde=1) // REMINDER: These two will go in 'Chemical kit' crate.
+	backpack_contents = list(/obj/item/choice_beacon/brigdoc = 1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

@@ -96,10 +96,15 @@
 
 /obj/item/paper/fluff/help_how_do_i_chemical_kit
 	name = "Chemical Kit Guide"
-	desc = "A paper that details information related to the chemicals in the chemical variety box."
+	desc = "A paper that details information related to the contents in the chemical kit."
 	info = {"
 <h1>Chemical Variety Kit</h1>
-<h2>Chemicals contained:</h2>
+<h2>Items in kit:</h2>
+<p>Four (4) Pill bottles containing pax, mannitol, multiver and potassium iodide respectively.</p>
+<p>Two (2) double-injection medipens containing 60u mutadone.</p>
+<p>One (1) bottle of atropine.</p>
+</ol>
+<h2>Chemicals:</h2>
 <p>Pax - Pacifies anyone who has it in their system. Use to neutralize possible hostile menaces without fear of them harming you. NOTE: Does not stop non-lethal attacks.</p>
 <p>Mannitol - Used to heal brain damage. NOTE: Does NOT heal brain traumas.</p>
 <p>Multiver - Treats toxin damage and purges chemicals. Does lung damage, with damage effect and purge effectiveness decreasing with the amounts of chemicals in the host.</p>
@@ -110,5 +115,50 @@
 	"}
 
 /obj/item/paper/fluff/surgery_ready_instructions_kit
+	name = "Surgery-Ready Kit Guide"
+	desc = "A paper that details information related to the contents in the surgery-ready kit."
+	info = {"
+<h1>Surgery-Ready Kit</h1>
+<h2>Items in kit:</h2>
+<p>Five (5) metal sheets.</p>
+<p>Five (5) cable coils.</p>
+<p>Two (2) metal rods.</p>
+<p>One (1) silver bar.</p>
+<p>One (1) operating computer circuit board.</p>
+<p>One (1) wrench.</p>
+<p>One (1) screwdriver.</p>
+<p>One (1) loaded defibrillator.</p>
+<p>One (1) defibrillator mount.</p>
+<ol>
+<h2>Usage of items:</h2>
+<li>The metal sheets, cable coils, operating computer circuit board, wrench and screwdriver are to create an operating computer.</li>
+<li>The silver bar and metal rods are to create an operating table.</li>
+<li>The defibrillator and the defibrillator mount serve as an attachable static revival tool for your infirmary.</li>
+</ol>
+	"}
+
+/obj/structure/closet/crate/medical/brigdoc/PopulateContents()
+	new /obj/item/paper/fluff/surgery_ready_instructions_kit(src)
+	new /obj/item/stack/rods/two(src)
+	new /obj/item/stack/sheet/mineral/silver(src)
+	new /obj/item/stack/sheet/iron/five(src)
+	new /obj/item/circuitboard/computer/operating(src)
+	new /obj/item/wrench(src)
+	new /obj/item/screwdriver(src)
+	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/defibrillator/loaded(src)
+	new /obj/item/wallframe/defib_mount(src)
 
 /obj/item/paper/fluff/strange_reagent_and_you
+	name = "Strange Reagent Kit Guide"
+	desc = "A paper that details information related to the contents in the strange reagent kit."
+	info = {"
+<h1>Strange Reagent Kit</h1>
+<h2>Items in kit:</h2>
+<p>One (1) pill bottle containing seven (7) pills of 2u strange reagent.</p>
+<ol>
+<h2>Usage of items:</h2>
+<li>Feed the pill containing strange reagent to a dead patient, after healing them.</li>
+<li>Observe as they get back from the dead because of the chemicals.</li>
+</ol>
+	"}
