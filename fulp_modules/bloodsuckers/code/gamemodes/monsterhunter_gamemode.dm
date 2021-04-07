@@ -51,9 +51,9 @@
 	name = "Spawn Monster Hunter - Misc"
 	typepath = /datum/round_event/monster_hunters
 	max_occurrences = 1
-	weight = 3
+	weight = 7
 	min_players = 10
-	earliest_start = 30 MINUTES
+	earliest_start = 25 MINUTES
 	alert_observers = FALSE
 	gamemode_whitelist = list("traitorchan", "changeling", "heresy", "cult")
 
@@ -62,7 +62,7 @@
 
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner", "Deputy",)
+		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner", "Deputy",) // Since this isnt Bloodsuckers, QM can be selected here.
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
