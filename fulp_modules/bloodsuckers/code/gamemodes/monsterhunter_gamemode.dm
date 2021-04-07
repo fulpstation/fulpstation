@@ -60,9 +60,10 @@
 /datum/round_event/monster_hunters
 	fakeable = FALSE
 
+/// Since this isnt Bloodsuckers, the Quartermaster isnt 'Command', so can be selected for Monster Hunter.
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner", "Deputy",) // Since this isnt Bloodsuckers, QM can be selected here.
+		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner", "Deputy",)
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
