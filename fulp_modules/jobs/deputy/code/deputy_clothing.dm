@@ -165,28 +165,34 @@
 
 /// Berets
 /obj/item/clothing/head/fulpberet
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as Chaplain armor, it's the Deputy's holy beret.
+	armor = list(MELEE = 40, BULLET = 40, LASER = 40, ENERGY = 40, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) /// The Deputy's holy beret.
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
+	resistance_flags = ACID_PROOF | FIRE_PROOF
 
 /obj/item/clothing/head/fulpberet/engineering
+	armor = list(MELEE = 40, BULLET = 40, LASER = 40, ENERGY = 40, BOMB = 60, BIO = 0, RAD = 100, FIRE = 60, ACID = 60)
 	name = "engineering deputy beret"
-	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
+	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage. Comes with radiation protection."
 	icon_state = "beret_engi"
+	flags_1 = RAD_PROTECT_CONTENTS_1
 
 /obj/item/clothing/head/fulpberet/medical
+	armor = list(MELEE = 40, BULLET = 40, LASER = 40, ENERGY = 40, BOMB = 60, BIO = 100, RAD = 0, FIRE = 60, ACID = 60)
 	name = "medical deputy beret"
-	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
+	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry, or just used as a bio hood."
 	icon_state = "beret_medbay"
 
 /obj/item/clothing/head/fulpberet/science
+	armor = list(MELEE = 40, BULLET = 40, LASER = 40, ENERGY = 40, BOMB = 100, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
 	name = "science deputy beret"
-	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
+	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
 
 /obj/item/clothing/head/fulpberet/supply
+	armor = list(MELEE = 40, BULLET = 75, LASER = 40, ENERGY = 40, BOMB = 100, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
 	name = "supply deputy beret"
-	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
+	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
 	icon_state = "beret_supply"
 
 /// Base Skillchip
