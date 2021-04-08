@@ -59,7 +59,6 @@
 /datum/round_event/monster_hunters
 	fakeable = FALSE
 
-/// Since this isnt Bloodsuckers, the Quartermaster isnt 'Command', so can be selected for Monster Hunter.
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
