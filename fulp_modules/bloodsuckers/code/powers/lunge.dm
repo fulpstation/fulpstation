@@ -77,6 +77,10 @@
 
 	// Step Two: Check if I'm at/adjectent to Target's CURRENT turf (not original...that was just a destination)
 	if(target.Adjacent(owner))
+		if(target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			target.grabbedby(owner)
+			to_chat(owner, "<span class='warning'>You get pushed away as you advance, and fail to get a strong grasp!</span>")
+			return
 		// LEVEL 2: If behind target, mute or unconscious!
 		if(do_knockdown) // && level_current >= 1)
 			target.Paralyze(15 + 10 * level_current,1)
