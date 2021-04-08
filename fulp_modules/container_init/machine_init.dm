@@ -4,8 +4,9 @@
 
 /obj/machinery/vending/autodrobe/Initialize()
 	products += list(/obj/item/clothing/shoes/clown_shoes/digitigrade = 1,
-	/obj/item/clothing/shoes/sneakers/mime/digitigrade = 1)
-	. = ..()
+	/obj/item/clothing/shoes/sneakers/mime/digitigrade = 1,
+	/obj/item/clothing/mask/rickstache)
+	. = ..();
 
 /obj/machinery/vending/clothing/Initialize()
 	products += list(/obj/item/clothing/shoes/sandal/digitigrade = 1,
