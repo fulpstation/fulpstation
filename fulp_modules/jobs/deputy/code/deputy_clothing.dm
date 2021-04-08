@@ -190,7 +190,7 @@
 	icon_state = "beret_science"
 
 /obj/item/clothing/head/fulpberet/supply
-	armor = list(MELEE = 40, BULLET = 75, LASER = 40, ENERGY = 40, BOMB = 100, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
+	armor = list(MELEE = 40, BULLET = 60, LASER = 20, ENERGY = 20, BOMB = 0, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
 	icon_state = "beret_supply"
