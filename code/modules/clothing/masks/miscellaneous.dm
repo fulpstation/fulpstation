@@ -186,3 +186,10 @@
 			message = replacetextEx(message,regex(capitalize(key),"g"), "[capitalize(value)]")
 			message = replacetextEx(message,regex(key,"g"), "[value]")
 	speech_args[SPEECH_MESSAGE] = trim(message)
+
+/obj/item/clothing/mask/rickstache
+	name = "Rick-stache"
+	desc = "You're pretty sure the guy this belongs to is a maniac."
+	icon_state = "rick_stache"
+	inhand_icon_state = "rick_stache"
+	flags_inv = HIDEFACIALHAIR
