@@ -68,9 +68,7 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Deputy (Medical)",
 	"Deputy (Science)",
 	// FULP ADDITION END
-	"Security Officer"
-	))
-
+	"Security Officer"))
 
 /// These aren't defacto jobs, but are the special departmental variants for sec officers.
 GLOBAL_LIST_INIT(security_sub_positions, list(
