@@ -60,14 +60,6 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
 	"Detective",
-	// FULP EDIT ADDITION - Fulp jobs - Deputy + Brig Physician
-	"Brig Physician",
-	"Deputy",
-	"Deputy (Cargo)",
-	"Deputy (Engineering)",
-	"Deputy (Medical)",
-	"Deputy (Science)",
-	// FULP ADDITION END
 	"Security Officer"))
 
 /// These aren't defacto jobs, but are the special departmental variants for sec officers.
