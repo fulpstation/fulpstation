@@ -20,7 +20,7 @@
 	skinned_type = /obj/item/food/meatball // NO SKIN //  /obj/item/stack/sheet/animalhide/human
 	meat = /obj/item/food/meat/slab //What the species drops on gibbing
 	toxic_food = DAIRY | PINEAPPLE //NONE
-	disliked_food = VEGETABLES | FRUIT // | FRIED// GROSS | RAW
+	disliked_food = VEGETABLES | FRUIT | CLOTH // | FRIED// GROSS | RAW
 	liked_food = RAW | MEAT // JUNKFOOD | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	attack_verb = "meat"
