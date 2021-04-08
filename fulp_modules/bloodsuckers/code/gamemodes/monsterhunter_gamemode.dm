@@ -25,18 +25,19 @@
 
 /datum/round_event/bloodsucker_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner", "Deputy",)
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions)) // Only crewmembers on-station.
 			continue
-		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in no_hunter_jobs))
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.command_positions))
 			continue
-		if(!H.mind.has_antag_datum(/datum/antagonist/vassal))
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.security_positions))
 			continue
-		if(!H.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		if(H.mind.has_antag_datum(/datum/antagonist/vassal))
+			continue
+		if(H.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 			continue
 		if(!H.getorgan(/obj/item/organ/brain))
 			continue
@@ -53,7 +54,7 @@
 	min_players = 10
 	earliest_start = 25 MINUTES
 	alert_observers = FALSE
-	gamemode_whitelist = list("traitorchan", "changeling", "heresy", "cult")
+	gamemode_whitelist = list("traitorchan","changeling","heresy","cult")
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
@@ -61,20 +62,21 @@
 /// Since this isnt Bloodsuckers, the Quartermaster isnt 'Command', so can be selected for Monster Hunter.
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		var/list/no_hunter_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Warden", "Security Officer", "Detective", "Brig Physician", "Prisoner", "Deputy",)
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions))
 			continue
-		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in no_hunter_jobs))
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.command_positions))
 			continue
-		if(!H.mind.has_antag_datum(/datum/antagonist/changeling))
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.security_positions))
 			continue
-		if(!H.mind.has_antag_datum(/datum/antagonist/heretic))
+		if(H.mind.has_antag_datum(/datum/antagonist/changeling))
 			continue
-		if(!H.mind.has_antag_datum(/datum/antagonist/cult))
+		if(H.mind.has_antag_datum(/datum/antagonist/heretic))
+			continue
+		if(H.mind.has_antag_datum(/datum/antagonist/cult))
 			continue
 		if(!H.getorgan(/obj/item/organ/brain))
 			continue
