@@ -202,7 +202,7 @@
 	skill_icon = "sitemap"
 	var/deputy
 	var/department
-	var/datum/martial_art/deputygrab/style
+	var/datum/martial_art/deputyblock/style
 
 /obj/item/skillchip/job/deputy/Initialize()
 	. = ..()

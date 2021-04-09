@@ -10,4 +10,4 @@
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
 #define TRAIT_SUPPLYDEPUTY "supplydeputy"
 
-#define MARTIALART_DEPUTYGRAB "deputy grab"
+#define MARTIALART_DEPUTYBLOCK "deputy block"
