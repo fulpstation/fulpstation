@@ -1,7 +1,7 @@
 /datum/martial_art/deputyblock
 	name = "Deputy Block"
 	id = MARTIALART_DEPUTYBLOCK
-	block_chance = 80
+	block_chance = 90
 	var/old_grab_state = null
 	var/list/valid_area = list()
 
