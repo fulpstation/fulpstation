@@ -28,6 +28,7 @@
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/fulpberet/engineering
 	neck = /obj/item/clothing/neck/fulptie/engineering
@@ -45,6 +46,7 @@
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/fulpberet/medical
 	neck = /obj/item/clothing/neck/fulptie/medical
@@ -63,6 +65,7 @@
 		/obj/item/restraints/handcuffs=1,
 		/obj/item/reagent_containers/hypospray/medipen/mutadone=1,
 		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/holosign_creator/security=1,
 		)
 	neck = /obj/item/clothing/neck/fulptie/science
 	head = /obj/item/clothing/head/fulpberet/science
@@ -80,6 +83,7 @@
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/fulpberet
 	neck = /obj/item/clothing/neck/fulptie/supply
