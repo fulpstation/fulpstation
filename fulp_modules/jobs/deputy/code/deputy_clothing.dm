@@ -81,7 +81,7 @@
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
 		)
-	head = /obj/item/clothing/head/fulpberet/supply
+	head = /obj/item/clothing/head/fulpberet
 	neck = /obj/item/clothing/neck/fulptie/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	box = null
@@ -165,9 +165,12 @@
 
 /// Berets
 /obj/item/clothing/head/fulpberet
-	armor = list(MELEE = 40, BULLET = 30, LASER = 25, ENERGY = 35, BOMB = 25, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 5) /// HoS level
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
+	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
+	name = "supply deputy beret"
+	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
+	icon_state = "beret_supply"
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 
 /obj/item/clothing/head/fulpberet/engineering
@@ -188,12 +191,6 @@
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
-
-/obj/item/clothing/head/fulpberet/supply
-	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
-	name = "supply deputy beret"
-	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
-	icon_state = "beret_supply"
 
 /// Base Skillchip
 /obj/item/skillchip/job/deputy
