@@ -200,47 +200,45 @@
 	inhand_icon_state = "wood"
 	lefthand_file = 'fulp_modules/bloodsuckers/icons/stake_leftinhand.dmi'
 	righthand_file = 'fulp_modules/bloodsuckers/icons/stake_rightinhand.dmi'
-	attack_verb_continuous = list("staked", "stabbed", "tore into")
-	attack_verb_simple = list("staked", "stabbed", "tore into")
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	attack_verb_continuous = list("staked", "stabbed", "tore into")
+	attack_verb_simple = list("staked", "stabbed", "tore into")
+	/// Embedding
+	sharpness = SHARP_EDGED
+	embedding = list("embed_chance" = 20)
 	force = 6
 	throwforce = 10
-	embedding = list("embed_chance" = 20, "fall_chance" = 80)
-	obj_integrity = 30
 	max_integrity = 30
-	var/staketime = 120 // Time it takes to embed the stake into someone's chest.
+	var/staketime = 12 SECONDS // Time it takes to embed the stake into someone's chest.
 
-/obj/item/stake/afterattack(atom/target, mob/user, proximity)
+/obj/item/stake/afterattack(mob/living/target, mob/living/user, proximity, discover_after = TRUE)
 	// Invalid Target, or not targetting the chest?
 	if(!iscarbon(target) || check_zone(user.zone_selected) != "chest")
 		return
 	var/mob/living/carbon/C = target
 	// Needs to be Down/Slipped in some way to Stake.
-	if(!C.can_be_staked() || target == user)
+	if(!C.can_be_staked() || target == user) // Oops! Can't.
 		to_chat(user, "<span class='danger'>You can't stake [target] when they are moving about! They have to be laying down or grabbed by the neck!</span>")
 		return
-			// Oops! Can't.
 	if(HAS_TRAIT(C, TRAIT_PIERCEIMMUNE))
 		to_chat(user, "<span class='danger'>[target]'s chest resists the stake. It won't go in.</span>")
 		return
-	// Make Attempt...
 	to_chat(user, "<span class='notice'>You put all your weight into embedding the stake into [target]'s chest...</span>")
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
-	if(!do_mob(user, C, staketime, NONE, TRUE, extra_checks=CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
+	if(!do_mob(user, C, staketime, extra_checks=CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
 	user.visible_message("<span class='danger'>[user.name] drives the [src] into [target]'s chest!</span>", \
 			 "<span class='danger'>You drive the [src] into [target]'s chest!</span>")
 	playsound(get_turf(target), 'sound/effects/splat.ogg', 40, 1)
 	user.dropItemToGround(src, TRUE) //user.drop_item() // "drop item" doesn't seem to exist anymore. New proc is user.dropItemToGround() but it doesn't seem like it's needed now?
-	var/obj/item/bodypart/B = C.get_bodypart("chest")  // This was all taken from hitby() in human_defense.dm
-	B.embedded_objects |= src
-	embedded()
-	add_mob_blood(target)//Place blood on the stake
-	loc = C // Put INSIDE the character
-	B.receive_damage(w_class * embedding["pain_mult"])
+	if(tryEmbed(target.get_bodypart(BODY_ZONE_CHEST), TRUE, TRUE)) //and if it embeds successfully in their chest, cause a lot of pain
+		target.apply_damage(max(10, force*1.5), BRUTE, BODY_ZONE_CHEST, wound_bonus = 0, sharpness = TRUE)
+		discover_after = FALSE
+	if(QDELETED(src)) // in case trying to embed it caused its deletion (say, if it's DROPDEL)
+		return
 	if(C.mind)
 		var/datum/antagonist/bloodsucker/bloodsucker = C.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsucker)
@@ -250,7 +248,6 @@
 				return
 			else
 				to_chat(target, "<span class='userdanger'>You have been staked! Your powers are useless, your death forever, while it remains in place.</span>")
-				to_chat(user, "<span class='warning'>You missed [C.p_their(TRUE)]'s heart! It would be easier if [C.p_they(TRUE)] weren't struggling so much.</span>")
 
 /// Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/carbon/proc/can_be_staked()
@@ -264,9 +261,7 @@
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
-	embedding = list("embed_chance" = 35, "fall_chance" = 50)
-	obj_integrity = 120
-	max_integrity = 120
+	embedding = list("embed_chance" = 35)
 	staketime = 80
 
 /obj/item/stake/hardened/silver
@@ -277,7 +272,5 @@
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
-	embedding = list("embed_chance" = 65, "fall_chance" = 25)
-	obj_integrity = 300
-	max_integrity = 300
+	embedding = list("embed_chance" = 65)
 	staketime = 60
