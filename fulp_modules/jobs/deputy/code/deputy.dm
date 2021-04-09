@@ -1,7 +1,7 @@
 /datum/job/fulp/deputy
 	title = "Deputy"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security")
+	department_head = list("Head of Security") /// Sadly.
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
@@ -11,22 +11,22 @@
 	exp_requirements = 300
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_SECURITY
-	id_icon = 'fulp_modules/jobs/cards.dmi'
-	hud_icon = 'fulp_modules/jobs/huds.dmi'
-	fulp_spawn = /obj/effect/landmark/start/deputy
 
 	outfit = /datum/outfit/job/deputy
 	plasmaman_outfit = /datum/outfit/plasmaman/deputy
+	departments = DEPARTMENT_SECURITY
 
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
+	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
+	bounty_types = CIV_JOB_SEC
 
 	mind_traits = list(TRAIT_DONUT_LOVER)
 	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
-	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
-	bounty_types = CIV_JOB_SEC
-	departments = DEPARTMENT_SECURITY
+	id_icon = 'fulp_modules/jobs/cards.dmi'
+	hud_icon = 'fulp_modules/jobs/huds.dmi'
+	fulp_spawn = /obj/effect/landmark/start/deputy
 
 /// Default Deputy trim, this should never be used in game.
 /datum/id_trim/job/deputy
