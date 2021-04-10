@@ -23,26 +23,38 @@
 /obj/item/clothing/under/bodysash/hos
 	name = "head of security's sash"
 	icon_state = "hos"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 /obj/item/clothing/under/bodysash/warden
 	name = "warden's sash"
 	icon_state = "warden"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 /obj/item/clothing/under/bodysash/security
 	name = "security's sash"
 	icon_state = "security"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 /obj/item/clothing/under/bodysash/detective
 	name = "detective's sash"
 	icon_state = "detective"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 /obj/item/clothing/under/bodysash/brigdoc
 	name = "brig physician's sash"
 	icon_state = "brigdoc"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 /obj/item/clothing/under/bodysash/deputy
 	name = "deputy's sash"
 	icon_state = "deputy"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 //Medical
 /obj/item/clothing/under/bodysash/cmo
