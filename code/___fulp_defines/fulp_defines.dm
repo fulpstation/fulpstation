@@ -15,7 +15,7 @@
 
 /// Martial art defines
 #define MARTIALART_HUNTERFU "hunter-fu"
-#define MARTIALART_DEPUTYGRAB "deputy grab"
+#define MARTIALART_DEPUTYBLOCK "deputy block"
 
 /// Bloodsucker defines
 #define TRAIT_NORUNNING "norunning" // You walk!
