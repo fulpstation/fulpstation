@@ -59923,11 +59923,6 @@
 /obj/item/exodrone,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
-"pxo" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/transit_tube,
-/turf/open/floor/plating,
-/area/engineering/transit_tube)
 "pxv" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
@@ -61226,9 +61221,10 @@
 /turf/open/floor/iron,
 /area/service/hydroponics/garden)
 "pPb" = (
-/obj/machinery/computer/chef_order,
-/turf/open/floor/iron/cafeteria,
-/area/service/kitchen)
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/transit_tube,
+/turf/open/floor/plating,
+/area/engineering/transit_tube)
 "pPn" = (
 /obj/machinery/hydroponics/constructable,
 /obj/effect/turf_decal/tile{
@@ -71333,10 +71329,22 @@
 /turf/open/floor/plating,
 /area/engineering/atmos)
 "sqm" = (
-/obj/machinery/light{
-	dir = 4
+/obj/machinery/computer/chef_order,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "kitchenhydro";
+	name = "Service Shutter"
 	},
-/turf/open/floor/carpet/black,
+/obj/machinery/door/window/northleft{
+	dir = 4;
+	name = "Kitchen console access";
+	req_access_txt = "28"
+	},
+/obj/machinery/door/window/southright{
+	dir = 8;
+	name = "Bar console access";
+	req_access_txt = "25"
+	},
+/turf/open/floor/iron,
 /area/service/bar)
 "sqz" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/visible,
@@ -90632,6 +90640,9 @@
 /obj/item/book/manual/wiki/barman_recipes,
 /obj/item/reagent_containers/glass/rag,
 /obj/item/reagent_containers/food/drinks/shaker,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/carpet/black,
 /area/service/bar)
 "xta" = (
@@ -117741,7 +117752,7 @@ ive
 dIe
 fDA
 xsB
-sqm
+vkl
 vkl
 oCw
 fDA
@@ -117998,7 +118009,7 @@ cXL
 dbK
 tfD
 fDA
-fDA
+sqm
 tQV
 fDA
 fDA
@@ -118255,7 +118266,7 @@ cnS
 rGl
 bWO
 uYK
-pPb
+gxq
 gxq
 coM
 dyY
@@ -131052,7 +131063,7 @@ xdv
 kpq
 kpq
 gdM
-pxo
+pPb
 lts
 hFz
 udO
