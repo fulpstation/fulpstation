@@ -5,7 +5,7 @@
 
 /datum/action/innate/cult/blood_spell/stun
 	name = "Stun"
-	desc = "Empowers your hand to stun and mute a victim on contact."
+	desc = "Empowers your hand to stun and mute a weak-minded victim on contact."
 	button_icon_state = "hand"
 	magic_path = "/obj/item/melee/blood_magic/fulpstun"
 	health_cost = 10
