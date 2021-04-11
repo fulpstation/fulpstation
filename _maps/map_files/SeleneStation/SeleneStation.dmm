@@ -12349,12 +12349,11 @@
 /turf/open/floor/iron,
 /area/engineering/storage/tech)
 "dmA" = (
-/obj/machinery/door/airlock/public/glass{
-	name = "Courtroom";
-	req_access_txt = "42"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 8
+	},
+/obj/machinery/door/airlock/public/glass{
+	name = "Courtroom"
 	},
 /turf/open/floor/wood,
 /area/security/courtroom)
@@ -14970,7 +14969,7 @@
 	color = "#4169E1";
 	name = "Command blue corner"
 	},
-/obj/structure/transit_tube,
+/obj/structure/closet/emcloset,
 /turf/open/floor/iron/dark,
 /area/engineering/transit_tube)
 "dWe" = (
@@ -15190,9 +15189,6 @@
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "dYQ" = (
-/obj/machinery/doppler_array/research/science{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	name = "Science purple corner"
@@ -15207,6 +15203,7 @@
 	dir = 4;
 	name = "Science purple corner"
 	},
+/obj/machinery/doppler_array/research/science,
 /turf/open/floor/iron/white,
 /area/science/mixing)
 "dYW" = (
@@ -20209,10 +20206,6 @@
 /turf/open/floor/iron/dark,
 /area/service/bar)
 "fpF" = (
-/obj/machinery/door/airlock/research{
-	name = "Research Director's Office";
-	req_access_txt = "30"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -20225,6 +20218,10 @@
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	name = "Science purple corner"
+	},
+/obj/machinery/door/airlock/command{
+	name = "Research Director's Office";
+	req_access_txt = "30"
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/rd)
@@ -21142,8 +21139,10 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "fCh" = (
-/obj/structure/transit_tube/curved,
 /obj/structure/lattice,
+/obj/structure/transit_tube/curved/flipped{
+	dir = 4
+	},
 /turf/open/space/basic,
 /area/space/nearstation)
 "fDv" = (
@@ -23535,7 +23534,7 @@
 /area/service/lawoffice)
 "gdM" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/structure/transit_tube,
+/obj/structure/transit_tube/curved,
 /turf/open/floor/plating,
 /area/engineering/transit_tube)
 "gdX" = (
@@ -24855,6 +24854,11 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay)
+"gyw" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/transit_tube,
+/turf/open/floor/plating,
+/area/engineering/transit_tube)
 "gyy" = (
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat_interior)
@@ -29133,6 +29137,9 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "hFz" = (
+/obj/structure/transit_tube/station/dispenser{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/engineering/transit_tube)
 "hFJ" = (
@@ -29852,10 +29859,6 @@
 /turf/open/floor/wood,
 /area/medical/psychology)
 "hOm" = (
-/obj/structure/transit_tube/station/reverse{
-	dir = 8
-	},
-/obj/structure/transit_tube_pod,
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
 	dir = 4;
@@ -36153,7 +36156,6 @@
 	dir = 8;
 	name = "Command blue corner"
 	},
-/obj/structure/closet/emcloset,
 /turf/open/floor/iron/dark,
 /area/engineering/transit_tube)
 "jwj" = (
@@ -44200,6 +44202,7 @@
 	dir = 1;
 	name = "Command blue corner"
 	},
+/obj/structure/transit_tube,
 /turf/open/floor/iron/dark,
 /area/engineering/transit_tube)
 "ltC" = (
@@ -45701,10 +45704,6 @@
 /turf/open/floor/iron/white,
 /area/medical/surgery/room_b)
 "lNF" = (
-/obj/machinery/door/airlock/hatch{
-	name = "MiniSat Transit Tube Access";
-	req_one_access_txt = "32;19"
-	},
 /obj/machinery/navbeacon/wayfinding/minisat_access_ai,
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
@@ -45720,6 +45719,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 4
+	},
+/obj/machinery/door/airlock/command{
+	name = "MiniSat Access";
+	req_access_txt = "65"
 	},
 /turf/open/floor/iron/dark,
 /area/engineering/transit_tube)
@@ -54324,8 +54327,12 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/airalarm/mixingchamber{
+	dir = 4;
+	pixel_x = -25
+	},
 /turf/open/floor/iron/white,
-/area/science/mixing)
+/area/science/mixing/chamber)
 "nUz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 6
@@ -131028,8 +131035,8 @@ xBY
 xdv
 kpq
 kpq
-kpq
-kpq
+gdM
+gyw
 lts
 hFz
 udO
@@ -131284,9 +131291,9 @@ iQW
 iQW
 xdv
 iQW
-yju
 fCh
-gdM
+yju
+kpq
 dVY
 hOm
 jwa
@@ -131541,7 +131548,7 @@ iQW
 iQW
 xdv
 iQW
-adT
+sRM
 yju
 leI
 leI
@@ -131798,7 +131805,7 @@ yju
 yju
 xdv
 yju
-cai
+agd
 iQW
 rvY
 ian
@@ -140137,7 +140144,7 @@ tmO
 lQS
 hQD
 lQS
-qMc
+tmO
 qMc
 wPR
 qMc
