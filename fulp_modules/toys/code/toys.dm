@@ -1,6 +1,6 @@
 /obj/item/toy/plush/batong
 	name = "batong"
-	desc = "A cheaply made toy. Looks like it need some recharging, maybe security can help you."
+	desc = "A cheaply made toy. Looks like it need some recharge maybe security can help you"
 	icon = 'fulp_modules/toys/icon/toys.dmi'
 	icon_state = "batong"
 	worn_icon_state = "baton"
