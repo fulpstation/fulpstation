@@ -77,18 +77,19 @@
 
 	// Step Two: Check if I'm at/adjectent to Target's CURRENT turf (not original...that was just a destination)
 	if(target.Adjacent(owner))
-		if(target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
-			target.grabbedby(owner)
-			to_chat(owner, "<span class='warning'>You get pushed away as you advance, and fail to get a strong grasp!</span>")
-			return
 		// LEVEL 2: If behind target, mute or unconscious!
 		if(do_knockdown) // && level_current >= 1)
-			target.Paralyze(15 + 10 * level_current,1)
+			if(!target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+				target.Paralyze(15 + 10 * level_current,1)
 		// Cancel Walk (we were close enough to contact them)
 		walk(owner,0)
 		//target.Paralyze(10,1)
-		target.grabbedby(owner) // Taken from mutations.dm under changelings
-		target.grippedby(owner, instant = TRUE) //instant aggro grab
+		if(!target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			target.grabbedby(owner) // Taken from mutations.dm under changelings
+			target.grippedby(owner, instant = TRUE) //instant aggro grab
+		else
+			to_chat(owner, "<span class='warning'>You get pushed away as you advance, and fail to get a strong grasp!</span>")
+			target.grabbedby(owner)
 		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 		//	UNCONSCIOUS or MUTE!
 		//owner.start_pulling(target,GRAB_AGGRESSIVE) // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
