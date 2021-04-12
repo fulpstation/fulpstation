@@ -94,6 +94,7 @@
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/update_icon_state()
 	icon_state = inhand_icon_state = "ethereal[on]"
+	return ..()
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/proc/turn_on(mob/user)
 	set_light(brightness_on)
@@ -129,6 +130,7 @@
 
 /obj/item/clothing/head/hooded/onesie/ethereal/update_icon_state()
 	icon_state = inhand_icon_state = "ethereal_hood[on]"
+	return ..()
 
 /obj/item/clothing/head/hooded/onesie/ethereal/proc/turn_on(mob/user)
 	set_light(brightness_on)
