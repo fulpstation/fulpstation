@@ -54,7 +54,7 @@
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
 	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
-	E.flash_protect = 0
+	E.flash_protect += 1
 
 	// WE ARE ALIVE! //
 	bloodsuckerdatum.poweron_masquerade = TRUE
@@ -105,6 +105,6 @@
 	var/obj/item/organ/heart/H = user.getorganslot(ORGAN_SLOT_HEART)
 	H.Stop()
 	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
-	E.flash_protect = -1
+	E.flash_protect -= 1
 
 	to_chat(user, "<span class='notice'>Your heart beats one final time, while your skin dries out and your icy pallor returns.</span>")

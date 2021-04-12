@@ -253,16 +253,18 @@
 	var/total_damage = total_brute + total_burn
 	// Died? Convert to Torpor (fake death)
 	if(owner.current.stat == DEAD)
-		if(poweron_masquerade)
+		if(poweron_masquerade) /// We won't use the spam check, we want to spam them until they notice, else they'll cry about shit being broken.
 			to_chat(owner, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
-		else
+		if(!HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) /// Prevents spam
 			to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
 			Torpor_Begin()
+		if(HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+			if(!SSticker.mode.is_daylight() && total_damage <= owner.current.getMaxHealth()) /// Prevents them from waking up Mid-day
+				Torpor_End()
 	// End Torpor:
 	else // No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
-		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage < owner.current.getMaxHealth())
-			if(total_damage <= 0 && total_brute <= 0)
-				Torpor_End()
+		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage <= 0)
+			Torpor_End()
 		// Fake Unconscious
 		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)
 			owner.current.Unconscious(20, 1)
