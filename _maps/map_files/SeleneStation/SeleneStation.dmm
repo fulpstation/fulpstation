@@ -1474,6 +1474,9 @@
 	pixel_y = 23
 	},
 /obj/structure/closet/secure_closet/security/science,
+/obj/item/radio/intercom{
+	pixel_y = 30
+	},
 /turf/open/floor/iron,
 /area/security/checkpoint/science)
 "atj" = (
@@ -4171,10 +4174,6 @@
 /turf/open/floor/carpet/green,
 /area/service/library)
 "bhB" = (
-/obj/machinery/airalarm{
-	dir = 1;
-	pixel_y = -22
-	},
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	name = "Engineering yellow corner"
@@ -5096,6 +5095,11 @@
 	name = "Security red corner"
 	},
 /obj/structure/filingcabinet,
+/obj/machinery/door_timer{
+	id = "engcell";
+	name = "Engineering Cell";
+	pixel_y = 30
+	},
 /turf/open/floor/iron,
 /area/security/checkpoint/engineering)
 "bsl" = (
@@ -5587,7 +5591,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	name = "Security red corner"
@@ -5597,6 +5600,7 @@
 	dir = 4;
 	name = "Security red corner"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/security/checkpoint/supply)
 "byX" = (
@@ -17838,13 +17842,6 @@
 	dir = 4;
 	layer = 2.9
 	},
-/obj/machinery/power/apc{
-	areastring = "/area/security/checkpoint/science";
-	dir = 1;
-	name = "Science Security APC";
-	pixel_y = 25
-	},
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 4;
@@ -17861,6 +17858,11 @@
 	},
 /obj/structure/table,
 /obj/machinery/recharger,
+/obj/machinery/door_timer{
+	id = "scicell";
+	name = "Science Cell";
+	pixel_y = 30
+	},
 /turf/open/floor/iron,
 /area/security/checkpoint/science)
 "eKB" = (
@@ -23404,6 +23406,10 @@
 	name = "Engineering yellow corner"
 	},
 /obj/machinery/vending/cigarette,
+/obj/machinery/airalarm{
+	dir = 1;
+	pixel_y = -22
+	},
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "gcj" = (
@@ -33548,6 +33554,16 @@
 /obj/structure/cable,
 /turf/open/floor/circuit/green,
 /area/ai_monitored/turret_protected/ai)
+"iLS" = (
+/obj/structure/cable,
+/obj/machinery/power/apc{
+	areastring = "/area/security/checkpoint/medical";
+	dir = 8;
+	name = "Medbay Security APC";
+	pixel_x = -25
+	},
+/turf/open/floor/iron,
+/area/maintenance/department/medical)
 "iLU" = (
 /obj/machinery/ai_slipper{
 	uses = 10
@@ -40026,14 +40042,6 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/exit/departure_lounge)
 "kuU" = (
-/obj/machinery/power/apc{
-	areastring = "/area/security/checkpoint/supply";
-	dir = 1;
-	name = "Cargo Security APC";
-	pixel_x = 1;
-	pixel_y = 23
-	},
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -40057,6 +40065,14 @@
 	network = list("cargo");
 	pixel_x = 30
 	},
+/obj/machinery/power/apc{
+	areastring = "/area/security/checkpoint/supply";
+	dir = 1;
+	name = "Cargo Security APC";
+	pixel_x = 1;
+	pixel_y = 23
+	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/security/checkpoint/supply)
 "kvf" = (
@@ -41378,7 +41394,6 @@
 /area/commons/locker)
 "kJo" = (
 /obj/machinery/holopad,
-/obj/structure/cable,
 /turf/open/floor/iron,
 /area/security/checkpoint/medical)
 "kJr" = (
@@ -42023,7 +42038,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -42033,6 +42047,7 @@
 	color = "#FF0000";
 	name = "Security red corner"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/department/cargo)
 "kSl" = (
@@ -43293,13 +43308,6 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/machinery/power/apc{
-	areastring = "/area/security/checkpoint/medical";
-	dir = 8;
-	name = "Medbay Security APC";
-	pixel_x = -25
-	},
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -43314,6 +43322,11 @@
 	color = "#FF0000";
 	dir = 4;
 	name = "Security red corner"
+	},
+/obj/machinery/door_timer{
+	id = "medcell";
+	name = "Medical Cell";
+	pixel_x = -32
 	},
 /turf/open/floor/iron,
 /area/security/checkpoint/medical)
@@ -57948,14 +57961,18 @@
 	dir = 1;
 	name = "Security red corner"
 	},
-/obj/item/radio/intercom{
-	pixel_y = 30
-	},
 /obj/machinery/camera{
 	c_tag = "Research - Security Office";
 	dir = 6;
 	network = list("ss13", "rd")
 	},
+/obj/machinery/power/apc{
+	areastring = "/area/security/checkpoint/science";
+	dir = 1;
+	name = "Science Security APC";
+	pixel_y = 25
+	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/security/checkpoint/science)
 "oUW" = (
@@ -61831,7 +61848,6 @@
 /turf/open/floor/iron,
 /area/maintenance/port/aft)
 "pWk" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -77320,7 +77336,6 @@
 /turf/open/floor/iron/white,
 /area/science/research)
 "tVA" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 4;
@@ -81620,7 +81635,6 @@
 	name = "Security Maintenance";
 	req_access_txt = "2"
 	},
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -83866,11 +83880,10 @@
 /obj/item/screwdriver{
 	pixel_y = 10
 	},
-/obj/machinery/requests_console{
-	department = "Security";
-	departmentType = 5;
-	name = "Security Post RD";
-	pixel_x = 28
+/obj/machinery/door_timer{
+	id = "cargocell";
+	name = "Cargo Cell";
+	pixel_x = 32
 	},
 /turf/open/floor/iron,
 /area/security/checkpoint/supply)
@@ -85248,7 +85261,6 @@
 /obj/machinery/airalarm{
 	pixel_y = 22
 	},
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -136067,7 +136079,7 @@ kqZ
 kqZ
 ttg
 ttg
-kqZ
+iLS
 ttg
 ttg
 kqZ
