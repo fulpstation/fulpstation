@@ -53,7 +53,7 @@
 	// Falsifies Genetic Analyzers
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	var/obj/item/organ/eyes/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = 0
 
 	// WE ARE ALIVE! //
@@ -103,9 +103,8 @@
 
 	// HEART
 	var/obj/item/organ/heart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	var/obj/item/organ/eyes/bloodsucker/E = user.getorganslot(ORGAN_SLOT_EYES)
 	H.Stop()
-
+	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = -1
 
 	to_chat(user, "<span class='notice'>Your heart beats one final time, while your skin dries out and your icy pallor returns.</span>")
