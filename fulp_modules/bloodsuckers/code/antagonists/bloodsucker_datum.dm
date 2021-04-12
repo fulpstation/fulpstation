@@ -302,7 +302,7 @@
 	owner.current.regenerate_organs()
 	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = 0
-	E.see_in_dark = 0
+	E.see_in_dark = 2
 	// Update Health
 	owner.current.setMaxHealth(100)
 	// Language
