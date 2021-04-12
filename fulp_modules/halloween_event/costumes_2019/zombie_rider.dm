@@ -7,7 +7,6 @@
 	lefthand_file = 'fulp_modules/halloween_event/costumes_2019/zrheld_l.dmi'
 	righthand_file = 'fulp_modules/halloween_event/costumes_2019/zrheld_r.dmi'
 
-
 /obj/item/storage/box/halloween/edition_19/zombie
 	theme_name = "2019's Zombie"
 
