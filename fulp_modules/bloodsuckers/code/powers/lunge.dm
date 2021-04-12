@@ -75,7 +75,7 @@
 				owner.spin(10)
 			break
 
-	// Step Two: Check if I'm at/adjectent to Target's CURRENT turf (not original...that was just a destination)
+	// Step Two: Check if I'm at/adjacent to the target's CURRENT turf (not their original turf, that was just a destination)
 	if(target.Adjacent(owner))
 		// LEVEL 2: If behind target, mute or unconscious!
 		if(do_knockdown) // && level_current >= 1)
