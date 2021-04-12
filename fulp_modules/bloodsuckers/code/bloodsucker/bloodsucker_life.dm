@@ -171,7 +171,13 @@
 	for(var/O in C.internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	// NOTE: None of these work to fix Torpor's eye damage.
+	owner.current.cure_husk()
+	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
+		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
+// NOTE: None of these work to fix Torpor's permanent blindness. It's very likely TG's fault.
+//	C.clear_fullscreen(EYE_DAMAGE, 0)
+//	C.update_sight()
+//	C.reload_fullscreen()
 //	C.cure_blind(EYE_DAMAGE)
 //	C.cure_nearsighted(EYE_DAMAGE)
 //	C.adjust_blindness(-25)
@@ -181,7 +187,6 @@
 //	C.update_sight()
 //	C.adjust_blindness(-25)
 //	C.adjust_blurriness(-25)
-	owner.current.cure_husk()
 
 
 /*
@@ -247,12 +252,12 @@
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	// Died? Convert to Torpor (fake death)
-	if(owner.current.stat >= DEAD)
-		Torpor_Begin()
-		to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
-		sleep(30) //To avoid spam
+	if(owner.current.stat == DEAD)
 		if(poweron_masquerade)
 			to_chat(owner, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
+		else
+			to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
+			Torpor_Begin()
 	// End Torpor:
 	else // No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
 		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage < owner.current.getMaxHealth())
@@ -275,6 +280,7 @@
 	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT) // Go to sleep.
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	owner.current.Jitter(0)
+	CureDisabilities()
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
@@ -283,8 +289,6 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 	CureDisabilities()
-	owner.current.update_sight()
-	owner.current.reload_fullscreen()
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()

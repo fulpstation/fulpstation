@@ -270,6 +270,7 @@
 	// Makes eyes flash-immune
 	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = -1
+	E.see_in_dark = 12
 	// Language
 	owner.current.grant_language(/datum/language/vampiric)
 	// Disabilities
@@ -301,6 +302,7 @@
 	owner.current.regenerate_organs()
 	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect = 0
+	E.see_in_dark = 0
 	// Update Health
 	owner.current.setMaxHealth(100)
 	// Language
