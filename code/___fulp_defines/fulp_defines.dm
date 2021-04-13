@@ -33,15 +33,15 @@
 
 /// Antagonist tips
 #define TRAITOR_TIPS "traitor"
-/*
 #define IAA_TIPS "iaa"
+#define IAA_AI_TIPS "iaa_ai"
 #define MALF_TIPS "malf_ai"
 #define NUKIE_TIPS "nukie"
 #define WIZARD_TIPS "wizard"
 #define CULTIST_TIPS "cultist"
 #define HERETIC_TIPS "heretic"
-#define BLOODSUCKER_TIPS "bloodsucker"
-#define MONSTERHUNTER_TIPS "monsterhunter"
 #define CHANGELING_TIPS "changeling"
 #define ABDUCTOR_TIPS "abductor"
-*/
+
+// #define BLOODSUCKER_TIPS "bloodsucker"
+// #define MONSTERHUNTER_TIPS "monsterhunter"
