@@ -2988,9 +2988,6 @@
 /area/maintenance/department/cargo)
 "aQA" = (
 /obj/machinery/computer/crew,
-/obj/machinery/light_switch{
-	pixel_y = 27
-	},
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 8;
@@ -3005,6 +3002,9 @@
 	color = "#73c2fb";
 	dir = 1;
 	name = "Medical blue corner"
+	},
+/obj/machinery/newscaster{
+	pixel_y = 30
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
@@ -20414,6 +20414,10 @@
 	department = "Chief Medical Officer's Desk";
 	pixel_y = 30
 	},
+/obj/machinery/light_switch{
+	pixel_x = 25;
+	pixel_y = -12
+	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "frF" = (
@@ -20554,6 +20558,7 @@
 	dir = 4;
 	name = "Engineering yellow corner"
 	},
+/obj/machinery/holopad,
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
 "fug" = (
@@ -39943,11 +39948,13 @@
 /area/science/xenobiology)
 "ksj" = (
 /obj/structure/cable,
-/obj/machinery/holopad,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	dir = 4;
 	name = "Engineering yellow corner"
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
@@ -61753,9 +61760,6 @@
 /turf/open/floor/iron/dark,
 /area/hallway/primary/central)
 "pVy" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	name = "Engineering yellow corner"
@@ -62424,6 +62428,9 @@
 	color = "#FFD700";
 	dir = 8;
 	name = "Engineering yellow corner"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
@@ -68631,6 +68638,9 @@
 	req_access_txt = "10"
 	},
 /obj/structure/cable,
+/obj/machinery/keycard_auth{
+	pixel_y = -35
+	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
 "rFD" = (
@@ -72984,12 +72994,6 @@
 /area/security/office)
 "sLl" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
-	dir = 5
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
@@ -73003,6 +73007,8 @@
 	dir = 4;
 	name = "Engineering yellow corner"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
 "sLo" = (
@@ -82288,9 +82294,6 @@
 /turf/open/floor/iron,
 /area/maintenance/department/crew_quarters/dorms)
 "vin" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 4
-	},
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
 	dir = 4
@@ -83687,8 +83690,8 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/machinery/newscaster{
-	pixel_x = 30
+/obj/machinery/keycard_auth{
+	pixel_x = 24
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
@@ -84531,6 +84534,9 @@
 	pixel_x = 25;
 	pixel_y = 10;
 	req_access_txt = "30"
+	},
+/obj/machinery/keycard_auth{
+	pixel_x = 24
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/rd)
@@ -87923,6 +87929,12 @@
 "wLb" = (
 /obj/structure/chair,
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
+	dir = 5
+	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
 "wLd" = (
