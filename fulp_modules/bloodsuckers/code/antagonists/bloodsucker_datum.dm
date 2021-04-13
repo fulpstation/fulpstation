@@ -39,7 +39,7 @@
 	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/FinalDeath // Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
-		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
+		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_THERMAL_VISION)
 /* TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -Willard
  * Remember that Fortitude gives NODISMEMBER when balancing Traits!
  */
@@ -266,7 +266,11 @@
 			H.dna.remove_mutation(CLOWNMUT)
 			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	// Physiology
-	CheckVampOrgans() // Heart, Eyes
+	CheckVampOrgans() // Heart, Tongue
+	// Makes eyes weaker
+	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
+	E.flash_protect -= 1
+	E.see_in_dark = 12
 	// Language
 	owner.current.grant_language(/datum/language/vampiric)
 	// Disabilities
@@ -296,6 +300,9 @@
 		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	// Physiology
 	owner.current.regenerate_organs()
+	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
+	E.flash_protect += 1
+	E.see_in_dark = 2
 	// Update Health
 	owner.current.setMaxHealth(100)
 	// Language

@@ -37,12 +37,7 @@
 		var/obj/item/organ/heart/vampheart/H = new
 		H.Insert(owner.current)
 		H.Stop() // Now... stop beating!
-	// Eyes
-	O = owner.current.getorganslot(ORGAN_SLOT_EYES)
-	if(!istype(O, /obj/item/organ/eyes/bloodsucker))
-		qdel(O)
-		var/obj/item/organ/eyes/bloodsucker/E = new
-		E.Insert(owner.current)
+	// Tongue
 	O = owner.current.getorganslot(ORGAN_SLOT_TONGUE)
 	if(!istype(O, /obj/item/organ/tongue/bloodsucker))
 		qdel(O)
@@ -53,9 +48,6 @@
 	// Heart
 	var/obj/item/organ/heart/H = new
 	H.Insert(owner.current)
-	// Eyes
-	var/obj/item/organ/eyes/E = new
-	E.Insert(owner.current)
 	// Tongue
 	var/obj/item/organ/tongue/O = new
 	O.Insert(owner.current)
@@ -93,13 +85,14 @@
 //////////////////////
 //      EYES        //
 //////////////////////
-
+/* // Removed due to Mothpeople spawning with Vampiric eyes and instantly getting lynched.
 /// Taken from augmented_eyesight.dm
 /obj/item/organ/eyes/bloodsucker
 	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
 	see_in_dark = 12
 	sight_flags = SEE_MOBS // Bloodsuckers are predators, and detect life/heartbeats nearby. - 2019 Breakdown of Bloodsuckers
 	flash_protect = -1 // These eyes are weaker to flashes, but let you see in the dark
+*/
 
 //////////////////////
 //     TONGUE       //
