@@ -171,7 +171,13 @@
 	for(var/O in C.internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	// NOTE: None of these work to fix Torpor's eye damage.
+	owner.current.cure_husk()
+	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
+		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
+// NOTE: None of these work to fix Torpor's permanent blindness. It's very likely TG's fault.
+//	C.clear_fullscreen(EYE_DAMAGE, 0)
+//	C.update_sight()
+//	C.reload_fullscreen()
 //	C.cure_blind(EYE_DAMAGE)
 //	C.cure_nearsighted(EYE_DAMAGE)
 //	C.adjust_blindness(-25)
@@ -181,7 +187,6 @@
 //	C.update_sight()
 //	C.adjust_blindness(-25)
 //	C.adjust_blurriness(-25)
-	owner.current.cure_husk()
 
 
 /*
@@ -247,17 +252,19 @@
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	// Died? Convert to Torpor (fake death)
-	if(owner.current.stat >= DEAD)
-		Torpor_Begin()
-		to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
-		sleep(30) //To avoid spam
-		if(poweron_masquerade)
+	if(owner.current.stat == DEAD)
+		if(poweron_masquerade) /// We won't use the spam check, we want to spam them until they notice, else they'll cry about shit being broken.
 			to_chat(owner, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
+		if(!HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) /// Prevents spam
+			to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
+			Torpor_Begin()
+		if(HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+			if(!SSticker.mode.is_daylight() && total_damage <= owner.current.getMaxHealth()) /// Prevents them from waking up Mid-day
+				Torpor_End()
 	// End Torpor:
 	else // No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
-		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage < owner.current.getMaxHealth())
-			if(total_damage <= 0 && total_brute <= 0)
-				Torpor_End()
+		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage <= 0)
+			Torpor_End()
 		// Fake Unconscious
 		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)
 			owner.current.Unconscious(20, 1)
@@ -283,8 +290,6 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 	CureDisabilities()
-	owner.current.update_sight()
-	owner.current.reload_fullscreen()
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()
