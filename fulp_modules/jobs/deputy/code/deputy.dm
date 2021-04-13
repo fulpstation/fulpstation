@@ -179,6 +179,9 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 /obj/item/reagent_containers/hypospray/medipen/mutadone
 	name = "mutadone medipen"
 	desc = "Contains a chemical that will remove all of an injected target's mutations, including positive ones."
+	icon_state = "atropen"
+	inhand_icon_state = "atropen"
+	base_icon_state = "atropen"
 	volume = 10
 	amount_per_transfer_from_this = 10
 	list_reagents = list(/datum/reagent/medicine/mutadone = 10)
