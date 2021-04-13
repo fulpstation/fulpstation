@@ -24,7 +24,7 @@
 	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
-	bounty_types = CIV_JOB_SEC
+	bounty_types = CIV_JOB_MED
 
 /datum/outfit/job/brigdoc
 	name = "Brig Physician"
@@ -38,11 +38,11 @@
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	head = /obj/item/clothing/head/beret/sec/medical
-	l_hand = /obj/item/storage/firstaid/regular
+	l_hand = /obj/item/storage/firstaid/medical/brigdoc
 	l_pocket = /obj/item/pda/medical
-	r_pocket = /obj/item/flashlight/pen
-	suit_store = /obj/item/melee/baton/loaded
-	backpack_contents = list(/obj/item/storage/pill_bottle/paxpsych=1, /obj/item/reagent_containers/glass/bottle/formaldehyde=1)
+	r_pocket = /obj/item/assembly/flash
+	suit_store = /obj/item/flashlight/pen
+	backpack_contents = list(/obj/item/choice_beacon/brigdoc = 1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -55,7 +55,7 @@
 	id_trim = /datum/id_trim/job/brig_physician
 
 /datum/outfit/plasmaman/brigdoc
-	name = "Plasmaman Brig Physician"
+	name = "Brig Physician Plasmaman"
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman/brigdoc
 	uniform = /obj/item/clothing/under/plasmaman/brigdoc
@@ -66,7 +66,7 @@
 	assignment = "Brig Physician"
 	trim_icon = 'fulp_modules/jobs/cards.dmi'
 	trim_state = "trim_brigphysician"
-	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_WEAPONS)
+	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
 	config_job = "brig_physician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)

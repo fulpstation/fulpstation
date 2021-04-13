@@ -8,7 +8,7 @@
 	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black
-	shoes = /obj/item/clothing/shoes/jackboots
+	shoes = /obj/item/clothing/shoes/laceup
 	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/assembly/flash/handheld
 	backpack = /obj/item/storage/backpack/security
@@ -28,6 +28,7 @@
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/fulpberet/engineering
 	neck = /obj/item/clothing/neck/fulptie/engineering
@@ -45,6 +46,7 @@
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/fulpberet/medical
 	neck = /obj/item/clothing/neck/fulptie/medical
@@ -63,6 +65,7 @@
 		/obj/item/restraints/handcuffs=1,
 		/obj/item/reagent_containers/hypospray/medipen/mutadone=1,
 		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/holosign_creator/security=1,
 		)
 	neck = /obj/item/clothing/neck/fulptie/science
 	head = /obj/item/clothing/head/fulpberet/science
@@ -80,8 +83,9 @@
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
 		)
-	head = /obj/item/clothing/head/fulpberet/supply
+	head = /obj/item/clothing/head/fulpberet
 	neck = /obj/item/clothing/neck/fulptie/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	box = null
@@ -165,38 +169,41 @@
 
 /// Berets
 /obj/item/clothing/head/fulpberet
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) // Same as Chaplain armor, it's the Deputy's holy beret.
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
+	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
+	name = "supply deputy beret"
+	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
+	icon_state = "beret_supply"
+	resistance_flags = ACID_PROOF | FIRE_PROOF
 
 /obj/item/clothing/head/fulpberet/engineering
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 40, BIO = 100, RAD = 100, FIRE = 100, ACID = 90, WOUND = 5) /// CE level
 	name = "engineering deputy beret"
-	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage."
+	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage. Comes with radiation protection."
 	icon_state = "beret_engi"
+	flags_1 = RAD_PROTECT_CONTENTS_1
 
 /obj/item/clothing/head/fulpberet/medical
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 10, BIO = 100, RAD = 60, FIRE = 60, ACID = 75, WOUND = 5) /// CMO level
 	name = "medical deputy beret"
-	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
+	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry, or just used as a bio hood."
 	icon_state = "beret_medbay"
 
 /obj/item/clothing/head/fulpberet/science
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 100, BIO = 100, RAD = 60, FIRE = 60, ACID = 80, WOUND = 5) /// RD level
 	name = "science deputy beret"
-	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'"
+	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
-
-/obj/item/clothing/head/fulpberet/supply
-	name = "supply deputy beret"
-	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining."
-	icon_state = "beret_supply"
 
 /// Base Skillchip
 /obj/item/skillchip/job/deputy
 	name = "D3PU7Y skillchip"
-	desc = "You think we learn this stuff naturally?"
+	desc = "You think they learn this stuff naturally?"
 	skill_icon = "sitemap"
 	var/deputy
 	var/department
-	var/datum/martial_art/deputygrab/style
+	var/datum/martial_art/deputyblock/style
 
 /obj/item/skillchip/job/deputy/Initialize()
 	. = ..()
@@ -211,7 +218,7 @@
 
 /obj/item/skillchip/job/deputy/on_activate(mob/living/carbon/user, silent = FALSE)
 	. = ..()
-	style.teach(user, make_temporary = TRUE)
+	style.teach(user, TRUE)
 
 /obj/item/skillchip/job/deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
 	style.remove(user)
