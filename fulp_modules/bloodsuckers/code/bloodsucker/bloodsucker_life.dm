@@ -174,20 +174,20 @@
 	owner.current.cure_husk()
 	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
 		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
-// NOTE: None of these work to fix Torpor's permanent blindness. It's very likely TG's fault.
-//	C.clear_fullscreen(EYE_DAMAGE, 0)
-//	C.update_sight()
-//	C.reload_fullscreen()
-//	C.cure_blind(EYE_DAMAGE)
-//	C.cure_nearsighted(EYE_DAMAGE)
-//	C.adjust_blindness(-25)
-//	C.adjust_blurriness(-25)
-//	C.reagents.add_reagent(/datum/reagent/medicine/oculine,20) // I'm sorry
-//	C.update_tint()
-//	C.update_sight()
-//	C.adjust_blindness(-25)
-//	C.adjust_blurriness(-25)
+	addtimer(CALLBACK(src, .proc/repair_eyes), 3 SECONDS)
 
+/// Due to the way TG deals with eye damage, we gotta repeatedly heal it to rid the colorblindness.
+/datum/antagonist/bloodsucker/proc/repair_eyes()
+	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
+	if(!E)
+		return
+	if(eyeheals == 3) /// Only heal 3 times per Torpor_end. Torpor_begin sets this back to 0.
+		return
+	owner.current.cure_blind()
+	owner.current.cure_nearsighted()
+	owner.current.reload_fullscreen()
+	owner.current.update_sight()
+	addtimer(CALLBACK(src, .proc/repair_eyes), 3 SECONDS) /// Loop it until it can't anymore!
 
 /*
  * 	// High: 	Faster Healing
@@ -277,6 +277,7 @@
 	if(owner.current.suiciding)
 		owner.current.suiciding = FALSE // You'll die, but not for long.
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
+	eyeheals = 0
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep.
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
 	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT) // Go to sleep.
