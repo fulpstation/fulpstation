@@ -31,8 +31,6 @@
 	var/obj/structure/closet/crate/coffin
 	// HUD
 	var/valuecolor
-	// Used for Eye healing
-	var/eyeheals = 0
 	// TRACKING
 	var/foodInGut // How much food to throw up later. You shouldn't have eaten that.
 	var/warn_sun_locker // So we only get the locker burn message once per day.
