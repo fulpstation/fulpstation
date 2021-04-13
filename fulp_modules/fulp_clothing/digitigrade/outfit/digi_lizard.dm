@@ -103,3 +103,7 @@
 	// Equip New
 	H.equip_to_slot_or_del(newShoes, ITEM_SLOT_FEET, TRUE)
 	return ..()
+
+/// Overwrites Normal legs to be Digitigrade ones.
+/datum/sprite_accessory/legs/none
+	name = "Digitigrade Legs"
