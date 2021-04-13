@@ -175,7 +175,6 @@
 	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
 		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
 
-/// Due to the way TG deals with eye damage, we gotta repeatedly heal it to rid the colorblindness.
 /datum/antagonist/bloodsucker/proc/RepairEyes()
 	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	if(!E)
