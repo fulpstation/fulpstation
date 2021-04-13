@@ -181,9 +181,6 @@
 	if(!E)
 		return
 	owner.current.cure_blind()
-	owner.current.cure_nearsighted()
-	owner.current.reload_fullscreen()
-	owner.current.update_sight()
 
 /*
  * 	// High: 	Faster Healing
