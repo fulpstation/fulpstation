@@ -7,6 +7,7 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
+	// tips = BLOODSUCKER_TIPS
 	// NAME
 	var/bloodsucker_name // My Dracula style name
 	var/bloodsucker_title // My Dracula style title

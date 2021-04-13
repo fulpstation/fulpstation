@@ -30,3 +30,18 @@
 #define TRAIT_MEDICALDEPUTY "medicaldeputy"
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
 #define TRAIT_SUPPLYDEPUTY "supplydeputy"
+
+/// Antagonist tips
+#define TRAITOR_TIPS "traitor"
+/*
+#define IAA_TIPS "iaa"
+#define MALF_TIPS "malf_ai"
+#define NUKIE_TIPS "nukie"
+#define WIZARD_TIPS "wizard"
+#define CULTIST_TIPS "cultist"
+#define HERETIC_TIPS "heretic"
+#define BLOODSUCKER_TIPS "bloodsucker"
+#define MONSTERHUNTER_TIPS "monsterhunter"
+#define CHANGELING_TIPS "changeling"
+#define ABDUCTOR_TIPS "abductor"
+*/
