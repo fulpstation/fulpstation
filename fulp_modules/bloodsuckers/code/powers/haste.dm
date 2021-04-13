@@ -31,6 +31,11 @@
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You cant dash while floating!</span>")
 		return FALSE
+	var/mob/living/user = owner
+	if(user.body_position == LYING_DOWN)
+		if(display_error)
+			to_chat(user, "<span class='warning'>You must be standing to tackle!</span>")
+		return
 	return TRUE
 
 /// Anything will do, if it's not me or my square

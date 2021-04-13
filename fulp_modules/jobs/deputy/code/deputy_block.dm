@@ -2,7 +2,6 @@
 	name = "Deputy Block"
 	id = MARTIALART_DEPUTYBLOCK
 	block_chance = 90
-	var/old_grab_state = null
 	var/list/valid_area = list()
 
 /datum/martial_art/deputyblock/teach(mob/living/holder_living, make_temporary = TRUE)
