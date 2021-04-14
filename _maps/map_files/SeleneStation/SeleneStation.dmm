@@ -15229,6 +15229,9 @@
 	pixel_y = 20
 	},
 /obj/effect/landmark/start/assistant,
+/obj/structure/mirror{
+	pixel_y = 28
+	},
 /turf/open/floor/iron/showroomfloor,
 /area/commons/toilet/restrooms)
 "dYj" = (
@@ -16550,6 +16553,9 @@
 	},
 /obj/machinery/camera{
 	c_tag = "Public - Restroom"
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/commons/toilet/restrooms)
@@ -24403,6 +24409,9 @@
 	pixel_y = 32
 	},
 /obj/effect/landmark/start/hangover,
+/obj/structure/mirror{
+	pixel_y = 28
+	},
 /turf/open/floor/iron/showroomfloor,
 /area/commons/toilet/restrooms)
 "gpw" = (
@@ -26959,7 +26968,8 @@
 /obj/machinery/button/flasher{
 	id = "transferflash";
 	pixel_x = 5;
-	pixel_y = 34
+	pixel_y = 34;
+	req_access_txt = "2"
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison)
@@ -32347,6 +32357,10 @@
 /obj/structure/cable,
 /turf/open/floor/iron/solarpanel,
 /area/maintenance/solars)
+"iqQ" = (
+/obj/structure/closet/crate/secure/loot,
+/turf/open/floor/plating,
+/area/maintenance/port/aft)
 "iqZ" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -47040,24 +47054,28 @@
 /obj/machinery/button/flasher{
 	id = "flashcell1";
 	pixel_x = -35;
-	pixel_y = 7
+	pixel_y = 7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/flasher{
 	id = "flashcell2";
 	pixel_x = -35;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell1lock";
 	name = "Cell Lockdown";
 	pixel_x = -23;
-	pixel_y = 7
+	pixel_y = 7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell2lock";
 	name = "Cell Lockdown";
 	pixel_x = -23;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
@@ -47232,24 +47250,28 @@
 /obj/machinery/button/flasher{
 	id = "flashcell5";
 	pixel_x = 35;
-	pixel_y = 7
+	pixel_y = 7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/flasher{
 	id = "flashcell6";
 	pixel_x = 35;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell6lock";
 	name = "Cell Lockdown";
 	pixel_x = 23;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell5lock";
 	name = "Cell Lockdown";
 	pixel_x = 23;
-	pixel_y = 7
+	pixel_y = 7;
+	req_access_txt = "1"
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
@@ -47459,6 +47481,13 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/item/storage/fancy/donut_box,
+/obj/item/inspector{
+	pixel_x = -5;
+	pixel_y = 12
+	},
+/obj/item/inspector{
+	pixel_x = 5
+	},
 /turf/open/floor/iron/dark,
 /area/ai_monitored/security/armory)
 "mfc" = (
@@ -49482,6 +49511,9 @@
 	dir = 8;
 	pixel_x = 11
 	},
+/obj/structure/mirror{
+	pixel_x = 28
+	},
 /turf/open/floor/iron/white,
 /area/security/prison/safe)
 "mFT" = (
@@ -51451,6 +51483,9 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/structure/mirror{
+	pixel_y = 28
+	},
 /turf/open/floor/iron/showroomfloor,
 /area/commons/toilet/restrooms)
 "ncu" = (
@@ -52430,6 +52465,9 @@
 	pixel_y = -32
 	},
 /obj/structure/cable,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
 "nqz" = (
@@ -59473,13 +59511,15 @@
 /obj/machinery/button/flasher{
 	id = "flashcell7";
 	pixel_x = 35;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell7lock";
 	name = "Cell Lockdown";
 	pixel_x = 23;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
@@ -70622,13 +70662,15 @@
 /obj/machinery/button/flasher{
 	id = "flashcell4";
 	pixel_x = -35;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell4lock";
 	name = "Cell Lockdown";
 	pixel_x = -23;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
@@ -70767,13 +70809,15 @@
 /obj/machinery/button/flasher{
 	id = "flashcell8";
 	pixel_x = 35;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell8lock";
 	name = "Cell Lockdown";
 	pixel_x = 23;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
@@ -75721,13 +75765,15 @@
 /obj/machinery/button/flasher{
 	id = "flashcell3";
 	pixel_x = -35;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /obj/machinery/button/door{
 	id = "Cell3lock";
 	name = "Cell Lockdown";
 	pixel_x = -23;
-	pixel_y = -7
+	pixel_y = -7;
+	req_access_txt = "1"
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
@@ -79855,7 +79901,7 @@
 /obj/vehicle/ridden/wheelchair{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold/visible,
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/iron/dark,
 /area/medical/medbay)
 "uur" = (
@@ -85760,6 +85806,9 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
+/obj/structure/mirror{
+	pixel_x = 28
+	},
 /turf/open/floor/iron/white,
 /area/security/prison/safe)
 "waO" = (
@@ -89792,6 +89841,9 @@
 	color = "#FFD700";
 	dir = 4;
 	name = "Engineering yellow corner"
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
@@ -113366,7 +113418,7 @@ iQW
 xRN
 wlt
 xRN
-yel
+iqQ
 aEK
 yel
 xRN
