@@ -3,10 +3,10 @@
 	config_tag = "traitorsucker"
 	report_type = "traitorsucker"
 	false_report_weight = 10
-	traitors_possible = 3 // Hard limit on Traitors if scaling is turned off
+	traitors_possible = 5 // Hard limit on Traitors if scaling is turned off
 	restricted_jobs = list("AI", "Cyborg")
 	protected_jobs = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
-	required_players = 20
+	required_players = 10
 	required_enemies = 1 // How many of each type are required
 	recommended_enemies = 2
 	reroll_friendly = 1
