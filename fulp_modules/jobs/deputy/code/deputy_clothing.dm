@@ -292,7 +292,7 @@
 /*
  *	Deputies are meant to get NOGUNS trait.
  *	Lore-wise reason is that they are privately-owned, and trained by non-NT folk.
- *	These folk believe profesionnalism and the way people look at you, is more important than efficiency.
+ *	These folk believe professionalism and the way people look at you, is more important than efficiency.
  *	No one wants to see a deputy with a gun, so they're trained in not using it.
  *
  *	Actual reason why is balance and to prevent powergaming.
