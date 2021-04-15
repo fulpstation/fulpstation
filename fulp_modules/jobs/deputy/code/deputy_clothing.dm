@@ -196,6 +196,41 @@
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
 
+///// Headsets
+/// Base + Engineering
+/obj/item/radio/headset/headset_dep
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/radio.dmi'
+	name = "engineering bowman headset"
+	desc = "The best way to stay alert of any possible sabotage."
+	icon_state = "eng_headset_alt"
+//	inhand_icon_state = "sec_headset_alt" /// aaaaaaaAAAAAAAAAAAAAAAAAAAHH
+	keyslot = new /obj/item/encryptionkey/headset_eng
+
+/obj/item/radio/headset/headset_dep/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/wearertargeting/earprotection, list(ITEM_SLOT_EARS))
+
+/// Medical
+/obj/item/radio/headset/headset_dep/med
+	name = "medical bowman headset"
+	desc = "Looks a little worn out from all the chemistry explosions."
+	icon_state = "med_headset_alt"
+	keyslot = new /obj/item/encryptionkey/headset_med
+
+/// Science
+/obj/item/radio/headset/headset_dep/sci
+	name = "science bowman headset"
+	desc = "Suddenly turns off when the Research Director starts yelling Malf."
+	icon_state = "sci_headset_alt"
+	keyslot = new /obj/item/encryptionkey/headset_sci
+
+/// Supply
+/obj/item/radio/headset/headset_dep/supply
+	name = "supply bowman headset"
+	desc = "Looks half destroyed, probably from all the Cargonia attempts."
+	icon_state = "cargo_headset_alt"
+	keyslot = new /obj/item/encryptionkey/headset_cargo
+
 /// Base Skillchip
 /obj/item/skillchip/job/deputy
 	name = "D3PU7Y skillchip"

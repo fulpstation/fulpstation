@@ -33,8 +33,8 @@
 	assignment = "Deputy"
 	trim_state = "trim_deputy"
 	trim_icon = 'fulp_modules/jobs/cards.dmi'
-	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MINERAL_STOREROOM)
+	full_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
+	minimal_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS) // I don't like giving the HoS this, but it makes sense to "deputize" people.
 	/// Used to give the Departmental access
@@ -86,22 +86,22 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	switch(department)
 		if(SEC_DEPT_ENGINEERING)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
-			ears = /obj/item/radio/headset/headset_sec/alt/department/engi
+			ears = /obj/item/radio/headset/headset_dep
 			destination = /area/security/checkpoint/engineering
 			announce_engineering(H, department)
 		if(SEC_DEPT_MEDICAL)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
-			ears = /obj/item/radio/headset/headset_sec/alt/department/med
+			ears = /obj/item/radio/headset/headset_dep/med
 			destination = /area/security/checkpoint/medical
 			announce_medical(H, department)
 		if(SEC_DEPT_SCIENCE)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
-			ears = /obj/item/radio/headset/headset_sec/alt/department/sci
+			ears = /obj/item/radio/headset/headset_dep/sci
 			destination = /area/security/checkpoint/science
 			announce_science(H, department)
 		if(SEC_DEPT_SUPPLY)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			ears = /obj/item/radio/headset/headset_sec/alt/department/supply
+			ears = /obj/item/radio/headset/headset_dep/supply
 			destination = /area/security/checkpoint/supply
 			announce_supply(H, department)
 
