@@ -18,7 +18,7 @@
 	min_players = 10
 	earliest_start = 35 MINUTES
 	alert_observers = FALSE
-	gamemode_whitelist = list("bloodsucker", "traitorsucker")
+	gamemode_whitelist = list("bloodsucker")
 
 /datum/round_event/bloodsucker_hunters
 	fakeable = FALSE
@@ -54,7 +54,7 @@
 	min_players = 10
 	earliest_start = 25 MINUTES
 	alert_observers = FALSE
-	gamemode_whitelist = list("traitorchan","changeling","heresy","cult")
+	gamemode_whitelist = list("traitorchan","changeling","heresy","cult","traitorsucker")
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
