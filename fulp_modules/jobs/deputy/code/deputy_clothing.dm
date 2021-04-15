@@ -200,10 +200,10 @@
 /// Base + Engineering
 /obj/item/radio/headset/headset_dep
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/radio.dmi'
+//	inhand_icon_state = "sec_headset_alt" /// aaaaaaaAAAAAAAAAAAAAAAAAAAHH
 	name = "engineering bowman headset"
 	desc = "The best way to stay alert of any possible sabotage."
 	icon_state = "eng_headset_alt"
-//	inhand_icon_state = "sec_headset_alt" /// aaaaaaaAAAAAAAAAAAAAAAAAAAHH
 	keyslot = new /obj/item/encryptionkey/headset_eng
 
 /obj/item/radio/headset/headset_dep/ComponentInitialize()

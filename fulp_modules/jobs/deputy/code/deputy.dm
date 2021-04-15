@@ -175,10 +175,13 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		return
 	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
 
-/// Used for Science Deputies
+/// Used for Science Deputies and Brig doctor's Chemical kit.
 /obj/item/reagent_containers/hypospray/medipen/mutadone
 	name = "mutadone medipen"
-	desc = "Hulked lings in the RD office? Space adapt traitors bombing the Armory? You know what to do! Comes with 2 uses."
-	volume = 60
-	amount_per_transfer_from_this = 30
-	list_reagents = list(/datum/reagent/medicine/mutadone = 60)
+	desc = "Contains a chemical that will remove all of an injected target's mutations."
+	icon_state = "atropen"
+	inhand_icon_state = "atropen"
+	base_icon_state = "atropen"
+	volume = 15
+	amount_per_transfer_from_this = 5
+	list_reagents = list(/datum/reagent/medicine/mutadone = 15)
