@@ -662,6 +662,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Set screentip mode:</b> <a href='?_src_=prefs;preference=screentipmode'>[screentip_pref ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Screentip color:</b><span style='border: 1px solid #161616; background-color: [screentip_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=screentipcolor'>Change</a><BR>"
+			// FULP EDIT - ANTAGTIPS
+			dat += "<b>Toggle antagonist tips:</b> <a href='?_src_=prefs;preference=antagtippref'>[show_antag_tips ? "Enabled" : "Disabled"]</a><br>"
+			// FULP EDIT END
 			dat += "<b>Item Hover Outlines:</b> <a href='?_src_=prefs;preference=itemoutline_pref'>[itemoutline_pref ? "Enabled" : "Disabled"]</a><br>"
 
 
@@ -1869,6 +1872,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				if("screentipmode")
 					screentip_pref = !screentip_pref
+
+				// FULP EDIT - ANTAGTIPS
+				if("antagtippref")
+					show_antag_tips = !show_antag_tips
+				// FULP EDIT END
 
 				if("screentipcolor")
 					var/new_screentipcolor = input(user, "Choose your screentip color:", "Character Preference", screentip_color) as color|null
