@@ -1,13 +1,4 @@
 
-
-
-/datum/antagonist/ert/safety_moth/on_gain()
-	forge_objectives()
-	. = ..()
-
-	equip_official()
-	ADD_TRAIT(owner.current, TRAIT_PACIFISM, JOB_TRAIT)
-
 /datum/antagonist/ert/safety_moth/greet()
 
 	to_chat(owner, "<B><font size=3 color=green>You are the [name].</font></B>")
