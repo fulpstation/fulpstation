@@ -142,64 +142,64 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
 /// Engineering
-/datum/job/fulp/deputy/proc/announce_engineering(mob/officer, department)
+/datum/job/fulp/deputy/proc/announce_engineering(mob/deputy, department)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
-	announcement_system.announce_engineering(officer, department)
+	announcement_system.announce_engineering(deputy, department)
 
-/obj/machinery/announcement_system/proc/announce_engineering(mob/officer, department)
+/obj/machinery/announcement_system/proc/announce_engineering(mob/deputy, department)
 	if(!is_operational)
 		return
-	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_ENGINEERING))
+	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_ENGINEERING))
 
 /// Medical
-/datum/job/fulp/deputy/proc/announce_medical(mob/officer, department)
+/datum/job/fulp/deputy/proc/announce_medical(mob/deputy, department)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
-	announcement_system.announce_medical(officer, department)
+	announcement_system.announce_medical(deputy, department)
 
-/obj/machinery/announcement_system/proc/announce_medical(mob/officer, department)
+/obj/machinery/announcement_system/proc/announce_medical(mob/deputy, department)
 	if(!is_operational)
 		return
-	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_MEDICAL))
+	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_MEDICAL))
 
 /// Science
-/datum/job/fulp/deputy/proc/announce_science(mob/officer, department)
+/datum/job/fulp/deputy/proc/announce_science(mob/deputy, department)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
-	announcement_system.announce_science(officer, department)
+	announcement_system.announce_science(deputy, department)
 
-/obj/machinery/announcement_system/proc/announce_science(mob/officer, department)
+/obj/machinery/announcement_system/proc/announce_science(mob/deputy, department)
 	if(!is_operational)
 		return
-	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SCIENCE))
+	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SCIENCE))
 
 /// Supply
-/datum/job/fulp/deputy/proc/announce_supply(mob/officer, department)
+/datum/job/fulp/deputy/proc/announce_supply(mob/deputy, department)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
-	announcement_system.announce_supply(officer, department)
+	announcement_system.announce_supply(deputy, department)
 
-/obj/machinery/announcement_system/proc/announce_supply(mob/officer, department)
+/obj/machinery/announcement_system/proc/announce_supply(mob/deputy, department)
 	if(!is_operational)
 		return
-	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
+	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
 
 /// Service
-/datum/job/fulp/deputy/proc/announce_service(mob/officer, department)
+/datum/job/fulp/deputy/proc/announce_service(mob/deputy, department)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
-	announcement_system.announce_service(officer, department)
+	announcement_system.announce_service(deputy, department)
 
-/obj/machinery/announcement_system/proc/announce_service(mob/officer, department)
+/obj/machinery/announcement_system/proc/announce_service(mob/deputy, department)
 	if(!is_operational)
 		return
-	broadcast("[officer.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SERVICE))
+	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SERVICE))
 
 /// Used for Science Deputies and Brig doctor's Chemical kit.
 /obj/item/reagent_containers/hypospray/medipen/mutadone
