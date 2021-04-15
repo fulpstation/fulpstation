@@ -1,19 +1,18 @@
 /datum/antagonist/traitor/finalize_traitor()
 	. = ..()
 	switch(traitor_kind)
-		if(TRAITOR_HUMAN)
-			show_tips(TRAITOR_TIPS)
 		if(TRAITOR_AI)
-			show_tips(MALF_TIPS)
+			tips = MALF_TIPS
+		if(TRAITOR_HUMAN)
+			tips = TRAITOR_TIPS
 
 /datum/antagonist/traitor/internal_affairs/finalize_traitor()
 	. = ..()
 	switch(traitor_kind)
-		if(TRAITOR_HUMAN)
-			show_tips(IAA_TIPS)
 		if(TRAITOR_AI)
-			show_tips(IAA_AI_TIPS)
-
+			tips = IAA_AI_TIPS
+		if(TRAITOR_HUMAN)
+			tips = IAA_TIPS
 /datum/antagonist/nukeop
 	tips = NUKIE_TIPS
 
