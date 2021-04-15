@@ -174,20 +174,12 @@
 	owner.current.cure_husk()
 	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
 		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
-// NOTE: None of these work to fix Torpor's permanent blindness. It's very likely TG's fault.
-//	C.clear_fullscreen(EYE_DAMAGE, 0)
-//	C.update_sight()
-//	C.reload_fullscreen()
-//	C.cure_blind(EYE_DAMAGE)
-//	C.cure_nearsighted(EYE_DAMAGE)
-//	C.adjust_blindness(-25)
-//	C.adjust_blurriness(-25)
-//	C.reagents.add_reagent(/datum/reagent/medicine/oculine,20) // I'm sorry
-//	C.update_tint()
-//	C.update_sight()
-//	C.adjust_blindness(-25)
-//	C.adjust_blurriness(-25)
 
+/datum/antagonist/bloodsucker/proc/RepairEyes()
+	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
+	if(!E)
+		return
+	owner.current.cure_blind()
 
 /*
  * 	// High: 	Faster Healing
@@ -290,6 +282,12 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 	CureDisabilities()
+	/// Due to how Eye damage is dealt with, we'll send a barrage of eye-fixes, and hope one goes through.
+	addtimer(CALLBACK(src, .proc/RepairEyes), 2 SECONDS)
+	addtimer(CALLBACK(src, .proc/RepairEyes), 4 SECONDS)
+	addtimer(CALLBACK(src, .proc/RepairEyes), 6 SECONDS)
+	addtimer(CALLBACK(src, .proc/RepairEyes), 8 SECONDS)
+	addtimer(CALLBACK(src, .proc/RepairEyes), 10 SECONDS)
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()
