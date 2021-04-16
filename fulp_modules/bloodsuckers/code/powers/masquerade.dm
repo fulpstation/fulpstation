@@ -54,8 +54,7 @@
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
 	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
-	if(E)
-		E.flash_protect += 1
+	E.flash_protect += 1
 
 	// WE ARE ALIVE! //
 	bloodsuckerdatum.poweron_masquerade = TRUE
