@@ -38,10 +38,13 @@
 #define MALF_TIPS "malf_ai"
 #define NUKIE_TIPS "nukie"
 #define WIZARD_TIPS "wizard"
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+#define IMPOSTER_TIPS "imposter"
 #define CULTIST_TIPS "cultist"
 #define HERETIC_TIPS "heretic"
 #define CHANGELING_TIPS "changeling"
 #define ABDUCTOR_TIPS "abductor"
+#define REVOLUTIONARY_TIPS "revolutionary"
 
 // #define BLOODSUCKER_TIPS "bloodsucker"
 // #define MONSTERHUNTER_TIPS "monsterhunter"

@@ -13,6 +13,7 @@
 			tips = IAA_AI_TIPS
 		if(TRAITOR_HUMAN)
 			tips = IAA_TIPS
+
 /datum/antagonist/nukeop
 	tips = NUKIE_TIPS
 
@@ -28,5 +29,14 @@
 /datum/antagonist/wizard
 	tips = WIZARD_TIPS
 
+/datum/antagonist/wizard/apprentice
+	tips = WIZARD_APPRENTICE_TIPS
+
+/datum/antagonist/wizard/imposter
+	tips = IMPOSTER_TIPS
+
 /datum/antagonist/abductor
 	tips = ABDUCTOR_TIPS
+
+/datum/antagonist/rev
+	tips = REVOLUTIONARY_TIPS
