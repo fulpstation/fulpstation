@@ -106,7 +106,7 @@
 		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/frenchberet
-	neck = /obj/item/clothing/neck/tie/horrible
+	neck = /obj/item/clothing/neck/fulptie/service
 	mask = /obj/item/clothing/mask/fakemoustache/italian
 	accessory = /obj/item/clothing/accessory/armband/hydro
 	box = null
@@ -170,6 +170,9 @@
 
 /obj/item/clothing/neck/fulptie/supply
 	department = "supply"
+
+/obj/item/clothing/neck/fulptie/service
+	department = "service"
 
 /// Plasmamen clothes
 /obj/item/clothing/under/plasmaman/security/deputy
