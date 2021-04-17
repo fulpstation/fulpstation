@@ -144,7 +144,7 @@
 
 /*
  *	Reason why I didn't add Bloodsuckers to midround;
- *	- By the time they'll spawn, they'd have missed several Sol's
+ *	- By the time they'll spawn, they'd have missed several Sols
  *	- Security is likely geared up already.
  *	-Willard
  */
