@@ -208,6 +208,6 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	icon_state = "atropen"
 	inhand_icon_state = "atropen"
 	base_icon_state = "atropen"
-	volume = 15
-	amount_per_transfer_from_this = 5
-	list_reagents = list(/datum/reagent/medicine/mutadone = 15)
+	volume = 10
+	amount_per_transfer_from_this = 10
+	list_reagents = list(/datum/reagent/medicine/mutadone = 10)

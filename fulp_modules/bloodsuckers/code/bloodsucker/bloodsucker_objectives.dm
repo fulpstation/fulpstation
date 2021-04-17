@@ -33,6 +33,7 @@
 //	//							 OBJECTIVES 									//	//
 
 /datum/objective/bloodsucker/lair
+	name = "claimlair"
 
 // EXPLANATION
 /datum/objective/bloodsucker/lair/update_explanation_text()
@@ -52,12 +53,13 @@
 /// Vassalize someone in charge (Head of Staff + QM)
 /// LOOKUP: /datum/crewmonitor/proc/update_data(z) for .assignment to see how to get a person's PDA.
 /datum/objective/bloodsucker/protege
+	name = "vassalization"
 
 	var/list/roles = list(
 		"Captain",
 		"Head of Personnel",
 		"Head of Security",
-				"Research Director",
+		"Research Director",
 		"Chief Engineer",
 		"Chief Medical Officer",
 		"Quartermaster"
@@ -230,6 +232,7 @@
 /// NOTE: Look up /steal in objective.dm for inspiration.
 /// Steal hearts. You just really wanna have some hearts.
 /datum/objective/bloodsucker/heartthief
+	name = "heartthief"
 	martyr_compatible = FALSE
 
 // GENERATE!
@@ -262,6 +265,7 @@
 /// NOTE: Look up /assassinate in objective.dm for inspiration.
 /// Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
+	name = "vassalhim"
 	var/target_role_type = FALSE
 
 // FIND TARGET/GENERATE OBJECTIVE
@@ -278,6 +282,9 @@
 	else
 		explanation_text = "Free Objective"
 
+/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
+	admin_simple_target_pick(admin)
+
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/vassalhim/check_completion()
 	if(target.has_antag_datum(/datum/antagonist/vassal))
@@ -290,6 +297,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/survive
+	name = "bloodsuckersurvive"
 	martyr_compatible = FALSE
 
 // EXPLANATION
@@ -307,6 +315,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/monsterhunter
+	name = "destroymonsters"
 
 // GENERATE!
 /datum/objective/bloodsucker/monsterhunter/generate_objective()

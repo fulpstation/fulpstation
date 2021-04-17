@@ -63,7 +63,7 @@
 		/obj/item/grenade/smokebomb=1,
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/restraints/handcuffs=1,
-		/obj/item/reagent_containers/hypospray/medipen/mutadone=1,
+		/obj/item/reagent_containers/hypospray/medipen/mutadone=2,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/holosign_creator/security=1,
 		)
