@@ -145,19 +145,17 @@
 		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
 	else
 		to_chat(user, "<span class='warning'>You pull [target] close to you and draw out your fangs...</span>")
-	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
+	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 		to_chat(user, "<span class='warning'>Your feeding was interrupted.</span>")
 		//DeactivatePower()
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
 	if(!amSilent)
-		ApplyVictimEffects(target)	// Sleep, paralysis, immobile, unconscious, and mute
+		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
 		if(target.stat <= UNCONSCIOUS)
-			sleep(1)
-			// Wait, then Cancel if Invalid
-			if(!ContinueActive(user,target)) // Cancel. They're gone.
+			if(!do_mob(user, target, 1, NONE, FALSE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target))) // Wait, then Cancel if Invalid
 				//DeactivatePower(user,target)
-				return
+				return // Cancel. They're gone.
 		// Pull Target Close
 		if(!target.density) // Pull target to you if they don't take up space.
 			target.Move(user.loc)
@@ -204,7 +202,7 @@
 	while(bloodsuckerdatum && target && active)
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
-		if(!do_mob(user, target, 2 SECONDS, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
+		if(!do_mob(user, target, 2 SECONDS, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 			// May have disabled Feed during do_mob
 			if(!active || !ContinueActive(user, target))
 				break
@@ -230,7 +228,7 @@
 				user.add_mob_blood(target) // Put target's blood on us. The donor goes in the ( )
 				target.add_mob_blood(target)
 				target.take_overall_damage(10,0)
-				target.emote("scream")
+				INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 
 			return
 

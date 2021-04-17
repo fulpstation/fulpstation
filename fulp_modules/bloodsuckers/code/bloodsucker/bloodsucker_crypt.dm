@@ -290,7 +290,7 @@
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 		target.Jitter(15)
-		target.emote("laugh")
+		INVOKE_ASYNC(target, /mob.proc/emote, "laugh")
 		//remove_victim(target) // Remove on CLICK ONLY!
 	useLock = FALSE
 
@@ -336,7 +336,7 @@
 	target.visible_message("<span class='danger'>[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!</span>", \
 						   "<span class='userdanger'>[user] performs a ritual, spilling some blood from your [target_string], shaking you up!</span>")
 	if(!target.is_muzzled())
-		target.emote("scream")
+		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 	target.Jitter(5)
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (BP ? BP.body_zone : null)) // take_overall_damage(6,0)
 	return TRUE

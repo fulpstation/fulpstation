@@ -11,13 +11,12 @@
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
 /datum/action/bloodsucker/fortitude/ActivatePower()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
 	var/mob/living/user = owner
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
 	to_chat(user, "<span class='notice'>Your flesh, skin, and muscles become as steel.</span>")
 	// Traits & Effects
 	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
 	if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // We don't want Monster hunters getting this
 		var/mob/living/carbon/human/H = owner
@@ -30,26 +29,31 @@
 	if(was_running)
 		user.toggle_move_intent()
 	while(B && ContinueActive(user))
-		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
-			user.toggle_move_intent()
-			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
-			user.adjustBruteLoss(rand(5,15))
-		if(istype(user.buckled, /obj/vehicle)) // We dont want people using fortitude being able to use vehicles
-			var/obj/vehicle/V = user.buckled
-			V.unbuckle_mob(user, force = TRUE)
-			to_chat(user, "<span class='notice'>You fall over, your weight making you too heavy to be able to ride any vehicle!</span>")
-		// Pay Blood Toll (if awake)
-		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
-			if(user.stat == CONSCIOUS)
-				B.AddBloodVolume(-0.5)
-		sleep(20) // Check every few ticks that we haven't disabled this power
+		START_PROCESSING(SSprocessing, src)
 
-/datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner, mob/living/target)
+/datum/action/bloodsucker/fortitude/process()
+	var/mob/living/user = owner
+	if(!ContinueActive(user))
+		return
+	if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
+		user.toggle_move_intent()
+		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+		user.adjustBruteLoss(rand(5,15))
+	if(istype(user.buckled, /obj/vehicle)) // We dont want people using fortitude being able to use vehicles
+		var/obj/vehicle/V = user.buckled
+		V.unbuckle_mob(user, force = TRUE)
+		to_chat(user, "<span class='notice'>You fall over, your weight making you too heavy to be able to ride any vehicle!</span>")
+	// Pay Blood Toll (if awake)
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
+		if(user.stat == CONSCIOUS)
+			B.AddBloodVolume(-0.5)
+
+/datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	..()
 	// Restore Traits & Effects
 	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
 	if(!ishuman(owner))
 		return
@@ -59,8 +63,7 @@
 		H.physiology.stamina_mod /= fortitude_resist
 	if(owner.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 		REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-	if(was_running && user.m_intent == MOVE_INTENT_WALK)
-		user.toggle_move_intent()
+	STOP_PROCESSING(SSprocessing, src)
 
 /// Monster Hunter version
 /datum/action/bloodsucker/fortitude/hunter

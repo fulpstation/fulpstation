@@ -18,12 +18,11 @@
 #define MARTIALART_DEPUTYBLOCK "deputy block"
 
 /// Bloodsucker defines
-#define TRAIT_NORUNNING "norunning" // You walk!
-#define TRAIT_NOPULSE "nopulse" // Your heart doesn't beat.
-#define TRAIT_MASQUERADE "masquerade" // Falsifies Health analyzers
-#define TRAIT_COLDBLOODED "coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp.
-#define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life" // Used for Bloodsucker's LifeTick() signal
-#define BLOODSUCKER_LEVEL_TO_EMBRACE 3
+#define TRAIT_NOPULSE "nopulse" /// Your heart doesn't beat.
+#define TRAIT_MASQUERADE "masquerade" /// Falsifies Health analyzers
+#define TRAIT_COLDBLOODED "coldblooded"	/// Your body is literal room temperature. Does not make you immune to the temp.
+#define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life" /// Used for Bloodsucker's LifeTick() signal
+//#define BLOODSUCKER_LEVEL_TO_EMBRACE 3 /// This is unused
 
 /// Deputy defines
 #define TRAIT_ENGINEERINGDEPUTY "engineeringdeputy"
