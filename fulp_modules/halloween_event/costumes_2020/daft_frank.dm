@@ -9,10 +9,8 @@
 	hat_type = "guy"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0, WOUND = 0)
 	resistance_flags = null
-	flags_inv = HIDEHAIR|HIDEFACIALHAIR
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
-	dynamic_hair_suffix = ""
 
 //The Silver One
 /obj/item/clothing/head/hardhat/silver_punk
@@ -25,10 +23,8 @@
 	hat_type = "thomas"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0, WOUND = 0)
 	resistance_flags = null
-	flags_inv = HIDEHAIR|HIDEFACIALHAIR
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
-	dynamic_hair_suffix = ""
 
 /obj/item/clothing/under/sparky
 	name = "The suit"
