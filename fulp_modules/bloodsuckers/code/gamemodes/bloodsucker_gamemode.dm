@@ -91,7 +91,7 @@
 			They've displayed the ability to disguise themselves as anyone and brainwash the minds of people they capture alive.\
 			Please take care of the crew and their health, as it is impossible to tell if one is lurking in the darkness behind."
 
-/datum/game_mode/bloodsucker/make_antag_chance(mob/living/carbon/human/character) //Assigns changeling to latejoiners
+/datum/game_mode/bloodsucker/make_antag_chance(mob/living/carbon/human/character)
 	var/bloodsuckercap = min(round(GLOB.joined_player_list.len / (3 * 4)) + 2, round(GLOB.joined_player_list.len / 2))
 	if(bloodsuckers.len >= bloodsuckercap) //Caps number of latejoin antagonists
 		return
@@ -143,8 +143,9 @@
 	return TRUE
 
 /*
- *	DON'T ADD DYNAMIC MIDROUNDS TO BLOODSUCKERS
- *	By the time they'll spawn, they'd have missed several Sol's, and Security would likely be geared up.
+ *	Reason why I didn't add Bloodsuckers to midround;
+ *	- By the time they'll spawn, they'd have missed several Sol's
+ *	- Security is likely geared up already.
  *	-Willard
  */
 
