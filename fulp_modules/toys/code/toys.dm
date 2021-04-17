@@ -15,7 +15,7 @@
 
 /obj/item/toy/plush/supermatter
 	name = "Supermatter toy"
-	desc = "A Supermatter plushie! you shouldn't pet the real one without the Chief Engineer's permission!."
+	desc = "A Supermatter plushie! you shouldn't pet the real one without the Chief Engineer's permission!"
 	icon = 'fulp_modules/toys/icon/toys.dmi'
 	icon_state = "supermatter"
 	light_range = 3
