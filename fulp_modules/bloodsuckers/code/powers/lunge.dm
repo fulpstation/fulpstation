@@ -62,9 +62,8 @@
 	// Step One: Heatseek toward Target's Turf
 	walk_towards(owner, T, 0.1, 10) // NOTE: this runs in the background! to cancel it, you need to use walk(owner.current,0), or give them a new path.
 	var/safety = 10
-	while(get_turf(owner) != T && safety > 0 && !(isliving(target) && target.Adjacent(owner)))
+	while(get_turf(owner) != T && safety > 0 && !(isliving(target) && target.Adjacent(owner)) && do_mob(user, user, 0.1 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // No Motion
-		sleep(1)
 		safety--
 
 		// Did I get knocked down?
@@ -79,12 +78,12 @@
 	if(target.Adjacent(owner))
 		// LEVEL 2: If behind target, mute or unconscious!
 		if(do_knockdown) // && level_current >= 1)
-			if(!target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			if(!target.mind || !target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 				target.Paralyze(15 + 10 * level_current,1)
 		// Cancel Walk (we were close enough to contact them)
 		walk(owner,0)
 		//target.Paralyze(10,1)
-		if(!target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+		if(!target.mind || !target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 			target.grabbedby(owner) // Taken from mutations.dm under changelings
 			target.grippedby(owner, instant = TRUE) //instant aggro grab
 		else
