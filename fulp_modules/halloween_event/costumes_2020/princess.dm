@@ -363,6 +363,7 @@
 
 	new /obj/item/clothing/gloves/texasman(src)
 	new /obj/item/clothing/head/hardhat(src)
+	new /obj/item/clothing/shoes/workboots(src)
 	new /obj/item/wrench(src)
 
 /obj/item/storage/box/halloween/edition_20/princess/skeletor
