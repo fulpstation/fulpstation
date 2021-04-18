@@ -18,7 +18,6 @@
 /area/proc/ClaimAsLair(/obj/structure/closet/crate/inClaimant)
 	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
 	laircoffins += laircoffins
-	sleep() <-- Dont use sleep lol
 	// Cancel!
 	if(laircoffins.len == 0)
 		return
@@ -30,10 +29,6 @@
 		return FALSE
 	if(user in src)
 		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-/*	var/area/a = get_area(src)
-	for(var/i in a.contents)
-		resident += i
-	var/datum/antagonist/bloodsucker/B = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker) */
 		if(!B)
 			return
 		if(B.lair != get_area(B.coffin))
