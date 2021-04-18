@@ -57,7 +57,8 @@
 		H.physiology.stamina_mod /= fortitude_resist
 	if(owner.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 		REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-	STOP_PROCESSING(SSfastprocess, src)
+	if(was_running && user.m_intent == MOVE_INTENT_WALK)
+		user.toggle_move_intent()
 	return ..()
 
 /// Monster Hunter version
