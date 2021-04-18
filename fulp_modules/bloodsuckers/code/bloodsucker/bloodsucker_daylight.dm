@@ -1,4 +1,4 @@
-#define TIME_BLOODSUCKER_NIGHT 60//0 // 10 minutes
+#define TIME_BLOODSUCKER_NIGHT 600 // 10 minutes
 #define TIME_BLOODSUCKER_DAY_WARN 90 // 1.5 minutes
 #define TIME_BLOODSUCKER_DAY_FINAL_WARN 25 // 25 sec
 #define TIME_BLOODSUCKER_DAY 60 // 1 minute

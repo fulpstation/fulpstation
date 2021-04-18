@@ -25,17 +25,21 @@
 */
 
 /// Don't make on_gain() wait for this function to finish. This lets this code run on the side.
-/datum/antagonist/bloodsucker/process()
-	set waitfor = FALSE // Wait 2 min via do_mob, then Repeat
-	while(!AmFinalDeath() && coffin && lair)
-		if(!do_mob(coffin, lair, 2 MINUTES, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM)))
+/obj/structure/closet/crate/process(mob/living/user)
+	if(!..())
+		return FALSE
+	if(user in src)
+		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+/*	var/area/a = get_area(src)
+	for(var/i in a.contents)
+		resident += i
+	var/datum/antagonist/bloodsucker/B = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker) */
+		if(!B)
 			return
-		// Coffin Moved?
-		if(lair != get_area(coffin))
-			if(coffin)
-				coffin.UnclaimCoffin()
-			break
-		var/list/turf/area_turfs = get_area_turfs(lair)
+		if(B.lair != get_area(B.coffin))
+			if(B.coffin)
+				B.coffin.UnclaimCoffin()
+		var/list/turf/area_turfs = get_area_turfs(B.lair)
 		// Create Dirt etc.
 		var/turf/T_Dirty = pick(area_turfs)
 		if(T_Dirty && !T_Dirty.density)
@@ -57,17 +61,17 @@
 			// STEP TWO: DIRT
 			new /obj/effect/decal/cleanable/dirt (T_Dirty)
 		// Find Animals in Area
-	/*	if(rand(0,2) == 0)
+/*		if(rand(0,2) == 0)
 			var/mobCount = 0
 			var/mobMax = clamp(area_turfs.len / 25, 1, 4)
-			for (var/turf/T in area_turfs)
+			for(var/turf/T in area_turfs)
 				if(!T) continue
 				var/mob/living/simple_animal/SA = locate() in T
 				if(SA)
 					mobCount ++
 					if (mobCount >= mobMax) // Already at max
 						break
-			 Spawn One
+				Spawn One
 			if(mobCount < mobMax)
 				 Seek Out Location
 				while(area_turfs.len > 0)
@@ -78,7 +82,7 @@
 						break
 					area_turfs -= T*/
 		// NOTE: area_turfs is now cleared out!
-	if(coffin)
-		coffin.UnclaimCoffin()
-	// Done (somehow)
-	lair = null
+		if(B.coffin)
+			B.coffin.UnclaimCoffin()
+		// Done (somehow)
+		B.lair = null

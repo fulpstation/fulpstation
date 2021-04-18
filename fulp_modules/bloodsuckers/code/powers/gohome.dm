@@ -21,8 +21,8 @@
 	if(!.)
 		return
 	// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!istype(B) || !B.coffin)
 		if(display_error)
 			to_chat(owner, "<span class='warning'>Your coffin has been destroyed!</span>")
 		return FALSE
@@ -32,32 +32,24 @@
 	for(var/obj/machinery/light/L in view(flicker_range, get_turf(owner)))
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
-
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower()
 	var/mob/living/carbon/user = owner
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	to_chat(user, "<span class='notice'>You focus on separating your consciousness from your physical form...</span>")
 	// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
-	addtimer(CALLBACK(src, .proc/flash_a_one), 5 SECONDS)
-
-/datum/action/bloodsucker/gohome/proc/flash_a_one()
-	flicker_lights(4, 40)
-	addtimer(CALLBACK(src, .proc/flash_a_two), 5 SECONDS)
-
-/datum/action/bloodsucker/gohome/proc/flash_a_two()
-	flicker_lights(4, 60)
-	addtimer(CALLBACK(src, .proc/and_a_go), 2 SECONDS)
-
-/datum/action/bloodsucker/gohome/proc/and_a_go()
-	var/mob/living/carbon/user = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	for(var/obj/machinery/light/L in view(6, get_turf(owner)))
-		L.flicker(5)
+	if(do_mob(user, user, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+		flicker_lights(4, 40)
+	if(do_mob(user, user, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+		flicker_lights(4, 60)
+	if(do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+		for(var/obj/machinery/light/L in view(6, get_turf(owner)))
+			L.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', 60, 1)
 	// ( STEP TWO: Lights OFF? )
 	// CHECK: Still have Coffin?
-	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
+	if(!istype(B) || !B.coffin)
 		to_chat(user, "<span class='warning'>Your coffin has been destroyed! You no longer have a destination.</span>")
 		return FALSE
 	if(!owner)
@@ -108,14 +100,14 @@
 	new SA (owner.loc)
 	// TELEPORT: Move to Coffin & Close it!
 	user.set_resting(TRUE, TRUE, FALSE)
-	do_teleport(owner, bloodsuckerdatum.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	do_teleport(owner, B.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
 	user.Stun(30,1)
 	// CLOSE LID: If fail, force me in.
-	if(!bloodsuckerdatum.coffin.close(owner))
-		bloodsuckerdatum.coffin.insert(owner) // Puts me inside.
-		playsound(bloodsuckerdatum.coffin.loc, bloodsuckerdatum.coffin.close_sound, 15, 1, -3)
-		bloodsuckerdatum.coffin.opened = FALSE
-		bloodsuckerdatum.coffin.density = TRUE
-		bloodsuckerdatum.coffin.update_icon()
+	if(!B.coffin.close(owner))
+		B.coffin.insert(owner) // Puts me inside.
+		playsound(B.coffin.loc, B.coffin.close_sound, 15, 1, -3)
+		B.coffin.opened = FALSE
+		B.coffin.density = TRUE
+		B.coffin.update_icon()
 		// Lock Coffin
-		bloodsuckerdatum.coffin.LockMe(owner)
+		B.coffin.LockMe(owner)

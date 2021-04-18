@@ -32,11 +32,8 @@
 			user.toggle_move_intent()
 			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
 			user.adjustBruteLoss(rand(5,15))
-		if(user.buckled && istype(user.buckled, /obj/vehicle))
+		if(user.buckled && istype(user.buckled, /obj/vehicle)) /// We don't want people using fortitude being able to use vehicles
 			user.buckled.unbuckle_mob(src, force=TRUE)
-		if(istype(user.buckled, /obj/vehicle)) /// We don't want people using fortitude being able to use vehicles
-			var/obj/vehicle/V = user.buckled
-			V.unbuckle_mob(user, force = TRUE)
 		/// Pay Blood Toll (if awake)
 		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) /// Prevents the Monster Hunter version from runtiming
 			if(user.stat == CONSCIOUS)

@@ -16,12 +16,11 @@
 	to_chat(owner, "<span class='userdanger'>You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair].</span>")
 	to_chat(owner, "<span class='danger'>You have learned new construction recipes to improve your lair.</span>")
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Find new lair recipes in the Misc tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals.</span><br><br>")
-	START_PROCESSING(SSprocessing, src)
 	return TRUE
 
 /// From crate.dm
 /obj/structure/closet/crate
-	var/mob/living/resident	// This lets bloodsuckers claim any "closet" as a Coffin.
+	var/mob/living/resident /// This lets bloodsuckers claim any "closet" as a Coffin.
 	var/pryLidTimer = 250
 	breakout_time = 200
 
@@ -73,25 +72,27 @@
 /// NOTE: This can be any "closet" that you are resting AND inside of.
 /obj/structure/closet/crate/proc/ClaimCoffin(mob/living/claimant)
 	// Bloodsucker Claim
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum)
+	var/datum/antagonist/bloodsucker/B = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(B)
 		// Successfully claimed?
-		if(bloodsuckerdatum.ClaimCoffin(src))
+		if(B.ClaimCoffin(src))
 			resident = claimant
 			anchored = 1
+			START_PROCESSING(SSprocessing, src)
 
 /obj/structure/closet/crate/coffin/Destroy()
 	UnclaimCoffin()
+	STOP_PROCESSING(SSprocessing, src)
 	return ..()
 
 /obj/structure/closet/crate/proc/UnclaimCoffin()
 	if(resident)
 		// Unclaiming
 		if(resident.mind)
-			var/datum/antagonist/bloodsucker/bloodsuckerdatum = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-			if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
-				bloodsuckerdatum.coffin = null
-				bloodsuckerdatum.lair = null
+			var/datum/antagonist/bloodsucker/B = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+			if(B && B.coffin == src)
+				B.coffin = null
+				B.lair = null
 			to_chat(resident, "<span class='danger'><span class='italics'>You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another.</span></span>")
 		resident = null // Remove resident. Because this object isnt removed from the game immediately (GC?) we need to give them a way to see they don't have a home anymore.
 
@@ -113,25 +114,25 @@
 	if(!..())
 		return FALSE
 	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
-	if((user in src))
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum)
+	if(user in src)
+		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(B)
 			LockMe(user)
-			if(!bloodsuckerdatum.coffin && !resident)
+			if(!B.coffin && !resident)
 				switch(alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair","Yes", "No"))
 					if("Yes")
 						ClaimCoffin(user)
-			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
+			B.SpendRank() // Level up? Auto-Fails if not appropriate
 			if(user.AmStaked()) // Staked? Dont heal
-				to_chat(bloodsuckerdatum.owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
+				to_chat(B.owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
 			// Heal
 			var/total_brute = user.getBruteLoss_nonProsthetic()
 			var/total_burn = user.getFireLoss_nonProsthetic()
 			var/total_damage = total_brute + total_burn
 			if(total_damage >= 10)
-				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-				bloodsuckerdatum.Torpor_Begin()
+				to_chat(B.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+				B.Torpor_Begin()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
