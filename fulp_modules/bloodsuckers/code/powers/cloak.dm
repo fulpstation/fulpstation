@@ -26,7 +26,7 @@
 	var/mob/living/user = owner
 
 	moveintent_was_run = (user.m_intent == MOVE_INTENT_RUN)
-	while(B && ContinueActive(user))
+	while(B && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
 		// Pay Blood Toll (if awake)
 		owner.alpha = max(35, owner.alpha - min(75, 10 + 5 * level_current))
 		if(user.stat == CONSCIOUS)
@@ -34,7 +34,6 @@
 		runintent = (user.m_intent == MOVE_INTENT_RUN)
 		if(runintent)
 			user.toggle_move_intent()
-		sleep(5) // Check every few ticks
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	if(!..())

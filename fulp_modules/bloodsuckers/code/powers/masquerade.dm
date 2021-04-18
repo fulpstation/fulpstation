@@ -58,7 +58,7 @@
 	E.flash_protect += 1
 
 	// WE ARE ALIVE! //
-	while(bloodsuckerdatum && ContinueActive(user))
+	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
 		// HEART
 		if(istype(H))
 			H.FakeStart()
@@ -68,7 +68,6 @@
 		// Don't Heal
 		if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
 			bloodsuckerdatum.AddBloodVolume(-0.3) // Since we're removing all Bloodsucker abilities, they will regenerate blood like a normal human, so pay a lot.
-		sleep(20) // Check every few ticks that we haven't disabled this power
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.

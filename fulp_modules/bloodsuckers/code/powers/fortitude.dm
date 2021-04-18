@@ -10,8 +10,7 @@
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
-/datum/action/bloodsucker/fortitude/ActivatePower()
-	var/mob/living/user = owner
+/datum/action/bloodsucker/fortitude/ActivatePower(mob/living/user = owner)
 	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
 	to_chat(user, "<span class='notice'>Your flesh, skin, and muscles become as steel.</span>")
 	// Traits & Effects
@@ -28,20 +27,32 @@
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
-	while(B && ContinueActive(user))
-		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
+	while(B && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+		if(user.m_intent != MOVE_INTENT_WALK) /// Prevents running while on Fortitude
 			user.toggle_move_intent()
 			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
 			user.adjustBruteLoss(rand(5,15))
-		if(istype(user.buckled, /obj/vehicle)) // We dont want people using fortitude being able to use vehicles
+		if(user.buckled && istype(user.buckled, /obj/vehicle))
+			user.buckled.unbuckle_mob(src, force=TRUE)
+		if(istype(user.buckled, /obj/vehicle)) /// We don't want people using fortitude being able to use vehicles
 			var/obj/vehicle/V = user.buckled
 			V.unbuckle_mob(user, force = TRUE)
-			to_chat(user, "<span class='notice'>You fall over, your weight making you too heavy to be able to ride any vehicle!</span>")
+		/// Pay Blood Toll (if awake)
+		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) /// Prevents the Monster Hunter version from runtiming
+			if(user.stat == CONSCIOUS)
+				B.AddBloodVolume(-0.5)
+
+/*
+/datum/action/bloodsucker/fortitude/proc/CheckActivity()
+	var/mob/living/user = owner
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
+	if(B && ContinueActive(user))
 		// Pay Blood Toll (if awake)
 		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
 			if(user.stat == CONSCIOUS)
 				B.AddBloodVolume(-0.5)
-		sleep(20)
+		addtimer(CALLBACK(src, .proc/CheckActivity), 2 SECONDS) // Check every 2 seconds to ensure we haven't disabled it.
+*/
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	// Restore Traits & Effects
