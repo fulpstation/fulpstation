@@ -92,11 +92,11 @@
 
 	// Wait here til we deactivate power or go unconscious
 	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	while(B && ContinueActive(owner) && do_mob(H, H, 1 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+	while(B && ContinueActive(owner) && do_mob(H, H, 1 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		B.AddBloodVolume(-0.2)
 		// Wait for a moment if you fell unconscious...
 		if(owner && owner.stat > CONSCIOUS)
-			do_mob(H, H, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE)
+			sleep(50)
 
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)

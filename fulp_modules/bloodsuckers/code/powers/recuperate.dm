@@ -7,14 +7,6 @@
 	bloodcost = 5 // Increments every 5 seconds; damage increases over time
 	cooldown = 100
 
-/datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
-	if(owner.stat >= DEAD)
-		return FALSE
-	return TRUE
-
 /datum/action/bloodsucker/recuperate/ActivatePower()
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
 	var/mob/living/carbon/C = owner
@@ -25,8 +17,9 @@
 		C.adjustBruteLoss(-1.5)
 		C.adjustFireLoss(-0.5)
 		C.adjustToxLoss(-2, forced = TRUE)
-		C.blood_volume -= 1
 		C.adjustStaminaLoss(bloodcost * 1.1)
+		if(!HAS_TRAIT(C, NOBLOOD)) /// Plasmamen won't lose blood, whatever.
+			C.blood_volume -= bloodcost
 		// Stop Bleeding
 		if(istype(H) && H.is_bleeding())
 			for(var/obj/item/bodypart/part in H.bodyparts)
@@ -35,9 +28,15 @@
 	// DONE!
 	//DeactivatePower(owner)
 
-/datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user, mob/living/target)
-	if(user.stat <= DEAD)
+/datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
+/*	. = ..() /// Vassals use this, not Bloodsuckers, so we don't want them using these checks.
+	if(!.)
+		return */
+	if(!owner.stat)
 		return FALSE
-	if(!user.blood_volume > 500)
+	return TRUE
+
+/datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
+	if(user.stat <= DEAD)
 		return FALSE
 	return ..()
