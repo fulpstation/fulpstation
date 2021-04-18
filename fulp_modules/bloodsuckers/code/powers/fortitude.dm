@@ -41,8 +41,7 @@
 		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
 			if(user.stat == CONSCIOUS)
 				B.AddBloodVolume(-0.5)
-		if(do_mob(user, user, 2 SECONDS, NONE, FALSE)) // Check every 2 seconds to ensure we haven't disabled it.
-			return TRUE
+		sleep(20)
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	// Restore Traits & Effects

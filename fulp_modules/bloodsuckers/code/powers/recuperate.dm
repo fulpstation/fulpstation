@@ -39,6 +39,6 @@
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user, mob/living/target)
 	if(user.stat <= DEAD)
 		return FALSE
-	if(user.blood_volume > 500)
+	if(!user.blood_volume > 500)
 		return FALSE
 	return ..()

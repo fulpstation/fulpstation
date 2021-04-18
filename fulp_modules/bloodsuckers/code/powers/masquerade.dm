@@ -34,6 +34,7 @@
 
 	var/mob/living/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	bloodsuckerdatum.poweron_masquerade = TRUE
 
 	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
@@ -57,22 +58,16 @@
 	E.flash_protect += 1
 
 	// WE ARE ALIVE! //
-	bloodsuckerdatum.poweron_masquerade = TRUE
 	while(bloodsuckerdatum && ContinueActive(user))
-
 		// HEART
 		if(istype(H))
 			H.FakeStart()
-
 		// 		PASSIVE (done from LIFE)
 		// Don't Show Pale/Dead on low blood
 		// Don't vomit food
 		// Don't Heal
-
-		// Pay Blood Toll if awake. This is rather high, as we're removing all Bloodsucker abilities, meaning they will regenerate blood like a normal human.
-		if(user.stat == CONSCIOUS)
-			bloodsuckerdatum.AddBloodVolume(-0.3)
-
+		if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
+			bloodsuckerdatum.AddBloodVolume(-0.3) // Since we're removing all Bloodsucker abilities, they will regenerate blood like a normal human, so pay a lot.
 		sleep(20) // Check every few ticks that we haven't disabled this power
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
