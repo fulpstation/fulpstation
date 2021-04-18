@@ -333,7 +333,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/* /// What even is this? It's never called...
+/// This isnt ever called, someone should really add it eventually...
 /mob/proc/CheckBloodsuckerEatFood(food_nutrition)
 	if(!isliving(src))
 		return
@@ -343,7 +343,7 @@
 	// We're a bloodsucker? Try to eat food...
 	var/datum/antagonist/bloodsucker/B = L.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	B.handle_eat_human_food(food_nutrition)
-*/
+
 
 /datum/antagonist/bloodsucker/proc/handle_eat_human_food(food_nutrition, puke_blood = TRUE, masquerade_override) // Called from snacks.dm and drinks.dm
 	set waitfor = FALSE
@@ -364,7 +364,8 @@
 	while(foodInGut && do_mob(C, C, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
 		C.adjust_disgust(10 * sickphase)
 		// Wait an interval...
-		sleep(50 + 50 * sickphase) // At intervals of 100, 150, and 200. (10 seconds, 15 seconds, and 20 seconds)
+		if(!do_mob(C, C, time = (50 + 50 * sickphase), timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE)) // At intervals of 100, 150, and 200. (10 seconds, 15 seconds, and 20 seconds)
+			return
 		// Died? Cancel
 		if(C.stat == DEAD)
 			return

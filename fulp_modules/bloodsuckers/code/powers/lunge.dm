@@ -62,7 +62,7 @@
 	// Step One: Heatseek toward Target's Turf
 	walk_towards(owner, T, 0.1, 10) // NOTE: this runs in the background! to cancel it, you need to use walk(owner.current,0), or give them a new path.
 	var/safety = 10
-	while(get_turf(owner) != T && safety > 0 && !(isliving(target) && target.Adjacent(owner)) && do_mob(user, user, 0.1 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+	while(get_turf(owner) != T && safety > 0 && !(isliving(target) && target.Adjacent(owner)) && do_mob(user, user, 0.1 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // No Motion
 		safety--
 

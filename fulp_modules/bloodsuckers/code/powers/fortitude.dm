@@ -27,7 +27,7 @@
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
-	while(B && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+	while(B && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		if(user.m_intent != MOVE_INTENT_WALK) /// Prevents running while on Fortitude
 			user.toggle_move_intent()
 			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")

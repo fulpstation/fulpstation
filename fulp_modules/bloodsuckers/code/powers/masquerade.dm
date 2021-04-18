@@ -58,7 +58,7 @@
 	E.flash_protect += 1
 
 	// WE ARE ALIVE! //
-	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		// HEART
 		if(istype(H))
 			H.FakeStart()

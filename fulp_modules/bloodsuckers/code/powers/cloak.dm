@@ -28,7 +28,7 @@
 	if(was_running)
 		user.toggle_move_intent()
 
-	while(B && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+	while(B && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		// Pay Blood Toll (if awake)
 		owner.alpha = max(35, owner.alpha - min(75, 10 + 5 * level_current))
 		if(user.stat == CONSCIOUS)
