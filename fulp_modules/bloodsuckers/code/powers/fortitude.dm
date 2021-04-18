@@ -29,28 +29,22 @@
 	if(was_running)
 		user.toggle_move_intent()
 	while(B && ContinueActive(user))
-		START_PROCESSING(SSprocessing, src)
-
-/datum/action/bloodsucker/fortitude/process()
-	var/mob/living/user = owner
-	if(!ContinueActive(user))
-		return
-	if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
-		user.toggle_move_intent()
-		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
-		user.adjustBruteLoss(rand(5,15))
-	if(istype(user.buckled, /obj/vehicle)) // We dont want people using fortitude being able to use vehicles
-		var/obj/vehicle/V = user.buckled
-		V.unbuckle_mob(user, force = TRUE)
-		to_chat(user, "<span class='notice'>You fall over, your weight making you too heavy to be able to ride any vehicle!</span>")
-	// Pay Blood Toll (if awake)
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
-		if(user.stat == CONSCIOUS)
-			B.AddBloodVolume(-0.5)
+		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
+			user.toggle_move_intent()
+			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+			user.adjustBruteLoss(rand(5,15))
+		if(istype(user.buckled, /obj/vehicle)) // We dont want people using fortitude being able to use vehicles
+			var/obj/vehicle/V = user.buckled
+			V.unbuckle_mob(user, force = TRUE)
+			to_chat(user, "<span class='notice'>You fall over, your weight making you too heavy to be able to ride any vehicle!</span>")
+		// Pay Blood Toll (if awake)
+		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
+			if(user.stat == CONSCIOUS)
+				B.AddBloodVolume(-0.5)
+		if(do_mob(user, user, 2 SECONDS, NONE, FALSE)) // Check every 2 seconds to ensure we haven't disabled it.
+			return TRUE
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
-	..()
 	// Restore Traits & Effects
 	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
@@ -63,7 +57,8 @@
 		H.physiology.stamina_mod /= fortitude_resist
 	if(owner.mind.has_antag_datum(/datum/antagonist/monsterhunter))
 		REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-	STOP_PROCESSING(SSprocessing, src)
+	STOP_PROCESSING(SSfastprocess, src)
+	return ..()
 
 /// Monster Hunter version
 /datum/action/bloodsucker/fortitude/hunter

@@ -44,7 +44,7 @@
 		// Bloodsuckers:
 		else if(ishuman(target))
 			var/mob/living/carbon/human/H = target
-			if(!H.can_inject(owner, TRUE, BODY_ZONE_CHEST))
+			if(!H.can_inject(owner, BODY_ZONE_CHEST, INJECT_CHECK_PENETRATE_THICK))
 				return FALSE
 			if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 				if(display_error)
@@ -66,7 +66,7 @@
 		return FALSE
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
-		if(!H.can_inject(owner, TRUE, BODY_ZONE_HEAD) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
+		if(!H.can_inject(owner, BODY_ZONE_HEAD, INJECT_CHECK_PENETRATE_THICK) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
 			return FALSE
 		if(NOBLOOD in H.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
 			if(display_error)
@@ -153,9 +153,10 @@
 	if(!amSilent)
 		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
 		if(target.stat <= UNCONSCIOUS)
-			if(!do_mob(user, target, 1, NONE, FALSE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target))) // Wait, then Cancel if Invalid
-				//DeactivatePower(user,target)
-				return // Cancel. They're gone.
+			if(do_after(user, 0.1 SECONDS, target)) // Wait, then Cancel if Invalid
+				if(!ContinueActive(user,target)) // Cancel. They're gone.
+					//DeactivatePower(user,target)
+					return // Cancel. They're gone.
 		// Pull Target Close
 		if(!target.density) // Pull target to you if they don't take up space.
 			target.Move(user.loc)
@@ -289,7 +290,10 @@
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
-	return ..() && target && (!target_grappled || user.pulling == target) // Active, and still antag,
+	if(!target)
+		return FALSE
+	if(!target_grappled || user.pulling == target) // Active, and still antag
+		return ..()
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)

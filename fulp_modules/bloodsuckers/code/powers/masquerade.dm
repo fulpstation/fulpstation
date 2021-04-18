@@ -77,7 +77,7 @@
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
-	//if (user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
+	//if(user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
 	//	return FALSE
 	return ..() // Active, and still Antag
 

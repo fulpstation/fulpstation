@@ -157,8 +157,14 @@
 	UpdateButtonIcon()
 	StartCooldown()
 
-/datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target) // Used by loops to make sure this power can stay active.
-	return active && user && (!warn_constant_cost || user.blood_volume > 0)
+/// Used by loops to make sure this power can stay active.
+/datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)
+	if(!active)
+		return FALSE
+	if(!user)
+		return FALSE
+	if(!warn_constant_cost || user.blood_volume > 0)
+		return TRUE
 
 /// Used to unlearn Go Home ability
 /datum/action/bloodsucker/proc/RemoveAfterUse()

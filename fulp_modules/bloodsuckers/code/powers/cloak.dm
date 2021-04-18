@@ -45,6 +45,7 @@
 	if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
 		user.toggle_move_intent()
 		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+		user.adjustBruteLoss(rand(5,15))
 	return TRUE
 
 /datum/action/bloodsucker/cloak/DeactivatePower(mob/living/user = owner, mob/living/target)

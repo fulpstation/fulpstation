@@ -91,14 +91,13 @@
 	H.update_body_parts()
 
 	// Wait here til we deactivate power or go unconscious
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	while(ContinueActive(owner) && istype(bloodsuckerdatum))//active && owner && owner.stat == CONSCIOUS)
-		bloodsuckerdatum.AddBloodVolume(-0.2)
+	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	while(B && ContinueActive(owner))
+		B.AddBloodVolume(-0.2)
 		sleep(10)
-
-	// Wait for a moment if you fell unconscious...
-	if(owner && owner.stat > CONSCIOUS)
-		sleep(50)
+		// Wait for a moment if you fell unconscious...
+		if(owner && owner.stat > CONSCIOUS)
+			sleep(50)
 
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
