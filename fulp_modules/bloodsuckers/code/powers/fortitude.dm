@@ -42,18 +42,6 @@
 			if(user.stat == CONSCIOUS)
 				B.AddBloodVolume(-0.5)
 
-/*
-/datum/action/bloodsucker/fortitude/proc/CheckActivity()
-	var/mob/living/user = owner
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
-	if(B && ContinueActive(user))
-		// Pay Blood Toll (if awake)
-		if(owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)) // Prevents the Monster Hunter version from runtiming
-			if(user.stat == CONSCIOUS)
-				B.AddBloodVolume(-0.5)
-		addtimer(CALLBACK(src, .proc/CheckActivity), 2 SECONDS) // Check every 2 seconds to ensure we haven't disabled it.
-*/
-
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	// Restore Traits & Effects
 	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)

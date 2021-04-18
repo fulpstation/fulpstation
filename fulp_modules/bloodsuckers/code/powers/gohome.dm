@@ -36,14 +36,22 @@
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower()
 	var/mob/living/carbon/user = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	to_chat(user, "<span class='notice'>You focus on separating your consciousness from your physical form...</span>")
 	// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
-	sleep(50)
+	addtimer(CALLBACK(src, .proc/flash_a_one), 5 SECONDS)
+
+/datum/action/bloodsucker/gohome/proc/flash_a_one()
 	flicker_lights(4, 40)
-	sleep(50)
+	addtimer(CALLBACK(src, .proc/flash_a_two), 5 SECONDS)
+
+/datum/action/bloodsucker/gohome/proc/flash_a_two()
 	flicker_lights(4, 60)
+	addtimer(CALLBACK(src, .proc/and_a_go), 2 SECONDS)
+
+/datum/action/bloodsucker/gohome/proc/and_a_go()
+	var/mob/living/carbon/user = owner
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	for(var/obj/machinery/light/L in view(6, get_turf(owner)))
 		L.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', 60, 1)

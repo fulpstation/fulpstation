@@ -7,8 +7,7 @@
 	bloodsucker_can_buy = TRUE
 	amToggle = TRUE
 	warn_constant_cost = TRUE
-	var/moveintent_was_run
-	var/runintent
+	var/was_running
 	var/lum
 
 /// Must have nobody around to see the cloak
@@ -25,14 +24,13 @@
 	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/mob/living/user = owner
 
-	moveintent_was_run = (user.m_intent == MOVE_INTENT_RUN)
 	while(B && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
 		// Pay Blood Toll (if awake)
 		owner.alpha = max(35, owner.alpha - min(75, 10 + 5 * level_current))
 		if(user.stat == CONSCIOUS)
 			B.AddBloodVolume(-0.2)
-		runintent = (user.m_intent == MOVE_INTENT_RUN)
-		if(runintent)
+		was_running = (user.m_intent == MOVE_INTENT_RUN)
+		if(was_running)
 			user.toggle_move_intent()
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
@@ -51,6 +49,5 @@
 	..()
 	user.alpha = 255
 
-	runintent = (user.m_intent == MOVE_INTENT_RUN)
-	if(!runintent && moveintent_was_run)
+	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()

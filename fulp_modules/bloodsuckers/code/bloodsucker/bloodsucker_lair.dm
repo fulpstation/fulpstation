@@ -18,18 +18,18 @@
 /area/proc/ClaimAsLair(/obj/structure/closet/crate/inClaimant)
 	set waitfor = FALSE // Don't make on_gain() wait for this function to finish. This lets this code run on the side.
 	laircoffins += laircoffins
-	sleep()
+	sleep() <-- Dont use sleep lol
 	// Cancel!
 	if(laircoffins.len == 0)
 		return
 */
 
 /// Don't make on_gain() wait for this function to finish. This lets this code run on the side.
-/datum/antagonist/bloodsucker/proc/RunLair()
-	set waitfor = FALSE
+/datum/antagonist/bloodsucker/process()
+	set waitfor = FALSE // Wait 2 min via do_mob, then Repeat
 	while(!AmFinalDeath() && coffin && lair)
-		// Wait 2 min, then Repeat
-		sleep(120)
+		if(!do_mob(coffin, lair, 2 MINUTES, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM)))
+			return
 		// Coffin Moved?
 		if(lair != get_area(coffin))
 			if(coffin)
