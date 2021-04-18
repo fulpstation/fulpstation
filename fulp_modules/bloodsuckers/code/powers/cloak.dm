@@ -24,14 +24,19 @@
 	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/mob/living/user = owner
 
+	was_running = (user.m_intent == MOVE_INTENT_RUN)
+	if(was_running)
+		user.toggle_move_intent()
+
 	while(B && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
 		// Pay Blood Toll (if awake)
 		owner.alpha = max(35, owner.alpha - min(75, 10 + 5 * level_current))
 		if(user.stat == CONSCIOUS)
 			B.AddBloodVolume(-0.2)
-		was_running = (user.m_intent == MOVE_INTENT_RUN)
-		if(was_running)
+		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
 			user.toggle_move_intent()
+			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+			user.adjustBruteLoss(rand(5,15))
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	if(!..())
@@ -39,10 +44,6 @@
 	if(user.stat == !CONSCIOUS) // Must be CONSCIOUS
 		to_chat(owner, "<span class='warning'>Your cloak failed due to you falling unconcious!</span>")
 		return FALSE
-	if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
-		user.toggle_move_intent()
-		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
-		user.adjustBruteLoss(rand(5,15))
 	return TRUE
 
 /datum/action/bloodsucker/cloak/DeactivatePower(mob/living/user = owner, mob/living/target)
