@@ -121,6 +121,9 @@ const taskDm = (...injectedDefines) => new Task('dm')
   .depends('_maps/map_files/generic/**')
   .depends('code/**')
   .depends('goon/**')
+  // FULP - We add our modular folder as part of the dependecies, so that build doesn't fail if the only file edited is inside it.
+  .depends('fulp_modules/**')
+  // FULP EDIT END
   .depends('html/**')
   .depends('icons/**')
   .depends('interface/**')
