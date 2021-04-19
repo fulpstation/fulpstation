@@ -3,8 +3,8 @@
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi' /// We probably don't want to change these...
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	icon_state = "revolver"
-	name = "\improper Winchester bolt action"
-	desc = "A dusty gun used by a master of the art of fooling. It's best not to waste the only bullet."
+	name = "\improper Bolt action pistol"
+	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
 	var/used_ability = FALSE
 
@@ -15,8 +15,8 @@
 /// Load It In
 /obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
 	..()
-	user.visible_message("<span class='danger'>[user.name] puts the bullet in their [src]!</span>",\
-	 "<span class='userdanger'>You put the bullet in the [src]!</span>",\
+	user.visible_message("<span class='danger'>[user.name] puts the bullet in [src]!</span>",\
+	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
 	var/mob/living/carbon/C = user
 	C.adjustBruteLoss(-10)
@@ -29,24 +29,23 @@
 /obj/item/gun/ballistic/revolver/joel/attack_self(mob/user)
 	if(!used_ability)
 		if(HAS_TRAIT(user, TRAIT_GUNFLIP)) /// If you have a holster, use gun reveal.
-			user.visible_message("<span class='danger'>[user.name] opens their holster and pulls out their [src]!</span>",\
+			user.visible_message("<span class='danger'>[user.name] opens their holster and pulls out [src]!</span>",\
 			 "<span class='userdanger'>You reveal your [src]!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
-			var/list/alerted = viewers(7, src)
-			for(var/mob/living/carbon/L in alerted)
-				if(prob(10))
-					L.vomit()
+			for(var/mob/living/carbon/L in viewers(7, user))
+				if(prob(10) && !(L == user))
+					to_chat(L, "<span class='warning'>Seeing [src] revealed in such a manner disgusts you!</span>")
+					L.vomit(stun = FALSE)
 			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			return
 		else /// Otherwise, use Gun Toss.
-			user.visible_message("<span class='danger'>[user.name] throws their [src] around!</span>",\
-			 "<span class='userdanger'>You taunt with the [src]!</span>",\
+			user.visible_message("<span class='danger'>[user.name] throws [src] around!</span>",\
+			 "<span class='userdanger'>You taunt with [src]!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
-			var/list/alerted = viewers(7, src)
-			for(var/mob/living/L in alerted)
-				L.face_atom(src)
+			for(var/mob/living/L in viewers(7, user))
+				L.face_atom(user)
 				L.do_alert_animation()
 			playsound(src, 'fulp_modules/lisa/Sounds/guntoss.ogg', 50, FALSE, -5)
 			used_ability = TRUE
@@ -86,7 +85,7 @@
 		playsound(loc, 'fulp_modules/lisa/Sounds/gunclick.ogg', 50, FALSE, -5)
 		return
 	if(target)
-		to_chat(user, "<span class='warning'>You don't want to waste the gun's only bullet!</span>")
+		to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
 		return
 
 /*
