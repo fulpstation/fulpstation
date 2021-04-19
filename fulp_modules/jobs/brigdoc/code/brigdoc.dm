@@ -50,7 +50,7 @@
 	box = /obj/item/storage/box/survival/medical
 
 	implants = list(/obj/item/implant/mindshield)
-	skillchips = list(/obj/item/skillchip/entrails_reader, /obj/item/skillchip/quickercarry)
+	skillchips = list(/obj/item/skillchip/entrails_reader)
 
 	id_trim = /datum/id_trim/job/brig_physician
 

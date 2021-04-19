@@ -33,3 +33,6 @@
 #define TRAIT_SERVICEDEPUTY "servicedeputy"
 ///Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
 #define SEC_DEPT_SERVICE "Service"
+
+/// Mentorhelp defines
+#define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
