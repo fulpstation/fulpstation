@@ -5,7 +5,7 @@
 	load_sound = 'fulp_modules/lisa/Sounds/gunload.ogg'
 	eject_sound = 'fulp_modules/lisa/Sounds/empty.ogg'
 	icon_state = "revolver"
-	name = "\improper Bolt action pistol"
+	name = "\improper Bolt Action pistol"
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
 	var/used_ability = FALSE
@@ -31,7 +31,7 @@
 	if(!used_ability)
 		if(HAS_TRAIT(user, TRAIT_GUNFLIP)) /// If you have a holster, use gun reveal.
 			user.visible_message("<span class='danger'>[user.name] opens their holster and pulls out [src]!</span>",\
-			 "<span class='userdanger'>You reveal your [src]!</span>",\
+			 "<span class='userdanger'>You reveal [src]!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
 			for(var/mob/living/carbon/L in viewers(7, user))
 				if(prob(10) && !(L == user))
@@ -53,6 +53,7 @@
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			var/mob/living/carbon/C = user
 			C.adjustStaminaLoss(-25)
+			C.drop_all_held_items()
 			return
 	..()
 
