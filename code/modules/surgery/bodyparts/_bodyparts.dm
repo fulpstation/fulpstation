@@ -869,10 +869,10 @@
 	else
 //		limb.icon = icon
 		switch(species_id) // [FULP EDIT STARTS]
-				if("beefman")
-					limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-				else
-					limb.icon = 'icons/mob/human_parts.dmi' // [FULP EDIT END]
+			if("beefman")
+				limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
+			else
+				limb.icon = 'icons/mob/human_parts.dmi' // [FULP EDIT END]
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
 		if(aux_zone)
 			aux = image(limb.icon, "[aux_zone]", -aux_layer, image_dir)
