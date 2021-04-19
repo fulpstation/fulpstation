@@ -14,15 +14,16 @@
 
 	outfit = /datum/outfit/job/deputy
 	plasmaman_outfit = /datum/outfit/plasmaman/deputy
-	departments = DEPARTMENT_SECURITY
 
-	paycheck = PAYCHECK_MEDIUM
+	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
-	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
-	bounty_types = CIV_JOB_SEC
 
 	mind_traits = list(TRAIT_DONUT_LOVER)
 	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+
+	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
+	bounty_types = CIV_JOB_MED
+	departments = DEPARTMENT_SECURITY
 
 	id_icon = 'fulp_modules/jobs/cards.dmi'
 	hud_icon = 'fulp_modules/jobs/huds.dmi'
