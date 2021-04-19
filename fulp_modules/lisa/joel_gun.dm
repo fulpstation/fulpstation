@@ -2,6 +2,8 @@
 	icon = 'icons/obj/guns/ballistic.dmi'
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi' /// We probably don't want to change these...
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
+	load_sound = 'fulp_modules/lisa/Sounds/gunload.ogg'
+	eject_sound = 'fulp_modules/lisa/Sounds/empty.ogg'
 	icon_state = "revolver"
 	name = "\improper Bolt action pistol"
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet."
@@ -20,7 +22,6 @@
 	 "<span class='hear'>You hear metal clanking...</span>")
 	var/mob/living/carbon/C = user
 	C.adjustBruteLoss(-10)
-	playsound(src, 'fulp_modules/lisa/Sounds/gunload.ogg', 20, FALSE, -5)
 	update_appearance()
 	A.update_appearance()
 	return
