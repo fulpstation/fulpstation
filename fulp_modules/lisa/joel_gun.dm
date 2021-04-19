@@ -19,8 +19,7 @@
 	 "<span class='userdanger'>You put the bullet in the [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
 	var/mob/living/carbon/C = user
-	C.adjustBruteLoss(-5)
-	C.adjustStaminaLoss(-15)
+	C.adjustBruteLoss(-10)
 	playsound(src, 'fulp_modules/lisa/Sounds/gunload.ogg', 20, FALSE, -5)
 	update_appearance()
 	A.update_appearance()
@@ -33,6 +32,10 @@
 			user.visible_message("<span class='danger'>[user.name] opens their holster and pulls out their [src]!</span>",\
 			 "<span class='userdanger'>You reveal your [src]!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
+			var/list/alerted = viewers(7, src)
+			for(var/mob/living/carbon/L in alerted)
+				if(prob(10))
+					L.vomit()
 			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
@@ -41,8 +44,7 @@
 			user.visible_message("<span class='danger'>[user.name] throws their [src] around!</span>",\
 			 "<span class='userdanger'>You taunt with the [src]!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
-			var/list/alerted = null
-			alerted = viewers(7, src)
+			var/list/alerted = viewers(7, src)
 			for(var/mob/living/L in alerted)
 				L.face_atom(src)
 				L.do_alert_animation()
