@@ -12,8 +12,8 @@ Contains:
 // Beret
 
 /obj/item/clothing/head/beret/sec/medical
-	name = "medical deputy beret"
-	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry."
+	name = "medical security beret"
+	desc = "This proud white-blue beret is a distinct color, mainly used to represent medical professionals that became part of the security department."
 	worn_icon = 'fulp_modules/jobs/brigdoc/icons/clothing_worn.dmi'
 	icon = 'fulp_modules/jobs/brigdoc/icons/clothing_icons.dmi'
 	icon_state = "beret_medbay"
