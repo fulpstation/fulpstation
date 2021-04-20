@@ -64,4 +64,3 @@
 	role = "Safety Moth"
 	outfit = /datum/outfit/centcom/ert/engineer/safety_moth
 
-	
