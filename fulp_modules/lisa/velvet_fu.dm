@@ -137,7 +137,7 @@
 					"<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
 	to_chat(A, "<span class='danger'>You flying kick [D]!</span>")
 	A.adjustStaminaLoss(50)
-	if(prob(80) && !D.stat)
+	if(prob(80))
 		var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
 		var/datum/wound/slash/moderate/crit_wound = new
 		crit_wound.apply_wound(limb)
