@@ -137,7 +137,7 @@
 					"<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
 	to_chat(A, "<span class='danger'>You flying kick [D]!</span>")
 	A.adjustStaminaLoss(50)
-	if(prob(80))
+	if(prob(70))
 		var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
 		var/datum/wound/slash/moderate/crit_wound = new
 		crit_wound.apply_wound(limb)
@@ -171,7 +171,7 @@
 					"<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
 	to_chat(A, "<span class='danger'>You quickly and fashionably thrust into [D]!</span>")
 	A.adjustStaminaLoss(60)
-	if(prob(80) && !D.stat)
+	if(prob(70) && !D.stat)
 		D.Knockdown(4 SECONDS) /// Perfect for Iron Hooving
 	D.apply_damage(10, A.get_attack_type(), BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	playsound(get_turf(A), 'sound/weapons/cqchit1.ogg', 50, TRUE, -1)
