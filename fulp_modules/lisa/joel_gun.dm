@@ -17,6 +17,8 @@
 /// Load It In
 /obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
 	..()
+	if(!istype(A, /obj/item/ammo_casing))
+		return
 	user.visible_message("<span class='danger'>[user.name] puts the bullet in [src]!</span>",\
 	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
