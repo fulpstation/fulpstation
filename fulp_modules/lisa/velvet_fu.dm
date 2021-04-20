@@ -287,7 +287,6 @@
 			'A VHS tape that teaches YOU, the secrets of Velvet-Fu!' \
 			Now specially modified to beam its knowledge directly into your eyes, removing the need for a TV."
 	item = /obj/item/book/granter/martial/velvetfu
-	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/nuclear/clown_ops)
 	cost = 8
 	surplus = 0
 	restricted_roles = list("Janitor")
