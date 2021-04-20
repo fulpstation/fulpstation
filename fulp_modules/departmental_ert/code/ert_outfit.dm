@@ -188,3 +188,5 @@
 	head = /obj/item/clothing/head/helmet/space/eva/safety_moth
 	gloves = /obj/item/clothing/gloves/color/yellow
 	shoes = /obj/item/clothing/shoes/magboots/safety_moth
+	
+	
