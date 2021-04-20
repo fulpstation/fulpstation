@@ -33,19 +33,20 @@
 	if(!used_ability)
 		if(HAS_TRAIT(user, TRAIT_GUNFLIP)) /// If you have a holster, use gun reveal.
 			user.visible_message("<span class='danger'>[user.name] opens their holster and pulls out [src]!</span>",\
-			 "<span class='userdanger'>You reveal [src]!</span>",\
+			 "<span class='userdanger'>You reveal [src] from your holster!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
-			for(var/mob/living/carbon/L in viewers(7, user))
-				if(prob(10) && !(L == user))
+			for(var/mob/living/carbon/human/L in viewers(7, user))
+				if(prob(15) && !(L == user) && (L.stat))
 					to_chat(L, "<span class='warning'>Seeing [src] revealed in such a manner disgusts you!</span>")
-					L.vomit(stun = FALSE)
+					if(!L.mind || !istype(L.mind.martial_art, /datum/martial_art/velvetfu))
+						L.vomit()
 			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			return
 		else /// Otherwise, use Gun Toss.
 			user.visible_message("<span class='danger'>[user.name] throws [src] around!</span>",\
-			 "<span class='userdanger'>You taunt with [src]!</span>",\
+			 "<span class='userdanger'>You toss [src] around!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
 			for(var/mob/living/L in viewers(7, user))
 				L.face_atom(user)
