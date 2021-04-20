@@ -16,14 +16,14 @@
 
 /// Load It In
 /obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
-	..()
-	if(!istype(A, /obj/item/ammo_casing))
+	. = ..()
+	if(!istype(A, /obj/item/ammo_casing/c22))
 		return
 	user.visible_message("<span class='danger'>[user.name] puts the bullet in [src]!</span>",\
 	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
 	var/mob/living/carbon/C = user
-	C.adjustBruteLoss(-10)
+	C.adjustStaminaLoss(-10)
 	update_appearance()
 	A.update_appearance()
 	return
@@ -55,7 +55,7 @@
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			var/mob/living/carbon/C = user
-			C.adjustStaminaLoss(-25)
+			C.adjustBruteLoss(-5)
 			C.drop_all_held_items()
 			return
 	..()
@@ -80,11 +80,6 @@
 
 /// Prevents the gun from being fired.
 /obj/item/gun/ballistic/revolver/joel/afterattack(atom/target, mob/living/user, flag, params)
-	. = ..(null, user, flag, params)
-	if(flag)
-		if(!(target in user.contents) && ismob(target))
-			if(user.combat_mode)
-				return
 	if(!chambered) /// Can shoot if its empty, we don't care!
 		user.visible_message("<span class='danger'>*click*</span>")
 		playsound(loc, 'fulp_modules/lisa/Sounds/gunclick.ogg', 50, FALSE, -5)
@@ -93,9 +88,6 @@
 		to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
 		return
 	if(target) /// Misdirection (Scholar of the Wilbur Sin exclusive)
-		for(var/mob/living/L in viewers(5, target))
-			L.face_atom(target)
-			L.do_alert_animation()
 		user.visible_message("<span class='danger'>[user.name] points their gun towards [target]!</span>",\
 		 "<span class='userdanger'>You misdirect your gun towards [target]!</span>",\
 		 "<span class='hear'>You hear a gasp...</span>")
@@ -103,6 +95,15 @@
 		playsound(loc, 'fulp_modules/lisa/Sounds/misdirection.ogg', 50, FALSE, -5)
 		used_ability = TRUE
 		addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
+		for(var/mob/living/H in view(1, target))
+			if(user.body_position == STANDING_UP)
+				user.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
+				 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
+				 "<span class='hear'>You hear aggressive shuffling!</span>")
+				H.Move(target)
+		for(var/mob/living/L in viewers(5, target))
+			L.face_atom(target)
+			L.do_alert_animation()
 		return
 
 /*
@@ -113,9 +114,9 @@
 
 /// Cylinder
 /obj/item/ammo_box/magazine/internal/cylinder/c22
-	name = "\improper Russian revolver cylinder"
+	name = "\improper Bolt Action revolver cylinder"
 	ammo_type = /obj/item/ammo_casing/c22
-	caliber = CALIBER_45
+	caliber = CALIBER_C22
 	max_ammo = 1
 	multiload = FALSE
 
@@ -123,10 +124,10 @@
 /obj/item/ammo_casing/c22
 	name = "5.6mm bullet casing"
 	desc = "An incredibly rare type of bullet."
-	caliber = CALIBER_45
+	caliber = CALIBER_C22
 	projectile_type = /obj/projectile/bullet/c22
 
-/// This isnt meant to be fired, so do 0 damage.
+/// This isnt meant to be fired, so do 0 damage. This can technically be fired by dual wielding, so they'll have a nice surprise of a big load of nothing if they do.
 /obj/projectile/bullet/c22
 	name = "5.6mm bullet"
 	damage = 0
