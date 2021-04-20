@@ -50,6 +50,9 @@
 #define TRAIT_MEDICALDEPUTY "medicaldeputy"
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
 #define TRAIT_SUPPLYDEPUTY "supplydeputy"
+#define TRAIT_SERVICEDEPUTY "servicedeputy"
+///Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
+#define SEC_DEPT_SERVICE "Service"
 
 /*
  *	Misc Defines
