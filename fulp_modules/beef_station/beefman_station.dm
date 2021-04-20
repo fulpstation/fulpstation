@@ -52,4 +52,3 @@
 		/obj/item/reagent_containers/glass/bottle/frostoil = 1,
 		/obj/item/toy/plush/beefplushie = 3,
 		)
-
