@@ -39,7 +39,7 @@
 				if(prob(15) && !(L == user) && !(L.stat))
 					to_chat(L, "<span class='warning'>Seeing [src] revealed in such a manner disgusts you!</span>")
 					if(!L.mind || !istype(L.mind.martial_art, /datum/martial_art/velvetfu))
-						L.vomit()
+						L.vomit(0, FALSE, FALSE, 3, TRUE, harm = FALSE)
 			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
@@ -73,7 +73,7 @@
 	 "<span class='hear'>You hear metal clanking...</span>")
 	playsound(loc, 'fulp_modules/lisa/Sounds/steadyaim.ogg', 50, FALSE, -5)
 	if(prob(50))
-		victim.Stun(rand(10, 25))
+		victim.Stun(rand(10, 20))
 	used_ability = TRUE
 	addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
