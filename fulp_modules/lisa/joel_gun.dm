@@ -36,7 +36,7 @@
 			 "<span class='userdanger'>You reveal [src] from your holster!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
 			for(var/mob/living/carbon/human/L in viewers(7, user))
-				if(prob(15) && !(L == user) && (L.stat))
+				if(prob(15) && !(L == user) && !(L.stat))
 					to_chat(L, "<span class='warning'>Seeing [src] revealed in such a manner disgusts you!</span>")
 					if(!L.mind || !istype(L.mind.martial_art, /datum/martial_art/velvetfu))
 						L.vomit()
@@ -89,8 +89,20 @@
 		user.visible_message("<span class='danger'>*click*</span>")
 		playsound(loc, 'fulp_modules/lisa/Sounds/gunclick.ogg', 50, FALSE, -5)
 		return
-	if(target)
+	if(used_ability)
 		to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
+		return
+	if(target) /// Misdirection (Scholar of the Wilbur Sin exclusive)
+		for(var/mob/living/L in viewers(5, target))
+			L.face_atom(target)
+			L.do_alert_animation()
+		user.visible_message("<span class='danger'>[user.name] points their gun towards [target]!</span>",\
+		 "<span class='userdanger'>You misdirect your gun towards [target]!</span>",\
+		 "<span class='hear'>You hear a gasp...</span>")
+		user.emote("gasp")
+		playsound(loc, 'fulp_modules/lisa/Sounds/misdirection.ogg', 50, FALSE, -5)
+		used_ability = TRUE
+		addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 		return
 
 /*
