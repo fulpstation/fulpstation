@@ -52,4 +52,4 @@
 			/obj/item/reagent_containers/glass/bottle/frostoil = 1,
 			/obj/item/food/khachapuri = 1,
 )
-			
+
