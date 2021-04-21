@@ -18,13 +18,14 @@
 	outfit = /datum/outfit/job/brigdoc
 	plasmaman_outfit = /datum/outfit/plasmaman/brigdoc
 
-	paycheck = PAYCHECK_MEDIUM
+	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
-	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
-	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
-	bounty_types = CIV_JOB_MED
+	bounty_types = CIV_JOB_SEC
+	departments = DEPARTMENT_SECURITY
+
+	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 /datum/outfit/job/brigdoc
 	name = "Brig Physician"
@@ -50,7 +51,7 @@
 	box = /obj/item/storage/box/survival/medical
 
 	implants = list(/obj/item/implant/mindshield)
-	skillchips = list(/obj/item/skillchip/entrails_reader, /obj/item/skillchip/quickercarry)
+	skillchips = list(/obj/item/skillchip/entrails_reader)
 
 	id_trim = /datum/id_trim/job/brig_physician
 

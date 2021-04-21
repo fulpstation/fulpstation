@@ -1,5 +1,3 @@
-//-- FULP EDIT
-
 /mob/living/carbon/human/examine(mob/user)
 //this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
 	var/t_He = p_they(TRUE)
@@ -17,12 +15,7 @@
 			obscure_name = TRUE
 
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
-	var/vampDesc = ReturnVampExamine(user) // Fulpstation Bloodsuckers edit STARTS
-	var/vassDesc = ReturnVassalExamine(user)
-	if(vampDesc != "")
-		. += vampDesc
-	if(vassDesc != "")
-		. += vassDesc // Fulpstation Bloodsucker edit ENDS
+
 	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 
@@ -195,38 +188,29 @@
 			temp = getBruteLoss()
 		if(temp)
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor bruising.\n"
-				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n" // [FULP EDIT START] Species Descriptors
+				msg += "[t_He] [t_has] minor bruising.\n"
 			else if(temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
-				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.bruising_desc]!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
 			else
-//				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
-				msg += "<B>[t_He] [t_has] severe [dna.species.bruising_desc]!</B>\n"
+				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
 
 		temp = getFireLoss()
 		if(temp)
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor burns.\n"
-				msg += "[t_He] [t_has] minor [dna.species.burns_desc].\n"
+				msg += "[t_He] [t_has] minor burns.\n"
 			else if (temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
-				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.burns_desc]!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
 			else
-//				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
-				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n"
+				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
 
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor cellular damage.\n"
-				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"
+				msg += "[t_He] [t_has] minor cellular damage.\n"
 			else if(temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
-				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.cellulardamage_desc]!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
 			else
-//				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
-				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n" // [FULP EDIT END] Species Descriptors
+				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
 
 
 	if(fire_stacks > 0)
@@ -252,14 +236,13 @@
 			msg += "[t_He] look[p_s()] really grossed out.\n"
 		if(DISGUST_LEVEL_DISGUSTED to INFINITY)
 			msg += "[t_He] look[p_s()] extremely disgusted.\n"
-	if(ShowAsPaleExamine()) // Fulpstation Bloodsuckers edit: More leeway for giving away blood loss.
-		msg += "[t_He] [t_has] pale skin.\n" // Used to be BLOOD_VOLUME_SAFE (475), BLOOD_VOLUME_OKAY is (336)
+
 	var/apparent_blood_volume = blood_volume
 	if(skin_tone == "albino")
 		apparent_blood_volume -= 150 // enough to knock you down one tier
 	switch(apparent_blood_volume)
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-//			msg += "[t_He] [t_has] pale skin.\n"  // Fulpstation edit: ShowAsPaleExamine handles this part for us.
+			msg += "[t_He] [t_has] pale skin.\n"
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
 			msg += "<b>[t_He] look[p_s()] like pale death.</b>\n"
 		if(-INFINITY to BLOOD_VOLUME_BAD)
