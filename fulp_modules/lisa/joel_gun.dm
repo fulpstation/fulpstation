@@ -78,7 +78,7 @@
 						L.vomit(0, FALSE, FALSE, 3, TRUE, harm = FALSE)
 			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
-			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 10 SECONDS)
 			return
 		else /// No holster? Use mind games instead
 			user.visible_message("<span class='danger'>[user.name] stares deeply around [user.p_them()]selves!</span>",\
@@ -91,7 +91,7 @@
 						var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(H, user)))
 						H.throw_at(throwtarget, 3, 2)
 			used_ability = TRUE
-			addtimer(CALLBACK(src, .proc/clear_cooldown), 15 SECONDS)
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 10 SECONDS)
 			return
 	else
 		..()
