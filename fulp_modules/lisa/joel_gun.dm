@@ -20,6 +20,9 @@
 	. = ..()
 	if(!istype(A, /obj/item/ammo_casing/c22))
 		return
+	if(get_ammo() > 0)
+		to_chat(user, "<span class='warning'>[src] already has a bullet loaded!</span>")
+		return
 	user.visible_message("<span class='danger'>[user.name] puts the bullet in [src]!</span>",\
 	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
@@ -42,7 +45,7 @@
 						L.vomit(0, FALSE, FALSE, 3, TRUE, harm = FALSE)
 			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
-			addtimer(CALLBACK(src, .proc/clear_cooldown), 4 SECONDS)
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			return
 		else /// Otherwise, use Gun Toss.
 			user.visible_message("<span class='danger'>[user.name] throws [src] around!</span>",\
@@ -88,22 +91,33 @@
 		to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
 		return
 	if(target) /// Misdirection (Scholar of the Wilbur Sin exclusive)
-		user.visible_message("<span class='danger'>[user.name] points their gun towards [target]!</span>",\
-		 "<span class='userdanger'>You misdirect your gun towards [target]!</span>",\
-		 "<span class='hear'>You hear a gasp...</span>")
-		user.emote("gasp")
-		playsound(loc, 'fulp_modules/lisa/Sounds/misdirection.ogg', 50, FALSE, -5)
+		user.visible_message("<span class='danger'>[user.name] looks around themselves.</span>",\
+		 "<span class='userdanger'>You look for something to point [src] at.</span>")
+		playsound(loc, 'fulp_modules/lisa/Sounds/misdirect.ogg', 50, FALSE, -5)
+		if(do_after(user, 0.5 SECONDS, target = src))
+			user.setDir(turn(user.dir, 90))
+		if(do_after(user, 0.3 SECONDS, target = src))
+			user.setDir(turn(user.dir, -90))
+		if(do_after(user, 0.3 SECONDS, target = src))
+			user.setDir(turn(user.dir, 90))
+		if(do_after(user, 0.3 SECONDS, target = src))
+			user.setDir(turn(user.dir, -90))
+		if(do_after(user, 0.3 SECONDS, target = src))
+			user.emote("gasp")
+			user.visible_message("<span class='danger'>[user.name] quickly points their gun towards [target]!</span>",\
+			 "<span class='userdanger'>You misdirect [src] towards [target]!</span>",\
+			 "<span class='hear'>You hear a gasp...</span>")
+			for(var/mob/living/H in view(1, target))
+				if(user.body_position == STANDING_UP)
+					user.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
+					 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
+					 "<span class='hear'>You hear aggressive shuffling!</span>")
+					H.Move(target)
+			for(var/mob/living/L in viewers(5, target))
+				L.face_atom(target)
+				L.do_alert_animation()
 		used_ability = TRUE
-		addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
-		for(var/mob/living/H in view(1, target))
-			if(user.body_position == STANDING_UP)
-				user.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
-				 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
-				 "<span class='hear'>You hear aggressive shuffling!</span>")
-				H.Move(target)
-		for(var/mob/living/L in viewers(5, target))
-			L.face_atom(target)
-			L.do_alert_animation()
+		addtimer(CALLBACK(src, .proc/clear_cooldown), 7 SECONDS)
 		return
 
 /obj/item/gun/ballistic/revolver/joel/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
