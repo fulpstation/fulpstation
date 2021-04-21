@@ -12,7 +12,12 @@
 	default_color = "e73f4e"
 	species_traits = list(NOEYESPRITES, NO_UNDERWEAR, DYNCOLORS, AGENDER, HAS_FLESH, HAS_BONE)
 	mutant_bodyparts = list("beefcolor" = "Medium Rare","beefmouth" = "Smile1", "beefeyes" = "Olives")
-	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_RESISTCOLD, TRAIT_EASYDISMEMBER, TRAIT_SLEEPIMMUNE)
+	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER,
+		TRAIT_RESISTCOLD,
+		TRAIT_CAN_STRIP,
+		TRAIT_EASYDISMEMBER,
+		TRAIT_SLEEPIMMUNE,
+	)
 	offset_features = list(OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3), OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), \
 						   OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3), OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2), \
 						   OFFSET_SUIT = list(0,2), OFFSET_NECK = list(0,3))
@@ -20,7 +25,7 @@
 	skinned_type = /obj/item/food/meatball // NO SKIN //  /obj/item/stack/sheet/animalhide/human
 	meat = /obj/item/food/meat/slab //What the species drops on gibbing
 	toxic_food = DAIRY | PINEAPPLE //NONE
-	disliked_food = VEGETABLES | FRUIT // | FRIED// GROSS | RAW
+	disliked_food = VEGETABLES | FRUIT | CLOTH // | FRIED// GROSS | RAW
 	liked_food = RAW | MEAT // JUNKFOOD | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	attack_verb = "meat"
