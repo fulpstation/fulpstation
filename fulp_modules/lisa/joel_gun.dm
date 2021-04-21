@@ -26,8 +26,9 @@
 	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
 	..()
-	user.adjustBruteLoss(-5)
-	user.adjustFireLoss(-5)
+	var/mob/living/carbon/C = user
+	C.adjustBruteLoss(-5)
+	C.adjustFireLoss(-5)
 	A.update_appearance()
 	return
 
@@ -63,7 +64,7 @@
 			return
 	..()
 
-/// Gun reveal
+/// Gun reveal + Mind Games
 /obj/item/gun/ballistic/revolver/joel/AltClick(mob/user)
 	if(!used_ability)
 		if(HAS_TRAIT(user, TRAIT_GUNFLIP))
@@ -79,9 +80,27 @@
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			return
+		else /// No holster? Use mind games instead
+			user.visible_message("<span class='danger'>[user.name] stares deeply around [user.p_them()]selves!</span>",\
+			 "<span class='userdanger'>You stare directly into the souls of those around you.</span>",\
+			 "<span class='hear'>You hear metal clanking...</span>")
+			for(var/mob/living/H in viewers(1, user))
+				if(prob(75) && !(H == user) && !(H.stat))
+					to_chat(H, "<span class='warning'>You feel terrifyingly spooked by [user.name]!</span>")
+					if(!H.mind || !istype(H.mind.martial_art, /datum/martial_art/velvetfu))
+						var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(H, user)))
+						H.throw_at(throwtarget, 3, 2)
+			used_ability = TRUE
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 15 SECONDS)
+			return
 	else
 		..()
 		spin()
+
+/datum/voice_of_god_command/repulse/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
+	for(var/mob/living/target as anything in listeners)
+		var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(target, user)))
+		target.throw_at(throwtarget, 3 * power_multiplier, 1 * power_multiplier)
 
 /// Steady Aim
 /obj/item/gun/ballistic/revolver/joel/attack_secondary(mob/living/victim, mob/living/user, params)
@@ -96,7 +115,8 @@
 	 "<span class='hear'>You hear metal clanking...</span>")
 	playsound(loc, 'fulp_modules/lisa/Sounds/steadyaim.ogg', 50, FALSE, -5)
 	if(prob(50))
-		victim.Stun(rand(10, 20))
+		if(!victim.mind || !istype(victim.mind.martial_art, /datum/martial_art/velvetfu))
+			victim.Stun(rand(10, 20))
 	used_ability = TRUE
 	addtimer(CALLBACK(src, .proc/clear_cooldown), 8 SECONDS)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
