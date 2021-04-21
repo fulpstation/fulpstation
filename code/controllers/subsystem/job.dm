@@ -789,7 +789,7 @@ SUBSYSTEM_DEF(job)
 	station_jobs = list("Assistant", "Captain", "Head of Personnel", "Bartender", "Cook", "Botanist", "Quartermaster", "Cargo Technician", \
 		"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer", \
 		// FULP EDIT - JOBS
-		"Brig Physician", "Deputy", "Deputy (Cargo)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", \
+		"Brig Physician", "Deputy", "Deputy (Cargo)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)", \
 		// FULP EDIT END
 		"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Paramedic", "Chemist", "Geneticist", "Virologist", "Psychologist", \
 		"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Prisoner")
