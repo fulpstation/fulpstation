@@ -147,7 +147,7 @@
 			for(var/mob/living/H in view(1, target))
 				if(!(H == user) && !(H.stat))
 					if(!H.mind || !istype(H.mind.martial_art, /datum/martial_art/velvetfu))
-						user.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
+						H.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
 						 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
 						 "<span class='hear'>You hear aggressive shuffling!</span>")
 						H.Move(target)
@@ -158,12 +158,11 @@
 
 /obj/item/gun/ballistic/revolver/joel/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	add_fingerprint(user)
-	playsound(loc, 'fulp_modules/lisa/Sounds/gunclick.ogg', 50, FALSE, -5)
 	to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
 
 
 /*
- *	Cylinder, bullet & casing.
+ *	# Cylinder, bullet & casing.
  *
  *	We're using unique ones so people cant get more bullets for anything, yada yada, whatever.
  *	Unique gun, unique single bullet. You lose it, it's gone.
@@ -184,7 +183,7 @@
 	caliber = CALIBER_C22
 	projectile_type = /obj/projectile/bullet/c22
 
-/// This isnt meant to be fired, so do 0 damage. This can technically be fired by dual wielding, so they'll have a nice surprise of a big load of nothing if they do.
+/// This isnt meant to be fired, so do 0 damage.
 /obj/projectile/bullet/c22
 	name = "5.6mm bullet"
 	damage = 0
