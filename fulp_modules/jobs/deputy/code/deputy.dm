@@ -14,15 +14,13 @@
 
 	outfit = /datum/outfit/job/deputy
 	plasmaman_outfit = /datum/outfit/plasmaman/deputy
-	departments = DEPARTMENT_SECURITY
 
-	paycheck = PAYCHECK_MEDIUM
+	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
-	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
-	bounty_types = CIV_JOB_SEC
 
-	mind_traits = list(TRAIT_DONUT_LOVER)
-	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
+	bounty_types = CIV_JOB_MED
+	departments = DEPARTMENT_SECURITY
 
 	id_icon = 'fulp_modules/jobs/cards.dmi'
 	hud_icon = 'fulp_modules/jobs/huds.dmi'
@@ -74,7 +72,7 @@
 	assignment = "Deputy (Service)"
 	trim_state = "trim_deputyservice"
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
-	template_access = list(ACCESS_CENT_GENERAL)//ACCESS_HOP) /// HoP-only, why not?
+	template_access = list()//ACCESS_HOP) /// HoP-only, why not?
 
 GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))// SEC_DEPT_SERVICE))) <- Without this, they wont be selected as a department, even with the code below.
 
