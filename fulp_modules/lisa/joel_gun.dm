@@ -150,11 +150,12 @@
 			 "<span class='userdanger'>You misdirect [src] towards [target]!</span>",\
 			 "<span class='hear'>You hear a gasp...</span>")
 			for(var/mob/living/H in view(1, target))
-				if(user.body_position == STANDING_UP)
-					user.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
-					 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
-					 "<span class='hear'>You hear aggressive shuffling!</span>")
-					H.Move(target)
+				if(!(H == user) && !(H.stat))
+					if(!H.mind || !istype(H.mind.martial_art, /datum/martial_art/velvetfu))
+						user.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
+						 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
+						 "<span class='hear'>You hear aggressive shuffling!</span>")
+						H.Move(target)
 			for(var/mob/living/L in viewers(5, target))
 				L.face_atom(target)
 				L.do_alert_animation()
