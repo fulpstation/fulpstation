@@ -8,7 +8,7 @@
 	name = "\improper Bolt Action pistol"
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
-	custom_price = PAYCHECK_EASY
+	custom_premium_price = PAYCHECK_HARD * 1.75
 	var/used_ability = FALSE
 
 /// To prevent ability spam.
@@ -18,24 +18,56 @@
 
 /// Load It In
 /obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
-	. = ..()
 	if(!istype(A, /obj/item/ammo_casing/c22))
 		return
-	if(get_ammo() > 0)
+	if(get_ammo(countchambered = TRUE) >= 1)
 		to_chat(user, "<span class='warning'>[src] already has a bullet loaded!</span>")
 		return
 	user.visible_message("<span class='danger'>[user.name] puts the bullet in [src]!</span>",\
 	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
-	clear_cooldown() /// Instantly give their ability back.
-	update_appearance()
+	..()
+	user.adjustBruteLoss(-5)
+	user.adjustFireLoss(-5)
 	A.update_appearance()
 	return
 
-/// Gun Reveal + Gun Toss
+/// Gun Spin + Gun Toss
 /obj/item/gun/ballistic/revolver/joel/attack_self(mob/user)
 	if(!used_ability)
-		if(HAS_TRAIT(user, TRAIT_GUNFLIP)) /// If you have a holster, use gun reveal.
+		if(HAS_TRAIT(user, TRAIT_GUNFLIP)) /// If you have a holster, you'll spin it instead, you're experienced.
+			user.visible_message("<span class='danger'>[user.name] spins [src] around like mad!</span>",\
+			 "<span class='userdanger'>You spin [src] around!</span>",\
+			 "<span class='hear'>You hear metal clanking...</span>")
+			for(var/mob/living/L in viewers(7, user))
+				L.face_atom(user)
+				L.do_alert_animation()
+			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
+			var/mob/living/carbon/C = user
+			used_ability = TRUE
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
+			C.adjustStaminaLoss(-10)
+			return
+		else /// Otherwise, just toss it.
+			user.visible_message("<span class='danger'>[user.name] throws [src] around!</span>",\
+			 "<span class='userdanger'>You toss [src] around!</span>",\
+			 "<span class='hear'>You hear metal clanking...</span>")
+			for(var/mob/living/L in viewers(7, user))
+				L.face_atom(user)
+				L.do_alert_animation()
+			playsound(src, 'fulp_modules/lisa/Sounds/guntoss.ogg', 50, FALSE, -5)
+			var/mob/living/carbon/C = user
+			used_ability = TRUE
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
+			C.adjustStaminaLoss(-10)
+			C.drop_all_held_items()
+			return
+	..()
+
+/// Gun reveal
+/obj/item/gun/ballistic/revolver/joel/AltClick(mob/user)
+	if(!used_ability)
+		if(HAS_TRAIT(user, TRAIT_GUNFLIP))
 			user.visible_message("<span class='danger'>[user.name] opens their holster and pulls out [src]!</span>",\
 			 "<span class='userdanger'>You reveal [src] from your holster!</span>",\
 			 "<span class='hear'>You hear metal clanking...</span>")
@@ -48,21 +80,9 @@
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			return
-		else /// Otherwise, use Gun Toss.
-			user.visible_message("<span class='danger'>[user.name] throws [src] around!</span>",\
-			 "<span class='userdanger'>You toss [src] around!</span>",\
-			 "<span class='hear'>You hear metal clanking...</span>")
-			for(var/mob/living/L in viewers(7, user))
-				L.face_atom(user)
-				L.do_alert_animation()
-			playsound(src, 'fulp_modules/lisa/Sounds/guntoss.ogg', 50, FALSE, -5)
-			var/mob/living/carbon/C = user
-			used_ability = TRUE
-			addtimer(CALLBACK(src, .proc/clear_cooldown), 3 SECONDS)
-			C.adjustStaminaLoss(-10)
-			C.drop_all_held_items()
-			return
-	..()
+	else
+		..()
+		spin()
 
 /// Steady Aim
 /obj/item/gun/ballistic/revolver/joel/attack_secondary(mob/living/victim, mob/living/user, params)
@@ -95,15 +115,17 @@
 		user.visible_message("<span class='danger'>[user.name] looks around themselves.</span>",\
 		 "<span class='userdanger'>You look for something to point [src] at.</span>")
 		playsound(loc, 'fulp_modules/lisa/Sounds/misdirect.ogg', 50, FALSE, -5)
-		if(do_after(user, 0.5 SECONDS, target = src))
+		used_ability = TRUE
+		addtimer(CALLBACK(src, .proc/clear_cooldown), 7 SECONDS)
+		if(do_after(user, 0.4 SECONDS, target = src, progress = FALSE))
 			user.setDir(turn(user.dir, 90))
-		if(do_after(user, 0.3 SECONDS, target = src))
+		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
 			user.setDir(turn(user.dir, -90))
-		if(do_after(user, 0.3 SECONDS, target = src))
+		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
 			user.setDir(turn(user.dir, 90))
-		if(do_after(user, 0.3 SECONDS, target = src))
+		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
 			user.setDir(turn(user.dir, -90))
-		if(do_after(user, 0.3 SECONDS, target = src))
+		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
 			user.emote("gasp")
 			user.visible_message("<span class='danger'>[user.name] quickly points their gun towards [target]!</span>",\
 			 "<span class='userdanger'>You misdirect [src] towards [target]!</span>",\
@@ -117,8 +139,6 @@
 			for(var/mob/living/L in viewers(5, target))
 				L.face_atom(target)
 				L.do_alert_animation()
-		used_ability = TRUE
-		addtimer(CALLBACK(src, .proc/clear_cooldown), 7 SECONDS)
 		return
 
 /obj/item/gun/ballistic/revolver/joel/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
