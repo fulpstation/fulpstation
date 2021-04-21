@@ -8,6 +8,7 @@
 	name = "\improper Bolt Action pistol"
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
+	custom_price = PAYCHECK_EASY
 	var/used_ability = FALSE
 
 /// To prevent ability spam.
