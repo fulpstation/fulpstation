@@ -12,7 +12,8 @@
 
 /// To prevent ability spam.
 /obj/item/gun/ballistic/revolver/joel/proc/clear_cooldown()
-	used_ability = FALSE
+	if(used_ability)
+		used_ability = FALSE
 
 /// Load It In
 /obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
@@ -22,8 +23,7 @@
 	user.visible_message("<span class='danger'>[user.name] puts the bullet in [src]!</span>",\
 	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
-	var/mob/living/carbon/C = user
-	C.adjustStaminaLoss(-10)
+	clear_cooldown() /// Instantly give their ability back.
 	update_appearance()
 	A.update_appearance()
 	return
@@ -42,7 +42,7 @@
 						L.vomit(0, FALSE, FALSE, 3, TRUE, harm = FALSE)
 			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
-			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 4 SECONDS)
 			return
 		else /// Otherwise, use Gun Toss.
 			user.visible_message("<span class='danger'>[user.name] throws [src] around!</span>",\
@@ -52,10 +52,10 @@
 				L.face_atom(user)
 				L.do_alert_animation()
 			playsound(src, 'fulp_modules/lisa/Sounds/guntoss.ogg', 50, FALSE, -5)
-			used_ability = TRUE
-			addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
 			var/mob/living/carbon/C = user
-			C.adjustBruteLoss(-5)
+			used_ability = TRUE
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 3 SECONDS)
+			C.adjustStaminaLoss(-10)
 			C.drop_all_held_items()
 			return
 	..()
@@ -75,7 +75,7 @@
 	if(prob(50))
 		victim.Stun(rand(10, 20))
 	used_ability = TRUE
-	addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
+	addtimer(CALLBACK(src, .proc/clear_cooldown), 8 SECONDS)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /// Prevents the gun from being fired.
@@ -94,7 +94,7 @@
 		user.emote("gasp")
 		playsound(loc, 'fulp_modules/lisa/Sounds/misdirection.ogg', 50, FALSE, -5)
 		used_ability = TRUE
-		addtimer(CALLBACK(src, .proc/clear_cooldown), 5 SECONDS)
+		addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
 		for(var/mob/living/H in view(1, target))
 			if(user.body_position == STANDING_UP)
 				user.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
@@ -106,8 +106,15 @@
 			L.do_alert_animation()
 		return
 
+/obj/item/gun/ballistic/revolver/joel/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+	add_fingerprint(user)
+	playsound(loc, 'fulp_modules/lisa/Sounds/gunclick.ogg', 50, FALSE, -5)
+	to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
+
+
 /*
- *	Below is the cylinder, bullet and casing.
+ *	Cylinder, bullet & casing.
+ *
  *	We're using unique ones so people cant get more bullets for anything, yada yada, whatever.
  *	Unique gun, unique single bullet. You lose it, it's gone.
  */
