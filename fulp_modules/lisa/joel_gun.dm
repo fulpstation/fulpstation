@@ -97,11 +97,6 @@
 		..()
 		spin()
 
-/datum/voice_of_god_command/repulse/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
-	for(var/mob/living/target as anything in listeners)
-		var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(target, user)))
-		target.throw_at(throwtarget, 3 * power_multiplier, 1 * power_multiplier)
-
 /// Steady Aim
 /obj/item/gun/ballistic/revolver/joel/attack_secondary(mob/living/victim, mob/living/user, params)
 	if(used_ability)
