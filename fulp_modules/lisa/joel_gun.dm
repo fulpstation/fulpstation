@@ -13,8 +13,7 @@
 
 /// To prevent ability spam.
 /obj/item/gun/ballistic/revolver/joel/proc/clear_cooldown()
-	if(used_ability)
-		used_ability = FALSE
+	used_ability = FALSE
 
 /// Load It In
 /obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
