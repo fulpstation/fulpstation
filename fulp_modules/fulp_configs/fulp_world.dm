@@ -1,7 +1,7 @@
 /// This is used to load Mentors so they can do things like 'their job' and whatnot.
 /world/New()
+	..()
 	load_mentors()
-
 
 /// Redirect world's update status to use ours instead, used below.
 /world/update_status()

@@ -1,5 +1,3 @@
-/client/var/mhelptimer = 0 // Timer for returning the Mhelp verb
-
 /client/verb/mentorhelp(msg as text)
 	set category = "Mentor"
 	set name = "Mentorhelp"
@@ -7,9 +5,6 @@
 	// Cleans the input message
 	if(!msg)
 		return
-
-	remove_verb(usr.client, /client/verb/mentorhelp) // 30 second cool-down for mentorhelp
-	usr.client.mhelptimer = addtimer(CALLBACK(usr.client, /client/proc/givemhelpverb), 300, TIMER_STOPPABLE)
 
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	if(!msg)
@@ -97,9 +92,3 @@
 		. += " (<a href='?_src_=mentor;mentor_follow=[REF(M)];[MentorHrefToken(TRUE)]'>F</a>)"
 
 	return .
-
-/// Used for the 30 second Mhelp cooldown timer
-/client/proc/givemhelpverb()
-	add_verb(src, /client/verb/mentorhelp)
-	deltimer(mhelptimer)
-	mhelptimer = 0
