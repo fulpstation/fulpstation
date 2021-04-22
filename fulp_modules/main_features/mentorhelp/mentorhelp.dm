@@ -11,14 +11,6 @@
 	remove_verb(usr.client, /client/verb/mentorhelp) // 30 second cool-down for mentorhelp
 	usr.client.mhelptimer = addtimer(CALLBACK(usr.client, /client/proc/givemhelpverb), 300, TIMER_STOPPABLE)
 
-	if(usr.client)
-		if(usr.client.prefs.muted & MUTE_MENTORHELP)
-			to_chat(src,
-				type = MESSAGE_TYPE_MODCHAT,
-				html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
-				confidential = TRUE)
-			return
-
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	if(!msg)
 		return
