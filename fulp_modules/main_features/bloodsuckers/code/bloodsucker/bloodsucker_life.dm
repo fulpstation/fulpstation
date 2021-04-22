@@ -37,6 +37,12 @@
 	. = ..()
 	SEND_SIGNAL(src,COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
 
+/obj/item/implant/mindshield/implant(mob/living/target, mob/user, silent = FALSE, force = FALSE)
+	. = ..()
+	if(..())
+		if(target.mind.has_antag_datum(/datum/antagonist/vassal))
+			SSticker.mode.remove_vassal(target.mind)
+
 /*
  *		TO PLUG INTO LIFE:
  *

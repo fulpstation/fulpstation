@@ -3,6 +3,11 @@
 	load_mentors()
 
 
+/// Redirect world's update status to use ours instead, used below.
+/world/update_status()
+	/// DON'T CALL PARENT, we don't want to use TG's update_status here, only ours!
+	status = update_status_fulp()
+
 /world/proc/update_status_fulp()
 
 	var/list/features = list()
