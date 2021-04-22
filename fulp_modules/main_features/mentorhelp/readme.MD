@@ -13,9 +13,9 @@
 - code/modules/admin/verbs/randomverbs.dm > Prevents Mentorhelp-muted people from using Mentorhelp
 - code/modules/client/client_procs.dm > Gives the mentorhelp verb
 
-## TG proc overwrites:
+## TG sounds/sprites used:
 
-None
+- 'sound/items/bikehorn.ogg' > Sound played to Mentors when someone mhelps
 
 ## Notes/Credits:
 

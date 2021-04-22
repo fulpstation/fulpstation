@@ -20,7 +20,7 @@
 			return
 		var/gulp_size = 5
 		reagents.trans_to(M, gulp_size, transfered_by = user, methods = INGEST)
-		playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
+		playsound(M.loc, 'sound/items/drink.ogg', rand(10,50), 1)
 	..()
 
 //////////////////////

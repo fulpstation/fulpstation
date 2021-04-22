@@ -22,6 +22,32 @@
 - /datum/species/jelly/spec_life() - Prevents Bloodsuckers from abusing Slimepeople
 - /mob/living/carbon/natural_bodytemperature_stabilization() - Makes Bloodsucker's blood, cold
 
+## TG sounds/sprites used:
+
+- 'sound/effects/pope_entry.ogg' > Played when a Bloodsucker reaches Rank 4
+- 'sound/effects/his_grace_ascend.ogg' > Monster hunter's on_gain sound
+- 'sound/magic/mutate.ogg' > Vassal's greet
+- 'sound/effects/footstep/slime1.ogg' > Meat coffin sounds
+- 'sound/machines/door_locked.ogg' > When attempting to open a closed coffin
+- 'sound/effects/explosion_distant.ogg' > Vassalization sound
+- 'sound/effects/singlebeat.ogg' > Vassalization sound / Bloodsucker Life sound
+- 'sound/effects/alert.ogg' > Bloodsucker daylight warning sound
+- 'sound/ambience/ambimystery.ogg' > Bloodsucker daylight warning sound
+- 'sound/spookoween/ghosty_wind.ogg' > Bloodsucker daylight warning sound
+- 'sound/effects/tendril_destroyed.ogg' > Bloodsucker's FinalDeath
+- 'sound/items/drink.ogg' > Bloodbag drinking
+- 'sound/weapons/bladeslice.ogg' > Stake sound effect / Hunter-Fu
+- 'sound/magic/Demon_consume.ogg' > When you begin to stake someone
+- 'sound/effects/splat.ogg' > Staking someone's sound effect / Feed
+- 'sound/effects/grillehit.ogg' > Brawn
+- 'sound/magic/summon_karp.ogg' > Go home / Trespass
+- 'sound/weapons/punchmiss.ogg' > Haste
+- 'sound/magic/smoke.ogg' > Veil
+- 'sound/weapons/slam.ogg' > Hunter-Fu
+- 'sound/effects/snap.ogg' > Hunter-Fu
+- 'sound/weapons/slash.ogg' > Hunter-Fu
+- 'sound/weapons/punch1.ogg' > Hunter-Fu
+
 ## Notes/Credits:
 
 - TheSwain - Original Bloodsuckers (https://github.com/TheSwain/Fulpstation/tree/master/code/modules/antagonists/bloodsucker)

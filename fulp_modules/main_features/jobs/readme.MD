@@ -13,6 +13,10 @@
 
 - sec_hud_set_ID() (code/game/data_huds.dm) > Assigns HUD Overlays for Fulp jobs.
 
+## TG sounds/sprites used:
+
+- None
+
 ## Notes/Credits:
 
 - Skyrat - Original plasmaman envirosuit sprites (https://github.com/Skyrat-SS13/Skyrat13/pull/933)
