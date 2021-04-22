@@ -9,7 +9,7 @@
 		features += "closed"
 
 	var/s = ""
-	var/hostedby
+//	var/hostedby
 	if(config)
 		var/server_name = CONFIG_GET(string/servername)
 		if(server_name)
@@ -17,7 +17,7 @@
 		features += "[CONFIG_GET(flag/norespawn) ? "no " : ""]respawn"
 		if(CONFIG_GET(flag/allow_ai))
 			features += "AI allowed"
-		hostedby = CONFIG_GET(string/hostedby)
+//		hostedby = CONFIG_GET(string/hostedby)
 
 	var/server_caption = CONFIG_GET(string/servercaption)
 //	s += "<a href=\"[CONFIG_GET(string/forumurl)]\">"//Change this to wherever you want the hub to link to.
@@ -25,7 +25,7 @@
 //	s += "Forums"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
 //	s += "</a>"
 //	s += " | "
-	s += "<b>[station_name()]</b>";
+	s += "<b>[server_caption]</b>";
 	s += "<a href=\"[CONFIG_GET(string/discordurl)]\">" //Change this to wherever you want the hub to link to
 	s += "Discord" //Replace this with something else. Or ever better, delete it and uncomment the game version.
 	s += "</a>"
