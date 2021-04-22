@@ -143,12 +143,13 @@
 					"<span class='userdanger'>You're headbutted by [A]!</span>", \
 					"<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
 	to_chat(A, "<span class='danger'>You swiftly headbutt [D]!</span>")
-	A.apply_damage(15, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
-	A.adjustStaminaLoss(60)
-	if(prob(80) && !D.stat)
+	A.apply_damage(18, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
+	A.adjustStaminaLoss(20)
+	if(prob(60) && !D.stat)
 		D.Paralyze(3 SECONDS)
 		D.Jitter(5 SECONDS)
-	else /// Tell them in big text that they failed, since the effects aren't instantly visible like the others.
+	/// Tell them in big text that they failed, since the effects aren't instantly visible like the others.
+	else
 		to_chat(A, "<span class='userdanger'>You fail to stun [D]!</span>")
 	D.apply_damage(10, A.get_attack_type(), BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	playsound(get_turf(A), 'sound/effects/hit_punch.ogg', 50, TRUE, -1)
@@ -228,7 +229,8 @@
 	var/picked_hit_type = pick("ascending claw", "descending claw")
 	D.apply_damage(10, A.get_attack_type())
 	D.visible_message("<span class='danger'>[A] [picked_hit_type]ed [D]!</span>", \
-					"<span class='userdanger'>You're [picked_hit_type]ed by [A]!</span>", "<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
+					"<span class='userdanger'>You're [picked_hit_type]ed by [A]!</span>", \
+					"<span class='hear'>You hear a sickening sound of flesh hitting flesh!</span>", COMBAT_MESSAGE_RANGE, A)
 	to_chat(A, "<span class='danger'>You [picked_hit_type] [D]!</span>")
 	playsound(D, 'sound/weapons/punch1.ogg', 50, TRUE, -1)
 	return TRUE
@@ -267,7 +269,7 @@
 	to_chat(usr, "<b><i>You try to remember the VHS tapes of Velvet-Fu...</i></b>\n\
 	<span class='notice'>Iron Hoof</span>: Disarm/Grab/Harm while opponent is down, though Disarm works best.\n\
 	<span class='notice'>Flying Axe Kick</span>: Harm Disarm. Deals damage and causes bleeding. Costs 50 Stamina.\n\
-	<span class='notice'>Goat Headbutt</span>: Disarm Grab. Deals brute while stunning your opponent, but hurts you. Costs 60 Stamina.\n\
+	<span class='notice'>Goat Headbutt</span>: Disarm Grab. Deals brute while stunning your opponent. Costs 20 Stamina and 18 Brute.\n\
 	<span class='notice'>Full Thrust</span>: Grab Harm. Deals brute and has a chance to knock your opponent down. Costs 60 Stamina.\n\
 	<span class='notice'>Minor Iris</span>: Harm Harm Harm. Devastatingly slashes your opponent. Costs 80 Stamina.\n\
 	<span class='notice'>Receding Stance</span>: Regenerates 40 Stamina. Requires standing still.\n\
@@ -292,8 +294,8 @@
 
 /datum/uplink_item/stealthy_weapons/velvetfu
 	name = "Velvet-Fu VHS tape"
-	desc = "Velvet-Fu is a knock-off Martial Art straight from Hollywood.\
-			'A VHS tape that teaches YOU, the secrets of Velvet-Fu!' \
+	desc = "Velvet-Fu is a knock-off Martial Art straight from Hollywood. \
+			Has a notice, 'Removes your ability to Grab and Disarm'. \
 			Now specially modified to beam its knowledge directly into your eyes, removing the need for a TV."
 	item = /obj/item/book/granter/martial/velvetfu
 	cost = 8
