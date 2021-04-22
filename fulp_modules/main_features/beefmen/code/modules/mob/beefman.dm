@@ -58,11 +58,6 @@
 	BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,\
 	BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef)
 
-/// Names
-GLOBAL_LIST_INIT(russian_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_russian.txt")) // Backtracked from names.dm
-GLOBAL_LIST_INIT(experiment_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_experiment.txt")) // Backtracked from names.dm
-GLOBAL_LIST_INIT(beefman_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_beefman.txt")) // Backtracked from names.dm
-
 /proc/proof_beefman_features(list/inFeatures)
 	// Missing Defaults in DNA? Randomize!
 	if(inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
