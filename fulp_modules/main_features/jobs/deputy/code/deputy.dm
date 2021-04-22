@@ -22,14 +22,14 @@
 	bounty_types = CIV_JOB_MED
 	departments = DEPARTMENT_SECURITY
 
-	id_icon = 'fulp_modules/jobs/cards.dmi'
-	hud_icon = 'fulp_modules/jobs/huds.dmi'
+	id_icon = 'fulp_modules/main_features/jobs/cards.dmi'
+	hud_icon = 'fulp_modules/main_features/jobs/huds.dmi'
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
 /// Default Deputy trim, this should never be used in game.
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
-	trim_icon = 'fulp_modules/jobs/cards.dmi'
+	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 	trim_state = "trim_deputy"
 	full_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)

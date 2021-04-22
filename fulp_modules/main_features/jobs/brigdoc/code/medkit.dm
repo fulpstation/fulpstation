@@ -1,8 +1,8 @@
 /obj/item/storage/firstaid/medical/brigdoc
 	name = "medical aid kit"
-	icon = 'fulp_modules/jobs/brigdoc/icons/medkit.dmi'
-	lefthand_file = 'fulp_modules/jobs/brigdoc/icons/medkit_lefthand.dmi'
-	righthand_file = 'fulp_modules/jobs/brigdoc/icons/medkit_righthand.dmi'
+	icon = 'fulp_modules/main_features/jobs/brigdoc/icons/medkit.dmi'
+	lefthand_file = 'fulp_modules/main_features/jobs/brigdoc/icons/medkit_lefthand.dmi'
+	righthand_file = 'fulp_modules/main_features/jobs/brigdoc/icons/medkit_righthand.dmi'
 	icon_state = "brigdoc_medkit"
 	inhand_icon_state = "brigdoc_medkit"
 	desc = "A high capacity aid kit for brig physicians, full of medical supplies and basic equipment to aid them in their duties."

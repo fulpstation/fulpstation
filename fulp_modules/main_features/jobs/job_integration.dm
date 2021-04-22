@@ -18,7 +18,7 @@
 
 	var/card_assignment = id_card.trim?.assignment
 	if (card_assignment in GLOB.fulp_job_assignments)
-		return 'fulp_modules/jobs/huds.dmi'
+		return 'fulp_modules/main_features/jobs/huds.dmi'
 	else
 		return 'icons/mob/hud.dmi'
 

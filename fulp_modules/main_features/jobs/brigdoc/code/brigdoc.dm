@@ -11,8 +11,8 @@
 	exp_requirements = 300
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_SECURITY
-	id_icon = 'fulp_modules/jobs/cards.dmi'
-	hud_icon = 'fulp_modules/jobs/huds.dmi'
+	id_icon = 'fulp_modules/main_features/jobs/cards.dmi'
+	hud_icon = 'fulp_modules/main_features/jobs/huds.dmi'
 	fulp_spawn = /obj/effect/landmark/start/brigdoc
 
 	outfit = /datum/outfit/job/brigdoc
@@ -65,7 +65,7 @@
 
 /datum/id_trim/job/brig_physician
 	assignment = "Brig Physician"
-	trim_icon = 'fulp_modules/jobs/cards.dmi'
+	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 	trim_state = "trim_brigphysician"
 	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)

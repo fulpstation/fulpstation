@@ -1,7 +1,7 @@
 /datum/antagonist/ert/proc/engi_ert_alert()
 	if(prob(5))
 		// You get a sudden urge to build a NEW state-of-the-art supermatter chamber!
-		owner.current.playsound_local(get_turf(owner.current), 'fulp_modules/departmental_ert/sounds/home_depot.ogg', 100, FALSE, pressure_affected = FALSE)
+		owner.current.playsound_local(get_turf(owner.current), 'fulp_modules/features/ert/sounds/home_depot.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/ert/proc/choose_medert_outfit()
 	var/mob/living/carbon/human/H = owner.current

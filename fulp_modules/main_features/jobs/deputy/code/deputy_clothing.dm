@@ -129,8 +129,8 @@
 	name = "deputy shirt"
 	desc = "An awe-inspiring tactical shirt-and-pants combo; because safety never takes a holiday."
 	icon_state = "mallcop"
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
+	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
+	worn_icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/under_worn.dmi'
 
 /obj/item/clothing/under/rank/security/officer/mallcop/skirt
 	name = "deputy skirt"
@@ -144,8 +144,8 @@
 /obj/item/clothing/neck/fulptie
 	name = "departmental tie"
 	desc = "A tie showing off the department colors of a deputy."
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/ties_icons.dmi'
-	worn_icon =  'fulp_modules/jobs/deputy/deputy_clothing/ties_worn.dmi'
+	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_icons.dmi'
+	worn_icon =  'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_worn.dmi'
 	icon_state = "supply_tie"
 	inhand_icon_state = ""	//no inhands
 	w_class = WEIGHT_CLASS_SMALL
@@ -176,16 +176,16 @@
 
 /// Plasmamen clothes
 /obj/item/clothing/under/plasmaman/security/deputy
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/under_worn.dmi'
+	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
+	worn_icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/under_worn.dmi'
 	name = "deputy plasma envirosuit"
 	desc = "A plasmaman containment suit designed for deputies, offering a limited amount of extra protection."
 	icon_state = "deputy_envirosuit"
 	inhand_icon_state = "deputy_envirosuit"
 
 /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
+	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/head_icons.dmi'
+	worn_icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/head_worn.dmi'
 	name = "deputy envirosuit helmet"
 	desc = "A plasmaman containment helmet designed for deputies, protecting them from being flashed and burning alive, alongside other undesirables."
 	icon_state = "deputy_envirohelm"
@@ -193,8 +193,8 @@
 
 /// Berets - We're using Supply as the main one over Engineering, because I dont want them inheriting rad protection.
 /obj/item/clothing/head/fulpberet
-	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
+	worn_icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/head_worn.dmi'
+	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/head_icons.dmi'
 	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
@@ -223,7 +223,7 @@
 ///// Headsets
 /// Base + Engineering
 /obj/item/radio/headset/headset_dep
-	icon = 'fulp_modules/jobs/deputy/deputy_clothing/radio.dmi'
+	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/radio.dmi'
 	worn_icon = 'icons/mob/clothing/ears.dmi'
 	worn_icon_state = "sec_headset_alt"
 

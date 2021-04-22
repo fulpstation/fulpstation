@@ -11,7 +11,7 @@
 	attack_verb_continuous = list("Tries to recharge the batong in")
 	attack_verb_simple = list("try to recharge the baton in")
 	// "the monkey (958) Tries to recharge the batong in you in the chest with the batong" people wanted this.
-	squeak_override = list('fulp_modules/toys/sound/batong.ogg'= 1)
+	squeak_override = list('fulp_modules/features/toys/sound/batong.ogg'= 1)
 
 /obj/item/toy/plush/supermatter
 	name = "Supermatter toy"
