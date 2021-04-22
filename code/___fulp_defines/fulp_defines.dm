@@ -3,29 +3,49 @@
  *	Therefore, Fulp DEFINES must all be placed in this folder, despite modularity.
  */
 
-/// Role defines
-#define ROLE_BLOODSUCKER "bloodsucker" // Bloodsuckers - Defines the role for preferences
-#define ROLE_MONSTERHUNTER "monster hunter" // Monster Hunters - Defines the role for preferences
+/*
+ *	Role Defines, used for Antagonist jobs.
+ */
+/// Bloodsuckers - Defines the role for preferences
+#define ROLE_BLOODSUCKER "bloodsucker"
+/// Monster Hunters - Defines the role for preferences
+#define ROLE_MONSTERHUNTER "monster hunter"
 
-/// Source Traits
-#define BLOODSUCKER_TRAIT "bloodsucker" // Source trait for Bloodsuckers/Monster Hunters/Vassals
+/*
+ *	Source Trait Defines
+ */
+/// Source trait for Bloodsuckers/Monster Hunters/Vassals
+#define BLOODSUCKER_TRAIT "bloodsucker"
 
-/// Human sub-species defines
-#define isbeefman(A) (is_species(A,/datum/species/beefman))
-
-/// Martial art defines
+/*
+ *	Martial art Defines
+ */
+/// Used in hunterfu.dm
 #define MARTIALART_HUNTERFU "hunter-fu"
+/// Used in deputy_block.dm
 #define MARTIALART_DEPUTYBLOCK "deputy block"
+/// Used in velvet_fu.dm
+#define MARTIALART_VELVETFU "velvet-fu"
 
-/// Bloodsucker defines
-#define TRAIT_NORUNNING "norunning" // You walk!
-#define TRAIT_NOPULSE "nopulse" // Your heart doesn't beat.
-#define TRAIT_MASQUERADE "masquerade" // Falsifies Health analyzers
-#define TRAIT_COLDBLOODED "coldblooded"	// Your body is literal room temperature. Does not make you immune to the temp.
-#define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life" // Used for Bloodsucker's LifeTick() signal
+/*
+ *	Bloodsucker Defines
+ */
+/// You walk!
+#define TRAIT_NORUNNING "norunning"
+/// Your heart doesn't beat.
+#define TRAIT_NOPULSE "nopulse"
+/// Falsifies Health analyzers
+#define TRAIT_MASQUERADE "masquerade"
+/// Your body is literal room temperature. Does not make you immune to the temp.
+#define TRAIT_COLDBLOODED "coldblooded"
+/// Used for Bloodsucker's LifeTick() signal
+#define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
+/// Unused define, kept here in case Swain wants to use it.
 #define BLOODSUCKER_LEVEL_TO_EMBRACE 3
 
-/// Deputy defines
+/*
+ *	Deputy Defines
+ */
 #define TRAIT_ENGINEERINGDEPUTY "engineeringdeputy"
 #define TRAIT_MEDICALDEPUTY "medicaldeputy"
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
@@ -34,5 +54,10 @@
 ///Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
 #define SEC_DEPT_SERVICE "Service"
 
-/// Mentorhelp defines
+/*
+ *	Misc Defines
+ */
+/// Human sub-species defines
+#define isbeefman(A) (is_species(A,/datum/species/beefman))
+/// Defines the Mentorhelp's Mentorsay button
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
