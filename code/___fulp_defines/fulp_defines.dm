@@ -24,8 +24,6 @@
 #define MARTIALART_HUNTERFU "hunter-fu"
 /// Used in deputy_block.dm
 #define MARTIALART_DEPUTYBLOCK "deputy block"
-/// Used in velvet_fu.dm
-#define MARTIALART_VELVETFU "velvet-fu"
 
 /*
  *	Bloodsucker Defines
