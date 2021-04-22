@@ -1,3 +1,8 @@
+/// This is used to load Mentors so they can do things like 'their job' and whatnot.
+/world/New()
+	load_mentors()
+
+
 /world/proc/update_status_fulp()
 
 	var/list/features = list()
