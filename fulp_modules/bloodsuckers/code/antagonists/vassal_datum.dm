@@ -50,7 +50,7 @@
 	vassal_objective.owner = owner
 	vassal_objective.generate_objective()
 	objectives += vassal_objective
-	give_tongue()
+	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	update_vassal_icons_added(owner.current, "vassal")
 	. = ..()
@@ -71,7 +71,6 @@
 		power.Remove(owner.current)
 	// Remove Hunter Objectives
 	remove_objective()
-	remove_tongue()
 	owner.current.remove_language(/datum/language/vampiric)
 	// Clear Antag
 	owner.special_role = null
@@ -104,24 +103,12 @@
 	if(master && master.owner)
 		to_chat(master.owner, "<span class='userdanger'>You feel the bond with your vassal [owner.current] has somehow been broken!</span>")
 
-/datum/antagonist/vassal/proc/give_tongue()
-	var/obj/item/organ/O
-	O = owner.current.getorganslot(ORGAN_SLOT_TONGUE)
-	if(!istype(O, /obj/item/organ/tongue/bloodsucker))
-		qdel(O)
-		var/obj/item/organ/tongue/bloodsucker/E = new
-		E.Insert(owner.current)
-
-/datum/antagonist/vassal/proc/remove_tongue()
-	var/obj/item/organ/tongue/O = new
-	O.Insert(owner.current)
-
 /datum/status_effect/agent_pinpointer/vassal_edition
 	id = "agent_pinpointer"
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
 	minimum_range = VASSAL_SCAN_MIN_DISTANCE
 	tick_interval = VASSAL_SCAN_PING_TIME
-	duration = -1 // runs out fast
+	duration = -1
 	range_fuzz_factor = 0
 
 /atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
@@ -132,7 +119,6 @@
 
 /datum/status_effect/agent_pinpointer/vassal_edition/on_creation(mob/living/new_owner, ...)
 	..()
-
 	var/datum/antagonist/vassal/antag_datum = new_owner.mind.has_antag_datum(/datum/antagonist/vassal)
 	scan_target = antag_datum?.master?.owner?.current
 
@@ -146,11 +132,13 @@
 /datum/game_mode/proc/remove_vassal(datum/mind/vassal)
 	vassal.remove_antag_datum(/datum/antagonist/vassal)
 
-/datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype="vassal")
+/datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype = "vassal")
 	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	hud.join_hud(vassal)
-	set_antag_hud(vassal, icontype) // Located in icons/mob/hud.dmi
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
+	/// Located in icons/mob/hud.dmi
+	set_antag_hud(vassal, icontype)
+	/// FULP ADDITION! Check prepare_huds in mob.dm to see why.
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker")
 
 /datum/antagonist/vassal/proc/update_vassal_icons_removed(mob/living/vassal)
 	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]

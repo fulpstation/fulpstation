@@ -266,13 +266,14 @@
 			H.dna.remove_mutation(CLOWNMUT)
 			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	// Physiology
-	CheckVampOrgans() // Heart, Tongue
+	CheckVampOrgans() // Heart
+	// Tongue & Language
+	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
+	owner.current.grant_language(/datum/language/vampiric)
 	// Makes eyes weaker
 	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect -= 1
 	E.see_in_dark = 12
-	// Language
-	owner.current.grant_language(/datum/language/vampiric)
 	// Disabilities
 	CureDisabilities()
 
