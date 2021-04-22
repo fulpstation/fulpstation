@@ -102,7 +102,7 @@
 	owner.mind.martial_art.streak = TWISTED_STANCE
 	user.adjustStaminaLoss(-40)
 	user.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
-	addtimer(CALLBACK(src, .proc/untwist), 6 SECONDS)
+	addtimer(CALLBACK(src, .proc/untwist), 15 SECONDS)
 
 /datum/action/twisted_stance/proc/untwist()
 	owner.visible_message("<span class='danger'>[owner] suddenly untwists in pain.</span>", \
