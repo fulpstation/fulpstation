@@ -6,7 +6,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/client/parent
 	//doohickeys for savefiles
 	var/path
-	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
+	var/default_slot = 1 //Holder so it doesn't default to slot 1, rather the last one used
 	var/max_save_slots = 5 // FULP EDIT - 5 races, 5 slots. Why not?
 
 	//non-preference stuff
@@ -350,7 +350,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				dat += "<span style='border: 1px solid #161616; background-color: #[features["ethcolor"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=color_ethereal;task=input'>Change</a><BR>"
 
-
 			if(istype(pref_species, /datum/species/beefman)) // [FULP EDIT START] Yeah we did the same as Ethereal so sue us
 				if(!use_skintones)
 					dat += APPEARANCE_CATEGORY_COLUMN
@@ -365,7 +364,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 //			if((EYECOLOR in pref_species.species_traits) && !(NOEYESPRITES in pref_species.species_traits))
 			if((EYECOLOR in pref_species.species_traits)) // [FULP EDIT ENDS]  If we want Eye Color, let it show eye color. Maybe we want eye color to affect something else? (Beef Eyes) && !(NOEYESPRITES in pref_species.species_traits))
-
 
 				if(!use_skintones && !mutant_colors)
 					dat += APPEARANCE_CATEGORY_COLUMN
@@ -767,6 +765,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<b>Hide Dead Chat:</b> <a href = '?_src_=prefs;preference=toggle_dead_chat'>[(chat_toggles & CHAT_DEAD)?"Shown":"Hidden"]</a><br>"
 				dat += "<b>Hide Radio Messages:</b> <a href = '?_src_=prefs;preference=toggle_radio_chatter'>[(chat_toggles & CHAT_RADIO)?"Shown":"Hidden"]</a><br>"
 				dat += "<b>Hide Prayers:</b> <a href = '?_src_=prefs;preference=toggle_prayers'>[(chat_toggles & CHAT_PRAYER)?"Shown":"Hidden"]</a><br>"
+				dat += "<b>Split Admin Tabs:</b> <a href = '?_src_=prefs;preference=toggle_split_admin_tabs'>[(toggles & SPLIT_ADMIN_TABS)?"Enabled":"Disabled"]</a><br>"
 				dat += "<b>Ignore Being Summoned as Cult Ghost:</b> <a href = '?_src_=prefs;preference=toggle_ignore_cult_ghost'>[(toggles & ADMIN_IGNORE_CULT_GHOST)?"Don't Allow Being Summoned":"Allow Being Summoned"]</a><br>"
 				dat += "<b>Briefing Officer Outfit:</b> <a href = '?_src_=prefs;preference=briefoutfit;task=input'>[brief_outfit]</a><br>"
 				if(CONFIG_GET(flag/allow_admin_asaycolor))
@@ -891,12 +890,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	popup.open(FALSE)
 	onclose(user, "capturekeypress", src)
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 17, list/splitJobs = list("Chief Engineer"), widthPerColumn = 295, height = 620)
+/datum/preferences/proc/SetChoices(mob/user, limit = 15, widthPerColumn = 295, height = 620)
 	if(!SSjob)
 		return
 
 	//limit - The amount of jobs allowed per column. Defaults to 17 to make it look nice.
-	//splitJobs - Allows you split the table by job. You can make different tables for each department by including their heads. Defaults to CE to make it look nice.
 	//widthPerColumn - Screen's width for every column.
 	//height - Screen's height.
 
@@ -922,11 +920,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		for(var/datum/job/job in sortList(SSjob.occupations, /proc/cmp_job_display_asc))
 
 			index += 1
-			if((index >= limit) || (job.title in splitJobs))
+			if(index >= limit)
 				width += widthPerColumn
 				if((index < limit) && (lastJob != null))
-					//If the cells were broken up by a job in the splitJob list then it will fill in the rest of the cells with
-					//the last job's selection color. Creating a rather nice effect.
+					// Fills the rest of the cells with the last job's selection color.
 					for(var/i = 0, i < (limit - index), i += 1)
 						HTML += "<tr bgcolor='[lastJob.selection_color]'><td width='60%' align='right'>&nbsp</td><td>&nbsp</td></tr>"
 				HTML += "</table></td><td width='20%'><table width='100%' cellpadding='1' cellspacing='0'>"
@@ -1773,6 +1770,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					user.client.deadchat()
 				if("toggle_radio_chatter")
 					user.client.toggle_hear_radio()
+				if("toggle_split_admin_tabs")
+					toggles ^= SPLIT_ADMIN_TABS
 				if("toggle_prayers")
 					user.client.toggleprayers()
 				if("toggle_deadmin_always")

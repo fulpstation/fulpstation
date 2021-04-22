@@ -1,7 +1,7 @@
 /datum/martial_art/deputyblock
 	name = "Deputy Block"
 	id = MARTIALART_DEPUTYBLOCK
-	block_chance = 90
+	block_chance = 95
 	var/list/valid_area = list()
 
 /datum/martial_art/deputyblock/teach(mob/living/holder_living, make_temporary = TRUE)
@@ -27,6 +27,10 @@
 		valid_area = typesof(/area/science) + list(
 		/area/security/checkpoint/science/research,
 		/area/command/heads_quarters/rd,
+		)
+	if(HAS_TRAIT(holder_living, TRAIT_SERVICEDEPUTY))
+		valid_area = typesof(/area/service) + list(
+		/area/command/heads_quarters/hop,
 		)
 
 /datum/martial_art/deputyblock/can_use(mob/living/owner)

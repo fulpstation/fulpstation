@@ -215,7 +215,6 @@
 	var/list/ctf_gear = list("white" = /datum/outfit/ctf)
 	var/instagib_gear = /datum/outfit/ctf/instagib
 	var/ammo_type = /obj/effect/powerup/ammo/ctf
-
 	// Fast paced gameplay, no real time for burn infections.
 	var/player_traits = list(TRAIT_NEVER_WOUNDED)
 

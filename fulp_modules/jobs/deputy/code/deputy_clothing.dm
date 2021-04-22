@@ -63,7 +63,7 @@
 		/obj/item/grenade/smokebomb=1,
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/restraints/handcuffs=1,
-		/obj/item/reagent_containers/hypospray/medipen/mutadone=1,
+		/obj/item/reagent_containers/hypospray/medipen/mutadone=2,
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/holosign_creator/security=1,
 		)
@@ -84,12 +84,33 @@
 		/obj/item/reagent_containers/spray/pepper=1,
 		/obj/item/restraints/handcuffs=1,
 		/obj/item/holosign_creator/security=1,
+		/obj/item/export_scanner=1,
 		)
 	head = /obj/item/clothing/head/fulpberet
 	neck = /obj/item/clothing/neck/fulptie/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
+	suit = /obj/item/clothing/suit/armor/vest/blueshirt
 	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
+
+/// Service Deputy
+/datum/outfit/job/deputy/service
+	name = "Deputy - Service"
+
+	id_trim = /datum/id_trim/job/deputy/service
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
+		)
+	head = /obj/item/clothing/head/frenchberet
+	neck = /obj/item/clothing/neck/fulptie/service
+	mask = /obj/item/clothing/mask/fakemoustache/italian
+	accessory = /obj/item/clothing/accessory/armband/hydro
+	box = null
+	skillchips = list(/obj/item/skillchip/job/deputy/service)
 
 /// Plasmamen Datum
 /datum/outfit/plasmaman/deputy
@@ -150,6 +171,9 @@
 /obj/item/clothing/neck/fulptie/supply
 	department = "supply"
 
+/obj/item/clothing/neck/fulptie/service
+	department = "service"
+
 /// Plasmamen clothes
 /obj/item/clothing/under/plasmaman/security/deputy
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/deputy_clothes.dmi'
@@ -167,7 +191,7 @@
 	icon_state = "deputy_envirohelm"
 	inhand_icon_state = "deputy_envirohelm"
 
-/// Berets
+/// Berets - We're using Supply as the main one over Engineering, because I dont want them inheriting rad protection.
 /obj/item/clothing/head/fulpberet
 	worn_icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/jobs/deputy/deputy_clothing/head_icons.dmi'
@@ -195,6 +219,50 @@
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
+
+///// Headsets
+/// Base + Engineering
+/obj/item/radio/headset/headset_dep
+	icon = 'fulp_modules/jobs/deputy/deputy_clothing/radio.dmi'
+	worn_icon = 'icons/mob/clothing/ears.dmi'
+	worn_icon_state = "sec_headset_alt"
+
+	name = "engineering bowman headset"
+	desc = "The best way to stay alert of any possible sabotage."
+	icon_state = "eng_headset"
+	keyslot = new /obj/item/encryptionkey/headset_eng
+
+/obj/item/radio/headset/headset_dep/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/wearertargeting/earprotection, list(ITEM_SLOT_EARS))
+
+/// Medical
+/obj/item/radio/headset/headset_dep/med
+	name = "medical bowman headset"
+	desc = "Looks a little worn out from all the chemistry explosions."
+	icon_state = "med_headset"
+	keyslot = new /obj/item/encryptionkey/headset_med
+
+/// Science
+/obj/item/radio/headset/headset_dep/sci
+	name = "science bowman headset"
+	desc = "Suddenly turns off when the Research Director starts yelling Malf."
+	icon_state = "sci_headset"
+	keyslot = new /obj/item/encryptionkey/headset_sci
+
+/// Supply
+/obj/item/radio/headset/headset_dep/supply
+	name = "supply bowman headset"
+	desc = "Looks half destroyed, probably from all the Cargonia attempts."
+	icon_state = "cargo_headset"
+	keyslot = new /obj/item/encryptionkey/headset_cargo
+
+/// Service
+/obj/item/radio/headset/headset_dep/service
+	name = "service bowman headset"
+	desc = "For the one constantly recieving calls from the Law office to Botany, Service comms are the most well organized."
+	icon_state = "med_headset"
+	keyslot = new /obj/item/encryptionkey/headset_med
 
 /// Base Skillchip
 /obj/item/skillchip/job/deputy
@@ -224,10 +292,19 @@
 	style.remove(user)
 	return ..()
 
+/*
+ *	Deputies are meant to get NOGUNS trait.
+ *	Lore-wise reason is that they are privately-owned, and trained by non-NT folk.
+ *	These folk believe professionalism and the way people look at you, is more important than efficiency.
+ *	No one wants to see a deputy with a gun, so they're trained in not using it.
+ *
+ *	Actual reason why is balance and to prevent powergaming.
+ */
+
 /// Engineering Skillchip
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
-	department = "Engineering" /// Deputies aren't trained to use guns.
+	department = "Engineering"
 	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
 
 /area/engineering
@@ -250,7 +327,7 @@
 /obj/item/skillchip/job/deputy/science
 	deputy = "5C1ENC3"
 	department = "Science"
-	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS)
+	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS) /// No bonus here, they get a Mutadone medipen instead.
 
 /area/science
 	mood_bonus = 5
@@ -261,12 +338,23 @@
 /obj/item/skillchip/job/deputy/supply
 	deputy = "5UPP1Y"
 	department = "Cargo"
-	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_NOGUNS)
+	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_NOGUNS) /// No bonus here, they get an armor vest instead.
 
 /area/cargo
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_SUPPLYDEPUTY
+
+/// Service Skillchip
+/obj/item/skillchip/job/deputy/service
+	deputy = "S5RV1C3"
+	department = "Service"
+	auto_traits = list(TRAIT_SERVICEDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_SOOTHER) /// Psychologist bonus without the hallucination protection.
+
+/area/service
+	mood_bonus = 5
+	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
+	mood_trait = TRAIT_SERVICEDEPUTY
 
 /// Mood buff from being within your department.
 /datum/mood_event/deputy_helpful
