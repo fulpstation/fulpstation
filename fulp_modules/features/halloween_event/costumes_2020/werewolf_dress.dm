@@ -4,8 +4,8 @@
 /obj/item/clothing/suit/werewolfdress
 	name = "Werewolf's dress"
 	desc = "A simple dress worn by the last werewolf in Japan. Smells faintly of bamboo and fish."
-	icon = 'fulp_modules/halloween_event/costumes_2020/werewolfdress_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/werewolfdress_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/werewolfdress_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/werewolfdress_worn.dmi'
 	icon_state = "werewolfdress_suit"
 
 //--Box that contains the costumes

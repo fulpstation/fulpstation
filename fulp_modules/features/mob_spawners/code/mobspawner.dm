@@ -1,5 +1,5 @@
 /obj/effect/spawner/random_mob
-	icon = 'fulp_modules/mob_spawners/icons/landmark_static.dmi'
+	icon = 'fulp_modules/features/mob_spawners/icons/landmark_static.dmi'
 	icon_state = "exclamation"
 	name = "custom mob spawner"
 	//valid_mobs is a list of paths with lists

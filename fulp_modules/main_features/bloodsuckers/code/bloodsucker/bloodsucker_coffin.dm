@@ -29,9 +29,9 @@
 	name = "black coffin"
 	desc = "For those departed who are not so dear."
 	icon_state = "coffin"
-	icon = 'fulp_modules/bloodsuckers/icons/vamp_obj.dmi'
-	open_sound = 'fulp_modules/bloodsuckers/sounds/coffin_open.ogg'
-	close_sound = 'fulp_modules/bloodsuckers/sounds/coffin_close.ogg'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	open_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_open.ogg'
+	close_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_close.ogg'
 	breakout_time = 600
 	pryLidTimer = 400
 	resistance_flags = NONE
@@ -43,7 +43,7 @@
 	name = "meat coffin"
 	desc = "When you're ready to meat your maker, the steaks can never be too high."
 	icon_state = "meatcoffin"
-	icon = 'fulp_modules/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	resistance_flags = FIRE_PROOF
 	open_sound = 'sound/effects/footstep/slime1.ogg'
 	close_sound = 'sound/effects/footstep/slime1.ogg'
@@ -58,7 +58,7 @@
 	name = "metal coffin"
 	desc = "A big metal sardine can inside of another big metal sardine can, in space."
 	icon_state = "metalcoffin"
-	icon = 'fulp_modules/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 	open_sound = 'sound/effects/pressureplate.ogg'
 	close_sound = 'sound/effects/pressureplate.ogg'

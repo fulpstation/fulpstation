@@ -2,8 +2,8 @@
 /obj/item/clothing/mask/gas/mime/heister_mask
 	name = "mastermind's clown mask"
 	desc = "Guys, the nuclear disk, go get it!"
-	icon = 'fulp_modules/halloween_event/costumes_2020/payday_masks_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/payday_masks_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/payday_masks_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/payday_masks_worn.dmi'
 	icon_state = "dallas"
 	inhand_icon_state = "mime"
 

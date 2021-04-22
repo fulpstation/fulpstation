@@ -2,8 +2,8 @@
 /obj/item/clothing/mask/gas/mime/skull_mask
 	name = "Skull mask"
 	desc = "A unique mime's mask. It has an eerie facial posture."
-	icon = 'fulp_modules/halloween_event/costumes_2020/skullmasks_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/skullmasks_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/skullmasks_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/skullmasks_worn.dmi'
 	icon_state = "rose"
 
 /obj/item/clothing/mask/gas/mime/skull_mask/Initialize(mapload)
@@ -41,16 +41,16 @@
 /obj/item/clothing/under/dress/blacktango/skull_mask
 	name = "Skull mask's dress"
 	desc = "A black dress adorned with harebells ."
-	icon = 'fulp_modules/halloween_event/costumes_2020/skullmasks_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/skullmasks_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/skullmasks_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/skullmasks_worn.dmi'
 	icon_state = "skull_dress"
 
 //--Head are hats, simple
 /obj/item/clothing/head/wizard/fake/skull_mask
 	name = "Skull mask's hat"
 	desc = "A black hat adorned with harebells."
-	icon = 'fulp_modules/halloween_event/costumes_2020/skullmasks_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/skullmasks_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/skullmasks_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/skullmasks_worn.dmi'
 	icon_state = "skull_hat"
 
 /obj/item/storage/box/halloween/edition_20/skull_mask

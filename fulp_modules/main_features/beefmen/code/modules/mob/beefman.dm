@@ -35,10 +35,10 @@
 	punchdamagelow = 1 //lowest possible punch damage. if this is set to 0, punches will always miss
 	punchdamagehigh = 5 // 10 //highest possible punch damage
 	siemens_coeff = 0.7 // Due to lack of density.   //base electrocution coefficient
-	deathsound = 'fulp_modules/beefman_port/sounds/beef_die.ogg'
-	attack_sound = 'fulp_modules/beefman_port/sounds/beef_hit.ogg'
-	special_step_sounds = list('fulp_modules/beefman_port/sounds/footstep_splat1.ogg','fulp_modules/beefman_port/sounds/footstep_splat2.ogg','fulp_modules/beefman_port/sounds/footstep_splat3.ogg','fulp_modules/beefman_port/sounds/footstep_splat4.ogg')//Sounds to override barefeet walkng
-	grab_sound = 'fulp_modules/beefman_port/sounds/beef_grab.ogg' //Special sound for grabbing
+	deathsound = 'fulp_modules/main_features/beefmen/sounds/beef_die.ogg'
+	attack_sound = 'fulp_modules/main_features/beefmen/sounds/beef_hit.ogg'
+	special_step_sounds = list('fulp_modules/main_features/beefmen/sounds/footstep_splat1.ogg','fulp_modules/main_features/beefmen/sounds/footstep_splat2.ogg','fulp_modules/main_features/beefmen/sounds/footstep_splat3.ogg','fulp_modules/main_features/beefmen/sounds/footstep_splat4.ogg')//Sounds to override barefeet walkng
+	grab_sound = 'fulp_modules/main_features/beefmen/sounds/beef_grab.ogg' //Special sound for grabbing
 	species_language_holder = /datum/language_holder/russian //--Speak Russian
 	bodytemp_normal = T20C
 
@@ -374,7 +374,7 @@
 				return TRUE
 
 			user.visible_message("[user]'s [affecting.name] comes right off in their hand.", "<span class='notice'>Your [affecting.name] pops right off.</span>")
-			playsound(get_turf(user), 'fulp_modules/beefman_port/sounds/beef_hit.ogg', 40, 1)
+			playsound(get_turf(user), 'fulp_modules/main_features/beefmen/sounds/beef_hit.ogg', 40, 1)
 
 			// Destroy Limb, Drop Meat, Pick Up
 			var/obj/item/I = affecting.drop_limb() //  <--- This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
@@ -417,7 +417,7 @@
 					H.visible_message("The meat sprouts digits and becomes [H]'s new [newBP.name]!", "<span class='notice'>The meat sprouts digits and becomes your new [newBP.name]!</span>")
 					newBP.attach_limb(H)
 					newBP.give_meat(H, I)
-					playsound(get_turf(H), 'fulp_modules/beefman_port/sounds/beef_grab.ogg', 50, 1)
+					playsound(get_turf(H), 'fulp_modules/main_features/beefmen/sounds/beef_grab.ogg', 50, 1)
 
 			return TRUE // True CANCELS the sequence.
 
@@ -587,16 +587,16 @@
 
 ///Limbs
 /obj/item/bodypart/head/beef
-	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
 /obj/item/bodypart/chest/beef
-	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -608,9 +608,9 @@
 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/r_arm/beef
-	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -622,9 +622,9 @@
 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/l_arm/beef
-	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -636,9 +636,9 @@
 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/r_leg/beef
-	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -650,9 +650,9 @@
 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/l_leg/beef
-	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -665,7 +665,7 @@
 
 // SPRITE PARTS //
 /datum/sprite_accessory/beef
-	icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 
 	// please make sure they're sorted alphabetically and, where needed, categorized
 	// try to capitalize the names please~

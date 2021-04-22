@@ -188,11 +188,11 @@
 /obj/item/stake
 	name = "wooden stake"
 	desc = "A simple wooden stake carved to a sharp point."
-	icon = 'fulp_modules/bloodsuckers/icons/stakes.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/stakes.dmi'
 	icon_state = "wood"
 	inhand_icon_state = "wood"
-	lefthand_file = 'fulp_modules/bloodsuckers/icons/stake_leftinhand.dmi'
-	righthand_file = 'fulp_modules/bloodsuckers/icons/stake_rightinhand.dmi'
+	lefthand_file = 'fulp_modules/main_features/bloodsuckers/icons/stake_leftinhand.dmi'
+	righthand_file = 'fulp_modules/main_features/bloodsuckers/icons/stake_rightinhand.dmi'
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
 	hitsound = 'sound/weapons/bladeslice.ogg'

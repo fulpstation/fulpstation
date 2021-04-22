@@ -2,8 +2,8 @@
 /obj/item/clothing/under/gnome
 	name = "Gnome's jumpsuit"
 	desc = "A gnome suit for gnoming."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gnome_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gnome_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_worn.dmi'
 	icon_state = "gnome_jumpsuit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	fitted = FEMALE_UNIFORM_FULL
@@ -14,8 +14,8 @@
 /obj/item/clothing/head/gnome
 	name = "Gnome's hat"
 	desc = "This is gnot a gnelf hat."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gnome_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gnome_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_worn.dmi'
 	icon_state = "gnome_hat"
 	var/armed = FALSE
 
@@ -26,7 +26,7 @@
 		var/mob/living/carbon/human/H = target
 		H.Knockdown(30)
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "gnomed", /datum/mood_event/gnomed)
-	playsound(src, 'fulp_modules/halloween_event/gnomed.ogg', 50, TRUE)
+	playsound(src, 'fulp_modules/features/halloween_event/gnomed.ogg', 50, TRUE)
 	armed = FALSE
 	update_icon()
 
@@ -55,16 +55,16 @@
 /obj/item/clothing/suit/gnome
 	name = "Gnome's suit"
 	desc = "I'm a gnome, and you will be gnomed."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gnome_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gnome_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_worn.dmi'
 	icon_state = "gnome_suit"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 
 /obj/item/clothing/shoes/gnome
 	name = "Gnome's shoes"
 	desc = "These are gnot gnoblin boots."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gnome_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gnome_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gnome_worn.dmi'
 	icon_state = "gnome_shoes"
 
 //--Box that contains the costumes

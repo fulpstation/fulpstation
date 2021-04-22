@@ -84,7 +84,7 @@
 /obj/structure/bloodsucker/vassalrack
 	name = "persuasion rack"
 	desc = "If this wasn't meant for torture, then someone has some fairly horrifying hobbies."
-	icon = 'fulp_modules/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "vassalrack"
 	buckle_lying = FALSE
 	anchored = FALSE
@@ -353,7 +353,7 @@
 			alert_text += "\n\nYou will not lose your current objectives, but they come second to the will of your new master!"
 			to_chat(target, "<span class='cultlarge'>THE HORRIBLE PAIN! WHEN WILL IT END?!</span>")
 			var/list/torture_icons = list(
-				"Accept" = image(icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "power_recup"),
+				"Accept" = image(icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "power_recup"),
 				"Refuse" = image(icon = 'icons/obj/items_and_weapons.dmi', icon_state = "stunbaton_active")
 				)
 			var/torture_response = show_radial_menu(target, src, torture_icons, radius = 36, require_near = TRUE)
@@ -401,7 +401,7 @@
 /obj/structure/bloodsucker/candelabrum
 	name = "candelabrum"
 	desc = "It burns slowly, but doesn't radiate any heat."
-	icon = 'fulp_modules/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "candelabrum"
 	light_color = "#66FFFF"//LIGHT_COLOR_BLUEGREEN // lighting.dm
 	light_power = 3

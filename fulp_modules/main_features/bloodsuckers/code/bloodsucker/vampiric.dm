@@ -18,4 +18,4 @@
 		)
 
 	icon_state = "bloodsucker"
-	icon = 'fulp_modules/bloodsuckers/icons/vampiric.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi'

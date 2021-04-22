@@ -2,8 +2,8 @@
 	name = "plastic bounty hunter's plugsuit"
 	desc = "A cheap plastic suit with zero practical use."
 	icon_state = "zerosuit"
-	icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_icon.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_icon.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_worn.dmi'
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	fitted = NO_FEMALE_UNIFORM
 	alternate_worn_layer = GLOVES_LAYER //copied blindly from mech jumpsuit lmao
@@ -26,8 +26,8 @@
 	name = "plastic bounty hunter's hardsuit"
 	desc = "It's variapparent that this is injection-moulded."
 	icon_state = "varia_suit"
-	icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_icon.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_icon.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_worn.dmi'
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/toy/varia
 
 
@@ -47,8 +47,8 @@
 	name = "plastic bounty hunter's helmet"
 	desc = "A cheap plastic helmet spring-loaded into the suit."
 	icon_state = "hardsuit0-varia" //hardsuit helmet code is weird - has to follow this format: 'hardsuit0-[hardsuit_type]' and have 'hardsuit1-[hardsuit_type]'' as the icon for the light-on ver
-	icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_icon.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_icon.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_worn.dmi'
 	hardsuit_type = "varia"
 
 //--Cannon
@@ -56,11 +56,11 @@
 	name = "foam force arm cannon"
 	desc = "The chozo manufacturing industry exports thousands of these things a year. Ages 8+"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/toy/arm_ball
-	icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_icon.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_icon.dmi'
 	icon_state = "arm_cannon"
 	inhand_icon_state = "arm_cannon"
-	lefthand_file = 'fulp_modules/halloween_event/costumes_2019/zerosuit_lefthand.dmi'
-	righthand_file = 'fulp_modules/halloween_event/costumes_2019/zerosuit_righthand.dmi'
+	lefthand_file = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_lefthand.dmi'
+	righthand_file = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_righthand.dmi'
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
 	slot_flags = null
@@ -68,7 +68,7 @@
 /obj/item/ammo_casing/caseless/foam_dart/arm_ball
 	name = "small foam ball"
 	desc = "Eat this, space pirates!"
-	icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_icon.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_icon.dmi'
 	projectile_type = /obj/projectile/bullet/reusable/foam_dart/arm_ball
 	icon_state = "ball"
 	caliber = "arm_ball"
@@ -80,7 +80,7 @@
 /obj/projectile/bullet/reusable/foam_dart/arm_ball
 	name = "small foam ball"
 	desc = "Eat this, space pirates!"
-	icon = 'fulp_modules/halloween_event/costumes_2019/zerosuit_icon.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2019/zerosuit_icon.dmi'
 	icon_state = "ball"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/arm_ball
 

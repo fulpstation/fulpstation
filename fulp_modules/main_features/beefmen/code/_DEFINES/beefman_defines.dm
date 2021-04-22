@@ -1,7 +1,7 @@
 /// Names
-GLOBAL_LIST_INIT(russian_names, world.file2list("fulp_modules/beefman_port/strings/fulp_russian.txt")) // Backtracked from names.dm
-GLOBAL_LIST_INIT(experiment_names, world.file2list("fulp_modules/beefman_port/strings/fulp_experiment.txt")) // Backtracked from names.dm
-GLOBAL_LIST_INIT(beefman_names, world.file2list("fulp_modules/beefman_port/strings/fulp_beefman.txt")) // Backtracked from names.dm
+GLOBAL_LIST_INIT(russian_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_russian.txt")) // Backtracked from names.dm
+GLOBAL_LIST_INIT(experiment_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_experiment.txt")) // Backtracked from names.dm
+GLOBAL_LIST_INIT(beefman_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_beefman.txt")) // Backtracked from names.dm
 
 /// Taken from flavor_misc.dm, as used by ethereals (color_list_ethereal)
 GLOBAL_LIST_INIT(color_list_beefman, list("Very Rare" = "d93356", "Rare" = "da2e4a", "Medium Rare" = "e73f4e", "Medium" = "f05b68", "Medium Well" = "e76b76", "Well Done" = "d36b75"))

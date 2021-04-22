@@ -1,8 +1,8 @@
 /obj/item/clothing/suit/hooded/onesie
 	name = "winter coat"
 	desc = "A heavy jacket made from 'synthetic' animal furs."
-	icon = 'fulp_modules/halloween_event/costumes_2020/onesies_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/onesies_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/onesies_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/onesies_worn.dmi'
 	icon_state = "coatwinter"
 	inhand_icon_state = "coatwinter"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|FEET
@@ -13,8 +13,8 @@
 /obj/item/clothing/head/hooded/onesie
 	name = "winter hood"
 	desc = "A hood attached to a heavy winter jacket."
-	icon = 'fulp_modules/halloween_event/costumes_2020/onesies_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/onesies_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/onesies_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/onesies_worn.dmi'
 	icon_state = "winterhood"
 	body_parts_covered = HEAD
 	cold_protection = HEAD
@@ -32,10 +32,10 @@
 /obj/item/clothing/suit/hooded/onesie/beefman/Initialize()
 	. = ..()
 	AddComponent(/datum/component/squeak, list(
-		'fulp_modules/beefman_port/sounds/footstep_splat1.ogg' = 1,
-		'fulp_modules/beefman_port/sounds/footstep_splat2.ogg' = 1,
-		'fulp_modules/beefman_port/sounds/footstep_splat3.ogg' = 1,
-		'fulp_modules/beefman_port/sounds/footstep_splat4.ogg' = 1,
+		'fulp_modules/main_features/beefmen/sounds/footstep_splat1.ogg' = 1,
+		'fulp_modules/main_features/beefmen/sounds/footstep_splat2.ogg' = 1,
+		'fulp_modules/main_features/beefmen/sounds/footstep_splat3.ogg' = 1,
+		'fulp_modules/main_features/beefmen/sounds/footstep_splat4.ogg' = 1,
 		), 50)
 
 /obj/item/clothing/head/hooded/onesie/beefman
@@ -105,8 +105,8 @@
 /obj/item/clothing/head/hooded/onesie/ethereal
 	name = "ethereal hood"
 	desc = "A small battery on the back allows this snazzy suit to emit light."
-	icon = 'fulp_modules/halloween_event/costumes_2020/onesies_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/onesies_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/onesies_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/onesies_worn.dmi'
 	icon_state = "ethereal_hood0"
 	var/brightness_on = 1 //luminosity when on
 	var/on = FALSE

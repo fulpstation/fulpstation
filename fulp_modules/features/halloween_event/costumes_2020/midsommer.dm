@@ -3,8 +3,8 @@
 /obj/item/clothing/under/midsommer
 	name = "midsommer dress"
 	desc = "Write something here to show up when examined."
-	icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_worn.dmi'
 	icon_state = "midsommar_dress"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	fitted = FEMALE_UNIFORM_TOP
@@ -16,16 +16,16 @@
 /obj/item/clothing/head/midsommer
 	name = "flower crown"
 	desc = "Write something here to show up when examined."
-	icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_worn.dmi'
 	icon_state = "flower_crown"
 
 //Big crown
 /obj/item/clothing/head/midsommer_queen
 	name = "May Queen crown"
 	desc = "Write something here to show up when examined."
-	icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_64.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_64.dmi'
 	icon_state = "flower_crown_tall"
 	worn_x_dimension = 64
 	worn_y_dimension = 64
@@ -35,8 +35,8 @@
 /obj/item/clothing/suit/midsommer_queen
 	name = "May Queen"
 	desc = "Write something here to show up when examined."
-	icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/midsommer_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/midsommer_worn.dmi'
 	icon_state = "may_queen"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 

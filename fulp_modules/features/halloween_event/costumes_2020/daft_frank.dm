@@ -2,8 +2,8 @@
 /obj/item/clothing/head/hardhat/golden_punk
 	name = "Guy-Manuel Helmet"
 	desc = "Give life back to music!"
-	icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_worn.dmi'
 	icon_state = "hardhat0_guy"
 	on = FALSE
 	hat_type = "guy"
@@ -16,8 +16,8 @@
 /obj/item/clothing/head/hardhat/silver_punk
 	name = "Thomas Helmet"
 	desc = "Reminds you of touch..."
-	icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_worn.dmi'
 	icon_state = "hardhat0_thomas"
 	on = FALSE
 	hat_type = "thomas"
@@ -29,8 +29,8 @@
 /obj/item/clothing/under/sparky
 	name = "The suit"
 	desc = "Harder, Better, Faster, Stronger!"
-	icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_worn.dmi'
 	icon_state = "the_suit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	fitted = FEMALE_UNIFORM_FULL
@@ -41,15 +41,15 @@
 /obj/item/clothing/gloves/daft_golden
 	name = "insert name here"
 	desc = "A pair of sparky golden gloves."
-	icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_worn.dmi'
 	icon_state = "golden_gloves"
 
 /obj/item/clothing/gloves/daft_silver
 	name = "insert name here"
 	desc = "A pair of sparky silver gloves."
-	icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/daft_frank_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/daft_frank_worn.dmi'
 	icon_state = "silver_gloves"
 
 /obj/item/storage/box/halloween/edition_20/daft_box

@@ -1,12 +1,12 @@
 /obj/item/clothing/under/bodysash
 	name = "assistant sash"
 	desc = "A simple assistant sash, slung from shoulder to hip."
-	icon = 'fulp_modules/beefman_port/icons/mob/clothing/beefclothing.dmi' // item icon
-	worn_icon =  'fulp_modules/beefman_port/icons/mob/clothing/beefclothing_worn.dmi' // mob worn icon
+	icon = 'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing.dmi' // item icon
+	worn_icon =  'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing_worn.dmi' // mob worn icon
 	icon_state = "assistant" // Inventory Icon
 	body_parts_covered = CHEST // |GROIN|ARMS
-	lefthand_file = 'fulp_modules/beefman_port/icons/mob/clothing/beefclothing_hold_left.dmi'
-	righthand_file = 'fulp_modules/beefman_port/icons/mob/clothing/beefclothing_hold_right.dmi'
+	lefthand_file = 'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing_hold_left.dmi'
+	righthand_file = 'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing_hold_right.dmi'
 	inhand_icon_state = "sash" // In-hand Icon
 	can_adjust = FALSE
 

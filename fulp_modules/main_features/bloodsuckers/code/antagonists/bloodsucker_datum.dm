@@ -89,7 +89,7 @@
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.</span><br>")
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: If you don't have a coffin claimed/can't reach it for reasons, lockers can partially guard you from Solar flares.</span><br>")
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.</span><br>")
-	owner.current.playsound_local(null, 'fulp_modules/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
 /datum/antagonist/bloodsucker/farewell()
@@ -594,7 +594,7 @@
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
 	set_antag_hud(owner.current, "bloodsucker")
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
@@ -679,7 +679,7 @@
 	owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
 
 /atom/movable/screen/bloodsucker
-	icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	invisibility = INVISIBILITY_ABSTRACT
 
 /atom/movable/screen/bloodsucker/proc/clear()

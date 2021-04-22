@@ -7,7 +7,7 @@
 	sentence_chance = 5
 	space_chance = 50
 	syllables = list("bly", "bor", "cy", "da", "ko", "et", "sa", "gop", "grad", "kov", "ski", "vok", "nik", "cyka", "ka", "kor", "yov", "suk", "grad", "kov", "blyat", "vod", "ka")
-	icon = 'fulp_modules/beefman_port/icons/russian_language.dmi'
+	icon = 'fulp_modules/main_features/beefmen/icons/russian_language.dmi'
 	icon_state = "commie"
 	default_priority = 90
 	flags = TONGUELESS_SPEECH

@@ -1,11 +1,11 @@
 /datum/action/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
-	button_icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi' //This is the file for the BACKGROUND icon
+	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi' //This is the file for the BACKGROUND icon
 	background_icon_state = "vamp_power_off" //And this is the state for the background icon
 	var/background_icon_state_on = "vamp_power_on" // Our "ON" icon alternative.
 	var/background_icon_state_off = "vamp_power_off" // Our "OFF" icon alternative.
-	icon_icon = 'fulp_modules/bloodsuckers/icons/actions_bloodsucker.dmi' //This is the file for the ACTION icon
+	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi' //This is the file for the ACTION icon
 	button_icon_state = "power_feed" //And this is the state for the action icon
 	buttontooltipstyle = "cult"
 	// Action-Related

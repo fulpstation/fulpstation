@@ -1,8 +1,8 @@
 /obj/item/clothing/under/gothlita_purple
 	name = "purple Gothlita dress"
 	desc = "A fashioned, delicate and fragile dress made of silk."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
 	icon_state = "dress"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	fitted = NO_FEMALE_UNIFORM
@@ -13,8 +13,8 @@
 /obj/item/clothing/head/gothlita_purple
 	name = "purple Gothlita side-hat."
 	desc = "It's a delicate top-hat, but worn sideway."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
 	icon_state = "sidehat_left"
 	dynamic_hair_suffix = ""
 	var/flipped = FALSE
@@ -55,22 +55,22 @@
 /obj/item/clothing/gloves/gothlita_purple
 	name = "purple Gothlita gloves"
 	desc = "A pair of delicate silken gloves, orned with a dried rose."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
 	icon_state = "gloves"
 
 /obj/item/clothing/mask/gothlita_purple
 	name = "purple Gothlita mask"
 	desc = "Is it a mask? It looks morelike a pale makeup."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
 	icon_state = "mask"
 
 /obj/item/clothing/shoes/gothlita_purple
 	name = "purple Gothlita heels"
 	desc = "A pair of fashioned heels orned with a dried rose."
-	icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/gothlita_purple_worn.dmi'
 	icon_state = "shoes"
 
 /obj/item/storage/box/halloween/edition_20/gothlita_purple

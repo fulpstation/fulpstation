@@ -1,7 +1,7 @@
 /obj/item/toy/plush/batong
 	name = "batong"
 	desc = "A cheaply made toy. Looks like it need some recharge maybe security can help you"
-	icon = 'fulp_modules/toys/icon/toys.dmi'
+	icon = 'fulp_modules/features/toys/icon/toys.dmi'
 	icon_state = "batong"
 	worn_icon_state = "baton"
 	inhand_icon_state = "baton"
@@ -16,7 +16,7 @@
 /obj/item/toy/plush/supermatter
 	name = "Supermatter toy"
 	desc = "A Supermatter plushie! you shouldn't pet the real one without the Chief Engineer's permission!"
-	icon = 'fulp_modules/toys/icon/toys.dmi'
+	icon = 'fulp_modules/features/toys/icon/toys.dmi'
 	icon_state = "supermatter"
 	light_range = 3
 	light_system = MOVABLE_LIGHT

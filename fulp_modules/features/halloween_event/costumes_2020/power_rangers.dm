@@ -2,8 +2,8 @@
 /obj/item/clothing/head/power_ranger
 	name = "ranger helmet"
 	desc = "ranger helmet."
-	icon = 'fulp_modules/halloween_event/costumes_2020/power_ranger_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/power_ranger_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/power_ranger_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/power_ranger_worn.dmi'
 	icon_state = "red_helm"
 	var/ranger
 
@@ -36,8 +36,8 @@
 /obj/item/clothing/suit/power_ranger
 	name = "ranger suit"
 	desc = "ranger suit."
-	icon = 'fulp_modules/halloween_event/costumes_2020/power_ranger_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/power_ranger_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/power_ranger_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/power_ranger_worn.dmi'
 	icon_state = "red_ranger"
 	var/ranger = "Red"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
@@ -71,8 +71,8 @@
 /obj/item/clothing/shoes/power_ranger
 	name = "Ranger boots"
 	desc = "Ranger suit."
-	icon = 'fulp_modules/halloween_event/costumes_2020/power_ranger_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/power_ranger_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/power_ranger_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/power_ranger_worn.dmi'
 	icon_state = "red_boots"
 	var/ranger
 

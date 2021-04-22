@@ -1,22 +1,22 @@
 /obj/item/clothing/suit/moffking
 	name = "moffking chainmail"
 	desc = "A cold chainmail from a frozen moon. The chains are made of plastic altough."
-	icon = 'fulp_modules/halloween_event/costumes_2020/moffking_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/moffking_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/moffking_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/moffking_worn.dmi'
 	icon_state = "chainmail"
 
 /obj/item/clothing/head/moffking
 	name = "moffking helmet"
 	desc = "A sturdy helmet with a frontal, gold trimmed, mask. It's in plastic tough, it won't protect anything."
-	icon = 'fulp_modules/halloween_event/costumes_2020/moffking_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/moffking_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/moffking_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/moffking_worn.dmi'
 	icon_state = "helmet"
 
 /obj/item/clothing/neck/moffking
 	name = "moffking shoulderpads"
 	desc = "It even comes with a cape!"
-	icon = 'fulp_modules/halloween_event/costumes_2020/moffking_item.dmi'
-	worn_icon = 'fulp_modules/halloween_event/costumes_2020/moffking_worn.dmi'
+	icon = 'fulp_modules/features/halloween_event/costumes_2020/moffking_item.dmi'
+	worn_icon = 'fulp_modules/features/halloween_event/costumes_2020/moffking_worn.dmi'
 	icon_state = "shoulders_white"
 	var/cloakcolor
 
