@@ -52,7 +52,11 @@
 
 	game_state = (CONFIG_GET(number/extreme_popcap) && players >= CONFIG_GET(number/extreme_popcap)) //tells the hub if we are full
 
-/// FULPSTATION EDIT: We don't list features!
+	/// FULPSTATION EDIT: Who cares who the host is?
+//	if(!host && hostedby)
+//		features += "hosted by <b>[hostedby]</b>"
+
+	/// FULPSTATION EDIT: We don't list features!
 //	if(features)
 //		s += ": [jointext(features, ", ")]"
 
