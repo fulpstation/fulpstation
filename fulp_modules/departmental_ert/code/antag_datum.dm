@@ -57,3 +57,10 @@
 /datum/antagonist/ert/commander/medical/on_gain()
 	. = ..()
 	choose_commedert_outfit()
+
+///safety moth
+
+/datum/antagonist/ert/safety_moth
+	role = "Safety Moth"
+	outfit = /datum/outfit/centcom/ert/engineer/safety_moth
+
