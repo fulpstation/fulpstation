@@ -50,11 +50,11 @@
 			break
 		var/datum/mind/bloodsucker = pick(antag_candidates)
 		// Can we even BE a bloodsucker?
-		if(can_make_bloodsucker(bloodsucker))
-			bloodsuckers += bloodsucker
-			bloodsucker.restricted_roles = restricted_jobs
-			log_game("[bloodsucker.key] (ckey) has been selected as a Bloodsucker.")
-			antag_candidates.Remove(bloodsucker) // Apparently you can also write antag_candidates -= bloodsucker
+		//if(can_make_bloodsucker(bloodsucker))
+		bloodsuckers += bloodsucker
+		bloodsucker.restricted_roles = restricted_jobs
+		log_game("[bloodsucker.key] (ckey) has been selected as a Bloodsucker.")
+		antag_candidates.Remove(bloodsucker) // Apparently you can also write antag_candidates -= bloodsucker
 
 	// Do we have enough vamps to continue?
 	return bloodsuckers.len >= required_enemies
