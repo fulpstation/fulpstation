@@ -356,29 +356,27 @@
 		var/datum/action/bloodsucker/P = options[choice]
 		BuyPower(new P)
 		to_chat(owner.current, "<span class='notice'>You have learned how to use [initial(P.name)]!</span>")
+		bloodsucker_level++
+		bloodsucker_level_unspent--
 	else
 		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
 	/////////
-	// Advance Powers (including new)
+	/// Advance Powers (including new)
 	LevelUpPowers()
 	////////
-	// Advance Stats
+	/// Advance Stats
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
 		S.punchdamagelow += 0.5
 		S.punchdamagehigh += 0.5 // NOTE: This affects the hitting power of Brawn.
-	// More Health
+	/// More Health
 	owner.current.setMaxHealth(owner.current.maxHealth + 10)
-	// Vamp Stats
+	/// Vamp Stats
 	bloodsucker_regen_rate += 0.05 // Points of brute healed (starts at 0.3)
 	feed_amount += 2 // Increase how quickly I munch down vics (15)
 	max_blood_volume += 100 // Increase my max blood (600)
-	/////////
-	bloodsucker_level++
-	bloodsucker_level_unspent--
-
-	// Assign True Reputation
+	/// Assign True Reputation
 	if(bloodsucker_level == 4)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!</span>")
