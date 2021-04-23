@@ -96,6 +96,8 @@
 		return
 	if(bloodsuckers.len <= (bloodsuckercap - 2) || prob(100 - (3 * 2)))
 		if(ROLE_BLOODSUCKER in character.client.prefs.be_special)
+			if(!can_make_bloodsucker(bloodsucker))
+				return
 			if(!is_banned_from(character.ckey, list(ROLE_BLOODSUCKER, ROLE_SYNDICATE)) && !QDELETED(character))
 				if(age_check(character.client))
 					if(!(character.job in restricted_jobs))
@@ -153,7 +155,7 @@
 /datum/game_mode/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
 	// Species Must have a HEART (Sorry Plasmamen)
 	var/mob/living/carbon/human/H = bloodsucker.current
-	if(NOBLOOD in H.dna.species.species_traits)
+	if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
 		to_chat(creator, "<span class='danger'>[bloodsucker]'s DNA isn't compatible!</span>")
 		return FALSE
 	// Already a Non-Human Antag
@@ -214,6 +216,8 @@
 
 /// Mind version
 /datum/mind/proc/make_bloodsucker()
+	if(!can_make_bloodsucker(bloodsucker))
+		return
 	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!C)
 		C = add_antag_datum(/datum/antagonist/bloodsucker)
