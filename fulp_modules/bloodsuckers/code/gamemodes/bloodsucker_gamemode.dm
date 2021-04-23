@@ -50,11 +50,11 @@
 			break
 		var/datum/mind/bloodsucker = pick(antag_candidates)
 		// Can we even BE a bloodsucker?
-		//if(can_make_bloodsucker(bloodsucker, display_warning=FALSE))
-		bloodsuckers += bloodsucker
-		bloodsucker.restricted_roles = restricted_jobs
-		log_game("[bloodsucker.key] (ckey) has been selected as a Bloodsucker.")
-		antag_candidates.Remove(bloodsucker) // Apparently you can also write antag_candidates -= bloodsucker
+		if(can_make_bloodsucker(bloodsucker))
+			bloodsuckers += bloodsucker
+			bloodsucker.restricted_roles = restricted_jobs
+			log_game("[bloodsucker.key] (ckey) has been selected as a Bloodsucker.")
+			antag_candidates.Remove(bloodsucker) // Apparently you can also write antag_candidates -= bloodsucker
 
 	// Do we have enough vamps to continue?
 	return bloodsuckers.len >= required_enemies
@@ -90,16 +90,14 @@
 			They've displayed the ability to disguise themselves as anyone and brainwash the minds of people they capture alive.\
 			Please take care of the crew and their health, as it is impossible to tell if one is lurking in the darkness behind."
 
-/datum/game_mode/bloodsucker/make_antag_chance(mob/living/carbon/human/character) //Assigns changeling to latejoiners
+/datum/game_mode/bloodsucker/make_antag_chance(mob/living/carbon/human/character)
 	var/bloodsuckercap = min(round(GLOB.joined_player_list.len / (3 * 4)) + 2, round(GLOB.joined_player_list.len / 2))
 	if(bloodsuckers.len >= bloodsuckercap) //Caps number of latejoin antagonists
 		return
 	if(bloodsuckers.len <= (bloodsuckercap - 2) || prob(100 - (3 * 2)))
 		if(ROLE_BLOODSUCKER in character.client.prefs.be_special)
-			if(!can_make_bloodsucker(bloodsucker))
-				return
 			if(!is_banned_from(character.ckey, list(ROLE_BLOODSUCKER, ROLE_SYNDICATE)) && !QDELETED(character))
-				if(age_check(character.client))
+				if(!(character.dna?.species) || !(character.mob_biotypes & MOB_ORGANIC))
 					if(!(character.job in restricted_jobs))
 						character.mind.make_bloodsucker()
 						bloodsuckers += character.mind
@@ -216,8 +214,6 @@
 
 /// Mind version
 /datum/mind/proc/make_bloodsucker()
-	if(!can_make_bloodsucker(bloodsucker))
-		return
 	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!C)
 		C = add_antag_datum(/datum/antagonist/bloodsucker)
