@@ -175,3 +175,18 @@
 	H.dna.add_mutation(CLOWNMUT)
 	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
 		M.mutadone_proof = TRUE
+
+/// safety moth
+
+/datum/outfit/centcom/ert/engineer/safety_moth
+	name = "Safety Moth Engineer"
+	suit = /obj/item/clothing/suit/space/eva/safety_moth
+	suit_store = /obj/item/tank/internals/oxygen
+	mask = /obj/item/clothing/mask/breath
+	r_pocket = /obj/item/toy/plush/moth
+	r_hand = /obj/item/clipboard
+	head = /obj/item/clothing/head/helmet/space/eva/safety_moth
+	gloves = /obj/item/clothing/gloves/color/yellow
+	shoes = /obj/item/clothing/shoes/magboots/safety_moth
+	
+	
