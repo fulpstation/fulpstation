@@ -27,7 +27,6 @@
 	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/monsterhunter/on_gain()
-	SSticker.mode.monsterhunter += owner
 	// Buffs Monster Hunters
 	owner.unconvertable = TRUE
 	ADD_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
@@ -70,6 +69,7 @@
 
 /datum/antagonist/monsterhunter/on_removal()
 	// Remove buffs
+	owner.unconvertable = FALSE
 	REMOVE_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	// Remove Monster Hunter powers
@@ -78,11 +78,22 @@
 	// Remove Martial Arts
 	if(my_kungfu)
 		my_kungfu.remove(owner.current)
-	SSticker.mode.monsterhunter -= owner
-	if(!silent && owner.current)
-		to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: you are no longer a monster hunter</span>")
-	owner.special_role = null
+	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement, and are no longer a Monster Hunter.</span>")
 	return ..()
+
+/// Mind version
+/datum/mind/proc/make_monsterhunter()
+	var/datum/antagonist/monsterhunter/C = has_antag_datum(/datum/antagonist/monsterhunter)
+	if(!C)
+		C = add_antag_datum(/datum/antagonist/monsterhunter)
+		special_role = ROLE_MONSTERHUNTER
+	return C
+
+/datum/mind/proc/remove_monsterhunter()
+	var/datum/antagonist/monsterhunter/C = has_antag_datum(/datum/antagonist/monsterhunter)
+	if(C)
+		remove_antag_datum(/datum/antagonist/monsterhunter)
+		special_role = null
 
 //ADMIN TOOLS
 /// Called when using admin tools to give antag status

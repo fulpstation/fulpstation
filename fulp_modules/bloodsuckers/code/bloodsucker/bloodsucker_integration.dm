@@ -105,3 +105,10 @@
 			return BLOOD_VOLUME_NORMAL
 	return blood_volume
 */
+
+/proc/AmBloodsucker(mob/living/M, falseIfInDisguise = FALSE)
+	if(!M.mind)
+		return FALSE
+	if(!M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		return FALSE
+	return TRUE

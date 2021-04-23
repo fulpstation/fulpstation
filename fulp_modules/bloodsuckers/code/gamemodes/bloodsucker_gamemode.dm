@@ -1,20 +1,5 @@
 /datum/game_mode
 	var/list/datum/mind/bloodsuckers = list()
-	var/list/datum/mind/vassals = list() // List of minds that have been turned into Vassals.
-	var/list/datum/mind/monsterhunter = list() // List of all Monster Hunters
-	var/obj/effect/sunlight/bloodsucker_sunlight // Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
-	// The antags you're allowed to be if turning Vassal:
-	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/nukeop/lone, // Regular ops are bonded by team
-		/datum/antagonist/fugitive, /datum/antagonist/fugitive_hunter, /datum/antagonist/separatist, /datum/antagonist/gang, /datum/antagonist/survivalist, /datum/antagonist/rev,
-		/datum/antagonist/pirate, /datum/antagonist/ert, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker
-		)
-
-/proc/AmBloodsucker(mob/living/M, falseIfInDisguise = FALSE)
-	if(!M.mind)
-		return FALSE
-	if(!M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
-		return FALSE
-	return TRUE
 
 /datum/game_mode/bloodsucker
 	name = "bloodsucker"
@@ -62,28 +47,9 @@
 /datum/game_mode/bloodsucker/post_setup()
 	// Vamps
 	for(var/datum/mind/bloodsucker in bloodsuckers)
-		if(!make_bloodsucker(bloodsucker))
+		if(!bloodsucker.make_bloodsucker(bloodsucker))
 			bloodsuckers -= bloodsucker
 	..()
-
-/// Init Sunlight, called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
-/datum/game_mode/proc/check_start_sunlight()
-	// Already Sunlight (and not about to cancel)
-	if(istype(bloodsucker_sunlight))
-		return
-	bloodsucker_sunlight = new()
-
-/// End Sun (If you're the last)
-/datum/game_mode/proc/check_cancel_sunlight()
-	// No Sunlight
-	if(!istype(bloodsucker_sunlight))
-		return
-	if(bloodsuckers.len <= 0)
-		qdel(bloodsucker_sunlight)
-		bloodsucker_sunlight = null
-
-/datum/game_mode/proc/is_daylight()
-	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay
 
 /datum/game_mode/bloodsucker/generate_report()
 	return "There's been a report of the undead roaming around the sector, especially those that display Vampiric abilities.\
@@ -149,8 +115,15 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
+/*
+ *	# Assigning Bloodsucker status
+ *
+ *	Here we assign the Bloodsuckers themselves, ensuring they arent Plasmamen or other invalid antags
+ *	Also deals with Vassalization status.
+ */
+
 /// Creator is just here so we can display fail messages to whoever is turning us.
-/datum/game_mode/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
+/datum/antagonist/bloodsucker/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
 	// Species Must have a HEART (Sorry Plasmamen)
 	var/mob/living/carbon/human/H = bloodsucker.current
 	if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
@@ -165,7 +138,7 @@
 		return FALSE
 	return TRUE
 
-/datum/game_mode/proc/can_make_vassal(mob/living/target, datum/mind/creator, display_warning = TRUE)//, check_antag_or_loyal=FALSE)
+/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/target, datum/mind/creator, display_warning = TRUE)//, check_antag_or_loyal=FALSE)
 	// Not Correct Type: Abort
 	if(!iscarbon(target) || !creator)
 		return FALSE
@@ -194,7 +167,7 @@
 	return TRUE
 
 /// NOTE: This is a game_mode/proc, NOT a game_mode/bloodsucker/proc! We need to access this function despite the game mode.
-/datum/game_mode/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
+/datum/antagonist/bloodsucker/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
 	if(!can_make_bloodsucker(bloodsucker))
 		return FALSE
 	// Create Datum: Fledgling
@@ -226,27 +199,27 @@
 		remove_antag_datum(/datum/antagonist/bloodsucker)
 		special_role = null
 
-/datum/game_mode/proc/AmValidAntag(datum/mind/M)
+/datum/antagonist/bloodsucker/proc/AmValidAntag(datum/mind/M)
 	// No List?
 	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
 		return FALSE
 	// Am I NOT an invalid Antag? NOTE: We already excluded non-antags above. Don't worry about the "No List?" check in AmInvalidIntag()
 	return !AmInvalidAntag(M)
 
-/datum/game_mode/proc/AmInvalidAntag(datum/mind/M)
+/datum/antagonist/bloodsucker/proc/AmInvalidAntag(datum/mind/M)
 	// No List?
 	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
 		return FALSE
 	// Does even ONE antag appear in this mind that isn't in the list? Then FAIL!
 	for(var/datum/antagonist/antag_datum in M.antag_datums)
-		if(!(antag_datum.type in vassal_allowed_antags))  // vassal_allowed_antags is a list stored in the game mode, above.
+		if(!(antag_datum.type in vassal_allowed_antags))  // vassal_allowed_antags is a list stored in Bloodsucker's datum, above.
 			//message_admins("DEBUG VASSAL: Found Invalid: [antag_datum] // [antag_datum.type]")
 			return TRUE
 	//message_admins("DEBUG VASSAL: Valid Antags! (total of [M.antag_datums.len])")
 	// WHEN YOU DELETE THE ABOVE: Remove the 3 second timer on converting the vassal too.
 	return FALSE
 
-/datum/game_mode/proc/make_vassal(var/mob/living/target, var/datum/mind/creator)
+/datum/antagonist/bloodsucker/proc/make_vassal(var/mob/living/target, var/datum/mind/creator)
 	if(!can_make_vassal(target, creator))
 		return FALSE
 	// Make Vassal

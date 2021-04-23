@@ -7,29 +7,36 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
-	// NAME
-	var/bloodsucker_name // My Dracula style name
-	var/bloodsucker_title // My Dracula style title
-	var/bloodsucker_reputation // My "Surname" or description of my deeds
-	// CLAN
+	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
+	var/obj/effect/sunlight/bloodsucker_sunlight
+	/// List of all Antagonists that can be vassalized.
+	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/nukeop/lone,
+		/datum/antagonist/fugitive, /datum/antagonist/fugitive_hunter, /datum/antagonist/separatist, /datum/antagonist/gang, /datum/antagonist/survivalist, /datum/antagonist/rev,
+		/datum/antagonist/pirate, /datum/antagonist/ert, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker,
+		)
+	/// Used for assigning your name
+	var/bloodsucker_name
+	var/bloodsucker_title
+	var/bloodsucker_reputation
+	/// Clan, used for Sol and Vassals
 	var/datum/team/vampireclan/clan
 	var/list/datum/antagonist/vassal/vassals = list() // Vassals under my control. Periodically remove the dead ones.
 	var/datum/mind/creator // Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
-	// POWERS
-	var/list/datum/action/powers = list() // Purchased powers
-	var/poweron_feed = FALSE // Am I feeding?
+	/// Powers
+	var/list/datum/action/powers = list()
+	var/poweron_feed = FALSE
 	var/poweron_masquerade = FALSE
-	// STATS
+	/// Stats that change throughout the round and used for Ranking up.
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
-	var/additional_regen // Bonus regen the more blood we have.
-	var/bloodsucker_regen_rate = 0.3 // How fast do I regenerate?
-	var/feed_amount = 15 // Amount of blood drawn from a target per tick.
-	var/max_blood_volume = 600 // Maximum blood a Vamp can hold via feeding.
-	// OBJECTIVES
+	var/additional_regen
+	var/bloodsucker_regen_rate = 0.3
+	var/feed_amount = 15
+	var/max_blood_volume = 600
+	/// Used for Bloodsucker Objectives
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
-	// HUD
+	/// Used in Bloodsucker huds
 	var/valuecolor
 	// TRACKING
 	var/foodInGut // How much food to throw up later. You shouldn't have eaten that.
@@ -40,8 +47,9 @@
 	var/FinalDeath // Have we reached final death? Used to prevent spam.
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
 		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_THERMAL_VISION)
-/* TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -Willard
- * Remember that Fortitude gives NODISMEMBER when balancing Traits!
+/*
+ *	TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced.
+ *	Remember that Fortitude gives NODISMEMBER when balancing Traits!
  */
 
 /// These handles the application of antag huds/special abilities
@@ -57,10 +65,13 @@
 /datum/antagonist/bloodsucker/on_gain()
 	forge_bloodsucker_objectives()
 	SSticker.mode.bloodsuckers += owner
-	SSticker.mode.check_start_sunlight() // Start Sunlight if first Bloodsucker
-	AssignStarterPowersAndStats() // Give Powers & Stats
-	SelectFirstName() // Name & Title
-	SelectTitle(am_fledgling = TRUE) // If I have a creator, then set as Fledgling.
+	/// Start Sunlight if first Bloodsucker
+	check_start_sunlight()
+	AssignStarterPowersAndStats()
+	/// Name & Title
+	SelectFirstName()
+	/// If I have a creator, then set as Fledgling.
+	SelectTitle(am_fledgling = TRUE)
 	SelectReputation(am_fledgling = TRUE)
 	update_bloodsucker_icons_added(owner.current, "bloodsucker")
 	. = ..()
@@ -68,9 +79,9 @@
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	SSticker.mode.bloodsuckers -= owner
-	SSticker.mode.check_cancel_sunlight() // End Sunlight? (if last Vamp)
-	owner.special_role = null
-	ClearAllPowersAndStats() // Clear Powers & Stats
+	/// End Sunlight? (if last Vamp)
+	check_cancel_sunlight()
+	ClearAllPowersAndStats()
 	update_bloodsucker_icons_removed(owner.current)
 	if(!LAZYLEN(owner.antag_datums))
 		owner.current.remove_from_current_living_antags()
@@ -175,7 +186,12 @@
 	name = "Clan" // Teravanni,
 
 /datum/antagonist/bloodsucker/create_team(datum/team/team)
-	return
+	if(!team)
+		clan = new /datum/team/vampireclan
+		return
+	if(!istype(team))
+		stack_trace("Wrong team type passed to [type] initialization.")
+	clan = team
 
 /datum/antagonist/bloodsucker/get_team()
 	return clan
@@ -229,17 +245,14 @@
 /// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
-	power.Grant(owner.current) // owner.AddSpell(power)
+	power.Grant(owner.current)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	// Blood/Rank Counter
-	add_hud()
-	update_hud(owner.current) // Set blood value, current rank
-	// Powers
+	/// Purchase Roundstart Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
 	BuyPower(new /datum/action/bloodsucker/veil)
-	// Traits
+	/// Give Bloodsucker Traits
 	for(var/T in defaultTraits)
 		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_GENELESS, SPECIES_TRAIT)
@@ -248,37 +261,35 @@
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
 		S.species_traits += DRINKSBLOOD
-	// Clear Addictions
+	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
-		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS) //Remove the addiction!
-	// Stats
+		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
+	/// Clear Disabilities
+	CureDisabilities()
+	/// Stats
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
 		// Make Changes
 		H.physiology.brute_mod *= 0.8
-		H.physiology.cold_mod = 0
-		H.physiology.stun_mod *= 0.5
 		H.physiology.siemens_coeff *= 0.75 //base electrocution coefficient  1
 		S.punchdamagelow += 1 //lowest possible punch damage   0
 		S.punchdamagehigh += 1 //highest possible punch damage	 9
 		if(istype(H) && owner.assigned_role == "Clown")
 			H.dna.remove_mutation(CLOWNMUT)
 			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
-	// Physiology
-	CheckVampOrgans() // Heart
-	// Tongue & Language
+	/// Heart
+	CheckVampOrgans()
+	/// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
-	// Makes eyes weaker
+	/// Eyes
 	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect -= 1
-	E.see_in_dark = 12
-	// Disabilities
-	CureDisabilities()
+	E.see_in_dark = 8
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
-	// Blood/Rank Counter
+	/// Remove huds
 	remove_hud()
 	// Powers
 	while(powers.len)
@@ -286,26 +297,24 @@
 		powers -= power
 		power.Remove(owner.current)
 		// owner.RemoveSpell(power)
-	// Traits: Species
+	/// Stats
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
-		H.set_species(H.dna.species.type)
-	// Stats
-	if(ishuman(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		H.set_species(H.dna.species.type)
+		var/datum/species/S = H.dna.species
+		S.species_traits -= DRINKSBLOOD
 		// Clown
 		if(istype(H) && owner.assigned_role == "Clown")
 			H.dna.add_mutation(CLOWNMUT)
 	for(var/T in defaultTraits)
 		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
-	// Physiology
-	owner.current.regenerate_organs()
+	/// Heart
+	RemoveVampOrgans()
+	/// Eyes
 	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect += 1
 	E.see_in_dark = 2
-	// Update Health
-	owner.current.setMaxHealth(100)
+	/// Update Health
+	owner.current.setMaxHealth(MAX_LIVING_HEALTH)
 	// Language
 	owner.current.remove_language(/datum/language/vampiric)
 //	owner.current.hellbound = FALSE
@@ -745,3 +754,28 @@
 /atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"
+
+/*
+ *	# Assigning Sol
+ *
+ *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
+ */
+
+/// Init Sunlight, called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
+/datum/antagonist/bloodsucker/proc/check_start_sunlight()
+	// Already Sunlight (and not about to cancel)
+	if(istype(bloodsucker_sunlight))
+		return
+	bloodsucker_sunlight = new()
+
+/// End Sun (If you're the last)
+/datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
+	// No Sunlight
+	if(!istype(bloodsucker_sunlight))
+		return
+	if(!clan.members.len)
+		qdel(bloodsucker_sunlight)
+		bloodsucker_sunlight = null
+
+/datum/antagonist/bloodsucker/proc/is_daylight()
+	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay

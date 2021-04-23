@@ -29,16 +29,19 @@
 
 /// Do I have any parts that need replacing?
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
-	var/obj/item/organ/O
-	O = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(O, /obj/item/organ/heart/vampheart) && !istype(O, /obj/item/organ/heart/demon))
+	var/obj/item/organ/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
 		qdel(O)
 		var/obj/item/organ/heart/vampheart/H = new
 		H.Insert(owner.current)
-		H.Stop() // Now... stop beating!
+		/// Now... stop beating!
+		H.Stop()
 
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	var/obj/item/organ/heart/H = new
+	var/obj/item/organ/heart/H = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(H)
+		qdel(H)
+	H = new()
 	H.Insert(owner.current)
 
 // 		HEART: OVERWRITE	//

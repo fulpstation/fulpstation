@@ -82,7 +82,7 @@
 				message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
 
 /obj/effect/sunlight/proc/warn_daylight(danger_level =0, vampwarn = "", vassalwarn = "", hunteralert = "")
-	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M))
 			continue
 		to_chat(M,vampwarn)
@@ -98,12 +98,12 @@
 			else if(danger_level == 5)
 				M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
 	if(vassalwarn != "")
-		for(var/datum/mind/M in SSticker.mode.vassals)
+		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/vassal))
 			if(!istype(M))
 				continue
 			to_chat(M,vassalwarn)
 	if(hunteralert != "")
-		for(var/datum/mind/M in SSticker.mode.monsterhunter)
+		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/monsterhunter))
 			if(!istype(M))
 				continue
 			to_chat(M, hunteralert)

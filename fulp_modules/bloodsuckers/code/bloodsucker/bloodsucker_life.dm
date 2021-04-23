@@ -63,7 +63,7 @@
 	HandleStarving() // Death
 	HandleDeath() // Standard Update
 	update_hud()// Daytime Sleep in Coffin
-	if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
+	if(is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
 		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			Torpor_Begin()
 				// Wait before next pass
@@ -251,11 +251,11 @@
 			to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
 			Torpor_Begin()
 		if(HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			if(!SSticker.mode.is_daylight() && total_damage <= owner.current.getMaxHealth()) /// Prevents them from waking up Mid-day
+			if(!is_daylight() && total_damage <= owner.current.getMaxHealth()) /// Prevents them from waking up Mid-day
 				Torpor_End()
 	// End Torpor:
 	else // No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
-		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage <= 0)
+		if(!is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage <= 0)
 			Torpor_End()
 		// Fake Unconscious
 		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)

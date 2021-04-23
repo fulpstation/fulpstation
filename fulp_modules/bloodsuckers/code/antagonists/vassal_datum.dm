@@ -4,11 +4,11 @@
 
 /datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
 	C.silent = 0
-	return SSticker.mode.make_vassal(C,owner)
+	return make_vassal(C,owner)
 
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
 	for(var/datum/antagonist/vassal/V in vassals)
-		SSticker.mode.remove_vassal(V.owner)
+		remove_vassal(V.owner)
 
 /datum/antagonist/vassal
 	name = "Vassal" //WARNING: DO NOT SELECT" // "Vassal"
@@ -32,7 +32,6 @@
 	return ..()
 
 /datum/antagonist/vassal/on_gain()
-	SSticker.mode.vassals |= owner // Add if not already in here (and you might be, if you were picked at round start)
 	// Mindslave Add
 	if(master)
 		var/datum/antagonist/bloodsucker/B = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -56,7 +55,6 @@
 	. = ..()
 
 /datum/antagonist/vassal/on_removal()
-	SSticker.mode.vassals -= owner // Add if not already in here (and you might be, if you were picked at round start)
 	// Mindslave Remove
 	if(master && master.owner)
 		master.vassals -= src
@@ -129,7 +127,7 @@
 /*/datum/antagonist/vassal/roundend_report_header()
 	return 	"<span class='header'>Loyal to their bloodsucking masters, the Vassals were:</span><br><br>"*/
 
-/datum/game_mode/proc/remove_vassal(datum/mind/vassal)
+/datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
 	vassal.remove_antag_datum(/datum/antagonist/vassal)
 
 /datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype = "vassal")
