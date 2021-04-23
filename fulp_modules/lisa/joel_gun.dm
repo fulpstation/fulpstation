@@ -13,7 +13,8 @@
 
 /// To prevent ability spam.
 /obj/item/gun/ballistic/revolver/joel/proc/clear_cooldown()
-	used_ability = FALSE
+	if(used_ability)
+		used_ability = FALSE
 
 /// Load It In
 /obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
@@ -26,9 +27,7 @@
 	 "<span class='userdanger'>You put the bullet in [src]!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
 	..()
-	var/mob/living/carbon/C = user
-	C.adjustBruteLoss(-5)
-	C.adjustFireLoss(-5)
+	clear_cooldown()
 	A.update_appearance()
 	return
 
