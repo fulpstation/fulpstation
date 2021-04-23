@@ -1,5 +1,5 @@
 /obj/item/gun/ballistic/revolver/joel
-	icon = 'icons/obj/guns/ballistic.dmi'
+	icon = 'fulp_modules/lisa/Sprites/joel.dmi'
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi' /// We probably don't want to change these...
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	load_sound = 'fulp_modules/lisa/Sounds/gunload.ogg'
