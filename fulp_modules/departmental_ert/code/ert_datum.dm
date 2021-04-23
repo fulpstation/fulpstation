@@ -25,3 +25,16 @@
 	rename_team = "Clown ERT"
 	mission = "Honk the crew!"
 	polldesc = "a Code HONK Nanotrasen Emergency Response Team"
+
+/// safety moth 
+
+/datum/ert/safety_moth
+	mobtype = /mob/living/carbon/human/species/moth
+	leader_role = /datum/antagonist/ert/safety_moth
+	enforce_human = FALSE
+	roles = list(/datum/antagonist/ert/safety_moth)
+	mission = "Ensure that proper safety protocols are being followed by the crew."
+	teamsize = 1
+	polldesc = "an experienced Nanotrasen engineering expert"
+	opendoors = FALSE
+	
