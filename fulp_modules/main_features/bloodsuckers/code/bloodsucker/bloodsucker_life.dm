@@ -41,7 +41,7 @@
 	. = ..()
 	if(..())
 		if(target.mind.has_antag_datum(/datum/antagonist/vassal))
-			target.remove_antag_datum(/datum/antagonist/vassal)
+			target.mind.remove_antag_datum(/datum/antagonist/vassal)
 
 /*
  *		TO PLUG INTO LIFE:
