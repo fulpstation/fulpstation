@@ -33,7 +33,7 @@
 	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in B.vassals))
 		return ""
 	// Default String
-	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName(1)]</EM></span>\]"
+	var/returnString = "\[<span class='warning'><EM>[B.ReturnFullName(1)]</EM></span>\]"
 	var/returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
 
 	// In Disguise (Veil)?
