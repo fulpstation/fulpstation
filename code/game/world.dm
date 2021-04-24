@@ -49,7 +49,6 @@ GLOBAL_VAR(restart_counter)
 	config.Load(params[OVERRIDE_CONFIG_DIRECTORY_PARAMETER])
 
 	load_admins()
-	load_mentors() // FULP - Mentorhelp
 
 	//SetupLogs depends on the RoundID, so lets check
 	//DB schema and set RoundID if we can
@@ -279,8 +278,6 @@ GLOBAL_VAR(restart_counter)
 
 /world/proc/update_status()
 
-	status = update_status_fulp()  // FULPSTATION Use our code and bail!
-	/*
 	var/list/features = list()
 
 	if(GLOB.master_mode)
@@ -330,7 +327,7 @@ GLOBAL_VAR(restart_counter)
 		s += ": [jointext(features, ", ")]"
 
 	status = s
-*/
+
 /world/proc/update_hub_visibility(new_visibility)
 	if(new_visibility == GLOB.hub_visibility)
 		return
