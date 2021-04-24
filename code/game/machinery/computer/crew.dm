@@ -81,6 +81,7 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 		"Deputy (Engineering)" = 42,
 		"Deputy (Medical)" = 24,
 		"Deputy (Science)" = 33,
+		"Deputy (Service)" = 69,
 		// FULP EDIT END
 		// ANYTHING ELSE = UNKNOWN_JOB_ID, Unknowns/custom jobs will appear after civilians, and before assistants
 		"Assistant" = 999,

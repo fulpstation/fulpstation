@@ -244,23 +244,6 @@
 
 	return null
 
-/proc/pick_random_item_and_count(list/L) //This version only works with associated lists where the value is a list containing 3 ints - pickweight, min, and max. Returns list (array) where 1 is path and 2 is num
-	var/total = 0
-	var/item
-	for (item in L)
-		world << L[item]
-		world << L[item][1]
-		if (!L[item][1])
-			L[item][1] = 1
-		total += L[item][1]
-	total = rand(1, total)
-	for (item in L)
-		total -= L[item][1]
-		if (total <= 0)
-			var/randx = rand(L[item][2],L[item][3])
-			return list(item,randx)
-	return null
-
 /// Pick a random element from the list and remove it from the list.
 /proc/pick_n_take(list/L)
 	RETURN_TYPE(L[_].type)
