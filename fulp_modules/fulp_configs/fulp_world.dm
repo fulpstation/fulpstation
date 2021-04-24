@@ -16,7 +16,7 @@
 	s += "<b>[server_name]</b>\] &#8212; " // Fulpstation: added "\]" so we close the name with a ] - This looks clean!
 
 	var/server_caption = CONFIG_GET(string/servercaption)
-	s += "<b>[server_caption]</b>";
+	s += "<b>[server_caption]</b>;"
 	s += " ("
 	s += "<a href=\"[CONFIG_GET(string/discordurl)]\">" //Change this to wherever you want the hub to link to
 	s += "Discord"
@@ -25,7 +25,7 @@
 
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
-	s += "<br>Map: [SSmapping.config?.map_name || "Loading..."]"
+	s += "<br>Map: [[SSmapping.config?.map_name || "In Lobby"]"
 
 	var/players = GLOB.clients.len
 
