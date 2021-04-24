@@ -19,8 +19,9 @@
 
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
-	s += "<br>Map: \[<b>[SSmapping.config.map_name]</b>"
+	s += "<br>Map: \[<b>[SSmapping.config.map_name]</b>"//\] // Since this is the last line, the ] is done automatically for us.
 
+/*
 	var/players = GLOB.clients.len
 
 	var/popcaptext = ""
@@ -29,6 +30,7 @@
 		popcaptext = "/[popcap]"
 
 	game_state = (CONFIG_GET(number/extreme_popcap) && players >= CONFIG_GET(number/extreme_popcap)) ///Tells the hub if we are full
+*/
 
 	status = s
 	return s
