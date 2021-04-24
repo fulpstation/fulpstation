@@ -847,7 +847,7 @@
 //			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 			switch(species_id) // [FULP EDIT STARTS]
 				if("beefman") //If we ever add more unique races - this should be a list of them.
-					limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
+					limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 				else
 					limb.icon = 'icons/mob/human_parts_greyscale.dmi'// [FULP EDIT END]
 			if(should_draw_gender)
@@ -857,12 +857,7 @@
 			else
 				limb.icon_state = "[species_id]_[body_zone]"
 		else
-//			limb.icon = 'icons/mob/human_parts.dmi'
-			switch(species_id) // [FULP EDIT STARTS]
-				if("beefman")
-					limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
-				else
-					limb.icon = 'icons/mob/human_parts.dmi' // [FULP EDIT END]
+			limb.icon = 'icons/mob/human_parts.dmi'
 			if(should_draw_gender)
 				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 			else
@@ -872,20 +867,17 @@
 			. += aux
 
 	else
-		limb.icon = icon
+//		limb.icon = icon
+		switch(species_id) // [FULP EDIT STARTS]
+			if("beefman")
+				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+			else
+				limb.icon = 'icons/mob/human_parts.dmi' // [FULP EDIT END]
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
 		if(aux_zone)
 			aux = image(limb.icon, "[aux_zone]", -aux_layer, image_dir)
 			. += aux
 		return
-
-
-	if(should_draw_greyscale)
-		var/draw_color = mutation_color || species_color || (skin_tone && skintone2hex(skin_tone))
-		if(draw_color)
-			limb.color = "#[draw_color]"
-			if(aux_zone)
-				aux.color = "#[draw_color]"
 
 
 	if(should_draw_greyscale)
