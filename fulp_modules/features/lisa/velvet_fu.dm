@@ -56,7 +56,7 @@
 /// Receding Stance
 /datum/action/receding_stance
 	name = "Receding Stance - Regenerates Stamina, takes time to do."
-	icon_icon = 'fulp_modules/lisa/sprites/stances.dmi'
+	icon_icon = 'fulp_modules/features/lisa/sprites/stances.dmi'
 	button_icon_state = "receding_stance"
 	var/stancing = FALSE
 
@@ -84,7 +84,7 @@
 /// Twisted Stance
 /datum/action/twisted_stance
 	name = "Twisted Stance - Regenerates a lot of stamina, deals brute damage."
-	icon_icon = 'fulp_modules/lisa/sprites/stances.dmi'
+	icon_icon = 'fulp_modules/features/lisa/sprites/stances.dmi'
 	button_icon_state = "twisted_stance"
 
 /datum/action/twisted_stance/Trigger(mob/living/user = owner)
@@ -280,7 +280,7 @@
 	name = "Hollywood VHS tape"
 	martialname = "velvet-fu"
 	desc = "A VHS tape labelled 'Grand-Master's Course'. This seems modified, causing it to beam the content straight into your eyes."
-	icon = 'fulp_modules/lisa/sprites/casette.dmi'
+	icon = 'fulp_modules/features/lisa/sprites/casette.dmi'
 	icon_state = "velvet"
 	greet = "You've finished watching the Velvet-Fu VHS tape."
 	remarks = list("Smooth as Velvet...", "Show me your stance!", "Left Jab!", "Right Jab!", "Kick, kick!", "Ah, so fast...", "Now forget the basics!", "...But remember the style!")

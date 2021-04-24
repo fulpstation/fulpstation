@@ -1,9 +1,9 @@
 /obj/item/gun/ballistic/revolver/joel
-	icon = 'fulp_modules/lisa/Sprites/joel.dmi'
+	icon = 'fulp_modules/features/lisa/Sprites/joel.dmi'
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi' /// We probably don't want to change these...
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
-	load_sound = 'fulp_modules/lisa/Sounds/gunload.ogg'
-	eject_sound = 'fulp_modules/lisa/Sounds/empty.ogg'
+	load_sound = 'fulp_modules/features/lisa/Sounds/gunload.ogg'
+	eject_sound = 'fulp_modules/features/lisa/Sounds/empty.ogg'
 	icon_state = "revolver"
 	name = "\improper Bolt Action pistol"
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet."
@@ -41,7 +41,7 @@
 			for(var/mob/living/L in viewers(7, user))
 				L.face_atom(user)
 				L.do_alert_animation()
-			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
+			playsound(src, 'fulp_modules/features/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			var/mob/living/carbon/C = user
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
@@ -54,7 +54,7 @@
 			for(var/mob/living/L in viewers(7, user))
 				L.face_atom(user)
 				L.do_alert_animation()
-			playsound(src, 'fulp_modules/lisa/Sounds/guntoss.ogg', 50, FALSE, -5)
+			playsound(src, 'fulp_modules/features/lisa/Sounds/guntoss.ogg', 50, FALSE, -5)
 			var/mob/living/carbon/C = user
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
@@ -75,7 +75,7 @@
 					to_chat(L, "<span class='warning'>Seeing [src] revealed in such a manner disgusts you!</span>")
 					if(!L.mind || !istype(L.mind.martial_art, /datum/martial_art/velvetfu))
 						L.vomit(0, FALSE, FALSE, 3, TRUE, harm = FALSE)
-			playsound(src, 'fulp_modules/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
+			playsound(src, 'fulp_modules/features/lisa/Sounds/gunreveal.ogg', 20, FALSE, -5)
 			used_ability = TRUE
 			addtimer(CALLBACK(src, .proc/clear_cooldown), 10 SECONDS)
 			return
@@ -107,7 +107,7 @@
 	user.visible_message("<span class='danger'>[user.name] holds [victim.name] at gunpoint!</span>",\
 	 "<span class='userdanger'>You hold [victim.name] up at gunpoint!</span>",\
 	 "<span class='hear'>You hear metal clanking...</span>")
-	playsound(loc, 'fulp_modules/lisa/Sounds/steadyaim.ogg', 50, FALSE, -5)
+	playsound(loc, 'fulp_modules/features/lisa/Sounds/steadyaim.ogg', 50, FALSE, -5)
 	if(prob(50))
 		if(!victim.mind || !istype(victim.mind.martial_art, /datum/martial_art/velvetfu))
 			victim.Stun(rand(10, 20))
@@ -119,7 +119,7 @@
 /obj/item/gun/ballistic/revolver/joel/afterattack(atom/target, mob/living/user, flag, params)
 	if(!chambered) /// Can shoot if its empty, we don't care!
 		user.visible_message("<span class='danger'>*click*</span>")
-		playsound(loc, 'fulp_modules/lisa/Sounds/gunclick.ogg', 50, FALSE, -5)
+		playsound(loc, 'fulp_modules/features/lisa/Sounds/gunclick.ogg', 50, FALSE, -5)
 		return
 	if(used_ability)
 		to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
@@ -127,7 +127,7 @@
 	if(target) /// Misdirection (Scholar of the Wilbur Sin exclusive)
 		user.visible_message("<span class='danger'>[user.name] looks around themselves.</span>",\
 		 "<span class='userdanger'>You look for something to point [src] at.</span>")
-		playsound(loc, 'fulp_modules/lisa/Sounds/misdirect.ogg', 50, FALSE, -5)
+		playsound(loc, 'fulp_modules/features/lisa/Sounds/misdirect.ogg', 50, FALSE, -5)
 		used_ability = TRUE
 		addtimer(CALLBACK(src, .proc/clear_cooldown), 7 SECONDS)
 		if(do_after(user, 0.4 SECONDS, target = src, progress = FALSE))
