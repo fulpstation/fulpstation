@@ -25,10 +25,7 @@
 
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
-	s += "<br>Forums:</br> <a href=\"[CONFIG_GET(string/discordurl)]\">"
-	if(SSmapping?.config)
-		var/datum/map_config/MAP
-		s += "<br>Map: [MAP?.map_name ? "<b>[MAP.map_name]</b>" : ""]"
+	s += "<br>Map: [SSmapping.config?.map_name || "Loading..."]"
 
 	var/players = GLOB.clients.len
 
