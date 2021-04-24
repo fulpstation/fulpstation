@@ -19,7 +19,7 @@
 
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
-	s += "<br>Map: \[<b>[SSmapping.config.map_name]</b>\]"
+	s += "<br>Map: \[<b>[SSmapping.config.map_name]</b>"
 
 	var/players = GLOB.clients.len
 
