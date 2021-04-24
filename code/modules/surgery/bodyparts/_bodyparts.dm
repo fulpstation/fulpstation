@@ -847,7 +847,7 @@
 //			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 			switch(species_id) // [FULP EDIT STARTS]
 				if("beefman") //If we ever add more unique races - this should be a list of them.
-					limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
+					limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 				else
 					limb.icon = 'icons/mob/human_parts_greyscale.dmi'// [FULP EDIT END]
 			if(should_draw_gender)
@@ -870,7 +870,7 @@
 //		limb.icon = icon
 		switch(species_id) // [FULP EDIT STARTS]
 			if("beefman")
-				limb.icon = 'fulp_modules/beefman_port/icons/mob/beefman_bodyparts.dmi'
+				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 			else
 				limb.icon = 'icons/mob/human_parts.dmi' // [FULP EDIT END]
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
