@@ -3,3 +3,6 @@
 
 /// Overwrites the Kiss emoji
 /datum/emote/living/kiss
+
+/// Overwrites the Felinid language
+/datum/language/nekomimetic
