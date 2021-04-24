@@ -25,8 +25,8 @@
 
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
-	s += "<br>Map: [SSmapping.config?.map_name]"
-
+	s += "<br>Map: [SSmapping.config.map_name]"
+	
 	var/players = GLOB.clients.len
 
 	var/popcaptext = ""
