@@ -124,36 +124,40 @@
 	if(used_ability)
 		to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
 		return
-	if(target) /// Misdirection (Scholar of the Wilbur Sin exclusive)
-		user.visible_message("<span class='danger'>[user.name] looks around themselves.</span>",\
-		 "<span class='userdanger'>You look for something to point [src] at.</span>")
-		playsound(loc, 'fulp_modules/features/lisa/Sounds/misdirect.ogg', 50, FALSE, -5)
-		used_ability = TRUE
-		addtimer(CALLBACK(src, .proc/clear_cooldown), 7 SECONDS)
-		if(do_after(user, 0.4 SECONDS, target = src, progress = FALSE))
-			user.setDir(turn(user.dir, 90))
-		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
-			user.setDir(turn(user.dir, -90))
-		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
-			user.setDir(turn(user.dir, 90))
-		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
-			user.setDir(turn(user.dir, -90))
-		if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
-			user.emote("gasp")
-			user.visible_message("<span class='danger'>[user.name] quickly points their gun towards [target]!</span>",\
-			 "<span class='userdanger'>You misdirect [src] towards [target]!</span>",\
-			 "<span class='hear'>You hear a gasp...</span>")
-			for(var/mob/living/H in view(1, target))
-				if(!(H == user) && !(H.stat))
-					if(!H.mind || !istype(H.mind.martial_art, /datum/martial_art/velvetfu))
-						H.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
-						 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
-						 "<span class='hear'>You hear aggressive shuffling!</span>")
-						H.Move(target)
-			for(var/mob/living/L in viewers(5, target))
-				L.face_atom(target)
-				L.do_alert_animation()
-		return
+	if(target)
+		if(!used_ability) /// Misdirection (Scholar of the Wilbur Sin exclusive)
+			user.visible_message("<span class='danger'>[user.name] looks around themselves.</span>",\
+			 "<span class='userdanger'>You look for something to point [src] at.</span>")
+			playsound(loc, 'fulp_modules/features/lisa/Sounds/misdirect.ogg', 50, FALSE, -5)
+			used_ability = TRUE
+			addtimer(CALLBACK(src, .proc/clear_cooldown), 7 SECONDS)
+			if(do_after(user, 0.4 SECONDS, target = src, progress = FALSE))
+				user.setDir(turn(user.dir, 90))
+			if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+				user.setDir(turn(user.dir, -90))
+			if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+				user.setDir(turn(user.dir, 90))
+			if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+				user.setDir(turn(user.dir, -90))
+			if(do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+				user.emote("gasp")
+				user.visible_message("<span class='danger'>[user.name] quickly points their gun towards [target]!</span>",\
+				 "<span class='userdanger'>You misdirect [src] towards [target]!</span>",\
+				 "<span class='hear'>You hear a gasp...</span>")
+				for(var/mob/living/H in view(1, target))
+					if(!(H == user) && !(H.stat))
+						if(!H.mind || !istype(H.mind.martial_art, /datum/martial_art/velvetfu))
+							H.visible_message("<span class='danger'>You quickly jump towards [target]!</span>",\
+							 "<span class='userdanger'>[H] quickly jumps towards [target]!</span>",\
+							 "<span class='hear'>You hear aggressive shuffling!</span>")
+							H.Move(target)
+				for(var/mob/living/L in viewers(5, target))
+					L.face_atom(target)
+					L.do_alert_animation()
+					return
+			else
+				to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
+				return
 
 /obj/item/gun/ballistic/revolver/joel/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	add_fingerprint(user)
