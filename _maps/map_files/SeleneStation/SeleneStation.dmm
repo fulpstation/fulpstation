@@ -4791,6 +4791,9 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/iron,
 /area/commons/fitness)
 "bnK" = (
@@ -18666,6 +18669,9 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/chair{
 	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/commons/fitness)
@@ -38036,6 +38042,20 @@
 /obj/structure/tank_holder/extinguisher,
 /turf/open/floor/iron/white,
 /area/science/research)
+"jLF" = (
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/machinery/light,
+/turf/open/floor/iron/white,
+/area/medical/medbay)
 "jLO" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -44060,10 +44080,13 @@
 /turf/open/floor/iron/white,
 /area/science/genetics)
 "lkW" = (
-/obj/machinery/computer/holodeck{
-	dir = 1
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
 	},
-/obj/machinery/light,
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/chair{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/commons/fitness)
 "llf" = (
@@ -44077,15 +44100,12 @@
 /turf/closed/wall/r_wall,
 /area/science/cytology)
 "llu" = (
-/obj/machinery/camera{
-	c_tag = "Holodeck - Aft";
-	dir = 1;
-	name = "holodeck camera"
+/obj/machinery/computer/holodeck{
+	dir = 1
 	},
-/turf/open/floor/engine{
-	name = "Holodeck Projector Floor"
-	},
-/area/holodeck/rec_center)
+/obj/machinery/light,
+/turf/open/floor/iron,
+/area/commons/fitness)
 "llB" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/mechanical{
@@ -47219,11 +47239,15 @@
 /turf/open/floor/iron/dark,
 /area/ai_monitored/command/storage/eva)
 "lZB" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
+/obj/machinery/camera{
+	c_tag = "Holodeck - Aft";
+	dir = 1;
+	name = "holodeck camera"
 	},
-/turf/open/floor/iron,
-/area/commons/fitness)
+/turf/open/floor/engine{
+	name = "Holodeck Projector Floor"
+	},
+/area/holodeck/rec_center)
 "lZF" = (
 /obj/machinery/button/door{
 	id = "Disposal Exit";
@@ -47861,7 +47885,7 @@
 /area/service/library/private)
 "mgP" = (
 /obj/effect/turf_decal/tile/neutral{
-	dir = 4
+	dir = 1
 	},
 /turf/open/floor/iron,
 /area/commons/fitness)
@@ -50041,12 +50065,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/spawner/randomarcade{
-	dir = 8
-	},
 /turf/open/floor/iron,
 /area/commons/fitness)
 "mIV" = (
@@ -50335,11 +50353,17 @@
 /turf/open/floor/iron/dark/telecomms,
 /area/engineering/atmos)
 "mLq" = (
-/obj/machinery/light{
+/obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/turf/open/floor/wood,
-/area/service/abandoned_gambling_den)
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/spawner/randomarcade{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/commons/fitness)
 "mLs" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -69893,6 +69917,13 @@
 /obj/machinery/atmospherics/components/unary/tank/air,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"rLI" = (
+/obj/structure/flora/ausbushes/fullgrass,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/grass,
+/area/service/hydroponics/garden)
 "rLR" = (
 /obj/machinery/holopad,
 /turf/open/floor/iron,
@@ -73844,13 +73875,6 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/vault,
 /area/command/bridge)
-"sLe" = (
-/obj/structure/flora/ausbushes/fullgrass,
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/grass,
-/area/service/hydroponics/garden)
 "sLf" = (
 /obj/structure/rack,
 /obj/item/storage/briefcase,
@@ -86403,23 +86427,11 @@
 /turf/open/floor/engine,
 /area/science/xenobiology)
 "weC" = (
-/obj/structure/bodycontainer/morgue{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 4;
-	name = "Medical blue corner"
-	},
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/iron/dark,
-/area/medical/morgue)
+/turf/open/floor/wood,
+/area/service/abandoned_gambling_den)
 "wfb" = (
 /obj/structure/cable,
 /turf/open/floor/iron,
@@ -94094,19 +94106,23 @@
 /turf/open/floor/wood,
 /area/commons/vacant_room/office)
 "xVW" = (
-/obj/structure/cable,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
+/obj/structure/bodycontainer/morgue{
+	dir = 8
 	},
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/machinery/light,
-/turf/open/floor/iron/white,
-/area/medical/medbay)
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 4;
+	name = "Medical blue corner"
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/iron/dark,
+/area/medical/morgue)
 "xVY" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/hidden/layer4{
 	dir = 1
@@ -113091,7 +113107,7 @@ fxn
 vMB
 bHw
 uWt
-sLe
+rLI
 wzB
 jvM
 nzb
@@ -114608,7 +114624,7 @@ utO
 grj
 oPH
 aES
-mLq
+weC
 pft
 rum
 qnM
@@ -126901,7 +126917,7 @@ jMI
 cUd
 erG
 jMS
-lkW
+llu
 jMI
 yju
 yju
@@ -128703,7 +128719,7 @@ wLQ
 wLQ
 wLQ
 wLQ
-llu
+lZB
 eKB
 kYK
 pHB
@@ -130247,7 +130263,7 @@ jSk
 jSk
 jSk
 jSk
-lZB
+mgP
 hbL
 mnF
 mge
@@ -130498,13 +130514,13 @@ eKB
 cfu
 dsX
 eRa
-eRa
+lkW
 dsX
 dsX
 eRa
-eRa
+lkW
 dsX
-mgP
+mIL
 hbL
 mnF
 iod
@@ -131018,7 +131034,7 @@ iQW
 iQW
 iQW
 eKB
-mIL
+mLq
 hcF
 eMs
 hts
@@ -135430,7 +135446,7 @@ yaq
 xWy
 txo
 txo
-weC
+xVW
 sfU
 wLh
 xFH
@@ -135442,7 +135458,7 @@ bpn
 nvA
 rXy
 rXy
-xVW
+jLF
 oKi
 uxN
 uxN
