@@ -1065,6 +1065,7 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
+/obj/machinery/light,
 /turf/open/floor/iron/white,
 /area/medical/storage)
 "aoV" = (
@@ -1263,6 +1264,9 @@
 	pixel_y = 3
 	},
 /obj/item/stack/sheet/iron/fifty,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron/white,
 /area/science/misc_lab)
 "arc" = (
@@ -4194,6 +4198,9 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/service/hydroponics/garden)
 "bhm" = (
@@ -4694,7 +4701,6 @@
 	dir = 8;
 	name = "Security red corner"
 	},
-/obj/item/storage/fancy/donut_box,
 /turf/open/floor/iron,
 /area/security/checkpoint/medical)
 "bms" = (
@@ -5993,6 +5999,9 @@
 	name = "Security red corner"
 	},
 /obj/item/radio/intercom/directional/west,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/security/brig)
 "bDf" = (
@@ -6343,6 +6352,9 @@
 	},
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/maintenance/department/cargo)
@@ -7433,10 +7445,6 @@
 /obj/machinery/door/airlock/research{
 	name = "Xenobiology Closet";
 	req_access_txt = "47"
-	},
-/obj/machinery/atmospherics/components/binary/valve/digital/on{
-	dir = 1;
-	name = "Xenobio air supply valve"
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/purple{
@@ -11156,6 +11164,7 @@
 /obj/machinery/computer/holodeck{
 	dir = 1
 	},
+/obj/machinery/light,
 /turf/open/floor/iron,
 /area/commons/fitness)
 "cUJ" = (
@@ -12229,6 +12238,9 @@
 	dir = 4;
 	name = "Science purple corner"
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/iron/dark,
 /area/science/nanite)
 "diS" = (
@@ -12296,9 +12308,7 @@
 	name = "Auxiliary Air Supply";
 	req_one_access_txt = "10;24"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold/supply/hidden{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/layer_manifold/supply/hidden,
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "djT" = (
@@ -16768,22 +16778,11 @@
 /turf/open/floor/iron/dark,
 /area/engineering/gravity_generator)
 "erG" = (
-/obj/structure/cable,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 4;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 1;
-	name = "Medical blue corner"
-	},
 /obj/machinery/light{
-	dir = 1
+	dir = 4
 	},
-/turf/open/floor/iron/white,
-/area/medical/medbay)
+/turf/open/floor/wood,
+/area/service/abandoned_gambling_den)
 "erK" = (
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
@@ -18723,6 +18722,9 @@
 	dir = 8;
 	pixel_x = 22
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/wood,
 /area/service/theater)
 "eTb" = (
@@ -19037,6 +19039,9 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/cargo/miningdock)
 "eXk" = (
@@ -19107,6 +19112,9 @@
 	c_tag = "Medical - Medbay Entrance";
 	dir = 6;
 	network = list("ss13", "medbay")
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay)
@@ -19702,6 +19710,9 @@
 	name = "Engineering yellow corner"
 	},
 /obj/item/radio/intercom/directional/west,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/engineering/main)
 "fgm" = (
@@ -20233,9 +20244,6 @@
 /area/medical/medbay)
 "fnF" = (
 /obj/machinery/hydroponics/soil,
-/obj/machinery/light{
-	dir = 8
-	},
 /obj/machinery/status_display/evac{
 	pixel_x = -32
 	},
@@ -23126,9 +23134,6 @@
 	c_tag = "Service - Botany Office";
 	network = list("ss13", "service")
 	},
-/obj/machinery/light/small{
-	dir = 1
-	},
 /turf/open/floor/iron,
 /area/service/hydroponics)
 "fWD" = (
@@ -23794,11 +23799,10 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "gdy" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
-/turf/open/floor/plating,
+/turf/closed/wall,
 /area/cargo/sorting)
 "gdD" = (
 /obj/effect/turf_decal/tile/yellow{
@@ -27265,10 +27269,6 @@
 /turf/open/floor/iron/dark,
 /area/security/brig)
 "haV" = (
-/obj/machinery/door/airlock/engineering{
-	name = "Auxillary Base Construction";
-	req_one_access_txt = "32;47;48"
-	},
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	name = "Engineering yellow corner"
@@ -27277,6 +27277,10 @@
 	color = "#FFD700";
 	dir = 1;
 	name = "Engineering yellow corner"
+	},
+/obj/machinery/door/airlock/engineering{
+	name = "Auxillary Base Construction";
+	req_one_access_txt = "72"
 	},
 /turf/open/floor/iron,
 /area/maintenance/department/crew_quarters/dorms)
@@ -31107,6 +31111,9 @@
 /obj/structure/sign/departments/medbay{
 	pixel_y = 32
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/iron/white,
 /area/medical/medbay)
 "ian" = (
@@ -31331,7 +31338,6 @@
 /turf/open/floor/iron/cafeteria,
 /area/maintenance/department/medical)
 "idc" = (
-/obj/effect/spawner/structure/window,
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/medical/medbay/lobby)
@@ -31548,6 +31554,9 @@
 	color = "#4169E1";
 	dir = 1;
 	name = "Command blue corner"
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/ai_monitored/command/storage/eva)
@@ -32635,8 +32644,7 @@
 	dir = 8
 	},
 /obj/structure/cable,
-/obj/machinery/light/small{
-	brightness = 3;
+/obj/machinery/light{
 	dir = 8
 	},
 /turf/open/floor/iron,
@@ -33277,6 +33285,9 @@
 /obj/item/storage/belt/utility,
 /obj/item/storage/belt/utility,
 /obj/item/book/manual/ripley_build_and_repair,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/science/robotics/lab)
 "iBZ" = (
@@ -33730,11 +33741,11 @@
 /area/engineering/main)
 "iJB" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/engineering{
 	name = "Auxiliary Air Supply and Power";
 	req_one_access_txt = "10;24"
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold/supply/hidden,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "iJF" = (
@@ -39450,6 +39461,9 @@
 	pixel_x = -2;
 	pixel_y = 5
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/security/brig)
 "kdY" = (
@@ -39776,6 +39790,9 @@
 	},
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 5
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/port)
@@ -41117,7 +41134,7 @@
 	},
 /obj/machinery/button/door{
 	id = "Xtestlab";
-	layer = 3.1;
+	layer = 3.3;
 	name = "Test Chamber Blast Doors";
 	pixel_x = 25;
 	pixel_y = -5;
@@ -41125,7 +41142,7 @@
 	},
 /obj/machinery/button/ignition{
 	id = "xenoignite";
-	layer = 3.1;
+	layer = 3.3;
 	name = "Pen Igniter button";
 	pixel_x = 25;
 	pixel_y = 5
@@ -43289,6 +43306,9 @@
 "lcz" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /obj/effect/landmark/start/hangover,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/grass,
 /area/service/hydroponics/garden)
 "lcD" = (
@@ -44035,11 +44055,23 @@
 /turf/open/floor/iron/white,
 /area/science/genetics)
 "lkW" = (
+/obj/structure/bodycontainer/morgue{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 4;
+	name = "Medical blue corner"
+	},
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/carpet/purple,
-/area/service/hydroponics/garden)
+/turf/open/floor/iron/dark,
+/area/medical/morgue)
 "llf" = (
 /obj/structure/cable,
 /obj/effect/loot_site_spawner,
@@ -45957,6 +45989,9 @@
 	pixel_y = -4
 	},
 /obj/machinery/duct,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/commons/locker)
 "lJZ" = (
@@ -50303,22 +50338,19 @@
 /turf/open/floor/iron/dark/telecomms,
 /area/engineering/atmos)
 "mLq" = (
-/obj/machinery/portable_atmospherics/canister/toxins,
-/obj/effect/turf_decal/tile/purple{
-	color = "#4D0067";
-	dir = 1;
-	name = "Science purple corner"
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
 	},
-/obj/effect/turf_decal/tile/purple{
-	color = "#4D0067";
-	dir = 4;
-	name = "Science purple corner"
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
 	},
-/obj/machinery/light{
-	dir = 1
-	},
+/obj/machinery/light,
 /turf/open/floor/iron/white,
-/area/science/storage)
+/area/medical/medbay)
 "mLs" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -52851,7 +52883,7 @@
 	dir = 1;
 	name = "Science purple corner"
 	},
-/obj/machinery/light/small,
+/obj/machinery/light,
 /turf/open/floor/iron/dark,
 /area/science/nanite)
 "nsY" = (
@@ -52998,6 +53030,9 @@
 	name = "Science purple corner"
 	},
 /obj/item/nanite_scanner,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/iron/white,
 /area/science/nanite)
 "nuk" = (
@@ -54146,6 +54181,9 @@
 	},
 /obj/machinery/status_display/evac{
 	pixel_x = 32
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/science/storage)
@@ -58041,6 +58079,9 @@
 	dir = 1;
 	name = "Science purple corner"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron/white,
 /area/science/storage)
 "oMP" = (
@@ -61815,6 +61856,9 @@
 	pixel_y = 26
 	},
 /obj/machinery/bluespace_vendor/east,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/iron,
 /area/cargo/office)
 "pNs" = (
@@ -62168,12 +62212,11 @@
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "pRQ" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Engineering Maintenance";
-	req_one_access_txt = "10;24"
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/structure/cable,
+/obj/machinery/door/airlock/maintenance{
+	req_access_txt = "32"
+	},
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "pRR" = (
@@ -63016,6 +63059,9 @@
 	color = "#4169E1";
 	dir = 4;
 	name = "Command blue corner"
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/ai_monitored/command/storage/eva)
@@ -65857,6 +65903,9 @@
 /obj/effect/turf_decal/siding/wood/end{
 	dir = 4
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/grass,
 /area/service/hydroponics/garden)
 "qNP" = (
@@ -67248,7 +67297,6 @@
 	dir = 8;
 	name = "Command blue corner"
 	},
-/obj/machinery/light,
 /obj/machinery/status_display/evac{
 	pixel_y = -32
 	},
@@ -68949,6 +68997,9 @@
 	name = "Security red corner"
 	},
 /obj/item/book/manual/wiki/security_space_law,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/iron/dark,
 /area/command/heads_quarters/hos)
 "ryP" = (
@@ -71072,7 +71123,7 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
-/obj/machinery/light/small{
+/obj/machinery/light{
 	dir = 4
 	},
 /turf/open/floor/iron,
@@ -72358,6 +72409,9 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/service/janitor)
 "ssZ" = (
@@ -72549,6 +72603,9 @@
 	department = "Cargo security post";
 	departmentType = 5;
 	pixel_y = 30
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/iron,
 /area/security/checkpoint/supply)
@@ -72772,6 +72829,7 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
+/obj/machinery/light,
 /turf/open/floor/iron/dark,
 /area/engineering/main)
 "sww" = (
@@ -74447,6 +74505,7 @@
 	dir = 8;
 	name = "Science purple corner"
 	},
+/obj/machinery/light,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "sWk" = (
@@ -75325,6 +75384,9 @@
 /obj/item/clothing/head/hardhat,
 /obj/item/clothing/suit/hooded/wintercoat/engineering,
 /obj/item/clothing/glasses/meson/engine,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/iron,
 /area/engineering/main)
 "thu" = (
@@ -78614,7 +78676,7 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
-/obj/machinery/light/small{
+/obj/machinery/light{
 	dir = 1
 	},
 /turf/open/floor/iron,
@@ -79591,6 +79653,7 @@
 	pixel_y = 24;
 	req_access_txt = "39"
 	},
+/obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/iron/white,
 /area/medical/virology)
 "unj" = (
@@ -79943,6 +80006,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
+/obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/iron/white,
 /area/medical/virology)
 "urH" = (
@@ -82234,6 +82298,10 @@
 /area/engineering/atmos)
 "uWY" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "lawyer_shutters";
+	name = "law office shutters"
+	},
 /turf/open/floor/plating,
 /area/service/lawoffice)
 "uXB" = (
@@ -82948,6 +83016,9 @@
 	color = "#4D0067";
 	dir = 1;
 	name = "Science purple corner"
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/iron/white,
 /area/science/research)
@@ -86561,6 +86632,7 @@
 	dir = 1;
 	name = "Science purple corner"
 	},
+/obj/machinery/light,
 /turf/open/floor/iron/white,
 /area/science/nanite)
 "whY" = (
@@ -90014,6 +90086,7 @@
 /obj/structure/table/glass,
 /obj/item/flashlight/lantern,
 /obj/item/storage/fancy/candle_box,
+/obj/machinery/light,
 /turf/open/floor/iron/dark,
 /area/service/chapel/dock)
 "wYb" = (
@@ -93155,6 +93228,12 @@
 /area/cargo/office)
 "xLK" = (
 /obj/structure/bookcase,
+/obj/machinery/button/door{
+	id = "lawyer_shutters";
+	name = "law office shutters control";
+	pixel_x = 26;
+	req_access_txt = "38"
+	},
 /turf/open/floor/wood,
 /area/service/lawoffice)
 "xLO" = (
@@ -94009,12 +94088,12 @@
 /turf/open/floor/wood,
 /area/commons/vacant_room/office)
 "xVW" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/disposalpipe/segment{
+/obj/structure/flora/ausbushes/fullgrass,
+/obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/plating,
-/area/cargo/sorting)
+/turf/open/floor/grass,
+/area/service/hydroponics/garden)
 "xVY" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/hidden/layer4{
 	dir = 1
@@ -112998,8 +113077,8 @@ peh
 fxn
 vMB
 bHw
-lkW
-cdh
+uWt
+xVW
 wzB
 jvM
 nzb
@@ -114516,7 +114595,7 @@ utO
 grj
 oPH
 aES
-rum
+erG
 pft
 rum
 qnM
@@ -117379,8 +117458,8 @@ aDs
 gay
 pfG
 pfG
-xVW
-xVW
+rwd
+rwd
 gdy
 oIp
 oIp
@@ -133863,7 +133942,7 @@ qaQ
 efS
 cyN
 btX
-cyF
+cYb
 cYb
 apH
 cbc
@@ -135338,7 +135417,7 @@ yaq
 xWy
 txo
 txo
-txo
+lkW
 sfU
 wLh
 xFH
@@ -135350,7 +135429,7 @@ bpn
 nvA
 rXy
 rXy
-uRh
+mLq
 oKi
 uxN
 uxN
@@ -135614,7 +135693,7 @@ oPS
 wNT
 eZZ
 mhn
-erG
+ykY
 lSZ
 qME
 aTM
@@ -140787,7 +140866,7 @@ cgO
 eKi
 iAR
 hMU
-mLq
+lcI
 cSe
 gzy
 cZH
@@ -144855,13 +144934,13 @@ iQW
 iQW
 iQW
 iQW
-cWk
+nit
 qVt
 gqz
 bVe
 cub
 sJt
-cWk
+nit
 iQW
 iQW
 yju
