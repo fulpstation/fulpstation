@@ -184,6 +184,7 @@
 /// Bloodsucker team
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
+	show_roundend_report = FALSE
 
 /datum/antagonist/bloodsucker/create_team(datum/team/team)
 	if(!team)
@@ -194,7 +195,7 @@
 	clan = team
 
 /datum/antagonist/bloodsucker/get_team()
-	return clan
+	return
 
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
 	objectives += O
