@@ -21,7 +21,7 @@
 		// Check One: Default Valid User
 		if(possible_target != owner && ishuman(possible_target.current) && possible_target.current.stat != DEAD)// && is_unique_objective(possible_target))
 			// Check Two: Am Bloodsucker? OR in Bloodsucker list?
-			if(possible_target as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+			if(possible_target.has_antag_datum(/datum/antagonist/bloodsucker))
 				continue
 			else
 				possible_targets += possible_target
