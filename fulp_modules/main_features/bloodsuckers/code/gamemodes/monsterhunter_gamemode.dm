@@ -29,7 +29,7 @@
 			continue
 		if(H.stat == DEAD)
 			continue
-		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions)) // Only crewmembers on-station.
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions))
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.command_positions))
 			continue
@@ -54,7 +54,7 @@
 	min_players = 10
 	earliest_start = 25 MINUTES
 	alert_observers = FALSE
-	gamemode_whitelist = list("traitorchan","changeling","heresy","cult","traitorsucker")
+	gamemode_whitelist = list("changeling","heresy","cult")
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE

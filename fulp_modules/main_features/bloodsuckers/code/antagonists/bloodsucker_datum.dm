@@ -64,7 +64,6 @@
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	forge_bloodsucker_objectives()
-	SSticker.mode.bloodsuckers += owner
 	/// Start Sunlight if first Bloodsucker
 	check_start_sunlight()
 	AssignStarterPowersAndStats()
@@ -78,7 +77,6 @@
 
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
-	SSticker.mode.bloodsuckers -= owner
 	/// End Sunlight? (if last Vamp)
 	check_cancel_sunlight()
 	ClearAllPowersAndStats()
@@ -767,6 +765,8 @@
 	// Already Sunlight (and not about to cancel)
 	if(istype(bloodsucker_sunlight))
 		return
+	if(clan.members.len >= 1)
+		return
 	bloodsucker_sunlight = new()
 
 /// End Sun (If you're the last)
@@ -776,7 +776,6 @@
 		return
 	if(!clan.members.len)
 		qdel(bloodsucker_sunlight)
-		bloodsucker_sunlight = null
 
 /datum/antagonist/bloodsucker/proc/is_daylight()
 	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay

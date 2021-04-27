@@ -16,7 +16,7 @@
 
 /obj/effect/sunlight/process()
 	// Update all Bloodsucker sunlight huds
-	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M) || !istype(M.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -29,7 +29,7 @@
 			if(!issued_XP && time_til_cycle <= 15)
 				issued_XP = TRUE
 				// Cycle through all vamp antags and check if they're inside a closet.
-				for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+				for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 					if(!istype(M) || !istype(M.current))
 						continue
 					var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -43,7 +43,7 @@
 			issued_XP = FALSE
 			time_til_cycle = TIME_BLOODSUCKER_NIGHT
 			message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [TIME_BLOODSUCKER_NIGHT / 60] minutes.")
-			for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+			for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 				if(!istype(M) || !istype(M.current))
 					continue
 				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -110,7 +110,7 @@
 
 /// Cycle through all vamp antags and check if they're inside a closet.
 /obj/effect/sunlight/proc/punish_vamps()
-	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M) || !istype(M.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -148,7 +148,7 @@
 
 /// It's late...! Give the "Vanishing Act" gohome power to bloodsuckers.
 /obj/effect/sunlight/proc/give_home_power()
-	for(var/datum/mind/M in SSticker.mode.bloodsuckers)
+	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M) || !istype(M.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)

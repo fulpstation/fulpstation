@@ -67,7 +67,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_INTERNAL_AFFAIRS = /datum/game_mode/traitor/internal_affairs,
 	ROLE_SENTIENCE,
 	ROLE_FAMILIES = /datum/game_mode/gang,
-	ROLE_BLOODSUCKER = /datum/game_mode/bloodsucker, // Fulpstation Bloodsuckers
+	ROLE_BLOODSUCKER, // Fulpstation Bloodsuckers
 	ROLE_MONSTERHUNTER, // Fulpstation Bloodsuckers
 	ROLE_HERETIC = /datum/game_mode/heretics
 ))
