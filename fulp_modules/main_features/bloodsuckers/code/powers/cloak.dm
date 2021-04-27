@@ -21,18 +21,18 @@
 	return TRUE
 
 /datum/action/bloodsucker/cloak/ActivatePower()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/mob/living/user = owner
 
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
 
-	while(B && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
+	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		// Pay Blood Toll (if awake)
 		owner.alpha = max(35, owner.alpha - min(75, 10 + 5 * level_current))
 		if(user.stat == CONSCIOUS)
-			B.AddBloodVolume(-0.2)
+			bloodsuckerdatum.AddBloodVolume(-0.2)
 		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
 			user.toggle_move_intent()
 			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")

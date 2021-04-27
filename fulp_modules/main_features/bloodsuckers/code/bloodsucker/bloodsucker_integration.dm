@@ -20,20 +20,20 @@
 	if(!mind || !viewer.mind)
 		return ""
 	// Target must be a Vamp
-	var/datum/antagonist/bloodsucker/B = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!B)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
 		return ""
 	// Viewer is Target's Vassal?
-	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in B.vassals)
+	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
 		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
 		var/returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
 		returnString += "\n"
 		return returnIcon + returnString
 	// Viewer not a Vamp AND not the target's vassal?
-	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in B.vassals))
+	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
 		return ""
 	// Default String
-	var/returnString = "\[<span class='warning'><EM>[B.ReturnFullName(1)]</EM></span>\]"
+	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName(1)]</EM></span>\]"
 	var/returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
 
 	// In Disguise (Veil)?
@@ -83,8 +83,8 @@
 	if(!mind || !mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		return blood_volume < BLOOD_VOLUME_SAFE
 
-	var/datum/antagonist/bloodsucker/B = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(B.poweron_masquerade)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.poweron_masquerade)
 		return FALSE
 	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)
 	return blood_volume < BLOOD_VOLUME_OKAY // && !(bodytemperature <= get_temperature() + 2)
@@ -100,8 +100,8 @@
 /mob/living/carbon/proc/scan_blood_volume()
 	// Vamps don't show up normally to scanners unless Masquerade power is on ----> scanner.dm
 	if(mind)
-		var/datum/antagonist/bloodsucker/B = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(istype(B) && B.poweron_masquerade)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(istype(bloodsuckerdatum) && bloodsuckerdatum.poweron_masquerade)
 			return BLOOD_VOLUME_NORMAL
 	return blood_volume
 */
