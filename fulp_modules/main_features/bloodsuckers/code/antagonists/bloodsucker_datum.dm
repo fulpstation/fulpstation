@@ -163,7 +163,7 @@
 /datum/antagonist/bloodsucker/proc/AmFledgling()
 	return !bloodsucker_title
 
-/datum/antagonist/bloodsucker/proc/ReturnFullName(include_rep = 0)
+/datum/antagonist/bloodsucker/proc/ReturnFullName(var/include_rep=0)
 
 	var/fullname
 	// Name First
@@ -184,10 +184,9 @@
 /datum/team/vampireclan/roundend_report()
 	var/list/report = list()
 	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-	report += printplayerlist(members)
 	/// This won't work. I'd like to hopefully get it working so we can show Bloodsucker's objectives.
-//	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-//	report += bloodsuckerdatum.roundend_report()
+	for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
+		report += H.roundend_report()
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
 
@@ -219,13 +218,17 @@
 	/// Get the default Objectives
 	var/list/report = list()
 
-	report += printplayer(owner)
-
 	/// Vamp Name
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 
 	/// Default Report
-	report += ..()
+	var/objectives_complete = TRUE
+	if(objectives.len)
+		report += printobjectives(objectives)
+		for(var/datum/objective/objective in objectives)
+			if(!objective.check_completion())
+				objectives_complete = FALSE
+				break
 
 	/// Now list their vassals
 	if(vassals.len > 0)
@@ -235,13 +238,12 @@
 				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role]" : ""
 				report += "<b>[V.owner.name]</b> [jobname]"
 
-	return report.Join("<br>")
+	if(objectives.len == 0 || objectives_complete)
+		report += "<span class='greentext big'>The [name] was successful!</span>"
+	else
+		report += "<span class='redtext big'>The [name] has failed!</span>"
 
-/*
-/// Displayed at the start of roundend_category section, default to roundend_category header
-/datum/antagonist/bloodsucker/roundend_report_header()
-	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-*/
+	return report.Join("<br>")
 
 // ADMIN TOOLS //
 /// Called when using admin tools to give antag status
