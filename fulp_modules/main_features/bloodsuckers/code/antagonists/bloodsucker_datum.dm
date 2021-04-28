@@ -83,8 +83,6 @@
 	update_bloodsucker_icons_removed(owner.current)
 	if(!LAZYLEN(owner.antag_datums))
 		owner.current.remove_from_current_living_antags()
-//	if(!silent && owner.current)
-//		farewell()
 	return ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -104,10 +102,10 @@
 /datum/antagonist/bloodsucker/farewell()
 	owner.current.visible_message("[owner.current]'s skin flushes with color, their eyes growing glossier. They look...alive.",\
 			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
-	// Refill with Blood
+	/// Refill with Blood
 	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_SAFE)
 
-/// Names (EVERYONE gets one))
+/// Names (EVERYONE gets one)
 /datum/antagonist/bloodsucker/proc/SelectFirstName()
 	if(owner.current.gender == MALE)
 		bloodsucker_name = pick("Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
