@@ -105,77 +105,11 @@
 	/// Refill with Blood
 	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_SAFE)
 
-/// Names (EVERYONE gets one)
-/datum/antagonist/bloodsucker/proc/SelectFirstName()
-	if(owner.current.gender == MALE)
-		bloodsucker_name = pick("Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
-						"Sveyn","Aurel","Alexe","Iustin","Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
-						"Lucius","Gaius","Otho","Balbinus","Arcadius","Romanos","Alexios","Vitellius",  // Latin
-						"Melanthus","Teuthras","Orchamus","Amyntor","Axion",  // Greek
-						"Thoth","Thutmose","Osorkon,","Nofret","Minmotu","Khafra", // Egyptian
-						"Dio")
+/datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
+	objectives += O
 
-	else
-		bloodsucker_name = pick("Islana","Tyrra","Greganna","Pytra","Hilda","Andra","Crina","Viorela","Viorica","Anemona","Camelia","Narcisa","Sorina","Alessia","Sophia","Gladda","Arcana","Morgan","Lasarra","Ioana","Elena", \
-						"Alina","Rodica","Teodora","Denisa","Mihaela","Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
-						"Alexia","Athanasia","Callista","Karena","Nephele","Scylla","Ursa",  // Latin
-						"Alcestis","Damaris","Elisavet","Khthonia","Teodora",  // Greek
-						"Nefret","Ankhesenpep") // Egyptian
-
-/datum/antagonist/bloodsucker/proc/SelectTitle(am_fledgling = 0, forced = FALSE)
-	// Already have Title
-	if(!forced && bloodsucker_title != null)
-		return
-	// Titles [Master]
-	if(!am_fledgling)
-		if(owner.current.gender == MALE)
-			bloodsucker_title = pick ("Count","Baron","Viscount","Prince","Duke","Tzar","Dreadlord","Lord","Master")
-		else
-			bloodsucker_title = pick ("Countess","Baroness","Viscountess","Princess","Duchess","Tzarina","Dreadlady","Lady","Mistress")
-		to_chat(owner, "<span class='announce'>You have earned a title! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
-	// Titles [Fledgling]
-	else
-		bloodsucker_title = null
-
-/datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = 0, forced=FALSE)
-	// Already have Reputation
-	if(!forced && bloodsucker_reputation != null)
-		return
-	// Reputations [Master]
-	if(!am_fledgling)
-		bloodsucker_reputation = pick("Butcher","Blood Fiend","Crimson","Red","Black","Terror","Nightman","Feared","Ravenous","Fiend","Malevolent","Wicked","Ancient","Plaguebringer","Sinister","Forgotten","Wretched","Baleful", \
-							"Inqisitor","Harvester","Reviled","Robust","Betrayer","Destructor","Damned","Accursed","Terrible","Vicious","Profane","Vile","Depraved","Foul","Slayer","Manslayer","Sovereign","Slaughterer", \
-							"Forsaken","Mad","Dragon","Savage","Villainous","Nefarious","Inquisitor","Marauder","Horrible","Immortal","Undying","Overlord","Corrupt","Hellspawn","Tyrant","Sanguineous")
-		if(owner.current.gender == MALE)
-			if(prob(10)) // Gender override
-				bloodsucker_reputation = pick("King of the Damned", "Blood King", "Emperor of Blades", "Sinlord", "God-King")
-		else if(owner.current.gender == FEMALE)
-			if(prob(10)) // Gender override
-				bloodsucker_reputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
-
-		to_chat(owner, "<span class='announce'>You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
-
-	// Reputations [Fledgling]
-	else
-		bloodsucker_reputation = pick ("Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned","Fledgling","Young","Neonate","Scrapling","Untested","Unproven","Unknown","Newly Risen","Born","Scavenger","Unknowing",\
-							   "Unspoiled","Disgraced","Defrocked","Shamed","Meek","Timid","Broken","Fresh")
-
-/datum/antagonist/bloodsucker/proc/AmFledgling()
-	return !bloodsucker_title
-
-/datum/antagonist/bloodsucker/proc/ReturnFullName(var/include_rep=0)
-
-	var/fullname
-	// Name First
-	fullname = (bloodsucker_name ? bloodsucker_name : owner.current.name)
-	// Title
-	if(bloodsucker_title)
-		fullname = bloodsucker_title + " " + fullname
-	// Rep
-	if(include_rep && bloodsucker_reputation)
-		fullname = fullname + " the " + bloodsucker_reputation
-
-	return fullname
+/datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
+	objectives -= O
 
 /// Bloodsucker team
 /datum/team/vampireclan
@@ -207,17 +141,10 @@
 /datum/antagonist/bloodsucker/get_team()
 	return clan
 
-/datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
-	objectives += O
-
-/datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
-	objectives -= O
-
 /// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
 	/// Get the default Objectives
 	var/list/report = list()
-
 	/// Vamp Name
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 
@@ -598,6 +525,83 @@
  *	FIX LIST
  */
 
+/*
+ *	# Bloodsucker Names
+ *
+ *	All Bloodsuckers get a name, and gets a better one when they hit Rank 4.
+ */
+
+/// Names
+/datum/antagonist/bloodsucker/proc/SelectFirstName()
+	if(owner.current.gender == MALE)
+		bloodsucker_name = pick("Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
+						"Sveyn","Aurel","Alexe","Iustin","Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
+						"Lucius","Gaius","Otho","Balbinus","Arcadius","Romanos","Alexios","Vitellius",  // Latin
+						"Melanthus","Teuthras","Orchamus","Amyntor","Axion",  // Greek
+						"Thoth","Thutmose","Osorkon,","Nofret","Minmotu","Khafra", // Egyptian
+						"Dio")
+
+	else
+		bloodsucker_name = pick("Islana","Tyrra","Greganna","Pytra","Hilda","Andra","Crina","Viorela","Viorica","Anemona","Camelia","Narcisa","Sorina","Alessia","Sophia","Gladda","Arcana","Morgan","Lasarra","Ioana","Elena", \
+						"Alina","Rodica","Teodora","Denisa","Mihaela","Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
+						"Alexia","Athanasia","Callista","Karena","Nephele","Scylla","Ursa",  // Latin
+						"Alcestis","Damaris","Elisavet","Khthonia","Teodora",  // Greek
+						"Nefret","Ankhesenpep") // Egyptian
+
+/datum/antagonist/bloodsucker/proc/SelectTitle(am_fledgling = 0, forced = FALSE)
+	// Already have Title
+	if(!forced && bloodsucker_title != null)
+		return
+	// Titles [Master]
+	if(!am_fledgling)
+		if(owner.current.gender == MALE)
+			bloodsucker_title = pick ("Count","Baron","Viscount","Prince","Duke","Tzar","Dreadlord","Lord","Master")
+		else
+			bloodsucker_title = pick ("Countess","Baroness","Viscountess","Princess","Duchess","Tzarina","Dreadlady","Lady","Mistress")
+		to_chat(owner, "<span class='announce'>You have earned a title! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
+	// Titles [Fledgling]
+	else
+		bloodsucker_title = null
+
+/datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = 0, forced = FALSE)
+	// Already have Reputation
+	if(!forced && bloodsucker_reputation != null)
+		return
+	// Reputations [Master]
+	if(!am_fledgling)
+		bloodsucker_reputation = pick("Butcher","Blood Fiend","Crimson","Red","Black","Terror","Nightman","Feared","Ravenous","Fiend","Malevolent","Wicked","Ancient","Plaguebringer","Sinister","Forgotten","Wretched","Baleful", \
+							"Inqisitor","Harvester","Reviled","Robust","Betrayer","Destructor","Damned","Accursed","Terrible","Vicious","Profane","Vile","Depraved","Foul","Slayer","Manslayer","Sovereign","Slaughterer", \
+							"Forsaken","Mad","Dragon","Savage","Villainous","Nefarious","Inquisitor","Marauder","Horrible","Immortal","Undying","Overlord","Corrupt","Hellspawn","Tyrant","Sanguineous")
+		if(owner.current.gender == MALE)
+			if(prob(10)) // Gender override
+				bloodsucker_reputation = pick("King of the Damned", "Blood King", "Emperor of Blades", "Sinlord", "God-King")
+		else if(owner.current.gender == FEMALE)
+			if(prob(10)) // Gender override
+				bloodsucker_reputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
+
+		to_chat(owner, "<span class='announce'>You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
+
+	// Reputations [Fledgling]
+	else
+		bloodsucker_reputation = pick ("Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned","Fledgling","Young","Neonate","Scrapling","Untested","Unproven","Unknown","Newly Risen","Born","Scavenger","Unknowing",\
+							   "Unspoiled","Disgraced","Defrocked","Shamed","Meek","Timid","Broken","Fresh")
+
+/datum/antagonist/bloodsucker/proc/AmFledgling()
+	return !bloodsucker_title
+
+/datum/antagonist/bloodsucker/proc/ReturnFullName(include_rep = FALSE)
+
+	var/fullname
+	// Name First
+	fullname = (bloodsucker_name ? bloodsucker_name : owner.current.name)
+	// Title
+	if(bloodsucker_title)
+		fullname = bloodsucker_title + " " + fullname
+	// Rep
+	if(include_rep && bloodsucker_reputation)
+		fullname = fullname + " the " + bloodsucker_reputation
+
+	return fullname
 
 /////////////////////////////////////
 		// HUD! //

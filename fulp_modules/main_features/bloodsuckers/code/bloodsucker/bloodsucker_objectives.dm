@@ -284,7 +284,7 @@
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/vassalhim/check_completion()
-	if(target.has_antag_datum(/datum/antagonist/vassal))
+	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
 		return TRUE
 	return FALSE
 
