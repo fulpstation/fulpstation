@@ -111,18 +111,17 @@
 /datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
 	objectives -= O
 
-/// Bloodsucker team
+
+/*
+ *	# Vampire Clan
+ *
+ *	This is used for dealing with the Vampire Clan. While there are comments and ideas on how this should be used,
+ *	due to gamemode's removal, this was recycled to be used for Sol.
+ *	We're using some workarounds, using Wizard's roundend report, to get it to show the individual Bloodsucker, rather than the team.
+ */
+
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
-
-/datum/team/vampireclan/roundend_report()
-	var/list/report = list()
-	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-	/// This won't work. I'd like to hopefully get it working so we can show Bloodsucker's objectives.
-	for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
-		report += H.roundend_report()
-
-	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
 
 /datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
 	if(!team)
@@ -141,11 +140,22 @@
 /datum/antagonist/bloodsucker/get_team()
 	return clan
 
+/datum/team/vampireclan/roundend_report()
+	var/list/report = list()
+	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
+	report += " "
+	/// This won't work. I'd like to hopefully get it working so we can show Bloodsucker's objectives.
+	for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
+		report += H.roundend_report()
+
+	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
+
 /// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
 	/// Get the default Objectives
 	var/list/report = list()
 	/// Vamp Name
+	report += printplayer(owner)
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 
 	/// Default Report
@@ -370,10 +380,11 @@
 	add_objective(survive_objective)
 
 
-
+/*
 /// Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
 	return ..() + "([ReturnFullName(TRUE)])"
+*/
 
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
