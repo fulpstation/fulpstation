@@ -2,16 +2,8 @@
 #define VASSAL_SCAN_MAX_DISTANCE 500
 #define VASSAL_SCAN_PING_TIME 20 // 2s update time.
 
-/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
-	C.silent = 0
-	return make_vassal(C,owner)
-
-/datum/antagonist/bloodsucker/proc/FreeAllVassals()
-	for(var/datum/antagonist/vassal/V in vassals)
-		remove_vassal(V.owner)
-
 /datum/antagonist/vassal
-	name = "Vassal" //WARNING: DO NOT SELECT" // "Vassal"
+	name = "Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
@@ -21,15 +13,8 @@
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
 
-/// This handles the removal of antag huds/special abilities
 /datum/antagonist/vassal/remove_innate_effects(mob/living/mob_override)
 	return
-
-/// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
-/datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
-	if(!master)
-		return FALSE
-	return ..()
 
 /datum/antagonist/vassal/on_gain()
 	// Mindslave Add
@@ -86,9 +71,9 @@
 	to_chat(owner, "<span class='boldannounce'>The power of [master.owner.current.p_their()] immortal blood compells you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
 			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.<span>")
 	to_chat(owner, "<span class='userdanger'>Vassal Tip: Avoid being mindshielded at all costs!</span>")
-	// Effects...
+	/// Effects...
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
-	// And to your new Master...
+	/// And to your new Master...
 	to_chat(master.owner, "<span class='userdanger'>[owner.current] has become addicted to your immortal blood. [owner.current.p_they(TRUE)] [owner.current.p_are()] now your undying servant!</span>")
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
@@ -98,7 +83,7 @@
 			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self.",\
 			"<span class='userdanger'><FONT size = 3>With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will.</FONT></span>")
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
-	// And to your former Master...
+	/// And to your former Master...
 	if(master && master.owner)
 		to_chat(master.owner, "<span class='userdanger'>You feel the bond with your vassal [owner.current] has somehow been broken!</span>")
 
@@ -113,8 +98,8 @@
 /atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
 	name = "Blood Bond"
 	desc = "You always know where your master is."
-	//icon = 'icons/obj/device.dmi'
-	//icon_state = "pinon"
+//	icon = 'icons/obj/device.dmi'
+//	icon_state = "pinon"
 
 /datum/status_effect/agent_pinpointer/vassal_edition/on_creation(mob/living/new_owner, ...)
 	..()
@@ -123,10 +108,6 @@
 
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
 	// DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
-
-//Displayed at the start of roundend_category section, default to roundend_category header
-/*/datum/antagonist/vassal/roundend_report_header()
-	return 	"<span class='header'>Loyal to their bloodsucking masters, the Vassals were:</span><br><br>"*/
 
 /datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
 	vassal.remove_antag_datum(/datum/antagonist/vassal)
@@ -143,3 +124,14 @@
 	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	hud.leave_hud(vassal)
 	set_antag_hud(vassal, null)
+
+/// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
+/datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
+	if(!master)
+		return FALSE
+	return ..()
+
+/// When a Bloodsucker gets FinalDeath.
+/datum/antagonist/bloodsucker/proc/FreeAllVassals()
+	for(var/datum/antagonist/vassal/V in vassals)
+		remove_vassal(V.owner)

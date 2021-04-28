@@ -143,6 +143,10 @@
 	// WHEN YOU DELETE THE ABOVE: Remove the 3 second timer on converting the vassal too.
 	return FALSE
 
+/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
+	C.silent = 0
+	return make_vassal(C,owner)
+
 /datum/antagonist/bloodsucker/proc/make_vassal(var/mob/living/target, var/datum/mind/creator)
 	if(!can_make_vassal(target, creator))
 		return FALSE
