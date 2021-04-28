@@ -233,7 +233,6 @@
 /// Steal hearts. You just really wanna have some hearts.
 /datum/objective/bloodsucker/heartthief
 	name = "heartthief"
-	martyr_compatible = FALSE
 
 // GENERATE!
 /datum/objective/bloodsucker/heartthief/generate_objective()
@@ -298,7 +297,6 @@
 
 /datum/objective/bloodsucker/survive
 	name = "bloodsuckersurvive"
-	martyr_compatible = FALSE
 
 // EXPLANATION
 /datum/objective/bloodsucker/survive/update_explanation_text()
