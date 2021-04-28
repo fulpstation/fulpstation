@@ -1,12 +1,14 @@
-/* Hide a random object somewhere on the station:
- *		var/turf/targetturf = get_random_station_turf()
- *		var/turf/targetturf = get_safe_random_station_turf()
+/*
+ *	# Hide a random object somewhere on the station:
+ *
+ *	var/turf/targetturf = get_random_station_turf()
+ *	var/turf/targetturf = get_safe_random_station_turf()
  */
 
 /datum/objective/bloodsucker
 	martyr_compatible = TRUE
 
-// GENERATE!
+/// GENERATE!
 /datum/objective/bloodsucker/proc/generate_objective()
 	update_explanation_text()
 
@@ -62,7 +64,7 @@
 		"Research Director",
 		"Chief Engineer",
 		"Chief Medical Officer",
-		"Quartermaster"
+		"Quartermaster",
 	)
 	var/list/departs = list(
 		"Captain",
@@ -71,7 +73,7 @@
 		"Research Director",
 		"Chief Engineer",
 		"Chief Medical Officer",
-		"Quartermaster"
+		"Quartermaster",
 	)
 
 
@@ -82,15 +84,15 @@
 /datum/objective/bloodsucker/protege/generate_objective()
 	target_role = rand(0,2) == 0 ? "HEAD" : pick(departs)
 
-	// Heads?
+	/// Command personnel? Only one required
 	if(target_role == "HEAD")
-		target_amount = rand(1, round(SSticker.mode.num_players() / 20))
-		target_amount = clamp(target_amount,1,3)
-	// Department?
+		target_amount = 1
+	/// Vassalize department workers? 2-4 people, then.
 	else
 		switch(target_role)
 			if("Captain")
-				department_string = "Security" // They aren't security, but they do start mindshielded.
+				/// They aren't security, but they do start mindshielded.
+				department_string = "Security"
 			if("Head of Security")
 				department_string = "Security"
 			if("Head of Personnel")
@@ -103,17 +105,13 @@
 				department_string = "Medical"
 			if("Quartermaster")
 				department_string = "Cargo"
-		target_amount = rand(round(SSticker.mode.num_players() / 20), round(SSticker.mode.num_players() / 10))
-		target_amount = clamp(target_amount, 2, 4)
+		target_amount = rand(2,4)
 	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
 	if(target_role == "HEAD")
-		if(target_amount == 1)
-			explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
-		else
-			explanation_text = "Guarantee [target_amount] Vassals end up as different Leadership or Department Heads."
+		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
 	else
 		explanation_text = "Have [target_amount] Vassal[target_amount==1?"":"s"] in the [department_string] department."
 
@@ -160,7 +158,7 @@
 		else if(V.owner.current && ishuman(V.owner.current))
 			var/mob/living/carbon/human/H = V.owner.current
 			var/obj/item/card/id/I =  H.wear_id ? H.wear_id.GetID() : null
-			if (I && (I.assignment in valid_jobs) && !(I.assignment in counted_roles))
+			if(I && (I.assignment in valid_jobs) && !(I.assignment in counted_roles))
 				//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (GET ID)</span>")
 				thisRole = I.assignment
 
@@ -169,7 +167,7 @@
 			continue
 
 		// SUCCESS!
-		objcount ++
+		objcount++
 		if(target_role == "HEAD")
 			counted_roles += thisRole // Add to list so we don't count it again (but only if it's a Head)
 
@@ -243,7 +241,7 @@
 // EXPLANATION
 /datum/objective/bloodsucker/heartthief/update_explanation_text()
 	. = ..()
-	explanation_text = "Steal and keep [target_amount] heart[target_amount == 1 ? "" : "s"]."			// TO DO:     Limit them to Human Only!
+	explanation_text = "Steal and keep [target_amount] heart[target_amount == 1 ? "" : "s"]." // TO DO: Limit them to Human Only!
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/heartthief/check_completion()
