@@ -58,21 +58,25 @@
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	if(!owner || AmFinalDeath())
 		return
-	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) // Deduct Blood
+	/// Deduct Blood
+	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
 		AddBloodVolume(passive_blood_drain) // -.1 currently
-	if(HandleHealing(1)) // Heal
+	if(HandleHealing(1))
 		if(!notice_healing && owner.current.blood_volume > 0)
 			to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
 			notice_healing = TRUE
 	else if(notice_healing)
-		notice_healing = FALSE // Apply Low Blood Effects
-	HandleStarving() // Death
-	HandleDeath() // Standard Update
-	update_hud()// Daytime Sleep in Coffin
-	if(is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
+		/// Apply Low Blood Effects
+		notice_healing = FALSE
+	/// Death
+	HandleStarving()
+	/// Standard Update
+	HandleDeath()
+	/// Daytime Sleep in Coffin
+	update_hud()
+	if(is_daylight() && owner.current.mind && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
 		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			Torpor_Begin()
-				// Wait before next pass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -46,7 +46,6 @@
 
 // 		HEART: OVERWRITE	//
 // 		HEART 		//
-
 /obj/item/organ/heart/vampheart
 	beating = 0
 	var/fakingit = 0
@@ -78,7 +77,7 @@
 //      EYES        //
 //////////////////////
 
-/* // Removed due to Mothpeople & Flypeople spawning with Vampiric eyes, getting them instantly lynched.
+/* /// Removed due to Mothpeople & Flypeople spawning with Vampiric eyes, getting them instantly lynched.
 /// Taken from augmented_eyesight.dm
 /obj/item/organ/eyes/bloodsucker
 	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.

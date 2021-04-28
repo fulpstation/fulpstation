@@ -45,7 +45,7 @@
 //////////////////////////////////////////////
 
 /datum/dynamic_ruleset/latejoin/bloodsucker
-	name = "Bloodsuckers"
+	name = "Bloodsucker Breakout"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
 	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
@@ -102,7 +102,7 @@
 	if(target.stat > UNCONSCIOUS)
 		return FALSE
 	// No Mind!
-	if(!target.mind || !target.mind.key)
+	if(!target.mind)
 		if(display_warning)
 			to_chat(creator, "<span class='danger'>[target] isn't self-aware enough to be made into a Vassal.</span>")
 		return FALSE
@@ -147,7 +147,7 @@
 	C.silent = 0
 	return make_vassal(C,owner)
 
-/datum/antagonist/bloodsucker/proc/make_vassal(var/mob/living/target, var/datum/mind/creator)
+/datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator)
 	if(!can_make_vassal(target, creator))
 		return FALSE
 	// Make Vassal

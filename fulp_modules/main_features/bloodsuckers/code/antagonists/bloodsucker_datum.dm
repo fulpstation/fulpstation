@@ -83,8 +83,8 @@
 	update_bloodsucker_icons_removed(owner.current)
 	if(!LAZYLEN(owner.antag_datums))
 		owner.current.remove_from_current_living_antags()
-	if(!silent && owner.current)
-		farewell()
+//	if(!silent && owner.current)
+//		farewell()
 	return ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -165,7 +165,7 @@
 /datum/antagonist/bloodsucker/proc/AmFledgling()
 	return !bloodsucker_title
 
-/datum/antagonist/bloodsucker/proc/ReturnFullName(var/include_rep=0)
+/datum/antagonist/bloodsucker/proc/ReturnFullName(include_rep = 0)
 
 	var/fullname
 	// Name First
@@ -182,10 +182,22 @@
 /// Bloodsucker team
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
-	show_roundend_report = FALSE
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum
 
-/datum/antagonist/bloodsucker/create_team(datum/team/team)
-	if(!team)
+/datum/team/vampireclan/roundend_report()
+	var/list/parts = list()
+	parts += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
+	parts += bloodsuckerdatum.roundend_report()
+
+/datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
+	for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
+		if(!H.owner)
+			continue
+		if(H.clan)
+			clan = new(owner)
+			clan.name = "[owner.current.real_name] team"
+			clan.bloodsuckerdatum = H
+			return
 		clan = new /datum/team/vampireclan
 		return
 	if(!istype(team))
@@ -193,7 +205,7 @@
 	clan = team
 
 /datum/antagonist/bloodsucker/get_team()
-	return
+	return clan
 
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
 	objectives += O
@@ -203,24 +215,26 @@
 
 /// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
-	// Get the default Objectives
-	var/list/report = list()
+	/// Get the default Objectives
+	var/list/parts = list()
 
-	// Vamp Name
-	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
+	parts += printplayer(owner)
 
-	// Default Report
-	report += ..()
+	/// Vamp Name
+	parts += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 
-	// Now list their vassals
-	if (vassals.len > 0)
-		report += "<span class='header'>Their Vassals were...</span>"
-		for (var/datum/antagonist/vassal/V in vassals)
-			if (V.owner)
+	/// Default Report
+	parts += ..()
+
+	/// Now list their vassals
+	if(vassals.len > 0)
+		parts += "<span class='header'>Their Vassals were...</span>"
+		for(var/datum/antagonist/vassal/V in vassals)
+			if(V.owner)
 				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role]" : ""
-				report += "<b>[V.owner.name]</b> [jobname]"
+				parts += "<b>[V.owner.name]</b> [jobname]"
 
-	return report.Join("<br>")
+	return parts.Join("<br>")
 
 /// Displayed at the start of roundend_category section, default to roundend_category header
 /datum/antagonist/bloodsucker/roundend_report_header()
@@ -232,14 +246,6 @@
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
 	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
 	new_owner.add_antag_datum(src)
-
-/// Called when removing antagonist using admin tools
-/datum/antagonist/bloodsucker/admin_remove(mob/user)
-	if(!user)
-		return
-	message_admins("[key_name_admin(user)] has removed [name] antagonist status from [key_name_admin(owner)].")
-	log_admin("[key_name(user)] has removed [name] antagonist status from [key_name(owner)].")
-	on_removal()
 
 /// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
@@ -269,9 +275,7 @@
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
-		// Make Changes
-		H.physiology.brute_mod *= 0.8
-		H.physiology.siemens_coeff *= 0.75 //base electrocution coefficient  1
+		/// Make Changes
 		S.punchdamagelow += 1 //lowest possible punch damage   0
 		S.punchdamagehigh += 1 //highest possible punch damage	 9
 		if(istype(H) && owner.assigned_role == "Clown")
@@ -445,7 +449,6 @@
 	if (owner && owner.AmFinalDeath())
 		return "<font color=red>Final Death</font>"
 	return ..()
-
 
 
 
@@ -760,22 +763,25 @@
  *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
  */
 
-/// Init Sunlight, called from datum_bloodsucker.on_gain(), in case game mode isn't even Bloodsucker
+/// Start Sun, called when someone is assigned Bloodsucker.
 /datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	// Already Sunlight (and not about to cancel)
 	if(istype(bloodsucker_sunlight))
-		return
-	if(clan.members.len >= 1)
-		return
-	bloodsucker_sunlight = new()
+		return TRUE
+	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
+		if(clan.members.len <= 1)
+			message_admins("Sucecssfully created Sol.")
+			bloodsucker_sunlight = new()
 
 /// End Sun (If you're the last)
 /datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
 	// No Sunlight
 	if(!istype(bloodsucker_sunlight))
-		return
-	if(!clan.members.len)
-		qdel(bloodsucker_sunlight)
+		return TRUE
+	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
+		if(clan.members.len <= 0)
+			message_admins("Successfully deleted Sol.")
+			qdel(bloodsucker_sunlight)
+			bloodsucker_sunlight = null
 
 /datum/antagonist/bloodsucker/proc/is_daylight()
 	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay
