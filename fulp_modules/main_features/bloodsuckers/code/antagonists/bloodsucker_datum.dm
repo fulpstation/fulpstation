@@ -182,22 +182,25 @@
 /// Bloodsucker team
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum
 
 /datum/team/vampireclan/roundend_report()
-	var/list/parts = list()
-	parts += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-	parts += bloodsuckerdatum.roundend_report()
+	var/list/report = list()
+	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
+	report += printplayerlist(members)
+	/// This won't work. I'd like to hopefully get it working so we can show Bloodsucker's objectives.
+//	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+//	report += bloodsuckerdatum.roundend_report()
+
+	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
 
 /datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
-	for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
-		if(!H.owner)
-			continue
-		if(H.clan)
-			clan = new(owner)
-			clan.name = "[owner.current.real_name] team"
-			clan.bloodsuckerdatum = H
-			return
+	if(!team)
+		for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
+			if(!H.owner)
+				continue
+			if(H.clan)
+				clan = H.clan
+				return
 		clan = new /datum/team/vampireclan
 		return
 	if(!istype(team))
@@ -216,29 +219,31 @@
 /// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
 	/// Get the default Objectives
-	var/list/parts = list()
+	var/list/report = list()
 
-	parts += printplayer(owner)
+	report += printplayer(owner)
 
 	/// Vamp Name
-	parts += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
+	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 
 	/// Default Report
-	parts += ..()
+	report += ..()
 
 	/// Now list their vassals
 	if(vassals.len > 0)
-		parts += "<span class='header'>Their Vassals were...</span>"
+		report += "<span class='header'>Their Vassals were...</span>"
 		for(var/datum/antagonist/vassal/V in vassals)
 			if(V.owner)
 				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role]" : ""
-				parts += "<b>[V.owner.name]</b> [jobname]"
+				report += "<b>[V.owner.name]</b> [jobname]"
 
-	return parts.Join("<br>")
+	return report.Join("<br>")
 
+/*
 /// Displayed at the start of roundend_category section, default to roundend_category header
 /datum/antagonist/bloodsucker/roundend_report_header()
 	return 	"<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
+*/
 
 // ADMIN TOOLS //
 /// Called when using admin tools to give antag status
@@ -452,8 +457,6 @@
 
 
 
-
-
 /*
  *			2019 Breakdown of Bloodsuckers:
  *
@@ -658,8 +661,15 @@
 	return FALSE
 
 /////////////////////////////////////
-// BLOOD COUNTER & RANK MARKER ! //
+//  BLOOD COUNTER & RANK MARKER !  //
 /////////////////////////////////////
+
+/// 1 tile down
+#define ui_blood_display "WEST:6,CENTER-1:0"
+/// 2 tiles down
+#define ui_vamprank_display "WEST:6,CENTER-2:-5"
+/// 6 pixels to the right, zero tiles & 5 pixels DOWN.
+#define ui_sunlight_display "WEST:6,CENTER-0:0"
 
 /datum/hud/human/New(mob/living/carbon/human/owner)
 	..()
@@ -670,12 +680,7 @@
 	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter
 	infodisplay += sunlight_display
 
-#define ui_blood_display "WEST:6,CENTER-1:0" // 1 tile down
-#define ui_vamprank_display "WEST:6,CENTER-2:-5" // 2 tiles down
-#define ui_sunlight_display "WEST:6,CENTER-0:0" // 6 pixels to the right, zero tiles & 5 pixels DOWN.
-
 /datum/hud
-
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
 	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
@@ -713,7 +718,7 @@
 	icon_state = "sunlight_night"
 	screen_loc = ui_sunlight_display
 
-// Update Blood Counter + Rank Counter
+/// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(FinalDeath)
 		return
@@ -727,7 +732,8 @@
 		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
 	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
 		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
-		if(updateRank) // Only change icon on special request.
+		/// Only change icon on special request.
+		if(updateRank)
 			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
 
 /// Update Sun Time
@@ -772,13 +778,13 @@
 			message_admins("Sucecssfully created Sol.")
 			bloodsucker_sunlight = new()
 
-/// End Sun (If you're the last)
+/// End Sun (If you're the last) - This currently doesnt work...
 /datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
-	// No Sunlight
+	/// No Sunlight
 	if(!istype(bloodsucker_sunlight))
 		return TRUE
 	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(clan.members.len <= 0)
+		if(clan.members.len == 0)
 			message_admins("Successfully deleted Sol.")
 			qdel(bloodsucker_sunlight)
 			bloodsucker_sunlight = null
