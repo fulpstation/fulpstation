@@ -155,6 +155,7 @@
 	var/list/report = list()
 	/// Vamp Name
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
+	report += printplayer(owner)
 
 	/// Default Report
 	var/objectives_complete = TRUE
