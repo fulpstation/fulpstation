@@ -143,10 +143,9 @@
 /datum/team/vampireclan/roundend_report()
 	var/list/report = list()
 	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-	report += " "
-	/// This won't work. I'd like to hopefully get it working so we can show Bloodsucker's objectives.
-	for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
-		report += H.roundend_report()
+	for(var/datum/mind/M in members)
+		for(var/datum/antagonist/bloodsucker/H in M.antag_datums)
+			report += H.roundend_report()
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
 
@@ -155,7 +154,6 @@
 	/// Get the default Objectives
 	var/list/report = list()
 	/// Vamp Name
-	report += printplayer(owner)
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 
 	/// Default Report
@@ -180,7 +178,7 @@
 	else
 		report += "<span class='redtext big'>The [name] has failed!</span>"
 
-	return report.Join("<br>")
+	return report
 
 // ADMIN TOOLS //
 /// Called when using admin tools to give antag status
@@ -790,7 +788,7 @@
 		return TRUE
 	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
 		if(clan.members.len <= 1)
-			message_admins("Sucecssfully created Sol.")
+			message_admins("New Sol has been created due to Bloodsucker assignement.")
 			bloodsucker_sunlight = new()
 
 /// End Sun (If you're the last) - This currently doesnt work...
@@ -800,7 +798,7 @@
 		return TRUE
 	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
 		if(clan.members.len == 0)
-			message_admins("Successfully deleted Sol.")
+			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
 			qdel(bloodsucker_sunlight)
 			bloodsucker_sunlight = null
 
