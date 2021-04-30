@@ -6,6 +6,7 @@
 	name = "Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
+	show_in_roundend = FALSE
 	job_rank = ROLE_BLOODSUCKER
 	var/datum/antagonist/bloodsucker/master // Who made me?
 	var/list/datum/action/powers = list() // Purchased powers
