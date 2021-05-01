@@ -14,7 +14,7 @@
 	if(!owner || AmFinalDeath())
 		return
 	/// Deduct Blood
-	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		AddBloodVolume(passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
 		if(!notice_healing && owner.current.blood_volume > 0)
@@ -30,16 +30,18 @@
 	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
+	var/mob/living/carbon/human/H = owner.current
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		/// Staked? Dont heal
-		if(owner.current.AmStaked())
-			to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
+		if(H.AmStaked())
+			to_chat(H, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 			return
-		if(is_daylight() || total_damage >= 10 && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-			Torpor_Begin()
+		if(is_daylight() || total_damage >= 10)
+			if(!HAS_TRAIT(H, TRAIT_NODEATH))
+				to_chat(H, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+				Torpor_Begin()
 	/// Used for ending Torpor.
-	if(!is_daylight() && total_damage <= 0 && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+	if(!is_daylight() && HAS_TRAIT(H, TRAIT_NODEATH) && total_damage <= 0)
 		Torpor_End()
 		to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 
@@ -213,39 +215,32 @@
 	*/
 	/// Temporary Death? Convert to Torpor
 	if(owner.current.stat == DEAD)
+		var/mob/living/carbon/human/H = owner.current
 		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry about shit being broken.
 		if(poweron_masquerade)
-			to_chat(owner, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
-		if(!HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
+			to_chat(H, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
+		if(!HAS_TRAIT(H, TRAIT_NODEATH))
+			to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
 			Torpor_Begin()
 
-/datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
-	if(HAS_TRAIT(owner, TRAIT_FAKEDEATH))
-		log_admin("Torpor triggered when I wasnt meant to, please yell at John Willard to fix me.")
-		return
+/datum/antagonist/bloodsucker/proc/Torpor_Begin()
 	/// Disable ALL Powers
 	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
-	REMOVE_TRAIT(owner, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
-//	ADD_TRAIT(owner.current, TRAIT_INCAPACITATED, BLOODSUCKER_TRAIT)
-//	ADD_TRAIT(owner.current, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-//	ADD_TRAIT(owner.current, TRAIT_HANDS_BLOCKED, BLOODSUCKER_TRAIT)
-//	ADD_TRAIT(owner.current, TRAIT_BLIND, BLOODSUCKER_TRAIT)
-//	ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-//	ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
-	owner.current.Jitter(0)
+	var/mob/living/carbon/human/H = owner.current
+	if(HAS_TRAIT(H, TRAIT_NODEATH))
+		return
+	REMOVE_TRAIT(H, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(H, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(H, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
+	H.Jitter(0)
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	REMOVE_TRAIT(owner, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
-//	REMOVE_TRAIT(owner.current, TRAIT_INCAPACITATED, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	var/mob/living/carbon/human/H = owner.current
+	REMOVE_TRAIT(H, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(H, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(H, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	CureDisabilities()
 	/*
 	 *	# This is a temporary solution!
