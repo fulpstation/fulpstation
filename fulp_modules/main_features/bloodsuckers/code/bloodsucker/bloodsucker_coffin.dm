@@ -85,6 +85,60 @@
 	STOP_PROCESSING(SSprocessing, src)
 	return ..()
 
+/// Don't make on_gain() wait for this function to finish. This lets this code run on the side.
+/obj/structure/closet/crate/process(mob/living/user)
+	if(!..())
+		return FALSE
+	if(user in src)
+		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(!B)
+			return
+		if(B.lair != get_area(B.coffin))
+			if(B.coffin)
+				B.coffin.UnclaimCoffin()
+		var/list/turf/area_turfs = get_area_turfs(B.lair)
+		// Create Dirt etc.
+		var/turf/T_Dirty = pick(area_turfs)
+		if(T_Dirty && !T_Dirty.density)
+			// Default: Dirt
+			// CHECK: Cobweb already there?
+			//if (!locate(var/obj/effect/decal/cleanable/cobweb) in T_Dirty)	// REMOVED! Cleanables don't stack.
+			// STEP ONE: COBWEBS
+			// CHECK: Wall to North?
+			var/turf/check_N = get_step(T_Dirty, NORTH)
+			if(istype(check_N, /turf/closed/wall))
+				// CHECK: Wall to West?
+				var/turf/check_W = get_step(T_Dirty, WEST)
+				if(istype(check_W, /turf/closed/wall))
+					new /obj/effect/decal/cleanable/cobweb (T_Dirty)
+				// CHECK: Wall to East?
+				var/turf/check_E = get_step(T_Dirty, EAST)
+				if(istype(check_E, /turf/closed/wall))
+					new /obj/effect/decal/cleanable/cobweb/cobweb2 (T_Dirty)
+			// STEP TWO: DIRT
+			new /obj/effect/decal/cleanable/dirt (T_Dirty)
+		// Find Animals in Area
+/*		if(rand(0,2) == 0)
+			var/mobCount = 0
+			var/mobMax = clamp(area_turfs.len / 25, 1, 4)
+			for(var/turf/T in area_turfs)
+				if(!T) continue
+				var/mob/living/simple_animal/SA = locate() in T
+				if(SA)
+					mobCount ++
+					if (mobCount >= mobMax) // Already at max
+						break
+				Spawn One
+			if(mobCount < mobMax)
+				 Seek Out Location
+				while(area_turfs.len > 0)
+					var/turf/T = pick(area_turfs) // We use while&pick instead of a for/loop so it's random, rather than from the top of the list.
+					if(T && !T.density)
+						var/mob/living/simple_animal/SA = /mob/living/simple_animal/mouse // pick(/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse, /mob/living/simple_animal/hostile/retaliate/bat) //prob(300) /mob/living/simple_animal/mouse,
+						new SA (T)
+						break
+					area_turfs -= T*/
+
 /obj/structure/closet/crate/proc/UnclaimCoffin()
 	if(resident)
 		// Unclaiming
@@ -93,7 +147,7 @@
 			if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
 				bloodsuckerdatum.coffin = null
 				bloodsuckerdatum.lair = null
-			to_chat(resident, "<span class='danger'><span class='italics'>You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another.</span></span>")
+			to_chat(resident, "<span class='cult'><span class='italics'>You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another.</span></span>")
 		resident = null // Remove resident. Because this object isnt removed from the game immediately (GC?) we need to give them a way to see they don't have a home anymore.
 
 /// You cannot lock in/out a coffin's owner. SORRY.
