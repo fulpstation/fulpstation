@@ -81,7 +81,8 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/proc/CheckCanUse(display_error)	// These checks can be scanned every frame while a ranged power is on.
+/// These checks can be scanned every frame while a ranged power is on.
+/datum/action/bloodsucker/proc/CheckCanUse(display_error)
 	if(!owner || !owner.mind)
 		return FALSE
 	// Torpor?

@@ -66,16 +66,25 @@
 			to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
 			notice_healing = TRUE
 	else if(notice_healing)
-		/// Apply Low Blood Effects
 		notice_healing = FALSE
-	/// Death
 	HandleStarving()
-	/// Standard Update
 	HandleDeath()
-	/// Daytime Sleep in Coffin
 	update_hud()
-	if(is_daylight() && owner.current.mind && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
-		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+	/// Daytime Sleep in Coffin
+	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
+	var/total_burn = owner.current.getFireLoss_nonProsthetic()
+	var/total_damage = total_brute + total_burn
+	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+		if(!owner.current.mind)
+			return
+		/// Staked? Dont heal
+		if(owner.current.AmStaked())
+			to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
+			return
+		if(is_daylight() && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+			Torpor_Begin()
+		if(total_damage >= 10 && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
+			to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 			Torpor_Begin()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +155,7 @@
 			C.extinguish_mob()
 			C.remove_all_embedded_objects() // Remove Embedded!
 			owner.current.regenerate_organs() // Heal Organs (will respawn original eyes etc. but we replace right away, next)
-			CheckVampOrgans() // Heart, Eyes
+			CheckVampOrgans() // Heart
 			if(check_limbs(costMult))
 				return TRUE
 		else if(owner.current.stat >= UNCONSCIOUS) // Faster regeneration while unconcious
@@ -184,9 +193,6 @@
 	owner.current.cure_husk()
 	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
 		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
-
-/mob/living/proc/RepairEyes()
-	cure_blind()
 
 /*
  * 	// High: 	Faster Healing
@@ -268,17 +274,20 @@
 		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)
 			owner.current.Unconscious(20, 1)
 
-/// Disable ALL Powers
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power in powers) // Disable ALL Powers
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
 	if(owner.current.suiciding)
 		owner.current.suiciding = FALSE // You'll die, but not for long.
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
-	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep.
+	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Be tired.
+	/// Due to Sleepimmune knocking you out for a second upon removal, everything else must be done beforehand, or it screws up massively.
+	addtimer(CALLBACK(src, .proc/TorporActuallyBegin, usr), 2 SECONDS)
+
+/datum/antagonist/bloodsucker/proc/TorporActuallyBegin()
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT) // Go to sleep.
+	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	owner.current.Jitter(0)
 
@@ -289,13 +298,19 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 	CureDisabilities()
-	/// Due to how Eye damage is dealt with, we'll send a barrage of eye-fixes, and hope one goes through.
-	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 2 SECONDS)
-	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 4 SECONDS)
-	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 6 SECONDS)
-	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 8 SECONDS)
-	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 10 SECONDS)
-	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 12 SECONDS)
+	/*
+	 *	# This is a temporary solution!
+	 *
+	 *	We should preferably find whats giving the client_colour in the first place,
+	 *	This seems incredibly unhealthy for server performance.
+	 *	Bloodsuckers get flooded with these in game every time Torpor ends and I can't figure out why.
+	 */
+//	var/mob/living/carbon/C = owner.current
+//	C.remove_client_colour(/datum/client_colour/monochrome/blind)
+//	C.do_set_blindness(FALSE)
+//	C.set_blindness(0)
+//	C.update_blindness()
+//	C.update_sight()
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()

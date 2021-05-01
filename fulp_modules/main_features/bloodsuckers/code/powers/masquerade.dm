@@ -53,11 +53,12 @@
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 	// Falsifies Genetic Analyzers
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
-	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
+
 	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect += 1
 
 	// WE ARE ALIVE! //
+	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
 	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		// HEART
 		if(istype(H))

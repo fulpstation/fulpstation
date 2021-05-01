@@ -123,16 +123,6 @@
 					if("Yes")
 						ClaimCoffin(user)
 			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
-			if(user.AmStaked()) // Staked? Dont heal
-				to_chat(bloodsuckerdatum.owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
-				return
-			// Heal
-			var/total_brute = user.getBruteLoss_nonProsthetic()
-			var/total_burn = user.getFireLoss_nonProsthetic()
-			var/total_damage = total_brute + total_burn
-			if(total_damage >= 10)
-				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-				bloodsuckerdatum.Torpor_Begin()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
