@@ -37,7 +37,7 @@
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower()
 	var/mob/living/carbon/user = owner
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	to_chat(user, "<span class='notice'>You focus on separating your consciousness from your physical form...</span>")
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
@@ -104,8 +104,8 @@
 	new SA (owner.loc)
 	/// TELEPORT: Move to Coffin & Close it!
 	user.set_resting(TRUE, TRUE, FALSE)
-	do_teleport(owner, B.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
-	user.Stun(30,1)
+	do_teleport(owner, bloodsuckerdatum.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	user.Stun(3 SECONDS, TRUE)
 	/// CLOSE LID: If fail, force me in.
 	if(!bloodsuckerdatum.coffin.close(owner))
 		/// Puts me inside.

@@ -346,7 +346,7 @@
 	if(!isliving(src))
 		return
 	var/mob/living/L = src
-	if(!AmBloodsucker(L))
+	if(!IS_BLOODSUCKER(L))
 		return
 	// We're a bloodsucker? Try to eat food...
 	var/datum/antagonist/bloodsucker/B = L.mind.has_antag_datum(/datum/antagonist/bloodsucker)

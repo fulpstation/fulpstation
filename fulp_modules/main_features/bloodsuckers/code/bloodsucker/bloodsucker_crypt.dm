@@ -124,7 +124,7 @@
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
 	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
 		return
-	if(!anchored && AmBloodsucker(user))
+	if(!anchored && IS_BLOODSUCKER(user))
 		to_chat(user, "<span class='danger'>Until this rack is secured in place, it cannot serve its purpose.</span>")
 		return
 	// PULL TARGET: Remember if I was pullin this guy, so we can restore this
@@ -176,7 +176,7 @@
 
 /// Attempt Unbuckle
 /obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/M, mob/user)
-	if(!AmBloodsucker(user))
+	if(!IS_BLOODSUCKER(user))
 		if(M == user)
 			M.visible_message("<span class='danger'>[user] tries to release themself from the rack!</span>",\
 							"<span class='danger'>You attempt to release yourself from the rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
@@ -442,12 +442,12 @@
 
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(AmBloodsucker(user) || istype(T))
+	if(IS_BLOODSUCKER(user) || istype(T))
 		toggle()
 
 /// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
 /obj/structure/bloodsucker/candelabrum/AltClick(mob/user)
-	if(AmBloodsucker(user))
+	if(IS_BLOODSUCKER(user))
 		toggle()
 
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
