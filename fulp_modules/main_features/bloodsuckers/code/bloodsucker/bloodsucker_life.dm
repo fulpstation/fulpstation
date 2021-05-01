@@ -41,7 +41,7 @@
 	. = ..()
 	if(..())
 		if(target.mind.has_antag_datum(/datum/antagonist/vassal))
-			SSticker.mode.remove_vassal(target.mind)
+			target.mind.remove_antag_datum(/datum/antagonist/vassal)
 
 /*
  *		TO PLUG INTO LIFE:
@@ -58,21 +58,25 @@
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	if(!owner || AmFinalDeath())
 		return
-	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) // Deduct Blood
+	/// Deduct Blood
+	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
 		AddBloodVolume(passive_blood_drain) // -.1 currently
-	if(HandleHealing(1)) // Heal
+	if(HandleHealing(1))
 		if(!notice_healing && owner.current.blood_volume > 0)
 			to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
 			notice_healing = TRUE
 	else if(notice_healing)
-		notice_healing = FALSE // Apply Low Blood Effects
-	HandleStarving() // Death
-	HandleDeath() // Standard Update
-	update_hud()// Daytime Sleep in Coffin
-	if(SSticker.mode.is_daylight() && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
+		/// Apply Low Blood Effects
+		notice_healing = FALSE
+	/// Death
+	HandleStarving()
+	/// Standard Update
+	HandleDeath()
+	/// Daytime Sleep in Coffin
+	update_hud()
+	if(is_daylight() && owner.current.mind && !HAS_TRAIT_FROM(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT))
 		if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			Torpor_Begin()
-				// Wait before next pass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -181,11 +185,8 @@
 	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
 		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
 
-/datum/antagonist/bloodsucker/proc/RepairEyes()
-	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
-	if(!E)
-		return
-	owner.current.cure_blind()
+/mob/living/proc/RepairEyes()
+	cure_blind()
 
 /*
  * 	// High: 	Faster Healing
@@ -257,11 +258,11 @@
 			to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
 			Torpor_Begin()
 		if(HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			if(!SSticker.mode.is_daylight() && total_damage <= owner.current.getMaxHealth()) /// Prevents them from waking up Mid-day
+			if(!is_daylight() && total_damage <= owner.current.getMaxHealth()) /// Prevents them from waking up Mid-day
 				Torpor_End()
 	// End Torpor:
 	else // No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
-		if(!SSticker.mode.is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage <= 0)
+		if(!is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage <= 0)
 			Torpor_End()
 		// Fake Unconscious
 		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)
@@ -289,11 +290,12 @@
 	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 	CureDisabilities()
 	/// Due to how Eye damage is dealt with, we'll send a barrage of eye-fixes, and hope one goes through.
-	addtimer(CALLBACK(src, .proc/RepairEyes), 2 SECONDS)
-	addtimer(CALLBACK(src, .proc/RepairEyes), 4 SECONDS)
-	addtimer(CALLBACK(src, .proc/RepairEyes), 6 SECONDS)
-	addtimer(CALLBACK(src, .proc/RepairEyes), 8 SECONDS)
-	addtimer(CALLBACK(src, .proc/RepairEyes), 10 SECONDS)
+	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 2 SECONDS)
+	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 4 SECONDS)
+	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 6 SECONDS)
+	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 8 SECONDS)
+	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 10 SECONDS)
+	addtimer(CALLBACK(owner.current, /mob/living/proc/RepairEyes), 12 SECONDS)
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()
