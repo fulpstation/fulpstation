@@ -348,8 +348,7 @@
 			to_chat(user, "<span class='notice'>[target] has been given the opportunity for servitude. You await their decision...</span>")
 			var/alert_text = "You are being tortured! Do you want to give in and pledge your undying loyalty to [user]?"
 		/*	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
-				alert_text += "\n\nYou will no longer be loyal to the station!"
-			if(SSticker.mode.AmValidAntag(target.mind))  */
+				alert_text += "\n\nYou will no longer be loyal to the station!" */
 			alert_text += "\n\nYou will not lose your current objectives, but they come second to the will of your new master!"
 			to_chat(target, "<span class='cultlarge'>THE HORRIBLE PAIN! WHEN WILL IT END?!</span>")
 			var/list/torture_icons = list(
@@ -369,7 +368,12 @@
 	return TRUE
 
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/target)
-	return SSticker.mode.AmValidAntag(target.mind) || HAS_TRAIT(target, TRAIT_MINDSHIELD)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum
+	if(bloodsuckerdatum.AmValidAntag(target.mind))
+		return TRUE
+	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
+		return TRUE
+	return FALSE
 
 /obj/structure/bloodsucker/vassalrack/proc/disloyalty_accept(mob/living/target)
 	// FAILSAFE: Still on the rack?
