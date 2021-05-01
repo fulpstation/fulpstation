@@ -242,15 +242,6 @@
 	REMOVE_TRAIT(H, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(H, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	CureDisabilities()
-	/*
-	 *	# This is a temporary solution!
-	 *
-	 *	We should preferably find whats giving the client_colour in the first place,
-	 *	This seems incredibly unhealthy for server performance.
-	 *	Bloodsuckers get flooded with these in game every time Torpor ends and I can't figure out why.
-	 */
-//	var/mob/living/carbon/C = owner.current
-//	C.remove_client_colour(/datum/client_colour/monochrome/blind)
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()
