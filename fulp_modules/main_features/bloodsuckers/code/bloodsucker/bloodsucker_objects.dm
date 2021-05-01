@@ -27,34 +27,25 @@
 //      HEART       //
 //////////////////////
 
+/// Do I have any parts that need replacing?
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
-	// Do I have any parts that need replacing?
-	var/obj/item/organ/O
-	// Heart
-	O = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(O, /obj/item/organ/heart/vampheart) && !istype(O, /obj/item/organ/heart/demon))
+	var/obj/item/organ/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
 		qdel(O)
 		var/obj/item/organ/heart/vampheart/H = new
 		H.Insert(owner.current)
-		H.Stop() // Now... stop beating!
-	// Tongue
-	O = owner.current.getorganslot(ORGAN_SLOT_TONGUE)
-	if(!istype(O, /obj/item/organ/tongue/bloodsucker))
-		qdel(O)
-		var/obj/item/organ/tongue/bloodsucker/E = new
-		E.Insert(owner.current)
+		/// Now... stop beating!
+		H.Stop()
 
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	// Heart
-	var/obj/item/organ/heart/H = new
+	var/obj/item/organ/heart/H = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(H)
+		qdel(H)
+	H = new()
 	H.Insert(owner.current)
-	// Tongue
-	var/obj/item/organ/tongue/O = new
-	O.Insert(owner.current)
 
 // 		HEART: OVERWRITE	//
 // 		HEART 		//
-
 /obj/item/organ/heart/vampheart
 	beating = 0
 	var/fakingit = 0
@@ -85,47 +76,21 @@
 //////////////////////
 //      EYES        //
 //////////////////////
-/* // Removed due to Mothpeople spawning with Vampiric eyes and instantly getting lynched.
+
+/* /// Removed due to Mothpeople & Flypeople spawning with Vampiric eyes, getting them instantly lynched.
 /// Taken from augmented_eyesight.dm
 /obj/item/organ/eyes/bloodsucker
 	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
 	see_in_dark = 12
-	sight_flags = SEE_MOBS // Bloodsuckers are predators, and detect life/heartbeats nearby. - 2019 Breakdown of Bloodsuckers
+	sight_flags = SEE_MOBS // Bloodsuckers are predators, and detect life/heartbeats nearby. -2019 Breakdown of Bloodsuckers
 	flash_protect = -1 // These eyes are weaker to flashes, but let you see in the dark
 */
-
-//////////////////////
-//     TONGUE       //
-//////////////////////
-
-/obj/item/organ/tongue/bloodsucker
-	sense_of_taste = FALSE
-	var/static/list/languages_possible_bloodsucker = typecacheof(list(
-		/datum/language/common,
-		/datum/language/draconic,
-		/datum/language/codespeak,
-		/datum/language/monkey,
-		/datum/language/narsie,
-		/datum/language/vampiric,
-		/datum/language/beachbum,
-		/datum/language/aphasia,
-		/datum/language/piratespeak,
-		/datum/language/moffic,
-		/datum/language/sylvan,
-		/datum/language/shadowtongue,
-		/datum/language/terrum,
-		/datum/language/nekomimetic,
-		/datum/language/buzzwords,
-	))
-
-/obj/item/organ/tongue/bloodsucker/Initialize(mapload)
-	. = ..()
-	languages_possible = languages_possible_bloodsucker
 
 /*
 //////////////////////
 //      LIVER       //
 //////////////////////
+
 /// Livers run on_life(), which calls reagents.metabolize() in holder.dm, which calls on_mob_life.dm in the cheam (medicine_reagents.dm)
 /obj/item/organ/liver/vampliver
 /obj/item/organ/liver/vampliver/on_life()
@@ -138,9 +103,12 @@
 //      STAKES      //
 //////////////////////
 
-/// NOTE: sheet_types.dm is where the WOOD stack lives. Maybe move this over there.
-/// Taken from /obj/item/stack/rods/attackby in [rods.dm]
-/// Crafting the stake!
+/*
+ *	NOTE: sheet_types.dm is where the WOOD stack lives. Maybe move this over there.
+ *	Taken from /obj/item/stack/rods/attackby in [rods.dm]
+ */
+
+/// Crafting
 /obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params)
 	if(W.get_sharpness())
 		user.visible_message("[user] begins whittling [src] into a pointy object.", \
@@ -181,7 +149,7 @@
 /mob/proc/AmStaked()
 	return FALSE
 
-/// NOTE: You can't go to sleep in a coffin with a stake in you.
+/// You can't go to sleep in a coffin with a stake in you.
 /mob/living/proc/StakeCanKillMe()
 	return IsSleeping() || stat >= UNCONSCIOUS || blood_volume <= 0 || HAS_TRAIT(src, TRAIT_FAKEDEATH)
 
@@ -204,11 +172,12 @@
 	force = 6
 	throwforce = 10
 	max_integrity = 30
-	var/staketime = 12 SECONDS // Time it takes to embed the stake into someone's chest.
+	/// Time it takes to embed the stake into someone's chest.
+	var/staketime = 12 SECONDS
 
 /obj/item/stake/afterattack(mob/living/target, mob/living/user, proximity, discover_after = TRUE)
 	// Invalid Target, or not targetting the chest?
-	if(!iscarbon(target) || check_zone(user.zone_selected) != "chest")
+	if(!iscarbon(target) || check_zone(user.zone_selected) != BODY_ZONE_CHEST)
 		return
 	var/mob/living/carbon/C = target
 	// Needs to be Down/Slipped in some way to Stake.
