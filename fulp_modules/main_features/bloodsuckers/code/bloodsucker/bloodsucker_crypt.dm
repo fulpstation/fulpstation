@@ -460,15 +460,17 @@
 		STOP_PROCESSING(SSobj, src)
 	update_icon()
 
-/obj/structure/bloodsucker/candelabrum/process(var/mob/living/carbon/human/H) //Currently doesnt seem to work, fix would be appreciated!
+/obj/structure/bloodsucker/candelabrum/process()
 	if(!lit)
 		return
-	if(H.mind.has_antag_datum(/datum/antagonist/vassal))
-		return
-	if(H.mind.has_antag_datum(/datum/antagonist/bloodsucker))//We dont want vassals or vampires affected by this
-		return
-	H.hallucination = 20
-	SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+	for(var/mob/living/carbon/H in viewers(7, src))
+		///We dont want vassals or vampires affected by this
+		if(H.mind.has_antag_datum(/datum/antagonist/vassal))
+			return
+		if(H.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			return
+		H.hallucination += 20
+		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
 
 /*
 /obj/item/restraints/legcuffs/beartrap/bloodsucker

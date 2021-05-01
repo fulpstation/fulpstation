@@ -410,11 +410,6 @@
 	mood_change = 10
 	timeout = 8 MINUTES
 
-/datum/mood_event/vampcandle
-	description = "<span class='umbra'>Something is making your mind feel... loose.</span>\n"
-	mood_change = -15
-	timeout = 5 MINUTES
-
 /datum/mood_event/drankblood_bad
 	description = "<span class='boldwarning'>I drank the blood of a lesser creature. Disgusting.</span>\n"
 	mood_change = -4
@@ -459,3 +454,9 @@
 	description = "<span class='boldwarning'>Something I recently ate was horrifyingly disgusting.</span>\n"
 	mood_change = -5
 	timeout = 5 MINUTES
+
+/// Candelabrum
+/datum/mood_event/vampcandle
+	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
+	mood_change = -15
+	timeout = 4 MINUTES
