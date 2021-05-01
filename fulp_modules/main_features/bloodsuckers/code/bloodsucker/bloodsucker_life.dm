@@ -22,10 +22,11 @@
 			notice_healing = TRUE
 	else if(notice_healing)
 		notice_healing = FALSE
+	/// Standard Updates
 	HandleStarving()
 	HandleDeath()
 	update_hud()
-	/// Sleeping in a Coffin
+	/// Entering Torpor
 	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
@@ -147,7 +148,8 @@
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
 	C.cure_husk()
-	if(C.stat == DEAD) /// Torpor will revive you in case you're dead.
+	/// Torpor revives the dead once complete.
+	if(C.stat == DEAD)
 		C.revive(full_heal = FALSE, admin_revive = FALSE)
 
 /*
@@ -224,19 +226,17 @@
 	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
-	if(owner.current.suiciding)
-		/// You'll die, but not for long.
-		owner.current.suiciding = FALSE
-		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
-	ADD_TRAIT(owner.current, TRAIT_NODEATH, INNATE_TRAIT) // Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, INNATE_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, INNATE_TRAIT)
+//	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Go to sleep.
+	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT) // Go to sleep.
+	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
+	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
 	owner.current.Jitter(0)
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, INNATE_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_KNOCKEDOUT, INNATE_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, INNATE_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
+//	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	CureDisabilities()
 	/*
 	 *	# This is a temporary solution!
