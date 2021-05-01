@@ -1,48 +1,3 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//			TG OVERWRITES
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// Prevents using a Memento Mori
-/obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
-	. = ..()
-	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
-		to_chat(user, "<span class='warning'>Noticing your undead soul, the Memento reverts back to its original state.</span>")
-		REMOVE_TRAIT(user, TRAIT_NODEATH, CLOTHING_TRAIT)
-		REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, CLOTHING_TRAIT)
-		REMOVE_TRAIT(user, TRAIT_NOCRITDAMAGE, CLOTHING_TRAIT)
-		icon_state = "memento_mori"
-		active_owner = null
-		return
-
-/// Prevents Slimeperson 'gaming
-/datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
-	if(HAS_TRAIT(H, TRAIT_NOPULSE))
-		return
-
-/// No regeneration for vampires
-/datum/species/jelly/spec_life(mob/living/carbon/human/H)
-	if(HAS_TRAIT(H, TRAIT_NOPULSE))
-		return
-
-/// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
-/mob/living/carbon/natural_bodytemperature_stabilization()
-	. = ..()
-	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
-		return 0
-
-/// Overwrites mob/living/life.dm for LifeTick
-/mob/living/Life(delta_time = SSMOBS_DT, times_fired)
-	. = ..()
-	SEND_SIGNAL(src,COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
-
-/obj/item/implant/mindshield/implant(mob/living/target, mob/user, silent = FALSE, force = FALSE)
-	. = ..()
-	if(..())
-		if(target.mind.has_antag_datum(/datum/antagonist/vassal))
-			target.mind.remove_antag_datum(/datum/antagonist/vassal)
-
 /*
  *		TO PLUG INTO LIFE:
  *
@@ -54,7 +9,7 @@
  * Show as dead when...
  */
 
-/// Runs from BiologicalLife, handles all the bloodsucker constant proccesses
+/// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	if(!owner || AmFinalDeath())
 		return
@@ -70,22 +25,23 @@
 	HandleStarving()
 	HandleDeath()
 	update_hud()
-	/// Daytime Sleep in Coffin
+	/// Sleeping in a Coffin
 	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
 	var/total_burn = owner.current.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-		if(!owner.current.mind)
-			return
 		/// Staked? Dont heal
 		if(owner.current.AmStaked())
 			to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 			return
-		if(is_daylight() && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			Torpor_Begin()
-		if(total_damage >= 10 && !HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-			Torpor_Begin()
+		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
+			if(is_daylight() || total_damage >= 10)
+				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+				Torpor_Begin()
+	/// Used for ending Torpor.
+	if(!is_daylight() && total_damage <= 0 && HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		Torpor_End()
+		to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -190,9 +146,9 @@
 	for(var/O in C.internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	owner.current.cure_husk()
-	if(owner.current.stat == DEAD) /// Torpor will revive you in case you're dead.
-		owner.current.revive(full_heal = FALSE, admin_revive = FALSE)
+	C.cure_husk()
+	if(C.stat == DEAD) /// Torpor will revive you in case you're dead.
+		C.revive(full_heal = FALSE, admin_revive = FALSE)
 
 /*
  * 	// High: 	Faster Healing
@@ -230,73 +186,57 @@
 
 /// FINAL DEATH
 /datum/antagonist/bloodsucker/proc/HandleDeath()
-	// Fire Damage? (above double health)
-	if(owner.current.getFireLoss() >= owner.current.maxHealth * 3)
-		FinalDeath()
-		return
-	// Staked while "Temp Death" or Asleep
-	if(owner.current.StakeCanKillMe() && owner.current.AmStaked())
-		FinalDeath()
-		return
-	// Not "Alive"?
+	/// Not "Alive"?
 	if(!owner.current || !isliving(owner.current) || isbrain(owner.current) || !get_turf(owner.current))
 		FinalDeath()
 		return
-	// Missing Brain or Heart?
+	/// Fire Damage? (above double health)
+	if(owner.current.getFireLoss() >= owner.current.maxHealth * 2.5)
+		FinalDeath()
+		return
+	/// Staked while "Temp Death" or Asleep
+	if(owner.current.StakeCanKillMe() && owner.current.AmStaked())
+		FinalDeath()
+		return
 	/* // Disabled due to it killing Slimepeople. They should be getting the organs back when they sleep through Sol anyhow.
+	// Missing Brain or Heart?
 	if(!owner.current.HaveBloodsuckerBodyparts())
 		FinalDeath()
 		return
-				// Disable Powers: Masquerade	* NOTE * This should happen as a FLAW!
-				//if (stat >= UNCONSCIOUS)
-				//	for (var/datum/action/bloodsucker/masquerade/P in powers)
-				//		P.Deactivate()
 	*/
-	// TEMP DEATH
-	var/total_brute = owner.current.getBruteLoss_nonProsthetic()
-	var/total_burn = owner.current.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
-	// Died? Convert to Torpor (fake death)
+	/*
+	// Disable Powers: Masquerade * NOTE * This should happen as a FLAW!
+	if(stat >= UNCONSCIOUS)
+		for(var/datum/action/bloodsucker/masquerade/P in powers)
+			P.Deactivate()
+	*/
+	/// Temporary Death? Convert to Torpor
 	if(owner.current.stat == DEAD)
-		if(poweron_masquerade) /// We won't use the spam check, we want to spam them until they notice, else they'll cry about shit being broken.
+		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry about shit being broken.
+		if(poweron_masquerade)
 			to_chat(owner, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
-		if(!HAS_TRAIT(owner.current, TRAIT_FAKEDEATH)) /// Prevents spam
+		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			to_chat(owner, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
 			Torpor_Begin()
-		if(HAS_TRAIT(owner.current, TRAIT_FAKEDEATH))
-			if(!is_daylight() && total_damage <= owner.current.getMaxHealth()) /// Prevents them from waking up Mid-day
-				Torpor_End()
-	// End Torpor:
-	else // No damage, AND brute healed and NOT in coffin (since you cannot heal burn)
-		if(!is_daylight() && HAS_TRAIT(owner.current, TRAIT_FAKEDEATH) && total_damage <= 0)
-			Torpor_End()
-		// Fake Unconscious
-		if(poweron_masquerade && total_damage >= owner.current.getMaxHealth() - HEALTH_THRESHOLD_FULLCRIT)
-			owner.current.Unconscious(20, 1)
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin(amInCoffin = FALSE)
-	for(var/datum/action/bloodsucker/power in powers) // Disable ALL Powers
+	/// Disable ALL Powers
+	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
 	if(owner.current.suiciding)
-		owner.current.suiciding = FALSE // You'll die, but not for long.
+		/// You'll die, but not for long.
+		owner.current.suiciding = FALSE
 		to_chat(owner.current, "<span class='warning'>Your body keeps you going, even as you try to end yourself.</span>")
-	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT) // Be tired.
-	/// Due to Sleepimmune knocking you out for a second upon removal, everything else must be done beforehand, or it screws up massively.
-	addtimer(CALLBACK(src, .proc/TorporActuallyBegin, usr), 2 SECONDS)
-
-/datum/antagonist/bloodsucker/proc/TorporActuallyBegin()
-	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT) // Come after UNCONSCIOUS or else it fails
+	ADD_TRAIT(owner.current, TRAIT_NODEATH, INNATE_TRAIT) // Without this, you'll just keep dying while you recover.
+	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, INNATE_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_KNOCKEDOUT, INNATE_TRAIT)
 	owner.current.Jitter(0)
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
+	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, INNATE_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_KNOCKEDOUT, INNATE_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, INNATE_TRAIT)
 	CureDisabilities()
 	/*
 	 *	# This is a temporary solution!
@@ -307,10 +247,6 @@
 	 */
 //	var/mob/living/carbon/C = owner.current
 //	C.remove_client_colour(/datum/client_colour/monochrome/blind)
-//	C.do_set_blindness(FALSE)
-//	C.set_blindness(0)
-//	C.update_blindness()
-//	C.update_sight()
 
 /// Standard Antags can be dead OR final death
 /datum/antagonist/proc/AmFinalDeath()

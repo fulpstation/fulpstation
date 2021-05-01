@@ -1,3 +1,45 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//			TG OVERWRITES
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Prevents using a Memento Mori
+/obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
+	if(IS_BLOODSUCKER(user))
+		to_chat(user, "<span class='warning'>The Memento notices your undead soul, and refuses to react..</span>")
+		return
+	. = ..()
+
+/// Prevents Slimeperson 'gaming
+/datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_NOPULSE))
+		return
+
+/// No regeneration for vampires
+/datum/species/jelly/spec_life(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_NOPULSE))
+		return
+
+/// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
+/mob/living/carbon/natural_bodytemperature_stabilization()
+	. = ..()
+	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
+		return 0
+
+/// Overwrites mob/living/life.dm for LifeTick
+/mob/living/Life(delta_time = SSMOBS_DT, times_fired)
+	. = ..()
+	SEND_SIGNAL(src,COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
+
+/obj/item/implant/mindshield/implant(mob/living/target, mob/user, silent = FALSE, force = FALSE)
+	. = ..()
+	if(..())
+		if(target.mind.has_antag_datum(/datum/antagonist/vassal))
+			target.mind.remove_antag_datum(/datum/antagonist/vassal)
+
+
+
 /// INTEGRATION: Adding Procs and Datums to existing "classes"
 
 /mob/living/proc/HaveBloodsuckerBodyparts(displaymessage = "") // displaymessage can be something such as "rising from death" for Torpid Sleep. givewarningto is the person receiving messages.
