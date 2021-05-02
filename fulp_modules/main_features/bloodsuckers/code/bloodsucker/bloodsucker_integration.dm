@@ -15,17 +15,19 @@
 /datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
 	if(HAS_TRAIT(H, TRAIT_NOPULSE))
 		return
+	. = ..()
 
 /// No regeneration for vampires
 /datum/species/jelly/spec_life(mob/living/carbon/human/H)
 	if(HAS_TRAIT(H, TRAIT_NOPULSE))
 		return
+	. = ..()
 
 /// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
 /mob/living/carbon/natural_bodytemperature_stabilization()
-	. = ..()
 	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
 		return 0
+	. = ..()
 
 /// Overwrites mob/living/life.dm for LifeTick
 /mob/living/Life(delta_time = SSMOBS_DT, times_fired)
