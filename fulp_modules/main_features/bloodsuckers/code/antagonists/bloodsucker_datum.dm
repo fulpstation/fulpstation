@@ -810,10 +810,11 @@
 	/// No Sunlight
 	if(!istype(bloodsucker_sunlight))
 		return TRUE
-	if(clan.members.len <= 0)
-		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-		qdel(bloodsucker_sunlight)
-		bloodsucker_sunlight = null
+	for(var/datum/team/vampireclan/clan in GLOB.antagonist_teams)
+		if(clan.members.len <= 0)
+			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
+			qdel(bloodsucker_sunlight)
+			bloodsucker_sunlight = null
 
 /datum/antagonist/bloodsucker/proc/is_daylight()
 	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay
