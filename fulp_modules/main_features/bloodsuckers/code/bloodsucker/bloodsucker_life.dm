@@ -11,7 +11,7 @@
 
 /// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
-	if(!owner || AmFinalDeath())
+	if(!owner || AmFinalDeath)
 		return
 	/// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
@@ -23,29 +23,10 @@
 	else if(notice_healing)
 		notice_healing = FALSE
 	/// Standard Updates
-	HandleStarving()
 	HandleDeath()
+	HandleStarving()
+	HandleTorpor()
 	update_hud()
-	/// Entering Torpor
-	var/mob/living/carbon/human/H = owner.current
-	var/total_brute = H.getBruteLoss_nonProsthetic()
-	var/total_burn = H.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
-	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-		/// Staked? Dont heal
-		if(H.AmStaked())
-			to_chat(H, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
-			return
-		if(!HAS_TRAIT(H, TRAIT_NODEATH))
-			if(is_daylight() || total_damage >= 10)
-				to_chat(H, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-				Torpor_Begin()
-				return
-	/// Used for ending Torpor.
-	if(!is_daylight() && HAS_TRAIT(H, TRAIT_NODEATH) && total_damage <= 0)
-		Torpor_End()
-		to_chat(owner, "<span class='warning'>You have recovered from Torpor.</span>")
-		return
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -155,34 +136,6 @@
 	if(C.stat == DEAD)
 		C.revive(full_heal = FALSE, admin_revive = FALSE)
 
-/*
- * 	// High: 	Faster Healing
- *	// Med: 	Pale
- *	// Low: 	Twitch
- *	// V.Low:   Blur Vision
- *	// EMPTY:	Frenzy!
- */
-/// I am thirsty for blood!
-/datum/antagonist/bloodsucker/proc/HandleStarving()
-	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm
-	// BLOOD_VOLUME_BAD: [224]  Jitter
-	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_FAKEDEATH)) && !poweron_masquerade)
-		owner.current.Jitter(3)
-	// BLOOD_VOLUME_SURVIVE: [122]  Blur Vision
-	if(owner.current.blood_volume < BLOOD_VOLUME_BAD / 2)
-		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
-	// Nutrition
-	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED)) //The amount of blood is how full we are.
-	// A bit higher regeneration based on blood volume
-	if(owner.current.blood_volume < 700)
-		additional_regen = 0.4
-	else if(owner.current.blood_volume < BLOOD_VOLUME_NORMAL)
-		additional_regen = 0.3
-	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
-		additional_regen = 0.2
-	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
-		additional_regen  = 0.1
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //			DEATH
@@ -225,6 +178,59 @@
 			to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
 			Torpor_Begin()
 
+/*
+ * 	// High: 	Faster Healing
+ *	// Med: 	Pale
+ *	// Low: 	Twitch
+ *	// V.Low:   Blur Vision
+ *	// EMPTY:	Frenzy!
+ */
+/// I am thirsty for blood!
+/datum/antagonist/bloodsucker/proc/HandleStarving()
+	if(!owner.current || AmFinalDeath)
+		return
+	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm
+	// BLOOD_VOLUME_BAD: [224]  Jitter
+	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_FAKEDEATH)) && !poweron_masquerade)
+		owner.current.Jitter(3)
+	// BLOOD_VOLUME_SURVIVE: [122]  Blur Vision
+	if(owner.current.blood_volume < BLOOD_VOLUME_BAD / 2)
+		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
+	// Nutrition
+	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED)) //The amount of blood is how full we are.
+	// A bit higher regeneration based on blood volume
+	if(owner.current.blood_volume < 700)
+		additional_regen = 0.4
+	else if(owner.current.blood_volume < BLOOD_VOLUME_NORMAL)
+		additional_regen = 0.3
+	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
+		additional_regen = 0.2
+	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
+		additional_regen  = 0.1
+
+/datum/antagonist/bloodsucker/proc/HandleTorpor()
+	if(!owner.current || AmFinalDeath)
+		return
+	/// Entering Torpor
+	var/total_brute = owner.current.getBruteLoss()
+	var/total_burn = owner.current.getFireLoss_nonProsthetic()
+	var/total_damage = total_brute + total_burn
+	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+		/// Staked? Dont heal
+		if(owner.current.AmStaked())
+			to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
+			return
+		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
+			if(is_daylight() || total_damage >= 10)
+				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+				Torpor_Begin()
+				return
+	/// Used for ending Torpor.
+	if(!is_daylight() && HAS_TRAIT(owner.current, TRAIT_NODEATH) && total_damage <= 0)
+		Torpor_End()
+		to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
+		return
+
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
 	/// Disable ALL Powers
 	for(var/datum/action/bloodsucker/power in powers)
@@ -245,20 +251,12 @@
 	ADD_TRAIT(H, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	CureDisabilities()
 
-/// Standard Antags can be dead OR final death
-/datum/antagonist/proc/AmFinalDeath()
- 	return owner && (owner.current && owner.current.stat >= DEAD || owner.AmFinalDeath())
-
-/datum/antagonist/bloodsucker/AmFinalDeath()
- 	return owner && owner.AmFinalDeath()
-
-/datum/mind/proc/AmFinalDeath()
- 	return !current || QDELETED(current) || !isliving(current) || isbrain(current) || !get_turf(current) // NOTE: "isliving()" is not the same as STAT == CONSCIOUS. This is to make sure you're not a BORG (aka silicon)
-
+/// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
-	if(FinalDeath)
+	if(AmFinalDeath)
 		return
-	FinalDeath = TRUE // We are now supposed to die. Lets not spam it.
+	/// We are dead now.
+	AmFinalDeath = TRUE
 	if(!iscarbon(owner.current)) //Check for non carbons.
 		owner.current.gib()
 		return

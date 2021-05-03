@@ -188,7 +188,7 @@
 			continue
 		for(var/a in M.antag_datums)
 			var/datum/antagonist/antag_datum = a // var/datum/antagonist/antag_datum = M.has_antag_datum(/datum/antagonist/bloodsucker)
-			if(!istype(antag_datum) || antag_datum.AmFinalDeath())
+			if(!istype(antag_datum))
 				continue
 			var/their_loc = get_turf(M.current)
 			var/distance = get_dist_euclidian(my_loc, their_loc)

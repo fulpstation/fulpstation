@@ -44,7 +44,7 @@
 	var/warn_sun_burn // So we only get the sun burn message once per day.
 	var/passive_blood_drain = -0.1 //The amount of blood we loose each bloodsucker life tick LifeTick()
 	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
-	var/FinalDeath // Have we reached final death? Used to prevent spam.
+	var/AmFinalDeath = FALSE // Have we reached final death?
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
 		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
 /*
@@ -75,7 +75,7 @@
 	update_bloodsucker_icons_added(owner.current, "bloodsucker")
 	. = ..()
 
-///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
+/// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	/// End Sunlight? (if last Vamp)
 	check_cancel_sunlight()
@@ -122,6 +122,7 @@
 
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
+	var/SunlightStarted = FALSE // Used to prevent several Sols from starting.
 
 /datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
 	if(!team)
@@ -401,7 +402,7 @@
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
 /datum/antagonist/bloodsucker/antag_listing_status()
-	if (owner && owner.AmFinalDeath())
+	if(owner && AmFinalDeath)
 		return "<font color=red>Final Death</font>"
 	return ..()
 
@@ -747,7 +748,7 @@
 
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
-	if(FinalDeath)
+	if(AmFinalDeath)
 		return
 	if(!owner.current.hud_used)
 		return
@@ -798,20 +799,19 @@
 
 /// Start Sun, called when someone is assigned Bloodsucker.
 /datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	if(istype(bloodsucker_sunlight))
-		return TRUE
 	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
+		if(clan.SunlightStarted)
+			return
 		if(clan.members.len <= 1)
 			message_admins("New Sol has been created due to Bloodsucker assignement.")
+			clan.SunlightStarted = TRUE
 			bloodsucker_sunlight = new()
 
 /// End Sun (If you're the last) - This currently doesnt work...
 /datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
 	/// No Sunlight
-	if(!istype(bloodsucker_sunlight))
-		return TRUE
-	for(var/datum/team/vampireclan/clan in GLOB.antagonist_teams)
-		if(clan.members.len <= 0)
+	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
+		if(!clan.members.len)
 			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
 			qdel(bloodsucker_sunlight)
 			bloodsucker_sunlight = null
