@@ -122,7 +122,6 @@
 
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
-	var/SunlightStarted = FALSE // Used to prevent several Sols from starting.
 
 /datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
 	if(!team)
@@ -800,11 +799,8 @@
 /// Start Sun, called when someone is assigned Bloodsucker.
 /datum/antagonist/bloodsucker/proc/check_start_sunlight()
 	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(clan.SunlightStarted)
-			return
 		if(clan.members.len <= 1)
 			message_admins("New Sol has been created due to Bloodsucker assignement.")
-			clan.SunlightStarted = TRUE
 			bloodsucker_sunlight = new()
 
 /// End Sun (If you're the last) - This currently doesnt work...
