@@ -23,6 +23,12 @@
 		return
 	. = ..()
 
+/// Prevents Bloodsuckers from naturally regenerating Blood.
+/mob/living/carbon/human/handle_blood(delta_time, times_fired)
+	if(HAS_TRAIT(src, TRAIT_NOPULSE))
+		return
+	. = ..()
+
 /// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
 /mob/living/carbon/natural_bodytemperature_stabilization()
 	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))

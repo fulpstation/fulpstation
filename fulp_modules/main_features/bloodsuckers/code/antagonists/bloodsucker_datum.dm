@@ -817,4 +817,4 @@
 			bloodsucker_sunlight = null
 
 /datum/antagonist/bloodsucker/proc/is_daylight()
-	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay
+	return bloodsucker_sunlight.amDay

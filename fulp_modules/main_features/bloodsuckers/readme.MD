@@ -12,14 +12,13 @@
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 - code/modules/mob/living/carbon/human/examine.dm > Added Bloodsucker examine text
-- code/modules/mob/living/blood.dm > Kicks Bloodsuckers out of naturally regenerating blood
 
 ## TG proc overwrites:
 
 - /obj/item/clothing/neck/necklace/memento_mori/memento() - Prevents Bloodsuckers from getting complete immunity
 - /datum/species/jelly/slime/spec_life() - Prevents Bloodsuckers from abusing Slimepeople
 - /datum/species/jelly/spec_life() - Prevents Bloodsuckers from abusing Slimepeople
-- /mob/living/carbon/natural_bodytemperature_stabilization() - Makes Bloodsucker's blood, cold
+- /mob/living/carbon/natural_bodytemperature_stabilization() - Makes Bloodsucker's blood cold
 
 ## TG sounds/sprites used:
 

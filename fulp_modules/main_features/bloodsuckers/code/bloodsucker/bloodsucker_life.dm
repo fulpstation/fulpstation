@@ -88,22 +88,19 @@
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
 		var/mob/living/carbon/C = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
+		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
 		var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && (mult == 0 || HAS_TRAIT(C, TRAIT_FAKEDEATH))
+		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && HAS_TRAIT(C, TRAIT_FAKEDEATH)
 		if(amInCoffinWhileTorpor)
-			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
+			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			C.extinguish_mob()
 			C.remove_all_embedded_objects() // Remove Embedded!
 			owner.current.regenerate_organs() // Heal Organs (will respawn original eyes etc. but we replace right away, next)
 			CheckVampOrgans() // Heart
 			if(check_limbs(costMult))
 				return TRUE
-		else if(owner.current.stat >= UNCONSCIOUS) // Faster regeneration while unconcious
-			mult *= 2
-		// BRUTE: Always Heal
-		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen)
-		// Heal if Damaged
+		/// Heal if Damaged
 		if(bruteheal + fireheal > 0) // Just a check? Don't heal/spend, and return.
 			// We have damage. Let's heal (one time)
 			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
@@ -175,8 +172,10 @@
 		if(poweron_masquerade)
 			to_chat(H, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
 		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
-			to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
-			Torpor_Begin()
+			if(HandleHealing(1))
+				to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
+				Torpor_Begin()
+				return
 
 /*
  * 	// High: 	Faster Healing
@@ -212,43 +211,41 @@
 	if(!owner.current || AmFinalDeath)
 		return
 	/// Entering Torpor
-	var/total_brute = owner.current.getBruteLoss()
-	var/total_burn = owner.current.getFireLoss_nonProsthetic()
+	var/mob/living/carbon/B = owner.current
+	var/total_brute = B.getBruteLoss_nonProsthetic()
+	var/total_burn = B.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		/// Staked? Dont heal
 		if(owner.current.AmStaked())
 			to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
-			return
-		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		else if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			if(is_daylight() || total_damage >= 10)
-				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-				Torpor_Begin()
-				return
+				if(HandleHealing(1))
+					to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+					Torpor_Begin()
+					return
 	/// Used for ending Torpor.
-	if(!is_daylight() && HAS_TRAIT(owner.current, TRAIT_NODEATH) && total_damage <= 0)
-		Torpor_End()
-		to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
-		return
+	if(!is_daylight() && total_damage <= 0)
+		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
+			Torpor_End()
+			to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
+			return
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
 	/// Disable ALL Powers
 	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
-	var/mob/living/carbon/human/H = owner.current
-	if(HAS_TRAIT(H, TRAIT_NODEATH))
-		return
-	REMOVE_TRAIT(H, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(H, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(H, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	H.Jitter(0)
+	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
+	ADD_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
+	owner.current.Jitter(0)
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
-	var/mob/living/carbon/human/H = owner.current
-	REMOVE_TRAIT(H, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(H, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(H, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	CureDisabilities()
 
 /// Gibs the Bloodsucker, roundremoving them.

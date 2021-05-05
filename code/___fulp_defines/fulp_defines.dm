@@ -28,8 +28,6 @@
 /*
  *	Bloodsucker Defines
  */
-/// You walk!
-#define TRAIT_NORUNNING "norunning"
 /// Your heart doesn't beat.
 #define TRAIT_NOPULSE "nopulse"
 /// Falsifies Health analyzers
