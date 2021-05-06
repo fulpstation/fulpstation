@@ -86,7 +86,7 @@
 	if(!owner || !owner.mind)
 		return FALSE
 	// Torpor?
-	if(!can_use_in_torpor && HAS_TRAIT(owner, TRAIT_FAKEDEATH))
+	if(!can_use_in_torpor && HAS_TRAIT(owner, TRAIT_NODEATH))
 		if(display_error)
 			to_chat(owner, "<span class='warning'>Not while you're in Torpor.</span>")
 		return FALSE

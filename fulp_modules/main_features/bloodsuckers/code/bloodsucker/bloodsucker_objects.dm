@@ -151,7 +151,7 @@
 
 /// You can't go to sleep in a coffin with a stake in you.
 /mob/living/proc/StakeCanKillMe()
-	return IsSleeping() || stat >= UNCONSCIOUS || blood_volume <= 0 || HAS_TRAIT(src, TRAIT_FAKEDEATH)
+	return IsSleeping() || stat >= UNCONSCIOUS || blood_volume <= 0 || HAS_TRAIT(src, TRAIT_NODEATH)
 
 /obj/item/stake
 	name = "wooden stake"

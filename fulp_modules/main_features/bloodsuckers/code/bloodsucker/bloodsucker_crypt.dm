@@ -245,7 +245,7 @@
  */
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
-	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Prep...
 	useLock = TRUE
 	// Conversion Process
@@ -254,7 +254,7 @@
 		if(!do_torture(user,target))
 			to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		else
-			convert_progress -- // Ouch. Stop. Don't.
+			convert_progress-- // Ouch. Stop. Don't.
 			// All done!
 			if(convert_progress <= 0)
 				if(RequireDisloyalty(target))
@@ -283,7 +283,7 @@
 		useLock = FALSE
 		return
 	// Convert to Vassal!
-	if(B && B.attempt_turn_vassal(target))
+	if(bloodsuckerdatum && bloodsuckerdatum.attempt_turn_vassal(target))
 		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 			remove_loyalties(target)
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
@@ -369,11 +369,7 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum
-	if(bloodsuckerdatum.AmValidAntag(target.mind))
-		return TRUE
-	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
-		return TRUE
-	return FALSE
+	return bloodsuckerdatum.AmValidAntag(target) || HAS_TRAIT(target, TRAIT_MINDSHIELD)
 
 /obj/structure/bloodsucker/vassalrack/proc/disloyalty_accept(mob/living/target)
 	// FAILSAFE: Still on the rack?

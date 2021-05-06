@@ -90,7 +90,7 @@
 		var/costMult = 1 // Coffin makes it cheaper
 		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
 		var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && HAS_TRAIT(C, TRAIT_FAKEDEATH)
+		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && HAS_TRAIT(C, TRAIT_NODEATH)
 		if(amInCoffinWhileTorpor)
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
@@ -190,7 +190,7 @@
 		return
 	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm
 	// BLOOD_VOLUME_BAD: [224]  Jitter
-	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_FAKEDEATH)) && !poweron_masquerade)
+	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_NODEATH)) && !poweron_masquerade)
 		owner.current.Jitter(3)
 	// BLOOD_VOLUME_SURVIVE: [122]  Blur Vision
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD / 2)
@@ -210,37 +210,38 @@
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)
 		return
-	/// Entering Torpor
+	/// We have to use carbon here, otherwise we use the mob/living one, which is an empty return.
 	var/mob/living/carbon/B = owner.current
 	var/total_brute = B.getBruteLoss_nonProsthetic()
 	var/total_burn = B.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-		/// Staked? Dont heal
-		if(owner.current.AmStaked())
-			to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
-		else if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
-			if(is_daylight() || total_damage >= 10)
-				if(HandleHealing(1))
-					to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-					Torpor_Begin()
-					return
+		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
+			/// Staked? Dont heal
+			if(owner.current.AmStaked())
+				to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
+				return
+			/// Otherwise, check for Sol, or if injured enough to enter Torpor.
+			if(bloodsucker_sunlight.amDay || total_damage >= 10)
+				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+				Torpor_Begin()
 	/// Used for ending Torpor.
-	if(!is_daylight() && total_damage <= 0)
+	if(!bloodsucker_sunlight.amDay && total_damage <= 0)
 		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			Torpor_End()
 			to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
-			return
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
+	/// Force them to go to sleep
+	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	/// Without this, you'll just keep dying while you recover.
+	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
+	owner.current.Jitter(0)
 	/// Disable ALL Powers
 	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
-	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT) // Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	owner.current.Jitter(0)
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
 	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)

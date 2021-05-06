@@ -811,6 +811,3 @@
 			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
 			qdel(bloodsucker_sunlight)
 			bloodsucker_sunlight = null
-
-/datum/antagonist/bloodsucker/proc/is_daylight()
-	return bloodsucker_sunlight.amDay
