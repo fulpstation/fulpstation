@@ -96,8 +96,9 @@
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			C.extinguish_mob()
 			C.remove_all_embedded_objects() // Remove Embedded!
-			owner.current.regenerate_organs() // Heal Organs (will respawn original eyes etc. but we replace right away, next)
 			CheckVampOrgans() // Heart
+			for(var/obj/item/organ/O in C.internal_organs)
+				O.setOrganDamage(0)
 			if(check_limbs(costMult))
 				return TRUE
 		/// Heal if Damaged
@@ -236,6 +237,7 @@
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	/// Without this, you'll just keep dying while you recover.
 	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
 	owner.current.Jitter(0)
 	/// Disable ALL Powers
@@ -245,6 +247,7 @@
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
 	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	CureDisabilities()

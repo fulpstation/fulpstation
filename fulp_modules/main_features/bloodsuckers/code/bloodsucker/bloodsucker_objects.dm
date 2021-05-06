@@ -29,7 +29,7 @@
 
 /// Do I have any parts that need replacing?
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
-	var/obj/item/organ/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/heart/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
 	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
 		qdel(O)
 		var/obj/item/organ/heart/vampheart/H = new
