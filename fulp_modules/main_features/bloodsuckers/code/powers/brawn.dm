@@ -136,7 +136,7 @@
 			target.emp_act(EMP_HEAVY)
 	// Target Type: Door
 	else if(istype(target, /obj/machinery/door))
-		if(level_current >= 4)
+		if(level_current >= 3)
 			var/obj/machinery/door/D = target
 			playsound(get_turf(usr), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
 			to_chat(user, "<span class='notice'>You prepare to tear open [D].</span>")

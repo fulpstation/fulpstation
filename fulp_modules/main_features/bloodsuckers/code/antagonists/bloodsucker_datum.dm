@@ -89,13 +89,12 @@
 	var/fullname = ReturnFullName(TRUE)
 	to_chat(owner, "<span class='userdanger'>You are [fullname], a strain of vampire known as a bloodsucker!</span><br>")
 	owner.announce_objectives()
-	to_chat(owner, "<span class='boldannounce'>* You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Allow your stolen blood to run too low, and you will find yourself at \
-	risk of being discovered!</span><br>")
-	to_chat(owner,  "<span class='boldannounce'>* Other Bloodsuckers are not necessarily your friends, but your survival may depend on cooperation. Betray them at your own discretion and peril.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: If you don't have a coffin claimed/can't reach it for reasons, lockers can partially guard you from Solar flares.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.</span><br>")
+	to_chat(owner, "<span class='announce'>* Other Bloodsuckers are not necessarily your friends, but your survival may depend on cooperation. Betray them at your own discretion and peril.<br> \
+	* Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.<br> \
+	* Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.<br> \
+	* Bloodsucker Tip: You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low!<br> \
+	* Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.<br> \
+	* You can find an in-depth guide at : https://wiki.fulp.gg/en/Bloodsucker </span>")
 	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
