@@ -487,10 +487,6 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/service)
 "ags" = (
-/obj/machinery/door/airlock/medical{
-	name = "Morgue";
-	req_access_txt = "6;5"
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -502,6 +498,10 @@
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	name = "Medical blue corner"
+	},
+/obj/machinery/door/airlock/grunge{
+	name = "Morgue";
+	req_access_txt = "5;6"
 	},
 /turf/open/floor/iron/dark,
 /area/medical/morgue)
@@ -10274,10 +10274,6 @@
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
 "cGq" = (
-/obj/machinery/door/airlock/grunge{
-	name = "Morgue";
-	req_one_access_txt = "5;6;22"
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
@@ -10290,6 +10286,10 @@
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	name = "Medical blue corner"
+	},
+/obj/machinery/door/airlock/grunge{
+	name = "Morgue Maintenance";
+	req_access_txt = "5;6;12;22"
 	},
 /turf/open/floor/iron,
 /area/maintenance/department/medical)
@@ -31555,12 +31555,12 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "iff" = (
-/obj/machinery/door/airlock/grunge{
-	name = "Morgue";
-	req_one_access_txt = "5;6;22"
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
+	},
+/obj/machinery/door/airlock/grunge{
+	name = "Morgue Maintenance";
+	req_access_txt = "5;6;12;22"
 	},
 /turf/open/floor/iron,
 /area/maintenance/department/medical)
