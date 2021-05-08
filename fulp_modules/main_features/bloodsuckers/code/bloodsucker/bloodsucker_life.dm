@@ -154,7 +154,10 @@
 	if(owner.current.StakeCanKillMe() && owner.current.AmStaked())
 		FinalDeath()
 		return
-	/* // Disabled due to it killing Slimepeople. They should be getting the organs back when they sleep through Sol anyhow.
+	if(!(owner.current.mob_biotypes & MOB_ORGANIC))
+		FinalDeath()
+		return
+	/* // Disabled due to it killing Slimepeople. Replaced with the check above.
 	// Missing Brain or Heart?
 	if(!owner.current.HaveBloodsuckerBodyparts())
 		FinalDeath()
