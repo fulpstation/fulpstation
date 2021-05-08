@@ -154,10 +154,11 @@
 	if(owner.current.StakeCanKillMe() && owner.current.AmStaked())
 		FinalDeath()
 		return
+	/// Not organic/living? (Zombie/Skeleton/Plasmaman)
 	if(!(owner.current.mob_biotypes & MOB_ORGANIC))
 		FinalDeath()
 		return
-	/* // Disabled due to it killing Slimepeople. Replaced with the check above.
+	/* !! Removed due to killing Slimepeople. Replaced with the ORGANIG check above. Torpor should be checking their organs anyways.
 	// Missing Brain or Heart?
 	if(!owner.current.HaveBloodsuckerBodyparts())
 		FinalDeath()
@@ -192,7 +193,7 @@
 /datum/antagonist/bloodsucker/proc/HandleStarving()
 	if(!owner.current || AmFinalDeath)
 		return
-	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm
+	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm)
 	// BLOOD_VOLUME_BAD: [224]  Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_NODEATH)) && !poweron_masquerade)
 		owner.current.Jitter(3)
