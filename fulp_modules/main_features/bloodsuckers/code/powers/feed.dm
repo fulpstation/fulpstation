@@ -44,7 +44,7 @@
 		// Bloodsuckers:
 		else if(ishuman(target))
 			var/mob/living/carbon/human/H = target
-			if(!H.can_inject(owner, TRUE, BODY_ZONE_CHEST))
+			if(!H.can_inject(owner, BODY_ZONE_CHEST, INJECT_CHECK_PENETRATE_THICK))
 				return FALSE
 			if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 				if(display_error)
@@ -66,7 +66,7 @@
 		return FALSE
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
-		if(!H.can_inject(owner, TRUE, BODY_ZONE_HEAD) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
+		if(!H.can_inject(owner, BODY_ZONE_HEAD, INJECT_CHECK_PENETRATE_THICK) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
 			return FALSE
 		if(NOBLOOD in H.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
 			if(display_error)
@@ -145,19 +145,18 @@
 		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
 	else
 		to_chat(user, "<span class='warning'>You pull [target] close to you and draw out your fangs...</span>")
-	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
+	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 		to_chat(user, "<span class='warning'>Your feeding was interrupted.</span>")
 		//DeactivatePower()
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
 	if(!amSilent)
-		ApplyVictimEffects(target)	// Sleep, paralysis, immobile, unconscious, and mute
+		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
 		if(target.stat <= UNCONSCIOUS)
-			sleep(1)
-			// Wait, then Cancel if Invalid
-			if(!ContinueActive(user,target)) // Cancel. They're gone.
-				//DeactivatePower(user,target)
-				return
+			if(do_after(user, 0.1 SECONDS, target)) // Wait, then Cancel if Invalid
+				if(!ContinueActive(user,target)) // Cancel. They're gone.
+					//DeactivatePower(user,target)
+					return // Cancel. They're gone.
 		// Pull Target Close
 		if(!target.density) // Pull target to you if they don't take up space.
 			target.Move(user.loc)
@@ -204,7 +203,7 @@
 	while(bloodsuckerdatum && target && active)
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
-		if(!do_mob(user, target, 2 SECONDS, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
+		if(!do_mob(user, target, 2 SECONDS, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 			// May have disabled Feed during do_mob
 			if(!active || !ContinueActive(user, target))
 				break
@@ -230,7 +229,7 @@
 				user.add_mob_blood(target) // Put target's blood on us. The donor goes in the ( )
 				target.add_mob_blood(target)
 				target.take_overall_damage(10,0)
-				target.emote("scream")
+				INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 
 			return
 
@@ -262,7 +261,7 @@
 			to_chat(user, "<span class='notice'>You are full. Further blood will be wasted.</span>")
 			warning_full = TRUE
 		// Blood Remaining? (Carbons/Humans only)
-		if(iscarbon(target) && !AmBloodsucker(target, TRUE))
+		if(iscarbon(target) && !IS_BLOODSUCKER(target))
 			if(target.blood_volume <= BLOOD_VOLUME_BAD && warning_target_bloodvol > BLOOD_VOLUME_BAD)
 				to_chat(user, "<span class='warning'>Your victim's blood volume is fatally low!</span>")
 			else if(target.blood_volume <= BLOOD_VOLUME_OKAY && warning_target_bloodvol > BLOOD_VOLUME_OKAY)
@@ -291,11 +290,14 @@
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
-	return ..() && target && (!target_grappled || user.pulling == target) // Active, and still antag,
+	if(!target)
+		return FALSE
+	if(!target_grappled || user.pulling == target) // Active, and still antag
+		return ..()
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
-	if(!AmBloodsucker(target))
+	if(!IS_BLOODSUCKER(target))
 		target.Unconscious(50,0)
 		target.Paralyze(40 + 5 * level_current,1) // NOTE: This is based on level of power!
 		if(ishuman(target))

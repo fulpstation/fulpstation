@@ -136,16 +136,20 @@
 			target.emp_act(EMP_HEAVY)
 	// Target Type: Door
 	else if(istype(target, /obj/machinery/door))
-		var/obj/machinery/door/D = target
-		playsound(get_turf(usr), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
-		to_chat(user, "<span class='notice'>You prepare to tear open [D].</span>")
-		if(do_mob(usr, target, 2.5 SECONDS))
-			if(D.Adjacent(user))
-				to_chat(user, "<span class='notice'>You tear open the [D].</span>")
-				user.Stun(10)
-				user.do_attack_animation(D, ATTACK_EFFECT_SMASH)
-				playsound(get_turf(D), 'sound/effects/bang.ogg', 30, 1, -1)
-				D.open(2) // open(2) is like a crowbar or jaws of life.
+		if(level_current >= 3)
+			var/obj/machinery/door/D = target
+			playsound(get_turf(usr), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
+			to_chat(user, "<span class='notice'>You prepare to tear open [D].</span>")
+			if(do_mob(usr, target, 2.5 SECONDS))
+				if(D.Adjacent(user))
+					to_chat(user, "<span class='notice'>You tear open the [D].</span>")
+					user.Stun(10)
+					user.do_attack_animation(D, ATTACK_EFFECT_SMASH)
+					playsound(get_turf(D), 'sound/effects/bang.ogg', 30, 1, -1)
+					D.open(2) // open(2) is like a crowbar or jaws of life.
+		else
+			to_chat(user, "<span class='notice'>You are not strong enough to pry this open.</span>")
+			return FALSE
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
 	return isliving(A) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet)

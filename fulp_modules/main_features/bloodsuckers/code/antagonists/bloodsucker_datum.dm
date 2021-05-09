@@ -44,9 +44,9 @@
 	var/warn_sun_burn // So we only get the sun burn message once per day.
 	var/passive_blood_drain = -0.1 //The amount of blood we loose each bloodsucker life tick LifeTick()
 	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
-	var/FinalDeath // Have we reached final death? Used to prevent spam.
+	var/AmFinalDeath = FALSE // Have we reached final death?
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
-		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED, TRAIT_THERMAL_VISION)
+		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
 /*
  *	TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced.
  *	Remember that Fortitude gives NODISMEMBER when balancing Traits!
@@ -75,7 +75,7 @@
 	update_bloodsucker_icons_added(owner.current, "bloodsucker")
 	. = ..()
 
-///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
+/// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	/// End Sunlight? (if last Vamp)
 	check_cancel_sunlight()
@@ -89,13 +89,12 @@
 	var/fullname = ReturnFullName(TRUE)
 	to_chat(owner, "<span class='userdanger'>You are [fullname], a strain of vampire known as a bloodsucker!</span><br>")
 	owner.announce_objectives()
-	to_chat(owner, "<span class='boldannounce'>* You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Allow your stolen blood to run too low, and you will find yourself at \
-	risk of being discovered!</span><br>")
-	to_chat(owner,  "<span class='boldannounce'>* Other Bloodsuckers are not necessarily your friends, but your survival may depend on cooperation. Betray them at your own discretion and peril.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: If you don't have a coffin claimed/can't reach it for reasons, lockers can partially guard you from Solar flares.</span><br>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.</span><br>")
+	to_chat(owner, "<span class='announce'>* Other Bloodsuckers are not necessarily your friends, but your survival may depend on cooperation. Betray them at your own discretion and peril.<br> \
+	* Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.<br> \
+	* Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.<br> \
+	* Bloodsucker Tip: You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low!<br> \
+	* Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.<br> \
+	* You can find an in-depth guide at : https://wiki.fulp.gg/en/Bloodsucker </span>")
 	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
@@ -210,6 +209,9 @@
 	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
+	/// No Skittish "People" allowed
+	if(HAS_TRAIT(owner.current, TRAIT_SKITTISH))
+		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
 	/// Clear Disabilities
 	CureDisabilities()
 	/// Stats
@@ -222,15 +224,20 @@
 		if(istype(H) && owner.assigned_role == "Clown")
 			H.dna.remove_mutation(CLOWNMUT)
 			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
-	/// Heart
-	CheckVampOrgans()
 	/// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
+	/// Heart
+	CheckVampOrgans()
 	/// Eyes
-	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
-	E.flash_protect -= 1
-	E.see_in_dark = 8
+	var/mob/living/carbon/user = owner.current
+	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
+	if(E)
+		E.flash_protect -= 1
+		E.sight_flags = SEE_MOBS
+		E.see_in_dark = 8
+		E.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	user.update_sight()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	/// Remove huds
@@ -251,17 +258,22 @@
 			H.dna.add_mutation(CLOWNMUT)
 	for(var/T in defaultTraits)
 		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
-	/// Heart
-	RemoveVampOrgans()
-	/// Eyes
-	var/obj/item/organ/eyes/E = owner.current.getorganslot(ORGAN_SLOT_EYES)
-	E.flash_protect += 1
-	E.see_in_dark = 2
 	/// Update Health
 	owner.current.setMaxHealth(MAX_LIVING_HEALTH)
 	// Language
 	owner.current.remove_language(/datum/language/vampiric)
 //	owner.current.hellbound = FALSE
+	/// Heart
+	RemoveVampOrgans()
+	/// Eyes
+	var/mob/living/carbon/user = owner.current
+	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
+	if(E)
+		E.flash_protect += 1
+		E.sight_flags = 0
+		E.see_in_dark = 2
+		E.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+	user.update_sight()
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	set waitfor = FALSE
@@ -388,7 +400,7 @@
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
 /datum/antagonist/bloodsucker/antag_listing_status()
-	if (owner && owner.AmFinalDeath())
+	if(owner && AmFinalDeath)
 		return "<font color=red>Final Death</font>"
 	return ..()
 
@@ -734,7 +746,7 @@
 
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
-	if(FinalDeath)
+	if(AmFinalDeath)
 		return
 	if(!owner.current.hud_used)
 		return
@@ -785,8 +797,6 @@
 
 /// Start Sun, called when someone is assigned Bloodsucker.
 /datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	if(istype(bloodsucker_sunlight))
-		return TRUE
 	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
 		if(clan.members.len <= 1)
 			message_admins("New Sol has been created due to Bloodsucker assignement.")
@@ -795,12 +805,8 @@
 /// End Sun (If you're the last) - This currently doesnt work...
 /datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
 	/// No Sunlight
-	if(!istype(bloodsucker_sunlight))
-		return TRUE
-	if(clan.members.len <= 0)
-		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-		qdel(bloodsucker_sunlight)
-		bloodsucker_sunlight = null
-
-/datum/antagonist/bloodsucker/proc/is_daylight()
-	return istype(bloodsucker_sunlight) && bloodsucker_sunlight.amDay
+	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
+		if(!clan.members.len)
+			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
+			qdel(bloodsucker_sunlight)
+			bloodsucker_sunlight = null
