@@ -1,9 +1,6 @@
 /*
  *	This file is for any additions related to jobs to make fulp-only jobs
  *	functional with little conflict.
- *
- *
- *
  */
 
 
@@ -24,10 +21,6 @@
 
 
 		//	JOBS	//
-
-/datum/job
-	var/id_icon = 'icons/obj/card.dmi'	// Overlay on your ID
-	var/hud_icon = 'icons/mob/hud.dmi'	// Sec Huds see this
 
 /datum/job/fulp
 	var/fulp_spawn = null //give it a room's type path to spawn there

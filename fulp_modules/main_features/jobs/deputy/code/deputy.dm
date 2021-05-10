@@ -22,8 +22,6 @@
 	bounty_types = CIV_JOB_MED
 	departments = DEPARTMENT_SECURITY
 
-	id_icon = 'fulp_modules/main_features/jobs/cards.dmi'
-	hud_icon = 'fulp_modules/main_features/jobs/huds.dmi'
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
 /// Default Deputy trim, this should never be used in game.
