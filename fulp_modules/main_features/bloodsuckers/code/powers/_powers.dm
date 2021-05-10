@@ -81,11 +81,12 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/proc/CheckCanUse(display_error)	// These checks can be scanned every frame while a ranged power is on.
+/// These checks can be scanned every frame while a ranged power is on.
+/datum/action/bloodsucker/proc/CheckCanUse(display_error)
 	if(!owner || !owner.mind)
 		return FALSE
 	// Torpor?
-	if(!can_use_in_torpor && HAS_TRAIT(owner, TRAIT_FAKEDEATH))
+	if(!can_use_in_torpor && HAS_TRAIT(owner, TRAIT_NODEATH))
 		if(display_error)
 			to_chat(owner, "<span class='warning'>Not while you're in Torpor.</span>")
 		return FALSE
@@ -157,8 +158,14 @@
 	UpdateButtonIcon()
 	StartCooldown()
 
-/datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target) // Used by loops to make sure this power can stay active.
-	return active && user && (!warn_constant_cost || user.blood_volume > 0)
+/// Used by loops to make sure this power can stay active.
+/datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)
+	if(!active)
+		return FALSE
+	if(!user)
+		return FALSE
+	if(!warn_constant_cost || user.blood_volume > 0)
+		return TRUE
 
 /// Used to unlearn Go Home ability
 /datum/action/bloodsucker/proc/RemoveAfterUse()

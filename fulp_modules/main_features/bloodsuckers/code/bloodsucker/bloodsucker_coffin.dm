@@ -16,12 +16,11 @@
 	to_chat(owner, "<span class='userdanger'>You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair].</span>")
 	to_chat(owner, "<span class='danger'>You have learned new construction recipes to improve your lair.</span>")
 	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Find new lair recipes in the Misc tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals.</span><br><br>")
-	RunLair()
 	return TRUE
 
 /// From crate.dm
 /obj/structure/closet/crate
-	var/mob/living/resident	// This lets bloodsuckers claim any "closet" as a Coffin.
+	var/mob/living/resident /// This lets bloodsuckers claim any "closet" as a Coffin.
 	var/pryLidTimer = 250
 	breakout_time = 200
 
@@ -79,10 +78,66 @@
 		if(bloodsuckerdatum.ClaimCoffin(src))
 			resident = claimant
 			anchored = 1
+			START_PROCESSING(SSprocessing, src)
 
 /obj/structure/closet/crate/coffin/Destroy()
 	UnclaimCoffin()
+	STOP_PROCESSING(SSprocessing, src)
 	return ..()
+
+/// Don't make on_gain() wait for this function to finish. This lets this code run on the side.
+/obj/structure/closet/crate/process(mob/living/user)
+	if(!..())
+		return FALSE
+	if(user in src)
+		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(!B)
+			return
+		if(B.lair != get_area(B.coffin))
+			if(B.coffin)
+				B.coffin.UnclaimCoffin()
+		var/list/turf/area_turfs = get_area_turfs(B.lair)
+		// Create Dirt etc.
+		var/turf/T_Dirty = pick(area_turfs)
+		if(T_Dirty && !T_Dirty.density)
+			// Default: Dirt
+			// CHECK: Cobweb already there?
+			//if (!locate(var/obj/effect/decal/cleanable/cobweb) in T_Dirty)	// REMOVED! Cleanables don't stack.
+			// STEP ONE: COBWEBS
+			// CHECK: Wall to North?
+			var/turf/check_N = get_step(T_Dirty, NORTH)
+			if(istype(check_N, /turf/closed/wall))
+				// CHECK: Wall to West?
+				var/turf/check_W = get_step(T_Dirty, WEST)
+				if(istype(check_W, /turf/closed/wall))
+					new /obj/effect/decal/cleanable/cobweb (T_Dirty)
+				// CHECK: Wall to East?
+				var/turf/check_E = get_step(T_Dirty, EAST)
+				if(istype(check_E, /turf/closed/wall))
+					new /obj/effect/decal/cleanable/cobweb/cobweb2 (T_Dirty)
+			// STEP TWO: DIRT
+			new /obj/effect/decal/cleanable/dirt (T_Dirty)
+		// Find Animals in Area
+/*		if(rand(0,2) == 0)
+			var/mobCount = 0
+			var/mobMax = clamp(area_turfs.len / 25, 1, 4)
+			for(var/turf/T in area_turfs)
+				if(!T) continue
+				var/mob/living/simple_animal/SA = locate() in T
+				if(SA)
+					mobCount ++
+					if (mobCount >= mobMax) // Already at max
+						break
+				Spawn One
+			if(mobCount < mobMax)
+				 Seek Out Location
+				while(area_turfs.len > 0)
+					var/turf/T = pick(area_turfs) // We use while&pick instead of a for/loop so it's random, rather than from the top of the list.
+					if(T && !T.density)
+						var/mob/living/simple_animal/SA = /mob/living/simple_animal/mouse // pick(/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse, /mob/living/simple_animal/hostile/retaliate/bat) //prob(300) /mob/living/simple_animal/mouse,
+						new SA (T)
+						break
+					area_turfs -= T*/
 
 /obj/structure/closet/crate/proc/UnclaimCoffin()
 	if(resident)
@@ -92,7 +147,7 @@
 			if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
 				bloodsuckerdatum.coffin = null
 				bloodsuckerdatum.lair = null
-			to_chat(resident, "<span class='danger'><span class='italics'>You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another.</span></span>")
+			to_chat(resident, "<span class='cult'><span class='italics'>You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another.</span></span>")
 		resident = null // Remove resident. Because this object isnt removed from the game immediately (GC?) we need to give them a way to see they don't have a home anymore.
 
 /// You cannot lock in/out a coffin's owner. SORRY.
@@ -113,7 +168,7 @@
 	if(!..())
 		return FALSE
 	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
-	if((user in src))
+	if(user in src)
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			LockMe(user)
@@ -122,16 +177,6 @@
 					if("Yes")
 						ClaimCoffin(user)
 			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
-			if(user.AmStaked()) // Staked? Dont heal
-				to_chat(bloodsuckerdatum.owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
-				return
-			// Heal
-			var/total_brute = user.getBruteLoss_nonProsthetic()
-			var/total_burn = user.getFireLoss_nonProsthetic()
-			var/total_damage = total_brute + total_burn
-			if(total_damage >= 10)
-				to_chat(bloodsuckerdatum.owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
-				bloodsuckerdatum.Torpor_Begin()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.

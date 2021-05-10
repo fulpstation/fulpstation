@@ -34,6 +34,7 @@
 
 	var/mob/living/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	bloodsuckerdatum.poweron_masquerade = TRUE
 
 	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
@@ -52,32 +53,26 @@
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 	// Falsifies Genetic Analyzers
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
-	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
+
 	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
 	E.flash_protect += 1
 
 	// WE ARE ALIVE! //
-	bloodsuckerdatum.poweron_masquerade = TRUE
-	while(bloodsuckerdatum && ContinueActive(user))
-
+	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
+	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		// HEART
 		if(istype(H))
 			H.FakeStart()
-
 		// 		PASSIVE (done from LIFE)
 		// Don't Show Pale/Dead on low blood
 		// Don't vomit food
 		// Don't Heal
-
-		// Pay Blood Toll if awake. This is rather high, as we're removing all Bloodsucker abilities, meaning they will regenerate blood like a normal human.
-		if(user.stat == CONSCIOUS)
-			bloodsuckerdatum.AddBloodVolume(-0.3)
-
-		sleep(20) // Check every few ticks that we haven't disabled this power
+		if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
+			bloodsuckerdatum.AddBloodVolume(-0.3) // Since we're removing all Bloodsucker abilities, they will regenerate blood like a normal human, so pay a lot.
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
-	//if (user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
+	//if(user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
 	//	return FALSE
 	return ..() // Active, and still Antag
 

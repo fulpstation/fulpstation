@@ -44,6 +44,65 @@
 //                                          //
 //////////////////////////////////////////////
 
+/datum/dynamic_ruleset/midround/bloodsucker
+	name = "Vampiric Accident"
+	antag_datum = /datum/antagonist/bloodsucker
+	antag_flag = ROLE_BLOODSUCKER
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	restricted_roles = list("AI","Cyborg", "Positronic Brain")
+	required_candidates = 1
+	weight = 5
+	cost = 10
+	requirements = list(40,30,20,10,10,10,10,10,10,10)
+	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
+	repeatable = FALSE
+
+/datum/dynamic_ruleset/midround/autotraitor/acceptable(population = 0, threat = 0)
+	var/player_count = mode.current_players[CURRENT_LIVING_PLAYERS].len
+	var/antag_count = mode.current_players[CURRENT_LIVING_ANTAGS].len
+	var/max_suckers = round(player_count / 10) + 1
+	var/too_little_antags = antag_count < max_suckers
+	if (!too_little_antags)
+		log_game("DYNAMIC: Too many living antags compared to living players ([antag_count] living antags, [player_count] living players, [max_suckers] max bloodsuckers)")
+		return FALSE
+
+	if (!prob(mode.threat_level))
+		log_game("DYNAMIC: Random chance to roll autotraitor failed, it was a [mode.threat_level]% chance.")
+		return FALSE
+
+	return ..()
+
+/datum/dynamic_ruleset/midround/autotraitor/trim_candidates()
+	..()
+	for(var/mob/living/player in living_players)
+		if(issilicon(player)) // Your assigned role doesn't change when you are turned into a silicon.
+			living_players -= player
+		else if(is_centcom_level(player.z))
+			living_players -= player // We don't allow people in CentCom
+		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
+			living_players -= player // We don't allow people with roles already
+
+/datum/dynamic_ruleset/midround/autotraitor/ready(forced = FALSE)
+	if (required_candidates > living_players.len)
+		return FALSE
+	return ..()
+
+/datum/dynamic_ruleset/midround/autotraitor/execute()
+	var/mob/M = pick(living_players)
+	assigned += M
+	living_players -= M
+	var/datum/antagonist/bloodsucker/Sucker = new
+	M.mind.add_antag_datum(Sucker)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	return TRUE
+
+//////////////////////////////////////////////
+//                                          //
+//          LATEJOIN BLOODSUCKER            //
+//                                          //
+//////////////////////////////////////////////
+
 /datum/dynamic_ruleset/latejoin/bloodsucker
 	name = "Bloodsucker Breakout"
 	antag_datum = /datum/antagonist/bloodsucker

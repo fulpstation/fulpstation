@@ -1,15 +1,13 @@
 /datum/action/bloodsucker/cloak
 	name = "Cloak of Darkness"
-	desc = "Blend into the shadows and become invisible to the untrained eye. Movement is slowed in brightly lit areas, and you cannot dissapear while mortals watch you."
+	desc = "Blend into the shadows and become invisible to the untrained eye. Slows you down and you cannot dissapear while mortals watch you."
 	button_icon_state = "power_cloak"
 	bloodcost = 5
 	cooldown = 50
 	bloodsucker_can_buy = TRUE
 	amToggle = TRUE
 	warn_constant_cost = TRUE
-	var/moveintent_was_run
-	var/runintent
-	var/walk_threshold = 0.4 // arbitrary number, to be changed, this is fine after testing on box station for a bit (Last edit: 2019)
+	var/was_running
 	var/lum
 
 /// Must have nobody around to see the cloak
@@ -26,44 +24,31 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/mob/living/user = owner
 
-	moveintent_was_run = (user.m_intent == MOVE_INTENT_RUN)
+	was_running = (user.m_intent == MOVE_INTENT_RUN)
+	if(was_running)
+		user.toggle_move_intent()
 
-	while(bloodsuckerdatum && ContinueActive(user))
+	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
 		// Pay Blood Toll (if awake)
 		owner.alpha = max(35, owner.alpha - min(75, 10 + 5 * level_current))
-		bloodsuckerdatum.AddBloodVolume(-0.2)
-
-		runintent = (user.m_intent == MOVE_INTENT_RUN)
-		var/turf/T = get_turf(user)
-		lum = T.get_lumcount()
-
-		if(istype(owner.loc))
-			if(lum > walk_threshold)
-				if(runintent)
-					user.toggle_move_intent()
-					ADD_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
-
-			if(lum < walk_threshold)
-				if(!runintent)
-					user.toggle_move_intent()
-					REMOVE_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
-
-		sleep(5) // Check every few ticks
+		if(user.stat == CONSCIOUS)
+			bloodsuckerdatum.AddBloodVolume(-0.2)
+		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
+			user.toggle_move_intent()
+			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+			user.adjustBruteLoss(rand(5,15))
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
-	if (!..())
+	if(!..())
 		return FALSE
 	if(user.stat == !CONSCIOUS) // Must be CONSCIOUS
-		to_chat(owner, "<span class='warning'>Your cloak failed due to you falling unconcious! </span>")
+		to_chat(owner, "<span class='warning'>Your cloak failed due to you falling unconcious!</span>")
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/cloak/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()
-	REMOVE_TRAIT(user, TRAIT_NORUNNING, BLOODSUCKER_TRAIT)
 	user.alpha = 255
 
-	runintent = (user.m_intent == MOVE_INTENT_RUN)
-
-	if(!runintent && moveintent_was_run)
+	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()

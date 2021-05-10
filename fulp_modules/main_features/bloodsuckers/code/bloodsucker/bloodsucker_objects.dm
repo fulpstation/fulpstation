@@ -29,7 +29,7 @@
 
 /// Do I have any parts that need replacing?
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
-	var/obj/item/organ/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/heart/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
 	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
 		qdel(O)
 		var/obj/item/organ/heart/vampheart/H = new
@@ -138,7 +138,7 @@
 
 /// Do I have a stake in my heart?
 /mob/living/AmStaked()
-	var/obj/item/bodypart/BP = get_bodypart("chest")
+	var/obj/item/bodypart/BP = get_bodypart(BODY_ZONE_CHEST)
 	if(!BP)
 		return FALSE
 	for(var/obj/item/I in BP.embedded_objects)
@@ -151,7 +151,7 @@
 
 /// You can't go to sleep in a coffin with a stake in you.
 /mob/living/proc/StakeCanKillMe()
-	return IsSleeping() || stat >= UNCONSCIOUS || blood_volume <= 0 || HAS_TRAIT(src, TRAIT_FAKEDEATH)
+	return IsSleeping() || stat >= UNCONSCIOUS || blood_volume <= 0 || HAS_TRAIT(src, TRAIT_NODEATH)
 
 /obj/item/stake
 	name = "wooden stake"
@@ -189,7 +189,7 @@
 		return
 	to_chat(user, "<span class='notice'>You put all your weight into embedding the stake into [target]'s chest...</span>")
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
-	if(!do_mob(user, C, staketime, extra_checks=CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
+	if(!do_mob(user, C, staketime, extra_checks = CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
 	user.visible_message("<span class='danger'>[user.name] drives the [src] into [target]'s chest!</span>", \

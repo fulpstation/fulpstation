@@ -91,7 +91,7 @@
 	if(istype(target))
 		to_chat(user, "<span class='notice'>You attempt to hypnotically gaze [target].</span>")
 
-	if(do_mob(user, target, 4 SECONDS, NONE, TRUE, extra_checks=CALLBACK(src, .proc/ContinueActive, user, target)))
+	if(do_mob(user, target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
 		var/power_time = 90 + level_current * 15
 		if(iscarbon(target))

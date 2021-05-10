@@ -487,10 +487,6 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/service)
 "ags" = (
-/obj/machinery/door/airlock/medical{
-	name = "Morgue";
-	req_access_txt = "6;5"
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -502,6 +498,10 @@
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	name = "Medical blue corner"
+	},
+/obj/machinery/door/airlock/grunge{
+	name = "Morgue";
+	req_access_txt = "5;6"
 	},
 /turf/open/floor/iron/dark,
 /area/medical/morgue)
@@ -7569,6 +7569,7 @@
 	dir = 4;
 	name = "Science purple corner"
 	},
+/obj/machinery/vending/coffee,
 /turf/open/floor/iron/white,
 /area/science/research)
 "bXG" = (
@@ -10274,10 +10275,6 @@
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
 "cGq" = (
-/obj/machinery/door/airlock/grunge{
-	name = "Morgue";
-	req_one_access_txt = "5;6;22"
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
@@ -10290,6 +10287,10 @@
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	name = "Medical blue corner"
+	},
+/obj/machinery/door/airlock/grunge{
+	name = "Morgue Maintenance";
+	req_access_txt = "5;6;12;22"
 	},
 /turf/open/floor/iron,
 /area/maintenance/department/medical)
@@ -30457,6 +30458,7 @@
 	c_tag = "Command - Meeting Room E";
 	dir = 8
 	},
+/obj/machinery/vending/cigarette,
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/command)
 "hRm" = (
@@ -31555,12 +31557,12 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "iff" = (
-/obj/machinery/door/airlock/grunge{
-	name = "Morgue";
-	req_one_access_txt = "5;6;22"
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
+	},
+/obj/machinery/door/airlock/grunge{
+	name = "Morgue Maintenance";
+	req_access_txt = "5;6;12;22"
 	},
 /turf/open/floor/iron,
 /area/maintenance/department/medical)
@@ -45490,6 +45492,10 @@
 /obj/effect/landmark/start/assistant,
 /turf/open/floor/iron,
 /area/commons/dorms)
+"lEQ" = (
+/obj/machinery/vending/coffee,
+/turf/open/floor/wood,
+/area/service/library)
 "lEW" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -45634,6 +45640,7 @@
 	c_tag = "Command - Meeting Room W";
 	dir = 4
 	},
+/obj/machinery/vending/coffee,
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/command)
 "lGr" = (
@@ -48310,7 +48317,6 @@
 /turf/open/floor/plating,
 /area/science/misc_lab)
 "mlj" = (
-/obj/structure/closet/secure_closet/engineering_personal,
 /obj/machinery/newscaster{
 	pixel_y = -30
 	},
@@ -48323,6 +48329,7 @@
 	dir = 8;
 	name = "Engineering yellow corner"
 	},
+/obj/structure/reagent_dispensers/fueltank/large,
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "mll" = (
@@ -49741,6 +49748,7 @@
 	dir = 1;
 	network = list("ss13", "service")
 	},
+/obj/machinery/vending/coffee,
 /turf/open/floor/wood,
 /area/service/library/printer)
 "mFp" = (
@@ -54825,6 +54833,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"nRa" = (
+/obj/machinery/vending/coffee,
+/turf/open/floor/plating,
+/area/construction)
 "nRM" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -62927,12 +62939,12 @@
 /obj/item/stack/cable_coil,
 /obj/item/stack/cable_coil,
 /obj/structure/closet,
-/obj/item/vending_refill/cigarette,
 /obj/machinery/camera{
 	c_tag = "Service - Bar Backroom";
 	dir = 1;
 	network = list("ss13", "service")
 	},
+/obj/item/vending_refill/cola,
 /turf/open/floor/wood,
 /area/service/bar)
 "qai" = (
@@ -68640,7 +68652,8 @@
 	name = "Medbay Doors Control";
 	normaldoorcontrol = 1;
 	pixel_x = 26;
-	pixel_y = -3
+	pixel_y = -3;
+	req_access_txt = "5"
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
@@ -69435,6 +69448,24 @@
 	},
 /turf/open/floor/iron,
 /area/commons/storage/primary)
+"rFk" = (
+/obj/effect/turf_decal/tile/yellow{
+	color = "#FFD700";
+	dir = 8;
+	name = "Engineering yellow corner"
+	},
+/obj/effect/turf_decal/tile/yellow{
+	color = "#FFD700";
+	dir = 1;
+	name = "Engineering yellow corner"
+	},
+/obj/effect/turf_decal/tile/yellow{
+	color = "#FFD700";
+	name = "Engineering yellow corner"
+	},
+/obj/structure/closet/secure_closet/engineering_personal,
+/turf/open/floor/iron,
+/area/engineering/lobby)
 "rFt" = (
 /turf/open/floor/carpet,
 /area/hallway/secondary/entry)
@@ -73488,6 +73519,10 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/central)
+"sEA" = (
+/obj/machinery/vending/coffee,
+/turf/open/floor/wood,
+/area/hallway/secondary/service)
 "sEZ" = (
 /obj/structure/frame/computer{
 	dir = 1
@@ -81029,11 +81064,6 @@
 /obj/structure/closet/secure_closet/engineering_personal,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
-	dir = 1;
-	name = "Engineering yellow corner"
-	},
-/obj/effect/turf_decal/tile/yellow{
-	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
 /obj/effect/turf_decal/tile/yellow{
@@ -81539,7 +81569,7 @@
 "uNd" = (
 /obj/machinery/door/window/brigdoor{
 	dir = 8;
-	name = "Captain's Desk";
+	name = "Command Desk";
 	req_access_txt = "19"
 	},
 /obj/effect/turf_decal/tile/blue{
@@ -82726,6 +82756,14 @@
 	color = "#FFD700";
 	dir = 8;
 	name = "Engineering yellow corner"
+	},
+/obj/effect/turf_decal/tile/yellow{
+	color = "#FFD700";
+	name = "Engineering yellow corner"
+	},
+/obj/structure/cable/layer1,
+/obj/structure/sign/poster/official/wtf_is_co2{
+	pixel_y = -32
 	},
 /turf/open/floor/iron,
 /area/engineering/lobby)
@@ -91192,14 +91230,7 @@
 	dir = 8;
 	name = "Engineering yellow corner"
 	},
-/obj/effect/turf_decal/tile/yellow{
-	color = "#FFD700";
-	name = "Engineering yellow corner"
-	},
 /obj/structure/cable/layer1,
-/obj/structure/sign/poster/official/wtf_is_co2{
-	pixel_y = -32
-	},
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "xlh" = (
@@ -116197,7 +116228,7 @@ tfD
 tfD
 csg
 tfD
-xPj
+sEA
 xPj
 wFW
 fAi
@@ -122685,7 +122716,7 @@ yel
 qNi
 vKs
 vwu
-opB
+nRa
 afr
 lzc
 wLL
@@ -124235,9 +124266,9 @@ pOu
 fiR
 wHs
 fQh
-qVi
+vbw
 qum
-sdd
+gKe
 lPg
 oEa
 oEa
@@ -124493,7 +124524,7 @@ dGz
 wLu
 hZq
 xkL
-qum
+rFk
 qum
 uva
 sdd
@@ -124749,7 +124780,7 @@ edP
 nMa
 wHs
 fQh
-vbw
+rXt
 uEQ
 qum
 uva
@@ -129809,7 +129840,7 @@ krv
 uso
 gWf
 bFb
-esi
+lEQ
 ueM
 kFb
 cjA

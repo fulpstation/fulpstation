@@ -124,7 +124,7 @@
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
 	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
 		return
-	if(!anchored && AmBloodsucker(user))
+	if(!anchored && IS_BLOODSUCKER(user))
 		to_chat(user, "<span class='danger'>Until this rack is secured in place, it cannot serve its purpose.</span>")
 		return
 	// PULL TARGET: Remember if I was pullin this guy, so we can restore this
@@ -176,7 +176,7 @@
 
 /// Attempt Unbuckle
 /obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/M, mob/user)
-	if(!AmBloodsucker(user))
+	if(!IS_BLOODSUCKER(user))
 		if(M == user)
 			M.visible_message("<span class='danger'>[user] tries to release themself from the rack!</span>",\
 							"<span class='danger'>You attempt to release yourself from the rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
@@ -245,7 +245,7 @@
  */
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
-	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Prep...
 	useLock = TRUE
 	// Conversion Process
@@ -254,7 +254,7 @@
 		if(!do_torture(user,target))
 			to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		else
-			convert_progress -- // Ouch. Stop. Don't.
+			convert_progress-- // Ouch. Stop. Don't.
 			// All done!
 			if(convert_progress <= 0)
 				if(RequireDisloyalty(target))
@@ -283,14 +283,14 @@
 		useLock = FALSE
 		return
 	// Convert to Vassal!
-	if(B && B.attempt_turn_vassal(target))
+	if(bloodsuckerdatum && bloodsuckerdatum.attempt_turn_vassal(target))
 		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 			remove_loyalties(target)
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 		target.Jitter(15)
-		target.emote("laugh")
+		INVOKE_ASYNC(target, /mob.proc/emote, "laugh")
 		//remove_victim(target) // Remove on CLICK ONLY!
 	useLock = FALSE
 
@@ -336,7 +336,7 @@
 	target.visible_message("<span class='danger'>[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!</span>", \
 						   "<span class='userdanger'>[user] performs a ritual, spilling some blood from your [target_string], shaking you up!</span>")
 	if(!target.is_muzzled())
-		target.emote("scream")
+		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 	target.Jitter(5)
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (BP ? BP.body_zone : null)) // take_overall_damage(6,0)
 	return TRUE
@@ -369,11 +369,7 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum
-	if(bloodsuckerdatum.AmValidAntag(target.mind))
-		return TRUE
-	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
-		return TRUE
-	return FALSE
+	return bloodsuckerdatum.AmValidAntag(target) || HAS_TRAIT(target, TRAIT_MINDSHIELD)
 
 /obj/structure/bloodsucker/vassalrack/proc/disloyalty_accept(mob/living/target)
 	// FAILSAFE: Still on the rack?
@@ -442,12 +438,12 @@
 
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(AmBloodsucker(user) || istype(T))
+	if(IS_BLOODSUCKER(user) || istype(T))
 		toggle()
 
 /// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
 /obj/structure/bloodsucker/candelabrum/AltClick(mob/user)
-	if(AmBloodsucker(user))
+	if(IS_BLOODSUCKER(user))
 		toggle()
 
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
@@ -460,15 +456,17 @@
 		STOP_PROCESSING(SSobj, src)
 	update_icon()
 
-/obj/structure/bloodsucker/candelabrum/process(var/mob/living/carbon/human/H) //Currently doesnt seem to work, fix would be appreciated!
+/obj/structure/bloodsucker/candelabrum/process()
 	if(!lit)
 		return
-	if(H.mind.has_antag_datum(/datum/antagonist/vassal))
-		return
-	if(H.mind.has_antag_datum(/datum/antagonist/bloodsucker))//We dont want vassals or vampires affected by this
-		return
-	H.hallucination = 20
-	SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+	for(var/mob/living/carbon/H in viewers(7, src))
+		///We dont want vassals or vampires affected by this
+		if(H.mind.has_antag_datum(/datum/antagonist/vassal))
+			return
+		if(H.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			return
+		H.hallucination += 20
+		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
 
 /*
 /obj/item/restraints/legcuffs/beartrap/bloodsucker

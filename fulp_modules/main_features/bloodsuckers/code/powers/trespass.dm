@@ -77,11 +77,8 @@
 	var/invis_was = user.invisibility
 	user.invisibility = INVISIBILITY_MAXIMUM
 
-	// LOSE CUFFS
-
 	// Wait...
 	sleep(mist_delay / 2)
-
 	// Move & Freeze
 	if(isturf(target_turf))
 		do_teleport(owner, target_turf, no_effects=TRUE, channel = TELEPORT_CHANNEL_QUANTUM) // in teleport.dm?
@@ -89,13 +86,11 @@
 
 	// Wait...
 	sleep(mist_delay / 2)
-
 	// Un-Hide & Freeze
 	user.dir = get_dir(my_turf, target_turf)
 	user.Stun(mist_delay / 2, ignore_canstun = TRUE)
 	user.density = 1
 	user.invisibility = invis_was
-
 	// Effect Destination
 	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
 	puff = new /datum/effect_system/steam_spread/()
