@@ -1,5 +1,3 @@
-//-- FULP EDIT
-
 //This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
 #define SAVEFILE_VERSION_MIN 32
 
@@ -128,8 +126,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		addtimer(CALLBACK(src, .proc/announce_conflict, notadded), 5 SECONDS)
 
 /datum/preferences/proc/announce_conflict(list/notadded)
-	to_chat(parent, "<span class='alertwarning'>KEYBINDING CONFLICT</span>\n\
-					<span class='alertwarning'>There are new <a href='?_src_=prefs;preference=tab;tab=3'>keybindings</a> that default to keys you've already bound. These will be unbound.</span>")
+	to_chat(parent, "<span class='warningplain'><b><u>Keybinding Conflict</u></b></span>\n\
+					<span class='warningplain'><b>There are new <a href='?_src_=prefs;preference=tab;tab=3'>keybindings</a> that default to keys you've already bound. The new ones will be unbound.</b></span>")
 	for(var/item in notadded)
 		var/datum/keybinding/conflicted = item
 		to_chat(parent, "<span class='danger'>[conflicted.category]: [conflicted.full_name] needs updating</span>")
@@ -468,13 +466,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(!custom_names[custom_name_id])
 			custom_names[custom_name_id] = get_default_name(custom_name_id)
 
-	if(!features["beefcolor"] || features["beefcolor"] == "") // [FULP EDIT START]
-		features["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
-	if(!features["beefeyes"] || features["beefeyes"] == "")
-		features["beefeyes"] = pick(GLOB.eyes_beefman)
-	if(!features["beefmouth"] || features["beefmouth"] == "")
-		features["beefmouth"] = pick(GLOB.mouths_beefman) // [FULP EDIT END]
-
 	if(!features["mcolor"] || features["mcolor"] == "#000")
 		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
 
@@ -483,22 +474,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	randomise = SANITIZE_LIST(randomise)
 
-	if(gender == MALE)
-		hairstyle = sanitize_inlist(hairstyle, GLOB.hairstyles_male_list)
-		facial_hairstyle = sanitize_inlist(facial_hairstyle, GLOB.facial_hairstyles_male_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_m)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_m)
-	else if(gender == FEMALE)
-		hairstyle = sanitize_inlist(hairstyle, GLOB.hairstyles_female_list)
-		facial_hairstyle = sanitize_inlist(facial_hairstyle, GLOB.facial_hairstyles_female_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_f)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_f)
-	else
-		hairstyle = sanitize_inlist(hairstyle, GLOB.hairstyles_list)
-		facial_hairstyle = sanitize_inlist(facial_hairstyle, GLOB.facial_hairstyles_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_list)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_list)
-
+	hairstyle = sanitize_inlist(hairstyle, GLOB.hairstyles_list)
+	facial_hairstyle = sanitize_inlist(facial_hairstyle, GLOB.facial_hairstyles_list)
+	underwear = sanitize_inlist(underwear, GLOB.underwear_list)
+	undershirt = sanitize_inlist(undershirt, GLOB.undershirt_list)
 	socks = sanitize_inlist(socks, GLOB.socks_list)
 	age = sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 	hair_color = sanitize_hexcolor(hair_color, 3, 0)
@@ -508,11 +487,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	skin_tone = sanitize_inlist(skin_tone, GLOB.skin_tones)
 	backpack = sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
 	jumpsuit_style = sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
-	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
+	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list_save, initial(uplink_spawn_loc))
 	playtime_reward_cloak = sanitize_integer(playtime_reward_cloak)
-	features["beefcolor"] = copytext_char(features["beefcolor"], 1, 7) // [FULP EDIT START]
-	features["beefeyes"] = sanitize_inlist(features["beefeyes"], GLOB.eyes_beefman)
-	features["beefmouth"] = sanitize_inlist(features["beefmouth"], GLOB.mouths_beefman) // [FULP EDIT END]
 	features["mcolor"] = sanitize_hexcolor(features["mcolor"], 3, 0)
 	features["ethcolor"] = copytext_char(features["ethcolor"], 1, 7)
 	features["tail_lizard"] = sanitize_inlist(features["tail_lizard"], GLOB.tails_list_lizard)
@@ -573,9 +549,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["randomise"] , randomise)
 	WRITE_FILE(S["species"] , pref_species.id)
 	WRITE_FILE(S["phobia"], phobia)
-	WRITE_FILE(S["feature_beefcolor"] , features["beefcolor"]) // [FULP EDIT START]
-	WRITE_FILE(S["feature_beefeyes"] , features["beefeyes"])
-	WRITE_FILE(S["feature_beefmouth"] 	, features["beefmouth"]) // [FULP EDIT END]
 	WRITE_FILE(S["feature_mcolor"] , features["mcolor"])
 	WRITE_FILE(S["feature_ethcolor"] , features["ethcolor"])
 	WRITE_FILE(S["feature_lizard_tail"] , features["tail_lizard"])

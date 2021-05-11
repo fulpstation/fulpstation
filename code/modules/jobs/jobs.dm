@@ -60,10 +60,6 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
 	"Detective",
-	/// FULP JOBS EDIT - Adding our jobs to the list
-	"Brig Physician",
-	"Deputy",
-	/// FULP EDIT ENDS
 	"Security Officer"))
 
 /// These aren't defacto jobs, but are the special departmental variants for sec officers.
@@ -71,13 +67,6 @@ GLOBAL_LIST_INIT(security_sub_positions, list(
 	"Security Officer (Cargo)",
 	"Security Officer (Engineering)",
 	"Security Officer (Medical)",
-	/// FULP JOBS EDIT - Adding our jobs to the list, and we're not trusting trailing commas here.
-	"Deputy (Engineering)",
-	"Deputy (Supply)",
-	"Deputy (Science)",
-	"Deputy (Medical)",
-	"Deputy (Service)",
-	/// FULP EDIT ENDS
 	"Security Officer (Science)",
 ))
 
@@ -113,7 +102,7 @@ GLOBAL_LIST_INIT(exp_jobsmap, list(
 GLOBAL_LIST_INIT(exp_specialmap, list(
 	EXP_TYPE_LIVING = list(), // all living mobs
 	EXP_TYPE_ANTAG = list(),
-	EXP_TYPE_SPECIAL = list("Lifebringer","Ash Walker","Exile","Servant Golem","Free Golem","Hermit","Translocated Vet","Escaped Prisoner","Hotel Staff","SuperFriend","Space Syndicate","Ancient Crew","Space Doctor","Space Bartender","Beach Bum","Skeleton","Zombie","Space Bar Patron","Lavaland Syndicate","Ghost Role"), // Ghost roles
+	EXP_TYPE_SPECIAL = list("Lifebringer","Ash Walker","Exile","Servant Golem","Free Golem","Hermit","Translocated Vet","Escaped Prisoner","Hotel Staff","SuperFriend","Space Syndicate","Ancient Crew","Space Doctor","Space Bartender","Beach Bum","Skeleton","Zombie","Space Bar Patron","Lavaland Syndicate","Maintenance Drone","Ghost Role"), // Ghost roles
 	EXP_TYPE_GHOST = list() // dead people, observers
 ))
 GLOBAL_PROTECT(exp_jobsmap)
