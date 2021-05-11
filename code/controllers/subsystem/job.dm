@@ -33,7 +33,6 @@ SUBSYSTEM_DEF(job)
 	 * See [/datum/controller/subsystem/ticker/proc/equip_characters]
 	 */
 	var/list/chain_of_command = list(
-/*
 		"Captain" = 1,
 		"Head of Personnel" = 2,
 		"Research Director" = 3,
@@ -41,15 +40,7 @@ SUBSYSTEM_DEF(job)
 		"Chief Medical Officer" = 5,
 		"Head of Security" = 6,
 		"Quartermaster" = 7)
-*/ // FULP EDIT - Chain of Command is different here!
-		"Captain" = 1,
-		"Head of Personnel" = 2,
-		"Head of Security" = 3,
-		"Research Director" = 4,
-		"Chief Engineer" = 5,
-		"Chief Medical Officer" = 6,
-		"Quartermaster" = 7,
-		)
+
 	/// If TRUE, some player has been assigned Captaincy or Acting Captaincy at some point during the shift and has been given the spare ID safe code.
 	var/assigned_captain = FALSE
 	/// Whether the emergency safe code has been requested via a comms console on shifts with no Captain or Acting Captain.
@@ -513,7 +504,7 @@ SUBSYSTEM_DEF(job)
 	if(living_mob.mind)
 		living_mob.mind.assigned_role = rank
 
-	to_chat(M, "<b>You are the [rank].</b>")
+	to_chat(M, "<span class='infoplain'><b>You are the [rank].</b></span>")
 	if(job)
 		var/new_mob = job.equip(living_mob, null, null, joined_late , null, M.client, is_captain)//silicons override this proc to return a mob
 		if(ismob(new_mob))
@@ -531,10 +522,10 @@ SUBSYSTEM_DEF(job)
 			else
 				handle_auto_deadmin_roles(M.client, rank)
 
-		to_chat(M, "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
+		to_chat(M, "<span class='infoplain'><b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b></span>")
 		job.radio_help_message(M)
 		if(job.req_admin_notify)
-			to_chat(M, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
+			to_chat(M, "<span class='infoplain'><b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b></span>")
 		if(CONFIG_GET(number/minimal_access_threshold))
 			to_chat(M, "<span class='notice'><B>As this station was initially staffed with a [CONFIG_GET(flag/jobs_have_minimal_access) ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></span>")
 
@@ -655,7 +646,7 @@ SUBSYSTEM_DEF(job)
 	if(PopcapReached())
 		JobDebug("Popcap overflow Check observer located, Player: [player]")
 	JobDebug("Player rejected :[player]")
-	to_chat(player, "<b>You have failed to qualify for any job you desired.</b>")
+	to_chat(player, "<span class='infoplain'><b>You have failed to qualify for any job you desired.</b></span>")
 	unassigned -= player
 	player.ready = PLAYER_NOT_READY
 
@@ -788,9 +779,6 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/setup_job_lists()
 	station_jobs = list("Assistant", "Captain", "Head of Personnel", "Bartender", "Cook", "Botanist", "Quartermaster", "Cargo Technician", \
 		"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer", \
-		// FULP EDIT - JOBS
-		"Brig Physician", "Deputy", "Deputy (Cargo)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)", \
-		// FULP EDIT END
 		"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Paramedic", "Chemist", "Geneticist", "Virologist", "Psychologist", \
 		"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Prisoner")
 

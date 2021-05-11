@@ -1,5 +1,3 @@
-//-- FULP EDIT
-
 GLOBAL_LIST_EMPTY(preferences_datums)
 
 /datum/preferences
@@ -7,7 +5,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1 //Holder so it doesn't default to slot 1, rather the last one used
-	var/max_save_slots = 5 // FULP EDIT - 5 races, 5 slots. Why not?
+	var/max_save_slots = 3
 
 	//non-preference stuff
 	var/muted = 0
@@ -315,7 +313,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<BR><b>Temporal Scarring:</b><BR><a href='?_src_=prefs;preference=persistent_scars'>[(persistent_scars) ? "Enabled" : "Disabled"]</A>"
 				dat += "<a href='?_src_=prefs;preference=clear_scars'>Clear scar slots</A>"
 
-			dat += "<br><b>Uplink Spawn Location:</b><BR><a href ='?_src_=prefs;preference=uplink_loc;task=input'>[uplink_spawn_loc]</a><BR></td>"
+			dat += "<br><b>Uplink Spawn Location:</b><BR><a href ='?_src_=prefs;preference=uplink_loc;task=input'>[uplink_spawn_loc == UPLINK_IMPLANT ? UPLINK_IMPLANT_WITH_PRICE : uplink_spawn_loc]</a><BR></td>"
 			if (user.client.get_exp_living(TRUE) >= PLAYTIME_VETERAN)
 				dat += "<br><b>Don The Ultimate Gamer Cloak?:</b><BR><a href ='?_src_=prefs;preference=playtime_reward_cloak'>[(playtime_reward_cloak) ? "Enabled" : "Disabled"]</a><BR></td>"
 			var/use_skintones = pref_species.use_skintones
@@ -350,20 +348,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				dat += "<span style='border: 1px solid #161616; background-color: #[features["ethcolor"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=color_ethereal;task=input'>Change</a><BR>"
 
-			if(istype(pref_species, /datum/species/beefman)) // FULP EDIT START Yeah we did the same as Ethereal so sue us
-				if(!use_skintones)
-					dat += APPEARANCE_CATEGORY_COLUMN
-				// Fill Empties
-				proof_beefman_features(features) // <--- This is so we don't have to mess with any other lines of code!
-				dat += "<h3>Doneness</h3>"
-				dat += "<span style='border: 1px solid #161616; background-color: #[features["beefcolor"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=color_beef;task=input'>Change</a><BR>"
-				dat += "<h3>Eyes</h3>"
-				dat += "<a href='?_src_=prefs;preference=eyes_beef;task=input'>[features["beefeyes"]]</a><BR>"
-				dat += "<h3>Mouth</h3>"
-				dat += "<a href='?_src_=prefs;preference=mouth_beef;task=input'>[features["beefmouth"]]</a><BR>"
 
-//			if((EYECOLOR in pref_species.species_traits) && !(NOEYESPRITES in pref_species.species_traits))
-			if((EYECOLOR in pref_species.species_traits)) // FULP EDIT ENDS  If we want Eye Color, let it show eye color. Maybe we want eye color to affect something else? (Beef Eyes) && !(NOEYESPRITES in pref_species.species_traits))
+			if((EYECOLOR in pref_species.species_traits) && !(NOEYESPRITES in pref_species.species_traits))
 
 				if(!use_skintones && !mutant_colors)
 					dat += APPEARANCE_CATEGORY_COLUMN
@@ -707,20 +693,19 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				src.be_special = list()
 
 
-			for (var/i in GLOB.special_roles)
-				if(is_banned_from(user.ckey, i))
-					dat += "<b>Be [capitalize(i)]:</b> <a href='?_src_=prefs;bancheck=[i]'>BANNED</a><br>"
+			for (var/special_role in GLOB.special_roles)
+				if(is_banned_from(user.ckey, special_role))
+					dat += "<b>Be [capitalize(special_role)]:</b> <a href='?_src_=prefs;bancheck=[special_role]'>BANNED</a><br>"
 				else
 					var/days_remaining = null
-					if(ispath(GLOB.special_roles[i]) && CONFIG_GET(flag/use_age_restriction_for_jobs)) //If it's a game mode antag, check if the player meets the minimum age
-						var/mode_path = GLOB.special_roles[i]
-						var/datum/game_mode/temp_mode = new mode_path
-						days_remaining = temp_mode.get_remaining_days(user.client)
+					if(CONFIG_GET(flag/use_age_restriction_for_jobs)) //If it's a game mode antag, check if the player meets the minimum age
+						var/days_needed = GLOB.special_roles[special_role]
+						days_remaining = user.client?.get_remaining_days(days_needed)
 
 					if(days_remaining)
-						dat += "<b>Be [capitalize(i)]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
+						dat += "<b>Be [capitalize(special_role)]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
 					else
-						dat += "<b>Be [capitalize(i)]:</b> <a href='?_src_=prefs;preference=be_special;be_special_type=[i]'>[(i in be_special) ? "Enabled" : "Disabled"]</a><br>"
+						dat += "<b>Be [capitalize(special_role)]:</b> <a href='?_src_=prefs;preference=be_special;be_special_type=[special_role]'>[(special_role in be_special) ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
 			dat += "<b>Midround Antagonist:</b> <a href='?_src_=prefs;preference=allow_midround_antag'>[(toggles & MIDROUND_ANTAG) ? "Enabled" : "Disabled"]</a><br>"
 			dat += "</td></tr></table>"
@@ -1323,31 +1308,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						hair_color = sanitize_hexcolor(new_hair)
 
 				if("hairstyle")
-					var/new_hairstyle
-					if(gender == MALE)
-						new_hairstyle = input(user, "Choose your character's hairstyle:", "Character Preference")  as null|anything in GLOB.hairstyles_male_list
-					else if(gender == FEMALE)
-						new_hairstyle = input(user, "Choose your character's hairstyle:", "Character Preference")  as null|anything in GLOB.hairstyles_female_list
-					else
-						new_hairstyle = input(user, "Choose your character's hairstyle:", "Character Preference")  as null|anything in GLOB.hairstyles_list
+					var/new_hairstyle = input(user, "Choose your character's hairstyle:", "Character Preference")  as null|anything in GLOB.hairstyles_list
 					if(new_hairstyle)
 						hairstyle = new_hairstyle
 
 				if("next_hairstyle")
-					if (gender == MALE)
-						hairstyle = next_list_item(hairstyle, GLOB.hairstyles_male_list)
-					else if(gender == FEMALE)
-						hairstyle = next_list_item(hairstyle, GLOB.hairstyles_female_list)
-					else
-						hairstyle = next_list_item(hairstyle, GLOB.hairstyles_list)
+					hairstyle = next_list_item(hairstyle, GLOB.hairstyles_list)
 
 				if("previous_hairstyle")
-					if (gender == MALE)
-						hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_male_list)
-					else if(gender == FEMALE)
-						hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_female_list)
-					else
-						hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_list)
+					hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_list)
 
 				if("facial")
 					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference","#"+facial_hair_color) as color|null
@@ -1355,40 +1324,18 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						facial_hair_color = sanitize_hexcolor(new_facial)
 
 				if("facial_hairstyle")
-					var/new_facial_hairstyle
-					if(gender == MALE)
-						new_facial_hairstyle = input(user, "Choose your character's facial-hairstyle:", "Character Preference")  as null|anything in GLOB.facial_hairstyles_male_list
-					else if(gender == FEMALE)
-						new_facial_hairstyle = input(user, "Choose your character's facial-hairstyle:", "Character Preference")  as null|anything in GLOB.facial_hairstyles_female_list
-					else
-						new_facial_hairstyle = input(user, "Choose your character's facial-hairstyle:", "Character Preference")  as null|anything in GLOB.facial_hairstyles_list
+					var/new_facial_hairstyle = input(user, "Choose your character's facial-hairstyle:", "Character Preference")  as null|anything in GLOB.facial_hairstyles_list
 					if(new_facial_hairstyle)
 						facial_hairstyle = new_facial_hairstyle
 
 				if("next_facehairstyle")
-					if (gender == MALE)
-						facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_male_list)
-					else if(gender == FEMALE)
-						facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_female_list)
-					else
-						facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
+					facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
 
 				if("previous_facehairstyle")
-					if (gender == MALE)
-						facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_male_list)
-					else if (gender == FEMALE)
-						facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_female_list)
-					else
-						facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
+					facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
 
 				if("underwear")
-					var/new_underwear
-					if(gender == MALE)
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_m
-					else if(gender == FEMALE)
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_f
-					else
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
+					var/new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
 					if(new_underwear)
 						underwear = new_underwear
 
@@ -1398,13 +1345,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						underwear_color = sanitize_hexcolor(new_underwear_color)
 
 				if("undershirt")
-					var/new_undershirt
-					if(gender == MALE)
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_m
-					else if(gender == FEMALE)
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_f
-					else
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_list
+					var/new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_list
 					if(new_undershirt)
 						undershirt = new_undershirt
 
@@ -1449,18 +1390,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_etherealcolor)
 						features["ethcolor"] = GLOB.color_list_ethereal[new_etherealcolor]
 
-				if("color_beef") // FULP EDIT START We are copying Ethereal
-					var/new_beefcolor = input(user, "Select your doneness:", "Character Preference") as null|anything in GLOB.color_list_beefman
-					if(new_beefcolor)
-						features["beefcolor"] = GLOB.color_list_beefman[new_beefcolor]
-				if("eyes_beef")
-					var/new_eyes = input(user, "Choose your Eyes:", "Character Preference")  as null|anything in GLOB.eyes_beefman
-					if(new_eyes)
-						features["beefeyes"] = new_eyes
-				if("mouth_beef")
-					var/new_mouth = input(user, "Choose your Mouth:", "Character Preference")  as null|anything in GLOB.mouths_beefman
-					if(new_mouth)
-						features["beefmouth"] = new_mouth // FULP EDIT END
 
 				if("tail_lizard")
 					var/new_tail
@@ -1578,7 +1507,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("uplink_loc")
 					var/new_loc = input(user, "Choose your character's traitor uplink spawn location:", "Character Preference") as null|anything in GLOB.uplink_spawn_loc_list
 					if(new_loc)
-						uplink_spawn_loc = new_loc
+						// This is done to prevent affecting saves
+						uplink_spawn_loc = new_loc == UPLINK_IMPLANT_WITH_PRICE ? UPLINK_IMPLANT : new_loc
 
 				if("playtime_reward_cloak")
 					if (user.client.get_exp_living(TRUE) >= PLAYTIME_VETERAN)
@@ -2049,6 +1979,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			return DEFAULT_RELIGION
 		if("deity")
 			return DEFAULT_DEITY
+		if("bible")
+			return DEFAULT_BIBLE
 	return random_unique_name()
 
 /datum/preferences/proc/ask_for_custom_name(mob/user,name_id)

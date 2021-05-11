@@ -337,8 +337,7 @@
 		if(!arrivals_docked)
 			var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
 			Spl.Fade(TRUE)
-//			character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
-			character.playsound_local(get_turf(character), 'fulp_modules/fulp_configs/sound/ApproachingFulp.ogg', 25) // Fulpstation Config edit - Use our latejoining sound instead
+			character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
 
 		character.update_parallax_teleport()
 
