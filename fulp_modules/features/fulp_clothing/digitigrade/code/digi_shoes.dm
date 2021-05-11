@@ -1,5 +1,4 @@
 ///Laceups
-
 /obj/item/clothing/shoes/laceup/digitigrade
 	name = "digitigrade laceup shoes"
 	desc = "Shoes for only the coldest-blooded of lawyers."
@@ -9,7 +8,6 @@
 	worn_icon = 'fulp_modules/features/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 
 ///Workboots
-
 /obj/item/clothing/shoes/workboots/digitigrade
 	name = "digitigrade workboots"
 	desc = "Nanotrasen-issue Engineering lace-up work boots for the hardworking lizardfolk."
@@ -19,7 +17,6 @@
 	worn_icon = 'fulp_modules/features/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 
 ///Combat Boots
-
 /obj/item/clothing/shoes/digicombat
 	name = "digitigrade combat boots"
 	desc = "Robust combat boots especially for lizardmen. Perfect for walking over piled human corpses."
@@ -33,7 +30,6 @@
 	armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = 20, "bio" = 5, "rad" = 0, "fire" = 40, "acid" = 20)
 
 ///Jackboots
-
 /obj/item/clothing/shoes/jackboots/digitigrade
 	name = "digitigrade jackboots"
 	desc = "Nanotrasen-issue lizard Security combat boots for lizard combat scenarios or lizard combat situations."
@@ -43,7 +39,6 @@
 	worn_icon = 'fulp_modules/features/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 
 ///Clown Shoes
-
 /obj/item/clothing/shoes/clown_shoes/digitigrade
 	name = "digitigrade clown shoes"
 	desc = "Shoes of the sort made famous by acclaimed lizardman clown Pies-The-Janitor. Ctrl-click to toggle waddle dampeners."
@@ -53,7 +48,6 @@
 	worn_icon = 'fulp_modules/features/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 
 ///Sandals
-
 /obj/item/clothing/shoes/sandal/digitigrade
 	name = "digitigrade sandals"
 	desc = "Snugly fitting sandals for smugly dressed lizardfolk."
@@ -63,8 +57,7 @@
 	worn_icon = 'fulp_modules/features/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 
 ///Generic Shoes
-
-/obj/item/clothing/shoes/sneakers/brown/digitigrade
+/obj/item/clothing/shoes/brown/digitigrade
 	name = "digitigrade brown shoes"
 	desc = "A pair of digitigrade brown shoes. Shame they don't come in more colours."
 	flags_inv = FULL_DIGITIGRADE
@@ -73,7 +66,6 @@
 	worn_icon = 'fulp_modules/features/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 
 ///Magboots
-
 /obj/item/clothing/shoes/magboots/digitigrade
 	name = "digitigrade magboots"
 	desc = "A custom-made variant set of magnetic boots, intended to ensure lizardfolk can safely perform EVA."
@@ -94,8 +86,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 ///Mime Shoes
-
-/obj/item/clothing/shoes/sneakers/mime/digitigrade
+/obj/item/clothing/shoes/mime/digitigrade
 	name = "digitigrade mime shoes"
 	desc = "For the quiestest of lizardfolk."
 	flags_inv = FULL_DIGITIGRADE
@@ -104,7 +95,6 @@
 	worn_icon = 'fulp_modules/features/fulp_clothing/digitigrade/icons/digi_feet.dmi'
 
 ///Jump Boots
-
 /obj/item/clothing/shoes/bhop/digitigrade
 	name = "digitigrade jump boots"
 	desc = "A specialized pair of combat boots with a built-in propulsion system for rapid foward movement. Customized for Digitigrade lizards."
