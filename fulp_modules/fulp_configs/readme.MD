@@ -8,6 +8,7 @@
 
 - code/controllers/subsystem/ticker.dm > Adds pick_round_end_sound() to the round_end_song
 - code/modules/mob/dead/new_player/new_player.dm > Plays ApproachingFulp instead of ApproachingTG
+- code/__HELPERS/roundend.dm > Plays our roundend music instead
 
 ## TG proc overwrites:
 

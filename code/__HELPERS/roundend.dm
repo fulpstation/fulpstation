@@ -220,7 +220,8 @@
 	for(var/client/C in GLOB.clients)
 		if(!C?.credits)
 			C?.RollCredits()
-		C?.playtitlemusic(40)
+//		C?.playtitlemusic(40)
+		C?.playcreditsmusic(40) // FULP EDIT - Yay, round-end music is back!
 		if(speed_round)
 			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
 		HandleRandomHardcoreScore(C)
