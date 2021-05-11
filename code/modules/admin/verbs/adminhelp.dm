@@ -458,6 +458,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			Retitle()
 		if("reject")
 			Reject()
+		if("mhelp") // Fulpstation Mentorhelp
+			MHelpThis()
 		if("reply")
 			usr.client.cmd_ahelp_reply(initiator)
 		if("icissue")
