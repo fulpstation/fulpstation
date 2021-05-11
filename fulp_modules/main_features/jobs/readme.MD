@@ -6,8 +6,8 @@
 
 ## TG edits:
 
-- code/controllers/subsystem/job.dm > Added brig physician to the station job list datum.
-- code/modules/jobs/jobs.dm > Added brig physician to GLOBAL_LIST_INIT(security_positions, list()
+- code/controllers/subsystem/job.dm > Adds Fulp jobs to the station job list datum.
+- code/modules/jobs/jobs.dm > Adds Fulp jobs to GLOBAL_LIST_INIT(security_positions, list() & GLOBAL_LIST_INIT(security_sub_positions, list()
 
 ## TG proc overwrites:
 

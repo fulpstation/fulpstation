@@ -8,10 +8,10 @@
 
 		// Assistant
 		if("Assistant")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		// Captain
 		if("Captain")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		// Security
 		if("Head of Security")
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
@@ -28,15 +28,15 @@
 
 		// Medical
 		if("Chief Medical Officer")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Medical Doctor")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Chemist")
-			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = /obj/item/clothing/shoes/brown/digitigrade
 		if("Virologist")
-			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = /obj/item/clothing/shoes/brown/digitigrade
 		if("Paramedic")
-			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = /obj/item/clothing/shoes/brown/digitigrade
 
 		// Engineering
 		if("Chief Engineer")
@@ -44,25 +44,25 @@
 		if("Station Engineer")
 			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
 		if("Atmospheric Technician")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 
 		// Science
 		if("Research Director")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		if("Scientist")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Roboticist")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Geneticist")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 
 		// Supply/Service
 		if("Head of Personnel")
-			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = /obj/item/clothing/shoes/brown/digitigrade
 		if("Quartermaster")
-			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = /obj/item/clothing/shoes/brown/digitigrade
 		if("Cargo Technician")
-			newShoes = /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = /obj/item/clothing/shoes/brown/digitigrade
 		if("Shaft Miner")
 			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
 
@@ -71,30 +71,30 @@
 			newShoes = new /obj/item/clothing/shoes/clown_shoes/digitigrade
 		// Mime
 		if("Mime")
-			newShoes = new /obj/item/clothing/shoes/sneakers/mime/digitigrade
+			newShoes = new /obj/item/clothing/shoes/mime/digitigrade
 
 		if("Prisoner")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Cook")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Bartender")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		if("Chaplain")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Curator")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		if("Lawyer")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		if("Botanist")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Janitor")
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		if("Psychologist")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 
 		// Civilian
 		else
-			newShoes = new /obj/item/clothing/shoes/sneakers/brown/digitigrade
+			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 
 	// Deletes the stinky non-digitigrade shoes (if for some reason they spawn with them)
 

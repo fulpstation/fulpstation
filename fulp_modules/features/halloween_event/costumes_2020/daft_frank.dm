@@ -66,7 +66,7 @@
 
 	for(var/i in 1 to 2)
 		new /obj/item/clothing/under/sparky(src)
-		new /obj/item/clothing/shoes/cyborg(src)
+		new /obj/item/clothing/shoes/sneakers/cyborg(src)
 
 /obj/item/storage/box/halloween/edition_20/daft_box/golden
 	theme_name = "2020's Daft Punk Golden"
@@ -76,7 +76,7 @@
 	new /obj/item/clothing/gloves/daft_golden(src)
 	new /obj/item/instrument/eguitar(src)
 	new /obj/item/clothing/under/sparky(src)
-	new /obj/item/clothing/shoes/cyborg(src)
+	new /obj/item/clothing/shoes/sneakers/cyborg(src)
 
 /obj/item/storage/box/halloween/edition_20/daft_box/silver
 	theme_name = "2020's Daft Punk Silver"
@@ -86,4 +86,4 @@
 	new /obj/item/clothing/gloves/daft_silver(src)
 	new /obj/item/instrument/piano_synth(src)
 	new /obj/item/clothing/under/sparky(src)
-	new /obj/item/clothing/shoes/cyborg(src)
+	new /obj/item/clothing/shoes/sneakers/cyborg(src)
