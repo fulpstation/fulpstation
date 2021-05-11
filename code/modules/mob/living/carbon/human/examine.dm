@@ -1,3 +1,5 @@
+//-- FULP EDIT
+
 /mob/living/carbon/human/examine(mob/user)
 //this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
 	var/t_He = p_they(TRUE)
@@ -195,29 +197,36 @@
 			temp = getBruteLoss()
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_has] minor bruising.\n"
+//				msg += "[t_He] [t_has] minor bruising.\n"
+				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n" // FULP EDIT START - Species Descriptors
 			else if(temp < 50)
-				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.bruising_desc]!\n"
 			else
-				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
-
+//				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
+				msg += "<B>[t_He] [t_has] severe [dna.species.bruising_desc]!</B>\n"
 		temp = getFireLoss()
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_has] minor burns.\n"
+//				msg += "[t_He] [t_has] minor burns.\n"
+				msg += "[t_He] [t_has] minor [dna.species.burns_desc].\n"
 			else if (temp < 50)
-				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.burns_desc]!\n"
 			else
-				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
-
+//				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
+				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n"
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_has] minor cellular damage.\n"
+//				msg += "[t_He] [t_has] minor cellular damage.\n"
+				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"
 			else if(temp < 50)
-				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.cellulardamage_desc]!\n"
 			else
-				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
+//				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
+				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n" // FULP EDIT END - Species Descriptors
 
 
 	if(fire_stacks > 0)
