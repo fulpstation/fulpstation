@@ -9,7 +9,7 @@ As we are a TG downstream, any PR that they merge, will eventually trickle down 
 
 This is a very important thing to know before contributing to Fulpstation. We rebased to rid ourselves of the old grudgecode, we do not wish to re-become it.
 
-![image](https://imgur.com/a/DhpX0Vd)
+![image](https://i.imgur.com/4p3iTRx.jpg)
 
 ## What is Fulp Modules?
 
