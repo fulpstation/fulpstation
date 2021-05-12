@@ -24,3 +24,24 @@
 	attack_verb_continuous = list("dust")
 	attack_verb_simple = list("dust")
 	squeak_override = list('sound/effects/supermatter.ogg'= 1)
+
+/obj/item/clothing/gloves/rapid/toy
+	name = "Gloves of the South Star"
+	desc = "Just looking at these fills you with an urge to pretend to beat the shit out of people."
+	var/datum/martial_art/northstar/style = new
+
+/obj/item/clothing/gloves/rapid/toy/equipped(mob/user, slot)
+	..()
+	if(!ishuman(user))
+		return
+	if(slot == ITEM_SLOT_GLOVES)
+		var/mob/living/student = user
+		student.mind.martial_art.allow_temp_override = TRUE
+		style.teach(student, 1)
+
+/obj/item/clothing/gloves/rapid/toy/dropped(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/owner = user
+	style.remove(owner)

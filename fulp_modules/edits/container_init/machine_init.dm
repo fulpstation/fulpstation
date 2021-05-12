@@ -138,3 +138,8 @@
 /obj/machinery/vending/games/Initialize()
     products += list(/obj/item/toy/plush/batong = 3)
     . = ..()
+
+//Arcade machine prize pool
+/obj/machinery/computer/arcade/Initialize()
+	..()
+	GLOB.arcade_prize_pool += list(/obj/item/clothing/gloves/rapid/toy = 2)
