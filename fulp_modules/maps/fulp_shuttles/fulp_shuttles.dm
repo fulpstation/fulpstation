@@ -1,3 +1,9 @@
+/// Heliostation
+/datum/map_template/shuttle/cargo/helio
+	suffix = "helio"
+	name = "cargo ferry (Helio)"
+
+/// Selenestation
 /datum/map_template/shuttle/emergency/selene
 	prefix = "_maps/shuttles/"
 	suffix = "selene"
