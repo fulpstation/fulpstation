@@ -28,7 +28,7 @@
 	if(was_running)
 		user.toggle_move_intent()
 
-	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 0.5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
+	while(bloodsuckerdatum && ContinueActive(user))
 		// Pay Blood Toll (if awake)
 		owner.alpha = max(35, owner.alpha - min(75, 10 + 5 * level_current))
 		if(user.stat == CONSCIOUS)
@@ -37,6 +37,7 @@
 			user.toggle_move_intent()
 			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
 			user.adjustBruteLoss(rand(5,15))
+		sleep(5) // Check every few ticks
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	if(!..())

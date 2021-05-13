@@ -13,7 +13,7 @@
 	var/mob/living/carbon/human/H
 	if(ishuman(owner))
 		H = owner
-	while(ContinueActive(owner) && do_mob(C, C, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+	while(ContinueActive(owner))
 		C.adjustBruteLoss(-1.5)
 		C.adjustFireLoss(-0.5)
 		C.adjustToxLoss(-2, forced = TRUE)
@@ -25,6 +25,7 @@
 			for(var/obj/item/bodypart/part in H.bodyparts)
 				part.generic_bleedstacks--
 		C.Jitter(5)
+		sleep(10)
 	// DONE!
 	//DeactivatePower(owner)
 

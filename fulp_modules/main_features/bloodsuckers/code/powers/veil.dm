@@ -92,8 +92,9 @@
 
 	// Wait here til we deactivate power or go unconscious
 	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	while(B && ContinueActive(owner) && do_mob(H, H, 1 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
+	while(B && ContinueActive(owner))
 		B.AddBloodVolume(-0.2)
+		sleep(10)
 		// Wait for a moment if you fell unconscious...
 		if(owner && owner.stat > CONSCIOUS)
 			sleep(50)

@@ -59,7 +59,7 @@
 
 	// WE ARE ALIVE! //
 	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	while(bloodsuckerdatum && ContinueActive(user) && do_mob(user, user, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
+	while(bloodsuckerdatum && ContinueActive(user))
 		// HEART
 		if(istype(H))
 			H.FakeStart()
@@ -69,6 +69,7 @@
 		// Don't Heal
 		if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
 			bloodsuckerdatum.AddBloodVolume(-0.3) // Since we're removing all Bloodsucker abilities, they will regenerate blood like a normal human, so pay a lot.
+		sleep(20)
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.

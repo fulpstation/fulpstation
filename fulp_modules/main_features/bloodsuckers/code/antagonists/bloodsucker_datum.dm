@@ -294,6 +294,7 @@
 
 /datum/antagonist/bloodsucker/proc/SpendRank()
 	set waitfor = FALSE
+
 	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
 		return
 	//TODO: Make this into a radial, or perhaps a tgui next UI
@@ -321,8 +322,6 @@
 		var/datum/action/bloodsucker/P = options[choice]
 		BuyPower(new P)
 		to_chat(owner.current, "<span class='notice'>You have learned how to use [initial(P.name)]!</span>")
-		bloodsucker_level++
-		bloodsucker_level_unspent--
 	else
 		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
 	/////////
@@ -337,6 +336,9 @@
 		S.punchdamagehigh += 0.5 // NOTE: This affects the hitting power of Brawn.
 	/// More Health
 	owner.current.setMaxHealth(owner.current.maxHealth + 10)
+	/// You're still levelling up, spend your Rank.
+	bloodsucker_level++
+	bloodsucker_level_unspent--
 	/// Vamp Stats
 	bloodsucker_regen_rate += 0.05 // Points of brute healed (starts at 0.3)
 	feed_amount += 2 // Increase how quickly I munch down vics (15)
