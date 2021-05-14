@@ -107,7 +107,6 @@
 		)
 	head = /obj/item/clothing/head/frenchberet
 	neck = /obj/item/clothing/neck/fulptie/service
-	mask = /obj/item/clothing/mask/fakemoustache/italian
 	accessory = /obj/item/clothing/accessory/armband/hydro
 	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/service)
@@ -261,8 +260,8 @@
 /obj/item/radio/headset/headset_dep/service
 	name = "service bowman headset"
 	desc = "For the one constantly recieving calls from the Law office to Botany, Service comms are the most well organized."
-	icon_state = "med_headset"
-	keyslot = new /obj/item/encryptionkey/headset_med
+	icon_state = "service_headset"
+	keyslot = new /obj/item/encryptionkey/headset_service
 
 /// Base Skillchip
 /obj/item/skillchip/job/deputy

@@ -1,7 +1,7 @@
 /datum/job/fulp/deputy
 	title = "Deputy"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security") /// Sadly.
+	department_head = list("Head of Security") // Sadly.
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
@@ -35,7 +35,7 @@
 
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
-/// Default Deputy trim, this should never be used in game.
+/// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
 	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
@@ -43,7 +43,7 @@
 	full_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
-	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS) // I don't like giving the HoS this, but it makes sense to "deputize" people.
+	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	/// Used to give the Departmental access
 	var/department_access = list()
 
