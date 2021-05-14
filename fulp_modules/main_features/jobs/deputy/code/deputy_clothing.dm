@@ -224,7 +224,7 @@
 	icon_state = "beret_science"
 
 /obj/item/clothing/head/fulpberet/service
-	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, RAD = 50, FIRE = 100, ACID = 100, WOUND = 15) // Captain-level
+	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, RAD = 50, FIRE = 100, ACID = 100, WOUND = 15) // Captain level
 	name = "service deputy beret"
 	desc = "The beret of the one able to defeat the Chef in his own kitchen."
 	icon_state = "beret_service"
