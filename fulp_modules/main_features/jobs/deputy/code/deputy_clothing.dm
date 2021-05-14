@@ -5,7 +5,6 @@
 	id_trim = /datum/id_trim/job/deputy
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
 	belt = /obj/item/pda/security
-	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black
 	shoes = /obj/item/clothing/shoes/laceup
@@ -31,6 +30,7 @@
 		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/fulpberet/engineering
+	ears = /obj/item/radio/headset/headset_dep
 	neck = /obj/item/clothing/neck/fulptie/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
 	box = null // This is to prevent getting double the boxes.
@@ -49,6 +49,7 @@
 		/obj/item/holosign_creator/security=1,
 		)
 	head = /obj/item/clothing/head/fulpberet/medical
+	ears = /obj/item/radio/headset/headset_dep/med
 	neck = /obj/item/clothing/neck/fulptie/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	box = null
@@ -68,6 +69,7 @@
 		/obj/item/holosign_creator/security=1,
 		)
 	neck = /obj/item/clothing/neck/fulptie/science
+	ears = /obj/item/radio/headset/headset_dep/sci
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
 	box = null
@@ -87,6 +89,7 @@
 		/obj/item/export_scanner=1,
 		)
 	head = /obj/item/clothing/head/fulpberet
+	ears = /obj/item/radio/headset/headset_dep/supply
 	neck = /obj/item/clothing/neck/fulptie/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
@@ -105,7 +108,8 @@
 		/obj/item/restraints/handcuffs=1,
 		/obj/item/holosign_creator/security=1,
 		)
-	head = /obj/item/clothing/head/frenchberet
+	head = /obj/item/clothing/head/fulpberet/service
+	ears = /obj/item/radio/headset/headset_dep/service
 	neck = /obj/item/clothing/neck/fulptie/service
 	accessory = /obj/item/clothing/accessory/armband/hydro
 	box = null
@@ -201,26 +205,31 @@
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 
 /obj/item/clothing/head/fulpberet/engineering
-	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 40, BIO = 100, RAD = 100, FIRE = 100, ACID = 90, WOUND = 5) /// CE level
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 40, BIO = 100, RAD = 100, FIRE = 100, ACID = 90, WOUND = 5) // CE level
 	name = "engineering deputy beret"
 	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage. Comes with radiation protection."
 	icon_state = "beret_engi"
 	flags_1 = RAD_PROTECT_CONTENTS_1
 
 /obj/item/clothing/head/fulpberet/medical
-	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 10, BIO = 100, RAD = 60, FIRE = 60, ACID = 75, WOUND = 5) /// CMO level
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 10, BIO = 100, RAD = 60, FIRE = 60, ACID = 75, WOUND = 5) // CMO level
 	name = "medical deputy beret"
 	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry, or just used as a bio hood."
 	icon_state = "beret_medbay"
 
 /obj/item/clothing/head/fulpberet/science
-	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 100, BIO = 100, RAD = 60, FIRE = 60, ACID = 80, WOUND = 5) /// RD level
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 100, BIO = 100, RAD = 60, FIRE = 60, ACID = 80, WOUND = 5) // RD level
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
 
-///// Headsets
-/// Base + Engineering
+/obj/item/clothing/head/fulpberet/service
+	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, RAD = 50, FIRE = 100, ACID = 100, WOUND = 15) // Captain-level
+	name = "service deputy beret"
+	desc = "The beret of the one able to defeat the Chef in his own kitchen."
+	icon_state = "beret_service"
+
+/// Headsets - Base + Engineering
 /obj/item/radio/headset/headset_dep
 	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/radio.dmi'
 	worn_icon = 'icons/mob/clothing/ears.dmi'

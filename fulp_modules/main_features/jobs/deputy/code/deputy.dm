@@ -72,7 +72,7 @@
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
 
 /datum/id_trim/job/deputy/supply
-	assignment = "Deputy (Cargo)"
+	assignment = "Deputy (Supply)"
 	trim_state = "trim_deputysupply"
 	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE, ACCESS_QM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
@@ -81,7 +81,7 @@
 	assignment = "Deputy (Service)"
 	trim_state = "trim_deputyservice"
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
-	template_access = list(ACCESS_HOP) // HoP-only, why not?
+	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 
 GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))// SEC_DEPT_SERVICE))) <- Without this, they wont be selected as a department, even with the code below.
 
@@ -103,33 +103,25 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	switch(department)
 		if(SEC_DEPT_ENGINEERING)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
-			ears = /obj/item/radio/headset/headset_dep
 			destination = /area/security/checkpoint/engineering
 			announce_engineering(H, department)
 		if(SEC_DEPT_MEDICAL)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
-			ears = /obj/item/radio/headset/headset_dep/med
 			destination = /area/security/checkpoint/medical
 			announce_medical(H, department)
 		if(SEC_DEPT_SCIENCE)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
-			ears = /obj/item/radio/headset/headset_dep/sci
 			destination = /area/security/checkpoint/science
 			announce_science(H, department)
 		if(SEC_DEPT_SUPPLY)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			ears = /obj/item/radio/headset/headset_dep/supply
 			destination = /area/security/checkpoint/supply
 			announce_supply(H, department)
 		if(SEC_DEPT_SERVICE)
 			H.equipOutfit(/datum/outfit/job/deputy/service)
-			ears = /obj/item/radio/headset/headset_dep/service
 			destination = null
 			announce_service(H, department)
-	if(ears)
-		if(H.ears)
-			qdel(H.ears)
-		H.equip_to_slot_or_del(new ears(H), ITEM_SLOT_EARS)
+
 	if(destination)
 		var/turf/T
 		if(spawn_point)
