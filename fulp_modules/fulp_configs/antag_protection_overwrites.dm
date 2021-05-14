@@ -110,7 +110,7 @@
  *	# Midround rulesets
  */
 
-/datum/dynamic_ruleset/midround/autotraitor
+/datum/dynamic_ruleset/midround/autotraitor/New()
 	. = ..()
 	restricted_roles += list(
 	"Brig Physician",
@@ -121,7 +121,7 @@
 	"Chief Medical Officer",
 	)
 
-/datum/dynamic_ruleset/midround/families
+/datum/dynamic_ruleset/midround/families/New()
 	. = ..()
 	restricted_roles += list(
 	"Brig Physician",
