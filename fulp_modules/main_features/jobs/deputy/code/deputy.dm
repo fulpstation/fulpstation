@@ -22,6 +22,17 @@
 	bounty_types = CIV_JOB_MED
 	departments = DEPARTMENT_SECURITY
 
+	mail_goodies = list(
+		/obj/item/storage/fancy/cigarettes = 15,
+		/obj/item/pizzabox = 10,
+		/obj/effect/spawner/lootdrop/donkpockets = 10,
+		/obj/item/storage/box/handcuffs = 10,
+		/obj/item/clothing/mask/whistle = 5,
+		/obj/item/choice_beacon/music = 5,
+		/obj/item/crowbar/large = 1,
+		/obj/item/melee/baton/boomerang/loaded = 1,
+	)
+
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
 /// Default Deputy trim, this should never be used in game.
@@ -70,7 +81,7 @@
 	assignment = "Deputy (Service)"
 	trim_state = "trim_deputyservice"
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
-	template_access = list()//ACCESS_HOP) /// HoP-only, why not?
+	template_access = list(ACCESS_HOP) // HoP-only, why not?
 
 GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))// SEC_DEPT_SERVICE))) <- Without this, they wont be selected as a department, even with the code below.
 

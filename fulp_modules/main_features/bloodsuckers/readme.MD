@@ -7,7 +7,7 @@
 ## TG edits:
 
 - code/modules/admin/sql_ban_system.dm > Added Bloodsuckers and Monster hunters as bannable antagonists.
-- code/__DEFINES/atom_hud.dm | code/datums/hud.dm > Added Bloodsucker huds (These are DISGUSTINGLY NON-MODULAR)
+- code/__DEFINES/atom_hud.dm | code/datums/hud.dm > Added Bloodsucker huds
 - code/__DEFINES/role_preferences.dm > Added Bloodsuckers/Monster Hunters as antagonist preference options
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
