@@ -97,7 +97,6 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 			LAZYREMOVE(GLOB.available_deputy_depts, department)
 		else
 			department = pick_n_take(GLOB.available_deputy_depts)
-	var/ears = null
 	var/destination = null
 	var/spawn_point = pick(LAZYACCESS(GLOB.department_security_spawns, department))
 	switch(department)
@@ -199,14 +198,3 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	if(!is_operational)
 		return
 	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SERVICE))
-
-/// Used for Science Deputies and Brig doctor's Chemical kit.
-/obj/item/reagent_containers/hypospray/medipen/mutadone
-	name = "mutadone medipen"
-	desc = "Contains a chemical that will remove all of an injected target's mutations."
-	icon_state = "atropen"
-	inhand_icon_state = "atropen"
-	base_icon_state = "atropen"
-	volume = 10
-	amount_per_transfer_from_this = 10
-	list_reagents = list(/datum/reagent/medicine/mutadone = 10)
