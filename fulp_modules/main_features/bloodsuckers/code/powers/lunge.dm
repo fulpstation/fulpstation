@@ -5,7 +5,7 @@
 
 /datum/action/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
-	desc = "Spring at your target and aggressively grapple them without warning. Attacks from concealment or the rear may even knock them down."
+	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down."
 	button_icon_state = "power_lunge"
 	bloodcost = 10
 	cooldown = 100

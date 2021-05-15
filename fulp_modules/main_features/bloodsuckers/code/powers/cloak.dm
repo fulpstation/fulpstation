@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/cloak
 	name = "Cloak of Darkness"
-	desc = "Blend into the shadows and become invisible to the untrained eye. Slows you down and you cannot dissapear while mortals watch you."
+	desc = "Blend into the shadows and become invisible to the untrained and Artificial eye. Slows you down and you cannot dissapear while mortals watch you."
 	button_icon_state = "power_cloak"
 	bloodcost = 5
 	cooldown = 50

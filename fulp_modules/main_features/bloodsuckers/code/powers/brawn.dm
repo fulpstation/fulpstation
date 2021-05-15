@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/targeted/brawn
 	name = "Brawn"
-	desc = "Snap restraints with ease, or deal terrible damage with your bare hands."
+	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
 	button_icon_state = "power_strength"
 	bloodcost = 8
 	cooldown = 90
