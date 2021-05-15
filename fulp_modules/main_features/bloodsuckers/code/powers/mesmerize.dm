@@ -96,7 +96,7 @@
 		var/power_time = 90 + level_current * 15
 		if(iscarbon(target))
 			var/mob/living/carbon/mesmerized = target
-			if(mesmerized.mind && mesmerized.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			if(mesmerized.mind && IS_MONSTERHUNTER(mesmerized))
 				to_chat(mesmerized, "<span class='notice'>You feel your eyes burn for a while, but it passes.</span>")
 				return
 			ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)

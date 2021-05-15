@@ -79,17 +79,22 @@
 	if(target.Adjacent(owner))
 		// LEVEL 2: If behind target, mute or unconscious!
 		if(do_knockdown) // && level_current >= 1)
-			if(!target.mind || !target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			if(!IS_MONSTERHUNTER(target))
 				target.Paralyze(15 + 10 * level_current,1)
 		// Cancel Walk (we were close enough to contact them)
 		walk(owner,0)
 		//target.Paralyze(10,1)
-		if(!target.mind || !target.mind.has_antag_datum(/datum/antagonist/monsterhunter))
-			target.grabbedby(owner) // Taken from mutations.dm under changelings
-			target.grippedby(owner, instant = TRUE) //instant aggro grab
-		else
+		if(IS_MONSTERHUNTER(target))
 			to_chat(owner, "<span class='warning'>You get pushed away as you advance, and fail to get a strong grasp!</span>")
 			target.grabbedby(owner)
+		else
+			if(target.stat == DEAD)
+				var/obj/item/organ/heart/myheart_now = locate() in target.internal_organs
+				myheart_now.Remove(target)
+				user.put_in_hands(myheart_now)
+				to_chat(owner, "<span class='warning'>You tear [myheart_now] out of [target]!</span>")
+			target.grabbedby(owner) // Taken from mutations.dm under changelings
+			target.grippedby(owner, instant = TRUE) //instant aggro grab
 		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 		//	UNCONSCIOUS or MUTE!
 		//owner.start_pulling(target,GRAB_AGGRESSIVE) // GRAB_PASSIVE, GRAB_AGGRESSIVE, GRAB_NECK, GRAB_KILL
