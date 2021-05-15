@@ -150,6 +150,19 @@
 		else
 			to_chat(user, "<span class='notice'>You are not strong enough to pry this open.</span>")
 			return FALSE
+	// Target Type: Locker
+	else if(istype(target, /obj/structure/closet))
+		if(level_current >= 2)
+			var/obj/structure/closet/C = target
+			to_chat(user, "<span class='notice'>You prepare to break [C] open.</span>")
+			if(do_mob(usr, target, 2.5 SECONDS))
+				C.visible_message("<span class='warning'>[C] breaks open as [user] bashes the locker!</span>")
+				to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
+				addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
+				playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		else
+			to_chat(user, "<span class='notice'>You are not strong enough to break this open.</span>")
+			return FALSE
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
 	return isliving(A) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet)
