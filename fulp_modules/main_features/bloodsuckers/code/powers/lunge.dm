@@ -90,9 +90,12 @@
 		else
 			if(target.stat == DEAD)
 				var/obj/item/organ/heart/myheart_now = locate() in target.internal_organs
-				myheart_now.Remove(target)
-				user.put_in_hands(myheart_now)
-				to_chat(owner, "<span class='warning'>You tear [myheart_now] out of [target]!</span>")
+				if(myheart_now)
+					myheart_now.Remove(target)
+					user.put_in_hands(myheart_now)
+					to_chat(owner, "<span class='warning'>You tear [myheart_now] out of [target]!</span>")
+				else
+					to_chat(user, "<span class='notice'>[target] doesn't have a heart to rip out!</span>")
 			target.grabbedby(owner) // Taken from mutations.dm under changelings
 			target.grippedby(owner, instant = TRUE) //instant aggro grab
 		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
