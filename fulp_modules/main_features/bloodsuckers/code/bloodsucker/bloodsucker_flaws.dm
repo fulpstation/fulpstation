@@ -67,5 +67,17 @@
  *		C.IgniteMob()
  */
 
-/datum/antagonist/bloodsucker/proc/AssignRandomBane()
+/datum/antagonist/bloodsucker/proc/AssignRandomBane(my_clan)
+	if(my_clan)
+		if(my_clan == CLAN_BRUJAH)
+			to_chat(owner.current, "<span class='warning'>You have been assigned to the Brujah clan!</span>")
+		if(my_clan == CLAN_NOSFERATU)
+			to_chat(owner.current, "<span class='warning'>You have been assigned to the Nosferatu clan!</span>")
+		if(my_clan == CLAN_TREMERE)
+			to_chat(owner.current, "<span class='warning'>You have been assigned to the Tremere clan!</span>")
+		if(my_clan == CLAN_VENTRUE)
+			to_chat(owner.current, "<span class='warning'>You have been assigned to the Ventrue clan!</span>")
+	else
+		to_chat(owner.current, "<span class='warning'>You have not been assigned to a Clan!</span>")
+
 	return

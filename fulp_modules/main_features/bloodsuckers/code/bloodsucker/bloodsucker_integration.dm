@@ -23,9 +23,9 @@
 		return
 	. = ..()
 
-/// Prevents Bloodsuckers from naturally regenerating Blood.
+/// Prevents Bloodsuckers from naturally regenerating Blood - Even while on masquerade
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
-	if(HAS_TRAIT(src, TRAIT_NOPULSE))
+	if(IS_BLOODSUCKER(src))
 		return
 	. = ..()
 

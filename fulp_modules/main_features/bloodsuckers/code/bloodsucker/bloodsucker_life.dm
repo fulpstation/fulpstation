@@ -186,34 +186,54 @@
 				return
 
 /*
- * 	// High: 	Faster Healing
- *	// Med: 	Pale
- *	// Low: 	Twitch
- *	// V.Low:   Blur Vision
- *	// EMPTY:	Frenzy!
+ *	High: 	Faster Healing
+ *	Med: 	Pale
+ *	Low: 	Twitch
+ *	V.Low:   Blur Vision
+ *	EMPTY:	Frenzy!
  */
+
 /// I am thirsty for blood!
 /datum/antagonist/bloodsucker/proc/HandleStarving()
 	if(!owner.current || AmFinalDeath)
 		return
+
+	/// Nutrition - The amount of blood is how full we are.
+	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED))
+
 	// BLOOD_VOLUME_GOOD: [336]  Pale (handled in bloodsucker_integration.dm)
+
 	// BLOOD_VOLUME_BAD: [224]  Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_NODEATH)) && !poweron_masquerade)
 		owner.current.Jitter(3)
+
 	// BLOOD_VOLUME_SURVIVE: [122]  Blur Vision
-	if(owner.current.blood_volume < BLOOD_VOLUME_BAD / 2)
+	if(owner.current.blood_volume < BLOOD_VOLUME_SURVIVE)
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
-	// Nutrition
-	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED)) //The amount of blood is how full we are.
-	// A bit higher regeneration based on blood volume
-	if(owner.current.blood_volume < 700)
-		additional_regen = 0.4
-	else if(owner.current.blood_volume < BLOOD_VOLUME_NORMAL)
-		additional_regen = 0.3
-	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
-		additional_regen = 0.2
+
+	/// Frenzy & Regeneration - The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
+	if(owner.current.blood_volume < 25) // WILLARD TODO: Add CLAN_BRUJAH falling into frenzy faster
+		if(!frenzied)
+			to_chat(owner.current, "<span class='warning'>You allowed your blood to get too low! You enter Frenzy!</span>")
+			owner.current.ghostize(FALSE)
+			new /datum/ai_controller/bloodsucker(owner.current)
+			frenzied = TRUE
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen  = 0.1
+	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
+		additional_regen = 0.2
+	else if(owner.current.blood_volume < BLOOD_VOLUME_NORMAL)
+		additional_regen = 0.3
+	else if(owner.current.blood_volume < 700)
+		additional_regen = 0.4
+
+/// Called by Bloodsucker AI's datum, once they've sucked enough blood.
+/datum/antagonist/bloodsucker/proc/EndFrenzy()
+	if(frenzied)
+		owner.grab_ghost(force = TRUE)
+		QDEL_NULL(owner.current.ai_controller)
+		to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
+		frenzied = FALSE
 
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)

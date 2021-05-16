@@ -20,6 +20,7 @@
 	var/bloodsucker_reputation
 	/// Clan, used for Sol and Vassals
 	var/datum/team/vampireclan/clan
+	var/my_clan
 	var/list/datum/antagonist/vassal/vassals = list() // Vassals under my control. Periodically remove the dead ones.
 	var/datum/mind/creator // Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	/// Powers
@@ -44,6 +45,7 @@
 	var/warn_sun_burn // So we only get the sun burn message once per day.
 	var/passive_blood_drain = -0.1 //The amount of blood we loose each bloodsucker life tick LifeTick()
 	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
+	var/frenzied = FALSE // Are we in a frenzy?
 	var/AmFinalDeath = FALSE // Have we reached final death?
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
 		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
@@ -118,6 +120,11 @@
  *	due to gamemode's removal, this was recycled to be used for Sol.
  *	We're using some workarounds, using Wizard's roundend report, to get it to show the individual Bloodsucker, rather than the team.
  */
+
+#define CLAN_BRUJAH "Brujah Clan"
+#define CLAN_NOSFERATU "Nosferatu Clan"
+#define CLAN_TREMERE "Tremere Clan"
+#define CLAN_VENTRUE "Ventrue Clan"
 
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
@@ -344,8 +351,23 @@
 	feed_amount += 2 // Increase how quickly I munch down vics (15)
 	max_blood_volume += 100 // Increase my max blood (600)
 	/// Assign True Reputation
-	if(bloodsucker_level == 4)
+	if(bloodsucker_level == 1)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
+		var/chosen_clan = pick(
+			CLAN_BRUJAH, // More prone to Frenzy
+			CLAN_NOSFERATU, // Can't use Masquerade
+			CLAN_TREMERE, // Weak to Holy tools (Like Wizards)
+			CLAN_VENTRUE,
+			)
+		switch(chosen_clan)
+			if(CLAN_BRUJAH)
+				AssignRandomBane(my_clan = CLAN_BRUJAH)
+			if(CLAN_NOSFERATU)
+				AssignRandomBane(my_clan = CLAN_NOSFERATU)
+			if(CLAN_TREMERE)
+				AssignRandomBane(my_clan = CLAN_TREMERE)
+			if(CLAN_VENTRUE)
+				AssignRandomBane(my_clan = CLAN_VENTRUE)
 	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!</span>")
 	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")
 	update_hud(owner.current)
