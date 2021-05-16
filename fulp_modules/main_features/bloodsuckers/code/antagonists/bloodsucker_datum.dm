@@ -65,7 +65,7 @@
 /datum/antagonist/bloodsucker/on_gain()
 	forge_bloodsucker_objectives()
 	/// Start Sunlight if first Bloodsucker
-	check_start_sunlight()
+//	check_start_sunlight()
 	AssignStarterPowersAndStats()
 	/// Name & Title
 	SelectFirstName()
