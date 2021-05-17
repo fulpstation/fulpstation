@@ -38,8 +38,9 @@
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
 /// Unused define, kept here in case Swain wants to use it.
 #define BLOODSUCKER_LEVEL_TO_EMBRACE 3
-/// Checks if the given mob is a Bloodsucker
+/// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
+#define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
 #define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
 
 /*

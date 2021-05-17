@@ -112,7 +112,7 @@
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
 		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
 		. += {"<span class='cult'>To convert the victim, simply click on the vassal rack itself. Sharp weapons work faster than other tools.</span>"}
-	if(user.mind.has_antag_datum(/datum/antagonist/vassal))
+	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into their minions.</span>"
 		. += "<span class='notice'>Aid your master in bringing their victims here and keeping them secure.</span>"
 		. += "<span class='notice'>You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
@@ -260,7 +260,7 @@
 			convert_progress-- // Ouch. Stop. Don't.
 			// All done!
 			if(convert_progress <= 0)
-				if(RequireDisloyalty(target))
+				if(RequireDisloyalty(user,target))
 					to_chat(user, "<span class='boldwarning'>[target] has external loyalties! [target.p_they(TRUE)] will require more <i>persuasion</i> to break [target.p_them()] to your will!</span>")
 				else
 					to_chat(user, "<span class='notice'>[target] looks ready for the <b>Dark Communion</b>.</span>")
@@ -270,7 +270,7 @@
 		useLock = FALSE
 		return
 	// Check: Mindshield & Antag
-	if(!disloyalty_confirm && RequireDisloyalty(target))
+	if(!disloyalty_confirm && RequireDisloyalty(user,target))
 		if(!do_disloyalty(user,target))
 			to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		else if(!disloyalty_confirm)
@@ -370,8 +370,8 @@
 	// NOTE: We only remove loyalties when we're CONVERTED!
 	return TRUE
 
-/obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/target)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum
+/obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/user, mob/living/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	return bloodsuckerdatum.AmValidAntag(target) || HAS_TRAIT(target, TRAIT_MINDSHIELD)
 
 /obj/structure/bloodsucker/vassalrack/proc/disloyalty_accept(mob/living/target)
@@ -423,20 +423,43 @@
 
 /obj/structure/bloodsucker/candelabrum/examine(mob/user)
 	. = ..()
-	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker) || isobserver(user))
+	if(isobserver(user))
+		. += "<span class='cult'>This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals</span>"
+		. += "<span class='cult'>Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance.</span>"
+		return
+	if(IS_BLOODSUCKER(user))
 		. += "<span class='cult'>This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.</span>"
 		. += "<span class='cult'>You can alt click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.</span>"
-	if(user.mind.has_antag_datum(/datum/antagonist/vassal))
-		. += "<span class='notice'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\
-		You can turn it on and off by clicking on it while you are next to it.</span>"
+	if(IS_VASSAL(user))
+		. += "<span class='notice'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.</span>"
+		. += "<span class='notice'>You can turn it on and off by clicking on it while you are next to it.</span>"
 	else
-		. += "<span class='notice'>In Greek myth, Prometheus stole fire from the Gods and gave it to \
-		humankind. The jewelry he kept for himself.</span>"
+		. += "<span class='notice'>In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself.</span>"
 
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(IS_BLOODSUCKER(user) || istype(T))
 		toggle()
+
+/obj/structure/bloodsucker/candelabrum/attackby(obj/item/P, mob/living/user, params)
+	add_fingerprint(user)
+	/// Goal: Non Bloodsuckers can wrench this in place, but they cant unwrench it.
+	if(P.tool_behaviour == TOOL_WRENCH && !anchored)
+		to_chat(user, "<span class='notice'>You start wrenching the candelabrum into place...</span>")
+		if(P.use_tool(src, user, 20, volume=50))
+			to_chat(user, "<span class='notice'>You wrench the candelabrum into place.</span>")
+			set_anchored(TRUE)
+			density = TRUE
+		return
+	if(!IS_BLOODSUCKER(user))
+		to_chat(user, "<span class='notice'>You have no idea what to do with such a bizarre structure.</span>")
+		return
+	if(P.tool_behaviour == TOOL_WRENCH && anchored)
+		to_chat(user, "<span class='notice'>You start unwrenching the candelabrum...</span>")
+		if(P.use_tool(src, user, 40, volume=50))
+			to_chat(user, "<span class='notice'>You unwrench the candelabrum.</span>")
+			set_anchored(FALSE)
+			density = FALSE
 
 /// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
 /obj/structure/bloodsucker/candelabrum/AltClick(mob/user)

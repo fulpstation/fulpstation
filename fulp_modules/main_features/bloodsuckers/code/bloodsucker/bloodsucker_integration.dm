@@ -39,13 +39,7 @@
 /mob/living/Life(delta_time = SSMOBS_DT, times_fired)
 	. = ..()
 	SEND_SIGNAL(src,COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
-
-/obj/item/implant/mindshield/implant(mob/living/target, mob/user, silent = FALSE, force = FALSE)
-	. = ..()
-	if(..())
-		if(target.mind.has_antag_datum(/datum/antagonist/vassal))
-			target.mind.remove_antag_datum(/datum/antagonist/vassal)
-
+	
 
 
 /// INTEGRATION: Adding Procs and Datums to existing "classes"

@@ -13,12 +13,13 @@
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
 	while(ContinueActive(owner))
 		C.adjustBruteLoss(-1.5)
-		C.adjustFireLoss(-0.5)
 		C.adjustToxLoss(-2, forced = TRUE)
 		C.adjustStaminaLoss(bloodcost * 1.1)
-		/// Plasmamen won't lose blood, they don't have any.
+		/// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
 		if(!HAS_TRAIT(C, NOBLOOD))
 			C.blood_volume -= bloodcost
+		else
+			C.adjustFireLoss(-0.5)
 		/// Stop Bleeding
 		if(istype(C) && C.is_bleeding())
 			for(var/obj/item/bodypart/part in C.bodyparts)
@@ -32,11 +33,13 @@
 /*	. = ..()
 	if(!.) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */
-	if(!owner.stat)
+	if(owner.stat >= DEAD)
+		to_chat(owner, "<span class='notice'>You are unable to use Recuperate in your state.</span>")
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
-	if(user.stat >= HARD_CRIT)
+	if(user.stat >= DEAD)
+		to_chat(user, "<span class='notice'>You lost the ability to keep using Recuperate.</span>")
 		return FALSE
 	return ..()
