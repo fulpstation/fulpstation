@@ -9,10 +9,13 @@
 	hijack_speed = 0.5
 	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 	var/obj/effect/sunlight/bloodsucker_sunlight
-	/// List of all Antagonists that can be vassalized.
-	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/nukeop/lone,
-		/datum/antagonist/fugitive, /datum/antagonist/fugitive_hunter, /datum/antagonist/separatist, /datum/antagonist/gang, /datum/antagonist/survivalist, /datum/antagonist/rev,
-		/datum/antagonist/pirate, /datum/antagonist/ert, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker,
+	/// List of all Antagonists that can't be vassalized.
+	var/list/vassal_banned_antags = list(
+		/datum/antagonist/changeling, /datum/antagonist/abductor, /datum/antagonist/rev/head,
+		/datum/antagonist/nukeop, /datum/antagonist/obsessed, /datum/antagonist/cult,
+		/datum/antagonist/heretic, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
+		/datum/antagonist/xeno, /datum/antagonist/ninja, /datum/antagonist/monsterhunter,
+		/datum/antagonist/ert/safety_moth, /datum/antagonist/monkey, /datum/antagonist/wishgranter,
 		)
 	/// Used for assigning your name
 	var/bloodsucker_name

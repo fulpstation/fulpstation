@@ -193,9 +193,9 @@
 	// No List?
 	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
 		return FALSE
-	// Does even ONE antag appear in this mind that isn't in the list? Then FAIL!
+	/// Checks if the person is an antag banned from being vassalized, stored in bloodsucker's datum.
 	for(var/datum/antagonist/antag_datum in M.antag_datums)
-		if(!(antag_datum.type in vassal_allowed_antags))  // vassal_allowed_antags is a list stored in Bloodsucker's datum, above.
+		if(antag_datum.type in vassal_banned_antags)
 			//message_admins("DEBUG VASSAL: Found Invalid: [antag_datum] // [antag_datum.type]")
 			return TRUE
 	//message_admins("DEBUG VASSAL: Valid Antags! (total of [M.antag_datums.len])")
