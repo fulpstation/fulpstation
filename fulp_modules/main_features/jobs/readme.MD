@@ -8,6 +8,7 @@
 
 - code/controllers/subsystem/job.dm > Adds Fulp jobs to the station job list datum.
 - code/modules/jobs/jobs.dm > Adds Fulp jobs to GLOBAL_LIST_INIT(security_positions, list() & GLOBAL_LIST_INIT(security_sub_positions, list()
+- code/game/machinery/computer/crew.dm > Adds Fulp jobs to the crew monitor.
 
 ## TG proc overwrites:
 

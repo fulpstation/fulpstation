@@ -1,7 +1,7 @@
 /datum/job/fulp/deputy
 	title = "Deputy"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security") /// Sadly.
+	department_head = list("Head of Security") // Sadly.
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
@@ -17,6 +17,9 @@
 
 	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
+
+	mind_traits = list(TRAIT_DONUT_LOVER)
+	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
 	bounty_types = CIV_JOB_MED
@@ -35,7 +38,7 @@
 
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
-/// Default Deputy trim, this should never be used in game.
+/// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
 	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
@@ -43,7 +46,7 @@
 	full_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
-	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS) // I don't like giving the HoS this, but it makes sense to "deputize" people.
+	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	/// Used to give the Departmental access
 	var/department_access = list()
 
@@ -72,7 +75,7 @@
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
 
 /datum/id_trim/job/deputy/supply
-	assignment = "Deputy (Cargo)"
+	assignment = "Deputy (Supply)"
 	trim_state = "trim_deputysupply"
 	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE, ACCESS_QM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
@@ -81,7 +84,7 @@
 	assignment = "Deputy (Service)"
 	trim_state = "trim_deputyservice"
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
-	template_access = list(ACCESS_HOP) // HoP-only, why not?
+	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 
 GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))// SEC_DEPT_SERVICE))) <- Without this, they wont be selected as a department, even with the code below.
 
@@ -97,39 +100,30 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 			LAZYREMOVE(GLOB.available_deputy_depts, department)
 		else
 			department = pick_n_take(GLOB.available_deputy_depts)
-	var/ears = null
 	var/destination = null
 	var/spawn_point = pick(LAZYACCESS(GLOB.department_security_spawns, department))
 	switch(department)
 		if(SEC_DEPT_ENGINEERING)
 			H.equipOutfit(/datum/outfit/job/deputy/engineering)
-			ears = /obj/item/radio/headset/headset_dep
 			destination = /area/security/checkpoint/engineering
 			announce_engineering(H, department)
 		if(SEC_DEPT_MEDICAL)
 			H.equipOutfit(/datum/outfit/job/deputy/medical)
-			ears = /obj/item/radio/headset/headset_dep/med
 			destination = /area/security/checkpoint/medical
 			announce_medical(H, department)
 		if(SEC_DEPT_SCIENCE)
 			H.equipOutfit(/datum/outfit/job/deputy/science)
-			ears = /obj/item/radio/headset/headset_dep/sci
 			destination = /area/security/checkpoint/science
 			announce_science(H, department)
 		if(SEC_DEPT_SUPPLY)
 			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			ears = /obj/item/radio/headset/headset_dep/supply
 			destination = /area/security/checkpoint/supply
 			announce_supply(H, department)
 		if(SEC_DEPT_SERVICE)
 			H.equipOutfit(/datum/outfit/job/deputy/service)
-			ears = /obj/item/radio/headset/headset_dep/service
 			destination = null
 			announce_service(H, department)
-	if(ears)
-		if(H.ears)
-			qdel(H.ears)
-		H.equip_to_slot_or_del(new ears(H), ITEM_SLOT_EARS)
+
 	if(destination)
 		var/turf/T
 		if(spawn_point)
@@ -207,14 +201,3 @@ GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC
 	if(!is_operational)
 		return
 	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SERVICE))
-
-/// Used for Science Deputies and Brig doctor's Chemical kit.
-/obj/item/reagent_containers/hypospray/medipen/mutadone
-	name = "mutadone medipen"
-	desc = "Contains a chemical that will remove all of an injected target's mutations."
-	icon_state = "atropen"
-	inhand_icon_state = "atropen"
-	base_icon_state = "atropen"
-	volume = 10
-	amount_per_transfer_from_this = 10
-	list_reagents = list(/datum/reagent/medicine/mutadone = 10)
