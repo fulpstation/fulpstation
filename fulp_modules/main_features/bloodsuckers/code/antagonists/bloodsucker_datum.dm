@@ -345,7 +345,7 @@
 	feed_amount += 2 // Increase how quickly I munch down vics (15)
 	max_blood_volume += 100 // Increase my max blood (600)
 	/// Assign True Reputation
-	if(bloodsucker_level == 1)
+	if(bloodsucker_level == 3)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 		var/chosen_clan = pick(
 			CLAN_BRUJAH,
