@@ -347,21 +347,12 @@
 	/// Assign True Reputation
 	if(bloodsucker_level == 3)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
-		var/chosen_clan = pick(
+		my_clan = pick(
 			CLAN_BRUJAH,
 			CLAN_NOSFERATU,
 			CLAN_TREMERE,
 			CLAN_VENTRUE,
 			)
-		switch(chosen_clan)
-			if(CLAN_BRUJAH)
-				my_clan = CLAN_BRUJAH
-			if(CLAN_NOSFERATU)
-				my_clan = CLAN_NOSFERATU
-			if(CLAN_TREMERE)
-				my_clan = CLAN_TREMERE
-			if(CLAN_VENTRUE)
-				my_clan = CLAN_VENTRUE
 		AssignRandomBane(my_clan)
 	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!</span>")
 	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")

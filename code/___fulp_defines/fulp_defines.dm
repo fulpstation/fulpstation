@@ -43,7 +43,7 @@
 /// Clan defines
 #define CLAN_BRUJAH "Brujah Clan" // More prone to Frenzy
 #define CLAN_NOSFERATU "Nosferatu Clan" // Can't use Masquerade
-#define CLAN_TREMERE "Tremere Clan" // Weak to Holy tools (The same way Wizards or Vampires are)
+#define CLAN_TREMERE "Tremere Clan" // Weaker to some Holy tools, and burns while in the Chapel (Like the Vampire race)
 #define CLAN_VENTRUE "Ventrue Clan" // Cant drink blood out of mindless mobs
 
 /*
