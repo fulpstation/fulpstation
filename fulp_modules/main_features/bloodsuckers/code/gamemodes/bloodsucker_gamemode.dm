@@ -89,11 +89,11 @@
 
 /datum/dynamic_ruleset/midround/bloodsucker/execute()
 	var/mob/M = pick(living_players)
-	assigned += M
-	living_players -= M
-	var/datum/antagonist/bloodsucker/Sucker = new
-	M.mind.add_antag_datum(Sucker)
-	Sucker.bloodsucker_level_unspent = rand(2,5)
+	assigned += M.mind
+	living_players -= M.mind
+	var/datum/antagonist/bloodsucker/sucker = new
+	M.mind.add_antag_datum(sucker)
+	sucker.bloodsucker_level_unspent = rand(2,4)
 	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
@@ -116,6 +116,16 @@
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
 	repeatable = FALSE
+
+/datum/dynamic_ruleset/latejoin/bloodsucker/execute()
+	var/mob/M = pick(candidates) // This should contain a single player, but in case.
+	assigned += M.mind
+	var/datum/antagonist/bloodsucker/sucker = new
+	M.mind.add_antag_datum(sucker)
+	sucker.bloodsucker_level_unspent = rand(2,4)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
+	return TRUE
 
 //////////////////////////////////////////////////////////////////////////////
 
