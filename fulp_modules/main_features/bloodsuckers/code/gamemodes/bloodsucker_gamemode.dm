@@ -98,6 +98,25 @@
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
 
+//////////////////////////////////////////////
+//                                          //
+//          LATEJOIN BLOODSUCKER            //
+//                                          //
+//////////////////////////////////////////////
+
+/datum/dynamic_ruleset/latejoin/bloodsucker
+	name = "Bloodsucker Breakout"
+	antag_datum = /datum/antagonist/bloodsucker
+	antag_flag = ROLE_BLOODSUCKER
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	restricted_roles = list("AI","Cyborg")
+	required_candidates = 1
+	weight = 5
+	cost = 10
+	requirements = list(10,10,10,10,10,10,10,10,10,10)
+	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
+	repeatable = FALSE
+
 //////////////////////////////////////////////////////////////////////////////
 
 /*
