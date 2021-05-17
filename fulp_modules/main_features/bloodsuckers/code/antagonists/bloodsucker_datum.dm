@@ -120,11 +120,6 @@
  *	We're using some workarounds, using Wizard's roundend report, to get it to show the individual Bloodsucker, rather than the team.
  */
 
-#define CLAN_BRUJAH "Brujah Clan"
-#define CLAN_NOSFERATU "Nosferatu Clan"
-#define CLAN_TREMERE "Tremere Clan"
-#define CLAN_VENTRUE "Ventrue Clan"
-
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
 

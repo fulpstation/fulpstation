@@ -40,6 +40,11 @@
 #define BLOODSUCKER_LEVEL_TO_EMBRACE 3
 /// Checks if the given mob is a Bloodsucker
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
+/// Clan defines
+#define CLAN_BRUJAH "Brujah Clan"
+#define CLAN_NOSFERATU "Nosferatu Clan"
+#define CLAN_TREMERE "Tremere Clan"
+#define CLAN_VENTRUE "Ventrue Clan"
 
 /*
  *	Deputy Defines
