@@ -68,7 +68,7 @@
 /datum/antagonist/bloodsucker/on_gain()
 	forge_bloodsucker_objectives()
 	/// Start Sunlight if first Bloodsucker
-//	check_start_sunlight()
+	check_start_sunlight()
 	AssignStarterPowersAndStats()
 	/// Name & Title
 	SelectFirstName()
@@ -81,7 +81,7 @@
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	/// End Sunlight? (if last Vamp)
-	check_cancel_sunlight()
+//	check_cancel_sunlight()
 	ClearAllPowersAndStats()
 	update_bloodsucker_icons_removed(owner.current)
 	if(!LAZYLEN(owner.antag_datums))

@@ -57,7 +57,7 @@
 	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
 	repeatable = FALSE
 
-/datum/dynamic_ruleset/midround/autotraitor/acceptable(population = 0, threat = 0)
+/datum/dynamic_ruleset/midround/bloodsucker/acceptable(population = 0, threat = 0)
 	var/player_count = mode.current_players[CURRENT_LIVING_PLAYERS].len
 	var/antag_count = mode.current_players[CURRENT_LIVING_ANTAGS].len
 	var/max_suckers = round(player_count / 10) + 1
@@ -72,7 +72,7 @@
 
 	return ..()
 
-/datum/dynamic_ruleset/midround/autotraitor/trim_candidates()
+/datum/dynamic_ruleset/midround/bloodsucker/trim_candidates()
 	..()
 	for(var/mob/living/player in living_players)
 		if(issilicon(player)) // Your assigned role doesn't change when you are turned into a silicon.
@@ -82,39 +82,21 @@
 		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
 			living_players -= player // We don't allow people with roles already
 
-/datum/dynamic_ruleset/midround/autotraitor/ready(forced = FALSE)
+/datum/dynamic_ruleset/midround/bloodsucker/ready(forced = FALSE)
 	if (required_candidates > living_players.len)
 		return FALSE
 	return ..()
 
-/datum/dynamic_ruleset/midround/autotraitor/execute()
+/datum/dynamic_ruleset/midround/bloodsucker/execute()
 	var/mob/M = pick(living_players)
 	assigned += M
 	living_players -= M
 	var/datum/antagonist/bloodsucker/Sucker = new
 	M.mind.add_antag_datum(Sucker)
+	Sucker.bloodsucker_level_unspent = rand(2,5)
 	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
-
-//////////////////////////////////////////////
-//                                          //
-//          LATEJOIN BLOODSUCKER            //
-//                                          //
-//////////////////////////////////////////////
-
-/datum/dynamic_ruleset/latejoin/bloodsucker
-	name = "Bloodsucker Breakout"
-	antag_datum = /datum/antagonist/bloodsucker
-	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
-	restricted_roles = list("AI","Cyborg")
-	required_candidates = 1
-	weight = 5
-	cost = 10
-	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
-	repeatable = FALSE
 
 //////////////////////////////////////////////////////////////////////////////
 

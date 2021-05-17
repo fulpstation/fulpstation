@@ -106,17 +106,17 @@
 	if(!user.mind)
 		. += {"<span class='cult'>This is a vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions.</span>"}
 		return
-	if(user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+	if(IS_BLOODSUCKER(user))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
 		. += {"<span class='cult'>You need to first secure the vassal rack by clicking on it while it is in your lair.</span>"}
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
 		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
 		. += {"<span class='cult'>To convert the victim, simply click on the vassal rack itself. Sharp weapons work faster than other tools.</span>"}
 	if(user.mind.has_antag_datum(/datum/antagonist/vassal))
-		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into his minions.</span>"
+		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into their minions.</span>"
 		. += "<span class='notice'>Aid your master in bringing their victims here and keeping them secure.</span>"
 		. += "<span class='notice'>You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.</span>"
-	if(user.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+	if(IS_MONSTERHUNTER(user))
 		. += {"<span class='cult'>This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.</span>"}
 		. += {"<span class='cult'>They usually ensure that victims are handcuffed, to prevent them from running away.</span>"}
 		. += {"<span class='cult'>Their rituals take time, allowing us to disrupt it.</span>"}
@@ -126,6 +126,9 @@
 		return
 	if(!anchored && IS_BLOODSUCKER(user))
 		to_chat(user, "<span class='danger'>Until this rack is secured in place, it cannot serve its purpose.</span>")
+		return
+	if(issilicon(O))
+		to_chat(user, "<span class='danger'>You realize that Silicon cannot be vassalized, therefore it is useless to buckle them.</span>")
 		return
 	// PULL TARGET: Remember if I was pullin this guy, so we can restore this
 	var/waspulling = (O == owner.pulling)
@@ -410,12 +413,6 @@
 	anchored = FALSE
 	var/lit = FALSE
 
-/*
-/// From candle.dm
-/obj/structure/bloodsucker/candelabrum/is_hot()
-	return FALSE
-*/
-
 /obj/structure/bloodsucker/candelabrum/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	return ..()
@@ -463,7 +460,7 @@
 		///We dont want vassals or vampires affected by this
 		if(H.mind.has_antag_datum(/datum/antagonist/vassal))
 			return
-		if(H.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		if(IS_BLOODSUCKER(H))
 			return
 		H.hallucination += 20
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
