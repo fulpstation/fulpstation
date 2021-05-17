@@ -93,7 +93,7 @@
 	to_chat(owner, "<span class='announce'>* Other Bloodsuckers are not necessarily your friends, but your survival may depend on cooperation. Betray them at your own discretion and peril.<br> \
 	* Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.<br> \
 	* Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.<br> \
-	* Bloodsucker Tip: You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low!<br> \
+	* Bloodsucker Tip: You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!<br> \
 	* Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.<br> \
 	* You can find an in-depth guide at : https://wiki.fulp.gg/en/Bloodsucker </span>")
 	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
