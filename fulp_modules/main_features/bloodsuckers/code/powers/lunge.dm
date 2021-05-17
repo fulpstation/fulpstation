@@ -89,6 +89,13 @@
 			target.grabbedby(owner)
 		else
 			if(target.stat == DEAD)
+				var/obj/item/bodypart/chest = target.get_bodypart(BODY_ZONE_CHEST)
+				var/datum/wound/slash/moderate/crit_wound = new
+				crit_wound.apply_wound(chest)
+				user.visible_message(
+					"<span class='warning'>[owner] tears into [target]'s chest!</span>",
+					"<span class='warning'>You tear into [target]'s chest!</span>"
+				)
 				var/obj/item/organ/heart/myheart_now = locate() in target.internal_organs
 				if(myheart_now)
 					myheart_now.Remove(target)
