@@ -356,8 +356,8 @@
 		var/chosen_clan = pick(
 			CLAN_BRUJAH, // More prone to Frenzy
 			CLAN_NOSFERATU, // Can't use Masquerade
-			CLAN_TREMERE, // Weak to Holy tools (Like Wizards)
-			CLAN_VENTRUE,
+			CLAN_TREMERE, // Weak to Holy tools (The same way Wizards or Vampires are)
+			CLAN_VENTRUE, // Cant drink blood out of mindless mobs
 			)
 		switch(chosen_clan)
 			if(CLAN_BRUJAH)

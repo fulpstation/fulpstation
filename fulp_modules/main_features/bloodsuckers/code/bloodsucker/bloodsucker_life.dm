@@ -229,11 +229,10 @@
 
 /// Called by Bloodsucker AI's datum, once they've sucked enough blood.
 /datum/antagonist/bloodsucker/proc/EndFrenzy()
-	if(frenzied)
-		owner.grab_ghost(force = TRUE)
-		QDEL_NULL(owner.current.ai_controller)
-		to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
-		frenzied = FALSE
+	owner.grab_ghost(force = TRUE)
+	QDEL_NULL(owner.current.ai_controller)
+	to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
+	frenzied = FALSE
 
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)

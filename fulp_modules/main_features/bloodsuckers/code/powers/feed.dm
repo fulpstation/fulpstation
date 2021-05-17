@@ -135,7 +135,7 @@
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up Activate(), so Deactivate() can happen after.
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/mob/living/user = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
 	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_PASSIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
@@ -200,7 +200,7 @@
 
 	// FEEEEEEEEED!!! //
 	bloodsuckerdatum.poweron_feed = TRUE
-	while(bloodsuckerdatum && target && active)
+	while(target && active)
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
 		if(!do_mob(user, target, 2 SECONDS, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))

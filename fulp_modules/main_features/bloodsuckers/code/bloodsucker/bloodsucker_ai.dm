@@ -59,14 +59,14 @@
 
 /// Found our target!
 /datum/ai_behavior/bloodsucker_attack_mob
-	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM // Allow us to move, yes.
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM // Allow us to move.
 
 /datum/ai_behavior/bloodsucker_attack_mob/perform(delta_time, datum/ai_controller/controller)
 	. = ..()
 	var/mob/living/target = controller.blackboard[BB_BLOODSUCKER_TARGET]
 
 	/// Are we close? Let's attack them now!
-	if(isturf(target.loc))
+	if(in_range(controller.pawn, target))
 		bloodsucker_attack(controller, target, delta_time)
 
 /// The attack itself.
@@ -75,14 +75,15 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(living_pawn)
 
 	/// We have enough Blood? Snap out of it!
-	if(living_pawn.blood_volume >= BLOOD_VOLUME_SURVIVE)
+	if(living_pawn.blood_volume >= 80)
 		bloodsuckerdatum.EndFrenzy()
 
 	/// Start grabbing them
-	living_pawn.start_pulling(target)
-	target.grippedby(living_pawn, instant = TRUE) //instant aggro grab
-	living_pawn.setDir(get_dir(living_pawn, target))
-	/// Start sucking their blood
-	for(var/datum/action/bloodsucker/P in bloodsuckerdatum.powers)
-		if(istype(P, /datum/action/bloodsucker/feed))
-			P.ActivatePower()
+	if(living_pawn.pulling != target)
+		target.grabbedby(living_pawn)
+		target.grabbedby(living_pawn, supress_message = TRUE)
+	if(living_pawn.Adjacent(target) && isturf(target.loc))
+		/// Start sucking their blood
+		for(var/datum/action/bloodsucker/feed/a_good_drink in bloodsuckerdatum.powers)
+			if(!bloodsuckerdatum.poweron_feed)
+				a_good_drink.ActivatePower()
