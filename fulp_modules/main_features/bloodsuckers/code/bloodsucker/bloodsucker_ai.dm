@@ -13,7 +13,8 @@
 
 /datum/ai_controller/bloodsucker
 	movement_delay = 0.4 SECONDS
-	blackboard = list(BB_BLOODSUCKER_TARGET)
+	var/bloodsucker_hastarget = FALSE
+	blackboard = list(BB_BLOODSUCKER_TARGET = null)
 
 /// Giving control to the Ghost
 /datum/ai_controller/bloodsucker/TryPossessPawn(atom/new_pawn)
@@ -52,6 +53,7 @@
 				continue
 			blackboard[BB_BLOODSUCKER_TARGET] = victims
 			target = victims
+			bloodsucker_hastarget = TRUE
 			break
 	if(target)
 		current_movement_target = target
@@ -61,7 +63,7 @@
 /datum/ai_controller/bloodsucker/PerformIdleBehavior(delta_time)
 	var/mob/living/living_pawn = pawn
 
-	if(BB_BLOODSUCKER_TARGET)
+	if(bloodsucker_hastarget)
 		return
 
 	if(DT_PROB(HAUNTED_ITEM_TELEPORT_CHANCE, delta_time))
