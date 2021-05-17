@@ -71,12 +71,14 @@
 	if(my_clan)
 		if(my_clan == CLAN_BRUJAH)
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Brujah Clan!<br> \
-				* As part of the Bujah Clan, you are more prone to falling into Frenzy, don't let your blood drop too low! </span>")
+				* As part of the Bujah Clan, you are more prone to falling into Frenzy, don't let your blood drop too low!</span>")
 		if(my_clan == CLAN_NOSFERATU)
-			to_chat(owner.current, "<span class='warning'>You have been assigned to the Nosferatu clan!</span>")
+			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
+				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade ability.</span>")
 		if(my_clan == CLAN_TREMERE)
 			to_chat(owner.current, "<span class='warning'>You have been assigned to the Tremere clan!</span>")
 		if(my_clan == CLAN_VENTRUE)
-			to_chat(owner.current, "<span class='warning'>You have been assigned to the Ventrue clan!</span>")
+			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
+				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.</span>")
 	else
 		to_chat(owner.current, "<span class='warning'>You have not been assigned to a Clan.</span>")

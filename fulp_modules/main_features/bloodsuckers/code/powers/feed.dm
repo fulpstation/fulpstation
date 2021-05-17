@@ -72,6 +72,13 @@
 			if(display_error)
 				to_chat(owner, "<span class='warning'>Your victim's blood is not suitable for you to take.</span>")
 			return FALSE
+	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		if(!target.mind)
+			if(display_error)
+				to_chat(owner, "<span class='warning'>The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth.</span>")
+			return FALSE
 	return TRUE
 
 /// If I'm not grabbing someone, find me someone nearby.
