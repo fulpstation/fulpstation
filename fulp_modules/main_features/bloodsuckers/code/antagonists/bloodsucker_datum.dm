@@ -313,7 +313,7 @@
 			options[initial(power.name)] = power // TESTING: After working with TGUI, it seems you can use initial() to view the variables inside a path?
 	options["\[ Not Now \]"] = null
 	// Abort?
-	if(options.len > 1)
+	if(options.len >= 1)
 		var/choice = input(owner.current, "You have the opportunity to grow more ancient. Select a power to advance your Rank.", "Your Blood Thickens...") in options
 		// Cheat-Safety: Can't keep opening/closing coffin to spam levels
 		if(bloodsucker_level_unspent <= 0) // Already spent all your points, and tried opening/closing your coffin, pal.

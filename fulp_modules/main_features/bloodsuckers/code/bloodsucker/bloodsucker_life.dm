@@ -214,7 +214,7 @@
 	/// Frenzy & Regeneration - The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(owner.current.blood_volume < 25)
 		StartFrenzy()
-	else if(owner.current.blood_volume < 80 && my_clan == CLAN_BRUJAH)
+	else if(owner.current.blood_volume < 100 && my_clan == CLAN_BRUJAH)
 		StartFrenzy()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
@@ -235,7 +235,7 @@
 	new /datum/ai_controller/bloodsucker(owner.current)
 	while(!QDELETED(owner.current))
 		/// Got enough blood back? Come back to us!
-		if(owner.current.blood_volume >= 100)
+		if(owner.current.blood_volume >= 150)
 			break
 		sleep(5)
 	QDEL_NULL(owner.current.ai_controller)
