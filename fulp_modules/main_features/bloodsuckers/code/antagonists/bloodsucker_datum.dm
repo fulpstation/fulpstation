@@ -98,6 +98,8 @@
 	* Bloodsucker Tip: You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low!<br> \
 	* Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.<br> \
 	* You can find an in-depth guide at : https://wiki.fulp.gg/en/Bloodsucker </span>")
+	if(bloodsucker_level_unspent >= 2)
+		to_chat(owner, "<span class='announce'>As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank.</span><br>")
 	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 

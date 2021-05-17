@@ -93,7 +93,7 @@
 	living_players -= M.mind
 	var/datum/antagonist/bloodsucker/sucker = new
 	M.mind.add_antag_datum(sucker)
-	sucker.bloodsucker_level_unspent = rand(2,4)
+	sucker.bloodsucker_level_unspent = rand(2,3)
 	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
@@ -122,7 +122,7 @@
 	assigned += M.mind
 	var/datum/antagonist/bloodsucker/sucker = new
 	M.mind.add_antag_datum(sucker)
-	sucker.bloodsucker_level_unspent = rand(2,4)
+	sucker.bloodsucker_level_unspent = rand(2,3)
 	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
 	return TRUE
