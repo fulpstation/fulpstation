@@ -108,3 +108,4 @@
 	for(var/datum/action/A in living_pawn.actions)
 		if(istype(A, /datum/action/bloodsucker/gohome))
 			A.Trigger()
+	finish_action(controller, FALSE)
