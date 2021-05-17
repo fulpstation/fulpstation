@@ -4,6 +4,7 @@
 
 	id_trim = /datum/id_trim/job/deputy
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
+	ears = null
 	belt = /obj/item/pda/security
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black
