@@ -73,12 +73,18 @@
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Brujah Clan!<br> \
 				* As part of the Bujah Clan, you are more prone to falling into Frenzy, don't let your blood drop too low!</span>")
 		if(my_clan == CLAN_NOSFERATU)
+			for(var/datum/action/bloodsucker/power in powers)
+				if(istype(power, /datum/action/bloodsucker/masquerade))
+					powers -= power
+					power.Remove(owner.current)
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
 				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade ability.</span>")
 		if(my_clan == CLAN_TREMERE)
-			to_chat(owner.current, "<span class='warning'>You have been assigned to the Tremere clan!</span>")
+			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Tremere Clan!<br> \
+				* As part of the Tremere Clan, you are weak to Anti-magic, and will catch fire if you enter the Chapel!</span>")
 		if(my_clan == CLAN_VENTRUE)
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
 				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.</span>")
 	else
-		to_chat(owner.current, "<span class='warning'>You have not been assigned to a Clan.</span>")
+		to_chat(owner, "<span class='warning'>You have not been assigned to a Clan.</span>")
+

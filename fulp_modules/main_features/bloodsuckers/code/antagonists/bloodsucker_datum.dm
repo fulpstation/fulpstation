@@ -358,10 +358,6 @@
 				my_clan = CLAN_BRUJAH
 			if(CLAN_NOSFERATU)
 				my_clan = CLAN_NOSFERATU
-				for(var/datum/action/bloodsucker/power in powers)
-					if(istype(power, /datum/action/bloodsucker/masquerade))
-						powers -= power
-						power.Remove(owner.current)
 			if(CLAN_TREMERE)
 				my_clan = CLAN_TREMERE
 			if(CLAN_VENTRUE)
