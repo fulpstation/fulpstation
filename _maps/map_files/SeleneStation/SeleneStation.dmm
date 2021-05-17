@@ -1426,8 +1426,8 @@
 	dir = 1
 	},
 /obj/structure/closet/secure_closet/security/science,
-/obj/item/radio/intercom{
-	pixel_y = 30
+/obj/item/radio/intercom/directional/north{
+	pixel_y = 36
 	},
 /turf/open/floor/iron,
 /area/security/checkpoint/science)
@@ -3724,7 +3724,9 @@
 	pixel_y = -23
 	},
 /obj/structure/cable,
-/obj/machinery/status_display/evac/directional/east,
+/obj/machinery/status_display/evac/directional/east{
+	pixel_y = -32
+	},
 /turf/open/floor/iron/dark,
 /area/ai_monitored/turret_protected/aisat)
 "baQ" = (
@@ -3751,10 +3753,7 @@
 "bbi" = (
 /obj/structure/closet/secure_closet/courtroom,
 /obj/item/storage/secure/briefcase,
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/wood,
 /area/security/courtroom)
 "bbr" = (
@@ -4124,10 +4123,7 @@
 /obj/structure/table,
 /obj/item/t_scanner,
 /obj/item/clothing/gloves/color/fyellow,
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	name = "Engineering yellow corner"
@@ -5340,10 +5336,6 @@
 /turf/open/floor/iron,
 /area/maintenance/department/crew_quarters/dorms)
 "bxh" = (
-/obj/item/radio/intercom{
-	dir = 8;
-	pixel_x = -28
-	},
 /obj/machinery/camera{
 	c_tag = "Command - HoP Office S";
 	dir = 10
@@ -5352,6 +5344,7 @@
 /mob/living/simple_animal/pet/dog/corgi/ian{
 	dir = 8
 	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/carpet/purple,
 /area/command/heads_quarters/hop)
 "bxm" = (
@@ -7297,10 +7290,7 @@
 /turf/open/floor/plating,
 /area/medical/surgery)
 "bXE" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	name = "Science purple corner"
@@ -7967,6 +7957,7 @@
 	name = "Security red corner"
 	},
 /obj/machinery/status_display/evac/directional/south,
+/obj/item/wrench,
 /turf/open/floor/iron/dark,
 /area/security/execution/transfer)
 "chr" = (
@@ -8156,10 +8147,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -8427,11 +8415,10 @@
 	dir = 8;
 	name = "Command blue corner"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/south{
 	id = "bridge blast";
 	name = "Bridge Blast Door Control";
 	pixel_x = -7;
-	pixel_y = -27;
 	req_access_txt = "19"
 	},
 /obj/machinery/keycard_auth{
@@ -8446,11 +8433,10 @@
 	charge = 100;
 	maxcharge = 15000
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/south{
 	id = "bridge blast2";
 	name = "Bridge Blast Door Control";
 	pixel_x = 7;
-	pixel_y = -27;
 	req_access_txt = "19"
 	},
 /turf/open/floor/vault,
@@ -8534,10 +8520,7 @@
 	dir = 8;
 	name = "Medical blue corner"
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
 "coL" = (
@@ -11579,9 +11562,8 @@
 	name = "Medical blue corner"
 	},
 /obj/effect/landmark/start/medical_doctor,
-/obj/machinery/requests_console{
-	department = "medbay lobby";
-	pixel_y = 32
+/obj/machinery/requests_console/directional/north{
+	department = "medbay lobby"
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
@@ -11688,10 +11670,7 @@
 	},
 /area/maintenance/department/science)
 "dfy" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron/dark,
 /area/ai_monitored/turret_protected/aisat/hallway)
 "dfB" = (
@@ -12002,9 +11981,6 @@
 /area/holodeck/rec_center)
 "dkX" = (
 /obj/machinery/portable_atmospherics/canister/carbon_dioxide,
-/obj/machinery/airalarm{
-	pixel_y = 23
-	},
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
@@ -12016,6 +11992,7 @@
 	dir = 4;
 	name = "Security red corner"
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron/dark,
 /area/security/execution/transfer)
 "dkY" = (
@@ -12218,7 +12195,9 @@
 	color = "#4169E1";
 	name = "Command blue corner"
 	},
-/obj/machinery/status_display/evac/directional/east,
+/obj/machinery/status_display/evac/directional/east{
+	pixel_y = 32
+	},
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/command)
 "dnb" = (
@@ -17278,10 +17257,7 @@
 /turf/open/floor/iron,
 /area/maintenance/starboard)
 "eGN" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -19179,7 +19155,6 @@
 "fgF" = (
 /obj/structure/table,
 /obj/item/storage/backpack/duffelbag/sec/surgery,
-/obj/item/razor,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -19194,6 +19169,8 @@
 	dir = 8;
 	name = "Security red corner"
 	},
+/obj/item/storage/box/bodybags,
+/obj/item/razor,
 /turf/open/floor/iron/dark,
 /area/security/execution/transfer)
 "fgL" = (
@@ -19957,10 +19934,7 @@
 /turf/open/floor/engine,
 /area/engineering/main)
 "frd" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 4;
@@ -20648,10 +20622,7 @@
 /turf/open/floor/iron/white,
 /area/science/research)
 "fzP" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -20695,10 +20666,7 @@
 /area/science/robotics/lab)
 "fAO" = (
 /obj/machinery/monkey_recycler,
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	dir = 1;
@@ -22090,10 +22058,9 @@
 /area/cargo/sorting)
 "fTa" = (
 /obj/machinery/vending/autodrobe,
-/obj/machinery/requests_console{
+/obj/machinery/requests_console/directional/east{
 	department = "Theatre";
-	name = "theatre RC";
-	pixel_x = 32
+	name = "theatre RC"
 	},
 /turf/open/floor/wood,
 /area/service/theater)
@@ -23869,7 +23836,6 @@
 /obj/item/storage/box/bodybags,
 /obj/item/assembly/signaler,
 /obj/item/screwdriver,
-/obj/item/wrench,
 /obj/item/taperecorder{
 	pixel_x = -3
 	},
@@ -24258,10 +24224,7 @@
 /area/science/genetics)
 "gwQ" = (
 /obj/machinery/portable_atmospherics/canister/toxins,
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	dir = 1;
@@ -25088,10 +25051,9 @@
 /obj/structure/chair/office{
 	dir = 8
 	},
-/obj/machinery/requests_console{
+/obj/machinery/requests_console/directional/south{
 	department = "Janitorial";
-	departmentType = 1;
-	pixel_y = -29
+	departmentType = 1
 	},
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
@@ -25779,9 +25741,7 @@
 	dir = 1;
 	name = "Command blue corner"
 	},
-/obj/item/radio/intercom{
-	pixel_y = 20
-	},
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/iron/dark,
 /area/command/teleporter)
 "gRd" = (
@@ -26326,12 +26286,11 @@
 	req_access_txt = "2";
 	specialfunctions = 4
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/north{
 	id = "permalockdown";
 	name = "Perma Lockdown";
 	normaldoorcontrol = 1;
 	pixel_x = -6;
-	pixel_y = 35;
 	req_access_txt = "2";
 	specialfunctions = 4
 	},
@@ -31486,10 +31445,7 @@
 /obj/item/stack/sheet/plasteel{
 	amount = 10
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
 	name = "Command blue corner"
@@ -31650,11 +31606,10 @@
 /obj/structure/chair/office{
 	dir = 4
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/north{
 	id = "briggate";
 	name = "Desk Shutters";
-	pixel_x = 6;
-	pixel_y = 34
+	pixel_x = 6
 	},
 /obj/machinery/button/flasher{
 	id = "brigentry";
@@ -31840,10 +31795,7 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/service)
 "ivi" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/machinery/light/directional/south,
 /obj/machinery/computer/cargo/request{
 	dir = 1
@@ -32216,10 +32168,7 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat/atmos)
 "iAp" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
@@ -32326,10 +32275,9 @@
 	desc = "Looks like a knock-off chem-master. Perhaps useful for separating liquids when mixing drinks precisely. Also dispenses condiments.";
 	name = "HoochMaster Deluxe"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "bar";
 	name = "Bar Shutters";
-	pixel_x = -27;
 	req_access_txt = "25"
 	},
 /turf/open/floor/carpet/black,
@@ -34432,10 +34380,7 @@
 /area/maintenance/starboard)
 "jgB" = (
 /mob/living/simple_animal/bot/cleanbot,
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/cable,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat/atmos)
@@ -35855,10 +35800,7 @@
 	pixel_x = -25;
 	pixel_y = 1
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/cable,
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -36185,10 +36127,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
@@ -38047,17 +37986,15 @@
 /area/command/heads_quarters/captain)
 "jZU" = (
 /obj/structure/table,
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "commissaryshutter2";
 	name = "Commissary Shutter Control";
-	pixel_x = 26;
 	pixel_y = -6
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/north{
 	id = "commissaryshutter1";
 	name = "Commissary Shutter Control";
-	pixel_x = -6;
-	pixel_y = 26
+	pixel_x = -6
 	},
 /obj/item/paper_bin{
 	pixel_x = -2;
@@ -38615,7 +38552,7 @@
 /obj/machinery/newscaster/security_unit/directional/west{
 	pixel_y = -28
 	},
-/obj/machinery/requests_console{
+/obj/machinery/requests_console/directional/east{
 	department = "AI";
 	departmentType = 5;
 	pixel_x = 28;
@@ -39046,10 +38983,9 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "surgery3";
 	name = "surgery privacy shutter control";
-	pixel_x = -35;
 	pixel_y = -5;
 	req_access_txt = "31"
 	},
@@ -39947,9 +39883,8 @@
 	frequency = 1359;
 	name = "Security Emergency Contact"
 	},
-/obj/machinery/airalarm{
-	pixel_x = 30;
-	pixel_y = 30
+/obj/machinery/airalarm/directional/north{
+	pixel_x = 32
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
@@ -40042,10 +39977,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
@@ -40137,19 +40069,17 @@
 /obj/machinery/computer/cargo{
 	dir = 4
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "QMLoaddoor2";
 	layer = 4;
 	name = "Loading Doors";
-	pixel_x = -27;
 	pixel_y = 5;
 	req_access_txt = "31"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "QMLoaddoor";
 	layer = 4;
 	name = "Loading Doors";
-	pixel_x = -27;
 	pixel_y = -5;
 	req_access_txt = "31"
 	},
@@ -41988,10 +41918,7 @@
 /area/service/bar)
 "lbf" = (
 /obj/structure/table/glass,
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 8;
@@ -45781,10 +45708,7 @@
 /turf/open/floor/iron/dark,
 /area/security/brig)
 "lXq" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron/cafeteria,
 /area/maintenance/department/medical)
 "lXz" = (
@@ -45984,17 +45908,15 @@
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "Cell1lock";
 	name = "Cell Lockdown";
-	pixel_x = -23;
 	pixel_y = 7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "Cell2lock";
 	name = "Cell Lockdown";
-	pixel_x = -23;
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
@@ -46184,17 +46106,15 @@
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "Cell6lock";
 	name = "Cell Lockdown";
-	pixel_x = 23;
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "Cell5lock";
 	name = "Cell Lockdown";
-	pixel_x = 23;
 	pixel_y = 7;
 	req_access_txt = "1"
 	},
@@ -48217,10 +48137,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
@@ -48268,10 +48185,6 @@
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "mEj" = (
-/obj/machinery/airalarm{
-	dir = 4;
-	pixel_x = -32
-	},
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
@@ -48286,6 +48199,9 @@
 /obj/machinery/recharger,
 /obj/machinery/light_switch/directional/west{
 	pixel_x = -23
+	},
+/obj/machinery/airalarm/directional/west{
+	pixel_x = -32
 	},
 /turf/open/floor/iron,
 /area/security/checkpoint/supply)
@@ -49887,10 +49803,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 8;
@@ -53896,10 +53809,9 @@
 	dir = 4;
 	name = "Security red corner"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "armory";
 	name = "Armory Shutters";
-	pixel_x = 26;
 	pixel_y = 26;
 	req_access_txt = "3"
 	},
@@ -54023,10 +53935,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "ocC" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -55170,10 +55079,7 @@
 /area/command/heads_quarters/hop)
 "orY" = (
 /obj/effect/spawner/randomcolavend,
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 9
 	},
@@ -55360,9 +55266,8 @@
 /turf/open/floor/iron,
 /area/maintenance/fore)
 "ovN" = (
-/obj/machinery/requests_console{
-	department = "Law office";
-	pixel_y = -32
+/obj/machinery/requests_console/directional/south{
+	department = "Law office"
 	},
 /turf/open/floor/carpet/purple,
 /area/service/lawoffice)
@@ -56247,10 +56152,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
@@ -58147,10 +58049,9 @@
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "Cell7lock";
 	name = "Cell Lockdown";
-	pixel_x = 23;
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
@@ -60391,10 +60292,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
@@ -66736,12 +66634,11 @@
 	dir = 1;
 	name = "Medical blue corner"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	desc = "A remote control switch for the medbay foyer.";
 	id = "MedbayFoyer";
 	name = "Medbay Doors Control";
 	normaldoorcontrol = 1;
-	pixel_x = 26;
 	pixel_y = -3;
 	req_access_txt = "5"
 	},
@@ -66950,10 +66847,9 @@
 	name = "Security red corner"
 	},
 /obj/effect/landmark/start/warden,
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "Secure Gate";
 	name = "Cell Shutters";
-	pixel_x = 27;
 	pixel_y = -2
 	},
 /obj/structure/chair/office,
@@ -67835,13 +67731,11 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/structure/extinguisher_cabinet{
-	pixel_x = 32
-	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/neutral,
+/obj/structure/extinguisher_cabinet/directional/east,
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/entry)
 "rIH" = (
@@ -69035,10 +68929,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/tile/neutral{
 	color = "#000000";
@@ -69121,10 +69012,9 @@
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "Cell4lock";
 	name = "Cell Lockdown";
-	pixel_x = -23;
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
@@ -69189,10 +69079,9 @@
 	pixel_y = -5;
 	req_access_txt = "31"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "surgery3";
 	name = "surgery privacy shutter control";
-	pixel_x = 35;
 	pixel_y = -5;
 	req_access_txt = "31"
 	},
@@ -69264,10 +69153,9 @@
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "Cell8lock";
 	name = "Cell Lockdown";
-	pixel_x = 23;
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
@@ -69342,10 +69230,9 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "commissaryshutter";
 	name = "Commissary Shutter Control";
-	pixel_x = -26;
 	pixel_y = 6
 	},
 /obj/structure/rack,
@@ -70926,10 +70813,7 @@
 /turf/open/floor/iron/dark,
 /area/medical/morgue)
 "swD" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	dir = 1;
@@ -71370,10 +71254,7 @@
 /area/hallway/primary/port)
 "sCZ" = (
 /obj/structure/table,
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	name = "Engineering yellow corner"
@@ -74170,10 +74051,9 @@
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/west{
 	id = "Cell3lock";
 	name = "Cell Lockdown";
-	pixel_x = -23;
 	pixel_y = -7;
 	req_access_txt = "1"
 	},
@@ -74556,10 +74436,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 6
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
@@ -76318,14 +76195,12 @@
 	dir = 8;
 	name = "Security red corner"
 	},
-/obj/item/radio/intercom{
-	pixel_y = -30
-	},
 /obj/structure/table,
 /obj/item/radio/off,
 /obj/item/screwdriver{
 	pixel_y = 10
 	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/iron,
 /area/security/checkpoint/engineering)
 "tWX" = (
@@ -76592,10 +76467,9 @@
 	pixel_y = 10
 	},
 /obj/item/toy/figure/qm,
-/obj/machinery/requests_console{
+/obj/machinery/requests_console/directional/south{
 	department = "Quartermaster's Desk";
-	name = "Quartermaster RC";
-	pixel_y = -32
+	name = "Quartermaster RC"
 	},
 /turf/open/floor/iron,
 /area/cargo/qm)
@@ -78289,11 +78163,10 @@
 	dir = 1;
 	name = "Security red corner"
 	},
-/obj/machinery/requests_console{
+/obj/machinery/requests_console/directional/north{
 	department = "Research security post";
 	departmentType = 5;
-	name = "Security Post RC";
-	pixel_y = 28
+	name = "Security Post RC"
 	},
 /turf/open/floor/iron,
 /area/security/checkpoint/science)
@@ -78695,10 +78568,7 @@
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "uBv" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/machinery/disposal/bin,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
@@ -80740,10 +80610,7 @@
 /obj/structure/window{
 	dir = 4
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/structure/table,
 /obj/item/camera,
 /obj/item/camera_film,
@@ -82642,10 +82509,7 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "vFD" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/hallway/primary/central)
@@ -83041,10 +82905,7 @@
 /turf/open/floor/plating,
 /area/cargo/sorting)
 "vLh" = (
-/obj/structure/extinguisher_cabinet{
-	dir = 1;
-	pixel_y = 27
-	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
@@ -83556,10 +83417,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet{
-	dir = 4;
-	pixel_y = -27
-	},
+/obj/structure/extinguisher_cabinet/directional/south,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -85309,12 +85167,11 @@
 	dir = 4;
 	name = "Science purple corner"
 	},
-/obj/machinery/requests_console{
+/obj/machinery/requests_console/directional/east{
 	announcementConsole = 1;
 	department = "Research Director's Desk";
 	departmentType = 5;
 	name = "Research Director's RC";
-	pixel_x = 32;
 	receive_ore_updates = 1
 	},
 /turf/open/floor/iron/white,
@@ -88723,9 +88580,8 @@
 	dir = 4;
 	name = "Command blue corner"
 	},
-/obj/machinery/requests_console{
-	department = "EVA";
-	pixel_x = 32
+/obj/machinery/requests_console/directional/east{
+	department = "EVA"
 	},
 /turf/open/floor/iron,
 /area/ai_monitored/command/storage/eva)
@@ -90853,10 +90709,9 @@
 /area/cargo/office)
 "xLK" = (
 /obj/structure/bookcase,
-/obj/machinery/button/door{
+/obj/machinery/button/door/directional/east{
 	id = "lawyer_shutters";
 	name = "law office shutters control";
-	pixel_x = 26;
 	req_access_txt = "38"
 	},
 /turf/open/floor/wood,
@@ -92684,16 +92539,14 @@
 	name = "Security red corner"
 	},
 /obj/structure/filingcabinet,
-/obj/structure/extinguisher_cabinet{
-	dir = 8;
-	layer = 3.5;
-	pixel_x = -39
-	},
 /obj/item/radio/intercom/directional/west,
 /obj/machinery/camera{
 	c_tag = "Cargo - Security Office";
 	dir = 4;
 	network = list("ss13", "cargo")
+	},
+/obj/structure/extinguisher_cabinet/directional/west{
+	pixel_x = -40
 	},
 /turf/open/floor/iron,
 /area/security/checkpoint/supply)
