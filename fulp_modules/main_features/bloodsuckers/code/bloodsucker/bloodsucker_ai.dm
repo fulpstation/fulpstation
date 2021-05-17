@@ -40,9 +40,7 @@
 	/// Are we on fire? Extinguish ourselves.
 	if(SHOULD_RESIST(living_pawn))
 		/// If we have Gohome ability, let's use it.
-		for(var/datum/action/A in living_pawn.actions)
-			if(istype(A, /datum/action/bloodsucker/gohome))
-				A.Trigger()
+		current_behaviors += GET_AI_BEHAVIOR(/datum/ai_behavior/bloodsucker_check_gohome)
 		/// Let's resist out of our fire, shall we?
 		current_behaviors += GET_AI_BEHAVIOR(/datum/ai_behavior/resist)
 		return
@@ -63,7 +61,7 @@
 /datum/ai_controller/bloodsucker/PerformIdleBehavior(delta_time)
 	var/mob/living/living_pawn = pawn
 
-	if(BB_BLOODSUCKER_TARGET)
+	if(BB_BLOODSUCKER_TARGET != null)
 		return
 
 	if(DT_PROB(HAUNTED_ITEM_TELEPORT_CHANCE, delta_time))
@@ -99,3 +97,14 @@
 		for(var/datum/action/A in living_pawn.actions)
 			if(istype(A, /datum/action/bloodsucker/feed))
 				A.Trigger()
+
+/// Using Vanishing Act if we're resisting and have it
+/datum/ai_behavior/bloodsucker_check_gohome
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM // Allow us to move.
+
+/datum/ai_behavior/bloodsucker_check_gohome/perform(delta_time, datum/ai_controller/controller)
+	. = ..()
+	var/mob/living/living_pawn = controller.pawn
+	for(var/datum/action/A in living_pawn.actions)
+		if(istype(A, /datum/action/bloodsucker/gohome))
+			A.Trigger()

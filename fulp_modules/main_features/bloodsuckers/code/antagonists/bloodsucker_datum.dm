@@ -348,16 +348,20 @@
 	if(bloodsucker_level == 1)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 		var/chosen_clan = pick(
-			CLAN_BRUJAH, // More prone to Frenzy
-			CLAN_NOSFERATU, // Can't use Masquerade
-			CLAN_TREMERE, // Weak to Holy tools (The same way Wizards or Vampires are)
-			CLAN_VENTRUE, // Cant drink blood out of mindless mobs
+			CLAN_BRUJAH,
+			CLAN_NOSFERATU,
+			CLAN_TREMERE,
+			CLAN_VENTRUE,
 			)
 		switch(chosen_clan)
 			if(CLAN_BRUJAH)
 				my_clan = CLAN_BRUJAH
 			if(CLAN_NOSFERATU)
 				my_clan = CLAN_NOSFERATU
+				for(var/datum/action/bloodsucker/power in powers)
+					if(istype(power, /datum/action/bloodsucker/masquerade))
+						powers -= power
+						power.Remove(owner.current)
 			if(CLAN_TREMERE)
 				my_clan = CLAN_TREMERE
 			if(CLAN_VENTRUE)

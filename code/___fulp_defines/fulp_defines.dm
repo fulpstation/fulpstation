@@ -41,10 +41,10 @@
 /// Checks if the given mob is a Bloodsucker
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 /// Clan defines
-#define CLAN_BRUJAH "Brujah Clan"
-#define CLAN_NOSFERATU "Nosferatu Clan"
-#define CLAN_TREMERE "Tremere Clan"
-#define CLAN_VENTRUE "Ventrue Clan"
+#define CLAN_BRUJAH "Brujah Clan" // More prone to Frenzy
+#define CLAN_NOSFERATU "Nosferatu Clan" // Can't use Masquerade
+#define CLAN_TREMERE "Tremere Clan" // Weak to Holy tools (The same way Wizards or Vampires are)
+#define CLAN_VENTRUE "Ventrue Clan" // Cant drink blood out of mindless mobs
 
 /*
  *	Deputy Defines
