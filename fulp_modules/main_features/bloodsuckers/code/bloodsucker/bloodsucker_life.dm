@@ -212,14 +212,12 @@
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 
 	/// Frenzy & Regeneration - The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
-	if(owner.current.blood_volume < 25) // WILLARD TODO: Add CLAN_BRUJAH falling into frenzy faster
-		if(!frenzied)
-			to_chat(owner.current, "<span class='warning'>You allowed your blood to get too low! You enter Frenzy!</span>")
-			owner.current.ghostize(FALSE)
-			new /datum/ai_controller/bloodsucker(owner.current)
-			frenzied = TRUE
+	if(owner.current.blood_volume < 25)
+		StartFrenzy()
+	else if(owner.current.blood_volume < 80 && my_clan == CLAN_BRUJAH)
+		StartFrenzy()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
-		additional_regen  = 0.1
+		additional_regen = 0.1
 	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
 		additional_regen = 0.2
 	else if(owner.current.blood_volume < BLOOD_VOLUME_NORMAL)
@@ -227,12 +225,22 @@
 	else if(owner.current.blood_volume < 700)
 		additional_regen = 0.4
 
-/// Called by Bloodsucker AI's datum, once they've sucked enough blood.
-/datum/antagonist/bloodsucker/proc/EndFrenzy()
-	owner.grab_ghost(force = TRUE)
+/*
+ *	I'd like to one day see this changed to be like Split personality, rather than just ghosting you.
+ */
+
+/datum/antagonist/bloodsucker/proc/StartFrenzy()
+	to_chat(owner.current, "<span class='warning'>You allowed your blood to get too low! You enter Frenzy!</span>")
+	owner.current.ghostize(FALSE)
+	new /datum/ai_controller/bloodsucker(owner.current)
+	while(!QDELETED(owner.current))
+		/// Got enough blood back? Come back to us!
+		if(owner.current.blood_volume >= 100)
+			break
+		sleep(5)
 	QDEL_NULL(owner.current.ai_controller)
+	owner.grab_ghost(force = TRUE)
 	to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
-	frenzied = FALSE
 
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)

@@ -9,6 +9,8 @@
  *	This is nearly-entirely stolen from Monkey AI.
  */
 
+/// AI controller ///
+
 /datum/ai_controller/bloodsucker
 	movement_delay = 0.4 SECONDS
 	blackboard = list(BB_BLOODSUCKER_TARGET = null)
@@ -37,11 +39,11 @@
 
 	/// Are we on fire? Extinguish ourselves.
 	if(SHOULD_RESIST(living_pawn))
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(living_pawn)
 		/// If we have Gohome ability, let's use it.
-		for(var/datum/action/bloodsucker/P in bloodsuckerdatum.powers)
-			if(istype(P, /datum/action/bloodsucker/gohome))
-				P.ActivatePower()
+		for(var/datum/action/A in living_pawn.actions)
+			if(istype(A, /datum/action/bloodsucker/gohome))
+				A.Trigger()
+		/// Let's resist out of our fire, shall we?
 		current_behaviors += GET_AI_BEHAVIOR(/datum/ai_behavior/resist)
 		return
 
@@ -56,6 +58,23 @@
 	if(target)
 		current_movement_target = target
 		current_behaviors += GET_AI_BEHAVIOR(/datum/ai_behavior/bloodsucker_attack_mob)
+
+/// Mindlessly wander/trespass around until you find a target
+/datum/ai_controller/bloodsucker/PerformIdleBehavior(delta_time)
+	var/mob/living/living_pawn = pawn
+
+	if(BB_BLOODSUCKER_TARGET)
+		return
+
+	if(DT_PROB(HAUNTED_ITEM_TELEPORT_CHANCE, delta_time))
+		playsound(pawn.loc, 'sound/magic/summon_karp.ogg', 60, TRUE)
+		do_teleport(pawn, get_turf(pawn), 4, channel = TELEPORT_CHANNEL_MAGIC)
+
+	if(DT_PROB(80, delta_time) && (living_pawn.mobility_flags & MOBILITY_MOVE))
+		var/move_dir = pick(GLOB.alldirs)
+		living_pawn.Move(get_step(living_pawn, move_dir), move_dir)
+
+/// AI Behavior ///
 
 /// Found our target!
 /datum/ai_behavior/bloodsucker_attack_mob
@@ -72,18 +91,11 @@
 /// The attack itself.
 /datum/ai_behavior/bloodsucker_attack_mob/proc/bloodsucker_attack(datum/ai_controller/controller, mob/living/target, delta_time)
 	var/mob/living/living_pawn = controller.pawn
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(living_pawn)
-
-	/// We have enough Blood? Snap out of it!
-	if(living_pawn.blood_volume >= 80)
-		bloodsuckerdatum.EndFrenzy()
 
 	/// Start grabbing them
 	if(living_pawn.pulling != target)
 		target.grabbedby(living_pawn)
 		target.grabbedby(living_pawn, supress_message = TRUE)
-	if(living_pawn.Adjacent(target) && isturf(target.loc))
-		/// Start sucking their blood
-		for(var/datum/action/bloodsucker/feed/a_good_drink in bloodsuckerdatum.powers)
-			if(!bloodsuckerdatum.poweron_feed)
-				a_good_drink.ActivatePower()
+		for(var/datum/action/A in living_pawn.actions)
+			if(istype(A, /datum/action/bloodsucker/feed))
+				A.Trigger()

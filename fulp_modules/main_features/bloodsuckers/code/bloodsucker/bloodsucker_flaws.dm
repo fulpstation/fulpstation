@@ -79,5 +79,3 @@
 			to_chat(owner.current, "<span class='warning'>You have been assigned to the Ventrue clan!</span>")
 	else
 		to_chat(owner.current, "<span class='warning'>You have not been assigned to a Clan!</span>")
-
-	return

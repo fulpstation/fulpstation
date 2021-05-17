@@ -20,7 +20,7 @@
 	var/bloodsucker_reputation
 	/// Clan, used for Sol and Vassals
 	var/datum/team/vampireclan/clan
-	var/my_clan
+	var/my_clan = null // You get assigned a Clan once you Rank up enough
 	var/list/datum/antagonist/vassal/vassals = list() // Vassals under my control. Periodically remove the dead ones.
 	var/datum/mind/creator // Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	/// Powers
@@ -45,7 +45,6 @@
 	var/warn_sun_burn // So we only get the sun burn message once per day.
 	var/passive_blood_drain = -0.1 //The amount of blood we loose each bloodsucker life tick LifeTick()
 	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
-	var/frenzied = FALSE // Are we in a frenzy?
 	var/AmFinalDeath = FALSE // Have we reached final death?
 	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
 		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
@@ -361,13 +360,14 @@
 			)
 		switch(chosen_clan)
 			if(CLAN_BRUJAH)
-				AssignRandomBane(my_clan = CLAN_BRUJAH)
+				my_clan = CLAN_BRUJAH
 			if(CLAN_NOSFERATU)
-				AssignRandomBane(my_clan = CLAN_NOSFERATU)
+				my_clan = CLAN_NOSFERATU
 			if(CLAN_TREMERE)
-				AssignRandomBane(my_clan = CLAN_TREMERE)
+				my_clan = CLAN_TREMERE
 			if(CLAN_VENTRUE)
-				AssignRandomBane(my_clan = CLAN_VENTRUE)
+				my_clan = CLAN_VENTRUE
+		AssignRandomBane(my_clan)
 	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!</span>")
 	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")
 	update_hud(owner.current)

@@ -17,10 +17,10 @@
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 24)
 
+
 /datum/dynamic_ruleset/roundstart/bloodsucker/pre_execute(population)
 	. = ..()
 	var/num_bloodsuckers = get_antag_cap(population) * (scaled_times + 1)
-
 	for(var/i = 1 to num_bloodsuckers)
 		var/mob/picked_candidate = pick_n_take(candidates)
 		assigned += picked_candidate.mind
@@ -30,7 +30,6 @@
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/execute()
-
 	for(var/c in assigned)
 		var/datum/mind/bloodsucker = c
 		var/datum/antagonist/bloodsucker/new_antag = new antag_datum()
