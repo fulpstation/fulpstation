@@ -1,30 +1,31 @@
 /*
  * 		MONSTER HUNTERS:
  * 	Their job is to hunt Monsters.
- * 	They spawn by default 35 minutes into a Bloodsucker round,
- * 	They also randomly spawn in other rounds, as some unique flavor.
+ * 	I didnt know what better way to implement this, so they just cancel out if the antag is missing
  * 	They can also be used as Admin-only antags during rounds such as;
  * 	- Changeling murderboning rounds
  * 	- Lategame Cult round
  * 	- Ect.
  */
 
+
 /// The default, for Bloodsucker rounds.
 /datum/round_event_control/bloodsucker_hunters
 	name = "Spawn Monster Hunter - Bloodsucker"
 	typepath = /datum/round_event/bloodsucker_hunters
-	max_occurrences = 1 // We have to see how Bloodsuckers are in game to decide if having more than 1 is beneficial.
+	max_occurrences = 1
 	weight = 2000
 	min_players = 10
-	earliest_start = 35 MINUTES
+	earliest_start = 30 MINUTES
 	alert_observers = FALSE
-	gamemode_whitelist = list("bloodsucker")
 
 /datum/round_event/bloodsucker_hunters
 	fakeable = FALSE
 
 /datum/round_event/bloodsucker_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+		if(!H.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			break
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
@@ -54,13 +55,22 @@
 	min_players = 10
 	earliest_start = 25 MINUTES
 	alert_observers = FALSE
-	gamemode_whitelist = list("changeling","heresy","cult")
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
 
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+		if(!H.mind.has_antag_datum(/datum/antagonist/changeling))
+			break
+		if(!H.mind.has_antag_datum(/datum/antagonist/heretic))
+			break
+		if(!H.mind.has_antag_datum(/datum/antagonist/cult))
+			break
+		if(!H.mind.has_antag_datum(/datum/antagonist/wizard))
+			break
+		if(!H.mind.has_antag_datum(/datum/antagonist/wizard/apprentice))
+			break
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
