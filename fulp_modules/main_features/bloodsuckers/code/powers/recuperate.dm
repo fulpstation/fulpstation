@@ -29,14 +29,14 @@
 	//DeactivatePower(owner)
 
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
-/*	. = ..() /// Vassals use this, not Bloodsuckers, so we don't want them using these checks.
-	if(!.)
+/*	. = ..()
+	if(!.) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */
 	if(!owner.stat)
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
-	if(user.stat <= DEAD)
+	if(user.stat >= HARD_CRIT)
 		return FALSE
 	return ..()
