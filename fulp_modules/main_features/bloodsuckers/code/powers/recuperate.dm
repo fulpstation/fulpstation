@@ -39,4 +39,4 @@
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
-	return ..() && user.stat <= DEAD && user.blood_volume > 0 && user.getBruteLoss() > 0
+	return ..() && user.stat <= DEAD && user.blood_volume > 0
