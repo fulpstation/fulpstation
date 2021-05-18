@@ -90,15 +90,14 @@
 		var/costMult = 1 // Coffin makes it cheaper
 		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
 		var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && HAS_TRAIT(C, TRAIT_NODEATH)
-		if(amInCoffinWhileTorpor)
+		/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
+		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin)
+		if(amInCoffinWhileTorpor && HAS_TRAIT(C, TRAIT_NODEATH))
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			C.extinguish_mob()
 			C.remove_all_embedded_objects() // Remove Embedded!
 			CheckVampOrgans() // Heart
-			for(var/obj/item/organ/O in C.internal_organs)
-				O.setOrganDamage(0)
 			if(check_limbs(costMult))
 				return TRUE
 		/// Heal if Damaged
