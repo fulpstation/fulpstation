@@ -34,12 +34,9 @@
 	if(!.) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */
 	if(owner.stat >= DEAD)
-		to_chat(owner, "<span class='notice'>You are unable to use Recuperate in your state.</span>")
+		to_chat(owner, "<span class='notice'>You cannot use Recuperate while incapacitated.</span>")
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
-	if(user.stat >= DEAD)
-		to_chat(user, "<span class='notice'>You lost the ability to keep using Recuperate.</span>")
-		return FALSE
-	return ..()
+	return ..() && user.stat <= DEAD && user.blood_volume > 0 && user.getBruteLoss() > 0
