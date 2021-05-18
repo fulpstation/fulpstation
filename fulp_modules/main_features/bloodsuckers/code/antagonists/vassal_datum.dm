@@ -8,8 +8,10 @@
 	antagpanel_category = "Bloodsucker"
 	show_in_roundend = FALSE
 	job_rank = ROLE_BLOODSUCKER
-	var/datum/antagonist/bloodsucker/master // Who made me?
-	var/list/datum/action/powers = list() // Purchased powers
+	/// Who made me?
+	var/datum/antagonist/bloodsucker/master
+	/// Recuperate power
+	var/datum/action/bloodsucker/recuperate/new_Recuperate
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
@@ -26,15 +28,14 @@
 		owner.enslave_mind_to_creator(master.owner.current)
 	// Master Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
-	// Powers
-	var/datum/action/bloodsucker/recuperate/new_Recuperate = new()
-	powers += new_Recuperate
+	/// Give Recuperate
 	new_Recuperate.Grant(owner.current)
 	// Give Vassal Objective
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
 	vassal_objective.generate_objective()
 	objectives += vassal_objective
+
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	update_vassal_icons_added(owner.current, "vassal")
@@ -48,11 +49,8 @@
 			owner.enslaved_to = null
 	// Master Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
-	// Powers
-	while(powers.len)
-		var/datum/action/power = pick(powers)
-		powers -= power
-		power.Remove(owner.current)
+	/// Remove Recuperate
+	new_Recuperate.Remove(owner.current)
 	// Remove Hunter Objectives
 	remove_objective()
 	owner.current.remove_language(/datum/language/vampiric)
@@ -110,9 +108,6 @@
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
 	// DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
 
-/datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
-	vassal.remove_antag_datum(/datum/antagonist/vassal)
-
 /datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype = "vassal")
 	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	hud.join_hud(vassal)
@@ -136,3 +131,7 @@
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
 	for(var/datum/antagonist/vassal/V in vassals)
 		remove_vassal(V.owner)
+
+/// Removing the Vassal antag datum, called by FreeAllVassals
+/datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
+	vassal.remove_antag_datum(/datum/antagonist/vassal)

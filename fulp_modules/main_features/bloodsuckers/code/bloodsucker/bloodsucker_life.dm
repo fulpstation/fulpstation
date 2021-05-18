@@ -265,7 +265,8 @@
 		return
 	/// We are dead now.
 	AmFinalDeath = TRUE
-	if(!iscarbon(owner.current)) //Check for non carbons.
+	/// Check for non carbons.
+	if(!iscarbon(owner.current))
 		owner.current.gib()
 		return
 	playsound(get_turf(owner.current), 'sound/effects/tendril_destroyed.ogg', 60, 1)
@@ -273,15 +274,15 @@
 	owner.current.unequip_everything()
 	var/mob/living/carbon/C = owner.current
 	C.remove_all_embedded_objects()
-	// Free my Vassals!
+	/// Free my Vassals!
 	FreeAllVassals()
-	// Elders get Dusted
+	/// Elders get Dusted
 	if(bloodsucker_level >= 4)
 		owner.current.visible_message("<span class='warning'>[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains.</span>", \
 			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
 			 "<span class='italics'>You hear a dry, crackling sound.</span>")
 		addtimer(CALLBACK(owner.current, /mob/living/proc/dust), 5 SECONDS, TIMER_UNIQUE | TIMER_STOPPABLE)
-	// Fledglings get Gibbed
+	/// Fledglings get Gibbed
 	else
 		owner.current.visible_message("<span class='warning'>[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat.</span>", \
 			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
