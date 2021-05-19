@@ -39,7 +39,7 @@
 /mob/living/Life(delta_time = SSMOBS_DT, times_fired)
 	. = ..()
 	SEND_SIGNAL(src,COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
-	
+
 
 
 /// INTEGRATION: Adding Procs and Datums to existing "classes"

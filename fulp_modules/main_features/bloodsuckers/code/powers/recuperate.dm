@@ -16,9 +16,8 @@
 		C.adjustToxLoss(-2, forced = TRUE)
 		C.adjustStaminaLoss(bloodcost * 1.1)
 		/// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
-		if(!HAS_TRAIT(C, NOBLOOD))
+		if(!(NOBLOOD in C.dna.species.species_traits))
 			C.blood_volume -= bloodcost
-		else
 			C.adjustFireLoss(-0.5)
 		/// Stop Bleeding
 		if(istype(C) && C.is_bleeding())
@@ -36,7 +35,17 @@
 	if(owner.stat >= DEAD)
 		to_chat(owner, "<span class='notice'>You cannot use Recuperate while incapacitated.</span>")
 		return FALSE
+	if(owner.incapacitated())
+		to_chat(owner, "<span class='notice'>You cannot use Recuperate while incapacitated.</span>")
+		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
-	return ..() && user.stat <= DEAD && user.blood_volume > 0 && user.getBruteLoss() > 0 && user.getFireLoss() > 0
+	if(user.stat >= DEAD)
+		to_chat(owner, "<span class='notice'>You are dead.</span>")
+		return FALSE
+	if(user.incapacitated())
+		to_chat(owner, "<span class='notice'>You are too exhausted to keep recuperating...</span>")
+		return FALSE
+	return TRUE
+

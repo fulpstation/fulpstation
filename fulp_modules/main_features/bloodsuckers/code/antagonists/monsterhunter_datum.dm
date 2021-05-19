@@ -113,7 +113,7 @@
 /datum/antagonist/monsterhunter/proc/add_objective(datum/objective/O)
 	objectives += O
 
-/datum/antagonist/monsterhunter/proc/remove_objective(datum/objective/O)
+/datum/antagonist/monsterhunter/proc/remove_objectives(datum/objective/O)
 	objectives -= O
 
 /datum/antagonist/monsterhunter/greet()
