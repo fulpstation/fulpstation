@@ -45,6 +45,8 @@
 #define CLAN_NOSFERATU "Nosferatu Clan" // Can't use Masquerade
 #define CLAN_TREMERE "Tremere Clan" // Weaker to some Holy tools, and burns while in the Chapel (Like the Vampire race)
 #define CLAN_VENTRUE "Ventrue Clan" // Cant drink blood out of mindless mobs
+#define CLAN_GIOVANNI "Giovanni Clan" // Feeding on living beings is difficult (Violent message and more damage on interrupt, target screams on silent grab)
+#define CLAN_MALKAVIAN "Malkavian Clan" // Constant hallucinations. Maybe obtain sleepless dreamer/bluespace prophet if clans ever get bonuses?
 
 /*
  *	Deputy Defines

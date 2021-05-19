@@ -68,23 +68,31 @@
  */
 
 /datum/antagonist/bloodsucker/proc/AssignRandomBane(my_clan)
-	if(my_clan)
-		if(my_clan == CLAN_BRUJAH)
+	if(!my_clan)
+		to_chat(owner, "<span class='warning'>You have not been assigned to a Clan.</span>")
+		return
+	switch(my_clan)
+		if(CLAN_BRUJAH)
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Brujah Clan!<br> \
 				* As part of the Bujah Clan, you are more prone to falling into Frenzy, don't let your blood drop too low!</span>")
-		if(my_clan == CLAN_NOSFERATU)
+		if(CLAN_NOSFERATU)
 			for(var/datum/action/bloodsucker/power in powers)
 				if(istype(power, /datum/action/bloodsucker/masquerade))
 					powers -= power
 					power.Remove(owner.current)
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
 				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade ability.</span>")
-		if(my_clan == CLAN_TREMERE)
+		if(CLAN_TREMERE)
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Tremere Clan!<br> \
 				* As part of the Tremere Clan, you are weak to Anti-magic, and will catch fire if you enter the Chapel!</span>")
-		if(my_clan == CLAN_VENTRUE)
+		if(CLAN_VENTRUE)
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
 				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.</span>")
-	else
-		to_chat(owner, "<span class='warning'>You have not been assigned to a Clan.</span>")
-
+		if(CLAN_GIOVANNI)
+			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Giovanni Clan!<br> \
+				* As part of the Giovanni Clan, your bites are unforgiving and loud, causing screams even in an attempt to be silent and violently spraying blood if interrupted.</span>")
+		if(CLAN_MALKAVIAN)
+			var/mob/living/carbon/human/bloodsucker = owner.current
+			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Malkavian Clan!<br> \
+				* As part of the Malkavian Clan, you see the world in a different way, suffering hallucinations.</span>")
