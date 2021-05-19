@@ -6,12 +6,13 @@
 	name = "Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
-	show_in_roundend = FALSE
 	job_rank = ROLE_BLOODSUCKER
+	show_in_roundend = FALSE
+	show_name_in_check_antagonists = TRUE
 	/// Who made me?
 	var/datum/antagonist/bloodsucker/master
-	/// Recuperate power
-	var/datum/action/bloodsucker/recuperate/new_Recuperate
+	/// Purchased powers, which in reality is just Recuperate.
+	var/list/datum/action/powers = list()
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
@@ -29,6 +30,8 @@
 	// Master Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Give Recuperate
+	var/datum/action/bloodsucker/recuperate/new_Recuperate = new()
+	powers += new_Recuperate
 	new_Recuperate.Grant(owner.current)
 	// Give Vassal Objective
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
@@ -50,7 +53,10 @@
 	// Master Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Remove Recuperate
-	new_Recuperate.Remove(owner.current)
+	while(powers.len)
+		var/datum/action/bloodsucker/power = pick(powers)
+		powers -= power
+		power.Remove(owner.current)
 	// Remove Hunter Objectives
 	remove_objective()
 	owner.current.remove_language(/datum/language/vampiric)
@@ -135,3 +141,9 @@
 /// Removing the Vassal antag datum, called by FreeAllVassals
 /datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
 	vassal.remove_antag_datum(/datum/antagonist/vassal)
+
+/// Traitor Panel debugging
+/datum/mind/proc/remove_vassal()
+	var/datum/antagonist/vassal/C = has_antag_datum(/datum/antagonist/vassal)
+	if(C)
+		remove_antag_datum(/datum/antagonist/vassal)

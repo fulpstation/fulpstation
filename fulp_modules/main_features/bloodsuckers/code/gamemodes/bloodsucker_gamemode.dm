@@ -215,7 +215,7 @@
 
 /datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
 	C.silent = 0
-	return make_vassal(C,owner)
+	return make_vassal(C, owner)
 
 /datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator)
 	if(!can_make_vassal(target, creator))
