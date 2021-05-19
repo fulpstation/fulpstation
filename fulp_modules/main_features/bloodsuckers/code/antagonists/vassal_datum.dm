@@ -112,7 +112,12 @@
 	scan_target = antag_datum?.master?.owner?.current
 
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
-	// DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
+	return // DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
+
+/datum/status_effect/agent_pinpointer/vassal_edition/Destroy()
+	if(scan_target)
+		to_chat(owner, "<span class='notice'>You've lost your master's trail.</span>")
+	..()
 
 /datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype = "vassal")
 	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
