@@ -1,7 +1,7 @@
 /*
  * 		MONSTER HUNTERS:
  * 	Their job is to hunt Monsters.
- * 	I didnt know what better way to implement this, so they just cancel out if the antag is missing
+ * 	I didnt know what better way to implement this, so they just cancel out if there's no monsters.
  * 	They can also be used as Admin-only antags during rounds such as;
  * 	- Changeling murderboning rounds
  * 	- Lategame Cult round
@@ -27,6 +27,7 @@
 		/// Make sure there are monsters on the station, otherwise don't spawn them in.
 		if(!H.mind.has_antag_datum(/datum/antagonist/bloodsucker) || !H.mind.has_antag_datum(/datum/antagonist/changeling) || !H.mind.has_antag_datum(/datum/antagonist/heretic) || !H.mind.has_antag_datum(/datum/antagonist/cult) || !H.mind.has_antag_datum(/datum/antagonist/wizard))
 			break
+		/// From obsessed
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
