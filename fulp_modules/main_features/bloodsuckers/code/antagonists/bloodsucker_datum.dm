@@ -11,11 +11,11 @@
 	var/obj/effect/sunlight/bloodsucker_sunlight
 	/// List of all Antagonists that can't be vassalized.
 	var/list/vassal_banned_antags = list(
-		/datum/antagonist/changeling, /datum/antagonist/abductor, /datum/antagonist/rev/head,
-		/datum/antagonist/nukeop, /datum/antagonist/obsessed, /datum/antagonist/cult,
-		/datum/antagonist/heretic, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
-		/datum/antagonist/xeno, /datum/antagonist/ninja, /datum/antagonist/monsterhunter,
-		/datum/antagonist/ert/safety_moth, /datum/antagonist/monkey, /datum/antagonist/wishgranter,
+		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,
+		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
+		/datum/antagonist/nukeop, /datum/antagonist/nukeop/clownop, /datum/antagonist/cult,
+		/datum/antagonist/xeno, /datum/antagonist/ninja, /datum/antagonist/obsessed,
+		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
 		)
 	/// Used for assigning your name
 	var/bloodsucker_name
