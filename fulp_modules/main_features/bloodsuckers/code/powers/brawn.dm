@@ -67,7 +67,7 @@
 		var/obj/structure/closet/C = user.loc
 		if(!istype(C))
 			return FALSE
-		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes the locker open from within!</span>")
+		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes it open from within!</span>")
 		to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
 		addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
