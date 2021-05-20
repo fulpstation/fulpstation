@@ -90,8 +90,8 @@
 
 /// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
-//	if(!master)
-//		return FALSE
+	if(!master)
+		return FALSE
 	return ..()
 
 /// Used for Admin removing Vassals.
