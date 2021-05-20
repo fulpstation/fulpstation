@@ -83,7 +83,7 @@
 /datum/antagonist/bloodsucker/on_gain()
 	forge_bloodsucker_objectives()
 	/// Start Sunlight if first Bloodsucker
-	check_start_sunlight()
+	clan.check_start_sunlight()
 	AssignStarterPowersAndStats()
 	/// Name & Title
 	SelectFirstName()
@@ -96,7 +96,7 @@
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	/// End Sunlight? (if last Vamp)
-//	check_cancel_sunlight()
+	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
 	update_bloodsucker_icons_removed(owner.current)
 	if(!LAZYLEN(owner.antag_datums))
@@ -119,9 +119,8 @@
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
 /datum/antagonist/bloodsucker/farewell()
-	owner.current.visible_message("[owner.current]'s skin flushes with color, their eyes growing glossier. They look...alive.",\
-			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
-	/// Refill with Blood
+	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
+	/// Refill with Blood so they don't instantly die.
 	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_SAFE)
 
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
@@ -130,6 +129,12 @@
 /datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
 	objectives -= O
 
+/// Called when using admin tools to give antag status
+/datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
+	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
+	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
+	new_owner.add_antag_datum(src)
+
 
 /*
  *	# Vampire Clan
@@ -137,6 +142,7 @@
  *	This is used for dealing with the Vampire Clan. While there are comments and ideas on how this should be used,
  *	due to gamemode's removal, this was recycled to be used for Sol.
  *	We're using some workarounds, using Wizard's roundend report, to get it to show the individual Bloodsucker, rather than the team.
+ *	None of this should actually be appearing in game, and all Bloodsuckers should be using their own individual roundend report.
  */
 
 /datum/team/vampireclan
@@ -167,29 +173,6 @@
 			report += H.roundend_report()
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
-
-/*
- *	# Assigning Sol
- *
- *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
- */
-
-/// Start Sun, called when someone is assigned Bloodsucker.
-/datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(clan.members.len <= 1)
-			message_admins("New Sol has been created due to Bloodsucker assignement.")
-			bloodsucker_sunlight = new()
-
-/// End Sun (If you're the last) - This currently doesnt work...
-/datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
-	/// No Sunlight
-	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(!clan.members.len)
-			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-			qdel(bloodsucker_sunlight)
-			bloodsucker_sunlight = null
-
 
 /// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
@@ -223,12 +206,32 @@
 
 	return report
 
-// ADMIN TOOLS //
-/// Called when using admin tools to give antag status
-/datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
-	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
-	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
-	new_owner.add_antag_datum(src)
+/*
+ *	# Assigning Sol
+ *
+ *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
+ *	This is tied to the Vampire Clan team's datum, originally was tied to game_mode, which TG has since deleted, forcing us to use something else.
+ */
+
+/// Start Sun, called when someone is assigned Bloodsucker.
+/datum/team/vampireclan/proc/check_start_sunlight()
+	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams) // Don't think this is actually needed but I'm too scared to remove it.
+		if(members.len <= 1)
+			for(var/datum/mind/M in mind.members)
+				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+				message_admins("New Sol has been created due to Bloodsucker assignement.")
+				bloodsuckerdatum.bloodsucker_sunlight = new()
+
+/// End Sol, if you're the last Bloodsucker
+/datum/team/vampireclan/proc/check_cancel_sunlight()
+	/// This searches for the minds of the people in the team, requires to actually search for bloodsucker_sunlight.
+	for(var/datum/mind/M in members)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+		/// No members left? Delete it.
+		if(!members.len)
+			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
+			qdel(bloodsuckerdatum.bloodsucker_sunlight)
+//			bloodsuckerdatum.bloodsucker_sunlight = null
 
 /// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
