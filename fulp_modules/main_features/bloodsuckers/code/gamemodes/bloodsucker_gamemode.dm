@@ -16,26 +16,32 @@
 	scaling_cost = 9
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 24)
+	var/datum/team/vampireclan/bloodsucker_clan
+
+/datum/dynamic_ruleset/roundstart/bloodsucker/ready(population, forced = FALSE)
+	required_candidates = get_antag_cap(population)
+	. = ..()
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/pre_execute(population)
 	. = ..()
 	var/num_bloodsuckers = get_antag_cap(population) * (scaled_times + 1)
-
 	for(var/i = 1 to num_bloodsuckers)
-		var/mob/picked_candidate = pick_n_take(candidates)
-		assigned += picked_candidate.mind
-		picked_candidate.mind.restricted_roles = restricted_roles
-		picked_candidate.mind.special_role = ROLE_BLOODSUCKER
-		GLOB.pre_setup_antags += picked_candidate.mind
+		if(candidates.len <= 0)
+			break
+		var/mob/M = pick_n_take(candidates)
+		assigned += M.mind
+		M.mind.special_role = ROLE_BLOODSUCKER
+		M.mind.restricted_roles = restricted_roles
+		GLOB.pre_setup_antags += M.mind
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/execute()
-
-	for(var/c in assigned)
-		var/datum/mind/bloodsucker = c
+	bloodsucker_clan = new
+	for(var/datum/mind/M in assigned)
 		var/datum/antagonist/bloodsucker/new_antag = new antag_datum()
-		bloodsucker.add_antag_datum(new_antag)
-		GLOB.pre_setup_antags -= bloodsucker
+		new_antag.clan = bloodsucker_clan
+		M.add_antag_datum(new_antag)
+		GLOB.pre_setup_antags -= M
 	return TRUE
 
 //////////////////////////////////////////////

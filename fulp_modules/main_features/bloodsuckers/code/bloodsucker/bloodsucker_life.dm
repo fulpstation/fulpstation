@@ -125,16 +125,24 @@
 
 /datum/antagonist/bloodsucker/proc/CureDisabilities()
 	var/mob/living/carbon/C = owner.current
+	/// Remove their husk first, so everything else can work
+	C.cure_husk()
+	/// Now repair their organs - Note that Bloodsuckers currently (if intended) don't regenerate lost organs.
+		// Giving them passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at you!
 	for(var/O in C.internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	C.cure_husk()
 	/// Torpor revives the dead once complete.
 	if(C.stat == DEAD)
 		C.revive(full_heal = FALSE, admin_revive = FALSE)
+	/// Clear all Wounds
 	for(var/i in C.all_wounds)
 		var/datum/wound/iter_wound = i
 		iter_wound.remove_wound()
+	/// Remove all diseases - In case you got one while on Masquerade, or disease has Inorganic Biology.
+	for(var/thing in C.diseases)
+		var/datum/disease/D = thing
+		D.cure()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -172,10 +180,10 @@
 		for(var/datum/action/bloodsucker/masquerade/P in powers)
 			P.Deactivate()
 	*/
-	/// Temporary Death? Convert to Torpor
+	/// Temporary Death? Convert to Torpor.
 	if(owner.current.stat == DEAD)
 		var/mob/living/carbon/human/H = owner.current
-		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry about shit being broken.
+		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry to me about shit being broken.
 		if(poweron_masquerade)
 			to_chat(H, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
 		else if(!HAS_TRAIT(H, TRAIT_NODEATH))

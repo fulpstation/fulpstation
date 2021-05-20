@@ -13,8 +13,7 @@
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,
 		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
-		/datum/antagonist/nukeop, /datum/antagonist/nukeop/clownop, /datum/antagonist/cult,
-		/datum/antagonist/xeno, /datum/antagonist/ninja, /datum/antagonist/obsessed,
+		/datum/antagonist/cult, /datum/antagonist/xeno, /datum/antagonist/obsessed,
 		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
 		)
 	/// Used for assigning your name
@@ -41,15 +40,31 @@
 	var/obj/structure/closet/crate/coffin
 	/// Used in Bloodsucker huds
 	var/valuecolor
-	// TRACKING
-	var/foodInGut // How much food to throw up later. You shouldn't have eaten that.
-	var/warn_sun_locker // So we only get the locker burn message once per day.
-	var/warn_sun_burn // So we only get the sun burn message once per day.
-	var/passive_blood_drain = -0.1 //The amount of blood we loose each bloodsucker life tick LifeTick()
-	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
-	var/AmFinalDeath = FALSE // Have we reached final death?
-	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
-		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
+	/*
+	 *	# TRACKING
+	 *
+	 *	These are all used for Tracking Bloodsucker stats and such.
+	 */
+	/// How much food to throw up later. You shouldn't have eaten that.
+	var/foodInGut
+	/// So we only get the locker burn message once per day.
+	var/warn_sun_locker
+	/// So we only get the sun burn message once per day.
+	var/warn_sun_burn
+	/// The amount of blood we loose each bloodsucker life tick LifeTick()
+	var/passive_blood_drain = -0.1
+	/// Var to see if you are healing for preventing spam of the chat message inform the user of such
+	var/notice_healing
+	/// Have we reached final death?
+	var/AmFinalDeath = FALSE
+	/// Default traits ALL Bloodsuckers get.
+	var/static/list/defaultTraits = list(
+		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\
+		TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, \
+		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT,\
+		TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED,\
+		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED,\
+		)
 /*
  *	TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced.
  *	Remember that Fortitude gives NODISMEMBER when balancing Traits!
@@ -152,6 +167,29 @@
 			report += H.roundend_report()
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
+
+/*
+ *	# Assigning Sol
+ *
+ *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
+ */
+
+/// Start Sun, called when someone is assigned Bloodsucker.
+/datum/antagonist/bloodsucker/proc/check_start_sunlight()
+	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
+		if(clan.members.len <= 1)
+			message_admins("New Sol has been created due to Bloodsucker assignement.")
+			bloodsucker_sunlight = new()
+
+/// End Sun (If you're the last) - This currently doesnt work...
+/datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
+	/// No Sunlight
+	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
+		if(!clan.members.len)
+			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
+			qdel(bloodsucker_sunlight)
+			bloodsucker_sunlight = null
+
 
 /// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
@@ -795,25 +833,3 @@
 /atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"
-
-/*
- *	# Assigning Sol
- *
- *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
- */
-
-/// Start Sun, called when someone is assigned Bloodsucker.
-/datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(clan.members.len <= 1)
-			message_admins("New Sol has been created due to Bloodsucker assignement.")
-			bloodsucker_sunlight = new()
-
-/// End Sun (If you're the last) - This currently doesnt work...
-/datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
-	/// No Sunlight
-	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(!clan.members.len)
-			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-			qdel(bloodsucker_sunlight)
-			bloodsucker_sunlight = null
