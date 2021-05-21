@@ -237,11 +237,11 @@
 				to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
 			/// Otherwise, check for Sol, or if injured enough to enter Torpor.
-			if(bloodsucker_sunlight.amDay || total_damage >= 10)
+			if(clan.bloodsucker_sunlight.amDay || total_damage >= 10)
 				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 				Torpor_Begin()
 	/// Used for ending Torpor.
-	if(!bloodsucker_sunlight.amDay && total_damage <= 0)
+	if(!clan.bloodsucker_sunlight.amDay && total_damage <= 0)
 		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			Torpor_End()
 			to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")

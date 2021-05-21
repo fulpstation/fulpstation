@@ -7,8 +7,6 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
-	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
-	var/obj/effect/sunlight/bloodsucker_sunlight
 	/// List of all Antagonists that can't be vassalized.
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,
@@ -148,6 +146,9 @@
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
 
+	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
+	var/obj/effect/sunlight/bloodsucker_sunlight
+
 /datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
 	if(!team)
 		for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
@@ -213,25 +214,20 @@
  *	This is tied to the Vampire Clan team's datum, originally was tied to game_mode, which TG has since deleted, forcing us to use something else.
  */
 
-/// Start Sun, called when someone is assigned Bloodsucker.
+/// Start Sun, called when someone is assigned Bloodsucker
 /datum/team/vampireclan/proc/check_start_sunlight()
-	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams) // Don't think this is actually needed but I'm too scared to remove it.
-		if(members.len <= 1)
-			for(var/datum/mind/M in mind.members)
-				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
-				message_admins("New Sol has been created due to Bloodsucker assignement.")
-				bloodsuckerdatum.bloodsucker_sunlight = new()
+	if(members.len <= 1)
+		for(var/datum/mind/M in members)
+			message_admins("New Sol has been created due to Bloodsucker assignement.")
+			bloodsucker_sunlight = new()
 
 /// End Sol, if you're the last Bloodsucker
 /datum/team/vampireclan/proc/check_cancel_sunlight()
-	/// This searches for the minds of the people in the team, requires to actually search for bloodsucker_sunlight.
-	for(var/datum/mind/M in members)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
-		/// No members left? Delete it.
-		if(!members.len)
-			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-			qdel(bloodsuckerdatum.bloodsucker_sunlight)
-//			bloodsuckerdatum.bloodsucker_sunlight = null
+	/// No minds in the clan? Delete Sol.
+	if(members.len <= 1)
+		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
+		qdel(bloodsucker_sunlight)
+//		bloodsucker_sunlight = null // Note: Not sure what this is meant to do, but everything works without it.
 
 /// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
