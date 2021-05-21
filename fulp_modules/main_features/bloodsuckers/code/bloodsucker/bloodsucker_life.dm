@@ -128,8 +128,7 @@
 	/// Remove their husk first, so everything else can work
 	C.cure_husk()
 	/// Now repair their organs - Note that Bloodsuckers currently (if intended) don't regenerate lost organs.
-		// Giving them passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at you!
-	for(var/O in C.internal_organs)
+	for(var/O in C.internal_organs) // NOTE: Giving them passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at you!
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
 	/// Torpor revives the dead once complete.
@@ -143,6 +142,16 @@
 	for(var/thing in C.diseases)
 		var/datum/disease/D = thing
 		D.cure()
+	/// Remove Body Eggs & Zombie tumors - From panacea.dm
+	var/list/bad_organs = list(
+		C.getorgan(/obj/item/organ/body_egg),
+		C.getorgan(/obj/item/organ/zombie_infection))
+	for(var/tumors in bad_organs)
+		var/obj/item/organ/yucky_organs = tumors
+		if(!istype(yucky_organs))
+			continue
+		yucky_organs.Remove(C)
+		yucky_organs.forceMove(get_turf(C))
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
