@@ -350,7 +350,7 @@
 	bloodsucker_level_unspent--
 
 	/// Ranked up enough? Give them their True name and let them join a Clan.
-	if(bloodsucker_level == 1)
+	if(bloodsucker_level == 3)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 		AssignClanAndBane()
 
