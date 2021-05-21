@@ -40,13 +40,20 @@
 #define BLOODSUCKER_LEVEL_TO_EMBRACE 3
 /// Checks if the given mob is a Bloodsucker
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
-/// Clan defines
-#define CLAN_BRUJAH "Brujah Clan" // More prone to Frenzy
-#define CLAN_NOSFERATU "Nosferatu Clan" // Can't use Masquerade
-#define CLAN_TREMERE "Tremere Clan" // Weaker to some Holy tools, and burns while in the Chapel (Like the Vampire race)
-#define CLAN_VENTRUE "Ventrue Clan" // Cant drink blood out of mindless mobs
-#define CLAN_GIOVANNI "Giovanni Clan" // Feeding on living beings is difficult (Violent message and more damage on interrupt, target screams on silent grab)
-#define CLAN_MALKAVIAN "Malkavian Clan" // Constant hallucinations. Maybe obtain sleepless dreamer/bluespace prophet if clans ever get bonuses?
+/* Clan defines
+*/
+/// More prone to Frenzy
+#define CLAN_BRUJAH "Brujah Clan"
+/// Can't use Masquerade
+#define CLAN_NOSFERATU "Nosferatu Clan"
+/// Weaker to some Holy tools, and burns while in the Chapel (Like the Vampire race)
+#define CLAN_TREMERE "Tremere Clan"
+/// Cant drink blood out of mindless mobs
+#define CLAN_VENTRUE "Ventrue Clan"
+/// Feeding on living beings is difficult (Violent message and more damage on interrupt, target screams on silent grab)
+#define CLAN_GIOVANNI "Giovanni Clan"
+/// Constant hallucinations. Maybe obtain sleepless dreamer/bluespace prophet if clans ever get bonuses?
+#define CLAN_MALKAVIAN "Malkavian Clan"
 
 /*
  *	Deputy Defines
@@ -56,7 +63,7 @@
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
 #define TRAIT_SUPPLYDEPUTY "supplydeputy"
 #define TRAIT_SERVICEDEPUTY "servicedeputy"
-///Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
+/// Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
 #define SEC_DEPT_SERVICE "Service"
 
 /*
