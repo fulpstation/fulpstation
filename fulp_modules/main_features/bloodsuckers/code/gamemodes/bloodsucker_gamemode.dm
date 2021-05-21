@@ -199,19 +199,19 @@
 		return FALSE
 	return TRUE
 
-/datum/antagonist/bloodsucker/proc/AmValidAntag(datum/mind/M)
-	// No List?
-	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
-		return FALSE
-	// Am I NOT an invalid Antag? NOTE: We already excluded non-antags above. Don't worry about the "No List?" check in AmInvalidIntag()
-	return !AmInvalidAntag(M)
+/datum/antagonist/bloodsucker/proc/AmValidAntag(mob/M)
+	/// Check if they are an antag, if so, check if they're Invalid.
+	if(M.mind?.special_role || !isnull(M.mind?.antag_datums))
+		return !AmInvalidAntag(M)
+	/// Otherwise, just cancel out.
+	return FALSE
 
-/datum/antagonist/bloodsucker/proc/AmInvalidAntag(datum/mind/M)
-	// No List?
-	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
+/datum/antagonist/bloodsucker/proc/AmInvalidAntag(mob/M)
+	/// Not an antag?
+	if(!M.mind?.special_role || isnull(M.mind?.antag_datums))
 		return FALSE
 	/// Checks if the person is an antag banned from being vassalized, stored in bloodsucker's datum.
-	for(var/datum/antagonist/antag_datum in M.antag_datums)
+	for(var/datum/antagonist/antag_datum in M.mind.antag_datums)
 		if(antag_datum.type in vassal_banned_antags)
 			//message_admins("DEBUG VASSAL: Found Invalid: [antag_datum] // [antag_datum.type]")
 			return TRUE

@@ -8,7 +8,7 @@
 	cooldown = 100
 
 /datum/action/bloodsucker/recuperate/ActivatePower()
-	var/mob/living/carbon/human/C = owner
+	var/mob/living/carbon/C = owner
 	var/datum/antagonist/vassal/vassaldatum = owner.mind.has_antag_datum(/datum/antagonist/vassal)
 
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
@@ -21,9 +21,7 @@
 			C.blood_volume -= bloodcost
 			C.adjustFireLoss(-0.5)
 		/// Take bloodcost from their Master.
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = vassaldatum.master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum)
-			var/mob/living/carbon/human/H = bloodsuckerdatum.owner
+			var/mob/living/carbon/H = vassaldatum.master
 			H.blood_volume -= bloodcost
 		/// Stop Bleeding
 		if(istype(C) && C.is_bleeding())
