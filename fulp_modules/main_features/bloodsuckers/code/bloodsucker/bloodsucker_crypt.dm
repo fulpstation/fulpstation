@@ -108,10 +108,10 @@
 		return
 	if(IS_BLOODSUCKER(user))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
-		. += {"<span class='cult'>You need to first secure the vassal rack by clicking on it while it is in your lair.</span>"}
+		. += {"<span class='cult'>Clicking on the rack with an empty hand while it is in your lair will permanently secure it in place.</span>"}
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
 		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
-		. += {"<span class='cult'>To convert the victim, simply click on the vassal rack itself. Sharp weapons work faster than other tools.</span>"}
+		. += {"<span class='cult'>To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.</span>"}
 	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into their minions.</span>"
 		. += "<span class='notice'>Aid your master in bringing their victims here and keeping them secure.</span>"
