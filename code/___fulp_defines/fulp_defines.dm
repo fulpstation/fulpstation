@@ -21,9 +21,9 @@
  *	Martial art Defines
  */
 /// Used in hunterfu.dm
-#define MARTIALART_HUNTERFU "hunter-fu"
+#define MARTIALART_HUNTERFU "hunterfu"
 /// Used in deputy_block.dm
-#define MARTIALART_DEPUTYBLOCK "deputy block"
+#define MARTIALART_DEPUTYBLOCK "deputyblock"
 
 /*
  *	Bloodsucker Defines
@@ -36,8 +36,6 @@
 #define TRAIT_COLDBLOODED "coldblooded"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
-/// Unused define, kept here in case Swain wants to use it.
-#define BLOODSUCKER_LEVEL_TO_EMBRACE 3
 /// Checks if the given mob is a Bloodsucker
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 /* Clan defines
