@@ -122,30 +122,31 @@
 		. += {"<span class='cult'>Their rituals take time, allowing us to disrupt it.</span>"}
 
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
+	/// Default checks
 	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
 		return
-	if(!anchored && IS_BLOODSUCKER(user))
-		to_chat(user, "<span class='danger'>Until this rack is secured in place, it cannot serve its purpose.</span>")
-		return
+	/// Not anchored?
+	if(!anchored)
+		/// Let the Bloodsucker know the problem.
+		if(IS_BLOODSUCKER(user))
+			to_chat(user, "<span class='danger'>Until this rack is secured in place, it cannot serve its purpose. (Click with an empty hand)</span>")
+			return
+		/// Not a Bloodsucker? Not our problem.
+		else
+			to_chat(user, "<span class='danger'>You dont fully understand how this works, and you're too scared to move it around.</span>")
+			return
+	/// Don't buckle Silicon to it please.
 	if(issilicon(O))
 		to_chat(user, "<span class='danger'>You realize that Silicon cannot be vassalized, therefore it is useless to buckle them.</span>")
 		return
-	// PULL TARGET: Remember if I was pullin this guy, so we can restore this
-	var/waspulling = (O == owner.pulling)
-	var/wasgrabstate = owner.grab_state
-	// 		* MOVE! *
-	O.forceMove(drop_location())
-	// PULL TARGET: Restore?
-	if(waspulling)
-		owner.start_pulling(O, wasgrabstate, TRUE)
-		// NOTE: in lunge.dm, we use [target.grabbedby(owner)], which simulates doing a grab action. We don't want that though...we're cutting directly back to where we were in a grab.
+	/// Start buckling!
 	useLock = TRUE
 	if(do_mob(user, O, 5 SECONDS))
 		attach_victim(O,user)
 	useLock = FALSE
 
 /// Attempt Release (Owner vs Non Owner)
-/obj/structure/bloodsucker/vassalrack/AltClick(mob/user)
+/obj/structure/bloodsucker/vassalrack/AltClick(mob/user) // WILLARDTODO: Replace this with RightClickOn once we get it via TGU (And change the description!) // WILLARDTODO: Re-do the entire fucking persuasion rack god I hate it
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
 		return
 	var/mob/living/carbon/C = pick(buckled_mobs)
