@@ -316,14 +316,13 @@
 		torture_dmg_brute += I.force / 4
 		//torture_dmg_burn += I.
 		if(I.sharpness == SHARP_EDGED)
-			torture_time -= 1
-		else if(I.sharpness == SHARP_POINTY)
 			torture_time -= 2
-		if(istype(I, /obj/item/weldingtool))
-			var/obj/item/weldingtool/welder = I
-			welder.welding = TRUE
-			torture_time -= 5
-			torture_dmg_burn += 5
+		else if(I.sharpness == SHARP_POINTY)
+			torture_time -= 3
+		if(I.tool_behaviour == TOOL_WELDER)
+			if(I.use_tool(src, user, 0, volume = 5))
+				torture_time -= 6
+				torture_dmg_burn += 5
 		I.play_tool_sound(target)
 	torture_time = max(50, torture_time * 10) // Minimum 5 seconds.
 	// Now run process.
@@ -335,8 +334,7 @@
 		I.play_tool_sound(target)
 	target.visible_message("<span class='danger'>[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!</span>", \
 						   "<span class='userdanger'>[user] performs a ritual, spilling some blood from your [target_string], shaking you up!</span>")
-	if(!target.is_muzzled())
-		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
+	INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 	target.Jitter(5)
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (BP ? BP.body_zone : null)) // take_overall_damage(6,0)
 	return TRUE
