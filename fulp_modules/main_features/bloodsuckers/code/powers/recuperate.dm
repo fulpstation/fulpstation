@@ -18,12 +18,12 @@
 		C.adjustStaminaLoss(bloodcost * 1.1)
 		/// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
 		if(!(NOBLOOD in C.dna.species.species_traits))
-			var/datum/antagonist/bloodsucker/bloodsuckerdatum = vassaldatum.master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
-			if(bloodsuckerdatum)
-				C.blood_volume -= bloodcost
-				C.adjustFireLoss(-0.5)
-			/// Take blood from their Master, too.
-			var/mob/living/carbon/human/H = vassaldatum.master.owner
+			C.blood_volume -= bloodcost
+			C.adjustFireLoss(-0.5)
+		/// Take bloodcost from their Master.
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = vassaldatum.master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum)
+			var/mob/living/carbon/human/H = bloodsuckerdatum.owner
 			H.blood_volume -= bloodcost
 		/// Stop Bleeding
 		if(istype(C) && C.is_bleeding())

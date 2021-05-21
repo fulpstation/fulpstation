@@ -119,7 +119,7 @@
 /datum/antagonist/bloodsucker/farewell()
 	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
 	/// Refill with Blood so they don't instantly die.
-	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_SAFE)
+	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
 
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
 	objectives += O

@@ -80,9 +80,9 @@
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/vassal/farewell()
-	owner.current.visible_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm, \
-			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self.",\
-			"<span class='userdanger'><FONT size = 3>With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will.</FONT></span>")
+	owner.current.visible_message("<span class='deconversion_message'>[owner.current] eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm,\
+			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self.</span>", null, null, null, owner.current)
+	to_chat(owner, "<span class ='deconversion_message bold'>With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will.</span>")
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	/// Message told to your (former) Master.
 	if(master && master.owner)
