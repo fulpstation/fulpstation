@@ -14,19 +14,31 @@
 		/datum/antagonist/fugitive, /datum/antagonist/fugitive_hunter, /datum/antagonist/separatist, /datum/antagonist/gang, /datum/antagonist/survivalist, /datum/antagonist/rev,
 		/datum/antagonist/pirate, /datum/antagonist/ert, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker,
 		)
+
 	/// Used for assigning your name
 	var/bloodsucker_name
 	var/bloodsucker_title
 	var/bloodsucker_reputation
-	/// Clan, used for Sol and Vassals
+
+	/*
+	 *	# Clan stuff
+	 *
+	 *	Used for tracking Vampireclan, which tracks Sol
+	 *	Also used to track your vassals, your creator, and what clan you're in.
+	 */
 	var/datum/team/vampireclan/clan
-	var/my_clan = null // You get assigned a Clan once you Rank up enough
-	var/list/datum/antagonist/vassal/vassals = list() // Vassals under my control. Periodically remove the dead ones.
-	var/datum/mind/creator // Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
+	/// You get assigned a Clan once you Rank up enough
+	var/my_clan = null
+	/// Vassals under my control. Periodically remove the dead ones.
+	var/list/datum/antagonist/vassal/vassals = list()
+	/// Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
+	var/datum/mind/creator
+
 	/// Powers
 	var/list/datum/action/powers = list()
 	var/poweron_feed = FALSE
 	var/poweron_masquerade = FALSE
+
 	/// Stats that change throughout the round and used for Ranking up.
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
@@ -34,11 +46,14 @@
 	var/bloodsucker_regen_rate = 0.3
 	var/feed_amount = 15
 	var/max_blood_volume = 600
+
 	/// Used for Bloodsucker Objectives
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
+
 	/// Used in Bloodsucker huds
 	var/valuecolor
+	
 	// TRACKING
 	var/foodInGut // How much food to throw up later. You shouldn't have eaten that.
 	var/warn_sun_locker // So we only get the locker burn message once per day.
