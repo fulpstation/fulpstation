@@ -298,64 +298,63 @@
 
 	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
 		return
-	//TODO: Make this into a radial, or perhaps a tgui next UI
-		// Purchase Power Prompt
+	/// Purchase Power Prompt
 	var/list/options = list()
 	for(var/pickedpower in typesof(/datum/action/bloodsucker))
 		var/datum/action/bloodsucker/power = pickedpower
-		// If I don't own it, and I'm allowed to buy it.
+		/// Check If I don't own it & I'm allowed to buy it.
 		if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
 			options[initial(power.name)] = power // TESTING: After working with TGUI, it seems you can use initial() to view the variables inside a path?
-	options["\[ Not Now \]"] = null
-	// Abort?
+
+	/// No powers to purchase? Abort.
 	if(options.len >= 1)
-		var/choice = input(owner.current, "You have the opportunity to grow more ancient. Select a power to advance your Rank.", "Your Blood Thickens...") in options
-		// Cheat-Safety: Can't keep opening/closing coffin to spam levels
-		if(bloodsucker_level_unspent <= 0) // Already spent all your points, and tried opening/closing your coffin, pal.
+		/// Give them the UI to purchase a power.
+		var/choice = tgui_input_list(owner.current, "You have the opportunity to grow more ancient. Select a power to advance your Rank.", "Your Blood Thickens...", options)
+		/// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
+		if(bloodsucker_level_unspent <= 0)
+			/// Already spent all your points, and tried opening/closing your coffin, pal.
 			return
+		/// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
 		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			to_chat(owner.current, "<span class='warning'>Return to your coffin to advance your Rank.</span>")
 			return
-		if(!choice || !options[choice] || (locate(options[choice]) in powers)) // ADDED: Check to see if you already have this power, due to window stacking.
+		/// Did you choose a power? Do you already have it? - Added due to window stacking.
+		if(!choice || !options[choice] || (locate(options[choice]) in powers))
 			to_chat(owner.current, "<span class='notice'>You prevent your blood from thickening just yet, but you may try again later.</span>")
 			return
-		// Buy New Powers
+		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
 		BuyPower(new P)
 		to_chat(owner.current, "<span class='notice'>You have learned how to use [initial(P.name)]!</span>")
+	/// No more powers available to purchase? Start levelling up anyways.
 	else
 		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
-	/////////
-	/// Advance Powers (including new)
+
+	/// Advance Powers - Includes the one you just purchased.
 	LevelUpPowers()
-	////////
-	/// Advance Stats
+	/// Bloodsucker-only Stat upgrades
+	bloodsucker_regen_rate += 0.05
+	feed_amount += 2
+	max_blood_volume += 100
+	/// Misc. Stats Upgrades
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
 		S.punchdamagelow += 0.5
-		S.punchdamagehigh += 0.5 // NOTE: This affects the hitting power of Brawn.
-	/// More Health
+		/// This affects the hitting power of Brawn.
+		S.punchdamagehigh += 0.5
 	owner.current.setMaxHealth(owner.current.maxHealth + 10)
-	/// You're still levelling up, spend your Rank.
+
+	/// We're almost done - Spend your Rank now.
 	bloodsucker_level++
 	bloodsucker_level_unspent--
-	/// Vamp Stats
-	bloodsucker_regen_rate += 0.05 // Points of brute healed (starts at 0.3)
-	feed_amount += 2 // Increase how quickly I munch down vics (15)
-	max_blood_volume += 100 // Increase my max blood (600)
-	/// Assign True Reputation
-	if(bloodsucker_level == 3)
+
+	/// Ranked up enough? Give them their True name and let them join a Clan.
+	if(bloodsucker_level == 1)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
-		my_clan = pick(
-			CLAN_BRUJAH,
-			CLAN_NOSFERATU,
-			CLAN_TREMERE,
-			CLAN_VENTRUE,
-			CLAN_GIOVANNI,
-			CLAN_MALKAVIAN,
-			)
-		AssignRandomBane(my_clan)
+		AssignClanAndBane()
+
+	/// Done! Let them know & Update their HUD.
 	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!</span>")
 	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")
 	update_hud(owner.current)
