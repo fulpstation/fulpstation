@@ -186,8 +186,13 @@
 							"<span class='danger'>You attempt to release yourself from the rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
 		else
 			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
-		if(!do_mob(user, M, 45 SECONDS))
-			return
+		if(IS_MONSTERHUNTER(user))
+			/// Monster hunters are used to this sort of stuff.
+			if(!do_mob(user, M, 10 SECONDS))
+				return
+		else
+			if(!do_mob(user, M, 25 SECONDS))
+				return
 	..()
 	unbuckle_mob(M)
 
@@ -243,9 +248,9 @@
 	torture_victim(user, C)
 
 /*
- * 	// Step One:	Tick Down Conversion from 3 to 0
- *	// Step Two:	Break mindshielding/antag (on approve)
- *	// Step Three:	Blood Ritual
+ *	Step One: Tick Down Conversion from 3 to 0
+ *	Step Two: Break mindshielding/antag (on approve)
+ *	Step Three: Blood Ritual
  */
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
@@ -258,7 +263,9 @@
 		if(!do_torture(user,target))
 			to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		else
-			convert_progress-- // Ouch. Stop. Don't.
+			/// Prevent them from unbuckling themselves as long as we're torturing.
+			target.Paralyze(1 SECONDS)
+			convert_progress--
 			// All done!
 			if(convert_progress <= 0)
 				if(RequireDisloyalty(user,target))
