@@ -155,7 +155,7 @@
 	scan_target = antag_datum?.master?.owner?.current
 
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
-	return // DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
+	// DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
 
 /datum/status_effect/agent_pinpointer/vassal_edition/Destroy()
 	if(scan_target)
