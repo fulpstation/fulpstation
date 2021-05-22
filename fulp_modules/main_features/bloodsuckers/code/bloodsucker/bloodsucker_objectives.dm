@@ -302,11 +302,12 @@
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/survive/check_completion()
-	// Must have a body.
+	/// Must have a body.
 	if(!owner.current || !isliving(owner.current))
 		return FALSE
-	// Dead, without a head or heart? Cya
-	return owner.current.stat != DEAD
+	/// Did I reach Final Death?
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	return !AmFinalDeath
 
 //////////////////////////////////////////////////////////////////////////////////////
 
