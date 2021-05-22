@@ -38,7 +38,7 @@
 					target.visible_message("<span class='warning'>[target] seems to resist the implant!</span>", "<span class='warning'>You feel something interfering with your mental conditioning, but you resist it!</span>")
 				removed(target, 1)
 				qdel(src)
-				return TRUE //the implant is still used
+				return TRUE // Fulpstation Bloodsuckers edit ENDS
 		if(target.mind.has_antag_datum(/datum/antagonist/rev/head)|| target.mind.unconvertable)
 			if(!silent)
 				target.visible_message("<span class='warning'>[target] seems to resist the implant!</span>", "<span class='warning'>You feel something interfering with your mental conditioning, but you resist it!</span>")
