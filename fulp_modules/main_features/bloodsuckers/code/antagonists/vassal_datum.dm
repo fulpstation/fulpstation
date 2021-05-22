@@ -15,6 +15,8 @@
 	var/list/datum/action/powers = list()
 	/// Am I protected from getting my antag removed if I get Mindshielded?
 	var/protected_from_mindshielding = FALSE
+	/// Tremere Vassals only - Have I been mutated?
+	var/mutilated = FALSE
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
@@ -28,11 +30,14 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
-			// Special Check: Tremere Bloodsucker's Vassals get Brawn.
+			// Special Check: Ventrue Bloodsucker's Vassals get Brawn.
 			if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 				var/datum/action/bloodsucker/targeted/brawn/vassal/vassal_brawn = new()
 				powers += vassal_brawn
 				vassal_brawn.Grant(owner.current)
+				protected_from_mindshielding = TRUE
+			// Special Check: Tremere Bloodsucker's Vassals are magically immune to Mindshielding.
+			if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
 				protected_from_mindshielding = TRUE
 		owner.enslave_mind_to_creator(master.owner.current)
 	/// Give Vassal Pinpointer

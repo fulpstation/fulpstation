@@ -68,7 +68,6 @@
  */
 
 
-
 /datum/antagonist/bloodsucker/proc/AssignClanAndBane()
 	var/static/list/clans = list(
 		CLAN_BRUJAH,
@@ -113,7 +112,8 @@
 		if(CLAN_TREMERE)
 			my_clan = CLAN_TREMERE
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Tremere Clan!<br> \
-				* As part of the Tremere Clan, you are weak to Anti-magic, and will catch fire if you enter the Chapel!</span>")
+				* As part of the Tremere Clan, you are weak to Anti-magic, and will catch fire if you enter the Chapel.<br> \
+				* Additionally, you magically protect your Vassals from being disconnected with you via Mindshielding, and can mutilate them by putting them on a persuasion rack.</span>")
 			return
 		if(CLAN_VENTRUE) // WILLARDTODO: Make a Ventrue-unique objective to drink X amount of Blood?
 			my_clan = CLAN_VENTRUE
@@ -129,6 +129,7 @@
 			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			return
+
 		else
 			to_chat(owner, "<span class='warning'>You have wilingfully decided to stay ignorant.</span>")
 			return

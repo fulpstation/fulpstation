@@ -240,10 +240,12 @@
 	// Bloodsucker Owner! Let the boy go.
 	if(C.mind)
 		var/datum/antagonist/vassal/V = C.mind.has_antag_datum(/datum/antagonist/vassal)
-		if(istype(V) && V.master == B || C.stat >= DEAD)
-			unbuckle_mob(C)
-			useLock = FALSE // Failsafe
-			return
+		/// Tremere Bloodsuckers can do more with their Vassals, don't let them unbuckle here.
+		if(!B.my_clan == CLAN_TREMERE)
+			if(istype(V) && V.master == B || C.stat >= DEAD)
+				unbuckle_mob(C)
+				useLock = FALSE // Failsafe
+				return
 	// Just torture the boy
 	torture_victim(user, C)
 
@@ -257,6 +259,15 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && bloodsuckerdatum.vassals.len >= 3)
 		to_chat(user, "<span class='notice'>Your Clan is preventing you from owning more Vassals!</span>")
+		return
+	if(bloodsuckerdatum.my_clan == CLAN_TREMERE && IS_VASSAL(target))
+		var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+		/// Limit it to only 1 time per Vassal.
+		if(vassaldatum.mutilated)
+			to_chat(user, "<span class='notice'>You've already mutated [target] beyond repair!</span>")
+			return
+		/// We're messing with an already existing Vassal? Let's do that instead.
+		tremere_mutilate_vassal(user, target)
 		return
 	// Prep...
 	useLock = TRUE
@@ -407,6 +418,66 @@
 		for(var/obj/item/implant/I in target.implants)
 			if(I.type == /obj/item/implant/mindshield)
 				I.removed(target,silent=TRUE)
+
+/obj/structure/bloodsucker/vassalrack/proc/tremere_mutilate_vassal(mob/living/user, mob/living/target)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	var/static/list/races = list(
+		TREMERE_SKELETON,
+		TREMERE_ZOMBIE,
+		TREMERE_HUSK,
+		TREMERE_BAT,
+	)
+	var/list/options = list()
+	options = races
+	var/answer = tgui_input_list(user, "We have the chance to mutate our Vassal, how should we mutilate their corpse?", "What do we do with our Vassal?", options)
+	switch(answer)
+		if(TREMERE_SKELETON)
+			to_chat(user, "<span class='notice'>You have mutated [target] into a Skeleton!</span>")
+			to_chat(target, "<span class='notice'>Your master has mutated you into a Skeleton!</span>")
+			target.set_species(/datum/species/skeleton)
+			vassaldatum.mutilated = TRUE
+			return
+		if(TREMERE_ZOMBIE)
+			to_chat(user, "<span class='notice'>You have mutated [target] into a High-Functioning Zombie!</span>")
+			to_chat(target, "<span class='notice'>Your master has mutated you into a High-Functioning Zombie!</span>")
+			target.set_species(/datum/species/zombie)
+			vassaldatum.mutilated = TRUE
+			return
+		if(TREMERE_HUSK)
+			to_chat(user, "<span class='notice'>You have mutated [target] into a Living Husk!</span>")
+			to_chat(target, "<span class='notice'>Your master has mutated you into a Living Husk!</span>")
+			/// Copying flesh_ghoul() - flesh_lore.dm
+			var/mob/living/carbon/human/H = target
+			var/datum/species/S = H.dna.species // WILLARDTODO: Change this shit.
+			S.punchdamagelow += 3
+			S.punchdamagehigh += 3
+			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+			target.become_husk()
+			vassaldatum.mutilated = TRUE
+			return
+		if(TREMERE_BAT)
+			/// Ooh, lucky!
+			if(prob(40))
+				to_chat(user, "<span class='notice'>You have mutated [target], giving them the ability to turn into a Bat at will!</span>")
+				to_chat(target, "<span class='notice'>Your master has mutated you, giving you the ability to turn into a Bat at will!</span>")
+				var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform
+				batform = new
+				target.AddSpell(batform)
+				vassaldatum.mutilated = TRUE
+				return
+			else
+				to_chat(user, "<span class='notice'>You have mutated [target] into a Bat!</span>")
+				to_chat(target, "<span class='notice'>Your master has mutated you into a Bat!</span>")
+				var/mob/living/simple_animal/hostile/retaliate/bat/battransformation = new /mob/living/simple_animal/hostile/retaliate/bat(src)
+				target.mind.transfer_to(battransformation)
+				qdel(target)
+				vassaldatum.mutilated = TRUE
+				return
+
+		else
+			to_chat(user, "<span class='notice'>You decide to leave your Vassal just the way they are.</span>")
+			return
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

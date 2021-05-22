@@ -408,10 +408,13 @@
 	bloodsucker_level++
 	bloodsucker_level_unspent--
 
-	/// Ranked up enough? Give them their True name and let them join a Clan.
+	/// Ranked up enough? Let them join a Clan.
 	if(bloodsucker_level == 3)
-		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 		AssignClanAndBane()
+
+	/// Alright, enough playing around, get your true Reputation.
+	if(bloodsucker_level == 4)
+		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 
 	/// Done! Let them know & Update their HUD.
 	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!</span>")

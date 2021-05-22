@@ -52,6 +52,12 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 /// Constant hallucinations. Maybe obtain sleepless dreamer/bluespace prophet if clans ever get bonuses?
 #define CLAN_MALKAVIAN "Malkavian Clan"
+/* Used for tremere_mutilate_vassal()
+*/
+#define TREMERE_SKELETON "TremereSkeleton"
+#define TREMERE_ZOMBIE "TremereZombie"
+#define TREMERE_HUSK "TremereHusk"
+#define TREMERE_BAT "TremereBat"
 
 /*
  *	Deputy Defines
