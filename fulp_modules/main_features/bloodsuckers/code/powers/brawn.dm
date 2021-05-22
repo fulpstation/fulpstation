@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/targeted/brawn
 	name = "Brawn"
-	desc = "Snap restraints with ease, or deal terrible damage with your bare hands."
+	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
 	button_icon_state = "power_strength"
 	bloodcost = 8
 	cooldown = 90
@@ -67,7 +67,7 @@
 		var/obj/structure/closet/C = user.loc
 		if(!istype(C))
 			return FALSE
-		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes the locker open from within!</span>")
+		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes it open from within!</span>")
 		to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
 		addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
@@ -149,6 +149,19 @@
 					D.open(2) // open(2) is like a crowbar or jaws of life.
 		else
 			to_chat(user, "<span class='notice'>You are not strong enough to pry this open.</span>")
+			return FALSE
+	// Target Type: Locker
+	else if(istype(target, /obj/structure/closet))
+		if(level_current >= 2)
+			var/obj/structure/closet/C = target
+			to_chat(user, "<span class='notice'>You prepare to break [C] open.</span>")
+			if(do_mob(usr, target, 2.5 SECONDS))
+				C.visible_message("<span class='warning'>[C] breaks open as [user] bashes the locker!</span>")
+				to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
+				addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
+				playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		else
+			to_chat(user, "<span class='notice'>You are not strong enough to break this open.</span>")
 			return FALSE
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)

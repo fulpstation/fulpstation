@@ -94,3 +94,13 @@
 			L.Knockdown(10 + level_current * 5)
 			L.Paralyze(0.1)
 			L.spin(10, 1)
+			if(IS_MONSTERHUNTER(L) && HAS_TRAIT(L, TRAIT_STUNIMMUNE))
+				to_chat(L, "<span class='warning'>The spinning causes you to lose focus on Flow!</span>")
+				for(var/datum/action/bloodsucker/power in L.actions)
+					if(power.active)
+						power.DeactivatePower()
+				L.Jitter(20)
+				L.set_confusion(max(8, L.get_confusion()))
+				L.stuttering = max(8, L.stuttering)
+				L.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity
+

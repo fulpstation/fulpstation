@@ -1,4 +1,3 @@
-/// NOTE: This can be any "closet" that you are resting AND inside of.
 /datum/antagonist/bloodsucker/proc/ClaimCoffin(obj/structure/closet/crate/claimed)
 	// ALREADY CLAIMED
 	if(claimed.resident)
@@ -69,8 +68,8 @@
 
 //////////////////////////////////////////////
 
-/// NOTE: This can be any "closet" that you are resting AND inside of.
-/obj/structure/closet/crate/proc/ClaimCoffin(mob/living/claimant)
+/// NOTE: This can be any Coffin that you are resting AND inside of.
+/obj/structure/closet/crate/coffin/proc/ClaimCoffin(mob/living/claimant)
 	// Bloodsucker Claim
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum)

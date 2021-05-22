@@ -7,12 +7,12 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
-	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
-	var/obj/effect/sunlight/bloodsucker_sunlight
-	/// List of all Antagonists that can be vassalized.
-	var/list/vassal_allowed_antags = list(/datum/antagonist/brother, /datum/antagonist/traitor, /datum/antagonist/traitor/internal_affairs, /datum/antagonist/nukeop/lone,
-		/datum/antagonist/fugitive, /datum/antagonist/fugitive_hunter, /datum/antagonist/separatist, /datum/antagonist/gang, /datum/antagonist/survivalist, /datum/antagonist/rev,
-		/datum/antagonist/pirate, /datum/antagonist/ert, /datum/antagonist/abductee, /datum/antagonist/valentine, /datum/antagonist/heartbreaker,
+	/// List of all Antagonists that can't be vassalized.
+	var/list/vassal_banned_antags = list(
+		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,
+		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
+		/datum/antagonist/cult, /datum/antagonist/xeno, /datum/antagonist/obsessed,
+		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
 		)
 
 	/// Used for assigning your name
@@ -53,16 +53,33 @@
 
 	/// Used in Bloodsucker huds
 	var/valuecolor
-	
-	// TRACKING
-	var/foodInGut // How much food to throw up later. You shouldn't have eaten that.
-	var/warn_sun_locker // So we only get the locker burn message once per day.
-	var/warn_sun_burn // So we only get the sun burn message once per day.
-	var/passive_blood_drain = -0.1 //The amount of blood we loose each bloodsucker life tick LifeTick()
-	var/notice_healing //Var to see if you are healing for preventing spam of the chat message inform the user of such
-	var/AmFinalDeath = FALSE // Have we reached final death?
-	var/static/list/defaultTraits = list(TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_NIGHT_VISION, TRAIT_STABLEHEART, \
-		TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED, TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED)
+
+	/*
+	 *	# TRACKING
+	 *
+	 *	These are all used for Tracking Bloodsucker stats and such.
+	 */
+	/// How much food to throw up later. You shouldn't have eaten that.
+	var/foodInGut
+	/// So we only get the locker burn message once per day.
+	var/warn_sun_locker
+	/// So we only get the sun burn message once per day.
+	var/warn_sun_burn
+	/// The amount of blood we loose each bloodsucker life tick LifeTick()
+	var/passive_blood_drain = -0.1
+	/// Var to see if you are healing for preventing spam of the chat message inform the user of such
+	var/notice_healing
+	/// Have we reached final death?
+	var/AmFinalDeath = FALSE
+	/// Default traits ALL Bloodsuckers get.
+	var/static/list/defaultTraits = list(
+		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\
+		TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, \
+		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT,\
+		TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED,\
+		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED,\
+		)
+
 /*
  *	TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced.
  *	Remember that Fortitude gives NODISMEMBER when balancing Traits!
@@ -81,7 +98,7 @@
 /datum/antagonist/bloodsucker/on_gain()
 	forge_bloodsucker_objectives()
 	/// Start Sunlight if first Bloodsucker
-	check_start_sunlight()
+	clan.check_start_sunlight()
 	AssignStarterPowersAndStats()
 	/// Name & Title
 	SelectFirstName()
@@ -94,7 +111,7 @@
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	/// End Sunlight? (if last Vamp)
-	check_cancel_sunlight()
+	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
 	update_bloodsucker_icons_removed(owner.current)
 	if(!LAZYLEN(owner.antag_datums))
@@ -111,20 +128,27 @@
 	* Bloodsucker Tip: You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!<br> \
 	* Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.<br> \
 	* You can find an in-depth guide at : https://wiki.fulp.gg/en/Bloodsucker </span>")
+	if(bloodsucker_level_unspent >= 2)
+		to_chat(owner, "<span class='announce'>As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank.</span><br>")
 	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
 /datum/antagonist/bloodsucker/farewell()
-	owner.current.visible_message("[owner.current]'s skin flushes with color, their eyes growing glossier. They look...alive.",\
-			"<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
-	/// Refill with Blood
-	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_SAFE)
+	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
+	/// Refill with Blood so they don't instantly die.
+	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
 
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
 	objectives += O
 
 /datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
 	objectives -= O
+
+/// Called when using admin tools to give antag status
+/datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
+	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
+	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
+	new_owner.add_antag_datum(src)
 
 
 /*
@@ -133,10 +157,14 @@
  *	This is used for dealing with the Vampire Clan. While there are comments and ideas on how this should be used,
  *	due to gamemode's removal, this was recycled to be used for Sol.
  *	We're using some workarounds, using Wizard's roundend report, to get it to show the individual Bloodsucker, rather than the team.
+ *	None of this should actually be appearing in game, and all Bloodsuckers should be using their own individual roundend report.
  */
 
 /datum/team/vampireclan
 	name = "Clan" // Teravanni,
+
+	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
+	var/obj/effect/sunlight/bloodsucker_sunlight
 
 /datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
 	if(!team)
@@ -196,12 +224,27 @@
 
 	return report
 
-// ADMIN TOOLS //
-/// Called when using admin tools to give antag status
-/datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
-	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
-	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
-	new_owner.add_antag_datum(src)
+/*
+ *	# Assigning Sol
+ *
+ *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
+ *	This is tied to the Vampire Clan team's datum, originally was tied to game_mode, which TG has since deleted, forcing us to use something else.
+ */
+
+/// Start Sun, called when someone is assigned Bloodsucker
+/datum/team/vampireclan/proc/check_start_sunlight()
+	if(members.len <= 1)
+		for(var/datum/mind/M in members)
+			message_admins("New Sol has been created due to Bloodsucker assignement.")
+			bloodsucker_sunlight = new()
+
+/// End Sol, if you're the last Bloodsucker
+/datum/team/vampireclan/proc/check_cancel_sunlight()
+	/// No minds in the clan? Delete Sol.
+	if(members.len <= 1)
+		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
+		qdel(bloodsucker_sunlight)
+//		bloodsucker_sunlight = null // Note: Not sure what this is meant to do, but everything works without it.
 
 /// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
@@ -814,25 +857,3 @@
 /atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"
-
-/*
- *	# Assigning Sol
- *
- *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
- */
-
-/// Start Sun, called when someone is assigned Bloodsucker.
-/datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(clan.members.len <= 1)
-			message_admins("New Sol has been created due to Bloodsucker assignement.")
-			bloodsucker_sunlight = new()
-
-/// End Sun (If you're the last) - This currently doesnt work...
-/datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
-	/// No Sunlight
-	for(var/datum/team/vampireclan/mind in GLOB.antagonist_teams)
-		if(!clan.members.len)
-			message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-			qdel(bloodsucker_sunlight)
-			bloodsucker_sunlight = null

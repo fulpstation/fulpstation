@@ -55,6 +55,8 @@
 				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 				if(!istype(bloodsuckerdatum))
 					continue
+				/// Sol is over? Give them a unique pass to end Torpor.
+				bloodsuckerdatum.Torpor_End()
 				bloodsuckerdatum.warn_sun_locker = FALSE
 				bloodsuckerdatum.warn_sun_burn = FALSE
 				for(var/datum/action/bloodsucker/P in bloodsuckerdatum.powers)
