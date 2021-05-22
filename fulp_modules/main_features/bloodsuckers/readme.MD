@@ -12,6 +12,7 @@
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 - code/modules/mob/living/carbon/human/examine.dm > Added Bloodsucker examine text
+- code/game/objects/items/implants/implant_mindshield.dm > Mindshielding removes Vassalization
 
 ## TG proc overwrites:
 

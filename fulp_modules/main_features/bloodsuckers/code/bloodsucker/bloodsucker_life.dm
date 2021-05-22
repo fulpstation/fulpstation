@@ -90,15 +90,14 @@
 		var/costMult = 1 // Coffin makes it cheaper
 		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
 		var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin) && HAS_TRAIT(C, TRAIT_NODEATH)
-		if(amInCoffinWhileTorpor)
+		/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
+		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin)
+		if(amInCoffinWhileTorpor && HAS_TRAIT(C, TRAIT_NODEATH))
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			C.extinguish_mob()
 			C.remove_all_embedded_objects() // Remove Embedded!
 			CheckVampOrgans() // Heart
-			for(var/obj/item/organ/O in C.internal_organs)
-				O.setOrganDamage(0)
 			if(check_limbs(costMult))
 				return TRUE
 		/// Heal if Damaged
@@ -126,16 +125,33 @@
 
 /datum/antagonist/bloodsucker/proc/CureDisabilities()
 	var/mob/living/carbon/C = owner.current
-	for(var/O in C.internal_organs)
+	/// Remove their husk first, so everything else can work
+	C.cure_husk()
+	/// Now repair their organs - Note that Bloodsuckers currently (if intended) don't regenerate lost organs.
+	for(var/O in C.internal_organs) // NOTE: Giving them passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at you!
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	C.cure_husk()
 	/// Torpor revives the dead once complete.
 	if(C.stat == DEAD)
 		C.revive(full_heal = FALSE, admin_revive = FALSE)
+	/// Clear all Wounds
 	for(var/i in C.all_wounds)
 		var/datum/wound/iter_wound = i
 		iter_wound.remove_wound()
+	/// Remove all diseases - In case you got one while on Masquerade, or disease has Inorganic Biology.
+	for(var/thing in C.diseases)
+		var/datum/disease/D = thing
+		D.cure()
+	/// Remove Body Eggs & Zombie tumors - From panacea.dm
+	var/list/bad_organs = list(
+		C.getorgan(/obj/item/organ/body_egg),
+		C.getorgan(/obj/item/organ/zombie_infection))
+	for(var/tumors in bad_organs)
+		var/obj/item/organ/yucky_organs = tumors
+		if(!istype(yucky_organs))
+			continue
+		yucky_organs.Remove(C)
+		yucky_organs.forceMove(get_turf(C))
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -173,10 +189,10 @@
 		for(var/datum/action/bloodsucker/masquerade/P in powers)
 			P.Deactivate()
 	*/
-	/// Temporary Death? Convert to Torpor
+	/// Temporary Death? Convert to Torpor.
 	if(owner.current.stat == DEAD)
 		var/mob/living/carbon/human/H = owner.current
-		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry about shit being broken.
+		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry to me about shit being broken.
 		if(poweron_masquerade)
 			to_chat(H, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
 		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
@@ -230,11 +246,11 @@
 				to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
 			/// Otherwise, check for Sol, or if injured enough to enter Torpor.
-			if(bloodsucker_sunlight.amDay || total_damage >= 10)
+			if(clan.bloodsucker_sunlight.amDay || total_damage >= 10)
 				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 				Torpor_Begin()
 	/// Used for ending Torpor.
-	if(!bloodsucker_sunlight.amDay && total_damage <= 0)
+	if(!clan.bloodsucker_sunlight.amDay && total_damage <= 0)
 		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			Torpor_End()
 			to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
@@ -265,7 +281,8 @@
 		return
 	/// We are dead now.
 	AmFinalDeath = TRUE
-	if(!iscarbon(owner.current)) //Check for non carbons.
+	/// Check for non carbons.
+	if(!iscarbon(owner.current))
 		owner.current.gib()
 		return
 	playsound(get_turf(owner.current), 'sound/effects/tendril_destroyed.ogg', 60, 1)
@@ -273,15 +290,15 @@
 	owner.current.unequip_everything()
 	var/mob/living/carbon/C = owner.current
 	C.remove_all_embedded_objects()
-	// Free my Vassals!
+	/// Free my Vassals!
 	FreeAllVassals()
-	// Elders get Dusted
+	/// Elders get Dusted
 	if(bloodsucker_level >= 4)
 		owner.current.visible_message("<span class='warning'>[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains.</span>", \
 			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
 			 "<span class='italics'>You hear a dry, crackling sound.</span>")
 		addtimer(CALLBACK(owner.current, /mob/living/proc/dust), 5 SECONDS, TIMER_UNIQUE | TIMER_STOPPABLE)
-	// Fledglings get Gibbed
+	/// Fledglings get Gibbed
 	else
 		owner.current.visible_message("<span class='warning'>[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat.</span>", \
 			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
