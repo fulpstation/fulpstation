@@ -11,8 +11,10 @@
 	show_name_in_check_antagonists = TRUE
 	/// Who made me?
 	var/datum/antagonist/bloodsucker/master
-	/// Purchased powers, which in reality is just Recuperate.
+	/// Purchased powers, Tremere Bloodsuckers get a weaker version of Brawn
 	var/list/datum/action/powers = list()
+	/// Am I protected from getting my antag removed if I get Mindshielded?
+	var/protected_from_mindshielding = FALSE
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
@@ -26,6 +28,12 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
+			// Special Check: Tremere Bloodsucker's Vassals get Brawn.
+			if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+				var/datum/action/bloodsucker/targeted/brawn/vassal/vassal_brawn = new()
+				powers += vassal_brawn
+				vassal_brawn.Grant(owner.current)
+				protected_from_mindshielding = TRUE
 		owner.enslave_mind_to_creator(master.owner.current)
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)

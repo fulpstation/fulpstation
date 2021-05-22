@@ -79,7 +79,7 @@
 		qdel(S)
 
 /datum/action/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/C)
-	if(C && user.loc == C)
+	if(C)
 		C.welded = FALSE
 		C.locked = FALSE
 		C.broken = TRUE
@@ -183,4 +183,51 @@
 	// Target Type: Door
 	else if(istype(A, /obj/machinery/door))
 		return TRUE
+	// Target Type: Locker
+	else if(istype(A, /obj/structure/closet))
+		return TRUE
 	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
+
+/datum/action/bloodsucker/targeted/brawn/vassal
+	name = "Strength"
+	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
+	button_icon_state = "power_strength"
+	bloodcost = 15
+	cooldown = 120
+	bloodsucker_can_buy = FALSE
+
+/datum/action/bloodsucker/targeted/brawn/vassal/FireTargetedPower(atom/A)
+	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
+	var/mob/living/target = A
+	var/mob/living/user = owner
+	// Target Type: Mob
+	if(isliving(target))
+		var/mob/living/carbon/user_C = user
+		var/hitStrength = user_C.dna.species.punchdamagehigh * 1.25 + 1.5
+		// Knockdown!
+		var/powerlevel = min(5, 1 + level_current)
+		target.visible_message("<span class='danger'>[user] lands a vicious punch, sending [target] away!</span>", \
+						  "<span class='userdanger'>[user] has landed a horrifying punch on you, sending you flying!</span>", null, COMBAT_MESSAGE_RANGE)
+		target.Knockdown(min(5, rand(10, 10 * powerlevel)))
+		// Attack!
+		playsound(get_turf(target), 'sound/weapons/punch4.ogg', 60, 1, -1)
+		user.do_attack_animation(target, ATTACK_EFFECT_SMASH)
+		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(target.zone_selected))
+		target.apply_damage(hitStrength, BRUTE, affecting)
+		// Knockback
+		var/send_dir = get_dir(owner, target)
+		var/turf/T = get_ranged_target_turf(target, send_dir, powerlevel)
+		owner.newtonian_move(send_dir) // Bounce back in 0 G
+		target.throw_at(T, powerlevel, TRUE, owner) //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
+	// Target Type: Cyborg (Also gets the effects above)
+		if(issilicon(target))
+			target.emp_act(EMP_HEAVY)
+	// Target Type: Locker
+	else if(istype(target, /obj/structure/closet))
+		var/obj/structure/closet/C = target
+		to_chat(user, "<span class='notice'>You prepare to break [C] open.</span>")
+		if(do_mob(usr, target, 2.5 SECONDS))
+			C.visible_message("<span class='warning'>[C] breaks open as [user] bashes the locker!</span>")
+			to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
+			addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
+			playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)

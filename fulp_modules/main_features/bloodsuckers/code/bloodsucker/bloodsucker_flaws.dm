@@ -118,7 +118,8 @@
 		if(CLAN_VENTRUE) // WILLARDTODO: Make a Ventrue-unique objective to drink X amount of Blood?
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
-				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.</span>")
+				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.<br> \
+				* Additionally, you have a limit on 3 Vassals. These vassals are stronger than regular ones, being resistant to Mindshielding, and getting Strength.</span>")
 			return
 		if(CLAN_MALKAVIAN)
 			my_clan = CLAN_MALKAVIAN

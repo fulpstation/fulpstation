@@ -68,7 +68,7 @@
 		// Don't vomit food
 		// Don't Heal
 		if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
-			bloodsuckerdatum.AddBloodVolume(-0.1) // Since we're removing all Bloodsucker abilities, they will regenerate blood like a normal human, so pay a lot.
+			bloodsuckerdatum.AddBloodVolume(-0.1)
 		sleep(20)
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)

@@ -255,6 +255,9 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && bloodsuckerdatum.vassals.len >= 3)
+		to_chat(user, "<span class='notice'>Your Clan is preventing you from owning more Vassals!</span>")
+		return
 	// Prep...
 	useLock = TRUE
 	// Conversion Process
