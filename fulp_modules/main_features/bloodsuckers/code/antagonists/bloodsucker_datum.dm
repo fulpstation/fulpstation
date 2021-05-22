@@ -315,7 +315,8 @@
 		// Clown
 		if(istype(H) && owner.assigned_role == "Clown")
 			H.dna.add_mutation(CLOWNMUT)
-	for(var/T in defaultTraits)
+	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source. - This is because of unique cases like Nosferatu getting Ventcrawling.
+	for(var/T in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	/// Update Health
 	owner.current.setMaxHealth(MAX_LIVING_HEALTH)
@@ -401,7 +402,7 @@
 		S.punchdamagelow += 0.5
 		/// This affects the hitting power of Brawn.
 		S.punchdamagehigh += 0.5
-	owner.current.setMaxHealth(owner.current.maxHealth + 10)
+	owner.current.setMaxHealth(owner.current.maxHealth + 5) // Why is this a thing...
 
 	/// We're almost done - Spend your Rank now.
 	bloodsucker_level++

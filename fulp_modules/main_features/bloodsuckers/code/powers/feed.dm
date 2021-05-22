@@ -143,7 +143,6 @@
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/mob/living/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	var/giovanni_member = bloodsuckerdatum.my_clan == CLAN_GIOVANNI
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
 	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_PASSIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
@@ -185,12 +184,7 @@
 			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind && !M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 				was_unnoticed = FALSE
 				break
-		if(giovanni_member)
-			to_chat(target, "<span class='userdanger'>You feel a sharp stinging pain on your wrist!</span>")
-			target.take_overall_damage(5)
-			target.add_confusion(20)
-			INVOKE_ASYNC(target, /mob.proc/emote, "scream")
-		if(was_unnoticed && !giovanni_member)
+		if(was_unnoticed)
 			to_chat(user, "<span class='notice'>You think no one saw you...</span>")
 		else
 			to_chat(user, "<span class='warning'>Someone may have noticed...</span>")
@@ -221,14 +215,12 @@
 			if(!active || !ContinueActive(user, target))
 				break
 
-			if(amSilent && !giovanni_member) // If you're of the Giovanni clan, feeds CAN'T be silent.
+			if(amSilent)
 				to_chat(user, "<span class='warning'>Your feeding has been interrupted...but [target.p_they()] didn't seem to notice you.<span>")
 			else
-				var/user_message = giovanni_member ? "Your teeth are ripped away from [target] violently!" : "Your teeth are ripped from [target]'s throat."
-				var/bystander_message = giovanni_member ? "[user] is ripped violently from [target]!" : "[user] is ripped from [target]'s throat."
 				to_chat(user, "<span class='warning'>Your feeding has been interrupted!</span>")
-				user.visible_message("<span class='danger'>[bystander_message] [target.p_their(TRUE)] blood sprays everywhere!</span>", \
-						 			 "<span class='userdanger'>[user_message] [target.p_their(TRUE)] blood sprays everywhere!</span>")
+				user.visible_message("<span class='danger'>[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>", \
+						 			 "<span class='userdanger'>Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>")
 				REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 				// Deal Damage to Target (should have been more careful!)
 				if(iscarbon(target))
@@ -243,11 +235,7 @@
 				target.add_splatter_floor(get_turf(target))
 				user.add_mob_blood(target) // Put target's blood on us. The donor goes in the ( )
 				target.add_mob_blood(target)
-				// Giovanni Clan and alive target? That's a harsh bite.
-				if(giovanni_member && target.stat < DEAD)
-					target.take_overall_damage(20)
-				else
-					target.take_overall_damage(10)
+				target.take_overall_damage(10)
 				INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 
 			return

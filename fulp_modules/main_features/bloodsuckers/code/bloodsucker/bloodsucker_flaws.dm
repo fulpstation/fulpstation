@@ -75,48 +75,58 @@
 		CLAN_NOSFERATU,
 		CLAN_TREMERE,
 		CLAN_VENTRUE,
-		CLAN_GIOVANNI,
 		CLAN_MALKAVIAN,
 		)
 	var/list/options = list()
 	options = clans
+	var/mob/living/carbon/human/bloodsucker = owner.current
+	/// Beefmen can't be Malkavian, they already get all the side effects from it.
+	if(isbeefman(bloodsucker))
+		options -= CLAN_MALKAVIAN
+	to_chat(owner, "<span class='announce'>You can find details on each Clan on the Bloodsuckers wiki page here:<br> \
+				* https://wiki.fulp.gg/en/Bloodsucker</span>")
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
 	switch(answer)
 		if(CLAN_BRUJAH)
 			my_clan = CLAN_BRUJAH
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Brujah Clan!<br> \
-				* As part of the Bujah Clan, you are more prone to falling into Frenzy, don't let your blood drop too low!</span>")
+				* As part of the Bujah Clan, you are more prone to falling into Frenzy, don't let your blood drop too low!<br> \
+				* Additionally, Brawn and punches deal more damage than other Bloodsuckers. Use this to your advantage!</span>")
+			/// Makes their max punch, and by extension Brawn, stronger - Stolen from SpendRank()
+			var/datum/species/S = bloodsucker.dna.species
+			S.punchdamagehigh += 1.5
 			return
 		if(CLAN_NOSFERATU)
 			my_clan = CLAN_NOSFERATU
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
-				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade ability.</span>")
+				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade ability.<br> \
+				* Additionally, in exchange for having a bad back, you can fit into vents while fully naked using Alt+Click</span>")
 			for(var/datum/action/bloodsucker/power in powers)
 				if(istype(power, /datum/action/bloodsucker/masquerade))
 					powers -= power
 					power.Remove(owner.current)
+			if(!bloodsucker.has_quirk(/datum/quirk/needswayfinder))
+				bloodsucker.add_quirk(/datum/quirk/badback)
+			if(!HAS_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_NUDE))
+				ADD_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
 			return
 		if(CLAN_TREMERE)
 			my_clan = CLAN_TREMERE
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Tremere Clan!<br> \
 				* As part of the Tremere Clan, you are weak to Anti-magic, and will catch fire if you enter the Chapel!</span>")
 			return
-		if(CLAN_VENTRUE)
+		if(CLAN_VENTRUE) // WILLARDTODO: Make a Ventrue-unique objective to drink X amount of Blood?
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
 				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.</span>")
 			return
-		if(CLAN_GIOVANNI)
-			my_clan = CLAN_GIOVANNI
-			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Giovanni Clan!<br> \
-				* As part of the Giovanni Clan, your bites are unforgiving and loud, causing screams even in an attempt to be silent and violently spraying blood if interrupted.</span>")
-			return
 		if(CLAN_MALKAVIAN)
 			my_clan = CLAN_MALKAVIAN
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Malkavian Clan!<br> \
-				* As part of the Malkavian Clan, you see the world in a different way, suffering hallucinations.</span>")
-			var/mob/living/carbon/human/bloodsucker = owner.current
+				* As part of the Malkavian Clan, you see the world in a different way, suffering hallucinations and seeing strange portals everywhere.</span>")
+			// WILLARDTODO: Maybe we should make Masquerade hide brain traumas, unless you're a Beefman.
 			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			return
 		else
 			to_chat(owner, "<span class='warning'>You have wilingfully decided to stay ignorant.</span>")

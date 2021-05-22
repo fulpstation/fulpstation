@@ -50,8 +50,6 @@
 #define CLAN_TREMERE "Tremere Clan"
 /// Cant drink blood out of mindless mobs
 #define CLAN_VENTRUE "Ventrue Clan"
-/// Feeding on living beings is difficult (Violent message and more damage on interrupt, target screams on silent grab)
-#define CLAN_GIOVANNI "Giovanni Clan"
 /// Constant hallucinations. Maybe obtain sleepless dreamer/bluespace prophet if clans ever get bonuses?
 #define CLAN_MALKAVIAN "Malkavian Clan"
 
