@@ -108,6 +108,9 @@
 			CheckVampOrgans() // Heart
 			if(check_limbs(costMult))
 				return TRUE
+		/// In Torpor, but not in a Coffin? Heal faster anyways.
+		else if(HAS_TRAIT(C, TRAIT_NODEATH))
+			mult *= 3
 		/// Heal if Damaged
 		if(bruteheal + fireheal > 0) // Just a check? Don't heal/spend, and return.
 			// We have damage. Let's heal (one time)
