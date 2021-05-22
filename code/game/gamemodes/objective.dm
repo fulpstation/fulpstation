@@ -960,6 +960,11 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/protect,
 		/datum/objective/jailbreak,
 		/datum/objective/jailbreak/detain,
+		/datum/objective/bloodsucker/lair, // Fulpstation Bloodsuckers edit
+		/datum/objective/bloodsucker/protege,
+		/datum/objective/bloodsucker/heartthief,
+		/datum/objective/bloodsucker/vassalhim,
+		/datum/objective/bloodsucker/survive, // Fulpstation edit ends
 		/datum/objective/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,

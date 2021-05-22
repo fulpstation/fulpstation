@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT(credits_music,list(
 // This is for when the server restarts. Not weighted because it wasn't weighted to begin with.
 GLOBAL_LIST_INIT(round_end_tracks,list(
 	'sound/roundend/newroundsexy.ogg', 'sound/roundend/apcdestroyed.ogg',
-	'sound/roundend/bangindonk.ogg', 'sound/roundend/imaghoul.ogg',
+	'sound/roundend/bangindonk.ogg', 'fulp_modules/fulp_configs/sound/imaghoul.ogg',
 	'sound/roundend/petersondisappointed.ogg', 'sound/roundend/its_only_game.ogg',
 	'fulp_modules/fulp_configs/sound/i_got_banned_on_fulpstation.ogg'))
 

@@ -23,6 +23,19 @@
 	bounty_types = CIV_JOB_SEC
 	departments = DEPARTMENT_SECURITY
 
+	mail_goodies = list(
+		/obj/item/reagent_containers/hypospray/medipen = 20,
+		/obj/item/reagent_containers/hypospray/medipen/oxandrolone = 10,
+		/obj/item/reagent_containers/hypospray/medipen/salacid = 10,
+		/obj/item/reagent_containers/hypospray/medipen/salbutamol = 10,
+		/obj/item/reagent_containers/hypospray/medipen/penacid = 10,
+		/obj/item/scalpel/advanced = 6,
+		/obj/item/retractor/advanced = 6,
+		/obj/item/cautery/advanced = 6,
+		/obj/effect/spawner/lootdrop/organ_spawner = 5,
+		/obj/effect/spawner/lootdrop/memeorgans = 1,
+	)
+
 	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 /datum/outfit/job/brigdoc

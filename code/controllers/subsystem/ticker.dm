@@ -154,7 +154,7 @@ SUBSYSTEM_DEF(ticker)
 				start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
-			to_chat(world, "<span class='boldnotice'>Welcome to [station_name()]!</span>")
+			to_chat(world, "<span class='notice'><b>Welcome to [station_name()]!</b></span>")
 			send2chat("New round starting on [SSmapping.config.map_name]!", CONFIG_GET(string/chat_announce_new_game))
 			current_state = GAME_STATE_PREGAME
 			//Everyone who wants to be an observer is now spawned
@@ -501,7 +501,7 @@ SUBSYSTEM_DEF(ticker)
 			m = pick(memetips)
 
 	if(m)
-		to_chat(world, "<span class='purple'><b>Tip of the round: </b>[html_encode(m)]</span>")
+		to_chat(world, "<span class='oocplain'><span class='purple'><b>Tip of the round: </b>[html_encode(m)]</span></span>")
 
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)
@@ -669,11 +669,6 @@ SUBSYSTEM_DEF(ticker)
 		GLOB.master_mode = "extended"
 	log_game("Saved mode is '[GLOB.master_mode]'")
 
-/datum/controller/subsystem/ticker/proc/save_mode(the_mode)
-	var/F = file("data/mode.txt")
-	fdel(F)
-	WRITE_FILE(F, the_mode)
-
 /// Returns if either the master mode or the forced secret ruleset matches the mode name.
 /datum/controller/subsystem/ticker/proc/is_mode(mode_name)
 	return GLOB.master_mode == mode_name || GLOB.secret_force_mode == mode_name
@@ -745,7 +740,7 @@ SUBSYSTEM_DEF(ticker)
 		'sound/roundend/petersondisappointed.ogg',
 		'sound/roundend/bully2.ogg'\
 		)
-	*/ 	// FULP-ONLY ENDS
+		*/ 	// FULP-ONLY ENDS
 	///The reference to the end of round sound that we have chosen.
 	var/sound/end_of_round_sound_ref = sound(round_end_sound)
 	for(var/mob/M in GLOB.player_list)

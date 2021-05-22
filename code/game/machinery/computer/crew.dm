@@ -77,7 +77,7 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 		// FULP EDIT ADDITION - Fulp jobs. Place between this and the END mark.
 		"Brig Physician" = 17,
 		"Deputy" = 17,
-		"Deputy (Cargo)" = 53,
+		"Deputy (Supply)" = 53,
 		"Deputy (Engineering)" = 42,
 		"Deputy (Medical)" = 24,
 		"Deputy (Science)" = 33,

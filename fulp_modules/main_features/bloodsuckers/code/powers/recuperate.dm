@@ -8,23 +8,23 @@
 	cooldown = 100
 
 /datum/action/bloodsucker/recuperate/ActivatePower()
+	var/mob/living/carbon/human/C = owner
+
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
-	var/mob/living/carbon/C = owner
-	var/mob/living/carbon/human/H
-	if(ishuman(owner))
-		H = owner
-	while(ContinueActive(owner) && do_mob(C, C, 2 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM), progress = FALSE))
+	while(ContinueActive(owner))
 		C.adjustBruteLoss(-1.5)
 		C.adjustFireLoss(-0.5)
 		C.adjustToxLoss(-2, forced = TRUE)
 		C.adjustStaminaLoss(bloodcost * 1.1)
-		if(!HAS_TRAIT(C, NOBLOOD)) /// Plasmamen won't lose blood, whatever.
+		/// Plasmamen won't lose blood, they don't have any.
+		if(!HAS_TRAIT(C, NOBLOOD))
 			C.blood_volume -= bloodcost
-		// Stop Bleeding
-		if(istype(H) && H.is_bleeding())
-			for(var/obj/item/bodypart/part in H.bodyparts)
+		/// Stop Bleeding
+		if(istype(C) && C.is_bleeding())
+			for(var/obj/item/bodypart/part in C.bodyparts)
 				part.generic_bleedstacks--
 		C.Jitter(5)
+		sleep(10)
 	// DONE!
 	//DeactivatePower(owner)
 

@@ -133,6 +133,9 @@
 	/// Torpor revives the dead once complete.
 	if(C.stat == DEAD)
 		C.revive(full_heal = FALSE, admin_revive = FALSE)
+	for(var/i in C.all_wounds)
+		var/datum/wound/iter_wound = i
+		iter_wound.remove_wound()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -64,7 +64,7 @@
 
 ///Generic Shoes
 
-/obj/item/clothing/shoes/sneakers/brown/digitigrade
+/obj/item/clothing/shoes/brown/digitigrade
 	name = "digitigrade brown shoes"
 	desc = "A pair of digitigrade brown shoes. Shame they don't come in more colours."
 	flags_inv = FULL_DIGITIGRADE
@@ -95,7 +95,7 @@
 
 ///Mime Shoes
 
-/obj/item/clothing/shoes/sneakers/mime/digitigrade
+/obj/item/clothing/shoes/mime/digitigrade
 	name = "digitigrade mime shoes"
 	desc = "For the quiestest of lizardfolk."
 	flags_inv = FULL_DIGITIGRADE
