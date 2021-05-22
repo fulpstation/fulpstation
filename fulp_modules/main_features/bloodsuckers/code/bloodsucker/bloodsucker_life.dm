@@ -252,13 +252,9 @@
 	else if(owner.current.blood_volume < 700)
 		additional_regen = 0.4
 
-/*
- *	I'd like to one day see this changed to be like Split personality, rather than just ghosting you.
- */
-
 /datum/antagonist/bloodsucker/proc/StartFrenzy()
 	to_chat(owner.current, "<span class='warning'>You allowed your blood to get too low! You enter Frenzy!</span>")
-	owner.current.ghostize(FALSE)
+	owner.current.ghostize(FALSE) // WILLARDTODO: Make this use Split Personality, rather than Ghost the user.
 	new /datum/ai_controller/bloodsucker(owner.current)
 	while(!QDELETED(owner.current))
 		/// Got enough blood back? Come back to us!
