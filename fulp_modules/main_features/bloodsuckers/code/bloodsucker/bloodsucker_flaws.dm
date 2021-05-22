@@ -104,7 +104,7 @@
 				if(istype(power, /datum/action/bloodsucker/masquerade))
 					powers -= power
 					power.Remove(owner.current)
-			if(!bloodsucker.has_quirk(/datum/quirk/needswayfinder))
+			if(!bloodsucker.has_quirk(/datum/quirk/badback))
 				bloodsucker.add_quirk(/datum/quirk/badback)
 			if(!HAS_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_NUDE))
 				ADD_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
