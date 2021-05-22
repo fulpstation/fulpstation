@@ -307,7 +307,7 @@
 		return FALSE
 	/// Did I reach Final Death?
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	return !AmFinalDeath
+	return !bloodsuckerdatum.AmFinalDeath
 
 //////////////////////////////////////////////////////////////////////////////////////
 
