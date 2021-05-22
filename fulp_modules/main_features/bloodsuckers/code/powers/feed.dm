@@ -299,7 +299,7 @@
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
 	if(!target)
 		return FALSE
-	if(!target_grappled || user.pulling == target) // Active, and still antag
+	if(!target_grappled || user.pulling) // Active, and still antag
 		return ..()
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
