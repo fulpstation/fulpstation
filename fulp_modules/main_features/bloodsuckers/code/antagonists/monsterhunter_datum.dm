@@ -7,13 +7,13 @@
 
 /datum/antagonist/monsterhunter
 	name = "Monster Hunter"
-	roundend_category = "hunters"
+	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
 	var/list/datum/action/powers = list()
-	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
+	var/datum/martial_art/hunterfu/my_kungfu = new // Hunters know a lil kung fu.
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
@@ -27,19 +27,20 @@
 	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/monsterhunter/on_gain()
-	// Buffs Monster Hunters
+	/// Buffs Monster Hunters
 	owner.unconvertable = TRUE
 	ADD_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
-	// Give Monster Hunter powers
+	/// Give Monster Hunter powers
 	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
-	if(give_objectives) // Give Hunter Objective
+	if(give_objectives)
+		/// Give Hunter Objective
 		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
 		monsterhunter_objective.owner = owner
 		monsterhunter_objective.generate_objective()
 		objectives += monsterhunter_objective
-		// Give Theft objectives
+		/// Give Theft objectives
 		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
 			var/datum/objective/download/download_objective = new
 			download_objective.owner = owner
@@ -50,17 +51,17 @@
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
-/*		// If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
-		// Give Assassinate objective
+/*		// >> If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
+
+		/// Give Assassinate objective
 		var/sec_members = SSjob.get_all_sec()
 		for(var/datum/mind/M in sec_members)
 			var/datum/objective/assassinate/kill_objective = new()
 			kill_objective.owner = owner
 			kill_objective.find_target()
 			objectives += kill_objective */
+
 	// Give Martial Arts
-	var/datum/martial_art/pick_type = pick(/datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // Hunter-Fu, 20% chance at Wrestling
-	my_kungfu = new pick_type
 	my_kungfu.teach(owner.current, 0)
 	// Teach stake crafting
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
@@ -68,14 +69,14 @@
 	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()
-	// Remove buffs
+	/// Remove buffs
 	owner.unconvertable = FALSE
 	REMOVE_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
-	// Remove Monster Hunter powers
+	/// Remove Monster Hunter powers
 	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)
-	// Remove Martial Arts
+	/// Remove Martial Arts
 	if(my_kungfu)
 		my_kungfu.remove(owner.current)
 	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement, and are no longer a Monster Hunter.</span>")
