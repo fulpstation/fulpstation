@@ -49,18 +49,19 @@
 	if(!hastarget)
 		/// We're looking for the closest Human here.
 		for(var/mob/living/carbon/human/victims in oview(7, pawn))
-			/// We dont want dead blood
-			if(victims.stat >= DEAD)
+			/// Don't get them if they're buckled to something.
+			if(!victims.buckled)
 				continue
 			/// We don't want to drink our own Blood
-			if(victims == living_pawn)
+			if(!victims == living_pawn)
 				continue
 			/// Bloodsuckers cant be fed off of, so don't target them.
-			if(IS_BLOODSUCKER(victims))
-				continue
+//			if(!IS_BLOODSUCKER(victims))
+//				continue
 			/// Don't go for people that don't have Blood.
-			if(NOBLOOD in victims.dna.species.species_traits)
+			if(!(NOBLOOD in victims.dna.species.species_traits))
 				continue
+
 			blackboard[BB_BLOODSUCKER_TARGET] = victims
 			target = victims
 			hastarget = TRUE
@@ -160,6 +161,7 @@
 /datum/brain_trauma/severe/split_personality/frenzy/make_backseats()
 	stranger_backseat = new /mob/living/split_personality/frenzy(owner, src)
 	owner_backseat = new(owner, src)
+	owner.ai_controller = new /datum/ai_controller/bloodsucker(owner)
 
 /datum/brain_trauma/severe/split_personality/frenzy/get_ghost()
 	set waitfor = FALSE
@@ -173,7 +175,9 @@
 		switch_personalities()
 	QDEL_NULL(stranger_backseat)
 	QDEL_NULL(owner_backseat)
-	QDEL_NULL(owner.current.ai_controller)
+//	QDEL_NULL(owner.ai_controller)
+	..()
+//	QDEL_NULL(owner, /mob/living/split_personality/frenzy)
 //	/mob/living/split_personality/frenzy(owner, src)
 
 /datum/brain_trauma/severe/split_personality/frenzy/switch_personalities()
@@ -228,17 +232,18 @@
 
 /mob/living/split_personality/frenzy/Initialize(mapload, _trauma)
 	if(iscarbon(loc))
-		new /datum/ai_controller/bloodsucker(src)
 		body = loc
 		name = body.real_name
 		real_name = body.real_name
 		trauma = _trauma
+//		new /datum/ai_controller/bloodsucker(loc)
 	return ..()
 
 /mob/living/split_personality/frenzy/Life(delta_time = SSMOBS_DT, times_fired)
 	/// In case trauma deletion doesn't already do it
 	if(QDELETED(body))
 		qdel(src)
+//		QDEL_NULL(owner.ai_controller)
 
 /mob/living/split_personality/frenzy/Login()
 	. = ..()

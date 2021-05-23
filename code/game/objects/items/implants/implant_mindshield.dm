@@ -33,12 +33,7 @@
 				target.mind.remove_antag_datum(/datum/antagonist/vassal)
 				deconverted = TRUE
 			else
-				/// Copying revhead
-				if(!silent)
-					target.visible_message("<span class='warning'>[target] seems to resist the implant!</span>", "<span class='warning'>You feel something interfering with your mental conditioning, but you resist it!</span>")
-				removed(target, 1)
-				qdel(src)
-				return TRUE // Fulpstation Bloodsuckers edit ENDS
+				to_chat(target, "<span class='warning'>You feel something interfering with your Master, but you manage to resist it!</span>")
 		if(target.mind.has_antag_datum(/datum/antagonist/rev/head)|| target.mind.unconvertable)
 			if(!silent)
 				target.visible_message("<span class='warning'>[target] seems to resist the implant!</span>", "<span class='warning'>You feel something interfering with your mental conditioning, but you resist it!</span>")
