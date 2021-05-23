@@ -4,12 +4,12 @@
 	desc = "Slowly heals you overtime using your master's blood, in exchange for some of your own blood and effort."
 	button_icon_state = "power_recup"
 	amToggle = TRUE
-	bloodcost = 3.5 // Increments every 5 seconds; damage increases over time
+	bloodcost = 5 // Change to 3.5 when Bloodsuckerdatum shit works // Increments every 5 seconds; damage increases over time
 	cooldown = 100
 
 /datum/action/bloodsucker/recuperate/ActivatePower()
 	var/mob/living/carbon/C = owner
-	var/datum/antagonist/vassal/vassaldatum = owner.mind.has_antag_datum(/datum/antagonist/vassal)
+//	var/datum/antagonist/vassal/vassaldatum = owner.mind.has_antag_datum(/datum/antagonist/vassal)
 
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
 	while(ContinueActive(owner))
@@ -21,8 +21,10 @@
 			C.blood_volume -= bloodcost
 			C.adjustFireLoss(-0.5)
 		/// Take bloodcost from their Master.
+/*
 			var/mob/living/carbon/H = vassaldatum.master
 			H.blood_volume -= bloodcost
+*/
 		/// Stop Bleeding
 		if(istype(C) && C.is_bleeding())
 			for(var/obj/item/bodypart/part in C.bodyparts)

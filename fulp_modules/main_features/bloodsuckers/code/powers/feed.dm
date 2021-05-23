@@ -149,6 +149,9 @@
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
 	feed_time = max(15, feed_time)
+	if(bloodsuckerdatum.Frenzied)
+		/// In a frenzy? No time to wait, drink blood NOW!
+		feed_time = 5.5
 	if(amSilent)
 		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
 	else
@@ -203,6 +206,9 @@
 	var/warning_target_bloodvol = 99999
 	var/amount_taken = 0
 	var/blood_take_mult = amSilent ? 0.3 : 1 // Quantity to take per tick, based on Silent or not.
+	/// In a Frenzy? Take double the blood.
+	if(bloodsuckerdatum.Frenzied)
+		blood_take_mult = 2
 	// Activate Effects
 	//target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
 

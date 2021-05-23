@@ -22,6 +22,9 @@
 			notice_healing = TRUE
 	else if(notice_healing)
 		notice_healing = FALSE
+	/// In a Frenzy? Take damage, to encourage them to Feed as soon as possible.
+	if(Frenzied)
+		owner.current.adjustFireLoss(3)
 	/// Special check, Tremere Bloodsuckers burn while in the Chapel
 	if(my_clan == CLAN_TREMERE)
 		var/area/A = get_area(owner.current)
@@ -240,6 +243,7 @@
 		owner.current.remove_client_colour(/datum/client_colour/cursed_heart_blood)
 		REMOVE_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		REMOVE_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+		REMOVE_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 		/// Congratulations, you know now how to read again!
 		if(!HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
 			ADD_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
@@ -269,7 +273,7 @@
 /// Frenzy's End is in HandleStarving.
 /datum/antagonist/bloodsucker/proc/StartFrenzy()
 	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!</span>")
-	to_chat(owner.current, "<span class='announce'>* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, or use any powers outside of Feed.</span><br>")
+	to_chat(owner.current, "<span class='announce'>* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed.</span><br>")
 	/// Disable ALL Powers
 	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active)
@@ -278,6 +282,7 @@
 	owner.current.add_client_colour(/datum/client_colour/cursed_heart_blood)//bloodlust) <-- You can barely see shit, cant even see anyone to feed off of them.
 	ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 	/// Congratulations, you are the dumbest guy in Town.
 	if(HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
 		REMOVE_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
