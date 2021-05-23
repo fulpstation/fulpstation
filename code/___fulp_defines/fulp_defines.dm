@@ -56,10 +56,10 @@
 #define CLAN_MALKAVIAN "Malkavian Clan"
 /* Used for tremere_mutilate_vassal()
 */
-#define TREMERE_SKELETON "TremereSkeleton"
-#define TREMERE_ZOMBIE "TremereZombie"
-#define TREMERE_HUSK "TremereHusk"
-#define TREMERE_BAT "TremereBat"
+#define TREMERE_SKELETON "Skeleton"
+#define TREMERE_ZOMBIE "Zombie"
+#define TREMERE_HUSK "Husk"
+#define TREMERE_BAT "Bat"
 
 /*
  *	Deputy Defines

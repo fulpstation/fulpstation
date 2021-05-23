@@ -441,6 +441,9 @@
 	var/list/options = list()
 	options = races
 	var/answer = tgui_input_list(user, "We have the chance to mutate our Vassal, how should we mutilate their corpse?", "What do we do with our Vassal?", options)
+	if(!do_mob(user, src, 5 SECONDS))
+		to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
+		return
 	switch(answer)
 		if(TREMERE_SKELETON)
 			to_chat(user, "<span class='notice'>You have mutated [target] into a Skeleton!</span>")
@@ -479,7 +482,7 @@
 			else
 				to_chat(user, "<span class='notice'>You have mutated [target] into a Bat!</span>")
 				to_chat(target, "<span class='notice'>Your master has mutated you into a Bat!</span>")
-				var/mob/living/simple_animal/hostile/retaliate/bat/battransformation = new /mob/living/simple_animal/hostile/retaliate/bat(src)
+				var/mob/living/simple_animal/hostile/retaliate/bat/battransformation = new /mob/living/simple_animal/hostile/retaliate/bat(target.loc)
 				target.mind.transfer_to(battransformation)
 				qdel(target)
 				vassaldatum.mutilated = TRUE
