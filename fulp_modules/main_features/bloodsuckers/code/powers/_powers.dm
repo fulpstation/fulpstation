@@ -23,6 +23,7 @@
 	var/bloodsucker_can_buy = FALSE // Must be a bloodsucker to use this power.
 	var/warn_constant_cost = FALSE // Some powers charge you for staying on. Masquerade, Cloak, Veil, etc.
 	var/can_use_in_torpor = FALSE // Most powers don't function if you're in torpor.
+	var/can_use_in_frenzy = FALSE // You can only Feed while in Frenzy
 	var/must_be_capacitated = FALSE // Some powers require you to be standing and ready.
 	var/can_be_immobilized = FALSE // Brawn can be used when incapacitated/laying if it's because you're being immobilized. NOTE: If must_be_capacitated is FALSE, this is irrelevant.
 	var/can_be_staked = FALSE // Only Feed can happen with a stake in you.
@@ -117,6 +118,13 @@
 		if(L.blood_volume <= 0)
 			if(display_error)
 				to_chat(owner, "<span class='warning'>You don't have the blood to upkeep [src].</span>")
+			return FALSE
+	/// In a Frenzy?
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.Frenzied)
+		if(!can_use_in_frenzy)
+			if(display_error)
+				to_chat(owner, "<span class='warning'>You cannot use powers while in a Frenzy!</span>")
 			return FALSE
 	return TRUE
 

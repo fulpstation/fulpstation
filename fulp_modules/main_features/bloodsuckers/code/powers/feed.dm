@@ -9,6 +9,7 @@
 	bloodsucker_can_buy = FALSE
 	can_be_staked = TRUE
 	cooldown_static = TRUE
+	can_use_in_frenzy = TRUE
 
 	var/notice_range = 2 // Distance before silent feeding is noticed.
 	var/mob/living/feed_target // So we can validate more than just the guy we're grappling.
@@ -74,7 +75,7 @@
 			return FALSE
 	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && !bloodsuckerdatum.Frenzied)
 		if(!target.mind)
 			if(display_error)
 				to_chat(owner, "<span class='warning'>The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth.</span>")
@@ -249,6 +250,12 @@
 		if(amount_taken > 5 && target.stat < DEAD && ishuman(target))
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood) // GOOD // in bloodsucker_life.dm
 
+		/// Fed off a mindless person as Ventrue? - This is only possible in Frenzy.
+		if(!target.mind && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad) // BAD // in bloodsucker_life.dm
+			if(!warning_target_inhuman)
+				to_chat(user, "<span class='notice'>You feel disgusted at the taste of a non-sentient creature.</span>")
+				warning_target_inhuman = TRUE
 		///////////////////////////////////////////////////////////
 		// Not Human?
 		if(!ishuman(target))

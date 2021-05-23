@@ -234,6 +234,20 @@
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && !prob(0.5 && HAS_TRAIT(owner, TRAIT_NODEATH)) && !poweron_masquerade)
 		owner.current.Jitter(3)
 
+	/// Blood Volume: 250 - Exit Frenzy (If in one) This is really high because we want this to be enough to kill the poor soul they feed off of.
+	if(owner.current.blood_volume >= 250 && Frenzied)
+		to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
+		owner.current.remove_client_colour(/datum/client_colour/cursed_heart_blood)
+		REMOVE_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+		REMOVE_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+		/// Congratulations, you know now how to read again!
+		if(!HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
+			ADD_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
+		frenzygrab.remove(owner.current)
+		owner.current.Dizzy(5 SECONDS)
+		owner.current.Paralyze(3 SECONDS)
+		Frenzied = FALSE
+
 	// BLOOD_VOLUME_SURVIVE: [122]  Blur Vision
 	if(owner.current.blood_volume < BLOOD_VOLUME_SURVIVE)
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
@@ -254,17 +268,21 @@
 
 /// Frenzy's End is in HandleStarving.
 /datum/antagonist/bloodsucker/proc/StartFrenzy()
-	to_chat(owner.current, "<span class='warning'>You allowed your blood to get too low! You enter Frenzy!</span>")
-	var/mob/living/carbon/bloodsucker = owner.current
-	bloodsucker.gain_trauma(/datum/brain_trauma/severe/split_personality/frenzy, TRAUMA_RESILIENCE_ABSOLUTE)
+	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!</span>")
+	to_chat(owner.current, "<span class='announce'>* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, or use any powers outside of Feed.</span><br>")
+	/// Disable ALL Powers
+	for(var/datum/action/bloodsucker/power in powers)
+		if(power.active)
+			power.DeactivatePower()
+
+	owner.current.add_client_colour(/datum/client_colour/cursed_heart_blood)//bloodlust) <-- You can barely see shit, cant even see anyone to feed off of them.
+	ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+	/// Congratulations, you are the dumbest guy in Town.
+	if(HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
+		REMOVE_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
+	frenzygrab.teach(owner.current, TRUE)
 	Frenzied = TRUE
-	while(owner.current && owner.current.blood_volume < 150)
-		if(owner.current.blood_volume >= 150)
-			break
-		sleep(30)
-	to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
-	bloodsucker.cure_trauma_type(/datum/brain_trauma/severe/split_personality/frenzy, TRAUMA_RESILIENCE_ABSOLUTE)
-	Frenzied = FALSE
 
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)
@@ -466,3 +484,15 @@
 	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
 	mood_change = -15
 	timeout = 4 MINUTES
+
+/// Frenzy's instant aggro grabs
+/datum/martial_art/frenzygrab
+	name = "Frenzy Grab"
+	id = MARTIALART_FRENZYGRAB
+
+/datum/martial_art/frenzygrab/grab_act(mob/living/user, mob/living/target)
+	if(user != target)
+		target.grabbedby(user)
+		target.grippedby(user, instant = TRUE)
+		return TRUE
+	..()

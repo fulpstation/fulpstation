@@ -24,6 +24,8 @@
 #define MARTIALART_HUNTERFU "hunterfu"
 /// Used in deputy_block.dm
 #define MARTIALART_DEPUTYBLOCK "deputyblock"
+/// Used in bloodsucker_life.dm
+#define MARTIALART_FRENZYGRAB "FrenzyGrab"
 
 /*
  *	Bloodsucker Defines

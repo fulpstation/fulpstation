@@ -71,8 +71,9 @@
 	var/notice_healing
 	/// Have we reached final death?
 	var/AmFinalDeath = FALSE
-	/// Are we currently in a Frenzy?
+	/// Are we currently in a Frenzy? - Martial Art also used in Frenzy
 	var/Frenzied = FALSE
+	var/datum/martial_art/frenzygrab/frenzygrab = new
 	/// Default traits ALL Bloodsuckers get.
 	var/static/list/defaultTraits = list(
 		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\
@@ -80,12 +81,8 @@
 		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT,\
 		TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED,\
 		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED,\
-		)
+		) // TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -- Remember that Fortitude gives NODISMEMBER when balancing Traits!
 
-/*
- *	TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced.
- *	Remember that Fortitude gives NODISMEMBER when balancing Traits!
- */
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
