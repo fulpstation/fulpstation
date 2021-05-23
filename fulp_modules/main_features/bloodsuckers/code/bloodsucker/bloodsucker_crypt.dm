@@ -251,11 +251,19 @@
 	if(C.mind)
 		var/datum/antagonist/vassal/V = C.mind.has_antag_datum(/datum/antagonist/vassal)
 		/// Tremere Bloodsuckers can do more with their Vassals, don't let them unbuckle here.
-		if(!B.my_clan == CLAN_TREMERE)
-			if(istype(V) && V.master == B || C.stat >= DEAD)
-				unbuckle_mob(C)
-				useLock = FALSE // Failsafe
+		if(B.my_clan == CLAN_TREMERE && IS_VASSAL(C))
+			/// Limit it to only 1 time per Vassal.
+			if(V.mutilated)
+				to_chat(user, "<span class='notice'>You've already mutated [C] beyond repair!</span>")
 				return
+			else
+				/// We're messing with an already existing Vassal? Let's do that instead.
+				tremere_mutilate_vassal(user, C)
+				return
+		if(istype(V) && V.master == B || C.stat >= DEAD)
+			unbuckle_mob(C)
+			useLock = FALSE // Failsafe
+			return
 	// Just torture the boy
 	torture_victim(user, C)
 
@@ -269,15 +277,6 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && bloodsuckerdatum.vassals.len >= 3)
 		to_chat(user, "<span class='notice'>Your Clan is preventing you from owning more Vassals!</span>")
-		return
-	if(bloodsuckerdatum.my_clan == CLAN_TREMERE && IS_VASSAL(target))
-		var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
-		/// Limit it to only 1 time per Vassal.
-		if(vassaldatum.mutilated)
-			to_chat(user, "<span class='notice'>You've already mutated [target] beyond repair!</span>")
-			return
-		/// We're messing with an already existing Vassal? Let's do that instead.
-		tremere_mutilate_vassal(user, target)
 		return
 	// Prep...
 	useLock = TRUE
