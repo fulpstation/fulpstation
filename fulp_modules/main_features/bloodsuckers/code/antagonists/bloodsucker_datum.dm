@@ -71,6 +71,8 @@
 	var/notice_healing
 	/// Have we reached final death?
 	var/AmFinalDeath = FALSE
+	/// Are we currently in a Frenzy?
+	var/Frenzied = FALSE
 	/// Default traits ALL Bloodsuckers get.
 	var/static/list/defaultTraits = list(
 		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\

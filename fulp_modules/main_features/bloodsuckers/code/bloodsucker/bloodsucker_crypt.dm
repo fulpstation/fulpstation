@@ -121,6 +121,16 @@
 		. += {"<span class='cult'>They usually ensure that victims are handcuffed, to prevent them from running away.</span>"}
 		. += {"<span class='cult'>Their rituals take time, allowing us to disrupt it.</span>"}
 
+/obj/structure/bloodsucker/vassalrack/attackby(obj/item/P, mob/living/user, params)
+	add_fingerprint(user)
+	/// Goal: I'm going to cry please just EXAMINE THE DAMN RACK
+	if(IS_BLOODSUCKER(user) && P.tool_behaviour == TOOL_WRENCH && !anchored)
+		to_chat(user, "<span class='notice'>You need to click this with an empty hand to secure it in place!</span>")
+		to_chat(user, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!</span>")
+		return
+	else
+		. = ..()
+
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
 	/// Default checks
 	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
@@ -448,7 +458,7 @@
 			to_chat(target, "<span class='notice'>Your master has mutated you into a Living Husk!</span>")
 			/// Copying flesh_ghoul() - flesh_lore.dm
 			var/mob/living/carbon/human/H = target
-			var/datum/species/S = H.dna.species // WILLARDTODO: Change this shit.
+			var/datum/species/S = H.dna.species // WILLARDTODO: Change this shit - Probably make the Bloodsucker instantly drink all their blood instead?
 			S.punchdamagelow += 3
 			S.punchdamagehigh += 3
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
@@ -565,7 +575,7 @@
 			return
 		if(IS_BLOODSUCKER(H))
 			return
-		H.hallucination += 20
+		H.hallucination += 5
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
 
 /*

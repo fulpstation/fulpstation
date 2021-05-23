@@ -105,7 +105,7 @@
 				department_string = "Medical"
 			if("Quartermaster")
 				department_string = "Cargo"
-		target_amount = rand(2,4)
+		target_amount = rand(2,3)
 	..()
 
 // EXPLANATION

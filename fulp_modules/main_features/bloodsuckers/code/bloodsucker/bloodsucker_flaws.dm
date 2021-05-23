@@ -125,7 +125,7 @@
 			my_clan = CLAN_MALKAVIAN
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Malkavian Clan!<br> \
 				* As part of the Malkavian Clan, you see the world in a different way, suffering hallucinations and seeing strange portals everywhere.</span>")
-			// WILLARDTODO: Maybe we should make Masquerade hide brain traumas, unless you're a Beefman.
+			// WILLARDTODO: Make Masquerade hide brain traumas? Unless you're a Beefman, that is. Also applies to Frenzy.
 			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			return

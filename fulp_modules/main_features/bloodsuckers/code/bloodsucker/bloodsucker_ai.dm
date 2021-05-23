@@ -13,7 +13,7 @@
 
 /datum/ai_controller/bloodsucker
 	movement_delay = 0.4 SECONDS
-	var/bloodsucker_hastarget = FALSE
+	var/hastarget = FALSE
 	blackboard = list(BB_BLOODSUCKER_TARGET = null)
 
 /// Giving control to the Ghost
@@ -46,16 +46,26 @@
 		current_behaviors += GET_AI_BEHAVIOR(/datum/ai_behavior/resist)
 		return
 
-	if(!target)
-		/// We're looking for the closest person here.
-		for(var/mob/living/victims in oview(7, pawn))
-			if(IS_DEAD_OR_INCAP(victims))
+	if(!hastarget)
+		/// We're looking for the closest Human here.
+		for(var/mob/living/carbon/human/victims in oview(7, pawn))
+			/// We dont want dead blood
+			if(victims.stat >= DEAD)
+				continue
+			/// We don't want to drink our own Blood
+			if(victims == living_pawn)
+				continue
+			/// Bloodsuckers cant be fed off of, so don't target them.
+			if(IS_BLOODSUCKER(victims))
+				continue
+			/// Don't go for people that don't have Blood.
+			if(NOBLOOD in victims.dna.species.species_traits)
 				continue
 			blackboard[BB_BLOODSUCKER_TARGET] = victims
 			target = victims
-			bloodsucker_hastarget = TRUE
+			hastarget = TRUE
 			break
-	if(target)
+	if(hastarget)
 		current_movement_target = target
 		current_behaviors += GET_AI_BEHAVIOR(/datum/ai_behavior/bloodsucker_attack_mob)
 
@@ -63,7 +73,7 @@
 /datum/ai_controller/bloodsucker/PerformIdleBehavior(delta_time)
 	var/mob/living/living_pawn = pawn
 
-	if(bloodsucker_hastarget)
+	if(hastarget)
 		return
 
 	if(DT_PROB(HAUNTED_ITEM_TELEPORT_CHANCE, delta_time))
@@ -73,6 +83,12 @@
 	if(DT_PROB(80, delta_time) && (living_pawn.mobility_flags & MOBILITY_MOVE))
 		var/move_dir = pick(GLOB.alldirs)
 		living_pawn.Move(get_step(living_pawn, move_dir), move_dir)
+
+/* // Your powers should be deactivated by the lack of Blood anyways.
+	for(var/datum/action/A in living_pawn.actions)
+		if(A.active)
+			A.Trigger()
+*/
 
 /// AI Behavior ///
 
@@ -96,6 +112,8 @@
 	if(living_pawn.pulling != target)
 		target.grabbedby(living_pawn)
 		target.grabbedby(living_pawn, supress_message = TRUE)
+	/// We've got them grabbed? Start Feeding!
+	if(living_pawn.pulling)
 		for(var/datum/action/A in living_pawn.actions)
 			if(istype(A, /datum/action/bloodsucker/feed))
 				A.Trigger()
@@ -111,3 +129,121 @@
 		if(istype(A, /datum/action/bloodsucker/gohome))
 			A.Trigger()
 	finish_action(controller, FALSE)
+
+/*
+ *	# Split Personality
+ *
+ *	We're kicking the Bloodsucker into a split personality, and making the Main one be the AI.
+ *	If you search up the definition of 'Shitcode', this will come up, along with my name in large, bold text.
+ */
+
+/// TG undefines these in the actual split personality file, we gotta re-define them.
+#define OWNER 0
+#define STRANGER 1
+
+/datum/brain_trauma/severe/split_personality/frenzy
+	name = "Frenzy"
+	desc = "Patient's brain seems to have been overwhelmed by something far beyond himself, and has lost total consciousness."
+	scan_desc = "complete insanity and lack of sentience"
+	gain_text = ""
+	lose_text = ""
+
+/datum/brain_trauma/severe/split_personality/frenzy/on_gain()
+	var/mob/living/M = owner
+	if(M.stat == DEAD || !M.client)
+		qdel(src)
+		return
+	make_backseats()
+	get_ghost()
+	. = ..()
+
+/datum/brain_trauma/severe/split_personality/frenzy/make_backseats()
+	stranger_backseat = new /mob/living/split_personality/frenzy(owner, src)
+	owner_backseat = new(owner, src)
+
+/datum/brain_trauma/severe/split_personality/frenzy/get_ghost()
+	set waitfor = FALSE
+
+/datum/brain_trauma/severe/split_personality/on_life(delta_time, times_fired)
+	if(current_controller == OWNER)
+		switch_personalities()
+
+/datum/brain_trauma/severe/split_personality/frenzy/on_lose()
+	if(current_controller != OWNER)
+		switch_personalities()
+	QDEL_NULL(stranger_backseat)
+	QDEL_NULL(owner_backseat)
+	QDEL_NULL(owner.current.ai_controller)
+//	/mob/living/split_personality/frenzy(owner, src)
+
+/datum/brain_trauma/severe/split_personality/frenzy/switch_personalities()
+	if(QDELETED(owner) || QDELETED(stranger_backseat) || QDELETED(owner_backseat))
+		return
+
+	var/mob/living/split_personality/current_backseat
+	var/mob/living/split_personality/free_backseat
+	if(current_controller == OWNER)
+		current_backseat = stranger_backseat
+		free_backseat = owner_backseat
+	else
+		current_backseat = owner_backseat
+		free_backseat = stranger_backseat
+
+	/// Body to backseat
+	var/h2b_id = owner.computer_id
+	var/h2b_ip= owner.lastKnownIP
+	owner.computer_id = null
+	owner.lastKnownIP = null
+
+	free_backseat.ckey = owner.ckey
+	free_backseat.name = owner.name
+
+	if(owner.mind)
+		free_backseat.mind = owner.mind
+	if(!free_backseat.computer_id)
+		free_backseat.computer_id = h2b_id
+	if(!free_backseat.lastKnownIP)
+		free_backseat.lastKnownIP = h2b_ip
+
+	/// Backseat to body
+	var/s2h_id = current_backseat.computer_id
+	var/s2h_ip= current_backseat.lastKnownIP
+	current_backseat.computer_id = null
+	current_backseat.lastKnownIP = null
+
+	owner.ckey = current_backseat.ckey
+	owner.mind = current_backseat.mind
+
+	if(!owner.computer_id)
+		owner.computer_id = s2h_id
+	if(!owner.lastKnownIP)
+		owner.lastKnownIP = s2h_ip
+
+	current_controller = !current_controller
+
+/// The mob controlling the body.
+/mob/living/split_personality/frenzy
+	name = "frenzy personality"
+	real_name = "frenzied conscience"
+
+/mob/living/split_personality/frenzy/Initialize(mapload, _trauma)
+	if(iscarbon(loc))
+		new /datum/ai_controller/bloodsucker(src)
+		body = loc
+		name = body.real_name
+		real_name = body.real_name
+		trauma = _trauma
+	return ..()
+
+/mob/living/split_personality/frenzy/Life(delta_time = SSMOBS_DT, times_fired)
+	/// In case trauma deletion doesn't already do it
+	if(QDELETED(body))
+		qdel(src)
+
+/mob/living/split_personality/frenzy/Login()
+	. = ..()
+	if(!. || !client)
+		return FALSE
+
+#undef OWNER
+#undef STRANGER

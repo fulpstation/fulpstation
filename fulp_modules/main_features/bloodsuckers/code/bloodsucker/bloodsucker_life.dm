@@ -239,9 +239,9 @@
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 
 	/// Frenzy & Regeneration - The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
-	if(owner.current.blood_volume < 25)
+	if(owner.current.blood_volume < 25 && !Frenzied)
 		StartFrenzy()
-	else if(owner.current.blood_volume < 100 && my_clan == CLAN_BRUJAH)
+	else if(owner.current.blood_volume < 100 && my_clan == CLAN_BRUJAH && !Frenzied)
 		StartFrenzy()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
@@ -252,18 +252,19 @@
 	else if(owner.current.blood_volume < 700)
 		additional_regen = 0.4
 
+/// Frenzy's End is in HandleStarving.
 /datum/antagonist/bloodsucker/proc/StartFrenzy()
 	to_chat(owner.current, "<span class='warning'>You allowed your blood to get too low! You enter Frenzy!</span>")
-	owner.current.ghostize(FALSE) // WILLARDTODO: Make this use Split Personality, rather than Ghost the user.
-	new /datum/ai_controller/bloodsucker(owner.current)
-	while(!QDELETED(owner.current))
-		/// Got enough blood back? Come back to us!
+	var/mob/living/carbon/bloodsucker = owner.current
+	bloodsucker.gain_trauma(/datum/brain_trauma/severe/split_personality/frenzy, TRAUMA_RESILIENCE_ABSOLUTE)
+	Frenzied = TRUE
+	while(owner.current && owner.current.blood_volume < 150)
 		if(owner.current.blood_volume >= 150)
 			break
-		sleep(5)
-	QDEL_NULL(owner.current.ai_controller)
-	owner.grab_ghost(force = TRUE)
+		sleep(30)
 	to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
+	bloodsucker.cure_trauma_type(/datum/brain_trauma/severe/split_personality/frenzy, TRAUMA_RESILIENCE_ABSOLUTE)
+	Frenzied = FALSE
 
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)
