@@ -7,6 +7,7 @@
 	bloodsucker_can_buy = TRUE
 	amToggle = TRUE
 	warn_constant_cost = TRUE
+	can_use_in_torpor = TRUE
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 

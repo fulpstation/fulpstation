@@ -15,9 +15,10 @@
 	bloodcost = 10
 	cooldown = 50
 	amToggle = TRUE
-	bloodsucker_can_buy = FALSE // Bloodsuckers all start with this ability, we don't need to buy it.
+	/// Bloodsuckers all start with this ability, we don't need to buy it, and Nosferatu loses this, we dont want them to rebuy it!
+	bloodsucker_can_buy = FALSE
 	warn_constant_cost = TRUE
-	can_use_in_torpor = TRUE // Masquerade is maybe the only one that can do this. It stops your healing.
+	can_use_in_torpor = TRUE
 	cooldown_static = TRUE
 	must_be_concious = FALSE
 
