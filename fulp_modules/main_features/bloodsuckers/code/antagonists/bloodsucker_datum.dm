@@ -182,6 +182,9 @@
 
 /// Spawn a Monster Hunter 25 minutes into the Round. The Round event control will make sure there's actually any Bloodsuckers alive.
 /datum/antagonist/bloodsucker/proc/spawn_monster_hunters()
+	/// Don't trigger if there's not many Bloodsuckers, please.
+	if(clan.members.len <= 2)
+		return
 	var/datum/round_event_control/monster_hunters/DC = locate(/datum/round_event_control/monster_hunters) in SSevents.control
 	DC.runEvent()
 
