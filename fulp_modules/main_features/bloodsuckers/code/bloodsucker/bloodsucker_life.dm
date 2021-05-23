@@ -302,8 +302,13 @@
 			if(clan.bloodsucker_sunlight.amDay || total_damage >= 10)
 				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 				Torpor_Begin()
-	/// Used for ending Torpor.
-	if(!clan.bloodsucker_sunlight.amDay && total_damage <= 0)
+		/// Used for ending Torpor if you're in a Coffin
+		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 0)
+			if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
+				Torpor_End()
+				to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
+	/// If you're not in a Coffin, the only check we'll look for is Brute damage.
+	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 0)
 		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			Torpor_End()
 			to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
