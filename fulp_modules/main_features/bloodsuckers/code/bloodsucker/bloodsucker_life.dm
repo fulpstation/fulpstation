@@ -308,7 +308,7 @@
 				Torpor_End()
 				to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
 	/// If you're not in a Coffin, the only check we'll look for is Brute damage.
-	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 0)
+	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 0)
 		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			Torpor_End()
 			to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
