@@ -250,17 +250,16 @@
 	// Bloodsucker Owner! Let the boy go.
 	if(C.mind)
 		var/datum/antagonist/vassal/V = C.mind.has_antag_datum(/datum/antagonist/vassal)
-		/// Tremere Bloodsuckers can do more with their Vassals, don't let them unbuckle here.
-		if(B.my_clan == CLAN_TREMERE && IS_VASSAL(C))
-			/// Limit it to only 1 time per Vassal.
-			if(V.mutilated)
-				to_chat(user, "<span class='notice'>You've already mutated [C] beyond repair!</span>")
-				return
-			else
-				/// We're messing with an already existing Vassal? Let's do that instead.
-				tremere_mutilate_vassal(user, C)
-				return
 		if(istype(V) && V.master == B || C.stat >= DEAD)
+			if(B.my_clan == CLAN_TREMERE)
+				/// Limit it to only 1 time per Vassal.
+				if(V.mutilated)
+					to_chat(user, "<span class='notice'>You've already mutated [C] beyond repair!</span>")
+					return
+				else
+					/// We're messing with an already existing Vassal? Let's do that instead.
+					tremere_mutilate_vassal(user, C)
+					return
 			unbuckle_mob(C)
 			useLock = FALSE // Failsafe
 			return
@@ -430,6 +429,9 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/tremere_mutilate_vassal(mob/living/user, mob/living/target)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	if(target.stat >= DEAD)
+		to_chat(user, "<span class='notice'>You can't mutate dead Vassals (If you're attempting to unbuckle, Examine the Persuasion Rack to see how).</span>")
+		return
 	var/static/list/races = list(
 		TREMERE_SKELETON,
 		TREMERE_ZOMBIE,
