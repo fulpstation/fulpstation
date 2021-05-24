@@ -498,9 +498,6 @@
 				useLock = FALSE
 				return
 
-	if(target.stat >= DEAD)
-		to_chat(user, "<span class='notice'>You can't mutate dead Vassals (If you're attempting to unbuckle, Examine the Persuasion Rack to see how).</span>")
-		return
 	var/static/list/races = list(
 		TREMERE_SKELETON,
 		TREMERE_ZOMBIE,
