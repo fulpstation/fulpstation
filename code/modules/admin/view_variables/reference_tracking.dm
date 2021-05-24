@@ -133,10 +133,6 @@
 				if(!isnum(element_in_list) && normal && islist(potential_container[element_in_list]))
 					DoSearchVar(potential_container[element_in_list], "[container_name]\[[element_in_list]\] -> [potential_container[element_in_list]] (list)", recursive_limit - 1, search_time)
 
-			//Check assoc sublists
-			else if(element_in_list && !isnum(element_in_list) && normal && islist(potential_container[element_in_list]))
-				DoSearchVar(potential_container[element_in_list], "[container_name]\[[element_in_list]\] -> [potential_container[element_in_list]] (list)", recursive_limit - 1, search_time)
-
 	#ifndef FIND_REF_NO_CHECK_TICK
 	CHECK_TICK
 	#endif
