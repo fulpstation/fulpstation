@@ -106,8 +106,8 @@
 					power.Remove(owner.current)
 			if(!bloodsucker.has_quirk(/datum/quirk/badback))
 				bloodsucker.add_quirk(/datum/quirk/badback)
-			if(!HAS_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_NUDE))
-				ADD_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
+			if(!HAS_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_ALWAYS))
+				ADD_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_ALWAYS, BLOODSUCKER_TRAIT)
 			if(!HAS_TRAIT(bloodsucker, TRAIT_DISFIGURED))
 				ADD_TRAIT(bloodsucker, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 			return
