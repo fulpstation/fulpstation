@@ -99,7 +99,7 @@
 			my_clan = CLAN_NOSFERATU
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
 				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade ability.<br> \
-				* Additionally, in exchange for having a bad back and not being identifiable, you can fit into vents while fully naked using Alt+Click</span>")
+				* Additionally, in exchange for having a bad back and not being identifiable, you can fit into vents using Alt+Click</span>")
 			for(var/datum/action/bloodsucker/power in powers)
 				if(istype(power, /datum/action/bloodsucker/masquerade))
 					powers -= power

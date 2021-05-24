@@ -46,9 +46,9 @@
 */
 /// More prone to Frenzy & Brawn/Punches deal more damage
 #define CLAN_BRUJAH "Brujah Clan"
-/// Can't use Masquerade, gets Bad Back quirk, Disfigured Trait & Gains the ability to Ventcrawl while naked.
+/// Can't use Masquerade, gets Bad Back quirk, Disfigured Trait & Gains the ability to Ventcrawl.
 #define CLAN_NOSFERATU "Nosferatu Clan"
-/// Weaker to HunterFu, burns in the Chapel & Can mutate their Vassals (+ Vassals cant be mindshield deconverted).
+/// Weaker to HunterFu, burns in the Chapel, Can mutate their Vassals (who cannot be deconverted via Mindshielding) & Can revive dead people via the Persuasion Rack.
 #define CLAN_TREMERE "Tremere Clan"
 /// Cant drink blood out of mindless mobs, limited to only 4 Vassals (who cannot be deconverted via Mindshielding) and they all get a weaker version of Brawn.
 #define CLAN_VENTRUE "Ventrue Clan"
