@@ -54,12 +54,12 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 /// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
 #define CLAN_MALKAVIAN "Malkavian Clan"
-/* Used for tremere_mutilate_vassal()
+/* Used for tremere_perform_magic()
 */
-#define TREMERE_SKELETON "Skeleton"
-#define TREMERE_ZOMBIE "Zombie"
-#define TREMERE_HUSK "Husk"
-#define TREMERE_BAT "Bat"
+#define TREMERE_SKELETON "Skeleton Pirate"
+#define TREMERE_ZOMBIE "Zombie - Revives"
+#define TREMERE_HUSK "Husk - Drinks all their Blood"
+#define TREMERE_BAT "Bat - Chance to give them Bat form"
 
 /*
  *	Deputy Defines
