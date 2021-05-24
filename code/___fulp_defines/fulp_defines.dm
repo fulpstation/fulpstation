@@ -7,9 +7,9 @@
  *	Role Defines, used for Antagonist jobs.
  */
 /// Bloodsuckers - Defines the role for preferences
-#define ROLE_BLOODSUCKER "bloodsucker"
+#define ROLE_BLOODSUCKER "Bloodsucker"
 /// Monster Hunters - Defines the role for preferences
-#define ROLE_MONSTERHUNTER "monster hunter"
+#define ROLE_MONSTERHUNTER "Monster Hunter"
 
 /*
  *	Source Trait Defines
