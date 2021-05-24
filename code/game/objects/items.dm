@@ -212,7 +212,6 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 	for(var/path in actions_types)
 		new path(src)
 	actions_types = null
-	update_item_greyscale()
 
 	if(force_string)
 		item_flags |= FORCE_STRING_OVERRIDE
