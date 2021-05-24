@@ -145,8 +145,10 @@
 	. = ..()
 
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
+	/// Please dont let them buckle Fireman carried people
+	var/mob/living/L = O
 	/// Default checks
-	if(!O.Adjacent(src) || O == user || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
+	if(!O.Adjacent(src) || O == user || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated() || L.buckled)
 		return
 	/// Not anchored?
 	if(!anchored)
@@ -194,8 +196,8 @@
 	density = TRUE
 	var/matrix/m180 = matrix(M.transform)
 	m180.Turn(180)
-	animate(M, transform = m180, time = 2)
-	M.pixel_y = -2
+	animate(M, transform = m180, time = 3)
+	M.pixel_y = M.base_pixel_y + PIXEL_Y_OFFSET_LYING
 	update_icon()
 
 	/// Set up Torture stuff now
@@ -231,6 +233,7 @@
 	m180.Turn(180)
 	animate(buckled_mob, transform = m180, time = 2)
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack.</span>"))
+	buckled_mob.pixel_y = buckled_mob.base_pixel_y + PIXEL_Y_OFFSET_LYING
 	density = FALSE
 	buckled_mob.AdjustParalyzed(30)
 	update_icon()
