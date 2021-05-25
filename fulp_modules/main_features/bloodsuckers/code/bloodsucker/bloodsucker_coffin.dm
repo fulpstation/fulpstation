@@ -172,7 +172,7 @@
 		if(bloodsuckerdatum)
 			LockMe(user)
 			if(!bloodsuckerdatum.coffin && !resident)
-				switch(alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair","Yes", "No"))
+				switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
 					if("Yes")
 						ClaimCoffin(user)
 			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
