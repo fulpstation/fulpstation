@@ -706,7 +706,7 @@
 
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 		/// Is anyone on the Candelabrum?
 		if(!has_buckled_mobs())
 			toggle()
@@ -777,8 +777,7 @@
 
 /// Attempt Unbuckle
 /obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
-	if(!..())
-		return
+	. = ..()
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
 	update_icon()
 

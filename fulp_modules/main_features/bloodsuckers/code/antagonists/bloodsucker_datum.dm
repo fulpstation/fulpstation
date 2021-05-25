@@ -425,7 +425,7 @@
 	bloodsucker_level_unspent--
 
 	/// Ranked up enough? Let them join a Clan.
-	if(bloodsucker_level == 1)
+	if(bloodsucker_level == 3)
 		AssignClanAndBane()
 
 	/// Alright, enough playing around, get your true Reputation.
@@ -462,10 +462,10 @@
 			to_chat(owner.current, "<span class='notice'>You prevent your blood from thickening just yet, but you may try again later.</span>")
 			return
 		/// Good to go - Buy Power!
-		var/datum/action/bloodsucker/P = new options[choice]
-		vassaldatum.powers += P
-		P.Grant(target)
-		to_chat(target, "<span class='notice'>You have learned how to use [initial(P.name)]!</span>")
+		var/datum/action/bloodsucker/P = options[choice]
+		vassaldatum.BuyPower(new P)
+		to_chat(owner.current, "<span class='notice'>You taught [target] how to use [initial(P.name)]!</span>")
+		to_chat(target, "<span class='notice'>Your master taught you how to use [initial(P.name)]!</span>")
 
 	else
 		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
@@ -473,7 +473,8 @@
 	/* # As we don't level up normally, Bloodsuckers will Rank Up themselves this way.
 	*/
 
-	/// Advance Powers - Includes the one you just purchased.
+	/// Advance your and your Vassal's Powers - Includes the one you just purchased.
+	vassaldatum.LevelUpPowers()
 	LevelUpPowers()
 	/// Bloodsucker-only Stat upgrades
 	bloodsucker_regen_rate += 0.05

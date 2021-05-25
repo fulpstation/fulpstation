@@ -118,6 +118,15 @@
 /datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
 	vassal.remove_antag_datum(/datum/antagonist/vassal)
 
+/// Used when your Master teaches you a new Power.
+/datum/antagonist/vassal/proc/BuyPower(datum/action/bloodsucker/power)
+	powers += power
+	power.Grant(owner.current)
+
+/datum/antagonist/vassal/proc/LevelUpPowers()
+	for(var/datum/action/bloodsucker/power in powers)
+		power.level_current++
+
 /*
  *	# Vassal HUDs
  *
