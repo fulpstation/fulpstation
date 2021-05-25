@@ -22,7 +22,7 @@
 	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
-	bounty_types = CIV_JOB_MED
+	bounty_types = CIV_JOB_SEC
 	departments = DEPARTMENT_SECURITY
 
 	mail_goodies = list(
@@ -43,8 +43,8 @@
 	assignment = "Deputy"
 	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 	trim_state = "trim_deputy"
-	full_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
-	minimal_access = list(ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
+	full_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
+	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	/// Used to give the Departmental access
