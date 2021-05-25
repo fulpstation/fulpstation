@@ -3,10 +3,11 @@
 	desc = "Injure yourself, allowing you to make a desperate call for help to your master and other vassals."
 	button_icon_state = "power_recover"
 	amToggle = TRUE
-	vassal_can_buy = TRUE
+	vassal_can_buy = FALSE//TRUE
 	bloodcost = 10
 	cooldown = 100
 
+// WILLARD TODO: lol
 /datum/action/bloodsucker/distress/CheckCanUse(display_error)
 	if(owner.stat >= DEAD || owner.incapacitated())
 		to_chat(owner, "<span class='notice'>You cannot call for help while incapacitated.</span>")
