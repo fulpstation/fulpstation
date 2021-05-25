@@ -82,8 +82,16 @@
 	/// Beefmen can't be Malkavian, they already get all the side effects from it.
 	if(isbeefman(bloodsucker))
 		options -= CLAN_MALKAVIAN
-	to_chat(owner, "<span class='announce'>You can find details on each Clan on the Bloodsuckers wiki page here:<br> \
-				* https://wiki.fulp.gg/en/Bloodsucker</span>")
+	/// Brief descriptions in case they don't read the Wiki.
+	to_chat(owner, "<span class='announce'>List of all Clans:<br> \
+		Brujah - Prone to Frenzy, Brawn buffed.<br> \
+		Nosferatu - Disfigured, no Masquerade, Ventcrawl.<br> \
+		Tremere - Burn in the Chapel, Vassal Mutilation.<br> \
+		Ventrue - Cant drink from mindless mobs, can't level up, raise your favorite Vassal.<br></span>")
+	if(!isbeefman(bloodsucker))
+		to_chat(owner, "<span class='announce'>Malakavian - Hallucinations and Bluespace prophet.<br></span>")
+	to_chat(owner, "<span class='announce'>* https://wiki.fulp.gg/en/Bloodsucker.<br></span>")
+
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
 	switch(answer)
 		if(CLAN_BRUJAH)
