@@ -425,7 +425,7 @@
 	bloodsucker_level_unspent--
 
 	/// Ranked up enough? Let them join a Clan.
-	if(bloodsucker_level == 3)
+	if(bloodsucker_level == 1)
 		AssignClanAndBane()
 
 	/// Alright, enough playing around, get your true Reputation.

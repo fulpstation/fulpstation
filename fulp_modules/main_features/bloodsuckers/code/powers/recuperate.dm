@@ -19,7 +19,7 @@
 		/// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
 		if(!(NOBLOOD in C.dna.species.species_traits))
 			C.blood_volume -= bloodcost
-			C.adjustFireLoss(1.5)
+			C.adjustFireLoss(-1.5)
 		/// Take bloodcost from their Master.
 /*
 			var/mob/living/carbon/H = vassaldatum.master

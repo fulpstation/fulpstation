@@ -118,7 +118,7 @@
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
 		. += {"<span class='cult'>To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.</span>"}
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum.my_favorite_vassal == CLAN_VENTRUE)
+		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 			. += {"<span class='cult'>As part of the Ventrue Clan, you can choose a Favorite Vassal.</span>"}
 			. += {"<span class='cult'>Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!</span>"}
 			. += {"<span class='cult'>This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching FinalDeath.</span>"}
@@ -613,6 +613,7 @@
 	light_power = 3
 	light_range = 0 // to 2
 	density = FALSE
+	can_buckle = TRUE
 	anchored = FALSE
 	var/lit = FALSE
 
@@ -641,13 +642,6 @@
 	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.</span>"
 		. += "<span class='notice'>You can turn it on and off by clicking on it while you are next to it.</span>"
-	else
-		. += "<span class='notice'>In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself.</span>"
-
-/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
-	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(IS_BLOODSUCKER(user) || istype(T))
-		toggle()
 
 /obj/structure/bloodsucker/candelabrum/attackby(obj/item/P, mob/living/user, params)
 	/// Goal: Non Bloodsuckers can wrench this in place, but they cant unwrench it.
@@ -675,7 +669,7 @@
 		var/mob/living/carbon/C = pick(buckled_mobs)
 		if(C)
 			unbuckle_mob(C,user)
-	/// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
+	/// Bloodsuckers can turn their candles on from a distance.
 	else
 		if(IS_BLOODSUCKER(user))
 			toggle()
@@ -694,11 +688,9 @@
 	if(!lit)
 		return
 	for(var/mob/living/carbon/H in viewers(7, src))
-		///We dont want vassals or vampires affected by this
-		if(H.mind.has_antag_datum(/datum/antagonist/vassal))
-			return
-		if(IS_BLOODSUCKER(H))
-			return
+		/// We dont want Bloodsuckers or Vassals affected by this
+		if(IS_VASSAL(H) || IS_BLOODSUCKER(H))
+			continue
 		H.hallucination += 5
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
 
@@ -712,11 +704,36 @@
  *	Most of this is just copied over from Persuasion Rack.
  */
 
-/// Buckling someone in
-/obj/structure/bloodsucker/candelabrum/MouseDrop_T(atom/movable/O, mob/user)
-	var/mob/living/target = O
+/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		/// Is anyone on the Candelabrum?
+		if(!has_buckled_mobs())
+			return
+		var/mob/living/carbon/C = pick(buckled_mobs)
+		/// If I'm not a Bloodsucker, try to unbuckle them.
+		if(!istype(bloodsuckerdatum))
+			unbuckle_mob(C, user)
+			return
+		/// Are they our Dead?
+		if(C.stat >= DEAD)
+			unbuckle_mob(C)
+			return
+		if(bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+			to_chat(user, "<span class='danger'>You don't have any levels to upgrade [C] with.</span>")
+			return
+		/// Everything is good to go - Time to Buy our Favorite Vassal a new Power!
+		bloodsuckerdatum.SpendVassalRank(C)
+
+	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
+	if(IS_BLOODSUCKER(user) || istype(T))
+		toggle()
+
+/// Buckling someone in
+/obj/structure/bloodsucker/candelabrum/MouseDrop_T(mob/living/target, mob/user)
+	. = ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
 
 	/// First check: are you part of Ventrue? No? Then go away.
 	if(!bloodsuckerdatum.my_clan == CLAN_VENTRUE)
@@ -728,9 +745,8 @@
 	if(!vassaldatum.master == bloodsuckerdatum)
 		return
 	/// Please dont let them buckle Fireman carried people
-	var/mob/living/L = O
 	/// Default checks
-	if(!O.Adjacent(src) || O == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || L.buckled)
+	if(!target.Adjacent(src) || target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || target.buckled)
 		return
 	/// Not anchored?
 	if(!anchored)
@@ -744,18 +760,18 @@
 			return
 
 	/// Good to go - Buckle them!
-	if(do_mob(user, O, 5 SECONDS))
-		attach_victim(O, user)
+	if(do_mob(user, target, 5 SECONDS))
+		attach_mob(target, user)
 
-/obj/structure/bloodsucker/candelabrum/proc/attach_victim(mob/living/M, mob/living/user)
-	/// Standard Buckle Check
-	if(!buckle_mob(M))
-		return
+/obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/M, mob/living/user)
 	user.visible_message("<span class='notice'>[user] lifts and buckles [M] onto the candelabrum.</span>", \
 			  		 "<span class='boldnotice'>You buckle [M] onto the candelabrum.</span>")
 
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
 	M.forceMove(get_turf(src))
+
+	if(!buckle_mob(M))
+		return
 	update_icon()
 
 /// Attempt Unbuckle
@@ -764,26 +780,6 @@
 		return
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
 	update_icon()
-
-/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	/// Is anyone on the Candelabrum?
-	if(!has_buckled_mobs())
-		return
-	var/mob/living/carbon/C = pick(buckled_mobs)
-	/// If I'm not a Bloodsucker, try to unbuckle them.
-	if(!istype(bloodsuckerdatum))
-		user_unbuckle_mob(C, user)
-		return
-	/// Are they our Dead?
-	if(C.stat >= DEAD)
-		unbuckle_mob(C)
-		return
-	if(bloodsuckerdatum.bloodsucker_level_unspent <= 0)
-		to_chat(user, "<span class='danger'>You don't have any levels to upgrade [C] with.</span>")
-		return
-	/// Everything is good to go - Time to Buy our Favorite Vassal a new Power!
-	bloodsuckerdatum.SpendVassalRank(C)
 
 /*
 /obj/item/restraints/legcuffs/beartrap/bloodsucker

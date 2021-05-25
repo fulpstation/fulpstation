@@ -1,4 +1,4 @@
-/datum/action/bloodsucker
+/datum/action/bloodsucker // WILLARD TODO: Fix the comments through this entire file.
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
 	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi' //This is the file for the BACKGROUND icon

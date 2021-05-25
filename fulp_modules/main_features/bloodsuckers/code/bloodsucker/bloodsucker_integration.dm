@@ -125,7 +125,7 @@
 	return returnIcon + returnString
 
 /// Am I "pale" when examined? Bloodsuckers can trick this.
-/mob/living/carbon/human/proc/ShowAsPaleExamine()
+/mob/living/carbon/human/proc/ShowAsPaleExamine() // WILLARD TODO: Change this what the fuck?
 	// Normal Creatures:
 	if(!mind || !mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		return blood_volume < BLOOD_VOLUME_SAFE

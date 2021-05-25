@@ -13,7 +13,7 @@
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
 	var/list/datum/action/powers = list()
-	var/datum/martial_art/hunterfu/my_kungfu = new // Hunters know a lil kung fu.
+	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
@@ -40,7 +40,7 @@
 		monsterhunter_objective.owner = owner
 		monsterhunter_objective.generate_objective()
 		objectives += monsterhunter_objective
-		/// Give Theft objectives
+		/// Give Theft Objective
 		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
 			var/datum/objective/download/download_objective = new
 			download_objective.owner = owner
@@ -61,9 +61,9 @@
 			kill_objective.find_target()
 			objectives += kill_objective */
 
-	// Give Martial Arts
+	/// Give Martial Arts
 	my_kungfu.teach(owner.current, 0)
-	// Teach stake crafting
+	/// Teach Stake crafting
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	. = ..()
@@ -96,7 +96,6 @@
 		remove_antag_datum(/datum/antagonist/monsterhunter)
 		special_role = null
 
-//ADMIN TOOLS
 /// Called when using admin tools to give antag status
 /datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner,mob/admin)
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
@@ -127,17 +126,17 @@
 	owner.current.playsound_local(null, 'sound/effects/his_grace_ascend.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //			Monster Hunter Pinpointer
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 /// TAKEN FROM:  /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
 /datum/status_effect/agent_pinpointer/hunter_edition
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	minimum_range = HUNTER_SCAN_MIN_DISTANCE
 	tick_interval = HUNTER_SCAN_PING_TIME
-	duration = 10 SECONDS // Lasts 10s
-	range_fuzz_factor = 5 // PINPOINTER_EXTRA_RANDOM_RANGE
+	duration = 10 SECONDS
+	range_fuzz_factor = 5 //PINPOINTER_EXTRA_RANDOM_RANGE
 
 /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	name = "Monster Tracking"
@@ -171,7 +170,8 @@
 					monsters[C] = (HUNTER_SCAN_MAX_DISTANCE ** 2) - (distance ** 2)
 
 	if(monsters.len)
-		scan_target = pickweight(monsters) // Point at a 'random' monster, biasing heavily towards closer ones.
+		/// Point at a 'random' monster, biasing heavily towards closer ones.
+		scan_target = pickweight(monsters)
 		to_chat(owner, "<span class='warning'>You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b></span>")
 	else
 		scan_target = null

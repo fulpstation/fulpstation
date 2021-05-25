@@ -50,7 +50,7 @@
 #define CLAN_NOSFERATU "Nosferatu Clan"
 /// Weaker to HunterFu, burns in the Chapel, Can mutate their Vassals (who cannot be deconverted via Mindshielding) & Can revive dead people via the Persuasion Rack.
 #define CLAN_TREMERE "Tremere Clan"
-/// Cant drink blood out of mindless mobs, limited to only 4 Vassals (who cannot be deconverted via Mindshielding) and they all get a weaker version of Brawn.
+/// Cant drink blood out of mindless mobs, cant rank up, instead ranks their favorite vassal up.
 #define CLAN_VENTRUE "Ventrue Clan"
 /// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
 #define CLAN_MALKAVIAN "Malkavian Clan"
