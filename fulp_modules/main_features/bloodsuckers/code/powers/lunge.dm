@@ -68,19 +68,23 @@
 	/// Don't move as we perform this, please.
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	/// Directly copied from haste.dm
+	var/safety = get_dist(user, T) * 3 + 1
 	var/consequetive_failures = 0
-	while(!target.Adjacent(user))
+	while(--safety && !target.Adjacent(user))
 		/// This does not try to go around obstacles.
 		var/success = step_towards(user, T)
 		if(!success)
 			/// This does
 			success = step_to(user, T)
 		if(!success)
+			consequetive_failures++
 			/// If 3 steps don't work, just stop.
-			if(++consequetive_failures >= 3)
+			if(consequetive_failures >= 3)
 				break
+		/// we've succeeded at least once? Reset it.
 		else
 			consequetive_failures = 0
+	/// It ended? Let's get our target now.
 	lunge_end(target)
 
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
@@ -97,8 +101,11 @@
 		if(IS_MONSTERHUNTER(target))
 			to_chat(owner, "<span class='warning'>You get pushed away as you advance, and fail to get a strong grasp!</span>")
 			target.grabbedby(owner)
+			/// We're ending this early, let the Bloodsucker move again.
+			REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 			return
 
+		to_chat(owner, "<span class='warning'>You lunge at [target] in attempts to grab them!</span>")
 		/// Good to go!
 		target.Stun(15 + level_current * 5)
 		/// Instantly aggro grab them
