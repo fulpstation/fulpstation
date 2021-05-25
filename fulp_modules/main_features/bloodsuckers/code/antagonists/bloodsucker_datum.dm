@@ -207,6 +207,9 @@
 	/// Vamp Name
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 	report += printplayer(owner)
+	/// Clan Name
+	if(my_clan != null)
+		report += "They were part of the <b>[my_clan]</b>!"
 
 	/// Default Report
 	var/objectives_complete = TRUE
