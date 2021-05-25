@@ -172,10 +172,20 @@
 		if(bloodsuckerdatum)
 			LockMe(user)
 			if(!bloodsuckerdatum.coffin && !resident)
-				switch(alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair","Yes", "No"))
+				to_chat(user, "<span class='notice'>Do you wish to claim this as your coffin? [get_area(src)] will be your lair.</span>")
+				var/list/claim_options = list(
+					"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+					"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+					)
+				var/claim_response = show_radial_menu(user, src, claim_options, radius = 36, require_near = TRUE)
+				switch(claim_response)
 					if("Yes")
 						ClaimCoffin(user)
-			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
+						return
+					else
+						return
+			/// Level up? Auto-Fails if not appropriate
+			bloodsuckerdatum.SpendRank()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
