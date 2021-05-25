@@ -709,6 +709,7 @@
 	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 		/// Is anyone on the Candelabrum?
 		if(!has_buckled_mobs())
+			toggle()
 			return
 		var/mob/living/carbon/C = pick(buckled_mobs)
 		/// If I'm not a Bloodsucker, try to unbuckle them.
