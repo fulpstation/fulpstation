@@ -4,7 +4,7 @@
 	desc = "Slowly heals you overtime using your master's blood, in exchange for some of your own blood and effort."
 	button_icon_state = "power_recup"
 	amToggle = TRUE
-	bloodcost = 5 // Change to 3.5 when Bloodsuckerdatum shit works // Increments every 5 seconds; damage increases over time
+	bloodcost = 2.5
 	cooldown = 100
 
 /datum/action/bloodsucker/recuperate/ActivatePower()
@@ -13,13 +13,13 @@
 
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
 	while(ContinueActive(owner))
-		C.adjustBruteLoss(-1.5)
+		C.adjustBruteLoss(-2.5)
 		C.adjustToxLoss(-2, forced = TRUE)
 		C.adjustStaminaLoss(bloodcost * 1.1)
 		/// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
 		if(!(NOBLOOD in C.dna.species.species_traits))
 			C.blood_volume -= bloodcost
-			C.adjustFireLoss(-0.5)
+			C.adjustFireLoss(1.5)
 		/// Take bloodcost from their Master.
 /*
 			var/mob/living/carbon/H = vassaldatum.master
@@ -30,7 +30,7 @@
 			for(var/obj/item/bodypart/part in C.bodyparts)
 				part.generic_bleedstacks--
 		C.Jitter(5)
-		sleep(10)
+		sleep(20)
 	// DONE!
 	//DeactivatePower(owner)
 
@@ -54,4 +54,3 @@
 		to_chat(owner, "<span class='notice'>You are too exhausted to keep recuperating...</span>")
 		return FALSE
 	return TRUE
-

@@ -152,10 +152,6 @@
 	for(var/i in C.all_wounds)
 		var/datum/wound/iter_wound = i
 		iter_wound.remove_wound()
-	/// Remove all diseases - In case you got one while on Masquerade, or disease has Inorganic Biology.
-	for(var/thing in C.diseases)
-		var/datum/disease/D = thing
-		D.cure()
 	/// Remove Body Eggs & Zombie tumors - From panacea.dm
 	var/list/bad_organs = list(
 		C.getorgan(/obj/item/organ/body_egg),

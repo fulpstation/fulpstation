@@ -280,24 +280,21 @@
 	if(!istype(B))
 		user_unbuckle_mob(C, user)
 		return
-	/// Someone is Buckled and they have a Mind? Lets see what we can do with them.
-	if(C.mind)
-		var/datum/antagonist/vassal/V = C.mind.has_antag_datum(/datum/antagonist/vassal)
-		/// Are they our Vassal, or Dead?
-		if(istype(V) && V.master == B || C.stat >= DEAD)
-			/// Are we part of Tremere? They can do bonus things with their Vassals, so don't unbuckle!
-			if(B.my_clan == CLAN_TREMERE)
-				/// Limit it to only 1 time per Vassal.
-				if(V.mutilated)
-					to_chat(user, "<span class='notice'>You've already mutated [C] beyond repair!</span>")
-					return
-				else
-					tremere_perform_magic(user, C)
-					return
-			/// Not Tremere & They're still our Vassal, let's unbuckle them.
-			unbuckle_mob(C)
-			useLock = FALSE
+	var/datum/antagonist/vassal/V = IS_VASSAL(C)
+	/// Are they our Vassal, or Dead?
+	if(istype(V) && V.master == B || C.stat >= DEAD)
+		/// Are we part of Tremere? They can do bonus things with their Vassals, so don't unbuckle!
+		if(B.my_clan == CLAN_TREMERE)
+			/// Limit it to only 1 time per Vassal.
+			if(istype(V) && V.mutilated)
+				to_chat(user, "<span class='notice'>You've already mutated [C] beyond repair!</span>")
+				return
+			tremere_perform_magic(user, C)
 			return
+		/// Not Tremere & They're still our Vassal, let's unbuckle them.
+		unbuckle_mob(C)
+		useLock = FALSE
+		return
 	/// Not our Vassal & We're a Bloodsucker, good to go!
 	torture_victim(user, C)
 

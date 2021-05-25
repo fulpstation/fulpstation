@@ -105,4 +105,8 @@
 	if(E)
 		E.flash_protect -= 1
 
+	/// Remove all diseases
+	for(var/thing in user.diseases)
+		var/datum/disease/D = thing
+		D.cure()
 	to_chat(user, "<span class='notice'>Your heart beats one final time, while your skin dries out and your icy pallor returns.</span>")
