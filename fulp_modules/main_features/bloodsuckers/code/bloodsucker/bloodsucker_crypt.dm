@@ -114,10 +114,14 @@
 		return
 	if(IS_BLOODSUCKER(user))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
-		. += {"<span class='cult'>Clicking on the rack with an empty hand while it is in your lair will permanently secure it in place.</span>"}
+		. += {"<span class='cult'>Clicking on the rack with an empty hand while it is in your lair will secure it in place.</span>"}
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
-		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
 		. += {"<span class='cult'>To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.</span>"}
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_favorite_vassal == CLAN_VENTRUE)
+			. += {"<span class='cult'>As part of the Ventrue Clan, you can choose a Favorite Vassal.</span>"}
+			. += {"<span class='cult'>Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!</span>"}
+			. += {"<span class='cult'>This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching FinalDeath.</span>"}
 	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into their minions.</span>"
 		. += "<span class='notice'>Aid your master in bringing their victims here and keeping them secure.</span>"
@@ -291,6 +295,11 @@
 				return
 			tremere_perform_magic(user, C)
 			return
+		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
+		if(B.my_clan == CLAN_VENTRUE)
+			if(istype(V) && !B.my_favorite_vassal)
+				offer_ventrue_favorites(user, C)
+				return
 		/// Not Tremere & They're still our Vassal, let's unbuckle them.
 		unbuckle_mob(C)
 		useLock = FALSE
@@ -306,10 +315,6 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	/// Ventrue can only have up to 4 Vassals.
-	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && bloodsuckerdatum.vassals.len >= 4)
-		to_chat(user, "<span class='notice'>Your Clan is preventing you from owning more Vassals!</span>")
-		return
 	/// Prep...
 	useLock = TRUE
 	/// Conversion Process
@@ -566,6 +571,36 @@
 			to_chat(user, "<span class='notice'>You decide to leave your Vassal just the way they are.</span>")
 			return
 
+/obj/structure/bloodsucker/vassalrack/proc/offer_ventrue_favorites(mob/living/user, mob/living/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	/// To deal with Blood
+	var/mob/living/carbon/human/C = user
+
+	to_chat(user, "<span class='notice'>Would you like to turn this Vassal into your completely loyal Servant? This costs 150 Blood to do. You cannot undo this.</span>")
+	var/list/favorite_options = list(
+		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+		"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+		)
+	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
+	switch(favorite_response)
+		if("Yes")
+			bloodsuckerdatum.my_favorite_vassal = TRUE
+			vassaldatum.favorite_vassal = TRUE
+			to_chat(user, "<span class='danger'>You have turned [target] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!</span>")
+			to_chat(user, "<span class='announce'>* Bloodsucker Tip: You can now upgrade your Vassal by buckling them onto a Candelabrum!</span>")
+			to_chat(target, "<span class='announce'>As Blood drips over your body, you feel closer to your Master...</span>")
+			C.blood_volume -= 150
+			/// Make them immune to Mindshielding now
+			vassaldatum.protected_from_mindshielding = TRUE
+			return
+		else
+			to_chat(user, "<span class='danger'>You decide not to turn [target] into your Favorite Vassal.</span>")
+			/// Unbuckle them now.
+			unbuckle_mob(C)
+			useLock = FALSE
+			return
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -598,6 +633,11 @@
 	if(IS_BLOODSUCKER(user))
 		. += "<span class='cult'>This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.</span>"
 		. += "<span class='cult'>You can alt click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.</span>"
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_favorite_vassal == CLAN_VENTRUE)
+			. += {"<span class='cult'>As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.</span>"}
+			. += {"<span class='cult'>Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while AltClick will unbuckle, as long as you are in reach.</span>"}
+			. += {"<span class='cult'>Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.</span>"}
 	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.</span>"
 		. += "<span class='notice'>You can turn it on and off by clicking on it while you are next to it.</span>"
@@ -627,10 +667,18 @@
 			return
 	. = ..()
 
-/// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
-/obj/structure/bloodsucker/candelabrum/AltClick(mob/user)
-	if(IS_BLOODSUCKER(user))
-		toggle()
+/obj/structure/bloodsucker/candelabrum/AltClick(mob/user) // WILLARDTODO: Replace with RightClick when TGU happens.
+	/// Are we right next to it? Let's unbuckle the person in it, then.
+	if(user.Adjacent(src))
+		if(!has_buckled_mobs() || !isliving(user))
+			return
+		var/mob/living/carbon/C = pick(buckled_mobs)
+		if(C)
+			unbuckle_mob(C,user)
+	/// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
+	else
+		if(IS_BLOODSUCKER(user))
+			toggle()
 
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
 	lit = !lit
@@ -653,6 +701,89 @@
 			return
 		H.hallucination += 5
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+
+/*
+ *	# Candelabrum Ventrue Stuff
+ *
+ *	Ventrue Bloodsuckers can buckle Vassals onto the Candelabrum to "Upgrade" them.
+ *	This is limited to a Single vassal, called 'My Favorite Vassal'.
+ *	This is like Raising a Bloodsucker, but because of Balance reasons, they don't become a Bloodsucker after this.
+ *
+ *	Most of this is just copied over from Persuasion Rack.
+ */
+
+/// Buckling someone in
+/obj/structure/bloodsucker/candelabrum/MouseDrop_T(atom/movable/O, mob/user)
+	var/mob/living/target = O
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+
+	/// First check: are you part of Ventrue? No? Then go away.
+	if(!bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		return
+	/// Are they even a Favorite Vassal?
+	if(!vassaldatum.favorite_vassal)
+		return
+	/// They are a Favorite vassal, but are they OUR favorite Vassal?
+	if(!vassaldatum.master == bloodsuckerdatum)
+		return
+	/// Please dont let them buckle Fireman carried people
+	var/mob/living/L = O
+	/// Default checks
+	if(!O.Adjacent(src) || O == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || L.buckled)
+		return
+	/// Not anchored?
+	if(!anchored)
+		/// Let the Bloodsucker know the problem.
+		if(IS_BLOODSUCKER(user))
+			to_chat(user, "<span class='danger'>Until the candelabrum is secured in place, it cannot serve its purpose.</span>")
+			return
+		/// Not a Bloodsucker? Not our problem.
+		else
+			to_chat(user, "<span class='danger'>You dont fully understand how this works, and you're too scared to move it around.</span>")
+			return
+
+	/// Good to go - Buckle them!
+	if(do_mob(user, O, 5 SECONDS))
+		attach_victim(O, user)
+
+/obj/structure/bloodsucker/candelabrum/proc/attach_victim(mob/living/M, mob/living/user)
+	/// Standard Buckle Check
+	if(!buckle_mob(M))
+		return
+	user.visible_message("<span class='notice'>[user] lifts and buckles [M] onto the candelabrum.</span>", \
+			  		 "<span class='boldnotice'>You buckle [M] onto the candelabrum.</span>")
+
+	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
+	M.forceMove(get_turf(src))
+	update_icon()
+
+/// Attempt Unbuckle
+/obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
+	if(!..())
+		return
+	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
+	update_icon()
+
+/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	/// Is anyone on the Candelabrum?
+	if(!has_buckled_mobs())
+		return
+	var/mob/living/carbon/C = pick(buckled_mobs)
+	/// If I'm not a Bloodsucker, try to unbuckle them.
+	if(!istype(bloodsuckerdatum))
+		user_unbuckle_mob(C, user)
+		return
+	/// Are they our Dead?
+	if(C.stat >= DEAD)
+		unbuckle_mob(C)
+		return
+	if(bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+		to_chat(user, "<span class='danger'>You don't have any levels to upgrade [C] with.</span>")
+		return
+	/// Everything is good to go - Time to Buy our Favorite Vassal a new Power!
+	bloodsuckerdatum.SpendVassalRank(C)
 
 /*
 /obj/item/restraints/legcuffs/beartrap/bloodsucker

@@ -195,6 +195,7 @@
 	bloodcost = 15
 	cooldown = 120
 	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE
 
 /datum/action/bloodsucker/targeted/brawn/vassal/FireTargetedPower(atom/A)
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.

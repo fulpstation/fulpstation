@@ -54,7 +54,7 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 /// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
 #define CLAN_MALKAVIAN "Malkavian Clan"
-/* Used for tremere_perform_magic()
+/* Clan defines
 */
 #define TREMERE_SKELETON "Skeleton Pirate"
 #define TREMERE_ZOMBIE "Zombie - Revives"

@@ -17,6 +17,8 @@
 	var/protected_from_mindshielding = FALSE
 	/// Tremere Vassals only - Have I been mutated?
 	var/mutilated = FALSE
+	/// Ventrue Vassals only - Am I their Favorite?
+	var/favorite_vassal = FALSE
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
@@ -30,13 +32,7 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
-			// Special Check: Ventrue Bloodsucker's Vassals get Brawn.
-			if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-				var/datum/action/bloodsucker/targeted/brawn/vassal/vassal_brawn = new()
-				powers += vassal_brawn
-				vassal_brawn.Grant(owner.current)
-				protected_from_mindshielding = TRUE
-			// Special Check: Tremere Bloodsucker's Vassals are magically immune to Mindshielding.
+			/// Special Check: Some Clans make your Vassals immune to deconversion.
 			if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
 				protected_from_mindshielding = TRUE
 		owner.enslave_mind_to_creator(master.owner.current)

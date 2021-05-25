@@ -21,6 +21,7 @@
 	var/bloodcost
 	var/needs_button = TRUE // Taken from Changeling - for passive abilities that dont need a button
 	var/bloodsucker_can_buy = FALSE // Must be a bloodsucker to use this power.
+	var/vassal_can_buy = FALSE // Can Vassals buy this?
 	var/warn_constant_cost = FALSE // Some powers charge you for staying on. Masquerade, Cloak, Veil, etc.
 	var/can_use_in_torpor = FALSE // Most powers don't function if you're in torpor.
 	var/can_use_in_frenzy = FALSE // You can only Feed while in Frenzy

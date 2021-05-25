@@ -74,6 +74,8 @@
 	/// Are we currently in a Frenzy? - Martial Art also used in Frenzy
 	var/Frenzied = FALSE
 	var/datum/martial_art/frenzygrab/frenzygrab = new
+	/// Have we selected our Favorite Vassal yet? - This is Ventrue only!
+	var/my_favorite_vassal = FALSE
 	/// Default traits ALL Bloodsuckers get.
 	var/static/list/defaultTraits = list(
 		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\
@@ -353,6 +355,9 @@
 	bloodsucker_level_unspent++
 	// Spend Rank Immediately?
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+		if(my_clan == CLAN_VENTRUE)
+			to_chat(owner, "<span class='announce'>You have recieved a new Rank to level up your Favorite Vassal with!</span><br>")
+			return
 		SpendRank()
 	else
 		to_chat(owner, "<EM><span class='notice'>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</span></EM>")
@@ -374,7 +379,7 @@
 		var/datum/action/bloodsucker/power = pickedpower
 		/// Check If I don't own it & I'm allowed to buy it.
 		if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
-			options[initial(power.name)] = power // TESTING: After working with TGUI, it seems you can use initial() to view the variables inside a path?
+			options[initial(power.name)] = power
 
 	/// No powers to purchase? Abort.
 	if(options.len >= 1)
@@ -432,6 +437,60 @@
 	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")
 	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
+
+/datum/antagonist/bloodsucker/proc/SpendVassalRank(mob/living/target)
+	set waitfor = FALSE
+
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	/// Purchase Power Prompt
+	var/list/options = list()
+	for(var/pickedpower in typesof(/datum/action/bloodsucker))
+		var/datum/action/bloodsucker/power = pickedpower
+		/// Check If I don't own it & I'm allowed to buy it.
+		if(!(locate(power) in vassaldatum.powers) && initial(power.vassal_can_buy))
+			options[initial(power.name)] = power
+
+	/// No powers to purchase? Abort.
+	if(options.len >= 1)
+		/// Give them the UI to purchase a power.
+		var/choice = tgui_input_list(owner.current, "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve.", "You feel like a Leader!", options)
+		/// Safety Check
+		if(bloodsucker_level_unspent <= 0)
+			return
+		/// Did you choose a power? Do you already have it? - Added due to window stacking.
+		if(!choice || !options[choice] || (locate(options[choice]) in vassaldatum.powers))
+			to_chat(owner.current, "<span class='notice'>You prevent your blood from thickening just yet, but you may try again later.</span>")
+			return
+		/// Good to go - Buy Power!
+		var/datum/action/bloodsucker/P = new options[choice]
+		vassaldatum.powers += P
+		P.Grant(target)
+		to_chat(target, "<span class='notice'>You have learned how to use [initial(P.name)]!</span>")
+
+	else
+		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
+
+	/* # As we don't level up normally, Bloodsuckers will Rank Up themselves this way.
+	*/
+
+	/// Advance Powers - Includes the one you just purchased.
+	LevelUpPowers()
+	/// Bloodsucker-only Stat upgrades
+	bloodsucker_regen_rate += 0.05
+	feed_amount += 2
+	max_blood_volume += 100
+	/// Misc. Stats Upgrades
+	if(ishuman(owner.current))
+		var/mob/living/carbon/human/H = owner.current
+		var/datum/species/S = H.dna.species
+		S.punchdamagelow += 0.5
+		/// This affects the hitting power of Brawn.
+		S.punchdamagehigh += 0.5
+	owner.current.setMaxHealth(owner.current.maxHealth + 5) // Why is this a thing...
+
+	/// We're almost done - Spend your Rank now.
+	bloodsucker_level++
+	bloodsucker_level_unspent--
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
