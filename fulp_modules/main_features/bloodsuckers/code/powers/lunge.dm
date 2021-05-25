@@ -1,4 +1,4 @@
-/datum/action/bloodsucker/targeted/lunge // WILLARDTODO: Fix this, refer to haste.dm maybe? Missing this ability on someone causes them to be trapped immobilized until they re-use it.
+/datum/action/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
 	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down."
 	button_icon_state = "power_lunge"
