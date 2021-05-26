@@ -55,8 +55,8 @@
 				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 				if(!istype(bloodsuckerdatum))
 					continue
-				/// Sol is over? Give them a unique pass to end Torpor - If they're damaged and still in their Coffin, they'll be put back into Torpor. This is for when someone breaks their Coffin open mid-sol!
-				bloodsuckerdatum.Torpor_End()
+				/// Sol is over? Check if they're in a Coffin or not, and End Torpor if they aren't.
+				bloodsuckerdatum.Check_End_Torpor()
 				bloodsuckerdatum.warn_sun_locker = FALSE
 				bloodsuckerdatum.warn_sun_burn = FALSE
 				for(var/datum/action/bloodsucker/P in bloodsuckerdatum.powers)

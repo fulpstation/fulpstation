@@ -306,16 +306,10 @@
 			if(clan.bloodsucker_sunlight.amDay || total_damage >= 10)
 				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 				Torpor_Begin()
-		/// Used for ending Torpor if you're in a Coffin
-		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 0)
-			if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
-				Torpor_End()
-				to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
-	/// If you're not in a Coffin, the only check we'll look for is Brute damage.
-	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 0)
+	/// If it's not Sol and you have 0 Brute damage, check to End Torpor.
+	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
 		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
-			Torpor_End()
-			to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
+			Check_End_Torpor()
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
 	/// Force them to go to sleep
@@ -330,7 +324,21 @@
 		if(power.active && !power.can_use_in_torpor)
 			power.DeactivatePower()
 
+/datum/antagonist/bloodsucker/proc/Check_End_Torpor()
+	/// Sol ended OR Have 0 Brute damage, and you're not in a Coffin? End Torpor.
+	if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+		Torpor_End()
+	else
+	/// You are in a Coffin, so instead we'll take Burn into account, too.
+		var/mob/living/carbon/B = owner.current
+		var/total_brute = B.getBruteLoss_nonProsthetic()
+		var/total_burn = B.getFireLoss_nonProsthetic()
+		var/total_damage = total_brute + total_burn
+		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
+			Torpor_End()
+
 /datum/antagonist/bloodsucker/proc/Torpor_End()
+	to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
 	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
