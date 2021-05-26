@@ -87,10 +87,10 @@
 		Brujah - Prone to Frenzy, Brawn buffed.<br> \
 		Nosferatu - Disfigured, no Masquerade, Ventcrawl.<br> \
 		Tremere - Burn in the Chapel, Vassal Mutilation.<br> \
-		Ventrue - Cant drink from mindless mobs, can't level up, raise your favorite Vassal.<br></span>")
+		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead.<br></span>")
 	if(!isbeefman(bloodsucker))
 		to_chat(owner, "<span class='announce'>Malakavian - Hallucinations and Bluespace prophet.<br></span>")
-	to_chat(owner, "<span class='announce'>* https://wiki.fulp.gg/en/Bloodsucker.<br></span>")
+	to_chat(owner, "<span class='announce'>* Read more about Clans here: https://wiki.fulp.gg/en/Bloodsucker.<br></span>")
 
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
 	switch(answer)
