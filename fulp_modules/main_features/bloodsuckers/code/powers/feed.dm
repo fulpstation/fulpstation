@@ -75,7 +75,7 @@
 			return FALSE
 	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && !bloodsuckerdatum.Frenzied)
+	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE && !bloodsuckerdatum.Frenzied)
 		if(!target.mind)
 			if(display_error)
 				to_chat(owner, "<span class='warning'>The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth.</span>")
@@ -144,12 +144,13 @@
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/mob/living/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
 	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_PASSIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
 	feed_time = max(15, feed_time)
-	if(bloodsuckerdatum.Frenzied)
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
 		/// In a frenzy? No time to wait, drink blood NOW!
 		feed_time = 5.5
 	if(amSilent)
@@ -207,13 +208,14 @@
 	var/amount_taken = 0
 	var/blood_take_mult = amSilent ? 0.3 : 1 // Quantity to take per tick, based on Silent or not.
 	/// In a Frenzy? Take double the blood.
-	if(bloodsuckerdatum.Frenzied)
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
 		blood_take_mult = 2
 	// Activate Effects
 	//target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
 
 	// FEEEEEEEEED!!! //
-	bloodsuckerdatum.poweron_feed = TRUE
+	if(bloodsuckerdatum)
+		bloodsuckerdatum.poweron_feed = TRUE
 	while(target && active)
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
@@ -249,7 +251,10 @@
 
 		///////////////////////////////////////////////////////////
 		// 		Handle Feeding! User & Victim Effects (per tick)
-		bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+		if(bloodsuckerdatum)
+			bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+		if(vassaldatum)
+			vassaldatum.HandleFeeding(target, blood_take_mult)
 		amount_taken += amSilent ? 0.3 : 1
 		if(!amSilent)
 			ApplyVictimEffects(target)	// Sleep, paralysis, immobile, unconscious, and mute
@@ -257,7 +262,7 @@
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood) // GOOD // in bloodsucker_life.dm
 
 		/// Fed off a mindless person as Ventrue? - This is only possible in Frenzy.
-		if(!target.mind && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		if(bloodsuckerdatum && !target.mind && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad) // BAD // in bloodsucker_life.dm
 			if(!warning_target_inhuman)
 				to_chat(user, "<span class='notice'>You feel disgusted at the taste of a non-sentient creature.</span>")
@@ -277,7 +282,7 @@
 				to_chat(user, "<span class='notice'>Your victim is dead. [target.p_their(TRUE)] blood barely nourishes you.</span>")
 				warning_target_dead = TRUE
 		// Full?
-		if(!warning_full && user.blood_volume >= bloodsuckerdatum.max_blood_volume)
+		if(bloodsuckerdatum && !warning_full && user.blood_volume >= bloodsuckerdatum.max_blood_volume)
 			to_chat(user, "<span class='notice'>You are full. Further blood will be wasted.</span>")
 			warning_full = TRUE
 		// Blood Remaining? (Carbons/Humans only)

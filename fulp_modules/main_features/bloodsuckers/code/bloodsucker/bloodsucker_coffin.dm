@@ -185,7 +185,8 @@
 					else
 						return
 			/// Level up? Auto-Fails if not appropriate
-			bloodsuckerdatum.SpendRank()
+			if(!bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+				bloodsuckerdatum.SpendRank()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.

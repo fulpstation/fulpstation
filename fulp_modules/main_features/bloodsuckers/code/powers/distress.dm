@@ -3,7 +3,7 @@
 	desc = "Injure yourself, allowing you to make a desperate call for help to your master and other vassals."
 	button_icon_state = "power_recover"
 	amToggle = TRUE
-	vassal_can_buy = FALSE//TRUE
+	vassal_can_buy = TRUE
 	bloodcost = 10
 	cooldown = 100
 
@@ -14,7 +14,8 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/distress/ActivatePower()
+/datum/action/bloodsucker/distress/Trigger()
+	. = ..()
 	var/turf/open/floor/target_turf = get_area(owner)
 	var/datum/antagonist/vassal/vassaldatum = owner.mind.has_antag_datum(/datum/antagonist/vassal)
 	var/mob/living/user = owner
@@ -36,4 +37,4 @@
 			user.adjustBruteLoss(10)
 
 	//PayCost()
-	//DeactivatePower()
+	DeactivatePower()

@@ -19,6 +19,8 @@
 	var/mutilated = FALSE
 	/// Ventrue Vassals only - Am I their Favorite?
 	var/favorite_vassal = FALSE
+	/// What level am I? This is only increased through Ventrue's raising of a Vassal
+	var/vassal_level
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	return
@@ -61,6 +63,9 @@
 			owner.enslaved_to = null
 	/// Remove Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
+	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
+	for(var/T in owner.current.status_traits)
+		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	/// Remove Recuperate Power
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
@@ -179,3 +184,41 @@
 	if(scan_target)
 		to_chat(owner, "<span class='notice'>You've lost your master's trail.</span>")
 	..()
+
+/*
+ *	# Vassal Feeding
+ *
+ *	Ventrue's Favorite Vassal can feed once they reach a certain level, this handles that.
+ *	This is a direct Copy & Paste from the Bloodsucker version.
+ */
+
+/datum/antagonist/vassal/proc/HandleFeeding(mob/living/carbon/target, mult=1)
+	var/blood_taken = min(15, target.blood_volume) * mult
+	target.blood_volume -= blood_taken
+	// Simple Animals lose a LOT of blood, and take damage. This is to keep cats, cows, and so forth from giving you insane amounts of blood.
+	if(!ishuman(target))
+		target.blood_volume -= (blood_taken / max(target.mob_size, 0.1)) * 3.5 // max() to prevent divide-by-zero
+		target.apply_damage_type(blood_taken / 3.5) // Don't do too much damage, or else they die and provide no blood nourishment.
+		if(target.blood_volume <= 0)
+			target.blood_volume = 0
+			target.death(0)
+	///////////
+	// Shift Body Temp (toward Target's temp, by volume taken)
+	owner.current.bodytemperature = ((owner.current.blood_volume * owner.current.bodytemperature) + (blood_taken * target.bodytemperature)) / (owner.current.blood_volume + blood_taken)
+	// our volume * temp, + their volume * temp, / total volume
+	///////////
+	// Reduce Value Quantity
+	if(target.stat == DEAD) // Penalty for Dead Blood
+		blood_taken /= 3
+	if(!ishuman(target)) // Penalty for Non-Human Blood
+		blood_taken /= 2
+	//if (!iscarbon(target)) // Penalty for Animals (they're junk food)
+	// Apply to Volume
+	AddBloodVolume(blood_taken)
+	// Reagents (NOT Blood!)
+	if(target.reagents && target.reagents.total_volume)
+		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
+	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
+
+/datum/antagonist/vassal/proc/AddBloodVolume(value)
+	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, 560)

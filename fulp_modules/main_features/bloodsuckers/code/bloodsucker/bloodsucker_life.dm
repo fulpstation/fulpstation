@@ -51,7 +51,8 @@
 
 /// mult: SILENT feed is 1/3 the amount
 /datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
-	var/blood_taken = min(feed_amount, target.blood_volume) * mult	// Starts at 15 (now 8 since we doubled the Feed time)
+	/// Starts at 15 (now 8 since we doubled the Feed time)
+	var/blood_taken = min(feed_amount, target.blood_volume) * mult
 	target.blood_volume -= blood_taken
 	// Simple Animals lose a LOT of blood, and take damage. This is to keep cats, cows, and so forth from giving you insane amounts of blood.
 	if(!ishuman(target))

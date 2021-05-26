@@ -126,7 +126,7 @@
 				* Additionally, you magically protect your Vassals from being disconnected with you via Mindshielding, and can mutilate them by putting them on a persuasion rack.<br> \
 				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>")
 			return
-		if(CLAN_VENTRUE) // WILLARDTODO: Make a Ventrue-unique objective to drink X amount of Blood?
+		if(CLAN_VENTRUE) // WILLARD TODO: Make a Ventrue-unique objective to drink X amount of Blood?
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
 				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.<br> \
@@ -138,7 +138,7 @@
 			my_clan = CLAN_MALKAVIAN
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Malkavian Clan!<br> \
 				* As part of the Malkavian Clan, you see the world in a different way, suffering hallucinations and seeing strange portals everywhere.</span>")
-			// WILLARDTODO: Make Masquerade hide brain traumas? Unless you're a Beefman, that is. Also applies to Frenzy.
+			// WILLARD TODO: Make Masquerade hide brain traumas? Unless you're a Beefman, that is. Also applies to Frenzy.
 			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			return

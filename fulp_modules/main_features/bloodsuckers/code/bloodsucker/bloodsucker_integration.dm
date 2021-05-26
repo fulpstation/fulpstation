@@ -27,7 +27,7 @@
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
 	if(IS_BLOODSUCKER(src))
 		return
-	/// Frenzy's split personality isnt a Bloodsucker, this will help them not die instantly.
+	/// For Vassals
 	if(HAS_TRAIT(src, TRAIT_NOPULSE))
 		return
 	. = ..()
