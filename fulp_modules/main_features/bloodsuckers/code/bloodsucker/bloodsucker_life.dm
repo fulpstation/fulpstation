@@ -325,6 +325,9 @@
 			power.DeactivatePower()
 
 /datum/antagonist/bloodsucker/proc/Check_End_Torpor()
+	/// You're not in Sol? (Slept in a Locker for example), then you don't need to leave it.
+	if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		return
 	/// Sol ended OR Have 0 Brute damage, and you're not in a Coffin? End Torpor.
 	if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		Torpor_End()
