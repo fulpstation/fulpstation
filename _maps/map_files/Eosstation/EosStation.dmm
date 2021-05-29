@@ -417,9 +417,13 @@
 /turf/open/floor/iron/dark,
 /area/security/execution/transfer)
 "adm" = (
-/obj/effect/turf_decal/tile/red,
-/turf/open/floor/iron/shuttle,
-/area/security/prison)
+/obj/structure/cable,
+/obj/structure/chair/office/light{
+	dir = 1
+	},
+/obj/effect/landmark/start/scientist,
+/turf/open/floor/iron/white,
+/area/science/lab)
 "adq" = (
 /obj/machinery/hydroponics/constructable,
 /obj/machinery/light{
@@ -7983,7 +7987,7 @@
 "bcS" = (
 /obj/machinery/power/tracker,
 /obj/structure/cable,
-/turf/open/floor/iron/airless/solarpanel,
+/turf/open/floor/iron/solarpanel/airless,
 /area/solars/port/fore)
 "bcU" = (
 /obj/effect/turf_decal/siding/purple,
@@ -13313,7 +13317,7 @@
 "cbU" = (
 /obj/structure/cable,
 /obj/machinery/power/tracker,
-/turf/open/floor/iron/airless/solarpanel,
+/turf/open/floor/iron/solarpanel/airless,
 /area/solars/port/fore)
 "cbV" = (
 /obj/structure/closet/firecloset/full,
@@ -13348,7 +13352,7 @@
 	id = "foresolar";
 	name = "Fore Solar Array"
 	},
-/turf/open/floor/iron/airless/solarpanel,
+/turf/open/floor/iron/solarpanel/airless,
 /area/solars/port/fore)
 "ccd" = (
 /obj/structure/window/reinforced{
@@ -24181,7 +24185,6 @@
 /turf/open/floor/iron,
 /area/security/courtroom)
 "dSK" = (
-/obj/machinery/lapvend,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -24192,6 +24195,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/purple,
+/obj/machinery/vending/assist,
 /turf/open/floor/iron/white,
 /area/science/research)
 "dTb" = (
@@ -37981,7 +37985,6 @@
 /turf/open/floor/engine,
 /area/engineering/main)
 "gXS" = (
-/obj/machinery/vending/cigarette,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -46236,7 +46239,7 @@
 	name = "Fore Solar Array"
 	},
 /obj/structure/cable,
-/turf/open/floor/iron/airless/solarpanel,
+/turf/open/floor/iron/solarpanel/airless,
 /area/solars/port/fore)
 "iNP" = (
 /obj/structure/disposalpipe/segment{
@@ -46350,7 +46353,6 @@
 	},
 /area/science/mixing)
 "iOG" = (
-/obj/machinery/modular_computer/console/preset/civilian,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -46365,6 +46367,12 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/obj/item/storage/toolbox/electrical,
+/obj/structure/table/reinforced,
+/obj/item/stock_parts/cell/high/plus,
+/obj/item/stock_parts/cell/high/plus,
+/obj/item/integrated_circuit/loaded/speech_relay,
+/obj/item/integrated_circuit/loaded/hello_world,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "iOI" = (
@@ -49474,6 +49482,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
+/obj/machinery/rnd/destructive_analyzer,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "jxE" = (
@@ -61727,7 +61736,6 @@
 "lVk" = (
 /obj/structure/closet/secure_closet/psychology,
 /obj/item/toy/plush/goatplushie,
-/obj/item/toy/plush/lizardplushie,
 /obj/item/toy/plush/snakeplushie,
 /obj/item/toy/plush/slimeplushie,
 /obj/item/clothing/suit/straight_jacket,
@@ -66899,6 +66907,7 @@
 	},
 /obj/effect/turf_decal/tile/purple,
 /obj/item/experi_scanner,
+/obj/item/stock_parts/scanning_module,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "naL" = (
@@ -73948,6 +73957,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/purple,
+/obj/machinery/lapvend,
 /turf/open/floor/iron/white,
 /area/science/research)
 "oyX" = (
@@ -80834,6 +80844,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/chair/office/light,
+/obj/effect/landmark/start/scientist,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "pXQ" = (
@@ -89886,21 +89898,6 @@
 /turf/open/floor/iron/dark,
 /area/security/brig)
 "rVI" = (
-/obj/structure/table,
-/obj/item/stock_parts/matter_bin,
-/obj/item/stock_parts/matter_bin,
-/obj/item/stock_parts/scanning_module,
-/obj/item/stock_parts/scanning_module,
-/obj/item/stack/cable_coil,
-/obj/item/stack/cable_coil,
-/obj/item/stock_parts/scanning_module{
-	pixel_x = 2;
-	pixel_y = 3
-	},
-/obj/item/stock_parts/scanning_module{
-	pixel_x = 2;
-	pixel_y = 3
-	},
 /obj/item/radio/intercom{
 	freerange = 1;
 	name = "Common Channel";
@@ -89916,6 +89913,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
+/obj/machinery/component_printer,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "rVP" = (
@@ -91427,19 +91425,7 @@
 /area/security/brig)
 "smZ" = (
 /obj/structure/table,
-/obj/item/stock_parts/manipulator,
-/obj/item/stock_parts/capacitor,
-/obj/item/stock_parts/capacitor,
-/obj/item/stock_parts/manipulator,
-/obj/item/stock_parts/micro_laser,
-/obj/item/stock_parts/micro_laser,
-/obj/item/clothing/glasses/science,
-/obj/item/radio/headset/headset_sci,
 /obj/machinery/cell_charger,
-/obj/item/stock_parts/cell/high{
-	charge = 100;
-	maxcharge = 15000
-	},
 /obj/effect/turf_decal/siding/purple{
 	dir = 1
 	},
@@ -91450,23 +91436,14 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
-/obj/item/experi_scanner,
+/obj/item/controller,
+/obj/item/multitool/circuit,
+/obj/item/compact_remote,
+/obj/item/compact_remote,
+/obj/item/multitool/circuit,
+/obj/item/controller,
 /turf/open/floor/iron/white,
 /area/science/lab)
-"snc" = (
-/obj/machinery/lapvend,
-/obj/effect/turf_decal/siding/purple{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/purple,
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
-	},
-/turf/open/floor/iron/white,
-/area/science/robotics/lab)
 "sng" = (
 /obj/machinery/light,
 /obj/effect/turf_decal/siding/blue,
@@ -94540,7 +94517,6 @@
 /turf/open/floor/iron,
 /area/cargo/office)
 "sYc" = (
-/obj/machinery/rnd/destructive_analyzer,
 /obj/effect/turf_decal/siding/purple{
 	dir = 1
 	},
@@ -94558,6 +94534,7 @@
 	pixel_y = 25
 	},
 /obj/structure/cable,
+/obj/machinery/rnd/production/circuit_imprinter,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "sYg" = (
@@ -99028,6 +99005,11 @@
 	},
 /obj/effect/turf_decal/delivery,
 /obj/structure/cable,
+/obj/machinery/door/window/eastright{
+	dir = 8;
+	name = "Research and Development Desk";
+	req_one_access_txt = "7"
+	},
 /turf/open/floor/iron/white,
 /area/science/lab)
 "tWn" = (
@@ -102416,10 +102398,6 @@
 /area/command/teleporter)
 "uGG" = (
 /obj/structure/cable,
-/obj/structure/chair/office/light{
-	dir = 4
-	},
-/obj/effect/landmark/start/scientist,
 /obj/effect/turf_decal/siding/purple/corner{
 	dir = 4
 	},
@@ -112578,6 +112556,13 @@
 	},
 /obj/item/experi_scanner,
 /obj/item/experi_scanner,
+/obj/item/stock_parts/scanning_module{
+	pixel_x = 2;
+	pixel_y = 3
+	},
+/obj/item/stack/cable_coil,
+/obj/item/stock_parts/scanning_module,
+/obj/item/stock_parts/matter_bin,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "wRI" = (
@@ -115051,6 +115036,10 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/window/eastright{
+	name = "Research and Development Desk";
+	req_one_access_txt = "7"
+	},
 /turf/open/floor/iron/white,
 /area/science/lab)
 "xtn" = (
@@ -116067,6 +116056,12 @@
 	dir = 1
 	},
 /obj/item/experi_scanner,
+/obj/item/stock_parts/scanning_module{
+	pixel_x = 2;
+	pixel_y = 3
+	},
+/obj/item/stack/cable_coil,
+/obj/item/stock_parts/matter_bin,
 /turf/open/floor/iron/white,
 /area/science/lab)
 "xBt" = (
@@ -118486,7 +118481,6 @@
 /turf/open/floor/grass,
 /area/service/hydroponics/garden)
 "yaP" = (
-/obj/item/toy/plush/lizardplushie,
 /obj/structure/bed/dogbed,
 /turf/open/floor/carpet/royalblue,
 /area/command/bridge)
@@ -127362,7 +127356,7 @@ neb
 neb
 neb
 neb
-adm
+neb
 gdM
 cFp
 jLt
@@ -134228,7 +134222,7 @@ uTD
 xSa
 veY
 ori
-snc
+vAe
 tpx
 jti
 beL
@@ -141156,7 +141150,7 @@ kaX
 jvE
 eic
 sYc
-xqo
+adm
 tcy
 tjs
 ajC
