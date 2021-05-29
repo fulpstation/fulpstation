@@ -7,6 +7,7 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
+	// tips = BLOODSUCKER_TIPS // Willard - Uncomment this to enable antag tips.
 	/// List of all Antagonists that can't be vassalized.
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,

@@ -61,3 +61,25 @@
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 /// Defines the Mentorhelp's Mentorsay button
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
+
+/*
+ *	Antag Tip Defines
+ */
+#define TRAITOR_TIPS "traitor"
+#define IAA_TIPS "iaa"
+#define IAA_AI_TIPS "iaa_ai"
+#define MALF_TIPS "malf_ai"
+#define NUKIE_TIPS "nukie"
+#define WIZARD_TIPS "wizard"
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+#define IMPOSTER_TIPS "imposter"
+#define CULTIST_TIPS "cultist"
+#define HERETIC_TIPS "heretic"
+#define CHANGELING_TIPS "changeling"
+#define ABDUCTOR_TIPS "abductor"
+#define REVOLUTIONARY_TIPS "revolutionary"
+
+/// NOTE: These don't have any HTMLs! Willard will have to add them in.
+#define BLOODSUCKER_TIPS "bloodsucker"
+#define MONSTERHUNTER_TIPS "monsterhunter"
+#define VASSAL_TIPS "vassal"

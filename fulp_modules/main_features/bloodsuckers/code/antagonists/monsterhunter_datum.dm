@@ -12,6 +12,7 @@
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
+	// tips = MONSTERHUNTER_TIPS // Willard - Uncomment this to enable antag tips.
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
 	var/give_objectives = TRUE
