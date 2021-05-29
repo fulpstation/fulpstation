@@ -69,30 +69,30 @@
 			/// Both are Mentors
 			to_chat(C,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, TRUE, FALSE)]</b>: [msg]</font>",
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, TRUE, FALSE)]</b>: [msg]</font>",
 				confidential = TRUE)
 		else
 			/// Sender is a Non-Mentor
 			to_chat(C,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Reply PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='purple'>Reply PM from-<b>[key_name_mentor(src, C, TRUE, FALSE)]</b>: [msg]</font>",
 				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, TRUE, FALSE)]</b>: [msg]</font>",
 				confidential = TRUE)
 
 	else
 		if(is_mentor())
 			/// Reciever is a Non-Mentor - Left unsorted so people that Mentorhelp with Mod chat off will still get it, otherwise they'll complain.
-			to_chat(C, "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>")
+			to_chat(C, "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, TRUE, FALSE, FALSE)]</b>: [msg]</font>")
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, TRUE, FALSE)]</b>: [msg]</font>",
 				confidential = TRUE)
 
 	/// We don't use message_Mentors here because the sender/receiver might get it too
@@ -101,5 +101,5 @@
 		if(X.key!=key && X.key!=C.key)
 			to_chat(X,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, 0, 0)]-&gt;[key_name_mentor(C, X, 0, 0)]:</B> <font color = #5c00e6> [msg]</font>",
+				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, FALSE, FALSE)]-&gt;[key_name_mentor(C, X, FALSE, FALSE)]:</B> <font color = #5c00e6> [msg]</font>",
 				confidential = TRUE)

@@ -10,8 +10,8 @@
 	if(!mob)
 		return
 
-	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0)]</b>: [msg]</font></span>"
-	log_mentor("MENTORHELP: [key_name_mentor(usr, 0, 0)]: [msg]")
+	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, TRUE, FALSE)]</b>: [msg]</font></span>"
+	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
 	/// Send the Mhelp to all Mentors/Admins
 	for(var/client/X in GLOB.mentors | GLOB.admins)
@@ -60,10 +60,10 @@
 	. = ""
 
 	if(!ckey)
-		include_link = 0
+		include_link = null
 
 	if(key)
-		if(include_link)
+		if(include_link != null)
 			. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
 
 		if(C && C.holder && C.holder.fakekey)
@@ -73,7 +73,7 @@
 		if(!C)
 			. += "\[DC\]"
 
-		if(include_link)
+		if(include_link != null)
 			. += "</a>"
 	else
 		. += "*no key*"
