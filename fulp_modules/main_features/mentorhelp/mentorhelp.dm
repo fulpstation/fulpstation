@@ -2,7 +2,6 @@
 	set category = "Mentor"
 	set name = "Mentorhelp"
 
-	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	/// Cleans the input message
 	if(!msg)
 		return
@@ -10,6 +9,7 @@
 	if(!mob)
 		return
 
+	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, TRUE, FALSE)]</b>: [msg]</font></span>"
 	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
