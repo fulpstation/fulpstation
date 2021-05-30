@@ -71,8 +71,9 @@
 /datum/antagonist/monsterhunter/on_removal()
 	/// Remove buffs
 	owner.unconvertable = FALSE
-	REMOVE_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
+	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
+	for(var/T in owner.current.status_traits)
+		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	/// Remove Monster Hunter powers
 	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)

@@ -11,7 +11,7 @@
 	show_name_in_check_antagonists = TRUE
 	/// Who made me?
 	var/datum/antagonist/bloodsucker/master
-	/// Purchased powers, Tremere Bloodsuckers get a weaker version of Brawn
+	/// Purchased powers.
 	var/list/datum/action/powers = list()
 	/// Am I protected from getting my antag removed if I get Mindshielded?
 	var/protected_from_mindshielding = FALSE
@@ -34,7 +34,7 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
-			/// Special Check: Some Clans make your Vassals immune to deconversion.
+			/// Is my Master part of Tremere?
 			if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
 				protected_from_mindshielding = TRUE
 		owner.enslave_mind_to_creator(master.owner.current)
