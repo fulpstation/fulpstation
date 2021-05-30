@@ -104,3 +104,13 @@
 				L.stuttering = max(8, L.stuttering)
 				L.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity
 
+/// Vassal version
+/datum/action/bloodsucker/targeted/haste/vassal
+	name = "Speed of Sound"
+	desc = "Rely on your Master's Dashing techniques to move at supernatural speed, leaving those nearby knocked away, stunned, or left empty-handed."
+	button_icon_state = "power_speed"
+	bloodcost = 5
+	cooldown = 120
+	target_range = 15
+	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE
