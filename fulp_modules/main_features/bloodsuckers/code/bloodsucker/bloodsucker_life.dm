@@ -142,8 +142,10 @@
 	var/mob/living/carbon/C = owner.current
 	/// Remove their husk first, so everything else can work
 	C.cure_husk()
-	/// Now repair their organs - Note that Bloodsuckers currently (if intended) don't regenerate lost organs.
-	for(var/O in C.internal_organs) // NOTE: Giving them passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at you!
+	/// Regenerate lost Organs
+//	C.regenerate_organs() // NOTE: This removes the changes we make to their eyes from AssignStarterPowersAndStats()
+	/// They regenerated lost organs, now repair them.
+	for(var/O in C.internal_organs) // NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
 	/// Torpor revives the dead once complete.
@@ -188,7 +190,7 @@
 	if(!(owner.current.mob_biotypes & MOB_ORGANIC))
 		FinalDeath()
 		return
-	/* !! Removed due to killing Slimepeople. Replaced with the ORGANIG check above. Torpor should be checking their organs anyways.
+	/* !! Removed due to killing Slimepeople. Replaced with the ORGANIC check above. Torpor should be checking their organs anyways.
 	// Missing Brain or Heart?
 	if(!owner.current.HaveBloodsuckerBodyparts())
 		FinalDeath()
