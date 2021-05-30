@@ -149,7 +149,7 @@
  */
 
 /datum/antagonist/bloodsucker/proc/HealVampireOrgans()
-	var/mob/living/carbon/bloodsuckeruser = owner.currenthttps://github.com/tgstation/tgstation/pull/59064
+	var/mob/living/carbon/bloodsuckeruser = owner.current
 	/// Step 1
 	bloodsuckeruser.cure_husk()
 	bloodsuckeruser.regenerate_organs()
