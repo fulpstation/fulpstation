@@ -100,6 +100,7 @@
 	forge_bloodsucker_objectives()
 	/// Start Sunlight if first Bloodsucker
 	clan.check_start_sunlight()
+	/// Assign Powers
 	AssignStarterPowersAndStats()
 	/// Name & Title
 	SelectFirstName()
@@ -284,8 +285,6 @@
 	/// No Skittish "People" allowed
 	if(HAS_TRAIT(owner.current, TRAIT_SKITTISH))
 		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
-	/// Clear Disabilities
-	CureDisabilities()
 	/// Stats
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/H = owner.current
@@ -299,17 +298,8 @@
 	/// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
-	/// Heart
-	CheckVampOrgans()
-	/// Eyes
-	var/mob/living/carbon/user = owner.current
-	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
-	if(E)
-		E.flash_protect -= 1
-		E.sight_flags = SEE_MOBS
-		E.see_in_dark = 8
-		E.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
-	user.update_sight()
+	/// Clear Disabilities & Organs
+	HealVampireOrgans()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	/// Remove huds

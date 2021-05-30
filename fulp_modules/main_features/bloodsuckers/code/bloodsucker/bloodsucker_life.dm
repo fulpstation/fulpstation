@@ -109,7 +109,6 @@
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			C.extinguish_mob()
 			C.remove_all_embedded_objects() // Remove Embedded!
-			CheckVampOrgans() // Heart
 			if(check_limbs(costMult))
 				return TRUE
 		/// In Torpor, but not in a Coffin? Heal faster anyways.
@@ -138,33 +137,60 @@
 		playsound(C, 'sound/magic/demon_consume.ogg', 50, TRUE)
 		return TRUE
 
-/datum/antagonist/bloodsucker/proc/CureDisabilities()
-	var/mob/living/carbon/C = owner.current
-	/// Remove their husk first, so everything else can work
-	C.cure_husk()
-	/// Regenerate lost Organs
-//	C.regenerate_organs() // NOTE: This removes the changes we make to their eyes from AssignStarterPowersAndStats()
-	/// They regenerated lost organs, now repair them.
-	for(var/O in C.internal_organs) // NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
+/*
+ *	# Heal Vampire Organs
+ *
+ *	This is used by Bloodsuckers, these are the steps of this proc:
+ *	Step 1 - Cure husking and Regenerate organs. regenerate_organs() removes their Vampire Heart & Eye augments, which leads us to...
+ *	Step 2 - Repair any (shouldnt be possible) Organ damage, then return their Vampiric Heart & Eye benefits.
+ *	Step 3 - Revive them, clear all wounds, remove any Tumors (If any).
+ *
+ *	This is called on Bloodsucker's Assign, and when they end Torpor.
+ */
+
+/datum/antagonist/bloodsucker/proc/HealVampireOrgans()
+	var/mob/living/carbon/bloodsuckeruser = owner.currenthttps://github.com/tgstation/tgstation/pull/59064
+	/// Step 1
+	bloodsuckeruser.cure_husk()
+	bloodsuckeruser.regenerate_organs()
+
+	/// Step 2 - NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
+	for(var/O in bloodsuckeruser.internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	/// Torpor revives the dead once complete.
-	if(C.stat == DEAD)
-		C.revive(full_heal = FALSE, admin_revive = FALSE)
-	/// Clear all Wounds
-	for(var/i in C.all_wounds)
+	/// Heart & Eyes
+	var/obj/item/organ/heart/O = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
+		qdel(O)
+		var/obj/item/organ/heart/vampheart/H = new
+		H.Insert(owner.current)
+		H.Stop()
+	var/obj/item/organ/eyes/E = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
+	if(E)
+		E.flash_protect -= 1
+		E.sight_flags = SEE_MOBS
+		E.see_in_dark = 8
+		E.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	bloodsuckeruser.update_sight()
+
+	/// Step 3
+	if(bloodsuckeruser.stat == DEAD)
+		bloodsuckeruser.revive(full_heal = FALSE, admin_revive = FALSE)
+	for(var/i in bloodsuckeruser.all_wounds)
 		var/datum/wound/iter_wound = i
 		iter_wound.remove_wound()
-	/// Remove Body Eggs & Zombie tumors - From panacea.dm
+	// [powers/panacea.dm]
 	var/list/bad_organs = list(
-		C.getorgan(/obj/item/organ/body_egg),
-		C.getorgan(/obj/item/organ/zombie_infection))
+		bloodsuckeruser.getorgan(/obj/item/organ/body_egg),
+		bloodsuckeruser.getorgan(/obj/item/organ/zombie_infection))
 	for(var/tumors in bad_organs)
 		var/obj/item/organ/yucky_organs = tumors
 		if(!istype(yucky_organs))
 			continue
-		yucky_organs.Remove(C)
-		yucky_organs.forceMove(get_turf(C))
+		yucky_organs.Remove(bloodsuckeruser)
+		yucky_organs.forceMove(get_turf(bloodsuckeruser))
+
+	/// Good to go!
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -348,7 +374,7 @@
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	CureDisabilities()
+	HealVampireOrgans()
 
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
