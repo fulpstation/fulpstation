@@ -1,4 +1,8 @@
-/// Overwrites sec_hud_set_ID [code/games/data_huds.dm] to make fulp jobs get their HUD icons.
+/*
+ *	# Fulp Job HUDs
+ *
+ *	Overwrites sec_hud_set_ID [code/games/data_huds.dm] to make Fulp jobs use their own HUD icons.
+ */
 
 /mob/living/carbon/human/sec_hud_set_ID()
 	var/image/holder = hud_list[ID_HUD]
