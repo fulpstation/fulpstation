@@ -175,7 +175,10 @@
 				switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
 					if("Yes")
 						ClaimCoffin(user)
-			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
+			/// Level up? Auto-Fails if not appropriate
+			if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+				return TRUE
+			bloodsuckerdatum.SpendRank()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
