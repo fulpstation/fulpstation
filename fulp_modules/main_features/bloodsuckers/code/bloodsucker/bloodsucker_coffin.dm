@@ -175,10 +175,25 @@
 				switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
 					if("Yes")
 						ClaimCoffin(user)
-			/// Level up? Auto-Fails if not appropriate
-			if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-				return TRUE
-			bloodsuckerdatum.SpendRank()
+			/// Level up? Auto-Fails if not appropriate - Ventrue cannot level up in a Coffin.
+			if(bloodsuckerdatum.my_clan != CLAN_VENTRUE)
+				bloodsuckerdatum.SpendRank()
+			var/total_brute = user.getBruteLoss_nonProsthetic()
+			var/total_burn = user.getFireLoss_nonProsthetic()
+			var/total_damage = total_brute + total_burn
+			/// You're in a Coffin, everything else is done, you're likely here to heal. Let's office them the oppertunity to do so.
+			if(!bloodsuckerdatum.clan.bloodsucker_sunlight.amDay && total_damage >= 10)
+				if(!HAS_TRAIT(user, TRAIT_NODEATH))
+					to_chat(user, "<span class='notice'>Do you wish to enter Torpor? You will sleep to heal quickly, but cannot exit Torpor until fully healed!</span>")
+					var/list/torpor_options = list(
+						"Yes" = image(icon = 'icons/hud/screen_alert.dmi', icon_state = "asleep"),
+						"No" = image(icon = 'icons/hud/screen_alert.dmi', icon_state = "drunk2")
+						)
+					var/torpor_response = show_radial_menu(user, src, torpor_options, radius = 36, require_near = TRUE)
+					switch(torpor_response)
+						if("Yes")
+							bloodsuckerdatum.Torpor_Begin()
+							return
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.

@@ -238,7 +238,6 @@
 			if(HandleHealing(1))
 				to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
 				Torpor_Begin()
-				return
 
 /*
  *	High: 	Faster Healing
@@ -330,9 +329,8 @@
 			if(owner.current.AmStaked())
 				to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
-			/// Otherwise, check for Sol, or if injured enough to enter Torpor.
-			if(clan.bloodsucker_sunlight.amDay || total_damage >= 10)
-				to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+			/// Otherwise, check if it's Sol, to enter Torpor.
+			if(clan.bloodsucker_sunlight.amDay)
 				Torpor_Begin()
 	/// If it's not Sol and you have 0 Brute damage, check to End Torpor.
 	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
@@ -340,6 +338,7 @@
 			Check_End_Torpor()
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
+	to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
 	/// Force them to go to sleep
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	/// Without this, you'll just keep dying while you recover.
