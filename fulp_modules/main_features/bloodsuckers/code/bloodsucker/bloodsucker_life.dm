@@ -237,7 +237,7 @@
 		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
 			if(HandleHealing(1))
 				to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
-				Torpor_Begin()
+				Check_Begin_Torpor(TRUE)
 
 /*
  *	High: 	Faster Healing
@@ -315,6 +315,23 @@
 	owner.current.Paralyze(3 SECONDS)
 	Frenzied = FALSE
 
+/*
+	# Torpor
+
+	Torpor is what deals with the Bloodsucker falling asleep, their healing, the effects, ect.
+	This is basically what Sol is meant to do to them, but they can also trigger it manually if they wish to heal, as Burn is only healed through Torpor.
+	You cannot manually exit Torpor, it is instead entered/exited by:
+
+	Torpor is triggered by:
+	- Being in a Coffin while Sol is on, dealt with by /HandleTorpor()
+	- Entering a Coffin with more than 10 combined Brute/Burn damage, dealt with by /closet/crate/coffin/close() [bloodsucker_coffin.dm] - This will give a Radial Yes/No menu on whether they want to enter Torpor.
+	- Death, dealt with by /HandleDeath()
+	Torpor is ended by:
+	- Having less than 10 Brute damage while OUTSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
+	- Having less than 10 Brute & Burn Combined while INSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
+	- Sol being over, dealt with by /sunlight/process() [bloodsucker_daylight.dm]
+*/
+
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)
 		return
@@ -331,11 +348,38 @@
 				return
 			/// Otherwise, check if it's Sol, to enter Torpor.
 			if(clan.bloodsucker_sunlight.amDay)
-				Torpor_Begin()
+				Check_Begin_Torpor(TRUE)
+		/// You are on a Coffin, check if it's not Daytime + you have less than 10 Brute/Burn combined. If so, check if you're in Torpor, and End it if so.
+		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
+			if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
+				Check_End_Torpor()
 	/// If it's not Sol and you have 0 Brute damage, check to End Torpor.
 	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
 		if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			Check_End_Torpor()
+
+/datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(ForcedTorpor = FALSE)
+	/// Are we entering Torpor via Sol/Death? Then entering it isnt optional!
+	if(ForcedTorpor)
+		Torpor_Begin()
+		return
+	var/mob/living/carbon/user = owner.current
+	var/total_brute = user.getBruteLoss_nonProsthetic()
+	var/total_burn = user.getFireLoss_nonProsthetic()
+	var/total_damage = total_brute + total_burn
+	/// Safety checks - Not daylight (That case is meant to be forced) & check for NODEATH Trait.
+	if(!clan.bloodsucker_sunlight.amDay && total_damage >= 10)
+		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
+			to_chat(user, "<span class='notice'>Do you wish to enter Torpor? You will sleep to heal quickly, but cannot exit Torpor until fully healed!</span>")
+			var/list/torpor_options = list(
+				"Yes" = image(icon = 'icons/hud/screen_alert.dmi', icon_state = "asleep"),
+				"No" = image(icon = 'icons/hud/screen_alert.dmi', icon_state = "drunk2"),
+				)
+			var/torpor_response = show_radial_menu(user, src, torpor_options, radius = 36, require_near = TRUE)
+			switch(torpor_response)
+				if("Yes")
+					Torpor_Begin()
+					return
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
 	to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
