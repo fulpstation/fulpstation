@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/targeted/brawn
 	name = "Brawn"
-	desc = "Snap restraints with ease, or deal terrible damage with your bare hands."
+	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
 	button_icon_state = "power_strength"
 	bloodcost = 8
 	cooldown = 90
@@ -35,8 +35,10 @@
 /// NOTE: Just like biodegrade.dm, we only remove one thing per use
 /datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
 	var/mob/living/carbon/human/user = owner
-	var/used = FALSE // Only one form of shackles removed per use
-	if(user.handcuffed) // Removes Handcuffs
+	/// Only one form of shackles removed per use
+	var/used = FALSE
+	/// Removes Handcuffs
+	if(user.handcuffed)
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 		if(!istype(O))
 			return FALSE
@@ -45,7 +47,8 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	else if(user.legcuffed) // Removes Legcuffs
+	/// Removes Legcuffs
+	else if(user.legcuffed)
 		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 		if(!istype(O))
 			return FALSE
@@ -54,7 +57,8 @@
 		user.clear_cuffs(O,TRUE)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	else if(user.wear_suit && user.wear_suit.breakouttime && !used) // Removes straightjacket
+	/// Removes straightjacket
+	else if(user.wear_suit && user.wear_suit.breakouttime && !used)
 		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 		if(!istype(S))
 			return FALSE
@@ -63,15 +67,17 @@
 		addtimer(CALLBACK(src, .proc/rip_straightjacket, user, S), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
-	else if(istype(user.loc, /obj/structure/closet) && !used) // Breaks out of lockers
+	/// Breaks out of lockers
+	else if(istype(user.loc, /obj/structure/closet) && !used)
 		var/obj/structure/closet/C = user.loc
 		if(!istype(C))
 			return FALSE
-		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes the locker open from within!</span>")
+		C.visible_message("<span class='warning'>[C] tears apart as [user] bashes it open from within!</span>")
 		to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
 		addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		used = TRUE
+	/// Did we end up using our ability?
 	return used
 
 /datum/action/bloodsucker/targeted/brawn/proc/rip_straightjacket(mob/living/carbon/human/user, obj/S)
@@ -79,7 +85,7 @@
 		qdel(S)
 
 /datum/action/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/C)
-	if(C && user.loc == C)
+	if(C)
 		C.welded = FALSE
 		C.locked = FALSE
 		C.broken = TRUE
@@ -150,6 +156,19 @@
 		else
 			to_chat(user, "<span class='notice'>You are not strong enough to pry this open.</span>")
 			return FALSE
+	// Target Type: Locker
+	else if(istype(target, /obj/structure/closet))
+		if(level_current >= 2)
+			var/obj/structure/closet/C = target
+			to_chat(user, "<span class='notice'>You prepare to break [C] open.</span>")
+			if(do_mob(usr, target, 2.5 SECONDS))
+				C.visible_message("<span class='warning'>[C] breaks open as [user] bashes the locker!</span>")
+				to_chat(user, "<span class='warning'>We bash [C] wide open!</span>")
+				addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
+				playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		else
+			to_chat(user, "<span class='notice'>You are not strong enough to break this open.</span>")
+			return FALSE
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
 	return isliving(A) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet)
@@ -170,4 +189,17 @@
 	// Target Type: Door
 	else if(istype(A, /obj/machinery/door))
 		return TRUE
+	// Target Type: Locker
+	else if(istype(A, /obj/structure/closet))
+		return TRUE
 	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
+
+/// Vassal version
+/datum/action/bloodsucker/targeted/brawn/vassal
+	name = "Strength"
+	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
+	button_icon_state = "power_strength"
+	bloodcost = 15
+	cooldown = 120
+	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE

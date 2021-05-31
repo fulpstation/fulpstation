@@ -7,9 +7,9 @@
  *	Role Defines, used for Antagonist jobs.
  */
 /// Bloodsuckers - Defines the role for preferences
-#define ROLE_BLOODSUCKER "bloodsucker"
+#define ROLE_BLOODSUCKER "Bloodsucker"
 /// Monster Hunters - Defines the role for preferences
-#define ROLE_MONSTERHUNTER "monster hunter"
+#define ROLE_MONSTERHUNTER "Monster Hunter"
 
 /*
  *	Source Trait Defines
@@ -21,9 +21,11 @@
  *	Martial art Defines
  */
 /// Used in hunterfu.dm
-#define MARTIALART_HUNTERFU "hunter-fu"
+#define MARTIALART_HUNTERFU "hunterfu"
 /// Used in deputy_block.dm
-#define MARTIALART_DEPUTYBLOCK "deputy block"
+#define MARTIALART_DEPUTYBLOCK "deputyblock"
+/// Used in bloodsucker_life.dm
+#define MARTIALART_FRENZYGRAB "FrenzyGrab"
 
 /*
  *	Bloodsucker Defines
@@ -36,10 +38,28 @@
 #define TRAIT_COLDBLOODED "coldblooded"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
-/// Unused define, kept here in case Swain wants to use it.
-#define BLOODSUCKER_LEVEL_TO_EMBRACE 3
-/// Checks if the given mob is a Bloodsucker
+/// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
+#define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
+#define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
+/* Clan defines
+*/
+/// More prone to Frenzy & Brawn/Punches deal more damage
+#define CLAN_BRUJAH "Brujah Clan"
+/// Can't use Masquerade, gets Bad Back quirk, Disfigured Trait & Gains the ability to Ventcrawl.
+#define CLAN_NOSFERATU "Nosferatu Clan"
+/// Weaker to HunterFu, burns in the Chapel, Can mutate their Vassals (who cannot be deconverted via Mindshielding) & Can revive dead people via the Persuasion Rack.
+#define CLAN_TREMERE "Tremere Clan"
+/// Cant drink blood out of mindless mobs, cant rank up, instead ranks their favorite vassal up.
+#define CLAN_VENTRUE "Ventrue Clan"
+/// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
+#define CLAN_MALKAVIAN "Malkavian Clan"
+/* Clan defines
+*/
+#define TREMERE_SKELETON "Skeleton Pirate"
+#define TREMERE_ZOMBIE "Zombie - Revives"
+#define TREMERE_HUSK "Husk - Drinks all their Blood"
+#define TREMERE_BAT "Bat - Chance to give them Bat form"
 
 /*
  *	Deputy Defines
@@ -49,7 +69,7 @@
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
 #define TRAIT_SUPPLYDEPUTY "supplydeputy"
 #define TRAIT_SERVICEDEPUTY "servicedeputy"
-///Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
+/// Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
 #define SEC_DEPT_SERVICE "Service"
 
 /*

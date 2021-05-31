@@ -302,7 +302,7 @@
 
 		if("lizard")
 			new /obj/item/clothing/suit/hooded/onesie/lizard(src)
-			new	/obj/item/toy/plush/lizardplushie(src)
+			new	/obj/item/toy/plush/lizard_plushie(src)
 
 		if("moth")
 			new /obj/item/clothing/suit/hooded/onesie/moth(src)
@@ -354,7 +354,7 @@
 
 /obj/item/storage/box/halloween/edition_20/onesie/lizard/PopulateContents()
 	new /obj/item/clothing/suit/hooded/onesie/lizard(src)
-	new	/obj/item/toy/plush/lizardplushie(src)
+	new	/obj/item/toy/plush/lizard_plushie(src)
 
 /obj/item/storage/box/halloween/edition_20/onesie/moth
 	theme_name = "2020's Onesie - Moth"

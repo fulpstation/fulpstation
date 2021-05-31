@@ -2,20 +2,18 @@
 	set category = "Mentor"
 	set name = "Mentorhelp"
 
-	// Cleans the input message
+	/// Cleans the input message
 	if(!msg)
+		return
+	/// This shouldn't happen, but just in case.
+	if(!mob)
 		return
 
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
-	if(!msg)
-		return
-	if(!mob)
-		return // This doesn't happen
+	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, TRUE, FALSE)]</b>: [msg]</font></span>"
+	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
-	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0)]</b>: [msg]</font></span>"
-	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0)]: [msg]")
-
-	// Send the Mhelp to all Mentors/Admins
+	/// Send the Mhelp to all Mentors/Admins
 	for(var/client/X in GLOB.mentors | GLOB.admins)
 		X << 'sound/items/bikehorn.ogg'
 		to_chat(X,
@@ -23,7 +21,7 @@
 			html = mentor_msg,
 			confidential = TRUE)
 
-	// Also show it to person Mhelping
+	/// Also show it to person Mhelping
 	to_chat(usr,
 		type = MESSAGE_TYPE_MODCHAT,
 		html = "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>",
@@ -31,23 +29,15 @@
 
 	return
 
-/proc/get_mentor_counts()
-	. = list("total" = 0, "afk" = 0, "present" = 0)
-	for(var/X in GLOB.mentors)
-		var/client/C = X
-		.["total"]++
-		if(C.is_afk())
-			.["afk"]++
-		else
-			.["present"]++
-
 /proc/key_name_mentor(whom, include_link = null, include_name = TRUE, include_follow = TRUE, char_name_only = TRUE)
 	var/mob/M
 	var/client/C
 	var/key
 	var/ckey
 
-	if(!whom)	return "*null*"
+	if(!whom)
+		return "*null*"
+
 	if(istype(whom, /client))
 		C = whom
 		M = C.mob
@@ -70,10 +60,10 @@
 	. = ""
 
 	if(!ckey)
-		include_link = 0
+		include_link = null
 
 	if(key)
-		if(include_link)
+		if(include_link != null)
 			. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
 
 		if(C && C.holder && C.holder.fakekey)
@@ -83,7 +73,7 @@
 		if(!C)
 			. += "\[DC\]"
 
-		if(include_link)
+		if(include_link != null)
 			. += "</a>"
 	else
 		. += "*no key*"
