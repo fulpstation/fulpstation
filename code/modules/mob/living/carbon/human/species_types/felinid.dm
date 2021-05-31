@@ -13,7 +13,7 @@
 	species_language_holder = /datum/language_holder/felinid
 	disliked_food = GROSS | RAW | CLOTH
 	toxic_food = FRUIT | VEGETABLES //Fulpstation Felinid Edit
-	brutemod = 3 //Fulpstation Felinid Edit
+	brutemod = 2 //Fulpstation Felinid Edit
 	var/original_felinid = TRUE //set to false for felinids created by mass-purrbation
 	payday_modifier = 0.75
 	ass_image = 'icons/ass/asscat.png'
