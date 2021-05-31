@@ -31,10 +31,11 @@
 				html = "<font color='red'>Error: Mentor-PM: Client not found.</font>",
 				confidential = TRUE)
 		else
-			mentorhelp(msg)	// Mentor we are replying to left. Mentorhelp instead(check below)
+			/// Mentor we are replying to left. Mentorhelp instead.
+			mentorhelp(msg)
 		return
 
-	// Get message text, limit it's length.and clean/escape html
+	/// Get message text, limit it's length.and clean/escape html
 	if(!msg)
 		msg = input(src,"Message:", "Private message") as text|null
 
@@ -47,11 +48,13 @@
 					type = MESSAGE_TYPE_MODCHAT,
 					html = "<font color='red'>Error: Mentor-PM: Client not found.</font>",
 					confidential = TRUE)
-			else // Mentor we are replying to has vanished, Mentorhelp instead
+			else
+				/// Mentor we are replying to has vanished, Mentorhelp instead
 				mentorhelp(msg)
 				return
 
-		if(!C.is_mentor() && !is_mentor()) // Neither party is a mentor, they shouldn't be PMing!
+		/// Neither party is a mentor, they shouldn't be PMing!
+		if(!C.is_mentor() && !is_mentor())
 			return
 
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
@@ -62,37 +65,41 @@
 	msg = emoji_parse(msg)
 	C << 'sound/items/bikehorn.ogg'
 	if(C.is_mentor())
-		if(is_mentor()) // Both are Mentors
-			to_chat(C,
-				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
-				confidential = TRUE)
-			to_chat(src,
-				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
-				confidential = TRUE)
-		else // Sender is a Non-Mentor
-			to_chat(C,
-				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='purple'>Reply PM from-<b>[key_name_mentor(src, C, 1, 0)]</b>: [msg]</font>",
-				confidential = TRUE)
-			to_chat(src,
-				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
-				confidential = TRUE)
-	else // Reciever is a Non-Mentor
 		if(is_mentor())
-			// Left unsorted so people dont Mhelp with Mod chat off, you signed up for this!
-			to_chat(C, "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, 0, 0)]</b>: [msg]</font>")
+			/// Both are Mentors
+			to_chat(C,
+				type = MESSAGE_TYPE_MODCHAT,
+				html = "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, TRUE, FALSE)]</b>: [msg]</font>",
+				confidential = TRUE)
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, 1, 0)]</b>: [msg]</font>",
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, TRUE, FALSE)]</b>: [msg]</font>",
+				confidential = TRUE)
+		else
+			/// Sender is a Non-Mentor
+			to_chat(C,
+				type = MESSAGE_TYPE_MODCHAT,
+				html = "<font color='purple'>Reply PM from-<b>[key_name_mentor(src, C, TRUE, FALSE)]</b>: [msg]</font>",
+				confidential = TRUE)
+			to_chat(src,
+				type = MESSAGE_TYPE_MODCHAT,
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, TRUE, FALSE)]</b>: [msg]</font>",
 				confidential = TRUE)
 
-	// We don't use message_Mentors here because the sender/receiver might get it too
+	else
+		if(is_mentor())
+			/// Reciever is a Non-Mentor - Left unsorted so people that Mentorhelp with Mod chat off will still get it, otherwise they'll complain.
+			to_chat(C, "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, TRUE, FALSE, FALSE)]</b>: [msg]</font>")
+			to_chat(src,
+				type = MESSAGE_TYPE_MODCHAT,
+				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, C, TRUE, FALSE)]</b>: [msg]</font>",
+				confidential = TRUE)
+
+	/// We don't use message_Mentors here because the sender/receiver might get it too
 	for(var/client/X in GLOB.mentors | GLOB.admins)
-		if(X.key!=key && X.key!=C.key) // Check client/X is an Mentor and isn't the Sender/Recipient
+		/// Check client/X is an Mentor and isn't the Sender/Recipient
+		if(X.key!=key && X.key!=C.key)
 			to_chat(X,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, 0, 0)]-&gt;[key_name_mentor(C, X, 0, 0)]:</B> <font color = #5c00e6> [msg]</font>",
+				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, FALSE, FALSE)]-&gt;[key_name_mentor(C, X, FALSE, FALSE)]:</B> <font color = #5c00e6> [msg]</font>",
 				confidential = TRUE)
