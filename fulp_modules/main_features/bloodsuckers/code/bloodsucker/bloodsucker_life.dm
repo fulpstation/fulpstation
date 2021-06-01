@@ -356,9 +356,9 @@
 	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10 && HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		Check_End_Torpor()
 
-/datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(CheckChecks = FALSE)
+/datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(SkipChecks = FALSE)
 	/// Are we entering Torpor via Sol/Death? Then entering it isnt optional!
-	if(CheckChecks)
+	if(SkipChecks)
 		Torpor_Begin()
 		return
 	var/mob/living/carbon/user = owner.current
