@@ -81,23 +81,19 @@
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
 
 /*
- *	Antag Tip Defines
+ *	Antag Tip Defines NOTE: Monster hunter, bloodsucker and vassal don't have any HTMLs! Willard will have to add them in.
  */
-#define TRAITOR_TIPS "traitor"
-#define IAA_TIPS "iaa"
-#define IAA_AI_TIPS "iaa_ai"
-#define MALF_TIPS "malf_ai"
-#define NUKIE_TIPS "nukie"
-#define WIZARD_TIPS "wizard"
-#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
-#define IMPOSTER_TIPS "imposter"
+#define ABDUCTOR_TIPS "abductor"
+#define BLOODSUCKER_TIPS "bloodsucker"
+#define CHANGELING_TIPS "changeling"
 #define CULTIST_TIPS "cultist"
 #define HERETIC_TIPS "heretic"
-#define CHANGELING_TIPS "changeling"
-#define ABDUCTOR_TIPS "abductor"
-#define REVOLUTIONARY_TIPS "revolutionary"
-
-/// NOTE: These don't have any HTMLs! Willard will have to add them in.
-#define BLOODSUCKER_TIPS "bloodsucker"
+#define IMPOSTER_TIPS "imposter"
+#define MALF_TIPS "malf_ai"
 #define MONSTERHUNTER_TIPS "monsterhunter"
+#define NUKIE_TIPS "nukie"
+#define REVOLUTIONARY_TIPS "revolutionary"
+#define TRAITOR_TIPS "traitor"
 #define VASSAL_TIPS "vassal"
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+#define WIZARD_TIPS "wizard"

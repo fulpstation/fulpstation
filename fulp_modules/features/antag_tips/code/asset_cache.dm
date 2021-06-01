@@ -21,7 +21,6 @@
 		"heart.png" = 'fulp_modules/features/antag_tips/icons/heart.png',
 		"heretic.png" = 'fulp_modules/features/antag_tips/icons/heretic.png',
 		"heretic_rune.png" = 'fulp_modules/features/antag_tips/icons/heretic_rune.png',
-		"iaa.png" = 'fulp_modules/features/antag_tips/icons/iaa.png',
 		"implanter.png" = 'fulp_modules/features/antag_tips/icons/implanter.png',
 		"influence.png" = 'fulp_modules/features/antag_tips/icons/influence.png',
 		"malf_ai.png" = 'fulp_modules/features/antag_tips/icons/malf_ai.png',
