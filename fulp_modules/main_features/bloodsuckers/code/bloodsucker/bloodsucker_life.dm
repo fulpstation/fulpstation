@@ -347,14 +347,13 @@
 				to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
 				return
 			/// Otherwise, check if it's Sol, to enter Torpor.
-			if(clan.bloodsucker_sunlight.amDay && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
+			if(clan.bloodsucker_sunlight.amDay)
 				Check_Begin_Torpor(TRUE)
 		/// You are in Torpor, and in a Coffin. Check if it's not Daytime & you have less than 10 Brute/Burn combined to end Torpor.
 		else if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
 			Check_End_Torpor()
-			return
 	/// You're not in a Coffin, but are in Torpor. Check if it's not Daytime, & you have less than 10 Brute (NOT Burn) to end Torpor.
-	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10 && HAS_TRAIT(owner.current, TRAIT_NODEATH))
+	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10 && HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		Check_End_Torpor()
 
 /datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(CheckChecks = FALSE)
