@@ -12,6 +12,7 @@
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 - code/modules/mob/living/carbon/human/examine.dm > Added Bloodsucker examine text
+- code/game/objects/items/implants/implant_mindshield.dm > Mindshielding removes Vassalization
 
 ## TG proc overwrites:
 
@@ -45,6 +46,9 @@
 - 'sound/effects/snap.ogg' > Hunter-Fu
 - 'sound/weapons/slash.ogg' > Hunter-Fu
 - 'sound/weapons/punch1.ogg' > Hunter-Fu
+- 'sound/machines/buzz-sigh.ogg' > Persuasion Rack
+
+- icons/hud/radial.dmi 'radial_yes' 'radial_no' > Persuasion rack's Radial menu to secure it in place.
 
 ## Notes/Credits:
 

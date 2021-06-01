@@ -96,7 +96,7 @@
 		var/power_time = 90 + level_current * 15
 		if(iscarbon(target))
 			var/mob/living/carbon/mesmerized = target
-			if(mesmerized.mind && mesmerized.mind.has_antag_datum(/datum/antagonist/monsterhunter))
+			if(IS_MONSTERHUNTER(mesmerized))
 				to_chat(mesmerized, "<span class='notice'>You feel your eyes burn for a while, but it passes.</span>")
 				return
 			ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
@@ -110,7 +110,7 @@
 					mesmerized.notransform = FALSE
 					REMOVE_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 					// They Woke Up! (Notice if within view)
-					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(10, get_turf(user))))
+					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(6, get_turf(user))))
 						to_chat(user, "<span class='warning'>[mesmerized] has snapped out of their trance.</span>")
 		if(issilicon(target))
 			var/mob/living/silicon/mesmerized = target

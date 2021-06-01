@@ -16,26 +16,33 @@
 	scaling_cost = 9
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 24)
+	var/datum/team/vampireclan/bloodsucker_clan
+
+/datum/dynamic_ruleset/roundstart/bloodsucker/ready(population, forced = FALSE)
+	required_candidates = get_antag_cap(population)
+	. = ..()
+
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/pre_execute(population)
 	. = ..()
 	var/num_bloodsuckers = get_antag_cap(population) * (scaled_times + 1)
-
 	for(var/i = 1 to num_bloodsuckers)
-		var/mob/picked_candidate = pick_n_take(candidates)
-		assigned += picked_candidate.mind
-		picked_candidate.mind.restricted_roles = restricted_roles
-		picked_candidate.mind.special_role = ROLE_BLOODSUCKER
-		GLOB.pre_setup_antags += picked_candidate.mind
+		if(candidates.len <= 0)
+			break
+		var/mob/M = pick_n_take(candidates)
+		assigned += M.mind
+		M.mind.special_role = ROLE_BLOODSUCKER
+		M.mind.restricted_roles = restricted_roles
+		GLOB.pre_setup_antags += M.mind
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/execute()
-
-	for(var/c in assigned)
-		var/datum/mind/bloodsucker = c
+	bloodsucker_clan = new
+	for(var/datum/mind/M in assigned)
 		var/datum/antagonist/bloodsucker/new_antag = new antag_datum()
-		bloodsucker.add_antag_datum(new_antag)
-		GLOB.pre_setup_antags -= bloodsucker
+		new_antag.clan = bloodsucker_clan
+		M.add_antag_datum(new_antag)
+		GLOB.pre_setup_antags -= M
 	return TRUE
 
 //////////////////////////////////////////////
@@ -57,7 +64,7 @@
 	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
 	repeatable = FALSE
 
-/datum/dynamic_ruleset/midround/autotraitor/acceptable(population = 0, threat = 0)
+/datum/dynamic_ruleset/midround/bloodsucker/acceptable(population = 0, threat = 0)
 	var/player_count = mode.current_players[CURRENT_LIVING_PLAYERS].len
 	var/antag_count = mode.current_players[CURRENT_LIVING_ANTAGS].len
 	var/max_suckers = round(player_count / 10) + 1
@@ -72,7 +79,7 @@
 
 	return ..()
 
-/datum/dynamic_ruleset/midround/autotraitor/trim_candidates()
+/datum/dynamic_ruleset/midround/bloodsucker/trim_candidates()
 	..()
 	for(var/mob/living/player in living_players)
 		if(issilicon(player)) // Your assigned role doesn't change when you are turned into a silicon.
@@ -82,17 +89,18 @@
 		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
 			living_players -= player // We don't allow people with roles already
 
-/datum/dynamic_ruleset/midround/autotraitor/ready(forced = FALSE)
+/datum/dynamic_ruleset/midround/bloodsucker/ready(forced = FALSE)
 	if (required_candidates > living_players.len)
 		return FALSE
 	return ..()
 
-/datum/dynamic_ruleset/midround/autotraitor/execute()
+/datum/dynamic_ruleset/midround/bloodsucker/execute()
 	var/mob/M = pick(living_players)
-	assigned += M
-	living_players -= M
-	var/datum/antagonist/bloodsucker/Sucker = new
-	M.mind.add_antag_datum(Sucker)
+	assigned += M.mind
+	living_players -= M.mind
+	var/datum/antagonist/bloodsucker/sucker = new
+	M.mind.add_antag_datum(sucker)
+	sucker.bloodsucker_level_unspent = rand(2,3)
 	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
@@ -115,6 +123,16 @@
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
 	repeatable = FALSE
+
+/datum/dynamic_ruleset/latejoin/bloodsucker/execute()
+	var/mob/M = pick(candidates) // This should contain a single player, but in case.
+	assigned += M.mind
+	var/datum/antagonist/bloodsucker/sucker = new
+	M.mind.add_antag_datum(sucker)
+	sucker.bloodsucker_level_unspent = rand(2,3)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
+	return TRUE
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -182,20 +200,20 @@
 		return FALSE
 	return TRUE
 
-/datum/antagonist/bloodsucker/proc/AmValidAntag(datum/mind/M)
-	// No List?
-	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
-		return FALSE
-	// Am I NOT an invalid Antag? NOTE: We already excluded non-antags above. Don't worry about the "No List?" check in AmInvalidIntag()
-	return !AmInvalidAntag(M)
+/datum/antagonist/bloodsucker/proc/AmValidAntag(mob/M)
+	/// Check if they are an antag, if so, check if they're Invalid.
+	if(M.mind?.special_role || !isnull(M.mind?.antag_datums))
+		return !AmInvalidAntag(M)
+	/// Otherwise, just cancel out.
+	return FALSE
 
-/datum/antagonist/bloodsucker/proc/AmInvalidAntag(datum/mind/M)
-	// No List?
-	if(!islist(M.antag_datums) || M.antag_datums.len == 0)
+/datum/antagonist/bloodsucker/proc/AmInvalidAntag(mob/M)
+	/// Not an antag?
+	if(!is_special_character(M))
 		return FALSE
-	// Does even ONE antag appear in this mind that isn't in the list? Then FAIL!
-	for(var/datum/antagonist/antag_datum in M.antag_datums)
-		if(!(antag_datum.type in vassal_allowed_antags))  // vassal_allowed_antags is a list stored in Bloodsucker's datum, above.
+	/// Checks if the person is an antag banned from being vassalized, stored in bloodsucker's datum.
+	for(var/datum/antagonist/antag_datum in M.mind.antag_datums)
+		if(antag_datum.type in vassal_banned_antags)
 			//message_admins("DEBUG VASSAL: Found Invalid: [antag_datum] // [antag_datum.type]")
 			return TRUE
 	//message_admins("DEBUG VASSAL: Valid Antags! (total of [M.antag_datums.len])")
@@ -204,7 +222,7 @@
 
 /datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
 	C.silent = 0
-	return make_vassal(C,owner)
+	return make_vassal(C, owner)
 
 /datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator)
 	if(!can_make_vassal(target, creator))

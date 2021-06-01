@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/targeted/trespass
 	name = "Trespass"
-	desc = "Become mist and advance two tiles in one direction, ignoring all obstacles except for walls. Useful for skipping past doors and barricades."
+	desc = "Become mist and advance two tiles in one direction, ignoring all obstacles except Walls. Useful for skipping past doors and barricades."
 	button_icon_state = "power_tres"
 	bloodcost = 10
 	cooldown = 80
