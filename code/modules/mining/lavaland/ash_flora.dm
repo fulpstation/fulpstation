@@ -66,7 +66,7 @@
 	else
 		return ..()
 
-/obj/structure/flora/ash/attack_hand(mob/user)
+/obj/structure/flora/ash/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(.)
 		return
@@ -270,7 +270,6 @@
 	desc = "A spikey, round cluster of prickly star cacti. And no, it's not called a star cactus because it's in space."
 	icon_state = "starcactus"
 	filling_color = "#1c801c"
-	bite_consumption_mod = 3
 	foodtypes = VEGETABLES
 	distill_reagent = /datum/reagent/consumable/ethanol/tequila
 
@@ -335,11 +334,13 @@
 
 /obj/item/reagent_containers/glass/bowl/mushroom_bowl/update_overlays()
 	. = ..()
-	if(reagents?.total_volume)
-		var/mutable_appearance/filling = mutable_appearance('icons/obj/lavaland/ash_flora.dmi', "fullbowl")
-		filling.color = mix_color_from_reagents(reagents.reagent_list)
-		. += filling
+	if(!reagents?.total_volume)
+		return
+	var/mutable_appearance/filling = mutable_appearance('icons/obj/lavaland/ash_flora.dmi', "fullbowl")
+	filling.color = mix_color_from_reagents(reagents.reagent_list)
+	. += filling
 
 /obj/item/reagent_containers/glass/bowl/mushroom_bowl/update_icon_state()
 	if(!reagents || !reagents.total_volume)
 		icon_state = "mushroom_bowl"
+	return ..()

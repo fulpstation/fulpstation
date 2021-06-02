@@ -18,7 +18,7 @@
 	max_occurrences = 10
 
 /datum/round_event/rabbitrelease/announce(fake)
-	priority_announce("Unidentified furry objects detected coming aboard [station_name()]. Beware of Adorable-ness.", "Fluffy Alert", 'sound/ai/aliens.ogg')
+	priority_announce("Unidentified furry objects detected coming aboard [station_name()]. Beware of Adorable-ness.", "Fluffy Alert", ANNOUNCER_ALIENS)
 
 
 /datum/round_event/rabbitrelease/start()
@@ -26,13 +26,17 @@
 		if(R.name != "blobspawn")
 			if(prob(35))
 				if(isspaceturf(R.loc))
-					new /mob/living/simple_animal/chicken/rabbit/space(R.loc)
+					new /mob/living/simple_animal/rabbit/space(R.loc)
 				else
-					new /mob/living/simple_animal/chicken/rabbit(R.loc)
+					new /mob/living/simple_animal/rabbit(R.loc)
 
-/mob/living/simple_animal/chicken/rabbit
+/mob/living/simple_animal/rabbit
 	name = "\improper rabbit"
 	desc = "The hippiest hop around."
+	gender = PLURAL
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	health = 15
+	maxHealth = 15
 	icon = 'icons/mob/easter.dmi'
 	icon_state = "rabbit_white"
 	icon_living = "rabbit_white"
@@ -42,21 +46,51 @@
 	emote_hear = list("hops.")
 	emote_see = list("hops around","bounces up and down")
 	butcher_results = list(/obj/item/food/meat/slab = 1)
-	egg_type = /obj/item/food/egg/loaded
-	food_type = /obj/item/food/grown/carrot
-	eggsleft = 10
-	eggsFertile = FALSE
-	icon_prefix = "rabbit"
-	feedMessages = list("It nibbles happily.","It noms happily.")
-	layMessage = list("hides an egg.","scampers around suspiciously.","begins making a huge racket.","begins shuffling.")
-	pet_bonus = TRUE
-	pet_bonus_emote = "hops around happily!"
+	can_be_held = TRUE
+	density = FALSE
+	speak_chance = 2
+	turns_per_move = 3
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
+	response_disarm_continuous = "gently pushes aside"
+	response_disarm_simple = "gently push aside"
+	response_harm_continuous = "kicks"
+	response_harm_simple = "kick"
+	attack_verb_continuous = "kicks"
+	attack_verb_simple = "kick"
+	pass_flags = PASSTABLE | PASSMOB
+	mob_size = MOB_SIZE_SMALL
+	gold_core_spawnable = FRIENDLY_SPAWN
+	///passed to animal_variety component as the prefix icon.
+	var/icon_prefix = "rabbit"
+	///passed to egg_layer component as how many eggs it starts out as able to lay.
+	var/initial_egg_amount = 10
 
-/mob/living/simple_animal/chicken/rabbit/space
-	icon_prefix = "s_rabbit"
+/mob/living/simple_animal/rabbit/Initialize()
+	. = ..()
+	AddElement(/datum/element/pet_bonus, "hops around happily!")
+	AddElement(/datum/element/animal_variety, icon_prefix, pick("brown","black","white"), TRUE)
+	var/list/feed_messages = list("[p_they()] nibbles happily.", "[p_they()] noms happily.")
+	var/eggs_added_from_eating = rand(1, 4)
+	var/max_eggs_held = 8
+	AddComponent(/datum/component/egg_layer,\
+		/obj/item/food/egg/loaded,\
+		list(/obj/item/food/grown/carrot),\
+		feed_messages,\
+		list("hides an egg.","scampers around suspiciously.","begins making a huge racket.","begins shuffling."),\
+		initial_egg_amount,\
+		eggs_added_from_eating,\
+		max_eggs_held\
+	)
+
+/mob/living/simple_animal/rabbit/empty //top hats summon these kinds of rabbits instead of the normal kind
+	initial_egg_amount = 0
+
+/mob/living/simple_animal/rabbit/space
 	icon_state = "s_rabbit_white"
 	icon_living = "s_rabbit_white"
 	icon_dead = "s_rabbit_white_dead"
+	icon_prefix = "s_rabbit"
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 	maxbodytemp = 1500
@@ -90,7 +124,8 @@
 	icon_state = "bunnyhead"
 	inhand_icon_state = "bunnyhead"
 	desc = "Considerably more cute than 'Frank'."
-	slowdown = -1
+	slowdown = -0.3
+	clothing_flags = THICKMATERIAL | SNUG_FIT
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 
 /obj/item/clothing/suit/bunnysuit
@@ -98,7 +133,8 @@
 	desc = "Hop Hop Hop!"
 	icon_state = "bunnysuit"
 	inhand_icon_state = "bunnysuit"
-	slowdown = -1
+	slowdown = -0.3
+	clothing_flags = THICKMATERIAL
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 
@@ -166,22 +202,23 @@
 
 //Easter Recipes + food
 /obj/item/food/hotcrossbun
-	bite_consumption = 2
-	name = "hot-cross bun"
-	desc = "The Cross represents the Assistants that died for your sins."
+	name = "hot cross bun"
+	desc = "The cross represents the Assistants that died for your sins."
 	icon_state = "hotcrossbun"
-	foodtypes = SUGAR | GRAIN
-	tastes = list("easter")
+	food_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/sugar = 1)
+	foodtypes = SUGAR | GRAIN | BREAKFAST
+	tastes = list("pastry" = 1, "easter" = 1)
+	bite_consumption = 2
 
 /datum/crafting_recipe/food/hotcrossbun
-	name = "Hot-Cross Bun"
+	name = "Hot Cross Bun"
 	reqs = list(
-		/obj/item/food/bread/plain = 1,
+		/obj/item/food/breadslice/plain = 1,
 		/datum/reagent/consumable/sugar = 1
 	)
 	result = /obj/item/food/hotcrossbun
 
-	subcategory = CAT_MISCFOOD
+	subcategory = CAT_BREAD
 
 /datum/crafting_recipe/food/briochecake
 	name = "Brioche cake"
@@ -208,8 +245,7 @@
 		/obj/item/food/meatball = 1
 	)
 	result = /obj/item/food/scotchegg
-
-	subcategory = CAT_MISCFOOD
+	subcategory = CAT_EGG
 
 /datum/crafting_recipe/food/mammi
 	name = "Mammi"

@@ -168,13 +168,13 @@
 			excited = TRUE
 			SSair.active_turfs += src
 
-/turf/open/proc/GetHeatCapacity()
+/turf/open/GetHeatCapacity()
 	. = air.heat_capacity()
 
-/turf/open/proc/GetTemperature()
+/turf/open/GetTemperature()
 	. = air.temperature
 
-/turf/open/proc/TakeTemperature(temp)
+/turf/open/TakeTemperature(temp)
 	air.temperature += temp
 	air_update_turf(FALSE, FALSE)
 
@@ -245,7 +245,7 @@
 		else if(lube&SLIDE_ICE)
 			if(C.force_moving) //If we're already slipping extend it
 				qdel(C.force_moving)
-			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 1), 1, FALSE)	//spinning would be bad for ice, fucks up the next dir
+			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 1), 1, FALSE) //spinning would be bad for ice, fucks up the next dir
 		return TRUE
 
 /turf/open/proc/MakeSlippery(wet_setting = TURF_WET_WATER, min_wet_time = 0, wet_time_to_add = 0, max_wet_time = MAXIMUM_WET_TIME, permanent)
@@ -264,7 +264,7 @@
 	. = ..()
 	var/gas_change = FALSE
 	var/list/cached_gases = air.gases
-	if(cached_gases[/datum/gas/oxygen] && cached_gases[/datum/gas/carbon_dioxide])
+	if(cached_gases[/datum/gas/oxygen] && cached_gases[/datum/gas/carbon_dioxide] && air.temperature <= PLUOXIUM_TEMP_CAP)
 		gas_change = TRUE
 		var/pulse_strength = min(strength, cached_gases[/datum/gas/oxygen][MOLES] * 1000, cached_gases[/datum/gas/carbon_dioxide][MOLES] * 2000)
 		cached_gases[/datum/gas/carbon_dioxide][MOLES] -= pulse_strength / 2000

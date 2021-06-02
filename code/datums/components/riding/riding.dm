@@ -7,7 +7,7 @@
 
 
 /datum/component/riding
-	dupe_mode = COMPONENT_DUPE_UNIQUE_PASSARGS
+	dupe_mode = COMPONENT_DUPE_UNIQUE
 
 	var/last_move_diagonal = FALSE
 	///tick delay between movements, lower = faster, higher = slower
@@ -48,7 +48,7 @@
 	if(!ismovable(parent))
 		return COMPONENT_INCOMPATIBLE
 
-	handle_specials()
+	handle_specials(riding_mob)
 	riding_mob.updating_glide_size = FALSE
 	ride_check_flags |= buckle_mob_flags
 
@@ -91,7 +91,7 @@
 	. = defaults["[dir]"]
 	if(directional_vehicle_layers["[dir]"])
 		. = directional_vehicle_layers["[dir]"]
-	if(isnull(.))	//you can set it to null to not change it.
+	if(isnull(.)) //you can set it to null to not change it.
 		. = AM.layer
 	AM.layer = .
 

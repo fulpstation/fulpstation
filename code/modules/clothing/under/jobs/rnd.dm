@@ -7,8 +7,13 @@
 	name = "research director's vest suit"
 	icon_state = "director"
 	inhand_icon_state = "lb_suit"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 10, BIO = 10, RAD = 0, FIRE = 0, ACID = 35)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, RAD = 0, FIRE = 0, ACID = 35)
 	can_adjust = FALSE
+
+/obj/item/clothing/under/rank/rnd/research_director/doctor_hilbert
+	desc = "A Research Director jumpsuit belonging to the late and great Doctor Hilbert. The suit sensors have long since fizzled out from the stress of the Hilbert's Hotel."
+	has_sensor = NO_SENSORS
+	random_sensor = FALSE
 
 /obj/item/clothing/under/rank/rnd/research_director/skirt
 	name = "research director's vest suitskirt"
@@ -16,7 +21,6 @@
 	icon_state = "director_skirt"
 	inhand_icon_state = "lb_suit"
 	body_parts_covered = CHEST|GROIN|ARMS
-	can_adjust = FALSE
 	dying_key = DYE_REGISTRY_JUMPSKIRT
 	fitted = FEMALE_UNIFORM_TOP
 
@@ -25,7 +29,6 @@
 	name = "research director's tan suit"
 	icon_state = "rdwhimsy"
 	inhand_icon_state = "rdwhimsy"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, RAD = 0, FIRE = 0, ACID = 0)
 	can_adjust = TRUE
 	alt_covers_chest = TRUE
 
@@ -43,7 +46,6 @@
 	name = "research director's turtleneck"
 	icon_state = "rdturtle"
 	inhand_icon_state = "p_suit"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, RAD = 0, FIRE = 0, ACID = 0)
 	can_adjust = TRUE
 	alt_covers_chest = TRUE
 
@@ -62,7 +64,6 @@
 	icon_state = "toxins"
 	inhand_icon_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
 
 /obj/item/clothing/under/rank/rnd/scientist/skirt
 	name = "scientist's jumpskirt"

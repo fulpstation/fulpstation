@@ -8,7 +8,7 @@
 
 /mob/living/simple_animal/drone/attack_drone(mob/living/simple_animal/drone/D)
 	if(D != src && stat == DEAD)
-		var/d_input = alert(D,"Perform which action?","Drone Interaction","Reactivate","Cannibalize","Nothing")
+		var/d_input = tgui_alert(D,"Perform which action?","Drone Interaction",list("Reactivate","Cannibalize","Nothing"))
 		if(d_input)
 			switch(d_input)
 				if("Reactivate")
@@ -30,7 +30,7 @@
 					return
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
-/mob/living/simple_animal/drone/attack_hand(mob/user)
+/mob/living/simple_animal/drone/attack_hand(mob/user, list/modifiers)
 	if(ishuman(user))
 		if(stat == DEAD || status_flags & GODMODE || !can_be_held)
 			..()
@@ -152,8 +152,9 @@
 		to_chat(src, laws)
 		to_chat(src, "<i>Your onboard antivirus has initiated lockdown. Motor servos are impaired, ventilation access is denied, and your display reports that you are hacked to all nearby.</i>")
 		hacked = TRUE
+		set_shy(FALSE)
 		mind.special_role = "hacked drone"
-		ventcrawler = VENTCRAWLER_NONE //Again, balance
+		REMOVE_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 		speed = 1 //gotta go slow
 		message_admins("[ADMIN_LOOKUPFLW(src)] became a hacked drone hellbent on destroying the station!")
 	else
@@ -167,8 +168,9 @@
 		to_chat(src, laws)
 		to_chat(src, "<i>Having been restored, your onboard antivirus reports the all-clear and you are able to perform all actions again.</i>")
 		hacked = FALSE
+		set_shy(initial(shy))
 		mind.special_role = null
-		ventcrawler = initial(ventcrawler)
+		ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 		speed = initial(speed)
 		message_admins("[ADMIN_LOOKUPFLW(src)], a hacked drone, was restored to factory defaults!")
 	update_drone_icon_hacked()
@@ -186,6 +188,7 @@
  */
 /mob/living/simple_animal/drone/proc/liberate()
 	laws = "1. You are a Free Drone."
+	set_shy(FALSE)
 	to_chat(src, laws)
 
 /**

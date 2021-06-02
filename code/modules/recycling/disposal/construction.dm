@@ -37,7 +37,7 @@
 		var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
 		rotcomp.BaseRot(null,ROTATION_FLIP)
 
-	update_icon()
+	update_appearance()
 
 	AddElement(/datum/element/undertile, TRAIT_T_RAY_VISIBLE)
 
@@ -46,22 +46,22 @@
 	..()
 	setDir(old_dir) //pipes changing direction when moved is just annoying and buggy
 
-// update iconstate and dpdir due to dir and type
-/obj/structure/disposalconstruct/update_icon()
-	icon_state = initial(pipe_type.icon_state)
-	if(is_pipe())
-		icon_state = "con[icon_state]"
-		if(anchored)
-			layer = initial(pipe_type.layer)
-		else
-			layer = initial(layer)
-
-	else if(ispath(pipe_type, /obj/machinery/disposal/bin))
+/obj/structure/disposalconstruct/update_icon_state()
+	if(ispath(pipe_type, /obj/machinery/disposal/bin))
 		// Disposal bins receive special icon treating
-		if(anchored)
-			icon_state = "disposal"
-		else
-			icon_state = "condisposal"
+		icon_state = "[anchored ? "con" : null]disposal"
+		return ..()
+
+	icon_state = "[is_pipe() ? "con" : null][initial(pipe_type.icon_state)]"
+	return ..()
+
+// Extra layer handling
+/obj/structure/disposalconstruct/update_icon()
+	. = ..()
+	if(!is_pipe())
+		return
+
+	layer = anchored ? initial(pipe_type.layer) : initial(layer)
 
 /obj/structure/disposalconstruct/proc/get_disposal_dir()
 	if(!is_pipe())
@@ -93,10 +93,10 @@
 	if(rotation_type == ROTATION_FLIP)
 		var/obj/structure/disposalpipe/temp = pipe_type
 		if(initial(temp.flip_type))
-			if(ISDIAGONALDIR(dir))	// Fix RPD-induced diagonal turning
+			if(ISDIAGONALDIR(dir)) // Fix RPD-induced diagonal turning
 				setDir(turn(dir, 45))
 			pipe_type = initial(temp.flip_type)
-	update_icon()
+	update_appearance()
 
 /obj/structure/disposalconstruct/proc/can_be_rotated(mob/user,rotation_type)
 	if(anchored)
@@ -117,8 +117,10 @@
 
 		var/turf/T = get_turf(src)
 		if(T.intact && isfloorturf(T))
-			to_chat(user, "<span class='warning'>You can only attach the [pipename] if the floor plating is removed!</span>")
-			return TRUE
+			var/obj/item/crowbar/held_crowbar = user.is_holding_item_of_type(/obj/item/crowbar)
+			if(!held_crowbar || !T.crowbar_act(user, held_crowbar))
+				to_chat(user, "<span class='warning'>You can only attach the [pipename] if the floor plating is removed!</span>")
+				return TRUE
 
 		if(!ispipe && iswallturf(T))
 			to_chat(user, "<span class='warning'>You can't build [pipename]s on walls, only disposal pipes!</span>")
@@ -131,10 +133,13 @@
 				if(istype(CP, /obj/structure/disposalpipe/broken))
 					pdir = CP.dir
 				if(pdir & dpdir)
-					to_chat(user, "<span class='warning'>There is already a disposal pipe at that location!</span>")
-					return TRUE
+					if(istype(CP, /obj/structure/disposalpipe/broken))
+						qdel(CP)
+					else
+						to_chat(user, "<span class='warning'>There is already a disposal pipe at that location!</span>")
+						return TRUE
 
-		else	// Disposal or outlet
+		else // Disposal or outlet
 			var/found_trunk = locate(/obj/structure/disposalpipe/trunk) in T
 
 			if(!found_trunk)
@@ -144,7 +149,7 @@
 		set_anchored(TRUE)
 		to_chat(user, "<span class='notice'>You attach the [pipename] to the underfloor.</span>")
 	I.play_tool_sound(src, 100)
-	update_icon()
+	update_appearance()
 	return TRUE
 
 /obj/structure/disposalconstruct/welder_act(mob/living/user, obj/item/I)

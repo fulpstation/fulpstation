@@ -58,7 +58,7 @@
 	else
 		QDEL_NULL(my_port)
 
-/obj/machinery/computer/camera_advanced/shuttle_docker/attack_hand(mob/user)
+/obj/machinery/computer/camera_advanced/shuttle_docker/attack_hand(mob/user, list/modifiers)
 	if(jammed)
 		to_chat(user, "<span class='warning'>The Syndicate is jamming the console!</span>")
 		return
@@ -297,7 +297,7 @@
 
 /mob/camera/ai_eye/remote/shuttle_docker
 	visible_icon = FALSE
-	use_static = USE_STATIC_NONE
+	use_static = FALSE
 	var/list/placement_images = list()
 	var/list/placed_images = list()
 
@@ -305,8 +305,8 @@
 	src.origin = origin
 	return ..()
 
-/mob/camera/ai_eye/remote/shuttle_docker/setLoc(T)
-	..()
+/mob/camera/ai_eye/remote/shuttle_docker/setLoc(destination)
+	. = ..()
 	var/obj/machinery/computer/camera_advanced/shuttle_docker/console = origin
 	console.checkLandingSpot()
 

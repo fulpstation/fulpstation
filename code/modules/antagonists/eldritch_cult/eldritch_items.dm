@@ -32,35 +32,6 @@
 	if(target.stat == DEAD)
 		to_chat(user,"<span class='warning'>[target.real_name] is dead. Bring them to a transmutation rune!</span>")
 
-/datum/action/innate/heretic_shatter
-	name = "Shattering Offer"
-	desc = "By breaking your blade, you will be granted salvation from a dire situation. (Teleports you to a random safe turf on your current z level, but destroys your blade.)"
-	background_icon_state = "bg_ecult"
-	button_icon_state = "shatter"
-	icon_icon = 'icons/mob/actions/actions_ecult.dmi'
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE
-	var/mob/living/carbon/human/holder
-	var/obj/item/melee/sickly_blade/sword
-
-/datum/action/innate/heretic_shatter/Grant(mob/user, obj/object)
-	sword = object
-	holder = user
-	//i know what im doing
-	return ..()
-
-/datum/action/innate/heretic_shatter/IsAvailable()
-	if(IS_HERETIC(holder) || IS_HERETIC_MONSTER(holder))
-		return TRUE
-	else
-		return FALSE
-
-/datum/action/innate/heretic_shatter/Activate()
-	var/turf/safe_turf = find_safe_turf(zlevels = sword.z, extended_safety_checks = TRUE)
-	do_teleport(holder,safe_turf,forceMove = TRUE)
-	to_chat(holder,"<span class='warning'>You feel a gust of energy flow through your body... the Rusted Hills heard your call...</span>")
-	qdel(sword)
-
-
 /obj/item/melee/sickly_blade
 	name = "\improper Sickly Blade"
 	desc = "A sickly green crescent blade, decorated with an ornamental eye. You feel like you're being watched..."
@@ -79,11 +50,6 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "rends")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "rend")
-	var/datum/action/innate/heretic_shatter/linked_action
-
-/obj/item/melee/sickly_blade/Initialize()
-	. = ..()
-	linked_action = new(src)
 
 /obj/item/melee/sickly_blade/attack(mob/living/M, mob/living/user)
 	if(!(IS_HERETIC(user) || IS_HERETIC_MONSTER(user)))
@@ -93,17 +59,23 @@
 		return FALSE
 	return ..()
 
-/obj/item/melee/sickly_blade/pickup(mob/user)
-	. = ..()
-	linked_action.Grant(user, src)
-
-/obj/item/melee/sickly_blade/dropped(mob/user, silent)
-	. = ..()
-	linked_action.Remove(user, src)
+/obj/item/melee/sickly_blade/attack_self(mob/user)
+	var/turf/safe_turf = find_safe_turf(zlevels = z, extended_safety_checks = TRUE)
+	if(IS_HERETIC(user) || IS_HERETIC_MONSTER(user))
+		if(do_teleport(user, safe_turf, forceMove = TRUE, channel = TELEPORT_CHANNEL_MAGIC))
+			to_chat(user,"<span class='warning'>As you shatter [src], you feel a gust of energy flow through your body. The Rusted Hills heard your call...</span>")
+		else
+			to_chat(user,"<span class='warning'>You shatter [src], but your plea goes unanswered.</span>")
+	else
+		to_chat(user,"<span class='warning'>You shatter [src].</span>")
+	playsound(src, "shatter", 70, TRUE) //copied from the code for smashing a glass sheet onto the ground to turn it into a shard
+	qdel(src)
 
 /obj/item/melee/sickly_blade/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	var/datum/antagonist/heretic/cultie = user.mind.has_antag_datum(/datum/antagonist/heretic)
+
+	var/datum/antagonist/heretic/cultie = user.mind?.has_antag_datum(/datum/antagonist/heretic)
+
 	if(!cultie)
 		return
 	var/list/knowledge = cultie.get_all_knowledge()
@@ -113,6 +85,11 @@
 			eldritch_knowledge_datum.on_eldritch_blade(target,user,proximity_flag,click_parameters)
 		else
 			eldritch_knowledge_datum.on_ranged_attack_eldritch_blade(target,user,click_parameters)
+
+/obj/item/melee/sickly_blade/examine(mob/user)
+	. = ..()
+	if(IS_HERETIC(user) || IS_HERETIC_MONSTER(user))
+		. += "<span class='notice'><B>A heretic (or a servant of one) can shatter this blade to teleport to a random, mostly safe location by activating it in-hand.</B></span>"
 
 /obj/item/melee/sickly_blade/rust
 	name = "\improper Rusted Blade"
@@ -212,21 +189,24 @@
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/void_cloak
 	alternative_mode = TRUE
 
-/obj/item/clothing/suit/hooded/cultrobes/void/ToggleHood()
+/obj/item/clothing/suit/hooded/cultrobes/void/RemoveHood()
+	var/mob/living/carbon/carbon_user = loc
+	to_chat(carbon_user,"<span class='notice'>The kaleidoscope of colours collapses around you, as the cloak shifts to visibility!</span>")
+	item_flags &= ~EXAMINE_SKIP
+	return ..()
+
+/obj/item/clothing/suit/hooded/cultrobes/void/MakeHood()
 	if(!iscarbon(loc))
-		return
+		CRASH("[src] attempted to make a hood on a non-carbon thing: [loc]")
+
 	var/mob/living/carbon/carbon_user = loc
 	if(IS_HERETIC(carbon_user) || IS_HERETIC_MONSTER(carbon_user))
 		. = ..()
-		//We need to account for the hood shenanigans, and that way we can make sure items always fit, even if one of the slots is used by the fucking hood.
-		if(suittoggled)
-			to_chat(carbon_user,"<span class='notice'>The light shifts around you making the cloak invisible!</span>")
-		else
-			to_chat(carbon_user,"<span class='notice'>The kaleidoscope of colours collapses around you, as the cloak shifts to visibility!</span>")
-		item_flags = suittoggled ? EXAMINE_SKIP : ~EXAMINE_SKIP
-	else
-		to_chat(carbon_user,"<span class='danger'>You can't force the hood onto your head!</span>")
+		to_chat(carbon_user,"<span class='notice'>The light shifts around you making the cloak invisible!</span>")
+		item_flags |= EXAMINE_SKIP
+		return
 
+	to_chat(carbon_user,"<span class='danger'>You can't force the hood onto your head!</span>")
 
 /obj/item/clothing/mask/void_mask
 	name = "Abyssal Mask"
@@ -284,7 +264,7 @@
 		if(DT_PROB(25,delta_time))
 			human_in_range.Dizzy(5)
 
-/obj/item/melee/rune_knife
+/obj/item/melee/rune_carver
 	name = "Carving Knife"
 	desc = "Cold Steel, pure, perfect, this knife can carve the floor in many ways, but only few can evoke the dangers that lurk beneath reality."
 	icon = 'icons/obj/eldritch.dmi'
@@ -310,35 +290,35 @@
 	///Linked action
 	var/datum/action/innate/rune_shatter/linked_action
 
-/obj/item/melee/rune_knife/examine(mob/user)
+/obj/item/melee/rune_carver/examine(mob/user)
 	. = ..()
 	. += "This item can carve 'Alert carving' - nearly invisible rune that when stepped on gives you a prompt about where someone stood on it and who it was, doesn't get destroyed by being stepped on."
 	. += "This item can carve 'Grasping carving' - when stepped on it causes heavy damage to the legs and stuns for 5 seconds."
 	. += "This item can carve 'Mad carving' - when stepped on it causes dizzyness, jiterryness, temporary blindness, confusion , stuttering and slurring."
 
-/obj/item/melee/rune_knife/Initialize()
+/obj/item/melee/rune_carver/Initialize()
 	. = ..()
 	linked_action = new(src)
 
-/obj/item/melee/rune_knife/Destroy()
+/obj/item/melee/rune_carver/Destroy()
 	. = ..()
 	QDEL_NULL(linked_action)
 
-/obj/item/melee/rune_knife/pickup(mob/user)
+/obj/item/melee/rune_carver/pickup(mob/user)
 	. = ..()
 	linked_action.Grant(user, src)
 
-/obj/item/melee/rune_knife/dropped(mob/user, silent)
+/obj/item/melee/rune_carver/dropped(mob/user, silent)
 	. = ..()
 	linked_action.Remove(user, src)
 
-/obj/item/melee/rune_knife/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+/obj/item/melee/rune_carver/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(!is_type_in_typecache(target,blacklisted_turfs) && !drawing && proximity_flag)
+	if(isturf(target) && !is_type_in_typecache(target,blacklisted_turfs) && !drawing && proximity_flag)
 		carve_rune(target,user,proximity_flag,click_parameters)
 
 ///Action of carving runes, gives you the ability to click on floor and choose a rune of your need.
-/obj/item/melee/rune_knife/proc/carve_rune(atom/target, mob/user, proximity_flag, click_parameters)
+/obj/item/melee/rune_carver/proc/carve_rune(atom/target, mob/user, proximity_flag, click_parameters)
 	var/obj/structure/trap/eldritch/elder = locate() in range(1,target)
 	if(elder)
 		to_chat(user,"<span class='notice'>You can't draw runes that close to each other!</span>")
@@ -384,7 +364,7 @@
 	icon_icon = 'icons/mob/actions/actions_ecult.dmi'
 	check_flags = AB_CHECK_CONSCIOUS
 	///Reference to the rune knife it is inside of
-	var/obj/item/melee/rune_knife/sword
+	var/obj/item/melee/rune_carver/sword
 
 /datum/action/innate/rune_shatter/Grant(mob/user, obj/object)
 	sword = object

@@ -14,7 +14,7 @@
 	speak_chance = 1
 	icon = 'icons/mob/eldritch_mobs.dmi'
 	speed = 0
-	a_intent = INTENT_HARM
+	combat_mode = TRUE
 	stop_automated_movement = 1
 	AIStatus = AI_OFF
 	attack_sound = 'sound/weapons/punch1.ogg'
@@ -202,6 +202,7 @@
 
 ///Updates the next mob in the chain to move to our last location, fixed the worm if somehow broken.
 /mob/living/simple_animal/hostile/eldritch/armsy/proc/update_chain_links()
+	SIGNAL_HANDLER
 	if(!follow)
 		return
 	gib_trail()
@@ -250,7 +251,7 @@
 			return
 
 /mob/living/simple_animal/hostile/eldritch/armsy/Shoot(atom/targeted_atom)
-	target = targeted_atom
+	GiveTarget(targeted_atom)
 	AttackingTarget()
 
 /mob/living/simple_animal/hostile/eldritch/armsy/AttackingTarget()
@@ -261,7 +262,7 @@
 	if(target == back || target == front)
 		return
 	if(back)
-		back.target = target
+		back.GiveTarget(target)
 		back.AttackingTarget()
 	if(!Adjacent(target))
 		return
@@ -321,19 +322,19 @@
 		icon_state = "rust_walker_n"
 	else if(newdir == SOUTH)
 		icon_state = "rust_walker_s"
-	update_icon()
+	update_appearance()
 
 /mob/living/simple_animal/hostile/eldritch/rust_spirit/Moved()
 	. = ..()
 	playsound(src, 'sound/effects/footstep/rustystep1.ogg', 100, TRUE)
 
-/mob/living/simple_animal/hostile/eldritch/rust_spirit/Life()
+/mob/living/simple_animal/hostile/eldritch/rust_spirit/Life(delta_time = SSMOBS_DT, times_fired)
 	if(stat == DEAD)
 		return ..()
 	var/turf/T = get_turf(src)
 	if(istype(T,/turf/open/floor/plating/rust))
-		adjustBruteLoss(-3, FALSE)
-		adjustFireLoss(-3, FALSE)
+		adjustBruteLoss(-1.5 * delta_time, FALSE)
+		adjustFireLoss(-1.5 * delta_time, FALSE)
 	return ..()
 
 /mob/living/simple_animal/hostile/eldritch/ash_spirit

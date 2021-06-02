@@ -43,7 +43,7 @@ Behavior that's still missing from this component that original food items had t
 	///The flavortext for taste (haha get it flavor text)
 	var/list/tastes
 	///The type of atom this creates when the object is microwaved.
-	var/microwaved_type
+	var/atom/microwaved_type
 
 /datum/component/edible/Initialize(list/initial_reagents,
 								food_flags = NONE,
@@ -67,8 +67,12 @@ Behavior that's still missing from this component that original food items had t
 	RegisterSignal(parent, COMSIG_ATOM_CHECKPARTS, .proc/OnCraft)
 	RegisterSignal(parent, COMSIG_ATOM_CREATEDBY_PROCESSING, .proc/OnProcessed)
 	RegisterSignal(parent, COMSIG_ITEM_MICROWAVE_COOKED, .proc/OnMicrowaveCooked)
-	RegisterSignal(parent, COMSIG_MOVABLE_CROSSED, .proc/onCrossed)
 	RegisterSignal(parent, COMSIG_EDIBLE_INGREDIENT_ADDED, .proc/edible_ingredient_added)
+
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, parent, loc_connections)
 
 	if(isitem(parent))
 		RegisterSignal(parent, COMSIG_ITEM_ATTACK, .proc/UseFromHand)
@@ -139,6 +143,9 @@ Behavior that's still missing from this component that original food items had t
 /datum/component/edible/proc/examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
 
+	if(microwaved_type)
+		examine_list += "[parent] could be <b>microwaved</b> into [initial(microwaved_type.name)]!"
+
 	if(!(food_flags & FOOD_IN_CONTAINER))
 		switch (bitecount)
 			if (0)
@@ -194,19 +201,8 @@ Behavior that's still missing from this component that original food items had t
 
 	this_food.reagents.multiply_reagents(CRAFTED_FOOD_BASE_REAGENT_MODIFIER)
 
-	for(var/obj/item/crafted_part in this_food.contents)
+	for(var/obj/item/food/crafted_part in parts_list)
 		crafted_part.reagents?.trans_to(this_food.reagents, crafted_part.reagents.maximum_volume, CRAFTED_FOOD_INGREDIENT_REAGENT_MODIFIER)
-
-	var/list/objects_to_delete = list()
-
-	// Remove all non recipe objects from the contents
-	for(var/content_object in this_food.contents)
-		for(var/recipe_object in recipe.real_parts)
-			if(istype(content_object, recipe_object))
-				continue
-		objects_to_delete += content_object
-
-	QDEL_LIST(objects_to_delete)
 
 	SSblackbox.record_feedback("tally", "food_made", 1, type)
 
@@ -257,7 +253,7 @@ Behavior that's still missing from this component that original food items had t
 
 	var/atom/owner = parent
 
-	if(feeder.a_intent == INTENT_HARM)
+	if(feeder.combat_mode)
 		return
 
 	if(IsFoodGone(owner, feeder))
@@ -286,14 +282,14 @@ Behavior that's still missing from this component that original food items had t
 			eater.visible_message("<span class='notice'>[eater] [eatverb]s \the [parent].</span>", "<span class='notice'>You [eatverb] \the [parent].</span>")
 		else if(fullness > 500 && fullness < 600)
 			eater.visible_message("<span class='notice'>[eater] unwillingly [eatverb]s a bit of \the [parent].</span>", "<span class='notice'>You unwillingly [eatverb] a bit of \the [parent].</span>")
-		else if(fullness > (600 * (1 + eater.overeatduration / 2000)))	// The more you eat - the more you can eat
+		else if(fullness > (600 * (1 + eater.overeatduration / (4000 SECONDS)))) // The more you eat - the more you can eat
 			eater.visible_message("<span class='warning'>[eater] cannot force any more of \the [parent] to go down [eater.p_their()] throat!</span>", "<span class='warning'>You cannot force any more of \the [parent] to go down your throat!</span>")
 			return
 	else //If you're feeding it to someone else.
 		if(isbrain(eater))
 			to_chat(feeder, "<span class='warning'>[eater] doesn't seem to have a mouth!</span>")
 			return
-		if(fullness <= (600 * (1 + eater.overeatduration / 1000)))
+		if(fullness <= (600 * (1 + eater.overeatduration / (2000 SECONDS))))
 			eater.visible_message("<span class='danger'>[feeder] attempts to feed [eater] [parent].</span>", \
 									"<span class='userdanger'>[feeder] attempts to feed you [parent].</span>")
 		else
@@ -321,6 +317,7 @@ Behavior that's still missing from this component that original food items had t
 	var/atom/owner = parent
 
 	if(!owner?.reagents)
+		stack_trace("[eater] failed to bite [owner], because [owner] had no reagents.")
 		return FALSE
 	if(eater.satiety > -200)
 		eater.satiety -= junkiness
@@ -438,7 +435,7 @@ Behavior that's still missing from this component that original food items had t
 
 
 ///Ability to feed food to puppers
-/datum/component/edible/proc/onCrossed(datum/source, mob/user)
+/datum/component/edible/proc/on_entered(datum/source, mob/user)
 	SIGNAL_HANDLER
 	SEND_SIGNAL(parent, COMSIG_FOOD_CROSSED, user, bitecount)
 
@@ -458,3 +455,4 @@ Behavior that's still missing from this component that original food items had t
 		for (var/t in E.tastes)
 			tastes[t] += E.tastes[t]
 	foodtypes |= E.foodtypes
+

@@ -2,9 +2,9 @@
 	icon = 'icons/effects/landmarks_static.dmi'
 	icon_state = "random_loot"
 	layer = OBJ_LAYER
-	var/lootcount = 1		//how many items will be spawned
-	var/lootdoubles = TRUE	//if the same item can be spawned twice
-	var/list/loot			//a list of possible items to spawn e.g. list(/obj/item, /obj/structure, /obj/effect)
+	var/lootcount = 1 //how many items will be spawned
+	var/lootdoubles = TRUE //if the same item can be spawned twice
+	var/list/loot //a list of possible items to spawn e.g. list(/obj/item, /obj/structure, /obj/effect)
 	var/fan_out_items = FALSE //Whether the items should be distributed to offsets 0,1,-1,2,-2,3,-3.. This overrides pixel_x/y on the spawner itself
 
 /obj/effect/spawner/lootdrop/Initialize(mapload)
@@ -204,7 +204,6 @@
 			/obj/item/trash/chips = 1,
 			/obj/item/food/deadmouse = 1,
 			/obj/item/trash/pistachios = 1,
-			/obj/item/trash/plate = 1,
 			/obj/item/trash/popcorn = 1,
 			/obj/item/trash/raisins = 1,
 			/obj/item/trash/sosjerky = 1,
@@ -245,6 +244,13 @@
 
 /obj/effect/spawner/lootdrop/maintenance/Initialize(mapload)
 	loot = GLOB.maintenance_loot
+
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_FILLED_MAINT))
+		lootcount = FLOOR(lootcount * 1.5, 1)
+
+	else if(HAS_TRAIT(SSstation, STATION_TRAIT_EMPTY_MAINT))
+		lootcount = FLOOR(lootcount * 0.5, 1)
+
 	. = ..()
 
 /obj/effect/spawner/lootdrop/maintenance/two
@@ -498,8 +504,7 @@
 	name = "secure command circuit board spawner"
 	loot = list(
 				/obj/item/circuitboard/computer/crew,
-				/obj/item/circuitboard/computer/communications,
-				/obj/item/circuitboard/computer/card
+				/obj/item/circuitboard/computer/communications
 				)
 
 /obj/effect/spawner/lootdrop/techstorage/rnd_secure
@@ -610,6 +615,34 @@
 		/obj/item/crowbar/red/caravan = 1
 	)
 
+/// Mail loot spawner. Some sort of random and rare building tool. No alien tech here.
+/obj/effect/spawner/lootdrop/space/fancytool/engineonly
+	loot = list(
+		/obj/item/wrench/caravan = 1,
+		/obj/item/wirecutters/caravan = 1,
+		/obj/item/screwdriver/caravan = 1,
+		/obj/item/crowbar/red/caravan = 1
+	)
+
+/// Mail loot spawner. Drop pool of advanced medical tools typically from research. Not endgame content.
+/obj/effect/spawner/lootdrop/space/fancytool/advmedicalonly
+	loot = list(
+		/obj/item/scalpel/advanced = 1,
+		/obj/item/retractor/advanced = 1,
+		/obj/item/cautery/advanced = 1
+	)
+
+/// Mail loot spawner. Some sort of random and rare surgical tool. Alien tech found here.
+/obj/effect/spawner/lootdrop/space/fancytool/raremedicalonly
+	loot = list(
+		/obj/item/scalpel/alien = 1,
+		/obj/item/hemostat/alien = 1,
+		/obj/item/retractor/alien = 1,
+		/obj/item/circular_saw/alien = 1,
+		/obj/item/surgicaldrill/alien = 1,
+		/obj/item/cautery/alien = 1
+	)
+
 /// Space loot spawner. A bunch of rarer seeds. /obj/item/seeds/random is not a random seed, but an exotic seed.
 /obj/effect/spawner/lootdrop/space/rareseed
 	lootcount = 5
@@ -680,7 +713,7 @@
 	loot = list(
 		/obj/item/stack/sheet/sandblock{amount = 30} = 25,
 		/obj/item/stack/sheet/mineral/wood{amount = 30} = 25,
-		/obj/item/stack/tile/bronze/thirty = 20,
+		/obj/item/stack/sheet/bronze/thirty = 20,
 		/obj/item/stack/tile/noslip{amount = 20} = 10,
 		/obj/item/stack/sheet/plastic{amount = 30} = 10,
 		/obj/item/stack/tile/pod{amount = 20} = 4,

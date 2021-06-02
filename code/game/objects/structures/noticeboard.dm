@@ -8,6 +8,22 @@
 	max_integrity = 150
 	var/notices = 0
 
+/obj/structure/noticeboard/directional/north
+	dir = SOUTH
+	pixel_y = 32
+
+/obj/structure/noticeboard/directional/south
+	dir = NORTH
+	pixel_y = -32
+
+/obj/structure/noticeboard/directional/east
+	dir = WEST
+	pixel_x = 32
+
+/obj/structure/noticeboard/directional/west
+	dir = EAST
+	pixel_x = -32
+
 /obj/structure/noticeboard/Initialize(mapload)
 	. = ..()
 
@@ -58,7 +74,7 @@
 	..()
 	usr.set_machine(src)
 	if(href_list["remove"])
-		if(usr.stat != CONSCIOUS || HAS_TRAIT(usr, TRAIT_HANDS_BLOCKED))	//For when a player is handcuffed while they have the notice window open
+		if(usr.stat != CONSCIOUS || HAS_TRAIT(usr, TRAIT_HANDS_BLOCKED)) //For when a player is handcuffed while they have the notice window open
 			return
 		var/obj/item/I = locate(href_list["remove"]) in contents
 		if(istype(I) && I.loc == src)
@@ -86,7 +102,7 @@
 
 /obj/structure/noticeboard/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/metal (loc, 1)
+		new /obj/item/stack/sheet/iron (loc, 1)
 	qdel(src)
 
 // Notice boards for the heads of staff (plus the qm)

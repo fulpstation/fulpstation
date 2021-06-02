@@ -112,7 +112,7 @@
 	SIGNAL_HANDLER
 
 	var/list/tc = allowed_item_typecache
-	if(!(mat_container_flags & MATCONTAINER_ANY_INTENT) && user.a_intent != INTENT_HELP)
+	if(!(mat_container_flags & MATCONTAINER_ANY_INTENT) && user.combat_mode)
 		return
 	if(I.item_flags & ABSTRACT)
 		return
@@ -205,7 +205,7 @@
 	if(mat in allowed_materials)
 		return TRUE
 	if(istype(mat) && ((mat.id in allowed_materials) || (mat.type in allowed_materials)))
-		allowed_materials += mat	// This could get messy with passing lists by ref... but if you're doing that the list expansion is probably being taken care of elsewhere anyway...
+		allowed_materials += mat // This could get messy with passing lists by ref... but if you're doing that the list expansion is probably being taken care of elsewhere anyway...
 		return TRUE
 	if(insertion_check?.Invoke(mat))
 		allowed_materials += mat
@@ -415,3 +415,20 @@
 	if(!istype(mat))
 		mat = GET_MATERIAL_REF(mat)
 	return materials[mat]
+
+/// List format is list(material_name = list(amount = ..., ref = ..., etc.))
+/datum/component/material_container/ui_data(mob/user)
+	var/list/data = list()
+
+	for(var/datum/material/material as anything in materials)
+		var/amount = materials[material]
+
+		data += list(list(
+			"name" = material.name,
+			"ref" = REF(material),
+			"amount" = amount,
+			"sheets" = round(amount / MINERAL_MATERIAL_AMOUNT),
+			"removable" = amount >= MINERAL_MATERIAL_AMOUNT,
+		))
+
+	return data

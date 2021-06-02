@@ -9,6 +9,17 @@
 	drop_sound = 'sound/items/handling/component_drop.ogg'
 	pickup_sound =  'sound/items/handling/component_pickup.ogg'
 
+	///if we are attached to an assembly holder, we attach a connect_loc element to ourselves that listens to this from the holder
+	var/static/list/holder_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+
+/obj/item/assembly/mousetrap/Initialize()
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /obj/item/assembly/mousetrap/examine(mob/user)
 	. = ..()
@@ -23,16 +34,24 @@
 				if((HAS_TRAIT(user, TRAIT_DUMB) || HAS_TRAIT(user, TRAIT_CLUMSY)) && prob(50))
 					to_chat(user, "<span class='warning'>Your hand slips, setting off the trigger!</span>")
 					pulse(FALSE)
-		update_icon()
+		update_appearance()
 		playsound(src, 'sound/weapons/handcuffs.ogg', 30, TRUE, -3)
 
-/obj/item/assembly/mousetrap/update_icon()
-	if(armed)
-		icon_state = "mousetraparmed"
-	else
-		icon_state = "mousetrap"
-	if(holder)
-		holder.update_icon()
+/obj/item/assembly/mousetrap/update_icon_state()
+	icon_state = "mousetrap[armed ? "armed" : ""]"
+	return ..()
+
+/obj/item/assembly/mousetrap/update_icon(updates=ALL)
+	. = ..()
+	holder?.update_icon(updates)
+
+/obj/item/assembly/mousetrap/on_attach()
+	. = ..()
+	AddElement(/datum/element/connect_loc, holder, holder_connections)
+
+/obj/item/assembly/mousetrap/on_detach()
+	. = ..()
+	RemoveElement(/datum/element/connect_loc, holder, holder_connections)
 
 /obj/item/assembly/mousetrap/proc/triggered(mob/target, type = "feet")
 	if(!armed)
@@ -43,7 +62,7 @@
 		if(HAS_TRAIT(H, TRAIT_PIERCEIMMUNE))
 			playsound(src, 'sound/effects/snap.ogg', 50, TRUE)
 			armed = FALSE
-			update_icon()
+			update_appearance()
 			pulse(FALSE)
 			return FALSE
 		switch(type)
@@ -71,7 +90,7 @@
 		visible_message("<span class='boldannounce'>Skreeeee!</span>") //He's simply too large to be affected by a tiny mouse trap.
 	playsound(src, 'sound/effects/snap.ogg', 50, TRUE)
 	armed = FALSE
-	update_icon()
+	update_appearance()
 	pulse(FALSE)
 
 
@@ -89,12 +108,12 @@
 			return
 		to_chat(user, "<span class='notice'>You disarm [src].</span>")
 	armed = !armed
-	update_icon()
+	update_appearance()
 	playsound(src, 'sound/weapons/handcuffs.ogg', 30, TRUE, -3)
 
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
-/obj/item/assembly/mousetrap/attack_hand(mob/living/carbon/human/user)
+/obj/item/assembly/mousetrap/attack_hand(mob/living/carbon/human/user, list/modifiers)
 	if(armed)
 		if((HAS_TRAIT(user, TRAIT_DUMB) || HAS_TRAIT(user, TRAIT_CLUMSY)) && prob(50))
 			var/which_hand = BODY_ZONE_PRECISE_L_HAND
@@ -107,7 +126,8 @@
 	return ..()
 
 
-/obj/item/assembly/mousetrap/Crossed(atom/movable/AM as mob|obj)
+/obj/item/assembly/mousetrap/proc/on_entered(datum/source, atom/movable/AM as mob|obj)
+	SIGNAL_HANDLER
 	if(armed)
 		if(ismob(AM))
 			var/mob/MM = AM
@@ -115,15 +135,13 @@
 				if(ishuman(AM))
 					var/mob/living/carbon/H = AM
 					if(H.m_intent == MOVE_INTENT_RUN)
-						triggered(H)
+						INVOKE_ASYNC(src, .proc/triggered, H)
 						H.visible_message("<span class='warning'>[H] accidentally steps on [src].</span>", \
 							"<span class='warning'>You accidentally step on [src]</span>")
 				else if(ismouse(MM) || israt(MM) || isregalrat(MM))
-					triggered(MM)
+					INVOKE_ASYNC(src, .proc/triggered, MM)
 		else if(AM.density) // For mousetrap grenades, set off by anything heavy
-			triggered(AM)
-	..()
-
+			INVOKE_ASYNC(src, .proc/triggered, AM)
 
 /obj/item/assembly/mousetrap/on_found(mob/finder)
 	if(armed)
@@ -131,7 +149,7 @@
 			finder.visible_message("<span class='warning'>[finder] accidentally sets off [src], breaking their fingers.</span>", \
 							   "<span class='warning'>You accidentally trigger [src]!</span>")
 			triggered(finder, (finder.active_hand_index % 2 == 0) ? BODY_ZONE_PRECISE_R_HAND : BODY_ZONE_PRECISE_L_HAND)
-			return TRUE	//end the search!
+			return TRUE //end the search!
 		else
 			visible_message("<span class='warning'>[src] snaps shut!</span>")
 			triggered(loc)

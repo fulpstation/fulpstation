@@ -73,12 +73,19 @@
 		living_parent.log_message("is no longer being ridden by [former_rider]", LOG_ATTACK, color="pink")
 		former_rider.log_message("is no longer riding [living_parent]", LOG_ATTACK, color="pink")
 	remove_abilities(former_rider)
+	// We gotta reset those layers at some point, don't we?
+	former_rider.layer = MOB_LAYER
+	living_parent.layer = MOB_LAYER
 	return ..()
 
 /datum/component/riding/creature/driver_move(atom/movable/movable_parent, mob/living/user, direction)
 	if(!COOLDOWN_FINISHED(src, vehicle_move_cooldown))
 		return COMPONENT_DRIVER_BLOCK_MOVE
-
+	if(!keycheck(user))
+		if(ispath(keytype, /obj/item))
+			var/obj/item/key = keytype
+			to_chat(user, "<span class='warning'>You need a [initial(key.name)] to ride [movable_parent]!</span>")
+		return COMPONENT_DRIVER_BLOCK_MOVE
 	var/mob/living/living_parent = parent
 	var/turf/next = get_step(living_parent, direction)
 	step(living_parent, direction)
@@ -108,11 +115,12 @@
 
 /// If we're a cyborg or animal and we spin, we yeet whoever's on us off us
 /datum/component/riding/creature/proc/check_emote(mob/living/user, datum/emote/emote)
+	SIGNAL_HANDLER
 	if((!iscyborg(user) && !isanimal(user)) || !istype(emote, /datum/emote/spin))
 		return
 
 	for(var/mob/yeet_mob in user.buckled_mobs)
-		force_dismount(yeet_mob, (user.a_intent == INTENT_HELP)) // gentle on help, byeeee if not
+		force_dismount(yeet_mob, (!user.combat_mode)) // gentle on help, byeeee if not
 
 /// If the ridden creature has abilities, and some var yet to be made is set to TRUE, the rider will be able to control those abilities
 /datum/component/riding/creature/proc/setup_abilities(mob/living/M)
@@ -175,10 +183,10 @@
 	return ..()
 
 /// If the carrier shoves the person they're carrying, force the carried mob off
-/datum/component/riding/creature/human/proc/on_host_unarmed_melee(mob/living/carbon/human/human_parent, atom/target)
+/datum/component/riding/creature/human/proc/on_host_unarmed_melee(mob/living/carbon/human/human_parent, atom/target, proximity, modifiers)
 	SIGNAL_HANDLER
 
-	if(human_parent.a_intent == INTENT_DISARM && (target in human_parent.buckled_mobs))
+	if(LAZYACCESS(modifiers, RIGHT_CLICK) && (target in human_parent.buckled_mobs))
 		force_dismount(target)
 		return COMPONENT_CANCEL_ATTACK_CHAIN
 
@@ -192,7 +200,7 @@
 		rider.Paralyze(1 SECONDS)
 		rider.Knockdown(4 SECONDS)
 		human_parent.visible_message("<span class='danger'>[rider] topples off of [human_parent] as they both fall to the ground!</span>", \
-					"<span class='warning'>You fall to the ground, bringing [rider] with you!</span>", COMBAT_MESSAGE_RANGE ,ignored_mobs=rider)
+					"<span class='warning'>You fall to the ground, bringing [rider] with you!</span>", "<span class='hear'>You hear two consecutive thuds.</span>", COMBAT_MESSAGE_RANGE, ignored_mobs=rider)
 		to_chat(rider, "<span class='danger'>[human_parent] falls to the ground, bringing you with [human_parent.p_them()]!</span>")
 
 /datum/component/riding/creature/human/handle_vehicle_layer(dir)
@@ -206,14 +214,14 @@
 
 	if(!AM.buckle_lying) // rider is vertical, must be piggybacking
 		if(dir == SOUTH)
-			AM.layer = ABOVE_MOB_LAYER
+			AM.layer = MOB_ABOVE_PIGGYBACK_LAYER
 		else
-			AM.layer = OBJ_LAYER
+			AM.layer = MOB_BELOW_PIGGYBACK_LAYER
 	else  // laying flat, we must be firemanning the rider
 		if(dir == NORTH)
-			AM.layer = OBJ_LAYER
+			AM.layer = MOB_BELOW_PIGGYBACK_LAYER
 		else
-			AM.layer = ABOVE_MOB_LAYER
+			AM.layer = MOB_ABOVE_PIGGYBACK_LAYER
 
 /datum/component/riding/creature/human/get_offsets(pass_index)
 	var/mob/living/carbon/human/H = parent
@@ -247,9 +255,9 @@
 /datum/component/riding/creature/cyborg/handle_vehicle_layer(dir)
 	var/atom/movable/robot_parent = parent
 	if(dir == SOUTH)
-		robot_parent.layer = ABOVE_MOB_LAYER
+		robot_parent.layer = MOB_ABOVE_PIGGYBACK_LAYER
 	else
-		robot_parent.layer = OBJ_LAYER
+		robot_parent.layer = MOB_BELOW_PIGGYBACK_LAYER
 
 /datum/component/riding/creature/cyborg/get_offsets(pass_index) // list(dir = x, y, layer)
 	return list(TEXT_NORTH = list(0, 4), TEXT_SOUTH = list(0, 4), TEXT_EAST = list(-6, 3), TEXT_WEST = list( 6, 3))
@@ -259,9 +267,9 @@
 
 	for(var/mob/living/rider in robot_parent.buckled_mobs)
 		rider.setDir(dir)
-		if(istype(robot_parent.module))
-			rider.pixel_x = robot_parent.module.ride_offset_x[dir2text(dir)]
-			rider.pixel_y = robot_parent.module.ride_offset_y[dir2text(dir)]
+		if(istype(robot_parent.model))
+			rider.pixel_x = robot_parent.model.ride_offset_x[dir2text(dir)]
+			rider.pixel_y = robot_parent.model.ride_offset_y[dir2text(dir)]
 
 //now onto every other ridable mob//
 

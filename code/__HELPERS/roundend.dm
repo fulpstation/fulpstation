@@ -1,6 +1,6 @@
-#define POPCOUNT_SURVIVORS "survivors"					//Not dead at roundend
-#define POPCOUNT_ESCAPEES "escapees"					//Not dead and on centcom/shuttles marked as escaped
-#define POPCOUNT_SHUTTLE_ESCAPEES "shuttle_escapees" 	//Emergency shuttle only.
+#define POPCOUNT_SURVIVORS "survivors" //Not dead at roundend
+#define POPCOUNT_ESCAPEES "escapees" //Not dead and on centcom/shuttles marked as escaped
+#define POPCOUNT_SHUTTLE_ESCAPEES "shuttle_escapees" //Emergency shuttle only.
 #define PERSONAL_LAST_ROUND "personal last round"
 #define SERVER_LAST_ROUND "server last round"
 
@@ -57,7 +57,7 @@
 						mob_data["module"] = "pAI"
 					else if(iscyborg(L))
 						var/mob/living/silicon/robot/R = L
-						mob_data["module"] = R.module.name
+						mob_data["module"] = R.model.name
 				else
 					category = "others"
 					mob_data["typepath"] = M.type
@@ -181,9 +181,9 @@
 
 ///Handles random hardcore point rewarding if it applies.
 /datum/controller/subsystem/ticker/proc/HandleRandomHardcoreScore(client/player_client)
-	if(!ishuman(player_client.mob))
+	if(!ishuman(player_client?.mob))
 		return FALSE
-	var/mob/living/carbon/human/human_mob = player_client.mob
+	var/mob/living/carbon/human/human_mob = player_client?.mob
 	if(!human_mob.hardcore_survival_score) ///no score no glory
 		return FALSE
 
@@ -197,15 +197,15 @@
 					didthegamerwin = FALSE
 		if(!didthegamerwin)
 			return FALSE
-		player_client.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score))
+		player_client?.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score * 2))
 	else if(human_mob.onCentCom())
-		player_client.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score))
+		player_client?.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score))
 
 
 /datum/controller/subsystem/ticker/proc/declare_completion()
 	set waitfor = FALSE
 
-	to_chat(world, "<BR><BR><BR><span class='big bold'>The round has ended.</span>")
+	to_chat(world, "<span class='infoplain'><BR><BR><BR><span class='big bold'>The round has ended.</span></span>")
 	log_game("The round has ended.")
 
 	for(var/I in round_end_events)
@@ -218,11 +218,12 @@
 		speed_round = TRUE
 
 	for(var/client/C in GLOB.clients)
-		if(!C.credits)
-			C.RollCredits()
-		C.playtitlemusic(40)
+		if(!C?.credits)
+			C?.RollCredits()
+//		C?.playtitlemusic(40)
+		C?.playcreditsmusic(40) // FULP EDIT - Yay, round-end music is back!
 		if(speed_round)
-			C.give_award(/datum/award/achievement/misc/speed_round, C.mob)
+			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
 		HandleRandomHardcoreScore(C)
 
 	var/popcount = gather_roundend_feedback()
@@ -352,7 +353,7 @@
 	if(istype(SSticker.mode, /datum/game_mode/dynamic))
 		var/datum/game_mode/dynamic/mode = SSticker.mode
 		parts += "[FOURSPACES]Threat level: [mode.threat_level]"
-		parts += "[FOURSPACES]Threat left: [mode.threat]"
+		parts += "[FOURSPACES]Threat left: [mode.mid_round_budget]"
 		parts += "[FOURSPACES]Executed rules:"
 		for(var/datum/dynamic_ruleset/rule in mode.executed_rules)
 			parts += "[FOURSPACES][FOURSPACES][rule.ruletype] - <b>[rule.name]</b>: -[rule.cost + rule.scaled_times * rule.scaling_cost] threat"
@@ -366,12 +367,12 @@
  *
  * Composits the roundend report, and saves it in two locations.
  * The report is first saved along with the round's logs
- * Then, the report is copied to a fixed directory specifically for 
- * housing the server's last roundend report. In this location, 
+ * Then, the report is copied to a fixed directory specifically for
+ * housing the server's last roundend report. In this location,
  * the file will be overwritten at the end of each shift.
  */
 /datum/controller/subsystem/ticker/proc/log_roundend_report()
-	var/filename = "[GLOB.log_directory]/round_end_data.html"
+	var/roundend_file = file("[GLOB.log_directory]/round_end_data.html")
 	var/list/parts = list()
 	parts += "<div class='panel stationborder'>"
 	parts += GLOB.survivor_report
@@ -379,12 +380,12 @@
 	parts += GLOB.common_report
 	var/content = parts.Join()
 	//Log the rendered HTML in the round log directory
-	fdel(filename)
-	text2file(content, filename)
-	//Place a copy in the root folder, to be overwritten each round. 
-	filename = "data/server_last_roundend_report.html"
-	fdel(filename)
-	text2file(content, filename)
+	fdel(roundend_file)
+	WRITE_FILE(roundend_file, content)
+	//Place a copy in the root folder, to be overwritten each round.
+	roundend_file = file("data/server_last_roundend_report.html")
+	fdel(roundend_file)
+	WRITE_FILE(roundend_file, content)
 
 /datum/controller/subsystem/ticker/proc/show_roundend_report(client/C, report_type = null)
 	var/datum/browser/roundend_report = new(C, "roundend")
@@ -399,7 +400,6 @@
 	else //report_type is null, so make a new report based on the current round and show that to the player
 		var/list/report_parts = list(personal_report(C), GLOB.common_report)
 		content = report_parts.Join()
-		remove_verb(C, /client/proc/show_previous_roundend_report)
 		fdel(filename)
 		text2file(content, filename)
 
@@ -451,8 +451,9 @@
 	//Silicon laws report
 	for (var/i in GLOB.ai_list)
 		var/mob/living/silicon/ai/aiPlayer = i
-		if(aiPlayer.mind)
-			parts += "<b>[aiPlayer.name]</b> (Played by: <b>[aiPlayer.mind.key]</b>)'s laws [aiPlayer.stat != DEAD ? "at the end of the round" : "when it was <span class='redtext'>deactivated</span>"] were:"
+		var/datum/mind/aiMind = aiPlayer.deployed_shell?.mind || aiPlayer.mind
+		if(aiMind)
+			parts += "<b>[aiPlayer.name]</b> (Played by: <b>[aiMind.key]</b>)'s laws [aiPlayer.stat != DEAD ? "at the end of the round" : "when it was <span class='redtext'>deactivated</span>"] were:"
 			parts += aiPlayer.laws.get_law_list(include_zeroth=TRUE)
 
 		parts += "<b>Total law changes: [aiPlayer.law_change_counter]</b>"
@@ -493,7 +494,9 @@
 ///Generate a report for how much money is on station, as well as the richest crewmember on the station.
 /datum/controller/subsystem/ticker/proc/market_report()
 	var/list/parts = list()
-	parts += "<span class='header'>Station Economic Summary:</span>"
+
+	///total service income
+	var/tourist_income = 0
 	///This is the richest account on station at roundend.
 	var/datum/bank_account/mr_moneybags
 	///This is the station's total wealth at the end of the round.
@@ -508,7 +511,29 @@
 		station_vault += current_acc.account_balance
 		if(!mr_moneybags || mr_moneybags.account_balance < current_acc.account_balance)
 			mr_moneybags = current_acc
-	parts += "<div class='panel stationborder'>There were [station_vault] credits collected by crew this shift.<br>"
+	parts += "<div class='panel stationborder'><span class='header'>Station Economic Summary:</span><br>"
+	parts += "<span class='service'>Service Statistics:</span><br>"
+	for(var/venue_path in SSrestaurant.all_venues)
+		var/datum/venue/venue = SSrestaurant.all_venues[venue_path]
+		tourist_income += venue.total_income
+		parts += "The [venue] served [venue.customers_served] customer\s and made [venue.total_income] credits.<br>"
+	parts += "In total, they earned [tourist_income] credits[tourist_income ? "!" : "..."]<br>"
+	log_econ("Roundend service income: [tourist_income] credits.")
+	switch(tourist_income)
+		if(0)
+			parts += "<span class='redtext'>Service did not earn any credits...</span><br>"
+		if(1 to 2000)
+			parts += "<span class='redtext'>Centcom is displeased. Come on service, surely you can do better than that.</span><br>"
+			award_service(/datum/award/achievement/jobs/service_bad)
+		if(2001 to 4999)
+			parts += "<span class='greentext'>Centcom is satisfied with service's job today.</span><br>"
+			award_service(/datum/award/achievement/jobs/service_okay)
+		else
+			parts += "<span class='reallybig greentext'>Centcom is incredibly impressed with service today! What a team!</span><br>"
+			award_service(/datum/award/achievement/jobs/service_good)
+
+	parts += "<b>General Statistics:</b><br>"
+	parts += "There were [station_vault] credits collected by crew this shift.<br>"
 	if(total_players > 0)
 		parts += "An average of [station_vault/total_players] credits were collected.<br>"
 		log_econ("Roundend credit total: [station_vault] credits. Average Credits: [station_vault/total_players]")
@@ -517,6 +542,39 @@
 	else
 		parts += "Somehow, nobody made any money this shift! This'll result in some budget cuts...</div>"
 	return parts
+
+/**
+ * Awards the service department an achievement and updates the chef and bartender's highscore for tourists served.
+ *
+ * Arguments:
+ * * award: Achievement to give service department
+ */
+/datum/controller/subsystem/ticker/proc/award_service(award)
+	for(var/mob/living/carbon/human/service_member as anything in GLOB.human_list)
+		if(!service_member.mind)
+			continue
+		var/datum/mind/service_mind = service_member.mind
+		if(!service_mind.assigned_role)
+			continue
+		for(var/job in GLOB.service_food_positions)
+			if(service_mind.assigned_role != job)
+				continue
+			//general awards
+			service_member.client?.give_award(award, service_member)
+			if(service_mind.assigned_role == "Cook")
+				var/datum/venue/restaurant = SSrestaurant.all_venues[/datum/venue/restaurant]
+				var/award_score = restaurant.total_income
+				var/award_status = service_member.client.get_award_status(/datum/award/score/chef_tourist_score)
+				if(award_score > award_status)
+					award_score -= award_status
+				service_member.client?.give_award(/datum/award/score/chef_tourist_score, service_member, award_score)
+			if(service_mind.assigned_role == "Bartender")
+				var/datum/venue/bar = SSrestaurant.all_venues[/datum/venue/bar]
+				var/award_score = bar.total_income
+				var/award_status = service_member.client.get_award_status(/datum/award/score/bartender_tourist_score)
+				if(award_score - award_status > 0)
+					award_score -= award_status
+				service_member.client?.give_award(/datum/award/score/bartender_tourist_score, service_member, award_score)
 
 /datum/controller/subsystem/ticker/proc/medal_report()
 	if(GLOB.commendations.len)
@@ -604,7 +662,7 @@
 	var/datum/action/report/R = new
 	C.player_details.player_actions += R
 	R.Grant(C.mob)
-	to_chat(C,"<a href='?src=[REF(R)];report=1'>Show roundend report again</a>")
+	to_chat(C,"<span class='infoplain'><a href='?src=[REF(R)];report=1'>Show roundend report again</a></span>")
 
 /datum/action/report
 	name = "Show roundend report"
@@ -662,9 +720,9 @@
 	var/count = 1
 	for(var/datum/objective/objective in objectives)
 		if(objective.check_completion())
-			objective_parts += "<b>Objective #[count]</b>: [objective.explanation_text] <span class='greentext'>Success!</span>"
+			objective_parts += "<b>[objective.objective_name] #[count]</b>: [objective.explanation_text] <span class='greentext'>Success!</span>"
 		else
-			objective_parts += "<b>Objective #[count]</b>: [objective.explanation_text] <span class='redtext'>Fail.</span>"
+			objective_parts += "<b>[objective.objective_name] #[count]</b>: [objective.explanation_text] <span class='redtext'>Fail.</span>"
 		count++
 	return objective_parts.Join("<br>")
 

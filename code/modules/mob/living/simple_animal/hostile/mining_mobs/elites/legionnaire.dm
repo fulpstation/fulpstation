@@ -32,6 +32,7 @@
 	attack_verb_continuous = "slashes its arms at"
 	attack_verb_simple = "slash your arms at"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+	attack_vis_effect = ATTACK_EFFECT_SLASH
 	throw_message = "doesn't affect the sturdiness of"
 	speed = 1
 	move_to_delay = 3
@@ -249,6 +250,7 @@
 	attack_verb_continuous = "bites at"
 	attack_verb_simple = "bite at"
 	attack_sound = 'sound/effects/curse1.ogg'
+	attack_vis_effect = ATTACK_EFFECT_BITE
 	throw_message = "simply misses"
 	speed = 0
 	move_to_delay = 2
@@ -277,9 +279,15 @@
 	light_color = COLOR_SOFT_RED
 	var/mob/living/simple_animal/hostile/asteroid/elite/legionnaire/myowner = null
 
-
-/obj/structure/legionnaire_bonfire/Crossed(atom/movable/mover)
+/obj/structure/legionnaire_bonfire/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
+
+/obj/structure/legionnaire_bonfire/proc/on_entered(datum/source, atom/movable/mover)
+	SIGNAL_HANDLER
 	if(isobj(mover))
 		var/obj/object = mover
 		object.fire_act(1000, 500)

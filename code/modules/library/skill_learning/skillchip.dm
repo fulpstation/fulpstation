@@ -14,7 +14,7 @@
 	/// Skill description shown on UI
 	var/skill_description
 	/// Category string. Used alongside SKILLCHIP_RESTRICTED_CATEGORIES flag to make a chip incompatible with chips from another category.
-	var/chip_category = "general"
+	var/chip_category = SKILLCHIP_CATEGORY_GENERAL
 	/// List of any incompatible categories.
 	var/list/incompatibility_list
 	/// Fontawesome icon show on UI, list of possible icons https://fontawesome.com/icons?d=gallery&m=free
@@ -402,7 +402,7 @@
 	skill_icon = "plug"
 	activate_message = "<span class='notice'>You can now activate another chip through this adapter, but you're not sure why you did this...</span>"
 	deactivate_message = "<span class='notice'>You no longer have the useless skillchip adapter.</span>"
-	skillchip_flags = SKILLCHIP_ALLOWS_MULTIPLE | SKILLCHIP_CHAMELEON_INCOMPATIBLE
+	skillchip_flags = SKILLCHIP_ALLOWS_MULTIPLE
 	// Literally does nothing.
 	complexity = 0
 	slot_use = 0

@@ -47,10 +47,12 @@
 
 /// triggered on wield of two handed item
 /obj/item/kinetic_crusher/proc/on_wield(obj/item/source, mob/user)
+	SIGNAL_HANDLER
 	wielded = TRUE
 
 /// triggered on unwield of two handed item
 /obj/item/kinetic_crusher/proc/on_unwield(obj/item/source, mob/user)
+	SIGNAL_HANDLER
 	wielded = FALSE
 
 /obj/item/kinetic_crusher/examine(mob/living/user)
@@ -96,6 +98,7 @@
 
 /obj/item/kinetic_crusher/afterattack(atom/target, mob/living/user, proximity_flag, clickparams)
 	. = ..()
+	var/modifiers = params2list(clickparams)
 	if(!wielded)
 		return
 	if(!proximity_flag && charged)//Mark a target, or mine a tile.
@@ -106,13 +109,13 @@
 		for(var/t in trophies)
 			var/obj/item/crusher_trophy/T = t
 			T.on_projectile_fire(D, user)
-		D.preparePixelProjectile(target, user, clickparams)
+		D.preparePixelProjectile(target, user, modifiers)
 		D.firer = user
 		D.hammer_synced = src
 		playsound(user, 'sound/weapons/plasma_cutter.ogg', 100, TRUE)
 		D.fire()
 		charged = FALSE
-		update_icon()
+		update_appearance()
 		addtimer(CALLBACK(src, .proc/Recharge), charge_time)
 		return
 	if(proximity_flag && isliving(target))
@@ -146,17 +149,18 @@
 /obj/item/kinetic_crusher/proc/Recharge()
 	if(!charged)
 		charged = TRUE
-		update_icon()
+		update_appearance()
 		playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, TRUE)
 
 /obj/item/kinetic_crusher/ui_action_click(mob/user, actiontype)
 	set_light_on(!light_on)
 	playsound(user, 'sound/weapons/empty.ogg', 100, TRUE)
-	update_icon()
+	update_appearance()
 
 
 /obj/item/kinetic_crusher/update_icon_state()
 	inhand_icon_state = "crusher[wielded]" // this is not icon_state and not supported by 2hcomponent
+	return ..()
 
 /obj/item/kinetic_crusher/update_overlays()
 	. = ..()

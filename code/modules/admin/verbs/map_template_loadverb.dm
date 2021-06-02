@@ -14,14 +14,23 @@
 		return
 
 	var/list/preview = list()
-	for(var/S in template.get_affected_turfs(T,centered = TRUE))
+	var/center
+	var/centeralert = tgui_alert(usr,"Center Template.","Template Centering",list("Yes","No"))
+	switch(centeralert)
+		if("Yes")
+			center = TRUE
+		if("No")
+			center = FALSE
+		else
+			return
+	for(var/S in template.get_affected_turfs(T,centered = center))
 		var/image/item = image('icons/turf/overlays.dmi',S,"greenOverlay")
 		item.plane = ABOVE_LIGHTING_PLANE
 		preview += item
 	images += preview
-	if(alert(src,"Confirm location.","Template Confirm","Yes","No") == "Yes")
-		if(template.load(T, centered = TRUE))
-			var/affected = template.get_affected_turfs(T, centered=TRUE)
+	if(tgui_alert(usr,"Confirm location.","Template Confirm",list("Yes","No")) == "Yes")
+		if(template.load(T, centered = center))
+			var/affected = template.get_affected_turfs(T, centered = center)
 			for(var/AT in affected)
 				for(var/obj/docking_port/mobile/P in AT)
 					if(istype(P, /obj/docking_port/mobile))
@@ -44,7 +53,7 @@
 		to_chat(src, "<span class='warning'>Filename must end in '.dmm': [map]</span>", confidential = TRUE)
 		return
 	var/datum/map_template/M
-	switch(alert(src, "What kind of map is this?", "Map type", "Normal", "Shuttle", "Cancel"))
+	switch(tgui_alert(usr, "What kind of map is this?", "Map type", list("Normal", "Shuttle", "Cancel")))
 		if("Normal")
 			M = new /datum/map_template(map, "[map]", TRUE)
 		if("Shuttle")
@@ -62,11 +71,11 @@
 		report_link = " - <a href='?src=[REF(report)];[HrefToken(TRUE)];show=1'>validation report</a>"
 		to_chat(src, "<span class='warning'>Map template '[map]' <a href='?src=[REF(report)];[HrefToken()];show=1'>failed validation</a>.</span>", confidential = TRUE)
 		if(report.loadable)
-			var/response = alert(src, "The map failed validation, would you like to load it anyways?", "Map Errors", "Cancel", "Upload Anyways")
+			var/response = tgui_alert(usr, "The map failed validation, would you like to load it anyways?", "Map Errors", list("Cancel", "Upload Anyways"))
 			if(response != "Upload Anyways")
 				return
 		else
-			alert(src, "The map failed validation and cannot be loaded.", "Map Errors", "Oh Darn")
+			tgui_alert(usr, "The map failed validation and cannot be loaded.", "Map Errors", list("Oh Darn"))
 			return
 
 	SSmapping.map_templates[M.name] = M

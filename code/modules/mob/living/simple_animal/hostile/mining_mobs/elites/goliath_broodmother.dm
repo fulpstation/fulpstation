@@ -97,7 +97,7 @@
 		if(CALL_CHILDREN)
 			call_children()
 
-/mob/living/simple_animal/hostile/asteroid/elite/broodmother/Life()
+/mob/living/simple_animal/hostile/asteroid/elite/broodmother/Life(delta_time = SSMOBS_DT, times_fired)
 	. = ..()
 	if(!.) //Checks if they are dead as a rock.
 		return
@@ -199,7 +199,7 @@
 	if(mother != null)
 		mother.children_list -= src
 	visible_message("<span class='warning'>[src] explodes!</span>")
-	explosion(get_turf(loc),0,0,0,flame_range = 3, adminlog = FALSE)
+	explosion(src, flame_range = 3, adminlog = FALSE)
 	gib()
 
 //Tentacles have less stun time compared to regular variant, to balance being able to use them much more often.  Also, 10 more damage.

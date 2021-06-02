@@ -40,7 +40,7 @@
 	if(istype(target, /obj/structure/elite_tumor))
 		var/obj/structure/elite_tumor/T = target
 		if(T.mychild == src && T.activity == TUMOR_PASSIVE)
-			var/elite_remove = alert("Re-enter the tumor?", "Despawn yourself?", "Yes", "No")
+			var/elite_remove = tgui_alert(usr,"Re-enter the tumor?", "Despawn yourself?", list("Yes", "No"))
 			if(elite_remove == "No" || QDELETED(src) || !Adjacent(T))
 				return
 			T.mychild = null
@@ -133,7 +133,7 @@ While using this makes the system rely on OnFire, it still gives options for tim
 								/mob/living/simple_animal/hostile/asteroid/elite/legionnaire,
 								/mob/living/simple_animal/hostile/asteroid/elite/herald)
 
-/obj/structure/elite_tumor/attack_hand(mob/user)
+/obj/structure/elite_tumor/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(ishuman(user))
 		switch(activity)
@@ -155,7 +155,7 @@ While using this makes the system rely on OnFire, it still gives options for tim
 					addtimer(CALLBACK(src, .proc/spawn_elite), 30)
 					return
 				visible_message("<span class='boldwarning'>Something within [src] stirs...</span>")
-				var/list/candidates = pollCandidatesForMob("Do you want to play as a lavaland elite?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, src, POLL_IGNORE_SENTIENCE_POTION)
+				var/list/candidates = pollCandidatesForMob("Do you want to play as a lavaland elite?", ROLE_SENTIENCE, ROLE_SENTIENCE, 50, src, POLL_IGNORE_SENTIENCE_POTION)
 				if(candidates.len)
 					audible_message("<span class='boldwarning'>The stirring sounds increase in volume!</span>")
 					elitemind = pick(candidates)
@@ -215,7 +215,7 @@ While using this makes the system rely on OnFire, it still gives options for tim
 		visible_message("<span class='boldwarning'>As [user] drops the core into [src], [src] appears to swell.</span>")
 		icon_state = "advanced_tumor"
 		boosted = TRUE
-		light_range = 6
+		set_light_range(6)
 		desc = "[desc]  This one seems to glow with a strong intensity."
 		qdel(core)
 		return TRUE

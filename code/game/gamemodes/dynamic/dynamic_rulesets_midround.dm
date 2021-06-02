@@ -1,3 +1,8 @@
+/// Probability the AI going malf will be accompanied by an ion storm announcement and some ion laws.
+#define MALF_ION_PROB 33
+/// The probability to replace an existing law with an ion law instead of adding a new ion law.
+#define REPLACE_LAW_WITH_ION_PROB 10
+
 //////////////////////////////////////////////
 //                                          //
 //            MIDROUND RULESETS             //
@@ -36,7 +41,7 @@
 		if (!M.client) // Are they connected?
 			trimmed_list.Remove(M)
 			continue
-		if(!mode.check_age(M.client, minimum_required_age))
+		if(M.client.get_remaining_days(minimum_required_age) > 0)
 			trimmed_list.Remove(M)
 			continue
 		if(antag_flag_override)
@@ -97,7 +102,7 @@
 	message_admins("Polling [possible_volunteers.len] players to apply for the [name] ruleset.")
 	log_game("DYNAMIC: Polling [possible_volunteers.len] players to apply for the [name] ruleset.")
 
-	candidates = pollGhostCandidates("The mode is looking for volunteers to become [antag_flag] for [name]", antag_flag, SSticker.mode, antag_flag_override ? antag_flag_override : antag_flag, poll_time = 300)
+	candidates = pollGhostCandidates("The mode is looking for volunteers to become [antag_flag] for [name]", antag_flag, antag_flag_override ? antag_flag_override : antag_flag, poll_time = 300)
 
 	if(!candidates || candidates.len <= 0)
 		message_admins("The ruleset [name] received no applications.")
@@ -171,16 +176,23 @@
 	cost = 10
 	requirements = list(50,40,30,20,10,10,10,10,10,10)
 	repeatable = TRUE
-	flags = TRAITOR_RULESET
 
 /datum/dynamic_ruleset/midround/autotraitor/acceptable(population = 0, threat = 0)
 	var/player_count = mode.current_players[CURRENT_LIVING_PLAYERS].len
 	var/antag_count = mode.current_players[CURRENT_LIVING_ANTAGS].len
 	var/max_traitors = round(player_count / 10) + 1
-	if ((antag_count < max_traitors) && prob(mode.threat_level))//adding traitors if the antag population is getting low
-		return ..()
-	else
+
+	// adding traitors if the antag population is getting low
+	var/too_little_antags = antag_count < max_traitors
+	if (!too_little_antags)
+		log_game("DYNAMIC: Too many living antags compared to living players ([antag_count] living antags, [player_count] living players, [max_traitors] max traitors)")
 		return FALSE
+
+	if (!prob(mode.threat_level))
+		log_game("DYNAMIC: Random chance to roll autotraitor failed, it was a [mode.threat_level]% chance.")
+		return FALSE
+
+	return ..()
 
 /datum/dynamic_ruleset/midround/autotraitor/trim_candidates()
 	..()
@@ -203,6 +215,8 @@
 	living_players -= M
 	var/datum/antagonist/traitor/newTraitor = new
 	M.mind.add_antag_datum(newTraitor)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround traitor.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround traitor.")
 	return TRUE
 
 //////////////////////////////////////////////
@@ -221,10 +235,10 @@
 	weight = 1
 	cost = 25
 	requirements = list(101,101,101,101,101,80,50,30,10,10)
-	flags = HIGHLANDER_RULESET
+	flags = HIGH_IMPACT_RULESET
 	blocking_rules = list(/datum/dynamic_ruleset/roundstart/families)
 	minimum_players = 36
-	antag_cap = list(6,6,6,6,6,6,6,6,6,6)
+	antag_cap = 6
 	/// A reference to the handler that is used to run pre_execute(), execute(), etc..
 	var/datum/gang_handler/handler
 
@@ -277,12 +291,12 @@
 //////////////////////////////////////////////
 //                                          //
 //         Malfunctioning AI                //
-//                              		    //
+//                                         //
 //////////////////////////////////////////////
 
 /datum/dynamic_ruleset/midround/malf
 	name = "Malfunctioning AI"
-	antag_datum = /datum/antagonist/traitor
+	antag_datum = /datum/antagonist/malf_ai
 	antag_flag = ROLE_MALF
 	enemy_roles = list("Security Officer", "Warden","Detective","Head of Security", "Captain", "Scientist", "Chemist", "Research Director", "Chief Engineer")
 	exclusive_roles = list("AI")
@@ -292,8 +306,6 @@
 	cost = 35
 	requirements = list(101,101,80,70,60,60,50,50,40,40)
 	required_type = /mob/living/silicon/ai
-	var/ion_announce = 33
-	var/removeDontImproveChance = 10
 
 /datum/dynamic_ruleset/midround/malf/trim_candidates()
 	..()
@@ -301,25 +313,29 @@
 	for(var/mob/living/player in candidates)
 		if(!isAI(player))
 			candidates -= player
-		else if(is_centcom_level(player.z))
+			continue
+
+		if(is_centcom_level(player.z))
 			candidates -= player
-		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
+			continue
+
+		if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
 			candidates -= player
 
 /datum/dynamic_ruleset/midround/malf/execute()
 	if(!candidates || !candidates.len)
 		return FALSE
-	var/mob/living/silicon/ai/M = pick_n_take(candidates)
-	assigned += M.mind
-	var/datum/antagonist/traitor/AI = new
-	M.mind.special_role = antag_flag
-	M.mind.add_antag_datum(AI)
-	if(prob(ion_announce))
-		priority_announce("Ion storm detected near the station. Please check all AI-controlled equipment for errors.", "Anomaly Alert", 'sound/ai/ionstorm.ogg')
-		if(prob(removeDontImproveChance))
-			M.replace_random_law(generate_ion_law(), list(LAW_INHERENT, LAW_SUPPLIED, LAW_ION))
+	var/mob/living/silicon/ai/new_malf_ai = pick_n_take(candidates)
+	assigned += new_malf_ai.mind
+	var/datum/antagonist/malf_ai/malf_antag_datum = new
+	new_malf_ai.mind.special_role = antag_flag
+	new_malf_ai.mind.add_antag_datum(malf_antag_datum)
+	if(prob(MALF_ION_PROB))
+		priority_announce("Ion storm detected near the station. Please check all AI-controlled equipment for errors.", "Anomaly Alert", ANNOUNCER_IONSTORM)
+		if(prob(REPLACE_LAW_WITH_ION_PROB))
+			new_malf_ai.replace_random_law(generate_ion_law(), list(LAW_INHERENT, LAW_SUPPLIED, LAW_ION))
 		else
-			M.add_ion_law(generate_ion_law())
+			new_malf_ai.add_ion_law(generate_ion_law())
 	return TRUE
 
 //////////////////////////////////////////////
@@ -337,7 +353,7 @@
 	required_candidates = 1
 	weight = 1
 	cost = 20
-	requirements = list(90,90,70,40,30,20,10,10,10,10)
+	requirements = list(90,90,90,80,60,40,30,20,10,10)
 	repeatable = TRUE
 
 /datum/dynamic_ruleset/midround/from_ghosts/wizard/ready(forced = FALSE)
@@ -371,7 +387,7 @@
 	requirements = list(90,90,90,80,60,40,30,20,10,10)
 	var/list/operative_cap = list(2,2,3,3,4,5,5,5,5,5)
 	var/datum/team/nuclear/nuke_team
-	flags = HIGHLANDER_RULESET
+	flags = HIGH_IMPACT_RULESET
 
 /datum/dynamic_ruleset/midround/from_ghosts/nuclear/acceptable(population=0, threat=0)
 	if (locate(/datum/dynamic_ruleset/roundstart/nuclear) in mode.executed_rules)
@@ -688,3 +704,8 @@
 /datum/dynamic_ruleset/midround/spiders/execute()
 	create_midwife_eggs(spawncount)
 	return ..()
+
+/// Probability the AI going malf will be accompanied by an ion storm announcement and some ion laws.
+#undef MALF_ION_PROB
+/// The probability to replace an existing law with an ion law instead of adding a new ion law.
+#undef REPLACE_LAW_WITH_ION_PROB

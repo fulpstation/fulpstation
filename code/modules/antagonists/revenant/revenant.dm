@@ -21,7 +21,7 @@
 	invisibility = INVISIBILITY_REVENANT
 	health = INFINITY //Revenants don't use health, they use essence instead
 	maxHealth = INFINITY
-	layer = GHOST_LAYER
+	plane = GHOST_PLANE
 	healable = FALSE
 	sight = SEE_SELF
 	throwforce = 0
@@ -45,7 +45,6 @@
 	status_flags = 0
 	wander = FALSE
 	density = FALSE
-	is_flying_animal = TRUE
 	move_resist = MOVE_FORCE_OVERPOWERING
 	mob_size = MOB_SIZE_TINY
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
@@ -57,7 +56,7 @@
 	var/essence = 75 //The resource, and health, of revenants.
 	var/essence_regen_cap = 75 //The regeneration cap of essence (go figure); regenerates every Life() tick up to this amount.
 	var/essence_regenerating = TRUE //If the revenant regenerates essence or not
-	var/essence_regen_amount = 5 //How much essence regenerates
+	var/essence_regen_amount = 2.5 //How much essence regenerates per second
 	var/essence_accumulated = 0 //How much essence the revenant has stolen
 	var/essence_excess = 0 //How much stolen essence avilable for unlocks
 	var/revealed = FALSE //If the revenant can take damage from normal sources.
@@ -72,6 +71,7 @@
 
 /mob/living/simple_animal/revenant/Initialize(mapload)
 	. = ..()
+	AddElement(/datum/element/simple_flying)
 	flags_1 |= RAD_NO_CONTAMINATE_1
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_SIXTHSENSE, INNATE_TRAIT)
@@ -113,7 +113,7 @@
 		mind.add_antag_datum(/datum/antagonist/revenant)
 
 //Life, Stat, Hud Updates, and Say
-/mob/living/simple_animal/revenant/Life()
+/mob/living/simple_animal/revenant/Life(delta_time = SSMOBS_DT, times_fired)
 	if(stasis)
 		return
 	if(revealed && essence <= 0)
@@ -129,7 +129,7 @@
 		notransform = FALSE
 		to_chat(src, "<span class='revenboldnotice'>You can move again!</span>")
 	if(essence_regenerating && !inhibited && essence < essence_regen_cap) //While inhibited, essence will not regenerate
-		essence = min(essence_regen_cap, essence+essence_regen_amount)
+		essence = min(essence + (essence_regen_amount * delta_time), essence_regen_cap)
 		update_action_buttons_icon() //because we update something required by our spells in life, we need to update our buttons
 	update_spooky_icon()
 	update_health_hud()
@@ -174,7 +174,7 @@
 //Immunities
 
 /mob/living/simple_animal/revenant/ex_act(severity, target)
-	return 1 //Immune to the effects of explosions.
+	return FALSE //Immune to the effects of explosions.
 
 /mob/living/simple_animal/revenant/blob_act(obj/structure/blob/B)
 	return //blah blah blobs aren't in tune with the spirit world, or something.
@@ -410,7 +410,7 @@
 				break
 	if(!key_of_revenant)
 		message_admins("The new revenant's old client either could not be found or is in a new, living mob - grabbing a random candidate instead...")
-		var/list/candidates = pollCandidatesForMob("Do you want to be [revenant.name] (reforming)?", ROLE_REVENANT, null, ROLE_REVENANT, 50, revenant)
+		var/list/candidates = pollCandidatesForMob("Do you want to be [revenant.name] (reforming)?", ROLE_REVENANT, ROLE_REVENANT, 50, revenant)
 		if(!LAZYLEN(candidates))
 			qdel(revenant)
 			message_admins("No candidates were found for the new revenant. Oh well!")

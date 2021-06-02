@@ -70,7 +70,7 @@
 		to_chat(user, "<span class='notice'>It looks to be fully repaired now.</span>")
 	return TRUE
 
-/obj/vehicle/ridden/secway/obj_break()
+/obj/vehicle/ridden/atv/obj_break()
 	START_PROCESSING(SSobj, src)
 	return ..()
 
@@ -92,7 +92,7 @@
 	return TRUE
 
 /obj/vehicle/ridden/atv/obj_destruction()
-	explosion(src, -1, 0, 2, 4, flame_range = 3)
+	explosion(src, devastation_range = -1, light_impact_range = 2, flame_range = 3, flash_range = 4)
 	return ..()
 
 /obj/vehicle/ridden/atv/Destroy()

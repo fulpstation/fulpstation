@@ -115,7 +115,7 @@
 		QDEL_IN(holder, 5)
 
 /datum/spacevine_mutation/explosive/on_death(obj/structure/spacevine/holder, mob/hitter, obj/item/I)
-	explosion(holder.loc, 0, 0, severity, 0, 0)
+	explosion(holder, light_impact_range = severity, adminlog = FALSE)
 
 /datum/spacevine_mutation/fire_proof
 	name = "fire proof"
@@ -180,7 +180,7 @@
 				"<span class='userdanger'>You are lacerated by an outburst of vines!</span>")
 				log_combat(S, M, "aggressively lacerated")
 			else
-				C.apply_damage(60, BRUTE, def_zone = limb, blocked = armor, wound_bonus = rand(-20,10), sharpness = SHARP_NONE)
+				C.apply_damage(60, BRUTE, def_zone = limb, blocked = armor, wound_bonus = rand(-20,10), sharpness = NONE)
 				C.Knockdown(3 SECONDS)
 				var/atom/throw_target = get_edge_target_turf(C, get_dir(S, get_step_away(C, S)))
 				C.throw_at(throw_target, 3, 6)
@@ -281,7 +281,7 @@
 		var/mob/living/M = hitter
 		M.adjustBruteLoss(5)
 		to_chat(M, "<span class='alert'>You cut yourself on the thorny vines.</span>")
-	. =	expected_damage
+	. = expected_damage
 
 /datum/spacevine_mutation/woodening
 	name = "hardened"
@@ -331,13 +331,14 @@
 	var/datum/spacevine_controller/master = null
 	var/list/mutations = list()
 
-/obj/structure/spacevine/Initialize()
+/obj/structure/spacevine/Initialize(mapload)
 	. = ..()
 	add_atom_colour("#ffffff", FIXED_COLOUR_PRIORITY)
-
-/obj/structure/spacevine/ComponentInitialize()
-	. = ..()
-	AddElement(/datum/element/atmos_sensitive)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
+	AddElement(/datum/element/atmos_sensitive, mapload)
 
 /obj/structure/spacevine/examine(mob/user)
 	. = ..()
@@ -398,26 +399,26 @@
 		if(BURN)
 			playsound(src.loc, 'sound/items/welder.ogg', 100, TRUE)
 
-/obj/structure/spacevine/Crossed(atom/movable/AM)
-	. = ..()
+/obj/structure/spacevine/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
 	if(!isliving(AM))
 		return
 	for(var/datum/spacevine_mutation/SM in mutations)
 		SM.on_cross(src, AM)
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
-/obj/structure/spacevine/attack_hand(mob/user)
+/obj/structure/spacevine/attack_hand(mob/user, list/modifiers)
 	for(var/datum/spacevine_mutation/SM in mutations)
 		SM.on_hit(src, user)
 	user_unbuckle_mob(user, user)
 	. = ..()
 
-/obj/structure/spacevine/attack_paw(mob/living/user)
+/obj/structure/spacevine/attack_paw(mob/living/user, list/modifiers)
 	for(var/datum/spacevine_mutation/SM in mutations)
 		SM.on_hit(src, user)
 	user_unbuckle_mob(user,user)
 
-/obj/structure/spacevine/attack_alien(mob/living/user)
+/obj/structure/spacevine/attack_alien(mob/living/user, list/modifiers)
 	eat(user)
 
 /datum/spacevine_controller
@@ -450,11 +451,11 @@
 /datum/spacevine_controller/vv_do_topic(href_list)
 	. = ..()
 	if(href_list[VV_HK_SPACEVINE_PURGE])
-		if(alert(usr, "Are you sure you want to delete this spacevine cluster?", "Delete Vines", "Yes", "No") == "Yes")
+		if(tgui_alert(usr, "Are you sure you want to delete this spacevine cluster?", "Delete Vines", list("Yes", "No")) == "Yes")
 			DeleteVines()
 
-/datum/spacevine_controller/proc/DeleteVines()	//this is kill
-	QDEL_LIST(vines)	//this will also qdel us
+/datum/spacevine_controller/proc/DeleteVines() //this is kill
+	QDEL_LIST(vines) //this will also qdel us
 
 /datum/spacevine_controller/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -570,19 +571,18 @@
 	var/i
 	for(var/datum/spacevine_mutation/SM in mutations)
 		i += SM.on_explosion(severity, target, src)
-	if(!i && prob(100/severity))
+	if(!i && prob(34 * severity))
 		qdel(src)
 
 /obj/structure/spacevine/should_atmos_process(datum/gas_mixture/air, exposed_temperature)
-	return TRUE
+	return exposed_temperature > FIRE_MINIMUM_TEMPERATURE_TO_SPREAD //if you're cold you're safe
 
 /obj/structure/spacevine/atmos_expose(datum/gas_mixture/air, exposed_temperature)
 	var/volume = air.return_volume()
-	var/override = 0
 	for(var/datum/spacevine_mutation/SM in mutations)
-		override += SM.process_temperature(src, exposed_temperature, volume)
-	if(!override)
-		qdel(src)
+		if(SM.process_temperature(src, exposed_temperature, volume)) //If it's ever true we're safe
+			return
+	qdel(src)
 
 /obj/structure/spacevine/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()

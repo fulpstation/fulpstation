@@ -190,9 +190,9 @@
 			. = TRUE
 		if("buildMode")
 			var/mob/holder_mob = holder.mob
-			if (holder_mob)
+			if (holder_mob && (holder.holder?.rank?.rights & R_BUILD))
 				togglebuildmode(holder_mob)
-			SSblackbox.record_feedback("tally", "admin_verb", 1, "Toggle Build Mode") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+				SSblackbox.record_feedback("tally", "admin_verb", 1, "Toggle Build Mode") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 			. = TRUE
 		if("loadDataFromPreset")
 			var/list/savedData = params["payload"]
@@ -288,7 +288,7 @@
 				if (isnull(boomInput[i]))
 					return
 				if (!isnum(boomInput[i])) //If the user doesn't input a number, set that specific explosion value to zero
-					alert(usr, "That wasn't a number! Value set to default (zero) instead.")
+					tgui_alert(usr, "That wasn't a number! Value set to default (zero) instead.")
 					boomInput = 0
 			explosionChoice = 1
 			temp_pod.explosionSize = boomInput
@@ -310,7 +310,7 @@
 			if (isnull(damageInput))
 				return
 			if (!isnum(damageInput)) //Sanitize the input for damage to deal.s
-				alert(usr, "That wasn't a number! Value set to default (zero) instead.")
+				tgui_alert(usr, "That wasn't a number! Value set to default (zero) instead.")
 				damageInput = 0
 			damageChoice = 1
 			temp_pod.damage = damageInput
@@ -351,7 +351,7 @@
 			if (isnull(shrapnelMagnitude))
 				return
 			if (!isnum(shrapnelMagnitude))
-				alert(usr, "That wasn't a number! Value set to 3 instead.")
+				tgui_alert(usr, "That wasn't a number! Value set to 3 instead.")
 				shrapnelMagnitude = 3
 			temp_pod.shrapnel_type = shrapnelInput
 			temp_pod.shrapnel_magnitude = shrapnelMagnitude
@@ -452,7 +452,7 @@
 				if (isnull(soundLen))
 					return
 				if (!isnum(soundLen))
-					alert(usr, "That wasn't a number! Value set to default ([initial(temp_pod.fallingSoundLength)*0.1]) instead.")
+					tgui_alert(usr, "That wasn't a number! Value set to default ([initial(temp_pod.fallingSoundLength)*0.1]) instead.")
 			temp_pod.fallingSound = soundInput
 			temp_pod.fallingSoundLength = 10 * soundLen
 			. = TRUE
@@ -521,7 +521,7 @@
 			updateSelector()
 			. = TRUE
 		if("clearBay") //Delete all mobs and objs in the selected bay
-			if(alert(usr, "This will delete all objs and mobs in [bay]. Are you sure?", "Confirmation", "Delete that shit", "No") == "Delete that shit")
+			if(tgui_alert(usr, "This will delete all objs and mobs in [bay]. Are you sure?", "Confirmation", list("Delete that shit", "No")) == "Delete that shit")
 				clearBay()
 				refreshBay()
 			. = TRUE
@@ -567,18 +567,22 @@
 		else if(picking_dropoff_turf)
 			holder.mouse_up_icon = 'icons/effects/mouse_pointers/supplypod_pickturf.dmi' //Icon for when mouse is released
 			holder.mouse_down_icon = 'icons/effects/mouse_pointers/supplypod_pickturf_down.dmi' //Icon for when mouse is pressed
-		holder.mouse_pointer_icon = holder.mouse_up_icon //Icon for idle mouse (same as icon for when released)
+		holder.mouse_override_icon = holder.mouse_up_icon //Icon for idle mouse (same as icon for when released)
+		holder.mouse_pointer_icon = holder.mouse_override_icon
 		holder.click_intercept = src //Create a click_intercept so we know where the user is clicking
 	else
 		var/mob/holder_mob = holder.mob
 		holder.mouse_up_icon = null
 		holder.mouse_down_icon = null
+		holder.mouse_override_icon = null
 		holder.click_intercept = null
 		holder_mob?.update_mouse_pointer() //set the moues icons to null, then call update_moues_pointer() which resets them to the correct values based on what the mob is doing (in a mech, holding a spell, etc)()
 
 /datum/centcom_podlauncher/proc/InterceptClickOn(user,params,atom/target) //Click Intercept so we know where to send pods where the user clicks
-	var/list/pa = params2list(params)
-	var/left_click = pa.Find("left")
+	var/list/modifiers = params2list(params)
+
+	var/left_click = LAZYACCESS(modifiers, LEFT_CLICK)
+
 	if (launcherActivated)
 		//Clicking on UI elements shouldn't launch a pod
 		if(istype(target,/atom/movable/screen))
@@ -638,7 +642,7 @@
 /datum/centcom_podlauncher/proc/refreshBay() //Called whenever the bay is switched, as well as wheneber a pod is launched
 	bay = GLOB.supplypod_loading_bays[bayNumber]
 	orderedArea = createOrderedArea(bay) //Create an ordered list full of turfs form the bay
-	preLaunch()	//Fill acceptable turfs from orderedArea, then fill launchList from acceptableTurfs (see proc for more info)
+	preLaunch() //Fill acceptable turfs from orderedArea, then fill launchList from acceptableTurfs (see proc for more info)
 	refreshView()
 
 /area/centcom/supplypod/pod_storage/Initialize(mapload) //temp_pod holding area
@@ -707,7 +711,7 @@
 	if (isnull(target_turf))
 		return
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = DuplicateObject(temp_pod) //Duplicate the temp_pod (which we have been varediting or configuring with the UI) and store the result
-	toLaunch.update_icon()//we update_icon() here so that the door doesnt "flicker on" right after it lands
+	toLaunch.update_appearance()//we update_appearance() here so that the door doesnt "flicker on" right after it lands
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	if (launchClone) //We arent launching the actual items from the bay, rather we are creating clones and launching those
@@ -773,7 +777,7 @@
 		qdel(M)
 	for (var/bayturf in bay)
 		var/turf/turf_to_clear = bayturf
-		turf_to_clear.ChangeTurf(/turf/open/floor/plasteel)
+		turf_to_clear.ChangeTurf(/turf/open/floor/iron)
 
 /datum/centcom_podlauncher/Destroy() //The Destroy() proc. This is called by ui_close proc, or whenever the user leaves the game
 	updateCursor(TRUE) //Make sure our moues cursor resets to default. False means we are not in launch mode

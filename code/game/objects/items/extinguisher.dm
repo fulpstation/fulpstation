@@ -34,7 +34,7 @@
 	desc = "A light and compact fibreglass-framed model fire extinguisher."
 	icon_state = "miniFE0"
 	inhand_icon_state = "miniFE"
-	hitsound = null	//it is much lighter, after all.
+	hitsound = null //it is much lighter, after all.
 	flags_1 = null //doesn't CONDUCT_1
 	throwforce = 2
 	w_class = WEIGHT_CLASS_SMALL
@@ -43,6 +43,28 @@
 	max_water = 30
 	sprite_name = "miniFE"
 	dog_fashion = null
+
+/obj/item/extinguisher/crafted
+	name = "Improvised cooling spray"
+	desc = "Spraycan turned coolant dipsenser. Can be sprayed on containers to cool them. Refll using water."
+	icon_state = "coolant0"
+	inhand_icon_state = "miniFE"
+	hitsound = null	//it is much lighter, after all.
+	flags_1 = null //doesn't CONDUCT_1
+	throwforce = 1
+	w_class = WEIGHT_CLASS_SMALL
+	force = 3
+	custom_materials = list(/datum/material/iron = 50, /datum/material/glass = 40)
+	max_water = 30
+	sprite_name = "coolant"
+	dog_fashion = null
+	cooling_power = 1.5
+	power = 3
+
+/obj/item/extinguisher/crafted/attack_self(mob/user)
+	safety = !safety
+	icon_state = "[sprite_name][!safety]"
+	to_chat(user, "[safety ? "You remove the straw and put it on the side of the cool canister" : "You insert the straw, readying it for use"].")
 
 /obj/item/extinguisher/proc/refill()
 	if(!chem)
@@ -86,16 +108,16 @@
 /obj/item/extinguisher/attack_self(mob/user)
 	safety = !safety
 	src.icon_state = "[sprite_name][!safety]"
-	to_chat(user, "The safety is [safety ? "on" : "off"].")
+	to_chat(user, "<span class='infoplain'>The safety is [safety ? "on" : "off"].</span>")
 	return
 
-/obj/item/extinguisher/attack(mob/M, mob/user)
-	if(user.a_intent == INTENT_HELP && !safety) //If we're on help intent and going to spray people, don't bash them.
+/obj/item/extinguisher/attack(mob/M, mob/living/user)
+	if(!user.combat_mode && !safety) //If we're on help intent and going to spray people, don't bash them.
 		return FALSE
 	else
 		return ..()
 
-/obj/item/extinguisher/attack_obj(obj/O, mob/living/user)
+/obj/item/extinguisher/attack_obj(obj/O, mob/living/user, params)
 	if(AttemptRefill(O, user))
 		refilling = TRUE
 		return FALSE
@@ -111,11 +133,8 @@
 
 /obj/item/extinguisher/proc/AttemptRefill(atom/target, mob/user)
 	if(istype(target, tanktype) && target.Adjacent(user))
-		var/safety_save = safety
-		safety = TRUE
 		if(reagents.total_volume == reagents.maximum_volume)
 			to_chat(user, "<span class='warning'>\The [src] is already full!</span>")
-			safety = safety_save
 			return TRUE
 		var/obj/structure/reagent_dispensers/W = target //will it work?
 		var/transferred = W.reagents.trans_to(src, max_water, transfered_by = user)
@@ -126,7 +145,6 @@
 				R.cooling_temperature = cooling_power
 		else
 			to_chat(user, "<span class='warning'>\The [W] is empty!</span>")
-		safety = safety_save
 		return TRUE
 	else
 		return FALSE

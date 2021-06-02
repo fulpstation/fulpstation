@@ -19,12 +19,12 @@
 	anchored = TRUE
 	var/mech_sized = FALSE
 	var/obj/effect/portal/linked
-	var/hardlinked = TRUE			//Requires a linked portal at all times. Destroy if there's no linked portal, if there is destroy it when this one is deleted.
+	var/hardlinked = TRUE //Requires a linked portal at all times. Destroy if there's no linked portal, if there is destroy it when this one is deleted.
 	var/teleport_channel = TELEPORT_CHANNEL_BLUESPACE
-	var/turf/hard_target			//For when a portal needs a hard target and isn't to be linked.
-	var/atmos_link = FALSE			//Link source/destination atmos.
-	var/turf/open/atmos_source		//Atmos link source
-	var/turf/open/atmos_destination	//Atmos link destination
+	var/turf/hard_target //For when a portal needs a hard target and isn't to be linked.
+	var/atmos_link = FALSE //Link source/destination atmos.
+	var/turf/open/atmos_source //Atmos link source
+	var/turf/open/atmos_destination //Atmos link destination
 	var/allow_anchored = FALSE
 	var/innate_accuracy_penalty = 0
 	var/last_effect = 0
@@ -49,20 +49,18 @@
 		user.forceMove(get_turf(src))
 		return TRUE
 
-/obj/effect/portal/Crossed(atom/movable/AM, oldloc, force_stop = 0)
-	if(force_stop)
-		return ..()
-	if(isobserver(AM))
-		return ..()
-	if(linked && (get_turf(oldloc) == get_turf(linked)))
-		return ..()
-	if(!teleport(AM))
-		return ..()
-
 /obj/effect/portal/attack_tk(mob/user)
 	return
 
-/obj/effect/portal/attack_hand(mob/user)
+/obj/effect/portal/proc/on_entered(atom/newloc, atom/movable/entering_movable, atom/oldloc)
+	SIGNAL_HANDLER
+	if(isobserver(entering_movable))
+		return
+	if(linked && (get_turf(oldloc) == get_turf(linked)))
+		return
+	teleport(entering_movable)
+
+/obj/effect/portal/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(.)
 		return
@@ -85,6 +83,10 @@
 	hardlinked = automatic_link
 	if(isturf(hard_target_override))
 		hard_target = hard_target_override
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /obj/effect/portal/singularity_pull()
 	return
@@ -117,7 +119,7 @@
 		return FALSE
 	LAZYINITLIST(atmos_source.atmos_adjacent_turfs)
 	LAZYINITLIST(atmos_destination.atmos_adjacent_turfs)
-	if(atmos_source.atmos_adjacent_turfs[atmos_destination] || atmos_destination.atmos_adjacent_turfs[atmos_source])	//Already linked!
+	if(atmos_source.atmos_adjacent_turfs[atmos_destination] || atmos_destination.atmos_adjacent_turfs[atmos_source]) //Already linked!
 		return FALSE
 	atmos_source.atmos_adjacent_turfs[atmos_destination] = TRUE
 	atmos_destination.atmos_adjacent_turfs[atmos_source] = TRUE

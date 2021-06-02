@@ -1,8 +1,8 @@
 //defines the drill hat's yelling setting
-#define DRILL_DEFAULT	"default"
-#define DRILL_SHOUTING	"shouting"
-#define DRILL_YELLING	"yelling"
-#define DRILL_CANADIAN	"canadian"
+#define DRILL_DEFAULT "default"
+#define DRILL_SHOUTING "shouting"
+#define DRILL_YELLING "yelling"
+#define DRILL_CANADIAN "canadian"
 
 //Chef
 /obj/item/clothing/head/chefhat
@@ -225,6 +225,7 @@
 	UnregisterSignal(M, COMSIG_MOB_SAY)
 
 /obj/item/clothing/head/warden/drill/proc/handle_speech(datum/source, mob/speech_args)
+	SIGNAL_HANDLER
 	var/message = speech_args[SPEECH_MESSAGE]
 	if(message[1] != "*")
 		switch (mode)
@@ -233,7 +234,7 @@
 			if(DRILL_YELLING)
 				message += "!!"
 			if(DRILL_CANADIAN)
-				message = " [message]"
+				message = "[message]"
 				var/list/canadian_words = strings("canadian_replacement.json", "canadian")
 
 				for(var/key in canadian_words)

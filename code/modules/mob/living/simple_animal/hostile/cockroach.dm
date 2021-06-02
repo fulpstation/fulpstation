@@ -22,7 +22,6 @@
 	melee_damage_lower = 0
 	melee_damage_upper = 0
 	obj_damage = 0
-	ventcrawler = VENTCRAWLER_ALWAYS
 	gold_core_spawnable = FRIENDLY_SPAWN
 	verb_say = "chitters"
 	verb_ask = "chitters inquisitively"
@@ -38,8 +37,10 @@
 	add_cell_sample()
 	make_squashable()
 
+	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+
 /mob/living/simple_animal/hostile/cockroach/proc/make_squashable()
-	AddElement(/datum/element/squashable, squash_chance = 50, squash_damage = 1)
+	AddComponent(/datum/component/squashable, squash_chance = 50, squash_damage = 1)
 
 /mob/living/simple_animal/hostile/cockroach/add_cell_sample()
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_COCKROACH, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 7)
@@ -73,7 +74,7 @@
 	..()
 
 /mob/living/simple_animal/hostile/cockroach/ex_act() //Explosions are a terrible way to handle a cockroach.
-	return
+	return FALSE
 
 /mob/living/simple_animal/hostile/cockroach/hauberoach
 	name = "hauberoach"
@@ -86,6 +87,7 @@
 	obj_damage = 20
 	gold_core_spawnable = HOSTILE_SPAWN
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+	attack_vis_effect = ATTACK_EFFECT_SLASH
 	faction = list("hostile")
 	sharpness = SHARP_POINTY
 	squish_chance = 0 // manual squish if relevant
@@ -95,7 +97,7 @@
 	AddElement(/datum/element/caltrop, min_damage = 10, max_damage = 15, flags = (CALTROP_BYPASS_SHOES | CALTROP_SILENT))
 
 /mob/living/simple_animal/hostile/cockroach/hauberoach/make_squashable()
-	AddElement(/datum/element/squashable, squash_chance = 100, squash_damage = 1, squash_callback = /mob/living/simple_animal/hostile/cockroach/hauberoach/.proc/on_squish)
+	AddComponent(/datum/component/squashable, squash_chance = 100, squash_damage = 1, squash_callback = /mob/living/simple_animal/hostile/cockroach/hauberoach/.proc/on_squish)
 
 ///Proc used to override the squashing behavior of the normal cockroach.
 /mob/living/simple_animal/hostile/cockroach/hauberoach/proc/on_squish(mob/living/cockroach, mob/living/living_target)

@@ -27,7 +27,7 @@
 	var/pictures_left = 10
 	var/on = TRUE
 	var/cooldown = 64
-	var/blending = FALSE		//lets not take pictures while the previous is still processing!
+	var/blending = FALSE //lets not take pictures while the previous is still processing!
 	var/see_ghosts = CAMERA_NO_GHOSTS //for the spoop of it
 	var/obj/item/disk/holodisk/disk
 	var/sound/custom_sound
@@ -116,7 +116,7 @@
 			return FALSE
 		else if(!(get_turf(target) in get_hear(world.view, user)))
 			return FALSE
-	else					//user is an atom
+	else //user is an atom
 		if(!(get_turf(target) in view(world.view, user)))
 			return FALSE
 	return TRUE
@@ -207,7 +207,7 @@
 	qdel(clone_area)
 	get_icon.Blend("#000", ICON_UNDERLAY)
 
-	var/datum/picture/P = new("picture", desc.Join(" "), mobs_spotted, dead_spotted, get_icon, null, psize_x, psize_y, blueprints)
+	var/datum/picture/P = new("picture", desc.Join(" "), mobs_spotted, dead_spotted, get_icon, null, psize_x, psize_y, blueprints, can_see_ghosts = see_ghosts)
 	after_picture(user, P, flag)
 	blending = FALSE
 
@@ -227,7 +227,7 @@
 		to_chat(user, "<span class='notice'>[pictures_left] photos left.</span>")
 		var/customise = "No"
 		if(can_customise)
-			customise = alert(user, "Do you want to customize the photo?", "Customization", "Yes", "No")
+			customise = tgui_alert(user, "Do you want to customize the photo?", "Customization", list("Yes", "No"))
 		if(customise == "Yes")
 			var/name1 = stripped_input(user, "Set a name for this photo, or leave blank. 32 characters max.", "Name", max_length = 32)
 			var/desc1 = stripped_input(user, "Set a description to add to photo, or leave blank. 128 characters max.", "Caption", max_length = 128)

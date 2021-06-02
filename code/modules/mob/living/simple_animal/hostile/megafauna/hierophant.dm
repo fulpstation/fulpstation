@@ -90,6 +90,10 @@ Difficulty: Hard
 	. = ..()
 	spawned_beacon = new(loc)
 
+/mob/living/simple_animal/hostile/megafauna/hierophant/Destroy()
+	QDEL_NULL(spawned_beacon)
+	. = ..()
+
 /datum/action/innate/megafauna_attack/blink
 	name = "Blink To Target"
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
@@ -380,7 +384,7 @@ Difficulty: Hard
 /mob/living/simple_animal/hostile/megafauna/hierophant/proc/burst(turf/original, spread_speed)
 	hierophant_burst(src, original, burst_range, spread_speed)
 
-/mob/living/simple_animal/hostile/megafauna/hierophant/Life()
+/mob/living/simple_animal/hostile/megafauna/hierophant/Life(delta_time = SSMOBS_DT, times_fired)
 	. = ..()
 	if(. && spawned_beacon && !QDELETED(spawned_beacon) && !client)
 		if(target || loc == spawned_beacon.loc)
@@ -411,10 +415,6 @@ Difficulty: Hard
 		hierophant_burst(null, get_turf(src), 10)
 		set_stat(CONSCIOUS) // deathgasp won't run if dead, stupid
 		..(force_grant = stored_nearby)
-
-/mob/living/simple_animal/hostile/megafauna/hierophant/Destroy()
-	qdel(spawned_beacon)
-	. = ..()
 
 /mob/living/simple_animal/hostile/megafauna/hierophant/devour(mob/living/L)
 	for(var/obj/item/W in L)
@@ -656,6 +656,10 @@ Difficulty: Hard
 		var/turf/closed/mineral/M = loc
 		M.gets_drilled(caster)
 	INVOKE_ASYNC(src, .proc/blast)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /obj/effect/temp_visual/hierophant/blast/damaging/proc/blast()
 	var/turf/T = get_turf(src)
@@ -668,8 +672,8 @@ Difficulty: Hard
 	sleep(1.3) //slightly forgiving; the burst animation is 1.5 deciseconds
 	bursting = FALSE //we no longer damage crossers
 
-/obj/effect/temp_visual/hierophant/blast/damaging/Crossed(atom/movable/AM)
-	..()
+/obj/effect/temp_visual/hierophant/blast/damaging/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
 	if(bursting)
 		do_damage(get_turf(src))
 
@@ -741,7 +745,7 @@ Difficulty: Hard
 				new /obj/effect/temp_visual/hierophant/telegraph/teleport(get_turf(src), user)
 				to_chat(user, "<span class='hierophant_warning'>You collect [src], reattaching it to the club!</span>")
 				H.beacon = null
-				H.update_icon()
+				H.update_appearance()
 				user.update_action_buttons_icon()
 				qdel(src)
 		else

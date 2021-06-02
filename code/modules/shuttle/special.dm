@@ -10,6 +10,7 @@
 	icon = 'icons/obj/machines/magic_emitter.dmi'
 	icon_state = "wabbajack_statue"
 	icon_state_on = "wabbajack_statue_on"
+	base_icon_state = "wabbajack_statue"
 	active = FALSE
 	allow_switch_interact = FALSE
 	var/list/active_tables = list()
@@ -19,13 +20,11 @@
 	. = ..()
 	if(prob(50))
 		desc = "Oh no, not again."
-	update_icon()
+	update_appearance()
 
 /obj/machinery/power/emitter/energycannon/magical/update_icon_state()
-	if(active)
-		icon_state = icon_state_on
-	else
-		icon_state = initial(icon_state)
+	. = ..()
+	icon_state = active ? icon_state_on : initial(icon_state)
 
 /obj/machinery/power/emitter/energycannon/magical/process()
 	. = ..()
@@ -39,13 +38,13 @@
 			visible_message("<span class='revenboldnotice'>\
 				[src] closes its eyes.</span>")
 		active = FALSE
-	update_icon()
+	update_appearance()
 
 /obj/machinery/power/emitter/energycannon/magical/attackby(obj/item/W, mob/user, params)
 	return
 
 /obj/machinery/power/emitter/energycannon/magical/ex_act(severity)
-	return
+	return FALSE
 
 /obj/machinery/power/emitter/energycannon/magical/emag_act(mob/user)
 	return
@@ -137,6 +136,7 @@
 	name = "Bardrone"
 	desc = "A barkeeping drone, a robot built to tend bars."
 	hacked = TRUE
+	shy = FALSE
 	laws = "1. Serve drinks.\n\
 		2. Talk to patrons.\n\
 		3. Don't get messed up in their affairs."
@@ -145,7 +145,8 @@
 
 /mob/living/simple_animal/drone/snowflake/bardrone/Initialize()
 	. = ..()
-	access_card.access |= ACCESS_CENT_BAR
+	access_card.add_access(list(ACCESS_CENT_BAR))
+	become_area_sensitive(ROUNDSTART_TRAIT)
 	RegisterSignal(src, COMSIG_ENTER_AREA, .proc/check_barstaff_godmode)
 	check_barstaff_godmode()
 
@@ -161,11 +162,14 @@
 
 /mob/living/simple_animal/hostile/alien/maid/barmaid/Initialize()
 	. = ..()
-	access_card = new /obj/item/card/id(src)
-	var/datum/job/captain/C = new /datum/job/captain
-	access_card.access = C.get_access()
-	access_card.access |= ACCESS_CENT_BAR
+	// Simple bot ID card that can hold all accesses. Someone turn access into a component at some point, please.
+	access_card = new /obj/item/card/id/advanced/simple_bot(src)
+
+	var/datum/id_trim/job/cap_trim = SSid_access.trim_singletons_by_path[/datum/id_trim/job/captain]
+	access_card.add_access(cap_trim.access + cap_trim.wildcard_access + list(ACCESS_CENT_BAR))
+
 	ADD_TRAIT(access_card, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+	become_area_sensitive(ROUNDSTART_TRAIT)
 	RegisterSignal(src, COMSIG_ENTER_AREA, .proc/check_barstaff_godmode)
 	check_barstaff_godmode()
 
@@ -191,7 +195,15 @@
 	max_integrity = 1000
 	var/boot_dir = 1
 
-/obj/structure/table/wood/bar/Crossed(atom/movable/AM)
+/obj/structure/table/wood/bar/Initialize(mapload, _buildstack)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
+
+/obj/structure/table/wood/bar/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
 	var/mob/living/M = AM
 	if(istype(M) && !M.incorporeal_move && !is_barstaff(M))
 		// No climbing on the bar please
@@ -199,8 +211,6 @@
 		M.Paralyze(40)
 		M.throw_at(throwtarget, 5, 1)
 		to_chat(M, "<span class='notice'>No climbing on the bar please.</span>")
-	else
-		return ..()
 
 /obj/structure/table/wood/bar/proc/is_barstaff(mob/living/user)
 	. = FALSE

@@ -22,6 +22,22 @@ GLOBAL_DATUM_INIT(keycard_events, /datum/events, new)
 	var/mob/triggerer = null
 	var/waiting = FALSE
 
+/obj/machinery/keycard_auth/directional/north
+	dir = SOUTH
+	pixel_y = 26
+
+/obj/machinery/keycard_auth/directional/south
+	dir = NORTH
+	pixel_y = -26
+
+/obj/machinery/keycard_auth/directional/east
+	dir = WEST
+	pixel_x = 26
+
+/obj/machinery/keycard_auth/directional/west
+	dir = EAST
+	pixel_x = -26
+
 /obj/machinery/keycard_auth/Initialize()
 	. = ..()
 	ev = GLOB.keycard_events.addEvent("triggerEvent", CALLBACK(src, .proc/triggerEvent))
@@ -124,7 +140,7 @@ GLOBAL_VAR_INIT(emergency_access, FALSE)
 	for(var/area/maintenance/A in world)
 		for(var/obj/machinery/door/airlock/D in A)
 			D.emergency = TRUE
-			D.update_icon(0)
+			D.update_icon(ALL, 0)
 	minor_announce("Access restrictions on maintenance and external airlocks have been lifted.", "Attention! Station-wide emergency declared!",1)
 	GLOB.emergency_access = TRUE
 	SSblackbox.record_feedback("nested tally", "keycard_auths", 1, list("emergency maintenance access", "enabled"))
@@ -133,7 +149,7 @@ GLOBAL_VAR_INIT(emergency_access, FALSE)
 	for(var/area/maintenance/A in world)
 		for(var/obj/machinery/door/airlock/D in A)
 			D.emergency = FALSE
-			D.update_icon(0)
+			D.update_icon(ALL, 0)
 	minor_announce("Access restrictions in maintenance areas have been restored.", "Attention! Station-wide emergency rescinded:")
 	GLOB.emergency_access = FALSE
 	SSblackbox.record_feedback("nested tally", "keycard_auths", 1, list("emergency maintenance access", "disabled"))

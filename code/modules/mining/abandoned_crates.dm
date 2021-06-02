@@ -13,6 +13,9 @@
 	var/spawned_loot = FALSE
 	tamperproof = 90
 
+	// Stop people from "diving into" the crate accidentally, and then detonating it.
+	divable = FALSE
+
 /obj/structure/closet/crate/secure/loot/Initialize()
 	. = ..()
 	var/list/digits = list("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
@@ -23,7 +26,7 @@
 		digits -= dig  //there are never matching digits in the answer
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
-/obj/structure/closet/crate/secure/loot/attack_hand(mob/user)
+/obj/structure/closet/crate/secure/loot/attack_hand(mob/user, list/modifiers)
 	if(locked)
 		to_chat(user, "<span class='notice'>The crate is locked with a Deca-code lock.</span>")
 		var/input = input(usr, "Enter [codelen] digits. All digits must be unique.", "Deca-Code Lock", "") as text|null
@@ -98,17 +101,11 @@
 			return
 	return ..()
 
-/obj/structure/closet/secure/loot/dive_into(mob/living/user)
-	if(!locked)
-		return ..()
-	to_chat(user, "<span class='notice'>That seems like a stupid idea.</span>")
-	return FALSE
-
 /obj/structure/closet/crate/secure/loot/emag_act(mob/user)
 	if(locked)
 		boom(user)
 
-/obj/structure/closet/crate/secure/loot/togglelock(mob/user)
+/obj/structure/closet/crate/secure/loot/togglelock(mob/user, silent = FALSE)
 	if(locked)
 		boom(user)
 	else
@@ -185,7 +182,7 @@
 		if(75 to 76)
 			new /obj/item/bikehorn/airhorn(src)
 		if(77 to 78)
-			new /obj/item/toy/plush/lizardplushie(src)
+			new /obj/item/toy/plush/lizard_plushie(src)
 		if(79 to 80)
 			new /obj/item/stack/sheet/mineral/bananium(src, 10)
 		if(81 to 82)
@@ -224,13 +221,13 @@
 			for(var/i in 1 to 4)
 				new /obj/item/clothing/mask/balaclava(src)
 			new /obj/item/gun/ballistic/shotgun/toy(src)
-			new /obj/item/gun/ballistic/automatic/toy/pistol/unrestricted(src)
+			new /obj/item/gun/ballistic/automatic/pistol/toy(src)
 			new /obj/item/gun/ballistic/automatic/toy/unrestricted(src)
 			new /obj/item/gun/ballistic/automatic/l6_saw/toy/unrestricted(src)
 			new /obj/item/ammo_box/foambox(src)
 		if(98)
 			for(var/i in 1 to 3)
-				new /mob/living/simple_animal/hostile/poison/bees/toxin(src)
+				new /mob/living/simple_animal/hostile/bee/toxin(src)
 		if(99)
 			new /obj/item/implanter/sad_trombone(src)
 		if(100)

@@ -21,7 +21,6 @@
 	response_harm_continuous = "splats"
 	response_harm_simple = "splat"
 	density = FALSE
-	ventcrawler = VENTCRAWLER_ALWAYS
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	mob_size = MOB_SIZE_TINY
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -34,13 +33,15 @@
 
 /mob/living/simple_animal/mouse/Initialize()
 	. = ..()
-	AddComponent(/datum/component/squeak, list('sound/effects/mousesqueek.ogg'=1), 100, extrarange = SHORT_RANGE_SOUND_EXTRARANGE) //as quiet as a mouse or whatever
-	if(!body_color)
-		body_color = pick( list("brown","gray","white") )
-	icon_state = "mouse_[body_color]"
-	icon_living = "mouse_[body_color]"
-	icon_dead = "mouse_[body_color]_dead"
+	AddElement(/datum/element/animal_variety, "mouse", pick("brown","gray","white"), FALSE)
+	AddComponent(/datum/component/squeak, list('sound/effects/mousesqueek.ogg' = 1), 100, extrarange = SHORT_RANGE_SOUND_EXTRARANGE) //as quiet as a mouse or whatever
 	add_cell_sample()
+
+	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /mob/living/simple_animal/mouse/add_cell_sample()
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_MOUSE, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 10)
@@ -74,15 +75,15 @@
 	if(.)
 		SSmobs.cheeserats += src
 
-/mob/living/simple_animal/mouse/Crossed(AM as mob|obj)
-	if( ishuman(AM) )
+/mob/living/simple_animal/mouse/proc/on_entered(datum/source, AM as mob|obj)
+	SIGNAL_HANDLER
+	if(ishuman(AM))
 		if(!stat)
 			var/mob/M = AM
 			to_chat(M, "<span class='notice'>[icon2html(src, M)] Squeak!</span>")
-	if(istype(AM, /obj/item/food/royalcheese))
+	if(istype(AM, /obj/item/food/cheese/royal))
 		evolve()
 		qdel(AM)
-	..()
 
 /mob/living/simple_animal/mouse/handle_automated_action()
 	if(prob(chew_probability))
@@ -101,21 +102,21 @@
 				if(powered)
 					playsound(src, 'sound/effects/sparks2.ogg', 100, TRUE)
 
-	for(var/obj/item/food/cheesewedge/cheese in range(1, src))
+	for(var/obj/item/food/cheese/cheese in range(1, src))
 		if(prob(10))
 			be_fruitful()
 			qdel(cheese)
 			return
-	for(var/obj/item/food/royalcheese/bigcheese in range(1, src))
+	for(var/obj/item/food/cheese/royal/bigcheese in range(1, src))
 		qdel(bigcheese)
 		evolve()
 		return
 
-/mob/living/simple_animal/mouse/UnarmedAttack(atom/A, proximity)
+/mob/living/simple_animal/mouse/UnarmedAttack(atom/A, proximity_flag, list/modifiers)
 	if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
 		return
 	. = ..()
-	if(istype(A, /obj/item/food/cheesewedge) && canUseTopic(A, BE_CLOSE, NO_DEXTERITY))
+	if(istype(A, /obj/item/food/cheese) && canUseTopic(A, BE_CLOSE, NO_DEXTERITY))
 		if(health == maxHealth)
 			to_chat(src,"<span class='warning'>You don't need to eat or heal.</span>")
 			return
@@ -143,7 +144,7 @@
 /mob/living/simple_animal/mouse/proc/evolve()
 	var/mob/living/simple_animal/hostile/regalrat/regalrat = new /mob/living/simple_animal/hostile/regalrat/controlled(loc)
 	visible_message("<span class='warning'>[src] devours the cheese! He morphs into something... greater!</span>")
-	regalrat.say("RISE, MY SUBJECTS! SCREEEEEEE!")
+	INVOKE_ASYNC(regalrat, /atom/movable/proc/say, "RISE, MY SUBJECTS! SCREEEEEEE!")
 	if(mind)
 		mind.transfer_to(regalrat)
 	qdel(src)
@@ -181,11 +182,10 @@
 	response_harm_continuous = "splats"
 	response_harm_simple = "splat"
 	gold_core_spawnable = NO_SPAWN
-	pet_bonus = TRUE
-	pet_bonus_emote = "squeaks happily!"
 
 /mob/living/simple_animal/mouse/brown/tom/Initialize()
 	. = ..()
+	AddElement(/datum/element/pet_bonus, "squeaks happily!")
 	// Tom fears no cable.
 	ADD_TRAIT(src, TRAIT_SHOCKIMMUNE, SPECIES_TRAIT)
 
@@ -209,8 +209,8 @@
 	if (reagents?.has_reagent(/datum/reagent/yuck) || reagents?.has_reagent(/datum/reagent/fuel))
 		. += "<span class='warning'>It's dripping with fuel and smells terrible.</span>"
 
-/obj/item/food/deadmouse/attackby(obj/item/I, mob/user, params)
-	if(I.get_sharpness() && user.a_intent == INTENT_HARM)
+/obj/item/food/deadmouse/attackby(obj/item/I, mob/living/user, params)
+	if(I.get_sharpness() && user.combat_mode)
 		if(isturf(loc))
 			new /obj/item/food/meat/slab/mouse(loc)
 			to_chat(user, "<span class='notice'>You butcher [src].</span>")

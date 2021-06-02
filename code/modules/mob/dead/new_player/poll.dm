@@ -238,23 +238,21 @@
 	var/list/prepared_options = list()
 	//if they've already voted we use the order they voted in plus a shuffle of any options they haven't voted for, if any
 	if(length(voted_for))
+		var/list/option_copy = poll.options.Copy()
 		for(var/vote_id in voted_for)
-			for(var/o in poll.options)
+			for(var/o in option_copy)
 				var/datum/poll_option/option = o
 				if(option.option_id == vote_id)
 					prepared_options += option
-		var/list/shuffle_options = poll.options - prepared_options
-		if(length(shuffle_options))
-			shuffle_options = shuffle(shuffle_options)
-			for(var/shuffled in shuffle_options)
-				prepared_options += shuffled
+					option_copy -= option
+		prepared_options += shuffle(option_copy)
 	//otherwise just shuffle the options
 	else
 		prepared_options = shuffle(poll.options)
 	var/list/output = list({"<html><head><meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 	<script src="[SSassets.transport.get_asset_url("jquery.min.js")]"></script>
-	<script src="[SSassets.transport.get_asset_url("jquery-ui.custom-core-widgit-mouse-sortable-min.js")]"></script>
+	<script src="[SSassets.transport.get_asset_url("jquery-ui.custom-core-widgit-mouse-sortable.min.js")]"></script>
 	<style>
 		#sortable { list-style-type: none; margin: 0; padding: 2em; }
 		#sortable li { min-height: 1em; margin: 0px 1px 1px 1px; padding: 1px; border: 1px solid black; border-radius: 5px; background-color: white; cursor:move;}
@@ -547,9 +545,12 @@
 		"ip" = "INET_ATON(?)",
 	)
 
-	var/sql_votes = list()
+	var/list/sql_votes = list()
+	var/list/option_copy = poll.options.Copy()
 	for(var/o in votelist)
-		var/datum/poll_option/option = locate(o) in poll.options
+		var/datum/poll_option/option = locate(o) in option_copy
+		if (!option)
+			to_chat(src, "<span class='warning'>invalid votes were trimmed from your ballot, please revote .</span>")
 		sql_votes += list(list(
 			"pollid" = sql_poll_id,
 			"optionid" = option.option_id,

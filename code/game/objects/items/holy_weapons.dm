@@ -104,13 +104,10 @@
 	name = "cage"
 	desc = "A cage that restrains the will of the self, allowing one to see the profane world for what it is."
 	flags_inv = NONE
-	worn_icon = 'icons/mob/large-worn-icons/64x64/head.dmi'
 	icon_state = "cage"
 	inhand_icon_state = "cage"
-	worn_x_dimension = 64
-	worn_y_dimension = 64
-	clothing_flags = LARGE_WORN_ICON
 	dynamic_hair_suffix = ""
+	worn_y_offset = 7
 
 /obj/item/storage/box/holy/sentinel
 	name = "Stone Sentinel Kit"
@@ -328,7 +325,7 @@
 /obj/item/nullrod/staff/worn_overlays(isinhands)
 	. = list()
 	if(isinhands)
-		. += mutable_appearance('icons/effects/effects.dmi', shield_icon, MOB_LAYER + 0.01)
+		. += mutable_appearance('icons/effects/effects.dmi', shield_icon, MOB_SHIELD_LAYER)
 
 /obj/item/nullrod/staff/blue
 	name = "blue holy staff"
@@ -523,7 +520,7 @@
 
 	possessed = TRUE
 
-	var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you want to play as the spirit of [user.real_name]'s blade?", ROLE_PAI, null, FALSE, 100, POLL_IGNORE_POSSESSED_BLADE)
+	var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you want to play as the spirit of [user.real_name]'s blade?", ROLE_PAI, FALSE, 100, POLL_IGNORE_POSSESSED_BLADE)
 
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
@@ -531,9 +528,9 @@
 		S.ckey = C.ckey
 		S.fully_replace_character_name(null, "The spirit of [name]")
 		S.status_flags |= GODMODE
-		S.copy_languages(user, LANGUAGE_MASTER)	//Make sure the sword can understand and communicate with the user.
+		S.copy_languages(user, LANGUAGE_MASTER) //Make sure the sword can understand and communicate with the user.
 		S.update_atom_languages()
-		grant_all_languages(FALSE, FALSE, TRUE)	//Grants omnitongue
+		grant_all_languages(FALSE, FALSE, TRUE) //Grants omnitongue
 		var/input = sanitize_name(stripped_input(S,"What are you named?", ,"", MAX_NAME_LEN))
 
 		if(src && input)
@@ -718,7 +715,7 @@
 	force = 15
 	block_chance = 40
 	slot_flags = ITEM_SLOT_BACK
-	sharpness = SHARP_NONE
+	sharpness = NONE
 	hitsound = "swing_hit"
 	attack_verb_continuous = list("smashes", "slams", "whacks", "thwacks")
 	attack_verb_simple = list("smash", "slam", "whack", "thwack")

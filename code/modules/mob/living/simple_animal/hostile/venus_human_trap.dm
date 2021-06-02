@@ -28,6 +28,8 @@
 	/// The countdown ghosts see to when the plant will hatch
 	var/obj/effect/countdown/flower_bud/countdown
 
+	var/list/vines = list()
+
 /obj/structure/alien/resin/flower_bud/Initialize()
 	. = ..()
 	countdown = new(src)
@@ -38,11 +40,15 @@
 	anchors += locate(x+2,y-2,z)
 
 	for(var/turf/T in anchors)
-		Beam(T, "vine", maxdistance=5, beam_type=/obj/effect/ebeam/vine)
+		vines += Beam(T, "vine", maxdistance=5, beam_type=/obj/effect/ebeam/vine)
 	finish_time = world.time + growth_time
 	addtimer(CALLBACK(src, .proc/bear_fruit), growth_time)
 	addtimer(CALLBACK(src, .proc/progress_growth), growth_time/4)
 	countdown.start()
+
+/obj/structure/alien/resin/flower_bud/Destroy()
+	QDEL_LIST(vines)
+	return ..()
 
 /**
  * Spawns a venus human trap, then qdels itself.
@@ -66,8 +72,15 @@
 	mouse_opacity = MOUSE_OPACITY_ICON
 	desc = "A thick vine, painful to the touch."
 
-/obj/effect/ebeam/vine/Crossed(atom/movable/AM)
+/obj/effect/ebeam/vine/Initialize(mapload)
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
+
+/obj/effect/ebeam/vine/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
 	if(isliving(AM))
 		var/mob/living/L = AM
 		if(!isvineimmune(L))
@@ -92,6 +105,7 @@
 	icon = 'icons/effects/spacevines.dmi'
 	icon_state = "venus_human_trap"
 	health_doll_icon = "venus_human_trap"
+	mob_biotypes = MOB_ORGANIC | MOB_PLANT
 	layer = SPACEVINE_MOB_LAYER
 	health = 50
 	maxHealth = 50
@@ -100,12 +114,13 @@
 	obj_damage = 60
 	melee_damage_lower = 25
 	melee_damage_upper = 25
-	a_intent = INTENT_HARM
+	combat_mode = TRUE
 	del_on_death = TRUE
 	deathmessage = "collapses into bits of plant matter."
 	attacked_sound = 'sound/creatures/venus_trap_hurt.ogg'
 	deathsound = 'sound/creatures/venus_trap_death.ogg'
 	attack_sound = 'sound/creatures/venus_trap_hit.ogg'
+	unsuitable_heat_damage = 5 //note that venus human traps do not take cold damage, only heat damage- this is because space vines can cause hull breaches
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	unsuitable_atmos_damage = 0
 	/// copied over from the code from eyeballs (the mob) to make it easier for venus human traps to see in kudzu that doesn't have the transparency mutation
@@ -122,7 +137,7 @@
 	/// Whether or not this plant is ghost possessable
 	var/playable_plant = TRUE
 
-/mob/living/simple_animal/hostile/venus_human_trap/Life()
+/mob/living/simple_animal/hostile/venus_human_trap/Life(delta_time = SSMOBS_DT, times_fired)
 	. = ..()
 	pull_vines()
 
@@ -181,7 +196,7 @@
 /mob/living/simple_animal/hostile/venus_human_trap/proc/humanize_plant(mob/user)
 	if(key || !playable_plant || stat)
 		return
-	var/plant_ask = alert("Become a venus human trap?", "Are you reverse vegan?", "Yes", "No")
+	var/plant_ask = tgui_alert(usr,"Become a venus human trap?", "Are you reverse vegan?", list("Yes", "No"))
 	if(plant_ask == "No" || QDELETED(src))
 		return
 	if(key)
@@ -202,8 +217,8 @@
 		if(istype(B.target, /atom/movable))
 			var/atom/movable/AM = B.target
 			if(!AM.anchored)
-				step(AM,get_dir(AM,src))
-		if(get_dist(src,B.target) == 0)
+				step(AM, get_dir(AM, src))
+		if(get_dist(src, B.target) == 0)
 			qdel(B)
 
 /**

@@ -147,25 +147,25 @@ Turf and target are separate in case you want to teleport some distance from a t
  * Uses the ultra-fast [Bresenham Line-Drawing Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm).
  */
 /proc/getline(atom/M,atom/N)
-	var/px=M.x		//starting x
+	var/px=M.x //starting x
 	var/py=M.y
 	var/line[] = list(locate(px,py,M.z))
-	var/dx=N.x-px	//x distance
+	var/dx=N.x-px //x distance
 	var/dy=N.y-py
 	var/dxabs = abs(dx)//Absolute value of x distance
 	var/dyabs = abs(dy)
-	var/sdx = SIGN(dx)	//Sign of x distance (+ or -)
+	var/sdx = SIGN(dx) //Sign of x distance (+ or -)
 	var/sdy = SIGN(dy)
-	var/x=dxabs>>1	//Counters for steps taken, setting to distance/2
-	var/y=dyabs>>1	//Bit-shifting makes me l33t.  It also makes getline() unnessecarrily fast.
-	var/j			//Generic integer for counting
-	if(dxabs>=dyabs)	//x distance is greater than y
+	var/x=dxabs>>1 //Counters for steps taken, setting to distance/2
+	var/y=dyabs>>1 //Bit-shifting makes me l33t.  It also makes getline() unnessecarrily fast.
+	var/j //Generic integer for counting
+	if(dxabs>=dyabs) //x distance is greater than y
 		for(j=0;j<dxabs;j++)//It'll take dxabs steps to get there
 			y+=dyabs
-			if(y>=dxabs)	//Every dyabs steps, step once in y direction
+			if(y>=dxabs) //Every dyabs steps, step once in y direction
 				y-=dxabs
 				py+=sdy
-			px+=sdx		//Step on in x direction
+			px+=sdx //Step on in x direction
 			line+=locate(px,py,M.z)//Add the turf to the list
 	else
 		for(j=0;j<dyabs;j++)
@@ -332,12 +332,23 @@ Turf and target are separate in case you want to teleport some distance from a t
 //For example, using this on a disk, which is in a bag, on a mob, will return the mob because it's on the turf.
 //Optional arg 'type' to stop once it reaches a specific type instead of a turf.
 /proc/get_atom_on_turf(atom/movable/M, stop_type)
-	var/atom/loc = M
-	while(loc?.loc && !isturf(loc.loc))
-		loc = loc.loc
-		if(stop_type && istype(loc, stop_type))
+	var/atom/turf_to_check = M
+	while(turf_to_check?.loc && !isturf(turf_to_check.loc))
+		turf_to_check = turf_to_check.loc
+		if(stop_type && istype(turf_to_check, stop_type))
 			break
-	return loc
+	return turf_to_check
+
+//Returns a list of all locations (except the area) the movable is within.
+/proc/get_nested_locs(atom/movable/AM, include_turf = FALSE)
+	. = list()
+	var/atom/location = AM.loc
+	var/turf/turf = get_turf(AM)
+	while(location && location != turf)
+		. += location
+		location = location.loc
+	if(location && include_turf) //At this point, only the turf is left, provided it exists.
+		. += location
 
 // returns the turf located at the map edge in the specified direction relative to A
 // used for mass driver
@@ -416,12 +427,13 @@ Turf and target are separate in case you want to teleport some distance from a t
 
 
 ///Returns the src and all recursive contents as a list.
-/atom/proc/GetAllContents()
+/atom/proc/GetAllContents(ignore_flag_1)
 	. = list(src)
 	var/i = 0
 	while(i < length(.))
 		var/atom/A = .[++i]
-		. += A.contents
+		if (!(A.flags_1 & ignore_flag_1))
+			. += A.contents
 
 ///identical to getallcontents but returns a list of atoms of the type passed in the argument.
 /atom/proc/get_all_contents_type(type)
@@ -450,6 +462,8 @@ Turf and target are separate in case you want to teleport some distance from a t
 /proc/can_see(atom/source, atom/target, length=5) // I couldnt be arsed to do actual raycasting :I This is horribly inaccurate.
 	var/turf/current = get_turf(source)
 	var/turf/target_turf = get_turf(target)
+	if(get_dist(source, target) > length)
+		return FALSE
 	var/steps = 1
 	if(current != target_turf)
 		current = get_step_towards(current, target_turf)
@@ -718,7 +732,7 @@ GLOBAL_LIST_INIT(WALLITEMS_INVERSE, typecacheof(list(
 			living_player_count += 1
 	return living_player_count
 
-/proc/randomColor(mode = 0)	//if 1 it doesn't pick white, black or gray
+/proc/randomColor(mode = 0) //if 1 it doesn't pick white, black or gray
 	switch(mode)
 		if(0)
 			return pick("white","black","gray","red","green","blue","brown","yellow","orange","darkred",
@@ -988,9 +1002,9 @@ rough example of the "cone" made by the 3 dirs checked
 	if (length(turfs))
 		return pick(turfs)
 
-/proc/get_safe_random_station_turf() //excludes dense turfs (like walls) and areas that have valid_territory set to FALSE
+/proc/get_safe_random_station_turf(list/areas_to_pick_from = GLOB.the_station_areas) //excludes dense turfs (like walls) and areas that have valid_territory set to FALSE
 	for (var/i in 1 to 5)
-		var/list/L = get_area_turfs(pick(GLOB.the_station_areas))
+		var/list/L = get_area_turfs(pick(areas_to_pick_from))
 		var/turf/target
 		while (L.len && !target)
 			var/I = rand(1, L.len)
@@ -1196,24 +1210,36 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 #define FOR_DVIEW_END GLOB.dview_mob.loc = null
 
-//can a window be here, or is there a window blocking it?
-/proc/valid_window_location(turf/T, dir_to_check)
-	if(!T)
+/**
+ * Checks whether the target turf is in a valid state to accept a directional window
+ * or other directional pseudo-dense object such as railings.
+ *
+ * Returns FALSE if the target turf cannot accept a directional window or railing.
+ * Returns TRUE otherwise.
+ *
+ * Arguments:
+ * * dest_turf - The destination turf to check for existing windows and railings
+ * * test_dir - The prospective dir of some atom you'd like to put on this turf.
+ * * is_fulltile - Whether the thing you're attempting to move to this turf takes up the entire tile or whether it supports multiple movable atoms on its tile.
+ */
+/proc/valid_window_location(turf/dest_turf, test_dir, is_fulltile = FALSE)
+	if(!dest_turf)
 		return FALSE
-	for(var/obj/O in T)
-		if(istype(O, /obj/machinery/door/window) && (O.dir == dir_to_check || dir_to_check == FULLTILE_WINDOW_DIR))
-			return FALSE
-		if(istype(O, /obj/structure/windoor_assembly))
-			var/obj/structure/windoor_assembly/W = O
-			if(W.ini_dir == dir_to_check || dir_to_check == FULLTILE_WINDOW_DIR)
+	for(var/obj/turf_content in dest_turf)
+		if(istype(turf_content, /obj/machinery/door/window))
+			if((turf_content.dir == test_dir) || is_fulltile)
 				return FALSE
-		if(istype(O, /obj/structure/window))
-			var/obj/structure/window/W = O
-			if(W.ini_dir == dir_to_check || W.ini_dir == FULLTILE_WINDOW_DIR || dir_to_check == FULLTILE_WINDOW_DIR)
+		if(istype(turf_content, /obj/structure/windoor_assembly))
+			var/obj/structure/windoor_assembly/windoor_assembly = turf_content
+			if(windoor_assembly.dir == test_dir || is_fulltile)
 				return FALSE
-		if(istype(O, /obj/structure/railing))
-			var/obj/structure/railing/rail = O
-			if(rail.ini_dir == dir_to_check || rail.ini_dir == FULLTILE_WINDOW_DIR || dir_to_check == FULLTILE_WINDOW_DIR)
+		if(istype(turf_content, /obj/structure/window))
+			var/obj/structure/window/window_structure = turf_content
+			if(window_structure.dir == test_dir || window_structure.fulltile || is_fulltile)
+				return FALSE
+		if(istype(turf_content, /obj/structure/railing))
+			var/obj/structure/railing/rail = turf_content
+			if(rail.dir == test_dir || is_fulltile)
 				return FALSE
 	return TRUE
 
@@ -1243,12 +1269,12 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 //in constant time and memory!
 /proc/BitCount(bitfield)
 	var/temp = bitfield - ((bitfield>>1)&46811) - ((bitfield>>2)&37449) //0133333 and 0111111 respectively
-	temp = ((temp + (temp>>3))&29127) % 63	//070707
+	temp = ((temp + (temp>>3))&29127) % 63 //070707
 	return temp
 
 //returns a GUID like identifier (using a mostly made up record format)
 //guids are not on their own suitable for access or security tokens, as most of their bits are predictable.
-//	(But may make a nice salt to one)
+// (But may make a nice salt to one)
 /proc/GUID()
 	var/const/GUID_VERSION = "b"
 	var/const/GUID_VARIANT = "d"
@@ -1302,12 +1328,12 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 		return
 	var/datum/D = list_or_datum
 	if(IsAdminAdvancedProcCall())
-		D.vv_edit_var(var_name, var_value)	//same result generally, unless badmemes
+		D.vv_edit_var(var_name, var_value) //same result generally, unless badmemes
 	else
 		D.vars[var_name] = var_value
 
-#define	TRAIT_CALLBACK_ADD(target, trait, source) CALLBACK(GLOBAL_PROC, /proc/___TraitAdd, ##target, ##trait, ##source)
-#define	TRAIT_CALLBACK_REMOVE(target, trait, source) CALLBACK(GLOBAL_PROC, /proc/___TraitRemove, ##target, ##trait, ##source)
+#define TRAIT_CALLBACK_ADD(target, trait, source) CALLBACK(GLOBAL_PROC, /proc/___TraitAdd, ##target, ##trait, ##source)
+#define TRAIT_CALLBACK_REMOVE(target, trait, source) CALLBACK(GLOBAL_PROC, /proc/___TraitRemove, ##target, ##trait, ##source)
 
 ///DO NOT USE ___TraitAdd OR ___TraitRemove as a replacement for ADD_TRAIT / REMOVE_TRAIT defines. To be used explicitly for callback.
 /proc/___TraitAdd(target,trait,source)
@@ -1424,17 +1450,74 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 		for(var/i in 1 to items_list[each_item])
 			new each_item(where_to)
 
-
-/proc/num2sign(numeric)
-	if(numeric > 0)
-		return 1
-	else if(numeric < 0)
-		return -1
-	else
-		return 0
-
 /proc/CallAsync(datum/source, proctype, list/arguments)
 	set waitfor = FALSE
 	return call(source, proctype)(arglist(arguments))
 
+/// Returns the name of the mathematical tuple of same length as the number arg (rounded down).
+/proc/make_tuple(number)
+	var/static/list/units_prefix = list("", "un", "duo", "tre", "quattuor", "quin", "sex", "septen", "octo", "novem")
+	var/static/list/tens_prefix = list("", "decem", "vigin", "trigin", "quadragin", "quinquagin", "sexagin", "septuagin", "octogin", "nongen")
+	var/static/list/one_to_nine = list("monuple", "double", "triple", "quadruple", "quintuple", "sextuple", "septuple", "octuple", "nonuple")
+	number = round(number)
+	switch(number)
+		if(0)
+			return "empty tuple"
+		if(1 to 9)
+			return one_to_nine[number]
+		if(10 to 19)
+			return "[units_prefix[(number%10)+1]]decuple"
+		if(20 to 99)
+			return "[units_prefix[(number%10)+1]][tens_prefix[round((number % 100)/10)+1]]tuple"
+		if(100)
+			return "centuple"
+		else //It gets too tedious to use latin prefixes from here.
+			return "[number]-tuple"
+
 #define TURF_FROM_COORDS_LIST(List) (locate(List[1], List[2], List[3]))
+
+
+/**
+ * One proc for easy spawning of pods in the code to drop off items before whizzling (please don't proc call this in game, it will destroy you)
+ *
+ * Arguments:
+ * * specifications: special mods to the pod, see non var edit specifications for details on what you should fill this with
+ * Non var edit specifications:
+ * * target = where you want the pod to drop
+ * * path = a special specific pod path if you want, this can save you a lot of var edits
+ * * style = style of the pod, defaults to the normal pod
+ * * spawn = spawned path or a list of the paths spawned, what you're sending basically
+ * Returns the pod spawned, in case you want to spawn items yourself and modify them before putting them in.
+ */
+/proc/podspawn(specifications)
+	//get non var edit specifications
+	var/turf/landing_location = specifications["target"]
+	var/spawn_type = specifications["path"]
+	var/style = specifications["style"]
+	var/list/paths_to_spawn = specifications["spawn"]
+
+	//setup pod, add contents
+	if(!isturf(landing_location))
+		landing_location = get_turf(landing_location)
+	if(!spawn_type)
+		spawn_type = /obj/structure/closet/supplypod/podspawn
+	var/obj/structure/closet/supplypod/podspawn/pod = new spawn_type(null, style)
+	if(paths_to_spawn && !islist(paths_to_spawn))
+		paths_to_spawn = list(paths_to_spawn)
+	for(var/atom/path as anything in paths_to_spawn)
+		path = new path(pod)
+
+	//remove non var edits from specifications
+	specifications -= landing_location
+	specifications -= style
+	specifications -= spawn_type
+	specifications -= "paths_to_spawn" //list, we remove the key
+
+	//rest of specificiations are edits on the pod
+	for(var/variable_name in specifications)
+		var/variable_value = specifications[variable_name]
+		if(!pod.vv_edit_var(variable_name, variable_value))
+			stack_trace("WARNING! podspawn vareditting \"[variable_name]\" to \"[variable_value]\" was rejected by the pod!")
+	new /obj/effect/pod_landingzone(landing_location, pod)
+	return pod
+

@@ -16,7 +16,7 @@
 	if(revinfo)
 		commit = revinfo.commit
 		originmastercommit = revinfo.origin_commit
-		date = rustg_git_commit_date(commit)
+		date = revinfo.timestamp || rustg_git_commit_date(commit)
 
 	// goes to DD log and config_error.txt
 	log_world(get_log_message())
@@ -123,4 +123,4 @@
 			if(probabilities[ctag] > 0)
 				var/percentage = round(probabilities[ctag] / sum * 100, 0.1)
 				msg += "[ctag] [percentage]%"
-	to_chat(src, msg.Join("<br>"))
+	to_chat(src, "<span class='infoplain'>[msg.Join("<br>")]</span>")

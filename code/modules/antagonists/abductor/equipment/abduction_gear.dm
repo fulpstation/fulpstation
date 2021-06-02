@@ -487,9 +487,10 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	if(!turned_on)
 		toggle_on(user)
 	to_chat(usr, "<span class='notice'>You switch the baton to [txt] mode.</span>")
-	update_icon()
+	update_appearance()
 
 /obj/item/melee/baton/abductor/update_icon_state()
+	. = ..()
 	switch(mode)
 		if(BATON_STUN)
 			icon_state = "wonderprodStun"
@@ -800,7 +801,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	if(istype(I, /obj/item/stack/sheet/mineral/silver))
 		var/obj/item/stack/sheet/P = I
 		if(P.get_amount() < 1)
-			to_chat(user, "<span class='warning'>You need one sheet of silver to do	this!</span>")
+			to_chat(user, "<span class='warning'>You need one sheet of silver to do this!</span>")
 			return
 		to_chat(user, "<span class='notice'>You start adding [P] to [src]...</span>")
 		if(do_after(user, 50, target = src))
@@ -821,6 +822,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	smoothing_groups = list(SMOOTH_GROUP_ABDUCTOR_TABLES)
 	canSmoothWith = list(SMOOTH_GROUP_ABDUCTOR_TABLES)
 	frame = /obj/structure/table_frame/abductor
+	custom_materials = list(/datum/material/silver = 2000)
 
 /obj/structure/table/optable/abductor
 	name = "alien operating table"
@@ -838,8 +840,15 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 
 	var/static/list/injected_reagents = list(/datum/reagent/medicine/cordiolis_hepatico)
 
-/obj/structure/table/optable/abductor/Crossed(atom/movable/AM)
+/obj/structure/table/optable/abductor/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
+
+/obj/structure/table/optable/abductor/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
 	if(iscarbon(AM))
 		START_PROCESSING(SSobj, src)
 		to_chat(AM, "<span class='danger'>You feel a series of tiny pricks!</span>")

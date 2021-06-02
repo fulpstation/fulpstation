@@ -22,11 +22,12 @@
 		/obj/effect/light_emitter/tendril,
 		/obj/effect/collapse,
 		/obj/effect/particle_effect/ion_trails,
-		/obj/effect/dummy/phased_mob
+		/obj/effect/dummy/phased_mob,
+		/obj/effect/mapping_helpers
 		))
 
 /datum/component/chasm/Initialize(turf/target)
-	RegisterSignal(parent, list(COMSIG_MOVABLE_CROSSED, COMSIG_ATOM_ENTERED), .proc/Entered)
+	RegisterSignal(parent, COMSIG_ATOM_ENTERED, .proc/Entered)
 	target_turf = target
 	START_PROCESSING(SSobj, src) // process on create, in case stuff is still there
 
@@ -74,7 +75,7 @@
 	//Flies right over the chasm
 	if(ismob(AM))
 		var/mob/M = AM
-		if(M.buckled)		//middle statement to prevent infinite loops just in case!
+		if(M.buckled) //middle statement to prevent infinite loops just in case!
 			var/mob/buckled_to = M.buckled
 			if((!ismob(M.buckled) || (buckled_to.buckled != M)) && !droppable(M.buckled))
 				return FALSE
@@ -139,7 +140,7 @@
 
 		falling_atoms -= AM
 		qdel(AM)
-		if(AM && !QDELETED(AM))	//It's indestructible
+		if(AM && !QDELETED(AM)) //It's indestructible
 			var/atom/parent = src.parent
 			parent.visible_message("<span class='boldwarning'>[parent] spits out [AM]!</span>")
 			AM.alpha = oldalpha

@@ -45,6 +45,9 @@
 /datum/antagonist/brainwashed/farewell()
 	to_chat(owner, "<span class='warning'>Your mind suddenly clears...</span>")
 	to_chat(owner, "<big><span class='warning'><b>You feel the weight of the Directives disappear! You no longer have to obey them.</b></span></big>")
+	if(owner.current)
+		var/mob/living/owner_mob = owner.current
+		owner_mob.log_message("is no longer brainwashed with the objectives: [english_list(objectives)].", LOG_ATTACK)
 	owner.announce_objectives()
 
 /datum/antagonist/brainwashed/admin_add(datum/mind/new_owner,mob/admin)
@@ -56,9 +59,9 @@
 		var/objective = stripped_input(admin, "Add an objective, or leave empty to finish.", "Brainwashing", null, MAX_MESSAGE_LEN)
 		if(objective)
 			objectives += objective
-	while(alert(admin,"Add another objective?","More Brainwashing","Yes","No") == "Yes")
+	while(tgui_alert(admin,"Add another objective?","More Brainwashing",list("Yes","No")) == "Yes")
 
-	if(alert(admin,"Confirm Brainwashing?","Are you sure?","Yes","No") == "No")
+	if(tgui_alert(admin,"Confirm Brainwashing?","Are you sure?",list("Yes","No")) == "No")
 		return
 
 	if(!LAZYLEN(objectives))
@@ -71,6 +74,7 @@
 	brainwash(C, objectives)
 	var/obj_list = english_list(objectives)
 	message_admins("[key_name_admin(admin)] has brainwashed [key_name_admin(C)] with the following objectives: [obj_list].")
+	C.log_message("has been force-brainwashed with the objective '[obj_list]' by admin [key_name(admin)]", LOG_ATTACK, log_globally = FALSE)
 	log_admin("[key_name(admin)] has brainwashed [key_name(C)] with the following objectives: [obj_list].")
 
 /datum/objective/brainwashing

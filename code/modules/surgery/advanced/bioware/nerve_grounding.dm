@@ -1,13 +1,14 @@
 /datum/surgery/advanced/bioware/nerve_grounding
 	name = "Nerve Grounding"
 	desc = "A surgical procedure which makes the patient's nerves act as grounding rods, protecting them from electrical shocks."
-	steps = list(/datum/surgery_step/incise,
-				/datum/surgery_step/retract_skin,
-				/datum/surgery_step/clamp_bleeders,
-				/datum/surgery_step/incise,
-				/datum/surgery_step/incise,
-				/datum/surgery_step/ground_nerves,
-				/datum/surgery_step/close)
+	steps = list(
+		/datum/surgery_step/incise,
+		/datum/surgery_step/retract_skin,
+		/datum/surgery_step/clamp_bleeders,
+		/datum/surgery_step/incise,
+		/datum/surgery_step/incise,
+		/datum/surgery_step/ground_nerves,
+		/datum/surgery_step/close)
 	possible_locs = list(BODY_ZONE_CHEST)
 	bioware_target = BIOWARE_NERVES
 
@@ -35,8 +36,8 @@
 
 /datum/bioware/grounded_nerves/on_gain()
 	..()
-	ADD_TRAIT(owner, TRAIT_SHOCKIMMUNE, "grounded_nerves")
+	ADD_TRAIT(owner, TRAIT_SHOCKIMMUNE, EXPERIMENTAL_SURGERY_TRAIT)
 
 /datum/bioware/grounded_nerves/on_lose()
 	..()
-	REMOVE_TRAIT(owner, TRAIT_SHOCKIMMUNE, "grounded_nerves")
+	REMOVE_TRAIT(owner, TRAIT_SHOCKIMMUNE, EXPERIMENTAL_SURGERY_TRAIT)

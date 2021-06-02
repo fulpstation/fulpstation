@@ -49,7 +49,7 @@
  */
 /obj/structure/training_machine/obj_destruction(damage_flag)
 	remove_attached_item(throwing = TRUE)
-	explosion(src, 0,0,1, flame_range = 2)
+	explosion(src, light_impact_range = 1, flash_range = 2)
 	return ..()
 
 /obj/structure/training_machine/ui_state(mob/user)
@@ -98,7 +98,7 @@
 			move_speed = clamp(range_input, MIN_SPEED, MAX_SPEED)
 			. = TRUE
 
-/obj/structure/training_machine/attack_hand(mob/user)
+/obj/structure/training_machine/attack_hand(mob/user, list/modifiers)
 	ui_interact(user)
 
 /**
@@ -107,8 +107,8 @@
  * Meant for attaching an item to the machine, should only be a training toolbox or target. If emagged, the
  * machine will gain an auto-attached syndicate toolbox, so in that case we shouldn't be able to swap it out
  */
-/obj/structure/training_machine/attackby(obj/item/target, mob/user)
-	if (user.a_intent != INTENT_HELP)
+/obj/structure/training_machine/attackby(obj/item/target, mob/living/user)
+	if (user.combat_mode)
 		return ..()
 	if (!istype(target, /obj/item/training_toolbox) && !istype(target, /obj/item/target))
 		return ..()
@@ -142,6 +142,7 @@
  * Cleans up behavior for when the attached item is deleted or removed.
  */
 /obj/structure/training_machine/proc/on_attached_delete()
+	SIGNAL_HANDLER
 	UnregisterSignal(attached_item, COMSIG_PARENT_QDELETING)
 	vis_contents -= attached_item
 	attached_item = null
@@ -342,7 +343,8 @@
 /obj/item/training_toolbox
 	name = "Training Toolbox"
 	desc = "AURUMILL-Brand Baby's First Training Toolbox. A digital display on the back keeps track of hits made by the user. Second toolbox sold seperately!"
-	icon_state = "his_grace_ascended"
+	icon = 'icons/obj/storage.dmi'
+	icon_state = "gold"
 	inhand_icon_state = "toolbox_gold"
 	lefthand_file = 'icons/mob/inhands/equipment/toolbox_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/toolbox_righthand.dmi'
@@ -357,9 +359,9 @@
 	///Number of hits made since the Lap button (alt-click) was last pushed
 	var/lap_hits = 0
 
-/obj/item/training_toolbox/afterattack(atom/target, mob/user, proximity)
+/obj/item/training_toolbox/afterattack(atom/target, mob/living/user, proximity)
 	. = ..()
-	if (!proximity || target == user || user.a_intent == INTENT_HELP)
+	if (!proximity || target == user || !user.combat_mode)
 		return
 	if (check_hit(target))
 		user.changeNext_move(CLICK_CD_MELEE)

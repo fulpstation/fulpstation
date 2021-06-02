@@ -61,7 +61,7 @@
 			if (!ban)
 				to_chat(usr, "<span class='adminnotice'>Error: No sticky ban for [ckey] found!</span>", confidential = TRUE)
 				return
-			if (alert("Are you sure you want to remove the sticky ban on [ckey]?","Are you sure","Yes","No") == "No")
+			if (tgui_alert(usr,"Are you sure you want to remove the sticky ban on [ckey]?","Are you sure",list("Yes","No")) == "No")
 				return
 			if (!get_stickyban_from_ckey(ckey))
 				to_chat(usr, "<span class='adminnotice'>Error: The ban disappeared.</span>", confidential = TRUE)
@@ -98,7 +98,7 @@
 				to_chat(usr, "<span class='adminnotice'>Error: [alt] is not linked to [ckey]'s sticky ban!</span>", confidential = TRUE)
 				return
 
-			if (alert("Are you sure you want to disassociate [alt] from [ckey]'s sticky ban? \nNote: Nothing stops byond from re-linking them, Use \[E] to exempt them","Are you sure","Yes","No") == "No")
+			if (tgui_alert(usr,"Are you sure you want to disassociate [alt] from [ckey]'s sticky ban? \nNote: Nothing stops byond from re-linking them, Use \[E] to exempt them","Are you sure",list("Yes","No")) == "No")
 				return
 
 			//we have to do this again incase something changes
@@ -180,7 +180,7 @@
 				to_chat(usr, "<span class='adminnotice'>Error: [alt] is not linked to [ckey]'s sticky ban!</span>", confidential = TRUE)
 				return
 
-			if (alert("Are you sure you want to exempt [alt] from [ckey]'s sticky ban?","Are you sure","Yes","No") == "No")
+			if (tgui_alert(usr,"Are you sure you want to exempt [alt] from [ckey]'s sticky ban?","Are you sure",list("Yes","No")) == "No")
 				return
 
 			//we have to do this again incase something changes
@@ -230,7 +230,7 @@
 				to_chat(usr, "<span class='adminnotice'>Error: [alt] is not exempt from [ckey]'s sticky ban!</span>", confidential = TRUE)
 				return
 
-			if (alert("Are you sure you want to unexempt [alt] from [ckey]'s sticky ban?","Are you sure","Yes","No") == "No")
+			if (tgui_alert(usr,"Are you sure you want to unexempt [alt] from [ckey]'s sticky ban?","Are you sure",list("Yes","No")) == "No")
 				return
 
 			//we have to do this again incase something changes
@@ -272,7 +272,7 @@
 
 			var/ckey = data["ckey"]
 
-			if (alert("Are you sure you want to put [ckey]'s stickyban on timeout until next round (or removed)?","Are you sure","Yes","No") == "No")
+			if (tgui_alert(usr,"Are you sure you want to put [ckey]'s stickyban on timeout until next round (or removed)?","Are you sure",list("Yes","No")) == "No")
 				return
 			var/ban = get_stickyban_from_ckey(ckey)
 			if (!ban)
@@ -298,7 +298,7 @@
 				return
 			var/ckey = data["ckey"]
 
-			if (alert("Are you sure you want to lift the timeout on [ckey]'s stickyban?","Are you sure","Yes","No") == "No")
+			if (tgui_alert(usr,"Are you sure you want to lift the timeout on [ckey]'s stickyban?","Are you sure",list("Yes","No")) == "No")
 				return
 
 			var/ban = get_stickyban_from_ckey(ckey)
@@ -323,7 +323,7 @@
 			if (!data["ckey"])
 				return
 			var/ckey = data["ckey"]
-			if (alert("Are you sure you want to revert the sticky ban on [ckey] to its state at round start (or last edit)?","Are you sure","Yes","No") == "No")
+			if (tgui_alert(usr,"Are you sure you want to revert the sticky ban on [ckey] to its state at round start (or last edit)?","Are you sure",list("Yes","No")) == "No")
 				return
 			var/ban = get_stickyban_from_ckey(ckey)
 			if (!ban)
@@ -337,7 +337,7 @@
 			log_admin_private("[key_name(usr)] has reverted [ckey]'s sticky ban to its state at round start.")
 			message_admins("<span class='adminnotice'>[key_name_admin(usr)] has reverted [ckey]'s sticky ban to its state at round start.</span>")
 			//revert is mostly used when shit goes rouge, so we have to set it to null
-			//	and wait a byond tick before assigning it to ensure byond clears its shit.
+			// and wait a byond tick before assigning it to ensure byond clears its shit.
 			sleep(world.tick_lag)
 			world.SetConfig("ban",ckey,list2stickyban(cached_ban))
 

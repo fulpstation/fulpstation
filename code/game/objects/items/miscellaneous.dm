@@ -1,18 +1,3 @@
-/obj/item/caution
-	desc = "Caution! Wet Floor!"
-	name = "wet floor sign"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "caution"
-	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
-	force = 1
-	throwforce = 3
-	throw_speed = 2
-	throw_range = 5
-	w_class = WEIGHT_CLASS_SMALL
-	attack_verb_continuous = list("warns", "cautions", "smashes")
-	attack_verb_simple = list("warn", "caution", "smash")
-
 /obj/item/choice_beacon
 	name = "choice beacon"
 	desc = "Hey, why are you viewing this?!! Please let CentCom know about this odd occurrence."
@@ -51,17 +36,17 @@
 		to_chat(M, "<span class='notice'>[uses] use[uses > 1 ? "s" : ""] remaining on the [src].</span>")
 
 /obj/item/choice_beacon/proc/spawn_option(obj/choice,mob/living/M)
-	var/obj/structure/closet/supplypod/bluespacepod/pod = new()
-	new choice(pod)
-	pod.explosionSize = list(0,0,0,0)
+	podspawn(list(
+		"target" = get_turf(src),
+		"style" = STYLE_BLUESPACE,
+		"spawn" = choice,
+	))
 	var/msg = "<span class=danger>After making your selection, you notice a strange target on the ground. It might be best to step back!</span>"
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(istype(H.ears, /obj/item/radio/headset))
 			msg = "You hear something crackle in your ears for a moment before a voice speaks.  \"Please stand by for a message from Central Command.  Message as follows: <span class='bold'>Item request received. Your package is inbound, please stand back from the landing site.</span> Message ends.\""
 	to_chat(M, msg)
-
-	new /obj/effect/pod_landingzone(get_turf(src), pod)
 
 /obj/item/choice_beacon/ingredient
 	name = "ingredient delivery beacon"
@@ -204,7 +189,7 @@
 	new /obj/item/food/meat/slab/bear(src)
 	new /obj/item/food/meat/slab/spider(src)
 	new /obj/item/food/spidereggs(src)
-	new /obj/item/food/carpmeat(src)
+	new /obj/item/food/fishmeat/carp(src)
 	new /obj/item/food/meat/slab/xeno(src)
 	new /obj/item/food/meat/slab/corgi(src)
 	new /obj/item/food/meatball(src)
@@ -214,7 +199,7 @@
 
 /obj/item/storage/box/ingredients/exotic/PopulateContents()
 	for(var/i in 1 to 2)
-		new /obj/item/food/carpmeat(src)
+		new /obj/item/food/fishmeat/carp(src)
 		new /obj/item/food/grown/soybeans(src)
 		new /obj/item/food/grown/cabbage(src)
 	new /obj/item/food/grown/chili(src)
@@ -345,7 +330,7 @@
 	///List of mobs that have already been mobbed.
 	var/static/list/mob_mobs = list()
 
-#define NICKNAME_CAP	(MAX_NAME_LEN/2)
+#define NICKNAME_CAP (MAX_NAME_LEN/2)
 /obj/item/virgin_mary/attackby(obj/item/W, mob/user, params)
 	. = ..()
 	if(resistance_flags & ON_FIRE)
@@ -408,3 +393,15 @@
 	name = "poppy bouquet"
 	desc = "A bouquet of poppies. You feel loved just looking at it."
 	icon_state = "poppybouquet"
+
+/obj/item/bouquet/rose
+	name = "rose bouquet"
+	desc = "A bouquet of roses. A bundle of love."
+	icon_state = "rosebouquet"
+
+/obj/item/gun_maintenance_supplies
+	name = "gun maintenance supplies"
+	desc = "plastic box containing gun maintenance supplies and spare parts. Use them on a Mosin Nagant to clean it."
+	icon = 'icons/obj/storage.dmi'
+	icon_state = "plasticbox"
+	w_class = WEIGHT_CLASS_SMALL

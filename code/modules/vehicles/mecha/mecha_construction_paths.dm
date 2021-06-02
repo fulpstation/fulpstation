@@ -270,7 +270,7 @@
 	circuit_control = /obj/item/circuitboard/mecha/ripley/main
 	circuit_periph = /obj/item/circuitboard/mecha/ripley/peripherals
 
-	inner_plating=/obj/item/stack/sheet/metal
+	inner_plating=/obj/item/stack/sheet/iron
 	inner_plating_amount = 5
 
 	outer_plating=/obj/item/stack/rods
@@ -414,14 +414,14 @@
 	circuit_periph = /obj/item/circuitboard/mecha/gygax/peripherals
 	circuit_weapon = /obj/item/circuitboard/mecha/gygax/targeting
 
-	inner_plating = /obj/item/stack/sheet/metal
+	inner_plating = /obj/item/stack/sheet/iron
 	inner_plating_amount = 5
 
 	outer_plating=/obj/item/mecha_parts/part/gygax_armor
 	outer_plating_amount=1
 
 /datum/component/construction/mecha/gygax/action(datum/source, atom/used_atom, mob/user)
-	return check_step(used_atom,user)
+	return INVOKE_ASYNC(src, .proc/check_step, used_atom,user)
 
 /datum/component/construction/mecha/gygax/custom_action(obj/item/I, mob/living/user, diff)
 	if(!..())
@@ -836,7 +836,7 @@
 	circuit_periph = /obj/item/circuitboard/mecha/durand/peripherals
 	circuit_weapon = /obj/item/circuitboard/mecha/durand/targeting
 
-	inner_plating = /obj/item/stack/sheet/metal
+	inner_plating = /obj/item/stack/sheet/iron
 	inner_plating_amount = 5
 
 	outer_plating = /obj/item/mecha_parts/part/durand_armor
@@ -1222,7 +1222,7 @@
 	circuit_control = /obj/item/circuitboard/mecha/odysseus/main
 	circuit_periph = /obj/item/circuitboard/mecha/odysseus/peripherals
 
-	inner_plating = /obj/item/stack/sheet/metal
+	inner_plating = /obj/item/stack/sheet/iron
 	inner_plating_amount = 5
 
 	outer_plating = /obj/item/stack/sheet/plasteel

@@ -77,90 +77,90 @@
 	var/locked = TRUE
 	var/aidisabled = 0
 	var/shorted = 0
-	var/buildstage = 2 // 2 = complete, 1 = no wires,  0 = circuit gone
+	var/buildstage = AIRALARM_BUILD_COMPLETE // 2 = complete, 1 = no wires,  0 = circuit gone
 
 	var/frequency = FREQ_ATMOS_CONTROL
 	var/alarm_frequency = FREQ_ATMOS_ALARMS
 	var/datum/radio_frequency/radio_connection
 
 	var/list/TLV = list( // Breathable air.
-		"pressure"					= new/datum/tlv(HAZARD_LOW_PRESSURE, WARNING_LOW_PRESSURE, WARNING_HIGH_PRESSURE, HAZARD_HIGH_PRESSURE), // kPa. Values are min2, min1, max1, max2
-		"temperature"				= new/datum/tlv(T0C, T0C+10, T0C+40, T0C+66),
-		/datum/gas/oxygen			= new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
-		/datum/gas/nitrogen			= new/datum/tlv(-1, -1, 1000, 1000),
-		/datum/gas/carbon_dioxide	= new/datum/tlv(-1, -1, 5, 10),
-		/datum/gas/miasma			= new/datum/tlv/(-1, -1, 15, 30),
-		/datum/gas/plasma			= new/datum/tlv/dangerous,
-		/datum/gas/nitrous_oxide	= new/datum/tlv/dangerous,
-		/datum/gas/bz				= new/datum/tlv/dangerous,
-		/datum/gas/hypernoblium		= new/datum/tlv(-1, -1, 1000, 1000), // Hyper-Noblium is inert and nontoxic
-		/datum/gas/water_vapor		= new/datum/tlv/dangerous,
-		/datum/gas/tritium			= new/datum/tlv/dangerous,
-		/datum/gas/stimulum			= new/datum/tlv/dangerous,
-		/datum/gas/nitryl			= new/datum/tlv/dangerous,
-		/datum/gas/pluoxium			= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
-		/datum/gas/freon			= new/datum/tlv/dangerous,
-		/datum/gas/hydrogen			= new/datum/tlv/dangerous,
-		/datum/gas/healium			= new/datum/tlv/dangerous,
-		/datum/gas/proto_nitrate	= new/datum/tlv/dangerous,
-		/datum/gas/zauker			= new/datum/tlv/dangerous,
-		/datum/gas/helium			= new/datum/tlv/dangerous,
-		/datum/gas/antinoblium		= new/datum/tlv/dangerous,
-		/datum/gas/halon			= new/datum/tlv/dangerous
+		"pressure" = new/datum/tlv(HAZARD_LOW_PRESSURE, WARNING_LOW_PRESSURE, WARNING_HIGH_PRESSURE, HAZARD_HIGH_PRESSURE), // kPa. Values are min2, min1, max1, max2
+		"temperature" = new/datum/tlv(T0C, T0C+10, T0C+40, T0C+66),
+		/datum/gas/oxygen = new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
+		/datum/gas/nitrogen = new/datum/tlv(-1, -1, 1000, 1000),
+		/datum/gas/carbon_dioxide = new/datum/tlv(-1, -1, 5, 10),
+		/datum/gas/miasma = new/datum/tlv/(-1, -1, 15, 30),
+		/datum/gas/plasma = new/datum/tlv/dangerous,
+		/datum/gas/nitrous_oxide = new/datum/tlv/dangerous,
+		/datum/gas/bz = new/datum/tlv/dangerous,
+		/datum/gas/hypernoblium = new/datum/tlv(-1, -1, 1000, 1000), // Hyper-Noblium is inert and nontoxic
+		/datum/gas/water_vapor = new/datum/tlv/dangerous,
+		/datum/gas/tritium = new/datum/tlv/dangerous,
+		/datum/gas/stimulum = new/datum/tlv/dangerous,
+		/datum/gas/nitryl = new/datum/tlv/dangerous,
+		/datum/gas/pluoxium = new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
+		/datum/gas/freon = new/datum/tlv/dangerous,
+		/datum/gas/hydrogen = new/datum/tlv/dangerous,
+		/datum/gas/healium = new/datum/tlv/dangerous,
+		/datum/gas/proto_nitrate = new/datum/tlv/dangerous,
+		/datum/gas/zauker = new/datum/tlv/dangerous,
+		/datum/gas/helium = new/datum/tlv/dangerous,
+		/datum/gas/antinoblium = new/datum/tlv/dangerous,
+		/datum/gas/halon = new/datum/tlv/dangerous
 	)
 
 /obj/machinery/airalarm/server // No checks here.
 	TLV = list(
-		"pressure"					= new/datum/tlv/no_checks,
-		"temperature"				= new/datum/tlv/no_checks,
-		/datum/gas/oxygen			= new/datum/tlv/no_checks,
-		/datum/gas/nitrogen			= new/datum/tlv/no_checks,
-		/datum/gas/carbon_dioxide	= new/datum/tlv/no_checks,
-		/datum/gas/miasma			= new/datum/tlv/no_checks,
-		/datum/gas/plasma			= new/datum/tlv/no_checks,
-		/datum/gas/nitrous_oxide	= new/datum/tlv/no_checks,
-		/datum/gas/bz				= new/datum/tlv/no_checks,
-		/datum/gas/hypernoblium		= new/datum/tlv/no_checks,
-		/datum/gas/water_vapor		= new/datum/tlv/no_checks,
-		/datum/gas/tritium			= new/datum/tlv/no_checks,
-		/datum/gas/stimulum			= new/datum/tlv/no_checks,
-		/datum/gas/nitryl			= new/datum/tlv/no_checks,
-		/datum/gas/pluoxium			= new/datum/tlv/no_checks,
-		/datum/gas/freon			= new/datum/tlv/no_checks,
-		/datum/gas/hydrogen			= new/datum/tlv/no_checks,
-		/datum/gas/healium			= new/datum/tlv/dangerous,
-		/datum/gas/proto_nitrate	= new/datum/tlv/dangerous,
-		/datum/gas/zauker			= new/datum/tlv/dangerous,
-		/datum/gas/helium			= new/datum/tlv/dangerous,
-		/datum/gas/antinoblium		= new/datum/tlv/dangerous,
-		/datum/gas/halon			= new/datum/tlv/dangerous
+		"pressure" = new/datum/tlv/no_checks,
+		"temperature" = new/datum/tlv/no_checks,
+		/datum/gas/oxygen = new/datum/tlv/no_checks,
+		/datum/gas/nitrogen = new/datum/tlv/no_checks,
+		/datum/gas/carbon_dioxide = new/datum/tlv/no_checks,
+		/datum/gas/miasma = new/datum/tlv/no_checks,
+		/datum/gas/plasma = new/datum/tlv/no_checks,
+		/datum/gas/nitrous_oxide = new/datum/tlv/no_checks,
+		/datum/gas/bz = new/datum/tlv/no_checks,
+		/datum/gas/hypernoblium = new/datum/tlv/no_checks,
+		/datum/gas/water_vapor = new/datum/tlv/no_checks,
+		/datum/gas/tritium = new/datum/tlv/no_checks,
+		/datum/gas/stimulum = new/datum/tlv/no_checks,
+		/datum/gas/nitryl = new/datum/tlv/no_checks,
+		/datum/gas/pluoxium = new/datum/tlv/no_checks,
+		/datum/gas/freon = new/datum/tlv/no_checks,
+		/datum/gas/hydrogen = new/datum/tlv/no_checks,
+		/datum/gas/healium = new/datum/tlv/dangerous,
+		/datum/gas/proto_nitrate = new/datum/tlv/dangerous,
+		/datum/gas/zauker = new/datum/tlv/dangerous,
+		/datum/gas/helium = new/datum/tlv/dangerous,
+		/datum/gas/antinoblium = new/datum/tlv/dangerous,
+		/datum/gas/halon = new/datum/tlv/dangerous
 	)
 
-/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -14°C or 259.15°K.
+/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -14°C or 259.15K.
 	TLV = list(
-		"pressure"					= new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE *  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa
-		"temperature"				= new/datum/tlv(COLD_ROOM_TEMP-40, COLD_ROOM_TEMP-20, COLD_ROOM_TEMP+20, COLD_ROOM_TEMP+40),
-		/datum/gas/oxygen			= new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
-		/datum/gas/nitrogen			= new/datum/tlv(-1, -1, 1000, 1000),
-		/datum/gas/carbon_dioxide	= new/datum/tlv(-1, -1, 5, 10),
-		/datum/gas/miasma			= new/datum/tlv/(-1, -1, 2, 5),
-		/datum/gas/plasma			= new/datum/tlv/dangerous,
-		/datum/gas/nitrous_oxide	= new/datum/tlv/dangerous,
-		/datum/gas/bz				= new/datum/tlv/dangerous,
-		/datum/gas/hypernoblium		= new/datum/tlv(-1, -1, 1000, 1000), // Hyper-Noblium is inert and nontoxic
-		/datum/gas/water_vapor		= new/datum/tlv/dangerous,
-		/datum/gas/tritium			= new/datum/tlv/dangerous,
-		/datum/gas/stimulum			= new/datum/tlv/dangerous,
-		/datum/gas/nitryl			= new/datum/tlv/dangerous,
-		/datum/gas/pluoxium			= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
-		/datum/gas/freon			= new/datum/tlv/dangerous,
-		/datum/gas/hydrogen			= new/datum/tlv/dangerous,
-		/datum/gas/healium			= new/datum/tlv/dangerous,
-		/datum/gas/proto_nitrate	= new/datum/tlv/dangerous,
-		/datum/gas/zauker			= new/datum/tlv/dangerous,
-		/datum/gas/helium			= new/datum/tlv/dangerous,
-		/datum/gas/antinoblium		= new/datum/tlv/dangerous,
-		/datum/gas/halon			= new/datum/tlv/dangerous
+		"pressure" = new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE *  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa
+		"temperature" = new/datum/tlv(COLD_ROOM_TEMP-40, COLD_ROOM_TEMP-20, COLD_ROOM_TEMP+20, COLD_ROOM_TEMP+40),
+		/datum/gas/oxygen = new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
+		/datum/gas/nitrogen = new/datum/tlv(-1, -1, 1000, 1000),
+		/datum/gas/carbon_dioxide = new/datum/tlv(-1, -1, 5, 10),
+		/datum/gas/miasma = new/datum/tlv/(-1, -1, 2, 5),
+		/datum/gas/plasma = new/datum/tlv/dangerous,
+		/datum/gas/nitrous_oxide = new/datum/tlv/dangerous,
+		/datum/gas/bz = new/datum/tlv/dangerous,
+		/datum/gas/hypernoblium = new/datum/tlv(-1, -1, 1000, 1000), // Hyper-Noblium is inert and nontoxic
+		/datum/gas/water_vapor = new/datum/tlv/dangerous,
+		/datum/gas/tritium = new/datum/tlv/dangerous,
+		/datum/gas/stimulum = new/datum/tlv/dangerous,
+		/datum/gas/nitryl = new/datum/tlv/dangerous,
+		/datum/gas/pluoxium = new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
+		/datum/gas/freon = new/datum/tlv/dangerous,
+		/datum/gas/hydrogen = new/datum/tlv/dangerous,
+		/datum/gas/healium = new/datum/tlv/dangerous,
+		/datum/gas/proto_nitrate = new/datum/tlv/dangerous,
+		/datum/gas/zauker = new/datum/tlv/dangerous,
+		/datum/gas/helium = new/datum/tlv/dangerous,
+		/datum/gas/antinoblium = new/datum/tlv/dangerous,
+		/datum/gas/halon = new/datum/tlv/dangerous
 	)
 
 /obj/machinery/airalarm/unlocked
@@ -219,7 +219,7 @@
 		setDir(ndir)
 
 	if(nbuild)
-		buildstage = 0
+		buildstage = AIRALARM_BUILD_NO_CIRCUIT
 		panel_open = TRUE
 		pixel_x = (dir & 3)? 0 : (dir == 4 ? -24 : 24)
 		pixel_y = (dir & 3)? (dir == 1 ? -24 : 24) : 0
@@ -227,12 +227,14 @@
 	if(name == initial(name))
 		name = "[get_area_name(src)] Air Alarm"
 
-	update_icon()
+	update_appearance()
 
 /obj/machinery/airalarm/Destroy()
 	SSradio.remove_object(src, frequency)
 	qdel(wires)
 	wires = null
+	var/area/ourarea = get_area(src)
+	ourarea.atmosalert(FALSE, src)
 	return ..()
 
 /obj/machinery/airalarm/Initialize(mapload)
@@ -242,11 +244,11 @@
 /obj/machinery/airalarm/examine(mob/user)
 	. = ..()
 	switch(buildstage)
-		if(0)
+		if(AIRALARM_BUILD_NO_CIRCUIT)
 			. += "<span class='notice'>It is missing air alarm electronics.</span>"
-		if(1)
+		if(AIRALARM_BUILD_NO_WIRES)
 			. += "<span class='notice'>It is missing wiring.</span>"
-		if(2)
+		if(AIRALARM_BUILD_COMPLETE)
 			. += "<span class='notice'>Alt-click to [locked ? "unlock" : "lock"] the interface.</span>"
 
 /obj/machinery/airalarm/ui_status(mob/user)
@@ -317,15 +319,15 @@
 			if(!info || info["frequency"] != frequency)
 				continue
 			data["vents"] += list(list(
-					"id_tag"	= id_tag,
+					"id_tag" = id_tag,
 					"long_name" = sanitize(long_name),
-					"power"		= info["power"],
-					"checks"	= info["checks"],
-					"excheck"	= info["checks"]&1,
-					"incheck"	= info["checks"]&2,
-					"direction"	= info["direction"],
-					"external"	= info["external"],
-					"internal"	= info["internal"],
+					"power" = info["power"],
+					"checks" = info["checks"],
+					"excheck" = info["checks"]&1,
+					"incheck" = info["checks"]&2,
+					"direction" = info["direction"],
+					"external" = info["external"],
+					"internal" = info["internal"],
 					"extdefault"= (info["external"] == ONE_ATMOSPHERE),
 					"intdefault"= (info["internal"] == 0)
 				))
@@ -336,25 +338,25 @@
 			if(!info || info["frequency"] != frequency)
 				continue
 			data["scrubbers"] += list(list(
-					"id_tag"				= id_tag,
-					"long_name" 			= sanitize(long_name),
-					"power"					= info["power"],
-					"scrubbing"				= info["scrubbing"],
-					"widenet"				= info["widenet"],
-					"filter_types"			= info["filter_types"]
+					"id_tag" = id_tag,
+					"long_name" = sanitize(long_name),
+					"power" = info["power"],
+					"scrubbing" = info["scrubbing"],
+					"widenet" = info["widenet"],
+					"filter_types" = info["filter_types"]
 				))
 		data["mode"] = mode
 		data["modes"] = list()
-		data["modes"] += list(list("name" = "Filtering - Scrubs out contaminants", 				"mode" = AALARM_MODE_SCRUBBING,		"selected" = mode == AALARM_MODE_SCRUBBING, 	"danger" = 0))
-		data["modes"] += list(list("name" = "Contaminated - Scrubs out ALL contaminants quickly","mode" = AALARM_MODE_CONTAMINATED,	"selected" = mode == AALARM_MODE_CONTAMINATED,	"danger" = 0))
-		data["modes"] += list(list("name" = "Draught - Siphons out air while replacing",		"mode" = AALARM_MODE_VENTING,		"selected" = mode == AALARM_MODE_VENTING,		"danger" = 0))
-		data["modes"] += list(list("name" = "Refill - Triple vent output",						"mode" = AALARM_MODE_REFILL,		"selected" = mode == AALARM_MODE_REFILL,		"danger" = 1))
-		data["modes"] += list(list("name" = "Cycle - Siphons air before replacing", 			"mode" = AALARM_MODE_REPLACEMENT,	"selected" = mode == AALARM_MODE_REPLACEMENT, 	"danger" = 1))
-		data["modes"] += list(list("name" = "Siphon - Siphons air out of the room", 			"mode" = AALARM_MODE_SIPHON,		"selected" = mode == AALARM_MODE_SIPHON, 		"danger" = 1))
-		data["modes"] += list(list("name" = "Panic Siphon - Siphons air out of the room quickly","mode" = AALARM_MODE_PANIC,		"selected" = mode == AALARM_MODE_PANIC, 		"danger" = 1))
-		data["modes"] += list(list("name" = "Off - Shuts off vents and scrubbers", 				"mode" = AALARM_MODE_OFF,			"selected" = mode == AALARM_MODE_OFF, 			"danger" = 0))
+		data["modes"] += list(list("name" = "Filtering - Scrubs out contaminants", "mode" = AALARM_MODE_SCRUBBING, "selected" = mode == AALARM_MODE_SCRUBBING, "danger" = 0))
+		data["modes"] += list(list("name" = "Contaminated - Scrubs out ALL contaminants quickly","mode" = AALARM_MODE_CONTAMINATED, "selected" = mode == AALARM_MODE_CONTAMINATED, "danger" = 0))
+		data["modes"] += list(list("name" = "Draught - Siphons out air while replacing", "mode" = AALARM_MODE_VENTING, "selected" = mode == AALARM_MODE_VENTING, "danger" = 0))
+		data["modes"] += list(list("name" = "Refill - Triple vent output", "mode" = AALARM_MODE_REFILL, "selected" = mode == AALARM_MODE_REFILL, "danger" = 1))
+		data["modes"] += list(list("name" = "Cycle - Siphons air before replacing", "mode" = AALARM_MODE_REPLACEMENT, "selected" = mode == AALARM_MODE_REPLACEMENT, "danger" = 1))
+		data["modes"] += list(list("name" = "Siphon - Siphons air out of the room", "mode" = AALARM_MODE_SIPHON, "selected" = mode == AALARM_MODE_SIPHON, "danger" = 1))
+		data["modes"] += list(list("name" = "Panic Siphon - Siphons air out of the room quickly","mode" = AALARM_MODE_PANIC, "selected" = mode == AALARM_MODE_PANIC, "danger" = 1))
+		data["modes"] += list(list("name" = "Off - Shuts off vents and scrubbers", "mode" = AALARM_MODE_OFF, "selected" = mode == AALARM_MODE_OFF, "danger" = 0))
 		if(obj_flags & EMAGGED)
-			data["modes"] += list(list("name" = "Flood - Shuts off scrubbers and opens vents",	"mode" = AALARM_MODE_FLOOD,			"selected" = mode == AALARM_MODE_FLOOD, 		"danger" = 1))
+			data["modes"] += list(list("name" = "Flood - Shuts off scrubbers and opens vents", "mode" = AALARM_MODE_FLOOD, "selected" = mode == AALARM_MODE_FLOOD, "danger" = 1))
 
 		var/datum/tlv/selected
 		var/list/thresholds = list()
@@ -389,7 +391,7 @@
 /obj/machinery/airalarm/ui_act(action, params)
 	. = ..()
 
-	if(. || buildstage != 2)
+	if(. || buildstage != AIRALARM_BUILD_COMPLETE)
 		return
 	if((locked && !usr.has_unlimited_silicon_privilege) || (usr.has_unlimited_silicon_privilege && aidisabled))
 		return
@@ -451,7 +453,7 @@
 			if(A.atmosalert(FALSE, src))
 				post_alert(0)
 			. = TRUE
-	update_icon()
+	update_appearance()
 
 
 /obj/machinery/airalarm/proc/reset(wire)
@@ -459,14 +461,14 @@
 		if(WIRE_POWER)
 			if(!wires.is_cut(WIRE_POWER))
 				shorted = FALSE
-				update_icon()
+				update_appearance()
 		if(WIRE_AI)
 			if(!wires.is_cut(WIRE_AI))
 				aidisabled = FALSE
 
 
 /obj/machinery/airalarm/proc/shock(mob/user, prb)
-	if((machine_stat & (NOPOWER)))		// unpowered, no shock
+	if((machine_stat & (NOPOWER))) // unpowered, no shock
 		return FALSE
 	if(!prob(prb))
 		return FALSE //you lucked out, no shock for you
@@ -642,17 +644,17 @@
 /obj/machinery/airalarm/update_icon_state()
 	if(panel_open)
 		switch(buildstage)
-			if(2)
+			if(AIRALARM_BUILD_COMPLETE)
 				icon_state = "alarmx"
-			if(1)
+			if(AIRALARM_BUILD_NO_WIRES)
 				icon_state = "alarm_b2"
-			if(0)
+			if(AIRALARM_BUILD_NO_CIRCUIT)
 				icon_state = "alarm_b1"
-		return
+		return ..()
 
 	if((machine_stat & (NOPOWER|BROKEN)) || shorted)
 		icon_state = "alarmp"
-		return
+		return ..()
 
 	var/area/A = get_area(src)
 	switch(max(danger_level, A.atmosalm))
@@ -662,6 +664,7 @@
 			icon_state = "alarm2" //yes, alarm2 is yellow alarm
 		if(2)
 			icon_state = "alarm1"
+	return ..()
 
 /obj/machinery/airalarm/process()
 	if((machine_stat & (NOPOWER|BROKEN)) || shorted)
@@ -732,44 +735,64 @@
 	if(A.atmosalert(new_area_danger_level,src)) //if area was in normal state or if area was in alert state
 		post_alert(new_area_danger_level)
 
-	update_icon()
+	update_appearance()
+
+/obj/machinery/airalarm/crowbar_act(mob/living/user, obj/item/tool)
+	if(buildstage != AIRALARM_BUILD_NO_WIRES)
+		return
+	user.visible_message("<span class='notice'>[user.name] removes the electronics from [name].</span>", \
+						"<span class='notice'>You start prying out the circuit...</span>")
+	tool.play_tool_sound(src)
+	if (tool.use_tool(src, user, 20))
+		if (buildstage == AIRALARM_BUILD_NO_WIRES)
+			to_chat(user, "<span class='notice'>You remove the air alarm electronics.</span>")
+			new /obj/item/electronics/airalarm(drop_location())
+			playsound(loc, 'sound/items/deconstruct.ogg', 50, TRUE)
+			buildstage = AIRALARM_BUILD_NO_CIRCUIT
+			update_appearance()
+	return TRUE
+
+/obj/machinery/airalarm/screwdriver_act(mob/living/user, obj/item/tool)
+	if(buildstage != AIRALARM_BUILD_COMPLETE)
+		return
+	tool.play_tool_sound(src)
+	panel_open = !panel_open
+	to_chat(user, "<span class='notice'>The wires have been [panel_open ? "exposed" : "unexposed"].</span>")
+	update_appearance()
+	return TRUE
+
+/obj/machinery/airalarm/wirecutter_act(mob/living/user, obj/item/tool)
+	if(!(buildstage == AIRALARM_BUILD_COMPLETE && panel_open && wires.is_all_cut()))
+		return
+	tool.play_tool_sound(src)
+	to_chat(user, "<span class='notice'>You cut the final wires.</span>")
+	var/obj/item/stack/cable_coil/cables = new(drop_location(), 5)
+	user.put_in_hands(cables)
+	buildstage = AIRALARM_BUILD_NO_WIRES
+	update_appearance()
+	return TRUE
+
+/obj/machinery/airalarm/wrench_act(mob/living/user, obj/item/tool)
+	if(buildstage != AIRALARM_BUILD_NO_CIRCUIT)
+		return
+	to_chat(user, "<span class='notice'>You detach \the [src] from the wall.</span>")
+	tool.play_tool_sound(src)
+	var/obj/item/wallframe/airalarm/alarm_frame = new(drop_location())
+	user.put_in_hands(alarm_frame)
+	qdel(src)
+	return TRUE
 
 /obj/machinery/airalarm/attackby(obj/item/W, mob/user, params)
+	update_last_used(user)
 	switch(buildstage)
-		if(2)
-			if(W.tool_behaviour == TOOL_WIRECUTTER && panel_open && wires.is_all_cut())
-				W.play_tool_sound(src)
-				to_chat(user, "<span class='notice'>You cut the final wires.</span>")
-				new /obj/item/stack/cable_coil(loc, 5)
-				buildstage = 1
-				update_icon()
-				return
-			else if(W.tool_behaviour == TOOL_SCREWDRIVER)  // Opening that Air Alarm up.
-				W.play_tool_sound(src)
-				panel_open = !panel_open
-				to_chat(user, "<span class='notice'>The wires have been [panel_open ? "exposed" : "unexposed"].</span>")
-				update_icon()
-				return
-			else if(W.GetID())// trying to unlock the interface with an ID card
+		if(AIRALARM_BUILD_COMPLETE)
+			if(W.GetID())// trying to unlock the interface with an ID card
 				togglelock(user)
 				return
 			else if(panel_open && is_wire_tool(W))
 				wires.interact(user)
 				return
-		if(1)
-			if(W.tool_behaviour == TOOL_CROWBAR)
-				user.visible_message("<span class='notice'>[user.name] removes the electronics from [src.name].</span>", \
-									"<span class='notice'>You start prying out the circuit...</span>")
-				W.play_tool_sound(src)
-				if (W.use_tool(src, user, 20))
-					if (buildstage == 1)
-						to_chat(user, "<span class='notice'>You remove the air alarm electronics.</span>")
-						new /obj/item/electronics/airalarm( src.loc )
-						playsound(src.loc, 'sound/items/deconstruct.ogg', 50, TRUE)
-						buildstage = 0
-						update_icon()
-				return
-
+		if(AIRALARM_BUILD_NO_WIRES)
 			if(istype(W, /obj/item/stack/cable_coil))
 				var/obj/item/stack/cable_coil/cable = W
 				if(cable.get_amount() < 5)
@@ -778,7 +801,7 @@
 				user.visible_message("<span class='notice'>[user.name] wires the air alarm.</span>", \
 									"<span class='notice'>You start wiring the air alarm...</span>")
 				if (do_after(user, 20, target = src))
-					if (cable.get_amount() >= 5 && buildstage == 1)
+					if (cable.get_amount() >= 5 && buildstage == AIRALARM_BUILD_NO_WIRES)
 						cable.use(5)
 						to_chat(user, "<span class='notice'>You wire the air alarm.</span>")
 						wires.repair()
@@ -787,15 +810,15 @@
 						mode = 1
 						shorted = 0
 						post_alert(0)
-						buildstage = 2
-						update_icon()
+						buildstage = AIRALARM_BUILD_COMPLETE
+						update_appearance()
 				return
-		if(0)
+		if(AIRALARM_BUILD_NO_CIRCUIT)
 			if(istype(W, /obj/item/electronics/airalarm))
 				if(user.temporarilyRemoveItemFromInventory(W))
 					to_chat(user, "<span class='notice'>You insert the circuit.</span>")
-					buildstage = 1
-					update_icon()
+					buildstage = AIRALARM_BUILD_NO_WIRES
+					update_appearance()
 					qdel(W)
 				return
 
@@ -805,21 +828,14 @@
 					return
 				user.visible_message("<span class='notice'>[user] fabricates a circuit and places it into [src].</span>", \
 				"<span class='notice'>You adapt an air alarm circuit and slot it into the assembly.</span>")
-				buildstage = 1
-				update_icon()
-				return
-
-			if(W.tool_behaviour == TOOL_WRENCH)
-				to_chat(user, "<span class='notice'>You detach \the [src] from the wall.</span>")
-				W.play_tool_sound(src)
-				new /obj/item/wallframe/airalarm( user.loc )
-				qdel(src)
+				buildstage = AIRALARM_BUILD_NO_WIRES
+				update_appearance()
 				return
 
 	return ..()
 
 /obj/machinery/airalarm/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
-	if((buildstage == 0) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
+	if((buildstage == AIRALARM_BUILD_NO_CIRCUIT) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
 		return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 20, "cost" = 1)
 	return FALSE
 
@@ -828,8 +844,8 @@
 		if(RCD_UPGRADE_SIMPLE_CIRCUITS)
 			user.visible_message("<span class='notice'>[user] fabricates a circuit and places it into [src].</span>", \
 			"<span class='notice'>You adapt an air alarm circuit and slot it into the assembly.</span>")
-			buildstage = 1
-			update_icon()
+			buildstage = AIRALARM_BUILD_NO_WIRES
+			update_appearance()
 			return TRUE
 	return FALSE
 
@@ -861,7 +877,7 @@
 
 /obj/machinery/airalarm/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/metal(loc, 2)
+		new /obj/item/stack/sheet/iron(loc, 2)
 		var/obj/item/I = new /obj/item/electronics/airalarm(loc)
 		if(!disassembled)
 			I.obj_integrity = I.max_integrity * 0.5

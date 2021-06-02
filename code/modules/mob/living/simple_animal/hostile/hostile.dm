@@ -3,6 +3,7 @@
 	stop_automated_movement_when_pulled = 0
 	obj_damage = 40
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES //Bitflags. Set to ENVIRONMENT_SMASH_STRUCTURES to break closets,tables,racks, etc; ENVIRONMENT_SMASH_WALLS for walls; ENVIRONMENT_SMASH_RWALLS for rwalls
+	///The current target of our attacks, use GiveTarget and LoseTarget to set this var
 	var/atom/target
 	var/ranged = FALSE
 	var/rapid = 0 //How many shots per volley.
@@ -10,19 +11,19 @@
 
 	var/dodging = FALSE
 	var/approaching_target = FALSE //We should dodge now
-	var/in_melee = FALSE	//We should sidestep now
+	var/in_melee = FALSE //We should sidestep now
 	var/dodge_prob = 30
 	var/sidestep_per_cycle = 1 //How many sidesteps per npcpool cycle when in melee
 
-	var/projectiletype	//set ONLY it and NULLIFY casingtype var, if we have ONLY projectile
+	var/projectiletype //set ONLY it and NULLIFY casingtype var, if we have ONLY projectile
 	var/projectilesound
-	var/casingtype		//set ONLY it and NULLIFY projectiletype, if we have projectile IN CASING
+	var/casingtype //set ONLY it and NULLIFY projectiletype, if we have projectile IN CASING
 	var/move_to_delay = 3 //delay for the automated movement.
 	var/list/friends = list()
 	var/list/emote_taunt = list()
 	var/taunt_chance = 0
 
-	var/rapid_melee = 1			 //Number of melee attacks between each npc pool tick. Spread evenly.
+	var/rapid_melee = 1  //Number of melee attacks between each npc pool tick. Spread evenly.
 	var/melee_queue_distance = 4 //If target is close enough start preparing to hit them if we have rapid_melee enabled
 
 	var/ranged_message = "fires" //Fluff text for ranged mobs
@@ -46,6 +47,7 @@
 	var/stat_attack = CONSCIOUS
 	var/stat_exclusive = FALSE //Mobs with this set to TRUE will exclusively attack things defined by stat_attack, stat_attack DEAD means they will only attack corpses
 	var/attack_same = 0 //Set us to 1 to allow us to attack our own faction
+	//Use set_targets_from to modify this var
 	var/atom/targets_from = null //all range/attack/etc. calculations should be done from this atom, defaults to the mob itself, useful for Vehicles and such
 	var/attack_all_objects = FALSE //if true, equivalent to having a wanted_objects list containing ALL objects.
 	var/lose_patience_timer_id //id for a timer to call LoseTarget(), used to stop mobs fixating on a target they can't reach
@@ -64,19 +66,21 @@
 	///Declares a cooldown for potential charges right off the bat.
 	COOLDOWN_DECLARE(charge_cooldown)
 
-/mob/living/simple_animal/hostile/Initialize()
+/mob/living/simple_animal/hostile/Initialize(mapload)
 	. = ..()
 
 	if(!targets_from)
-		targets_from = src
+		set_targets_from(src)
 	wanted_objects = typecacheof(wanted_objects)
 
 
 /mob/living/simple_animal/hostile/Destroy()
-	targets_from = null
+	set_targets_from(null)
+	//We can't use losetarget here because fucking cursed blobs override it to do nothing the motherfuckers
+	GiveTarget(null)
 	return ..()
 
-/mob/living/simple_animal/hostile/Life()
+/mob/living/simple_animal/hostile/Life(delta_time = SSMOBS_DT, times_fired)
 	. = ..()
 	if(!.) //dead
 		walk(src, 0) //stops walking
@@ -93,8 +97,8 @@
 		if(!QDELETED(target) && !targets_from.Adjacent(target))
 			DestroyPathToTarget()
 		if(!MoveToTarget(possible_targets))     //if we lose our target
-			if(AIShouldSleep(possible_targets))	// we try to acquire a new one
-				toggle_ai(AI_IDLE)			// otherwise we go idle
+			if(AIShouldSleep(possible_targets)) // we try to acquire a new one
+				toggle_ai(AI_IDLE) // otherwise we go idle
 	return 1
 
 /mob/living/simple_animal/hostile/handle_automated_movement()
@@ -253,12 +257,12 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/proc/GiveTarget(new_target)//Step 4, give us our selected target
-	target = new_target
+	add_target(new_target)
 	LosePatience()
 	if(target != null)
 		GainPatience()
 		Aggro()
-		return 1
+		return TRUE
 
 //What we do after closing in
 /mob/living/simple_animal/hostile/proc/MeleeAction(patience = TRUE)
@@ -337,7 +341,7 @@
 	. = ..()
 	if(!ckey && !stat && search_objects < 3 && . > 0)//Not unconscious, and we don't ignore mobs
 		if(search_objects)//Turn off item searching and ignore whatever item we were looking at, we're more concerned with fight or flight
-			target = null
+			LoseTarget()
 			LoseSearchObjects()
 		if(AIStatus != AI_ON && AIStatus != AI_OFF)
 			toggle_ai(AI_ON)
@@ -347,9 +351,12 @@
 
 
 /mob/living/simple_animal/hostile/proc/AttackingTarget(atom/attacked_target)
-	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)
 	in_melee = TRUE
-	return target.attack_animal(src)
+	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target) & COMPONENT_HOSTILE_NO_ATTACK)
+		return FALSE //but more importantly return before attack_animal called
+	var/result = target.attack_animal(src)
+	SEND_SIGNAL(src, COMSIG_HOSTILE_POST_ATTACKINGTARGET, target, result)
+	return result
 
 /mob/living/simple_animal/hostile/proc/Aggro()
 	vision_range = aggro_vision_range
@@ -364,7 +371,7 @@
 	taunt_chance = initial(taunt_chance)
 
 /mob/living/simple_animal/hostile/proc/LoseTarget()
-	target = null
+	GiveTarget(null)
 	approaching_target = FALSE
 	in_melee = FALSE
 	walk(src, 0)
@@ -509,9 +516,9 @@
 		return 1
 
 
-/mob/living/simple_animal/hostile/RangedAttack(atom/A, params) //Player firing
+/mob/living/simple_animal/hostile/RangedAttack(atom/A, modifiers) //Player firing
 	if(ranged && ranged_cooldown <= world.time)
-		target = A
+		GiveTarget(A)
 		OpenFire(A)
 	return ..()
 
@@ -590,13 +597,6 @@
 			else if (M.loc.type in hostile_machines)
 				. += M.loc
 
-/mob/living/simple_animal/hostile/tamed(whomst)
-	. = ..()
-	if(isliving(whomst))
-		var/mob/living/fren = whomst
-		friends = fren
-		faction = fren.faction.Copy()
-
 /**
  * Proc that handles a charge attack windup for a mob.
  */
@@ -652,3 +652,28 @@
 		if(charge_state)
 			charge_state = FALSE
 			update_icons()
+
+/mob/living/simple_animal/hostile/proc/set_targets_from(atom/target_from)
+	if(targets_from)
+		UnregisterSignal(targets_from, COMSIG_PARENT_QDELETING)
+	targets_from = target_from
+	if(targets_from)
+		RegisterSignal(targets_from, COMSIG_PARENT_QDELETING, .proc/handle_targets_from_del)
+
+/mob/living/simple_animal/hostile/proc/handle_targets_from_del(datum/source)
+	SIGNAL_HANDLER
+	if(targets_from != src)
+		set_targets_from(src)
+
+/mob/living/simple_animal/hostile/proc/handle_target_del(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	target = null
+	LoseTarget()
+
+/mob/living/simple_animal/hostile/proc/add_target(new_target)
+	if(target)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	target = new_target
+	if(target)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, .proc/handle_target_del)

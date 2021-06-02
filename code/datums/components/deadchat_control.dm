@@ -142,7 +142,7 @@
 
 /// Async proc handling the alert input and associated logic for an admin removing this component via the VV dropdown.
 /datum/component/deadchat_control/proc/async_handle_vv_topic(mob/user, list/href_list)
-	if(alert(user, "Remove deadchat control from [parent]?", "Deadchat Plays [parent]", "Remove", "Cancel") == "Remove")
+	if(tgui_alert(user, "Remove deadchat control from [parent]?", "Deadchat Plays [parent]", list("Remove", "Cancel")) == "Remove")
 		// Quick sanity check as this is an async call.
 		if(QDELETED(src))
 			return
@@ -156,6 +156,9 @@
 /// Informs any examiners to the inputs available as part of deadchat control, as well as the current operating mode and cooldowns.
 /datum/component/deadchat_control/proc/on_examine(atom/A, mob/user, list/examine_list)
 	SIGNAL_HANDLER
+
+	if(!isobserver(user))
+		return
 
 	examine_list += "<span class='notice'>[A.p_theyre(TRUE)] currently under deadchat control using the [deadchat_mode] ruleset!</span>"
 
@@ -189,3 +192,20 @@
 	inputs["down"] = CALLBACK(GLOBAL_PROC, .proc/_step, parent, SOUTH)
 	inputs["left"] = CALLBACK(GLOBAL_PROC, .proc/_step, parent, WEST)
 	inputs["right"] = CALLBACK(GLOBAL_PROC, .proc/_step, parent, EAST)
+
+/**
+ * Deadchat Moves Things
+ *
+ * A special variant of the deadchat_control component that comes pre-baked with all the hottest inputs for spicy
+ * immovable rod.
+ */
+/datum/component/deadchat_control/immovable_rod/Initialize(_deadchat_mode, _inputs, _input_cooldown, _on_removal)
+	if(!istype(parent, /obj/effect/immovablerod))
+		return COMPONENT_INCOMPATIBLE
+
+	. = ..()
+
+	inputs["up"] = CALLBACK(parent, /obj/effect/immovablerod.proc/walk_in_direction, NORTH)
+	inputs["down"] = CALLBACK(parent, /obj/effect/immovablerod.proc/walk_in_direction, SOUTH)
+	inputs["left"] = CALLBACK(parent, /obj/effect/immovablerod.proc/walk_in_direction, WEST)
+	inputs["right"] = CALLBACK(parent, /obj/effect/immovablerod.proc/walk_in_direction, EAST)

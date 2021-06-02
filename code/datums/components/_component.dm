@@ -93,14 +93,14 @@
 	var/our_type = type
 	for(var/I in _GetInverseTypeList(our_type))
 		var/test = dc[I]
-		if(test)	//already another component of this type here
+		if(test) //already another component of this type here
 			var/list/components_of_type
 			if(!length(test))
 				components_of_type = list(test)
 				dc[I] = components_of_type
 			else
 				components_of_type = test
-			if(I == our_type)	//exact match, take priority
+			if(I == our_type) //exact match, take priority
 				var/inserted = FALSE
 				for(var/J in 1 to components_of_type.len)
 					var/datum/component/C = components_of_type[J]
@@ -110,9 +110,9 @@
 						break
 				if(!inserted)
 					components_of_type += src
-			else	//indirect match, back of the line with ya
+			else //indirect match, back of the line with ya
 				components_of_type += src
-		else	//only component of this type, no list
+		else //only component of this type, no list
 			dc[I] = src
 
 	RegisterWithParent()
@@ -125,13 +125,13 @@
 	var/list/dc = P.datum_components
 	for(var/I in _GetInverseTypeList())
 		var/list/components_of_type = dc[I]
-		if(length(components_of_type))	//
+		if(length(components_of_type)) //
 			var/list/subtracted = components_of_type - src
-			if(subtracted.len == 1)	//only 1 guy left
-				dc[I] = subtracted[1]	//make him special
+			if(subtracted.len == 1) //only 1 guy left
+				dc[I] = subtracted[1] //make him special
 			else
 				dc[I] = subtracted
-		else	//just us
+		else //just us
 			dc -= I
 	if(!dc.len)
 		P.datum_components = null
@@ -202,8 +202,6 @@
 		else // Many other things have registered here
 			lookup[sig_type][src] = TRUE
 
-	signal_enabled = TRUE
-
 /**
  * Stop listening to a given signal from target
  *
@@ -235,6 +233,8 @@
 						target.comp_lookup = null
 						break
 			if(0)
+				if(lookup[sig] != src)
+					continue
 				lookup -= sig
 				if(!length(lookup))
 					target.comp_lookup = null
@@ -310,18 +310,11 @@
 /datum/proc/_SendSignal(sigtype, list/arguments)
 	var/target = comp_lookup[sigtype]
 	if(!length(target))
-		var/datum/C = target
-		if(!C.signal_enabled)
-			return NONE
-		var/proctype = C.signal_procs[src][sigtype]
-		return NONE | CallAsync(C, proctype, arguments)
+		var/datum/listening_datum = target
+		return NONE | call(listening_datum, listening_datum.signal_procs[src][sigtype])(arglist(arguments))
 	. = NONE
-	for(var/I in target)
-		var/datum/C = I
-		if(!C.signal_enabled)
-			continue
-		var/proctype = C.signal_procs[src][sigtype]
-		. |= CallAsync(C, proctype, arguments)
+	for(var/datum/listening_datum as anything in target)
+		. |= call(listening_datum, listening_datum.signal_procs[src][sigtype])(arglist(arguments))
 
 // The type arg is casted so initial works, you shouldn't be passing a real instance into this
 /**
@@ -395,6 +388,10 @@
 /datum/proc/_AddComponent(list/raw_args)
 	var/new_type = raw_args[1]
 	var/datum/component/nt = new_type
+
+	if(QDELING(src))
+		CRASH("Attempted to add a new component of type \[[nt]\] to a qdeleting parent of type \[[type]\]!")
+
 	var/dm = initial(nt.dupe_mode)
 	var/dt = initial(nt.dupe_type)
 
@@ -440,9 +437,8 @@
 					var/list/arguments = raw_args.Copy()
 					arguments[1] = new_comp
 					var/make_new_component = TRUE
-					for(var/i in GetComponents(new_type))
-						var/datum/component/C = i
-						if(C.CheckDupeComponent(arglist(arguments)))
+					for(var/datum/component/existing_component as anything in GetComponents(new_type))
+						if(existing_component.CheckDupeComponent(arglist(arguments)))
 							make_new_component = FALSE
 							QDEL_NULL(new_comp)
 							break
@@ -467,10 +463,10 @@
  * * component_type The typepath of the component to create or return
  * * ... additional arguments to be passed when creating the component if it does not exist
  */
-/datum/proc/LoadComponent(component_type, ...)
-	. = GetComponent(component_type)
+/datum/proc/_LoadComponent(list/arguments)
+	. = GetComponent(arguments[1])
 	if(!.)
-		return _AddComponent(args)
+		return _AddComponent(arguments)
 
 /**
  * Removes the component from parent, ends up with a null parent

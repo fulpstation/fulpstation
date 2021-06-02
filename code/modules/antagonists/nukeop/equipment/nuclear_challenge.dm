@@ -23,7 +23,7 @@ GLOBAL_LIST_EMPTY(jam_on_wardec)
 		return
 
 	declaring_war = TRUE
-	var/are_you_sure = alert(user, "Consult your team carefully before you declare war on [station_name()]]. Are you sure you want to alert the enemy crew? You have [DisplayTimeText(world.time-SSticker.round_start_time - CHALLENGE_TIME_LIMIT)] to decide", "Declare war?", "Yes", "No")
+	var/are_you_sure = tgui_alert(user, "Consult your team carefully before you declare war on [station_name()]]. Are you sure you want to alert the enemy crew? You have [DisplayTimeText(world.time-SSticker.round_start_time - CHALLENGE_TIME_LIMIT)] to decide", "Declare war?", list("Yes", "No"))
 	declaring_war = FALSE
 
 	if(!check_allowed(user))
@@ -36,7 +36,7 @@ GLOBAL_LIST_EMPTY(jam_on_wardec)
 	var/war_declaration = "A syndicate fringe group has declared their intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
 
 	declaring_war = TRUE
-	var/custom_threat = alert(user, "Do you want to customize your declaration?", "Customize?", "Yes", "No")
+	var/custom_threat = tgui_alert(user, "Do you want to customize your declaration?", "Customize?", list("Yes", "No"))
 	declaring_war = FALSE
 
 	if(!check_allowed(user))
@@ -50,7 +50,7 @@ GLOBAL_LIST_EMPTY(jam_on_wardec)
 	if(!check_allowed(user) || !war_declaration)
 		return
 
-	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/alarm.ogg')
+	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/alarm.ogg',  has_important_message = TRUE)
 
 	to_chat(user, "You've attracted the attention of powerful forces within the syndicate. A bonus bundle of telecrystals has been granted to your team. Great things await you if you complete the mission.")
 
@@ -70,14 +70,14 @@ GLOBAL_LIST_EMPTY(jam_on_wardec)
 
 ///Admin only proc to bypass checks and force a war declaration. Button on antag panel.
 /obj/item/nuclear_challenge/proc/force_war()
-	var/are_you_sure = alert(usr, "Are you sure you wish to force a war declaration?", "Declare war?", "Yes", "No")
+	var/are_you_sure = tgui_alert(usr, "Are you sure you wish to force a war declaration?", "Declare war?", list("Yes", "No"))
 
 	if(are_you_sure != "Yes")
 		return
 
 	var/war_declaration = "A syndicate fringe group has declared their intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
 
-	var/custom_threat = alert(usr, "Do you want to customize the declaration?", "Customize?", "Yes", "No")
+	var/custom_threat = tgui_alert(usr, "Do you want to customize the declaration?", "Customize?", list("Yes", "No"))
 
 	if(custom_threat == "Yes")
 		war_declaration = stripped_input(usr, "Insert your custom declaration", "Declaration")
@@ -86,7 +86,7 @@ GLOBAL_LIST_EMPTY(jam_on_wardec)
 		to_chat(usr, "<span class='warning'>Invalid war declaration.</span>")
 		return
 
-	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/alarm.ogg')
+	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/alarm.ogg', has_important_message = TRUE)
 
 	for(var/V in GLOB.syndicate_shuttle_boards)
 		var/obj/item/circuitboard/computer/syndicate_shuttle/board = V

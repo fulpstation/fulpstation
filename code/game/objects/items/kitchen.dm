@@ -1,19 +1,23 @@
 /* Kitchen tools
  * Contains:
- *		Fork
- *		Kitchen knives
- *		Ritual Knife
- *		Bloodletter
- *		Butcher's cleaver
- *		Combat Knife
- *		Rolling Pins
- *		Plastic Utensils
+ * Fork
+ * Kitchen knives
+ * Ritual Knife
+ * Bloodletter
+ * Butcher's cleaver
+ * Combat Knife
+ * Rolling Pins
+ * Plastic Utensils
  */
 
 /obj/item/kitchen
 	icon = 'icons/obj/kitchen.dmi'
 	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
+
+/obj/item/kitchen/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_APC_SHOCKING, INNATE_TRAIT)
 
 /obj/item/kitchen/fork
 	name = "fork"
@@ -30,10 +34,13 @@
 	attack_verb_simple = list("attack", "stab", "poke")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 30)
-	item_flags = EYE_STAB
 	sharpness = SHARP_POINTY
 	var/datum/reagent/forkload //used to eat omelette
 	custom_price = PAYCHECK_PRISONER
+
+/obj/item/kitchen/fork/Initialize()
+	. = ..()
+	AddElement(/datum/element/eyestab)
 
 /obj/item/kitchen/fork/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] stabs \the [src] into [user.p_their()] chest! It looks like [user.p_theyre()] trying to take a bite out of [user.p_them()]self!</span>")
@@ -91,14 +98,14 @@
 	attack_verb_simple = list("slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	sharpness = SHARP_EDGED
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 50)
-	item_flags = EYE_STAB
-	var/bayonet = FALSE	//Can this be attached to a gun?
+	var/bayonet = FALSE //Can this be attached to a gun?
 	wound_bonus = -5
 	bare_wound_bonus = 10
 	tool_behaviour = TOOL_KNIFE
 
-/obj/item/kitchen/knife/ComponentInitialize()
+/obj/item/kitchen/knife/Initialize()
 	. = ..()
+	AddElement(/datum/element/eyestab)
 	set_butchering()
 
 ///Adds the butchering component, used to override stats for special cases
@@ -136,11 +143,14 @@
 /obj/item/kitchen/knife/ritual
 	name = "ritual knife"
 	desc = "The unearthly energies that once powered this blade are now dormant."
-	icon = 'icons/obj/wizard.dmi'
-	icon_state = "render"
-	worn_icon_state = "render"
-	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
+	icon = 'icons/obj/eldritch.dmi'
+	icon_state = "bone_blade"
+	inhand_icon_state = "bone_blade"
+	worn_icon_state = "bone_blade"
+	lefthand_file = 'icons/mob/inhands/64x64_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/64x64_righthand.dmi'
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/kitchen/knife/bloodletter

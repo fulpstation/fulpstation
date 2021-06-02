@@ -1,8 +1,8 @@
-#define NINJA_LOCK_PHASE 				1
-#define NINJA_ICON_GENERATE_PHASE	 	3
-#define NINJA_COMPLETE_PHASE	 		6
-#define NINJA_DEINIT_LOGOFF_PHASE		1
-#define NINJA_DEINIT_STEALTH_PHASE		5
+#define NINJA_LOCK_PHASE 1
+#define NINJA_ICON_GENERATE_PHASE 3
+#define NINJA_COMPLETE_PHASE 6
+#define NINJA_DEINIT_LOGOFF_PHASE 1
+#define NINJA_DEINIT_STEALTH_PHASE 5
 
 GLOBAL_LIST_INIT(ninja_initialize_messages, list(
 	"Now initializing...",
@@ -97,7 +97,7 @@ GLOBAL_LIST_INIT(ninja_deinitialize_messages, list(
 	if (!ninja || !ninja.mind)
 		s_busy = FALSE
 		return
-	if (phase == 0 && alert("Are you certain you wish to remove the suit? This will take time and remove all abilities.",,"Yes","No") == "No")
+	if (phase == 0 && tgui_alert(usr, "Are you certain you wish to remove the suit? This will take time and remove all abilities.",,list("Yes","No")) == "No")
 		s_busy = FALSE
 		return
 

@@ -2,13 +2,14 @@
 	name = "Ligament Hook"
 	desc = "A surgical procedure which reshapes the connections between torso and limbs, making it so limbs can be attached manually if severed. \
 	However this weakens the connection, making them easier to detach as well."
-	steps = list(/datum/surgery_step/incise,
-				/datum/surgery_step/retract_skin,
-				/datum/surgery_step/clamp_bleeders,
-				/datum/surgery_step/incise,
-				/datum/surgery_step/incise,
-				/datum/surgery_step/reshape_ligaments,
-				/datum/surgery_step/close)
+	steps = list(
+		/datum/surgery_step/incise,
+		/datum/surgery_step/retract_skin,
+		/datum/surgery_step/clamp_bleeders,
+		/datum/surgery_step/incise,
+		/datum/surgery_step/incise,
+		/datum/surgery_step/reshape_ligaments,
+		/datum/surgery_step/close)
 	possible_locs = list(BODY_ZONE_CHEST)
 	bioware_target = BIOWARE_LIGAMENTS
 
@@ -36,10 +37,10 @@
 
 /datum/bioware/hooked_ligaments/on_gain()
 	..()
-	ADD_TRAIT(owner, TRAIT_LIMBATTACHMENT, "ligament_hook")
-	ADD_TRAIT(owner, TRAIT_EASYDISMEMBER, "ligament_hook")
+	ADD_TRAIT(owner, TRAIT_LIMBATTACHMENT, EXPERIMENTAL_SURGERY_TRAIT)
+	ADD_TRAIT(owner, TRAIT_EASYDISMEMBER, EXPERIMENTAL_SURGERY_TRAIT)
 
 /datum/bioware/hooked_ligaments/on_lose()
 	..()
-	REMOVE_TRAIT(owner, TRAIT_LIMBATTACHMENT, "ligament_hook")
-	REMOVE_TRAIT(owner, TRAIT_EASYDISMEMBER, "ligament_hook")
+	REMOVE_TRAIT(owner, TRAIT_LIMBATTACHMENT, EXPERIMENTAL_SURGERY_TRAIT)
+	REMOVE_TRAIT(owner, TRAIT_EASYDISMEMBER, EXPERIMENTAL_SURGERY_TRAIT)

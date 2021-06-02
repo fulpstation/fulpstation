@@ -38,20 +38,21 @@
 		target.transfer_ai(AI_TRANS_TO_CARD, user, null, src)
 		if(AI)
 			log_combat(user, AI, "carded", src)
-	update_icon() //Whatever happened, update the card's state (icon, name) to match.
+	update_appearance() //Whatever happened, update the card's state (icon, name) to match.
 
 /obj/item/aicard/update_icon_state()
 	if(!AI)
 		name = initial(name)
 		icon_state = initial(icon_state)
-		return
+		return ..()
 	name = "[initial(name)] - [AI.name]"
 	icon_state = "[initial(icon_state)][AI.stat == DEAD ? "-404" : "-full"]"
 	AI.cancel_camera()
+	return ..()
 
 /obj/item/aicard/update_overlays()
 	. = ..()
-	if(!AI || AI.control_disabled)
+	if(!AI?.control_disabled)
 		return
 	. += "[initial(icon_state)]-on"
 
@@ -86,7 +87,7 @@
 			if(flush)
 				flush = FALSE
 			else
-				var/confirm = alert("Are you sure you want to wipe this card's memory?", name, "Yes", "No")
+				var/confirm = tgui_alert(usr, "Are you sure you want to wipe this card's memory?", name, list("Yes", "No"))
 				if(confirm == "Yes" && !..())
 					flush = TRUE
 					if(AI && AI.loc == src)
@@ -105,4 +106,4 @@
 			AI.radio_enabled = !AI.radio_enabled
 			to_chat(AI, "<span class='warning'>Your Subspace Transceiver has been [AI.radio_enabled ? "enabled" : "disabled"]!</span>")
 			. = TRUE
-	update_icon()
+	update_appearance()

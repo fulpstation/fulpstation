@@ -22,7 +22,7 @@
 	attack_verb_continuous = "barrels into"
 	attack_verb_simple = "barrel into"
 	attack_sound = 'sound/weapons/punch1.ogg'
-	a_intent = INTENT_HELP
+	combat_mode = FALSE
 	speak_emote = list("screeches")
 	throw_message = "sinks in slowly, before being pushed out of "
 	deathmessage = "stops moving as green liquid oozes from the carcass!"
@@ -93,7 +93,7 @@
 		G.is_burrowed = TRUE
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/GiveTarget(new_target)
-	target = new_target
+	add_target(new_target)
 	if(target != null)
 		if(istype(target, /obj/item/stack/ore))
 			visible_message("<span class='notice'>The [name] looks at [target.name] with hungry eyes.</span>")

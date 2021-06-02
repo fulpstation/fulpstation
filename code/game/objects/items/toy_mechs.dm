@@ -132,7 +132,7 @@
 	else
 		. = ..()
 
-/obj/item/toy/prize/attack_hand(mob/user)
+/obj/item/toy/prize/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(.)
 		return
@@ -156,7 +156,7 @@
 	if(target == user)
 		to_chat(user, "<span class='notice'>Target another toy mech if you want to start a battle with yourself.</span>")
 		return
-	else if(user.a_intent != INTENT_HARM)
+	else if(!user.combat_mode)
 		if(wants_to_battle) //prevent spamming someone with offers
 			to_chat(user, "<span class='notice'>You already are offering battle to someone!</span>")
 			return
@@ -446,19 +446,19 @@
 /obj/item/toy/prize/proc/check_battle_start(mob/living/carbon/user, obj/item/toy/prize/attacker, mob/living/carbon/target)
 	if(attacker?.in_combat)
 		to_chat(user, "<span class='notice'>[target?target.p_their() : "Your" ] [attacker.name] is in combat.</span>")
-		target?.to_chat(target, "<span class='notice'>Your [attacker.name] is in combat.</span>")
+		to_chat(target, "<span class='notice'>Your [attacker.name] is in combat.</span>")
 		return FALSE
 	if(in_combat)
 		to_chat(user, "<span class='notice'>Your [name] is in combat.</span>")
-		target?.to_chat(target, "<span class='notice'>[target.p_their()] [name] is in combat.</span>")
+		to_chat(target, "<span class='notice'>[user.p_their()] [name] is in combat.</span>")
 		return FALSE
 	if(attacker && attacker.timer > world.time)
 		to_chat(user, "<span class='notice'>[target?target.p_their() : "Your" ] [attacker.name] isn't ready for battle.</span>")
-		target?.to_chat(target, "<span class='notice'>Your [attacker.name] isn't ready for battle.</span>")
+		to_chat(target, "<span class='notice'>Your [attacker.name] isn't ready for battle.</span>")
 		return FALSE
 	if(timer > world.time)
 		to_chat(user, "<span class='notice'>Your [name] isn't ready for battle.</span>")
-		target?.to_chat(target, "<span class='notice'>[target.p_their()] [name] isn't ready for battle.</span>")
+		to_chat(target, "<span class='notice'>[user.p_their()] [name] isn't ready for battle.</span>")
 		return FALSE
 
 	return TRUE

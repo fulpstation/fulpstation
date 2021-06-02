@@ -126,7 +126,7 @@
 
 	if(!current_wizard)
 		return
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as Wizard Academy Defender?", ROLE_WIZARD, null, ROLE_WIZARD, 50, current_wizard, POLL_IGNORE_ACADEMY_WIZARD)
+	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as Wizard Academy Defender?", ROLE_WIZARD, ROLE_WIZARD, 50, current_wizard, POLL_IGNORE_ACADEMY_WIZARD)
 
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
@@ -169,6 +169,8 @@
 	microwave_riggable = FALSE
 	var/reusable = TRUE
 	var/used = FALSE
+	/// So you can't roll the die 20 times in a second and stack a bunch of effects that might conflict
+	COOLDOWN_DECLARE(roll_cd)
 
 /obj/item/dice/d20/fate/one_use
 	reusable = FALSE
@@ -199,23 +201,30 @@
 	reusable = FALSE
 
 /obj/item/dice/d20/fate/diceroll(mob/user)
+	if(!COOLDOWN_FINISHED(src, roll_cd))
+		to_chat(user, "<span class='warning'>Hold on, [src] isn't caught up with your last roll!</span>")
+		return
+
 	. = ..()
-	if(!used)
-		if(!ishuman(user) || !user.mind || (user.mind in SSticker.mode.wizards))
-			to_chat(user, "<span class='warning'>You feel the magic of the dice is restricted to ordinary humans!</span>")
-			return
+	if(used)
+		return
 
-		if(!reusable)
-			used = TRUE
+	if(!ishuman(user) || !user.mind || IS_WIZARD(user))
+		to_chat(user, "<span class='warning'>You feel the magic of the dice is restricted to ordinary humans!</span>")
+		return
 
-		var/turf/T = get_turf(src)
-		T.visible_message("<span class='userdanger'>[src] flares briefly.</span>")
+	if(!reusable)
+		used = TRUE
 
-		addtimer(CALLBACK(src, .proc/effect, user, .), 1 SECONDS)
+	var/turf/T = get_turf(src)
+	T.visible_message("<span class='userdanger'>[src] flares briefly.</span>")
+
+	addtimer(CALLBACK(src, .proc/effect, user, .), 1 SECONDS)
+	COOLDOWN_START(src, roll_cd, 2.5 SECONDS)
 
 /obj/item/dice/d20/fate/equipped(mob/user, slot)
 	. = ..()
-	if(!ishuman(user) || !user.mind || (user.mind in SSticker.mode.wizards))
+	if(!ishuman(user) || !user.mind || IS_WIZARD(user))
 		to_chat(user, "<span class='warning'>You feel the magic of the dice is restricted to ordinary humans! You should leave it alone.</span>")
 		user.dropItemToGround(src)
 
@@ -262,7 +271,7 @@
 		if(8)
 			//Fuel tank Explosion
 			T.visible_message("<span class='userdanger'>An explosion bursts into existence around [user]!</span>")
-			explosion(get_turf(user),-1,0,2, flame_range = 2)
+			explosion(get_turf(user), devastation_range = -1, light_impact_range = 2, flame_range = 2)
 		if(9)
 			//Cold
 			var/datum/disease/D = new /datum/disease/cold()
@@ -316,7 +325,7 @@
 			A.setup_master(user)
 			servant_mind.transfer_to(H)
 
-			var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as [user.real_name] Servant?", ROLE_WIZARD, null, ROLE_WIZARD, 50, H)
+			var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as [user.real_name] Servant?", ROLE_WIZARD, ROLE_WIZARD, 50, H)
 			if(LAZYLEN(candidates))
 				var/mob/dead/observer/C = pick(candidates)
 				message_admins("[ADMIN_LOOKUPFLW(C)] was spawned as Dice Servant")
@@ -334,7 +343,7 @@
 		if(18)
 			//Captain ID
 			T.visible_message("<span class='userdanger'>A golden identification card appears!</span>")
-			new /obj/item/card/id/captains_spare(drop_location())
+			new /obj/item/card/id/advanced/gold/captains_spare(drop_location())
 			do_smoke(0, drop_location())
 		if(19)
 			//Instrinct Resistance
@@ -345,7 +354,7 @@
 		if(20)
 			//Free wizard!
 			T.visible_message("<span class='userdanger'>Magic flows out of [src] and into [user]!</span>")
-			user.mind.make_Wizard()
+			user.mind.make_wizard()
 
 /datum/outfit/butler
 	name = "Butler"
@@ -361,6 +370,7 @@
 	charge_max = 100
 	clothes_req = 0
 	invocation = "JE VES"
+	school = SCHOOL_CONJURATION
 	invocation_type = INVOCATION_WHISPER
 	range = -1
 	level_max = 0 //cannot be improved
@@ -395,5 +405,5 @@
 	user.visible_message("<span class='notice'>[user] activates \the [src].</span>", "<span class='notice'>You activate \the [src].</span>")
 
 /obj/structure/ladder/unbreakable/rune/use(mob/user, is_ghost=FALSE)
-	if(is_ghost || !(user.mind in SSticker.mode.wizards))
+	if(is_ghost || !IS_WIZARD(user))
 		..()

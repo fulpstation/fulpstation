@@ -84,11 +84,11 @@
 	contains_sample = FALSE
 	return NONE
 
-/obj/item/seeds/replicapod/get_analyzer_text()
-	var/text = ..()
+/obj/item/seeds/replicapod/get_unique_analyzer_text()
 	if(contains_sample)
-		text += "\n It contains a blood sample with blood DNA (UE) \"sampleDNA\"." //blood DNA (UE) shows in medical records and is readable by forensics scanners
-	return text
+		return "It contains a blood sample with blood DNA (UE) \"[sampleDNA]\"." //blood DNA (UE) shows in medical records and is readable by forensics scanners
+	else
+		return null
 
 /obj/item/seeds/replicapod/harvest(mob/user) //now that one is fun -- Urist
 	var/obj/machinery/hydroponics/parent = loc
@@ -122,7 +122,7 @@
 	if(!make_podman)
 		// Prevent accidental harvesting. Make sure the user REALLY wants to do this if there's a chance of this coming from a living creature.
 		if(mind || ckey)
-			var/choice = alert("The pod is currently devoid of soul. There is a possibility that a soul could claim this creature, or you could harvest it for seeds.", "Harvest Seeds?", "Harvest Seeds", "Cancel")
+			var/choice = tgui_alert(usr,"The pod is currently devoid of soul. There is a possibility that a soul could claim this creature, or you could harvest it for seeds.", "Harvest Seeds?", list("Harvest Seeds", "Cancel"))
 			if(choice == "Cancel")
 				return result
 

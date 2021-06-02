@@ -1,9 +1,9 @@
-#define EXT_BOUND	1
-#define INT_BOUND	2
-#define NO_BOUND	3
+#define EXT_BOUND 1
+#define INT_BOUND 2
+#define NO_BOUND 3
 
-#define SIPHONING	0
-#define RELEASING	1
+#define SIPHONING 0
+#define RELEASING 1
 
 /obj/machinery/atmospherics/components/unary/vent_pump
 	icon_state = "vent_map-3"
@@ -33,6 +33,7 @@
 	var/radio_filter_in
 
 	pipe_state = "uvent"
+	vent_movement = VENTCRAWL_ALLOWED | VENTCRAWL_CAN_SEE | VENTCRAWL_ENTRANCE_ALLOWED
 
 /obj/machinery/atmospherics/components/unary/vent_pump/New()
 	if(!id_tag)
@@ -87,7 +88,6 @@
 		icon_state = "vent_in"
 
 /obj/machinery/atmospherics/components/unary/vent_pump/process_atmos()
-	..()
 	if(!is_operational)
 		return
 	if(!nodes[1])
@@ -114,8 +114,11 @@
 				var/transfer_moles = (pressure_delta*environment.volume)/(air_contents.temperature * R_IDEAL_GAS_EQUATION)
 				var/datum/gas_mixture/removed = air_contents.remove(transfer_moles)
 
+				if(!removed || !removed.total_moles())
+					return
+
 				loc.assume_air(removed)
-				air_update_turf(FALSE, FALSE)
+				update_parents()
 
 	else // external -> internal
 		var/pressure_delta = 10000
@@ -128,12 +131,12 @@
 			var/transfer_moles = (pressure_delta * air_contents.volume) / (environment.temperature * R_IDEAL_GAS_EQUATION)
 
 			var/datum/gas_mixture/removed = loc.remove_air(transfer_moles)
-			if (isnull(removed)) // in space
+
+			if(!removed || !removed.total_moles()) //No venting from space 4head
 				return
 
 			air_contents.merge(removed)
-			air_update_turf(FALSE, FALSE)
-	update_parents()
+			update_parents()
 
 //Radio remote control
 
@@ -246,11 +249,11 @@
 
 	if("status" in signal.data)
 		broadcast_status()
-		return // do not update_icon
+		return // do not update_appearance
 
 		// log_admin("DEBUG \[[world.timeofday]\]: vent_pump/receive_signal: unknown command \"[signal.data["command"]]\"\n[signal.debug_print()]")
 	broadcast_status()
-	update_icon()
+	update_appearance()
 
 /obj/machinery/atmospherics/components/unary/vent_pump/welder_act(mob/living/user, obj/item/I)
 	..()
@@ -264,8 +267,8 @@
 		else
 			user.visible_message("<span class='notice'>[user] unwelded the vent.</span>", "<span class='notice'>You unweld the vent.</span>", "<span class='hear'>You hear welding.</span>")
 			welded = FALSE
-		update_icon()
-		pipe_vision_img = image(src, loc, layer = ABOVE_HUD_LAYER, dir = dir)
+		update_appearance()
+		pipe_vision_img = image(src, loc, dir = dir)
 		pipe_vision_img.plane = ABOVE_HUD_PLANE
 		investigate_log("was [welded ? "welded shut" : "unwelded"] by [key_name(user)]", INVESTIGATE_ATMOS)
 		add_fingerprint(user)
@@ -286,16 +289,13 @@
 	. = ..()
 	update_icon_nopipes()
 
-/obj/machinery/atmospherics/components/unary/vent_pump/can_crawl_through()
-	return !welded
-
-/obj/machinery/atmospherics/components/unary/vent_pump/attack_alien(mob/user)
+/obj/machinery/atmospherics/components/unary/vent_pump/attack_alien(mob/user, list/modifiers)
 	if(!welded || !(do_after(user, 20, target = src)))
 		return
 	user.visible_message("<span class='warning'>[user] furiously claws at [src]!</span>", "<span class='notice'>You manage to clear away the stuff blocking the vent.</span>", "<span class='hear'>You hear loud scraping noises.</span>")
 	welded = FALSE
-	update_icon()
-	pipe_vision_img = image(src, loc, layer = ABOVE_HUD_LAYER, dir = dir)
+	update_appearance()
+	pipe_vision_img = image(src, loc, dir = dir)
 	pipe_vision_img.plane = ABOVE_HUD_PLANE
 	playsound(loc, 'sound/weapons/bladeslice.ogg', 100, TRUE)
 

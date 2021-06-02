@@ -10,8 +10,8 @@
 	allowed_area = A.name
 	. = ..()
 
-/mob/camera/ai_eye/remote/xenobio/setLoc(t)
-	var/area/new_area = get_area(t)
+/mob/camera/ai_eye/remote/xenobio/setLoc(destination)
+	var/area/new_area = get_area(destination)
 	if(new_area && new_area.name == allowed_area || new_area && (new_area.area_flags & XENOBIOLOGY_COMPATIBLE))
 		return ..()
 	else
@@ -165,28 +165,6 @@
 		current_potion = O
 		to_chat(user, "<span class='notice'>You load [O] in the console's potion slot[replaced ? ", replacing the one that was there before" : ""].</span>")
 		return
-	else if(istype(O, /obj/item/slime_extract))
-		var/obj/item/slime_extract/E = O
-		if(!SSresearch.slime_already_researched[E.type])
-			if(!E.research)
-				playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 3, -1)
-				visible_message("<span class='notice'>[src] buzzes and displays a message: Invalid extract! (You shouldn't be seeing this. If you are, tell someone.)</span>")
-				return
-			if(E.Uses <= 0)
-				playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 3, -1)
-				visible_message("<span class='notice'>[src] buzzes and displays a message: Extract consumed - no research available.</span>")
-				return
-			else
-				playsound(src, 'sound/machines/ping.ogg', 50, 3, -1)
-				visible_message("<span class='notice'>You insert [E] into a slot on the [src]. It pings and prints out some research notes worth [E.research] points!</span>")
-				new /obj/item/research_notes(drop_location(), E.research, "xenobiology")
-				SSresearch.slime_already_researched[E.type] = TRUE
-				qdel(O)
-				return
-		else
-			visible_message("<span class='notice'>[src] buzzes and displays a message: Slime extract already researched!</span>")
-			playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 3, -1)
-			return
 	..()
 
 /obj/machinery/computer/camera_advanced/xenobio/multitool_act(mob/living/user, obj/item/multitool/I)
@@ -261,7 +239,7 @@
 			if (!QDELETED(food))
 				food.LAssailant = C
 				X.monkeys--
-				X.monkeys = round(X.monkeys, 0.1)		//Prevents rounding errors
+				X.monkeys = round(X.monkeys, 0.1) //Prevents rounding errors
 				to_chat(owner, "<span class='notice'>[X] now has [X.monkeys] monkeys stored.</span>")
 		else
 			to_chat(owner, "<span class='warning'>[X] needs to have at least 1 monkey stored. Currently has [X.monkeys] monkeys stored.</span>")
@@ -293,7 +271,7 @@
 				M.visible_message("<span class='notice'>[M] vanishes as [M.p_theyre()] reclaimed for recycling!</span>")
 				recycler.use_power(500)
 				X.monkeys += recycler.cube_production
-				X.monkeys = round(X.monkeys, 0.1)		//Prevents rounding errors
+				X.monkeys = round(X.monkeys, 0.1) //Prevents rounding errors
 				qdel(M)
 				to_chat(owner, "<span class='notice'>[X] now has [X.monkeys] monkeys available.</span>")
 	else
@@ -395,6 +373,7 @@
 
 //Feeds a potion to slime
 /obj/machinery/computer/camera_advanced/xenobio/proc/XenoSlimeClickAlt(mob/living/user, mob/living/simple_animal/slime/S)
+	SIGNAL_HANDLER
 	if(!GLOB.cameranet.checkTurfVis(S.loc))
 		to_chat(user, "<span class='warning'>Target is not near a camera. Cannot proceed.</span>")
 		return
@@ -406,10 +385,11 @@
 		to_chat(C, "<span class='warning'>No potion loaded.</span>")
 		return
 	if(mobarea.name == E.allowed_area || (mobarea.area_flags & XENOBIOLOGY_COMPATIBLE))
-		X.current_potion.attack(S, C)
+		INVOKE_ASYNC(X.current_potion, /obj/item/slimepotion/slime.proc/attack, S, C)
 
 //Picks up slime
 /obj/machinery/computer/camera_advanced/xenobio/proc/XenoSlimeClickShift(mob/living/user, mob/living/simple_animal/slime/S)
+	SIGNAL_HANDLER
 	if(!GLOB.cameranet.checkTurfVis(S.loc))
 		to_chat(user, "<span class='warning'>Target is not near a camera. Cannot proceed.</span>")
 		return
@@ -460,7 +440,7 @@
 			if (!QDELETED(food))
 				food.LAssailant = C
 				X.monkeys--
-				X.monkeys = round(X.monkeys, 0.1)		//Prevents rounding errors
+				X.monkeys = round(X.monkeys, 0.1) //Prevents rounding errors
 				to_chat(C, "<span class='notice'>[X] now has [X.monkeys] monkeys stored.</span>")
 		else
 			to_chat(C, "<span class='warning'>[X] needs to have at least 1 monkey stored. Currently has [X.monkeys] monkeys stored.</span>")
@@ -485,6 +465,6 @@
 		M.visible_message("<span class='notice'>[M] vanishes as [p_theyre()] reclaimed for recycling!</span>")
 		X.connected_recycler.use_power(500)
 		X.monkeys += connected_recycler.cube_production
-		X.monkeys = round(X.monkeys, 0.1)		//Prevents rounding errors
+		X.monkeys = round(X.monkeys, 0.1) //Prevents rounding errors
 		qdel(M)
 		to_chat(C, "<span class='notice'>[X] now has [X.monkeys] monkeys available.</span>")

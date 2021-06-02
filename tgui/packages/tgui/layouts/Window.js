@@ -7,7 +7,7 @@
 import { classes } from 'common/react';
 import { useDispatch } from 'common/redux';
 import { decodeHtmlEntities, toTitleCase } from 'common/string';
-import { Component, Fragment } from 'inferno';
+import { Component } from 'inferno';
 import { backendSuspendStart, useBackend } from '../backend';
 import { Icon } from '../components';
 import { UI_DISABLED, UI_INTERACTIVE, UI_UPDATE } from '../constants';
@@ -23,11 +23,30 @@ const DEFAULT_SIZE = [400, 600];
 
 export class Window extends Component {
   componentDidMount() {
-    const { config, suspended } = useBackend(this.context);
+    const { suspended } = useBackend(this.context);
+    const { canClose = true } = this.props;
     if (suspended) {
       return;
     }
+    Byond.winset(window.__windowId__, {
+      'can-close': Boolean(canClose),
+    });
     logger.log('mounting');
+    this.updateGeometry();
+  }
+
+  componentDidUpdate(prevProps) {
+    const shouldUpdateGeometry = (
+      this.props.width !== prevProps.width
+      || this.props.height !== prevProps.height
+    );
+    if (shouldUpdateGeometry) {
+      this.updateGeometry();
+    }
+  }
+
+  updateGeometry() {
+    const { config } = useBackend(this.context);
     const options = {
       size: DEFAULT_SIZE,
       ...config.window,
@@ -43,8 +62,7 @@ export class Window extends Component {
 
   render() {
     const {
-      resizable,
-      noClose,
+      canClose = true,
       theme,
       title,
       children,
@@ -76,7 +94,7 @@ export class Window extends Component {
             logger.log('pressed close');
             dispatch(backendSuspendStart());
           }}
-          noClose={noClose} />
+          canClose={canClose} />
         <div
           className={classes([
             'Window__rest',
@@ -87,15 +105,15 @@ export class Window extends Component {
             <div className="Window__dimmer" />
           )}
         </div>
-        {fancy && resizable && (
-          <Fragment>
+        {fancy && (
+          <>
             <div className="Window__resizeHandle__e"
               onMousedown={resizeStartHandler(1, 0)} />
             <div className="Window__resizeHandle__s"
               onMousedown={resizeStartHandler(0, 1)} />
             <div className="Window__resizeHandle__se"
               onMousedown={resizeStartHandler(1, 1)} />
-          </Fragment>
+          </>
         )}
       </Layout>
     );
@@ -144,7 +162,7 @@ const TitleBar = (props, context) => {
     className,
     title,
     status,
-    noClose,
+    canClose,
     fancy,
     onDragStart,
     onClose,
@@ -183,7 +201,7 @@ const TitleBar = (props, context) => {
           <Icon name="bug" />
         </div>
       )}
-      {!!fancy && !noClose && (
+      {Boolean(fancy && canClose) && (
         <div
           className="TitleBar__close TitleBar__clickable"
           // IE8: Synthetic onClick event doesn't work on IE8.

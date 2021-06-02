@@ -1,18 +1,18 @@
 /*
-	output_atoms	(list of atoms)			The destination(s) for the sounds
+	output_atoms (list of atoms) The destination(s) for the sounds
 
-	mid_sounds		(list or soundfile)		Since this can be either a list or a single soundfile you can have random sounds. May contain further lists but must contain a soundfile at the end.
-	mid_length		(num)					The length to wait between playing mid_sounds
+	mid_sounds (list or soundfile) Since this can be either a list or a single soundfile you can have random sounds. May contain further lists but must contain a soundfile at the end.
+	mid_length (num) The length to wait between playing mid_sounds
 
-	start_sound		(soundfile)				Played before starting the mid_sounds loop
-	start_length	(num)					How long to wait before starting the main loop after playing start_sound
+	start_sound (soundfile) Played before starting the mid_sounds loop
+	start_length (num) How long to wait before starting the main loop after playing start_sound
 
-	end_sound		(soundfile)				The sound played after the main loop has concluded
+	end_sound (soundfile) The sound played after the main loop has concluded
 
-	chance			(num)					Chance per loop to play a mid_sound
-	volume			(num)					Sound output volume
-	max_loops		(num)					The max amount of loops to run for.
-	direct			(bool)					If true plays directly to provided atoms instead of from them
+	chance (num) Chance per loop to play a mid_sound
+	volume (num) Sound output volume
+	max_loops (num) The max amount of loops to run for.
+	direct (bool) If true plays directly to provided atoms instead of from them
 */
 /datum/looping_sound
 	var/list/atom/output_atoms
@@ -64,7 +64,7 @@
 	if(!timerid)
 		return
 	on_stop()
-	deltimer(timerid)
+	deltimer(timerid, SSsound_loops)
 	timerid = null
 
 /datum/looping_sound/proc/sound_loop(starttime)
@@ -74,7 +74,7 @@
 	if(!chance || prob(chance))
 		play(get_sound(starttime))
 	if(!timerid)
-		timerid = addtimer(CALLBACK(src, .proc/sound_loop, world.time), mid_length, TIMER_CLIENT_TIME | TIMER_STOPPABLE | TIMER_LOOP)
+		timerid = addtimer(CALLBACK(src, .proc/sound_loop, world.time), mid_length, TIMER_CLIENT_TIME | TIMER_STOPPABLE | TIMER_LOOP, SSsound_loops)
 
 /datum/looping_sound/proc/play(soundfile, volume_override)
 	var/list/atoms_cache = output_atoms
@@ -99,7 +99,7 @@
 	if(start_sound)
 		play(start_sound, start_volume)
 		start_wait = start_length
-	addtimer(CALLBACK(src, .proc/sound_loop), start_wait, TIMER_CLIENT_TIME)
+	addtimer(CALLBACK(src, .proc/sound_loop), start_wait, TIMER_CLIENT_TIME, SSsound_loops)
 
 /datum/looping_sound/proc/on_stop()
 	if(end_sound)

@@ -22,7 +22,7 @@
 	var/list/mob_type_ignore_stat_typecache
 	var/stat_allowed = CONSCIOUS
 	var/sound //Sound to play when emote is called
-	var/vary = FALSE	//used for the honk borg emote
+	var/vary = FALSE //used for the honk borg emote
 	var/only_forced_audio = FALSE //can only code call this event instead of the player.
 	var/cooldown = 0.8 SECONDS
 
@@ -70,7 +70,7 @@
 			continue
 		var/T = get_turf(user)
 		if(M.stat == DEAD && M.client && user.client && (M.client.prefs.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
-			M.show_message("[FOLLOW_LINK(M, user)] [dchatmsg]")
+			M.show_message("<span class='emote'>[FOLLOW_LINK(M, user)] [dchatmsg]</span>")
 
 	if(emote_type == EMOTE_AUDIBLE)
 		user.audible_message(msg, audible_message_flags = EMOTE_MESSAGE)
@@ -82,6 +82,9 @@
 	if(!intentional)
 		return TRUE
 	if(user.emotes_used && user.emotes_used[src] + cooldown > world.time)
+		var/datum/emote/default_emote = /datum/emote
+		if(cooldown > initial(default_emote.cooldown)) // only worry about longer-than-normal emotes
+			to_chat(user, "<span class='danger'>You must wait another [DisplayTimeText(user.emotes_used[src] - world.time + cooldown)] before using that emote.</span>")
 		return FALSE
 	if(!user.emotes_used)
 		user.emotes_used = list()
