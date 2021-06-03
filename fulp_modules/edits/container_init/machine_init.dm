@@ -83,7 +83,7 @@
 
 /obj/machinery/vending/games/Initialize()
 	products += list(/obj/item/toy/plush/batong = 3, /obj/item/toy/plush/pico = 3) //Used in toys.dm
-    . = ..()
+	. = ..()
 
 /// Lockers
 /obj/structure/closet/secure_closet/engineering_chief/Initialize()
