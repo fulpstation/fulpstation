@@ -26,8 +26,8 @@
 	squeak_override = list('sound/effects/supermatter.ogg'= 1)
 
 /obj/item/toy/plush/pico
-	name = "Pico plushie"
-	desc = "A plushie of an alarmed middle schooler with orange hair and a green T-Shirt. Maybe somethng's happening at his school."
+	name = "pico plushie"
+	desc = "A plushie of an alarmed middle schooler with orange hair and a green T-Shirt. Maybe something's happening at his school."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "pico"
 	attack_verb_continuous = list("flails at")
