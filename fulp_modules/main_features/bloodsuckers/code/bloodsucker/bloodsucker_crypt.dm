@@ -88,15 +88,21 @@
 	icon_state = "vassalrack"
 	buckle_lying = FALSE
 	anchored = FALSE
-	density = TRUE // Start dense. Once fixed in place, go non-dense.
+	/// Start dense. Once fixed in place, go non-dense.
+	density = TRUE
 	can_buckle = TRUE
-	var/useLock = FALSE // So we can't just keep dragging ppl on here.
+	/// So we can't spam buckle people onto the rack
+	var/useLock = FALSE
 	var/mob/buckled
-	var/convert_progress = 3 // Resets on each new character to be added to the chair. Some effects should lower it...
-	var/disloyalty_confirm = FALSE // Security & Antags need to CONFIRM they are willing to lose their role (and will only do it if the Vassal'ing succeeds)
-	var/disloyalty_offered = FALSE // Has the popup been issued? Don't spam them.
+	/// Resets on each new character to be added to the chair. Some effects should lower it...
+	var/convert_progress = 3
+	/// Mindshielded and Antagonists willingly have to accept you as their Master.
+	var/disloyalty_confirm = FALSE
+	/// Prevents popup spam.
+	var/disloyalty_offered = FALSE
 
 /obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
+	. = ..()
 	new /obj/item/stack/sheet/iron(src.loc, 4)
 	new /obj/item/stack/rods(loc, 4)
 	qdel(src)
@@ -108,10 +114,14 @@
 		return
 	if(IS_BLOODSUCKER(user))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
-		. += {"<span class='cult'>Clicking on the rack with an empty hand while it is in your lair will permanently secure it in place.</span>"}
+		. += {"<span class='cult'>Clicking on the rack with an empty hand while it is in your lair will secure it in place.</span>"}
 		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
-		. += {"<span class='cult'>Make sure that the victim is handcuffed, or else they can simply run away or resist, as the process is not instant.</span>"}
 		. += {"<span class='cult'>To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.</span>"}
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+			. += {"<span class='cult'>As part of the Ventrue Clan, you can choose a Favorite Vassal.</span>"}
+			. += {"<span class='cult'>Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!</span>"}
+			. += {"<span class='cult'>This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching FinalDeath.</span>"}
 	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is the vassal rack, which allows your master to thrall crewmembers into their minions.</span>"
 		. += "<span class='notice'>Aid your master in bringing their victims here and keeping them secure.</span>"
@@ -121,15 +131,35 @@
 		. += {"<span class='cult'>They usually ensure that victims are handcuffed, to prevent them from running away.</span>"}
 		. += {"<span class='cult'>Their rituals take time, allowing us to disrupt it.</span>"}
 
+/obj/structure/bloodsucker/vassalrack/attackby(obj/item/P, mob/living/user, params)
+	/// If a Bloodsucker tries to wrench it in place, yell at them.
+	if(P.tool_behaviour == TOOL_WRENCH && !anchored && IS_BLOODSUCKER(user))
+		user.playsound_local(null, 'sound/machines/buzz-sigh.ogg', 70, FALSE, pressure_affected = FALSE)
+		to_chat(user, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!</span>")
+		return
+	/// If it is wrenched it place, let them unwrench it.
+	if(P.tool_behaviour == TOOL_WRENCH && anchored && IS_BLOODSUCKER(user))
+		to_chat(user, "<span class='notice'>You start unwrenching the persuasion rack...</span>")
+		if(P.use_tool(src, user, 40, volume=50))
+			to_chat(user, "<span class='notice'>You unwrench the persuasion rack.</span>")
+			owner = null
+			density = TRUE
+			anchored = FALSE
+			return
+	. = ..()
+
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
+	/// Please dont let them buckle Fireman carried people
+	var/mob/living/L = O
 	/// Default checks
-	if(!O.Adjacent(src) || O == user || !isliving(O) || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated())
+	if(!O.Adjacent(src) || O == user || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated() || L.buckled)
 		return
 	/// Not anchored?
 	if(!anchored)
 		/// Let the Bloodsucker know the problem.
 		if(IS_BLOODSUCKER(user))
-			to_chat(user, "<span class='danger'>Until this rack is secured in place, it cannot serve its purpose. (Click with an empty hand)</span>")
+			to_chat(user, "<span class='danger'>Until this rack is secured in place, it cannot serve its purpose.</span>")
+			to_chat(user, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!</span>")
 			return
 		/// Not a Bloodsucker? Not our problem.
 		else
@@ -139,14 +169,14 @@
 	if(issilicon(O))
 		to_chat(user, "<span class='danger'>You realize that Silicon cannot be vassalized, therefore it is useless to buckle them.</span>")
 		return
-	/// Start buckling!
+	/// Good to go - Buckle them!
 	useLock = TRUE
 	if(do_mob(user, O, 5 SECONDS))
 		attach_victim(O,user)
 	useLock = FALSE
 
 /// Attempt Release (Owner vs Non Owner)
-/obj/structure/bloodsucker/vassalrack/AltClick(mob/user) // WILLARDTODO: Replace this with RightClickOn once we get it via TGU (And change the description!) // WILLARDTODO: Re-do the entire fucking persuasion rack god I hate it
+/obj/structure/bloodsucker/vassalrack/AltClick(mob/user) // WILLARD TODO: Replace this with RightClickOn once we get it via TGU (And change the description!)
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
 		return
 	var/mob/living/carbon/C = pick(buckled_mobs)
@@ -158,7 +188,7 @@
 
 /// Attempt Buckle
 /obj/structure/bloodsucker/vassalrack/proc/attach_victim(mob/living/M, mob/living/user)
-	// Standard Buckle Check
+	/// Standard Buckle Check
 	if(!buckle_mob(M))
 		return
 	user.visible_message("<span class='notice'>[user] straps [M] into the rack, immobilizing them.</span>", \
@@ -170,24 +200,28 @@
 	density = TRUE
 	var/matrix/m180 = matrix(M.transform)
 	m180.Turn(180)
-	animate(M, transform = m180, time = 2)
-	M.pixel_y = -2
+	animate(M, transform = m180, time = 3)
+	M.pixel_y = M.base_pixel_y + PIXEL_Y_OFFSET_LYING
 	update_icon()
-	// Torture Stuff
-	convert_progress = 3 // Goes down unless you start over.
-	disloyalty_confirm = FALSE // New guy gets the chance to say NO if he's special.
-	disloyalty_offered = FALSE // Prevents spamming torture window.
+
+	/// Set up Torture stuff now
+	convert_progress = 3
+	disloyalty_confirm = FALSE
+	disloyalty_offered = FALSE
 
 /// Attempt Unbuckle
 /obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/M, mob/user)
 	if(!IS_BLOODSUCKER(user))
 		if(M == user)
-			M.visible_message("<span class='danger'>[user] tries to release themself from the rack!</span>",\
-							"<span class='danger'>You attempt to release yourself from the rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
+			M.visible_message("<span class='danger'>[user] tries to release themself from the rack!</span>", \
+				"<span class='danger'>You attempt to release yourself from the rack!", \
+				"<span class='hear'>You hear a squishy wet noise.</span>", null)
 		else
-			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>") //  For sound if not seen -->  "<span class='italics'>You hear a squishy wet noise.</span>")
+			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>", \
+				"<span class='danger'>[user] tries to pull [M] rack!</span>", \
+				"<span class='hear'>You hear a squishy wet noise.</span>", null)
+		//// Monster hunters are used to this sort of stuff, they know how they work.
 		if(IS_MONSTERHUNTER(user))
-			/// Monster hunters are used to this sort of stuff.
 			if(!do_mob(user, M, 10 SECONDS))
 				return
 		else
@@ -203,48 +237,74 @@
 	m180.Turn(180)
 	animate(buckled_mob, transform = m180, time = 2)
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack.</span>"))
+	buckled_mob.pixel_y = buckled_mob.base_pixel_y + PIXEL_Y_OFFSET_LYING
 	density = FALSE
 	buckled_mob.AdjustParalyzed(30)
 	update_icon()
 	useLock = FALSE // Failsafe
 
 /obj/structure/bloodsucker/vassalrack/attack_hand(mob/user)
-	// Go away. Torturing.
+	/// Tortiring someone?
 	if(useLock)
 		return
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	// CHECK ONE: Am I claiming this? Is it in the right place?
+	/// Claiming the Rack instead of using it?
 	if(istype(B) && !owner)
 		if(!B.lair)
 			to_chat(user, "<span class='danger'>You don't have a lair. Claim a coffin to make that location your lair.</span>")
+			return
 		if(B.lair != get_area(src))
 			to_chat(user, "<span class='danger'>You may only activate this structure in your lair: [B.lair].</span>")
 			return
-		switch(alert(user,"Do you wish to afix this structure here? Be aware you wont be able to unsecure it anymore", "Secure [src]", "Yes", "No"))
+
+		/// Radial menu for securing your Persuasion rack in place.
+		to_chat(user, "<span class='notice'>Do you wish to secure this structure here?</span>")
+		var/list/secure_options = list(
+			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+			)
+		var/secure_response = show_radial_menu(user, src, secure_options, radius = 36, require_near = TRUE)
+		switch(secure_response)
 			if("Yes")
+				user.playsound_local(null, 'sound/items/ratchet.ogg', 70, FALSE, pressure_affected = FALSE)
+				to_chat(user, "<span class='danger'>You have secured the Persuasion rack in place.</span>")
+				to_chat(user, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!</span>")
 				owner = user
 				density = FALSE
 				anchored = TRUE
-				return //No, you cant move this ever again
-			if("No")
 				return
-	// No One Home
+			else
+				return
+
+	/// Is anyone on the rack?
 	if(!has_buckled_mobs())
 		return
-	// CHECK TWO: Am I a non-bloodsucker?
 	var/mob/living/carbon/C = pick(buckled_mobs)
+	/// If I'm not a Bloodsucker, try to unbuckle them.
 	if(!istype(B))
-		// Try to release this guy
 		user_unbuckle_mob(C, user)
 		return
-	// Bloodsucker Owner! Let the boy go.
-	if(C.mind)
-		var/datum/antagonist/vassal/V = C.mind.has_antag_datum(/datum/antagonist/vassal)
-		if(istype(V) && V.master == B || C.stat >= DEAD)
-			unbuckle_mob(C)
-			useLock = FALSE // Failsafe
+	var/datum/antagonist/vassal/V = IS_VASSAL(C)
+	/// Are they our Vassal, or Dead?
+	if(istype(V) && V.master == B || C.stat >= DEAD)
+		/// Are we part of Tremere? They can do bonus things with their Vassals, so don't unbuckle!
+		if(B.my_clan == CLAN_TREMERE)
+			/// Limit it to only 1 time per Vassal.
+			if(istype(V) && V.mutilated)
+				to_chat(user, "<span class='notice'>You've already mutated [C] beyond repair!</span>")
+				return
+			tremere_perform_magic(user, C)
 			return
-	// Just torture the boy
+		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
+		if(B.my_clan == CLAN_VENTRUE)
+			if(istype(V) && !B.my_favorite_vassal)
+				offer_ventrue_favorites(user, C)
+				return
+		/// Not Tremere & They're still our Vassal, let's unbuckle them.
+		unbuckle_mob(C)
+		useLock = FALSE
+		return
+	/// Not our Vassal & We're a Bloodsucker, good to go!
 	torture_victim(user, C)
 
 /*
@@ -255,9 +315,9 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	// Prep...
+	/// Prep...
 	useLock = TRUE
-	// Conversion Process
+	/// Conversion Process
 	if(convert_progress > 0)
 		to_chat(user, "<span class='notice'>You prepare to initiate [target] into your service.</span>")
 		if(!do_torture(user,target))
@@ -266,18 +326,18 @@
 			/// Prevent them from unbuckling themselves as long as we're torturing.
 			target.Paralyze(1 SECONDS)
 			convert_progress--
-			// All done!
+			/// We're done? Let's see if they can be Vassal.
 			if(convert_progress <= 0)
 				if(RequireDisloyalty(user,target))
 					to_chat(user, "<span class='boldwarning'>[target] has external loyalties! [target.p_they(TRUE)] will require more <i>persuasion</i> to break [target.p_them()] to your will!</span>")
 				else
 					to_chat(user, "<span class='notice'>[target] looks ready for the <b>Dark Communion</b>.</span>")
-			// Still Need More Persuasion...
+			/// Otherwise, we're not done, we need to persuade them some more.
 			else
 				to_chat(user, "<span class='notice'>[target] could use [convert_progress == 1?"a little":"some"] more <i>persuasion</i>.</span>")
 		useLock = FALSE
 		return
-	// Check: Mindshield & Antag
+	/// Check: Mindshield & Antag
 	if(!disloyalty_confirm && RequireDisloyalty(user,target))
 		if(!do_disloyalty(user,target))
 			to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
@@ -293,7 +353,7 @@
 		to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		useLock = FALSE
 		return
-	// Convert to Vassal!
+	/// Convert to Vassal!
 	if(bloodsuckerdatum && bloodsuckerdatum.attempt_turn_vassal(target))
 		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 			remove_loyalties(target)
@@ -306,10 +366,11 @@
 	useLock = FALSE
 
 /obj/structure/bloodsucker/vassalrack/proc/do_torture(mob/living/user, mob/living/target, mult = 1)
-	var/torture_time = 15 // Fifteen seconds if you aren't using anything. Shorter with weapons and such.
+	/// Fifteen seconds if you aren't using anything. Shorter with weapons and such.
+	var/torture_time = 15
 	var/torture_dmg_brute = 2
 	var/torture_dmg_burn = 0
-	// Get Bodypart
+	/// Get Bodypart
 	var/target_string = ""
 	var/obj/item/bodypart/BP = null
 	if(iscarbon(target))
@@ -317,45 +378,46 @@
 		BP = pick(C.bodyparts)
 		if(BP)
 			target_string += BP.name
-	// Get Weapon
+	/// Get Weapon
 	var/obj/item/I = user.get_active_held_item()
 	if(!istype(I))
 		I = user.get_inactive_held_item()
-	// Weapon Bonus + SFX
+	/// Weapon Bonus
 	if(I)
 		torture_time -= I.force / 4
 		torture_dmg_brute += I.force / 4
 		//torture_dmg_burn += I.
 		if(I.sharpness == SHARP_EDGED)
-			torture_time -= 1
-		else if(I.sharpness == SHARP_POINTY)
 			torture_time -= 2
-		if(istype(I, /obj/item/weldingtool))
-			var/obj/item/weldingtool/welder = I
-			welder.welding = TRUE
-			torture_time -= 5
-			torture_dmg_burn += 5
+		else if(I.sharpness == SHARP_POINTY)
+			torture_time -= 3
+		/// This will hurt your eyes.
+		else if(I.tool_behaviour == TOOL_WELDER)
+			if(I.use_tool(src, user, 0, volume = 5))
+				torture_time -= 6
+				torture_dmg_burn += 5
 		I.play_tool_sound(target)
-	torture_time = max(50, torture_time * 10) // Minimum 5 seconds.
-	// Now run process.
+	/// Minimum 5 seconds.
+	torture_time = max(50, torture_time * 10)
+	/// Now run process.
 	if(!do_mob(user, target, torture_time * mult))
 		return FALSE
-	// SUCCESS
+	/// Success?
 	if(I)
 		playsound(loc, I.hitsound, 30, 1, -1)
 		I.play_tool_sound(target)
 	target.visible_message("<span class='danger'>[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!</span>", \
 						   "<span class='userdanger'>[user] performs a ritual, spilling some blood from your [target_string], shaking you up!</span>")
-	if(!target.is_muzzled())
-		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
+	INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 	target.Jitter(5)
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (BP ? BP.body_zone : null)) // take_overall_damage(6,0)
 	return TRUE
 
-/// OFFER YES/NO NOW!
+/// Offer them the oppertunity to join now.
 /obj/structure/bloodsucker/vassalrack/proc/do_disloyalty(mob/living/user, mob/living/target)
 	spawn(10)
-		if(useLock && target && target.client) // Are we still torturing? Did we cancel? Are they still here?
+		/// Are we still torturing? Did we cancel? Are they still here?
+		if(useLock && target && target.client)
 			to_chat(user, "<span class='notice'>[target] has been given the opportunity for servitude. You await their decision...</span>")
 			var/alert_text = "You are being tortured! Do you want to give in and pledge your undying loyalty to [user]?"
 		/*	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
@@ -407,6 +469,139 @@
 			if(I.type == /obj/item/implant/mindshield)
 				I.removed(target,silent=TRUE)
 
+/obj/structure/bloodsucker/vassalrack/proc/tremere_perform_magic(mob/living/user, mob/living/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	/// To deal with Blood
+	var/mob/living/carbon/human/C = user
+	var/mob/living/carbon/human/H = target
+
+	/// Due to the checks leding up to this, if they fail this, they're dead & Not our vassal.
+	if(!vassaldatum.master == bloodsuckerdatum)
+		to_chat(user, "<span class='notice'>Do you wish to rebuild this body? This will remove any restraints they might have, and will cost 150 Blood!</span>")
+		var/list/revive_options = list(
+			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+			)
+		var/revive_response = show_radial_menu(user, src, revive_options, radius = 36, require_near = TRUE)
+		switch(revive_response)
+			if("Yes")
+				if(prob(15))
+					to_chat(user, "<span class='danger'>Something has gone terribly wrong! You have accidentally turned [target] into a High-Functioning Zombie!</span>")
+					to_chat(target, "<span class='announce'>As Blood drips over your body, your heart fails to beat... But you still wake up.</span>")
+					H.set_species(/datum/species/zombie)
+				else
+					to_chat(user, "<span class='danger'>You have brought [target] back from the Dead!</span>")
+					to_chat(target, "<span class='announce'>As Blood drips over your body, your heart begins to beat... You live again!</span>")
+				C.blood_volume -= 150
+				target.revive(full_heal = TRUE, admin_revive = TRUE)
+				return
+			else
+				to_chat(user, "<span class='danger'>You decide not to revive [target].</span>")
+				/// Unbuckle them now.
+				unbuckle_mob(C)
+				useLock = FALSE
+				return
+
+	var/static/list/races = list(
+		TREMERE_SKELETON,
+		TREMERE_ZOMBIE,
+		TREMERE_HUSK,
+		TREMERE_BAT,
+	)
+	var/list/options = list()
+	options = races
+	var/answer = tgui_input_list(user, "We have the chance to mutate our Vassal, how should we mutilate their corpse?", "What do we do with our Vassal?", options)
+	if(!do_mob(user, src, 5 SECONDS))
+		to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
+		return
+	switch(answer)
+		if(TREMERE_SKELETON)
+			to_chat(user, "<span class='notice'>You have mutated [target] into a Skeleton Pirate!</span>")
+			to_chat(target, "<span class='notice'>Your master has mutated you into a Skeleton!</span>")
+			/// Strip them naked - From gohome.dm
+			var/list/items = list()
+			items |= target.get_equipped_items()
+			for(var/I in items)
+				target.dropItemToGround(I,TRUE)
+			for(var/obj/item/I in target.held_items)
+				target.dropItemToGround(I, TRUE)
+			/// Now give them their other stuff
+			H.set_species(/datum/species/skeleton)
+			H.equipOutfit(/datum/outfit/pirate)
+			vassaldatum.mutilated = TRUE
+			return
+		if(TREMERE_ZOMBIE)
+			to_chat(user, "<span class='notice'>You have mutated [target] into a High-Functioning Zombie, fully healing them in the process!</span>")
+			to_chat(target, "<span class='notice'>Your master has mutated you into a High-Functioning Zombie!</span>")
+			target.revive(full_heal = TRUE, admin_revive = TRUE)
+			H.set_species(/datum/species/zombie)
+			vassaldatum.mutilated = TRUE
+			return
+		/// Quick Feeding
+		if(TREMERE_HUSK)
+			to_chat(user, "<span class='notice'>You suck all the blood out of [target], turning them into a Living Husk!</span>")
+			to_chat(target, "<span class='notice'>Your master has mutated you into a Living Husk!</span>")
+			/// Just take it all
+			bloodsuckerdatum.HandleFeeding(target, 200)
+			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+			H.become_husk()
+			vassaldatum.mutilated = TRUE
+			return
+		/// Chance to give Bat form, or turn them into a bat.
+		if(TREMERE_BAT)
+			/// Ooh, lucky!
+			if(prob(40))
+				to_chat(user, "<span class='notice'>You have mutated [target], giving them the ability to turn into a Bat and back at will!</span>")
+				to_chat(target, "<span class='notice'>Your master has mutated you, giving you the ability to turn into a Bat and back at will!</span>")
+				var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
+				target.AddSpell(batform)
+				vassaldatum.mutilated = TRUE
+				return
+			else
+				to_chat(user, "<span class='notice'>You have failed to mutate [target] into a Bat, forever trapping them into Bat form!</span>")
+				to_chat(target, "<span class='notice'>Your master has mutated you into a Bat!</span>")
+				var/mob/living/simple_animal/hostile/retaliate/bat/battransformation = new /mob/living/simple_animal/hostile/retaliate/bat(target.loc)
+				target.mind.transfer_to(battransformation)
+				qdel(target)
+				vassaldatum.mutilated = TRUE
+				return
+
+		else
+			to_chat(user, "<span class='notice'>You decide to leave your Vassal just the way they are.</span>")
+			return
+
+/obj/structure/bloodsucker/vassalrack/proc/offer_ventrue_favorites(mob/living/user, mob/living/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	/// To deal with Blood
+	var/mob/living/carbon/human/C = user
+
+	to_chat(user, "<span class='notice'>Would you like to turn this Vassal into your completely loyal Servant? This costs 150 Blood to do. You cannot undo this.</span>")
+	var/list/favorite_options = list(
+		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+		"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+		)
+	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
+	switch(favorite_response)
+		if("Yes")
+			bloodsuckerdatum.my_favorite_vassal = TRUE
+			vassaldatum.favorite_vassal = TRUE
+			to_chat(user, "<span class='danger'>You have turned [target] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!</span>")
+			to_chat(user, "<span class='announce'>* Bloodsucker Tip: You can now upgrade your Vassal by buckling them onto a Candelabrum!</span>")
+			to_chat(target, "<span class='announce'>As Blood drips over your body, you feel closer to your Master...</span>")
+			C.blood_volume -= 150
+			/// Make them immune to Mindshielding now
+			vassaldatum.protected_from_mindshielding = TRUE
+			return
+		else
+			to_chat(user, "<span class='danger'>You decide not to turn [target] into your Favorite Vassal.</span>")
+			/// Unbuckle them now.
+			unbuckle_mob(C)
+			useLock = FALSE
+			return
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /obj/structure/bloodsucker/candelabrum
@@ -418,6 +613,7 @@
 	light_power = 3
 	light_range = 0 // to 2
 	density = FALSE
+	can_buckle = TRUE
 	anchored = FALSE
 	var/lit = FALSE
 
@@ -438,19 +634,16 @@
 	if(IS_BLOODSUCKER(user))
 		. += "<span class='cult'>This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.</span>"
 		. += "<span class='cult'>You can alt click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.</span>"
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+			. += {"<span class='cult'>As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.</span>"}
+			. += {"<span class='cult'>Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while AltClick will unbuckle, as long as you are in reach.</span>"}
+			. += {"<span class='cult'>Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.</span>"}
 	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.</span>"
 		. += "<span class='notice'>You can turn it on and off by clicking on it while you are next to it.</span>"
-	else
-		. += "<span class='notice'>In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself.</span>"
-
-/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
-	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(IS_BLOODSUCKER(user) || istype(T))
-		toggle()
 
 /obj/structure/bloodsucker/candelabrum/attackby(obj/item/P, mob/living/user, params)
-	add_fingerprint(user)
 	/// Goal: Non Bloodsuckers can wrench this in place, but they cant unwrench it.
 	if(P.tool_behaviour == TOOL_WRENCH && !anchored)
 		to_chat(user, "<span class='notice'>You start wrenching the candelabrum into place...</span>")
@@ -459,20 +652,27 @@
 			set_anchored(TRUE)
 			density = TRUE
 		return
-	if(!IS_BLOODSUCKER(user))
-		to_chat(user, "<span class='notice'>You have no idea what to do with such a bizarre structure.</span>")
-		return
-	if(P.tool_behaviour == TOOL_WRENCH && anchored)
+	if(P.tool_behaviour == TOOL_WRENCH && anchored && IS_BLOODSUCKER(user))
 		to_chat(user, "<span class='notice'>You start unwrenching the candelabrum...</span>")
 		if(P.use_tool(src, user, 40, volume=50))
 			to_chat(user, "<span class='notice'>You unwrench the candelabrum.</span>")
 			set_anchored(FALSE)
 			density = FALSE
+			return
+	. = ..()
 
-/// Bloodsuckers can turn their candles on from a distance. SPOOOOKY.
-/obj/structure/bloodsucker/candelabrum/AltClick(mob/user)
-	if(IS_BLOODSUCKER(user))
-		toggle()
+/obj/structure/bloodsucker/candelabrum/AltClick(mob/user) // WILLARD TODO: Replace with RightClick when TGU happens.
+	/// Are we right next to it? Let's unbuckle the person in it, then.
+	if(user.Adjacent(src))
+		if(!has_buckled_mobs() || !isliving(user))
+			return
+		var/mob/living/carbon/C = pick(buckled_mobs)
+		if(C)
+			unbuckle_mob(C,user)
+	/// Bloodsuckers can turn their candles on from a distance.
+	else
+		if(IS_BLOODSUCKER(user))
+			toggle()
 
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
 	lit = !lit
@@ -488,13 +688,95 @@
 	if(!lit)
 		return
 	for(var/mob/living/carbon/H in viewers(7, src))
-		///We dont want vassals or vampires affected by this
-		if(H.mind.has_antag_datum(/datum/antagonist/vassal))
-			return
-		if(IS_BLOODSUCKER(H))
-			return
-		H.hallucination += 20
+		/// We dont want Bloodsuckers or Vassals affected by this
+		if(IS_VASSAL(H) || IS_BLOODSUCKER(H))
+			continue
+		H.hallucination += 5
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+
+/*
+ *	# Candelabrum Ventrue Stuff
+ *
+ *	Ventrue Bloodsuckers can buckle Vassals onto the Candelabrum to "Upgrade" them.
+ *	This is limited to a Single vassal, called 'My Favorite Vassal'.
+ *	This is like Raising a Bloodsucker, but because of Balance reasons, they don't become a Bloodsucker after this.
+ *
+ *	Most of this is just copied over from Persuasion Rack.
+ */
+
+/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		/// Is anyone on the Candelabrum?
+		if(!has_buckled_mobs())
+			toggle()
+			return
+		var/mob/living/carbon/C = pick(buckled_mobs)
+		/// Are they our Dead?
+		if(C.stat >= DEAD)
+			unbuckle_mob(C)
+			return
+		if(bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+			to_chat(user, "<span class='danger'>You don't have any levels to upgrade [C] with.</span>")
+			return
+		/// Everything is good to go - Time to Buy our Favorite Vassal a new Power!
+		bloodsuckerdatum.SpendVassalRank(C)
+
+	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
+	if(IS_BLOODSUCKER(user) || istype(T))
+		toggle()
+
+/// Buckling someone in
+/obj/structure/bloodsucker/candelabrum/MouseDrop_T(mob/living/target, mob/user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
+
+	/// Are you even a Bloodsucker?
+	if(!bloodsuckerdatum)
+		return
+	/// Are you part of Ventrue? No? Then go away.
+	if(!bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		return
+	/// Are they a Favorite Vassal?
+	if(!vassaldatum.favorite_vassal)
+		return
+	/// They are a Favorite vassal, but are they OUR Vassal?
+	if(!vassaldatum.master == bloodsuckerdatum)
+		return
+	/// Default checks
+	if(!target.Adjacent(src) || target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || target.buckled)
+		return
+	/// Not anchored?
+	if(!anchored)
+		/// Let the Bloodsucker know the problem.
+		if(IS_BLOODSUCKER(user))
+			to_chat(user, "<span class='danger'>Until the candelabrum is secured in place, it cannot serve its purpose.</span>")
+			return
+		/// Not a Bloodsucker? Not our problem.
+		else
+			to_chat(user, "<span class='danger'>You dont fully understand how this works, and you're too scared to move it around.</span>")
+			return
+
+	/// Good to go - Buckle them!
+	if(do_mob(user, target, 5 SECONDS))
+		attach_mob(target, user)
+
+/obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/M, mob/living/user)
+	user.visible_message("<span class='notice'>[user] lifts and buckles [M] onto the candelabrum.</span>", \
+			  		 "<span class='boldnotice'>You buckle [M] onto the candelabrum.</span>")
+
+	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
+	M.forceMove(get_turf(src))
+
+	if(!buckle_mob(M))
+		return
+	update_icon()
+
+/// Attempt Unbuckle
+/obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
+	. = ..()
+	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
+	update_icon()
 
 /*
 /obj/item/restraints/legcuffs/beartrap/bloodsucker

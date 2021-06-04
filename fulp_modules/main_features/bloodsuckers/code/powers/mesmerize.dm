@@ -110,7 +110,7 @@
 					mesmerized.notransform = FALSE
 					REMOVE_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 					// They Woke Up! (Notice if within view)
-					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(10, get_turf(user))))
+					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(6, get_turf(user))))
 						to_chat(user, "<span class='warning'>[mesmerized] has snapped out of their trance.</span>")
 		if(issilicon(target))
 			var/mob/living/silicon/mesmerized = target
