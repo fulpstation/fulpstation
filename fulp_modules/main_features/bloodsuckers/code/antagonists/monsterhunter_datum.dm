@@ -7,13 +7,13 @@
 
 /datum/antagonist/monsterhunter
 	name = "Monster Hunter"
-	roundend_category = "hunters"
+	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
 	var/list/datum/action/powers = list()
-	var/datum/martial_art/my_kungfu // Hunters know a lil kung fu.
+	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
@@ -27,19 +27,20 @@
 	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/monsterhunter/on_gain()
-	// Buffs Monster Hunters
+	/// Buffs Monster Hunters
 	owner.unconvertable = TRUE
 	ADD_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
-	// Give Monster Hunter powers
+	/// Give Monster Hunter powers
 	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
-	if(give_objectives) // Give Hunter Objective
+	if(give_objectives)
+		/// Give Hunter Objective
 		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
 		monsterhunter_objective.owner = owner
 		monsterhunter_objective.generate_objective()
 		objectives += monsterhunter_objective
-		// Give Theft objectives
+		/// Give Theft Objective
 		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
 			var/datum/objective/download/download_objective = new
 			download_objective.owner = owner
@@ -50,32 +51,33 @@
 			steal_objective.owner = owner
 			steal_objective.find_target()
 			objectives += steal_objective
-/*		// If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
-		// Give Assassinate objective
+/*		// >> If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
+
+		/// Give Assassinate objective
 		var/sec_members = SSjob.get_all_sec()
 		for(var/datum/mind/M in sec_members)
 			var/datum/objective/assassinate/kill_objective = new()
 			kill_objective.owner = owner
 			kill_objective.find_target()
 			objectives += kill_objective */
-	// Give Martial Arts
-	var/datum/martial_art/pick_type = pick(/datum/martial_art/wrestling, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu, /datum/martial_art/hunterfu) // Hunter-Fu, 20% chance at Wrestling
-	my_kungfu = new pick_type
+
+	/// Give Martial Arts
 	my_kungfu.teach(owner.current, 0)
-	// Teach stake crafting
+	/// Teach Stake crafting
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	. = ..()
 
 /datum/antagonist/monsterhunter/on_removal()
-	// Remove buffs
+	/// Remove buffs
 	owner.unconvertable = FALSE
-	REMOVE_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
-	// Remove Monster Hunter powers
+	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
+	for(var/T in owner.current.status_traits)
+		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
+	/// Remove Monster Hunter powers
 	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)
-	// Remove Martial Arts
+	/// Remove Martial Arts
 	if(my_kungfu)
 		my_kungfu.remove(owner.current)
 	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement, and are no longer a Monster Hunter.</span>")
@@ -95,7 +97,6 @@
 		remove_antag_datum(/datum/antagonist/monsterhunter)
 		special_role = null
 
-//ADMIN TOOLS
 /// Called when using admin tools to give antag status
 /datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner,mob/admin)
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
@@ -126,17 +127,17 @@
 	owner.current.playsound_local(null, 'sound/effects/his_grace_ascend.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //			Monster Hunter Pinpointer
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 /// TAKEN FROM:  /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
 /datum/status_effect/agent_pinpointer/hunter_edition
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	minimum_range = HUNTER_SCAN_MIN_DISTANCE
 	tick_interval = HUNTER_SCAN_PING_TIME
-	duration = 10 SECONDS // Lasts 10s
-	range_fuzz_factor = 5 // PINPOINTER_EXTRA_RANDOM_RANGE
+	duration = 10 SECONDS
+	range_fuzz_factor = 5 //PINPOINTER_EXTRA_RANDOM_RANGE
 
 /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	name = "Monster Tracking"
@@ -170,7 +171,8 @@
 					monsters[C] = (HUNTER_SCAN_MAX_DISTANCE ** 2) - (distance ** 2)
 
 	if(monsters.len)
-		scan_target = pickweight(monsters) // Point at a 'random' monster, biasing heavily towards closer ones.
+		/// Point at a 'random' monster, biasing heavily towards closer ones.
+		scan_target = pickweight(monsters)
 		to_chat(owner, "<span class='warning'>You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b></span>")
 	else
 		scan_target = null

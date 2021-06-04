@@ -55,8 +55,8 @@
 				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 				if(!istype(bloodsuckerdatum))
 					continue
-				/// Sol is over? Give them a unique pass to end Torpor.
-				bloodsuckerdatum.Torpor_End()
+				/// Sol is over? Check if they're in a Coffin or not, and End Torpor if they aren't.
+				bloodsuckerdatum.Check_End_Torpor()
 				bloodsuckerdatum.warn_sun_locker = FALSE
 				bloodsuckerdatum.warn_sun_burn = FALSE
 				for(var/datum/action/bloodsucker/P in bloodsuckerdatum.powers)
@@ -130,7 +130,7 @@
 				continue
 			else
 				if(!bloodsuckerdatum.warn_sun_locker)
-					to_chat(M, "<span class='warning'>Your skin sizzles. The [M.current.loc] doesn't protect well against UV bombardment.</span>")
+					to_chat(M, "<span class='warning'>Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment.</span>")
 					bloodsuckerdatum.warn_sun_locker = TRUE
 				M.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2) // M.current.fireloss += 0.5 + bloodsuckerdatum.bloodsucker_level / 2  //  Do DIRECT damage. Being spaced was causing this to not occur. setFireLoss(bloodsuckerdatum.bloodsucker_level)
 				M.current.updatehealth()

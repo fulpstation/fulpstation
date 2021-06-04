@@ -22,6 +22,7 @@
 	required_candidates = get_antag_cap(population)
 	. = ..()
 
+
 /datum/dynamic_ruleset/roundstart/bloodsucker/pre_execute(population)
 	. = ..()
 	var/num_bloodsuckers = get_antag_cap(population) * (scaled_times + 1)
@@ -208,7 +209,7 @@
 
 /datum/antagonist/bloodsucker/proc/AmInvalidAntag(mob/M)
 	/// Not an antag?
-	if(!M.mind?.special_role || isnull(M.mind?.antag_datums))
+	if(!is_special_character(M))
 		return FALSE
 	/// Checks if the person is an antag banned from being vassalized, stored in bloodsucker's datum.
 	for(var/datum/antagonist/antag_datum in M.mind.antag_datums)
