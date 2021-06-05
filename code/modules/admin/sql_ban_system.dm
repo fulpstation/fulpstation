@@ -300,6 +300,10 @@
 				ROLE_BROTHER,
 				ROLE_CHANGELING,
 				ROLE_CULTIST,
+				/// Fulp edit - Bloodsuckers
+				ROLE_BLOODSUCKER,
+				ROLE_MONSTERHUNTER,
+				/// Fulp edit end - Bloodsuckers
 				ROLE_HERETIC,
 				ROLE_HIVE,
 				ROLE_INTERNAL_AFFAIRS,
