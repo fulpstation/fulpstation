@@ -175,7 +175,11 @@
 				switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
 					if("Yes")
 						ClaimCoffin(user)
-			bloodsuckerdatum.SpendRank() // Level up? Auto-Fails if not appropriate
+			/// Level up? Auto-Fails if not appropriate - Ventrue cannot level up in a Coffin.
+			if(bloodsuckerdatum.my_clan != CLAN_VENTRUE)
+				bloodsuckerdatum.SpendRank()
+			/// You're in a Coffin, everything else is done, you're likely here to heal. Let's offer them the oppertunity to do so.
+			bloodsuckerdatum.Check_Begin_Torpor()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.

@@ -28,6 +28,7 @@
 //////////////////////
 
 /// Do I have any parts that need replacing?
+/* // Removed - Replaced with HealVampireOrgans()
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
 	var/obj/item/organ/heart/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
 	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
@@ -36,7 +37,7 @@
 		H.Insert(owner.current)
 		/// Now... stop beating!
 		H.Stop()
-
+*/
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
 	var/obj/item/organ/heart/H = owner.current.getorganslot(ORGAN_SLOT_HEART)
 	if(H)

@@ -122,8 +122,16 @@
 		D.Paralyze(20)
 		return TRUE
 	if(D.mind.has_antag_datum(/datum/antagonist/bloodsucker))
-		to_chat(D, "<span class='warning'>This just seems like regular water...</span>")
-		return TRUE
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(D)
+		if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
+			to_chat(D, "<span class='cultlarge'>The holy water burns our flesh!</span>")
+			D.apply_damage(25, BURN)
+			D.adjustStaminaLoss(60)
+			D.Paralyze(20)
+			return TRUE
+		else
+			to_chat(D, "<span class='warning'>This just seems like regular water...</span>")
+			return TRUE
 	if(D.mind.has_antag_datum(/datum/antagonist/cult))
 		for(var/datum/action/innate/cult/blood_magic/BD in D.actions)
 			to_chat(D, "<span class='cultlarge'>Our blood rites falter as the holy water drips onto our body!</span>")
@@ -169,7 +177,7 @@
 	return TRUE
 
 /datum/martial_art/hunterfu/grab_act(mob/living/A, mob/living/D)
-	if(A!=D) // A!=D prevents grabbing yourself
+	if(A!=D && can_use(A))
 		add_to_streak("G",D)
 		if(check_streak(A,D)) // If a combo is made no grab upgrade is done
 			return TRUE
