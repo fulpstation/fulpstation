@@ -12,11 +12,11 @@
 		#include "map_files\MetaStation\MetaStation.dmm"
 		#include "map_files\IceBoxStation\IceBoxStation.dmm"
 		#include "map_files\HelioStation\HelioStation.dmm"
-		#include "map_files\tramstation\tramstation.dmm"
 		#include "map_files\SeleneStation\SeleneStation.dmm"
 		#include "map_files\EosStation\EosStation.dmm"
+		#include "map_files\tramstation\tramstation.dmm"
 
-		#ifdef CIBUILDING
+#ifdef CIBUILDING
 			#include "templates.dm"
 		#endif
 	#endif

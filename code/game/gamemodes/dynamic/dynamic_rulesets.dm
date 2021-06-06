@@ -78,7 +78,6 @@
 	/// If written as a linear equation, will be in the form of `list("denominator" = denominator, "offset" = offset).
 	var/antag_cap = 0
 
-
 /datum/dynamic_ruleset/New()
 	// Rulesets can be instantiated more than once, such as when an admin clicks
 	// "Execute Midround Ruleset". Thus, it would be wrong to perform any
@@ -219,15 +218,16 @@
 				continue
 
 		// If this ruleset has exclusive_roles set, we want to only consider players who have those
-		// job prefs enabled. Otherwise, continue as before.
+		// job prefs enabled and aren't role banned from that job. Otherwise, continue as before.
 		if(length(exclusive_roles))
 			var/exclusive_candidate = FALSE
 			for(var/role in exclusive_roles)
-				if(role in candidate_client.prefs.job_preferences)
+				if((role in candidate_client.prefs.job_preferences) && !is_banned_from(candidate_player.ckey, role))
 					exclusive_candidate = TRUE
 					break
 
-			// If they didn't have any of the required job prefs enabled, they're not eligible for this antag type.
+			// If they didn't have any of the required job prefs enabled or were banned from all enabled prefs,
+			// they're not eligible for this antag type.
 			if(!exclusive_candidate)
 				candidates.Remove(candidate_player)
 
