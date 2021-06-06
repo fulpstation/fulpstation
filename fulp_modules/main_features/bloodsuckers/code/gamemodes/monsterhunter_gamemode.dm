@@ -21,37 +21,35 @@
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
-
-/datum/round_event/monster_hunters/setup()
-	for(var/mob/living/carbon/H in GLOB.player_list)
-		/// Make sure there are monsters on the station, otherwise don't spawn them in.
-		var/monster_check = IS_CULTIST(H) || IS_HERETIC(H) || IS_BLOODSUCKER(H) || IS_WIZARD(H) || H.mind.has_antag_datum(/datum/antagonist/changeling)
-		if(!monster_check)
-			message_admins("MONSTERHUNTER NOTICE: Monster Hunter tried to spawn, but failed due to lack of Monsters.")
-			kill()
-			break
+	var/monsters = FALSE
 
 /datum/round_event/monster_hunters/start()
-	for(var/mob/living/carbon/human/H in GLOB.player_list)
+	if(!check_for_monsters())
+		return
+	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
 		/// From obsessed
+		if(!H.mind)
+			continue
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
 			continue
-		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions))
+		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.command_positions) || (H.mind.assigned_role in GLOB.security_positions))
 			continue
-		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.command_positions))
-			continue
-		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.security_positions))
-			continue
-		if(H.mind.has_antag_datum(/datum/antagonist/changeling))
-			continue
-		if(H.mind.has_antag_datum(/datum/antagonist/heretic))
-			continue
-		if(H.mind.has_antag_datum(/datum/antagonist/cult))
+		if(IS_HERETIC(H) || IS_CULTIST(H) || IS_BLOODSUCKER(H) || IS_VASSAL(H) || IS_WIZARD(H) || H.mind.has_antag_datum(/datum/antagonist/changeling))
 			continue
 		if(!H.getorgan(/obj/item/organ/brain))
 			continue
 		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
 		message_admins("MONSTERHUNTER NOTICE: [H] has awoken as a Monster Hunter.")
 		break
+
+/datum/round_event/monster_hunters/proc/check_for_monsters()
+	for(var/mob/living/carbon/H in GLOB.player_list)
+		/// Make sure there are monsters on the station, otherwise don't spawn them in.
+		var/monster_check = IS_CULTIST(H) || IS_HERETIC(H) || IS_BLOODSUCKER(H) || IS_WIZARD(H) || H.mind.has_antag_datum(/datum/antagonist/changeling)
+		if(monster_check)
+			monsters = TRUE
+		else
+			message_admins("MONSTERHUNTER NOTICE: Monster Hunter tried to spawn, but failed due to lack of Monsters.")
+			return
