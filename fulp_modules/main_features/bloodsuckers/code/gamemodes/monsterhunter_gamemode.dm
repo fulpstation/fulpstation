@@ -24,8 +24,6 @@
 	var/monsters = FALSE
 
 /datum/round_event/monster_hunters/start()
-	if(!check_for_monsters())
-		return
 	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
 		if(!IS_CULTIST(H) && !IS_HERETIC(H) && !IS_BLOODSUCKER(H) && !IS_WIZARD(H) && !H.mind.has_antag_datum(/datum/antagonist/changeling))
 			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
