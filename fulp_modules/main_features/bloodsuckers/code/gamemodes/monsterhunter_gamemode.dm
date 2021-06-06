@@ -27,6 +27,10 @@
 	if(!check_for_monsters())
 		return
 	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
+		if(!IS_CULTIST(H) && !IS_HERETIC(H) && !IS_BLOODSUCKER(H) && !IS_WIZARD(H) && !H.mind.has_antag_datum(/datum/antagonist/changeling))
+			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
+			break
+		message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
 		/// From obsessed
 		if(!H.mind)
 			continue
@@ -43,13 +47,3 @@
 		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
 		message_admins("MONSTERHUNTER NOTICE: [H] has awoken as a Monster Hunter.")
 		break
-
-/datum/round_event/monster_hunters/proc/check_for_monsters()
-	for(var/mob/living/carbon/human/players in GLOB.alive_mob_list)
-		/// Make sure there are monsters on the station, otherwise don't spawn them in
-		if(IS_CULTIST(players) || IS_HERETIC(players) || IS_BLOODSUCKER(players) || IS_WIZARD(players) || players.mind.has_antag_datum(/datum/antagonist/changeling))
-			message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
-		else
-			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
-			kill()
-			return
