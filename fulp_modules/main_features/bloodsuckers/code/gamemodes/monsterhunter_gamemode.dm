@@ -14,7 +14,7 @@
 	name = "Spawn Monster Hunter"
 	typepath = /datum/round_event/monster_hunters
 	max_occurrences = 1
-	weight = 50
+	weight = 9
 	min_players = 10
 	earliest_start = 25 MINUTES
 	alert_observers = FALSE
