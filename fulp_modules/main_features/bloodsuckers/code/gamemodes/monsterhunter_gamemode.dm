@@ -45,7 +45,7 @@
 		break
 
 /datum/round_event/monster_hunters/proc/check_for_monsters()
-	for(var/mob/players in GLOB.alive_mob_list)
+	for(var/mob/living/carbon/human/players in GLOB.alive_mob_list)
 		/// Make sure there are monsters on the station, otherwise don't spawn them in
 		if(IS_CULTIST(players) || IS_HERETIC(players) || IS_BLOODSUCKER(players) || IS_WIZARD(players) || players.mind.has_antag_datum(/datum/antagonist/changeling))
 			message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
