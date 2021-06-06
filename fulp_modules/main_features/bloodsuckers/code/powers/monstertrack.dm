@@ -8,7 +8,7 @@
 	button_icon_state = "power_hunter"
 	amToggle = FALSE
 	cooldown = 300
-	bloodcost = 5
+	bloodcost = 0
 	/// Removed, set to TRUE to re-add, either here to be a default function, or in-game through VV for neat Admin stuff -Willard
 	var/give_pinpointer = FALSE
 
