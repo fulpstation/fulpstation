@@ -1,6 +1,7 @@
 #define VASSAL_SCAN_MIN_DISTANCE 5
 #define VASSAL_SCAN_MAX_DISTANCE 500
-#define VASSAL_SCAN_PING_TIME 20 // 2s update time.
+/// 2s update time.
+#define VASSAL_SCAN_PING_TIME 20
 
 /datum/antagonist/vassal
 	name = "Vassal"
@@ -84,7 +85,7 @@
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, "<span class='userdanger'>You are now the mortal servant of [master.owner.current], a bloodsucking vampire!</span>")
-	to_chat(owner, "<span class='boldannounce'>The power of [master.owner.current.p_their()] immortal blood compells you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
+	to_chat(owner, "<span class='boldannounce'>The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
 			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.<span>")
 	to_chat(owner, "<span class='userdanger'>Vassal Tip: Avoid being mindshielded at all costs!</span>")
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
