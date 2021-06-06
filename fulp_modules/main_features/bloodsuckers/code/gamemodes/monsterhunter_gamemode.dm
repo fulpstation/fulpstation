@@ -29,14 +29,13 @@
 			break
 		message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
 		/// From obsessed
-		if(!H.mind)
-			continue
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
 		if(H.stat == DEAD)
 			continue
 		if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.command_positions) || (H.mind.assigned_role in GLOB.security_positions))
 			continue
+		/// Bobux no IS_CHANGELING
 		if(IS_HERETIC(H) || IS_CULTIST(H) || IS_BLOODSUCKER(H) || IS_VASSAL(H) || IS_WIZARD(H) || H.mind.has_antag_datum(/datum/antagonist/changeling))
 			continue
 		if(!H.getorgan(/obj/item/organ/brain))
