@@ -14,7 +14,7 @@
 	name = "Spawn Monster Hunter"
 	typepath = /datum/round_event/monster_hunters
 	max_occurrences = 1
-	weight = 25
+	weight = 50
 	min_players = 10
 	earliest_start = 25 MINUTES
 	alert_observers = FALSE
@@ -23,9 +23,9 @@
 	fakeable = FALSE
 
 /datum/round_event/monster_hunters/start()
-	for(var/mob/living/H in GLOB.player_list)
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		/// Make sure there are monsters on the station, otherwise don't spawn them in.
-		if(!H.mind.has_antag_datum(/datum/antagonist/bloodsucker) || !H.mind.has_antag_datum(/datum/antagonist/changeling) || !H.mind.has_antag_datum(/datum/antagonist/heretic) || !H.mind.has_antag_datum(/datum/antagonist/cult) || !H.mind.has_antag_datum(/datum/antagonist/wizard))
+		if(!H.mind.has_antag_datum(/datum/antagonist/bloodsucker) && !H.mind.has_antag_datum(/datum/antagonist/changeling) && !H.mind.has_antag_datum(/datum/antagonist/heretic) && !H.mind.has_antag_datum(/datum/antagonist/cult) && !H.mind.has_antag_datum(/datum/antagonist/wizard))
 			message_admins("MONSTERHUNTER NOTICE: Monster Hunter tried to spawn, but failed due to lack of Monsters.")
 			break
 		/// From obsessed
