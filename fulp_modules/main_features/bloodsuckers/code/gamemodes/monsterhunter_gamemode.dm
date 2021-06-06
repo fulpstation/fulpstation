@@ -26,6 +26,9 @@
 /datum/round_event/monster_hunters/start()
 	if(!check_for_monsters())
 		return
+	if(!monsters)
+		message_admins("MONSTERHUNTER NOTICE: Monster Hunter tried to spawn, but failed due to lack of Monsters.")
+		return
 	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
 		/// From obsessed
 		if(!H.mind)
@@ -51,5 +54,5 @@
 		if(monster_check)
 			monsters = TRUE
 		else
-			message_admins("MONSTERHUNTER NOTICE: Monster Hunter tried to spawn, but failed due to lack of Monsters.")
+			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
 			return
