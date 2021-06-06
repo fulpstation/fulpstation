@@ -51,9 +51,9 @@
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	head = /obj/item/clothing/head/beret/sec/medical
 	l_hand = /obj/item/storage/firstaid/medical/brigdoc
-	l_pocket = /obj/item/pda/medical
 	r_pocket = /obj/item/assembly/flash
 	suit_store = /obj/item/flashlight/pen
+	pda_slot = ITEM_SLOT_LPOCKET
 	backpack_contents = list(/obj/item/choice_beacon/brigdoc = 1)
 
 	backpack = /obj/item/storage/backpack/security
