@@ -10,6 +10,7 @@
 	job_rank = ROLE_BLOODSUCKER
 	show_in_roundend = FALSE
 	show_name_in_check_antagonists = TRUE
+	// tips = VASSAL_TIPS // Willard - Uncomment this to enable antag tips.
 	/// Who made me?
 	var/datum/antagonist/bloodsucker/master
 	/// Purchased powers.
