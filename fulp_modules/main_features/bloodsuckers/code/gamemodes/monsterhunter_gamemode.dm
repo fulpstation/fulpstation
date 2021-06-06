@@ -22,13 +22,17 @@
 /datum/round_event/monster_hunters
 	fakeable = FALSE
 
-/datum/round_event/monster_hunters/start()
-	for(var/mob/living/carbon/human/H in GLOB.player_list)
+/datum/round_event/monster_hunters/setup()
+	for(var/mob/living/carbon/H in GLOB.player_list)
 		/// Make sure there are monsters on the station, otherwise don't spawn them in.
-		var/monster_check = H.mind.has_antag_datum(/datum/antagonist/bloodsucker) || !H.mind.has_antag_datum(/datum/antagonist/changeling) || !H.mind.has_antag_datum(/datum/antagonist/heretic) || !H.mind.has_antag_datum(/datum/antagonist/cult) || !H.mind.has_antag_datum(/datum/antagonist/wizard)
+		var/monster_check = IS_CULTIST(H) || IS_HERETIC(H) || IS_BLOODSUCKER(H) || IS_WIZARD(H) || H.mind.has_antag_datum(/datum/antagonist/changeling)
 		if(!monster_check)
 			message_admins("MONSTERHUNTER NOTICE: Monster Hunter tried to spawn, but failed due to lack of Monsters.")
+			kill()
 			break
+
+/datum/round_event/monster_hunters/start()
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		/// From obsessed
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
