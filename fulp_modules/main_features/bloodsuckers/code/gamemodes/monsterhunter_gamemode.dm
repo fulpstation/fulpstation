@@ -21,7 +21,6 @@
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
-	var/monsters = FALSE
 
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
