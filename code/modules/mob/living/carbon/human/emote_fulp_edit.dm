@@ -5,4 +5,5 @@
 	message_mime = "acts out a scream!"
 	emote_type = EMOTE_AUDIBLE
 	audio_cooldown = 15 SECONDS
+	only_forced_audio = FALSE
 	vary = TRUE
