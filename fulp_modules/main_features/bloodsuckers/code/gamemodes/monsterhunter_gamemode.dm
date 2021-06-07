@@ -26,8 +26,10 @@
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(!IS_CULTIST(H) && !IS_HERETIC(H) && !IS_BLOODSUCKER(H) && !IS_WIZARD(H) && !H.mind.has_antag_datum(/datum/antagonist/changeling))
 			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
+			kill()
 			break
 		message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
+	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
 		/// From obsessed
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
 			continue
