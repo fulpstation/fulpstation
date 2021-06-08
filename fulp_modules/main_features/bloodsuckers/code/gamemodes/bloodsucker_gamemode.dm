@@ -134,6 +134,92 @@
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
 	return TRUE
 
+//////////////////////////////////////////////
+//                                          //
+//          TZIMISCE BLOODSUCKER            //
+//      INCLUDES LATEJOIN + MIDROUND        //
+//                                          //
+//////////////////////////////////////////////
+
+/datum/dynamic_ruleset/midround/tzimisce_bloodsucker
+	name = "Sabbat Awakening"
+	antag_datum = /datum/antagonist/bloodsucker
+	antag_flag = ROLE_BLOODSUCKER
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	restricted_roles = list("AI","Cyborg", "Positronic Brain")
+	required_candidates = 1
+	weight = 8
+	cost = 10
+	requirements = list(40,30,20,10,10,10,10,10,10,10)
+	repeatable = FALSE
+
+/datum/dynamic_ruleset/midround/tzimisce_bloodsucker/acceptable(population = 0, threat = 0)
+	var/player_count = mode.current_players[CURRENT_LIVING_PLAYERS].len
+	var/antag_count = mode.current_players[CURRENT_LIVING_ANTAGS].len
+	var/max_suckers = round(player_count / 10) + 1
+	var/too_little_antags = antag_count < max_suckers
+	if (!too_little_antags)
+		log_game("DYNAMIC: Too many living antags compared to living players ([antag_count] living antags, [player_count] living players, [max_suckers] max bloodsuckers)")
+		return FALSE
+
+	if (!prob(mode.threat_level))
+		log_game("DYNAMIC: Random chance to roll autotraitor failed, it was a [mode.threat_level]% chance.")
+		return FALSE
+
+	return ..()
+
+/datum/dynamic_ruleset/midround/tzimisce_bloodsucker/trim_candidates()
+	..()
+	for(var/mob/living/player in living_players)
+		if(issilicon(player)) // Your assigned role doesn't change when you are turned into a silicon.
+			living_players -= player
+		else if(is_centcom_level(player.z))
+			living_players -= player // We don't allow people in CentCom
+		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
+			living_players -= player // We don't allow people with roles already
+
+/datum/dynamic_ruleset/midround/tzimisce_bloodsucker/ready(forced = FALSE)
+	if (required_candidates > living_players.len)
+		return FALSE
+	return ..()
+
+/datum/dynamic_ruleset/midround/tzimisce_bloodsucker/execute()
+	var/mob/M = pick(living_players)
+	assigned += M.mind
+	living_players -= M.mind
+	var/datum/antagonist/bloodsucker/sabbat = new
+	M.mind.add_antag_datum(sabbat)
+	sabbat.bloodsucker_level_unspent = rand(3,4)
+	sabbat.AssignClanAndBane(is_tzimisce = TRUE)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Tzimisce Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Tzimisce Bloodsucker.")
+	return TRUE
+
+/datum/dynamic_ruleset/latejoin/tzimisce_bloodsucker
+	name = "Tzimisce Arrival"
+	antag_datum = /datum/antagonist/bloodsucker
+	antag_flag = ROLE_BLOODSUCKER
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	restricted_roles = list("AI","Cyborg")
+	required_candidates = 1
+	weight = 8
+	cost = 10
+	requirements = list(10,10,10,10,10,10,10,10,10,10)
+	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
+	repeatable = FALSE
+
+/datum/dynamic_ruleset/latejoin/tzimisce_bloodsucker/execute()
+	var/mob/M = pick(candidates) // This should contain a single player, but in case.
+	assigned += M.mind
+	var/datum/antagonist/bloodsucker/sabbat = new
+	M.mind.add_antag_datum(sabbat)
+	sabbat.bloodsucker_level_unspent = rand(3,4)
+	sabbat.AssignClanAndBane(is_tzimisce = TRUE)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Tzimisce Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Tzimisce Bloodsucker.")
+	return TRUE
+
+
 //////////////////////////////////////////////////////////////////////////////
 
 /*

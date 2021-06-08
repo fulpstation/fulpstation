@@ -19,3 +19,10 @@
 
 	icon_state = "bloodsucker"
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi'
+
+/// You can only speak vampiric, but understand common too.
+/datum/language_holder/vampiric_mob
+	understood_languages = list(
+	/datum/language/vampiric = list(LANGUAGE_ATOM),
+	/datum/language/common = list(LANGUAGE_ATOM))
+	spoken_languages = list(/datum/language/vampiric = list(LANGUAGE_ATOM))

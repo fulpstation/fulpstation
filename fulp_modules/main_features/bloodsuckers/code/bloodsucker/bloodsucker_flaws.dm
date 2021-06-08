@@ -68,7 +68,7 @@
  */
 
 
-/datum/antagonist/bloodsucker/proc/AssignClanAndBane()
+/datum/antagonist/bloodsucker/proc/AssignClanAndBane(is_tzimisce = FALSE)
 	var/static/list/clans = list(
 		CLAN_BRUJAH,
 		CLAN_NOSFERATU,
@@ -79,6 +79,16 @@
 	var/list/options = list()
 	options = clans
 	var/mob/living/carbon/human/bloodsucker = owner.current
+	if(is_tzimisce)
+		my_clan = CLAN_TZIMISCE
+		to_chat(owner, "<span class='announce'>You are a fierce, powerful shapeshifter! You are Tzimisce!<br> \
+			* As part of the Tzimisce Clan, you are able to shapeshift your victims on a persuasion rack to turn them into monsters!<br> \
+			* Your bane has made you very vulnerable to stakes, and forced to remain in a static coffin - you are unable to sleep in unclaimed coffins.</span>")
+		/// TODO: MOVE A LOT OF STUFF HERE.
+		return
+	/// Clan already assigned? Then don't assign it again.
+	if(my_clan != null)
+		return
 	/// Beefmen can't be Malkavian, they already get all the side effects from it.
 	if(isbeefman(bloodsucker))
 		options -= CLAN_MALKAVIAN
@@ -89,9 +99,9 @@
 		Tremere - Burn in the Chapel, Vassal Mutilation.<br> \
 		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead.<br></span>")
 	if(!isbeefman(bloodsucker))
-		to_chat(owner, "<span class='announce'>Malakavian - Hallucinations and Bluespace prophet.<br></span>")
-	to_chat(owner, "<span class='announce'>* Read more about Clans here: https://wiki.fulp.gg/en/Bloodsucker.<br></span>")
-
+		to_chat(owner, "<span class='announce'>Malkavian - Hallucinations and Bluespace prophet.<br></span>")
+	to_chat(owner, "<span class='announce'>You can find details on each Clan on the Bloodsuckers wiki page here:<br> \
+				* https://wiki.fulp.gg/en/Bloodsucker</span>")
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
 	switch(answer)
 		if(CLAN_BRUJAH)
@@ -130,7 +140,7 @@
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
 				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.<br> \
-				* Additionally, you will no longer Rank up. You are now instead able to get a Favorite vassal, by putting a Vassal on the persuasion rack and attempting to Tortute them.<br> \
+				* Additionally, you will no longer Rank up. You are now instead able to get a Favorite vassal, by putting a Vassal on the persuasion rack and attempting to Torture them.<br> \
 				* Finally, you may Rank your Favorite Vassal up by buckling them onto a Candelabrum.</span>")
 			to_chat(owner, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack/Candelabrum to see how they operate!</span>")
 			return
