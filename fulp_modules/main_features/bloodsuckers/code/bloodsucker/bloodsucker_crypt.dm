@@ -613,15 +613,11 @@
 			return
 
 
-/obj/structure/bloodsucker/vassalrack/proc/shapeshift_victim(mob/living/user, mob/living/target)
+/obj/structure/bloodsucker/vassalrack/proc/shapeshift_victim(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	/// To deal with Blood
-	var/mob/living/carbon/human/C = user
-	var/mob/living/carbon/human/H = target
 
-	/// Dead? No worries! Shift them into one of our creations!
-	if(H.stat == DEAD)
-		to_chat(user, "<span class='notice'>Do you wish to rebuild this body as something graeter? This will remove any restraints they might have, make them into a mute husk, and will cost 150 Blood!</span>")
+	if(target.stat == DEAD)
+		to_chat(user, "<span class='notice'>Do you wish to rebuild this body as something greater? This will remove any restraints they might have, make them into a mute husk, and will cost 150 Blood!</span>")
 		var/list/revive_options = list(
 			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
 			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
@@ -629,17 +625,16 @@
 		var/revive_response = show_radial_menu(user, src, revive_options, radius = 36, require_near = TRUE)
 		switch(revive_response)
 			if("Yes")
-				to_chat(user, "<span class='danger'>You have brought [target] back from the Dead!</span>")
-				to_chat(target, "<span class='announce'>As Blood drips over your body, your heart begins to beat... You live again!</span>")
-				C.blood_volume -= 150
+				to_chat(user, "<span class='danger'>You have brought [target] back from the dead!</span>")
+				to_chat(target, "<span class='announce'>As blood drips over your body, your heart begins to beat... You live again!</span>")
+				user.blood_volume -= 150
 				target.revive(full_heal = TRUE, admin_revive = TRUE)
 				ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-				H.become_husk()
+				target.become_husk()
 				return
 			else
 				to_chat(user, "<span class='danger'>You decide not to revive [target].</span>")
-				/// Unbuckle them now.
-				unbuckle_mob(C)
+				unbuckle_mob(target)
 				useLock = FALSE
 				return
 
@@ -653,53 +648,37 @@
 	options = monster_choices
 	var/answer = tgui_input_list(user, "We have the chance to shapeshift our victim into something greater, how should we mutilate their corpse?", "What do we do with our victim?", options)
 
-	/// Are we making them into a monster?
-	var/make_monster = TRUE
-	/// The monster the target is being transferred to upon succesful ritual.
-	var/mob/living/simple_animal/monster
-	/// The amount of blood lost by the Tzimisce upon succesfully shapeshifting the target.
-	var/blood_lost
-	/// The amount of blood gained by the Tzimisce upon a successful shapeshift.
-	var/blood_gained
-	/// Do we lose items upon succesful rituals? Only FALSE for husks as they do not become simplemobs.
-	var/lose_items = TRUE
-	/// The message that the Tzimisce gets upon a successful ritual.
-	var/user_message = "You have shaped [target] into a two-armed monster!"
-	/// The message that the victim gets upon a succesful ritual.
-	var/target_message = "You've been turned into a monster!"
+	var/make_monster = TRUE /// Are we making them into a monster?
+	var/mob/living/simple_animal/monster /// The monster the target is being transferred to upon succesful ritual.
+	var/blood_lost /// The amount of blood lost by the Tzimisce upon succesfully shapeshifting the target.
+	var/blood_gained /// The amount of blood gained by the Tzimisce upon a successful shapeshift.
+	var/lose_items = TRUE /// Do we lose items upon succesful rituals? Only FALSE for husks as they do not become simplemobs.
+	var/user_message = "You have shaped [target] into a two-armed monster!" /// The message that the Tzimisce gets upon a successful ritual.
+	var/target_message = "You've been turned into a monster!" /// The message that the victim gets upon a succesful ritual.
 
-	/// Didn't choose? then don't do anything and return.
 	if(!answer)
 		to_chat(user, "<span class='notice'>You decide to leave your victim just the way they are.</span>")
 		return
 
 	switch(answer)
-		/// Tzimisce can have a little human vassal. As a treat.
 		if(TZIMISCE_HUSK)
 			blood_gained = 200
 			lose_items = FALSE
 			make_monster = FALSE
 			user_message = "You grotesquely shape [target]'s body, turning [target.p_them()] into a Living Husk!"
 			target_message =  "You've been turned into a Living Husk!"
-			/// Cheap shapeshifting - but not effective.
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 			target.become_husk()
-
-		/// Fast monsters - not much HP. Can ventcrawl. Nosferatu's doom.
 		if(TZIMISCE_TWOARMED)
 			blood_lost = 100
-			monster = /mob/living/simple_animal/hostile/retaliate/tzimisce_twoarmed
-
-		/// Slow, glutton-ish. Launch a slowing projectile on Right click?
+			monster = /mob/living/simple_animal/hostile/retaliate/tzimisce/twoarmed
 		if(TZIMISCE_CLAWMONSTER)
 			blood_lost = 250
-			monster = /mob/living/simple_animal/hostile/retaliate/tzimisce_clawmonster
+			monster = /mob/living/simple_animal/hostile/retaliate/tzimisce/clawmonster
 			user_message = "You have shaped [target] into a gluttonous, clawed monster!"
-
-		/// Slower than claw monsters, can move in No-Gravity. Best used as the equivalent of tarantulas (sentinels).
 		if(TZIMISCE_TRIPLECHESTED)
 			blood_lost = 300
-			monster = /mob/living/simple_animal/hostile/retaliate/tzimisce_triplechested
+			monster = /mob/living/simple_animal/hostile/retaliate/tzimisce/triplechested
 			user_message = "You have shaped [target] into a triple-chested, bulky monster!"
 
 	INVOKE_ASYNC(target, /mob.proc/emote, "scream")
@@ -713,19 +692,19 @@
 	if(lose_items)
 		var/list/items = list()
 		items |= target.get_equipped_items()
-		for(var/I in items)
-			target.dropItemToGround(I,TRUE)
-		for(var/obj/item/I in target.held_items)
-			target.dropItemToGround(I, TRUE)
+		for(var/equipped_items in items)
+			target.dropItemToGround(equipped_items, TRUE)
+		for(var/obj/item/inhand_items as anything in target.held_items)
+			target.dropItemToGround(inhand_items, TRUE)
 	if(make_monster && monster)
 		var/mob/living/simple_animal/new_body = new monster(target.loc)
 		target.mind.transfer_to(new_body)
 		new /obj/effect/gibspawner/human(target.loc)
 		qdel(target)
 	if(blood_gained)
-		C.blood_volume += blood_gained
+		user.blood_volume += blood_gained
 	if(blood_lost)
-		C.blood_volume -= blood_lost
+		user.blood_volume -= blood_lost
 	return
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
