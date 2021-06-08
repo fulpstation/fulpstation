@@ -16,7 +16,7 @@
 		#include "map_files\EosStation\EosStation.dmm"
 		#include "map_files\tramstation\tramstation.dmm"
 
-#ifdef CIBUILDING
+		#ifdef CIBUILDING
 			#include "templates.dm"
 		#endif
 	#endif
