@@ -6,8 +6,8 @@
 	icon_living = "tarantula"
 	icon_dead = "tarantula_dead"
 	melee_damage_type = BURN
-	attack_verb_continuous = list("claws", "slashes")
-	attack_verb_simple = list("claw", "slash")
+	attack_verb_continuous = "claws"
+	attack_verb_simple = "claw"
 	turns_per_move = 5
 	see_in_dark = 4
 	attack_vis_effect = ATTACK_EFFECT_CLAW

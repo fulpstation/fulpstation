@@ -15,7 +15,7 @@
 	observer_examinestring = "This is a two-armed monster created by a Tzimisce Bloodsucker. \
 	It claws at its victims, can ventcrawl and lunge at people."
 
-	var/lunge_time = 0
+	var/lunge_cooldown_time = 0
 	var/lunge_cooldown = 15 SECONDS
 
 /mob/living/simple_animal/hostile/retaliate/tzimisce/twoarmed/Initialize()
@@ -30,7 +30,7 @@
 		to_chat(src, "<span class='warning'>You are too far away to lunge [target] to the ground, get on point-blank range!</span>")
 		return
 
-	if(lunge_time + lunge_cooldown > world.time)
+	if(lunge_cooldown_time + lunge_cooldown > world.time)
 		to_chat(src, "<span class='warning'>Your lunge ability is still on cooldown!</span>")
 		return
 
@@ -41,5 +41,5 @@
 	to_chat(victim, "<span class='userdanger'>[src] knocks you to the ground!</span>")
 	victim.Knockdown(5 SECONDS)
 	victim.adjustStaminaLoss(35)
-	lunge_cooldown = world.time
+	lunge_cooldown_time = world.time
 	log_combat(src, victim, "two-armed lunged")
