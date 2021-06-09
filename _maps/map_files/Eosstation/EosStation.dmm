@@ -910,8 +910,7 @@
 	dir = 4;
 	name = "Medical blue corner"
 	},
-/obj/structure/closet/radiation,
-/obj/item/clothing/glasses/meson/engine,
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "ajC" = (
@@ -1719,7 +1718,7 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/structure/closet/toolcloset,
+/obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "apQ" = (
@@ -3077,9 +3076,6 @@
 /turf/open/floor/plating/asteroid_baseturf,
 /area/maintenance/starboard/aft)
 "aBc" = (
-/obj/structure/table/reinforced,
-/obj/item/wrench,
-/obj/item/crowbar/red,
 /obj/effect/turf_decal/siding/yellow{
 	dir = 10
 	},
@@ -3089,7 +3085,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/item/clothing/shoes/magboots,
+/obj/machinery/power/shieldwallgen,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "aBd" = (
@@ -10481,13 +10477,17 @@
 /area/engineering/atmos)
 "bDa" = (
 /obj/effect/turf_decal/siding/yellow,
-/obj/structure/closet/toolcloset,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
+/obj/structure/table/reinforced,
+/obj/item/book/manual/wiki/engineering_construction{
+	pixel_y = 3
+	},
+/obj/item/clothing/gloves/color/yellow,
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "bDf" = (
@@ -17323,9 +17323,6 @@
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
 "cKr" = (
-/obj/structure/table/reinforced,
-/obj/item/crowbar/power,
-/obj/item/stack/sheet/plasteel/fifty,
 /obj/structure/sign/warning/nosmoking{
 	pixel_y = 32
 	},
@@ -17339,7 +17336,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/item/clothing/shoes/magboots,
+/obj/machinery/field/generator,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "cKs" = (
@@ -23806,6 +23803,10 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating/asteroid_baseturf,
 /area/solars/port/fore)
+"euv" = (
+/obj/structure/lattice,
+/turf/closed/wall/r_wall,
+/area/engineering/storage_shared)
 "eux" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -29612,7 +29613,6 @@
 /obj/effect/turf_decal/siding/yellow{
 	dir = 9
 	},
-/obj/structure/closet/toolcloset,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
@@ -31149,7 +31149,7 @@
 "gdL" = (
 /obj/structure/lattice/catwalk,
 /turf/closed/wall/r_wall,
-/area/space/nearstation)
+/area/engineering/storage_shared)
 "gdM" = (
 /turf/closed/wall/r_wall,
 /area/security/prison)
@@ -31268,14 +31268,14 @@
 /turf/open/floor/plating/asteroid_baseturf,
 /area/cargo/warehouse)
 "ggE" = (
-/obj/machinery/door/airlock/command/glass{
-	name = "Power Tools Storage";
-	req_access_txt = "19"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/siding/yellow,
 /obj/structure/cable,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/engineering{
+	name = "Engine Room Storage 1";
+	req_one_access_txt = "10;24"
+	},
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "ggN" = (
@@ -31513,14 +31513,6 @@
 /turf/open/floor/iron,
 /area/engineering/main)
 "gkT" = (
-/obj/structure/table/reinforced,
-/obj/item/stack/sheet/rglass{
-	amount = 30;
-	pixel_x = 2;
-	pixel_y = -2
-	},
-/obj/item/stack/cable_coil,
-/obj/item/stack/rods/fifty,
 /obj/structure/extinguisher_cabinet/directional/west,
 /obj/effect/turf_decal/siding/yellow{
 	dir = 8
@@ -31529,8 +31521,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/green,
-/obj/item/clothing/shoes/magboots,
+/obj/machinery/power/shieldwallgen,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "glb" = (
@@ -32229,9 +32220,6 @@
 "gsp" = (
 /obj/effect/turf_decal/siding/yellow/corner,
 /obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
@@ -33435,7 +33423,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow,
-/obj/machinery/power/shieldwallgen,
+/obj/structure/closet/toolcloset,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "gIu" = (
@@ -36311,12 +36299,10 @@
 /area/service/abandoned_gambling_den)
 "htl" = (
 /obj/effect/turf_decal/tile/yellow,
-/obj/machinery/power/smes{
-	charge = 20000
-	},
 /obj/effect/turf_decal/siding/yellow{
 	dir = 10
 	},
+/obj/machinery/power/smes/engineering,
 /turf/open/floor/iron,
 /area/engineering/gravity_generator)
 "htt" = (
@@ -55077,7 +55063,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/machinery/shieldgen,
+/obj/structure/closet/toolcloset,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "lGg" = (
@@ -67085,9 +67071,6 @@
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "ovE" = (
-/obj/structure/table/reinforced,
-/obj/item/screwdriver/power,
-/obj/item/storage/toolbox/electrical,
 /obj/effect/turf_decal/siding/yellow{
 	dir = 8
 	},
@@ -67101,9 +67084,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/green{
-	dir = 4
-	},
+/obj/machinery/field/generator,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "ovG" = (
@@ -68734,16 +68715,16 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "oNO" = (
-/obj/machinery/door/airlock/command/glass{
-	name = "Power Tools Storage";
-	req_access_txt = "19"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/siding/yellow{
 	dir = 1
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/engineering{
+	name = "Engine Room Storage 1";
+	req_one_access_txt = "10;24"
+	},
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "oNP" = (
@@ -70012,7 +69993,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/structure/closet/toolcloset,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "pdA" = (
@@ -77258,7 +77238,7 @@
 	dir = 8;
 	name = "Medical blue corner"
 	},
-/obj/structure/closet/toolcloset,
+/obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "qPn" = (
@@ -78180,7 +78160,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
-/area/space/nearstation)
+/area/engineering/storage_shared)
 "qZN" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -82262,9 +82242,6 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/green{
-	dir = 1
-	},
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
 	dir = 4
 	},
@@ -84172,6 +84149,17 @@
 	},
 /turf/open/floor/iron/grimy,
 /area/hallway/primary/fore)
+"swT" = (
+/obj/docking_port/stationary{
+	dir = 8;
+	dwidth = 2;
+	height = 13;
+	id = "ferry_home";
+	name = "port bay 2";
+	width = 5
+	},
+/turf/open/space/basic,
+/area/space)
 "sxf" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -87385,7 +87373,7 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/machinery/field/generator,
+/obj/structure/closet/toolcloset,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "tnn" = (
@@ -88372,9 +88360,6 @@
 	dir = 9
 	},
 /obj/structure/cable,
-/obj/structure/sign/poster/random{
-	pixel_x = 32
-	},
 /obj/effect/turf_decal/siding/yellow/corner{
 	dir = 1
 	},
@@ -89398,7 +89383,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "tMs" = (
@@ -92941,8 +92925,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/obj/structure/closet/radiation,
-/obj/item/clothing/glasses/meson/engine,
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "uzd" = (
@@ -105390,7 +105373,7 @@
 	req_access_txt = "13"
 	},
 /turf/open/floor/iron/dark,
-/area/space/nearstation)
+/area/engineering/storage_shared)
 "xuC" = (
 /obj/structure/window/reinforced,
 /obj/structure/window/reinforced{
@@ -105563,7 +105546,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow,
-/obj/machinery/power/shieldwallgen,
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "xvD" = (
@@ -135562,7 +135545,7 @@ cFp
 cFp
 gdL
 xuA
-xyC
+euv
 tiF
 tiF
 tiF
@@ -135819,7 +135802,7 @@ cFp
 cFp
 gdL
 qZI
-vNK
+akz
 xhB
 dWS
 xhB
@@ -147628,7 +147611,7 @@ ehv
 xVl
 tcM
 gJH
-gJH
+hkf
 gJH
 gJH
 isH
@@ -149268,7 +149251,7 @@ cFp
 cFp
 cFp
 cFp
-cFp
+swT
 cFp
 cFp
 cFp
@@ -149385,7 +149368,7 @@ cFp
 cFp
 cFp
 cFp
-cFp
+swT
 cFp
 cFp
 cFp
