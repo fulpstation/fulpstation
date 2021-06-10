@@ -118,7 +118,8 @@
 
 /obj/item/clothing/under/rank/security/emp_act()
 	. = ..()
-	camera_toggle()
+	if(upgraded)
+		camera_toggle()
 
 /obj/item/clothing/under/rank/security/examine(mob/user)
 	. = ..()
