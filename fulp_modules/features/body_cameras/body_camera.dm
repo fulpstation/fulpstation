@@ -122,6 +122,8 @@
 
 /obj/item/clothing/under/rank/security/examine(mob/user)
 	. = ..()
+	if(!upgraded)
+		return
 	if(registrant)
 		. += "The body camera is registered to <b>[registrant]</b>."
 		return
