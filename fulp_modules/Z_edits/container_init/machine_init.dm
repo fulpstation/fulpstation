@@ -4,7 +4,7 @@
  *	This is a file for all the machine Initializations that one may need to change a tg file without actually changing it.
  */
 
-/// Vending Machines
+/// Wardrobe Vendors
 /obj/machinery/vending/autodrobe/Initialize()
 	products += list(/obj/item/clothing/shoes/clown_shoes/digitigrade = 1,
 	/obj/item/clothing/shoes/mime/digitigrade = 1)
@@ -81,15 +81,22 @@
 	products += list(/obj/item/clothing/shoes/laceup/digitigrade = 1)
 	. = ..()
 
+/// Vendors
 /obj/machinery/vending/games/Initialize()
 	products += list(/obj/item/toy/plush/batong = 3,
 	/obj/item/toy/plush/pico = 1) //Both used in toys.dm
+	. = ..()
+
+/obj/machinery/vending/security/Initialize() //SecTech
+	products += list(/obj/item/bodycam_upgrade = 6,//used in body_camera.dm
+	)
 	. = ..()
 
 /// Lockers
 /obj/structure/closet/secure_closet/engineering_chief/Initialize()
 	new /obj/item/clothing/shoes/workboots/digitigrade(src)
 	. = ..()
+
 /obj/structure/closet/secure_closet/research_director/Initialize()
 	new /obj/item/clothing/shoes/laceup/digitigrade(src)
 	new /obj/item/card/id/departmental_budget/sci(src) //Used in science_budget.dm
