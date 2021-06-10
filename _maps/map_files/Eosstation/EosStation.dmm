@@ -1876,6 +1876,10 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/commons/dorms)
+"aqe" = (
+/obj/machinery/pinpointer_dispenser,
+/turf/closed/wall/asteroid_baseturf,
+/area/hallway/secondary/entry)
 "aqh" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating/asteroid_baseturf,
@@ -5728,11 +5732,9 @@
 /turf/open/floor/plating/asteroid_baseturf,
 /area/maintenance/starboard/aft)
 "aXP" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
-/turf/open/floor/plating/asteroid_baseturf,
-/area/space)
+/obj/structure/table,
+/turf/open/floor/carpet/orange,
+/area/engineering/break_room)
 "aXQ" = (
 /obj/structure/fluff/broken_flooring{
 	dir = 4;
@@ -6660,10 +6662,10 @@
 /turf/open/floor/plating/asteroid_baseturf,
 /area/maintenance/starboard/aft)
 "baN" = (
-/obj/structure/fans/tiny,
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/plating/asteroid_baseturf,
-/area/hallway/primary/central)
+/obj/structure/table,
+/obj/item/trash/popcorn,
+/turf/open/floor/carpet/orange,
+/area/engineering/break_room)
 "baO" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -8728,10 +8730,10 @@
 /turf/open/floor/plating/asteroid_baseturf,
 /area/maintenance/starboard/aft)
 "blz" = (
-/obj/structure/fans/tiny,
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/plating/asteroid_baseturf,
-/area/hallway/primary/central)
+/obj/structure/table,
+/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko,
+/turf/open/floor/carpet/orange,
+/area/engineering/break_room)
 "blA" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -13181,7 +13183,7 @@
 /area/hallway/secondary/entry)
 "chm" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Medbay SMES Access";
+	name = "Evac SMES Access";
 	req_access_txt = "10;11;12"
 	},
 /obj/structure/cable,
@@ -20602,15 +20604,7 @@
 /area/cargo/qm)
 "dCk" = (
 /obj/item/radio/intercom/directional/west,
-/obj/structure/table/reinforced,
-/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko,
 /obj/machinery/light/directional/west,
-/obj/item/lightreplacer,
-/obj/item/storage/belt/utility,
-/obj/item/storage/belt/utility,
-/obj/item/storage/belt/utility,
-/obj/item/lightreplacer,
-/obj/item/lightreplacer,
 /obj/effect/turf_decal/siding/yellow{
 	dir = 8
 	},
@@ -22669,6 +22663,9 @@
 /area/maintenance/starboard/aft)
 "eeg" = (
 /obj/machinery/airalarm/directional/west,
+/obj/machinery/modular_computer/console/preset/engineering{
+	dir = 4
+	},
 /turf/open/floor/carpet/orange,
 /area/engineering/break_room)
 "eeh" = (
@@ -25476,13 +25473,13 @@
 /turf/open/floor/plating/foam,
 /area/maintenance/starboard/aft)
 "eNK" = (
-/obj/machinery/modular_computer/console/preset/civilian{
-	dir = 1
-	},
 /obj/effect/turf_decal/siding/yellow,
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
+	},
+/obj/structure/tank_dispenser{
+	pixel_x = -1
 	},
 /turf/open/floor/iron,
 /area/engineering/lobby)
@@ -26791,7 +26788,7 @@
 /turf/open/floor/plating/rust/asteroid_baseturf,
 /area/hallway/primary/upper)
 "fbk" = (
-/obj/machinery/vending/tool,
+/obj/machinery/rnd/production/circuit_imprinter,
 /turf/open/floor/carpet/orange,
 /area/engineering/break_room)
 "fbl" = (
@@ -29169,8 +29166,18 @@
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "fEN" = (
-/turf/open/floor/carpet/orange,
-/area/engineering/break_room)
+/obj/structure/lattice/catwalk,
+/obj/machinery/door/airlock/external{
+	cyclelinkeddir = 4;
+	name = "Solar Maintenance";
+	req_access = null;
+	req_access_txt = "10; 13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/turf/open/space/basic,
+/area/solars/port/fore)
 "fEP" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
@@ -70313,9 +70320,8 @@
 /turf/open/floor/plating/asteroid_baseturf,
 /area/medical/chemistry)
 "pfR" = (
-/obj/machinery/pinpointer_dispenser,
-/turf/closed/wall/asteroid_baseturf,
-/area/hallway/secondary/entry)
+/turf/open/floor/carpet/orange,
+/area/engineering/break_room)
 "pgu" = (
 /turf/open/floor/iron,
 /area/science/robotics/mechbay)
@@ -73560,13 +73566,12 @@
 /turf/closed/wall/r_wall,
 /area/maintenance/disposal/incinerator)
 "pUo" = (
-/obj/structure/table/reinforced,
-/obj/item/trash/popcorn,
 /obj/machinery/camera{
 	c_tag = "Engineering - Break Room";
 	dir = 4;
 	name = "Camera"
 	},
+/obj/machinery/rnd/production/protolathe/department/engineering,
 /turf/open/floor/carpet/orange,
 /area/engineering/break_room)
 "pUu" = (
@@ -78060,6 +78065,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/structure/table,
 /turf/open/floor/carpet/orange,
 /area/engineering/break_room)
 "qYv" = (
@@ -78798,6 +78804,7 @@
 /obj/machinery/microwave{
 	pixel_y = 6
 	},
+/obj/item/trash/popcorn,
 /turf/open/floor/carpet/orange,
 /area/engineering/break_room)
 "rgY" = (
@@ -80201,7 +80208,6 @@
 /area/maintenance/starboard/aft)
 "ryT" = (
 /obj/machinery/firealarm/directional/south,
-/obj/machinery/rnd/production/circuit_imprinter,
 /turf/open/floor/carpet/orange,
 /area/engineering/break_room)
 "rza" = (
@@ -81492,8 +81498,8 @@
 /obj/structure/sign/poster/random{
 	pixel_y = -32
 	},
-/obj/machinery/rnd/production/protolathe/department/engineering,
 /obj/machinery/light_switch/directional/east,
+/obj/machinery/vending/tool,
 /turf/open/floor/carpet/orange,
 /area/engineering/break_room)
 "rNY" = (
@@ -83808,14 +83814,18 @@
 /obj/effect/turf_decal/siding/yellow{
 	dir = 10
 	},
-/obj/structure/tank_dispenser{
-	pixel_x = -1
-	},
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow,
+/obj/structure/table/reinforced,
+/obj/item/lightreplacer,
+/obj/item/lightreplacer,
+/obj/item/storage/belt/utility,
+/obj/item/storage/belt/utility,
+/obj/item/storage/belt/utility,
+/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko,
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "sqX" = (
@@ -141298,7 +141308,7 @@ ePe
 vqr
 chz
 ddT
-fEN
+pfR
 bkA
 pXp
 rpO
@@ -141555,7 +141565,7 @@ lLW
 xov
 sRB
 dex
-fEN
+pfR
 aiu
 qfD
 rtX
@@ -141812,7 +141822,7 @@ vIZ
 vqr
 gkJ
 vHv
-fEN
+aXP
 aye
 qHh
 ryT
@@ -142069,8 +142079,8 @@ kXQ
 cdT
 gZt
 xRi
-fEN
-fEN
+baN
+bkA
 qYg
 rNM
 akz
@@ -142293,8 +142303,8 @@ jdZ
 cFp
 cFp
 cFp
-hMx
-hMx
+hMN
+hMN
 hMN
 aCk
 baI
@@ -142326,8 +142336,8 @@ lEY
 vqr
 cGc
 vrw
-fEN
-fEN
+aXP
+blz
 qYt
 vSj
 gjD
@@ -142550,8 +142560,8 @@ kmm
 kmm
 kmm
 kmm
-bmP
-baN
+rqd
+xlG
 rqd
 aJe
 bcE
@@ -144092,9 +144102,9 @@ kmm
 kmm
 bmM
 bmM
-bmP
-blz
-aXP
+wOo
+iCx
+iDq
 bbt
 cdi
 baM
@@ -152139,7 +152149,7 @@ cFp
 bhv
 cFp
 euu
-kVR
+fEN
 euu
 cFp
 bhv
@@ -154216,7 +154226,7 @@ kMJ
 gJH
 gJH
 gJH
-pfR
+aqe
 qvZ
 ifg
 wgy
