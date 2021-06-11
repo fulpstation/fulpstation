@@ -1,46 +1,28 @@
-/// Security Jumpsuit
+/// Jumpsuit datum
 /obj/item/clothing/under/rank/security
 	var/upgraded = FALSE
 	var/obj/machinery/camera/builtInCamera = null
 	var/registrant
 
-/obj/item/clothing/under/rank/security/examine(mob/user)
-	. = ..()
-	if(!upgraded)
-		. += "It appears to have an empty slot for a <b>body camera upgrade</b>."
-		return
-	if(builtInCamera)
-		. += "Its body camera appears to be <b>active</b>."
-	else
-		. += "Its body camera appears to be <b>inactive</b>."
+/// Bodycamera upgrade
+/obj/item/bodycam_upgrade
+	name = "body camera upgrade"
+	icon = 'icons/obj/clothing/accessories.dmi'
+	icon_state = "pocketprotector"
+	desc = "An upgrade able to be applied to any Security jumpsuit, allowing you to use your ID on it to allow any Security camera console to view you through it."
 
-/// Modifying the Jumpsuit
 /obj/item/clothing/under/rank/security/attackby(obj/item/W, mob/user, params)
 	. = ..()
-	/// Using a bodycam on the jumpsuit, upgrading it
+	/// Are we upgrading it?
 	if(istype(W, /obj/item/bodycam_upgrade))
-		// Check if its already upgraded
 		if(upgraded)
 			to_chat(user, "<span class='warning'>We have already installed [W] into [src]!</span>")
-			playsound(loc, 'sound/machines/buzz-two.ogg', get_clamped_volume(), TRUE, -1)
 			return
 		upgraded = TRUE
 		to_chat(user, "<span class='warning'>You install [W] into [src].</span>")
-		playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
 		qdel(W)
 		return
-	/// Upgraded, but removing it
-	if(W.tool_behaviour == TOOL_SCREWDRIVER)
-		// If it isnt upgraded, it will go onto the next check, and just return.
-		if(upgraded)
-			to_chat(user, "<span class='warning'>You remove the upgrade from [src].</span>")
-			playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
-			upgraded = FALSE
-			unregister_body_camera(I, user)
-			var/obj/item/bodycam_upgrade/bodycam = new /obj/item/bodycam_upgrade
-			user.put_in_hands(bodycam)
-			return
-	/// Check: Is the Jumpsuit upgraded? Otherwise, we can't register body cameras!
+	/// Is the Jumpsuit upgraded to have Security cameras? No? Too bad!
 	if(!upgraded)
 		return
 
@@ -56,7 +38,7 @@
 
 	register_body_camera(I, user)
 
-/// Manual Register via ID
+/// Register the ID
 /obj/item/clothing/under/rank/security/proc/register_body_camera(obj/item/card/id/I, mob/user)
 	if(!I)
 		return
@@ -95,32 +77,58 @@
 
 	builtInCamera.c_tag = "[cam_name]"
 
-	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
+	camera_sound()
 	if(user)
 		to_chat(user, "<span class='notice'>Security uniform body camera successfully registered to [id_name]</span>")
 
-/// Unregistering the ID - Called when using your ID on an already claimed jumpsuit, or removing it.
+/// Unregister
 /obj/item/clothing/under/rank/security/proc/unregister_body_camera(obj/item/card/id/I, mob/user, message=TRUE)
 	if(builtInCamera)
 		QDEL_NULL(builtInCamera)
 		UnregisterSignal(src, COMSIG_ITEM_POST_UNEQUIP)
-		registrant = null
-		if(user && message)
-			playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
-			to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered from [I.registered_name]</span>")
+	registrant = null
+	if(user && message)
+		camera_sound()
+		to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered from [I.registered_name]</span>")
 
-/// Bodycamera upgrade
-/obj/item/bodycam_upgrade
-	name = "body camera upgrade"
-	icon = 'icons/obj/clothing/accessories.dmi'
-	icon_state = "pocketprotector"
-	desc = "A Security Jumpsuit upgrade, it says to examine closer to understand how it works."
+/// Dealing with the cameras being visible
+/obj/item/clothing/under/rank/security/proc/camera_toggle()
+	var/message = "<span class='notice'>There's no camera!</span>"
 
-/obj/item/bodycam_upgrade/examine_more(mob/user)
-	. = list("<span class='notice'><i>You examine [src]'s instruction tag...</i></span>")
-	. += list("<span class='warning'>How to use Body Cameras v3.5: EMP-proof Edition!</span>")
-	. += list("<span class='notice'>Use the Body camera Upgrade on any SECURITY jumpsuit to upgrade it.</span>")
-	. += list("<span class='notice'>Use a Screwdriver to remove the upgrade once you're done with it.</span>")
-	. += list("<span class='notice'>While upgraded & equipped, use your ID card on the jumpsuit to turn the camera on.</span>")
-	. += list("<span class='notice'>Unequipping or using your ID on the Jumpsuit will disable its camera.</span>")
-	. += list("<span class='notice'>While active, the wearer will be visible to Security camera consoles.</span>")
+	if(builtInCamera)
+		if(builtInCamera.status)
+			builtInCamera.status = FALSE
+			message = "<span class='notice'>You toggle the body camera off.</span>"
+		else
+			builtInCamera.status = TRUE
+			message = "<span class='notice'>You toggle the body camera on.</span>"
+		camera_sound()
+
+	if(ismob(loc))
+		var/mob/user = loc
+		if(user)
+			to_chat(user, "[message]")
+
+/// Sound the camera makes, changes depending on if accepted.
+/obj/item/clothing/under/rank/security/proc/camera_sound(accepted = TRUE)
+	if(accepted)
+		playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
+	else
+		playsound(loc, 'sound/machines/buzz-two.ogg', get_clamped_volume(), TRUE, -1)
+
+/obj/item/clothing/under/rank/security/emp_act()
+	. = ..()
+	if(upgraded)
+		camera_toggle()
+
+/obj/item/clothing/under/rank/security/examine(mob/user)
+	. = ..()
+	if(!upgraded)
+		return
+	if(registrant)
+		. += "The body camera is registered to <b>[registrant]</b>."
+		return
+	if(builtInCamera?.status)
+		. += "Its body camera appears to be <b>active</b>."
+	else
+		. += "Its body camera appears to be <b>inactive</b>."
