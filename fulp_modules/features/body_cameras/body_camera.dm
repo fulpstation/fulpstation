@@ -36,7 +36,7 @@
 			to_chat(user, "<span class='warning'>You remove the upgrade from [src].</span>")
 			playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
 			upgraded = FALSE
-			unregister_body_camera(I, user)
+			unregister_body_camera()
 			var/obj/item/bodycam_upgrade/bodycam = new /obj/item/bodycam_upgrade
 			user.put_in_hands(bodycam)
 			return
@@ -100,14 +100,15 @@
 		to_chat(user, "<span class='notice'>Security uniform body camera successfully registered to [id_name]</span>")
 
 /// Unregistering the ID - Called when using your ID on an already claimed jumpsuit, or removing it.
-/obj/item/clothing/under/rank/security/proc/unregister_body_camera(obj/item/card/id/I, mob/user, message=TRUE)
-	if(builtInCamera)
-		QDEL_NULL(builtInCamera)
-		UnregisterSignal(src, COMSIG_ITEM_POST_UNEQUIP)
-		registrant = null
-		if(user && message)
-			playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
-			to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered from [I.registered_name]</span>")
+/obj/item/clothing/under/rank/security/proc/unregister_body_camera(obj/item/card/id/I, mob/user)
+	if(!builtInCamera)
+		return
+	QDEL_NULL(builtInCamera)
+	UnregisterSignal(src, COMSIG_ITEM_POST_UNEQUIP)
+	registrant = null
+	if(user)
+		playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
+		to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered from [I.registered_name]</span>")
 
 /// Bodycamera upgrade
 /obj/item/bodycam_upgrade
