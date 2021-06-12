@@ -566,8 +566,8 @@
 				vassaldatum.mutilated = TRUE
 				return
 
-		to_chat(user, "<span class='notice'>You decide to leave your Vassal just the way they are.</span>")
-		return
+	to_chat(user, "<span class='notice'>You decide to leave your Vassal just the way they are.</span>")
+	return
 
 /obj/structure/bloodsucker/vassalrack/proc/offer_ventrue_favorites(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
