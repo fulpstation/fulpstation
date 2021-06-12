@@ -496,11 +496,11 @@
 				C.blood_volume -= 150
 				target.revive(full_heal = TRUE, admin_revive = TRUE)
 				return
-			to_chat(user, "<span class='danger'>You decide not to revive [target].</span>")
-			/// Unbuckle them now.
-			unbuckle_mob(C)
-			useLock = FALSE
-			return
+		to_chat(user, "<span class='danger'>You decide not to revive [target].</span>")
+		/// Unbuckle them now.
+		unbuckle_mob(C)
+		useLock = FALSE
+		return
 
 	var/static/list/races = list(
 		TREMERE_SKELETON,
