@@ -113,10 +113,6 @@
 	. = ..()
 	time_between_triggers = 10
 	flare_message = "<span class='warning'>[src] snaps shut!</span>"
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
-	)
-	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /obj/structure/trap/stun/hunter/Destroy()
 	if(!QDELETED(stored_item))
