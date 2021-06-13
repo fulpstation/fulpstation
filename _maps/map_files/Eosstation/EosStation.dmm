@@ -4781,7 +4781,8 @@
 /turf/open/floor/grass,
 /area/service/hydroponics/garden)
 "aSh" = (
-/obj/machinery/porta_turret/ai,
+/obj/structure/rack,
+/obj/item/storage/toolbox/mechanical,
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/command/storage/satellite)
 "aSk" = (
@@ -21462,18 +21463,18 @@
 /area/medical/chemistry)
 "dNl" = (
 /obj/machinery/firealarm/directional/north,
-/obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/aisat_interior";
-	name = "Antechamber Turret Control";
-	pixel_x = -30;
-	req_access_txt = "65"
-	},
 /obj/structure/showcase/cyborg/old{
 	dir = 4;
 	pixel_x = -9;
 	pixel_y = 2
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/aisat_interior";
+	name = "Antechamber Turret Control";
+	pixel_x = -30;
+	req_access_txt = "65"
+	},
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/turret_protected/aisat_interior)
 "dNH" = (
@@ -27846,6 +27847,12 @@
 /area/hallway/primary/central)
 "fpj" = (
 /obj/machinery/pipedispenser,
+/obj/machinery/turretid{
+	icon_state = "control_stun";
+	name = "AI Chamber turret control";
+	pixel_x = 27;
+	pixel_y = -1
+	},
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/turret_protected/ai_upload)
 "fpo" = (
@@ -35209,7 +35216,12 @@
 /turf/open/floor/iron/white,
 /area/science/robotics/lab)
 "hfS" = (
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/aisat_interior";
+	name = "Antechamber Turret Control";
+	pixel_y = 30;
+	req_access_txt = "65"
+	},
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "hfT" = (
@@ -65718,6 +65730,7 @@
 /area/hallway/secondary/entry)
 "ogg" = (
 /obj/item/kirbyplants/random,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "ogC" = (
@@ -85337,6 +85350,12 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/ai_upload";
+	icon_state = "control_stun";
+	name = "AI Upload turret control";
+	pixel_x = -32
+	},
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/command/storage/satellite)
 "sJn" = (
@@ -103633,6 +103652,15 @@
 /obj/machinery/status_display/evac/directional/west,
 /turf/open/floor/iron,
 /area/service/hydroponics/garden)
+"wYH" = (
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/ai_upload";
+	icon_state = "control_stun";
+	name = "AI Upload turret control";
+	pixel_x = 32
+	},
+/turf/open/floor/iron/dark/asteroid_baseturf,
+/area/ai_monitored/turret_protected/aisat_interior)
 "wYP" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
@@ -109135,7 +109163,6 @@
 	pixel_x = -3;
 	pixel_y = 3
 	},
-/obj/item/storage/toolbox/mechanical,
 /obj/item/multitool,
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/command/storage/satellite)
@@ -151606,7 +151633,7 @@ wnI
 xTr
 iFY
 xMf
-vQJ
+wYH
 vQJ
 waD
 cNn
