@@ -115,7 +115,7 @@
 	if(IS_BLOODSUCKER(user))
 		. += {"<span class='cult'>This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.</span>"}
 		. += {"<span class='cult'>Clicking on the rack with an empty hand while it is in your lair will secure it in place.</span>"}
-		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Alt click on the vassal rack to unbuckle them.</span>"}
+		. += {"<span class='cult'>Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.</span>"}
 		. += {"<span class='cult'>To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.</span>"}
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
@@ -176,7 +176,9 @@
 	useLock = FALSE
 
 /// Attempt Release (Owner vs Non Owner)
-/obj/structure/bloodsucker/vassalrack/AltClick(mob/user) // WILLARD TODO: Replace this with RightClickOn once we get it via TGU (And change the description!)
+/obj/structure/bloodsucker/vassalrack/RightClick(mob/user)
+	if(!user.canUseTopic(src, BE_CLOSE))
+		return
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
 		return
 	var/mob/living/carbon/C = pick(buckled_mobs)
@@ -633,11 +635,11 @@
 		return
 	if(IS_BLOODSUCKER(user))
 		. += "<span class='cult'>This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.</span>"
-		. += "<span class='cult'>You can alt click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.</span>"
+		. += "<span class='cult'>You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.</span>"
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 			. += {"<span class='cult'>As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.</span>"}
-			. += {"<span class='cult'>Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while AltClick will unbuckle, as long as you are in reach.</span>"}
+			. += {"<span class='cult'>Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.</span>"}
 			. += {"<span class='cult'>Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.</span>"}
 	if(IS_VASSAL(user))
 		. += "<span class='notice'>This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.</span>"
@@ -661,7 +663,7 @@
 			return
 	. = ..()
 
-/obj/structure/bloodsucker/candelabrum/AltClick(mob/user) // WILLARD TODO: Replace with RightClick when TGU happens.
+/obj/structure/bloodsucker/candelabrum/RightClick(mob/user)
 	/// Are we right next to it? Let's unbuckle the person in it, then.
 	if(user.Adjacent(src))
 		if(!has_buckled_mobs() || !isliving(user))
