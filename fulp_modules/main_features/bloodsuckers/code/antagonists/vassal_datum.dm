@@ -10,7 +10,7 @@
 	job_rank = ROLE_BLOODSUCKER
 	show_in_roundend = FALSE
 	show_name_in_check_antagonists = TRUE
-	// tips = VASSAL_TIPS // Willard - Uncomment this to enable antag tips.
+	tips = VASSAL_TIPS
 	/// Who made me?
 	var/datum/antagonist/bloodsucker/master
 	/// Purchased powers.
@@ -88,7 +88,6 @@
 	to_chat(owner, "<span class='userdanger'>You are now the mortal servant of [master.owner.current], a bloodsucking vampire!</span>")
 	to_chat(owner, "<span class='boldannounce'>The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
 			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.<span>")
-	to_chat(owner, "<span class='userdanger'>Vassal Tip: Avoid being mindshielded at all costs!</span>")
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 	/// Message told to your Master.
