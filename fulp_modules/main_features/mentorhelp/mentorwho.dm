@@ -21,8 +21,10 @@
 		for(var/client/C in GLOB.mentors)
 			if(C.is_afk())
 				continue
-			if(mentor_datum?.is_contributor && !check_rights_for(C, R_ADMIN,0))
+			if(check_rights_for(C, R_ADMIN,0))
+				continue
+			if(mentor_datum?.is_contributor)
 				msg += "\t[C] is a Contributor\n"
-			else if(C.mentor_datum && !check_rights_for(C, R_ADMIN,0))
+			else if(C.mentor_datum)
 				msg += "\t[C] is a Mentor\n"
 	to_chat(src, msg)
