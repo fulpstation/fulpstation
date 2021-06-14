@@ -12,7 +12,9 @@
 
 	log_mentor("MSAY: [key_name(src)] : [msg]")
 	msg = keywords_lookup(msg)
-	if(mentor_datum?.is_contributor)
+	if(src.key == "SgtHunk")
+		msg = "<b><font color = #A097FE><span class='prefix'>HOP:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
+	else if(mentor_datum?.is_contributor)
 		msg = "<b><font color = #88cdf1><span class='prefix'>CONTRIB:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
 	else if(check_rights_for(src, R_ADMIN, 0))
 		msg = "<b><font color = #8A2BE2><span class='prefix'>MENTOR:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
