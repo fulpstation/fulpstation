@@ -98,6 +98,7 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
+	owner.unconvertable = TRUE // Remove when Bloodsucker huds dont fuck with Rev/Cult ones
 	forge_bloodsucker_objectives()
 	/// Start Sunlight if first Bloodsucker
 	clan.check_start_sunlight()
@@ -113,6 +114,7 @@
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
+	owner.unconvertable = FALSE // Remove when Bloodsucker huds dont fuck with Rev/Cult ones
 	/// End Sunlight? (if last Vamp)
 	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
