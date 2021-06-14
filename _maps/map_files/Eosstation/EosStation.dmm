@@ -515,6 +515,10 @@
 	},
 /turf/open/floor/carpet/royalblue,
 /area/command/bridge)
+"aee" = (
+/obj/structure/lattice,
+/turf/closed/wall/r_wall,
+/area/solars/port/fore)
 "aeg" = (
 /obj/structure/cable,
 /obj/structure/chair/pew/right{
@@ -6708,6 +6712,7 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "baQ" = (
+/obj/structure/cable,
 /turf/open/floor/iron/stairs/right,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "baW" = (
@@ -9469,6 +9474,14 @@
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/purple,
 /area/service/bar)
+"brX" = (
+/obj/machinery/door/airlock/maintenance{
+	name = "A.I Solar Access";
+	req_access_txt = "10;11;12"
+	},
+/obj/structure/cable,
+/turf/open/floor/iron/dark/asteroid_baseturf,
+/area/solars/port/fore)
 "bsc" = (
 /obj/effect/turf_decal/siding/yellow{
 	dir = 9
@@ -15642,13 +15655,11 @@
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
 "cwF" = (
-/obj/machinery/camera{
-	c_tag = "AI-Exterior Space 11";
-	dir = 4;
-	network = list("minisat")
-	},
+/obj/structure/lattice/catwalk,
+/obj/structure/cable,
+/obj/item/stack/cable_coil,
 /turf/open/space/basic,
-/area/space)
+/area/solars/port/fore)
 "cwS" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -36330,6 +36341,13 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/mixing)
+"hsh" = (
+/obj/structure/cable,
+/obj/machinery/power/smes{
+	charge = 20000
+	},
+/turf/open/floor/iron/dark/asteroid_baseturf,
+/area/ai_monitored/turret_protected/aisat/foyer)
 "hsq" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/brown{
@@ -41077,6 +41095,7 @@
 	pixel_x = -1;
 	pixel_y = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "ixH" = (
@@ -53676,6 +53695,17 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/pharmacy)
+"lnt" = (
+/obj/structure/lattice/catwalk,
+/obj/item/stack/cable_coil,
+/obj/structure/cable,
+/obj/machinery/door/airlock/external/glass{
+	cyclelinkeddir = 2;
+	req_access = 13;
+	req_access_txt = "13"
+	},
+/turf/open/space/basic,
+/area/solars/port/fore)
 "lnz" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 1
@@ -59396,6 +59426,14 @@
 	},
 /turf/open/floor/plating/asteroid_baseturf,
 /area/maintenance/starboard/aft)
+"mDA" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/camera{
+	c_tag = "Solar Array- A.I 2 ";
+	name = "Camera"
+	},
+/turf/open/space/basic,
+/area/solars/port/fore)
 "mDD" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
@@ -74330,6 +74368,15 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/storage/tcomms)
+"qaN" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/camera{
+	c_tag = "Solar Array- A.I ";
+	name = "Camera"
+	},
+/obj/structure/cable,
+/turf/open/space/basic,
+/area/solars/port/fore)
 "qaS" = (
 /obj/structure/reagent_dispensers/fueltank,
 /obj/effect/turf_decal/stripes/white/line{
@@ -80063,6 +80110,7 @@
 	dir = 8
 	},
 /obj/structure/railing,
+/obj/structure/cable,
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "rrl" = (
@@ -82915,6 +82963,12 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/iron/dark,
 /area/engineering/atmos)
+"sct" = (
+/obj/structure/lattice/catwalk,
+/obj/item/stack/cable_coil,
+/obj/structure/cable,
+/turf/open/space/basic,
+/area/solars/port/fore)
 "scD" = (
 /obj/structure/railing{
 	dir = 9
@@ -90295,6 +90349,9 @@
 	},
 /turf/open/floor/iron/dark,
 /area/security/office)
+"tRd" = (
+/turf/closed/wall/r_wall,
+/area/solars/port/fore)
 "tRf" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
@@ -151949,9 +152006,9 @@ waD
 cNn
 xMf
 ogg
-hSV
+oIS
 baQ
-hSV
+oIS
 aaL
 xMf
 aOR
@@ -152208,8 +152265,8 @@ xMf
 xMf
 xMf
 xMf
-xMf
-xMf
+hsh
+oIS
 xMf
 xMf
 xMf
@@ -152464,12 +152521,12 @@ mKY
 xMf
 xMf
 xMf
+tRd
+tRd
+brX
+tRd
 xMf
-xMf
-xMf
-xMf
-xMf
-cFp
+bhv
 cFp
 cFp
 cFp
@@ -152721,17 +152778,17 @@ rhz
 xMf
 xMf
 cFp
-cFp
-cFp
+aee
+kVR
 cwF
+aee
+cFp
+bhv
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+aXx
+aXx
+aXx
 cFp
 cFp
 cFp
@@ -152978,17 +153035,17 @@ pnL
 xMf
 xMf
 cFp
+aee
+lnt
+tRd
+aee
+cFp
+bhv
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+bhv
+aXx
 cFp
 cFp
 cFp
@@ -153235,16 +153292,16 @@ pEU
 xMf
 xMf
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+sct
+bhv
+sdI
+iNK
+sdI
+iNK
+sdI
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -153492,16 +153549,16 @@ fsV
 xMf
 xMf
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+qaN
+bhv
+sdI
+iNK
+sdI
+iNK
+sdI
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -153749,16 +153806,16 @@ lCP
 xMf
 xMf
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+sdI
+bhv
+sdI
+iNK
+sdI
+iNK
+sdI
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -154006,16 +154063,16 @@ xMf
 xMf
 xMf
 cFp
-cFp
-cFp
-cFp
-cFp
-aaa
-aaa
-aaa
-cFp
-cFp
-cFp
+bhv
+kVR
+bhv
+kVR
+iNK
+kVR
+iNK
+kVR
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -154025,7 +154082,7 @@ cFp
 tGv
 cFp
 cFp
-cFp
+cCG
 cFp
 cFp
 cFp
@@ -154263,16 +154320,16 @@ xMf
 xMf
 xMf
 cFp
-cFp
-cFp
-cFp
-cFp
-aaa
-aaa
-aaa
-cFp
-cFp
-cFp
+bhv
+sdI
+bhv
+kVR
+iNK
+mDA
+iNK
+kVR
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -154520,16 +154577,16 @@ awG
 cFp
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+kVR
+kVR
+sdI
+kVR
+kVR
+kVR
+kVR
+sdI
+bcS
 cFp
 cFp
 cFp
@@ -154777,16 +154834,16 @@ cFp
 cFp
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+bhv
+bhv
+sdI
+iNK
+sdI
+iNK
+sdI
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -155036,14 +155093,14 @@ cFp
 cFp
 cFp
 cFp
-cFp
-cCG
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+sdI
+iNK
+sdI
+iNK
+sdI
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -155293,14 +155350,14 @@ cFp
 cFp
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+sdI
+iNK
+sdI
+iNK
+sdI
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -155550,14 +155607,14 @@ cFp
 cFp
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+kVR
+iNK
+kVR
+iNK
+kVR
+iNK
+bhv
 cFp
 cFp
 cFp
@@ -155807,15 +155864,15 @@ cFp
 cFp
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+kVR
+iNK
+kVR
+iNK
+kVR
+iNK
+bhv
+aXx
 cFp
 cFp
 cFp
@@ -156063,16 +156120,16 @@ cFp
 cFp
 cFp
 cFp
+tKt
+bhv
+bhv
 cFp
 cFp
 cFp
 cFp
-cFp
-cFp
-cFp
-cFp
-cFp
-cFp
+bhv
+bhv
+aXx
 cFp
 cFp
 cFp
@@ -156320,14 +156377,14 @@ cFp
 cFp
 cFp
 cFp
-ccX
-aaa
+ccW
+ccW
 cFp
 cFp
 cFp
 cFp
 cFp
-cFp
+bhv
 cFp
 cFp
 cFp
@@ -156579,7 +156636,7 @@ qJO
 aae
 ccW
 ccW
-iDR
+cFp
 ccW
 ccW
 ccW
@@ -157830,9 +157887,9 @@ cFp
 cFp
 cFp
 cFp
-aaa
-aaa
-aaa
+cFp
+cFp
+cFp
 aaa
 aaa
 aaa
@@ -158087,9 +158144,9 @@ cFp
 cFp
 cFp
 cFp
-aaa
-aaa
-aaa
+cFp
+cFp
+cFp
 aaa
 aaa
 aaa
@@ -158344,9 +158401,9 @@ cFp
 cFp
 cFp
 cFp
-aaa
-aaa
-aaa
+cFp
+cFp
+cFp
 aaa
 aaa
 aaa
