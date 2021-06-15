@@ -22,7 +22,6 @@
 	required_candidates = get_antag_cap(population)
 	. = ..()
 
-
 /datum/dynamic_ruleset/roundstart/bloodsucker/pre_execute(population)
 	. = ..()
 	var/num_bloodsuckers = get_antag_cap(population) * (scaled_times + 1)
@@ -32,7 +31,7 @@
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
 		M.mind.special_role = ROLE_BLOODSUCKER
-		M.mind.restricted_roles = restricted_roles
+		M.mind.make_bloodsucker(M)
 		GLOB.pre_setup_antags += M.mind
 	return TRUE
 
@@ -99,7 +98,7 @@
 	assigned += M.mind
 	living_players -= M.mind
 	var/datum/antagonist/bloodsucker/sucker = new
-	M.mind.add_antag_datum(sucker)
+	M.mind.make_bloodsucker(M)
 	sucker.bloodsucker_level_unspent = rand(2,3)
 	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
@@ -128,7 +127,7 @@
 	var/mob/M = pick(candidates) // This should contain a single player, but in case.
 	assigned += M.mind
 	var/datum/antagonist/bloodsucker/sucker = new
-	M.mind.add_antag_datum(sucker)
+	M.mind.make_bloodsucker(M)
 	sucker.bloodsucker_level_unspent = rand(2,3)
 	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
 	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
