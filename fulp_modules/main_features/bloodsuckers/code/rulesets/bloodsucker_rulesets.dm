@@ -24,11 +24,10 @@
 
 	for(var/i = 1 to num_bloodsuckers)
 		var/mob/M = pick_n_take(candidates)
-		if(M.mind.can_make_bloodsucker(M))
-			assigned += M.mind
-			M.mind.restricted_roles = restricted_roles
-			M.mind.special_role = ROLE_BLOODSUCKER
-			GLOB.pre_setup_antags += M.mind
+		assigned += M.mind
+		M.mind.restricted_roles = restricted_roles
+		M.mind.special_role = ROLE_BLOODSUCKER
+		GLOB.pre_setup_antags += M.mind
 	return TRUE
 
 
@@ -105,12 +104,11 @@
 	var/mob/M = pick(living_players)
 	assigned += M.mind
 	living_players -= M.mind
-	if(M.mind.can_make_bloodsucker(M))
-		var/datum/antagonist/bloodsucker/sucker = new
-		M.mind.add_antag_datum(sucker)
-		sucker.bloodsucker_level_unspent = rand(2,3)
-		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
-		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	var/datum/antagonist/bloodsucker/sucker = new
+	M.mind.add_antag_datum(sucker)
+	sucker.bloodsucker_level_unspent = rand(2,3)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
 
 //////////////////////////////////////////////
@@ -135,12 +133,11 @@
 /datum/dynamic_ruleset/latejoin/bloodsucker/execute()
 	var/mob/M = pick(candidates) // This should contain a single player, but in case.
 	assigned += M.mind
-	if(M.mind.can_make_bloodsucker(M))
-		var/datum/antagonist/bloodsucker/sucker = new
-		M.mind.add_antag_datum(sucker)
-		sucker.bloodsucker_level_unspent = rand(2,3)
-		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
-		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
+	var/datum/antagonist/bloodsucker/sucker = new
+	M.mind.add_antag_datum(sucker)
+	sucker.bloodsucker_level_unspent = rand(2,3)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
 	return TRUE
 
 //////////////////////////////////////////////////////////////////////////////
