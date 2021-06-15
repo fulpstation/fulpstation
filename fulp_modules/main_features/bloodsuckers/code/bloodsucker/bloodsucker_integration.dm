@@ -13,13 +13,7 @@
 
 /datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
 	// Prevents Slimeperson 'gaming
-	if(HAS_TRAIT(H, TRAIT_NOPULSE))
-		return
-	. = ..()
-
-/datum/species/jelly/spec_life(mob/living/carbon/human/H)
-	// No regeneration for vampires
-	if(HAS_TRAIT(H, TRAIT_NOPULSE))
+	if(IS_BLOODSUCKER(H))
 		return
 	. = ..()
 
