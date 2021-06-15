@@ -95,11 +95,10 @@
 	if(!mind || !viewer.mind)
 		return ""
 	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
-	var/datum/antagonist/monsterhunter/monsterhunterdatum = mind.has_antag_datum(/datum/antagonist/monsterhunter)
-	if(!vassaldatum || !monsterhunterdatum)
+	if(!vassaldatum)
 		return ""
 	// Vassals and Bloodsuckers recognize eachother, while Monster Hunters can see Vassals.
-	if(!IS_BLOODSUCKER(viewer) || !IS_VASSAL(viewer))
+	if(!IS_BLOODSUCKER(viewer) || !IS_VASSAL(viewer) || !IS_MONSTERHUNTER(viewer))
 		return ""
 
 	// Default String
@@ -110,7 +109,7 @@
 		returnString += "This [dna.species.name] bears YOUR mark!"
 		returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
 	// Am I someone ELSE'S Vassal?
-	else if(IS_BLOODSUCKER(viewer))
+	else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
 		returnString +=	"This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName(vassaldatum.master.owner.current,1)]</span>"
 		returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
 	// Are you serving the same master as I am?
