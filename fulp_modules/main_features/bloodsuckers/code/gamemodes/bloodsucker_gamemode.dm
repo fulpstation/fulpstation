@@ -30,7 +30,6 @@
 			break
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
-		M.mind.special_role = ROLE_BLOODSUCKER
 		M.mind.make_bloodsucker(M)
 		GLOB.pre_setup_antags += M.mind
 	return TRUE

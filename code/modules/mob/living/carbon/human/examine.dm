@@ -18,9 +18,9 @@
 
 	var/vampDesc = ReturnVampExamine(user) // Fulpstation Bloodsuckers edit
 	var/vassDesc = ReturnVassalExamine(user)
-	if (vampDesc != "")
+	if(vampDesc != "")
 		. += vampDesc
-	if (vassDesc != "")
+	if(vassDesc != "")
 		. += vassDesc // Fulpstation edit ends
 
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
@@ -260,7 +260,8 @@
 		apparent_blood_volume -= 150 // enough to knock you down one tier
 	switch(apparent_blood_volume)
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-			msg += "[t_He] [t_has] pale skin.\n"
+			if(ShowAsPaleExamine(user)) // Fulpstation Bloodsuckers edit: Masquerade will hide your identity! -- ALSO ADDS ANOTHER TAB TO THE LINE BELOW
+				msg += "[t_He] [t_has] pale skin.\n"
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
 			msg += "<b>[t_He] look[p_s()] like pale death.</b>\n"
 		if(-INFINITY to BLOOD_VOLUME_BAD)

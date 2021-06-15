@@ -124,24 +124,12 @@
 	returnString += "</span>\]" // \n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-/// Am I "pale" when examined? Bloodsuckers can trick this.
-/mob/living/carbon/human/proc/ShowAsPaleExamine() // WILLARD TODO: Change this what the fuck?
-	// Normal Creatures:
-	if(!mind || !mind.has_antag_datum(/datum/antagonist/bloodsucker))
-		return blood_volume < BLOOD_VOLUME_SAFE
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+/// Am I "pale" when examined? - Bloodsuckers on Masquerade will not.
+/mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	if(bloodsuckerdatum.poweron_masquerade)
 		return FALSE
-	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)
-	return blood_volume < BLOOD_VOLUME_OKAY // && !(bodytemperature <= get_temperature() + 2)
-
-/mob/living/carbon/human/ShowAsPaleExamine()
-	// Check for albino, as per human/examine.dm's check.
-	if(dna.species.use_skintones && skin_tone == "albino")
-		return TRUE
-
-	return ..() // Return vamp check
+	return TRUE
 
 /*
 /mob/living/carbon/proc/scan_blood_volume()
