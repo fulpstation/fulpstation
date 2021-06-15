@@ -273,9 +273,6 @@
 	if(iscarbon(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
-		if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
-			H.set_species(/datum/species/human)
-			H.apply_pref_name("human", preference_source)
 		S.species_traits += DRINKSBLOOD
 	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
