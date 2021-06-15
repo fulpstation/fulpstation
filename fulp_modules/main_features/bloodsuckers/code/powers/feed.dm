@@ -146,7 +146,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
-	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_NECK) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_AGGRESIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
 	feed_time = max(15, feed_time)
@@ -162,7 +162,7 @@
 		//DeactivatePower()
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
-	if(!amSilent)
+	if(!amSilent && owner.grab_state <= GRAB_NECK)
 		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
 		if(target.stat <= UNCONSCIOUS)
 			if(do_after(user, 0.1 SECONDS, target)) // Wait, then Cancel if Invalid
