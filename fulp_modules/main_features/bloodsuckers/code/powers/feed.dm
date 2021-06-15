@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/feed
 	name = "Feed"
-	desc = "Draw the heartsblood of living victims in your grasp.<br><b>None/Passive:</b> Feed silently and unnoticed by your victim.<br><b>Aggressive: </b>Subdue your target quickly."
+	desc = "Draw the heartsblood of living victims in your grasp.<br><b>None/Passive/Aggressive:</b> Feed silently and unnoticed by your victim.<br><b>Neck: </b>Subdue your target quickly."
 	button_icon_state = "power_feed"
 
 	bloodcost = 0
