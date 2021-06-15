@@ -5,7 +5,7 @@
 	background_icon_state_on = "vamp_power_off_oneshot"
 	background_icon_state_off = "vamp_power_off_oneshot"
 
-	bloodcost = 50
+	bloodcost = 100
 	/// It'll never come back.
 	cooldown = 99999
 	amToggle = FALSE

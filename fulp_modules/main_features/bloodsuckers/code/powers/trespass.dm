@@ -6,6 +6,7 @@
 	cooldown = 80
 	amToggle = FALSE
 	//target_range = 2
+	can_use_in_frenzy = TRUE
 	bloodsucker_can_buy = TRUE
 	must_be_capacitated = FALSE
 	can_be_immobilized = TRUE

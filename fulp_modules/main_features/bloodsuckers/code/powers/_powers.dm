@@ -75,8 +75,11 @@
 		if(display_error)
 			to_chat(owner, "[src] is unavailable. Wait [(cooldownUntil - world.time) / 10] seconds.")
 		return FALSE
-	// Have enough blood?
+	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/L = owner
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(L)
+	if(bloodsuckerdatum.Frenzied)
+		return TRUE
 	if(L.blood_volume < bloodcost)
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You need at least [bloodcost] blood to activate [name]</span>")
@@ -154,6 +157,8 @@
 
 /datum/action/bloodsucker/proc/PayCost()
 	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(B.Frenzied) // Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
+		return
 	if(B)
 		B.AddBloodVolume(-bloodcost)
 	else
