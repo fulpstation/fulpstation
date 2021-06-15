@@ -163,8 +163,6 @@
 	if(creator)
 		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
 		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
-		return TRUE
-	// [MASTER]
 	return TRUE
 
 /datum/mind/proc/remove_bloodsucker()
