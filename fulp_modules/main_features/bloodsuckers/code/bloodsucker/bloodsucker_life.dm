@@ -286,8 +286,8 @@
 /// Frenzy's End is in HandleStarving.
 /datum/antagonist/bloodsucker/proc/Frenzy_Start()
 	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!</span>")
-	to_chat(owner.current, "<span class='announce'>* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed.</span><br>")
-	/// Disable ALL Powers
+	to_chat(owner.current, "<span class='announce'>* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed and Trespass (If you have it).</span><br>")
+	// Disable ALL Powers
 	for(var/datum/action/bloodsucker/power in powers)
 		if(power.active)
 			power.DeactivatePower()
@@ -295,7 +295,7 @@
 	ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-	/// Congratulations, you are the dumbest guy in Town.
+	// Congratulations, you are the dumbest guy in Town.
 	if(HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
 		REMOVE_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
 	frenzygrab.teach(owner.current, TRUE)
@@ -307,7 +307,7 @@
 	REMOVE_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-	/// Congratulations, you know now how to read again!
+	// Congratulations, you know now how to read again!
 	if(!HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
 		ADD_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
 	frenzygrab.remove(owner.current)
