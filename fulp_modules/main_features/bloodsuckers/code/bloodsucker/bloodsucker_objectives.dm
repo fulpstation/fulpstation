@@ -54,7 +54,7 @@
 
 /// Vassalize someone in charge (Head of Staff + QM)
 /// LOOKUP: /datum/crewmonitor/proc/update_data(z) for .assignment to see how to get a person's PDA.
-/datum/objective/bloodsucker/protege  // WILLARD TODO: Shaft Miners arent considered Cargo, probably related to the Quartermaster not being a head of staff.
+/datum/objective/bloodsucker/protege
 	name = "vassalization"
 
 	var/list/roles = list(
