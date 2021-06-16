@@ -62,7 +62,7 @@
 	return TRUE
 
 // EXAMINING
-/mob/living/carbon/human/proc/ReturnVampExamine(mob/viewer)
+/mob/living/carbon/human/proc/ReturnVampExamine(mob/living/viewer)
 	if(!mind || !viewer.mind)
 		return ""
 	// Target must be a Vamp
@@ -89,36 +89,36 @@
 	//returnString += "\n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-/mob/living/carbon/human/proc/ReturnVassalExamine(mob/viewer)
-	// Am I not even a Vassal? Then I am not marked.
+/mob/living/carbon/human/proc/ReturnVassalExamine(mob/living/viewer)
 	if(!mind || !viewer.mind)
 		return ""
+	// Target must be a Vassal
 	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
 	if(!vassaldatum)
 		return ""
-	// Vassals and Bloodsuckers recognize eachother, while Monster Hunters can see Vassals.
-	if(!IS_BLOODSUCKER(viewer) || !IS_VASSAL(viewer) || !IS_MONSTERHUNTER(viewer))
-		return ""
-
 	// Default String
 	var/returnString = "\[<span class='warning'>"
 	var/returnIcon = ""
-	// Am I Viewer's Vassal?
-	if(vassaldatum?.master.owner == viewer.mind)
-		returnString += "This [dna.species.name] bears YOUR mark!"
-		returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
-	// Am I someone ELSE'S Vassal?
-	else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
-		returnString +=	"This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName(vassaldatum.master.owner.current,1)]</span>"
-		returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
-	// Are you serving the same master as I am?
-	else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)
-		returnString += "[p_they(TRUE)] bears the mark of your Master"
-		returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
-	// You serve a different Master than I do.
+	// Vassals and Bloodsuckers recognize eachother, while Monster Hunters can see Vassals.
+	if(IS_BLOODSUCKER(viewer) || IS_VASSAL(viewer) || IS_MONSTERHUNTER(viewer))
+		// Am I Viewer's Vassal?
+		if(vassaldatum?.master.owner == viewer.mind)
+			returnString += "This [dna.species.name] bears YOUR mark!"
+			returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
+		// Am I someone ELSE'S Vassal?
+		else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
+			returnString +=	"This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName(vassaldatum.master.owner.current,1)]</span>"
+			returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
+		// Are you serving the same master as I am?
+		else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)
+			returnString += "[p_they(TRUE)] bears the mark of your Master"
+			returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
+		// You serve a different Master than I do.
+		else
+			returnString += "[p_they(TRUE)] bears the mark of another Bloodsucker"
+			returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
 	else
-		returnString += "[p_they(TRUE)] bears the mark of another Bloodsucker"
-		returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
+		return ""
 
 	returnString += "</span>\]" // \n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString

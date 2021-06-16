@@ -100,7 +100,7 @@
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/L = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(L)
-	if(bloodsuckerdatum.Frenzied)
+	if(bloodsuckerdatum?.Frenzied)
 		return TRUE
 	if(L.blood_volume < bloodcost)
 		if(display_error)

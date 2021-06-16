@@ -16,14 +16,14 @@
 		if(HAS_TRAIT(L, TRAIT_PROSOPAGNOSIA))
 			obscure_name = TRUE
 
+	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
+
 	var/vampDesc = ReturnVampExamine(user) // Fulpstation Bloodsuckers edit
 	var/vassDesc = ReturnVassalExamine(user)
 	if(vampDesc != "")
 		. += vampDesc
 	if(vassDesc != "")
 		. += vassDesc // Fulpstation edit ends
-
-	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
 
 	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
