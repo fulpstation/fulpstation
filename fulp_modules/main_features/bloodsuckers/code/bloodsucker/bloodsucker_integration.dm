@@ -126,7 +126,7 @@
 /// Am I "pale" when examined? - Bloodsuckers on Masquerade will hide this.
 /mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	if(bloodsuckerdatum.poweron_masquerade)
+	if(bloodsuckerdatum.poweron_masquerade && !bloodsuckerdatum.clan == CLAN_NOSFERATU)
 		return FALSE
 	return TRUE
 
