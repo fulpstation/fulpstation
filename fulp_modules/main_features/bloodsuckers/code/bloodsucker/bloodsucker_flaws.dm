@@ -138,7 +138,6 @@
 			my_clan = CLAN_MALKAVIAN
 			to_chat(owner, "<span class='reallybig hypnophrase'>Welcome to the Malkavian...</span>")
 			to_chat(owner, "<span class='userdanger'>* Bloodsucker Malkavian: Vampire is you are completely and irrati-- unrepairably Insane...</span>")
-			// WILLARD TODO: Make Masquerade hide brain traumas? Unless you're a Beefman, that is. Also applies to Frenzy.
 			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			ADD_TRAIT(bloodsucker, TRAIT_XRAY_VISION, BLOODSUCKER_TRAIT)

@@ -37,7 +37,12 @@
 	. = ..()
 	SEND_SIGNAL(src, COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
 
-
+// Used when analyzing a Bloodsucker, Masquerade will hide brain traumas (Unless you're a Beefman)
+/mob/living/carbon/get_traumas()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(src)
+	if(bloodsuckerdatum && bloodsuckerdatum.poweron_masquerade && !isbeefman(src))
+		return
+	. = ..()
 
 // INTEGRATION: Adding Procs and Datums to existing "classes"
 
