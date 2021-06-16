@@ -423,8 +423,8 @@
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 
 	/// Done! Let them know & Update their HUD.
-	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!</span>")
-	to_chat(owner.current, "<span class='notice'>Your existing powers have all ranked up as well!</span>")
+	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!<br> \
+	* Your existing powers have all ranked up as well!</span>")
 	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
 

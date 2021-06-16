@@ -472,7 +472,6 @@
 				I.removed(target,silent=TRUE)
 
 /obj/structure/bloodsucker/vassalrack/proc/tremere_perform_magic(mob/living/user, mob/living/target)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 	/// To deal with Blood
 	var/mob/living/carbon/human/C = user

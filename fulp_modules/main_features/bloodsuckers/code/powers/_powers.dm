@@ -147,7 +147,7 @@
 			return FALSE
 	// In a Frenzy?
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && !bloodsuckerdatum.my_clan == CLAN_BRUJAH)
 		if(!can_use_in_frenzy)
 			if(display_error)
 				to_chat(owner, "<span class='warning'>You cannot use powers while in a Frenzy!</span>")
