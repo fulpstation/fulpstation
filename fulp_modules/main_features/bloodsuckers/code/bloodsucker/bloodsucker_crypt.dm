@@ -578,7 +578,7 @@
 			to_chat(target, "<span class='announce'>As Blood drips over your body, you feel closer to your Master...</span>")
 			C.blood_volume -= 150
 			/// Make them immune to Mindshielding now
-			update_vassal_icons_added(owner.current, "vassal6")
+			vassaldatum.update_vassal_icons_added(target, "vassal6")
 			vassaldatum.BuyPower(new /datum/action/bloodsucker/distress)
 			vassaldatum.protected_from_mindshielding = TRUE
 			return
@@ -692,23 +692,36 @@
  *	Most of this is just copied over from Persuasion Rack.
  */
 
-/obj/structure/bloodsucker/candelabrum/attack_hand(mob/user)
+/obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	// Checks: We're Ventrue, they're Buckled & Alive.
 	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-		/// Is anyone on the Candelabrum?
 		if(!has_buckled_mobs())
 			toggle()
 			return
 		var/mob/living/carbon/C = pick(buckled_mobs)
-		/// Are they our Dead?
 		if(C.stat >= DEAD)
 			unbuckle_mob(C)
 			return
-		if(bloodsuckerdatum.bloodsucker_level_unspent <= 0)
-			to_chat(user, "<span class='danger'>You don't have any levels to upgrade [C] with.</span>")
-			return
-		/// Everything is good to go - Time to Buy our Favorite Vassal a new Power!
-		bloodsuckerdatum.SpendVassalRank(C)
+		// Are we spending a Rank?
+		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+			bloodsuckerdatum.SpendVassalRank(C, TRUE)
+		else if(user.blood_volume >= 550)
+			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
+			to_chat(user, "<span class='warning'>Do you wish to spend 550 Blood to Rank [C] up?</span>")
+			var/list/rank_options = list(
+				"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+				"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+				)
+			var/rank_response = show_radial_menu(user, src, rank_options, radius = 36, require_near = TRUE)
+			switch(rank_response)
+				if("Yes")
+					user.blood_volume -= 550
+					bloodsuckerdatum.SpendVassalRank(C, FALSE)
+					return
+		// Neither? Shame. Goodbye!
+		to_chat(user, "<span class='danger'>You don't have any levels or enough Blood to Rank [C] up with.</span>")
+		return
 
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(IS_BLOODSUCKER(user) || istype(T))
@@ -720,7 +733,7 @@
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
 
 	/// Are you even a Bloodsucker?
-	if(!bloodsuckerdatum)
+	if(!bloodsuckerdatum || !vassaldatum)
 		return
 	/// Are you part of Ventrue? No? Then go away.
 	if(!bloodsuckerdatum.my_clan == CLAN_VENTRUE)

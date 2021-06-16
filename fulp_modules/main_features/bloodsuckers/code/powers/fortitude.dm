@@ -59,7 +59,7 @@
 	if(IS_MONSTERHUNTER(owner))
 		H.physiology.brute_mod /= 0.4
 		H.physiology.burn_mod /= 0.4
-	
+
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
 	return ..()
@@ -70,19 +70,12 @@
 	desc = "Use the arts to Flow to your advantage, giving stun and shove immunity, as well as dismember and pierce resistance. Like the Vampire you learned from, you are unable to run while it is active."
 	button_icon_state = "power_fortitude"
 	bloodcost = 0
-	cooldown = 80
 	bloodsucker_can_buy = FALSE
-	amToggle = TRUE
-	warn_constant_cost = FALSE
 
 /// Vassal version
 /datum/action/bloodsucker/fortitude/vassal
 	name = "Force"
 	desc = "Use your Master's teachings to Force yourself to keep your guard through stuns, shovings, dismemberment and piercings. You are unable to run while this is active."
 	button_icon_state = "power_fortitude"
-	bloodcost = 0
-	cooldown = 80
 	bloodsucker_can_buy = FALSE
 	vassal_can_buy = TRUE
-	amToggle = TRUE
-	warn_constant_cost = FALSE

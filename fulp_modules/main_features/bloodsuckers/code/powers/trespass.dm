@@ -98,3 +98,10 @@
 	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
 	puff.set_up(3, 0, target_turf)
 	puff.start()
+
+///Vassal edition
+/datum/action/bloodsucker/targeted/trespass/dissapear
+	name = "Dissapear"
+	desc = "Dissapear into thin air as you transport yourself to another location."
+	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE

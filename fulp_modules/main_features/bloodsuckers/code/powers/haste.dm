@@ -104,7 +104,7 @@
 				L.stuttering = max(8, L.stuttering)
 				L.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity
 
-/// Vassal version
+///Vassal edition
 /datum/action/bloodsucker/targeted/haste/vassal
 	name = "Speed of Sound"
 	desc = "Rely on your Master's Dashing techniques to move at supernatural speed, leaving those nearby knocked away, stunned, or left empty-handed."

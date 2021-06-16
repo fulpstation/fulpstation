@@ -117,6 +117,12 @@
 			mesmerized.emp_act(EMP_HEAVY)
 			to_chat(user, "<span class='warning'>You have temporarily shut [mesmerized] down.</span>")
 
-
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && CheckCanUse() && CheckCanTarget(target)
+
+///Vassal edition
+/datum/action/bloodsucker/targeted/mesmerize/hypnotize
+	name = "Hypnotize"
+	desc = "Stare into the eyes of someone watching you, temporarily hypnotizing them."
+	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE
