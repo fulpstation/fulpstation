@@ -505,7 +505,6 @@
 		return
 
 	var/static/list/races = list(
-		TREMERE_SKELETON,
 		TREMERE_ZOMBIE,
 		TREMERE_HUSK,
 		TREMERE_BAT,
@@ -513,6 +512,7 @@
 	var/list/options = list()
 	options = races
 	var/answer = tgui_input_list(user, "We have the chance to mutate our Vassal, how should we mutilate their corpse?", "What do we do with our Vassal?", options)
+	var/blood_gained
 	if(!do_mob(user, src, 5 SECONDS))
 		to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		return
@@ -544,7 +544,7 @@
 			to_chat(user, "<span class='notice'>You suck all the blood out of [target], turning them into a Living Husk!</span>")
 			to_chat(target, "<span class='notice'>Your master has mutated you into a Living Husk!</span>")
 			/// Just take it all
-			bloodsuckerdatum.HandleFeeding(target, 200)
+			blood_gained = 250
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 			H.become_husk()
 			vassaldatum.mutilated = TRUE
@@ -552,7 +552,7 @@
 		/// Chance to give Bat form, or turn them into a bat.
 		if(TREMERE_BAT)
 			/// Ooh, lucky!
-			if(prob(40))
+			if(prob(60))
 				to_chat(user, "<span class='notice'>You have mutated [target], giving them the ability to turn into a Bat and back at will!</span>")
 				to_chat(target, "<span class='notice'>Your master has mutated you, giving you the ability to turn into a Bat and back at will!</span>")
 				var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
@@ -568,6 +568,8 @@
 				vassaldatum.mutilated = TRUE
 				return
 
+	if(blood_gained)
+		user.blood_volume += blood_gained
 	to_chat(user, "<span class='notice'>You decide to leave your Vassal just the way they are.</span>")
 	return
 

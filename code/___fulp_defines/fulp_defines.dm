@@ -57,10 +57,9 @@
 /* Clan defines
 */
 // Tremere
-#define TREMERE_SKELETON "Skeleton Pirate"
 #define TREMERE_ZOMBIE "Zombie - Revives"
 #define TREMERE_HUSK "Husk - Drinks all their Blood"
-#define TREMERE_BAT "Bat - Chance to give them Bat form"
+#define TREMERE_BAT "Bat - Bat Form"
 
 /*
  *	Deputy Defines
