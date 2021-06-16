@@ -178,12 +178,12 @@
 	..()
 
 /datum/action/bloodsucker/proc/PayCost()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
-	if(B.Frenzied)
+	if(bloodsuckerdatum?.Frenzied)
 		return
-	if(B)
-		B.AddBloodVolume(-bloodcost)
+	if(bloodsuckerdatum)
+		bloodsuckerdatum.AddBloodVolume(-bloodcost)
 	else
 		var/mob/living/carbon/human/H = owner
 		H.blood_volume -= bloodcost
