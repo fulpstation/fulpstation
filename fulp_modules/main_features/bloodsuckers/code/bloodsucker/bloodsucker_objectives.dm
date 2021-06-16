@@ -182,7 +182,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Eat blood from a lot of people
+///Eat blood from a lot of people
 /datum/objective/bloodsucker/gourmand
 	name = "blooddrinker"
 
@@ -195,7 +195,7 @@
 // EXPLANATION
 /datum/objective/bloodsucker/gourmand/update_explanation_text()
 	. = ..()
-	explanation_text = "Drink [target_amount] units of Blood total, using your Feed ability."
+	explanation_text = "Using your Feed ability, drink [target_amount] units of Blood."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/gourmand/check_completion()
