@@ -191,6 +191,8 @@
 	return clan
 
 /datum/team/vampireclan/roundend_report()
+	if(members.len <= 0)
+		return
 	var/list/report = list()
 	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
 	for(var/datum/mind/M in members)
@@ -215,6 +217,8 @@
 	if(objectives.len)
 		report += printobjectives(objectives)
 		for(var/datum/objective/objective in objectives)
+			if(objective.objective_name == "Optional Objective")
+				continue
 			if(!objective.check_completion())
 				objectives_complete = FALSE
 				break
@@ -517,6 +521,7 @@
 	var/datum/objective/bloodsucker/protege/protege_objective = new
 	protege_objective.owner = owner
 	protege_objective.generate_objective()
+	protege_objective.objective_name = "Optional Objective"
 	add_objective(protege_objective)
 
 	switch(rand(0,2))
@@ -524,16 +529,19 @@
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner
 			heartthief_objective.generate_objective()
+			heartthief_objective.objective_name = "Optional Objective"
 			add_objective(heartthief_objective)
 		if(1) // Vassalize Target Objective
 			var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
 			vassalhim_objective.owner = owner
 			vassalhim_objective.find_target()
+			vassalhim_objective.objective_name = "Optional Objective"
 			add_objective(vassalhim_objective)
 		if(2) // Drink Blood Objective
 			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
 			gourmand_objective.owner = owner
 			gourmand_objective.generate_objective()
+			gourmand_objective.objective_name = "Optional Objective"
 			add_objective(gourmand_objective)
 
 	// Survive Objective
