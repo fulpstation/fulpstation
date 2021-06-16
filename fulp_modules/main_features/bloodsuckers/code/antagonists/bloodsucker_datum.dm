@@ -532,7 +532,7 @@
 			protege_objective.generate_objective()
 			protege_objective.objective_name = "Optional Objective"
 			add_objective(protege_objective)
-		if(2) // Drink Blood Objective
+		if(1) // Drink Blood Objective
 			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
 			gourmand_objective.owner = owner
 			gourmand_objective.generate_objective()
