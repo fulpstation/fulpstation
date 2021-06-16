@@ -517,21 +517,6 @@
 		to_chat(user, "<span class='danger'><i>The ritual has been interrupted!</i></span>")
 		return
 	switch(answer)
-		if(TREMERE_SKELETON)
-			to_chat(user, "<span class='notice'>You have mutated [target] into a Skeleton Pirate!</span>")
-			to_chat(target, "<span class='notice'>Your master has mutated you into a Skeleton!</span>")
-			/// Strip them naked - From gohome.dm
-			var/list/items = list()
-			items |= target.get_equipped_items()
-			for(var/I in items)
-				target.dropItemToGround(I,TRUE)
-			for(var/obj/item/I in target.held_items)
-				target.dropItemToGround(I, TRUE)
-			/// Now give them their other stuff
-			H.set_species(/datum/species/skeleton)
-			H.equipOutfit(/datum/outfit/pirate)
-			vassaldatum.mutilated = TRUE
-			return
 		if(TREMERE_ZOMBIE)
 			to_chat(user, "<span class='notice'>You have mutated [target] into a High-Functioning Zombie, fully healing them in the process!</span>")
 			to_chat(target, "<span class='notice'>Your master has mutated you into a High-Functioning Zombie!</span>")
