@@ -56,6 +56,7 @@
 #define CLAN_MALKAVIAN "Malkavian Clan"
 /* Clan defines
 */
+// Tremere
 #define TREMERE_SKELETON "Skeleton Pirate"
 #define TREMERE_ZOMBIE "Zombie - Revives"
 #define TREMERE_HUSK "Husk - Drinks all their Blood"

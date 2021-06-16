@@ -89,7 +89,7 @@
 		Tremere - Burn in the Chapel, Vassal Mutilation.<br> \
 		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead.<br></span>")
 	if(!isbeefman(bloodsucker))
-		to_chat(owner, "<span class='announce'>Malakavian - Hallucinations and Bluespace prophet.<br></span>")
+		to_chat(owner, "<span class='announce'>Malakavian - Complete insanity.<br></span>")
 	to_chat(owner, "<span class='announce'>* Read more about Clans here: https://wiki.fulp.gg/en/Bloodsucker.<br></span>")
 
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
@@ -136,11 +136,12 @@
 			return
 		if(CLAN_MALKAVIAN)
 			my_clan = CLAN_MALKAVIAN
-			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Malkavian Clan!<br> \
-				* As part of the Malkavian Clan, you see the world in a different way, suffering hallucinations and seeing strange portals everywhere.</span>")
+			to_chat(owner, "<span class='reallybig hypnophrase'>Welcome to the Malkavian...</span>")
+			to_chat(owner, "<span class='userdanger'>* Bloodsucker Malkavian: Vampire is you are completely and irrati-- unrepairably Insane...</span>")
 			// WILLARD TODO: Make Masquerade hide brain traumas? Unless you're a Beefman, that is. Also applies to Frenzy.
 			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
+			ADD_TRAIT(bloodsucker, TRAIT_XRAY_VISION, BLOODSUCKER_TRAIT)
 			return
 
 		else

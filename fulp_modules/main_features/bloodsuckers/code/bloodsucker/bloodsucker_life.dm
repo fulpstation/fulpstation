@@ -13,7 +13,7 @@
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	if(!owner || AmFinalDeath)
 		return
-	/// Deduct Blood
+	// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		AddBloodVolume(passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
@@ -22,10 +22,10 @@
 			notice_healing = TRUE
 	else if(notice_healing)
 		notice_healing = FALSE
-	/// In a Frenzy? Take damage, to encourage them to Feed as soon as possible.
+	// In a Frenzy? Take damage, to encourage them to Feed as soon as possible.
 	if(Frenzied)
 		owner.current.adjustFireLoss(3)
-	/// Special check, Tremere Bloodsuckers burn while in the Chapel
+	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
 		var/area/A = get_area(owner.current)
 		if(istype(A, /area/service/chapel))
@@ -33,7 +33,19 @@
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
-	/// Standard Updates
+	if(my_clan == CLAN_MALKAVIAN && prob(25) && !poweron_masquerade)
+		switch(rand(0,5))
+			if(0)
+				owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
+			else
+				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+					if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_CRITICAL_CONDITION))
+						continue
+					if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions) || !is_station_level(H))
+						continue
+					var/area/A = get_area(H)
+					owner.current.say("#...oh dear... [H]... what are you doing... at [A]?")
+	// Standard Updates
 	HandleDeath()
 	HandleStarving()
 	HandleTorpor()
