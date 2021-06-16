@@ -861,7 +861,7 @@
 #define ui_sunlight_display "WEST:6,CENTER-0:0"
 
 /datum/hud/human/New(mob/living/carbon/human/owner)
-	..()
+	. = ..()
 	blood_display = new /atom/movable/screen/bloodsucker/blood_counter
 	infodisplay += blood_display
 	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter

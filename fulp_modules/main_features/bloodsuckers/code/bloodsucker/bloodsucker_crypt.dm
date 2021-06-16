@@ -578,6 +578,8 @@
 			to_chat(target, "<span class='announce'>As Blood drips over your body, you feel closer to your Master...</span>")
 			C.blood_volume -= 150
 			/// Make them immune to Mindshielding now
+			update_vassal_icons_added(owner.current, "vassal6")
+			vassaldatum.BuyPower(new /datum/action/bloodsucker/distress)
 			vassaldatum.protected_from_mindshielding = TRUE
 			return
 		else

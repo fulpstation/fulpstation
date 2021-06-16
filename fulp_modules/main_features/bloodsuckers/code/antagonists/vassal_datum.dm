@@ -43,9 +43,7 @@
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Give Recuperate Power
-	var/datum/action/bloodsucker/recuperate/new_Recuperate = new()
-	powers += new_Recuperate
-	new_Recuperate.Grant(owner.current)
+	BuyPower(new /datum/action/bloodsucker/recuperate)
 	/// Give Objectives
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
