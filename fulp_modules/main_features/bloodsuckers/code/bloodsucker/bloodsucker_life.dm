@@ -35,9 +35,7 @@
 			owner.current.IgniteMob()
 	if(my_clan == CLAN_MALKAVIAN && prob(25) && !poweron_masquerade)
 		switch(rand(0,4))
-			if(0)
-				owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
-			else
+			if(0) // 20% chance to call out a player at their location
 				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
 					if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_CRITICAL_CONDITION))
 						continue
@@ -45,6 +43,16 @@
 						continue
 					var/area/A = get_area(H)
 					owner.current.say("#...oh dear... [H]... what are you doing... at [A]?")
+			if(1) // 20% chance to call out a DEAD player at their location
+				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
+					if(!H.stat == DEAD)
+						continue
+					if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions))
+						continue
+					var/area/A = get_area(H)
+					owner.current.say("#[H]... why would you perish at [A]?")
+			else // 60% chance to say some malkavian revelation
+				owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
 	// Standard Updates
 	HandleDeath()
 	HandleStarving()
