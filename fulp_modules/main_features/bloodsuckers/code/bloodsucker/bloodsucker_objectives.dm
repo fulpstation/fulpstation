@@ -109,9 +109,9 @@
 // EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
 	if(target_role == "HEAD")
-		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
+		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role via the Persuasion Rack."
 	else
-		explanation_text = "Have [target_amount] Vassal[target_amount==1?"":"s"] in the [department_string] department."
+		explanation_text = "Have [target_amount] Vassal[target_amount==1?"":"s"] in the [department_string] department via the Persuasion Rack."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/protege/check_completion()
@@ -295,7 +295,7 @@
 /datum/objective/bloodsucker/vassalhim/update_explanation_text()
 	..()
 	if(target?.current)
-		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized."
+		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized via the Persuasion Rack."
 	else
 		explanation_text = "Free Objective"
 
