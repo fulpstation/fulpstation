@@ -8,7 +8,7 @@
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
 	tips = BLOODSUCKER_TIPS
-	/// List of all Antagonists that can't be vassalized.
+	///List of all Antagonists that can't be vassalized.
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,
 		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
@@ -16,7 +16,7 @@
 		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
 		)
 
-	/// Used for assigning your name
+	///Used for assigning your name
 	var/bloodsucker_name
 	var/bloodsucker_title
 	var/bloodsucker_reputation
@@ -28,19 +28,19 @@
 	 *	Also used to track your vassals, your creator, and what clan you're in.
 	 */
 	var/datum/team/vampireclan/clan
-	/// You get assigned a Clan once you Rank up enough
+	///You get assigned a Clan once you Rank up enough
 	var/my_clan = null
-	/// Vassals under my control. Periodically remove the dead ones.
+	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
-	/// Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
+	///Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	var/datum/mind/creator
 
-	/// Powers
+	///Powers
 	var/list/datum/action/powers = list()
 	var/poweron_feed = FALSE
 	var/poweron_masquerade = FALSE
 
-	/// Stats that change throughout the round and used for Ranking up.
+	///Stats that change throughout the round and used for Ranking up.
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
 	var/additional_regen
@@ -48,11 +48,12 @@
 	var/feed_amount = 15
 	var/max_blood_volume = 600
 
-	/// Used for Bloodsucker Objectives
+	///Used for Bloodsucker Objectives
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
+	var/total_blood_drank = 0
 
-	/// Used in Bloodsucker huds
+	///Used in Bloodsucker huds
 	var/valuecolor
 
 	/*
@@ -60,24 +61,24 @@
 	 *
 	 *	These are all used for Tracking Bloodsucker stats and such.
 	 */
-	/// How much food to throw up later. You shouldn't have eaten that.
+	///How much food to throw up later. You shouldn't have eaten that.
 	var/foodInGut
-	/// So we only get the locker burn message once per day.
+	///So we only get the locker burn message once per day.
 	var/warn_sun_locker
-	/// So we only get the sun burn message once per day.
+	///So we only get the sun burn message once per day.
 	var/warn_sun_burn
-	/// The amount of blood we loose each bloodsucker life tick LifeTick()
+	///The amount of blood we loose each bloodsucker life tick LifeTick()
 	var/passive_blood_drain = -0.1
-	/// Var to see if you are healing for preventing spam of the chat message inform the user of such
+	///Var to see if you are healing for preventing spam of the chat message inform the user of such
 	var/notice_healing
-	/// Have we reached final death?
+	///Have we reached final death?
 	var/AmFinalDeath = FALSE
-	/// Are we currently in a Frenzy? - Martial Art also used in Frenzy
+	///Are we currently in a Frenzy? - Martial Art also used in Frenzy
 	var/Frenzied = FALSE
 	var/datum/martial_art/frenzygrab/frenzygrab = new
-	/// Have we selected our Favorite Vassal yet? - This is Ventrue only!
+	///Have we selected our Favorite Vassal yet? - This is Ventrue only!
 	var/my_favorite_vassal = FALSE
-	/// Default traits ALL Bloodsuckers get.
+	///Default traits ALL Bloodsuckers get.
 	var/static/list/defaultTraits = list(
 		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\
 		TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, \
@@ -518,7 +519,7 @@
 	protege_objective.generate_objective()
 	add_objective(protege_objective)
 
-	switch(rand(0,1))
+	switch(rand(0,2))
 		if(0) // Heart Thief Objective
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner
@@ -529,6 +530,11 @@
 			vassalhim_objective.owner = owner
 			vassalhim_objective.find_target()
 			add_objective(vassalhim_objective)
+		if(2) // Drink Blood Objective
+			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
+			gourmand_objective.owner = owner
+			gourmand_objective.generate_objective()
+			add_objective(gourmand_objective)
 
 	// Survive Objective
 	var/datum/objective/bloodsucker/survive/survive_objective = new

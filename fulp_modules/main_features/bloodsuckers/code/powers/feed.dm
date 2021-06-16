@@ -146,7 +146,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
-	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_AGGRESSIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	var/amSilent = (!target_grappled || owner.grab_state > GRAB_AGGRESSIVE && !bloodsuckerdatum.Frenzied) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
 	feed_time = max(15, feed_time)
@@ -162,7 +162,7 @@
 		//DeactivatePower()
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
-	if(!amSilent && owner.grab_state >= GRAB_NECK)
+	if(!amSilent)
 		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
 		if(target.stat <= UNCONSCIOUS)
 			if(do_after(user, 0.1 SECONDS, target)) // Wait, then Cancel if Invalid
@@ -252,13 +252,16 @@
 		///////////////////////////////////////////////////////////
 		// 		Handle Feeding! User & Victim Effects (per tick)
 		if(bloodsuckerdatum)
-			bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+			var/drinkblood = bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+			. += drinkblood
+			amount_taken += drinkblood
 		if(vassaldatum)
-			vassaldatum.HandleFeeding(target, blood_take_mult)
-		amount_taken += amSilent ? 0.3 : 1
+			var/drinkblood = vassaldatum.HandleFeeding(target, blood_take_mult)
+			. += drinkblood
+			amount_taken += drinkblood
 		if(!amSilent)
 			ApplyVictimEffects(target)	// Sleep, paralysis, immobile, unconscious, and mute
-		if(amount_taken > 5 && target.stat < DEAD && ishuman(target))
+		if(amount_taken > 50 && target.stat < DEAD && ishuman(target))
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood) // GOOD // in bloodsucker_life.dm
 
 		/// Fed off a mindless person as Ventrue? - This is only possible in Frenzy.
@@ -311,6 +314,7 @@
 		user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
 							 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
 		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
+	bloodsuckerdatum.total_blood_drank += amount_taken
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.

@@ -73,7 +73,6 @@
 		"Research Director",
 		"Chief Engineer",
 		"Chief Medical Officer",
-		"Quartermaster",
 	)
 
 
@@ -82,17 +81,18 @@
 
 // GENERATE!
 /datum/objective/bloodsucker/protege/generate_objective()
-	target_role = rand(0,2) == 0 ? "HEAD" : pick(departs)
-
-	/// Command personnel? Only one required
+	// Choose between Command and a Department
+	switch(rand(0,2))
+		if(0)
+			target_role = "HEAD"
+		else
+			target_role = pick(departs)
+	// Now, did we land on Head? We only get one target, then
 	if(target_role == "HEAD")
 		target_amount = 1
-	/// Vassalize department workers? 2-4 people, then.
 	else
+		// Otherwise, we get 2-3 targets & pick a random Command member, their department is our target.
 		switch(target_role)
-			if("Captain")
-				/// They aren't security, but they do start mindshielded.
-				department_string = "Security"
 			if("Head of Security")
 				department_string = "Security"
 			if("Head of Personnel")
@@ -103,8 +103,6 @@
 				department_string = "Engineering"
 			if("Chief Medical Officer")
 				department_string = "Medical"
-			if("Quartermaster")
-				department_string = "Cargo"
 		target_amount = rand(2,3)
 	..()
 
@@ -133,7 +131,7 @@
 			var/datum/job/J = SSjob.GetJobType(T)
 			if(!istype(J))
 				continue
-			// Found a job whose Dept Head matches either list of heads, or this job IS the head
+			// Found a job whose Dept Head matches either list of heads, or this job IS the head. We exclude the QM from this, HoP handles Cargo.
 			if((target_role in J.department_head) || target_role == J.title)
 				valid_jobs += J.title
 
@@ -185,7 +183,29 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /// Eat blood from a lot of people
-/datum/objective/bloodsucker/gourmand // WILLARD TODO: Would be good to get this working, vassalhim isn't a good objective, it's really just an advanced protect objective, which is never fun.
+/datum/objective/bloodsucker/gourmand
+	name = "blooddrinker"
+
+// GENERATE!
+/datum/objective/bloodsucker/gourmand/generate_objective()
+	target_amount = rand(450,650)
+	update_explanation_text()
+	return target_amount
+
+// EXPLANATION
+/datum/objective/bloodsucker/gourmand/update_explanation_text()
+	. = ..()
+	explanation_text = "Drink [target_amount] units of Blood total, using your Feed ability."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/gourmand/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	var/stolen_blood = bloodsuckerdatum.total_blood_drank
+	if(stolen_blood >= target_amount)
+		return TRUE
+	return FALSE
 
 // HOW: Track each feed (if human). Count victory.
 
