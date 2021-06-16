@@ -511,20 +511,29 @@
 	//clan = new /datum/team/vampireclan(owner)
 
 
-	// Lair Objective
+	// Claim a Lair Objective
 	var/datum/objective/bloodsucker/lair/lair_objective = new
 	lair_objective.owner = owner
 	lair_objective.generate_objective()
 	add_objective(lair_objective)
 
-	// Protege Objective
-	var/datum/objective/bloodsucker/protege/protege_objective = new
-	protege_objective.owner = owner
-	protege_objective.generate_objective()
-	protege_objective.objective_name = "Optional Objective"
-	add_objective(protege_objective)
+	// Objective 1: Vassalize a Head/Command, or Drink X amount of Blood.
+	switch(rand(0,1))
+		if(0) // Protege Objective
+			var/datum/objective/bloodsucker/protege/protege_objective = new
+			protege_objective.owner = owner
+			protege_objective.generate_objective()
+			protege_objective.objective_name = "Optional Objective"
+			add_objective(protege_objective)
+		if(2) // Drink Blood Objective
+			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
+			gourmand_objective.owner = owner
+			gourmand_objective.generate_objective()
+			gourmand_objective.objective_name = "Optional Objective"
+			add_objective(gourmand_objective)
 
-	switch(rand(0,2))
+	// Objective 2: Steal X amount of hearts, or Vassalize a certain crewmate.
+	switch(rand(0,1))
 		if(0) // Heart Thief Objective
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner
@@ -537,12 +546,6 @@
 			vassalhim_objective.find_target()
 			vassalhim_objective.objective_name = "Optional Objective"
 			add_objective(vassalhim_objective)
-		if(2) // Drink Blood Objective
-			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
-			gourmand_objective.owner = owner
-			gourmand_objective.generate_objective()
-			gourmand_objective.objective_name = "Optional Objective"
-			add_objective(gourmand_objective)
 
 	// Survive Objective
 	var/datum/objective/bloodsucker/survive/survive_objective = new
