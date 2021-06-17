@@ -97,7 +97,7 @@
 		if(CLAN_BRUJAH)
 			my_clan = CLAN_BRUJAH
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Brujah Clan!<br> \
-				* As part of the Bujah Clan, you are more prone to falling into Frenzy, don't let your blood drop too low!<br> \
+				* As part of the Bujah Clan, you are more prone to falling into Frenzy, though you are used to it, feel free to enter whenever you want!<br> \
 				* Additionally, Brawn and punches deal more damage than other Bloodsuckers. Use this to your advantage!</span>")
 			/// Makes their max punch, and by extension Brawn, stronger - Stolen from SpendRank()
 			var/datum/species/S = bloodsucker.dna.species
@@ -106,7 +106,7 @@
 		if(CLAN_NOSFERATU)
 			my_clan = CLAN_NOSFERATU
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
-				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade ability.<br> \
+				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade or Veil ability.<br> \
 				* Additionally, in exchange for having a bad back and not being identifiable, you can fit into vents using Alt+Click</span>")
 			for(var/datum/action/bloodsucker/power in powers)
 				if(istype(power, /datum/action/bloodsucker/masquerade))
@@ -134,7 +134,7 @@
 			to_chat(owner, "<span class='announce'>You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
 				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.<br> \
 				* Additionally, you will no longer Rank up. You are now instead able to get a Favorite vassal, by putting a Vassal on the persuasion rack and attempting to Tortute them.<br> \
-				* Finally, you may Rank your Favorite Vassal up by buckling them onto a Candelabrum.</span>")
+				* Finally, you may Rank your Favorite Vassal (and your own powers) up by buckling them onto a Candelabrum and using it, this will cost a Rank or Blood to do.</span>")
 			to_chat(owner, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack/Candelabrum to see how they operate!</span>")
 			return
 		if(CLAN_MALKAVIAN)
