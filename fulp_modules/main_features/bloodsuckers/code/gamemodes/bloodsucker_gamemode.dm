@@ -65,8 +65,8 @@
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/midround/bloodsucker/acceptable(population = 0, threat = 0)
-	var/player_count = mode.current_players[CURRENT_LIVING_PLAYERS].len
-	var/antag_count = mode.current_players[CURRENT_LIVING_ANTAGS].len
+	var/player_count = GLOB.alive_player_list.len
+	var/antag_count = GLOB.current_living_antags.len
 	var/max_suckers = round(player_count / 10) + 1
 	var/too_little_antags = antag_count < max_suckers
 	if (!too_little_antags)

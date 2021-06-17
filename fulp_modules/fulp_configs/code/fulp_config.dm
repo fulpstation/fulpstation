@@ -2,3 +2,6 @@
 
 /datum/config_entry/string/discordurl
 	config_entry_value = "https://discord.gg/SVu782A"
+
+/datum/config_entry/string/headofpseudostaff
+	config_entry_value = "SgtHunk"

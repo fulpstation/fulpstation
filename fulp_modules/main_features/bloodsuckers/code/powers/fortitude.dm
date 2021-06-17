@@ -18,14 +18,16 @@
 	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
+	var/mob/living/carbon/human/H = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
-		var/mob/living/carbon/human/H = owner
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
 		H.physiology.brute_mod *= fortitude_resist
 		H.physiology.stamina_mod *= fortitude_resist
 	/// As they cant level up their powers, give them the pre-nerf effects.
 	if(IS_MONSTERHUNTER(owner))
 		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+		H.physiology.brute_mod *= 0.4
+		H.physiology.burn_mod *= 0.4
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
@@ -57,6 +59,8 @@
 		H.physiology.stamina_mod /= fortitude_resist
 	if(IS_MONSTERHUNTER(owner))
 		REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+		H.physiology.brute_mod /= 0.4
+		H.physiology.burn_mod /= 0.4
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
 	return ..()

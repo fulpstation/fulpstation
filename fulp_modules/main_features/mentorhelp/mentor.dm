@@ -13,6 +13,8 @@ GLOBAL_PROTECT(mentor_href_token)
 	/// href token for Mentor commands, uses the same token used by Admins.
 	var/href_token
 	var/mob/following
+	/// Are we a Contributor?
+	var/is_contributor = FALSE
 
 /datum/mentors/New(ckey)
 	if(!ckey)
@@ -31,6 +33,9 @@ GLOBAL_PROTECT(mentor_href_token)
 		/// Don't add admins to mentor list.
 		if(!check_rights_for(owner, R_ADMIN,0))
 			GLOB.mentors += owner
+		var/list/cdatums = world.file2list("[global.config.directory]/contributors.txt")
+		if(ckey in cdatums)
+			is_contributor = TRUE
 
 /datum/mentors/proc/CheckMentorHREF(href, href_list)
 	var/auth = href_list["mentor_token"]
