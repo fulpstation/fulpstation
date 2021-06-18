@@ -67,7 +67,7 @@
 		return
 	var/id_name = I.registered_name
 	if(id_name == registrant) //If already registered to the same person swiping the ID, we will 'toggle off' registration and unregister the body camera.
-		unregister_body_camera(I, user)
+		unregister_body_camera(user)
 		return
 
 	registrant = id_name
@@ -90,7 +90,7 @@
 		if(cam_name == matching_camera.c_tag)
 			to_chat(user, "<span class='notice'>Matching registration found. Unregistering previously registered body camera.</span>")
 			if(S)
-				S.unregister_body_camera(I, user, FALSE)
+				S.unregister_body_camera(user)
 			break
 
 	builtInCamera.c_tag = "[cam_name]"
