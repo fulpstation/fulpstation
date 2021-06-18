@@ -100,7 +100,7 @@
 		to_chat(user, "<span class='notice'>Security uniform body camera successfully registered to [id_name]</span>")
 
 /// Unregistering the ID - Called when using your ID on an already claimed jumpsuit, or removing it.
-/obj/item/clothing/under/rank/security/proc/unregister_body_camera(obj/item/card/id/I, mob/user)
+/obj/item/clothing/under/rank/security/proc/unregister_body_camera(mob/user)
 	if(!builtInCamera)
 		return
 	QDEL_NULL(builtInCamera)
@@ -108,7 +108,7 @@
 	registrant = null
 	if(user)
 		playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
-		to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered from [I.registered_name]</span>")
+		to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered.</span>")
 
 /// Bodycamera upgrade
 /obj/item/bodycam_upgrade
