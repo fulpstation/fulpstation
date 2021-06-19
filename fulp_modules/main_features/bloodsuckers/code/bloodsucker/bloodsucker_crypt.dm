@@ -86,11 +86,11 @@
 	desc = "If this wasn't meant for torture, then someone has some fairly horrifying hobbies."
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "vassalrack"
-	buckle_lying = FALSE
 	anchored = FALSE
 	/// Start dense. Once fixed in place, go non-dense.
 	density = TRUE
 	can_buckle = TRUE
+	buckle_lying = 180
 	/// So we can't spam buckle people onto the rack
 	var/useLock = FALSE
 	var/mob/buckled
@@ -190,7 +190,8 @@
 
 /// Attempt Buckle
 /obj/structure/bloodsucker/vassalrack/proc/attach_victim(mob/living/M, mob/living/user)
-	/// Standard Buckle Check
+	// Standard Buckle Check
+	M.forceMove(get_turf(src))
 	if(!buckle_mob(M))
 		return
 	user.visible_message("<span class='notice'>[user] straps [M] into the rack, immobilizing them.</span>", \
@@ -198,15 +199,10 @@
 
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
 	//M.forceMove(drop_location()) <--- CANT DO! This cancels the buckle_mob() we JUST did (even if we foced the move)
-	M.setDir(2)
 	density = TRUE
-	var/matrix/m180 = matrix(M.transform)
-	m180.Turn(180)
-	animate(M, transform = m180, time = 3)
-	M.pixel_y = M.base_pixel_y + PIXEL_Y_OFFSET_LYING
 	update_icon()
 
-	/// Set up Torture stuff now
+	// Set up Torture stuff now
 	convert_progress = 3
 	disloyalty_confirm = FALSE
 	disloyalty_offered = FALSE
@@ -222,7 +218,7 @@
 			M.visible_message("<span class='danger'>[user] tries to pull [M] rack!</span>", \
 				"<span class='danger'>[user] tries to pull [M] rack!</span>", \
 				"<span class='hear'>You hear a squishy wet noise.</span>", null)
-		//// Monster hunters are used to this sort of stuff, they know how they work.
+		// Monster hunters are used to this sort of stuff, they know how they work.
 		if(IS_MONSTERHUNTER(user))
 			if(!do_mob(user, M, 10 SECONDS))
 				return
@@ -235,13 +231,9 @@
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	if(!..())
 		return
-	var/matrix/m180 = matrix(buckled_mob.transform)
-	m180.Turn(180)
-	animate(buckled_mob, transform = m180, time = 2)
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack.</span>"))
-	buckled_mob.pixel_y = buckled_mob.base_pixel_y + PIXEL_Y_OFFSET_LYING
 	density = FALSE
-	buckled_mob.AdjustParalyzed(30)
+	buckled_mob.AdjustParalyzed(3 SECONDS)
 	update_icon()
 	useLock = FALSE // Failsafe
 
@@ -498,7 +490,7 @@
 				target.revive(full_heal = TRUE, admin_revive = TRUE)
 				return
 		to_chat(user, "<span class='danger'>You decide not to revive [target].</span>")
-		/// Unbuckle them now.
+		// Unbuckle them now.
 		unbuckle_mob(C)
 		useLock = FALSE
 		return
