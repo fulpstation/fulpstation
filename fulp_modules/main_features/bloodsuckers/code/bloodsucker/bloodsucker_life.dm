@@ -33,7 +33,7 @@
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
-	if(my_clan == CLAN_MALKAVIAN && prob(15) && !poweron_masquerade)
+	if(my_clan == CLAN_MALKAVIAN && prob(15) && !poweron_masquerade && owner.current.stat)
 		switch(rand(0,4))
 			if(0) // 20% chance to call out a player at their location
 				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
