@@ -428,6 +428,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["feature_moth_wings"], features["moth_wings"])
 	READ_FILE(S["feature_moth_antennae"], features["moth_antennae"])
 	READ_FILE(S["feature_moth_markings"], features["moth_markings"])
+	// [FULP EDIT START]
+	READ_FILE(S["feature_beefcolor"], features["beefcolor"])
+	READ_FILE(S["feature_beefeyes"], features["beefeyes"])
+	READ_FILE(S["feature_beefmouth"], features["beefmouth"])
+	// [FULP EDIT END]
 	READ_FILE(S["persistent_scars"] , persistent_scars)
 	if(!CONFIG_GET(flag/join_with_mutant_humans))
 		features["tail_human"] = "none"
