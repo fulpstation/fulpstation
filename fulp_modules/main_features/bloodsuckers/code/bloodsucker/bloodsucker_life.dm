@@ -33,7 +33,7 @@
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
-	if(my_clan == CLAN_MALKAVIAN && prob(25) && !poweron_masquerade)
+	if(my_clan == CLAN_MALKAVIAN && prob(15) && !poweron_masquerade)
 		switch(rand(0,4))
 			if(0) // 20% chance to call out a player at their location
 				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
@@ -43,6 +43,7 @@
 						continue
 					var/area/A = get_area(H)
 					owner.current.say("#...oh dear... [H]... what are you doing... at [A]?")
+					break
 			if(1) // 20% chance to call out a DEAD player at their location
 				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
 					if(!H.stat == DEAD)
@@ -51,6 +52,7 @@
 						continue
 					var/area/A = get_area(H)
 					owner.current.say("#[H]... why would you perish at [A]?")
+					break
 			else // 60% chance to say some malkavian revelation
 				owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
 	// Standard Updates
