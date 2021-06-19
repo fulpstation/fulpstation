@@ -133,7 +133,7 @@
 
 /datum/antagonist/bloodsucker/farewell()
 	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
-	/// Refill with Blood so they don't instantly die.
+	// Refill with Blood so they don't instantly die.
 	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
 
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
@@ -142,10 +142,15 @@
 /datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
 	objectives -= O
 
-/// Called when using admin tools to give antag status
-/datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner,mob/admin)
-	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
-	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
+// Called when using admin tools to give antag status
+/datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
+	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
+	var/msg = " made [key_name_admin(new_owner)] into [name]"
+	if(!isnull(levels))
+		bloodsucker_level_unspent += levels
+		msg += "with [levels] extra unspent Ranks."
+	message_admins("[key_name_admin(usr)][msg]")
+	log_admin("[key_name(usr)][msg]")
 	new_owner.add_antag_datum(src)
 
 
