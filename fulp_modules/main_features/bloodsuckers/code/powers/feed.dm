@@ -47,12 +47,12 @@
 			var/mob/living/carbon/human/H = target
 			if(!H.can_inject(owner, BODY_ZONE_CHEST, INJECT_CHECK_PENETRATE_THICK))
 				return FALSE
-			if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			if(IS_BLOODSUCKER(target))
 				if(display_error)
 					to_chat(owner, "<span class='warning'>Other Bloodsuckers will not fall for your subtle approach.</span>")
 				return FALSE
 	// Must have Target
-	if(!target)	 //  || !ismob(target)
+	if(!target) // || !ismob(target)
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You must be next to or grabbing a victim to feed from them.</span>")
 		return FALSE
@@ -146,7 +146,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
-	var/amSilent = (!target_grappled || owner.grab_state > GRAB_AGGRESSIVE && !bloodsuckerdatum.Frenzied) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	var/amSilent = (!target_grappled || owner.grab_state < GRAB_AGGRESSIVE && !bloodsuckerdatum.Frenzied) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
 	feed_time = max(15, feed_time)
