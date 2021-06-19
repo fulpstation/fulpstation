@@ -121,6 +121,8 @@
 		/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
 		var/amInCoffinWhileTorpor = istype(C.loc, /obj/structure/closet/crate/coffin)
 		if(amInCoffinWhileTorpor && HAS_TRAIT(C, TRAIT_NODEATH))
+			if(poweron_masquerade)
+				to_chat(C, "<span class='warning'>You will not heal while your Masquerade ability is active.</span>")
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			C.extinguish_mob()
