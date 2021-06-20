@@ -57,7 +57,7 @@
 /datum/objective/bloodsucker/protege
 	name = "vassalization"
 
-	var/list/roles = list(
+	var/list/heads = list(
 		"Captain",
 		"Head of Personnel",
 		"Head of Security",
@@ -66,17 +66,17 @@
 		"Chief Medical Officer",
 		"Quartermaster",
 	)
-	var/list/departs = list(
-		"Captain",
-		"Head of Security",
-		"Head of Personnel",
-		"Research Director",
-		"Chief Engineer",
-		"Chief Medical Officer",
+	// Captain doesn't go here because captain is head of the command department, and command has its own objective
+	var/list/heads_w_depart_index = list(
+		"Security" = "Head of Security",
+		"Service or Cargo" = "Head of Personnel",
+		"Science" = "Research Director",
+		"Engineering" = "Chief Engineer",
+		"Medical" = "Chief Medical Officer",
 	)
 
 
-	var/target_role	// Equals "HEAD" when it's not a department role.
+	var/target_role	// The reference role to determine whether or not a job is in a department. Usually the head. Equals "HEAD" if the target department is Command
 	var/department_string
 
 // GENERATE!
@@ -85,33 +85,20 @@
 	switch(rand(0,2))
 		if(0)
 			target_role = "HEAD"
+			target_amount = 1 // Head objectives get one target
 		else
-			target_role = pick(departs)
-	// Now, did we land on Head? We only get one target, then
-	if(target_role == "HEAD")
-		target_amount = 1
-	else
-		// Otherwise, we get 2-3 targets & pick a random Command member, their department is our target.
-		switch(target_role)
-			if("Head of Security")
-				department_string = "Security"
-			if("Head of Personnel")
-				department_string = "Cargo"
-			if("Research Director")
-				department_string = "Science"
-			if("Chief Engineer")
-				department_string = "Engineering"
-			if("Chief Medical Officer")
-				department_string = "Medical"
-		target_amount = rand(2,3)
+			target_role = pick(heads_w_depart_index)
+			department_string = heads_w_depart_index.Find(target_role) // The department is the index!
+			target_amount = rand(2, 3) // Non-head objectives get multiple
 	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
+	. = ..()
 	if(target_role == "HEAD")
-		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role via the Persuasion Rack."
+		explanation_text = "Guarantee a Department Head or someone in a Leadership role is your loyal servant by the end of the day via the Persuasion Rack."
 	else
-		explanation_text = "Have [target_amount] Vassal[target_amount==1?"":"s"] in the [department_string] department via the Persuasion Rack."
+		explanation_text = "Have [target_amount] Vassal\s in the [department_string] department via the Persuasion Rack."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/protege/check_completion()
@@ -123,7 +110,7 @@
 	// Get list of all jobs that are qualified (for HEAD, this is already done)
 	var/list/valid_jobs
 	if(target_role == "HEAD")
-		valid_jobs = roles
+		valid_jobs = heads
 	else
 		valid_jobs = list()
 		var/list/alljobs = subtypesof(/datum/job) // This is just a list of TYPES, not the actual variables!
@@ -137,7 +124,6 @@
 
 	// Check Vassals, and see if they match
 	var/objcount = 0
-	var/list/counted_roles = list() // So you can't have more than one Captain count.
 	for(var/datum/antagonist/vassal/V in antagdatum.vassals)
 		if(!V || !V.owner)	// Must exist somewhere, and as a vassal.
 			continue
@@ -145,18 +131,18 @@
 		var/thisRole = "none"
 
 		// Mind Assigned
-		if((V.owner.assigned_role in valid_jobs) && !(V.owner.assigned_role in counted_roles))
+		if(V.owner.assigned_role in valid_jobs)
 			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MIND ROLE)</span>")
 			thisRole = V.owner.assigned_role
 		// Mob Assigned
-		else if((V.owner.current.job in valid_jobs) && !(V.owner.current.job in counted_roles))
+		else if(V.owner.current.job in valid_jobs)
 			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MOB JOB)</span>")
 			thisRole = V.owner.current.job
 		// PDA Assigned
 		else if(V.owner.current && ishuman(V.owner.current))
 			var/mob/living/carbon/human/H = V.owner.current
 			var/obj/item/card/id/I = H.wear_id ? H.wear_id.GetID() : null
-			if(I && (I.assignment in valid_jobs) && !(I.assignment in counted_roles))
+			if(I && (I.assignment in valid_jobs) && (I.registered_name == V.name))
 				//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (GET ID)</span>")
 				thisRole = I.assignment
 
@@ -166,8 +152,6 @@
 
 		// SUCCESS!
 		objcount++
-		if(target_role == "HEAD")
-			counted_roles += thisRole // Add to list so we don't count it again (but only if it's a Head)
 
 	return objcount >= target_amount
 	/* 			NOTE!!!!!!!!!!!
@@ -261,7 +245,7 @@
 // EXPLANATION
 /datum/objective/bloodsucker/heartthief/update_explanation_text()
 	. = ..()
-	explanation_text = "Steal and keep [target_amount] heart[target_amount == 1 ? "" : "s"]." // TO DO: Limit them to Human Only!
+	explanation_text = "Steal and keep [target_amount] organic heart\s."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/heartthief/check_completion()
@@ -271,7 +255,9 @@
 	var/itemcount = FALSE
 	for(var/obj/I in all_items)
 		if(istype(I, /obj/item/organ/heart/))
-			itemcount++
+			var/obj/item/organ/heart/heart_item = I
+			if(!(heart_item.organ_flags & ORGAN_SYNTHETIC)) // No robo-hearts allowed
+				itemcount++
 			if(itemcount >= target_amount)
 				return TRUE
 
@@ -293,7 +279,7 @@
 
 // EXPLANATION
 /datum/objective/bloodsucker/vassalhim/update_explanation_text()
-	..()
+	. = ..()
 	if(target?.current)
 		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized via the Persuasion Rack."
 	else
@@ -376,9 +362,11 @@
 
 // EXPLANATION
 /datum/objective/bloodsucker/vassal/update_explanation_text()
+	. = ..()
 	explanation_text = "Guarantee the success of your Master's mission!"
+
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/vassal/check_completion()
 	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
-	return antag_datum.master && antag_datum.master.owner && antag_datum.master.owner.current && antag_datum.master.owner.current.stat != DEAD
+	return antag_datum.master?.owner?.current?.stat != DEAD

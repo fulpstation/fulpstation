@@ -38,6 +38,12 @@
 #define TRAIT_COLDBLOODED "coldblooded"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
+/// Used for determining the rate at which a bloodsucker regens
+#define BS_BLOOD_VOLUME_MAX_REGEN 700
+/// Frenzy Thresholds
+#define FRENZY_THRESHOLD_NORMAL 25
+#define FRENZY_THRESHOLD_HIGHER 200
+#define FRENZY_THRESHOLD_EXIT 250
 /// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))

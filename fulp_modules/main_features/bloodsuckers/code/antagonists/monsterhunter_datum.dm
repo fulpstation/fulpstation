@@ -81,7 +81,7 @@
 	/// Remove Martial Arts
 	if(my_kungfu)
 		my_kungfu.remove(owner.current)
-	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement, and are no longer a Monster Hunter.</span>")
+	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter.</span>")
 	return ..()
 
 /// Mind version
