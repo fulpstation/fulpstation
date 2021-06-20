@@ -23,7 +23,7 @@
 				continue
 			if(check_rights_for(C, R_ADMIN,0))
 				continue
-			// Dont know deadmined folk
+			// Dont show deadmined folk
 			if(GLOB.deadmins[ckey])
 				continue
 			if(C.mentor_datum?.is_contributor)
