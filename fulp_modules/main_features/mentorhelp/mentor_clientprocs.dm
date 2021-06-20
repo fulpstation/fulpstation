@@ -22,9 +22,7 @@
 	if(!mentor_datum && check_rights_for(src, R_ADMIN,0))
 		new /datum/mentors(ckey)
 	if(mentor_datum)
-		if(!check_rights_for(src, R_ADMIN,0) && !admin)
-			/// Don't add admins too.
-			GLOB.mentors |= src
+		GLOB.mentors |= src
 		mentor_datum.owner = src
 		add_mentor_verbs()
 		var/list/cdatums = world.file2list("[global.config.directory]/contributors.txt")
