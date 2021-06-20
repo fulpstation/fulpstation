@@ -61,9 +61,6 @@
 	if(istype(vampheart))
 		vampheart.FakeStart()
 
-	// All done, begin Power!
-	UsePower(user)
-
 /datum/action/bloodsucker/masquerade/UsePower(mob/living/carbon/user)
 	// Checks that we can keep using this.
 	if(!..())

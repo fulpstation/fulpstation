@@ -163,6 +163,8 @@
 		H.blood_volume -= bloodcost
 
 /datum/action/bloodsucker/proc/ActivatePower()
+	if(amToggle)
+		UsePower(owner)
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
 	active = FALSE

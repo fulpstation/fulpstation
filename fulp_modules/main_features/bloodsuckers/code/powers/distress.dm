@@ -28,5 +28,3 @@
 
 	/// Now pay the price. A small one - Bloodcost is done automatically by the Power.
 	user.adjustBruteLoss(10)
-//	PayCost()
-//	DeactivatePower()

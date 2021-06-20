@@ -20,14 +20,11 @@
 	return TRUE
 
 /datum/action/bloodsucker/cloak/ActivatePower(mob/living/user = owner)
-	. = ..()
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
 	user.AddElement(/datum/element/digitalcamo)
-
-	// All done, begin Power!
-	UsePower(user)
+	. = ..() // Call parent at the end so was_running can work
 
 /datum/action/bloodsucker/cloak/UsePower(mob/living/user)
 	// Checks that we can keep using this.

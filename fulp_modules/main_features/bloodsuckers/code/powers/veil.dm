@@ -85,9 +85,6 @@
 	H.update_hair()
 	H.update_body_parts()
 
-	// Wait here til we deactivate power or go unconscious
-	UsePower(H)
-
 /datum/action/bloodsucker/veil/UsePower(mob/living/carbon/user)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Checks that we can keep using this.
