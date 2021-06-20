@@ -32,7 +32,8 @@
 */
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	. = ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
 
@@ -60,16 +61,16 @@
 	if(istype(vampheart))
 		vampheart.FakeStart()
 
-	// Done! Begin using Power!
+	// All done, begin Power!
 	UsePower(user)
 
-///Don't show Pale/Dead on low blood - Don't vomit food - Don't heal
-/datum/action/bloodsucker/masquerade/proc/UsePower(mob/living/carbon/user)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	bloodsuckerdatum.poweron_masquerade = TRUE
-	if(!bloodsuckerdatum && !ContinueActive(user))
+/datum/action/bloodsucker/masquerade/UsePower(mob/living/carbon/user)
+	// Checks that we can keep using this.
+	if(!..())
 		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// PASSIVE (Done from LIFE)
+	// Don't show Pale/Dead on low blood - Don't vomit food - Don't heal.
 	if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
 		bloodsuckerdatum.AddBloodVolume(-0.1)
 	// Check every few seconds to make sure we're still able to use the power.

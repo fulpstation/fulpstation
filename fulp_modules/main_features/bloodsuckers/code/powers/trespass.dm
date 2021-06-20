@@ -4,7 +4,6 @@
 	button_icon_state = "power_tres"
 	bloodcost = 10
 	cooldown = 80
-	amToggle = FALSE
 	//target_range = 2
 	bloodsucker_can_buy = TRUE
 	must_be_capacitated = FALSE

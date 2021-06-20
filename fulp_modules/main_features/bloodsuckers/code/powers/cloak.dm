@@ -19,25 +19,30 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/cloak/ActivatePower()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/mob/living/user = owner
-
+/datum/action/bloodsucker/cloak/ActivatePower(mob/living/user = owner)
+	. = ..()
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
 	user.AddElement(/datum/element/digitalcamo)
 
-	while(bloodsuckerdatum && ContinueActive(user))
-		// Pay Blood Toll (if awake)
-		owner.alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current))
-		if(user.stat == CONSCIOUS)
-			bloodsuckerdatum.AddBloodVolume(-0.2)
-		if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
-			user.toggle_move_intent()
-			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
-			user.adjustBruteLoss(rand(5,15))
-		sleep(5) // Check every few ticks
+	// All done, begin Power!
+	UsePower(user)
+
+/datum/action/bloodsucker/cloak/UsePower(mob/living/user)
+	// Checks that we can keep using this.
+	if(!..())
+		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	// Pay Blood Toll (if awake)
+	owner.alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current))
+	if(user.stat == CONSCIOUS)
+		bloodsuckerdatum.AddBloodVolume(-0.2)
+	if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
+		user.toggle_move_intent()
+		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+		user.adjustBruteLoss(rand(5,15))
+	addtimer(CALLBACK(src, .proc/UsePower, user), 0.5 SECONDS)
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	if(!..())
@@ -49,7 +54,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/cloak/DeactivatePower(mob/living/user = owner, mob/living/target)
-	..()
+	. = ..()
 	user.alpha = 255
 	user.RemoveElement(/datum/element/digitalcamo)
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)

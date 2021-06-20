@@ -139,10 +139,10 @@
 		feed_target = pick(targets_valid)//targets[1]
 		return TRUE
 
-/datum/action/bloodsucker/feed/ActivatePower()
+/datum/action/bloodsucker/feed/ActivatePower(mob/living/user = owner)
+	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up Activate(), so Deactivate() can happen after.
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
-	var/mob/living/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
