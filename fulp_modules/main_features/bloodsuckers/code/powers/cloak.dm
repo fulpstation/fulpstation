@@ -38,17 +38,19 @@
 	owner.alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current))
 	if(user.stat == CONSCIOUS)
 		bloodsuckerdatum.AddBloodVolume(-0.2)
-	if(user.m_intent != MOVE_INTENT_WALK) // Prevents running while on Fortitude
+	// Prevents running while on Cloak of Darkness
+	if(user.m_intent != MOVE_INTENT_WALK)
 		user.toggle_move_intent()
 		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
 		user.adjustBruteLoss(rand(5,15))
+
 	addtimer(CALLBACK(src, .proc/UsePower, user), 0.5 SECONDS)
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	if(!..())
 		return FALSE
 	/// Must be CONSCIOUS
-	if(user.stat == !CONSCIOUS)
+	if(user.stat != CONSCIOUS)
 		to_chat(owner, "<span class='warning'>Your cloak failed due to you falling unconcious!</span>")
 		return FALSE
 	return TRUE

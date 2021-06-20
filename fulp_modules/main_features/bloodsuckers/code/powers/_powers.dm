@@ -171,12 +171,12 @@
 
 ///Used by powers that are continuously active (That use amToggle)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)
-	if(!active) //Power isn't active? Then we can't use the Power.
-		to_chat(user, "<span class='notice'>Power deactivated (!active)</span>")
+	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
 		return FALSE
 	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
-		to_chat(user, "<span class='notice'>Power deactivated (!ContinueActive)</span>")
+		DeactivatePower()
 		return FALSE
+	return TRUE
 
 /// Used by loops to make sure this power can stay active.
 /datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)
