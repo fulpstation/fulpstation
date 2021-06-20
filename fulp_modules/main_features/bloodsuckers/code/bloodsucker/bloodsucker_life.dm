@@ -253,9 +253,8 @@
 		if(poweron_masquerade)
 			to_chat(H, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
 		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
-			if(HandleHealing(1))
-				to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
-				Check_Begin_Torpor(TRUE)
+			to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
+			Check_Begin_Torpor(TRUE)
 
 /*
  *	High: 	Faster Healing
