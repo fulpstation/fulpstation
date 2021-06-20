@@ -36,6 +36,9 @@
 	return isliving(A)
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/A, display_error)
+	// DON'T DO THIS - Mesmerize is meant to work from a distance.
+//	if(!..())
+//		return FALSE
 	// Check: Self
 	if(A == owner)
 		return FALSE
