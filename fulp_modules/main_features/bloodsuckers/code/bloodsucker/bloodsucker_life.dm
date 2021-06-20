@@ -39,7 +39,7 @@
 				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
 					if(!H.mind)
 						continue
-					if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_CRITICAL_CONDITION))
+					if(!H.stat == DEAD || HAS_TRAIT(H, TRAIT_CRITICAL_CONDITION))
 						continue
 					if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions) || !is_station_level(H))
 						continue
@@ -168,15 +168,15 @@
 
 /datum/antagonist/bloodsucker/proc/HealVampireOrgans()
 	var/mob/living/carbon/bloodsuckeruser = owner.current
-	/// Step 1
+
+	// Step 1
 	bloodsuckeruser.cure_husk()
 	bloodsuckeruser.regenerate_organs()
 
-	/// Step 2 - NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
+	// Step 2 NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
 	for(var/O in bloodsuckeruser.internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
-	/// Heart & Eyes
 	var/obj/item/organ/heart/O = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
 	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
 		qdel(O)
@@ -191,13 +191,13 @@
 		E.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	bloodsuckeruser.update_sight()
 
-	/// Step 3
+	// Step 3
 	if(bloodsuckeruser.stat == DEAD)
 		bloodsuckeruser.revive(full_heal = FALSE, admin_revive = FALSE)
 	for(var/i in bloodsuckeruser.all_wounds)
 		var/datum/wound/iter_wound = i
 		iter_wound.remove_wound()
-	// [powers/panacea.dm]
+	// From [powers/panacea.dm]
 	var/list/bad_organs = list(
 		bloodsuckeruser.getorgan(/obj/item/organ/body_egg),
 		bloodsuckeruser.getorgan(/obj/item/organ/zombie_infection))
@@ -208,7 +208,7 @@
 		yucky_organs.Remove(bloodsuckeruser)
 		yucky_organs.forceMove(get_turf(bloodsuckeruser))
 
-	/// Good to go!
+	// Good to go!
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
