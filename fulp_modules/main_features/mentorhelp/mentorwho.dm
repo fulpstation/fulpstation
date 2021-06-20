@@ -23,7 +23,10 @@
 				continue
 			if(check_rights_for(C, R_ADMIN,0))
 				continue
-			if(mentor_datum?.is_contributor)
+			// Dont show deadmined folk
+			if(GLOB.deadmins[ckey])
+				continue
+			if(C.mentor_datum?.is_contributor)
 				msg += "\t[C] is a Contributor\n"
 			else if(C.mentor_datum)
 				msg += "\t[C] is a Mentor\n"

@@ -196,9 +196,13 @@
 		"circuit_multitool",
 		"comp_arithmetic",
 		"comp_clock",
+		"comp_combiner",
 		"comp_comparison",
 		"comp_concat",
 		"comp_delay",
+		"comp_direction",
+		"comp_gps",
+		"comp_health",
 		"comp_hear",
 		"comp_index",
 		"comp_length",
@@ -638,6 +642,7 @@
 	design_ids = list(
 		"bot_shell",
 		"controller_shell",
+		"money_bot_shell",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
@@ -647,6 +652,7 @@
 	description = "Grants access to movable shells."
 	prereq_ids = list("adv_shells", "robotics")
 	design_ids = list(
+		"comp_pull",
 		"drone_shell",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000)
@@ -1454,6 +1460,26 @@
 		"phazon_right_leg",
 		"phazon_targ",
 		"phazon_torso",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+
+/datum/techweb_node/savannah_ivanov
+	id = "mecha_savannah_ivanov"
+	display_name = "EXOSUIT: Savannah-Ivanov"
+	description = "Savannah-Ivanov exosuit designs"
+	prereq_ids = list("adv_mecha", "weaponry", "exp_tools")
+	design_ids = list(
+		"savannah_ivanov_armor",
+		"savannah_ivanov_chassis",
+		"savannah_ivanov_head",
+		"savannah_ivanov_left_arm",
+		"savannah_ivanov_left_leg",
+		"savannah_ivanov_main",
+		"savannah_ivanov_peri",
+		"savannah_ivanov_right_arm",
+		"savannah_ivanov_right_leg",
+		"savannah_ivanov_targ",
+		"savannah_ivanov_torso",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
