@@ -471,7 +471,7 @@
 /obj/machinery/atmospherics/components/binary/valve/layer4,
 /obj/machinery/atmospherics/components/binary/valve/layer2,
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/fore)
 "adT" = (
 /obj/structure/disposalpipe/segment{
@@ -4438,13 +4438,12 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central)
 "aOR" = (
-/obj/structure/closet/crate/bin,
 /obj/machinery/turretid{
 	control_area = "/area/ai_monitored/turret_protected/aisat/foyer";
 	name = "AI Foyer turret control";
 	pixel_y = 30
 	},
-/turf/open/floor/iron/dark/asteroid_baseturf,
+/turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "aOV" = (
 /obj/structure/easel,
@@ -6257,7 +6256,7 @@
 /obj/machinery/atmospherics/components/binary/valve/layer2,
 /obj/machinery/atmospherics/components/binary/valve/layer4,
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/secondary/entry)
 "aZQ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -8047,6 +8046,14 @@
 	},
 /turf/open/floor/engine,
 /area/science/research)
+"bgX" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/components/binary/valve/layer2,
+/obj/machinery/atmospherics/components/binary/valve/layer4,
+/obj/effect/turf_decal/stripes/box,
+/turf/open/floor/iron,
+/area/hallway/primary/port)
 "bgY" = (
 /obj/machinery/nanite_chamber,
 /obj/effect/turf_decal/siding/purple{
@@ -10858,7 +10865,6 @@
 /turf/open/floor/iron/dark,
 /area/engineering/main)
 "bMk" = (
-/obj/structure/closet/secure_closet/engineering_electrical,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -10866,6 +10872,9 @@
 	c_tag = "Solar Room- Engineering ";
 	dir = 5;
 	name = "Camera"
+	},
+/obj/machinery/power/solar_control{
+	dir = 4
 	},
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
@@ -12219,7 +12228,7 @@
 /obj/machinery/atmospherics/components/binary/valve/layer2,
 /obj/machinery/atmospherics/components/binary/valve/layer4,
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/central)
 "ccW" = (
 /turf/closed/mineral,
@@ -16528,6 +16537,13 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
+"cFS" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/power/solar_control{
+	dir = 1
+	},
+/turf/open/floor/plating/asteroid_baseturf,
+/area/engineering/atmos)
 "cFV" = (
 /turf/open/floor/plating/beach/coastline_b,
 /area/hallway/secondary/entry)
@@ -18485,6 +18501,9 @@
 	},
 /obj/structure/cable,
 /obj/machinery/status_display/evac/directional/west,
+/obj/machinery/power/solar_control{
+	dir = 4
+	},
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
 "dcE" = (
@@ -18617,7 +18636,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/fore)
 "ddE" = (
 /obj/machinery/firealarm/directional/north,
@@ -19764,7 +19783,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/aft)
 "duB" = (
 /obj/machinery/light/directional/north,
@@ -23692,12 +23711,6 @@
 /area/engineering/atmos)
 "eto" = (
 /obj/machinery/newscaster/directional/west,
-/obj/machinery/button/door/directional/west{
-	id = "hydro_service";
-	name = "Service Shutter Control";
-	pixel_y = 24;
-	req_access_txt = "28"
-	},
 /obj/effect/turf_decal/tile/green,
 /obj/machinery/biogenerator,
 /turf/open/floor/iron,
@@ -25210,7 +25223,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/central)
 "eKk" = (
 /obj/effect/turf_decal/tile{
@@ -27507,7 +27520,7 @@
 /obj/machinery/atmospherics/components/binary/valve/layer2,
 /obj/machinery/atmospherics/components/binary/valve/layer4,
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "flP" = (
 /obj/machinery/light/directional/east,
@@ -30568,10 +30581,11 @@
 /turf/open/floor/iron,
 /area/command/heads_quarters/ce)
 "fWF" = (
-/obj/structure/window/reinforced,
-/obj/item/jacobs_ladder,
-/turf/open/floor/plating/asteroid_baseturf,
-/area/commons/vacant_room)
+/obj/machinery/power/solar_control{
+	dir = 1
+	},
+/turf/open/floor/iron/dark/asteroid_baseturf,
+/area/ai_monitored/turret_protected/aisat/foyer)
 "fWN" = (
 /obj/structure/cable,
 /obj/structure/cable,
@@ -32703,7 +32717,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "gzJ" = (
 /obj/structure/table/reinforced,
@@ -33765,6 +33779,7 @@
 /area/science/robotics/lab)
 "gLP" = (
 /obj/machinery/firealarm/directional/north,
+/obj/structure/closet/crate/bin,
 /turf/open/floor/iron/dark/asteroid_baseturf,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "gLT" = (
@@ -44607,7 +44622,7 @@
 /obj/machinery/atmospherics/components/binary/valve/layer4,
 /obj/machinery/atmospherics/components/binary/valve/layer2,
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "joO" = (
 /obj/structure/cable,
@@ -46395,7 +46410,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/secondary/entry)
 "jJt" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -46555,6 +46570,10 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
+"jLa" = (
+/obj/structure/sign/warning/vacuum,
+/turf/closed/wall/asteroid_baseturf,
+/area/maintenance/starboard/aft)
 "jLc" = (
 /obj/machinery/light/directional/west,
 /obj/effect/turf_decal/tile/blue{
@@ -46706,6 +46725,12 @@
 /obj/effect/turf_decal/tile/green,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/west,
+/obj/machinery/button/door/directional/west{
+	id = "hydro_service";
+	name = "Service Shutter Control";
+	pixel_y = 24;
+	req_access_txt = "28"
+	},
 /turf/open/floor/iron,
 /area/service/hydroponics)
 "jMG" = (
@@ -55636,6 +55661,15 @@
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
+"lIU" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/firealarm/directional/north,
+/obj/machinery/light/small/directional/north,
+/obj/machinery/power/solar_control,
+/turf/open/floor/plating/asteroid_baseturf,
+/area/engineering/atmos)
 "lIX" = (
 /obj/effect/landmark/start/clown,
 /turf/open/floor/eighties,
@@ -56477,6 +56511,9 @@
 	},
 /obj/machinery/airalarm/directional/west,
 /obj/structure/cable,
+/obj/machinery/power/solar_control{
+	dir = 4
+	},
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
 "lRR" = (
@@ -58464,7 +58501,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/port)
 "mnX" = (
 /obj/structure/displaycase/trophy{
@@ -59136,11 +59173,10 @@
 /area/hallway/secondary/entry)
 "mxj" = (
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/north,
-/obj/item/radio/intercom/directional/east,
 /obj/structure/closet/secure_closet/bar{
 	req_access_txt = "25"
 	},
+/obj/machinery/power/apc/auto_name/east,
 /turf/open/floor/carpet/purple,
 /area/service/bar)
 "mxy" = (
@@ -69223,6 +69259,9 @@
 	},
 /obj/structure/cable,
 /obj/machinery/newscaster/directional/west,
+/obj/machinery/power/solar_control{
+	dir = 4
+	},
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
 "oKN" = (
@@ -73410,7 +73449,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "pHR" = (
 /turf/open/floor/iron/white,
@@ -78525,7 +78564,9 @@
 	dir = 4
 	},
 /obj/item/radio/intercom/directional/west,
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer/on,
+/obj/machinery/atmospherics/components/binary/thermomachine/freezer/on{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "qTC" = (
@@ -84980,6 +85021,16 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/plating/asteroid_baseturf,
 /area/service/janitor)
+"str" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/cable,
+/obj/machinery/power/solar_control{
+	dir = 4
+	},
+/turf/open/floor/plating/asteroid_baseturf,
+/area/engineering/atmos)
 "stu" = (
 /obj/structure/chair/office,
 /turf/open/floor/plating/asteroid_baseturf,
@@ -93357,7 +93408,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/box,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/central)
 "usZ" = (
 /obj/machinery/firealarm/directional/north,
@@ -100316,6 +100367,14 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
+"vUm" = (
+/obj/effect/turf_decal/siding/yellow,
+/obj/structure/cable,
+/obj/machinery/power/solar_control{
+	dir = 1
+	},
+/turf/open/floor/plating/asteroid_baseturf,
+/area/engineering/atmos)
 "vUv" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
@@ -103605,7 +103664,6 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "wLY" = (
-/obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile{
 	dir = 1
@@ -103613,6 +103671,7 @@
 /obj/effect/turf_decal/tile{
 	dir = 8
 	},
+/obj/machinery/power/apc/auto_name/west,
 /turf/open/floor/iron,
 /area/hallway/primary/port)
 "wMc" = (
@@ -103921,7 +103980,7 @@
 /obj/machinery/atmospherics/components/binary/valve/layer4,
 /obj/effect/turf_decal/stripes/box,
 /obj/machinery/atmospherics/components/binary/valve/layer2,
-/turf/open/floor/plating/asteroid_baseturf,
+/turf/open/floor/iron,
 /area/hallway/primary/aft)
 "wPq" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -108722,6 +108781,7 @@
 /obj/machinery/vending/wardrobe/bar_wardrobe,
 /obj/machinery/light/directional/east,
 /obj/structure/extinguisher_cabinet/directional/north,
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/carpet/purple,
 /area/service/bar)
 "xNB" = (
@@ -123573,7 +123633,7 @@ qEm
 vzh
 lhh
 tmw
-oaN
+jLa
 qeA
 vht
 oaN
@@ -125519,7 +125579,7 @@ pmB
 gyi
 pmB
 oHY
-pMl
+bgX
 ccQ
 aWX
 aWX
@@ -125541,7 +125601,7 @@ aWX
 aWX
 aWX
 laO
-pMl
+bgX
 blM
 gIw
 kKX
@@ -126906,7 +126966,7 @@ lyf
 lyf
 lyf
 lyf
-cOg
+qZz
 khs
 ccB
 dZj
@@ -127318,7 +127378,7 @@ lKk
 qFO
 cBQ
 qFO
-mHL
+cFS
 qMy
 qMy
 qMy
@@ -128578,7 +128638,7 @@ gCa
 kor
 kKv
 jci
-fWF
+tHM
 osK
 osK
 jtV
@@ -152987,7 +153047,7 @@ xMf
 xMf
 fEN
 oIS
-xMf
+fWF
 xMf
 xMf
 xMf
@@ -154149,7 +154209,7 @@ hMN
 ceM
 ceT
 oKD
-cgn
+str
 iaX
 gZw
 gJH
@@ -156393,7 +156453,7 @@ bhv
 bhv
 bhv
 hMN
-mDV
+lIU
 sNp
 syt
 lpH
@@ -159188,7 +159248,7 @@ atQ
 qFO
 qFO
 qFO
-oIJ
+vUm
 hMN
 qMy
 qMy
