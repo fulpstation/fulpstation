@@ -44,7 +44,17 @@
 		return
 	. = ..()
 
-// INTEGRATION: Adding Procs and Datums to existing "classes"
+// Used to keep track of how much Blood we've drank so far
+/mob/living/carbon/human/get_status_tab_items()
+	. = ..()
+	if(mind)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum)
+			. += ""
+			. += "Blood Drank: [bloodsuckerdatum.total_blood_drank]"
+
+
+// INTEGRATION: Adding Procs and Datums to existing "classes" //
 
 /mob/living/proc/HaveBloodsuckerBodyparts(displaymessage = "") // displaymessage can be something such as "rising from death" for Torpid Sleep. givewarningto is the person receiving messages.
 	if(!getorganslot(ORGAN_SLOT_HEART))
