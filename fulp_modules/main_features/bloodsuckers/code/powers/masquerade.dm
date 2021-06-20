@@ -31,15 +31,12 @@
 	return TRUE
 */
 
-/datum/action/bloodsucker/masquerade/ActivatePower()
-
-	var/mob/living/user = owner
+/datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	bloodsuckerdatum.poweron_masquerade = TRUE
-
 	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
 
+	bloodsuckerdatum.poweron_masquerade = TRUE
 	// Remove Bloodsucker traits
 	REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
@@ -55,22 +52,28 @@
 	// Falsifies Genetic Analyzers
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 
-	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
-	E.flash_protect += 1
+	// Eyes
+	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	eyes.flash_protect += 1
+	// Heart
+	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	if(istype(vampheart))
+		vampheart.FakeStart()
 
-	// WE ARE ALIVE! //
-	var/obj/item/organ/heart/vampheart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	while(bloodsuckerdatum && ContinueActive(user))
-		// HEART
-		if(istype(H))
-			H.FakeStart()
-		// 		PASSIVE (done from LIFE)
-		// Don't Show Pale/Dead on low blood
-		// Don't vomit food
-		// Don't Heal
-		if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
-			bloodsuckerdatum.AddBloodVolume(-0.1)
-		sleep(20)
+	// Done! Begin using Power!
+	UsePower(user)
+
+///Don't show Pale/Dead on low blood - Don't vomit food - Don't heal
+/datum/action/bloodsucker/masquerade/proc/UsePower(mob/living/carbon/user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	bloodsuckerdatum.poweron_masquerade = TRUE
+	if(!bloodsuckerdatum && !ContinueActive(user))
+		return
+	// PASSIVE (Done from LIFE)
+	if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
+		bloodsuckerdatum.AddBloodVolume(-0.1)
+	// Check every few seconds to make sure we're still able to use the power.
+	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
@@ -78,8 +81,8 @@
 	//	return FALSE
 	return ..() // Active, and still Antag
 
-/datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/user = owner, mob/living/target)
-	..() // activate = FALSE
+/datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/carbon/user = owner, mob/living/target)
+	. = ..() // activate = FALSE
 
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	bloodsuckerdatum.poweron_masquerade = FALSE
@@ -99,14 +102,15 @@
 	ADD_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 
 	// HEART
-	var/obj/item/organ/heart/H = user.getorganslot(ORGAN_SLOT_HEART)
-	H.Stop()
-	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
-	if(E)
-		E.flash_protect -= 1
+	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	if(istype(vampheart))
+		vampheart.Stop()
+	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.flash_protect -= 1
 
 	/// Remove all diseases
 	for(var/thing in user.diseases)
-		var/datum/disease/D = thing
-		D.cure()
+		var/datum/disease/disease = thing
+		disease.cure()
 	to_chat(user, "<span class='notice'>Your heart beats one final time, while your skin dries out and your icy pallor returns.</span>")

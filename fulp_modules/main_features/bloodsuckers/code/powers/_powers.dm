@@ -58,11 +58,11 @@
 	if(amToggle)
 		active = !active
 		UpdateButtonIcon()
-	if(!amToggle || !active)
+	else if(!active)
 		StartCooldown() // Must come AFTER UpdateButton(), otherwise icon will revert.
 	UpdateButtonIcon()
 	ActivatePower() // NOTE: ActivatePower() freezes this power in place until it ends.
-	if(active) // Did we not manually disable? Handle it here.
+	if(active && !amToggle) // Did we not manually disable? Handle it here.
 		DeactivatePower()
 	if(amSingleUse)
 		RemoveAfterUse()
