@@ -67,7 +67,7 @@
 		return
 	var/id_name = I.registered_name
 	if(id_name == registrant) //If already registered to the same person swiping the ID, we will 'toggle off' registration and unregister the body camera.
-		unregister_body_camera(I, user)
+		unregister_body_camera(user)
 		return
 
 	registrant = id_name
@@ -90,7 +90,7 @@
 		if(cam_name == matching_camera.c_tag)
 			to_chat(user, "<span class='notice'>Matching registration found. Unregistering previously registered body camera.</span>")
 			if(S)
-				S.unregister_body_camera(I, user, FALSE)
+				S.unregister_body_camera(user)
 			break
 
 	builtInCamera.c_tag = "[cam_name]"
@@ -100,7 +100,7 @@
 		to_chat(user, "<span class='notice'>Security uniform body camera successfully registered to [id_name]</span>")
 
 /// Unregistering the ID - Called when using your ID on an already claimed jumpsuit, or removing it.
-/obj/item/clothing/under/rank/security/proc/unregister_body_camera(obj/item/card/id/I, mob/user)
+/obj/item/clothing/under/rank/security/proc/unregister_body_camera(mob/user)
 	if(!builtInCamera)
 		return
 	QDEL_NULL(builtInCamera)
@@ -108,7 +108,7 @@
 	registrant = null
 	if(user)
 		playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
-		to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered from [I.registered_name]</span>")
+		to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered.</span>")
 
 /// Bodycamera upgrade
 /obj/item/bodycam_upgrade
