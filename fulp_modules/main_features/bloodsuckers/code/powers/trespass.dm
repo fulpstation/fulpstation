@@ -9,7 +9,7 @@
 	can_use_in_frenzy = TRUE
 	bloodsucker_can_buy = TRUE
 	must_be_capacitated = FALSE
-	can_be_immobilized = TRUE
+	can_use_w_immobilize = TRUE
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)

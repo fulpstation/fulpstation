@@ -89,7 +89,7 @@
 		Tremere - Burn in the Chapel, Vassal Mutilation.<br> \
 		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead.<br></span>")
 	if(!isbeefman(bloodsucker))
-		to_chat(owner, "<span class='announce'>Malakavian - Complete insanity.<br></span>")
+		to_chat(owner, "<span class='announce'>Malkavian - Complete insanity.<br></span>")
 	to_chat(owner, "<span class='announce'>* Read more about Clans here: https://wiki.fulp.gg/en/Bloodsucker.<br></span>")
 
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
@@ -102,6 +102,7 @@
 			/// Makes their max punch, and by extension Brawn, stronger - Stolen from SpendRank()
 			var/datum/species/S = bloodsucker.dna.species
 			S.punchdamagehigh += 1.5
+			frenzy_threshold = FRENZY_THRESHOLD_HIGHER
 			return
 		if(CLAN_NOSFERATU)
 			my_clan = CLAN_NOSFERATU

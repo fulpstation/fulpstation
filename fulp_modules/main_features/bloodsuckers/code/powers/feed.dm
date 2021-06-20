@@ -7,7 +7,7 @@
 	cooldown = 30
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
-	can_be_staked = TRUE
+	can_use_w_stake = TRUE
 	cooldown_static = TRUE
 	can_use_in_frenzy = TRUE
 

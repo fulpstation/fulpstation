@@ -44,9 +44,9 @@
 	///Do we need to be standing and ready?
 	var/must_be_capacitated = FALSE
 	///Brawn can be used when incapacitated/laying if it's because you're being immobilized. NOTE: If must_be_capacitated is FALSE, this is irrelevant.
-	var/can_be_immobilized = FALSE
+	var/can_use_w_immobilize = FALSE
 	///Can I use this while staked?
-	var/can_be_staked = FALSE
+	var/can_use_w_stake = FALSE
 	///Feed, Masquerade, and One-Shot powers don't improve their cooldown.
 	var/cooldown_static = FALSE
 	/// This goes to Vassals or Hunters, but NOT bloodsuckers. - Replaced with vassal_can_buy kept here because Monsterhunters??
@@ -118,7 +118,7 @@
 			to_chat(owner, "<span class='warning'>Not while you're in Torpor.</span>")
 		return FALSE
 	// Stake?
-	if(!can_be_staked && owner.AmStaked())
+	if(!can_use_w_stake && owner.AmStaked())
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You have a stake in your chest! Your powers are useless.</span>")
 		return FALSE
@@ -134,7 +134,7 @@
 	// Incapacitated?
 	if(must_be_capacitated)
 		var/mob/living/L = owner
-		if (!can_be_immobilized && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
+		if (!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
 			if(display_error)
 				to_chat(owner, "<span class='warning'>Not while you're incapacitated!</span>")
 			return FALSE

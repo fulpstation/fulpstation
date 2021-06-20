@@ -34,6 +34,7 @@
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	var/datum/mind/creator
+	var/frenzy_threshold = FRENZY_THRESHOLD_NORMAL
 
 	///Powers
 	var/list/datum/action/powers = list()
@@ -118,8 +119,6 @@
 	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
 	update_bloodsucker_icons_removed(owner.current)
-	if(!LAZYLEN(owner.antag_datums))
-		owner.current.remove_from_current_living_antags()
 	return ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -362,6 +361,13 @@
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power in powers)
 		power.level_current++
+
+///Disables all powers, accounting for torpor
+/datum/antagonist/bloodsucker/proc/DisableAllPowers()
+	for(var/datum/action/bloodsucker/power in powers)
+		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH) || !power.can_use_in_torpor) // If you AREN'T in torpor or you CANT use it in torpor
+			if(power.active)
+				power.DeactivatePower()
 
 /datum/antagonist/bloodsucker/proc/SpendRank()
 	set waitfor = FALSE
