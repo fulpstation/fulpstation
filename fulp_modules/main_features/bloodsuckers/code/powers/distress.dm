@@ -14,7 +14,7 @@
 
 /datum/action/bloodsucker/distress/ActivatePower(mob/living/user = owner)
 	. = ..()
-	var/turf/open/floor/target_turf = get_area(user)
+	var/turf/open/floor/target_area = get_area(user)
 	var/datum/antagonist/vassal/vassaldatum = user.mind.has_antag_datum(/datum/antagonist/vassal)
 
 	to_chat(user, "<span class='notice'>You call out for help from your Master and their Vassals.</span>")
