@@ -18,7 +18,8 @@
 	bloodsucker_can_buy = TRUE
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(display_error)
-	if(!..(display_error)) // DEFAULT CHECKS
+	. = ..()
+	if(!.) // DEFAULT CHECKS
 		return FALSE
 	if(!owner.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)

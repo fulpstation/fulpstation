@@ -88,7 +88,11 @@
 			target_amount = 1 // Head objectives get one target
 		else
 			target_role = pick(heads_w_depart_index)
-			department_string = heads_w_depart_index.Find(target_role) // The department is the index!
+			for(var/key in heads_w_depart_index) // For loops on associative lists give the keys
+				if(target_role == heads_w_depart_index[key]) // If it gives the value we expect, then the key is the department
+					department_string = key
+			if(!department_string)
+				stack_trace("The Vassalization objective in [src.owner?.current] failed to come up with a valid department string.")
 			target_amount = rand(2, 3) // Non-head objectives get multiple
 	..()
 
