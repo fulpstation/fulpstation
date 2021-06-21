@@ -16,33 +16,27 @@
 	scaling_cost = 9
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 24)
-	var/datum/team/vampireclan/bloodsucker_clan
-
-/datum/dynamic_ruleset/roundstart/bloodsucker/ready(population, forced = FALSE)
-	required_candidates = get_antag_cap(population)
-	. = ..()
-
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/pre_execute(population)
 	. = ..()
 	var/num_bloodsuckers = get_antag_cap(population) * (scaled_times + 1)
+
 	for(var/i = 1 to num_bloodsuckers)
 		if(candidates.len <= 0)
 			break
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
-		M.mind.special_role = ROLE_BLOODSUCKER
 		M.mind.restricted_roles = restricted_roles
+		M.mind.special_role = ROLE_BLOODSUCKER
 		GLOB.pre_setup_antags += M.mind
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/execute()
-	bloodsucker_clan = new
-	for(var/datum/mind/M in assigned)
-		var/datum/antagonist/bloodsucker/new_antag = new antag_datum()
-		new_antag.clan = bloodsucker_clan
-		M.add_antag_datum(new_antag)
-		GLOB.pre_setup_antags -= M
+	for(var/M in assigned)
+		var/datum/mind/bloodsuckermind = M
+		if(!bloodsuckermind.make_bloodsucker(M))
+			assigned -= M
+		GLOB.pre_setup_antags -= bloodsuckermind
 	return TRUE
 
 //////////////////////////////////////////////
@@ -69,11 +63,10 @@
 	var/antag_count = GLOB.current_living_antags.len
 	var/max_suckers = round(player_count / 10) + 1
 	var/too_little_antags = antag_count < max_suckers
-	if (!too_little_antags)
+	if(!too_little_antags)
 		log_game("DYNAMIC: Too many living antags compared to living players ([antag_count] living antags, [player_count] living players, [max_suckers] max bloodsuckers)")
 		return FALSE
-
-	if (!prob(mode.threat_level))
+	if(!prob(mode.threat_level))
 		log_game("DYNAMIC: Random chance to roll autotraitor failed, it was a [mode.threat_level]% chance.")
 		return FALSE
 
@@ -89,20 +82,22 @@
 		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
 			living_players -= player // We don't allow people with roles already
 
-/datum/dynamic_ruleset/midround/bloodsucker/ready(forced = FALSE)
-	if (required_candidates > living_players.len)
-		return FALSE
-	return ..()
-
-/datum/dynamic_ruleset/midround/bloodsucker/execute()
+/datum/dynamic_ruleset/midround/bloodsucker/pre_execute()
 	var/mob/M = pick(living_players)
 	assigned += M.mind
 	living_players -= M.mind
-	var/datum/antagonist/bloodsucker/sucker = new
-	M.mind.add_antag_datum(sucker)
-	sucker.bloodsucker_level_unspent = rand(2,3)
-	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
-	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+
+/datum/dynamic_ruleset/midround/bloodsucker/execute()
+	for(var/M in assigned)
+		var/datum/mind/bloodsuckermind = M
+		var/datum/antagonist/bloodsucker/sucker = new
+		if(!bloodsuckermind.make_bloodsucker(M))
+			assigned -= M
+			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
+			return
+		sucker.bloodsucker_level_unspent = rand(2,3)
+		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
 
 //////////////////////////////////////////////
@@ -124,14 +119,21 @@
 	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
 	repeatable = FALSE
 
-/datum/dynamic_ruleset/latejoin/bloodsucker/execute()
+/datum/dynamic_ruleset/latejoin/bloodsucker/pre_execute()
 	var/mob/M = pick(candidates) // This should contain a single player, but in case.
 	assigned += M.mind
-	var/datum/antagonist/bloodsucker/sucker = new
-	M.mind.add_antag_datum(sucker)
-	sucker.bloodsucker_level_unspent = rand(2,3)
-	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
-	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a latejoin Bloodsucker.")
+
+/datum/dynamic_ruleset/latejoin/bloodsucker/execute()
+	for(var/M in assigned)
+		var/datum/mind/bloodsuckermind = M
+		var/datum/antagonist/bloodsucker/sucker = new
+		if(!bloodsuckermind.make_bloodsucker(M))
+			assigned -= M
+			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
+			return
+		sucker.bloodsucker_level_unspent = rand(2,3)
+		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
 
 //////////////////////////////////////////////////////////////////////////////
@@ -143,28 +145,23 @@
  *	Also deals with Vassalization status.
  */
 
-/datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
-	var/datum/antagonist/bloodsucker/A = has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!A)
-		to_chat(creator, "<span class='danger'>[bloodsucker] is already a Bloodsucker.</span>")
-		return FALSE
+/datum/mind/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
 	// Species Must have a HEART (Sorry Plasmamen)
 	var/mob/living/carbon/human/H = bloodsucker.current
 	if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
 		to_chat(creator, "<span class='danger'>[bloodsucker]'s DNA isn't compatible!</span>")
 		return FALSE
-	// Create Datum: Fledgling
-	// [FLEDGLING]
+	// Check for Fledgeling
 	if(creator)
-		A = add_antag_datum(/datum/antagonist/bloodsucker)
-		special_role = ROLE_BLOODSUCKER
 		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
 		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
-	// [MASTER]
-	else
-		A = add_antag_datum(/datum/antagonist/bloodsucker)
-		special_role = ROLE_BLOODSUCKER
-	return A
+	return TRUE
+
+/datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
+	if(!can_make_bloodsucker(bloodsucker))
+		return FALSE
+	add_antag_datum(/datum/antagonist/bloodsucker)
+	return TRUE
 
 /datum/mind/proc/remove_bloodsucker()
 	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)

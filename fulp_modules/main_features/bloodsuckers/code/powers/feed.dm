@@ -7,7 +7,7 @@
 	cooldown = 30
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
-	can_be_staked = TRUE
+	can_use_w_stake = TRUE
 	cooldown_static = TRUE
 	can_use_in_frenzy = TRUE
 
@@ -35,7 +35,7 @@
 /// Called twice: validating a subtle victim, or validating your grapple victim.
 /datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
 	// Bloodsuckers + Animals MUST be grabbed aggressively!
-	if(!owner.pulling || target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
+	if(!owner.pulling || target == owner.pulling && owner.grab_state <= GRAB_PASSIVE)
 		// NOTE: It's OKAY that we are checking if(!target) below, AFTER animals here. We want passive check vs animal to warn you first, THEN the standard warning.
 		// Animals:
 		if(isliving(target) && !iscarbon(target))
@@ -47,12 +47,12 @@
 			var/mob/living/carbon/human/H = target
 			if(!H.can_inject(owner, BODY_ZONE_CHEST, INJECT_CHECK_PENETRATE_THICK))
 				return FALSE
-			if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			if(IS_BLOODSUCKER(target))
 				if(display_error)
 					to_chat(owner, "<span class='warning'>Other Bloodsuckers will not fall for your subtle approach.</span>")
 				return FALSE
 	// Must have Target
-	if(!target)	 //  || !ismob(target)
+	if(!target) // || !ismob(target)
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You must be next to or grabbing a victim to feed from them.</span>")
 		return FALSE
@@ -146,7 +146,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
-	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_PASSIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	var/amSilent = (!target_grappled || owner.grab_state < GRAB_AGGRESSIVE && !bloodsuckerdatum.Frenzied) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
 	feed_time = max(15, feed_time)
@@ -252,13 +252,16 @@
 		///////////////////////////////////////////////////////////
 		// 		Handle Feeding! User & Victim Effects (per tick)
 		if(bloodsuckerdatum)
-			bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+			var/drinkblood = bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+			. += drinkblood
+			amount_taken += drinkblood
 		if(vassaldatum)
-			vassaldatum.HandleFeeding(target, blood_take_mult)
-		amount_taken += amSilent ? 0.3 : 1
+			var/drinkblood = vassaldatum.HandleFeeding(target, blood_take_mult)
+			. += drinkblood
+			amount_taken += drinkblood
 		if(!amSilent)
 			ApplyVictimEffects(target)	// Sleep, paralysis, immobile, unconscious, and mute
-		if(amount_taken > 5 && target.stat < DEAD && ishuman(target))
+		if(amount_taken > 50 && target.stat < DEAD && ishuman(target))
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood) // GOOD // in bloodsucker_life.dm
 
 		/// Fed off a mindless person as Ventrue? - This is only possible in Frenzy.
@@ -311,6 +314,7 @@
 		user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
 							 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
 		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
+	bloodsuckerdatum.total_blood_drank += amount_taken
 	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
