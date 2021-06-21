@@ -9,7 +9,7 @@
 
 /datum/action/bloodsucker/recuperate/ActivatePower()
 	var/mob/living/carbon/C = owner
-//	var/datum/antagonist/vassal/vassaldatum = owner.mind.has_antag_datum(/datum/antagonist/vassal) // WILLARDTODO: Fix this.
+//	var/datum/antagonist/vassal/vassaldatum = owner.mind.has_antag_datum(/datum/antagonist/vassal) // WILLARD TODO: Fix this.
 
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
 	while(ContinueActive(owner))

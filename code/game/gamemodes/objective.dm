@@ -19,6 +19,11 @@ GLOBAL_LIST_EMPTY(objectives)
 	if(text)
 		explanation_text = text
 
+//Apparently objectives can be qdel'd. Learn a new thing every day
+/datum/objective/Destroy()
+	GLOB.objectives -= src
+	return ..()
+
 /datum/objective/proc/get_owners() // Combine owner and team into a single list.
 	. = (team?.members) ? team.members.Copy() : list()
 	if(owner)
@@ -964,6 +969,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/vassalhim,
+		/datum/objective/bloodsucker/gourmand,
 		/datum/objective/bloodsucker/survive, // Fulpstation edit ends
 		/datum/objective/destroy,
 		/datum/objective/hijack,

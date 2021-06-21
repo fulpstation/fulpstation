@@ -19,6 +19,10 @@
 	. = ..()
 	START_PROCESSING(SSprocessing, src)
 
+/obj/effect/sunlight/Destroy()
+	STOP_PROCESSING(SSprocessing, src)
+	return ..()
+
 /obj/effect/sunlight/process()
 	/// Update all Bloodsucker sunlight huds
 	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
