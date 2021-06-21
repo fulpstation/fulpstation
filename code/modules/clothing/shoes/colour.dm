@@ -72,6 +72,12 @@
 	greyscale_config_inhand_right = null
 	greyscale_config_worn = null
 
+	greyscale_colors = null
+	greyscale_config = null
+	greyscale_config_inhand_left = null
+	greyscale_config_inhand_right = null
+	greyscale_config_worn = null
+
 /obj/item/clothing/shoes/sneakers/orange
 	name = "orange shoes"
 	greyscale_colors = "#eb7016#ffffff"
@@ -100,7 +106,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/C = user
 		if(C.shoes == src && chained == 1)
-			to_chat(user, "<span class='warning'>You need help taking these off!</span>")
+			to_chat(user, span_warning("You need help taking these off!"))
 			return FALSE
 	return ..()
 
@@ -109,6 +115,6 @@
 	if(ishuman(m))
 		var/mob/living/carbon/human/c = m
 		if(c.shoes == src && chained == 1)
-			to_chat(c, "<span class='warning'>You need help taking these off!</span>")
+			to_chat(c, span_warning("You need help taking these off!"))
 			return
 	return ..()
