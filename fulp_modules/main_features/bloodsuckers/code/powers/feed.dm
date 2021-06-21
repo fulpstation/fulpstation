@@ -36,7 +36,7 @@
 /// Called twice: validating a subtle victim, or validating your grapple victim.
 /datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
 	// Bloodsuckers + Animals MUST be grabbed aggressively!
-	if(!owner.pulling || target == owner.pulling && owner.grab_state <= GRAB_PASSIVE)
+	if(!owner.pulling || target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
 		// NOTE: It's OKAY that we are checking if(!target) below, AFTER animals here. We want passive check vs animal to warn you first, THEN the standard warning.
 		// Animals:
 		if(isliving(target) && !iscarbon(target))
