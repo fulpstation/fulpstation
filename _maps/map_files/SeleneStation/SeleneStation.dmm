@@ -3436,8 +3436,6 @@
 /turf/open/floor/carpet/purple,
 /area/command/heads_quarters/hop)
 "aWe" = (
-/obj/structure/closet/l3closet/scientist,
-/obj/item/extinguisher,
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	dir = 8;
@@ -3452,7 +3450,9 @@
 	color = "#4D0067";
 	name = "Science purple corner"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden,
+/obj/machinery/atmospherics/components/binary/thermomachine/freezer/on{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "aWf" = (
@@ -5694,7 +5694,7 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "bBR" = (
-/obj/machinery/atmospherics/pipe/smart/simple/brown/visible,
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible,
 /turf/open/floor/iron/freezer,
 /area/science/xenobiology)
 "bBS" = (
@@ -7969,7 +7969,7 @@
 	color = "#4D0067";
 	name = "Science purple corner"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/brown/visible{
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
 /turf/open/floor/iron/white,
@@ -17964,10 +17964,20 @@
 /turf/open/floor/iron/dark,
 /area/science/cytology)
 "eOf" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden{
-	dir = 9
+/obj/effect/turf_decal/tile/purple{
+	color = "#4D0067";
+	name = "Science purple corner"
 	},
-/turf/closed/wall/r_wall,
+/obj/effect/turf_decal/tile/purple{
+	color = "#4D0067";
+	dir = 4;
+	name = "Science purple corner"
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4,
+/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/iron/white,
 /area/science/xenobiology)
 "eOh" = (
 /obj/structure/table/wood,
@@ -19638,7 +19648,7 @@
 /obj/structure/sign/warning/coldtemp{
 	pixel_y = -32
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/brown/visible{
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
 /turf/open/floor/iron/white,
@@ -19863,7 +19873,7 @@
 	opacity = 0;
 	req_access_txt = "55"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/brown/visible,
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible,
 /turf/open/floor/iron/freezer,
 /area/science/xenobiology)
 "foL" = (
@@ -20482,8 +20492,8 @@
 	dir = 1;
 	name = "Science purple corner"
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 8
 	},
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
@@ -33750,6 +33760,9 @@
 /area/engineering/lobby)
 "iTV" = (
 /obj/effect/spawner/structure/window,
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer1{
+	piping_layer = 3
+	},
 /turf/open/floor/plating,
 /area/science/xenobiology)
 "iUo" = (
@@ -51661,9 +51674,6 @@
 /turf/open/floor/carpet,
 /area/hallway/secondary/entry)
 "nqV" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
@@ -51671,6 +51681,9 @@
 	name = "Engineering yellow corner"
 	},
 /obj/structure/chair/stool/directional/north,
+/obj/machinery/atmospherics/pipe/smart/simple/violet/visible{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/maintenance/disposal/incinerator)
 "nqY" = (
@@ -55882,9 +55895,8 @@
 /turf/open/floor/iron,
 /area/hallway/primary/aft)
 "oxS" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
 /obj/effect/spawner/structure/window/plasma/reinforced,
+/obj/machinery/atmospherics/pipe/smart/simple/violet/visible,
 /turf/open/floor/plating,
 /area/maintenance/disposal/incinerator)
 "oxV" = (
@@ -67595,9 +67607,6 @@
 /turf/open/floor/iron/dark,
 /area/command/heads_quarters/hos)
 "ryP" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer/on{
-	dir = 1
-	},
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	dir = 8;
@@ -67611,6 +67620,11 @@
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	name = "Science purple corner"
+	},
+/obj/structure/closet/l3closet/scientist,
+/obj/item/extinguisher,
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
+	dir = 9
 	},
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
@@ -69654,10 +69668,10 @@
 /turf/open/floor/iron/white,
 /area/medical/surgery/room_b)
 "san" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
+/obj/machinery/atmospherics/pipe/bridge_pipe/brown/visible,
+/obj/machinery/atmospherics/pipe/smart/simple/violet/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/bridge_pipe/brown/visible,
 /turf/open/floor/iron/dark,
 /area/maintenance/disposal/incinerator)
 "saC" = (
@@ -72667,7 +72681,6 @@
 /turf/open/floor/iron,
 /area/cargo/storage)
 "sQK" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
@@ -72681,6 +72694,9 @@
 	},
 /obj/structure/sign/poster/official/random{
 	pixel_x = -32
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
+	dir = 8
 	},
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
@@ -75250,7 +75266,7 @@
 	color = "#4D0067";
 	name = "Science purple corner"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/brown/visible{
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 10
 	},
 /turf/open/floor/iron/white,
@@ -76145,7 +76161,7 @@
 /area/maintenance/department/science)
 "tNy" = (
 /obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
+/obj/machinery/atmospherics/pipe/smart/simple/violet/visible,
 /turf/open/space,
 /area/space/nearstation)
 "tOl" = (
@@ -77911,7 +77927,7 @@
 	color = "#4D0067";
 	name = "Science purple corner"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/brown/visible{
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 6
 	},
 /turf/open/floor/iron/white,
@@ -81232,9 +81248,6 @@
 /turf/open/floor/iron/dark,
 /area/commons/storage/art)
 "vfb" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
-	dir = 6
-	},
 /obj/machinery/meter,
 /obj/machinery/firealarm/directional/west,
 /obj/effect/turf_decal/tile/yellow{
@@ -81251,6 +81264,9 @@
 	color = "#FFD700";
 	dir = 4;
 	name = "Engineering yellow corner"
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/violet/visible{
+	dir = 6
 	},
 /turf/open/floor/iron/dark,
 /area/maintenance/disposal/incinerator)
@@ -81485,7 +81501,7 @@
 /area/security/brig)
 "vhv" = (
 /obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
+/obj/machinery/atmospherics/pipe/smart/simple/violet/visible,
 /turf/open/space/basic,
 /area/space/nearstation)
 "vhz" = (
@@ -84378,12 +84394,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/hallway/secondary/exit/departure_lounge)
-"vYf" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden{
-	dir = 5
-	},
-/turf/closed/wall/r_wall,
-/area/science/xenobiology)
 "vYj" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
 	dir = 8
@@ -142934,7 +142944,7 @@ iQW
 mdC
 avy
 nvw
-nbu
+eOf
 nbu
 huE
 amc
@@ -143449,7 +143459,7 @@ srd
 dWi
 fwp
 aWe
-vYf
+avy
 nAY
 fTX
 cOE
@@ -143706,7 +143716,7 @@ pQv
 rZh
 ukD
 ryP
-eOf
+avy
 eio
 piQ
 neM

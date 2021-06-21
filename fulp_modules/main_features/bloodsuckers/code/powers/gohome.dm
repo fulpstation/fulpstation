@@ -5,7 +5,7 @@
 	background_icon_state_on = "vamp_power_off_oneshot"
 	background_icon_state_off = "vamp_power_off_oneshot"
 
-	bloodcost = 50
+	bloodcost = 100
 	/// It'll never come back.
 	cooldown = 99999
 	amSingleUse = TRUE
@@ -14,7 +14,7 @@
 	bloodsucker_can_buy = FALSE
 	can_use_in_torpor = TRUE
 	must_be_capacitated = TRUE
-	can_be_immobilized = TRUE
+	can_use_w_immobilize = TRUE
 	must_be_concious = FALSE
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)

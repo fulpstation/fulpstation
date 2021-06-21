@@ -7,7 +7,7 @@
 	cooldown = 30
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
-	can_be_staked = TRUE
+	can_use_w_stake = TRUE
 	cooldown_static = TRUE
 	can_use_in_frenzy = TRUE
 
@@ -36,7 +36,7 @@
 /// Called twice: validating a subtle victim, or validating your grapple victim.
 /datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
 	// Bloodsuckers + Animals MUST be grabbed aggressively!
-	if(!owner.pulling || target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
+	if(!owner.pulling || target == owner.pulling && owner.grab_state <= GRAB_PASSIVE)
 		// NOTE: It's OKAY that we are checking if(!target) below, AFTER animals here. We want passive check vs animal to warn you first, THEN the standard warning.
 		// Animals:
 		if(isliving(target) && !iscarbon(target))
@@ -48,12 +48,12 @@
 			var/mob/living/carbon/human/H = target
 			if(!H.can_inject(owner, BODY_ZONE_CHEST, INJECT_CHECK_PENETRATE_THICK))
 				return FALSE
-			if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			if(IS_BLOODSUCKER(target))
 				if(display_error)
 					to_chat(owner, "<span class='warning'>Other Bloodsuckers will not fall for your subtle approach.</span>")
 				return FALSE
 	// Must have Target
-	if(!target)	 //  || !ismob(target)
+	if(!target) // || !ismob(target)
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You must be next to or grabbing a victim to feed from them.</span>")
 		return FALSE
@@ -145,7 +145,7 @@
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
-	if(!target_grappled || !owner.grab_state >= GRAB_AGGRESSIVE) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	if(!target_grappled || owner.grab_state < GRAB_AGGRESSIVE && !bloodsuckerdatum.Frenzied) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)

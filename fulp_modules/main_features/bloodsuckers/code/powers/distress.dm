@@ -2,7 +2,7 @@
 	name = "Distress"
 	desc = "Injure yourself, allowing you to make a desperate call for help to your Master."
 	button_icon_state = "power_recover"
-	vassal_can_buy = TRUE
+	amToggle = TRUE
 	bloodcost = 10
 	cooldown = 100
 
@@ -19,12 +19,12 @@
 
 	to_chat(user, "<span class='notice'>You call out for help from your Master and their Vassals.</span>")
 
-	/// Let's find your Master
+	// Let's find your Master
 	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
-		/// Are they MY Bloodsucker?
+		// Are they MY Bloodsucker?
 		if(istype(bloodsuckerdatum) && vassaldatum.master)
-			to_chat(M, "<span class='userdanger'>[owner], your loyal Vassal, is desperately calling for aid at [target_turf]!</span>")
+			to_chat(M, "<span class='userdanger'>[owner], your loyal Vassal, is desperately calling for aid at [target_area]!</span>")
 
-	/// Now pay the price. A small one - Bloodcost is done automatically by the Power.
+	// Now pay the price. A small one - Bloodcost is done automatically by the Power's PayCost, which is done automatically.
 	user.adjustBruteLoss(10)

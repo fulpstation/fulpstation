@@ -1,36 +1,58 @@
-/datum/action/bloodsucker // WILLARD TODO: Fix the comments through this entire file.
+/datum/action/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
-	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi' //This is the file for the BACKGROUND icon
-	background_icon_state = "vamp_power_off" //And this is the state for the background icon
-	var/background_icon_state_on = "vamp_power_on" // Our "ON" icon alternative.
-	var/background_icon_state_off = "vamp_power_off" // Our "OFF" icon alternative.
-	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi' //This is the file for the ACTION icon
-	button_icon_state = "power_feed" //And this is the state for the action icon
+	///This is the file for the BACKGROUND icon
+	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	///This is the state for the background icon
+	background_icon_state = "vamp_power_off"
+	var/background_icon_state_on = "vamp_power_on"
+	var/background_icon_state_off = "vamp_power_off"
+	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
-	// Action-Related
-	var/amTargetted = FALSE // Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
-	var/amToggle = FALSE // Can I be actively turned on and off?
-	var/amSingleUse = FALSE // Am I removed after a single use?
+
+	// Action Related
+	///Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
+	var/amTargetted = FALSE
+	///Can I be actively turned on and off?
+	var/amToggle = FALSE
+	///Am I removed after a single use?
+	var/amSingleUse = FALSE
 	var/active = FALSE
-	var/cooldown = 20 // 10 ticks, 1 second.
-	var/cooldownUntil = 0 //  From action.dm:  	next_use_time = world.time + cooldown_time
-	// Power-Related
-	var/level_current = 0 // Can increase to yield new abilities. Each power goes up in strength each Rank.
+	/// 10 ticks, 1 second.
+	var/cooldown = 20
+	/// From action.dm: next_use_time = world.time + cooldown_time
+	var/cooldownUntil = 0
+
+	// Power related
+	///Can increase to yield new abilities. Each power goes up in strength each Rank.
+	var/level_current = 0
 	//var/level_max = 1
 	var/bloodcost
-	var/needs_button = TRUE // Taken from Changeling - for passive abilities that dont need a button
-	var/bloodsucker_can_buy = FALSE // Must be a bloodsucker to use this power.
-	var/vassal_can_buy = FALSE // Can Vassals buy this?
-	var/warn_constant_cost = FALSE // Some powers charge you for staying on. Masquerade, Cloak, Veil, etc.
-	var/can_use_in_torpor = FALSE // Most powers don't function if you're in torpor.
-	var/can_use_in_frenzy = FALSE // You can only Feed while in Frenzy
-	var/must_be_capacitated = FALSE // Some powers require you to be standing and ready.
-	var/can_be_immobilized = FALSE // Brawn can be used when incapacitated/laying if it's because you're being immobilized. NOTE: If must_be_capacitated is FALSE, this is irrelevant.
-	var/can_be_staked = FALSE // Only Feed can happen with a stake in you.
-	var/cooldown_static = FALSE // Feed, Masquerade, and One-Shot powers don't improve their cooldown.
-	//var/not_bloodsucker = FALSE // This goes to Vassals or Hunters, but NOT bloodsuckers.
-	var/must_be_concious = TRUE //Can't use this ability while unconcious.
+	///For passive abilities that dont need a button - Taken from Changeling
+	var/needs_button = TRUE
+	///Bloodsuckers can purchase this when Ranking up
+	var/bloodsucker_can_buy = FALSE
+	///Ventrue Vassals can have this power purchased when Ranking up
+	var/vassal_can_buy = FALSE
+	///Some powers charge you for staying on. Masquerade, Cloak, Veil, etc.
+	var/warn_constant_cost = FALSE
+	///Powers that can be used in Torpor - Just Masquerade
+	var/can_use_in_torpor = FALSE
+	///Powers that can only be used while in a Frenzy - Unless you're part of Brujah
+	var/can_use_in_frenzy = FALSE
+	///Do we need to be standing and ready?
+	var/must_be_capacitated = FALSE
+	///Brawn can be used when incapacitated/laying if it's because you're being immobilized. NOTE: If must_be_capacitated is FALSE, this is irrelevant.
+	var/can_use_w_immobilize = FALSE
+	///Can I use this while staked?
+	var/can_use_w_stake = FALSE
+	///Feed, Masquerade, and One-Shot powers don't improve their cooldown.
+	var/cooldown_static = FALSE
+	/// This goes to Vassals or Hunters, but NOT bloodsuckers. - Replaced with vassal_can_buy kept here because Monsterhunters??
+	//var/not_bloodsucker = FALSE
+	///Can't use this ability while unconcious.
+	var/must_be_concious = TRUE
 
 /// Modify description to add cost.
 /datum/action/bloodsucker/New()
@@ -77,8 +99,11 @@
 		if(display_error)
 			to_chat(owner, "[src] is unavailable. Wait [(cooldownUntil - world.time) / 10] seconds.")
 		return FALSE
-	// Have enough blood?
+	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/L = owner
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(L)
+	if(bloodsuckerdatum?.Frenzied)
+		return TRUE
 	if(L.blood_volume < bloodcost)
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You need at least [bloodcost] blood to activate [name]</span>")
@@ -95,7 +120,7 @@
 			to_chat(owner, "<span class='warning'>Not while you're in Torpor.</span>")
 		return FALSE
 	// Stake?
-	if(!can_be_staked && owner.AmStaked())
+	if(!can_use_w_stake && owner.AmStaked())
 		if(display_error)
 			to_chat(owner, "<span class='warning'>You have a stake in your chest! Your powers are useless.</span>")
 		return FALSE
@@ -111,7 +136,7 @@
 	// Incapacitated?
 	if(must_be_capacitated)
 		var/mob/living/L = owner
-		if (!can_be_immobilized && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
+		if (!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
 			if(display_error)
 				to_chat(owner, "<span class='warning'>Not while you're incapacitated!</span>")
 			return FALSE
@@ -122,9 +147,9 @@
 			if(display_error)
 				to_chat(owner, "<span class='warning'>You don't have the blood to upkeep [src].</span>")
 			return FALSE
-	/// In a Frenzy?
+	// In a Frenzy?
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && !bloodsuckerdatum.my_clan == CLAN_BRUJAH)
 		if(!can_use_in_frenzy)
 			if(display_error)
 				to_chat(owner, "<span class='warning'>You cannot use powers while in a Frenzy!</span>")
@@ -155,9 +180,12 @@
 	..()
 
 /datum/action/bloodsucker/proc/PayCost()
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(B)
-		B.AddBloodVolume(-bloodcost)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
+	if(bloodsuckerdatum?.Frenzied)
+		return
+	if(bloodsuckerdatum)
+		bloodsuckerdatum.AddBloodVolume(-bloodcost)
 	else
 		var/mob/living/carbon/human/H = owner
 		H.blood_volume -= bloodcost
@@ -224,8 +252,10 @@
 	var/target_range = 99
 	var/message_Trigger = "Select a target."
 	var/obj/effect/proc_holder/bloodsucker/bs_proc_holder
-	var/power_activates_immediately = TRUE	// Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.
-	var/power_in_use = FALSE // Is this power LOCKED due to being used?
+	///Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.
+	var/power_activates_immediately = TRUE
+	///Is this power LOCKED due to being used?
+	var/power_in_use = FALSE
 
 /// Modify description to add notice that this is aimed.
 /datum/action/bloodsucker/targeted/New(Target)
@@ -235,8 +265,8 @@
 	bs_proc_holder = new()
 	bs_proc_holder.linked_power = src
 
-/// Click power: Begin Aim
 /datum/action/bloodsucker/targeted/Trigger()
+	// Click power: Begin Aim
 	if(active && CheckCanDeactivate(TRUE))
 		DeactivateRangedAbility()
 		DeactivatePower()
