@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/feed
 	name = "Feed"
-	desc = "Draw the heartsblood of living victims in your grasp.<br><b>None/Passive/Aggressive:</b> Feed silently and unnoticed by your victim.<br><b>Neck: </b>Subdue your target quickly."
+	desc = "Draw the heartsblood of living victims in your grasp.<br><b>None/Passive:</b> Feed silently and unnoticed by your victim.<br><b>Aggressive: </b>Subdue your target quickly."
 	button_icon_state = "power_feed"
 
 	bloodcost = 0
@@ -35,7 +35,7 @@
 /// Called twice: validating a subtle victim, or validating your grapple victim.
 /datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
 	// Bloodsuckers + Animals MUST be grabbed aggressively!
-	if(!owner.pulling || target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
+	if(!owner.pulling || target == owner.pulling && owner.grab_state <= GRAB_PASSIVE)
 		// NOTE: It's OKAY that we are checking if(!target) below, AFTER animals here. We want passive check vs animal to warn you first, THEN the standard warning.
 		// Animals:
 		if(isliving(target) && !iscarbon(target))
