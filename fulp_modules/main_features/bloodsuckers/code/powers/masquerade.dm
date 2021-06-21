@@ -54,7 +54,7 @@
 	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
 	// Eyes
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
-	eyes.flash_protect += initial(E.flash_protect)
+	eyes.flash_protect = initial(eyes.flash_protect)
 	// Heart
 	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
@@ -104,7 +104,7 @@
 		vampheart.Stop()
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
-		eyes.flash_protect -= max(initial(E.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
+		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
 
 	/// Remove all diseases
 	for(var/thing in user.diseases)
