@@ -1838,9 +1838,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					show_antag_tips = !show_antag_tips
 				/// FULP EDIT END
 
+				if("itemoutline_pref")
 					itemoutline_pref = !itemoutline_pref
 
-				if("itemoutline_pref")
 				if("ambientocclusion")
 					ambientocclusion = !ambientocclusion
 					if(parent?.screen && parent.screen.len)
