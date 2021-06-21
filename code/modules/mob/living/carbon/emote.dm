@@ -142,19 +142,3 @@
 		qdel(noogie)
 		to_chat(user, span_warning("You're incapable of noogie'ing in your current state."))
 
-/datum/emote/living/carbon/noogie
-	key = "noogie"
-	key_third_person = "noogies"
-	hands_use_check = TRUE
-
-/datum/emote/living/carbon/noogie/run_emote(mob/user, params, type_override, intentional)
-	. = ..()
-	if(!.)
-		return
-	var/obj/item/noogie/noogie = new(user)
-	if(user.put_in_hands(noogie))
-		to_chat(user, "<span class='notice'>You ready your noogie'ing hand.</span>")
-	else
-		qdel(noogie)
-		to_chat(user, "<span class='warning'>You're incapable of noogie'ing in your current state.</span>")
-
