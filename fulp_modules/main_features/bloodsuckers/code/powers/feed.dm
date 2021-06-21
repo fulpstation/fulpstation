@@ -335,6 +335,7 @@
 /datum/action/bloodsucker/feed/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..() // activate = FALSE
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	to_chat(owner, "<span class='notice'>Thinking back, you know have consumed [bloodsuckerdatum.total_blood_drank] units of blood so far...</span>")
 	// No longer Feeding
 	if(bloodsuckerdatum)
 		bloodsuckerdatum.poweron_feed = FALSE

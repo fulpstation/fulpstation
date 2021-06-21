@@ -19,7 +19,8 @@
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
 	/// Default checks
-	if(!..(display_error))
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
@@ -34,7 +35,8 @@
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/A, display_error)
 	/// Default Checks (Distance)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Check: Self
 	if(target == owner)
