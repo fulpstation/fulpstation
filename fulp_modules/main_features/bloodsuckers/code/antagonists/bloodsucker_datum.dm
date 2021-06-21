@@ -810,6 +810,16 @@
 		// HUD! //
 /////////////////////////////////////
 
+/*
+ *	# PROBLEM WITH HUDS:
+ *
+ *	1) We are setting the Player to use OUR Hud .dmi file, which ISN'T reversed upon joining a new HUD, meaning they are sent to an icon_state that doesn't exist
+ *	SOLUTION: For now, we're putting all convertable antag huds in our .dmi file, but it would be good if we can set it to only use our .dmi file if it's using our HUDs.
+ *
+ *	2) Antag HUDs are not stored, they are OVERWRITTEN. Getting converted and obtaining a new hud will overwrite your old one, being deconverted doesn't bring it back.
+ *	This is a TG problem, there isn't much we can do about it downstream.
+ */
+
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
@@ -820,6 +830,7 @@
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.leave_hud(owner.current)
 	set_antag_hud(owner.current, null)
+	owner.current.prepare_huds()
 
 /// From hud.dm -- Also see data_huds.dm + antag_hud.dm
 /datum/atom_hud/antag/bloodsucker
