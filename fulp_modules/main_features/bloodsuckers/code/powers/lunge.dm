@@ -9,6 +9,7 @@
 	message_Trigger = ""
 	must_be_capacitated = TRUE
 	bloodsucker_can_buy = TRUE
+	vassal_can_buy = TRUE
 
 /*
  *	Level 1: Grapple level 2
@@ -18,7 +19,8 @@
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
 	/// Default checks
-	if(!..(display_error))
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
@@ -33,7 +35,8 @@
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/A, display_error)
 	/// Default Checks (Distance)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Check: Self
 	if(target == owner)
@@ -110,7 +113,8 @@
 		target.Stun(15 + level_current * 5)
 		/// Instantly aggro grab them
 		target.grabbedby(owner)
-		target.grippedby(owner, instant = TRUE)
+		if(!target.is_shove_knockdown_blocked()) // If they aren't wearing Riot armor, we'll instantly aggro grab them.
+			target.grippedby(owner, instant = TRUE)
 		/// Did we knock them down?
 		if(do_knockdown) //&& level_current >= 1)
 			target.Knockdown(10 + level_current * 5)

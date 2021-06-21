@@ -969,6 +969,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/vassalhim,
+		/datum/objective/bloodsucker/gourmand,
 		/datum/objective/bloodsucker/survive, // Fulpstation edit ends
 		/datum/objective/destroy,
 		/datum/objective/hijack,

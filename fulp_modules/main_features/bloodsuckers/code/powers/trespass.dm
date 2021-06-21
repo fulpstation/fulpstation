@@ -6,9 +6,10 @@
 	cooldown = 80
 	amToggle = FALSE
 	//target_range = 2
+	can_use_in_frenzy = TRUE
 	bloodsucker_can_buy = TRUE
 	must_be_capacitated = FALSE
-	can_be_immobilized = TRUE
+	can_use_w_immobilize = TRUE
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
@@ -97,3 +98,10 @@
 	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
 	puff.set_up(3, 0, target_turf)
 	puff.start()
+
+///Vassal edition
+/datum/action/bloodsucker/targeted/trespass/dissapear
+	name = "Dissapear"
+	desc = "Dissapear into thin air as you transport yourself to another location."
+	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE

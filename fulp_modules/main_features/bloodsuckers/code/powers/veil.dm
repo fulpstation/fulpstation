@@ -26,9 +26,7 @@
 /datum/action/bloodsucker/veil/CheckCanUse(display_error)
 	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
-
 	return TRUE
-
 
 /datum/action/bloodsucker/veil/ActivatePower()
 	cast_effect() // POOF
@@ -36,15 +34,11 @@
 	//	Disguise_Outfit()
 	Disguise_FaceName()
 
-
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
 	return
 	// Step One: Back up original items
 
-
-
 /datum/action/bloodsucker/veil/proc/Disguise_FaceName()
-
 	// Change Name/Voice
 	var/mob/living/carbon/human/H = owner
 	H.name_override = H.dna.species.random_name(H.gender)
@@ -62,7 +56,7 @@
 	prev_underwear = H.underwear
 	prev_undershirt = H.undershirt
 	prev_socks = H.socks
-	//prev_eye_color
+//	prev_eye_color
 	prev_disfigured = HAS_TRAIT(H, TRAIT_DISFIGURED) // I was disfigured! //prev_disabilities = H.disabilities
 	prev_features = H.dna.features
 
@@ -133,17 +127,16 @@
 
 		cast_effect() // POOF
 
-
-	// CAST EFFECT //	// General effect (poof, splat, etc) when you cast. Doesn't happen automatically!
+// CAST EFFECT // General effect (poof, splat, etc) when you cast. Doesn't happen automatically!
 /datum/action/bloodsucker/veil/proc/cast_effect()
 	// Effect
 	playsound(get_turf(owner), 'sound/magic/smoke.ogg', 20, 1)
 	var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread/()
 	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
 	puff.set_up(3, 0, get_turf(owner))
-	puff.attach(owner) // OPTIONAL
+	puff.attach(owner) //OPTIONAL
 	puff.start()
-	owner.spin(8, 1) // Spin around like a loon.
+	owner.spin(8, 1) //Spin around like a loon.
 
 /obj/effect/particle_effect/smoke/vampsmoke
 	opaque = FALSE
@@ -152,3 +145,10 @@
 
 /obj/effect/particle_effect/smoke/vampsmoke/fade_out(frames = 6)
 	..(frames)
+
+///Vassal edition
+/datum/action/bloodsucker/veil/disguise
+	name = "Disguise"
+	desc = "Hide yourself as a random identity, fooling the naked eye."
+	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE

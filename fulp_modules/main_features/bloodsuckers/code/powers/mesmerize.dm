@@ -18,7 +18,8 @@
 	bloodsucker_can_buy = TRUE
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(display_error)
-	if(!..(display_error)) // DEFAULT CHECKS
+	. = ..()
+	if(!.) // DEFAULT CHECKS
 		return FALSE
 	if(!owner.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)
@@ -36,6 +37,9 @@
 	return isliving(A)
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/A, display_error)
+	// DON'T DO THIS - Mesmerize is meant to work from a distance.
+//	if(!..())
+//		return FALSE
 	// Check: Self
 	if(A == owner)
 		return FALSE
@@ -117,6 +121,12 @@
 			mesmerized.emp_act(EMP_HEAVY)
 			to_chat(user, "<span class='warning'>You have temporarily shut [mesmerized] down.</span>")
 
-
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && CheckCanUse() && CheckCanTarget(target)
+
+///Vassal edition
+/datum/action/bloodsucker/targeted/mesmerize/hypnotize
+	name = "Hypnotize"
+	desc = "Stare into the eyes of someone watching you, temporarily hypnotizing them."
+	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE
