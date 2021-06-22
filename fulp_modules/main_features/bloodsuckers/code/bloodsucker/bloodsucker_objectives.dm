@@ -57,7 +57,7 @@
 /datum/objective/bloodsucker/protege
 	name = "vassalization"
 
-	var/list/roles = list(
+	var/list/heads = list(
 		"Captain",
 		"Head of Personnel",
 		"Head of Security",
@@ -67,7 +67,6 @@
 		"Quartermaster",
 	)
 	var/list/departs = list(
-		"Captain",
 		"Head of Security",
 		"Head of Personnel",
 		"Research Director",
@@ -83,27 +82,23 @@
 /datum/objective/bloodsucker/protege/generate_objective()
 	// Choose between Command and a Department
 	switch(rand(0,2))
-		if(0)
+		if(0) // Command
+			target_amount = 1
 			target_role = "HEAD"
-		else
+		else // Department
+			target_amount = rand(2,3)
 			target_role = pick(departs)
-	// Now, did we land on Head? We only get one target, then
-	if(target_role == "HEAD")
-		target_amount = 1
-	else
-		// Otherwise, we get 2-3 targets & pick a random Command member, their department is our target.
-		switch(target_role)
-			if("Head of Security")
-				department_string = "Security"
-			if("Head of Personnel")
-				department_string = "Cargo"
-			if("Research Director")
-				department_string = "Science"
-			if("Chief Engineer")
-				department_string = "Engineering"
-			if("Chief Medical Officer")
-				department_string = "Medical"
-		target_amount = rand(2,3)
+			switch(target_role)
+				if("Head of Security")
+					department_string = "Security"
+				if("Head of Personnel")
+					department_string = "Cargo"
+				if("Research Director")
+					department_string = "Science"
+				if("Chief Engineer")
+					department_string = "Engineering"
+				if("Chief Medical Officer")
+					department_string = "Medical"
 	..()
 
 // EXPLANATION
@@ -123,7 +118,7 @@
 	// Get list of all jobs that are qualified (for HEAD, this is already done)
 	var/list/valid_jobs
 	if(target_role == "HEAD")
-		valid_jobs = roles
+		valid_jobs = heads
 	else
 		valid_jobs = list()
 		var/list/alljobs = subtypesof(/datum/job) // This is just a list of TYPES, not the actual variables!
