@@ -24,7 +24,7 @@
 	if(was_running)
 		user.toggle_move_intent()
 	user.AddElement(/datum/element/digitalcamo)
-	. = ..() // Call parent at the end so was_running can work
+	. = ..()
 
 /datum/action/bloodsucker/cloak/UsePower(mob/living/user)
 	// Checks that we can keep using this.

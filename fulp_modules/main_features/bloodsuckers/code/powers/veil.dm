@@ -28,11 +28,11 @@
 	return TRUE
 
 /datum/action/bloodsucker/veil/ActivatePower()
-	. = ..()
 	cast_effect() // POOF
 	//if(blahblahblah)
 	//	Disguise_Outfit()
 	Disguise_FaceName()
+	. = ..()
 
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
 	return

@@ -20,6 +20,10 @@
 	var/amSilent = FALSE
 	///How much Blood did I drink? This is used for logs
 	var/amount_taken = 0
+	///The initial wait before you start drinking blood.
+	var/feed_time
+	///Quantity to take per tick, based on Silent/Frenzied or not.
+	var/blood_take_mult
 	/// CHECKS - To prevent spam.
 	var/warning_target_inhuman = FALSE
 	var/warning_target_dead = FALSE
@@ -155,14 +159,20 @@
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
-	if(!bloodsuckerdatum.Frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	if(!bloodsuckerdatum?.Frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
-	// Initial Wait
-	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
-	feed_time = max(15, feed_time)
-	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
-		// In a frenzy? No time to wait, drink blood NOW!
+
+	if(bloodsuckerdatum?.Frenzied)
+		blood_take_mult = 2
 		feed_time = 5.5
+	else if(!amSilent)
+		blood_take_mult = 1
+		feed_time = 25 - (2.5 * level_current)
+	else
+		blood_take_mult = 0.3
+		feed_time = 45 - (2.5 * level_current)
+	feed_time = max(15, feed_time)
+
 	if(amSilent)
 		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
 	else
@@ -173,14 +183,10 @@
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
 	if(!amSilent)
-		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
-		if(target.stat <= UNCONSCIOUS)
-			if(do_after(user, 0.1 SECONDS, target)) // Wait, then Cancel if Invalid
-				if(!ContinueActive(user,target)) // Cancel. They're gone.
-					//DeactivatePower(user)
-					return // Cancel. They're gone.
-		// Pull Target Close
-		if(!target.density) // Pull target to you if they don't take up space.
+		// Sleep & paralysis, this is also given during UsePower.
+		ApplyVictimEffects(target)
+		// Pull target to you if they don't take up space.
+		if(!target.density)
 			target.Move(user.loc)
 	// Broadcast Message
 	if(amSilent)
@@ -204,36 +210,28 @@
 		else
 			to_chat(user, "<span class='warning'>Someone may have noticed...</span>")
 
-	else						 // /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mobs)
+	else					// /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mobs)
 		user.visible_message("<span class='warning'>[user] closes [user.p_their()] mouth around [target]'s neck!</span>", \
 						 "<span class='warning'>You sink your fangs into [target]'s neck.</span>")
-	// My mouth is full!
-	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 
 	// Activate Effects
 //	target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
 
-	// FEEEEEEEEED!!! //
-	if(bloodsuckerdatum)
-		bloodsuckerdatum.poweron_feed = TRUE
+	// FEEEEEEEEED!! //
+	bloodsuckerdatum?.poweron_feed = TRUE
+	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
+	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // Prevents spilling blood accidentally.
 	. = ..()
 
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
 	var/mob/living/target = feed_target
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
-//	if(!..()) // We're using our own checks below, so we're not using this. This is because we have a TARGET to keep track of.
+//	if(!..()) // We're using our own checks below, becuase we have a TARGET to keep track of.
 //		return
 
-	var/blood_take_mult = amSilent ? 0.3 : 1 // Quantity to take per tick, based on Silent/Frenzied or not.
-	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
-		blood_take_mult = 2
-
-	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 	// Did we deactivate this manually? Let's end it here.
 	if(!active)
-		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-//		DeactivatePower(user) // It's already been deactivated by now.
 		return
 	if(!ContinueActive(user, target))
 		if(amSilent)
@@ -242,7 +240,6 @@
 			to_chat(user, "<span class='warning'>Your feeding has been interrupted!</span>")
 			user.visible_message("<span class='danger'>[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>", \
 					 			 "<span class='userdanger'>Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>")
-			REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 			// Deal Damage to Target (should have been more careful!)
 			if(iscarbon(target))
 				var/mob/living/carbon/C = target
@@ -263,42 +260,39 @@
 
 	///////////////////////////////////////////////////////////
 	// 		Handle Feeding! User & Victim Effects (per tick)
-	if(bloodsuckerdatum)
-		bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
-	if(vassaldatum)
-		vassaldatum.HandleFeeding(target, blood_take_mult)
+	bloodsuckerdatum?.HandleFeeding(target, blood_take_mult)
+	vassaldatum?.HandleFeeding(target, blood_take_mult)
 	amount_taken += amSilent ? 0.3 : 1
 	if(!amSilent)
 		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
+
+	///////////////////////////////////////////////////////////
+	// MOOD EFFECTS //
+	// Drank good blood? - GOOD
 	if(amount_taken > 5 && target.stat < DEAD && ishuman(target))
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood) // GOOD // in bloodsucker_life.dm
-	/// Fed off a mindless person as Ventrue? - This is only possible in Frenzy.
-	if(bloodsuckerdatum && !target.mind && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad) // BAD // in bloodsucker_life.dm
+		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood)
+	// Drank mindless as Ventrue? - BAD
+	if(!target.mind && bloodsuckerdatum?.my_clan == CLAN_VENTRUE)
+		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 		if(!warning_target_inhuman)
 			to_chat(user, "<span class='notice'>You feel disgusted at the taste of a non-sentient creature.</span>")
 			warning_target_inhuman = TRUE
-
-	///////////////////////////////////////////////////////////
-	// Not Human?
-	if(!ishuman(target))
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad) // BAD // in bloodsucker_life.dm
-		if(!warning_target_inhuman)
-			to_chat(user, "<span class='notice'>You recoil at the taste of a lesser lifeform.</span>")
-			warning_target_inhuman = TRUE
-	// Dead Blood?
+	// Dead Blood? - BAD
 	if(target.stat >= DEAD)
 		if(ishuman(target))
-			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_dead) // BAD // in bloodsucker_life.dm
+			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_dead)
 		if(!warning_target_dead)
 			to_chat(user, "<span class='notice'>Your victim is dead. [target.p_their(TRUE)] blood barely nourishes you.</span>")
 			warning_target_dead = TRUE
-	// Full?
-	if(bloodsuckerdatum && !warning_full && user.blood_volume >= bloodsuckerdatum.max_blood_volume)
-		to_chat(user, "<span class='notice'>You are full. Further blood will be wasted.</span>")
-		warning_full = TRUE
+	// Drank off of a non-carbon? - BAD
+	if(!ishuman(target))
+		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
+		if(!warning_target_inhuman)
+			to_chat(user, "<span class='notice'>You recoil at the taste of a lesser lifeform.</span>")
+			warning_target_inhuman = TRUE
+
 	// Blood Remaining? (Carbons/Humans only)
-	if(iscarbon(target) && !IS_BLOODSUCKER(target))
+	else if(!IS_BLOODSUCKER(target))
 		if(target.blood_volume <= BLOOD_VOLUME_BAD && warning_target_bloodvol > BLOOD_VOLUME_BAD)
 			to_chat(user, "<span class='warning'>Your victim's blood volume is fatally low!</span>")
 		else if(target.blood_volume <= BLOOD_VOLUME_OKAY && warning_target_bloodvol > BLOOD_VOLUME_OKAY)
@@ -306,6 +300,10 @@
 		else if(target.blood_volume <= BLOOD_VOLUME_SAFE && warning_target_bloodvol > BLOOD_VOLUME_SAFE)
 			to_chat(user, "<span class='notice'>Your victim's blood is at an unsafe level.</span>")
 		warning_target_bloodvol = target.blood_volume // If we had a warning to give, it's been given by now.
+	// Full?
+	if(bloodsuckerdatum && user.blood_volume >= bloodsuckerdatum.max_blood_volume && !warning_full)
+		to_chat(user, "<span class='notice'>You are full. Further blood will be wasted.</span>")
+		warning_full = TRUE
 	// Done?
 	if(target.blood_volume <= 0)
 		to_chat(user, "<span class='notice'>You have bled your victim dry.</span>")
@@ -317,7 +315,7 @@
 	if(!amSilent)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 
-	addtimer(CALLBACK(src, .proc/UsePower, user, target), 2 SECONDS) // Every 2 seconds
+	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS) // Every 2 seconds
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
@@ -340,12 +338,7 @@
 	var/mob/living/target = feed_target
 	. = ..() // activate = FALSE
 
-	// Reset ALL checks for next time the Power is used.
-	amSilent = FALSE
-	warning_target_inhuman = FALSE
-	warning_target_dead = FALSE
-	warning_full = FALSE
-	if(target)
+	if(target) // Check: Otherwise it runtimes if you fail to feed on someone.
 		if(amSilent)
 			to_chat(user, "<span class='notice'>You slowly release [target]'s wrist." + (target.stat == 0 ? " [target.p_their(TRUE)] face lacks expression, like you've already been forgotten.</span>" : ""))
 		else
@@ -356,6 +349,11 @@
 	// No longer Feeding
 	if(bloodsuckerdatum)
 		bloodsuckerdatum.poweron_feed = FALSE
+	// Reset ALL checks for next time the Power is used.
+	amSilent = FALSE
+	warning_target_inhuman = FALSE
+	warning_target_dead = FALSE
+	warning_full = FALSE
 	feed_target = null
 	// My mouth is no longer full
 	REMOVE_TRAIT(owner, TRAIT_MUTE, BLOODSUCKER_TRAIT)

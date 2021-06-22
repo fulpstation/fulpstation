@@ -29,7 +29,7 @@
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
-	. = ..() // Call parent at the end so was_running can work
+	. = ..()
 
 /datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
 	// Checks that we can keep using this.

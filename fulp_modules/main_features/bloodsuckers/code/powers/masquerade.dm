@@ -32,7 +32,6 @@
 */
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
-	. = ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
 	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
@@ -59,6 +58,7 @@
 	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.FakeStart()
+	. = ..()
 
 /datum/action/bloodsucker/masquerade/UsePower(mob/living/carbon/user)
 	// Checks that we can keep using this.

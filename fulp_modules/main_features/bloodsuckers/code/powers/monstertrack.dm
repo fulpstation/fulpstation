@@ -12,7 +12,6 @@
 	var/give_pinpointer = FALSE
 
 /datum/action/bloodsucker/trackvamp/ActivatePower(mob/living/user = owner)
-	. = ..()
 	/// Return text indicating direction
 	to_chat(user, "<span class='notice'>You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order.</span>")
 	if(!do_mob(user, owner, 80))
@@ -23,6 +22,7 @@
 	PayCost()
 	// NOTE: DON'T DEACTIVATE!
 	//DeactivatePower()
+	. = ..()
 
 /datum/action/bloodsucker/trackvamp/proc/display_proximity()
 	/// Pick target
