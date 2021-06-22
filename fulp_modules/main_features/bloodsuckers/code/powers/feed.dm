@@ -2,7 +2,6 @@
 	name = "Feed"
 	desc = "Draw the heartsblood of living victims in your grasp.<br><b>None/Passive:</b> Feed silently and unnoticed by your victim.<br><b>Aggressive: </b>Subdue your target quickly."
 	button_icon_state = "power_feed"
-
 	bloodcost = 0
 	cooldown = 30
 	amToggle = TRUE
@@ -11,10 +10,21 @@
 	cooldown_static = TRUE
 	can_use_in_frenzy = TRUE
 
-	var/notice_range = 2 // Distance before silent feeding is noticed.
-	var/mob/living/feed_target // So we can validate more than just the guy we're grappling.
-	var/target_grappled = FALSE // If you started grappled, then ending it will end your Feed.
-	var/amSilent = FALSE // Am I Silent?
+	///Distance before silent feeding is noticed.
+	var/notice_range = 2
+	///So we can validate more than just the guy we're grappling.
+	var/mob/living/feed_target
+	///If you started grappled, then ending it will end your Feed.
+	var/target_grappled = FALSE
+	///Am I Silent?
+	var/amSilent = FALSE
+	///How much Blood did I drink? This is used for logs
+	var/amount_taken = 0
+	/// CHECKS - To prevent spam.
+	var/warning_target_inhuman = FALSE
+	var/warning_target_dead = FALSE
+	var/warning_full = FALSE
+	var/warning_target_bloodvol = 99999
 
 /datum/action/bloodsucker/feed/CheckCanUse(display_error)
 	. = ..()
@@ -145,7 +155,7 @@
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
-	if(!target_grappled || owner.grab_state < GRAB_AGGRESSIVE && !bloodsuckerdatum.Frenzied) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	if(!bloodsuckerdatum.Frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
@@ -159,7 +169,7 @@
 		to_chat(user, "<span class='warning'>You pull [target] close to you and draw out your fangs...</span>")
 	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 		to_chat(user, "<span class='warning'>Your feeding was interrupted.</span>")
-		//DeactivatePower()
+		DeactivatePower(user)
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
 	if(!amSilent)
@@ -167,7 +177,7 @@
 		if(target.stat <= UNCONSCIOUS)
 			if(do_after(user, 0.1 SECONDS, target)) // Wait, then Cancel if Invalid
 				if(!ContinueActive(user,target)) // Cancel. They're gone.
-					//DeactivatePower(user,target)
+					//DeactivatePower(user)
 					return // Cancel. They're gone.
 		// Pull Target Close
 		if(!target.density) // Pull target to you if they don't take up space.
@@ -215,18 +225,17 @@
 //	if(!..()) // We're using our own checks below, so we're not using this. This is because we have a TARGET to keep track of.
 //		return
 
-	var/warning_target_inhuman = FALSE
-	var/warning_target_dead = FALSE
-	var/warning_full = FALSE
-	var/warning_target_bloodvol = 99999
-	var/amount_taken = 0
 	var/blood_take_mult = amSilent ? 0.3 : 1 // Quantity to take per tick, based on Silent/Frenzied or not.
 	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
 		blood_take_mult = 2
 
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
-	// May have disabled Feed during do_mob
-	if(!active || !ContinueActive(user, target))
+	// Did we deactivate this manually? Let's end it here.
+	if(!active)
+		REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
+//		DeactivatePower(user) // It's already been deactivated by now.
+		return
+	if(!ContinueActive(user, target))
 		if(amSilent)
 			to_chat(user, "<span class='warning'>Your feeding has been interrupted...but [target.p_they()] didn't seem to notice you.<span>")
 		else
@@ -330,12 +339,19 @@
 /datum/action/bloodsucker/feed/DeactivatePower(mob/living/user = owner)
 	var/mob/living/target = feed_target
 	. = ..() // activate = FALSE
-	if(amSilent)
-		to_chat(user, "<span class='notice'>You slowly release [target]'s wrist." + (target.stat == 0 ? " [target.p_their(TRUE)] face lacks expression, like you've already been forgotten.</span>" : ""))
-	else
-		user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
-							 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
-//	log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)") // WILLARD TODO: Fix this once Bloodsucker balances 4 is merged.
+
+	// Reset ALL checks for next time the Power is used.
+	amSilent = FALSE
+	warning_target_inhuman = FALSE
+	warning_target_dead = FALSE
+	warning_full = FALSE
+	if(target)
+		if(amSilent)
+			to_chat(user, "<span class='notice'>You slowly release [target]'s wrist." + (target.stat == 0 ? " [target.p_their(TRUE)] face lacks expression, like you've already been forgotten.</span>" : ""))
+		else
+			user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
+								 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
+		log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// No longer Feeding
 	if(bloodsuckerdatum)
