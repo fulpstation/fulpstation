@@ -7725,7 +7725,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan,
 /turf/open/floor/iron/white,
-/area/space)
+/area/medical/medbay/central)
 "bfe" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -8015,7 +8015,7 @@
 "bgC" = (
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Maintenance Hatch";
-	req_access_txt = "12"
+	req_access_txt = "12;45"
 	},
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
@@ -8712,7 +8712,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/maintenance{
 	name = "Medbay SMES Access";
-	req_access_txt = "5;10;11;12"
+	req_access_txt = "10;11;12;45"
 	},
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
@@ -22030,7 +22030,7 @@
 "dVH" = (
 /obj/machinery/door/airlock/maintenance{
 	name = "Medbay SMES Access";
-	req_access_txt = "5;10;11;12"
+	req_access_txt = "10;11;12;45"
 	},
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
@@ -24085,7 +24085,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/medical/glass{
 	name = "Pharmacy";
-	req_access_txt = "5; 69"
+	req_access_txt = "5; 69;45"
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
@@ -25941,14 +25941,17 @@
 /turf/open/floor/plating/rust/asteroid_baseturf,
 /area/maintenance/starboard/aft)
 "eRz" = (
-/obj/machinery/door/airlock/engineering{
-	name = "Engine Room";
-	req_one_access_txt = "10;24"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/dark/visible,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
+/obj/machinery/door/airlock/engineering{
+	name = "Engine Room";
+	req_one_access_txt = "10;24;45"
+	},
+/obj/effect/turf_decal/siding/yellow{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/engineering/main)
 "eRE" = (
@@ -26282,10 +26285,6 @@
 /turf/open/floor/iron/white,
 /area/medical/morgue)
 "eVA" = (
-/obj/machinery/door/airlock/mining/glass{
-	name = "Mining Office";
-	req_one_access_txt = "48"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
@@ -26298,6 +26297,10 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/mining/glass{
+	name = "Mining Office";
+	req_one_access_txt = "31;48"
+	},
 /turf/open/floor/iron,
 /area/cargo/miningoffice)
 "eVC" = (
@@ -32963,7 +32966,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/engineering{
 	name = "Engine Room";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "10;24;45"
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/yellow{
@@ -37661,16 +37664,16 @@
 /turf/open/floor/iron,
 /area/commons/vacant_room)
 "hGl" = (
-/obj/machinery/door/airlock/mining/glass{
-	name = "Cargo Office";
-	req_one_access_txt = "31;48"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/mining/glass{
+	name = "Cargo Bay";
+	req_one_access_txt = "31;48"
+	},
 /turf/open/floor/iron,
 /area/cargo/storage)
 "hGn" = (
@@ -39147,6 +39150,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/engineering{
 	name = "Auxiliary Construction Zone";
+	req_access_txt = "0;45";
 	req_one_access_txt = "72"
 	},
 /turf/open/floor/iron,
@@ -39234,11 +39238,12 @@
 /obj/effect/turf_decal/siding/yellow{
 	dir = 1
 	},
+/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/engineering{
 	name = "Auxiliary Construction Zone";
+	req_access_txt = "0;45";
 	req_one_access_txt = "72"
 	},
-/obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/construction/mining/aux_base)
 "hYY" = (
@@ -51219,7 +51224,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/maintenance{
 	name = "Medbay Atmos Access";
-	req_access_txt = "5;10;11;12"
+	req_access_txt = "45;10;11;12"
 	},
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
@@ -57232,9 +57237,12 @@
 /turf/open/floor/engine,
 /area/hallway/primary/fore)
 "lVd" = (
-/obj/machinery/mineral/ore_redemption,
 /obj/effect/turf_decal/stripes/box,
 /obj/machinery/door/firedoor,
+/obj/machinery/mineral/ore_redemption{
+	input_dir = 2;
+	output_dir = 1
+	},
 /turf/open/floor/iron,
 /area/cargo/miningoffice)
 "lVk" = (
@@ -58133,10 +58141,7 @@
 	},
 /obj/machinery/door/airlock/engineering{
 	name = "Engine Room";
-	req_one_access_txt = "10;24"
-	},
-/obj/effect/turf_decal/siding/yellow{
-	dir = 1
+	req_one_access_txt = "10;24;45"
 	},
 /turf/open/floor/engine,
 /area/engineering/storage_shared)
@@ -61800,7 +61805,7 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/iron/white,
-/area/space)
+/area/medical/medbay/central)
 "mYu" = (
 /obj/structure/closet/secure_closet/medical1,
 /obj/effect/turf_decal/siding/blue,
@@ -65261,7 +65266,7 @@
 /obj/machinery/door/airlock/medical/glass{
 	id_tag = "MedbayFoyer";
 	name = "Medbay";
-	req_access_txt = "5"
+	req_access_txt = "5;45"
 	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
@@ -66912,13 +66917,13 @@
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/medical/glass{
 	id_tag = "MedbayFoyer";
 	name = "Medbay";
-	req_access_txt = "5"
+	req_access_txt = "5;45"
 	},
-/obj/machinery/door/firedoor,
-/obj/effect/turf_decal/delivery,
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "oir" = (
@@ -69832,7 +69837,7 @@
 	},
 /obj/machinery/door/airlock/medical/glass{
 	name = "Pharmacy";
-	req_access_txt = "5; 69"
+	req_access_txt = "5; 69;45"
 	},
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment,
@@ -71737,11 +71742,15 @@
 /turf/open/floor/iron/dark,
 /area/security/brig)
 "pio" = (
-/obj/effect/turf_decal/siding/blue{
+/obj/machinery/light/directional/east,
+/obj/effect/turf_decal/siding/green{
 	dir = 4
 	},
-/turf/open/floor/iron/white,
-/area/space)
+/obj/structure/sign/directions/science{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
 "pix" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 1
@@ -72581,11 +72590,14 @@
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "pry" = (
+/obj/structure/cable,
 /obj/machinery/door/airlock/engineering{
 	name = "Engine Room";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "10;24;45"
 	},
-/obj/structure/cable,
+/obj/effect/turf_decal/siding/yellow{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/engineering/main)
 "prB" = (
@@ -74059,7 +74071,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/public/glass{
 	name = "Hydroponics";
-	req_one_access_txt = "35;28"
+	req_one_access_txt = "35;28;45"
 	},
 /turf/open/floor/iron,
 /area/service/hydroponics)
@@ -76269,7 +76281,7 @@
 	},
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/iron/white,
-/area/space)
+/area/medical/medbay/central)
 "qkG" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
@@ -78179,16 +78191,6 @@
 /obj/machinery/light_switch/directional/east,
 /turf/open/floor/carpet/purple,
 /area/service/lawoffice)
-"qFN" = (
-/obj/machinery/light/directional/east,
-/obj/effect/turf_decal/siding/green{
-	dir = 4
-	},
-/obj/structure/sign/directions/science{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/hallway/secondary/entry)
 "qFO" = (
 /turf/open/floor/plating/asteroid_baseturf,
 /area/engineering/atmos)
@@ -86633,13 +86635,13 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/medical/glass{
 	id_tag = "MedbayFoyer";
 	name = "Medbay";
-	req_access_txt = "5"
+	req_access_txt = "5;45"
 	},
-/obj/machinery/door/firedoor,
-/obj/effect/turf_decal/delivery,
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "sHS" = (
@@ -88734,13 +88736,16 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "tiJ" = (
-/obj/machinery/door/airlock/engineering{
-	name = "Engine Room";
-	req_one_access_txt = "10;24"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/machinery/door/airlock/engineering{
+	name = "Engine Room";
+	req_one_access_txt = "10;24;45"
+	},
+/obj/effect/turf_decal/siding/yellow{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/engineering/main)
 "tiU" = (
@@ -90260,7 +90265,7 @@
 	},
 /obj/machinery/door/airlock/command/glass{
 	name = "EVA Storage Room";
-	req_access_txt = "18"
+	req_access_txt = "18;45"
 	},
 /turf/open/floor/iron,
 /area/ai_monitored/command/storage/eva)
@@ -90767,7 +90772,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/research{
 	name = "Research and Development Lab";
-	req_one_access_txt = "7"
+	req_one_access_txt = "7;45"
 	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "rdrnd";
@@ -98596,7 +98601,7 @@
 	},
 /obj/machinery/door/airlock/grunge{
 	name = "Morgue";
-	req_access_txt = "5;6"
+	req_access_txt = "5;6;45"
 	},
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment{
@@ -99483,7 +99488,10 @@
 "vDV" = (
 /obj/machinery/door/airlock/engineering{
 	name = "Engine Room";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "10;24;45"
+	},
+/obj/effect/turf_decal/siding/yellow{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/engineering/main)
@@ -157083,7 +157091,7 @@ wdn
 kHU
 wdn
 cpO
-qFN
+pio
 cpc
 csE
 vRR
@@ -166003,10 +166011,10 @@ bgv
 aZN
 eFk
 bgv
-xKg
+gZT
 mYl
 beW
-pio
+hmm
 qkz
 gZT
 cZm
