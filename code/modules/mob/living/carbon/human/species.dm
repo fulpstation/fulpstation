@@ -917,6 +917,13 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					accessory = GLOB.horns_list[source.dna.features["horns"]]
 				if("ears")
 					accessory = GLOB.ears_list[source.dna.features["ears"]]
+				// FULP EDIT - BEEFMAN
+				if("beefeyes")
+					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
+						accessory = GLOB.eyes_beefman[source.dna.features["beefeyes"]]
+				if("beefmouth")
+					accessory = GLOB.mouths_beefman[source.dna.features["beefmouth"]]
+				// FULP EDIT ENDS
 				if("body_markings")
 					accessory = GLOB.body_markings_list[source.dna.features["body_markings"]]
 				if("wings")
@@ -1080,7 +1087,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(ITEM_SLOT_FEET)
 			if(H.num_legs < 2)
 				return FALSE
-			if(DIGITIGRADE in species_traits)
+			// FULP EDIT - DIGITIGRADE
+			// if(DIGITIGRADE in species_traits)
+			if((DIGITIGRADE in species_traits) == !(I.flags_inv & FULL_DIGITIGRADE))
+			// FULP EDIT END
 				if(!disable_warning)
 					to_chat(H, span_warning("The footwear around here isn't compatible with your feet!"))
 				return FALSE
