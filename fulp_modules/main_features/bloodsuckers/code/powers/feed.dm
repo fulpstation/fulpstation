@@ -164,14 +164,14 @@
 
 	if(bloodsuckerdatum?.Frenzied)
 		blood_take_mult = 2
-		feed_time = 5.5
+		feed_time = 8
 	else if(!amSilent)
 		blood_take_mult = 1
 		feed_time = 25 - (2.5 * level_current)
 	else
 		blood_take_mult = 0.3
 		feed_time = 45 - (2.5 * level_current)
-	feed_time = max(15, feed_time)
+	feed_time = max(8, feed_time)
 
 	if(amSilent)
 		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
@@ -253,7 +253,7 @@
 			target.add_splatter_floor(get_turf(target))
 			user.add_mob_blood(target) // Put target's blood on us. The donor goes in the ( )
 			target.add_mob_blood(target)
-			target.take_overall_damage(10)
+			target.apply_damage(10, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
 			INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 		DeactivatePower(user)
 		return
@@ -355,7 +355,10 @@
 	warning_target_dead = FALSE
 	warning_full = FALSE
 	feed_target = null
-	// My mouth is no longer full
-	REMOVE_TRAIT(owner, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+	warning_target_bloodvol = 99999
 	// Let me move!
 	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
+	if(bloodsuckerdatum?.Frenzied)
+		return // In a Frenzy? Stay silent.
+	// My mouth is no longer full
+	REMOVE_TRAIT(owner, TRAIT_MUTE, BLOODSUCKER_TRAIT)

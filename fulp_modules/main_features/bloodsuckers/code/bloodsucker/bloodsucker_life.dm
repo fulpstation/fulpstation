@@ -328,7 +328,7 @@
 		owner.current.Dizzy(5 SECONDS)
 		owner.current.Paralyze(3 SECONDS)
 		to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
-	if(HAS_TRAIT(owner.current, TRAIT_STUNIMMUNE))
+	if(HAS_TRAIT(owner.current, TRAIT_DEAF))
 		REMOVE_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 		REMOVE_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		REMOVE_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
