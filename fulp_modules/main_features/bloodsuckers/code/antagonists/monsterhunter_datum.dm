@@ -12,6 +12,7 @@
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
+	tips = MONSTERHUNTER_TIPS
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
@@ -80,7 +81,7 @@
 	/// Remove Martial Arts
 	if(my_kungfu)
 		my_kungfu.remove(owner.current)
-	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement, and are no longer a Monster Hunter.</span>")
+	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter.</span>")
 	return ..()
 
 /// Mind version
@@ -122,8 +123,6 @@
 	to_chat(owner.current, "<span class='announce'>While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>.</span><br>")
 	to_chat(owner.current, "<span class='announce'>However, security WILL detain us if they discover our mission.</span><br>")
 	to_chat(owner.current, "<span class='announce'>In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection.</span><br>")
-	if(my_kungfu != null)
-		to_chat(owner.current, "<span class='boldannounce'>Hunter Tip: Use your [my_kungfu.name] techniques to give you an advantage over the enemy.</span><br>")
 	owner.current.playsound_local(null, 'sound/effects/his_grace_ascend.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 

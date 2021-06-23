@@ -54,7 +54,7 @@
 
 /// Vassalize someone in charge (Head of Staff + QM)
 /// LOOKUP: /datum/crewmonitor/proc/update_data(z) for .assignment to see how to get a person's PDA.
-/datum/objective/bloodsucker/protege  // WILLARD TODO: Shaft Miners arent considered Cargo, probably related to the Quartermaster not being a head of staff.
+/datum/objective/bloodsucker/protege
 	name = "vassalization"
 
 	var/list/roles = list(
@@ -73,7 +73,6 @@
 		"Research Director",
 		"Chief Engineer",
 		"Chief Medical Officer",
-		"Quartermaster",
 	)
 
 
@@ -82,17 +81,18 @@
 
 // GENERATE!
 /datum/objective/bloodsucker/protege/generate_objective()
-	target_role = rand(0,2) == 0 ? "HEAD" : pick(departs)
-
-	/// Command personnel? Only one required
+	// Choose between Command and a Department
+	switch(rand(0,2))
+		if(0)
+			target_role = "HEAD"
+		else
+			target_role = pick(departs)
+	// Now, did we land on Head? We only get one target, then
 	if(target_role == "HEAD")
 		target_amount = 1
-	/// Vassalize department workers? 2-4 people, then.
 	else
+		// Otherwise, we get 2-3 targets & pick a random Command member, their department is our target.
 		switch(target_role)
-			if("Captain")
-				/// They aren't security, but they do start mindshielded.
-				department_string = "Security"
 			if("Head of Security")
 				department_string = "Security"
 			if("Head of Personnel")
@@ -103,8 +103,6 @@
 				department_string = "Engineering"
 			if("Chief Medical Officer")
 				department_string = "Medical"
-			if("Quartermaster")
-				department_string = "Cargo"
 		target_amount = rand(2,3)
 	..()
 
@@ -133,7 +131,7 @@
 			var/datum/job/J = SSjob.GetJobType(T)
 			if(!istype(J))
 				continue
-			// Found a job whose Dept Head matches either list of heads, or this job IS the head
+			// Found a job whose Dept Head matches either list of heads, or this job IS the head. We exclude the QM from this, HoP handles Cargo.
 			if((target_role in J.department_head) || target_role == J.title)
 				valid_jobs += J.title
 
@@ -184,8 +182,30 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Eat blood from a lot of people
-/datum/objective/bloodsucker/gourmand // WILLARD TODO: Would be good to get this working, vassalhim isn't a good objective, it's really just an advanced protect objective, which is never fun.
+///Eat blood from a lot of people
+/datum/objective/bloodsucker/gourmand
+	name = "blooddrinker"
+
+// GENERATE!
+/datum/objective/bloodsucker/gourmand/generate_objective()
+	target_amount = rand(450,650)
+	update_explanation_text()
+	return target_amount
+
+// EXPLANATION
+/datum/objective/bloodsucker/gourmand/update_explanation_text()
+	. = ..()
+	explanation_text = "Using your Feed ability, drink [target_amount] units of Blood."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/gourmand/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	var/stolen_blood = bloodsuckerdatum.total_blood_drank
+	if(stolen_blood >= target_amount)
+		return TRUE
+	return FALSE
 
 // HOW: Track each feed (if human). Count victory.
 
@@ -241,7 +261,7 @@
 // EXPLANATION
 /datum/objective/bloodsucker/heartthief/update_explanation_text()
 	. = ..()
-	explanation_text = "Steal and keep [target_amount] heart[target_amount == 1 ? "" : "s"]." // TO DO: Limit them to Human Only!
+	explanation_text = "Steal and keep [target_amount] organic heart\s."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/heartthief/check_completion()
@@ -251,7 +271,9 @@
 	var/itemcount = FALSE
 	for(var/obj/I in all_items)
 		if(istype(I, /obj/item/organ/heart/))
-			itemcount++
+			var/obj/item/organ/heart/heart_item = I
+			if(!(heart_item.organ_flags & ORGAN_SYNTHETIC)) // No robo-hearts allowed
+				itemcount++
 			if(itemcount >= target_amount)
 				return TRUE
 
@@ -273,9 +295,9 @@
 
 // EXPLANATION
 /datum/objective/bloodsucker/vassalhim/update_explanation_text()
-	..()
+	. = ..()
 	if(target?.current)
-		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized."
+		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized via the Persuasion Rack."
 	else
 		explanation_text = "Free Objective"
 
@@ -356,9 +378,11 @@
 
 // EXPLANATION
 /datum/objective/bloodsucker/vassal/update_explanation_text()
+	. = ..()
 	explanation_text = "Guarantee the success of your Master's mission!"
+
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/vassal/check_completion()
 	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
-	return antag_datum.master && antag_datum.master.owner && antag_datum.master.owner.current && antag_datum.master.owner.current.stat != DEAD
+	return antag_datum.master?.owner?.current?.stat != DEAD

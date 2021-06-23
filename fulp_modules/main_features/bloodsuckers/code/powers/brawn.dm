@@ -7,7 +7,7 @@
 	target_range = 1
 	power_activates_immediately = TRUE
 	must_be_capacitated = TRUE
-	can_be_immobilized = TRUE
+	can_use_w_immobilize = TRUE
 	bloodsucker_can_buy = TRUE
 	// Level Up
 	var/upgrade_canLocker = FALSE
@@ -15,7 +15,7 @@
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
 	. = ..()
-	if(!..(display_error)) // DEFAULT CHECKS
+	if(!.) // DEFAULT CHECKS
 		return FALSE
 	var/usedPower = TRUE // Break Out of Restraints! (And then cancel)
 	if(CheckBreakRestraints())

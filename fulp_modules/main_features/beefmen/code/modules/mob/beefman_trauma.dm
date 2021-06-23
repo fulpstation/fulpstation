@@ -25,16 +25,29 @@
 		return target
 	return null
 
-/proc/check_turf_is_valid(turf/T, checkFloor = TRUE)
+/**
+ * Used as a helper that checks if you can successfully teleport to a turf.
+ * Returns a boolean, and checks for if the turf has density, if the turf's area has the NOTELEPORT flag,
+ * and if the objects in the turf have density.
+ * If checkFloor is TRUE in the argument, it will return FALSE if it's not a type of [/turf/open/floor].
+ * Arguments:
+ * * turf/open_turf - The turf being checked for validity.
+ * * checkFloor - Checks if it's a type of [/turf/open/floor]. If this is FALSE, lava/chasms will be able to be selected.
+ */
+/proc/check_turf_is_valid(turf/open_turf, checkFloor = TRUE)
 	// Checking for Floor...
-	if (checkFloor && !istype(T, /turf/open/floor))
+	if (checkFloor && !istype(open_turf, /turf/open/floor))
 		return FALSE
 	// Checking for Density...
-	if(T.density)
+	if(open_turf.density)
+		return FALSE
+	var/area/turf_area = get_area(open_turf)
+	// Checking for if the area has the NOTELEPORT flag...
+	if(turf_area?.area_flags & NOTELEPORT)
 		return FALSE
 	// Checking for Objects...
-	for(var/obj/O in T)
-		if(O.density)
+	for(var/obj/object in open_turf)
+		if(object.density)
 			return FALSE
 	return TRUE
 

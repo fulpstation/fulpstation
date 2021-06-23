@@ -662,7 +662,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Set screentip mode:</b> <a href='?_src_=prefs;preference=screentipmode'>[screentip_pref ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Screentip color:</b><span style='border: 1px solid #161616; background-color: [screentip_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=screentipcolor'>Change</a><BR>"
 			dat += "<b>Item Hover Outlines:</b> <a href='?_src_=prefs;preference=itemoutline_pref'>[itemoutline_pref ? "Enabled" : "Disabled"]</a><br>"
-
+			/// FULP EDIT - ANTAG TIPS
+			dat += "<b>Toggle antagonist tips:</b> <a href='?_src_=prefs;preference=antagtippref'>[show_antag_tips ? "Enabled" : "Disabled"]</a><br>"
+			/// FULP EDIT END
 
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
@@ -1831,6 +1833,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_screentipcolor)
 						screentip_color = sanitize_ooccolor(new_screentipcolor)
 
+				/// FULP EDIT - ANTAG TIPS
+				if("antagtippref")
+					show_antag_tips = !show_antag_tips
+				/// FULP EDIT END
+
 				if("itemoutline_pref")
 					itemoutline_pref = !itemoutline_pref
 
@@ -1947,7 +1954,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		organ_eyes.old_eye_color = eye_color
 	character.hair_color = hair_color
 	character.facial_hair_color = facial_hair_color
-
 	character.skin_tone = skin_tone
 	character.hairstyle = hairstyle
 	character.facial_hairstyle = facial_hairstyle
@@ -2003,7 +2009,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		if("mime")
 			return pick(GLOB.mime_names)
 		if("religion")
-			return DEFAULT_RELIGION
+			return pick(GLOB.religion_names)
 		if("deity")
 			return DEFAULT_DEITY
 		if("bible")
@@ -2028,3 +2034,75 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			return
 		else
 			custom_names[name_id] = sanitized_name
+
+	if(name_id == "religion")
+		update_bible_and_deity_name(custom_names[name_id])
+
+/datum/preferences/proc/update_bible_and_deity_name(religion)
+	switch(lowertext(religion))
+		if("christianity") // DEFAULT_RELIGION
+			custom_names["bible"] = pick("The Holy Bible","The Dead Sea Scrolls")
+			custom_names["deity"] = "Space Jesus"
+		if("buddhism")
+			custom_names["bible"] = "The Sutras"
+			custom_names["deity"] = "Buddha"
+		if("clownism","honkmother","honk","honkism","comedy")
+			custom_names["bible"] = pick("The Holy Joke Book", "Just a Prank", "Hymns to the Honkmother")
+			custom_names["deity"] = "The Honkmother"
+		if("chaos")
+			custom_names["bible"] = "The Book of Lorgar"
+			custom_names["deity"] = pick("Chaos Gods", "Dark Gods", "Ruinous Powers")
+		if("cthulhu")
+			custom_names["bible"] = "The Necronomicon"
+			custom_names["deity"] = pick("Great Old Ones", "Old Ones")
+		if("hinduism")
+			custom_names["bible"] = "The Vedas"
+			custom_names["deity"] = pick("Brahma", "Vishnu", "Shiva")
+		if("imperium")
+			custom_names["bible"] = "Uplifting Primer"
+			custom_names["deity"] = "Astra Militarum"
+		if("islam")
+			custom_names["bible"] = "Quran"
+			custom_names["deity"] = "Allah"
+		if("judaism")
+			custom_names["bible"] = "The Torah"
+			custom_names["deity"] = "Yahweh"
+		if("lampism")
+			custom_names["bible"] = "Fluorescent Incandescence"
+			custom_names["deity"] = "Lamp"
+		if("monkeyism","apism","gorillism","primatism")
+			custom_names["bible"] = pick("Going Bananas", "Bananas Out For Harambe")
+			custom_names["deity"] = pick("Harambe", "monky")
+		if("mormonism")
+			custom_names["bible"] = "The Book of Mormon"
+			custom_names["deity"] = pick("God", "Elohim", "Godhead")
+		if("pastafarianism")
+			custom_names["bible"] = "The Gospel of the Flying Spaghetti Monster"
+			custom_names["deity"] = "Flying Spaghetti Monster"
+		if("rastafarianism","rasta")
+			custom_names["bible"] = "The Holy Piby"
+			custom_names["deity"] = "Haile Selassie I"
+		if("satanism")
+			custom_names["bible"] = "The Unholy Bible"
+			custom_names["deity"] = "Satan"
+		if("sikhism")
+			custom_names["bible"] = "Guru Granth Sahib"
+			custom_names["deity"] = "Waheguru"
+		if("science")
+			custom_names["bible"] = pick("Principle of Relativity", "Quantum Enigma: Physics Encounters Consciousness", "Programming the Universe", "Quantum Physics and Theology", "String Theory for Dummies", "How To: Build Your Own Warp Drive", "The Mysteries of Bluespace", "Playing God: Collector's Edition")
+			custom_names["deity"] = pick("Albert Einstein", "Stephen Hawking", "Neil deGrasse Tyson", "Carl Sagan", "Richard Dawkins")
+		if("scientology")
+			custom_names["bible"] = pick("The Biography of L. Ron Hubbard","Dianetics")
+			custom_names["deity"] = pick("Money", "Power", "Xenu", "Tom Cruise", "L. Ron Hubbard", "David Miscavige", "John Travolta")
+		if("servicianism", "partying")
+			custom_names["bible"] = "The Tenets of Servicia"
+			custom_names["deity"] = pick("Servicia", "Space Bacchus", "Space Dionysus")
+		if("subgenius")
+			custom_names["bible"] = "Book of the SubGenius"
+			custom_names["deity"] = pick("Jehovah 1", "J. R. \"Bob\" Dobbs")
+		if("toolboxia","greytide")
+			custom_names["bible"] = pick("Toolbox Manifesto","iGlove Assistants")
+			custom_names["deity"] = "Maintenance"
+		else
+			if(custom_names["bible"] == DEFAULT_BIBLE)
+				custom_names["bible"] = "The Holy Book of [religion]"

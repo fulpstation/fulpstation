@@ -38,6 +38,12 @@
 #define TRAIT_COLDBLOODED "coldblooded"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
+/// Used for determining the rate at which a bloodsucker regens
+#define BS_BLOOD_VOLUME_MAX_REGEN 700
+/// Frenzy Thresholds
+#define FRENZY_THRESHOLD_NORMAL 25
+#define FRENZY_THRESHOLD_HIGHER 200
+#define FRENZY_THRESHOLD_EXIT 250
 /// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
@@ -56,10 +62,10 @@
 #define CLAN_MALKAVIAN "Malkavian Clan"
 /* Clan defines
 */
-#define TREMERE_SKELETON "Skeleton Pirate"
+// Tremere
 #define TREMERE_ZOMBIE "Zombie - Revives"
 #define TREMERE_HUSK "Husk - Drinks all their Blood"
-#define TREMERE_BAT "Bat - Chance to give them Bat form"
+#define TREMERE_BAT "Bat - Bat Form"
 
 /*
  *	Deputy Defines
@@ -79,3 +85,21 @@
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 /// Defines the Mentorhelp's Mentorsay button
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
+
+/*
+ *	Antag Tip Defines NOTE: Monster hunter, bloodsucker and vassal don't have any HTMLs! Willard will have to add them in.
+ */
+#define ABDUCTOR_TIPS "abductor"
+#define BLOODSUCKER_TIPS "bloodsucker"
+#define CHANGELING_TIPS "changeling"
+#define CULTIST_TIPS "cultist"
+#define HERETIC_TIPS "heretic"
+#define IMPOSTER_TIPS "imposter"
+#define MALF_TIPS "malf_ai"
+#define MONSTERHUNTER_TIPS "monsterhunter"
+#define NUKIE_TIPS "nukie"
+#define REVOLUTIONARY_TIPS "revolutionary"
+#define TRAITOR_TIPS "traitor"
+#define VASSAL_TIPS "vassal"
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+#define WIZARD_TIPS "wizard"

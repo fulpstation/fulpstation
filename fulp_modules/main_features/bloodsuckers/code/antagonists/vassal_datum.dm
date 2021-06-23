@@ -1,6 +1,7 @@
 #define VASSAL_SCAN_MIN_DISTANCE 5
 #define VASSAL_SCAN_MAX_DISTANCE 500
-#define VASSAL_SCAN_PING_TIME 20 // 2s update time.
+/// 2s update time.
+#define VASSAL_SCAN_PING_TIME 20
 
 /datum/antagonist/vassal
 	name = "Vassal"
@@ -9,6 +10,7 @@
 	job_rank = ROLE_BLOODSUCKER
 	show_in_roundend = FALSE
 	show_name_in_check_antagonists = TRUE
+	tips = VASSAL_TIPS
 	/// Who made me?
 	var/datum/antagonist/bloodsucker/master
 	/// Purchased powers.
@@ -41,9 +43,7 @@
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Give Recuperate Power
-	var/datum/action/bloodsucker/recuperate/new_Recuperate = new()
-	powers += new_Recuperate
-	new_Recuperate.Grant(owner.current)
+	BuyPower(new /datum/action/bloodsucker/recuperate)
 	/// Give Objectives
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
@@ -84,9 +84,8 @@
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, "<span class='userdanger'>You are now the mortal servant of [master.owner.current], a bloodsucking vampire!</span>")
-	to_chat(owner, "<span class='boldannounce'>The power of [master.owner.current.p_their()] immortal blood compells you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
+	to_chat(owner, "<span class='boldannounce'>The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
 			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.<span>")
-	to_chat(owner, "<span class='userdanger'>Vassal Tip: Avoid being mindshielded at all costs!</span>")
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 	/// Message told to your Master.
@@ -94,7 +93,7 @@
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/vassal/farewell()
-	owner.current.visible_message("<span class='deconversion_message'>[owner.current] eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm,\
+	owner.current.visible_message("<span class='deconversion_message'>[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm,\
 			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self.</span>", null, null, null, owner.current)
 	to_chat(owner, "<span class ='deconversion_message bold'>With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will.</span>")
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)

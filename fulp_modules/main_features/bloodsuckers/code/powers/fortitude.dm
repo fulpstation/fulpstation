@@ -18,14 +18,15 @@
 	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+	var/mob/living/carbon/human/H = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
-		var/mob/living/carbon/human/H = owner
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
 		H.physiology.brute_mod *= fortitude_resist
-		H.physiology.stamina_mod *= fortitude_resist
-	/// As they cant level up their powers, give them the pre-nerf effects.
 	if(IS_MONSTERHUNTER(owner))
-		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+		H.physiology.brute_mod *= 0.4
+		H.physiology.burn_mod *= 0.4
+
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
@@ -49,14 +50,16 @@
 	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/H = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
 		H.physiology.brute_mod /= fortitude_resist
-		H.physiology.stamina_mod /= fortitude_resist
 	if(IS_MONSTERHUNTER(owner))
-		REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+		H.physiology.brute_mod /= 0.4
+		H.physiology.burn_mod /= 0.4
+
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
 	return ..()
@@ -67,19 +70,12 @@
 	desc = "Use the arts to Flow to your advantage, giving stun and shove immunity, as well as dismember and pierce resistance. Like the Vampire you learned from, you are unable to run while it is active."
 	button_icon_state = "power_fortitude"
 	bloodcost = 0
-	cooldown = 80
 	bloodsucker_can_buy = FALSE
-	amToggle = TRUE
-	warn_constant_cost = FALSE
 
 /// Vassal version
 /datum/action/bloodsucker/fortitude/vassal
 	name = "Force"
 	desc = "Use your Master's teachings to Force yourself to keep your guard through stuns, shovings, dismemberment and piercings. You are unable to run while this is active."
 	button_icon_state = "power_fortitude"
-	bloodcost = 0
-	cooldown = 80
 	bloodsucker_can_buy = FALSE
 	vassal_can_buy = TRUE
-	amToggle = TRUE
-	warn_constant_cost = FALSE
