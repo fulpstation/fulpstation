@@ -15,4 +15,5 @@
 ## Notes/Credits:
 
 - Mithrandalf - Original Digitigrade Shoes (https://github.com/TheSwain/Fulpstation/pull/75)
+- Paporito - Magboot(?) And jumpboot sprites
 - CyoTheProtogen - Tweaks and Modularization
