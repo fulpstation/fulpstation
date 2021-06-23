@@ -34,7 +34,7 @@
 				target.mind.remove_antag_datum(/datum/antagonist/vassal)
 				deconverted = TRUE
 			else
-				to_chat(target, span_warning("You feel something interfering with your Master, but you manage to resist it!")
+				to_chat(target, span_warning("You feel something interfering with your Master, but you manage to resist it!"))
 		// FULP EDIT END
 
 		if(target.mind.has_antag_datum(/datum/antagonist/rev/head)|| target.mind.unconvertable)
