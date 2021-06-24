@@ -22,3 +22,8 @@
 	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_wings.dmi'
 	name = "Pride"
 	icon_state = "pride"
+
+/datum/sprite_accessory/moth_wings/cyber
+	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_wings.dmi'
+	name = "Cyber Pride"
+	icon_state = "cyber"
