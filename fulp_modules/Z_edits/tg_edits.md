@@ -1,17 +1,17 @@
 ## List of all TG edits:
 
-- code/__DEFINES/atom_hud.dm | code/datums/hud.dm > Added Bloodsucker huds
-- code/__DEFINES/role_preferences.dm > Added Bloodsuckers/Monster Hunters as antagonist preference options
+- code/__DEFINES/atom_hud.dm > Bloodsucker HUDs
+- code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
 
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 - code/__HELPERS/global_lists.dm > Beefmen customization/preferences.
 
-- code/modules/admin/verbs/adminhelp.dm > Adds a button for redirecting people to Mentorhelp
-- code/modules/admin/sql_ban_system.dm > Added Bloodsuckers and Monster hunters as bannable antagonists.
-- code/modules/client/preferences.dm > Added general preferences for antagonist tip enabling/disabling.
-- code/modules/client/preferences_savefile.dm > Those preferences have to save somehow, y'know.
-- code/modules/client/preferences.dm > Beefmen customization/preferences.
-- code/modules/client/preferences_savefile.dm > Beefmen customization/preferences.
+- code/datums/hud.dm > Bloodsucker HUDs
+
+- code/modules/admin/verbs/adminhelp.dm > Button for redirecting people to Mentorhelp
+- code/modules/admin/sql_ban_system.dm > Bloodsuckers and Monster hunters as bannable antagonists.
+- code/modules/client/preferences.dm > Preferences for antag tip enabling/disabling || Beefmen customization/preferences
+- code/modules/client/preferences_savefile.dm > Preference saving for antag tips || Beefmen customization/preferences
 - code/modules/client/client_procs.dm > Gives the mentorhelp verb
 - code/modules/mob/dead/new_player/new_player.dm > Plays ApproachingFulp instead of ApproachingTG
 - code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences || Makes Digitigrade shoes fit Digi Lizards.
