@@ -204,8 +204,8 @@
 				// msg += "[t_He] [t_has] <b>moderate</b>  bruising!\n"
 				msg += "[t_He] [t_has] <b>moderate</b>  [dna.species.bruising_desc]!\n"
 			else
-				// msg += "<B>[t_He] [t_has] severe  bruising!</B>\n"
-				msg += "<B>[t_He] [t_has] severe  [dna.species.bruising_desc]!</B>\n"
+				// msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
+				msg += "<B>[t_He] [t_has] severe [dna.species.bruising_desc]!</B>\n"
 
 		temp = getFireLoss()
 		if(temp)
