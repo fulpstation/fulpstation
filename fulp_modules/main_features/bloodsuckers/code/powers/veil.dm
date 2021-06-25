@@ -44,7 +44,7 @@
 	H.name_override = H.dna.species.random_name(H.gender)
 	H.name = H.name_override
 	H.SetSpecialVoice(H.name_override)
-	to_chat(owner, "<span class='warning'>You mystify the air around your person. Your identity is now altered.</span>")
+	to_chat(owner, span_warning("You mystify the air around your person. Your identity is now altered."))
 
 	// Store Prev Appearance
 	prev_gender = H.gender

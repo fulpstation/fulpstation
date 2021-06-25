@@ -11,7 +11,7 @@
 	var/mob/living/carbon/C = owner
 //	var/datum/antagonist/vassal/vassaldatum = owner.mind.has_antag_datum(/datum/antagonist/vassal) // WILLARD TODO: Fix this.
 
-	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
+	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	while(ContinueActive(owner))
 		C.adjustBruteLoss(-2.5)
 		C.adjustToxLoss(-2, forced = TRUE)
@@ -39,18 +39,18 @@
 	if(!.) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */
 	if(owner.stat >= DEAD)
-		to_chat(owner, "<span class='notice'>You cannot use Recuperate while incapacitated.</span>")
+		to_chat(owner, span_notice("You cannot use Recuperate while incapacitated."))
 		return FALSE
 	if(owner.incapacitated())
-		to_chat(owner, "<span class='notice'>You cannot use Recuperate while incapacitated.</span>")
+		to_chat(owner, span_notice("You cannot use Recuperate while incapacitated."))
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
 	if(user.stat >= DEAD)
-		to_chat(owner, "<span class='notice'>You are dead.</span>")
+		to_chat(owner, span_notice("You are dead."))
 		return FALSE
 	if(user.incapacitated())
-		to_chat(owner, "<span class='notice'>You are too exhausted to keep recuperating...</span>")
+		to_chat(owner, span_notice("You are too exhausted to keep recuperating..."))
 		return FALSE
 	return TRUE

@@ -21,11 +21,11 @@
 	if(istype(W, /obj/item/bodycam_upgrade))
 		// Check if its already upgraded
 		if(upgraded)
-			to_chat(user, "<span class='warning'>We have already installed [W] into [src]!</span>")
+			to_chat(user, span_warning("We have already installed [W] into [src]!"))
 			playsound(loc, 'sound/machines/buzz-two.ogg', get_clamped_volume(), TRUE, -1)
 			return
 		upgraded = TRUE
-		to_chat(user, "<span class='warning'>You install [W] into [src].</span>")
+		to_chat(user, span_warning("You install [W] into [src]."))
 		playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
 		qdel(W)
 		return
@@ -33,7 +33,7 @@
 	if(W.tool_behaviour == TOOL_SCREWDRIVER)
 		// If it isnt upgraded, it will go onto the next check, and just return.
 		if(upgraded)
-			to_chat(user, "<span class='warning'>You remove the upgrade from [src].</span>")
+			to_chat(user, span_warning("You remove the upgrade from [src]."))
 			playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
 			upgraded = FALSE
 			unregister_body_camera()
@@ -51,7 +51,7 @@
 		var/obj/item/pda/P = W
 		I = P.id
 	if(!I)
-		to_chat(user, "<span class='warning'>No ID detected for body camera registration.</span>")
+		to_chat(user, span_warning("No ID detected for body camera registration."))
 		return
 
 	register_body_camera(I, user)
@@ -63,7 +63,7 @@
 	var/mob/living/carbon/human/H = user
 	var/obj/item/clothing/under/rank/security/S = H.get_item_by_slot(ITEM_SLOT_ICLOTHING)
 	if(!istype(S))
-		to_chat(user, "<span class='warning'>you have to be wearing [src] to turn the body camera on!</span>")
+		to_chat(user, span_warning("You have to be wearing [src] to turn the body camera on!"))
 		return
 	var/id_name = I.registered_name
 	if(id_name == registrant) //If already registered to the same person swiping the ID, we will 'toggle off' registration and unregister the body camera.
@@ -88,7 +88,7 @@
 	var/cam_name = "-Body Camera: [id_name] ([I.assignment])"
 	for(var/obj/machinery/camera/matching_camera in GLOB.cameranet.cameras)
 		if(cam_name == matching_camera.c_tag)
-			to_chat(user, "<span class='notice'>Matching registration found. Unregistering previously registered body camera.</span>")
+			to_chat(user, span_notice("Matching registration found. Unregistering previously registered body camera."))
 			if(S)
 				S.unregister_body_camera(user)
 			break
@@ -97,7 +97,7 @@
 
 	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
 	if(user)
-		to_chat(user, "<span class='notice'>Security uniform body camera successfully registered to [id_name]</span>")
+		to_chat(user, span_notice("Security uniform body camera successfully registered to [id_name]."))
 
 /// Unregistering the ID - Called when using your ID on an already claimed jumpsuit, or removing it.
 /obj/item/clothing/under/rank/security/proc/unregister_body_camera(mob/user)
@@ -108,7 +108,7 @@
 	registrant = null
 	if(user)
 		playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
-		to_chat(user, "<span class='notice'>Security uniform body camera successfully unregistered.</span>")
+		to_chat(user, span_notice("Security uniform body camera successfully unregistered."))
 
 /// Bodycamera upgrade
 /obj/item/bodycam_upgrade
@@ -118,10 +118,10 @@
 	desc = "A Security Jumpsuit upgrade, it says to examine closer to understand how it works."
 
 /obj/item/bodycam_upgrade/examine_more(mob/user)
-	. = list("<span class='notice'><i>You examine [src]'s instruction tag...</i></span>")
-	. += list("<span class='warning'>How to use Body Cameras v3.5: EMP-proof Edition!</span>")
-	. += list("<span class='notice'>Use the Body camera Upgrade on any SECURITY jumpsuit to upgrade it.</span>")
-	. += list("<span class='notice'>Use a Screwdriver to remove the upgrade once you're done with it.</span>")
-	. += list("<span class='notice'>While upgraded & equipped, use your ID card on the jumpsuit to turn the camera on.</span>")
-	. += list("<span class='notice'>Unequipping or using your ID on the Jumpsuit will disable its camera.</span>")
-	. += list("<span class='notice'>While active, the wearer will be visible to Security camera consoles.</span>")
+	. = list(span_notice("<i>You examine [src]'s instruction tag...</i>"))
+	. += list(span_warning("How to use Body Cameras v3.5: EMP-proof Edition!"))
+	. += list(span_notice("Use the Body camera Upgrade on any SECURITY jumpsuit to upgrade it."))
+	. += list(span_notice("Use a Screwdriver to remove the upgrade once you're done with it."))
+	. += list(span_notice("While upgraded & equipped, use your ID card on the jumpsuit to turn the camera on."))
+	. += list(span_notice("Unequipping or using your ID on the Jumpsuit will disable its camera."))
+	. += list(span_notice("While active, the wearer will be visible to Security camera consoles."))

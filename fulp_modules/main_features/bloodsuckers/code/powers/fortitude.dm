@@ -13,7 +13,7 @@
 
 /datum/action/bloodsucker/fortitude/ActivatePower(mob/living/user = owner)
 	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
-	to_chat(user, "<span class='notice'>Your flesh, skin, and muscles become as steel.</span>")
+	to_chat(user, span_notice("Your flesh, skin, and muscles become as steel."))
 	// Traits & Effects
 	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
@@ -34,7 +34,7 @@
 		/// Prevents running while on Fortitude
 		if(user.m_intent != MOVE_INTENT_WALK)
 			user.toggle_move_intent()
-			to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+			to_chat(user, span_warning("You attempt to run, crushing yourself in the process."))
 			user.adjustBruteLoss(rand(5,15))
 		/// We don't want people using fortitude being able to use vehicles
 		if(user.buckled && istype(user.buckled, /obj/vehicle))

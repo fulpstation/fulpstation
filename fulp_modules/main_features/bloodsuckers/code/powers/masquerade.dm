@@ -37,8 +37,8 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	bloodsuckerdatum.poweron_masquerade = TRUE
 
-	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
-	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
+	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
+	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
 
 	// Remove Bloodsucker traits
 	REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
@@ -109,4 +109,4 @@
 	for(var/thing in user.diseases)
 		var/datum/disease/D = thing
 		D.cure()
-	to_chat(user, "<span class='notice'>Your heart beats one final time, while your skin dries out and your icy pallor returns.</span>")
+	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))

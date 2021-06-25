@@ -146,18 +146,18 @@
 
 		// Mind Assigned
 		if((V.owner.assigned_role in valid_jobs) && !(V.owner.assigned_role in counted_roles))
-			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MIND ROLE)</span>")
+			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MIND ROLE)"))
 			thisRole = V.owner.assigned_role
 		// Mob Assigned
 		else if((V.owner.current.job in valid_jobs) && !(V.owner.current.job in counted_roles))
-			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MOB JOB)</span>")
+			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MOB JOB)"))
 			thisRole = V.owner.current.job
 		// PDA Assigned
 		else if(V.owner.current && ishuman(V.owner.current))
 			var/mob/living/carbon/human/H = V.owner.current
 			var/obj/item/card/id/I =  H.wear_id ? H.wear_id.GetID() : null
 			if(I && (I.assignment in valid_jobs) && !(I.assignment in counted_roles))
-				//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (GET ID)</span>")
+				//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (GET ID)"))
 				thisRole = I.assignment
 
 		// NO MATCH
