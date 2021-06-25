@@ -12,7 +12,6 @@
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
 /datum/action/bloodsucker/fortitude/ActivatePower(mob/living/user = owner)
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist)
 	to_chat(user, span_notice("Your flesh, skin, and muscles become as steel."))
 	// Traits & Effects
 	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
@@ -30,20 +29,27 @@
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
-	while(B && ContinueActive(user))
-		/// Prevents running while on Fortitude
-		if(user.m_intent != MOVE_INTENT_WALK)
-			user.toggle_move_intent()
-			to_chat(user, span_warning("You attempt to run, crushing yourself in the process."))
-			user.adjustBruteLoss(rand(5,15))
-		/// We don't want people using fortitude being able to use vehicles
-		if(user.buckled && istype(user.buckled, /obj/vehicle))
-			user.buckled.unbuckle_mob(src, force=TRUE)
-		if(IS_BLOODSUCKER(owner))
-			/// Pay Blood Toll (if awake)
-			if(user.stat == CONSCIOUS)
-				B.AddBloodVolume(-0.5)
-		sleep(20)
+	. = ..()
+
+/datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
+	// Checks that we can keep using this.
+	if(!..())
+		return
+	/// Prevents running while on Fortitude
+	if(user.m_intent != MOVE_INTENT_WALK)
+		user.toggle_move_intent()
+		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+		user.adjustBruteLoss(rand(5,15))
+	/// We don't want people using fortitude being able to use vehicles
+	if(user.buckled && istype(user.buckled, /obj/vehicle))
+		user.buckled.unbuckle_mob(src, force=TRUE)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	if(IS_BLOODSUCKER(owner))
+		/// Pay Blood Toll (if awake)
+		if(user.stat == CONSCIOUS)
+			bloodsuckerdatum.AddBloodVolume(-0.5)
+
+	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	/// Restore Traits & Effects
@@ -68,14 +74,11 @@
 /datum/action/bloodsucker/fortitude/hunter
 	name = "Flow"
 	desc = "Use the arts to Flow to your advantage, giving stun and shove immunity, as well as dismember and pierce resistance. Like the Vampire you learned from, you are unable to run while it is active."
-	button_icon_state = "power_fortitude"
-	bloodcost = 0
 	bloodsucker_can_buy = FALSE
 
 /// Vassal version
 /datum/action/bloodsucker/fortitude/vassal
 	name = "Force"
 	desc = "Use your Master's teachings to Force yourself to keep your guard through stuns, shovings, dismemberment and piercings. You are unable to run while this is active."
-	button_icon_state = "power_fortitude"
 	bloodsucker_can_buy = FALSE
 	vassal_can_buy = TRUE

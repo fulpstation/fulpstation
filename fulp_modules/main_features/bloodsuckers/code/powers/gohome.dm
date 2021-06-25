@@ -8,7 +8,6 @@
 	bloodcost = 100
 	/// It'll never come back.
 	cooldown = 99999
-	amToggle = FALSE
 	amSingleUse = TRUE
 
 	/// You only get this if you've claimed a lair, and only just before sunrise.
@@ -35,8 +34,7 @@
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
-/datum/action/bloodsucker/gohome/ActivatePower()
-	var/mob/living/carbon/user = owner
+/datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	to_chat(user, span_notice("You focus on separating your consciousness from your physical form..."))
 	/// STEP ONE: Flicker Lights
@@ -116,3 +114,4 @@
 		bloodsuckerdatum.coffin.update_icon()
 		/// Lock Coffin
 		bloodsuckerdatum.coffin.LockMe(owner)
+	. = ..()

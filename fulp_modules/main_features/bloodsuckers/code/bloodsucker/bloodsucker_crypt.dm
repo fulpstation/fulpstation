@@ -286,7 +286,7 @@
 			tremere_perform_magic(user, C)
 			return
 		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
-		if(B.my_clan == CLAN_VENTRUE)
+		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS)
 			if(istype(V) && !B.my_favorite_vassal)
 				offer_ventrue_favorites(user, C)
 				return
@@ -294,6 +294,7 @@
 		unbuckle_mob(C)
 		useLock = FALSE
 		return
+	
 	/// Not our Vassal & We're a Bloodsucker, good to go!
 	torture_victim(user, C)
 
