@@ -6,15 +6,12 @@
 	background_icon_state = "vamp_power_off"
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_hunter"
-	amToggle = FALSE
 	cooldown = 300
 	bloodcost = 0
 	/// Removed, set to TRUE to re-add, either here to be a default function, or in-game through VV for neat Admin stuff -Willard
 	var/give_pinpointer = FALSE
 
-/datum/action/bloodsucker/trackvamp/ActivatePower()
-	. = ..()
-	var/mob/living/carbon/user = owner
+/datum/action/bloodsucker/trackvamp/ActivatePower(mob/living/user = owner)
 	/// Return text indicating direction
 	to_chat(user, "<span class='notice'>You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order.</span>")
 	if(!do_mob(user, owner, 80))
@@ -25,6 +22,7 @@
 	PayCost()
 	// NOTE: DON'T DEACTIVATE!
 	//DeactivatePower()
+	. = ..()
 
 /datum/action/bloodsucker/trackvamp/proc/display_proximity()
 	/// Pick target

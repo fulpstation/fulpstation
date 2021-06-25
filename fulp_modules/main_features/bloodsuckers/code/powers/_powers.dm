@@ -76,18 +76,20 @@
 		return
 	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE))
 		return
+	if(amSingleUse)
+		RemoveAfterUse()
 	PayCost()
+	UpdateButtonIcon()
+	if(!amToggle || !active)
+		StartCooldown() // Must come AFTER UpdateButton(), otherwise icon will revert.
 	if(amToggle)
 		active = !active
 		UpdateButtonIcon()
-	if(!amToggle || !active)
-		StartCooldown() // Must come AFTER UpdateButton(), otherwise icon will revert.
-	UpdateButtonIcon()
-	ActivatePower() // NOTE: ActivatePower() freezes this power in place until it ends.
+		ActivatePower() //We're doing this here because it has to be after 'active = !active'
+		return // Don't keep going down, or else it'll be Deactivated.
+	ActivatePower() // This is placed here so amToggle's can run and return before this occurs.
 	if(active) // Did we not manually disable? Handle it here.
 		DeactivatePower()
-	if(amSingleUse)
-		RemoveAfterUse()
 
 /datum/action/bloodsucker/proc/CheckCanPayCost(display_error)
 	if(!owner || !owner.mind)
@@ -189,11 +191,22 @@
 		H.blood_volume -= bloodcost
 
 /datum/action/bloodsucker/proc/ActivatePower()
+	if(amToggle)
+		UsePower(owner)
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
 	active = FALSE
 	UpdateButtonIcon()
 	StartCooldown()
+
+///Used by powers that are continuously active (That use amToggle)
+/datum/action/bloodsucker/proc/UsePower(mob/living/user)
+	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
+		return FALSE
+	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
+		DeactivatePower()
+		return FALSE
+	return TRUE
 
 /// Used by loops to make sure this power can stay active.
 /datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)

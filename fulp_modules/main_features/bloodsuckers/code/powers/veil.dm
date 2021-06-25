@@ -22,7 +22,6 @@
 	var/prev_disfigured
 	var/list/prev_features // For lizards and such
 
-
 /datum/action/bloodsucker/veil/CheckCanUse(display_error)
 	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
@@ -33,6 +32,7 @@
 	//if(blahblahblah)
 	//	Disguise_Outfit()
 	Disguise_FaceName()
+	. = ..()
 
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
 	return
@@ -84,15 +84,16 @@
 	H.update_hair()
 	H.update_body_parts()
 
-	// Wait here til we deactivate power or go unconscious
-	var/datum/antagonist/bloodsucker/B = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	while(B && ContinueActive(owner))
-		B.AddBloodVolume(-0.2)
-		sleep(10)
-		// Wait for a moment if you fell unconscious...
-		if(owner && owner.stat > CONSCIOUS)
-			sleep(50)
-
+/datum/action/bloodsucker/veil/UsePower(mob/living/carbon/user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	// Checks that we can keep using this.
+	if(!..())
+		return
+	bloodsuckerdatum.AddBloodVolume(-0.2)
+	if(owner && owner.stat > CONSCIOUS) // Wait for a moment if you fell unconscious...
+		addtimer(CALLBACK(src, .proc/UsePower, user), 5 SECONDS)
+	else
+		addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()

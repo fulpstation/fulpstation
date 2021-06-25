@@ -198,8 +198,5 @@
 /datum/action/bloodsucker/targeted/brawn/vassal
 	name = "Strength"
 	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
-	button_icon_state = "power_strength"
-	bloodcost = 15
-	cooldown = 120
 	bloodsucker_can_buy = FALSE
 	vassal_can_buy = TRUE
