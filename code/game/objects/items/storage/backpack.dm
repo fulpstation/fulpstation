@@ -361,7 +361,7 @@
 	///counts time passed since it ate food
 	var/hunger = 0
 
-/obj/item/storage/backpack/duffelbag/cursed/examine(mob/user)
+/obj/item/storage/backpack/duffelbag/cursed/Initialize()
 	. = ..()
 	var/add_dropdel = TRUE //clarified boolean
 	AddComponent(/datum/component/curse_of_hunger, add_dropdel)
