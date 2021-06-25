@@ -176,7 +176,7 @@
 	useLock = FALSE
 
 /// Attempt Release (Owner vs Non Owner)
-/obj/structure/bloodsucker/vassalrack/RightClick(mob/user)
+/obj/structure/bloodsucker/vassalrack/attack_hand_secondary(mob/user)
 	if(!user.canUseTopic(src, BE_CLOSE))
 		return
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
@@ -641,7 +641,7 @@
 			return
 	. = ..()
 
-/obj/structure/bloodsucker/candelabrum/RightClick(mob/user)
+/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user)
 	/// Are we right next to it? Let's unbuckle the person in it, then.
 	if(user.Adjacent(src))
 		if(!has_buckled_mobs() || !isliving(user))
