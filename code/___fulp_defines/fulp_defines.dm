@@ -48,6 +48,7 @@
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
 #define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
+#define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
 /* Clan defines
 */
 /// More prone to Frenzy & Brawn/Punches deal more damage
