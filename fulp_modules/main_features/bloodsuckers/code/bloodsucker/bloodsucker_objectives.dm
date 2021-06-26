@@ -8,10 +8,6 @@
 /datum/objective/bloodsucker
 	martyr_compatible = TRUE
 
-/// GENERATE!
-/datum/objective/bloodsucker/proc/generate_objective()
-	update_explanation_text()
-
 //////////////////////////////////////////////////////////////////////////////
 //	//							 PROCS 									//	//
 
@@ -36,6 +32,10 @@
 
 /datum/objective/bloodsucker/lair
 	name = "claimlair"
+
+/datum/objective/bloodsucker/lair/New()
+	update_explanation_text()
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/lair/update_explanation_text()
@@ -74,12 +74,15 @@
 		"Chief Medical Officer",
 	)
 
-
 	var/target_role	// Equals "HEAD" when it's not a department role.
 	var/department_string
 
+/datum/objective/bloodsucker/protege/New()
+	update_explanation_text()
+	..()
+
 // GENERATE!
-/datum/objective/bloodsucker/protege/generate_objective()
+/datum/objective/bloodsucker/protege/New()
 	// Choose between Command and a Department
 	switch(rand(0,2))
 		if(0) // Command
@@ -182,10 +185,10 @@
 	name = "blooddrinker"
 
 // GENERATE!
-/datum/objective/bloodsucker/gourmand/generate_objective()
+/datum/objective/bloodsucker/gourmand/New()
 	target_amount = rand(450,650)
 	update_explanation_text()
-	return target_amount
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/gourmand/update_explanation_text()
@@ -248,10 +251,10 @@
 	name = "heartthief"
 
 // GENERATE!
-/datum/objective/bloodsucker/heartthief/generate_objective()
+/datum/objective/bloodsucker/heartthief/New()
 	target_amount = rand(2,3)
 	update_explanation_text()
-	return target_amount
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/heartthief/update_explanation_text()
@@ -281,6 +284,10 @@
 /datum/objective/bloodsucker/vassalhim
 	name = "vassalhim"
 	var/target_role_type = FALSE
+
+/datum/objective/bloodsucker/vassalhim/New()
+	update_explanation_text()
+	..()
 
 // FIND TARGET/GENERATE OBJECTIVE
 /datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
@@ -313,6 +320,10 @@
 /datum/objective/bloodsucker/survive
 	name = "bloodsuckersurvive"
 
+/datum/objective/bloodsucker/survive/New()
+	update_explanation_text()
+	..()
+
 // EXPLANATION
 /datum/objective/bloodsucker/survive/update_explanation_text()
 	explanation_text = "Survive the entire shift without succumbing to Final Death."
@@ -332,8 +343,9 @@
 	name = "destroymonsters"
 
 // GENERATE!
-/datum/objective/bloodsucker/monsterhunter/generate_objective()
+/datum/objective/bloodsucker/monsterhunter/New()
 	update_explanation_text()
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/monsterhunter/update_explanation_text()
@@ -368,8 +380,9 @@
 /datum/objective/bloodsucker/vassal
 
 // GENERATE!
-/datum/objective/bloodsucker/vassal/generate_objective()
+/datum/objective/bloodsucker/vassal/New()
 	update_explanation_text()
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/vassal/update_explanation_text()

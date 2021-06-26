@@ -39,7 +39,6 @@
 		/// Give Hunter Objective
 		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
 		monsterhunter_objective.owner = owner
-		monsterhunter_objective.generate_objective()
 		objectives += monsterhunter_objective
 		/// Give Theft Objective
 		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
