@@ -42,8 +42,8 @@
 					if(!istype(M) || !istype(M.current))
 						continue
 					var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
-					if(istype(bloodsuckerdatum))
-						/// Rank up! Must still be in a coffin to level!
+					if(bloodsuckerdatum)
+						// Rank up! Must still be in a coffin to level!
 						bloodsuckerdatum.RankUp()
 		if(time_til_cycle <= 1)
 			warn_daylight(5,"<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
@@ -107,6 +107,7 @@
 				M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
 			else if(danger_level == 5)
 				M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
+			return
 	if(vassalwarn != "")
 		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/vassal))
 			if(!istype(M))

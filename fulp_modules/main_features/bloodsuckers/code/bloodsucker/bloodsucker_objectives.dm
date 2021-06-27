@@ -222,7 +222,7 @@
 		return FALSE
 	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
 		if(vassaldatum.owner && vassaldatum.favorite_vassal)
-			if(vassaldatum.vassal_level >= 6)
+			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 				return TRUE
 	return FALSE
 

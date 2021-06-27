@@ -101,17 +101,21 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	forge_bloodsucker_objectives()
-	/// Start Sunlight if first Bloodsucker
-	clan.check_start_sunlight()
 	/// Assign Powers
 	AssignStarterPowersAndStats()
-	/// Name & Title
-	SelectFirstName()
 	/// If I have a creator, then set as Fledgling.
-	SelectTitle(am_fledgling = TRUE)
-	SelectReputation(am_fledgling = TRUE)
-	update_bloodsucker_icons_added(owner.current, "bloodsucker")
+	if(!IS_VASSAL(owner.current))
+		// Start Sunlight if first Bloodsucker
+		clan.check_start_sunlight()
+		// Name and Titles
+		SelectFirstName()
+		SelectTitle(am_fledgling = TRUE)
+		SelectReputation(am_fledgling = TRUE)
+		// Objectives & HUDs
+		forge_bloodsucker_objectives()
+		update_bloodsucker_icons_added(owner.current, "bloodsucker")
+	else // We're a vassal? We don't get to rank up, then.
+		bloodsucker_level_unspent = 0
 	. = ..()
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
@@ -274,7 +278,8 @@
 	/// Purchase Roundstart Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
-	BuyPower(new /datum/action/bloodsucker/veil)
+	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
+		BuyPower(new /datum/action/bloodsucker/veil)
 	/// Give Bloodsucker Traits
 	for(var/T in defaultTraits)
 		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
@@ -345,7 +350,8 @@
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	set waitfor = FALSE
-	if(!owner || !owner.current)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(owner.current)
+	if(!owner || !owner.current || vassaldatum)
 		return
 	bloodsucker_level_unspent++
 	// Spend Rank Immediately?
@@ -514,10 +520,16 @@
 		ADD_TRAIT(target, TRAIT_HARDLY_WOUNDED, BLOODSUCKER_TRAIT)
 		to_chat(target, "<span class='notice'>You feel yourself able to take cuts and stabbings like it's nothing.</span>")
 	if(vassaldatum.vassal_level == 6)
-		ADD_TRAIT(target, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_STABLEHEART, BLOODSUCKER_TRAIT)
-		to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you will no longer naturally regenerate Blood!</span>")
-		vassaldatum.BuyPower(new /datum/action/bloodsucker/feed)
+		to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead.</span>")
+		target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
+	if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
+		set_vassal_level(target)
+
+///Set the Vassal's rank to their Bloodsucker level
+/datum/antagonist/bloodsucker/proc/set_vassal_level(mob/living/carbon/human/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
+	bloodsuckerdatum.bloodsucker_level = vassaldatum.vassal_level
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -763,7 +775,7 @@
 	else
 		bloodsucker_title = null
 
-/datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = 0, forced = FALSE)
+/datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = FALSE, forced = FALSE)
 	// Already have Reputation
 	if(!forced && bloodsucker_reputation != null)
 		return

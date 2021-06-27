@@ -116,6 +116,8 @@
 /// When a Bloodsucker gets FinalDeath, all Vassals are freed - This is a Bloodsucker proc, not a Vassal one.
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
 	for(var/datum/antagonist/vassal/V in vassals)
+		if(V.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+			continue
 		remove_vassal(V.owner)
 
 /// Called by FreeAllVassals()

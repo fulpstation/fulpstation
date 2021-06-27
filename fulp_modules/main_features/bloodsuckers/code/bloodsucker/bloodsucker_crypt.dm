@@ -298,7 +298,7 @@
 		unbuckle_mob(C)
 		useLock = FALSE
 		return
-	
+
 	/// Not our Vassal & We're a Bloodsucker, good to go!
 	torture_victim(user, C)
 
@@ -712,9 +712,10 @@
 					user.blood_volume -= 550
 					bloodsuckerdatum.SpendVassalRank(C, FALSE)
 					return
-		// Neither? Shame. Goodbye!
-		to_chat(user, "<span class='danger'>You don't have any levels or enough Blood to Rank [C] up with.</span>")
-		return
+		else
+			// Neither? Shame. Goodbye!
+			to_chat(user, "<span class='danger'>You don't have any levels or enough Blood to Rank [C] up with.</span>")
+			return
 
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(IS_BLOODSUCKER(user) || istype(T))
