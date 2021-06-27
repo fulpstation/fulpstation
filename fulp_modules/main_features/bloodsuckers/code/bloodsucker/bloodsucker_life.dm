@@ -317,6 +317,8 @@
 	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
 	frenzygrab.teach(owner.current, TRUE)
 	owner.current.add_client_colour(/datum/client_colour/cursed_heart_blood)//bloodlust) <-- You can barely see shit, cant even see anyone to feed off of them.
+	// Keep track of how many times we've entered a Frenzy.
+	Frenzies += 1
 	Frenzied = TRUE
 
 /datum/antagonist/bloodsucker/proc/Frenzy_End()

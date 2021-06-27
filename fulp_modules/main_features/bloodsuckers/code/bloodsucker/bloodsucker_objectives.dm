@@ -179,7 +179,7 @@
 
 ///Eat blood from a lot of people
 /datum/objective/bloodsucker/gourmand
-	name = "blooddrinker"
+	name = "gourmand"
 
 // GENERATE!
 /datum/objective/bloodsucker/gourmand/generate_objective()
@@ -208,8 +208,48 @@
 
 /// Convert a crewmate
 /datum/objective/bloodsucker/embrace
+	name = "embrace"
 
-// HOW: Find crewmate. Check if person is a bloodsucker
+// EXPLANATION
+/datum/objective/bloodsucker/embrace/update_explanation_text()
+	. = ..()
+	explanation_text = "Ensure your Favorite Vassal is at least Rank 6 by the end of the shift."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/embrace/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum || bloodsuckerdatum.my_clan != CLAN_VENTRUE)
+		return FALSE
+	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
+		if(vassaldatum.owner && vassaldatum.favorite_vassal)
+			if(vassaldatum.vassal_level >= 6)
+				return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Enter Frenzy repeatedly
+/datum/objective/bloodsucker/frenzy
+	name = "frenzy"
+
+/datum/objective/bloodsucker/frenzy/New()
+	target_amount = rand(3,4)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/frenzy/update_explanation_text()
+	. = ..()
+	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/frenzy/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	if(bloodsuckerdatum.Frenzies >= target_amount)
+		return TRUE
+	return FALSE
+
 
 //////////////////////////////////////////////////////////////////////////////////////
 
