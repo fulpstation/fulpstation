@@ -53,6 +53,7 @@
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
+	var/Frenzies = 0
 
 	///Used in Bloodsucker huds
 	var/valuecolor
@@ -75,7 +76,6 @@
 	///Have we reached final death?
 	var/AmFinalDeath = FALSE
 	///Are we currently in a Frenzy? - Martial Art also used in Frenzy
-	var/Frenzies = 0
 	var/Frenzied = FALSE
 	var/datum/martial_art/frenzygrab/frenzygrab = new
 	///Have we selected our Favorite Vassal yet? - This is Ventrue only!
