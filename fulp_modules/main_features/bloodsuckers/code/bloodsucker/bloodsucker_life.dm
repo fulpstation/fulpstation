@@ -121,6 +121,7 @@
 		if(amInCoffin && HAS_TRAIT(C, TRAIT_NODEATH))
 			if(poweron_masquerade)
 				to_chat(C, "<span class='warning'>You will not heal while your Masquerade ability is active.</span>")
+				return
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			costMult /= 2 // Decrease cost if we're sleeping in a coffin.
@@ -128,10 +129,11 @@
 			C.remove_all_embedded_objects() // Remove Embedded!
 			if(check_limbs(costMult))
 				return TRUE
-		/// In Torpor, but not in a Coffin? Heal faster anyways.
+		// In Torpor, but not in a Coffin? Heal Burn and slightly faster.
 		else if(HAS_TRAIT(C, TRAIT_NODEATH))
+			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 3
-		/// Heal if Damaged
+		// Heal if Damaged
 		if((bruteheal + fireheal > 0) && mult != 0) // Just a check? Don't heal/spend, and return.
 			// We have damage. Let's heal (one time)
 			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
