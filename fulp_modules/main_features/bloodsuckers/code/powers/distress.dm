@@ -21,7 +21,7 @@
 	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		// Are they MY Bloodsucker?
-		if(istype(bloodsuckerdatum) && vassaldatum.master)
+		if(istype(bloodsuckerdatum) && vassaldatum.master && M != owner)
 			to_chat(M, "<span class='userdanger'>[owner], your loyal Vassal, is desperately calling for aid at [target_area]!</span>")
 
 	// Now pay the price. A small one - Bloodcost is done automatically by the Power's PayCost, which is done automatically.
