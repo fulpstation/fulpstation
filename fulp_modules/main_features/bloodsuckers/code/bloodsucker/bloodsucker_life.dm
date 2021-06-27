@@ -129,9 +129,8 @@
 			C.remove_all_embedded_objects() // Remove Embedded!
 			if(check_limbs(costMult))
 				return TRUE
-		// In Torpor, but not in a Coffin? Heal Burn and slightly faster.
+		// In Torpor, but not in a Coffin? Heal faster anyways.
 		else if(HAS_TRAIT(C, TRAIT_NODEATH))
-			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 3
 		// Heal if Damaged
 		if((bruteheal + fireheal > 0) && mult != 0) // Just a check? Don't heal/spend, and return.
@@ -360,11 +359,6 @@
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)
 		return
-	/// We have to use carbon here, otherwise we use the mob/living one, which is an empty return.
-	var/mob/living/carbon/B = owner.current
-	var/total_brute = B.getBruteLoss_nonProsthetic()
-	var/total_burn = B.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			/// Staked? Dont heal
@@ -374,11 +368,7 @@
 			/// Otherwise, check if it's Sol, to enter Torpor.
 			if(clan.bloodsucker_sunlight.amDay)
 				Check_Begin_Torpor(TRUE)
-		/// You are in Torpor, and in a Coffin. Check if it's not Daytime & you have less than 10 Brute/Burn combined to end Torpor. WILLARD TODO: Condense all the checks into Check_End_Torpor(), then just call that instead of checking twice.6
-		else if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
-			Check_End_Torpor()
-	/// You're not in a Coffin, but are in Torpor. Check if it's not Daytime, & you have less than 10 Brute (NOT Burn) to end Torpor.
-	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10 && HAS_TRAIT(owner.current, TRAIT_NODEATH))
+	if(HAS_TRAIT(owner.current, TRAIT_NODEATH)) // Check so I don't go insane.
 		Check_End_Torpor()
 
 /datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(SkipChecks = FALSE)
@@ -395,20 +385,24 @@
 		Torpor_Begin()
 
 /datum/antagonist/bloodsucker/proc/Check_End_Torpor()
-	/// You're not in Torpor? (Slept in a Locker for example), then you don't need to leave it.
+	// You're not in Torpor? (Slept in a Locker for example), then you don't need to leave it.
 	if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		return
-	/// Not in a Coffin? End Torpor.
-	if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-		Torpor_End()
-	else
-	/// You are in a Coffin, so instead we'll take Burn into account, too.
-		var/mob/living/carbon/B = owner.current
-		var/total_brute = B.getBruteLoss_nonProsthetic()
-		var/total_burn = B.getFireLoss_nonProsthetic()
-		var/total_damage = total_brute + total_burn
+	var/mob/living/carbon/user = owner.current
+	var/total_brute = user.getBruteLoss_nonProsthetic()
+	var/total_burn = user.getFireLoss_nonProsthetic()
+	var/total_damage = total_brute + total_burn
+	// You are in a Coffin, so instead we'll check TOTAL damage, here.
+	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
 			Torpor_End()
+	// You're not in a Coffin? We won't check for low Burn damage
+	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
+		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, instead we'll start working on Burn damage -- This is to prevent spam dying to Burn and exiting Torpor.
+		if(total_burn >= 200)
+			owner.current.adjustFireLoss(-5)
+			return
+		Torpor_End()
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
 	to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
@@ -424,6 +418,7 @@
 	DisableAllPowers()
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
+	owner.current.grab_ghost()
 	to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
 	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)

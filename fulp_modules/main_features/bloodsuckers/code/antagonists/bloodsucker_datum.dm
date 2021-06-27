@@ -266,7 +266,7 @@
 	/// No minds in the clan? Delete Sol.
 	if(members.len <= 1)
 		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-		qdel(bloodsucker_sunlight)
+		QDEL_NULL(bloodsucker_sunlight)
 //		bloodsucker_sunlight = null // Note: Not sure what this is meant to do, but everything works without it.
 
 /// Buying powers

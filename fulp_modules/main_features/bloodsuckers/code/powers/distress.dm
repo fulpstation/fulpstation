@@ -6,9 +6,6 @@
 	cooldown = 100
 
 /datum/action/bloodsucker/distress/CheckCanUse(display_error)
-	if(owner.stat >= DEAD || owner.incapacitated())
-		to_chat(owner, "<span class='notice'>You cannot call for help while incapacitated.</span>")
-		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/distress/ActivatePower(mob/living/user = owner)
