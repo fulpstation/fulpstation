@@ -8,6 +8,11 @@
 /datum/objective/bloodsucker
 	martyr_compatible = TRUE
 
+// GENERATE
+/datum/objective/bloodsucker/New()
+	update_explanation_text()
+	..()
+
 //////////////////////////////////////////////////////////////////////////////
 //	//							 PROCS 									//	//
 
@@ -32,10 +37,6 @@
 
 /datum/objective/bloodsucker/lair
 	name = "claimlair"
-
-/datum/objective/bloodsucker/lair/New()
-	update_explanation_text()
-	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/lair/update_explanation_text()
@@ -76,10 +77,6 @@
 
 	var/target_role	// Equals "HEAD" when it's not a department role.
 	var/department_string
-
-/datum/objective/bloodsucker/protege/New()
-	update_explanation_text()
-	..()
 
 // GENERATE!
 /datum/objective/bloodsucker/protege/New()
@@ -187,7 +184,6 @@
 // GENERATE!
 /datum/objective/bloodsucker/gourmand/New()
 	target_amount = rand(450,650)
-	update_explanation_text()
 	..()
 
 // EXPLANATION
@@ -253,7 +249,6 @@
 // GENERATE!
 /datum/objective/bloodsucker/heartthief/New()
 	target_amount = rand(2,3)
-	update_explanation_text()
 	..()
 
 // EXPLANATION
@@ -285,10 +280,6 @@
 	name = "vassalhim"
 	var/target_role_type = FALSE
 
-/datum/objective/bloodsucker/vassalhim/New()
-	update_explanation_text()
-	..()
-
 // FIND TARGET/GENERATE OBJECTIVE
 /datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
 	if(!invert)
@@ -312,17 +303,10 @@
 		return TRUE
 	return FALSE
 
-/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
-	admin_simple_target_pick(admin)
-
 //////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/survive
 	name = "bloodsuckersurvive"
-
-/datum/objective/bloodsucker/survive/New()
-	update_explanation_text()
-	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/survive/update_explanation_text()
@@ -341,11 +325,6 @@
 
 /datum/objective/bloodsucker/monsterhunter
 	name = "destroymonsters"
-
-// GENERATE!
-/datum/objective/bloodsucker/monsterhunter/New()
-	update_explanation_text()
-	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/monsterhunter/update_explanation_text()
@@ -379,16 +358,10 @@
 
 /datum/objective/bloodsucker/vassal
 
-// GENERATE!
-/datum/objective/bloodsucker/vassal/New()
-	update_explanation_text()
-	..()
-
 // EXPLANATION
 /datum/objective/bloodsucker/vassal/update_explanation_text()
 	. = ..()
 	explanation_text = "Guarantee the success of your Master's mission!"
-
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/vassal/check_completion()
