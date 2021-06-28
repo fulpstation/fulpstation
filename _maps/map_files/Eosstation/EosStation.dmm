@@ -735,9 +735,14 @@
 /turf/open/floor/carpet/blue,
 /area/service/lawoffice)
 "agM" = (
-/obj/structure/cable,
-/turf/open/floor/carpet/red,
-/area/service/library)
+/obj/effect/decal/remains/human,
+/obj/item/clothing/suit/armor/vest,
+/obj/item/clothing/head/helmet,
+/obj/item/food/meat/slab/human/mutant/zombie,
+/obj/effect/decal/cleanable/blood/innards,
+/obj/item/clothing/under/rank/prisoner,
+/turf/open/floor/plating,
+/area/maintenance/starboard/aft)
 "agO" = (
 /obj/machinery/requests_console/directional/north{
 	department = "Custodial Closet";
@@ -1211,6 +1216,7 @@
 /obj/machinery/computer/station_alert{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/hallway/primary/aft)
 "alX" = (
@@ -1234,8 +1240,9 @@
 /turf/open/floor/iron,
 /area/security/courtroom)
 "aml" = (
-/turf/closed/wall/r_wall,
-/area/medical/treatment_center)
+/obj/structure/cable,
+/turf/open/floor/carpet/red,
+/area/service/library)
 "amp" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -2664,7 +2671,6 @@
 /turf/open/floor/mineral/titanium/white,
 /area/commons/vacant_room)
 "awz" = (
-/obj/structure/closet/secure_closet/freezer/fridge,
 /obj/item/reagent_containers/food/condiment/rice,
 /obj/item/reagent_containers/food/condiment/flour,
 /obj/item/storage/fancy/egg_box,
@@ -2682,6 +2688,7 @@
 /obj/item/food/meat/rawcutlet/plain,
 /obj/item/food/meat/rawcutlet/plain,
 /obj/item/food/meat/rawcutlet/plain,
+/obj/structure/closet/secure_closet/freezer/fridge/open,
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/mess)
 "awC" = (
@@ -6106,6 +6113,7 @@
 	dir = 1
 	},
 /obj/item/stack/cable_coil,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "aZa" = (
@@ -10172,7 +10180,7 @@
 /area/space/nearstation)
 "bzh" = (
 /turf/closed/wall/r_wall,
-/area/medical/storage)
+/area/medical/treatment_center)
 "bzi" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -10904,6 +10912,7 @@
 /obj/machinery/power/solar_control{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/hallway/primary/central)
 "bMt" = (
@@ -13599,10 +13608,8 @@
 	},
 /area/maintenance/starboard/aft)
 "cjV" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/engineering/atmos)
+/turf/closed/wall/r_wall,
+/area/medical/storage)
 "ckf" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible{
 	dir = 1
@@ -14700,11 +14707,10 @@
 	},
 /area/ai_monitored/turret_protected/ai)
 "cqG" = (
-/obj/structure/closet/radiation,
-/obj/item/clothing/glasses/meson/engine,
-/obj/item/radio/intercom/directional/south,
-/turf/open/floor/engine,
-/area/engineering/storage_shared)
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/engineering/atmos)
 "cqI" = (
 /obj/item/pickaxe,
 /turf/open/floor/plating/rust,
@@ -18904,10 +18910,10 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "dhz" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/cable,
-/obj/structure/sign/warning/radiation/rad_area,
-/turf/open/floor/plating,
+/obj/structure/closet/radiation,
+/obj/item/clothing/glasses/meson/engine,
+/obj/item/radio/intercom/directional/south,
+/turf/open/floor/engine,
 /area/engineering/storage_shared)
 "dhE" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -19710,13 +19716,11 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "dsZ" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
-/obj/structure/barricade/wooden,
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/structure/sign/warning/radiation/rad_area,
 /turf/open/floor/plating,
-/area/maintenance/starboard/aft)
+/area/engineering/storage_shared)
 "dte" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -24833,9 +24837,13 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "eFw" = (
-/obj/effect/spawner/structure/window/plasma/reinforced,
+/obj/machinery/door/airlock/maintenance_hatch{
+	name = "Maintenance Hatch";
+	req_access_txt = "12"
+	},
+/obj/structure/barricade/wooden,
 /turf/open/floor/plating,
-/area/maintenance/disposal/incinerator)
+/area/maintenance/starboard/aft)
 "eFA" = (
 /obj/effect/turf_decal/siding/yellow/corner{
 	dir = 8
@@ -28469,8 +28477,6 @@
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/north,
-/obj/machinery/light/small/directional/north,
-/obj/machinery/power/solar_control,
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
 "fvO" = (
@@ -31220,7 +31226,7 @@
 /obj/item/clothing/suit/armor/vest,
 /obj/item/clothing/head/helmet,
 /obj/item/food/meat/slab/human/mutant/zombie,
-/obj/item/clothing/shoes,
+/obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "gcc" = (
@@ -31667,9 +31673,9 @@
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "gkL" = (
-/obj/item/clothing/shoes,
+/obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/plating,
-/area/maintenance/starboard/aft)
+/area/maintenance/disposal/incinerator)
 "gkO" = (
 /obj/effect/turf_decal/siding/yellow,
 /obj/structure/disposalpipe/segment{
@@ -32083,10 +32089,15 @@
 /turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "gos" = (
-/obj/effect/decal/cleanable/blood,
-/obj/item/clothing/shoes,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/cable,
+/obj/machinery/power/solar_control{
+	dir = 4
+	},
 /turf/open/floor/plating,
-/area/maintenance/starboard/aft)
+/area/hallway/secondary/entry)
 "gow" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /turf/open/floor/holofloor/chapel{
@@ -32432,6 +32443,7 @@
 /obj/machinery/power/solar_control{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/hallway/primary/upper)
 "gsB" = (
@@ -44422,6 +44434,7 @@
 /obj/machinery/power/solar_control{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/hallway/primary/aft)
 "jgG" = (
@@ -47946,6 +47959,7 @@
 	dir = 1
 	},
 /obj/machinery/power/solar_control,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/hallway/primary/port)
 "jUs" = (
@@ -96390,6 +96404,7 @@
 /obj/machinery/firealarm/directional/north,
 /obj/machinery/light/small/directional/north,
 /obj/machinery/power/solar_control,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/hallway/primary/starboard)
 "uSU" = (
@@ -116101,7 +116116,7 @@ xxU
 xxU
 xxU
 xxU
-oVw
+tyH
 bvB
 dMg
 vNO
@@ -116358,7 +116373,7 @@ gar
 fnA
 glp
 dwW
-ttJ
+msw
 viL
 ttJ
 tkR
@@ -117699,7 +117714,7 @@ eXb
 qTg
 unQ
 qTg
-rVm
+agM
 cOg
 ccW
 cFp
@@ -118466,7 +118481,7 @@ seq
 kEU
 vwU
 nNk
-gos
+mCQ
 cub
 tmw
 aCZ
@@ -120260,7 +120275,7 @@ dzc
 iGL
 dzc
 tmw
-tOJ
+gbY
 qTg
 iha
 iXn
@@ -120773,7 +120788,7 @@ lYj
 dzc
 iGL
 dzc
-gkL
+tmw
 tmw
 tmw
 lYj
@@ -121026,7 +121041,7 @@ iru
 awX
 fWO
 oaN
-tOJ
+gbY
 mCQ
 dzc
 tmw
@@ -125184,8 +125199,8 @@ gTj
 mkU
 rRq
 eHV
-agM
-agM
+aml
+aml
 xFC
 xrL
 vhF
@@ -142698,7 +142713,7 @@ tMa
 nOO
 nZV
 lua
-cqG
+dhz
 bWu
 nQj
 svs
@@ -144240,16 +144255,16 @@ vqr
 vqr
 ciG
 gBd
-dhz
+dsZ
 gjD
 gjD
 jYZ
 jYZ
 uVL
-eFw
+gkL
 uVL
-eFw
-eFw
+gkL
+gkL
 uVL
 bLh
 vJT
@@ -145266,13 +145281,13 @@ hvm
 mWS
 mWS
 gJH
-cjV
+cqG
 gJH
-cjV
+cqG
 gJH
 gJH
-cjV
-cjV
+cqG
+cqG
 bFr
 rFf
 lks
@@ -154811,7 +154826,7 @@ dMW
 ceM
 ceT
 oKD
-jfI
+gos
 jfI
 gZw
 gaA
@@ -161194,7 +161209,7 @@ eqy
 mwM
 rsb
 rsb
-aml
+bzh
 vwu
 vwu
 vwu
@@ -161451,7 +161466,7 @@ gal
 vNq
 hwQ
 unG
-aml
+bzh
 ccX
 ccX
 ccW
@@ -161708,7 +161723,7 @@ yaY
 oOu
 iXZ
 xlF
-aml
+bzh
 aae
 aae
 ccX
@@ -161965,7 +161980,7 @@ ioI
 yaY
 sDi
 lNb
-aml
+bzh
 ccW
 ccW
 ccX
@@ -162222,7 +162237,7 @@ fol
 oOu
 iXZ
 iHy
-aml
+bzh
 aae
 ccX
 ccW
@@ -162479,7 +162494,7 @@ oBx
 wBX
 rkO
 mUx
-aml
+bzh
 aae
 ccX
 ccX
@@ -162736,7 +162751,7 @@ djE
 lbr
 bnp
 gHd
-aml
+bzh
 ccW
 ccX
 ccW
@@ -162993,7 +163008,7 @@ wsK
 hsz
 vlA
 pwz
-aml
+bzh
 ccW
 aae
 aae
@@ -163250,7 +163265,7 @@ ftp
 lKu
 hYg
 kFG
-aml
+bzh
 aae
 ccW
 aae
@@ -163507,7 +163522,7 @@ fbZ
 ldS
 ldS
 ldS
-bzh
+cjV
 aae
 ccW
 aae
@@ -163764,7 +163779,7 @@ jfv
 oIh
 kDY
 srE
-bzh
+cjV
 ccW
 ccX
 ccW
@@ -164278,7 +164293,7 @@ gvq
 ons
 vra
 wXm
-bzh
+cjV
 ccW
 ccW
 aae
@@ -167374,7 +167389,7 @@ dzc
 oaN
 oaN
 oaN
-dsZ
+eFw
 oaN
 oaN
 cOg
