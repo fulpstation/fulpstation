@@ -300,6 +300,9 @@
 
 /// Frenzy's End is in HandleStarving.
 /datum/antagonist/bloodsucker/proc/Frenzy_Start()
+	// Disable ALL Powers -- Do it here to prevent things like Fortitude's deactivate cancelling our stun immunity.
+	DisableAllPowers()
+	
 	if(my_clan == CLAN_BRUJAH)
 		to_chat(owner.current, "<span class='announce'>You enter a Frenzy!<br> \
 		* While in Frenzy, you gain the ability to instantly aggressively grab people, move faster and have no blood cost on abilities.<br> \
@@ -311,8 +314,6 @@
 		ADD_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // Brujah can control Frenzy properly, so they don't get any of the effects.
 		ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-		// Disable ALL Powers
-		DisableAllPowers()
 		if(HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
 			REMOVE_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
 	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
@@ -398,9 +399,8 @@
 			Torpor_End()
 	// You're not in a Coffin? We won't check for low Burn damage
 	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
-		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, instead we'll start working on Burn damage -- This is to prevent spam dying to Burn and exiting Torpor.
-		if(total_burn >= 200)
-			owner.current.adjustFireLoss(-5)
+		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, to prevent spam revival/death. Only way out is healing that Burn.
+		if(total_burn >= 199)
 			return
 		Torpor_End()
 
