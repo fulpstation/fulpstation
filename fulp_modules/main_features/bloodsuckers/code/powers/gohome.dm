@@ -13,13 +13,11 @@
 	/// You only get this if you've claimed a lair, and only just before sunrise.
 	bloodsucker_can_buy = FALSE
 	can_use_in_torpor = TRUE
-	must_be_capacitated = TRUE
 	can_use_w_immobilize = TRUE
 	must_be_concious = FALSE
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	/// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -29,13 +27,13 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/gohome/proc/flicker_lights(var/flicker_range, var/beat_volume)
+/datum/action/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
 	for(var/obj/machinery/light/L in view(flicker_range, get_turf(owner)))
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	to_chat(user, "<span class='notice'>You focus on separating your consciousness from your physical form...</span>")
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
@@ -48,7 +46,7 @@
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', 60, 1)
 	/// STEP TWO: Lights OFF?
 	/// CHECK: Still have Coffin?
-	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
+	if(!bloodsuckerdatum?.coffin)
 		to_chat(user, "<span class='warning'>Your coffin has been destroyed! You no longer have a destination.</span>")
 		return FALSE
 	if(!owner)
