@@ -1,3 +1,5 @@
+// WILLAD TODO: Remove Bloodsucker and Vassal's coffin tips' note once the coffin bug has been fixed.
+
 /datum/antagonist/bloodsucker
 	name = "Bloodsucker"
 	show_in_antagpanel = TRUE
