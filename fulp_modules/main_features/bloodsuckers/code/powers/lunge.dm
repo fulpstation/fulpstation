@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
-	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down."
+	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
 	button_icon_state = "power_lunge"
 	bloodcost = 10
 	cooldown = 100
@@ -94,7 +94,7 @@
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = hit_atom
 	var/turf/T = get_turf(target)
-	/// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
+	// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
 	var/do_knockdown = !is_A_facing_B(target, owner) || owner.alpha <= 40 || istype(owner.loc, /obj/structure/closet)
 
 	/// We got a target?
@@ -110,13 +110,13 @@
 
 		to_chat(owner, "<span class='warning'>You lunge at [target] in attempts to grab them!</span>")
 		/// Good to go!
-		target.Stun(15 + level_current * 5)
+		target.Stun(10 + level_current * 5)
 		/// Instantly aggro grab them
 		target.grabbedby(owner)
 		if(!target.is_shove_knockdown_blocked()) // If they aren't wearing Riot armor, we'll instantly aggro grab them.
 			target.grippedby(owner, instant = TRUE)
-		/// Did we knock them down?
-		if(do_knockdown) //&& level_current >= 1)
+		// Did we knock them down?
+		if(do_knockdown && level_current >= 3)
 			target.Knockdown(10 + level_current * 5)
 			target.Paralyze(0.1)
 		/// Are they dead?
