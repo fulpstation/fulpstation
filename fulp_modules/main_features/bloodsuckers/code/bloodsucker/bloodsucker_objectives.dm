@@ -382,23 +382,15 @@
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/monsterhunter/check_completion()
 	var/list/datum/mind/monsters = list()
-	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
-		if(C.mind)
-			var/datum/mind/UM = C.mind
-			if(UM.has_antag_datum(/datum/antagonist/changeling))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/heretic))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/cult))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
-				monsters += UM
+	for(var/mob/living/players in GLOB.alive_mob_list)
+		if(IS_HERETIC(players) || IS_CULTIST(players) || IS_BLOODSUCKER(players) || IS_WIZARD(players))
+			monsters += players
+		if(players?.mind?.has_antag_datum(/datum/antagonist/changeling))
+			monsters += players
+		if(players?.mind?.has_antag_datum(/datum/antagonist/wizard/apprentice))
+			monsters += players
 	for(var/datum/mind/M in monsters)
-		if(M && M != owner && M.current && M.current.stat != DEAD && get_turf(M.current))
+		if(M && M != owner && M.current.stat != DEAD)
 			return FALSE
 	return TRUE
 
