@@ -131,7 +131,7 @@
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Tremere Clan!<br> \
 				* As part of the Tremere Clan, you are weak to Anti-magic, and will catch fire if you enter the Chapel.<br> \
 				* Additionally, you magically protect your Vassals from being disconnected with you via Mindshielding, and can mutilate them by putting them on a persuasion rack.<br> \
-				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>")
+				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>"))
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
