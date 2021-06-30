@@ -25,16 +25,16 @@
 	// Being Grabbed
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You're being grabbed!</span>")
+			to_chat(owner, span_warning("You're being grabbed!"))
 		return FALSE
 	if(!owner.has_gravity(owner.loc)) //We dont want people to be able to use this to fly around in space
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You cant dash while floating!</span>")
+			to_chat(owner, span_warning("You cant dash while floating!"))
 		return FALSE
 	var/mob/living/user = owner
 	if(user.body_position == LYING_DOWN)
 		if(display_error)
-			to_chat(user, "<span class='warning'>You must be standing to tackle!</span>")
+			to_chat(user, span_warning("You must be standing to tackle!"))
 		return
 	return TRUE
 
@@ -95,7 +95,7 @@
 			L.Paralyze(0.1)
 			L.spin(10, 1)
 			if(IS_MONSTERHUNTER(L) && HAS_TRAIT(L, TRAIT_STUNIMMUNE))
-				to_chat(L, "<span class='warning'>The spinning causes you to lose focus on Flow!</span>")
+				to_chat(L, span_warning("The spinning causes you to lose focus on Flow!"))
 				for(var/datum/action/bloodsucker/power in L.actions)
 					if(power.active)
 						power.DeactivatePower()
