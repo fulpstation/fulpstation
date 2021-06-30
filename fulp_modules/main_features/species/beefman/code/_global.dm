@@ -8,3 +8,6 @@ GLOBAL_LIST_INIT(color_list_beefman, list("Very Rare" = "d93356", "Rare" = "da2e
 
 GLOBAL_LIST_INIT(eyes_beefman, subtypesof(/datum/sprite_accessory/beef/eyes))
 GLOBAL_LIST_INIT(mouths_beefman, subtypesof(/datum/sprite_accessory/beef/mouth))
+
+GLOBAL_LIST_EMPTY(beefman_eyes_list)
+GLOBAL_LIST_EMPTY(beefman_mouth_list)

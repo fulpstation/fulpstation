@@ -52,6 +52,7 @@
 		return
 	if(beefman.stat < DEAD && !bodypart && istype(item, /obj/item/food/meat/slab))
 		handle_limb_mashing(user, beefman, item)
+		return TRUE
 	return ..()
 
 /datum/species/beefman/proc/handle_limb_mashing(mob/living/meat_masher, mob/living/carbon/human/beefman, /obj/item/meat)
@@ -63,9 +64,9 @@
 	// MEAT LIMBS: If our limb is missing, and we're using meat, stick it in!
 	if((target_zone in limbs))
 		if(meat_masher == beefman)
-			meat_masher.visible_message("[meat_masher] begins mashing [meat] into [beefman]'s torso.", "<span class='notice'>You begin mashing [meat] into your torso.</span>")
+			meat_masher.visible_message("[meat_masher] begins mashing [meat] into [beefman]'s torso.", span_notice("You begin mashing [meat] into your torso."))
 		else
-			meat_masher.visible_message("[meat_masher] begins mashing [meat] into [beefman]'s torso.", "<span class='notice'>You begin mashing [meat] into [beefman]'s torso.</span>")
+			meat_masher.visible_message("[meat_masher] begins mashing [meat] into [beefman]'s torso.", span_notice("You begin mashing [meat] into [beefman]'s torso."))
 
 		spawn(1)
 			if(do_mob(meat_masher, beefman))
@@ -75,5 +76,3 @@
 				newbodypart.attach_limb(beefman)
 				newbodypart.give_meat(beefman, meat)
 				playsound(get_turf(beefman), 'fulp_modules/main_features/species/beefman/sounds/beef_grab.ogg', 50, 1)
-
-		return TRUE

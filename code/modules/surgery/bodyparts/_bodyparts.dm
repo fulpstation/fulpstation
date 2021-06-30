@@ -879,13 +879,13 @@
 
 	if(should_draw_greyscale)
 		// limb.icon = 'icons/mob/human_parts_greyscale.dmi'
-		/// FULP EDIT - BEEFMAN
+		// FULP EDIT - BEEFMAN
 		switch(species_id)
 			if("beefman")
-				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+				limb.icon = 'fulp_modules/main_features/species/beefman/icons/mob/beefman_bodyparts.dmi'
 			else
 				limb.icon = 'icons/mob/human_parts_greyscale.dmi'
-		/// FULP EDIT END
+		// FULP EDIT END
 		if(should_draw_gender)
 			limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 		else if(use_digitigrade)

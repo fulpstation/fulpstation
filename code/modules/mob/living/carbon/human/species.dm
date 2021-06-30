@@ -920,9 +920,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				// FULP EDIT - BEEFMAN
 				if("beefeyes")
 					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
-						accessory = GLOB.eyes_beefman[source.dna.features["beefeyes"]]
+						accessory = GLOB.beefman_eyes_list[source.dna.features["beefeyes"]]
 				if("beefmouth")
-					accessory = GLOB.mouths_beefman[source.dna.features["beefmouth"]]
+					accessory = GLOB.beefman_mouth_list[source.dna.features["beefmouth"]]
 				// FULP EDIT ENDS
 				if("body_markings")
 					accessory = GLOB.body_markings_list[source.dna.features["body_markings"]]

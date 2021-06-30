@@ -69,9 +69,9 @@
 	if(inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
 		inFeatures["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
 	if(inFeatures["beefeyes"] == null || inFeatures["beefeyes"] == "")
-		inFeatures["beefeyes"] = pick(GLOB.eyes_beefman)
+		inFeatures["beefeyes"] = pick(GLOB.beefman_eyes_list)
 	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
-		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
+		inFeatures["beefmouth"] = pick(GLOB.beefman_mouth_list)
 
 /datum/species/beefman/proc/adjust_bleeding(mob/living/carbon/human/user, type = "+", amount)
 	for(var/obj/item/bodypart/limb in user.bodyparts)
@@ -101,14 +101,6 @@
 
 	for(var/traumas in trauma_list)
 		user.gain_trauma(traumas, TRAUMA_RESILIENCE_ABSOLUTE)
-
-	// Be Spooked but Educated
-	/*
-	if (SStraumas.phobia_types && SStraumas.phobia_types.len) // NOTE: ONLY if phobias have been defined! For some reason, sometimes this gets FUCKED??
-		user.gain_trauma(/datum/brain_trauma/mild/phobia/strangers, TRAUMA_RESILIENCE_ABSOLUTE)
-		user.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
-		user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	*/
 
 /mob/living/carbon/proc/ReassignForeignBodyparts() //This proc hurts me so much, it used to be worse, this really should be a list or something
 	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
@@ -155,11 +147,6 @@
 
 	for(var/traumas in trauma_list)
 		user.cure_trauma_type(traumas, TRAUMA_RESILIENCE_ABSOLUTE)
-	/*
-	C.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	C.cure_trauma_type(/datum/brain_trauma/mild/phobia/strangers, TRAUMA_RESILIENCE_ABSOLUTE)
-	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
-	*/
 
 /datum/species/beefman/random_name(gender,unique,lastname)
 	if(unique)
@@ -170,7 +157,6 @@
 	..()
 	var/searJuices = beefboy.getFireLoss_nonProsthetic() / 30 //-- Now that is a lot of damage
 
-	// Step 2) Bleed out those juices by warmth, minus burn damage. If we are salted - bleed more
 	if (dehydrate > 0)
 		adjust_bleeding(beefboy, "=", clamp((beefboy.bodytemperature - 297.15) / 20 - searJuices, 2, 10))
 		dehydrate -= 0.5
