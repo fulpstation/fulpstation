@@ -23,7 +23,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>Your coffin has been destroyed!</span>")
+			to_chat(owner, span_warning("Your coffin has been destroyed!"))
 		return FALSE
 	return TRUE
 

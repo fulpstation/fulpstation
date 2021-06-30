@@ -25,7 +25,7 @@
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You're being grabbed!</span>")
+			to_chat(owner, span_warning("You're being grabbed!"))
 		return FALSE
 	return TRUE
 
@@ -45,7 +45,7 @@
 	/// Check: Range
 	if(!(target in view(target_range, get_turf(owner))))
 		if(display_error)
-			to_chat(owner, "<span class='warning'>Your victim is too far away.</span>")
+			to_chat(owner, span_warning("Your victim is too far away."))
 		return FALSE
 */
 	/// Check: Turf
@@ -102,13 +102,13 @@
 	if(user.Adjacent(target))
 		/// Is my target a Monster hunter?
 		if(IS_MONSTERHUNTER(target))
-			to_chat(owner, "<span class='warning'>You get pushed away as you advance, and fail to get a strong grasp!</span>")
+			to_chat(owner, span_warning("You get pushed away as you advance, and fail to get a strong grasp!"))
 			target.grabbedby(owner)
 			/// We're ending this early, let the Bloodsucker move again.
 			REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 			return
 
-		to_chat(owner, "<span class='warning'>You lunge at [target] in attempts to grab them!</span>")
+		to_chat(owner, span_warning("You lunge at [target] in attempts to grab them!"))
 		/// Good to go!
 		target.Stun(10 + level_current * 5)
 		/// Instantly aggro grab them
@@ -125,16 +125,16 @@
 			var/datum/wound/slash/moderate/crit_wound = new
 			crit_wound.apply_wound(chest)
 			owner.visible_message(
-				"<span class='warning'>[owner] tears into [target]'s chest!</span>",
-				"<span class='warning'>You tear into [target]'s chest!</span>"
+				span_warning("[owner] tears into [target]'s chest!"),
+				span_warning("You tear into [target]'s chest!")
 				)
 			var/obj/item/organ/heart/myheart_now = locate() in target.internal_organs
 			if(myheart_now)
 				myheart_now.Remove(target)
 				user.put_in_hands(myheart_now)
-				to_chat(owner, "<span class='warning'>You tear [myheart_now] out of [target]!</span>")
+				to_chat(owner, span_warning("You tear [myheart_now] out of [target]!"))
 			else
-				to_chat(user, "<span class='notice'>[target] doesn't have a heart to rip out!</span>")
+				to_chat(user, span_notice("[target] doesn't have a heart to rip out!"))
 	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	/// Lastly, did we get knocked down by the time we did this?
 	if(user && user.incapacitated())

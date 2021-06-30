@@ -128,15 +128,15 @@
 
 /datum/antagonist/bloodsucker/greet()
 	var/fullname = ReturnFullName(TRUE)
-	to_chat(owner, "<span class='userdanger'>You are [fullname], a strain of vampire known as a bloodsucker!</span><br>")
+	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a bloodsucker!<br>"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
-		to_chat(owner, "<span class='announce'>As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank.</span><br>")
+		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
 	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
 /datum/antagonist/bloodsucker/farewell()
-	to_chat(owner.current, "<span class='userdanger'><FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT></span>")
+	to_chat(owner.current, span_userdanger("<FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT>"))
 	// Refill with Blood so they don't instantly die.
 	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
 
@@ -357,13 +357,13 @@
 	// Spend Rank Immediately?
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		if(my_clan == CLAN_VENTRUE)
-			to_chat(owner, "<span class='announce'>You have recieved a new Rank to level up your Favorite Vassal with!</span><br>")
+			to_chat(owner, span_announce("You have recieved a new Rank to level up your Favorite Vassal with!"))
 			return
 		SpendRank()
 	else
-		to_chat(owner, "<EM><span class='notice'>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</span></EM>")
+		to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</EM>"))
 		if(bloodsucker_level_unspent >= 2)
-			to_chat(owner, "<span class='announce'>Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wooden planks.</span><br>")
+			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wooden planks."))
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power in powers)
@@ -399,19 +399,19 @@
 			return
 		/// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
 		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-			to_chat(owner.current, "<span class='warning'>Return to your coffin to advance your Rank.</span>")
+			to_chat(owner.current, span_warning("Return to your coffin to advance your Rank."))
 			return
 		/// Did you choose a power? Do you already have it? - Added due to window stacking.
 		if(!choice || !options[choice] || (locate(options[choice]) in powers))
-			to_chat(owner.current, "<span class='notice'>You prevent your blood from thickening just yet, but you may try again later.</span>")
+			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
 		BuyPower(new P)
-		to_chat(owner.current, "<span class='notice'>You have learned how to use [initial(P.name)]!</span>")
+		to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))
 	/// No more powers available to purchase? Start levelling up anyways.
 	else
-		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
+		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
 
 	/// Advance Powers - Includes the one you just purchased.
 	LevelUpPowers()
@@ -441,8 +441,8 @@
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
 
 	/// Done! Let them know & Update their HUD.
-	to_chat(owner.current, "<span class='notice'>You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!<br> \
-	* Your existing powers have all ranked up as well!</span>")
+	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!<br> \
+	* Your existing powers have all ranked up as well!"))
 	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
 
@@ -464,16 +464,16 @@
 		var/choice = tgui_input_list(owner.current, "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve.", "You feel like a Leader!", options)
 		/// Did you choose a power? Do you already have it? - Added due to window stacking.
 		if(!choice || !options[choice] || (locate(options[choice]) in vassaldatum.powers))
-			to_chat(owner.current, "<span class='notice'>You prevent your blood from thickening just yet, but you may try again later.</span>")
+			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
 		vassaldatum.BuyPower(new P)
-		to_chat(owner.current, "<span class='notice'>You taught [target] how to use [initial(P.name)]!</span>")
-		to_chat(target, "<span class='notice'>Your master taught you how to use [initial(P.name)]!</span>")
+		to_chat(owner.current, span_notice("You taught [target] how to use [initial(P.name)]!"))
+		to_chat(target, span_notice("Your master taught you how to use [initial(P.name)]!"))
 
 	else
-		to_chat(owner.current, "<span class='notice'>You grow more ancient by the night!</span>")
+		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
 
 	/* # As we don't level up normally, Bloodsuckers will Rank Up themselves this way.
 	*/
@@ -505,20 +505,20 @@
 		ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(target, TRAIT_AGEUSIA, BLOODSUCKER_TRAIT)
-		to_chat(target, "<span class='notice'>Your blood begins you feel cold, as ash sits on your tongue, you stop breathing...</span>")
+		to_chat(target, span_notice("Your blood begins you feel cold, as ash sits on your tongue, you stop breathing..."))
 	if(vassaldatum.vassal_level == 3)
 		ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(target, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-		to_chat(target, "<span class='notice'>You feel your Master's blood reinforce you, strengthening you up.</span>")
+		to_chat(target, span_notice("You feel your Master's blood reinforce you, strengthening you up."))
 	if(vassaldatum.vassal_level == 4)
 		ADD_TRAIT(target, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(target, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
-		to_chat(target, "<span class='notice'>You feel your Master's blood begin to protect you from bacteria.</span>")
+		to_chat(target, span_notice("You feel your Master's blood begin to protect you from bacteria."))
 		target.skin_tone = "albino"
 	if(vassaldatum.vassal_level == 5)
 		ADD_TRAIT(target, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(target, TRAIT_HARDLY_WOUNDED, BLOODSUCKER_TRAIT)
-		to_chat(target, "<span class='notice'>You feel yourself able to take cuts and stabbings like it's nothing.</span>")
+		to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
 	if(vassaldatum.vassal_level == 6)
 		to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead.</span>")
 		target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
@@ -545,8 +545,7 @@
 	// Claim a Lair Objective
 	var/datum/objective/bloodsucker/lair/lair_objective = new
 	lair_objective.owner = owner
-	lair_objective.generate_objective()
-	add_objective(lair_objective)
+	objectives += lair_objective
 
 	// Survive Objective
 	var/datum/objective/bloodsucker/survive/survive_objective = new
@@ -558,7 +557,6 @@
 		if(0) // Protege Objective
 			var/datum/objective/bloodsucker/protege/protege_objective = new
 			protege_objective.owner = owner
-			protege_objective.generate_objective()
 			protege_objective.objective_name = "Optional Objective"
 			objectives += protege_objective
 		if(1) // Vassalize Target Objective
@@ -572,7 +570,6 @@
 		if(0) // Heart Thief Objective
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner
-			heartthief_objective.generate_objective()
 			heartthief_objective.objective_name = "Optional Objective"
 			objectives += heartthief_objective
 		if(1) // Drink Blood Objective
@@ -770,7 +767,7 @@
 			bloodsucker_title = pick ("Count","Baron","Viscount","Prince","Duke","Tzar","Dreadlord","Lord","Master")
 		else
 			bloodsucker_title = pick ("Countess","Baroness","Viscountess","Princess","Duchess","Tzarina","Dreadlady","Lady","Mistress")
-		to_chat(owner, "<span class='announce'>You have earned a title! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
+		to_chat(owner, span_announce("You have earned a title! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
 	// Titles [Fledgling]
 	else
 		bloodsucker_title = null
@@ -791,7 +788,7 @@
 			if(prob(10)) // Gender override
 				bloodsucker_reputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
 
-		to_chat(owner, "<span class='announce'>You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!</span>")
+		to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
 
 	// Reputations [Fledgling]
 	else

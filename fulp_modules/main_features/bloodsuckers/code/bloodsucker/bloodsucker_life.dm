@@ -18,7 +18,7 @@
 		AddBloodVolume(passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
 		if(!notice_healing && owner.current.blood_volume > 0)
-			to_chat(owner, "<span class='notice'>The power of your blood begins knitting your wounds...</span>")
+			to_chat(owner, span_notice("The power of your blood begins knitting your wounds..."))
 			notice_healing = TRUE
 	else if(notice_healing)
 		notice_healing = FALSE
@@ -29,7 +29,7 @@
 	if(my_clan == CLAN_TREMERE)
 		var/area/A = get_area(owner.current)
 		if(istype(A, /area/service/chapel))
-			to_chat(owner.current, "<span class='warning'>You don't belong in holy areas!</span>")
+			to_chat(owner.current, span_warning("You don't belong in holy areas!"))
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
@@ -151,7 +151,7 @@
 		AddBloodVolume(limb_regen_cost)
 		var/obj/item/bodypart/L = C.get_bodypart(targetLimbZone) // 2) Limb returns Damaged
 		L.brute_dam = 60
-		to_chat(C, "<span class='notice'>Your flesh knits as it regrows your [L]!</span>")
+		to_chat(C, span_notice("Your flesh knits as it regrows your [L]!"))
 		playsound(C, 'sound/magic/demon_consume.ogg', 50, TRUE)
 		return TRUE
 
@@ -251,9 +251,9 @@
 		var/mob/living/carbon/human/H = owner.current
 		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry to me about shit being broken.
 		if(poweron_masquerade)
-			to_chat(H, "<span class='warning'>Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power.</span>")
+			to_chat(H, span_warning("Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power."))
 		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
-			to_chat(H, "<span class='danger'>Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor.</span>")
+			to_chat(H, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 			Check_Begin_Torpor(TRUE)
 
 /*
@@ -304,13 +304,13 @@
 	DisableAllPowers()
 	
 	if(my_clan == CLAN_BRUJAH)
-		to_chat(owner.current, "<span class='announce'>You enter a Frenzy!<br> \
+		to_chat(owner.current, span_announce("You enter a Frenzy!<br> \
 		* While in Frenzy, you gain the ability to instantly aggressively grab people, move faster and have no blood cost on abilities.<br> \
 		* In exchange, you will slowly gain Burn damage, be careful of how you handle it!<br> \
-		* To leave Frenzy, simply drink enough Blood ([FRENZY_THRESHOLD_EXIT]) to exit.</span><br>")
+		* To leave Frenzy, simply drink enough Blood ([FRENZY_THRESHOLD_EXIT]) to exit.<br>"))
 	else
-		to_chat(owner.current, "<span class='userdanger'><FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!</span>")
-		to_chat(owner.current, "<span class='announce'>* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed and Trespass (If you have it).</span><br>")
+		to_chat(owner.current, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
+		to_chat(owner.current, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed and Trespass (If you have it)."))
 		ADD_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // Brujah can control Frenzy properly, so they don't get any of the effects.
 		ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
@@ -325,11 +325,11 @@
 
 /datum/antagonist/bloodsucker/proc/Frenzy_End()
 	if(my_clan == CLAN_BRUJAH)
-		to_chat(owner.current, "<span class='warning'>You exit Frenzy.</span>")
+		to_chat(owner.current, span_warning("You exit Frenzy."))
 	else
 		owner.current.Dizzy(5 SECONDS)
 		owner.current.Paralyze(3 SECONDS)
-		to_chat(owner.current, "<span class='warning'>You suddenly come back to your senses...</span>")
+		to_chat(owner.current, span_warning("You suddenly come back to your senses..."))
 	if(HAS_TRAIT(owner.current, TRAIT_DEAF))
 		REMOVE_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 		REMOVE_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
@@ -364,7 +364,7 @@
 		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			/// Staked? Dont heal
 			if(owner.current.AmStaked())
-				to_chat(owner.current, "<span class='userdanger'>You are staked! Remove the offending weapon from your heart before sleeping.</span>")
+				to_chat(owner.current, span_userdanger("You are staked! Remove the offending weapon from your heart before sleeping."))
 				return
 			/// Otherwise, check if it's Sol, to enter Torpor.
 			if(clan.bloodsucker_sunlight.amDay)
@@ -405,7 +405,7 @@
 		Torpor_End()
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
-	to_chat(owner.current, "<span class='notice'>You enter the horrible slumber of deathless Torpor. You will heal until you are renewed.</span>")
+	to_chat(owner.current, span_notice("You enter the horrible slumber of deathless Torpor. You will heal until you are renewed."))
 	/// Force them to go to sleep
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	/// Without this, you'll just keep dying while you recover.
@@ -446,15 +446,11 @@
 	FreeAllVassals()
 	/// Elders get Dusted
 	if(bloodsucker_level >= 4)
-		owner.current.visible_message("<span class='warning'>[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains.</span>", \
-			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
-			 "<span class='italics'>You hear a dry, crackling sound.</span>")
+		owner.current.visible_message(span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a dry, crackling sound.</span>")
 		addtimer(CALLBACK(owner.current, /mob/living/proc/dust), 5 SECONDS, TIMER_UNIQUE | TIMER_STOPPABLE)
 	/// Fledglings get Gibbed
 	else
-		owner.current.visible_message("<span class='warning'>[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat.</span>", \
-			 "<span class='userdanger'>Your soul escapes your withering body as the abyss welcomes you to your Final Death.</span>", \
-			 "<span class='italics'>You hear a wet, bursting sound.</span>")
+		owner.current.visible_message(span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a wet, bursting sound.</span>")
 		owner.current.gib(TRUE, FALSE, FALSE)
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 
@@ -489,7 +485,7 @@
 		return
 	// Haven't eaten, but I'm in a Human Disguise.
 	else if(poweron_masquerade && !masquerade_override)
-		to_chat(C, "<span class='notice'>Your stomach turns, but your \"human disguise\" keeps the food down...for now.</span>")
+		to_chat(C, span_notice("Your stomach turns, but your \"human disguise\" keeps the food down...for now."))
 	// Keep looping until we purge. If we have activated our Human Disguise, we ignore the food. But it'll come up eventually...
 	var/sickphase = 0
 	while(foodInGut && do_mob(C, C, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
@@ -502,19 +498,19 @@
 		// Put up disguise? Then hold off the vomit.
 		if(poweron_masquerade && !masquerade_override)
 			if(sickphase > 0)
-				to_chat(C, "<span class='notice'>Your stomach settles temporarily. You regain your composure...for now.</span>")
+				to_chat(C, span_notice("Your stomach settles temporarily. You regain your composure...for now."))
 			sickphase = 0
 			continue
 		switch(sickphase)
 			if(1)
-				to_chat(C, "<span class='warning'>You feel unwell. You can taste ash on your tongue.</span>")
+				to_chat(C, span_warning("You feel unwell. You can taste ash on your tongue."))
 				C.Stun(10)
 			if(2)
-				to_chat(C, "<span class='warning'>Your stomach turns. Whatever you ate tastes of grave dirt and brimstone.</span>")
+				to_chat(C, span_warning("Your stomach turns. Whatever you ate tastes of grave dirt and brimstone."))
 				C.Dizzy(15)
 				C.Stun(13)
 			if(3)
-				to_chat(C, "<span class='warning'>You purge the food of the living from your viscera! You've never felt worse.</span>")
+				to_chat(C, span_warning("You purge the food of the living from your viscera! You've never felt worse."))
 				 //Puke blood only if puke_blood is true, and loose some blood, else just puke normally.
 				if(puke_blood)
 					C.blood_volume = max(0, C.blood_volume - foodInGut * 2)

@@ -23,8 +23,8 @@
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	to_chat(user, "<span class='notice'>Your heart beats falsely within your lifeless chest. You may yet pass for a mortal.</span>")
-	to_chat(user, "<span class='warning'>Your vampiric healing is halted while imitating life.</span>")
+	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
+	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
 
 	bloodsuckerdatum.poweron_masquerade = TRUE
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
@@ -127,4 +127,4 @@
 	for(var/thing in user.diseases)
 		var/datum/disease/disease = thing
 		disease.cure()
-	to_chat(user, "<span class='notice'>Your heart beats one final time, while your skin dries out and your icy pallor returns.</span>")
+	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))
