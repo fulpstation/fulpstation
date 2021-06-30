@@ -12,7 +12,7 @@
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
 /datum/action/bloodsucker/fortitude/ActivatePower(mob/living/user = owner)
-	to_chat(user, "<span class='notice'>Your flesh, skin, and muscles become as steel.</span>")
+	to_chat(user, span_notice("Your flesh, skin, and muscles become as steel."))
 	// Traits & Effects
 	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)

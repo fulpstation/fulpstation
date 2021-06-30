@@ -38,7 +38,7 @@
 	var/mob/living/L = owner
 	if(L.is_mouth_covered())
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You cannot feed with your mouth covered! Remove your mask.</span>")
+			to_chat(owner, span_warning("You cannot feed with your mouth covered! Remove your mask."))
 		return FALSE
 	// Find my Target!
 	if(!FindMyTarget(display_error)) // Sets feed_target within after Validating
@@ -55,7 +55,7 @@
 		// Animals:
 		if(isliving(target) && !iscarbon(target))
 			if(display_error)
-				to_chat(owner, "<span class='warning'>Lesser beings require a tighter grip.</span>")
+				to_chat(owner, span_warning("Lesser beings require a tighter grip."))
 			return FALSE
 		// Bloodsuckers:
 		else if(ishuman(target))
@@ -64,21 +64,21 @@
 				return FALSE
 			if(IS_BLOODSUCKER(target))
 				if(display_error)
-					to_chat(owner, "<span class='warning'>Other Bloodsuckers will not fall for your subtle approach.</span>")
+					to_chat(owner, span_warning("Other Bloodsuckers will not fall for your subtle approach."))
 				return FALSE
 	// Must have Target
 	if(!target) // || !ismob(target)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You must be next to or grabbing a victim to feed from them.</span>")
+			to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
 		return FALSE
 	// Not even living!
 	if(!isliving(target) || issilicon(target))
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You may only feed from living beings.</span>")
+			to_chat(owner, span_warning("You may only feed from living beings."))
 		return FALSE
 	if(target.blood_volume <= 0)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>Your victim has no blood to take.</span>")
+			to_chat(owner, span_warning("Your victim has no blood to take."))
 		return FALSE
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
@@ -86,14 +86,14 @@
 			return FALSE
 		if(NOBLOOD in H.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
 			if(display_error)
-				to_chat(owner, "<span class='warning'>Your victim's blood is not suitable for you to take.</span>")
+				to_chat(owner, span_warning("Your victim's blood is not suitable for you to take."))
 			return FALSE
 	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE && !bloodsuckerdatum.Frenzied)
 		if(!target.mind)
 			if(display_error)
-				to_chat(owner, "<span class='warning'>The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth.</span>")
+				to_chat(owner, span_warning("The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth."))
 			return FALSE
 	return TRUE
 
@@ -119,7 +119,7 @@
 	// None Seen!
 	if(seen_mobs.len == 0)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You must be next to or grabbing a victim to feed from them.</span>")
+			to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
 		return FALSE
 	// Check Valids...
 	var/list/targets_valid = list()
@@ -140,14 +140,14 @@
 		// Did I see targets? Then display at least one error
 		if(seen_mobs.len > 1)
 			if (display_error)
-				to_chat(owner, "<span class='warning'>None of these are valid targets to feed from subtly.</span>")
+				to_chat(owner, span_warning("None of these are valid targets to feed from subtly."))
 		else
 			ValidateTarget(seen_mobs[1], display_error)
 		return FALSE
 	//BLOODSUCKER_TRAIT Too Many Targets
 	// else if (targets.len > 1)
 	//	if (display_error)
-	//		to_chat(owner, "<span class='warning'>You are adjecent to too many witnesses. Either grab your victim or move away.</span>")
+	//		to_chat(owner, span_warning("You are adjecent to too many witnesses. Either grab your victim or move away."))
 	//	return FALSE
 	// One Target!
 	else
@@ -174,11 +174,11 @@
 	feed_time = max(8, feed_time)
 
 	if(amSilent)
-		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
+		to_chat(user, span_notice("You lean quietly toward [target] and secretly draw out your fangs..."))
 	else
-		to_chat(user, "<span class='warning'>You pull [target] close to you and draw out your fangs...</span>")
+		to_chat(user, span_warning("You pull [target] close to you and draw out your fangs..."))
 	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
-		to_chat(user, "<span class='warning'>Your feeding was interrupted.</span>")
+		to_chat(user, span_warning("Your feeding was interrupted."))
 		DeactivatePower(user)
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
@@ -191,13 +191,13 @@
 	// Broadcast Message
 	if(amSilent)
 		//if (!iscarbon(target))
-		//	user.visible_message("<span class='notice'>[user] shifts [target] closer to [user.p_their()] mouth.</span>",
-		//					 	 "<span class='notice'>You secretly slip your fangs into [target]'s flesh.</span>",
+		//	user.visible_message(span_notice("[user] shifts [target] closer to [user.p_their()] mouth."),
+		//					 	 span_notice("You secretly slip your fangs into [target]'s flesh."),
 		//					 	 vision_distance = 2, ignored_mobs=target) // Only people who AREN'T the target will notice this action.
 		//else
 		var/deadmessage = target.stat == DEAD ? "" : " <i>[target.p_they(TRUE)] looks dazed, and will not remember this.</i>"
-		user.visible_message("<span class='notice'>[user] puts [target]'s wrist up to [user.p_their()] mouth.</span>", \
-						 	 "<span class='notice'>You slip your fangs into [target]'s wrist.[deadmessage]</span>", \
+		user.visible_message(span_notice("[user] puts [target]'s wrist up to [user.p_their()] mouth."), \
+						 	 span_notice("You slip your fangs into [target]'s wrist.[deadmessage]"), \
 						 	 vision_distance = notice_range, ignored_mobs = target) // Only people who AREN'T the target will notice this action.
 		// Warn Feeder about Witnesses...
 		var/was_unnoticed = TRUE
@@ -206,13 +206,13 @@
 				was_unnoticed = FALSE
 				break
 		if(was_unnoticed)
-			to_chat(user, "<span class='notice'>You think no one saw you...</span>")
+			to_chat(user, span_notice("You think no one saw you..."))
 		else
-			to_chat(user, "<span class='warning'>Someone may have noticed...</span>")
+			to_chat(user, span_warning("Someone may have noticed..."))
 
-	else					// /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mobs)
-		user.visible_message("<span class='warning'>[user] closes [user.p_their()] mouth around [target]'s neck!</span>", \
-						 "<span class='warning'>You sink your fangs into [target]'s neck.</span>")
+	else						 // /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mobs)
+		user.visible_message(span_warning("[user] closes [user.p_their()] mouth around [target]'s neck!"), \
+						 span_warning("You sink your fangs into [target]'s neck."))
 
 	// Activate Effects
 //	target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?

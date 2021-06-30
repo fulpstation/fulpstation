@@ -13,7 +13,7 @@
 
 /datum/action/bloodsucker/trackvamp/ActivatePower(mob/living/user = owner)
 	/// Return text indicating direction
-	to_chat(user, "<span class='notice'>You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order.</span>")
+	to_chat(user, span_notice("You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order."))
 	if(!do_mob(user, owner, 80))
 		return
 	if(give_pinpointer)
@@ -69,8 +69,8 @@
 	/// Found one!
 	if(best_vamp)
 		var/distString = best_dist <= HUNTER_SCAN_MAX_DISTANCE / 2 ? "<b>somewhere closeby!</b>" : "somewhere in the distance."
-		to_chat(owner, "<span class='warning'>You detect signs of monsters [distString]</span>")
+		to_chat(owner, span_warning("You detect signs of monsters [distString]"))
 
 	/// Will yield a "?"
 	else
-		to_chat(owner, "<span class='notice'>There are no monsters nearby.</span>")
+		to_chat(owner, span_notice("There are no monsters nearby."))

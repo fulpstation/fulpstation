@@ -17,8 +17,7 @@
 	if(IS_CULTIST(L))
 		return
 	if(IS_CULTIST(user))
-		user.visible_message("<span class='warning'>[user] holds up [user.p_their()] hand, which explodes in a flash of red light!</span>", \
-							"<span class='cultitalic'>You attempt to stun [L] with the spell!</span>")
+		user.visible_message(span_warning("[user] holds up [user.p_their()] hand, which explodes in a flash of red light!"), span_cultitalic("You attempt to stun [L] with the spell!"))
 
 		user.mob_light(_color = LIGHT_COLOR_BLOOD_MAGIC, _range = 3, _duration = 2)
 
@@ -32,16 +31,16 @@
 
 			if(istype(anti_magic_source, /obj/item))
 				var/obj/item/ams_object = anti_magic_source
-				target.visible_message("<span class='warning'>[L] starts to glow in a halo of light!</span>", \
-									   "<span class='userdanger'>Your [ams_object.name] begins to glow, emitting a blanket of holy light which surrounds you and protects you from the flash of light!</span>")
+				target.visible_message(span_warning("[L] starts to glow in a halo of light!"), \
+									   span_userdanger("Your [ams_object.name] begins to glow, emitting a blanket of holy light which surrounds you and protects you from the flash of light!"))
 			else
-				target.visible_message("<span class='warning'>[L] starts to glow in a halo of light!</span>", \
-									   "<span class='userdanger'>A feeling of warmth washes over you, rays of holy light surround your body and protect you from the flash of light!</span>")
+				target.visible_message(span_warning("[L] starts to glow in a halo of light!"), \
+									   span_userdanger("A feeling of warmth washes over you, rays of holy light surround your body and protect you from the flash of light!"))
 
 		else
 			if(HAS_TRAIT(target, TRAIT_MINDSHIELD)) // Mindshield just re-directs the stun's spell from their brain to their body.
 				var/mob/living/carbon/C = L
-				to_chat(user, "<span class='cultitalic'>Our spell fails to brainwash their strong mind, tearing their skull open!</span>")
+				to_chat(user, span_cultitalic("Our spell fails to brainwash their strong mind, tearing their skull open!"))
 				C.stuttering += 8
 				C.Jitter(6)
 				C.bleed(30)
@@ -50,7 +49,7 @@
 				crit_wound.apply_wound(head)
 				C.apply_damage(12, BRUTE)
 			else
-				to_chat(user, "<span class='cultitalic'>In a brilliant flash of red, [L] falls to the ground!</span>")
+				to_chat(user, span_cultitalic("In a brilliant flash of red, [L] falls to the ground!"))
 				L.Paralyze(160)
 				L.flash_act(1,1)
 				if(issilicon(target))

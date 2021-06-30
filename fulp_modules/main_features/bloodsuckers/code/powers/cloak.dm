@@ -15,7 +15,7 @@
 	if(!.)
 		return
 	for(var/mob/living/M in viewers(9, owner) - owner)
-		to_chat(owner, "<span class='warning'>You may only vanish into the shadows unseen.</span>")
+		to_chat(owner, span_warning("You may only vanish into the shadows unseen."))
 		return FALSE
 	return TRUE
 
@@ -38,7 +38,7 @@
 	// Prevents running while on Cloak of Darkness
 	if(user.m_intent != MOVE_INTENT_WALK)
 		user.toggle_move_intent()
-		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+		to_chat(user, span_warning("You attempt to run, crushing yourself in the process."))
 		user.adjustBruteLoss(rand(5,15))
 
 	addtimer(CALLBACK(src, .proc/UsePower, user), 0.5 SECONDS)
@@ -48,7 +48,7 @@
 		return FALSE
 	/// Must be CONSCIOUS
 	if(user.stat != CONSCIOUS)
-		to_chat(owner, "<span class='warning'>Your cloak failed due to you falling unconcious!</span>")
+		to_chat(owner, span_warning("Your cloak failed due to you falling unconcious!"))
 		return FALSE
 	return TRUE
 
