@@ -138,7 +138,7 @@
 				* As part of the Ventrue Clan, you are extremely snobby with your meals, and refuse to drink blood from people without a Mind.<br> \
 				* Additionally, you will no longer Rank up. You are now instead able to get a Favorite vassal, by putting a Vassal on the persuasion rack and attempting to Tortute them.<br> \
 				* Finally, you may Rank your Favorite Vassal (and your own powers) up by buckling them onto a Candelabrum and using it, this will cost a Rank or Blood to do.</span>")
-			to_chat(owner, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack/Candelabrum to see how they operate!</span>")
+			to_chat(owner, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack/Candelabrum to see how they operate!"))
 			var/datum/objective/bloodsucker/embrace/embrace_objective = new
 			embrace_objective.owner = owner
 			embrace_objective.objective_name = "Clan Objective"
