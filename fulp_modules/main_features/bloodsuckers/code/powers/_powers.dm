@@ -284,8 +284,7 @@
 		to_chat(owner, span_announce("[message_Trigger]"))
 
 /datum/action/bloodsucker/targeted/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	if(!owner.client) // <--- We don't allow non client usage so that using powers like mesmerize will FAIL if you try to use them as ghost. Why? because ranged_abvility in spell.dm
 		return FALSE //		doesn't let you remove powers if you're not there. So, let's just cancel the power entirely.
