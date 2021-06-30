@@ -8,9 +8,10 @@
 /datum/objective/bloodsucker
 	martyr_compatible = TRUE
 
-/// GENERATE!
-/datum/objective/bloodsucker/proc/generate_objective()
+// GENERATE
+/datum/objective/bloodsucker/New()
 	update_explanation_text()
+	..()
 
 //////////////////////////////////////////////////////////////////////////////
 //	//							 PROCS 									//	//
@@ -74,12 +75,11 @@
 		"Chief Medical Officer",
 	)
 
-
 	var/target_role	// Equals "HEAD" when it's not a department role.
 	var/department_string
 
 // GENERATE!
-/datum/objective/bloodsucker/protege/generate_objective()
+/datum/objective/bloodsucker/protege/New()
 	// Choose between Command and a Department
 	switch(rand(0,2))
 		if(0) // Command
@@ -182,10 +182,9 @@
 	name = "blooddrinker"
 
 // GENERATE!
-/datum/objective/bloodsucker/gourmand/generate_objective()
+/datum/objective/bloodsucker/gourmand/New()
 	target_amount = rand(450,650)
-	update_explanation_text()
-	return target_amount
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/gourmand/update_explanation_text()
@@ -248,10 +247,9 @@
 	name = "heartthief"
 
 // GENERATE!
-/datum/objective/bloodsucker/heartthief/generate_objective()
+/datum/objective/bloodsucker/heartthief/New()
 	target_amount = rand(2,3)
-	update_explanation_text()
-	return target_amount
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/heartthief/update_explanation_text()
@@ -305,9 +303,6 @@
 		return TRUE
 	return FALSE
 
-/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
-	admin_simple_target_pick(admin)
-
 //////////////////////////////////////////////////////////////////////////////////////
 
 /datum/objective/bloodsucker/survive
@@ -330,10 +325,6 @@
 
 /datum/objective/bloodsucker/monsterhunter
 	name = "destroymonsters"
-
-// GENERATE!
-/datum/objective/bloodsucker/monsterhunter/generate_objective()
-	update_explanation_text()
 
 // EXPLANATION
 /datum/objective/bloodsucker/monsterhunter/update_explanation_text()
@@ -367,15 +358,10 @@
 
 /datum/objective/bloodsucker/vassal
 
-// GENERATE!
-/datum/objective/bloodsucker/vassal/generate_objective()
-	update_explanation_text()
-
 // EXPLANATION
 /datum/objective/bloodsucker/vassal/update_explanation_text()
 	. = ..()
 	explanation_text = "Guarantee the success of your Master's mission!"
-
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/vassal/check_completion()
