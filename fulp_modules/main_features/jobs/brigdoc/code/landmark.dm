@@ -12,7 +12,7 @@
 	// They'll use the same spawns as Security Officers, but a different landmark.
 	new /obj/effect/landmark/start/deputy(T)
 
-/obj/effect/landmark/start/medical_doctor
+/obj/effect/landmark/start/medical_doctor/Initialize()
 	. = ..()
 	var/turf/T = get_turf(src)
 	// They'll use the same spawns as Medical Doctors, but a different landmark.
