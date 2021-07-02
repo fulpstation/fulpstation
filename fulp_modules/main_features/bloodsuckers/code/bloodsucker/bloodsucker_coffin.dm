@@ -45,12 +45,12 @@
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	open_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_open.ogg'
 	close_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_close.ogg'
-	breakout_time = 50 SECONDS
-	pryLidTimer = 50 SECONDS
+	breakout_time = 35 SECONDS
+	pryLidTimer = 35 SECONDS
 	resistance_flags = NONE
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
-	armor = list(MELEE = 50, BULLET = 20, LASER = 30, ENERGY = 0, BOMB = 50, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
+	armor = list(MELEE = 10, BULLET = 10, LASER = 10, ENERGY = 10, BOMB = 100, BIO = 0, RAD = 0, FIRE = 100, ACID = 100)
 
 /obj/structure/closet/crate/coffin/meatcoffin
 	name = "meat coffin"

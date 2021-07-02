@@ -790,7 +790,7 @@
 			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
 			return
 		if(bloodsuckerdatum.lair != get_area(src))
-			to_chat(user, span_danger("You may only activate this structure in your lair: [B.lair]."))
+			to_chat(user, span_danger("You may only activate this structure in your lair: [bloodsuckerdatum.lair]."))
 			return
 		to_chat(user, span_notice("You start wrenching [src] into place."))
 		if(P.use_tool(src, user, 40, volume=50))
@@ -809,8 +809,9 @@
 	if(!anchored)
 		to_chat(user, span_announce("[src] is not bolted to the ground!"))
 		return
+
 	user.visible_message(span_notice("[user] sits down on [src]."), \
-			  		 span_boldnotice("You buckle [user] onto [src]."))
+			  		 span_boldnotice("You sit down onto [src]."))
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
 	if(IS_BLOODSUCKER(user))
 		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
@@ -836,6 +837,8 @@
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	for(var/mob/living/carbon/human/vassals in GLOB.player_list)
 		var/datum/antagonist/vassal/vassaldatum = vassals.mind.has_antag_datum(/datum/antagonist/vassal)
+		if(vassals == user) // Just so they can hear themselves speak.
+			to_chat(vassals, rendered)
 		if(!istype(vassaldatum))
 			continue
 		if(vassaldatum.master.owner == user.mind)
