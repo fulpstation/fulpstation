@@ -6380,7 +6380,6 @@
 /area/service/kitchen)
 "aZB" = (
 /obj/machinery/chem_master/condimaster,
-/obj/item/book/manual/wiki/cooking_to_serve_man,
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
@@ -8853,7 +8852,7 @@
 	},
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/red,
-/turf/open/floor/iron/white,
+/turf/open/floor/plating,
 /area/service/kitchen)
 "bmm" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -10909,13 +10908,10 @@
 /turf/open/floor/plating,
 /area/construction/mining/aux_base)
 "bJz" = (
-/obj/effect/turf_decal/tile/red,
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/obj/structure/window/reinforced,
-/turf/open/floor/iron/white,
-/area/service/kitchen)
+/obj/structure/cable,
+/obj,
+/turf/open/floor/plating,
+/area/maintenance/starboard/aft)
 "bJY" = (
 /obj/structure/sink{
 	pixel_y = 22
@@ -10942,6 +10938,14 @@
 	},
 /turf/open/floor/plating/rust,
 /area/commons/vacant_room)
+"bKk" = (
+/obj/effect/turf_decal/tile/red,
+/obj/structure/window/reinforced,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
+/turf/open/floor/iron/white,
+/area/service/kitchen)
 "bKl" = (
 /obj/structure/cable,
 /turf/open/floor/iron/large,
@@ -24490,7 +24494,10 @@
 /turf/open/floor/plating,
 /area/commons/vacant_room)
 "evj" = (
-/obj/structure/plasticflaps/opaque,
+/obj/effect/turf_decal/tile/red,
+/obj/machinery/computer/chef_order{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "evx" = (
@@ -30086,25 +30093,14 @@
 /turf/open/floor/iron,
 /area/cargo/storage)
 "fEJ" = (
-/obj/item/reagent_containers/food/condiment/saltshaker{
-	pixel_x = -3
-	},
-/obj/item/reagent_containers/food/condiment/peppermill{
-	pixel_x = -8
-	},
-/obj/structure/closet/secure_closet/freezer/meat,
-/obj/item/reagent_containers/food/condiment/enzyme{
-	pixel_y = 5
-	},
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
 /obj/item/reagent_containers/food/condiment/soymilk,
 /obj/item/reagent_containers/food/condiment/milk,
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
 /obj/effect/turf_decal/tile/red,
+/obj/item/reagent_containers/food/condiment/milk,
+/obj/item/reagent_containers/food/condiment/milk,
+/obj/item/reagent_containers/food/condiment/soymilk,
+/obj/item/reagent_containers/food/condiment/soymilk,
+/obj/structure/closet/secure_closet/freezer/fridge,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "fEN" = (
@@ -44522,19 +44518,12 @@
 /obj/effect/turf_decal/tile/red,
 /obj/structure/closet/secure_closet/freezer/fridge,
 /obj/item/reagent_containers/food/condiment/flour,
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/reagent_containers/food/condiment/milk,
-/obj/item/reagent_containers/food/condiment/soymilk,
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/reagent_containers/food/condiment/enzyme{
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/food/condiment/flour,
 /obj/machinery/requests_console/directional/south,
+/obj/item/reagent_containers/food/condiment/flour,
+/obj/item/reagent_containers/food/condiment/sugar,
+/obj/item/reagent_containers/food/condiment/sugar,
+/obj/item/reagent_containers/food/condiment/rice,
+/obj/item/reagent_containers/food/condiment/rice,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "iUy" = (
@@ -49430,7 +49419,6 @@
 	},
 /obj/effect/turf_decal/tile/red,
 /obj/item/kitchen/rollingpin,
-/obj/item/reagent_containers/glass/bowl,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "jVW" = (
@@ -51418,6 +51406,15 @@
 	},
 /turf/open/floor/iron,
 /area/ai_monitored/command/storage/eva)
+"kqL" = (
+/obj/effect/turf_decal/tile/red,
+/obj/machinery/door/window/eastleft{
+	dir = 8;
+	name = "Kitchen Delivery";
+	req_access_txt = "28"
+	},
+/turf/open/floor/iron/white,
+/area/service/kitchen)
 "kqO" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/blue{
@@ -58183,6 +58180,9 @@
 /obj/item/reagent_containers/food/condiment/flour,
 /obj/item/book/granter/crafting_recipe/cooking_sweets_101,
 /obj/effect/turf_decal/tile/red,
+/obj/item/reagent_containers/food/condiment/enzyme{
+	pixel_y = 5
+	},
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "lPo" = (
@@ -73695,9 +73695,11 @@
 "pgW" = (
 /obj/structure/table/reinforced,
 /obj/structure/extinguisher_cabinet/directional/south,
-/obj/item/kitchen/knife,
 /obj/item/book/granter/crafting_recipe/cooking_sweets_101,
 /obj/effect/turf_decal/tile/red,
+/obj/item/reagent_containers/food/condiment/enzyme{
+	pixel_y = 5
+	},
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "phm" = (
@@ -96426,6 +96428,22 @@
 	},
 /turf/open/floor/iron/dark,
 /area/engineering/main)
+"ung" = (
+/obj/structure/table/reinforced,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "kitchen_counter";
+	name = "Kitchen Counter Shutters"
+	},
+/obj/effect/turf_decal/delivery,
+/obj/item/reagent_containers/food/condiment/peppermill{
+	pixel_x = -8
+	},
+/obj/item/reagent_containers/food/condiment/saltshaker{
+	pixel_x = -3
+	},
+/turf/open/floor/iron/white,
+/area/service/kitchen)
 "uno" = (
 /obj/machinery/light/directional/west,
 /obj/machinery/camera{
@@ -103314,6 +103332,12 @@
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/red,
 /obj/item/holosign_creator/robot_seat/restaurant,
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "vMq" = (
@@ -113989,12 +114013,7 @@
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "ydj" = (
-/obj/effect/turf_decal/tile/red,
-/obj/machinery/door/window/eastleft{
-	dir = 8;
-	name = "Kitchen Delivery";
-	req_access_txt = "28"
-	},
+/obj/structure/plasticflaps/opaque,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "ydm" = (
@@ -127355,7 +127374,7 @@ giw
 vAQ
 vht
 oaN
-vht
+bJz
 lOJ
 uhI
 lOJ
@@ -129920,7 +129939,7 @@ pFf
 tEM
 jUj
 xRe
-jtZ
+pFf
 pFf
 pFf
 jBR
@@ -130177,15 +130196,15 @@ wtf
 tEM
 ipR
 tEM
-cny
+syv
 pFf
 pFf
 uOo
-evj
-rgi
-uLj
-uLj
-uLj
+uOo
+bRk
+bRk
+bRk
+ydj
 bRk
 uOo
 koZ
@@ -130434,15 +130453,15 @@ xDN
 tEM
 qOr
 tEM
-cFJ
 pFf
 pFf
-uOo
-bJz
+sZM
+uLj
 uFr
 uFr
 uFr
-uFr
+evj
+bKk
 jUs
 fIM
 dTP
@@ -130695,11 +130714,11 @@ oky
 hPY
 sZM
 uLj
-ydj
 uFr
 uFr
 uFr
 uFr
+kqL
 kAA
 uFr
 rpQ
@@ -133012,7 +133031,7 @@ bRk
 rgi
 uLj
 uLj
-uLj
+ung
 klL
 bRk
 bRk
