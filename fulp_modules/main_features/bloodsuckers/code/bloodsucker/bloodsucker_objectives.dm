@@ -320,6 +320,9 @@
 	name = "vassalhim"
 	var/target_role_type = FALSE
 
+/datum/objective/bloodsucker/vassalhim/New()
+// Do nothing, find_target_by_role handles update_explanation_text.
+
 // FIND TARGET/GENERATE OBJECTIVE
 /datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
 	if(!invert)
