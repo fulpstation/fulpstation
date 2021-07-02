@@ -783,8 +783,9 @@
 	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE)
 
 /obj/structure/bloodsucker/bloodthrone/attackby(obj/item/P, mob/living/user, params)
-	// Non-bloodsuckers can wrench this in place, but can't unwrench, we don't want this getting stolen.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return
 	if(P.tool_behaviour == TOOL_WRENCH && !anchored)
 		if(!bloodsuckerdatum.lair)
 			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
@@ -797,7 +798,7 @@
 			to_chat(user, span_notice("You wrench [src] into place."))
 			anchored = TRUE
 			return
-	if(P.tool_behaviour == TOOL_WRENCH && anchored && IS_BLOODSUCKER(user))
+	if(P.tool_behaviour == TOOL_WRENCH && anchored)
 		to_chat(user, span_notice("You start unwrenching [src]"))
 		if(P.use_tool(src, user, 40, volume=50))
 			to_chat(user, span_notice("You unwrench [src]."))
