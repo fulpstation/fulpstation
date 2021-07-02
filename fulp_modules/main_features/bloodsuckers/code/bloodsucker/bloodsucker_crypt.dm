@@ -53,17 +53,14 @@
  * Books (Manuals)
  *
  *
- * 										NOTE:  Look up AI and Sentient Disease to see how the game handles the selector logo that only one player is allowed to see. We could add hud for vamps to that?
- *											   ALTERNATIVELY, use the Vamp Huds on relics to mark them, but only show to relevant vamps?
+ *	NOTE:  Look up AI and Sentient Disease to see how the game handles the selector logo that only one player is allowed to see. We could add hud for vamps to that?
+ *	ALTERNATIVELY, use the Vamp Huds on relics to mark them, but only show to relevant vamps?
  */
 
 /obj/structure/bloodsucker
 	var/mob/living/owner
 
 /*
-/obj/structure/bloodsucker/bloodthrone
-	name = "wicked throne"
-	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
 /obj/structure/bloodsucker/bloodaltar
 	name = "bloody altar"
 	desc = "It is made of marble, lined with basalt, and radiates an unnerving chill that puts your skin on edge."
@@ -79,6 +76,8 @@
 /obj/structure/bloodsucker/bloodmirror
 	name = "faded mirror"
 	desc = "You get the sense that the foggy reflection looking back at you has an alien intelligence to it."
+/obj/item/restraints/legcuffs/beartrap/bloodsucker
+//   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
 */
 
 /obj/structure/bloodsucker/vassalrack
@@ -769,9 +768,69 @@
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
 	update_icon()
 
-/*
-/obj/item/restraints/legcuffs/beartrap/bloodsucker
-*/
+/// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals.
+/obj/structure/bloodsucker/bloodthrone
+	name = "wicked throne"
+	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	icon_state = "vassalrack" // WILLARD TODO: Add sprites, then make craftable.
+	anchored = FALSE
+	density = TRUE
+	can_buckle = TRUE
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
+/obj/structure/bloodsucker/bloodthrone/attackby(obj/item/P, mob/living/user, params)
+	// Non-bloodsuckers can wrench this in place, but can't unwrench, we don't want this getting stolen.
+	if(P.tool_behaviour == TOOL_WRENCH && !anchored)
+		to_chat(user, span_notice("You start wrenching [src] into place."))
+		if(P.use_tool(src, user, 40, volume=50))
+			to_chat(user, span_notice("You wrench [src] into place."))
+			anchored = TRUE
+			return
+	if(P.tool_behaviour == TOOL_WRENCH && anchored && IS_BLOODSUCKER(user))
+		to_chat(user, span_notice("You start unwrenching [src]"))
+		if(P.use_tool(src, user, 40, volume=50))
+			to_chat(user, span_notice("You unwrench [src]."))
+			anchored = FALSE
+			return
+	. = ..()
+
+/obj/structure/bloodsucker/bloodthrone/buckle_mob(mob/living/user, force = FALSE, check_loc = TRUE)
+	if(!anchored)
+		to_chat(user, span_announce("[src] is not bolted to the ground!"))
+		return
+	user.visible_message(span_notice("[user] sits down on [src]."), \
+			  		 span_boldnotice("You buckle [user] onto [src]."))
+	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
+	if(IS_BLOODSUCKER(user))
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
+	else
+		user.Stun(10 SECONDS)
+		to_chat(user, span_announce("The power of the Throne overwhelms you!"))
+		user.apply_damage(10, BRUTE)
+	. = ..()
+
+/obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
+	src.visible_message(text("<span class='danger'>[user] unbuckles themselves from [src].</span>"))
+	if(IS_BLOODSUCKER(user))
+		UnregisterSignal(user, COMSIG_MOB_SAY)
+	. = ..()
+
+/obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)
+	SIGNAL_HANDLER
+
+	var/message = speech_args[SPEECH_MESSAGE]
+	var/mob/living/carbon/human/user = source
+	var/rendered = span_cultbold("<b>[user.real_name]:</b> [message]")
+	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
+	for(var/mob/living/carbon/human/vassals in GLOB.player_list)
+		var/datum/antagonist/vassal/vassaldatum = vassals.mind.has_antag_datum(/datum/antagonist/vassal)
+		if(!istype(vassaldatum))
+			continue
+		if(vassaldatum.master.owner == user.mind)
+			to_chat(vassals, rendered)
+
+	for(var/mob/dead_mob in GLOB.dead_mob_list)
+		var/link = FOLLOW_LINK(dead_mob, user)
+		to_chat(dead_mob, "[link] [rendered]")
+
+	speech_args[SPEECH_MESSAGE] = ""
