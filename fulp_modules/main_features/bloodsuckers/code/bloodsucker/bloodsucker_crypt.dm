@@ -809,7 +809,6 @@
 	if(!anchored)
 		to_chat(user, span_announce("[src] is not bolted to the ground!"))
 		return
-
 	user.visible_message(span_notice("[user] sits down on [src]."), \
 			  		 span_boldnotice("You sit down onto [src]."))
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
