@@ -6103,9 +6103,9 @@
 /area/service/hydroponics/garden)
 "aYx" = (
 /obj/structure/table/reinforced,
-/obj/item/book/manual/wiki/cooking_to_serve_man,
 /obj/item/clothing/head/chefhat,
 /obj/effect/turf_decal/tile/red,
+/obj/item/kitchen/rollingpin,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "aYD" = (
@@ -30093,14 +30093,10 @@
 /turf/open/floor/iron,
 /area/cargo/storage)
 "fEJ" = (
-/obj/item/reagent_containers/food/condiment/soymilk,
-/obj/item/reagent_containers/food/condiment/milk,
 /obj/effect/turf_decal/tile/red,
-/obj/item/reagent_containers/food/condiment/milk,
-/obj/item/reagent_containers/food/condiment/milk,
-/obj/item/reagent_containers/food/condiment/soymilk,
-/obj/item/reagent_containers/food/condiment/soymilk,
-/obj/structure/closet/secure_closet/freezer/fridge,
+/obj/structure/table/reinforced,
+/obj/item/book/manual/wiki/cooking_to_serve_man,
+/obj/item/book/manual/wiki/cooking_to_serve_man,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "fEN" = (
@@ -44516,14 +44512,14 @@
 "iUp" = (
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/tile/red,
-/obj/structure/closet/secure_closet/freezer/fridge,
-/obj/item/reagent_containers/food/condiment/flour,
 /obj/machinery/requests_console/directional/south,
-/obj/item/reagent_containers/food/condiment/flour,
-/obj/item/reagent_containers/food/condiment/sugar,
-/obj/item/reagent_containers/food/condiment/sugar,
-/obj/item/reagent_containers/food/condiment/rice,
-/obj/item/reagent_containers/food/condiment/rice,
+/obj/structure/table/reinforced,
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "iUy" = (
@@ -47728,8 +47724,8 @@
 	pixel_x = -26;
 	req_access_txt = "28"
 	},
-/obj/item/kitchen/rollingpin,
 /obj/effect/turf_decal/tile/red,
+/obj/item/holosign_creator/robot_seat/restaurant,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "jEV" = (
@@ -49408,7 +49404,6 @@
 /area/hallway/primary/upper)
 "jVN" = (
 /obj/structure/table/reinforced,
-/obj/item/book/manual/wiki/cooking_to_serve_man,
 /obj/item/clothing/head/chefhat,
 /obj/item/radio/intercom/directional/south,
 /obj/machinery/button/door/directional/south{
@@ -58176,13 +58171,8 @@
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "lPb" = (
-/obj/structure/table/reinforced,
-/obj/item/reagent_containers/food/condiment/flour,
-/obj/item/book/granter/crafting_recipe/cooking_sweets_101,
 /obj/effect/turf_decal/tile/red,
-/obj/item/reagent_containers/food/condiment/enzyme{
-	pixel_y = 5
-	},
+/obj/structure/closet/secure_closet/freezer/kitchen,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "lPo" = (
@@ -73695,8 +73685,10 @@
 "pgW" = (
 /obj/structure/table/reinforced,
 /obj/structure/extinguisher_cabinet/directional/south,
-/obj/item/book/granter/crafting_recipe/cooking_sweets_101,
 /obj/effect/turf_decal/tile/red,
+/obj/item/reagent_containers/food/condiment/enzyme{
+	pixel_y = 5
+	},
 /obj/item/reagent_containers/food/condiment/enzyme{
 	pixel_y = 5
 	},
@@ -75878,6 +75870,22 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/command/teleporter)
+"pDo" = (
+/obj/structure/table/reinforced,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "kitchen_counter";
+	name = "Kitchen Counter Shutters"
+	},
+/obj/effect/turf_decal/delivery,
+/obj/item/reagent_containers/food/condiment/saltshaker{
+	pixel_x = -3
+	},
+/obj/item/reagent_containers/food/condiment/peppermill{
+	pixel_x = -8
+	},
+/turf/open/floor/iron/white,
+/area/service/kitchen)
 "pDp" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -93604,24 +93612,6 @@
 /turf/open/floor/iron,
 /area/cargo/storage)
 "tIX" = (
-/obj/item/reagent_containers/food/condiment/saltshaker{
-	pixel_x = -3
-	},
-/obj/item/reagent_containers/food/condiment/peppermill{
-	pixel_x = -8
-	},
-/obj/structure/closet/secure_closet/freezer/meat,
-/obj/item/reagent_containers/food/condiment/enzyme{
-	pixel_y = 5
-	},
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/reagent_containers/food/condiment/soymilk,
-/obj/item/reagent_containers/food/condiment/milk,
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
 /obj/effect/turf_decal/tile/red,
 /obj/machinery/camera{
 	c_tag = "Service- Kitchen 4 ";
@@ -93630,6 +93620,7 @@
 	},
 /obj/machinery/light/directional/east,
 /obj/item/radio/intercom/directional/east,
+/obj/structure/closet/secure_closet/freezer/fridge,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "tJe" = (
@@ -96429,19 +96420,10 @@
 /turf/open/floor/iron/dark,
 /area/engineering/main)
 "ung" = (
+/obj/effect/turf_decal/tile/red,
 /obj/structure/table/reinforced,
-/obj/machinery/door/firedoor,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "kitchen_counter";
-	name = "Kitchen Counter Shutters"
-	},
-/obj/effect/turf_decal/delivery,
-/obj/item/reagent_containers/food/condiment/peppermill{
-	pixel_x = -8
-	},
-/obj/item/reagent_containers/food/condiment/saltshaker{
-	pixel_x = -3
-	},
+/obj/item/book/granter/crafting_recipe/cooking_sweets_101,
+/obj/item/book/granter/crafting_recipe/cooking_sweets_101,
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "uno" = (
@@ -103331,7 +103313,6 @@
 "vMp" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/red,
-/obj/item/holosign_creator/robot_seat/restaurant,
 /obj/item/storage/box/papersack{
 	icon_state = "paperbag_NanotrasenStandard_closed"
 	},
@@ -130458,8 +130439,8 @@ pFf
 sZM
 uLj
 uFr
-uFr
-uFr
+fEJ
+ung
 evj
 bKk
 jUs
@@ -131225,7 +131206,7 @@ tEM
 sYQ
 tEM
 uOo
-fEJ
+uFr
 uFr
 uFr
 uFr
@@ -133031,8 +133012,8 @@ bRk
 rgi
 uLj
 uLj
-ung
-klL
+uLj
+pDo
 bRk
 bRk
 bRk
