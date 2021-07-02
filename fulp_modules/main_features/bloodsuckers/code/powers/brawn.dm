@@ -12,21 +12,25 @@
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
 	if(!..()) // Default checks
-		return
+		return FALSE
 	///Have we used our power yet?
 	var/usedPower = FALSE
 
 	if(CheckBreakRestraints()) // Did we break out of our handcuffs?
 		usedPower = TRUE
-	if((!usedPower || level_current >= 3) && CheckEscapePuller()) // Did we knock a grabber down? We can only do this while not also breaking restraints if strong enough.
-		usedPower = TRUE
+	if(usedPower || level_current >= 3)
+		if(CheckEscapePuller()) // Did we knock a grabber down? We can only do this while not also breaking restraints if strong enough.
+			usedPower = TRUE
 	// If we broke restraints or knocked a grabber down, we've spent our power.
-	if(usedPower)
+	if(usedPower == TRUE)
 		PowerActivatedSuccessfully()
-	// Otherwise, CheckCanUse will pass, and we can now use Brawn.
+		return FALSE
+	// Otherwise, we can now punch someone.
+	return TRUE
 
 // Look at 'biodegrade.dm' for reference
-/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints(mob/living/carbon/human/user = owner)
+/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
+	var/mob/living/carbon/human/user = owner
 	///Only one form of shackles removed per use
 	var/used = FALSE
 
@@ -41,11 +45,9 @@
 		used = TRUE
 
 	// Remove both Handcuffs & Legcuffs
-	if((user.handcuffed || user.legcuffed) && !used)
-		var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
-		var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
-		if(!istype(cuffs) || !istype(legcuffs))
-			return FALSE
+	var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
+	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
+	if(!used && (istype(cuffs) || istype(legcuffs)))
 		user.visible_message("<span class='warning'>[user] discards their restraints like it's nothing!</span>", \
 			"<span class='warning'>We break through our restraints!</span>")
 		user.clear_cuffs(cuffs, TRUE)
@@ -53,19 +55,17 @@
 		used = TRUE
 
 	// Remove Straightjackets
-	if(user.wear_suit && user.wear_suit.breakouttime && !used)
+	if(user.wear_suit?.breakouttime && !used)
 		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-		if(!istype(S))
-			return FALSE
 		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
 			"<span class='warning'>We tear through our straightjacket!</span>")
 		if(S && user.wear_suit == S)
 			qdel(S)
 		used = TRUE
 
+	// Did we end up using our ability? If so, play the sound effect and return TRUE
 	if(used)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
-	// Did we end up using our ability?
 	return used
 
 // This is its own proc because its done twice, to repeat code copypaste.

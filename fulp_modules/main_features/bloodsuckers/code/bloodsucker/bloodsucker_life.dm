@@ -302,7 +302,7 @@
 /datum/antagonist/bloodsucker/proc/Frenzy_Start()
 	// Disable ALL Powers -- Do it here to prevent things like Fortitude's deactivate cancelling our stun immunity.
 	DisableAllPowers()
-	
+
 	if(my_clan == CLAN_BRUJAH)
 		to_chat(owner.current, span_announce("You enter a Frenzy!<br> \
 		* While in Frenzy, you gain the ability to instantly aggressively grab people, move faster and have no blood cost on abilities.<br> \
@@ -319,6 +319,12 @@
 	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
 	frenzygrab.teach(owner.current, TRUE)
 	owner.current.add_client_colour(/datum/client_colour/cursed_heart_blood)//bloodlust) <-- You can barely see shit, cant even see anyone to feed off of them.
+	var/mob/living/carbon/human/user = owner.current
+	var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
+	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
+	if(user.handcuffed || user.legcuffed)
+		user.clear_cuffs(cuffs, TRUE)
+		user.clear_cuffs(legcuffs, TRUE)
 	// Keep track of how many times we've entered a Frenzy.
 	Frenzies += 1
 	Frenzied = TRUE
@@ -386,19 +392,16 @@
 		Torpor_Begin()
 
 /datum/antagonist/bloodsucker/proc/Check_End_Torpor()
-	// You're not in Torpor? (Slept in a Locker for example), then you don't need to leave it.
-	if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		return
 	var/mob/living/carbon/user = owner.current
 	var/total_brute = user.getBruteLoss_nonProsthetic()
 	var/total_burn = user.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	// You are in a Coffin, so instead we'll check TOTAL damage, here.
-	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+	if(istype(user.loc, /obj/structure/closet/crate/coffin))
 		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
 			Torpor_End()
 	// You're not in a Coffin? We won't check for low Burn damage
-	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
+	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
 		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, to prevent spam revival/death. Only way out is healing that Burn.
 		if(total_burn >= 199)
 			return

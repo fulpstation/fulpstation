@@ -104,7 +104,9 @@
 	/// Assign Powers
 	AssignStarterPowersAndStats()
 	/// If I have a creator, then set as Fledgling.
-	if(!IS_VASSAL(owner.current))
+	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
+		bloodsucker_level_unspent = 0
+	else
 		// Start Sunlight if first Bloodsucker
 		clan.check_start_sunlight()
 		// Name and Titles
@@ -114,8 +116,6 @@
 		// Objectives & HUDs
 		forge_bloodsucker_objectives()
 		update_bloodsucker_icons_added(owner.current, "bloodsucker")
-	else // We're a vassal? We don't get to rank up, then.
-		bloodsucker_level_unspent = 0
 	. = ..()
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
