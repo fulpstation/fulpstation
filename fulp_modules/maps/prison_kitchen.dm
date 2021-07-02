@@ -13,6 +13,7 @@
 
 /datum/venue/restaurant/prison
 	name = "prison restaurant"
+	req_access = ACCESS_KITCHEN
 
 /obj/item/holosign_creator/robot_seat/restaurant/prisoner
 	name = "prison restaurant seating indicator placer"
