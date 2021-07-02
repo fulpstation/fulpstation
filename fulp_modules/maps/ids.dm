@@ -7,3 +7,9 @@
 /datum/id_trim/prisoner/chef
 	trim_state = "trim_cook"
 	access = list(ACCESS_KITCHEN)
+
+/obj/machinery/restaurant_portal/restaurant/prison
+	linked_venue = /datum/venue/restaurant/prison
+
+/datum/venue/restaurant
+	name = "prison restaurant"
