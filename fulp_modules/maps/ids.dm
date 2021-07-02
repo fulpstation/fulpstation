@@ -11,5 +11,13 @@
 /obj/machinery/restaurant_portal/restaurant/prison
 	linked_venue = /datum/venue/restaurant/prison
 
-/datum/venue/restaurant
+/datum/venue/restaurant/prison
 	name = "prison restaurant"
+
+/obj/item/holosign_creator/robot_seat/restaurant/prisoner
+	name = "prison restaurant seating indicator placer"
+	holosign_type = /obj/structure/holosign/robot_seat/restaurant/prison
+
+/obj/structure/holosign/robot_seat/restaurant/prison
+	name = "restaurant seating"
+	linked_venue = /datum/venue/restaurant/prison
