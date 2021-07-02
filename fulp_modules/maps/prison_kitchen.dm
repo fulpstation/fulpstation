@@ -2,7 +2,7 @@
 /obj/item/card/id/advanced/prisoner/chef
 	registered_name = "Chef Prisoner ID"
 	name = "Chef Prisoner ID"
-	desc = "A special ID card that allows prisoners to access the prison's Kitchen."
+	desc = "A special ID card that allows prisoners to access the Prison's Kitchen supplies and Restaurant."
 	trim = /datum/id_trim/prisoner/chef
 
 /datum/id_trim/prisoner/chef
