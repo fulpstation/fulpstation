@@ -1,9 +1,26 @@
 /// From recipes.dm
+
 /datum/crafting_recipe/blackcoffin
 	name = "Black Coffin"
 	result = /obj/structure/closet/crate/coffin/blackcoffin
 	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER)
-	reqs = list(/obj/item/stack/sheet/cloth = 1, /obj/item/stack/sheet/mineral/wood = 5, /obj/item/stack/sheet/iron = 1)
+	reqs = list(
+		/obj/item/stack/sheet/cloth = 1,
+		/obj/item/stack/sheet/mineral/wood = 5,
+		/obj/item/stack/sheet/iron = 1,
+	)
+	time = 15 SECONDS
+	category = CAT_PRIMAL
+
+/datum/crafting_recipe/securecoffin
+	name = "Secure Coffin"
+	result = /obj/structure/closet/crate/coffin/securecoffin
+	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER)
+	reqs = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/stack/sheet/plasteel = 5,
+		/obj/item/stack/sheet/iron = 5,
+	)
 	time = 15 SECONDS
 	category = CAT_PRIMAL
 
@@ -11,7 +28,10 @@
 	name = "Meat Coffin"
 	result = /obj/structure/closet/crate/coffin/meatcoffin
 	tool_behaviors = list(TOOL_KNIFE, TOOL_ROLLINGPIN)
-	reqs = list(/obj/item/food/meat/slab = 5, /obj/item/restraints/handcuffs/cable = 1)
+	reqs = list(
+		/obj/item/food/meat/slab = 5,
+		/obj/item/restraints/handcuffs/cable = 1,
+	)
 	time = 15 SECONDS
 	category = CAT_PRIMAL
 	always_available = FALSE //The sacred coffin!
@@ -28,7 +48,11 @@
 	name = "Persuasion Rack"
 	result = /obj/structure/bloodsucker/vassalrack
 	tool_behaviors = list(TOOL_WELDER, TOOL_WRENCH)
-	reqs = list(/obj/item/stack/sheet/mineral/wood = 3, /obj/item/stack/sheet/iron = 2, /obj/item/restraints/handcuffs/cable = 2)
+	reqs = list(
+		/obj/item/stack/sheet/mineral/wood = 3,
+		/obj/item/stack/sheet/iron = 2,
+		/obj/item/restraints/handcuffs/cable = 2,
+	)
 	time = 15 SECONDS
 	category = CAT_PRIMAL
 	always_available = FALSE
@@ -37,8 +61,25 @@
 	name = "Candelabrum"
 	result = /obj/structure/bloodsucker/candelabrum
 	tool_behaviors = list(TOOL_WELDER, TOOL_WRENCH)
-	reqs = list(/obj/item/stack/sheet/iron = 3, /obj/item/stack/rods = 1, /obj/item/candle = 1)
+	reqs = list(
+		/obj/item/stack/sheet/iron = 3,
+		/obj/item/stack/rods = 1,
+		/obj/item/candle = 1,
+	)
 	time = 10 SECONDS
+	category = CAT_PRIMAL
+	always_available = FALSE
+
+/datum/crafting_recipe/bloodthrone
+	name = "Blood Throne"
+	result = /obj/structure/bloodsucker/bloodthrone
+	tool_behaviors = list(TOOL_WRENCH)
+	reqs = list(
+		/obj/item/stack/sheet/cloth = 3,
+		/obj/item/stack/sheet/iron = 5,
+		/obj/item/stack/sheet/mineral/wood = 1,
+	)
+	time = 5 SECONDS
 	category = CAT_PRIMAL
 	always_available = FALSE
 
@@ -64,7 +105,10 @@
 	name = "Silver Stake"
 	result = /obj/item/stake/hardened/silver
 	tool_behaviors = list(TOOL_WELDER)
-	reqs = list(/obj/item/stack/sheet/mineral/silver = 1, /obj/item/stake/hardened = 1)
+	reqs = list(
+		/obj/item/stack/sheet/mineral/silver = 1,
+		/obj/item/stake/hardened = 1,
+	)
 	time = 8 SECONDS
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON

@@ -8,6 +8,7 @@
 		return FALSE
 	owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
+	owner.teach_crafting_recipe(/datum/crafting_recipe/bloodthrone)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
 	// This is my Lair
 	coffin = claimed
@@ -20,8 +21,8 @@
 /// From crate.dm
 /obj/structure/closet/crate
 	var/mob/living/resident /// This lets bloodsuckers claim any "closet" as a Coffin.
-	var/pryLidTimer = 250
-	breakout_time = 200
+	var/pryLidTimer = 25 SECONDS
+	breakout_time = 20 SECONDS
 
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
@@ -30,8 +31,22 @@
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	open_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_open.ogg'
 	close_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_close.ogg'
-	breakout_time = 600
-	pryLidTimer = 400
+	breakout_time = 30 SECONDS
+	pryLidTimer = 20 SECONDS
+	resistance_flags = NONE
+	material_drop = /obj/item/stack/sheet/iron
+	material_drop_amount = 2
+	armor = list(MELEE = 50, BULLET = 20, LASER = 30, ENERGY = 0, BOMB = 50, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
+
+/obj/structure/closet/crate/coffin/securecoffin
+	name = "secure coffin"
+	desc = "For those too scared of having their place of rest disturbed."
+	icon_state = "securecoffin"
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	open_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_open.ogg'
+	close_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_close.ogg'
+	breakout_time = 50 SECONDS
+	pryLidTimer = 50 SECONDS
 	resistance_flags = NONE
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
@@ -45,8 +60,8 @@
 	resistance_flags = FIRE_PROOF
 	open_sound = 'sound/effects/footstep/slime1.ogg'
 	close_sound = 'sound/effects/footstep/slime1.ogg'
-	breakout_time = 200
-	pryLidTimer = 200
+	breakout_time = 25 SECONDS
+	pryLidTimer = 20 SECONDS
 	resistance_flags = NONE
 	material_drop = /obj/item/food/meat/slab/human
 	material_drop_amount = 3
@@ -60,8 +75,8 @@
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 	open_sound = 'sound/effects/pressureplate.ogg'
 	close_sound = 'sound/effects/pressureplate.ogg'
-	breakout_time = 300
-	pryLidTimer = 200
+	breakout_time = 25 SECONDS
+	pryLidTimer = 30 SECONDS
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 5
 	armor = list(MELEE = 40, BULLET = 15, LASER = 50, ENERGY = 0, BOMB = 10, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)

@@ -773,14 +773,25 @@
 	name = "wicked throne"
 	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
-	icon_state = "vassalrack" // WILLARD TODO: Add sprites, then make craftable.
+	icon_state = "throne"
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
 
+/obj/structure/bloodsucker/bloodthrone/Initialize()
+	. = ..()
+	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE)
+
 /obj/structure/bloodsucker/bloodthrone/attackby(obj/item/P, mob/living/user, params)
 	// Non-bloodsuckers can wrench this in place, but can't unwrench, we don't want this getting stolen.
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(P.tool_behaviour == TOOL_WRENCH && !anchored)
+		if(!bloodsuckerdatum.lair)
+			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
+			return
+		if(bloodsuckerdatum.lair != get_area(src))
+			to_chat(user, span_danger("You may only activate this structure in your lair: [B.lair]."))
+			return
 		to_chat(user, span_notice("You start wrenching [src] into place."))
 		if(P.use_tool(src, user, 40, volume=50))
 			to_chat(user, span_notice("You wrench [src] into place."))
@@ -807,6 +818,7 @@
 		user.Stun(10 SECONDS)
 		to_chat(user, span_announce("The power of the Throne overwhelms you!"))
 		user.apply_damage(10, BRUTE)
+		unbuckle_mob(user)
 	. = ..()
 
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
