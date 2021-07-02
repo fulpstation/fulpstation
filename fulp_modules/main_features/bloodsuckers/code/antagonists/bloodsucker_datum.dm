@@ -562,6 +562,7 @@
 		if(1) // Vassalize Target Objective
 			var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
 			vassalhim_objective.owner = owner
+			vassalhim_objective.find_target()
 			vassalhim_objective.objective_name = "Optional Objective"
 			objectives += vassalhim_objective
 
