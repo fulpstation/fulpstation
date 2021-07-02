@@ -3299,7 +3299,12 @@
 	dir = 1;
 	name = "prison orange"
 	},
-/obj/machinery/light/directional/north,
+/obj/machinery/camera{
+	c_tag = "Prison Game Table";
+	name = "Prison Camera";
+	network = list("ss13","prison")
+	},
+/obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron,
 /area/security/prison)
 "aiK" = (
@@ -3309,16 +3314,11 @@
 	name = "prison orange"
 	},
 /obj/effect/spawner/randomcolavend,
-/obj/machinery/status_display/evac/directional/north,
+/obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/security/prison)
 "aiL" = (
 /obj/machinery/vending/coffee,
-/obj/machinery/camera{
-	c_tag = "Prison Game Table";
-	name = "Prison Camera";
-	network = list("ss13","prison")
-	},
 /obj/effect/turf_decal/siding/brown{
 	color = "#FF6700";
 	dir = 1;
@@ -3397,7 +3397,7 @@
 /area/security/prison)
 "aiS" = (
 /obj/machinery/camera{
-	c_tag = "Prison North Cells";
+	c_tag = "Prison Cells N";
 	dir = 8;
 	name = "Prison Camera";
 	network = list("ss13","prison")
@@ -5311,7 +5311,7 @@
 /area/security/brig)
 "amv" = (
 /obj/machinery/camera{
-	c_tag = "Prison Central Cells";
+	c_tag = "Prison Cells S";
 	dir = 8;
 	name = "Prison Camera";
 	network = list("ss13","prison")
@@ -8307,14 +8307,11 @@
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/upper)
 "asK" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/machinery/camera{
-	c_tag = "Prison Leisure Area";
-	dir = 8;
-	id_tag = "Prison Warden Office";
-	name = "Prison Camera";
-	network = list("ss13","prison")
+/obj/machinery/button/door/directional/north{
+	id = "Warden Perma Office";
+	name = "Privacy Shutters";
+	pixel_x = -5;
+	pixel_y = -24
 	},
 /turf/open/floor/iron,
 /area/security/prison)
@@ -15576,9 +15573,9 @@
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "aIh" = (
-/obj/structure/closet/secure_closet/security/sec,
 /obj/item/storage/fancy/donut_box,
 /obj/item/storage/fancy/donut_box,
+/obj/structure/table/reinforced,
 /turf/open/floor/iron,
 /area/security/prison)
 "aIi" = (
@@ -66324,12 +66321,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
-"eTO" = (
-/obj/machinery/computer/crew{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/security/prison)
 "eUo" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -69732,6 +69723,12 @@
 	},
 /turf/open/floor/iron,
 /area/service/hydroponics/garden)
+"lTB" = (
+/obj/structure/chair/office{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "lTJ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
 	dir = 1
@@ -70729,6 +70726,7 @@
 	},
 /obj/machinery/computer/security/telescreen{
 	dir = 1;
+	network = list("ss13");
 	pixel_x = 2;
 	pixel_y = -4
 	},
@@ -71442,14 +71440,14 @@
 /turf/open/floor/iron,
 /area/security/prison/visit)
 "oTT" = (
-/obj/structure/table/reinforced,
-/obj/machinery/door/window/brigdoor{
-	name = "Armory Desk";
-	req_access_txt = "3"
-	},
-/obj/machinery/door/window/southleft{
-	dir = 1;
-	name = "Reception Desk"
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/camera{
+	c_tag = "Prison Warden Office";
+	dir = 8;
+	id_tag = null;
+	name = "Prison Camera";
+	network = list("ss13","prison")
 	},
 /turf/open/floor/iron,
 /area/security/prison)
@@ -71718,12 +71716,6 @@
 /turf/open/floor/engine,
 /area/engineering/main)
 "pvI" = (
-/obj/machinery/camera{
-	c_tag = "Prison Bathroom";
-	dir = 1;
-	name = "Prison Camera";
-	network = list("ss13","prison")
-	},
 /obj/effect/turf_decal/siding/brown{
 	color = "#FF6700"
 	},
@@ -73517,9 +73509,14 @@
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "tdY" = (
-/obj/machinery/door/airlock/security/glass{
-	name = "Warden's Office";
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/brigdoor{
+	name = "Warden's Desk";
 	req_access_txt = "3"
+	},
+/obj/machinery/door/window/southleft{
+	dir = 1;
+	name = "Reception Desk"
 	},
 /turf/open/floor/iron,
 /area/security/prison)
@@ -74160,13 +74157,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/storage/tech)
-"uAu" = (
-/obj/structure/table/reinforced,
-/obj/machinery/computer/secure_data/laptop{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/security/prison)
 "uAJ" = (
 /obj/structure/table/wood,
 /obj/effect/turf_decal/siding/red/end{
@@ -74214,6 +74204,13 @@
 	color = "#FF6700";
 	dir = 1;
 	name = "prison orange"
+	},
+/turf/open/floor/iron,
+/area/security/prison)
+"uDx" = (
+/obj/structure/table/reinforced,
+/obj/machinery/computer/secure_data/laptop{
+	dir = 1
 	},
 /turf/open/floor/iron,
 /area/security/prison)
@@ -75029,9 +75026,9 @@
 	name = "prison orange"
 	},
 /obj/machinery/camera{
-	c_tag = "Prison Bathroom";
+	c_tag = "Prison Laundromat";
 	dir = 1;
-	id_tag = "Prison Laundry";
+	id_tag = null;
 	name = "Prison Camera";
 	network = list("ss13","prison")
 	},
@@ -75146,6 +75143,12 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/starboard)
+"wxg" = (
+/obj/machinery/computer/crew{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "wxk" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -75427,8 +75430,8 @@
 	name = "prison orange"
 	},
 /obj/machinery/camera{
-	c_tag = "Prison Kitchen";
-	id_tag = "Prison Workshop";
+	c_tag = "Prison Workshop";
+	id_tag = null;
 	name = "Prison Camera";
 	network = list("ss13","prison")
 	},
@@ -75874,8 +75877,10 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "ydg" = (
-/obj/structure/chair/office{
-	dir = 4
+/obj/machinery/door/airlock/security/glass{
+	id_tag = "Warden Perma Office";
+	name = "Warden's Office";
+	req_access_txt = "3"
 	},
 /turf/open/floor/iron,
 /area/security/prison)
@@ -87087,7 +87092,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+aaq
 aaa
 aaa
 aaa
@@ -88853,7 +88858,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+aaq
 aaa
 aaa
 aaa
@@ -90158,7 +90163,7 @@ aaa
 aaa
 aaa
 aaa
-aaq
+aaa
 aaa
 aaa
 aaa
@@ -95286,7 +95291,7 @@ aiK
 abd
 dgk
 ado
-asK
+oTT
 anv
 anv
 anv
@@ -96059,7 +96064,7 @@ dgk
 arK
 yag
 abd
-eTO
+wxg
 yag
 abd
 dgk
@@ -96314,9 +96319,9 @@ aiO
 abd
 dgk
 arK
-oTT
-ydg
-uAu
+tdY
+lTB
+uDx
 yag
 abd
 dgk
@@ -96571,8 +96576,8 @@ fhl
 anv
 qeO
 adr
-tdY
-abd
+ydg
+asK
 nCN
 yag
 abd
