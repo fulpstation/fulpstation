@@ -1496,6 +1496,9 @@
 	name = "medical blue"
 	},
 /obj/effect/landmark/start/prisoner,
+/obj/machinery/flasher/directional/south{
+	id = "Perma Med"
+	},
 /turf/open/floor/iron/white,
 /area/security/prison)
 "adX" = (
@@ -3955,6 +3958,9 @@
 	dir = 1;
 	name = "medical blue"
 	},
+/obj/machinery/door/poddoor/preopen{
+	id = "permashutmed"
+	},
 /turf/open/floor/iron/white,
 /area/security/prison/rec)
 "ajF" = (
@@ -4327,6 +4333,26 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
+	},
+/turf/open/floor/iron,
+/area/security/prison)
+"akr" = (
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	dir = 8;
+	name = "security red"
+	},
+/obj/machinery/button/door/directional/west{
+	id = "permashutmed";
+	name = "Cell Lockdown Button";
+	pixel_y = -7;
+	req_access_txt = "2"
+	},
+/obj/machinery/button/flasher{
+	id = "Perma Med";
+	name = "Prisoner Flash";
+	pixel_x = -25;
+	pixel_y = 7
 	},
 /turf/open/floor/iron,
 /area/security/prison)
@@ -8077,6 +8103,7 @@
 	color = "#FF6700";
 	dir = 6
 	},
+/obj/machinery/vending/sustenance,
 /turf/open/floor/iron,
 /area/security/prison)
 "arD" = (
@@ -8565,6 +8592,8 @@
 	},
 /obj/machinery/power/apc/auto_name/west,
 /obj/structure/cable,
+/obj/structure/rack,
+/obj/item/card/id/advanced/prisoner/chef,
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/upper)
 "asK" = (
@@ -9075,9 +9104,10 @@
 	name = "Prison Orange"
 	},
 /obj/machinery/airalarm/directional/west,
-/obj/machinery/light/directional/west,
-/obj/item/card/id/advanced/prisoner/chef,
-/obj/structure/rack,
+/obj/structure/sink/kitchen{
+	dir = 4;
+	pixel_x = -11
+	},
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/upper)
 "atR" = (
@@ -10220,7 +10250,8 @@
 	color = "#FF6700";
 	name = "Prison Orange"
 	},
-/obj/machinery/vending/sustenance,
+/obj/effect/spawner/lootdrop/prison_contraband,
+/obj/structure/closet/crate/bin,
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/upper)
 "awg" = (
@@ -10233,8 +10264,9 @@
 	color = "#FF6700";
 	name = "Prison Orange"
 	},
-/obj/structure/closet/crate/bin,
-/obj/effect/spawner/lootdrop/prison_contraband,
+/obj/machinery/smartfridge{
+	name = "Hydro-Kitchen Smartfridge"
+	},
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/upper)
 "awh" = (
@@ -75651,10 +75683,7 @@
 	color = "#FF6700";
 	name = "Prison Orange"
 	},
-/obj/structure/sink/kitchen{
-	dir = 4;
-	pixel_x = -11
-	},
+/obj/machinery/light/directional/west,
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/upper)
 "ydQ" = (
@@ -99419,7 +99448,7 @@ aaM
 wiE
 xFG
 abU
-wiE
+akr
 sMr
 wiE
 wiE
