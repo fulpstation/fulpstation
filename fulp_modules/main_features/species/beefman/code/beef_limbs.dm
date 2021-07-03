@@ -1,6 +1,14 @@
 /obj/item/bodypart
 	var/obj/item/food/meat/slab/myMeatType = /obj/item/food/meat/slab // For remembering what kind of meat this was made of. Default is base meat slab.
 	var/amCondemned = FALSE // I'm about to be destroyed. Don't add blood to me, and throw null error crap next tick.
+	var/meat_on_drop = FALSE
+
+/obj/item/bodypart/drop_limb(special)
+	var/mob/owner_cache = owner
+	. = ..()
+	if(meat_on_drop)
+		return drop_meat(owner_cache)
+
 
 /obj/item/bodypart/add_mob_blood(mob/living/M) // Cancel adding blood if I'm deletin (throws errors)
 	if (!amCondemned)
@@ -32,7 +40,7 @@
 
 /obj/item/bodypart/proc/give_meat(mob/living/carbon/human/H, obj/item/food/meat/slab/inMeatObj)
 	// Assign Type
-	myMeatType = inMeatObj.type
+	myMeatType = inMeatObj
 
 		// Adjust Health (did you eat some of this?)
 
@@ -113,11 +121,11 @@
 	heavy_burn_msg = "burned to a crisp"
 
 /// from dismemberment.dm
-/obj/item/bodypart/chest/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+// /obj/item/bodypart/chest/beef/drop_limb(special)
+// 	amCondemned = TRUE
+// 	var/mob/owner_cache = owner
+// 	..() // Create Meat, Remove Limb
+// 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/r_arm/beef
 	icon = 'fulp_modules/main_features/species/beefman/icons/mob/beefman_bodyparts.dmi'
@@ -125,11 +133,11 @@
 	heavy_burn_msg = "burned to a crisp"
 
 /// from dismemberment.dm
-/obj/item/bodypart/r_arm/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+// /obj/item/bodypart/r_arm/beef/drop_limb(special)
+// 	amCondemned = TRUE
+// 	var/mob/owner_cache = owner
+// 	..() // Create Meat, Remove Limb
+// 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/l_arm/beef
 	icon = 'fulp_modules/main_features/species/beefman/icons/mob/beefman_bodyparts.dmi'
@@ -137,11 +145,11 @@
 	heavy_burn_msg = "burned to a crisp"
 
 // from dismemberment.dm
-/obj/item/bodypart/l_arm/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+// /obj/item/bodypart/l_arm/beef/drop_limb(special)
+// 	amCondemned = TRUE
+// 	var/mob/owner_cache = owner
+// 	..() // Create Meat, Remove Limb
+// 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/r_leg/beef
 	icon = 'fulp_modules/main_features/species/beefman/icons/mob/beefman_bodyparts.dmi'
@@ -149,11 +157,11 @@
 	heavy_burn_msg = "burned to a crisp"
 
 /// from dismemberment.dm
-/obj/item/bodypart/r_leg/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+// /obj/item/bodypart/r_leg/beef/drop_limb(special)
+// 	amCondemned = TRUE
+// 	var/mob/owner_cache = owner
+// 	..() // Create Meat, Remove Limb
+// 	return drop_meat(owner_cache)
 
 /obj/item/bodypart/l_leg/beef
 	icon = 'fulp_modules/main_features/species/beefman/icons/mob/beefman_bodyparts.dmi'
@@ -161,8 +169,8 @@
 	heavy_burn_msg = "burned to a crisp"
 
 /// from dismemberment.dm
-/obj/item/bodypart/l_leg/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+// /obj/item/bodypart/l_leg/beef/drop_limb(special)
+// 	amCondemned = TRUE
+// 	var/mob/owner_cache = owner
+// 	..() // Create Meat, Remove Limb
+// 	return drop_meat(owner_cache)

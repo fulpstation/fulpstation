@@ -73,8 +73,8 @@
 	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
 		inFeatures["beefmouth"] = pick(GLOB.beefman_mouth_list)
 
-/datum/species/beefman/proc/adjust_bleeding(mob/living/carbon/human/user, type = "+", amount)
-	for(var/obj/item/bodypart/limb in user.bodyparts)
+/datum/species/beefman/proc/adjust_bleeding(mob/living/carbon/human/beefman, type = "+", amount)
+	for(var/obj/item/bodypart/limb in beefman.bodyparts)
 		switch(type)
 			if ("+")
 				limb.generic_bleedstacks += amount
@@ -101,6 +101,13 @@
 
 	for(var/traumas in trauma_list)
 		user.gain_trauma(traumas, TRAUMA_RESILIENCE_ABSOLUTE)
+
+	for(var/obj/item/bodypart/limb in user.bodyparts)
+		limb.heavy_brute_msg = "mincemeat"
+		limb.heavy_burn_msg = "burned to a crisp"
+		if(limb != /obj/item/bodypart/head/beef)
+			limb.meat_on_drop = TRUE
+		// RegisterSignal(user, COMSIG_CARBON_REMOVE_LIMB, .proc/on_limb_drop)
 
 /mob/living/carbon/proc/ReassignForeignBodyparts() //This proc hurts me so much, it used to be worse, this really should be a list or something
 	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
@@ -148,6 +155,13 @@
 	for(var/traumas in trauma_list)
 		user.cure_trauma_type(traumas, TRAUMA_RESILIENCE_ABSOLUTE)
 
+	for(var/obj/item/bodypart/limbs in user.bodyparts)
+		limbs.heavy_brute_msg = initial(limbs.heavy_brute_msg)
+		limbs.heavy_burn_msg = initial(limbs.heavy_burn_msg)
+		limbs.amCondemned = FALSE
+		limbs.meat_on_drop = FALSE
+		// UnregisterSignal(user, COMSIG_CARBON_REMOVE_LIMB, .proc/on_limb_drop)
+
 /datum/species/beefman/random_name(gender,unique,lastname)
 	if(unique)
 		return random_unique_beefman_name(gender)
@@ -165,8 +179,14 @@
 
 	// Replenish Blood Faster! (But only if you actually make blood)
 	var/bleed_rate = 0
-	for(var/obj/item/bodypart/limbs in beefboy.bodyparts)
-		bleed_rate += limbs.generic_bleedstacks
+	for(var/obj/item/bodypart/limb in beefboy.bodyparts)
+		bleed_rate += limb.generic_bleedstacks
+
+/datum/species/beefman/proc/on_limb_drop(obj/item/bodypart/limb)
+	SIGNAL_HANDLER
+
+	var/mob/living/carbon/human/beefman = limb.owner
+	limb.drop_meat(beefman)
 
 /datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/beefboy)
 	. = ..()

@@ -62,7 +62,7 @@
 	var/list/limbs = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 
 	// MEAT LIMBS: If our limb is missing, and we're using meat, stick it in!
-	if((target_zone in limbs))
+	if(target_zone in limbs)
 		if(meat_masher == beefman)
 			meat_masher.visible_message("[meat_masher] begins mashing [meat] into [beefman]'s torso.", span_notice("You begin mashing [meat] into your torso."))
 		else
