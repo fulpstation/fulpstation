@@ -206,7 +206,7 @@
 	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
 	for(var/datum/mind/M in members)
 		for(var/datum/antagonist/bloodsucker/H in M.antag_datums)
-			if(IS_VASSAL(M)) // Skip over Ventrue's Favorite Vassal
+			if(M.has_antag_datum(/datum/antagonist/vassal)) // Skip over Ventrue's Favorite Vassal
 				continue
 			report += H.roundend_report()
 
