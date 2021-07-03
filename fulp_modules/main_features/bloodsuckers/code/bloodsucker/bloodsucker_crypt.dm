@@ -768,7 +768,7 @@
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
 	update_icon()
 
-/// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals.
+/// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
 	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
@@ -778,11 +778,75 @@
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
+	var/mutable_appearance/armrest
 
+// Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
-	. = ..()
 	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE)
+	armrest = GetArmrest()
+	armrest.layer = ABOVE_MOB_LAYER
+	return ..()
 
+// Armrests
+/obj/structure/bloodsucker/bloodthrone/proc/GetArmrest()
+	return mutable_appearance('fulp_modules/main_features/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
+
+/obj/structure/bloodsucker/bloodthrone/proc/update_armrest()
+	if(has_buckled_mobs())
+		add_overlay(armrest)
+	else
+		cut_overlay(armrest)
+
+/obj/structure/bloodsucker/bloodthrone/Destroy()
+	QDEL_NULL(armrest)
+	return ..()
+
+// Rotating
+/obj/structure/bloodsucker/bloodthrone/setDir(newdir)
+	. = ..()
+	if(has_buckled_mobs())
+		for(var/m in buckled_mobs)
+			var/mob/living/buckled_mob = m
+			buckled_mob.setDir(newdir)
+
+	if(has_buckled_mobs() && dir == NORTH)
+		layer = ABOVE_MOB_LAYER
+	else
+		layer = OBJ_LAYER
+
+// Buckling
+/obj/structure/bloodsucker/bloodthrone/buckle_mob(mob/living/user, force = FALSE, check_loc = TRUE)
+	if(!anchored)
+		to_chat(user, span_announce("[src] is not bolted to the ground!"))
+		return
+	. = ..()
+	user.visible_message(span_notice("[user] sits down on [src]."), \
+			  		 span_boldnotice("You sit down onto [src]."))
+	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
+	if(IS_BLOODSUCKER(user))
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
+	else
+		user.Paralyze(6 SECONDS)
+		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
+		user.apply_damage(10, BRUTE)
+		unbuckle_mob(user)
+
+/obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/M)
+	. = ..()
+	update_armrest()
+	M.pixel_y += 6
+
+// Unbuckling
+/obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
+	src.visible_message(text("<span class='danger'>[user] unbuckles themselves from [src].</span>"))
+	if(IS_BLOODSUCKER(user))
+		UnregisterSignal(user, COMSIG_MOB_SAY)
+	. = ..()
+
+/obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/M)
+	M.pixel_y -= 6
+
+// Buckling people in
 /obj/structure/bloodsucker/bloodthrone/attackby(obj/item/P, mob/living/user, params)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
@@ -807,28 +871,7 @@
 			return
 	. = ..()
 
-/obj/structure/bloodsucker/bloodthrone/buckle_mob(mob/living/user, force = FALSE, check_loc = TRUE)
-	if(!anchored)
-		to_chat(user, span_announce("[src] is not bolted to the ground!"))
-		return
-	. = ..()
-	user.visible_message(span_notice("[user] sits down on [src]."), \
-			  		 span_boldnotice("You sit down onto [src]."))
-	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
-	if(IS_BLOODSUCKER(user))
-		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
-	else
-		user.Paralyze(6 SECONDS)
-		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
-		user.apply_damage(10, BRUTE)
-		unbuckle_mob(user)
-
-/obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
-	src.visible_message(text("<span class='danger'>[user] unbuckles themselves from [src].</span>"))
-	if(IS_BLOODSUCKER(user))
-		UnregisterSignal(user, COMSIG_MOB_SAY)
-	. = ..()
-
+// The speech itself
 /obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)
 	SIGNAL_HANDLER
 
