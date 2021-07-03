@@ -563,7 +563,7 @@
 			vassaldatum.favorite_vassal = TRUE
 			to_chat(user, span_danger("You have turned [target] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 			to_chat(user, span_announce("* Bloodsucker Tip: You can now upgrade your Vassal by buckling them onto a Candelabrum!"))
-			to_chat(target, span_announce("As Blood drips over your body, you feel closer to your Master..."))
+			to_chat(target, span_announce("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 			C.blood_volume -= 150
 			/// Make them immune to Mindshielding now
 			vassaldatum.update_vassal_icons_added(target, "vassal6")
@@ -772,8 +772,9 @@
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
 	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
-	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj_64.dmi'
 	icon_state = "throne"
+	buckle_lying = 0
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
@@ -810,17 +811,17 @@
 	if(!anchored)
 		to_chat(user, span_announce("[src] is not bolted to the ground!"))
 		return
+	. = ..()
 	user.visible_message(span_notice("[user] sits down on [src]."), \
 			  		 span_boldnotice("You sit down onto [src]."))
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
 	if(IS_BLOODSUCKER(user))
 		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
-		user.Stun(10 SECONDS)
-		to_chat(user, span_announce("The power of the Throne overwhelms you!"))
+		user.Paralyze(6 SECONDS)
+		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
 		user.apply_damage(10, BRUTE)
 		unbuckle_mob(user)
-	. = ..()
 
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
 	src.visible_message(text("<span class='danger'>[user] unbuckles themselves from [src].</span>"))

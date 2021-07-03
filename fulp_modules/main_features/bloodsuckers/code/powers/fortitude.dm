@@ -82,3 +82,4 @@
 	name = "Flow"
 	desc = "Use the arts to Flow, giving shove and stun immunity, as well as brute, burn, dismember and pierce resistance. You cannot run while this is active."
 	bloodsucker_can_buy = FALSE
+	vassal_can_buy = FALSE

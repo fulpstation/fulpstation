@@ -401,7 +401,7 @@
 		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
 			Torpor_End()
 	// You're not in a Coffin? We won't check for low Burn damage
-	if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
+	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
 		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, to prevent spam revival/death. Only way out is healing that Burn.
 		if(total_burn >= 199)
 			return

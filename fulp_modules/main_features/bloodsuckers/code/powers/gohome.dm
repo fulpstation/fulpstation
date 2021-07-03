@@ -112,4 +112,5 @@
 		bloodsuckerdatum.coffin.update_icon()
 		/// Lock Coffin
 		bloodsuckerdatum.coffin.LockMe(owner)
+		bloodsuckerdatum.Check_Begin_Torpor(FALSE) // Are we meant to enter Torpor here?
 	. = ..()
