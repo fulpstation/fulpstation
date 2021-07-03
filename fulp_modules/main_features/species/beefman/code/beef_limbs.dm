@@ -1,5 +1,5 @@
 /obj/item/bodypart
-	var/obj/item/food/meat/slab/myMeatType = /obj/item/food/meat/slab // For remembering what kind of meat this was made of. Default is base meat slab.
+	var/obj/item/food/meat/slab/myMeatType // For remembering what kind of meat this was made of. Default is base meat slab.
 	var/amCondemned = FALSE // I'm about to be destroyed. Don't add blood to me, and throw null error crap next tick.
 	var/meat_on_drop = FALSE
 
@@ -39,37 +39,33 @@
 // Meat has been assigned to this NEW limb! Give it meat and damage me as needed.
 
 /obj/item/bodypart/proc/give_meat(mob/living/carbon/human/H, obj/item/food/meat/slab/inMeatObj)
-	// Assign Type
-	myMeatType = inMeatObj
-
-		// Adjust Health (did you eat some of this?)
 
 	// Get Original Amount
 	var/amountOriginal
-	for (var/R in inMeatObj.food_reagents) // <---- List of TYPES and the starting AMOUNTS
-		amountOriginal += inMeatObj.food_reagents[R]
-	// Get Current Amount (of original reagents only)
 	var/amountCurrent
-	for (var/datum/reagent/R in inMeatObj.reagents.reagent_list) // <---- Actual REAGENT DATUMS and their VOLUMES
-		// This datum exists in the original list?
-		if (locate(R.type) in inMeatObj.food_reagents)
-			amountCurrent += R.volume
-			// Remove it from Meat (all others are about to be injected)
-			inMeatObj.reagents.remove_reagent(R.type, R.volume)
+	if(inMeatObj.food_reagents)
+		for(var/meat_reagent in inMeatObj.food_reagents)
+			amountOriginal += inMeatObj.food_reagents[meat_reagent]
+
+	if(inMeatObj.reagents.reagent_list)
+
+		for(var/datum/reagent/chemicals in inMeatObj.reagents.reagent_list)
+			if (locate(chemicals.type) in inMeatObj.food_reagents)
+				amountCurrent += chemicals.volume
+				inMeatObj.reagents.remove_reagent(chemicals.type, chemicals.volume)
+
 	inMeatObj.reagents.update_total()
 	// Set Health:
 	var/percentDamage = 1 - amountCurrent / amountOriginal
 	receive_damage(brute = max_damage * percentDamage)
-	if (percentDamage >= 0.9)
+	if(percentDamage >= 0.9)
 		to_chat(owner, "<span class='alert'>It's almost completely useless. That [inMeatObj.name] was no good!</span>")
-	else if (percentDamage > 0.5)
+	else if(percentDamage > 0.5)
 		to_chat(owner, "<span class='alert'>It's riddled with bite marks.</span>")
-	else if (percentDamage > 0)
+	else if(percentDamage > 0)
 		to_chat(owner, "<span class='alert'>It looks a little eaten away, but it'll do.</span>")
 
-	// Apply meat's Reagents to Me
-	if(inMeatObj.reagents && inMeatObj.reagents.total_volume)
-		//inMeatObj.reagents.reaction(owner, INJECT, inMeatObj.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
+	if(inMeatObj.reagents.total_volume)
 		inMeatObj.reagents.trans_to(owner, inMeatObj.reagents.total_volume)	// Run transfer of 1 unit of reagent from them to me.
 
 	qdel(inMeatObj)
@@ -100,7 +96,7 @@
 		newMeat.reagents.update_total()
 
 		// Apply my Reagents to Meat
-		if(inOwner.reagents && inOwner.reagents.total_volume)
+		if(inOwner.reagents?.total_volume)
 			//inOwner.reagents.reaction(newMeat, INJECT, 20 / inOwner.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
 			inOwner.reagents.trans_to(newMeat, 20)	// Run transfer of 1 unit of reagent from them to me.
 
