@@ -93,6 +93,8 @@
 	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M))
 			continue
+		if(M.has_antag_datum(/datum/antagonist/vassal))
+			continue
 		to_chat(M, vampwarn)
 		if(M.current)
 			if(danger_level == 1)
@@ -105,7 +107,6 @@
 				M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
 			else if(danger_level == 5)
 				M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
-			return
 	if(vassalwarn != "")
 		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/vassal))
 			if(!istype(M))
