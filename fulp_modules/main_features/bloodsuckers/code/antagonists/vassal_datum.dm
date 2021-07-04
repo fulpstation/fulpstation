@@ -47,8 +47,7 @@
 	/// Give Objectives
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
-	vassal_objective.generate_objective()
-	add_objective(vassal_objective)
+	objectives += vassal_objective
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
@@ -83,23 +82,23 @@
 	objectives -= O
 
 /datum/antagonist/vassal/greet()
-	to_chat(owner, "<span class='userdanger'>You are now the mortal servant of [master.owner.current], a bloodsucking vampire!</span>")
-	to_chat(owner, "<span class='boldannounce'>The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
-			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.<span>")
+	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a bloodsucking vampire!"))
+	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
+			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.<span>"))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 	/// Message told to your Master.
-	to_chat(master.owner, "<span class='userdanger'>[owner.current] has become addicted to your immortal blood. [owner.current.p_they(TRUE)] [owner.current.p_are()] now your undying servant!</span>")
+	to_chat(master.owner, span_userdanger("[owner.current] has become addicted to your immortal blood. [owner.current.p_they(TRUE)] [owner.current.p_are()] now your undying servant!"))
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/vassal/farewell()
-	owner.current.visible_message("<span class='deconversion_message'>[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm,\
-			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self.</span>", null, null, null, owner.current)
-	to_chat(owner, "<span class ='deconversion_message bold'>With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will.</span>")
+	owner.current.visible_message(span_deconversion_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm,\
+			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self."), null, null, null, owner.current)
+	to_chat(owner, span_deconversion_message("With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will."))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	/// Message told to your (former) Master.
 	if(master && master.owner)
-		to_chat(master.owner, "<span class='userdanger'>You feel the bond with your vassal [owner.current] has somehow been broken!</span>")
+		to_chat(master.owner, span_userdanger("You feel the bond with your vassal [owner.current] has somehow been broken!"))
 
 /// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
@@ -181,7 +180,7 @@
 
 /datum/status_effect/agent_pinpointer/vassal_edition/Destroy()
 	if(scan_target)
-		to_chat(owner, "<span class='notice'>You've lost your master's trail.</span>")
+		to_chat(owner, span_notice("You've lost your master's trail."))
 	..()
 
 /*
@@ -218,6 +217,7 @@
 	if(target.reagents && target.reagents.total_volume)
 		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
+	return blood_taken
 
 /datum/antagonist/vassal/proc/AddBloodVolume(value)
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, 560)

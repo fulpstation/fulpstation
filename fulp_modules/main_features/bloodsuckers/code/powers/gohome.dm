@@ -8,7 +8,6 @@
 	bloodcost = 100
 	/// It'll never come back.
 	cooldown = 99999
-	amToggle = FALSE
 	amSingleUse = TRUE
 
 	/// You only get this if you've claimed a lair, and only just before sunrise.
@@ -26,7 +25,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>Your coffin has been destroyed!</span>")
+			to_chat(owner, span_warning("Your coffin has been destroyed!"))
 		return FALSE
 	return TRUE
 
@@ -35,10 +34,9 @@
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
-/datum/action/bloodsucker/gohome/ActivatePower()
-	var/mob/living/carbon/user = owner
+/datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	to_chat(user, "<span class='notice'>You focus on separating your consciousness from your physical form...</span>")
+	to_chat(user, span_notice("You focus on separating your consciousness from your physical form..."))
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
 	sleep(50)
@@ -51,7 +49,7 @@
 	/// STEP TWO: Lights OFF?
 	/// CHECK: Still have Coffin?
 	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
-		to_chat(user, "<span class='warning'>Your coffin has been destroyed! You no longer have a destination.</span>")
+		to_chat(user, span_warning("Your coffin has been destroyed! You no longer have a destination."))
 		return FALSE
 	if(!owner)
 		return
@@ -116,3 +114,4 @@
 		bloodsuckerdatum.coffin.update_icon()
 		/// Lock Coffin
 		bloodsuckerdatum.coffin.LockMe(owner)
+	. = ..()

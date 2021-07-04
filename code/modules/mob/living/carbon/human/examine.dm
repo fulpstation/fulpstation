@@ -62,14 +62,14 @@
 		. += "[t_He] [t_has] [gloves.get_examine_string(user)] on [t_his] hands."
 	else if(FR && length(FR.blood_DNA))
 		if(num_hands)
-			. += "<span class='warning'>[t_He] [t_has] [num_hands > 1 ? "" : "a"] blood-stained hand[num_hands > 1 ? "s" : ""]!</span>"
+			. += span_warning("[t_He] [t_has] [num_hands > 1 ? "" : "a"] blood-stained hand[num_hands > 1 ? "s" : ""]!")
 
 	//handcuffed?
 	if(handcuffed)
 		if(istype(handcuffed, /obj/item/restraints/handcuffs/cable))
-			. += "<span class='warning'>[t_He] [t_is] [icon2html(handcuffed, user)] restrained with cable!</span>"
+			. += span_warning("[t_He] [t_is] [icon2html(handcuffed, user)] restrained with cable!")
 		else
-			. += "<span class='warning'>[t_He] [t_is] [icon2html(handcuffed, user)] handcuffed!</span>"
+			. += span_warning("[t_He] [t_is] [icon2html(handcuffed, user)] handcuffed!")
 
 	//belt
 	if(belt && !(belt.item_flags & EXAMINE_SKIP))
@@ -90,8 +90,11 @@
 	if(!(obscured & ITEM_SLOT_EYES) )
 		if(glasses  && !(glasses.item_flags & EXAMINE_SKIP))
 			. += "[t_He] [t_has] [glasses.get_examine_string(user)] covering [t_his] eyes."
-		else if(eye_color == BLOODCULT_EYE && IS_CULTIST(src) && HAS_TRAIT(src, CULT_EYES))
-			. += "<span class='warning'><B>[t_His] eyes are glowing an unnatural red!</B></span>"
+		else if(eye_color == BLOODCULT_EYE)
+			if(IS_CULTIST(src) && HAS_TRAIT(src, TRAIT_CULT_EYES))
+				. += "<span class='warning'><B>[t_His] eyes are glowing an unnatural red!</B></span>"
+			else if(HAS_TRAIT(src, TRAIT_BLOODSHOT_EYES))
+				. += "<span class='warning'><B>[t_His] eyes are bloodshot!</B></span>"
 
 	//ears
 	if(ears && !(obscured & ITEM_SLOT_EARS) && !(ears.item_flags & EXAMINE_SKIP))
@@ -111,11 +114,11 @@
 	//Jitters
 	switch(jitteriness)
 		if(300 to INFINITY)
-			. += "<span class='warning'><B>[t_He] [t_is] convulsing violently!</B></span>"
+			. += span_warning("<B>[t_He] [t_is] convulsing violently!</B>")
 		if(200 to 300)
-			. += "<span class='warning'>[t_He] [t_is] extremely jittery.</span>"
+			. += span_warning("[t_He] [t_is] extremely jittery.")
 		if(100 to 200)
-			. += "<span class='warning'>[t_He] [t_is] twitching ever so slightly.</span>"
+			. += span_warning("[t_He] [t_is] twitching ever so slightly.")
 
 	var/appears_dead = FALSE
 	var/just_sleeping = FALSE
@@ -131,12 +134,12 @@
 
 		if(!just_sleeping)
 			if(suiciding)
-				. += "<span class='warning'>[t_He] appear[p_s()] to have committed suicide... there is no hope of recovery.</span>"
+				. += span_warning("[t_He] appear[p_s()] to have committed suicide... there is no hope of recovery.")
 
 			. += generate_death_examine_text()
 
 	if(get_bodypart(BODY_ZONE_HEAD) && !getorgan(/obj/item/organ/brain))
-		. += "<span class='deadsay'>It appears that [t_his] brain is missing...</span>"
+		. += span_deadsay("It appears that [t_his] brain is missing...")
 
 	var/list/msg = list()
 
@@ -196,39 +199,41 @@
 		else
 			temp = getBruteLoss()
 		if(temp)
+		// FULP EDIT - SPECIES DAMAGE DESCRIPTIONS
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor bruising.\n"
-				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n" // FULP EDIT START - Species Descriptors
+				// msg += "[t_He] [t_has] minor bruising.\n"
+				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n"
 			else if(temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
+				// msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.bruising_desc]!\n"
 			else
-//				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
+				// msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
 				msg += "<B>[t_He] [t_has] severe [dna.species.bruising_desc]!</B>\n"
 
 		temp = getFireLoss()
 		if(temp)
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor burns.\n"
+				// msg += "[t_He] [t_has] minor burns.\n"
 				msg += "[t_He] [t_has] minor [dna.species.burns_desc].\n"
 			else if (temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
+				// msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.burns_desc]!\n"
 			else
-//				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
+				// msg += "<B>[t_He] [t_has] severe burns!</B>\n"
 				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n"
 
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor cellular damage.\n"
+				// msg += "[t_He] [t_has] minor cellular damage.\n"
 				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"
 			else if(temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
+				// msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.cellulardamage_desc]!\n"
 			else
-//				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
-				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n" // FULP EDIT END - Species Descriptors
+				// msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
+				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n"
+		// FULP EDIT END
 
 
 	if(fire_stacks > 0)
@@ -265,7 +270,7 @@
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
 			msg += "<b>[t_He] look[p_s()] like pale death.</b>\n"
 		if(-INFINITY to BLOOD_VOLUME_BAD)
-			msg += "<span class='deadsay'><b>[t_He] resemble[p_s()] a crushed, empty juice pouch.</b></span>\n"
+			msg += "[span_deadsay("<b>[t_He] resemble[p_s()] a crushed, empty juice pouch.</b>")]\n"
 
 	if(is_bleeding())
 		var/list/obj/item/bodypart/bleeding_limbs = list()
@@ -373,9 +378,9 @@
 					msg += "[t_He] [t_has] a stupid expression on [t_his] face.\n"
 		if(getorgan(/obj/item/organ/brain))
 			if(ai_controller?.ai_status == AI_STATUS_ON)
-				msg += "<span class='deadsay'>[t_He] do[t_es]n't appear to be [t_him]self.</span>\n"
+				msg += "[span_deadsay("[t_He] do[t_es]n't appear to be [t_him]self.")]\n"
 			if(!key)
-				msg += "<span class='deadsay'>[t_He] [t_is] totally catatonic. The stresses of life in deep-space must have been too much for [t_him]. Any recovery is unlikely.</span>\n"
+				msg += "[span_deadsay("[t_He] [t_is] totally catatonic. The stresses of life in deep-space must have been too much for [t_him]. Any recovery is unlikely.")]\n"
 			else if(!client)
 				msg += "[t_He] [t_has] a blank, absent-minded stare and appears completely unresponsive to anything. [t_He] may snap out of it soon.\n"
 
@@ -387,17 +392,17 @@
 
 	switch(scar_severity)
 		if(1 to 4)
-			msg += "<span class='tinynoticeital'>[t_He] [t_has] visible scarring, you can look again to take a closer look...</span>\n"
+			msg += "[span_tinynoticeital("[t_He] [t_has] visible scarring, you can look again to take a closer look...")]\n"
 		if(5 to 8)
-			msg += "<span class='smallnoticeital'>[t_He] [t_has] several bad scars, you can look again to take a closer look...</span>\n"
+			msg += "[span_smallnoticeital("[t_He] [t_has] several bad scars, you can look again to take a closer look...")]\n"
 		if(9 to 11)
-			msg += "<span class='notice'><i>[t_He] [t_has] significantly disfiguring scarring, you can look again to take a closer look...</i></span>\n"
+			msg += "[span_notice("<i>[t_He] [t_has] significantly disfiguring scarring, you can look again to take a closer look...</i>")]\n"
 		if(12 to INFINITY)
-			msg += "<span class='notice'><b><i>[t_He] [t_is] just absolutely fucked up, you can look again to take a closer look...</i></b></span>\n"
+			msg += "[span_notice("<b><i>[t_He] [t_is] just absolutely fucked up, you can look again to take a closer look...</i></b>")]\n"
 
 
 	if (length(msg))
-		. += "<span class='warning'>[msg.Join("")]</span>"
+		. += span_warning("[msg.Join("")]")
 
 	var/trait_exam = common_trait_examine()
 	if (!isnull(trait_exam))
@@ -442,7 +447,7 @@
 					"<a href='?src=[REF(src)];hud=s;view_comment=1'>\[View comment log\]</a>",
 					"<a href='?src=[REF(src)];hud=s;add_comment=1'>\[Add comment\]</a>"), "")
 	else if(isobserver(user))
-		. += "<span class='info'><b>Traits:</b> [get_quirk_string(FALSE, CAT_QUIRK_ALL)]</span>"
+		. += span_info("<b>Traits:</b> [get_quirk_string(FALSE, CAT_QUIRK_ALL)]")
 	. += "*---------*</span>"
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)

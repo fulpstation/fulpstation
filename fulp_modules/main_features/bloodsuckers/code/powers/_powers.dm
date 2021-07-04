@@ -76,18 +76,20 @@
 		return
 	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE))
 		return
+	if(amSingleUse)
+		RemoveAfterUse()
 	PayCost()
+	UpdateButtonIcon()
+	if(!amToggle || !active)
+		StartCooldown() // Must come AFTER UpdateButton(), otherwise icon will revert.
 	if(amToggle)
 		active = !active
 		UpdateButtonIcon()
-	if(!amToggle || !active)
-		StartCooldown() // Must come AFTER UpdateButton(), otherwise icon will revert.
-	UpdateButtonIcon()
-	ActivatePower() // NOTE: ActivatePower() freezes this power in place until it ends.
+		ActivatePower() //We're doing this here because it has to be after 'active = !active'
+		return // Don't keep going down, or else it'll be Deactivated.
+	ActivatePower() // This is placed here so amToggle's can run and return before this occurs.
 	if(active) // Did we not manually disable? Handle it here.
 		DeactivatePower()
-	if(amSingleUse)
-		RemoveAfterUse()
 
 /datum/action/bloodsucker/proc/CheckCanPayCost(display_error)
 	if(!owner || !owner.mind)
@@ -104,7 +106,7 @@
 		return TRUE
 	if(L.blood_volume < bloodcost)
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You need at least [bloodcost] blood to activate [name]</span>")
+			to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 		return FALSE
 	return TRUE
 
@@ -115,42 +117,42 @@
 	// Torpor?
 	if(!can_use_in_torpor && HAS_TRAIT(owner, TRAIT_NODEATH))
 		if(display_error)
-			to_chat(owner, "<span class='warning'>Not while you're in Torpor.</span>")
+			to_chat(owner, span_warning("Not while you're in Torpor."))
 		return FALSE
 	// Stake?
 	if(!can_use_w_stake && owner.AmStaked())
 		if(display_error)
-			to_chat(owner, "<span class='warning'>You have a stake in your chest! Your powers are useless.</span>")
+			to_chat(owner, span_warning("You have a stake in your chest! Your powers are useless."))
 		return FALSE
 	if(owner.reagents?.has_reagent(/datum/reagent/consumable/garlic))
 		if(display_error)
-			to_chat(owner, "<span class='warning'>Garlic in your blood is interfering with your powers!</span>")
+			to_chat(owner, span_warning("Garlic in your blood is interfering with your powers!"))
 		return FALSE
 	if(must_be_concious)
 		if(owner.stat != CONSCIOUS)
 			if(display_error)
-				to_chat(owner, "<span class='warning'>You can't do this while you are unconcious!</span>")
+				to_chat(owner, span_warning("You can't do this while you are unconcious!"))
 			return FALSE
 	// Incapacitated?
 	if(must_be_capacitated)
 		var/mob/living/L = owner
 		if (!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
 			if(display_error)
-				to_chat(owner, "<span class='warning'>Not while you're incapacitated!</span>")
+				to_chat(owner, span_warning("Not while you're incapacitated!"))
 			return FALSE
 	// Constant Cost (out of blood)
 	if(warn_constant_cost)
 		var/mob/living/L = owner
 		if(L.blood_volume <= 0)
 			if(display_error)
-				to_chat(owner, "<span class='warning'>You don't have the blood to upkeep [src].</span>")
+				to_chat(owner, span_warning("You don't have the blood to upkeep [src]."))
 			return FALSE
 	// In a Frenzy?
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && !bloodsuckerdatum.my_clan == CLAN_BRUJAH)
 		if(!can_use_in_frenzy)
 			if(display_error)
-				to_chat(owner, "<span class='warning'>You cannot use powers while in a Frenzy!</span>")
+				to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
 			return FALSE
 	return TRUE
 
@@ -189,11 +191,22 @@
 		H.blood_volume -= bloodcost
 
 /datum/action/bloodsucker/proc/ActivatePower()
+	if(amToggle)
+		UsePower(owner)
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
 	active = FALSE
 	UpdateButtonIcon()
 	StartCooldown()
+
+///Used by powers that are continuously active (That use amToggle)
+/datum/action/bloodsucker/proc/UsePower(mob/living/user)
+	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
+		return FALSE
+	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
+		DeactivatePower()
+		return FALSE
+	return TRUE
 
 /// Used by loops to make sure this power can stay active.
 /datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)
@@ -268,7 +281,7 @@
 		L.ranged_ability.remove_ranged_ability()
 	bs_proc_holder.add_ranged_ability(L)
 	if(message_Trigger != "")
-		to_chat(owner, "<span class='announce'>[message_Trigger]</span>")
+		to_chat(owner, span_announce("[message_Trigger]"))
 
 /datum/action/bloodsucker/targeted/CheckCanUse(display_error)
 	. = ..()
@@ -296,7 +309,7 @@
 	// Out of Range
 	if(!(A in view(target_range, owner)))
 		if(display_error && target_range > 1) // Only warn for range if it's greater than 1. Brawn doesn't need to announce itself.
-			to_chat(owner, "<span class='warning'>Your target is out of range.</span>")
+			to_chat(owner, span_warning("Your target is out of range."))
 		return FALSE
 	return istype(A)
 
