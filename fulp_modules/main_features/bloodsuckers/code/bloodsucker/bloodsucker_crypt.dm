@@ -285,7 +285,7 @@
 			tremere_perform_magic(user, C)
 			return
 		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
-		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS)
+		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS && (!(NOBLOOD in C.dna.species.species_traits)))
 			if(istype(V) && !B.my_favorite_vassal)
 				offer_ventrue_favorites(user, C)
 				return
