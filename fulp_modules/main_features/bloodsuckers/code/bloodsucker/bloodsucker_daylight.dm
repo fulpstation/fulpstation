@@ -46,7 +46,9 @@
 						// Rank up! Must still be in a coffin to level!
 						bloodsuckerdatum.RankUp()
 		if(time_til_cycle <= 1)
-			warn_daylight(5, span_announce("The solar flare has ended, and the daylight danger has passed...for now."), span_announce("The solar flare has ended, and the daylight danger has passed...for now."), "")
+			warn_daylight(5, span_announce("The solar flare has ended, and the daylight danger has passed...for now."), \
+				span_announce("The solar flare has ended, and the daylight danger has passed...for now."), \
+				"")
 			amDay = FALSE
 			issued_XP = FALSE
 			time_til_cycle = TIME_BLOODSUCKER_NIGHT
@@ -66,17 +68,25 @@
 	else
 		switch(time_til_cycle)
 			if(TIME_BLOODSUCKER_DAY_WARN)
-				warn_daylight(1, span_danger("Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b>"),"","")
+				warn_daylight(1, span_danger("Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b>"), \
+					"", \
+					"")
 				give_home_power()
 			if(TIME_BLOODSUCKER_DAY_FINAL_WARN)
 				message_admins("BLOODSUCKER NOTICE: Daylight beginning in [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds.)")
-				warn_daylight(2, span_userdanger("Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!"), span_danger("In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!"), "")
+				warn_daylight(2, span_userdanger("Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!"), \
+					span_danger("In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!"), \
+					"")
 			if(TIME_BLOODSUCKER_BURN_INTERVAL)
-				warn_daylight(3, span_userdanger("Seek cover, for Sol rises!"),"","")
+				warn_daylight(3, span_userdanger("Seek cover, for Sol rises!"), \
+					"", \
+					"")
 			if(0)
 				amDay = TRUE
 				time_til_cycle = TIME_BLOODSUCKER_DAY
-				warn_daylight(4, span_userdanger("Solar flares bombard the station with deadly UV light!<br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!"), span_userdanger("Solar flares bombard the station with UV light!"), span_userdanger("The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!"))
+				warn_daylight(4, span_userdanger("Solar flares bombard the station with deadly UV light!<br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!"), \
+					span_userdanger("Solar flares bombard the station with UV light!"), \
+					span_userdanger("The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!"))
 				message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
 
 /obj/effect/sunlight/proc/warn_daylight(danger_level =0, vampwarn = "", vassalwarn = "", hunteralert = "")
