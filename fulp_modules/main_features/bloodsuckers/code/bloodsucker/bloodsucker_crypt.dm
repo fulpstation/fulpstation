@@ -510,7 +510,6 @@
 			target.revive(full_heal = TRUE, admin_revive = TRUE)
 			H.set_species(/datum/species/zombie)
 			vassaldatum.mutilated = TRUE
-			return
 		/// Quick Feeding
 		if(TREMERE_HUSK)
 			to_chat(user, span_notice("You suck all the blood out of [target], turning them into a Living Husk!"))
@@ -520,7 +519,6 @@
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 			H.become_husk()
 			vassaldatum.mutilated = TRUE
-			return
 		/// Chance to give Bat form, or turn them into a bat.
 		if(TREMERE_BAT)
 			/// Ooh, lucky!
@@ -530,7 +528,6 @@
 				var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
 				target.AddSpell(batform)
 				vassaldatum.mutilated = TRUE
-				return
 			else
 				to_chat(user, span_notice("You have failed to mutate [target] into a Bat, forever trapping them into Bat form!"))
 				to_chat(target, span_notice("Your master has mutated you into a Bat!"))
@@ -538,12 +535,10 @@
 				target.mind.transfer_to(battransformation)
 				qdel(target)
 				vassaldatum.mutilated = TRUE
-				return
 
 	if(blood_gained)
 		user.blood_volume += blood_gained
 	to_chat(user, span_notice("You decide to leave your Vassal just the way they are."))
-	return
 
 /obj/structure/bloodsucker/vassalrack/proc/offer_ventrue_favorites(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
