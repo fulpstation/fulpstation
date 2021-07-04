@@ -780,6 +780,17 @@
 	can_buckle = TRUE
 	var/mutable_appearance/armrest
 
+/obj/structure/bloodsucker/bloodthrone/examine(mob/user)
+	. = ..()
+	if(isobserver(user))
+		. += span_cult("This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals.")
+		. += span_cult("This can only be used when wrenched in, and can only be wrenched in place, in a Bloodsucker's base.")
+		return
+	if(IS_BLOODSUCKER(user))
+		. += span_cult("This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking.")
+	if(IS_VASSAL(user))
+		. += span_notice("This is a Blood throne, it allows your Master to telepathically speak to you and others like you.")
+
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
 	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE)
