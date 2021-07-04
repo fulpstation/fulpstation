@@ -822,7 +822,6 @@
 	. = ..()
 	user.visible_message(span_notice("[user] sits down on [src]."), \
 			  		 span_boldnotice("You sit down onto [src]."))
-	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
 	if(IS_BLOODSUCKER(user))
 		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
