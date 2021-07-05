@@ -2,7 +2,7 @@
 
 /obj/vehicle/ridden/mining_wagon
 	name = "mining wagon"
-	desc = "Looks surprisingly new for a ancient mining wagon. The wheels seems to be stuck."
+	desc = "Looks surprisingly new for an ancient mining wagon. The wheels seem to be stuck."
 	icon = 'fulp_modules/maps/decals/mining_wagon.dmi'
 	icon_state = "mining_wagon"
 	layer = OBJ_LAYER
@@ -23,16 +23,16 @@
 	add_overlay(activated_overlay)
 
 /obj/vehicle/ridden/mining_wagon/post_buckle_mob(mob/living/M)
-	M.pixel_y += 5
+	M.pixel_y += 8
 	handle_layer()
 
 /obj/vehicle/ridden/mining_wagon/post_unbuckle_mob(mob/living/M)
-	M.pixel_y -= 5
+	M.pixel_y -= 8
 	handle_layer()
 
 /obj/vehicle/ridden/mining_wagon/obj_destruction(damage_flag)
 	new /obj/item/stack/rods(drop_location(), 2)
-	new /obj/item/stack/sheet/mineral/wood(drop_location(), 4)
+	new /obj/item/stack/sheet/mineral/wood(drop_location(), 8)
 	return ..()
 
 /obj/vehicle/ridden/mining_wagon/Moved()
@@ -45,16 +45,13 @@
 
 /obj/effect/turf_decal/rails
 	icon = 'fulp_modules/maps/decals/mining_wagon.dmi'
-	icon_state = "rails_horizontal"
+	icon_state = "rails"
 
 /obj/effect/turf_decal/rails/broken
 	icon_state = "rails_broken"
 
-/obj/effect/turf_decal/rails/vertical
-	icon_state = "rails_vertical"
-
-/obj/effect/turf_decal/rails/vertical_curved
-	icon_state = "rails_vertical_curved"
+/obj/effect/turf_decal/rails/rails_curved
+	icon_state = "rails_curved"
 
 //RAILS---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -62,21 +59,19 @@
 
 /turf/closed/mineral/cave_in
 	name = "ancient cave-in"
-	icon = 'icons/turf/smoothrocks.dmi'
-	smooth_icon = 'icons/turf/smoothrocks.dmi'
-	icon_state = "smoothrocks"
-	base_icon_state = "smoothrocks"
-	desc = "A ancient mine that collapsed."
+	desc = "An ancient mine that collapsed."
 	var/mutable_appearance/activated_overlay
 
 /turf/closed/mineral/cave_in/Initialize()
 	. = ..()
 	activated_overlay = mutable_appearance('fulp_modules/maps/decals/cave_in.dmi', "cave_in", ON_EDGED_TURF_LAYER)
 	add_overlay(activated_overlay)
+	activated_overlay = mutable_appearance('fulp_modules/maps/decals/cave_in.dmi', "cave_in_lights", ON_EDGED_TURF_LAYER)
+	add_overlay(activated_overlay)
 
 /turf/closed/mineral/cave_in/blood
 	name = "bloody ancient cave-in"
-	desc = "A ancient mine that collapsed which is housing equally ancient miners."
+	desc = "An ancient mine that collapsed which is housing equally ancient miners."
 
 /turf/closed/mineral/cave_in/blood/Initialize()
 	. = ..()
