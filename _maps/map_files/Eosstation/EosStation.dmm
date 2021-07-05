@@ -5113,13 +5113,14 @@
 /area/hallway/primary/fore)
 "aSR" = (
 /obj/machinery/firealarm/directional/north,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
 	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
@@ -6657,11 +6658,11 @@
 /area/commons/storage/primary)
 "ban" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
+/obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
 	req_access_txt = "12"
 	},
-/obj/effect/turf_decal/delivery,
 /turf/open/floor/plating,
 /area/maintenance/external/aft)
 "bao" = (
@@ -11190,14 +11191,14 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/external/port)
 "bMA" = (
@@ -13059,13 +13060,13 @@
 	},
 /area/hallway/secondary/entry)
 "cfs" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
 /obj/structure/cable,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "cfG" = (
@@ -14143,15 +14144,6 @@
 /mob/living/simple_animal/pet/penguin/emperor,
 /turf/open/floor/plating/beach/sand,
 /area/hallway/secondary/entry)
-"clC" = (
-/obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
-/obj/effect/turf_decal/delivery,
-/turf/open/floor/plating,
-/area/maintenance/port/fore)
 "clG" = (
 /obj/machinery/light/directional/west,
 /obj/structure/table/reinforced,
@@ -25814,10 +25806,11 @@
 /area/engineering/atmos/upper)
 "eJf" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "eJi" = (
@@ -26736,10 +26729,11 @@
 "eTJ" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/port)
 "eTQ" = (
@@ -27338,13 +27332,13 @@
 /turf/open/floor/iron,
 /area/ai_monitored/command/storage/eva)
 "eYS" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/iron,
 /area/maintenance/port/central)
 "eYV" = (
@@ -32208,15 +32202,15 @@
 /turf/open/floor/circuit/green/telecomms/mainframe,
 /area/tcommsat/server)
 "gfu" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Instrument room";
-	req_access_txt = "12"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Instrument Room";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/hallway/primary/starboard)
 "gfG" = (
@@ -33460,7 +33454,7 @@
 /area/commons/dorms)
 "gup" = (
 /obj/machinery/light/small/directional/south,
-/turf/closed/wall/r_wall,
+/turf/open/floor/plating,
 /area/maintenance/port/fore)
 "guu" = (
 /obj/effect/decal/cleanable/blood,
@@ -37757,12 +37751,13 @@
 /area/maintenance/disposal/incinerator)
 "huW" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
 	},
 /turf/open/floor/plating,
 /area/maintenance/port)
@@ -43711,7 +43706,6 @@
 	dir = 4
 	},
 /obj/structure/cable,
-/obj/machinery/door/firedoor,
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plating,
@@ -55083,10 +55077,11 @@
 /area/commons/vacant_room)
 "leP" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/iron/large,
 /area/maintenance/fore)
 "lff" = (
@@ -58362,11 +58357,11 @@
 "lQA" = (
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
+/obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
 	req_access_txt = "12"
 	},
-/obj/effect/turf_decal/delivery,
 /turf/open/floor/plating,
 /area/maintenance/external/port)
 "lQC" = (
@@ -61704,12 +61699,13 @@
 /area/commons/vacant_room)
 "mCd" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
 	},
 /turf/open/floor/plating,
 /area/maintenance/port)
@@ -62527,10 +62523,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
 "mLY" = (
@@ -73088,9 +73085,11 @@
 /area/engineering/atmos)
 "oZa" = (
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/maintenance/fore/upper)
 "oZk" = (
@@ -78332,9 +78331,11 @@
 /turf/open/floor/iron,
 /area/service/hydroponics)
 "qgf" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/maintenance/fore/upper)
 "qgo" = (
@@ -84155,11 +84156,12 @@
 	},
 /area/hallway/primary/aft)
 "rvx" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
 	req_access_txt = "12"
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/maintenance/external/port/bow)
 "rvz" = (
@@ -84385,10 +84387,11 @@
 "ryA" = (
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/iron/large,
 /area/maintenance/fore)
 "ryT" = (
@@ -88495,12 +88498,12 @@
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
 "suS" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "svj" = (
@@ -89333,10 +89336,11 @@
 "sFp" = (
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/iron/large,
 /area/maintenance/fore/upper)
 "sFv" = (
@@ -91885,10 +91889,11 @@
 /area/tcommsat/server)
 "tlI" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/port)
 "tlJ" = (
@@ -92190,10 +92195,11 @@
 "tpK" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
 "tpQ" = (
@@ -92688,11 +92694,11 @@
 /turf/closed/wall,
 /area/maintenance/starboard/aft)
 "txq" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
 	req_access_txt = "12"
 	},
-/obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/maintenance/external/port)
 "txs" = (
@@ -93509,14 +93515,14 @@
 /turf/open/floor/iron/corner,
 /area/hallway/primary/central)
 "tFj" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
 	},
 /turf/open/floor/plating,
 /area/maintenance/port/central)
@@ -94057,12 +94063,12 @@
 /turf/open/floor/iron,
 /area/engineering/storage_shared)
 "tMq" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/external/port)
 "tMs" = (
@@ -94623,15 +94629,15 @@
 	dir = 8
 	},
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/external/port)
 "tSA" = (
@@ -97551,12 +97557,14 @@
 /turf/open/floor/iron/corner,
 /area/hallway/primary/central)
 "uxY" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/maintenance/external/aft)
 "uyd" = (
@@ -97568,10 +97576,11 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/iron/large,
 /area/maintenance/fore/upper)
 "uyg" = (
@@ -98617,13 +98626,13 @@
 /turf/open/floor/iron,
 /area/service/janitor)
 "uJd" = (
-/obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch";
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/maintenance{
+	name = "Space Exploration Outpost";
+	req_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/external/port/bow)
 "uJp" = (
@@ -156862,7 +156871,7 @@ dMW
 nPw
 cFQ
 cJJ
-clC
+suS
 clO
 kZJ
 cpD
