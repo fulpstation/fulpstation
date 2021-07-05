@@ -14,6 +14,7 @@
 	name = "prison restaurant"
 	req_access = ACCESS_KITCHEN
 	venue_type = VENUE_RESTAURANT
+	max_guests = 4
 
 /obj/machinery/restaurant_portal/restaurant/prison
 	linked_venue = /datum/venue/restaurant/prison
