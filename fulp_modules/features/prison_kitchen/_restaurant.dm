@@ -16,8 +16,8 @@
 	venue_type = VENUE_RESTAURANT
 	max_guests = 4
 	customer_types = list(
-		/datum/customer_data/warden = 50,
-//		/datum/customer_data/prisoner = 50,
+//		/datum/customer_data/warden = 50,
+		/datum/customer_data/prisoner = 50,
 //		/datum/customer_data/british/bobby = 25, // I guess they're also police?
 //		/datum/customer_data/american = 15,
 //		/datum/customer_data/italian = 15,

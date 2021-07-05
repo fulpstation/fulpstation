@@ -3,8 +3,25 @@
 /datum/customer_data/warden
 	prefix_file = "fulp_modules/features/prison_kitchen/warden_prefix.txt"
 	base_icon = "italian"
-	clothing_sets = list()
+	clothing_sets = list("italian_pison", "italian_godfather")
 
+	friendly_pull_line = "Hey, don't touch me, asshole!"
+	first_warning_line = "Let me go, I have a laser gun, and I'm not afraid to open fire blindly!"
+	second_warning_line = "Final warning, I'm trained in the arts of Krav Maga!"
+	self_defense_line = "That's it! The harmbaton for you!"
+	orderable_objects = list(
+		VENUE_RESTAURANT = list(
+			/obj/item/food/donut = 8,
+			/obj/item/food/poutine = 6,
+			/obj/item/food/pie/applepie = 4,
+			/obj/item/food/burger/cheese = 4,
+			/obj/item/food/hotdog = 3,
+			/obj/item/food/nachos = 3,
+			/obj/item/food/soup/hotchili = 2,
+			/obj/item/food/kebab = 2,
+
+		),
+	)
 	found_seat_lines = list(
 		"This perma seems cleaner than the one I worked at.",
 		"I hope the prisoners here know how to behave themselves.",
@@ -50,23 +67,6 @@
 		"You're delaying me.",
 		"You can be quite boring.",
 	)
-	friendly_pull_line = "Hey, don't touch me, asshole!"
-	first_warning_line = "Let me go, I have a laser gun, and I'm not afraid to open fire blindly!"
-	second_warning_line = "Final warning, I'm trained in the arts of Krav Maga!"
-	self_defense_line = "That's it! The harmbaton for you!"
-	orderable_objects = list(
-		VENUE_RESTAURANT = list(
-			/obj/item/food/donut = 8,
-			/obj/item/food/poutine = 6,
-			/obj/item/food/pie/applepie = 4,
-			/obj/item/food/burger/cheese = 4,
-			/obj/item/food/hotdog = 3,
-			/obj/item/food/nachos = 3,
-			/obj/item/food/soup/hotchili = 2,
-			/obj/item/food/kebab = 2,
-
-		),
-	)
 
 /datum/customer_data/warden/get_overlays(mob/living/simple_animal/robot_customer/customer)
 	var/list/underlays = list()
@@ -79,8 +79,25 @@
 /datum/customer_data/prisoner
 	prefix_file = "fulp_modules/features/prison_kitchen/prisoner_prefix.txt"
 	base_icon = "japanese"
-	clothing_sets = list()
+	clothing_sets = list("japanese_salary")
 
+	friendly_pull_line = "I'm starving, I don't want to go with you."
+	first_warning_line = "Stop touching me, you'll regret it."
+	second_warning_line = "Last chance dude, I'm a glass cannon!"
+	self_defense_line = "Alright, you've asked for it! Violent Psychosis, headbutt!"
+	orderable_objects = list(
+		VENUE_RESTAURANT = list(
+			/obj/item/food/friedegg = 6,
+			/obj/item/food/bread/tofu = 5,
+			/obj/item/food/soup/coldchili = 4,
+			/obj/item/food/nugget = 4,
+			/obj/item/food/soup/miso = 4,
+			/obj/item/food/grilled_cheese_sandwich = 3,
+			/obj/item/food/spaghetti = 3,
+			/obj/item/food/eggssausage = 3,
+			/obj/item/food/burger/plain = 1,
+		),
+	)
 	found_seat_lines = list(
 		"Wow, this place looks way better than where I have to stay.",
 		"This place looks amazing compared to the shithole I was stuck in.",
@@ -122,23 +139,6 @@
 		"So my wife stopped ringing after she heard that.",
 		"Ever thought about escaping?",
 		"Turns out my bro was my sis.",
-	)
-	friendly_pull_line = "I'm starving, I don't want to go with you."
-	first_warning_line = "Stop touching me, you'll regret it."
-	second_warning_line = "Last chance dude, I'm a glass cannon!"
-	self_defense_line = "Alright, you've asked for it! Violent Psychosis, headbutt!"
-	orderable_objects = list(
-		VENUE_RESTAURANT = list(
-			/obj/item/food/friedegg = 6,
-			/obj/item/food/bread/tofu = 5,
-			/obj/item/food/soup/coldchili = 4,
-			/obj/item/food/nugget = 4,
-			/obj/item/food/soup/miso = 4,
-			/obj/item/food/grilled_cheese_sandwich = 3,
-			/obj/item/food/spaghetti = 3,
-			/obj/item/food/eggssausage = 3,
-			/obj/item/food/burger/plain = 1,
-		),
 	)
 
 /datum/customer_data/prisoner/get_overlays(mob/living/simple_animal/robot_customer/customer)
