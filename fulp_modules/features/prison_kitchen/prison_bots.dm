@@ -3,7 +3,7 @@
 /datum/customer_data/warden
 	prefix_file = "fulp_modules/features/prison_kitchen/warden_prefix.txt"
 	base_icon = "italian"
-	clothing_sets = list("italian_pison", "italian_godfather")
+	clothing_sets = list()
 
 	found_seat_lines = list(
 		"This perma seems cleaner than the one I worked at.",
@@ -52,7 +52,7 @@
 	)
 	friendly_pull_line = "Hey, don't touch me, asshole!"
 	first_warning_line = "Let me go, I have a laser gun, and I'm not afraid to open fire blindly!"
-	second_warning_line = "Final warning, I'm trained in the arts of Krav MagaD!"
+	second_warning_line = "Final warning, I'm trained in the arts of Krav Maga!"
 	self_defense_line = "That's it! The harmbaton for you!"
 	orderable_objects = list(
 		VENUE_RESTAURANT = list(
@@ -70,7 +70,7 @@
 
 /datum/customer_data/warden/get_overlays(mob/living/simple_animal/robot_customer/customer)
 	var/list/underlays = list()
-	var/mutable_appearance/warden_clothes = mutable_appearance(icon = 'fulp_modules/features/prison_kitchen/icons/warden_bot.dmi', icon_state = "italian_warden")
+	var/mutable_appearance/warden_clothes = mutable_appearance(icon = 'fulp_modules/features/prison_kitchen/icons/bots.dmi', icon_state = "warden_italian")
 	warden_clothes.appearance_flags = RESET_COLOR
 	underlays += warden_clothes
 	return underlays
@@ -79,7 +79,7 @@
 /datum/customer_data/prisoner
 	prefix_file = "fulp_modules/features/prison_kitchen/prisoner_prefix.txt"
 	base_icon = "japanese"
-	clothing_sets = list("japanese_salary")
+	clothing_sets = list()
 
 	found_seat_lines = list(
 		"Wow, this place looks way better than where I have to stay.",
@@ -143,8 +143,7 @@
 
 /datum/customer_data/prisoner/get_overlays(mob/living/simple_animal/robot_customer/customer)
 	var/list/underlays = list()
-
-	var/mutable_appearance/prisoner_clothes = mutable_appearance(icon = 'fulp_modules/features/prison_kitchen/icons/prisoner_bot.dmi', icon_state = "japanese_perma")
+	var/mutable_appearance/prisoner_clothes = mutable_appearance(icon = 'fulp_modules/features/prison_kitchen/icons/bots.dmi', icon_state = "prisoner_japanese")
 	prisoner_clothes.appearance_flags = RESET_COLOR
 	underlays += prisoner_clothes
 	return underlays
