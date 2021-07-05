@@ -96,9 +96,6 @@ const DmTarget = Juke.createTarget({
     '_maps/map_files/generic/**',
     'code/**',
     'goon/**',
-    // FULP - We add our modular folder as part of the dependecies, so that build doesn't fail if the only file edited is inside it.
-    'fulp_modules/**',
-    // FULP EDIT END
     'html/**',
     'icons/**',
     'interface/**',
