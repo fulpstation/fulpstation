@@ -3,7 +3,7 @@
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security", "Chief Medical Officer")
 	faction = "Station"
-	total_positions = 2
+	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of security and the chief medical officer"
 	selection_color = "#ffeef0"
@@ -80,6 +80,6 @@
 	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 	trim_state = "trim_brigphysician"
 	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
+	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
 	config_job = "brig_physician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
