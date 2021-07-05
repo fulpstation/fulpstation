@@ -1252,7 +1252,7 @@
 	specialfunctions = 4
 	},
 /obj/effect/spawner/lootdrop/prison_contraband,
-/obj/machinery/light/small/blacklight/directional/south,
+/obj/machinery/light/floor,
 /turf/open/floor/iron/white,
 /area/security/prison/toilet)
 "adA" = (
@@ -1673,7 +1673,7 @@
 	normaldoorcontrol = 1;
 	specialfunctions = 4
 	},
-/obj/machinery/light/small/blacklight/directional/south,
+/obj/machinery/light/floor,
 /turf/open/floor/iron/white,
 /area/security/prison/toilet)
 "aeE" = (
@@ -65607,6 +65607,12 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron,
 /area/commons/fitness/recreation)
+"dHf" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/turf/closed/wall,
+/area/security/prison/toilet)
 "dHS" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
 	dir = 8
@@ -65961,13 +65967,11 @@
 /obj/effect/turf_decal/siding/thinplating/light,
 /turf/open/floor/iron,
 /area/hallway/secondary/service)
-"eBp" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/effect/landmark/start/prisoner,
-/turf/open/floor/iron,
-/area/security/prison/garden)
+"eBL" = (
+/obj/effect/turf_decal/bot_red,
+/obj/vehicle/ridden/secway,
+/turf/open/floor/iron/dark,
+/area/ai_monitored/security/armory)
 "eBT" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -67288,12 +67292,6 @@
 /obj/item/kitchen/knife/plastic,
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/upper)
-"hic" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 4
-	},
-/turf/closed/wall,
-/area/security/prison/toilet)
 "hjq" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -67303,6 +67301,24 @@
 /obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/iron,
 /area/engineering/engine_smes)
+"hkd" = (
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	dir = 8;
+	name = "security red"
+	},
+/obj/structure/table,
+/obj/machinery/recharger,
+/obj/item/pen{
+	pixel_x = 5;
+	pixel_y = 6
+	},
+/obj/item/toy/figure/warden{
+	pixel_x = -8;
+	pixel_y = 6
+	},
+/turf/open/floor/iron/showroomfloor,
+/area/security/warden)
 "hkj" = (
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible,
 /obj/effect/turf_decal/tile/red{
@@ -67430,24 +67446,6 @@
 	},
 /turf/open/floor/iron,
 /area/construction/mining/aux_base)
-"hwt" = (
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 8;
-	name = "security red"
-	},
-/obj/structure/table,
-/obj/machinery/recharger,
-/obj/item/pen{
-	pixel_x = 5;
-	pixel_y = 6
-	},
-/obj/item/toy/figure/warden{
-	pixel_x = -8;
-	pixel_y = 6
-	},
-/turf/open/floor/iron/showroomfloor,
-/area/security/warden)
 "hwE" = (
 /obj/effect/turf_decal/siding/brown{
 	dir = 1
@@ -68075,9 +68073,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/ai_monitored/turret_protected/aisat/atmos)
-"iCG" = (
-/turf/open/floor/iron,
-/area/security/prison/rec)
 "iCN" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -69411,16 +69406,6 @@
 	},
 /turf/open/floor/iron,
 /area/security/prison/garden)
-"lox" = (
-/obj/effect/turf_decal/siding/brown{
-	color = "#FF6700";
-	dir = 4;
-	name = "prison orange"
-	},
-/obj/structure/table,
-/obj/item/toy/plush/batong,
-/turf/open/floor/iron,
-/area/security/prison/rec)
 "loG" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/yellow{
@@ -72423,16 +72408,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/engine_smes)
-"qSE" = (
-/obj/effect/turf_decal/siding/brown{
-	color = "#FF6700";
-	dir = 8;
-	name = "prison orange"
-	},
-/obj/structure/table,
-/obj/item/toy/talking/ai,
-/turf/open/floor/iron,
-/area/security/prison/rec)
 "qTJ" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
@@ -73199,6 +73174,9 @@
 	},
 /turf/open/floor/iron,
 /area/security/brig)
+"sjO" = (
+/turf/open/floor/iron,
+/area/security/prison/rec)
 "slg" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -74090,11 +74068,6 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/port)
-"tLx" = (
-/obj/effect/turf_decal/bot_red,
-/obj/vehicle/ridden/secway,
-/turf/open/floor/iron/dark,
-/area/ai_monitored/security/armory)
 "tRe" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -74137,6 +74110,16 @@
 	},
 /turf/open/floor/engine,
 /area/engineering/main)
+"tWz" = (
+/obj/effect/turf_decal/siding/brown{
+	color = "#FF6700";
+	dir = 4;
+	name = "prison orange"
+	},
+/obj/structure/table,
+/obj/item/toy/plush/batong,
+/turf/open/floor/iron,
+/area/security/prison/rec)
 "tXD" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -75832,6 +75815,13 @@
 	},
 /turf/closed/wall/r_wall,
 /area/engineering/main)
+"xsU" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/effect/landmark/start/prisoner,
+/turf/open/floor/iron,
+/area/security/prison/garden)
 "xur" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -75882,6 +75872,16 @@
 	},
 /turf/open/floor/engine,
 /area/engineering/main)
+"xvY" = (
+/obj/effect/turf_decal/siding/brown{
+	color = "#FF6700";
+	dir = 8;
+	name = "prison orange"
+	},
+/obj/structure/table,
+/obj/item/toy/talking/ai,
+/turf/open/floor/iron,
+/area/security/prison/rec)
 "xwx" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -93270,7 +93270,7 @@ dXf
 adL
 qkl
 hID
-hic
+dHf
 pdU
 ajE
 aoL
@@ -93527,7 +93527,7 @@ dXf
 uPb
 alq
 uPb
-hic
+dHf
 aiJ
 abd
 abd
@@ -93784,7 +93784,7 @@ dXf
 dMJ
 amJ
 lMx
-hic
+dHf
 apF
 abd
 abd
@@ -94063,7 +94063,7 @@ arJ
 asD
 ava
 ava
-eBp
+xsU
 ikZ
 msu
 aaa
@@ -95586,7 +95586,7 @@ nhz
 ieb
 age
 lcK
-qSE
+xvY
 ahJ
 wJJ
 arR
@@ -95843,7 +95843,7 @@ wqe
 oVj
 fBV
 pTd
-iCG
+sjO
 nzd
 ptT
 nZH
@@ -96101,7 +96101,7 @@ dVU
 lLk
 aqC
 arB
-iCG
+sjO
 dma
 nZH
 sFE
@@ -96358,7 +96358,7 @@ wqe
 agq
 vad
 aia
-lox
+tWz
 rQv
 arR
 ggI
@@ -104086,7 +104086,7 @@ arP
 asP
 aun
 qbI
-tLx
+eBL
 aoS
 jrH
 nVm
@@ -105109,7 +105109,7 @@ amW
 aoh
 aoV
 apC
-hwt
+hkd
 arS
 asT
 auq
