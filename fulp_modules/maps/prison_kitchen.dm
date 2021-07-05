@@ -13,6 +13,7 @@
 /datum/venue/restaurant/prison
 	name = "prison restaurant"
 	req_access = ACCESS_KITCHEN
+	venue_type = VENUE_RESTAURANT
 
 /obj/machinery/restaurant_portal/restaurant/prison
 	linked_venue = /datum/venue/restaurant/prison
