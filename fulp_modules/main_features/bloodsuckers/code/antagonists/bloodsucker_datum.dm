@@ -958,7 +958,7 @@
 			sunlight_display_icon += "day"
 			valuecolor =  "#FF5555"
 		else
-			switch(value)
+			switch(round(value, 1))
 				if(0 to 30)
 					sunlight_display_icon += "30"
 					valuecolor = "#FFCCCC"
