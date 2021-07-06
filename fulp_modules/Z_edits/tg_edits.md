@@ -26,3 +26,5 @@
 - code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences || Makes Digitigrade shoes fit Digi Lizards.
 - code/modules/surgery/bodyparts/_bodyparts.dm > Changes bodypart .dmi files for Beefmen
 - code/modules/jobs/jobs.dm > Adds Fulp jobs to GLOBAL_LIST_INIT(security_positions, list() & GLOBAL_LIST_INIT(security_sub_positions, list()
+
+- tools/build/build.js > Adds our folder to be read for changes when compiling.

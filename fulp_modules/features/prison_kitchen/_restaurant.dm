@@ -16,15 +16,15 @@
 	venue_type = VENUE_RESTAURANT
 	max_guests = 4
 	customer_types = list(
-		/datum/customer_data/warden = 50,
-		/datum/customer_data/prisoner = 50,
-		/datum/customer_data/british/bobby = 25, // I guess they're also police?
-		/datum/customer_data/american = 15,
-		/datum/customer_data/italian = 15,
-		/datum/customer_data/mexican = 15,
-		/datum/customer_data/french = 10,
-		/datum/customer_data/japanese = 10,
-		/datum/customer_data/japanese/salaryman = 10,
+		/datum/customer_data/warden = 35,
+		/datum/customer_data/prisoner = 35,
+		/datum/customer_data/british/bobby = 30, // I guess they're also police?
+		/datum/customer_data/american = 30, // Americans love prisons
+		/datum/customer_data/italian = 20,
+		/datum/customer_data/mexican = 20,
+		/datum/customer_data/french = 15,
+		/datum/customer_data/japanese = 15,
+		/datum/customer_data/japanese/salaryman = 10, // What da salaryman doin
 	)
 
 /obj/machinery/restaurant_portal/restaurant/prison
