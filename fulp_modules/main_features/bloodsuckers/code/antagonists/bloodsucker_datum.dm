@@ -953,15 +953,28 @@
 	if(!owner.current.hud_used)
 		return
 	if(owner.current.hud_used && owner.current.hud_used.sunlight_display)
+		var/sunlight_display_icon = "sunlight_"
 		if(amDay)
+			sunlight_display_icon += "day"
 			valuecolor =  "#FF5555"
-		else if(value <= 25)
-			valuecolor =  "#FFCCCC"
-		else if(value < 10)
-			valuecolor =  "#FF5555"
+		else
+			switch(value)
+				if(0 to 30)
+					sunlight_display_icon += "30"
+					valuecolor = "#FFCCCC"
+				if(31 to 60)
+					sunlight_display_icon += "60"
+					valuecolor = "#FFE6CC"
+				if(61 to 90)
+					sunlight_display_icon += "90"
+					valuecolor = "#FFFFCC"
+				else
+					sunlight_display_icon += "night"
+					valuecolor = "#FFFFFF"
+		
 		var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
 		owner.current.hud_used.sunlight_display.update_counter(value_string, valuecolor)
-		owner.current.hud_used.sunlight_display.icon_state = "sunlight_" + (amDay ? "day":"night")
+		owner.current.hud_used.sunlight_display.icon_state = sunlight_display_icon
 
 /atom/movable/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
 	..()
