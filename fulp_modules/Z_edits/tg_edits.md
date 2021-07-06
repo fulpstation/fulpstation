@@ -16,13 +16,13 @@
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 - code/game/objects/items/implants/implant_mindshield.dm > Mindshielding removes Vassalization
 
-- code/modules/admin/verbs/adminhelp.dm > Button for redirecting people to Mentorhelp
 - code/modules/admin/sql_ban_system.dm > Bloodsuckers and Monster hunters as bannable antagonists.
+- code/modules/admin/verbs/adminhelp.dm > Button for redirecting people to Mentorhelp
+- code/modules/client/client_procs.dm > Gives the mentorhelp verb
 - code/modules/client/preferences.dm > Preferences for antag tip enabling/disabling || Beefmen customization/preferences
 - code/modules/client/preferences_savefile.dm > Preference saving for antag tips || Beefmen customization/preferences
-- code/modules/client/client_procs.dm > Gives the mentorhelp verb
 - code/modules/mob/dead/new_player/new_player.dm > Plays ApproachingFulp instead of ApproachingTG
-- code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences || Makes Digitigrade shoes fit Digi Lizards.
 - code/modules/mob/living/carbon/human/examine.dm > Changes examine text for Beefmen || Added examining Bloodsuckers/Vassals || adds ShowAsPaleExamine()
+- code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences || Makes Digitigrade shoes fit Digi Lizards.
 - code/modules/surgery/bodyparts/_bodyparts.dm > Changes bodypart .dmi files for Beefmen
 - code/modules/jobs/jobs.dm > Adds Fulp jobs to GLOBAL_LIST_INIT(security_positions, list() & GLOBAL_LIST_INIT(security_sub_positions, list()
