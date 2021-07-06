@@ -1,5 +1,6 @@
 // In case you're confused - A lot of these lines came from Sec offiers/Prisoners from The Escapists.
 
+/// Warden bot
 /datum/customer_data/warden
 	prefix_file = "fulp_modules/features/prison_kitchen/warden_prefix.txt"
 	base_icon = "italian"
@@ -76,6 +77,7 @@
 	return underlays
 
 
+/// Prisoner bot
 /datum/customer_data/prisoner
 	prefix_file = "fulp_modules/features/prison_kitchen/prisoner_prefix.txt"
 	base_icon = "japanese"
