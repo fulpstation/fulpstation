@@ -93,8 +93,6 @@
 	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M))
 			continue
-		if(M.has_antag_datum(/datum/antagonist/vassal))
-			continue
 		to_chat(M, vampwarn)
 		if(M.current)
 			if(danger_level == 1)
@@ -110,6 +108,8 @@
 	if(vassalwarn != "")
 		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/vassal))
 			if(!istype(M))
+				continue
+			if(M.has_antag_datum(/datum/antagonist/bloodsucker))
 				continue
 			to_chat(M,vassalwarn)
 	if(hunteralert != "")
