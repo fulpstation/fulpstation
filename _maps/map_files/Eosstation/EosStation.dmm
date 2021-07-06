@@ -19539,11 +19539,11 @@
 /area/hallway/secondary/service)
 "dsz" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "rdtoxins";
-	name = "Toxins Lab Shutters"
-	},
 /obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "xeno_shutters";
+	name = "xeno research shutters"
+	},
 /turf/open/floor/plating,
 /area/science/nanite)
 "dsE" = (
@@ -70834,12 +70834,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/security/office)
-"oVL" = (
-/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_toxmix{
-	pixel_x = 29
-	},
-/turf/open/floor/engine,
-/area/science/mixing/chamber)
 "oVM" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -75305,10 +75299,10 @@
 /area/science/xenobiology)
 "pWq" = (
 /obj/structure/cable,
-/obj/structure/sign/warning/fire{
-	pixel_x = 32
-	},
 /obj/machinery/light/directional/east,
+/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_toxmix{
+	pixel_x = 29
+	},
 /turf/open/floor/iron,
 /area/science/mixing/chamber)
 "pWB" = (
@@ -98824,6 +98818,12 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/button/door/directional/south{
+	id = "xeno_shutters";
+	name = "xeno shutters control";
+	pixel_x = -28;
+	req_access_txt = "7"
+	},
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "vqA" = (
@@ -139937,7 +139937,7 @@ kOp
 shA
 twC
 vaD
-oVL
+vXm
 cvR
 twC
 cFp
