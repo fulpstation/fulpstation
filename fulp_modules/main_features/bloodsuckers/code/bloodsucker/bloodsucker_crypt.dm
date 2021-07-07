@@ -53,17 +53,14 @@
  * Books (Manuals)
  *
  *
- * 										NOTE:  Look up AI and Sentient Disease to see how the game handles the selector logo that only one player is allowed to see. We could add hud for vamps to that?
- *											   ALTERNATIVELY, use the Vamp Huds on relics to mark them, but only show to relevant vamps?
+ *	NOTE:  Look up AI and Sentient Disease to see how the game handles the selector logo that only one player is allowed to see. We could add hud for vamps to that?
+ *	ALTERNATIVELY, use the Vamp Huds on relics to mark them, but only show to relevant vamps?
  */
 
 /obj/structure/bloodsucker
 	var/mob/living/owner
 
 /*
-/obj/structure/bloodsucker/bloodthrone
-	name = "wicked throne"
-	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
 /obj/structure/bloodsucker/bloodaltar
 	name = "bloody altar"
 	desc = "It is made of marble, lined with basalt, and radiates an unnerving chill that puts your skin on edge."
@@ -79,6 +76,8 @@
 /obj/structure/bloodsucker/bloodmirror
 	name = "faded mirror"
 	desc = "You get the sense that the foggy reflection looking back at you has an alien intelligence to it."
+/obj/item/restraints/legcuffs/beartrap/bloodsucker
+//   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
 */
 
 /obj/structure/bloodsucker/vassalrack
@@ -286,7 +285,7 @@
 			tremere_perform_magic(user, C)
 			return
 		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
-		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS)
+		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS && (!(NOBLOOD in C.dna.species.species_traits)))
 			if(istype(V) && !B.my_favorite_vassal)
 				offer_ventrue_favorites(user, C)
 				return
@@ -294,7 +293,7 @@
 		unbuckle_mob(C)
 		useLock = FALSE
 		return
-	
+
 	/// Not our Vassal & We're a Bloodsucker, good to go!
 	torture_victim(user, C)
 
@@ -511,7 +510,6 @@
 			target.revive(full_heal = TRUE, admin_revive = TRUE)
 			H.set_species(/datum/species/zombie)
 			vassaldatum.mutilated = TRUE
-			return
 		/// Quick Feeding
 		if(TREMERE_HUSK)
 			to_chat(user, span_notice("You suck all the blood out of [target], turning them into a Living Husk!"))
@@ -521,7 +519,6 @@
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 			H.become_husk()
 			vassaldatum.mutilated = TRUE
-			return
 		/// Chance to give Bat form, or turn them into a bat.
 		if(TREMERE_BAT)
 			/// Ooh, lucky!
@@ -531,7 +528,6 @@
 				var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
 				target.AddSpell(batform)
 				vassaldatum.mutilated = TRUE
-				return
 			else
 				to_chat(user, span_notice("You have failed to mutate [target] into a Bat, forever trapping them into Bat form!"))
 				to_chat(target, span_notice("Your master has mutated you into a Bat!"))
@@ -539,12 +535,10 @@
 				target.mind.transfer_to(battransformation)
 				qdel(target)
 				vassaldatum.mutilated = TRUE
-				return
 
 	if(blood_gained)
 		user.blood_volume += blood_gained
 	to_chat(user, span_notice("You decide to leave your Vassal just the way they are."))
-	return
 
 /obj/structure/bloodsucker/vassalrack/proc/offer_ventrue_favorites(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -564,7 +558,7 @@
 			vassaldatum.favorite_vassal = TRUE
 			to_chat(user, span_danger("You have turned [target] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 			to_chat(user, span_announce("* Bloodsucker Tip: You can now upgrade your Vassal by buckling them onto a Candelabrum!"))
-			to_chat(target, span_announce("As Blood drips over your body, you feel closer to your Master..."))
+			to_chat(target, span_announce("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 			C.blood_volume -= 150
 			/// Make them immune to Mindshielding now
 			vassaldatum.update_vassal_icons_added(target, "vassal6")
@@ -708,9 +702,10 @@
 					user.blood_volume -= 550
 					bloodsuckerdatum.SpendVassalRank(C, FALSE)
 					return
-		// Neither? Shame. Goodbye!
-		to_chat(user, span_danger("You don't have any levels or enough Blood to Rank [C] up with."))
-		return
+		else
+			// Neither? Shame. Goodbye!
+			to_chat(user, "<span class='danger'>You don't have any levels or enough Blood to Rank [C] up with.</span>")
+			return
 
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(IS_BLOODSUCKER(user) || istype(T))
@@ -768,9 +763,138 @@
 	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
 	update_icon()
 
-/*
-/obj/item/restraints/legcuffs/beartrap/bloodsucker
-*/
+/// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
+/obj/structure/bloodsucker/bloodthrone
+	name = "wicked throne"
+	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj_64.dmi'
+	icon_state = "throne"
+	buckle_lying = 0
+	anchored = FALSE
+	density = TRUE
+	can_buckle = TRUE
+	var/mutable_appearance/armrest
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
+/obj/structure/bloodsucker/bloodthrone/examine(mob/user)
+	. = ..()
+	if(isobserver(user))
+		. += span_cult("This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals.")
+		. += span_cult("This can only be used when wrenched in, and can only be wrenched in place, in a Bloodsucker's base.")
+		return
+	if(IS_BLOODSUCKER(user))
+		. += span_cult("This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking.")
+	if(IS_VASSAL(user))
+		. += span_notice("This is a Blood throne, it allows your Master to telepathically speak to you and others like you.")
+
+// Add rotating and armrest
+/obj/structure/bloodsucker/bloodthrone/Initialize()
+	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE)
+	armrest = GetArmrest()
+	armrest.layer = ABOVE_MOB_LAYER
+	return ..()
+
+// Armrests
+/obj/structure/bloodsucker/bloodthrone/proc/GetArmrest()
+	return mutable_appearance('fulp_modules/main_features/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
+
+/obj/structure/bloodsucker/bloodthrone/proc/update_armrest()
+	if(has_buckled_mobs())
+		add_overlay(armrest)
+	else
+		cut_overlay(armrest)
+
+/obj/structure/bloodsucker/bloodthrone/Destroy()
+	QDEL_NULL(armrest)
+	return ..()
+
+// Rotating
+/obj/structure/bloodsucker/bloodthrone/setDir(newdir)
+	. = ..()
+	if(has_buckled_mobs())
+		for(var/m in buckled_mobs)
+			var/mob/living/buckled_mob = m
+			buckled_mob.setDir(newdir)
+
+	if(has_buckled_mobs() && dir == NORTH)
+		layer = ABOVE_MOB_LAYER
+	else
+		layer = OBJ_LAYER
+
+// Buckling
+/obj/structure/bloodsucker/bloodthrone/buckle_mob(mob/living/user, force = FALSE, check_loc = TRUE)
+	if(!anchored)
+		to_chat(user, span_announce("[src] is not bolted to the ground!"))
+		return
+	. = ..()
+	user.visible_message(span_notice("[user] sits down on [src]."), \
+			  		 span_boldnotice("You sit down onto [src]."))
+	if(IS_BLOODSUCKER(user))
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
+	else
+		user.Paralyze(6 SECONDS)
+		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
+		user.apply_damage(10, BRUTE)
+		unbuckle_mob(user)
+
+/obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/M)
+	. = ..()
+	update_armrest()
+	M.pixel_y += 6
+
+// Unbuckling
+/obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
+	src.visible_message(text("<span class='danger'>[user] unbuckles themselves from [src].</span>"))
+	if(IS_BLOODSUCKER(user))
+		UnregisterSignal(user, COMSIG_MOB_SAY)
+	. = ..()
+
+/obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/M)
+	M.pixel_y -= 6
+
+// Buckling people in
+/obj/structure/bloodsucker/bloodthrone/attackby(obj/item/P, mob/living/user, params)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return
+	if(P.tool_behaviour == TOOL_WRENCH && !anchored)
+		if(!bloodsuckerdatum.lair)
+			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
+			return
+		if(bloodsuckerdatum.lair != get_area(src))
+			to_chat(user, span_danger("You may only activate this structure in your lair: [bloodsuckerdatum.lair]."))
+			return
+		to_chat(user, span_notice("You start wrenching [src] into place."))
+		if(P.use_tool(src, user, 40, volume=50))
+			to_chat(user, span_notice("You wrench [src] into place."))
+			anchored = TRUE
+			return
+	if(P.tool_behaviour == TOOL_WRENCH && anchored)
+		to_chat(user, span_notice("You start unwrenching [src]"))
+		if(P.use_tool(src, user, 40, volume=50))
+			to_chat(user, span_notice("You unwrench [src]."))
+			anchored = FALSE
+			return
+	. = ..()
+
+// The speech itself
+/obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)
+	SIGNAL_HANDLER
+
+	var/message = speech_args[SPEECH_MESSAGE]
+	var/mob/living/carbon/human/user = source
+	var/rendered = span_cultbold("<b>[user.real_name]:</b> [message]")
+	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
+	for(var/mob/living/carbon/human/vassals in GLOB.player_list)
+		var/datum/antagonist/vassal/vassaldatum = vassals.mind.has_antag_datum(/datum/antagonist/vassal)
+		if(vassals == user) // Just so they can hear themselves speak.
+			to_chat(vassals, rendered)
+		if(!istype(vassaldatum))
+			continue
+		if(vassaldatum.master.owner == user.mind)
+			to_chat(vassals, rendered)
+
+	for(var/mob/dead_mob in GLOB.dead_mob_list)
+		var/link = FOLLOW_LINK(dead_mob, user)
+		to_chat(dead_mob, "[link] [rendered]")
+
+	speech_args[SPEECH_MESSAGE] = ""

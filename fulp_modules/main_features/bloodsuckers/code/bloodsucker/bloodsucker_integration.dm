@@ -77,7 +77,8 @@
 		return ""
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
+	var/datum/antagonist/bloodsucker/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
+	if(!bloodsuckerdatum || vassaldatum) // Adding check if you're a Vassal for Ventrue's Favorite Vassal
 		return ""
 	// Viewer is Target's Vassal?
 	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
