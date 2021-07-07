@@ -4,7 +4,8 @@
 /datum/customer_data/warden
 	prefix_file = "fulp_modules/features/prison_kitchen/warden_prefix.txt"
 	base_icon = "italian"
-	clothing_sets = list("italian_pison", "italian_godfather")
+	// We set a non-existant icon_state because TG's code REQUIRES we have one, but we set one ourselves later.
+	clothing_sets = list("iamnotreal")
 
 	friendly_pull_line = "Hey, don't touch me, asshole!"
 	first_warning_line = "Let me go, I have a laser gun, and I'm not afraid to open fire blindly!"
@@ -81,7 +82,7 @@
 /datum/customer_data/prisoner
 	prefix_file = "fulp_modules/features/prison_kitchen/prisoner_prefix.txt"
 	base_icon = "japanese"
-	clothing_sets = list("japanese_salary")
+	clothing_sets = list("iamnotreal")
 
 	friendly_pull_line = "I'm starving, I don't want to go with you."
 	first_warning_line = "Stop touching me, you'll regret it."
@@ -156,7 +157,7 @@
 /datum/customer_data/head_of_sec
 	prefix_file = "fulp_modules/features/prison_kitchen/hos_prefix.txt"
 	base_icon = "british"
-	clothing_sets = list("british_gentleman")
+	clothing_sets = list("iamnotreal")
 	is_unique = TRUE
 
 	friendly_pull_line = "Step away from me before I bagcheck you."
