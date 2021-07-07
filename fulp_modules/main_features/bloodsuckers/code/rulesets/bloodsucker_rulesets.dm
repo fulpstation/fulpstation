@@ -149,7 +149,7 @@
 	// Species Must have a HEART (Sorry Plasmamen)
 	var/mob/living/carbon/human/H = bloodsucker.current
 	if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
-		to_chat(creator, "<span class='danger'>[bloodsucker]'s DNA isn't compatible!</span>")
+		to_chat(creator, span_danger("[bloodsucker]'s DNA isn't compatible!"))
 		return FALSE
 	// Check for Fledgeling
 	if(creator)
@@ -178,22 +178,22 @@
 	// No Mind!
 	if(!target.mind)
 		if(display_warning)
-			to_chat(creator, "<span class='danger'>[target] isn't self-aware enough to be made into a Vassal.</span>")
+			to_chat(creator, span_danger("[target] isn't self-aware enough to be made into a Vassal."))
 		return FALSE
 	// Already MY Vassal
 	var/datum/antagonist/vassal/V = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(istype(V) && V.master)
 		if(V.master.owner == creator)
 			if(display_warning)
-				to_chat(creator, "<span class='danger'>[target] is already your loyal Vassal!</span>")
+				to_chat(creator, span_danger("[target] is already your loyal Vassal!"))
 		else
 			if(display_warning)
-				to_chat(creator, "<span class='danger'>[target] is the loyal Vassal of another Bloodsucker!</span>")
+				to_chat(creator, span_danger("[target] is the loyal Vassal of another Bloodsucker!"))
 		return FALSE
 	// Already Antag or Loyal (Vamp Hunters count as antags)
 	if(target.mind.enslaved_to || AmInvalidAntag(target.mind)) //!VassalCheckAntagValid(target.mind, check_antag_or_loyal)) // HAS_TRAIT(target, TRAIT_MINDSHIELD, "implant") ||
 		if(display_warning)
-			to_chat(creator, "<span class='danger'>[target] resists the power of your blood to dominate their mind!</span>")
+			to_chat(creator, span_danger("[target] resists the power of your blood to dominate their mind!"))
 		return FALSE
 	return TRUE
 

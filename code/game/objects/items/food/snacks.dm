@@ -52,7 +52,7 @@
 /obj/item/food/candy/bronx/examine(mob/user)
 	. = ..()
 	if(!revelation && !isobserver(user))
-		. += "<span class='notice'>Geeze, you need to get to get your eyes checked. You should look again...</span>"
+		. += span_notice("Geeze, you need to get to get your eyes checked. You should look again...")
 
 		name = "South Bronx Parasite bar"
 		desc = "Lose weight, guaranteed! Caramel Mocha Flavor! WARNING: PRODUCT NOT FIT FOR HUMAN CONSUMPTION. CONTAINS LIVE DIAMPHIDIA SPECIMENS."
@@ -178,9 +178,11 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 2)
 	tastes = list("peanuts" = 4, "anger" = 1)
 	foodtypes = JUNKFOOD | NUTS
+	custom_price = PAYCHECK_ASSISTANT * 0.8 //nuts are expensive in real life, and this is the best food in the vendor.
 	junkiness = 10 //less junky than other options, since peanuts are a decently healthy snack option
 	w_class = WEIGHT_CLASS_SMALL
 	grind_results = list(/datum/reagent/consumable/peanut_butter = 5, /datum/reagent/consumable/cooking_oil = 2)
+	var/safe_for_consumption = TRUE
 
 /obj/item/food/peanuts/salted
 	name = "\improper Gallery's salt reserves peanuts"
@@ -206,14 +208,31 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/bbqsauce = 1)
 	tastes = list("peanuts" = 3, "bbq sauce" = 1, "arguments" = 1)
 
+/obj/item/food/peanuts/ban_appeal
+	name = "\improper Gallery's peanuts Ban Appel mix"
+	desc = "An ill-fated attempt at trail mix, banned in 6 sectors. Yearly lobbying to overturn is denied not because the apples are toxic, but because they keep evading the ban."
+	food_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/toxin/cyanide = 1) //uses dried poison apples
+	tastes = list("peanuts" = 3, "apples" = 1, "regret" = 1)
+	safe_for_consumption = FALSE
+
 /obj/item/food/peanuts/random
 	name = "\improper Gallery's every-flavour peanuts"
 	desc = "What flavour will you get?"
 	icon_state = "peanuts"
+	safe_for_consumption = FALSE
+
+GLOBAL_LIST_INIT(safe_peanut_types, populate_safe_peanut_types())
+
+/proc/populate_safe_peanut_types()
+	. = list()
+	for(var/obj/item/food/peanuts/peanut_type as anything in subtypesof(/obj/item/food/peanuts))
+		if(!initial(peanut_type.safe_for_consumption))
+			continue
+		. += peanut_type
 
 /obj/item/food/peanuts/random/Initialize()
 	// Generate a sample p
-	var/peanut_type = pick(subtypesof(/obj/item/food/peanuts) - /obj/item/food/peanuts/random)
+	var/peanut_type = pick(GLOB.safe_peanut_types)
 	var/obj/item/food/sample = new peanut_type(loc)
 
 	name = sample.name
@@ -238,7 +257,7 @@
 
 /obj/item/food/cnds/suicide_act(mob/user)
 	. = ..()
-	user.visible_message("<span class='suicide'>[user] is letting [src] melt in [user.p_their()] hand! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	user.visible_message(span_suicide("[user] is letting [src] melt in [user.p_their()] hand! It looks like [user.p_theyre()] trying to commit suicide!"))
 	return TOXLOSS
 
 /obj/item/food/cnds/caramel
