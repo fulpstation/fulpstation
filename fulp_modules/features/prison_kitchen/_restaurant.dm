@@ -28,17 +28,18 @@
 		/datum/customer_data/japanese/salaryman = 10, // What da salaryman doin
 	)
 
-/datum/venue/restaurant/prison/New()
-	. = ..()
+/obj/machinery/restaurant_portal
+	/// Is this prison abandoned? Done via map varedits, making a subtype would make it a whole new restaurant, this is the only way to prevent hardcoding.
+	var/abandoned_portal = FALSE
 
-	if(restaurant_portal.abandoned_portal)
-		customer_types = list(
+/obj/machinery/restaurant_portal/restaurant/prison/Initialize()
+	. = ..()
+	if(abandoned_portal)
+		linked_venue.customer_types = list(
 			/datum/customer_data/japanese/salaryman = 10, // What da salaryman doin
 		)
 
 /obj/machinery/restaurant_portal/restaurant/prison
-	/// Is this prison abandoned?
-	var/abandoned_portal = FALSE
 	linked_venue = /datum/venue/restaurant/prison
 
 // Holosign projector
