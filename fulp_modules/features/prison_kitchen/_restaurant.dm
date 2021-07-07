@@ -20,6 +20,7 @@
 		/datum/customer_data/prisoner = 35,
 		/datum/customer_data/british/bobby = 30, // I guess they're also police?
 		/datum/customer_data/american = 30, // Americans love prisons
+		/datum/customer_data/head_of_sec = 25,
 		/datum/customer_data/italian = 20,
 		/datum/customer_data/mexican = 20,
 		/datum/customer_data/french = 15,
