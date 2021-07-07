@@ -49,3 +49,10 @@
 	icon = "theeldritchhorror"
 	desc = "This bar is praised for reasons far beyond your mortal understanding, but hey, the drinks are insane."
 	hidden = FALSE
+
+/datum/barsign/thecrimsonchalice
+	fulpbarsign = 'fulp_modules/features/barsigns/barsigns.dmi'
+	name = "The Crimson Chalice"
+	icon = "thecrimsonchalice"
+	desc = "A hive of unbridled hedonism. A roiling apiary where instinct and impulse can be indulged with wild abandon."
+	hidden = FALSE
