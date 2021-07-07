@@ -4,8 +4,8 @@
 #define TIME_BLOODSUCKER_NIGHT 600
 /// 1.5 minutes
 #define TIME_BLOODSUCKER_DAY_WARN 90
-/// 25 seconds
-#define TIME_BLOODSUCKER_DAY_FINAL_WARN 25
+/// 30 seconds
+#define TIME_BLOODSUCKER_DAY_FINAL_WARN 30
 /// 5 seconds
 #define TIME_BLOODSUCKER_BURN_INTERVAL 5
 
@@ -95,16 +95,17 @@
 			continue
 		to_chat(M, vampwarn)
 		if(M.current)
-			if(danger_level == 1)
-				M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
-			else if(danger_level == 2)
-				M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
-			else if(danger_level == 3)
-				M.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
-			else if(danger_level == 4)
-				M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
-			else if(danger_level == 5)
-				M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
+			switch(danger_level)
+				if(1)
+					M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
+				if(2)
+					M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
+				if(3)
+					M.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
+				if(4)
+					M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
+				if(5)
+					M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
 	if(vassalwarn != "")
 		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/vassal))
 			if(!istype(M))
