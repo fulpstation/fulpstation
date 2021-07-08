@@ -76,8 +76,6 @@
 		return
 	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE))
 		return
-	if(amSingleUse)
-		RemoveAfterUse()
 	PayCost()
 	UpdateButtonIcon()
 	if(!amToggle || !active)
@@ -88,6 +86,8 @@
 		ActivatePower() //We're doing this here because it has to be after 'active = !active'
 		return // Don't keep going down, or else it'll be Deactivated.
 	ActivatePower() // This is placed here so amToggle's can run and return before this occurs.
+	if(amSingleUse)
+		RemoveAfterUse()
 	if(active) // Did we not manually disable? Handle it here.
 		DeactivatePower()
 
@@ -180,11 +180,11 @@
 	..()
 
 /datum/action/bloodsucker/proc/PayCost()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
-	if(bloodsuckerdatum?.Frenzied)
-		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	if(bloodsuckerdatum)
+		// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
+		if(bloodsuckerdatum.Frenzied)
+			return
 		bloodsuckerdatum.AddBloodVolume(-bloodcost)
 	else
 		var/mob/living/carbon/human/H = owner
@@ -284,8 +284,7 @@
 		to_chat(owner, span_announce("[message_Trigger]"))
 
 /datum/action/bloodsucker/targeted/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	if(!owner.client) // <--- We don't allow non client usage so that using powers like mesmerize will FAIL if you try to use them as ghost. Why? because ranged_abvility in spell.dm
 		return FALSE //		doesn't let you remove powers if you're not there. So, let's just cancel the power entirely.

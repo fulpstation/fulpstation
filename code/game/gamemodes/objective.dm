@@ -965,13 +965,15 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/protect,
 		/datum/objective/jailbreak,
 		/datum/objective/jailbreak/detain,
-		/datum/objective/bloodsucker/lair, // Fulpstation Bloodsuckers edit
+		/datum/objective/bloodsucker/lair, // Fulpstation Bloodsuckers edit --
+		/datum/objective/bloodsucker/survive,
 		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/vassalhim,
 		/datum/objective/bloodsucker/gourmand,
-		/datum/objective/bloodsucker/survive,
-		/datum/objective/bloodsucker/monsterhunter, // Fulpstation edit ends
+		/datum/objective/bloodsucker/embrace,//Clan objective
+		/datum/objective/bloodsucker/frenzy,//Clan objective
+		/datum/objective/bloodsucker/monsterhunter, // Fulpstation edit ends --
 		/datum/objective/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,

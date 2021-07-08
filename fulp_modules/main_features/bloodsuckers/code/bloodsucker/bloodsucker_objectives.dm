@@ -179,7 +179,7 @@
 
 ///Eat blood from a lot of people
 /datum/objective/bloodsucker/gourmand
-	name = "blooddrinker"
+	name = "gourmand"
 
 // GENERATE!
 /datum/objective/bloodsucker/gourmand/New()
@@ -207,8 +207,48 @@
 
 /// Convert a crewmate
 /datum/objective/bloodsucker/embrace
+	name = "embrace"
 
-// HOW: Find crewmate. Check if person is a bloodsucker
+// EXPLANATION
+/datum/objective/bloodsucker/embrace/update_explanation_text()
+	. = ..()
+	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/embrace/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum || bloodsuckerdatum.my_clan != CLAN_VENTRUE)
+		return FALSE
+	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
+		if(vassaldatum.owner && vassaldatum.favorite_vassal)
+			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+				return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Enter Frenzy repeatedly
+/datum/objective/bloodsucker/frenzy
+	name = "frenzy"
+
+/datum/objective/bloodsucker/frenzy/New()
+	target_amount = rand(3,4)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/frenzy/update_explanation_text()
+	. = ..()
+	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/frenzy/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	if(bloodsuckerdatum.Frenzies >= target_amount)
+		return TRUE
+	return FALSE
+
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -280,6 +320,11 @@
 	name = "vassalhim"
 	var/target_role_type = FALSE
 
+/datum/objective/bloodsucker/vassalhim/New()
+	var/list/possible_targets = return_possible_targets()
+	find_target(possible_targets)
+//	find_target_by_role handles update_explanation_text.
+
 // FIND TARGET/GENERATE OBJECTIVE
 /datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
 	if(!invert)
@@ -333,23 +378,15 @@
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/monsterhunter/check_completion()
 	var/list/datum/mind/monsters = list()
-	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
-		if(C.mind)
-			var/datum/mind/UM = C.mind
-			if(UM.has_antag_datum(/datum/antagonist/changeling))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/heretic))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/cult))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
-				monsters += UM
+	for(var/mob/living/players in GLOB.alive_mob_list)
+		if(IS_HERETIC(players) || IS_CULTIST(players) || IS_BLOODSUCKER(players) || IS_WIZARD(players))
+			monsters += players
+		if(players?.mind?.has_antag_datum(/datum/antagonist/changeling))
+			monsters += players
+		if(players?.mind?.has_antag_datum(/datum/antagonist/wizard/apprentice))
+			monsters += players
 	for(var/datum/mind/M in monsters)
-		if(M && M != owner && M.current && M.current.stat != DEAD && get_turf(M.current))
+		if(M && M != owner && M.current.stat != DEAD)
 			return FALSE
 	return TRUE
 
