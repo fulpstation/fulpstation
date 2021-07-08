@@ -235,7 +235,7 @@
 
 /// Lizard bot
 /datum/customer_data/xarsee
-	prefix_file = "fulp_modules/features/prison_kitchen/lizard_prefix.txt"
+	prefix_file = "strings/names/lizard_male.txt" // I really can't be arsed.
 	base_icon = "british"
 	clothing_sets = list("iamnotreal")
 
