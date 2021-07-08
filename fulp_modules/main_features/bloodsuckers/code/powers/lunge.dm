@@ -113,9 +113,9 @@
 			return
 		/// Good to go!
 		target.Stun(10 + level_current * 5)
-		// Instantly aggro grab them
+		// Instantly aggro grab them if they don't have riot gear.
 		target.grabbedby(owner)
-		if(!target.is_shove_knockdown_blocked()) // If they aren't wearing Riot armor, we'll instantly aggro grab them.
+		if(!target.is_shove_knockdown_blocked())
 			target.grippedby(owner, instant = TRUE)
 		// Did we knock them down?
 		if(do_knockdown && level_current >= 3)
