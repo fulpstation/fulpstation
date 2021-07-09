@@ -9034,6 +9034,9 @@
 /turf/open/floor/iron/white/side,
 /area/commons/dorms)
 "aDk" = (
+/obj/machinery/requests_console/directional/south{
+	name = "Dorms Requests Console"
+	},
 /turf/open/floor/iron/white/corner{
 	dir = 8
 	},
@@ -16351,6 +16354,9 @@
 	},
 /obj/item/kirbyplants/random,
 /obj/effect/turf_decal/tile/brown,
+/obj/machinery/requests_console/directional/north{
+	name = "Commissary Requests Console"
+	},
 /turf/open/floor/iron,
 /area/commons/vacant_room/commissary)
 "bgZ" = (
@@ -17581,22 +17587,13 @@
 /turf/open/floor/iron/dark,
 /area/science/robotics/lab)
 "blM" = (
-/obj/machinery/rnd/server,
-/obj/structure/sign/poster/random{
-	pixel_y = 32
-	},
-/turf/open/floor/circuit/telecomms/server,
-/area/science/server)
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/maintenance/department/security/brig)
 "blN" = (
-/obj/machinery/light{
-	dir = 1;
-	light_color = "#c1caff"
-	},
-/obj/structure/sign/poster/random{
-	pixel_y = 32
-	},
-/turf/open/floor/iron/dark/telecomms,
-/area/science/server)
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
 "blP" = (
 /obj/effect/landmark/event_spawn,
 /obj/machinery/light{
@@ -17816,26 +17813,20 @@
 	},
 /turf/open/floor/iron/dark,
 /area/science/robotics/lab)
-"bmS" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 4;
-	external_pressure_bound = 120;
-	name = "server vent"
-	},
-/turf/open/floor/circuit/telecomms/server,
-/area/science/server)
 "bmT" = (
-/obj/machinery/atmospherics/pipe/smart/manifold/general/visible{
-	dir = 1
+/obj/machinery/light{
+	dir = 1;
+	light_color = "#c1caff"
+	},
+/obj/structure/sign/poster/random{
+	pixel_y = 32
 	},
 /turf/open/floor/iron/dark/telecomms,
 /area/science/server)
 "bmU" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	external_pressure_bound = 140;
-	name = "server vent";
-	pressure_checks = 0
+/obj/machinery/rnd/server,
+/obj/structure/sign/poster/random{
+	pixel_y = 32
 	},
 /turf/open/floor/circuit/telecomms/server,
 /area/science/server)
@@ -18023,17 +18014,18 @@
 /turf/open/floor/iron/dark,
 /area/science/robotics/lab)
 "bnT" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/iron/dark,
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 4;
+	external_pressure_bound = 120;
+	name = "server vent"
+	},
+/turf/open/floor/circuit/telecomms/server,
 /area/science/server)
 "bnU" = (
-/obj/machinery/door/airlock/command/glass{
-	name = "Server Room";
-	req_access_txt = "30"
+/obj/machinery/atmospherics/pipe/smart/manifold/general/visible{
+	dir = 1
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/obj/machinery/door/firedoor,
-/turf/open/floor/iron/dark,
+/turf/open/floor/iron/dark/telecomms,
 /area/science/server)
 "bnW" = (
 /obj/machinery/door/poddoor/preopen{
@@ -18319,25 +18311,11 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark,
 /area/science/robotics/lab)
-"bpa" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer/on{
-	dir = 4
-	},
-/turf/open/floor/iron/dark,
-/area/science/server)
 "bpb" = (
 /turf/open/floor/iron/dark,
 /area/science/server)
 "bpc" = (
-/obj/machinery/computer/rdservercontrol{
-	dir = 8
-	},
-/obj/effect/decal/cleanable/cobweb/cobweb2,
-/obj/machinery/camera{
-	c_tag = "Server Room";
-	network = list("ss13","rd");
-	pixel_x = 22
-	},
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/iron/dark,
 /area/science/server)
 "bpd" = (
@@ -18683,13 +18661,21 @@
 /turf/open/floor/iron/dark,
 /area/science/robotics/lab)
 "bql" = (
-/obj/machinery/firealarm/directional/west,
+/obj/machinery/atmospherics/components/binary/thermomachine/freezer/on{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/science/server)
 "bqn" = (
-/obj/structure/table,
-/obj/item/folder/white,
-/obj/item/pen,
+/obj/machinery/computer/rdservercontrol{
+	dir = 8
+	},
+/obj/effect/decal/cleanable/cobweb/cobweb2,
+/obj/machinery/camera{
+	c_tag = "Server Room";
+	network = list("ss13","rd");
+	pixel_x = 22
+	},
 /turf/open/floor/iron/dark,
 /area/science/server)
 "bqo" = (
@@ -19226,9 +19212,9 @@
 /turf/open/floor/iron/white,
 /area/science/robotics/lab)
 "brF" = (
-/obj/structure/chair/office{
-	dir = 1
-	},
+/obj/structure/table,
+/obj/item/folder/white,
+/obj/item/pen,
 /turf/open/floor/iron/dark,
 /area/science/server)
 "brG" = (
@@ -30578,7 +30564,7 @@
 	},
 /obj/machinery/requests_console{
 	announcementConsole = 1;
-	department = "Telecomms Admin";
+	department = "Telecomms";
 	departmentType = 5;
 	name = "Telecomms RC";
 	pixel_y = 30
@@ -33564,6 +33550,12 @@
 	},
 /turf/open/floor/plating,
 /area/science/xenobiology)
+"dne" = (
+/obj/machinery/space_heater,
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/department/engine)
 "dok" = (
 /obj/effect/turf_decal/trimline/green/line{
 	dir = 4
@@ -34937,6 +34929,9 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/iron/white,
 /area/medical/psychology)
+"fOv" = (
+/turf/open/floor/plating,
+/area/science/server)
 "fQd" = (
 /obj/machinery/conveyor{
 	id = "CargoLoad"
@@ -35290,6 +35285,12 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/psychology)
+"gut" = (
+/obj/machinery/space_heater,
+/turf/open/floor/plating{
+	luminosity = 2
+	},
+/area/maintenance/department/science)
 "guS" = (
 /obj/structure/table/reinforced,
 /obj/item/folder/blue,
@@ -36458,6 +36459,15 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/hallway/primary/central)
+"iAx" = (
+/obj/machinery/door/airlock/command/glass{
+	name = "Server Room";
+	req_access_txt = "30"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/firedoor,
+/turf/open/floor/iron/dark,
+/area/science/server)
 "iBq" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/layer_manifold,
@@ -36731,6 +36741,9 @@
 	dir = 4;
 	pixel_x = -12;
 	pixel_y = 2
+	},
+/obj/machinery/requests_console/directional/west{
+	name = "Abandoned Bar Requests Console"
 	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg3"
@@ -37062,6 +37075,10 @@
 	},
 /turf/open/floor/engine,
 /area/engineering/supermatter)
+"jOf" = (
+/obj/structure/girder,
+/turf/open/floor/plating,
+/area/science/server)
 "jOw" = (
 /obj/structure/table/wood/fancy,
 /obj/structure/sign/painting/library_secure{
@@ -37753,6 +37770,13 @@
 /obj/machinery/light/dim,
 /turf/open/floor/iron/dark,
 /area/service/library/artgallery)
+"laJ" = (
+/obj/machinery/firealarm/directional/west,
+/obj/structure/chair/office{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
+/area/science/server)
 "lba" = (
 /obj/structure/flora/junglebush,
 /obj/structure/flora/ausbushes/brflowers,
@@ -41210,6 +41234,10 @@
 	},
 /turf/open/floor/iron,
 /area/maintenance/disposal)
+"rtV" = (
+/obj/effect/loot_site_spawner,
+/turf/open/floor/plating,
+/area/science/server)
 "rud" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
@@ -41385,6 +41413,15 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/storage)
+"rDc" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 8;
+	external_pressure_bound = 140;
+	name = "server vent";
+	pressure_checks = 0
+	},
+/turf/open/floor/circuit/telecomms/server,
+/area/science/server)
 "rEh" = (
 /obj/structure/table/glass,
 /obj/item/restraints/handcuffs/cable/zipties,
@@ -42314,6 +42351,12 @@
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
+"tkG" = (
+/obj/machinery/space_heater,
+/turf/open/floor/plating{
+	icon_state = "platingdmg1"
+	},
+/area/maintenance/department/cargo)
 "tlc" = (
 /obj/machinery/recharger,
 /obj/structure/table,
@@ -63137,7 +63180,7 @@ auu
 aiu
 ekU
 aiu
-ajD
+blM
 ajD
 ajD
 nPA
@@ -63381,7 +63424,7 @@ afU
 ajG
 akw
 all
-ajD
+blM
 aiu
 ajD
 apB
@@ -67552,7 +67595,7 @@ aYG
 aYG
 eUe
 bva
-bDi
+bTl
 bsn
 bws
 byb
@@ -69131,7 +69174,7 @@ bva
 iEQ
 bSw
 ccN
-bSw
+dne
 bva
 bva
 gkX
@@ -78097,7 +78140,7 @@ bBX
 bva
 bSq
 bDi
-bDi
+bTl
 bva
 bAl
 bIu
@@ -83428,7 +83471,7 @@ aiS
 aob
 eaw
 ajv
-ajv
+aqZ
 cnX
 aiS
 aju
@@ -83734,14 +83777,14 @@ bgJ
 bhn
 bhV
 beI
-aKq
+aFi
+jOf
 bkx
-blM
-bmS
+bmU
 bnT
-bpa
+bpc
 bql
-bpb
+laJ
 bkx
 buw
 bvM
@@ -83991,12 +84034,12 @@ beI
 bhp
 beI
 beI
-pKd
+aFi
+rtV
 bkx
-blN
 bmT
 bnU
-bpb
+iAx
 bpb
 bpb
 btf
@@ -84249,10 +84292,10 @@ mri
 aFi
 bix
 aFi
+fOv
 bkx
-blM
 bmU
-bnT
+rDc
 bpc
 bqn
 brF
@@ -90410,7 +90453,7 @@ sut
 aaa
 aaa
 aEj
-aFi
+blN
 bfM
 aEj
 kSG
@@ -90643,7 +90686,7 @@ atn
 aGP
 aFi
 aFi
-aFi
+blN
 aEj
 aMD
 aEj
@@ -91723,7 +91766,7 @@ bwm
 izF
 izF
 bwm
-izF
+gut
 bwm
 dMI
 lWy
@@ -94788,7 +94831,7 @@ xyh
 bbP
 jYA
 aEj
-ops
+tkG
 qJB
 ops
 bkF
