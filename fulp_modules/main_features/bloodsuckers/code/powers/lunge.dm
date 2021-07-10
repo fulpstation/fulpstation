@@ -89,6 +89,7 @@
 			consequetive_failures = 0
 	/// It ended? Let's get our target now.
 	lunge_end(target)
+	PowerActivatedSuccessfully()
 
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner
@@ -104,16 +105,17 @@
 		if(IS_MONSTERHUNTER(target))
 			to_chat(owner, span_warning("You get pushed away as you advance, and fail to get a strong grasp!"))
 			target.grabbedby(owner)
-			/// We're ending this early, let the Bloodsucker move again.
-			REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 			return
 
 		to_chat(owner, span_warning("You lunge at [target] in attempts to grab them!"))
+		if(!user.body_position == STANDING_UP)
+			to_chat(owner, span_warning("You slip mid-lunge and fall over!"))
+			return
 		/// Good to go!
 		target.Stun(10 + level_current * 5)
-		/// Instantly aggro grab them
+		// Instantly aggro grab them if they don't have riot gear.
 		target.grabbedby(owner)
-		if(!target.is_shove_knockdown_blocked()) // If they aren't wearing Riot armor, we'll instantly aggro grab them.
+		if(!target.is_shove_knockdown_blocked())
 			target.grippedby(owner, instant = TRUE)
 		// Did we knock them down?
 		if(do_knockdown && level_current >= 3)
@@ -135,8 +137,7 @@
 				to_chat(owner, span_warning("You tear [myheart_now] out of [target]!"))
 			else
 				to_chat(user, span_notice("[target] doesn't have a heart to rip out!"))
-	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-	/// Lastly, did we get knocked down by the time we did this?
+	// Lastly, did we get knocked down by the time we did this?
 	if(user && user.incapacitated())
 		if(!(user.body_position == LYING_DOWN))
 			var/send_dir = get_dir(user, T)
