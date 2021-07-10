@@ -39,3 +39,9 @@
 	name = "The Eldritch Horror"
 	icon = "theeldritchhorror"
 	desc = "This bar is praised for reasons far beyond your mortal understanding, but hey, the drinks are insane."
+
+/datum/barsign/fulp/thecrimsonchalice
+	name = "The Crimson Chalice"
+	icon = "thecrimsonchalice"
+	desc = "A hive of unbridled hedonism. A roiling apiary where instinct and impulse can be indulged with wild abandon."
+  
