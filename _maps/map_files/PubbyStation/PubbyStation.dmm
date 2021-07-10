@@ -1968,6 +1968,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
 	},
+/obj/machinery/flasher/directional/south{
+	id = "Cell 1";
+	pixel_y = 26
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "agM" = (
@@ -2205,6 +2209,19 @@
 /obj/structure/table,
 /obj/item/melee/chainofcommand,
 /obj/item/melee/baton,
+/obj/machinery/button/flasher{
+	id = "Cell 3";
+	name = "Prisoner Flash";
+	pixel_x = -7;
+	pixel_y = 26
+	},
+/obj/machinery/button/door/directional/west{
+	id = "permashut3";
+	name = "Cell Lockdown Button";
+	pixel_x = 6;
+	pixel_y = 26;
+	req_access_txt = "2"
+	},
 /turf/open/floor/iron,
 /area/security/prison)
 "ahL" = (
@@ -2541,6 +2558,7 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron,
 /area/security/prison)
 "aiL" = (
@@ -14064,6 +14082,22 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/storage)
+"aVD" = (
+/obj/machinery/button/flasher{
+	id = "Cell 2";
+	name = "Prisoner Flash";
+	pixel_x = -7;
+	pixel_y = 26
+	},
+/obj/machinery/button/door/directional/west{
+	id = "permashut2";
+	name = "Cell Lockdown Button";
+	pixel_x = 6;
+	pixel_y = 26;
+	req_access_txt = "2"
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "aVI" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -34986,15 +35020,19 @@
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
 "cMa" = (
-/obj/machinery/door/airlock/security/glass{
-	name = "Long-Term Cell 2";
-	req_access_txt = "2"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/door/airlock/security/glass{
+	id_tag = "permashut2";
+	name = "Permabrig Cell 2";
+	req_access_txt = "2"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/security/prison/safe)
 "cMl" = (
@@ -36256,6 +36294,10 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/poddoor/preopen{
+	id = "permashut3"
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "ekU" = (
@@ -36627,14 +36669,18 @@
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "eGF" = (
-/obj/machinery/door/airlock/security/glass{
-	name = "Long-Term Cell 1";
-	req_access_txt = "2"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/door/airlock/security/glass{
+	id_tag = "permashut1";
+	name = "Permabrig Cell 1";
+	req_access_txt = "2"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/security/prison/safe)
 "eGT" = (
@@ -36673,6 +36719,10 @@
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/poddoor/preopen{
+	id = "permashut2"
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "eIL" = (
@@ -43612,6 +43662,22 @@
 /obj/item/pen/blue,
 /turf/open/floor/wood,
 /area/service/lawoffice)
+"mpH" = (
+/obj/machinery/button/flasher{
+	id = "Cell 1";
+	name = "Prisoner Flash";
+	pixel_x = -7;
+	pixel_y = 26
+	},
+/obj/machinery/button/door/directional/west{
+	id = "permashut1";
+	name = "Cell Lockdown Button";
+	pixel_x = 6;
+	pixel_y = 26;
+	req_access_txt = "2"
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "mpU" = (
 /obj/structure/table,
 /obj/effect/spawner/lootdrop/maintenance,
@@ -44666,6 +44732,16 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/closed/wall/r_wall,
 /area/science/mixing)
+"nsO" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/obj/machinery/flasher/directional/south{
+	id = "Cell 2";
+	pixel_y = 26
+	},
+/turf/open/floor/iron,
+/area/security/prison/safe)
 "nta" = (
 /obj/machinery/door/airlock/maintenance{
 	req_access_txt = "12"
@@ -46148,14 +46224,18 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "oQr" = (
-/obj/machinery/door/airlock/security/glass{
-	name = "Long-Term Cell 3";
-	req_access_txt = "2"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/door/airlock/security/glass{
+	id_tag = "permashut3";
+	name = "Permabrig Cell 3";
+	req_access_txt = "2"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/security/prison/safe)
 "oRl" = (
@@ -49152,6 +49232,12 @@
 	},
 /turf/open/floor/plating,
 /area/construction/mining/aux_base)
+"rKf" = (
+/obj/machinery/computer/security/telescreen/prison{
+	pixel_y = 28
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "rKh" = (
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
@@ -52036,6 +52122,10 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/poddoor/preopen{
+	id = "permashut1"
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "uxx" = (
@@ -53257,6 +53347,16 @@
 	},
 /turf/open/floor/iron/dark,
 /area/service/chapel/main/monastery)
+"vFP" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/obj/machinery/flasher/directional/south{
+	id = "Cell 3";
+	pixel_y = 26
+	},
+/turf/open/floor/iron,
+/area/security/prison/safe)
 "vFZ" = (
 /obj/structure/chair/wood{
 	dir = 1
@@ -53943,7 +54043,7 @@
 	dir = 1
 	},
 /obj/structure/punching_bag,
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/light/no_nightlight/directional/north,
 /turf/open/floor/iron,
 /area/security/prison)
 "wkM" = (
@@ -54038,6 +54138,7 @@
 "woO" = (
 /obj/structure/urinal/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron/freezer,
 /area/security/prison/toilet)
 "woX" = (
@@ -76118,7 +76219,7 @@ ahp
 agL
 agZ
 ahp
-aiF
+mpH
 sdE
 aiC
 ajc
@@ -76375,7 +76476,7 @@ ahp
 agM
 agX
 ahp
-aiF
+rKf
 sdE
 aiC
 ajc
@@ -77143,10 +77244,10 @@ wHD
 kLJ
 wbB
 ahp
-agL
+nsO
 agZ
 ahp
-aiF
+aVD
 sdE
 wFM
 aen
@@ -77403,7 +77504,7 @@ ahp
 agM
 fRl
 ahp
-aiF
+rKf
 jng
 jng
 cxn
@@ -78171,7 +78272,7 @@ aiF
 agd
 agp
 ahp
-agL
+vFP
 agZ
 ahp
 ahK
