@@ -2958,7 +2958,7 @@
 /obj/machinery/door/airlock/security{
 	aiControlDisabled = 1;
 	name = "Crematorium";
-	req_access_txt = "3;27"
+	req_one_access_txt = "3;27"
 	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
@@ -4760,9 +4760,8 @@
 /area/security/warden)
 "aoX" = (
 /obj/structure/rack,
-/obj/item/crowbar,
-/obj/item/wrench,
 /obj/item/laser_pointer/red,
+/obj/item/storage/toolbox/drone,
 /turf/open/floor/iron/showroomfloor,
 /area/security/warden)
 "aoY" = (
@@ -5040,6 +5039,11 @@
 /obj/machinery/mineral/ore_redemption{
 	input_dir = 4;
 	output_dir = 8
+	},
+/obj/machinery/door/firedoor,
+/obj/machinery/door/window/eastleft{
+	dir = 8;
+	name = "Ore Redemtion Window"
 	},
 /turf/open/floor/iron,
 /area/cargo/office)
@@ -34627,14 +34631,16 @@
 /turf/open/floor/iron/dark,
 /area/service/library)
 "czO" = (
-/obj/structure/table/wood,
-/obj/item/instrument/saxophone,
+/obj/machinery/modular_computer/console/preset/curator{
+	dir = 1
+	},
 /turf/open/floor/iron/dark,
 /area/service/library)
 "czP" = (
 /obj/structure/table/wood,
 /obj/item/stack/package_wrap,
 /obj/item/coin/gold,
+/obj/item/instrument/saxophone,
 /turf/open/floor/iron/dark,
 /area/service/library)
 "czQ" = (
@@ -35517,6 +35523,11 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/explab)
+"dkU" = (
+/obj/effect/turf_decal/stripes/white/line,
+/obj/effect/landmark/start/prisoner,
+/turf/open/floor/iron,
+/area/security/prison)
 "dlS" = (
 /obj/machinery/status_display/evac{
 	pixel_x = -32
@@ -36515,6 +36526,10 @@
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron/dark/telecomms,
 /area/tcommsat/server)
+"epk" = (
+/obj/machinery/light/no_nightlight/directional/west,
+/turf/open/floor/iron/freezer,
+/area/security/prison/toilet)
 "epJ" = (
 /obj/structure/sign/poster/contraband/random{
 	pixel_y = 32
@@ -38281,6 +38296,10 @@
 	dir = 1
 	},
 /area/hallway/secondary/exit/departure_lounge)
+"fUJ" = (
+/obj/machinery/light/no_nightlight/directional/south,
+/turf/open/floor/iron/freezer,
+/area/security/prison/toilet)
 "fVi" = (
 /obj/machinery/space_heater,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -40379,6 +40398,10 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/command/teleporter)
+"igs" = (
+/obj/effect/landmark/start/prisoner,
+/turf/open/floor/iron,
+/area/security/prison)
 "igu" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -41054,6 +41077,15 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
+"iXt" = (
+/obj/structure/chair/stool/bar/directional/south,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/landmark/start/prisoner,
+/turf/open/floor/iron/white,
+/area/security/prison)
 "iYH" = (
 /obj/machinery/door/airlock/mining/glass{
 	name = "Cargo Bay";
@@ -43524,6 +43556,7 @@
 /area/maintenance/department/engine)
 "lPO" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/effect/landmark/start/prisoner,
 /turf/open/floor/iron/chapel{
 	dir = 1
 	},
@@ -44325,6 +44358,11 @@
 	},
 /turf/open/floor/grass,
 /area/science/genetics)
+"mKa" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/effect/landmark/start/prisoner,
+/turf/open/floor/iron,
+/area/security/prison)
 "mKc" = (
 /obj/structure/bookcase/random/nonfiction,
 /turf/open/floor/iron/dark,
@@ -47475,6 +47513,14 @@
 	},
 /turf/open/floor/iron/freezer,
 /area/medical/virology)
+"pOd" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/effect/landmark/start/prisoner,
+/turf/open/floor/iron,
+/area/security/prison)
 "pOs" = (
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 9
@@ -50586,6 +50632,7 @@
 	c_tag = "Permabrig - Cell 3";
 	network = list("ss13","prison")
 	},
+/obj/effect/landmark/start/prisoner,
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "sLv" = (
@@ -53565,6 +53612,13 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/psychology)
+"vso" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
+	},
+/obj/effect/landmark/start/prisoner,
+/turf/open/floor/iron,
+/area/security/prison/safe)
 "vsq" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Chapel"
@@ -74883,7 +74937,7 @@ aaa
 aaa
 aOn
 fzz
-ygc
+fUJ
 lvq
 aOn
 aOn
@@ -75142,7 +75196,7 @@ aOn
 fzz
 ygc
 vDq
-ygc
+epk
 uUE
 afU
 lem
@@ -76423,7 +76477,7 @@ adE
 dfu
 wxa
 ubq
-dJp
+iXt
 aep
 uGE
 agy
@@ -76690,7 +76744,7 @@ aiF
 wbB
 ahp
 agL
-agZ
+vso
 ahp
 yjF
 sdE
@@ -76943,7 +76997,7 @@ aeD
 agy
 wkA
 ahF
-aiF
+igs
 lYA
 ahp
 agM
@@ -77718,7 +77772,7 @@ kLJ
 wbB
 ahp
 vaF
-agZ
+vso
 ahp
 orp
 sdE
@@ -78480,7 +78534,7 @@ aiF
 cTq
 agy
 toR
-rnm
+mKa
 kBD
 agy
 afr
@@ -78732,7 +78786,7 @@ flR
 ahp
 vTg
 rnm
-wHD
+pOd
 iFG
 rqQ
 agy
@@ -78742,7 +78796,7 @@ btA
 agy
 afs
 aiF
-agd
+dkU
 agp
 ahp
 sKL
