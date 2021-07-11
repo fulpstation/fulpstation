@@ -35,5 +35,4 @@
 	icon_state = "eggsausage"
 	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 8, /datum/reagent/consumable/nutriment/vitamin = 2, /datum/reagent/consumable/nutriment = 4)
 	foodtypes = MEAT | FRIED | BREAKFAST
-	venue_value = FOOD_PRICE_NORMAL
 	tastes = list("egg" = 4, "meat" = 4)

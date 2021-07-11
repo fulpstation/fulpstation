@@ -134,17 +134,9 @@
 	new /obj/item/clothing/suit/hooded/wintercoat/security/pris(src)
 	. = ..()
 
-
 /// Techtrees
-/datum/techweb_node/adv_engi/New() // Digi magboots
+/datum/techweb_node/adv_engi/New()
 	design_ids += list("digi_magboots")
-
-/datum/techweb_node/emp_basic/New() // Prisoner restaurant stuff - Only pre-built on Helio (For now)
-	design_ids += list(
-		"holosignprisonrestaurant",
-		"prison_restaurant_portal",
-	)
-
 
 /// Mining Equipment Vendor
 /obj/machinery/mineral/equipment_vendor/Initialize()
