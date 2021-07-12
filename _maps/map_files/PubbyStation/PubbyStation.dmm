@@ -28566,8 +28566,14 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
-/obj/machinery/airalarm/directional/west,
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching the engine containment area.";
+	dir = 4;
+	name = "Engine Monitor";
+	network = list("engine");
+	pixel_x = -32
+	},
 /turf/open/floor/iron,
 /area/security/checkpoint/engineering)
 "bUW" = (
@@ -28935,7 +28941,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/engineering/break_room)
 "bVV" = (
@@ -29139,13 +29147,6 @@
 /area/engineering/engine_smes)
 "bWz" = (
 /obj/structure/table,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the engine containment area.";
-	dir = 8;
-	name = "Engine Monitor";
-	network = list("engine");
-	pixel_x = 32
-	},
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
@@ -29172,13 +29173,6 @@
 /area/engineering/engine_smes)
 "bWA" = (
 /obj/structure/filingcabinet,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the engine containment area.";
-	dir = 4;
-	name = "Engine Monitor";
-	network = list("engine");
-	pixel_x = -32
-	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
@@ -29186,6 +29180,7 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/iron,
 /area/security/checkpoint/engineering)
 "bWB" = (
@@ -42390,9 +42385,6 @@
 	},
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/turf_decal/delivery,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 8
-	},
 /obj/machinery/newscaster/directional/east,
 /turf/open/floor/iron,
 /area/engineering/break_room)
@@ -52076,6 +52068,13 @@
 "uco" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching the engine containment area.";
+	dir = 1;
+	name = "Engine Monitor";
+	network = list("engine");
+	pixel_y = -32
+	},
 /turf/open/floor/iron,
 /area/engineering/main)
 "ucA" = (
