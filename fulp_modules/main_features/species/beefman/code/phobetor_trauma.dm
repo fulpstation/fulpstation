@@ -1,23 +1,30 @@
-//Procs first
-/proc/check_location_seen(atom/subject, turf/T)
-	if (!isturf(T)) // Only check if I wasn't given a locker or something
+/**
+ * Used as a helper that checks if a turf is being seen.
+ * Returns TRUE if the next checks all pass:
+ * The mobs in view aren't the subject, the mobs in view have a mind, the mobs don't have silicon privileges and the mobs aren't blind.
+ * Arguments:
+ * * mob/subject - Serves only to check if the mobs seeing the turf aren't the subject.
+ * * turf/turfs - The turfs that might or might not be getting seen.
+ */
+/proc/check_location_seen(mob/subject, turf/turfs)
+	if (!isturf(turfs)) // Only check if I wasn't given a locker or something
 		return FALSE
-	// A) Check for Darkness
-	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
-		// B) Check for Viewers
-		for(var/mob/living/M in viewers(T))
-			if(M != subject && isliving(M) && M.mind && !M.has_unlimited_silicon_privilege && !M.eye_blind) // M.client <--- add this in after testing!
+	if(turfs && turfs.lighting_object && turfs.get_lumcount()>= 0.1)
+		for(var/mob/living/mobs_in_view in viewers(turfs))
+			if(mobs_in_view != subject && mobs_in_view.mind && !mobs_in_view.has_unlimited_silicon_privilege && !mobs_in_view.eye_blind)
 				return TRUE
 	return FALSE
 
-/proc/return_valid_floor_in_range(atom/A, checkRange = 8, minRange = 0, checkFloor = TRUE)
+
+/// Used as a helper that returns a valid turf in a certain range.
+/proc/return_valid_floor_in_range(atom/checked_atom, checkRange = 8, minRange = 0, checkFloor = TRUE)
 	// FAIL: Atom doesn't exist. Aren't you real?
-	if (!istype(A))
+	if (!istype(checked_atom))
 		return null
 
 	var/deltaX = rand(minRange,checkRange)*pick(-1,1)
 	var/deltaY = rand(minRange,checkRange)*pick(-1,1)
-	var/turf/center = get_turf(A)
+	var/turf/center = get_turf(checked_atom)
 
 	var/target = locate((center.x + deltaX),(center.y + deltaY),center.z)
 
@@ -120,8 +127,8 @@
 
 //Called when removed from a mob
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
-	for (var/BT in created_firsts)
-		qdel(BT)
+	for (var/tears in created_firsts)
+		qdel(tears)
 
 /obj/effect/hallucination/simple/phobetor
 	name = "phobetor tear"
@@ -162,5 +169,6 @@
 	if (linked_to)
 		linked_to.linked_to = null
 		qdel(linked_to)
+	seer = null
 		// WHY DO THIS?	Because our trauma only gets rid of all the FIRST gates created.
 	. = ..()

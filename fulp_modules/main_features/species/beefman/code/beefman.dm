@@ -53,13 +53,13 @@
 	burns_desc = "searing"
 	cellulardamage_desc = "meat degradation"
 
-	// bodypart_overides = list(
-	// BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,
-	// BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,
-	// BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,
-	// BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,
-	// BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,
-	// BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef)
+	bodypart_overides = list(
+	BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,
+	BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,
+	BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,
+	BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,
+	BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,
+	BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef)
 
 
 	var/dehydrate = 0
@@ -91,13 +91,13 @@
 	fixed_mut_color = user.dna.features["beefcolor"]
 	default_color = fixed_mut_color
 
-	// user.part_default_head = /obj/item/bodypart/head/beef
-	// user.part_default_chest = /obj/item/bodypart/chest/beef
-	// user.part_default_l_arm = /obj/item/bodypart/l_arm/beef
-	// user.part_default_r_arm = /obj/item/bodypart/r_arm/beef
-	// user.part_default_l_leg = /obj/item/bodypart/l_leg/beef
-	// user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
-	// user.ReassignForeignBodyparts()
+	user.part_default_head = /obj/item/bodypart/head/beef
+	user.part_default_chest = /obj/item/bodypart/chest/beef
+	user.part_default_l_arm = /obj/item/bodypart/l_arm/beef
+	user.part_default_r_arm = /obj/item/bodypart/r_arm/beef
+	user.part_default_l_leg = /obj/item/bodypart/l_leg/beef
+	user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
+	user.ReassignForeignBodyparts()
 
 	for(var/traumas in trauma_list)
 		user.gain_trauma(traumas, TRAUMA_RESILIENCE_ABSOLUTE)
@@ -105,8 +105,11 @@
 	for(var/obj/item/bodypart/limb in user.bodyparts)
 		limb.heavy_brute_msg = "mincemeat"
 		limb.heavy_burn_msg = "burned to a crisp"
-		if(limb != /obj/item/bodypart/head/beef)
-			limb.meat_on_drop = TRUE
+
+		if(istype(limb, /obj/item/bodypart/head) || istype(limb, /obj/item/bodypart/chest))
+			continue
+
+		limb.meat_on_drop = TRUE
 		// RegisterSignal(user, COMSIG_CARBON_REMOVE_LIMB, .proc/on_limb_drop)
 
 /mob/living/carbon/proc/ReassignForeignBodyparts() //This proc hurts me so much, it used to be worse, this really should be a list or something
@@ -144,13 +147,13 @@
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	..()
 
-	// user.part_default_head = /obj/item/bodypart/head
-	// user.part_default_chest = /obj/item/bodypart/chest
-	// user.part_default_l_arm = /obj/item/bodypart/l_arm
-	// user.part_default_r_arm = /obj/item/bodypart/r_arm
-	// user.part_default_l_leg = /obj/item/bodypart/l_leg
-	// user.part_default_r_leg = /obj/item/bodypart/r_leg
-	// user.ReassignForeignBodyparts()
+	user.part_default_head = /obj/item/bodypart/head
+	user.part_default_chest = /obj/item/bodypart/chest
+	user.part_default_l_arm = /obj/item/bodypart/l_arm
+	user.part_default_r_arm = /obj/item/bodypart/r_arm
+	user.part_default_l_leg = /obj/item/bodypart/l_leg
+	user.part_default_r_leg = /obj/item/bodypart/r_leg
+	user.ReassignForeignBodyparts()
 
 	for(var/traumas in trauma_list)
 		user.cure_trauma_type(traumas, TRAUMA_RESILIENCE_ABSOLUTE)

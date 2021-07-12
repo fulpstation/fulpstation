@@ -15,9 +15,10 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/undershirt, GLOB.undershirt_list, GLOB.undershirt_m, GLOB.undershirt_f)
 	//socks
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/socks, GLOB.socks_list)
-	// beef parts // [FULP EDIT START]
+	// FULP EDIT - BEEFMAN
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/eyes, GLOB.beefman_eyes_list)
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/mouth, GLOB.beefman_mouth_list)//[FULP EDIT START END]
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/mouth, GLOB.beefman_mouth_list)
+	// FULP EDIT END
 	//bodypart accessories (blizzard intensifies)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/body_markings, GLOB.body_markings_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/lizard, GLOB.tails_list_lizard)
