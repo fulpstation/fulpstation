@@ -88,7 +88,7 @@
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
 
 /*
- *	Antag Tip Defines NOTE: Monster hunter, bloodsucker and vassal don't have any HTMLs! Willard will have to add them in.
+ *	Antag Tip Defines
  */
 #define ABDUCTOR_TIPS "abductor"
 #define BLOODSUCKER_TIPS "bloodsucker"
