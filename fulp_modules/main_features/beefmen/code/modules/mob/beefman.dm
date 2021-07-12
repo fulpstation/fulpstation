@@ -201,17 +201,17 @@
 			newSash = new /obj/item/clothing/under/bodysash/captain()
 		// Security
 		if("Head of Security")
-			newSash = new /obj/item/clothing/under/bodysash/hos()
+			newSash = new /obj/item/clothing/under/bodysash/security/hos()
 		if("Warden")
-			newSash = new /obj/item/clothing/under/bodysash/warden()
+			newSash = new /obj/item/clothing/under/bodysash/security/warden()
 		if("Security Officer")
 			newSash = new /obj/item/clothing/under/bodysash/security()
 		if("Detective")
-			newSash = new /obj/item/clothing/under/bodysash/detective()
+			newSash = new /obj/item/clothing/under/bodysash/security/detective()
 		if("Brig Physician")
-			newSash = new /obj/item/clothing/under/bodysash/brigdoc()
+			newSash = new /obj/item/clothing/under/bodysash/security/brigdoc()
 		if("Deputy")
-			newSash = new /obj/item/clothing/under/bodysash/deputy()
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
 
 		// Medical
 		if("Chief Medical Officer")
