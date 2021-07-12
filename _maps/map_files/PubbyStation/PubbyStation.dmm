@@ -24531,6 +24531,10 @@
 /obj/machinery/door/firedoor/heavy,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/visible/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/green/visible,
+/obj/machinery/door/airlock/research{
+	name = "Toxins Launch Room";
+	req_access_txt = "8"
+	},
 /turf/open/floor/iron,
 /area/science/mixing)
 "bGB" = (
@@ -37943,18 +37947,13 @@
 /turf/open/floor/iron/dark,
 /area/maintenance/disposal/incinerator)
 "fEj" = (
-/obj/effect/turf_decal/tile/purple{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/purple{
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/door/airlock/research{
-	name = "Toxins Launch Room";
-	req_access_txt = "8"
-	},
-/turf/open/floor/iron,
-/area/science/mixing)
+/obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/engineering/atmos)
 "fEo" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -39934,6 +39933,17 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
+"hGN" = (
+/obj/structure/window/plasma/reinforced/spawner/east,
+/obj/machinery/power/rad_collector/anchored,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
+/obj/machinery/camera{
+	c_tag = "Engineering Supermatter Chamber";
+	network = list("ss13","engine")
+	},
+/turf/open/floor/engine,
+/area/engineering/supermatter)
 "hGQ" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /turf/open/floor/iron/dark,
@@ -41783,17 +41793,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
-"jTr" = (
-/obj/structure/window/plasma/reinforced/spawner/east,
-/obj/machinery/power/rad_collector/anchored,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
-/obj/machinery/camera{
-	c_tag = "Engineering Supermatter Chamber";
-	network = list("ss13","engine")
-	},
-/turf/open/floor/engine,
-/area/engineering/supermatter)
 "jTu" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -44269,6 +44268,13 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/engine,
 /area/science/explab)
+"mBq" = (
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible,
+/turf/open/floor/plating,
+/area/engineering/atmos)
 "mBz" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/tile/yellow,
@@ -45848,14 +45854,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/service/bar/atrium)
-"ogc" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible,
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/engineering/atmos)
 "ogX" = (
 /obj/machinery/light,
 /obj/effect/turf_decal/stripes/line,
@@ -49085,13 +49083,6 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/central)
-"rqq" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible,
-/turf/open/floor/plating,
-/area/engineering/atmos)
 "rqB" = (
 /obj/machinery/conveyor{
 	dir = 1;
@@ -87710,7 +87701,7 @@ tlN
 fsA
 sWj
 tZU
-jTr
+hGN
 wXy
 wXy
 uRk
@@ -95909,15 +95900,15 @@ vzg
 xgG
 wWR
 pFG
-ogc
+fEj
 pFG
 wWR
 pFG
-ogc
+fEj
 bUz
 wWR
 pFG
-rqq
+mBq
 eGT
 fBp
 fBp
@@ -100267,7 +100258,7 @@ mSc
 sci
 jiD
 glf
-fEj
+bFr
 qtA
 khk
 bIN
