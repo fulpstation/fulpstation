@@ -95,7 +95,6 @@
 #define CHANGELING_TIPS "changeling"
 #define CULTIST_TIPS "cultist"
 #define HERETIC_TIPS "heretic"
-#define IMPOSTER_TIPS "imposter"
 #define MALF_TIPS "malf_ai"
 #define MONSTERHUNTER_TIPS "monsterhunter"
 #define NUKIE_TIPS "nukie"
@@ -104,3 +103,4 @@
 #define VASSAL_TIPS "vassal"
 #define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
 #define WIZARD_TIPS "wizard"
+#define IMPOSTER_TIPS "imposter"

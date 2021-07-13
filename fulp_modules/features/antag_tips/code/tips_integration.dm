@@ -19,6 +19,27 @@
 		QDEL_NULL(antag_tips)
 	. = ..()
 
+/// Trigger button to show antag info
+/datum/action/antag_tip
+	name = "Open Antagonist Tips:"
+	button_icon_state = "round_end"
+	var/datum/antagonist/antag_datum
+
+/datum/action/antag_tip/New(Target, datum/antagonist/antag_datum)
+	. = ..()
+	src.antag_datum = antag_datum
+	name += " [antag_datum.name]"
+
+/datum/action/antag_tip/Trigger()
+	if(antag_datum)
+		antag_datum.show_tips(antag_datum.tips)
+//		antag_datum.ui_interact(owner)
+
+/datum/action/antag_tip/IsAvailable()
+	return TRUE
+
+/*
+// This would be good to turn our tips TGUI, problem is that it has to be in the TGUI folder, which isn't modular.
 /datum/antagonist/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -27,27 +48,8 @@
 
 /datum/antagonist/ui_state(mob/user)
 	return GLOB.always_state
+*/
 
-/// Trigger button to show antag info
-/datum/action/antag_tip
-	name = "Open Antag Information:"
-	button_icon_state = "round_end"
-	var/datum/antagonist/antag_datum
-
-/datum/action/antag_tip/New(Target, datum/antagonist/antag_datum)
-	. = ..()
-	src.antag_datum = antag_datum
-	name += " [antag_datum.name] Tips"
-
-/datum/action/antag_tip/Trigger()
-	if(antag_datum)
-		antag_datum.ui_interact(owner)
-
-/datum/action/antag_tip/IsAvailable()
-	return TRUE
-
-
-/// Old version - REMOVE BEFORE MERGING
 /datum/antagonist/proc/show_tips(fileid)
 	if(!owner || !owner.current || !owner.current.client)
 		return
