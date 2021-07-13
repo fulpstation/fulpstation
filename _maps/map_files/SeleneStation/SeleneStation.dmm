@@ -39396,10 +39396,10 @@
 /turf/open/floor/grass,
 /area/security/prison)
 "kpa" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible,
 /obj/machinery/atmospherics/pipe/bridge_pipe/yellow/visible{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "kpl" = (
@@ -43404,7 +43404,10 @@
 	name = "Prison Orange"
 	},
 /obj/machinery/light/directional/south,
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "Mix Outlet Pump"
+	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "loF" = (
@@ -60513,6 +60516,13 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/maintenance/department/engine)
+"pLW" = (
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/bridge_pipe/yellow/visible,
+/turf/open/floor/iron,
+/area/engineering/atmos)
 "pMg" = (
 /obj/machinery/telecomms/processor/preset_two,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -62754,16 +62764,6 @@
 /obj/machinery/duct,
 /turf/open/floor/iron/showroomfloor,
 /area/maintenance/department/crew_quarters/dorms)
-"qnG" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	name = "Plasma Outlet Pump"
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/engineering/atmos)
 "qnJ" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
@@ -129635,7 +129635,7 @@ jpa
 jpa
 vEj
 eZx
-qnG
+pLW
 lop
 mjs
 reQ

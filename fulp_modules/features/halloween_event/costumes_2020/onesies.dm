@@ -297,7 +297,7 @@
 
 		if("fly")
 			new /obj/item/clothing/suit/hooded/onesie/fly(src)
-			new	/obj/item/toy/plush/beeplushie(src)//John this being here is 100% your fault!
+			new	/obj/item/toy/plush/fly(src)
 			new	/obj/item/melee/flyswatter(src)//A plushie of another and a flyswatter? Poor Fly
 
 		if("lizard")

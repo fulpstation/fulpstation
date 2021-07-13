@@ -53,6 +53,7 @@
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
+	var/Frenzies = 0
 
 	///Used in Bloodsucker huds
 	var/valuecolor
@@ -100,17 +101,21 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	forge_bloodsucker_objectives()
-	/// Start Sunlight if first Bloodsucker
-	clan.check_start_sunlight()
 	/// Assign Powers
 	AssignStarterPowersAndStats()
-	/// Name & Title
-	SelectFirstName()
 	/// If I have a creator, then set as Fledgling.
-	SelectTitle(am_fledgling = TRUE)
-	SelectReputation(am_fledgling = TRUE)
-	update_bloodsucker_icons_added(owner.current, "bloodsucker")
+	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
+		bloodsucker_level_unspent = 0
+	else
+		// Start Sunlight if first Bloodsucker
+		clan.check_start_sunlight()
+		// Name and Titles
+		SelectFirstName()
+		SelectTitle(am_fledgling = TRUE)
+		SelectReputation(am_fledgling = TRUE)
+		// Objectives & HUDs
+		forge_bloodsucker_objectives()
+		update_bloodsucker_icons_added(owner.current, "bloodsucker")
 	. = ..()
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
@@ -201,6 +206,8 @@
 	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
 	for(var/datum/mind/M in members)
 		for(var/datum/antagonist/bloodsucker/H in M.antag_datums)
+			if(M.has_antag_datum(/datum/antagonist/vassal)) // Skip over Ventrue's Favorite Vassal
+				continue
 			report += H.roundend_report()
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
@@ -261,7 +268,7 @@
 	/// No minds in the clan? Delete Sol.
 	if(members.len <= 1)
 		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-		qdel(bloodsucker_sunlight)
+		QDEL_NULL(bloodsucker_sunlight)
 //		bloodsucker_sunlight = null // Note: Not sure what this is meant to do, but everything works without it.
 
 /// Buying powers
@@ -273,7 +280,8 @@
 	/// Purchase Roundstart Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
-	BuyPower(new /datum/action/bloodsucker/veil)
+	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
+		BuyPower(new /datum/action/bloodsucker/veil)
 	/// Give Bloodsucker Traits
 	for(var/T in defaultTraits)
 		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
@@ -344,7 +352,8 @@
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	set waitfor = FALSE
-	if(!owner || !owner.current)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(owner.current)
+	if(!owner || !owner.current || vassaldatum)
 		return
 	bloodsucker_level_unspent++
 	// Spend Rank Immediately?
@@ -513,10 +522,16 @@
 		ADD_TRAIT(target, TRAIT_HARDLY_WOUNDED, BLOODSUCKER_TRAIT)
 		to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
 	if(vassaldatum.vassal_level == 6)
-		ADD_TRAIT(target, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_STABLEHEART, BLOODSUCKER_TRAIT)
-		to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you will no longer naturally regenerate Blood!"))
-		vassaldatum.BuyPower(new /datum/action/bloodsucker/feed)
+		to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead.</span>")
+		target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
+	if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
+		set_vassal_level(target)
+
+///Set the Vassal's rank to their Bloodsucker level
+/datum/antagonist/bloodsucker/proc/set_vassal_level(mob/living/carbon/human/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
+	bloodsuckerdatum.bloodsucker_level = vassaldatum.vassal_level
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -534,37 +549,36 @@
 	lair_objective.owner = owner
 	objectives += lair_objective
 
-	// Objective 1: Vassalize a Head/Command, or Drink X amount of Blood.
+	// Survive Objective
+	var/datum/objective/bloodsucker/survive/survive_objective = new
+	survive_objective.owner = owner
+	objectives += survive_objective
+
+	// Objective 1: Vassalize a Head/Command, or a specific target
 	switch(rand(0,1))
 		if(0) // Protege Objective
 			var/datum/objective/bloodsucker/protege/protege_objective = new
 			protege_objective.owner = owner
 			protege_objective.objective_name = "Optional Objective"
 			objectives += protege_objective
-		if(1) // Drink Blood Objective
-			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
-			gourmand_objective.owner = owner
-			gourmand_objective.objective_name = "Optional Objective"
-			objectives += gourmand_objective
-
-	// Objective 2: Steal X amount of hearts, or Vassalize a certain crewmate.
-	switch(rand(0,1))
-		if(0) // Heart Thief Objective
-			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
-			heartthief_objective.owner = owner
-			heartthief_objective.objective_name = "Optional Objective"
-			objectives += heartthief_objective
 		if(1) // Vassalize Target Objective
 			var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
 			vassalhim_objective.owner = owner
 			vassalhim_objective.objective_name = "Optional Objective"
 			objectives += vassalhim_objective
 
-	// Survive Objective
-	var/datum/objective/bloodsucker/survive/survive_objective = new
-	survive_objective.owner = owner
-	objectives += survive_objective
-
+	// Objective 2: Steal X amount of hearts, or drink Y amount of blood.
+	switch(rand(0,1))
+		if(0) // Heart Thief Objective
+			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
+			heartthief_objective.owner = owner
+			heartthief_objective.objective_name = "Optional Objective"
+			objectives += heartthief_objective
+		if(1) // Drink Blood Objective
+			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
+			gourmand_objective.owner = owner
+			gourmand_objective.objective_name = "Optional Objective"
+			objectives += gourmand_objective
 
 /*
 /// Name shown on antag list
@@ -760,7 +774,7 @@
 	else
 		bloodsucker_title = null
 
-/datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = 0, forced = FALSE)
+/datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = FALSE, forced = FALSE)
 	// Already have Reputation
 	if(!forced && bloodsucker_reputation != null)
 		return
@@ -953,15 +967,28 @@
 	if(!owner.current.hud_used)
 		return
 	if(owner.current.hud_used && owner.current.hud_used.sunlight_display)
+		var/sunlight_display_icon = "sunlight_"
 		if(amDay)
+			sunlight_display_icon += "day"
 			valuecolor =  "#FF5555"
-		else if(value <= 25)
-			valuecolor =  "#FFCCCC"
-		else if(value < 10)
-			valuecolor =  "#FF5555"
+		else
+			switch(round(value, 1))
+				if(0 to 30)
+					sunlight_display_icon += "30"
+					valuecolor = "#FFCCCC"
+				if(31 to 60)
+					sunlight_display_icon += "60"
+					valuecolor = "#FFE6CC"
+				if(61 to 90)
+					sunlight_display_icon += "90"
+					valuecolor = "#FFFFCC"
+				else
+					sunlight_display_icon += "night"
+					valuecolor = "#FFFFFF"
+		
 		var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
 		owner.current.hud_used.sunlight_display.update_counter(value_string, valuecolor)
-		owner.current.hud_used.sunlight_display.icon_state = "sunlight_" + (amDay ? "day":"night")
+		owner.current.hud_used.sunlight_display.icon_state = sunlight_display_icon
 
 /atom/movable/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
 	..()
