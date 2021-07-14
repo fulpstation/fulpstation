@@ -37,3 +37,8 @@
 	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_antennae.dmi'
 	name = "Plasmafire"
 	icon_state = "plasmafire"
+
+/datum/sprite_accessory/moth_antennae/aspen
+	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_antennae.dmi'
+	name = "Aspen"
+	icon_state = "aspen"
