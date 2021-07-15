@@ -10,6 +10,8 @@
 #define ROLE_BLOODSUCKER "Bloodsucker"
 /// Monster Hunters - Defines the role for preferences
 #define ROLE_MONSTERHUNTER "Monster Hunter"
+/// Felinid race ban
+#define RACE_FELINID "Felinid Race"
 
 /*
  *	Source Trait Defines

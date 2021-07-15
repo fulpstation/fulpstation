@@ -293,6 +293,11 @@
 				ROLE_POSIBRAIN,
 				ROLE_SENTIENCE,
 			),
+			/// Fulp edit - Race bans
+			"Races" = list(
+				RACE_FELINID,
+			),
+			/// Fulp edit ends - Race bans
 			"Antagonist Positions" = list(
 				ROLE_ABDUCTOR,
 				ROLE_ALIEN,
