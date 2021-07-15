@@ -1,23 +1,22 @@
-/// Security Jumpsuit
-/obj/item/clothing/under/rank/security
+// This is all useless for non Security jumpsuits.
+/obj/item/clothing/under
 	var/upgraded = FALSE
 	var/obj/machinery/camera/builtInCamera = null
 	var/registrant
 
-/obj/item/clothing/under/rank/security/examine(mob/user)
+/obj/item/clothing/under/examine(mob/user)
 	. = ..()
-	if(!upgraded)
-		. += "It appears to have an empty slot for a <b>body camera upgrade</b>."
-		return
 	if(builtInCamera)
-		. += "Its body camera appears to be <b>active</b>."
-	else
-		. += "Its body camera appears to be <b>inactive</b>."
+		. += "It appears to have an <b>active</b> body camera attached."
 
 /// Modifying the Jumpsuit
-/obj/item/clothing/under/rank/security/attackby(obj/item/W, mob/user, params)
+/obj/item/clothing/under/attackby(obj/item/W, mob/user, params)
 	. = ..()
-	/// Using a bodycam on the jumpsuit, upgrading it
+	// Are we a security jumpsuit? If not, we can't do anything special, so return here.
+	if(!istype(src, /obj/item/clothing/under/rank/security) && !istype(src, /obj/item/clothing/under/bodysash/security) && !istype(src, /obj/item/clothing/under/plasmaman/security))
+		return
+
+	// Using a bodycam on the jumpsuit, upgrading it
 	if(istype(W, /obj/item/bodycam_upgrade))
 		// Check if its already upgraded
 		if(upgraded)
@@ -29,7 +28,11 @@
 		playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
 		qdel(W)
 		return
-	/// Upgraded, but removing it
+
+	// Check: Is the Jumpsuit upgraded?
+	if(!upgraded)
+		return
+	// Upgraded, but removing it.
 	if(W.tool_behaviour == TOOL_SCREWDRIVER)
 		// If it isnt upgraded, it will go onto the next check, and just return.
 		if(upgraded)
@@ -40,10 +43,8 @@
 			var/obj/item/bodycam_upgrade/bodycam = new /obj/item/bodycam_upgrade
 			user.put_in_hands(bodycam)
 			return
-	/// Check: Is the Jumpsuit upgraded? Otherwise, we can't register body cameras!
-	if(!upgraded)
-		return
 
+	// Registering our ID
 	var/obj/item/card/id/I
 	if(isidcard(W))
 		I = W
@@ -57,11 +58,11 @@
 	register_body_camera(I, user)
 
 /// Manual Register via ID
-/obj/item/clothing/under/rank/security/proc/register_body_camera(obj/item/card/id/I, mob/user)
+/obj/item/clothing/under/proc/register_body_camera(obj/item/card/id/I, mob/user)
 	if(!I)
 		return
 	var/mob/living/carbon/human/H = user
-	var/obj/item/clothing/under/rank/security/S = H.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+	var/obj/item/clothing/under/S = H.get_item_by_slot(ITEM_SLOT_ICLOTHING)
 	if(!istype(S))
 		to_chat(user, span_warning("You have to be wearing [src] to turn the body camera on!"))
 		return
@@ -100,7 +101,7 @@
 		to_chat(user, span_notice("Security uniform body camera successfully registered to [id_name]."))
 
 /// Unregistering the ID - Called when using your ID on an already claimed jumpsuit, or removing it.
-/obj/item/clothing/under/rank/security/proc/unregister_body_camera(mob/user)
+/obj/item/clothing/under/proc/unregister_body_camera(mob/user)
 	if(!builtInCamera)
 		return
 	QDEL_NULL(builtInCamera)
