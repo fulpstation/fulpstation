@@ -296,6 +296,7 @@
 			/// Fulp edit - Race bans
 			"Races" = list(
 				RACE_FELINID,
+				RACE_ETHEREAL
 			),
 			/// Fulp edit ends - Race bans
 			"Antagonist Positions" = list(
