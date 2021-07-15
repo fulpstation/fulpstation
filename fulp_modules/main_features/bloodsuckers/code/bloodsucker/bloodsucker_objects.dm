@@ -262,7 +262,7 @@
 	name = "\improper Archive of the Kindred"
 	title = "the Archive of the Kindred"
 	desc = "Cryptic documents explaining hidden truths behind Undead beings. It is said only Curators can decipher what they really mean."
-	icon = 'icons/obj/library.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	lefthand_file = 'icons/mob/inhands/misc/books_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/books_righthand.dmi'
 	icon_state = "demonomicon"

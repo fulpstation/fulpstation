@@ -17,7 +17,7 @@ export const KindredArchives = (props, context) => {
                 content="Brujah"
                 onClick={() => act('search_brujah')} />
             </LabeledList.Item>
-            <LabeledList> /////
+            <LabeledList>
             <LabeledList.Item label="Toreador Clan">
               <Button
                 content="Toreador"
