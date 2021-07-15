@@ -17,7 +17,6 @@ export const KindredArchives = (props, context) => {
                 content="Brujah"
                 onClick={() => act('search_brujah')} />
             </LabeledList.Item>
-            <LabeledList>
             <LabeledList.Item label="Toreador Clan">
               <Button
                 content="Toreador"
@@ -33,7 +32,6 @@ export const KindredArchives = (props, context) => {
                 content="Tremere"
                 onClick={() => act('search_tremere')} />
             </LabeledList.Item>
-            <LabeledList>
             <LabeledList.Item label="Gangrel Clan">
               <Button
                 content="Gangrel"
