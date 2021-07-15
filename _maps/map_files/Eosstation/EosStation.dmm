@@ -423,17 +423,6 @@
 /turf/open/floor/iron,
 /area/service/hydroponics)
 "ads" = (
-/obj/structure/table,
-/obj/machinery/recharger{
-	pixel_y = 4
-	},
-/obj/item/clothing/head/cone{
-	pixel_x = -4;
-	pixel_y = 4
-	},
-/obj/item/restraints/handcuffs,
-/obj/item/folder/red,
-/obj/machinery/syndicatebomb/training,
 /obj/machinery/status_display/evac/directional/north,
 /obj/effect/turf_decal/siding/red{
 	dir = 5
@@ -441,6 +430,7 @@
 /obj/effect/turf_decal/tile{
 	dir = 8
 	},
+/obj/structure/closet/secure_closet/contraband/armory,
 /turf/open/floor/iron/dark,
 /area/security/office)
 "adu" = (
@@ -2831,6 +2821,12 @@
 /obj/effect/turf_decal/tile,
 /obj/effect/turf_decal/tile{
 	dir = 4
+	},
+/obj/machinery/syndicatebomb/training,
+/obj/item/restraints/handcuffs,
+/obj/item/clothing/head/cone{
+	pixel_x = -4;
+	pixel_y = 4
 	},
 /turf/open/floor/iron/dark,
 /area/ai_monitored/security/armory)
@@ -13697,16 +13693,6 @@
 	name = "hyper-reinforced wall"
 	},
 /area/science/test_area)
-"clS" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
-/obj/effect/turf_decal/siding/green{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/hallway/secondary/entry)
 "clZ" = (
 /obj/machinery/airalarm/directional/east,
 /obj/structure/table/wood,
@@ -14449,7 +14435,6 @@
 /turf/open/floor/iron/white,
 /area/service/kitchen)
 "cqu" = (
-/obj/structure/closet/secure_closet/evidence,
 /obj/machinery/firealarm/directional/north,
 /obj/machinery/light/directional/north,
 /obj/effect/turf_decal/siding/red{
@@ -15244,9 +15229,10 @@
 	},
 /area/hallway/secondary/entry)
 "cwg" = (
-/obj/effect/overlay/palmtree_l,
-/obj/structure/flora/ausbushes/sparsegrass,
-/mob/living/simple_animal/crab,
+/obj/structure/sign/poster/random{
+	pixel_y = 32
+	},
+/obj/structure/chair,
 /turf/open/floor/plating/beach/sand,
 /area/hallway/secondary/entry)
 "cwi" = (
@@ -15886,32 +15872,18 @@
 /obj/effect/turf_decal/siding/green{
 	dir = 1
 	},
+/obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
 "cBt" = (
 /turf/open/floor/plating/beach/sand,
 /area/hallway/secondary/entry)
 "cBu" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/structure/cable,
-/obj/machinery/light/directional/north,
-/obj/structure/chair,
-/obj/effect/turf_decal/siding/green{
-	dir = 1
+/obj/structure/disposalpipe/trunk{
+	dir = 8
 	},
-/obj/machinery/camera{
-	c_tag = "Evac- Evac 1 ";
-	name = "Camera"
-	},
-/turf/open/floor/iron,
-/area/hallway/secondary/entry)
-"cBv" = (
-/obj/structure/sign/poster/random{
-	pixel_y = 32
-	},
-/obj/effect/spawner/randomsnackvend,
+/obj/machinery/disposal/bin,
 /obj/effect/turf_decal/siding/green{
 	dir = 1
 	},
@@ -18117,9 +18089,13 @@
 /area/science/mixing)
 "dao" = (
 /obj/machinery/light/directional/east,
-/turf/open/floor/holofloor/beach/coast_t{
+/obj/structure/chair{
 	dir = 8
 	},
+/obj/effect/turf_decal/siding/green{
+	dir = 4
+	},
+/turf/open/floor/plating/beach/sand,
 /area/hallway/secondary/entry)
 "daB" = (
 /obj/effect/turf_decal/siding/green/corner,
@@ -19677,6 +19653,10 @@
 /obj/structure/grille,
 /turf/open/space,
 /area/space/nearstation)
+"dwo" = (
+/obj/item/plunger,
+/turf/open/floor/iron/freezer,
+/area/commons/toilet/restrooms)
 "dwp" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 9
@@ -21840,6 +21820,10 @@
 	},
 /turf/closed/wall/rust,
 /area/maintenance/starboard/aft)
+"dWL" = (
+/obj/structure/chair,
+/turf/open/floor/plating/beach/sand,
+/area/hallway/secondary/entry)
 "dWP" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/disposalpipe/segment{
@@ -30711,6 +30695,16 @@
 /obj/effect/turf_decal/tile,
 /turf/open/floor/iron/dark,
 /area/security/brig)
+"fYS" = (
+/obj/structure/sign/poster/random{
+	pixel_x = 32
+	},
+/obj/structure/flora/ausbushes/sparsegrass,
+/obj/structure/chair{
+	dir = 8
+	},
+/turf/open/floor/plating/beach/sand,
+/area/hallway/secondary/entry)
 "fYY" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -55132,6 +55126,11 @@
 /area/service/library)
 "lzw" = (
 /obj/machinery/light/directional/north,
+/obj/structure/sign/poster/random{
+	pixel_y = 32
+	},
+/obj/effect/overlay/palmtree_l,
+/obj/structure/flora/ausbushes/sparsegrass,
 /turf/open/floor/plating/beach/sand,
 /area/hallway/secondary/entry)
 "lzx" = (
@@ -58022,6 +58021,7 @@
 "meH" = (
 /obj/structure/table/glass,
 /obj/item/lipstick/purple,
+/obj/item/paper/crumpled,
 /turf/open/floor/iron/freezer,
 /area/commons/toilet/restrooms)
 "meI" = (
@@ -61575,6 +61575,14 @@
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/open/floor/grass,
 /area/service/hydroponics/garden)
+"mVQ" = (
+/obj/structure/sign/poster/random{
+	pixel_y = 32
+	},
+/obj/effect/overlay/palmtree_l,
+/obj/structure/flora/ausbushes/sparsegrass,
+/turf/open/floor/plating/beach/sand,
+/area/hallway/secondary/entry)
 "mVW" = (
 /obj/effect/turf_decal/siding/blue{
 	dir = 8
@@ -66311,6 +66319,10 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/mixing)
+"nZD" = (
+/obj/item/toy/beach_ball,
+/turf/open/floor/plating/beach/sand,
+/area/hallway/secondary/entry)
 "nZF" = (
 /obj/structure/cable,
 /obj/machinery/power/tracker,
@@ -66692,6 +66704,7 @@
 /obj/effect/turf_decal/tile{
 	dir = 1
 	},
+/obj/structure/closet/secure_closet/contraband/armory,
 /turf/open/floor/iron/dark,
 /area/security/office)
 "ofv" = (
@@ -74376,6 +74389,12 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
+"pMb" = (
+/obj/structure/chair{
+	dir = 4
+	},
+/turf/open/floor/plating/beach/sand,
+/area/hallway/secondary/entry)
 "pMi" = (
 /obj/structure/table/wood,
 /obj/item/storage/book/bible,
@@ -74887,6 +74906,15 @@
 	},
 /turf/open/floor/iron/grimy,
 /area/hallway/primary/fore)
+"pSF" = (
+/obj/structure/sign/poster/random{
+	pixel_x = 32
+	},
+/obj/structure/chair{
+	dir = 8
+	},
+/turf/open/floor/plating/beach/sand,
+/area/hallway/secondary/entry)
 "pSK" = (
 /obj/structure/rack,
 /obj/effect/turf_decal/tile/brown{
@@ -80856,6 +80884,12 @@
 /obj/machinery/light/directional/west,
 /turf/open/floor/iron/dark,
 /area/engineering/main)
+"rlP" = (
+/mob/living/simple_animal/pet/penguin/baby,
+/turf/open/floor/holofloor/beach/coast_t{
+	dir = 4
+	},
+/area/hallway/secondary/entry)
 "rlR" = (
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/techstorage/rnd_secure,
@@ -83378,6 +83412,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile,
+/obj/structure/closet/secure_closet/contraband/armory,
 /turf/open/floor/iron/dark,
 /area/security/office)
 "rRJ" = (
@@ -85153,7 +85188,6 @@
 /turf/open/floor/iron/grimy,
 /area/service/abandoned_gambling_den)
 "sny" = (
-/obj/structure/closet/secure_closet/evidence,
 /obj/machinery/airalarm/directional/north,
 /obj/effect/turf_decal/siding/red{
 	dir = 1
@@ -85162,6 +85196,7 @@
 /obj/effect/turf_decal/tile{
 	dir = 8
 	},
+/obj/structure/closet/secure_closet/contraband/armory,
 /turf/open/floor/iron/dark,
 /area/security/office)
 "snz" = (
@@ -93800,6 +93835,10 @@
 /obj/effect/turf_decal/siding/green{
 	dir = 1
 	},
+/obj/machinery/camera{
+	c_tag = "Evac- Evac 1 ";
+	name = "Camera"
+	},
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
 "upc" = (
@@ -96770,6 +96809,11 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
+"uXh" = (
+/turf/open/floor/iron/stairs/medium{
+	dir = 1
+	},
+/area/hallway/secondary/entry)
 "uXr" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -107479,13 +107523,6 @@
 /obj/item/lipstick/jade,
 /turf/open/floor/iron/freezer,
 /area/commons/toilet/restrooms)
-"xvD" = (
-/obj/structure/chair,
-/obj/effect/turf_decal/siding/green{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/hallway/secondary/entry)
 "xvN" = (
 /obj/structure/chair{
 	dir = 8
@@ -139533,7 +139570,7 @@ xwh
 xwh
 aIi
 gIL
-gIL
+dwo
 xwh
 fqU
 rKV
@@ -158433,9 +158470,9 @@ cBt
 cBt
 cBt
 cBt
+cra
 cBt
-cBt
-cBt
+clB
 cBt
 cBt
 cpW
@@ -158692,7 +158729,7 @@ crc
 cwe
 cwe
 cwe
-cwe
+rlP
 cwe
 cwe
 cyt
@@ -160243,12 +160280,12 @@ cOg
 cOg
 cOg
 cOg
-cBt
-cBt
-crc
-cwe
-cwe
-cyt
+yae
+yae
+yae
+yae
+yae
+yae
 yae
 upa
 cko
@@ -160500,13 +160537,13 @@ wgf
 sON
 qbf
 cOg
+dWL
 cBt
-cBt
-cmi
-cFV
-cFV
-cqg
-yae
+pMb
+pMb
+cpW
+pMb
+uXh
 cBu
 riK
 cpK
@@ -160759,12 +160796,12 @@ vaM
 cOg
 lzw
 cBt
-cmi
-cFV
-cFV
-cqg
-yae
-clS
+cqX
+cBt
+cBt
+cBt
+uXh
+cot
 xJj
 cBq
 yae
@@ -161014,14 +161051,14 @@ pbO
 pQV
 tvY
 cOg
+dWL
 cBt
+crc
+cwe
+cyt
 cBt
-cmi
-cFV
-cFV
-cqg
-yae
-cBv
+uXh
+cot
 eux
 cpK
 yae
@@ -161272,13 +161309,13 @@ gLp
 lVp
 cOg
 cwg
-cBt
+nZD
 cmi
 cFV
-cFV
 cqg
-yae
-xvD
+cqX
+uXh
+cot
 hos
 gMr
 yae
@@ -161528,14 +161565,14 @@ tUF
 eER
 mwA
 cOg
+dWL
 cBt
-cpW
-cmi
-cFV
-cFV
-cqg
-yae
-xvD
+cwf
+cyu
+cyy
+cBt
+uXh
+cot
 xJj
 gMr
 cBT
@@ -161785,14 +161822,14 @@ cYq
 pQV
 tvY
 cOg
+mVQ
+cqX
 cBt
-clA
-cmi
-cFV
-cFV
-cqg
-yae
-xvD
+cqX
+cBt
+cBt
+uXh
+cot
 eux
 gMr
 yae
@@ -162042,13 +162079,13 @@ xpO
 qlL
 iJP
 cOg
+dWL
 cBt
-clB
-cwf
+fYS
 dao
-cyu
-cyy
-yae
+cpW
+pSF
+uXh
 cBw
 vRR
 cBJ
@@ -162306,9 +162343,9 @@ cOg
 cOg
 cOg
 cOg
-oaN
+cOg
 bRP
-oaN
+cOg
 yae
 yae
 yae
