@@ -242,15 +242,14 @@
 /*
  *	# Archives of the Kindred:
  *
- *	A book that can only be used by Curators.
+ *	A book that can only be used by Curators and Tremere Bloodsuckers.
  *	When used on a player, after a short timer, will reveal if the player is a Bloodsucker, including their real name and Clan.
  *	This book should not work on Bloodsuckers using the Masquerade ability.
- *	If it reveals a Bloodsucker, the Curator will then be able to tell they are a Bloodsucker on examine (Like a Vassal)
- *	Reading it normally will allow Curators to read what each Clan does.
+ *	If it reveals a Bloodsucker, the Curator will then be able to tell they are a Bloodsucker on examine (Like a Vassal).
+ *	Reading it normally will allow Curators to read what each Clan does, with some extra flavor text ones.
  *
- *	Only Tremere Bloodsuckers can use the book, though regular Bloodsuckers won't have any negative effects.
+ *	Regular Bloodsuckers won't have any negative effects from the book, while everyone else will get burns/eye damage.
  *	It is also Tremere's Clan objective to ensure a Tremere Bloodsucker has stolen this by the end of the round.
- *	Anyone else trying to use the Archives will get slight eye damage.
  */
 
 /obj/item/book/codex_gigas/Initialize(mapload)
@@ -352,7 +351,7 @@
 		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy.<br> \
 		<b>Strength</b>: Frenzy will not kill them, punches deal a lot of damage.<br> \
 		<b>Weakness</b>: They don't become immune to stuns from Frenzy alone."
-	if(clan == CLAN_TOREADOR)
+	if(clan == CLAN_TOREADOR) // Flavortext only
 		dat += "The most charming Clan of them all, being borderline <i>party animals</i>, allowing them to <i>very easily</i> disguise among the crew.<br> \
 		They are more in touch with their <i>morals</i>, so they suffer and benefit more strongly from the humanity cost or gain of their actions.<br> \
 		They can be best defined as 'The most humane kind of vampire', due to their kindred with an obsession with perfectionism and beauty<br> \
@@ -373,7 +372,7 @@
 		They seem to be able to revive dead people using some torture device, something never-before seen.<br> \
 		<b>Strength</b>: Vassal Multiation, reviving the Dead.<br> \
 		<b>Weakness</b>: Does not gain more abilities overtime, it is best to target the Bloodsucker over the Vassal."
-	if(clan == CLAN_GANGREL)
+	if(clan == CLAN_GANGREL) // Flavortext only
 		dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
 		They also go by the name of <i>Werewolves</i>, as that is what appears when they enter a Frenzy.<br> \
 		Despite this, they appear to be scared of <i>'True Faith'</i>, someone's ultimate and undying Faith, which itself doesn't require being something Religious.<br> \

@@ -1,11 +1,7 @@
 /*
  * 		MONSTER HUNTERS:
- * 	Their job is to hunt Monsters.
+ * 	Their job is to hunt Monsters (obviously).
  * 	I didnt know what better way to implement this, so they just cancel out if there's no monsters.
- * 	They can also be used as Admin-only antags during rounds such as;
- * 	- Changeling murderboning rounds
- * 	- Lategame Cult round
- * 	- Ect.
  */
 
 /// Spawns monster hunters.
@@ -20,14 +16,18 @@
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
+	var/cancel_me = FALSE
 
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(!IS_CULTIST(H) && !IS_HERETIC(H) && !IS_BLOODSUCKER(H) && !IS_WIZARD(H) && !H.mind.has_antag_datum(/datum/antagonist/changeling))
 			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
-			kill()
+			cancel_me = TRUE
 			break
 		message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
+	// because kill() doesn't work.
+	if(cancel_me)
+		return
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
 		/// From obsessed
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
