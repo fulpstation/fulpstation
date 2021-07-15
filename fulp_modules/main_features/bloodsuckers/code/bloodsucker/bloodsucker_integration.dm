@@ -4,6 +4,12 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// Gives Curators their abilities
+/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+
+	ADD_TRAIT(H, TRAIT_BLOODSUCKER_HUNTER, JOB_TRAIT)
+
 /// Prevents using a Memento Mori
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
 	if(IS_BLOODSUCKER(user))

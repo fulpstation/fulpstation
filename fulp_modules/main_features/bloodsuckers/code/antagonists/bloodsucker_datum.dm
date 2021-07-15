@@ -182,19 +182,10 @@
 				clan = H.clan
 				return
 		clan = new /datum/team/vampireclan
-		addtimer(CALLBACK(src, .proc/spawn_monster_hunters), 25 MINUTES)
 		return
 	if(!istype(team))
 		stack_trace("Wrong team type passed to [type] initialization.")
 	clan = team
-
-/// Spawn a Monster Hunter 25 minutes into the Round. The Round event control will make sure there's actually any Bloodsuckers alive.
-/datum/antagonist/bloodsucker/proc/spawn_monster_hunters()
-	/// Don't trigger if there's not many Bloodsuckers, please.
-	if(clan.members.len <= 1)
-		return
-	var/datum/round_event_control/monster_hunters/DC = locate(/datum/round_event_control/monster_hunters) in SSevents.control
-	DC.runEvent()
 
 /datum/antagonist/bloodsucker/get_team()
 	return clan
@@ -985,7 +976,7 @@
 				else
 					sunlight_display_icon += "night"
 					valuecolor = "#FFFFFF"
-		
+
 		var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
 		owner.current.hud_used.sunlight_display.update_counter(value_string, valuecolor)
 		owner.current.hud_used.sunlight_display.icon_state = sunlight_display_icon

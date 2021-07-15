@@ -234,3 +234,164 @@
 	armour_penetration = 25
 	embedding = list("embed_chance" = 65)
 	staketime = 60
+
+//////////////////////
+//     ARCHIVES     //
+//////////////////////
+
+/*
+ *	# Archives of the Kindred:
+ *
+ *	A book that can only be used by Curators.
+ *	When used on a player, after a short timer, will reveal if the player is a Bloodsucker, including their real name and Clan.
+ *	This book should not work on Bloodsuckers using the Masquerade ability.
+ *	If it reveals a Bloodsucker, the Curator will then be able to tell they are a Bloodsucker on examine (Like a Vassal)
+ *	Reading it normally will allow Curators to read what each Clan does.
+ *
+ *	Only Tremere Bloodsuckers can use the book, though regular Bloodsuckers won't have any negative effects.
+ *	It is also Tremere's Clan objective to ensure a Tremere Bloodsucker has stolen this by the end of the round.
+ *	Anyone else trying to use the Archives will get slight eye damage.
+ */
+
+/obj/item/book/codex_gigas/Initialize(mapload)
+	. = ..()
+	var/turf/T = get_turf(src)
+	new /obj/item/book/kindred(T)
+
+/obj/item/book/kindred
+	name = "\improper Archive of the Kindred"
+	title = "the Archive of the Kindred"
+	desc = "Cryptic documents explaining hidden truths behind Undead beings. It is said only Curators can decipher what they really mean."
+	icon = 'icons/obj/library.dmi'
+	lefthand_file = 'icons/mob/inhands/misc/books_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/misc/books_righthand.dmi'
+	icon_state = "demonomicon"
+	author = "dozens of generations of Curators"
+	unique = TRUE
+	throw_speed = 1
+	throw_range = 10
+	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	var/in_use = FALSE
+
+/*
+ *	# Attacking someone with the Book
+ */
+
+// M is the person being hit here
+/obj/item/book/kindred/attack(mob/living/M, mob/living/user)
+	. = ..()
+	if(!user.can_read(src))
+		return
+	// Curator/Tremere using it
+	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
+		if(in_use || (M == user))
+			return
+		return
+	// Bloodsucker using it
+	else if(IS_BLOODSUCKER(user))
+		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
+		return
+	to_chat(user, span_warning("[src] burns your hands as you try to use it!"))
+	user.apply_damage(12, BURN)
+
+
+/*
+ *	# Reading the Book
+ */
+
+/obj/item/book/kindred/attack_self(mob/living/carbon/user)
+//	Don't call parent since it handles reading the book.
+//	. = ..()
+	if(!user.can_read(src))
+		return
+	// Curator/Tremere using it
+	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
+		ui_interact(user)
+		return
+	// Bloodsucker using it
+	else if(IS_BLOODSUCKER(user))
+		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
+		return
+	to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
+	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	user.blur_eyes(10)
+	eyes.applyOrganDamage(10)
+
+/obj/item/book/kindred/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "KindredArchives", name)
+		ui.open()
+
+/obj/item/book/kindred/ui_act(action, params)
+	if(..())
+		return
+	if(!action)
+		return FALSE
+	SStgui.close_uis(src)
+	if(action == "search_brujah")
+		INVOKE_ASYNC(src, .proc/search, usr, CLAN_BRUJAH)
+	if(action == "search_toreador")
+		INVOKE_ASYNC(src, .proc/search, usr, CLAN_TOREADOR)
+	if(action == "search_nosferatu")
+		INVOKE_ASYNC(src, .proc/search, usr, CLAN_NOSFERATU)
+	if(action == "search_tremere")
+		INVOKE_ASYNC(src, .proc/search, usr, CLAN_TREMERE)
+	if(action == "search_gangrel")
+		INVOKE_ASYNC(src, .proc/search, usr, CLAN_GANGREL)
+	if(action == "search_ventrue")
+		INVOKE_ASYNC(src, .proc/search, usr, CLAN_VENTRUE)
+	if(action == "search_malkavian")
+		INVOKE_ASYNC(src, .proc/search, usr, CLAN_MALKAVIAN)
+
+/obj/item/book/kindred/proc/search(mob/reader, clan)
+	dat = "<head>List of information gathered on the <b>[clan]</b></head><br>"
+	if(clan == CLAN_BRUJAH)
+		dat += "This Clan has proven to be the strongest in melee combat, boasting a <i>powerful punch</i>.<br> \
+		They also appear to be more calm than the others, entering their 'Frenzies' earlier, but <i>still behaves as usual</i>.<br> \
+		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy.<br> \
+		<b>Strength</b>: Frenzy will not kill them, punches deal a lot of damage.<br> \
+		<b>Weakness</b>: They don't become immune to stuns from Frenzy alone."
+	if(clan == CLAN_TOREADOR)
+		dat += "The most charming Clan of them all, being borderline <i>party animals</i>, allowing them to <i>very easily</i> disguise among the crew.<br> \
+		They are more in touch with their <i>morals</i>, so they suffer and benefit more strongly from the humanity cost or gain of their actions.<br> \
+		They can be best defined as 'The most humane kind of vampire', due to their kindred with an obsession with perfectionism and beauty<br> \
+		<b>Strength</b>: Highly charismatic and influential.<br> \
+		<b>Weakness</b>: Physically and Morally weak."
+	if(clan == CLAN_NOSFERATU)
+		dat += "This Clan has been the most obvious to find information about.<br> \
+		They are <i>disfigured, ghoul-like</i> vampires upon embrace by their Sire, scouts that travel through desolate paths to avoid violating the Masquerade.<br> \
+		They make <i>no attempts</i> at hiding themselves within the crew, and have a terrible taste for <i>heavy items</i>.<br> \
+		They also seem to manage to fit themsleves into small spaces such as <i>vents</i>.<br> \
+		<b>Strength</b>: Ventcrawl.<br> \
+		<b>Weakness</b>: Can't disguise themselves, can easily be discovered by their DNA or Blood."
+	if(clan == CLAN_TREMERE)
+		dat += "This Clan seems to hate entering the <i>Chapel</i>.<br> \
+		They are a secluded Clan, they are Vampires who've mastered the power of blood, and seek knowledge.<br> \
+		They care not about their Vassals, going as far as to <i>dismember and deform</i> them however they see fit.<br> \
+		Despite this, their Vassals pledge <i>complete obedience</i> to them no matter what, going as far as to resist Mindshields.<br> \
+		They seem to be able to revive dead people using some torture device, something never-before seen.<br> \
+		<b>Strength</b>: Vassal Multiation, reviving the Dead.<br> \
+		<b>Weakness</b>: Does not gain more abilities overtime, it is best to target the Bloodsucker over the Vassal."
+	if(clan == CLAN_GANGREL)
+		dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
+		They also go by the name of <i>Werewolves</i>, as that is what appears when they enter a Frenzy.<br> \
+		Despite this, they appear to be scared of <i>'True Faith'</i>, someone's ultimate and undying Faith, which itself doesn't require being something Religious.<br> \
+		They hate seeing many people, and tend to avoid Stations that have <i>more crewmembers than Nanotrasen's average</i>. Due to this, they are harder to find than others.<br> \
+		<b>Strength</b>: Feral, Werewolf during Frenzy.<br> \
+		<b>Weakness</b>: Weak to True Faith."
+	if(clan == CLAN_VENTRUE)
+		dat += "This Clan seems to <i>despise</i> drinking from non sentient organics.<br> \
+		They are Masters of manipulation, Greedy and entitled. Authority figures between the kindred society.<br> \
+		They seem to take their Vassal's lives <i>very seriously</i>, going as far as to give Vassals some of their own Blood.<br> \
+		Compared to other types, this one <i>relies</i> on their Vassals, rather than fighting for themselves.<br> \
+		<b>Strength</b>: Slowly turns a Vassal into a Bloodsucker.<br> \
+		<b>Weakness</b>: Does not gain more abilities overtime, it is best to target the Bloodsucker over the Vassal."
+	if(clan == CLAN_MALKAVIAN)
+		dat += "There is barely any information known about this Clan.<br> \
+		Members of this Clan seems to <i>mumble things to themselves</i>, unaware of their surroundings.<br> \
+		They also seem to enter and dissapear into areas randomly, <i>as if not even they know where they are</i>.<br> \
+		<b>Strength</b>: Unknown.<br> \
+		<b>Weakness</b>: Unknown."
+
+	reader << browse("<meta charset=UTF-8><TT><I>Penned by [author].</I></TT> <BR>" + "[dat]", "window=book[window_size != null ? ";size=[window_size]" : ""]")

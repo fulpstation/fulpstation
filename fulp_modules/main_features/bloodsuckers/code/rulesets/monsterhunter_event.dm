@@ -8,15 +8,14 @@
  * 	- Ect.
  */
 
-
 /// Spawns monster hunters.
 /datum/round_event_control/monster_hunters
 	name = "Spawn Monster Hunter"
 	typepath = /datum/round_event/monster_hunters
 	max_occurrences = 1
-	weight = 9
+	weight = 5
 	min_players = 10
-	earliest_start = 25 MINUTES
+	earliest_start = 30 MINUTES
 	alert_observers = FALSE
 
 /datum/round_event/monster_hunters
