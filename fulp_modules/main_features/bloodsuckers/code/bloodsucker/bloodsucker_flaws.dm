@@ -136,6 +136,11 @@
 				* Additionally, you magically protect your Vassals from being disconnected with you via Mindshielding, and can mutilate them by putting them on a persuasion rack.<br> \
 				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>"))
 			ADD_TRAIT(bloodsucker, TRAIT_BLOODSUCKER_HUNTER, BLOODSUCKER_TRAIT)
+			var/datum/objective/bloodsucker/kindred/kindred_objective = new
+			kindred_objective.owner = owner
+			kindred_objective.objective_name = "Clan Objective"
+			objectives += kindred_objective
+			owner.announce_objectives()
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \

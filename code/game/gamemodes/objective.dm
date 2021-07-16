@@ -971,6 +971,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/vassalhim,
 		/datum/objective/bloodsucker/gourmand,
+		/datum/objective/bloodsucker/kindred, // Clan objective
 		/datum/objective/bloodsucker/embrace,//Clan objective
 		/datum/objective/bloodsucker/frenzy,//Clan objective
 		/datum/objective/bloodsucker/monsterhunter, // Fulpstation edit ends --
