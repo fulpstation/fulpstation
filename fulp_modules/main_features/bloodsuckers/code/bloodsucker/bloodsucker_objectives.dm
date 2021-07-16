@@ -300,6 +300,30 @@
 //     CLAN OBJECTIVES      //
 //////////////////////////////
 
+/// Enter Frenzy repeatedly - Brujah Clan objective
+/datum/objective/bloodsucker/frenzy
+	name = "frenzy"
+
+/datum/objective/bloodsucker/frenzy/New()
+	target_amount = rand(3,4)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/frenzy/update_explanation_text()
+	. = ..()
+	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/frenzy/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	if(bloodsuckerdatum.Frenzies >= target_amount)
+		return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 /// Steal the Archive of the Kindred - Tremere Clan objective
 /datum/objective/bloodsucker/kindred
 	name = "steal kindred"
@@ -329,22 +353,9 @@
 				return TRUE
 	return FALSE
 
-/*
-	var/list/datum/mind/owners = get_owners()
-	for(var/datum/mind/M in owners)
-		if(!isliving(M.current))
-			continue
-		var/list/all_items = M.current.GetAllContents() //this should get things in cheesewheels, books, etc.
-		for(var/obj/I in all_items) //Check for wanted items
-			if(istype(I, /obj/item/photo))
-				var/obj/item/photo/P = I
-				if(P.picture && (target.current in P.picture.mobs_seen) && !(target.current in P.picture.dead_seen)) //Does the picture exist and is the target in it and is the target not dead
-					return TRUE
-	return FALSE
-*/
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Convert a crewmate
+/// Convert a crewmate - Ventrue Clan objective
 /datum/objective/bloodsucker/embrace
 	name = "embrace"
 
@@ -362,30 +373,6 @@
 		if(vassaldatum.owner && vassaldatum.favorite_vassal)
 			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 				return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Enter Frenzy repeatedly
-/datum/objective/bloodsucker/frenzy
-	name = "frenzy"
-
-/datum/objective/bloodsucker/frenzy/New()
-	target_amount = rand(3,4)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/frenzy/update_explanation_text()
-	. = ..()
-	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/frenzy/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	if(bloodsuckerdatum.Frenzies >= target_amount)
-		return TRUE
 	return FALSE
 
 
