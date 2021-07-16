@@ -383,7 +383,7 @@
 		They care not about their Vassals, going as far as to <i>dismember and deform</i> them however they see fit.<br> \
 		Despite this, their Vassals pledge <i>complete obedience</i> to them no matter what, going as far as to resist Mindshields.<br> \
 		They seem to be able to revive dead people using some torture device, something never-before seen.<br> \
-		<b>Strength</b>: Vassal Multiation, reviving the Dead.<br> \
+		<b>Strength</b>: Vassal Mutilation, reviving the Dead.<br> \
 		<b>Weakness</b>: Does not gain more abilities overtime, it is best to target the Bloodsucker over the Vassal."
 	if(clan == CLAN_GANGREL) // Flavortext only
 		dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
