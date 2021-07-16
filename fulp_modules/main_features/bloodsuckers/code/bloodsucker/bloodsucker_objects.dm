@@ -297,7 +297,7 @@
 		if(!IS_BLOODSUCKER(M) || bloodsuckerdatum?.my_clan == null || bloodsuckerdatum?.poweron_masquerade)
 			to_chat(user, span_notice("You fail to find a specific Clan [M] could be part of."))
 			return
-		to_chat(user, span_warning("You found the one! [M] is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down."))
+		to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
 		bloodsuckerdatum.Curator_Discovered = TRUE
 		return
 	// Bloodsucker using it
@@ -328,7 +328,7 @@
 	to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	user.blur_eyes(10)
-	eyes.applyOrganDamage(7)
+	eyes.applyOrganDamage(5)
 
 /obj/item/book/kindred/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
