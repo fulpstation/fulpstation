@@ -287,7 +287,7 @@
 		to_chat(user, span_notice("You begin to read through [src] and begin to make comparisons to [M]."))
 		to_chat(M, span_notice("[user] begins to quickly look through [src], repeatedly looking back up at you."))
 		in_use = TRUE
-		if(!do_after(user, 6 SECONDS, src, NONE, TRUE))
+		if(!do_mob(user, M, 6 SECONDS, NONE, TRUE))
 			to_chat(user, span_notice("You quickly close the book and move out of [M]'s way."))
 			in_use = FALSE
 			return
@@ -318,6 +318,7 @@
 		return
 	// Curator/Tremere using it
 	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
+		to_chat(user, span_notice("You begin to read through [src]."))
 		ui_interact(user)
 		return
 	// Bloodsucker using it
