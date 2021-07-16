@@ -32,3 +32,8 @@
 	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_wings.dmi'
 	name = "Plasmafire"
 	icon_state = "plasmafire"
+
+/datum/sprite_accessory/moth_wings/aspen
+	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_wings.dmi'
+	name = "Aspen"
+	icon_state = "aspen"
