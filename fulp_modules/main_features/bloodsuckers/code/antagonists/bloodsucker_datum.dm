@@ -75,6 +75,8 @@
 	var/notice_healing
 	///Have we reached final death?
 	var/AmFinalDeath = FALSE
+	///Has a Curator discovered us?
+	var/Curator_Discovered = FALSE
 	///Are we currently in a Frenzy? - Martial Art also used in Frenzy
 	var/Frenzied = FALSE
 	var/datum/martial_art/frenzygrab/frenzygrab = new

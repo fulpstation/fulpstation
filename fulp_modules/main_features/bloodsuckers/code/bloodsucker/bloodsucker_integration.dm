@@ -83,8 +83,7 @@
 		return ""
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/datum/antagonist/bloodsucker/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
-	if(!bloodsuckerdatum || vassaldatum) // Adding check if you're a Vassal for Ventrue's Favorite Vassal
+	if(!bloodsuckerdatum)
 		return ""
 	// Viewer is Target's Vassal?
 	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
@@ -93,8 +92,9 @@
 		returnString += "\n"
 		return returnIcon + returnString
 	// Viewer not a Vamp AND not the target's vassal?
-	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
-		return ""
+	if(!HAS_TRAIT(viewer, TRAIT_BLOODSUCKER_HUNTER) && !bloodsuckerdatum.Curator_Discovered)
+		if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
+			return ""
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName(1)]</EM></span>\]"
 	var/returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"

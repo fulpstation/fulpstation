@@ -275,7 +275,6 @@
 /*
  *	# Attacking someone with the Book
  */
-
 // M is the person being hit here
 /obj/item/book/kindred/attack(mob/living/M, mob/living/user)
 	. = ..()
@@ -285,19 +284,33 @@
 	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
 		if(in_use || (M == user))
 			return
+		to_chat(user, span_notice("You begin to read through [src] and begin to make comparisons to [M]."))
+		to_chat(M, span_notice("[user] begins to quickly look through [src], repeatedly looking back up at you."))
+		in_use = TRUE
+		if(!do_after(user, 6 SECONDS, src, NONE, TRUE))
+			to_chat(user, span_notice("You quickly close the book and move out of [M]'s way."))
+			in_use = FALSE
+			return
+		in_use = FALSE
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(M)
+		// Are we a Bloodsucker | Are we not part of a Clan | Are we on Masquerade. If any are true, they will fail.
+		if(!IS_BLOODSUCKER(M) || bloodsuckerdatum?.my_clan == null || bloodsuckerdatum?.poweron_masquerade)
+			to_chat(user, span_notice("You fail to find a specific Clan [M] could be part of."))
+			return
+		to_chat(user, span_warning("You found the one! [M] is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down."))
+		bloodsuckerdatum.Curator_Discovered = TRUE
 		return
 	// Bloodsucker using it
 	else if(IS_BLOODSUCKER(user))
 		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
 		return
 	to_chat(user, span_warning("[src] burns your hands as you try to use it!"))
-	user.apply_damage(12, BURN)
+	user.apply_damage(12, BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
 
 
 /*
  *	# Reading the Book
  */
-
 /obj/item/book/kindred/attack_self(mob/living/carbon/user)
 //	Don't call parent since it handles reading the book.
 //	. = ..()
@@ -314,7 +327,7 @@
 	to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	user.blur_eyes(10)
-	eyes.applyOrganDamage(10)
+	eyes.applyOrganDamage(7)
 
 /obj/item/book/kindred/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -344,7 +357,7 @@
 		INVOKE_ASYNC(src, .proc/search, usr, CLAN_MALKAVIAN)
 
 /obj/item/book/kindred/proc/search(mob/reader, clan)
-	dat = "<head>List of information gathered on the <b>[clan]</b></head><br>"
+	dat = "<head>List of information gathered on the <b>[clan]</b>:</head><br>"
 	if(clan == CLAN_BRUJAH)
 		dat += "This Clan has proven to be the strongest in melee combat, boasting a <i>powerful punch</i>.<br> \
 		They also appear to be more calm than the others, entering their 'Frenzies' earlier, but <i>still behaves as usual</i>.<br> \
