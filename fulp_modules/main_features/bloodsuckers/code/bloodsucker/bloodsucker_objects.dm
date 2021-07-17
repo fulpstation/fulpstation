@@ -289,15 +289,21 @@
 			span_notice("[user] begins to quickly look through [src], repeatedly looking back up at you.")
 		)
 		in_use = TRUE
-		if(!do_mob(user, M, 4 SECONDS, NONE, TRUE))
+		if(!do_mob(user, M, 3 SECONDS, NONE, TRUE))
 			to_chat(user, span_notice("You quickly close the book and move out of [M]'s way."))
 			in_use = FALSE
 			return
 		in_use = FALSE
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(M)
 		// Are we a Bloodsucker | Are we not part of a Clan | Are we on Masquerade. If any are true, they will fail.
-		if(!IS_BLOODSUCKER(M) || bloodsuckerdatum?.my_clan == null || bloodsuckerdatum?.poweron_masquerade)
-			to_chat(user, span_notice("You fail to find a specific Clan [M] could be part of."))
+		if(IS_BLOODSUCKER(M) && !bloodsuckerdatum?.poweron_masquerade)
+			if(bloodsuckerdatum.my_clan != null)
+				to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
+			else
+				to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is not knowingly part of a Clan. You quickly note this information down, memorizing it."))
+			return
+		else
+			to_chat(user, span_notice("You fail to draw any conclusions to [M] being a Bloodsucker."))
 			return
 		to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
 		bloodsuckerdatum.Curator_Discovered = TRUE
@@ -320,7 +326,7 @@
 		return
 	// Curator/Tremere using it
 	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
-		to_chat(user, span_notice("You begin to read through [src]."))
+		user.visible_message(span_notice("[user] opens [src] and begins reading intently."))
 		ui_interact(user)
 		return
 	// Bloodsucker using it
