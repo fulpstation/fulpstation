@@ -301,12 +301,11 @@
 				to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
 			else
 				to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is not knowingly part of a Clan. You quickly note this information down, memorizing it."))
+			bloodsuckerdatum.Curator_Discovered = TRUE
 			return
 		else
 			to_chat(user, span_notice("You fail to draw any conclusions to [M] being a Bloodsucker."))
 			return
-		to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
-		bloodsuckerdatum.Curator_Discovered = TRUE
 		return
 	// Bloodsucker using it
 	else if(IS_BLOODSUCKER(user))
