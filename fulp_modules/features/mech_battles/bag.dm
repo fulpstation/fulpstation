@@ -103,8 +103,7 @@
  *	Check out at:
  *	/obj/item/toy/mecha/proc/mecha_brawl(obj/item/toy/mecha/attacker, mob/living/carbon/attacker_controller, mob/living/carbon/opponent)
  *	Make sure the winner gets the other person's mech.
+ *	Use this to check if the event has been triggered to do the handover:
+ *	var/datum/round_event_control/mech_dropoff/mechdropoff = locate(/datum/round_event_control/mech_dropoff) in SSevents.control
+ *	if(istype(mechdropoff) && mechdropoff.occurrences >= mechdropoff.max_occurrences)
  */
-/*
-	var/datum/round_event_control/mech_dropoff/mechdropoff = locate(/datum/round_event_control/mech_dropoff) in SSevents.control
-	if(istype(mechdropoff) && mechdropoff.occurrences >= mechdropoff.max_occurrences)
-*/
