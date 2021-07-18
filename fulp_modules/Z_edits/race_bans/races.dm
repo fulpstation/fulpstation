@@ -1,6 +1,5 @@
 /datum/species/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
-	//if(is_banned_from(C.ckey, src.id))
-	if(src.id != SPECIES_HUMAN)
+	if(is_banned_from(C.ckey, src.id))
 		addtimer(CALLBACK(C, /mob/living/carbon/proc/banned_species_revert), 5 SECONDS)
 		return
 	. = ..()
