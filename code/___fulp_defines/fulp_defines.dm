@@ -10,9 +10,6 @@
 #define ROLE_BLOODSUCKER "Bloodsucker"
 /// Monster Hunters - Defines the role for preferences
 #define ROLE_MONSTERHUNTER "Monster Hunter"
-/// Used for banning people from playing certain races
-#define RACE_FELINID "Felinid Race"
-#define RACE_ETHEREAL "Ethereal Race"
 
 /*
  *	Source Trait Defines
@@ -86,6 +83,7 @@
  *	Misc Defines
  */
 /// Human sub-species defines
+#define SPECIES_BEEFMAN "beefman"
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 /// Defines the Mentorhelp's Mentorsay button
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
