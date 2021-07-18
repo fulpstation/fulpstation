@@ -101,7 +101,6 @@
 	// Be Spooked but Educated
 	//C.gain_trauma(pick(startTraumas))
 	if (SStraumas.phobia_types && SStraumas.phobia_types.len) // NOTE: ONLY if phobias have been defined! For some reason, sometimes this gets FUCKED??
-		C.gain_trauma(/datum/brain_trauma/mild/phobia/aliens, TRAUMA_RESILIENCE_ABSOLUTE)
 		C.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 		C.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
@@ -158,7 +157,6 @@
 	C.ReassignForeignBodyparts()
 
 	// Resolve Trauma
-	C.cure_trauma_type(/datum/brain_trauma/mild/phobia/aliens, TRAUMA_RESILIENCE_ABSOLUTE)
 	C.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
