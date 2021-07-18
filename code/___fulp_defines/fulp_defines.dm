@@ -10,6 +10,9 @@
 #define ROLE_BLOODSUCKER "Bloodsucker"
 /// Monster Hunters - Defines the role for preferences
 #define ROLE_MONSTERHUNTER "Monster Hunter"
+/// Used for banning people from playing certain races
+#define RACE_FELINID "Felinid Race"
+#define RACE_ETHEREAL "Ethereal Race"
 
 /*
  *	Source Trait Defines
