@@ -37,8 +37,8 @@
 	if(abandoned_portal)
 		linked_venue.customer_types = list(
 			/datum/customer_data/xarsee = 45,
+			/datum/customer_data/rat = 45,
 			/datum/customer_data/french = 10,
-			// Todo: Add mice, make 45 weight.
 		)
 
 /obj/machinery/restaurant_portal/restaurant/prison
