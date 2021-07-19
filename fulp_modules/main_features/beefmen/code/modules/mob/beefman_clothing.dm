@@ -21,7 +21,7 @@
 //Captain
 /obj/item/clothing/under/bodysash/captain
 	name = "captain's sash"
-	icon_state = "captain"
+	icon_state = "captain_beef"
 
 //Security
 /obj/item/clothing/under/bodysash/security
