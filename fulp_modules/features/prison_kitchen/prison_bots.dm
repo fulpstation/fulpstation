@@ -18,7 +18,6 @@
 			/obj/item/food/pie/applepie = 4,
 			/obj/item/food/burger/cheese = 4,
 			/obj/item/food/eggssausage = 3,
-			/obj/item/food/hotdog = 3,
 			/obj/item/food/nachos = 3,
 			/obj/item/food/soup/hotchili = 2,
 
