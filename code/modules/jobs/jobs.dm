@@ -62,7 +62,6 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Detective",
 	/// FULP JOBS EDIT - Adding our jobs to the list
 	"Brig Physician",
-	"Deputy",
 	/// FULP EDIT ENDS
 	"Security Officer"))
 
