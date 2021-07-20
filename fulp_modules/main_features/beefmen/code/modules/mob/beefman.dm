@@ -208,8 +208,6 @@
 			newSash = new /obj/item/clothing/under/bodysash/security/detective()
 		if("Brig Physician")
 			newSash = new /obj/item/clothing/under/bodysash/security/brigdoc()
-		if("Deputy")
-			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
 
 		// Medical
 		if("Chief Medical Officer")

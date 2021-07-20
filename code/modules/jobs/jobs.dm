@@ -71,13 +71,6 @@ GLOBAL_LIST_INIT(security_sub_positions, list(
 	"Security Officer (Cargo)",
 	"Security Officer (Engineering)",
 	"Security Officer (Medical)",
-	/// FULP JOBS EDIT - Adding our jobs to the list, and we're not trusting trailing commas here.
-	"Deputy (Engineering)",
-	"Deputy (Supply)",
-	"Deputy (Science)",
-	"Deputy (Medical)",
-	"Deputy (Service)",
-	/// FULP EDIT ENDS
 	"Security Officer (Science)",
 ))
 
