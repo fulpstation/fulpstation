@@ -9,12 +9,14 @@ GLOBAL_LIST_INIT(command_positions, list(
 
 GLOBAL_LIST_INIT(engineering_positions, list(
 	"Chief Engineer",
+	"Deputy (Engineering)",
 	"Station Engineer",
 	"Atmospheric Technician"))
 
 
 GLOBAL_LIST_INIT(medical_positions, list(
 	"Chief Medical Officer",
+	"Deputy (Medical)",
 	"Medical Doctor",
 	"Paramedic",
 	"Virologist",
@@ -23,6 +25,7 @@ GLOBAL_LIST_INIT(medical_positions, list(
 
 GLOBAL_LIST_INIT(science_positions, list(
 	"Research Director",
+	"Deputy (Science)",
 	"Scientist",
 	"Geneticist",
 	"Roboticist"))
@@ -31,11 +34,13 @@ GLOBAL_LIST_INIT(science_positions, list(
 GLOBAL_LIST_INIT(supply_positions, list(
 	"Quartermaster",
 	"Cargo Technician",
+	"Deputy (Supply)",
 	"Shaft Miner"))
 
 
 GLOBAL_LIST_INIT(service_positions, list(
 	"Head of Personnel",
+	"Deputy (Service)",
 	"Bartender",
 	"Botanist",
 	"Cook",
@@ -71,13 +76,6 @@ GLOBAL_LIST_INIT(security_sub_positions, list(
 	"Security Officer (Cargo)",
 	"Security Officer (Engineering)",
 	"Security Officer (Medical)",
-	/// FULP JOBS EDIT - Adding our jobs to the list, and we're not trusting trailing commas here.
-	"Deputy (Engineering)",
-	"Deputy (Supply)",
-	"Deputy (Science)",
-	"Deputy (Medical)",
-	"Deputy (Service)",
-	/// FULP EDIT ENDS
 	"Security Officer (Science)",
 ))
 

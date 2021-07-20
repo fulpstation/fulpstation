@@ -34,7 +34,6 @@
 	ears = /obj/item/radio/headset/headset_dep
 	neck = /obj/item/clothing/neck/fulptie/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
-	box = null // This is to prevent getting double the boxes.
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
 
 /// Medical Deputy
@@ -53,7 +52,6 @@
 	ears = /obj/item/radio/headset/headset_dep/med
 	neck = /obj/item/clothing/neck/fulptie/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
-	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
 
 /// Science Deputy
@@ -73,7 +71,6 @@
 	ears = /obj/item/radio/headset/headset_dep/sci
 	head = /obj/item/clothing/head/fulpberet/science
 	accessory = /obj/item/clothing/accessory/armband/science
-	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
 
 /// Supply Deputy
@@ -94,7 +91,6 @@
 	neck = /obj/item/clothing/neck/fulptie/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
-	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
 
 /// Service Deputy

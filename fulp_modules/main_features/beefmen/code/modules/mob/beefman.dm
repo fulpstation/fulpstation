@@ -212,6 +212,14 @@
 			newSash = new /obj/item/clothing/under/bodysash/security/brigdoc()
 		if("Deputy")
 			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Engineering)")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Medical)")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Science)")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Supply)")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
 
 		// Medical
 		if("Chief Medical Officer")

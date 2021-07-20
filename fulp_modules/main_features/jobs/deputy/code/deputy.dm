@@ -1,11 +1,11 @@
 /datum/job/fulp/deputy
 	title = "Deputy"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security") // Sadly.
+	department_head = list("Head of Security")
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
-	supervisors = "the head of your assigned department, and the head of security, but only on red alert"
+	total_positions = 0
+	spawn_positions = 0
+	supervisors = "the head of your assigned department"
 	selection_color = "#ffeeee"
 	minimal_player_age = 14
 	exp_requirements = 300
@@ -38,6 +38,68 @@
 
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
+/// Engineering
+/datum/job/fulp/deputy/engineering
+	title = "Deputy (Engineering)"
+	department_head = list("Chief Engineer")
+	selection_color = "#fff5cc"
+	total_positions = 1
+	spawn_positions = 1
+	outfit = /datum/outfit/job/deputy/engineering
+	fulp_spawn = /obj/effect/landmark/start/deputy/engineering
+
+	display_order = JOB_DISPLAY_ORDER_CHIEF_ENGINEER
+	departments = DEPARTMENT_ENGINEERING
+///Medical
+/datum/job/fulp/deputy/medical
+	title = "Deputy (Medical)"
+	department_head = list("Chief Medical Officer")
+	selection_color = "#ffeef0"
+	total_positions = 1
+	spawn_positions = 1
+	outfit = /datum/outfit/job/deputy/medical
+	fulp_spawn = /obj/effect/landmark/start/deputy/medical
+
+	display_order = JOB_DISPLAY_ORDER_CHIEF_MEDICAL_OFFICER
+	departments = DEPARTMENT_MEDICAL
+///Science
+/datum/job/fulp/deputy/science
+	title = "Deputy (Science)"
+	department_head = list("Research Director")
+	selection_color = "#ffeeff"
+	total_positions = 1
+	spawn_positions = 1
+	outfit = /datum/outfit/job/deputy/science
+	fulp_spawn = /obj/effect/landmark/start/deputy/science
+
+	display_order = JOB_DISPLAY_ORDER_RESEARCH_DIRECTOR
+	departments = DEPARTMENT_SCIENCE
+///Supply
+/datum/job/fulp/deputy/supply
+	title = "Deputy (Supply)"
+	department_head = list("Head of Personnel")
+	selection_color = "#dcba97"
+	total_positions = 1
+	spawn_positions = 1
+	outfit = /datum/outfit/job/deputy/supply
+	fulp_spawn = /obj/effect/landmark/start/deputy/supply
+
+	display_order = JOB_DISPLAY_ORDER_QUARTERMASTER
+	departments = DEPARTMENT_CARGO
+///Service
+/*
+/datum/job/fulp/deputy/service
+	title = "Deputy (Service)"
+	department_head = list("Head of Personnel")
+	selection_color = "#bbe291"
+	total_positions = 1
+	spawn_positions = 1
+	outfit = /datum/outfit/job/deputy/service
+
+	display_order = JOB_DISPLAY_ORDER_HEAD_OF_PERSONNEL
+	departments = DEPARTMENT_SERVICE
+*/
+
 /// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
@@ -51,8 +113,7 @@
 	var/department_access = list()
 
 /datum/id_trim/job/deputy/refresh_trim_access()
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	access |= department_access
 
@@ -86,118 +147,41 @@
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 
-GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))// SEC_DEPT_SERVICE))) <- Without this, they wont be selected as a department, even with the code below.
-
 /datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
 	. = ..()
-	var/department
 
-	if(M && M.client && M.client.prefs)
-		department = M.client.prefs.prefered_security_department
-		if(!LAZYLEN(GLOB.available_deputy_depts))
-			return
-		else if(department in GLOB.available_deputy_depts)
-			LAZYREMOVE(GLOB.available_deputy_depts, department)
-		else
-			department = pick_n_take(GLOB.available_deputy_depts)
-	var/destination = null
-	var/spawn_point = pick(LAZYACCESS(GLOB.department_security_spawns, department))
-	switch(department)
-		if(SEC_DEPT_ENGINEERING)
-			H.equipOutfit(/datum/outfit/job/deputy/engineering)
-			destination = /area/security/checkpoint/engineering
-			announce_engineering(H, department)
-		if(SEC_DEPT_MEDICAL)
-			H.equipOutfit(/datum/outfit/job/deputy/medical)
-			destination = /area/security/checkpoint/medical
-			announce_medical(H, department)
-		if(SEC_DEPT_SCIENCE)
-			H.equipOutfit(/datum/outfit/job/deputy/science)
-			destination = /area/security/checkpoint/science
-			announce_science(H, department)
-		if(SEC_DEPT_SUPPLY)
-			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			destination = /area/security/checkpoint/supply
-			announce_supply(H, department)
-		if(SEC_DEPT_SERVICE)
-			H.equipOutfit(/datum/outfit/job/deputy/service)
-			destination = null
-			announce_service(H, department)
+	var/assigned_department = SEC_DEPT_NONE
+	var/channel
 
-	if(destination)
-		var/turf/T
-		if(spawn_point)
-			T = get_turf(spawn_point)
-			H.Move(T)
-		else
-			var/list/possible_turfs = get_area_turfs(destination)
-			while (length(possible_turfs))
-				var/I = rand(1, possible_turfs.len)
-				var/turf/target = possible_turfs[I]
-				if (H.Move(target))
-					break
-				possible_turfs.Cut(I,I+1)
-	if(department)
-		to_chat(M, "<b>You have been assigned to [department]!</b>")
-	else
+	if(!departments || departments == DEPARTMENT_SECURITY)
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
+		return
+	switch(departments)
+		if(DEPARTMENT_ENGINEERING)
+			assigned_department = SEC_DEPT_ENGINEERING
+			channel = RADIO_CHANNEL_ENGINEERING
+		if(DEPARTMENT_MEDICAL)
+			assigned_department = SEC_DEPT_MEDICAL
+			channel = RADIO_CHANNEL_MEDICAL
+		if(DEPARTMENT_SCIENCE)
+			assigned_department = SEC_DEPT_SCIENCE
+			channel = RADIO_CHANNEL_SCIENCE
+		if(DEPARTMENT_CARGO)
+			assigned_department = SEC_DEPT_SUPPLY
+			channel = RADIO_CHANNEL_SUPPLY
+		if(DEPARTMENT_SERVICE)
+			assigned_department = SEC_DEPT_SERVICE
+			channel = RADIO_CHANNEL_SERVICE
+	announce_deputy(H, assigned_department, channel)
+	to_chat(M, "<b>You have been assigned to [assigned_department]!</b>")
 
-/// Engineering
-/datum/job/fulp/deputy/proc/announce_engineering(mob/deputy, department)
+/datum/job/fulp/deputy/proc/announce_deputy(mob/deputy, department, channel)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
-	announcement_system.announce_engineering(deputy, department)
+	announcement_system.announce_deputy(deputy, department, channel)
 
-/obj/machinery/announcement_system/proc/announce_engineering(mob/deputy, department)
+/obj/machinery/announcement_system/proc/announce_deputy(mob/deputy, department, channel)
 	if(!is_operational)
 		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_ENGINEERING))
-
-/// Medical
-/datum/job/fulp/deputy/proc/announce_medical(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_medical(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_medical(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_MEDICAL))
-
-/// Science
-/datum/job/fulp/deputy/proc/announce_science(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_science(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_science(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SCIENCE))
-
-/// Supply
-/datum/job/fulp/deputy/proc/announce_supply(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_supply(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_supply(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
-
-/// Service
-/datum/job/fulp/deputy/proc/announce_service(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_service(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_service(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SERVICE))
+	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(channel))
