@@ -311,53 +311,47 @@
 	self_defense_line = "Squeak!!"
 	orderable_objects = list(
 		VENUE_RESTAURANT = list(
-			/obj/item/food/grown/korta_nut = 5,
-			/obj/item/food/black_eggs = 4,
-			/obj/item/food/lizard_dumplings = 4,
-			/obj/item/food/breadslice/root = 4,
-			/obj/item/food/bread/root = 3,
-			/obj/item/food/sauerkraut = 3,
-			/obj/item/food/patzikula = 3,
-			/obj/item/food/nectar_larvae = 2,
+			/obj/item/food/cheese = 10,
+			/obj/item/food/grilled_cheese_sandwich = 8,
+			/obj/item/food/burger/cheese = 5,
+			/obj/item/food/cheese_sandwich = 4,
+			/obj/item/food/cheesyfries = 4,
+			/obj/item/food/cheese/wheel = 3,
 		),
 	)
 	found_seat_lines = list(
-		"I practice learn common just for here.",
-		"Lakizusz he osriokso as hoekehossu.",
-		"Ih ku uh sh eoz el is ih issrlehs?",
-		"Heseauhulalleso kozua zohuol seu ieh. Loza.",
-		"Salao el sko a re ok sk. Ksls ra hizuhsohzozsko olahaseskha oz?",
-		"Ki szsisrs alhu hi ol ku li orihhsoh keikilhs sski. Eusuruh ul.",
+		"I can't wait for some luxury cheese",
+		"My wife left me",
+		"How do you stay competetive with all these other cheese companies?",
+		"How's the cheese going?",
+		"Let's get that cheese rolling!",
 	)
 	cant_find_seat_lines = list(
-		"Hope I not learn galactic for nothing.",
-		"U ohukshussss sh zohi sazszaka ez. Szas?",
-		"Eshoil heel er. Us. Li. Az kizsihehlisu ls shsosu s. A zi iri ihsshsrslik sk. Ak?",
-		"Ekssiseh skrsslisarss ku ol ik ra slzszoezi.",
+		"Cheese?",
+		"Squeak?",
+		"Nowhere to go...",
+		"What's taking so long?",
+		"What wasted oppertunity.",
 	)
 	leave_mad_lines = list(
-		"S. Aole hi sh ziuouzss liila az. Ise ss az ulssar.",
-		"Sr reol re. Ilossaira ira re ahkash za su seikzsuh. Se slsk sa.",
-		"U hi oh szukahu. La ruzu uk re urza ki ohikal. Kuoh. Sr ku sk le asu ehkolsrour i. Usra izuzro uor la.",
-		"Azer i skls ih sh ke. Luiz aah hs su skzoiz. Ulshuss rele hs sl.",
-		"Sl s akikha suizuz ok sh azos uhak el hsak kile.",
-		"Do not worry, I come again soon.",
+		"Where's the cheese...",
+		"I hate this place!",
+		"Where else is there to go...",
+		"Back to the tunnels!",
+		"You've just met your new worst enemy.",
 	)
 	leave_happy_lines = list(
-		"Aehzeurshreriku. Osalusesaku elsk koeszelo zs. Usz!",
-		"Thank you for food good again!",
-		"Ek sh u ks ek ko li okok hs sshsu ksulal us ho rs!",
-		"Zo. Esik ur. Sozo rezs usaekuholss sri ikihaul see. Lu",
-		"Usaozsrkiehur ze ri usho ss el ikzoleaaz!",
+		"Squeak!",
+		"Finally!",
+		"Back to digging tunnels!",
+		"I will come back soon... real soon...",
 	)
 	wait_for_food_lines = list(
-		"Me... hungry...",
-		"Sara ss sh kils. Hoisul.",
-		"Ursr uikrelu ulekru se ki lauraror zu sz.",
-		"Ze ul ih sekhu. Asl uul ki ehsa azorle az irihslailek ke eke ulhe ks alzo?",
-		"Isosalo o hs sh uzs hi erlo kiuhi. Si oz el koreoh lo aska skkes ls aza a azsasos hoak ro i elsluorora i. As ku hihe uruu ziileks o li uss arazahu si. Hauz essu.",
-		"Ssi uh ro laak skhuziksir zusz soreuzresl shza zisr. Sukialss.",
-		"Laasou ok zszsal. Uzaalo aahzeheuz eh e kizo elheza orhuluhashzu. Ar ohs a.",
+		"Cheese, my beloved...",
+		"I hope it won't take too long.",
+		"I have a ton of work ahead of me.",
+		"...So that's why I'm banned from entering our mines again.",
+		"Squeak..",
 	)
 
 /datum/customer_data/rat/get_overlays(mob/living/simple_animal/robot_customer/customer)

@@ -29,3 +29,11 @@
 
 /obj/item/food/nectar_larvae
 	venue_value = FOOD_PRICE_NORMAL
+
+// Rat food
+/obj/item/food/cheese
+	venue_value = FOOD_PRICE_TRASH
+/obj/item/food/grilled_cheese_sandwich
+	venue_value = FOOD_PRICE_CHEAP
+/obj/item/food/cheese/wheel
+	venue_value = FOOD_PRICE_CHEAP
