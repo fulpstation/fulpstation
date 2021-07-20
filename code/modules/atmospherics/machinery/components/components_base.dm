@@ -157,7 +157,7 @@
 	return ..()
 
 /obj/machinery/atmospherics/components/setPipenet(datum/pipeline/reference, obj/machinery/atmospherics/A)
-e 	parents[nodes.Find(A)] = reference
+ 	parents[nodes.Find(A)] = reference
 
 /obj/machinery/atmospherics/components/returnPipenet(obj/machinery/atmospherics/A = nodes[1]) //returns parents[1] if called without argument
 	return parents[nodes.Find(A)]
