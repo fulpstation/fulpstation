@@ -68,6 +68,9 @@
  */
 
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Any changes to clans have to be reflected in '/obj/item/book/kindred' /search proc. //
+/////////////////////////////////////////////////////////////////////////////////////////
 /datum/antagonist/bloodsucker/proc/AssignClanAndBane()
 	var/static/list/clans = list(
 		CLAN_BRUJAH,
@@ -103,7 +106,11 @@
 			var/datum/species/S = bloodsucker.dna.species
 			S.punchdamagehigh += 1.5
 			frenzy_threshold = FRENZY_THRESHOLD_HIGHER
-			return
+			var/datum/objective/bloodsucker/frenzy/frenzy_objective = new
+			frenzy_objective.owner = owner
+			frenzy_objective.objective_name = "Clan Objective"
+			objectives += frenzy_objective
+			owner.announce_objectives()
 		if(CLAN_NOSFERATU)
 			my_clan = CLAN_NOSFERATU
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
@@ -122,14 +129,18 @@
 				ADD_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_ALWAYS, BLOODSUCKER_TRAIT)
 			if(!HAS_TRAIT(bloodsucker, TRAIT_DISFIGURED))
 				ADD_TRAIT(bloodsucker, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
-			return
 		if(CLAN_TREMERE)
 			my_clan = CLAN_TREMERE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Tremere Clan!<br> \
 				* As part of the Tremere Clan, you are weak to Anti-magic, and will catch fire if you enter the Chapel.<br> \
 				* Additionally, you magically protect your Vassals from being disconnected with you via Mindshielding, and can mutilate them by putting them on a persuasion rack.<br> \
 				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>"))
-			return
+			ADD_TRAIT(bloodsucker, TRAIT_BLOODSUCKER_HUNTER, BLOODSUCKER_TRAIT)
+			var/datum/objective/bloodsucker/kindred/kindred_objective = new
+			kindred_objective.owner = owner
+			kindred_objective.objective_name = "Clan Objective"
+			objectives += kindred_objective
+			owner.announce_objectives()
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
@@ -137,7 +148,11 @@
 				* Additionally, you will no longer Rank up. You are now instead able to get a Favorite vassal, by putting a Vassal on the persuasion rack and attempting to Tortute them.<br> \
 				* Finally, you may Rank your Favorite Vassal (and your own powers) up by buckling them onto a Candelabrum and using it, this will cost a Rank or Blood to do.</span>"))
 			to_chat(owner, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack/Candelabrum to see how they operate!"))
-			return
+			var/datum/objective/bloodsucker/embrace/embrace_objective = new
+			embrace_objective.owner = owner
+			embrace_objective.objective_name = "Clan Objective"
+			objectives += embrace_objective
+			owner.announce_objectives()
 		if(CLAN_MALKAVIAN)
 			my_clan = CLAN_MALKAVIAN
 			to_chat(owner, span_hypnophrase("Welcome to the Malkavian..."))
@@ -145,8 +160,6 @@
 			bloodsucker.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			ADD_TRAIT(bloodsucker, TRAIT_XRAY_VISION, BLOODSUCKER_TRAIT)
-			return
 
 		else
 			to_chat(owner, span_warning("You have wilingfully decided to stay ignorant."))
-			return

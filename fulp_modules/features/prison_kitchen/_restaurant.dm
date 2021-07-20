@@ -44,6 +44,10 @@
 /obj/machinery/restaurant_portal/restaurant/prison
 	linked_venue = /datum/venue/restaurant/prison
 
+// Don't do anything or else it BREAKS
+/obj/machinery/restaurant_portal/restaurant/prison/attacked_by(obj/item/I, mob/living/user)
+	return
+
 // Holosign projector
 /obj/item/holosign_creator/robot_seat/restaurant/prison
 	name = "prison restaurant seating indicator placer"

@@ -10,6 +10,9 @@
 #define ROLE_BLOODSUCKER "Bloodsucker"
 /// Monster Hunters - Defines the role for preferences
 #define ROLE_MONSTERHUNTER "Monster Hunter"
+/// Used for banning people from playing certain races
+#define RACE_FELINID "Felinid Race"
+#define RACE_ETHEREAL "Ethereal Race"
 
 /*
  *	Source Trait Defines
@@ -30,6 +33,8 @@
 /*
  *	Bloodsucker Defines
  */
+/// You have special interactions with Bloodsuckers
+#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker hunter"
 /// Your heart doesn't beat.
 #define TRAIT_NOPULSE "nopulse"
 /// Falsifies Health analyzers
@@ -61,6 +66,9 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 /// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
 #define CLAN_MALKAVIAN "Malkavian Clan"
+// Used ONLY as Flavor text in Archives of Kindred
+#define CLAN_TOREADOR "Toreador Clan"
+#define CLAN_GANGREL "Gangrel Clan"
 /* Clan defines
 */
 // Tremere
