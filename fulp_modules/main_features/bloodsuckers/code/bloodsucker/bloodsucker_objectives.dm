@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //	//							 PROCS 									//	//
 
-
 /// Look at all crew members, and for/loop through.
 /datum/objective/bloodsucker/proc/return_possible_targets()
 	var/list/possible_targets = list()
@@ -34,6 +33,11 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 //	//							 OBJECTIVES 									//	//
+//////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////
+//    DEFAULT OBJECTIVES    //
+//////////////////////////////
 
 /datum/objective/bloodsucker/lair
 	name = "claimlair"
@@ -50,6 +54,24 @@
 	return FALSE
 
 /// Space_Station_13_areas.dm  <--- all the areas
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/datum/objective/bloodsucker/survive
+	name = "bloodsuckersurvive"
+
+// EXPLANATION
+/datum/objective/bloodsucker/survive/update_explanation_text()
+	explanation_text = "Survive the entire shift without succumbing to Final Death."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/survive/check_completion()
+	/// Must have a body.
+	if(!owner.current || !isliving(owner.current))
+		return FALSE
+	/// Did I reach Final Death?
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	return !bloodsuckerdatum.AmFinalDeath
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -177,143 +199,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-///Eat blood from a lot of people
-/datum/objective/bloodsucker/gourmand
-	name = "gourmand"
-
-// GENERATE!
-/datum/objective/bloodsucker/gourmand/New()
-	target_amount = rand(450,650)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/gourmand/update_explanation_text()
-	. = ..()
-	explanation_text = "Using your Feed ability, drink [target_amount] units of Blood."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/gourmand/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	var/stolen_blood = bloodsuckerdatum.total_blood_drank
-	if(stolen_blood >= target_amount)
-		return TRUE
-	return FALSE
-
-// HOW: Track each feed (if human). Count victory.
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Convert a crewmate
-/datum/objective/bloodsucker/embrace
-	name = "embrace"
-
-// EXPLANATION
-/datum/objective/bloodsucker/embrace/update_explanation_text()
-	. = ..()
-	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/embrace/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum || bloodsuckerdatum.my_clan != CLAN_VENTRUE)
-		return FALSE
-	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
-		if(vassaldatum.owner && vassaldatum.favorite_vassal)
-			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
-				return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Enter Frenzy repeatedly
-/datum/objective/bloodsucker/frenzy
-	name = "frenzy"
-
-/datum/objective/bloodsucker/frenzy/New()
-	target_amount = rand(3,4)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/frenzy/update_explanation_text()
-	. = ..()
-	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/frenzy/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	if(bloodsuckerdatum.Frenzies >= target_amount)
-		return TRUE
-	return FALSE
-
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Defile a facility with blood
-/datum/objective/bloodsucker/desecrate
-
-	// Space_Station_13_areas.dm  <--- all the areas
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Destroy the Solar Arrays
-/datum/objective/bloodsucker/solars
-/* -- Removed due to TG updates breaking it + It's not a good objective, replaced with Vassalhim objective instead.
-// Space_Station_13_areas.dm  <--- all the areas
-/datum/objective/bloodsucker/solars/update_explanation_text()
-	explanation_text = "Prevent all solar arrays on the station from functioning."
-/datum/objective/bloodsucker/solars/check_completion()
-	// Sort through all /obj/machinery/power/solar_control in the station ONLY, and check that they are functioning.
-	// Make sure that lastgen is 0 or connected_panels.len is 0. Doesnt matter if it's tracking.
-	for (var/obj/machinery/power/solar_control/SC in SSsun.solars)
-		// Check On Station:
-		var/turf/T = get_turf(SC)
-		if(!T || !is_station_level(T.z)) // <------ Taken from NukeOp
-			//message_admins("DEBUG A: [SC] not on station!")
-			continue // Not on station! We don't care about this.
-		if (SC && SC.lastgen > 0 && SC.connected_panels.len > 0 && SC.connected_tracker)
-			return FALSE
-	return TRUE
-*/
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// NOTE: Look up /steal in objective.dm for inspiration.
-/// Steal hearts. You just really wanna have some hearts.
-/datum/objective/bloodsucker/heartthief
-	name = "heartthief"
-
-// GENERATE!
-/datum/objective/bloodsucker/heartthief/New()
-	target_amount = rand(2,3)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/heartthief/update_explanation_text()
-	. = ..()
-	explanation_text = "Steal and keep [target_amount] organic heart\s."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/heartthief/check_completion()
-	if(!owner.current)
-		return FALSE
-	var/list/all_items = owner.current.GetAllContents()
-	var/itemcount = FALSE
-	for(var/obj/I in all_items)
-		if(istype(I, /obj/item/organ/heart/))
-			var/obj/item/organ/heart/heart_item = I
-			if(!(heart_item.organ_flags & ORGAN_SYNTHETIC)) // No robo-hearts allowed
-				itemcount++
-			if(itemcount >= target_amount)
-				return TRUE
-
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 /// NOTE: Look up /assassinate in objective.dm for inspiration.
 /// Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
@@ -350,23 +235,151 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/datum/objective/bloodsucker/survive
-	name = "bloodsuckersurvive"
+/// NOTE: Look up /steal in objective.dm for inspiration.
+/// Steal hearts. You just really wanna have some hearts.
+/datum/objective/bloodsucker/heartthief
+	name = "heartthief"
+
+// GENERATE!
+/datum/objective/bloodsucker/heartthief/New()
+	target_amount = rand(2,3)
+	..()
 
 // EXPLANATION
-/datum/objective/bloodsucker/survive/update_explanation_text()
-	explanation_text = "Survive the entire shift without succumbing to Final Death."
+/datum/objective/bloodsucker/heartthief/update_explanation_text()
+	. = ..()
+	explanation_text = "Steal and keep [target_amount] organic heart\s."
 
 // WIN CONDITIONS?
-/datum/objective/bloodsucker/survive/check_completion()
-	/// Must have a body.
-	if(!owner.current || !isliving(owner.current))
+/datum/objective/bloodsucker/heartthief/check_completion()
+	if(!owner.current)
 		return FALSE
-	/// Did I reach Final Death?
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	return !bloodsuckerdatum.AmFinalDeath
+	var/list/all_items = owner.current.GetAllContents()
+	var/itemcount = FALSE
+	for(var/obj/I in all_items)
+		if(istype(I, /obj/item/organ/heart/))
+			var/obj/item/organ/heart/heart_item = I
+			if(!(heart_item.organ_flags & ORGAN_SYNTHETIC)) // No robo-hearts allowed
+				itemcount++
+			if(itemcount >= target_amount)
+				return TRUE
+
+	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////
+
+///Eat blood from a lot of people
+/datum/objective/bloodsucker/gourmand
+	name = "gourmand"
+
+// GENERATE!
+/datum/objective/bloodsucker/gourmand/New()
+	target_amount = rand(450,650)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/gourmand/update_explanation_text()
+	. = ..()
+	explanation_text = "Using your Feed ability, drink [target_amount] units of Blood."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/gourmand/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	var/stolen_blood = bloodsuckerdatum.total_blood_drank
+	if(stolen_blood >= target_amount)
+		return TRUE
+	return FALSE
+
+// HOW: Track each feed (if human). Count victory.
+
+
+
+//////////////////////////////
+//     CLAN OBJECTIVES      //
+//////////////////////////////
+
+/// Enter Frenzy repeatedly - Brujah Clan objective
+/datum/objective/bloodsucker/frenzy
+	name = "frenzy"
+
+/datum/objective/bloodsucker/frenzy/New()
+	target_amount = rand(3,4)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/frenzy/update_explanation_text()
+	. = ..()
+	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/frenzy/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	if(bloodsuckerdatum.Frenzies >= target_amount)
+		return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Steal the Archive of the Kindred - Tremere Clan objective
+/datum/objective/bloodsucker/kindred
+	name = "steal kindred"
+
+// EXPLANATION
+/datum/objective/bloodsucker/kindred/update_explanation_text()
+	. = ..()
+	explanation_text = "Ensure Tremere steals and keeps control over the Archive of the Kindred."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/kindred/check_completion()
+	if(!owner.current)
+		return FALSE
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+
+	for(var/datum/mind/M in bloodsuckerdatum.clan?.members)
+		var/datum/antagonist/bloodsucker/allsuckers = M.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(allsuckers.my_clan != CLAN_TREMERE)
+			continue
+		if(!isliving(M.current))
+			continue
+		var/list/all_items = allsuckers.owner.current.GetAllContents()
+		for(var/obj/I in all_items)
+			if(istype(I, /obj/item/book/kindred))
+				return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Convert a crewmate - Ventrue Clan objective
+/datum/objective/bloodsucker/embrace
+	name = "embrace"
+
+// EXPLANATION
+/datum/objective/bloodsucker/embrace/update_explanation_text()
+	. = ..()
+	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/embrace/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum || bloodsuckerdatum.my_clan != CLAN_VENTRUE)
+		return FALSE
+	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
+		if(vassaldatum.owner && vassaldatum.favorite_vassal)
+			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+				return TRUE
+	return FALSE
+
+
+
+//////////////////////////////
+// MONSTERHUNTER OBJECTIVES //
+//////////////////////////////
 
 /datum/objective/bloodsucker/monsterhunter
 	name = "destroymonsters"
@@ -391,7 +404,10 @@
 	return TRUE
 
 
-//////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////
+//     VASSAL OBJECTIVES    //
+//////////////////////////////
 
 /datum/objective/bloodsucker/vassal
 
@@ -404,3 +420,36 @@
 /datum/objective/bloodsucker/vassal/check_completion()
 	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
 	return antag_datum.master?.owner?.current?.stat != DEAD
+
+
+
+//////////////////////////////
+//    REMOVED OBJECTIVES    //
+//////////////////////////////
+
+/// Defile a facility with blood
+/datum/objective/bloodsucker/desecrate
+
+	// Space_Station_13_areas.dm  <--- all the areas
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Destroy the Solar Arrays
+/datum/objective/bloodsucker/solars
+/* -- Removed due to TG updates breaking it + It's not a good objective, replaced with Vassalhim objective instead.
+// Space_Station_13_areas.dm  <--- all the areas
+/datum/objective/bloodsucker/solars/update_explanation_text()
+	explanation_text = "Prevent all solar arrays on the station from functioning."
+/datum/objective/bloodsucker/solars/check_completion()
+	// Sort through all /obj/machinery/power/solar_control in the station ONLY, and check that they are functioning.
+	// Make sure that lastgen is 0 or connected_panels.len is 0. Doesnt matter if it's tracking.
+	for (var/obj/machinery/power/solar_control/SC in SSsun.solars)
+		// Check On Station:
+		var/turf/T = get_turf(SC)
+		if(!T || !is_station_level(T.z)) // <------ Taken from NukeOp
+			//message_admins("DEBUG A: [SC] not on station!")
+			continue // Not on station! We don't care about this.
+		if (SC && SC.lastgen > 0 && SC.connected_panels.len > 0 && SC.connected_tracker)
+			return FALSE
+	return TRUE
+*/
