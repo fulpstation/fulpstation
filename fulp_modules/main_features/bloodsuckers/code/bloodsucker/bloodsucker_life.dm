@@ -11,8 +11,6 @@
 
 /// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
-	SIGNAL_HANDLER
-
 	if(!owner || AmFinalDeath)
 		return
 	// Deduct Blood
@@ -28,10 +26,10 @@
 	if(Frenzied)
 		owner.current.adjustFireLoss(my_clan == CLAN_BRUJAH ? 1 : 3)
 	// Standard Updates
-	INVOKE_ASYNC(src, .proc/HandleDeath)
-	INVOKE_ASYNC(src, .proc/HandleStarving)
-	INVOKE_ASYNC(src, .proc/HandleTorpor)
-	INVOKE_ASYNC(src, .proc/update_hud)
+	HandleDeath()
+	HandleStarving()
+	HandleTorpor()
+	update_hud()
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
