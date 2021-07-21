@@ -28,6 +28,19 @@
 		/datum/customer_data/japanese/salaryman = 10, // What da salaryman doin
 	)
 
+/obj/machinery/restaurant_portal
+	/// Is this prison abandoned? Done via map varedits, making a subtype would make it a whole new restaurant, this is the only way to prevent hardcoding.
+	var/abandoned_portal = FALSE
+
+/obj/machinery/restaurant_portal/restaurant/prison/Initialize()
+	. = ..()
+	if(abandoned_portal)
+		linked_venue.customer_types = list(
+			/datum/customer_data/xarsee = 45,
+			/datum/customer_data/rat = 45,
+			/datum/customer_data/french = 10,
+		)
+
 /obj/machinery/restaurant_portal/restaurant/prison
 	linked_venue = /datum/venue/restaurant/prison
 
