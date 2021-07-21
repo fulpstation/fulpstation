@@ -25,7 +25,16 @@
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
 		if("Deputy")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-
+		// Deputies
+		if("Deputy (Engineering)")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Deputy (Medical)")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Deputy (Science)")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if("Deputy (Supply)")
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		
 		// Medical
 		if("Chief Medical Officer")
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
