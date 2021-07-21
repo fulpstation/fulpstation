@@ -101,7 +101,7 @@
 	/// We got a target?
 	/// Am I next to my target to start giving the effects?
 	if(user.Adjacent(target))
-		/// Is my target a Monster hunter?
+		// Is my target a Monster hunter?
 		if(IS_MONSTERHUNTER(target))
 			to_chat(owner, span_warning("You get pushed away as you advance, and fail to get a strong grasp!"))
 			target.grabbedby(owner)
