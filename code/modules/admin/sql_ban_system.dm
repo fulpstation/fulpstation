@@ -316,7 +316,6 @@
 				ROLE_WIZARD,
 			),
 		)
-		long_job_lists.Add(GLOB.fulp_ban_list) // FULP EDIT - BANS
 		for(var/department in long_job_lists)
 			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			break_counter = 0
