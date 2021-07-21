@@ -410,6 +410,9 @@
 		say("[pick(winlines)]")
 		src_controller.visible_message(span_notice("[src] destroys [attacker] and walks away victorious!"), \
 						span_notice("You raise up [src] victoriously over [attacker]!"))
+		var/datum/round_event_control/mech_dropoff/mechdropoff = locate(/datum/round_event_control/mech_dropoff) in SSevents.control
+		if(istype(mechdropoff) && mechdropoff.occurrences >= mechdropoff.max_occurrences)
+			src_controller.put_in_hands(attacker)
 	else if (combat_health <= 0) //attacker wins
 		attacker.wins++
 		losses++
@@ -419,6 +422,9 @@
 		attacker.say("[pick(winlines)]")
 		attacker_controller.visible_message(span_notice("[attacker] demolishes [src] and walks away victorious!"), \
 							"[span_notice("You raise up [attacker] proudly over [src]")]!")
+		var/datum/round_event_control/mech_dropoff/mechdropoff = locate(/datum/round_event_control/mech_dropoff) in SSevents.control
+		if(istype(mechdropoff) && mechdropoff.occurrences >= mechdropoff.max_occurrences)
+			attacker_controller.put_in_hands(src)
 	else //both win?
 		say("NEXT TIME.")
 		//don't want to make this a one sided conversation
