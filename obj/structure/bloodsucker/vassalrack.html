@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;obj&#x2F;structure&#x2F;bloodsucker&#x2F;vassalrack - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="obj/structure/bloodsucker/vassalrack.html#var">Var Details</a> - <a href="obj/structure/bloodsucker/vassalrack.html#proc">Proc Details</a></header>
+<main>
+<h1>vassalrack <aside>/<a href="obj.html">obj</a>/<a href="obj/structure/bloodsucker/vassalrack.html">structure/bloodsucker/vassalrack</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L83">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 83"/></a></h1>
+
+<table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#var/convert_progress">convert_progress</a></th><td>Resets on each new character to be added to the chair. Some effects should lower it...</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#var/density">density</a></th><td>Start dense. Once fixed in place, go non-dense.</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#var/disloyalty_confirm">disloyalty_confirm</a></th><td>Mindshielded and Antagonists willingly have to accept you as their Master.</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#var/disloyalty_offered">disloyalty_offered</a></th><td>Prevents popup spam.</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#var/useLock">useLock</a></th><td>So we can't spam buckle people onto the rack</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/MouseDrop_T">MouseDrop_T</a></th><td>If a Bloodsucker tries to wrench it in place, yell at them.
+If it is wrenched it place, let them unwrench it.</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/RequireDisloyalty">RequireDisloyalty</a></th><td>Are we still torturing? Did we cancel? Are they still here?</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/attach_victim">attach_victim</a></th><td>Attempt Buckle</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/attack_hand_secondary">attack_hand_secondary</a></th><td>Please dont let them buckle Fireman carried people
+Default checks
+Not anchored?
+Let the Bloodsucker know the problem.
+Not a Bloodsucker? Not our problem.
+Don't buckle Silicon to it please.
+Good to go - Buckle them!
+Attempt Release (Owner vs Non Owner)</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/do_disloyalty">do_disloyalty</a></th><td>Fifteen seconds if you aren't using anything. Shorter with weapons and such.
+Get Bodypart
+Get Weapon
+Weapon Bonus
+This will hurt your eyes.
+Minimum 5 seconds.
+Now run process.
+Success?
+Offer them the oppertunity to join now.</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/do_torture">do_torture</a></th><td>Prep...
+Conversion Process
+Prevent them from unbuckling themselves as long as we're torturing.
+We're done? Let's see if they can be Vassal.
+Otherwise, we're not done, we need to persuade them some more.
+Check: Mindshield &amp; Antag
+Convert to Vassal!</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/offer_ventrue_favorites">offer_ventrue_favorites</a></th><td>To deal with Blood
+Due to the checks leding up to this, if they fail this, they're dead &amp; Not our vassal.
+Quick Feeding
+Just take it all
+Chance to give Bat form, or turn them into a bat.
+Ooh, lucky!</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/torture_victim">torture_victim</a></th><td>Tortiring someone?
+Claiming the Rack instead of using it?
+Radial menu for securing your Persuasion rack in place.
+Is anyone on the rack?
+If I'm not a Bloodsucker, try to unbuckle them.
+Are they our Vassal, or Dead?
+Are we part of Tremere? They can do bonus things with their Vassals, so don't unbuckle!
+Limit it to only 1 time per Vassal.
+Are we part of Ventrue? Can we assign a Favorite Vassal?
+Not Tremere &amp; They're still our Vassal, let's unbuckle them.
+Not our Vassal &amp; We're a Bloodsucker, good to go!</td></tr>
+            <tr><th><a href="obj/structure/bloodsucker/vassalrack.html#proc/user_unbuckle_mob">user_unbuckle_mob</a></th><td>Attempt Unbuckle</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/convert_progress"><aside class="declaration">var </aside>convert_progress
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L97">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 97"/></a></h3>
+        <p>Resets on each new character to be added to the chair. Some effects should lower it...</p><h3 id="var/density">density
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L90">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 90"/></a></h3>
+        <p>Start dense. Once fixed in place, go non-dense.</p><h3 id="var/disloyalty_confirm"><aside class="declaration">var </aside>disloyalty_confirm
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L99">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 99"/></a></h3>
+        <p>Mindshielded and Antagonists willingly have to accept you as their Master.</p><h3 id="var/disloyalty_offered"><aside class="declaration">var </aside>disloyalty_offered
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L101">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 101"/></a></h3>
+        <p>Prevents popup spam.</p><h3 id="var/useLock"><aside class="declaration">var </aside>useLock
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L94">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 94"/></a></h3>
+        <p>So we can't spam buckle people onto the rack</p><h2 id="proc">Proc Details</h2><h3 id="proc/MouseDrop_T">MouseDrop_T<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/O, /<a href="mob.html">mob</a>/user) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L150">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 150"/></a></aside>
+        </h3>
+        <p>If a Bloodsucker tries to wrench it in place, yell at them.
+If it is wrenched it place, let them unwrench it.</p><h3 id="proc/RequireDisloyalty"><aside class="declaration">proc </aside>RequireDisloyalty<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/user, /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/target) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L433">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 433"/></a></aside>
+        </h3>
+        <p>Are we still torturing? Did we cancel? Are they still here?</p><h3 id="proc/attach_victim"><aside class="declaration">proc </aside>attach_victim<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/M, /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/user) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L191">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 191"/></a></aside>
+        </h3>
+        <p>Attempt Buckle</p><h3 id="proc/attack_hand_secondary"><aside class="parent"><a title="/atom" href="atom.html#proc/attack_hand_secondary">&uarr;</a></aside>attack_hand_secondary<aside>(/<a href="mob.html">mob</a>/user) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L178">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 178"/></a></aside>
+        </h3>
+        <p>Please dont let them buckle Fireman carried people
+Default checks
+Not anchored?
+Let the Bloodsucker know the problem.
+Not a Bloodsucker? Not our problem.
+Don't buckle Silicon to it please.
+Good to go - Buckle them!
+Attempt Release (Owner vs Non Owner)</p><h3 id="proc/do_disloyalty"><aside class="declaration">proc </aside>do_disloyalty<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/user, /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/target) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L407">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 407"/></a></aside>
+        </h3>
+        <p>Fifteen seconds if you aren't using anything. Shorter with weapons and such.
+Get Bodypart
+Get Weapon
+Weapon Bonus
+This will hurt your eyes.
+Minimum 5 seconds.
+Now run process.
+Success?
+Offer them the oppertunity to join now.</p><h3 id="proc/do_torture"><aside class="declaration">proc </aside>do_torture<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/user, /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/target, mult) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L358">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 358"/></a></aside>
+        </h3>
+        <p>Prep...
+Conversion Process
+Prevent them from unbuckling themselves as long as we're torturing.
+We're done? Let's see if they can be Vassal.
+Otherwise, we're not done, we need to persuade them some more.
+Check: Mindshield &amp; Antag
+Convert to Vassal!</p><h3 id="proc/offer_ventrue_favorites"><aside class="declaration">proc </aside>offer_ventrue_favorites<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/user, /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/target) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L543">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 543"/></a></aside>
+        </h3>
+        <p>To deal with Blood
+Due to the checks leding up to this, if they fail this, they're dead &amp; Not our vassal.
+Quick Feeding
+Just take it all
+Chance to give Bat form, or turn them into a bat.
+Ooh, lucky!</p><h3 id="proc/torture_victim"><aside class="declaration">proc </aside>torture_victim<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/user, /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/target) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L306">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 306"/></a></aside>
+        </h3>
+        <p>Tortiring someone?
+Claiming the Rack instead of using it?
+Radial menu for securing your Persuasion rack in place.
+Is anyone on the rack?
+If I'm not a Bloodsucker, try to unbuckle them.
+Are they our Vassal, or Dead?
+Are we part of Tremere? They can do bonus things with their Vassals, so don't unbuckle!
+Limit it to only 1 time per Vassal.
+Are we part of Ventrue? Can we assign a Favorite Vassal?
+Not Tremere &amp; They're still our Vassal, let's unbuckle them.
+Not our Vassal &amp; We're a Bloodsucker, good to go!</p><h3 id="proc/user_unbuckle_mob"><aside class="parent"><a title="/atom/movable" href="atom/movable.html#proc/user_unbuckle_mob">&uarr;</a></aside>user_unbuckle_mob<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/M, /<a href="mob.html">mob</a>/user) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/bloodsucker/bloodsucker_crypt.dm#L210">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;bloodsucker&#x2F;bloodsucker_crypt.dm 210"/></a></aside>
+        </h3>
+        <p>Attempt Unbuckle</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

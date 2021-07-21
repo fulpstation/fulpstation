@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;datum&#x2F;element&#x2F;connect_loc_behalf - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="datum/element/connect_loc_behalf.html#var">Var Details</a></header>
+<main>
+<h1>connect_loc_behalf <aside>/<a href="datum.html">datum</a>/<a href="datum/element.html">element</a>/<a href="datum/element/connect_loc_behalf.html">connect_loc_behalf</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/datums/elements/connect_loc.dm#L50">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;elements&#x2F;connect_loc.dm 50"/></a></h1>
+
+<p>This element behaves the same as connect_loc, hooking into a signal on a tracked object's turf
+It has the ability to react to that signal on behalf of a seperate listener however
+This has great use, primarially for components, but it carries with it some overhead
+So we do it seperately rather then intigrating the behavior with the main element</p><table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="datum/element/connect_loc_behalf.html#var/connections">connections</a></th><td>An assoc list of signal -&gt; procpath to register to the loc this object is on.</td></tr>
+            <tr><th><a href="datum/element/connect_loc_behalf.html#var/targets">targets</a></th><td>An assoc list of locs that are being occupied and a list of targets that occupy them.</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/connections"><aside class="declaration">var </aside>connections
+            <aside>&ndash; /list</aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/datums/elements/connect_loc.dm#L55">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;elements&#x2F;connect_loc.dm 55"/></a></h3>
+        <p>An assoc list of signal -&gt; procpath to register to the loc this object is on.</p><h3 id="var/targets"><aside class="declaration">var </aside>targets
+            <aside>&ndash; /list</aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/datums/elements/connect_loc.dm#L58">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;elements&#x2F;connect_loc.dm 58"/></a></h3>
+        <p>An assoc list of locs that are being occupied and a list of targets that occupy them.</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;datum&#x2F;antagonist&#x2F;vassal - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="datum/antagonist/vassal.html#var">Var Details</a> - <a href="datum/antagonist/vassal.html#proc">Proc Details</a></header>
+<main>
+<h1>vassal <aside>/<a href="datum.html">datum</a>/<a href="datum/antagonist.html">antagonist</a>/<a href="datum/antagonist/vassal.html">vassal</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L6">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 6"/></a></h1>
+
+<table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#var/favorite_vassal">favorite_vassal</a></th><td>Ventrue Vassals only - Am I their Favorite?</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#var/master">master</a></th><td>Who made me?</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#var/mutilated">mutilated</a></th><td>Tremere Vassals only - Have I been mutated?</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#var/powers">powers</a></th><td>Purchased powers.</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#var/protected_from_mindshielding">protected_from_mindshielding</a></th><td>Am I protected from getting my antag removed if I get Mindshielded?</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#var/vassal_level">vassal_level</a></th><td>What level am I? This is only increased through Ventrue's raising of a Vassal</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#proc/BuyPower">BuyPower</a></th><td>Used when your Master teaches you a new Power.</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#proc/add_objective">add_objective</a></th><td>Free them from their Master
+Remove Pinpointer
+Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
+Remove Recuperate Power
+Remove Language &amp; Hud</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#proc/can_be_owned">can_be_owned</a></th><td>Message told to your (former) Master.
+If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#proc/farewell">farewell</a></th><td>Message told to your Master.</td></tr>
+            <tr><th><a href="datum/antagonist/vassal.html#proc/on_removal">on_removal</a></th><td>Enslave them to their Master
+Is my Master part of Tremere?
+Give Vassal Pinpointer
+Give Recuperate Power
+Give Objectives
+Give Vampire Language &amp; Hud</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/favorite_vassal"><aside class="declaration">var </aside>favorite_vassal
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L23">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 23"/></a></h3>
+        <p>Ventrue Vassals only - Am I their Favorite?</p><h3 id="var/master"><aside class="declaration">var </aside>master
+            <aside>&ndash; /<a href="datum.html">datum</a>/<a href="datum/antagonist.html">antagonist</a>/<a href="datum/antagonist/bloodsucker.html">bloodsucker</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L15">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 15"/></a></h3>
+        <p>Who made me?</p><h3 id="var/mutilated"><aside class="declaration">var </aside>mutilated
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L21">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 21"/></a></h3>
+        <p>Tremere Vassals only - Have I been mutated?</p><h3 id="var/powers"><aside class="declaration">var </aside>powers
+            <aside>&ndash; /list/datum/action</aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L17">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 17"/></a></h3>
+        <p>Purchased powers.</p><h3 id="var/protected_from_mindshielding"><aside class="declaration">var </aside>protected_from_mindshielding
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L19">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 19"/></a></h3>
+        <p>Am I protected from getting my antag removed if I get Mindshielded?</p><h3 id="var/vassal_level"><aside class="declaration">var </aside>vassal_level
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L27">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 27"/></a></h3>
+        <p>What level am I? This is only increased through Ventrue's raising of a Vassal</p><h2 id="proc">Proc Details</h2><h3 id="proc/BuyPower"><aside class="declaration">proc </aside>BuyPower<aside>(/<a href="datum.html">datum</a>/<a href="datum/action/bloodsucker.html">action/bloodsucker</a>/power) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L127">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 127"/></a></aside>
+        </h3>
+        <p>Used when your Master teaches you a new Power.</p><h3 id="proc/add_objective"><aside class="declaration">proc </aside>add_objective<aside>(/<a href="datum.html">datum</a>/<a href="datum/objective.html">objective</a>/O) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L78">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 78"/></a></aside>
+        </h3>
+        <p>Free them from their Master
+Remove Pinpointer
+Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
+Remove Recuperate Power
+Remove Language &amp; Hud</p><h3 id="proc/can_be_owned">can_be_owned<aside>(/<a href="datum.html">datum</a>/<a href="datum/mind.html">mind</a>/new_owner) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L104">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 104"/></a></aside>
+        </h3>
+        <p>Message told to your (former) Master.
+If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)</p><h3 id="proc/farewell">farewell<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L94">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 94"/></a></aside>
+        </h3>
+        <p>Message told to your Master.</p><h3 id="proc/on_removal"><aside class="parent"><a title="/datum/antagonist" href="datum/antagonist.html#proc/on_removal">&uarr;</a></aside>on_removal<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/antagonists/vassal_datum.dm#L57">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;antagonists&#x2F;vassal_datum.dm 57"/></a></aside>
+        </h3>
+        <p>Enslave them to their Master
+Is my Master part of Tremere?
+Give Vassal Pinpointer
+Give Recuperate Power
+Give Objectives
+Give Vampire Language &amp; Hud</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

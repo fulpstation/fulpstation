@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;datum&#x2F;admins - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="datum/admins.html#var">Var Details</a> - <a href="datum/admins.html#proc">Proc Details</a></header>
+<main>
+<h1>admins <aside>/<a href="datum.html">datum</a>/<a href="datum/admins.html">admins</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/holder2.dm#L12">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;holder2.dm 12"/></a></h1>
+
+<table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="datum/admins.html#var/blocked_by_2fa">blocked_by_2fa</a></th><td>Whether or not the user tried to connect, but was blocked by 2FA</td></tr>
+            <tr><th><a href="datum/admins.html#var/bypass_2fa">bypass_2fa</a></th><td>Whether or not this user can bypass 2FA</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="datum/admins.html#proc/ban_parse_href">ban_parse_href</a></th><td>Fulp edit - Race bans
+Fulp edit ends - Race bans
+Fulp edit - Bloodsuckers
+Fulp edit end - Bloodsuckers</td></tr>
+            <tr><th><a href="datum/admins.html#proc/check_2fa">check_2fa</a></th><td>Returns whether or not the given client has a verified 2FA connection.
+The output is in the form of a list with the first index being whether or not the
+check was successful, the 2nd is the ID of the associated database entry
+if its a false result and if one can be found.</td></tr>
+            <tr><th><a href="datum/admins.html#proc/modify_traits">modify_traits</a></th><td>Allow admin to add or remove traits of datum</td></tr>
+            <tr><th><a href="datum/admins.html#proc/poll_list_panel">poll_list_panel</a></th><td>Shows a list of all current and future polls and buttons to edit or delete them or create a new poll.</td></tr>
+            <tr><th><a href="datum/admins.html#proc/poll_management_panel">poll_management_panel</a></th><td>Show the options for creating a poll or editing its parameters along with its linked options.</td></tr>
+            <tr><th><a href="datum/admins.html#proc/poll_option_panel">poll_option_panel</a></th><td>Show the options for creating a poll option or editing its parameters.</td></tr>
+            <tr><th><a href="datum/admins.html#proc/poll_option_parse_href">poll_option_parse_href</a></th><td>Processes topic data from poll option panel.</td></tr>
+            <tr><th><a href="datum/admins.html#proc/poll_parse_href">poll_parse_href</a></th><td>Processes topic data from poll management panel.</td></tr>
+            <tr><th><a href="datum/admins.html#proc/restart">restart</a></th><td>admins2.dm merge</td></tr>
+            <tr><th><a href="datum/admins.html#proc/show_player_panel">show_player_panel</a></th><td>Panels</td></tr>
+            <tr><th><a href="datum/admins.html#proc/spawn_atom">spawn_atom</a></th><td>ADMIN HELPER PROCS</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/blocked_by_2fa"><aside class="declaration">var </aside>blocked_by_2fa
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/holder2.dm#L37">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;holder2.dm 37"/></a></h3>
+        <p>Whether or not the user tried to connect, but was blocked by 2FA</p><h3 id="var/bypass_2fa"><aside class="declaration">var </aside>bypass_2fa
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/holder2.dm#L40">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;holder2.dm 40"/></a></h3>
+        <p>Whether or not this user can bypass 2FA</p><h2 id="proc">Proc Details</h2><h3 id="proc/ban_parse_href"><aside class="declaration">proc </aside>ban_parse_href<aside>(/list/href_list) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/sql_ban_system.dm#L346">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;sql_ban_system.dm 346"/></a></aside>
+        </h3>
+        <p>Fulp edit - Race bans
+Fulp edit ends - Race bans
+Fulp edit - Bloodsuckers
+Fulp edit end - Bloodsuckers</p><h3 id="proc/check_2fa"><aside class="declaration">proc </aside>check_2fa<aside>(/<a href="client.html">client</a>/client) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/holder2.dm#L185">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;holder2.dm 185"/></a></aside>
+        </h3>
+        <p>Returns whether or not the given client has a verified 2FA connection.
+The output is in the form of a list with the first index being whether or not the
+check was successful, the 2nd is the ID of the associated database entry
+if its a false result and if one can be found.</p><h3 id="proc/modify_traits"><aside class="declaration">proc </aside>modify_traits<aside>(/<a href="datum.html">datum</a>/D) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/verbs/randomverbs.dm#L1148">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;verbs&#x2F;randomverbs.dm 1148"/></a></aside>
+        </h3>
+        <p>Allow admin to add or remove traits of datum</p><h3 id="proc/poll_list_panel"><aside class="declaration">proc </aside>poll_list_panel<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/poll_management.dm#L73">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;poll_management.dm 73"/></a></aside>
+        </h3>
+        <p>Shows a list of all current and future polls and buttons to edit or delete them or create a new poll.</p><h3 id="proc/poll_management_panel"><aside class="declaration">proc </aside>poll_management_panel<aside>(/<a href="datum.html">datum</a>/<a href="datum/poll_question.html">poll_question</a>/poll) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/poll_management.dm#L97">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;poll_management.dm 97"/></a></aside>
+        </h3>
+        <p>Show the options for creating a poll or editing its parameters along with its linked options.</p><h3 id="proc/poll_option_panel"><aside class="declaration">proc </aside>poll_option_panel<aside>(/<a href="datum.html">datum</a>/<a href="datum/poll_question.html">poll_question</a>/poll, /<a href="datum.html">datum</a>/<a href="datum/poll_option.html">poll_option</a>/option) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/poll_management.dm#L483">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;poll_management.dm 483"/></a></aside>
+        </h3>
+        <p>Show the options for creating a poll option or editing its parameters.</p><h3 id="proc/poll_option_parse_href"><aside class="declaration">proc </aside>poll_option_parse_href<aside>(/list/href_list, /<a href="datum.html">datum</a>/<a href="datum/poll_question.html">poll_question</a>/poll, /<a href="datum.html">datum</a>/<a href="datum/poll_option.html">poll_option</a>/option) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/poll_management.dm#L542">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;poll_management.dm 542"/></a></aside>
+        </h3>
+        <p>Processes topic data from poll option panel.</p>
+<p>Reads through returned form data and assigns data to the option datum, creating a new one if required, before passing it to be saved.
+Also does some simple error checking to ensure the option will be valid before creation.</p><h3 id="proc/poll_parse_href"><aside class="declaration">proc </aside>poll_parse_href<aside>(/list/href_list, /<a href="datum.html">datum</a>/<a href="datum/poll_question.html">poll_question</a>/poll) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/poll_management.dm#L244">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;poll_management.dm 244"/></a></aside>
+        </h3>
+        <p>Processes topic data from poll management panel.</p>
+<p>Reads through returned form data and assigns data to the poll datum, creating a new one if required, before passing it to be saved.
+Also does some simple error checking to ensure the poll will be valid before creation.</p><h3 id="proc/restart"><aside class="declaration">proc </aside>restart<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/admin.dm#L441">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;admin.dm 441"/></a></aside>
+        </h3>
+        <p>admins2.dm merge</p><h3 id="proc/show_player_panel"><aside class="declaration">proc </aside>show_player_panel<aside>(/<a href="mob.html">mob</a>/M) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/admin.dm#L20">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;admin.dm 20"/></a></aside>
+        </h3>
+        <p>Panels</p><h3 id="proc/spawn_atom"><aside class="declaration">proc </aside>spawn_atom<aside>(object) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/admin/admin.dm#L663">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;admin&#x2F;admin.dm 663"/></a></aside>
+        </h3>
+        <p>ADMIN HELPER PROCS</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

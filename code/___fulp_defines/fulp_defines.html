@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>code&#x2F;___fulp_defines&#x2F;fulp_defines.dm - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="code/___fulp_defines/fulp_defines.html#define">Define Details</a></header>
+<main>
+<h1>code/___fulp_defines/fulp_defines.dm 
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm"/></a></h1>
+
+<table class="summary" cellspacing="0">
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/ROLE_BLOODSUCKER">ROLE_BLOODSUCKER</a></th><td>Bloodsuckers - Defines the role for preferences</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/ROLE_MONSTERHUNTER">ROLE_MONSTERHUNTER</a></th><td>Monster Hunters - Defines the role for preferences</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/RACE_FELINID">RACE_FELINID</a></th><td>Used for banning people from playing certain races</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/BLOODSUCKER_TRAIT">BLOODSUCKER_TRAIT</a></th><td>Source trait for Bloodsuckers/Monster Hunters/Vassals</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/MARTIALART_HUNTERFU">MARTIALART_HUNTERFU</a></th><td>Used in hunterfu.dm</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/MARTIALART_DEPUTYBLOCK">MARTIALART_DEPUTYBLOCK</a></th><td>Used in deputy_block.dm</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/MARTIALART_FRENZYGRAB">MARTIALART_FRENZYGRAB</a></th><td>Used in bloodsucker_life.dm</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/TRAIT_BLOODSUCKER_HUNTER">TRAIT_BLOODSUCKER_HUNTER</a></th><td>You have special interactions with Bloodsuckers</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/TRAIT_NOPULSE">TRAIT_NOPULSE</a></th><td>Your heart doesn't beat.</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/TRAIT_MASQUERADE">TRAIT_MASQUERADE</a></th><td>Falsifies Health analyzers</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/TRAIT_COLDBLOODED">TRAIT_COLDBLOODED</a></th><td>Your body is literal room temperature. Does not make you immune to the temp.</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/COMSIG_LIVING_BIOLOGICAL_LIFE">COMSIG_LIVING_BIOLOGICAL_LIFE</a></th><td>Used for Bloodsucker's LifeTick() signal</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/BS_BLOOD_VOLUME_MAX_REGEN">BS_BLOOD_VOLUME_MAX_REGEN</a></th><td>Used for determining the rate at which a bloodsucker regens</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/FRENZY_THRESHOLD_NORMAL">FRENZY_THRESHOLD_NORMAL</a></th><td>Frenzy Thresholds</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/IS_BLOODSUCKER">IS_BLOODSUCKER</a></th><td>Antagonist checks</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/CLAN_BRUJAH">CLAN_BRUJAH</a></th><td>More prone to Frenzy &amp; Brawn/Punches deal more damage</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/CLAN_NOSFERATU">CLAN_NOSFERATU</a></th><td>Can't use Masquerade, gets Bad Back quirk, Disfigured Trait &amp; Gains the ability to Ventcrawl.</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/CLAN_TREMERE">CLAN_TREMERE</a></th><td>Weaker to HunterFu, burns in the Chapel, Can mutate their Vassals (who cannot be deconverted via Mindshielding) &amp; Can revive dead people via the Persuasion Rack.</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/CLAN_VENTRUE">CLAN_VENTRUE</a></th><td>Cant drink blood out of mindless mobs, cant rank up, instead ranks their favorite vassal up.</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/CLAN_MALKAVIAN">CLAN_MALKAVIAN</a></th><td>Constant hallucinations &amp; Bluespace Prophet traumas - Beefmen cannot join this.</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/SEC_DEPT_SERVICE">SEC_DEPT_SERVICE</a></th><td>Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/isbeefman">isbeefman</a></th><td>Human sub-species defines</td></tr>
+        <tr><th><a href="code/___fulp_defines/fulp_defines.html#define/COMSIG_KB_ADMIN_MSAY_DOWN">COMSIG_KB_ADMIN_MSAY_DOWN</a></th><td>Defines the Mentorhelp's Mentorsay button</td></tr></table><h2 id="define">Define Details</h2>
+<h3 id="define/BLOODSUCKER_TRAIT"><aside class="declaration">#define </aside>BLOODSUCKER_TRAIT
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L21">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 21"/></a>
+    </h3>
+    <p>Source trait for Bloodsuckers/Monster Hunters/Vassals</p><h3 id="define/BS_BLOOD_VOLUME_MAX_REGEN"><aside class="declaration">#define </aside>BS_BLOOD_VOLUME_MAX_REGEN
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L47">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 47"/></a>
+    </h3>
+    <p>Used for determining the rate at which a bloodsucker regens</p><h3 id="define/CLAN_BRUJAH"><aside class="declaration">#define </aside>CLAN_BRUJAH
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L60">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 60"/></a>
+    </h3>
+    <p>More prone to Frenzy &amp; Brawn/Punches deal more damage</p><h3 id="define/CLAN_MALKAVIAN"><aside class="declaration">#define </aside>CLAN_MALKAVIAN
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L68">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 68"/></a>
+    </h3>
+    <p>Constant hallucinations &amp; Bluespace Prophet traumas - Beefmen cannot join this.</p><h3 id="define/CLAN_NOSFERATU"><aside class="declaration">#define </aside>CLAN_NOSFERATU
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L62">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 62"/></a>
+    </h3>
+    <p>Can't use Masquerade, gets Bad Back quirk, Disfigured Trait &amp; Gains the ability to Ventcrawl.</p><h3 id="define/CLAN_TREMERE"><aside class="declaration">#define </aside>CLAN_TREMERE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L64">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 64"/></a>
+    </h3>
+    <p>Weaker to HunterFu, burns in the Chapel, Can mutate their Vassals (who cannot be deconverted via Mindshielding) &amp; Can revive dead people via the Persuasion Rack.</p><h3 id="define/CLAN_VENTRUE"><aside class="declaration">#define </aside>CLAN_VENTRUE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L66">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 66"/></a>
+    </h3>
+    <p>Cant drink blood out of mindless mobs, cant rank up, instead ranks their favorite vassal up.</p><h3 id="define/COMSIG_KB_ADMIN_MSAY_DOWN"><aside class="declaration">#define </aside>COMSIG_KB_ADMIN_MSAY_DOWN
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L96">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 96"/></a>
+    </h3>
+    <p>Defines the Mentorhelp's Mentorsay button</p><h3 id="define/COMSIG_LIVING_BIOLOGICAL_LIFE"><aside class="declaration">#define </aside>COMSIG_LIVING_BIOLOGICAL_LIFE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L45">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 45"/></a>
+    </h3>
+    <p>Used for Bloodsucker's LifeTick() signal</p><h3 id="define/FRENZY_THRESHOLD_NORMAL"><aside class="declaration">#define </aside>FRENZY_THRESHOLD_NORMAL
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L49">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 49"/></a>
+    </h3>
+    <p>Frenzy Thresholds</p><h3 id="define/IS_BLOODSUCKER"><aside class="declaration">#define </aside>IS_BLOODSUCKER
+            <aside>(mob)</aside>
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L53">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 53"/></a>
+    </h3>
+    <p>Antagonist checks</p><h3 id="define/MARTIALART_DEPUTYBLOCK"><aside class="declaration">#define </aside>MARTIALART_DEPUTYBLOCK
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L29">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 29"/></a>
+    </h3>
+    <p>Used in deputy_block.dm</p><h3 id="define/MARTIALART_FRENZYGRAB"><aside class="declaration">#define </aside>MARTIALART_FRENZYGRAB
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L31">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 31"/></a>
+    </h3>
+    <p>Used in bloodsucker_life.dm</p><h3 id="define/MARTIALART_HUNTERFU"><aside class="declaration">#define </aside>MARTIALART_HUNTERFU
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L27">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 27"/></a>
+    </h3>
+    <p>Used in hunterfu.dm</p><h3 id="define/RACE_FELINID"><aside class="declaration">#define </aside>RACE_FELINID
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L14">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 14"/></a>
+    </h3>
+    <p>Used for banning people from playing certain races</p><h3 id="define/ROLE_BLOODSUCKER"><aside class="declaration">#define </aside>ROLE_BLOODSUCKER
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L10">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 10"/></a>
+    </h3>
+    <p>Bloodsuckers - Defines the role for preferences</p><h3 id="define/ROLE_MONSTERHUNTER"><aside class="declaration">#define </aside>ROLE_MONSTERHUNTER
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L12">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 12"/></a>
+    </h3>
+    <p>Monster Hunters - Defines the role for preferences</p><h3 id="define/SEC_DEPT_SERVICE"><aside class="declaration">#define </aside>SEC_DEPT_SERVICE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L88">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 88"/></a>
+    </h3>
+    <p>Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)</p><h3 id="define/TRAIT_BLOODSUCKER_HUNTER"><aside class="declaration">#define </aside>TRAIT_BLOODSUCKER_HUNTER
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L37">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 37"/></a>
+    </h3>
+    <p>You have special interactions with Bloodsuckers</p><h3 id="define/TRAIT_COLDBLOODED"><aside class="declaration">#define </aside>TRAIT_COLDBLOODED
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L43">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 43"/></a>
+    </h3>
+    <p>Your body is literal room temperature. Does not make you immune to the temp.</p><h3 id="define/TRAIT_MASQUERADE"><aside class="declaration">#define </aside>TRAIT_MASQUERADE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L41">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 41"/></a>
+    </h3>
+    <p>Falsifies Health analyzers</p><h3 id="define/TRAIT_NOPULSE"><aside class="declaration">#define </aside>TRAIT_NOPULSE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L39">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 39"/></a>
+    </h3>
+    <p>Your heart doesn't beat.</p><h3 id="define/isbeefman"><aside class="declaration">#define </aside>isbeefman
+            <aside>(A)</aside>
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/___fulp_defines/fulp_defines.dm#L94">
+        <img src="git.png" width="16" height="16" title="code&#x2F;___fulp_defines&#x2F;fulp_defines.dm 94"/></a>
+    </h3>
+    <p>Human sub-species defines</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

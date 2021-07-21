@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>code&#x2F;__DEFINES&#x2F;wiremod.dm - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="code/__DEFINES/wiremod.html#define">Define Details</a></header>
+<main>
+<h1>code/__DEFINES/wiremod.dm 
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm"/></a></h1>
+
+<table class="summary" cellspacing="0">
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/COMPONENT_TRIGGERED_BY">COMPONENT_TRIGGERED_BY</a></th><td>Helper define that can only be used in /obj/item/circuit_component/input_received()</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/TRIGGER_CIRCUIT_COMPONENT">TRIGGER_CIRCUIT_COMPONENT</a></th><td>Define to automatically handle calling the output port. Will not call the output port if the input_received proc returns TRUE.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_TYPE_ANY">PORT_TYPE_ANY</a></th><td>Can accept any datatype. Only works for inputs, output types will runtime.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_TYPE_STRING">PORT_TYPE_STRING</a></th><td>String datatype</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_TYPE_NUMBER">PORT_TYPE_NUMBER</a></th><td>Number datatype</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_TYPE_SIGNAL">PORT_TYPE_SIGNAL</a></th><td>Signal datatype</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_TYPE_LIST">PORT_TYPE_LIST</a></th><td>List datatype</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_TYPE_TABLE">PORT_TYPE_TABLE</a></th><td>Table datatype. Derivative of list, contains other lists with matching columns.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_TYPE_ATOM">PORT_TYPE_ATOM</a></th><td>Atom datatype</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/PORT_ATOM_MAX_RANGE">PORT_ATOM_MAX_RANGE</a></th><td>The maximum range between a port and an atom</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/COMPONENT_MIN_RANDOM_POS">COMPONENT_MIN_RANDOM_POS</a></th><td>The minimum position of the x and y co-ordinates of the component in the UI</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/COMPONENT_MAX_RANDOM_POS">COMPONENT_MAX_RANDOM_POS</a></th><td>The maximum position of the x and y co-ordinates of the component in the UI</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/COMPONENT_MAX_POS">COMPONENT_MAX_POS</a></th><td>The maximum position in both directions that a component can be in.
+Prevents someone from positioning a component at an absurdly high value.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/COMPONENT_SIGNAL">COMPONENT_SIGNAL</a></th><td>The value that is sent whenever a component is simply sending a signal. This can be anything.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/COMP_DELAY_MIN_VALUE">COMP_DELAY_MIN_VALUE</a></th><td>The minimum delay value that the delay component can have.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/SHELL_FLAG_CIRCUIT_FIXED">SHELL_FLAG_CIRCUIT_FIXED</a></th><td>Whether a circuit is stuck on a shell and cannot be removed (by a user)</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/SHELL_FLAG_REQUIRE_ANCHOR">SHELL_FLAG_REQUIRE_ANCHOR</a></th><td>Whether the shell needs to be anchored for the circuit to be on.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/SHELL_FLAG_USB_PORT">SHELL_FLAG_USB_PORT</a></th><td>Whether or not the shell has a USB port.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/SHELL_FLAG_ALLOW_FAILURE_ACTION">SHELL_FLAG_ALLOW_FAILURE_ACTION</a></th><td>Whether the shell allows actions to be peformed on a shell if the action fails. This will additionally block the messages from being displayed.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/USB_CABLE_MAX_RANGE">USB_CABLE_MAX_RANGE</a></th><td>The maximum range a USB cable can be apart from a source</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/CIRCUIT_FLAG_INPUT_SIGNAL">CIRCUIT_FLAG_INPUT_SIGNAL</a></th><td>Creates an input trigger that means the component won't be triggered unless the trigger is pulsed.</td></tr>
+        <tr><th><a href="code/__DEFINES/wiremod.html#define/CIRCUIT_FLAG_OUTPUT_SIGNAL">CIRCUIT_FLAG_OUTPUT_SIGNAL</a></th><td>Creates an output trigger that sends a pulse whenever the component is successfully triggered</td></tr></table><h2 id="define">Define Details</h2>
+<h3 id="define/CIRCUIT_FLAG_INPUT_SIGNAL"><aside class="declaration">#define </aside>CIRCUIT_FLAG_INPUT_SIGNAL
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L134">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 134"/></a>
+    </h3>
+    <p>Creates an input trigger that means the component won't be triggered unless the trigger is pulsed.</p><h3 id="define/CIRCUIT_FLAG_OUTPUT_SIGNAL"><aside class="declaration">#define </aside>CIRCUIT_FLAG_OUTPUT_SIGNAL
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L136">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 136"/></a>
+    </h3>
+    <p>Creates an output trigger that sends a pulse whenever the component is successfully triggered</p><h3 id="define/COMPONENT_MAX_POS"><aside class="declaration">#define </aside>COMPONENT_MAX_POS
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L43">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 43"/></a>
+    </h3>
+    <p>The maximum position in both directions that a component can be in.
+Prevents someone from positioning a component at an absurdly high value.</p><h3 id="define/COMPONENT_MAX_RANDOM_POS"><aside class="declaration">#define </aside>COMPONENT_MAX_RANDOM_POS
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L39">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 39"/></a>
+    </h3>
+    <p>The maximum position of the x and y co-ordinates of the component in the UI</p><h3 id="define/COMPONENT_MIN_RANDOM_POS"><aside class="declaration">#define </aside>COMPONENT_MIN_RANDOM_POS
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L37">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 37"/></a>
+    </h3>
+    <p>The minimum position of the x and y co-ordinates of the component in the UI</p><h3 id="define/COMPONENT_SIGNAL"><aside class="declaration">#define </aside>COMPONENT_SIGNAL
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L48">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 48"/></a>
+    </h3>
+    <p>The value that is sent whenever a component is simply sending a signal. This can be anything.</p><h3 id="define/COMPONENT_TRIGGERED_BY"><aside class="declaration">#define </aside>COMPONENT_TRIGGERED_BY
+            <aside>(trigger, port)</aside>
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L2">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 2"/></a>
+    </h3>
+    <p>Helper define that can only be used in /obj/item/circuit_component/input_received()</p><h3 id="define/COMP_DELAY_MIN_VALUE"><aside class="declaration">#define </aside>COMP_DELAY_MIN_VALUE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L60">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 60"/></a>
+    </h3>
+    <p>The minimum delay value that the delay component can have.</p><h3 id="define/PORT_ATOM_MAX_RANGE"><aside class="declaration">#define </aside>PORT_ATOM_MAX_RANGE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L32">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 32"/></a>
+    </h3>
+    <p>The maximum range between a port and an atom</p><h3 id="define/PORT_TYPE_ANY"><aside class="declaration">#define </aside>PORT_TYPE_ANY
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L10">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 10"/></a>
+    </h3>
+    <p>Can accept any datatype. Only works for inputs, output types will runtime.</p><h3 id="define/PORT_TYPE_ATOM"><aside class="declaration">#define </aside>PORT_TYPE_ATOM
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L28">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 28"/></a>
+    </h3>
+    <p>Atom datatype</p><h3 id="define/PORT_TYPE_LIST"><aside class="declaration">#define </aside>PORT_TYPE_LIST
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L22">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 22"/></a>
+    </h3>
+    <p>List datatype</p><h3 id="define/PORT_TYPE_NUMBER"><aside class="declaration">#define </aside>PORT_TYPE_NUMBER
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L18">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 18"/></a>
+    </h3>
+    <p>Number datatype</p><h3 id="define/PORT_TYPE_SIGNAL"><aside class="declaration">#define </aside>PORT_TYPE_SIGNAL
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L20">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 20"/></a>
+    </h3>
+    <p>Signal datatype</p><h3 id="define/PORT_TYPE_STRING"><aside class="declaration">#define </aside>PORT_TYPE_STRING
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L14">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 14"/></a>
+    </h3>
+    <p>String datatype</p><h3 id="define/PORT_TYPE_TABLE"><aside class="declaration">#define </aside>PORT_TYPE_TABLE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L24">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 24"/></a>
+    </h3>
+    <p>Table datatype. Derivative of list, contains other lists with matching columns.</p><h3 id="define/SHELL_FLAG_ALLOW_FAILURE_ACTION"><aside class="declaration">#define </aside>SHELL_FLAG_ALLOW_FAILURE_ACTION
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L121">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 121"/></a>
+    </h3>
+    <p>Whether the shell allows actions to be peformed on a shell if the action fails. This will additionally block the messages from being displayed.</p><h3 id="define/SHELL_FLAG_CIRCUIT_FIXED"><aside class="declaration">#define </aside>SHELL_FLAG_CIRCUIT_FIXED
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L112">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 112"/></a>
+    </h3>
+    <p>Whether a circuit is stuck on a shell and cannot be removed (by a user)</p><h3 id="define/SHELL_FLAG_REQUIRE_ANCHOR"><aside class="declaration">#define </aside>SHELL_FLAG_REQUIRE_ANCHOR
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L115">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 115"/></a>
+    </h3>
+    <p>Whether the shell needs to be anchored for the circuit to be on.</p><h3 id="define/SHELL_FLAG_USB_PORT"><aside class="declaration">#define </aside>SHELL_FLAG_USB_PORT
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L118">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 118"/></a>
+    </h3>
+    <p>Whether or not the shell has a USB port.</p><h3 id="define/TRIGGER_CIRCUIT_COMPONENT"><aside class="declaration">#define </aside>TRIGGER_CIRCUIT_COMPONENT
+            <aside>(component, port)</aside>
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L5">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 5"/></a>
+    </h3>
+    <p>Define to automatically handle calling the output port. Will not call the output port if the input_received proc returns TRUE.</p><h3 id="define/USB_CABLE_MAX_RANGE"><aside class="declaration">#define </aside>USB_CABLE_MAX_RANGE
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/__DEFINES/wiremod.dm#L130">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;wiremod.dm 130"/></a>
+    </h3>
+    <p>The maximum range a USB cable can be apart from a source</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

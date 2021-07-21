@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>fulp_modules&#x2F;readme.md - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+</header>
+<main>
+<h1>Fulp Modules <aside>fulp_modules/readme.md</aside> 
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/readme.md">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;readme.md"/></a></h1>
+
+<table class="summary" cellspacing="0">
+        <tr><td colspan="2"><h2 id="contribute-to-tg-or-fulp">Contribute to TG or Fulp?</h2>
+<p>As we are a TG downstream, any PR that they merge, will eventually trickle down to us. We highly encourage contributors to PR to TG, rather than Fulp, as it will help us both in the long run.</p>
+<ul>
+<li><a href="https://github.com/tgstation/tgstation">https://github.com/tgstation/tgstation</a></li>
+</ul>
+<p>This is a very important thing to know before contributing to Fulpstation. We rebased to rid ourselves of the old grudgecode, we do not wish to re-become it.</p>
+<p><img src="https://i.imgur.com/4p3iTRx.jpg" alt="image" /></p>
+<h2 id="workflows">Workflows</h2>
+<p>Due to TG having several different workflows that we don't use, they will automatically fail. You will have to go onto your fork of the GitHub, go to the Actions tab, go to the workflows, click the ... at the right, and manually disable them all. It should end up looking like this.</p>
+<p><img src="https://i.imgur.com/tlcx9Ok.png" alt="image" /></p>
+<h1 id="what-is-fulp-modules">What is Fulp Modules?</h1>
+<p>This file contains near-all the code exclusive to Fulpstation.
+Due to how maintaining a downstream codebase works, since we must frequently update to latest TG, making sure as little code as possible touches TG is the most optimal way in going about this.</p>
+<p>We are incredibly strict in modularity, and PRs will be denied if they cannot be made modular, very few exceptions are granted.</p>
+<p>Any PR that touches or uses TG files, sprites or sounds, must include a readme.MD page to explain such.</p>
+<h2 id="defines-folder">Defines Folder</h2>
+<p>Becaues of how Defines are dealt with, they must be one of the first things in the tgstation.dme
+Due to this, we have fulp_defines.dm to host them all, the only Fulp file not to be in the Fulp modules folder.</p>
+<h2 id="notes">Notes</h2>
+<p>During TG Updates, the person updating must go over all the files to make sure it isnt deleting/conflicting with and Fulp edits.
+We do NOT have a mirror bot, so things must be manually done with GitBash by setting tgstation/tgstation as your remote upstream.</p>
+<p>If you plan on Contributing to Fulpstation, you may want to instead read the guide, located here;</p>
+<ul>
+<li><a href="https://wiki.fulp.gg/en/GuideToContributing">https://wiki.fulp.gg/en/GuideToContributing</a></li>
+</ul>
+<p><strong>Template for a readme:</strong></p>
+<h1 id="folder">Folder:</h1><!-- Name of the older, simple stuff. -->
+<h2 id="description">Description:</h2><!-- Basic description of the Pull Request -->
+<h2 id="tg-edits">TG edits:</h2><!-- Any TG files this folder might be touching. -->
+<h2 id="tg-sounds-sprites-used">TG sounds/sprites used:</h2><!-- Any TG sprites/sounds this folder might using. -->
+<h2 id="notes-credits">Notes/Credits:</h2><!-- Credits for said PR, if it's a port of something, link the original PR. --></td></tr></table></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

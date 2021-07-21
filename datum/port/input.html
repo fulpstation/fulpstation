@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;datum&#x2F;port&#x2F;input - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="datum/port/input.html#var">Var Details</a> - <a href="datum/port/input.html#proc">Proc Details</a></header>
+<main>
+<h1>Input Port <aside>/<a href="datum.html">datum</a>/<a href="datum/port.html">port</a>/<a href="datum/port/input.html">input</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L185">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 185"/></a></h1>
+
+<p>An input port that can only be connected to 1 output port</p>
+<p>Registers a signal on the target output port to listen out for any output
+so that an update can be sent to the attached component</p><table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="datum/port/input.html#var/connected_port">connected_port</a></th><td>The connected output port</td></tr>
+            <tr><th><a href="datum/port/input.html#var/default">default</a></th><td>The default value of this input</td></tr>
+            <tr><th><a href="datum/port/input.html#var/input_value">input_value</a></th><td>The output value of the port</td></tr>
+            <tr><th><a href="datum/port/input.html#var/trigger">trigger</a></th><td>Whether this port triggers an update whenever an output is received.</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="datum/port/input.html#proc/null_output">null_output</a></th><td>Signal handler proc to null the input if an atom is deleted. An update is not sent because this was not set by anything.</td></tr>
+            <tr><th><a href="datum/port/input.html#proc/receive_output">receive_output</a></th><td>Sets a timer depending on the value of the input_receive_delay</td></tr>
+            <tr><th><a href="datum/port/input.html#proc/register_output_port">register_output_port</a></th><td>Connects the input port to the output port</td></tr>
+            <tr><th><a href="datum/port/input.html#proc/set_input">set_input</a></th><td>Updates the value of the input</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/connected_port"><aside class="declaration">var </aside>connected_port
+            <aside>&ndash; /<a href="datum.html">datum</a>/<a href="datum/port.html">port</a>/<a href="datum/port/output.html">output</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L190">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 190"/></a></h3>
+        <p>The connected output port</p><h3 id="var/default"><aside class="declaration">var </aside>default
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L198">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 198"/></a></h3>
+        <p>The default value of this input</p><h3 id="var/input_value"><aside class="declaration">var </aside>input_value
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L187">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 187"/></a></h3>
+        <p>The output value of the port</p><h3 id="var/trigger"><aside class="declaration">var </aside>trigger
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L193">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 193"/></a></h3>
+        <p>Whether this port triggers an update whenever an output is received.</p><h2 id="proc">Proc Details</h2><h3 id="proc/null_output"><aside class="declaration">proc </aside>null_output<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L258">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 258"/></a></aside>
+        </h3>
+        <p>Signal handler proc to null the input if an atom is deleted. An update is not sent because this was not set by anything.</p><h3 id="proc/receive_output"><aside class="declaration">proc </aside>receive_output<aside>(/<a href="datum.html">datum</a>/<a href="datum/port.html">port</a>/<a href="datum/port/output.html">output</a>/connected_port, new_value) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L235">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 235"/></a></aside>
+        </h3>
+        <p>Sets a timer depending on the value of the input_receive_delay</p>
+<p>The timer will call a proc that updates the value.
+Arguments:</p>
+<ul>
+<li>connected_port - The connected output port</li>
+<li>new_value - The new value received from the output port</li>
+</ul><h3 id="proc/register_output_port"><aside class="declaration">proc </aside>register_output_port<aside>(/<a href="datum.html">datum</a>/<a href="datum/port.html">port</a>/<a href="datum/port/output.html">output</a>/port_to_register) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L211">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 211"/></a></aside>
+        </h3>
+        <p>Connects the input port to the output port</p>
+<p>Sets the input_value and registers a signal to receive future updates.
+Arguments:</p>
+<ul>
+<li>port_to_register - The port to connect the input port to</li>
+</ul><h3 id="proc/set_input"><aside class="declaration">proc </aside>set_input<aside>(new_value, send_update) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/code/modules/wiremod/port.dm#L246">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;wiremod&#x2F;port.dm 246"/></a></aside>
+        </h3>
+        <p>Updates the value of the input</p>
+<p>It updates the value of the input and calls input_received on the connected component
+Arguments:</p>
+<ul>
+<li>port_to_register - The port to connect the input port to</li>
+</ul></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>

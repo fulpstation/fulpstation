@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;datum&#x2F;action&#x2F;bloodsucker&#x2F;targeted - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="datum/action/bloodsucker/targeted.html#var">Var Details</a> - <a href="datum/action/bloodsucker/targeted.html#proc">Proc Details</a></header>
+<main>
+<h1>targeted <aside>/<a href="datum.html">datum</a>/<a href="datum/action/bloodsucker.html">action/bloodsucker</a>/<a href="datum/action/bloodsucker/targeted.html">targeted</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L251">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 251"/></a></h1>
+
+<p>////////////////////////////////  PASSIVE POWERS	///////////////////////////////////
+////////////////////////////////  TARGETTED POWERS	///////////////////////////////////
+NOTE: All Targeted spells are Toggles! We just don't bother checking here.</p><table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#var/power_activates_immediately">power_activates_immediately</a></th><td>Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#var/power_in_use">power_in_use</a></th><td>Is this power LOCKED due to being used?</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/CheckCanTarget">CheckCanTarget</a></th><td>Check if valid target meets conditions</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/CheckValidTarget">CheckValidTarget</a></th><td>Check if target is VALID (wall, turf, or character?)</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/ClickWithPower">ClickWithPower</a></th><td>Click Target</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/ContinueActive">ContinueActive</a></th><td>Used by loops to make sure this power can stay active.</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/DeactivateRangedAbility">DeactivateRangedAbility</a></th><td>Only Turned off when CLICK is disabled...aka, when you successfully clicked</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/FireTargetedPower">FireTargetedPower</a></th><td>Like ActivatePower, but specific to Targeted (and takes an atom input). We don't use ActivatePower for targeted.</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/New">New</a></th><td>Modify description to add notice that this is aimed.</td></tr>
+            <tr><th><a href="datum/action/bloodsucker/targeted.html#proc/PowerActivatedSuccessfully">PowerActivatedSuccessfully</a></th><td>The power went off! We now pay the cost of the power.</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/power_activates_immediately"><aside class="declaration">var </aside>power_activates_immediately
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L256">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 256"/></a></h3>
+        <p>Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.</p><h3 id="var/power_in_use"><aside class="declaration">var </aside>power_in_use
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L258">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 258"/></a></h3>
+        <p>Is this power LOCKED due to being used?</p><h2 id="proc">Proc Details</h2><h3 id="proc/CheckCanTarget"><aside class="declaration">proc </aside>CheckCanTarget<aside>(/<a href="atom.html">atom</a>/A, display_error) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L307">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 307"/></a></aside>
+        </h3>
+        <p>Check if valid target meets conditions</p><h3 id="proc/CheckValidTarget"><aside class="declaration">proc </aside>CheckValidTarget<aside>(/<a href="atom.html">atom</a>/A) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L303">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 303"/></a></aside>
+        </h3>
+        <p>Check if target is VALID (wall, turf, or character?)</p><h3 id="proc/ClickWithPower"><aside class="declaration">proc </aside>ClickWithPower<aside>(/<a href="atom.html">atom</a>/A) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L316">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 316"/></a></aside>
+        </h3>
+        <p>Click Target</p><h3 id="proc/ContinueActive"><aside class="parent"><a title="/datum/action/bloodsucker" href="datum/action/bloodsucker.html#proc/ContinueActive">&uarr;</a></aside>ContinueActive<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/user, /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/target) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L342">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 342"/></a></aside>
+        </h3>
+        <p>Used by loops to make sure this power can stay active.</p><h3 id="proc/DeactivateRangedAbility"><aside class="declaration">proc </aside>DeactivateRangedAbility<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L299">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 299"/></a></aside>
+        </h3>
+        <p>Only Turned off when CLICK is disabled...aka, when you successfully clicked</p><h3 id="proc/FireTargetedPower"><aside class="declaration">proc </aside>FireTargetedPower<aside>(/<a href="atom.html">atom</a>/A) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L332">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 332"/></a></aside>
+        </h3>
+        <p>Like ActivatePower, but specific to Targeted (and takes an atom input). We don't use ActivatePower for targeted.</p><h3 id="proc/New"><aside class="parent"><a title="/datum/action/bloodsucker" href="datum/action/bloodsucker.html#proc/New">&uarr;</a></aside>New<aside>(Target) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L261">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 261"/></a></aside>
+        </h3>
+        <p>Modify description to add notice that this is aimed.</p><h3 id="proc/PowerActivatedSuccessfully"><aside class="declaration">proc </aside>PowerActivatedSuccessfully<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc/fulp_modules/main_features/bloodsuckers/code/powers/_powers.dm#L335">
+        <img src="git.png" width="16" height="16" title="fulp_modules&#x2F;main_features&#x2F;bloodsuckers&#x2F;code&#x2F;powers&#x2F;_powers.dm 335"/></a></aside>
+        </h3>
+        <p>The power went off! We now pay the cost of the power.</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/a3d3202430ca5e2f519293ac9e6ffde71b4f8bbc">a3d3202</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.0</a></footer>
+</body>
+</html>
