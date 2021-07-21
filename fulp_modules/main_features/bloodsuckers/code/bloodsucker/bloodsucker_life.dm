@@ -11,6 +11,8 @@
 
 /// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
+	SIGNAL_HANDLER
+
 	if(!owner || AmFinalDeath)
 		return
 	// Deduct Blood
@@ -26,10 +28,10 @@
 	if(Frenzied)
 		owner.current.adjustFireLoss(my_clan == CLAN_BRUJAH ? 1 : 3)
 	// Standard Updates
-	HandleDeath()
-	HandleStarving()
-	HandleTorpor()
-	update_hud()
+	INVOKE_ASYNC(src, .proc/HandleDeath)
+	INVOKE_ASYNC(src, .proc/HandleStarving)
+	INVOKE_ASYNC(src, .proc/HandleTorpor)
+	INVOKE_ASYNC(src, .proc/update_hud)
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
@@ -40,22 +42,9 @@
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
 	if(my_clan == CLAN_MALKAVIAN)
-		if(!prob(20) || owner.current.stat != CONSCIOUS || poweron_masquerade)
+		if(!prob(10) || owner.current.stat != CONSCIOUS || poweron_masquerade)
 			return
-		switch(rand(1,5))
-			if(1) // 20% chance to call out a player at their location
-				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-					if(!H.mind)
-						continue
-					if(!H.stat == DEAD || HAS_TRAIT(H, TRAIT_CRITICAL_CONDITION))
-						continue
-					if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions) || !is_station_level(H))
-						continue
-					var/area/A = get_area(H)
-					owner.current.say("#...oh dear... [H]... what are you doing... at [A]?")
-					break
-			if(2 to 5) // 80% chance to say some malkavian revelation
-				owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
+		owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
