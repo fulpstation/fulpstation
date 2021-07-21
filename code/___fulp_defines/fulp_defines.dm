@@ -25,8 +25,6 @@
  */
 /// Used in hunterfu.dm
 #define MARTIALART_HUNTERFU "hunterfu"
-/// Used in deputy_block.dm
-#define MARTIALART_DEPUTYBLOCK "deputyblock"
 /// Used in bloodsucker_life.dm
 #define MARTIALART_FRENZYGRAB "FrenzyGrab"
 
@@ -75,17 +73,6 @@
 #define TREMERE_ZOMBIE "Zombie - Revives"
 #define TREMERE_HUSK "Husk - Drinks all their Blood"
 #define TREMERE_BAT "Bat - Bat Form"
-
-/*
- *	Deputy Defines
- */
-#define TRAIT_ENGINEERINGDEPUTY "engineeringdeputy"
-#define TRAIT_MEDICALDEPUTY "medicaldeputy"
-#define TRAIT_SCIENCEDEPUTY "sciencedeputy"
-#define TRAIT_SUPPLYDEPUTY "supplydeputy"
-#define TRAIT_SERVICEDEPUTY "servicedeputy"
-/// Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
-#define SEC_DEPT_SERVICE "Service"
 
 /*
  *	Misc Defines

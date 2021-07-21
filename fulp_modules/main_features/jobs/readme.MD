@@ -2,7 +2,7 @@
 
 ## Description:
 
-	Adds the Brig Physician and Deputy jobs to the game.
+	Adds the Brig Physician job to the game.
 
 ## TG edits:
 
@@ -23,5 +23,3 @@
 - Skyrat - Original plasmaman envirosuit sprites (https://github.com/Skyrat-SS13/Skyrat13/pull/933)
 - HomingPenguins - Armored labcoat sprites
 - MaltVinegar - Brig Physician HUD/Card sprites
-- Mithrandalf - Original Deputies (https://github.com/TheSwain/Fulpstation/pull/108)
-- Horatio22 - Deputy Plasmamen sprites

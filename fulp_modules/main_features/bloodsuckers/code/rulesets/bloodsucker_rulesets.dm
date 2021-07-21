@@ -8,7 +8,7 @@
 	name = "Bloodsuckers"
 	antag_flag = ROLE_BLOODSUCKER
 	antag_datum = /datum/antagonist/bloodsucker
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician",)
 	restricted_roles = list("AI", "Cyborg")
 	required_candidates = 1
 	weight = 5
@@ -49,7 +49,7 @@
 	name = "Vampiric Accident"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician",)
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
 	required_candidates = 1
 	weight = 5
@@ -110,7 +110,7 @@
 	name = "Bloodsucker Breakout"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician",)
 	restricted_roles = list("AI","Cyborg")
 	required_candidates = 1
 	weight = 5
