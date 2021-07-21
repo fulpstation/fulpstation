@@ -5,7 +5,7 @@
 
 /datum/species/beefman
 	name = "Beefman"
-	id = "beefman"
+	id = SPECIES_BEEFMAN
 	limbs_id = "beefman"
 	say_mod = "gurgles"
 	sexes = FALSE
