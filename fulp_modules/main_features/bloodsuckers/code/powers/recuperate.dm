@@ -36,10 +36,16 @@
 	if(owner.stat >= DEAD)
 		to_chat(owner, span_notice("You cannot use Recuperate while incapacitated."))
 		return FALSE
+	if(owner.incapacitated())
+		to_chat(owner, span_notice("You cannot use Recuperate while incapacitated."))
+		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
 	if(user.stat >= DEAD)
 		to_chat(owner, span_notice("You are dead."))
+		return FALSE
+	if(user.incapacitated())
+		to_chat(owner, span_notice("You are too exhausted to keep recuperating..."))
 		return FALSE
 	return TRUE

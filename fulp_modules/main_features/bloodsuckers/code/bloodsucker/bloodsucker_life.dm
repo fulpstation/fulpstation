@@ -29,7 +29,7 @@
 	HandleDeath()
 	HandleStarving()
 	HandleTorpor()
-	update_hud()
+//	update_hud() // Dealt with by AddBloodVolume
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
