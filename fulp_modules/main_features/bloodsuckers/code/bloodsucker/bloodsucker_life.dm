@@ -40,7 +40,7 @@
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
 	if(my_clan == CLAN_MALKAVIAN)
-		if(!prob(70) || owner.current.stat != CONSCIOUS || poweron_masquerade)
+		if(prob(85) || owner.current.stat != CONSCIOUS || poweron_masquerade)
 			return
 		owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
 
