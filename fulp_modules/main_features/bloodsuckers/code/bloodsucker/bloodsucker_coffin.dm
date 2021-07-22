@@ -40,7 +40,7 @@
 
 /obj/structure/closet/crate/coffin/securecoffin
 	name = "secure coffin"
-	desc = "For insecure suckers to safely slumber in their secure sleeping space, surprisingly, this shelter's spacious sepulchre offers somewhat superior security."
+	desc = "For those too scared of having their place of rest disturbed."
 	icon_state = "securecoffin"
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	open_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_open.ogg'
