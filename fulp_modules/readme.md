@@ -6,9 +6,9 @@
 Modular, as we use it, is described as "Doesn't touch TG files". 
 While adding new files to TG folders fits this description, many would not consider it to be "Modular", so it is best to avoid doing so, this is why the Fulp modules folder exists.
 
-# Fulp Modules
+## Fulp Modules
 
-## What is Fulp Modules?
+### What is Fulp Modules?
 
 This file contains near-all the code exclusive to Fulpstation.
 Due to how maintaining a downstream codebase works, since we must frequently update to latest TG, making sure most our code is as Modular as it can be, is the best way to keep us up-to-date without requiring days worth of effort for every update.
