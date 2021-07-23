@@ -30,6 +30,8 @@
 /*
  *	Bloodsucker Defines
  */
+/// You have special interactions with Bloodsuckers
+#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker hunter"
 /// Your heart doesn't beat.
 #define TRAIT_NOPULSE "nopulse"
 /// Falsifies Health analyzers
@@ -61,6 +63,9 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 /// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
 #define CLAN_MALKAVIAN "Malkavian Clan"
+// Used ONLY as Flavor text in Archives of Kindred
+#define CLAN_TOREADOR "Toreador Clan"
+#define CLAN_GANGREL "Gangrel Clan"
 /* Clan defines
 */
 // Tremere
@@ -83,6 +88,7 @@
  *	Misc Defines
  */
 /// Human sub-species defines
+#define SPECIES_BEEFMAN "beefman"
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 /// Defines the Mentorhelp's Mentorsay button
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"

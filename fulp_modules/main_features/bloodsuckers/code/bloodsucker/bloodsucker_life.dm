@@ -25,6 +25,12 @@
 	// In a Frenzy? Take damage, to encourage them to Feed as soon as possible, Brujah takes less Burn.
 	if(Frenzied)
 		owner.current.adjustFireLoss(my_clan == CLAN_BRUJAH ? 1 : 3)
+	// Standard Updates
+	HandleDeath()
+	HandleStarving()
+	HandleTorpor()
+	update_hud()
+
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
 		var/area/A = get_area(owner.current)
@@ -33,26 +39,10 @@
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
-	if(my_clan == CLAN_MALKAVIAN && prob(15) && !poweron_masquerade && owner.current.stat)
-		switch(rand(0,4))
-			if(0) // 20% chance to call out a player at their location
-				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-					if(!H.mind)
-						continue
-					if(!H.stat == DEAD || HAS_TRAIT(H, TRAIT_CRITICAL_CONDITION))
-						continue
-					if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions) || !is_station_level(H))
-						continue
-					var/area/A = get_area(H)
-					owner.current.say("#...oh dear... [H]... what are you doing... at [A]?")
-					break
-			else // 80% chance to say some malkavian revelation
-				owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
-	// Standard Updates
-	HandleDeath()
-	HandleStarving()
-	HandleTorpor()
-	update_hud()
+	if(my_clan == CLAN_MALKAVIAN)
+		if(prob(85) || owner.current.stat != CONSCIOUS || poweron_masquerade)
+			return
+		owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -208,6 +198,10 @@
 		yucky_organs.Remove(bloodsuckeruser)
 		yucky_organs.forceMove(get_turf(bloodsuckeruser))
 
+	// Part of Malkavian? Give them their traumas back.
+	if(my_clan == CLAN_MALKAVIAN)
+		bloodsuckeruser.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+		bloodsuckeruser.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 	// Good to go!
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

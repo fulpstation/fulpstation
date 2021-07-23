@@ -126,7 +126,7 @@
 
 /// Beefmen Datum
 /datum/outfit/job/deputy/beefman
-	uniform = /obj/item/clothing/under/bodysash/deputy
+	uniform = /obj/item/clothing/under/bodysash/security/deputy
 
 /// Shirt
 /obj/item/clothing/under/rank/security/officer/mallcop
