@@ -5,7 +5,7 @@
 	id = "techcult_medbay"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered/mechanicus/surgery)
+/area/ruin/powered/mechanicus)
 "an" = (
 /obj/structure/closet/crate/hydroponics,
 /obj/item/reagent_containers/glass/bucket,
@@ -13,7 +13,7 @@
 /obj/item/reagent_containers/glass/bucket,
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "ar" = (
 /obj/structure/table/optable,
 /obj/effect/turf_decal/tile/blue{
@@ -23,8 +23,8 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "be" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
@@ -35,34 +35,29 @@
 /obj/machinery/shower{
 	pixel_y = 14
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
-"bt" = (
-/obj/structure/table/wood/fancy/royalblack,
-/obj/item/flashlight/lantern,
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 4
 	},
 /area/ruin/powered/mechanicus)
+"bt" = (
+/obj/structure/table/wood/fancy/royalblack,
+/obj/item/flashlight/lantern,
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus,
+/area/ruin/powered/mechanicus{
+	dir = 4
+	})
 "bH" = (
 /obj/machinery/hydroponics/soil,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "bQ" = (
 /obj/machinery/mecha_part_fabricator{
 	dir = 4
 	},
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/robotics)
-"cc" = (
-/obj/structure/closet/crate/secure/weapon{
-	name = "firing pins crate";
-	req_access = 400
-	},
-/obj/item/storage/box/firingpins,
-/turf/open/floor/plasteel/chapel{
-	dir = 8
-	},
 /area/ruin/powered/mechanicus)
 "cg" = (
 /obj/effect/turf_decal/tile/blue{
@@ -74,15 +69,14 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
-"cp" = (
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "cT" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "ds" = (
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
@@ -91,38 +85,35 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "dJ" = (
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/robotics)
+/area/ruin/powered/mechanicus)
+"dW" = (
+/obj/structure/table,
+/obj/effect/spawner/lootdrop/donkpockets,
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "eZ" = (
 /obj/structure/table,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "fV" = (
 /obj/machinery/light,
 /turf/open/floor/circuit/green,
-/area/ruin/powered/mechanicus/robotics)
-"hm" = (
-/obj/machinery/modular_computer/console/preset/civilian{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/green{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/green{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/area/ruin/powered/mechanicus)
 "hr" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/purple,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "ht" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
@@ -134,8 +125,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "hT" = (
 /obj/structure/frame/machine{
 	anchored = 1
@@ -143,7 +136,7 @@
 /obj/item/circuitboard/machine/ore_silo,
 /obj/item/stack/cable_coil/five,
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/vault)
+/area/ruin/powered/mechanicus)
 "iz" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
@@ -153,21 +146,24 @@
 	id = "techcult_hydro"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "iW" = (
 /obj/structure/frame/machine,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "jB" = (
-/turf/closed/wall,
-/area/ruin/powered/mechanicus/vault)
+/obj/machinery/hydroponics/constructable,
+/turf/open/floor/grass,
+/area/ruin/powered/mechanicus)
 "jG" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "kr" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
@@ -189,27 +185,35 @@
 /obj/item/flashlight/seclite,
 /obj/item/flashlight/seclite,
 /obj/item/flashlight/seclite,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "kO" = (
 /obj/effect/mob_spawn/human/techcult{
 	dir = 8;
 	icon_state = "sleeper"
 	},
 /obj/machinery/light,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "la" = (
 /turf/template_noop,
 /area/template_noop)
+"lP" = (
+/obj/machinery/modular_computer/console/preset/civilian{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/ruin/powered/mechanicus)
 "mn" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/loading_area,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "mq" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
@@ -217,20 +221,24 @@
 /obj/effect/turf_decal/tile/brown,
 /obj/machinery/rnd/production/protolathe,
 /obj/machinery/light,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "mt" = (
 /obj/machinery/vending/hydroseeds,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "mA" = (
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/unexplored)
 "mD" = (
 /obj/structure/table,
 /obj/item/chainsaw,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "mG" = (
 /turf/open/floor/carpet/purple,
 /area/ruin/powered/mechanicus)
@@ -247,13 +255,13 @@
 	name = "Robotics Shutters";
 	pixel_y = -24
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "oE" = (
 /obj/structure/table,
 /obj/machinery/microwave,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "pd" = (
 /obj/structure/table/wood/fancy/royalblack,
 /obj/item/storage/fancy/candle_box{
@@ -281,8 +289,10 @@
 	dir = 8;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "pp" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
@@ -293,15 +303,17 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "qg" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
 	id = "techcult_window_upper"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "ql" = (
 /turf/open/floor/plating,
 /area/icemoon/underground/explored)
@@ -316,12 +328,12 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/dark,
+/area/ruin/powered/mechanicus)
 "qN" = (
 /obj/structure/closet/secure_closet/mechanicus/augs,
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/surgery)
+/area/ruin/powered/mechanicus)
 "rl" = (
 /obj/effect/mob_spawn/human/techcult{
 	dir = 8;
@@ -331,15 +343,17 @@
 	dir = 4;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "rm" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
 	id = "techcult_dorms"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered/mechanicus/dorms)
+/area/ruin/powered/mechanicus)
 "rN" = (
 /obj/structure/showcase/cyborg/old{
 	dir = 4;
@@ -353,14 +367,26 @@
 	dir = 8;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 4
+	},
+/area/ruin/powered/mechanicus,
+/area/ruin/powered/mechanicus{
+	dir = 4
+	})
+"se" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/iron/chapel{
+	dir = 1
 	},
 /area/ruin/powered/mechanicus)
 "sh" = (
 /obj/item/flashlight/lantern,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "tH" = (
 /obj/machinery/computer/operating{
 	dir = 1;
@@ -371,8 +397,10 @@
 	},
 /obj/effect/turf_decal/tile/blue,
 /obj/machinery/light,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "tJ" = (
 /obj/structure/closet{
 	name = "medical supplies"
@@ -399,8 +427,8 @@
 	pixel_y = -6
 	},
 /obj/item/storage/firstaid/toxin,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "uc" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -414,13 +442,15 @@
 	name = "Dormitories Shutters";
 	pixel_y = -24
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "uk" = (
 /obj/item/circuitboard/machine/biogenerator,
 /obj/structure/frame/machine,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "vd" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
@@ -432,18 +462,23 @@
 /obj/machinery/conveyor_switch/oneway{
 	id = "techcult_fab"
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "vn" = (
 /obj/structure/chair/stool,
 /obj/machinery/light{
 	dir = 4;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 4
 	},
-/area/ruin/powered/mechanicus)
+/area/ruin/powered/mechanicus,
+/area/ruin/powered/mechanicus{
+	dir = 4
+	})
 "vB" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -451,18 +486,17 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "wv" = (
 /obj/machinery/conveyor{
 	dir = 4;
 	id = "techcult_fab"
 	},
 /obj/effect/turf_decal/bot,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
-"ww" = (
-/turf/open/floor/plasteel/chapel,
+/turf/open/floor/iron/chapel,
 /area/ruin/powered/mechanicus)
 "wB" = (
 /obj/structure/chair/stool,
@@ -470,21 +504,17 @@
 	dir = 8;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/ruin/powered/mechanicus)
 "xd" = (
 /turf/closed/wall,
 /area/ruin/powered/mechanicus)
-"xg" = (
-/obj/structure/closet/crate,
-/turf/open/floor/plasteel/chapel,
-/area/ruin/powered/mechanicus)
 "xs" = (
 /obj/machinery/mech_bay_recharge_port,
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/robotics)
+/area/ruin/powered/mechanicus)
 "xy" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -492,30 +522,34 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "xF" = (
 /obj/structure/showcase/cyborg/old{
 	dir = 8;
 	pixel_x = 9;
 	pixel_y = 2
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/ruin/powered/mechanicus)
 "xN" = (
 /obj/structure/table/wood,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "ym" = (
 /obj/structure/table,
 /obj/effect/spawner/lootdrop/donkpockets,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "yt" = (
 /obj/structure/chair/stool,
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/ruin/powered/mechanicus)
@@ -525,10 +559,18 @@
 	id = "techcult_mine"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered/mechanicus/vault)
+/area/ruin/powered/mechanicus)
 "yy" = (
 /obj/structure/chair/stool,
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus,
+/area/ruin/powered/mechanicus{
+	dir = 4
+	})
+"zi" = (
+/turf/open/floor/iron/chapel{
 	dir = 4
 	},
 /area/ruin/powered/mechanicus)
@@ -545,12 +587,14 @@
 /obj/structure/mirror{
 	pixel_y = 32
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "zx" = (
 /obj/machinery/mineral/equipment_vendor,
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/vault)
+/area/ruin/powered/mechanicus)
 "zV" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -559,15 +603,17 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "AC" = (
 /obj/structure/reagent_dispensers/fueltank/large,
 /obj/machinery/door/window{
 	dir = 8;
 	req_access_txt = 400
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/iron/chapel,
 /area/ruin/powered/mechanicus)
 "AS" = (
 /obj/structure/closet/crate/hydroponics,
@@ -584,7 +630,7 @@
 /obj/item/cultivator,
 /obj/item/cultivator,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "Bt" = (
 /obj/structure/table,
 /obj/item/secateurs{
@@ -599,14 +645,25 @@
 	icon_state = "tube"
 	},
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "BK" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
 	id = "techcult_hydro"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
+"BW" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 8
+	},
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "Cb" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -620,22 +677,17 @@
 	name = "Mineral Shutters";
 	pixel_y = -24
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
-"Cn" = (
-/obj/effect/spawner/structure/window,
-/obj/machinery/door/poddoor/preopen{
-	id = "techcult_dorms"
+/turf/open/floor/iron/chapel{
+	dir = 8
 	},
-/turf/open/floor/plating,
-/area/ruin/powered/mechanicus/dorms)
+/area/ruin/powered/mechanicus)
 "Cp" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/green,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "Cy" = (
 /obj/structure/table,
 /obj/item/clothing/mask/gas/cyborg,
@@ -643,31 +695,13 @@
 /obj/item/clothing/mask/gas/cyborg,
 /obj/item/clothing/mask/gas/cyborg,
 /obj/item/clothing/mask/gas/cyborg,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
-"CI" = (
-/obj/structure/closet/crate/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/obj/item/circuitboard/machine/hydroponics,
-/turf/open/floor/plasteel/chapel,
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
 /area/ruin/powered/mechanicus)
 "CK" = (
 /obj/structure/table/wood/fancy/royalblack,
-/turf/open/floor/plasteel/chapel,
+/turf/open/floor/iron/chapel,
 /area/ruin/powered/mechanicus)
 "Dm" = (
 /obj/structure/reagent_dispensers/watertank/high,
@@ -675,15 +709,17 @@
 	dir = 8;
 	req_access = 400
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/iron/chapel,
 /area/ruin/powered/mechanicus)
 "DH" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/brown,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "DI" = (
 /obj/structure/table/wood/fancy/royalblack,
 /obj/machinery/button/door{
@@ -711,8 +747,10 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "EF" = (
 /obj/structure/table,
 /obj/item/stock_parts/cell/high{
@@ -732,13 +770,13 @@
 	pixel_y = 4
 	},
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/robotics)
+/area/ruin/powered/mechanicus)
 "Fi" = (
 /obj/structure/table,
 /obj/machinery/cell_charger,
 /obj/item/stock_parts/cell/high,
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/robotics)
+/area/ruin/powered/mechanicus)
 "Ft" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
@@ -748,18 +786,21 @@
 	},
 /obj/effect/turf_decal/tile/brown,
 /obj/machinery/autolathe,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "FC" = (
 /obj/structure/showcase/cyborg/old{
 	dir = 4;
 	pixel_x = -9;
 	pixel_y = 2
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 4
 	},
-/area/ruin/powered/mechanicus)
+/area/ruin/powered/mechanicus,
+/area/ruin/powered/mechanicus{
+	dir = 4
+	})
 "FE" = (
 /obj/machinery/door/airlock/grunge{
 	req_access = null
@@ -773,8 +814,10 @@
 	dir = 8
 	},
 /obj/machinery/light,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "Gm" = (
 /obj/structure/closet/secure_closet/medical1{
 	req_access = "400"
@@ -786,8 +829,10 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "Gw" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -799,13 +844,21 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/dark,
+/area/ruin/powered/mechanicus)
 "GO" = (
-/turf/open/lava/plasma/ice_moon,
-/area/ruin/powered)
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "GP" = (
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/ruin/powered/mechanicus)
@@ -814,15 +867,15 @@
 	dir = 1
 	},
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/robotics)
+/area/ruin/powered/mechanicus)
 "HA" = (
 /obj/machinery/vending/hydronutrients,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "HQ" = (
 /obj/structure/table/wood/fancy/royalblack,
 /obj/item/flashlight/lantern,
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/ruin/powered/mechanicus)
@@ -834,11 +887,13 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "IF" = (
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "IY" = (
 /obj/structure/table/wood/fancy/royalblack,
 /obj/item/storage/book/bible/omnissiah,
@@ -851,7 +906,7 @@
 /obj/item/organ/cyberimp/chest/reviver/plus,
 /obj/item/organ/lungs/cybernetic/tier4,
 /turf/open/floor/circuit,
-/area/ruin/powered/mechanicus/surgery)
+/area/ruin/powered/mechanicus)
 "KR" = (
 /obj/structure/showcase/cyborg/old{
 	dir = 4;
@@ -865,27 +920,32 @@
 	dir = 8;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 4
 	},
-/area/ruin/powered/mechanicus)
+/area/ruin/powered/mechanicus,
+/area/ruin/powered/mechanicus{
+	dir = 4
+	})
 "KZ" = (
 /obj/machinery/seed_extractor,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "Lh" = (
-/turf/closed/wall,
-/area/ruin/powered/mechanicus/robotics)
+/obj/structure/table/wood,
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "Lk" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
-"Lm" = (
-/obj/structure/chair/office{
-	dir = 4
+/turf/open/floor/iron/chapel{
+	dir = 1
 	},
+/area/ruin/powered/mechanicus)
+"Lm" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
@@ -895,19 +955,17 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
-/obj/machinery/light{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/area/ruin/powered/mechanicus)
 "Lv" = (
 /obj/machinery/door/airlock/public/glass{
 	name = "Garden";
 	req_access = 400
 	},
-/obj/structure/fans/tiny,
-/turf/open/floor/grass,
-/area/ruin/powered)
+/turf/open/floor/iron/dark,
+/area/ruin/powered/mechanicus)
 "LL" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
@@ -920,13 +978,19 @@
 	input_dir = 8;
 	req_access = 400
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
-"Nc" = (
-/obj/structure/closet/crate,
-/obj/item/toy/plush/lizardplushie,
-/turf/open/floor/plasteel/chapel{
-	dir = 8
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
+"Mu" = (
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
+	},
+/turf/open/floor/iron/chapel{
+	dir = 1
 	},
 /area/ruin/powered/mechanicus)
 "Nd" = (
@@ -938,8 +1002,10 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "NJ" = (
 /obj/structure/table,
 /obj/item/storage/backpack/duffelbag/med/surgery{
@@ -952,8 +1018,10 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "NN" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -961,8 +1029,10 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "NX" = (
 /obj/machinery/door/airlock/mining/glass{
 	name = "Mineral Storage";
@@ -972,15 +1042,24 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/brown,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "Ob" = (
 /obj/effect/spawner/structure/window,
 /obj/machinery/door/poddoor/preopen{
 	id = "techcult_medbay"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered/mechanicus/surgery)
+/area/ruin/powered/mechanicus)
+"OH" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "OW" = (
 /obj/structure/closet/crate/science{
 	name = "nanites crate"
@@ -993,7 +1072,7 @@
 /obj/item/disk/nanite_program,
 /obj/item/nanite_scanner,
 /obj/item/nanite_remote,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/iron/chapel,
 /area/ruin/powered/mechanicus)
 "Pm" = (
 /obj/effect/turf_decal/tile/blue{
@@ -1004,15 +1083,23 @@
 	},
 /obj/effect/turf_decal/tile/blue,
 /obj/structure/table_frame,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "Pq" = (
 /obj/effect/mob_spawn/human/techcult/leader,
 /turf/open/floor/carpet/purple,
 /area/ruin/powered/mechanicus)
 "Qz" = (
-/turf/closed/wall,
-/area/ruin/powered/mechanicus/surgery)
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/chair/office{
+	dir = 4
+	},
+/turf/open/floor/iron/dark,
+/area/ruin/powered/mechanicus)
 "Rd" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
@@ -1030,18 +1117,15 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/blue,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
-"Rx" = (
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "Sm" = (
 /obj/item/circuitboard/computer/operating,
 /obj/item/circuitboard/machine/chem_dispenser,
 /obj/item/circuitboard/machine/stasis,
 /obj/item/circuitboard/machine/stasis,
 /obj/structure/closet/crate/medical,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/iron/chapel,
 /area/ruin/powered/mechanicus)
 "SO" = (
 /obj/effect/turf_decal/tile/purple{
@@ -1050,8 +1134,10 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "SX" = (
 /obj/structure/table,
 /obj/item/toy/figure/roboticist{
@@ -1059,21 +1145,26 @@
 	toysay = "The flesh is weak!";
 	toysound = 'sound/machines/click.ogg'
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
-"TJ" = (
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 4
 	},
 /area/ruin/powered/mechanicus)
+"TJ" = (
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus,
+/area/ruin/powered/mechanicus{
+	dir = 4
+	})
 "Uc" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/green,
 /obj/machinery/light,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "UA" = (
 /obj/structure/showcase/cyborg/old{
 	dir = 8;
@@ -1087,7 +1178,7 @@
 	dir = 4;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/ruin/powered/mechanicus)
@@ -1107,8 +1198,8 @@
 /obj/item/t_scanner/adv_mining_scanner/lesser,
 /obj/item/t_scanner/adv_mining_scanner/lesser,
 /obj/item/t_scanner/adv_mining_scanner/lesser,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "UW" = (
 /obj/item/storage/bag/plants,
 /obj/item/storage/bag/plants,
@@ -1116,7 +1207,7 @@
 /obj/item/storage/bag/plants,
 /obj/structure/table,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "UZ" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -1124,8 +1215,10 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/vault)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "Va" = (
 /obj/structure/table,
 /obj/item/reagent_containers/glass/beaker/large,
@@ -1133,7 +1226,7 @@
 /obj/item/reagent_containers/glass/beaker/large,
 /obj/item/reagent_containers/glass/beaker/large,
 /turf/open/floor/grass,
-/area/ruin/powered)
+/area/ruin/powered/mechanicus)
 "Vf" = (
 /turf/open/lava/plasma/ice_moon,
 /area/icemoon/underground/unexplored)
@@ -1146,13 +1239,17 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/green,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/dorms)
+/turf/open/floor/iron/dark,
+/area/ruin/powered/mechanicus)
 "Wb" = (
-/turf/closed/wall,
-/area/ruin/powered/mechanicus/dorms)
+/obj/machinery/door/poddoor/preopen{
+	id = "techcult_dorms"
+	},
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/ruin/powered/mechanicus)
 "Wj" = (
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 8
 	},
 /area/ruin/powered/mechanicus)
@@ -1168,11 +1265,13 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/robotics)
+/turf/open/floor/iron/chapel{
+	dir = 8
+	},
+/area/ruin/powered/mechanicus)
 "Yk" = (
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel,
+/area/ruin/powered/mechanicus)
 "Yn" = (
 /obj/machinery/door/airlock/medical/glass{
 	name = "Flesh Mending";
@@ -1184,15 +1283,17 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 1
+	},
+/area/ruin/powered/mechanicus)
 "YX" = (
 /obj/effect/spawner/structure/window,
 /obj/machinery/door/poddoor/preopen{
 	id = "techcult_robo"
 	},
 /turf/open/floor/plating,
-/area/ruin/powered/mechanicus/robotics)
+/area/ruin/powered/mechanicus)
 "Zg" = (
 /obj/structure/frame/machine,
 /obj/item/circuitboard/machine/stasis,
@@ -1202,11 +1303,13 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/mechanicus/surgery)
+/turf/open/floor/iron/chapel{
+	dir = 4
+	},
+/area/ruin/powered/mechanicus)
 "Zi" = (
 /obj/structure/table/wood/fancy/royalblack,
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 8
 	},
 /area/ruin/powered/mechanicus)
@@ -1220,7 +1323,7 @@
 	dir = 4;
 	icon_state = "tube"
 	},
-/turf/open/floor/plasteel/chapel{
+/turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/ruin/powered/mechanicus)
@@ -1347,17 +1450,17 @@ Vf
 Vf
 Vf
 Vf
-Qz
-Qz
-Qz
-Qz
+xd
+xd
+xd
+xd
 Vf
-Lh
-Lh
-Lh
-Lh
-Lh
-Lh
+xd
+xd
+xd
+xd
+xd
+xd
 Vf
 Vf
 Vf
@@ -1386,15 +1489,15 @@ Vf
 aj
 JH
 qN
-Qz
-Qz
-Lh
+xd
+xd
+xd
 bQ
 Fi
 EF
 xs
-Lh
-la
+xd
+mA
 Vf
 Vf
 Vf
@@ -1424,15 +1527,15 @@ cg
 xy
 pf
 Pm
-Lh
+xd
 wv
 pp
 ds
 fV
-Lh
-la
-la
-la
+xd
+mA
+Vf
+Vf
 Vf
 Vf
 Vf
@@ -1458,17 +1561,17 @@ Vf
 aj
 Zg
 Yk
-Yk
+zi
 Rn
-Lh
+xd
 wv
 SO
 hr
 Hs
-Lh
-la
-la
-la
+xd
+mA
+mA
+Vf
 Vf
 Vf
 Vf
@@ -1490,22 +1593,22 @@ iW
 iW
 Va
 BK
-GO
+Vf
 aj
 NJ
-Yk
-Yk
+Wj
+GP
 tH
-Lh
+xd
 wv
-SO
+Mu
 FI
-Lh
-Lh
 xd
 xd
-la
-la
+xd
+xd
+mA
+Vf
 Vf
 Vf
 Vf
@@ -1532,17 +1635,17 @@ Gm
 tJ
 jG
 ar
-Lh
+xd
 dJ
 vd
 nw
-Lh
+xd
 Sm
 OW
 xd
 xd
-la
-la
+mA
+Vf
 Vf
 Vf
 Vf
@@ -1559,7 +1662,7 @@ IF
 IF
 bH
 IF
-bH
+jB
 IF
 IF
 IF
@@ -1568,14 +1671,14 @@ Ob
 Ob
 Yn
 Ob
-Lh
+xd
 YX
 YX
 XI
-Lh
+xd
 Wj
 GP
-cc
+Wj
 xd
 mA
 mA
@@ -1595,23 +1698,23 @@ IF
 IF
 bH
 IF
-bH
+jB
 IF
 an
 qg
 qg
 TJ
-ww
+Yk
 TJ
-ww
+Yk
 KR
-ww
+Yk
 FC
-ww
+Yk
 rN
-ww
+Yk
 TJ
-CI
+Yk
 xd
 xd
 Rd
@@ -1631,7 +1734,7 @@ IF
 IF
 bH
 IF
-bH
+jB
 IF
 AS
 qg
@@ -1667,25 +1770,25 @@ IF
 IF
 bH
 IF
-bH
+jB
 IF
 qg
 qg
-ww
+Yk
 TJ
 CK
 bt
-ww
+Yk
 yy
-ww
+Yk
 yy
-ww
+Yk
 yy
-ww
+Yk
 yy
-ww
+Yk
 yy
-ww
+Yk
 Rd
 mA
 Vf
@@ -1703,7 +1806,7 @@ IF
 IF
 bH
 IF
-bH
+jB
 IF
 qg
 mG
@@ -1773,7 +1876,7 @@ Vf
 BK
 IF
 IF
-bH
+jB
 IF
 bH
 IF
@@ -1809,7 +1912,7 @@ Vf
 BK
 IF
 IF
-bH
+jB
 IF
 bH
 IF
@@ -1845,27 +1948,27 @@ Vf
 BK
 IF
 IF
-bH
+jB
 IF
 bH
 IF
 HA
 qg
-ww
+Yk
 TJ
 CK
 TJ
-ww
+Yk
 yy
-ww
+Yk
 yy
-ww
+Yk
 yy
-ww
+Yk
 yy
-ww
+Yk
 vn
-ww
+Yk
 Rd
 mA
 Vf
@@ -1881,7 +1984,7 @@ Vf
 BK
 IF
 IF
-bH
+jB
 IF
 bH
 IF
@@ -1899,7 +2002,7 @@ Wj
 UA
 Wj
 GP
-Nc
+Wj
 xd
 xd
 Rd
@@ -1917,7 +2020,7 @@ Vf
 BK
 IF
 IF
-bH
+jB
 IF
 bH
 IF
@@ -1925,17 +2028,17 @@ IF
 IF
 cT
 Wb
-Cn
+Wb
 Nd
-jB
-jB
+xd
+xd
 yv
 yv
 NX
-jB
-ww
+xd
+Yk
 TJ
-xg
+Yk
 xd
 mA
 mA
@@ -1959,21 +2062,21 @@ IF
 IF
 IF
 IF
-IF
-Wb
+cT
+Qz
 Lm
 uc
-jB
+xd
 kr
 UZ
-UZ
+BW
 Cb
-jB
+xd
 Dm
 AC
 xd
 xd
-la
+mA
 Vf
 Vf
 Vf
@@ -1994,22 +2097,22 @@ uk
 KZ
 Bt
 IF
-Cn
-Cn
 Wb
-hm
+Wb
+lP
+vB
 Cp
-jB
+xd
 be
-Rx
-Rx
+Yk
+zi
 UE
-jB
 xd
 xd
 xd
-la
-la
+xd
+mA
+Vf
 Vf
 Vf
 Vf
@@ -2027,24 +2130,24 @@ Vf
 iz
 BK
 BK
-Wb
-Wb
-Wb
-Wb
+xd
+xd
+xd
+xd
 zu
 NN
 Lk
-Cp
-jB
+OH
+xd
 ht
-Rx
-Rx
+Wj
+GP
 mq
-jB
-la
-la
-la
-la
+xd
+mA
+mA
+mA
+Vf
 Vf
 Vf
 Vf
@@ -2062,23 +2165,23 @@ Vf
 Vf
 Vf
 Vf
-mA
-Wb
+Vf
+xd
 xN
-cp
-Wb
+Wj
+xd
 vB
 oE
 SX
 Cp
-jB
+xd
 LL
 mn
 DH
 Ft
-jB
-la
-la
+xd
+mA
+Vf
 Vf
 Vf
 Vf
@@ -2099,21 +2202,21 @@ Vf
 Vf
 Vf
 Vf
-Wb
+xd
 rl
-cp
+Yk
 VH
-vB
+GO
 mD
 Cy
-Cp
-jB
-jB
+OH
+xd
+xd
 hT
 zx
-jB
-jB
-la
+xd
+xd
+mA
 Vf
 Vf
 Vf
@@ -2135,19 +2238,19 @@ Vf
 Vf
 Vf
 Vf
-Wb
-Wb
-Wb
-Wb
+xd
+xd
+xd
+xd
 vB
 ym
-ym
+dW
 Uc
-Wb
-jB
-jB
-jB
-jB
+xd
+xd
+xd
+xd
+xd
 Vf
 Vf
 Vf
@@ -2171,13 +2274,13 @@ Vf
 Vf
 Vf
 Vf
-Wb
+xd
 xN
-cp
+Wj
 VH
 HW
 Ei
-Ei
+se
 zV
 rm
 Vf
@@ -2207,16 +2310,16 @@ Vf
 Vf
 Vf
 Vf
-Wb
+xd
 rl
-cp
-Wb
-Wb
+Yk
+xd
+xd
 qD
-Wb
+xd
 Gw
-Wb
-Wb
+xd
+xd
 Vf
 Vf
 Vf
@@ -2243,16 +2346,16 @@ Vf
 Vf
 Vf
 Vf
-Wb
-Wb
-Wb
-Wb
-cp
-cp
-Wb
-cp
-cp
-Wb
+xd
+xd
+xd
+xd
+GP
+Wj
+xd
+GP
+Wj
+xd
 Vf
 Vf
 Vf
@@ -2282,13 +2385,13 @@ Vf
 Vf
 Vf
 Vf
-Wb
-xN
+xd
+Lh
 kO
-Wb
-xN
+xd
+Lh
 kO
-Wb
+xd
 Vf
 Vf
 Vf
@@ -2318,13 +2421,13 @@ Vf
 Vf
 Vf
 Vf
-Wb
-Wb
-Wb
-Wb
-Wb
-Wb
-Wb
+xd
+xd
+xd
+xd
+xd
+xd
+xd
 Vf
 Vf
 Vf
