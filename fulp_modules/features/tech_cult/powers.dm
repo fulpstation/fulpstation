@@ -87,7 +87,7 @@
 	name = "omnissiah gift spawner"
 	lootdoubles = FALSE
 	loot = list(
-		/obj/item/stack/sheet/twenty = 68,
+		/obj/item/stack/sheet/iron/twenty = 68,
 		/mob/living/simple_animal/bot/medbot = 60,
 		/mob/living/simple_animal/bot/cleanbot = 56,
 		/obj/item/paicard = 52,
