@@ -173,13 +173,6 @@
 	desc = "A set of advanced surgical tools hidden behind a concealed panel on the user's arm."
 	contents = newlist(/obj/item/retractor/advanced/augment, /obj/item/surgicaldrill/advanced/augment, /obj/item/scalpel/advanced/augment, /obj/item/surgical_drapes)
 
-/obj/item/organ/cyberimp/arm/surgery/plus/emag_act(mob/user)
-	if(!(locate(/obj/item/reagent_containers/borghypo/hacked/augment) in items_list))
-		to_chat(user, "<span class='notice'>You unlock and hack integrated hypospray located in [src]!</span>") //Oh god oh fuck
-		items_list += new /obj/item/reagent_containers/borghypo/hacked/augment(src)
-		return 1
-	return 0
-
 /obj/item/retractor/advanced/augment
 	toolspeed = 0.3 //I AM SPEED!!
 
@@ -351,7 +344,7 @@
 	name = "omnissiah gift spawner"
 	lootdoubles = FALSE
 	loot = list(
-		/obj/item/stack/sheet/metal/twenty = 68,
+		/obj/item/stack/sheet/iron/twenty = 68,
 		/mob/living/simple_animal/bot/medbot = 60,
 		/mob/living/simple_animal/bot/cleanbot = 56,
 		/obj/item/paicard = 52,

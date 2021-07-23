@@ -28,7 +28,7 @@
 
 	uniform = /obj/item/clothing/under/color/black
 	suit = /obj/item/clothing/suit/hooded/techpriest/armor/plate
-	shoes = /obj/item/clothing/shoes/cyborg
+	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/color/black
 	glasses = /obj/item/clothing/glasses/hud/diagnostic
 	back = /obj/item/storage/backpack
