@@ -36,7 +36,7 @@
 	damage = 80
 	speed = 0.4
 	name = "energy bullet"
-	icon = 'icons/Fulpicons/energy_sniper.dmi'
+	icon = 'fulp_modules/features/tech_cult/icons/energy_sniper.dmi'
 	icon_state = "blue_bullet"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser
 	light_color = LIGHT_COLOR_BLUE
