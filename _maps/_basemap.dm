@@ -14,8 +14,8 @@
 		#include "map_files\PubbyStation\PubbyStation.dmm"
 		#include "map_files\HelioStation\HelioStation.dmm"
 		#include "map_files\SeleneStation\SeleneStation.dmm"
+		#include "map_files\Solitairestation\Solitairestation.dmm"
 		#include "map_files\tramstation\tramstation.dmm"
-		#include "map_files\tramstation\solitairestation.dmm"
 
 		#ifdef CIBUILDING
 			#include "templates.dm"
