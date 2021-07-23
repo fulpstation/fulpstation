@@ -21,8 +21,7 @@
 	name = "Beefman Research Outpost"
 	id = "beef cyto"
 	description = "A remote research outpost."
-	suffix = "fulp_icemoon_surface_cyto_nospace.dmm"
-
+	suffix = "icemoon_surface_beefman_cyto.dmm"
 
 
 /datum/outfit/russian_beefman

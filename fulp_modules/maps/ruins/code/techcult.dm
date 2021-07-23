@@ -88,7 +88,7 @@
 	name = "Adeptus Mechanicus"
 	id = "techcult"
 	description = "An old base, filled with religious fanatics praising the entity they call 'Machine God'."
-	suffix = "fulp_lavaland_techcult.dmm"
+	suffix = "lavaland_techcult.dmm"
 	allow_duplicates = FALSE
 	cost = 5
 
@@ -96,7 +96,7 @@
 	name = "Adeptus Mechanicus Icebox"
 	id = "techcult"
 	description = "An old base, filled with religious fanatics praising the entity they call 'Machine God'."
-	suffix = "fulp_icemoon_techcult.dmm"
+	suffix = "icemoon_techcult.dmm"
 
 /***************** Closets *****************/
 
