@@ -89,14 +89,14 @@
 	id = "techcult"
 	description = "An old base, filled with religious fanatics praising the entity they call 'Machine God'."
 	cost = 20
-	suffix = "lavaland_surface_techcult.dmm"
+	suffix = "fulp_lavaland_techcult.dmm"
 	allow_duplicates = FALSE
 
 /datum/map_template/ruin/icemoon/underground/techcult
 	name = "Adeptus Mechanicus Icebox"
 	id = "techcult"
 	description = "An old base, filled with religious fanatics praising the entity they call 'Machine God'."
-	suffix = "icemoon_underground_techcult.dmm"
+	suffix = "fulp_icemoon_techcult.dmm"
 	allow_duplicates = FALSE
 
 /***************** Closets *****************/
