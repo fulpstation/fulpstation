@@ -73,7 +73,7 @@
 /obj/item/organ/heart/cybernetic/tier4
 	name = "quadro-cybernetic heart"
 	desc = "An electronic device designed to mimic the functions of an organic human heart. Can inject with set of chemicals when user enter critical condition and regenerate the dose later."
-	icon = 'ModularTegustation/Teguicons/tier4_organs.dmi'
+	icon = 'fulp_modules/features/tech_cult/icons/tier4_organs.dmi'
 	icon_state = "heart-c-u3"
 	maxHealth = 3 * STANDARD_ORGAN_THRESHOLD
 	dose_available = TRUE
