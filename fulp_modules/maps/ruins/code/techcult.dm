@@ -145,4 +145,4 @@
 	assignment = "Tech Cultist"
 //	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 //	trim_state = "trim_deputy"
-	access = list(ACCESS_SYNDICATE)
+	access = list(ACCESS_ROBOTICS)
