@@ -3,9 +3,9 @@
 /// Regular Tech cultists
 /obj/effect/mob_spawn/human/techcult
 	name = "Adept of the Machine Cult"
+	death = FALSE
 	roundstart = FALSE
 	random = TRUE
-	death = FALSE
 	show_flavour = TRUE
 	mob_name = "tech priest"
 	icon = 'icons/obj/machines/sleeper.dmi'
@@ -84,20 +84,19 @@
 	ambience_index = AMBIENCE_HOLY
 
 //Ruin datum
-/datum/map_template/ruin/lavaland/techcult
+/datum/map_template/ruin/lavaland/fulp/techcult
 	name = "Adeptus Mechanicus"
 	id = "techcult"
 	description = "An old base, filled with religious fanatics praising the entity they call 'Machine God'."
-	cost = 20
 	suffix = "fulp_lavaland_techcult.dmm"
 	allow_duplicates = FALSE
+	cost = 5
 
-/datum/map_template/ruin/icemoon/underground/techcult
+/datum/map_template/ruin/icemoon/underground/fulp/techcult
 	name = "Adeptus Mechanicus Icebox"
 	id = "techcult"
 	description = "An old base, filled with religious fanatics praising the entity they call 'Machine God'."
 	suffix = "fulp_icemoon_techcult.dmm"
-	allow_duplicates = FALSE
 
 /***************** Closets *****************/
 
