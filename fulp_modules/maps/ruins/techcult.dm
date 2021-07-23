@@ -138,11 +138,11 @@
 
 /obj/item/card/id/away/techcult
 	name = "tech cult identification card"
-	desc = "An ID card used by religious group praising misterious machine god."
+	desc = "An ID card used by mechanical religious fanatics."
 	trim = /datum/id_trim/tech_cultist
 
 /datum/id_trim/tech_cultist
-	assignment = "Syndicate Battlecruiser Crew"
-	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
-	trim_state = "trim_deputy" // Placeholder
+	assignment = "Tech Cultist"
+//	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
+//	trim_state = "trim_deputy"
 	access = list(ACCESS_SYNDICATE)
