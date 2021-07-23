@@ -26,7 +26,6 @@
 	design_ids = list(
 		"ci-reviver-plus",
 		"ci-surgery-plus",
-		"mars_cyber_implants",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
 	hidden = TRUE
@@ -40,7 +39,7 @@
 		"cybernetic_heart_tier4",
 		"cybernetic_lungs_tier4",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
 /datum/techweb_node/energy_sniper
 	id = "energy_sniper"

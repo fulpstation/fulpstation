@@ -1,14 +1,6 @@
 /*************** Research Designs ***************/
 
 //Implants
-/datum/techweb_node/mars_cyber_implants
-	id = "mars_cyber_implants"
-	display_name = "Marsian Cybernetic Implants"
-	description = "Highly advanced cybernetic implants used to improve efficiency to the maximum."
-	prereq_ids = list("combat_cyber_implants", "mars_tech")
-	design_ids = list("ci-reviver-plus", "ci-surgery-plus")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
-
 /datum/design/cyberimp_reviver_plus
 	name = "Reviver Implant PLUS"
 	desc = "This implant will attempt to heal you REALLY FAST if you lose consciousness. For the true warriors!"
