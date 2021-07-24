@@ -19,6 +19,7 @@
 	I know we've spent nearly all our lives together, I know it will be a sad day when we depart.<br>
 	Just know that I am glad you had so many walls to talk to, so many... lizard and rats, to socialize with.<br>
 	I'll never forget all the time we've spent in here. It's something I'll cherish forever.<br>
+	I hope whoever is left will remmeber to turn our Solars computer to start generating and sending power to the SAT. Probably should've turned it on myself but it's too late now.<br>
 	I hope one day, you'll be renovated into a big, beautiful room. Maybe a museum, with many visitors.<br>
 	As for me, I am not as lucky as you, to be a mansion. To be loved by all, all it takes is a little time to get used to you, afterall.<br>
 	Goodbye, Prison.<br>
