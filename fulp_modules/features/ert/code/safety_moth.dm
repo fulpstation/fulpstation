@@ -101,12 +101,13 @@
 /datum/outfit/centcom/ert/safety_moth/security
 	name = "Safety Moth Officer"
 
-//	head = /obj/item/clothing/head/helmet/space/safety_moth
-//	glasses =  /obj/item/clothing/glasses/meson/engine
-//	suit = /obj/item/clothing/suit/space/safety_moth
-//	suit_store = /obj/item/tank/internals/oxygen
-//	gloves = /obj/item/clothing/gloves/color/chief_engineer
-//	shoes = /obj/item/clothing/shoes/magboots/safety_moth
+	head = /obj/item/clothing/head/helmet/space/safety_moth/sec
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	mask = /obj/item/clothing/mask/gas/sechailer
+	suit = /obj/item/clothing/suit/space/safety_moth/sec
+	suit_store = /obj/item/gun/energy/e_gun/stun
+	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
+	shoes = /obj/item/clothing/shoes/combat/swat
 	belt = /obj/item/storage/belt/security/full
 	back = /obj/item/storage/backpack/ert/security
 	backpack_contents = list(
@@ -114,7 +115,7 @@
 		/obj/item/storage/box/handcuffs = 1,
 		/obj/item/storage/box/survival/engineer = 1,
 	)
-//	l_pocket = /obj/item/rcd_ammo/large
+	l_pocket = /obj/item/tank/internals/oxygen
 
 	skillchips = null
 
@@ -129,7 +130,6 @@
 	if(visualsOnly)
 		return
 	var/obj/item/radio/R = H.ears
-	switch(specialty)
 	R.keyslot = new /obj/item/encryptionkey/heads/captain
 	R.recalculateChannels()
 
@@ -148,7 +148,7 @@
 	slowdown = 0
 /obj/item/clothing/head/helmet/space/safety_moth
 	name = "Safety Moth safety hardhat"
-	desc = "The standard issue safety hardhat of the Safety Moth. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
+	desc = "The standard issue safety hardhat belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon_state = "hardhat0_yellow"
 	resistance_flags = FIRE_PROOF
 	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, RAD = 100, FIRE = 100, ACID = 80)
@@ -161,14 +161,24 @@
 //Med
 /obj/item/clothing/suit/space/safety_moth/med
 	name = "Safety Moth medical jacket"
-	desc = "The standard issue safety jacket of Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
+	desc = "The standard issue safety jacket belonging to Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
 	icon_state = "labcoat_paramedic"
 	inhand_icon_state = "labcoat_paramedic"
 /obj/item/clothing/head/helmet/space/safety_moth/med
 	name = "Safety Moth medical cap"
-	desc = "The standard issue safety cap of Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
+	desc = "The standard issue safety cap belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon_state = "paramedicsoft"
 //Sec
+/obj/item/clothing/suit/space/safety_moth/sec
+	name = "Safety Moth riot suit"
+	desc = "The standard issue riot suit belonging to Safety Moth themselves. Functions like a hardsuit, resists shoves, and offers superb protection against environmental hazards."
+	icon_state = "riot"
+	inhand_icon_state = "riot"
+	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN
+/obj/item/clothing/head/helmet/space/safety_moth/sec
+	name = "Safety Moth riot helmet"
+	desc = "The standard issue riot helmet belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
+	icon_state = "riot"
 
 #undef SAFETY_MOTH_ENGINEER
 #undef SAFETY_MOTH_MEDICAL
