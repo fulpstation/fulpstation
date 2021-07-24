@@ -27,6 +27,9 @@ As we are a TG downstream, any PR that they merge, will eventually trickle down 
 
 This is a very important thing to know before contributing to Fulpstation. We rebased to rid ourselves of the old grudgecode, we do not wish to re-become it.
 
+NOTE: If you plan on Contributing to Fulpstation, you may want to instead read the guide, located here;
+- <https://wiki.fulp.gg/en/GuideToContributing>
+
 ![image](https://i.imgur.com/4p3iTRx.jpg)
 
 ### Workflows
@@ -51,15 +54,14 @@ Due to how TG handles TGUI, there is currently no known way to make this hosted 
 ## TGU
 
 TGU (TG Update) is when a Contributor updates our repository to the latest version of TG Code (<https://github.com/tgstation/tgstation/>)
-The best way to do this is with GitBash <https://gitforwindows.org/> - If you do not know how, ask in the Discord for help.
+We do NOT have a mirror bot, so things must be manually done with GitBash (<https://gitforwindows.org/>) by setting tgstation/tgstation as your remote upstream. If you do not know how, you can ask in the Discord for help.
 
-## Notes
+- When a Contributor does a TGU;
+1) They must merge ALL of TG into Fulpstation, not cherry pick commits/PRs they want/dont want. This is to ensure best safety for bugs and other terrible things that come with falling behind on updates.
+2) They must ensure that no Fulpstation edits or files are being deleted, done by solving its conflicts manually and reverting deletions. (This is done easiest using the tg_edits.dm file, listing ALL our edits, though it does not list new files, so you will have to manually ensure no Fulp files are being deleted, such as the Fulpstation defines, maps, and TGUIs files.)
+3) Once the TGU is complete and ready for testmerging, you should ensure the tgstation.dme isnt commenting out any Fulp files.
 
-During TG Updates, the person updating must go over all the files to make sure it isnt deleting/conflicting with and Fulp edits.
-We do NOT have a mirror bot, so things must be manually done with GitBash by setting tgstation/tgstation as your remote upstream.
-
-If you plan on Contributing to Fulpstation, you may want to instead read the guide, located here;
-- <https://wiki.fulp.gg/en/GuideToContributing>
+At most, a TGU should be about once every 2 months.
 
 **Template for a readme - Open this file to copy paste it**
 
