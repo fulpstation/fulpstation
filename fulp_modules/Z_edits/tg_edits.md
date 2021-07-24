@@ -16,7 +16,6 @@
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 - code/game/objects/items/implants/implant_mindshield.dm > Mindshielding removes Vassalization
 
-- code/modules/admin/sql_ban_system.dm > Bloodsuckers and Monster hunters as bannable antagonists.
 - code/modules/admin/verbs/adminhelp.dm > Button for redirecting people to Mentorhelp
 - code/modules/client/client_procs.dm > Gives the mentorhelp verb
 - code/modules/client/preferences.dm > Preferences for antag tip enabling/disabling || Beefmen customization/preferences
