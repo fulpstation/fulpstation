@@ -382,7 +382,7 @@
 		They make <i>no attempts</i> at hiding themselves within the crew, and have a terrible taste for <i>heavy items</i>.<br> \
 		They also seem to manage to fit themsleves into small spaces such as <i>vents</i>.<br> \
 		<b>Strength</b>: Ventcrawl.<br> \
-		<b>Weakness</b>: Can't disguise themselves, can easily be discovered by their DNA or Blood."
+		<b>Weakness</b>: Can't disguise themselves, can easily be discovered by their DNA or Blood Level."
 	if(clan == CLAN_TREMERE)
 		dat += "This Clan seems to hate entering the <i>Chapel</i>.<br> \
 		They are a secluded Clan, they are Vampires who've mastered the power of blood, and seek knowledge.<br> \
@@ -390,7 +390,7 @@
 		Despite this, their Vassals pledge <i>complete obedience</i> to them no matter what, going as far as to resist Mindshields.<br> \
 		They seem to be able to revive dead people using some torture device, something never-before seen.<br> \
 		<b>Strength</b>: Vassal Mutilation, reviving the Dead.<br> \
-		<b>Weakness</b>: Does not gain more abilities overtime, it is best to target the Bloodsucker over the Vassal."
+		<b>Weakness</b>: Entering the Chapel sets them on fire, it is a safe place to run to if in combat against one."
 	if(clan == CLAN_GANGREL) // Flavortext only
 		dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
 		They also go by the name of <i>Werewolves</i>, as that is what appears when they enter a Frenzy.<br> \
