@@ -1,7 +1,7 @@
 # Fulpstation Codebase
 
 
-## Moduarity
+## Modular Code/Modularity
 
 Modular, as we use it, is described as "Doesn't touch TG files". 
 While adding new files to TG folders fits this description, many would not consider it to be "Modular", so it is best to avoid doing so, this is why the Fulp modules folder exists.
