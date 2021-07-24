@@ -120,7 +120,7 @@
 	skillchips = null
 
 /// Clothing
-// Id & Trim
+// ID
 /obj/item/card/id/advanced/centcom/ert/safety_moth
 	registered_name = "Safety Moth"
 	trim = /datum/id_trim/centcom/ert/commander
