@@ -94,7 +94,7 @@
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
 	uniform = /obj/item/clothing/under/plasmaman/security/deputy
-	gloves = /obj/item/clothing/gloves/color/plasmaman/white
+	gloves = /obj/item/clothing/gloves/color/plasmaman/black
 
 /// Shirt
 /obj/item/clothing/under/rank/security/officer/mallcop
