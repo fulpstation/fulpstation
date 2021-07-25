@@ -7,7 +7,7 @@
 - code/__HELPERS/global_lists.dm > Beefmen customization/preferences.
 
 - code/controllers/subsystem/ticker.dm > Adds pick_round_end_sound() to the round_end_song
-- code/controllers/subsystem/job.dm > Adds Fulp jobs to the station job list datum.
+- code/controllers/subsystem/job.dm > Adds Fulp jobs to the station job list datum. || Replaces var/list/chain_of_command with our own version.
 
 - code/datums/hud.dm > Bloodsucker HUDs
 
