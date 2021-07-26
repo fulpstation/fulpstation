@@ -47,10 +47,10 @@
 	close_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_close.ogg'
 	breakout_time = 35 SECONDS
 	pryLidTimer = 35 SECONDS
-	resistance_flags = NONE
+	resistance_flags = FIRE_PROOF | LAVA_PROOF | ACID_PROOF
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
-	armor = list(MELEE = 10, BULLET = 10, LASER = 10, ENERGY = 10, BOMB = 100, BIO = 0, RAD = 0, FIRE = 100, ACID = 100)
+	armor = list(MELEE = 35, BULLET = 20, LASER = 20, ENERGY = 0, BOMB = 100, BIO = 0, RAD = 0, FIRE = 100, ACID = 100)
 
 /obj/structure/closet/crate/coffin/meatcoffin
 	name = "meat coffin"
@@ -62,7 +62,6 @@
 	close_sound = 'sound/effects/footstep/slime1.ogg'
 	breakout_time = 25 SECONDS
 	pryLidTimer = 20 SECONDS
-	resistance_flags = NONE
 	material_drop = /obj/item/food/meat/slab/human
 	material_drop_amount = 3
 	armor = list(MELEE = 70, BULLET = 10, LASER = 10, ENERGY = 0, BOMB = 70, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
