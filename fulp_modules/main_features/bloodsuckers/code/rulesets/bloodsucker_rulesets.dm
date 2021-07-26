@@ -8,7 +8,14 @@
 	name = "Bloodsuckers"
 	antag_flag = ROLE_BLOODSUCKER
 	antag_datum = /datum/antagonist/bloodsucker
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list(
+		// Command
+		"Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster",
+		// Security
+		"Warden", "Security Officer", "Detective", "Brig Physician",
+		// Deputies
+		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+	)
 	restricted_roles = list("AI", "Cyborg")
 	required_candidates = 1
 	weight = 5
