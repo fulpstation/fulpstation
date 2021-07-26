@@ -25,7 +25,7 @@
 
 /// Security locker ID edit - Changes it to ACCESS_BRIG so Deputies no longer have access to it
 /obj/structure/closet/secure_closet/security
-	req_access = list(ACCESS_BRIG)
+	req_access = list(ACCESS_SEC_DOORS)
 
 /obj/structure/closet/secure_closet/security/Initialize()
 	new /obj/item/clothing/shoes/jackboots/digitigrade(src)
