@@ -23,9 +23,9 @@
 	new /obj/item/clothing/shoes/brown/digitigrade(src)
 	. = ..()
 
-/// Security locker ID edit - Changes it to ACCESS_BRIG so Deputies no longer have access to it
+/// Security locker ID edit - Changes it to ACCESS_WEAPONS so Deputies no longer have access to it
 /obj/structure/closet/secure_closet/security
-	req_access = list(ACCESS_BRIG)
+	req_access = list(ACCESS_WEAPONS)
 
 /obj/structure/closet/secure_closet/security/Initialize()
 	new /obj/item/clothing/shoes/jackboots/digitigrade(src)
