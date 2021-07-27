@@ -34,9 +34,9 @@ NOTE: If you plan on Contributing to Fulpstation, you may want to instead read t
 
 ### Workflows
 
-Due to Fulpstation handling workflows themselves, and due to TG handing us their workflows, for modularity reasons, you have to disable your Fork's workflows. To do this, go onto your fork of the Repository, go to the Actions tab, then go to each workflow and click the ... at the right, then manually disable them. It should end up looking like this.
+Due to Fulpstation handling workflows themselves, and due to TG handing us their workflows, to not get flooded with emails, you should disable your Fork's workflows (except Cl Suite and Generate Documentation). To do this, go onto your fork of the Repository, go to the Actions tab, then go to each workflow and click the ... at the right, then manually disable them. It should end up looking like this.
 
-![image](https://i.imgur.com/eFiVVH9.png)
+![image](https://i.imgur.com/J8BaqtN.png)
 
 While this isn't required, Fulpstation and your own fork has different workflows, so yours won't affect ours, it will prevent you from getting flooded with emails telling you they've failed.
 
