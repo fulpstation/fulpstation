@@ -133,6 +133,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "aaX" = (
@@ -8680,10 +8681,6 @@
 	name = "Medbay SMES Access";
 	req_access_txt = "10;11;12;45"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "blF" = (
@@ -11266,8 +11263,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "bOy" = (
@@ -22025,10 +22020,6 @@
 /turf/open/floor/iron,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "dVH" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Medbay SMES Access";
-	req_access_txt = "10;11;12;45"
-	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -22041,11 +22032,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/machinery/door/airlock/maintenance{
+	name = "Medbay SMES Access";
+	req_access_txt = "10;11;12;45"
 	},
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
@@ -27842,10 +27831,7 @@
 /turf/closed/wall,
 /area/maintenance/starboard/aft)
 "fnK" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/closet/secure_closet/engineering_electrical,
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "fnP" = (
@@ -39008,9 +38994,8 @@
 /area/hallway/primary/aft)
 "hQV" = (
 /obj/structure/cable,
-/obj/machinery/door/airlock/maintenance{
-	name = "Medbay SMES Access";
-	req_access_txt = "10;11;12;45"
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
@@ -49730,8 +49715,13 @@
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "kfJ" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/obj/machinery/power/solar_control{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "kfK" = (
@@ -50154,6 +50144,13 @@
 /area/maintenance/disposal)
 "kkI" = (
 /obj/structure/cable,
+/obj/machinery/door/airlock/external{
+	cyclelinkeddir = 4;
+	name = "Solar Maintenance";
+	req_access = null;
+	req_access_txt = "10; 13"
+	},
+/obj/effect/turf_decal/stripes/red/box,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "kkV" = (
@@ -50940,19 +50937,7 @@
 /turf/open/floor/wood,
 /area/command/bridge)
 "ksy" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Medbay SMES Access";
-	req_access_txt = "10;11;12;45"
-	},
-/obj/machinery/door/firedoor,
-/obj/effect/turf_decal/delivery,
-/obj/structure/cable,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
+/obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "ksT" = (
@@ -54161,11 +54146,7 @@
 /turf/open/floor/iron/white,
 /area/science/nanite)
 "ldj" = (
-/obj/machinery/light/small/directional/north,
-/obj/structure/closet/secure_closet/engineering_electrical,
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
+/obj/machinery/light/small/directional/east,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "ldk" = (
@@ -55505,12 +55486,6 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron/white,
 /area/science/research)
-"lsC" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
-/turf/open/floor/plating,
-/area/solars/aux/starboard)
 "lsF" = (
 /turf/open/floor/plating,
 /area/maintenance/fore)
@@ -55806,11 +55781,12 @@
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
 "lwa" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
 /obj/structure/cable,
 /obj/machinery/power/terminal,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/light/small/directional/west,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "lwd" = (
@@ -61463,7 +61439,12 @@
 /area/maintenance/starboard/aft)
 "mIe" = (
 /obj/structure/cable,
-/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "mIg" = (
@@ -63860,7 +63841,7 @@
 /area/security/prison)
 "njI" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
@@ -66229,15 +66210,8 @@
 /turf/open/floor/iron,
 /area/commons/dorms)
 "nLh" = (
-/obj/machinery/door/airlock/external{
-	cyclelinkeddir = 4;
-	name = "Solar Maintenance";
-	req_access = null;
-	req_access_txt = "10; 13"
-	},
 /obj/structure/cable,
 /obj/structure/lattice/catwalk,
-/obj/effect/turf_decal/stripes/red/box,
 /turf/open/space/basic,
 /area/solars/aux/starboard)
 "nLk" = (
@@ -74337,10 +74311,13 @@
 /area/hallway/primary/upper)
 "pxt" = (
 /obj/structure/chair/stool,
-/obj/effect/turf_decal/stripes/line{
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/corner{
 	dir = 1
 	},
-/obj/structure/cable,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "pxz" = (
@@ -75867,11 +75844,6 @@
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "pQz" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/power/solar_control,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "pQF" = (
@@ -77000,14 +76972,7 @@
 /turf/open/floor/iron/white,
 /area/medical/storage)
 "qez" = (
-/obj/machinery/door/airlock/external{
-	cyclelinkeddir = 4;
-	name = "Solar Maintenance";
-	req_access = null;
-	req_access_txt = "10; 13"
-	},
 /obj/structure/cable,
-/obj/effect/turf_decal/stripes/red/box,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "qeA" = (
@@ -80782,15 +80747,9 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 5
-	},
 /obj/structure/cable,
-/obj/effect/turf_decal/stripes/corner{
+/obj/effect/turf_decal/stripes/line{
 	dir = 1
-	},
-/obj/effect/turf_decal/stripes/corner{
-	dir = 4
 	},
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
@@ -84551,11 +84510,8 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "rQn" = (
-/obj/structure/cable,
-/obj/machinery/computer/station_alert{
-	dir = 1
-	},
 /obj/effect/turf_decal/stripes/line,
+/obj/structure/table,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "rQz" = (
@@ -100290,12 +100246,13 @@
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "vrF" = (
-/obj/structure/cable,
-/obj/structure/cable,
-/obj/effect/turf_decal/stripes/corner{
-	dir = 8
+/obj/machinery/door/airlock/maintenance{
+	name = "Medbay SMES Access";
+	req_access_txt = "10;11;12;45"
 	},
-/obj/effect/turf_decal/stripes/corner,
+/obj/machinery/door/firedoor,
+/obj/structure/cable,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plating,
 /area/solars/aux/starboard)
 "vrH" = (
@@ -110982,6 +110939,11 @@
 	},
 /turf/open/floor/iron/dark,
 /area/ai_monitored/security/armory)
+"xJL" = (
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/solars/aux/starboard)
 "xJO" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible{
 	dir = 10
@@ -111411,9 +111373,8 @@
 /turf/open/floor/holofloor/chapel,
 /area/service/chapel)
 "xOk" = (
-/obj/structure/cable,
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
+/obj/structure/lattice,
+/turf/open/space/basic,
 /area/solars/aux/starboard)
 "xOm" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -158005,8 +157966,8 @@ bhv
 bhv
 bhv
 bhv
-bhv
-wyu
+xjp
+xjp
 wyu
 wyu
 wyu
@@ -158247,7 +158208,7 @@ bhv
 bhv
 aXx
 bhv
-lyM
+qGV
 cbY
 aaa
 qyD
@@ -158259,9 +158220,9 @@ nYl
 qyD
 bhv
 xOk
-xOk
-xOk
-xOk
+xjp
+xjp
+xjp
 xjp
 kfJ
 lwa
@@ -158507,23 +158468,23 @@ njl
 nwW
 nYl
 nYl
-lyM
+qGV
 qGV
 qGV
 upO
 qGV
 qGV
 qGV
-qGV
+lyM
 nLh
-lyM
-lyM
+kkI
+qez
 qez
 kkI
 hQV
 njI
 mIe
-xjp
+vrF
 pxt
 rQn
 xjp
@@ -158761,7 +158722,7 @@ jOL
 bhv
 aXx
 jdZ
-lyM
+qGV
 cbY
 jdZ
 qyD
@@ -158773,14 +158734,14 @@ qGV
 qyD
 bhv
 xOk
-xOk
-xOk
-xOk
 xjp
 xjp
-fnK
-vrF
-ksy
+xjp
+wyu
+ncB
+ncB
+ncB
+ncB
 qXc
 lVC
 dVH
@@ -159033,11 +158994,11 @@ bhv
 bhv
 bhv
 bhv
-bhv
-xjp
+wyu
+fnK
 pQz
-mIe
-xjp
+pQz
+xJL
 aaW
 qAu
 qKn
@@ -159290,11 +159251,11 @@ cFp
 cFp
 cFp
 cFp
-cFp
-xjp
+wyu
+ksy
 ldj
-lsC
-xjp
+pQz
+pQz
 blD
 fFs
 xjp
