@@ -3,18 +3,6 @@
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating,
 /area/shuttle/supply)
-"b" = (
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/plating,
-/area/shuttle/supply)
 "c" = (
 /obj/structure/shuttle/engine/heater,
 /obj/structure/window/reinforced{
@@ -70,12 +58,27 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/light{
-	dir = 4
-	},
+/obj/machinery/light/directional/east,
 /turf/open/floor/iron,
 /area/shuttle/supply)
 "j" = (
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/shuttle/supply)
+"l" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cargounload"
+	},
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/shuttle/supply)
+"m" = (
 /obj/structure/shuttle/engine/heater,
 /obj/structure/window/reinforced{
 	dir = 8;
@@ -99,49 +102,24 @@
 	},
 /turf/open/floor/plating,
 /area/shuttle/supply)
-"l" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "cargounload"
+"n" = (
+/obj/structure/shuttle/engine/heater{
+	dir = 1
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/shuttle/supply)
-"m" = (
-/obj/structure/shuttle/engine/propulsion,
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/structure/window/reinforced{
 	dir = 4
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/shuttle/supply)
-"n" = (
-/obj/structure/shuttle/engine/propulsion{
-	dir = 1
-	},
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
+/obj/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/shuttle/supply)
 "p" = (
@@ -171,14 +149,20 @@
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/supply)
 "s" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
+/obj/structure/shuttle/engine/propulsion{
+	dir = 1
 	},
 /obj/structure/window/reinforced{
 	dir = 8
+	},
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/shuttle/supply)
@@ -190,18 +174,6 @@
 	id = "cargoload"
 	},
 /turf/open/floor/iron,
-/area/shuttle/supply)
-"u" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/turf/open/floor/plating,
 /area/shuttle/supply)
 "w" = (
 /obj/machinery/conveyor{
@@ -248,29 +220,13 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 8
 	},
-/obj/machinery/light{
-	dir = 1
-	},
+/obj/machinery/light/directional/north,
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
 "C" = (
-/obj/structure/shuttle/engine/heater{
-	dir = 1
-	},
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/shuttle/supply)
 "D" = (
@@ -289,6 +245,10 @@
 /turf/open/floor/iron,
 /area/shuttle/supply)
 "F" = (
+/obj/structure/shuttle/engine/propulsion,
+/obj/structure/window/reinforced{
+	dir = 8
+	},
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -296,7 +256,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 10
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/shuttle/supply)
@@ -371,20 +331,18 @@
 /area/shuttle/supply)
 "W" = (
 /obj/effect/turf_decal/bot,
-/obj/machinery/light{
-	dir = 8
-	},
+/obj/machinery/light/directional/west,
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
 
 (1,1,1) = {"
-j
+M
 m
 F
-a
-b
+j
+s
 n
-C
+M
 "}
 (2,1,1) = {"
 M
@@ -477,11 +435,11 @@ f
 x
 "}
 (12,1,1) = {"
+M
 c
-m
-u
-a
+F
+C
 s
 n
-C
+M
 "}

@@ -23,8 +23,11 @@
 		return
 	. = ..()
 
-/// Prevents Bloodsuckers from naturally regenerating Blood.
+/// Prevents Bloodsuckers from naturally regenerating Blood - Even while on masquerade
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
+	if(IS_BLOODSUCKER(src))
+		return
+	/// For Vassals
 	if(HAS_TRAIT(src, TRAIT_NOPULSE))
 		return
 	. = ..()
@@ -122,7 +125,7 @@
 	return returnIcon + returnString
 
 /// Am I "pale" when examined? Bloodsuckers can trick this.
-/mob/living/carbon/human/proc/ShowAsPaleExamine()
+/mob/living/carbon/human/proc/ShowAsPaleExamine() // WILLARD TODO: Change this what the fuck?
 	// Normal Creatures:
 	if(!mind || !mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		return blood_volume < BLOOD_VOLUME_SAFE

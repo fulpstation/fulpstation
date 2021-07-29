@@ -26,3 +26,8 @@
 	suffix = "selene"
 	name = "mining shuttle (Selene)"
 
+/// Eosstation
+/datum/map_template/shuttle/cargo/eos
+	prefix = "_maps/shuttles/"
+	suffix = "eos"
+	name = "supply shuttle (Eos)"

@@ -7,7 +7,7 @@
 		cmd_mentor_pm(href_list["mentor_msg"],null)
 		return TRUE
 
-	//Mentor Follow
+	/// Mentor Follow
 	if(href_list["mentor_follow"])
 		var/mob/living/M = locate(href_list["mentor_follow"])
 
@@ -18,11 +18,13 @@
 
 /client/proc/mentor_datum_set(admin)
 	mentor_datum = GLOB.mentor_datums[ckey]
-	if(!mentor_datum && check_rights_for(src, R_ADMIN,0)) // Admin with no mentor datum? let's fix that
+	/// Admin with no mentor datum? let's fix that
+	if(!mentor_datum && check_rights_for(src, R_ADMIN,0))
 		new /datum/mentors(ckey)
 	if(mentor_datum)
 		if(!check_rights_for(src, R_ADMIN,0) && !admin)
-			GLOB.mentors |= src // Don't add admins too.
+			/// Don't add admins too.
+			GLOB.mentors |= src
 		mentor_datum.owner = src
 		add_mentor_verbs()
 

@@ -9,6 +9,7 @@
 	bloodsucker_can_buy = FALSE
 	can_be_staked = TRUE
 	cooldown_static = TRUE
+	can_use_in_frenzy = TRUE
 
 	var/notice_range = 2 // Distance before silent feeding is noticed.
 	var/mob/living/feed_target // So we can validate more than just the guy we're grappling.
@@ -71,6 +72,13 @@
 		if(NOBLOOD in H.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
 			if(display_error)
 				to_chat(owner, "<span class='warning'>Your victim's blood is not suitable for you to take.</span>")
+			return FALSE
+	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE && !bloodsuckerdatum.Frenzied)
+		if(!target.mind)
+			if(display_error)
+				to_chat(owner, "<span class='warning'>The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth.</span>")
 			return FALSE
 	return TRUE
 
@@ -135,12 +143,16 @@
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up Activate(), so Deactivate() can happen after.
 	var/mob/living/target = feed_target // Stored during CheckCanUse(). Can be a grabbed OR adjecent character.
 	var/mob/living/user = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
 	var/amSilent = (!target_grappled || owner.grab_state <= GRAB_PASSIVE) //  && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 	// Initial Wait
 	var/feed_time = (amSilent ? 45 : 25) - (2.5 * level_current)
 	feed_time = max(15, feed_time)
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
+		/// In a frenzy? No time to wait, drink blood NOW!
+		feed_time = 5.5
 	if(amSilent)
 		to_chat(user, "<span class='notice'>You lean quietly toward [target] and secretly draw out your fangs...</span>")
 	else
@@ -169,7 +181,7 @@
 		//else
 		var/deadmessage = target.stat == DEAD ? "" : " <i>[target.p_they(TRUE)] looks dazed, and will not remember this.</i>"
 		user.visible_message("<span class='notice'>[user] puts [target]'s wrist up to [user.p_their()] mouth.</span>", \
-						 	 "<span class='notice'>You secretly slip your fangs into [target]'s wrist.[deadmessage]</span>", \
+						 	 "<span class='notice'>You slip your fangs into [target]'s wrist.[deadmessage]</span>", \
 						 	 vision_distance = notice_range, ignored_mobs = target) // Only people who AREN'T the target will notice this action.
 		// Warn Feeder about Witnesses...
 		var/was_unnoticed = TRUE
@@ -195,12 +207,16 @@
 	var/warning_target_bloodvol = 99999
 	var/amount_taken = 0
 	var/blood_take_mult = amSilent ? 0.3 : 1 // Quantity to take per tick, based on Silent or not.
+	/// In a Frenzy? Take double the blood.
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied)
+		blood_take_mult = 2
 	// Activate Effects
 	//target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
 
 	// FEEEEEEEEED!!! //
-	bloodsuckerdatum.poweron_feed = TRUE
-	while(bloodsuckerdatum && target && active)
+	if(bloodsuckerdatum)
+		bloodsuckerdatum.poweron_feed = TRUE
+	while(target && active)
 		ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // user.canmove = 0 // Prevents spilling blood accidentally.
 		// Abort? A bloody mistake.
 		if(!do_mob(user, target, 2 SECONDS, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
@@ -228,20 +244,29 @@
 				target.add_splatter_floor(get_turf(target))
 				user.add_mob_blood(target) // Put target's blood on us. The donor goes in the ( )
 				target.add_mob_blood(target)
-				target.take_overall_damage(10,0)
+				target.take_overall_damage(10)
 				INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 
 			return
 
 		///////////////////////////////////////////////////////////
 		// 		Handle Feeding! User & Victim Effects (per tick)
-		bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+		if(bloodsuckerdatum)
+			bloodsuckerdatum.HandleFeeding(target, blood_take_mult)
+		if(vassaldatum)
+			vassaldatum.HandleFeeding(target, blood_take_mult)
 		amount_taken += amSilent ? 0.3 : 1
 		if(!amSilent)
 			ApplyVictimEffects(target)	// Sleep, paralysis, immobile, unconscious, and mute
 		if(amount_taken > 5 && target.stat < DEAD && ishuman(target))
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood) // GOOD // in bloodsucker_life.dm
 
+		/// Fed off a mindless person as Ventrue? - This is only possible in Frenzy.
+		if(bloodsuckerdatum && !target.mind && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad) // BAD // in bloodsucker_life.dm
+			if(!warning_target_inhuman)
+				to_chat(user, "<span class='notice'>You feel disgusted at the taste of a non-sentient creature.</span>")
+				warning_target_inhuman = TRUE
 		///////////////////////////////////////////////////////////
 		// Not Human?
 		if(!ishuman(target))
@@ -257,7 +282,7 @@
 				to_chat(user, "<span class='notice'>Your victim is dead. [target.p_their(TRUE)] blood barely nourishes you.</span>")
 				warning_target_dead = TRUE
 		// Full?
-		if(!warning_full && user.blood_volume >= bloodsuckerdatum.max_blood_volume)
+		if(bloodsuckerdatum && !warning_full && user.blood_volume >= bloodsuckerdatum.max_blood_volume)
 			to_chat(user, "<span class='notice'>You are full. Further blood will be wasted.</span>")
 			warning_full = TRUE
 		// Blood Remaining? (Carbons/Humans only)
@@ -292,7 +317,7 @@
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
 	if(!target)
 		return FALSE
-	if(!target_grappled || user.pulling == target) // Active, and still antag
+	if(!target_grappled || user.pulling) // Active, and still antag
 		return ..()
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire

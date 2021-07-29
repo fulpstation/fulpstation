@@ -15,9 +15,10 @@
 	bloodcost = 10
 	cooldown = 50
 	amToggle = TRUE
+	/// Bloodsuckers all start with this ability, we don't need to buy it, and Nosferatu loses this, we dont want them to rebuy it!
 	bloodsucker_can_buy = FALSE
 	warn_constant_cost = TRUE
-	can_use_in_torpor = TRUE // Masquerade is maybe the only one that can do this. It stops your healing.
+	can_use_in_torpor = TRUE
 	cooldown_static = TRUE
 	must_be_concious = FALSE
 
@@ -68,7 +69,7 @@
 		// Don't vomit food
 		// Don't Heal
 		if(user.stat == CONSCIOUS) // Pay Blood Toll if awake.
-			bloodsuckerdatum.AddBloodVolume(-0.3) // Since we're removing all Bloodsucker abilities, they will regenerate blood like a normal human, so pay a lot.
+			bloodsuckerdatum.AddBloodVolume(-0.1)
 		sleep(20)
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
@@ -104,4 +105,8 @@
 	if(E)
 		E.flash_protect -= 1
 
+	/// Remove all diseases
+	for(var/thing in user.diseases)
+		var/datum/disease/D = thing
+		D.cure()
 	to_chat(user, "<span class='notice'>Your heart beats one final time, while your skin dries out and your icy pallor returns.</span>")

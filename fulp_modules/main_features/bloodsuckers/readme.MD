@@ -46,6 +46,9 @@
 - 'sound/effects/snap.ogg' > Hunter-Fu
 - 'sound/weapons/slash.ogg' > Hunter-Fu
 - 'sound/weapons/punch1.ogg' > Hunter-Fu
+- 'sound/machines/buzz-sigh.ogg' > Persuasion Rack
+
+- icons/hud/radial.dmi 'radial_yes' 'radial_no' > Persuasion rack's Radial menu to secure it in place.
 
 ## Notes/Credits:
 

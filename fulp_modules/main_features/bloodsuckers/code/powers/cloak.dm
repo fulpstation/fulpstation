@@ -42,7 +42,8 @@
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	if(!..())
 		return FALSE
-	if(user.stat == !CONSCIOUS) // Must be CONSCIOUS
+	/// Must be CONSCIOUS
+	if(user.stat == !CONSCIOUS)
 		to_chat(owner, "<span class='warning'>Your cloak failed due to you falling unconcious!</span>")
 		return FALSE
 	return TRUE

@@ -6,9 +6,12 @@ GLOBAL_PROTECT(mentor_href_token)
 
 /datum/mentors
 	var/name = "someone's mentor datum"
-	var/client/owner // the actual mentor, client type
-	var/target // the mentor's ckey
-	var/href_token // href token for mentor commands, uses the same token used by admins.
+	/// The Mentor's Client
+	var/client/owner
+	/// the Mentor's Ckey
+	var/target
+	/// href token for Mentor commands, uses the same token used by Admins.
+	var/href_token
 	var/mob/following
 
 /datum/mentors/New(ckey)
@@ -20,12 +23,13 @@ GLOBAL_PROTECT(mentor_href_token)
 	name = "[ckey]'s mentor datum"
 	href_token = GenerateToken()
 	GLOB.mentor_datums[target] = src
-	//set the owner var and load commands
+	/// Set the owner var and load commands
 	owner = GLOB.directory[ckey]
 	if(owner)
 		owner.mentor_datum = src
 		owner.add_mentor_verbs()
-		if(!check_rights_for(owner, R_ADMIN,0)) // don't add admins to mentor list.
+		/// Don't add admins to mentor list.
+		if(!check_rights_for(owner, R_ADMIN,0))
 			GLOB.mentors += owner
 
 /datum/mentors/proc/CheckMentorHREF(href, href_list)

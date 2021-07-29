@@ -54,7 +54,7 @@
 
 /// Vassalize someone in charge (Head of Staff + QM)
 /// LOOKUP: /datum/crewmonitor/proc/update_data(z) for .assignment to see how to get a person's PDA.
-/datum/objective/bloodsucker/protege
+/datum/objective/bloodsucker/protege  // WILLARD TODO: Shaft Miners arent considered Cargo, probably related to the Quartermaster not being a head of staff.
 	name = "vassalization"
 
 	var/list/roles = list(
@@ -105,7 +105,7 @@
 				department_string = "Medical"
 			if("Quartermaster")
 				department_string = "Cargo"
-		target_amount = rand(2,4)
+		target_amount = rand(2,3)
 	..()
 
 // EXPLANATION
@@ -185,7 +185,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /// Eat blood from a lot of people
-/datum/objective/bloodsucker/gourmand
+/datum/objective/bloodsucker/gourmand // WILLARD TODO: Would be good to get this working, vassalhim isn't a good objective, it's really just an advanced protect objective, which is never fun.
 
 // HOW: Track each feed (if human). Count victory.
 
@@ -302,11 +302,12 @@
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/survive/check_completion()
-	// Must have a body.
+	/// Must have a body.
 	if(!owner.current || !isliving(owner.current))
 		return FALSE
-	// Dead, without a head or heart? Cya
-	return owner.current.stat != DEAD
+	/// Did I reach Final Death?
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	return !bloodsuckerdatum.AmFinalDeath
 
 //////////////////////////////////////////////////////////////////////////////////////
 

@@ -26,6 +26,7 @@
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
 		/// Make sure there are monsters on the station, otherwise don't spawn them in.
 		if(!H.mind.has_antag_datum(/datum/antagonist/bloodsucker) || !H.mind.has_antag_datum(/datum/antagonist/changeling) || !H.mind.has_antag_datum(/datum/antagonist/heretic) || !H.mind.has_antag_datum(/datum/antagonist/cult) || !H.mind.has_antag_datum(/datum/antagonist/wizard))
+			message_admins("MONSTERHUNTER NOTICE: Monster Hunter tried to spawn, but failed due to lack of Monsters.")
 			break
 		/// From obsessed
 		if(!H.client || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
