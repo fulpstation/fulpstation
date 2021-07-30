@@ -1,7 +1,7 @@
-/// We're loading Mentors from here
-/world/New()
-	. = ..()
+/// We're loading Mentors from /proc/load_admins() which itself is called by /world/New()
+/load_admins(no_update)
 	load_mentors()
+	. = ..()
 
 /// Redirect of update_status to use our own via not calling parent.
 /world/update_status()
