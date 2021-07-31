@@ -47,6 +47,7 @@
 		'fulp_modules/main_features/species/beefman/sounds/footstep_splat4.ogg')
 	grab_sound = 'fulp_modules/main_features/species/beefman/sounds/beef_grab.ogg'
 	species_language_holder = /datum/language_holder/russian
+	mutanttongue = /obj/item/organ/tongue/beef
 	bodytemp_normal = T20C
 
 	bruising_desc = "tenderizing"
