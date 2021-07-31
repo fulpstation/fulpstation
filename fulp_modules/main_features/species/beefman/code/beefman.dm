@@ -54,17 +54,8 @@
 	burns_desc = "searing"
 	cellulardamage_desc = "meat degradation"
 
-	bodypart_overides = list(
-	BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,
-	BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,
-	BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,
-	BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,
-	BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,
-	BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef)
-
-
 	var/dehydrate = 0
-	var/list/trauma_list = list(/datum/brain_trauma/mild/phobia/strangers, /datum/brain_trauma/mild/hallucinations, /datum/brain_trauma/special/bluespace_prophet/phobetor)
+	var/list/trauma_list = list(/datum/brain_trauma/mild/hallucinations, /datum/brain_trauma/special/bluespace_prophet/phobetor)
 
 /proc/proof_beefman_features(list/inFeatures)
 	if(inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
@@ -89,16 +80,9 @@
 	proof_beefman_features(user.dna.features)
 
 	. = ..()
+
 	fixed_mut_color = user.dna.features["beefcolor"]
 	default_color = fixed_mut_color
-
-	user.part_default_head = /obj/item/bodypart/head/beef
-	user.part_default_chest = /obj/item/bodypart/chest/beef
-	user.part_default_l_arm = /obj/item/bodypart/l_arm/beef
-	user.part_default_r_arm = /obj/item/bodypart/r_arm/beef
-	user.part_default_l_leg = /obj/item/bodypart/l_leg/beef
-	user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
-	user.ReassignForeignBodyparts()
 
 	for(var/traumas in trauma_list)
 		user.gain_trauma(traumas, TRAUMA_RESILIENCE_ABSOLUTE)
@@ -111,50 +95,10 @@
 			continue
 
 		limb.meat_on_drop = TRUE
-		// RegisterSignal(user, COMSIG_CARBON_REMOVE_LIMB, .proc/on_limb_drop)
 
-/mob/living/carbon/proc/ReassignForeignBodyparts() //This proc hurts me so much, it used to be worse, this really should be a list or something
-	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
-	if (head?.type != part_default_head)  // <----- I think :? is used for procs instead of .? ...but apparently BYOND does that swap for you. //(!istype(get_bodypart(BODY_ZONE_HEAD), part_default_head))
-		qdel(head)
-		var/obj/item/bodypart/limb = new part_default_head
-		limb.replace_limb(src,TRUE)
-	var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-	if (chest?.type != part_default_chest)
-		qdel(chest)
-		var/obj/item/bodypart/limb = new part_default_chest
-		limb.replace_limb(src,TRUE)
-	var/obj/item/bodypart/l_arm = get_bodypart(BODY_ZONE_L_ARM)
-	if (l_arm?.type != part_default_l_arm)
-		qdel(l_arm)
-		var/obj/item/bodypart/limb = new part_default_l_arm
-		limb.replace_limb(src,TRUE)
-	var/obj/item/bodypart/r_arm = get_bodypart(BODY_ZONE_R_ARM)
-	if (r_arm?.type != part_default_r_arm)
-		qdel(r_arm)
-		var/obj/item/bodypart/limb = new part_default_r_arm
-		limb.replace_limb(src,TRUE)
-	var/obj/item/bodypart/l_leg = get_bodypart(BODY_ZONE_L_LEG)
-	if (l_leg?.type != part_default_l_leg)
-		qdel(l_leg)
-		var/obj/item/bodypart/limb = new part_default_l_leg
-		limb.replace_limb(src,TRUE)
-	var/obj/item/bodypart/r_leg = get_bodypart(BODY_ZONE_R_LEG)
-	if (r_leg?.type != part_default_r_leg)
-		qdel(r_leg)
-		var/obj/item/bodypart/limb = new part_default_r_leg
-		limb.replace_limb(src,TRUE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	..()
-
-	user.part_default_head = /obj/item/bodypart/head
-	user.part_default_chest = /obj/item/bodypart/chest
-	user.part_default_l_arm = /obj/item/bodypart/l_arm
-	user.part_default_r_arm = /obj/item/bodypart/r_arm
-	user.part_default_l_leg = /obj/item/bodypart/l_leg
-	user.part_default_r_leg = /obj/item/bodypart/r_leg
-	user.ReassignForeignBodyparts()
 
 	for(var/traumas in trauma_list)
 		user.cure_trauma_type(traumas, TRAUMA_RESILIENCE_ABSOLUTE)
@@ -185,12 +129,6 @@
 	var/bleed_rate = 0
 	for(var/obj/item/bodypart/limb in beefboy.bodyparts)
 		bleed_rate += limb.generic_bleedstacks
-
-/datum/species/beefman/proc/on_limb_drop(obj/item/bodypart/limb)
-	SIGNAL_HANDLER
-
-	var/mob/living/carbon/human/beefman = limb.owner
-	limb.drop_meat(beefman)
 
 /datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/beefboy)
 	. = ..()
