@@ -1,6 +1,6 @@
 /// Set a timer of 5 seconds to ensure everything is set up by the time we check
 /datum/species/shadow/nightmare/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
-	addtimer(CALLBACK(C, /mob/living/carbon/proc/check_advancedtooluser), 5 SECONDS)
+	addtimer(CALLBACK(C, .proc/check_advancedtooluser), 5 SECONDS)
 	. = ..()
 
 /// Check if they're a real Nightmare, and if so, remove advancedtooluser from them
