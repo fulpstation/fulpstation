@@ -43,4 +43,12 @@
 		"tentacle.png" = 'fulp_modules/features/antag_tips/icons/tentacle.png',
 		"traitor.png" = 'fulp_modules/features/antag_tips/icons/traitor.png',
 		"wizard.png" = 'fulp_modules/features/antag_tips/icons/wizard.png',
+		// Bloodsucker icons
+		"bloodsucker.png" = 'fulp_modules/features/antag_tips/icons/bloodsucker.png',
+		"coffin.png" = 'fulp_modules/features/antag_tips/icons/coffin.png',
+		"day.png" = 'fulp_modules/features/antag_tips/icons/day.png',
+		"vassalrack.png" = 'fulp_modules/features/antag_tips/icons/vassalrack.png',
+		"masquerade.png" = 'fulp_modules/features/antag_tips/icons/masquerade.png',
+		"monsterhunter.png" = 'fulp_modules/features/antag_tips/icons/monsterhunter.png',
+		"vassal.png" = 'fulp_modules/features/antag_tips/icons/vassal.png',
 	)

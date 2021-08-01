@@ -7,7 +7,7 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
-	// tips = BLOODSUCKER_TIPS // Willard - Uncomment this to enable antag tips.
+	tips = BLOODSUCKER_TIPS
 	/// List of all Antagonists that can't be vassalized.
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,
@@ -125,12 +125,6 @@
 	var/fullname = ReturnFullName(TRUE)
 	to_chat(owner, "<span class='userdanger'>You are [fullname], a strain of vampire known as a bloodsucker!</span><br>")
 	owner.announce_objectives()
-	to_chat(owner, "<span class='announce'>* Other Bloodsuckers are not necessarily your friends, but your survival may depend on cooperation. Betray them at your own discretion and peril.<br> \
-	* Bloodsucker Tip: Rest in a <i>Coffin</i> to claim it, and that area, as your lair.<br> \
-	* Bloodsucker Tip: Fear the daylight! Solar flares will bombard the station periodically, and your coffin can guarantee your safety.<br> \
-	* Bloodsucker Tip: You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!<br> \
-	* Bloodsucker Tip: Medical and Genetic Analyzers can sell you out, your Masquerade ability will forge results for you to prevent this.<br> \
-	* You can find an in-depth guide at : https://wiki.fulp.gg/en/Bloodsucker </span>")
 	if(bloodsucker_level_unspent >= 2)
 		to_chat(owner, "<span class='announce'>As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank.</span><br>")
 	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)

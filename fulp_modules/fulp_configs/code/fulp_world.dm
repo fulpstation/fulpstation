@@ -1,11 +1,11 @@
-/// This is used to load Mentors so they can do things like 'their job' and whatnot.
+/// We're loading Mentors from here
 /world/New()
-	..()
+	. = ..()
 	load_mentors()
 
-/// Redirect world's update status to use ours instead, used below.
+/// Redirect of update_status to use our own via not calling parent.
 /world/update_status()
-	/// DON'T CALL PARENT, we don't want to use TG's update_status here, only ours!
+	// DON'T CALL PARENT, we don't want to use TG's update_status here, only ours!
 	var/s = ""
 	var/server_name = CONFIG_GET(string/servername)
 	var/server_caption = CONFIG_GET(string/servercaption)
@@ -22,7 +22,7 @@
 	if(SSmapping.config)
 		s += "<br>Map: \[<b>[SSmapping.config.map_name]</b>"//\] // Since this is the last line, the ] is done automatically for us.
 
-/*
+/* //Removed: Why would we ever want this?
 	var/players = GLOB.clients.len
 
 	var/popcaptext = ""
@@ -30,7 +30,7 @@
 	if(popcap)
 		popcaptext = "/[popcap]"
 
-	game_state = (CONFIG_GET(number/extreme_popcap) && players >= CONFIG_GET(number/extreme_popcap)) ///Tells the hub if we are full
+	game_state = (CONFIG_GET(number/extreme_popcap) && players >= CONFIG_GET(number/extreme_popcap)) //Tells the hub if we are full
 */
 
 	status = s
