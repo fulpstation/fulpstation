@@ -8,20 +8,21 @@
 		return FALSE
 	owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
+	owner.teach_crafting_recipe(/datum/crafting_recipe/bloodthrone)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
 	// This is my Lair
 	coffin = claimed
 	lair = get_area(claimed)
-	to_chat(owner, "<span class='userdanger'>You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair].</span>")
-	to_chat(owner, "<span class='danger'>You have learned new construction recipes to improve your lair.</span>")
-	to_chat(owner, "<span class='announce'>Bloodsucker Tip: Find new lair recipes in the Misc tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals.</span><br><br>")
+	to_chat(owner, span_userdanger("You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair]."))
+	to_chat(owner, span_danger("You have learned new construction recipes to improve your lair."))
+	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Misc tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
 	return TRUE
 
 /// From crate.dm
 /obj/structure/closet/crate
 	var/mob/living/resident /// This lets bloodsuckers claim any "closet" as a Coffin.
-	var/pryLidTimer = 250
-	breakout_time = 200
+	var/pryLidTimer = 25 SECONDS
+	breakout_time = 20 SECONDS
 
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
@@ -30,12 +31,26 @@
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	open_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_open.ogg'
 	close_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_close.ogg'
-	breakout_time = 600
-	pryLidTimer = 400
+	breakout_time = 30 SECONDS
+	pryLidTimer = 20 SECONDS
 	resistance_flags = NONE
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
 	armor = list(MELEE = 50, BULLET = 20, LASER = 30, ENERGY = 0, BOMB = 50, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
+
+/obj/structure/closet/crate/coffin/securecoffin
+	name = "secure coffin"
+	desc = "For those too scared of having their place of rest disturbed."
+	icon_state = "securecoffin"
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	open_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_open.ogg'
+	close_sound = 'fulp_modules/main_features/bloodsuckers/sounds/coffin_close.ogg'
+	breakout_time = 35 SECONDS
+	pryLidTimer = 35 SECONDS
+	resistance_flags = FIRE_PROOF | LAVA_PROOF | ACID_PROOF
+	material_drop = /obj/item/stack/sheet/iron
+	material_drop_amount = 2
+	armor = list(MELEE = 35, BULLET = 20, LASER = 20, ENERGY = 0, BOMB = 100, BIO = 0, RAD = 0, FIRE = 100, ACID = 100)
 
 /obj/structure/closet/crate/coffin/meatcoffin
 	name = "meat coffin"
@@ -45,9 +60,8 @@
 	resistance_flags = FIRE_PROOF
 	open_sound = 'sound/effects/footstep/slime1.ogg'
 	close_sound = 'sound/effects/footstep/slime1.ogg'
-	breakout_time = 200
-	pryLidTimer = 200
-	resistance_flags = NONE
+	breakout_time = 25 SECONDS
+	pryLidTimer = 20 SECONDS
 	material_drop = /obj/item/food/meat/slab/human
 	material_drop_amount = 3
 	armor = list(MELEE = 70, BULLET = 10, LASER = 10, ENERGY = 0, BOMB = 70, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
@@ -60,8 +74,8 @@
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 	open_sound = 'sound/effects/pressureplate.ogg'
 	close_sound = 'sound/effects/pressureplate.ogg'
-	breakout_time = 300
-	pryLidTimer = 200
+	breakout_time = 25 SECONDS
+	pryLidTimer = 30 SECONDS
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 5
 	armor = list(MELEE = 40, BULLET = 15, LASER = 50, ENERGY = 0, BOMB = 10, BIO = 0, RAD = 0, FIRE = 70, ACID = 60)
@@ -146,7 +160,7 @@
 			if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
 				bloodsuckerdatum.coffin = null
 				bloodsuckerdatum.lair = null
-			to_chat(resident, "<span class='cult'><span class='italics'>You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another.</span></span>")
+			to_chat(resident, span_cultitalic("You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another."))
 		resident = null // Remove resident. Because this object isnt removed from the game immediately (GC?) we need to give them a way to see they don't have a home anymore.
 
 /// You cannot lock in/out a coffin's owner. SORRY.
@@ -160,7 +174,7 @@
 			return 1
 		else
 			playsound(get_turf(src), 'sound/machines/door_locked.ogg', 20, 1)
-			to_chat(user, "<span class='notice'>[src] is locked tight from the inside.</span>")
+			to_chat(user, span_notice("[src] is locked tight from the inside."))
 	return ..()
 
 /obj/structure/closet/crate/coffin/close(mob/living/user)
@@ -187,21 +201,21 @@
 	if(resident != null && user != resident)
 		if(opened)
 			if(istype(W, cutting_tool))
-				to_chat(user, "<span class='notice'>This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src].</span>")
+				to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
 				return
 		else if(anchored && istype(W, /obj/item/wrench))
-			to_chat(user, "<span class='danger'>The coffin won't come unanchored from the floor.</span>")
+			to_chat(user, span_danger("The coffin won't come unanchored from the floor."))
 			return
 
 	if(locked && istype(W, /obj/item/crowbar))
 		var/pry_time = pryLidTimer * W.toolspeed // Pry speed must be affected by the speed of the tool.
-		user.visible_message("<span class='notice'>[user] tries to pry the lid off of [src] with [W].</span>", \
-							  "<span class='notice'>You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)].</span>")
+		user.visible_message(span_notice("[user] tries to pry the lid off of [src] with [W]."), \
+							  span_notice("You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)]."))
 		if(!do_mob(user, src, pry_time))
 			return
 		bust_open()
-		user.visible_message("<span class='notice'>[user] snaps the door of [src] wide open.</span>", \
-							  "<span class='notice'>The door of [src] snaps open.</span>")
+		user.visible_message(span_notice("[user] snaps the door of [src] wide open."), \
+							  span_notice("The door of [src] snaps open."))
 		return
 	..()
 
@@ -214,11 +228,11 @@
 	if(user == resident)
 		if(!broken)
 			locked = inLocked
-			to_chat(user, "<span class='notice'>You flip a secret latch and [locked?"":"un"]lock yourself inside [src].</span>")
+			to_chat(user, span_notice("You flip a secret latch and [locked?"":"un"]lock yourself inside [src]."))
 		else
-			to_chat(resident, "<span class='notice'>The secret latch to lock [src] from the inside is broken. You set it back into place...</span>")
+			to_chat(resident, span_notice("The secret latch to lock [src] from the inside is broken. You set it back into place..."))
 			if(do_mob(resident, src, 5 SECONDS))
 				if(broken) // Spam Safety
-					to_chat(resident, "<span class='notice'>You fix the mechanism and lock it.</span>")
+					to_chat(resident, span_notice("You fix the mechanism and lock it."))
 					broken = FALSE
 					locked = TRUE

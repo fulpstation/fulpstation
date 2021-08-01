@@ -30,6 +30,8 @@
 /*
  *	Bloodsucker Defines
  */
+/// You have special interactions with Bloodsuckers
+#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker hunter"
 /// Your heart doesn't beat.
 #define TRAIT_NOPULSE "nopulse"
 /// Falsifies Health analyzers
@@ -38,10 +40,17 @@
 #define TRAIT_COLDBLOODED "coldblooded"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
+/// Used for determining the rate at which a bloodsucker regens
+#define BS_BLOOD_VOLUME_MAX_REGEN 700
+/// Frenzy Thresholds
+#define FRENZY_THRESHOLD_NORMAL 25
+#define FRENZY_THRESHOLD_HIGHER 200
+#define FRENZY_THRESHOLD_EXIT 250
 /// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
 #define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
+#define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
 /* Clan defines
 */
 /// More prone to Frenzy & Brawn/Punches deal more damage
@@ -54,12 +63,15 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 /// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
 #define CLAN_MALKAVIAN "Malkavian Clan"
+// Used ONLY as Flavor text in Archives of Kindred
+#define CLAN_TOREADOR "Toreador Clan"
+#define CLAN_GANGREL "Gangrel Clan"
 /* Clan defines
 */
-#define TREMERE_SKELETON "Skeleton Pirate"
+// Tremere
 #define TREMERE_ZOMBIE "Zombie - Revives"
 #define TREMERE_HUSK "Husk - Drinks all their Blood"
-#define TREMERE_BAT "Bat - Chance to give them Bat form"
+#define TREMERE_BAT "Bat - Bat Form"
 
 /*
  *	Deputy Defines
@@ -76,6 +88,7 @@
  *	Misc Defines
  */
 /// Human sub-species defines
+#define SPECIES_BEEFMAN "beefman"
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 /// Defines the Mentorhelp's Mentorsay button
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"

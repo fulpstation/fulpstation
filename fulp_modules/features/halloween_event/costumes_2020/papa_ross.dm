@@ -60,15 +60,15 @@
 		flipped = !flipped
 		if(flipped)
 			icon_state = "ross_squirrel_right"
-			to_chat(user, "<span class='notice'>You moved Peapod to your right shoulder.</span>")
+			to_chat(user, span_notice("You moved Peapod to your right shoulder."))
 		else
 			icon_state = "ross_squirrel_left"
-			to_chat(user, "<span class='notice'>You moved Peapod to your left shoulder.</span>")
+			to_chat(user, span_notice("You moved Peapod to your left shoulder."))
 		usr.update_inv_neck()	//so our mob-overlays update
 
 /obj/item/clothing/neck/papa_ross_squirrel/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>Alt-click the hat to flip it [flipped ? "left" : "right"].</span>"
+	. += span_notice("Alt-click the hat to flip it [flipped ? "left" : "right"].")
 
 //--Box that contains the costumes
 /obj/item/storage/box/halloween/edition_20/papa_ross
