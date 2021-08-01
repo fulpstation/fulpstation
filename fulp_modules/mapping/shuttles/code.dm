@@ -1,4 +1,5 @@
 // We set Fulp shuttles to use our prefix instead - Selene is our base just beacuse they have them all.
+// NOTE: Cargo and Emergency shuttle is added via the map's .json - The rest is done in the map itself!
 
 /// Cargo
 /datum/map_template/shuttle/cargo/fulp
