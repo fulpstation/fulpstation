@@ -16,6 +16,7 @@
 	message_Trigger = "Whom will you subvert to your will?"
 	must_be_capacitated = TRUE
 	bloodsucker_can_buy = TRUE
+	var/target_mesmerized = FALSE
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(display_error)
 	if(!..()) // Default checks
@@ -102,6 +103,10 @@
 			if(IS_MONSTERHUNTER(mesmerized))
 				to_chat(mesmerized, span_notice("You feel your eyes burn for a while, but it passes."))
 				return
+			if(target_mesmerized)
+				to_chat(user, span_notice("[mesmerized] is already in a hypnotic gaze."))
+				return
+			target_mesmerized = TRUE
 			ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 			to_chat(user, span_notice("[mesmerized] is fixed in place by your hypnotic gaze."))
 			mesmerized.Immobilize(power_time)
@@ -112,6 +117,7 @@
 				if(istype(mesmerized))
 					mesmerized.notransform = FALSE
 					REMOVE_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+					target_mesmerized = FALSE
 					// They Woke Up! (Notice if within view)
 					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(6, get_turf(user))))
 						to_chat(user, span_warning("[mesmerized] has snapped out of their trance."))
