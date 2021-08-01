@@ -92,49 +92,6 @@
 	)
 	. = ..()
 
-/// Lockers
-/obj/structure/closet/secure_closet/engineering_chief/Initialize()
-	new /obj/item/clothing/shoes/workboots/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/research_director/Initialize()
-	new /obj/item/clothing/shoes/laceup/digitigrade(src)
-	new /obj/item/card/id/departmental_budget/sci(src) //Used in science_budget.dm
-	. = ..()
-
-/obj/structure/closet/secure_closet/chief_medical/Initialize()
-	new /obj/item/clothing/shoes/brown/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/hop/Initialize()
-	new /obj/item/clothing/shoes/brown/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/hos/Initialize()
-	new /obj/item/clothing/shoes/jackboots/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/captains/Initialize()
-	new /obj/item/clothing/shoes/brown/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/security/Initialize()
-	new /obj/item/clothing/shoes/jackboots/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/medical3/Initialize()
-	new /obj/item/clothing/shoes/brown/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/wardrobe/miner/Initialize()
-	new /obj/item/clothing/shoes/workboots/digitigrade(src)
-	. = ..()
-
-/obj/structure/closet/secure_closet/brig/Initialize()
-	new /obj/item/clothing/suit/hooded/wintercoat/security/pris(src)
-	. = ..()
-
-
 /// Techtrees
 /datum/techweb_node/adv_engi/New() // Digi magboots
 	design_ids += list("digi_magboots")
