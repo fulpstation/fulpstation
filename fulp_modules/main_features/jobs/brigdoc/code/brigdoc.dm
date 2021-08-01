@@ -3,7 +3,7 @@
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security", "Chief Medical Officer")
 	faction = "Station"
-	total_positions = 1
+	total_positions = 2
 	spawn_positions = 1
 	supervisors = "the head of security and the chief medical officer"
 	selection_color = "#ffeef0"

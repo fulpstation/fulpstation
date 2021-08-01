@@ -1,4 +1,5 @@
 //-- FULP EDIT
+
 /obj/item/bodypart
 	name = "limb"
 	desc = "Why is it detached..."
@@ -129,18 +130,18 @@
 /obj/item/bodypart/examine(mob/user)
 	. = ..()
 	if(brute_dam > DAMAGE_PRECISION)
-		. += span_warning("This limb has [brute_dam > 30 ? "severe" : "minor"] bruising.")
+		. += "<span class='warning'>This limb has [brute_dam > 30 ? "severe" : "minor"] bruising.</span>"
 	if(burn_dam > DAMAGE_PRECISION)
-		. += span_warning("This limb has [burn_dam > 30 ? "severe" : "minor"] burns.")
+		. += "<span class='warning'>This limb has [burn_dam > 30 ? "severe" : "minor"] burns.</span>"
 
 	if(locate(/datum/wound/blunt) in wounds)
-		. += span_warning("The bones in this limb appear badly cracked.")
+		. += "<span class='warning'>The bones in this limb appear badly cracked.</span>"
 	if(locate(/datum/wound/slash) in wounds)
-		. += span_warning("The flesh on this limb appears badly lacerated.")
+		. += "<span class='warning'>The flesh on this limb appears badly lacerated.</span>"
 	if(locate(/datum/wound/pierce) in wounds)
-		. += span_warning("The flesh on this limb appears badly perforated.")
+		. += "<span class='warning'>The flesh on this limb appears badly perforated.</span>"
 	if(locate(/datum/wound/burn) in wounds)
-		. += span_warning("The flesh on this limb appears badly cooked.")
+		. += "<span class='warning'>The flesh on this limb appears badly cooked.</span>"
 
 /obj/item/bodypart/blob_act()
 	take_damage(max_damage)
@@ -153,14 +154,14 @@
 			if(!human_victim.get_bodypart(body_zone) && !animal_origin)
 				user.temporarilyRemoveItemFromInventory(src, TRUE)
 				if(!attach_limb(victim))
-					to_chat(user, span_warning("[human_victim]'s body rejects [src]!"))
+					to_chat(user, "<span class='warning'>[human_victim]'s body rejects [src]!</span>")
 					forceMove(human_victim.loc)
 				if(human_victim == user)
-					human_victim.visible_message(span_warning("[human_victim] jams [src] into [human_victim.p_their()] empty socket!"),\
-					span_notice("You force [src] into your empty socket, and it locks into place!"))
+					human_victim.visible_message("<span class='warning'>[human_victim] jams [src] into [human_victim.p_their()] empty socket!</span>",\
+					"<span class='notice'>You force [src] into your empty socket, and it locks into place!</span>")
 				else
-					human_victim.visible_message(span_warning("[user] jams [src] into [human_victim]'s empty socket!"),\
-					span_notice("[user] forces [src] into your empty socket, and it locks into place!"))
+					human_victim.visible_message("<span class='warning'>[user] jams [src] into [human_victim]'s empty socket!</span>",\
+					"<span class='notice'>[user] forces [src] into your empty socket, and it locks into place!</span>")
 				return
 	..()
 
@@ -168,11 +169,11 @@
 	if(weapon.get_sharpness())
 		add_fingerprint(user)
 		if(!contents.len)
-			to_chat(user, span_warning("There is nothing left inside [src]!"))
+			to_chat(user, "<span class='warning'>There is nothing left inside [src]!</span>")
 			return
 		playsound(loc, 'sound/weapons/slice.ogg', 50, TRUE, -1)
-		user.visible_message(span_warning("[user] begins to cut open [src]."),\
-			span_notice("You begin to cut open [src]..."))
+		user.visible_message("<span class='warning'>[user] begins to cut open [src].</span>",\
+			"<span class='notice'>You begin to cut open [src]...</span>")
 		if(do_after(user, 54, target = src))
 			drop_organs(user, TRUE)
 	else
@@ -743,7 +744,7 @@
 		no_update = TRUE
 
 	if(HAS_TRAIT(src, TRAIT_PLASMABURNT) && is_organic_limb())
-		species_id = SPECIES_PLASMAMAN
+		species_id = "plasmaman"
 		dmg_overlay_type = ""
 		should_draw_gender = FALSE
 		should_draw_greyscale = FALSE
@@ -835,12 +836,6 @@
 		else
 			limb.icon = 'icons/mob/augmentation/augments.dmi'
 			limb.icon_state = "[animal_origin]_[body_zone]"
-
-		if(blocks_emissive)
-			var/mutable_appearance/limb_em_block = mutable_appearance(limb.icon, limb.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
-			limb_em_block.dir = image_dir
-			limb_em_block.color = GLOB.em_block_color
-			limb.overlays += limb_em_block
 		return
 
 	var/icon_gender = (body_gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
@@ -848,60 +843,43 @@
 	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST))
 		should_draw_gender = FALSE
 
-	if(!is_organic_limb())
-		/// FULP EDIT - BEEFMAN
-		switch(species_id)
+	if(is_organic_limb())
+		if(should_draw_greyscale)
+//			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
+			switch(species_id) // [FULP EDIT STARTS]
+				if("beefman") //If we ever add more unique races - this should be a list of them.
+					limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+				else
+					limb.icon = 'icons/mob/human_parts_greyscale.dmi'// [FULP EDIT END]
+			if(should_draw_gender)
+				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
+			else if(use_digitigrade)
+				limb.icon_state = "digitigrade_[use_digitigrade]_[body_zone]"
+			else
+				limb.icon_state = "[species_id]_[body_zone]"
+		else
+			limb.icon = 'icons/mob/human_parts.dmi'
+			if(should_draw_gender)
+				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
+			else
+				limb.icon_state = "[species_id]_[body_zone]"
+		if(aux_zone)
+			aux = image(limb.icon, "[species_id]_[aux_zone]", -aux_layer, image_dir)
+			. += aux
+
+	else
+//		limb.icon = icon
+		switch(species_id) // [FULP EDIT STARTS]
 			if("beefman")
 				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 			else
-				limb.icon = icon
-		/// FULP EDIT END
-		// limb.icon = icon
+				limb.icon = 'icons/mob/augmentation/augments.dmi' // [FULP EDIT END]
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
-
-		if(blocks_emissive)
-			var/mutable_appearance/limb_em_block = mutable_appearance(limb.icon, limb.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
-			limb_em_block.dir = image_dir
-			limb_em_block.color = GLOB.em_block_color
-			limb.overlays += limb_em_block
-
 		if(aux_zone)
 			aux = image(limb.icon, "[aux_zone]", -aux_layer, image_dir)
 			. += aux
-
-			if(blocks_emissive)
-				var/mutable_appearance/aux_em_block = mutable_appearance(aux.icon, aux.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
-				aux_em_block.dir = image_dir
-				aux_em_block.color = GLOB.em_block_color
-				aux.overlays += aux_em_block
-
 		return
 
-	if(should_draw_greyscale)
-		// limb.icon = 'icons/mob/human_parts_greyscale.dmi'
-		/// FULP EDIT - BEEFMAN
-		switch(species_id)
-			if("beefman")
-				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
-			else
-				limb.icon = 'icons/mob/human_parts_greyscale.dmi'
-		/// FULP EDIT END
-		if(should_draw_gender)
-			limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
-		else if(use_digitigrade)
-			limb.icon_state = "digitigrade_[use_digitigrade]_[body_zone]"
-		else
-			limb.icon_state = "[species_id]_[body_zone]"
-	else
-		limb.icon = 'icons/mob/human_parts.dmi'
-		if(should_draw_gender)
-			limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
-		else
-			limb.icon_state = "[species_id]_[body_zone]"
-
-	if(aux_zone)
-		aux = image(limb.icon, "[species_id]_[aux_zone]", -aux_layer, image_dir)
-		. += aux
 
 	if(should_draw_greyscale)
 		var/draw_color = mutation_color || species_color || (skin_tone && skintone2hex(skin_tone))
@@ -909,18 +887,6 @@
 			limb.color = "#[draw_color]"
 			if(aux_zone)
 				aux.color = "#[draw_color]"
-
-	if(blocks_emissive)
-		var/mutable_appearance/limb_em_block = mutable_appearance(limb.icon, limb.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
-		limb_em_block.dir = image_dir
-		limb_em_block.color = GLOB.em_block_color
-		limb.overlays += limb_em_block
-
-		if(aux_zone)
-			var/mutable_appearance/aux_em_block = mutable_appearance(aux.icon, aux.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
-			aux_em_block.dir = image_dir
-			aux_em_block.color = GLOB.em_block_color
-			aux.overlays += aux_em_block
 
 /obj/item/bodypart/deconstruct(disassembled = TRUE)
 	drop_organs()
@@ -951,7 +917,7 @@
 		dam_mul *= iter_wound.damage_mulitplier_penalty
 
 	if(!LAZYLEN(wounds) && current_gauze && !replaced) // no more wounds = no need for the gauze anymore
-		owner.visible_message(span_notice("\The [current_gauze] on [owner]'s [name] falls away."), span_notice("The [current_gauze] on your [name] falls away."))
+		owner.visible_message("<span class='notice'>\The [current_gauze] on [owner]'s [name] falls away.</span>", "<span class='notice'>The [current_gauze] on your [name] falls away.</span>")
 		QDEL_NULL(current_gauze)
 
 	wound_damage_multiplier = dam_mul
@@ -1023,7 +989,7 @@
 		return
 	current_gauze.absorption_capacity -= seep_amt
 	if(current_gauze.absorption_capacity <= 0)
-		owner.visible_message(span_danger("\The [current_gauze] on [owner]'s [name] falls away in rags."), span_warning("\The [current_gauze] on your [name] falls away in rags."), vision_distance=COMBAT_MESSAGE_RANGE)
+		owner.visible_message("<span class='danger'>\The [current_gauze] on [owner]'s [name] falls away in rags.</span>", "<span class='warning'>\The [current_gauze] on your [name] falls away in rags.</span>", vision_distance=COMBAT_MESSAGE_RANGE)
 		QDEL_NULL(current_gauze)
 		SEND_SIGNAL(src, COMSIG_BODYPART_GAUZE_DESTROYED)
 

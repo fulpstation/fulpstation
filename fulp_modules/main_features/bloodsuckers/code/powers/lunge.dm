@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
-	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
+	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down."
 	button_icon_state = "power_lunge"
 	bloodcost = 10
 	cooldown = 100
@@ -9,7 +9,6 @@
 	message_Trigger = ""
 	must_be_capacitated = TRUE
 	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
 
 /*
  *	Level 1: Grapple level 2
@@ -19,13 +18,12 @@
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
 	/// Default checks
-	. = ..()
-	if(!.)
+	if(!..(display_error))
 		return FALSE
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
 		if(display_error)
-			to_chat(owner, span_warning("You're being grabbed!"))
+			to_chat(owner, "<span class='warning'>You're being grabbed!</span>")
 		return FALSE
 	return TRUE
 
@@ -35,8 +33,7 @@
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/A, display_error)
 	/// Default Checks (Distance)
-	. = ..()
-	if(!.)
+	if(!..())
 		return FALSE
 	/// Check: Self
 	if(target == owner)
@@ -45,7 +42,7 @@
 	/// Check: Range
 	if(!(target in view(target_range, get_turf(owner))))
 		if(display_error)
-			to_chat(owner, span_warning("Your victim is too far away."))
+			to_chat(owner, "<span class='warning'>Your victim is too far away.</span>")
 		return FALSE
 */
 	/// Check: Turf
@@ -89,36 +86,33 @@
 			consequetive_failures = 0
 	/// It ended? Let's get our target now.
 	lunge_end(target)
-	PowerActivatedSuccessfully()
 
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = hit_atom
 	var/turf/T = get_turf(target)
-	// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
+	/// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
 	var/do_knockdown = !is_A_facing_B(target, owner) || owner.alpha <= 40 || istype(owner.loc, /obj/structure/closet)
 
 	/// We got a target?
 	/// Am I next to my target to start giving the effects?
 	if(user.Adjacent(target))
-		// Is my target a Monster hunter?
+		/// Is my target a Monster hunter?
 		if(IS_MONSTERHUNTER(target))
-			to_chat(owner, span_warning("You get pushed away as you advance, and fail to get a strong grasp!"))
+			to_chat(owner, "<span class='warning'>You get pushed away as you advance, and fail to get a strong grasp!</span>")
 			target.grabbedby(owner)
+			/// We're ending this early, let the Bloodsucker move again.
+			REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 			return
 
-		to_chat(owner, span_warning("You lunge at [target] in attempts to grab them!"))
-		if(!user.body_position == STANDING_UP)
-			to_chat(owner, span_warning("You slip mid-lunge and fall over!"))
-			return
+		to_chat(owner, "<span class='warning'>You lunge at [target] in attempts to grab them!</span>")
 		/// Good to go!
-		target.Stun(10 + level_current * 5)
-		// Instantly aggro grab them if they don't have riot gear.
+		target.Stun(15 + level_current * 5)
+		/// Instantly aggro grab them
 		target.grabbedby(owner)
-		if(!target.is_shove_knockdown_blocked())
-			target.grippedby(owner, instant = TRUE)
-		// Did we knock them down?
-		if(do_knockdown && level_current >= 3)
+		target.grippedby(owner, instant = TRUE)
+		/// Did we knock them down?
+		if(do_knockdown) //&& level_current >= 1)
 			target.Knockdown(10 + level_current * 5)
 			target.Paralyze(0.1)
 		/// Are they dead?
@@ -127,17 +121,18 @@
 			var/datum/wound/slash/moderate/crit_wound = new
 			crit_wound.apply_wound(chest)
 			owner.visible_message(
-				span_warning("[owner] tears into [target]'s chest!"),
-				span_warning("You tear into [target]'s chest!")
+				"<span class='warning'>[owner] tears into [target]'s chest!</span>",
+				"<span class='warning'>You tear into [target]'s chest!</span>"
 				)
 			var/obj/item/organ/heart/myheart_now = locate() in target.internal_organs
 			if(myheart_now)
 				myheart_now.Remove(target)
 				user.put_in_hands(myheart_now)
-				to_chat(owner, span_warning("You tear [myheart_now] out of [target]!"))
+				to_chat(owner, "<span class='warning'>You tear [myheart_now] out of [target]!</span>")
 			else
-				to_chat(user, span_notice("[target] doesn't have a heart to rip out!"))
-	// Lastly, did we get knocked down by the time we did this?
+				to_chat(user, "<span class='notice'>[target] doesn't have a heart to rip out!</span>")
+	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
+	/// Lastly, did we get knocked down by the time we did this?
 	if(user && user.incapacitated())
 		if(!(user.body_position == LYING_DOWN))
 			var/send_dir = get_dir(user, T)

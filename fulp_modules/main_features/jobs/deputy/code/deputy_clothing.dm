@@ -2,88 +2,116 @@
 /datum/outfit/job/deputy
 	jobtype = /datum/job/fulp/deputy
 
+	id_trim = /datum/id_trim/job/deputy
+	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
+	ears = null
+	belt = /obj/item/pda/security
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	gloves = /obj/item/clothing/gloves/color/black
+	shoes = /obj/item/clothing/shoes/laceup
+	l_pocket = /obj/item/flashlight/seclite
+	r_pocket = /obj/item/assembly/flash/handheld
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
-	backpack_contents = list(
-		/obj/item/holosign_creator/security = 1,
-	)
 
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	ears = /obj/item/radio/headset/headset_sec/alt
-	gloves = /obj/item/clothing/gloves/color/black
-	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
-	belt = /obj/item/storage/belt/security/deputy
-	shoes = /obj/item/clothing/shoes/laceup
-	l_pocket = /obj/item/flashlight/seclite
-	r_pocket = /obj/item/pda/security
-
-	id_trim = /datum/id_trim/job/deputy
 	box = /obj/item/storage/box/survival
-	pda_slot = ITEM_SLOT_RPOCKET
 	implants = list(/obj/item/implant/mindshield)
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering
 	name = "Deputy - Engineering"
 
+	id_trim = /datum/id_trim/job/deputy/engineering
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
+		)
 	head = /obj/item/clothing/head/fulpberet/engineering
 	ears = /obj/item/radio/headset/headset_dep
 	neck = /obj/item/clothing/neck/fulptie/engineering
-	id_trim = /datum/id_trim/job/deputy/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
+	box = null // This is to prevent getting double the boxes.
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
 
 /// Medical Deputy
 /datum/outfit/job/deputy/medical
 	name = "Deputy - Medical"
 
+	id_trim = /datum/id_trim/job/deputy/medical
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
+		)
 	head = /obj/item/clothing/head/fulpberet/medical
 	ears = /obj/item/radio/headset/headset_dep/med
 	neck = /obj/item/clothing/neck/fulptie/medical
-	id_trim = /datum/id_trim/job/deputy/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
+	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
 
 /// Science Deputy
 /datum/outfit/job/deputy/science
 	name = "Deputy - Science"
 
+	id_trim = /datum/id_trim/job/deputy/science
 	backpack_contents = list(
-		/obj/item/holosign_creator/security = 1,
-		/obj/item/reagent_containers/hypospray/medipen/mutadone = 2,
-	)
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/restraints/handcuffs=1,
+		/obj/item/reagent_containers/hypospray/medipen/mutadone=2,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/holosign_creator/security=1,
+		)
 	neck = /obj/item/clothing/neck/fulptie/science
 	ears = /obj/item/radio/headset/headset_dep/sci
 	head = /obj/item/clothing/head/fulpberet/science
-	id_trim = /datum/id_trim/job/deputy/science
 	accessory = /obj/item/clothing/accessory/armband/science
+	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
 
 /// Supply Deputy
 /datum/outfit/job/deputy/supply
 	name = "Deputy - Supply"
 
+	id_trim = /datum/id_trim/job/deputy/supply
 	backpack_contents = list(
-		/obj/item/holosign_creator/security = 1,
-		/obj/item/export_scanner = 1,
-	)
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
+		/obj/item/export_scanner=1,
+		)
 	head = /obj/item/clothing/head/fulpberet
-	suit = /obj/item/clothing/suit/armor/vest/blueshirt
 	ears = /obj/item/radio/headset/headset_dep/supply
 	neck = /obj/item/clothing/neck/fulptie/supply
-	id_trim = /datum/id_trim/job/deputy/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
+	suit = /obj/item/clothing/suit/armor/vest/blueshirt
+	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
 
 /// Service Deputy
 /datum/outfit/job/deputy/service
 	name = "Deputy - Service"
 
+	id_trim = /datum/id_trim/job/deputy/service
+	backpack_contents = list(
+		/obj/item/grenade/smokebomb=1,
+		/obj/item/melee/baton/loaded=1,
+		/obj/item/reagent_containers/spray/pepper=1,
+		/obj/item/restraints/handcuffs=1,
+		/obj/item/holosign_creator/security=1,
+		)
 	head = /obj/item/clothing/head/fulpberet/service
 	ears = /obj/item/radio/headset/headset_dep/service
 	neck = /obj/item/clothing/neck/fulptie/service
-	id_trim = /datum/id_trim/job/deputy/service
 	accessory = /obj/item/clothing/accessory/armband/hydro
 	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/service)
@@ -94,7 +122,11 @@
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security/deputy
 	uniform = /obj/item/clothing/under/plasmaman/security/deputy
-	gloves = /obj/item/clothing/gloves/color/plasmaman/black
+	gloves = /obj/item/clothing/gloves/color/plasmaman/white
+
+/// Beefmen Datum
+/datum/outfit/job/deputy/beefman
+	uniform = /obj/item/clothing/under/bodysash/deputy
 
 /// Shirt
 /obj/item/clothing/under/rank/security/officer/mallcop
@@ -257,8 +289,8 @@
 	if(department)
 		skill_name = "[department] deputy"
 		skill_description = "Recognizes [department] as their home, making them feel happy in it, and tends to be harsher on criminals with their grabs."
-		activate_message = span_notice("You suddenly feel safe in [department].")
-		deactivate_message = span_notice("[department] no longer feels safe.")
+		activate_message = "<span class='notice'>You suddenly feel safe in [department].</span>"
+		deactivate_message = "<span class='notice'>[department] no longer feels safe.</span>"
 	style = new
 
 /obj/item/skillchip/job/deputy/on_activate(mob/living/carbon/user, silent = FALSE)
@@ -348,11 +380,3 @@
 	volume = 10
 	amount_per_transfer_from_this = 10
 	list_reagents = list(/datum/reagent/medicine/mutadone = 10)
-
-/obj/item/storage/belt/security/deputy/PopulateContents()
-	new /obj/item/assembly/flash/handheld(src)
-	new /obj/item/reagent_containers/spray/pepper(src)
-	new /obj/item/restraints/handcuffs(src)
-	new /obj/item/grenade/smokebomb(src)
-	new /obj/item/melee/baton/loaded(src)
-	update_appearance()

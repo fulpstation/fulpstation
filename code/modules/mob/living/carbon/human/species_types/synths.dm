@@ -1,6 +1,6 @@
 /datum/species/synth
 	name = "Synth" //inherited from the real species, for health scanners and things
-	id = SPECIES_SYNTH
+	id = "synth"
 	say_mod = "beep boops" //inherited from a user's real species
 	sexes = 0
 	species_traits = list(NOTRANSSTING) //all of these + whatever we inherit from the real species
@@ -32,7 +32,7 @@
 
 /datum/species/synth/military
 	name = "Military Synth"
-	id = SPECIES_SYNTH_MILITARY
+	id = "military_synth"
 	armor = 25
 	punchdamagelow = 10
 	punchdamagehigh = 19

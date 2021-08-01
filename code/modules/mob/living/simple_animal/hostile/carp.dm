@@ -73,7 +73,6 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	add_cell_sample()
-	make_tameable()
 
 
 /mob/living/simple_animal/hostile/carp/add_cell_sample()
@@ -106,7 +105,7 @@
 /mob/living/simple_animal/hostile/carp/proc/chomp_plastic()
 	var/obj/item/storage/cans/tasty_plastic = locate(/obj/item/storage/cans) in view(1, src)
 	if(tasty_plastic && Adjacent(tasty_plastic))
-		visible_message(span_notice("[src] gets its head stuck in [tasty_plastic], and gets cut breaking free from it!"), span_notice("You try to avoid [tasty_plastic], but it looks so... delicious... Ow! It cuts the inside of your mouth!"))
+		visible_message("<span class='notice'>[src] gets its head stuck in [tasty_plastic], and gets cut breaking free from it!</span>", "<span class='notice'>You try to avoid [tasty_plastic], but it looks so... delicious... Ow! It cuts the inside of your mouth!</span>")
 
 		new /obj/effect/decal/cleanable/plastic(loc)
 
@@ -236,7 +235,7 @@
 /mob/living/simple_animal/hostile/carp/cayenne/Initialize()
 	. = ..()
 	AddElement(/datum/element/pet_bonus, "bloops happily!")
-	colored_disk_mouth = mutable_appearance(SSgreyscale.GetColoredIconByType(/datum/greyscale_config/carp/disk_mouth, greyscale_colors), "disk_mouth")
+	colored_disk_mouth = mutable_appearance(SSgreyscale.GetColoredIconByType(/datum/greyscale_config/carp/disk_mouth, greyscale_colors))
 	ADD_TRAIT(src, TRAIT_DISK_VERIFIER, INNATE_TRAIT) //carp can verify disky
 	ADD_TRAIT(src, TRAIT_ADVANCEDTOOLUSER, INNATE_TRAIT) //carp SMART
 
@@ -256,7 +255,7 @@
 /mob/living/simple_animal/hostile/carp/cayenne/examine(mob/user)
 	. = ..()
 	if(disky)
-		. += span_notice("Wait... is that [disky] in [p_their()] mouth?")
+		. += "<span class='notice'>Wait... is that [disky] in [p_their()] mouth?</span>"
 
 /mob/living/simple_animal/hostile/carp/cayenne/AttackingTarget(atom/attacked_target)
 	if(istype(attacked_target, /obj/item/disk/nuclear))
@@ -265,14 +264,14 @@
 			return
 		potential_disky.forceMove(src)
 		disky = potential_disky
-		to_chat(src, span_nicegreen("YES!! You manage to pick up [disky]. (Click anywhere to place it back down.)"))
+		to_chat(src, "<span class='nicegreen'>YES!! You manage to pick up [disky]. (Click anywhere to place it back down.)</span>")
 		update_icon()
 		if(!disky.fake)
 			client.give_award(/datum/award/achievement/misc/cayenne_disk, src)
 		return
 	if(disky)
 		if(isopenturf(attacked_target))
-			to_chat(src, span_notice("You place [disky] on [attacked_target]"))
+			to_chat(src, "<span class='notice'>You place [disky] on [attacked_target]</span>")
 			disky.forceMove(attacked_target.drop_location())
 			disky = null
 			update_icon()
@@ -281,9 +280,9 @@
 		return
 	return ..()
 
-/mob/living/simple_animal/hostile/carp/cayenne/Exited(atom/movable/gone, direction)
+/mob/living/simple_animal/hostile/carp/cayenne/Exited(atom/movable/AM, atom/newLoc)
 	. = ..()
-	if(disky == gone)
+	if(AM == disky)
 		disky = null
 		update_icon()
 

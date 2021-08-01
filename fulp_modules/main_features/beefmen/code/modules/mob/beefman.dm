@@ -5,7 +5,7 @@
 
 /datum/species/beefman
 	name = "Beefman"
-	id = SPECIES_BEEFMAN
+	id = "beefman"
 	limbs_id = "beefman"
 	say_mod = "gurgles"
 	sexes = FALSE
@@ -101,6 +101,7 @@
 	// Be Spooked but Educated
 	//C.gain_trauma(pick(startTraumas))
 	if (SStraumas.phobia_types && SStraumas.phobia_types.len) // NOTE: ONLY if phobias have been defined! For some reason, sometimes this gets FUCKED??
+		C.gain_trauma(/datum/brain_trauma/mild/phobia/strangers, TRAUMA_RESILIENCE_ABSOLUTE)
 		C.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 		C.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
@@ -158,6 +159,7 @@
 
 	// Resolve Trauma
 	C.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+	C.cure_trauma_type(/datum/brain_trauma/mild/phobia/strangers, TRAUMA_RESILIENCE_ABSOLUTE)
 	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/random_name(gender,unique,lastname)
@@ -199,25 +201,17 @@
 			newSash = new /obj/item/clothing/under/bodysash/captain()
 		// Security
 		if("Head of Security")
-			newSash = new /obj/item/clothing/under/bodysash/security/hos()
+			newSash = new /obj/item/clothing/under/bodysash/hos()
 		if("Warden")
-			newSash = new /obj/item/clothing/under/bodysash/security/warden()
+			newSash = new /obj/item/clothing/under/bodysash/warden()
 		if("Security Officer")
 			newSash = new /obj/item/clothing/under/bodysash/security()
 		if("Detective")
-			newSash = new /obj/item/clothing/under/bodysash/security/detective()
+			newSash = new /obj/item/clothing/under/bodysash/detective()
 		if("Brig Physician")
-			newSash = new /obj/item/clothing/under/bodysash/security/brigdoc()
+			newSash = new /obj/item/clothing/under/bodysash/brigdoc()
 		if("Deputy")
-			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Engineering)")
-			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Medical)")
-			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Science)")
-			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Supply)")
-			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+			newSash = new /obj/item/clothing/under/bodysash/deputy()
 
 		// Medical
 		if("Chief Medical Officer")
@@ -315,7 +309,7 @@
 		H.adjustToxLoss(0.5, 0) // adjustFireLoss
 		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
 		if (prob(5) || dehydrate == 0)
-			to_chat(H, span_alert("Your beefy mouth tastes dry."))
+			to_chat(H, "<span class='alert'>Your beefy mouth tastes dry.<span>")
 		dehydrate ++
 		return TRUE
 	// Regain BLOOD
@@ -333,6 +327,8 @@
 ////////
 //LIFE//
 ////////
+/datum/species/beefman/handle_digestion(mob/living/carbon/human/H)
+	..()
 
 // TO-DO // Do funny stuff with Radiation
 /datum/species/beefman/handle_mutations_and_radiation(mob/living/carbon/human/H)
@@ -364,7 +360,7 @@
 		if ((target_zone in allowedList) && affecting)
 
 			if (user.handcuffed)
-				to_chat(user, span_alert("You can't get a good enough grip with your hands bound."))
+				to_chat(user, "<span class='alert'>You can't get a good enough grip with your hands bound.</span>")
 				return FALSE
 
 			// Robot Arms Fail
@@ -373,11 +369,11 @@
 				return FALSE
 
 			// Pry it off...
-			user.visible_message("[user] grabs onto [p_their()] own [affecting.name] and pulls.", span_notice("You grab hold of your [affecting.name] and yank hard."))
+			user.visible_message("[user] grabs onto [p_their()] own [affecting.name] and pulls.", "<span class='notice'>You grab hold of your [affecting.name] and yank hard.</span>")
 			if (!do_mob(user,target))
 				return TRUE
 
-			user.visible_message("[user]'s [affecting.name] comes right off in their hand.", span_notice("Your [affecting.name] pops right off."))
+			user.visible_message("[user]'s [affecting.name] comes right off in their hand.", "<span class='notice'>Your [affecting.name] pops right off.</span>")
 			playsound(get_turf(user), 'fulp_modules/main_features/beefmen/sounds/beef_hit.ogg', 40, 1)
 
 			// Destroy Limb, Drop Meat, Pick Up
@@ -409,16 +405,16 @@
 
 		if((target_zone in limbs))
 			if(user == H)
-				user.visible_message("[user] begins mashing [I] into [H]'s torso.", span_notice("You begin mashing [I] into your torso."))
+				user.visible_message("[user] begins mashing [I] into [H]'s torso.", "<span class='notice'>You begin mashing [I] into your torso.</span>")
 			else
-				user.visible_message("[user] begins mashing [I] into [H]'s torso.", span_notice("You begin mashing [I] into [H]'s torso."))
+				user.visible_message("[user] begins mashing [I] into [H]'s torso.", "<span class='notice'>You begin mashing [I] into [H]'s torso.</span>")
 
 			// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
 			spawn(1)
 				if(do_mob(user,H))
 					// Attach the part!
 					var/obj/item/bodypart/newBP = H.newBodyPart(target_zone, FALSE)
-					H.visible_message("The meat sprouts digits and becomes [H]'s new [newBP.name]!", span_notice("The meat sprouts digits and becomes your new [newBP.name]!"))
+					H.visible_message("The meat sprouts digits and becomes [H]'s new [newBP.name]!", "<span class='notice'>The meat sprouts digits and becomes your new [newBP.name]!</span>")
 					newBP.attach_limb(H)
 					newBP.give_meat(H, I)
 					playsound(get_turf(H), 'fulp_modules/main_features/beefmen/sounds/beef_grab.ogg', 50, 1)
@@ -541,11 +537,11 @@
 	var/percentDamage = 1 - amountCurrent / amountOriginal
 	receive_damage(brute = max_damage * percentDamage)
 	if (percentDamage >= 0.9)
-		to_chat(owner, span_alert("It's almost completely useless. That [inMeatObj.name] was no good!"))
+		to_chat(owner, "<span class='alert'>It's almost completely useless. That [inMeatObj.name] was no good!</span>")
 	else if (percentDamage > 0.5)
-		to_chat(owner, span_alert("It's riddled with bite marks."))
+		to_chat(owner, "<span class='alert'>It's riddled with bite marks.</span>")
 	else if (percentDamage > 0)
-		to_chat(owner, span_alert("It looks a little eaten away, but it'll do."))
+		to_chat(owner, "<span class='alert'>It looks a little eaten away, but it'll do.</span>")
 
 	// Apply meat's Reagents to Me
 	if(inMeatObj.reagents && inMeatObj.reagents.total_volume)

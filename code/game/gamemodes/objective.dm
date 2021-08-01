@@ -19,11 +19,6 @@ GLOBAL_LIST_EMPTY(objectives)
 	if(text)
 		explanation_text = text
 
-//Apparently objectives can be qdel'd. Learn a new thing every day
-/datum/objective/Destroy()
-	GLOB.objectives -= src
-	return ..()
-
 /datum/objective/proc/get_owners() // Combine owner and team into a single list.
 	. = (team?.members) ? team.members.Copy() : list()
 	if(owner)
@@ -439,7 +434,7 @@ GLOBAL_LIST_EMPTY(objectives)
 	for(var/mob/living/player in GLOB.player_list)
 		if((get_area(player) in SSshuttle.emergency.shuttle_areas) && player.mind && player.stat != DEAD && ishuman(player))
 			var/mob/living/carbon/human/H = player
-			if(H.dna.species.id != SPECIES_HUMAN)
+			if(H.dna.species.id != "human")
 				return FALSE
 	return TRUE
 
@@ -888,7 +883,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		var/mob/new_target = input(admin,"Select target:", "Objective target") as null|anything in sortNames(possible_targets)
 		target = new_target.mind
 	else
-		to_chat(admin, span_boldwarning("No active AIs with minds."))
+		to_chat(admin, "<span class='boldwarning'>No active AIs with minds.</span>")
 	update_explanation_text()
 
 /datum/objective/destroy/internal
@@ -965,18 +960,11 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/protect,
 		/datum/objective/jailbreak,
 		/datum/objective/jailbreak/detain,
-		// Fulpstation Bloodsuckers edit - Bloodsucker Objectives
-		/datum/objective/bloodsucker/lair, // DEFAULT OBJECTIVES
-		/datum/objective/bloodsucker/survive,
+		/datum/objective/bloodsucker/lair, // Fulpstation Bloodsuckers edit
 		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/vassalhim,
-		/datum/objective/bloodsucker/gourmand, // DEFAULT OBJECTIVES END
-		/datum/objective/bloodsucker/kindred, // CLAN OBJECTIVES
-		/datum/objective/bloodsucker/embrace,
-		/datum/objective/bloodsucker/frenzy, // CLAN OBJECTIVES END
-		/datum/objective/bloodsucker/monsterhunter, // MONSTER HUNTER OBJECTIVE
-		// Fulpstation edit ends - Bloodsucker Objectives
+		/datum/objective/bloodsucker/survive, // Fulpstation edit ends
 		/datum/objective/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,

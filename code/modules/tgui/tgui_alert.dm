@@ -90,7 +90,7 @@
  * the window was closed by the user.
  */
 /datum/tgui_modal/proc/wait()
-	while (!choice && !closed && !QDELETED(src))
+	while (!choice && !closed)
 		stoplag(1)
 
 /datum/tgui_modal/ui_interact(mob/user, datum/tgui/ui)
@@ -124,12 +124,9 @@
 		if("choose")
 			if (!(params["choice"] in buttons))
 				return
-			set_choice(params["choice"])
+			choice = params["choice"]
 			SStgui.close_uis(src)
 			return TRUE
-
-/datum/tgui_modal/proc/set_choice(choice)
-	src.choice = choice
 
 /**
  * # async tgui_modal
@@ -141,17 +138,23 @@
 	var/datum/callback/callback
 
 /datum/tgui_modal/async/New(mob/user, message, title, list/buttons, callback, timeout)
-	..(user, message, title, buttons, timeout)
+	..(user, title, message, buttons, timeout)
 	src.callback = callback
 
 /datum/tgui_modal/async/Destroy(force, ...)
 	QDEL_NULL(callback)
 	. = ..()
 
-/datum/tgui_modal/async/set_choice(choice)
+/datum/tgui_modal/async/ui_close(mob/user)
 	. = ..()
-	if(!isnull(src.choice))
-		callback?.InvokeAsync(src.choice)
+	qdel(src)
+
+/datum/tgui_modal/async/ui_act(action, list/params)
+	. = ..()
+	if (!. || choice == null)
+		return
+	callback.InvokeAsync(choice)
+	qdel(src)
 
 /datum/tgui_modal/async/wait()
 	return

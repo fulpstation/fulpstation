@@ -1,17 +1,27 @@
-# Folder: Security
+## Title: Security Crowbar
 
-## Description:
+MODULE ID: SEC_CROWBAR
 
-	Adds a crowbar to Security personnel's roundstart box kit.
+### Description:
 
-## TG edits:
+Security gets a crowbar now.
 
-- None
-
-## TG sounds/sprites used:
+### TG Proc Changes:
 
 - None
 
-## Notes/Credits:
+### TG files changed:
 
-- Surrealistik - Original Sec crowbar (https://github.com/TheSwain/Fulpstation/pull/299)
+- None
+
+### TG procs overwrites:
+
+- None(?)
+
+### Additional information:
+
+None
+
+### Credits:
+
+Surrealistik - All the code, I just ported it

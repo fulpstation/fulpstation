@@ -8,13 +8,13 @@
 /datum/objective/bloodsucker
 	martyr_compatible = TRUE
 
-// GENERATE
-/datum/objective/bloodsucker/New()
+/// GENERATE!
+/datum/objective/bloodsucker/proc/generate_objective()
 	update_explanation_text()
-	..()
 
 //////////////////////////////////////////////////////////////////////////////
 //	//							 PROCS 									//	//
+
 
 /// Look at all crew members, and for/loop through.
 /datum/objective/bloodsucker/proc/return_possible_targets()
@@ -33,11 +33,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 //	//							 OBJECTIVES 									//	//
-//////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////
-//    DEFAULT OBJECTIVES    //
-//////////////////////////////
 
 /datum/objective/bloodsucker/lair
 	name = "claimlair"
@@ -57,30 +52,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/datum/objective/bloodsucker/survive
-	name = "bloodsuckersurvive"
-
-// EXPLANATION
-/datum/objective/bloodsucker/survive/update_explanation_text()
-	explanation_text = "Survive the entire shift without succumbing to Final Death."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/survive/check_completion()
-	/// Must have a body.
-	if(!owner.current || !isliving(owner.current))
-		return FALSE
-	/// Did I reach Final Death?
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	return !bloodsuckerdatum.AmFinalDeath
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 /// Vassalize someone in charge (Head of Staff + QM)
 /// LOOKUP: /datum/crewmonitor/proc/update_data(z) for .assignment to see how to get a person's PDA.
-/datum/objective/bloodsucker/protege
+/datum/objective/bloodsucker/protege  // WILLARD TODO: Shaft Miners arent considered Cargo, probably related to the Quartermaster not being a head of staff.
 	name = "vassalization"
 
-	var/list/heads = list(
+	var/list/roles = list(
 		"Captain",
 		"Head of Personnel",
 		"Head of Security",
@@ -90,37 +67,45 @@
 		"Quartermaster",
 	)
 	var/list/departs = list(
+		"Captain",
 		"Head of Security",
 		"Head of Personnel",
 		"Research Director",
 		"Chief Engineer",
 		"Chief Medical Officer",
+		"Quartermaster",
 	)
+
 
 	var/target_role	// Equals "HEAD" when it's not a department role.
 	var/department_string
 
 // GENERATE!
-/datum/objective/bloodsucker/protege/New()
-	// Choose between Command and a Department
-	switch(rand(0,2))
-		if(0) // Command
-			target_amount = 1
-			target_role = "HEAD"
-		else // Department
-			target_amount = rand(2,3)
-			target_role = pick(departs)
-			switch(target_role)
-				if("Head of Security")
-					department_string = "Security"
-				if("Head of Personnel")
-					department_string = "Cargo"
-				if("Research Director")
-					department_string = "Science"
-				if("Chief Engineer")
-					department_string = "Engineering"
-				if("Chief Medical Officer")
-					department_string = "Medical"
+/datum/objective/bloodsucker/protege/generate_objective()
+	target_role = rand(0,2) == 0 ? "HEAD" : pick(departs)
+
+	/// Command personnel? Only one required
+	if(target_role == "HEAD")
+		target_amount = 1
+	/// Vassalize department workers? 2-4 people, then.
+	else
+		switch(target_role)
+			if("Captain")
+				/// They aren't security, but they do start mindshielded.
+				department_string = "Security"
+			if("Head of Security")
+				department_string = "Security"
+			if("Head of Personnel")
+				department_string = "Cargo"
+			if("Research Director")
+				department_string = "Science"
+			if("Chief Engineer")
+				department_string = "Engineering"
+			if("Chief Medical Officer")
+				department_string = "Medical"
+			if("Quartermaster")
+				department_string = "Cargo"
+		target_amount = rand(2,3)
 	..()
 
 // EXPLANATION
@@ -140,7 +125,7 @@
 	// Get list of all jobs that are qualified (for HEAD, this is already done)
 	var/list/valid_jobs
 	if(target_role == "HEAD")
-		valid_jobs = heads
+		valid_jobs = roles
 	else
 		valid_jobs = list()
 		var/list/alljobs = subtypesof(/datum/job) // This is just a list of TYPES, not the actual variables!
@@ -148,7 +133,7 @@
 			var/datum/job/J = SSjob.GetJobType(T)
 			if(!istype(J))
 				continue
-			// Found a job whose Dept Head matches either list of heads, or this job IS the head. We exclude the QM from this, HoP handles Cargo.
+			// Found a job whose Dept Head matches either list of heads, or this job IS the head
 			if((target_role in J.department_head) || target_role == J.title)
 				valid_jobs += J.title
 
@@ -163,18 +148,18 @@
 
 		// Mind Assigned
 		if((V.owner.assigned_role in valid_jobs) && !(V.owner.assigned_role in counted_roles))
-			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MIND ROLE)"))
+			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MIND ROLE)</span>")
 			thisRole = V.owner.assigned_role
 		// Mob Assigned
 		else if((V.owner.current.job in valid_jobs) && !(V.owner.current.job in counted_roles))
-			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MOB JOB)"))
+			//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (MOB JOB)</span>")
 			thisRole = V.owner.current.job
 		// PDA Assigned
 		else if(V.owner.current && ishuman(V.owner.current))
 			var/mob/living/carbon/human/H = V.owner.current
 			var/obj/item/card/id/I =  H.wear_id ? H.wear_id.GetID() : null
 			if(I && (I.assignment in valid_jobs) && !(I.assignment in counted_roles))
-				//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (GET ID)"))
+				//to_chat(owner, "<span class='userdanger'>PROTEGE OBJECTIVE: (GET ID)</span>")
 				thisRole = I.assignment
 
 		// NO MATCH
@@ -199,233 +184,19 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// NOTE: Look up /assassinate in objective.dm for inspiration.
-/// Vassalize a target.
-/datum/objective/bloodsucker/vassalhim
-	name = "vassalhim"
-	var/target_role_type = FALSE
-
-/datum/objective/bloodsucker/vassalhim/New()
-	var/list/possible_targets = return_possible_targets()
-	find_target(possible_targets)
-//	find_target_by_role handles update_explanation_text.
-
-// FIND TARGET/GENERATE OBJECTIVE
-/datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
-	if(!invert)
-		target_role_type = role_type
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/vassalhim/update_explanation_text()
-	. = ..()
-	if(target?.current)
-		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized via the Persuasion Rack."
-	else
-		explanation_text = "Free Objective"
-
-/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
-	admin_simple_target_pick(admin)
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/vassalhim/check_completion()
-	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
-		return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// NOTE: Look up /steal in objective.dm for inspiration.
-/// Steal hearts. You just really wanna have some hearts.
-/datum/objective/bloodsucker/heartthief
-	name = "heartthief"
-
-// GENERATE!
-/datum/objective/bloodsucker/heartthief/New()
-	target_amount = rand(2,3)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/heartthief/update_explanation_text()
-	. = ..()
-	explanation_text = "Steal and keep [target_amount] organic heart\s."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/heartthief/check_completion()
-	if(!owner.current)
-		return FALSE
-	var/list/all_items = owner.current.GetAllContents()
-	var/itemcount = FALSE
-	for(var/obj/I in all_items)
-		if(istype(I, /obj/item/organ/heart/))
-			var/obj/item/organ/heart/heart_item = I
-			if(!(heart_item.organ_flags & ORGAN_SYNTHETIC)) // No robo-hearts allowed
-				itemcount++
-			if(itemcount >= target_amount)
-				return TRUE
-
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-///Eat blood from a lot of people
-/datum/objective/bloodsucker/gourmand
-	name = "gourmand"
-
-// GENERATE!
-/datum/objective/bloodsucker/gourmand/New()
-	target_amount = rand(450,650)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/gourmand/update_explanation_text()
-	. = ..()
-	explanation_text = "Using your Feed ability, drink [target_amount] units of Blood."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/gourmand/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	var/stolen_blood = bloodsuckerdatum.total_blood_drank
-	if(stolen_blood >= target_amount)
-		return TRUE
-	return FALSE
+/// Eat blood from a lot of people
+/datum/objective/bloodsucker/gourmand // WILLARD TODO: Would be good to get this working, vassalhim isn't a good objective, it's really just an advanced protect objective, which is never fun.
 
 // HOW: Track each feed (if human). Count victory.
 
-
-
-//////////////////////////////
-//     CLAN OBJECTIVES      //
-//////////////////////////////
-
-/// Enter Frenzy repeatedly - Brujah Clan objective
-/datum/objective/bloodsucker/frenzy
-	name = "frenzy"
-
-/datum/objective/bloodsucker/frenzy/New()
-	target_amount = rand(3,4)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/frenzy/update_explanation_text()
-	. = ..()
-	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/frenzy/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	if(bloodsuckerdatum.Frenzies >= target_amount)
-		return TRUE
-	return FALSE
-
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Steal the Archive of the Kindred - Tremere Clan objective
-/datum/objective/bloodsucker/kindred
-	name = "steal kindred"
-
-// EXPLANATION
-/datum/objective/bloodsucker/kindred/update_explanation_text()
-	. = ..()
-	explanation_text = "Ensure Tremere steals and keeps control over the Archive of the Kindred."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/kindred/check_completion()
-	if(!owner.current)
-		return FALSE
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-
-	for(var/datum/mind/M in bloodsuckerdatum.clan?.members)
-		var/datum/antagonist/bloodsucker/allsuckers = M.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(allsuckers.my_clan != CLAN_TREMERE)
-			continue
-		if(!isliving(M.current))
-			continue
-		var/list/all_items = allsuckers.owner.current.GetAllContents()
-		for(var/obj/I in all_items)
-			if(istype(I, /obj/item/book/kindred))
-				return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Convert a crewmate - Ventrue Clan objective
+/// Convert a crewmate
 /datum/objective/bloodsucker/embrace
-	name = "embrace"
 
-// EXPLANATION
-/datum/objective/bloodsucker/embrace/update_explanation_text()
-	. = ..()
-	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker."
+// HOW: Find crewmate. Check if person is a bloodsucker
 
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/embrace/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum || bloodsuckerdatum.my_clan != CLAN_VENTRUE)
-		return FALSE
-	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
-		if(vassaldatum.owner && vassaldatum.favorite_vassal)
-			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
-				return TRUE
-	return FALSE
-
-
-
-//////////////////////////////
-// MONSTERHUNTER OBJECTIVES //
-//////////////////////////////
-
-/datum/objective/bloodsucker/monsterhunter
-	name = "destroymonsters"
-
-// EXPLANATION
-/datum/objective/bloodsucker/monsterhunter/update_explanation_text()
-	explanation_text = "Destroy all monsters on [station_name()]."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/monsterhunter/check_completion()
-	var/list/datum/mind/monsters = list()
-	for(var/mob/living/players in GLOB.alive_mob_list)
-		if(IS_HERETIC(players) || IS_CULTIST(players) || IS_BLOODSUCKER(players) || IS_WIZARD(players))
-			monsters += players
-		if(players?.mind?.has_antag_datum(/datum/antagonist/changeling))
-			monsters += players
-		if(players?.mind?.has_antag_datum(/datum/antagonist/wizard/apprentice))
-			monsters += players
-	for(var/datum/mind/M in monsters)
-		if(M && M != owner && M.current.stat != DEAD)
-			return FALSE
-	return TRUE
-
-
-
-//////////////////////////////
-//     VASSAL OBJECTIVES    //
-//////////////////////////////
-
-/datum/objective/bloodsucker/vassal
-
-// EXPLANATION
-/datum/objective/bloodsucker/vassal/update_explanation_text()
-	. = ..()
-	explanation_text = "Guarantee the success of your Master's mission!"
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/vassal/check_completion()
-	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
-	return antag_datum.master?.owner?.current?.stat != DEAD
-
-
-
-//////////////////////////////
-//    REMOVED OBJECTIVES    //
-//////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
 /// Defile a facility with blood
 /datum/objective/bloodsucker/desecrate
@@ -453,3 +224,141 @@
 			return FALSE
 	return TRUE
 */
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// NOTE: Look up /steal in objective.dm for inspiration.
+/// Steal hearts. You just really wanna have some hearts.
+/datum/objective/bloodsucker/heartthief
+	name = "heartthief"
+
+// GENERATE!
+/datum/objective/bloodsucker/heartthief/generate_objective()
+	target_amount = rand(2,3)
+	update_explanation_text()
+	return target_amount
+
+// EXPLANATION
+/datum/objective/bloodsucker/heartthief/update_explanation_text()
+	. = ..()
+	explanation_text = "Steal and keep [target_amount] heart[target_amount == 1 ? "" : "s"]." // TO DO: Limit them to Human Only!
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/heartthief/check_completion()
+	if(!owner.current)
+		return FALSE
+	var/list/all_items = owner.current.GetAllContents()
+	var/itemcount = FALSE
+	for(var/obj/I in all_items)
+		if(istype(I, /obj/item/organ/heart/))
+			itemcount++
+			if(itemcount >= target_amount)
+				return TRUE
+
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// NOTE: Look up /assassinate in objective.dm for inspiration.
+/// Vassalize a target.
+/datum/objective/bloodsucker/vassalhim
+	name = "vassalhim"
+	var/target_role_type = FALSE
+
+// FIND TARGET/GENERATE OBJECTIVE
+/datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
+	if(!invert)
+		target_role_type = role_type
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/vassalhim/update_explanation_text()
+	..()
+	if(target?.current)
+		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized."
+	else
+		explanation_text = "Free Objective"
+
+/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
+	admin_simple_target_pick(admin)
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/vassalhim/check_completion()
+	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
+		return TRUE
+	return FALSE
+
+/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
+	admin_simple_target_pick(admin)
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/datum/objective/bloodsucker/survive
+	name = "bloodsuckersurvive"
+
+// EXPLANATION
+/datum/objective/bloodsucker/survive/update_explanation_text()
+	explanation_text = "Survive the entire shift without succumbing to Final Death."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/survive/check_completion()
+	/// Must have a body.
+	if(!owner.current || !isliving(owner.current))
+		return FALSE
+	/// Did I reach Final Death?
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	return !bloodsuckerdatum.AmFinalDeath
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/datum/objective/bloodsucker/monsterhunter
+	name = "destroymonsters"
+
+// GENERATE!
+/datum/objective/bloodsucker/monsterhunter/generate_objective()
+	update_explanation_text()
+
+// EXPLANATION
+/datum/objective/bloodsucker/monsterhunter/update_explanation_text()
+	explanation_text = "Destroy all monsters on [station_name()]."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/monsterhunter/check_completion()
+	var/list/datum/mind/monsters = list()
+	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
+		if(C.mind)
+			var/datum/mind/UM = C.mind
+			if(UM.has_antag_datum(/datum/antagonist/changeling))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/heretic))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/cult))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/wizard))
+				monsters += UM
+			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
+				monsters += UM
+	for(var/datum/mind/M in monsters)
+		if(M && M != owner && M.current && M.current.stat != DEAD && get_turf(M.current))
+			return FALSE
+	return TRUE
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/datum/objective/bloodsucker/vassal
+
+// GENERATE!
+/datum/objective/bloodsucker/vassal/generate_objective()
+	update_explanation_text()
+
+// EXPLANATION
+/datum/objective/bloodsucker/vassal/update_explanation_text()
+	explanation_text = "Guarantee the success of your Master's mission!"
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/vassal/check_completion()
+	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
+	return antag_datum.master && antag_datum.master.owner && antag_datum.master.owner.current && antag_datum.master.owner.current.stat != DEAD

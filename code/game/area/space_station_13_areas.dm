@@ -98,15 +98,8 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 //AI - Turret_protected
 
 /area/ai_monitored/turret_protected
-	ambientsounds = list('sound/ambience/ambitech.ogg', 'sound/ambience/ambitech2.ogg', 'sound/ambience/ambiatmos.ogg', 'sound/ambience/ambiatmos2.ogg')
-	///Some sounds (like the space jam) are terrible when on loop. We use this varaible to add it to other AI areas, but override it to keep it from the AI's core.
-	var/ai_will_not_hear_this = list('sound/ambience/ambimalf.ogg')
+	ambientsounds = list('sound/ambience/ambimalf.ogg', 'sound/ambience/ambitech.ogg', 'sound/ambience/ambitech2.ogg', 'sound/ambience/ambiatmos.ogg', 'sound/ambience/ambiatmos2.ogg')
 	airlock_wires = /datum/wires/airlock/ai
-
-/area/ai_monitored/turret_protected/Initialize()
-	. = ..()
-	if(ai_will_not_hear_this)
-		ambientsounds += ai_will_not_hear_this
 
 /area/ai_monitored/turret_protected/ai_upload
 	name = "AI Upload Chamber"
@@ -121,7 +114,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/ai_monitored/turret_protected/ai
 	name = "AI Chamber"
 	icon_state = "ai_chamber"
-	ai_will_not_hear_this = null
 
 /area/ai_monitored/turret_protected/aisat
 	name = "AI Satellite"

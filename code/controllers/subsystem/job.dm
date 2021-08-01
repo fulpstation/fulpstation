@@ -36,7 +36,6 @@ SUBSYSTEM_DEF(job)
 	 * See [/datum/controller/subsystem/ticker/proc/equip_characters]
 	 */
 	var/list/chain_of_command = list(
-/*
 		"Captain" = 1,
 		"Head of Personnel" = 2,
 		"Research Director" = 3,
@@ -45,15 +44,6 @@ SUBSYSTEM_DEF(job)
 		"Head of Security" = 6,
 		"Quartermaster" = 7)
 
-*/ // FULP EDIT - Chain of Command is different here!
-		"Captain" = 1,
-		"Head of Personnel" = 2,
-		"Head of Security" = 3,
-		"Research Director" = 4,
-		"Chief Engineer" = 5,
-		"Chief Medical Officer" = 6,
-		"Quartermaster" = 7,
-	)
 	/// If TRUE, some player has been assigned Captaincy or Acting Captaincy at some point during the shift and has been given the spare ID safe code.
 	var/assigned_captain = FALSE
 	/// Whether the emergency safe code has been requested via a comms console on shifts with no Captain or Acting Captain.
@@ -95,7 +85,7 @@ SUBSYSTEM_DEF(job)
 	occupations = list()
 	var/list/all_jobs = subtypesof(/datum/job)
 	if(!all_jobs.len)
-		to_chat(world, span_boldannounce("Error setting up jobs, no job datums found"))
+		to_chat(world, "<span class='boldannounce'>Error setting up jobs, no job datums found</span>")
 		return FALSE
 
 	for(var/J in all_jobs)
@@ -291,7 +281,12 @@ SUBSYSTEM_DEF(job)
 	//Setup new player list and get the jobs list
 	JobDebug("Running DO")
 
-	SEND_SIGNAL(src, COMSIG_OCCUPATIONS_DIVIDED)
+	//Holder for Triumvirate is stored in the SSticker, this just processes it
+	if(SSticker.triai)
+		for(var/datum/job/ai/A in occupations)
+			A.spawn_positions = 3
+		for(var/obj/effect/landmark/start/ai/secondary/S in GLOB.start_landmarks_list)
+			S.latejoin_active = TRUE
 
 	//Get the players who are ready
 	for(var/i in GLOB.new_player_list)
@@ -494,7 +489,7 @@ SUBSYSTEM_DEF(job)
 
 	to_chat(M, "<span class='infoplain'><b>You are the [rank].</b></span>")
 	if(job)
-		var/new_mob = job.equip(living_mob, null, null, joined_late, null, M.client, is_captain)//silicons override this proc to return a mob
+		var/new_mob = job.equip(living_mob, null, null, joined_late , null, M.client, is_captain)//silicons override this proc to return a mob
 		if(ismob(new_mob))
 			living_mob = new_mob
 			if(!joined_late)
@@ -513,7 +508,7 @@ SUBSYSTEM_DEF(job)
 		if(job.req_admin_notify)
 			to_chat(M, "<span class='infoplain'><b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b></span>")
 		if(CONFIG_GET(number/minimal_access_threshold))
-			to_chat(M, span_notice("<B>As this station was initially staffed with a [CONFIG_GET(flag/jobs_have_minimal_access) ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B>"))
+			to_chat(M, "<span class='notice'><B>As this station was initially staffed with a [CONFIG_GET(flag/jobs_have_minimal_access) ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></span>")
 
 	var/related_policy = get_policy(rank)
 	if(related_policy)
@@ -713,12 +708,9 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/DropLandAtRandomHallwayPoint(mob/living/living_mob)
 	var/turf/spawn_turf = get_safe_random_station_turf(typesof(/area/hallway))
 
-	if(!spawn_turf)
-		SendToLateJoin(living_mob)
-	else
-		var/obj/structure/closet/supplypod/centcompod/toLaunch = new()
-		living_mob.forceMove(toLaunch)
-		new /obj/effect/pod_landingzone(spawn_turf, toLaunch)
+	var/obj/structure/closet/supplypod/centcompod/toLaunch = new()
+	living_mob.forceMove(toLaunch)
+	new /obj/effect/pod_landingzone(spawn_turf, toLaunch)
 
 ///////////////////////////////////
 //Keeps track of all living heads//
@@ -824,9 +816,9 @@ SUBSYSTEM_DEF(job)
 	var/where = new_captain.equip_in_one_of_slots(paper, slots, FALSE) || "at your feet"
 
 	if(acting_captain)
-		to_chat(new_captain, span_notice("Due to your position in the chain of command, you have been promoted to Acting Captain. You can find in important note about this [where]."))
+		to_chat(new_captain, "<span class='notice'>Due to your position in the chain of command, you have been promoted to Acting Captain. You can find in important note about this [where].</span>")
 	else
-		to_chat(new_captain, span_notice("You can find the code to obtain your spare ID from the secure safe on the Bridge [where]."))
+		to_chat(new_captain, "<span class='notice'>You can find the code to obtain your spare ID from the secure safe on the Bridge [where].</span>")
 
 	// Force-give their ID card bridge access.
 	var/obj/item/id_slot = new_captain.get_item_by_slot(ITEM_SLOT_ID)

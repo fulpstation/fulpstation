@@ -153,7 +153,7 @@
 
 	if(!source.combat_mode)
 		return
-	to_chat(source, span_warning("You shoot with your laser eyes!"))
+	to_chat(source, "<span class='warning'>You shoot with your laser eyes!</span>")
 	source.changeNext_move(CLICK_CD_RANGE)
 	source.newtonian_move(get_dir(target, source))
 	var/obj/projectile/beam/laser_eyes/LE = new(source.loc)

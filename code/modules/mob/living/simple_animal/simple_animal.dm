@@ -111,6 +111,8 @@
 	///Simple_animal access.
 	///Innate access uses an internal ID card.
 	var/obj/item/card/id/access_card = null
+	///In the event that you want to have a buffing effect on the mob, but don't want it to stack with other effects, any outside force that applies a buff to a simple mob should at least set this to 1, so we have something to check against.
+	var/buffed = 0
 	///If the mob can be spawned with a gold slime core. HOSTILE_SPAWN are spawned with plasma, FRIENDLY_SPAWN are spawned with blood.
 	var/gold_core_spawnable = NO_SPAWN
 
@@ -216,7 +218,7 @@
 /mob/living/simple_animal/examine(mob/user)
 	. = ..()
 	if(stat == DEAD)
-		. += span_deadsay("Upon closer examination, [p_they()] appear[p_s()] to be dead.")
+		. += "<span class='deadsay'>Upon closer examination, [p_they()] appear[p_s()] to be dead.</span>"
 	if(access_card)
 		. += "There appears to be [icon2html(access_card, user)] \a [access_card] pinned to [p_them()]."
 
@@ -453,7 +455,7 @@
 		icon_state = icon_dead
 		if(flip_on_death)
 			transform = transform.Turn(180)
-		set_density(FALSE)
+		density = FALSE
 		..()
 
 /mob/living/simple_animal/proc/CanAttack(atom/the_target)
@@ -487,7 +489,7 @@
 	if(!.)
 		return
 	icon_state = icon_living
-	set_density(initial(density))
+	density = initial(density)
 
 /mob/living/simple_animal/proc/make_babies() // <3 <3 <3
 	if(gender != FEMALE || stat || next_scan_time > world.time || !childtype || !animal_species || !SSticker.IsRoundInProgress())

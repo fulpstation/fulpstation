@@ -55,8 +55,8 @@
 	name = "Sleepless Dreamer"
 	desc = "The patient, after undergoing untold psychological hardship, believes they can travel between the dreamscapes of this dimension."
 	scan_desc = "awoken sleeper"
-	gain_text = span_notice("Your mind snaps, and you wake up. You <i>really</i> wake up.")
-	lose_text = span_warning("You succumb once more to the sleepless dream of the unwoken.")
+	gain_text = "<span class='notice'>Your mind snaps, and you wake up. You <i>really</i> wake up.</span>"
+	lose_text = "<span class='warning'>You succumb once more to the sleepless dream of the unwoken.</span>"
 
 
 	var/list/created_firsts = list()
@@ -143,12 +143,12 @@
 		return
 	// Is this, or linked, stream being watched?
 	if (check_location_seen(user, get_turf(user)))
-		to_chat(user, span_warning("Not while you're being watched."))
+		to_chat(user, "<span class='warning'>Not while you're being watched.</span>")
 		return
 	if (check_location_seen(user, get_turf(linked_to)))
-		to_chat(user, span_warning("Your destination is being watched."))
+		to_chat(user, "<span class='warning'>Your destination is being watched.</span>")
 		return
-	to_chat(user, span_notice("You slip unseen through the Phobetor Tear."))
+	to_chat(user, "<span class='notice'>You slip unseen through the Phobetor Tear.</span>")
 	user.playsound_local(null, 'sound/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
 
 	user.forceMove(get_turf(linked_to))

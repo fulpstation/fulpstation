@@ -35,7 +35,7 @@
 		for(var/X in actions)
 			var/datum/action/A = X
 			A.UpdateButtonIcon()
-		to_chat(user, span_notice("Your Skull Mime Mask has now morphed into [choice]!"))
+		to_chat(user, "<span class='notice'>Your Skull Mime Mask has now morphed into [choice]!</span>")
 		return TRUE
 
 /obj/item/clothing/under/dress/blacktango/skull_mask

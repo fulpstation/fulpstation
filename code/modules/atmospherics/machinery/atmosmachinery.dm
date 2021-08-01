@@ -71,11 +71,11 @@
 
 /obj/machinery/atmospherics/examine(mob/user)
 	. = ..()
-	. += span_notice("[src] is on layer [piping_layer].")
+	. += "<span class='notice'>[src] is on layer [piping_layer].</span>"
 	if((vent_movement & VENTCRAWL_ENTRANCE_ALLOWED) && isliving(user))
 		var/mob/living/L = user
 		if(HAS_TRAIT(L, TRAIT_VENTCRAWLER_NUDE) || HAS_TRAIT(L, TRAIT_VENTCRAWLER_ALWAYS))
-			. += span_notice("Alt-click to crawl through it.")
+			. += "<span class='notice'>Alt-click to crawl through it.</span>"
 
 /obj/machinery/atmospherics/New(loc, process = TRUE, setdir, init_dir = ALL_CARDINALS)
 	if(!isnull(setdir))
@@ -135,16 +135,13 @@
 	var/list/node_connects = list()
 	node_connects.len = device_type
 
-	var/init_directions = GetInitDirections()
 	for(var/i in 1 to device_type)
-		for(var/direction in GLOB.cardinals)
-			if(!(direction & init_directions))
-				continue
-			if(direction in node_connects)
-				continue
-			node_connects[i] = direction
-			break
-
+		for(var/D in GLOB.cardinals)
+			if(D & GetInitDirections())
+				if(D in node_connects)
+					continue
+				node_connects[i] = D
+				break
 	return node_connects
 
 /**
@@ -355,18 +352,18 @@
 	var/unsafe_wrenching = FALSE
 	var/internal_pressure = int_air.return_pressure()-env_air.return_pressure()
 
-	to_chat(user, span_notice("You begin to unfasten \the [src]..."))
+	to_chat(user, "<span class='notice'>You begin to unfasten \the [src]...</span>")
 
 	if (internal_pressure > 2*ONE_ATMOSPHERE)
-		to_chat(user, span_warning("As you begin unwrenching \the [src] a gush of air blows in your face... maybe you should reconsider?"))
+		to_chat(user, "<span class='warning'>As you begin unwrenching \the [src] a gush of air blows in your face... maybe you should reconsider?</span>")
 		unsafe_wrenching = TRUE //Oh dear oh dear
 
 	if(I.use_tool(src, user, 20, volume=50))
 		user.visible_message( \
 			"[user] unfastens \the [src].", \
-			span_notice("You unfasten \the [src]."), \
-			span_hear("You hear ratchet."))
-		investigate_log("was [span_warning("REMOVED")] by [key_name(usr)]", INVESTIGATE_ATMOS)
+			"<span class='notice'>You unfasten \the [src].</span>", \
+			"<span class='hear'>You hear ratchet.</span>")
+		investigate_log("was <span class='warning'>REMOVED</span> by [key_name(usr)]", INVESTIGATE_ATMOS)
 
 		//You unwrenched a pipe full of pressure? Let's splat you into the wall, silly.
 		if(unsafe_wrenching)
@@ -401,7 +398,7 @@
 		var/datum/gas_mixture/env_air = loc.return_air()
 		pressures = int_air.return_pressure() - env_air.return_pressure()
 
-	user.visible_message(span_danger("[user] is sent flying by pressure!"),span_userdanger("The pressure sends you flying!"))
+	user.visible_message("<span class='danger'>[user] is sent flying by pressure!</span>","<span class='userdanger'>The pressure sends you flying!</span>")
 
 	// if get_dir(src, user) is not 0, target is the edge_target_turf on that dir
 	// otherwise, edge_target_turf uses a random cardinal direction
@@ -474,9 +471,9 @@
 		A.addMember(src)
 	SSair.add_to_rebuild_queue(src)
 
-/obj/machinery/atmospherics/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
-	if(istype(arrived, /mob/living))
-		var/mob/living/L = arrived
+/obj/machinery/atmospherics/Entered(atom/movable/AM)
+	if(istype(AM, /mob/living))
+		var/mob/living/L = AM
 		L.ventcrawl_layer = piping_layer
 	return ..()
 

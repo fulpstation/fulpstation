@@ -33,7 +33,8 @@ Contains:
 	armor = list("melee" = 25, "bullet" = 25, "laser" = 25, "energy" = 30, "bomb" = 20, "bio" = 50, "rad" = 0, "fire" = 50, "acid" = 50, "wound" = 10)
 
 // Surgery belt
-/obj/item/storage/belt/medical/surgeryfilled/PopulateContents()
+
+/obj/item/storage/belt/medical/surgeryfilled/PopulateContents() // Currently only used for Brig Doctor.
 	new /obj/item/healthanalyzer(src)
 	new /obj/item/scalpel(src)
 	new /obj/item/hemostat(src)

@@ -18,9 +18,6 @@ export const GeneticMakeupInfo = (props, context) => {
         <LabeledList.Item label="Unique Identifier">
           {makeup.UI || 'None'}
         </LabeledList.Item>
-        <LabeledList.Item label="Unique Features">
-          {makeup.UF || 'None'}
-        </LabeledList.Item>
       </LabeledList>
     </Section>
   );

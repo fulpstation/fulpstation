@@ -62,7 +62,7 @@
 
 /obj/effect/anomaly/Destroy()
 	STOP_PROCESSING(SSobj, src)
-	QDEL_NULL(countdown)
+	qdel(countdown)
 	if(aSignal)
 		QDEL_NULL(aSignal)
 	return ..()
@@ -91,7 +91,7 @@
 
 /obj/effect/anomaly/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_ANALYZER)
-		to_chat(user, span_notice("Analyzing... [src]'s unstable field is fluctuating along frequency [format_frequency(aSignal.frequency)], code [aSignal.code]."))
+		to_chat(user, "<span class='notice'>Analyzing... [src]'s unstable field is fluctuating along frequency [format_frequency(aSignal.frequency)], code [aSignal.code].</span>")
 
 ///////////////////////
 
@@ -107,7 +107,7 @@
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
 	)
-	AddElement(/datum/element/connect_loc, loc_connections)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /obj/effect/anomaly/grav/anomalyEffect()
 	..()
@@ -178,17 +178,13 @@
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
 	)
-	AddElement(/datum/element/connect_loc, loc_connections)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /obj/effect/anomaly/flux/anomalyEffect()
 	..()
 	canshock = TRUE
 	for(var/mob/living/M in range(0, src))
 		mobShock(M)
-
-/obj/effect/anomaly/flux/update_overlays()
-	. = ..()
-	. += emissive_appearance(icon, icon_state, alpha=src.alpha)
 
 /obj/effect/anomaly/flux/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER

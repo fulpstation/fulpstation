@@ -51,6 +51,8 @@
 	name = "rainbow shoes"
 	desc = "Very gay shoes."
 	icon_state = "rain_bow"
+	greyscale_colors = null
+	greyscale_config = null
 
 	greyscale_colors = null
 	greyscale_config = null
@@ -86,7 +88,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/C = user
 		if(C.shoes == src && chained == 1)
-			to_chat(user, span_warning("You need help taking these off!"))
+			to_chat(user, "<span class='warning'>You need help taking these off!</span>")
 			return FALSE
 	return ..()
 
@@ -95,6 +97,6 @@
 	if(ishuman(m))
 		var/mob/living/carbon/human/c = m
 		if(c.shoes == src && chained == 1)
-			to_chat(c, span_warning("You need help taking these off!"))
+			to_chat(c, "<span class='warning'>You need help taking these off!</span>")
 			return
 	return ..()

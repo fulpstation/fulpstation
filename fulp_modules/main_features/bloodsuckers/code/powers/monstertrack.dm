@@ -6,14 +6,17 @@
 	background_icon_state = "vamp_power_off"
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_hunter"
+	amToggle = FALSE
 	cooldown = 300
 	bloodcost = 0
 	/// Removed, set to TRUE to re-add, either here to be a default function, or in-game through VV for neat Admin stuff -Willard
 	var/give_pinpointer = FALSE
 
-/datum/action/bloodsucker/trackvamp/ActivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/trackvamp/ActivatePower()
+	. = ..()
+	var/mob/living/carbon/user = owner
 	/// Return text indicating direction
-	to_chat(user, span_notice("You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order."))
+	to_chat(user, "<span class='notice'>You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order.</span>")
 	if(!do_mob(user, owner, 80))
 		return
 	if(give_pinpointer)
@@ -22,7 +25,6 @@
 	PayCost()
 	// NOTE: DON'T DEACTIVATE!
 	//DeactivatePower()
-	. = ..()
 
 /datum/action/bloodsucker/trackvamp/proc/display_proximity()
 	/// Pick target
@@ -69,8 +71,8 @@
 	/// Found one!
 	if(best_vamp)
 		var/distString = best_dist <= HUNTER_SCAN_MAX_DISTANCE / 2 ? "<b>somewhere closeby!</b>" : "somewhere in the distance."
-		to_chat(owner, span_warning("You detect signs of monsters [distString]"))
+		to_chat(owner, "<span class='warning'>You detect signs of monsters [distString]</span>")
 
 	/// Will yield a "?"
 	else
-		to_chat(owner, span_notice("There are no monsters nearby."))
+		to_chat(owner, "<span class='notice'>There are no monsters nearby.</span>")

@@ -19,7 +19,7 @@
 
 	cameraFollow = null
 
-	set_anchored(FALSE) //unbolt floorbolts
+	anchored = FALSE //unbolt floorbolts
 	move_resist = MOVE_FORCE_NORMAL
 
 	if(eyeobj)

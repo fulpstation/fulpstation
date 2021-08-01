@@ -69,25 +69,6 @@ const GeneticMakeupBufferInfo = (props, context) => {
             {!isViableSubject && ' (Delayed)'}
           </Button>
         </LabeledList.Item>
-        <LabeledList.Item label="Features">
-          <Button
-            icon="syringe"
-            disabled={!isInjectorReady}
-            content="Print"
-            onClick={() => act('makeup_injector', {
-              index,
-              type: 'uf',
-            })} />
-          <Button
-            icon="exchange-alt"
-            onClick={() => act(ACTION_MAKEUP_APPLY, {
-              index,
-              type: 'uf',
-            })}>
-            Transfer
-            {!isViableSubject && ' (Delayed)'}
-          </Button>
-        </LabeledList.Item>
         <LabeledList.Item label="Full Makeup">
           <Button
             icon="syringe"
@@ -225,17 +206,15 @@ const RadiationEmitterProbs = (props, context) => {
 };
 
 const RadiationEmitterPulseBoard = (props, context) => {
-  const { act } = useBackend(context);
+  const { data, act } = useBackend(context);
   const {
-    subjectBlock = [],
-    type,
-    name,
-  } = props;
+    subjectUNI = [],
+  } = data;
   // Build blocks of buttons of unique enzymes
   const blocks = [];
   let buffer = [];
-  for (let i = 0; i < subjectBlock.length; i++) {
-    const char = subjectBlock.charAt(i);
+  for (let i = 0; i < subjectUNI.length; i++) {
+    const char = subjectUNI.charAt(i);
     // Push a button into the buffer
     const button = (
       <Button
@@ -245,7 +224,6 @@ const RadiationEmitterPulseBoard = (props, context) => {
         content={char}
         onClick={() => act('makeup_pulse', {
           index: i + 1,
-          type: type,
         })} />
     );
     buffer.push(button);
@@ -263,7 +241,7 @@ const RadiationEmitterPulseBoard = (props, context) => {
   }
   return (
     <Section
-      title={"Unique " + name}
+      title="Unique Enzymes"
       minHeight="100%"
       position="relative">
       <Box mx="-1px">
@@ -318,11 +296,6 @@ export const DnaConsoleEnzymes = (props, context) => {
   const {
     isScannerConnected,
   } = data;
-  const {
-    subjectBlock,
-    type,
-    name,
-  } = props;
   if (!isScannerConnected) {
     return (
       <Section color="bad">
@@ -340,10 +313,7 @@ export const DnaConsoleEnzymes = (props, context) => {
           <RadiationEmitterProbs />
         </Stack.Item>
         <Stack.Item grow={1} basis={0}>
-          <RadiationEmitterPulseBoard
-            subjectBlock={subjectBlock}
-            type={type}
-            name={name} />
+          <RadiationEmitterPulseBoard />
         </Stack.Item>
       </Stack>
       <GeneticMakeupBuffers />

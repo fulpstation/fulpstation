@@ -15,9 +15,6 @@
 	/// The port type. Ports can only connect to each other if the type matches
 	var/datatype
 
-	/// The default port type. Stores the original datatype of the port set on Initialize.
-	var/default_datatype
-
 	/// The port color. If unset, appears as blue.
 	var/color
 
@@ -31,7 +28,6 @@
 	src.connected_component = to_connect
 	src.name = name
 	src.datatype = datatype
-	src.default_datatype = datatype
 	src.color = datatype_to_color()
 
 
@@ -48,8 +44,6 @@
 			return "white"
 		if(PORT_TYPE_SIGNAL)
 			return "teal"
-		if(PORT_TYPE_TABLE)
-			return "grey"
 
 /datum/port/Destroy(force)
 	if(!force && !QDELETED(connected_component))
@@ -70,16 +64,13 @@
 		return prev_value
 	. = value_to_convert
 
-	if(isnull(value_to_convert))
-		return null
-
 	switch(datatype)
 		if(PORT_TYPE_STRING)
 			// So that they can't easily get the name like this.
 			if(isatom(value_to_convert))
 				return PORT_TYPE_ATOM
 			else
-				return copytext("[value_to_convert]", 1, PORT_MAX_STRING_LENGTH)
+				return "[value_to_convert]"
 
 	if(isatom(value_to_convert))
 		var/atom/atom_to_check = value_to_convert
@@ -96,8 +87,8 @@
 	datatype = type_to_set
 	color = datatype_to_color()
 	disconnect()
-	if(connected_component?.parent)
-		SStgui.update_uis(connected_component.parent)
+	if(connected_component)
+		SStgui.update_uis(connected_component)
 
 /**
  * Disconnects a port from all other ports
@@ -155,7 +146,7 @@
 	set_output(null)
 
 /**
- * Determines if a datatype is compatible with another port of a different type.
+ * Determines if a datatype is compatible with this port.
  *
  * Arguments:
  * * other_datatype - The datatype to check
@@ -189,6 +180,10 @@
 	/// The connected output port
 	var/datum/port/output/connected_port
 
+	/// The delay before updating the input value whenever a modification is made.
+	/// This does not apply when when the output port is registered
+	var/input_receive_delay = PORT_INPUT_RECEIVE_DELAY
+
 	/// Whether this port triggers an update whenever an output is received.
 	var/trigger = FALSE
 
@@ -219,9 +214,7 @@
 
 	connected_port = port_to_register
 	SEND_SIGNAL(connected_port, COMSIG_PORT_OUTPUT_CONNECT, src)
-	// For signals, we don't update the input to prevent sending a signal when connecting ports.
-	if(datatype != PORT_TYPE_SIGNAL)
-		set_input(connected_port.output_value)
+	set_input(connected_port.output_value)
 
 
 /**
@@ -234,7 +227,10 @@
  */
 /datum/port/input/proc/receive_output(datum/port/output/connected_port, new_value)
 	SIGNAL_HANDLER
-	SScircuit_component.add_callback(CALLBACK(src, .proc/set_input, new_value))
+	if(input_receive_delay)
+		addtimer(CALLBACK(src, .proc/set_input, new_value), input_receive_delay, timer_subsystem = SScircuit_component)
+	else
+		set_input(new_value)
 
 /**
  * Updates the value of the input
@@ -252,7 +248,7 @@
 
 	SEND_SIGNAL(src, COMSIG_PORT_SET_INPUT, input_value)
 	if(trigger && send_update)
-		TRIGGER_CIRCUIT_COMPONENT(connected_component, src)
+		connected_component.input_received(src)
 
 /// Signal handler proc to null the input if an atom is deleted. An update is not sent because this was not set by anything.
 /datum/port/input/proc/null_output(datum/source)

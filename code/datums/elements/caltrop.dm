@@ -35,20 +35,20 @@
 	src.flags = flags
 
 	if(ismovable(target))
-		AddElement(/datum/element/connect_loc_behalf, target, crossed_connections)
+		AddElement(/datum/element/connect_loc, target, crossed_connections)
 	else
 		RegisterSignal(get_turf(target), COMSIG_ATOM_ENTERED, .proc/on_entered)
 
-/datum/element/caltrop/proc/on_entered(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+/datum/element/caltrop/proc/on_entered(atom/caltrop, atom/movable/AM)
 	SIGNAL_HANDLER
 
 	if(!prob(probability))
 		return
 
-	if(!ishuman(arrived))
+	if(!ishuman(AM))
 		return
 
-	var/mob/living/carbon/human/H = arrived
+	var/mob/living/carbon/human/H = AM
 	if(HAS_TRAIT(H, TRAIT_PIERCEIMMUNE))
 		return
 
@@ -84,10 +84,8 @@
 
 	if(!(flags & CALTROP_SILENT) && !H.has_status_effect(/datum/status_effect/caltropped))
 		H.apply_status_effect(/datum/status_effect/caltropped)
-		H.visible_message(
-			span_danger("[H] steps on [source]."),
-			span_userdanger("You step on [source]!")
-		)
+		H.visible_message("<span class='danger'>[H] steps on [caltrop].</span>", \
+					"<span class='userdanger'>You step on [caltrop]!</span>")
 
 	H.apply_damage(damage, BRUTE, picked_def_zone, wound_bonus = CANT_WOUND)
 	H.Paralyze(60)
@@ -95,4 +93,4 @@
 /datum/element/caltrop/Detach(datum/target)
 	. = ..()
 	if(ismovable(target))
-		RemoveElement(/datum/element/connect_loc_behalf, target, crossed_connections)
+		RemoveElement(/datum/element/connect_loc, target, crossed_connections)

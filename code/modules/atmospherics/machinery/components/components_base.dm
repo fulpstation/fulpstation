@@ -13,8 +13,6 @@
 	var/list/datum/pipeline/parents
 	///Stores the component gas mixture
 	var/list/datum/gas_mixture/airs
-	///Handles whether the custom reconcilation handling should be used
-	var/custom_reconcilation = FALSE
 
 /obj/machinery/atmospherics/components/New()
 	parents = new(device_type)
@@ -23,8 +21,6 @@
 	..()
 
 	for(var/i in 1 to device_type)
-		if(airs[i])
-			continue
 		var/datum/gas_mixture/A = new
 		A.volume = 200
 		airs[i] = A
@@ -197,8 +193,6 @@
  * This way gases won't get stuck
  */
 /obj/machinery/atmospherics/components/proc/update_parents()
-	if(!SSair.initialized)
-		return
 	for(var/i in 1 to device_type)
 		var/datum/pipeline/parent = parents[i]
 		if(!parent)
@@ -212,22 +206,12 @@
 	for(var/i in 1 to device_type)
 		. += returnPipenet(nodes[i])
 
-/// When this machine is in a pipenet that is reconciling airs, this proc can add pipelines to the calculation.
-/// Can be either a list of pipenets or a single pipenet.
-/obj/machinery/atmospherics/components/proc/returnPipenetsForReconcilation(datum/pipeline/requester)
-	return list()
-
-/// When this machine is in a pipenet that is reconciling airs, this proc can add airs to the calculation.
-/// Can be either a list of airs or a single air mix.
-/obj/machinery/atmospherics/components/proc/returnAirsForReconcilation(datum/pipeline/requester)
-	return list()
-
 // UI Stuff
 
 /obj/machinery/atmospherics/components/ui_status(mob/user)
 	if(allowed(user))
 		return ..()
-	to_chat(user, span_danger("Access denied."))
+	to_chat(user, "<span class='danger'>Access denied.</span>")
 	return UI_CLOSE
 
 // Tool acts

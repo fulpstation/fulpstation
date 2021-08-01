@@ -1,19 +1,32 @@
-# Folder: Digitigrade
+## Title: Digitigrade Shoes
 
-## Description:
+MODULE ID: DIGITIGRADE
 
-	Adds Digitigrade shoes for Digitigrade Lizards to wear
+### Description:
 
-## TG edits:
+Ports over Digigrade Shoes from the old repo!
 
-- code/modules/mob/living/carbon/human/species.dm > What makes the shoes fit on in the first place.
-
-## TG sounds/sprites used:
+### TG Proc Changes:
 
 - None
 
-## Notes/Credits:
+### TG files changed:
 
-- Mithrandalf - Original Digitigrade Shoes (https://github.com/TheSwain/Fulpstation/pull/75)
-- Paporito - Magboot(?) And jumpboot sprites
-- CyoTheProtogen - Tweaks and Modularization
+- code\modules\mob\living\carbon\human\species.dm > What makes the shoes fit on in the first place.
+
+### TG procs overwrites:
+
+- None(?)
+
+### Additional information:
+
+It adds a folder for clothing that others can use, maybe.
+
+### Credits:
+
+Mithrandalf - Pretty much all the original code (and sprites afaik)
+CyoTheProtogen - Code tweaks and modularization (does this count?)
+GuillaumePrata - Stole the equip code they used for beefmen :^)
+SgtHunk - Yoinked their magboot and jumpboot code
+Paporito - Magboot(?) And jumpboot sprites
+JohnFulpWillard - Helped my dumbass with stuff

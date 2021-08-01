@@ -368,11 +368,11 @@
 	machine_name = "LawDrobe"
 
 /obj/machinery/vending/wardrobe/chap_wardrobe
-	name = "DeusVend"
-	desc = "God wills your purchase."
+	name = "ChapDrobe"
+	desc = "This most blessed and holy machine vends clothing only suitable for chaplains to gaze upon."
 	icon_state = "chapdrobe"
 	product_ads = "Are you being bothered by cultists or pesky revenants? Then come and dress like the holy man!;Clothes for men of the cloth!"
-	vend_reply = "Thank you for using the DeusVend!"
+	vend_reply = "Thank you for using the ChapDrobe!"
 	products = list(/obj/item/choice_beacon/holy = 1,
 					/obj/item/storage/backpack/cultpack = 1,
 					/obj/item/clothing/accessory/pocketprotector/cosmetology = 1,
@@ -400,7 +400,7 @@
 	refill_canister = /obj/item/vending_refill/wardrobe/chap_wardrobe
 	payment_department = ACCOUNT_SRV
 /obj/item/vending_refill/wardrobe/chap_wardrobe
-	machine_name = "DeusVend"
+	machine_name = "ChapDrobe"
 
 /obj/machinery/vending/wardrobe/chem_wardrobe
 	name = "ChemDrobe"

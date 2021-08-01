@@ -33,11 +33,12 @@
 /obj/item/clothing/head/gnome/on_found(mob/finder)
 	if(armed)
 		if(finder)
-			finder.visible_message(span_warning("[finder] gets gnomed by the [src]."), span_hypnophrase("You got gnomed by the [src]!"))
+			finder.visible_message("<span class='warning'>[finder] gets gnomed by the [src].</span>", \
+							   "<span class='big hypnophrase'>You got gnomed by the [src]!</span>")
 			triggered(finder, (finder.active_hand_index % 2 == 0) ? BODY_ZONE_PRECISE_R_HAND : BODY_ZONE_PRECISE_L_HAND)
 			return TRUE	//end the search!
 		else
-			visible_message(span_warning("[src] snaps shut!"))
+			visible_message("<span class='warning'>[src] snaps shut!</span>")
 			triggered(loc)
 			return FALSE
 	return FALSE
@@ -47,7 +48,7 @@
 
 //--Fun gnomed stuff here
 /datum/mood_event/gnomed
-	description = span_warning("I can't believe I got gnomed!...\n")
+	description = "<span class='warning'>I can't believe I got gnomed!...</span>\n"
 	mood_change = -1
 	timeout = 5 MINUTES
 

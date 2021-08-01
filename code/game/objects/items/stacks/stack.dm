@@ -83,7 +83,7 @@
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
 	)
-	AddElement(/datum/element/connect_loc, loc_connections)
+	AddElement(/datum/element/connect_loc, src, loc_connections)
 
 /** Sets the amount of materials per unit for this stack.
  *
@@ -114,7 +114,7 @@
 
 /obj/item/stack/grind_requirements()
 	if(is_cyborg)
-		to_chat(usr, span_warning("[src] is electronically synthesized in your chassis and can't be ground up!"))
+		to_chat(usr, "<span class='warning'>[src] is electronically synthesized in your chassis and can't be ground up!</span>")
 		return
 	return TRUE
 
@@ -159,7 +159,7 @@
 		. += "There are [get_amount()] in the stack."
 	else
 		. += "There is [get_amount()] in the stack."
-	. += span_notice("<b>Right-click</b> with an empty hand to take a custom amount.")
+	. += "<span class='notice'><b>Right-click</b> with an empty hand to take a custom amount.</span>"
 
 /obj/item/stack/proc/get_amount()
 	if(is_cyborg)
@@ -254,7 +254,7 @@
 				return
 			if(recipe.time)
 				var/adjusted_time = 0
-				usr.visible_message(span_notice("[usr] starts building \a [recipe.title]."), span_notice("You start building \a [recipe.title]..."))
+				usr.visible_message("<span class='notice'>[usr] starts building \a [recipe.title].</span>", "<span class='notice'>You start building \a [recipe.title]...</span>")
 				if(HAS_TRAIT(usr, recipe.trait_booster))
 					adjusted_time = (recipe.time * recipe.trait_modifier)
 				else
@@ -312,9 +312,9 @@
 /obj/item/stack/proc/building_checks(datum/stack_recipe/recipe, multiplier)
 	if (get_amount() < recipe.req_amount*multiplier)
 		if (recipe.req_amount*multiplier>1)
-			to_chat(usr, span_warning("You haven't got enough [src] to build \the [recipe.req_amount*multiplier] [recipe.title]\s!"))
+			to_chat(usr, "<span class='warning'>You haven't got enough [src] to build \the [recipe.req_amount*multiplier] [recipe.title]\s!</span>")
 		else
-			to_chat(usr, span_warning("You haven't got enough [src] to build \the [recipe.title]!"))
+			to_chat(usr, "<span class='warning'>You haven't got enough [src] to build \the [recipe.title]!</span>")
 		return FALSE
 	var/turf/dest_turf = get_turf(usr)
 
@@ -322,16 +322,16 @@
 	if(ispath(recipe.result_type, /obj/structure/window))
 		var/obj/structure/window/result_path = recipe.result_type
 		if(!valid_window_location(dest_turf, usr.dir, is_fulltile = initial(result_path.fulltile)))
-			to_chat(usr, span_warning("The [recipe.title] won't fit here!"))
+			to_chat(usr, "<span class='warning'>The [recipe.title] won't fit here!</span>")
 			return FALSE
 
 	if(recipe.one_per_turf && (locate(recipe.result_type) in dest_turf))
-		to_chat(usr, span_warning("There is another [recipe.title] here!"))
+		to_chat(usr, "<span class='warning'>There is another [recipe.title] here!</span>")
 		return FALSE
 
 	if(recipe.on_floor)
 		if(!isfloorturf(dest_turf))
-			to_chat(usr, span_warning("\The [recipe.title] must be constructed on the floor!"))
+			to_chat(usr, "<span class='warning'>\The [recipe.title] must be constructed on the floor!</span>")
 			return FALSE
 
 		for(var/obj/object in dest_turf)
@@ -344,7 +344,7 @@
 				if(!window_structure.fulltile)
 					continue
 			if(object.density || NO_BUILD & object.obj_flags)
-				to_chat(usr, span_warning("There is \a [object.name] here. You can\'t make \a [recipe.title] here!"))
+				to_chat(usr, "<span class='warning'>There is \a [object.name] here. You can\'t make \a [recipe.title] here!</span>")
 				return FALSE
 	if(recipe.placement_checks)
 		switch(recipe.placement_checks)
@@ -353,11 +353,11 @@
 				for(var/direction in GLOB.cardinals)
 					step = get_step(dest_turf, direction)
 					if(locate(recipe.result_type) in step)
-						to_chat(usr, span_warning("\The [recipe.title] must not be built directly adjacent to another!"))
+						to_chat(usr, "<span class='warning'>\The [recipe.title] must not be built directly adjacent to another!</span>")
 						return FALSE
 			if(STACK_CHECK_ADJACENT)
 				if(locate(recipe.result_type) in range(1, dest_turf))
-					to_chat(usr, span_warning("\The [recipe.title] must be constructed at least one tile away from others of its type!"))
+					to_chat(usr, "<span class='warning'>\The [recipe.title] must be constructed at least one tile away from others of its type!</span>")
 					return FALSE
 	return TRUE
 
@@ -381,11 +381,11 @@
 	if(get_amount() < amount)
 		if(singular_name)
 			if(amount > 1)
-				to_chat(user, span_warning("You need at least [amount] [singular_name]\s to do this!"))
+				to_chat(user, "<span class='warning'>You need at least [amount] [singular_name]\s to do this!</span>")
 			else
-				to_chat(user, span_warning("You need at least [amount] [singular_name] to do this!"))
+				to_chat(user, "<span class='warning'>You need at least [amount] [singular_name] to do this!</span>")
 		else
-			to_chat(user, span_warning("You need at least [amount] to do this!"))
+			to_chat(user, "<span class='warning'>You need at least [amount] to do this!</span>")
 
 		return FALSE
 
@@ -464,10 +464,6 @@
 		. = ..()
 
 /obj/item/stack/attack_hand_secondary(mob/user, modifiers)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-
 	if(is_cyborg || !user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, !iscyborg(user)) || zero_amount())
 		return SECONDARY_ATTACK_CONTINUE_CHAIN
 	var/max = get_amount()
@@ -477,7 +473,7 @@
 	if(stackmaterial == null || stackmaterial <= 0 || !user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, !iscyborg(user)))
 		return SECONDARY_ATTACK_CONTINUE_CHAIN
 	split_stack(user, stackmaterial)
-	to_chat(user, span_notice("You take [stackmaterial] sheets out of the stack."))
+	to_chat(user, "<span class='notice'>You take [stackmaterial] sheets out of the stack.</span>")
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /** Splits the stack into two stacks.
@@ -503,7 +499,7 @@
 	if(can_merge(W))
 		var/obj/item/stack/S = W
 		if(merge(S))
-			to_chat(user, span_notice("Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s."))
+			to_chat(user, "<span class='notice'>Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s.</span>")
 	else
 		. = ..()
 

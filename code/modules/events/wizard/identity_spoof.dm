@@ -8,10 +8,11 @@
 	. = ..()
 	if(.)
 		return FALSE
-	if(GLOB.current_anonymous_theme) //already anonymous, ABORT ABORT
+	if(SSticker.anonymousnames) //already anonymous, ABORT ABORT
 		return FALSE
 
 /datum/round_event/wizard/identity_spoof/start()
-	if(GLOB.current_anonymous_theme)
-		QDEL_NULL(GLOB.current_anonymous_theme)
-	GLOB.current_anonymous_theme = new /datum/anonymous_theme/wizards(extras_enabled = TRUE, alert_players = TRUE)
+	if(SSticker.anonymousnames)
+		QDEL_NULL(SSticker.anonymousnames)
+	SSticker.anonymousnames = new /datum/anonymous_theme/wizards()
+	anonymous_all_players()

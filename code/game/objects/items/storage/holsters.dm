@@ -26,8 +26,7 @@
 		/obj/item/gun/ballistic/revolver,
 		/obj/item/gun/energy/e_gun/mini,
 		/obj/item/gun/energy/disabler,
-		/obj/item/gun/energy/dueling,
-		/obj/item/food/grown/banana,
+		/obj/item/gun/energy/dueling
 		))
 
 /obj/item/storage/belt/holster/detective
@@ -50,7 +49,7 @@
 		/obj/item/ammo_box/a357,
 		/obj/item/ammo_box/a762,
 		/obj/item/ammo_box/magazine/toy/pistol,
-		/obj/item/gun/energy/e_gun/mini,
+		/obj/item/gun/energy/e_gun/mini, 
 		/obj/item/gun/energy/disabler,
 		/obj/item/gun/energy/dueling
 		))

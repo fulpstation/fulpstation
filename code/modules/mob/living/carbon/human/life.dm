@@ -79,8 +79,8 @@
 		..()
 
 /mob/living/carbon/human/breathe()
-	if(!HAS_TRAIT(src, TRAIT_NOBREATH))
-		return ..()
+	if(!dna.species.breathe(src))
+		..()
 
 /mob/living/carbon/human/check_breath(datum/gas_mixture/breath)
 

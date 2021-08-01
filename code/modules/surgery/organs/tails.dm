@@ -6,7 +6,6 @@
 	icon_state = "severedtail"
 	zone = BODY_ZONE_PRECISE_GROIN
 	slot = ORGAN_SLOT_TAIL
-	/// The sprite accessory this tail gives to the human it's attached to. If null, it will inherit its value from the human's DNA once attached.
 	var/tail_type = "None"
 
 /obj/item/organ/tail/Insert(mob/living/carbon/human/tail_owner, special = FALSE, drop_if_replaced = TRUE)
@@ -27,16 +26,13 @@
 	if(istype(tail_owner))
 		var/default_part = tail_owner.dna.species.mutant_bodyparts["tail_human"]
 		if(!default_part || default_part == "None")
-			if(tail_type)
-				tail_owner.dna.features["tail_human"] = tail_owner.dna.species.mutant_bodyparts["tail_human"] = tail_type
-				tail_owner.dna.update_uf_block(DNA_HUMAN_TAIL_BLOCK)
-			else
-				tail_owner.dna.species.mutant_bodyparts["tail_human"] = tail_owner.dna.features["tail_human"]
+			tail_owner.dna.features["tail_human"] = tail_owner.dna.species.mutant_bodyparts["tail_human"] = tail_type
 			tail_owner.update_body()
 
 /obj/item/organ/tail/cat/Remove(mob/living/carbon/human/tail_owner, special = FALSE)
 	..()
 	if(istype(tail_owner))
+		tail_owner.dna.features["tail_human"] = "None"
 		tail_owner.dna.species.mutant_bodyparts -= "tail_human"
 		color = tail_owner.hair_color
 		tail_owner.update_body()
@@ -46,7 +42,6 @@
 	desc = "A severed lizard tail. Somewhere, no doubt, a lizard hater is very pleased with themselves."
 	color = "#116611"
 	tail_type = "Smooth"
-	/// The sprite accessory this tail gives to the human it's attached to. If null, it will inherit its value from the human's DNA once attached.
 	var/spines = "None"
 
 /obj/item/organ/tail/lizard/Initialize()
@@ -59,25 +54,18 @@
 		// Checks here are necessary so it wouldn't overwrite the tail of a lizard it spawned in
 		var/default_part = tail_owner.dna.species.mutant_bodyparts["tail_lizard"]
 		if(!default_part || default_part == "None")
-			if(tail_type)
-				tail_owner.dna.features["tail_lizard"] = tail_owner.dna.species.mutant_bodyparts["tail_lizard"] = tail_type
-				tail_owner.dna.update_uf_block(DNA_LIZARD_TAIL_BLOCK)
-			else
-				tail_owner.dna.species.mutant_bodyparts["tail_lizard"] = tail_owner.dna.features["tail_lizard"]
+			tail_owner.dna.features["tail_lizard"] = tail_owner.dna.species.mutant_bodyparts["tail_lizard"] = tail_type
 
 		default_part = tail_owner.dna.species.mutant_bodyparts["spines"]
 		if(!default_part || default_part == "None")
-			if(spines)
-				tail_owner.dna.features["spines"] = tail_owner.dna.species.mutant_bodyparts["spines"] = spines
-				tail_owner.dna.update_uf_block(DNA_SPINES_BLOCK)
-			else
-				tail_owner.dna.species.mutant_bodyparts["spines"] = tail_owner.dna.features["spines"]
+			tail_owner.dna.features["spines"] = tail_owner.dna.species.mutant_bodyparts["spines"] = spines
 		tail_owner.update_body()
 
 /obj/item/organ/tail/lizard/Remove(mob/living/carbon/human/tail_owner, special = FALSE)
 	..()
 	if(istype(tail_owner))
 		tail_owner.dna.species.mutant_bodyparts -= "tail_lizard"
+		tail_owner.dna.species.mutant_bodyparts -= "spines"
 		color = "#" + tail_owner.dna.features["mcolor"]
 		tail_type = tail_owner.dna.features["tail_lizard"]
 		spines = tail_owner.dna.features["spines"]
@@ -96,8 +84,6 @@
 /obj/item/organ/tail/lizard/fake
 	name = "fabricated lizard tail"
 	desc = "A fabricated severed lizard tail. This one's made of synthflesh. Probably not usable for lizard wine."
-	tail_type = null
-	spines = null
 
 /obj/item/organ/tail/monkey
 	name = "monkey tail"
@@ -110,13 +96,12 @@
 	if(istype(tail_owner))
 		if(!("tail_monkey" in tail_owner.dna.species.mutant_bodyparts))
 			tail_owner.dna.species.mutant_bodyparts |= "tail_monkey"
-			if(tail_type)
-				tail_owner.dna.features["tail_monkey"] = tail_type
-				tail_owner.dna.update_uf_block(DNA_MONKEY_TAIL_BLOCK)
+			tail_owner.dna.features["tail_monkey"] = tail_type
 			tail_owner.update_body()
 
 /obj/item/organ/tail/monkey/Remove(mob/living/carbon/human/tail_owner, special = FALSE)
 	..()
 	if(istype(tail_owner))
+		tail_owner.dna.features["tail_monkey"] = "None"
 		tail_owner.dna.species.mutant_bodyparts -= "tail_monkey"
 		tail_owner.update_body()
