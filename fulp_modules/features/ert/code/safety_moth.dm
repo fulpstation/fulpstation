@@ -176,7 +176,7 @@
 	desc = "The standard issue riot suit belonging to Safety Moth themselves. Functions like a hardsuit, resists shoves, and offers superb protection against environmental hazards."
 	icon_state = "riot"
 	inhand_icon_state = "riot"
-	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCKS_SHOVE_KNOCKDOWN
 /obj/item/clothing/head/helmet/space/safety_moth/sec
 	name = "Safety Moth riot helmet"
 	desc = "The standard issue riot helmet belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."

@@ -64,7 +64,7 @@
 	inhand_icon_state = "ert_security"
 	icon_state = "secert_commander"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/commandersec
-	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCKS_SHOVE_KNOCKDOWN
 
 // Engineering
 
