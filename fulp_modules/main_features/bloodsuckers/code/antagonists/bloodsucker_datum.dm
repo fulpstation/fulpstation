@@ -275,15 +275,17 @@
 	BuyPower(new /datum/action/bloodsucker/masquerade)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/bloodsucker/veil)
-	/// Give Bloodsucker Traits
-	for(var/T in defaultTraits)
-		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_GENELESS, SPECIES_TRAIT)
 	// Traits: Species
 	if(iscarbon(owner.current))
 		var/mob/living/carbon/human/H = owner.current
 		var/datum/species/S = H.dna.species
 		S.species_traits += DRINKSBLOOD
+		// Remove mutations (In case they got it mid-round)
+		H.dna?.remove_all_mutations()
+	/// Give Bloodsucker Traits
+	for(var/T in defaultTraits)
+		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner.current, TRAIT_GENELESS, SPECIES_TRAIT)
 	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
