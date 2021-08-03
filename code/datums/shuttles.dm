@@ -526,7 +526,7 @@
 
 /datum/map_template/shuttle/cargo/eos
 	suffix = "eos"
-	name = "Supply Shuttle (Eos) "
+	name = "supply Shuttle (Eos)"
 
 /datum/map_template/shuttle/cargo/donut
 	suffix = "donut"
