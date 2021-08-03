@@ -264,16 +264,13 @@
 	/// Purchase Roundstart Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
-<<<<<<< HEAD
 	BuyPower(new /datum/action/bloodsucker/veil)
 	/// Give Bloodsucker Traits
 	for(var/T in defaultTraits)
 		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_GENELESS, SPECIES_TRAIT)
-=======
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/bloodsucker/veil)
->>>>>>> master
 	// Traits: Species
 	if(iscarbon(owner.current))
 		var/mob/living/carbon/human/H = owner.current
