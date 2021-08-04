@@ -31,8 +31,8 @@
 	if(!..())
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	animate(user, alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current)), time = 1.5 SECONDS)
 	// Pay Blood Toll (if awake)
-	owner.alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current))
 	if(user.stat == CONSCIOUS)
 		bloodsuckerdatum.AddBloodVolume(-0.2)
 	// Prevents running while on Cloak of Darkness
@@ -54,7 +54,7 @@
 
 /datum/action/bloodsucker/cloak/DeactivatePower(mob/living/user = owner, mob/living/target)
 	. = ..()
-	user.alpha = 255
+	animate(user, alpha = 255, time = 1 SECONDS)
 	user.RemoveElement(/datum/element/digitalcamo)
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
