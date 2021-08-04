@@ -11,7 +11,7 @@ Contains:
 
 // Beret
 
-/obj/item/clothing/head/beret/sec/medical
+/obj/item/clothing/head/fulpberet/brigphysician
 	name = "medical security beret"
 	desc = "This proud white-blue beret is a distinct color, mainly used to represent medical professionals that became part of the security department."
 	worn_icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_worn.dmi'

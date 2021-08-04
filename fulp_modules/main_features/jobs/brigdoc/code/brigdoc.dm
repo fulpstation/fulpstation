@@ -49,7 +49,7 @@
 	suit =  /obj/item/clothing/suit/toggle/labcoat/armored
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
-	head = /obj/item/clothing/head/beret/sec/medical
+	head = /obj/item/clothing/head/fulpberet/brigphysician
 	l_hand = /obj/item/storage/firstaid/medical/brigdoc
 	l_pocket = /obj/item/pda/medical
 	r_pocket = /obj/item/assembly/flash
