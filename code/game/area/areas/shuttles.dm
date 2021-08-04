@@ -99,9 +99,20 @@
 	desc = "Weeeeee"
 	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
 
+
 /area/shuttle/arrival
 	name = "Arrival Shuttle"
 	area_flags = UNIQUE_AREA// SSjob refers to this area for latejoiners
+
+
+/area/shuttle/arrival/on_joining_game(mob/living/boarder)
+	if(SSshuttle.arrivals?.mode == SHUTTLE_CALL)
+		var/atom/movable/screen/splash/Spl = new(boarder.client, TRUE)
+		Spl.Fade(TRUE)
+//		character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
+		character.playsound_local(get_turf(character), 'fulp_modules/fulp_configs/sound/ApproachingFulp.ogg', 25) // Fulpstation Config edit - Use our latejoining sound instead
+	boarder.update_parallax_teleport()
+
 
 /area/shuttle/pod_1
 	name = "Escape Pod One"
