@@ -3,20 +3,6 @@
  *	functional with little conflict.
  */
 
-
-		//	ID CARDS	//
-
-// Used to assign the HUD icon linked to the job's trim.
-/obj/item/proc/return_hud_icon()
-	var/obj/item/card/id/id_card = GetID()
-
-	var/card_assignment = id_card?.trim?.assignment
-	if (card_assignment in GLOB.fulp_job_assignments)
-		return 'fulp_modules/main_features/jobs/huds.dmi'
-	else
-		return 'icons/mob/hud.dmi'
-
-
 		//	JOBS	//
 
 /datum/job/fulp
