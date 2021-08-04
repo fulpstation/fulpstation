@@ -19,9 +19,8 @@
 	var/speed_override
 
 /datum/action/bloodsucker/targeted/haste/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
+	if(!..())
+		return FALSE
 	// Being Grabbed
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
 		if(display_error)

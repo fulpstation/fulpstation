@@ -315,8 +315,6 @@
 	if(!amSilent)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS) // Every 2 seconds
-
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
 	if(!target)

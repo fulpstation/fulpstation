@@ -28,8 +28,6 @@
 			part.generic_bleedstacks--
 	user.Jitter(5)
 
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
-
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
 /*	if(!..()) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */

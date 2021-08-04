@@ -11,9 +11,8 @@
 
 /// Must have nobody around to see the cloak
 /datum/action/bloodsucker/cloak/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
+	if(!..())
+		return FALSE
 	for(var/mob/living/M in viewers(9, owner) - owner)
 		to_chat(owner, span_warning("You may only vanish into the shadows unseen."))
 		return FALSE
@@ -40,8 +39,6 @@
 		user.toggle_move_intent()
 		to_chat(user, span_warning("You attempt to run, crushing yourself in the process."))
 		user.adjustBruteLoss(rand(5,15))
-
-	addtimer(CALLBACK(src, .proc/UsePower, user), 0.5 SECONDS)
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	if(!..())

@@ -18,9 +18,7 @@
  */
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
-	/// Default checks
-	. = ..()
-	if(!.)
+	if(!..())
 		return FALSE
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)

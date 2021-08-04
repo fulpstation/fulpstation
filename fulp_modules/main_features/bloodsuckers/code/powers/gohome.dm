@@ -18,7 +18,7 @@
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)
 	if(!..())
-		return
+		return FALSE
 	/// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)

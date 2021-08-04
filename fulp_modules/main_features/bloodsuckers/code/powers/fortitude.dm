@@ -52,9 +52,7 @@
 	if(IS_BLOODSUCKER(owner))
 		/// Pay Blood Toll (if awake)
 		if(user.stat == CONSCIOUS)
-			bloodsuckerdatum.AddBloodVolume(-0.5)
-
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
+			bloodsuckerdatum.AddBloodVolume(-0.2)
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	if(!ishuman(owner))

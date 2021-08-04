@@ -23,7 +23,7 @@
 	var/list/prev_features // For lizards and such
 
 /datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	if(!..(display_error)) // DEFAULT CHECKS
+	if(!..())
 		return FALSE
 	return TRUE
 
@@ -90,10 +90,6 @@
 	if(!..())
 		return
 	bloodsuckerdatum.AddBloodVolume(-0.2)
-	if(owner && owner.stat > CONSCIOUS) // Wait for a moment if you fell unconscious...
-		addtimer(CALLBACK(src, .proc/UsePower, user), 5 SECONDS)
-	else
-		addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()

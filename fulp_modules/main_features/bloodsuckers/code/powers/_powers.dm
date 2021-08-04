@@ -192,9 +192,11 @@
 
 /datum/action/bloodsucker/proc/ActivatePower()
 	if(amToggle)
-		UsePower(owner)
+		RegisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/UsePower)
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
+	if(amToggle)
+		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
 	UpdateButtonIcon()
 	StartCooldown()

@@ -30,13 +30,6 @@
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 	. = ..()
 
-/datum/action/bloodsucker/masquerade/UsePower(mob/living/carbon/user)
-	// Checks that we can keep using this.
-	if(!..())
-		return
-	// Check every few seconds to make sure we're still able to use the power.
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
-
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
 //	if(user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
