@@ -1,10 +1,10 @@
-/datum/species/lizard/before_equip_job(datum/job/J, mob/living/carbon/human/H)
+/datum/species/lizard/pre_equip_species_outfit(datum/job/job, mob/living/carbon/human/equipping, visuals_only = FALSE)
 
 	// What gives them the shoes
 	var/obj/item/clothing/shoes/newShoes
-	if(!(DIGITIGRADE in H.dna.species.species_traits))
+	if(!(DIGITIGRADE in equipping.dna.species.species_traits))
 		return
-	switch(J.title)
+	switch(job.title)
 
 		// Assistant
 		if("Assistant")
@@ -34,7 +34,7 @@
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		if("Deputy (Supply)")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		
+
 		// Medical
 		if("Chief Medical Officer")
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
@@ -107,8 +107,8 @@
 
 	// Deletes the stinky non-digitigrade shoes (if for some reason they spawn with them)
 
-	if(H.shoes)
-		qdel(H.shoes)
+	if(equipping.shoes)
+		qdel(equipping.shoes)
 	// Equip New
-	H.equip_to_slot_or_del(newShoes, ITEM_SLOT_FEET, TRUE)
+	equipping.equip_to_slot_or_del(newShoes, ITEM_SLOT_FEET, TRUE)
 	return ..()
