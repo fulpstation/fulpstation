@@ -11,8 +11,6 @@
 
 /// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
-	SIGNAL_HANDLER
-
 	if(!owner || AmFinalDeath)
 		return
 	// Deduct Blood
@@ -31,7 +29,7 @@
 	HandleDeath()
 	HandleStarving()
 	HandleTorpor()
-//	update_hud() // Dealt with by AddBloodVolume
+	update_hud()
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)

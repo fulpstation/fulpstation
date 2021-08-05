@@ -191,8 +191,6 @@
 		// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 		if(bloodsuckerdatum.Frenzied)
 			return
-		bloodsuckerdatum.AddBloodVolume(-bloodcost)
-	else
 		var/mob/living/carbon/human/H = owner
 		H.blood_volume -= bloodcost
 
