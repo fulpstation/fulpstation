@@ -124,7 +124,7 @@
 		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand."
 	Ventrue_desc = "As part of the Ventrue Clan, you can choose a Favorite Vassal\
 		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully! \
-		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching FinalDeath."
+		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching Final Death."
 	Vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions. \
 		Aid your master in bringing their victims here and keeping them secure.\
 		You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured."
@@ -610,10 +610,10 @@
 	Ventrue_desc = "As part of the Ventrue Clan, you can Rank Up your Favorite Vassal. \
 		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach. \
 		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve."
-	Vassal_desc = "This is a magical candle which drains at the sanity of mortals who are not under the Command of a Bloodsucker. \
+	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active. \
+		You can turn it on and off by clicking on it while you are next to it. \
 		If your Master is part of the Ventrue Clan, they utilize this machinery to upgrade their Favorite Vassal."
-	Hunter_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active. \
-		You can turn it on and off by clicking on it while you are next to it."
+	Hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
 
 /obj/structure/bloodsucker/candelabrum/Destroy()
