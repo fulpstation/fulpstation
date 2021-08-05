@@ -7,7 +7,6 @@
 	cooldown = 100
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
-	warn_constant_cost = TRUE
 	// Outfit Vars
 	var/list/original_items = list()
 	// Identity Vars

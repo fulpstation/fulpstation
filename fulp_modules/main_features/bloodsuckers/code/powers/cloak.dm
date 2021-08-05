@@ -8,7 +8,6 @@
 	cooldown = 50
 	bloodsucker_can_buy = TRUE
 	amToggle = TRUE
-	warn_constant_cost = TRUE
 	var/was_running
 
 /// Must have nobody around to see the cloak

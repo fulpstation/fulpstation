@@ -18,7 +18,6 @@
 	conscious_constant_bloodcost = TRUE
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
-	warn_constant_cost = TRUE
 	can_use_in_torpor = TRUE
 	cooldown_static = TRUE
 	must_be_concious = FALSE

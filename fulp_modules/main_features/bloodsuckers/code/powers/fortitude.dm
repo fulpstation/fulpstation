@@ -9,7 +9,6 @@
 	bloodsucker_can_buy = TRUE
 	vassal_can_buy = TRUE
 	amToggle = TRUE
-	warn_constant_cost = TRUE
 	can_use_in_torpor = TRUE
 	must_be_concious = FALSE
 	var/was_running
