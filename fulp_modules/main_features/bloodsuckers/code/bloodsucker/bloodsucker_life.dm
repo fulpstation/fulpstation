@@ -11,6 +11,8 @@
 
 /// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
+	SIGNAL_HANDLER
+	
 	if(!owner || AmFinalDeath)
 		return
 	// Deduct Blood

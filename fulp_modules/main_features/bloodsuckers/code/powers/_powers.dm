@@ -203,6 +203,8 @@
 
 ///Used by powers that are continuously active (That use amToggle)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)
+	SIGNAL_HANDLER
+	
 	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
 		return FALSE
 	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.

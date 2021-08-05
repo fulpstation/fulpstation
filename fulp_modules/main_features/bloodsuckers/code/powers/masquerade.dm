@@ -36,6 +36,7 @@
 		return
 	// PASSIVE (Done from LIFE)
 	// Don't show Pale/Dead on low blood - Don't vomit food - Don't heal.
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	if(owner.stat == CONSCIOUS) // Pay Blood Toll if awake.
 		bloodsuckerdatum.AddBloodVolume(-0.1)
 
