@@ -22,9 +22,6 @@
 			notice_healing = TRUE
 	else if(notice_healing)
 		notice_healing = FALSE
-	// In a Frenzy? Take damage, to encourage them to Feed as soon as possible, Brujah takes less Burn.
-	if(Frenzied)
-		owner.current.adjustFireLoss(my_clan == CLAN_BRUJAH ? 1 : 3)
 	// Standard Updates
 	HandleDeath()
 	HandleStarving()
