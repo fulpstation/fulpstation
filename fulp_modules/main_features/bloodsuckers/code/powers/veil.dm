@@ -89,7 +89,7 @@
 	// Checks that we can keep using this.
 	if(!..())
 		return
-	bloodsuckerdatum.AddBloodVolume(-0.2)
+	bloodsuckerdatum.AddBloodVolume(-0.1)
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()

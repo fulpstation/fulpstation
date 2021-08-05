@@ -30,6 +30,15 @@
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 	. = ..()
 
+/datum/action/bloodsucker/masquerade/UsePower(mob/living/user)
+	// Checks that we can keep using this.
+	if(!..())
+		return
+	// PASSIVE (Done from LIFE)
+	// Don't show Pale/Dead on low blood - Don't vomit food - Don't heal.
+	if(owner.stat == CONSCIOUS) // Pay Blood Toll if awake.
+		bloodsuckerdatum.AddBloodVolume(-0.1)
+
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
 //	if(user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
@@ -87,13 +96,6 @@
 	if(istype(vampheart))
 		vampheart.FakeStart()
 	return ..()
-
-/datum/status_effect/masquerade/tick()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	// PASSIVE (Done from LIFE
-	// Don't show Pale/Dead on low blood - Don't vomit food - Don't heal.
-	if(owner.stat == CONSCIOUS) // Pay Blood Toll if awake.
-		bloodsuckerdatum.AddBloodVolume(-0.1)
 
 /datum/status_effect/masquerade/on_remove(mob/living/carbon/user = owner)
 	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
