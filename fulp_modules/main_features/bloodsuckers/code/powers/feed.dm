@@ -226,7 +226,6 @@
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
 	var/mob/living/target = feed_target
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 //	if(!..()) // We're using our own checks below, becuase we have a TARGET to keep track of.
 //		return
 
@@ -261,7 +260,6 @@
 	///////////////////////////////////////////////////////////
 	// 		Handle Feeding! User & Victim Effects (per tick)
 	bloodsuckerdatum?.HandleFeeding(target, blood_take_mult)
-	vassaldatum?.HandleFeeding(target, blood_take_mult)
 	amount_taken += amSilent ? 0.3 : 1
 	if(!amSilent)
 		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute

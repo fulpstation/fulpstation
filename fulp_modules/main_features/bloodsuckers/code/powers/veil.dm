@@ -3,6 +3,7 @@
 	desc = "Disguise yourself in the illusion of another identity."
 	button_icon_state = "power_veil"
 	bloodcost = 15
+	constant_bloodcost = 0.1
 	cooldown = 100
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
@@ -83,13 +84,6 @@
 	H.update_mutant_bodyparts() // Lizard tails etc
 	H.update_hair()
 	H.update_body_parts()
-
-/datum/action/bloodsucker/veil/UsePower(mob/living/carbon/user)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	// Checks that we can keep using this.
-	if(!..())
-		return
-	bloodsuckerdatum.AddBloodVolume(-0.1)
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
 	..()

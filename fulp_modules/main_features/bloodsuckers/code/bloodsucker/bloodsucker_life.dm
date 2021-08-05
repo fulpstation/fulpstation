@@ -9,10 +9,10 @@
  * Show as dead when...
  */
 
-/// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
+/// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	SIGNAL_HANDLER
-	
+
 	if(!owner || AmFinalDeath)
 		return
 	// Deduct Blood

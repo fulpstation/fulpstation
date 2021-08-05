@@ -59,6 +59,14 @@
 
 /obj/structure/bloodsucker
 	var/mob/living/owner
+	/*
+	 *	# Descriptions
+	 *
+	 *	We use vars to add descriptions to items.
+	 *	This way we don't have to make a new /examine for each structure
+	 *	And it's easier to edit.
+	 *	Since we're beginner friendly, letting Ghosts see what Structures do is a good way to teach people how things work.
+	 */
 	var/Ghost_desc
 	var/Vamp_desc
 	var/Ventrue_desc
@@ -148,7 +156,7 @@
 	/// If it is wrenched it place, let them unwrench it.
 	if(P.tool_behaviour == TOOL_WRENCH && anchored && IS_BLOODSUCKER(user))
 		to_chat(user, span_notice("You start unwrenching the persuasion rack..."))
-		if(P.use_tool(src, user, 40, volume=50))
+		if(P.use_tool(src, user, 40, volume = 40))
 			to_chat(user, span_notice("You unwrench the persuasion rack."))
 			owner = null
 			density = TRUE

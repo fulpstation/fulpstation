@@ -4,6 +4,8 @@
 	button_icon_state = "power_fortitude"
 	bloodcost = 30
 	cooldown = 80
+	constant_bloodcost = 0.2
+	conscious_constant_bloodcost = TRUE
 	bloodsucker_can_buy = TRUE
 	vassal_can_buy = TRUE
 	amToggle = TRUE
@@ -48,11 +50,6 @@
 	/// We don't want people using fortitude being able to use vehicles
 	if(user.buckled && istype(user.buckled, /obj/vehicle))
 		user.buckled.unbuckle_mob(src, force=TRUE)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	if(IS_BLOODSUCKER(owner))
-		/// Pay Blood Toll (if awake)
-		if(user.stat == CONSCIOUS)
-			bloodsuckerdatum.AddBloodVolume(-0.2)
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	if(!ishuman(owner))

@@ -3,6 +3,8 @@
 	desc = "Blend into the shadows and become invisible to the untrained and Artificial eye. Slows you down and you cannot dissapear while mortals watch you."
 	button_icon_state = "power_cloak"
 	bloodcost = 5
+	constant_bloodcost = 0.2
+	conscious_constant_bloodcost = TRUE
 	cooldown = 50
 	bloodsucker_can_buy = TRUE
 	amToggle = TRUE
@@ -29,11 +31,7 @@
 	// Checks that we can keep using this.
 	if(!..())
 		return
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	animate(user, alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current)), time = 1.5 SECONDS)
-	// Pay Blood Toll (if awake)
-	if(user.stat == CONSCIOUS)
-		bloodsuckerdatum.AddBloodVolume(-0.2)
 	// Prevents running while on Cloak of Darkness
 	if(user.m_intent != MOVE_INTENT_WALK)
 		user.toggle_move_intent()

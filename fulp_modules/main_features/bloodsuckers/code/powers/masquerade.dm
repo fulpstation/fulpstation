@@ -14,6 +14,8 @@
 	button_icon_state = "power_human"
 	bloodcost = 10
 	cooldown = 50
+	constant_bloodcost = 0.1
+	conscious_constant_bloodcost = TRUE
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
 	warn_constant_cost = TRUE
@@ -29,16 +31,6 @@
 	bloodsuckerdatum.poweron_masquerade = TRUE
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 	. = ..()
-
-/datum/action/bloodsucker/masquerade/UsePower(mob/living/user)
-	// Checks that we can keep using this.
-	if(!..())
-		return
-	// PASSIVE (Done from LIFE)
-	// Don't show Pale/Dead on low blood - Don't vomit food - Don't heal.
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	if(owner.stat == CONSCIOUS) // Pay Blood Toll if awake.
-		bloodsuckerdatum.AddBloodVolume(-0.1)
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.

@@ -27,8 +27,13 @@
 	// Power related
 	///Can increase to yield new abilities. Each power goes up in strength each Rank.
 	var/level_current = 0
-	//var/level_max = 1
+//	var/level_max = 1
+	///The cost to ACTIVATE this Power
 	var/bloodcost
+	///The cost to MAINTAIN this Power - Only used for Constant Cost Powers
+	var/constant_bloodcost
+	///Do we have to be Conscious to pay the Constant Cost?
+	var/conscious_constant_bloodcost = FALSE
 	///For passive abilities that dont need a button - Taken from Changeling
 	var/needs_button = TRUE
 	///Bloodsuckers can purchase this when Ranking up
@@ -204,12 +209,16 @@
 ///Used by powers that are continuously active (That use amToggle)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)
 	SIGNAL_HANDLER
-	
+
 	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
 		return FALSE
 	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
 		DeactivatePower()
 		return FALSE
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	// We can keep this up (For now), so Pay Cost!
+	if(!(conscious_constant_bloodcost && user.stat != CONSCIOUS))
+		bloodsuckerdatum?.AddBloodVolume(-constant_bloodcost)
 	return TRUE
 
 /// Used by loops to make sure this power can stay active.
