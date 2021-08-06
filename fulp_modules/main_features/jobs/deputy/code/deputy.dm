@@ -2,7 +2,7 @@
 	title = "Deputy"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security")
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 0
 	spawn_positions = 0
 	supervisors = "the head of your assigned department"
@@ -35,7 +35,7 @@
 		/obj/item/crowbar/large = 1,
 		/obj/item/melee/baton/boomerang/loaded = 1,
 	)
-
+	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
 /// Engineering

@@ -2,7 +2,7 @@
 	title = "Brig Physician"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security", "Chief Medical Officer")
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of security and the chief medical officer"
@@ -35,7 +35,7 @@
 		/obj/effect/spawner/lootdrop/organ_spawner = 5,
 		/obj/effect/spawner/lootdrop/memeorgans = 1,
 	)
-
+	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE
 	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 /datum/outfit/job/brigdoc
@@ -49,7 +49,7 @@
 	suit =  /obj/item/clothing/suit/toggle/labcoat/armored
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
-	head = /obj/item/clothing/head/beret/sec/medical
+	head = /obj/item/clothing/head/fulpberet/brigphysician
 	l_hand = /obj/item/storage/firstaid/medical/brigdoc
 	l_pocket = /obj/item/pda/medical
 	r_pocket = /obj/item/assembly/flash

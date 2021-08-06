@@ -27,7 +27,7 @@ Contains:
 	desc = "A large duffel bag for holding extra supplies - this one's purpose seems to be to hold clothing."
 
 /obj/item/storage/backpack/duffelbag/sec/brigdoc_equipment/PopulateContents()
-	new /obj/item/clothing/head/beret/sec/medical(src)
+	new /obj/item/clothing/head/fulpberet/brigphysician(src)
 	new /obj/item/clothing/suit/toggle/labcoat/armored(src)
 	new /obj/item/clothing/under/rank/medical/brigdoc(src)
 	new /obj/item/clothing/under/rank/medical/brigdoc/skirt(src)
