@@ -373,9 +373,10 @@
 			if(power.active)
 				power.DeactivatePower()
 
-/datum/antagonist/bloodsucker/proc/SpendRank()
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, SpendRank = TRUE)
 	set waitfor = FALSE
 
+	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
 		return
 	/// Purchase Power Prompt
@@ -383,13 +384,18 @@
 	for(var/pickedpower in typesof(/datum/action/bloodsucker))
 		var/datum/action/bloodsucker/power = pickedpower
 		/// Check If I don't own it & I'm allowed to buy it.
-		if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
-			options[initial(power.name)] = power
+		if(!target)
+			if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
+				options[initial(power.name)] = power
+		else
+			if(!(locate(power) in vassaldatum.powers) && initial(power.vassal_can_buy))
+				options[initial(power.name)] = power
 
 	/// No powers to purchase? Abort.
 	if(options.len >= 1)
 		/// Give them the UI to purchase a power.
-		var/choice = tgui_input_list(owner.current, "You have the opportunity to grow more ancient. Select a power to advance your Rank.", "Your Blood Thickens...", options)
+		var/upgrade_message = target ? "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve." : "You have the opportunity to grow more ancient. Select a power to advance your Rank."
+		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		/// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
 		if(bloodsucker_level_unspent <= 0)
 			/// Already spent all your points, and tried opening/closing your coffin, pal.
@@ -404,14 +410,20 @@
 			return
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
-		BuyPower(new P)
-		to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))
+		if(!target)
+			BuyPower(new P)
+			to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))
+		else
+			vassaldatum.BuyPower(new P)
+			to_chat(owner.current, span_notice("You taught [target] how to use [initial(P.name)]!"))
+			to_chat(target, span_notice("Your master taught you how to use [initial(P.name)]!"))
 	/// No more powers available to purchase? Start levelling up anyways.
 	else
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
 
 	/// Advance Powers - Includes the one you just purchased.
 	LevelUpPowers()
+	vassaldatum?.LevelUpPowers()
 	/// Bloodsucker-only Stat upgrades
 	bloodsucker_regen_rate += 0.05
 	feed_amount += 2
@@ -426,101 +438,46 @@
 	owner.current.setMaxHealth(owner.current.maxHealth + 5) // Why is this a thing...
 
 	/// We're almost done - Spend your Rank now.
+	vassaldatum?.vassal_level++
 	bloodsucker_level++
-	bloodsucker_level_unspent--
+	if(SpendRank)
+		bloodsucker_level_unspent--
 
 	/// Ranked up enough? Let them join a Clan.
 	if(bloodsucker_level == 3)
 		AssignClanAndBane()
-
 	/// Alright, enough playing around, get your true Reputation.
 	if(bloodsucker_level == 4)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
-
+	if(target)
+		if(vassaldatum.vassal_level == 2)
+			ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
+			ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
+			ADD_TRAIT(target, TRAIT_AGEUSIA, BLOODSUCKER_TRAIT)
+			to_chat(target, span_notice("Your blood begins you feel cold, as ash sits on your tongue, you stop breathing..."))
+		if(vassaldatum.vassal_level == 3)
+			ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
+			ADD_TRAIT(target, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
+			to_chat(target, span_notice("You feel your Master's blood reinforce you, strengthening you up."))
+		if(vassaldatum.vassal_level == 4)
+			ADD_TRAIT(target, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+			ADD_TRAIT(target, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
+			to_chat(target, span_notice("You feel your Master's blood begin to protect you from bacteria."))
+			target.skin_tone = "albino"
+		if(vassaldatum.vassal_level == 5)
+			ADD_TRAIT(target, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
+			ADD_TRAIT(target, TRAIT_HARDLY_WOUNDED, BLOODSUCKER_TRAIT)
+			to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
+		if(vassaldatum.vassal_level == 6)
+			to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead.</span>")
+			target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
+		if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
+			set_vassal_level(target)
 	/// Done! Let them know & Update their HUD.
 	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!<br> \
 	* Your existing powers have all ranked up as well!"))
 	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
-
-/datum/antagonist/bloodsucker/proc/SpendVassalRank(mob/living/carbon/human/target, SpendRank = TRUE)
-	set waitfor = FALSE
-
-	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
-	/// Purchase Power Prompt
-	var/list/options = list()
-	for(var/pickedpower in typesof(/datum/action/bloodsucker))
-		var/datum/action/bloodsucker/power = pickedpower
-		/// Check If I don't own it & I'm allowed to buy it.
-		if(!(locate(power) in vassaldatum.powers) && initial(power.vassal_can_buy))
-			options[initial(power.name)] = power
-
-	/// No powers to purchase? Abort.
-	if(options.len >= 1)
-		/// Give them the UI to purchase a power.
-		var/choice = tgui_input_list(owner.current, "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve.", "You feel like a Leader!", options)
-		/// Did you choose a power? Do you already have it? - Added due to window stacking.
-		if(!choice || !options[choice] || (locate(options[choice]) in vassaldatum.powers))
-			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
-			return
-		/// Good to go - Buy Power!
-		var/datum/action/bloodsucker/P = options[choice]
-		vassaldatum.BuyPower(new P)
-		to_chat(owner.current, span_notice("You taught [target] how to use [initial(P.name)]!"))
-		to_chat(target, span_notice("Your master taught you how to use [initial(P.name)]!"))
-
-	else
-		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
-
-	/* # As we don't level up normally, Bloodsuckers will Rank Up themselves this way.
-	*/
-
-	/// Advance your and your Vassal's Powers - Includes the one you just purchased.
-	vassaldatum.LevelUpPowers()
-	LevelUpPowers()
-	/// Bloodsucker-only Stat upgrades
-	bloodsucker_regen_rate += 0.05
-	feed_amount += 2
-	max_blood_volume += 100
-	/// Misc. Stats Upgrades
-	if(ishuman(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		var/datum/species/S = H.dna.species
-		S.punchdamagelow += 0.5
-		/// This affects the hitting power of Brawn.
-		S.punchdamagehigh += 0.5
-	owner.current.setMaxHealth(owner.current.maxHealth + 5) // Why is this a thing...
-
-	/// We're almost done - Spend your Rank now.
-	vassaldatum.vassal_level++
-	bloodsucker_level++
-	if(SpendRank)
-		bloodsucker_level_unspent--
-
-	/// Vassals will turn more into a 'Bloodsucker' overtime
-	if(vassaldatum.vassal_level == 2)
-		ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_AGEUSIA, BLOODSUCKER_TRAIT)
-		to_chat(target, span_notice("Your blood begins you feel cold, as ash sits on your tongue, you stop breathing..."))
-	if(vassaldatum.vassal_level == 3)
-		ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-		to_chat(target, span_notice("You feel your Master's blood reinforce you, strengthening you up."))
-	if(vassaldatum.vassal_level == 4)
-		ADD_TRAIT(target, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
-		to_chat(target, span_notice("You feel your Master's blood begin to protect you from bacteria."))
-		target.skin_tone = "albino"
-	if(vassaldatum.vassal_level == 5)
-		ADD_TRAIT(target, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_HARDLY_WOUNDED, BLOODSUCKER_TRAIT)
-		to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
-	if(vassaldatum.vassal_level == 6)
-		to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead.</span>")
-		target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
-	if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
-		set_vassal_level(target)
 
 ///Set the Vassal's rank to their Bloodsucker level
 /datum/antagonist/bloodsucker/proc/set_vassal_level(mob/living/carbon/human/target)

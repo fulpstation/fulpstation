@@ -701,7 +701,7 @@
 			return
 		// Are we spending a Rank?
 		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
-			bloodsuckerdatum.SpendVassalRank(C, TRUE)
+			bloodsuckerdatum.SpendRank(C, TRUE)
 		else if(user.blood_volume >= 550)
 			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
 			to_chat(user, span_warning("Do you wish to spend 550 Blood to Rank [C] up?"))
@@ -713,7 +713,7 @@
 			switch(rank_response)
 				if("Yes")
 					user.blood_volume -= 550
-					bloodsuckerdatum.SpendVassalRank(C, FALSE)
+					bloodsuckerdatum.SpendRank(C, FALSE)
 					return
 		else
 			// Neither? Shame. Goodbye!
