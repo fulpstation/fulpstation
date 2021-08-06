@@ -183,17 +183,16 @@
 
 /datum/action/bloodsucker/UpdateButtonIcon(force = FALSE)
 	background_icon_state = active? background_icon_state_on : background_icon_state_off
-	..()
+	. = ..()
 
 /datum/action/bloodsucker/proc/PayCost()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	if(bloodsuckerdatum)
-		// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
-		if(bloodsuckerdatum.Frenzied)
-			return
-		bloodsuckerdatum.update_hud()
+	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
+	if(bloodsuckerdatum?.Frenzied)
+		return
 	var/mob/living/carbon/human/H = owner
 	H.blood_volume -= bloodcost
+	bloodsuckerdatum?.update_hud()
 
 /datum/action/bloodsucker/proc/ActivatePower()
 	if(amToggle)
