@@ -191,8 +191,9 @@
 		// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 		if(bloodsuckerdatum.Frenzied)
 			return
-		var/mob/living/carbon/human/H = owner
-		H.blood_volume -= bloodcost
+		bloodsuckerdatum.update_hud()
+	var/mob/living/carbon/human/H = owner
+	H.blood_volume -= bloodcost
 
 /datum/action/bloodsucker/proc/ActivatePower()
 	if(amToggle)

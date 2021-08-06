@@ -26,7 +26,6 @@
 	HandleDeath()
 	HandleStarving()
 	HandleTorpor()
-	update_hud()
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
