@@ -65,9 +65,9 @@
 	if(bloodcost > 0)
 		desc += "<br><br><b>COST:</b> [bloodcost] Blood"
 	if(constant_bloodcost)
-		desc += "<br><br><b>CONSTANT COST</b><i>[name] costs [constant_bloodcost] Blood maintain active.</i>"
+		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
 	if(amSingleUse)
-		desc += "<br><br><i>Useable once per night.</i>"
+		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
 	..()
 
 /*							NOTES
