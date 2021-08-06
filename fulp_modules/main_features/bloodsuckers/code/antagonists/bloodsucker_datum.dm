@@ -233,7 +233,7 @@
 		for(var/datum/antagonist/vassal/V in vassals)
 			if(V.owner)
 				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role.title]" : ""
-				report += "<b>[V.owner.name]</b> [jobname][V.favorite_vassal == TRUE ? " the <b>Favorite Vassal</b>" : ""]"
+				report += "<b>[V.owner.name]</b> [jobname][V.favorite_vassal == TRUE ? " and was the <b>Favorite Vassal</b>" : ""]"
 
 	if(objectives.len == 0 || objectives_complete)
 		report += "<span class='greentext big'>The [name] was successful!</span>"
