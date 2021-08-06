@@ -232,7 +232,7 @@
 		report += "<span class='header'>Their Vassals were...</span>"
 		for(var/datum/antagonist/vassal/V in vassals)
 			if(V.owner)
-				var/jobname = V.owner.assigned_role.title ? "the [V.owner.assigned_role]" : ""
+				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role.title]" : ""
 				report += "<b>[V.owner.name]</b> [jobname][V.favorite_vassal == TRUE ? " the <b>Favorite Vassal</b>" : ""]"
 
 	if(objectives.len == 0 || objectives_complete)
