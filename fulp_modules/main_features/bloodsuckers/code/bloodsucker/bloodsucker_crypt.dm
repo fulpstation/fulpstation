@@ -59,6 +59,135 @@
 
 /obj/structure/bloodsucker
 	var/mob/living/owner
+	/*
+	 *	# Descriptions
+	 *
+	 *	We use vars to add descriptions to items.
+	 *	This way we don't have to make a new /examine for each structure
+	 *	And it's easier to edit.
+	 *	Since we're beginner friendly, letting Ghosts see what Structures do is a good way to teach people how things work.
+	 */
+	var/Ghost_desc
+	var/Vamp_desc
+	var/Ventrue_desc
+	var/Vassal_desc
+	var/Hunter_desc
+	///Can we buckle mobs onto this?
+	var/mobs_can_be_buckled = FALSE
+	/// So we can't spam buckle people
+	var/useLock = FALSE
+
+/obj/structure/bloodsucker/examine(mob/user)
+	. = ..()
+	if(!user.mind && Ghost_desc != "")
+		. += span_cult(Ghost_desc)
+	if(IS_BLOODSUCKER(user) && Vamp_desc)
+		. += span_cult(Vamp_desc)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && Ventrue_desc)
+			. += span_cult(Ventrue_desc)
+	if(IS_VASSAL(user) && Vassal_desc != "")
+		. += span_cult(Vassal_desc)
+	if(IS_MONSTERHUNTER(user) && Hunter_desc != "")
+		. += span_cult(Hunter_desc)
+
+/obj/structure/bloodsucker/buckle_mob(mob/living/user, force = FALSE, check_loc = TRUE)
+	if(!anchored)
+		to_chat(user, span_announce("[src] is not bolted to the ground!"))
+		return FALSE
+	. = ..()
+
+/obj/structure/bloodsucker/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
+	. = ..()
+	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of [src].</span>"))
+	update_icon()
+	useLock = FALSE
+
+/obj/structure/bloodsucker/attack_hand(mob/user)
+	/// Torturing someone?
+	if(useLock)
+		return FALSE
+	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	/// Claiming the Rack instead of using it?
+	if(istype(B) && !owner)
+		if(!B.lair)
+			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
+			return FALSE
+		if(B.lair != get_area(src))
+			to_chat(user, span_danger("You may only activate this structure in your lair: [B.lair]."))
+			return FALSE
+
+		/// Radial menu for securing your Persuasion rack in place.
+		to_chat(user, span_notice("Do you wish to secure this structure here?"))
+		var/list/secure_options = list(
+			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+			)
+		var/secure_response = show_radial_menu(user, src, secure_options, radius = 36, require_near = TRUE)
+		switch(secure_response)
+			if("Yes")
+				user.playsound_local(null, 'sound/items/ratchet.ogg', 70, FALSE, pressure_affected = FALSE)
+				to_chat(user, span_danger("You have secured [src] in place."))
+				to_chat(user, span_announce("* Bloodsucker Tip: Examine [src] to understand how it functions!"))
+				register_owner(user)
+				return FALSE
+			else
+				return FALSE
+	return TRUE
+
+/obj/structure/bloodsucker/proc/register_owner(mob/living/user)
+	owner = user
+
+/obj/structure/bloodsucker/MouseDrop_T(atom/movable/O, mob/user)
+	. = ..()
+	// Please dont let them buckle Fireman carried people
+	var/mob/living/L = O
+	if(!mobs_can_be_buckled)
+		return FALSE
+	// Default checks
+	if(!O.Adjacent(src) || O == user || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated() || L.buckled)
+		return FALSE
+	if(!anchored)
+		// Let the Bloodsucker know the problem.
+		if(IS_BLOODSUCKER(user))
+			to_chat(user, span_danger("Until [src] is secured in place, it cannot serve its purpose."))
+			to_chat(user, span_announce("* Bloodsucker Tip: Examine the [src] to understand how it functions!"))
+			return FALSE
+		// Not a Bloodsucker? Not our problem.
+		else
+			to_chat(user, span_danger("You dont fully understand how this works, and you're too scared to move it around."))
+			return FALSE
+	// Don't buckle Silicon to it please.
+	if(issilicon(O))
+		return
+	// Good to go - Buckle them!
+	useLock = TRUE
+	if(do_mob(user, O, 5 SECONDS))
+		attach_victim(O,user)
+	useLock = FALSE
+	return TRUE
+
+/obj/structure/bloodsucker/proc/attach_victim(mob/living/M, mob/living/user)
+	. = ..()
+	user.visible_message(span_notice("[user] buckles [M] onto [src]."), \
+					 span_boldnotice("You buckle [M] onto [src]."))
+	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
+	M.forceMove(get_turf(src))
+
+	if(!buckle_mob(M))
+		return
+	update_icon()
+
+/obj/structure/bloodsucker/attack_hand_secondary(mob/user, list/modifiers)
+	. = ..()
+	if(!has_buckled_mobs() || !isliving(user) || useLock)
+		return FALSE
+	var/mob/living/carbon/C = pick(buckled_mobs)
+	if(C)
+		if(user == owner)
+			unbuckle_mob(C)
+		else
+			user_unbuckle_mob(C,user)
 
 /*
 /obj/structure/bloodsucker/bloodaltar
@@ -86,12 +215,25 @@
 	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "vassalrack"
 	anchored = FALSE
-	/// Start dense. Once fixed in place, go non-dense.
+	// Start dense. Once fixed in place, go non-dense.
 	density = TRUE
 	can_buckle = TRUE
+	mobs_can_be_buckled = TRUE
 	buckle_lying = 180
-	/// So we can't spam buckle people onto the rack
-	var/useLock = FALSE
+	Ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
+	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service. \
+		Clicking on the rack with an empty hand while it is in your lair will secure it in place. \
+		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them. \
+		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand."
+	Ventrue_desc = "As part of the Ventrue Clan, you can choose a Favorite Vassal\
+		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully! \
+		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching Final Death."
+	Vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions. \
+		Aid your master in bringing their victims here and keeping them secure.\
+		You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured."
+	Hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves. \
+		They usually ensure that victims are handcuffed, to prevent them from running away. \
+		Their rituals take time, allowing us to disrupt it."
 	var/mob/buckled
 	/// Resets on each new character to be added to the chair. Some effects should lower it...
 	var/convert_progress = 3
@@ -147,60 +289,15 @@
 			return
 	. = ..()
 
-/obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
-	/// Please dont let them buckle Fireman carried people
-	var/mob/living/L = O
-	/// Default checks
-	if(!O.Adjacent(src) || O == user || !isliving(user) || useLock || has_buckled_mobs() || user.incapacitated() || L.buckled)
-		return
-	/// Not anchored?
-	if(!anchored)
-		/// Let the Bloodsucker know the problem.
-		if(IS_BLOODSUCKER(user))
-			to_chat(user, span_danger("Until this rack is secured in place, it cannot serve its purpose."))
-			to_chat(user, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!"))
-			return
-		/// Not a Bloodsucker? Not our problem.
-		else
-			to_chat(user, span_danger("You dont fully understand how this works, and you're too scared to move it around."))
-			return
-	/// Don't buckle Silicon to it please.
-	if(issilicon(O))
-		to_chat(user, span_danger("You realize that Silicon cannot be vassalized, therefore it is useless to buckle them."))
-		return
-	/// Good to go - Buckle them!
-	useLock = TRUE
-	if(do_mob(user, O, 5 SECONDS))
-		attach_victim(O,user)
-	useLock = FALSE
-
-/// Attempt Release (Owner vs Non Owner)
 /obj/structure/bloodsucker/vassalrack/attack_hand_secondary(mob/user)
 	if(!user.canUseTopic(src, BE_CLOSE))
 		return
-	if(!has_buckled_mobs() || !isliving(user) || useLock)
-		return
-	var/mob/living/carbon/C = pick(buckled_mobs)
-	if(C)
-		if(user == owner)
-			unbuckle_mob(C)
-		else
-			user_unbuckle_mob(C,user)
+	. = ..()
 
 /// Attempt Buckle
-/obj/structure/bloodsucker/vassalrack/proc/attach_victim(mob/living/M, mob/living/user)
-	// Standard Buckle Check
-	M.forceMove(get_turf(src))
-	if(!buckle_mob(M))
-		return
-	user.visible_message(span_notice("[user] straps [M] into the rack, immobilizing them."), \
-			  		 span_boldnotice("You secure [M] tightly in place. They won't escape you now."))
-
-	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
-	//M.forceMove(drop_location()) <--- CANT DO! This cancels the buckle_mob() we JUST did (even if we foced the move)
+/obj/structure/bloodsucker/vassalrack/attach_victim(mob/living/M, mob/living/user)
+	. = ..()
 	density = TRUE
-	update_icon()
-
 	// Set up Torture stuff now
 	convert_progress = 3
 	disloyalty_confirm = FALSE
@@ -224,55 +321,27 @@
 	unbuckle_mob(M)
 
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
-	if(!..())
-		return
-	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack.</span>"))
+	. = ..()
 	density = FALSE
 	buckled_mob.AdjustParalyzed(3 SECONDS)
-	update_icon()
-	useLock = FALSE // Failsafe
+
+/obj/structure/bloodsucker/vassalrack/register_owner(mob/living/user)
+	. = ..()
+	density = FALSE
+	anchored = TRUE
 
 /obj/structure/bloodsucker/vassalrack/attack_hand(mob/user)
-	/// Tortiring someone?
-	if(useLock)
-		return
+	if(!..())
+		return FALSE
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	/// Claiming the Rack instead of using it?
-	if(istype(B) && !owner)
-		if(!B.lair)
-			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
-			return
-		if(B.lair != get_area(src))
-			to_chat(user, span_danger("You may only activate this structure in your lair: [B.lair]."))
-			return
-
-		/// Radial menu for securing your Persuasion rack in place.
-		to_chat(user, span_notice("Do you wish to secure this structure here?"))
-		var/list/secure_options = list(
-			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
-			)
-		var/secure_response = show_radial_menu(user, src, secure_options, radius = 36, require_near = TRUE)
-		switch(secure_response)
-			if("Yes")
-				user.playsound_local(null, 'sound/items/ratchet.ogg', 70, FALSE, pressure_affected = FALSE)
-				to_chat(user, span_danger("You have secured the Persuasion rack in place."))
-				to_chat(user, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!"))
-				owner = user
-				density = FALSE
-				anchored = TRUE
-				return
-			else
-				return
-
 	/// Is anyone on the rack?
 	if(!has_buckled_mobs())
-		return
+		return FALSE
 	var/mob/living/carbon/C = pick(buckled_mobs)
 	/// If I'm not a Bloodsucker, try to unbuckle them.
 	if(!istype(B))
 		user_unbuckle_mob(C, user)
-		return
+		return FALSE
 	var/datum/antagonist/vassal/V = IS_VASSAL(C)
 	/// Are they our Vassal, or Dead?
 	if(istype(V) && V.master == B || C.stat >= DEAD)
@@ -281,14 +350,14 @@
 			/// Limit it to only 1 time per Vassal.
 			if(istype(V) && V.mutilated)
 				to_chat(user, span_notice("You've already mutated [C] beyond repair!"))
-				return
+				return FALSE
 			tremere_perform_magic(user, C)
 			return
 		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
 		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS && (!(NOBLOOD in C.dna.species.species_traits)))
 			if(istype(V) && !B.my_favorite_vassal)
 				offer_ventrue_favorites(user, C)
-				return
+				return FALSE
 		/// Not Tremere & They're still our Vassal, let's unbuckle them.
 		unbuckle_mob(C)
 		useLock = FALSE
@@ -586,6 +655,18 @@
 	density = FALSE
 	can_buckle = TRUE
 	anchored = FALSE
+	mobs_can_be_buckled = TRUE
+	Ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals. \
+		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
+	Vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active. \
+		You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally."
+	Ventrue_desc = "As part of the Ventrue Clan, you can Rank Up your Favorite Vassal. \
+		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach. \
+		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve."
+	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active. \
+		You can turn it on and off by clicking on it while you are next to it. \
+		If your Master is part of the Ventrue Clan, they utilize this machinery to upgrade their Favorite Vassal."
+	Hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
 
 /obj/structure/bloodsucker/candelabrum/Destroy()
@@ -615,35 +696,20 @@
 		. += span_notice("You can turn it on and off by clicking on it while you are next to it.")
 
 /obj/structure/bloodsucker/candelabrum/attackby(obj/item/P, mob/living/user, params)
-	/// Goal: Non Bloodsuckers can wrench this in place, but they cant unwrench it.
-	if(P.tool_behaviour == TOOL_WRENCH && !anchored)
-		to_chat(user, span_notice("You start wrenching the candelabrum into place..."))
-		if(P.use_tool(src, user, 20, volume=50))
-			to_chat(user, span_notice("You wrench the candelabrum into place."))
-			set_anchored(TRUE)
-			density = TRUE
-		return
 	if(P.tool_behaviour == TOOL_WRENCH && anchored && IS_BLOODSUCKER(user))
 		to_chat(user, span_notice("You start unwrenching the candelabrum..."))
-		if(P.use_tool(src, user, 40, volume=50))
+		if(P.use_tool(src, user, 40, volume = 40))
 			to_chat(user, span_notice("You unwrench the candelabrum."))
 			set_anchored(FALSE)
 			density = FALSE
 			return
 	. = ..()
 
-/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user)
-	/// Are we right next to it? Let's unbuckle the person in it, then.
-	if(user.Adjacent(src))
-		if(!has_buckled_mobs() || !isliving(user))
-			return
-		var/mob/living/carbon/C = pick(buckled_mobs)
-		if(C)
-			unbuckle_mob(C,user)
+/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user, list/modifiers)
 	/// Bloodsuckers can turn their candles on from a distance.
-	else
-		if(IS_BLOODSUCKER(user))
-			toggle()
+	if(IS_BLOODSUCKER(user))
+		toggle()
+	. = ..()
 
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
 	lit = !lit
@@ -676,16 +742,18 @@
  */
 
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user)
+	if(!..())
+		return FALSE
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Checks: We're Ventrue, they're Buckled & Alive.
 	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 		if(!has_buckled_mobs())
 			toggle()
-			return
+			return FALSE
 		var/mob/living/carbon/C = pick(buckled_mobs)
 		if(C.stat >= DEAD)
 			unbuckle_mob(C)
-			return
+			return FALSE
 		// Are we spending a Rank?
 		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			bloodsuckerdatum.SpendVassalRank(C, TRUE)
@@ -705,7 +773,7 @@
 		else
 			// Neither? Shame. Goodbye!
 			to_chat(user, "<span class='danger'>You don't have any levels or enough Blood to Rank [C] up with.</span>")
-			return
+			return FALSE
 
 	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(IS_BLOODSUCKER(user) || istype(T))
@@ -715,7 +783,6 @@
 /obj/structure/bloodsucker/candelabrum/MouseDrop_T(mob/living/target, mob/user)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
-
 	/// Are you even a Bloodsucker?
 	if(!bloodsuckerdatum || !vassaldatum)
 		return
@@ -728,40 +795,7 @@
 	/// They are a Favorite vassal, but are they OUR Vassal?
 	if(!vassaldatum.master == bloodsuckerdatum)
 		return
-	/// Default checks
-	if(!target.Adjacent(src) || target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || target.buckled)
-		return
-	/// Not anchored?
-	if(!anchored)
-		/// Let the Bloodsucker know the problem.
-		if(IS_BLOODSUCKER(user))
-			to_chat(user, span_danger("Until the candelabrum is secured in place, it cannot serve its purpose."))
-			return
-		/// Not a Bloodsucker? Not our problem.
-		else
-			to_chat(user, span_danger("You dont fully understand how this works, and you're too scared to move it around."))
-			return
-
-	/// Good to go - Buckle them!
-	if(do_mob(user, target, 5 SECONDS))
-		attach_mob(target, user)
-
-/obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/M, mob/living/user)
-	user.visible_message(span_notice("[user] lifts and buckles [M] onto the candelabrum."), \
-			  		 span_boldnotice("You buckle [M] onto the candelabrum."))
-
-	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
-	M.forceMove(get_turf(src))
-
-	if(!buckle_mob(M))
-		return
-	update_icon()
-
-/// Attempt Unbuckle
-/obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	. = ..()
-	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
-	update_icon()
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
@@ -822,12 +856,7 @@
 
 // Buckling
 /obj/structure/bloodsucker/bloodthrone/buckle_mob(mob/living/user, force = FALSE, check_loc = TRUE)
-	if(!anchored)
-		to_chat(user, span_announce("[src] is not bolted to the ground!"))
-		return
 	. = ..()
-	user.visible_message(span_notice("[user] sits down on [src]."), \
-			  		 span_boldnotice("You sit down onto [src]."))
 	if(IS_BLOODSUCKER(user))
 		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
