@@ -412,11 +412,14 @@
 		var/datum/action/bloodsucker/P = options[choice]
 		if(!target)
 			BuyPower(new P)
-			owner.current.balloon_alert(owner.current, "you learned [initial(P.name)]!")
+			owner.current.balloon_alert(owner.current, "learned [initial(P.name)]!")
+			to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))
 		else
 			vassaldatum.BuyPower(new P)
-			owner.current.balloon_alert(owner.current, "you taught [initial(P.name)]!")
-			target.balloon_alert(target, "you learned [initial(P.name)]!")
+			to_chat(owner.current, span_notice("You taught [target] how to use [initial(P.name)]!"))
+			to_chat(target, span_notice("Your master taught you how to use [initial(P.name)]!"))
+			owner.current.balloon_alert(owner.current, "taught [initial(P.name)]!")
+			target.balloon_alert(target, "learned [initial(P.name)]!")
 	/// No more powers available to purchase? Start levelling up anyways.
 	else
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
