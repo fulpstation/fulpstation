@@ -26,6 +26,13 @@
 	var/pryLidTimer = 25 SECONDS
 	breakout_time = 20 SECONDS
 
+/obj/structure/closet/crate/coffin/examine()
+	. = ..()
+	if(user == resident)
+		. += span_cult("This is your Claimed Coffin.")
+		. += span_cult("Rest in it while injured to enter Torpor. Entering it with unspent Ranks will allow you to spend one.")
+		. += span_cult("AltClick while inside the Coffin to Lock/Unlock. AltClik while outside to Unclaim it, unwrenching it as a result.")
+
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
 	desc = "For those departed who are not so dear."
