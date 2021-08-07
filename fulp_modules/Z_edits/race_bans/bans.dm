@@ -7,6 +7,7 @@
 	. = ..()
 
 /datum/species/proc/check_banned(mob/living/carbon/C)
+	SIGNAL_HANDLER
 	if(is_banned_from(C.ckey, id))
 		addtimer(CALLBACK(C, /mob/living/carbon/proc/banned_species_revert), 10 SECONDS)
 		return
@@ -14,7 +15,7 @@
 /// Made into an individual proc to ensure that the to_chat message would always show to users. Sometimes it would not appear during roundstart as it would be sent too soon.
 /mob/living/carbon/proc/banned_species_revert()
 	to_chat(src, span_alert("You are currently banned from playing this race. Please review any ban messages you have received, and contact admins if you believe this is a mistake."))
-	set_species(/datum/species/human)
+	INVOKE_ASYNC(src, /mob/living/carbon.proc/set_species, /datum/species/human)
 
 /// Okay so this just overrides set_content for a browser datum so we can intercept banpanel content and just plop in what we need. God help us.
 /datum/browser/set_content(ncontent)
