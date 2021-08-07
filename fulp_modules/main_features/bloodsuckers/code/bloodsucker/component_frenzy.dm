@@ -11,8 +11,8 @@
 	bloodsuckerdatum.DisableAllPowers()
 
 	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
-		to_chat(parent, span_announce("You enter a Frenzy!<br> \
-		* While in Frenzy, you gain the ability to instantly aggressively grab people, move faster and have no blood cost on abilities.<br> \
+		user.balloon_alert(parent, "you enter frenzy!")
+		to_chat(parent, span_announce("While in Frenzy, you gain the ability to instantly aggressively grab people, move faster and have no blood cost on abilities.<br> \
 		* In exchange, you will slowly gain Burn damage, be careful of how you handle it!<br> \
 		* To leave Frenzy, simply drink enough Blood ([FRENZY_THRESHOLD_EXIT]) to exit.<br>"))
 	else
@@ -42,12 +42,10 @@
 /datum/component/bloodsucker_frenzy/Destroy(force, silent)
 	UnregisterSignal(parent, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	var/mob/living/carbon/human/user = parent
-	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
-		to_chat(parent, span_warning("You exit Frenzy."))
-	else
+	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
 		user.Dizzy(3 SECONDS)
 		user.Paralyze(2 SECONDS)
-		to_chat(parent, span_warning("You suddenly come back to your senses..."))
+	user.balloon_alert(parent, "you come back to your senses")
 	if(HAS_TRAIT(parent, TRAIT_DEAF))
 		REMOVE_TRAIT(parent, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 		REMOVE_TRAIT(parent, TRAIT_MUTE, BLOODSUCKER_TRAIT)

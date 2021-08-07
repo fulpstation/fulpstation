@@ -32,6 +32,7 @@
 	//if(blahblahblah)
 	//	Disguise_Outfit()
 	Disguise_FaceName()
+	owner.balloon_alert(owner, "veil turned on.")
 	. = ..()
 
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
@@ -85,7 +86,7 @@
 	H.update_body_parts()
 
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
-	..()
+	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 
@@ -116,6 +117,7 @@
 		H.update_body_parts()	// Body itself, maybe skin color?
 
 		cast_effect() // POOF
+	owner.balloon_alert(owner, "veil turned off.")
 
 // CAST EFFECT // General effect (poof, splat, etc) when you cast. Doesn't happen automatically!
 /datum/action/bloodsucker/veil/proc/cast_effect()

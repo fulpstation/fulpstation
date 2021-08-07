@@ -9,6 +9,7 @@
 
 /datum/action/bloodsucker/recuperate/ActivatePower(mob/living/carbon/user = owner)
 	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
+	owner.balloon_alert(owner, "recuperate turned on.")
 	. = ..()
 
 /datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user)
@@ -31,11 +32,8 @@
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
 /*	if(!..()) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */
-	if(owner.stat >= DEAD)
-		to_chat(owner, span_notice("You cannot use Recuperate while incapacitated."))
-		return FALSE
-	if(owner.incapacitated())
-		to_chat(owner, span_notice("You cannot use Recuperate while incapacitated."))
+	if(owner.stat >= DEAD || owner.incapacitated())
+		owner.balloon_alert(owner, "you are incapacitated...")
 		return FALSE
 	return TRUE
 
@@ -44,6 +42,10 @@
 		to_chat(owner, span_notice("You are dead."))
 		return FALSE
 	if(user.incapacitated())
-		to_chat(owner, span_notice("You are too exhausted to keep recuperating..."))
+		owner.balloon_alert(owner, "you are too exhausted...")
 		return FALSE
 	return TRUE
+
+/datum/action/bloodsucker/recuperate/DeactivatePower(mob/living/user = owner, mob/living/target)
+	. = ..()
+	owner.balloon_alert(owner, "recuperate turned off.")

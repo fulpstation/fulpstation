@@ -360,7 +360,7 @@
 	else
 		to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</EM>"))
 		if(bloodsucker_level_unspent >= 2)
-			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wooden planks."))
+			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power in powers)
@@ -412,11 +412,11 @@
 		var/datum/action/bloodsucker/P = options[choice]
 		if(!target)
 			BuyPower(new P)
-			to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))
+			owner.current.balloon_alert(owner.current, "you learned [initial(P.name)]!")
 		else
 			vassaldatum.BuyPower(new P)
-			to_chat(owner.current, span_notice("You taught [target] how to use [initial(P.name)]!"))
-			to_chat(target, span_notice("Your master taught you how to use [initial(P.name)]!"))
+			owner.current.balloon_alert(owner.current, "you taught [initial(P.name)]!")
+			target.balloon_alert(target, "you learned [initial(P.name)]!")
 	/// No more powers available to purchase? Start levelling up anyways.
 	else
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))

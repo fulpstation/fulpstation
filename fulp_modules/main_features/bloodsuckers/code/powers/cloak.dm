@@ -15,7 +15,7 @@
 	if(!..())
 		return FALSE
 	for(var/mob/living/M in viewers(9, owner) - owner)
-		to_chat(owner, span_warning("You may only vanish into the shadows unseen."))
+		owner.balloon_alert(owner, "you can only vanish unseen.")
 		return FALSE
 	return TRUE
 
@@ -24,6 +24,7 @@
 	if(was_running)
 		user.toggle_move_intent()
 	user.AddElement(/datum/element/digitalcamo)
+	user.balloon_alert(user, "cloak turned on.")
 	. = ..()
 
 /datum/action/bloodsucker/cloak/UsePower(mob/living/user)
@@ -33,8 +34,8 @@
 	animate(user, alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current)), time = 1.5 SECONDS)
 	// Prevents running while on Cloak of Darkness
 	if(user.m_intent != MOVE_INTENT_WALK)
+		owner.balloon_alert(owner, "you attempt to run, crushing yourself.")
 		user.toggle_move_intent()
-		to_chat(user, span_warning("You attempt to run, crushing yourself in the process."))
 		user.adjustBruteLoss(rand(5,15))
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
@@ -52,3 +53,4 @@
 	user.RemoveElement(/datum/element/digitalcamo)
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
+	user.balloon_alert(user, "cloak turned off.")

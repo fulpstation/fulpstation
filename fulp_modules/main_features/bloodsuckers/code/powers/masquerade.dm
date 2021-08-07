@@ -24,6 +24,7 @@
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
 	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
 
@@ -39,7 +40,7 @@
 
 /datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/carbon/user = owner, mob/living/target)
 	. = ..() // activate = FALSE
-
+	owner.balloon_alert(owner, "masquerade turned off.")
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	bloodsuckerdatum.poweron_masquerade = FALSE
 	user.remove_status_effect(STATUS_EFFECT_MASQUERADE)

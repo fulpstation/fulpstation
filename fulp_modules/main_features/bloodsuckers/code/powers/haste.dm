@@ -24,17 +24,17 @@
 	// Being Grabbed
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
 		if(display_error)
-			to_chat(owner, span_warning("You're being grabbed!"))
+			owner.balloon_alert(owner, "you're being grabbed!")
 		return FALSE
 	if(!owner.has_gravity(owner.loc)) //We dont want people to be able to use this to fly around in space
 		if(display_error)
-			to_chat(owner, span_warning("You cant dash while floating!"))
+			owner.balloon_alert(owner, "you cannot dash while floating!")
 		return FALSE
 	var/mob/living/user = owner
 	if(user.body_position == LYING_DOWN)
 		if(display_error)
-			to_chat(user, span_warning("You must be standing to tackle!"))
-		return
+			owner.balloon_alert(owner, "you must be standing to tackle!")
+		return FALSE
 	return TRUE
 
 /// Anything will do, if it's not me or my square
@@ -60,6 +60,7 @@
 	user.pulledby?.stop_pulling()
 	// Go to target turf
 	// DO NOT USE WALK TO.
+	owner.balloon_alert(owner, "you dash into the air!")
 	playsound(get_turf(owner), 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 	var/safety = get_dist(user, T) * 3 + 1
 	var/consequetive_failures = 0
@@ -94,7 +95,7 @@
 			L.Paralyze(0.1)
 			L.spin(10, 1)
 			if(IS_MONSTERHUNTER(L) && HAS_TRAIT(L, TRAIT_STUNIMMUNE))
-				to_chat(L, span_warning("The spinning causes you to lose focus on Flow!"))
+				L.balloon_alert(L, "your victim's blood is fatally low!")
 				for(var/datum/action/bloodsucker/power in L.actions)
 					if(power.active)
 						power.DeactivatePower()
