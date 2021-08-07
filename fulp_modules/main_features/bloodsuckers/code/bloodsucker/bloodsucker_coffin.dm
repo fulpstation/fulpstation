@@ -26,7 +26,7 @@
 	var/pryLidTimer = 25 SECONDS
 	breakout_time = 20 SECONDS
 
-/obj/structure/closet/crate/coffin/examine()
+/obj/structure/closet/crate/coffin/examine(mob/user)
 	. = ..()
 	if(user == resident)
 		. += span_cult("This is your Claimed Coffin.")

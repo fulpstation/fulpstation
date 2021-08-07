@@ -192,7 +192,8 @@
 	useLock = FALSE
 
 /// Attempt Release (Owner vs Non Owner)
-/obj/structure/bloodsucker/vassalrack/attack_hand_secondary(mob/user)
+/obj/structure/bloodsucker/vassalrack/attack_hand_secondary(mob/user, modifiers)
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(!user.canUseTopic(src, BE_CLOSE))
 		return
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
@@ -645,15 +646,17 @@
 			return
 	. = ..()
 
-/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user)
-	/// Are we right next to it? Let's unbuckle the person in it, then.
+/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user, modifiers)
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+
+	// Are we right next to it? Let's unbuckle the person in it, then.
 	if(user.Adjacent(src))
 		if(!has_buckled_mobs() || !isliving(user))
 			return
 		var/mob/living/carbon/C = pick(buckled_mobs)
 		if(C)
 			unbuckle_mob(C,user)
-	/// Bloodsuckers can turn their candles on from a distance.
+	// Bloodsuckers can turn their candles on from a distance.
 	else
 		if(IS_BLOODSUCKER(user))
 			toggle()
