@@ -14,6 +14,7 @@
 
 /// Made into an individual proc to ensure that the to_chat message would always show to users. Sometimes it would not appear during roundstart as it would be sent too soon.
 /mob/living/carbon/proc/banned_species_revert()
+	SIGNAL_HANDLER
 	to_chat(src, span_alert("You are currently banned from playing this race. Please review any ban messages you have received, and contact admins if you believe this is a mistake."))
 	INVOKE_ASYNC(src, /mob/living/carbon.proc/set_species, /datum/species/human)
 
