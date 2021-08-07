@@ -193,7 +193,9 @@
 
 /// Attempt Release (Owner vs Non Owner)
 /obj/structure/bloodsucker/vassalrack/attack_hand_secondary(mob/user, modifiers)
-	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(!user.canUseTopic(src, BE_CLOSE))
 		return
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
@@ -647,7 +649,9 @@
 	. = ..()
 
 /obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user, modifiers)
-	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 
 	// Are we right next to it? Let's unbuckle the person in it, then.
 	if(user.Adjacent(src))

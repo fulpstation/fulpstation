@@ -31,7 +31,7 @@
 	if(user == resident)
 		. += span_cult("This is your Claimed Coffin.")
 		. += span_cult("Rest in it while injured to enter Torpor. Entering it with unspent Ranks will allow you to spend one.")
-		. += span_cult("AltClick while inside the Coffin to Lock/Unlock. AltClik while outside to Unclaim it, unwrenching it as a result.")
+		. += span_cult("Alt Click while inside the Coffin to Lock/Unlock. Alt Click while outside to Unclaim it, unwrenching it as a result.")
 
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
