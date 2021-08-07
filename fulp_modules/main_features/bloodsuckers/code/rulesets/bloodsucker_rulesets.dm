@@ -56,13 +56,13 @@
 	name = "Vampiric Accident"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Warden")
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
 	required_candidates = 1
 	weight = 5
 	cost = 10
 	requirements = list(40,30,20,10,10,10,10,10,10,10)
-	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
+	// Only one per round.
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/midround/bloodsucker/acceptable(population = 0, threat = 0)
@@ -101,7 +101,7 @@
 		if(!bloodsuckermind.make_bloodsucker(M))
 			assigned -= M
 			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
-			return
+			return FALSE
 		sucker.bloodsucker_level_unspent = rand(2,3)
 		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
@@ -117,13 +117,20 @@
 	name = "Bloodsucker Breakout"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list(
+		// Command
+		"Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster",
+		// Security
+		"Warden", "Security Officer", "Detective", "Brig Physician",
+		// Deputies
+		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+	)
 	restricted_roles = list("AI","Cyborg")
 	required_candidates = 1
 	weight = 5
 	cost = 10
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
+	// Only one per round.
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/latejoin/bloodsucker/pre_execute()
@@ -137,7 +144,7 @@
 		if(!bloodsuckermind.make_bloodsucker(M))
 			assigned -= M
 			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
-			return
+			return FALSE
 		sucker.bloodsucker_level_unspent = rand(2,3)
 		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
