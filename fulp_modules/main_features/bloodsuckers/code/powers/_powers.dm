@@ -1,9 +1,9 @@
 /datum/action/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
-	///This is the FILE for the background icon
+	///This is the file for the BACKGROUND icon
 	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
-	///This is the ICON_STATE for the background icon
+	///This is the state for the background icon
 	background_icon_state = "vamp_power_off"
 	var/background_icon_state_on = "vamp_power_on"
 	var/background_icon_state_off = "vamp_power_off"
@@ -11,34 +11,33 @@
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 
-	// ACTIONS //
+	// Action Related
 	///Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
 	var/amTargetted = FALSE
 	///Can I be actively turned on and off?
 	var/amToggle = FALSE
 	///Am I removed after a single use?
 	var/amSingleUse = FALSE
-	///Am I Active?
 	var/active = FALSE
 	/// 10 ticks, 1 second.
 	var/cooldown = 20
 	/// From action.dm: next_use_time = world.time + cooldown_time
 	var/cooldownUntil = 0
 
-	// POWERS //
+	// Power related
 	///Can increase to yield new abilities. Each power goes up in strength each Rank.
 	var/level_current = 0
-	///The cost to ACTIVATE this Power
+	//var/level_max = 1
 	var/bloodcost
-	///The cost to MAINTAIN this Power - Only used for Constant Cost Powers
-	var/constant_bloodcost
-	///Do we have to be Conscious to pay the Constant Cost?
-	var/conscious_constant_bloodcost = FALSE
+	///For passive abilities that dont need a button - Taken from Changeling
+	var/needs_button = TRUE
 	///Bloodsuckers can purchase this when Ranking up
 	var/bloodsucker_can_buy = FALSE
 	///Ventrue Vassals can have this power purchased when Ranking up
 	var/vassal_can_buy = FALSE
-	///Powers that can be used in Torpor
+	///Some powers charge you for staying on. Masquerade, Cloak, Veil, etc.
+	var/warn_constant_cost = FALSE
+	///Powers that can be used in Torpor - Just Masquerade
 	var/can_use_in_torpor = FALSE
 	///Powers that can only be used while in a Frenzy - Unless you're part of Brujah
 	var/can_use_in_frenzy = FALSE
@@ -50,24 +49,19 @@
 	var/can_use_w_stake = FALSE
 	///Feed, Masquerade, and One-Shot powers don't improve their cooldown.
 	var/cooldown_static = FALSE
+	/// This goes to Vassals or Hunters, but NOT bloodsuckers. - Replaced with vassal_can_buy kept here because Monsterhunters??
+	//var/not_bloodsucker = FALSE
 	///Can't use this ability while unconcious.
 	var/must_be_concious = TRUE
-
-	// UNUSED POWER STUFF - Kept in case Swain wants to use them //
-//	var/level_max = 1
-	///For passive abilities that dont need a button - Taken from Changeling
-//	var/needs_button = TRUE
-	///This goes to Vassals or Hunters, but NOT bloodsuckers. - Replaced with vassal_can_buy kept, Monster Hunters currently can't purchase powers
-//	var/not_bloodsucker = FALSE
 
 /// Modify description to add cost.
 /datum/action/bloodsucker/New()
 	if(bloodcost > 0)
 		desc += "<br><br><b>COST:</b> [bloodcost] Blood"
-	if(constant_bloodcost)
-		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
+	if(warn_constant_cost)
+		desc += "<br><br><i>Your over-time blood consumption increases while [name] is active.</i>"
 	if(amSingleUse)
-		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
+		desc += "<br><br><i>Useable once per night.</i>"
 	..()
 
 /*							NOTES
@@ -147,7 +141,7 @@
 				to_chat(owner, span_warning("Not while you're incapacitated!"))
 			return FALSE
 	// Constant Cost (out of blood)
-	if(constant_bloodcost)
+	if(warn_constant_cost)
 		var/mob/living/L = owner
 		if(L.blood_volume <= 0)
 			if(display_error)
@@ -183,50 +177,44 @@
 
 /datum/action/bloodsucker/UpdateButtonIcon(force = FALSE)
 	background_icon_state = active? background_icon_state_on : background_icon_state_off
-	. = ..()
+	..()
 
 /datum/action/bloodsucker/proc/PayCost()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
-	if(bloodsuckerdatum?.Frenzied)
-		return
-	var/mob/living/carbon/human/H = owner
-	H.blood_volume -= bloodcost
-	bloodsuckerdatum?.update_hud()
+	if(bloodsuckerdatum)
+		// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
+		if(bloodsuckerdatum.Frenzied)
+			return
+		bloodsuckerdatum.AddBloodVolume(-bloodcost)
+	else
+		var/mob/living/carbon/human/H = owner
+		H.blood_volume -= bloodcost
 
 /datum/action/bloodsucker/proc/ActivatePower()
 	if(amToggle)
-		RegisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/UsePower)
+		UsePower(owner)
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
-	if(amToggle)
-		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
 	UpdateButtonIcon()
 	StartCooldown()
 
 ///Used by powers that are continuously active (That use amToggle)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)
-	SIGNAL_HANDLER
-
 	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
 		return FALSE
 	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
 		DeactivatePower()
 		return FALSE
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	// We can keep this up (For now), so Pay Cost!
-	if(!(conscious_constant_bloodcost && user.stat != CONSCIOUS))
-		bloodsuckerdatum?.AddBloodVolume(-constant_bloodcost)
 	return TRUE
 
-/// Checks to make sure this power can stay active
+/// Used by loops to make sure this power can stay active.
 /datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)
 	if(!active)
 		return FALSE
 	if(!user)
 		return FALSE
-	if(!constant_bloodcost || user.blood_volume > 0)
+	if(!warn_constant_cost || user.blood_volume > 0)
 		return TRUE
 
 /// Used to unlearn Go Home ability
