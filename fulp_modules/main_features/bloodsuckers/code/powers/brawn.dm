@@ -113,7 +113,6 @@
 							  span_userdanger("[user] has landed a horrifying punch on you, sending you flying!"), null, COMBAT_MESSAGE_RANGE)
 			target.Knockdown(min(5, rand(10, 10 * powerlevel)))
 		// Attack!
-		owner.balloon_alert(owner, "you punch [target]!")
 		playsound(get_turf(target), 'sound/weapons/punch4.ogg', 60, 1, -1)
 		user.do_attack_animation(target, ATTACK_EFFECT_SMASH)
 		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(target.zone_selected))
@@ -131,28 +130,29 @@
 		if(level_current >= 3)
 			var/obj/machinery/door/D = target
 			playsound(get_turf(usr), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
-			owner.balloon_alert(owner, "you prepare to tear open [D]")
+			to_chat(user, span_notice("You prepare to tear open [D]."))
 			if(do_mob(usr, target, 2.5 SECONDS))
 				if(D.Adjacent(user))
-					D.balloon_alert_to_viewers("breaks open as [user] bashes it!")
+					to_chat(user, span_notice("You tear open the [D]."))
 					user.Stun(10)
 					user.do_attack_animation(D, ATTACK_EFFECT_SMASH)
 					playsound(get_turf(D), 'sound/effects/bang.ogg', 30, 1, -1)
 					D.open(2) // open(2) is like a crowbar or jaws of life.
 		else
-			owner.balloon_alert(owner, "you're too weak for this!")
+			to_chat(user, span_notice("You are not strong enough to pry this open."))
 			return FALSE
 	// Target Type: Locker
 	else if(istype(target, /obj/structure/closet))
 		if(level_current >= 2)
 			var/obj/structure/closet/C = target
-			user.balloon_alert(user, "you prepare to bash [C] open")
+			to_chat(user, span_notice("You prepare to break [C] open."))
 			if(do_mob(usr, target, 2.5 SECONDS))
-				C.balloon_alert_to_viewers("breaks open as [user] bashes it!")
+				C.visible_message(span_warning("[C] breaks open as [user] bashes the locker!"))
+				to_chat(user, span_warning("We bash [C] wide open!"))
 				addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
 				playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		else
-			owner.balloon_alert(owner, "you're too weak for this!")
+			to_chat(user, span_notice("You are not strong enough to break this open."))
 			return FALSE
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)

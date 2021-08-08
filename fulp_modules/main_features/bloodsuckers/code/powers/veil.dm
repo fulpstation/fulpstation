@@ -3,10 +3,10 @@
 	desc = "Disguise yourself in the illusion of another identity."
 	button_icon_state = "power_veil"
 	bloodcost = 15
-	constant_bloodcost = 0.1
 	cooldown = 100
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
+	warn_constant_cost = TRUE
 	// Outfit Vars
 	var/list/original_items = list()
 	// Identity Vars
@@ -23,7 +23,7 @@
 	var/list/prev_features // For lizards and such
 
 /datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	if(!..())
+	if(!..(display_error)) // DEFAULT CHECKS
 		return FALSE
 	return TRUE
 
@@ -32,7 +32,6 @@
 	//if(blahblahblah)
 	//	Disguise_Outfit()
 	Disguise_FaceName()
-	owner.balloon_alert(owner, "veil turned on.")
 	. = ..()
 
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
@@ -85,8 +84,19 @@
 	H.update_hair()
 	H.update_body_parts()
 
+/datum/action/bloodsucker/veil/UsePower(mob/living/carbon/user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	// Checks that we can keep using this.
+	if(!..())
+		return
+	bloodsuckerdatum.AddBloodVolume(-0.2)
+	if(owner && owner.stat > CONSCIOUS) // Wait for a moment if you fell unconscious...
+		addtimer(CALLBACK(src, .proc/UsePower, user), 5 SECONDS)
+	else
+		addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
+
 /datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
-	. = ..()
+	..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 
@@ -117,7 +127,6 @@
 		H.update_body_parts()	// Body itself, maybe skin color?
 
 		cast_effect() // POOF
-	owner.balloon_alert(owner, "veil turned off.")
 
 // CAST EFFECT // General effect (poof, splat, etc) when you cast. Doesn't happen automatically!
 /datum/action/bloodsucker/veil/proc/cast_effect()
