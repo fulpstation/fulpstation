@@ -18,15 +18,3 @@
 
 /datum/antagonist/rev
 	tips = REVOLUTIONARY_TIPS
-
-/datum/antagonist/traitor
-	tips = TRAITOR_TIPS
-
-/datum/antagonist/wizard
-	tips = WIZARD_TIPS
-
-/datum/antagonist/wizard/apprentice
-	tips = WIZARD_APPRENTICE_TIPS
-
-/datum/antagonist/wizard/imposter
-	tips = IMPOSTER_TIPS

@@ -38,7 +38,7 @@
 	var/mob/living/L = owner
 	if(L.is_mouth_covered())
 		if(display_error)
-			to_chat(owner, span_warning("You cannot feed with your mouth covered! Remove your mask."))
+			owner.balloon_alert(owner, "your mouth is covered!")
 		return FALSE
 	// Find my Target!
 	if(!FindMyTarget(display_error)) // Sets feed_target within after Validating
@@ -174,11 +174,11 @@
 	feed_time = max(8, feed_time)
 
 	if(amSilent)
-		to_chat(user, span_notice("You lean quietly toward [target] and secretly draw out your fangs..."))
+		owner.balloon_alert(owner, "you quietly lean towards [target]")
 	else
-		to_chat(user, span_warning("You pull [target] close to you and draw out your fangs..."))
+		owner.balloon_alert(owner, "you pull [target] close to you!")
 	if(!do_mob(user, target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
-		to_chat(user, span_warning("Your feeding was interrupted."))
+		owner.balloon_alert(owner, "your feeding was interrupted!")
 		DeactivatePower(user)
 		return
 	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
@@ -206,9 +206,9 @@
 				was_unnoticed = FALSE
 				break
 		if(was_unnoticed)
-			to_chat(user, span_notice("You think no one saw you..."))
+			owner.balloon_alert(owner, "you think no one saw you...")
 		else
-			to_chat(user, span_warning("Someone may have noticed..."))
+			owner.balloon_alert(owner, "someone may have noticed...")
 
 	else						 // /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mobs)
 		user.visible_message(span_warning("[user] closes [user.p_their()] mouth around [target]'s neck!"), \
@@ -226,7 +226,6 @@
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
 	var/mob/living/target = feed_target
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 //	if(!..()) // We're using our own checks below, becuase we have a TARGET to keep track of.
 //		return
 
@@ -261,7 +260,6 @@
 	///////////////////////////////////////////////////////////
 	// 		Handle Feeding! User & Victim Effects (per tick)
 	bloodsuckerdatum?.HandleFeeding(target, blood_take_mult)
-	vassaldatum?.HandleFeeding(target, blood_take_mult)
 	amount_taken += amSilent ? 0.3 : 1
 	if(!amSilent)
 		ApplyVictimEffects(target) // Sleep, paralysis, immobile, unconscious, and mute
@@ -294,19 +292,19 @@
 	// Blood Remaining? (Carbons/Humans only)
 	else if(!IS_BLOODSUCKER(target))
 		if(target.blood_volume <= BLOOD_VOLUME_BAD && warning_target_bloodvol > BLOOD_VOLUME_BAD)
-			to_chat(user, "<span class='warning'>Your victim's blood volume is fatally low!</span>")
+			owner.balloon_alert(owner, "your victim's blood is fatally low!")
 		else if(target.blood_volume <= BLOOD_VOLUME_OKAY && warning_target_bloodvol > BLOOD_VOLUME_OKAY)
-			to_chat(user, "<span class='warning'>Your victim's blood volume is dangerously low.</span>")
+			owner.balloon_alert(owner, "your victim's blood is dangerously low.")
 		else if(target.blood_volume <= BLOOD_VOLUME_SAFE && warning_target_bloodvol > BLOOD_VOLUME_SAFE)
-			to_chat(user, "<span class='notice'>Your victim's blood is at an unsafe level.</span>")
+			owner.balloon_alert(owner, "your victim's blood is at an unsafe level.")
 		warning_target_bloodvol = target.blood_volume // If we had a warning to give, it's been given by now.
 	// Full?
 	if(bloodsuckerdatum && user.blood_volume >= bloodsuckerdatum.max_blood_volume && !warning_full)
-		to_chat(user, "<span class='notice'>You are full. Further blood will be wasted.</span>")
+		owner.balloon_alert(owner, "you are full, further blood will be wasted.")
 		warning_full = TRUE
 	// Done?
 	if(target.blood_volume <= 0)
-		to_chat(user, "<span class='notice'>You have bled your victim dry.</span>")
+		owner.balloon_alert(owner, "you have bled your victim dry...")
 		DeactivatePower(user)
 		return
 
@@ -314,8 +312,6 @@
 	owner.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 	if(!amSilent)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
-
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS) // Every 2 seconds
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
