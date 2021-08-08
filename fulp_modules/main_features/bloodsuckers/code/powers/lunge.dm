@@ -18,9 +18,7 @@
  */
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
-	/// Default checks
-	. = ..()
-	if(!.)
+	if(!..())
 		return FALSE
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
@@ -101,16 +99,16 @@
 	/// We got a target?
 	/// Am I next to my target to start giving the effects?
 	if(user.Adjacent(target))
+		// Did I slip?
+		if(!user.body_position == STANDING_UP)
+			return
 		// Is my target a Monster hunter?
 		if(IS_MONSTERHUNTER(target))
-			to_chat(owner, span_warning("You get pushed away as you advance, and fail to get a strong grasp!"))
+			owner.balloon_alert(owner, "you get pushed away!")
 			target.grabbedby(owner)
 			return
 
-		to_chat(owner, span_warning("You lunge at [target] in attempts to grab them!"))
-		if(!user.body_position == STANDING_UP)
-			to_chat(owner, span_warning("You slip mid-lunge and fall over!"))
-			return
+		owner.balloon_alert(owner, "you lunge at [target]!")
 		/// Good to go!
 		target.Stun(10 + level_current * 5)
 		// Instantly aggro grab them if they don't have riot gear.
@@ -128,15 +126,12 @@
 			crit_wound.apply_wound(chest)
 			owner.visible_message(
 				span_warning("[owner] tears into [target]'s chest!"),
-				span_warning("You tear into [target]'s chest!")
-				)
+				span_warning("You tear into [target]'s chest!"),
+			)
 			var/obj/item/organ/heart/myheart_now = locate() in target.internal_organs
 			if(myheart_now)
 				myheart_now.Remove(target)
 				user.put_in_hands(myheart_now)
-				to_chat(owner, span_warning("You tear [myheart_now] out of [target]!"))
-			else
-				to_chat(user, span_notice("[target] doesn't have a heart to rip out!"))
 	// Lastly, did we get knocked down by the time we did this?
 	if(user && user.incapacitated())
 		if(!(user.body_position == LYING_DOWN))

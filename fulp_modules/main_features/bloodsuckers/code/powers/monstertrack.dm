@@ -19,7 +19,6 @@
 	if(give_pinpointer)
 		user.apply_status_effect(STATUS_EFFECT_HUNTERPINPOINTER)
 	display_proximity()
-	PayCost()
 	// NOTE: DON'T DEACTIVATE!
 	//DeactivatePower()
 	. = ..()

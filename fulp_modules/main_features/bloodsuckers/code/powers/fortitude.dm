@@ -4,16 +4,18 @@
 	button_icon_state = "power_fortitude"
 	bloodcost = 30
 	cooldown = 80
+	constant_bloodcost = 0.2
+	conscious_constant_bloodcost = TRUE
 	bloodsucker_can_buy = TRUE
 	vassal_can_buy = TRUE
 	amToggle = TRUE
-	warn_constant_cost = TRUE
 	can_use_in_torpor = TRUE
 	must_be_concious = FALSE
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
 /datum/action/bloodsucker/fortitude/ActivatePower(mob/living/user = owner)
+	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(user, span_notice("Your flesh, skin, and muscles become as steel."))
 	// Traits & Effects
 	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
@@ -43,18 +45,11 @@
 	/// Prevents running while on Fortitude
 	if(user.m_intent != MOVE_INTENT_WALK)
 		user.toggle_move_intent()
-		to_chat(user, "<span class='warning'>You attempt to run, crushing yourself in the process.</span>")
+		user.balloon_alert(user, "you attempt to run, crushing yourself.")
 		user.adjustBruteLoss(rand(5,15))
 	/// We don't want people using fortitude being able to use vehicles
 	if(user.buckled && istype(user.buckled, /obj/vehicle))
 		user.buckled.unbuckle_mob(src, force=TRUE)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	if(IS_BLOODSUCKER(owner))
-		/// Pay Blood Toll (if awake)
-		if(user.stat == CONSCIOUS)
-			bloodsuckerdatum.AddBloodVolume(-0.5)
-
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
 
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	if(!ishuman(owner))
@@ -75,6 +70,7 @@
 
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
+	owner.balloon_alert(owner, "fortitude turned off.")
 	return ..()
 
 /// Monster Hunter version

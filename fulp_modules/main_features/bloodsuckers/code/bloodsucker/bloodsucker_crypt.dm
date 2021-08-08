@@ -59,6 +59,33 @@
 
 /obj/structure/bloodsucker
 	var/mob/living/owner
+	/*
+	 *	# Descriptions
+	 *
+	 *	We use vars to add descriptions to items.
+	 *	This way we don't have to make a new /examine for each structure
+	 *	And it's easier to edit.
+	 *	Since we're beginner friendly, letting Ghosts see what Structures do is a good way to teach people how things work.
+	 */
+	var/Ghost_desc
+	var/Vamp_desc
+	var/Ventrue_desc
+	var/Vassal_desc
+	var/Hunter_desc
+
+/obj/structure/bloodsucker/examine(mob/user)
+	. = ..()
+	if(!user.mind && Ghost_desc != "")
+		. += span_cult(Ghost_desc)
+	if(IS_BLOODSUCKER(user) && Vamp_desc)
+		. += span_cult(Vamp_desc)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && Ventrue_desc)
+			. += span_cult(Ventrue_desc)
+	if(IS_VASSAL(user) && Vassal_desc != "")
+		. += span_cult(Vassal_desc)
+	if(IS_MONSTERHUNTER(user) && Hunter_desc != "")
+		. += span_cult(Hunter_desc)
 
 /*
 /obj/structure/bloodsucker/bloodaltar
@@ -90,6 +117,20 @@
 	density = TRUE
 	can_buckle = TRUE
 	buckle_lying = 180
+	Ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
+	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service. \
+		Clicking on the rack with an empty hand while it is in your lair will secure it in place. \
+		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them. \
+		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand."
+	Ventrue_desc = "As part of the Ventrue Clan, you can choose a Favorite Vassal\
+		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully! \
+		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching Final Death."
+	Vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions. \
+		Aid your master in bringing their victims here and keeping them secure.\
+		You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured."
+	Hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves. \
+		They usually ensure that victims are handcuffed, to prevent them from running away. \
+		Their rituals take time, allowing us to disrupt it."
 	/// So we can't spam buckle people onto the rack
 	var/useLock = FALSE
 	var/mob/buckled
@@ -106,30 +147,6 @@
 	new /obj/item/stack/rods(loc, 4)
 	qdel(src)
 
-/obj/structure/bloodsucker/vassalrack/examine(mob/user)
-	. = ..()
-	if(!user.mind)
-		. += span_cult("This is a vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions.")
-		return
-	if(IS_BLOODSUCKER(user))
-		. += span_cult("This is the vassal rack, which allows you to thrall crewmembers into loyal minions in your service.")
-		. += span_cult("Clicking on the rack with an empty hand while it is in your lair will secure it in place.")
-		. += span_cult("Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.")
-		. += span_cult("To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.")
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-			. += span_cult("As part of the Ventrue Clan, you can choose a Favorite Vassal.")
-			. += span_cult("Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!")
-			. += span_cult("This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching FinalDeath.")
-	if(IS_VASSAL(user))
-		. += span_notice("This is the vassal rack, which allows your master to thrall crewmembers into their minions.")
-		. += span_notice("Aid your master in bringing their victims here and keeping them secure.")
-		. += span_notice("You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured.")
-	if(IS_MONSTERHUNTER(user))
-		. += span_cult("This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.")
-		. += span_cult("They usually ensure that victims are handcuffed, to prevent them from running away.")
-		. += span_cult("Their rituals take time, allowing us to disrupt it.")
-
 /obj/structure/bloodsucker/vassalrack/attackby(obj/item/P, mob/living/user, params)
 	/// If a Bloodsucker tries to wrench it in place, yell at them.
 	if(P.tool_behaviour == TOOL_WRENCH && !anchored && IS_BLOODSUCKER(user))
@@ -139,7 +156,7 @@
 	/// If it is wrenched it place, let them unwrench it.
 	if(P.tool_behaviour == TOOL_WRENCH && anchored && IS_BLOODSUCKER(user))
 		to_chat(user, span_notice("You start unwrenching the persuasion rack..."))
-		if(P.use_tool(src, user, 40, volume=50))
+		if(P.use_tool(src, user, 40, volume = 40))
 			to_chat(user, span_notice("You unwrench the persuasion rack."))
 			owner = null
 			density = TRUE
@@ -175,7 +192,10 @@
 	useLock = FALSE
 
 /// Attempt Release (Owner vs Non Owner)
-/obj/structure/bloodsucker/vassalrack/attack_hand_secondary(mob/user)
+/obj/structure/bloodsucker/vassalrack/attack_hand_secondary(mob/user, modifiers)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(!user.canUseTopic(src, BE_CLOSE))
 		return
 	if(!has_buckled_mobs() || !isliving(user) || useLock)
@@ -285,7 +305,10 @@
 			tremere_perform_magic(user, C)
 			return
 		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
-		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS && (!(NOBLOOD in C.dna.species.species_traits)))
+		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS)
+			if(!C.mind.can_make_bloodsucker(C))
+				to_chat(user, span_notice("[C] cannot be turned into a Favorite Vassal!"))
+				return FALSE
 			if(istype(V) && !B.my_favorite_vassal)
 				offer_ventrue_favorites(user, C)
 				return
@@ -586,6 +609,17 @@
 	density = FALSE
 	can_buckle = TRUE
 	anchored = FALSE
+	Ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals. \
+		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
+	Vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active. \
+		You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally."
+	Ventrue_desc = "As part of the Ventrue Clan, you can Rank Up your Favorite Vassal. \
+		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach. \
+		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve."
+	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active. \
+		You can turn it on and off by clicking on it while you are next to it. \
+		If your Master is part of the Ventrue Clan, they utilize this machinery to upgrade their Favorite Vassal."
+	Hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
 
 /obj/structure/bloodsucker/candelabrum/Destroy()
@@ -595,24 +629,6 @@
 /obj/structure/bloodsucker/candelabrum/update_icon_state()
 	icon_state = "candelabrum[lit ? "_lit" : ""]"
 	return ..()
-
-/obj/structure/bloodsucker/candelabrum/examine(mob/user)
-	. = ..()
-	if(isobserver(user))
-		. += span_cult("This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals")
-		. += span_cult("Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance.")
-		return
-	if(IS_BLOODSUCKER(user))
-		. += span_cult("This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.")
-		. += span_cult("You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally.")
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-			. += span_cult("As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.")
-			. += span_cult("Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.")
-			. += span_cult("Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.")
-	if(IS_VASSAL(user))
-		. += span_notice("This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.")
-		. += span_notice("You can turn it on and off by clicking on it while you are next to it.")
 
 /obj/structure/bloodsucker/candelabrum/attackby(obj/item/P, mob/living/user, params)
 	/// Goal: Non Bloodsuckers can wrench this in place, but they cant unwrench it.
@@ -632,15 +648,19 @@
 			return
 	. = ..()
 
-/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user)
-	/// Are we right next to it? Let's unbuckle the person in it, then.
+/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user, modifiers)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+
+	// Are we right next to it? Let's unbuckle the person in it, then.
 	if(user.Adjacent(src))
 		if(!has_buckled_mobs() || !isliving(user))
 			return
 		var/mob/living/carbon/C = pick(buckled_mobs)
 		if(C)
 			unbuckle_mob(C,user)
-	/// Bloodsuckers can turn their candles on from a distance.
+	// Bloodsuckers can turn their candles on from a distance.
 	else
 		if(IS_BLOODSUCKER(user))
 			toggle()
@@ -688,7 +708,7 @@
 			return
 		// Are we spending a Rank?
 		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
-			bloodsuckerdatum.SpendVassalRank(C, TRUE)
+			bloodsuckerdatum.SpendRank(C, TRUE)
 		else if(user.blood_volume >= 550)
 			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
 			to_chat(user, span_warning("Do you wish to spend 550 Blood to Rank [C] up?"))
@@ -700,7 +720,7 @@
 			switch(rank_response)
 				if("Yes")
 					user.blood_volume -= 550
-					bloodsuckerdatum.SpendVassalRank(C, FALSE)
+					bloodsuckerdatum.SpendRank(C, FALSE)
 					return
 		else
 			// Neither? Shame. Goodbye!
@@ -773,18 +793,13 @@
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
+	Ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals. \
+		This can only be used when wrenched in, and can only be wrenched in place, in a Bloodsucker's base."
+	Vamp_desc = "This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
+	Vassal_desc = "This is a Blood throne, it allows your Master to telepathically speak to you and others like you."
+	Hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on. \
+		While buckled, Monsters can use this to telepathically communicate with eachother."
 	var/mutable_appearance/armrest
-
-/obj/structure/bloodsucker/bloodthrone/examine(mob/user)
-	. = ..()
-	if(isobserver(user))
-		. += span_cult("This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals.")
-		. += span_cult("This can only be used when wrenched in, and can only be wrenched in place, in a Bloodsucker's base.")
-		return
-	if(IS_BLOODSUCKER(user))
-		. += span_cult("This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking.")
-	if(IS_VASSAL(user))
-		. += span_notice("This is a Blood throne, it allows your Master to telepathically speak to you and others like you.")
 
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()

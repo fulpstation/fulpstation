@@ -12,9 +12,8 @@
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
+	if(!..())
+		return FALSE
 	if(owner.notransform || !get_turf(owner))
 		return FALSE
 
@@ -46,7 +45,7 @@
 		if(iswallturf(from_turf))
 			if (display_error)
 				var/wallwarning = (i == 1) ? "in the way" : "at your destination"
-				to_chat(owner, span_warning("There is a solid wall [wallwarning]."))
+				owner.balloon_alert(owner, "There is a solid wall [wallwarning].")
 			return FALSE
 	// Done
 	target_turf = from_turf
