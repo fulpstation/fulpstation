@@ -6,23 +6,32 @@
 		else
 			to_chat(owner, "This [src] has already been claimed by another.")
 		return FALSE
-	owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
-	owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
-	owner.teach_crafting_recipe(/datum/crafting_recipe/bloodthrone)
-	owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
+	if(!(/datum/crafting_recipe/vassalrack in owner?.learned_recipes))
+		owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
+		owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
+		owner.teach_crafting_recipe(/datum/crafting_recipe/bloodthrone)
+		owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
+		owner.current.balloon_alert(owner.current, "new recipes learned!")
+		to_chat(owner, span_danger("You learned new recipes - You can view them in the Tribal section of the crafting menu!"))
 	// This is my Lair
 	coffin = claimed
 	lair = get_area(claimed)
 	to_chat(owner, span_userdanger("You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair]."))
-	to_chat(owner, span_danger("You have learned new construction recipes to improve your lair."))
 	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Misc tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
 	return TRUE
 
 /// From crate.dm
 /obj/structure/closet/crate
-	var/mob/living/resident /// This lets bloodsuckers claim any "closet" as a Coffin.
+	var/mob/living/resident /// This lets bloodsuckers claim any "crate" as a Coffin.
 	var/pryLidTimer = 25 SECONDS
 	breakout_time = 20 SECONDS
+
+/obj/structure/closet/crate/coffin/examine(mob/user)
+	. = ..()
+	if(user == resident)
+		. += span_cult("This is your Claimed Coffin.")
+		. += span_cult("Rest in it while injured to enter Torpor. Entering it with unspent Ranks will allow you to spend one.")
+		. += span_cult("Alt Click while inside the Coffin to Lock/Unlock. Alt Click while outside to Unclaim it, unwrenching it as a result.")
 
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
@@ -82,7 +91,7 @@
 
 //////////////////////////////////////////////
 
-/// NOTE: This can be any Coffin that you are resting AND inside of.
+/// NOTE: This can be any coffin that you are resting AND inside of.
 /obj/structure/closet/crate/coffin/proc/ClaimCoffin(mob/living/claimant)
 	// Bloodsucker Claim
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -90,7 +99,7 @@
 		// Successfully claimed?
 		if(bloodsuckerdatum.ClaimCoffin(src))
 			resident = claimant
-			anchored = 1
+			anchored = TRUE
 			START_PROCESSING(SSprocessing, src)
 
 /obj/structure/closet/crate/coffin/Destroy()
@@ -98,8 +107,7 @@
 	STOP_PROCESSING(SSprocessing, src)
 	return ..()
 
-/// Don't make on_gain() wait for this function to finish. This lets this code run on the side.
-/obj/structure/closet/crate/process(mob/living/user)
+/obj/structure/closet/crate/coffin/process(mob/living/user)
 	if(!..())
 		return FALSE
 	if(user in src)
@@ -153,6 +161,8 @@
 					area_turfs -= T*/
 
 /obj/structure/closet/crate/proc/UnclaimCoffin()
+	// Unanchor it (If it hasn't been broken, anyway)
+	anchored = FALSE
 	if(resident)
 		// Unclaiming
 		if(resident.mind)
@@ -182,18 +192,19 @@
 		return FALSE
 	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
 	if(user in src)
+		if(!IS_BLOODSUCKER(user))
+			return FALSE
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum)
-			LockMe(user)
-			if(!bloodsuckerdatum.coffin && !resident)
-				switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
-					if("Yes")
-						ClaimCoffin(user)
-			/// Level up? Auto-Fails if not appropriate - Ventrue cannot level up in a Coffin.
-			if(bloodsuckerdatum.my_clan != CLAN_VENTRUE)
-				bloodsuckerdatum.SpendRank()
-			/// You're in a Coffin, everything else is done, you're likely here to heal. Let's offer them the oppertunity to do so.
-			bloodsuckerdatum.Check_Begin_Torpor()
+		LockMe(user)
+		if(!bloodsuckerdatum.coffin && !resident)
+			switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
+				if("Yes")
+					ClaimCoffin(user)
+		/// Level up? Auto-Fails if not appropriate - Ventrue cannot level up in a Coffin.
+		if(bloodsuckerdatum.my_clan != CLAN_VENTRUE)
+			bloodsuckerdatum.SpendRank()
+		/// You're in a Coffin, everything else is done, you're likely here to heal. Let's offer them the oppertunity to do so.
+		bloodsuckerdatum.Check_Begin_Torpor()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
@@ -217,12 +228,22 @@
 		user.visible_message(span_notice("[user] snaps the door of [src] wide open."), \
 							  span_notice("The door of [src] snaps open."))
 		return
-	..()
+	. = ..()
 
 /// Distance Check (Inside Of)
 /obj/structure/closet/crate/coffin/AltClick(mob/user)
 	if(user in src)
 		LockMe(user, !locked)
+	else if(user == resident)
+		balloon_alert(user, "unclaim coffin?")
+		var/list/unclaim_options = list(
+			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
+			)
+		var/unclaim_response = show_radial_menu(user, src, unclaim_options, radius = 36, require_near = TRUE)
+		switch(unclaim_response)
+			if("Yes")
+				UnclaimCoffin()
 
 /obj/structure/closet/crate/proc/LockMe(mob/user, inLocked = TRUE)
 	if(user == resident)
