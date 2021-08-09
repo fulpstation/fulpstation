@@ -39,8 +39,10 @@
 /datum/crafting_recipe/metalcoffin
 	name = "Metal Coffin"
 	result = /obj/structure/closet/crate/coffin/metalcoffin
-	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER)
-	reqs = list(/obj/item/stack/sheet/iron = 5)
+	reqs = list(
+		/obj/item/stack/sheet/iron = 6,
+		/obj/item/stack/rods = 2,
+	)
 	time = 10 SECONDS
 	category = CAT_PRIMAL
 
