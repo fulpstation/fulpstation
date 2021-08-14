@@ -56,7 +56,12 @@
 	name = "Vampiric Accident"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Warden")
+	protected_roles = list(
+		// Command
+		"Captain", "Head of Personnel", "Head of Security",
+		// Security
+		"Warden", "Security Officer", "Detective", "Brig Physician",
+	)
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
 	required_candidates = 1
 	weight = 5
