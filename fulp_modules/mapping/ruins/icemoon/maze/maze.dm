@@ -6,31 +6,32 @@
 		/obj/structure/statue/diamond/captain = 1,
 		/obj/structure/statue/diamond/ai1 = 2,
 		/obj/structure/statue/elder_atmosian  = 1,,
-		/obj/structure/statue/uranium/eng = 2,
+		/obj/structure/statue/uranium/eng = 1,
 		/obj/structure/statue/silver/janitor = 2,
 		/obj/structure/statue/silver/sec = 2,
 		/obj/structure/statue/silver/md = 2,
 		/obj/structure/statue/sandstone/assistant = 2,
-		/obj/structure/statue/petrified = 4,
-		/mob/living/simple_animal/hostile/statue = 2
+		/obj/structure/statue/petrified = 5,
+		/mob/living/simple_animal/hostile/statue/weak = 2
 	)
 
 /obj/effect/spawner/lootdrop/wall
 	name = "secret passage spawner"
 	loot = list(
-		/turf/closed/wall = 99,
+		/turf/closed/wall = 24,
 		/obj/structure/falsewall = 1,
 	)
 
 /mob/living/simple_animal/hostile/statue/weak
-	maxHealth = 500
-	health = 500
+	maxHealth = 1000
+	health = 1000
 	healable = 0
 	harm_intent_damage = 10
 	obj_damage = 15
 	melee_damage_lower = 68
 	melee_damage_upper = 83
 	search_objects = 0
+	faction = list("statue", "spiders")
 
 /obj/effect/mob_spawn/human/ethereal/museum_refugee
 	death = FALSE
@@ -42,18 +43,23 @@
 	name = "Whatever the etheral planet is refugee"
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
-	short_desc = "You are a refugee form that one ethereal planet I forgot the name of again"
-	flavour_text = "After years of civil war, you and your fellow whatever the caste for it is decided to flee your home planet. Your cryo pods have landed in a long-abandoned museum on ice moon."
+	short_desc = "You are a refugee from Sprout, the home planet of ethereals."
+	flavour_text = "After years of civil war, you and your fellow musician-caste ethereal decided to flee your home planet. Your cryo pods have landed in a long-abandoned museum on ice moon. While your new home has everything you need, the creaks and thuds in the halls make you wonder how abandoned it truly is."
 
-/datum/map_template/ruin/icemoon/underground/fulp/maze
+/datum/map_template/ruin/space/beef_station
 	name = "Maze Museum"
 	id = "Maze Museum"
-	description = "It's a museum and a maze"
+	description = "I'll do this part later"
 	suffix = "maze_museum.dmm"
+
+/datum/map_template/ruin/icemoon/maze_museum
+	name = "Maze Museum"
+	id = "Maze Museum"
+	description = "An art spawner for etherals"
+	suffix = "icemoon_underground_maze_museum.dmm"
 
 /area/ruin/powered/ethereal_maze
 	name = "Museum"
 	icon_state = "dk_yellow"
 
-/area/ruin/unpowered
-	name = "Maze"
+
