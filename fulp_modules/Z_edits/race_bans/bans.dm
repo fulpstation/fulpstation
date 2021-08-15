@@ -23,6 +23,7 @@
 	to_chat(src, span_alert("You are currently banned from playing this race. Please review any ban messages you have received, and contact admins if you believe this is a mistake."))
 	set_species(/datum/species/human)
 
+
 /// Okay so this just overrides set_content for a browser datum so we can intercept banpanel content and just plop in what we need. God help us.
 /datum/browser/set_content(ncontent)
 	if(window_id == "banpanel") // Intercept ONLY the ban panel
@@ -33,17 +34,16 @@
 
 		// Literally copypasted code from sql_ban_system.dm apart from removing one variable that can't be noted. This has the side effect of not telling admins if someone is
 		// already banned from a fulp ban (I assume)
-		for(var/department in GLOB.fulp_ban_list) // For each list within the list...
-			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
-			break_counter = 0
-			for(var/job in GLOB.fulp_ban_list[department]) // Go to each element and add it with a little checkbox underneath the relevant "Department"
-				if(break_counter > 0 && (break_counter % 10 == 0))
-					output += "<br>"
-				output += {"<label class='inputlabel checkbox'>[job]
-							<input type='checkbox' name='[job]' class='[department]' value='1'>
-							<div class='inputbox'></div></label>
-				"}
-				break_counter++
+		for(var/department_name in GLOB.fulp_ban_list)
+			if(break_counter > 0 && (break_counter % 3 == 0))
+				output += "<br>"
+			break_counter++
+			var/job_name = GLOB.fulp_ban_list[department_name]
+			output += {"<label class='inputlabel checkbox'>[job_name]
+						<input type='checkbox' name='[job_name]' class='[department_name]' value='1'>
+						<div class='inputbox'></div></label>
+					"}
+
 			output += "</div></div>"
 		output += "</div>"
 		output += "</form>"
@@ -52,8 +52,3 @@
 
 		ncontent = splicetext(ncontent, closing_form_index, 0, jointext(output, ""))
 	. = ..()
-
-
-
-
-
