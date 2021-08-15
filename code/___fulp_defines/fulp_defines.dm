@@ -10,6 +10,9 @@
 #define ROLE_BLOODSUCKER "Bloodsucker"
 /// Monster Hunters - Defines the role for preferences
 #define ROLE_MONSTERHUNTER "Monster Hunter"
+/// Used for banning people from playing certain races
+#define RACE_FELINID "Felinid Race"
+#define RACE_ETHEREAL "Ethereal Race"
 
 /*
  *	Source Trait Defines
@@ -38,10 +41,17 @@
 #define TRAIT_COLDBLOODED "coldblooded"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
+/// Used for determining the rate at which a bloodsucker regens
+#define BS_BLOOD_VOLUME_MAX_REGEN 700
+/// Frenzy Thresholds
+#define FRENZY_THRESHOLD_NORMAL 25
+#define FRENZY_THRESHOLD_HIGHER 200
+#define FRENZY_THRESHOLD_EXIT 250
 /// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
 #define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
+#define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
 /* Clan defines
 */
 /// More prone to Frenzy & Brawn/Punches deal more damage
@@ -56,10 +66,10 @@
 #define CLAN_MALKAVIAN "Malkavian Clan"
 /* Clan defines
 */
-#define TREMERE_SKELETON "Skeleton Pirate"
+// Tremere
 #define TREMERE_ZOMBIE "Zombie - Revives"
 #define TREMERE_HUSK "Husk - Drinks all their Blood"
-#define TREMERE_BAT "Bat - Chance to give them Bat form"
+#define TREMERE_BAT "Bat - Bat Form"
 
 /*
  *	Deputy Defines

@@ -61,10 +61,10 @@
 		if(ishuman(src.loc))
 			var/mob/living/carbon/human/H = src.loc
 			if(H.wear_suit != src)
-				to_chat(H, "<span class='warning'>You must be wearing [src] to put up the hood!</span>")
+				to_chat(H, span_warning("You must be wearing [src] to put up the hood!"))
 				return
 			if(H.head)
-				to_chat(H, "<span class='warning'>You're already wearing something on your head!</span>")
+				to_chat(H, span_warning("You're already wearing something on your head!"))
 				return
 			else if(H.equip_to_slot_if_possible(hood,ITEM_SLOT_HEAD,0,0,1))
 				suittoggled = TRUE
@@ -297,7 +297,7 @@
 
 		if("fly")
 			new /obj/item/clothing/suit/hooded/onesie/fly(src)
-			new	/obj/item/toy/plush/beeplushie(src)//John this being here is 100% your fault!
+			new	/obj/item/toy/plush/fly(src)
 			new	/obj/item/melee/flyswatter(src)//A plushie of another and a flyswatter? Poor Fly
 
 		if("lizard")

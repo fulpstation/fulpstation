@@ -42,15 +42,15 @@
 		flipped = !flipped
 		if(flipped)
 			icon_state = "sidehat_right"
-			to_chat(user, "<span class='notice'>You flip the hat to the right.</span>")
+			to_chat(user, span_notice("You flip the hat to the right."))
 		else
 			icon_state = "sidehat_left"
-			to_chat(user, "<span class='notice'>You flip the hat back to the left.</span>")
+			to_chat(user, span_notice("You flip the hat back to the left."))
 		usr.update_inv_head()	//so our mob-overlays update
 
 /obj/item/clothing/head/gothlita_purple/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>Alt-click the hat to flip it [flipped ? "left" : "right"].</span>"
+	. += span_notice("Alt-click the hat to flip it [flipped ? "left" : "right"].")
 
 /obj/item/clothing/gloves/gothlita_purple
 	name = "purple Gothlita gloves"

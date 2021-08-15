@@ -4,8 +4,8 @@
 #define TIME_BLOODSUCKER_NIGHT 600
 /// 1.5 minutes
 #define TIME_BLOODSUCKER_DAY_WARN 90
-/// 25 seconds
-#define TIME_BLOODSUCKER_DAY_FINAL_WARN 25
+/// 30 seconds
+#define TIME_BLOODSUCKER_DAY_FINAL_WARN 30
 /// 5 seconds
 #define TIME_BLOODSUCKER_BURN_INTERVAL 5
 
@@ -18,6 +18,10 @@
 /obj/effect/sunlight/Initialize()
 	. = ..()
 	START_PROCESSING(SSprocessing, src)
+
+/obj/effect/sunlight/Destroy()
+	STOP_PROCESSING(SSprocessing, src)
+	return ..()
 
 /obj/effect/sunlight/process()
 	/// Update all Bloodsucker sunlight huds
@@ -38,13 +42,13 @@
 					if(!istype(M) || !istype(M.current))
 						continue
 					var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
-					if(istype(bloodsuckerdatum))
-						/// Rank up! Must still be in a coffin to level!
+					if(bloodsuckerdatum)
+						// Rank up! Must still be in a coffin to level!
 						bloodsuckerdatum.RankUp()
 		if(time_til_cycle <= 1)
-			warn_daylight(5,"<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
-					  	  "<span class = 'announce'>The solar flare has ended, and the daylight danger has passed...for now.</span>",\
-						  "")
+			warn_daylight(5, span_announce("The solar flare has ended, and the daylight danger has passed...for now."), \
+				span_announce("The solar flare has ended, and the daylight danger has passed...for now."), \
+				"")
 			amDay = FALSE
 			issued_XP = FALSE
 			time_til_cycle = TIME_BLOODSUCKER_NIGHT
@@ -55,8 +59,6 @@
 				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 				if(!istype(bloodsuckerdatum))
 					continue
-				/// Sol is over? Check if they're in a Coffin or not, and End Torpor if they aren't.
-				bloodsuckerdatum.Check_End_Torpor()
 				bloodsuckerdatum.warn_sun_locker = FALSE
 				bloodsuckerdatum.warn_sun_burn = FALSE
 				for(var/datum/action/bloodsucker/P in bloodsuckerdatum.powers)
@@ -66,46 +68,49 @@
 	else
 		switch(time_til_cycle)
 			if(TIME_BLOODSUCKER_DAY_WARN)
-				warn_daylight(1,"<span class = 'danger'>Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b></span>",\
-					  "",\
-					  "")
+				warn_daylight(1, span_danger("Solar Flares will bombard the station with dangerous UV in [TIME_BLOODSUCKER_DAY_WARN / 60] minutes. <b>Prepare to seek cover in a coffin or closet.</b>"), \
+					"", \
+					"")
 				give_home_power()
 			if(TIME_BLOODSUCKER_DAY_FINAL_WARN)
 				message_admins("BLOODSUCKER NOTICE: Daylight beginning in [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds.)")
-				warn_daylight(2,"<span class = 'userdanger'>Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!</span>",\
-							"<span class = 'danger'>In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!</span>",\
-							"")
+				warn_daylight(2, span_userdanger("Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!"), \
+					span_danger("In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!"), \
+					"")
 			if(TIME_BLOODSUCKER_BURN_INTERVAL)
-				warn_daylight(3,"<span class = 'userdanger'>Seek cover, for Sol rises!</span>",\
-				"",\
-				"")
+				warn_daylight(3, span_userdanger("Seek cover, for Sol rises!"), \
+					"", \
+					"")
 			if(0)
 				amDay = TRUE
 				time_til_cycle = TIME_BLOODSUCKER_DAY
-				warn_daylight(4,"<span class = 'userdanger'>Solar flares bombard the station with deadly UV light!</span><br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!</span>",\
-				"<span class = 'userdanger'>Solar flares bombard the station with UV light!</span>",\
-				"<span class = 'userdanger'>The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!</span>")
+				warn_daylight(4, span_userdanger("Solar flares bombard the station with deadly UV light!<br><span class = ''>Stay in cover for the next [TIME_BLOODSUCKER_DAY / 60] minutes or risk Final Death!"), \
+					span_userdanger("Solar flares bombard the station with UV light!"), \
+					span_userdanger("The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!"))
 				message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
 
 /obj/effect/sunlight/proc/warn_daylight(danger_level =0, vampwarn = "", vassalwarn = "", hunteralert = "")
 	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M))
 			continue
-		to_chat(M,vampwarn)
+		to_chat(M, vampwarn)
 		if(M.current)
-			if(danger_level == 1)
-				M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
-			else if(danger_level == 2)
-				M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
-			else if(danger_level == 3)
-				M.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
-			else if(danger_level == 4)
-				M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
-			else if(danger_level == 5)
-				M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
+			switch(danger_level)
+				if(1)
+					M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
+				if(2)
+					M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
+				if(3)
+					M.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
+				if(4)
+					M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
+				if(5)
+					M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
 	if(vassalwarn != "")
 		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/vassal))
 			if(!istype(M))
+				continue
+			if(M.has_antag_datum(/datum/antagonist/bloodsucker))
 				continue
 			to_chat(M,vassalwarn)
 	if(hunteralert != "")
@@ -130,7 +135,7 @@
 				continue
 			else
 				if(!bloodsuckerdatum.warn_sun_locker)
-					to_chat(M, "<span class='warning'>Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment.</span>")
+					to_chat(M, span_warning("Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment."))
 					bloodsuckerdatum.warn_sun_locker = TRUE
 				M.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2) // M.current.fireloss += 0.5 + bloodsuckerdatum.bloodsucker_level / 2  //  Do DIRECT damage. Being spaced was causing this to not occur. setFireLoss(bloodsuckerdatum.bloodsucker_level)
 				M.current.updatehealth()
@@ -139,9 +144,9 @@
 		else
 			if(!bloodsuckerdatum.warn_sun_burn)
 				if(bloodsuckerdatum.bloodsucker_level > 0)
-					to_chat(M, "<span class='userdanger'>The solar flare sets your skin ablaze!</span>")
+					to_chat(M, span_userdanger("The solar flare sets your skin ablaze!"))
 				else
-					to_chat(M, "<span class='userdanger'>The solar flare scalds your neophyte skin!</span>")
+					to_chat(M, span_userdanger("The solar flare scalds your neophyte skin!"))
 				bloodsuckerdatum.warn_sun_burn = TRUE
 			if(M.current.fire_stacks <= 0)
 				M.current.fire_stacks = 0

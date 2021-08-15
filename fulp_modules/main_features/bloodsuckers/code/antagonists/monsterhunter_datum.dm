@@ -39,7 +39,6 @@
 		/// Give Hunter Objective
 		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
 		monsterhunter_objective.owner = owner
-		monsterhunter_objective.generate_objective()
 		objectives += monsterhunter_objective
 		/// Give Theft Objective
 		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
@@ -81,7 +80,7 @@
 	/// Remove Martial Arts
 	if(my_kungfu)
 		my_kungfu.remove(owner.current)
-	to_chat(owner.current, "<span class='userdanger'>Your hunt has ended: You enter retirement, and are no longer a Monster Hunter.</span>")
+	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
 
 /// Mind version
@@ -119,10 +118,10 @@
 	objectives -= O
 
 /datum/antagonist/monsterhunter/greet()
-	to_chat(owner.current, "<span class='userdanger'>After witnessing recent events on the station, we return to your old profession, we are a Monster Hunter!</span>")
-	to_chat(owner.current, "<span class='announce'>While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>.</span><br>")
-	to_chat(owner.current, "<span class='announce'>However, security WILL detain us if they discover our mission.</span><br>")
-	to_chat(owner.current, "<span class='announce'>In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection.</span><br>")
+	to_chat(owner.current, span_userdanger("After witnessing recent events on the station, we return to your old profession, we are a Monster Hunter!"))
+	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
+	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))
+	to_chat(owner.current, span_announce("In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection."))
 	owner.current.playsound_local(null, 'sound/effects/his_grace_ascend.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
@@ -172,11 +171,11 @@
 	if(monsters.len)
 		/// Point at a 'random' monster, biasing heavily towards closer ones.
 		scan_target = pickweight(monsters)
-		to_chat(owner, "<span class='warning'>You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b></span>")
+		to_chat(owner, span_warning("You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b>"))
 	else
 		scan_target = null
 
 /datum/status_effect/agent_pinpointer/hunter_edition/Destroy()
 	if(scan_target)
-		to_chat(owner, "<span class='notice'>You've lost the trail.</span>")
+		to_chat(owner, span_notice("You've lost the trail."))
 	..()

@@ -126,7 +126,7 @@
 
 /// Beefmen Datum
 /datum/outfit/job/deputy/beefman
-	uniform = /obj/item/clothing/under/bodysash/deputy
+	uniform = /obj/item/clothing/under/bodysash/security/deputy
 
 /// Shirt
 /obj/item/clothing/under/rank/security/officer/mallcop
@@ -289,8 +289,8 @@
 	if(department)
 		skill_name = "[department] deputy"
 		skill_description = "Recognizes [department] as their home, making them feel happy in it, and tends to be harsher on criminals with their grabs."
-		activate_message = "<span class='notice'>You suddenly feel safe in [department].</span>"
-		deactivate_message = "<span class='notice'>[department] no longer feels safe.</span>"
+		activate_message = span_notice("You suddenly feel safe in [department].")
+		deactivate_message = span_notice("[department] no longer feels safe.")
 	style = new
 
 /obj/item/skillchip/job/deputy/on_activate(mob/living/carbon/user, silent = FALSE)

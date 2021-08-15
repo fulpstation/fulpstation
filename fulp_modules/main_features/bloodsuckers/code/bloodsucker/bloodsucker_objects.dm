@@ -6,15 +6,15 @@
 /obj/item/reagent_containers/blood/attack(mob/M, mob/user, def_zone)
 	if(reagents.total_volume > 0)
 		if(user != M)
-			user.visible_message("<span class='notice'>[user] forces [M] to drink from the [src].</span>", \
-							  	"<span class='notice'>You put the [src] up to [M]'s mouth.</span>")
+			user.visible_message(span_notice("[user] forces [M] to drink from the [src]."), \
+							  	span_notice("You put the [src] up to [M]'s mouth."))
 			if(!do_mob(user, M, 5 SECONDS))
 				return
 		else
 			if(!do_mob(user, M, 1 SECONDS))
 				return
-			user.visible_message("<span class='notice'>[user] puts the [src] up to their mouth.</span>", \
-		  		"<span class='notice'>You take a sip from the [src].</span>")
+			user.visible_message(span_notice("[user] puts the [src] up to their mouth."), \
+		  		span_notice("You take a sip from the [src]."))
 		// Safety: In case you spam clicked the blood bag on yourself, and it is now empty (below will divide by zero)
 		if(reagents.total_volume <= 0)
 			return
@@ -66,13 +66,13 @@
 /obj/item/organ/heart/vampheart/HeartStrengthMessage()
 	if(fakingit)
 		return "a healthy"
-	return "<span class='danger'>no</span>"
+	return span_danger("no")
 
 /// Proc for the default (Non-Bloodsucker) Heart!
 /obj/item/organ/heart/proc/HeartStrengthMessage()
 	if(beating)
 		return "a healthy"
-	return "<span class='danger'>an unstable</span>"
+	return span_danger("an unstable")
 
 //////////////////////
 //      EYES        //
@@ -112,16 +112,13 @@
 /// Crafting
 /obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params)
 	if(W.get_sharpness())
-		user.visible_message("[user] begins whittling [src] into a pointy object.", \
-				 "<span class='notice'>You begin whittling [src] into a sharp point at one end.</span>", \
-				 "<span class='italics'>You hear wood carving.</span>")
+		user.visible_message("[user] begins whittling [src] into a pointy object.", span_notice("You begin whittling [src] into a sharp point at one end."), "<span class='italics'>You hear wood carving.</span>")
 		// 8 Second Timer
 		if(!do_after(user, 8 SECONDS, src, NONE, TRUE))
 			return
 		// Make Stake
 		var/obj/item/stake/new_item = new(user.loc)
-		user.visible_message("[user] finishes carving a stake out of [src].", \
-				 "<span class='notice'>You finish carving a stake out of [src].</span>")
+		user.visible_message("[user] finishes carving a stake out of [src].", span_notice("You finish carving a stake out of [src]."))
 		// Prepare to Put in Hands (if holding wood)
 		var/obj/item/stack/sheet/mineral/wood/N = src
 		var/replace = (user.get_inactive_held_item() == N)
@@ -133,7 +130,7 @@
 	if(istype(W, merge_type))
 		var/obj/item/stack/S = W
 		if(merge(S))
-			to_chat(user, "<span class='notice'>Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s.</span>")
+			to_chat(user, span_notice("Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s."))
 	else
 		. = ..()
 
@@ -183,18 +180,18 @@
 	var/mob/living/carbon/C = target
 	// Needs to be Down/Slipped in some way to Stake.
 	if(!C.can_be_staked() || target == user) // Oops! Can't.
-		to_chat(user, "<span class='danger'>You can't stake [target] when they are moving about! They have to be laying down or grabbed by the neck!</span>")
+		to_chat(user, span_danger("You can't stake [target] when they are moving about! They have to be laying down or grabbed by the neck!"))
 		return
 	if(HAS_TRAIT(C, TRAIT_PIERCEIMMUNE))
-		to_chat(user, "<span class='danger'>[target]'s chest resists the stake. It won't go in.</span>")
+		to_chat(user, span_danger("[target]'s chest resists the stake. It won't go in."))
 		return
-	to_chat(user, "<span class='notice'>You put all your weight into embedding the stake into [target]'s chest...</span>")
+	to_chat(user, span_notice("You put all your weight into embedding the stake into [target]'s chest..."))
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
 	if(!do_mob(user, C, staketime, extra_checks = CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
-	user.visible_message("<span class='danger'>[user.name] drives the [src] into [target]'s chest!</span>", \
-			 "<span class='danger'>You drive the [src] into [target]'s chest!</span>")
+	user.visible_message(span_danger("[user.name] drives the [src] into [target]'s chest!"), \
+			 span_danger("You drive the [src] into [target]'s chest!"))
 	playsound(get_turf(target), 'sound/effects/splat.ogg', 40, 1)
 	user.dropItemToGround(src, TRUE) //user.drop_item() // "drop item" doesn't seem to exist anymore. New proc is user.dropItemToGround() but it doesn't seem like it's needed now?
 	if(tryEmbed(target.get_bodypart(BODY_ZONE_CHEST), TRUE, TRUE)) //and if it embeds successfully in their chest, cause a lot of pain
@@ -210,7 +207,7 @@
 				bloodsucker.FinalDeath()
 				return
 			else
-				to_chat(target, "<span class='userdanger'>You have been staked! Your powers are useless, your death forever, while it remains in place.</span>")
+				to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
 
 /// Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/carbon/proc/can_be_staked()
