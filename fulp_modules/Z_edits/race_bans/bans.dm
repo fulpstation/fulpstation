@@ -34,7 +34,7 @@
 		// Literally copypasted code from sql_ban_system.dm apart from removing one variable that can't be noted. This has the side effect of not telling admins if someone is
 		// already banned from a fulp ban (I assume)
 		for(var/department in GLOB.fulp_ban_list) // For each list within the list...
-			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
+			output += "<div class='column'><label class='rolegroup long [ckey(department)]'>[department]</label><div class='content'>"
 			break_counter = 0
 			for(var/job in GLOB.fulp_ban_list[department]) // Go to each element and add it with a little checkbox underneath the relevant "Department"
 				if(break_counter > 0 && (break_counter % 10 == 0))
