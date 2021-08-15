@@ -37,10 +37,10 @@
 	death = FALSE
 	roundstart = FALSE
 	random = TRUE
-	mob_name = "Museum refugee"
+	mob_name = "Sprout Planet refugee"
 	mob_species = /datum/species/ethereal
 	mob_type = /mob/living/carbon/human/species/ethereal
-	name = "Whatever the etheral planet is refugee"
+	name = "Sprout Planet Refugee"
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
 	short_desc = "You are a refugee from Sprout, the home planet of ethereals."
