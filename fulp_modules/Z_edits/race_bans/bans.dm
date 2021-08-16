@@ -1,8 +1,22 @@
-/datum/species/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
-	if(is_banned_from(C.ckey, id))
-		addtimer(CALLBACK(C, /mob/living/carbon/proc/banned_species_revert), 5 SECONDS)
-		return
+/// Case 1: Mob Login. Species are set before mobs are given a mind so we cant just use on_species_gain()
+/mob/sync_mind()
 	. = ..()
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		H?.dna?.species.check_banned(H)
+
+/// Case 2: Species Change. People can change their species midgame so we have to add this check aswell. sync_mind() only happens on login
+/datum/species/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
+	. = ..()
+	check_banned(C)
+
+/datum/species/proc/check_banned(mob/living/carbon/C)
+	if(!C.ckey) // Checking for the value instead of using C?.ckey since it's immediately sent to a proc
+		return
+
+	if(is_banned_from(C.ckey, id))
+		addtimer(CALLBACK(C, /mob/living/carbon/proc/banned_species_revert), 10 SECONDS)
+		return
 
 /// Made into an individual proc to ensure that the to_chat message would always show to users. Sometimes it would not appear during roundstart as it would be sent too soon.
 /mob/living/carbon/proc/banned_species_revert()
