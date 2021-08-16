@@ -306,7 +306,7 @@
 			return
 		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
 		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS)
-			if(!C.mind.can_make_bloodsucker(C))
+			if(!C.mind.can_make_bloodsucker(C.mind))
 				to_chat(user, span_notice("[C] cannot be turned into a Favorite Vassal!"))
 				return FALSE
 			if(istype(V) && !B.my_favorite_vassal)

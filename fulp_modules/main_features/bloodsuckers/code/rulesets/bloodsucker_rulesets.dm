@@ -56,13 +56,16 @@
 	name = "Vampiric Accident"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list(
+		"Captain", "Head of Personnel", "Head of Security",// "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", // Command can roll Midround.
+		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
+		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+	)
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
 	required_candidates = 1
 	weight = 5
 	cost = 10
 	requirements = list(40,30,20,10,10,10,10,10,10,10)
-	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/midround/bloodsucker/acceptable(population = 0, threat = 0)
@@ -74,7 +77,7 @@
 		log_game("DYNAMIC: Too many living antags compared to living players ([antag_count] living antags, [player_count] living players, [max_suckers] max bloodsuckers)")
 		return FALSE
 	if(!prob(mode.threat_level))
-		log_game("DYNAMIC: Random chance to roll autotraitor failed, it was a [mode.threat_level]% chance.")
+		log_game("DYNAMIC: Random chance to roll bloodsucker failed, it was a [mode.threat_level]% chance.")
 		return FALSE
 
 	return ..()
@@ -101,7 +104,7 @@
 		if(!bloodsuckermind.make_bloodsucker(M))
 			assigned -= M
 			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
-			return
+			return FALSE
 		sucker.bloodsucker_level_unspent = rand(2,3)
 		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
@@ -117,13 +120,16 @@
 	name = "Bloodsucker Breakout"
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
-	protected_roles = list("Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", "Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",)
+	protected_roles = list(
+		"Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster",
+		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
+		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+	)
 	restricted_roles = list("AI","Cyborg")
 	required_candidates = 1
 	weight = 5
 	cost = 10
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	/// We should preferably not just have several Bloodsucker midrounds, as they are nerfed hard due to missing Sols.
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/latejoin/bloodsucker/pre_execute()
@@ -137,7 +143,7 @@
 		if(!bloodsuckermind.make_bloodsucker(M))
 			assigned -= M
 			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
-			return
+			return FALSE
 		sucker.bloodsucker_level_unspent = rand(2,3)
 		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
@@ -152,11 +158,12 @@
  *	Also deals with Vassalization status.
  */
 
-/datum/mind/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
+/datum/mind/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
 	// Species Must have a HEART (Sorry Plasmamen)
 	var/mob/living/carbon/human/H = bloodsucker.current
 	if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
-		to_chat(creator, span_danger("[bloodsucker]'s DNA isn't compatible!"))
+		if(creator)
+			to_chat(creator, span_danger("[bloodsucker]'s DNA isn't compatible!"))
 		return FALSE
 	// Check for Fledgeling
 	if(creator)
@@ -164,7 +171,7 @@
 		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
 	return TRUE
 
-/datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator = null)
+/datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
 	if(!can_make_bloodsucker(bloodsucker))
 		return FALSE
 	add_antag_datum(/datum/antagonist/bloodsucker)
