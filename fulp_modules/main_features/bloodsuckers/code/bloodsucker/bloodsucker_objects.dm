@@ -272,46 +272,52 @@
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/in_use = FALSE
 
+/obj/item/book/kindred/Initialize()
+	. = ..()
+	AddComponent(/datum/component/stationloving, FALSE, TRUE)
+
+// Overwriting attackby to prevent cutting the book out
+/obj/item/book/kindred/attackby(obj/item/I, mob/user, params)
+	if((istype(I, /obj/item/kitchen/knife) || I.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
+		to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [title]."))
+		return
+	. = ..()
+
 /*
  *	# Attacking someone with the Book
  */
 // M is the person being hit here
-/obj/item/book/kindred/attack(mob/living/M, mob/living/user)
+/obj/item/book/kindred/afterattack(mob/living/target, mob/living/user, flag, params)
 	. = ..()
 	if(!user.can_read(src))
 		return
 	// Curator/Tremere using it
 	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
-		if(in_use || (M == user))
+		if(in_use || (target == user) || !ismob(target))
 			return
-		user.visible_message(
-			span_notice("[user] starts reading [src] while repeatedly looking up at [M]."),
-			span_notice("[user] begins to quickly look through [src], repeatedly looking back up at you.")
-		)
+		user.visible_message(span_notice("[user] begins to quickly look through [src], repeatedly looking back up at [target]."))
 		in_use = TRUE
-		if(!do_mob(user, M, 3 SECONDS, NONE, TRUE))
-			to_chat(user, span_notice("You quickly close the book and move out of [M]'s way."))
+		if(!do_mob(user, target, 3 SECONDS, NONE, TRUE))
+			to_chat(user, span_notice("You quickly close [src]."))
 			in_use = FALSE
 			return
 		in_use = FALSE
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(M)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
 		// Are we a Bloodsucker | Are we not part of a Clan | Are we on Masquerade. If any are true, they will fail.
-		if(IS_BLOODSUCKER(M) && !bloodsuckerdatum?.poweron_masquerade)
+		if(IS_BLOODSUCKER(target) && !bloodsuckerdatum?.poweron_masquerade)
 			if(bloodsuckerdatum.my_clan != null)
-				to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
+				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
 			else
-				to_chat(user, span_warning("You found the one! [M], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is not knowingly part of a Clan. You quickly note this information down, memorizing it."))
+				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is not knowingly part of a Clan. You quickly note this information down, memorizing it."))
 			bloodsuckerdatum.Curator_Discovered = TRUE
 		else
-			to_chat(user, span_notice("You fail to draw any conclusions to [M] being a Bloodsucker."))
-		return
+			to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Bloodsucker."))
 	// Bloodsucker using it
 	else if(IS_BLOODSUCKER(user))
 		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
-		return
-	to_chat(user, span_warning("[src] burns your hands as you try to use it!"))
-	user.apply_damage(12, BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
-
+	else
+		to_chat(user, span_warning("[src] burns your hands as you try to use it!"))
+		user.apply_damage(12, BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
 
 /*
  *	# Reading the Book
