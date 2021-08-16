@@ -130,10 +130,6 @@
 		if(display_error)
 			to_chat(owner, span_warning("You have a stake in your chest! Your powers are useless."))
 		return FALSE
-	if(owner.reagents?.has_reagent(/datum/reagent/consumable/garlic))
-		if(display_error)
-			to_chat(owner, span_warning("Garlic in your blood is interfering with your powers!"))
-		return FALSE
 	if(must_be_concious)
 		if(owner.stat != CONSCIOUS)
 			if(display_error)

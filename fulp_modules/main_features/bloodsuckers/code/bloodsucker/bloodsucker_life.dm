@@ -93,8 +93,6 @@
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
 	if(poweron_masquerade|| owner.current.AmStaked())
 		return FALSE
-	if(owner.current.reagents.has_reagent(/datum/reagent/consumable/garlic))
-		return FALSE
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?

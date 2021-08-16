@@ -15,6 +15,8 @@
 		"Warden", "Security Officer", "Detective", "Brig Physician",
 		// Deputies
 		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+		// Curator
+		"Curator",
 	)
 	restricted_roles = list("AI", "Cyborg")
 	required_candidates = 1
@@ -60,6 +62,7 @@
 		"Captain", "Head of Personnel", "Head of Security",// "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", // Command can roll Midround.
 		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
 		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+		"Curator",
 	)
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
 	required_candidates = 1
@@ -124,6 +127,7 @@
 		"Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster",
 		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
 		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+		"Curator",
 	)
 	restricted_roles = list("AI","Cyborg")
 	required_candidates = 1
