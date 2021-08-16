@@ -58,6 +58,7 @@
  */
 
 /obj/structure/bloodsucker
+	///Who owns this structure?
 	var/mob/living/owner
 	/*
 	 *	# Descriptions
@@ -86,6 +87,10 @@
 		. += span_cult(Vassal_desc)
 	if(IS_MONSTERHUNTER(user) && Hunter_desc != "")
 		. += span_cult(Hunter_desc)
+
+/// This handles unbolting of the structure.
+/obj/structure/bloodsucker/proc/unbolt()
+	owner = null
 
 /*
 /obj/structure/bloodsucker/bloodaltar
@@ -158,11 +163,14 @@
 		to_chat(user, span_notice("You start unwrenching the persuasion rack..."))
 		if(P.use_tool(src, user, 40, volume = 40))
 			to_chat(user, span_notice("You unwrench the persuasion rack."))
-			owner = null
-			density = TRUE
-			anchored = FALSE
+			unbolt()
 			return
 	. = ..()
+
+/obj/structure/bloodsucker/vassalrack/unbolt()
+	. = ..()
+	density = TRUE
+	anchored = FALSE
 
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
 	/// Please dont let them buckle Fireman carried people
@@ -643,10 +651,14 @@
 		to_chat(user, span_notice("You start unwrenching the candelabrum..."))
 		if(P.use_tool(src, user, 40, volume=50))
 			to_chat(user, span_notice("You unwrench the candelabrum."))
-			set_anchored(FALSE)
-			density = FALSE
+			unbolt()
 			return
 	. = ..()
+
+/obj/structure/bloodsucker/candelabrum/unbolt()
+	. = ..()
+	set_anchored(FALSE)
+	density = FALSE
 
 /obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user, modifiers)
 	. = ..()
@@ -887,9 +899,13 @@
 		to_chat(user, span_notice("You start unwrenching [src]"))
 		if(P.use_tool(src, user, 40, volume=50))
 			to_chat(user, span_notice("You unwrench [src]."))
-			anchored = FALSE
+			unbolt()
 			return
 	. = ..()
+
+/obj/structure/bloodsucker/bloodthrone/unbolt()
+	. = ..()
+	anchored = FALSE
 
 // The speech itself
 /obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)
