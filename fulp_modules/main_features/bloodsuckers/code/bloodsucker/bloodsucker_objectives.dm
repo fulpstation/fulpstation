@@ -208,19 +208,13 @@
 /datum/objective/bloodsucker/vassalhim/New()
 	var/list/possible_targets = return_possible_targets()
 	find_target(possible_targets)
-//	find_target_by_role handles update_explanation_text.
-
-// FIND TARGET/GENERATE OBJECTIVE
-/datum/objective/bloodsucker/vassalhim/find_target_by_role(role, role_type=FALSE, invert=FALSE)
-	if(!invert)
-		target_role_type = role_type
 	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/vassalhim/update_explanation_text()
 	. = ..()
 	if(target?.current)
-		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role : target.special_role], is Vassalized via the Persuasion Rack."
+		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role], is Vassalized via the Persuasion Rack."
 	else
 		explanation_text = "Free Objective"
 

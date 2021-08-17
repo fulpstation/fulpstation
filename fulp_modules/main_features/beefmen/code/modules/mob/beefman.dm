@@ -185,11 +185,11 @@
 		var/obj/item/bodypart/BP = i
 		bleed_rate += BP.generic_bleedstacks
 
-/datum/species/beefman/before_equip_job(datum/job/J, mob/living/carbon/human/H)
+/datum/species/beefman/pre_equip_species_outfit(datum/job/job, mob/living/carbon/human/equipping, visuals_only = FALSE)
 
 	// Pre-Equip: Give us a sash so we don't end up with a Uniform!
 	var/obj/item/clothing/under/bodysash/newSash
-	switch(J.title)
+	switch(job.title)
 
 		// Assistant
 		if("Assistant")
@@ -209,6 +209,14 @@
 		if("Brig Physician")
 			newSash = new /obj/item/clothing/under/bodysash/security/brigdoc()
 		if("Deputy")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Engineering)")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Medical)")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Science)")
+			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if("Deputy (Supply)")
 			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
 
 		// Medical
@@ -283,22 +291,11 @@
 
 	// Destroy Original Uniform (there probably isn't one though)
 
-	if (H.w_uniform)
-		qdel(H.w_uniform)
+	if (equipping.w_uniform)
+		qdel(equipping.w_uniform)
 	// Equip New
-	H.equip_to_slot_or_del(newSash, ITEM_SLOT_ICLOTHING, TRUE) // TRUE is whether or not this is "INITIAL", as in startup
+	equipping.equip_to_slot_or_del(newSash, ITEM_SLOT_ICLOTHING, TRUE) // TRUE is whether or not this is "INITIAL", as in startup
 	return ..()
-
-
-/datum/species/beefman/after_equip_job(datum/job/J, mob/living/carbon/human/H)
-	..() //  H.update_mutant_bodyparts()   <--- SWAIN NOTE base does that only
-
-	// DO NOT DO THESE DURING GAIN/LOSS (we only want to assign them once on round start)
-	// 		JOB GEAR
-	// Remove coat! We don't wear that as a Beefboi
-//	if (H.wear_suit)
-//		qdel(H.wear_suit) // Guill: People would complain that beefman sec spawns too weak without armor and disablers. I added the suit back on and will try to change this again in the future.
-
 
 /datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	. = ..() // Let species run its thing by default, TRUST ME

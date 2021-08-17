@@ -14,28 +14,23 @@
 	button_icon_state = "power_human"
 	bloodcost = 10
 	cooldown = 50
+	constant_bloodcost = 0.1
+	conscious_constant_bloodcost = TRUE
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
-	warn_constant_cost = TRUE
 	can_use_in_torpor = TRUE
 	cooldown_static = TRUE
 	must_be_concious = FALSE
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
 	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
 
 	bloodsuckerdatum.poweron_masquerade = TRUE
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 	. = ..()
-
-/datum/action/bloodsucker/masquerade/UsePower(mob/living/carbon/user)
-	// Checks that we can keep using this.
-	if(!..())
-		return
-	// Check every few seconds to make sure we're still able to use the power.
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
@@ -45,7 +40,7 @@
 
 /datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/carbon/user = owner, mob/living/target)
 	. = ..() // activate = FALSE
-
+	owner.balloon_alert(owner, "masquerade turned off.")
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	bloodsuckerdatum.poweron_masquerade = FALSE
 	user.remove_status_effect(STATUS_EFFECT_MASQUERADE)
@@ -94,13 +89,6 @@
 	if(istype(vampheart))
 		vampheart.FakeStart()
 	return ..()
-
-/datum/status_effect/masquerade/tick()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	// PASSIVE (Done from LIFE
-	// Don't show Pale/Dead on low blood - Don't vomit food - Don't heal.
-	if(owner.stat == CONSCIOUS) // Pay Blood Toll if awake.
-		bloodsuckerdatum.AddBloodVolume(-0.1)
 
 /datum/status_effect/masquerade/on_remove(mob/living/carbon/user = owner)
 	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)

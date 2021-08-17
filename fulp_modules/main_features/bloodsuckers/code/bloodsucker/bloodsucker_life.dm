@@ -9,7 +9,7 @@
  * Show as dead when...
  */
 
-/// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
+/// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	if(!owner || AmFinalDeath)
 		return
@@ -22,14 +22,10 @@
 			notice_healing = TRUE
 	else if(notice_healing)
 		notice_healing = FALSE
-	// In a Frenzy? Take damage, to encourage them to Feed as soon as possible, Brujah takes less Burn.
-	if(Frenzied)
-		owner.current.adjustFireLoss(my_clan == CLAN_BRUJAH ? 1 : 3)
 	// Standard Updates
 	HandleDeath()
 	HandleStarving()
 	HandleTorpor()
-	update_hud()
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
@@ -263,24 +259,25 @@
 	if(!owner.current || AmFinalDeath)
 		return
 
-	/// Nutrition - The amount of blood is how full we are.
+	// Nutrition - The amount of blood is how full we are.
 	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED))
 
 	// BLOOD_VOLUME_GOOD: [336] - Pale
 //	handled in bloodsucker_integration.dm
+
+	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
+	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied)
+		qdel(owner.current.GetComponent(/datum/component/bloodsucker_frenzy))
 	// BLOOD_VOLUME_BAD: [224] - Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !poweron_masquerade)
 		owner.current.Jitter(3)
-	/// Blood Volume: 250 - Exit Frenzy (If in one) This is really high because we want this to be enough to kill the poor soul they feed off of.
-	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied)
-		Frenzy_End()
-	// BLOOD_VOLUME_SURVIVE: [122]  Blur Vision
+	// BLOOD_VOLUME_SURVIVE: [122] - Blur Vision
 	if(owner.current.blood_volume < BLOOD_VOLUME_SURVIVE)
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 
-	/// Frenzy & Regeneration - The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
+	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(owner.current.blood_volume < frenzy_threshold && !Frenzied)
-		Frenzy_Start()
+		owner.current.AddComponent(/datum/component/bloodsucker_frenzy)
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
 	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
@@ -291,54 +288,6 @@
 		additional_regen = 0.4
 	else
 		additional_regen = 0.5
-
-/// Frenzy's End is in HandleStarving.
-/datum/antagonist/bloodsucker/proc/Frenzy_Start()
-	// Disable ALL Powers -- Do it here to prevent things like Fortitude's deactivate cancelling our stun immunity.
-	DisableAllPowers()
-
-	if(my_clan == CLAN_BRUJAH)
-		to_chat(owner.current, span_announce("You enter a Frenzy!<br> \
-		* While in Frenzy, you gain the ability to instantly aggressively grab people, move faster and have no blood cost on abilities.<br> \
-		* In exchange, you will slowly gain Burn damage, be careful of how you handle it!<br> \
-		* To leave Frenzy, simply drink enough Blood ([FRENZY_THRESHOLD_EXIT]) to exit.<br>"))
-	else
-		to_chat(owner.current, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
-		to_chat(owner.current, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed and Trespass (If you have it)."))
-		ADD_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // Brujah can control Frenzy properly, so they don't get any of the effects.
-		ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-		if(HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
-			REMOVE_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
-	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
-	frenzygrab.teach(owner.current, TRUE)
-	owner.current.add_client_colour(/datum/client_colour/cursed_heart_blood)//bloodlust) <-- You can barely see shit, cant even see anyone to feed off of them.
-	var/mob/living/carbon/human/user = owner.current
-	var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
-	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
-	if(user.handcuffed || user.legcuffed)
-		user.clear_cuffs(cuffs, TRUE)
-		user.clear_cuffs(legcuffs, TRUE)
-	// Keep track of how many times we've entered a Frenzy.
-	Frenzies += 1
-	Frenzied = TRUE
-
-/datum/antagonist/bloodsucker/proc/Frenzy_End()
-	if(my_clan == CLAN_BRUJAH)
-		to_chat(owner.current, span_warning("You exit Frenzy."))
-	else
-		owner.current.Dizzy(5 SECONDS)
-		owner.current.Paralyze(3 SECONDS)
-		to_chat(owner.current, span_warning("You suddenly come back to your senses..."))
-	if(HAS_TRAIT(owner.current, TRAIT_DEAF))
-		REMOVE_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-		REMOVE_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		REMOVE_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
-	owner.current.remove_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
-	frenzygrab.remove(owner.current)
-	owner.current.remove_client_colour(/datum/client_colour/cursed_heart_blood)
-	Frenzied = FALSE
 
 /*
 	# Torpor

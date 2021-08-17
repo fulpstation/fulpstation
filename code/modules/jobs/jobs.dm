@@ -1,3 +1,5 @@
+//------ Fulp edit - Jobs : Adds our jobs to their respective positions.
+
 GLOBAL_LIST_INIT(command_positions, list(
 	"Captain",
 	"Head of Personnel",
@@ -9,12 +11,14 @@ GLOBAL_LIST_INIT(command_positions, list(
 
 GLOBAL_LIST_INIT(engineering_positions, list(
 	"Chief Engineer",
+	"Deputy (Engineering)", // Fulp edit
 	"Station Engineer",
 	"Atmospheric Technician"))
 
 
 GLOBAL_LIST_INIT(medical_positions, list(
 	"Chief Medical Officer",
+	"Deputy (Medical)", // Fulp edit
 	"Medical Doctor",
 	"Paramedic",
 	"Virologist",
@@ -23,6 +27,7 @@ GLOBAL_LIST_INIT(medical_positions, list(
 
 GLOBAL_LIST_INIT(science_positions, list(
 	"Research Director",
+	"Deputy (Science)", // Fulp edit
 	"Scientist",
 	"Geneticist",
 	"Roboticist"))
@@ -30,12 +35,14 @@ GLOBAL_LIST_INIT(science_positions, list(
 
 GLOBAL_LIST_INIT(supply_positions, list(
 	"Quartermaster",
+	"Deputy (Supply)", // Fulp edit
 	"Cargo Technician",
 	"Shaft Miner"))
 
 
 GLOBAL_LIST_INIT(service_positions, list(
 	"Head of Personnel",
+	"Deputy (Service)", // Fulp edit
 	"Bartender",
 	"Botanist",
 	"Cook",
@@ -60,10 +67,10 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
 	"Detective",
-	/// FULP JOBS EDIT - Adding our jobs to the list
+	// Fulp edit starts
 	"Brig Physician",
 	"Deputy",
-	/// FULP EDIT ENDS
+	// Fulp edit ends
 	"Security Officer"))
 
 /// These aren't defacto jobs, but are the special departmental variants for sec officers.
@@ -71,13 +78,6 @@ GLOBAL_LIST_INIT(security_sub_positions, list(
 	"Security Officer (Cargo)",
 	"Security Officer (Engineering)",
 	"Security Officer (Medical)",
-	/// FULP JOBS EDIT - Adding our jobs to the list, and we're not trusting trailing commas here.
-	"Deputy (Engineering)",
-	"Deputy (Supply)",
-	"Deputy (Science)",
-	"Deputy (Medical)",
-	"Deputy (Service)",
-	/// FULP EDIT ENDS
 	"Security Officer (Science)",
 ))
 
@@ -110,10 +110,31 @@ GLOBAL_LIST_INIT(exp_jobsmap, list(
 	EXP_TYPE_SERVICE = list("titles" = service_positions)
 ))
 
+// TO DO: Replace this with job datum flags instead.
 GLOBAL_LIST_INIT(exp_specialmap, list(
 	EXP_TYPE_LIVING = list(), // all living mobs
 	EXP_TYPE_ANTAG = list(),
-	EXP_TYPE_SPECIAL = list("Lifebringer","Ash Walker","Exile","Servant Golem","Free Golem","Hermit","Translocated Vet","Escaped Prisoner","Hotel Staff","SuperFriend","Space Syndicate","Ancient Crew","Space Doctor","Space Bartender","Beach Bum","Skeleton","Zombie","Space Bar Patron","Lavaland Syndicate","Maintenance Drone","Ghost Role"), // Ghost roles
+	EXP_TYPE_SPECIAL = list(
+		ROLE_LIFEBRINGER,
+		ROLE_ASHWALKER,
+		ROLE_EXILE,
+		ROLE_SERVANT_GOLEM,
+		ROLE_FREE_GOLEM,
+		ROLE_HERMIT,
+		ROLE_ESCAPED_PRISONER,
+		ROLE_HOTEL_STAFF,
+		ROLE_SPACE_SYNDICATE,
+		ROLE_ANCIENT_CREW,
+		ROLE_SPACE_DOCTOR,
+		ROLE_SPACE_BARTENDER,
+		ROLE_BEACH_BUM,
+		ROLE_SKELETON,
+		ROLE_ZOMBIE,
+		ROLE_SPACE_BAR_PATRON,
+		ROLE_LAVALAND_SYNDICATE,
+		ROLE_MAINTENANCE_DRONE,
+		ROLE_GHOST_ROLE,
+		), // Ghost roles
 	EXP_TYPE_GHOST = list() // dead people, observers
 ))
 GLOBAL_PROTECT(exp_jobsmap)
@@ -125,9 +146,9 @@ GLOBAL_PROTECT(exp_specialmap)
 	if(!job_title)
 		return list()
 
-	for(var/datum/job/J in SSjob.occupations)
-		if(J.title == job_title)
-			return J.department_head //this is a list
+	for(var/datum/job/job as anything in SSjob.joinable_occupations)
+		if(job.title == job_title)
+			return job.department_head //this is a list
 
 /proc/get_full_job_name(job)
 	var/static/regex/cap_expand = new("cap(?!tain)")

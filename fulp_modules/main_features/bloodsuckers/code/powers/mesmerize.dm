@@ -16,19 +16,21 @@
 	message_Trigger = "Whom will you subvert to your will?"
 	must_be_capacitated = TRUE
 	bloodsucker_can_buy = TRUE
+	var/target_mesmerized = FALSE
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(display_error)
 	if(!..()) // Default checks
 		return FALSE
 	if(!owner.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)
+			// Cant use balloon alert, they've got no eyes!
 			to_chat(owner, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
 	var/mob/living/L = owner
 	if(istype(L) && L.is_eyes_covered() || !isturf(owner.loc))
 		if(display_error)
-			to_chat(owner, span_warning("Your eyes are concealed from sight."))
+			owner.balloon_alert(owner, "your eyes are concealed from sight.")
 		return FALSE
 	return TRUE
 
@@ -46,22 +48,22 @@
 	// Bloodsucker
 	if(target.mind && target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		if(display_error)
-			to_chat(owner, span_warning("Bloodsuckers are immune to [src]."))
+			owner.balloon_alert(owner, "bloodsuckers are immune to [src].")
 		return FALSE
 	// Dead/Unconscious
 	if(target.stat > CONSCIOUS)
 		if(display_error)
-			to_chat(owner, span_warning("Your victim is not [(target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH))?"alive":"conscious"]."))
+			owner.balloon_alert(owner, "[target] is not [(target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH))?"alive":"conscious"].")
 		return FALSE
 	// Check: Target has eyes?
 	if(!target.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)
-			to_chat(owner, span_warning("They have no eyes!"))
+			owner.balloon_alert(owner, "[target] has no eyes!")
 		return FALSE
 	// Check: Target blind?
 	if(target.eye_blind > 0)
 		if(display_error)
-			to_chat(owner, span_warning("Your victim's eyes are glazed over. They cannot perceive you."))
+			owner.balloon_alert(owner, "[target]'s eyes are glazed over, they cannot see you.")
 		return FALSE
 	// Check: Target See Me? (behind wall)
 	if(!(owner in view(target_range, get_turf(target))))
@@ -70,17 +72,17 @@
 		//	if (display_error)
 		//		to_chat(owner, span_warning("You're too far from your victim."))
 		if(display_error)
-			to_chat(owner, span_warning("You're too far outside your victim's view."))
+			owner.balloon_alert(owner, "you are too far away.")
 		return FALSE
 	// Check: Facing target?
 	if(!is_A_facing_B(owner,target)) // in unsorted.dm
 		if(display_error)
-			to_chat(owner, span_warning("You must be facing your victim."))
+			owner.balloon_alert(owner, "you must be facing [target].")
 		return FALSE
 	// Check: Target facing me? (On the floor, they're facing everyone)
 	if((target.mobility_flags & MOBILITY_STAND) && !is_A_facing_B(target,owner))
 		if(display_error)
-			to_chat(owner, span_warning("Your victim must be facing you to see into your eyes."))
+			owner.balloon_alert(owner, "[target] must be facing you.")
 		return FALSE
 
 	return TRUE
@@ -92,7 +94,7 @@
 	var/mob/living/user = owner
 
 	if(istype(target))
-		to_chat(user, span_notice("You attempt to hypnotically gaze [target]."))
+		owner.balloon_alert(owner, "you attempt to hypnotically gaze [target].")
 
 	if(do_mob(user, target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
@@ -102,8 +104,12 @@
 			if(IS_MONSTERHUNTER(mesmerized))
 				to_chat(mesmerized, span_notice("You feel your eyes burn for a while, but it passes."))
 				return
+			if(target_mesmerized)
+				owner.balloon_alert(owner, "[mesmerized] is already in a hypnotic gaze.")
+				return
+			target_mesmerized = TRUE
 			ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-			to_chat(user, span_notice("[mesmerized] is fixed in place by your hypnotic gaze."))
+			owner.balloon_alert(owner, "[mesmerized] is fixed in place by your hypnotic gaze.")
 			mesmerized.Immobilize(power_time)
 			//mesmerized.silent += power_time / 10 // Silent isn't based on ticks.
 			mesmerized.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized.changeNext_move(power_time) // check click.dm
@@ -112,13 +118,14 @@
 				if(istype(mesmerized))
 					mesmerized.notransform = FALSE
 					REMOVE_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+					target_mesmerized = FALSE
 					// They Woke Up! (Notice if within view)
 					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(6, get_turf(user))))
-						to_chat(user, span_warning("[mesmerized] has snapped out of their trance."))
+						owner.balloon_alert(owner, "[mesmerized] has snapped out of their trance.")
 		if(issilicon(target))
 			var/mob/living/silicon/mesmerized = target
 			mesmerized.emp_act(EMP_HEAVY)
-			to_chat(user, span_warning("You have temporarily shut [mesmerized] down."))
+			owner.balloon_alert(owner, "You have temporarily shut [mesmerized] down.")
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && CheckCanUse() && CheckCanTarget(target)
