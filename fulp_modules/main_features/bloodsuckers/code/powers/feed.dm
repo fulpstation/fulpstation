@@ -348,7 +348,8 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// No longer Feeding
 	bloodsuckerdatum.poweron_feed = FALSE
-	if(feeds_noticed)
+	// Only break it once we've broken it 3 times, not more.
+	if(feeds_noticed == 3)
 		bloodsuckerdatum.break_masquerade()
 	// Reset ALL checks for next time the Power is used.
 	amSilent = FALSE
