@@ -10,6 +10,8 @@
 	cooldown_static = TRUE
 	can_use_in_frenzy = TRUE
 
+	///Amount of times we were seen Feeding. If seen 3 times, we broke the Masquerade.
+	var/feeds_noticed = 0
 	///Distance before silent feeding is noticed.
 	var/notice_range = 2
 	///So we can validate more than just the guy we're grappling.
@@ -208,11 +210,13 @@
 		if(was_unnoticed)
 			owner.balloon_alert(owner, "you think no one saw you...")
 		else
+			feeds_noticed++
 			owner.balloon_alert(owner, "someone may have noticed...")
+			to_chat(user, span_warning("Be careful, you have broken the Masquerade [feeds_noticed] amount of times, if you break it 3 times, you become a criminal."))
 
 	else						 // /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mobs)
 		user.visible_message(span_warning("[user] closes [user.p_their()] mouth around [target]'s neck!"), \
-						 span_warning("You sink your fangs into [target]'s neck."))
+							 span_warning("You sink your fangs into [target]'s neck."))
 
 	// Activate Effects
 //	target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
@@ -234,11 +238,11 @@
 		return
 	if(!ContinueActive(user, target))
 		if(amSilent)
-			to_chat(user, "<span class='warning'>Your feeding has been interrupted...but [target.p_they()] didn't seem to notice you.<span>")
+			to_chat(user, span_warning("Your feeding has been interrupted... but [target.p_they()] didn't seem to notice you."))
 		else
-			to_chat(user, "<span class='warning'>Your feeding has been interrupted!</span>")
-			user.visible_message("<span class='danger'>[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>", \
-					 			 "<span class='userdanger'>Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!</span>")
+			to_chat(user, span_warning("Your feeding has been interrupted!"))
+			user.visible_message(span_warning("[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!"), \
+					 			 span_warning("Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!"))
 			// Deal Damage to Target (should have been more careful!)
 			if(iscarbon(target))
 				var/mob/living/carbon/C = target
@@ -273,20 +277,20 @@
 	if(!target.mind && bloodsuckerdatum?.my_clan == CLAN_VENTRUE)
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 		if(!warning_target_inhuman)
-			to_chat(user, "<span class='notice'>You feel disgusted at the taste of a non-sentient creature.</span>")
+			to_chat(user, span_notice("You feel disgusted at the taste of a non-sentient creature."))
 			warning_target_inhuman = TRUE
 	// Dead Blood? - BAD
 	if(target.stat >= DEAD)
 		if(ishuman(target))
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_dead)
 		if(!warning_target_dead)
-			to_chat(user, "<span class='notice'>Your victim is dead. [target.p_their(TRUE)] blood barely nourishes you.</span>")
+			to_chat(user, span_notice("Your victim is dead. [target.p_their(TRUE)] blood barely nourishes you."))
 			warning_target_dead = TRUE
 	// Drank off of a non-carbon? - BAD
 	if(!ishuman(target))
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 		if(!warning_target_inhuman)
-			to_chat(user, "<span class='notice'>You recoil at the taste of a lesser lifeform.</span>")
+			to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
 			warning_target_inhuman = TRUE
 
 	// Blood Remaining? (Carbons/Humans only)
@@ -336,15 +340,16 @@
 
 	if(target) // Check: Otherwise it runtimes if you fail to feed on someone.
 		if(amSilent)
-			to_chat(user, "<span class='notice'>You slowly release [target]'s wrist." + (target.stat == 0 ? " [target.p_their(TRUE)] face lacks expression, like you've already been forgotten.</span>" : ""))
+			to_chat(user, span_notice("You slowly release [target]'s wrist." + (target.stat == 0 ? " [target.p_their(TRUE)] face lacks expression, like you've already been forgotten." : "")))
 		else
 			user.visible_message("<span class='warning'>[user] unclenches their teeth from [target]'s neck.</span>", \
 								 "<span class='warning'>You retract your fangs and release [target] from your bite.</span>")
 		log_combat(owner, target, "fed on blood", addition="(and took [amount_taken] blood)")
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// No longer Feeding
-	if(bloodsuckerdatum)
-		bloodsuckerdatum.poweron_feed = FALSE
+	bloodsuckerdatum.poweron_feed = FALSE
+	if(feeds_noticed)
+		bloodsuckerdatum.break_masquerade()
 	// Reset ALL checks for next time the Power is used.
 	amSilent = FALSE
 	warning_target_inhuman = FALSE

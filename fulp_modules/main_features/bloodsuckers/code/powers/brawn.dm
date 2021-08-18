@@ -134,7 +134,7 @@
 			owner.balloon_alert(owner, "you prepare to tear open [D]")
 			if(do_mob(usr, target, 2.5 SECONDS))
 				if(D.Adjacent(user))
-					D.balloon_alert_to_viewers("breaks open as [user] bashes it!")
+					D.visible_message(span_danger("breaks open as [user] bashes it!"))
 					user.Stun(10)
 					user.do_attack_animation(D, ATTACK_EFFECT_SMASH)
 					playsound(get_turf(D), 'sound/effects/bang.ogg', 30, 1, -1)
@@ -148,7 +148,7 @@
 			var/obj/structure/closet/C = target
 			user.balloon_alert(user, "you prepare to bash [C] open")
 			if(do_mob(usr, target, 2.5 SECONDS))
-				C.balloon_alert_to_viewers("breaks open as [user] bashes it!")
+				C.visible_message(span_danger("breaks open as [user] bashes it!"))
 				addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
 				playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		else

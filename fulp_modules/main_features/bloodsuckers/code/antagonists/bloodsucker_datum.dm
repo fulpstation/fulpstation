@@ -63,6 +63,8 @@
 	 *
 	 *	These are all used for Tracking Bloodsucker stats and such.
 	 */
+	///Have we been broken the Masquerade?
+	var/broke_masquerade = FALSE
 	///How much food to throw up later. You shouldn't have eaten that.
 	var/foodInGut
 	///So we only get the locker burn message once per day.
@@ -75,8 +77,6 @@
 	var/notice_healing
 	///Have we reached final death?
 	var/AmFinalDeath = FALSE
-	///Has a Curator discovered us?
-	var/Curator_Discovered = FALSE
 	///Are we currently in a Frenzy? - Martial Art also used in Frenzy
 	var/Frenzied = FALSE
 	var/datum/martial_art/frenzygrab/frenzygrab = new
@@ -90,7 +90,6 @@
 		TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED,\
 		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED,\
 		) // TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -- Remember that Fortitude gives NODISMEMBER when balancing Traits!
-
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -130,7 +129,7 @@
 
 /datum/antagonist/bloodsucker/greet()
 	var/fullname = ReturnFullName(TRUE)
-	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a bloodsucker!<br>"))
+	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
 		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
@@ -700,19 +699,23 @@
 /// Names
 /datum/antagonist/bloodsucker/proc/SelectFirstName()
 	if(owner.current.gender == MALE)
-		bloodsucker_name = pick("Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
-						"Sveyn","Aurel","Alexe","Iustin","Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
-						"Lucius","Gaius","Otho","Balbinus","Arcadius","Romanos","Alexios","Vitellius",  // Latin
-						"Melanthus","Teuthras","Orchamus","Amyntor","Axion",  // Greek
-						"Thoth","Thutmose","Osorkon,","Nofret","Minmotu","Khafra", // Egyptian
-						"Dio")
+		bloodsucker_name = pick(
+			"Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
+			"Sveyn","Aurel","Alexe","Iustin","Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
+			"Lucius","Gaius","Otho","Balbinus","Arcadius","Romanos","Alexios","Vitellius",  // Latin
+			"Melanthus","Teuthras","Orchamus","Amyntor","Axion",  // Greek
+			"Thoth","Thutmose","Osorkon,","Nofret","Minmotu","Khafra", // Egyptian
+			"Dio",
+		)
 
 	else
-		bloodsucker_name = pick("Islana","Tyrra","Greganna","Pytra","Hilda","Andra","Crina","Viorela","Viorica","Anemona","Camelia","Narcisa","Sorina","Alessia","Sophia","Gladda","Arcana","Morgan","Lasarra","Ioana","Elena", \
-						"Alina","Rodica","Teodora","Denisa","Mihaela","Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
-						"Alexia","Athanasia","Callista","Karena","Nephele","Scylla","Ursa",  // Latin
-						"Alcestis","Damaris","Elisavet","Khthonia","Teodora",  // Greek
-						"Nefret","Ankhesenpep") // Egyptian
+		bloodsucker_name = pick(
+			"Islana","Tyrra","Greganna","Pytra","Hilda","Andra","Crina","Viorela","Viorica","Anemona","Camelia","Narcisa","Sorina","Alessia","Sophia","Gladda","Arcana","Morgan","Lasarra","Ioana","Elena", \
+			"Alina","Rodica","Teodora","Denisa","Mihaela","Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
+			"Alexia","Athanasia","Callista","Karena","Nephele","Scylla","Ursa",  // Latin
+			"Alcestis","Damaris","Elisavet","Khthonia","Teodora",  // Greek
+			"Nefret","Ankhesenpep", // Egyptian
+		)
 
 /datum/antagonist/bloodsucker/proc/SelectTitle(am_fledgling = 0, forced = FALSE)
 	// Already have Title
@@ -769,6 +772,28 @@
 
 	return fullname
 
+///When a Bloodsucker breaks the Masquerade, they get their HUD icon changed, and Malkavian Bloodsuckers get alerted.
+/datum/antagonist/bloodsucker/proc/break_masquerade()
+	if(broke_masquerade)
+		return
+	broke_masquerade = TRUE
+	update_bloodsucker_icons_added(owner, "masquerade_broken")
+	for(var/datum/mind/M in clan?.members)
+		var/datum/antagonist/bloodsucker/allsuckers = M.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(allsuckers == owner.current)
+			continue
+		if(allsuckers.my_clan != CLAN_MALKAVIAN)
+			continue
+		if(!isliving(M.current))
+			continue
+		to_chat(M, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
+		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
+		masquerade_objective.target = owner.current
+		masquerade_objective.objective_name = "Clan Objective"
+		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, is Final Death'ed."
+		allsuckers.objectives += masquerade_objective
+		M.announce_objectives()
+
 /////////////////////////////////////
 		// HUD! //
 /////////////////////////////////////
@@ -783,10 +808,10 @@
  *	This is a TG problem, there isn't much we can do about it downstream.
  */
 
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m)
+/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m, icontype = "bloodsucker")
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
-	set_antag_hud(owner.current, "bloodsucker")
+	set_antag_hud(owner.current, icontype)
 	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
