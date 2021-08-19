@@ -139,8 +139,8 @@
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEHAIR
 	clothing_flags = MASKINTERNALS
 
-/obj/item/storage/box/halloween/edition_21/hartcostume
+/obj/item/storage/box/halloween/edition_21/breathermask
 	theme_name = "2021's Breathers"
 
-/obj/item/storage/box/halloween/edition_21/hartcostume/PopulateContents()
+/obj/item/storage/box/halloween/edition_21/breathermask/PopulateContents()
 	new /obj/item/clothing/mask/breather_mask(src)
