@@ -664,11 +664,16 @@
  *	This is a TG problem, there isn't much we can do about it downstream.
  */
 
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m, icontype = "bloodsucker")
+/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m, icontype = "bloodsucker", automatic = FALSE)
+	if(automatic) // Should we automatically decide that HUD to give? This is done when deconverted from another Antagonist.
+		if(broke_masquerade)
+			icontype = "masquerade_broken"
+		else
+			icontype = "bloodsucker"
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
 	set_antag_hud(owner.current, icontype)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker") // FULP ADDITION! Check prepare_huds in mob.dm to see why.
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype) // FULP ADDITION! Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]

@@ -51,7 +51,7 @@
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
-	update_vassal_icons_added(owner.current, "vassal")
+	update_vassal_icons_added(owner, "vassal")
 	. = ..()
 
 /datum/antagonist/vassal/on_removal()
@@ -72,7 +72,7 @@
 		power.Remove(owner.current)
 	/// Remove Language & Hud
 	owner.current.remove_language(/datum/language/vampiric)
-	update_vassal_icons_removed(owner.current)
+	update_vassal_icons_removed(owner)
 	return ..()
 
 /datum/antagonist/vassal/proc/add_objective(datum/objective/O)
@@ -139,17 +139,22 @@
  *	They share the same code, so most of it is dealt by Bloodsucker code.
  */
 
-/datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype = "vassal")
+/datum/antagonist/vassal/proc/update_vassal_icons_added(datum/mind/vassal, icontype = "vassal", automatic = FALSE)
+	if(automatic) // Should we automatically decide that HUD to give? This is done when deconverted from another Antagonist.
+		if(favorite_vassal)
+			icontype = "vassal6"
+		else
+			icontype = "vassal"
 	// This is a copy of Bloodsucker's hud.
 	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	hud.join_hud(vassal)
-	set_antag_hud(vassal, icontype)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker")
+	hud.join_hud(owner.current)
+	set_antag_hud(owner.current, icontype)
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype)
 
-/datum/antagonist/vassal/proc/update_vassal_icons_removed(mob/living/vassal)
+/datum/antagonist/vassal/proc/update_vassal_icons_removed(datum/mind/vassal)
 	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	hud.leave_hud(vassal)
-	set_antag_hud(vassal, null)
+	set_antag_hud(owner.current, null)
+	hud.leave_hud(owner.current)
 
 /*
  *	# Vassal Pinpointer
