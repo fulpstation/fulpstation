@@ -349,7 +349,12 @@
 			convert_progress--
 			/// We're done? Let's see if they can be Vassal.
 			if(convert_progress <= 0)
-				if(RequireDisloyalty(user,target))
+				if(IS_VASSAL(target))
+					var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+					if(!vassaldatum.master.broke_masquerade)
+						to_chat(user, span_boldwarning("[target] is under the spell of another Bloodsucker!"))
+						return
+				if(RequireDisloyalty(user, target))
 					to_chat(user, span_boldwarning("[target] has external loyalties! [target.p_they(TRUE)] will require more <i>persuasion</i> to break [target.p_them()] to your will!"))
 				else
 					to_chat(user, span_notice("[target] looks ready for the <b>Dark Communion</b>."))
@@ -359,7 +364,7 @@
 		useLock = FALSE
 		return
 	/// Check: Mindshield & Antag
-	if(!disloyalty_confirm && RequireDisloyalty(user,target))
+	if(!disloyalty_confirm && RequireDisloyalty(user, target))
 		if(!do_disloyalty(user,target))
 			to_chat(user, span_danger("<i>The ritual has been interrupted!</i>"))
 		else if(!disloyalty_confirm)

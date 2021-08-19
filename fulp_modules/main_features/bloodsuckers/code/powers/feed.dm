@@ -33,6 +33,7 @@
 	var/warning_target_dead = FALSE
 	var/warning_full = FALSE
 	var/warning_target_bloodvol = 99999
+	var/was_alive = FALSE
 
 /datum/action/bloodsucker/feed/CheckCanUse(display_error)
 	. = ..()
@@ -53,25 +54,9 @@
 
 /// Called twice: validating a subtle victim, or validating your grapple victim.
 /datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
-	// Bloodsuckers + Animals MUST be grabbed aggressively!
-	if(!owner.pulling || target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
-		// NOTE: It's OKAY that we are checking if(!target) below, AFTER animals here. We want passive check vs animal to warn you first, THEN the standard warning.
-		// Animals:
-		if(isliving(target) && !iscarbon(target))
-			if(display_error)
-				to_chat(owner, span_warning("Lesser beings require a tighter grip."))
-			return FALSE
-		// Bloodsuckers:
-		else if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			if(!H.can_inject(owner, BODY_ZONE_CHEST, INJECT_CHECK_PENETRATE_THICK))
-				return FALSE
-			if(IS_BLOODSUCKER(target))
-				if(display_error)
-					to_chat(owner, span_warning("Other Bloodsuckers will not fall for your subtle approach."))
-				return FALSE
-	// Must have Target
-	if(!target) // || !ismob(target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	// Must have Target.
+	if(!target)//|| !ismob(target)
 		if(display_error)
 			to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
 		return FALSE
@@ -80,20 +65,38 @@
 		if(display_error)
 			to_chat(owner, span_warning("You may only feed from living beings."))
 		return FALSE
-	if(target.blood_volume <= 0)
+	// Is a Mouse on an Invalid Clan.
+	if(istype(target, /mob/living/simple_animal/mouse))
+		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+			if(display_error)
+				to_chat(owner, span_warning("The thought of feeding off of a dirty rat leaves your stomach aching."))
+			return FALSE
+	// Check for other animals (Supposed to be after Mouse so Mouse can skip over it)
+	else if(!iscarbon(target))
+		if(display_error)
+			to_chat(owner, span_warning("Such simple beings cannot be fed off of."))
+		return FALSE
+	// Has no blood to take!
+	else if(target.blood_volume <= 0)
 		if(display_error)
 			to_chat(owner, span_warning("Your victim has no blood to take."))
+		return FALSE
+	// Bloodsuckers can be fed off of if they are grabbed more than Passively.
+	if(IS_BLOODSUCKER(target) && target == owner.pulling && owner.grab_state <= GRAB_PASSIVE)
+		if(display_error)
+			to_chat(owner, span_warning("Other Bloodsuckers will not fall for your subtle approach."))
 		return FALSE
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
 		if(!H.can_inject(owner, BODY_ZONE_HEAD, INJECT_CHECK_PENETRATE_THICK) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
+			if(display_error)
+				to_chat(owner, span_warning("Their suit is too thick to feed through."))
 			return FALSE
 		if(NOBLOOD in H.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
 			if(display_error)
 				to_chat(owner, span_warning("Your victim's blood is not suitable for you to take."))
 			return FALSE
 	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE && !bloodsuckerdatum.Frenzied)
 		if(!target.mind)
 			if(display_error)
@@ -165,7 +168,19 @@
 	if(!bloodsuckerdatum?.Frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
 
-	// Checks: Step 2 - How fast should I be and how much should I drink?
+	// Checks: Step 2 - Is it a Mouse?
+	if(istype(feed_target, /mob/living/simple_animal/mouse))
+		var/mob/living/simple_animal/mouse_target = feed_target
+		bloodsuckerdatum.AddBloodVolume(15)
+		owner.balloon_alert(owner, "you feed off of [feed_target]")
+		to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
+		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
+		if(bloodsuckerdatum.my_clan != CLAN_NOSFERATU && bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
+			bloodsuckerdatum.AddHumanityLost(0.5)
+		DeactivatePower(user)
+		mouse_target.adjustBruteLoss(20)
+		return
+	// Checks: Step 3 - How fast should I be and how much should I drink?
 	var/feed_time_multiplier
 	if(bloodsuckerdatum?.Frenzied)
 		blood_take_mult = 2
@@ -177,6 +192,8 @@
 		blood_take_mult = 0.3
 		feed_time_multiplier = 45 - (2.5 * level_current)
 	feed_time = max(8, feed_time_multiplier)
+	// Let's check if our target is alive
+	was_alive = feed_target.stat < DEAD && ishuman(feed_target)
 
 	// Send pre-pull message
 	if(amSilent)
@@ -294,12 +311,6 @@
 		if(!warning_target_dead)
 			to_chat(user, span_notice("Your victim is dead. [feed_target.p_their(TRUE)] blood barely nourishes you."))
 			warning_target_dead = TRUE
-	// Drank off of a non-carbon? - BAD
-	if(!ishuman(feed_target))
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
-		if(!warning_target_inhuman)
-			to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
-			warning_target_inhuman = TRUE
 
 	// Blood Remaining? (Carbons/Humans only)
 	else if(!IS_BLOODSUCKER(feed_target))
@@ -324,6 +335,13 @@
 	owner.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 	if(!amSilent)
 		feed_target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
+
+/// Check if we killed our target
+/datum/action/bloodsucker/feed/proc/CheckKilledTarget(mob/living/user, mob/living/target)
+	if(target && target.stat >= DEAD && ishuman(target))
+		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankkilled", /datum/mood_event/drankkilled)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		bloodsuckerdatum.AddHumanityLost(10)
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
@@ -353,6 +371,9 @@
 								 "<span class='warning'>You retract your fangs and release [feed_target] from your bite.</span>")
 		log_combat(owner, feed_target, "fed on blood", addition="(and took [amount_taken] blood)")
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	// Did we kill our target?
+	if(was_alive)
+		CheckKilledTarget(user,target)
 	// No longer Feeding
 	bloodsuckerdatum.poweron_feed = FALSE
 	// Only break it once we've broken it 3 times, not more.

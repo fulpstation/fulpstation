@@ -10,7 +10,7 @@
 	tips = BLOODSUCKER_TIPS
 	///List of all Antagonists that can't be vassalized.
 	var/list/vassal_banned_antags = list(
-		/datum/antagonist/bloodsucker, /datum/antagonist/vassal, /datum/antagonist/monsterhunter,
+		/datum/antagonist/bloodsucker, /datum/antagonist/monsterhunter,
 		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
 		/datum/antagonist/cult, /datum/antagonist/xeno, /datum/antagonist/obsessed,
 		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
@@ -34,7 +34,10 @@
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
 	var/datum/mind/creator
-	var/frenzy_threshold = FRENZY_THRESHOLD_NORMAL
+	///Amount of Humanity I've lost
+	var/humanity_lost = 0
+	///How much Blood I must lose before entering Frenzy - Affected by humanity_lost
+	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
 
 	///Powers
 	var/list/datum/action/powers = list()
@@ -473,6 +476,7 @@
 		if(vassaldatum.vassal_level == 6)
 			to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead.</span>")
 			target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
+			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
 		if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
 			set_vassal_level(target)
 	/// Done! Let them know & Update their HUD.

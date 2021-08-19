@@ -35,7 +35,7 @@
 			/// Makes their max punch, and by extension Brawn, stronger - Stolen from SpendRank()
 			var/datum/species/S = bloodsucker.dna.species
 			S.punchdamagehigh += 1.5
-			frenzy_threshold = FRENZY_THRESHOLD_HIGHER
+			AddHumanityLost(17.5)
 			var/datum/objective/bloodsucker/frenzy/frenzy_objective = new
 			frenzy_objective.owner = owner
 			frenzy_objective.objective_name = "Clan Objective"
