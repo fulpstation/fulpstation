@@ -14,6 +14,8 @@
 	var/feeds_noticed = 0
 	///Distance before silent feeding is noticed.
 	var/notice_range = 2
+	///Check if we were noticed Feeding.
+	var/was_noticed = FALSE
 	///So we can validate more than just the guy we're grappling.
 	var/mob/living/feed_target
 	///If you started grappled, then ending it will end your Feed.
@@ -159,63 +161,71 @@
 /datum/action/bloodsucker/feed/ActivatePower(mob/living/user = owner)
 //	set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up Activate(), so Deactivate() can happen after.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	// Am I SECRET or LOUD? It stays this way the whole time! I must END IT to try it the other way.
+	// Checks: Step 1 - Am I SECRET or LOUD?
 	if(!bloodsuckerdatum?.Frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
 
+	// Checks: Step 2 - How fast should I be and how much should I drink?
+	var/feed_time_multiplier
 	if(bloodsuckerdatum?.Frenzied)
 		blood_take_mult = 2
-		feed_time = 8
+		feed_time_multiplier = 8
 	else if(!amSilent)
 		blood_take_mult = 1
-		feed_time = 25 - (2.5 * level_current)
+		feed_time_multiplier = 25 - (2.5 * level_current)
 	else
 		blood_take_mult = 0.3
-		feed_time = 45 - (2.5 * level_current)
-	feed_time = max(8, feed_time)
+		feed_time_multiplier = 45 - (2.5 * level_current)
+	feed_time = max(8, feed_time_multiplier)
 
+	// Send pre-pull message
 	if(amSilent)
 		owner.balloon_alert(owner, "you quietly lean towards [feed_target]")
 	else
 		owner.balloon_alert(owner, "you pull [feed_target] close to you!")
+
+	// Start the countdown
 	if(!do_mob(user, feed_target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
 		owner.balloon_alert(owner, "your feeding was interrupted!")
 		DeactivatePower(user)
 		return
-	// Put target to Sleep (Bloodsuckers are immune to their own bite's sleep effect)
+
+	// Give them the effects (Depending on if we are silent or not)
 	if(!amSilent)
-		// Sleep & paralysis, this is also given during UsePower.
+		// Sleep & paralysis.
 		ApplyVictimEffects(feed_target)
 		// Pull target to you if they don't take up space.
 		if(!feed_target.density)
 			feed_target.Move(user.loc)
-	// Broadcast Message
+		user.visible_message(span_warning("[user] closes [user.p_their()] mouth around [feed_target]'s neck!"), \
+							 span_warning("You sink your fangs into [feed_target]'s neck."))
 	if(amSilent)
-		//if (!iscarbon(feed_target))
-		//	user.visible_message(span_notice("[user] shifts [feed_target] closer to [user.p_their()] mouth."),
-		//					 	 span_notice("You secretly slip your fangs into [feed_target]'s flesh."),
-		//					 	 vision_distance = 2, ignored_mobs=feed_target) // Only people who AREN'T the target will notice this action.
-		//else
 		var/deadmessage = feed_target.stat == DEAD ? "" : " <i>[target.p_they(TRUE)] looks dazed, and will not remember this.</i>"
 		user.visible_message(span_notice("[user] puts [feed_target]'s wrist up to [user.p_their()] mouth."), \
 						 	 span_notice("You slip your fangs into [feed_target]'s wrist.[deadmessage]"), \
 						 	 vision_distance = notice_range, ignored_mobs = feed_target) // Only people who AREN'T the target will notice this action.
-		// Warn Feeder about Witnesses...
-		var/was_unnoticed = TRUE
-		for(var/mob/living/M in viewers(notice_range, owner) - owner - feed_target)
-			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind && !M.mind.has_antag_datum(/datum/antagonist/bloodsucker) && !M.mind.has_antag_datum(/datum/antagonist/vassal))
-				was_unnoticed = FALSE
-				break
-		if(was_unnoticed)
-			owner.balloon_alert(owner, "you think no one saw you...")
-		else
-			feeds_noticed++
-			owner.balloon_alert(owner, "someone may have noticed...")
-			to_chat(user, span_warning("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Vampiric Cause."))
 
-	else						 // /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mobs)
-		user.visible_message(span_warning("[user] closes [user.p_their()] mouth around [feed_target]'s neck!"), \
-							 span_warning("You sink your fangs into [feed_target]'s neck."))
+	// Check if we have anyone watching - If there is one, we broke the Masquerade.
+	for(var/mob/living/M in viewers(notice_range, owner) - owner - feed_target)
+		// Are they someone who will actually report our behavior?
+		if( \
+			M.client \
+			&& !M.has_unlimited_silicon_privilege \
+			&& !M.stat == DEAD \
+			&& !M.eye_blind \
+			&& !M.eye_blurry \
+			&& !IS_BLOODSUCKER(M) \
+			&& !IS_VASSAL(M) \
+			&& !HAS_TRAIT(M, TRAIT_BLOODSUCKER_HUNTER) \
+		)
+			was_noticed = TRUE
+			break
+	if(was_noticed)
+		feeds_noticed++
+		owner.balloon_alert(owner, "someone may have noticed...")
+		to_chat(user, span_warning("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Vampiric Cause."))
+	else
+		owner.balloon_alert(owner, "you think no one saw you...")
 
 	// Activate Effects
 //	feed_target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?

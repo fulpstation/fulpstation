@@ -96,36 +96,38 @@
 	if(istype(target))
 		owner.balloon_alert(owner, "you attempt to hypnotically gaze [target].")
 
-	if(do_mob(user, target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
-		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
-		var/power_time = 90 + level_current * 15
-		if(iscarbon(target))
-			var/mob/living/carbon/mesmerized = target
-			if(IS_MONSTERHUNTER(mesmerized))
-				to_chat(mesmerized, span_notice("You feel your eyes burn for a while, but it passes."))
+	if(!do_mob(user, target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
+		return
+	PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
+	var/power_time = 90 + level_current * 15
+	if(iscarbon(target))
+		var/mob/living/carbon/mesmerized = target
+		if(IS_MONSTERHUNTER(mesmerized))
+			to_chat(mesmerized, span_notice("You feel your eyes burn for a while, but it passes."))
+			return
+		if(target_mesmerized)
+			owner.balloon_alert(owner, "[mesmerized] is already in a hypnotic gaze.")
+			return
+		target_mesmerized = TRUE
+		ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+		owner.balloon_alert(owner, "[mesmerized] is fixed in place by your hypnotic gaze.")
+		mesmerized.Immobilize(power_time)
+		//mesmerized.silent += power_time / 10 // Silent isn't based on ticks.
+		mesmerized.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized.changeNext_move(power_time) // check click.dm
+		mesmerized.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
+		spawn(power_time)
+			if(!istype(mesmerized))
 				return
-			if(target_mesmerized)
-				owner.balloon_alert(owner, "[mesmerized] is already in a hypnotic gaze.")
-				return
-			target_mesmerized = TRUE
-			ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-			owner.balloon_alert(owner, "[mesmerized] is fixed in place by your hypnotic gaze.")
-			mesmerized.Immobilize(power_time)
-			//mesmerized.silent += power_time / 10 // Silent isn't based on ticks.
-			mesmerized.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized.changeNext_move(power_time) // check click.dm
-			mesmerized.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
-			spawn(power_time)
-				if(istype(mesmerized))
-					mesmerized.notransform = FALSE
-					REMOVE_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-					target_mesmerized = FALSE
-					// They Woke Up! (Notice if within view)
-					if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(6, get_turf(user))))
-						owner.balloon_alert(owner, "[mesmerized] has snapped out of their trance.")
-		if(issilicon(target))
-			var/mob/living/silicon/mesmerized = target
-			mesmerized.emp_act(EMP_HEAVY)
-			owner.balloon_alert(owner, "You have temporarily shut [mesmerized] down.")
+			mesmerized.notransform = FALSE
+			REMOVE_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+			target_mesmerized = FALSE
+			// They Woke Up! (Notice if within view)
+			if(istype(user) && mesmerized.stat == CONSCIOUS && (mesmerized in view(6, get_turf(user))))
+				owner.balloon_alert(owner, "[mesmerized] has snapped out of their trance.")
+	if(issilicon(target))
+		var/mob/living/silicon/mesmerized = target
+		mesmerized.emp_act(EMP_HEAVY)
+		owner.balloon_alert(owner, "You have temporarily shut [mesmerized] down.")
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && CheckCanUse() && CheckCanTarget(target)
