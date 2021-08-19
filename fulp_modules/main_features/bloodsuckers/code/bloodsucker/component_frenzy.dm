@@ -18,9 +18,9 @@
 	else
 		to_chat(parent, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
 		to_chat(parent, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed and Trespass (If you have it)."))
-		ADD_TRAIT(parent, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // Brujah can control Frenzy properly, so they don't get any of the effects.
-		ADD_TRAIT(parent, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(parent, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+		ADD_TRAIT(parent, TRAIT_STUNIMMUNE, FRENZY_TRAIT) // Brujah can control Frenzy properly, so they don't get any of the effects.
+		ADD_TRAIT(parent, TRAIT_MUTE, FRENZY_TRAIT)
+		ADD_TRAIT(parent, TRAIT_DEAF, FRENZY_TRAIT)
 		if(HAS_TRAIT(parent, TRAIT_ADVANCEDTOOLUSER))
 			REMOVE_TRAIT(parent, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
 	user.add_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
@@ -47,9 +47,9 @@
 		user.Paralyze(2 SECONDS)
 	user.balloon_alert(parent, "you come back to your senses")
 	if(HAS_TRAIT(parent, TRAIT_DEAF))
-		REMOVE_TRAIT(parent, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-		REMOVE_TRAIT(parent, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		REMOVE_TRAIT(parent, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+		REMOVE_TRAIT(parent, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
+		REMOVE_TRAIT(parent, TRAIT_MUTE, FRENZY_TRAIT)
+		REMOVE_TRAIT(parent, TRAIT_DEAF, FRENZY_TRAIT)
 		ADD_TRAIT(parent, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
 	user.remove_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
 	bloodsuckerdatum.frenzygrab.remove(user)

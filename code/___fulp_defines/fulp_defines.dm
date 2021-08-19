@@ -15,7 +15,9 @@
  *	Source Trait Defines
  */
 /// Source trait for Bloodsuckers/Monster Hunters/Vassals
-#define BLOODSUCKER_TRAIT "bloodsucker"
+#define BLOODSUCKER_TRAIT "bloodsucker_trait"
+/// Source trait for Frenzies
+#define FRENZY_TRAIT "frenzy_trait"
 
 /*
  *	Martial art Defines
