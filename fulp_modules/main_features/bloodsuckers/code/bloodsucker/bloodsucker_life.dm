@@ -7,6 +7,11 @@
  * 		EXAMINE
  *
  * Show as dead when...
+ *
+ * How to Burn Vamps:
+ *		C.adjustFireLoss(20)
+ *		C.adjust_fire_stacks(6)
+ *		C.IgniteMob()
  */
 
 /// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.

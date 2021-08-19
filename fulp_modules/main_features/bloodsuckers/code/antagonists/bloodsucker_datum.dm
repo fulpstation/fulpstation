@@ -534,11 +534,10 @@
 			gourmand_objective.objective_name = "Optional Objective"
 			objectives += gourmand_objective
 
-/*
+
 /// Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
 	return ..() + "([ReturnFullName(TRUE)])"
-*/
 
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
@@ -546,149 +545,6 @@
 	if(owner && AmFinalDeath)
 		return "<font color=red>Final Death</font>"
 	return ..()
-
-
-
-/*
- *			2019 Breakdown of Bloodsuckers:
- *
- *					G A M E P L A Y
- *
- *	Bloodsuckers should be inherently powerful: they never stay dead, and they can hide in plain sight
- * 	better than any other antagonist aboard the station.
- *
- *	However, only elder Bloodsuckers are the powerful creatures of legend. Ranking up as a Bloodsucker
- *	should impart slight strength and health benefits, as well as powers that can grow over time. But
- *	their weaknesses should grow as well, and not just to fire.
- *
- *
- *					A B I L I T I E S
- *
- *	* Bloodsuckers can FEIGN LIFE + DEATH.
- *		Feigning LIFE:
- *			- Warms up the body
- *			- Creates a heartbeat
- *			- Fake blood amount (550)
- *		Feign DEATH: Not yet done
- *			- When lying down or sitting, you appear "dead and lifeless"
- *
- *	* Bloodsuckers REGENERATE
- *		- Brute damage heals rather rapidly. Burn damage heals slowly.
- *		- Healing is reduced when hungry or starved.
- *		- Burn does not heal when starved. A starved vampire remains "dead" until burns can heal.
- *		- Bodyparts and organs regrow in Torpor (except for the Heart and Brain).
- *
- *	* Bloodsuckers are IMMORTAL
- *		- Brute damage cannot destroy them (and it caps very low, so they don't stack too much)
- *		- Burn damage can only kill them at very high amounts.
- *		- Removing the head kills the vamp forever.
- *		- Removing the heart kills the vamp until replaced.
- *
- *	* Bloodsuckers are DEAD
- *		- They do not breathe.
- *		- Cold affects them less.
- *		- They are immune to disease (but can spread it)
- *		- Food is useless and cause sickness.
- *		- Nothing can heal the vamp other than his own blood.
- *
- *	* Bloodsuckers are PREDATORS
- *		- They detect life/heartbeats nearby.
- *		- They know other predators instantly (Vamps, Werewolves, and alien types) regardless of disguise.
- *
- *
- *
- *	* Bloodsuckers enter Torpor when DEAD or RESTING in coffin
- *		- Torpid vampires regenerate their health. Coffins negate cost and speed up the process.
- *		** To rest in a coffin, either SLEEP or CLOSE THE LID while you're in it. You will be given a prompt to sleep until healed. Healing in a coffin costs NO blood!
- *
- *
- *
- *
- *				O B J E C T I V E S
- *
- *
- *
- *	1) GROOM AN HEIR:	Find a person with appropriate traits (hair, blood type, gender) to be turned as a Vampire. Before they rise, they must be properly trained. Raise them to great power after their change.
- *
- *	2) BIBLIOPHILE:		Research objects of interest, study items looking for clues of ancient secrets, and hunt down the clues to a Vampiric artifact of horrible power.
- *
- *	3) CRYPT LORD:		Build a terrifying sepulcher to your evil, with servants to lavish upon you in undeath. The trappings of a true crypt lord come at a grave cost.
- *
- *	4) GOURMAND:		Oh, to taste all the delicacies the station has to offer! DRINK ## BLOOD FROM VICTIMS WHO LIVE, EAT ## ORGANS FROM VICTIMS WHO LIVE
- *
- *			Vassals
- *
- *	- Loyal to their Master
- *	- Master can speak to, summon, or punish his Vassals, even while asleep or torpid.
- *	- Master may have as many Vassals as they want
- *
- *
- *
- *			Dev Notes
- *
- *	HEALING: Maybe Vamps metabolize specially? Like, they slowly drip their own blood into their system?
- *			- Give Vamps their own metabolization proc, perhaps?
- *			** shadowpeople.dm has rules for healing.
- *
- *	KILLING: It's almost impossible to track who someone has directly killed. But an Admin could be given
- *			an easy way to whip a Bloodsucker for cruel behavior, as an RP mechanic but not a punishment.
- *			**
- *
- *	HUNGER:  Just keep adjusting mob's nutrition to Blood Hunger level. No need to cancel nutrition from eating.
- *			** mob.dm /set_nutrition()
- *			** snacks.dm / attack()  <-- Stop food from doing anything?
- *
- *	ORGANS:  Liver
- *			** life.dm /handle_liver()
- *
- *	CORPSE:	Most of these effects likely go away when using "Masquerade" to appear alive.
- *			** status_procs.dm /adjust_bodytemperature()
- *			** traits.dm /TRAIT_NOBREATH /TRAIT_SLEEPIMMUNE /TRAIT_RESISTCOLD /TRAIT_RADIMMUNE  /TRAIT_VIRUSIMMUNE
- *			*  MASQUERADE ON/OFF: /TRAIT_FAKEDEATH (M)
- *			* /TRAIT_NIGHT_VISION
- *			* /TRAIT_FAKEDEATH <-- This basically makes you immobile. When using status_procs /fakedeath(), make sure to remove Coma unless we're in Torpor!
- *			* /TRAIT_NODEATH <--- ???
- *			** species  /NOZOMBIE
- *			* ADD: TRAIT_COLDBLOODED <-- add to carbon/life.dm /natural_bodytemperature_stabilization()
- *
- *	MASQUERADE	Appear as human!
- *				** examine.dm /examine() <-- Change "blood_volume < BLOOD_VOLUME_SAFE" to a new examine
- *
- *	NOSFERATU ** human.add_trait(TRAIT_DISFIGURED, "insert_vamp_datum_here") <-- Makes you UNKNOWN unless your ID says otherwise.
- *	STEALTH   ** human_helpers.dm /get_visible_name()     ** shadowpeople.dm has rules for Light.
- *
- *	FRENZY	** living.dm /update_mobility() (USED TO be update_canmove)
- *
- *	PREDATOR See other Vamps!
- *		    * examine.dm /examine()
- *
- *	WEAKNESSES:	-Poor mood in Chapel or near Chaplain.  -Stamina damage from Bible
- *
- *
- *
- *	//message_admins("DEBUG3: attempt_cast() [name] / [user_C.handcuffed] ")
- *
- *
- *	TODO:
- *
- *	Death (fire, heart, brain, head)
- *	Disable Life: BLOOD
- *	Body Temp
- *	Spend blood over time (more if imitating life) (none if sleeping in coffin)
- *	Auto-Heal (brute to 0, fire to 99) (toxin/o2 always 0)
- *
- *	Hud Icons
- *	UI Blood Counter
- *	Examine Name (+Masquerade, only "Dead and lifeless" if not standing?)
- *
- *
- *	Turn vamps
- *	Create vassals
- *
- *
- *
- *	FIX LIST
- */
 
 /*
  *	# Bloodsucker Names
