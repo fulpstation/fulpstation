@@ -3,6 +3,11 @@
 	name = "Sanguine Recuperation"
 	desc = "Slowly heals you overtime using your master's blood, in exchange for some of your own blood and effort."
 	button_icon_state = "power_recup"
+	power_explanation = "<b>Recuperate</b>:\n\
+		Activating this Power will begin to heal your wounds.\n\
+		You will heal Brute and Toxin damage, at the cost of Stamina damage.\n\
+		If you aren't a bloodless race, you will additionally heal Burn damage.\n\
+		The power will cancel out if you are incapacitated or dead."
 	amToggle = TRUE
 	bloodcost = 2.5
 	cooldown = 100

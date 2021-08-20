@@ -10,6 +10,8 @@
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
+	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
+	var/power_explanation
 
 	// ACTIONS //
 	///Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
@@ -61,14 +63,25 @@
 //	var/not_bloodsucker = FALSE
 
 /// Modify description to add cost.
-/datum/action/bloodsucker/New()
+/datum/action/bloodsucker/New(Target)
+	. = ..()
 	if(bloodcost > 0)
 		desc += "<br><br><b>COST:</b> [bloodcost] Blood"
 	if(constant_bloodcost)
 		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
 	if(amSingleUse)
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
-	..()
+
+/mob/living/proc/explain_powers()
+	set name = "Explain Powers"
+	set category = "Mentor"
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentors suck", bloodsuckerdatum.powers)
+	if(!choice)
+		return
+	var/datum/action/bloodsucker/P = choice
+	to_chat(usr, "<span class='warning'>[P.power_explanation]</span>")
 
 /*							NOTES
  *

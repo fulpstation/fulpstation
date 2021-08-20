@@ -1,7 +1,11 @@
 /datum/action/bloodsucker/targeted/trespass
 	name = "Trespass"
-	desc = "Become mist and advance two tiles in one direction, ignoring all obstacles except Walls. Useful for skipping past doors and barricades."
+	desc = "Become mist and advance two tiles in one direction. Useful for skipping past doors and barricades."
 	button_icon_state = "power_tres"
+	power_explanation = "<b>Trespass</b>:\n\
+		Click anywhere from 1-2 tiles away from you to teleport.\n\
+		This power goes through all obstacles except Walls.\n\
+		Higher levels decrease the sound played from using the Power, and increase the speed of the transition."
 	bloodcost = 10
 	cooldown = 80
 	//target_range = 2
@@ -62,7 +66,8 @@
 	user.visible_message(span_warning("[user]'s form dissipates into a cloud of mist!"), \
 					 	 span_notice("You disspiate into formless mist."))
 	// Effect Origin
-	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
+	var/sound_strength = max(60, 70 - level_current * 10)
+	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', sound_strength, 1)
 	var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread/()
 	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
 	puff.set_up(3, 0, my_turf)

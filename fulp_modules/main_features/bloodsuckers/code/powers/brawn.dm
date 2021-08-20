@@ -2,6 +2,12 @@
 	name = "Brawn"
 	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
 	button_icon_state = "power_strength"
+	power_explanation = "<b>Brawn</b>:\n\
+		Click any person to bash into them, break restraints you have or knocking a grabber down. Only one of these can be done per use.\n\
+		Punching a Cyborg will heavily EMP them in addition to deal damage.\n\
+		At level 3, you get the ability to break closets open, additionally can both break restraints AND knock a grabber down in the same use.\n\
+		At level 4, you get the ability to bash airlocks open, as long as they aren't bolted.\n\
+		Higher levels will increase the damage and knockdown when punching someone."
 	bloodcost = 8
 	cooldown = 90
 	target_range = 1
@@ -126,31 +132,35 @@
 		// Target Type: Cyborg (Also gets the effects above)
 		if(issilicon(target))
 			target.emp_act(EMP_HEAVY)
-	// Target Type: Door
-	else if(istype(target, /obj/machinery/door))
+	// Target Type: Locker
+	else if(istype(target, /obj/structure/closet))
 		if(level_current >= 3)
-			var/obj/machinery/door/D = target
-			playsound(get_turf(usr), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
-			owner.balloon_alert(owner, "you prepare to tear open [D]")
-			if(do_mob(usr, target, 2.5 SECONDS))
-				if(D.Adjacent(user))
-					D.visible_message(span_danger("breaks open as [user] bashes it!"))
-					user.Stun(10)
-					user.do_attack_animation(D, ATTACK_EFFECT_SMASH)
-					playsound(get_turf(D), 'sound/effects/bang.ogg', 30, 1, -1)
-					D.open(2) // open(2) is like a crowbar or jaws of life.
+			var/obj/structure/closet/C = target
+			user.balloon_alert(user, "you prepare to bash [C] open")
+			if(!do_mob(usr, target, 2.5 SECONDS))
+				user.balloon_alert(user, "interrupted!")
+				return FALSE
+			C.visible_message(span_danger("breaks open as [user] bashes it!"))
+			addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
+			playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		else
 			owner.balloon_alert(owner, "you're too weak for this!")
 			return FALSE
-	// Target Type: Locker
-	else if(istype(target, /obj/structure/closet))
-		if(level_current >= 2)
-			var/obj/structure/closet/C = target
-			user.balloon_alert(user, "you prepare to bash [C] open")
-			if(do_mob(usr, target, 2.5 SECONDS))
-				C.visible_message(span_danger("breaks open as [user] bashes it!"))
-				addtimer(CALLBACK(src, .proc/break_closet, user, C), 1)
-				playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+	// Target Type: Door
+	else if(istype(target, /obj/machinery/door))
+		if(level_current >= 4)
+			var/obj/machinery/door/D = target
+			playsound(get_turf(usr), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
+			owner.balloon_alert(owner, "you prepare to tear open [D]")
+			if(!do_mob(usr, target, 2.5 SECONDS))
+				user.balloon_alert(user, "interrupted!")
+				return FALSE
+			if(D.Adjacent(user))
+				D.visible_message(span_danger("breaks open as [user] bashes it!"))
+				user.Stun(10)
+				user.do_attack_animation(D, ATTACK_EFFECT_SMASH)
+				playsound(get_turf(D), 'sound/effects/bang.ogg', 30, 1, -1)
+				D.open(2) // open(2) is like a crowbar or jaws of life.
 		else
 			owner.balloon_alert(owner, "you're too weak for this!")
 			return FALSE

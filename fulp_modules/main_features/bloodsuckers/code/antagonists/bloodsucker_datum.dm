@@ -88,7 +88,7 @@
 	///Default traits ALL Bloodsuckers get.
 	var/static/list/defaultTraits = list(
 		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\
-		TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, \
+		TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_GENELESS,\
 		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT,\
 		TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED,\
 		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED,\
@@ -275,6 +275,7 @@
 	/// Purchase Roundstart Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
+	add_verb(owner.current, /mob/living/proc/explain_powers)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/bloodsucker/veil)
 	// Traits: Species
@@ -285,9 +286,8 @@
 		// Remove mutations (In case they got it mid-round)
 		H.dna?.remove_all_mutations()
 	/// Give Bloodsucker Traits
-	for(var/T in defaultTraits)
-		ADD_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_GENELESS, SPECIES_TRAIT)
+	for(var/bloodsucker_traits in defaultTraits)
+		ADD_TRAIT(owner.current, bloodsucker_traits, BLOODSUCKER_TRAIT)
 	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
@@ -314,6 +314,7 @@
 	/// Remove huds
 	remove_hud()
 	// Powers
+	remove_verb(owner.current, /mob/living/proc/explain_powers)
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
 		powers -= power

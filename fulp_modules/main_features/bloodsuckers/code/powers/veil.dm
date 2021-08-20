@@ -2,11 +2,16 @@
 	name = "Veil of Many Faces"
 	desc = "Disguise yourself in the illusion of another identity."
 	button_icon_state = "power_veil"
+	power_explanation = "<b>Veil of Many Faces</b>:\n\
+		Activating Veil of Many Faces will shroud you in smoke and forge you a new identity.\n\
+		Your name and appearance will be completely randomized, and turning the ability off again will undo it all.\n\
+		Clothes, gear, and Security/Medical HUD status is kept the same while this power is active."
 	bloodcost = 15
 	constant_bloodcost = 0.1
 	cooldown = 100
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
+	vassal_can_buy = TRUE
 	// Outfit Vars
 	var/list/original_items = list()
 	// Identity Vars
@@ -107,7 +112,7 @@
 		H.socks = prev_socks
 
 		//H.disabilities = prev_disabilities // Restore HUSK, CLUMSY, etc.
-		if (prev_disfigured)
+		if(prev_disfigured)
 			ADD_TRAIT(H, TRAIT_DISFIGURED, TRAIT_HUSK) // NOTE: We are ASSUMING husk. // H.status_flags |= DISFIGURED	// Restore "Unknown" disfigurement
 		H.dna.features = prev_features
 
@@ -137,10 +142,3 @@
 
 /obj/effect/particle_effect/smoke/vampsmoke/fade_out(frames = 6)
 	..(frames)
-
-///Vassal edition
-/datum/action/bloodsucker/veil/disguise
-	name = "Disguise"
-	desc = "Hide yourself as a random identity, fooling the naked eye."
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = TRUE

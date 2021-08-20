@@ -2,6 +2,8 @@
 	name = "Distress"
 	desc = "Injure yourself, allowing you to make a desperate call for help to your Master."
 	button_icon_state = "power_distress"
+	power_explanation = "<b>Distress</b>:\n\
+		Use this Power from anywhere and your Master Bloodsucker will instnatly be alerted of your location."
 	bloodcost = 10
 	cooldown = 100
 

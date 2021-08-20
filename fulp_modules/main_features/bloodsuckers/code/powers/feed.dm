@@ -1,7 +1,16 @@
 /datum/action/bloodsucker/feed
 	name = "Feed"
-	desc = "Draw the heartsblood of living victims in your grasp.<br><b>None/Passive:</b> Feed silently and unnoticed by your victim.<br><b>Aggressive: </b>Subdue your target quickly."
+	desc = "Draw the heartsblood of living victims in your grasp."
 	button_icon_state = "power_feed"
+	power_explanation = "<b>Feed</b>:\n\
+		Activate Feed while next to someone and you will begin to feed blood off of them.\n\
+		If <b>passively</b> grabbed, you will feed faster than default.\n\
+		If <b>aggressively</b> grabbed, along with drinking even faster, your victim will additionally be put to sleep.\n\
+		You cannot talk while Feeding, as your mouth is full of Blood.\n\
+		If you feed off of a Rat, unless you are Malkavian or Nosferatu, you will lose <b>Humanity</b> and get a mood debuff.\n\
+		Feeding off of someone until they die will cause you to lose <b>Humanity</b>.\n\
+		If you are seen feeding off of someone (2 tiles), you will break the Masquerade.\n\
+		Higher levels will increase the feeding's speed."
 	bloodcost = 0
 	cooldown = 30
 	amToggle = TRUE
