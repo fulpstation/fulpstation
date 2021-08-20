@@ -199,36 +199,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// NOTE: Look up /assassinate in objective.dm for inspiration.
-/// Vassalize a target.
-/datum/objective/bloodsucker/vassalhim
-	name = "vassalhim"
-	var/target_role_type = FALSE
-
-/datum/objective/bloodsucker/vassalhim/New()
-	var/list/possible_targets = return_possible_targets()
-	find_target(possible_targets)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/vassalhim/update_explanation_text()
-	. = ..()
-	if(target?.current)
-		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role], is Vassalized via the Persuasion Rack."
-	else
-		explanation_text = "Free Objective"
-
-/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
-	admin_simple_target_pick(admin)
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/vassalhim/check_completion()
-	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
-		return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 /// NOTE: Look up /steal in objective.dm for inspiration.
 /// Steal hearts. You just really wanna have some hearts.
 /datum/objective/bloodsucker/heartthief
@@ -447,3 +417,31 @@
 			return FALSE
 	return TRUE
 */
+
+/// NOTE: Look up /assassinate in objective.dm for inspiration.
+/// Vassalize a target.
+/datum/objective/bloodsucker/vassalhim
+	name = "vassalhim"
+	var/target_role_type = FALSE
+
+/datum/objective/bloodsucker/vassalhim/New()
+	var/list/possible_targets = return_possible_targets()
+	find_target(possible_targets)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/vassalhim/update_explanation_text()
+	. = ..()
+	if(target?.current)
+		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role], is Vassalized via the Persuasion Rack."
+	else
+		explanation_text = "Free Objective"
+
+/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
+	admin_simple_target_pick(admin)
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/vassalhim/check_completion()
+	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
+		return TRUE
+	return FALSE

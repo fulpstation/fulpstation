@@ -920,7 +920,6 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/survive,
 		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
-		/datum/objective/bloodsucker/vassalhim,
 		/datum/objective/bloodsucker/gourmand, // DEFAULT OBJECTIVES END
 		/datum/objective/bloodsucker/kindred, // CLAN OBJECTIVES
 		/datum/objective/bloodsucker/embrace,

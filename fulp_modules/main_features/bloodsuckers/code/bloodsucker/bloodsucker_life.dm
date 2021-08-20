@@ -56,6 +56,9 @@
 	update_hud()
 
 /datum/antagonist/bloodsucker/proc/AddHumanityLost(value)
+	if(humanity_lost >= 500)
+		to_chat(owner.current, span_warning("You hit the maximum amount of lost Humanty, you are far from Human."))
+		return
 	humanity_lost += value
 	to_chat(owner.current, span_warning("You feel as if you lost [value] points worth of your Humanity, you will now enter Frenzy at [FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)] Blood."))
 

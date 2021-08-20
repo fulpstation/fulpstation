@@ -513,26 +513,18 @@
 	objectives += survive_objective
 
 	// Objective 1: Vassalize a Head/Command, or a specific target
-	switch(rand(0,1))
-		if(0) // Protege Objective
+	switch(rand(1,3))
+		if(1) // Protege Objective
 			var/datum/objective/bloodsucker/protege/protege_objective = new
 			protege_objective.owner = owner
 			protege_objective.objective_name = "Optional Objective"
 			objectives += protege_objective
-		if(1) // Vassalize Target Objective
-			var/datum/objective/bloodsucker/vassalhim/vassalhim_objective = new
-			vassalhim_objective.owner = owner
-			vassalhim_objective.objective_name = "Optional Objective"
-			objectives += vassalhim_objective
-
-	// Objective 2: Steal X amount of hearts, or drink Y amount of blood.
-	switch(rand(0,1))
-		if(0) // Heart Thief Objective
+		if(2) // Heart Thief Objective
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner
 			heartthief_objective.objective_name = "Optional Objective"
 			objectives += heartthief_objective
-		if(1) // Drink Blood Objective
+		if(3) // Drink Blood Objective
 			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
 			gourmand_objective.owner = owner
 			gourmand_objective.objective_name = "Optional Objective"
