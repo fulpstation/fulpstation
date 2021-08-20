@@ -10,7 +10,7 @@
 	antag_datum = /datum/antagonist/bloodsucker
 	protected_roles = list(
 		// Command
-		"Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster",
+		"Captain", "Head of Personnel", "Head of Security",
 		// Security
 		"Warden", "Security Officer", "Detective", "Brig Physician",
 		// Deputies
@@ -59,7 +59,7 @@
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
 	protected_roles = list(
-		"Captain", "Head of Personnel", "Head of Security",// "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster", // Command can roll Midround.
+		"Captain", "Head of Personnel", "Head of Security",
 		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
 		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
 		"Curator",
@@ -124,7 +124,7 @@
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_BLOODSUCKER
 	protected_roles = list(
-		"Captain", "Head of Personnel", "Head of Security", "Research Director", "Chief Engineer", "Chief Medical Officer", "Quartermaster",
+		"Captain", "Head of Personnel", "Head of Security",
 		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
 		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
 		"Curator",
