@@ -5,6 +5,7 @@
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 
+	RegisterSignal(parent, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/FrenzyLifeTick)
 	var/mob/living/carbon/human/user = parent
 	bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Disable ALL Powers -- Do it here to prevent things like Fortitude's deactivate cancelling our stun immunity.
@@ -35,10 +36,6 @@
 	bloodsuckerdatum.Frenzies += 1
 	bloodsuckerdatum.Frenzied = TRUE
 
-/datum/component/bloodsucker_frenzy/RegisterWithParent()
-	. = ..()
-	RegisterSignal(parent, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/FrenzyLifeTick)
-
 /datum/component/bloodsucker_frenzy/Destroy(force, silent)
 	UnregisterSignal(parent, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	var/mob/living/carbon/human/user = parent
@@ -57,13 +54,11 @@
 	bloodsuckerdatum.Frenzied = FALSE
 	return ..()
 
-/**
- * Called when the parent grabs something, adds signals to the object to reject interactions
- */
 /datum/component/bloodsucker_frenzy/proc/FrenzyLifeTick(datum/source)
 	SIGNAL_HANDLER
 
 	var/mob/living/carbon/human/user = parent
 	if(!bloodsuckerdatum.Frenzied)
 		return
-	user.adjustFireLoss(bloodsuckerdatum.my_clan == CLAN_BRUJAH ? 1 : 2.5)
+	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
+		user.adjustFireLoss(1.5 + (bloodsuckerdatum.humanity_lost / 10))

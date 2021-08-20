@@ -180,12 +180,12 @@
 	// Checks: Step 2 - Is it a Mouse?
 	if(istype(feed_target, /mob/living/simple_animal/mouse))
 		var/mob/living/simple_animal/mouse_target = feed_target
-		bloodsuckerdatum.AddBloodVolume(15)
+		bloodsuckerdatum.AddBloodVolume(25)
 		owner.balloon_alert(owner, "you feed off of [feed_target]")
 		to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
 		if(bloodsuckerdatum.my_clan != CLAN_NOSFERATU && bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
-			bloodsuckerdatum.AddHumanityLost(0.5)
+			bloodsuckerdatum.AddHumanityLost(1)
 		DeactivatePower(user)
 		mouse_target.adjustBruteLoss(20)
 		return
