@@ -15,8 +15,6 @@
 	var/datum/antagonist/bloodsucker/master
 	/// Purchased powers.
 	var/list/datum/action/powers = list()
-	/// Am I protected from getting my antag removed if I get Mindshielded?
-	var/protected_from_mindshielding = FALSE
 	/// Tremere Vassals only - Have I been mutated?
 	var/mutilated = FALSE
 	/// Ventrue Vassals only - Am I their Favorite?
@@ -36,9 +34,6 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
-			/// Is my Master part of Tremere?
-			if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
-				protected_from_mindshielding = TRUE
 		owner.enslave_mind_to_creator(master.owner.current)
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
@@ -99,6 +94,32 @@
 	/// Message told to your (former) Master.
 	if(master && master.owner)
 		to_chat(master.owner, span_userdanger("You feel the bond with your vassal [owner.current] has somehow been broken!"))
+
+/// Called when we are made into the Favorite Vassal
+/datum/antagonist/vassal/proc/make_favorite(mob/living/master)
+	// Default stuff for all
+	favorite_vassal = TRUE
+	update_vassal_icons_added(owner, "vassal6")
+	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
+	// Now let's give them their assigned bonuses.
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
+		BuyPower(new /datum/action/bloodsucker/targeted/brawn/vassal)
+	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
+		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
+		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
+		to_chat(owner, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
+	if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
+		var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
+		owner.current.AddSpell(batform)
+	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		to_chat(master, span_notice("You now have a Favorite Vassal! Buckle them onto a Candelabrum to level them up!"))
+		BuyPower(new /datum/action/bloodsucker/distress)
+	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
+		var/mob/living/carbon/carbonowner = owner.current
+		carbonowner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+		carbonowner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+		to_chat(owner, span_notice("Additionally, you now suffer the same fate as your Master."))
 
 /// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)

@@ -169,6 +169,11 @@
 		if(creator)
 			to_chat(creator, span_danger("[bloodsucker]'s DNA isn't compatible!"))
 		return FALSE
+	// Check if their Creator is Malkavian trying to turn a Beefman into one.
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = creator.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum?.my_clan == CLAN_MALKAVIAN)
+		if(isbeefman(bloodsucker.current))
+			return FALSE
 	// Check for Fledgeling
 	if(creator)
 		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [creator].")

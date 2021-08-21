@@ -15,6 +15,7 @@
 	must_be_capacitated = TRUE
 	can_use_w_immobilize = TRUE
 	bloodsucker_can_buy = TRUE
+	vassal_can_buy = TRUE
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
 	if(!..()) // Default checks
@@ -192,6 +193,5 @@
 /// Vassal version
 /datum/action/bloodsucker/targeted/brawn/vassal
 	name = "Strength"
-	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
+	desc = "Snap restraints, knock down grabbers, or deal terrible damage with your bare hands."
 	bloodsucker_can_buy = FALSE
-	vassal_can_buy = TRUE

@@ -70,7 +70,6 @@
 	 */
 	var/Ghost_desc
 	var/Vamp_desc
-	var/Ventrue_desc
 	var/Vassal_desc
 	var/Hunter_desc
 
@@ -83,9 +82,6 @@
 			. += span_cult("It is unsecured. Click on [src] while in your lair to secure it in place to get its full potential.")
 			return
 		. += span_cult(Vamp_desc)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE && Ventrue_desc)
-			. += span_cult(Ventrue_desc)
 	if(IS_VASSAL(user) && Vassal_desc != "")
 		. += span_cult(Vassal_desc)
 	if(IS_MONSTERHUNTER(user) && Hunter_desc != "")
@@ -181,8 +177,8 @@
 	Ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
 	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
 		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.\n\
-		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand."
-	Ventrue_desc = "As part of the Ventrue Clan, you can choose a Favorite Vassal;\n\
+		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.\n\
+		Once you have Vassals ready, you are able to select a Favorite Vassal;\n\
 		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!\n\
 		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching Final Death."
 	Vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions.\n\
@@ -309,30 +305,22 @@
 		user_unbuckle_mob(C, user)
 		return
 	var/datum/antagonist/vassal/V = IS_VASSAL(C)
-	/// Are they our Vassal, or Dead?
+	// Are they our Vassal, or Dead?
 	if(istype(V) && V.master == B || C.stat >= DEAD)
-		/// Are we part of Tremere? They can do bonus things with their Vassals, so don't unbuckle!
+		// Can we assign a Favorite Vassal?
+		if(C.mind.can_make_bloodsucker(C.mind))
+			if(istype(V) && !B.my_favorite_vassal)
+				offer_favorite_vassal(user, C)
+		// Are we part of Tremere? They can do bonus things with their Vassals.
 		if(B.my_clan == CLAN_TREMERE)
-			/// Limit it to only 1 time per Vassal.
 			if(istype(V) && V.mutilated)
 				to_chat(user, span_notice("You've already mutated [C] beyond repair!"))
 				return
 			tremere_perform_magic(user, C)
-			return
-		/// Are we part of Ventrue? Can we assign a Favorite Vassal?
-		if(B.my_clan == CLAN_VENTRUE && C.stat <= CONSCIOUS)
-			if(!C.mind.can_make_bloodsucker(C.mind))
-				to_chat(user, span_notice("[C] cannot be turned into a Favorite Vassal!"))
-				return FALSE
-			if(istype(V) && !B.my_favorite_vassal)
-				offer_ventrue_favorites(user, C)
-				return
-		/// Not Tremere & They're still our Vassal, let's unbuckle them.
-		unbuckle_mob(C)
 		useLock = FALSE
 		return
 
-	/// Not our Vassal & We're a Bloodsucker, good to go!
+	// Not our Vassal, but Alive & We're a Bloodsucker, good to torture!
 	torture_victim(user, C)
 
 /*
@@ -573,7 +561,7 @@
 	vassaldatum.mutilated = TRUE
 	bloodsuckerdatum.vassals_mutated++
 
-/obj/structure/bloodsucker/vassalrack/proc/offer_ventrue_favorites(mob/living/user, mob/living/target)
+/obj/structure/bloodsucker/vassalrack/proc/offer_favorite_vassal(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 	/// To deal with Blood
@@ -587,16 +575,11 @@
 	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
 	switch(favorite_response)
 		if("Yes")
-			bloodsuckerdatum.my_favorite_vassal = TRUE
-			vassaldatum.favorite_vassal = TRUE
 			to_chat(user, span_danger("You have turned [target] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 			to_chat(user, span_announce("* Bloodsucker Tip: You can now upgrade your Vassal by buckling them onto a Candelabrum!"))
-			to_chat(target, span_announce("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 			C.blood_volume -= 150
-			/// Make them immune to Mindshielding now
-			vassaldatum.update_vassal_icons_added(target.mind, "vassal6")
-			vassaldatum.BuyPower(new /datum/action/bloodsucker/distress)
-			vassaldatum.protected_from_mindshielding = TRUE
+			bloodsuckerdatum.my_favorite_vassal = TRUE
+			vassaldatum.make_favorite(user)
 			return
 		else
 			to_chat(user, span_danger("You decide not to turn [target] into your Favorite Vassal."))
@@ -623,12 +606,9 @@
 		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
 	Vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.\n\
 		You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally."
-	Ventrue_desc = "As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.\n\
-		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.\n\
-		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve."
 	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n\
 		You can turn it on and off by clicking on it while you are next to it.\n\
-		If your Master is part of the Ventrue Clan, they utilize this machinery to upgrade their Favorite Vassal."
+		If your Master is part of the Ventrue Clan, they utilize this to upgrade their Favorite Vassal."
 	Hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
 
@@ -639,6 +619,14 @@
 /obj/structure/bloodsucker/candelabrum/update_icon_state()
 	icon_state = "candelabrum[lit ? "_lit" : ""]"
 	return ..()
+
+/obj/structure/bloodsucker/candelabrum/examine(mob/user)
+	. = ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		. += span_cult("As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.\n\
+		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.\n\
+		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.")
 
 /obj/structure/bloodsucker/candelabrum/bolt()
 	. = ..()

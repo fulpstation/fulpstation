@@ -30,7 +30,7 @@
 		// FULP EDIT - BLOODSUCKERS
 		if(target.mind.has_antag_datum(/datum/antagonist/vassal)) // Fulpstation Bloodsuckers edit - Mindshielding unvassalizes!
 			var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
-			if(!vassaldatum.protected_from_mindshielding)
+			if(!vassaldatum.favorite_vassal)
 				target.mind.remove_antag_datum(/datum/antagonist/vassal)
 				deconverted = TRUE
 			else
