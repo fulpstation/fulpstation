@@ -100,6 +100,7 @@
 	// Default stuff for all
 	favorite_vassal = TRUE
 	update_vassal_icons_added(owner, "vassal6")
+	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 	// Now let's give them their assigned bonuses.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -113,7 +114,7 @@
 		var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
 		owner.current.AddSpell(batform)
 	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-		to_chat(master, span_notice("You now have a Favorite Vassal! Buckle them onto a Candelabrum to level them up!"))
+		to_chat(master, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
 		BuyPower(new /datum/action/bloodsucker/distress)
 	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
 		var/mob/living/carbon/carbonowner = owner.current

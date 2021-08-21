@@ -106,7 +106,7 @@
 		return
 	. = ..()
 
-/obj/structure/bloodsucker/attack_hand(mob/user)
+/obj/structure/bloodsucker/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	/// Claiming the Rack instead of using it?
@@ -293,7 +293,7 @@
 	update_icon()
 	useLock = FALSE // Failsafe
 
-/obj/structure/bloodsucker/vassalrack/attack_hand(mob/user)
+/obj/structure/bloodsucker/vassalrack/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Is there anyone on the rack & If so, are they being tortured?
@@ -575,18 +575,13 @@
 	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
 	switch(favorite_response)
 		if("Yes")
-			to_chat(user, span_danger("You have turned [target] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
-			to_chat(user, span_announce("* Bloodsucker Tip: You can now upgrade your Vassal by buckling them onto a Candelabrum!"))
 			C.blood_volume -= 150
 			bloodsuckerdatum.my_favorite_vassal = TRUE
 			vassaldatum.make_favorite(user)
 			return
 		else
 			to_chat(user, span_danger("You decide not to turn [target] into your Favorite Vassal."))
-			/// Unbuckle them now.
-			unbuckle_mob(C)
 			useLock = FALSE
-			return
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -643,17 +638,11 @@
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
 
-	// Are we right next to it? Let's unbuckle the person in it, then.
-	if(user.Adjacent(src))
-		if(!has_buckled_mobs() || !isliving(user))
-			return
-		var/mob/living/carbon/C = pick(buckled_mobs)
-		if(C)
-			unbuckle_mob(C,user)
-	// Bloodsuckers can turn their candles on from a distance.
-	else
-		if(IS_BLOODSUCKER(user))
-			toggle()
+	if(!has_buckled_mobs() || !isliving(user))
+		return
+	var/mob/living/carbon/C = pick(buckled_mobs)
+	if(C)
+		unbuckle_mob(C,user)
 
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
 	lit = !lit
@@ -680,12 +669,11 @@
  *
  *	Ventrue Bloodsuckers can buckle Vassals onto the Candelabrum to "Upgrade" them.
  *	This is limited to a Single vassal, called 'My Favorite Vassal'.
- *	This is like Raising a Bloodsucker, but because of Balance reasons, they don't become a Bloodsucker after this.
  *
  *	Most of this is just copied over from Persuasion Rack.
  */
 
-/obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user)
+/obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
 	if(!anchored)
 		return
@@ -720,8 +708,7 @@
 			to_chat(user, "<span class='danger'>You don't have any levels or enough Blood to Rank [C] up with.</span>")
 			return
 
-	var/datum/antagonist/vassal/T = user.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(IS_BLOODSUCKER(user) || istype(T))
+	if(IS_BLOODSUCKER(user) || IS_VASSAL(user))
 		toggle()
 
 /// Buckling someone in
