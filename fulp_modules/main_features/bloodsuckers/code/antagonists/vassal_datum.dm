@@ -15,8 +15,6 @@
 	var/datum/antagonist/bloodsucker/master
 	/// Purchased powers.
 	var/list/datum/action/powers = list()
-	/// Tremere Vassals only - Have I been mutated?
-	var/mutilated = FALSE
 	/// Ventrue Vassals only - Am I their Favorite?
 	var/favorite_vassal = FALSE
 	/// What level am I? This is only increased through Ventrue's raising of a Vassal

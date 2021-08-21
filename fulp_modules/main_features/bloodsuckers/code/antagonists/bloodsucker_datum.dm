@@ -58,7 +58,6 @@
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
 	var/Frenzies = 0
-	var/vassals_mutated = 0
 
 	///Used in Bloodsucker huds
 	var/valuecolor
