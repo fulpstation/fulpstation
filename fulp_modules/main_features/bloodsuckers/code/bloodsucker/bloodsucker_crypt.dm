@@ -179,17 +179,17 @@
 	can_buckle = TRUE
 	buckle_lying = 180
 	Ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
-	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service. \
-		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them. \
+	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
+		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.\n\
 		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand."
-	Ventrue_desc = "As part of the Ventrue Clan, you can choose a Favorite Vassal\
-		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully! \
+	Ventrue_desc = "As part of the Ventrue Clan, you can choose a Favorite Vassal;\n\
+		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!\n\
 		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching Final Death."
-	Vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions. \
-		Aid your master in bringing their victims here and keeping them secure.\
+	Vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions.\n\
+		Aid your master in bringing their victims here and keeping them secure.\n\
 		You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured."
-	Hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves. \
-		They usually ensure that victims are handcuffed, to prevent them from running away. \
+	Hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.\n\
+		They usually ensure that victims are handcuffed, to prevent them from running away.\n\
 		Their rituals take time, allowing us to disrupt it."
 	/// So we can't spam buckle people onto the rack
 	var/useLock = FALSE
@@ -619,15 +619,15 @@
 	density = FALSE
 	can_buckle = TRUE
 	anchored = FALSE
-	Ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals. \
+	Ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals.\n\
 		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
-	Vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active. \
+	Vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.\n\
 		You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally."
-	Ventrue_desc = "As part of the Ventrue Clan, you can Rank Up your Favorite Vassal. \
-		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach. \
+	Ventrue_desc = "As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.\n\
+		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.\n\
 		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve."
-	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active. \
-		You can turn it on and off by clicking on it while you are next to it. \
+	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n\
+		You can turn it on and off by clicking on it while you are next to it.\n\
 		If your Master is part of the Ventrue Clan, they utilize this machinery to upgrade their Favorite Vassal."
 	Hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
@@ -793,7 +793,7 @@
 	Ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
 	Vamp_desc = "This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
 	Vassal_desc = "This is a Blood throne, it allows your Master to telepathically speak to you and others like you."
-	Hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on. \
+	Hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
 		While buckled, Monsters can use this to telepathically communicate with eachother."
 	var/mutable_appearance/armrest
 
