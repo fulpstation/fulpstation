@@ -5,7 +5,7 @@
 	button_icon_state = "power_recup"
 	power_explanation = "<b>Recuperate</b>:\n\
 		Activating this Power will begin to heal your wounds.\n\
-		You will heal Brute and Toxin damage, at the cost of Stamina damage.\n\
+		You will heal Brute and Toxin damage, at the cost of Stamina damage, and blood from both you and your Master.\n\
 		If you aren't a bloodless race, you will additionally heal Burn damage.\n\
 		The power will cancel out if you are incapacitated or dead."
 	amToggle = TRUE
