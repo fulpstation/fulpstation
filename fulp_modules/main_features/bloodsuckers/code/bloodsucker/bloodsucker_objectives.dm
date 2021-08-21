@@ -264,25 +264,23 @@
 //     CLAN OBJECTIVES      //
 //////////////////////////////
 
-/// Enter Frenzy repeatedly - Brujah Clan objective
-/datum/objective/bloodsucker/frenzy
-	name = "frenzy"
-
-/datum/objective/bloodsucker/frenzy/New()
-	target_amount = rand(3,4)
-	..()
+/// Drink certain amount of Blood while in a Frenzy - Brujah Clan Objective
+/datum/objective/bloodsucker/gourmand/brujah
+	name = "brujah gourmand"
+//	NOTE: This is a copy paste from default Gourmand objective.
 
 // EXPLANATION
-/datum/objective/bloodsucker/frenzy/update_explanation_text()
+/datum/objective/bloodsucker/gourmand/brujah/update_explanation_text()
 	. = ..()
-	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+	explanation_text = "While in a Frenzy, using your Feed ability, drink [target_amount] units of Blood."
 
 // WIN CONDITIONS?
-/datum/objective/bloodsucker/frenzy/check_completion()
+/datum/objective/bloodsucker/gourmand/brujah/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return FALSE
-	if(bloodsuckerdatum.Frenzies >= target_amount)
+	var/stolen_blood = bloodsuckerdatum.frenzy_blood_drank
+	if(stolen_blood >= target_amount)
 		return TRUE
 	return FALSE
 
@@ -467,3 +465,21 @@
 	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
 		return TRUE
 	return FALSE
+
+/// Enter Frenzy repeatedly - Brujah Clan objective
+/datum/objective/bloodsucker/frenzy
+	name = "frenzy"
+
+/datum/objective/bloodsucker/frenzy/New()
+	target_amount = rand(3,4)
+	..()
+
+/datum/objective/bloodsucker/frenzy/update_explanation_text()
+	. = ..()
+	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+
+/datum/objective/bloodsucker/frenzy/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	if(bloodsuckerdatum.Frenzies >= target_amount)

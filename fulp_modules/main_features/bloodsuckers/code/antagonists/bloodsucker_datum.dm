@@ -56,6 +56,7 @@
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
+	var/frenzy_blood_drank = 0
 	var/Frenzies = 0
 	var/vassals_mutated = 0
 

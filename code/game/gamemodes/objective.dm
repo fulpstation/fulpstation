@@ -923,12 +923,14 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/gourmand,
 		// CLAN OBJECTIVES
-		/datum/objective/bloodsucker/frenzy, //Brujah
+		/datum/objective/bloodsucker/gourmand/brujah, //Brujah
 		/datum/objective/bloodsucker/kindred, //Nosferatu
 		/datum/objective/bloodsucker/vassal_mutilation, //Tremere
 		/datum/objective/bloodsucker/embrace, //Ventrue
 		// MISC OBJECTIVES
 		/datum/objective/bloodsucker/monsterhunter,
+		/datum/objective/bloodsucker/vassalhim,
+		/datum/objective/bloodsucker/frenzy,
 		/// Fulpstation edit ends - Bloodsucker Objectives
 		/datum/objective/destroy,
 		/datum/objective/hijack,
