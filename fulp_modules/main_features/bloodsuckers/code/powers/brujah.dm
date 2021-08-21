@@ -4,8 +4,8 @@
 	button_icon_state = "power_brujah"
 	power_explanation = "<b>Frenzy</b>:\n\
 		A Brujah only Power. Activating it will make you enter a Frenzy.\n\
-		When in a Frenzy, you slowly gain brute damage, but can move faster, become mute & deaf,\n\
-		get a red screen, and become unable to use complicated machinery."
+		When in a Frenzy, you get extra stun resistance, slowly gain brute damage, move faster, become mute/deaf,\n\
+		and become unable to use complicated machinery as your screen goes blood-red."
 	bloodcost = 2
 	conscious_constant_bloodcost = TRUE
 	cooldown = 100

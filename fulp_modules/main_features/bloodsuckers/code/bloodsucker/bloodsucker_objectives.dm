@@ -466,7 +466,7 @@
 		return TRUE
 	return FALSE
 
-/// Enter Frenzy repeatedly - Brujah Clan objective
+/// Enter Frenzy repeatedly
 /datum/objective/bloodsucker/frenzy
 	name = "frenzy"
 
@@ -483,3 +483,5 @@
 	if(!bloodsuckerdatum)
 		return FALSE
 	if(bloodsuckerdatum.Frenzies >= target_amount)
+		return TRUE
+	return FALSE
