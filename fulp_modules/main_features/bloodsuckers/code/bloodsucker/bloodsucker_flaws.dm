@@ -47,11 +47,10 @@
 				* As part of the Nosferatu Clan, you are less interested in disguising yourself within the crew, as such you do not know how to use the Masquerade or Veil ability.<br> \
 				* Additionally, in exchange for having a bad back and not being identifiable, you can fit into vents using Alt+Click.</span>"))
 			for(var/datum/action/bloodsucker/power in powers)
-				if(istype(power, /datum/action/bloodsucker/masquerade))
+				if(istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
 					powers -= power
-					power.Remove(owner.current)
-				if(istype(power, /datum/action/bloodsucker/veil))
-					powers -= power
+					if(power.active)
+						power.DeactivatePower()
 					power.Remove(owner.current)
 			if(!bloodsucker.has_quirk(/datum/quirk/badback))
 				bloodsucker.add_quirk(/datum/quirk/badback)

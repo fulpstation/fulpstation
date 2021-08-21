@@ -141,11 +141,24 @@
 	return returnIcon + returnString
 
 /// Am I "pale" when examined? - Bloodsuckers on Masquerade will hide this.
-/mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user)
+/mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user, apparent_blood_volume)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	// Not a Bloodsucker?
+	if(!bloodsuckerdatum)
+		return ""
+	// Blood level too low to be hidden?
+	if(apparent_blood_volume <= BLOOD_VOLUME_BAD)
+		return ""
+	// Special check: Nosferatu will always be Pale Death
+	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
+		return "<b>[p_they(TRUE)] look[p_s()] like pale death"
 	if(bloodsuckerdatum?.poweron_masquerade)
-		return FALSE
-	return TRUE
+		return BLOODSUCKER_HIDE_BLOOD
+	switch(apparent_blood_volume)
+		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
+			return "[p_they(TRUE)] [p_have()] pale skin.\n"
+		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
+			return  "<b>[p_they(TRUE)] look[p_s()] like pale death.</b>\n"
 	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)
 //	return blood_volume < BLOOD_VOLUME_OKAY // && !(bodytemperature <= get_temperature() + 2)
 /*

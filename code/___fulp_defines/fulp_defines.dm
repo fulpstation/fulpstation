@@ -40,6 +40,8 @@
 #define TRAIT_MASQUERADE "masquerade"
 /// Your body is literal room temperature. Does not make you immune to the temp.
 #define TRAIT_COLDBLOODED "coldblooded"
+/// Definition for whether to hide our blood volume
+#define BLOODSUCKER_HIDE_BLOOD "hide_blood_volume"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
 /// Used for determining the rate at which a bloodsucker regens
