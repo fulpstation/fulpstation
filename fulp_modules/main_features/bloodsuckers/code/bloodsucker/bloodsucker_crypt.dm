@@ -308,12 +308,12 @@
 	// Are they our Vassal, or Dead?
 	if(istype(V) && V.master == B || C.stat >= DEAD)
 		// Can we assign a Favorite Vassal?
-		if(C.mind.can_make_bloodsucker(C.mind))
-			if(istype(V) && !B.my_favorite_vassal)
+		if(istype(V) && !B.my_favorite_vassal)
+			if(C.mind.can_make_bloodsucker(C.mind))
 				offer_favorite_vassal(user, C)
 		// Are we part of Tremere? They can do bonus things with their Vassals.
 		if(B.my_clan == CLAN_TREMERE)
-			if(istype(V) && V.mutilated)
+			if(istype(V) && V.mutilated && !V.favorite_vassal)
 				to_chat(user, span_notice("You've already mutated [C] beyond repair!"))
 				return
 			tremere_perform_magic(user, C)
