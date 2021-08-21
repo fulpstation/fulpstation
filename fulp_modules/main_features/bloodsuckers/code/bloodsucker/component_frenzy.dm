@@ -61,5 +61,7 @@
 	var/mob/living/carbon/human/user = parent
 	if(!bloodsuckerdatum.Frenzied)
 		return
-	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
+	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
+		user.adjustBruteLoss(1.5 + (bloodsuckerdatum.humanity_lost / 10))
+	else
 		user.adjustFireLoss(1.5 + (bloodsuckerdatum.humanity_lost / 10))
