@@ -9,7 +9,8 @@
 	var/mob/living/carbon/human/user = parent
 	bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Disable ALL Powers -- Do it here to prevent things like Fortitude's deactivate cancelling our stun immunity.
-	bloodsuckerdatum.DisableAllPowers()
+	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
+		bloodsuckerdatum.DisableAllPowers()
 
 	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
 		user.balloon_alert(parent, "you enter frenzy!")

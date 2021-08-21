@@ -151,7 +151,7 @@
 	// Incapacitated?
 	if(must_be_capacitated)
 		var/mob/living/L = owner
-		if (!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
+		if(!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
 			if(display_error)
 				to_chat(owner, span_warning("Not while you're incapacitated!"))
 			return FALSE
@@ -164,7 +164,7 @@
 			return FALSE
 	// In a Frenzy?
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && !bloodsuckerdatum.my_clan == CLAN_BRUJAH)
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && bloodsuckerdatum.my_clan != CLAN_BRUJAH)
 		if(!can_use_in_frenzy)
 			if(display_error)
 				to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
@@ -191,7 +191,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/UpdateButtonIcon(force = FALSE)
-	background_icon_state = active? background_icon_state_on : background_icon_state_off
+	background_icon_state = active ? background_icon_state_on : background_icon_state_off
 	. = ..()
 
 /datum/action/bloodsucker/proc/PayCost()

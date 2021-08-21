@@ -39,6 +39,7 @@
 			var/datum/species/S = bloodsucker.dna.species
 			S.punchdamagehigh += 1.5
 			AddHumanityLost(17.5)
+			BuyPower(new /datum/action/bloodsucker/brujah)
 		if(CLAN_NOSFERATU)
 			my_clan = CLAN_NOSFERATU
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \

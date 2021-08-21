@@ -276,7 +276,7 @@
 //	handled in bloodsucker_integration.dm
 
 	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
-	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied)
+	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied && my_clan != CLAN_BRUJAH)
 		qdel(owner.current.GetComponent(/datum/component/bloodsucker_frenzy))
 	// BLOOD_VOLUME_BAD: [224] - Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !poweron_masquerade)
@@ -287,7 +287,14 @@
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !Frenzied)
-		owner.current.AddComponent(/datum/component/bloodsucker_frenzy)
+		if(my_clan != CLAN_BRUJAH)
+			owner.current.AddComponent(/datum/component/bloodsucker_frenzy)
+		else
+			for(var/datum/action/bloodsucker/power in powers)
+				if(istype(power, /datum/action/bloodsucker/brujah))
+					if(power.active)
+						return
+					power.ActivatePower()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
 	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
