@@ -288,7 +288,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Steal the Archive of the Kindred - Tremere Clan objective
+/// Steal the Archive of the Kindred - Nosferatu Clan objective
 /datum/objective/bloodsucker/kindred
 	name = "steal kindred"
 
@@ -315,6 +315,28 @@
 		for(var/obj/I in all_items)
 			if(istype(I, /obj/item/book/kindred))
 				return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Mutilate a certain amount of Vassals - Tremere Clan objective
+/datum/objective/bloodsucker/vassal_mutilation
+	name = "steal kindred"
+
+/datum/objective/bloodsucker/vassal_mutilation/New()
+	target_amount = rand(2,3)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/vassal_mutilation/update_explanation_text()
+	. = ..()
+	explanation_text = "Mutate [target_amount] of Vassals into vile sevant creatures."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/vassal_mutilation/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.vassals_mutated >= target_amount)
+		return TRUE
 	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////

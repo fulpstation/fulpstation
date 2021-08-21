@@ -496,6 +496,7 @@
 				I.removed(target,silent=TRUE)
 
 /obj/structure/bloodsucker/vassalrack/proc/tremere_perform_magic(mob/living/user, mob/living/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 	/// To deal with Blood
 	var/mob/living/carbon/human/C = user
@@ -506,9 +507,12 @@
 		to_chat(user, span_notice("Do you wish to rebuild this body? This will remove any restraints they might have, and will cost 150 Blood!"))
 		var/list/revive_options = list(
 			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
-			)
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
+		)
 		var/revive_response = show_radial_menu(user, src, revive_options, radius = 36, require_near = TRUE)
+		if(!revive_response)
+			to_chat(user, span_danger("You decide not to revive [target]. Right Click to unbuckle them."))
+			return
 		switch(revive_response)
 			if("Yes")
 				if(prob(15))
@@ -520,12 +524,6 @@
 					to_chat(target, span_announce("As Blood drips over your body, your heart begins to beat... You live again!"))
 				C.blood_volume -= 150
 				target.revive(full_heal = TRUE, admin_revive = TRUE)
-				return
-		to_chat(user, span_danger("You decide not to revive [target]."))
-		// Unbuckle them now.
-		unbuckle_mob(C)
-		useLock = FALSE
-		return
 
 	var/static/list/races = list(
 		TREMERE_ZOMBIE,
@@ -535,7 +533,9 @@
 	var/list/options = list()
 	options = races
 	var/answer = tgui_input_list(user, "We have the chance to mutate our Vassal, how should we mutilate their corpse?", "What do we do with our Vassal?", options)
-	var/blood_gained
+	if(!answer)
+		to_chat(user, span_notice("You decide to leave your Vassal just the way they are."))
+		return
 	if(!do_mob(user, src, 5 SECONDS))
 		to_chat(user, span_danger("<i>The ritual has been interrupted!</i>"))
 		return
@@ -545,36 +545,26 @@
 			to_chat(target, span_notice("Your master has mutated you into a High-Functioning Zombie!"))
 			target.revive(full_heal = TRUE, admin_revive = TRUE)
 			H.set_species(/datum/species/zombie)
-			vassaldatum.mutilated = TRUE
-		/// Quick Feeding
 		if(TREMERE_HUSK)
 			to_chat(user, span_notice("You suck all the blood out of [target], turning them into a Living Husk!"))
 			to_chat(target, span_notice("Your master has mutated you into a Living Husk!"))
-			/// Just take it all
-			blood_gained = 250
+			bloodsuckerdatum.AddBloodVolume(250)
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 			H.become_husk()
-			vassaldatum.mutilated = TRUE
-		/// Chance to give Bat form, or turn them into a bat.
-		if(TREMERE_BAT)
-			/// Ooh, lucky!
+		if(TREMERE_BAT) // Chance to give Bat form, or turn them into a bat.
 			if(prob(60))
 				to_chat(user, span_notice("You have mutated [target], giving them the ability to turn into a Bat and back at will!"))
 				to_chat(target, span_notice("Your master has mutated you, giving you the ability to turn into a Bat and back at will!"))
 				var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
 				target.AddSpell(batform)
-				vassaldatum.mutilated = TRUE
 			else
 				to_chat(user, span_notice("You have failed to mutate [target] into a Bat, forever trapping them into Bat form!"))
 				to_chat(target, span_notice("Your master has mutated you into a Bat!"))
 				var/mob/living/simple_animal/hostile/retaliate/bat/battransformation = new /mob/living/simple_animal/hostile/retaliate/bat(target.loc)
 				target.mind.transfer_to(battransformation)
 				qdel(target)
-				vassaldatum.mutilated = TRUE
-
-	if(blood_gained)
-		user.blood_volume += blood_gained
-	to_chat(user, span_notice("You decide to leave your Vassal just the way they are."))
+	vassaldatum.mutilated = TRUE
+	bloodsuckerdatum.vassals_mutated++
 
 /obj/structure/bloodsucker/vassalrack/proc/offer_ventrue_favorites(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)

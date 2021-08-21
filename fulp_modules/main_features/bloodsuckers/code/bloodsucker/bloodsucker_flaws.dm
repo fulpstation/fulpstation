@@ -16,16 +16,19 @@
 	if(isbeefman(bloodsucker))
 		options -= CLAN_MALKAVIAN
 	/// Brief descriptions in case they don't read the Wiki.
-	to_chat(owner, span_announce("List of all Clans:<br> \
-		Brujah - Prone to Frenzy, Brawn buffed.<br> \
-		Nosferatu - Disfigured, no Masquerade, Ventcrawl.<br> \
-		Tremere - Burn in the Chapel, Vassal Mutilation.<br> \
-		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead.<br></span>"))
+	to_chat(owner, span_announce("List of all Clans:\n\
+		Brujah - Prone to Frenzy, Brawn buffed.\n\
+		Nosferatu - Disfigured, no Masquerade, Ventcrawl.\n\
+		Tremere - Burn in the Chapel, Vassal Mutilation.\n\
+		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead."))
 	if(!isbeefman(bloodsucker))
-		to_chat(owner, span_announce("Malkavian - Complete insanity.<br>"))
-	to_chat(owner, span_announce("* Read more about Clans here: https://wiki.fulp.gg/en/Bloodsucker.<br>"))
+		to_chat(owner, span_announce("Malkavian - Complete insanity."))
+	to_chat(owner, span_announce("* Read more about Clans here: https://wiki.fulp.gg/en/Bloodsucker."))
 
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
+	if(!answer)
+		to_chat(owner, span_warning("You have wilingfully decided to stay ignorant."))
+		return
 	switch(answer)
 		if(CLAN_BRUJAH)
 			my_clan = CLAN_BRUJAH
@@ -36,11 +39,6 @@
 			var/datum/species/S = bloodsucker.dna.species
 			S.punchdamagehigh += 1.5
 			AddHumanityLost(17.5)
-			var/datum/objective/bloodsucker/frenzy/frenzy_objective = new
-			frenzy_objective.owner = owner
-			frenzy_objective.objective_name = "Clan Objective"
-			objectives += frenzy_objective
-			owner.announce_objectives()
 		if(CLAN_NOSFERATU)
 			my_clan = CLAN_NOSFERATU
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Nosferatu Clan!<br> \
@@ -58,6 +56,10 @@
 				ADD_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_ALWAYS, BLOODSUCKER_TRAIT)
 			if(!HAS_TRAIT(bloodsucker, TRAIT_DISFIGURED))
 				ADD_TRAIT(bloodsucker, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
+			var/datum/objective/bloodsucker/kindred/kindred_objective = new
+			kindred_objective.owner = owner
+			kindred_objective.objective_name = "Clan Objective"
+			objectives += kindred_objective
 		if(CLAN_TREMERE)
 			my_clan = CLAN_TREMERE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Tremere Clan!<br> \
@@ -65,11 +67,10 @@
 				* Additionally, you magically protect your Vassals from being disconnected with you via Mindshielding, and can mutilate them by putting them on a persuasion rack.<br> \
 				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>"))
 			ADD_TRAIT(bloodsucker, TRAIT_BLOODSUCKER_HUNTER, BLOODSUCKER_TRAIT)
-			var/datum/objective/bloodsucker/kindred/kindred_objective = new
-			kindred_objective.owner = owner
-			kindred_objective.objective_name = "Clan Objective"
-			objectives += kindred_objective
-			owner.announce_objectives()
+			var/datum/objective/bloodsucker/vassal_mutilation/vassal_objective = new
+			vassal_objective.owner = owner
+			vassal_objective.objective_name = "Clan Objective"
+			objectives += vassal_objective
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
@@ -81,7 +82,6 @@
 			embrace_objective.owner = owner
 			embrace_objective.objective_name = "Clan Objective"
 			objectives += embrace_objective
-			owner.announce_objectives()
 		if(CLAN_MALKAVIAN)
 			my_clan = CLAN_MALKAVIAN
 			to_chat(owner, span_hypnophrase("Welcome to the Malkavian..."))
@@ -90,5 +90,4 @@
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			ADD_TRAIT(bloodsucker, TRAIT_XRAY_VISION, BLOODSUCKER_TRAIT)
 
-		else
-			to_chat(owner, span_warning("You have wilingfully decided to stay ignorant."))
+	owner.announce_objectives()
