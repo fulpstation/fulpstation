@@ -12,13 +12,14 @@
 		if(!istype(power, initial(tremerepower)))
 			continue
 		if(!initial(tremerepower.upgraded_power))
-			break
+			return FALSE
 		var/datum/action/bloodsucker/tremere/tremere_upgraded_power = initial(tremerepower.upgraded_power)
 		BuyPower(new tremere_upgraded_power)
 		powers -= power
 		if(power.active)
 			power.DeactivatePower()
 		power.Remove(owner.current)
+		return TRUE
 
 /datum/action/bloodsucker/tremere/dominate_one
 	name = "Dominate One"
@@ -32,6 +33,17 @@
 
 /datum/action/bloodsucker/tremere/dominate_three
 	name = "Dominate Three"
+	bloodsucker_can_buy = TRUE
+	upgraded_power = /datum/action/bloodsucker/tremere/dominate_four
+
+/datum/action/bloodsucker/tremere/dominate_four
+	name = "Dominate Four"
+	bloodsucker_can_buy = TRUE
+	upgraded_power = /datum/action/bloodsucker/tremere/dominate_five
+
+/datum/action/bloodsucker/tremere/dominate_five
+	name = "Dominate Five"
+	bloodsucker_can_buy = TRUE
 
 
 /* // Code used to purchase Powers.

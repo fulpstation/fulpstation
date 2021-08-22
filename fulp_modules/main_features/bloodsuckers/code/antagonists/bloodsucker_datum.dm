@@ -366,6 +366,15 @@
 		if(bloodsucker_level_unspent >= 2)
 			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
 
+/datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
+	for(var/datum/action/bloodsucker/power in powers)
+		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
+			continue
+		powers -= power
+		if(power.active)
+			power.DeactivatePower()
+		power.Remove(owner.current)
+
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power in powers)
 		power.level_current++
@@ -425,7 +434,10 @@
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
 		if(my_clan == CLAN_TREMERE)
-			tremere_upgrade_power(initial(P))
+			if(!tremere_upgrade_power(initial(P)))
+				owner.current.balloon_alert(owner.current, "cannot upgrade [initial(P.name)]!")
+				to_chat(owner.current, span_notice("[initial(P.name)] is already at max level!"))
+				return
 			owner.current.balloon_alert(owner.current, "upgraded [initial(P.name)]!")
 			to_chat(owner.current, span_notice("You have upgraded [initial(P.name)]!"))
 		else if(!target)

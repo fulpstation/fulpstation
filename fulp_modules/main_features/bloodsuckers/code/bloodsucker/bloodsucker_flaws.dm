@@ -72,6 +72,8 @@
 				* Additionally, you magically protect your Vassals from being disconnected with you via Mindshielding, and can mutilate them by putting them on a persuasion rack.<br> \
 				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>"))
 			ADD_TRAIT(bloodsucker, TRAIT_BLOODSUCKER_HUNTER, BLOODSUCKER_TRAIT)
+			remove_nondefault_powers()
+			bloodsucker_level_unspent += 2
 			BuyPower(new /datum/action/bloodsucker/tremere/dominate_one)
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE
