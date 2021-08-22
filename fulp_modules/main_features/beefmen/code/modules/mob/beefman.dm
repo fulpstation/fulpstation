@@ -428,12 +428,16 @@
 
 // taken from _HELPERS/names.dm
 /proc/beefman_name()
-	if (prob(50))
-		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.russian_names)]'"
+	var/tempname
+	if(prob(50))
+		tempname += pick(GLOB.russian_names)
 	else
-		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.beefman_names)]'"
-			// INTEGRATION //
+		tempname += pick(GLOB.beefman_names)
+	var/name = "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[tempname]'"
+	return name
 
+
+// INTEGRATION //
 
 // NOTE: the proc for a bodypart appearing on a mob is get_limb_icon() in bodypart.dm    !! We tracked it from limb_augmentation.dm -> carbon/update_icons.dm -> bodyparts.dm
 // Return what the robot part should look like on the current mob.
