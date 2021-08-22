@@ -24436,7 +24436,9 @@
 	dir = 1;
 	pixel_y = -24
 	},
-/obj/machinery/computer/atmos_control/ordnancemix,
+/obj/machinery/computer/atmos_control/ordnancemix{
+	dir = 1
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/science/mixing/chamber)
@@ -24666,7 +24668,9 @@
 /turf/closed/wall/r_wall,
 /area/science/mixing)
 "bHz" = (
-/obj/machinery/button/door/incinerator_vent_ordmix,
+/obj/machinery/button/door/incinerator_vent_ordmix{
+	pixel_y = -25
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -24674,11 +24678,17 @@
 /turf/open/floor/iron/dark,
 /area/science/mixing)
 "bHA" = (
-/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_ordmix,
+/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_ordmix{
+	pixel_x = 4;
+	pixel_y = -28
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/button/ignition/incinerator/ordmix,
+/obj/machinery/button/ignition/incinerator/ordmix{
+	pixel_x = -7;
+	pixel_y = -25
+	},
 /obj/machinery/atmospherics/components/binary/valve,
 /turf/open/floor/iron/dark,
 /area/science/mixing)
@@ -24702,6 +24712,9 @@
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
+	},
+/obj/machinery/computer/pod/old/mass_driver_controller/ordnancedriver{
+	pixel_x = 25
 	},
 /turf/open/floor/iron,
 /area/science/mixing)
@@ -25178,7 +25191,9 @@
 /obj/machinery/light/small{
 	dir = 8
 	},
-/obj/machinery/airlock_sensor/incinerator_ordmix,
+/obj/machinery/airlock_sensor/incinerator_ordmix{
+	pixel_x = -25
+	},
 /obj/machinery/atmospherics/components/binary/pump/on,
 /obj/machinery/atmospherics/pipe/bridge_pipe/scrubbers/hidden{
 	dir = 4
@@ -32252,13 +32267,6 @@
 /obj/machinery/telecomms/processor/preset_two,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
-"cnp" = (
-/obj/machinery/camera/preset/toxins{
-	c_tag = "Bomb Testing Asteroid Aft";
-	dir = 1
-	},
-/turf/open/floor/plating/asteroid/airless,
-/area/asteroid/nearstation/bomb_site)
 "cnq" = (
 /turf/closed/indestructible/riveted{
 	desc = "A wall impregnated with Fixium, able to withstand massive explosions with ease";

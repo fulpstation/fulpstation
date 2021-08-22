@@ -42473,6 +42473,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden,
+/obj/machinery/airlock_sensor/incinerator_ordmix{
+	pixel_y = 25
+	},
 /turf/open/floor/engine,
 /area/science/mixing/chamber)
 "bXm" = (
@@ -42721,7 +42724,6 @@
 /turf/open/floor/iron/white,
 /area/science/misc_lab/range)
 "bXU" = (
-/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_ordmix,
 /obj/machinery/meter,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -42740,6 +42742,9 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/brown/visible{
 	dir = 4
+	},
+/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_ordmix{
+	pixel_x = -25
 	},
 /turf/open/floor/iron/white,
 /area/science/mixing/chamber)
@@ -43403,7 +43408,9 @@
 /turf/open/floor/engine/vacuum,
 /area/science/mixing/chamber)
 "bZs" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/ordnance_mixing_input,
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/ordnance_mixing_input{
+	dir = 4
+	},
 /turf/open/floor/engine/vacuum,
 /area/science/mixing/chamber)
 "bZt" = (
@@ -43786,14 +43793,20 @@
 /area/science/research)
 "caw" = (
 /obj/machinery/meter,
-/obj/machinery/button/door/incinerator_vent_ordmix,
-/obj/machinery/button/ignition/incinerator/ordmix,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/brown/visible{
 	dir = 4
+	},
+/obj/machinery/button/ignition/incinerator/ordmix{
+	pixel_x = -25;
+	pixel_y = 9
+	},
+/obj/machinery/button/door/incinerator_vent_ordmix{
+	pixel_x = -25;
+	pixel_y = -3
 	},
 /turf/open/floor/iron/white,
 /area/science/mixing/chamber)
@@ -44320,7 +44333,9 @@
 /turf/open/floor/iron/white,
 /area/science/mixing)
 "cbF" = (
-/obj/machinery/computer/atmos_control/ordnancemix,
+/obj/machinery/computer/atmos_control/ordnancemix{
+	dir = 4
+	},
 /obj/structure/cable,
 /obj/machinery/airalarm/mixingchamber{
 	dir = 4;
@@ -45128,12 +45143,15 @@
 /obj/structure/chair/office{
 	dir = 4
 	},
-/obj/machinery/computer/security/telescreen/ordnance,
+/obj/machinery/computer/security/telescreen/ordnance{
+	pixel_y = -29
+	},
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
 	dir = 4;
 	name = "research purple"
 	},
+/obj/machinery/computer/atmos_control/ordnancemix,
 /turf/open/floor/iron/dark,
 /area/science/mixing)
 "cdw" = (
@@ -46911,7 +46929,9 @@
 /obj/effect/turf_decal/siding/purple/corner{
 	color = "#990099"
 	},
-/obj/machinery/computer/pod/old/mass_driver_controller/ordnancedriver,
+/obj/machinery/computer/pod/old/mass_driver_controller/ordnancedriver{
+	pixel_x = -25
+	},
 /obj/machinery/light/directional/west,
 /turf/open/floor/iron/dark,
 /area/science/mixing)
@@ -47599,7 +47619,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/camera/preset/ordnance,
+/obj/machinery/camera/preset/ordnance{
+	dir = 8
+	},
 /turf/open/floor/plating/airless,
 /area/science/test_area)
 "cjb" = (
