@@ -98,10 +98,12 @@
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
+	handle_clown_mutation(datum_owner, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	return
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
+	handle_clown_mutation(M, removing = FALSE)
 	return
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
@@ -216,7 +218,7 @@
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 	report += printplayer(owner)
 	/// Clan Name
-	if(my_clan != null)
+	if(my_clan != CLAN_NONE)
 		report += "They were part of the <b>[my_clan]</b>!"
 
 	/// Default Report
@@ -302,9 +304,6 @@
 		/// Make Changes
 		S.punchdamagelow += 1 //lowest possible punch damage   0
 		S.punchdamagehigh += 1 //highest possible punch damage	 9
-		if(istype(H) && owner.assigned_role == "Clown")
-			H.dna.remove_mutation(CLOWNMUT)
-			to_chat(H, "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	/// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
@@ -502,13 +501,13 @@
 			ADD_TRAIT(target, TRAIT_HARDLY_WOUNDED, BLOODSUCKER_TRAIT)
 			to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
 		if(vassaldatum.vassal_level == 6)
-			to_chat(target, "<span class='notice'>You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead.</span>")
+			to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead."))
 			target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
 			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
 		if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
 			set_vassal_level(target)
 	/// Done! Let them know & Update their HUD.
-	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!<br> \
+	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!\n\
 	* Your existing powers have all ranked up as well!"))
 	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)

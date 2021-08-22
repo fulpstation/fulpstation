@@ -287,7 +287,7 @@
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	if(!..())
 		return
-	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack.</span>"))
+	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack."))
 	density = FALSE
 	buckled_mob.AdjustParalyzed(3 SECONDS)
 	update_icon()
@@ -628,7 +628,7 @@
 					return
 		else
 			// Neither? Shame. Goodbye!
-			to_chat(user, "<span class='danger'>You don't have any levels or enough Blood to Rank [C] up with.</span>")
+			to_chat(user, span_danger("You don't have any levels or enough Blood to Rank [C] up with."))
 			return
 
 	if(IS_BLOODSUCKER(user) || IS_VASSAL(user))
@@ -675,7 +675,7 @@
 /// Attempt Unbuckle
 /obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	. = ..()
-	src.visible_message(text("<span class='danger'>[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum.</span>"))
+	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum."))
 	update_icon()
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
@@ -760,7 +760,7 @@
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
-	src.visible_message(text("<span class='danger'>[user] unbuckles themselves from [src].</span>"))
+	src.visible_message(span_danger("[user] unbuckles themselves from [src]."))
 	if(IS_BLOODSUCKER(user))
 		UnregisterSignal(user, COMSIG_MOB_SAY)
 	. = ..()

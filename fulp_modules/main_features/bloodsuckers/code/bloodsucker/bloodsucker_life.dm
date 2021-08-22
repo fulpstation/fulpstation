@@ -384,7 +384,7 @@
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
 	owner.current.grab_ghost()
-	to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
+	to_chat(owner.current, span_warning("You have recovered from Torpor."))
 	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
@@ -411,11 +411,11 @@
 	FreeAllVassals()
 	/// Elders get Dusted
 	if(bloodsucker_level >= 4)
-		owner.current.visible_message(span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a dry, crackling sound.</span>")
+		owner.current.visible_message(span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a dry, crackling sound.")
 		addtimer(CALLBACK(owner.current, /mob/living/proc/dust), 5 SECONDS, TIMER_UNIQUE | TIMER_STOPPABLE)
 	/// Fledglings get Gibbed
 	else
-		owner.current.visible_message(span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a wet, bursting sound.</span>")
+		owner.current.visible_message(span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a wet, bursting sound.")
 		owner.current.gib(TRUE, FALSE, FALSE)
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 

@@ -47,7 +47,7 @@
 		if(!istype(closet))
 			return FALSE
 		closet.visible_message("<span class='warning'>[closet] tears apart as [user] bashes it open from within!</span>")
-		to_chat(user, "<span class='warning'>We bash [closet] wide open!</span>")
+		to_chat(user, span_warning("We bash [closet] wide open!"))
 		addtimer(CALLBACK(src, .proc/break_closet, user, closet), 1)
 		used = TRUE
 

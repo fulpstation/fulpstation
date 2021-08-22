@@ -19,14 +19,25 @@
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 
-/datum/action/bloodsucker/targeted/tremere/proc/end_mesmerize(mob/living/user, mob/living/target)
-	target.notransform = FALSE
-	if(istype(user) && target.stat == CONSCIOUS && (target in view(6, get_turf(user))))
-		owner.balloon_alert(owner, "[target] snapped out of their trance.")
+	// Targeted stuff
+	target_range = 99
+	message_Trigger = ""
+	power_activates_immediately = TRUE
+
+/datum/action/bloodsucker/targeted/tremere/CheckValidTarget(atom/A)
+	return isliving(A)
+
+/datum/action/bloodsucker/targeted/tremere/CheckCanTarget(atom/A, display_error)
+	if(!..())
+		return FALSE
+	// Check: Self
+	if(A == owner)
+		return FALSE
+	return TRUE
 
 
 /// We deactivate your Power, delete it, then Purchase the new one.
-/datum/antagonist/bloodsucker/proc/tremere_upgrade_power(datum/action/bloodsucker/tremere/tremerepower)
+/datum/antagonist/bloodsucker/proc/tremere_upgrade_power(datum/action/bloodsucker/targeted/tremere/tremerepower)
 	for(var/datum/action/bloodsucker/power in powers)
 		if(!istype(power, initial(tremerepower)))
 			continue
