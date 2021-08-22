@@ -73,8 +73,8 @@
 				* Finally, you can revive dead non-Vassals by using the Persuasion Rack as they lie on it.</span>"))
 			ADD_TRAIT(bloodsucker, TRAIT_BLOODSUCKER_HUNTER, BLOODSUCKER_TRAIT)
 			remove_nondefault_powers()
-			bloodsucker_level_unspent += 2
-			BuyPower(new /datum/action/bloodsucker/tremere/dominate_one)
+			bloodsucker_level_unspent += 1
+			BuyPower(new /datum/action/bloodsucker/targeted/tremere/dominate_one)
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \

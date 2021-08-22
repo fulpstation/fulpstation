@@ -29,6 +29,7 @@
 	message_Trigger = "Whom will you subvert to your will?"
 	must_be_capacitated = TRUE
 	bloodsucker_can_buy = TRUE
+	vassal_can_buy = TRUE
 	///Our mesmerized target - Prevents several mesmerizes.
 	var/mob/living/mesmerized_target
 
@@ -156,10 +157,3 @@
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && CheckCanUse() && CheckCanTarget(target)
-
-///Vassal edition
-/datum/action/bloodsucker/targeted/mesmerize/hypnotize
-	name = "Hypnotize"
-	desc = "Stare into the eyes of someone watching you, temporarily hypnotizing them."
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = TRUE
