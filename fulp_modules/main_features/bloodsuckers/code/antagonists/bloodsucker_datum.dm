@@ -29,7 +29,7 @@
 	 */
 	var/datum/team/vampireclan/clan
 	///You get assigned a Clan once you Rank up enough
-	var/my_clan = null
+	var/my_clan = CLAN_NONE
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
@@ -389,7 +389,11 @@
 		var/datum/action/bloodsucker/power = pickedpower
 		/// Check If I don't own it & I'm allowed to buy it.
 		if(!target)
-			if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
+			if(my_clan == CLAN_TREMERE)
+				// Do we have the Power and is it a Tremere one?
+				if((locate(power) in powers) && initial(power.tremere_power) && initial(power.bloodsucker_can_buy))
+					options[initial(power.name)] = power
+			else if(!(locate(power) in powers) && !initial(power.tremere_power) && initial(power.bloodsucker_can_buy))
 				options[initial(power.name)] = power
 		else
 			if(!(locate(power) in vassaldatum.powers) && initial(power.vassal_can_buy))
@@ -399,6 +403,8 @@
 	if(options.len >= 1)
 		/// Give them the UI to purchase a power.
 		var/upgrade_message = target ? "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve." : "You have the opportunity to grow more ancient. Select a power to advance your Rank."
+		if(my_clan == CLAN_TREMERE)
+			upgrade_message = "You have the opportunity to grow more ancient. Select a power you wish to Upgrade."
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		/// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
 		if(bloodsucker_level_unspent <= 0)
@@ -408,13 +414,21 @@
 		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			to_chat(owner.current, span_warning("Return to your coffin to advance your Rank."))
 			return
-		/// Did you choose a power? Do you already have it? - Added due to window stacking.
-		if(!choice || !options[choice] || (locate(options[choice]) in powers))
+		/// Did you choose a power?
+		if(!choice || !options[choice])
+			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
+			return
+		// Do we already have the Power - Added due to window stacking
+		if((locate(options[choice]) in powers) && my_clan != CLAN_TREMERE)
 			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
-		if(!target)
+		if(my_clan == CLAN_TREMERE)
+			tremere_upgrade_power(initial(P))
+			owner.current.balloon_alert(owner.current, "upgraded [initial(P.name)]!")
+			to_chat(owner.current, span_notice("You have upgraded [initial(P.name)]!"))
+		else if(!target)
 			BuyPower(new P)
 			owner.current.balloon_alert(owner.current, "learned [initial(P.name)]!")
 			to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))

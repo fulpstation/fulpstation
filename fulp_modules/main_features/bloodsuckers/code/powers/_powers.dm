@@ -12,6 +12,8 @@
 	buttontooltipstyle = "cult"
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
 	var/power_explanation
+	/// This Power is meant exclusively for Tremere.
+	var/tremere_power = FALSE
 
 	// ACTIONS //
 	///Am I asked to choose a target when enabled? (Shows as toggled ON when armed)

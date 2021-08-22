@@ -925,7 +925,6 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		// CLAN OBJECTIVES
 		/datum/objective/bloodsucker/gourmand/brujah, //Brujah
 		/datum/objective/bloodsucker/kindred, //Nosferatu
-		/datum/objective/bloodsucker/vassal_mutilation, //Tremere
 		/datum/objective/bloodsucker/embrace, //Ventrue
 		// MISC OBJECTIVES
 		/datum/objective/bloodsucker/monsterhunter,

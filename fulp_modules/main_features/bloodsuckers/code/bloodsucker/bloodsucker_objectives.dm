@@ -317,28 +317,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Mutilate a certain amount of Vassals - Tremere Clan objective
-/datum/objective/bloodsucker/vassal_mutilation
-	name = "steal kindred"
-
-/datum/objective/bloodsucker/vassal_mutilation/New()
-	target_amount = rand(2,3)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/vassal_mutilation/update_explanation_text()
-	. = ..()
-	explanation_text = "Mutate [target_amount] of Vassals into vile sevant creatures."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/vassal_mutilation/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum.vassals_mutated >= target_amount)
-		return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 /// Convert a crewmate - Ventrue Clan objective
 /datum/objective/bloodsucker/embrace
 	name = "embrace"
@@ -370,6 +348,7 @@
 
 // EXPLANATION
 /datum/objective/bloodsucker/monsterhunter/update_explanation_text()
+	. = ..()
 	explanation_text = "Destroy all monsters on [station_name()]."
 
 // WIN CONDITIONS?
@@ -420,10 +399,12 @@
 
 /// Destroy the Solar Arrays
 /datum/objective/bloodsucker/solars
-/* -- Removed due to TG updates breaking it + It's not a good objective, replaced with Vassalhim objective instead.
+/* // TG Updates broke this, it needs maintaining.
 // Space_Station_13_areas.dm  <--- all the areas
 /datum/objective/bloodsucker/solars/update_explanation_text()
+	. = ..()
 	explanation_text = "Prevent all solar arrays on the station from functioning."
+
 /datum/objective/bloodsucker/solars/check_completion()
 	// Sort through all /obj/machinery/power/solar_control in the station ONLY, and check that they are functioning.
 	// Make sure that lastgen is 0 or connected_panels.len is 0. Doesnt matter if it's tracking.
@@ -438,7 +419,7 @@
 	return TRUE
 */
 
-/// NOTE: Look up /assassinate in objective.dm for inspiration.
+// NOTE: Look up /assassinate in objective.dm for inspiration.
 /// Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
 	name = "vassalhim"
@@ -485,3 +466,26 @@
 	if(bloodsuckerdatum.Frenzies >= target_amount)
 		return TRUE
 	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Mutilate a certain amount of Vassals
+/*
+/datum/objective/bloodsucker/vassal_mutilation
+	name = "steal kindred"
+/datum/objective/bloodsucker/vassal_mutilation/New()
+	target_amount = rand(2,3)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/vassal_mutilation/update_explanation_text()
+	. = ..()
+	explanation_text = "Mutate [target_amount] of Vassals into vile sevant creatures."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/vassal_mutilation/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.vassals_mutated >= target_amount)
+		return TRUE
+	return FALSE
+*/

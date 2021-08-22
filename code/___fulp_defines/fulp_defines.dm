@@ -56,6 +56,8 @@
 #define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
 /* Clan defines
 */
+/// Not in a Clan
+#define CLAN_NONE "No Clan"
 /// More prone to Frenzy & Brawn/Punches deal more damage
 #define CLAN_BRUJAH "Brujah Clan"
 /// Can't use Masquerade, gets Bad Back quirk, Disfigured Trait & Gains the ability to Ventcrawl.
