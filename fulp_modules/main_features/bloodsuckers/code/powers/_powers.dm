@@ -353,6 +353,7 @@
 
 /// Like ActivatePower, but specific to Targeted (and takes an atom input). We don't use ActivatePower for targeted.
 /datum/action/bloodsucker/targeted/proc/FireTargetedPower(atom/A)
+	log_combat(owner, A, "used [name] on")
 
 /// The power went off! We now pay the cost of the power.
 /datum/action/bloodsucker/targeted/proc/PowerActivatedSuccessfully()

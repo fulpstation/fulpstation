@@ -58,6 +58,7 @@
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
 /datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/A)
+	. = ..()
 	hit = list()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/on_move)
 	var/mob/living/user = owner

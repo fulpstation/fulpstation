@@ -57,6 +57,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/trespass/FireTargetedPower(atom/A)
+	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 
 	// Find target turf, at or below Atom

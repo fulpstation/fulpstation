@@ -26,6 +26,7 @@
 	must_be_capacitated = TRUE
 
 /datum/action/bloodsucker/targeted/tremere/dominate_one/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/target = A
 	var/mob/living/user = owner
 	attempt_mesmerize(target, user, level = 1)
@@ -84,6 +85,7 @@
 	must_be_capacitated = TRUE
 
 /datum/action/bloodsucker/targeted/tremere/dominate_two/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/target = A
 	var/mob/living/user = owner
 	attempt_mesmerize(target, user, level = 2)
@@ -106,6 +108,7 @@
 	must_be_capacitated = TRUE
 
 /datum/action/bloodsucker/targeted/tremere/dominate_three/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/target = A
 	var/mob/living/user = owner
 	attempt_mesmerize(target, user, level = 3)
@@ -143,6 +146,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/dominate_four/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/target = A
 	var/mob/living/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -198,6 +202,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/dominate_five/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/target = A
 	var/mob/living/user = owner
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)

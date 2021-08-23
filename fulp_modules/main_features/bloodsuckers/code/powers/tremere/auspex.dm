@@ -60,6 +60,7 @@
 		owner.RemoveElement(/datum/element/digitalcamo)
 
 /datum/action/bloodsucker/targeted/tremere/auspex_one/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/user = owner
 	var/turf/targeted_turf = get_turf(A)
 	auspex_blink(user, targeted_turf, level = 1)
@@ -95,6 +96,7 @@
 		owner.RemoveElement(/datum/element/digitalcamo)
 
 /datum/action/bloodsucker/targeted/tremere/auspex_two/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/user = owner
 	var/turf/targeted_turf = get_turf(A)
 	auspex_blink(user, targeted_turf, level = 1)
@@ -129,6 +131,7 @@
 		owner.RemoveElement(/datum/element/digitalcamo)
 
 /datum/action/bloodsucker/targeted/tremere/auspex_three/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/user = owner
 	var/turf/targeted_turf = get_turf(A)
 	auspex_blink(user, targeted_turf, level = 1)
@@ -163,6 +166,7 @@
 		owner.RemoveElement(/datum/element/digitalcamo)
 
 /datum/action/bloodsucker/targeted/tremere/auspex_four/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/user = owner
 	var/turf/targeted_turf = get_turf(A)
 	auspex_blink(user, targeted_turf, level = 2)
@@ -196,6 +200,7 @@
 		owner.RemoveElement(/datum/element/digitalcamo)
 
 /datum/action/bloodsucker/targeted/tremere/auspex_five/FireTargetedPower(atom/A)
+	. = ..()
 	var/mob/living/user = owner
 	var/turf/targeted_turf = get_turf(A)
 	auspex_blink(user, targeted_turf, level = 3)

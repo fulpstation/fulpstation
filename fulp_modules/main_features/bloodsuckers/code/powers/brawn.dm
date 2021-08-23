@@ -106,6 +106,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/A)
+	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/target = A
 	var/mob/living/user = owner
