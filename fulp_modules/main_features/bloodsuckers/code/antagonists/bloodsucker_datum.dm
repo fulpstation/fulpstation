@@ -387,34 +387,32 @@
 			if(power.active)
 				power.DeactivatePower()
 
-/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, SpendRank = TRUE)
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, Spend_Rank = TRUE)
 	set waitfor = FALSE
 
 	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
 		return
-	/// Purchase Power Prompt
+	// Purchase Power Prompt
 	var/list/options = list()
 	for(var/pickedpower in typesof(/datum/action/bloodsucker))
 		var/datum/action/bloodsucker/power = pickedpower
 		/// Check If I don't own it & I'm allowed to buy it.
-		if(!target)
-			if(my_clan == CLAN_TREMERE)
-				// Do we have the Power and is it a Tremere one?
-				if((locate(power) in powers) && initial(power.tremere_power) && initial(power.bloodsucker_can_buy))
-					options[initial(power.name)] = power
-			else if(!(locate(power) in powers) && !initial(power.tremere_power) && initial(power.bloodsucker_can_buy))
+		if(my_clan == CLAN_TREMERE)
+			if(SEND_SIGNAL(owner.current, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE) & COMPONENT_UPGRADED_POWER)
+				break
+			else
+				return
+		else if(!target)
+			if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
 				options[initial(power.name)] = power
 		else
 			if(!(locate(power) in vassaldatum.powers) && initial(power.vassal_can_buy))
 				options[initial(power.name)] = power
 
-	/// No powers to purchase? Abort.
 	if(options.len >= 1)
 		/// Give them the UI to purchase a power.
 		var/upgrade_message = target ? "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve." : "You have the opportunity to grow more ancient. Select a power to advance your Rank."
-		if(my_clan == CLAN_TREMERE)
-			upgrade_message = "You have the opportunity to grow more ancient. Select a power you wish to Upgrade."
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		/// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
 		if(bloodsucker_level_unspent <= 0)
@@ -429,20 +427,12 @@
 			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 		// Do we already have the Power - Added due to window stacking
-		if((locate(options[choice]) in powers) && my_clan != CLAN_TREMERE)
+		if((locate(options[choice]) in powers))
 			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
-		if(my_clan == CLAN_TREMERE)
-			if(SEND_SIGNAL(owner.current, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE, owner.current, options[choice]) & COMPONENT_UPGRADED_POWER)
-				owner.current.balloon_alert(owner.current, "upgraded [initial(P.name)]!")
-				to_chat(owner.current, span_notice("You have upgraded [initial(P.name)]!"))
-			else
-				owner.current.balloon_alert(owner.current, "cannot upgrade [initial(P.name)]!")
-				to_chat(owner.current, span_notice("[initial(P.name)] is already at max level!"))
-				return
-		else if(!target)
+		if(!target)
 			BuyPower(new P)
 			owner.current.balloon_alert(owner.current, "learned [initial(P.name)]!")
 			to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))
@@ -452,8 +442,8 @@
 			to_chat(target, span_notice("Your master taught you how to use [initial(P.name)]!"))
 			owner.current.balloon_alert(owner.current, "taught [initial(P.name)]!")
 			target.balloon_alert(target, "learned [initial(P.name)]!")
-	/// No more powers available to purchase? Start levelling up anyways.
-	else
+	// No more powers available to purchase? Start levelling up anyways.
+	else if(my_clan != CLAN_TREMERE)
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
 
 	/// Advance Powers - Includes the one you just purchased.
@@ -476,7 +466,7 @@
 	/// We're almost done - Spend your Rank now.
 	vassaldatum?.vassal_level++
 	bloodsucker_level++
-	if(SpendRank)
+	if(Spend_Rank)
 		bloodsucker_level_unspent--
 
 	/// Ranked up enough? Let them join a Clan.

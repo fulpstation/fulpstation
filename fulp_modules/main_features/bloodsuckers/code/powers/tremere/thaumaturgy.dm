@@ -52,7 +52,6 @@
 /datum/action/bloodsucker/thaumaturgy
 	name = "Level 1: Thaumaturgy"
 	desc = "Shoot a Blood barrage at your enemy."
-	tremere_power = TRUE // This isn't a Targeted Power.
 
 	button_icon_state = "power_strength"
 	power_explanation = "<b>Fortitude</b>:\n\

@@ -18,7 +18,6 @@
 	power_explanation = "<b>Level 1: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 1 tile away to teleport there, ending the Power."
-	bloodsucker_can_buy = TRUE
 	power_activates_immediately = FALSE
 	tremere_level = 1
 	bloodcost = 5
@@ -111,4 +110,4 @@
 		if(tremere_level == 5)
 			living_mob.SetUnconscious(10 SECONDS)
 
-	do_teleport(user, targeted_turf, TRUE, no_effects = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	do_teleport(owner, targeted_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)

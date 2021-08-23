@@ -8,9 +8,7 @@
 /datum/action/bloodsucker/targeted/tremere
 	name = "Tremere Gift"
 	desc = "A tremere exclusive gift."
-	tremere_power = TRUE
 	var/upgraded_power
-	var/tremere_level
 
 	// Icon stuff
 	button_icon_state = "power_feed"
@@ -31,23 +29,38 @@
 	UnregisterSignal(owner, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE)
 	return ..()
 
-/datum/action/bloodsucker/proc/LevelUpTremerePower(mob/living/user, datum/action/bloodsucker/targeted/tremere/tremerepower)
+/datum/action/bloodsucker/targeted/tremere/proc/LevelUpTremerePower(mob/living/user = owner)
 	SIGNAL_HANDLER
 
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
-		if(!istype(src, tremerepower))
-			continue
+	var/list/options = list()
+	for(var/datum/action/bloodsucker/targeted/tremere/power in bloodsuckerdatum.powers)
+		if((locate(power) in bloodsuckerdatum.powers) && (initial(power.tremere_level) >= ((locate(power) in bloodsuckerdatum.powers).tremere_level)))
+			options[initial(power.name)] = power
 
-		var/datum/action/bloodsucker/targeted/tremere/tremere_power = src
-		if(!initial(tremere_power.upgraded_power))
+	if(options.len >= 1)
+		var/choice = tgui_input_list(owner, "You have the opportunity to grow more ancient. Select a power you wish to Upgrade.", "Your Blood Thickens...", options)
+		/// Did you choose a power?
+		if(!choice || !options[choice])
+			to_chat(owner, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
+			return
+		if(bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+			return
+
+		var/datum/action/bloodsucker/targeted/tremere/P = options[choice]
+		if(!initial(P.upgraded_power))
+			user.balloon_alert(user, "cannot upgrade [initial(P.name)]!")
+			to_chat(owner, span_notice("[initial(P.name)] is already at max level!"))
 			return FALSE
-		bloodsuckerdatum.BuyPower(new tremere_power.upgraded_power)
-		bloodsuckerdatum.powers -= src
+		bloodsuckerdatum.BuyPower(new P.upgraded_power)
+		bloodsuckerdatum.powers -= P
 		if(active)
 			DeactivatePower()
 		Remove(owner)
+		user.balloon_alert(user, "upgraded [initial(P.name)]!")
+		to_chat(owner, span_notice("You have upgraded [initial(P.name)]!"))
 		return COMPONENT_UPGRADED_POWER
+
 
 /datum/action/bloodsucker/targeted/tremere/CheckValidTarget(atom/A)
 	return isliving(A)

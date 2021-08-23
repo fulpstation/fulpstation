@@ -18,7 +18,6 @@
 	power_explanation = "<b>Level 1: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
-	bloodsucker_can_buy = TRUE
 	must_be_capacitated = TRUE
 	tremere_level = 1
 	bloodcost = 15

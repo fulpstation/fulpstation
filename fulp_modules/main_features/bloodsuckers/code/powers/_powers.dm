@@ -13,7 +13,7 @@
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
 	var/power_explanation
 	/// This Power is meant exclusively for Tremere.
-	var/tremere_power = FALSE
+	var/tremere_level
 
 	// ACTIONS //
 	///Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
@@ -75,7 +75,7 @@
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
 
 /mob/living/proc/explain_powers()
-	set name = "Explain Bloodsucker Powers"
+	set name = "Bloodsucker Help"
 	set category = "Mentor"
 
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
