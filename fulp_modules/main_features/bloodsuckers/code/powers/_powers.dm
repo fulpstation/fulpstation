@@ -75,11 +75,11 @@
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
 
 /mob/living/proc/explain_powers()
-	set name = "Explain Powers"
+	set name = "Explain Bloodsucker Powers"
 	set category = "Mentor"
 
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentors suck", bloodsuckerdatum.powers)
+	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
 	if(!choice)
 		return
 	var/datum/action/bloodsucker/P = choice
