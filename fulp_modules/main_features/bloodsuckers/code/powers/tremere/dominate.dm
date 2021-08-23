@@ -5,7 +5,7 @@
  *	Level 2 - Mesmerizes and mutes target
  *	Level 3 - Mesmerizes, blinds and mutes target
  *	Level 4 - Target (if at least in crit & has a mind) will revive as a Mute/Deaf Vassal for 5 minutes before dying.
- *	Level 5 - Target (if at least in crit & has a mind) will revive as a Vassal for 5 minutes before dying.
+ *	Level 5 - Target (if at least in crit & has a mind) will revive as a Vassal for 8 minutes before dying.
  */
 
 /datum/action/bloodsucker/targeted/tremere/dominate_one

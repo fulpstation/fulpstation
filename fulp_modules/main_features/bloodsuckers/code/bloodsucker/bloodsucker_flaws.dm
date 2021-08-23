@@ -75,6 +75,7 @@
 			bloodsucker_level_unspent += 1
 			BuyPower(new /datum/action/bloodsucker/targeted/tremere/dominate_one)
 			BuyPower(new /datum/action/bloodsucker/targeted/tremere/auspex_one)
+			BuyPower(new /datum/action/bloodsucker/thaumaturgy)
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE
 			to_chat(owner, span_announce("You have Ranked up enough to learn: You are part of the Ventrue Clan!<br> \
