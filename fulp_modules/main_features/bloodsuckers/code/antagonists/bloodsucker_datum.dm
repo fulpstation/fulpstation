@@ -435,12 +435,14 @@
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
 		if(my_clan == CLAN_TREMERE)
-			if(!tremere_upgrade_power(initial(P)))
+			var/datum/action/bloodsucker/targeted/tremere/tremere_power = P
+			if(SEND_SIGNAL(tremere_power, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE, tremere_power) & COMPONENT_UPGRADED_POWER)
+				owner.current.balloon_alert(owner.current, "upgraded [initial(P.name)]!")
+				to_chat(owner.current, span_notice("You have upgraded [initial(P.name)]!"))
+			else
 				owner.current.balloon_alert(owner.current, "cannot upgrade [initial(P.name)]!")
 				to_chat(owner.current, span_notice("[initial(P.name)] is already at max level!"))
 				return
-			owner.current.balloon_alert(owner.current, "upgraded [initial(P.name)]!")
-			to_chat(owner.current, span_notice("You have upgraded [initial(P.name)]!"))
 		else if(!target)
 			BuyPower(new P)
 			owner.current.balloon_alert(owner.current, "learned [initial(P.name)]!")
@@ -456,7 +458,8 @@
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
 
 	/// Advance Powers - Includes the one you just purchased.
-	LevelUpPowers()
+	if(my_clan != CLAN_TREMERE)
+		LevelUpPowers()
 	vassaldatum?.LevelUpPowers()
 	/// Bloodsucker-only Stat upgrades
 	bloodsucker_regen_rate += 0.05

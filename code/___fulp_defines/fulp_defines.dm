@@ -33,17 +33,20 @@
  *	Bloodsucker Defines
  */
 /// You have special interactions with Bloodsuckers
-#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker hunter"
-/// Your heart doesn't beat.
+#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
+/// Your heart doesn't beat
 #define TRAIT_NOPULSE "nopulse"
 /// Falsifies Health analyzers
 #define TRAIT_MASQUERADE "masquerade"
-/// Your body is literal room temperature. Does not make you immune to the temp.
+/// Your body is literal room temperature. Does not make you immune to the temp
 #define TRAIT_COLDBLOODED "coldblooded"
 /// Definition for whether to hide our blood volume
 #define BLOODSUCKER_HIDE_BLOOD "hide_blood_volume"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
+/// When upgrading an individual Bloodsucker power
+#define COMSIG_ON_BLOODSUCKERPOWER_UPGRADE "on_bloodsucker_upgrade"
+	#define COMPONENT_UPGRADED_POWER (1<<0)
 /// Used for determining the rate at which a bloodsucker regens
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
 /// Frenzy Thresholds
