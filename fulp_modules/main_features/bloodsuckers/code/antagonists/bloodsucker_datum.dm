@@ -435,8 +435,7 @@
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
 		if(my_clan == CLAN_TREMERE)
-			var/datum/action/bloodsucker/targeted/tremere/tremere_power = P
-			if(SEND_SIGNAL(tremere_power, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE, tremere_power) & COMPONENT_UPGRADED_POWER)
+			if(SEND_SIGNAL(owner.current, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE, owner.current, options[choice]) & COMPONENT_UPGRADED_POWER)
 				owner.current.balloon_alert(owner.current, "upgraded [initial(P.name)]!")
 				to_chat(owner.current, span_notice("You have upgraded [initial(P.name)]!"))
 			else

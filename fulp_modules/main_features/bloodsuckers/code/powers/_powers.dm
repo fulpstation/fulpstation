@@ -283,7 +283,7 @@
 /// Modify description to add notice that this is aimed.
 /datum/action/bloodsucker/targeted/New(Target)
 	desc += "<br>\[<i>Targeted Power</i>\]"
-	..()
+	. = ..()
 	// Create Proc Holder for intercepting clicks
 	bs_proc_holder = new()
 	bs_proc_holder.linked_power = src
