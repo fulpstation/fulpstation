@@ -30,7 +30,6 @@
 	return ..()
 */
 /datum/antagonist/bloodsucker/proc/LevelUpTremerePower(mob/living/user)
-	set waitfor = TRUE
 
 	var/list/options = list()
 	for(var/datum/action/bloodsucker/targeted/tremere/power in powers)
