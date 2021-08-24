@@ -399,8 +399,12 @@
 		var/datum/action/bloodsucker/power = pickedpower
 		/// Check If I don't own it & I'm allowed to buy it.
 		if(my_clan == CLAN_TREMERE)
-			LevelUpTremerePower(owner.current)
-			return
+			if(LevelUpTremerePower(owner.current))
+				// Did we buy a power? Break here.
+				break
+			else
+				// Didnt buy one? Dont continue on, then.
+				return
 		else if(!target)
 			if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
 				options[initial(power.name)] = power
@@ -445,8 +449,7 @@
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
 
 	/// Advance Powers - Includes the one you just purchased.
-	if(my_clan != CLAN_TREMERE)
-		LevelUpPowers()
+	LevelUpPowers()
 	vassaldatum?.LevelUpPowers()
 	/// Bloodsucker-only Stat upgrades
 	bloodsucker_regen_rate += 0.05
