@@ -20,24 +20,15 @@
 	target_range = 99
 	message_Trigger = ""
 	power_activates_immediately = TRUE
-/*
-/datum/action/bloodsucker/targeted/tremere/Grant(mob/M)
-	. = ..()
-	RegisterSignal(owner, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE, .proc/LevelUpTremerePower)
 
-/datum/action/bloodsucker/targeted/tremere/Destroy()
-	UnregisterSignal(owner, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE)
-	return ..()
-*/
 /datum/antagonist/bloodsucker/proc/LevelUpTremerePower(mob/living/user)
 
 	var/list/options = list()
 	for(var/datum/action/bloodsucker/targeted/tremere/power in powers)
-		if(!power.tremere_level)
-			continue
 		if(!(locate(power) in powers))
 			continue
-		if(initial(power.tremere_level) >= (locate(power) in powers).tremere_level)
+		var/datum/action/bloodsucker/targeted/tremere/current_power = (locate(power) in powers)
+		if(initial(power.tremere_level) >= current_power.tremere_level)
 			options[initial(power.name)] = power
 
 	if(options.len >= 1)
