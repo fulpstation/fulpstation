@@ -33,7 +33,8 @@
 
 	var/list/options = list()
 	for(var/datum/action/bloodsucker/targeted/tremere/power in powers)
-		if((locate(power) in powers) && initial(power.tremere_level) && (initial(power.tremere_level) >= ((locate(power) in powers).tremere_level)))
+		var/power_located = (locate(power) in powers).tremere_level
+		if((locate(power) in powers) && initial(power.tremere_level) && (initial(power.tremere_level) >= power_located))
 			options[initial(power.name)] = power
 
 	if(options.len >= 1)
