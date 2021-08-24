@@ -44,9 +44,6 @@
 #define BLOODSUCKER_HIDE_BLOOD "hide_blood_volume"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
-/// When upgrading an individual Bloodsucker power
-#define COMSIG_ON_BLOODSUCKERPOWER_UPGRADE "on_bloodsucker_upgrade"
-	#define COMPONENT_UPGRADED_POWER (1<<0)
 /// Used for determining the rate at which a bloodsucker regens
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
 /// Frenzy Thresholds

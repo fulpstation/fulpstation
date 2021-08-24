@@ -399,10 +399,8 @@
 		var/datum/action/bloodsucker/power = pickedpower
 		/// Check If I don't own it & I'm allowed to buy it.
 		if(my_clan == CLAN_TREMERE)
-			if(SEND_SIGNAL(owner.current, COMSIG_ON_BLOODSUCKERPOWER_UPGRADE) & COMPONENT_UPGRADED_POWER)
-				break
-			else
-				return
+			LevelUpTremerePower(owner.current)
+			return
 		else if(!target)
 			if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
 				options[initial(power.name)] = power
