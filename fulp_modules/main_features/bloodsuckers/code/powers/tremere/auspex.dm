@@ -76,14 +76,15 @@
 /datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/A)
 	return isturf(A)
 
-/datum/action/bloodsucker/targeted/tremere/auspex/UpdateButtonIcon(force = FALSE)
+/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower()
 	. = ..()
-	if(active)
-		owner.AddElement(/datum/element/digitalcamo)
-		animate(owner, alpha = 15, time = 1 SECONDS)
-	else
-		animate(owner, alpha = 255, time = 1 SECONDS)
-		owner.RemoveElement(/datum/element/digitalcamo)
+	owner.AddElement(/datum/element/digitalcamo)
+	animate(owner, alpha = 15, time = 1 SECONDS)
+
+/datum/action/bloodsucker/targeted/tremere/auspex/DeactivatePower()
+	animate(owner, alpha = 255, time = 1 SECONDS)
+	owner.RemoveElement(/datum/element/digitalcamo)
+	return ..()
 
 /datum/action/bloodsucker/targeted/tremere/auspex/FireTargetedPower(atom/A)
 	. = ..()

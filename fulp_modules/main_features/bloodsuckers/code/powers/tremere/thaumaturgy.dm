@@ -37,42 +37,40 @@
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(display_error)
 	if(!..())
 		return
-	var/mob/living/user = owner
-	if(user.get_inactive_held_item())
-		if(display_error)
-			owner.balloon_alert(owner, "off hand is full!")
-	var/obj/offhand_shield = new /obj/item/shield/changeling()
-	if(!user.put_in_inactive_hand(offhand_shield))
-		return FALSE
-	owner.balloon_alert(owner, "thaumaturgy turned on.")
-	to_chat(user, span_notice("You prepare Thaumaturgy."))
-	RegisterSignal(owner, COMSIG_MOB_ATTACK_RANGED, .proc/on_ranged_attack)
+	if(!active) // Only do this when first activating.
+		var/mob/living/user = owner
+		if(user.get_inactive_held_item())
+			if(display_error)
+				owner.balloon_alert(owner, "off hand is full!")
+		var/obj/offhand_shield = new /obj/item/shield/changeling()
+		if(!user.put_in_inactive_hand(offhand_shield))
+			return FALSE
+		owner.balloon_alert(owner, "thaumaturgy turned on.")
+		to_chat(user, span_notice("You prepare Thaumaturgy."))
 	return TRUE
-
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/proc/on_ranged_attack(mob/living/carbon/human/source, atom/target, modifiers)
-	SIGNAL_HANDLER
-
-	source.balloon_alert(source, "fired blood bolt!")
-	to_chat(source, span_warning("You fire a blood bolt!"))
-	source.changeNext_move(CLICK_CD_RANGE)
-	source.newtonian_move(get_dir(target, source))
-	var/obj/projectile/magic/arcane_barrage/bloodsucker/LE = new(source.loc)
-	LE.firer = source
-	LE.def_zone = ran_zone(source.zone_selected)
-	LE.preparePixelProjectile(target, source, modifiers)
-	INVOKE_ASYNC(LE, /obj/projectile.proc/fire)
-	playsound(source, 'sound/magic/wand_teleport.ogg', 60, TRUE)
-	PowerActivatedSuccessfully()
-
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
 	var/list/L = owner.get_contents()
 	var/obj/item/shield/changeling/bloodshield = locate() in L
 	if(bloodshield)
 		qdel(bloodshield)
-	UnregisterSignal(owner, COMSIG_MOB_ATTACK_RANGED)
 	owner.balloon_alert(owner, "thaumaturgy turned off.")
+	return ..()
+
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/A)
 	. = ..()
+
+	var/mob/living/user = owner
+	to_chat(user, span_warning("You fire a blood bolt!"))
+	user.changeNext_move(CLICK_CD_RANGE)
+	user.newtonian_move(get_dir(A, user))
+	var/obj/projectile/magic/arcane_barrage/bloodsucker/LE = new(user.loc)
+	LE.firer = user
+	LE.def_zone = ran_zone(user.zone_selected)
+	LE.preparePixelProjectile(A, user)
+	INVOKE_ASYNC(LE, /obj/projectile.proc/fire)
+	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
+	PowerActivatedSuccessfully()
 
 /*
  *	# Blood Bolt
@@ -82,7 +80,7 @@
 
 /obj/projectile/magic/arcane_barrage/bloodsucker
 	name = "blood bolt"
-	icon_state = "arcane_barrage"
+	icon_state = "mini_leaper"
 	damage = 20
 
 /obj/projectile/magic/arcane_barrage/bloodsucker/on_hit(target)

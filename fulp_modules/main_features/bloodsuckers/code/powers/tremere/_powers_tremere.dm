@@ -21,6 +21,10 @@
 	message_Trigger = ""
 	power_activates_immediately = FALSE
 
+/datum/action/bloodsucker/targeted/tremere/Trigger()
+	. = ..()
+	ActivatePower()
+
 /datum/antagonist/bloodsucker/proc/LevelUpTremerePower(mob/living/user)
 
 	var/list/options = list()
