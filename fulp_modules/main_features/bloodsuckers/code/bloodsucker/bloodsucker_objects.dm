@@ -374,11 +374,11 @@
 /obj/item/book/kindred/proc/search(mob/reader, clan)
 	dat = "<head>List of information gathered on the <b>[clan]</b>:</head><br>"
 	if(clan == CLAN_BRUJAH)
-		dat += "This Clan has proven to be the strongest in melee combat, boasting a <i>powerful punch</i>.<br> \
-		They also appear to be more calm than the others, entering their 'Frenzies' earlier, but <i>still behaves as usual</i>.<br> \
+		dat += "This Clan has proven to be the strongest in melee combat, boasting a <b>powerful punch</b>.<br> \
+		They also appear to be more calm than the others, entering their 'Frenzies' whenever they want, but <i>dont seem affected</i>.<br> \
 		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy.<br> \
 		<b>Strength</b>: Frenzy will not kill them, punches deal a lot of damage.<br> \
-		<b>Weakness</b>: They don't become immune to stuns from Frenzy alone."
+		<b>Weakness</b>: They have to spend Blood on powers while in Frenzy too."
 	if(clan == CLAN_TOREADOR) // Flavortext only
 		dat += "The most charming Clan of them all, being borderline <i>party animals</i>, allowing them to <i>very easily</i> disguise among the crew.<br> \
 		They are more in touch with their <i>morals</i>, so they suffer and benefit more strongly from the humanity cost or gain of their actions.<br> \
@@ -391,15 +391,14 @@
 		They make <i>no attempts</i> at hiding themselves within the crew, and have a terrible taste for <i>heavy items</i>.<br> \
 		They also seem to manage to fit themsleves into small spaces such as <i>vents</i>.<br> \
 		<b>Strength</b>: Ventcrawl.<br> \
-		<b>Weakness</b>: Can't disguise themselves, can easily be discovered by their DNA or Blood Level."
+		<b>Weakness</b>: Can't disguise themselves, permanently pale, can easily be discovered by their DNA or Blood Level."
 	if(clan == CLAN_TREMERE)
 		dat += "This Clan seems to hate entering the <i>Chapel</i>.<br> \
 		They are a secluded Clan, they are Vampires who've mastered the power of blood, and seek knowledge.<br> \
-		They care not about their Vassals, going as far as to <i>dismember and deform</i> them however they see fit.<br> \
-		Despite this, their Vassals pledge <i>complete obedience</i> to them no matter what, going as far as to resist Mindshields.<br> \
-		They seem to be able to revive dead people using some torture device, something never-before seen.<br> \
-		<b>Strength</b>: Vassal Mutilation, reviving the Dead.<br> \
-		<b>Weakness</b>: Entering the Chapel sets them on fire, it is a safe place to run to if in combat against one."
+		They appear to be focused more on their Blood Magic than their other Powers, getting stronger faster the more Vassals they have.<br> \
+		They have 3 different paths they can take, from reviving people as Vassals, to stealing blood with beams made of the same essence.<br> \
+		<b>Strength</b>: 3 different Powers that get stupidly strong overtime.<br> \
+		<b>Weakness</b>: Cannot get regular Powers, with no way to get stun resistance outside of Frenzy."
 	if(clan == CLAN_GANGREL) // Flavortext only
 		dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
 		They also go by the name of <i>Werewolves</i>, as that is what appears when they enter a Frenzy.<br> \

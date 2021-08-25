@@ -177,7 +177,7 @@
 	Ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
 	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
 		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.\n\
-		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand.\n\
+		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand. This costs Blood to do.\n\
 		Once you have Vassals ready, you are able to select a Favorite Vassal;\n\
 		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!\n\
 		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching Final Death."
@@ -329,7 +329,8 @@
 	useLock = TRUE
 	/// Conversion Process
 	if(convert_progress > 0)
-		to_chat(user, span_notice("You prepare to initiate [target] into your service."))
+		to_chat(user, span_notice("You spill some blood and prepare to initiate [target] into your service."))
+		bloodsuckerdatum.AddBloodVolume(-TORTURE_BLOOD_COST)
 		if(!do_torture(user,target))
 			to_chat(user, span_danger("<i>The ritual has been interrupted!</i>"))
 		else
@@ -369,9 +370,13 @@
 		useLock = FALSE
 		return
 	/// Convert to Vassal!
+	bloodsuckerdatum.AddBloodVolume(-TORTURE_CONVERSION_COST)
 	if(bloodsuckerdatum && bloodsuckerdatum.attempt_turn_vassal(target))
 		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 			remove_loyalties(target)
+		if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
+			to_chat(user, span_danger("You have now gained an additional Rank to spend!"))
+			bloodsuckerdatum.bloodsucker_level_unspent++
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)

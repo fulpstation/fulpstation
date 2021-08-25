@@ -49,6 +49,9 @@
 /// Frenzy Thresholds
 #define FRENZY_THRESHOLD_ENTER 25
 #define FRENZY_THRESHOLD_EXIT 250
+/// Torture price defines
+#define TORTURE_BLOOD_COST "15"
+#define TORTURE_CONVERSION_COST "50"
 /// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
