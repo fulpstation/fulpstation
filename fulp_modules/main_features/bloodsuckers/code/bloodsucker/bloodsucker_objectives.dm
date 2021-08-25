@@ -30,7 +30,6 @@
 
 	return possible_targets
 
-
 //////////////////////////////////////////////////////////////////////////////////////
 //	//							 OBJECTIVES 									//	//
 //////////////////////////////////////////////////////////////////////////////////////
@@ -313,6 +312,24 @@
 		for(var/obj/I in all_items)
 			if(istype(I, /obj/item/book/kindred))
 				return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Max out a Tremere Power - Tremere Clan objective
+/datum/objective/bloodsucker/tremere_power
+	name = "tremerepower"
+
+// EXPLANATION
+/datum/objective/bloodsucker/tremere_power/update_explanation_text()
+	explanation_text = "Upgrade a Blood Magic power to the maximum level, remember that Vassalizing gives more Ranks!"
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/tremere_power/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	for(var/datum/action/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
+		if(tremere_powers.tremere_level >= 5)
+			return TRUE
 	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////

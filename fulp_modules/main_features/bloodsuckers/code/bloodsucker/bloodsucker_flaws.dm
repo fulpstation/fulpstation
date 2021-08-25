@@ -74,6 +74,10 @@
 				* You have been given a spare Rank to spend immediately, and you can get more manually by Vassalizing people."))
 			remove_nondefault_powers()
 			bloodsucker_level_unspent++
+			var/datum/objective/bloodsucker/tremere_power/bloodmagic_objective = new
+			bloodmagic_objective.owner = owner
+			bloodmagic_objective.objective_name = "Clan Objective"
+			objectives += bloodmagic_objective
 			BuyPower(new /datum/action/bloodsucker/targeted/tremere/dominate)
 			BuyPower(new /datum/action/bloodsucker/targeted/tremere/auspex)
 			BuyPower(new /datum/action/bloodsucker/targeted/tremere/thaumaturgy)
