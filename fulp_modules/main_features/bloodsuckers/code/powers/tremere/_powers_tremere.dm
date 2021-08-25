@@ -19,7 +19,7 @@
 	// Targeted stuff
 	target_range = 99
 	message_Trigger = ""
-	power_activates_immediately = TRUE
+	power_activates_immediately = FALSE
 
 /datum/antagonist/bloodsucker/proc/LevelUpTremerePower(mob/living/user)
 

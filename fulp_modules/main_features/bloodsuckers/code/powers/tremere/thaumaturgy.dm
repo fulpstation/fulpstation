@@ -8,21 +8,77 @@
  *	Level 5 - Bloodbeam spell that breaks open lockers/doors, steals blood from targets - Gives them a Blood shield until they use Bloodbeam
  */
 
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy
+	name = "Level 1: Thaumaturgy"
+	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
+	desc = "Shoot a Blood barrage at your enemy."
+	tremere_level = 1
+	button_icon_state = "power_strength"
+	power_explanation = "<b>Fortitude</b>:\n\
+		Activating Fortitude will provide pierce, stun and dismember immunity.\n\
+		You will additionally gain resistance to Brute and Stamina damge, scaling with level.\n\
+		While using Fortitude, attempting to run will crush you.\n\
+		At level 4, you gain complete stun immunity.\n\
+		Higher levels will increase Brute and Stamina resistance."
+	must_be_capacitated = TRUE
+	bloodcost = 30
+	cooldown = 80
+	must_be_concious = FALSE
+	message_Trigger = "Click where you wish to fire (using your power removes blood shield)"
 
-/obj/item/gun/ballistic/rifle/enchanted/arcane_barrage/bloodsucker
-	name = "blood barrage"
-	desc = "Blood for blood."
-	color = "#ff0000"
-	guns_left = 1
-	fire_sound = 'sound/magic/wand_teleport.ogg'
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/three
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 
-	mag_type = /obj/item/ammo_box/magazine/internal/bloodsucker
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/A)
+	return TRUE
 
-/obj/item/ammo_box/magazine/internal/bloodsucker
-	ammo_type = /obj/item/ammo_casing/magic/arcane_barrage/bloodsucker
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(display_error)
+	if(!..())
+		return
+	var/mob/living/user = owner
+	if(user.get_inactive_held_item())
+		if(display_error)
+			owner.balloon_alert(owner, "off hand is full!")
+	var/obj/offhand_shield = new /obj/item/shield/changeling()
+	if(!user.put_in_inactive_hand(offhand_shield))
+		return FALSE
+	owner.balloon_alert(owner, "thaumaturgy turned on.")
+	to_chat(user, span_notice("You prepare Thaumaturgy."))
+	RegisterSignal(owner, COMSIG_MOB_ATTACK_RANGED, .proc/on_ranged_attack)
+	return TRUE
 
-/obj/item/ammo_casing/magic/arcane_barrage/bloodsucker
-	projectile_type = /obj/projectile/magic/arcane_barrage/bloodsucker
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/proc/on_ranged_attack(mob/living/carbon/human/source, atom/target, modifiers)
+	SIGNAL_HANDLER
+
+	source.balloon_alert(source, "fired blood bolt!")
+	to_chat(source, span_warning("You fire a blood bolt!"))
+	source.changeNext_move(CLICK_CD_RANGE)
+	source.newtonian_move(get_dir(target, source))
+	var/obj/projectile/magic/arcane_barrage/bloodsucker/LE = new(source.loc)
+	LE.firer = source
+	LE.def_zone = ran_zone(source.zone_selected)
+	LE.preparePixelProjectile(target, source, modifiers)
+	INVOKE_ASYNC(LE, /obj/projectile.proc/fire)
+	playsound(source, 'sound/magic/wand_teleport.ogg', 60, TRUE)
+	PowerActivatedSuccessfully()
+
+
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
+	var/list/L = owner.get_contents()
+	var/obj/item/shield/changeling/bloodshield = locate() in L
+	if(bloodshield)
+		qdel(bloodshield)
+	UnregisterSignal(owner, COMSIG_MOB_ATTACK_RANGED)
+	owner.balloon_alert(owner, "thaumaturgy turned off.")
+	. = ..()
+
+/*
+ *	# Blood Bolt
+ *
+ *	This is the projectile this Power will fire.
+ */
 
 /obj/projectile/magic/arcane_barrage/bloodsucker
 	name = "blood bolt"
@@ -48,64 +104,3 @@
 		qdel(src)
 		return BULLET_ACT_HIT
 	. = ..()
-
-/obj/effect/proc_holder/spell/aimed/cryo
-	name = "Cryobeam"
-	desc = "This power fires a frozen bolt at a target."
-	charge_max = 150
-	cooldown_min = 150
-	clothes_req = FALSE
-	range = 3
-	projectile_type = /obj/projectile/temp/cryo
-	base_icon_state = "icebeam"
-	action_icon_state = "icebeam"
-	active_msg = "You focus your cryokinesis!"
-	deactive_msg = "You relax."
-	active = FALSE
-
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy
-	name = "Level 1: Thaumaturgy"
-	desc = "Shoot a Blood barrage at your enemy."
-
-	button_icon_state = "power_strength"
-	power_explanation = "<b>Fortitude</b>:\n\
-		Activating Fortitude will provide pierce, stun and dismember immunity.\n\
-		You will additionally gain resistance to Brute and Stamina damge, scaling with level.\n\
-		While using Fortitude, attempting to run will crush you.\n\
-		At level 4, you gain complete stun immunity.\n\
-		Higher levels will increase Brute and Stamina resistance."
-	bloodcost = 30
-	cooldown = 80
-	constant_bloodcost = 0.2
-	bloodsucker_can_buy = TRUE
-	amToggle = TRUE
-	must_be_concious = FALSE
-
-
-
-/datum/action/bloodsucker/thaumaturgy/ActivatePower(mob/living/user = owner)
-	var/obj/power_hand = new /obj/item/gun/ballistic/rifle/enchanted/arcane_barrage/bloodsucker()
-	if(!user.put_in_hands(power_hand))
-		owner.balloon_alert(owner, "need both hands free!")
-		qdel(power_hand)
-		return
-	owner.balloon_alert(owner, "thaumaturgy turned on.")
-	to_chat(user, span_notice("You prepare Thaumaturgy."))
-	. = ..()
-
-/datum/action/bloodsucker/thaumaturgy/UsePower(mob/living/carbon/user)
-	// Checks that we can keep using this.
-	if(!..())
-		return
-	var/list/L = owner.get_contents()
-	var/obj/item/gun/ballistic/rifle/enchanted/arcane_barrage/bloodsucker/bloodbarrage = locate() in L
-	if(!bloodbarrage)
-		DeactivatePower()
-		return
-
-/datum/action/bloodsucker/thaumaturgy/DeactivatePower(mob/living/user = owner)
-	if(!ishuman(owner))
-		return
-
-	owner.balloon_alert(owner, "thaumaturgy turned off.")
-	return ..()

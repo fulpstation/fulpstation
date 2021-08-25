@@ -75,7 +75,7 @@
 			bloodsucker_level_unspent += 1
 			BuyPower(new /datum/action/bloodsucker/targeted/tremere/dominate)
 			BuyPower(new /datum/action/bloodsucker/targeted/tremere/auspex)
-//			BuyPower(new /datum/action/bloodsucker/thaumaturgy)
+			BuyPower(new /datum/action/bloodsucker/targeted/tremere/thaumaturgy)
 			LevelUpPowers()
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE

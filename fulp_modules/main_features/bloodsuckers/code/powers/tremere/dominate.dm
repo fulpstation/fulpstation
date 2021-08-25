@@ -13,13 +13,12 @@
 /datum/action/bloodsucker/targeted/tremere/dominate
 	name = "Level 1: Dominate"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/two
+	tremere_level = 1
 	desc = "Mesmerize any foe who stands still long enough."
 	button_icon_state = "power_mez"
 	power_explanation = "<b>Level 1: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
-	must_be_capacitated = TRUE
-	tremere_level = 1
 	bloodcost = 15
 	cooldown = 500
 	target_range = 6
@@ -27,28 +26,29 @@
 /datum/action/bloodsucker/targeted/tremere/dominate/two
 	name = "Level 2: Dominate"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/three
+	tremere_level = 2
 	desc = "Mesmerize and mute any foe who stands still long enough."
 	power_explanation = "<b>Level 2: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize and mute them for the next 12 seconds."
-	tremere_level = 2
 	bloodcost = 20
 	cooldown = 400
 
 /datum/action/bloodsucker/targeted/tremere/dominate/three
 	name = "Level 3: Dominate"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/advanced
+	tremere_level = 3
 	desc = "Mesmerize, mute and blind any foe who stands still long enough."
 	power_explanation = "<b>Level 3: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds."
-	tremere_level = 3
 	bloodcost = 30
 	cooldown = 350
 
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced
 	name = "Level 4: Possession"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
+	tremere_level = 4
 	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
 	button_icon_state = "power_strength"
 	power_explanation = "<b>Level 4: Possession</b>:\n\
@@ -56,7 +56,6 @@
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
 		However, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
 		Despite being Mute and Deaf, they will still have complete loyalty to you, until their death in 5 minutes upon use."
-	tremere_level = 4
 	bloodcost = 80
 	cooldown = 3000 // 5 minutes
 	target_range = 1
@@ -64,13 +63,13 @@
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
 	name = "Level 5: Possession"
 	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
+	tremere_level = 5
 	upgraded_power = null
 	power_explanation = "<b>Level 5: Possession</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
 		However, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
 		They will have complete loyalty to you, until their death in 8 minutes upon use."
-	tremere_level = 5
 	bloodcost = 100
 	cooldown = 1800 // 3 minutes
 
