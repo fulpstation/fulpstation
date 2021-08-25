@@ -73,6 +73,7 @@
 	bloodcost = 100
 	cooldown = 1800 // 3 minutes
 
+
 /datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/A, display_error)
 	if(!..())
 		return FALSE

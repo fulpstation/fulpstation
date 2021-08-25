@@ -20,6 +20,7 @@
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 2 tile away to teleport there, ending the Power."
 	must_be_capacitated = TRUE
+	power_activates_immediately = FALSE
 	bloodcost = 5
 	cooldown = 120
 	target_range = 2

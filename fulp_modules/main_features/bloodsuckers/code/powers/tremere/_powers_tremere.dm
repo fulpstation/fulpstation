@@ -19,7 +19,7 @@
 	// Targeted stuff
 	target_range = 99
 	message_Trigger = ""
-	power_activates_immediately = FALSE
+	power_activates_immediately = TRUE
 
 /datum/action/bloodsucker/targeted/tremere/Trigger()
 	. = ..()
