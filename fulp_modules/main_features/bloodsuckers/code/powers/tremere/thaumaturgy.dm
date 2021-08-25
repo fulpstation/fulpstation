@@ -49,7 +49,21 @@
 		return BULLET_ACT_HIT
 	. = ..()
 
-/datum/action/bloodsucker/thaumaturgy
+/obj/effect/proc_holder/spell/aimed/cryo
+	name = "Cryobeam"
+	desc = "This power fires a frozen bolt at a target."
+	charge_max = 150
+	cooldown_min = 150
+	clothes_req = FALSE
+	range = 3
+	projectile_type = /obj/projectile/temp/cryo
+	base_icon_state = "icebeam"
+	action_icon_state = "icebeam"
+	active_msg = "You focus your cryokinesis!"
+	deactive_msg = "You relax."
+	active = FALSE
+
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy
 	name = "Level 1: Thaumaturgy"
 	desc = "Shoot a Blood barrage at your enemy."
 
@@ -66,6 +80,8 @@
 	bloodsucker_can_buy = TRUE
 	amToggle = TRUE
 	must_be_concious = FALSE
+
+
 
 /datum/action/bloodsucker/thaumaturgy/ActivatePower(mob/living/user = owner)
 	var/obj/power_hand = new /obj/item/gun/ballistic/rifle/enchanted/arcane_barrage/bloodsucker()
