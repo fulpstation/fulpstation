@@ -162,8 +162,11 @@
 
 /datum/species/beefman/random_name(gender,unique,lastname)
 	if(unique)
-		return random_unique_beefman_name(gender)
-	return capitalize(beefman_name(gender))
+		return random_unique_beefman_name()
+
+	var/randname = beefman_name()
+
+	return randname
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/H)	// This is your life ticker.
 	..()
