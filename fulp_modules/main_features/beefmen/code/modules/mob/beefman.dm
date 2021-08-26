@@ -432,10 +432,7 @@
 // taken from _HELPERS/names.dm
 /proc/beefman_name()
 	var/tempname
-	if(prob(50))
-		tempname += pick(GLOB.russian_names)
-	else
-		tempname += pick(GLOB.beefman_names)
+	tempname += pick(GLOB.russian_names)
 	var/name = "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[tempname]'"
 	return name
 
