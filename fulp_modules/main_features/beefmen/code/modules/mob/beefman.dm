@@ -431,7 +431,7 @@
 
 // taken from _HELPERS/names.dm
 /proc/beefman_name()
-	var/name = "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[tempname]'"
+	var/name = "[pick(GLOB.experiment_names)] \Roman[rand(1,49)]"
 	return name
 
 
