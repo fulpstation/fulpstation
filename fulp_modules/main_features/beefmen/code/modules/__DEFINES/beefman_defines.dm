@@ -1,5 +1,4 @@
 /// Names
-GLOBAL_LIST_INIT(russian_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_russian.txt")) // Backtracked from names.dm
 GLOBAL_LIST_INIT(experiment_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_experiment.txt")) // Backtracked from names.dm
 
 /// Taken from flavor_misc.dm, as used by ethereals (color_list_ethereal)
