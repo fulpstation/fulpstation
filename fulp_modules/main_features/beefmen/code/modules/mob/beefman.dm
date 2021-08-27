@@ -430,7 +430,6 @@
 			break
 
 // taken from _HELPERS/names.dm
-/*
 /proc/beefman_name()
 	var/tempname = "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] "
 	if(prob(50))
@@ -438,7 +437,7 @@
 	else
 		tempname += pick(GLOB.beefman_names)
 	return tempname
-*/
+
 
 // INTEGRATION //
 
