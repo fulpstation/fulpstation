@@ -161,10 +161,9 @@
 	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/random_name(gender,unique,lastname)
-	if(unique)
-		return random_unique_beefman_name()
+	return random_unique_beefman_name()
 
-	var/randname = beefman_name()
+	var/randname = ethereal_name()
 
 	return randname
 
@@ -424,20 +423,10 @@
 // taken from _HELPERS/mobs.dm
 /proc/random_unique_beefman_name(gender, attempts_to_find_unique_name=10)
 	for(var/i in 1 to attempts_to_find_unique_name)
-		. = capitalize(beefman_name(gender))
+		. = capitalize(ethereal_name(gender))
 
 		if(!findname(.))
 			break
-
-// taken from _HELPERS/names.dm
-/proc/beefman_name()
-	var/tempname = "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] "
-	if(prob(50))
-		tempname += pick(GLOB.russian_names)
-	else
-		tempname += pick(GLOB.beefman_names)
-	return tempname
-
 
 // INTEGRATION //
 
