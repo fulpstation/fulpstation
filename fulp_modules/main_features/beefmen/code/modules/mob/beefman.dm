@@ -432,8 +432,8 @@
 // taken from _HELPERS/names.dm
 /proc/beefman_name()
 	if(prob(50))
-		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.russian_names)]"
-	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beef_names)]"
+		return "[pick(GLOB.ethereal_names)] \Roman[rand(1,49)] [pick(GLOB.ethereal_names)]"
+	return "[pick(GLOB.ethereal_names)] \Roman[rand(1,49)] [pick(GLOB.ethereal_names)]"
 
 
 // INTEGRATION //
