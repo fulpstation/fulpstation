@@ -433,7 +433,7 @@
 /proc/beefman_name()
 	if(prob(50))
 		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.russian_names)]"
-	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beefman_names)]"
+	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beef_names)]"
 
 
 // INTEGRATION //
