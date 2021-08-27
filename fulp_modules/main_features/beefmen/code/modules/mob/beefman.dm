@@ -160,14 +160,6 @@
 	C.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
-/datum/species/beefman/random_name(gender,unique,lastname)
-	if(unique)
-		return random_unique_beefman_name()
-
-	var/randname = beefman_name()
-
-	return randname
-
 /datum/species/beefman/spec_life(mob/living/carbon/human/H)	// This is your life ticker.
 	..()
 	// 		** BLEED YOUR JUICES **         //-- BODYTEMP_NORMAL = 293.15
@@ -421,22 +413,30 @@
 
 			//// OUTSIDE PROCS ////
 
+/datum/species/beefman/random_name(gender,unique,lastname)
+	if(unique)
+		return random_unique_beefman_name()
+
+	var/randname = beefman_name()
+
+	return randname
+
 // taken from _HELPERS/mobs.dm
-/proc/random_unique_beefman_name(gender, attempts_to_find_unique_name=10)
+/proc/random_unique_beefman_name(attempts_to_find_unique_name=10)
 	for(var/i in 1 to attempts_to_find_unique_name)
-		. = capitalize(beefman_name(gender))
+		. = capitalize(beefman_name())
 
 		if(!findname(.))
 			break
 
 // taken from _HELPERS/names.dm
 /proc/beefman_name()
-	var/tempname = "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] "
+	var/tempname
 	if(prob(50))
-		tempname += pick(GLOB.russian_names)
+		tempname = pick(GLOB.russian_names)
 	else
-		tempname += pick(GLOB.beefman_names)
-	return tempname
+		tempname = pick(GLOB.beefman_names)
+	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [tempname]"
 
 
 // INTEGRATION //

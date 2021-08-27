@@ -21,13 +21,13 @@ GLOBAL_LIST_INIT(mouths_beefman, list("Frown1", "Frown2", "Grit1", "Grit2",  "Sm
 /mob/living/carbon/getBruteLoss_nonProsthetic()
 	var/amount = 0
 	for(var/obj/item/bodypart/BP in bodyparts)
-		if (BP.status < 2)
+		if (BP.status < BODYPART_ROBOTIC)
 			amount += BP.brute_dam
 	return amount
 
 /mob/living/carbon/getFireLoss_nonProsthetic()
 	var/amount = 0
 	for(var/obj/item/bodypart/BP in bodyparts)
-		if (BP.status < 2)
+		if (BP.status < BODYPART_ROBOTIC)
 			amount += BP.burn_dam
 	return amount
