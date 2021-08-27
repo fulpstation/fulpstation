@@ -435,7 +435,7 @@
 	if(prob(50))
 		tempname = pick(GLOB.russian_names)
 	else
-		tempname = pick(GLOB.beefman_names)
+		tempname = pick(GLOB.beef_names)
 	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [tempname]"
 
 
