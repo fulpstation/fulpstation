@@ -19,6 +19,9 @@ GLOBAL_LIST_INIT(moth_first, world.file2list("strings/names/moth_first.txt"))
 GLOBAL_LIST_INIT(moth_last, world.file2list("strings/names/moth_last.txt"))
 GLOBAL_LIST_INIT(plasmaman_names, world.file2list("strings/names/plasmaman.txt"))
 GLOBAL_LIST_INIT(ethereal_names, world.file2list("strings/names/ethereal.txt"))
+GLOBAL_LIST_INIT(russian_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_russian.txt")) // Backtracked from names.dm
+GLOBAL_LIST_INIT(experiment_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_experiment.txt")) // Backtracked from names.dm
+GLOBAL_LIST_INIT(beefman_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_beefman.txt")) // Backtracked from names.dm
 GLOBAL_LIST_INIT(posibrain_names, world.file2list("strings/names/posibrain.txt"))
 GLOBAL_LIST_INIT(nightmare_names, world.file2list("strings/names/nightmare.txt"))
 GLOBAL_LIST_INIT(megacarp_first_names, world.file2list("strings/names/megacarp1.txt"))
