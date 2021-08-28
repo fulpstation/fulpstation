@@ -1,6 +1,4 @@
 /// Names
-GLOBAL_LIST_INIT(russian_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_russian.txt")) // Backtracked from names.dm
-GLOBAL_LIST_INIT(experiment_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_experiment.txt")) // Backtracked from names.dm
 GLOBAL_LIST_INIT(beef_names, world.file2list("fulp_modules/main_features/beefmen/strings/fulp_beef.txt")) // Backtracked from names.dm
 
 /// Taken from flavor_misc.dm, as used by ethereals (color_list_ethereal)
@@ -33,6 +31,12 @@ GLOBAL_LIST_INIT(mouths_beefman, list("Frown1", "Frown2", "Grit1", "Grit2",  "Sm
 	return amount
 
 /*
+ *	# Names
+ *
+ *	Global lists of all names used by Beefmen.
+ *	This isn't strings because otherwise they would have to be placed in the strings folder.
+ */
+
 GLOBAL_LIST_INIT(russian_names, list(
 		Ivanov,
 		Smirnov,
@@ -143,5 +147,28 @@ GLOBAL_LIST_INIT(russian_names, list(
 		Vinsky,
 		Volski,
 		Zakharov,
-	))
-*/
+))
+
+GLOBAL_LIST_INIT(experiment_names, list(
+		Experiment,
+		Attempt,
+		Subject,
+		Test,
+		Examination,
+		Operation,
+		Protocol,
+		Failure,
+		Reject,
+		Study,
+		Trial,
+		Observation,
+		Sample,
+		Case,
+		Exhibit,
+		Specimen,
+		Prototype,
+		Type,
+		Version,
+		Strand,
+		SCP,
+))
