@@ -15,7 +15,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/two
 	tremere_level = 1
 	desc = "Mesmerize any foe who stands still long enough."
-	button_icon_state = "power_mez"
+	button_icon_state = "power_dominate"
 	power_explanation = "<b>Level 1: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
@@ -50,12 +50,14 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
 	tremere_level = 4
 	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
-	button_icon_state = "power_strength"
 	power_explanation = "<b>Level 4: Possession</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
 		However, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
 		Despite being Mute and Deaf, they will still have complete loyalty to you, until their death in 5 minutes upon use."
+	background_icon_state = "tremere_power_gold_off"
+	background_icon_state_on = "tremere_power_gold_on"
+	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 80
 	cooldown = 3000 // 5 minutes
 	target_range = 1

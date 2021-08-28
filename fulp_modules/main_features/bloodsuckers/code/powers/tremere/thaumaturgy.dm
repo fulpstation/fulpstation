@@ -13,7 +13,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
 	desc = "Fire a blood bolt at your enemy, dealing Burn damage."
 	tremere_level = 1
-	button_icon_state = "power_strength"
+	button_icon_state = "power_thaumaturgy"
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
 	must_be_capacitated = TRUE
@@ -51,12 +51,14 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
 	tremere_level = 4
-	button_icon_state = "power_strength"
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield, a shield with 50% block chance.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 40 Burn damage.\n\
 		If it hits a locker or door, it will break it open."
+	background_icon_state = "tremere_power_gold_off"
+	background_icon_state_on = "tremere_power_gold_on"
+	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 60
 	cooldown = 60
 

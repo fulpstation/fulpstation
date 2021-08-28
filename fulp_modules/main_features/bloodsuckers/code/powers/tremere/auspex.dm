@@ -15,7 +15,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/two
 	tremere_level = 1
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport up to 1 tile away."
-	button_icon_state = "power_tres"
+	button_icon_state = "power_auspex"
 	power_explanation = "<b>Level 1: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 2 tile away to teleport there, ending the Power."
@@ -58,6 +58,9 @@
 	power_explanation = "<b>Level 4: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to teleport there, ending the Power and causing people at your end location to start bleeding."
+	background_icon_state = "tremere_power_gold_off"
+	background_icon_state_on = "tremere_power_gold_on"
+	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 20
 	cooldown = 60
 	target_range = 6
