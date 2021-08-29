@@ -21,11 +21,11 @@
 	candidates = living_players
 	for(var/mob/living/carbon/human/candidate in candidates)
 		if(!candidate.getorgan(/obj/item/organ/brain) \
-			|| IS_MONSTERHUNTER(H) \
+			|| IS_MONSTERHUNTER(candidate) \
 			|| !(ROLE_MONSTERHUNTER in candidate.client?.prefs?.be_special) \
-			|| !(H.mind.assigned_role.job_flags & JOB_CREW_MEMBER) \
-			|| (H.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND)) \
-			|| candidate.stat == DEAD \
+			|| !(candidate.mind.assigned_role.job_flags & JOB_CREW_MEMBER) \
+			|| (candidate.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND)) \
+			|| candidate.stat >= HARD_CRIT \
 		)
 			candidates -= candidate
 
