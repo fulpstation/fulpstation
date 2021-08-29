@@ -211,7 +211,7 @@
 		owner.balloon_alert(owner, "you pull [feed_target] close to you!")
 
 	// Start the countdown
-	if(!do_mob(user, feed_target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, target)))
+	if(!do_mob(user, feed_target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, feed_target)))
 		owner.balloon_alert(owner, "your feeding was interrupted!")
 		DeactivatePower(user)
 		return
@@ -226,7 +226,7 @@
 		user.visible_message(span_warning("[user] closes [user.p_their()] mouth around [feed_target]'s neck!"), \
 							 span_warning("You sink your fangs into [feed_target]'s neck."))
 	if(amSilent)
-		var/deadmessage = feed_target.stat == DEAD ? "" : " <i>[target.p_they(TRUE)] looks dazed, and will not remember this.</i>"
+		var/deadmessage = feed_target.stat == DEAD ? "" : " <i>[feed_target.p_they(TRUE)] looks dazed, and will not remember this.</i>"
 		user.visible_message(span_notice("[user] puts [feed_target]'s wrist up to [user.p_their()] mouth."), \
 						 	 span_notice("You slip your fangs into [feed_target]'s wrist.[deadmessage]"), \
 						 	 vision_distance = notice_range, ignored_mobs = feed_target) // Only people who AREN'T the target will notice this action.
@@ -272,11 +272,11 @@
 		return
 	if(!ContinueActive(user, feed_target))
 		if(amSilent)
-			to_chat(user, span_warning("Your feeding has been interrupted... but [target.p_they()] didn't seem to notice you."))
+			to_chat(user, span_warning("Your feeding has been interrupted... but [feed_target.p_they()] didn't seem to notice you."))
 		else
 			to_chat(user, span_warning("Your feeding has been interrupted!"))
-			user.visible_message(span_warning("[user] is ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!"), \
-					 			 span_warning("Your teeth are ripped from [target]'s throat. [target.p_their(TRUE)] blood sprays everywhere!"))
+			user.visible_message(span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"), \
+					 			 span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"))
 			// Deal Damage to Target (should have been more careful!)
 			if(iscarbon(feed_target))
 				var/mob/living/carbon/C = feed_target
@@ -354,12 +354,15 @@
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
+	. = ..()
+	if(!.)
+		return FALSE
 	if(!target)
 		return FALSE
 	if(!user.Adjacent(target))
 		return FALSE
 	if(!target_grappled || user.pulling) // Active, and still antag
-		return ..()
+		return TRUE
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
@@ -382,7 +385,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Did we kill our target?
 	if(was_alive)
-		CheckKilledTarget(user,target)
+		CheckKilledTarget(user, feed_target)
 	// No longer Feeding
 	bloodsuckerdatum.poweron_feed = FALSE
 	// Only break it once we've broken it 3 times, not more.
