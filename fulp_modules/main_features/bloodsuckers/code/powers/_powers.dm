@@ -292,7 +292,6 @@
 /datum/action/bloodsucker/targeted/Trigger()
 	// Click power: Begin Aim
 	if(active && CheckCanDeactivate(TRUE))
-		DeactivateRangedAbility()
 		DeactivatePower()
 		return FALSE
 	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE))
@@ -319,6 +318,7 @@
 	// Don't run ..(), we don't want to engage the cooldown until we USE this power!
 	active = FALSE
 	UpdateButtonIcon()
+	DeactivateRangedAbility()
 
 /// Only Turned off when CLICK is disabled...aka, when you successfully clicked
 /datum/action/bloodsucker/targeted/proc/DeactivateRangedAbility()
@@ -361,7 +361,6 @@
 /// The power went off! We now pay the cost of the power.
 /datum/action/bloodsucker/targeted/proc/PowerActivatedSuccessfully()
 	PayCost()
-	DeactivateRangedAbility()
 	DeactivatePower()
 	StartCooldown()	// Do AFTER UpdateIcon() inside of DeactivatePower. Otherwise icon just gets wiped.
 

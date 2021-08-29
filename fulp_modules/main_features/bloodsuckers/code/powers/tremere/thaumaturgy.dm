@@ -30,7 +30,8 @@
 	desc = "Create a Blood shield and fire a blood bolt at your enemy, dealing Burn damage."
 	tremere_level = 2
 	power_explanation = "<b>Thaumaturgy</b>:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield, a shield with 50% block chance.\n\
+		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
+		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 20 Burn damage."
 	message_Trigger = "Click where you wish to fire (using your power removes blood shield)"
@@ -43,7 +44,8 @@
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
 	tremere_level = 3
 	power_explanation = "<b>Thaumaturgy</b>:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield, a shield with 50% block chance.\n\
+		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
+		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 20 Burn damage. If it hits a locker or door, it will break it open."
 	bloodcost = 50
@@ -55,7 +57,8 @@
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
 	tremere_level = 4
 	power_explanation = "<b>Thaumaturgy</b>:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield, a shield with 50% block chance.\n\
+		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
+		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 40 Burn damage.\n\
 		If it hits a locker or door, it will break it open."
@@ -72,7 +75,8 @@
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage, stealing Blood and opening doors/lockers."
 	tremere_level = 5
 	power_explanation = "<b>Thaumaturgy</b>:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield, a shield with 50% block chance.\n\
+		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
+		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 40 Burn damage and steal blood to feed yourself.\n\
 		If it hits a locker or door, it will break it open."
@@ -179,7 +183,7 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, BLOODSUCKER_TRAIT)
 	if(ismob(loc))
-		loc.visible_message(span_warning("The end of [loc.name]\'s hand inflates rapidly, forming a huge shield-like mass!"), span_warning("We inflate our hand into a strong shield."), span_hear("You hear organic matter ripping and tearing!"))
+		loc.visible_message(span_warning("[loc.name]\'s hands begins to bleed and forms into some form of a shield!"), span_warning("We activate our Blood shield!"), span_hear("You hear liquids forming together."))
 
 /obj/item/shield/bloodsucker/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
