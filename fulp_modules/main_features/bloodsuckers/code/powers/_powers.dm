@@ -94,9 +94,9 @@
 /datum/action/bloodsucker/Trigger()
 	if(active && CheckCanDeactivate(TRUE)) // Active? DEACTIVATE AND END!
 		DeactivatePower()
-		return
+		return FALSE
 	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE))
-		return
+		return FALSE
 	PayCost()
 	UpdateButtonIcon()
 	if(!amToggle || !active)
@@ -105,12 +105,13 @@
 		active = !active
 		UpdateButtonIcon()
 		ActivatePower() //We're doing this here because it has to be after 'active = !active'
-		return // Don't keep going down, or else it'll be Deactivated.
+		return TRUE // Don't keep going down, or else it'll be Deactivated.
 	ActivatePower() // This is placed here so amToggle's can run and return before this occurs.
 	if(amSingleUse)
 		RemoveAfterUse()
 	if(active) // Did we not manually disable? Handle it here.
 		DeactivatePower()
+	return TRUE
 
 /datum/action/bloodsucker/proc/CheckCanPayCost(display_error)
 	if(!owner || !owner.mind)
@@ -293,9 +294,9 @@
 	if(active && CheckCanDeactivate(TRUE))
 		DeactivateRangedAbility()
 		DeactivatePower()
-		return
+		return FALSE
 	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE))
-		return
+		return FALSE
 	active = !active
 	UpdateButtonIcon()
 	// Create & Link Targeting Proc
@@ -305,6 +306,7 @@
 	bs_proc_holder.add_ranged_ability(L)
 	if(message_Trigger != "")
 		to_chat(owner, span_announce("[message_Trigger]"))
+	return TRUE
 
 /datum/action/bloodsucker/targeted/CheckCanUse(display_error)
 	if(!..())

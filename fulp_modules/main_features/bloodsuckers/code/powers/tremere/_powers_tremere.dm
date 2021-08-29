@@ -24,6 +24,8 @@
 
 /datum/action/bloodsucker/targeted/tremere/Trigger()
 	. = ..()
+	if(!.)
+		return
 	ActivatePower()
 
 /datum/antagonist/bloodsucker/proc/LevelUpTremerePower(mob/living/user)

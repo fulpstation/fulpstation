@@ -20,7 +20,9 @@
 	bloodcost = 20
 	cooldown = 60
 	must_be_concious = FALSE
-	message_Trigger = "Click where you wish to fire (using your power removes blood shield)"
+	message_Trigger = "Click where you wish to fire"
+	///The shield this Power gives
+	var/obj/item/shield/bloodsucker/blood_shield
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
 	name = "Level 2: Thaumaturgy"
@@ -31,6 +33,7 @@
 		Activating Thaumaturgy will temporarily give you a Blood Shield, a shield with 50% block chance.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 20 Burn damage."
+	message_Trigger = "Click where you wish to fire (using your power removes blood shield)"
 	bloodcost = 40
 	cooldown = 40
 
@@ -59,6 +62,7 @@
 	background_icon_state = "tremere_power_gold_off"
 	background_icon_state_on = "tremere_power_gold_on"
 	background_icon_state_off = "tremere_power_gold_off"
+	message_Trigger = "Click where you wish to fire (using your power removes blood shield)"
 	bloodcost = 60
 	cooldown = 60
 
@@ -85,18 +89,17 @@
 	if(!active) // Only do this when first activating.
 		var/mob/living/user = owner
 		if(tremere_level >= 2) // Only if we're at least level 2.
-			var/obj/offhand_shield = new /obj/item/shield/changeling()
-			if(user.put_in_inactive_hand(offhand_shield))
+			blood_shield = new
+			if(!user.put_in_inactive_hand(blood_shield))
 				owner.balloon_alert(owner, "off hand is full!")
 				to_chat(user, span_notice("Blood shield couldn't be activated as your off hand is full."))
+				return FALSE
 		to_chat(user, span_notice("You prepare Thaumaturgy."))
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
-	var/list/L = owner.get_contents()
-	var/obj/item/shield/changeling/bloodshield = locate() in L
-	if(bloodshield)
-		qdel(bloodshield)
+	if(blood_shield)
+		qdel(blood_shield)
 	return ..()
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/A)
@@ -154,3 +157,32 @@
 		qdel(src)
 		return BULLET_ACT_HIT
 	. = ..()
+
+/*
+ *	# Blood Shield
+ *
+ *	The shield spawned when using Thaumaturgy when strong enough.
+ *	Copied mostly from '/obj/item/shield/changeling'
+ */
+
+/obj/item/shield/bloodsucker
+	name = "bloodshield"
+	desc = "A shield made out of blood, requiring blood to sustain hits."
+	item_flags = ABSTRACT | DROPDEL
+	icon = 'icons/obj/changeling_items.dmi'
+	icon_state = "ling_shield"
+	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'
+	block_chance = 75
+
+/obj/item/shield/bloodsucker/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, BLOODSUCKER_TRAIT)
+	if(ismob(loc))
+		loc.visible_message(span_warning("The end of [loc.name]\'s hand inflates rapidly, forming a huge shield-like mass!"), span_warning("We inflate our hand into a strong shield."), span_hear("You hear organic matter ripping and tearing!"))
+
+/obj/item/shield/bloodsucker/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum)
+		bloodsuckerdatum.AddBloodVolume(-15)
+	return ..()
