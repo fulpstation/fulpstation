@@ -160,11 +160,6 @@
 	C.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
-/datum/species/beefman/random_name(gender,unique,lastname)
-	if(unique)
-		return random_unique_beefman_name(gender)
-	return capitalize(beefman_name(gender))
-
 /datum/species/beefman/spec_life(mob/living/carbon/human/H)	// This is your life ticker.
 	..()
 	// 		** BLEED YOUR JUICES **         //-- BODYTEMP_NORMAL = 293.15
@@ -418,22 +413,30 @@
 
 			//// OUTSIDE PROCS ////
 
+/datum/species/beefman/random_name(gender,unique,lastname)
+	if(unique)
+		return random_unique_beefman_name()
+
+	var/randname = beefman_name()
+
+	return randname
+
 // taken from _HELPERS/mobs.dm
-/proc/random_unique_beefman_name(gender, attempts_to_find_unique_name=10)
+/proc/random_unique_beefman_name(attempts_to_find_unique_name=10)
 	for(var/i in 1 to attempts_to_find_unique_name)
-		. = capitalize(beefman_name(gender))
+		. = capitalize(beefman_name())
 
 		if(!findname(.))
 			break
 
 // taken from _HELPERS/names.dm
 /proc/beefman_name()
-	if (prob(50))
-		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.russian_names)]'"
-	else
-		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] '[pick(GLOB.beefman_names)]'"
-			// INTEGRATION //
+	if(prob(50))
+		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.russian_names)]"
+	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beef_names)]"
 
+
+// INTEGRATION //
 
 // NOTE: the proc for a bodypart appearing on a mob is get_limb_icon() in bodypart.dm    !! We tracked it from limb_augmentation.dm -> carbon/update_icons.dm -> bodyparts.dm
 // Return what the robot part should look like on the current mob.

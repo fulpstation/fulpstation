@@ -26,6 +26,16 @@
 /datum/antagonist/vassal/remove_innate_effects(mob/living/mob_override)
 	return
 
+/datum/antagonist/vassal/pre_mindshield(mob/implanter, mob/living/mob_override)
+	if(protected_from_mindshielding)
+		return COMPONENT_MINDSHIELD_RESISTED
+	return COMPONENT_MINDSHIELD_PASSED
+
+/// This is called when the antagonist is successfully mindshielded.
+/datum/antagonist/vassal/on_mindshield(mob/implanter, mob/living/mob_override)
+	owner.remove_antag_datum(/datum/antagonist/vassal)
+	return COMPONENT_MINDSHIELD_DECONVERTED
+
 /datum/antagonist/vassal/on_gain()
 	/// Enslave them to their Master
 	if(master)
