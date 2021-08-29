@@ -20,15 +20,12 @@
 	..()
 	candidates = living_players
 	for(var/mob/living/carbon/human/candidate in candidates)
-		if( \
-			!candidate.getorgan(/obj/item/organ/brain) \
-			|| candidate.mind.has_antag_datum(/datum/antagonist/monsterhunter) \
-			|| candidate.stat == DEAD \
+		if(!candidate.getorgan(/obj/item/organ/brain) \
+			|| IS_MONSTERHUNTER(H) \
 			|| !(ROLE_MONSTERHUNTER in candidate.client?.prefs?.be_special) \
-			|| !SSjob.GetJob(candidate.mind.assigned_role) \
-			|| (candidate.mind.assigned_role in GLOB.nonhuman_positions) \
-			|| (candidate.mind.assigned_role in GLOB.command_positions) \
-			|| (candidate.mind.assigned_role in GLOB.security_positions) \
+			|| !(H.mind.assigned_role.job_flags & JOB_CREW_MEMBER) \
+			|| (H.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND)) \
+			|| candidate.stat == DEAD \
 		)
 			candidates -= candidate
 
