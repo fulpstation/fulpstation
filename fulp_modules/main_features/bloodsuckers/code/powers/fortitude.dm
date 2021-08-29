@@ -1,7 +1,13 @@
 /datum/action/bloodsucker/fortitude
 	name = "Fortitude"
-	desc = "Withstand egregious physical wounds and walk away from attacks that would stun, pierce, and dismember lesser beings. You cannot run while active."
+	desc = "Withstand egregious physical wounds and walk away from attacks that would stun, pierce, and dismember lesser beings."
 	button_icon_state = "power_fortitude"
+	power_explanation = "<b>Fortitude</b>:\n\
+		Activating Fortitude will provide pierce, stun and dismember immunity.\n\
+		You will additionally gain resistance to Brute and Stamina damge, scaling with level.\n\
+		While using Fortitude, attempting to run will crush you.\n\
+		At level 4, you gain complete stun immunity.\n\
+		Higher levels will increase Brute and Stamina resistance."
 	bloodcost = 30
 	cooldown = 80
 	constant_bloodcost = 0.2

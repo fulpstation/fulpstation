@@ -10,6 +10,10 @@
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
+	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
+	var/power_explanation
+	/// This Power is meant exclusively for Tremere.
+	var/tremere_level
 
 	// ACTIONS //
 	///Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
@@ -61,14 +65,25 @@
 //	var/not_bloodsucker = FALSE
 
 /// Modify description to add cost.
-/datum/action/bloodsucker/New()
+/datum/action/bloodsucker/New(Target)
+	. = ..()
 	if(bloodcost > 0)
 		desc += "<br><br><b>COST:</b> [bloodcost] Blood"
 	if(constant_bloodcost)
 		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
 	if(amSingleUse)
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
-	..()
+
+/mob/living/proc/explain_powers()
+	set name = "Bloodsucker Help"
+	set category = "Mentor"
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
+	if(!choice)
+		return
+	var/datum/action/bloodsucker/P = choice
+	to_chat(usr, "<span class='warning'>[P.power_explanation]</span>")
 
 /*							NOTES
  *
@@ -130,10 +145,6 @@
 		if(display_error)
 			to_chat(owner, span_warning("You have a stake in your chest! Your powers are useless."))
 		return FALSE
-	if(owner.reagents?.has_reagent(/datum/reagent/consumable/garlic))
-		if(display_error)
-			to_chat(owner, span_warning("Garlic in your blood is interfering with your powers!"))
-		return FALSE
 	if(must_be_concious)
 		if(owner.stat != CONSCIOUS)
 			if(display_error)
@@ -142,7 +153,7 @@
 	// Incapacitated?
 	if(must_be_capacitated)
 		var/mob/living/L = owner
-		if (!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
+		if(!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
 			if(display_error)
 				to_chat(owner, span_warning("Not while you're incapacitated!"))
 			return FALSE
@@ -155,7 +166,7 @@
 			return FALSE
 	// In a Frenzy?
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && !bloodsuckerdatum.my_clan == CLAN_BRUJAH)
+	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && bloodsuckerdatum.my_clan != CLAN_BRUJAH)
 		if(!can_use_in_frenzy)
 			if(display_error)
 				to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
@@ -182,7 +193,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/UpdateButtonIcon(force = FALSE)
-	background_icon_state = active? background_icon_state_on : background_icon_state_off
+	background_icon_state = active ? background_icon_state_on : background_icon_state_off
 	. = ..()
 
 /datum/action/bloodsucker/proc/PayCost()
@@ -272,7 +283,7 @@
 /// Modify description to add notice that this is aimed.
 /datum/action/bloodsucker/targeted/New(Target)
 	desc += "<br>\[<i>Targeted Power</i>\]"
-	..()
+	. = ..()
 	// Create Proc Holder for intercepting clicks
 	bs_proc_holder = new()
 	bs_proc_holder.linked_power = src
@@ -342,6 +353,8 @@
 
 /// Like ActivatePower, but specific to Targeted (and takes an atom input). We don't use ActivatePower for targeted.
 /datum/action/bloodsucker/targeted/proc/FireTargetedPower(atom/A)
+	var/mob/living/target = A
+	log_combat(owner, target, "used [name] on")
 
 /// The power went off! We now pay the cost of the power.
 /datum/action/bloodsucker/targeted/proc/PowerActivatedSuccessfully()

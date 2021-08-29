@@ -15,7 +15,9 @@
  *	Source Trait Defines
  */
 /// Source trait for Bloodsuckers/Monster Hunters/Vassals
-#define BLOODSUCKER_TRAIT "bloodsucker"
+#define BLOODSUCKER_TRAIT "bloodsucker_trait"
+/// Source trait for Frenzies
+#define FRENZY_TRAIT "frenzy_trait"
 
 /*
  *	Martial art Defines
@@ -31,21 +33,25 @@
  *	Bloodsucker Defines
  */
 /// You have special interactions with Bloodsuckers
-#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker hunter"
-/// Your heart doesn't beat.
+#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
+/// Your heart doesn't beat
 #define TRAIT_NOPULSE "nopulse"
 /// Falsifies Health analyzers
 #define TRAIT_MASQUERADE "masquerade"
-/// Your body is literal room temperature. Does not make you immune to the temp.
+/// Your body is literal room temperature. Does not make you immune to the temp
 #define TRAIT_COLDBLOODED "coldblooded"
+/// Definition for whether to hide our blood volume
+#define BLOODSUCKER_HIDE_BLOOD "hide_blood_volume"
 /// Used for Bloodsucker's LifeTick() signal
 #define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
 /// Used for determining the rate at which a bloodsucker regens
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
 /// Frenzy Thresholds
-#define FRENZY_THRESHOLD_NORMAL 25
-#define FRENZY_THRESHOLD_HIGHER 200
+#define FRENZY_THRESHOLD_ENTER 25
 #define FRENZY_THRESHOLD_EXIT 250
+/// Torture price defines
+#define TORTURE_BLOOD_COST "15"
+#define TORTURE_CONVERSION_COST "50"
 /// Antagonist checks
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
@@ -53,6 +59,8 @@
 #define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
 /* Clan defines
 */
+/// Not in a Clan
+#define CLAN_NONE "No Clan"
 /// More prone to Frenzy & Brawn/Punches deal more damage
 #define CLAN_BRUJAH "Brujah Clan"
 /// Can't use Masquerade, gets Bad Back quirk, Disfigured Trait & Gains the ability to Ventcrawl.
@@ -66,12 +74,6 @@
 // Used ONLY as Flavor text in Archives of Kindred
 #define CLAN_TOREADOR "Toreador Clan"
 #define CLAN_GANGREL "Gangrel Clan"
-/* Clan defines
-*/
-// Tremere
-#define TREMERE_ZOMBIE "Zombie - Revives"
-#define TREMERE_HUSK "Husk - Drinks all their Blood"
-#define TREMERE_BAT "Bat - Bat Form"
 
 /*
  *	Deputy Defines
