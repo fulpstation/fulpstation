@@ -63,6 +63,8 @@
 
 	///for nonhuman bodypart (e.g. monkey)
 	var/animal_origin
+	//for all bodyparts
+	var/part_origin = HUMAN_BODY
 	///whether it can be dismembered with a weapon.
 	var/dismemberable = 1
 
@@ -753,6 +755,13 @@
 		should_draw_greyscale = FALSE
 		no_update = TRUE
 
+	if(HAS_TRAIT(limb_owner, TRAIT_INVISIBLE_MAN) && is_organic_limb())
+		species_id = "invisible" //overrides species_id
+		dmg_overlay_type = "" //no damage overlay shown when invisible since the wounds themselves are invisible.
+		should_draw_gender = FALSE
+		should_draw_greyscale = FALSE
+		no_update = TRUE
+
 	if(no_update)
 		return
 
@@ -811,7 +820,7 @@
 	add_overlay(standing)
 
 //Gives you a proper icon appearance for the dismembered limb
-/obj/item/bodypart/proc/get_limb_icon(dropped)
+/obj/item/bodypart/proc/get_limb_icon(dropped, draw_external_organs)
 	icon_state = "" //to erase the default sprite, we're building the visual aspects of the bodypart through overlays alone.
 
 	. = list()
@@ -859,8 +868,8 @@
 				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 			else
 				limb.icon = icon
+//		limb.icon = icon
 		/// FULP EDIT END
-		// limb.icon = icon
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
 
 		if(blocks_emissive)
@@ -882,13 +891,13 @@
 		return
 
 	if(should_draw_greyscale)
-		// limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 		/// FULP EDIT - BEEFMAN
 		switch(species_id)
 			if("beefman")
 				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 			else
 				limb.icon = 'icons/mob/human_parts_greyscale.dmi'
+//		limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 		/// FULP EDIT END
 		if(should_draw_gender)
 			limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
@@ -926,6 +935,9 @@
 			aux_em_block.dir = image_dir
 			aux_em_block.color = GLOB.em_block_color
 			aux.overlays += aux_em_block
+
+	if(!draw_external_organs)
+		return
 
 	//Draw external organs like horns and frills
 	for(var/obj/item/organ/external/external_organ in external_organs)
