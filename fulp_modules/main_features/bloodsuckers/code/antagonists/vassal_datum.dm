@@ -11,13 +11,13 @@
 	show_in_roundend = FALSE
 	show_name_in_check_antagonists = TRUE
 	tips = VASSAL_TIPS
-	/// Who made me?
+	/// The Master Bloodsucker's antag datum.
 	var/datum/antagonist/bloodsucker/master
-	/// Purchased powers.
+	/// List of all Purchased Powers, like Bloodsuckers.
 	var/list/datum/action/powers = list()
-	/// Ventrue Vassals only - Am I their Favorite?
+	/// The favorite vassal gets unique features, and Ventrue can upgrade theirs
 	var/favorite_vassal = FALSE
-	/// What level am I? This is only increased through Ventrue's raising of a Vassal
+	/// Bloodsucker levels, but for Vassals.
 	var/vassal_level
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
@@ -27,7 +27,7 @@
 	return
 
 /datum/antagonist/vassal/pre_mindshield(mob/implanter, mob/living/mob_override)
-	if(protected_from_mindshielding)
+	if(favorite_vassal)
 		return COMPONENT_MINDSHIELD_RESISTED
 	return COMPONENT_MINDSHIELD_PASSED
 
@@ -101,7 +101,7 @@
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	/// Message told to your (former) Master.
 	if(master && master.owner)
-		to_chat(master.owner, span_userdanger("You feel the bond with your vassal [owner.current] has somehow been broken!"))
+		to_chat(master.owner, span_cultbold("You feel the bond with your vassal [owner.current] has somehow been broken!"))
 
 /// Called when we are made into the Favorite Vassal
 /datum/antagonist/vassal/proc/make_favorite(mob/living/master)
