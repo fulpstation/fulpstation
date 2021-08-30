@@ -218,8 +218,6 @@
 /obj/structure/closet/crate/coffin/attackby(obj/item/W, mob/user, params)
 	if(resident)
 		if(user != resident)
-			if(!opened)
-				return
 			if(istype(W, cutting_tool))
 				to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
 				return

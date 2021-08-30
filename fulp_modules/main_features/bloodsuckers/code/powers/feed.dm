@@ -1,6 +1,6 @@
 /datum/action/bloodsucker/feed
 	name = "Feed"
-	desc = "Draw the heartsblood of living victims in your grasp."
+	desc = "Draw the heartsblood of living victims in your grasp. You will break the Masquerade if seen feeding."
 	button_icon_state = "power_feed"
 	power_explanation = "<b>Feed</b>:\n\
 		Activate Feed while next to someone and you will begin to feed blood off of them.\n\
@@ -9,7 +9,7 @@
 		You cannot talk while Feeding, as your mouth is full of Blood.\n\
 		If you feed off of a Rat, unless you are Malkavian or Nosferatu, you will lose <b>Humanity</b> and get a mood debuff.\n\
 		Feeding off of someone until they die will cause you to lose <b>Humanity</b>.\n\
-		If you are seen feeding off of someone (2 tiles), you will break the Masquerade.\n\
+		If you are seen feeding off of someone (2 tiles) while your target is grabbed, you will break the Masquerade.\n\
 		Higher levels will increase the feeding's speed."
 	bloodcost = 0
 	cooldown = 30
@@ -237,19 +237,20 @@
 		if( \
 			M.client \
 			&& !M.has_unlimited_silicon_privilege \
-			&& !M.stat == DEAD \
-			&& !M.eye_blind \
-			&& !M.eye_blurry \
+			&& M.stat != DEAD \
+			&& M.eye_blind == 0 \
+			&& M.eye_blurry == 0 \
 			&& !IS_BLOODSUCKER(M) \
 			&& !IS_VASSAL(M) \
 			&& !HAS_TRAIT(M, TRAIT_BLOODSUCKER_HUNTER) \
 		)
 			was_noticed = TRUE
 			break
-	if(was_noticed)
+	if(was_noticed && !target_grappled)
 		feeds_noticed++
 		owner.balloon_alert(owner, "someone may have noticed...")
-		to_chat(user, span_warning("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Vampiric Cause."))
+		if(!bloodsuckerdatum.broke_masquerade)
+			to_chat(user, span_cultbold("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Vampiric Cause!"))
 	else
 		owner.balloon_alert(owner, "you think no one saw you...")
 
