@@ -98,6 +98,7 @@
 				owner.balloon_alert(owner, "off hand is full!")
 				to_chat(user, span_notice("Blood shield couldn't be activated as your off hand is full."))
 				return FALSE
+			user.visible_message(span_warning("[user]\'s hands begins to bleed and forms into some form of a shield!"), span_warning("We activate our Blood shield!"), span_hear("You hear liquids forming together."))
 		to_chat(user, span_notice("You prepare Thaumaturgy."))
 	return TRUE
 
@@ -181,8 +182,6 @@
 /obj/item/shield/bloodsucker/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, BLOODSUCKER_TRAIT)
-	if(ismob(loc))
-		loc.visible_message(span_warning("[loc.name]\'s hands begins to bleed and forms into some form of a shield!"), span_warning("We activate our Blood shield!"), span_hear("You hear liquids forming together."))
 
 /obj/item/shield/bloodsucker/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)

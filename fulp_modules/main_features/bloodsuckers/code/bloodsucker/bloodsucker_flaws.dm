@@ -7,21 +7,18 @@
 		CLAN_NOSFERATU,
 		CLAN_TREMERE,
 		CLAN_VENTRUE,
+		CLAN_MALKAVIAN,
 	)
 	var/list/options = list()
 	options = clans
 	var/mob/living/carbon/human/bloodsucker = owner.current
-	/// Beefmen can't be Malkavian, they already get all the side effects from it.
-	if(!isbeefman(bloodsucker))
-		options += CLAN_MALKAVIAN
-	/// Brief descriptions in case they don't read the Wiki.
+	// Brief descriptions in case they don't read the Wiki.
 	to_chat(owner, span_announce("List of all Clans:\n\
 		Brujah - Prone to Frenzy, Brawn buffed.\n\
 		Nosferatu - Disfigured, no Masquerade, Ventcrawl.\n\
 		Tremere - Burn in the Chapel, Blood Magic.\n\
-		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead."))
-	if(!isbeefman(bloodsucker))
-		to_chat(owner, span_announce("Malkavian - Complete insanity."))
+		Ventrue - Cant drink from mindless mobs, can't level up, raise a vassal instead.\n\
+		Malkavian - Complete insanity."))
 	to_chat(owner, span_announce("* Read more about Clans here: https://wiki.fulp.gg/en/Bloodsucker."))
 
 	var/answer = tgui_input_list(owner.current, "You have Ranked up far enough to remember your clan. Which clan are you part of?", "Our mind feels luxurious...", options)
