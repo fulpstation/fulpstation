@@ -54,13 +54,13 @@
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
 		However, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
+		If you use this on a currently dead normal Vassal, you will instead revive them normally.\n\
 		Despite being Mute and Deaf, they will still have complete loyalty to you, until their death in 5 minutes upon use."
 	background_icon_state = "tremere_power_gold_off"
 	background_icon_state_on = "tremere_power_gold_on"
 	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 80
-	cooldown = 3000 // 5 minutes
-	target_range = 1
+	cooldown = 1800 // 3 minutes
 
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
 	name = "Level 5: Possession"
@@ -71,9 +71,10 @@
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
 		However, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
+		If you use this on a currently dead normal Vassal, you will instead revive them normally.\n\
 		They will have complete loyalty to you, until their death in 8 minutes upon use."
 	bloodcost = 100
-	cooldown = 1800 // 3 minutes
+	cooldown = 1200 // 2 minutes
 
 
 /datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/A, display_error)
@@ -93,7 +94,7 @@
 	. = ..()
 	var/mob/living/target = A
 	var/mob/living/user = owner
-	if(target.stat >= SOFT_CRIT && tremere_level >= 4)
+	if(target.stat >= SOFT_CRIT && user.Adjacent(target) && tremere_level >= 4)
 		attempt_vassalize(target, user)
 		return
 	attempt_mesmerize(target, user)
@@ -138,17 +139,26 @@
 		return
 
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(IS_VASSAL(target))
+		PowerActivatedSuccessfully()
+		to_chat(user, span_warning("We revive [target]!"))
+		target.mind.grab_ghost()
+		target.revive(full_heal = TRUE, admin_revive = TRUE)
+		return
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("Their body refuses to react..."))
+		return
+	if(!bloodsuckerdatum.attempt_turn_vassal(target))
 		return
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))
 	target.mind.grab_ghost()
 	target.revive(full_heal = TRUE, admin_revive = TRUE)
-	bloodsuckerdatum.attempt_turn_vassal(target)
 	var/living_time
 	if(tremere_level == 4)
 		living_time = 5 MINUTES
+		ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+		ADD_TRAIT(target, TRAIT_DEAF, BLOODSUCKER_TRAIT)
 	else if(tremere_level == 5)
 		living_time = 8 MINUTES
 	addtimer(CALLBACK(src, .proc/end_possession, target), living_time)
