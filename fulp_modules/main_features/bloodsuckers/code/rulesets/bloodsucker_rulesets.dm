@@ -72,7 +72,7 @@
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/midround/bloodsucker/trim_candidates()
-	..()
+	. = ..()
 	for(var/mob/living/player in living_players)
 		if(issilicon(player)) // Your assigned role doesn't change when you are turned into a silicon.
 			living_players -= player
@@ -119,22 +119,22 @@
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	repeatable = FALSE
 
-/datum/dynamic_ruleset/latejoin/bloodsucker/pre_execute()
+/datum/dynamic_ruleset/latejoin/bloodsucker/execute()
 	var/mob/M = pick(candidates) // This should contain a single player, but in case.
 	assigned += M.mind
 
-/datum/dynamic_ruleset/latejoin/bloodsucker/execute()
-	for(var/M in assigned)
-		var/datum/mind/bloodsuckermind = M
+	for(var/selected_player in assigned)
+		var/datum/mind/bloodsuckermind = selected_player
 		var/datum/antagonist/bloodsucker/sucker = new
-		if(!bloodsuckermind.make_bloodsucker(M))
-			assigned -= M
-			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
+		if(!bloodsuckermind.make_bloodsucker(selected_player))
+			assigned -= selected_player
+			message_admins("[ADMIN_LOOKUPFLW(selected_player)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
 			return FALSE
 		sucker.bloodsucker_level_unspent = rand(2,3)
-		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
-		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+		message_admins("[ADMIN_LOOKUPFLW(selected_player)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+		log_game("DYNAMIC: [key_name(selected_player)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
+
 
 //////////////////////////////////////////////////////////////////////////////
 
