@@ -94,7 +94,6 @@
 			consequetive_failures = 0
 	/// It ended? Let's get our target now.
 	lunge_end(target)
-	PowerActivatedSuccessfully()
 
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner

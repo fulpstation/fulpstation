@@ -107,16 +107,16 @@
 	. = ..()
 
 /obj/structure/bloodsucker/attack_hand(mob/user, list/modifiers)
-	. = ..()
+//	. = ..() // Don't call parent, else they will handle unbuckling.
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	/// Claiming the Rack instead of using it?
 	if(istype(B) && !owner)
 		if(!B.lair)
 			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
-			return
+			return FALSE
 		if(B.lair != get_area(src))
 			to_chat(user, span_danger("You may only activate this structure in your lair: [B.lair]."))
-			return
+			return FALSE
 
 		/// Radial menu for securing your Persuasion rack in place.
 		to_chat(user, span_notice("Do you wish to secure [src] here?"))
@@ -126,11 +126,14 @@
 		)
 		var/secure_response = show_radial_menu(user, src, secure_options, radius = 36, require_near = TRUE)
 		if(!secure_response)
-			return
+			return FALSE
 		switch(secure_response)
 			if("Yes")
 				user.playsound_local(null, 'sound/items/ratchet.ogg', 70, FALSE, pressure_affected = FALSE)
 				bolt(user)
+				return FALSE
+		return FALSE
+	return TRUE
 
 /obj/structure/bloodsucker/AltClick(mob/user)
 	. = ..()
@@ -295,6 +298,8 @@
 
 /obj/structure/bloodsucker/vassalrack/attack_hand(mob/user, list/modifiers)
 	. = ..()
+	if(!.)
+		return
 	var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Is there anyone on the rack & If so, are they being tortured?
 	if(useLock || !has_buckled_mobs())
@@ -603,6 +608,8 @@
 
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
+	if(!.)
+		return
 	if(!anchored)
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)

@@ -121,7 +121,6 @@
 	LE.preparePixelProjectile(A, user)
 	INVOKE_ASYNC(LE, /obj/projectile.proc/fire)
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
-	PowerActivatedSuccessfully()
 
 /*
  *	# Blood Bolt

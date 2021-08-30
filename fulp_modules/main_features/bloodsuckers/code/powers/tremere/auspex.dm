@@ -20,7 +20,6 @@
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 2 tile away to teleport there, ending the Power."
 	must_be_capacitated = TRUE
-	power_activates_immediately = FALSE
 	bloodcost = 5
 	cooldown = 120
 	target_range = 2
@@ -95,7 +94,6 @@
 	var/mob/living/user = owner
 	var/turf/targeted_turf = get_turf(A)
 	auspex_blink(user, targeted_turf)
-	PowerActivatedSuccessfully()
 
 /datum/action/bloodsucker/targeted/tremere/auspex/proc/auspex_blink(mob/living/user, turf/targeted_turf)
 	playsound(user, 'sound/magic/summon_karp.ogg', 60)

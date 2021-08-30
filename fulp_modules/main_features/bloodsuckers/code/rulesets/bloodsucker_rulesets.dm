@@ -71,20 +71,6 @@
 	requirements = list(40,30,20,10,10,10,10,10,10,10)
 	repeatable = FALSE
 
-/datum/dynamic_ruleset/midround/bloodsucker/acceptable(population = 0, threat = 0)
-	var/player_count = GLOB.alive_player_list.len
-	var/antag_count = GLOB.current_living_antags.len
-	var/max_suckers = round(player_count / 10) + 1
-	var/too_little_antags = antag_count < max_suckers
-	if(!too_little_antags)
-		log_game("DYNAMIC: Too many living antags compared to living players ([antag_count] living antags, [player_count] living players, [max_suckers] max bloodsuckers)")
-		return FALSE
-	if(!prob(mode.threat_level))
-		log_game("DYNAMIC: Random chance to roll bloodsucker failed, it was a [mode.threat_level]% chance.")
-		return FALSE
-
-	return ..()
-
 /datum/dynamic_ruleset/midround/bloodsucker/trim_candidates()
 	..()
 	for(var/mob/living/player in living_players)
@@ -95,22 +81,19 @@
 		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
 			living_players -= player // We don't allow people with roles already
 
-/datum/dynamic_ruleset/midround/bloodsucker/pre_execute()
-	var/mob/M = pick(living_players)
-	assigned += M.mind
-	living_players -= M.mind
-
 /datum/dynamic_ruleset/midround/bloodsucker/execute()
-	for(var/M in assigned)
-		var/datum/mind/bloodsuckermind = M
-		var/datum/antagonist/bloodsucker/sucker = new
-		if(!bloodsuckermind.make_bloodsucker(M))
-			assigned -= M
-			message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
-			return FALSE
-		sucker.bloodsucker_level_unspent = rand(2,3)
-		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
-		log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	var/mob/M = pick(living_players)
+	assigned += M
+	living_players -= M
+	var/datum/mind/bloodsuckermind = M
+	var/datum/antagonist/bloodsucker/sucker = new
+	if(!bloodsuckermind.make_bloodsucker(M))
+		assigned -= M
+		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
+		return FALSE
+	sucker.bloodsucker_level_unspent = rand(2,3)
+	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
 
 //////////////////////////////////////////////

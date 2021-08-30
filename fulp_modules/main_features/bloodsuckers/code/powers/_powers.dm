@@ -345,11 +345,11 @@
 	// Valid? (return true means DON'T cancel power!)
 	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE) || !CheckCanTarget(A, TRUE))
 		return TRUE
+	power_in_use = TRUE	 // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
+	FireTargetedPower(A) // We use this instead of ActivatePower(), which has no input
 	// Skip this part so we can return TRUE right away.
 	if(power_activates_immediately)
 		PowerActivatedSuccessfully() // Mesmerize pays only after success.
-	power_in_use = TRUE	 // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
-	FireTargetedPower(A) // We use this instead of ActivatePower(), which has no input
 	power_in_use = FALSE
 	return TRUE
 
@@ -372,9 +372,11 @@
 /obj/effect/proc_holder/bloodsucker
 	var/datum/action/bloodsucker/targeted/linked_power
 
+/*
 /obj/effect/proc_holder/bloodsucker/remove_ranged_ability(msg)
 	..()
 	linked_power.DeactivatePower()
+*/
 
 /obj/effect/proc_holder/bloodsucker/InterceptClickOn(mob/living/caller, params, atom/A)
 	return linked_power.ClickWithPower(A)
