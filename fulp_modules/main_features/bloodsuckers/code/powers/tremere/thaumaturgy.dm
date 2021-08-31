@@ -71,7 +71,7 @@
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	name = "Level 5: Blood Strike"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
+	upgraded_power = null
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage, stealing Blood and opening doors/lockers."
 	tremere_level = 5
 	power_explanation = "<b>Thaumaturgy</b>:\n\
