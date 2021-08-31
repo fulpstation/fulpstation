@@ -136,6 +136,11 @@
 	)
 */
 
+/datum/job/fulp/deputy/config_check()
+	if(deputy_department != DEPARTMENT_SECURITY)
+		return TRUE
+	return CONFIG_GET(flag/allow_departmentless_deputy)
+
 /// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
