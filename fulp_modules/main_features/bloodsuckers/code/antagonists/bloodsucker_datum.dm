@@ -438,17 +438,17 @@
 				return
 
 		/// Good to go - Buy Power!
-		var/datum/action/bloodsucker/P = options[choice]
+		var/datum/action/bloodsucker/power = options[choice]
 		if(!target)
-			BuyPower(new P)
-			owner.current.balloon_alert(owner.current, "learned [initial(P.name)]!")
-			to_chat(owner.current, span_notice("You have learned how to use [initial(P.name)]!"))
+			BuyPower(new power)
+			owner.current.balloon_alert(owner.current, "learned [initial(power.name)]!")
+			to_chat(owner.current, span_notice("You have learned how to use [initial(power.name)]!"))
 		else
-			vassaldatum.BuyPower(new P)
-			to_chat(owner.current, span_notice("You taught [target] how to use [initial(P.name)]!"))
-			to_chat(target, span_notice("Your master taught you how to use [initial(P.name)]!"))
-			owner.current.balloon_alert(owner.current, "taught [initial(P.name)]!")
-			target.balloon_alert(target, "learned [initial(P.name)]!")
+			vassaldatum.BuyPower(new power)
+			to_chat(owner.current, span_notice("You taught [target] how to use [initial(power.name)]!"))
+			to_chat(target, span_notice("Your master taught you how to use [initial(power.name)]!"))
+			owner.current.balloon_alert(owner.current, "taught [initial(power.name)]!")
+			target.balloon_alert(target, "learned [initial(power.name)]!")
 	// No more powers available to purchase? Start levelling up anyways.
 	else if(my_clan != CLAN_TREMERE)
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))

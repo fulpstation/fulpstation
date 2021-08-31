@@ -50,7 +50,7 @@
 		if(iswallturf(from_turf))
 			if (display_error)
 				var/wallwarning = (i == 1) ? "in the way" : "at your destination"
-				owner.balloon_alert(owner, "There is a solid wall [wallwarning].")
+				owner.balloon_alert(owner, "There is a wall [wallwarning].")
 			return FALSE
 	// Done
 	target_turf = from_turf

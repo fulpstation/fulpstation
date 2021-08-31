@@ -82,8 +82,8 @@
 	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
 	if(!choice)
 		return
-	var/datum/action/bloodsucker/P = choice
-	to_chat(usr, "<span class='warning'>[P.power_explanation]</span>")
+	var/datum/action/bloodsucker/power = choice
+	to_chat(usr, "<span class='warning'>[power.power_explanation]</span>")
 
 /*							NOTES
  *
@@ -355,8 +355,7 @@
 
 /// Like ActivatePower, but specific to Targeted (and takes an atom input). We don't use ActivatePower for targeted.
 /datum/action/bloodsucker/targeted/proc/FireTargetedPower(atom/A)
-	var/mob/living/target = A
-	log_combat(owner, target, "used [name] on")
+	log_combat(owner, A, "used [name] on")
 
 /// The power went off! We now pay the cost of the power.
 /datum/action/bloodsucker/targeted/proc/PowerActivatedSuccessfully()

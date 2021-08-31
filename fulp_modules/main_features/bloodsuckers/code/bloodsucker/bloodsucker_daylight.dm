@@ -61,10 +61,10 @@
 					continue
 				bloodsuckerdatum.warn_sun_locker = FALSE
 				bloodsuckerdatum.warn_sun_burn = FALSE
-				for(var/datum/action/bloodsucker/P in bloodsuckerdatum.powers)
-					if(istype(P, /datum/action/bloodsucker/gohome))
-						bloodsuckerdatum.powers -= P
-						P.Remove(M.current)
+				for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+					if(istype(power, /datum/action/bloodsucker/gohome))
+						bloodsuckerdatum.powers -= power
+						power.Remove(M.current)
 	else
 		switch(time_til_cycle)
 			if(TIME_BLOODSUCKER_DAY_WARN)
