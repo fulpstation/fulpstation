@@ -170,14 +170,13 @@
 /*
  *	# Vampire Clan
  *
- *	This is used for dealing with the Vampire Clan. While there are comments and ideas on how this should be used,
- *	due to gamemode's removal, this was recycled to be used for Sol.
- *	We're using some workarounds, using Wizard's roundend report, to get it to show the individual Bloodsucker, rather than the team.
- *	None of this should actually be appearing in game, and all Bloodsuckers should be using their own individual roundend report.
+ *	This is used for dealing with the Vampire Clan.
+ *	This handles Sol for Bloodsuckers, making sure to not have several.
+ *	None of this should appear in game, we are using it JUST for Sol. All Bloodsuckers should have their individual report.
  */
 
 /datum/team/vampireclan
-	name = "Clan" // Teravanni,
+	name = "Clan"
 
 	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 	var/obj/effect/sunlight/bloodsucker_sunlight
@@ -214,16 +213,16 @@
 
 /// Individual roundend report
 /datum/antagonist/bloodsucker/roundend_report()
-	/// Get the default Objectives
+	// Get the default Objectives
 	var/list/report = list()
-	/// Vamp Name
+	// Vamp name
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 	report += printplayer(owner)
-	/// Clan Name
+	// Clan (Actual Clan, not Team) name
 	if(my_clan != CLAN_NONE)
 		report += "They were part of the <b>[my_clan]</b>!"
 
-	/// Default Report
+	// Default Report
 	var/objectives_complete = TRUE
 	if(objectives.len)
 		report += printobjectives(objectives)
@@ -234,7 +233,7 @@
 				objectives_complete = FALSE
 				break
 
-	/// Now list their vassals
+	// Now list their vassals
 	if(vassals.len > 0)
 		report += "<span class='header'>Their Vassals were...</span>"
 		for(var/datum/antagonist/vassal/V in vassals)
@@ -252,11 +251,11 @@
 /*
  *	# Assigning Sol
  *
- *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn and die.
- *	This is tied to the Vampire Clan team's datum, originally was tied to game_mode, which TG has since deleted, forcing us to use something else.
+ *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn.
+ *	This was originally dealt with by the gamemode, but as gamemodes no longer exist, it is dealt with by the team.
  */
 
-/// Start Sun, called when someone is assigned Bloodsucker
+/// Start Sol, called when someone is assigned Bloodsucker
 /datum/team/vampireclan/proc/check_start_sunlight()
 	if(members.len <= 1)
 		for(var/datum/mind/M in members)
@@ -265,11 +264,10 @@
 
 /// End Sol, if you're the last Bloodsucker
 /datum/team/vampireclan/proc/check_cancel_sunlight()
-	/// No minds in the clan? Delete Sol.
+	// No minds in the clan? Delete Sol.
 	if(members.len <= 1)
 		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
 		QDEL_NULL(bloodsucker_sunlight)
-//		bloodsucker_sunlight = null // Note: Not sure what this is meant to do, but everything works without it.
 
 /// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
