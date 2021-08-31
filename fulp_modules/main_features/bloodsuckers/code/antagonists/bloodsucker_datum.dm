@@ -416,22 +416,27 @@
 		/// Give them the UI to purchase a power.
 		var/upgrade_message = target ? "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve." : "You have the opportunity to grow more ancient. Select a power to advance your Rank."
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
-		/// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(bloodsucker_level_unspent <= 0)
-			/// Already spent all your points, and tried opening/closing your coffin, pal.
+		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
+		if(bloodsucker_level_unspent <= 0 && !Spend_Rank)
 			return
-		/// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
-		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-			to_chat(owner.current, span_warning("Return to your coffin to advance your Rank."))
-			return
-		/// Did you choose a power?
+		// Did you choose a power?
 		if(!choice || !options[choice])
 			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
-		// Do we already have the Power - Added due to window stacking
-		if((locate(options[choice]) in powers))
-			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
-			return
+		if(target)
+			if((locate(options[choice]) in vassaldatum.powers))
+				to_chat(owner.current, span_notice("You prevent their blood from thickening just yet, but you may try again later."))
+				return
+		else
+			// Do we already have the Power - Added due to window stacking
+			if((locate(options[choice]) in powers))
+				to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
+				return
+			// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
+			if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+				to_chat(owner.current, span_warning("Return to your coffin to advance your Rank."))
+				return
+
 		/// Good to go - Buy Power!
 		var/datum/action/bloodsucker/P = options[choice]
 		if(!target)

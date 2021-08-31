@@ -196,3 +196,4 @@
 	name = "Strength"
 	desc = "Snap restraints, knock down grabbers, or deal terrible damage with your bare hands."
 	bloodsucker_can_buy = FALSE
+	vassal_can_buy = FALSE
