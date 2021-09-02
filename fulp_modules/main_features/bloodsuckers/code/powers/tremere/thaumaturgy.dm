@@ -173,10 +173,10 @@
 	name = "bloodshield"
 	desc = "A shield made out of blood, requiring blood to sustain hits."
 	item_flags = ABSTRACT | DROPDEL
-	icon = 'icons/obj/changeling_items.dmi'
-	icon_state = "ling_shield"
-	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'
+	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	icon_state = "blood_shield"
+	lefthand_file = 'fulp_modules/main_features/bloodsuckers/icons/bs_leftinhand.dmi'
+	righthand_file = 'fulp_modules/main_features/bloodsuckers/icons/bs_rightinhand.dmi'
 	block_chance = 75
 
 /obj/item/shield/bloodsucker/Initialize()
