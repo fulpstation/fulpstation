@@ -12705,7 +12705,9 @@
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/aisat)
 "drN" = (
-/obj/machinery/light/directional/east,
+/obj/structure/table/wood,
+/obj/item/flashlight/lantern,
+/obj/machinery/status_display/evac/directional/east,
 /turf/open/floor/iron/dark,
 /area/service/chapel)
 "drS" = (
@@ -13511,6 +13513,9 @@
 /area/science/mixing)
 "dDf" = (
 /obj/machinery/modular_computer/console/preset/curator,
+/obj/structure/sign/poster/official/soft_cap_pop_art{
+	pixel_x = -32
+	},
 /turf/open/floor/carpet/green,
 /area/service/library)
 "dDo" = (
@@ -18389,9 +18394,13 @@
 /turf/open/floor/iron,
 /area/commons/fitness)
 "eRe" = (
-/obj/item/radio/intercom/directional/east,
-/turf/open/floor/iron/dark,
-/area/service/chapel)
+/obj/structure/bookcase/random/adult,
+/obj/machinery/camera{
+	c_tag = "Service - Library";
+	network = list("ss13", "service")
+	},
+/turf/open/floor/wood,
+/area/service/library)
 "eRm" = (
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
@@ -24832,6 +24841,11 @@
 "gCk" = (
 /obj/machinery/light_switch/directional/west,
 /obj/machinery/firealarm/directional/north,
+/obj/machinery/camera{
+	c_tag = "Service - Chapel";
+	dir = 5;
+	network = list("ss13", "service")
+	},
 /turf/open/floor/iron/dark,
 /area/service/chapel)
 "gCq" = (
@@ -25786,8 +25800,9 @@
 /turf/open/floor/iron/dark,
 /area/security/prison)
 "gOn" = (
-/obj/machinery/light/directional/west,
-/turf/open/floor/carpet/green,
+/obj/structure/bookcase/random/adult,
+/obj/machinery/light/directional/north,
+/turf/open/floor/wood,
 /area/service/library)
 "gOz" = (
 /obj/structure/cable,
@@ -26193,6 +26208,9 @@
 	c_tag = "Service - Library Desk";
 	dir = 9;
 	network = list("ss13", "service")
+	},
+/obj/machinery/requests_console/directional/east{
+	department = "Library"
 	},
 /turf/open/floor/wood,
 /area/service/library)
@@ -46562,7 +46580,7 @@
 /turf/open/floor/plating,
 /area/engineering/main)
 "mfx" = (
-/obj/machinery/airalarm/directional/east,
+/obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark,
 /area/service/chapel)
 "mfF" = (
@@ -50002,6 +50020,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 8
 	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron/dark,
 /area/service/chapel)
 "mXG" = (
@@ -50971,13 +50990,14 @@
 /turf/open/floor/vault,
 /area/command/bridge)
 "njU" = (
-/obj/structure/bookcase/random/fiction,
-/obj/machinery/camera{
-	c_tag = "Service - Library";
-	dir = 5;
-	network = list("ss13", "service")
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
 	},
-/turf/open/floor/wood,
+/obj/machinery/door/airlock/public/glass{
+	name = "Chapel Library"
+	},
+/turf/open/floor/iron/dark,
 /area/service/library)
 "nkc" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -55924,11 +55944,7 @@
 /turf/open/floor/plating,
 /area/engineering/atmos)
 "oBZ" = (
-/obj/machinery/camera{
-	c_tag = "Service - Chapel";
-	dir = 8;
-	network = list("ss13", "service")
-	},
+/obj/machinery/light/directional/south,
 /turf/open/floor/iron/dark,
 /area/service/chapel)
 "oCc" = (
@@ -58042,12 +58058,6 @@
 	dir = 1
 	},
 /area/science/mixing)
-"pio" = (
-/obj/machinery/requests_console/directional/west{
-	department = "Library"
-	},
-/turf/open/floor/carpet/green,
-/area/service/library)
 "pis" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/tile/blue{
@@ -68310,13 +68320,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
-"rMA" = (
-/obj/structure/bookcase/random/nonfiction,
-/obj/structure/sign/poster/official/soft_cap_pop_art{
-	pixel_x = -32
-	},
-/turf/open/floor/wood,
-/area/service/library)
 "rML" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -77475,11 +77478,6 @@
 	},
 /turf/open/floor/iron,
 /area/commons/dorms)
-"ujy" = (
-/obj/machinery/light/directional/east,
-/obj/machinery/status_display/evac/directional/east,
-/turf/open/floor/iron/dark,
-/area/service/chapel)
 "ujM" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/structure/extinguisher_cabinet/directional/east,
@@ -124267,7 +124265,7 @@ jME
 mQA
 fbP
 fbP
-fbP
+oBZ
 tih
 wPs
 wai
@@ -124773,7 +124771,7 @@ tHC
 dyh
 eEt
 yho
-joy
+drN
 bRt
 kwt
 mdS
@@ -125032,12 +125030,12 @@ iGb
 iGb
 iGb
 iiA
-fbP
-ujy
-oBZ
 mfx
-eRe
-drN
+fbP
+fbP
+fbP
+fbP
+fbP
 mXy
 wAa
 caa
@@ -125290,11 +125288,11 @@ ufU
 iGb
 ueM
 ueM
-ueM
-ueM
-ueM
-ueM
-ueM
+rqB
+rqB
+njU
+rqB
+rqB
 ueM
 ueM
 dZv
@@ -125546,10 +125544,10 @@ lpr
 yjM
 iGb
 tyR
-pio
-njU
-rMA
-gOn
+clU
+txn
+sYa
+clU
 kyv
 kUe
 clU
@@ -125802,7 +125800,7 @@ lpY
 nAj
 mgM
 iGb
-tyR
+eRe
 clU
 txn
 sYa
@@ -126059,7 +126057,7 @@ xJD
 iGb
 iGb
 iGb
-tyR
+gOn
 sCA
 txn
 sYa
