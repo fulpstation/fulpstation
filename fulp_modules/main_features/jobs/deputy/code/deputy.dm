@@ -117,7 +117,6 @@
 		/datum/job_department/cargo,
 	)
 ///Service
-/*
 /datum/job/fulp/deputy/service
 	title = "Deputy (Service)"
 	department_head = list("Head of Personnel")
@@ -134,12 +133,13 @@
 		/datum/job_department/security,
 		/datum/job_department/service,
 	)
-*/
 
 /datum/job/fulp/deputy/config_check()
-	if(deputy_department != DEPARTMENT_SECURITY)
-		return TRUE
-	return CONFIG_GET(flag/allow_departmentless_deputy)
+	if(deputy_department == DEPARTMENT_SECURITY)
+		return CONFIG_GET(flag/allow_departmentless_deputy)
+	if(deputy_department == DEPARTMENT_SERVICE)
+		return CONFIG_GET(flag/allow_service_deputy)
+	return TRUE
 
 /// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
@@ -192,7 +192,7 @@
 	trim_state = "trim_deputyservice"
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
-//	job = /datum/job/fulp/deputy/service
+	job = /datum/job/fulp/deputy/service
 
 /datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
 	. = ..()
