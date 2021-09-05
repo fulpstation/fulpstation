@@ -201,37 +201,37 @@
 		if(temp)
 		// FULP EDIT - SPECIES DAMAGE DESCRIPTIONS
 			if(temp < 25)
-				// msg += "[t_He] [t_has] minor bruising.\n"
+//				msg += "[t_He] [t_has] minor bruising.\n"
 				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n"
 			else if(temp < 50)
-				// msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.bruising_desc]!\n"
 			else
-				// msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
+//				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
 				msg += "<B>[t_He] [t_has] severe [dna.species.bruising_desc]!</B>\n"
 
 		temp = getFireLoss()
 		if(temp)
 			if(temp < 25)
-				// msg += "[t_He] [t_has] minor burns.\n"
+//				msg += "[t_He] [t_has] minor burns.\n"
 				msg += "[t_He] [t_has] minor [dna.species.burns_desc].\n"
 			else if (temp < 50)
-				// msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.burns_desc]!\n"
 			else
-				// msg += "<B>[t_He] [t_has] severe burns!</B>\n"
+//				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
 				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n"
 
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-				// msg += "[t_He] [t_has] minor cellular damage.\n"
+//				msg += "[t_He] [t_has] minor cellular damage.\n"
 				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"
 			else if(temp < 50)
-				// msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
+//				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
 				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.cellulardamage_desc]!\n"
 			else
-				// msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
+//				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
 				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n"
 		// FULP EDIT END
 
@@ -263,10 +263,15 @@
 	var/apparent_blood_volume = blood_volume
 	if(skin_tone == "albino")
 		apparent_blood_volume -= 150 // enough to knock you down one tier
-	switch(apparent_blood_volume)
+	// Fulpstation Bloodsuckers edit - Blood level examining edits
+	var/bloodDesc = ShowAsPaleExamine(user, apparent_blood_volume)
+	if(bloodDesc == BLOODSUCKER_HIDE_BLOOD) // Do nothing, we're hiding!
+	else if(bloodDesc != "")
+		msg += bloodDesc
+	else switch(apparent_blood_volume)
+	// Fulpstation edit ENDS
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-			if(ShowAsPaleExamine(user)) // Fulpstation Bloodsuckers edit: Masquerade will hide your identity! -- ALSO ADDS ANOTHER TAB TO THE LINE BELOW
-				msg += "[t_He] [t_has] pale skin.\n"
+			msg += "[t_He] [t_has] pale skin.\n"
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
 			msg += "<b>[t_He] look[p_s()] like pale death.</b>\n"
 		if(-INFINITY to BLOOD_VOLUME_BAD)

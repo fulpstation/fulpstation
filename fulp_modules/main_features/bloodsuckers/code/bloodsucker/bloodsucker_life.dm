@@ -7,6 +7,11 @@
  * 		EXAMINE
  *
  * Show as dead when...
+ *
+ * How to Burn Vamps:
+ *		C.adjustFireLoss(20)
+ *		C.adjust_fire_stacks(6)
+ *		C.IgniteMob()
  */
 
 /// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
@@ -50,6 +55,13 @@
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
 	update_hud()
 
+/datum/antagonist/bloodsucker/proc/AddHumanityLost(value)
+	if(humanity_lost >= 500)
+		to_chat(owner.current, span_warning("You hit the maximum amount of lost Humanty, you are far from Human."))
+		return
+	humanity_lost += value
+	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity, you will now enter Frenzy at [FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)] Blood."))
+
 /// mult: SILENT feed is 1/3 the amount
 /datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
 	/// Starts at 15 (now 8 since we doubled the Feed time)
@@ -80,6 +92,8 @@
 		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 	total_blood_drank += blood_taken
+	if(Frenzied)
+		frenzy_blood_drank += blood_taken
 	return blood_taken
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,9 +105,7 @@
 /// It is called from your coffin on close (by you only)
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
-	if(poweron_masquerade|| owner.current.AmStaked())
-		return FALSE
-	if(owner.current.reagents.has_reagent(/datum/reagent/consumable/garlic))
+	if(poweron_masquerade || owner.current.AmStaked())
 		return FALSE
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
@@ -106,7 +118,7 @@
 		var/amInCoffin = istype(C.loc, /obj/structure/closet/crate/coffin)
 		if(amInCoffin && HAS_TRAIT(C, TRAIT_NODEATH))
 			if(poweron_masquerade)
-				to_chat(C, "<span class='warning'>You will not heal while your Masquerade ability is active.</span>")
+				to_chat(C, span_warning("You will not heal while your Masquerade ability is active."))
 				return
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
@@ -266,7 +278,7 @@
 //	handled in bloodsucker_integration.dm
 
 	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
-	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied)
+	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied && my_clan != CLAN_BRUJAH)
 		qdel(owner.current.GetComponent(/datum/component/bloodsucker_frenzy))
 	// BLOOD_VOLUME_BAD: [224] - Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !poweron_masquerade)
@@ -276,8 +288,15 @@
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
-	if(owner.current.blood_volume < frenzy_threshold && !Frenzied)
-		owner.current.AddComponent(/datum/component/bloodsucker_frenzy)
+	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !Frenzied)
+		if(my_clan != CLAN_BRUJAH)
+			owner.current.AddComponent(/datum/component/bloodsucker_frenzy)
+		else
+			for(var/datum/action/bloodsucker/power in powers)
+				if(istype(power, /datum/action/bloodsucker/brujah))
+					if(power.active)
+						return
+					power.ActivatePower()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
 	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
@@ -365,7 +384,7 @@
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
 	owner.current.grab_ghost()
-	to_chat(owner.current, "<span class='warning'>You have recovered from Torpor.</span>")
+	to_chat(owner.current, span_warning("You have recovered from Torpor."))
 	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
@@ -392,11 +411,11 @@
 	FreeAllVassals()
 	/// Elders get Dusted
 	if(bloodsucker_level >= 4)
-		owner.current.visible_message(span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a dry, crackling sound.</span>")
+		owner.current.visible_message(span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a dry, crackling sound.")
 		addtimer(CALLBACK(owner.current, /mob/living/proc/dust), 5 SECONDS, TIMER_UNIQUE | TIMER_STOPPABLE)
 	/// Fledglings get Gibbed
 	else
-		owner.current.visible_message(span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a wet, bursting sound.</span>")
+		owner.current.visible_message(span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a wet, bursting sound.")
 		owner.current.gib(TRUE, FALSE, FALSE)
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 
@@ -478,7 +497,7 @@
 /datum/mood_event/drankblood_bad
 	description = "<span class='boldwarning'>I drank the blood of a lesser creature. Disgusting.</span>\n"
 	mood_change = -4
-	timeout = 5 MINUTES
+	timeout = 3 MINUTES
 
 /datum/mood_event/drankblood_dead
 	description = "<span class='boldwarning'>I drank dead blood. I am better than this.</span>\n"
@@ -490,10 +509,15 @@
 	mood_change = -7
 	timeout = 8 MINUTES
 
+/datum/mood_event/drankkilled
+	description = "<span class='boldwarning'>I drank from my victim until they died. I feel... less human.</span>\n"
+	mood_change = -15
+	timeout = 10 MINUTES
+
 /datum/mood_event/madevamp
 	description = "<span class='boldwarning'>A soul has been cursed to undeath by my own hand.</span>\n"
-	mood_change = -10
-	timeout = 10 MINUTES
+	mood_change = 15
+	timeout = 20 MINUTES
 
 /datum/mood_event/vampatefood
 	description = "<span class='boldwarning'>Mortal nourishment no longer sustains me. I feel unwell.</span>\n"
@@ -503,17 +527,17 @@
 /datum/mood_event/coffinsleep
 	description = "<span class='nicegreen'>I slept in a coffin during the day. I feel whole again.</span>\n"
 	mood_change = 10
-	timeout = 10 MINUTES
+	timeout = 6 MINUTES
 
 /datum/mood_event/daylight_1
 	description = "<span class='boldwarning'>I slept poorly in a makeshift coffin during the day.</span>\n"
 	mood_change = -3
-	timeout = 8 MINUTES
+	timeout = 6 MINUTES
 
 /datum/mood_event/daylight_2
 	description = "<span class='boldwarning'>I have been scorched by the unforgiving rays of the sun.</span>\n"
 	mood_change = -6
-	timeout = 15 MINUTES
+	timeout = 6 MINUTES
 
 /datum/mood_event/bloodsucker_disgust
 	description = "<span class='boldwarning'>Something I recently ate was horrifyingly disgusting.</span>\n"
@@ -524,7 +548,7 @@
 /datum/mood_event/vampcandle
 	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
 	mood_change = -15
-	timeout = 4 MINUTES
+	timeout = 5 MINUTES
 
 /// Frenzy's instant aggro grabs
 /datum/martial_art/frenzygrab

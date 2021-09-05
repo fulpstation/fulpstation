@@ -11,17 +11,13 @@
 	show_in_roundend = FALSE
 	show_name_in_check_antagonists = TRUE
 	tips = VASSAL_TIPS
-	/// Who made me?
+	/// The Master Bloodsucker's antag datum.
 	var/datum/antagonist/bloodsucker/master
-	/// Purchased powers.
+	/// List of all Purchased Powers, like Bloodsuckers.
 	var/list/datum/action/powers = list()
-	/// Am I protected from getting my antag removed if I get Mindshielded?
-	var/protected_from_mindshielding = FALSE
-	/// Tremere Vassals only - Have I been mutated?
-	var/mutilated = FALSE
-	/// Ventrue Vassals only - Am I their Favorite?
+	/// The favorite vassal gets unique features, and Ventrue can upgrade theirs
 	var/favorite_vassal = FALSE
-	/// What level am I? This is only increased through Ventrue's raising of a Vassal
+	/// Bloodsucker levels, but for Vassals.
 	var/vassal_level
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
@@ -31,7 +27,7 @@
 	return
 
 /datum/antagonist/vassal/pre_mindshield(mob/implanter, mob/living/mob_override)
-	if(protected_from_mindshielding)
+	if(favorite_vassal)
 		return COMPONENT_MINDSHIELD_RESISTED
 	return COMPONENT_MINDSHIELD_PASSED
 
@@ -46,9 +42,6 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
-			/// Is my Master part of Tremere?
-			if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
-				protected_from_mindshielding = TRUE
 		owner.enslave_mind_to_creator(master.owner.current)
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
@@ -61,7 +54,7 @@
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
-	update_vassal_icons_added(owner.current, "vassal")
+	update_vassal_icons_added(owner, "vassal")
 	. = ..()
 
 /datum/antagonist/vassal/on_removal()
@@ -82,7 +75,7 @@
 		power.Remove(owner.current)
 	/// Remove Language & Hud
 	owner.current.remove_language(/datum/language/vampiric)
-	update_vassal_icons_removed(owner.current)
+	update_vassal_icons_removed(owner)
 	return ..()
 
 /datum/antagonist/vassal/proc/add_objective(datum/objective/O)
@@ -93,8 +86,8 @@
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a bloodsucking vampire!"))
-	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.<br>\
-			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.<span>"))
+	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.\n\
+			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed."))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 	/// Message told to your Master.
@@ -108,7 +101,34 @@
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	/// Message told to your (former) Master.
 	if(master && master.owner)
-		to_chat(master.owner, span_userdanger("You feel the bond with your vassal [owner.current] has somehow been broken!"))
+		to_chat(master.owner, span_cultbold("You feel the bond with your vassal [owner.current] has somehow been broken!"))
+
+/// Called when we are made into the Favorite Vassal
+/datum/antagonist/vassal/proc/make_favorite(mob/living/master)
+	// Default stuff for all
+	favorite_vassal = TRUE
+	update_vassal_icons_added(owner, "vassal6")
+	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
+	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
+	// Now let's give them their assigned bonuses.
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
+		BuyPower(new /datum/action/bloodsucker/targeted/brawn/vassal)
+	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
+		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
+		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
+		to_chat(owner, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
+	if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
+		var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
+		owner.current.AddSpell(batform)
+	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		to_chat(master, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
+		BuyPower(new /datum/action/bloodsucker/distress)
+	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
+		var/mob/living/carbon/carbonowner = owner.current
+		carbonowner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+		carbonowner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+		to_chat(owner, span_notice("Additionally, you now suffer the same fate as your Master."))
 
 /// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
@@ -149,17 +169,22 @@
  *	They share the same code, so most of it is dealt by Bloodsucker code.
  */
 
-/datum/antagonist/vassal/proc/update_vassal_icons_added(mob/living/vassal, icontype = "vassal")
+/datum/antagonist/vassal/proc/update_vassal_icons_added(datum/mind/vassal, icontype = "vassal", automatic = FALSE)
+	if(automatic) // Should we automatically decide that HUD to give? This is done when deconverted from another Antagonist.
+		if(favorite_vassal)
+			icontype = "vassal6"
+		else
+			icontype = "vassal"
 	// This is a copy of Bloodsucker's hud.
 	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	hud.join_hud(vassal)
-	set_antag_hud(vassal, icontype)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, "bloodsucker")
+	hud.join_hud(owner.current)
+	set_antag_hud(owner.current, icontype)
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype)
 
-/datum/antagonist/vassal/proc/update_vassal_icons_removed(mob/living/vassal)
+/datum/antagonist/vassal/proc/update_vassal_icons_removed(datum/mind/vassal)
 	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
-	hud.leave_hud(vassal)
-	set_antag_hud(vassal, null)
+	set_antag_hud(owner.current, null)
+	hud.leave_hud(owner.current)
 
 /*
  *	# Vassal Pinpointer
