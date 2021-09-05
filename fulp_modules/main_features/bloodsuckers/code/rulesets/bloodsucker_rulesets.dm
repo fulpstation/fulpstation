@@ -14,7 +14,7 @@
 		// Security
 		"Warden", "Security Officer", "Detective", "Brig Physician",
 		// Deputies
-		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+		"Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy",
 	)
 	restricted_roles = list("AI", "Cyborg")
 	required_candidates = 1

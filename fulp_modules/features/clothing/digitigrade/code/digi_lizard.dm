@@ -26,13 +26,13 @@
 		if("Deputy")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		// Deputies
-		if("Deputy (Engineering)")
+		if("Engineering Deputy")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Deputy (Medical)")
+		if("Medical Deputy")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Deputy (Science)")
+		if("Science Deputy")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Deputy (Supply)")
+		if("Supply Deputy")
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 
 		// Medical

@@ -796,7 +796,7 @@ SUBSYSTEM_DEF(job)
 	additional_jobs_with_icons = list("Emergency Response Team Commander", "Security Response Officer", "Engineering Response Officer", "Medical Response Officer", \
 		"Entertainment Response Officer", "Religious Response Officer", "Janitorial Response Officer", "Death Commando", "Security Officer (Engineering)", \
 		/// FULP EDIT - JOBS
-		"Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)", \
+		"Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy", \
 		/// FULP EDIT END
 		"Security Officer (Cargo)", "Security Officer (Medical)", "Security Officer (Science)")
 
