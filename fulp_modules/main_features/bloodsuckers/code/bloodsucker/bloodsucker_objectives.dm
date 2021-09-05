@@ -30,7 +30,6 @@
 
 	return possible_targets
 
-
 //////////////////////////////////////////////////////////////////////////////////////
 //	//							 OBJECTIVES 									//	//
 //////////////////////////////////////////////////////////////////////////////////////
@@ -199,36 +198,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// NOTE: Look up /assassinate in objective.dm for inspiration.
-/// Vassalize a target.
-/datum/objective/bloodsucker/vassalhim
-	name = "vassalhim"
-	var/target_role_type = FALSE
-
-/datum/objective/bloodsucker/vassalhim/New()
-	var/list/possible_targets = return_possible_targets()
-	find_target(possible_targets)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/vassalhim/update_explanation_text()
-	. = ..()
-	if(target?.current)
-		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role], is Vassalized via the Persuasion Rack."
-	else
-		explanation_text = "Free Objective"
-
-/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
-	admin_simple_target_pick(admin)
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/vassalhim/check_completion()
-	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
-		return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 /// NOTE: Look up /steal in objective.dm for inspiration.
 /// Steal hearts. You just really wanna have some hearts.
 /datum/objective/bloodsucker/heartthief
@@ -294,31 +263,29 @@
 //     CLAN OBJECTIVES      //
 //////////////////////////////
 
-/// Enter Frenzy repeatedly - Brujah Clan objective
-/datum/objective/bloodsucker/frenzy
-	name = "frenzy"
-
-/datum/objective/bloodsucker/frenzy/New()
-	target_amount = rand(3,4)
-	..()
+/// Drink certain amount of Blood while in a Frenzy - Brujah Clan Objective
+/datum/objective/bloodsucker/gourmand/brujah
+	name = "brujah gourmand"
+//	NOTE: This is a copy paste from default Gourmand objective.
 
 // EXPLANATION
-/datum/objective/bloodsucker/frenzy/update_explanation_text()
+/datum/objective/bloodsucker/gourmand/brujah/update_explanation_text()
 	. = ..()
-	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+	explanation_text = "While in a Frenzy, using your Feed ability, drink [target_amount] units of Blood."
 
 // WIN CONDITIONS?
-/datum/objective/bloodsucker/frenzy/check_completion()
+/datum/objective/bloodsucker/gourmand/brujah/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return FALSE
-	if(bloodsuckerdatum.Frenzies >= target_amount)
+	var/stolen_blood = bloodsuckerdatum.frenzy_blood_drank
+	if(stolen_blood >= target_amount)
 		return TRUE
 	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Steal the Archive of the Kindred - Tremere Clan objective
+/// Steal the Archive of the Kindred - Nosferatu Clan objective
 /datum/objective/bloodsucker/kindred
 	name = "steal kindred"
 
@@ -345,6 +312,24 @@
 		for(var/obj/I in all_items)
 			if(istype(I, /obj/item/book/kindred))
 				return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Max out a Tremere Power - Tremere Clan objective
+/datum/objective/bloodsucker/tremere_power
+	name = "tremerepower"
+
+// EXPLANATION
+/datum/objective/bloodsucker/tremere_power/update_explanation_text()
+	explanation_text = "Upgrade a Blood Magic power to the maximum level, remember that Vassalizing gives more Ranks!"
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/tremere_power/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	for(var/datum/action/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
+		if(tremere_powers.tremere_level >= 5)
+			return TRUE
 	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -380,6 +365,7 @@
 
 // EXPLANATION
 /datum/objective/bloodsucker/monsterhunter/update_explanation_text()
+	. = ..()
 	explanation_text = "Destroy all monsters on [station_name()]."
 
 // WIN CONDITIONS?
@@ -430,10 +416,12 @@
 
 /// Destroy the Solar Arrays
 /datum/objective/bloodsucker/solars
-/* -- Removed due to TG updates breaking it + It's not a good objective, replaced with Vassalhim objective instead.
+/* // TG Updates broke this, it needs maintaining.
 // Space_Station_13_areas.dm  <--- all the areas
 /datum/objective/bloodsucker/solars/update_explanation_text()
+	. = ..()
 	explanation_text = "Prevent all solar arrays on the station from functioning."
+
 /datum/objective/bloodsucker/solars/check_completion()
 	// Sort through all /obj/machinery/power/solar_control in the station ONLY, and check that they are functioning.
 	// Make sure that lastgen is 0 or connected_panels.len is 0. Doesnt matter if it's tracking.
@@ -446,4 +434,75 @@
 		if (SC && SC.lastgen > 0 && SC.connected_panels.len > 0 && SC.connected_tracker)
 			return FALSE
 	return TRUE
+*/
+
+// NOTE: Look up /assassinate in objective.dm for inspiration.
+/// Vassalize a target.
+/datum/objective/bloodsucker/vassalhim
+	name = "vassalhim"
+	var/target_role_type = FALSE
+
+/datum/objective/bloodsucker/vassalhim/New()
+	var/list/possible_targets = return_possible_targets()
+	find_target(possible_targets)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/vassalhim/update_explanation_text()
+	. = ..()
+	if(target?.current)
+		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role], is Vassalized via the Persuasion Rack."
+	else
+		explanation_text = "Free Objective"
+
+/datum/objective/bloodsucker/vassalhim/admin_edit(mob/admin)
+	admin_simple_target_pick(admin)
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/vassalhim/check_completion()
+	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
+		return TRUE
+	return FALSE
+
+/// Enter Frenzy repeatedly
+/datum/objective/bloodsucker/frenzy
+	name = "frenzy"
+
+/datum/objective/bloodsucker/frenzy/New()
+	target_amount = rand(3,4)
+	..()
+
+/datum/objective/bloodsucker/frenzy/update_explanation_text()
+	. = ..()
+	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
+
+/datum/objective/bloodsucker/frenzy/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	if(bloodsuckerdatum.Frenzies >= target_amount)
+		return TRUE
+	return FALSE
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+/// Mutilate a certain amount of Vassals
+/*
+/datum/objective/bloodsucker/vassal_mutilation
+	name = "steal kindred"
+/datum/objective/bloodsucker/vassal_mutilation/New()
+	target_amount = rand(2,3)
+	..()
+
+// EXPLANATION
+/datum/objective/bloodsucker/vassal_mutilation/update_explanation_text()
+	. = ..()
+	explanation_text = "Mutate [target_amount] of Vassals into vile sevant creatures."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/vassal_mutilation/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum.vassals_mutated >= target_amount)
+		return TRUE
+	return FALSE
 */
