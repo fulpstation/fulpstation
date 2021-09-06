@@ -55,7 +55,7 @@ at the cost of risking a vicious bite.**/
 
 /obj/structure/moisture_trap/attack_hand(mob/user, list/modifiers)
 	. = ..()
-	if(iscyborg(user) || isalien(user))
+	if(isalien(user))
 		return
 	if(!CanReachInside(user))
 		to_chat(user, span_warning("You need to lie down to reach into [src]."))
@@ -80,7 +80,7 @@ at the cost of risking a vicious bite.**/
 	to_chat(user, span_warning("You find nothing of value..."))
 
 /obj/structure/moisture_trap/attackby(obj/item/I, mob/user, params)
-	if(iscyborg(user) || isalien(user) || !CanReachInside(user))
+	if(isalien(user) || !CanReachInside(user))
 		return ..()
 	add_fingerprint(user)
 	if(istype(I, /obj/item/reagent_containers))

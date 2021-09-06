@@ -300,8 +300,6 @@
 		return FALSE
 	if(!istype(M))
 		return FALSE
-	if(iscyborg(M)) //as a borg you're now beholden to your laws rather than greentext
-		return FALSE
 	if(isAI(M))
 		var/mob/living/silicon/ai/A = M
 		return (A.laws?.zeroth && (A.mind?.special_role || !isnull(M.mind?.antag_datums)))

@@ -793,30 +793,6 @@
 		spray_overlay.color = paint_color
 		. += spray_overlay
 
-/obj/item/toy/crayon/spraycan/borg
-	name = "cyborg spraycan"
-	desc = "A metallic container containing shiny synthesised paint."
-	charges = -1
-
-/obj/item/toy/crayon/spraycan/borg/afterattack(atom/target,mob/user,proximity, params)
-	var/diff = ..()
-	if(!iscyborg(user))
-		to_chat(user, span_notice("How did you get this?"))
-		qdel(src)
-		return FALSE
-
-	var/mob/living/silicon/robot/borgy = user
-
-	if(!diff)
-		return
-	// 25 is our cost per unit of paint, making it cost 25 energy per
-	// normal tag, 50 per window, and 250 per attack
-	var/cost = diff * 25
-	// Cyborgs shouldn't be able to use modules without a cell. But if they do
-	// it's free.
-	if(borgy.cell)
-		borgy.cell.use(cost)
-
 /obj/item/toy/crayon/spraycan/hellcan
 	name = "hellcan"
 	desc = "This spraycan doesn't seem to be filled with paint..."

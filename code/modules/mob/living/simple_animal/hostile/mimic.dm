@@ -200,10 +200,6 @@ GLOBAL_LIST_INIT(protected_objects, list(/obj/structure/table, /obj/structure/ca
 /mob/living/simple_animal/hostile/mimic/copy/machine/CanAttack(atom/the_target)
 	if(the_target == creator) // Don't attack our creator AI.
 		return 0
-	if(iscyborg(the_target))
-		var/mob/living/silicon/robot/R = the_target
-		if(R.connected_ai == creator) // Only attack robots that aren't synced to our creator AI.
-			return 0
 	return ..()
 
 /mob/living/simple_animal/hostile/mimic/copy/ranged

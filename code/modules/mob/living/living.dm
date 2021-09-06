@@ -175,11 +175,6 @@
 		var/mob/living/carbon/human/human = M
 		if(human.combat_mode)
 			return TRUE
-	//if they are a cyborg, and they're alive and in combat mode, block pushing
-	if(iscyborg(M))
-		var/mob/living/silicon/robot/borg = M
-		if(borg.combat_mode && borg.stat != DEAD)
-			return TRUE
 	//anti-riot equipment is also anti-push
 	for(var/obj/item/I in M.held_items)
 		if(!istype(M, /obj/item/clothing))
@@ -1191,20 +1186,11 @@
 
 	var/list/item_contents = list()
 
-	if(iscyborg(src))
-		var/mob/living/silicon/robot/Robot = src
-		// Disconnect AI's in shells
-		if(Robot.connected_ai)
-			Robot.connected_ai.disconnect_shell()
-		if(Robot.mmi)
-			qdel(Robot.mmi)
-		Robot.notify_ai(NEW_BORG)
-	else
-		for(var/obj/item/item in src)
-			if(!dropItemToGround(item))
-				qdel(item)
-				continue
-			item_contents += item
+	for(var/obj/item/item in src)
+		if(!dropItemToGround(item))
+			qdel(item)
+			continue
+		item_contents += item
 
 	var/mob/living/new_mob
 
@@ -1213,26 +1199,6 @@
 	switch(randomize)
 		if("monkey")
 			new_mob = new /mob/living/carbon/human/species/monkey(loc)
-
-		if("robot")
-			var/robot = pick(
-				200 ; /mob/living/silicon/robot,
-				/mob/living/silicon/robot/model/syndicate,
-				/mob/living/silicon/robot/model/syndicate/medical,
-				/mob/living/silicon/robot/model/syndicate/saboteur,
-				200 ; /mob/living/simple_animal/drone/polymorphed,
-			)
-			new_mob = new robot(loc)
-			if(issilicon(new_mob))
-				new_mob.gender = gender
-				new_mob.invisibility = 0
-				new_mob.job = "Cyborg"
-				var/mob/living/silicon/robot/Robot = new_mob
-				Robot.lawupdate = FALSE
-				Robot.connected_ai = null
-				Robot.mmi.transfer_identity(src) //Does not transfer key/client.
-				Robot.clear_inherent_laws(announce = FALSE)
-				Robot.clear_zeroth_law(announce = FALSE)
 
 		if("slime")
 			new_mob = new /mob/living/simple_animal/slime/random(loc)
@@ -1444,7 +1410,7 @@
 
 	// can't spread fire to mobs that don't catch on fire
 	if(HAS_TRAIT(L, TRAIT_NOFIRE_SPREAD) || HAS_TRAIT(src, TRAIT_NOFIRE_SPREAD))
-		return 
+		return
 
 	if(on_fire)
 		if(L.on_fire) // If they were also on fire

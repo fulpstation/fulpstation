@@ -119,35 +119,3 @@
 	holosign_type = /obj/structure/holosign/barrier/medical
 	creation_time = 30
 	max_signs = 3
-
-/obj/item/holosign_creator/cyborg
-	name = "Energy Barrier Projector"
-	desc = "A holographic projector that creates fragile energy fields."
-	creation_time = 15
-	max_signs = 9
-	holosign_type = /obj/structure/holosign/barrier/cyborg
-	var/shock = 0
-
-/obj/item/holosign_creator/cyborg/attack_self(mob/user)
-	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-
-		if(shock)
-			to_chat(user, span_notice("You clear all active holograms, and reset your projector to normal."))
-			holosign_type = /obj/structure/holosign/barrier/cyborg
-			creation_time = 5
-			for(var/sign in signs)
-				qdel(sign)
-			shock = 0
-			return
-		if(R.emagged&&!shock)
-			to_chat(user, span_warning("You clear all active holograms, and overload your energy projector!"))
-			holosign_type = /obj/structure/holosign/barrier/cyborg/hacked
-			creation_time = 30
-			for(var/sign in signs)
-				qdel(sign)
-			shock = 1
-			return
-	for(var/sign in signs)
-		qdel(sign)
-	to_chat(user, span_notice("You clear all active holograms."))

@@ -258,19 +258,10 @@
 	if((HAS_TRAIT(user, TRAIT_CLUMSY)) && prob(50))
 		user.visible_message(span_danger("[user] accidentally hits [user.p_them()]self over the head with [src]! What a doofus!"), span_userdanger("You accidentally hit yourself over the head with [src]!"))
 
-		if(iscyborg(user))
-			if(affect_cyborg)
-				user.flash_act(affect_silicon = TRUE)
-				user.Paralyze(stun_time_cyborg * force)
-				additional_effects_cyborg(user, user) // user is the target here
-				playsound(get_turf(src), on_stun_sound, 100, TRUE, -1)
-			else
-				playsound(get_turf(src), 'sound/effects/bang.ogg', 10, TRUE)
-		else
-			user.Paralyze(knockdown_time * force)
-			user.apply_damage(stamina_damage, STAMINA, BODY_ZONE_HEAD)
-			additional_effects_non_cyborg(user, user) // user is the target here
-			playsound(get_turf(src), on_stun_sound, 75, TRUE, -1)
+		user.Paralyze(knockdown_time * force)
+		user.apply_damage(stamina_damage, STAMINA, BODY_ZONE_HEAD)
+		additional_effects_non_cyborg(user, user) // user is the target here
+		playsound(get_turf(src), on_stun_sound, 75, TRUE, -1)
 
 		user.apply_damage(2*force, BRUTE, BODY_ZONE_HEAD)
 
@@ -299,25 +290,10 @@
 
 	var/list/desc = get_stun_description(target, user)
 
-	if(iscyborg(target))
-		if(affect_cyborg)
-			desc = get_cyborg_stun_description(target, user)
-
-			target.flash_act(affect_silicon = TRUE)
-			target.Paralyze(stun_time_cyborg)
-			additional_effects_cyborg(target, user)
-
-			playsound(get_turf(src), on_stun_sound, 75, TRUE, -1)
-		else
-			desc = get_unga_dunga_cyborg_stun_description(target, user)
-
-			playsound(get_turf(src), 'sound/effects/bang.ogg', 10, TRUE) //bonk
-	else
-		target.Knockdown(knockdown_time)
-		target.apply_damage(stamina_damage, STAMINA, BODY_ZONE_CHEST)
-		additional_effects_non_cyborg(target, user)
-
-		playsound(get_turf(src), on_stun_sound, 75, TRUE, -1)
+	target.Knockdown(knockdown_time)
+	target.apply_damage(stamina_damage, STAMINA, BODY_ZONE_CHEST)
+	additional_effects_non_cyborg(target, user)
+	playsound(get_turf(src), on_stun_sound, 75, TRUE, -1)
 
 	target.visible_message(desc["visible"], desc["local"])
 	log_combat(user, target, "stun attacked", src)

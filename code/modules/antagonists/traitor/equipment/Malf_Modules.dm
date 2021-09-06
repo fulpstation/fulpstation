@@ -318,9 +318,6 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 	SSshuttle.clearHostileEnvironment(src)
 	SSmapping.remove_nuke_threat(src)
 	set_security_level("red")
-	for(var/mob/living/silicon/robot/borg in owner?.connected_robots)
-		borg.lamp_doom = FALSE
-		borg.toggle_headlamp(FALSE, TRUE) //forces borg lamp to update
 	owner?.doomsday_device = null
 	owner?.nuking = null
 	owner = null
@@ -337,9 +334,6 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 	START_PROCESSING(SSfastprocess, src)
 	SSshuttle.registerHostileEnvironment(src)
 	SSmapping.add_nuke_threat(src) //This causes all blue "circuit" tiles on the map to change to animated red icon state.
-	for(var/mob/living/silicon/robot/borg in owner.connected_robots)
-		borg.lamp_doom = TRUE
-		borg.toggle_headlamp(FALSE, TRUE) //forces borg lamp to update
 
 
 /obj/machinery/doomsday_device/proc/seconds_remaining()
@@ -483,9 +477,8 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 
 /datum/action/innate/ai/destroy_rcds/Activate()
 	for(var/I in GLOB.rcd_list)
-		if(!istype(I, /obj/item/construction/rcd/borg)) //Ensures that cyborg RCDs are spared.
-			var/obj/item/construction/rcd/RCD = I
-			RCD.detonate_pulse()
+		var/obj/item/construction/rcd/RCD = I
+		RCD.detonate_pulse()
 	to_chat(owner, span_danger("RCD detonation pulse emitted."))
 	owner.playsound_local(owner, 'sound/machines/twobeep.ogg', 50, 0)
 

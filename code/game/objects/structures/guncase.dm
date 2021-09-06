@@ -32,7 +32,7 @@
 	. += "[icon_state]_[open ? "open" : "door"]"
 
 /obj/structure/guncase/attackby(obj/item/I, mob/living/user, params)
-	if(iscyborg(user) || isalien(user))
+	if(isalien(user))
 		return
 	if(istype(I, gun_category) && open)
 		if(LAZYLEN(contents) < capacity)
@@ -54,7 +54,7 @@
 	. = ..()
 	if(.)
 		return
-	if(iscyborg(user) || isalien(user))
+	if(isalien(user))
 		return
 	if(contents.len && open)
 		show_menu(user)

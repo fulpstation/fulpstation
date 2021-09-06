@@ -375,67 +375,6 @@
 	on = TRUE
 	return TRUE
 
-///////////////////////////////
-//////////Borg Radios//////////
-///////////////////////////////
-//Giving borgs their own radio to have some more room to work with -Sieve
-
-/obj/item/radio/borg
-	name = "cyborg radio"
-	subspace_transmission = TRUE
-	subspace_switchable = TRUE
-	dog_fashion = null
-
-/obj/item/radio/borg/resetChannels()
-	. = ..()
-
-	var/mob/living/silicon/robot/R = loc
-	if(istype(R))
-		for(var/ch_name in R.model.radio_channels)
-			channels[ch_name] = 1
-
-/obj/item/radio/borg/syndicate
-	syndie = 1
-	keyslot = new /obj/item/encryptionkey/syndicate
-
-/obj/item/radio/borg/syndicate/Initialize()
-	. = ..()
-	set_frequency(FREQ_SYNDICATE)
-
-/obj/item/radio/borg/attackby(obj/item/W, mob/user, params)
-
-	if(W.tool_behaviour == TOOL_SCREWDRIVER)
-		if(keyslot)
-			for(var/ch_name in channels)
-				SSradio.remove_object(src, GLOB.radiochannels[ch_name])
-				secure_radio_connections[ch_name] = null
-
-
-			if(keyslot)
-				var/turf/T = get_turf(user)
-				if(T)
-					keyslot.forceMove(T)
-					keyslot = null
-
-			recalculateChannels()
-			to_chat(user, span_notice("You pop out the encryption key in the radio."))
-
-		else
-			to_chat(user, span_warning("This radio doesn't have any encryption keys!"))
-
-	else if(istype(W, /obj/item/encryptionkey/))
-		if(keyslot)
-			to_chat(user, span_warning("The radio can't hold another key!"))
-			return
-
-		if(!keyslot)
-			if(!user.transferItemToLoc(W, src))
-				return
-			keyslot = W
-
-		recalculateChannels()
-
-
 /obj/item/radio/off // Station bounced radios, their only difference is spawning with the speakers off, this was made to help the lag.
 	listening = 0 // And it's nice to have a subtype too for future features.
 	dog_fashion = /datum/dog_fashion/back

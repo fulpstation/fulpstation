@@ -148,7 +148,7 @@
 			dat += "</table>"
 		//Hacking screen.
 		if(MSG_MON_SCREEN_HACKED)
-			if(isAI(user) || iscyborg(user))
+			if(isAI(user))
 				dat += "Brute-forcing for server key.<br> It will take 20 seconds for every character that the password has."
 				dat += "In the meantime, this console can reveal your true intentions if you let someone access it. Make sure no humans enter the room during that time."
 			else

@@ -393,23 +393,6 @@ GLOBAL_LIST_EMPTY(objectives)
 				return FALSE
 	return TRUE
 
-/datum/objective/robot_army
-	name = "robot army"
-	explanation_text = "Have at least eight active cyborgs synced to you."
-	martyr_compatible = FALSE
-
-/datum/objective/robot_army/check_completion()
-	var/counter = 0
-	var/list/datum/mind/owners = get_owners()
-	for(var/datum/mind/M in owners)
-		if(!M.current || !isAI(M.current))
-			continue
-		var/mob/living/silicon/ai/A = M.current
-		for(var/mob/living/silicon/robot/R in A.connected_robots)
-			if(R.stat != DEAD)
-				counter++
-	return counter >= 8
-
 /datum/objective/escape
 	name = "escape"
 	explanation_text = "Escape on the shuttle or an escape pod alive and without being in custody."
@@ -481,7 +464,7 @@ GLOBAL_LIST_EMPTY(objectives)
 /datum/objective/survive/malf/check_completion()
 	var/list/datum/mind/owners = get_owners()
 	for(var/datum/mind/mindobj in owners)
-		if(!istype(mindobj, /mob/living/silicon/robot) && !considered_alive(mindobj, FALSE)) //Shells (and normal borgs for that matter) are considered alive for Malf
+		if(!considered_alive(mindobj, FALSE)) //Shells (and normal borgs for that matter) are considered alive for Malf
 			return FALSE
 		return TRUE
 

@@ -134,9 +134,6 @@
 		if(!AM || QDELETED(AM))
 			return
 
-		if(iscyborg(AM))
-			var/mob/living/silicon/robot/S = AM
-			qdel(S.mmi)
 		if(isliving(AM))
 			var/mob/living/L = AM
 			if(L.stat != DEAD)

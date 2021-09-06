@@ -29,7 +29,7 @@
 	to_chat(user, span_warning("It's bolted to the floor, you'll need to unwrench it first."))
 
 /obj/structure/statue/proc/can_user_rotate(mob/user)
-	return user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, !iscyborg(user))
+	return user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE)
 
 /obj/structure/statue/attackby(obj/item/W, mob/living/user, params)
 	add_fingerprint(user)

@@ -144,8 +144,6 @@
 		if(!istype(living_crosser, /mob/living/simple_animal/hostile/swarmer))
 			playsound(loc,'sound/effects/snap.ogg',50, TRUE, -1)
 			living_crosser.electrocute_act(100, src, TRUE, flags = SHOCK_NOGLOVES|SHOCK_ILLUSION)
-			if(iscyborg(living_crosser))
-				living_crosser.Paralyze(100)
 			qdel(src)
 
 /obj/structure/swarmer/blockade

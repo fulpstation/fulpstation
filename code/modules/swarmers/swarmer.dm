@@ -126,9 +126,6 @@
 /mob/living/simple_animal/hostile/swarmer/AttackingTarget()
 	if(!isliving(target))
 		return target.swarmer_act(src)
-	if(iscyborg(target))
-		var/mob/living/silicon/borg = target
-		borg.adjustBruteLoss(melee_damage_lower)
 	return ..()
 
 /mob/living/simple_animal/hostile/swarmer/CtrlClickOn(atom/target)

@@ -74,7 +74,7 @@
 			deconstruct(TRUE)
 		return
 
-	if(iscyborg(user) || isalien(user))
+	if(isalien(user))
 		return
 	if(istype(I, /obj/item/extinguisher))
 		if(!stored_extinguisher && opened)
@@ -96,7 +96,7 @@
 	. = ..()
 	if(.)
 		return
-	if(iscyborg(user) || isalien(user))
+	if(isalien(user))
 		return
 	if(stored_extinguisher)
 		user.put_in_hands(stored_extinguisher)

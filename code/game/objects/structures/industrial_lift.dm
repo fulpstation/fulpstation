@@ -349,10 +349,6 @@ GLOBAL_LIST_EMPTY(lifts)
 /obj/structure/industrial_lift/attackby(obj/item/W, mob/user, params)
 	return use(user)
 
-/obj/structure/industrial_lift/attack_robot(mob/living/silicon/robot/R)
-	if(R.Adjacent(src))
-		return use(R)
-
 /obj/structure/industrial_lift/proc/show_fluff_message(going_up, mob/user)
 	if(going_up)
 		user.visible_message(span_notice("[user] moves the lift upwards."), span_notice("You move the lift upwards."))

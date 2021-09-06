@@ -291,7 +291,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 		return FALSE
 
 	var/big_sac = FALSE
-	if((((ishuman(sacrificial) || iscyborg(sacrificial)) && sacrificial.stat != DEAD) || C.cult_team.is_sacrifice_target(sacrificial.mind)) && invokers.len < 3)
+	if(((ishuman(sacrificial) && sacrificial.stat != DEAD) || C.cult_team.is_sacrifice_target(sacrificial.mind)) && invokers.len < 3)
 		for(var/M in invokers)
 			to_chat(M, span_cultitalic("[sacrificial] is too greatly linked to the world! You need three acolytes!"))
 		log_game("Offer rune failed - not enough acolytes and target is living or sac target")
@@ -311,21 +311,11 @@ structure_check() searches for nearby cultist structures required for the invoca
 		if(big_sac)
 			to_chat(M, span_cultlarge("\"Yes! This is the one I desire! You have done well.\""))
 		else
-			if(ishuman(sacrificial) || iscyborg(sacrificial))
+			if(ishuman(sacrificial))
 				to_chat(M, span_cultlarge("\"I accept this sacrifice.\""))
 			else
 				to_chat(M, span_cultlarge("\"I accept this meager sacrifice.\""))
 
-	if(iscyborg(sacrificial))
-		var/construct_class = show_radial_menu(first_invoker, sacrificial, GLOB.construct_radial_images, require_near = TRUE, tooltips = TRUE)
-		if(QDELETED(sacrificial))
-			return FALSE
-		sacrificial.grab_ghost()
-		make_new_construct_from_class(construct_class, THEME_CULT, sacrificial, first_invoker, TRUE, get_turf(src))
-		var/mob/living/silicon/robot/sacriborg = sacrificial
-		sacriborg.mmi = null
-		qdel(sacrificial)
-		return TRUE
 	var/obj/item/soulstone/stone = new /obj/item/soulstone(get_turf(src))
 	if(sacrificial.mind && !sacrificial.suiciding)
 		stone.invisibility = INVISIBILITY_MAXIMUM //so it's not picked up during transfer_soul()

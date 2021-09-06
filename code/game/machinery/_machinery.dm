@@ -482,10 +482,7 @@
 /obj/machinery/attack_ai(mob/user)
 	if(!(interaction_flags_machine & INTERACT_MACHINE_ALLOW_SILICON) && !isAdminGhostAI(user))
 		return FALSE
-	if(iscyborg(user))// For some reason attack_robot doesn't work
-		return attack_robot(user)
-	else
-		return _try_interact(user)
+	return _try_interact(user)
 
 /obj/machinery/attackby(obj/item/weapon, mob/user, params)
 	. = ..()

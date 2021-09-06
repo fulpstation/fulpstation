@@ -515,11 +515,6 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	if(!turned_on)
 		toggle_on(user)
 
-	if(iscyborg(target))
-		if(mode == BATON_STUN)
-			..()
-		return FALSE
-
 	if(!isliving(target))
 		return FALSE
 

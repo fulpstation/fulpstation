@@ -26,16 +26,8 @@ GLOBAL_DATUM(highlander_controller, /datum/highlander_controller)
 			continue
 		if(AI.deployed_shell)
 			AI.deployed_shell.undeploy()
-		AI.change_mob_type(/mob/living/silicon/robot , null, null)
 		AI.gib()
 
-	for(var/mob/living/silicon/robot/robot in GLOB.player_list)
-		if(!istype(robot) || robot.stat == DEAD)
-			continue
-		if(robot.shell)
-			robot.gib()
-			continue
-		robot.make_scottish()
 	addtimer(CALLBACK(SSshuttle.emergency, /obj/docking_port/mobile/emergency.proc/request, null, 1), 50)
 
 /datum/highlander_controller/Destroy(force, ...)
@@ -92,6 +84,3 @@ GLOBAL_DATUM(highlander_controller, /datum/highlander_controller)
 
 /mob/living/carbon/human/proc/make_scottish()
 	mind.add_antag_datum(/datum/antagonist/highlander)
-
-/mob/living/silicon/robot/proc/make_scottish()
-	mind.add_antag_datum(/datum/antagonist/highlander/robot)

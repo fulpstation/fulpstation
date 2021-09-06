@@ -166,10 +166,7 @@
 	parent_item.name = "[parent_item.name] (Wielded)"
 	parent_item.update_appearance()
 
-	if(iscyborg(user))
-		to_chat(user, span_notice("You dedicate your module to [parent]."))
-	else
-		to_chat(user, span_notice("You grab [parent] with both hands."))
+	to_chat(user, span_notice("You grab [parent] with both hands."))
 
 	// Play sound if one is set
 	if(wieldsound)
@@ -232,9 +229,7 @@
 
 		// Show message if requested
 		if(show_message)
-			if(iscyborg(user))
-				to_chat(user, span_notice("You free up your module."))
-			else if(require_twohands)
+			if(require_twohands)
 				to_chat(user, span_notice("You drop [parent]."))
 			else
 				to_chat(user, span_notice("You are now carrying [parent] with one hand."))

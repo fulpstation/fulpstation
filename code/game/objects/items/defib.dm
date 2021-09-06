@@ -452,10 +452,7 @@
 		playsound(src, 'sound/machines/defib_failed.ogg', 50, FALSE)
 		return
 	if(!wielded)
-		if(iscyborg(user))
-			to_chat(user, span_warning("You must activate the paddles in your active module before you can use them on someone!"))
-		else
-			to_chat(user, span_warning("You need to wield the paddles in both hands before you can use them on someone!"))
+		to_chat(user, span_warning("You need to wield the paddles in both hands before you can use them on someone!"))
 		return
 	if(cooldown)
 		if(req_defib)
@@ -665,25 +662,6 @@
 				user.visible_message(span_warning("[req_defib ? "[defib]" : "[src]"] buzzes: Patient is not in a valid state. Operation aborted."))
 				playsound(src, 'sound/machines/defib_failed.ogg', 50, FALSE)
 	do_cancel()
-
-/obj/item/shockpaddles/cyborg
-	name = "cyborg defibrillator paddles"
-	icon = 'icons/obj/defib.dmi'
-	icon_state = "defibpaddles0"
-	inhand_icon_state = "defibpaddles0"
-	req_defib = FALSE
-
-/obj/item/shockpaddles/cyborg/attack(mob/M, mob/user)
-	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(R.emagged)
-			combat = TRUE
-		else
-			combat = FALSE
-	else
-		combat = FALSE
-
-	. = ..()
 
 /obj/item/shockpaddles/syndicate
 	name = "syndicate defibrillator paddles"

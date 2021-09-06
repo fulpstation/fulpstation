@@ -93,7 +93,7 @@
 /obj/item/melee/baton/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	..()
 	//Only mob/living types have stun handling
-	if(turned_on && prob(throw_stun_chance) && isliving(hit_atom) && !iscyborg(hit_atom))
+	if(turned_on && prob(throw_stun_chance) && isliving(hit_atom))
 		baton_effect(hit_atom)
 
 /obj/item/melee/baton/loaded //this one starts with a cell pre-installed.
@@ -188,11 +188,6 @@
 	if(clumsy_check(user))
 		return FALSE
 
-	if(iscyborg(M))
-		..()
-		return
-
-
 	if(ishuman(M))
 		var/mob/living/carbon/human/L = M
 		if(check_martial_counter(L, user))
@@ -227,10 +222,6 @@
 	if(HAS_TRAIT_FROM(L, TRAIT_IWASBATONED, user)) //no doublebaton abuse anon!
 		to_chat(user, span_danger("[L] manages to avoid the attack!"))
 		return FALSE
-	if(iscyborg(loc))
-		var/mob/living/silicon/robot/R = loc
-		if(!R || !R.cell || !R.cell.use(cell_hit_cost))
-			return FALSE
 	else
 		if(!deductcharge(cell_hit_cost))
 			return FALSE
@@ -340,7 +331,7 @@
 /obj/item/melee/baton/boomerang/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(turned_on)
 		var/caught = hit_atom.hitby(src, FALSE, FALSE, throwingdatum=throwingdatum)
-		if(isliving(hit_atom) && !iscyborg(hit_atom) && !caught && prob(throw_stun_chance))//if they are a living creature and they didn't catch it
+		if(isliving(hit_atom) && !caught && prob(throw_stun_chance))//if they are a living creature and they didn't catch it
 			baton_effect(hit_atom)
 		var/mob/thrown_by = thrownby?.resolve()
 		if(thrown_by && !caught)

@@ -632,23 +632,6 @@
 		objective.completed = !objective.completed
 		log_admin("[key_name(usr)] toggled the win state for [current]'s objective: [objective.explanation_text]")
 
-	else if (href_list["silicon"])
-		switch(href_list["silicon"])
-			if("unemag")
-				var/mob/living/silicon/robot/R = current
-				if (istype(R))
-					R.SetEmagged(0)
-					message_admins("[key_name_admin(usr)] has unemag'ed [R].")
-					log_admin("[key_name(usr)] has unemag'ed [R].")
-
-			if("unemagcyborgs")
-				if(isAI(current))
-					var/mob/living/silicon/ai/ai = current
-					for (var/mob/living/silicon/robot/R in ai.connected_robots)
-						R.SetEmagged(0)
-					message_admins("[key_name_admin(usr)] has unemag'ed [ai]'s Cyborgs.")
-					log_admin("[key_name(usr)] has unemag'ed [ai]'s Cyborgs.")
-
 	else if (href_list["common"])
 		switch(href_list["common"])
 			if("undress")
@@ -873,12 +856,6 @@
 /mob/living/silicon/ai/mind_initialize()
 	. = ..()
 	mind.set_assigned_role(SSjob.GetJobType(/datum/job/ai))
-
-
-//BORG
-/mob/living/silicon/robot/mind_initialize()
-	. = ..()
-	mind.set_assigned_role(SSjob.GetJobType(/datum/job/cyborg))
 
 
 //PAI

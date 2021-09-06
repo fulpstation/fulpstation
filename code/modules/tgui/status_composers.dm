@@ -72,13 +72,6 @@
 /mob/living/silicon/proc/get_ui_access(atom/source)
 	return UI_CLOSE
 
-/mob/living/silicon/robot/get_ui_access(atom/source)
-	// Robots can interact with anything they can see.
-	var/list/clientviewlist = getviewsize(client.view)
-	if(get_dist(src, source) <= min(clientviewlist[1],clientviewlist[2]))
-		return UI_INTERACTIVE
-	return UI_DISABLED // Otherwise they can keep the UI open.
-
 /mob/living/silicon/ai/get_ui_access(atom/source)
 	// The AI can interact with anything it can see nearby, or with cameras while wireless control is enabled.
 	if(!control_disabled && can_see(source))

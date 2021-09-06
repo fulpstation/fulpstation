@@ -19,11 +19,6 @@
 
 /datum/computer_file/program/revelation/proc/activate()
 	if(computer)
-		if(istype(computer, /obj/item/modular_computer/tablet/integrated)) //If this is a borg's integrated tablet
-			var/obj/item/modular_computer/tablet/integrated/modularInterface = computer
-			to_chat(modularInterface.borgo,span_userdanger("SYSTEM PURGE DETECTED/"))
-			addtimer(CALLBACK(modularInterface.borgo, /mob/living/silicon/robot/.proc/death), 2 SECONDS, TIMER_UNIQUE)
-			return
 
 		computer.visible_message(span_notice("\The [computer]'s screen brightly flashes and loud electrical buzzing is heard."))
 		computer.enabled = FALSE

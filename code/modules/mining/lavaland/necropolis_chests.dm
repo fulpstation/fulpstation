@@ -69,7 +69,6 @@
 		if(18)
 			new /obj/item/book_of_babel(src)
 		if(19)
-			new /obj/item/borg/upgrade/modkit/lifesteal(src)
 			new /obj/item/bedsheet/cult(src)
 		if(20)
 			new /obj/item/clothing/neck/necklace/memento_mori(src)
