@@ -46,7 +46,7 @@
 
 /// Engineering
 /datum/job/fulp/deputy/engineering
-	title = "Deputy (Engineering)"
+	title = "Engineering Deputy"
 	department_head = list("Chief Engineer")
 	selection_color = "#fff5cc"
 	total_positions = 1
@@ -64,7 +64,7 @@
 	)
 ///Medical
 /datum/job/fulp/deputy/medical
-	title = "Deputy (Medical)"
+	title = "Medical Deputy"
 	department_head = list("Chief Medical Officer")
 	selection_color = "#ffeef0"
 	total_positions = 1
@@ -82,7 +82,7 @@
 	)
 ///Science
 /datum/job/fulp/deputy/science
-	title = "Deputy (Science)"
+	title = "Science Deputy"
 	department_head = list("Research Director")
 	selection_color = "#ffeeff"
 	total_positions = 1
@@ -100,7 +100,7 @@
 	)
 ///Supply
 /datum/job/fulp/deputy/supply
-	title = "Deputy (Supply)"
+	title = "Supply Deputy"
 	department_head = list("Head of Personnel")
 	selection_color = "#dcba97"
 	total_positions = 1
@@ -117,9 +117,8 @@
 		/datum/job_department/cargo,
 	)
 ///Service
-/*
 /datum/job/fulp/deputy/service
-	title = "Deputy (Service)"
+	title = "Service Deputy"
 	department_head = list("Head of Personnel")
 	selection_color = "#bbe291"
 	total_positions = 1
@@ -134,7 +133,13 @@
 		/datum/job_department/security,
 		/datum/job_department/service,
 	)
-*/
+
+/datum/job/fulp/deputy/config_check()
+	if(deputy_department == DEPARTMENT_SECURITY)
+		return CONFIG_GET(flag/allow_departmentless_deputy)
+	if(deputy_department == DEPARTMENT_SERVICE)
+		return CONFIG_GET(flag/allow_service_deputy)
+	return TRUE
 
 /// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
@@ -155,39 +160,39 @@
 	access |= department_access
 
 /datum/id_trim/job/deputy/engineering
-	assignment = "Deputy (Engineering)"
+	assignment = "Engineering Deputy"
 	trim_state = "trim_deputyeng"
 	department_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_MECH_ENGINE, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CE, ACCESS_CHANGE_IDS)
 	job = /datum/job/fulp/deputy/engineering
 
 /datum/id_trim/job/deputy/medical
-	assignment = "Deputy (Medical)"
+	assignment = "Medical Deputy"
 	trim_state = "trim_deputymed"
 	department_access = list(ACCESS_MEDICAL, ACCESS_PSYCHOLOGY, ACCESS_MORGUE, ACCESS_VIROLOGY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_SURGERY, ACCESS_MECH_MEDICAL)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_CHANGE_IDS)
 	job = /datum/job/fulp/deputy/medical
 
 /datum/id_trim/job/deputy/science
-	assignment = "Deputy (Science)"
+	assignment = "Science Deputy"
 	trim_state = "trim_deputysci"
 	department_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_ORDNANCE, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_ORDNANCE_STORAGE)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
 	job = /datum/job/fulp/deputy/science
 
 /datum/id_trim/job/deputy/supply
-	assignment = "Deputy (Supply)"
+	assignment = "Supply Deputy"
 	trim_state = "trim_deputysupply"
 	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE, ACCESS_QM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/fulp/deputy/supply
 
 /datum/id_trim/job/deputy/service
-	assignment = "Deputy (Service)"
+	assignment = "Service Deputy"
 	trim_state = "trim_deputyservice"
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
-//	job = /datum/job/fulp/deputy/service
+	job = /datum/job/fulp/deputy/service
 
 /datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
 	. = ..()

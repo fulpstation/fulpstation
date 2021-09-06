@@ -7,11 +7,11 @@
 GLOBAL_LIST_INIT(fulp_job_assignments, list(
 	"Brig Physician",
 	"Deputy",
-	"Deputy (Supply)",
-	"Deputy (Engineering)",
-	"Deputy (Medical)",
-	"Deputy (Science)",
-	"Deputy (Service)",
+	"Supply Deputy",
+	"Engineering Deputy",
+	"Medical Deputy",
+	"Science Deputy",
+	"Service Deputy",
 ))
 
 GLOBAL_LIST_INIT(fulp_ban_list, list(

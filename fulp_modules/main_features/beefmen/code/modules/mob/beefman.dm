@@ -205,13 +205,13 @@
 			newSash = new /obj/item/clothing/under/bodysash/security/brigdoc()
 		if("Deputy")
 			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Engineering)")
+		if("Engineering Deputy")
 			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Medical)")
+		if("Medical Deputy")
 			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Science)")
+		if("Science Deputy")
 			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Deputy (Supply)")
+		if("Supply Deputy")
 			newSash = new /obj/item/clothing/under/bodysash/security/deputy()
 
 		// Medical

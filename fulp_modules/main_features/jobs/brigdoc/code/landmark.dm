@@ -20,16 +20,16 @@
 
 /// Departmental deputies and their spawn points
 /obj/effect/landmark/start/deputy/engineering
-	name = "Deputy (Engineering)"
+	name = "Engineering Deputy"
 	icon_state = "Security Officer"
 /obj/effect/landmark/start/deputy/medical
-	name = "Deputy (Medical)"
+	name = "Medical Deputy"
 	icon_state = "Security Officer"
 /obj/effect/landmark/start/deputy/science
-	name = "Deputy (Science)"
+	name = "Science Deputy"
 	icon_state = "Security Officer"
 /obj/effect/landmark/start/deputy/supply
-	name = "Deputy (Supply)"
+	name = "Supply Deputy"
 	icon_state = "Security Officer"
 
 /obj/effect/landmark/start/depsec/engineering/Initialize()

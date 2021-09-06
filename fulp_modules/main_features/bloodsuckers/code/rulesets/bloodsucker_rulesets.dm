@@ -14,7 +14,7 @@
 		// Security
 		"Warden", "Security Officer", "Detective", "Brig Physician",
 		// Deputies
-		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+		"Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy",
 		// Curator
 		"Curator",
 	)
@@ -60,8 +60,8 @@
 	antag_flag = ROLE_BLOODSUCKER
 	protected_roles = list(
 		"Captain", "Head of Personnel", "Head of Security",
-		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
-		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+		"Warden", "Security Officer", "Detective", "Brig Physician",
+		"Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy",
 		"Curator",
 	)
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
@@ -108,8 +108,8 @@
 	antag_flag = ROLE_BLOODSUCKER
 	protected_roles = list(
 		"Captain", "Head of Personnel", "Head of Security",
-		"Warden", "Security Officer", "Detective", "Brig Physician", "Deputy",
-		"Deputy", "Deputy (Supply)", "Deputy (Engineering)", "Deputy (Medical)", "Deputy (Science)", "Deputy (Service)",
+		"Warden", "Security Officer", "Detective", "Brig Physician",
+		"Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy",
 		"Curator",
 	)
 	restricted_roles = list("AI","Cyborg")
