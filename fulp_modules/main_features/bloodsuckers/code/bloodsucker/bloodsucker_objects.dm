@@ -242,7 +242,7 @@
 /*
  *	# Archives of the Kindred:
  *
- *	A book that can only be used by Curators and Tremere Bloodsuckers.
+ *	A book that can only be used by Curators.
  *	When used on a player, after a short timer, will reveal if the player is a Bloodsucker, including their real name and Clan.
  *	This book should not work on Bloodsuckers using the Masquerade ability.
  *	If it reveals a Bloodsucker, the Curator will then be able to tell they are a Bloodsucker on examine (Like a Vassal).
