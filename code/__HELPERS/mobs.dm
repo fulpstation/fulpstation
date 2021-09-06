@@ -583,18 +583,6 @@ GLOBAL_LIST_EMPTY(species_list)
 ///Silicon Mob Procs///
 ///////////////////////
 
-//Returns a list of unslaved cyborgs
-/proc/active_free_borgs()
-	. = list()
-	for(var/mob/living/silicon/robot/borg in GLOB.silicon_mobs)
-		if(borg.connected_ai || borg.shell)
-			continue
-		if(borg.stat == DEAD)
-			continue
-		if(borg.emagged || borg.scrambledcodes)
-			continue
-		. += borg
-
 //Returns a list of AI's
 /proc/active_ais(check_mind=FALSE, z = null)
 	. = list()
@@ -619,15 +607,6 @@ GLOBAL_LIST_EMPTY(species_list)
 			selected = A
 
 	return selected
-
-/proc/select_active_free_borg(mob/user)
-	var/list/borgs = active_free_borgs()
-	if(borgs.len)
-		if(user)
-			. = input(user,"Unshackled cyborg signals detected:", "Cyborg Selection", borgs[1]) in sortList(borgs)
-		else
-			. = pick(borgs)
-	return .
 
 /proc/select_active_ai(mob/user, z = null)
 	var/list/ais = active_ais(FALSE, z)

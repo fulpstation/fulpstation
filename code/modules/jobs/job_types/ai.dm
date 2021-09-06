@@ -23,15 +23,6 @@
 	var/do_special_check = TRUE
 
 
-/datum/job/ai/after_spawn(mob/living/spawned, client/player_client)
-	. = ..()
-	//we may have been created after our borg
-	if(SSticker.current_state == GAME_STATE_SETTING_UP)
-		for(var/mob/living/silicon/robot/R in GLOB.silicon_mobs)
-			if(!R.connected_ai)
-				R.TryConnectToAI()
-
-
 /datum/job/ai/get_roundstart_spawn_point()
 	return get_latejoin_spawn_point()
 

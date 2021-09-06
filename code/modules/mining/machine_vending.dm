@@ -52,17 +52,6 @@
 		new /datum/data/mining_equipment("Nanotrasen Minebot", /mob/living/simple_animal/hostile/mining_drone, 800),
 		new /datum/data/mining_equipment("Minebot Melee Upgrade", /obj/item/mine_bot_upgrade, 400),
 		new /datum/data/mining_equipment("Minebot Armor Upgrade", /obj/item/mine_bot_upgrade/health, 400),
-		new /datum/data/mining_equipment("Minebot Cooldown Upgrade", /obj/item/borg/upgrade/modkit/cooldown/minebot, 600),
-		new /datum/data/mining_equipment("Minebot AI Upgrade", /obj/item/slimepotion/slime/sentience/mining, 1000),
-		new /datum/data/mining_equipment("KA Minebot Passthrough", /obj/item/borg/upgrade/modkit/minebot_passthrough, 100),
-		new /datum/data/mining_equipment("KA White Tracer Rounds", /obj/item/borg/upgrade/modkit/tracer, 100),
-		new /datum/data/mining_equipment("KA Adjustable Tracer Rounds", /obj/item/borg/upgrade/modkit/tracer/adjustable, 150),
-		new /datum/data/mining_equipment("KA Super Chassis", /obj/item/borg/upgrade/modkit/chassis_mod, 250),
-		new /datum/data/mining_equipment("KA Hyper Chassis", /obj/item/borg/upgrade/modkit/chassis_mod/orange, 300),
-		new /datum/data/mining_equipment("KA Range Increase", /obj/item/borg/upgrade/modkit/range, 1000),
-		new /datum/data/mining_equipment("KA Damage Increase", /obj/item/borg/upgrade/modkit/damage, 1000),
-		new /datum/data/mining_equipment("KA Cooldown Decrease", /obj/item/borg/upgrade/modkit/cooldown, 1000),
-		new /datum/data/mining_equipment("KA AoE Damage", /obj/item/borg/upgrade/modkit/aoe/mobs, 2000)
 	)
 
 /datum/data/mining_equipment
@@ -184,7 +173,6 @@
 			new /mob/living/simple_animal/hostile/mining_drone(drop_location)
 			new /obj/item/weldingtool/hugetank(drop_location)
 			new /obj/item/clothing/head/welding(drop_location)
-			new /obj/item/borg/upgrade/modkit/minebot_passthrough(drop_location)
 		if("Extraction and Rescue Kit")
 			new /obj/item/extraction_pack(drop_location)
 			new /obj/item/fulton_core(drop_location)
@@ -218,7 +206,6 @@
 		new /datum/data/mining_equipment("Toolbelt", /obj/item/storage/belt/utility, 350),
 		new /datum/data/mining_equipment("Royal Cape of the Liberator", /obj/item/bedsheet/rd/royal_cape, 500),
 		new /datum/data/mining_equipment("Grey Slime Extract", /obj/item/slime_extract/grey, 1000),
-		new /datum/data/mining_equipment("Modification Kit", /obj/item/borg/upgrade/modkit/trigger_guard, 1700),
 		new /datum/data/mining_equipment("The Liberator's Legacy", /obj/item/storage/box/rndboards, 2000)
 		)
 	return ..()

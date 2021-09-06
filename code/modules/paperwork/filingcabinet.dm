@@ -101,7 +101,7 @@
 
 
 /obj/structure/filingcabinet/Topic(href, href_list)
-	if(!usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, !iscyborg(usr)))
+	if(!usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE))
 		return
 	if(href_list["retrieve"])
 		usr << browse("", "window=filingcabinet") // Close the menu

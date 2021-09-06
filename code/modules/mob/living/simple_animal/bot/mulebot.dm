@@ -727,9 +727,7 @@
 		return ..()
 	var/mob/living/L = M
 	if(wires.is_cut(WIRE_AVOIDANCE)) // usually just bumps, but if the avoidance wire is cut, knocks them over.
-		if(iscyborg(L))
-			visible_message(span_danger("[src] bumps into [L]!"))
-		else if(L.Knockdown(8 SECONDS))
+		if(L.Knockdown(8 SECONDS))
 			log_combat(src, L, "knocked down")
 			visible_message(span_danger("[src] knocks over [L]!"))
 	return ..()

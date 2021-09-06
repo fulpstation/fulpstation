@@ -63,8 +63,7 @@
 	name = "manipulate organs"
 	repeatable = TRUE
 	implements = list(
-		/obj/item/organ = 100,
-		/obj/item/borg/apparatus/organ_storage = 100)
+		/obj/item/organ = 100)
 	var/implements_extract = list(TOOL_HEMOSTAT = 100, TOOL_CROWBAR = 55, /obj/item/kitchen/fork = 35)
 	var/current_type
 	var/obj/item/organ/target_organ
@@ -75,17 +74,6 @@
 
 /datum/surgery_step/manipulate_organs/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	target_organ = null
-	if(istype(tool, /obj/item/borg/apparatus/organ_storage))
-		if(!tool.contents.len)
-			to_chat(user, span_warning("There is nothing inside [tool]!"))
-			return -1
-		target_organ = tool.contents[1]
-		if(!isorgan(target_organ))
-			if (target_zone == BODY_ZONE_PRECISE_EYES)
-				target_zone = check_zone(target_zone)
-			to_chat(user, span_warning("You cannot put [target_organ] into [target]'s [parse_zone(target_zone)]!"))
-			return -1
-		tool = target_organ
 	if(isorgan(tool))
 		current_type = "insert"
 		target_organ = tool
@@ -135,14 +123,7 @@
 	if (target_zone == BODY_ZONE_PRECISE_EYES)
 		target_zone = check_zone(target_zone)
 	if(current_type == "insert")
-		if(istype(tool, /obj/item/borg/apparatus/organ_storage))
-			target_organ = tool.contents[1]
-			tool.icon_state = initial(tool.icon_state)
-			tool.desc = initial(tool.desc)
-			tool.cut_overlays()
-			tool = target_organ
-		else
-			target_organ = tool
+		target_organ = tool
 		user.temporarilyRemoveItemFromInventory(target_organ, TRUE)
 		target_organ.Insert(target)
 		display_results(user, target, span_notice("You insert [tool] into [target]'s [parse_zone(target_zone)]."),

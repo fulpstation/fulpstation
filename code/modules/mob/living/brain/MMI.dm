@@ -8,7 +8,6 @@
 	var/braintype = "Cyborg"
 	var/obj/item/radio/radio = null //Let's give it a radio.
 	var/mob/living/brain/brainmob = null //The current occupant.
-	var/mob/living/silicon/robot = null //Appears unused.
 	var/obj/vehicle/sealed/mecha = null //This does not appear to be used outside of reference in mecha.dm.
 	var/obj/item/organ/brain/brain = null //The actual brain
 	var/datum/ai_laws/laws = new()
@@ -22,9 +21,6 @@
 	laws.set_laws_config()
 
 /obj/item/mmi/Destroy()
-	if(iscyborg(loc))
-		var/mob/living/silicon/robot/borg = loc
-		borg.mmi = null
 	set_mecha(null)
 	QDEL_NULL(brainmob)
 	QDEL_NULL(brain)
@@ -215,7 +211,7 @@
 	. = ..()
 	if(. & EMP_PROTECT_SELF)
 		return
-	if(!brainmob || iscyborg(loc))
+	if(!brainmob)
 		return
 	else
 		switch(severity)

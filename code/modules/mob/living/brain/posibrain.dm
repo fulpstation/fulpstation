@@ -92,10 +92,6 @@ GLOBAL_VAR(posibrain_notify_cooldown)
 /obj/item/mmi/posibrain/proc/is_occupied()
 	if(brainmob.key)
 		return TRUE
-	if(iscyborg(loc))
-		var/mob/living/silicon/robot/R = loc
-		if(R.mmi == src)
-			return TRUE
 	return FALSE
 
 ///Two ways to activate a positronic brain. A clickable link in the ghost notif, or simply clicking the object itself.

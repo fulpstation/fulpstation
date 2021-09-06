@@ -124,12 +124,7 @@
 	if(is_robotic)
 		required_tool_type = TOOL_SCREWDRIVER
 
-	if(iscyborg(user))
-		close_tool = locate(/obj/item/cautery) in user.held_items
-		if(!close_tool)
-			to_chat(user, span_warning("You need to equip a cautery in an inactive slot to stop [the_patient]'s surgery!"))
-			return
-	else if(!close_tool || close_tool.tool_behaviour != required_tool_type)
+	if(!close_tool || close_tool.tool_behaviour != required_tool_type)
 		to_chat(user, span_warning("You need to hold a [is_robotic ? "screwdriver" : "cautery"] in your inactive hand to stop [the_patient]'s surgery!"))
 		return
 

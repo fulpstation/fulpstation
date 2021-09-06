@@ -83,7 +83,6 @@
 	var/acceleration = 1
 
 	var/obj/structure/ai_core/deactivated/linked_core //For exosuit control
-	var/mob/living/silicon/robot/deployed_shell = null //For shell control
 	var/datum/action/innate/deploy_shell/deploy_action = new
 	var/datum/action/innate/deploy_last_shell/redeploy_action = new
 	var/datum/action/innate/choose_modules/modules_action
@@ -279,18 +278,6 @@
 	if(isturf(loc)) //only show if we're "in" a core
 		. += "Backup Power: [battery * 0.5]%"
 	. += "Connected cyborgs: [length(connected_robots)]"
-	for(var/r in connected_robots)
-		var/mob/living/silicon/robot/connected_robot = r
-		var/robot_status = "Nominal"
-		if(connected_robot.shell)
-			robot_status = "AI SHELL"
-		else if(connected_robot.stat != CONSCIOUS || !connected_robot.client)
-			robot_status = "OFFLINE"
-		else if(!connected_robot.cell || connected_robot.cell.charge <= 0)
-			robot_status = "DEPOWERED"
-		//Name, Health, Battery, Model, Area, and Status! Everything an AI wants to know about its borgies!
-		. += "[connected_robot.name] | S.Integrity: [connected_robot.health]% | Cell: [connected_robot.cell ? "[connected_robot.cell.charge]/[connected_robot.cell.maxcharge]" : "Empty"] | \
-		Model: [connected_robot.designation] | Loc: [get_area_name(connected_robot, TRUE)] | Status: [robot_status]"
 	. += "AI shell beacons detected: [LAZYLEN(GLOB.available_ai_shells)]" //Count of total AI shells
 
 /mob/living/silicon/ai/proc/ai_alerts()
@@ -835,9 +822,6 @@
 		if(eyeobj)
 			eyeobj.name = "[newname] (AI Eye)"
 
-		// Notify Cyborgs
-		for(var/mob/living/silicon/robot/Slave in connected_robots)
-			Slave.show_laws()
 
 /mob/living/silicon/ai/replace_identification_name(oldname,newname)
 	if(aiPDA)
@@ -928,74 +912,6 @@
 		to_chat(src, "Hack complete. [apc] is now under your exclusive control.")
 		apc.update_appearance()
 
-/mob/living/silicon/ai/verb/deploy_to_shell(mob/living/silicon/robot/target)
-	set category = "AI Commands"
-	set name = "Deploy to Shell"
-
-	if(incapacitated())
-		return
-	if(control_disabled)
-		to_chat(src, span_warning("Wireless networking module is offline."))
-		return
-
-	var/list/possible = list()
-
-	for(var/borgie in GLOB.available_ai_shells)
-		var/mob/living/silicon/robot/R = borgie
-		if(R.shell && !R.deployed && (R.stat != DEAD) && (!R.connected_ai ||(R.connected_ai == src)))
-			possible += R
-
-	if(!LAZYLEN(possible))
-		to_chat(src, "No usable AI shell beacons detected.")
-
-	if(!target || !(target in possible)) //If the AI is looking for a new shell, or its pre-selected shell is no longer valid
-		target = input(src, "Which body to control?") as null|anything in sortNames(possible)
-
-	if (!target || target.stat == DEAD || target.deployed || !(!target.connected_ai ||(target.connected_ai == src)))
-		return
-
-	else if(mind)
-		RegisterSignal(target, COMSIG_LIVING_DEATH, .proc/disconnect_shell)
-		deployed_shell = target
-		target.deploy_init(src)
-		mind.transfer_to(target)
-	diag_hud_set_deployed()
-
-/datum/action/innate/deploy_shell
-	name = "Deploy to AI Shell"
-	desc = "Wirelessly control a specialized cyborg shell."
-	icon_icon = 'icons/mob/actions/actions_AI.dmi'
-	button_icon_state = "ai_shell"
-
-/datum/action/innate/deploy_shell/Trigger()
-	var/mob/living/silicon/ai/AI = owner
-	if(!AI)
-		return
-	AI.deploy_to_shell()
-
-/datum/action/innate/deploy_last_shell
-	name = "Reconnect to shell"
-	desc = "Reconnect to the most recently used AI shell."
-	icon_icon = 'icons/mob/actions/actions_AI.dmi'
-	button_icon_state = "ai_last_shell"
-	var/mob/living/silicon/robot/last_used_shell
-
-/datum/action/innate/deploy_last_shell/Trigger()
-	if(!owner)
-		return
-	if(last_used_shell)
-		var/mob/living/silicon/ai/AI = owner
-		AI.deploy_to_shell(last_used_shell)
-	else
-		Remove(owner) //If the last shell is blown, destroy it.
-
-/mob/living/silicon/ai/proc/disconnect_shell()
-	SIGNAL_HANDLER
-	if(deployed_shell) //Forcibly call back AI in event of things such as damage, EMP or power loss.
-		to_chat(src, span_danger("Your remote connection has been reset!"))
-		deployed_shell.undeploy()
-		UnregisterSignal(deployed_shell, COMSIG_LIVING_DEATH)
-	diag_hud_set_deployed()
 
 /mob/living/silicon/ai/resist()
 	return

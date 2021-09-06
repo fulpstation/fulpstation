@@ -54,24 +54,3 @@
 	if(A.control_disabled)
 		return FALSE
 	return ..()
-
-
-/obj/machinery/computer/upload/borg
-	name = "cyborg upload console"
-	desc = "Used to upload laws to Cyborgs."
-	circuit = /obj/item/circuitboard/computer/borgupload
-
-/obj/machinery/computer/upload/borg/interact(mob/user)
-	current = select_active_free_borg(user)
-
-	if(!current)
-		to_chat(user, span_alert("No active unslaved cyborgs detected."))
-	else
-		to_chat(user, span_notice("[current.name] selected for law changes."))
-
-/obj/machinery/computer/upload/borg/can_upload_to(mob/living/silicon/robot/B)
-	if(!B || !iscyborg(B))
-		return FALSE
-	if(B.scrambledcodes || B.emagged)
-		return FALSE
-	return ..()

@@ -161,44 +161,6 @@
 		visibility_flags = NONE
 
 
-
-/datum/disease/transformation/robot
-
-	name = "Robotic Transformation"
-	cure_text = "An injection of copper."
-	cures = list(/datum/reagent/copper)
-	cure_chance = 2.5
-	agent = "R2D2 Nanomachines"
-	desc = "This disease, actually acute nanomachine infection, converts the victim into a cyborg."
-	severity = DISEASE_SEVERITY_BIOHAZARD
-	visibility_flags = NONE
-	stage1 = list()
-	stage2 = list("Your joints feel stiff.", "<span class='danger'>Beep...boop..</span>")
-	stage3 = list("<span class='danger'>Your joints feel very stiff.</span>", "Your skin feels loose.", "<span class='danger'>You can feel something move...inside.</span>")
-	stage4 = list("<span class='danger'>Your skin feels very loose.</span>", "<span class='danger'>You can feel... something...inside you.</span>")
-	stage5 = list("<span class='danger'>Your skin feels as if it's about to burst off!</span>")
-	new_form = /mob/living/silicon/robot
-	infectable_biotypes = MOB_ORGANIC|MOB_UNDEAD|MOB_ROBOTIC
-	bantype = "Cyborg"
-
-
-/datum/disease/transformation/robot/stage_act(delta_time, times_fired)
-	. = ..()
-	if(!.)
-		return
-
-	switch(stage)
-		if(3)
-			if (DT_PROB(4, delta_time))
-				affected_mob.say(pick("Beep, boop", "beep, beep!", "Boop...bop"), forced = "robotic transformation")
-			if (DT_PROB(2, delta_time))
-				to_chat(affected_mob, span_danger("You feel a stabbing pain in your head."))
-				affected_mob.Unconscious(40)
-		if(4)
-			if (DT_PROB(10, delta_time))
-				affected_mob.say(pick("beep, beep!", "Boop bop boop beep.", "kkkiiiill mmme", "I wwwaaannntt tttoo dddiiieeee..."), forced = "robotic transformation")
-
-
 /datum/disease/transformation/xeno
 
 	name = "Xenomorph Transformation"

@@ -42,10 +42,7 @@
 		return
 	if(istype(C, /obj/item/stack/rods) && attachment_holes)
 		if(broken || burnt)
-			if(!iscyborg(user))
-				to_chat(user, span_warning("Repair the plating first! Use a welding tool to fix the damage."))
-			else
-				to_chat(user, span_warning("Repair the plating first! Use a welding tool or a plating repair tool to fix the damage.")) //we don't need to confuse humans by giving them a message about plating repair tools, since only janiborgs should have access to them outside of Christmas presents or admin intervention
+			to_chat(user, span_warning("Repair the plating first! Use a welding tool or a plating repair tool to fix the damage.")) //we don't need to confuse humans by giving them a message about plating repair tools, since only janiborgs should have access to them outside of Christmas presents or admin intervention
 			return
 		var/obj/item/stack/rods/R = C
 		if (R.get_amount() < 2)
@@ -70,10 +67,7 @@
 			tile.place_tile(src)
 			playsound(src, 'sound/weapons/genhit.ogg', 50, TRUE)
 		else
-			if(!iscyborg(user))
-				to_chat(user, span_warning("This section is too damaged to support a tile! Use a welding tool to fix the damage."))
-			else
-				to_chat(user, span_warning("This section is too damaged to support a tile! Use a welding tool or a plating repair tool to fix the damage."))
+			to_chat(user, span_warning("This section is too damaged to support a tile! Use a welding tool or a plating repair tool to fix the damage."))
 	else if(istype(C, /obj/item/cautery/prt)) //plating repair tool
 		if((broken || burnt) && C.use_tool(src, user, 0, volume=80))
 			to_chat(user, span_danger("You fix some dents on the broken plating."))

@@ -524,8 +524,6 @@
 		if(labeler.mode)
 			return FALSE
 	. = TRUE //no afterattack
-	if(iscyborg(M))
-		return
 	if(!can_be_inserted(I, FALSE, M))
 		var/atom/real_location = real_location()
 		if(real_location.contents.len >= max_items) //don't use items on the backpack if they don't fit

@@ -113,64 +113,6 @@
 
 	qdel(src)
 
-/mob/living/carbon/human/proc/Robotize(delete_items = 0, transfer_after = TRUE)
-	if (notransform)
-		return
-	notransform = TRUE
-	Paralyze(1, ignore_canstun = TRUE)
-
-	for(var/obj/item/W in src)
-		if(delete_items)
-			qdel(W)
-		else
-			dropItemToGround(W)
-	regenerate_icons()
-	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
-	for(var/t in bodyparts)
-		qdel(t)
-
-	var/mob/living/silicon/robot/R = new /mob/living/silicon/robot(loc)
-
-	R.gender = gender
-	R.invisibility = 0
-
-	if(client)
-		R.updatename(client)
-
-	if(mind) //TODO //TODO WHAT
-		if(!transfer_after)
-			mind.active = FALSE
-		mind.transfer_to(R)
-	else if(transfer_after)
-		R.key = key
-
-	if(R.mmi)
-		R.mmi.name = "[initial(R.mmi.name)]: [real_name]"
-		if(R.mmi.brain)
-			R.mmi.brain.name = "[real_name]'s brain"
-		if(R.mmi.brainmob)
-			R.mmi.brainmob.real_name = real_name //the name of the brain inside the cyborg is the robotized human's name.
-			R.mmi.brainmob.name = real_name
-
-	R.job = "Cyborg"
-	R.notify_ai(NEW_BORG)
-
-	. = R
-	if(R.ckey && is_banned_from(R.ckey, "Cyborg"))
-		INVOKE_ASYNC(R, /mob/living/silicon/robot.proc/replace_banned_cyborg)
-	qdel(src)
-
-/mob/living/silicon/robot/proc/replace_banned_cyborg()
-	to_chat(src, "<b>You are job banned from cyborg! Appeal your job ban if you want to avoid this in the future!</b>")
-	ghostize(FALSE)
-
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as [src]?", "[src]", null, "Cyborg", 50, src)
-	if(LAZYLEN(candidates))
-		var/mob/dead/observer/chosen_candidate = pick(candidates)
-		message_admins("[key_name_admin(chosen_candidate)] has taken control of ([key_name_admin(src)]) to replace a jobbanned player.")
-		key = chosen_candidate.key
-
 //human -> alien
 /mob/living/carbon/human/proc/Alienize()
 	if (notransform)

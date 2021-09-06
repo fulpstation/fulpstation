@@ -42,12 +42,6 @@
 	if (over != user)
 		return
 
-	// Cyborgs buckle people by dragging them onto them, unless in combat mode.
-	if (iscyborg(user))
-		var/mob/living/silicon/robot/cyborg_user = user
-		if (!cyborg_user.combat_mode)
-			return
-
 	if (!isnull(should_strip_proc_path) && !call(source, should_strip_proc_path)(user))
 		return
 

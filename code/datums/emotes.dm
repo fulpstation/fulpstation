@@ -202,8 +202,6 @@
 		. = message_alien
 	else if(islarva(user) && message_larva)
 		. = message_larva
-	else if(iscyborg(user) && message_robot)
-		. = message_robot
 	else if(isAI(user) && message_AI)
 		. = message_AI
 	else if(ismonkey(user) && message_monkey)

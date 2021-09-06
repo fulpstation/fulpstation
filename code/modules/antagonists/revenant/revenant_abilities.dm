@@ -323,11 +323,6 @@
 			if(prob(50))
 				new /obj/effect/temp_visual/revenant(thing.loc)
 			thing.emag_act(null)
-	for(var/mob/living/silicon/robot/S in T) //Only works on cyborgs, not AI
-		playsound(S, 'sound/machines/warning-buzzer.ogg', 50, TRUE)
-		new /obj/effect/temp_visual/revenant(S.loc)
-		S.spark_system.start()
-		S.emp_act(EMP_HEAVY)
 
 //Blight: Infects nearby humans and in general messes living stuff up.
 /obj/effect/proc_holder/spell/aoe_turf/revenant/blight

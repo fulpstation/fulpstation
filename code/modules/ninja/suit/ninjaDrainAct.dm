@@ -263,30 +263,6 @@
 
 	return drain_total
 
-//BORG//
-/mob/living/silicon/robot/ninjadrain_act(obj/item/clothing/suit/space/space_ninja/ninja_suit, mob/living/carbon/human/ninja, obj/item/clothing/gloves/space_ninja/ninja_gloves)
-	if(!ninja_suit || !ninja || !ninja_gloves || (ROLE_NINJA in faction))
-		return INVALID_DRAIN
-
-	to_chat(src, span_danger("Warni-***BZZZZZZZZZRT*** UPLOADING SPYDERPATCHER VERSION 9.5.2..."))
-	if (do_after(ninja, 60, target = src))
-		spark_system.start()
-		playsound(loc, "sparks", 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
-		to_chat(src, span_danger("UPLOAD COMPLETE. NEW CYBORG MODEL DETECTED.  INSTALLING..."))
-		faction = list(ROLE_NINJA)
-		bubble_icon = "syndibot"
-		UnlinkSelf()
-		ionpulse = TRUE
-		laws = new /datum/ai_laws/ninja_override()
-		model.transform_to(pick(/obj/item/robot_model/syndicate, /obj/item/robot_model/syndicate_medical, /obj/item/robot_model/saboteur))
-
-		var/datum/antagonist/ninja/ninja_antag = ninja.mind.has_antag_datum(/datum/antagonist/ninja)
-		if(!ninja_antag)
-			return
-		var/datum/objective/cyborg_hijack/objective = locate() in ninja_antag.objectives
-		if(objective)
-			objective.completed = TRUE
-
 //CARBON MOBS//
 /mob/living/carbon/ninjadrain_act(obj/item/clothing/suit/space/space_ninja/ninja_suit, mob/living/carbon/human/ninja, obj/item/clothing/gloves/space_ninja/ninja_gloves)
 	if(!ninja_suit || !ninja || !ninja_gloves)

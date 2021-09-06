@@ -103,7 +103,7 @@
 	var/atom/movable/movable_parent = parent
 	movable_parent.unbuckle_mob(rider)
 
-	if(!isanimal(movable_parent) && !iscyborg(movable_parent))
+	if(!isanimal(movable_parent))
 		return
 
 	var/turf/target = get_edge_target_turf(movable_parent, movable_parent.dir)
@@ -122,7 +122,7 @@
 /// If we're a cyborg or animal and we spin, we yeet whoever's on us off us
 /datum/component/riding/creature/proc/check_emote(mob/living/user, datum/emote/emote)
 	SIGNAL_HANDLER
-	if((!iscyborg(user) && !isanimal(user)) || !istype(emote, /datum/emote/spin))
+	if((!isanimal(user)) || !istype(emote, /datum/emote/spin))
 		return
 
 	for(var/mob/yeet_mob in user.buckled_mobs)
@@ -243,39 +243,6 @@
 	dismounted_rider.Knockdown(4 SECONDS)
 	dismounted_rider.visible_message(span_warning("[AM] pushes [dismounted_rider] off of [AM.p_them()]!"), \
 						span_warning("[AM] pushes you off of [AM.p_them()]!"))
-
-
-//Now onto cyborg riding//
-/datum/component/riding/creature/cyborg
-	can_be_driven = FALSE
-
-/datum/component/riding/creature/cyborg/ride_check(mob/living/user)
-	var/mob/living/silicon/robot/robot_parent = parent
-	if(!iscarbon(user))
-		return
-	var/mob/living/carbon/carbonuser = user
-	if(!carbonuser.usable_hands)
-		Unbuckle(user)
-		to_chat(user, span_warning("You can't grab onto [robot_parent] with no hands!"))
-
-/datum/component/riding/creature/cyborg/handle_vehicle_layer(dir)
-	var/atom/movable/robot_parent = parent
-	if(dir == SOUTH)
-		robot_parent.layer = MOB_ABOVE_PIGGYBACK_LAYER
-	else
-		robot_parent.layer = MOB_BELOW_PIGGYBACK_LAYER
-
-/datum/component/riding/creature/cyborg/get_offsets(pass_index) // list(dir = x, y, layer)
-	return list(TEXT_NORTH = list(0, 4), TEXT_SOUTH = list(0, 4), TEXT_EAST = list(-6, 3), TEXT_WEST = list( 6, 3))
-
-/datum/component/riding/creature/cyborg/handle_vehicle_offsets(dir)
-	var/mob/living/silicon/robot/robot_parent = parent
-
-	for(var/mob/living/rider in robot_parent.buckled_mobs)
-		rider.setDir(dir)
-		if(istype(robot_parent.model))
-			rider.pixel_x = robot_parent.model.ride_offset_x[dir2text(dir)]
-			rider.pixel_y = robot_parent.model.ride_offset_y[dir2text(dir)]
 
 //now onto every other ridable mob//
 

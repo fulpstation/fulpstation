@@ -136,13 +136,6 @@
 	if(!. && (injection_flags & INJECT_TRY_SHOW_ERROR_MESSAGE))
 		to_chat(user, span_alert("[p_their(TRUE)] outer shell is too tough."))
 
-/proc/islinked(mob/living/silicon/robot/bot, mob/living/silicon/ai/ai)
-	if(!istype(bot) || !istype(ai))
-		return FALSE
-	if(bot.connected_ai == ai)
-		return TRUE
-	return FALSE
-
 /mob/living/silicon/Topic(href, href_list)
 	if (href_list["lawc"]) // Toggling whether or not a law gets stated by the State Laws verb --NeoFite
 		var/L = text2num(href_list["lawc"])

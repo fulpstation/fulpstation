@@ -819,12 +819,6 @@ GLOBAL_LIST_EMPTY(allCasters)
 		else if(ispAI(user))
 			var/mob/living/silicon/pai/R = user
 			targetcam = R.aicamera
-		else if(iscyborg(user))
-			var/mob/living/silicon/robot/R = user
-			if(R.connected_ai)
-				targetcam = R.connected_ai.aicamera
-			else
-				targetcam = R.aicamera
 		else
 			to_chat(user, span_warning("You cannot interface with silicon photo uploading!"))
 		if(!targetcam.stored.len)

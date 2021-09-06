@@ -596,33 +596,6 @@
 				new /obj/item/stack/sheet/runed_metal(T,quantity)
 				to_chat(user, span_warning("A dark cloud emanates from you hand and swirls around the plasteel, transforming it into runed metal!"))
 				SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
-		else if(istype(target,/mob/living/silicon/robot))
-			var/mob/living/silicon/robot/candidate = target
-			if(candidate.mmi)
-				channeling = TRUE
-				user.visible_message(span_danger("A dark cloud emanates from [user]'s hand and swirls around [candidate]!"))
-				playsound(T, 'sound/machines/airlock_alien_prying.ogg', 80, TRUE)
-				var/prev_color = candidate.color
-				candidate.color = "black"
-				if(do_after(user, 90, target = candidate))
-					candidate.emp_act(EMP_HEAVY)
-					var/construct_class = show_radial_menu(user, src, GLOB.construct_radial_images, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
-					if(!check_menu(user))
-						return
-					if(QDELETED(candidate))
-						channeling = FALSE
-						return
-					candidate.grab_ghost()
-					user.visible_message(span_danger("The dark cloud recedes from what was formerly [candidate], revealing a\n [construct_class]!"))
-					make_new_construct_from_class(construct_class, THEME_CULT, candidate, user, FALSE, T)
-					uses--
-					candidate.mmi = null
-					qdel(candidate)
-					channeling = FALSE
-				else
-					channeling = FALSE
-					candidate.color = prev_color
-					return
 			else
 				uses--
 				candidate.undeploy()

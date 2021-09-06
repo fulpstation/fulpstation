@@ -106,8 +106,6 @@ GLOBAL_LIST_EMPTY(jam_on_wardec)
 	var/list/uplinks = list()
 
 	for (var/datum/mind/M in get_antag_minds(/datum/antagonist/nukeop))
-		if (iscyborg(M.current))
-			continue
 		var/datum/component/uplink/uplink = M.find_syndicate_uplink()
 		if (!uplink)
 			orphans += M.current

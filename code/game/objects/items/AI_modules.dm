@@ -74,13 +74,6 @@ AI MODULES
 	var/affected_cyborgs = list()
 	var/list/borg_txt = list()
 	var/list/borg_flw = list()
-	if(isAI(law_datum.owner))
-		var/mob/living/silicon/ai/owner = law_datum.owner
-		for(var/mob/living/silicon/robot/owned_borg as anything in owner.connected_robots)
-			if(owned_borg.connected_ai && owned_borg.lawupdate)
-				affected_cyborgs += owned_borg
-				borg_flw += "[ADMIN_LOOKUPFLW(owned_borg)], "
-				borg_txt += "[ADMIN_LOOKUP(owned_borg)], "
 
 	borg_txt = borg_txt.Join()
 	GLOB.lawchanges.Add("[time] <B>:</B> [user.name]([user.key]) used [src.name] on [ainame]([aikey]).[law2log ? " The law specified [law2log]" : ""], [length(affected_cyborgs) ? ", impacting synced borgs [borg_txt]" : ""]")

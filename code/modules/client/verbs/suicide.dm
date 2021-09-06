@@ -13,14 +13,6 @@
 	if(B)
 		B.suicided = suicide_state
 
-/mob/living/silicon/robot/set_suicide(suicide_state)
-	. = ..()
-	if(mmi)
-		if(mmi.brain)
-			mmi.brain.suicided = suicide_state
-		if(mmi.brainmob)
-			mmi.brainmob.suiciding = suicide_state
-
 /mob/living/carbon/human/verb/suicide()
 	set hidden = TRUE
 	if(!canSuicide())
@@ -129,25 +121,6 @@
 		ghostize(FALSE) // Disallows reentering body and disassociates mind
 
 /mob/living/silicon/ai/verb/suicide()
-	set hidden = TRUE
-	if(!canSuicide())
-		return
-	var/confirm = tgui_alert(usr,"Are you sure you want to commit suicide?", "Confirm Suicide", list("Yes", "No"))
-	if(!canSuicide())
-		return
-	if(confirm == "Yes")
-		set_suicide(TRUE)
-		visible_message(span_danger("[src] is powering down. It looks like [p_theyre()] trying to commit suicide."), \
-				span_userdanger("[src] is powering down. It looks like [p_theyre()] trying to commit suicide."))
-
-		suicide_log()
-
-		//put em at -175
-		adjustOxyLoss(max(maxHealth * 2 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
-		death(FALSE)
-		ghostize(FALSE) // Disallows reentering body and disassociates mind
-
-/mob/living/silicon/robot/verb/suicide()
 	set hidden = TRUE
 	if(!canSuicide())
 		return

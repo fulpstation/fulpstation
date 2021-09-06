@@ -1004,13 +1004,11 @@
 		return TRUE
 	if(user.has_unlimited_silicon_privilege)
 		var/mob/living/silicon/ai/AI = user
-		var/mob/living/silicon/robot/robot = user
 		if (                                                             \
 			src.aidisabled ||                                            \
 			malfhack && istype(malfai) &&                                \
 			(                                                            \
-				(istype(AI) && (malfai!=AI && malfai != AI.parent)) ||   \
-				(istype(robot) && (robot in malfai.connected_robots))    \
+				(istype(AI) && (malfai!=AI && malfai != AI.parent))      \
 			)                                                            \
 		)
 			if(!loud)
