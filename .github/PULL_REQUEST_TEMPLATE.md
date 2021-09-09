@@ -1,5 +1,11 @@
 <!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable. -->
 <!-- You can view Contributing.MD for a detailed description of the pull request process. -->
+<!--
+IMPORTANT: For large prs, make sure include in your title [IDB IGNORE] and/or [MDB IGNORE] to keep their bots from crashing. 
+MDB is especially important for large map changes
+Failure to do so could result in repoban
+If you need help please reach out on the discord!
+-->
 
 ## About The Pull Request
 
@@ -11,8 +17,9 @@
 
 ## Changelog
 :cl:
-add: Added new things
+add: Added new mechanics or gameplay changes
 add: Added more things
+expansion: Expands content of an existing feature
 del: Removed old things
 qol: made something easier to use
 balance: rebalanced something

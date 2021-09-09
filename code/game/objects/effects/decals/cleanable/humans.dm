@@ -279,17 +279,17 @@
 			// god help me
 			if(species == "unknown")
 				. += "Some <B>feet</B>."
-			else if(species == "monkey")
+			else if(species == SPECIES_MONKEY)
 				. += "[icon2html('icons/mob/monkey.dmi', user, "monkey1")] Some <B>monkey feet</B>."
-			else if(species == "human")
+			else if(species == SPECIES_HUMAN)
 				. += "[icon2html('icons/mob/human_parts.dmi', user, "default_human_l_leg")] Some <B>human feet</B>."
 			else
 				. += "[icon2html('icons/mob/human_parts.dmi', user, "[species]_l_leg")] Some <B>[species] feet</B>."
 
 /obj/effect/decal/cleanable/blood/footprints/replace_decal(obj/effect/decal/cleanable/C)
 	if(blood_state != C.blood_state) //We only replace footprints of the same type as us
-		return
-	..()
+		return FALSE
+	return ..()
 
 /obj/effect/decal/cleanable/blood/footprints/can_bloodcrawl_in()
 	if((blood_state != BLOOD_STATE_OIL) && (blood_state != BLOOD_STATE_NOT_BLOODY))

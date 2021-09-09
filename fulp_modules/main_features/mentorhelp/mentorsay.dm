@@ -3,7 +3,7 @@
 	set name = "Mentorsay"
 
 	if(!is_mentor())
-		to_chat(src, "<span class='danger'>Error: Only mentors and administrators may use this command.</span>", confidential = TRUE)
+		to_chat(src, span_danger("Error: Only mentors and administrators may use this command."), confidential = TRUE)
 		return
 
 	msg = emoji_parse(copytext(sanitize(msg), 1, MAX_MESSAGE_LEN))
@@ -12,8 +12,12 @@
 
 	log_mentor("MSAY: [key_name(src)] : [msg]")
 	msg = keywords_lookup(msg)
-	if(check_rights_for(src, R_ADMIN,0))
-		msg = "<b><font color = #8A2BE2><span class='prefix'>MENTOR:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
+	if(src.key == "[CONFIG_GET(string/headofpseudostaff)]")
+		msg = "<b><font color = #A097FE><span class='prefix'>HOP:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
+	else if(mentor_datum?.is_contributor)
+		msg = "<b><font color = #16abf9><span class='prefix'>CONTRIB:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
+	else if(check_rights_for(src, R_ADMIN, 0))
+		msg = "<b><font color = #8A2BE2><span class='prefix'>STAFF:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
 	else
 		msg = "<b><font color = #E236D8><span class='prefix'>MENTOR:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></font></b>"
 	to_chat(GLOB.admins | GLOB.mentors,
@@ -34,7 +38,8 @@ GLOBAL_LIST_INIT(mentor_verbs, list(
 GLOBAL_PROTECT(mentor_verbs)
 
 /client/proc/add_mentor_verbs()
-	if(mentor_datum || holder) //Both mentors and admins will get those verbs.
+	///Both mentors and admins will get those verbs.
+	if(mentor_datum || holder)
 		add_verb(src, GLOB.mentor_verbs)
 
 /client/proc/remove_mentor_verbs()

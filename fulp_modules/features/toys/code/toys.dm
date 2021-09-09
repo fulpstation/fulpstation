@@ -24,3 +24,23 @@
 	attack_verb_continuous = list("dust")
 	attack_verb_simple = list("dust")
 	squeak_override = list('sound/effects/supermatter.ogg'= 1)
+
+/obj/item/toy/plush/pico
+	name = "pico plushie"
+	desc = "A plushie of an alarmed middle schooler with orange hair and a green shirt. Maybe something's happening at his school."
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "pico"
+	attack_verb_continuous = list("flails at")
+	attack_verb_simple = list("flail at")
+	squeak_override = list('fulp_modules/features/toys/sound/pico.ogg'= 1)
+	custom_price = PAYCHECK_HARD
+
+/obj/item/toy/plush/fly
+	name = "fly plushie"
+	desc = "A plushie depicting a despicable flyperson. It looks like a discontinued human plushie dropped in a teleporter."
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "fly"
+	inhand_icon_state = "fly"
+	attack_verb_continuous = list("buzzes", "swats")
+	attack_verb_simple = list("buzz", "swat")
+	squeak_override = list( 'sound/effects/snap.ogg'=1)
