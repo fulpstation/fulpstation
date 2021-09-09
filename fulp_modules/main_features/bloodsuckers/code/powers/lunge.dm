@@ -2,6 +2,12 @@
 	name = "Predatory Lunge"
 	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
 	button_icon_state = "power_lunge"
+	power_explanation = "<b>Predatory Lunge</b>:\n\
+		Click any player to instantly dash at them, aggressively grabbing them.\n\
+		You cannot use the Power if you are aggressively grabbed.\n\
+		If the target is wearing riot gear or is a Monster Hunter, you will merely passively grab them.\n\
+		If grabbed from behind or from the darkness (Cloak of Darkness counts), you will additionally knock the target down.\n\
+		Higher levels will increase the knockdown dealt to enemies."
 	bloodcost = 10
 	cooldown = 100
 	target_range = 3
@@ -57,6 +63,7 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/A)
+	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = A
@@ -87,7 +94,6 @@
 			consequetive_failures = 0
 	/// It ended? Let's get our target now.
 	lunge_end(target)
-	PowerActivatedSuccessfully()
 
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner

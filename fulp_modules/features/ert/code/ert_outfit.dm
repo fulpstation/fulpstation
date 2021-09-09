@@ -132,7 +132,7 @@
 	name = "ERT Clown - Specialized"
 
 	backpack_contents = list(
-		/obj/item/melee/transforming/energy/sword/bananium=1,
+		/obj/item/melee/energy/sword/bananium=1,
 		/obj/item/shield/energy/bananium=1,
 		/obj/item/storage/box/hug/survival=1,
 		)
@@ -155,7 +155,7 @@
 
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/clown/commander
 	backpack_contents = list(
-		/obj/item/melee/transforming/energy/sword/bananium=1,
+		/obj/item/melee/energy/sword/bananium=1,
 		/obj/item/shield/energy/bananium=1,
 		/obj/item/storage/box/hug/survival=1,
 		/obj/item/storage/box/fireworks=2,

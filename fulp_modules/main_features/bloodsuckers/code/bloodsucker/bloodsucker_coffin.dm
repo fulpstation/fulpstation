@@ -31,7 +31,8 @@
 	if(user == resident)
 		. += span_cult("This is your Claimed Coffin.")
 		. += span_cult("Rest in it while injured to enter Torpor. Entering it with unspent Ranks will allow you to spend one.")
-		. += span_cult("Alt Click while inside the Coffin to Lock/Unlock. Alt Click while outside to Unclaim it, unwrenching it as a result.")
+		. += span_cult("Alt Click while inside the Coffin to Lock/Unlock.")
+		. += span_cult("Alt Click while outside of your Coffin to Unclaim it, unwrenching it and all your other structures as a result.")
 
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
@@ -160,7 +161,7 @@
 						break
 					area_turfs -= T*/
 
-/obj/structure/closet/crate/proc/UnclaimCoffin()
+/obj/structure/closet/crate/proc/UnclaimCoffin(manual = FALSE)
 	// Unanchor it (If it hasn't been broken, anyway)
 	anchored = FALSE
 	if(resident)
@@ -170,7 +171,13 @@
 			if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
 				bloodsuckerdatum.coffin = null
 				bloodsuckerdatum.lair = null
-			to_chat(resident, span_cultitalic("You sense that the link with your coffin, your sacred place of rest, has been broken! You will need to seek another."))
+			for(var/obj/structure/bloodsucker/bloodsucker_structure in get_area(src))
+				if(bloodsucker_structure.owner == resident)
+					bloodsucker_structure.unbolt()
+			if(manual)
+				to_chat(resident, span_cultitalic("You have unclaimed your coffin! This also unclaims all your other Bloodsucker structures!"))
+			else
+				to_chat(resident, span_cultitalic("You sense that the link with your coffin and your sacred lair, has been broken! You will need to seek another."))
 		resident = null // Remove resident. Because this object isnt removed from the game immediately (GC?) we need to give them a way to see they don't have a home anymore.
 
 /// You cannot lock in/out a coffin's owner. SORRY.
@@ -209,13 +216,13 @@
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
 /obj/structure/closet/crate/coffin/attackby(obj/item/W, mob/user, params)
-	if(resident != null && user != resident)
-		if(opened)
+	if(resident)
+		if(user != resident)
 			if(istype(W, cutting_tool))
 				to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
 				return
-		else if(anchored && istype(W, /obj/item/wrench))
-			to_chat(user, span_danger("The coffin won't come unanchored from the floor."))
+		if(anchored && istype(W, /obj/item/wrench))
+			to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt Click to unclaim and unwrench your Coffin." : ""]"))
 			return
 
 	if(locked && istype(W, /obj/item/crowbar))
@@ -232,9 +239,11 @@
 
 /// Distance Check (Inside Of)
 /obj/structure/closet/crate/coffin/AltClick(mob/user)
+	. = ..()
 	if(user in src)
 		LockMe(user, !locked)
-	else if(user == resident)
+
+	else if(user == resident && user.Adjacent(src))
 		balloon_alert(user, "unclaim coffin?")
 		var/list/unclaim_options = list(
 			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
@@ -243,7 +252,7 @@
 		var/unclaim_response = show_radial_menu(user, src, unclaim_options, radius = 36, require_near = TRUE)
 		switch(unclaim_response)
 			if("Yes")
-				UnclaimCoffin()
+				UnclaimCoffin(TRUE)
 
 /obj/structure/closet/crate/proc/LockMe(mob/user, inLocked = TRUE)
 	if(user == resident)
