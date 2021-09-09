@@ -2,15 +2,14 @@
 	title = "Brig Physician"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security", "Chief Medical Officer")
-	faction = "Station"
-	total_positions = 2
+	faction = FACTION_STATION
+	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of security and the chief medical officer"
 	selection_color = "#ffeef0"
 	minimal_player_age = 14
 	exp_requirements = 300
-	exp_type = EXP_TYPE_CREW
-	exp_type_department = EXP_TYPE_SECURITY
+	exp_granted_type = EXP_TYPE_SECURITY
 	fulp_spawn = /obj/effect/landmark/start/brigdoc
 
 	outfit = /datum/outfit/job/brigdoc
@@ -21,7 +20,9 @@
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
 	bounty_types = CIV_JOB_SEC
-	departments = DEPARTMENT_SECURITY
+	departments_list = list(
+		/datum/job_department/security,
+		)
 
 	mail_goodies = list(
 		/obj/item/reagent_containers/hypospray/medipen = 20,
@@ -35,7 +36,7 @@
 		/obj/effect/spawner/lootdrop/organ_spawner = 5,
 		/obj/effect/spawner/lootdrop/memeorgans = 1,
 	)
-
+	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
 	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 /datum/outfit/job/brigdoc
@@ -49,11 +50,12 @@
 	suit =  /obj/item/clothing/suit/toggle/labcoat/armored
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
-	head = /obj/item/clothing/head/beret/sec/medical
+	head = /obj/item/clothing/head/fulpberet/brigphysician
 	l_hand = /obj/item/storage/firstaid/medical/brigdoc
 	l_pocket = /obj/item/pda/medical
 	r_pocket = /obj/item/assembly/flash
 	suit_store = /obj/item/flashlight/pen
+	pda_slot = ITEM_SLOT_LPOCKET
 	backpack_contents = list(/obj/item/choice_beacon/brigdoc = 1)
 
 	backpack = /obj/item/storage/backpack/security
@@ -82,3 +84,4 @@
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
 	config_job = "brig_physician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
+	job = /datum/job/fulp/brigdoc

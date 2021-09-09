@@ -25,16 +25,29 @@
 		return target
 	return null
 
-/proc/check_turf_is_valid(turf/T, checkFloor = TRUE)
+/**
+ * Used as a helper that checks if you can successfully teleport to a turf.
+ * Returns a boolean, and checks for if the turf has density, if the turf's area has the NOTELEPORT flag,
+ * and if the objects in the turf have density.
+ * If checkFloor is TRUE in the argument, it will return FALSE if it's not a type of [/turf/open/floor].
+ * Arguments:
+ * * turf/open_turf - The turf being checked for validity.
+ * * checkFloor - Checks if it's a type of [/turf/open/floor]. If this is FALSE, lava/chasms will be able to be selected.
+ */
+/proc/check_turf_is_valid(turf/open_turf, checkFloor = TRUE)
 	// Checking for Floor...
-	if (checkFloor && !istype(T, /turf/open/floor))
+	if (checkFloor && !istype(open_turf, /turf/open/floor))
 		return FALSE
 	// Checking for Density...
-	if(T.density)
+	if(open_turf.density)
+		return FALSE
+	var/area/turf_area = get_area(open_turf)
+	// Checking for if the area has the NOTELEPORT flag...
+	if(turf_area?.area_flags & NOTELEPORT)
 		return FALSE
 	// Checking for Objects...
-	for(var/obj/O in T)
-		if(O.density)
+	for(var/obj/object in open_turf)
+		if(object.density)
 			return FALSE
 	return TRUE
 
@@ -42,8 +55,8 @@
 	name = "Sleepless Dreamer"
 	desc = "The patient, after undergoing untold psychological hardship, believes they can travel between the dreamscapes of this dimension."
 	scan_desc = "awoken sleeper"
-	gain_text = "<span class='notice'>Your mind snaps, and you wake up. You <i>really</i> wake up.</span>"
-	lose_text = "<span class='warning'>You succumb once more to the sleepless dream of the unwoken.</span>"
+	gain_text = span_notice("Your mind snaps, and you wake up. You <i>really</i> wake up.")
+	lose_text = span_warning("You succumb once more to the sleepless dream of the unwoken.")
 
 
 	var/list/created_firsts = list()
@@ -130,12 +143,12 @@
 		return
 	// Is this, or linked, stream being watched?
 	if (check_location_seen(user, get_turf(user)))
-		to_chat(user, "<span class='warning'>Not while you're being watched.</span>")
+		to_chat(user, span_warning("Not while you're being watched."))
 		return
 	if (check_location_seen(user, get_turf(linked_to)))
-		to_chat(user, "<span class='warning'>Your destination is being watched.</span>")
+		to_chat(user, span_warning("Your destination is being watched."))
 		return
-	to_chat(user, "<span class='notice'>You slip unseen through the Phobetor Tear.</span>")
+	to_chat(user, span_notice("You slip unseen through the Phobetor Tear."))
 	user.playsound_local(null, 'sound/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
 
 	user.forceMove(get_turf(linked_to))

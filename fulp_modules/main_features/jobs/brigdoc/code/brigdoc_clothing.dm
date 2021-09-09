@@ -11,7 +11,7 @@ Contains:
 
 // Beret
 
-/obj/item/clothing/head/beret/sec/medical
+/obj/item/clothing/head/fulpberet/brigphysician
 	name = "medical security beret"
 	desc = "This proud white-blue beret is a distinct color, mainly used to represent medical professionals that became part of the security department."
 	worn_icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_worn.dmi'
@@ -33,8 +33,7 @@ Contains:
 	armor = list("melee" = 25, "bullet" = 25, "laser" = 25, "energy" = 30, "bomb" = 20, "bio" = 50, "rad" = 0, "fire" = 50, "acid" = 50, "wound" = 10)
 
 // Surgery belt
-
-/obj/item/storage/belt/medical/surgeryfilled/PopulateContents() // Currently only used for Brig Doctor.
+/obj/item/storage/belt/medical/surgeryfilled/PopulateContents()
 	new /obj/item/healthanalyzer(src)
 	new /obj/item/scalpel(src)
 	new /obj/item/hemostat(src)
