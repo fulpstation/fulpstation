@@ -67,7 +67,7 @@
 
 /obj/item/toy/plush/freddy/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 100, TRUE,)
+	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
 	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
 	if(myhead)
 		myhead.dismember()
@@ -75,7 +75,7 @@
 
 /obj/item/toy/plush/chica/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 100, TRUE,)
+	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
 	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
 	if(myhead)
 		myhead.dismember()
