@@ -3,7 +3,7 @@ GLOBAL_LIST_INIT(color_list_beefman, list("Very Rare" = "d93356", "Rare" = "da2e
 
 /// Taken from _HELPERS/mobs.dm, and assigned in global_lists.dm! (This is where we assign sprite_accessories(.dm) to the list, by name)
 GLOBAL_LIST_INIT(eyes_beefman, list("Capers", "Cloves", "Olives", "Peppercorns"))
-GLOBAL_LIST_INIT(mouths_beefman, list("Frown1", "Frown2", "Grit1", "Grit2",  "Smile1", "Smile2"))
+GLOBAL_LIST_INIT(mouths_beefman, list("Frown1", "Frown2", "Grit1", "Grit2", "Smile1", "Smile2"))
 
 		// PROSTHETICS	//
 

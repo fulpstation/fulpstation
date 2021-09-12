@@ -51,7 +51,7 @@
 	name = "Safety Moth Engineer"
 
 	head = /obj/item/clothing/head/helmet/space/safety_moth
-	glasses =  /obj/item/clothing/glasses/meson/engine
+	glasses = /obj/item/clothing/glasses/meson/engine
 	mask = /obj/item/clothing/mask/breath
 	suit = /obj/item/clothing/suit/space/safety_moth
 	suit_store = /obj/item/tank/internals/oxygen
