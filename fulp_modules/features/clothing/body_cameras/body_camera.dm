@@ -110,8 +110,8 @@
 /// Bodycamera upgrade
 /obj/item/bodycam_upgrade
 	name = "body camera upgrade"
-	icon = 'icons/obj/clothing/accessories.dmi'
-	icon_state = "pocketprotector"
+	icon = 'fulp_modules/features/clothing/body_cameras/bodycamera.dmi'
+	icon_state = "bodycamera"
 	desc = "A Security Jumpsuit upgrade, it says to examine closer to understand how it works."
 
 /obj/item/bodycam_upgrade/examine_more(mob/user)
