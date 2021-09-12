@@ -83,7 +83,7 @@
 	if(!choice)
 		return
 	var/datum/action/bloodsucker/power = choice
-	to_chat(usr, "<span class='warning'>[power.power_explanation]</span>")
+	to_chat(usr, span_warning("[power.power_explanation]"))
 
 /*							NOTES
  *

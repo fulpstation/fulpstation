@@ -33,7 +33,11 @@
 /obj/item/clothing/head/gnome/on_found(mob/finder)
 	if(armed)
 		if(finder)
-			finder.visible_message(span_warning("[finder] gets gnomed by the [src]."), span_hypnophrase("You got gnomed by the [src]!"))
+			finder.visible_message(
+				span_warning("[finder] gets gnomed by the [src]."),
+				span_hypnophrase("You got gnomed by the [src]!"),
+				span_hear("You hear a gnome."),
+			)
 			triggered(finder, (finder.active_hand_index % 2 == 0) ? BODY_ZONE_PRECISE_R_HAND : BODY_ZONE_PRECISE_L_HAND)
 			return TRUE	//end the search!
 		else

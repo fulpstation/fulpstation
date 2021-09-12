@@ -257,8 +257,10 @@
 	M.forceMove(get_turf(src))
 	if(!buckle_mob(M))
 		return
-	user.visible_message(span_notice("[user] straps [M] into the rack, immobilizing them."), \
-			  		 span_boldnotice("You secure [M] tightly in place. They won't escape you now."))
+	user.visible_message(
+		span_notice("[user] straps [M] into the rack, immobilizing them."),
+		span_boldnotice("You secure [M] tightly in place. They won't escape you now."),
+	)
 
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
 	//M.forceMove(drop_location()) <--- CANT DO! This cancels the buckle_mob() we JUST did (even if we foced the move)
@@ -274,9 +276,17 @@
 /obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/M, mob/user)
 	if(!IS_BLOODSUCKER(user))
 		if(M == user)
-			M.visible_message(span_danger("[user] tries to release themself from the rack!"), span_danger("You attempt to release yourself from the rack!"), span_hear("You hear a squishy wet noise."), null)
+			M.visible_message(
+				span_danger("[user] tries to release themself from the rack!"),
+				span_danger("You attempt to release yourself from the rack!"),
+				span_hear("You hear a squishy wet noise."),
+			)
 		else
-			M.visible_message(span_danger("[user] tries to pull [M] rack!"), span_danger("[user] tries to pull [M] rack!"), span_hear("You hear a squishy wet noise."), null)
+			M.visible_message(
+				span_danger("[user] tries to pull [M] rack!"),
+				span_danger("[user] tries to pull [M] rack!"),
+				span_hear("You hear a squishy wet noise."),
+			)
 		// Monster hunters are used to this sort of stuff, they know how they work.
 		if(IS_MONSTERHUNTER(user))
 			if(!do_mob(user, M, 10 SECONDS))
@@ -368,8 +378,10 @@
 			to_chat(user, span_notice("[target] looks ready for the <b>Dark Communion</b>."))
 		useLock = FALSE
 		return
-	user.visible_message(span_notice("[user] marks a bloody smear on [target]'s forehead and puts a wrist up to [target.p_their()] mouth!"), \
-				  	  span_notice("You paint a bloody marking across [target]'s forehead, place your wrist to [target.p_their()] mouth, and subject [target.p_them()] to the Dark Communion."))
+	user.visible_message(
+		span_notice("[user] marks a bloody smear on [target]'s forehead and puts a wrist up to [target.p_their()] mouth!"),
+		span_notice("You paint a bloody marking across [target]'s forehead, place your wrist to [target.p_their()] mouth, and subject [target.p_them()] to the Dark Communion."),
+	)
 	if(!do_mob(user, src, 5 SECONDS))
 		to_chat(user, span_danger("<i>The ritual has been interrupted!</i>"))
 		useLock = FALSE
@@ -431,8 +443,10 @@
 	if(I)
 		playsound(loc, I.hitsound, 30, 1, -1)
 		I.play_tool_sound(target)
-	target.visible_message(span_danger("[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!"), \
-						   span_userdanger("[user] performs a ritual, spilling some blood from your [target_string], shaking you up!"))
+	target.visible_message(
+		span_danger("[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!"),
+		span_userdanger("[user] performs a ritual, spilling some blood from your [target_string], shaking you up!"),
+	)
 	INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 	target.Jitter(5)
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (BP ? BP.body_zone : null)) // take_overall_damage(6,0)
@@ -674,8 +688,10 @@
 		attach_mob(target, user)
 
 /obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/M, mob/living/user)
-	user.visible_message(span_notice("[user] lifts and buckles [M] onto the candelabrum."), \
-			  		 span_boldnotice("You buckle [M] onto the candelabrum."))
+	user.visible_message(
+		span_notice("[user] lifts and buckles [M] onto the candelabrum."),
+		span_boldnotice("You buckle [M] onto the candelabrum."),
+	)
 
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
 	M.forceMove(get_turf(src))
@@ -755,8 +771,10 @@
 		to_chat(user, span_announce("[src] is not bolted to the ground!"))
 		return
 	. = ..()
-	user.visible_message(span_notice("[user] sits down on [src]."), \
-			  		 span_boldnotice("You sit down onto [src]."))
+	user.visible_message(
+		span_notice("[user] sits down on [src]."),
+		span_boldnotice("You sit down onto [src]."),
+	)
 	if(IS_BLOODSUCKER(user))
 		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else

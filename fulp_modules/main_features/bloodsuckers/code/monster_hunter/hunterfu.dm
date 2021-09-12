@@ -3,7 +3,7 @@
 #define NECKSNAP_COMBO "GD"
 #define HOLYKICK_COMBO "DG"
 
-/// From CQC.dm
+// From CQC.dm
 /datum/martial_art/hunterfu
 	name = "Hunter-Fu"
 	id = MARTIALART_HUNTERFU
@@ -34,8 +34,11 @@
 
 /datum/martial_art/hunterfu/proc/BodySlam(mob/living/A, mob/living/D)
 	if(D.body_position == STANDING_UP)
-		D.visible_message(span_danger("[A] slams both them and [D] into the ground!"), \
-						span_userdanger("You're slammed into the ground by [A]!"), span_hear("You hear a sickening sound of flesh hitting flesh!"), null, A)
+		D.visible_message(
+			span_danger("[A] slams both them and [D] into the ground!"),
+			span_userdanger("You're slammed into the ground by [A]!"),
+			span_hear("You hear a sickening sound of flesh hitting flesh!"),
+		)
 		to_chat(A, span_danger("You slam [D] into the ground!"))
 		playsound(get_turf(A), 'sound/weapons/slam.ogg', 50, TRUE, -1)
 		log_combat(A, D, "bodyslammed (Hunter-Fu)")
@@ -57,8 +60,11 @@
 	return TRUE
 
 /datum/martial_art/hunterfu/proc/StakeStab(mob/living/A, mob/living/D)
-	D.visible_message(span_danger("[A] stabs [D] in the heart!"), \
-					span_userdanger("You're staked in the heart by [A]!"), span_hear("You hear a sickening sound of flesh hitting flesh!"), COMBAT_MESSAGE_RANGE, A)
+	D.visible_message(
+		span_danger("[A] stabs [D] in the heart!"),
+		span_userdanger("You're staked in the heart by [A]!"),
+		span_hear("You hear a sickening sound of flesh hitting flesh!"),
+	)
 	to_chat(A, span_danger("You stab [D] viciously!"))
 	playsound(get_turf(A), 'sound/weapons/bladeslice.ogg', 50, TRUE, -1)
 	log_combat(A, D, "stakestabbed (Hunter-Fu)")
@@ -80,8 +86,11 @@
 
 /datum/martial_art/hunterfu/proc/NeckSnap(mob/living/A, mob/living/D)
 	if(!D.stat)
-		D.visible_message(span_danger("[A] snapped [D]'s neck!"), \
-						span_userdanger("Your neck is snapped by [A]!"), span_hear("You hear a snap!"), COMBAT_MESSAGE_RANGE, A)
+		D.visible_message(
+			span_danger("[A] snapped [D]'s neck!"),
+			span_userdanger("Your neck is snapped by [A]!"),
+			span_hear("You hear a snap!"),
+		)
 		to_chat(A, span_danger("You snap [D]'s neck!"))
 		playsound(get_turf(A), 'sound/effects/snap.ogg', 50, TRUE, -1)
 		log_combat(A, D, "neck snapped (Hunter-Fu)")
@@ -106,8 +115,11 @@
 	return TRUE
 
 /datum/martial_art/hunterfu/proc/HolyKick(mob/living/A, mob/living/D)
-	D.visible_message(span_warning("[A] kicks [D], splashing holy water in every direction!"), \
-					span_userdanger("You're kicked by [A], with holy water dripping down on you!"), span_hear("You hear a sickening sound of flesh hitting flesh!"), null, A)
+	D.visible_message(
+		span_warning("[A] kicks [D], splashing holy water in every direction!"),
+		span_userdanger("You're kicked by [A], with holy water dripping down on you!"),
+		span_hear("You hear a sickening sound of flesh hitting flesh!"),
+	)
 	to_chat(A, span_danger("You holy kick [D]!"))
 	playsound(get_turf(A), 'sound/weapons/slash.ogg', 50, TRUE, -1)
 	log_combat(A, D, "holy kicked (Hunter-Fu)")
@@ -168,8 +180,10 @@
 	var/obj/item/bodypart/affecting = D.get_bodypart(ran_zone(A.zone_selected))
 	A.do_attack_animation(D, ATTACK_EFFECT_PUNCH)
 	var/atk_verb = pick("kick", "chop", "hit", "slam")
-	D.visible_message(span_danger("[A] [atk_verb]s [D]!"), \
-					span_userdanger("[A] [atk_verb]s you!"), null, null, A)
+	D.visible_message(
+		span_danger("[A] [atk_verb]s [D]!"),
+		span_userdanger("[A] [atk_verb]s you!"),
+	)
 	to_chat(A, span_danger("You [atk_verb] [D]!"))
 	D.apply_damage(rand(10,15), BRUTE, affecting, wound_bonus = CANT_WOUND)
 	playsound(get_turf(D), 'sound/weapons/punch1.ogg', 25, TRUE, -1)
@@ -187,8 +201,11 @@
 			D.drop_all_held_items()
 			A.setGrabState(GRAB_AGGRESSIVE) // Instant agressive grab
 			log_combat(A, D, "grabbed (Hunter-Fu)")
-			D.visible_message(span_warning("[A] violently grabs [D]!"), \
-							span_userdanger("You're grabbed violently by [A]!"), span_hear("You hear sounds of aggressive fondling!"), COMBAT_MESSAGE_RANGE, A)
+			D.visible_message(
+				span_warning("[A] violently grabs [D]!"),
+				span_userdanger("You're grabbed violently by [A]!"),
+				span_hear("You hear sounds of aggressive fondling!"),
+			)
 			to_chat(A, span_danger("You violently grab [D]!"))
 		return TRUE
 	..()
@@ -197,11 +214,11 @@
 	set name = "Remember The Basics"
 	set desc = "You try to remember some of the basics of Hunter-Fu."
 	set category = "Hunter-Fu"
-	to_chat(usr, "<b><i>You try to remember some of the basics of Hunter-Fu.</i></b>")
+	to_chat(usr, span_notice("<b><i>You try to remember some of the basics of Hunter-Fu.</i></b>"))
 
-	to_chat(usr, "<span class='notice'>Body Slam</span>: Grab Harm. Slam opponent into the ground, knocking you both down.")
-	to_chat(usr, "<span class='notice'>Stake Stab</span>: Harm Harm. Stabs opponent with your bare fist, as strong as a Stake.")
-	to_chat(usr, "<span class='notice'>Neck Snap</span>: Grab Disarm. Snaps an opponents neck, knocking them out.")
-	to_chat(usr, "<span class='notice'>Holy Kick</span>: Disarm Grab. Splashes the user with Holy Water, removing Cult Spells, while dealing stamina damage.")
+	to_chat(usr, span_notice("<b>Body Slam</b>: Grab Harm. Slam opponent into the ground, knocking you both down."))
+	to_chat(usr, span_notice("<b>Stake Stab</b>: Harm Harm. Stabs opponent with your bare fist, as strong as a Stake."))
+	to_chat(usr, span_notice("<b>Neck Snap</b>: Grab Disarm. Snaps an opponents neck, knocking them out."))
+	to_chat(usr, span_notice("<b>Holy Kick</b>: Disarm Grab. Splashes the user with Holy Water, removing Cult Spells, while dealing stamina damage."))
 
-	to_chat(usr, "<b><i>In addition, by having your throw mode on, you take a defensive position, allowing you to block and sometimes even counter attacks done to you.</i></b>")
+	to_chat(usr, span_notice("<b><i>In addition, by having your throw mode on, you take a defensive position, allowing you to block and sometimes even counter attacks done to you.</i></b>"))

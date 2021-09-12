@@ -6,15 +6,19 @@
 /obj/item/reagent_containers/blood/attack(mob/M, mob/user, def_zone)
 	if(reagents.total_volume > 0)
 		if(user != M)
-			user.visible_message(span_notice("[user] forces [M] to drink from the [src]."), \
-							  	span_notice("You put the [src] up to [M]'s mouth."))
+			user.visible_message(
+				span_notice("[user] forces [M] to drink from the [src]."),
+				span_notice("You put the [src] up to [M]'s mouth."),
+			)
 			if(!do_mob(user, M, 5 SECONDS))
 				return
 		else
 			if(!do_mob(user, M, 1 SECONDS))
 				return
-			user.visible_message(span_notice("[user] puts the [src] up to their mouth."), \
-		  		span_notice("You take a sip from the [src]."))
+			user.visible_message(
+				span_notice("[user] puts the [src] up to their mouth."),
+				span_notice("You take a sip from the [src]."),
+			)
 		// Safety: In case you spam clicked the blood bag on yourself, and it is now empty (below will divide by zero)
 		if(reagents.total_volume <= 0)
 			return
@@ -112,13 +116,20 @@
 /// Crafting
 /obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params)
 	if(W.get_sharpness())
-		user.visible_message("[user] begins whittling [src] into a pointy object.", span_notice("You begin whittling [src] into a sharp point at one end."), "<span class='italics'>You hear wood carving.</span>")
-		// 8 Second Timer
-		if(!do_after(user, 8 SECONDS, src, NONE, TRUE))
+		user.visible_message(
+			span_notice("[user] begins whittling [src] into a pointy object."),
+			span_notice("You begin whittling [src] into a sharp point at one end."),
+			span_hear("You hear wood carving."),
+		)
+		// 5 Second Timer
+		if(!do_after(user, 5 SECONDS, src, NONE, TRUE))
 			return
 		// Make Stake
 		var/obj/item/stake/new_item = new(user.loc)
-		user.visible_message("[user] finishes carving a stake out of [src].", span_notice("You finish carving a stake out of [src]."))
+		user.visible_message(
+			span_notice("[user] finishes carving a stake out of [src]."),
+			span_notice("You finish carving a stake out of [src]."),
+		)
 		// Prepare to Put in Hands (if holding wood)
 		var/obj/item/stack/sheet/mineral/wood/N = src
 		var/replace = (user.get_inactive_held_item() == N)
@@ -190,8 +201,10 @@
 	if(!do_mob(user, C, staketime, extra_checks = CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
-	user.visible_message(span_danger("[user.name] drives the [src] into [target]'s chest!"), \
-			 span_danger("You drive the [src] into [target]'s chest!"))
+	user.visible_message(
+		span_danger("[user.name] drives the [src] into [target]'s chest!"),
+		span_danger("You drive the [src] into [target]'s chest!"),
+	)
 	playsound(get_turf(target), 'sound/effects/splat.ogg', 40, 1)
 	user.dropItemToGround(src, TRUE) //user.drop_item() // "drop item" doesn't seem to exist anymore. New proc is user.dropItemToGround() but it doesn't seem like it's needed now?
 	if(tryEmbed(target.get_bodypart(BODY_ZONE_CHEST), TRUE, TRUE)) //and if it embeds successfully in their chest, cause a lot of pain

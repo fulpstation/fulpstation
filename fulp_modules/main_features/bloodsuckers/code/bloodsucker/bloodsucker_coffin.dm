@@ -227,13 +227,17 @@
 
 	if(locked && istype(W, /obj/item/crowbar))
 		var/pry_time = pryLidTimer * W.toolspeed // Pry speed must be affected by the speed of the tool.
-		user.visible_message(span_notice("[user] tries to pry the lid off of [src] with [W]."), \
-							  span_notice("You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)]."))
+		user.visible_message(
+			span_notice("[user] tries to pry the lid off of [src] with [W]."),
+			span_notice("You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)]."),
+		)
 		if(!do_mob(user, src, pry_time))
 			return
 		bust_open()
-		user.visible_message(span_notice("[user] snaps the door of [src] wide open."), \
-							  span_notice("The door of [src] snaps open."))
+		user.visible_message(
+			span_notice("[user] snaps the door of [src] wide open."),
+			span_notice("The door of [src] snaps open."),
+		)
 		return
 	. = ..()
 
