@@ -21,7 +21,6 @@
 	id_trim = /datum/id_trim/job/deputy
 	box = /obj/item/storage/box/survival
 	pda_slot = ITEM_SLOT_RPOCKET
-	implants = list(/obj/item/implant/mindshield)
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering

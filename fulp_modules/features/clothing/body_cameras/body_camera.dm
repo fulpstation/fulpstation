@@ -1,4 +1,3 @@
-// This is all useless for non Security jumpsuits.
 /obj/item/clothing/under
 	var/upgraded = FALSE
 	var/obj/machinery/camera/builtInCamera = null
@@ -12,9 +11,6 @@
 /// Modifying the Jumpsuit
 /obj/item/clothing/under/attackby(obj/item/W, mob/user, params)
 	. = ..()
-	// Are we a security jumpsuit? If not, we can't do anything special, so return here.
-	if(!istype(src, /obj/item/clothing/under/rank/security) && !istype(src, /obj/item/clothing/under/bodysash/security) && !istype(src, /obj/item/clothing/under/plasmaman/security))
-		return
 
 	// Using a bodycam on the jumpsuit, upgrading it
 	if(istype(W, /obj/item/bodycam_upgrade))
@@ -121,7 +117,7 @@
 /obj/item/bodycam_upgrade/examine_more(mob/user)
 	. = list(span_notice("<i>You examine [src]'s instruction tag...</i>"))
 	. += list(span_warning("How to use Body Cameras v3.5: EMP-proof Edition!"))
-	. += list(span_notice("Use the Body camera Upgrade on any SECURITY jumpsuit to upgrade it."))
+	. += list(span_notice("Use the Body camera Upgrade on any jumpsuit to upgrade it."))
 	. += list(span_notice("Use a Screwdriver to remove the upgrade once you're done with it."))
 	. += list(span_notice("While upgraded & equipped, use your ID card on the jumpsuit to turn the camera on."))
 	. += list(span_notice("Unequipping or using your ID on the Jumpsuit will disable its camera."))
