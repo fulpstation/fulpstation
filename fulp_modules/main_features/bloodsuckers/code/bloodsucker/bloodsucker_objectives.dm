@@ -292,7 +292,7 @@
 // EXPLANATION
 /datum/objective/bloodsucker/kindred/update_explanation_text()
 	. = ..()
-	explanation_text = "Ensure Tremere steals and keeps control over the Archive of the Kindred."
+	explanation_text = "Ensure Nosferatu steals and keeps control over the Archive of the Kindred."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/kindred/check_completion()
@@ -304,7 +304,7 @@
 
 	for(var/datum/mind/M in bloodsuckerdatum.clan?.members)
 		var/datum/antagonist/bloodsucker/allsuckers = M.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(allsuckers.my_clan != CLAN_TREMERE)
+		if(allsuckers.my_clan != CLAN_NOSFERATU)
 			continue
 		if(!isliving(M.current))
 			continue
