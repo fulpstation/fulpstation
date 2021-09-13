@@ -24,10 +24,12 @@
  */
 /// Used in hunterfu.dm
 #define MARTIALART_HUNTERFU "hunterfu"
+/// Used in velvet_fu.dm
+#define MARTIALART_VELVETFU "velvetfu"
 /// Used in deputy_block.dm
-#define MARTIALART_DEPUTYBLOCK "deputyblock"
+#define MARTIALART_DEPUTYBLOCK "deputy block"
 /// Used in bloodsucker_life.dm
-#define MARTIALART_FRENZYGRAB "FrenzyGrab"
+#define MARTIALART_FRENZYGRAB "frenzy grab"
 
 /*
  *	Bloodsucker Defines
@@ -89,6 +91,8 @@
 /*
  *	Misc Defines
  */
+/// Defines the bullet type for Joel's gun, used in joel_gun.dm
+#define CALIBER_C22 ".c22"
 /// Human sub-species defines
 #define SPECIES_BEEFMAN "beefman"
 #define isbeefman(A) (is_species(A,/datum/species/beefman))

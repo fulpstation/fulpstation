@@ -3,14 +3,14 @@
 	name = "Hollywood VHS tape"
 	martialname = "velvet-fu"
 	desc = "A VHS tape labelled 'Grand-Master's Course'. This seems modified, causing it to beam the content straight into your eyes."
-	icon = 'fulp_modules/features/lisa/sprites/casette.dmi'
+	icon = 'fulp_modules/features/lisa/icons/casette.dmi'
 	icon_state = "velvet"
 	greet = "You've finished watching the Velvet-Fu VHS tape."
 	remarks = list("Smooth as Velvet...", "Show me your stance!", "Left Jab!", "Right Jab!", "Kick, kick!", "Ah, so fast...", "Now forget the basics!", "...But remember the style!")
 
 /obj/item/book/granter/martial/velvetfu/onlearned(mob/living/carbon/user)
-	..()
-	if(oneuse == TRUE)
+	. = ..()
+	if(oneuse)
 		desc = "A VHS tape labelled 'Grand-Master's Course'. The film seems ripped out, and can't be put back in."
 		name = "Broken VHS tape"
 		icon_state = "velvet_used"
