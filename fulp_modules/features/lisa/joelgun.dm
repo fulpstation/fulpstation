@@ -47,11 +47,8 @@
 			span_hear("You hear metal clanking..."),
 			COMBAT_MESSAGE_RANGE,
 		)
-		for(var/mob/living/L in viewers(7, user))
-			L.face_atom(user)
-			L.do_alert_animation()
 		playsound(src, 'fulp_modules/features/lisa/sounds/gunreveal.ogg', 20, FALSE, -5)
-		user.adjustStaminaLoss(-10)
+
 	// Otherwise, we'll perform Gun Toss.
 	else
 		user.visible_message(
@@ -60,12 +57,13 @@
 			span_hear("You hear metal clanking..."),
 			COMBAT_MESSAGE_RANGE,
 		)
-		for(var/mob/living/L in viewers(7, user))
-			L.face_atom(user)
-			L.do_alert_animation()
 		playsound(src, 'fulp_modules/features/lisa/sounds/guntoss.ogg', 50, FALSE, -5)
-		user.adjustStaminaLoss(-10)
 		user.drop_all_held_items()
+
+	for(var/mob/living/victims in viewers(7, user))
+		victims.face_atom(user)
+		victims.do_alert_animation()
+	user.adjustStaminaLoss(-15)
 	used_ability = TRUE
 	addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
 
@@ -81,10 +79,10 @@
 			span_hear("You hear metal clanking..."),
 			COMBAT_MESSAGE_RANGE,
 		)
-		for(var/mob/living/carbon/human/L in viewers(7, user))
-			if(prob(15) && !(L == user) && !(L.stat) && !velvet_check(L))
-				to_chat(L, span_warning("Seeing [src] revealed in such a manner disgusts you!"))
-				L.vomit(0, FALSE, FALSE, 3, TRUE, harm = FALSE)
+		for(var/mob/living/carbon/human/victims in viewers(7, user))
+			if(prob(15) && !(victims == user) && !(victims.stat) && !velvet_check(victims))
+				to_chat(victims, span_warning("Seeing [src] revealed in such a manner disgusts you!"))
+				victims.vomit(0, FALSE, FALSE, 3, TRUE, harm = FALSE)
 		playsound(src, 'fulp_modules/features/lisa/sounds/gunreveal.ogg', 20, FALSE, -5)
 
 	// No holster? Use mind games instead
@@ -95,15 +93,14 @@
 			span_hear("You hear metal clanking..."),
 			COMBAT_MESSAGE_RANGE,
 		)
-		for(var/mob/living/H in viewers(1, user))
-			if(prob(75) && !(H == user) && H.stat <= CONSCIOUS && !velvet_check(H))
-				to_chat(H, span_warning("You feel terrifyingly spooked by [user.name]!"))
-				var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(H, user)))
-				H.throw_at(throwtarget, 3, 2)
+		for(var/mob/living/victims in viewers(1, user))
+			if(prob(75) && !(victims == user) && victims.stat <= CONSCIOUS && !velvet_check(victims))
+				to_chat(victims, span_warning("You feel terrifyingly spooked by [user.name]!"))
+				var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(victims, user)))
+				victims.throw_at(throwtarget, 3, 2)
 	used_ability = TRUE
 	addtimer(CALLBACK(src, .proc/clear_cooldown), 10 SECONDS)
 
-/// Steady Aim
 /obj/item/gun/ballistic/revolver/joel/attack_secondary(mob/living/victim, mob/living/user, params)
 	if(used_ability)
 		to_chat(user, span_warning("You have to wait before using an ability!"))
@@ -111,6 +108,7 @@
 	if(user == victim)
 		to_chat(user,span_warning("You can't steady aim yourself!"))
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	// Steady Aim
 	user.visible_message(
 		span_danger("[user.name] holds [victim.name] at gunpoint!"),
 		span_userdanger("You hold [victim.name] up at gunpoint!"),
@@ -124,19 +122,19 @@
 	addtimer(CALLBACK(src, .proc/clear_cooldown), 8 SECONDS)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
-/// Prevents the gun from being fired.
 /obj/item/gun/ballistic/revolver/joel/afterattack(atom/target, mob/living/user, flag, params)
 	// Can pull the trigger if it's empty since we don't care
 	if(!chambered)
 		user.visible_message(span_danger("*click*"))
 		playsound(loc, 'fulp_modules/features/lisa/sounds/gunclick.ogg', 50, FALSE, -5)
 		return
+	// Prevents the gun from being fired.
 	if(used_ability)
 		to_chat(user, span_warning("You don't want to waste [src]'s only bullet!"))
 		return
 	if(!target)
 		return
-	// Misdirection (Scholar of the Wilbur Sin attack)
+	// Misdirection
 	user.visible_message(
 		span_danger("[user.name] looks around themselves."),
 		span_userdanger("You look for something to point [src] at."),
@@ -171,31 +169,32 @@
 		span_hear("You hear a gasp..."),
 	)
 	// Everyone directly next to it will move
-	for(var/mob/living/H in view(1, target))
-		if(!(H == user) && H.stat <= CONSCIOUS && !velvet_check(H))
-			H.visible_message(
-				span_danger("You quickly jump towards [target]!"),
-				span_userdanger("[H] quickly jumps towards [target]!"),
+	for(var/mob/living/main_victims in view(1, target))
+		if(!(main_victims == user) && main_victims.stat <= CONSCIOUS && !velvet_check(main_victims))
+			main_victims.visible_message(
+				span_danger("[main_victims] quickly jumps towards [target]!"),
+				span_userdanger("You quickly jump towards [target]!"),
 				span_hear("You hear aggressive shuffling!"),
 				COMBAT_MESSAGE_RANGE,
 			)
-			H.forceMove(target)
+			main_victims.forceMove(target)
 	// Everoyne else will just notice it
-	for(var/mob/living/L in viewers(5, target))
-		L.face_atom(target)
-		L.do_alert_animation()
+	for(var/mob/living/extra_victims in viewers(5, target))
+		extra_victims.face_atom(target)
+		extra_victims.do_alert_animation()
 
 /obj/item/gun/ballistic/revolver/joel/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	add_fingerprint(user)
-	to_chat(user, "<span class='warning'>You don't want to waste [src]'s only bullet!</span>")
+	to_chat(user, span_warning("You don't want to waste [src]'s only bullet!"))
 	return
 
 
 /*
  *	# Cylinder, bullet & casing.
  *
- *	We're using unique ones so people cant get more bullets for anything, yada yada, whatever.
+ *	We're using unique ones so people cant get more bullets for anything.
  *	Unique gun, unique single bullet. You lose it, it's gone.
+ *	Outside of well, buying an entirely new gun with a SecTech refill vendor, but they can't do much with 2 bullets anyways.
  */
 
 /// Cylinder
@@ -213,7 +212,7 @@
 	caliber = CALIBER_C22
 	projectile_type = /obj/projectile/bullet/c22
 
-/// This isnt meant to be fired, so do 0 damage.
 /obj/projectile/bullet/c22
 	name = "5.6mm bullet"
+	// This isnt meant to be fired, so do 0 damage.
 	damage = 0
