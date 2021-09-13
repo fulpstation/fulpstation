@@ -7,6 +7,8 @@
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet. Examine again for more information."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
 	custom_premium_price = PAYCHECK_HARD * 1.75
+	
+	/// Cooldown between ability uses
 	var/used_ability = FALSE
 
 /obj/item/gun/ballistic/revolver/joel/examine_more(mob/user)
@@ -15,10 +17,13 @@
 		span_warning("Activate [src] in hand to use Gun Toss (If wearing Holster: Gun Flip),\n\
 		AltClick [src] to use Mind Games (If wearing Holster: Holster reveal),\n\
 		Attempt to fire [src] anywhere to use Misdirection,\n\
-		Right Click a target to use Steady Aim."),
+		Right Click a target to use Steady Aim.\n\
+		After each ability used, you will enter a cooldown before you can use the next ability.\n\
+		Loading a bullet into the chamber will immediately allow you to use a new ability."),
 	)
 
 /obj/item/gun/ballistic/revolver/joel/proc/clear_cooldown()
+	// Only do it if we haven't already cleared it.
 	if(used_ability)
 		used_ability = FALSE
 
@@ -46,7 +51,7 @@
 
 /obj/item/gun/ballistic/revolver/joel/attack_self(mob/living/carbon/user)
 	if(used_ability)
-		..()
+		to_chat(user, span_warning("You have to wait before using an ability!"))
 		return
 	// If you have a holster, you'll spin it instead, you're experienced.
 	if(HAS_TRAIT(user, TRAIT_GUNFLIP))
@@ -69,16 +74,17 @@
 		playsound(src, 'fulp_modules/features/lisa/sounds/guntoss.ogg', 50, FALSE, -5)
 		user.drop_all_held_items()
 
+	SpinAnimation(4,2)
+	user.adjustStaminaLoss(-15)
+	used_ability = TRUE
 	for(var/mob/living/victims in viewers(7, user))
 		victims.face_atom(user)
 		victims.do_alert_animation()
-	user.adjustStaminaLoss(-15)
-	used_ability = TRUE
 	addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
 
 /obj/item/gun/ballistic/revolver/joel/AltClick(mob/user)
 	if(used_ability)
-		..()
+		to_chat(user, span_warning("You have to wait before using an ability!"))
 		return
 	// Gun reveal (If you have a holster)
 	if(HAS_TRAIT(user, TRAIT_GUNFLIP))
@@ -107,6 +113,7 @@
 				to_chat(victims, span_warning("You feel terrifyingly spooked by [user.name]!"))
 				var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(victims, user)))
 				victims.throw_at(throwtarget, 3, 2)
+
 	used_ability = TRUE
 	addtimer(CALLBACK(src, .proc/clear_cooldown), 10 SECONDS)
 
