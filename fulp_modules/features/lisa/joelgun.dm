@@ -4,10 +4,19 @@
 	eject_sound = 'fulp_modules/features/lisa/sounds/empty.ogg'
 	icon_state = "revolver"
 	name = "\improper Bolt Action pistol"
-	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet."
+	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet. Examine again for more information."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
 	custom_premium_price = PAYCHECK_HARD * 1.75
 	var/used_ability = FALSE
+
+/obj/item/gun/ballistic/revolver/joel/examine_more(mob/user)
+	. = list(span_warning("<i>You examine [src]'s instructions;</i>"))
+	. += list(
+		span_warning("Activate [src] in hand to use Gun Toss (If wearing Holster: Gun Flip),\n\
+		AltClick [src] to use Mind Games (If wearing Holster: Holster reveal),\n\
+		Attempt to fire [src] anywhere to use Misdirection,\n\
+		Right Click a target to use Steady Aim."),
+	)
 
 /obj/item/gun/ballistic/revolver/joel/proc/clear_cooldown()
 	if(used_ability)
@@ -178,7 +187,7 @@
 				COMBAT_MESSAGE_RANGE,
 			)
 			main_victims.forceMove(target)
-	// Everoyne else will just notice it
+	// Everyone else will just notice it
 	for(var/mob/living/extra_victims in viewers(5, target))
 		extra_victims.face_atom(target)
 		extra_victims.do_alert_animation()
