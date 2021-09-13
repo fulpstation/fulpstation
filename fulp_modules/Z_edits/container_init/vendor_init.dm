@@ -19,6 +19,13 @@
 	products += list(/obj/item/clothing/shoes/jackboots/digitigrade = 2)
 	. = ..()
 
+// SecTech vendor
+/obj/machinery/vending/security/Initialize()
+	contraband += list(
+		/obj/item/gun/ballistic/revolver/joel = 1, // Used in joel_gun.dm
+	)
+	. = ..()
+
 /obj/machinery/vending/wardrobe/engi_wardrobe/Initialize()
 	products += list(/obj/item/clothing/shoes/workboots/digitigrade = 3)
 	contraband += list(/obj/item/toy/plush/supermatter = 2)
