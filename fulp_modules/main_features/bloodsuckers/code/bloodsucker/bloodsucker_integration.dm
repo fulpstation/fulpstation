@@ -142,13 +142,13 @@
 
 /// Am I "pale" when examined? - Bloodsuckers on Masquerade will hide this.
 /mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user, apparent_blood_volume)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Not a Bloodsucker?
 	if(!bloodsuckerdatum)
-		return ""
+		return BLOODSUCKER_HIDE_BLOOD
 	// Blood level too low to be hidden?
 	if(apparent_blood_volume <= BLOOD_VOLUME_BAD || bloodsuckerdatum.Frenzied)
-		return ""
+		return BLOODSUCKER_HIDE_BLOOD
 	// Special check: Nosferatu will always be Pale Death
 	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
 		return "<b>[p_they(TRUE)] look[p_s()] like pale death"

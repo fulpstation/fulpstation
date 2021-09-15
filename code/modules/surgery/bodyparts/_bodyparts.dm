@@ -850,9 +850,8 @@
 			limb.icon_state = "[animal_origin]_[body_zone]"
 
 		if(blocks_emissive)
-			var/mutable_appearance/limb_em_block = mutable_appearance(limb.icon, limb.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
+			var/mutable_appearance/limb_em_block = emissive_blocker(limb.icon, limb.icon_state, alpha = limb.alpha)
 			limb_em_block.dir = image_dir
-			limb_em_block.color = GLOB.em_block_color
 			limb.overlays += limb_em_block
 		return
 
@@ -862,20 +861,19 @@
 		should_draw_gender = FALSE
 
 	if(!is_organic_limb())
-		/// FULP EDIT - BEEFMAN
+		// FULP EDIT - BEEFMAN
 		switch(species_id)
 			if("beefman")
 				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 			else
 				limb.icon = icon
 //		limb.icon = icon
-		/// FULP EDIT END
+		// FULP EDIT END
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
 
 		if(blocks_emissive)
-			var/mutable_appearance/limb_em_block = mutable_appearance(limb.icon, limb.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
+			var/mutable_appearance/limb_em_block = emissive_blocker(limb.icon, limb.icon_state, alpha = limb.alpha)
 			limb_em_block.dir = image_dir
-			limb_em_block.color = GLOB.em_block_color
 			limb.overlays += limb_em_block
 
 		if(aux_zone)
@@ -883,22 +881,21 @@
 			. += aux
 
 			if(blocks_emissive)
-				var/mutable_appearance/aux_em_block = mutable_appearance(aux.icon, aux.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
+				var/mutable_appearance/aux_em_block = emissive_blocker(aux.icon, aux.icon_state, alpha = aux.alpha)
 				aux_em_block.dir = image_dir
-				aux_em_block.color = GLOB.em_block_color
 				aux.overlays += aux_em_block
 
 		return
 
 	if(should_draw_greyscale)
-		/// FULP EDIT - BEEFMAN
+		// FULP EDIT - BEEFMAN
 		switch(species_id)
 			if("beefman")
 				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 			else
 				limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 //		limb.icon = 'icons/mob/human_parts_greyscale.dmi'
-		/// FULP EDIT END
+		// FULP EDIT END
 		if(should_draw_gender)
 			limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 		else if(use_digitigrade)
@@ -925,15 +922,13 @@
 				aux.color = "#[draw_color]"
 
 	if(blocks_emissive)
-		var/mutable_appearance/limb_em_block = mutable_appearance(limb.icon, limb.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
+		var/mutable_appearance/limb_em_block = emissive_blocker(limb.icon, limb.icon_state, alpha = limb.alpha)
 		limb_em_block.dir = image_dir
-		limb_em_block.color = GLOB.em_block_color
 		limb.overlays += limb_em_block
 
 		if(aux_zone)
-			var/mutable_appearance/aux_em_block = mutable_appearance(aux.icon, aux.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
+			var/mutable_appearance/aux_em_block = emissive_blocker(aux.icon, aux.icon_state, alpha = aux.alpha)
 			aux_em_block.dir = image_dir
-			aux_em_block.color = GLOB.em_block_color
 			aux.overlays += aux_em_block
 
 	if(!draw_external_organs)
