@@ -4,12 +4,6 @@
 
 	All files related to the Config that are meant to be Fulp-only. readme is for TG edit purposes.
 
-## TG edits:
-
-- code/controllers/subsystem/ticker.dm > Adds pick_round_end_sound() to the round_end_song
-- code/modules/mob/dead/new_player/new_player.dm > Plays ApproachingFulp instead of ApproachingTG
-- code/__HELPERS/roundend.dm > Plays our roundend music instead
-
 ## TG proc overwrites:
 
 - /datum/emote/living/kiss/run_emote > kiss_overwrite.dm

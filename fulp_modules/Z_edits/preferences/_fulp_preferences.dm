@@ -1,5 +1,8 @@
-/* // Example of modular preferences, if we will ever need them.
+/// Preferences overwrites
 /datum/preferences
+	// FULP EDIT - 5 races, 5 slots. Why not?
+	max_save_slots = 5
+/* // Example of modular preferences, if we will ever need them.
 	var/antag_tips = TRUE
 
 /datum/preferences/save_preferences()
