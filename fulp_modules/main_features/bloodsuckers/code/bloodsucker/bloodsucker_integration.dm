@@ -170,3 +170,7 @@
 			return BLOOD_VOLUME_NORMAL
 	return blood_volume
 */
+
+/datum/outfit/bloodsucker_outfit
+	name = "Bloodsucker outfit (Visual only)"
+	suit = /obj/item/clothing/suit/dracula

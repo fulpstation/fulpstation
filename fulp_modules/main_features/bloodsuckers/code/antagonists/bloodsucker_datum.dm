@@ -8,6 +8,7 @@
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
 	tips = BLOODSUCKER_TIPS
+	preview_outfit = /datum/outfit/bloodsucker_outfit
 	///List of all Antagonists that can't be vassalized.
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker, /datum/antagonist/monsterhunter,
@@ -166,6 +167,19 @@
 	log_admin("[key_name(usr)][msg]")
 	new_owner.add_antag_datum(src)
 
+/datum/antagonist/bloodsucker/get_preview_icon()
+	var/mob/living/carbon/human/dummy/consistent/enrico = new
+
+	enrico.hairstyle = "Undercut"
+	enrico.hair_color = "FFF"
+	enrico.skin_tone = "african2"
+
+	var/icon/enrico_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit, enrico)
+	enrico_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
+
+	qdel(enrico)
+
+	return finish_preview_icon(enrico_icon)
 
 /*
  *	# Vampire Clan
