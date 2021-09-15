@@ -13,6 +13,7 @@
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
 	tips = MONSTERHUNTER_TIPS
+	preview_outfit = /datum/outfit/monsterhunter
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
@@ -82,6 +83,16 @@
 		my_kungfu.remove(owner.current)
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
+
+/datum/outfit/monsterhunter
+	name = "Monster Hunter (Preview Only)"
+
+	l_hand = /obj/item/stake
+	r_hand = /obj/item/stake/hardened/silver
+	uniform = /obj/item/clothing/under/rank/medical/paramedic
+	head = /obj/item/clothing/head/soft/paramedic
+	suit =  /obj/item/clothing/suit/toggle/labcoat/paramedic
+	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 
 /// Mind version
 /datum/mind/proc/make_monsterhunter()

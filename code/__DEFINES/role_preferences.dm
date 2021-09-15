@@ -147,6 +147,8 @@ GLOBAL_LIST_INIT(special_roles, list(
 
 	// Fulpstation Bloodsuckers edit - Adds our antags to the list of roles
 	ROLE_BLOODSUCKER = 0,
+	ROLE_VAMPIRICACCIDENT = 0,
+	ROLE_BLOODSUCKERBREAKOUT = 0,
 	ROLE_MONSTERHUNTER = 0,
 	// Fulpstation Bloodsuckers edit ends
 ))

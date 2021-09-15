@@ -172,5 +172,5 @@
 */
 
 /datum/outfit/bloodsucker_outfit
-	name = "Bloodsucker outfit (Visual only)"
+	name = "Bloodsucker outfit (Preview only)"
 	suit = /obj/item/clothing/suit/dracula
