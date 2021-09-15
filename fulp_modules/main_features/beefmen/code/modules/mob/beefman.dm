@@ -110,6 +110,8 @@
 	var/list/features = ..()
 
 	features += "feature_beefcolor"
+	features += "feature_beefeyes"
+	features += "feature_beefmouth"
 
 	return features
 

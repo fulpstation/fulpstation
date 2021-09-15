@@ -16,7 +16,6 @@
 
 	if(is_banned_from(C.ckey, id))
 		addtimer(CALLBACK(C, /mob/living/carbon/proc/banned_species_revert), 10 SECONDS)
-		return
 
 /// Made into an individual proc to ensure that the to_chat message would always show to users. Sometimes it would not appear during roundstart as it would be sent too soon.
 /mob/living/carbon/proc/banned_species_revert()
