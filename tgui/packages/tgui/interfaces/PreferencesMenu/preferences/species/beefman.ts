@@ -48,6 +48,10 @@ const Beefman: Species = {
     "The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on unupgraded parts.",
     "Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out...",
     "But this wasn't regular meat. It had eyes, and a mouth too.",
+    "Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef.",
+    "Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted.",
+    "What the Russian Sol Government has done with them has never been released, but there have since beem more of them,",
+    "and these 'Beefmen' have never been able to sleep or think straight ever since.",
   ],
 };
 
