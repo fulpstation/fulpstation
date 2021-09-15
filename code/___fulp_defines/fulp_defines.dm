@@ -6,9 +6,11 @@
 /*
  *	Role Defines, used for Antagonist jobs.
  */
-/// Bloodsuckers - Defines the role for preferences
+/// Bloodsuckers - Defines the roles for preferences
 #define ROLE_BLOODSUCKER "Bloodsucker"
-/// Monster Hunters - Defines the role for preferences
+#define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
+#define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
+
 #define ROLE_MONSTERHUNTER "Monster Hunter"
 
 /*

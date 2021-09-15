@@ -1,4 +1,4 @@
-import { CheckboxInput, FeatureToggle } from "../../tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/base";
+import { CheckboxInput, FeatureToggle } from "../base";
 
 export const antag_tips: FeatureToggle = {
   name: "Antagonist tips",
