@@ -8,7 +8,7 @@
 	exp_requirements = 300
 
 /datum/job/cyborg
-	exp_requirements = 180
+	exp_requirements = 300
 
 /datum/job/chemist
 	exp_requirements = 180
