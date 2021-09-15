@@ -1,5 +1,3 @@
-//-- FULP EDIT
-
 //This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
 #define SAVEFILE_VERSION_MIN 32
 
@@ -181,9 +179,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["default_slot"], default_slot)
 	READ_FILE(S["chat_toggles"], chat_toggles)
 	READ_FILE(S["toggles"], toggles)
-	// FULP EDIT - ANTAGTIPS
-	READ_FILE(S["show_antag_tips"], show_antag_tips)
-	// FULP EDIT END
 	READ_FILE(S["ignoring"], ignoring)
 
 	// OOC commendations
@@ -218,9 +213,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	lastchangelog = sanitize_text(lastchangelog, initial(lastchangelog))
 	default_slot = sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
 	toggles = sanitize_integer(toggles, 0, (2**24)-1, initial(toggles))
-	// FULP EDIT - ANTAGTIPS
-	show_antag_tips	= sanitize_integer(show_antag_tips, FALSE, TRUE, initial(show_antag_tips))
-	// FULP EDIT END
 	be_special = SANITIZE_LIST(be_special)
 	key_bindings = sanitize_keybindings(key_bindings)
 	favorite_outfits = SANITIZE_LIST(favorite_outfits)
@@ -275,9 +267,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["toggles"], toggles)
 	WRITE_FILE(S["chat_toggles"], chat_toggles)
 	WRITE_FILE(S["ignoring"], ignoring)
-	// FULP EDIT - ANTAGTIPS
-	WRITE_FILE(S["show_antag_tips"], show_antag_tips)
-	// FULP EDIT END
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["hearted_until"], (hearted_until > world.realtime ? hearted_until : null))
 	WRITE_FILE(S["favorite_outfits"], favorite_outfits)

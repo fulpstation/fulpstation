@@ -5,7 +5,7 @@
 - code/__DEFINES/atom_hud.dm > Bloodsucker HUDs
 
 
-/////////////- code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
+- code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
 
 - code/__HELPERS/global_lists.dm > Beefmen customization/preferences.
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
@@ -22,8 +22,6 @@
 
 - code/modules/admin/verbs/adminhelp.dm > Button for redirecting people to Mentorhelp
 - code/modules/client/client_procs.dm > Gives the mentorhelp verb
-/////////////- code/modules/client/preferences.dm > Preferences for antag tip enabling/disabling || Beefmen customization/preferences
-/////////////- code/modules/client/preferences_savefile.dm > Preference saving for antag tips || Beefmen customization/preferences
 - code/modules/mob/living/carbon/human/examine.dm > Changes examine text for Beefmen || Added examining Bloodsuckers/Vassals || adds ShowAsPaleExamine()
 - code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences || Makes Digitigrade shoes fit Digi Lizards.
 - code/modules/surgery/bodyparts/_bodyparts.dm > Changes bodypart .dmi files for Beefmen
@@ -43,3 +41,4 @@
 
 ### TGUI
 - tgui/packages/tgui/interfaces/KindredArchives.js
+- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/character_preferences/fulp_preferences.tsx

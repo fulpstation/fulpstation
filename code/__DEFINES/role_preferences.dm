@@ -144,6 +144,11 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_PAI = 0,
 	ROLE_INTERNAL_AFFAIRS = 0,
 	ROLE_SENTIENCE = 0,
+
+	// Fulpstation Bloodsuckers edit - Adds our antags to the list of roles
+	ROLE_BLOODSUCKER = 0,
+	ROLE_MONSTERHUNTER = 0,
+	// Fulpstation Bloodsuckers edit ends
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

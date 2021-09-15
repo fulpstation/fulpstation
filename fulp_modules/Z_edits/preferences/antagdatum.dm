@@ -1,12 +1,9 @@
-/datum/preferences
-	var/show_antag_tips = TRUE
-
 /datum/antagonist
 	var/tips
 
 /datum/antagonist/on_gain()
 	. = ..()
-	if(owner.current.client?.prefs?.show_antag_tips)
+	if(owner.current.client?.prefs?.read_preference(/datum/preference/toggle/antag_tips))
 		if(!silent && tips)
 			show_tips(tips)
 
