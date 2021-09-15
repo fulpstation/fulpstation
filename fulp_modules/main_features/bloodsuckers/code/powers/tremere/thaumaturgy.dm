@@ -98,7 +98,11 @@
 				owner.balloon_alert(owner, "off hand is full!")
 				to_chat(user, span_notice("Blood shield couldn't be activated as your off hand is full."))
 				return FALSE
-			user.visible_message(span_warning("[user]\'s hands begins to bleed and forms into some form of a shield!"), span_warning("We activate our Blood shield!"), span_hear("You hear liquids forming together."))
+			user.visible_message(
+				span_warning("[user]\'s hands begins to bleed and forms into some form of a shield!"),
+				span_warning("We activate our Blood shield!"),
+				span_hear("You hear liquids forming together."),
+			)
 		to_chat(user, span_notice("You prepare Thaumaturgy."))
 	return TRUE
 

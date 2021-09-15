@@ -223,13 +223,16 @@
 		// Pull target to you if they don't take up space.
 		if(!feed_target.density)
 			feed_target.Move(user.loc)
-		user.visible_message(span_warning("[user] closes [user.p_their()] mouth around [feed_target]'s neck!"), \
-							 span_warning("You sink your fangs into [feed_target]'s neck."))
+		user.visible_message(
+			span_warning("[user] closes [user.p_their()] mouth around [feed_target]'s neck!"),
+			span_warning("You sink your fangs into [feed_target]'s neck."),
+		)
 	if(amSilent)
 		var/deadmessage = feed_target.stat == DEAD ? "" : " <i>[feed_target.p_they(TRUE)] looks dazed, and will not remember this.</i>"
-		user.visible_message(span_notice("[user] puts [feed_target]'s wrist up to [user.p_their()] mouth."), \
-						 	 span_notice("You slip your fangs into [feed_target]'s wrist.[deadmessage]"), \
-						 	 vision_distance = notice_range, ignored_mobs = feed_target) // Only people who AREN'T the target will notice this action.
+		user.visible_message(
+			span_notice("[user] puts [feed_target]'s wrist up to [user.p_their()] mouth."), \
+			span_notice("You slip your fangs into [feed_target]'s wrist.[deadmessage]"), \
+			vision_distance = notice_range, ignored_mobs = feed_target) // Only people who AREN'T the target will notice this action.
 
 	// Check if we have anyone watching - If there is one, we broke the Masquerade.
 	for(var/mob/living/M in viewers(notice_range, owner) - owner - feed_target)
@@ -276,8 +279,10 @@
 			to_chat(user, span_warning("Your feeding has been interrupted... but [feed_target.p_they()] didn't seem to notice you."))
 		else
 			to_chat(user, span_warning("Your feeding has been interrupted!"))
-			user.visible_message(span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"), \
-					 			 span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"))
+			user.visible_message(
+				span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
+				span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
+			)
 			// Deal Damage to Target (should have been more careful!)
 			if(iscarbon(feed_target))
 				var/mob/living/carbon/C = feed_target
@@ -380,8 +385,10 @@
 		if(amSilent)
 			to_chat(user, span_notice("You slowly release [feed_target]'s wrist." + (feed_target.stat == 0 ? " [feed_target.p_their(TRUE)] face lacks expression, like you've already been forgotten." : "")))
 		else
-			user.visible_message("<span class='warning'>[user] unclenches their teeth from [feed_target]'s neck.</span>", \
-								 "<span class='warning'>You retract your fangs and release [feed_target] from your bite.</span>")
+			user.visible_message(
+				span_warning("[user] unclenches their teeth from [feed_target]'s neck."),
+				span_warning("You retract your fangs and release [feed_target] from your bite."),
+			)
 		log_combat(owner, feed_target, "fed on blood", addition="(and took [amount_taken] blood)")
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Did we kill our target?

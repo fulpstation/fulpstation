@@ -18,9 +18,11 @@
 		TRAIT_EASYDISMEMBER,
 		TRAIT_SLEEPIMMUNE,
 	)
-	offset_features = list(OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3), OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), \
-						   OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3), OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2), \
-						   OFFSET_SUIT = list(0,2), OFFSET_NECK = list(0,3))
+	offset_features = list(
+		OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3), OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), \
+		OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3), OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2), \
+		OFFSET_SUIT = list(0,2), OFFSET_NECK = list(0,3),
+	)
 
 	skinned_type = /obj/item/food/meatball // NO SKIN //  /obj/item/stack/sheet/animalhide/human
 	meat = /obj/item/food/meat/slab //What the species drops on gibbing
@@ -357,11 +359,17 @@
 				return FALSE
 
 			// Pry it off...
-			user.visible_message("[user] grabs onto [p_their()] own [affecting.name] and pulls.", span_notice("You grab hold of your [affecting.name] and yank hard."))
+			user.visible_message(
+				span_notice("[user] grabs onto [p_their()] own [affecting.name] and pulls."),
+				span_notice("You grab hold of your [affecting.name] and yank hard."),
+			)
 			if (!do_mob(user,target))
 				return TRUE
 
-			user.visible_message("[user]'s [affecting.name] comes right off in their hand.", span_notice("Your [affecting.name] pops right off."))
+			user.visible_message(
+				span_notice("[user]'s [affecting.name] comes right off in their hand."),
+				span_notice("Your [affecting.name] pops right off."),
+			)
 			playsound(get_turf(user), 'fulp_modules/main_features/beefmen/sounds/beef_hit.ogg', 40, 1)
 
 			// Destroy Limb, Drop Meat, Pick Up
@@ -393,16 +401,25 @@
 
 		if((target_zone in limbs))
 			if(user == H)
-				user.visible_message("[user] begins mashing [I] into [H]'s torso.", span_notice("You begin mashing [I] into your torso."))
+				user.visible_message(
+					span_notice("[user] begins mashing [I] into [H]'s torso."),
+					span_notice("You begin mashing [I] into your torso."),
+				)
 			else
-				user.visible_message("[user] begins mashing [I] into [H]'s torso.", span_notice("You begin mashing [I] into [H]'s torso."))
+				user.visible_message(
+					span_notice("[user] begins mashing [I] into [H]'s torso."),
+					span_notice("You begin mashing [I] into [H]'s torso."),
+				)
 
 			// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
 			spawn(1)
 				if(do_mob(user,H))
 					// Attach the part!
 					var/obj/item/bodypart/newBP = H.newBodyPart(target_zone, FALSE)
-					H.visible_message("The meat sprouts digits and becomes [H]'s new [newBP.name]!", span_notice("The meat sprouts digits and becomes your new [newBP.name]!"))
+					H.visible_message(
+						span_notice("The meat sprouts digits and becomes [H]'s new [newBP.name]!"),
+						span_notice("The meat sprouts digits and becomes your new [newBP.name]!"),
+					)
 					newBP.attach_limb(H)
 					newBP.give_meat(H, I)
 					playsound(get_turf(H), 'fulp_modules/main_features/beefmen/sounds/beef_grab.ogg', 50, 1)
