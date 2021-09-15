@@ -121,7 +121,7 @@
 		/obj/item/storage/box/survival/engineer=1,
 		)
 	belt = /obj/item/storage/belt/utility/full/powertools
-	glasses =  /obj/item/clothing/glasses/meson/engine
+	glasses = /obj/item/clothing/glasses/meson/engine
 	mask = /obj/item/clothing/mask/gas
 	r_pocket = /obj/item/rcd_ammo/large
 	l_hand = /obj/item/gun/energy/e_gun

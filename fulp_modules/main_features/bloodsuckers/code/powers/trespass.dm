@@ -65,8 +65,10 @@
 	var/mob/living/carbon/user = owner
 	var/turf/my_turf = get_turf(owner)
 
-	user.visible_message(span_warning("[user]'s form dissipates into a cloud of mist!"), \
-					 	 span_notice("You disspiate into formless mist."))
+	user.visible_message(
+		span_warning("[user]'s form dissipates into a cloud of mist!"),
+		span_notice("You disspiate into formless mist."),
+	)
 	// Effect Origin
 	var/sound_strength = max(60, 70 - level_current * 10)
 	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', sound_strength, 1)

@@ -593,8 +593,8 @@
 		bloodsucker_name = pick(
 			"Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
 			"Sveyn","Aurel","Alexe","Iustin","Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
-			"Lucius","Gaius","Otho","Balbinus","Arcadius","Romanos","Alexios","Vitellius",  // Latin
-			"Melanthus","Teuthras","Orchamus","Amyntor","Axion",  // Greek
+			"Lucius","Gaius","Otho","Balbinus","Arcadius","Romanos","Alexios","Vitellius", // Latin
+			"Melanthus","Teuthras","Orchamus","Amyntor","Axion", // Greek
 			"Thoth","Thutmose","Osorkon,","Nofret","Minmotu","Khafra", // Egyptian
 			"Dio",
 		)
@@ -603,8 +603,8 @@
 		bloodsucker_name = pick(
 			"Islana","Tyrra","Greganna","Pytra","Hilda","Andra","Crina","Viorela","Viorica","Anemona","Camelia","Narcisa","Sorina","Alessia","Sophia","Gladda","Arcana","Morgan","Lasarra","Ioana","Elena", \
 			"Alina","Rodica","Teodora","Denisa","Mihaela","Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
-			"Alexia","Athanasia","Callista","Karena","Nephele","Scylla","Ursa",  // Latin
-			"Alcestis","Damaris","Elisavet","Khthonia","Teodora",  // Greek
+			"Alexia","Athanasia","Callista","Karena","Nephele","Scylla","Ursa", // Latin
+			"Alcestis","Damaris","Elisavet","Khthonia","Teodora", // Greek
 			"Nefret","Ankhesenpep", // Egyptian
 		)
 
@@ -831,9 +831,9 @@
 		return
 	if(owner.current.hud_used && owner.current.hud_used.blood_display)
 		if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
-			valuecolor =  "#FFDDDD"
+			valuecolor = "#FFDDDD"
 		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
-			valuecolor =  "#FFAAAA"
+			valuecolor = "#FFAAAA"
 		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
 	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
 		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
@@ -849,7 +849,7 @@
 		var/sunlight_display_icon = "sunlight_"
 		if(amDay)
 			sunlight_display_icon += "day"
-			valuecolor =  "#FF5555"
+			valuecolor = "#FF5555"
 		else
 			switch(round(value, 1))
 				if(0 to 30)

@@ -177,11 +177,11 @@
 		remove_antag_datum(/datum/antagonist/bloodsucker)
 		special_role = null
 
-/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/target, datum/mind/creator, display_warning = TRUE)//, check_antag_or_loyal=FALSE)
+/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/target, datum/mind/creator, display_warning = TRUE, can_vassal_sleeping = FALSE)//, check_antag_or_loyal=FALSE)
 	// Not Correct Type: Abort
 	if(!iscarbon(target) || !creator)
 		return FALSE
-	if(target.stat > UNCONSCIOUS)
+	if(target.stat > UNCONSCIOUS && !can_vassal_sleeping)
 		return FALSE
 	// No Mind!
 	if(!target.mind)
@@ -225,12 +225,12 @@
 	// WHEN YOU DELETE THE ABOVE: Remove the 3 second timer on converting the vassal too.
 	return FALSE
 
-/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C)
+/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C, can_vassal_sleeping = FALSE)
 	C.silent = 0
-	return make_vassal(C, owner)
+	return make_vassal(C, owner, can_vassal_sleeping)
 
-/datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator)
-	if(!can_make_vassal(target, creator))
+/datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator, sleeping = FALSE)
+	if(!can_make_vassal(target, creator, can_vassal_sleeping = sleeping))
 		return FALSE
 	// Make Vassal
 	var/datum/antagonist/vassal/V = new(target.mind)
