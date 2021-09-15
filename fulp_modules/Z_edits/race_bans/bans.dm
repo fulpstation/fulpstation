@@ -8,7 +8,7 @@
 /// Case 2: Species Change. People can change their species midgame so we have to add this check aswell. sync_mind() only happens on login
 /datum/species/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
 	. = ..()
-	check_banned(C)
+//	check_banned(C)
 
 /datum/species/proc/check_banned(mob/living/carbon/C)
 	if(!C.ckey) // Checking for the value instead of using C?.ckey since it's immediately sent to a proc
