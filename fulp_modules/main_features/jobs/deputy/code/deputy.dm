@@ -146,7 +146,7 @@
 	assignment = "Deputy"
 	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 	trim_state = "trim_deputy"
-	full_access = list(ACCESS_MAINT_TUNNELS)
+	full_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
@@ -155,8 +155,7 @@
 	var/department_access = list()
 
 /datum/id_trim/job/deputy/refresh_trim_access()
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	access |= department_access
 
