@@ -15,24 +15,11 @@
 	name = "beef station"
 	icon_state = "green"
 
-/datum/map_template/ruin/space/beef_station
+/datum/map_template/ruin/space/fulp/beef_station
 	name = "Govyadina Station"
 	id = "beef station"
 	description = "A station built for beefmen"
 	suffix = "beef_station.dmm"
-
-/obj/item/toy/plush/beefplushie
-	name = "beef plushie"
-	desc = "Made from real meat!"
-	icon = 'fulp_modules/mapping/ruins/space/beefman_station/beef_station_stuff.dmi'
-	icon_state = "plushie_beef"
-	squeak_override = list('sound/effects/meatslap.ogg'=1)
-
-/obj/item/clothing/neck/bfeemam
-	name = "heart-shaped locket"
-	desc = "It has a picture of someone important to you."
-	icon = 'fulp_modules/mapping/ruins/space/beefman_station/beef_station_stuff.dmi'
-	icon_state = "beef_locket"
 
 /obj/effect/spawner/lootdrop/beef_station
 	name = "Beef Station spawner"

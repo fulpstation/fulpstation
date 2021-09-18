@@ -8,3 +8,6 @@
 
 /datum/map_template/ruin/lavaland/fulp
 	prefix = "fulp_modules/mapping/ruins/lavaland/"
+
+/datum/map_template/ruin/space/fulp
+	prefix = "fulp_modules/mapping/ruins/space/"
