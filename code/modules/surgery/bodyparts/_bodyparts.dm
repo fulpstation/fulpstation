@@ -862,14 +862,7 @@
 		should_draw_gender = FALSE
 
 	if(!is_organic_limb())
-		/// FULP EDIT - BEEFMAN
-		switch(species_id)
-			if("beefman")
-				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
-			else
-				limb.icon = icon
-//		limb.icon = icon
-		/// FULP EDIT END
+		limb.icon = icon
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
 
 		if(blocks_emissive)
