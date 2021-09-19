@@ -2,6 +2,13 @@
 	. = ..()
 	. += " (<A HREF='?_src_=holder;[HrefToken(TRUE)];ahelp=[ref_src];ahelp_action=mhelp'>MHELP</A>)"
 
+/datum/admin_help/Action(action)
+	. = ..()
+	testing("Ahelp action: [action]")
+	switch(action)
+		if("mhelp")
+			MHelpThis()
+
 /datum/admin_help/proc/MHelpThis(key_name = key_name_admin(usr))
 	if(state != AHELP_ACTIVE)
 		return

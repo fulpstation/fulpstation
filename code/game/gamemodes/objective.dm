@@ -943,22 +943,22 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/protect,
 		/datum/objective/jailbreak,
 		/datum/objective/jailbreak/detain,
-		/// Fulpstation Bloodsuckers edit - Adds our objectives
-		// DEFAULT OBJECTIVES
+		// Fulp edit START - Bloodsuckers
+		// DEFAULT OBJECTIVES //
 		/datum/objective/bloodsucker/lair,
 		/datum/objective/bloodsucker/survive,
 		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/gourmand,
-		// CLAN OBJECTIVES
+		// CLAN OBJECTIVES //
 		/datum/objective/bloodsucker/gourmand/brujah, //Brujah
 		/datum/objective/bloodsucker/kindred, //Nosferatu
 		/datum/objective/bloodsucker/embrace, //Ventrue
-		// MISC OBJECTIVES
+		// MISC OBJECTIVES //
 		/datum/objective/bloodsucker/monsterhunter,
 		/datum/objective/bloodsucker/vassalhim,
 		/datum/objective/bloodsucker/frenzy,
-		/// Fulpstation edit ends - Bloodsucker Objectives
+		// Fulp edit END
 		/datum/objective/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,
