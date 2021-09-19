@@ -408,7 +408,5 @@
 	warning_target_bloodvol = 99999
 	// Let me move!
 	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-	if(bloodsuckerdatum?.Frenzied)
-		return // In a Frenzy? Stay silent.
 	// My mouth is no longer full
 	REMOVE_TRAIT(owner, TRAIT_MUTE, BLOODSUCKER_TRAIT)
