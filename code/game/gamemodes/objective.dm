@@ -915,7 +915,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/protect,
 		/datum/objective/jailbreak,
 		/datum/objective/jailbreak/detain,
-		/// Fulpstation Bloodsuckers edit - Adds our objectives
+		// Fulp edit START - Bloodsuckers
 		// DEFAULT OBJECTIVES
 		/datum/objective/bloodsucker/lair,
 		/datum/objective/bloodsucker/survive,
@@ -930,7 +930,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/monsterhunter,
 		/datum/objective/bloodsucker/vassalhim,
 		/datum/objective/bloodsucker/frenzy,
-		/// Fulpstation edit ends - Bloodsucker Objectives
+		// Fulp edit END
 		/datum/objective/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,

@@ -50,7 +50,15 @@ SUBSYSTEM_DEF(job)
 	 * See [/datum/controller/subsystem/ticker/proc/equip_characters]
 	 */
 	var/list/chain_of_command = list(
-/*
+		// Fulp edit START - Jobs
+		"Captain" = 1,
+		"Head of Personnel" = 2,
+		"Head of Security" = 3,
+		"Research Director" = 4,
+		"Chief Engineer" = 5,
+		"Chief Medical Officer" = 6,
+		"Quartermaster" = 7)
+	/*
 		"Captain" = 1,
 		"Head of Personnel" = 2,
 		"Research Director" = 3,
@@ -58,15 +66,7 @@ SUBSYSTEM_DEF(job)
 		"Chief Medical Officer" = 5,
 		"Head of Security" = 6,
 		"Quartermaster" = 7)
-*/ // FULP EDIT - Chain of Command is different here!
-		"Captain" = 1,
-		"Head of Personnel" = 2,
-		"Head of Security" = 3,
-		"Research Director" = 4,
-		"Chief Engineer" = 5,
-		"Chief Medical Officer" = 6,
-		"Quartermaster" = 7,
-	)
+	*/ // Fulp edit END
 
 	/// If TRUE, some player has been assigned Captaincy or Acting Captaincy at some point during the shift and has been given the spare ID safe code.
 	var/assigned_captain = FALSE
@@ -785,9 +785,9 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/setup_job_lists()
 	station_jobs = list("Assistant", "Captain", "Head of Personnel", "Bartender", "Cook", "Botanist", "Quartermaster", "Cargo Technician", \
 		"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer", \
-		/// FULP EDIT - JOBS
-		"Brig Physician", "Deputy", \
-		/// FULP EDIT END
+		// Fulp edit START - Jobs
+		"Brig Physician", "Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy", \
+		// Fulp edit END
 		"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Paramedic", "Chemist", "Geneticist", "Virologist", "Psychologist", \
 		"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Prisoner")
 
@@ -795,9 +795,6 @@ SUBSYSTEM_DEF(job)
 
 	additional_jobs_with_icons = list("Emergency Response Team Commander", "Security Response Officer", "Engineering Response Officer", "Medical Response Officer", \
 		"Entertainment Response Officer", "Religious Response Officer", "Janitorial Response Officer", "Death Commando", "Security Officer (Engineering)", \
-		/// FULP EDIT - JOBS
-		"Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy", \
-		/// FULP EDIT END
 		"Security Officer (Cargo)", "Security Officer (Medical)", "Security Officer (Science)")
 
 	centcom_jobs = list("Central Command","VIP Guest","Custodian","Thunderdome Overseer","CentCom Official","Medical Officer","Research Officer", \
