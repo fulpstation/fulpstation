@@ -29,7 +29,7 @@
 	del_on_death = 1
 	loot = list(/obj/effect/mob_spawn/human/clown/corpse)
 
-	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
+	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 270
 	maxbodytemp = 370
 	unsuitable_atmos_damage = 10
@@ -168,6 +168,7 @@
 	icon_state = "honkhulk"
 	icon_living = "honkhulk"
 	move_resist = INFINITY
+	gender = MALE
 	response_help_continuous = "tries desperately to appease"
 	response_help_simple = "try desperately to appease"
 	response_disarm_continuous = "foolishly pushes"
@@ -196,6 +197,7 @@
 	desc = "A real lunkhead who somehow gets all the girls."
 	icon_state = "chlown"
 	icon_living = "chlown"
+	gender = MALE
 	response_help_continuous = "submits to"
 	response_help_simple = "submit to"
 	response_disarm_continuous = "tries to assert dominance over"

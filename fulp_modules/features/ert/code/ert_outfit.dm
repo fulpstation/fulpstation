@@ -121,7 +121,7 @@
 		/obj/item/storage/box/survival/engineer=1,
 		)
 	belt = /obj/item/storage/belt/utility/full/powertools
-	glasses =  /obj/item/clothing/glasses/meson/engine
+	glasses = /obj/item/clothing/glasses/meson/engine
 	mask = /obj/item/clothing/mask/gas
 	r_pocket = /obj/item/rcd_ammo/large
 	l_hand = /obj/item/gun/energy/e_gun
@@ -132,7 +132,7 @@
 	name = "ERT Clown - Specialized"
 
 	backpack_contents = list(
-		/obj/item/melee/transforming/energy/sword/bananium=1,
+		/obj/item/melee/energy/sword/bananium=1,
 		/obj/item/shield/energy/bananium=1,
 		/obj/item/storage/box/hug/survival=1,
 		)
@@ -155,7 +155,7 @@
 
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/clown/commander
 	backpack_contents = list(
-		/obj/item/melee/transforming/energy/sword/bananium=1,
+		/obj/item/melee/energy/sword/bananium=1,
 		/obj/item/shield/energy/bananium=1,
 		/obj/item/storage/box/hug/survival=1,
 		/obj/item/storage/box/fireworks=2,
@@ -176,17 +176,3 @@
 	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
 		M.mutadone_proof = TRUE
 
-/// safety moth
-
-/datum/outfit/centcom/ert/engineer/safety_moth
-	name = "Safety Moth Engineer"
-	suit = /obj/item/clothing/suit/space/eva/safety_moth
-	suit_store = /obj/item/tank/internals/oxygen
-	mask = /obj/item/clothing/mask/breath
-	r_pocket = /obj/item/toy/plush/moth
-	r_hand = /obj/item/clipboard
-	head = /obj/item/clothing/head/helmet/space/eva/safety_moth
-	gloves = /obj/item/clothing/gloves/color/yellow
-	shoes = /obj/item/clothing/shoes/magboots/safety_moth
-	
-	

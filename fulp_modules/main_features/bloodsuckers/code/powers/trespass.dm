@@ -1,20 +1,24 @@
 /datum/action/bloodsucker/targeted/trespass
 	name = "Trespass"
-	desc = "Become mist and advance two tiles in one direction, ignoring all obstacles except Walls. Useful for skipping past doors and barricades."
+	desc = "Become mist and advance two tiles in one direction. Useful for skipping past doors and barricades."
 	button_icon_state = "power_tres"
+	power_explanation = "<b>Trespass</b>:\n\
+		Click anywhere from 1-2 tiles away from you to teleport.\n\
+		This power goes through all obstacles except Walls.\n\
+		Higher levels decrease the sound played from using the Power, and increase the speed of the transition."
 	bloodcost = 10
 	cooldown = 80
 	//target_range = 2
 	can_use_in_frenzy = TRUE
 	bloodsucker_can_buy = TRUE
+	vassal_can_buy = TRUE
 	must_be_capacitated = FALSE
 	can_use_w_immobilize = TRUE
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
+	if(!..())
+		return FALSE
 	if(owner.notransform || !get_turf(owner))
 		return FALSE
 
@@ -46,7 +50,7 @@
 		if(iswallturf(from_turf))
 			if (display_error)
 				var/wallwarning = (i == 1) ? "in the way" : "at your destination"
-				to_chat(owner, span_warning("There is a solid wall [wallwarning]."))
+				owner.balloon_alert(owner, "There is a wall [wallwarning].")
 			return FALSE
 	// Done
 	target_turf = from_turf
@@ -54,16 +58,20 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/trespass/FireTargetedPower(atom/A)
+	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 
 	// Find target turf, at or below Atom
 	var/mob/living/carbon/user = owner
 	var/turf/my_turf = get_turf(owner)
 
-	user.visible_message(span_warning("[user]'s form dissipates into a cloud of mist!"), \
-					 	 span_notice("You disspiate into formless mist."))
+	user.visible_message(
+		span_warning("[user]'s form dissipates into a cloud of mist!"),
+		span_notice("You disspiate into formless mist."),
+	)
 	// Effect Origin
-	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
+	var/sound_strength = max(60, 70 - level_current * 10)
+	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', sound_strength, 1)
 	var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread/()
 	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
 	puff.set_up(3, 0, my_turf)
@@ -97,10 +105,3 @@
 	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
 	puff.set_up(3, 0, target_turf)
 	puff.start()
-
-///Vassal edition
-/datum/action/bloodsucker/targeted/trespass/dissapear
-	name = "Dissapear"
-	desc = "Dissapear into thin air as you transport yourself to another location."
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = TRUE

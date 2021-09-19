@@ -242,7 +242,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	AddElement(/datum/element/bsa_blocker)
 	RegisterSignal(src, COMSIG_ATOM_BSA_BEAM, .proc/call_explode)
 
-	soundloop = new(list(src), TRUE)
+	soundloop = new(src, TRUE)
 	if(ispath(psyOverlay))
 		psyOverlay = new psyOverlay()
 	else
@@ -875,6 +875,12 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 /obj/machinery/power/supermatter_crystal/attack_ai(mob/user)
 	return
+
+/obj/machinery/power/supermatter_crystal/attack_hulk(mob/user)
+	dust_mob(user, cause = "hulk attack")
+
+/obj/machinery/power/supermatter_crystal/attack_larva(mob/user)
+	dust_mob(user, cause = "larva attack")
 
 /obj/machinery/power/supermatter_crystal/attack_hand(mob/living/user, list/modifiers)
 	. = ..()

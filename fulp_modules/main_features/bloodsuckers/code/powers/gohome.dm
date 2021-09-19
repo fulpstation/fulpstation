@@ -4,7 +4,11 @@
 	button_icon_state = "power_gohome"
 	background_icon_state_on = "vamp_power_off_oneshot"
 	background_icon_state_off = "vamp_power_off_oneshot"
-
+	power_explanation = "<b>Vanishing Act</b>: \n\
+		Activating Vanishing Act will, after a short delay, teleport the user to their <b>Claimed Coffin</b>. \n\
+		The power will cancel out if the <b>Claimed Coffin</b> is somehow destroyed. \n\
+		Immediately after activating, lights around the user will begin to flicker. \n\
+		Once the user teleports to their coffin, in their place will be a Rat or Bat."
 	bloodcost = 100
 	/// It'll never come back.
 	cooldown = 99999
@@ -13,29 +17,27 @@
 	/// You only get this if you've claimed a lair, and only just before sunrise.
 	bloodsucker_can_buy = FALSE
 	can_use_in_torpor = TRUE
-	must_be_capacitated = TRUE
 	can_use_w_immobilize = TRUE
 	must_be_concious = FALSE
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
+	if(!..())
+		return FALSE
 	/// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
 		if(display_error)
-			to_chat(owner, span_warning("Your coffin has been destroyed!"))
+			owner.balloon_alert(owner, "your coffin has been destroyed!")
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/gohome/proc/flicker_lights(var/flicker_range, var/beat_volume)
+/datum/action/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
 	for(var/obj/machinery/light/L in view(flicker_range, get_turf(owner)))
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	to_chat(user, span_notice("You focus on separating your consciousness from your physical form..."))
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
@@ -48,7 +50,7 @@
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', 60, 1)
 	/// STEP TWO: Lights OFF?
 	/// CHECK: Still have Coffin?
-	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
+	if(!bloodsuckerdatum?.coffin)
 		to_chat(user, span_warning("Your coffin has been destroyed! You no longer have a destination."))
 		return FALSE
 	if(!owner)
@@ -114,4 +116,5 @@
 		bloodsuckerdatum.coffin.update_icon()
 		/// Lock Coffin
 		bloodsuckerdatum.coffin.LockMe(owner)
+		bloodsuckerdatum.Check_Begin_Torpor(FALSE) // Are we meant to enter Torpor here?
 	. = ..()

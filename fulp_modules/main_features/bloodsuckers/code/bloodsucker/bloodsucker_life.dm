@@ -7,9 +7,14 @@
  * 		EXAMINE
  *
  * Show as dead when...
+ *
+ * How to Burn Vamps:
+ *		C.adjustFireLoss(20)
+ *		C.adjust_fire_stacks(6)
+ *		C.IgniteMob()
  */
 
-/// Runs from BiologicalLife, handles all Bloodsucker constant proccesses.
+/// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	if(!owner || AmFinalDeath)
 		return
@@ -22,9 +27,11 @@
 			notice_healing = TRUE
 	else if(notice_healing)
 		notice_healing = FALSE
-	// In a Frenzy? Take damage, to encourage them to Feed as soon as possible, Brujah takes less Burn.
-	if(Frenzied)
-		owner.current.adjustFireLoss(my_clan == CLAN_BRUJAH ? 1 : 3)
+	// Standard Updates
+	HandleDeath()
+	HandleStarving()
+	HandleTorpor()
+
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
 		var/area/A = get_area(owner.current)
@@ -33,26 +40,10 @@
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
-	if(my_clan == CLAN_MALKAVIAN && prob(15) && !poweron_masquerade && owner.current.stat)
-		switch(rand(0,4))
-			if(0) // 20% chance to call out a player at their location
-				for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-					if(!H.mind)
-						continue
-					if(!H.stat == DEAD || HAS_TRAIT(H, TRAIT_CRITICAL_CONDITION))
-						continue
-					if(!SSjob.GetJob(H.mind.assigned_role) || (H.mind.assigned_role in GLOB.nonhuman_positions) || !is_station_level(H))
-						continue
-					var/area/A = get_area(H)
-					owner.current.say("#...oh dear... [H]... what are you doing... at [A]?")
-					break
-			else // 80% chance to say some malkavian revelation
-				owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
-	// Standard Updates
-	HandleDeath()
-	HandleStarving()
-	HandleTorpor()
-	update_hud()
+	if(my_clan == CLAN_MALKAVIAN)
+		if(prob(85) || owner.current.stat != CONSCIOUS || poweron_masquerade)
+			return
+		owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,6 +54,13 @@
 /datum/antagonist/bloodsucker/proc/AddBloodVolume(value)
 	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
 	update_hud()
+
+/datum/antagonist/bloodsucker/proc/AddHumanityLost(value)
+	if(humanity_lost >= 500)
+		to_chat(owner.current, span_warning("You hit the maximum amount of lost Humanty, you are far from Human."))
+		return
+	humanity_lost += value
+	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity, you will now enter Frenzy at [FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)] Blood."))
 
 /// mult: SILENT feed is 1/3 the amount
 /datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
@@ -94,6 +92,8 @@
 		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 	total_blood_drank += blood_taken
+	if(Frenzied)
+		frenzy_blood_drank += blood_taken
 	return blood_taken
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,9 +105,7 @@
 /// It is called from your coffin on close (by you only)
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
-	if(poweron_masquerade|| owner.current.AmStaked())
-		return FALSE
-	if(owner.current.reagents.has_reagent(/datum/reagent/consumable/garlic))
+	if(poweron_masquerade || owner.current.AmStaked())
 		return FALSE
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
@@ -121,6 +119,7 @@
 		if(amInCoffin && HAS_TRAIT(C, TRAIT_NODEATH))
 			if(poweron_masquerade)
 				to_chat(C, span_warning("You will not heal while your Masquerade ability is active."))
+				return
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			costMult /= 2 // Decrease cost if we're sleeping in a coffin.
@@ -128,10 +127,10 @@
 			C.remove_all_embedded_objects() // Remove Embedded!
 			if(check_limbs(costMult))
 				return TRUE
-		/// In Torpor, but not in a Coffin? Heal faster anyways.
+		// In Torpor, but not in a Coffin? Heal faster anyways.
 		else if(HAS_TRAIT(C, TRAIT_NODEATH))
 			mult *= 3
-		/// Heal if Damaged
+		// Heal if Damaged
 		if((bruteheal + fireheal > 0) && mult != 0) // Just a check? Don't heal/spend, and return.
 			// We have damage. Let's heal (one time)
 			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
@@ -207,6 +206,10 @@
 		yucky_organs.Remove(bloodsuckeruser)
 		yucky_organs.forceMove(get_turf(bloodsuckeruser))
 
+	// Part of Malkavian? Give them their traumas back.
+	if(my_clan == CLAN_MALKAVIAN)
+		bloodsuckeruser.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+		bloodsuckeruser.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 	// Good to go!
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -268,24 +271,32 @@
 	if(!owner.current || AmFinalDeath)
 		return
 
-	/// Nutrition - The amount of blood is how full we are.
+	// Nutrition - The amount of blood is how full we are.
 	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED))
 
 	// BLOOD_VOLUME_GOOD: [336] - Pale
 //	handled in bloodsucker_integration.dm
+
+	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
+	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied && my_clan != CLAN_BRUJAH)
+		qdel(owner.current.GetComponent(/datum/component/bloodsucker_frenzy))
 	// BLOOD_VOLUME_BAD: [224] - Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !poweron_masquerade)
 		owner.current.Jitter(3)
-	/// Blood Volume: 250 - Exit Frenzy (If in one) This is really high because we want this to be enough to kill the poor soul they feed off of.
-	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied)
-		Frenzy_End()
-	// BLOOD_VOLUME_SURVIVE: [122]  Blur Vision
+	// BLOOD_VOLUME_SURVIVE: [122] - Blur Vision
 	if(owner.current.blood_volume < BLOOD_VOLUME_SURVIVE)
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 
-	/// Frenzy & Regeneration - The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
-	if(owner.current.blood_volume < frenzy_threshold && !Frenzied)
-		Frenzy_Start()
+	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
+	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !Frenzied)
+		if(my_clan != CLAN_BRUJAH)
+			owner.current.AddComponent(/datum/component/bloodsucker_frenzy)
+		else
+			for(var/datum/action/bloodsucker/power in powers)
+				if(istype(power, /datum/action/bloodsucker/brujah))
+					if(power.active)
+						return
+					power.ActivatePower()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
 	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
@@ -296,45 +307,6 @@
 		additional_regen = 0.4
 	else
 		additional_regen = 0.5
-
-/// Frenzy's End is in HandleStarving.
-/datum/antagonist/bloodsucker/proc/Frenzy_Start()
-	if(my_clan == CLAN_BRUJAH)
-		to_chat(owner.current, span_announce("You enter a Frenzy!<br> \
-		* While in Frenzy, you gain the ability to instantly aggressively grab people, move faster and have no blood cost on abilities.<br> \
-		* In exchange, you will slowly gain Burn damage, be careful of how you handle it!<br> \
-		* To leave Frenzy, simply drink enough Blood ([FRENZY_THRESHOLD_EXIT]) to exit.<br>"))
-	else
-		to_chat(owner.current, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
-		to_chat(owner.current, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, cannot speak, hear, get stunned, or use any powers outside of Feed and Trespass (If you have it)."))
-		ADD_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // Brujah can control Frenzy properly, so they don't get any of the effects.
-		ADD_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-		// Disable ALL Powers
-		DisableAllPowers()
-		if(HAS_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER))
-			REMOVE_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
-	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
-	frenzygrab.teach(owner.current, TRUE)
-	owner.current.add_client_colour(/datum/client_colour/cursed_heart_blood)//bloodlust) <-- You can barely see shit, cant even see anyone to feed off of them.
-	Frenzied = TRUE
-
-/datum/antagonist/bloodsucker/proc/Frenzy_End()
-	if(my_clan == CLAN_BRUJAH)
-		to_chat(owner.current, span_warning("You exit Frenzy."))
-	else
-		owner.current.Dizzy(5 SECONDS)
-		owner.current.Paralyze(3 SECONDS)
-		to_chat(owner.current, span_warning("You suddenly come back to your senses..."))
-	if(HAS_TRAIT(owner.current, TRAIT_DEAF))
-		REMOVE_TRAIT(owner.current, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
-		REMOVE_TRAIT(owner.current, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		REMOVE_TRAIT(owner.current, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(owner.current, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
-	owner.current.remove_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
-	frenzygrab.remove(owner.current)
-	owner.current.remove_client_colour(/datum/client_colour/cursed_heart_blood)
-	Frenzied = FALSE
 
 /*
 	# Torpor
@@ -356,11 +328,6 @@
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
 	if(!owner.current || AmFinalDeath)
 		return
-	/// We have to use carbon here, otherwise we use the mob/living one, which is an empty return.
-	var/mob/living/carbon/B = owner.current
-	var/total_brute = B.getBruteLoss_nonProsthetic()
-	var/total_burn = B.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			/// Staked? Dont heal
@@ -370,11 +337,7 @@
 			/// Otherwise, check if it's Sol, to enter Torpor.
 			if(clan.bloodsucker_sunlight.amDay)
 				Check_Begin_Torpor(TRUE)
-		/// You are in Torpor, and in a Coffin. Check if it's not Daytime & you have less than 10 Brute/Burn combined to end Torpor. WILLARD TODO: Condense all the checks into Check_End_Torpor(), then just call that instead of checking twice.6
-		else if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
-			Check_End_Torpor()
-	/// You're not in a Coffin, but are in Torpor. Check if it's not Daytime, & you have less than 10 Brute (NOT Burn) to end Torpor.
-	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10 && HAS_TRAIT(owner.current, TRAIT_NODEATH))
+	if(HAS_TRAIT(owner.current, TRAIT_NODEATH)) // Check so I don't go insane.
 		Check_End_Torpor()
 
 /datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(SkipChecks = FALSE)
@@ -391,20 +354,20 @@
 		Torpor_Begin()
 
 /datum/antagonist/bloodsucker/proc/Check_End_Torpor()
-	/// You're not in Torpor? (Slept in a Locker for example), then you don't need to leave it.
-	if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		return
-	/// Not in a Coffin? End Torpor.
-	if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-		Torpor_End()
-	else
-	/// You are in a Coffin, so instead we'll take Burn into account, too.
-		var/mob/living/carbon/B = owner.current
-		var/total_brute = B.getBruteLoss_nonProsthetic()
-		var/total_burn = B.getFireLoss_nonProsthetic()
-		var/total_damage = total_brute + total_burn
+	var/mob/living/carbon/user = owner.current
+	var/total_brute = user.getBruteLoss_nonProsthetic()
+	var/total_burn = user.getFireLoss_nonProsthetic()
+	var/total_damage = total_brute + total_burn
+	// You are in a Coffin, so instead we'll check TOTAL damage, here.
+	if(istype(user.loc, /obj/structure/closet/crate/coffin))
 		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
 			Torpor_End()
+	// You're not in a Coffin? We won't check for low Burn damage
+	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
+		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, to prevent spam revival/death. Only way out is healing that Burn.
+		if(total_burn >= 199)
+			return
+		Torpor_End()
 
 /datum/antagonist/bloodsucker/proc/Torpor_Begin()
 	to_chat(owner.current, span_notice("You enter the horrible slumber of deathless Torpor. You will heal until you are renewed."))
@@ -420,6 +383,7 @@
 	DisableAllPowers()
 
 /datum/antagonist/bloodsucker/proc/Torpor_End()
+	owner.current.grab_ghost()
 	to_chat(owner.current, span_warning("You have recovered from Torpor."))
 	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
@@ -447,11 +411,19 @@
 	FreeAllVassals()
 	/// Elders get Dusted
 	if(bloodsucker_level >= 4)
-		owner.current.visible_message(span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a dry, crackling sound.</span>")
+		owner.current.visible_message(
+			span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
+			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
+			span_hear("You hear a dry, crackling sound."),
+		)
 		addtimer(CALLBACK(owner.current, /mob/living/proc/dust), 5 SECONDS, TIMER_UNIQUE | TIMER_STOPPABLE)
 	/// Fledglings get Gibbed
 	else
-		owner.current.visible_message(span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."), span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."), "<span class='italics'>You hear a wet, bursting sound.</span>")
+		owner.current.visible_message(
+			span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
+			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
+			span_hear("<span class='italics'>You hear a wet, bursting sound."),
+		)
 		owner.current.gib(TRUE, FALSE, FALSE)
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 
@@ -533,7 +505,7 @@
 /datum/mood_event/drankblood_bad
 	description = "<span class='boldwarning'>I drank the blood of a lesser creature. Disgusting.</span>\n"
 	mood_change = -4
-	timeout = 5 MINUTES
+	timeout = 3 MINUTES
 
 /datum/mood_event/drankblood_dead
 	description = "<span class='boldwarning'>I drank dead blood. I am better than this.</span>\n"
@@ -545,10 +517,15 @@
 	mood_change = -7
 	timeout = 8 MINUTES
 
+/datum/mood_event/drankkilled
+	description = "<span class='boldwarning'>I drank from my victim until they died. I feel... less human.</span>\n"
+	mood_change = -15
+	timeout = 10 MINUTES
+
 /datum/mood_event/madevamp
 	description = "<span class='boldwarning'>A soul has been cursed to undeath by my own hand.</span>\n"
-	mood_change = -10
-	timeout = 10 MINUTES
+	mood_change = 15
+	timeout = 20 MINUTES
 
 /datum/mood_event/vampatefood
 	description = "<span class='boldwarning'>Mortal nourishment no longer sustains me. I feel unwell.</span>\n"
@@ -558,17 +535,17 @@
 /datum/mood_event/coffinsleep
 	description = "<span class='nicegreen'>I slept in a coffin during the day. I feel whole again.</span>\n"
 	mood_change = 10
-	timeout = 10 MINUTES
+	timeout = 6 MINUTES
 
 /datum/mood_event/daylight_1
 	description = "<span class='boldwarning'>I slept poorly in a makeshift coffin during the day.</span>\n"
 	mood_change = -3
-	timeout = 8 MINUTES
+	timeout = 6 MINUTES
 
 /datum/mood_event/daylight_2
 	description = "<span class='boldwarning'>I have been scorched by the unforgiving rays of the sun.</span>\n"
 	mood_change = -6
-	timeout = 15 MINUTES
+	timeout = 6 MINUTES
 
 /datum/mood_event/bloodsucker_disgust
 	description = "<span class='boldwarning'>Something I recently ate was horrifyingly disgusting.</span>\n"
@@ -579,7 +556,7 @@
 /datum/mood_event/vampcandle
 	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
 	mood_change = -15
-	timeout = 4 MINUTES
+	timeout = 5 MINUTES
 
 /// Frenzy's instant aggro grabs
 /datum/martial_art/frenzygrab

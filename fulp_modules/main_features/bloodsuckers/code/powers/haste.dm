@@ -7,35 +7,40 @@
 	name = "Immortal Haste"
 	desc = "Dash somewhere with supernatural speed. Those nearby may be knocked away, stunned, or left empty-handed."
 	button_icon_state = "power_speed"
+	power_explanation = "<b>Immortal Haste</b>:\n\
+		Click anywhere to immediately dash towards that location.\n\
+		The Power will not work if you are lying down, in no gravity, or are aggressively grabbed.\n\
+		Anyone in your way during your Haste will be knocked down and Payalyzed, moreso if they are using Flow.\n\
+		Higher levels will increase the knockdown dealt to enemies."
 	bloodcost = 6
 	cooldown = 120
 	target_range = 15
 	power_activates_immediately = TRUE
 	message_Trigger = "" // "Whom will you subvert to your will?"
 	bloodsucker_can_buy = TRUE
+	vassal_can_buy = TRUE
 	must_be_capacitated = TRUE
 	var/list/hit //current hit, set while power is in use as we can't pass the list as an extra calling argument in registersignal.
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 
 /datum/action/bloodsucker/targeted/haste/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return
+	if(!..())
+		return FALSE
 	// Being Grabbed
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
 		if(display_error)
-			to_chat(owner, span_warning("You're being grabbed!"))
+			owner.balloon_alert(owner, "you're being grabbed!")
 		return FALSE
 	if(!owner.has_gravity(owner.loc)) //We dont want people to be able to use this to fly around in space
 		if(display_error)
-			to_chat(owner, span_warning("You cant dash while floating!"))
+			owner.balloon_alert(owner, "you cannot dash while floating!")
 		return FALSE
 	var/mob/living/user = owner
 	if(user.body_position == LYING_DOWN)
 		if(display_error)
-			to_chat(user, span_warning("You must be standing to tackle!"))
-		return
+			owner.balloon_alert(owner, "you must be standing to tackle!")
+		return FALSE
 	return TRUE
 
 /// Anything will do, if it's not me or my square
@@ -53,6 +58,7 @@
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
 /datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/A)
+	. = ..()
 	hit = list()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/on_move)
 	var/mob/living/user = owner
@@ -61,6 +67,7 @@
 	user.pulledby?.stop_pulling()
 	// Go to target turf
 	// DO NOT USE WALK TO.
+	owner.balloon_alert(owner, "you dash into the air!")
 	playsound(get_turf(owner), 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 	var/safety = get_dist(user, T) * 3 + 1
 	var/consequetive_failures = 0
@@ -95,7 +102,7 @@
 			L.Paralyze(0.1)
 			L.spin(10, 1)
 			if(IS_MONSTERHUNTER(L) && HAS_TRAIT(L, TRAIT_STUNIMMUNE))
-				to_chat(L, span_warning("The spinning causes you to lose focus on Flow!"))
+				L.balloon_alert(L, "your victim's blood is fatally low!")
 				for(var/datum/action/bloodsucker/power in L.actions)
 					if(power.active)
 						power.DeactivatePower()
@@ -103,14 +110,3 @@
 				L.set_confusion(max(8, L.get_confusion()))
 				L.stuttering = max(8, L.stuttering)
 				L.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity
-
-///Vassal edition
-/datum/action/bloodsucker/targeted/haste/vassal
-	name = "Speed of Sound"
-	desc = "Rely on your Master's Dashing techniques to move at supernatural speed, leaving those nearby knocked away, stunned, or left empty-handed."
-	button_icon_state = "power_speed"
-	bloodcost = 5
-	cooldown = 120
-	target_range = 15
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = TRUE

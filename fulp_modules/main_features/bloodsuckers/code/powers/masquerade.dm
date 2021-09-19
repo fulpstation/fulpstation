@@ -12,30 +12,52 @@
 	name = "Masquerade"
 	desc = "Feign the vital signs of a mortal, and escape both casual and medical notice as the monster you truly are."
 	button_icon_state = "power_human"
+	power_explanation = "<b>Masquerade</b>:\n\
+		Activating Masquerade will forge your identity to be practically identical to that of a human;\n\
+		- You lose nearly all Bloodsucker benefits, including healing, sleep, radiation, crit, virus and cold immunity.\n\
+		- Your eyes turn to that of a regular human as your heart begins to beat.\n\
+		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
+		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
+		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
 	bloodcost = 10
 	cooldown = 50
+	constant_bloodcost = 0.1
+	conscious_constant_bloodcost = TRUE
 	amToggle = TRUE
 	bloodsucker_can_buy = FALSE
-	warn_constant_cost = TRUE
 	can_use_in_torpor = TRUE
 	cooldown_static = TRUE
 	must_be_concious = FALSE
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
 	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
 
+	// Remove Bloodsucker traits
+	REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_RADIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_TOXIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_RESISTCOLD, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
+	// Falsifies Health & Genetic Analyzers
+	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_GENELESS, BLOODSUCKER_TRAIT)
+	// Organs
+	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	eyes.flash_protect = initial(eyes.flash_protect)
+	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	if(istype(vampheart))
+		vampheart.FakeStart()
 	bloodsuckerdatum.poweron_masquerade = TRUE
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 	. = ..()
-
-/datum/action/bloodsucker/masquerade/UsePower(mob/living/carbon/user)
-	// Checks that we can keep using this.
-	if(!..())
-		return
-	// Check every few seconds to make sure we're still able to use the power.
-	addtimer(CALLBACK(src, .proc/UsePower, user), 2 SECONDS)
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
@@ -45,10 +67,36 @@
 
 /datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/carbon/user = owner, mob/living/target)
 	. = ..() // activate = FALSE
-
+	owner.balloon_alert(owner, "masquerade turned off.")
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	bloodsuckerdatum.poweron_masquerade = FALSE
 	user.remove_status_effect(STATUS_EFFECT_MASQUERADE)
+	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_RADIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_TOXIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_RESISTCOLD, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(user, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
+	// Remove genes, then make unable to get new ones.
+	user.dna.remove_all_mutations()
+	ADD_TRAIT(user, TRAIT_GENELESS, BLOODSUCKER_TRAIT)
+	// Organs
+	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	if(istype(vampheart))
+		vampheart.Stop()
+	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
+	// Remove all diseases
+	for(var/thing in user.diseases)
+		var/datum/disease/disease = thing
+		disease.cure()
+	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))
 
 /*
  *	# Status effect
@@ -72,59 +120,3 @@
 /atom/movable/screen/alert/status_effect/masquerade/MouseEntered(location,control,params)
 	desc = initial(desc)
 	return ..()
-
-/datum/status_effect/masquerade/on_apply(mob/living/carbon/user = owner)
-	// Remove Bloodsucker traits
-	REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_RADIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_TOXIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_RESISTCOLD, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
-	// Falsifies Health & Genetic Analyzers
-	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
-	// Organs
-	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
-	eyes.flash_protect = initial(eyes.flash_protect)
-	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.FakeStart()
-	return ..()
-
-/datum/status_effect/masquerade/tick()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
-	// PASSIVE (Done from LIFE
-	// Don't show Pale/Dead on low blood - Don't vomit food - Don't heal.
-	if(owner.stat == CONSCIOUS) // Pay Blood Toll if awake.
-		bloodsuckerdatum.AddBloodVolume(-0.1)
-
-/datum/status_effect/masquerade/on_remove(mob/living/carbon/user = owner)
-	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_RADIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_TOXIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_RESISTCOLD, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_NOPULSE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
-	// Remove genes, then make unable to get new ones.
-	user.dna.remove_all_mutations()
-	ADD_TRAIT(user, TRAIT_GENELESS, SPECIES_TRAIT)
-	// Organs
-	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.Stop()
-	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
-	if(eyes)
-		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
-	// Remove all diseases
-	for(var/thing in user.diseases)
-		var/datum/disease/disease = thing
-		disease.cure()
-	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))

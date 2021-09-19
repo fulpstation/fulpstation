@@ -91,6 +91,10 @@
 
 	switch(action)
 		if("signal")
+			if(TIMER_COOLDOWN_CHECK(src, COOLDOWN_SIGNALLER_SEND))
+				to_chat(usr, span_warning("[src] is still recharging..."))
+				return
+			TIMER_COOLDOWN_START(src, COOLDOWN_SIGNALLER_SEND, 1 SECONDS)
 			INVOKE_ASYNC(src, .proc/signal)
 			. = TRUE
 		if("freq")
@@ -152,10 +156,8 @@
 
 	pulse(TRUE)
 	audible_message("<span class='infoplain'>[icon2html(src, hearers(src))] *beep* *beep* *beep*</span>", null, hearing_range)
-	for(var/CHM in get_hearers_in_view(hearing_range, src))
-		if(ismob(CHM))
-			var/mob/LM = CHM
-			LM.playsound_local(get_turf(src), 'sound/machines/triple_beep.ogg', ASSEMBLY_BEEP_VOLUME, TRUE)
+	for(var/mob/hearing_mob in get_hearers_in_view(hearing_range, src))
+		hearing_mob.playsound_local(get_turf(src), 'sound/machines/triple_beep.ogg', ASSEMBLY_BEEP_VOLUME, TRUE)
 	return TRUE
 
 /obj/item/assembly/signaler/proc/set_frequency(new_frequency)

@@ -2,6 +2,12 @@
 	set category = "Mentor"
 	set name = "Mentorhelp"
 
+	if(usr?.client?.prefs.muted & MUTE_ADMINHELP)
+		to_chat(src,
+			type = MESSAGE_TYPE_MODCHAT,
+			html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
+			confidential = TRUE)
+		return
 	/// Cleans the input message
 	if(!msg)
 		return

@@ -1,16 +1,17 @@
 /datum/job/fulp/deputy
 	title = "Deputy"
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security") // Sadly.
-	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
-	supervisors = "the head of your assigned department, and the head of security, but only on red alert"
+	department_head = list("Head of Security")
+	faction = FACTION_STATION
+	total_positions = 0
+	spawn_positions = 0
+	supervisors = "the head of your assigned department"
 	selection_color = "#ffeeee"
 	minimal_player_age = 14
 	exp_requirements = 300
-	exp_type = EXP_TYPE_CREW
-	exp_type_department = EXP_TYPE_SECURITY
+	exp_required_type = EXP_TYPE_CREW
+	exp_required_type_department = EXP_TYPE_SECURITY
+	exp_granted_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/deputy
 	plasmaman_outfit = /datum/outfit/plasmaman/deputy
@@ -23,7 +24,9 @@
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
 	bounty_types = CIV_JOB_SEC
-	departments = DEPARTMENT_SECURITY
+	departments_list = list(
+		/datum/job_department/security,
+	)
 
 	mail_goodies = list(
 		/obj/item/storage/fancy/cigarettes = 15,
@@ -35,8 +38,108 @@
 		/obj/item/crowbar/large = 1,
 		/obj/item/melee/baton/boomerang/loaded = 1,
 	)
-
+	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
 	fulp_spawn = /obj/effect/landmark/start/deputy
+
+	///Which department are we in?
+	var/deputy_department = DEPARTMENT_SECURITY
+
+/// Engineering
+/datum/job/fulp/deputy/engineering
+	title = "Engineering Deputy"
+	department_head = list("Chief Engineer")
+	selection_color = "#fff5cc"
+	total_positions = 1
+	spawn_positions = 1
+	exp_required_type_department = EXP_TYPE_ENGINEERING
+	exp_granted_type = EXP_TYPE_ENGINEERING
+	outfit = /datum/outfit/job/deputy/engineering
+	fulp_spawn = /obj/effect/landmark/start/deputy/engineering
+	deputy_department = DEPARTMENT_ENGINEERING
+
+	display_order = JOB_DISPLAY_ORDER_CHIEF_ENGINEER
+	departments_list = list(
+		/datum/job_department/security,
+		/datum/job_department/engineering,
+	)
+///Medical
+/datum/job/fulp/deputy/medical
+	title = "Medical Deputy"
+	department_head = list("Chief Medical Officer")
+	selection_color = "#ffeef0"
+	total_positions = 1
+	spawn_positions = 1
+	exp_required_type_department = EXP_TYPE_MEDICAL
+	exp_granted_type = EXP_TYPE_MEDICAL
+	outfit = /datum/outfit/job/deputy/medical
+	fulp_spawn = /obj/effect/landmark/start/deputy/medical
+	deputy_department = DEPARTMENT_MEDICAL
+
+	display_order = JOB_DISPLAY_ORDER_CHIEF_MEDICAL_OFFICER
+	departments_list = list(
+		/datum/job_department/security,
+		/datum/job_department/medical,
+	)
+///Science
+/datum/job/fulp/deputy/science
+	title = "Science Deputy"
+	department_head = list("Research Director")
+	selection_color = "#ffeeff"
+	total_positions = 1
+	spawn_positions = 1
+	exp_required_type_department = EXP_TYPE_SCIENCE
+	exp_granted_type = EXP_TYPE_SCIENCE
+	outfit = /datum/outfit/job/deputy/science
+	fulp_spawn = /obj/effect/landmark/start/deputy/science
+	deputy_department = DEPARTMENT_SCIENCE
+
+	display_order = JOB_DISPLAY_ORDER_RESEARCH_DIRECTOR
+	departments_list = list(
+		/datum/job_department/security,
+		/datum/job_department/science,
+	)
+///Supply
+/datum/job/fulp/deputy/supply
+	title = "Supply Deputy"
+	department_head = list("Head of Personnel")
+	selection_color = "#dcba97"
+	total_positions = 1
+	spawn_positions = 1
+	exp_required_type_department = EXP_TYPE_SUPPLY
+	exp_granted_type = EXP_TYPE_SUPPLY
+	outfit = /datum/outfit/job/deputy/supply
+	fulp_spawn = /obj/effect/landmark/start/deputy/supply
+	deputy_department = DEPARTMENT_CARGO
+
+	display_order = JOB_DISPLAY_ORDER_QUARTERMASTER
+	departments_list = list(
+		/datum/job_department/security,
+		/datum/job_department/cargo,
+	)
+///Service
+/datum/job/fulp/deputy/service
+	title = "Service Deputy"
+	department_head = list("Head of Personnel")
+	selection_color = "#bbe291"
+	total_positions = 1
+	spawn_positions = 1
+	exp_required_type_department = EXP_TYPE_SERVICE
+	exp_granted_type = EXP_TYPE_SERVICE
+	outfit = /datum/outfit/job/deputy/service
+	deputy_department = DEPARTMENT_SERVICE
+
+	display_order = JOB_DISPLAY_ORDER_HEAD_OF_PERSONNEL
+	departments_list = list(
+		/datum/job_department/security,
+		/datum/job_department/service,
+	)
+
+/datum/job/fulp/deputy/config_check()
+	if(deputy_department == DEPARTMENT_SECURITY)
+		return CONFIG_GET(flag/allow_departmentless_deputy)
+	if(deputy_department == DEPARTMENT_SERVICE)
+		return CONFIG_GET(flag/allow_service_deputy)
+	return TRUE
 
 /// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
@@ -47,157 +150,85 @@
 	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
+	job = /datum/job/fulp/deputy
 	/// Used to give the Departmental access
 	var/department_access = list()
 
 /datum/id_trim/job/deputy/refresh_trim_access()
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	access |= department_access
 
 /datum/id_trim/job/deputy/engineering
-	assignment = "Deputy (Engineering)"
+	assignment = "Engineering Deputy"
 	trim_state = "trim_deputyeng"
 	department_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_MECH_ENGINE, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CE, ACCESS_CHANGE_IDS)
+	job = /datum/job/fulp/deputy/engineering
 
 /datum/id_trim/job/deputy/medical
-	assignment = "Deputy (Medical)"
+	assignment = "Medical Deputy"
 	trim_state = "trim_deputymed"
 	department_access = list(ACCESS_MEDICAL, ACCESS_PSYCHOLOGY, ACCESS_MORGUE, ACCESS_VIROLOGY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_SURGERY, ACCESS_MECH_MEDICAL)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_CHANGE_IDS)
+	job = /datum/job/fulp/deputy/medical
 
 /datum/id_trim/job/deputy/science
-	assignment = "Deputy (Science)"
+	assignment = "Science Deputy"
 	trim_state = "trim_deputysci"
-	department_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_TOXINS, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_TOXINS_STORAGE)
+	department_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_ORDNANCE, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_ORDNANCE_STORAGE)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
+	job = /datum/job/fulp/deputy/science
 
 /datum/id_trim/job/deputy/supply
-	assignment = "Deputy (Supply)"
+	assignment = "Supply Deputy"
 	trim_state = "trim_deputysupply"
 	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE, ACCESS_QM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
+	job = /datum/job/fulp/deputy/supply
 
 /datum/id_trim/job/deputy/service
-	assignment = "Deputy (Service)"
+	assignment = "Service Deputy"
 	trim_state = "trim_deputyservice"
 	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
-
-GLOBAL_LIST_INIT(available_deputy_depts, sortList(list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))// SEC_DEPT_SERVICE))) <- Without this, they wont be selected as a department, even with the code below.
+	job = /datum/job/fulp/deputy/service
 
 /datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
 	. = ..()
-	var/department
 
-	if(M && M.client && M.client.prefs)
-		department = M.client.prefs.prefered_security_department
-		if(!LAZYLEN(GLOB.available_deputy_depts))
-			return
-		else if(department in GLOB.available_deputy_depts)
-			LAZYREMOVE(GLOB.available_deputy_depts, department)
-		else
-			department = pick_n_take(GLOB.available_deputy_depts)
-	var/destination = null
-	var/spawn_point = pick(LAZYACCESS(GLOB.department_security_spawns, department))
-	switch(department)
-		if(SEC_DEPT_ENGINEERING)
-			H.equipOutfit(/datum/outfit/job/deputy/engineering)
-			destination = /area/security/checkpoint/engineering
-			announce_engineering(H, department)
-		if(SEC_DEPT_MEDICAL)
-			H.equipOutfit(/datum/outfit/job/deputy/medical)
-			destination = /area/security/checkpoint/medical
-			announce_medical(H, department)
-		if(SEC_DEPT_SCIENCE)
-			H.equipOutfit(/datum/outfit/job/deputy/science)
-			destination = /area/security/checkpoint/science
-			announce_science(H, department)
-		if(SEC_DEPT_SUPPLY)
-			H.equipOutfit(/datum/outfit/job/deputy/supply)
-			destination = /area/security/checkpoint/supply
-			announce_supply(H, department)
-		if(SEC_DEPT_SERVICE)
-			H.equipOutfit(/datum/outfit/job/deputy/service)
-			destination = null
-			announce_service(H, department)
+	var/assigned_department = SEC_DEPT_NONE // Might be worth merging this into deputy_department soon.
+	var/channel
 
-	if(destination)
-		var/turf/T
-		if(spawn_point)
-			T = get_turf(spawn_point)
-			H.Move(T)
-		else
-			var/list/possible_turfs = get_area_turfs(destination)
-			while (length(possible_turfs))
-				var/I = rand(1, possible_turfs.len)
-				var/turf/target = possible_turfs[I]
-				if (H.Move(target))
-					break
-				possible_turfs.Cut(I,I+1)
-	if(department)
-		to_chat(M, "<b>You have been assigned to [department]!</b>")
-	else
+	if(!deputy_department || deputy_department == DEPARTMENT_SECURITY)
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
+		return
+	switch(deputy_department)
+		if(DEPARTMENT_ENGINEERING)
+			assigned_department = SEC_DEPT_ENGINEERING
+			channel = RADIO_CHANNEL_ENGINEERING
+		if(DEPARTMENT_MEDICAL)
+			assigned_department = SEC_DEPT_MEDICAL
+			channel = RADIO_CHANNEL_MEDICAL
+		if(DEPARTMENT_SCIENCE)
+			assigned_department = SEC_DEPT_SCIENCE
+			channel = RADIO_CHANNEL_SCIENCE
+		if(DEPARTMENT_CARGO)
+			assigned_department = SEC_DEPT_SUPPLY
+			channel = RADIO_CHANNEL_SUPPLY
+		if(DEPARTMENT_SERVICE)
+			assigned_department = SEC_DEPT_SERVICE
+			channel = RADIO_CHANNEL_SERVICE
+	announce_deputy(H, assigned_department, channel)
+	to_chat(M, "<b>You have been assigned to [assigned_department]!</b>")
 
-/// Engineering
-/datum/job/fulp/deputy/proc/announce_engineering(mob/deputy, department)
+/datum/job/fulp/deputy/proc/announce_deputy(mob/deputy, department, channel)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
-	announcement_system.announce_engineering(deputy, department)
+	announcement_system.announce_deputy(deputy, department, channel)
 
-/obj/machinery/announcement_system/proc/announce_engineering(mob/deputy, department)
+/obj/machinery/announcement_system/proc/announce_deputy(mob/deputy, department, channel)
 	if(!is_operational)
 		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_ENGINEERING))
-
-/// Medical
-/datum/job/fulp/deputy/proc/announce_medical(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_medical(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_medical(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_MEDICAL))
-
-/// Science
-/datum/job/fulp/deputy/proc/announce_science(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_science(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_science(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SCIENCE))
-
-/// Supply
-/datum/job/fulp/deputy/proc/announce_supply(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_supply(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_supply(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SUPPLY))
-
-/// Service
-/datum/job/fulp/deputy/proc/announce_service(mob/deputy, department)
-	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
-	if(isnull(announcement_system))
-		return
-	announcement_system.announce_service(deputy, department)
-
-/obj/machinery/announcement_system/proc/announce_service(mob/deputy, department)
-	if(!is_operational)
-		return
-	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(RADIO_CHANNEL_SERVICE))
+	broadcast("[deputy.real_name] is the [department] departmental Deputy.", list(channel))

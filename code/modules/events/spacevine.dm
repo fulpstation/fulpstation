@@ -250,7 +250,7 @@
 		GM.garbage_collect()
 
 /datum/spacevine_mutation/plasma_eater
-	name = "toxins consuming"
+	name = "plasma consuming"
 	hue = "#ffbbff"
 	severity = 3
 	quality = POSITIVE
@@ -478,7 +478,7 @@
 
 	for(var/datum/spacevine_mutation/SM in SV.mutations)
 		SM.on_birth(SV)
-	location.Entered(SV, NONE)
+	location.Entered(SV, null)
 	return SV
 
 /datum/spacevine_controller/proc/VineDestroyed(obj/structure/spacevine/S)

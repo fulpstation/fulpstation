@@ -4,6 +4,12 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// Gives Curators their abilities
+/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+
+	ADD_TRAIT(H, TRAIT_BLOODSUCKER_HUNTER, JOB_TRAIT)
+
 /// Prevents using a Memento Mori
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
 	if(IS_BLOODSUCKER(user))
@@ -87,7 +93,8 @@
 		return returnIcon + returnString
 	// Viewer not a Vamp AND not the target's vassal?
 	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
-		return ""
+		if(!(HAS_TRAIT(viewer, TRAIT_BLOODSUCKER_HUNTER) && bloodsuckerdatum.broke_masquerade))
+			return ""
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName(1)]</EM></span>\]"
 	var/returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
@@ -117,7 +124,7 @@
 			returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
 		// Am I someone ELSE'S Vassal?
 		else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
-			returnString +=	"This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName(vassaldatum.master.owner.current,1)]</span>"
+			returnString +=	"This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName(vassaldatum.master.owner.current,TRUE)][vassaldatum.master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
 			returnIcon = "[icon2html('fulp_modules/main_features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
 		// Are you serving the same master as I am?
 		else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)
@@ -134,11 +141,24 @@
 	return returnIcon + returnString
 
 /// Am I "pale" when examined? - Bloodsuckers on Masquerade will hide this.
-/mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user)
+/mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user, apparent_blood_volume)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	if(bloodsuckerdatum?.poweron_masquerade)
-		return FALSE
-	return TRUE
+	// Not a Bloodsucker?
+	if(!bloodsuckerdatum)
+		return ""
+	// Blood level too low to be hidden?
+	if(apparent_blood_volume <= BLOOD_VOLUME_BAD || bloodsuckerdatum.Frenzied)
+		return ""
+	// Special check: Nosferatu will always be Pale Death
+	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
+		return "<b>[p_they(TRUE)] look[p_s()] like pale death"
+	if(bloodsuckerdatum.poweron_masquerade)
+		return BLOODSUCKER_HIDE_BLOOD
+	switch(apparent_blood_volume)
+		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
+			return "[p_they(TRUE)] [p_have()] pale skin.\n"
+		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
+			return "<b>[p_they(TRUE)] look[p_s()] like pale death.</b>\n"
 	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)
 //	return blood_volume < BLOOD_VOLUME_OKAY // && !(bodytemperature <= get_temperature() + 2)
 /*

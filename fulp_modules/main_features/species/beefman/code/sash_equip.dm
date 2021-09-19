@@ -1,4 +1,4 @@
-/datum/species/beefman/before_equip_job(datum/job/job, mob/living/carbon/human/beefboy)
+/datum/species/beefman/pre_equip_species_outfit(datum/job/job, mob/living/carbon/human/beefboy, visuals_only = FALSE)
 
 	// Pre-Equip: Give us a sash so we don't end up with a Uniform!
 	var/obj/item/clothing/under/bodysash/newSash

@@ -16,7 +16,7 @@
 	plane = PLANE_SPACE
 	layer = SPACE_LAYER
 	light_power = 0.25
-	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
+	always_lit = TRUE
 	bullet_bounce_sound = null
 	vis_flags = VIS_INHERIT_ID //when this be added to vis_contents of something it be associated with something on clicking, important for visualisation of turf in openspace and interraction with openspace that show you turf.
 
@@ -49,9 +49,6 @@
 			smoothing_flags |= SMOOTH_OBJ
 		SET_BITFLAG_LIST(canSmoothWith)
 
-	var/area/A = loc
-	if(!IS_DYNAMIC_LIGHTING(src) && IS_DYNAMIC_LIGHTING(A))
-		add_overlay(/obj/effect/fullbright)
 
 	if(requires_activation)
 		SSair.add_to_active(src, TRUE)
@@ -158,7 +155,7 @@
 		else
 			to_chat(user, span_warning("The plating is going to need some support! Place metal rods first."))
 
-/turf/open/space/Entered(atom/movable/arrived, direction)
+/turf/open/space/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
 	if(!arrived || src != arrived.loc)
 		return
@@ -197,11 +194,6 @@
 
 			puller = pulling
 			pulling = next_pulling
-
-		//now we're on the new z_level, proceed the space drifting
-		stoplag()//Let a diagonal move finish, if necessary
-		arrived.newtonian_move(arrived.inertia_dir)
-		arrived.inertia_moving = TRUE
 
 
 /turf/open/space/MakeSlippery(wet_setting, min_wet_time, wet_time_to_add, max_wet_time, permanent)
