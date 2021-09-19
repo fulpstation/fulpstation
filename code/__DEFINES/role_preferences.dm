@@ -106,8 +106,10 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_SENTIENCE = 0,
 	ROLE_FAMILIES = 0,
 	ROLE_HERETIC = 0,
-	ROLE_BLOODSUCKER = 0, // Fulp edit - Bloodsuckers
-	ROLE_MONSTERHUNTER = 0, // Fulp edit - Bloodsuckers
+	// Fulp edit START - Bloodsuckers
+	ROLE_BLOODSUCKER = 0,
+	ROLE_MONSTERHUNTER = 0,
+	// Fulp edit END
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

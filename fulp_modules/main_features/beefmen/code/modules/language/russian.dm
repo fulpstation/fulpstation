@@ -1,5 +1,3 @@
-//FULPCODE//
-
 /datum/language/russian
 	name = "Space Russian"
 	desc = "An archaic terrestrial language still spoken in Space Russia."
