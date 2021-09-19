@@ -18,7 +18,6 @@
 - code/game/machinery/computer/crew.dm > Adds Fulp jobs to the crew monitor.
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 
-- code/modules/admin/verbs/adminhelp.dm > Button for redirecting people to Mentorhelp
 - code/modules/client/client_procs.dm > Gives the mentorhelp verb
 - code/modules/client/preferences.dm > Preferences for antag tip enabling/disabling || Beefmen customization/preferences
 - code/modules/client/preferences_savefile.dm > Preference saving for antag tips || Beefmen customization/preferences
