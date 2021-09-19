@@ -1,4 +1,10 @@
-// We set all Fulp ruins to use our prefix instead
+/**
+ * # Ruins
+ *
+ * We're setting all Fulp-only ruins to use our prefixes instead
+ * This way, we can modularly and easily add as many ruins as we want
+ * This makes TGU's easier on us, since we have less files to worry about.
+ */
 
 /datum/map_template/ruin/icemoon/fulp
 	prefix = "fulp_modules/mapping/ruins/icemoon/"
