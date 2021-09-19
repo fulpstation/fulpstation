@@ -19,8 +19,9 @@
 		TRAIT_SLEEPIMMUNE,
 	)
 	offset_features = list(
-		OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3), OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), \
-		OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3), OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2), \
+		OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3),
+		OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3),
+		OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2),
 		OFFSET_SUIT = list(0,2), OFFSET_NECK = list(0,3),
 	)
 
@@ -81,30 +82,38 @@
 				BP.generic_bleedstacks -= amount
 
 /datum/species/beefman/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
-	// Missing Defaults in DNA? Randomize!
-	proof_beefman_features(C.dna.features)
-
 	. = ..()
+	// Taken DIRECTLY from ethereal!
+	if(!ishuman(C))
+		return
 
-	if(ishuman(C)) // Taken DIRECTLY from ethereal!
-		var/mob/living/carbon/human/H = C
+	// 2) BODYPARTS
+	C.part_default_head = /obj/item/bodypart/head/beef
+	C.part_default_chest = /obj/item/bodypart/chest/beef
+	C.part_default_l_arm = /obj/item/bodypart/l_arm/beef
+	C.part_default_r_arm = /obj/item/bodypart/r_arm/beef
+	C.part_default_l_leg = /obj/item/bodypart/l_leg/beef
+	C.part_default_r_leg = /obj/item/bodypart/r_leg/beef
+	C.ReassignForeignBodyparts()
 
-		set_beef_color(H)
-
-		// 2) BODYPARTS
-		C.part_default_head = /obj/item/bodypart/head/beef
-		C.part_default_chest = /obj/item/bodypart/chest/beef
-		C.part_default_l_arm = /obj/item/bodypart/l_arm/beef
-		C.part_default_r_arm = /obj/item/bodypart/r_arm/beef
-		C.part_default_l_leg = /obj/item/bodypart/l_leg/beef
-		C.part_default_r_leg = /obj/item/bodypart/r_leg/beef
-		C.ReassignForeignBodyparts()
+	// 3) Load it all
+	proof_beefman_features(C.dna.features) // Missing Defaults in DNA? Randomize!
+	var/mob/living/carbon/human/beefuser = C
+	set_beef_color(beefuser)
 
 	// Be Spooked but Educated
 	//C.gain_trauma(pick(startTraumas))
-	if (SStraumas.phobia_types && SStraumas.phobia_types.len) // NOTE: ONLY if phobias have been defined! For some reason, sometimes this gets FUCKED??
-		C.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
-		C.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+	C.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+	C.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+
+/datum/species/beefman/get_features()
+	var/list/features = ..()
+
+	features += "feature_beefcolor"
+	features += "feature_beefeyes"
+	features += "feature_beefmouth"
+
+	return features
 
 /datum/species/proc/set_beef_color(mob/living/carbon/human/H)
 	return // Do Nothing

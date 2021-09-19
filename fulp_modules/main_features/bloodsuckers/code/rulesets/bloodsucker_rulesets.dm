@@ -57,7 +57,8 @@
 /datum/dynamic_ruleset/midround/bloodsucker
 	name = "Vampiric Accident"
 	antag_datum = /datum/antagonist/bloodsucker
-	antag_flag = ROLE_BLOODSUCKER
+	antag_flag = ROLE_VAMPIRICACCIDENT
+	antag_flag_override = ROLE_BLOODSUCKER
 	protected_roles = list(
 		"Captain", "Head of Personnel", "Head of Security",
 		"Warden", "Security Officer", "Detective", "Brig Physician",
@@ -105,7 +106,8 @@
 /datum/dynamic_ruleset/latejoin/bloodsucker
 	name = "Bloodsucker Breakout"
 	antag_datum = /datum/antagonist/bloodsucker
-	antag_flag = ROLE_BLOODSUCKER
+	antag_flag = ROLE_BLOODSUCKERBREAKOUT
+	antag_flag_override = ROLE_BLOODSUCKER
 	protected_roles = list(
 		"Captain", "Head of Personnel", "Head of Security",
 		"Warden", "Security Officer", "Detective", "Brig Physician",

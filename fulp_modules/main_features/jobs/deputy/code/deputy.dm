@@ -36,7 +36,7 @@
 		/obj/item/clothing/mask/whistle = 5,
 		/obj/item/choice_beacon/music = 5,
 		/obj/item/crowbar/large = 1,
-		/obj/item/melee/baton/boomerang/loaded = 1,
+		/obj/item/melee/baton/security/boomerang/loaded = 1,
 	)
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
 	fulp_spawn = /obj/effect/landmark/start/deputy
