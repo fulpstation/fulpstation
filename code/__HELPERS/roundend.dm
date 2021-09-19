@@ -189,10 +189,8 @@
 
 	if(human_mob.mind && (human_mob.mind.special_role || length(human_mob.mind.antag_datums) > 0))
 		var/didthegamerwin = TRUE
-		for(var/a in human_mob.mind.antag_datums)
-			var/datum/antagonist/antag_datum = a
-			for(var/i in antag_datum.objectives)
-				var/datum/objective/objective_datum = i
+		for(var/datum/antagonist/antag_datums as anything in human_mob.mind.antag_datums)
+			for(var/datum/objective/objective_datum as anything in antag_datums.objectives)
 				if(!objective_datum.check_completion())
 					didthegamerwin = FALSE
 		if(!didthegamerwin)
@@ -221,7 +219,7 @@
 		if(!C?.credits)
 			C?.RollCredits()
 //		C?.playtitlemusic(40)
-		C?.playcreditsmusic(40) // FULP EDIT - Yay, round-end music is back!
+		C?.playcreditsmusic(40) // FULP EDIT - Play our music instead
 		if(speed_round)
 			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
 		HandleRandomHardcoreScore(C)
@@ -275,8 +273,10 @@
 
 	CHECK_TICK
 	SSdbcore.SetRoundEnd()
+
 	//Collects persistence features
-	SSpersistence.CollectData()
+	SSpersistence.collect_data()
+	SSpersistent_paintings.save_paintings()
 
 	//stop collecting feedback during grifftime
 	SSblackbox.Seal()
