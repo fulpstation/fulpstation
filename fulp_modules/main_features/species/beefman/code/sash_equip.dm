@@ -21,7 +21,7 @@
 			newSash = new /obj/item/clothing/under/bodysash/detective()
 		if("Brig Physician")
 			newSash = new /obj/item/clothing/under/bodysash/brigdoc()
-		if("Deputy")
+		if("Deputy" || "Engineering Deputy" || "Medical Deputy" || "Science Deputy" || "Supply Deputy" || "Service Deputy")
 			newSash = new /obj/item/clothing/under/bodysash/deputy()
 
 		// Medical

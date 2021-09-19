@@ -4,7 +4,7 @@
 	var/meat_on_drop = FALSE
 
 /obj/item/bodypart/drop_limb(special)
-	..()
+	. = ..()
 	if(meat_on_drop)
 		amCondemned = TRUE
 		myMeatType = /obj/item/food/meat/slab
@@ -13,7 +13,7 @@
 /obj/item/bodypart/add_mob_blood(mob/living/M) // Cancel adding blood if I'm deletin (throws errors)
 	if(amCondemned)
 		return FALSE
-	..()
+	return ..()
 
 /obj/item/bodypart/proc/give_meat(mob/living/carbon/human/H, obj/item/food/meat/slab/inMeatObj)
 	amCondemned = TRUE

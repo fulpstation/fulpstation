@@ -18,7 +18,12 @@
 	if(beefman != target || !beefman.zone_selected)
 		return ..()
 	var/target_zone = beefman.zone_selected
-	var/list/allowedList = list (BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+	var/list/allowedList = list (
+		BODY_ZONE_L_ARM,
+		BODY_ZONE_R_ARM,
+		BODY_ZONE_L_LEG,
+		BODY_ZONE_R_LEG,
+	)
 	var/obj/item/bodypart/selected_bodypart = beefman.get_bodypart(target_zone) //stabbing yourself always hits the right target
 
 	if(target_zone in allowedList)
@@ -35,8 +40,8 @@
 			span_warning("[beefman] grabs onto [p_their()] own [selected_bodypart.name] and pulls."),
 			span_notice("You grab hold of your [selected_bodypart.name] and yank hard."),
 		)
-		if(!do_mob(beefman,target))
-			return TRUE
+		if(!do_mob(beefman, target))
+			return FALSE
 
 		beefman.visible_message(
 			span_warning("[beefman]'s [selected_bodypart.name] comes right off in their hand."),
@@ -53,7 +58,7 @@
 		return TRUE
 
 /datum/species/beefman/spec_attacked_by(obj/item/item, mob/living/user, obj/item/bodypart/bodypart, mob/living/carbon/human/beefman)
-	if(!bodypart || !istype(item, /obj/item/food/meat/slab))
+	if(!item || !istype(item, /obj/item/food/meat/slab))
 		return ..()
 	var/target_zone = user.zone_selected
 	var/list/limbs = list(
