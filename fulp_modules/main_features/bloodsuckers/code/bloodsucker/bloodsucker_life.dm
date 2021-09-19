@@ -43,7 +43,7 @@
 	if(my_clan == CLAN_MALKAVIAN)
 		if(prob(85) || owner.current.stat != CONSCIOUS || poweron_masquerade)
 			return
-		owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")))
+		owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")), forced = CLAN_MALKAVIAN)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
