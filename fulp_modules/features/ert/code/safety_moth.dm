@@ -60,7 +60,7 @@
 	belt = /obj/item/storage/belt/utility/full/powertools
 	back = /obj/item/storage/backpack/ert/engineer
 	backpack_contents = list(
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/construction/rcd/loaded/upgraded = 1,
 		/obj/item/pipe_dispenser = 1,
 		/obj/item/modular_computer/tablet/preset/advanced/engineering = 1,
@@ -86,9 +86,9 @@
 	belt = /obj/item/storage/belt/medical/advanced
 	back = /obj/item/storage/backpack/ert/medical
 	backpack_contents = list(
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/gun/medbeam = 1,
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/storage/box/hug/plushes = 1,
 		/obj/item/storage/box/survival/engineer = 1,
 	)
@@ -110,7 +110,7 @@
 	belt = /obj/item/storage/belt/security/full
 	back = /obj/item/storage/backpack/ert/security
 	backpack_contents = list(
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/storage/box/handcuffs = 1,
 		/obj/item/storage/box/survival/engineer = 1,
 	)
