@@ -2,9 +2,13 @@
 	. = ..()
 	. += " (<A HREF='?_src_=holder;[HrefToken(TRUE)];ahelp=[ref_src];ahelp_action=mhelp'>MHELP</A>)"
 
+/**
+ * We're overwriting /datum/admin_help/proc/Action(action)
+ * This is to add the "Mhelp" button to the admin_help's Action
+ */
+
 /datum/admin_help/Action(action)
 	. = ..()
-	testing("Ahelp action: [action]")
 	switch(action)
 		if("mhelp")
 			MHelpThis()

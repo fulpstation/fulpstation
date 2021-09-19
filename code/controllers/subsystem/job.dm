@@ -50,7 +50,15 @@ SUBSYSTEM_DEF(job)
 	 * See [/datum/controller/subsystem/ticker/proc/equip_characters]
 	 */
 	var/list/chain_of_command = list(
-/*
+		// Fulp edit START - Jobs
+		"Captain" = 1,
+		"Head of Personnel" = 2,
+		"Head of Security" = 3,
+		"Research Director" = 4,
+		"Chief Engineer" = 5,
+		"Chief Medical Officer" = 6,
+		"Quartermaster" = 7)
+	/*
 		"Captain" = 1,
 		"Head of Personnel" = 2,
 		"Research Director" = 3,
@@ -58,15 +66,7 @@ SUBSYSTEM_DEF(job)
 		"Chief Medical Officer" = 5,
 		"Head of Security" = 6,
 		"Quartermaster" = 7)
-*/ // Fulp edit START - Jobs
-		"Captain" = 1,
-		"Head of Personnel" = 2,
-		"Head of Security" = 3,
-		"Research Director" = 4,
-		"Chief Engineer" = 5,
-		"Chief Medical Officer" = 6,
-		"Quartermaster" = 7,
-	)
+	*/ // Fulp edit END
 
 	/// If TRUE, some player has been assigned Captaincy or Acting Captaincy at some point during the shift and has been given the spare ID safe code.
 	var/assigned_captain = FALSE
