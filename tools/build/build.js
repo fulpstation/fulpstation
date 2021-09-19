@@ -66,7 +66,7 @@ export const DmTarget = new Juke.Target({
     '_maps/map_files/generic/**',
     'code/**',
     'goon/**',
-    // Fulp edit START - Add our folder as part of dependecies, so the build doesn't fail if the only file edited is inside it.
+    // Fulp edit START - Build //Add our folder as part of dependecies, so the build doesn't fail if the only file edited is inside it.
     'fulp_modules/**',
     // Fulp edit END
     'html/**',
