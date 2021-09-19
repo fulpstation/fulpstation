@@ -491,9 +491,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!features["beefcolor"] || features["beefcolor"] == "") // [FULP EDIT START]
 		features["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
 	if(!features["beefeyes"] || features["beefeyes"] == "")
-		features["beefeyes"] = pick(GLOB.eyes_beefman)
+		features["beefeyes"] = pick(GLOB.beefman_eyes_list)
 	if(!features["beefmouth"] || features["beefmouth"] == "")
-		features["beefmouth"] = pick(GLOB.mouths_beefman) // [FULP EDIT END]
+		features["beefmouth"] = pick(GLOB.beefman_mouth_list) // [FULP EDIT END]
 	if(!features["mcolor"] || features["mcolor"] == "#000")
 		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
 
@@ -518,8 +518,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list_save, initial(uplink_spawn_loc))
 	playtime_reward_cloak = sanitize_integer(playtime_reward_cloak)
 	features["beefcolor"] = copytext_char(features["beefcolor"], 1, 7) // [FULP EDIT START]
-	features["beefeyes"] = sanitize_inlist(features["beefeyes"], GLOB.eyes_beefman)
-	features["beefmouth"] = sanitize_inlist(features["beefmouth"], GLOB.mouths_beefman) // [FULP EDIT END]
+	features["beefeyes"] = sanitize_inlist(features["beefeyes"], GLOB.beefman_eyes_list)
+	features["beefmouth"] = sanitize_inlist(features["beefmouth"], GLOB.beefman_mouth_list) // [FULP EDIT END]
 	features["mcolor"] = sanitize_hexcolor(features["mcolor"], 3, 0)
 	features["ethcolor"] = copytext_char(features["ethcolor"], 1, 7)
 	features["tail_lizard"] = sanitize_inlist(features["tail_lizard"], GLOB.tails_list_lizard)

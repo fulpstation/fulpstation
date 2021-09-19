@@ -887,7 +887,7 @@
 		/// FULP EDIT - BEEFMAN
 		switch(species_id)
 			if("beefman")
-				limb.icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
+				limb.icon = 'fulp_modules/main_features/species/beefman/icons/mob/beefman_bodyparts.dmi'
 			else
 				limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 //		limb.icon = 'icons/mob/human_parts_greyscale.dmi'

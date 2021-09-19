@@ -81,8 +81,10 @@
 	H.dna.features = random_features()
 
 	// Beefmen
-	proof_beefman_features(H.dna.features)
-	H.dna.species.set_beef_color(H)
+	if(isbeefman(H))
+		proof_beefman_features(H.dna.features)
+		H.dna.species.fixed_mut_color = H.dna.features["beefcolor"]
+		H.dna.species.default_color = H.dna.species.fixed_mut_color
 
 	// Apply Appearance
 	H.update_body() // Outfit and underware, also body.

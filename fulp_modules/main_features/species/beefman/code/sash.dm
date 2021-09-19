@@ -1,55 +1,60 @@
 /obj/item/clothing/under/bodysash
 	name = "assistant sash"
 	desc = "A simple assistant sash, slung from shoulder to hip."
-	icon = 'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing.dmi' // item icon
-	worn_icon =  'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing_worn.dmi' // mob worn icon
+	icon = 'fulp_modules/main_features/species/beefman/icons/mob/clothing/beefclothing.dmi' // item icon
+	worn_icon =  'fulp_modules/main_features/species/beefman/icons/mob/clothing/beefclothing_worn.dmi' // mob worn icon
 	icon_state = "assistant" // Inventory Icon
 	body_parts_covered = CHEST // |GROIN|ARMS
-	lefthand_file = 'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing_hold_left.dmi'
-	righthand_file = 'fulp_modules/main_features/beefmen/icons/mob/clothing/beefclothing_hold_right.dmi'
+	lefthand_file = 'fulp_modules/main_features/species/beefman/icons/mob/clothing/beefclothing_hold_left.dmi'
+	righthand_file = 'fulp_modules/main_features/species/beefman/icons/mob/clothing/beefclothing_hold_right.dmi'
 	inhand_icon_state = "sash" // In-hand Icon
 	can_adjust = FALSE
 
 /obj/item/clothing/under/bodysash/Initialize()
 	. = ..()
-	var/description
-	description += "A simple [name], slung from shoulder to hip."
-	if(istype(src, /obj/item/clothing/under/bodysash/security))
-		description += " It has been slightly reinforced to protect better."
-	desc = description
+	desc = "A simple [name], slung from shoulder to hip."
 
 //Captain
 /obj/item/clothing/under/bodysash/captain
 	name = "captain's sash"
-	icon_state = "captain_beef"
+	icon_state = "captain"
 
 //Security
-/obj/item/clothing/under/bodysash/security
-	name = "security's sash"
-	icon_state = "security"
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
+/obj/item/clothing/under/bodysash/hos
+	name = "head of security's sash"
+	icon_state = "hos"
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
 
-/obj/item/clothing/under/bodysash/security/hos
-	name = "head of security's sash"
-	icon_state = "hos"
-
-/obj/item/clothing/under/bodysash/security/warden
+/obj/item/clothing/under/bodysash/warden
 	name = "warden's sash"
 	icon_state = "warden"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
-/obj/item/clothing/under/bodysash/security/detective
+/obj/item/clothing/under/bodysash/security
+	name = "security's sash"
+	icon_state = "security"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
+
+/obj/item/clothing/under/bodysash/detective
 	name = "detective's sash"
 	icon_state = "detective"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
-/obj/item/clothing/under/bodysash/security/brigdoc
+/obj/item/clothing/under/bodysash/brigdoc
 	name = "brig physician's sash"
 	icon_state = "brigdoc"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
-/obj/item/clothing/under/bodysash/security/deputy
+/obj/item/clothing/under/bodysash/deputy
 	name = "deputy's sash"
 	icon_state = "deputy"
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
 
 //Medical
 /obj/item/clothing/under/bodysash/cmo
@@ -108,7 +113,7 @@
 	icon_state = "hop"
 
 /obj/item/clothing/under/bodysash/qm
-	name = "quarter master's sash"
+	name = "quartermaster's sash"
 	icon_state = "qm"
 
 /obj/item/clothing/under/bodysash/cargo

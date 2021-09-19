@@ -1424,11 +1424,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_beefcolor)
 						features["beefcolor"] = GLOB.color_list_beefman[new_beefcolor]
 				if("eyes_beef")
-					var/new_eyes = input(user, "Choose your Eyes:", "Character Preference")  as null|anything in GLOB.eyes_beefman
+					var/new_eyes = input(user, "Choose your Eyes:", "Character Preference")  as null|anything in GLOB.beefman_eyes_list
 					if(new_eyes)
 						features["beefeyes"] = new_eyes
 				if("mouth_beef")
-					var/new_mouth = input(user, "Choose your Mouth:", "Character Preference")  as null|anything in GLOB.mouths_beefman
+					var/new_mouth = input(user, "Choose your Mouth:", "Character Preference")  as null|anything in GLOB.beefman_mouth_list
 					if(new_mouth)
 						features["beefmouth"] = new_mouth // FULP EDIT END
 				if("tail_lizard")

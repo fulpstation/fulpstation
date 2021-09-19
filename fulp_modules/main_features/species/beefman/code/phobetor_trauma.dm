@@ -1,23 +1,30 @@
-//Procs first
-/proc/check_location_seen(atom/subject, turf/T)
-	if (!isturf(T)) // Only check if I wasn't given a locker or something
+/**
+ * Used as a helper that checks if a turf is being seen.
+ * Returns TRUE if the next checks all pass:
+ * The mobs in view aren't the subject, the mobs in view have a mind, the mobs don't have silicon privileges and the mobs aren't blind.
+ * Arguments:
+ * * mob/subject - Serves only to check if the mobs seeing the turf aren't the subject.
+ * * turf/turfs - The turfs that might or might not be getting seen.
+ */
+/proc/check_location_seen(mob/subject, turf/turfs)
+	if (!isturf(turfs)) // Only check if I wasn't given a locker or something
 		return FALSE
-	// A) Check for Darkness
-	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
-		// B) Check for Viewers
-		for(var/mob/living/M in viewers(T))
-			if(M != subject && isliving(M) && M.mind && !M.has_unlimited_silicon_privilege && !M.eye_blind) // M.client <--- add this in after testing!
+	if(turfs && turfs.lighting_object && turfs.get_lumcount()>= 0.1)
+		for(var/mob/living/mobs_in_view in viewers(turfs))
+			if(mobs_in_view != subject && mobs_in_view.mind && !mobs_in_view.has_unlimited_silicon_privilege && !mobs_in_view.eye_blind)
 				return TRUE
 	return FALSE
 
-/proc/return_valid_floor_in_range(atom/A, checkRange = 8, minRange = 0, checkFloor = TRUE)
+
+/// Used as a helper that returns a valid turf in a certain range.
+/proc/return_valid_floor_in_range(atom/checked_atom, checkRange = 8, minRange = 0, checkFloor = TRUE)
 	// FAIL: Atom doesn't exist. Aren't you real?
-	if (!istype(A))
+	if (!istype(checked_atom))
 		return null
 
 	var/deltaX = rand(minRange,checkRange)*pick(-1,1)
 	var/deltaY = rand(minRange,checkRange)*pick(-1,1)
-	var/turf/center = get_turf(A)
+	var/turf/center = get_turf(checked_atom)
 
 	var/target = locate((center.x + deltaX),(center.y + deltaY),center.z)
 
@@ -55,8 +62,8 @@
 	name = "Sleepless Dreamer"
 	desc = "The patient, after undergoing untold psychological hardship, believes they can travel between the dreamscapes of this dimension."
 	scan_desc = "awoken sleeper"
-	gain_text = span_notice("Your mind snaps, and you wake up. You <i>really</i> wake up.")
-	lose_text = span_warning("You succumb once more to the sleepless dream of the unwoken.")
+	gain_text = "<span class='notice'>Your mind snaps, and you wake up. You <i>really</i> wake up.</span>"
+	lose_text = "<span class='warning'>You succumb once more to the sleepless dream of the unwoken.</span>"
 
 
 	var/list/created_firsts = list()
@@ -120,18 +127,17 @@
 
 //Called when removed from a mob
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
-	for (var/BT in created_firsts)
-		qdel(BT)
+	for (var/tears in created_firsts)
+		qdel(tears)
 
 /obj/effect/hallucination/simple/phobetor
 	name = "phobetor tear"
 	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
-	image_icon = 'fulp_modules/main_features/beefmen/icons/phobetor_tear.dmi'
+	image_icon = 'fulp_modules/main_features/species/beefman/icons/phobetor_tear.dmi'
 	image_state = "phobetor_tear"
 	image_layer = ABOVE_LIGHTING_PLANE // Place this above shadows so it always glows.
 	var/exist_length = 500
 	var/created_on
-	use_without_hands = TRUE // A Swain addition.
 	var/obj/effect/hallucination/simple/phobetor/linked_to
 	var/mob/living/carbon/seer
 
@@ -143,12 +149,12 @@
 		return
 	// Is this, or linked, stream being watched?
 	if (check_location_seen(user, get_turf(user)))
-		to_chat(user, span_warning("Not while you're being watched."))
+		to_chat(user, "<span class='warning'>Not while you're being watched.</span>")
 		return
 	if (check_location_seen(user, get_turf(linked_to)))
-		to_chat(user, span_warning("Your destination is being watched."))
+		to_chat(user, "<span class='warning'>Your destination is being watched.</span>")
 		return
-	to_chat(user, span_notice("You slip unseen through the Phobetor Tear."))
+	to_chat(user, "<span class='notice'>You slip unseen through the Phobetor Tear.</span>")
 	user.playsound_local(null, 'sound/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
 
 	user.forceMove(get_turf(linked_to))
@@ -163,5 +169,6 @@
 	if (linked_to)
 		linked_to.linked_to = null
 		qdel(linked_to)
+	seer = null
 		// WHY DO THIS?	Because our trauma only gets rid of all the FIRST gates created.
 	. = ..()
