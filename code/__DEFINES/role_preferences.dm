@@ -144,8 +144,6 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_PAI = 0,
 	ROLE_INTERNAL_AFFAIRS = 0,
 	ROLE_SENTIENCE = 0,
-	ROLE_FAMILIES = 0,
-	ROLE_HERETIC = 0,
 
 	// Fulp edit START - Bloodsuckers
 	ROLE_BLOODSUCKER = 0,
