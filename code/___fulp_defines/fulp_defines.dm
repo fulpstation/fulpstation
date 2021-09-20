@@ -75,6 +75,16 @@
 // Used ONLY as Flavor text in Archives of Kindred
 #define CLAN_TOREADOR "Toreador Clan"
 #define CLAN_GANGREL "Gangrel Clan"
+/// This Power can't be used in Torpor
+#define BP_CANT_USE_IN_TORPOR (1<<0)
+/// This Power can't be used in Frenzy unless you're part of Brujah
+#define BP_CANT_USE_IN_FRENZY (1<<1)
+/// This Power can't be used with a stake in you
+#define BP_CANT_USE_WHILE_STAKED (1<<2)
+/// This Power can't be used while incapacitated
+#define BP_CANT_USE_WHILE_INCAPACITATED (1<<3)
+/// This Power can't be used while unconscious
+#define BP_CANT_USE_WHILE_UNCONSCIOUS (1<<4)
 
 /*
  *	Deputy Defines

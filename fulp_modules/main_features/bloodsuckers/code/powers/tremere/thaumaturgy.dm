@@ -16,10 +16,9 @@
 	button_icon_state = "power_thaumaturgy"
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
-	must_be_capacitated = TRUE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 20
 	cooldown = 60
-	must_be_concious = FALSE
 	message_Trigger = "Click where you wish to fire"
 	///The shield this Power gives
 	var/obj/item/shield/bloodsucker/blood_shield

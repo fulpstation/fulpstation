@@ -7,6 +7,7 @@
 		While using Cloak of Darkness, attempting to run will crush you.\n\
 		Additionally, while Cloak is active, you are completely invisible to the AI.\n\
 		Higher levels will increase how invisible you are."
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 5
 	constant_bloodcost = 0.2
 	conscious_constant_bloodcost = TRUE

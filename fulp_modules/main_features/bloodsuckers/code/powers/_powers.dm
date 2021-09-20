@@ -1,4 +1,4 @@
-/datum/action/bloodsucker
+/datum/action/bloodsucker // TODO: Add the Bloodsucker's antag datum here, instead of constantly calling it.
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
 	///This is the FILE for the background icon
@@ -42,20 +42,10 @@
 	var/bloodsucker_can_buy = FALSE
 	///Ventrue Vassals can have this power purchased when Ranking up
 	var/vassal_can_buy = FALSE
-	///Powers that can be used in Torpor
-	var/can_use_in_torpor = FALSE
-	///Powers that can only be used while in a Frenzy - Unless you're part of Brujah
-	var/can_use_in_frenzy = FALSE
-	///Do we need to be standing and ready?
-	var/must_be_capacitated = FALSE
-	///Brawn can be used when incapacitated/laying if it's because you're being immobilized. NOTE: If must_be_capacitated is FALSE, this is irrelevant.
-	var/can_use_w_immobilize = FALSE
-	///Can I use this while staked?
-	var/can_use_w_stake = FALSE
 	///Feed, Masquerade, and One-Shot powers don't improve their cooldown.
 	var/cooldown_static = FALSE
-	///Can't use this ability while unconcious.
-	var/must_be_concious = TRUE
+	/// What the Power requires to be used
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 
 	// UNUSED POWER STUFF - Kept in case Swain wants to use them //
 //	var/level_max = 1
@@ -63,6 +53,7 @@
 //	var/needs_button = TRUE
 	///This goes to Vassals or Hunters, but NOT bloodsuckers. - Replaced with vassal_can_buy kept, Monster Hunters currently can't purchase powers
 //	var/not_bloodsucker = FALSE
+
 
 /// Modify description to add cost.
 /datum/action/bloodsucker/New(Target)
@@ -136,41 +127,38 @@
 /datum/action/bloodsucker/proc/CheckCanUse(display_error)
 	if(!owner || !owner.mind)
 		return FALSE
+	var/mob/living/bloodsuckerliving = owner
 	// Torpor?
-	if(!can_use_in_torpor && HAS_TRAIT(owner, TRAIT_NODEATH))
+	if((check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner, TRAIT_NODEATH))
 		if(display_error)
 			to_chat(owner, span_warning("Not while you're in Torpor."))
 		return FALSE
+	// Frenzy?
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum?.Frenzied && bloodsuckerdatum?.my_clan != CLAN_BRUJAH))
+		if(display_error)
+			to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
+		return FALSE
 	// Stake?
-	if(!can_use_w_stake && owner.AmStaked())
+	if((check_flags & BP_CANT_USE_WHILE_STAKED) && owner.AmStaked())
 		if(display_error)
 			to_chat(owner, span_warning("You have a stake in your chest! Your powers are useless."))
 		return FALSE
-	if(must_be_concious)
-		if(owner.stat != CONSCIOUS)
-			if(display_error)
-				to_chat(owner, span_warning("You can't do this while you are unconcious!"))
-			return FALSE
+	// Conscious?
+	if((check_flags & BP_CANT_USE_WHILE_UNCONSCIOUS) && owner.stat != CONSCIOUS)
+		if(display_error)
+			to_chat(owner, span_warning("You can't do this while you are unconcious!"))
+		return FALSE
 	// Incapacitated?
-	if(must_be_capacitated)
-		var/mob/living/L = owner
-		if(!can_use_w_immobilize && (!(L.mobility_flags & MOBILITY_STAND) || L.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
-			if(display_error)
-				to_chat(owner, span_warning("Not while you're incapacitated!"))
-			return FALSE
+	if((check_flags & BP_CANT_USE_WHILE_INCAPACITATED) && (bloodsuckerliving.incapacitated(ignore_restraints=TRUE,ignore_grab=TRUE)))
+		if(display_error)
+			to_chat(owner, span_warning("Not while you're incapacitated!"))
+		return FALSE
 	// Constant Cost (out of blood)
 	if(constant_bloodcost)
-		var/mob/living/L = owner
-		if(L.blood_volume <= 0)
+		if(bloodsuckerliving.blood_volume <= 0)
 			if(display_error)
 				to_chat(owner, span_warning("You don't have the blood to upkeep [src]."))
-			return FALSE
-	// In a Frenzy?
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum && bloodsuckerdatum.Frenzied && bloodsuckerdatum.my_clan != CLAN_BRUJAH)
-		if(!can_use_in_frenzy)
-			if(display_error)
-				to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
 			return FALSE
 	return TRUE
 

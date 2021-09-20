@@ -6,6 +6,7 @@
 		Activating Veil of Many Faces will shroud you in smoke and forge you a new identity.\n\
 		Your name and appearance will be completely randomized, and turning the ability off again will undo it all.\n\
 		Clothes, gear, and Security/Medical HUD status is kept the same while this power is active."
+	check_flags = BP_CANT_USE_IN_FRENZY
 	bloodcost = 15
 	constant_bloodcost = 0.1
 	cooldown = 100

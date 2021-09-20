@@ -395,7 +395,7 @@
 ///Disables all powers, accounting for torpor
 /datum/antagonist/bloodsucker/proc/DisableAllPowers()
 	for(var/datum/action/bloodsucker/power in powers)
-		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH) || !power.can_use_in_torpor) // If you AREN'T in torpor or you CANT use it in torpor
+		if((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			if(power.active)
 				power.DeactivatePower()
 

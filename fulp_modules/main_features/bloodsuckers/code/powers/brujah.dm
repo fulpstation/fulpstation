@@ -6,12 +6,12 @@
 		A Brujah only Power. Activating it will make you enter a Frenzy.\n\
 		When in a Frenzy, you get extra stun resistance, slowly gain brute damage, move faster, become mute/deaf,\n\
 		and become unable to use complicated machinery as your screen goes blood-red."
+	check_flags = NONE
 	bloodcost = 2
 	conscious_constant_bloodcost = TRUE
 	cooldown = 100
 	amToggle = TRUE
 	cooldown_static = TRUE
-	can_use_w_stake = TRUE
 
 /datum/action/bloodsucker/brujah/ActivatePower(mob/living/user = owner)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)

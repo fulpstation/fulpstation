@@ -9,16 +9,13 @@
 		The power will cancel out if the <b>Claimed Coffin</b> is somehow destroyed. \n\
 		Immediately after activating, lights around the user will begin to flicker. \n\
 		Once the user teleports to their coffin, in their place will be a Rat or Bat."
+	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED
 	bloodcost = 100
-	/// It'll never come back.
+	// It'll never come back.
 	cooldown = 99999
 	amSingleUse = TRUE
-
-	/// You only get this if you've claimed a lair, and only just before sunrise.
+	// You only get this if you've claimed a lair, and only just before sunrise.
 	bloodsucker_can_buy = FALSE
-	can_use_in_torpor = TRUE
-	can_use_w_immobilize = TRUE
-	must_be_concious = FALSE
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)
 	if(!..())
