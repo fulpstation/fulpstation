@@ -18,12 +18,12 @@
 	if(active && bloodsuckerdatum && bloodsuckerdatum.Frenzied)
 		owner.balloon_alert(owner, "already in a frenzy!")
 		return FALSE
-	user.AddComponent(/datum/component/bloodsucker_frenzy)
+	user.apply_status_effect(STATUS_EFFECT_FRENZY)
 	. = ..()
 
 /datum/action/bloodsucker/brujah/DeactivatePower(mob/living/user = owner, mob/living/target)
 	. = ..()
-	qdel(user.GetComponent(/datum/component/bloodsucker_frenzy))
+	user.remove_status_effect(STATUS_EFFECT_FRENZY)
 
 /datum/action/bloodsucker/brujah/CheckCanDeactivate(display_error)
 	var/mob/living/user = owner

@@ -279,7 +279,7 @@
 
 	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
 	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied && my_clan != CLAN_BRUJAH)
-		qdel(owner.current.GetComponent(/datum/component/bloodsucker_frenzy))
+		owner.current.remove_status_effect(STATUS_EFFECT_FRENZY)
 	// BLOOD_VOLUME_BAD: [224] - Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !poweron_masquerade)
 		owner.current.Jitter(3)
@@ -290,7 +290,7 @@
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !Frenzied)
 		if(my_clan != CLAN_BRUJAH)
-			owner.current.AddComponent(/datum/component/bloodsucker_frenzy)
+			owner.current.apply_status_effect(STATUS_EFFECT_FRENZY)
 		else
 			for(var/datum/action/bloodsucker/power in powers)
 				if(istype(power, /datum/action/bloodsucker/brujah))
@@ -558,14 +558,3 @@
 	mood_change = -15
 	timeout = 5 MINUTES
 
-/// Frenzy's instant aggro grabs
-/datum/martial_art/frenzygrab
-	name = "Frenzy Grab"
-	id = MARTIALART_FRENZYGRAB
-
-/datum/martial_art/frenzygrab/grab_act(mob/living/user, mob/living/target)
-	if(user != target)
-		target.grabbedby(user)
-		target.grippedby(user, instant = TRUE)
-		return TRUE
-	..()

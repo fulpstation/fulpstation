@@ -1,4 +1,6 @@
-/* 		WITHOUT THIS POWER:
+/**
+ *	# WITHOUT THIS POWER:
+ *
  *	- Mid-Blood: SHOW AS PALE
  *	- Low-Blood: SHOW AS DEAD
  *	- No Heartbeat
@@ -19,7 +21,7 @@
 		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
 		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
 		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
-	check_flags = NONE
+	check_flags = BP_CANT_USE_IN_FRENZY
 	bloodcost = 10
 	cooldown = 50
 	constant_bloodcost = 0.1
@@ -97,16 +99,16 @@
 		disease.cure()
 	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))
 
-/*
- *	# Status effect
+/**
+ * # Status effect
  *
- *	This is what the Masquerade power gives, handles their bonuses and gives them a neat icon to tell them they're on Masquerade.
+ * This is what the Masquerade power gives, handles their bonuses and gives them a neat icon to tell them they're on Masquerade.
  */
 
 /datum/status_effect/masquerade
 	id = "masquerade"
 	duration = -1
-	tick_interval = 20
+	tick_interval = -1
 	alert_type = /atom/movable/screen/alert/status_effect/masquerade
 
 /atom/movable/screen/alert/status_effect/masquerade
