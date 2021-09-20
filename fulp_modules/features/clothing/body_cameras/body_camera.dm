@@ -113,13 +113,13 @@
 	name = "body camera upgrade"
 	icon = 'fulp_modules/features/clothing/body_cameras/bodycamera.dmi'
 	icon_state = "bodycamera"
-	desc = "A Security Jumpsuit upgrade, it says to examine closer to understand how it works."
+	desc = "An armor vest upgrade, it says to examine closer to understand how it works."
 
 /obj/item/bodycam_upgrade/examine_more(mob/user)
 	. = list(span_notice("<i>You examine [src]'s instruction tag...</i>"))
 	. += list(span_warning("How to use Body Cameras v3.5: EMP-proof Edition!"))
-	. += list(span_notice("Use the Body camera Upgrade on any jumpsuit to upgrade it."))
-	. += list(span_notice("Use a Screwdriver to remove the upgrade once you're done with it."))
-	. += list(span_notice("While upgraded & equipped, use your ID card on the jumpsuit to turn the camera on."))
-	. += list(span_notice("Unequipping or using your ID on the Jumpsuit will disable its camera."))
-	. += list(span_notice("While active, the wearer will be visible to Security camera consoles."))
+	. += list(span_notice("Use [src] on an armor vest to install it."))
+	. += list(span_notice("Use a Screwdriver to remove it when needed."))
+	. += list(span_notice("While equipped, use your ID card on the vest to activate the camera."))
+	. += list(span_notice("Unequipping the vest or using your ID again will deactivate the camera."))
+	. += list(span_notice("While the camera is active, the wearer will be visible to camera consoles."))
