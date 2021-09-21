@@ -16,11 +16,13 @@
 
 /// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
+	SIGNAL_HANDLER
+
 	if(!owner || AmFinalDeath)
 		return
 	// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		AddBloodVolume(passive_blood_drain) // -.1 currently
+		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
 		if(!notice_healing && owner.current.blood_volume > 0)
 			to_chat(owner, span_notice("The power of your blood begins knitting your wounds..."))
@@ -28,9 +30,9 @@
 	else if(notice_healing)
 		notice_healing = FALSE
 	// Standard Updates
-	HandleDeath()
-	HandleStarving()
-	HandleTorpor()
+	INVOKE_ASYNC(src, .proc/HandleDeath)
+	INVOKE_ASYNC(src, .proc/HandleStarving)
+	INVOKE_ASYNC(src, .proc/HandleTorpor)
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
@@ -43,7 +45,8 @@
 	if(my_clan == CLAN_MALKAVIAN)
 		if(prob(85) || owner.current.stat != CONSCIOUS || poweron_masquerade)
 			return
-		owner.current.say(pick(strings("malkavian_revelations.json", "revelations", "fulp_modules")), forced = CLAN_MALKAVIAN)
+		var/message = pick(strings("malkavian_revelations.json", "revelations", "fulp_modules"))
+		INVOKE_ASYNC(owner.current, /atom/movable/proc/say, message, , , , , , CLAN_MALKAVIAN)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
