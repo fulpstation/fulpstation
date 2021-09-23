@@ -15,8 +15,7 @@
 	cooldown_static = TRUE
 
 /datum/action/bloodsucker/brujah/ActivatePower(mob/living/user = owner)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(active && bloodsuckerdatum && bloodsuckerdatum.Frenzied)
+	if(active && bloodsuckerdatum_power && bloodsuckerdatum_power.Frenzied)
 		owner.balloon_alert(owner, "already in a frenzy!")
 		return FALSE
 	user.apply_status_effect(STATUS_EFFECT_FRENZY)

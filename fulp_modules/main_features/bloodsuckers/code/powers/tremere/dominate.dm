@@ -164,7 +164,6 @@
 	if(!do_mob(user, target, 6 SECONDS, NONE, TRUE))
 		return
 
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(IS_VASSAL(target))
 		PowerActivatedSuccessfully()
 		to_chat(user, span_warning("We revive [target]!"))
@@ -174,7 +173,7 @@
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("Their body refuses to react..."))
 		return
-	if(!bloodsuckerdatum.attempt_turn_vassal(target, TRUE))
+	if(!bloodsuckerdatum_power.attempt_turn_vassal(target, TRUE))
 		return
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))

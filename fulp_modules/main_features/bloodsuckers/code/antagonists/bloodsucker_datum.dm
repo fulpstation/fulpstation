@@ -132,8 +132,6 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	/// Assign Powers
-	AssignStarterPowersAndStats()
 	/// If I have a creator, then set as Fledgling.
 	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
@@ -147,7 +145,10 @@
 		// Objectives & HUDs
 		forge_bloodsucker_objectives()
 		update_bloodsucker_icons_added(owner.current, "bloodsucker")
+
 	. = ..()
+	// Assign Powers
+	AssignStarterPowersAndStats()
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
@@ -310,12 +311,12 @@
 	power.Grant(owner.current)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	/// Purchase Roundstart Powers
+	// Purchase Roundstart Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
-	add_verb(owner.current, /mob/living/proc/explain_powers)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/bloodsucker/veil)
+	add_verb(owner.current, /mob/living/proc/explain_powers)
 	// Traits: Species
 	if(iscarbon(owner.current))
 		var/mob/living/carbon/human/H = owner.current
@@ -339,7 +340,7 @@
 		/// Make Changes
 		S.punchdamagelow += 1 //lowest possible punch damage   0
 		S.punchdamagehigh += 1 //highest possible punch damage	 9
-	/// Tongue & Language
+	// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	/// Clear Disabilities & Organs

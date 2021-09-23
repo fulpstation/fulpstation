@@ -1,4 +1,4 @@
-/datum/action/bloodsucker // TODO: Add the Bloodsucker's antag datum here, instead of constantly calling it.
+/datum/action/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
 	///This is the FILE for the background icon
@@ -45,6 +45,8 @@
 	/// Who can purchase the Power
 	var/purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
 
+	///The saved antagonist datum for the Power's owner
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum_power
 	// UNUSED POWER STUFF - Kept in case Swain wants to use them //
 //	var/level_max = 1
 	///For passive abilities that dont need a button - Taken from Changeling
@@ -60,6 +62,16 @@
 		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
 	if(amSingleUse)
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
+
+/datum/action/bloodsucker/Grant(mob/M)
+	. = ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
+	if(bloodsuckerdatum)
+		bloodsuckerdatum_power = bloodsuckerdatum
+
+/datum/action/bloodsucker/Destroy()
+	bloodsuckerdatum_power = null
+	return ..()
 
 /mob/living/proc/explain_powers()
 	set name = "Bloodsucker Help"
@@ -110,8 +122,7 @@
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/L = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(L)
-	if(bloodsuckerdatum?.Frenzied)
+	if(bloodsuckerdatum_power?.Frenzied)
 		return TRUE
 	if(L.blood_volume < bloodcost)
 		if(display_error)
@@ -130,8 +141,7 @@
 			to_chat(owner, span_warning("Not while you're in Torpor."))
 		return FALSE
 	// Frenzy?
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum?.Frenzied && bloodsuckerdatum?.my_clan != CLAN_BRUJAH))
+	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum_power?.Frenzied && bloodsuckerdatum_power?.my_clan != CLAN_BRUJAH))
 		if(display_error)
 			to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
 		return FALSE
@@ -182,13 +192,12 @@
 	. = ..()
 
 /datum/action/bloodsucker/proc/PayCost()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
-	if(bloodsuckerdatum?.Frenzied)
+	if(bloodsuckerdatum_power?.Frenzied)
 		return
 	var/mob/living/carbon/human/H = owner
 	H.blood_volume -= bloodcost
-	bloodsuckerdatum?.update_hud()
+	bloodsuckerdatum_power?.update_hud()
 
 /datum/action/bloodsucker/proc/ActivatePower()
 	if(amToggle)
@@ -210,10 +219,9 @@
 	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
 		DeactivatePower()
 		return FALSE
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	// We can keep this up (For now), so Pay Cost!
 	if(!(conscious_constant_bloodcost && user.stat != CONSCIOUS))
-		bloodsuckerdatum?.AddBloodVolume(-constant_bloodcost)
+		bloodsuckerdatum_power?.AddBloodVolume(-constant_bloodcost)
 	return TRUE
 
 /// Checks to make sure this power can stay active
@@ -227,9 +235,7 @@
 
 /// Used to unlearn Go Home ability
 /datum/action/bloodsucker/proc/RemoveAfterUse()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(istype(bloodsuckerdatum))
-		bloodsuckerdatum.powers -= src
+	bloodsuckerdatum_power?.powers -= src
 	Remove(owner)
 
 /datum/action/bloodsucker/proc/Upgrade()

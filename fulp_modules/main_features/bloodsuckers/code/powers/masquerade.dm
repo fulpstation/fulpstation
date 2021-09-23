@@ -31,7 +31,6 @@
 	cooldown_static = TRUE
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
 	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
@@ -56,7 +55,7 @@
 	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.FakeStart()
-	bloodsuckerdatum.poweron_masquerade = TRUE
+	bloodsuckerdatum_power.poweron_masquerade = TRUE
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 	. = ..()
 
@@ -69,8 +68,7 @@
 /datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/carbon/user = owner, mob/living/target)
 	. = ..() // activate = FALSE
 	owner.balloon_alert(owner, "masquerade turned off.")
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	bloodsuckerdatum.poweron_masquerade = FALSE
+	bloodsuckerdatum_power.poweron_masquerade = FALSE
 	user.remove_status_effect(STATUS_EFFECT_MASQUERADE)
 	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
