@@ -254,9 +254,6 @@
 	else
 		owner.balloon_alert(owner, "you think no one saw you...")
 
-	// Activate Effects
-//	feed_target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
-
 	// FEEEEEEEEED!! //
 	bloodsuckerdatum_power.poweron_feed = TRUE
 	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
@@ -264,7 +261,7 @@
 	. = ..()
 
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
-//	. = ..()
+//	. = ..() // We have a target to keep track of during ContinueActive, so we don't use parent
 //	if(!.)
 //		return
 
