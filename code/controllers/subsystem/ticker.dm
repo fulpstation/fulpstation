@@ -675,8 +675,7 @@ SUBSYSTEM_DEF(ticker)
 	save_admin_data()
 	update_everything_flag_in_db()
 	if(!round_end_sound)
-	// FULP EDIT - Adds a pointer to the new modular pick_round_end_sound() proc from Fulp's sound.dm
-		// Original code left in comment
+	// Fulp edit START - Music
 		round_end_sound = pick_round_end_sound()
 	/*
 		round_end_sound = pick(\
@@ -692,7 +691,7 @@ SUBSYSTEM_DEF(ticker)
 		'sound/roundend/bully2.ogg'\
 		)
 	*/
-	// FULP EDIT ENDS
+	// Fulp edit END
 	///The reference to the end of round sound that we have chosen.
 	var/sound/end_of_round_sound_ref = sound(round_end_sound)
 	for(var/mob/M in GLOB.player_list)

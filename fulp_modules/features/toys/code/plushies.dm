@@ -81,4 +81,9 @@
 		myhead.dismember()
 	return(BRUTELOSS)
 
-
+/obj/item/toy/plush/beefplushie
+	name = "beef plushie"
+	desc = "Made from real meat!"
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "beefman"
+	squeak_override = list('sound/effects/meatslap.ogg'=1)

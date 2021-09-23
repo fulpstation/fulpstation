@@ -1,4 +1,7 @@
-// Fulp-only Commision plaques for our stations, these are equal to the ones in static_plaques.dm
+/**
+ * Fulp-only Commision plaques for our stations, these are equal to the ones in static_plaques.dm
+ * Currently houses Heliostation and Selenestation
+ */
 
 // Heliostation - merged officially May 23rd, 2020. (#354 - TheSwain/Fulpstation)
 /obj/structure/plaque/static_plaque/golden/commission/helio

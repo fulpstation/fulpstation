@@ -110,7 +110,7 @@
 		var/atom/movable/screen/splash/Spl = new(boarder.client, TRUE)
 		Spl.Fade(TRUE)
 //		boarder.playsound_local(get_turf(boarder), 'sound/voice/ApproachingTG.ogg', 25)
-		boarder.playsound_local(get_turf(boarder), 'fulp_modules/fulp_configs/sound/ApproachingFulp.ogg', 25) // Fulpstation Config edit - Use our latejoining sound instead
+		boarder.playsound_local(get_turf(boarder), 'fulp_modules/fulp_configs/sound/ApproachingFulp.ogg', 25) // Fulp edit - Music
 	boarder.update_parallax_teleport()
 
 
