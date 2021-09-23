@@ -548,16 +548,9 @@
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
 	bloodsuckerdatum.bloodsucker_level = vassaldatum.vassal_level
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Assign default team and creates one for one of a kind team antagonists
-
-/// Create Objectives
-/datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives() // Fledgling vampires can have different objectives.
-
-	// TEAM
-	//clan = new /datum/team/vampireclan(owner)
-
+/datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives()
 
 	// Claim a Lair Objective
 	var/datum/objective/bloodsucker/lair/lair_objective = new
@@ -609,18 +602,24 @@
 /datum/antagonist/bloodsucker/proc/SelectFirstName()
 	if(owner.current.gender == MALE)
 		bloodsucker_name = pick(
-			"Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor","Cristian","Christoff","Marcu","Andrei","Constantin","Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel","Vasile","Octavian","Sorin", \
-			"Sveyn","Aurel","Alexe","Iustin","Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
+			"Desmond","Rudolph","Dracula","Vlad","Pyotr","Gregor",
+			"Cristian","Christoff","Marcu","Andrei","Constantin",
+			"Gheorghe","Grigore","Ilie","Iacob","Luca","Mihail","Pavel",
+			"Vasile","Octavian","Sorin","Sveyn","Aurel","Alexe","Iustin",
+			"Theodor","Dimitrie","Octav","Damien","Magnus","Caine","Abel", // Romanian/Ancient
 			"Lucius","Gaius","Otho","Balbinus","Arcadius","Romanos","Alexios","Vitellius", // Latin
 			"Melanthus","Teuthras","Orchamus","Amyntor","Axion", // Greek
 			"Thoth","Thutmose","Osorkon,","Nofret","Minmotu","Khafra", // Egyptian
 			"Dio",
 		)
-
 	else
 		bloodsucker_name = pick(
-			"Islana","Tyrra","Greganna","Pytra","Hilda","Andra","Crina","Viorela","Viorica","Anemona","Camelia","Narcisa","Sorina","Alessia","Sophia","Gladda","Arcana","Morgan","Lasarra","Ioana","Elena", \
-			"Alina","Rodica","Teodora","Denisa","Mihaela","Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
+			"Islana","Tyrra","Greganna","Pytra","Hilda",
+			"Andra","Crina","Viorela","Viorica","Anemona",
+			"Camelia","Narcisa","Sorina","Alessia","Sophia",
+			"Gladda","Arcana","Morgan","Lasarra","Ioana","Elena",
+			"Alina","Rodica","Teodora","Denisa","Mihaela",
+			"Svetla","Stefania","Diyana","Kelssa","Lilith", // Romanian/Ancient
 			"Alexia","Athanasia","Callista","Karena","Nephele","Scylla","Ursa", // Latin
 			"Alcestis","Damaris","Elisavet","Khthonia","Teodora", // Greek
 			"Nefret","Ankhesenpep", // Egyptian
