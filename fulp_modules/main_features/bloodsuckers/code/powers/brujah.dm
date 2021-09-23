@@ -7,6 +7,7 @@
 		When in a Frenzy, you get extra stun resistance, slowly gain brute damage, move faster, become mute/deaf,\n\
 		and become unable to use complicated machinery as your screen goes blood-red."
 	check_flags = NONE
+	purchase_flags = NONE
 	bloodcost = 2
 	conscious_constant_bloodcost = TRUE
 	cooldown = 100

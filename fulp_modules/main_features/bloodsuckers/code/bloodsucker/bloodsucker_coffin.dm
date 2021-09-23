@@ -109,7 +109,8 @@
 	return ..()
 
 /obj/structure/closet/crate/coffin/process(mob/living/user)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	if(user in src)
 		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -195,7 +196,8 @@
 	return ..()
 
 /obj/structure/closet/crate/coffin/close(mob/living/user)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
 	if(user in src)

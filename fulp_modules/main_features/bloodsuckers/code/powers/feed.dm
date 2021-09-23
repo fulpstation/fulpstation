@@ -12,10 +12,10 @@
 		If you are seen feeding off of someone (2 tiles) while your target is grabbed, you will break the Masquerade.\n\
 		Higher levels will increase the feeding's speed."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY
 	bloodcost = 0
 	cooldown = 30
 	amToggle = TRUE
-	bloodsucker_can_buy = FALSE
 	cooldown_static = TRUE
 
 	///Amount of times we were seen Feeding. If seen 3 times, we broke the Masquerade.
@@ -267,8 +267,9 @@
 
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-//	if(!..()) // We're using our own checks below, becuase we have a TARGET to keep track of.
-//		return
+	. = ..()
+	if(!.)
+		return
 
 	// Did we deactivate this manually? Let's end it here.
 	if(!active)

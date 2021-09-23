@@ -87,7 +87,8 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 	if(!active) // Only do this when first activating.
 		var/mob/living/user = owner

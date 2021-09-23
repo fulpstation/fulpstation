@@ -364,7 +364,8 @@
 		ui.open()
 
 /obj/item/book/kindred/ui_act(action, params)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!action)
 		return FALSE

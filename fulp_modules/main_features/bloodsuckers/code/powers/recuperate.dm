@@ -9,6 +9,7 @@
 		If you aren't a bloodless race, you will additionally heal Burn damage.\n\
 		The power will cancel out if you are incapacitated or dead."
 	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = NONE
 	amToggle = TRUE
 	bloodcost = 1.5
 	cooldown = 100
@@ -19,7 +20,8 @@
 	. = ..()
 
 /datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user)
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
@@ -38,7 +40,8 @@
 	user.Jitter(5)
 
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
-/*	if(!..()) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
+/*	. = ..()
+	if(!.) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */
 	if(owner.stat >= DEAD || owner.incapacitated())
 		owner.balloon_alert(owner, "you are incapacitated...")

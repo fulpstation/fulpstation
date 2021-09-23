@@ -48,7 +48,8 @@
 	cooldown = 350
 
 /datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/A, display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Self
 	if(A == owner)
@@ -93,7 +94,8 @@
 
 // The advanced version
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/A, display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Self
 	if(A == owner)

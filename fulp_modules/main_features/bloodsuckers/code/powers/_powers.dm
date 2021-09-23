@@ -38,21 +38,17 @@
 	var/constant_bloodcost
 	///Do we have to be Conscious to pay the Constant Cost?
 	var/conscious_constant_bloodcost = FALSE
-	///Bloodsuckers can purchase this when Ranking up
-	var/bloodsucker_can_buy = FALSE
-	///Ventrue Vassals can have this power purchased when Ranking up
-	var/vassal_can_buy = FALSE
 	///Feed, Masquerade, and One-Shot powers don't improve their cooldown.
 	var/cooldown_static = FALSE
 	/// What the Power requires to be used
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	/// Who can purchase the Power
+	var/purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
 
 	// UNUSED POWER STUFF - Kept in case Swain wants to use them //
 //	var/level_max = 1
 	///For passive abilities that dont need a button - Taken from Changeling
 //	var/needs_button = TRUE
-	///This goes to Vassals or Hunters, but NOT bloodsuckers. - Replaced with vassal_can_buy kept, Monster Hunters currently can't purchase powers
-//	var/not_bloodsucker = FALSE
 
 
 /// Modify description to add cost.
@@ -296,7 +292,8 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 	if(!owner.client) // <--- We don't allow non client usage so that using powers like mesmerize will FAIL if you try to use them as ghost. Why? because ranged_abvility in spell.dm
 		return FALSE //		doesn't let you remove powers if you're not there. So, let's just cancel the power entirely.

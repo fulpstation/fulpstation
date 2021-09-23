@@ -9,20 +9,30 @@
 	hijack_speed = 0.5
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
-	///List of all Antagonists that can't be vassalized.
-	var/list/vassal_banned_antags = list(
-		/datum/antagonist/bloodsucker, /datum/antagonist/monsterhunter,
-		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
-		/datum/antagonist/cult, /datum/antagonist/xeno, /datum/antagonist/obsessed,
-		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
-		)
 
-	///Used for assigning your name
+	/// Used for assigning your name
 	var/bloodsucker_name
+	/// Used for assigning your title
 	var/bloodsucker_title
+	/// Used for assigning your reputation
 	var/bloodsucker_reputation
+	///Amount of Humanity lost
+	var/humanity_lost = 0
+	///Blood required to enter Frenzy
+	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
+	///Default Bloodsucker traits
+	var/static/list/default_traits = list(
+		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE,
+		TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD,
+		TRAIT_RADIMMUNE, TRAIT_GENELESS,
+		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT,
+		TRAIT_NOHARDCRIT, TRAIT_AGEUSIA,
+		TRAIT_NOPULSE, TRAIT_COLDBLOODED,
+		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE,
+		TRAIT_HARDLY_WOUNDED,
+	)
 
-	/*
+	/**
 	 *	# Clan stuff
 	 *
 	 *	Used for tracking Vampireclan, which tracks Sol
@@ -31,21 +41,42 @@
 	var/datum/team/vampireclan/clan
 	///You get assigned a Clan once you Rank up enough
 	var/my_clan = CLAN_NONE
+
+	/**
+	 *	# Vassals
+	 *
+	 * Vassals are the Bloodsucker's slaves.
+	 * Bloodsuckers can also do stuff with said Vassals
+	 * To either improve themselves or their Vassal.
+	 */
+	///The Bloodsucker/Vassal's creator
+	var/datum/mind/creator
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
-	///Who made me? For both Vassals AND Bloodsuckers (though Master Vamps won't have one)
-	var/datum/mind/creator
-	///Amount of Humanity I've lost
-	var/humanity_lost = 0
-	///How much Blood I must lose before entering Frenzy - Affected by humanity_lost
-	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
+	///Have we selected our Favorite Vassal yet?
+	var/my_favorite_vassal = FALSE
+	/// Antagonists that cannot be Vassalized no matter what
+	var/list/vassal_banned_antags = list(
+		/datum/antagonist/bloodsucker, /datum/antagonist/monsterhunter,
+		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
+		/datum/antagonist/cult, /datum/antagonist/xeno, /datum/antagonist/obsessed,
+		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
+	)
 
-	///Powers
+	/**
+	 *	# Powers
+	 *
+	 * Powers are all Abilities Bloodsuckers get throughout a round.
+	 * they improve them to get stronger and is their most relied on tool.
+	 */
+	///All owned Powers
 	var/list/datum/action/powers = list()
+	///If Feed is currently on
 	var/poweron_feed = FALSE
+	///If Masquerade is currently on
 	var/poweron_masquerade = FALSE
 
-	///Stats that change throughout the round and used for Ranking up.
+	//Stats that change throughout the round and used for Ranking up.
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
 	var/additional_regen
@@ -53,7 +84,7 @@
 	var/feed_amount = 15
 	var/max_blood_volume = 600
 
-	///Used for Bloodsucker Objectives
+	//Used for Bloodsucker Objectives
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
@@ -63,7 +94,7 @@
 	///Used in Bloodsucker huds
 	var/valuecolor
 
-	/*
+	/**
 	 *	# TRACKING
 	 *
 	 *	These are all used for Tracking Bloodsucker stats and such.
@@ -85,16 +116,6 @@
 	///Are we currently in a Frenzy? - Martial Art also used in Frenzy
 	var/Frenzied = FALSE
 	var/datum/martial_art/frenzygrab/frenzygrab = new
-	///Have we selected our Favorite Vassal yet? - This is Ventrue only!
-	var/my_favorite_vassal = FALSE
-	///Default traits ALL Bloodsuckers get.
-	var/static/list/defaultTraits = list(
-		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE, TRAIT_NOCRITDAMAGE,\
-		TRAIT_RESISTCOLD, TRAIT_RADIMMUNE, TRAIT_GENELESS,\
-		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT,\
-		TRAIT_AGEUSIA, TRAIT_NOPULSE, TRAIT_COLDBLOODED,\
-		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE, TRAIT_HARDLY_WOUNDED,\
-		) // TRAIT_HARDLY_WOUNDED can be swapped with TRAIT_NEVER_WOUNDED if it's too unbalanced. -- Remember that Fortitude gives NODISMEMBER when balancing Traits!
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -303,7 +324,7 @@
 		// Remove mutations (In case they got it mid-round)
 		H.dna?.remove_all_mutations()
 	/// Give Bloodsucker Traits
-	for(var/bloodsucker_traits in defaultTraits)
+	for(var/bloodsucker_traits in default_traits)
 		ADD_TRAIT(owner.current, bloodsucker_traits, BLOODSUCKER_TRAIT)
 	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
@@ -407,22 +428,19 @@
 		return
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/pickedpower in typesof(/datum/action/bloodsucker))
-		var/datum/action/bloodsucker/power = pickedpower
-		/// Check If I don't own it & I'm allowed to buy it.
+	for(var/all_powers in subtypesof(/datum/action/bloodsucker))
+		var/datum/action/bloodsucker/power = all_powers
 		if(my_clan == CLAN_TREMERE)
 			if(LevelUpTremerePower(owner.current))
-				// Did we buy a power? Break here.
-				break
+				break // Did we buy a power? Break here.
 			else
-				// Didnt buy one? Dont continue on, then.
-				return
-		else if(!target)
-			if(!(locate(power) in powers) && initial(power.bloodsucker_can_buy))
-				options[initial(power.name)] = power
-		else
-			if(!(locate(power) in vassaldatum.powers) && initial(power.vassal_can_buy))
-				options[initial(power.name)] = power
+				return // Didnt buy one? Dont continue on, then.
+
+		// Check If I don't own it & I'm allowed to buy it.
+		else if(target && (power.purchase_flags & VASSAL_CAN_BUY) && !(locate(power) in vassaldatum.powers))
+			options[initial(power.name)] = power
+		else if((power.purchase_flags & BLOODSUCKER_CAN_BUY) && !(locate(power) in powers))
+			options[initial(power.name)] = power
 
 	if(options.len >= 1)
 		/// Give them the UI to purchase a power.
@@ -627,24 +645,33 @@
 	// Already have Reputation
 	if(!forced && bloodsucker_reputation != null)
 		return
-	// Reputations [Master]
-	if(!am_fledgling)
-		bloodsucker_reputation = pick("Butcher","Blood Fiend","Crimson","Red","Black","Terror","Nightman","Feared","Ravenous","Fiend","Malevolent","Wicked","Ancient","Plaguebringer","Sinister","Forgotten","Wretched","Baleful", \
-							"Inqisitor","Harvester","Reviled","Robust","Betrayer","Destructor","Damned","Accursed","Terrible","Vicious","Profane","Vile","Depraved","Foul","Slayer","Manslayer","Sovereign","Slaughterer", \
-							"Forsaken","Mad","Dragon","Savage","Villainous","Nefarious","Inquisitor","Marauder","Horrible","Immortal","Undying","Overlord","Corrupt","Hellspawn","Tyrant","Sanguineous")
-		if(owner.current.gender == MALE)
-			if(prob(10)) // Gender override
-				bloodsucker_reputation = pick("King of the Damned", "Blood King", "Emperor of Blades", "Sinlord", "God-King")
-		else if(owner.current.gender == FEMALE)
-			if(prob(10)) // Gender override
-				bloodsucker_reputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
 
-		to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
-
-	// Reputations [Fledgling]
+	if(am_fledgling)
+		bloodsucker_reputation = pick(
+			"Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned",
+			"Fledgling","Young","Neonate","Scrapling","Untested","Unproven",
+			"Unknown","Newly Risen","Born","Scavenger","Unknowing","Unspoiled",
+			"Disgraced","Defrocked","Shamed","Meek","Timid","Broken","Fresh",
+		)
+	else if(owner.current.gender == MALE && prob(10))
+		bloodsucker_reputation = pick("King of the Damned", "Blood King", "Emperor of Blades", "Sinlord", "God-King")
+	else if(owner.current.gender == FEMALE && prob(10))
+		bloodsucker_reputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
 	else
-		bloodsucker_reputation = pick ("Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned","Fledgling","Young","Neonate","Scrapling","Untested","Unproven","Unknown","Newly Risen","Born","Scavenger","Unknowing",\
-							   "Unspoiled","Disgraced","Defrocked","Shamed","Meek","Timid","Broken","Fresh")
+		bloodsucker_reputation = pick(
+			"Butcher","Blood Fiend","Crimson","Red","Black","Terror",
+			"Nightman","Feared","Ravenous","Fiend","Malevolent","Wicked",
+			"Ancient","Plaguebringer","Sinister","Forgotten","Wretched","Baleful",
+			"Inqisitor","Harvester","Reviled","Robust","Betrayer","Destructor",
+			"Damned","Accursed","Terrible","Vicious","Profane","Vile",
+			"Depraved","Foul","Slayer","Manslayer","Sovereign","Slaughterer",
+			"Forsaken","Mad","Dragon","Savage","Villainous","Nefarious",
+			"Inquisitor","Marauder","Horrible","Immortal","Undying","Overlord",
+			"Corrupt","Hellspawn","Tyrant","Sanguineous",
+		)
+
+	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
+
 
 /datum/antagonist/bloodsucker/proc/AmFledgling()
 	return !bloodsucker_title
@@ -688,19 +715,9 @@
 		allsuckers.objectives += masquerade_objective
 		M.announce_objectives()
 
-/////////////////////////////////////
-		// HUD! //
-/////////////////////////////////////
-
-/*
- *	# PROBLEM WITH HUDS:
- *
- *	1) We are setting the Player to use OUR Hud .dmi file, which ISN'T reversed upon joining a new HUD, meaning they are sent to an icon_state that doesn't exist
- *	SOLUTION: For now, we're putting all convertable antag huds in our .dmi file, but it would be good if we can set it to only use our .dmi file if it's using our HUDs.
- *
- *	2) Antag HUDs are not stored, they are OVERWRITTEN. Getting converted and obtaining a new hud will overwrite your old one, being deconverted doesn't bring it back.
- *	This is a TG problem, there isn't much we can do about it downstream.
- */
+//////////////////
+	// HUD! //
+//////////////////
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m, icontype = "bloodsucker", automatic = FALSE)
 	if(automatic) // Should we automatically decide that HUD to give? This is done when deconverted from another Antagonist.
@@ -768,13 +785,6 @@
 /////////////////////////////////////
 //  BLOOD COUNTER & RANK MARKER !  //
 /////////////////////////////////////
-
-/// 1 tile down
-#define ui_blood_display "WEST:6,CENTER-1:0"
-/// 2 tiles down
-#define ui_vamprank_display "WEST:6,CENTER-2:-5"
-/// 6 pixels to the right, zero tiles & 5 pixels DOWN.
-#define ui_sunlight_display "WEST:6,CENTER-0:0"
 
 /datum/hud/human/New(mob/living/carbon/human/owner)
 	. = ..()

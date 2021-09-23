@@ -9,12 +9,11 @@
 		At level 4, you gain complete stun immunity.\n\
 		Higher levels will increase Brute and Stamina resistance."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
 	cooldown = 80
 	constant_bloodcost = 0.2
 	conscious_constant_bloodcost = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
 	amToggle = TRUE
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
@@ -45,7 +44,8 @@
 
 /datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
 	// Checks that we can keep using this.
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 	/// Prevents running while on Fortitude
 	if(user.m_intent != MOVE_INTENT_WALK)
@@ -82,5 +82,4 @@
 /datum/action/bloodsucker/fortitude/hunter
 	name = "Flow"
 	desc = "Use the arts to Flow, giving shove and stun immunity, as well as brute, burn, dismember and pierce resistance. You cannot run while this is active."
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = FALSE
+	purchase_flags = HUNTER_CAN_BUY

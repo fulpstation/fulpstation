@@ -10,15 +10,15 @@
 		Immediately after activating, lights around the user will begin to flicker. \n\
 		Once the user teleports to their coffin, in their place will be a Rat or Bat."
 	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED
+	// You only get this once you've claimed a lair and Sol is near.
+	purchase_flags = NONE
 	bloodcost = 100
-	// It'll never come back.
 	cooldown = 99999
 	amSingleUse = TRUE
-	// You only get this if you've claimed a lair, and only just before sunrise.
-	bloodsucker_can_buy = FALSE
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)

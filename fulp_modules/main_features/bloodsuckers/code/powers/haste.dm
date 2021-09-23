@@ -13,19 +13,19 @@
 		Anyone in your way during your Haste will be knocked down and Payalyzed, moreso if they are using Flow.\n\
 		Higher levels will increase the knockdown dealt to enemies."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 6
 	cooldown = 120
 	target_range = 15
 	power_activates_immediately = TRUE
 	message_Trigger = "" // "Whom will you subvert to your will?"
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
 	var/list/hit //current hit, set while power is in use as we can't pass the list as an extra calling argument in registersignal.
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 
 /datum/action/bloodsucker/targeted/haste/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Being Grabbed
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)

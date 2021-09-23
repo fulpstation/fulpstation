@@ -7,12 +7,11 @@
 		Your name and appearance will be completely randomized, and turning the ability off again will undo it all.\n\
 		Clothes, gear, and Security/Medical HUD status is kept the same while this power is active."
 	check_flags = BP_CANT_USE_IN_FRENZY
+	purchase_flags = VASSAL_CAN_BUY
 	bloodcost = 15
 	constant_bloodcost = 0.1
 	cooldown = 100
 	amToggle = TRUE
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = TRUE
 	// Outfit Vars
 	var/list/original_items = list()
 	// Identity Vars
@@ -29,7 +28,8 @@
 	var/list/prev_features // For lizards and such
 
 /datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	return TRUE
 
