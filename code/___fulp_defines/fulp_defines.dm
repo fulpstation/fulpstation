@@ -70,7 +70,7 @@
 #define CLAN_TREMERE "Tremere Clan"
 /// Cant drink blood out of mindless mobs, cant rank up, instead ranks their favorite vassal up.
 #define CLAN_VENTRUE "Ventrue Clan"
-/// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
+/// Constant hallucinations & Bluespace Prophet traumas.
 #define CLAN_MALKAVIAN "Malkavian Clan"
 // Used ONLY as Flavor text in Archives of Kindred
 #define CLAN_TOREADOR "Toreador Clan"
@@ -95,8 +95,9 @@
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
 /// Defines the Mentorhelp's Mentorsay button
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
-///Defines the Beefman Cytology Scientist's Spawner job
+///Job defines for Spawners
 #define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology"
+#define ROLE_BEEFMAN_STATION "Beefman Station"
 
 /*
  *	Antag Tip Defines NOTE: Monster hunter, bloodsucker and vassal don't have any HTMLs! Willard will have to add them in.
