@@ -437,9 +437,9 @@
 				return // Didnt buy one? Dont continue on, then.
 
 		// Check If I don't own it & I'm allowed to buy it.
-		else if(target && (power.purchase_flags & VASSAL_CAN_BUY) && !(locate(power) in vassaldatum.powers))
+		else if(target && (initial(power.purchase_flags) & VASSAL_CAN_BUY) && !(locate(power) in vassaldatum.powers))
 			options[initial(power.name)] = power
-		else if((power.purchase_flags & BLOODSUCKER_CAN_BUY) && !(locate(power) in powers))
+		else if((initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY) && !(locate(power) in powers))
 			options[initial(power.name)] = power
 
 	if(options.len >= 1)
