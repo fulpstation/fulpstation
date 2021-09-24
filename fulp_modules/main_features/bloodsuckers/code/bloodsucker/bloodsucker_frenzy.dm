@@ -80,8 +80,8 @@
 		user.clear_cuffs(cuffs, TRUE)
 		user.clear_cuffs(legcuffs, TRUE)
 	// Keep track of how many times we've entered a Frenzy.
-	bloodsuckerdatum.Frenzies += 1
-	bloodsuckerdatum.Frenzied = TRUE
+	bloodsuckerdatum.frenzies += 1
+	bloodsuckerdatum.frenzied = TRUE
 	return ..()
 
 /datum/status_effect/frenzy/on_remove()
@@ -101,13 +101,13 @@
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
 	bloodsuckerdatum.frenzygrab.remove(user)
 	owner.remove_client_colour(/datum/client_colour/cursed_heart_blood)
-	bloodsuckerdatum.Frenzied = FALSE
+	bloodsuckerdatum.frenzied = FALSE
 	return ..()
 
 
 /datum/status_effect/frenzy/tick()
 	var/mob/living/carbon/human/user = owner
-	if(!bloodsuckerdatum.Frenzied)
+	if(!bloodsuckerdatum.frenzied)
 		return
 	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
 		user.adjustBruteLoss(1 + (bloodsuckerdatum.humanity_lost / 10))

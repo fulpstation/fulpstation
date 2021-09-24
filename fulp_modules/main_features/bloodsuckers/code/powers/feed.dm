@@ -33,7 +33,7 @@
 	var/amount_taken = 0
 	///The initial wait before you start drinking blood.
 	var/feed_time
-	///Quantity to take per tick, based on Silent/Frenzied or not.
+	///Quantity to take per tick, based on Silent/frenzied or not.
 	var/blood_take_mult
 	/// CHECKS - To prevent spam.
 	var/warning_target_inhuman = FALSE
@@ -103,7 +103,7 @@
 				to_chat(owner, span_warning("Your victim's blood is not suitable for you to take."))
 			return FALSE
 	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
-	if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE && !bloodsuckerdatum_power.Frenzied)
+	if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE && !bloodsuckerdatum_power.frenzied)
 		if(!target.mind)
 			if(display_error)
 				to_chat(owner, span_warning("The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth."))
@@ -170,7 +170,7 @@
 /datum/action/bloodsucker/feed/ActivatePower(mob/living/user = owner)
 //	set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up Activate(), so Deactivate() can happen after.
 	// Checks: Step 1 - Am I SECRET or LOUD?
-	if(!bloodsuckerdatum_power.Frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	if(!bloodsuckerdatum_power.frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
 
 	// Checks: Step 2 - Is it a Mouse?
@@ -187,7 +187,7 @@
 		return
 	// Checks: Step 3 - How fast should I be and how much should I drink?
 	var/feed_time_multiplier
-	if(bloodsuckerdatum_power.Frenzied)
+	if(bloodsuckerdatum_power.frenzied)
 		blood_take_mult = 2
 		feed_time_multiplier = 8
 	else if(!amSilent)
@@ -254,7 +254,6 @@
 		owner.balloon_alert(owner, "you think no one saw you...")
 
 	// FEEEEEEEEED!! //
-	bloodsuckerdatum_power.poweron_feed = TRUE
 	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // Prevents spilling blood accidentally.
 	. = ..()
@@ -385,8 +384,6 @@
 	// Did we kill our target?
 	if(was_alive)
 		CheckKilledTarget(user, feed_target)
-	// No longer Feeding
-	bloodsuckerdatum_power.poweron_feed = FALSE
 	// Only break it once we've broken it 3 times, not more.
 	if(feeds_noticed == 3)
 		bloodsuckerdatum_power.break_masquerade()

@@ -324,7 +324,7 @@
 	// Are they our Vassal, or Dead?
 	if(istype(V) && V.master == B || C.stat >= DEAD)
 		// Can we assign a Favorite Vassal?
-		if(istype(V) && !B.my_favorite_vassal)
+		if(istype(V) && !B.has_favorite_vassal)
 			if(C.mind.can_make_bloodsucker(C.mind))
 				offer_favorite_vassal(user, C)
 		useLock = FALSE
@@ -524,7 +524,7 @@
 	switch(favorite_response)
 		if("Yes")
 			C.blood_volume -= 150
-			bloodsuckerdatum.my_favorite_vassal = TRUE
+			bloodsuckerdatum.has_favorite_vassal = TRUE
 			vassaldatum.make_favorite(user)
 			return
 		else

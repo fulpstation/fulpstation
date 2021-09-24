@@ -10,14 +10,12 @@
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 
-	/// Used for assigning your name
+	///Used for assigning your name
 	var/bloodsucker_name
-	/// Used for assigning your title
+	///Used for assigning your title
 	var/bloodsucker_title
-	/// Used for assigning your reputation
+	///Used for assigning your reputation
 	var/bloodsucker_reputation
-	///Amount of Humanity lost
-	var/humanity_lost = 0
 	///Blood required to enter Frenzy
 	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
 	///Default Bloodsucker traits
@@ -32,90 +30,65 @@
 		TRAIT_HARDLY_WOUNDED,
 	)
 
-	/**
-	 *	# Clan stuff
-	 *
-	 *	Used for tracking Vampireclan, which tracks Sol
-	 *	Also used to track your vassals, your creator, and what clan you're in.
-	 */
+	///ALL Powers currently owned
+	var/list/datum/action/powers = list()
+	///Bloodsucker Clan - Used for dealing with Sol
 	var/datum/team/vampireclan/clan
+	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
+	var/datum/martial_art/frenzygrab/frenzygrab = new
 	///You get assigned a Clan once you Rank up enough
 	var/my_clan = CLAN_NONE
 
-	/**
-	 *	# Vassals
-	 *
-	 * Vassals are the Bloodsucker's slaves.
-	 * Bloodsuckers can also do stuff with said Vassals
-	 * To either improve themselves or their Vassal.
-	 */
 	///The Bloodsucker/Vassal's creator
 	var/datum/mind/creator
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Have we selected our Favorite Vassal yet?
-	var/my_favorite_vassal = FALSE
+	var/has_favorite_vassal = FALSE
 	/// Antagonists that cannot be Vassalized no matter what
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker, /datum/antagonist/monsterhunter,
-		/datum/antagonist/changeling, /datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
-		/datum/antagonist/cult, /datum/antagonist/xeno, /datum/antagonist/obsessed,
+		/datum/antagonist/changeling, /datum/antagonist/cult,
+		/datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
+		/datum/antagonist/xeno, /datum/antagonist/obsessed,
 		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
 	)
 
-	/**
-	 *	# Powers
-	 *
-	 * Powers are all Abilities Bloodsuckers get throughout a round.
-	 * they improve them to get stronger and is their most relied on tool.
-	 */
-	///All owned Powers
-	var/list/datum/action/powers = list()
-	///If Feed is currently on
-	var/poweron_feed = FALSE
-	///If Masquerade is currently on
-	var/poweron_masquerade = FALSE
-
-	//Stats that change throughout the round and used for Ranking up.
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
+	var/passive_blood_drain = -0.1
 	var/additional_regen
 	var/bloodsucker_regen_rate = 0.3
-	var/feed_amount = 15
 	var/max_blood_volume = 600
 
-	//Used for Bloodsucker Objectives
+	///Amount of Humanity lost
+	var/humanity_lost = 0
+	///Have we been broken the Masquerade?
+	var/broke_masquerade = FALSE
+	///How much food to throw up later. You shouldn't have eaten that.
+//	var/foodInGut
+	///If we are currently in a Frenzy
+	var/frenzied = FALSE
+	// Used for Bloodsucker Objectives
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
-	var/Frenzies = 0
+	var/frenzies = 0
+
+	/**
+	 *	# SPAM PREVENTION
+	 *	These are all used to prevent spam messages to Bloodsuckers
+	 */
+	///Span prevention for locker messages
+	var/warn_sun_locker
+	///Spam prevention for burn messages
+	var/warn_sun_burn
+	///Spam prevention for healing messages
+	var/notice_healing
 
 	///Used in Bloodsucker huds
 	var/valuecolor
-
-	/**
-	 *	# TRACKING
-	 *
-	 *	These are all used for Tracking Bloodsucker stats and such.
-	 */
-	///Have we been broken the Masquerade?
-	var/broke_masquerade = FALSE
-	///How much food to throw up later. You shouldn't have eaten that.
-	var/foodInGut
-	///So we only get the locker burn message once per day.
-	var/warn_sun_locker
-	///So we only get the sun burn message once per day.
-	var/warn_sun_burn
-	///The amount of blood we loose each bloodsucker life tick LifeTick()
-	var/passive_blood_drain = -0.1
-	///Var to see if you are healing for preventing spam of the chat message inform the user of such
-	var/notice_healing
-	///Have we reached final death?
-	var/AmFinalDeath = FALSE
-	///Are we currently in a Frenzy? - Martial Art also used in Frenzy
-	var/Frenzied = FALSE
-	var/datum/martial_art/frenzygrab/frenzygrab = new
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -489,7 +462,6 @@
 	vassaldatum?.LevelUpPowers()
 	/// Bloodsucker-only Stat upgrades
 	bloodsucker_regen_rate += 0.05
-	feed_amount += 2
 	max_blood_volume += 100
 	/// Misc. Stats Upgrades
 	if(ishuman(owner.current))
@@ -589,7 +561,7 @@
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
 /datum/antagonist/bloodsucker/antag_listing_status()
-	if(owner && AmFinalDeath)
+	if(owner && !considered_alive(owner))
 		return "<font color=red>Final Death</font>"
 	return ..()
 
@@ -835,8 +807,6 @@
 
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
-	if(AmFinalDeath)
-		return
 	if(!owner.current.hud_used)
 		return
 	if(owner.current.hud_used && owner.current.hud_used.blood_display)

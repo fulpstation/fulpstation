@@ -18,10 +18,10 @@
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	SIGNAL_HANDLER
 
-	if(!owner || AmFinalDeath)
+	if(!owner)
 		return
 	// Deduct Blood
-	if(owner.current.stat == CONSCIOUS && !poweron_feed && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
+	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
 		if(!notice_healing && owner.current.blood_volume > 0)
@@ -43,7 +43,7 @@
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
 	if(my_clan == CLAN_MALKAVIAN)
-		if(prob(85) || owner.current.stat != CONSCIOUS || poweron_masquerade)
+		if(prob(85) || owner.current.stat != CONSCIOUS || HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 			return
 		var/message = pick(strings("malkavian_revelations.json", "revelations", "fulp_modules"))
 		INVOKE_ASYNC(owner.current, /atom/movable/proc/say, message, , , , , , CLAN_MALKAVIAN)
@@ -67,7 +67,8 @@
 
 /// mult: SILENT feed is 1/3 the amount
 /datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
-	/// Starts at 15 (now 8 since we doubled the Feed time)
+	// Starts at 15 (now 8 since we doubled the Feed time)
+	var/feed_amount = 15 + (level_current * 2)
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult
 	target.blood_volume -= blood_taken
 	// Simple Animals lose a LOT of blood, and take damage. This is to keep cats, cows, and so forth from giving you insane amounts of blood.
@@ -95,7 +96,7 @@
 		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 	total_blood_drank += blood_taken
-	if(Frenzied)
+	if(frenzied)
 		frenzy_blood_drank += blood_taken
 	return blood_taken
 
@@ -108,7 +109,7 @@
 /// It is called from your coffin on close (by you only)
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
-	if(poweron_masquerade || owner.current.AmStaked())
+	if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) || owner.current.AmStaked())
 		return FALSE
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
@@ -120,7 +121,7 @@
 		/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
 		var/amInCoffin = istype(C.loc, /obj/structure/closet/crate/coffin)
 		if(amInCoffin && HAS_TRAIT(C, TRAIT_NODEATH))
-			if(poweron_masquerade)
+			if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 				to_chat(C, span_warning("You will not heal while your Masquerade ability is active."))
 				return
 			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
@@ -255,7 +256,7 @@
 	if(owner.current.stat == DEAD)
 		var/mob/living/carbon/human/H = owner.current
 		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry to me about shit being broken.
-		if(poweron_masquerade)
+		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 			to_chat(H, span_warning("Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power."))
 		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
 			to_chat(H, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
@@ -271,9 +272,6 @@
 
 /// I am thirsty for blood!
 /datum/antagonist/bloodsucker/proc/HandleStarving()
-	if(!owner.current || AmFinalDeath)
-		return
-
 	// Nutrition - The amount of blood is how full we are.
 	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED))
 
@@ -281,17 +279,17 @@
 //	handled in bloodsucker_integration.dm
 
 	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
-	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && Frenzied && my_clan != CLAN_BRUJAH)
+	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && frenzied && my_clan != CLAN_BRUJAH)
 		owner.current.remove_status_effect(STATUS_EFFECT_FRENZY)
 	// BLOOD_VOLUME_BAD: [224] - Jitter
-	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !poweron_masquerade)
+	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		owner.current.Jitter(3)
 	// BLOOD_VOLUME_SURVIVE: [122] - Blur Vision
 	if(owner.current.blood_volume < BLOOD_VOLUME_SURVIVE)
 		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
-	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !Frenzied)
+	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !frenzied)
 		if(my_clan != CLAN_BRUJAH)
 			owner.current.apply_status_effect(STATUS_EFFECT_FRENZY)
 		else
@@ -329,7 +327,7 @@
 */
 
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
-	if(!owner.current || AmFinalDeath)
+	if(!owner.current)
 		return
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
@@ -397,38 +395,34 @@
 
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
-	if(AmFinalDeath)
-		return
-	/// We are dead now.
-	AmFinalDeath = TRUE
-	/// Check for non carbons.
+	// Check for non carbons and end it early.
 	if(!iscarbon(owner.current))
 		owner.current.gib()
 		return
-	playsound(get_turf(owner.current), 'sound/effects/tendril_destroyed.ogg', 60, 1)
+
+	// End Bloodsucker processes
+	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
+	FreeAllVassals()
+	DisableAllPowers()
+	// Drop anything in us and play a tune
 	owner.current.drop_all_held_items()
 	owner.current.unequip_everything()
 	var/mob/living/carbon/C = owner.current
 	C.remove_all_embedded_objects()
-	/// Free my Vassals!
-	FreeAllVassals()
-	/// Elders get Dusted
+	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
+	// Elders get dusted, Fledglings get gibbed
 	if(bloodsucker_level >= 4)
 		owner.current.visible_message(
 			span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
 			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
-			span_hear("You hear a dry, crackling sound."),
-		)
-		addtimer(CALLBACK(owner.current, /mob/living/proc/dust), 5 SECONDS, TIMER_UNIQUE | TIMER_STOPPABLE)
-	/// Fledglings get Gibbed
-	else
-		owner.current.visible_message(
-			span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
-			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
-			span_hear("<span class='italics'>You hear a wet, bursting sound."),
-		)
-		owner.current.gib(TRUE, FALSE, FALSE)
-	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
+			span_hear("You hear a dry, crackling sound."))
+		addtimer(CALLBACK(owner.current, /mob/living.proc/dust), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+		return
+	owner.current.visible_message(
+		span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
+		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
+		span_hear("<span class='italics'>You hear a wet, bursting sound."))
+	owner.current.gib(TRUE, FALSE, FALSE)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -436,6 +430,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/*
 /// This isnt ever called, someone should really add it eventually...
 /mob/proc/CheckBloodsuckerEatFood(food_nutrition)
 	if(!isliving(src))
@@ -460,7 +455,7 @@
 	if(foodInGut != food_nutrition)
 		return
 	// Haven't eaten, but I'm in a Human Disguise.
-	else if(poweron_masquerade && !masquerade_override)
+	else if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !masquerade_override)
 		to_chat(C, span_notice("Your stomach turns, but your \"human disguise\" keeps the food down...for now."))
 	// Keep looping until we purge. If we have activated our Human Disguise, we ignore the food. But it'll come up eventually...
 	var/sickphase = 0
@@ -472,7 +467,7 @@
 		if(C.stat == DEAD)
 			return
 		// Put up disguise? Then hold off the vomit.
-		if(poweron_masquerade && !masquerade_override)
+		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !masquerade_override)
 			if(sickphase > 0)
 				to_chat(C, span_notice("Your stomach settles temporarily. You regain your composure...for now."))
 			sickphase = 0
@@ -498,6 +493,7 @@
 				foodInGut = 0
 				SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "vampdisgust", /datum/mood_event/bloodsucker_disgust)
 		sickphase++
+*/
 
 /// Bloodsuckers moodlets
 /datum/mood_event/drankblood

@@ -11,7 +11,7 @@
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
-	var/power_explanation
+	var/power_explanation = ""
 	///The owner's stored Bloodsucker datum
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum_power
 
@@ -109,7 +109,7 @@
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/L = owner
-	if(bloodsuckerdatum_power?.Frenzied)
+	if(bloodsuckerdatum_power?.frenzied)
 		return TRUE
 	if(L.blood_volume < bloodcost)
 		if(display_error)
@@ -128,7 +128,7 @@
 			to_chat(owner, span_warning("Not while you're in Torpor."))
 		return FALSE
 	// Frenzy?
-	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum_power?.Frenzied && bloodsuckerdatum_power?.my_clan != CLAN_BRUJAH))
+	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum_power?.frenzied && bloodsuckerdatum_power?.my_clan != CLAN_BRUJAH))
 		if(display_error)
 			to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
 		return FALSE
@@ -180,7 +180,7 @@
 
 /datum/action/bloodsucker/proc/PayCost()
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
-	if(bloodsuckerdatum_power?.Frenzied)
+	if(bloodsuckerdatum_power?.frenzied)
 		return
 	var/mob/living/carbon/human/H = owner
 	H.blood_volume -= bloodcost
