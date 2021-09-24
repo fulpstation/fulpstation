@@ -11,12 +11,11 @@
 		Feeding off of someone until they die will cause you to lose <b>Humanity</b>.\n\
 		If you are seen feeding off of someone (2 tiles) while your target is grabbed, you will break the Masquerade.\n\
 		Higher levels will increase the feeding's speed."
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY
 	bloodcost = 0
-	cooldown = 30
-	amToggle = TRUE
-	cooldown_static = TRUE
+	cooldown = 3 SECONDS
 
 	///Amount of times we were seen Feeding. If seen 3 times, we broke the Masquerade.
 	var/feeds_noticed = 0

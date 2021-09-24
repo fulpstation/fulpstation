@@ -9,12 +9,12 @@
 		The power will cancel out if the <b>Claimed Coffin</b> is somehow destroyed. \n\
 		Immediately after activating, lights around the user will begin to flicker. \n\
 		Once the user teleports to their coffin, in their place will be a Rat or Bat."
+	power_flags = BP_AM_SINGLEUSE
 	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED
 	// You only get this once you've claimed a lair and Sol is near.
 	purchase_flags = NONE
 	bloodcost = 100
-	cooldown = 99999
-	amSingleUse = TRUE
+	cooldown = 100 SECONDS
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)
 	. = ..()

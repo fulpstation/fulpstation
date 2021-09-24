@@ -8,11 +8,11 @@
 		You will heal Brute and Toxin damage, at the cost of Stamina damage, and blood from both you and your Master.\n\
 		If you aren't a bloodless race, you will additionally heal Burn damage.\n\
 		The power will cancel out if you are incapacitated or dead."
+	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = NONE
-	amToggle = TRUE
 	bloodcost = 1.5
-	cooldown = 100
+	cooldown = 10 SECONDS
 
 /datum/action/bloodsucker/recuperate/ActivatePower(mob/living/carbon/user = owner)
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))

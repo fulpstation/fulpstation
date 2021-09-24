@@ -8,13 +8,12 @@
 		While using Fortitude, attempting to run will crush you.\n\
 		At level 4, you gain complete stun immunity.\n\
 		Higher levels will increase Brute and Stamina resistance."
-	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY
+	power_flags = BP_AM_TOGGLE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_AM_COSTLESS_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
-	cooldown = 80
+	cooldown = 8 SECONDS
 	constant_bloodcost = 0.2
-	conscious_constant_bloodcost = TRUE
-	amToggle = TRUE
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 

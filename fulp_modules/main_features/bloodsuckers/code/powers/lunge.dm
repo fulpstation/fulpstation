@@ -8,13 +8,13 @@
 		If the target is wearing riot gear or is a Monster Hunter, you will merely passively grab them.\n\
 		If grabbed from behind or from the darkness (Cloak of Darkness counts), you will additionally knock the target down.\n\
 		Higher levels will increase the knockdown dealt to enemies."
+	power_flags = NONE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
-	cooldown = 100
+	cooldown = 10 SECONDS
 	target_range = 3
 	power_activates_immediately = TRUE
-	message_Trigger = ""
 
 /*
  *	Level 1: Grapple level 2

@@ -18,8 +18,8 @@
 		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 20
-	cooldown = 60
-	message_Trigger = "Click where you wish to fire"
+	cooldown = 6 SECONDS
+	prefire_message = "Click where you wish to fire."
 	///The shield this Power gives
 	var/obj/item/shield/bloodsucker/blood_shield
 
@@ -33,9 +33,9 @@
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 20 Burn damage."
-	message_Trigger = "Click where you wish to fire (using your power removes blood shield)"
+	prefire_message = "Click where you wish to fire (using your power removes blood shield)."
 	bloodcost = 40
-	cooldown = 40
+	cooldown = 4 SECONDS
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/three
 	name = "Level 3: Thaumaturgy"
@@ -48,7 +48,7 @@
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
 		If the Blood beam hits a person, it will deal 20 Burn damage. If it hits a locker or door, it will break it open."
 	bloodcost = 50
-	cooldown = 60
+	cooldown = 6 SECONDS
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced
 	name = "Level 4: Blood Strike"
@@ -64,9 +64,9 @@
 	background_icon_state = "tremere_power_gold_off"
 	background_icon_state_on = "tremere_power_gold_on"
 	background_icon_state_off = "tremere_power_gold_off"
-	message_Trigger = "Click where you wish to fire (using your power removes blood shield)"
+	prefire_message = "Click where you wish to fire (using your power removes blood shield)."
 	bloodcost = 60
-	cooldown = 60
+	cooldown = 6 SECONDS
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	name = "Level 5: Blood Strike"
@@ -80,7 +80,7 @@
 		If the Blood beam hits a person, it will deal 40 Burn damage and steal blood to feed yourself.\n\
 		If it hits a locker or door, it will break it open."
 	bloodcost = 80
-	cooldown = 80
+	cooldown = 8 SECONDS
 
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/A)

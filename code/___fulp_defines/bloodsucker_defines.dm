@@ -82,9 +82,21 @@
 /// This Power can't be used while unconscious
 #define BP_CANT_USE_WHILE_UNCONSCIOUS (1<<4)
 
+/// This Power can be purchased by Bloodsuckers
 #define BLOODSUCKER_CAN_BUY (1<<0)
+/// This Power can be purchased by Vassals
 #define VASSAL_CAN_BUY (1<<1)
+/// This Power can be purchased by Monster Hunters
 #define HUNTER_CAN_BUY (1<<2)
+
+/// This Power is a Toggled Power
+#define BP_AM_TOGGLE (1<<0)
+/// This Power is a Single-Use Power
+#define BP_AM_SINGLEUSE (1<<1)
+/// This Power has a Static cooldown
+#define BP_AM_STATIC_COOLDOWN (1<<2)
+/// This Power doesn't cost bloot to run while unconscious
+#define BP_AM_COSTLESS_UNCONSCIOUS (1<<3)
 
 /**
  * Misc defines

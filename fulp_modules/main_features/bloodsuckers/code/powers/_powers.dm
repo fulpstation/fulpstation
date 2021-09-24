@@ -1,9 +1,9 @@
 /datum/action/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
-	///This is the FILE for the background icon
+	//This is the FILE for the background icon
 	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
-	///This is the ICON_STATE for the background icon
+	//This is the ICON_STATE for the background icon
 	background_icon_state = "vamp_power_off"
 	var/background_icon_state_on = "vamp_power_on"
 	var/background_icon_state_off = "vamp_power_off"
@@ -12,55 +12,41 @@
 	buttontooltipstyle = "cult"
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
 	var/power_explanation
-	/// This Power is meant exclusively for Tremere.
-	var/tremere_level
+	///The owner's stored Bloodsucker datum
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum_power
 
-	// ACTIONS //
-	///Am I asked to choose a target when enabled? (Shows as toggled ON when armed)
-	var/amTargetted = FALSE
-	///Can I be actively turned on and off?
-	var/amToggle = FALSE
-	///Am I removed after a single use?
-	var/amSingleUse = FALSE
-	///Am I Active?
+	// FLAGS //
+	/// The effects on this Power (Toggled/Single Use/Static Cooldown)
+	var/power_flags = BP_AM_TOGGLE|BP_AM_SINGLEUSE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
+	/// Requirement flags for checks
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	/// Who can purchase the Power
+	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
+
+	// VARS //
+	///If the Power is currently active.
 	var/active = FALSE
-	/// 10 ticks, 1 second.
-	var/cooldown = 20
-	/// From action.dm: next_use_time = world.time + cooldown_time
-	var/cooldownUntil = 0
-
-	// POWERS //
-	///Can increase to yield new abilities. Each power goes up in strength each Rank.
+	/// Cooldown between each use.
+	var/cooldown = 2 SECONDS
+	/// Check: If the Cooldown is over yet
+	var/power_cooldown = 0
+	/// What Tremere level is this Power?
+	var/tremere_level
+	///Can increase to yield new abilities - Each Power ranks up each Rank
 	var/level_current = 0
 	///The cost to ACTIVATE this Power
 	var/bloodcost
 	///The cost to MAINTAIN this Power - Only used for Constant Cost Powers
 	var/constant_bloodcost
-	///Do we have to be Conscious to pay the Constant Cost?
-	var/conscious_constant_bloodcost = FALSE
-	///Feed, Masquerade, and One-Shot powers don't improve their cooldown.
-	var/cooldown_static = FALSE
-	/// What the Power requires to be used
-	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
-	/// Who can purchase the Power
-	var/purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
 
-	///The saved antagonist datum for the Power's owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum_power
-	// UNUSED POWER STUFF - Kept in case Swain wants to use them //
-//	var/level_max = 1
-	///For passive abilities that dont need a button - Taken from Changeling
-//	var/needs_button = TRUE
-
-
-/// Modify description to add cost.
+// Modify description to add cost.
 /datum/action/bloodsucker/New(Target)
 	. = ..()
 	if(bloodcost > 0)
 		desc += "<br><br><b>COST:</b> [bloodcost] Blood"
 	if(constant_bloodcost)
 		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
-	if(amSingleUse)
+	if(power_flags & BP_AM_SINGLEUSE)
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
 
 /datum/action/bloodsucker/Grant(mob/M)
@@ -84,10 +70,11 @@
 	var/datum/action/bloodsucker/power = choice
 	to_chat(usr, span_warning("[power.power_explanation]"))
 
-/*							NOTES
+/**
+ * # NOTES
  *
- * 	click.dm <--- Where we can take over mouse clicks
- *	spells.dm  /add_ranged_ability()  <--- How we take over the mouse click to use a power on a target.
+ * click.dm <--- Where we can take over mouse clicks
+ * spells.dm  /add_ranged_ability()  <--- How we take over the mouse click to use a power on a target.
  */
 
 /datum/action/bloodsucker/Trigger()
@@ -98,15 +85,15 @@
 		return FALSE
 	PayCost()
 	UpdateButtonIcon()
-	if(!amToggle || !active)
+	if(!(power_flags & BP_AM_TOGGLE) || !active)
 		StartCooldown() // Must come AFTER UpdateButton(), otherwise icon will revert.
-	if(amToggle)
+	if(power_flags & BP_AM_TOGGLE)
 		active = !active
 		UpdateButtonIcon()
 		ActivatePower() //We're doing this here because it has to be after 'active = !active'
 		return TRUE // Don't keep going down, or else it'll be Deactivated.
-	ActivatePower() // This is placed here so amToggle's can run and return before this occurs.
-	if(amSingleUse)
+	ActivatePower() // This is placed here so Toggled Powers can run and return before this occurs.
+	if(power_flags & BP_AM_SINGLEUSE)
 		RemoveAfterUse()
 	if(active) // Did we not manually disable? Handle it here.
 		DeactivatePower()
@@ -116,9 +103,9 @@
 	if(!owner || !owner.mind)
 		return FALSE
 	// Cooldown?
-	if(cooldownUntil > world.time)
+	if(power_cooldown > world.time)
 		if(display_error)
-			to_chat(owner, "[src] is unavailable. Wait [(cooldownUntil - world.time) / 10] seconds.")
+			to_chat(owner, "[src] is unavailable. Wait [(power_cooldown - world.time) / 10] seconds.")
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/L = owner
@@ -161,11 +148,10 @@
 			to_chat(owner, span_warning("Not while you're incapacitated!"))
 		return FALSE
 	// Constant Cost (out of blood)
-	if(constant_bloodcost)
-		if(bloodsuckerliving.blood_volume <= 0)
-			if(display_error)
-				to_chat(owner, span_warning("You don't have the blood to upkeep [src]."))
-			return FALSE
+	if(constant_bloodcost && bloodsuckerliving.blood_volume <= 0)
+		if(display_error)
+			to_chat(owner, span_warning("You don't have the blood to upkeep [src]."))
+		return FALSE
 	return TRUE
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
@@ -175,14 +161,15 @@
 	button.color = rgb(128,0,0,128)
 	button.alpha = 100
 	// Calculate Cooldown (by power's level)
-	var/this_cooldown = (cooldown_static || amSingleUse) ? cooldown : max(cooldown / 2, cooldown - (cooldown / 16 * (level_current-1)))
+	var/this_cooldown = ((power_flags & BP_AM_STATIC_COOLDOWN) || (power_flags & BP_AM_SINGLEUSE)) ? cooldown : max(cooldown / 2, cooldown - (cooldown / 16 * (level_current-1)))
 
 	// Wait for cooldown
-	cooldownUntil = world.time + this_cooldown
-	spawn(this_cooldown)
-		// Alpha In
-		button.color = rgb(255,255,255,255)
-		button.alpha = 255
+	power_cooldown = world.time + this_cooldown
+	addtimer(CALLBACK(src, .proc/alpha_in), this_cooldown)
+
+/datum/action/bloodsucker/proc/alpha_in()
+	button.color = rgb(255,255,255,255)
+	button.alpha = 255
 
 /datum/action/bloodsucker/proc/CheckCanDeactivate(display_error)
 	return TRUE
@@ -200,17 +187,17 @@
 	bloodsuckerdatum_power?.update_hud()
 
 /datum/action/bloodsucker/proc/ActivatePower()
-	if(amToggle)
+	if(power_flags & BP_AM_TOGGLE)
 		RegisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/UsePower)
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
-	if(amToggle)
+	if(power_flags & BP_AM_TOGGLE)
 		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
 	UpdateButtonIcon()
 	StartCooldown()
 
-///Used by powers that are continuously active (That use amToggle)
+///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)
 	SIGNAL_HANDLER
 
@@ -220,7 +207,7 @@
 		DeactivatePower()
 		return FALSE
 	// We can keep this up (For now), so Pay Cost!
-	if(!(conscious_constant_bloodcost && user.stat != CONSCIOUS))
+	if(!(power_flags & BP_AM_COSTLESS_UNCONSCIOUS) && user.stat != CONSCIOUS)
 		bloodsuckerdatum_power?.AddBloodVolume(-constant_bloodcost)
 	return TRUE
 
@@ -233,7 +220,7 @@
 	if(!constant_bloodcost || user.blood_volume > 0)
 		return TRUE
 
-/// Used to unlearn Go Home ability
+/// Used to unlearn Single-Use Powers
 /datum/action/bloodsucker/proc/RemoveAfterUse()
 	bloodsuckerdatum_power?.powers -= src
 	Remove(owner)
@@ -259,13 +246,13 @@
 	return ..()
 */
 
-///////////////////////////////////  TARGETTED POWERS	///////////////////////////////////
+///////////////////////////////////  TARGETED POWERS	///////////////////////////////////
 
 /// NOTE: All Targeted spells are Toggles! We just don't bother checking here.
 /datum/action/bloodsucker/targeted
-	var/target_range = 99
-	var/message_Trigger = "Select a target."
 	var/obj/effect/proc_holder/bloodsucker/bs_proc_holder
+	var/target_range = 99
+	var/prefire_message = ""
 	///Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.
 	var/power_activates_immediately = TRUE
 	///Is this power LOCKED due to being used?
@@ -293,8 +280,8 @@
 	if(L.ranged_ability)
 		L.ranged_ability.remove_ranged_ability()
 	bs_proc_holder.add_ranged_ability(L)
-	if(message_Trigger != "")
-		to_chat(owner, span_announce("[message_Trigger]"))
+	if(prefire_message != "")
+		to_chat(owner, span_announce("[prefire_message]"))
 	return TRUE
 
 /datum/action/bloodsucker/targeted/CheckCanUse(display_error)

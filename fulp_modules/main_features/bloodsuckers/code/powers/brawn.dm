@@ -8,12 +8,14 @@
 		At level 3, you get the ability to break closets open, additionally can both break restraints AND knock a grabber down in the same use.\n\
 		At level 4, you get the ability to bash airlocks open, as long as they aren't bolted.\n\
 		Higher levels will increase the damage and knockdown when punching someone."
+	power_flags = NONE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 8
-	cooldown = 90
+	cooldown = 9 SECONDS
 	target_range = 1
 	power_activates_immediately = TRUE
+	prefire_message = "Select a target."
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
 	. = ..()
