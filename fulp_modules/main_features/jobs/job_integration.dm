@@ -18,3 +18,16 @@
 	for(var/turf/T in shuffle(get_area_turfs(room)))
 		if(!T.is_blocked_turf(TRUE))
 			return T
+
+// Add Fulp jobs to the list of station jobs
+/datum/controller/subsystem/job/setup_job_lists()
+	. = ..()
+	station_jobs += list(
+		"Brig Physician",
+		"Deputy",
+		"Supply Deputy",
+		"Engineering Deputy",
+		"Medical Deputy",
+		"Science Deputy",
+		"Service Deputy",
+	)
