@@ -1,5 +1,7 @@
 ## List of all TG edits:
 
+- _maps/_basemap.dm > Adds our maps to the list of playable maps
+
 - code/__DEFINES/atom_hud.dm > Bloodsucker HUDs
 
 - code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
