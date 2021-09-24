@@ -317,7 +317,7 @@
 		in_use = FALSE
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
 		// Are we a Bloodsucker | Are we not part of a Clan | Are we on Masquerade. If any are true, they will fail.
-		if(IS_BLOODSUCKER(target) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
+		if(IS_BLOODSUCKER(target) && !HAS_TRAIT(target, TRAIT_MASQUERADE))
 			if(bloodsuckerdatum.broke_masquerade)
 				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is indeed a [bloodsuckerdatum.my_clan] Bloodsucker, but you already knew this."))
 				return

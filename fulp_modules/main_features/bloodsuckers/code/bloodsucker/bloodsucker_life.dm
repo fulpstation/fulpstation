@@ -66,9 +66,9 @@
 	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity, you will now enter Frenzy at [FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)] Blood."))
 
 /// mult: SILENT feed is 1/3 the amount
-/datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1)
+/datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1, power_level)
 	// Starts at 15 (now 8 since we doubled the Feed time)
-	var/feed_amount = 15 + (level_current * 2)
+	var/feed_amount = 15 + (power_level * 2)
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult
 	target.blood_volume -= blood_taken
 	// Simple Animals lose a LOT of blood, and take damage. This is to keep cats, cows, and so forth from giving you insane amounts of blood.

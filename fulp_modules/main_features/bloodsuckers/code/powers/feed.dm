@@ -295,7 +295,7 @@
 
 	///////////////////////////////////////////////////////////
 	// 		Handle Feeding! User & Victim Effects (per tick)
-	bloodsuckerdatum_power.HandleFeeding(feed_target, blood_take_mult)
+	bloodsuckerdatum_power.HandleFeeding(feed_target, blood_take_mult, level_current)
 	amount_taken += amSilent ? 0.3 : 1
 	if(!amSilent)
 		ApplyVictimEffects(feed_target) // Sleep, paralysis, immobile, unconscious, and mute
