@@ -16,12 +16,12 @@
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
 	belt = /obj/item/storage/belt/security/deputy
 	shoes = /obj/item/clothing/shoes/laceup
-	l_pocket = /obj/item/flashlight/seclite
-	r_pocket = /obj/item/pda/security
+	l_pocket = /obj/item/pda/security
+	r_pocket = /obj/item/flashlight/seclite
 
+	pda_slot = ITEM_SLOT_LPOCKET
 	id_trim = /datum/id_trim/job/deputy
 	box = /obj/item/storage/box/survival
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering
@@ -33,7 +33,6 @@
 	id_trim = /datum/id_trim/job/deputy/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
 	skillchips = list(/obj/item/skillchip/job/deputy/engineering)
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Medical Deputy
 /datum/outfit/job/deputy/medical
@@ -45,7 +44,6 @@
 	id_trim = /datum/id_trim/job/deputy/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
 	skillchips = list(/obj/item/skillchip/job/deputy/medical)
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Science Deputy
 /datum/outfit/job/deputy/science
@@ -61,7 +59,6 @@
 	id_trim = /datum/id_trim/job/deputy/science
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Supply Deputy
 /datum/outfit/job/deputy/supply
@@ -78,7 +75,6 @@
 	id_trim = /datum/id_trim/job/deputy/supply
 	accessory = /obj/item/clothing/accessory/armband/cargo
 	skillchips = list(/obj/item/skillchip/job/deputy/supply)
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Service Deputy
 /datum/outfit/job/deputy/service
@@ -91,7 +87,6 @@
 	accessory = /obj/item/clothing/accessory/armband/hydro
 	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/service)
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Plasmamen Datum
 /datum/outfit/plasmaman/deputy

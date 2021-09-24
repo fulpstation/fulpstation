@@ -31,3 +31,16 @@
 		"Science Deputy",
 		"Service Deputy",
 	)
+
+// Add Fulp jobs to the Crew monitor, at their assigned position (/datum/crewmonitor/var/list/jobs)
+/datum/crewmonitor/New()
+	. = ..()
+	jobs += list(
+		"Brig Physician" = 18,
+		"Deputy" = 17,
+		"Supply Deputy" = 54,
+		"Engineering Deputy" = 43,
+		"Medical Deputy" = 25,
+		"Science Deputy" = 34,
+		"Service Deputy" = 72,
+	)

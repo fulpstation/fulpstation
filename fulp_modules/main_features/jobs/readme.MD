@@ -6,12 +6,13 @@
 
 ## TG edits:
 
-- code/game/machinery/computer/crew.dm > Adds Fulp jobs to the crew monitor.
+- None
 
 ## TG proc overwrites:
 
 - sec_hud_set_ID() (code/game/data_huds.dm) > Assigns HUD Overlays for Fulp jobs.
 - setup_job_lists() (code/controllers/subsystem/job.dm) > Adds Fulp jobs to the list of all jobs
+- /datum/crewmonitor/var/list/jobs (code/game/machinery/computer/crew.dm) > Adds Fulp jobs to the Crew monitor
 
 ## TG sounds/sprites used:
 

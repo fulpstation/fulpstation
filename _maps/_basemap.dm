@@ -12,11 +12,6 @@
 		#include "map_files\MetaStation\MetaStation.dmm"
 		#include "map_files\IceBoxStation\IceBoxStation.dmm"
 		#include "map_files\tramstation\tramstation.dmm"
-		// Fulp edit START - Maps
-		#include "map_files\PubbyStation\PubbyStation.dmm"
-		#include "map_files\HelioStation\HelioStation.dmm"
-		#include "map_files\SeleneStation\SeleneStation.dmm"
-		// Fulp edit END
 
 		#ifdef CIBUILDING
 			#include "templates.dm"
