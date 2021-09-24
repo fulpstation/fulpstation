@@ -2,16 +2,12 @@
 
 - _maps/_basemap.dm > Adds our maps to the list of playable maps
 
-- code/__DEFINES/atom_hud.dm > Bloodsucker HUDs
-
 - code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
 
 - code/__HELPERS/global_lists.dm > Beefmen customization/preferences.
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 
 - code/controllers/subsystem/ticker.dm > Adds pick_round_end_sound() to the round_end_song
-
-- code/datums/hud.dm > Bloodsucker HUDs
 
 - code/game/area/areas/shuttle.dm > Plays ApproachingFulp instead of ApproachingTG
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
