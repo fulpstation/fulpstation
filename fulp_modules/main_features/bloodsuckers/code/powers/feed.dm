@@ -389,6 +389,7 @@
 		bloodsuckerdatum_power.break_masquerade()
 	// Reset ALL checks for next time the Power is used.
 	amSilent = FALSE
+	was_noticed = FALSE
 	warning_target_inhuman = FALSE
 	warning_target_dead = FALSE
 	warning_full = FALSE
