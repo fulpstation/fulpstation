@@ -50,7 +50,7 @@
 		"vandalism", "gross incompetence",
 	)
 
-	to_chat(owner.current, span_notice("You are the [name]."))
+	to_chat(owner.current, span_notice("You are the [employer]."))
 
 	if(employer == EXTERNAL_AFFAIRS)
 		to_chat(owner.current, span_userdanger("Your target has been framed for [crime], and you have been tasked with eliminating them to prevent them defending themselves in court."))
