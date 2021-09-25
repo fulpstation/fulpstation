@@ -149,7 +149,7 @@
 	else
 		to_chat(owner.current, span_userdanger("All the other agents are dead, and you're the last loose end. Stage a Syndicate terrorist attack to cover up for today's events. You no longer have any limits on collateral damage."))
 
-	replace_escape_objective(owner)
+	replace_escape_objective()
 	make_iaa_unrevivable()
 
 /// Upon becoming the last man standing, all other IAA's become unrevivable
@@ -162,7 +162,9 @@
 /datum/antagonist/traitor/internal_affairs/proc/replace_escape_objective()
 	if(!owner || !objectives.len)
 		return
-	for(var/datum/objective/assassinate/internal/objective as anything in owner.get_all_objectives())
+	for(var/datum/objective/objective as anything in owner.get_all_objectives())
+		if(!istype(objective, /datum/objective/escape) && !istype(objective, /datum/objective/survive))
+			continue
 		objectives -= objective
 
 	var/datum/objective/martyr/martyr_objective = new
