@@ -28,6 +28,14 @@
 	UnregisterSignal(owner.current, COMSIG_LIVING_REVIVE)
 	return ..()
 
+/datum/antagonist/traitor/internal_affairs/apply_innate_effects()
+	. = ..()
+	owner?.current?.apply_status_effect(/datum/status_effect/agent_pinpointer)
+
+/datum/antagonist/traitor/internal_affairs/remove_innate_effects()
+	owner?.current?.remove_status_effect(/datum/status_effect/agent_pinpointer)
+	return ..()
+
 /datum/antagonist/traitor/internal_affairs/greet()
 	var/crime = pick(
 		"distribution of contraband", "unauthorized erotic action on duty",
