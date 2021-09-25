@@ -111,6 +111,9 @@ GLOBAL_LIST_INIT(heretic_start_knowledge,list(/datum/eldritch_knowledge/spell/ba
 ///File to the traitor flavor
 #define TRAITOR_FLAVOR_FILE "traitor_flavor.json"
 
+///File to the IAA flavor
+#define IAA_FLAVOR_FILE "internalaffair_flavor.json"
+
 ///employers that are from the syndicate
 GLOBAL_LIST_INIT(syndicate_employers, list(
 	"Tiger Cooperative Fanatic",
@@ -126,7 +129,6 @@ GLOBAL_LIST_INIT(syndicate_employers, list(
 ///employers that are from nanotrasen
 GLOBAL_LIST_INIT(nanotrasen_employers, list(
 	"Gone Postal",
-	"Internal Affairs Agent",
 	"Corporate Climber",
 	"Legal Trouble"
 ))
@@ -147,7 +149,6 @@ GLOBAL_LIST_INIT(normal_employers, list(
 	"Gorlex Marauders",
 	"Donk Corporation",
 	"Waffle Corporation",
-	"Internal Affairs Agent",
 	"Corporate Climber",
 	"Legal Trouble"
 ))

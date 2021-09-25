@@ -195,8 +195,8 @@ GLOBAL_LIST_EMPTY(objectives)
 
 /datum/objective/assassinate
 	name = "assasinate"
-	var/target_role_type=FALSE
 	martyr_compatible = TRUE
+	var/target_role_type = FALSE
 
 
 /datum/objective/assassinate/check_completion()
@@ -212,18 +212,53 @@ GLOBAL_LIST_EMPTY(objectives)
 /datum/objective/assassinate/admin_edit(mob/admin)
 	admin_simple_target_pick(admin)
 
+// Silicon version of assassinate
+/datum/objective/assassinate/destroy
+	name = "destroy AI"
+	martyr_compatible = TRUE
+
+/datum/objective/assassinate/destroy/find_target(dupe_search_range)
+	var/list/possible_targets = active_ais(1)
+	var/mob/living/silicon/ai/target_ai = pick(possible_targets)
+	target = target_ai.mind
+	update_explanation_text()
+	return target
+
+/datum/objective/assassinate/destroy/check_completion()
+	if(target?.current)
+		return target.current.stat == DEAD || target.current.z > 6 || !target.current.ckey //Borgs/brains/AIs count as dead for traitor objectives.
+	return TRUE
+
+/datum/objective/assassinate/destroy/update_explanation_text()
+	..()
+	if(target?.current)
+		explanation_text = "Destroy [target.name], the experimental AI."
+
+/datum/objective/assassinate/destroy/admin_edit(mob/admin)
+	var/list/possible_targets = active_ais(TRUE)
+	if(possible_targets.len)
+		var/mob/new_target = input(admin,"Select target:", "Objective target") as null|anything in sortNames(possible_targets)
+		target = new_target.mind
+	else
+		to_chat(admin, span_boldwarning("No active AIs with minds."))
+	update_explanation_text()
+
+// Internal affairs
 /datum/objective/assassinate/internal
-	var/stolen = FALSE //Have we already eliminated this target?
+	///Have we already eliminated this target?
+	var/stolen = FALSE
 
 /datum/objective/assassinate/internal/update_explanation_text()
 	..()
-	if(target && !target.current)
-		explanation_text = "Assassinate [target.name], who was obliterated"
+	if(target?.current)
+		explanation_text = "Assassinate [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role]."
+	else
+		explanation_text = "Assassinate [target.name], who has been obliterated."
 
 /datum/objective/mutiny
 	name = "mutiny"
-	var/target_role_type=FALSE
-	martyr_compatible = 1
+	var/target_role_type = FALSE
+	martyr_compatible = TRUE
 
 
 /datum/objective/mutiny/check_completion()
@@ -837,41 +872,6 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 
 //End Changeling Objectives
 
-/datum/objective/destroy
-	name = "destroy AI"
-	martyr_compatible = TRUE
-
-/datum/objective/destroy/find_target(dupe_search_range)
-	var/list/possible_targets = active_ais(1)
-	var/mob/living/silicon/ai/target_ai = pick(possible_targets)
-	target = target_ai.mind
-	update_explanation_text()
-	return target
-
-/datum/objective/destroy/check_completion()
-	if(target?.current)
-		return target.current.stat == DEAD || target.current.z > 6 || !target.current.ckey //Borgs/brains/AIs count as dead for traitor objectives.
-	return TRUE
-
-/datum/objective/destroy/update_explanation_text()
-	..()
-	if(target?.current)
-		explanation_text = "Destroy [target.name], the experimental AI."
-	else
-		explanation_text = "Free Objective"
-
-/datum/objective/destroy/admin_edit(mob/admin)
-	var/list/possible_targets = active_ais(1)
-	if(possible_targets.len)
-		var/mob/new_target = input(admin,"Select target:", "Objective target") as null|anything in sortNames(possible_targets)
-		target = new_target.mind
-	else
-		to_chat(admin, span_boldwarning("No active AIs with minds."))
-	update_explanation_text()
-
-/datum/objective/destroy/internal
-	var/stolen = FALSE //Have we already eliminated this target?
-
 /datum/objective/steal_five_of_type
 	name = "steal five of"
 	explanation_text = "Steal at least five items!"
@@ -959,7 +959,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/vassalhim,
 		/datum/objective/bloodsucker/frenzy,
 		// Fulp edit END
-		/datum/objective/destroy,
+		/datum/objective/assassinate/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,
 		/datum/objective/survive,

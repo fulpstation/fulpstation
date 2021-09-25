@@ -13,6 +13,7 @@
 #define ROLE_CULTIST "Cultist"
 #define ROLE_FAMILIES "Gangster"
 #define ROLE_HERETIC "Heretic"
+#define ROLE_INTERNAL_AFFAIRS "Internal Affairs Agent"
 #define ROLE_MALF "Malf AI"
 #define ROLE_MONKEY "Monkey"
 #define ROLE_OPERATIVE "Operative"
@@ -61,7 +62,6 @@
 #define ROLE_DRONE "Drone"
 #define ROLE_DEATHSQUAD "Deathsquad"
 #define ROLE_LAVALAND "Lavaland"
-#define ROLE_INTERNAL_AFFAIRS "Internal Affairs Agent"
 
 #define ROLE_POSITRONIC_BRAIN "Positronic Brain"
 #define ROLE_FREE_GOLEM "Free Golem"
@@ -109,6 +109,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_CULTIST = 14,
 	ROLE_FAMILIES = 0,
 	ROLE_HERETIC = 0,
+	ROLE_INTERNAL_AFFAIRS = 0,
 	ROLE_MALF = 0,
 	ROLE_MONKEY = 0,
 	ROLE_OPERATIVE = 14,
@@ -142,7 +143,6 @@ GLOBAL_LIST_INIT(special_roles, list(
 	// I'm not too sure why these are here, but they're not moving.
 	ROLE_REV = 14,
 	ROLE_PAI = 0,
-	ROLE_INTERNAL_AFFAIRS = 0,
 	ROLE_SENTIENCE = 0,
 
 	// Fulp edit START - Bloodsuckers

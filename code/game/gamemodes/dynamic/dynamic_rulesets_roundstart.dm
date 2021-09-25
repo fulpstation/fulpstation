@@ -42,6 +42,36 @@
 
 //////////////////////////////////////////////
 //                                          //
+//            INTERNAL AFFAIRS              //
+//                                          //
+//////////////////////////////////////////////
+
+/datum/dynamic_ruleset/roundstart/internal_affairs
+	name = "Internal Affairs"
+	antag_flag = ROLE_INTERNAL_AFFAIRS
+	antag_datum = /datum/antagonist/traitor/internal_affairs
+	protected_roles = list("Prisoner","Security Officer", "Warden", "Detective", "Head of Security", "Captain")
+	restricted_roles = list("AI", "Cyborg")
+	required_candidates = 8
+	weight = 5
+	cost = 10
+	scaling_cost = 9
+	requirements = list(10,10,10,10,10,10,10,10,10,10)
+	antag_cap = list("denominator" = 24)
+
+/datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
+	. = ..()
+	var/num_traitors = get_antag_cap(population) * (scaled_times + 1)
+	for(var/i = 1 to num_traitors)
+		var/mob/M = pick_n_take(candidates)
+		assigned += M.mind
+		M.mind.special_role = ROLE_INTERNAL_AFFAIRS
+		M.mind.restricted_roles = restricted_roles
+		GLOB.pre_setup_antags += M.mind
+	return TRUE
+
+//////////////////////////////////////////////
+//                                          //
 //            MALFUNCTIONING AI             //
 //                                          //
 //////////////////////////////////////////////
