@@ -2,6 +2,11 @@
 	. = ..()
 	mentor_datum_set()
 
+/client/Topic(href, href_list, hsrc)
+	if(mentor_client_procs(href_list)) // Fulp edit - Mentors
+		return
+	. = ..()
+
 /client/proc/mentor_client_procs(href_list)
 	if(href_list["mentor_msg"])
 		cmd_mentor_pm(href_list["mentor_msg"],null)

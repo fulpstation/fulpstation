@@ -4,7 +4,6 @@
 
 - code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
 
-- code/__HELPERS/global_lists.dm > Beefmen customization/preferences.
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 
 - code/controllers/subsystem/ticker.dm > Adds pick_round_end_sound() to the round_end_song
@@ -13,7 +12,6 @@
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 
-- code/modules/client/client_procs.dm > Gives the mentorhelp verb
 - code/modules/mob/living/carbon/human/examine.dm > Changes examine text for Beefmen || Added examining Bloodsuckers/Vassals || adds ShowAsPaleExamine()
 - code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences || Makes Digitigrade shoes fit Digi Lizards.
 - code/modules/surgery/bodyparts/_bodyparts.dm > Changes bodypart .dmi files for Beefmen
