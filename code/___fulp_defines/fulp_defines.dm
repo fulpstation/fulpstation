@@ -49,5 +49,3 @@
 #define NUKIE_TIPS "nukie"
 #define REVOLUTIONARY_TIPS "revolutionary"
 #define VASSAL_TIPS "vassal"
-
-#define ANTAG_HUD_BLOODSUCKER 1
