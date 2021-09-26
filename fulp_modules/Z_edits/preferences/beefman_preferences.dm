@@ -38,7 +38,7 @@
 	savefile_key = "feature_beefeyes"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
-	main_feature_name = "Eyes"
+	main_feature_name = "Beefman Eyes"
 	should_generate_icons = TRUE
 
 /datum/preference/choiced/beefman_eyes/init_possible_values()
@@ -67,7 +67,7 @@
 	savefile_key = "feature_beefmouth"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
-	main_feature_name = "Eyes"
+	main_feature_name = "Beefman Mouth"
 	should_generate_icons = TRUE
 
 /datum/preference/choiced/beefman_mouth/init_possible_values()
