@@ -8,17 +8,18 @@
 		At level 3, you get the ability to break closets open, additionally can both break restraints AND knock a grabber down in the same use.\n\
 		At level 4, you get the ability to bash airlocks open, as long as they aren't bolted.\n\
 		Higher levels will increase the damage and knockdown when punching someone."
+	power_flags = NONE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 8
-	cooldown = 90
+	cooldown = 9 SECONDS
 	target_range = 1
 	power_activates_immediately = TRUE
-	must_be_capacitated = TRUE
-	can_use_w_immobilize = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
+	prefire_message = "Select a target."
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
-	if(!..()) // Default checks
+	. = ..()
+	if(!.) // Default checks
 		return FALSE
 	///Have we used our power yet?
 	var/usedPower = FALSE
@@ -175,7 +176,8 @@
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/A, display_error)
 	// DEFAULT CHECKS (Distance)
-	if(!..()) // Disable range notice for Brawn.
+	. = ..()
+	if(!.) // Disable range notice for Brawn.
 		return FALSE
 	// Must outside Closet to target anyone!
 	if(!isturf(owner.loc))
@@ -193,10 +195,3 @@
 	else if(istype(A, /obj/structure/closet))
 		return TRUE
 	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
-
-/// Vassal version
-/datum/action/bloodsucker/targeted/brawn/vassal
-	name = "Strength"
-	desc = "Snap restraints, knock down grabbers, or deal terrible damage with your bare hands."
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = FALSE

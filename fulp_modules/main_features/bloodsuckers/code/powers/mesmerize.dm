@@ -22,19 +22,20 @@
 		At level 5, you will be able to mesmerize regardless of your target's direction.\n\
 		At level 6, you will cause your target to fall asleep.\n\
 		Higher levels will increase the time of the mesmerize's freeze."
+	power_flags = NONE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
-	cooldown = 200
+	cooldown = 20 SECONDS
 	target_range = 5
 	power_activates_immediately = FALSE
-	message_Trigger = "Whom will you subvert to your will?"
-	must_be_capacitated = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
+	prefire_message = "Whom will you subvert to your will?"
 	///Our mesmerized target - Prevents several mesmerizes.
 	var/mob/living/mesmerized_target
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(display_error)
-	if(!..()) // Default checks
+	. = ..()
+	if(!.) // Default checks
 		return FALSE
 	if(!owner.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)
@@ -53,7 +54,8 @@
 	return isliving(A)
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/A, display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Self
 	if(A == owner)

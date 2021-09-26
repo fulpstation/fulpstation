@@ -1,4 +1,6 @@
-/* 		WITHOUT THIS POWER:
+/**
+ *	# WITHOUT THIS POWER:
+ *
  *	- Mid-Blood: SHOW AS PALE
  *	- Low-Blood: SHOW AS DEAD
  *	- No Heartbeat
@@ -19,18 +21,14 @@
 		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
 		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
 		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
+	check_flags = BP_CANT_USE_IN_FRENZY|BP_AM_COSTLESS_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY
 	bloodcost = 10
-	cooldown = 50
+	cooldown = 5 SECONDS
 	constant_bloodcost = 0.1
-	conscious_constant_bloodcost = TRUE
-	amToggle = TRUE
-	bloodsucker_can_buy = FALSE
-	can_use_in_torpor = TRUE
-	cooldown_static = TRUE
-	must_be_concious = FALSE
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
 	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
@@ -55,7 +53,6 @@
 	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.FakeStart()
-	bloodsuckerdatum.poweron_masquerade = TRUE
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 	. = ..()
 
@@ -68,8 +65,6 @@
 /datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/carbon/user = owner, mob/living/target)
 	. = ..() // activate = FALSE
 	owner.balloon_alert(owner, "masquerade turned off.")
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	bloodsuckerdatum.poweron_masquerade = FALSE
 	user.remove_status_effect(STATUS_EFFECT_MASQUERADE)
 	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
@@ -98,16 +93,16 @@
 		disease.cure()
 	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))
 
-/*
- *	# Status effect
+/**
+ * # Status effect
  *
- *	This is what the Masquerade power gives, handles their bonuses and gives them a neat icon to tell them they're on Masquerade.
+ * This is what the Masquerade power gives, handles their bonuses and gives them a neat icon to tell them they're on Masquerade.
  */
 
 /datum/status_effect/masquerade
 	id = "masquerade"
 	duration = -1
-	tick_interval = 20
+	tick_interval = -1
 	alert_type = /atom/movable/screen/alert/status_effect/masquerade
 
 /atom/movable/screen/alert/status_effect/masquerade

@@ -19,10 +19,12 @@
 	power_explanation = "<b>Level 1: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	power_activates_immediately = FALSE
 	bloodcost = 15
-	cooldown = 500
+	cooldown = 50 SECONDS
 	target_range = 6
+	prefire_message = "Select a target."
 
 /datum/action/bloodsucker/targeted/tremere/dominate/two
 	name = "Level 2: Dominate"
@@ -33,7 +35,7 @@
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize and mute them for the next 12 seconds."
 	bloodcost = 20
-	cooldown = 400
+	cooldown = 40 SECONDS
 
 /datum/action/bloodsucker/targeted/tremere/dominate/three
 	name = "Level 3: Dominate"
@@ -44,10 +46,11 @@
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds."
 	bloodcost = 30
-	cooldown = 350
+	cooldown = 35 SECONDS
 
 /datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/A, display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Self
 	if(A == owner)
@@ -74,7 +77,7 @@
 	background_icon_state_on = "tremere_power_gold_on"
 	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 80
-	cooldown = 1800 // 3 minutes
+	cooldown = 180 SECONDS // 3 minutes
 
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
 	name = "Level 5: Possession"
@@ -88,11 +91,12 @@
 		If you use this on a currently dead normal Vassal, you will instead revive them normally.\n\
 		They will have complete loyalty to you, until their death in 8 minutes upon use."
 	bloodcost = 100
-	cooldown = 1200 // 2 minutes
+	cooldown = 120 SECONDS // 2 minutes
 
 // The advanced version
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/A, display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Self
 	if(A == owner)
@@ -161,7 +165,6 @@
 	if(!do_mob(user, target, 6 SECONDS, NONE, TRUE))
 		return
 
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(IS_VASSAL(target))
 		PowerActivatedSuccessfully()
 		to_chat(user, span_warning("We revive [target]!"))
@@ -171,7 +174,7 @@
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("Their body refuses to react..."))
 		return
-	if(!bloodsuckerdatum.attempt_turn_vassal(target, TRUE))
+	if(!bloodsuckerdatum_power.attempt_turn_vassal(target, TRUE))
 		return
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))

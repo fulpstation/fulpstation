@@ -115,7 +115,7 @@
 	// Now let's give them their assigned bonuses.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
-		BuyPower(new /datum/action/bloodsucker/targeted/brawn/vassal)
+		BuyPower(new /datum/action/bloodsucker/targeted/brawn)
 	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
 		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
