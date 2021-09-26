@@ -154,10 +154,10 @@
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
 	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
-	var/msg = " made [key_name_admin(new_owner)] into [name]"
+	var/msg = " made [key_name_admin(new_owner)] into \a [name]"
 	if(!isnull(levels))
 		bloodsucker_level_unspent = levels
-		msg += "with [levels] extra unspent Ranks."
+		msg += " with [levels] extra unspent Ranks."
 	message_admins("[key_name_admin(usr)][msg]")
 	log_admin("[key_name(usr)][msg]")
 	new_owner.add_antag_datum(src)
