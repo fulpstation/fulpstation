@@ -52,17 +52,22 @@
 	antag_datum = /datum/antagonist/traitor/internal_affairs
 	protected_roles = list("Prisoner","Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 	restricted_roles = list("AI", "Cyborg")
-	required_candidates = 8
-	weight = 5
+	required_candidates = 4
+	weight = 4
 	cost = 10
-	scaling_cost = 9
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	antag_cap = list("denominator" = 24)
+	antag_cap = list("denominator" = 20, "offset" = 4)
+
+/datum/dynamic_ruleset/roundstart/internal_affairs/ready(population, forced = FALSE)
+	required_candidates = get_antag_cap(population)
+	. = ..()
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
 	. = ..()
-	var/num_traitors = get_antag_cap(population) * (scaled_times + 1)
-	for(var/i = 1 to num_traitors)
+	var/num_traitors = get_antag_cap(population)
+	for(var/affair_number = 1 to num_traitors)
+		if(candidates.len <= 0)
+			break
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
 		M.mind.special_role = ROLE_INTERNAL_AFFAIRS

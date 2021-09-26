@@ -14,11 +14,8 @@
 	/// List of all Targets we have stolen thus far
 	var/list/datum/mind/targets_stolen = list()
 
-/datum/antagonist/traitor/internal_affairs/specialization(datum/mind/new_owner)
-	target_list += new_owner
-	return src
-
 /datum/antagonist/traitor/internal_affairs/on_gain()
+	target_list += owner
 	. = ..()
 	RegisterSignal(owner.current, COMSIG_LIVING_REVIVE, .proc/on_revive)
 	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
@@ -26,6 +23,7 @@
 /datum/antagonist/traitor/internal_affairs/on_removal()
 	UnregisterSignal(owner.current, COMSIG_LIVING_DEATH)
 	UnregisterSignal(owner.current, COMSIG_LIVING_REVIVE)
+	target_list -= owner
 	return ..()
 
 /datum/antagonist/traitor/internal_affairs/apply_innate_effects()
