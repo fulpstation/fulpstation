@@ -50,7 +50,7 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 // Used when analyzing a Bloodsucker, Masquerade will hide brain traumas (Unless you're a Beefman)
 /mob/living/carbon/get_traumas()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(src)
-	if(bloodsuckerdatum && bloodsuckerdatum.poweron_masquerade && !isbeefman(src))
+	if(bloodsuckerdatum && HAS_TRAIT(src, TRAIT_MASQUERADE) && !isbeefman(src))
 		return
 	. = ..()
 
@@ -151,12 +151,12 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 	if(!bloodsuckerdatum)
 		return BLOODSUCKER_HIDE_BLOOD
 	// Blood level too low to be hidden?
-	if(apparent_blood_volume <= BLOOD_VOLUME_BAD || bloodsuckerdatum.Frenzied)
+	if(apparent_blood_volume <= BLOOD_VOLUME_BAD || bloodsuckerdatum.frenzied)
 		return BLOODSUCKER_HIDE_BLOOD
 	// Special check: Nosferatu will always be Pale Death
 	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
 		return "<b>[p_they(TRUE)] look[p_s()] like pale death"
-	if(bloodsuckerdatum.poweron_masquerade)
+	if(HAS_TRAIT(src, TRAIT_MASQUERADE))
 		return BLOODSUCKER_HIDE_BLOOD
 	switch(apparent_blood_volume)
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
@@ -170,7 +170,7 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 	// Vamps don't show up normally to scanners unless Masquerade power is on ----> scanner.dm
 	if(mind)
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(istype(bloodsuckerdatum) && bloodsuckerdatum.poweron_masquerade)
+		if(istype(bloodsuckerdatum) && HAS_TRAIT(src, TRAIT_MASQUERADE))
 			return BLOOD_VOLUME_NORMAL
 	return blood_volume
 */

@@ -22,6 +22,9 @@
 /datum/job/paramedic
 	exp_requirements = 180
 
+/datum/job/quartermaster
+	exp_requirements = 300
+
 /datum/job/roboticist
 	exp_requirements = 180
 
@@ -30,6 +33,7 @@
 
 /datum/job/shaft_miner
 	exp_requirements = 180
+	exp_required_type = EXP_TYPE_CREW
 
 /datum/job/station_engineer
 	exp_requirements = 180

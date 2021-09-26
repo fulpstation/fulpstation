@@ -6,18 +6,18 @@
 		Click anywhere from 1-2 tiles away from you to teleport.\n\
 		This power goes through all obstacles except Walls.\n\
 		Higher levels decrease the sound played from using the Power, and increase the speed of the transition."
+	power_flags = NONE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
-	cooldown = 80
+	cooldown = 8 SECONDS
+	prefire_message = "Select a target."
 	//target_range = 2
-	can_use_in_frenzy = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
-	must_be_capacitated = FALSE
-	can_use_w_immobilize = TRUE
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	if(owner.notransform || !get_turf(owner))
 		return FALSE

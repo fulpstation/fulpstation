@@ -11,13 +11,11 @@
 		Feeding off of someone until they die will cause you to lose <b>Humanity</b>.\n\
 		If you are seen feeding off of someone (2 tiles) while your target is grabbed, you will break the Masquerade.\n\
 		Higher levels will increase the feeding's speed."
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY
 	bloodcost = 0
-	cooldown = 30
-	amToggle = TRUE
-	bloodsucker_can_buy = FALSE
-	can_use_w_stake = TRUE
-	cooldown_static = TRUE
-	can_use_in_frenzy = TRUE
+	cooldown = 3 SECONDS
 
 	///Amount of times we were seen Feeding. If seen 3 times, we broke the Masquerade.
 	var/feeds_noticed = 0
@@ -35,7 +33,7 @@
 	var/amount_taken = 0
 	///The initial wait before you start drinking blood.
 	var/feed_time
-	///Quantity to take per tick, based on Silent/Frenzied or not.
+	///Quantity to take per tick, based on Silent/frenzied or not.
 	var/blood_take_mult
 	/// CHECKS - To prevent spam.
 	var/warning_target_inhuman = FALSE
@@ -63,7 +61,6 @@
 
 /// Called twice: validating a subtle victim, or validating your grapple victim.
 /datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	// Must have Target.
 	if(!target)//|| !ismob(target)
 		if(display_error)
@@ -76,7 +73,7 @@
 		return FALSE
 	// Is a Mouse on an Invalid Clan.
 	if(istype(target, /mob/living/simple_animal/mouse))
-		if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+		if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE)
 			if(display_error)
 				to_chat(owner, span_warning("The thought of feeding off of a dirty rat leaves your stomach aching."))
 			return FALSE
@@ -106,7 +103,7 @@
 				to_chat(owner, span_warning("Your victim's blood is not suitable for you to take."))
 			return FALSE
 	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
-	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE && !bloodsuckerdatum.Frenzied)
+	if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE && !bloodsuckerdatum_power.frenzied)
 		if(!target.mind)
 			if(display_error)
 				to_chat(owner, span_warning("The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth."))
@@ -172,26 +169,25 @@
 
 /datum/action/bloodsucker/feed/ActivatePower(mob/living/user = owner)
 //	set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up Activate(), so Deactivate() can happen after.
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	// Checks: Step 1 - Am I SECRET or LOUD?
-	if(!bloodsuckerdatum?.Frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
+	if(!bloodsuckerdatum_power.frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
 
 	// Checks: Step 2 - Is it a Mouse?
 	if(istype(feed_target, /mob/living/simple_animal/mouse))
 		var/mob/living/simple_animal/mouse_target = feed_target
-		bloodsuckerdatum.AddBloodVolume(25)
+		bloodsuckerdatum_power.AddBloodVolume(25)
 		owner.balloon_alert(owner, "you feed off of [feed_target]")
 		to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
-		if(bloodsuckerdatum.my_clan != CLAN_NOSFERATU && bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
+		if(bloodsuckerdatum_power.my_clan != CLAN_NOSFERATU && bloodsuckerdatum_power.my_clan != CLAN_MALKAVIAN)
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
-			bloodsuckerdatum.AddHumanityLost(1)
+			bloodsuckerdatum_power.AddHumanityLost(1)
 		DeactivatePower(user)
 		mouse_target.adjustBruteLoss(20)
 		return
 	// Checks: Step 3 - How fast should I be and how much should I drink?
 	var/feed_time_multiplier
-	if(bloodsuckerdatum?.Frenzied)
+	if(bloodsuckerdatum_power.frenzied)
 		blood_take_mult = 2
 		feed_time_multiplier = 8
 	else if(!amSilent)
@@ -252,23 +248,19 @@
 	if(was_noticed && !target_grappled)
 		feeds_noticed++
 		owner.balloon_alert(owner, "someone may have noticed...")
-		if(!bloodsuckerdatum.broke_masquerade)
+		if(!bloodsuckerdatum_power.broke_masquerade)
 			to_chat(user, span_cultbold("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Vampiric Cause!"))
 	else
 		owner.balloon_alert(owner, "you think no one saw you...")
 
-	// Activate Effects
-//	feed_target.add_trait(TRAIT_MUTE, BLOODSUCKER_TRAIT)  // <----- Make mute a power you buy?
-
 	// FEEEEEEEEED!! //
-	bloodsuckerdatum?.poweron_feed = TRUE
 	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // Prevents spilling blood accidentally.
 	. = ..()
 
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-//	if(!..()) // We're using our own checks below, becuase we have a TARGET to keep track of.
+//	. = ..() // We have a target to keep track of during ContinueActive, so we don't use parent
+//	if(!.)
 //		return
 
 	// Did we deactivate this manually? Let's end it here.
@@ -303,7 +295,7 @@
 
 	///////////////////////////////////////////////////////////
 	// 		Handle Feeding! User & Victim Effects (per tick)
-	bloodsuckerdatum?.HandleFeeding(feed_target, blood_take_mult)
+	bloodsuckerdatum_power.HandleFeeding(feed_target, blood_take_mult, level_current)
 	amount_taken += amSilent ? 0.3 : 1
 	if(!amSilent)
 		ApplyVictimEffects(feed_target) // Sleep, paralysis, immobile, unconscious, and mute
@@ -314,7 +306,7 @@
 	if(amount_taken > 5 && feed_target.stat < DEAD && ishuman(feed_target))
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood)
 	// Drank mindless as Ventrue? - BAD
-	if(!feed_target.mind && bloodsuckerdatum?.my_clan == CLAN_VENTRUE)
+	if(!feed_target.mind && bloodsuckerdatum_power.my_clan == CLAN_VENTRUE)
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 		if(!warning_target_inhuman)
 			to_chat(user, span_notice("You feel disgusted at the taste of a non-sentient creature."))
@@ -337,7 +329,7 @@
 			owner.balloon_alert(owner, "your victim's blood is at an unsafe level.")
 		warning_target_bloodvol = feed_target.blood_volume // If we had a warning to give, it's been given by now.
 	// Full?
-	if(bloodsuckerdatum && user.blood_volume >= bloodsuckerdatum.max_blood_volume && !warning_full)
+	if(user.blood_volume >= bloodsuckerdatum_power.max_blood_volume && !warning_full)
 		owner.balloon_alert(owner, "you are full, further blood will be wasted.")
 		warning_full = TRUE
 	// Done?
@@ -355,8 +347,7 @@
 /datum/action/bloodsucker/feed/proc/CheckKilledTarget(mob/living/user, mob/living/target)
 	if(target && target.stat >= DEAD && ishuman(target))
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankkilled", /datum/mood_event/drankkilled)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		bloodsuckerdatum.AddHumanityLost(10)
+		bloodsuckerdatum_power.AddHumanityLost(10)
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
@@ -390,17 +381,15 @@
 				span_warning("You retract your fangs and release [feed_target] from your bite."),
 			)
 		log_combat(owner, feed_target, "fed on blood", addition="(and took [amount_taken] blood)")
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Did we kill our target?
 	if(was_alive)
 		CheckKilledTarget(user, feed_target)
-	// No longer Feeding
-	bloodsuckerdatum.poweron_feed = FALSE
 	// Only break it once we've broken it 3 times, not more.
 	if(feeds_noticed == 3)
-		bloodsuckerdatum.break_masquerade()
+		bloodsuckerdatum_power.break_masquerade()
 	// Reset ALL checks for next time the Power is used.
 	amSilent = FALSE
+	was_noticed = FALSE
 	warning_target_inhuman = FALSE
 	warning_target_dead = FALSE
 	warning_full = FALSE

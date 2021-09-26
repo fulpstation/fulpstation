@@ -9,23 +9,19 @@
 		The power will cancel out if the <b>Claimed Coffin</b> is somehow destroyed. \n\
 		Immediately after activating, lights around the user will begin to flicker. \n\
 		Once the user teleports to their coffin, in their place will be a Rat or Bat."
+	power_flags = BP_AM_SINGLEUSE
+	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED
+	// You only get this once you've claimed a lair and Sol is near.
+	purchase_flags = NONE
 	bloodcost = 100
-	/// It'll never come back.
-	cooldown = 99999
-	amSingleUse = TRUE
-
-	/// You only get this if you've claimed a lair, and only just before sunrise.
-	bloodsucker_can_buy = FALSE
-	can_use_in_torpor = TRUE
-	can_use_w_immobilize = TRUE
-	must_be_concious = FALSE
+	cooldown = 100 SECONDS
 
 /datum/action/bloodsucker/gohome/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!istype(bloodsuckerdatum) || !bloodsuckerdatum.coffin)
+	if(!istype(bloodsuckerdatum_power) || !bloodsuckerdatum_power.coffin)
 		if(display_error)
 			owner.balloon_alert(owner, "your coffin has been destroyed!")
 		return FALSE
@@ -37,7 +33,6 @@
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	to_chat(user, span_notice("You focus on separating your consciousness from your physical form..."))
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
@@ -50,7 +45,7 @@
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', 60, 1)
 	/// STEP TWO: Lights OFF?
 	/// CHECK: Still have Coffin?
-	if(!bloodsuckerdatum?.coffin)
+	if(!bloodsuckerdatum_power.coffin)
 		to_chat(user, span_warning("Your coffin has been destroyed! You no longer have a destination."))
 		return FALSE
 	if(!owner)
@@ -61,18 +56,19 @@
 	var/am_seen = FALSE
 	/// Drop Stuff (seen by non-vamp)
 	var/drop_item = FALSE
-	/// Only check if I'm not in a Locker or something.
-	if(isturf(owner.loc))
-		/// A) Check for Darkness (we can just leave)
-		var/turf/T = get_turf(user)
-		if(T && T.lighting_object && T.get_lumcount()>= 0.1)
-			/// B) Check for Viewers
-			for(var/mob/living/M in viewers(world.view, get_turf(owner)) - owner)
-				if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind)
-					am_seen = TRUE
-					if (!M.mind.has_antag_datum(/datum/antagonist/bloodsucker))
-						drop_item = TRUE
-						break
+	// Only check if I'm not in a Locker or something.
+	if(!isturf(owner.loc))
+		return
+	// A) Check for Darkness (we can just leave)
+	var/turf/T = get_turf(user)
+	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
+		// B) Check for Viewers
+		for(var/mob/living/M in viewers(world.view, get_turf(owner)) - owner)
+			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind)
+				am_seen = TRUE
+				if(!IS_BLOODSUCKER(M) && !IS_VASSAL(M))
+					drop_item = TRUE
+					break
 	/// LOSE CUFFS
 	if(user.handcuffed)
 		var/obj/O = user.handcuffed
@@ -94,7 +90,7 @@
 	/// POOF EFFECTS
 	if(am_seen)
 		playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
-		var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread/()
+		var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread()
 		puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
 		puff.set_up(3, 0, get_turf(owner))
 		puff.start()
@@ -104,17 +100,17 @@
 	new SA (owner.loc)
 	/// TELEPORT: Move to Coffin & Close it!
 	user.set_resting(TRUE, TRUE, FALSE)
-	do_teleport(owner, bloodsuckerdatum.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	do_teleport(owner, bloodsuckerdatum_power.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
 	user.Stun(3 SECONDS, TRUE)
 	/// CLOSE LID: If fail, force me in.
-	if(!bloodsuckerdatum.coffin.close(owner))
+	if(!bloodsuckerdatum_power.coffin.close(owner))
 		/// Puts me inside.
-		bloodsuckerdatum.coffin.insert(owner)
-		playsound(bloodsuckerdatum.coffin.loc, bloodsuckerdatum.coffin.close_sound, 15, 1, -3)
-		bloodsuckerdatum.coffin.opened = FALSE
-		bloodsuckerdatum.coffin.density = TRUE
-		bloodsuckerdatum.coffin.update_icon()
-		/// Lock Coffin
-		bloodsuckerdatum.coffin.LockMe(owner)
-		bloodsuckerdatum.Check_Begin_Torpor(FALSE) // Are we meant to enter Torpor here?
+		bloodsuckerdatum_power.coffin.insert(owner)
+		playsound(bloodsuckerdatum_power.coffin.loc, bloodsuckerdatum_power.coffin.close_sound, 15, 1, -3)
+		bloodsuckerdatum_power.coffin.opened = FALSE
+		bloodsuckerdatum_power.coffin.density = TRUE
+		bloodsuckerdatum_power.coffin.update_icon()
+		// Lock Coffin
+		bloodsuckerdatum_power.coffin.LockMe(owner)
+		bloodsuckerdatum_power.Check_Begin_Torpor(FALSE) // Are we meant to enter Torpor here?
 	. = ..()

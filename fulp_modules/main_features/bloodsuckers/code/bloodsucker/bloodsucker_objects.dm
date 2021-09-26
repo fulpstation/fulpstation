@@ -316,8 +316,8 @@
 			return
 		in_use = FALSE
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
-		// Are we a Bloodsucker | Are we not part of a Clan | Are we on Masquerade. If any are true, they will fail.
-		if(IS_BLOODSUCKER(target) && !bloodsuckerdatum?.poweron_masquerade)
+		// Are we a Bloodsucker | Are we on Masquerade. If one is true, they will fail.
+		if(IS_BLOODSUCKER(target) && !HAS_TRAIT(target, TRAIT_MASQUERADE))
 			if(bloodsuckerdatum.broke_masquerade)
 				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is indeed a [bloodsuckerdatum.my_clan] Bloodsucker, but you already knew this."))
 				return
@@ -364,7 +364,8 @@
 		ui.open()
 
 /obj/item/book/kindred/ui_act(action, params)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!action)
 		return FALSE
@@ -388,7 +389,7 @@
 	dat = "<head>List of information gathered on the <b>[clan]</b>:</head><br>"
 	if(clan == CLAN_BRUJAH)
 		dat += "This Clan has proven to be the strongest in melee combat, boasting a <b>powerful punch</b>.<br> \
-		They also appear to be more calm than the others, entering their 'Frenzies' whenever they want, but <i>dont seem affected</i>.<br> \
+		They also appear to be more calm than the others, entering their 'frenzies' whenever they want, but <i>dont seem affected</i>.<br> \
 		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy.<br> \
 		<b>Favorite Vassal</b>: Their favorite Vassal gains the Brawn ability. \
 		<b>Strength</b>: Frenzy will not kill them, punches deal a lot of damage.<br> \
