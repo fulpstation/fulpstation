@@ -116,7 +116,7 @@
 	name = "departmental tie"
 	desc = "A tie showing off the department colors of a deputy."
 	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_icons.dmi'
-	worn_icon =  'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_worn.dmi'
+	worn_icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_worn.dmi'
 	icon_state = "supply_tie"
 	inhand_icon_state = ""	//no inhands
 	w_class = WEIGHT_CLASS_SMALL
@@ -353,5 +353,5 @@
 	new /obj/item/reagent_containers/spray/pepper(src)
 	new /obj/item/restraints/handcuffs(src)
 	new /obj/item/grenade/smokebomb(src)
-	new /obj/item/melee/baton/loaded(src)
+	new /obj/item/melee/baton/security/loaded(src)
 	update_appearance()

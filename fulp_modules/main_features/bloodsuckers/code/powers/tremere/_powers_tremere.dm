@@ -17,9 +17,12 @@
 	background_icon_state_off = "tremere_power_off"
 	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
+
+	// We're dealing with this ourselves, we don't want anyone else to have them
+	power_flags = NONE
+	purchase_flags = NONE
 	// Targeted stuff
 	target_range = 99
-	message_Trigger = ""
 	power_activates_immediately = TRUE
 
 /datum/action/bloodsucker/targeted/tremere/Trigger()
@@ -67,7 +70,8 @@
 	return isliving(A)
 
 /datum/action/bloodsucker/targeted/tremere/CheckCanTarget(atom/A, display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Self
 	if(A == owner)

@@ -9,8 +9,6 @@ None.
 
 ## TG sounds/sprites used:
 
-- 'icons/obj/clothing/accessories.dmi' > 'pocketprotector' - Bodycamera upgrade
-
 - 'sound/machines/beep.ogg' - Successful body camera register
 - 'sound/machines/buzz-two.ogg' - Failed body camera register
 

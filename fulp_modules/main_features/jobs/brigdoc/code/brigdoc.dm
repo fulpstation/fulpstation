@@ -47,7 +47,7 @@
 	ears = /obj/item/radio/headset/headset_sec/alt/department/med
 	uniform = /obj/item/clothing/under/rank/medical/brigdoc
 	shoes = /obj/item/clothing/shoes/jackboots
-	suit =  /obj/item/clothing/suit/toggle/labcoat/armored
+	suit = /obj/item/clothing/suit/toggle/labcoat/armored
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	head = /obj/item/clothing/head/fulpberet/brigphysician

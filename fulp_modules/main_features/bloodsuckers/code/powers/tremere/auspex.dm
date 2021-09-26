@@ -19,11 +19,11 @@
 	power_explanation = "<b>Level 1: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 2 tile away to teleport there, ending the Power."
-	must_be_capacitated = TRUE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 5
-	cooldown = 120
+	cooldown = 12 SECONDS
 	target_range = 2
-	message_Trigger = "Where do you wish to teleport to?"
+	prefire_message = "Where do you wish to teleport to?"
 
 /datum/action/bloodsucker/targeted/tremere/auspex/two
 	name = "Level 2: Auspex"
@@ -34,7 +34,7 @@
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 3 tile away to teleport there, ending the Power."
 	bloodcost = 10
-	cooldown = 100
+	cooldown = 10 SECONDS
 	target_range = 3
 
 /datum/action/bloodsucker/targeted/tremere/auspex/three
@@ -46,7 +46,7 @@
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to teleport there, ending the Power."
 	bloodcost = 15
-	cooldown = 80
+	cooldown = 8 SECONDS
 	target_range = 6
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced
@@ -61,7 +61,7 @@
 	background_icon_state_on = "tremere_power_gold_on"
 	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 20
-	cooldown = 60
+	cooldown = 6 SECONDS
 	target_range = 6
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
@@ -73,7 +73,7 @@
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to teleport there, ending the Power and causing people at your end location to fall asleep for 10 seconds."
 	bloodcost = 25
-	cooldown = 80
+	cooldown = 8 SECONDS
 
 
 /datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/A)

@@ -65,12 +65,11 @@
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/survive/check_completion()
-	/// Must have a body.
+	// Must have a body.
 	if(!owner.current || !isliving(owner.current))
 		return FALSE
-	/// Did I reach Final Death?
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	return !bloodsuckerdatum.AmFinalDeath
+	// Did I reach Final Death?
+	return !considered_alive(owner)
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -480,7 +479,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return FALSE
-	if(bloodsuckerdatum.Frenzies >= target_amount)
+	if(bloodsuckerdatum.frenzies >= target_amount)
 		return TRUE
 	return FALSE
 

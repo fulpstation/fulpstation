@@ -109,7 +109,8 @@
 	return ..()
 
 /obj/structure/closet/crate/coffin/process(mob/living/user)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	if(user in src)
 		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -195,7 +196,8 @@
 	return ..()
 
 /obj/structure/closet/crate/coffin/close(mob/living/user)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Only the User can put themself into Torpor. If already in it, you'll start to heal.
 	if(user in src)
@@ -227,13 +229,17 @@
 
 	if(locked && istype(W, /obj/item/crowbar))
 		var/pry_time = pryLidTimer * W.toolspeed // Pry speed must be affected by the speed of the tool.
-		user.visible_message(span_notice("[user] tries to pry the lid off of [src] with [W]."), \
-							  span_notice("You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)]."))
+		user.visible_message(
+			span_notice("[user] tries to pry the lid off of [src] with [W]."),
+			span_notice("You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)]."),
+		)
 		if(!do_mob(user, src, pry_time))
 			return
 		bust_open()
-		user.visible_message(span_notice("[user] snaps the door of [src] wide open."), \
-							  span_notice("The door of [src] snaps open."))
+		user.visible_message(
+			span_notice("[user] snaps the door of [src] wide open."),
+			span_notice("The door of [src] snaps open."),
+		)
 		return
 	. = ..()
 

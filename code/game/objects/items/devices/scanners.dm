@@ -396,9 +396,11 @@ GENE SCANNER
 			if(blood_id != /datum/reagent/blood) // special blood substance
 				var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
 				blood_type = R ? R.name : blood_id
-			if(HAS_TRAIT(M, TRAIT_MASQUERADE)) // Fulpstation Bloodsuckers edit: ALSO ADDING 'else' TO LINE BELOW!
+			// Fulp edit START - Bloodsuckers
+			if(HAS_TRAIT(M, TRAIT_MASQUERADE))
 				render_list += "<span class='info ml-1'>Blood level: 100 %, 560 cl, type: [blood_type]</span>\n"
 			else if(C.blood_volume <= BLOOD_VOLUME_SAFE && C.blood_volume > BLOOD_VOLUME_OKAY)
+			// Fulp edit END
 				render_list += "<span class='alert ml-1'>Blood level: LOW [blood_percent] %, [C.blood_volume] cl,</span> [span_info("type: [blood_type]")]\n"
 			else if(C.blood_volume <= BLOOD_VOLUME_OKAY)
 				render_list += "<span class='alert ml-1'>Blood level: <b>CRITICAL [blood_percent] %</b>, [C.blood_volume] cl,</span> [span_info("type: [blood_type]")]\n"
@@ -546,7 +548,7 @@ GENE SCANNER
 
 /obj/item/analyzer
 	desc = "A hand-held environmental scanner which reports current gas levels. Alt-Click to use the built in barometer function."
-	name = "analyzer"
+	name = "gas analyzer"
 	custom_price = PAYCHECK_ASSISTANT * 0.9
 	icon = 'icons/obj/device.dmi'
 	icon_state = "analyzer"
