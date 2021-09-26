@@ -2,8 +2,9 @@
 	. = ..()
 	mentor_datum_set()
 
+// Overwrites /client/Topic to return for mentor client procs
 /client/Topic(href, href_list, hsrc)
-	if(mentor_client_procs(href_list)) // Fulp edit - Mentors
+	if(mentor_client_procs(href_list))
 		return
 	. = ..()
 
