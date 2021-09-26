@@ -55,6 +55,7 @@
 	required_candidates = 4
 	weight = 4
 	cost = 10
+	flags = HIGH_IMPACT_RULESET
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 20, "offset" = 4)
 
