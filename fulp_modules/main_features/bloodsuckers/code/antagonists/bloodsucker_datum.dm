@@ -154,10 +154,10 @@
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
 	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
-	var/msg = " made [key_name_admin(new_owner)] into [name]"
+	var/msg = " made [key_name_admin(new_owner)] into \a [name]"
 	if(!isnull(levels))
 		bloodsucker_level_unspent = levels
-		msg += "with [levels] extra unspent Ranks."
+		msg += " with [levels] extra unspent Ranks."
 	message_admins("[key_name_admin(usr)][msg]")
 	log_admin("[key_name(usr)][msg]")
 	new_owner.add_antag_datum(src)
@@ -697,13 +697,13 @@
 			icontype = "masquerade_broken"
 		else
 			icontype = "bloodsucker"
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
 	set_antag_hud(owner.current, icontype)
 	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype) // Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.leave_hud(owner.current)
 	set_antag_hud(owner.current, null)
 	owner.current.prepare_huds()

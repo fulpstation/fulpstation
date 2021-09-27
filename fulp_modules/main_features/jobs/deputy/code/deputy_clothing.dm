@@ -1,5 +1,6 @@
 /// Default Deputy
 /datum/outfit/job/deputy
+	name = "Deputy"
 	jobtype = /datum/job/fulp/deputy
 
 	backpack = /obj/item/storage/backpack/security
@@ -15,12 +16,12 @@
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
 	belt = /obj/item/storage/belt/security/deputy
 	shoes = /obj/item/clothing/shoes/laceup
-	l_pocket = /obj/item/flashlight/seclite
-	r_pocket = /obj/item/pda/security
+	l_pocket = /obj/item/pda/security
+	r_pocket = /obj/item/flashlight/seclite
 
+	pda_slot = ITEM_SLOT_LPOCKET
 	id_trim = /datum/id_trim/job/deputy
 	box = /obj/item/storage/box/survival
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering

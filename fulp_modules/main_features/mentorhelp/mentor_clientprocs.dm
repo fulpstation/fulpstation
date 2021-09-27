@@ -2,6 +2,12 @@
 	. = ..()
 	mentor_datum_set()
 
+// Overwrites /client/Topic to return for mentor client procs
+/client/Topic(href, href_list, hsrc)
+	if(mentor_client_procs(href_list))
+		return
+	. = ..()
+
 /client/proc/mentor_client_procs(href_list)
 	if(href_list["mentor_msg"])
 		cmd_mentor_pm(href_list["mentor_msg"],null)
