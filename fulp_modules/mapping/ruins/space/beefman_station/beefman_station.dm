@@ -25,7 +25,7 @@
 	description = "A station built for beefmen"
 	suffix = "beef_station.dmm"
 
-/obj/effect/spawner/lootdrop/beef_station
+/obj/effect/spawner/random/beef_station
 	name = "Beef Station spawner"
 	loot = list(
 		/obj/item/clothing/neck/bfeemam = 3,
