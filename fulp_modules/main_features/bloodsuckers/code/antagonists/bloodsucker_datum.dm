@@ -108,7 +108,7 @@
 	.["Give Level"] = CALLBACK(src, .proc/RankUp)
 	if(bloodsucker_level_unspent >= 1)
 		.["Remove Level"] = CALLBACK(src, .proc/RankDown)
-	
+
 	if(broke_masquerade)
 		.["Fix Masquerade"] = CALLBACK(src, .proc/fix_masquerade)
 	else
@@ -545,7 +545,7 @@
 	objectives += lair_objective
 
 	// Survive Objective
-	var/datum/objective/bloodsucker/survive/survive_objective = new
+	var/datum/objective/survive/bloodsucker/survive_objective = new
 	survive_objective.owner = owner
 	objectives += survive_objective
 
