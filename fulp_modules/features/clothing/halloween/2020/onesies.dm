@@ -50,38 +50,46 @@
 	icon_state = "onesie_beefman_hood"
 
 ///Ethereal Onesie
-/obj/item/clothing/suit/hooded/onesie/ethereal//Suit
+/obj/item/clothing/suit/hooded/onesie/ethereal
 	name = "ethereal onesie"
 	desc = "Sleeping in these can prove hard since you essentially become your own night light."
 	icon_state = "onesie_ethereal0"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/ethereal
 
-	var/brightness_on = 1 //luminosity when on
+	///Luminosity when the suit is on
+	var/brightness_on = 1
 	var/on = FALSE
 	flags_inv = 0
 	actions_types = list(/datum/action/item_action/toggle_hood)
 	dynamic_hair_suffix = ""
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/ToggleHood()
-	if(!suittoggled)
-		if(ishuman(src.loc))
-			var/mob/living/carbon/human/H = src.loc
-			if(H.wear_suit != src)
-				to_chat(H, span_warning("You must be wearing [src] to put up the hood!"))
-				return
-			if(H.head)
-				to_chat(H, span_warning("You're already wearing something on your head!"))
-				return
-			else if(H.equip_to_slot_if_possible(hood,ITEM_SLOT_HEAD,0,0,1))
-				suittoggled = TRUE
-				src.icon_state = "[initial(icon_state)]"
-				H.update_inv_wear_suit()
-				for(var/X in actions)
-					var/datum/action/A = X
-					A.UpdateButtonIcon()
-	else
+	if(suittoggled)
 		RemoveHood()
+		return
+	if(ishuman(src.loc))
+		var/mob/living/carbon/human/H = src.loc
+		if(H.wear_suit != src)
+			to_chat(H, span_warning("You must be wearing [src] to put up the hood!"))
+			return
+		if(H.head)
+			to_chat(H, span_warning("You're already wearing something on your head!"))
+			return
+		else if(H.equip_to_slot_if_possible(hood, ITEM_SLOT_HEAD,0,0,1))
+			suittoggled = TRUE
+			src.icon_state = "[initial(icon_state)]"
+			H.update_inv_wear_suit()
+			for(var/X in actions)
+				var/datum/action/A = X
+				A.UpdateButtonIcon()
 
+/obj/item/clothing/suit/hooded/onesie/ethereal/proc/toggle_suit_light(mob/living/user)
+	on = !on
+	if(on)
+		turn_on(user)
+	else
+		turn_off(user)
+	update_icon()
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/ComponentInitialize()
 	. = ..()
@@ -112,14 +120,20 @@
 	name = "ethereal hood"
 	desc = "A small battery on the back allows this snazzy suit to emit light."
 	icon_state = "onesie_ethereal_hood0"
-	var/brightness_on = 1 //luminosity when on
+
+	///Luminosity when the suit is on
+	var/brightness_on = 1
 	var/on = FALSE
 	flags_inv = 0
 	dynamic_hair_suffix = ""
 
-/obj/item/clothing/head/hooded/onesie/ethereal/ComponentInitialize()
+/obj/item/clothing/head/hooded/onesie/ethereal/Initialize()
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
+
+/obj/item/clothing/head/hooded/onesie/ethereal/Destroy()
+	RemoveElement(/datum/element/update_icon_updates_onmob)
+	return ..()
 
 /obj/item/clothing/head/hooded/onesie/ethereal/AltClick(mob/living/user)
 	toggle_helmet_light(user)
@@ -285,96 +299,113 @@
 	species = pick("beefman", "ethereal", "felinid", "fly", "lizard", "moth", "silicon")
 	switch(species)
 		if("beefman")
-			new /obj/item/clothing/suit/hooded/onesie/beefman(src)
-			new /obj/item/toy/plush/beefplushie(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/hooded/onesie/beefman,
+				/obj/item/toy/plush/beefplushie,
+			)
 
 		if("ethereal")
-			var/randomsuit = pick(
+			costume_contents = list(/obj/item/toy/sword)
+			costume_contents += pick(
 				/obj/item/clothing/suit/hooded/onesie/ethereal/cyan,
 				/obj/item/clothing/suit/hooded/onesie/ethereal/green,
 				/obj/item/clothing/suit/hooded/onesie/ethereal/red,
 			)
-			new randomsuit(src)
-			new	/obj/item/toy/sword(src)
 
 		if("felinid")
-			new /obj/item/clothing/suit/hooded/onesie/felinid(src)
-			new	/obj/item/toy/plush/carpplushie(src)
-			new	/obj/item/toy/cattoy(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/hooded/onesie/felinid,
+				/obj/item/toy/plush/carpplushie,
+				/obj/item/toy/cattoy,
+			)
 
 		if("fly")
-			new /obj/item/clothing/suit/hooded/onesie/fly(src)
-			new	/obj/item/toy/plush/fly(src)
-			new	/obj/item/melee/flyswatter(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/hooded/onesie/fly,
+				/obj/item/toy/plush/fly,
+				/obj/item/melee/flyswatter,
+			)
 
 		if("lizard")
-			new /obj/item/clothing/suit/hooded/onesie/lizard(src)
-			new	/obj/item/toy/plush/lizard_plushie(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/hooded/onesie/lizard,
+				/obj/item/toy/plush/lizard_plushie,
+			)
 
 		if("moth")
-			new /obj/item/clothing/suit/hooded/onesie/moth(src)
-			new	/obj/item/toy/plush/moth(src)
-			new	/obj/item/flashlight/lantern/jade(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/hooded/onesie/moth,
+				/obj/item/toy/plush/moth,
+				/obj/item/flashlight/lantern/jade,
+			)
 
 		if("silicon")
-			new /obj/item/clothing/suit/hooded/onesie/silicon(src)
-			new	/obj/item/toy/plush/pkplush(src)
-			new	/obj/item/toy/talking/ai(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/hooded/onesie/silicon,
+				/obj/item/toy/plush/pkplush,
+				/obj/item/toy/talking/ai,
+			)
+
+	// Call parent to deal with the rest
+	. = ..()
 
 /obj/item/storage/box/halloween/edition_20/onesie/beefman
 	theme_name = "2020's Onesie - Beefman"
-
-/obj/item/storage/box/halloween/edition_20/onesie/beefman/PopulateContents()
-	new /obj/item/clothing/suit/hooded/onesie/beefman(src)
-	new /obj/item/toy/plush/beefplushie(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/hooded/onesie/beefman,
+		/obj/item/toy/plush/beefplushie,
+	)
 
 /obj/item/storage/box/halloween/edition_20/onesie/ethereal
 	theme_name = "2020's Onesie - Ethereal"
+	costume_contents = list(
+		/obj/item/toy/sword,
+	)
 
 /obj/item/storage/box/halloween/edition_20/onesie/ethereal/PopulateContents()
-	var/randomsuit = pick(
+	costume_contents += pick(
 		/obj/item/clothing/suit/hooded/onesie/ethereal/cyan,
 		/obj/item/clothing/suit/hooded/onesie/ethereal/green,
 		/obj/item/clothing/suit/hooded/onesie/ethereal/red,
 	)
-	new randomsuit(src)
-	new	/obj/item/toy/sword(src)
+	// Call parent to deal with the rest
+	. = ..()
 
 /obj/item/storage/box/halloween/edition_20/onesie/felinid
 	theme_name = "2020's Onesie - Felinid"
-
-/obj/item/storage/box/halloween/edition_20/onesie/felinid/PopulateContents()
-	new /obj/item/clothing/suit/hooded/onesie/felinid(src)
-	new	/obj/item/toy/plush/carpplushie(src)
-	new	/obj/item/toy/cattoy(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/hooded/onesie/felinid,
+		/obj/item/toy/plush/carpplushie,
+		/obj/item/toy/cattoy,
+	)
 
 /obj/item/storage/box/halloween/edition_20/onesie/fly
 	theme_name = "2020's Onesie - Fly"
-
-/obj/item/storage/box/halloween/edition_20/onesie/fly/PopulateContents()
-	new /obj/item/clothing/suit/hooded/onesie/fly(src)
-	new	/obj/item/toy/plush/beeplushie(src)
-	new	/obj/item/melee/flyswatter(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/hooded/onesie/fly,
+		/obj/item/toy/plush/beeplushie,
+		/obj/item/melee/flyswatter,
+	)
 
 /obj/item/storage/box/halloween/edition_20/onesie/lizard
 	theme_name = "2020's Onesie - Lizard"
-
-/obj/item/storage/box/halloween/edition_20/onesie/lizard/PopulateContents()
-	new /obj/item/clothing/suit/hooded/onesie/lizard(src)
-	new	/obj/item/toy/plush/lizard_plushie(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/hooded/onesie/lizard,
+		/obj/item/toy/plush/lizard_plushie,
+	)
 
 /obj/item/storage/box/halloween/edition_20/onesie/moth
 	theme_name = "2020's Onesie - Moth"
-
-/obj/item/storage/box/halloween/edition_20/onesie/moth/PopulateContents()
-	new /obj/item/clothing/suit/hooded/onesie/moth(src)
-	new	/obj/item/toy/plush/moth(src)
-	new	/obj/item/flashlight/lantern/jade(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/hooded/onesie/moth,
+		/obj/item/toy/plush/moth,
+		/obj/item/flashlight/lantern/jade,
+	)
 
 /obj/item/storage/box/halloween/edition_20/onesie/silicon
 	theme_name = "2020's Onesie - Silicon"
-
-/obj/item/storage/box/halloween/edition_20/onesie/silicon/PopulateContents()
-	new /obj/item/clothing/suit/hooded/onesie/silicon(src)
-	new	/obj/item/toy/plush/pkplush(src)
-	new	/obj/item/toy/talking/ai(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/hooded/onesie/silicon,
+		/obj/item/toy/plush/pkplush,
+		/obj/item/toy/talking/ai,
+	)

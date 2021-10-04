@@ -34,7 +34,6 @@
 /obj/item/clothing/head/costume_2020/power_ranger/yellow
 	ranger = "yellow"
 
-//--Suits, hardsuits, jackets, bodyarmor and others
 /obj/item/clothing/suit/costume_2020/power_ranger
 	name = "ranger suit"
 	desc = "ranger suit."
@@ -67,7 +66,6 @@
 /obj/item/clothing/suit/costume_2020/power_ranger/yellow
 	ranger = "yellow"
 
-//--Shoes... ye
 /obj/item/clothing/shoes/costume_2020/power_ranger
 	name = "Ranger boots"
 	desc = "Ranger suit."
@@ -100,7 +98,6 @@
 	ranger = "yellow"
 
 
-//--Box that contains the costumes
 /obj/item/storage/box/halloween/edition_20/power_ranger
 	theme_name = "2020's Power Ranger -- Random"
 	var/rangercolor
@@ -109,91 +106,104 @@
 	rangercolor = pick("black", "blue", "green", "pink", "red", "yellow")
 	switch(rangercolor)
 		if("black")
-			new /obj/item/clothing/head/costume_2020/power_ranger/black(src)
-			new /obj/item/clothing/suit/costume_2020/power_ranger/black(src)
-			new	/obj/item/clothing/shoes/costume_2020/power_ranger/black(src)
-			new /obj/item/clothing/gloves/color/latex(src)
+			costume_contents = list(
+				/obj/item/clothing/head/costume_2020/power_ranger/black,
+				/obj/item/clothing/suit/costume_2020/power_ranger/black,
+				/obj/item/clothing/shoes/costume_2020/power_ranger/black,
+				/obj/item/clothing/gloves/color/latex,
+			)
 
 		if("blue")
-			new /obj/item/clothing/head/costume_2020/power_ranger/blue(src)
-			new /obj/item/clothing/suit/costume_2020/power_ranger/blue(src)
-			new	/obj/item/clothing/shoes/costume_2020/power_ranger/blue(src)
-			new /obj/item/clothing/gloves/color/latex(src)
+			costume_contents = list(
+				/obj/item/clothing/head/costume_2020/power_ranger/blue,
+				/obj/item/clothing/suit/costume_2020/power_ranger/blue,
+				/obj/item/clothing/shoes/costume_2020/power_ranger/blue,
+				/obj/item/clothing/gloves/color/latex,
+			)
 
 		if("green")
-			new /obj/item/clothing/head/costume_2020/power_ranger/green(src)
-			new /obj/item/clothing/suit/costume_2020/power_ranger/green(src)
-			new	/obj/item/clothing/shoes/costume_2020/power_ranger/green(src)
-			new /obj/item/clothing/gloves/color/latex(src)
+			/obj/item/clothing/head/costume_2020/power_ranger/green
+			/obj/item/clothing/suit/costume_2020/power_ranger/green
+			/obj/item/clothing/shoes/costume_2020/power_ranger/green
+			/obj/item/clothing/gloves/color/latex
 
 		if("pink")
-			new /obj/item/clothing/head/costume_2020/power_ranger/pink(src)
-			new /obj/item/clothing/suit/costume_2020/power_ranger/pink(src)
-			new	/obj/item/clothing/shoes/costume_2020/power_ranger/pink(src)
-			new /obj/item/clothing/gloves/color/latex(src)
+			costume_contents = list(
+				/obj/item/clothing/head/costume_2020/power_ranger/pink,
+				/obj/item/clothing/suit/costume_2020/power_ranger/pink,
+				/obj/item/clothing/shoes/costume_2020/power_ranger/pink,
+				/obj/item/clothing/gloves/color/latex,
+			)
 
 		if("red")
-			new /obj/item/clothing/head/costume_2020/power_ranger/red(src)
-			new /obj/item/clothing/suit/costume_2020/power_ranger/red(src)
-			new	/obj/item/clothing/shoes/costume_2020/power_ranger/red(src)
-			new /obj/item/clothing/gloves/color/latex(src)
+			costume_contents = list(
+				/obj/item/clothing/head/costume_2020/power_ranger/red,
+				/obj/item/clothing/suit/costume_2020/power_ranger/red,
+				/obj/item/clothing/shoes/costume_2020/power_ranger/red,
+				/obj/item/clothing/gloves/color/latex,
+			)
 
 		if("yellow")
-			new /obj/item/clothing/head/costume_2020/power_ranger/yellow(src)
-			new /obj/item/clothing/suit/costume_2020/power_ranger/yellow(src)
-			new	/obj/item/clothing/shoes/costume_2020/power_ranger/yellow(src)
-			new /obj/item/clothing/gloves/color/latex(src)
+			costume_contents = list(
+				/obj/item/clothing/head/costume_2020/power_ranger/yellow,
+				/obj/item/clothing/suit/costume_2020/power_ranger/yellow,
+				/obj/item/clothing/shoes/costume_2020/power_ranger/yellow,
+				/obj/item/clothing/gloves/color/latex,
+			)
+
+	// Call parent to deal with the rest
+	. = ..()
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/black
 	theme_name = "2020's Power Ranger - Black"
-
-/obj/item/storage/box/halloween/edition_20/power_ranger/black/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/power_ranger/black(src)
-	new /obj/item/clothing/suit/costume_2020/power_ranger/black(src)
-	new	/obj/item/clothing/shoes/costume_2020/power_ranger/black(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/power_ranger/black,
+		/obj/item/clothing/suit/costume_2020/power_ranger/black,
+		/obj/item/clothing/shoes/costume_2020/power_ranger/black,
+		/obj/item/clothing/gloves/color/latex,
+	)
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/blue
 	theme_name = "2020's Power Ranger - Blue"
-
-/obj/item/storage/box/halloween/edition_20/power_ranger/blue/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/power_ranger/blue(src)
-	new /obj/item/clothing/suit/costume_2020/power_ranger/blue(src)
-	new	/obj/item/clothing/shoes/costume_2020/power_ranger/blue(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/power_ranger/blue,
+		/obj/item/clothing/suit/costume_2020/power_ranger/blue,
+		/obj/item/clothing/shoes/costume_2020/power_ranger/blue,
+		/obj/item/clothing/gloves/color/latex,
+	)
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/green
 	theme_name = "2020's Power Ranger - Green"
-
-/obj/item/storage/box/halloween/edition_20/power_ranger/green/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/power_ranger/green(src)
-	new /obj/item/clothing/suit/costume_2020/power_ranger/green(src)
-	new	/obj/item/clothing/shoes/costume_2020/power_ranger/green(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/power_ranger/green,
+		/obj/item/clothing/suit/costume_2020/power_ranger/green,
+		/obj/item/clothing/shoes/costume_2020/power_ranger/green,
+		/obj/item/clothing/gloves/color/latex,
+	)
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/pink
 	theme_name = "2020's Power Ranger - Pink"
-
-/obj/item/storage/box/halloween/edition_20/power_ranger/pink/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/power_ranger/pink(src)
-	new /obj/item/clothing/suit/costume_2020/power_ranger/pink(src)
-	new	/obj/item/clothing/shoes/costume_2020/power_ranger/pink(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/power_ranger/pink,
+		/obj/item/clothing/suit/costume_2020/power_ranger/pink,
+		/obj/item/clothing/shoes/costume_2020/power_ranger/pink,
+		/obj/item/clothing/gloves/color/latex,
+	)
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/red
 	theme_name = "2020's Power Ranger - Red"
-
-/obj/item/storage/box/halloween/edition_20/power_ranger/red/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/power_ranger/red(src)
-	new /obj/item/clothing/suit/costume_2020/power_ranger/red(src)
-	new	/obj/item/clothing/shoes/costume_2020/power_ranger/red(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/power_ranger/red,
+		/obj/item/clothing/suit/costume_2020/power_ranger/red,
+		/obj/item/clothing/shoes/costume_2020/power_ranger/red,
+		/obj/item/clothing/gloves/color/latex,
+	)
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/yellow
 	theme_name = "2020's Power Ranger - Yellow"
-
-/obj/item/storage/box/halloween/edition_20/power_ranger/yellow/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/power_ranger/yellow(src)
-	new /obj/item/clothing/suit/costume_2020/power_ranger/yellow(src)
-	new	/obj/item/clothing/shoes/costume_2020/power_ranger/yellow(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/power_ranger/yellow,
+		/obj/item/clothing/suit/costume_2020/power_ranger/yellow,
+		/obj/item/clothing/shoes/costume_2020/power_ranger/yellow,
+		/obj/item/clothing/gloves/color/latex,
+	)

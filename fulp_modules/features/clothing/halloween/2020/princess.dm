@@ -147,101 +147,120 @@
 	princess = pick("wonderland", "beauty", "tenacious", "cruel devil", "arabian", "sleeper", "skeletor", "octopus")
 	switch(princess)
 		if("wonderland")
-			new /obj/item/clothing/suit/costume_2020/wonderland(src)
-			new /obj/item/clothing/shoes/costume_2020/wonderland(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/costume_2020/wonderland,
+				/obj/item/clothing/shoes/costume_2020/wonderland,
+			)
 
 		if("beauty")
-			new /obj/item/clothing/suit/costume_2020/beauty(src)
-			new /obj/item/clothing/head/costume_2020/beauty(src)
-			new /obj/item/clothing/gloves/costume_2020/beauty(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/costume_2020/beauty,
+				/obj/item/clothing/head/costume_2020/beauty,
+				/obj/item/clothing/gloves/costume_2020/beauty,
+			)
 
 		if("tenacious")
-			new /obj/item/clothing/suit/costume_2020/tenacious(src)
-			new /obj/item/clothing/head/costume_2020/tenacious(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/costume_2020/tenacious,
+				/obj/item/clothing/head/costume_2020/tenacious,
+			)
 
 		if("cruel devil")
-			new /obj/item/clothing/under/costume_2020/cruel_devil(src)
-			new /obj/item/clothing/suit/costume_2020/cruel_devil(src)
-			new /obj/item/clothing/head/costume_2020/cruel_devil(src)
-			new /obj/item/clothing/gloves/costume_2020/cruel_devil(src)
-			new /obj/item/clothing/shoes/costume_2020/cruel_devil(src)
+			costume_contents = list(
+				/obj/item/clothing/under/costume_2020/cruel_devil,
+				/obj/item/clothing/suit/costume_2020/cruel_devil,
+				/obj/item/clothing/head/costume_2020/cruel_devil,
+				/obj/item/clothing/gloves/costume_2020/cruel_devil,
+				/obj/item/clothing/shoes/costume_2020/cruel_devil,
+			)
 
 		if("arabian")
-			new /obj/item/clothing/under/costume_2020/arabian(src)
-			new /obj/item/clothing/head/costume_2020/arabian(src)
-//			new /obj/item/clothing/neck/costume_2020/arabian(src)
+			costume_contents = list(
+				/obj/item/clothing/under/costume_2020/arabian,
+				/obj/item/clothing/head/costume_2020/arabian,
+//				/obj/item/clothing/neck/costume_2020/arabian,
+			)
 
 		if("sleeper")
-			new /obj/item/clothing/suit/costume_2020/sleeper(src)
-			new /obj/item/clothing/head/costume_2020/sleeper(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/costume_2020/sleeper,
+				/obj/item/clothing/head/costume_2020/sleeper,
+			)
 
 		if("skeletor")
-			new /obj/item/clothing/suit/costume_2020/skeletor(src)
-			new /obj/item/clothing/head/costume_2020/skeletor(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/costume_2020/skeletor,
+				/obj/item/clothing/head/costume_2020/skeletor,
+			)
 
 		if("octopus")
-			new /obj/item/clothing/suit/costume_2020/octopus(src)
-			new /obj/item/clothing/head/costume_2020/octopus(src)
-			new /obj/item/clothing/gloves/costume_2020/octopus(src)
+			costume_contents = list(
+				/obj/item/clothing/suit/costume_2020/octopus,
+				/obj/item/clothing/head/costume_2020/octopus,
+				/obj/item/clothing/gloves/costume_2020/octopus,
+			)
+
+	// Call parent to deal with the rest
+	. = ..()
 
 /obj/item/storage/box/halloween/edition_20/princess/wonderland
 	theme_name = "2020's Princess - Wonderland"
-
-/obj/item/storage/box/halloween/edition_20/princess/wonderland/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/wonderland(src)
-	new /obj/item/clothing/shoes/costume_2020/wonderland(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/wonderland,
+		/obj/item/clothing/shoes/costume_2020/wonderland,
+	)
 
 /obj/item/storage/box/halloween/edition_20/princess/beauty
 	theme_name = "2020's Princess - Beauty"
-
-/obj/item/storage/box/halloween/edition_20/princess/beauty/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/beauty(src)
-	new /obj/item/clothing/head/costume_2020/beauty(src)
-	new /obj/item/clothing/gloves/costume_2020/beauty(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/beauty,
+		/obj/item/clothing/head/costume_2020/beauty,
+		/obj/item/clothing/gloves/costume_2020/beauty,
+	)
 
 /obj/item/storage/box/halloween/edition_20/princess/tenacious
 	theme_name = "2020's Princess - Tenacious"
-
-/obj/item/storage/box/halloween/edition_20/princess/tenacious/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/tenacious(src)
-	new /obj/item/clothing/head/costume_2020/tenacious(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/tenacious,
+		/obj/item/clothing/head/costume_2020/tenacious,
+	)
 
 /obj/item/storage/box/halloween/edition_20/princess/cruel_devil
 	theme_name = "2020's Princess - Cruel devil"
-
-/obj/item/storage/box/halloween/edition_20/princess/cruel_devil/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/cruel_devil(src)
-	new /obj/item/clothing/suit/costume_2020/cruel_devil(src)
-	new /obj/item/clothing/head/costume_2020/cruel_devil(src)
-	new /obj/item/clothing/gloves/costume_2020/cruel_devil(src)
-	new /obj/item/clothing/shoes/costume_2020/cruel_devil(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/cruel_devil,
+		/obj/item/clothing/suit/costume_2020/cruel_devil,
+		/obj/item/clothing/head/costume_2020/cruel_devil,
+		/obj/item/clothing/gloves/costume_2020/cruel_devil,
+		/obj/item/clothing/shoes/costume_2020/cruel_devil,
+	)
 
 /obj/item/storage/box/halloween/edition_20/princess/arabian
 	theme_name = "2020's Princess - Arabian"
-
-/obj/item/storage/box/halloween/edition_20/princess/arabian/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/arabian(src)
-	new /obj/item/clothing/head/costume_2020/arabian(src)
-//	new /obj/item/clothing/neck/costume_2020/arabian(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/arabian,
+		/obj/item/clothing/head/costume_2020/arabian,
+//		/obj/item/clothing/neck/costume_2020/arabian,
+	)
 
 /obj/item/storage/box/halloween/edition_20/princess/sleeper
 	theme_name = "2020's Princess - Sleeper"
-
-/obj/item/storage/box/halloween/edition_20/princess/sleeper/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/sleeper(src)
-	new /obj/item/clothing/head/costume_2020/sleeper(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/sleeper,
+		/obj/item/clothing/head/costume_2020/sleeper,
+	)
 
 /obj/item/storage/box/halloween/edition_20/princess/skeletor
 	theme_name = "2020's Princess - Skeletor"
-
-/obj/item/storage/box/halloween/edition_20/princess/skeletor/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/skeletor(src)
-	new /obj/item/clothing/head/costume_2020/skeletor(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/skeletor,
+		/obj/item/clothing/head/costume_2020/skeletor,
+	)
 
 /obj/item/storage/box/halloween/edition_20/princess/octopus
 	theme_name = "2020's Princess - Octopus"
-
-/obj/item/storage/box/halloween/edition_20/princess/octopus/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/octopus(src)
-	new /obj/item/clothing/head/costume_2020/octopus(src)
-	new /obj/item/clothing/gloves/costume_2020/octopus(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/octopus,
+		/obj/item/clothing/head/costume_2020/octopus,
+		/obj/item/clothing/gloves/costume_2020/octopus,
+	)
