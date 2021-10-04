@@ -28,7 +28,7 @@
 	flags_inv = HIDEHAIR|HIDEEARS
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0)
 
-//--Beefman
+///Beefman onesie
 /obj/item/clothing/suit/hooded/onesie/beefman
 	name = "beefman onesie"
 	desc = "The Nanotrasen tailoring department had a hard time trying to find a way to make this look cute."
@@ -49,7 +49,7 @@
 	desc = "A beefboy hood for a onesie... wait are those teeth real?"
 	icon_state = "onesie_beefman_hood"
 
-//--Ethereal
+///Ethereal Onesie
 /obj/item/clothing/suit/hooded/onesie/ethereal//Suit
 	name = "ethereal onesie"
 	desc = "Sleeping in these can prove hard since you essentially become your own night light."
@@ -142,7 +142,7 @@
 /obj/item/clothing/head/hooded/onesie/ethereal/proc/turn_off(mob/user)
 	set_light(0)
 
-//-----Ethereal colored
+///Ethereal colors
 /obj/item/clothing/suit/hooded/onesie/ethereal/cyan
 	color = LIGHT_COLOR_CYAN
 	hoodtype = /obj/item/clothing/head/hooded/onesie/ethereal/cyan
@@ -164,7 +164,7 @@
 /obj/item/clothing/head/hooded/onesie/ethereal/green
 	color = LIGHT_COLOR_GREEN
 
-//--Felinid
+///Felinid Onesie
 /obj/item/clothing/suit/hooded/onesie/felinid
 	name = "felinid onesie"
 	desc = "What do you mean this doesn't look like a felinid, the ears are right there!"
@@ -176,7 +176,7 @@
 	desc = "The softness of this hood makes you want to hunt rats."
 	icon_state = "onesie_felinid_hood"
 
-//--Fly
+///Flyperson onesie
 /obj/item/clothing/suit/hooded/onesie/fly
 	name = "fly onesie"
 	desc = "You know when you're trying to zzleep and hear a fly buzzing conzztantly? You are that fly now."
@@ -210,7 +210,7 @@
 		message = fly_buZZ.Replace(message, "ZZZ")
 	speech_args[SPEECH_MESSAGE] = message
 
-//--Lizard
+///Lizardperson Onesie
 /obj/item/clothing/suit/hooded/onesie/lizard
 	name = "lizard onesie"
 	desc = "Made from 100% Nanotrasen certified synthetic lizard skin. No, the lizards still don't approve."
@@ -252,7 +252,7 @@
 		message = lizard_eckS.Replace(message, "ECKS$1")
 	speech_args[SPEECH_MESSAGE] = message
 
-//--Moth
+///Mothperson Onesie
 /obj/item/clothing/suit/hooded/onesie/moth
 	name = "moth onesie"
 	desc = "The softest pair of pajamas you'll ever wear. Though the wings make it hard to sleep in."
@@ -264,7 +264,7 @@
 	desc = "The ethics board hasn't decided whether or not this is endearing or revolting, but its undeniably cute."
 	icon_state = "onesie_moth_hood"
 
-//--Silicon
+///Silicon Onesie
 /obj/item/clothing/suit/hooded/onesie/silicon
 	name = "silicon onesie"
 	desc = "Wearing this makes you want to obey/kill/assist/exterminate/open doors for humans. DISCLAIMER: Won't actually allow you to open doors."
@@ -282,7 +282,7 @@
 	var/species
 
 /obj/item/storage/box/halloween/edition_20/onesie/PopulateContents()
-	species = pick( "beefman", "ethereal", "felinid", "fly", "lizard", "moth", "silicon")
+	species = pick("beefman", "ethereal", "felinid", "fly", "lizard", "moth", "silicon")
 	switch(species)
 		if("beefman")
 			new /obj/item/clothing/suit/hooded/onesie/beefman(src)
@@ -336,7 +336,7 @@
 		/obj/item/clothing/suit/hooded/onesie/ethereal/cyan,
 		/obj/item/clothing/suit/hooded/onesie/ethereal/green,
 		/obj/item/clothing/suit/hooded/onesie/ethereal/red,
-		)
+	)
 	new randomsuit(src)
 	new	/obj/item/toy/sword(src)
 

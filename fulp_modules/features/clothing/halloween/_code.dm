@@ -46,7 +46,7 @@
 	var/theme_name
 	var/year
 
-/obj/item/storage/box/halloween/Initialize()
+/obj/item/storage/box/halloween/Initialize(mapload)
 	. = ..()
 	if(theme_name)
 		name = "[name] ([theme_name])"

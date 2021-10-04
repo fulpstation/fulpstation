@@ -57,13 +57,13 @@
 /obj/item/storage/box/halloween/edition_20/space_asshole
 	theme_name = "2020's Martian revolutionary"
 	illustration = "moth"
-
-/obj/item/storage/box/halloween/edition_20/space_asshole/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/asshole_coat(src)
-	new /obj/item/clothing/under/costume_2020/asshole_jumpsuit(src)
-	new /obj/item/clothing/shoes/costume_2020/asshole_boots(src)
-	new /obj/item/clothing/neck/costume_2020/asshole_scarf(src)
-	new /obj/item/clothing/gloves/color/black(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/asshole_coat,
+		/obj/item/clothing/under/costume_2020/asshole_jumpsuit,
+		/obj/item/clothing/shoes/costume_2020/asshole_boots,
+		/obj/item/clothing/neck/costume_2020/asshole_scarf,
+		/obj/item/clothing/gloves/color/black,
+	)
 
 /**
  * Chaos Mage Costume
@@ -98,11 +98,11 @@
 /obj/item/storage/box/halloween/edition_20/chaosmage
 	theme_name = "2020's Chaos mage outfit"
 	illustration = "mask"
-
-/obj/item/storage/box/halloween/edition_20/chaosmage/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/chaosmage(src)
-	new /obj/item/clothing/suit/hooded/wintercoat/chaosmage(src)
-	new /obj/item/clothing/shoes/costume_2020/chaosmage(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/chaosmage,
+		/obj/item/clothing/suit/hooded/wintercoat/chaosmage,
+		/obj/item/clothing/shoes/costume_2020/chaosmage,
+	)
 
 /**
  * Columbia Costume
@@ -138,13 +138,13 @@
 /obj/item/storage/box/halloween/edition_20/columbia
 	theme_name = "2020's Columbia"
 	illustration = "columbia"
-
-/obj/item/storage/box/halloween/edition_20/columbia/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/columbia(src)
-	new /obj/item/clothing/head/costume_2020/columbia(src)
-	new /obj/item/clothing/suit/costume_2020/columbia(src)
-	new /obj/item/clothing/neck/costume_2020/columbia(src)
-	new /obj/item/clothing/shoes/costume_2020/columbia(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/columbia,
+		/obj/item/clothing/head/costume_2020/columbia,
+		/obj/item/clothing/suit/costume_2020/columbia,
+		/obj/item/clothing/neck/costume_2020/columbia,
+		/obj/item/clothing/shoes/costume_2020/columbia,
+	)
 
 /**
  * Daft Punk costume
@@ -201,38 +201,36 @@
 /obj/item/storage/box/halloween/edition_20/daft_box
 	theme_name = "2020's Daft Punk Duo"
 	illustration = "daft"
-
-/obj/item/storage/box/halloween/edition_20/daft_box/PopulateContents()
-	new /obj/item/clothing/head/hardhat/golden_punk(src)
-	new /obj/item/clothing/head/hardhat/silver_punk(src)
-	new /obj/item/clothing/gloves/costume_2020/daft_golden(src)
-	new /obj/item/clothing/gloves/costume_2020/daft_silver(src)
-	new /obj/item/instrument/eguitar(src)
-	new /obj/item/instrument/piano_synth(src)
-
-	for(var/i in 1 to 2)
-		new /obj/item/clothing/under/costume_2020/sparky(src)
-		new /obj/item/clothing/shoes/sneakers/cyborg(src)
+	costume_contents = list(
+		/obj/item/clothing/head/hardhat/golden_punk,
+		/obj/item/clothing/head/hardhat/silver_punk,
+		/obj/item/clothing/gloves/costume_2020/daft_golden,
+		/obj/item/clothing/gloves/costume_2020/daft_silver,
+		/obj/item/instrument/eguitar,
+		/obj/item/instrument/piano_synth,
+		/obj/item/clothing/under/costume_2020/sparky,
+		/obj/item/clothing/shoes/sneakers/cyborg,
+	)
 
 /obj/item/storage/box/halloween/edition_20/daft_box/golden
 	theme_name = "2020's Daft Punk Golden"
-
-/obj/item/storage/box/halloween/edition_20/daft_box/golden/PopulateContents()
-	new /obj/item/clothing/head/hardhat/golden_punk(src)
-	new /obj/item/clothing/gloves/costume_2020/daft_golden(src)
-	new /obj/item/instrument/eguitar(src)
-	new /obj/item/clothing/under/costume_2020/sparky(src)
-	new /obj/item/clothing/shoes/sneakers/cyborg(src)
+	costume_contents = list(
+		/obj/item/clothing/head/hardhat/golden_punk,
+		/obj/item/clothing/gloves/costume_2020/daft_golden,
+		/obj/item/instrument/eguitar,
+		/obj/item/clothing/under/costume_2020/sparky,
+		/obj/item/clothing/shoes/sneakers/cyborg,
+	)
 
 /obj/item/storage/box/halloween/edition_20/daft_box/silver
 	theme_name = "2020's Daft Punk Silver"
-
-/obj/item/storage/box/halloween/edition_20/daft_box/silver/PopulateContents()
-	new /obj/item/clothing/head/hardhat/silver_punk(src)
-	new /obj/item/clothing/gloves/costume_2020/daft_silver(src)
-	new /obj/item/instrument/piano_synth(src)
-	new /obj/item/clothing/under/costume_2020/sparky(src)
-	new /obj/item/clothing/shoes/sneakers/cyborg(src)
+	costume_contents = list(
+		/obj/item/clothing/head/hardhat/silver_punk,
+		/obj/item/clothing/gloves/costume_2020/daft_silver,
+		/obj/item/instrument/piano_synth,
+		/obj/item/clothing/under/costume_2020/sparky,
+		/obj/item/clothing/shoes/sneakers/cyborg,
+	)
 
 /**
  * Devil fan costume (2020)
@@ -264,12 +262,12 @@
 /obj/item/storage/box/halloween/edition_20/devilfan
 	theme_name = "2020's Devilfan"
 	illustration = "mask"
-
-/obj/item/storage/box/halloween/edition_20/devilfan/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/devilfan(src)
-	new /obj/item/clothing/head/costume_2020/devilfan(src)
-	new /obj/item/clothing/shoes/costume_2020/devilfan(src)
-	new /obj/item/clothing/gloves/costume_2020/devilfan(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/devilfan,
+		/obj/item/clothing/head/costume_2020/devilfan,
+		/obj/item/clothing/shoes/costume_2020/devilfan,
+		/obj/item/clothing/gloves/costume_2020/devilfan,
+	)
 
 /**
  * Woody/Forbidden costume
@@ -291,12 +289,12 @@
 
 /obj/item/storage/box/halloween/edition_20/forbidden_cowboy
 	theme_name = "2020's Forbidden Cowboy"
-
-/obj/item/storage/box/halloween/edition_20/forbidden_cowboy/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/forbidden_cowboy(src)
-	new /obj/item/clothing/under/costume_2020/forbidden_cowboy(src)
-	new /obj/item/clothing/shoes/cowboy(src)
-	new /obj/item/stack/sheet/mineral/wood(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/forbidden_cowboy,
+		/obj/item/clothing/under/costume_2020/forbidden_cowboy,
+		/obj/item/clothing/shoes/cowboy,
+		/obj/item/stack/sheet/mineral/wood,
+	)
 
 /**
  * Frog costume
@@ -319,19 +317,19 @@
 	desc = "A tight yet comfortable pair of gloves."
 	icon_state = "frog_gloves"
 
-/obj/item/clothing/shoes/costume_2020/frog_shoe
+/obj/item/clothing/shoes/costume_2020/frog_shoes
 	name = "frog shoes"
 	desc = "A pair of comfortable shoes recolored green."
 	icon_state = "frog_shoes"
 
 /obj/item/storage/box/halloween/edition_20/frog
 	theme_name = "2020's Frog"
-
-/obj/item/storage/box/halloween/edition_20/frog/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/frog_suit(src)
-	new /obj/item/clothing/head/costume_2020/frog_head(src)
-	new /obj/item/clothing/gloves/costume_2020/frog_gloves(src)
-	new /obj/item/clothing/shoes/costume_2020/frog_shoe(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/frog_suit,
+		/obj/item/clothing/head/costume_2020/frog_head,
+		/obj/item/clothing/gloves/costume_2020/frog_gloves,
+		/obj/item/clothing/shoes/costume_2020/frog_shoes,
+	)
 
 /**
  * Gnome costume
@@ -400,16 +398,22 @@
 /obj/item/storage/box/halloween/edition_20/gnome
 	theme_name = "2020's Gnome"
 	illustration = "moth"
-
-/obj/item/storage/box/halloween/edition_20/gnome/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/gnome(src)
-	new /obj/item/clothing/head/costume_2020/gnome(src)
-	new /obj/item/clothing/suit/costume_2020/gnome(src)
-	new /obj/item/clothing/shoes/costume_2020/gnome(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/gnome,
+		/obj/item/clothing/head/costume_2020/gnome,
+		/obj/item/clothing/suit/costume_2020/gnome,
+		/obj/item/clothing/shoes/costume_2020/gnome,
+	)
 
 ///Unique halloween box that can't be bought by default, only from the halloween event
 /obj/item/storage/box/halloween/special/gnomed
 	illustration = "pumpkin"
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/gnome,
+		/obj/item/clothing/head/costume_2020/gnome,
+		/obj/item/clothing/suit/costume_2020/gnome,
+		/obj/item/clothing/shoes/costume_2020/gnome,
+	)
 
 /obj/item/storage/box/halloween/special/gnomed/Initialize()
 	. = ..()
@@ -429,12 +433,6 @@
 		desc = "Costumes in a box. The box's theme is '[theme_name]'."
 		inhand_icon_state = "syringe_kit"
 
-/obj/item/storage/box/halloween/special/gnomed/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/gnome(src)
-	new /obj/item/clothing/head/costume_2020/gnome/gnomed(src)
-	new /obj/item/clothing/suit/costume_2020/gnome(src)
-	new /obj/item/clothing/shoes/costume_2020/gnome(src)
-
 /**
  * Hierophant cult costume
  */
@@ -452,10 +450,10 @@
 /obj/item/storage/box/halloween/edition_20/hierocult
 	theme_name = "2020's Hierophant's cultist"
 	illustration = "mask"
-
-/obj/item/storage/box/halloween/edition_20/hierocult/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/hierocult(src)
-	new /obj/item/clothing/head/costume_2020/hierocult(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/hierocult,
+		/obj/item/clothing/head/costume_2020/hierocult,
+	)
 
 /**
  * Midsommer & Midsommer Queen costumes
@@ -491,13 +489,13 @@
 
 /obj/item/storage/box/halloween/edition_20/midsommer
 	theme_name = "2020's Midsommer"
-
-/obj/item/storage/box/halloween/edition_20/midsommer/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/midsommer(src)
-	new /obj/item/clothing/head/costume_2020/midsommer(src)
-	new /obj/item/clothing/head/costume_2020/midsommer_queen(src)
-	new /obj/item/clothing/suit/costume_2020/midsommer_queen(src)
-	new /obj/item/food/grown/mushroom/libertycap(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/midsommer,
+		/obj/item/clothing/head/costume_2020/midsommer,
+		/obj/item/clothing/head/costume_2020/midsommer_queen,
+		/obj/item/clothing/suit/costume_2020/midsommer_queen,
+		/obj/item/food/grown/mushroom/libertycap,
+	)
 
 /**
  * Moffking costume
@@ -555,28 +553,32 @@
 	var/cloakcolor
 
 /obj/item/storage/box/halloween/edition_20/moffking/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/moffking(src)
-	new /obj/item/clothing/head/costume_2020/moffking(src)
-	new /obj/item/shield/riot/buckler(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/moffking,
+		/obj/item/clothing/head/costume_2020/moffking,
+		/obj/item/shield/riot/buckler,
+	)
 
-	cloakcolor = pick("black", "blue", "green", "purple", "red", "orange", "white", "yellow")
+	cloakcolor = pick("black","blue","green","purple","red","orange","white","yellow")
 	switch(cloakcolor)
 		if("black")
-			new /obj/item/clothing/neck/costume_2020/moffking/black(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/black)
 		if("blue")
-			new /obj/item/clothing/neck/costume_2020/moffking/blue(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/blue)
 		if("green")
-			new /obj/item/clothing/neck/costume_2020/moffking/green(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/green)
 		if("purple")
-			new /obj/item/clothing/neck/costume_2020/moffking/purple(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/purple)
 		if("red")
-			new /obj/item/clothing/neck/costume_2020/moffking/red(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/red)
 		if("orange")
-			new /obj/item/clothing/neck/costume_2020/moffking/orange(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/orange)
 		if("white")
-			new /obj/item/clothing/neck/costume_2020/moffking/white(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/white)
 		if("yellow")
-			new /obj/item/clothing/neck/costume_2020/moffking/yellow(src)
+			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/yellow)
+	// Call parent to deal with the rest
+	. = ..()
 
 /**
  * Papa Ross costume
@@ -646,14 +648,15 @@
 /obj/item/storage/box/halloween/edition_20/papa_ross
 	theme_name = "2020's Bob Ross"
 	illustration = "moth"
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/papa_ross,
+		/obj/item/clothing/head/costume_2020/papa_ross,
+		/obj/item/clothing/suit/costume_2020/papa_ross,
+		/obj/item/clothing/neck/costume_2020/papa_ross_squirrel,
+		/obj/item/clothing/shoes/laceup,
+		/obj/item/canvas/nineteen_nineteen,
+	)
 
-/obj/item/storage/box/halloween/edition_20/papa_ross/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/papa_ross(src)
-	new /obj/item/clothing/head/costume_2020/papa_ross(src)
-	new /obj/item/clothing/suit/costume_2020/papa_ross(src)
-	new /obj/item/clothing/neck/costume_2020/papa_ross_squirrel(src)
-	new /obj/item/clothing/shoes/laceup(src)
-	new /obj/item/canvas/nineteen_nineteen(src)
 
 /**
  * Payday masks
@@ -701,21 +704,22 @@
 
 /obj/item/storage/box/halloween/edition_20/heisters
 	theme_name = "2020's Heisters"
+	costume_contents = list(
+		/obj/item/clothing/mask/gas/mime/heister_mask,
+		/obj/item/toy/gun,
+		/obj/item/clothing/gloves/color/latex/nitrile,
+		/obj/item/clothing/shoes/laceup,
+	)
 
 /obj/item/storage/box/halloween/edition_20/heisters/PopulateContents()
-	new /obj/item/clothing/mask/gas/mime/heister_mask(src)
-	new /obj/item/toy/gun(src)
-	new /obj/item/clothing/gloves/color/latex/nitrile(src)
-	new /obj/item/clothing/shoes/laceup(src)
-
-	var/randomsuit = pick(
+	costume_contents += pick(
 		/obj/item/clothing/under/suit/tan,
 		/obj/item/clothing/under/suit/black,
 		/obj/item/clothing/under/suit/burgundy,
 		/obj/item/clothing/under/suit/navy,
 		/obj/item/clothing/under/suit/black/female,
 	)
-	new randomsuit(src)
+	. = ..()
 
 /**
  * Skull masks costumes
@@ -773,13 +777,13 @@
 
 /obj/item/storage/box/halloween/edition_20/skull_mask
 	theme_name = "2020's Skull Mask"
-
-/obj/item/storage/box/halloween/edition_20/skull_mask/PopulateContents()
-	new /obj/item/clothing/head/costume_2020/skull_mask(src)
-	new /obj/item/clothing/mask/gas/mime/skull_mask_mime(src)
-	new /obj/item/clothing/under/dress/blacktango/skull_dress(src)
-	for(var/i in 1 to 3)
-		new /obj/item/food/grown/harebell(src)
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2020/skull_mask,
+		/obj/item/clothing/mask/gas/mime/skull_mask_mime,
+		/obj/item/clothing/under/dress/blacktango/skull_dress,
+		/obj/item/food/grown/harebell,
+		/obj/item/food/grown/harebell,
+	)
 
 /**
  * Burger & Pizza costumes
@@ -793,10 +797,10 @@
 
 /obj/item/storage/box/halloween/edition_20/burger
 	theme_name = "2020's Burger"
-
-/obj/item/storage/box/halloween/edition_20/princess/burger/PopulateContents()
-	new /obj/item/clothing/suit/costume_2020/burger(src)
-	new /obj/item/food/breadslice/plain(src)
+	costume_contents = list(
+		/obj/item/clothing/suit/costume_2020/burger,
+		/obj/item/food/breadslice/plain,
+	)
 
 /obj/item/clothing/under/costume_2020/pizza
 	name = "pizza leotard"
@@ -814,7 +818,7 @@
 
 /obj/item/storage/box/halloween/edition_20/pizza
 	theme_name = "2020's Pizza"
-
-/obj/item/storage/box/halloween/edition_20/princess/pizza/PopulateContents()
-	new /obj/item/clothing/under/costume_2020/pizza(src)
-	new /obj/item/clothing/suit/costume_2020/pizza(src)
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/pizza,
+		/obj/item/clothing/suit/costume_2020/pizza,
+	)
