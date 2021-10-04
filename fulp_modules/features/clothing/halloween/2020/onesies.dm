@@ -1,8 +1,14 @@
+/**
+ * Onesie costumes
+ * Made by: Papaporo
+ * Too many items to be worth moving into the main file.
+ */
+
 /obj/item/clothing/suit/hooded/onesie
 	name = "winter coat"
 	desc = "A heavy jacket made from 'synthetic' animal furs."
-	icon = 'fulp_modules/features/clothing/halloween/costumes_2020/onesies_item.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/costumes_2020/onesies_worn.dmi'
+	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "coatwinter"
 	inhand_icon_state = "coatwinter"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|FEET
@@ -13,8 +19,8 @@
 /obj/item/clothing/head/hooded/onesie
 	name = "winter hood"
 	desc = "A hood attached to a heavy winter jacket."
-	icon = 'fulp_modules/features/clothing/halloween/costumes_2020/onesies_item.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/costumes_2020/onesies_worn.dmi'
+	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "winterhood"
 	body_parts_covered = HEAD
 	cold_protection = HEAD
@@ -26,7 +32,7 @@
 /obj/item/clothing/suit/hooded/onesie/beefman
 	name = "beefman onesie"
 	desc = "The Nanotrasen tailoring department had a hard time trying to find a way to make this look cute."
-	icon_state = "beefman"
+	icon_state = "onesie_beefman"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/beefman
 
 /obj/item/clothing/suit/hooded/onesie/beefman/Initialize()
@@ -41,13 +47,13 @@
 /obj/item/clothing/head/hooded/onesie/beefman
 	name = "beefman hood"
 	desc = "A beefboy hood for a onesie... wait are those teeth real?"
-	icon_state = "beefman_hood"
+	icon_state = "onesie_beefman_hood"
 
 //--Ethereal
 /obj/item/clothing/suit/hooded/onesie/ethereal//Suit
 	name = "ethereal onesie"
 	desc = "Sleeping in these can prove hard since you essentially become your own night light."
-	icon_state = "ethereal0"
+	icon_state = "onesie_ethereal0"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/ethereal
 
 	var/brightness_on = 1 //luminosity when on
@@ -105,9 +111,7 @@
 /obj/item/clothing/head/hooded/onesie/ethereal
 	name = "ethereal hood"
 	desc = "A small battery on the back allows this snazzy suit to emit light."
-	icon = 'fulp_modules/features/clothing/halloween/costumes_2020/onesies_item.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/costumes_2020/onesies_worn.dmi'
-	icon_state = "ethereal_hood0"
+	icon_state = "onesie_ethereal_hood0"
 	var/brightness_on = 1 //luminosity when on
 	var/on = FALSE
 	flags_inv = 0
@@ -164,29 +168,29 @@
 /obj/item/clothing/suit/hooded/onesie/felinid
 	name = "felinid onesie"
 	desc = "What do you mean this doesn't look like a felinid, the ears are right there!"
-	icon_state = "felinid"
+	icon_state = "onesie_felinid"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/felinid
 
 /obj/item/clothing/head/hooded/onesie/felinid
 	name = "felinid hood"
 	desc = "The softness of this hood makes you want to hunt rats."
-	icon_state = "felinid_hood"
+	icon_state = "onesie_felinid_hood"
 
 //--Fly
 /obj/item/clothing/suit/hooded/onesie/fly
 	name = "fly onesie"
 	desc = "You know when you're trying to zzleep and hear a fly buzzing conzztantly? You are that fly now."
-	icon_state = "fly"
+	icon_state = "onesie_fly"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/fly
 
 /obj/item/clothing/head/hooded/onesie/fly
 	name = "fly hood"
 	desc = "A zzoft fly hoodie with big zzome big fly eyezz. Buzzin'"
-	icon_state = "fly_hood"
+	icon_state = "onesie_fly_hood"
 
 /obj/item/clothing/head/hooded/onesie/fly/equipped(mob/M, slot)
 	. = ..()
-	if (slot == ITEM_SLOT_HEAD)
+	if(slot == ITEM_SLOT_HEAD)
 		RegisterSignal(M, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
 		UnregisterSignal(M, COMSIG_MOB_SAY)
@@ -196,6 +200,8 @@
 	UnregisterSignal(M, COMSIG_MOB_SAY)
 
 /obj/item/clothing/head/hooded/onesie/fly/proc/handle_speech(datum/source, mob/speech_args)
+	SIGNAL_HANDLER
+
 	var/static/regex/fly_buzz = new("z+", "g")
 	var/static/regex/fly_buZZ = new("Z+", "g")
 	var/message = speech_args[SPEECH_MESSAGE]
@@ -208,26 +214,28 @@
 /obj/item/clothing/suit/hooded/onesie/lizard
 	name = "lizard onesie"
 	desc = "Made from 100% Nanotrasen certified synthetic lizard skin. No, the lizards still don't approve."
-	icon_state = "lizard"
+	icon_state = "onesie_lizard"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/lizard
 
 /obj/item/clothing/head/hooded/onesie/lizard
 	name = "lizard hood"
 	desc = "This hoodie was made from a rather tough fabric. Don't poke your eyes out on the horns."
-	icon_state = "lizard_hood"
+	icon_state = "onesie_lizard_hood"
 
 /obj/item/clothing/head/hooded/onesie/lizard/equipped(mob/M, slot)
 	. = ..()
-	if (slot == ITEM_SLOT_HEAD)
+	if(slot == ITEM_SLOT_HEAD)
 		RegisterSignal(M, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
 		UnregisterSignal(M, COMSIG_MOB_SAY)
 
 /obj/item/clothing/head/hooded/onesie/lizard/dropped(mob/M)
-	. = ..()
 	UnregisterSignal(M, COMSIG_MOB_SAY)
+	return ..()
 
 /obj/item/clothing/head/hooded/onesie/lizard/proc/handle_speech(datum/source, mob/speech_args)
+	SIGNAL_HANDLER
+
 	var/static/regex/lizard_hiss = new("s+", "g")
 	var/static/regex/lizard_hiSS = new("S+", "g")
 	var/static/regex/lizard_kss = new(@"(\w)x", "g")
@@ -248,27 +256,26 @@
 /obj/item/clothing/suit/hooded/onesie/moth
 	name = "moth onesie"
 	desc = "The softest pair of pajamas you'll ever wear. Though the wings make it hard to sleep in."
-	icon_state = "moth"
+	icon_state = "onesie_moth"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/moth
 
 /obj/item/clothing/head/hooded/onesie/moth
 	name = "moth hood"
 	desc = "The ethics board hasn't decided whether or not this is endearing or revolting, but its undeniably cute."
-	icon_state = "moth_hood"
+	icon_state = "onesie_moth_hood"
 
 //--Silicon
 /obj/item/clothing/suit/hooded/onesie/silicon
 	name = "silicon onesie"
 	desc = "Wearing this makes you want to obey/kill/assist/exterminate/open doors for humans. DISCLAIMER: Won't actually allow you to open doors."
-	icon_state = "silicon"
+	icon_state = "onesie_silicon"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/silicon
 
 /obj/item/clothing/head/hooded/onesie/silicon
 	name = "silicon hood"
 	desc = "Seeing through this hoodie may prove hard since the inner cloth is just an error message on a blue screen."
-	icon_state = "silicon_hood"
+	icon_state = "onesie_silicon_hood"
 
-//--Box that contains the costumes
 /obj/item/storage/box/halloween/edition_20/onesie
 	theme_name = "2020's Onesie -- Random"
 	illustration = "moth"
@@ -279,14 +286,14 @@
 	switch(species)
 		if("beefman")
 			new /obj/item/clothing/suit/hooded/onesie/beefman(src)
-			//new /obj/item/toy/plush/beefplushie(src)//-----------------Need to see if Joyce PR is done
+			new /obj/item/toy/plush/beefplushie(src)
 
 		if("ethereal")
 			var/randomsuit = pick(
 				/obj/item/clothing/suit/hooded/onesie/ethereal/cyan,
 				/obj/item/clothing/suit/hooded/onesie/ethereal/green,
 				/obj/item/clothing/suit/hooded/onesie/ethereal/red,
-				)
+			)
 			new randomsuit(src)
 			new	/obj/item/toy/sword(src)
 
@@ -298,7 +305,7 @@
 		if("fly")
 			new /obj/item/clothing/suit/hooded/onesie/fly(src)
 			new	/obj/item/toy/plush/fly(src)
-			new	/obj/item/melee/flyswatter(src)//A plushie of another and a flyswatter? Poor Fly
+			new	/obj/item/melee/flyswatter(src)
 
 		if("lizard")
 			new /obj/item/clothing/suit/hooded/onesie/lizard(src)
@@ -319,7 +326,7 @@
 
 /obj/item/storage/box/halloween/edition_20/onesie/beefman/PopulateContents()
 	new /obj/item/clothing/suit/hooded/onesie/beefman(src)
-	//new /obj/item/toy/plush/beefplushie(src)//Waiting on Joyce's plushie here
+	new /obj/item/toy/plush/beefplushie(src)
 
 /obj/item/storage/box/halloween/edition_20/onesie/ethereal
 	theme_name = "2020's Onesie - Ethereal"
