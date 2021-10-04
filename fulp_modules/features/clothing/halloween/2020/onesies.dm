@@ -91,20 +91,16 @@
 		turn_off(user)
 	update_icon()
 
-/obj/item/clothing/suit/hooded/onesie/ethereal/ComponentInitialize()
+/obj/item/clothing/suit/hooded/onesie/ethereal/Initialize()
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
 
+/obj/item/clothing/suit/hooded/onesie/ethereal/Destroy()
+	RemoveElement(/datum/element/update_icon_updates_onmob)
+	return ..()
+
 /obj/item/clothing/suit/hooded/onesie/ethereal/AltClick(mob/living/user)
 	toggle_suit_light(user)
-
-/obj/item/clothing/suit/hooded/onesie/ethereal/proc/toggle_suit_light(mob/living/user)
-	on = !on
-	if(on)
-		turn_on(user)
-	else
-		turn_off(user)
-	update_icon()
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/update_icon_state()
 	icon_state = inhand_icon_state = "ethereal[on]"
