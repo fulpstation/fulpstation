@@ -7,8 +7,8 @@
 /obj/item/clothing/suit/hooded/onesie
 	name = "winter coat"
 	desc = "A heavy jacket made from 'synthetic' animal furs."
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "coatwinter"
 	inhand_icon_state = "coatwinter"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|FEET
@@ -19,8 +19,8 @@
 /obj/item/clothing/head/hooded/onesie
 	name = "winter hood"
 	desc = "A hood attached to a heavy winter jacket."
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "winterhood"
 	body_parts_covered = HEAD
 	cold_protection = HEAD

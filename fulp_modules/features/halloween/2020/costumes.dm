@@ -3,28 +3,28 @@
  * We're only setting the most commonly used items to use it.
  */
 /obj/item/clothing/under/costume_2020
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 
 /obj/item/clothing/suit/costume_2020
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 
 /obj/item/clothing/head/costume_2020
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 
 /obj/item/clothing/neck/costume_2020
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 
 /obj/item/clothing/shoes/costume_2020
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 
 /obj/item/clothing/gloves/costume_2020
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 
 /**
  * 2020 Space Asshole costume
@@ -79,15 +79,15 @@
 	name = "chaos mage cloak"
 	desc = "A fancy purplish cloak with golden finitions. It keeps a bit warm for cold travels."
 	icon_state = "chaos_cloak"
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/chaosmage
 
 /obj/item/clothing/head/hooded/winterhood/chaosmage
 	name = "chaos mage hood"
 	desc = "A comfy purplish hood with golden trim. Wear it to be more mysterious."
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "chaos_hood"
 
 /obj/item/clothing/shoes/costume_2020/chaosmage
@@ -154,8 +154,8 @@
 /obj/item/clothing/head/hardhat/golden_punk
 	name = "Guy-Manuel Helmet"
 	desc = "Give life back to music!"
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_guy"
 	on = FALSE
 	hat_type = "guy"
@@ -168,8 +168,8 @@
 /obj/item/clothing/head/hardhat/silver_punk
 	name = "Thomas Helmet"
 	desc = "Reminds you of touch..."
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_thomas"
 	on = FALSE
 	hat_type = "thomas"
@@ -367,7 +367,7 @@
 		var/mob/living/carbon/human/H = target
 		H.Knockdown(30)
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "gnomed", /datum/mood_event/gnomed)
-	playsound(src, 'fulp_modules/features/clothing/halloween/sounds/gnomed.ogg', 50, TRUE)
+	playsound(src, 'fulp_modules/features/halloween/sounds/gnomed.ogg', 50, TRUE)
 	armed = FALSE
 	update_icon()
 
@@ -607,8 +607,8 @@
 /obj/item/clothing/neck/costume_2020/papa_ross_squirrel
 	name = "Peapod the squirrel"
 	desc = "This here is my little friend. His name is Peapod and he lives in my garden."
-	lefthand_file = 'fulp_modules/features/clothing/halloween/2020/2020_icons_left.dmi'
-	righthand_file = 'fulp_modules/features/clothing/halloween/2020/2020_icons_right.dmi'
+	lefthand_file = 'fulp_modules/features/halloween/2020/2020_icons_left.dmi'
+	righthand_file = 'fulp_modules/features/halloween/2020/2020_icons_right.dmi'
 	icon_state = "ross_squirrel_left"
 	inhand_icon_state = "ross_squirrel"
 	var/flipped = FALSE
@@ -665,8 +665,8 @@
 /obj/item/clothing/mask/gas/mime/heister_mask
 	name = "mastermind's clown mask"
 	desc = "Guys, the nuclear disk, go get it!"
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "dallas"
 	inhand_icon_state = "mime"
 
@@ -727,8 +727,8 @@
 /obj/item/clothing/mask/gas/mime/skull_mask_mime
 	name = "Skull mask"
 	desc = "A unique mime's mask. It has an eerie facial posture."
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "rose"
 
 /obj/item/clothing/mask/gas/mime/skull_mask_mime/Initialize(mapload)
@@ -766,8 +766,8 @@
 /obj/item/clothing/under/dress/blacktango/skull_dress
 	name = "Skull mask's dress"
 	desc = "A black dress adorned with harebells ."
-	icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2020/2020_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "skull_dress"
 
 /obj/item/clothing/head/costume_2020/skull_mask

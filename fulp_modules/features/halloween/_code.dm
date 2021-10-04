@@ -39,7 +39,7 @@
 /obj/item/storage/box/halloween
 	name = "halloween box"
 	desc = "Costumes in a box."
-	icon = 'fulp_modules/features/clothing/halloween/box.dmi'
+	icon = 'fulp_modules/features/halloween/box.dmi'
 	icon_state = "halloween_box"
 	illustration = "pumpkin"
 	var/list/costume_contents = list()
@@ -70,7 +70,7 @@
 /obj/item/halloween_gift
 	name = "halloween package"
 	desc = "It looks like a box wrapped in some spooky paper"
-	icon = 'fulp_modules/features/clothing/halloween/box.dmi'
+	icon = 'fulp_modules/features/halloween/box.dmi'
 	icon_state = "halloween_gift"
 	inhand_icon_state = "gift"
 	resistance_flags = FLAMMABLE

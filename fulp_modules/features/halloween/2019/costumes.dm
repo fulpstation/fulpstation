@@ -3,16 +3,16 @@
  * We're only setting the most commonly used items to use it.
  */
 /obj/item/clothing/suit/costume_2019
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 
 /obj/item/clothing/head/costume_2019
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 
 /obj/item/clothing/under/costume/costume_2019
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 
 /**
  * Centaur costume
@@ -204,22 +204,22 @@
 /obj/item/clothing/neck/scarf/tricksters_scarf
 	name = "trickster's scarf"
 	desc = "The real trick is that it's held in place with a stiff wire."
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "joseph_scarf"
 
 /obj/item/clothing/shoes/tricksters_boots
 	name = "trickster's boots"
 	desc = "These help you Stand."
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "joseph_boots"
 
 /obj/item/clothing/gloves/tricksters_gloves
 	name = "trickster's gloves"
 	desc = "Fingerless, to let you better pull tricks out of nowhere."
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "joseph_gloves"
 
 /obj/item/storage/box/halloween/edition_19/tricksters
@@ -245,8 +245,8 @@
 /obj/item/clothing/head/hardhat/sans
 	name = "massive foam skull"
 	desc = "What's this guy's name again? Sand? Sailsbury?"
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "hardhat0_sans"
 	on = FALSE
 	hat_type = "sans"
@@ -279,8 +279,8 @@
 /obj/item/clothing/suit/space/hardsuit/varia // Hardsuits aren't subtypes of the regular suit
 	name = "plastic bounty hunter's hardsuit"
 	desc = "It's variapparent that this is injection-moulded."
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "varia_suit"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
 	clothing_flags = NONE
@@ -295,8 +295,8 @@
 /obj/item/clothing/head/helmet/space/hardsuit/varia
 	name = "plastic bounty hunter's helmet"
 	desc = "A cheap plastic helmet spring-loaded into the suit."
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
-	worn_icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "hardsuit0-varia"
 	max_integrity = 300
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
@@ -312,11 +312,11 @@
 	name = "foam force arm cannon"
 	desc = "The chozo manufacturing industry exports thousands of these things a year. Ages 8+"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/toy/arm_ball
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	icon_state = "arm_cannon"
 	inhand_icon_state = "arm_cannon"
-	lefthand_file = 'fulp_modules/features/clothing/halloween/2019/2019_icons_left.dmi'
-	righthand_file = 'fulp_modules/features/clothing/halloween/2019/2019_icons_right.dmi'
+	lefthand_file = 'fulp_modules/features/halloween/2019/2019_icons_left.dmi'
+	righthand_file = 'fulp_modules/features/halloween/2019/2019_icons_right.dmi'
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
 	slot_flags = null
@@ -324,7 +324,7 @@
 /obj/item/ammo_casing/caseless/foam_dart/arm_ball
 	name = "small foam ball"
 	desc = "Eat this, space pirates!"
-	icon ='fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
+	icon ='fulp_modules/features/halloween/2019/2019_icons.dmi'
 	projectile_type = /obj/projectile/bullet/reusable/foam_dart/arm_ball
 	icon_state = "ball"
 	caliber = "arm_ball"
@@ -336,7 +336,7 @@
 /obj/projectile/bullet/reusable/foam_dart/arm_ball
 	name = "small foam ball"
 	desc = "Eat this, space pirates!"
-	icon = 'fulp_modules/features/clothing/halloween/2019/2019_icons.dmi'
+	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	icon_state = "ball"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/arm_ball
 
@@ -370,8 +370,8 @@
 	name = "Zombie Rider"
 	desc = "Tired of walking? Have your friendly slave zombie waddle you around!"
 	icon_state = "zombie_rider"
-	lefthand_file = 'fulp_modules/features/clothing/halloween/2019/2019_icons_left.dmi'
-	righthand_file = 'fulp_modules/features/clothing/halloween/2019/2019_icons_right.dmi'
+	lefthand_file = 'fulp_modules/features/halloween/2019/2019_icons_left.dmi'
+	righthand_file = 'fulp_modules/features/halloween/2019/2019_icons_right.dmi'
 
 /obj/item/storage/box/halloween/edition_19/zombie
 	theme_name = "2019's Zombie"
