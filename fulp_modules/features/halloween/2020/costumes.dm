@@ -420,13 +420,24 @@
 	year = pick("2019", "2020")
 	switch(year)
 		if("2019")
-			theme_name = pick("2019's Centaur", "2019's Hotdog", "2019's Ketchup", "2019's Mustard",
-			"2019's Angel", "2019's Devil", "2019's Cat", "2019's Pumpkin", "2019's Skeleton",
-			"2019's Spider", "2019's Witch", "2019's Sailor Moon", "2019's Tuxedo Mask",
-			"2019's Tricksters", "2019's Next Adventure", "2019's Phantom maid", "2019's Sans",
-			"2019's Solid Snake", "2019's Starship Trooper", "2019's Bounty Hunter", "2019's Zombie")
+			theme_name = pick(
+				"2019's Centaur", "2019's Hotdog", "2019's Ketchup", "2019's Mustard",
+				"2019's Angel", "2019's Devil", "2019's Skeleton", "2019's Spider", "2019's Witch",
+				"2019's Tricksters", "2019's Sans", "2019's Bounty Hunter", "2019's Zombie",
+			)
 		if("2020")
-			theme_name = pick("2020's Frog", "2020's Skull mask", "2020's Heisters")
+			theme_name = pick(
+				"2020's Martial revolutionary", "2020's Chaos Mage outfit", "2020's Columbia", "2020's Daft Punk Duo",
+				"2020's Daft Punk Golden", "2020's Daft Punk Silver", "2020's Devilfan", "2020's Forbidden Cowboy",
+				"2020's Frog", "2020's Gnome", "2020's Hierophant cultist", "2020's Midsommer", "2020's Moffking",
+				"2020's Bob Ross", "2020's Heisters", "2020's Skull mask", "2020's Burger", "2020's Pizza",
+				"2020's Onesie - Beefman", "2020's Onesie - Ethereal", "2020's Onesie - Felinid", "2020's Onesie - Fly",
+				"2020's Onesie - Lizard", "2020's Onesie - Moth", "2020's Onesie - Silicon", "2020's Power Ranger - Black",
+				"2020's Power Ranger - Blue", "2020's Power Ranger - Green", "2020's Power Ranger - Pink", "2020's Power Ranger - Red",
+				"2020's Power Ranger - Yellow", "2020's Princess - Wonderland", "2020's Princess - Beauty", "2020's Princess - Tenacious",
+				"2020's Princess - Cruel devil", "2020's Princess - Arabian", "2020's Princess - Sleeper", "2020's Princess - Skeletor,"
+				"2020's Princess - Octopus",
+			)
 
 	if(theme_name)
 		name = "[name] ([theme_name])"
