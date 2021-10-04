@@ -55,17 +55,8 @@
 
 /obj/item/storage/box/halloween/PopulateContents()
 	for(var/each_item in costume_contents)
-		for(var/i in 1 to costume_contents[each_item])
-			new each_item(src)
-//	generate_items_inside(items_to_give, src)
+		new each_item(src)
 
-/obj/item/storage/box/halloween/proc/get_costume()
-/*
-/proc/generate_items_inside(list/items_list,where_to)
-	for(var/each_item in items_list)
-		for(var/i in 1 to items_list[each_item])
-			new each_item(where_to)
-*/
 /obj/item/storage/box/halloween/edition_19
 	year = 2019
 
