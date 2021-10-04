@@ -435,7 +435,7 @@
 				"2020's Onesie - Lizard", "2020's Onesie - Moth", "2020's Onesie - Silicon", "2020's Power Ranger - Black",
 				"2020's Power Ranger - Blue", "2020's Power Ranger - Green", "2020's Power Ranger - Pink", "2020's Power Ranger - Red",
 				"2020's Power Ranger - Yellow", "2020's Princess - Wonderland", "2020's Princess - Beauty", "2020's Princess - Tenacious",
-				"2020's Princess - Cruel devil", "2020's Princess - Arabian", "2020's Princess - Sleeper", "2020's Princess - Skeletor,"
+				"2020's Princess - Cruel devil", "2020's Princess - Arabian", "2020's Princess - Sleeper", "2020's Princess - Skeletor",
 				"2020's Princess - Octopus",
 			)
 
