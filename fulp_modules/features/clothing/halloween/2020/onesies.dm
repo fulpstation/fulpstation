@@ -103,7 +103,7 @@
 	toggle_suit_light(user)
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/update_icon_state()
-	icon_state = inhand_icon_state = "ethereal[on]"
+	icon_state = inhand_icon_state = "onesie_ethereal[on]"
 	return ..()
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/proc/turn_on(mob/user)
@@ -143,7 +143,7 @@
 	update_icon()
 
 /obj/item/clothing/head/hooded/onesie/ethereal/update_icon_state()
-	icon_state = inhand_icon_state = "ethereal_hood[on]"
+	icon_state = inhand_icon_state = "onesie_ethereal_hood[on]"
 	return ..()
 
 /obj/item/clothing/head/hooded/onesie/ethereal/proc/turn_on(mob/user)
@@ -292,6 +292,8 @@
 	var/species
 
 /obj/item/storage/box/halloween/edition_20/onesie/PopulateContents()
+	if(costume_contents.len)
+		return ..()
 	species = pick("beefman", "ethereal", "felinid", "fly", "lizard", "moth", "silicon")
 	switch(species)
 		if("beefman")

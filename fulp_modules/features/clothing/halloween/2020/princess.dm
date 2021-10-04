@@ -144,6 +144,8 @@
 	var/princess
 
 /obj/item/storage/box/halloween/edition_20/princess/PopulateContents()
+	if(costume_contents.len)
+		return ..()
 	princess = pick("wonderland", "beauty", "tenacious", "cruel devil", "arabian", "sleeper", "skeletor", "octopus")
 	switch(princess)
 		if("wonderland")

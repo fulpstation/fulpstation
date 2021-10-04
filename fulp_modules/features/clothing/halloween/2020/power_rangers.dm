@@ -103,6 +103,8 @@
 	var/rangercolor
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/PopulateContents()
+	if(costume_contents.len)
+		return ..()
 	rangercolor = pick("black", "blue", "green", "pink", "red", "yellow")
 	switch(rangercolor)
 		if("black")
