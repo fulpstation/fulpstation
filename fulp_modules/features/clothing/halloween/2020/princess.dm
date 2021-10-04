@@ -169,7 +169,7 @@
 		if("arabian")
 			new /obj/item/clothing/under/costume_2020/arabian(src)
 			new /obj/item/clothing/head/costume_2020/arabian(src)
-			new /obj/item/clothing/neck/arabian(src)
+//			new /obj/item/clothing/neck/costume_2020/arabian(src)
 
 		if("sleeper")
 			new /obj/item/clothing/suit/costume_2020/sleeper(src)
@@ -222,7 +222,7 @@
 /obj/item/storage/box/halloween/edition_20/princess/arabian/PopulateContents()
 	new /obj/item/clothing/under/costume_2020/arabian(src)
 	new /obj/item/clothing/head/costume_2020/arabian(src)
-	new /obj/item/clothing/neck/arabian(src)
+//	new /obj/item/clothing/neck/costume_2020/arabian(src)
 
 /obj/item/storage/box/halloween/edition_20/princess/sleeper
 	theme_name = "2020's Princess - Sleeper"
