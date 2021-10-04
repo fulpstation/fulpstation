@@ -16,7 +16,7 @@
 		/obj/item/clothing/shoes/clown_shoes,
 		/obj/item/clothing/under/rank/civilian/clown,
 		/obj/item/storage/backpack/clown,
-		)
+	)
 
 /datum/supply_pack/goody/mime_costume
 	name = "Mime Costume"
@@ -31,4 +31,4 @@
 		/obj/item/clothing/under/rank/civilian/mime,
 		/obj/item/reagent_containers/food/drinks/bottle/bottleofnothing,
 		/obj/item/storage/backpack/mime,
-		)
+	)
