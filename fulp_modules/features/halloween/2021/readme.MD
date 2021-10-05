@@ -12,7 +12,7 @@ If you don't want to learn how to actually do anything, you can send the .dmi's 
 
 ### Option 2: Add it yourself to the Halloween fork
 
-Due to conflicts between the .dme and files, during Halloween, only one Pull Request will get Testmerged/Merged. If you want to add a Halloween costume, you will have to make your pull request to their own.
+Due to conflicts between the .dme and files, during Halloween, only one Pull Request will get Testmerged/Merged. If you want to add a Halloween costume, you will have to make your pull request to their branch, rather than make your own Pull Request.
 
 First: Open GitHub Desktop - <https://desktop.github.com/>
 Additionally, make sure you have the Fulpstation Repository cloned - <https://github.com/fulpstation/fulpstation>
