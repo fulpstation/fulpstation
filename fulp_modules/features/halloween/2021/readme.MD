@@ -38,6 +38,31 @@ Lastly: Once you are done all your work, make sure you open the Pull Request to 
 If you want an easy way out, you can copy off of another suit from another year and fill in the blanks.
 If you want to do it yourself, then;
 
+### The clothes
+
+[1] 'name' is what the item is called in game, <b>the first letter shouldn't be capitalized unless it's a name</b>
+
+[2] 'desc' is the text that comes up when you examine the suit. This should be a small description related to the item itself.
+
+[2.1] If your costume is more complex and should explain more in the description, you can add it to /examine_more(mob/user) - Look at 'features/clothing/body_cameras/body_camera.dm' for an example.
+
+#### Jumpsuits
+
+Jumpsuits (/obj/item/clothing/suit) may need additional measures
+
+[1] 'can_adjust' is if you can move the jumpsuit's sleeves, you might not want this, and if so, add 'an_adjust = FALSE'
+
+[2] 'fitted' is for alternative clothing for women, saying how much the game can safely "take off" the uniform without it looking weird. The options are:
+1 - NO_FEMALE_UNIFORM
+2 - FEMALE_UNIFORM_FULL
+3 - FEMALE_UNIFORM_TOP
+
+#### Hardhats
+
+Hardhats are used for hats you want to have an alternate icon to, that you can switch on/off (replacing the hardhat's helmet button).
+
+[1] This comes at the cost of not being able to set it as a subtype of /costume_2021/, so you will have to copy paste the 'icon' and 'icon_worn' on that individual hardhat's code.
+
 ### icon, icon_state & worn_icon
 
 [1] 'icon' is the .dmi file being read to find a certain sprite
@@ -89,3 +114,8 @@ This will add your randomly chosen item into the kit when being purchased.
 This is a rare enough thing to see, and it shouldn't generally happen, but if you need to, refer to 'fulp_modules/features/halloween/2021/power_rangers.dm' and 'fulp_modules/features/halloween/2021/onesies.dm' to see how it's done.
 
 I am not explaining it here as I do not want to encourage that type of behavior. Each costume should be unique.
+
+## The .dme
+
+All new .dm files have to be put in tgstation.dme, in order of which it appears.
+If you are using vscode and have all the BYOND plugins, this is done automatically for you as you create new files.
