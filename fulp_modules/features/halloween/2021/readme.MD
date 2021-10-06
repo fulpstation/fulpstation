@@ -82,6 +82,7 @@ Hardhats are used for hats you want to have an alternate icon to, that you can s
 - When adding a new sprite, make sure it is a subtype of /costume_2021 if it exists, all of which can be seen at the start of 'fulp_modules/features/halloween/2021/costumes.dm'. This is because all clothes that are under /costume_2021 are automatically set to use our primary 2021 .dmi file, meaning you will not have to set 'icon' or 'worn_icon', and 'icon_state' will be the only thing to worry about.
 
 [4] To Add your sprites to the main .dmi file, go to Graphic > Import > Find your old .dmi file, and use it.
+
 ![image](https://i.imgur.com/iLsLsOO.png)
 
 
@@ -99,6 +100,7 @@ There are three things to keep note of: Name, Illustration and costume_contents.
 [3] costume_contents is all the items that will be in the box, this is the easiest way to add something, just put the path of the clothing you've made there, and it'll appear in game when ordering that box.
 
 Example of how it should be done:
+
 ![image](https://i.imgur.com/mer5u4N.png)
 
 [3.1] If you want to add a randomly selected item from a pool, you will have to do the following:
@@ -110,6 +112,7 @@ Add this line of code to your costume
 	. = ..()
 
 Example of how it should be done:
+
 ![image](https://i.imgur.com/CElF63L.png)
 
 This will add your randomly chosen item into the kit when being purchased.
