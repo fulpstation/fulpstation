@@ -912,7 +912,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		// Fulp edit START - Bloodsuckers
 		// DEFAULT OBJECTIVES //
 		/datum/objective/bloodsucker/lair,
-		/datum/objective/bloodsucker/survive,
+		/datum/objective/survive/bloodsucker,
 		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/gourmand,

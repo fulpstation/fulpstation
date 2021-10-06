@@ -4,7 +4,7 @@ import { Cargo } from "../departments";
 const SupplyDeputy: Job = {
   name: "Supply Deputy",
   description: "Help Security enforce Space Law within the Supply department, \
-    Capture criminals in Medbay and deliver them to the Brig.",
+    Capture criminals in Cargo and deliver them to the Brig.",
   department: Cargo,
 };
 

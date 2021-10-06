@@ -56,20 +56,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/datum/objective/bloodsucker/survive
+/datum/objective/survive/bloodsucker
 	name = "bloodsuckersurvive"
-
-// EXPLANATION
-/datum/objective/bloodsucker/survive/update_explanation_text()
 	explanation_text = "Survive the entire shift without succumbing to Final Death."
 
 // WIN CONDITIONS?
-/datum/objective/bloodsucker/survive/check_completion()
-	// Must have a body.
-	if(!owner.current || !isliving(owner.current))
-		return FALSE
-	// Did I reach Final Death?
-	return !considered_alive(owner)
+// Handled by parent
 
 //////////////////////////////////////////////////////////////////////////////////////
 

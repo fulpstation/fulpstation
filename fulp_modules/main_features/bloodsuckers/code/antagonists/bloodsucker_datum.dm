@@ -103,6 +103,17 @@
 	handle_clown_mutation(M, removing = FALSE)
 	return
 
+/datum/antagonist/bloodsucker/get_admin_commands()
+	. = ..()
+	.["Give Level"] = CALLBACK(src, .proc/RankUp)
+	if(bloodsucker_level_unspent >= 1)
+		.["Remove Level"] = CALLBACK(src, .proc/RankDown)
+
+	if(broke_masquerade)
+		.["Fix Masquerade"] = CALLBACK(src, .proc/fix_masquerade)
+	else
+		.["Break Masquerade"] = CALLBACK(src, .proc/break_masquerade)
+
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	/// If I have a creator, then set as Fledgling.
@@ -374,6 +385,9 @@
 		if(bloodsucker_level_unspent >= 2)
 			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
 
+/datum/antagonist/bloodsucker/proc/RankDown()
+	bloodsucker_level_unspent--
+
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
 	for(var/datum/action/bloodsucker/power in powers)
 		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
@@ -531,7 +545,7 @@
 	objectives += lair_objective
 
 	// Survive Objective
-	var/datum/objective/bloodsucker/survive/survive_objective = new
+	var/datum/objective/survive/bloodsucker/survive_objective = new
 	survive_objective.owner = owner
 	objectives += survive_objective
 
@@ -686,6 +700,14 @@
 		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, is Final Death'ed."
 		allsuckers.objectives += masquerade_objective
 		M.announce_objectives()
+
+///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
+/datum/antagonist/bloodsucker/proc/fix_masquerade()
+	if(!broke_masquerade)
+		return
+	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))
+	broke_masquerade = FALSE
+	update_bloodsucker_icons_added(owner, "bloodsucker")
 
 //////////////////
 	// HUD! //
