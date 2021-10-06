@@ -19,6 +19,3 @@ GLOBAL_LIST_INIT(credits_music, list(
 // This allows for a much easier time adding some more credits music.
 /client/proc/returncreditsmusic()
 	return pickweight(GLOB.credits_music)
-
-/datum/controller/subsystem/ticker/proc/pick_round_end_sound()
-	return pick(GLOB.round_end_tracks)
