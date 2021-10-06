@@ -216,7 +216,7 @@
 /datum/objective/bloodsucker/heartthief/check_completion()
 	if(!owner.current)
 		return FALSE
-	var/list/all_items = owner.current.GetAllContents()
+	var/list/all_items = owner.current.get_all_contents()
 	var/itemcount = FALSE
 	for(var/obj/I in all_items)
 		if(istype(I, /obj/item/organ/heart/))
@@ -307,7 +307,7 @@
 			continue
 		if(!isliving(M.current))
 			continue
-		var/list/all_items = allsuckers.owner.current.GetAllContents()
+		var/list/all_items = allsuckers.owner.current.get_all_contents()
 		for(var/obj/I in all_items)
 			if(istype(I, /obj/item/book/kindred))
 				return TRUE

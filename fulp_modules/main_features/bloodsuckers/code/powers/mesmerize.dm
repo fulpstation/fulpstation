@@ -96,12 +96,12 @@
 			owner.balloon_alert(owner, "too far away!")
 		return FALSE
 	// Check: Facing target?
-	if(!is_A_facing_B(owner, target)) // in unsorted.dm
+	if(!is_source_facing_target(owner, target)) // in unsorted.dm
 		if(display_error)
 			owner.balloon_alert(owner, "you must be facing [target].")
 		return FALSE
 	// Check: Target facing me? (On the floor, they're facing everyone)
-	if(((target.mobility_flags & MOBILITY_STAND) && !is_A_facing_B(target, owner) && level_current <= 4))
+	if(((target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(target, owner) && level_current <= 4))
 		if(display_error)
 			owner.balloon_alert(owner, "[target] must be facing you.")
 		return FALSE
