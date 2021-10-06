@@ -1,30 +1,25 @@
 /**
  * Choice beacon
  * Purchased at Cargo, allows you to order any Costume you want
+ * Copied from Cook's ingedient beacon
  */
 /obj/item/choice_beacon/halloween
 	name = "halloween delivery beacon"
 	desc = "Summon a box of halloween costumes to help you get spooky."
 	icon_state = "gangtool-white"
-	var/target = /obj/item/storage/box/halloween
-	var/year
 
 /obj/item/choice_beacon/halloween/generate_display_names()
-	var/list/halloween = list()
-	for(var/V in subtypesof(target))
+	var/list/halloween_costumes = list()
+	for(var/V in subtypesof(/obj/item/storage/box/halloween))
 		var/obj/item/storage/box/halloween/A = V
-		halloween[initial(A.theme_name)] = A
-	return halloween
+		if(!(initial(A.theme_name)))
+			continue
+		halloween_costumes[initial(A.theme_name)] = A
+	return halloween_costumes
 
-/obj/item/choice_beacon/halloween/spawn_option(obj/choice,mob/living/M)
+/obj/item/choice_beacon/halloween/spawn_option(obj/choice, mob/living/M)
 	new choice(get_turf(M))
 	to_chat(M, span_hear("You hear something crackle from the beacon for a moment before a voice speaks. \"Please stand by for a message from Fulptailoring Broadcasting. Message as follows: <b>Please enjoy your Fulptailoring Broadcasting's Halloween Box!</b> Message ends.\""))
-
-/obj/item/choice_beacon/halloween/Initialize()
-	. = ..()
-	if(year)
-		name = "[year]'s [name]"
-		desc = "Summon a box of [year]'s costumes to help you get spooky."
 
 /// Debug delivery beacon with unlimited uses
 /obj/item/choice_beacon/halloween/debug
@@ -42,8 +37,11 @@
 	icon = 'fulp_modules/features/halloween/box.dmi'
 	icon_state = "halloween_box"
 	illustration = "pumpkin"
+	///The costumes that comes with the box
 	var/list/costume_contents = list()
+	///The Theme's name, used for the halloween beacon
 	var/theme_name
+	///The Year this costume was made in
 	var/year
 
 /obj/item/storage/box/halloween/Initialize(mapload)
