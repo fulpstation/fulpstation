@@ -9,13 +9,10 @@
 	job_rank = ROLE_INTERNAL_AFFAIRS
 	preview_outfit = /datum/outfit/internal_affair_agent
 	should_give_codewords = FALSE
-	/// List of all Internal Affairs Agents
-	var/list/target_list = list()
 	/// List of all Targets we have stolen thus far
 	var/list/datum/mind/targets_stolen = list()
 
 /datum/antagonist/traitor/internal_affairs/on_gain()
-	target_list += owner
 	. = ..()
 	RegisterSignal(owner.current, COMSIG_LIVING_REVIVE, .proc/on_revive)
 	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
@@ -23,15 +20,16 @@
 /datum/antagonist/traitor/internal_affairs/on_removal()
 	UnregisterSignal(owner.current, COMSIG_LIVING_DEATH)
 	UnregisterSignal(owner.current, COMSIG_LIVING_REVIVE)
-	target_list -= owner
 	return ..()
 
-/datum/antagonist/traitor/internal_affairs/apply_innate_effects()
+/datum/antagonist/traitor/internal_affairs/apply_innate_effects(mob/living/mob_override)
 	. = ..()
-	owner?.current?.apply_status_effect(/datum/status_effect/agent_pinpointer)
+	var/mob/living/datum_owner = mob_override || owner.current
+	datum_owner.apply_status_effect(/datum/status_effect/agent_pinpointer)
 
-/datum/antagonist/traitor/internal_affairs/remove_innate_effects()
-	owner?.current?.remove_status_effect(/datum/status_effect/agent_pinpointer)
+/datum/antagonist/traitor/internal_affairs/remove_innate_effects(mob/living/mob_override)
+	var/mob/living/datum_owner = mob_override || owner.current
+	datum_owner.remove_status_effect(/datum/status_effect/agent_pinpointer)
 	return ..()
 
 /datum/antagonist/traitor/internal_affairs/greet()
@@ -58,51 +56,11 @@
 	to_chat(owner.current, span_userdanger("Finally, watch your back. Your target has friends in high places, and intel suggests someone may have taken out a contract of their own to protect them."))
 	owner.announce_objectives()
 
-///When an IAA is revived, their hunter(s) have to kill them again
-/datum/antagonist/traitor/internal_affairs/proc/on_revive()
-	SIGNAL_HANDLER
-
-	for(var/datum/mind/internal_minds as anything in target_list)
-		for(var/datum/objective/assassinate/internal/internal_objectives as anything in internal_minds.get_all_objectives())
-			if(!internal_objectives.target || internal_objectives.target != owner)
-				continue
-			if(internal_objectives.check_completion())
-				CRASH("[src] ran on_revive but still completed an objective.")
-			to_chat(owner.current, span_userdanger("Your sensors tell you that [internal_objectives.target.current.real_name], one of the targets you were meant to have killed, pulled one over on you, and is still alive - do the job properly this time!"))
-			internal_objectives.stolen = FALSE
-			internal_minds.objectives -= internal_objectives
-
-///When an IAA dies, their hunter completes their objective and inherits their targets
-/datum/antagonist/traitor/internal_affairs/proc/on_death()
-	SIGNAL_HANDLER
-
-	for(var/datum/mind/internal_minds as anything in target_list)
-		for(var/datum/objective/assassinate/internal/internal_objectives as anything in internal_minds.get_all_objectives())
-			if(!internal_objectives.target || internal_objectives.target != owner)
-				continue
-			if(!internal_objectives.check_completion())
-				CRASH("[src] ran on_death and failed to complete an objective.")
-			if(internal_objectives.stolen)
-				break
-			steal_targets(internal_objectives.target)
-			internal_objectives.stolen = TRUE
-			break
-
-/// Affairs Agents can only roll Internal or External, rather than the normal
-/datum/antagonist/traitor/internal_affairs/pick_employer()
-	var/faction = prob(EXTERNAL_CHANCE) ? EXTERNAL_AFFAIRS : INTERNAL_AFFAIRS
-
-	employer = faction
-
-	traitor_flavor = strings(IAA_FLAVOR_FILE, employer)
-
-	// External Affairs get an additional objective, done here since objectives are already assigned
-	if(employer == EXTERNAL_AFFAIRS)
-		objectives += forge_single_generic_objective()
-
 /datum/antagonist/traitor/internal_affairs/forge_traitor_objectives()
-	if(target_list.len && target_list[owner])
-		var/datum/mind/target_mind = target_list[owner]
+	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
+		internal_minds -= owner
+		var/datum/mind/target_mind = internal_minds
+
 		var/datum/objective/assassinate/internal/kill_objective = new
 		kill_objective.owner = owner
 		kill_objective.target = target_mind
@@ -116,6 +74,48 @@
 		ending_objective = new /datum/objective/escape
 		ending_objective.owner = owner
 	objectives += ending_objective
+
+/// Affairs Agents can only roll Internal or External, rather than the normal
+/datum/antagonist/traitor/internal_affairs/pick_employer()
+	var/faction = prob(EXTERNAL_CHANCE) ? EXTERNAL_AFFAIRS : INTERNAL_AFFAIRS
+
+	employer = faction
+
+	traitor_flavor = strings(IAA_FLAVOR_FILE, employer)
+
+	// External Affairs get an additional objective, done here since objectives are already assigned
+	if(employer == EXTERNAL_AFFAIRS)
+		objectives += forge_single_generic_objective()
+
+///When an IAA is revived, their hunter(s) have to kill them again
+/datum/antagonist/traitor/internal_affairs/proc/on_revive()
+	SIGNAL_HANDLER
+
+	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
+		for(var/datum/objective/assassinate/internal/internal_objectives as anything in internal_minds.get_all_objectives())
+			if(!internal_objectives.target || internal_objectives.target != owner)
+				continue
+			if(internal_objectives.check_completion())
+				CRASH("[src] ran on_revive but still completed an objective.")
+			to_chat(owner.current, span_userdanger("Your sensors tell you that [internal_objectives.target.current.real_name], one of the targets you were meant to have killed, pulled one over on you, and is still alive - do the job properly this time!"))
+			internal_objectives.stolen = FALSE
+			internal_minds.objectives -= internal_objectives
+
+///When an IAA dies, their hunter completes their objective and inherits their targets
+/datum/antagonist/traitor/internal_affairs/proc/on_death()
+	SIGNAL_HANDLER
+
+	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
+		for(var/datum/objective/assassinate/internal/internal_objectives as anything in internal_minds.get_all_objectives())
+			if(!internal_objectives.target || internal_objectives.target != owner)
+				continue
+			if(!internal_objectives.check_completion())
+				CRASH("[src] ran on_death and failed to complete an objective.")
+			if(internal_objectives.stolen)
+				break
+			steal_targets(internal_objectives.target)
+			internal_objectives.stolen = TRUE
+			break
 
 /// Upon killing a target, we steal their target, to continue the cycle.
 /datum/antagonist/traitor/internal_affairs/proc/steal_targets(datum/mind/victim)
@@ -151,8 +151,8 @@
 	make_iaa_unrevivable()
 
 /// Upon becoming the last man standing, all other IAA's become unrevivable
-/datum/antagonist/traitor/internal_affairs/proc/make_iaa_unrevivable()
-	for(var/datum/mind/internal_minds as anything in target_list)
+/datum/antagonist/traitor/internal_affairs/proc/make_iaa_unrevivable(mob/living/last_man)
+	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
 		var/mob/living/carbon/agents = internal_minds.current
 		if(istype(agents) && agents.stat == DEAD)
 			agents.makeUncloneable()
@@ -168,7 +168,6 @@
 	var/datum/objective/martyr/martyr_objective = new
 	martyr_objective.owner = owner
 	objectives += martyr_objective
-
 
 /datum/outfit/internal_affair_agent
 	name = "IAA (Preview only)"

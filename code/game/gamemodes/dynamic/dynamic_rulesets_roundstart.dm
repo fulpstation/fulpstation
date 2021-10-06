@@ -55,9 +55,9 @@
 	required_candidates = 4
 	weight = 4
 	cost = 10
-	flags = HIGH_IMPACT_RULESET
+	scaling_cost = 2
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	antag_cap = list("denominator" = 20, "offset" = 4)
+	antag_cap = list("denominator" = 20)
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/ready(population, forced = FALSE)
 	required_candidates = get_antag_cap(population)
