@@ -4,7 +4,7 @@ import { Science } from "../departments";
 const ScienceDeputy: Job = {
   name: "Science Deputy",
   description: "Help Security enforce Space Law within the Science department, \
-    Capture criminals in Medbay and deliver them to the Brig.",
+    Capture criminals in Science and deliver them to the Brig.",
   department: Science,
 };
 

@@ -103,6 +103,17 @@
 	handle_clown_mutation(M, removing = FALSE)
 	return
 
+/datum/antagonist/bloodsucker/get_admin_commands()
+	. = ..()
+	.["Give Level"] = CALLBACK(src, .proc/RankUp)
+	if(bloodsucker_level_unspent >= 1)
+		.["Remove Level"] = CALLBACK(src, .proc/RankDown)
+
+	if(broke_masquerade)
+		.["Fix Masquerade"] = CALLBACK(src, .proc/fix_masquerade)
+	else
+		.["Break Masquerade"] = CALLBACK(src, .proc/break_masquerade)
+
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	/// If I have a creator, then set as Fledgling.
@@ -154,10 +165,10 @@
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
 	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
-	var/msg = " made [key_name_admin(new_owner)] into [name]"
+	var/msg = " made [key_name_admin(new_owner)] into \a [name]"
 	if(!isnull(levels))
 		bloodsucker_level_unspent = levels
-		msg += "with [levels] extra unspent Ranks."
+		msg += " with [levels] extra unspent Ranks."
 	message_admins("[key_name_admin(usr)][msg]")
 	log_admin("[key_name(usr)][msg]")
 	new_owner.add_antag_datum(src)
@@ -374,6 +385,9 @@
 		if(bloodsucker_level_unspent >= 2)
 			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
 
+/datum/antagonist/bloodsucker/proc/RankDown()
+	bloodsucker_level_unspent--
+
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
 	for(var/datum/action/bloodsucker/power in powers)
 		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
@@ -531,7 +545,7 @@
 	objectives += lair_objective
 
 	// Survive Objective
-	var/datum/objective/bloodsucker/survive/survive_objective = new
+	var/datum/objective/survive/bloodsucker/survive_objective = new
 	survive_objective.owner = owner
 	objectives += survive_objective
 
@@ -687,6 +701,14 @@
 		allsuckers.objectives += masquerade_objective
 		M.announce_objectives()
 
+///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
+/datum/antagonist/bloodsucker/proc/fix_masquerade()
+	if(!broke_masquerade)
+		return
+	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))
+	broke_masquerade = FALSE
+	update_bloodsucker_icons_added(owner, "bloodsucker")
+
 //////////////////
 	// HUD! //
 //////////////////
@@ -697,13 +719,13 @@
 			icontype = "masquerade_broken"
 		else
 			icontype = "bloodsucker"
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
 	set_antag_hud(owner.current, icontype)
 	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype) // Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.leave_hud(owner.current)
 	set_antag_hud(owner.current, null)
 	owner.current.prepare_huds()
