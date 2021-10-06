@@ -6,8 +6,6 @@
 
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 
-- code/controllers/subsystem/ticker.dm > Adds pick_round_end_sound() to the round_end_song
-
 - code/game/area/areas/shuttle.dm > Plays ApproachingFulp instead of ApproachingTG
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
