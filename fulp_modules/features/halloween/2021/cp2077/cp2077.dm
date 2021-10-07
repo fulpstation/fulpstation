@@ -33,6 +33,6 @@
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2021/cp2077_rockerboy,
 		/obj/item/clothing/suit/toggle/cp2077_rockerboy,
-		/obj/item/clothing/glasses/cp2077_glasses,
+		/obj/item/clothing/glasses/costume_2021/cp2077_glasses,
 	)
 
