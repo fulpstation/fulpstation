@@ -27,8 +27,8 @@
 /obj/item/storage/box/halloween/edition_21/breaper
 	theme_name = "2021's bailey reaper"
 	costume_contents = list(
-		/obj/item/clothing/gloves/costume_2021/breaper_cape,
-		/obj/item/clothing/shoes/costume_2021/breaper_suit,
-		/obj/item/clothing/under/costume_2021/breaper_boots,
-		/obj/item/clothing/neck/costume_2021/breaper_gloves,
+		/obj/item/clothing/neck/costume_2021/breaper_cape,
+		/obj/item/clothing/under/costume_2021/breaper_suit,
+		/obj/item/clothing/shoes/costume_2021/breaper_boots,
+		/obj/item/clothing/gloves/costume_2021/breaper_gloves,
 	)
