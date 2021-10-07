@@ -279,7 +279,7 @@
 /datum/team/vampireclan/proc/check_start_sunlight()
 	if(members.len <= 1)
 		for(var/datum/mind/M in members)
-			message_admins("New Sol has been created due to Bloodsucker assignement.")
+			message_admins("New Sol has been created due to Bloodsucker assignment.")
 			bloodsucker_sunlight = new()
 
 /// End Sol, if you're the last Bloodsucker
