@@ -22,11 +22,9 @@
 	togglename = "mantis blades"
 
 ///Glasses
-/obj/item/clothing/glasses/cp2077_glasses
+/obj/item/clothing/glasses/costume_2021/cp2077_glasses
 	name = "hackerman glasses"
 	desc = "Oh! Shiny!"
-	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
 	icon_state = "cp2077hacker_glasses"
 
 /obj/item/storage/box/halloween/edition_21/cp2077_box

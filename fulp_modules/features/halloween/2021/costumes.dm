@@ -37,3 +37,7 @@
 /obj/item/clothing/mask/costume_2021
 	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
+
+/obj/item/clothing/glasses/costume_2021
+	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'

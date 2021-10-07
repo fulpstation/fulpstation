@@ -25,7 +25,7 @@
 	icon_state = "breaper_hands"
 
 /obj/item/storage/box/halloween/edition_21/breaper
-	theme_name = "2021's bailey reaper"
+	theme_name = "2021's Bailey Reaper"
 	costume_contents = list(
 		/obj/item/clothing/neck/costume_2021/breaper_cape,
 		/obj/item/clothing/under/costume_2021/breaper_suit,

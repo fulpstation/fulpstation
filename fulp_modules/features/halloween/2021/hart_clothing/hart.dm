@@ -20,13 +20,13 @@
 
 ///Mask
 /obj/item/clothing/mask/costume_2021/lovely_mask
-	name = "lovely Mask"
+	name = "lovely mask"
 	desc = "A porcelain disk with a crudely drawn on heart."
 	icon_state = "lovely_mask"
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR
 
 /obj/item/storage/box/halloween/edition_21/hart
-	theme_name = "2021's Hart's lovelies"
+	theme_name = "2021's Lovelies"
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2021/hart_body,
 		/obj/item/clothing/head/costume_2021/hart_head,
