@@ -42,18 +42,11 @@
 		monsterhunter_objective.owner = owner
 		objectives += monsterhunter_objective
 		/// Give Theft Objective
-		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
-			var/datum/objective/download/download_objective = new
-			download_objective.owner = owner
-			download_objective.gen_amount_goal()
-			objectives += download_objective
-		else
-			var/datum/objective/steal/steal_objective = new
-			steal_objective.owner = owner
-			steal_objective.find_target()
-			objectives += steal_objective
-/*		// >> If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
-
+		var/datum/objective/steal/steal_objective = new
+		steal_objective.owner = owner
+		steal_objective.find_target()
+		objectives += steal_objective
+/*		//If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
 		/// Give Assassinate objective
 		var/sec_members = SSjob.get_all_sec()
 		for(var/datum/mind/M in sec_members)

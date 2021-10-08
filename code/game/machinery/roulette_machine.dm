@@ -49,7 +49,7 @@
 	var/on = TRUE
 	var/last_spin = 13
 
-/obj/machinery/roulette/Initialize()
+/obj/machinery/roulette/Initialize(mapload)
 	. = ..()
 	jackpot_loop = new(src, FALSE)
 	wires = new /datum/wires/roulette(src)
@@ -309,7 +309,7 @@
 		if(ROULETTE_BET_ODD)
 			return ISODD(rolled_number)
 		if(ROULETTE_BET_EVEN)
-			return ISEVEN(rolled_number)
+			return (ISEVEN(rolled_number) && rolled_number != 0)
 		if(ROULETTE_BET_1TO18)
 			return (rolled_number >= 1 && rolled_number <= 18) //between 1 to 18
 		if(ROULETTE_BET_19TO36)

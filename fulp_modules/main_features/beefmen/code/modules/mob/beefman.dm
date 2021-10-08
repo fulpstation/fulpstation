@@ -469,7 +469,7 @@
 /obj/item/bodypart/proc/ReturnLocalAugmentIcon()
 	// Default: No Owner  --> use default
 	if (!owner)
-		return icon_greyscale_robotic
+		return icon_robotic
 
 	// Return Part
 	var/obj/item/bodypart/bpType
@@ -487,18 +487,16 @@
 		bpType = owner.part_default_r_leg
 
 	if (bpType)
-		return initial(bpType.icon_greyscale_robotic)
+		return initial(bpType.icon_robotic)
 
 	// Fail? Default
-	return icon_greyscale_robotic
+	return icon_robotic
 
 
 /mob/living/carbon/human/species/beefman
 	race = /datum/species/beefman
 
 /obj/item/bodypart
-	var/icon/icon_greyscale = 'icons/mob/human_parts_greyscale.dmi' // Keep an eye on _DEFINES/mobs.dm to see if DEFAULT_BODYPART_ICON_ORGANIC / _ROBOTIC change.
-	var/icon/icon_greyscale_robotic = 'icons/mob/augmentation/augments.dmi'
 	var/obj/item/food/meat/slab/myMeatType = /obj/item/food/meat/slab // For remembering what kind of meat this was made of. Default is base meat slab.
 	var/amCondemned = FALSE // I'm about to be destroyed. Don't add blood to me, and throw null error crap next tick.
 
@@ -611,14 +609,14 @@
 /obj/item/bodypart/head/beef
 	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
 /obj/item/bodypart/chest/beef
 	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -632,7 +630,7 @@
 /obj/item/bodypart/r_arm/beef
 	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -646,7 +644,7 @@
 /obj/item/bodypart/l_arm/beef
 	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -660,7 +658,7 @@
 /obj/item/bodypart/r_leg/beef
 	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
@@ -674,7 +672,7 @@
 /obj/item/bodypart/l_leg/beef
 	icon = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts.dmi'
-	icon_greyscale_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
+	icon_robotic = 'fulp_modules/main_features/beefmen/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 

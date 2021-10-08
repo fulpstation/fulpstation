@@ -97,7 +97,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		middleware += new middleware_type(src)
 
 	if(istype(C))
-		if(!IsGuestKey(C.key))
+		if(!is_guest_key(C.key))
 			load_path(C.ckey)
 			unlock_content = !!C.IsByondMember()
 			if(unlock_content)
@@ -329,6 +329,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	return preferences
 
+/// Applies all PREFERENCE_PLAYER preferences
+/datum/preferences/proc/apply_all_client_preferences()
+	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
+		if (preference.savefile_identifier != PREFERENCE_PLAYER)
+			continue
+
+		value_cache -= preference.type
+		preference.apply_to_client(parent, read_preference(preference.type))
+
 // This is necessary because you can open the set preferences menu before
 // the atoms SS is done loading.
 INITIALIZE_IMMEDIATE(/atom/movable/screen/character_preview_view)
@@ -367,7 +376,6 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/character_preview_view)
 		qdel(plane_master)
 
 	client?.clear_map(assigned_map)
-	client?.screen -= src
 
 	preferences?.character_preview_view = null
 
@@ -402,8 +410,8 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/character_preview_view)
 	if (!client)
 		return
 
-	for (var/plane_master_type in subtypesof(/atom/movable/screen/plane_master))
-		var/atom/movable/screen/plane_master/plane_master = new plane_master_type
+	for (var/plane_master_type in subtypesof(/atom/movable/screen/plane_master) - /atom/movable/screen/plane_master/blackness)
+		var/atom/movable/screen/plane_master/plane_master = new plane_master_type()
 		plane_master.screen_loc = "[assigned_map]:CENTER"
 		client?.screen |= plane_master
 
