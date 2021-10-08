@@ -31,7 +31,7 @@
 	mail_goodies = list(
 		/obj/item/storage/fancy/cigarettes = 15,
 		/obj/item/pizzabox = 10,
-		/obj/effect/spawner/lootdrop/donkpockets = 10,
+		/obj/effect/spawner/random/food_or_drink/donkpockets = 10,
 		/obj/item/storage/box/handcuffs = 10,
 		/obj/item/clothing/mask/whistle = 5,
 		/obj/item/choice_beacon/music = 5,
