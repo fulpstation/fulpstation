@@ -3,10 +3,13 @@
 	name = "Track Monster"
 	desc = "Take a moment to look for clues of any nearby monsters.<br>These creatures are slippery, and often look like the crew."
 	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
-	background_icon_state = "vamp_power_off"
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	background_icon_state = "vamp_power_off"
 	button_icon_state = "power_hunter"
-	cooldown = 300
+	power_flags = NONE
+	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = NONE
+	cooldown = 30 SECONDS
 	bloodcost = 0
 	/// Removed, set to TRUE to re-add, either here to be a default function, or in-game through VV for neat Admin stuff -Willard
 	var/give_pinpointer = FALSE

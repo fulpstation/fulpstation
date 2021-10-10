@@ -1,5 +1,6 @@
 /// Default Deputy
 /datum/outfit/job/deputy
+	name = "Deputy"
 	jobtype = /datum/job/fulp/deputy
 
 	backpack = /obj/item/storage/backpack/security
@@ -15,12 +16,12 @@
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
 	belt = /obj/item/storage/belt/security/deputy
 	shoes = /obj/item/clothing/shoes/laceup
-	l_pocket = /obj/item/flashlight/seclite
-	r_pocket = /obj/item/pda/security
+	l_pocket = /obj/item/pda/security
+	r_pocket = /obj/item/flashlight/seclite
 
+	pda_slot = ITEM_SLOT_LPOCKET
 	id_trim = /datum/id_trim/job/deputy
 	box = /obj/item/storage/box/survival
-	pda_slot = ITEM_SLOT_RPOCKET
 
 /// Engineering Deputy
 /datum/outfit/job/deputy/engineering
@@ -116,7 +117,7 @@
 	name = "departmental tie"
 	desc = "A tie showing off the department colors of a deputy."
 	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_icons.dmi'
-	worn_icon =  'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_worn.dmi'
+	worn_icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/ties_worn.dmi'
 	icon_state = "supply_tie"
 	inhand_icon_state = ""	//no inhands
 	w_class = WEIGHT_CLASS_SMALL
@@ -353,5 +354,5 @@
 	new /obj/item/reagent_containers/spray/pepper(src)
 	new /obj/item/restraints/handcuffs(src)
 	new /obj/item/grenade/smokebomb(src)
-	new /obj/item/melee/baton/loaded(src)
+	new /obj/item/melee/baton/security/loaded(src)
 	update_appearance()

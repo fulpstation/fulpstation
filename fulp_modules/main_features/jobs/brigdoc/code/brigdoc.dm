@@ -33,8 +33,8 @@
 		/obj/item/scalpel/advanced = 6,
 		/obj/item/retractor/advanced = 6,
 		/obj/item/cautery/advanced = 6,
-		/obj/effect/spawner/lootdrop/organ_spawner = 5,
-		/obj/effect/spawner/lootdrop/memeorgans = 1,
+		/obj/effect/spawner/random/medical/organs = 5,
+		/obj/effect/spawner/random/medical/memeorgans = 1,
 	)
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
 	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
@@ -47,7 +47,7 @@
 	ears = /obj/item/radio/headset/headset_sec/alt/department/med
 	uniform = /obj/item/clothing/under/rank/medical/brigdoc
 	shoes = /obj/item/clothing/shoes/jackboots
-	suit =  /obj/item/clothing/suit/toggle/labcoat/armored
+	suit = /obj/item/clothing/suit/toggle/labcoat/armored
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	head = /obj/item/clothing/head/fulpberet/brigphysician

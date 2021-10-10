@@ -19,9 +19,12 @@
 	power_explanation = "<b>Level 1: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
+	power_activates_immediately = FALSE
 	bloodcost = 15
-	cooldown = 500
+	cooldown = 50 SECONDS
 	target_range = 6
+	prefire_message = "Select a target."
 
 /datum/action/bloodsucker/targeted/tremere/dominate/two
 	name = "Level 2: Dominate"
@@ -32,7 +35,7 @@
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize and mute them for the next 12 seconds."
 	bloodcost = 20
-	cooldown = 400
+	cooldown = 40 SECONDS
 
 /datum/action/bloodsucker/targeted/tremere/dominate/three
 	name = "Level 3: Dominate"
@@ -43,7 +46,21 @@
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds."
 	bloodcost = 30
-	cooldown = 350
+	cooldown = 35 SECONDS
+
+/datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/A, display_error)
+	. = ..()
+	if(!.)
+		return FALSE
+	// Check: Self
+	if(A == owner)
+		return FALSE
+	var/mob/living/target = A
+	if(!target.mind)
+		if(display_error)
+			owner.balloon_alert(owner, "[target] is mindless")
+		return FALSE
+	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced
 	name = "Level 4: Possession"
@@ -53,14 +70,14 @@
 	power_explanation = "<b>Level 4: Possession</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
-		However, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
+		However, while adjacent to the target, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
 		If you use this on a currently dead normal Vassal, you will instead revive them normally.\n\
 		Despite being Mute and Deaf, they will still have complete loyalty to you, until their death in 5 minutes upon use."
 	background_icon_state = "tremere_power_gold_off"
 	background_icon_state_on = "tremere_power_gold_on"
 	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 80
-	cooldown = 1800 // 3 minutes
+	cooldown = 180 SECONDS // 3 minutes
 
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
 	name = "Level 5: Possession"
@@ -70,15 +87,16 @@
 	power_explanation = "<b>Level 5: Possession</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
-		However, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
+		However, while adjacent to the target, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
 		If you use this on a currently dead normal Vassal, you will instead revive them normally.\n\
 		They will have complete loyalty to you, until their death in 8 minutes upon use."
 	bloodcost = 100
-	cooldown = 1200 // 2 minutes
+	cooldown = 120 SECONDS // 2 minutes
 
-
-/datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/A, display_error)
-	if(!..())
+// The advanced version
+/datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/A, display_error)
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Self
 	if(A == owner)
@@ -86,7 +104,11 @@
 	var/mob/living/target = A
 	if(!target.mind)
 		if(display_error)
-			owner.balloon_alert(owner, "[target] is mindless.")
+			owner.balloon_alert(owner, "[target] is mindless")
+		return FALSE
+	if((IS_VASSAL(target) || target.stat >= SOFT_CRIT) && !owner.Adjacent(target))
+		if(display_error)
+			owner.balloon_alert(owner, "vassaling require being adjacent")
 		return FALSE
 	return TRUE
 
@@ -97,9 +119,13 @@
 	if(target.stat >= SOFT_CRIT && user.Adjacent(target) && tremere_level >= 4)
 		attempt_vassalize(target, user)
 		return
+	else if(IS_VASSAL(target))
+		owner.balloon_alert(owner, "vassal cant be revived")
+		return
 	attempt_mesmerize(target, user)
 
 /datum/action/bloodsucker/targeted/tremere/dominate/proc/attempt_mesmerize(mob/living/target, mob/living/user)
+	owner.balloon_alert(owner, "attempting to mesmerize.")
 	if(!do_mob(user, target, 3 SECONDS, NONE, TRUE))
 		return
 
@@ -135,10 +161,10 @@
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/bloodsucker/targeted/tremere/dominate/proc/attempt_vassalize(mob/living/target, mob/living/user)
+	owner.balloon_alert(owner, "attempting to vassalize.")
 	if(!do_mob(user, target, 6 SECONDS, NONE, TRUE))
 		return
 
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(IS_VASSAL(target))
 		PowerActivatedSuccessfully()
 		to_chat(user, span_warning("We revive [target]!"))
@@ -148,7 +174,7 @@
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("Their body refuses to react..."))
 		return
-	if(!bloodsuckerdatum.attempt_turn_vassal(target))
+	if(!bloodsuckerdatum_power.attempt_turn_vassal(target, TRUE))
 		return
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))

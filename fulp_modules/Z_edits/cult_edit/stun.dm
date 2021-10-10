@@ -17,7 +17,10 @@
 	if(IS_CULTIST(L))
 		return
 	if(IS_CULTIST(user))
-		user.visible_message(span_warning("[user] holds up [user.p_their()] hand, which explodes in a flash of red light!"), span_cultitalic("You attempt to stun [L] with the spell!"))
+		user.visible_message(
+			span_warning("[user] holds up [user.p_their()] hand, which explodes in a flash of red light!"),
+			span_cultitalic("You attempt to stun [L] with the spell!"),
+		)
 
 		user.mob_light(_color = LIGHT_COLOR_BLOOD_MAGIC, _range = 3, _duration = 2)
 
@@ -31,11 +34,15 @@
 
 			if(istype(anti_magic_source, /obj/item))
 				var/obj/item/ams_object = anti_magic_source
-				target.visible_message(span_warning("[L] starts to glow in a halo of light!"), \
-									   span_userdanger("Your [ams_object.name] begins to glow, emitting a blanket of holy light which surrounds you and protects you from the flash of light!"))
+				target.visible_message(
+					span_warning("[L] starts to glow in a halo of light!"),
+					span_userdanger("Your [ams_object.name] begins to glow, emitting a blanket of holy light which surrounds you and protects you from the flash of light!"),
+				)
 			else
-				target.visible_message(span_warning("[L] starts to glow in a halo of light!"), \
-									   span_userdanger("A feeling of warmth washes over you, rays of holy light surround your body and protect you from the flash of light!"))
+				target.visible_message(
+					span_warning("[L] starts to glow in a halo of light!"),
+					span_userdanger("A feeling of warmth washes over you, rays of holy light surround your body and protect you from the flash of light!"),
+				)
 
 		else
 			if(HAS_TRAIT(target, TRAIT_MINDSHIELD)) // Mindshield just re-directs the stun's spell from their brain to their body.

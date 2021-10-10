@@ -18,7 +18,7 @@
 	back = /obj/item/storage/backpack/ert/medical
 	backpack_contents = list(
 		/obj/item/gun/medbeam=1,
-		/obj/item/melee/baton/loaded=1,
+		/obj/item/melee/baton/security/loaded=1,
 		/obj/item/reagent_containers/hypospray/combat/nanites=1,
 		/obj/item/storage/box/survival/engineer=1,
 		)
@@ -33,7 +33,7 @@
 	backpack_contents = list(
 		/obj/item/gun/energy/alien = 1,
 		/obj/item/gun/medbeam=1,
-		/obj/item/melee/baton/loaded=1,
+		/obj/item/melee/baton/security/loaded=1,
 		/obj/item/reagent_containers/hypospray/combat=1,
 		/obj/item/storage/box/survival/engineer=1,
 		)
@@ -57,7 +57,7 @@
 	suit_store = /obj/item/gun/energy/alien
 	backpack_contents = list(
 		/obj/item/gun/medbeam=1,
-		/obj/item/melee/baton/loaded=1,
+		/obj/item/melee/baton/security/loaded=1,
 		/obj/item/reagent_containers/hypospray/combat/nanites=1,
 		/obj/item/storage/box/survival/engineer=1,
 		)
@@ -90,7 +90,7 @@
 	suit_store = /obj/item/gun/energy/e_gun/stun
 	back = /obj/item/storage/backpack/ert/security
 	backpack_contents = list(
-		/obj/item/melee/baton/loaded=1,
+		/obj/item/melee/baton/security/loaded=1,
 		/obj/item/storage/box/handcuffs=1,
 		/obj/item/storage/box/survival/engineer=1,
 		)
@@ -117,11 +117,11 @@
 	back = /obj/item/storage/backpack/ert/engineer
 	backpack_contents = list(
 		/obj/item/construction/rcd/combat=1,
-		/obj/item/melee/baton/loaded=1,
+		/obj/item/melee/baton/security/loaded=1,
 		/obj/item/storage/box/survival/engineer=1,
 		)
 	belt = /obj/item/storage/belt/utility/full/powertools
-	glasses =  /obj/item/clothing/glasses/meson/engine
+	glasses = /obj/item/clothing/glasses/meson/engine
 	mask = /obj/item/clothing/mask/gas
 	r_pocket = /obj/item/rcd_ammo/large
 	l_hand = /obj/item/gun/energy/e_gun

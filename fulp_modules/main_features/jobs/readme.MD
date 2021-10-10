@@ -6,13 +6,13 @@
 
 ## TG edits:
 
-- code/controllers/subsystem/job.dm > Adds Fulp jobs to the station job list datum.
-- code/modules/jobs/jobs.dm > Adds Fulp jobs to GLOBAL_LIST_INIT(security_positions, list() & GLOBAL_LIST_INIT(security_sub_positions, list()
-- code/game/machinery/computer/crew.dm > Adds Fulp jobs to the crew monitor.
+- None
 
 ## TG proc overwrites:
 
 - sec_hud_set_ID() (code/game/data_huds.dm) > Assigns HUD Overlays for Fulp jobs.
+- setup_job_lists() (code/controllers/subsystem/job.dm) > Adds Fulp jobs to the list of all jobs
+- /datum/crewmonitor/var/list/jobs (code/game/machinery/computer/crew.dm) > Adds Fulp jobs to the Crew monitor
 
 ## TG sounds/sprites used:
 

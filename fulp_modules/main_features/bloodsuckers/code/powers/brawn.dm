@@ -8,17 +8,18 @@
 		At level 3, you get the ability to break closets open, additionally can both break restraints AND knock a grabber down in the same use.\n\
 		At level 4, you get the ability to bash airlocks open, as long as they aren't bolted.\n\
 		Higher levels will increase the damage and knockdown when punching someone."
+	power_flags = NONE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 8
-	cooldown = 90
+	cooldown = 9 SECONDS
 	target_range = 1
 	power_activates_immediately = TRUE
-	must_be_capacitated = TRUE
-	can_use_w_immobilize = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
+	prefire_message = "Select a target."
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
-	if(!..()) // Default checks
+	. = ..()
+	if(!.) // Default checks
 		return FALSE
 	///Have we used our power yet?
 	var/usedPower = FALSE
@@ -46,7 +47,10 @@
 		var/obj/structure/closet/closet = user.loc
 		if(!istype(closet))
 			return FALSE
-		closet.visible_message("<span class='warning'>[closet] tears apart as [user] bashes it open from within!</span>")
+		closet.visible_message(
+			span_warning("closet] tears apart as [user] bashes it open from within!"),
+			span_warning("closet] tears apart as you bash it open from within!"),
+		)
 		to_chat(user, span_warning("We bash [closet] wide open!"))
 		addtimer(CALLBACK(src, .proc/break_closet, user, closet), 1)
 		used = TRUE
@@ -55,8 +59,10 @@
 	var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 	if(!used && (istype(cuffs) || istype(legcuffs)))
-		user.visible_message("<span class='warning'>[user] discards their restraints like it's nothing!</span>", \
-			"<span class='warning'>We break through our restraints!</span>")
+		user.visible_message(
+			span_warning("[user] discards their restraints like it's nothing!"),
+			span_warning("We break through our restraints!"),
+		)
 		user.clear_cuffs(cuffs, TRUE)
 		user.clear_cuffs(legcuffs, TRUE)
 		used = TRUE
@@ -64,8 +70,10 @@
 	// Remove Straightjackets
 	if(user.wear_suit?.breakouttime && !used)
 		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-		user.visible_message("<span class='warning'>[user] rips straight through the [user.p_their()] [S]!</span>", \
-			"<span class='warning'>We tear through our straightjacket!</span>")
+		user.visible_message(
+			span_warning("[user] rips straight through the [user.p_their()] [S]!"),
+			span_warning("We tear through our straightjacket!"),
+		)
 		if(S && user.wear_suit == S)
 			qdel(S)
 		used = TRUE
@@ -100,8 +108,10 @@
 	M.throw_at(T, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
 	log_combat(owner, M, "used Brawn power")
-	owner.visible_message(span_warning("[owner] tears free of [M]'s grasp!"), \
-			 			span_warning("You shrug off [M]'s grasp!"))
+	owner.visible_message(
+		span_warning("[owner] tears free of [M]'s grasp!"),
+		span_warning("You shrug off [M]'s grasp!"),
+	)
 	owner.pulledby = null // It's already done, but JUST IN CASE.
 	return TRUE
 
@@ -117,8 +127,10 @@
 		// Knockdown!
 		var/powerlevel = min(5, 1 + level_current)
 		if(rand(5 + powerlevel) >= 5)
-			target.visible_message(span_danger("[user] lands a vicious punch, sending [target] away!"), \
-							  span_userdanger("[user] has landed a horrifying punch on you, sending you flying!"), null, COMBAT_MESSAGE_RANGE)
+			target.visible_message(
+				span_danger("[user] lands a vicious punch, sending [target] away!"), \
+				span_userdanger("[user] has landed a horrifying punch on you, sending you flying!"),
+			)
 			target.Knockdown(min(5, rand(10, 10 * powerlevel)))
 		// Attack!
 		owner.balloon_alert(owner, "you punch [target]!")
@@ -164,7 +176,8 @@
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/A, display_error)
 	// DEFAULT CHECKS (Distance)
-	if(!..()) // Disable range notice for Brawn.
+	. = ..()
+	if(!.) // Disable range notice for Brawn.
 		return FALSE
 	// Must outside Closet to target anyone!
 	if(!isturf(owner.loc))
@@ -182,10 +195,3 @@
 	else if(istype(A, /obj/structure/closet))
 		return TRUE
 	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
-
-/// Vassal version
-/datum/action/bloodsucker/targeted/brawn/vassal
-	name = "Strength"
-	desc = "Snap restraints, knock down grabbers, or deal terrible damage with your bare hands."
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = FALSE

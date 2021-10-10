@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(fulp_ban_list, list(
 		SPECIES_LIZARD,
 		SPECIES_BEEFMAN,
 	),
-	"Fulp Antagonist Positions" = list(
+	"Antagonist Positions" = list(
 		ROLE_BLOODSUCKER,
 		ROLE_MONSTERHUNTER,
 	),

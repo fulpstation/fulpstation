@@ -170,14 +170,13 @@
 
 	var/regen_cooldown = 0
 
-/mob/living/simple_animal/hostile/carp/megacarp/Initialize()
+/mob/living/simple_animal/hostile/carp/megacarp/Initialize(mapload)
 	. = ..()
 	name = "[pick(GLOB.megacarp_first_names)] [pick(GLOB.megacarp_last_names)]"
 	melee_damage_lower += rand(2, 10)
 	melee_damage_upper += rand(10,20)
 	maxHealth += rand(30,60)
 	move_to_delay = rand(3,7)
-	AddElement(/datum/element/swabable, CELL_LINE_TABLE_MEGACARP, CELL_VIRUS_TABLE_GENERIC_MOB)
 
 
 /mob/living/simple_animal/hostile/carp/megacarp/add_cell_sample()
@@ -241,12 +240,12 @@
 	/// Colored disk mouth appearance for adding it as a mouth overlay
 	var/mutable_appearance/colored_disk_mouth
 
-/mob/living/simple_animal/hostile/carp/cayenne/Initialize()
+/mob/living/simple_animal/hostile/carp/cayenne/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/pet_bonus, "bloops happily!")
 	colored_disk_mouth = mutable_appearance(SSgreyscale.GetColoredIconByType(/datum/greyscale_config/carp/disk_mouth, greyscale_colors), "disk_mouth")
 	ADD_TRAIT(src, TRAIT_DISK_VERIFIER, INNATE_TRAIT) //carp can verify disky
-	ADD_TRAIT(src, TRAIT_ADVANCEDTOOLUSER, INNATE_TRAIT) //carp SMART
+	ADD_TRAIT(src, TRAIT_CAN_STRIP, INNATE_TRAIT) //carp can take the disk off the captain
 
 /mob/living/simple_animal/hostile/carp/cayenne/death(gibbed)
 	if(disky)
@@ -278,7 +277,7 @@
 	if(disky)
 		if(isopenturf(attacked_target))
 			to_chat(src, span_notice("You place [disky] on [attacked_target]"))
-			disky.forceMove(attacked_target.drop_location())
+			disky.forceMove(attacked_target)
 			disky = null
 			update_icon()
 		else

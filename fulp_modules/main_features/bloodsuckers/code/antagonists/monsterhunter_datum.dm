@@ -13,6 +13,7 @@
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
 	tips = MONSTERHUNTER_TIPS
+	preview_outfit = /datum/outfit/monsterhunter
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
@@ -41,18 +42,11 @@
 		monsterhunter_objective.owner = owner
 		objectives += monsterhunter_objective
 		/// Give Theft Objective
-		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
-			var/datum/objective/download/download_objective = new
-			download_objective.owner = owner
-			download_objective.gen_amount_goal()
-			objectives += download_objective
-		else
-			var/datum/objective/steal/steal_objective = new
-			steal_objective.owner = owner
-			steal_objective.find_target()
-			objectives += steal_objective
-/*		// >> If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
-
+		var/datum/objective/steal/steal_objective = new
+		steal_objective.owner = owner
+		steal_objective.find_target()
+		objectives += steal_objective
+/*		//If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
 		/// Give Assassinate objective
 		var/sec_members = SSjob.get_all_sec()
 		for(var/datum/mind/M in sec_members)
@@ -82,6 +76,16 @@
 		my_kungfu.remove(owner.current)
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
+
+/datum/outfit/monsterhunter
+	name = "Monster Hunter (Preview Only)"
+
+	l_hand = /obj/item/stake
+	r_hand = /obj/item/stake/hardened/silver
+	uniform = /obj/item/clothing/under/rank/medical/paramedic
+	head = /obj/item/clothing/head/soft/paramedic
+	suit =  /obj/item/clothing/suit/toggle/labcoat/paramedic
+	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 
 /// Mind version
 /datum/mind/proc/make_monsterhunter()
@@ -129,7 +133,7 @@
 //			Monster Hunter Pinpointer
 //////////////////////////////////////////////////////////////////////////
 
-/// TAKEN FROM:  /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
+/// TAKEN FROM: /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
 /datum/status_effect/agent_pinpointer/hunter_edition
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	minimum_range = HUNTER_SCAN_MIN_DISTANCE
