@@ -17,7 +17,7 @@
 			/obj/item/food/poutine = 6,
 			/obj/item/food/pie/applepie = 4,
 			/obj/item/food/burger/cheese = 4,
-			/obj/item/food/eggssausage = 3,
+			/obj/item/food/eggsausage = 3,
 			/obj/item/food/nachos = 3,
 			/obj/item/food/soup/hotchili = 2,
 
@@ -94,10 +94,9 @@
 			/obj/item/food/soup/hotchili = 3,
 			/obj/item/food/nugget = 4,
 			/obj/item/food/soup/miso = 4,
-			/obj/item/food/eggssausage = 3,
 			/obj/item/food/grilled_cheese_sandwich = 3,
 			/obj/item/food/spaghetti = 3,
-			/obj/item/food/eggssausage = 3,
+			/obj/item/food/eggsausage = 3,
 			/obj/item/food/burger/plain = 1,
 		),
 	)
