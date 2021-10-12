@@ -81,13 +81,10 @@
 			if ("-")
 				BP.generic_bleedstacks -= amount
 
+// Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
 	. = ..()
-	// Taken DIRECTLY from ethereal!
-	if(!ishuman(user))
-		return
-
-	// 2) BODYPARTS
+	// 1) BODYPARTS
 	user.part_default_head = /obj/item/bodypart/head/beef
 	user.part_default_chest = /obj/item/bodypart/chest/beef
 	user.part_default_l_arm = /obj/item/bodypart/l_arm/beef
@@ -96,7 +93,7 @@
 	user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
 	user.ReassignForeignBodyparts()
 
-	// 3) Load it all
+	// 2) Load it all
 	proof_beefman_features(user.dna.features) // Missing Defaults in DNA? Randomize!
 	set_beef_color(user)
 
