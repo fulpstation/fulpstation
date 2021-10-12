@@ -67,17 +67,17 @@
 
 	COOLDOWN_START(src, portal_cooldown, 10 SECONDS)
 	var/list/turf/possible_tears = list()
-	for(var/turf/T as anything in RANGE_TURFS(8, owner))
-		if(T.density)
+	for(var/turf/nearby_turfs as anything in RANGE_TURFS(8, owner))
+		if(nearby_turfs.density)
 			continue
 
 		var/clear = TRUE
-		for(var/obj/nearby_objects in T)
+		for(var/obj/nearby_objects in nearby_turfs)
 			if(nearby_objects.density)
 				clear = FALSE
 				break
 		if(clear)
-			possible_tears += T
+			possible_tears += nearby_turfs
 
 	if(!LAZYLEN(possible_tears))
 		return

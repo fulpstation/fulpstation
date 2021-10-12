@@ -103,9 +103,9 @@
 		hit_target.Knockdown(pull_power * 10 + 20)
 	// Knock Back (before Knockdown, which probably cancels pull)
 	var/send_dir = get_dir(owner, pulled_mob)
-	var/turf/T = get_ranged_target_turf(pulled_mob, send_dir, pull_power)
+	var/turf/turf_thrown_at = get_ranged_target_turf(pulled_mob, send_dir, pull_power)
 	owner.newtonian_move(send_dir) // Bounce back in 0 G
-	pulled_mob.throw_at(T, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
+	pulled_mob.throw_at(turf_thrown_at, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
 	log_combat(owner, pulled_mob, "used Brawn power")
 	owner.visible_message(
@@ -140,9 +140,9 @@
 		target.apply_damage(hitStrength, BRUTE, affecting)
 		// Knockback
 		var/send_dir = get_dir(owner, target)
-		var/turf/T = get_ranged_target_turf(target, send_dir, powerlevel)
+		var/turf/turf_thrown_at = get_ranged_target_turf(target, send_dir, powerlevel)
 		owner.newtonian_move(send_dir) // Bounce back in 0 G
-		target.throw_at(T, powerlevel, TRUE, owner) //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
+		target.throw_at(turf_thrown_at, powerlevel, TRUE, owner) //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
 		// Target Type: Cyborg (Also gets the effects above)
 		if(issilicon(target))
 			target.emp_act(EMP_HEAVY)

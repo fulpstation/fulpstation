@@ -98,7 +98,7 @@
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = hit_atom
-	var/turf/T = get_turf(target)
+	var/turf/target_turf = get_turf(target)
 	// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
 	var/do_knockdown = !is_source_facing_target(target, owner) || owner.alpha <= 40 || istype(owner.loc, /obj/structure/closet)
 
@@ -141,7 +141,7 @@
 	// Lastly, did we get knocked down by the time we did this?
 	if(user && user.incapacitated())
 		if(!(user.body_position == LYING_DOWN))
-			var/send_dir = get_dir(user, T)
+			var/send_dir = get_dir(user, target_turf)
 			new /datum/forced_movement(user, get_ranged_target_turf(user, send_dir, 1), 1, FALSE)
 			user.spin(10)
 

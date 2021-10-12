@@ -61,8 +61,8 @@
 	if(!isturf(owner.loc))
 		return
 	// A) Check for Darkness (we can just leave)
-	var/turf/T = get_turf(user)
-	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
+	var/turf/current_turf = get_turf(user)
+	if(current_turf && current_turf.lighting_object && current_turf.get_lumcount()>= 0.1)
 		// B) Check for Viewers
 		for(var/mob/living/watchers in viewers(world.view, get_turf(owner)) - owner)
 			if(watchers.client && !watchers.has_unlimited_silicon_privilege && !watchers.eye_blind)

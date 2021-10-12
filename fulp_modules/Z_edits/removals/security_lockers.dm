@@ -3,9 +3,9 @@
 	. = ..()
 	for(var/atom/movable/all_contents in contents)
 		qdel(all_contents)
-	var/turf/T = get_turf(src)
-	new /obj/structure/table(T)
-	new /obj/item/book/manual/wiki/security_space_law(T)
+	var/turf/locker_turf = get_turf(src)
+	new /obj/structure/table(locker_turf)
+	new /obj/item/book/manual/wiki/security_space_law(locker_turf)
 	return INITIALIZE_HINT_QDEL
 
 ///Engineering
@@ -13,9 +13,9 @@
 	. = ..()
 	for(var/atom/movable/all_contents in contents)
 		qdel(all_contents)
-	var/turf/T = get_turf(src)
-	new /obj/structure/table(T)
-	new /obj/item/book/manual/wiki/security_space_law(T)
+	var/turf/locker_turf = get_turf(src)
+	new /obj/structure/table(locker_turf)
+	new /obj/item/book/manual/wiki/security_space_law(locker_turf)
 	return INITIALIZE_HINT_QDEL
 
 ///Science
@@ -23,9 +23,9 @@
 	. = ..()
 	for(var/atom/movable/all_contents in contents)
 		qdel(all_contents)
-	var/turf/T = get_turf(src)
-	new /obj/structure/table(T)
-	new /obj/item/book/manual/wiki/security_space_law(T)
+	var/turf/locker_turf = get_turf(src)
+	new /obj/structure/table(locker_turf)
+	new /obj/item/book/manual/wiki/security_space_law(locker_turf)
 	return INITIALIZE_HINT_QDEL
 
 ///Medical
@@ -33,7 +33,7 @@
 	. = ..()
 	for(var/atom/movable/all_contents in contents)
 		qdel(all_contents)
-	var/turf/T = get_turf(src)
-	new /obj/structure/table(T)
-	new /obj/item/book/manual/wiki/security_space_law(T)
+	var/turf/locker_turf = get_turf(src)
+	new /obj/structure/table(locker_turf)
+	new /obj/item/book/manual/wiki/security_space_law(locker_turf)
 	return INITIALIZE_HINT_QDEL
