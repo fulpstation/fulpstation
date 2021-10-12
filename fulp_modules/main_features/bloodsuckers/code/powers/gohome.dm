@@ -28,7 +28,8 @@
 	return TRUE
 
 /datum/action/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
-	for(var/obj/machinery/light/L in view(flicker_range, get_turf(owner)))
+	for(var/obj/machinery/light/nearby_lights in view(flicker_range, get_turf(owner)))
+		nearby_lights.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
@@ -40,8 +41,8 @@
 	flicker_lights(4, 40)
 	sleep(50)
 	flicker_lights(4, 60)
-	for(var/obj/machinery/light/L in view(6, get_turf(owner)))
-		L.flicker(5)
+	for(var/obj/machinery/light/nearby_lights in view(6, get_turf(owner)))
+		nearby_lights.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', 60, 1)
 	/// STEP TWO: Lights OFF?
 	/// CHECK: Still have Coffin?
@@ -83,10 +84,10 @@
 		// *force* all items to drop, so we had to just gut the code out of it.
 		var/list/items = list()
 		items |= user.get_equipped_items()
-		for(var/I in items)
-			user.dropItemToGround(I,TRUE)
-		for(var/obj/item/I in owner.held_items)	//drop_all_held_items()
-			user.dropItemToGround(I, TRUE)
+		for(var/belongings in items)
+			user.dropItemToGround(belongings, TRUE)
+		for(var/obj/item/held_posessions in owner.held_items) //drop_all_held_items()
+			user.dropItemToGround(held_posessions, TRUE)
 	/// POOF EFFECTS
 	if(am_seen)
 		playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)

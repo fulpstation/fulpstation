@@ -1,12 +1,12 @@
 //Procs first
-/proc/check_location_seen(atom/subject, turf/T)
-	if (!isturf(T)) // Only check if I wasn't given a locker or something
+/proc/check_location_seen(atom/subject, turf/target_turf)
+	if(!isturf(target_turf)) // Only check if I wasn't given a locker or something
 		return FALSE
 	// A) Check for Darkness
-	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
+	if(target_turf && target_turf.lighting_object && target_turf.get_lumcount()>= 0.1)
 		// B) Check for Viewers
-		for(var/mob/living/M in viewers(T))
-			if(M != subject && isliving(M) && M.mind && !M.has_unlimited_silicon_privilege && !M.eye_blind) // M.client <--- add this in after testing!
+		for(var/mob/living/nearby_viewers in viewers(target_turf))
+			if(nearby_viewers != subject && isliving(nearby_viewers) && nearby_viewers.mind && !nearby_viewers.has_unlimited_silicon_privilege && !nearby_viewers.eye_blind) // M.client <--- add this in after testing!
 				return TRUE
 	return FALSE
 
@@ -36,7 +36,7 @@
  */
 /proc/check_turf_is_valid(turf/open_turf, checkFloor = TRUE)
 	// Checking for Floor...
-	if (checkFloor && !istype(open_turf, /turf/open/floor))
+	if(checkFloor && !istype(open_turf, /turf/open/floor))
 		return FALSE
 	// Checking for Density...
 	if(open_turf.density)

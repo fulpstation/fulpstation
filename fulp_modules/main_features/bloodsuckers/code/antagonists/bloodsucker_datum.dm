@@ -92,15 +92,15 @@
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
+	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
-	handle_clown_mutation(M, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
+	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	return
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
+	var/mob/living/current_mob = mob_override || owner.current
 	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
-	handle_clown_mutation(M, removing = FALSE)
+	handle_clown_mutation(current_mob, removing = FALSE)
 	return
 
 /datum/antagonist/bloodsucker/get_admin_commands()
@@ -278,9 +278,8 @@
 /// Start Sol, called when someone is assigned Bloodsucker
 /datum/team/vampireclan/proc/check_start_sunlight()
 	if(members.len <= 1)
-		for(var/datum/mind/M in members)
-			message_admins("New Sol has been created due to Bloodsucker assignment.")
-			bloodsucker_sunlight = new()
+		message_admins("New Sol has been created due to Bloodsucker assignment.")
+		bloodsucker_sunlight = new()
 
 /// End Sol, if you're the last Bloodsucker
 /datum/team/vampireclan/proc/check_cancel_sunlight()
@@ -679,21 +678,21 @@
 	to_chat(owner.current, span_warning("Bloodsucker Tip: When you break the Masquerade, you become open for termination by fellow Bloodsuckers, and your Vassals are no longer completely loyal to you, as other Bloodsuckers can steal them for themselves!"))
 	broke_masquerade = TRUE
 	update_bloodsucker_icons_added(owner, "masquerade_broken")
-	for(var/datum/mind/M in clan?.members)
-		var/datum/antagonist/bloodsucker/allsuckers = M.has_antag_datum(/datum/antagonist/bloodsucker)
+	for(var/datum/mind/clan_minds in clan?.members)
+		var/datum/antagonist/bloodsucker/allsuckers = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(allsuckers == owner.current)
 			continue
+		if(!isliving(clan_minds.current))
+			continue
+		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
 		if(allsuckers.my_clan != CLAN_MALKAVIAN)
 			continue
-		if(!isliving(M.current))
-			continue
-		to_chat(M, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
 		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
 		masquerade_objective.target = owner.current
 		masquerade_objective.objective_name = "Clan Objective"
 		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, is Final Death'ed."
 		allsuckers.objectives += masquerade_objective
-		M.announce_objectives()
+		clan_minds.announce_objectives()
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
 /datum/antagonist/bloodsucker/proc/fix_masquerade()

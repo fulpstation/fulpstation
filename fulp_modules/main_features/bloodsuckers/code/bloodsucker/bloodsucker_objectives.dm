@@ -118,7 +118,7 @@
 	if(target_role == "HEAD")
 		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
 	else
-		explanation_text = "Have [target_amount] Vassal[target_amount==1?"":"s"] in the [department_string] department."
+		explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [department_string] department."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/protege/check_completion()
@@ -134,62 +134,60 @@
 	else
 		valid_jobs = list()
 		var/list/alljobs = subtypesof(/datum/job) // This is just a list of TYPES, not the actual variables!
-		for(var/T in alljobs)
-			var/datum/job/J = SSjob.GetJobType(T)
-			if(!istype(J))
+		for(var/listed_jobs in alljobs)
+			var/datum/job/all_jobs = SSjob.GetJobType(listed_jobs)
+			if(!istype(all_jobs))
 				continue
 			// Found a job whose Dept Head matches either list of heads, or this job IS the head. We exclude the QM from this, HoP handles Cargo.
-			if((target_role in J.department_head) || target_role == J.title)
-				valid_jobs += J.title
+			if((target_role in all_jobs.department_head) || target_role == all_jobs.title)
+				valid_jobs += all_jobs.title
 
 	// Check Vassals, and see if they match
 	var/objcount = 0
 	var/list/counted_roles = list() // So you can't have more than one Captain count.
-	for(var/datum/antagonist/vassal/V in antagdatum.vassals)
-		if(!V || !V.owner)	// Must exist somewhere, and as a vassal.
+	for(var/datum/antagonist/vassal/bloodsucker_vassals in antagdatum.vassals)
+		if(!bloodsucker_vassals || !bloodsucker_vassals.owner)	// Must exist somewhere, and as a vassal.
 			continue
 
-		var/thisRole = "none"
+		var/this_role = "none"
 
 		// Mind Assigned
-		if((V.owner.assigned_role in valid_jobs) && !(V.owner.assigned_role in counted_roles))
+		if((bloodsucker_vassals.owner.assigned_role in valid_jobs) && !(bloodsucker_vassals.owner.assigned_role in counted_roles))
 			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MIND ROLE)"))
-			thisRole = V.owner.assigned_role
+			this_role = bloodsucker_vassals.owner.assigned_role
 		// Mob Assigned
-		else if((V.owner.current.job in valid_jobs) && !(V.owner.current.job in counted_roles))
+		else if((bloodsucker_vassals.owner.current.job in valid_jobs) && !(bloodsucker_vassals.owner.current.job in counted_roles))
 			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MOB JOB)"))
-			thisRole = V.owner.current.job
+			this_role = bloodsucker_vassals.owner.current.job
 		// PDA Assigned
-		else if(V.owner.current && ishuman(V.owner.current))
-			var/mob/living/carbon/human/H = V.owner.current
-			var/obj/item/card/id/I =  H.wear_id ? H.wear_id.GetID() : null
-			if(I && (I.assignment in valid_jobs) && !(I.assignment in counted_roles))
+		else if(bloodsucker_vassals.owner.current && ishuman(bloodsucker_vassals.owner.current))
+			var/mob/living/carbon/human/vassal_users = bloodsucker_vassals.owner.current
+			var/obj/item/card/id/id_cards = vassal_users.wear_id ? vassal_users.wear_id.GetID() : null
+			if(id_cards && (id_cards.assignment in valid_jobs) && !(id_cards.assignment in counted_roles))
 				//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (GET ID)"))
-				thisRole = I.assignment
+				this_role = id_cards.assignment
 
 		// NO MATCH
-		if(thisRole == "none")
+		if(this_role == "none")
 			continue
 
 		// SUCCESS!
 		objcount++
 		if(target_role == "HEAD")
-			counted_roles += thisRole // Add to list so we don't count it again (but only if it's a Head)
+			counted_roles += this_role // Add to list so we don't count it again (but only if it's a Head)
 
 	return objcount >= target_amount
-	/* 			NOTE!!!!!!!!!!!
+	/**
+	 * # IMPORTANT NOTE!!
 	 *
-	 *			Look for jobs value on mobs! This is assigned at start, but COULD be assigned from HoP?
-	 *
-	 *			ALSO - Search through all jobs (look for prefs earlier that look for all jobs, and search through all jobs to see if their head matches the head listed, or it IS the head)
-	 *
-	 *			ALSO - registered_account in _vending.dm for banks, and assigning new ones.
-	 *
+	 * Look for Job Values on mobs! This is assigned at the start, but COULD be changed via the HoP
+	 * ALSO - Search through all jobs (look for prefs earlier that look for all jobs, and search through all jobs to see if their head matches the head listed, or it IS the head)
+	 * ALSO - registered_account in _vending.dm for banks, and assigning new ones.
 	 */
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// NOTE: Look up /steal in objective.dm for inspiration.
+// NOTE: Look up /steal in objective.dm for inspiration.
 /// Steal hearts. You just really wanna have some hearts.
 /datum/objective/bloodsucker/heartthief
 	name = "heartthief"
@@ -210,9 +208,9 @@
 		return FALSE
 	var/list/all_items = owner.current.get_all_contents()
 	var/itemcount = FALSE
-	for(var/obj/I in all_items)
-		if(istype(I, /obj/item/organ/heart/))
-			var/obj/item/organ/heart/heart_item = I
+	for(var/obj/all_contents in all_items)
+		if(istype(all_contents, /obj/item/organ/heart))
+			var/obj/item/organ/heart/heart_item = all_contents
 			if(!(heart_item.organ_flags & ORGAN_SYNTHETIC)) // No robo-hearts allowed
 				itemcount++
 			if(itemcount >= target_amount)

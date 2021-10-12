@@ -108,10 +108,10 @@
 			to_chat(owner, "[src] is unavailable. Wait [(power_cooldown - world.time) / 10] seconds.")
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
-	var/mob/living/L = owner
+	var/mob/living/user = owner
 	if(bloodsuckerdatum_power?.frenzied)
 		return TRUE
-	if(L.blood_volume < bloodcost)
+	if(user.blood_volume < bloodcost)
 		if(display_error)
 			to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 		return FALSE
@@ -182,8 +182,8 @@
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 	if(bloodsuckerdatum_power?.frenzied)
 		return
-	var/mob/living/carbon/human/H = owner
-	H.blood_volume -= bloodcost
+	var/mob/living/carbon/human/user = owner
+	user.blood_volume -= bloodcost
 	bloodsuckerdatum_power?.update_hud()
 
 /datum/action/bloodsucker/proc/ActivatePower()
@@ -278,10 +278,10 @@
 	active = !active
 	UpdateButtonIcon()
 	// Create & Link Targeting Proc
-	var/mob/living/L = owner
-	if(L.ranged_ability)
-		L.ranged_ability.remove_ranged_ability()
-	bs_proc_holder.add_ranged_ability(L)
+	var/mob/living/user = owner
+	if(user.ranged_ability)
+		user.ranged_ability.remove_ranged_ability()
+	bs_proc_holder.add_ranged_ability(user)
 	if(prefire_message != "")
 		to_chat(owner, span_announce("[prefire_message]"))
 	return TRUE

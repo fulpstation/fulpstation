@@ -95,19 +95,19 @@
 	..() // activate = FALSE
 
 /datum/action/bloodsucker/targeted/haste/proc/on_move()
-	for(var/mob/living/L in dview(1, get_turf(owner)))
-		if(!hit[L] && (L != owner))
-			hit[L] = TRUE
-			playsound(L, "sound/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
-			L.Knockdown(10 + level_current * 5)
-			L.Paralyze(0.1)
-			L.spin(10, 1)
-			if(IS_MONSTERHUNTER(L) && HAS_TRAIT(L, TRAIT_STUNIMMUNE))
-				L.balloon_alert(L, "your victim's blood is fatally low!")
-				for(var/datum/action/bloodsucker/power in L.actions)
+	for(var/mob/living/all_targets in dview(1, get_turf(owner)))
+		if(!hit[all_targets] && (all_targets != owner))
+			hit[all_targets] = TRUE
+			playsound(all_targets, "sound/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
+			all_targets.Knockdown(10 + level_current * 5)
+			all_targets.Paralyze(0.1)
+			all_targets.spin(10, 1)
+			if(IS_MONSTERHUNTER(all_targets) && HAS_TRAIT(all_targets, TRAIT_STUNIMMUNE))
+				all_targets.balloon_alert(all_targets, "knocked down!")
+				for(var/datum/action/bloodsucker/power in all_targets.actions)
 					if(power.active)
 						power.DeactivatePower()
-				L.Jitter(20)
-				L.set_confusion(max(8, L.get_confusion()))
-				L.stuttering = max(8, L.stuttering)
-				L.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity
+				all_targets.Jitter(20)
+				all_targets.set_confusion(max(8, all_targets.get_confusion()))
+				all_targets.stuttering = max(8, all_targets.stuttering)
+				all_targets.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity

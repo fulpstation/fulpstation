@@ -41,17 +41,17 @@
 			return
 
 	// Registering our ID
-	var/obj/item/card/id/I
+	var/obj/item/card/id/id_card
 	if(isidcard(W))
-		I = W
+		id_card = W
 	else if(istype(W, /obj/item/pda))
 		var/obj/item/pda/P = W
-		I = P.id
-	if(!I)
+		id_card = P.id
+	if(!id_card)
 		to_chat(user, span_warning("No ID detected for body camera registration."))
 		return
 
-	register_body_camera(I, user)
+	register_body_camera(id_card, user)
 
 /// Manual Register via ID
 /obj/item/clothing/suit/armor/proc/register_body_camera(obj/item/card/id/id_card, mob/living/carbon/human/user)

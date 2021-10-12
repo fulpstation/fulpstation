@@ -47,8 +47,8 @@
 	if(!.)
 		return
 	// Wearing mask
-	var/mob/living/L = owner
-	if(L.is_mouth_covered())
+	var/mob/living/user = owner
+	if(user.is_mouth_covered())
 		if(display_error)
 			owner.balloon_alert(owner, "your mouth is covered!")
 		return FALSE
@@ -93,12 +93,12 @@
 			to_chat(owner, span_warning("Other Bloodsuckers will not fall for your subtle approach."))
 		return FALSE
 	if(ishuman(target))
-		var/mob/living/carbon/human/H = target
-		if(!H.can_inject(owner, BODY_ZONE_HEAD, INJECT_CHECK_PENETRATE_THICK) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
+		var/mob/living/carbon/human/target_user = target
+		if(!target_user.can_inject(owner, BODY_ZONE_HEAD, INJECT_CHECK_PENETRATE_THICK) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
 			if(display_error)
 				to_chat(owner, span_warning("Their suit is too thick to feed through."))
 			return FALSE
-		if(NOBLOOD in H.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
+		if(NOBLOOD in target_user.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
 			if(display_error)
 				to_chat(owner, span_warning("Your victim's blood is not suitable for you to take."))
 			return FALSE
@@ -281,8 +281,8 @@
 				carbon_target.bleed(15)
 			playsound(get_turf(feed_target), 'sound/effects/splat.ogg', 40, 1)
 			if(ishuman(feed_target))
-				var/mob/living/carbon/human/H = feed_target
-				var/obj/item/bodypart/head_part = H.get_bodypart(BODY_ZONE_HEAD)
+				var/mob/living/carbon/human/target_user = feed_target
+				var/obj/item/bodypart/head_part = target_user.get_bodypart(BODY_ZONE_HEAD)
 				if(head_part)
 					head_part.generic_bleedstacks += 5
 			feed_target.add_splatter_floor(get_turf(feed_target))

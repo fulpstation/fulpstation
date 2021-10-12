@@ -149,8 +149,8 @@
 
 /datum/mind/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
 	// Species Must have a HEART (Sorry Plasmamen)
-	var/mob/living/carbon/human/H = bloodsucker.current
-	if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
+	var/mob/living/carbon/human/user = bloodsucker.current
+	if(!(user.dna?.species) || !(user.mob_biotypes & MOB_ORGANIC))
 		if(creator)
 			to_chat(creator, span_danger("[bloodsucker]'s DNA isn't compatible!"))
 		return FALSE

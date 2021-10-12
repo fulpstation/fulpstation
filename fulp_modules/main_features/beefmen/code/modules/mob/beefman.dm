@@ -378,9 +378,9 @@
 			playsound(get_turf(user), 'fulp_modules/main_features/beefmen/sounds/beef_hit.ogg', 40, 1)
 
 			// Destroy Limb, Drop Meat, Pick Up
-			var/obj/item/I = affecting.drop_limb() //  <--- This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
-			if (istype(I, /obj/item/food/meat/slab))
-				user.put_in_hands(I)
+			var/obj/item/dropped_meat = affecting.drop_limb() //  <--- This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
+			if (istype(dropped_meat, /obj/item/food/meat/slab))
+				user.put_in_hands(dropped_meat)
 
 			return TRUE
 	return ..()
@@ -495,9 +495,9 @@
 	var/prevOrganicState_Aux			// The hand sprite
 	var/prevOrganicIcon
 
-/obj/item/bodypart/add_mob_blood(mob/living/M) // Cancel adding blood if I'm deletin (throws errors)
-	if (!amCondemned)
-		..()
+/obj/item/bodypart/add_mob_blood(mob/living/user) // Cancel adding blood if I'm deletin (throws errors)
+	if(!amCondemned)
+		. = ..()
 
 /mob/living/carbon
 	// Type References for Bodyparts
@@ -562,36 +562,36 @@
 /obj/item/bodypart/proc/drop_meat(mob/inOwner)
 
 	//Checks tile for cloning pod, if found then limb stays limb. Stops cloner from breaking beefmen making them useless after being cloned.
-	//var/turf/T = get_turf(src)
-	//for(var/obj/machinery/M in T)
-	//	if(istype(M,/obj/machinery/clonepod))
-	//		return FALSE
+//	var/turf/current_turf = get_turf(src)
+//	for(var/obj/machinery/machines in current_turf)
+//		if(istype(machines, /obj/machinery/clonepod))
+//			return FALSE
 
 	// Not Organic? ABORT! Robotic stays robotic, desnt delete and turn to meat.
-	if (status != BODYPART_ORGANIC)
+	if(status != BODYPART_ORGANIC)
 		return FALSE
 
 	// If not 0% health, let's do it!
 	var/percentHealth = 1 - (brute_dam + burn_dam) / max_damage
-	if (myMeatType != null && percentHealth > 0)
+	if(myMeatType != null && percentHealth > 0)
 
 		// Create Meat
-		var/obj/item/food/meat/slab/newMeat =	new myMeatType(src.loc)///obj/item/food/meat/slab(src.loc)
+		var/obj/item/food/meat/slab/newMeat = new myMeatType(src.loc)// /obj/item/food/meat/slab(src.loc)
 
 		// Adjust Reagents by Health Percent
-		for (var/datum/reagent/R in newMeat.reagents.reagent_list)
+		for(var/datum/reagent/R in newMeat.reagents.reagent_list)
 			R.volume *= percentHealth
 		newMeat.reagents.update_total()
 
 		// Apply my Reagents to Meat
 		if(inOwner.reagents && inOwner.reagents.total_volume)
-			//inOwner.reagents.reaction(newMeat, INJECT, 20 / inOwner.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
+//			inOwner.reagents.reaction(newMeat, INJECT, 20 / inOwner.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
 			inOwner.reagents.trans_to(newMeat, 20)	// Run transfer of 1 unit of reagent from them to me.
 
 		. = newMeat // Return MEAT
 
 	qdel(src)
-	//QDEL_IN(src,1) // Delete later. If we do it now, we screw up the "attack chain" that called this meat to attack the Beefman's stump.
+//	QDEL_IN(src,1) // Delete later. If we do it now, we screw up the "attack chain" that called this meat to attack the Beefman's stump.
 
 ///Limbs
 /obj/item/bodypart/head/beef

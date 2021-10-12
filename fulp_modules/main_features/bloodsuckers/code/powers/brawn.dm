@@ -99,8 +99,8 @@
 	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
 	// Knock Down (if Living)
 	if(isliving(M))
-		var/mob/living/L = M
-		L.Knockdown(pull_power * 10 + 20)
+		var/mob/living/hit_target = M
+		hit_target.Knockdown(pull_power * 10 + 20)
 	// Knock Back (before Knockdown, which probably cancels pull)
 	var/send_dir = get_dir(owner, M)
 	var/turf/T = get_ranged_target_turf(M, send_dir, pull_power)

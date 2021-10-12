@@ -2,8 +2,8 @@
 /mob/sync_mind()
 	. = ..()
 	if(ishuman(src))
-		var/mob/living/carbon/human/H = src
-		H?.dna?.species.check_banned(H)
+		var/mob/living/carbon/human/user = src
+		user?.dna?.species.check_banned(user)
 
 /// Case 2: Species Change. People can change their species midgame so we have to add this check aswell. sync_mind() only happens on login
 /datum/species/on_species_gain(mob/living/carbon/user, datum/species/old_species, pref_load)

@@ -19,10 +19,10 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// Gives Curators their abilities
-/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/curator/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
 	. = ..()
 
-	ADD_TRAIT(H, TRAIT_BLOODSUCKER_HUNTER, JOB_TRAIT)
+	ADD_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER, JOB_TRAIT)
 
 /// Prevents using a Memento Mori
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
@@ -31,9 +31,9 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 		return
 	. = ..()
 
-/datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
+/datum/species/jelly/slime/spec_life(mob/living/carbon/human/user)
 	// Prevents Slimeperson 'gaming
-	if(IS_BLOODSUCKER(H))
+	if(IS_BLOODSUCKER(user))
 		return
 	. = ..()
 

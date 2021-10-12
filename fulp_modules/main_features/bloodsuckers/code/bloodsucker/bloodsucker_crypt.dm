@@ -217,22 +217,22 @@
 	anchored = FALSE
 
 /obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
-	var/mob/living/L = O
+	var/mob/living/living_target = O
 	if(!anchored && IS_BLOODSUCKER(user))
 		to_chat(user, span_danger("Until this rack is secured in place, it cannot serve its purpose."))
 		to_chat(user, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!"))
 		return
 	// Default checks
-	if(!O.Adjacent(src) || O == user || !isliving(user) || use_lock || has_buckled_mobs() || user.incapacitated() || L.buckled)
+	if(!isliving(O) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || use_lock || has_buckled_mobs() || user.incapacitated() || living_target.buckled)
 		return
 	// Don't buckle Silicon to it please.
-	if(issilicon(O))
+	if(issilicon(living_target))
 		to_chat(user, span_danger("You realize that Silicon cannot be vassalized, therefore it is useless to buckle them."))
 		return
 	// Good to go - Buckle them!
 	use_lock = TRUE
-	if(do_mob(user, O, 5 SECONDS))
-		attach_victim(O,user)
+	if(do_mob(user, living_target, 5 SECONDS))
+		attach_victim(living_target, user)
 	use_lock = FALSE
 
 /// Attempt Release (Owner vs Non Owner)
@@ -503,9 +503,9 @@
 /obj/structure/bloodsucker/vassalrack/proc/remove_loyalties(mob/living/target)
 	// Find Mind Implant & Destroy
 	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
-		for(var/obj/item/implant/I in target.implants)
-			if(I.type == /obj/item/implant/mindshield)
-				I.removed(target,silent=TRUE)
+		for(var/obj/item/implant/all_implants in target.implants)
+			if(all_implants.type == /obj/item/implant/mindshield)
+				all_implants.removed(target, silent = TRUE)
 
 /obj/structure/bloodsucker/vassalrack/proc/offer_favorite_vassal(mob/living/carbon/human/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)

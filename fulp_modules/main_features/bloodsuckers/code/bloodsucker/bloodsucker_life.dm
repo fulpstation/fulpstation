@@ -183,9 +183,9 @@
 	var/obj/item/organ/heart/O = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
 	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
 		qdel(O)
-		var/obj/item/organ/heart/vampheart/H = new
-		H.Insert(owner.current)
-		H.Stop()
+		var/obj/item/organ/heart/vampheart/vampiric_heart = new
+		vampiric_heart.Insert(owner.current)
+		vampiric_heart.Stop()
 	var/obj/item/organ/eyes/user_eyes = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
 	if(user_eyes)
 		user_eyes.flash_protect = max(initial(user_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
@@ -255,12 +255,9 @@
 	*/
 	/// Temporary Death? Convert to Torpor.
 	if(owner.current.stat == DEAD)
-		var/mob/living/carbon/human/H = owner.current
-		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry to me about shit being broken.
-		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-			to_chat(H, span_warning("Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power."))
-		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
-			to_chat(H, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
+		var/mob/living/carbon/human/dead_bloodsucker = owner.current
+		if(!HAS_TRAIT(dead_bloodsucker, TRAIT_NODEATH))
+			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 			Check_Begin_Torpor(TRUE)
 
 /*

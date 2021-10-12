@@ -32,8 +32,8 @@
 /datum/dynamic_ruleset/midround/monster_hunter/execute()
 	if(!candidates || !candidates.len)
 		return FALSE
-	var/mob/living/carbon/human/H = pick_n_take(candidates)
-	H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
-	message_admins("[ADMIN_LOOKUPFLW(H)] MONSTERHUNTER NOTICE: [H] has awoken as a Monster Hunter.")
-	log_game("[key_name(H)] was made Monster Hunter by the midround ruleset.")
+	var/mob/living/carbon/human/selected_monsterhunter = pick_n_take(candidates)
+	selected_monsterhunter.mind.add_antag_datum(/datum/antagonist/monsterhunter)
+	message_admins("[ADMIN_LOOKUPFLW(selected_monsterhunter)] MONSTERHUNTER NOTICE: [selected_monsterhunter] has awoken as a Monster Hunter.")
+	log_game("[key_name(selected_monsterhunter)] was made Monster Hunter by the midround ruleset.")
 	return ..()

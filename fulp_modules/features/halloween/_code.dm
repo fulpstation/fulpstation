@@ -84,20 +84,20 @@
 
 	contains_type = get_gift_type()
 
-/obj/item/halloween_gift/attack_self(mob/M)
+/obj/item/halloween_gift/attack_self(mob/user)
 	qdel(src)
 
-	var/obj/item/I = new contains_type(get_turf(M))
-	M.visible_message(span_notice("[M] unwraps \the [src], finding \a [I] inside!"))
-	M.put_in_hands(I)
-	I.add_fingerprint(M)
+	var/obj/item/item = new contains_type(get_turf(user))
+	user.visible_message(span_notice("[M] unwraps \the [src], finding \a [item] inside!"))
+	user.put_in_hands(item)
+	item.add_fingerprint(user)
 
 /obj/item/halloween_gift/proc/get_gift_type()
 	if(!GLOB.possible_gifts.len)
 		var/list/gift_types_list = subtypesof(/obj/item/storage/box/halloween)
 		for(var/V in gift_types_list)
-			var/obj/item/I = V
-			if((!initial(I.icon_state)) || (!initial(I.inhand_icon_state)) || (initial(I.item_flags) & ABSTRACT))
+			var/obj/item/item = V
+			if((!initial(item.icon_state)) || (!initial(item.inhand_icon_state)) || (initial(item.item_flags) & ABSTRACT))
 				gift_types_list -= V
 		GLOB.possible_gifts = gift_types_list
 

@@ -21,12 +21,12 @@
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
+	var/mob/living/current_mob = mob_override || owner.current
+	add_antag_hud(antag_hud_type, antag_hud_name, current_mob)
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
+	var/mob/living/current_mob = mob_override || owner.current
+	remove_antag_hud(antag_hud_type, current_mob)
 
 /datum/antagonist/monsterhunter/on_gain()
 	/// Buffs Monster Hunters
@@ -46,14 +46,6 @@
 		steal_objective.owner = owner
 		steal_objective.find_target()
 		objectives += steal_objective
-/*		//If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
-		/// Give Assassinate objective
-		var/sec_members = SSjob.get_all_sec()
-		for(var/datum/mind/M in sec_members)
-			var/datum/objective/assassinate/kill_objective = new()
-			kill_objective.owner = owner
-			kill_objective.find_target()
-			objectives += kill_objective */
 
 	/// Give Martial Arts
 	my_kungfu.teach(owner.current, 0)

@@ -198,16 +198,16 @@
 	desc = "A zzoft fly hoodie with big zzome big fly eyezz. Buzzin'"
 	icon_state = "onesie_fly_hood"
 
-/obj/item/clothing/head/hooded/onesie/fly/equipped(mob/M, slot)
+/obj/item/clothing/head/hooded/onesie/fly/equipped(mob/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_HEAD)
-		RegisterSignal(M, COMSIG_MOB_SAY, .proc/handle_speech)
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
-		UnregisterSignal(M, COMSIG_MOB_SAY)
+		UnregisterSignal(user, COMSIG_MOB_SAY)
 
-/obj/item/clothing/head/hooded/onesie/fly/dropped(mob/M)
+/obj/item/clothing/head/hooded/onesie/fly/dropped(mob/user)
 	. = ..()
-	UnregisterSignal(M, COMSIG_MOB_SAY)
+	UnregisterSignal(user, COMSIG_MOB_SAY)
 
 /obj/item/clothing/head/hooded/onesie/fly/proc/handle_speech(datum/source, mob/speech_args)
 	SIGNAL_HANDLER
@@ -232,15 +232,15 @@
 	desc = "This hoodie was made from a rather tough fabric. Don't poke your eyes out on the horns."
 	icon_state = "onesie_lizard_hood"
 
-/obj/item/clothing/head/hooded/onesie/lizard/equipped(mob/M, slot)
+/obj/item/clothing/head/hooded/onesie/lizard/equipped(mob/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_HEAD)
-		RegisterSignal(M, COMSIG_MOB_SAY, .proc/handle_speech)
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
-		UnregisterSignal(M, COMSIG_MOB_SAY)
+		UnregisterSignal(user, COMSIG_MOB_SAY)
 
-/obj/item/clothing/head/hooded/onesie/lizard/dropped(mob/M)
-	UnregisterSignal(M, COMSIG_MOB_SAY)
+/obj/item/clothing/head/hooded/onesie/lizard/dropped(mob/user)
+	UnregisterSignal(user, COMSIG_MOB_SAY)
 	return ..()
 
 /obj/item/clothing/head/hooded/onesie/lizard/proc/handle_speech(datum/source, mob/speech_args)

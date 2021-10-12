@@ -43,8 +43,8 @@
 			to_chat(owner, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
-	var/mob/living/carbon/L = owner
-	if(istype(L) && (L.is_eyes_covered() && level_current <= 2) || !isturf(L.loc))
+	var/mob/living/carbon/user = owner
+	if(istype(user) && (user.is_eyes_covered() && level_current <= 2) || !isturf(user.loc))
 		if(display_error)
 			owner.balloon_alert(owner, "your eyes are concealed from sight.")
 		return FALSE
