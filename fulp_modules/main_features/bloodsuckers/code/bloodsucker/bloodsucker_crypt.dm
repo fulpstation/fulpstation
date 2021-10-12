@@ -263,7 +263,6 @@
 	)
 
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
-	//M.forceMove(drop_location()) <--- CANT DO! This cancels the buckle_mob() we JUST did (even if we foced the move)
 	density = TRUE
 	update_icon()
 
@@ -273,37 +272,34 @@
 	disloyalty_offered = FALSE
 
 /// Attempt Unbuckle
-/obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/M, mob/user)
-	if(!IS_BLOODSUCKER(user))
-		if(M == user)
-			M.visible_message(
+/obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/buckled_mob, mob/user)
+	if(!IS_BLOODSUCKER(user) || !IS_VASSAL(user))
+		if(buckled_mob == user)
+			buckled_mob.visible_message(
 				span_danger("[user] tries to release themself from the rack!"),
 				span_danger("You attempt to release yourself from the rack!"),
 				span_hear("You hear a squishy wet noise."),
 			)
 		else
-			M.visible_message(
-				span_danger("[user] tries to pull [M] rack!"),
-				span_danger("[user] tries to pull [M] rack!"),
+			buckled_mob.visible_message(
+				span_danger("[user] tries to pull [buckled_mob] rack!"),
+				span_danger("[user] tries to pull [buckled_mob] rack!"),
 				span_hear("You hear a squishy wet noise."),
 			)
-		// Monster hunters are used to this sort of stuff, they know how they work.
-		if(IS_MONSTERHUNTER(user))
-			if(!do_mob(user, M, 10 SECONDS))
-				return
-		else
-			if(!do_mob(user, M, 25 SECONDS))
-				return
-	..()
+		// Monster hunters are used to this sort of stuff, they know how they work, which includes breaking others out
+		var/breakout_timer = IS_MONSTERHUNTER(user) ? 20 SECONDS : 10 SECONDS
+		if(!do_mob(user, buckled_mob, breakout_timer))
+			return
 	unbuckle_mob(M)
+	. = ..()
 
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	. = ..()
 	if(!.)
 		return
-	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack."))
+	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat == DEAD ? "'s corpse" : ""] slides off of the rack."))
 	density = FALSE
-	buckled_mob.AdjustParalyzed(3 SECONDS)
+	buckled_mob.Paralyze(3 SECONDS)
 	update_icon()
 	useLock = FALSE // Failsafe
 
