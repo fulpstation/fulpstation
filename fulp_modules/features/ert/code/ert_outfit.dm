@@ -138,17 +138,17 @@
 		)
 	glasses = /obj/item/clothing/glasses/night
 
-/datum/outfit/centcom/ert/clown/honk/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE) // Just to make sure
-	..()
+/datum/outfit/centcom/ert/clown/honk/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE) // Just to make sure
+	. = ..()
 	if(visualsOnly)
 		return
-	var/obj/item/radio/R = H.ears
-	R.keyslot = new /obj/item/encryptionkey/headset_service
-	R.recalculateChannels()
+	var/obj/item/radio/equipped_radio = user.ears
+	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
+	equipped_radio.recalculateChannels()
 	ADD_TRAIT(H, TRAIT_NAIVE, INNATE_TRAIT)
-	H.dna.add_mutation(CLOWNMUT)
-	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
-		M.mutadone_proof = TRUE
+	user.dna.add_mutation(CLOWNMUT)
+	for(var/datum/mutation/human/clumsy/clumsy_mutation in user.dna.mutations)
+		clumsy_mutation.mutadone_proof = TRUE
 
 /datum/outfit/centcom/ert/clown/commander
 	name = "ERT Commander - Clown"
@@ -164,15 +164,15 @@
 	shoes = /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat
 	l_hand = /obj/item/pneumatic_cannon/pie/selfcharge
 
-/datum/outfit/centcom/ert/clown/commander/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE) // Same here
-	..()
+/datum/outfit/centcom/ert/clown/commander/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE) // Same here
+	. = ..()
 	if(visualsOnly)
 		return
-	var/obj/item/radio/R = H.ears
-	R.keyslot = new /obj/item/encryptionkey/headset_service
-	R.recalculateChannels()
+	var/obj/item/radio/equipped_radio = user.ears
+	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
+	equipped_radio.recalculateChannels()
 	ADD_TRAIT(H, TRAIT_NAIVE, INNATE_TRAIT)
-	H.dna.add_mutation(CLOWNMUT)
-	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
-		M.mutadone_proof = TRUE
+	user.dna.add_mutation(CLOWNMUT)
+	for(var/datum/mutation/human/clumsy/clumsy_mutation in user.dna.mutations)
+		clumsy_mutation.mutadone_proof = TRUE
 

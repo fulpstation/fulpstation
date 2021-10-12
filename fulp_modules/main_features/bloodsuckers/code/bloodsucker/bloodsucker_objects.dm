@@ -147,11 +147,11 @@
 
 /// Do I have a stake in my heart?
 /mob/living/AmStaked()
-	var/obj/item/bodypart/BP = get_bodypart(BODY_ZONE_CHEST)
-	if(!BP)
+	var/obj/item/bodypart/chosen_bodypart = get_bodypart(BODY_ZONE_CHEST)
+	if(!chosen_bodypart)
 		return FALSE
-	for(var/obj/item/I in BP.embedded_objects)
-		if(istype(I,/obj/item/stake))
+	for(var/obj/item/embedded_stake in chosen_bodypart.embedded_objects)
+		if(istype(embedded_stake, /obj/item/stake))
 			return TRUE
 	return FALSE
 

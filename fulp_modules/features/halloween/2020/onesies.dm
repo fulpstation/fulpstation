@@ -68,17 +68,17 @@
 		RemoveHood()
 		return
 	if(ishuman(src.loc))
-		var/mob/living/carbon/human/H = src.loc
-		if(H.wear_suit != src)
-			to_chat(H, span_warning("You must be wearing [src] to put up the hood!"))
+		var/mob/living/carbon/human/user = src.loc
+		if(user.wear_suit != src)
+			to_chat(user, span_warning("You must be wearing [src] to put up the hood!"))
 			return
-		if(H.head)
-			to_chat(H, span_warning("You're already wearing something on your head!"))
+		if(user.head)
+			to_chat(user, span_warning("You're already wearing something on your head!"))
 			return
-		else if(H.equip_to_slot_if_possible(hood, ITEM_SLOT_HEAD,0,0,1))
+		else if(user.equip_to_slot_if_possible(hood, ITEM_SLOT_HEAD,0,0,1))
 			suittoggled = TRUE
 			src.icon_state = "[initial(icon_state)]"
-			H.update_inv_wear_suit()
+			user.update_inv_wear_suit()
 			for(var/all_selections in actions)
 				var/datum/action/onesie_options = all_selections
 				onesie_options.UpdateButtonIcon()

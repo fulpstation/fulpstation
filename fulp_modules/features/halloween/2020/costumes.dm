@@ -364,8 +364,8 @@
 	if(!armed)
 		return
 	if(ishuman(target))
-		var/mob/living/carbon/human/H = target
-		H.Knockdown(30)
+		var/mob/living/carbon/human/victim = target
+		victim.Knockdown(30)
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "gnomed", /datum/mood_event/gnomed)
 	playsound(src, 'fulp_modules/features/halloween/sounds/gnomed.ogg', 50, TRUE)
 	armed = FALSE

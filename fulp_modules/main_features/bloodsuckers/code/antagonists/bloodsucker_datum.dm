@@ -203,11 +203,11 @@
 
 /datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
 	if(!team)
-		for(var/datum/antagonist/bloodsucker/H in GLOB.antagonists)
-			if(!H.owner)
+		for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
+			if(!bloodsuckerdatums.owner)
 				continue
-			if(H.clan)
-				clan = H.clan
+			if(bloodsuckerdatums.clan)
+				clan = bloodsuckerdatums.clan
 				return
 		clan = new /datum/team/vampireclan
 		return
@@ -302,12 +302,13 @@
 		BuyPower(new /datum/action/bloodsucker/veil)
 	add_verb(owner.current, /mob/living/proc/explain_powers)
 	// Traits: Species
-	if(iscarbon(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		var/datum/species/S = H.dna.species
-		S.species_traits += DRINKSBLOOD
-		// Remove mutations (In case they got it mid-round)
-		H.dna?.remove_all_mutations()
+	var/mob/living/carbon/human/user = owner.current
+	if(ishuman(owner.current))
+		var/datum/species/user_species = user.dna.species
+		user_species.species_traits += DRINKSBLOOD
+		user.dna?.remove_all_mutations()
+		user_species.punchdamagelow += 1 //lowest possible punch damage - 0
+		user_species.punchdamagehigh += 1 //highest possible punch damage - 9
 	/// Give Bloodsucker Traits
 	for(var/bloodsucker_traits in default_traits)
 		ADD_TRAIT(owner.current, bloodsucker_traits, BLOODSUCKER_TRAIT)
@@ -317,13 +318,6 @@
 	/// No Skittish "People" allowed
 	if(HAS_TRAIT(owner.current, TRAIT_SKITTISH))
 		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
-	/// Stats
-	if(ishuman(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		var/datum/species/S = H.dna.species
-		/// Make Changes
-		S.punchdamagelow += 1 //lowest possible punch damage   0
-		S.punchdamagehigh += 1 //highest possible punch damage	 9
 	// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
@@ -342,12 +336,12 @@
 		// owner.RemoveSpell(power)
 	/// Stats
 	if(ishuman(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		var/datum/species/S = H.dna.species
-		S.species_traits -= DRINKSBLOOD
+		var/mob/living/carbon/human/user = owner.current
+		var/datum/species/user_species = user.dna.species
+		user_species.species_traits -= DRINKSBLOOD
 		// Clown
-		if(istype(H) && owner.assigned_role == "Clown")
-			H.dna.add_mutation(CLOWNMUT)
+		if(istype(user) && owner.assigned_role == "Clown")
+			user.dna.add_mutation(CLOWNMUT)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source. - This is because of unique cases like Nosferatu getting Ventcrawling.
 	for(var/T in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
@@ -360,12 +354,12 @@
 	RemoveVampOrgans()
 	/// Eyes
 	var/mob/living/carbon/user = owner.current
-	var/obj/item/organ/eyes/E = user.getorganslot(ORGAN_SLOT_EYES)
-	if(E)
-		E.flash_protect += 1
-		E.sight_flags = 0
-		E.see_in_dark = 2
-		E.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+	var/obj/item/organ/eyes/user_eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	if(user_eyes)
+		user_eyes.flash_protect += 1
+		user_eyes.sight_flags = 0
+		user_eyes.see_in_dark = 2
+		user_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
 	user.update_sight()
 
 /datum/antagonist/bloodsucker/proc/RankUp()
@@ -479,11 +473,11 @@
 	max_blood_volume += 100
 	/// Misc. Stats Upgrades
 	if(ishuman(owner.current))
-		var/mob/living/carbon/human/H = owner.current
-		var/datum/species/S = H.dna.species
-		S.punchdamagelow += 0.5
+		var/mob/living/carbon/human/user = owner.current
+		var/datum/species/user_species = user.dna.species
+		user_species.punchdamagelow += 0.5
 		/// This affects the hitting power of Brawn.
-		S.punchdamagehigh += 0.5
+		user_species.punchdamagehigh += 0.5
 	owner.current.setMaxHealth(owner.current.maxHealth + 5) // Why is this a thing...
 
 	/// We're almost done - Spend your Rank now.

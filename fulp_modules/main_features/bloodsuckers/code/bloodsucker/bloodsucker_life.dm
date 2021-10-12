@@ -186,12 +186,12 @@
 		var/obj/item/organ/heart/vampheart/H = new
 		H.Insert(owner.current)
 		H.Stop()
-	var/obj/item/organ/eyes/E = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
-	if(E)
-		E.flash_protect = max(initial(E.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
-		E.sight_flags = SEE_MOBS
-		E.see_in_dark = 8
-		E.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	var/obj/item/organ/eyes/user_eyes = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
+	if(user_eyes)
+		user_eyes.flash_protect = max(initial(user_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
+		user_eyes.sight_flags = SEE_MOBS
+		user_eyes.see_in_dark = 8
+		user_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	bloodsuckeruser.update_sight()
 
 	// Step 3

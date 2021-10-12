@@ -600,12 +600,12 @@
 /obj/structure/bloodsucker/candelabrum/process()
 	if(!lit)
 		return
-	for(var/mob/living/carbon/H in viewers(7, src))
+	for(var/mob/living/carbon/nearly_people in viewers(7, src))
 		/// We dont want Bloodsuckers or Vassals affected by this
-		if(IS_VASSAL(H) || IS_BLOODSUCKER(H))
+		if(IS_VASSAL(nearly_people) || IS_BLOODSUCKER(nearly_people))
 			continue
-		H.hallucination += 5
-		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+		nearly_people.hallucination += 5
+		SEND_SIGNAL(nearly_people, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
 
 /*
  *	# Candelabrum Ventrue Stuff
