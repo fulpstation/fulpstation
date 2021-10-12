@@ -252,18 +252,18 @@
 			user_unbuckle_mob(buckled_carbons, user)
 
 /// Attempt Buckle
-/obj/structure/bloodsucker/vassalrack/proc/attach_victim(mob/living/M, mob/living/user)
+/obj/structure/bloodsucker/vassalrack/proc/attach_victim(mob/living/target, mob/living/user)
 	// Standard Buckle Check
-	M.forceMove(get_turf(src))
-	if(!buckle_mob(M))
+	target.forceMove(get_turf(src))
+	if(!buckle_mob(target))
 		return
 	user.visible_message(
-		span_notice("[user] straps [M] into the rack, immobilizing them."),
-		span_boldnotice("You secure [M] tightly in place. They won't escape you now."),
+		span_notice("[user] straps [target] into the rack, immobilizing them."),
+		span_boldnotice("You secure [target] tightly in place. They won't escape you now."),
 	)
 
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
-	//M.forceMove(drop_location()) <--- CANT DO! This cancels the buckle_mob() we JUST did (even if we foced the move)
+//	target.forceMove(drop_location()) <--- CANT DO! This cancels the buckle_mob() we JUST did (even if we foced the move)
 	density = TRUE
 	update_icon()
 
@@ -273,35 +273,35 @@
 	disloyalty_offered = FALSE
 
 /// Attempt Unbuckle
-/obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/M, mob/user)
+/obj/structure/bloodsucker/vassalrack/user_unbuckle_mob(mob/living/target, mob/user)
 	if(!IS_BLOODSUCKER(user))
-		if(M == user)
-			M.visible_message(
+		if(target == user)
+			target.visible_message(
 				span_danger("[user] tries to release themself from the rack!"),
 				span_danger("You attempt to release yourself from the rack!"),
 				span_hear("You hear a squishy wet noise."),
 			)
 		else
-			M.visible_message(
-				span_danger("[user] tries to pull [M] rack!"),
-				span_danger("[user] tries to pull [M] rack!"),
+			target.visible_message(
+				span_danger("[user] tries to pull [target] rack!"),
+				span_danger("[user] tries to pull [target] rack!"),
 				span_hear("You hear a squishy wet noise."),
 			)
 		// Monster hunters are used to this sort of stuff, they know how they work.
 		if(IS_MONSTERHUNTER(user))
-			if(!do_mob(user, M, 10 SECONDS))
+			if(!do_mob(user, target, 10 SECONDS))
 				return
 		else
-			if(!do_mob(user, M, 25 SECONDS))
+			if(!do_mob(user, target, 25 SECONDS))
 				return
-	..()
-	unbuckle_mob(M)
+	. = ..()
+	unbuckle_mob(target)
 
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	. = ..()
 	if(!.)
 		return
-	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the rack."))
+	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat == DEAD ? "'s corpse" : ""] slides off of the rack."))
 	density = FALSE
 	buckled_mob.AdjustParalyzed(3 SECONDS)
 	update_icon()
@@ -683,16 +683,16 @@
 	if(do_mob(user, target, 5 SECONDS))
 		attach_mob(target, user)
 
-/obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/M, mob/living/user)
+/obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/target, mob/living/user)
 	user.visible_message(
-		span_notice("[user] lifts and buckles [M] onto the candelabrum."),
-		span_boldnotice("You buckle [M] onto the candelabrum."),
+		span_notice("[user] lifts and buckles [target] onto the candelabrum."),
+		span_boldnotice("You buckle [target] onto the candelabrum."),
 	)
 
 	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
-	M.forceMove(get_turf(src))
+	target.forceMove(get_turf(src))
 
-	if(!buckle_mob(M))
+	if(!buckle_mob(target))
 		return
 	update_icon()
 
@@ -779,10 +779,10 @@
 		user.apply_damage(10, BRUTE)
 		unbuckle_mob(user)
 
-/obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/M)
+/obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
 	update_armrest()
-	M.pixel_y += 6
+	target.pixel_y += 6
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
@@ -791,8 +791,8 @@
 		UnregisterSignal(user, COMSIG_MOB_SAY)
 	. = ..()
 
-/obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/M)
-	M.pixel_y -= 6
+/obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/target)
+	target.pixel_y -= 6
 
 // The speech itself
 /obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)

@@ -94,23 +94,23 @@
 /datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
 	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
 		return FALSE
-	var/mob/M = owner.pulledby
-	var/pull_power = M.grab_state
-	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
+	var/mob/pulled_mob = owner.pulledby
+	var/pull_power = pulled_mob.grab_state
+	playsound(get_turf(pulled_mob), 'sound/effects/woodhit.ogg', 75, 1, -1)
 	// Knock Down (if Living)
-	if(isliving(M))
-		var/mob/living/hit_target = M
+	if(isliving(pulled_mob))
+		var/mob/living/hit_target = pulled_mob
 		hit_target.Knockdown(pull_power * 10 + 20)
 	// Knock Back (before Knockdown, which probably cancels pull)
-	var/send_dir = get_dir(owner, M)
-	var/turf/T = get_ranged_target_turf(M, send_dir, pull_power)
+	var/send_dir = get_dir(owner, pulled_mob)
+	var/turf/T = get_ranged_target_turf(pulled_mob, send_dir, pull_power)
 	owner.newtonian_move(send_dir) // Bounce back in 0 G
-	M.throw_at(T, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
+	pulled_mob.throw_at(T, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
-	log_combat(owner, M, "used Brawn power")
+	log_combat(owner, pulled_mob, "used Brawn power")
 	owner.visible_message(
-		span_warning("[owner] tears free of [M]'s grasp!"),
-		span_warning("You shrug off [M]'s grasp!"),
+		span_warning("[owner] tears free of [pulled_mob]'s grasp!"),
+		span_warning("You shrug off [pulled_mob]'s grasp!"),
 	)
 	owner.pulledby = null // It's already done, but JUST IN CASE.
 	return TRUE

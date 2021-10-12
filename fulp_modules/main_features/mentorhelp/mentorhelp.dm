@@ -36,7 +36,7 @@
 	return
 
 /proc/key_name_mentor(whom, include_link = null, include_name = TRUE, include_follow = TRUE, char_name_only = TRUE)
-	var/mob/M
+	var/mob/user
 	var/client/chosen_client
 	var/key
 	var/ckey
@@ -46,20 +46,20 @@
 
 	if(istype(whom, /client))
 		chosen_client = whom
-		M = chosen_client.mob
+		user = chosen_client.mob
 		key = chosen_client.key
 		ckey = chosen_client.ckey
 	else if(ismob(whom))
-		M = whom
-		chosen_client = M.client
-		key = M.key
-		ckey = M.ckey
+		user = whom
+		chosen_client = user.client
+		key = user.key
+		ckey = user.ckey
 	else if(istext(whom))
 		key = whom
 		ckey = ckey(whom)
 		chosen_client = GLOB.directory[ckey]
 		if(chosen_client)
-			M = chosen_client.mob
+			user = chosen_client.mob
 	else
 		return "*invalid*"
 
@@ -85,6 +85,6 @@
 		. += "*no key*"
 
 	if(include_follow)
-		. += " (<a href='?_src_=mentor;mentor_follow=[REF(M)];[MentorHrefToken(TRUE)]'>F</a>)"
+		. += " (<a href='?_src_=mentor;mentor_follow=[REF(user)];[MentorHrefToken(TRUE)]'>F</a>)"
 
 	return .

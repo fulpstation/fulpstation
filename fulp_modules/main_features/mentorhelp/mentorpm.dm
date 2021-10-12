@@ -18,8 +18,8 @@
 /client/proc/cmd_mentor_pm(whom, msg)
 	var/client/chosen_client
 	if(ismob(whom))
-		var/mob/M = whom
-		chosen_client = M.client
+		var/mob/potential_mobs = whom
+		chosen_client = potential_mobs.client
 	else if(istext(whom))
 		chosen_client = GLOB.directory[whom]
 	else if(istype(whom,/client))

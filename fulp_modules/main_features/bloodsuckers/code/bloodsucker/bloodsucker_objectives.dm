@@ -367,8 +367,8 @@
 			monsters += players
 		if(players?.mind?.has_antag_datum(/datum/antagonist/wizard/apprentice))
 			monsters += players
-	for(var/datum/mind/M in monsters)
-		if(M && M != owner && M.current.stat != DEAD)
+	for(var/datum/mind/monster_minds in monsters)
+		if(monster_minds && monster_minds != owner && monster_minds.current.stat != DEAD)
 			return FALSE
 	return TRUE
 

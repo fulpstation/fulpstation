@@ -64,10 +64,10 @@
 	var/turf/T = get_turf(user)
 	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
 		// B) Check for Viewers
-		for(var/mob/living/M in viewers(world.view, get_turf(owner)) - owner)
-			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind)
+		for(var/mob/living/watchers in viewers(world.view, get_turf(owner)) - owner)
+			if(watchers.client && !watchers.has_unlimited_silicon_privilege && !watchers.eye_blind)
 				am_seen = TRUE
-				if(!IS_BLOODSUCKER(M) && !IS_VASSAL(M))
+				if(!IS_BLOODSUCKER(watchers) && !IS_VASSAL(watchers))
 					drop_item = TRUE
 					break
 	/// LOSE CUFFS

@@ -126,9 +126,9 @@
 	// Find Targets
 	var/list/mob/living/seen_targets = view(1, owner)
 	var/list/mob/living/seen_mobs = list()
-	for(var/mob/living/M in seen_targets)
-		if(isliving(M) && M != owner)
-			seen_mobs += M
+	for(var/mob/living/watchers in seen_targets)
+		if(isliving(watchers) && watchers != owner)
+			seen_mobs += watchers
 	// None Seen!
 	if(seen_mobs.len == 0)
 		if(display_error)
@@ -137,14 +137,14 @@
 	// Check Valids...
 	var/list/targets_valid = list()
 	var/list/targets_dead = list()
-	for(var/mob/living/M in seen_mobs)
+	for(var/mob/living/watchers in seen_mobs)
 		// Check adjecent Valid target
-		if(M != owner && ValidateTarget(M, display_error = FALSE)) // Do NOT display errors. We'll be doing this again in CheckCanUse(), which will rule out grabbed targets.
+		if(watchers != owner && ValidateTarget(watchers, display_error = FALSE)) // Do NOT display errors. We'll be doing this again in CheckCanUse(), which will rule out grabbed targets.
 			// Prioritize living, but remember dead as backup
-			if(M.stat < DEAD)
-				targets_valid += M
+			if(watchers.stat < DEAD)
+				targets_valid += watchers
 			else
-				targets_dead += M
+				targets_dead += watchers
 	// No Living? Try dead.
 	if(targets_valid.len == 0 && targets_dead.len > 0)
 		targets_valid = targets_dead
@@ -157,12 +157,12 @@
 		else
 			ValidateTarget(seen_mobs[1], display_error)
 		return FALSE
-	//BLOODSUCKER_TRAIT Too Many Targets
-	// else if (targets.len > 1)
-	//	if (display_error)
-	//		to_chat(owner, span_warning("You are adjecent to too many witnesses. Either grab your victim or move away."))
-	//	return FALSE
-	// One Target!
+	// BLOODSUCKER_TRAIT - Too many targets!
+//	else if(targets.len > 1)
+//		if(display_error)
+//			to_chat(owner, span_warning("You are adjecent to too many witnesses. Either grab your victim or move away."))
+//	return FALSE
+	//One Target!
 	else
 		feed_target = pick(targets_valid)//targets[1]
 		return TRUE
@@ -231,17 +231,17 @@
 			vision_distance = notice_range, ignored_mobs = feed_target) // Only people who AREN'T the target will notice this action.
 
 	// Check if we have anyone watching - If there is one, we broke the Masquerade.
-	for(var/mob/living/M in viewers(notice_range, owner) - owner - feed_target)
+	for(var/mob/living/watchers in viewers(notice_range, owner) - owner - feed_target)
 		// Are they someone who will actually report our behavior?
 		if( \
-			M.client \
-			&& !M.has_unlimited_silicon_privilege \
-			&& M.stat != DEAD \
-			&& M.eye_blind == 0 \
-			&& M.eye_blurry == 0 \
-			&& !IS_BLOODSUCKER(M) \
-			&& !IS_VASSAL(M) \
-			&& !HAS_TRAIT(M, TRAIT_BLOODSUCKER_HUNTER) \
+			watchers.client \
+			&& !watchers.has_unlimited_silicon_privilege \
+			&& watchers.stat != DEAD \
+			&& watchers.eye_blind == 0 \
+			&& watchers.eye_blurry == 0 \
+			&& !IS_BLOODSUCKER(watchers) \
+			&& !IS_VASSAL(watchers) \
+			&& !HAS_TRAIT(watchers, TRAIT_BLOODSUCKER_HUNTER) \
 		)
 			was_noticed = TRUE
 			break

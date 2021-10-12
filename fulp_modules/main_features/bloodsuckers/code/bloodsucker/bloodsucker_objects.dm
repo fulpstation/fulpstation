@@ -3,17 +3,17 @@
 //////////////////////
 
 /// Taken from drinks.dm
-/obj/item/reagent_containers/blood/attack(mob/M, mob/user, def_zone)
+/obj/item/reagent_containers/blood/attack(mob/user, mob/user, def_zone)
 	if(reagents.total_volume > 0)
-		if(user != M)
+		if(user != user)
 			user.visible_message(
-				span_notice("[user] forces [M] to drink from the [src]."),
-				span_notice("You put the [src] up to [M]'s mouth."),
+				span_notice("[user] forces [user] to drink from the [src]."),
+				span_notice("You put the [src] up to [user]'s mouth."),
 			)
-			if(!do_mob(user, M, 5 SECONDS))
+			if(!do_mob(user, user, 5 SECONDS))
 				return
 		else
-			if(!do_mob(user, M, 1 SECONDS))
+			if(!do_mob(user, user, 1 SECONDS))
 				return
 			user.visible_message(
 				span_notice("[user] puts the [src] up to their mouth."),
@@ -23,9 +23,9 @@
 		if(reagents.total_volume <= 0)
 			return
 		var/gulp_size = 5
-		reagents.trans_to(M, gulp_size, transfered_by = user, methods = INGEST)
-		playsound(M.loc, 'sound/items/drink.ogg', rand(10,50), 1)
-	..()
+		reagents.trans_to(user, gulp_size, transfered_by = user, methods = INGEST)
+		playsound(user.loc, 'sound/items/drink.ogg', rand(10,50), 1)
+	. = ..()
 
 //////////////////////
 //      HEART       //
@@ -131,12 +131,12 @@
 			span_notice("You finish carving a stake out of [src]."),
 		)
 		// Prepare to Put in Hands (if holding wood)
-		var/obj/item/stack/sheet/mineral/wood/N = src
-		var/replace = (user.get_inactive_held_item() == N)
+		var/obj/item/stack/sheet/mineral/wood/wood_stack = src
+		var/replace = (user.get_inactive_held_item() == wood_stack)
 		// Use Wood
-		N.use(1)
+		wood_stack.use(1)
 		// If stack depleted, put item in that hand (if it had one)
-		if(!N && replace)
+		if(!wood_stack && replace)
 			user.put_in_hands(new_item)
 	if(istype(W, merge_type))
 		var/obj/item/stack/S = W
@@ -299,7 +299,7 @@
 /*
  *	# Attacking someone with the Book
  */
-// M is the person being hit here
+// target is the person being hit here
 /obj/item/book/kindred/afterattack(mob/living/target, mob/living/user, flag, params)
 	. = ..()
 	if(!user.can_read(src))
