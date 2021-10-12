@@ -88,7 +88,7 @@
 	qdel(src)
 
 	var/obj/item/item = new contains_type(get_turf(user))
-	user.visible_message(span_notice("[M] unwraps \the [src], finding \a [item] inside!"))
+	user.visible_message(span_notice("[user] unwraps \the [src], finding \a [item] inside!"))
 	user.put_in_hands(item)
 	item.add_fingerprint(user)
 

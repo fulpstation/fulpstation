@@ -201,7 +201,7 @@
 	var/channel
 
 	if(!deputy_department || deputy_department == DEPARTMENT_SECURITY)
-		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
+		to_chat(user, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 		return
 	switch(deputy_department)
 		if(DEPARTMENT_ENGINEERING)
