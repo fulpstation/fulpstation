@@ -50,19 +50,19 @@
 		if(bloodsucker_level_unspent <= 0)
 			return FALSE
 
-		var/datum/action/bloodsucker/targeted/tremere/P = options[choice]
-		if(P.upgraded_power)
-			BuyPower(new P.upgraded_power)
-			if(P.active)
-				P.DeactivatePower()
-			powers -= P
-			P.Remove(user)
-			user.balloon_alert(user, "upgraded [P]!")
-			to_chat(user, span_notice("You have upgraded [P]!"))
+		var/datum/action/bloodsucker/targeted/tremere/selected_power = options[choice]
+		if(selected_power.upgraded_power)
+			BuyPower(new selected_power.upgraded_power)
+			if(selected_power.active)
+				selected_power.DeactivatePower()
+			powers -= selected_power
+			selected_power.Remove(user)
+			user.balloon_alert(user, "upgraded [selected_power]!")
+			to_chat(user, span_notice("You have upgraded [selected_power]!"))
 			return TRUE
 		else
-			user.balloon_alert(user, "cannot upgrade [P]!")
-			to_chat(user, span_notice("[P] is already at max level!"))
+			user.balloon_alert(user, "cannot upgrade [selected_power]!")
+			to_chat(user, span_notice("[selected_power] is already at max level!"))
 	return FALSE
 
 

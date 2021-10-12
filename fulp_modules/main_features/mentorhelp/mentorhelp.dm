@@ -20,9 +20,9 @@
 	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
 	/// Send the Mhelp to all Mentors/Admins
-	for(var/client/X in GLOB.mentors | GLOB.admins)
-		X << 'sound/items/bikehorn.ogg'
-		to_chat(X,
+	for(var/client/honked_clients in GLOB.mentors | GLOB.admins)
+		honked_clients << 'sound/items/bikehorn.ogg'
+		to_chat(honked_clients,
 			type = MESSAGE_TYPE_MODCHAT,
 			html = mentor_msg,
 			confidential = TRUE)

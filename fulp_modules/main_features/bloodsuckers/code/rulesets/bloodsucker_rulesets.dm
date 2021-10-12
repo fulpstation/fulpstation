@@ -189,9 +189,9 @@
 			to_chat(creator, span_danger("[target] isn't self-aware enough to be made into a Vassal."))
 		return FALSE
 	// Already MY Vassal
-	var/datum/antagonist/vassal/V = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(istype(V) && V.master)
-		if(V.master.owner == creator)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(istype(vassaldatum) && vassaldatum.master)
+		if(vassaldatum.master.owner == creator)
 			if(display_warning)
 				to_chat(creator, span_danger("[target] is already your loyal Vassal!"))
 		else

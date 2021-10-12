@@ -78,11 +78,11 @@
 	update_vassal_icons_removed(owner)
 	return ..()
 
-/datum/antagonist/vassal/proc/add_objective(datum/objective/O)
-	objectives += O
+/datum/antagonist/vassal/proc/add_objective(datum/objective/added_objective)
+	objectives += added_objective
 
-/datum/antagonist/vassal/proc/remove_objectives(datum/objective/O)
-	objectives -= O
+/datum/antagonist/vassal/proc/remove_objectives(datum/objective/removed_objective)
+	objectives -= removed_objective
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a bloodsucking vampire!"))

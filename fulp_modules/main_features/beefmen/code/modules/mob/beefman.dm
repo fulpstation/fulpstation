@@ -579,8 +579,8 @@
 		var/obj/item/food/meat/slab/newMeat = new myMeatType(src.loc)// /obj/item/food/meat/slab(src.loc)
 
 		// Adjust Reagents by Health Percent
-		for(var/datum/reagent/R in newMeat.reagents.reagent_list)
-			R.volume *= percentHealth
+		for(var/datum/reagent/reagents in newMeat.reagents.reagent_list)
+			reagents.volume *= percentHealth
 		newMeat.reagents.update_total()
 
 		// Apply my Reagents to Meat

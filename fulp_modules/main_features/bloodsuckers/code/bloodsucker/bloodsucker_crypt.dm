@@ -98,9 +98,9 @@
 	to_chat(user, span_danger("You have unsecured [src]."))
 	owner = null
 
-/obj/structure/bloodsucker/attackby(obj/item/P, mob/living/user, params)
+/obj/structure/bloodsucker/attackby(obj/item/item, mob/living/user, params)
 	/// If a Bloodsucker tries to wrench it in place, yell at them.
-	if(P.tool_behaviour == TOOL_WRENCH && !anchored && IS_BLOODSUCKER(user))
+	if(item.tool_behaviour == TOOL_WRENCH && !anchored && IS_BLOODSUCKER(user))
 		user.playsound_local(null, 'sound/machines/buzz-sigh.ogg', 40, FALSE, pressure_affected = FALSE)
 		to_chat(user, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!"))
 		return
@@ -216,14 +216,14 @@
 	density = TRUE
 	anchored = FALSE
 
-/obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/O, mob/user)
-	var/mob/living/living_target = O
+/obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/movable_atom, mob/user)
+	var/mob/living/living_target = movable_atom
 	if(!anchored && IS_BLOODSUCKER(user))
 		to_chat(user, span_danger("Until this rack is secured in place, it cannot serve its purpose."))
 		to_chat(user, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!"))
 		return
 	// Default checks
-	if(!isliving(O) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || use_lock || has_buckled_mobs() || user.incapacitated() || living_target.buckled)
+	if(!isliving(movable_atom) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || use_lock || has_buckled_mobs() || user.incapacitated() || living_target.buckled)
 		return
 	// Don't buckle Silicon to it please.
 	if(issilicon(living_target))

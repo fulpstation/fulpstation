@@ -97,10 +97,10 @@
 				confidential = TRUE)
 
 	/// We don't use message_Mentors here because the sender/receiver might get it too
-	for(var/client/X in GLOB.mentors | GLOB.admins)
-		/// Check client/X is an Mentor and isn't the Sender/Recipient
-		if(X.key!=key && X.key!=chosen_client.key)
-			to_chat(X,
+	for(var/client/honked_clients in GLOB.mentors | GLOB.admins)
+		/// Check client/honked_clients is an Mentor and isn't the Sender/Recipient
+		if(honked_clients.key!=key && honked_clients.key!=chosen_client.key)
+			to_chat(honked_clients,
 				type = MESSAGE_TYPE_MODCHAT,
-				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, X, FALSE, FALSE)]-&gt;[key_name_mentor(chosen_client, X, FALSE, FALSE)]:</B> <font color = #5c00e6> [msg]</font>",
+				html = "<B><font color='green'>Mentor PM: [key_name_mentor(src, honked_clients, FALSE, FALSE)]-&gt;[key_name_mentor(chosen_client, honked_clients, FALSE, FALSE)]:</B> <font color = #5c00e6> [msg]</font>",
 				confidential = TRUE)

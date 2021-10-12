@@ -156,11 +156,11 @@
 	// Refill with Blood so they don't instantly die.
 	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
 
-/datum/antagonist/bloodsucker/proc/add_objective(datum/objective/O)
-	objectives += O
+/datum/antagonist/bloodsucker/proc/add_objective(datum/objective/added_objective)
+	objectives += added_objective
 
-/datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/O)
-	objectives -= O
+/datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/removed_objective)
+	objectives -= removed_objective
 
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
@@ -256,10 +256,10 @@
 	// Now list their vassals
 	if(vassals.len > 0)
 		report += "<span class='header'>Their Vassals were...</span>"
-		for(var/datum/antagonist/vassal/V in vassals)
-			if(V.owner)
-				var/jobname = V.owner.assigned_role ? "the [V.owner.assigned_role.title]" : ""
-				report += "<b>[V.owner.name]</b> [jobname][V.favorite_vassal == TRUE ? " and was the <b>Favorite Vassal</b>" : ""]"
+		for(var/datum/antagonist/vassal/all_vassals in vassals)
+			if(all_vassals.owner)
+				var/jobname = all_vassals.owner.assigned_role ? "the [all_vassals.owner.assigned_role.title]" : ""
+				report += "<b>[all_vassals.owner.name]</b> [jobname][all_vassals.favorite_vassal == TRUE ? " and was the <b>Favorite Vassal</b>" : ""]"
 
 	if(objectives.len == 0 || objectives_complete)
 		report += "<span class='greentext big'>The [name] was successful!</span>"

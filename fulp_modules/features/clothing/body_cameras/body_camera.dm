@@ -9,27 +9,27 @@
 		. += "It appears to have an <b>active</b> body camera attached."
 
 /// Modifying the Jumpsuit
-/obj/item/clothing/suit/armor/attackby(obj/item/W, mob/user, params)
+/obj/item/clothing/suit/armor/attackby(obj/item/item, mob/user, params)
 	. = ..()
 
 	// Using a bodycam on the jumpsuit, upgrading it
-	if(istype(W, /obj/item/bodycam_upgrade))
+	if(istype(item, /obj/item/bodycam_upgrade))
 		// Check if its already upgraded
 		if(upgraded)
-			to_chat(user, span_warning("We have already installed [W] into [src]!"))
+			to_chat(user, span_warning("We have already installed [item] into [src]!"))
 			playsound(loc, 'sound/machines/buzz-two.ogg', get_clamped_volume(), TRUE, -1)
 			return
 		upgraded = TRUE
-		to_chat(user, span_warning("You install [W] into [src]."))
+		to_chat(user, span_warning("You install [item] into [src]."))
 		playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
-		qdel(W)
+		qdel(item)
 		return
 
 	// Check: Is the Jumpsuit upgraded?
 	if(!upgraded)
 		return
 	// Upgraded, but removing it.
-	if(W.tool_behaviour == TOOL_SCREWDRIVER)
+	if(item.tool_behaviour == TOOL_SCREWDRIVER)
 		// If it isnt upgraded, it will go onto the next check, and just return.
 		if(upgraded)
 			to_chat(user, span_warning("You remove the upgrade from [src]."))
@@ -42,11 +42,11 @@
 
 	// Registering our ID
 	var/obj/item/card/id/id_card
-	if(isidcard(W))
-		id_card = W
-	else if(istype(W, /obj/item/pda))
-		var/obj/item/pda/P = W
-		id_card = P.id
+	if(isidcard(item))
+		id_card = item
+	else if(istype(item, /obj/item/pda))
+		var/obj/item/pda/worn_pda = item
+		id_card = worn_pda.id
 	if(!id_card)
 		to_chat(user, span_warning("No ID detected for body camera registration."))
 		return

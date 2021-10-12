@@ -177,12 +177,12 @@
 	bloodsuckeruser.regenerate_organs()
 
 	// Step 2 NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
-	for(var/O in bloodsuckeruser.internal_organs)
-		var/obj/item/organ/organ = O
+	for(var/all_organs in bloodsuckeruser.internal_organs)
+		var/obj/item/organ/organ = all_organs
 		organ.setOrganDamage(0)
-	var/obj/item/organ/heart/O = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
-		qdel(O)
+	var/obj/item/organ/heart/all_organs = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(all_organs, /obj/item/organ/heart/vampheart) || !istype(all_organs, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
+		qdel(all_organs)
 		var/obj/item/organ/heart/vampheart/vampiric_heart = new
 		vampiric_heart.Insert(owner.current)
 		vampiric_heart.Stop()
@@ -250,8 +250,8 @@
 	/*
 	// Disable Powers: Masquerade * NOTE * This should happen as a FLAW!
 	if(stat >= UNCONSCIOUS)
-		for(var/datum/action/bloodsucker/masquerade/P in powers)
-			P.Deactivate()
+		for(var/datum/action/bloodsucker/masquerade/masquerade_power in powers)
+			masquerade_power.Deactivate()
 	*/
 	/// Temporary Death? Convert to Torpor.
 	if(owner.current.stat == DEAD)

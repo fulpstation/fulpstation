@@ -11,8 +11,8 @@
 
 /obj/item/choice_beacon/halloween/generate_display_names()
 	var/list/halloween = list()
-	for(var/V in subtypesof(target))
-		var/obj/item/storage/box/halloween/halloween_boxes = V
+	for(var/generated_options in subtypesof(target))
+		var/obj/item/storage/box/halloween/halloween_boxes = generated_options
 		halloween[initial(halloween_boxes.theme_name)] = halloween_boxes
 	return halloween
 
@@ -95,10 +95,10 @@
 /obj/item/halloween_gift/proc/get_gift_type()
 	if(!GLOB.possible_gifts.len)
 		var/list/gift_types_list = subtypesof(/obj/item/storage/box/halloween)
-		for(var/V in gift_types_list)
-			var/obj/item/item = V
+		for(var/generated_options in gift_types_list)
+			var/obj/item/item = generated_options
 			if((!initial(item.icon_state)) || (!initial(item.inhand_icon_state)) || (initial(item.item_flags) & ABSTRACT))
-				gift_types_list -= V
+				gift_types_list -= generated_options
 		GLOB.possible_gifts = gift_types_list
 
 	var/gift_type = pick(GLOB.possible_gifts)

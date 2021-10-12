@@ -60,8 +60,8 @@
 				victim.Paralyze(160)
 				victim.flash_act(1,1)
 				if(issilicon(target))
-					var/mob/living/silicon/S = victim
-					S.emp_act(EMP_HEAVY)
+					var/mob/living/silicon/silicon_victim = victim
+					silicon_victim.emp_act(EMP_HEAVY)
 				else if(iscarbon(target))
 					var/mob/living/carbon/carbon_target = victim
 					carbon_target.silent += 6

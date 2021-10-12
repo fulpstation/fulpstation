@@ -72,11 +72,11 @@
 					break
 	/// LOSE CUFFS
 	if(user.handcuffed)
-		var/obj/O = user.handcuffed
-		user.dropItemToGround(O)
+		var/obj/handcuffs = user.handcuffed
+		user.dropItemToGround(handcuffs)
 	if(user.legcuffed)
-		var/obj/O = user.legcuffed
-		user.dropItemToGround(O)
+		var/obj/legcuffs = user.legcuffed
+		user.dropItemToGround(legcuffs)
 	/// SEEN!
 	if(drop_item)
 		// DROP: Clothes, held items, and cuffs etc

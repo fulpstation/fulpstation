@@ -107,11 +107,11 @@
 	log_admin("[key_name(user)] has removed [name] antagonist status from [key_name(owner)].")
 	on_removal()
 
-/datum/antagonist/monsterhunter/proc/add_objective(datum/objective/O)
-	objectives += O
+/datum/antagonist/monsterhunter/proc/add_objective(datum/objective/added_objective)
+	objectives += added_objective
 
-/datum/antagonist/monsterhunter/proc/remove_objectives(datum/objective/O)
-	objectives -= O
+/datum/antagonist/monsterhunter/proc/remove_objectives(datum/objective/removed_objective)
+	objectives -= removed_objective
 
 /datum/antagonist/monsterhunter/greet()
 	to_chat(owner.current, span_userdanger("After witnessing recent events on the station, we return to your old profession, we are a Monster Hunter!"))

@@ -72,8 +72,8 @@
 			continue
 
 		var/clear = TRUE
-		for(var/obj/O in T)
-			if(O.density)
+		for(var/obj/nearby_objects in T)
+			if(nearby_objects.density)
 				clear = FALSE
 				break
 		if(clear)

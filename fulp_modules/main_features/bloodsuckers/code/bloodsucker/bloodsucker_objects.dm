@@ -34,9 +34,9 @@
 /// Do I have any parts that need replacing?
 /* // Removed - Replaced with HealVampireOrgans()
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
-	var/obj/item/organ/heart/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
-		qdel(O)
+	var/obj/item/organ/heart/vampiricheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(vampiricheart, /obj/item/organ/heart/vampheart) || !istype(vampiricheart, /obj/item/organ/heart/demon) || !istype(vampiricheart, /obj/item/organ/heart/cursed))
+		qdel(vampiricheart)
 		var/obj/item/organ/heart/vampheart/vampiricheart = new
 		vampiricheart.Insert(owner.current)
 		/// Now... stop beating!
@@ -114,8 +114,8 @@
  */
 
 /// Crafting
-/obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params)
-	if(W.get_sharpness())
+/obj/item/stack/sheet/mineral/wood/attackby(obj/item/item, mob/user, params)
+	if(item.get_sharpness())
 		user.visible_message(
 			span_notice("[user] begins whittling [src] into a pointy object."),
 			span_notice("You begin whittling [src] into a sharp point at one end."),
@@ -138,10 +138,10 @@
 		// If stack depleted, put item in that hand (if it had one)
 		if(!wood_stack && replace)
 			user.put_in_hands(new_item)
-	if(istype(W, merge_type))
-		var/obj/item/stack/S = W
-		if(merge(S))
-			to_chat(user, span_notice("Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s."))
+	if(istype(item, merge_type))
+		var/obj/item/stack/merged_stack = item
+		if(merge(merged_stack))
+			to_chat(user, span_notice("Your [merged_stack.name] stack now contains [merged_stack.get_amount()] [merged_stack.singular_name]\s."))
 	else
 		. = ..()
 

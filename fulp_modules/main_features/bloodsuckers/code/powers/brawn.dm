@@ -69,13 +69,13 @@
 
 	// Remove Straightjackets
 	if(user.wear_suit?.breakouttime && !used)
-		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+		var/obj/item/clothing/suit/straightjacket = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 		user.visible_message(
-			span_warning("[user] rips straight through the [user.p_their()] [S]!"),
-			span_warning("We tear through our straightjacket!"),
+			span_warning("[user] rips straight through the [user.p_their()] [straightjacket]!"),
+			span_warning("We tear through our [straightjacket]!"),
 		)
-		if(S && user.wear_suit == S)
-			qdel(S)
+		if(straightjacket && user.wear_suit == straightjacket)
+			qdel(straightjacket)
 		used = TRUE
 
 	// Did we end up using our ability? If so, play the sound effect and return TRUE
