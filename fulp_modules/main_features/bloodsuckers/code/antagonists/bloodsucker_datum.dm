@@ -734,8 +734,8 @@
 /datum/atom_hud/antag/bloodsucker
 
 /// This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
-/datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/M, atom/A)
-	if(!check_valid_hud_user(M,A))
+/datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/user, atom/target)
+	if(!check_valid_hud_user(user, target))
 		return
 	..()
 

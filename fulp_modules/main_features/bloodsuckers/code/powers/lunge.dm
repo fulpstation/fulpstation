@@ -34,56 +34,56 @@
 	return TRUE
 
 /// Check: Are we lunging at a person?
-/datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/A)
-	return isliving(A)
+/datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
+	return isliving(target_atom)
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/A, display_error)
-	/// Default Checks (Distance)
+/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom, display_error)
+	// Default Checks (Distance)
 	. = ..()
 	if(!.)
 		return FALSE
-	/// Check: Self
-	if(target == owner)
+	// Check: Self
+	if(target_atom == owner)
 		return FALSE
 /*
 	/// Check: Range
-	if(!(target in view(target_range, get_turf(owner))))
+	if(!(target_atom in view(target_range, get_turf(owner))))
 		if(display_error)
 			to_chat(owner, span_warning("Your victim is too far away."))
 		return FALSE
 */
-	/// Check: Turf
-	var/mob/living/L = A
-	if(!isturf(L.loc))
+	// Check: Turf
+	var/mob/living/turf_target = target_atom
+	if(!isturf(turf_target.loc))
 		return FALSE
-	/// Check: can the Bloodsucker even move?
+	// Check: can the Bloodsucker even move?
 	var/mob/living/user = owner
 	if(user.body_position == LYING_DOWN || HAS_TRAIT(owner, TRAIT_IMMOBILIZED))
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
 	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/user = owner
-	var/mob/living/carbon/target = A
-	var/turf/T = get_turf(target)
+	var/mob/living/carbon/target = target_atom
+	var/turf/targeted_turf = get_turf(target)
 
 	/// Stop pulling anyone (If we are)
 	owner.pulling = null
 
-	owner.face_atom(A)
+	owner.face_atom(target_atom)
 	/// Don't move as we perform this, please.
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	/// Directly copied from haste.dm
-	var/safety = get_dist(user, T) * 3 + 1
+	var/safety = get_dist(user, targeted_turf) * 3 + 1
 	var/consequetive_failures = 0
 	while(--safety && !target.Adjacent(user))
 		/// This does not try to go around obstacles.
-		var/success = step_towards(user, T)
+		var/success = step_towards(user, targeted_turf)
 		if(!success)
 			/// This does
-			success = step_to(user, T)
+			success = step_to(user, targeted_turf)
 		if(!success)
 			consequetive_failures++
 			/// If 3 steps don't work, just stop.

@@ -44,45 +44,46 @@
 	return TRUE
 
 /// Anything will do, if it's not me or my square
-/datum/action/bloodsucker/targeted/haste/CheckValidTarget(atom/A)
-	return isturf(A) || A.loc != owner.loc
+/datum/action/bloodsucker/targeted/haste/CheckValidTarget(atom/target_atom)
+	return isturf(target_atom) || target_atom.loc != owner.loc
 
-/datum/action/bloodsucker/targeted/haste/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/haste/CheckCanTarget(atom/target_atom, display_error)
 	// DEFAULT CHECKS (Distance)
-	if (!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	// Check: Range
-	//if (!(A in view(target_range, get_turf(owner))))
+	//if (!(target_atom in view(target_range, get_turf(owner))))
 	//	return FALSE
 	return TRUE
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
-/datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/target_atom)
 	. = ..()
 	hit = list()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/on_move)
 	var/mob/living/user = owner
-	var/turf/T = isturf(A) ? A : get_turf(A)
+	var/turf/targeted_turf = isturf(target_atom) ? target_atom : get_turf(target_atom)
 	// Pulled? Not anymore.
 	user.pulledby?.stop_pulling()
 	// Go to target turf
 	// DO NOT USE WALK TO.
 	owner.balloon_alert(owner, "you dash into the air!")
 	playsound(get_turf(owner), 'sound/weapons/punchmiss.ogg', 25, 1, -1)
-	var/safety = get_dist(user, T) * 3 + 1
+	var/safety = get_dist(user, targeted_turf) * 3 + 1
 	var/consequetive_failures = 0
 	var/speed = isnull(speed_override)? world.tick_lag : speed_override
-	while(--safety && (get_turf(user) != T))
-		var/success = step_towards(user, T) //This does not try to go around obstacles.
+	while(--safety && (get_turf(user) != targeted_turf))
+		var/success = step_towards(user, targeted_turf) //This does not try to go around obstacles.
 		if(!success)
-			success = step_to(user, T) //this does
+			success = step_to(user, targeted_turf) //this does
 		if(!success)
 			if(++consequetive_failures >= 3) //if 3 steps don't work
 				break //just stop
 		else
 			consequetive_failures = 0
 		if(user.resting)
-			user.setDir(turn(user.dir, 90)) //down? spin2win :^)
+			user.setDir(turn(user.dir, 90)) //down? spin2win?
 		if(user.incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE)) //actually down? stop.
 			break
 		if(success) //don't sleep if we failed to move.

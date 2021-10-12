@@ -704,12 +704,12 @@
 	if(!choice)
 		return FALSE
 
-	if(src && choice && !user.incapacitated() && in_range(user,src))
+	if(src && choice && !user.incapacitated() && in_range(user, src))
 		icon_state = options[choice]
 		user.update_inv_wear_mask()
-		for(var/X in actions)
-			var/datum/action/A = X
-			A.UpdateButtonIcon()
+		for(var/all_selections in actions)
+			var/datum/action/mask_options = all_selections
+			mask_options.UpdateButtonIcon()
 		to_chat(user, span_notice("Your Heister's Mask has now morphed into [choice]!"))
 		return TRUE
 
@@ -768,9 +768,9 @@
 	if(src && choice && !user.incapacitated() && in_range(user,src))
 		icon_state = options[choice]
 		user.update_inv_wear_mask()
-		for(var/X in actions)
-			var/datum/action/A = X
-			A.UpdateButtonIcon()
+		for(var/all_selections in actions)
+			var/datum/action/mask_options = all_selections
+			mask_options.UpdateButtonIcon()
 		to_chat(user, span_notice("Your Skull Mime Mask has now morphed into [choice]!"))
 		return TRUE
 

@@ -36,8 +36,8 @@
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
-		var/area/A = get_area(owner.current)
-		if(istype(A, /area/service/chapel))
+		var/area/current_area = get_area(owner.current)
+		if(istype(current_area, /area/service/chapel))
 			to_chat(owner.current, span_warning("You don't belong in holy areas!"))
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)

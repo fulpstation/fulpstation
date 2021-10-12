@@ -10,18 +10,18 @@
 				return TRUE
 	return FALSE
 
-/proc/return_valid_floor_in_range(atom/A, checkRange = 8, minRange = 0, checkFloor = TRUE)
+/proc/return_valid_floor_in_range(atom/targeted_atom, checkRange = 8, minRange = 0, checkFloor = TRUE)
 	// FAIL: Atom doesn't exist. Aren't you real?
-	if (!istype(A))
+	if(!istype(targeted_atom))
 		return null
 
 	var/deltaX = rand(minRange,checkRange)*pick(-1,1)
 	var/deltaY = rand(minRange,checkRange)*pick(-1,1)
-	var/turf/center = get_turf(A)
+	var/turf/center = get_turf(targeted_atom)
 
 	var/target = locate((center.x + deltaX),(center.y + deltaY),center.z)
 
-	if (check_turf_is_valid(target, checkFloor))
+	if(check_turf_is_valid(target, checkFloor))
 		return target
 	return null
 

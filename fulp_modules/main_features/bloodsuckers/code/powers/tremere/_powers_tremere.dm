@@ -66,14 +66,14 @@
 	return FALSE
 
 
-/datum/action/bloodsucker/targeted/tremere/CheckValidTarget(atom/A)
-	return isliving(A)
+/datum/action/bloodsucker/targeted/tremere/CheckValidTarget(atom/target_atom)
+	return isliving(target_atom)
 
-/datum/action/bloodsucker/targeted/tremere/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/tremere/CheckCanTarget(atom/target_atom, display_error)
 	. = ..()
 	if(!.)
 		return FALSE
 	// Check: Self
-	if(A == owner)
+	if(target_atom == owner)
 		return FALSE
 	return TRUE

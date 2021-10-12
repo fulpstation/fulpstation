@@ -83,7 +83,7 @@
 	cooldown = 8 SECONDS
 
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/A)
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/target_atom)
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(display_error)
@@ -111,20 +111,20 @@
 		qdel(blood_shield)
 	return ..()
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/target_atom)
 	. = ..()
 
 	var/mob/living/user = owner
 	owner.balloon_alert(owner, "you fire a blood bolt!")
 	to_chat(user, span_warning("You fire a blood bolt!"))
 	user.changeNext_move(CLICK_CD_RANGE)
-	user.newtonian_move(get_dir(A, user))
-	var/obj/projectile/magic/arcane_barrage/bloodsucker/LE = new(user.loc)
-	LE.bloodsucker_power = src
-	LE.firer = user
-	LE.def_zone = ran_zone(user.zone_selected)
-	LE.preparePixelProjectile(A, user)
-	INVOKE_ASYNC(LE, /obj/projectile.proc/fire)
+	user.newtonian_move(get_dir(target_atom, user))
+	var/obj/projectile/magic/arcane_barrage/bloodsucker/magic_9ball = new(user.loc)
+	magic_9ball.bloodsucker_power = src
+	magic_9ball.firer = user
+	magic_9ball.def_zone = ran_zone(user.zone_selected)
+	magic_9ball.preparePixelProjectile(target_atom, user)
+	INVOKE_ASYNC(magic_9ball, /obj/projectile.proc/fire)
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
 
 /*
