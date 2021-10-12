@@ -181,7 +181,7 @@
 		var/obj/item/organ/organ = all_organs
 		organ.setOrganDamage(0)
 	var/obj/item/organ/heart/all_organs = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(all_organs, /obj/item/organ/heart/vampheart) || !istype(all_organs, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
+	if(!istype(all_organs, /obj/item/organ/heart/vampheart) || !istype(all_organs, /obj/item/organ/heart/demon) || !istype(all_organs, /obj/item/organ/heart/cursed))
 		qdel(all_organs)
 		var/obj/item/organ/heart/vampheart/vampiric_heart = new
 		vampiric_heart.Insert(owner.current)
