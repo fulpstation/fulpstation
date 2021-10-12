@@ -11,8 +11,11 @@
 
 /// Over Time, tick down toward a "Solar Flare" of UV buffeting the station. This period is harmful to vamps.
 /obj/effect/sunlight
+	///If the Sun is currently out our not
 	var/amDay = FALSE
+	///The time between the next cycle
 	var/time_til_cycle = TIME_BLOODSUCKER_NIGHT
+	///If Bloodsuckers have been given their level yet
 	var/issued_XP = FALSE
 
 /obj/effect/sunlight/Initialize()
@@ -25,10 +28,10 @@
 
 /obj/effect/sunlight/process()
 	/// Update all Bloodsucker sunlight huds
-	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-		if(!istype(M) || !istype(M.current))
+	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 			continue
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(istype(bloodsuckerdatum))
 			bloodsuckerdatum.update_sunlight(max(0, time_til_cycle), amDay) // This pings all HUDs
 	time_til_cycle--
@@ -38,10 +41,10 @@
 			if(!issued_XP && time_til_cycle <= 15)
 				issued_XP = TRUE
 				/// Cycle through all vamp antags and check if they're inside a closet.
-				for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-					if(!istype(M) || !istype(M.current))
+				for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+					if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 						continue
-					var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+					var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 					if(bloodsuckerdatum)
 						// Rank up! Must still be in a coffin to level!
 						bloodsuckerdatum.RankUp()
@@ -53,18 +56,15 @@
 			issued_XP = FALSE
 			time_til_cycle = TIME_BLOODSUCKER_NIGHT
 			message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [TIME_BLOODSUCKER_NIGHT / 60] minutes.")
-			for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-				if(!istype(M) || !istype(M.current))
+			for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+				if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 					continue
-				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+				var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 				if(!istype(bloodsuckerdatum))
 					continue
 				bloodsuckerdatum.warn_sun_locker = FALSE
 				bloodsuckerdatum.warn_sun_burn = FALSE
-				for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
-					if(istype(power, /datum/action/bloodsucker/gohome))
-						bloodsuckerdatum.powers -= power
-						power.Remove(M.current)
+				take_home_power()
 	else
 		switch(time_til_cycle)
 			if(TIME_BLOODSUCKER_DAY_WARN)
@@ -89,79 +89,89 @@
 					span_userdanger("The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!"))
 				message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
 
-/obj/effect/sunlight/proc/warn_daylight(danger_level =0, vampwarn = "", vassalwarn = "", hunteralert = "")
-	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-		if(!istype(M))
+/obj/effect/sunlight/proc/warn_daylight(danger_level = 0, vampwarn = "", vassalwarn = "", hunteralert = "")
+	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		if(!istype(bloodsucker_minds))
 			continue
-		to_chat(M, vampwarn)
-		if(M.current)
+		to_chat(bloodsucker_minds, vampwarn)
+		if(bloodsucker_minds.current)
 			switch(danger_level)
 				if(1)
-					M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
+					bloodsucker_minds.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_3.ogg', 50 + danger_level, 1)
 				if(2)
-					M.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
+					bloodsucker_minds.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/griffin_5.ogg', 50 + danger_level, 1)
 				if(3)
-					M.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
+					bloodsucker_minds.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
 				if(4)
-					M.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
+					bloodsucker_minds.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
 				if(5)
-					M.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
+					bloodsucker_minds.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
 	if(vassalwarn != "")
-		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/vassal))
-			if(!istype(M))
+		for(var/datum/mind/vassal_minds as anything in get_antag_minds(/datum/antagonist/vassal))
+			if(!istype(vassal_minds))
 				continue
-			if(M.has_antag_datum(/datum/antagonist/bloodsucker))
+			if(vassal_minds.has_antag_datum(/datum/antagonist/bloodsucker))
 				continue
-			to_chat(M,vassalwarn)
+			to_chat(vassal_minds, vassalwarn)
 	if(hunteralert != "")
-		for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/monsterhunter))
-			if(!istype(M))
+		for(var/datum/mind/monsterhunter_minds as anything in get_antag_minds(/datum/antagonist/monsterhunter))
+			if(!istype(monsterhunter_minds))
 				continue
-			to_chat(M, hunteralert)
+			to_chat(monsterhunter_minds, hunteralert)
 
 /// Cycle through all vamp antags and check if they're inside a closet.
 /obj/effect/sunlight/proc/punish_vamps()
-	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-		if(!istype(M) || !istype(M.current))
+	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 			continue
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(!istype(bloodsuckerdatum))
 			continue
 		/// Closets offer SOME protection
-		if(istype(M.current.loc, /obj/structure))
+		if(istype(bloodsucker_minds.current.loc, /obj/structure))
 			/// Coffins offer the BEST protection
-			if(istype(M.current.loc, /obj/structure/closet/crate/coffin))
-				SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
+			if(istype(bloodsucker_minds.current.loc, /obj/structure/closet/crate/coffin))
+				SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
 				continue
-			else
-				if(!bloodsuckerdatum.warn_sun_locker)
-					to_chat(M, span_warning("Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment."))
-					bloodsuckerdatum.warn_sun_locker = TRUE
-				M.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2) // M.current.fireloss += 0.5 + bloodsuckerdatum.bloodsucker_level / 2  //  Do DIRECT damage. Being spaced was causing this to not occur. setFireLoss(bloodsuckerdatum.bloodsucker_level)
-				M.current.updatehealth()
-				SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
+			if(!bloodsuckerdatum.warn_sun_locker)
+				to_chat(bloodsucker_minds, span_warning("Your skin sizzles. [bloodsucker_minds.current.loc] doesn't protect well against UV bombardment."))
+				bloodsuckerdatum.warn_sun_locker = TRUE
+			bloodsucker_minds.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2) // bloodsucker_minds.current.fireloss += 0.5 + bloodsuckerdatum.bloodsucker_level / 2  //  Do DIRECT damage. Being spaced was causing this to not occur. setFireLoss(bloodsuckerdatum.bloodsucker_level)
+			bloodsucker_minds.current.updatehealth()
+			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
+			return
 		/// Out in the Open?
-		else
-			if(!bloodsuckerdatum.warn_sun_burn)
-				if(bloodsuckerdatum.bloodsucker_level > 0)
-					to_chat(M, span_userdanger("The solar flare sets your skin ablaze!"))
-				else
-					to_chat(M, span_userdanger("The solar flare scalds your neophyte skin!"))
-				bloodsuckerdatum.warn_sun_burn = TRUE
-			if(M.current.fire_stacks <= 0)
-				M.current.fire_stacks = 0
+		if(!bloodsuckerdatum.warn_sun_burn)
 			if(bloodsuckerdatum.bloodsucker_level > 0)
-				M.current.adjust_fire_stacks(0.2 + bloodsuckerdatum.bloodsucker_level / 10)
-				M.current.IgniteMob()
-			M.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level) // M.current.fireloss += 2 + bloodsuckerdatum.bloodsucker_level //Do DIRECT damage. Being spaced was causing this to not occur.  //setFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
-			M.current.updatehealth()
-			SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_2)
+				to_chat(bloodsucker_minds, span_userdanger("The solar flare sets your skin ablaze!"))
+			else
+				to_chat(bloodsucker_minds, span_userdanger("The solar flare scalds your neophyte skin!"))
+			bloodsuckerdatum.warn_sun_burn = TRUE
+		if(bloodsucker_minds.current.fire_stacks <= 0)
+			bloodsucker_minds.current.fire_stacks = 0
+		if(bloodsuckerdatum.bloodsucker_level > 0)
+			bloodsucker_minds.current.adjust_fire_stacks(0.2 + bloodsuckerdatum.bloodsucker_level / 10)
+			bloodsucker_minds.current.IgniteMob()
+		bloodsucker_minds.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level) // bloodsucker_minds.current.fireloss += 2 + bloodsuckerdatum.bloodsucker_level //Do DIRECT damage. Being spaced was causing this to not occur.  //setFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
+		bloodsucker_minds.current.updatehealth()
+		SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_2)
 
-/// It's late, give the "Vanishing Act" (gohome) power to bloodsuckers.
+/// It's late, give the "Vanishing Act" (gohome) power to Bloodsuckers.
 /obj/effect/sunlight/proc/give_home_power()
-	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-		if(!istype(M) || !istype(M.current))
+	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 			continue
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(istype(bloodsuckerdatum) && bloodsuckerdatum.lair && !(locate(/datum/action/bloodsucker/gohome) in bloodsuckerdatum.powers))
 			bloodsuckerdatum.BuyPower(new /datum/action/bloodsucker/gohome)
+
+/// It's over now, remove the "Vanishing Act" (gohome) power from Bloodsuckers.
+/obj/effect/sunlight/proc/take_home_power()
+	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
+			continue
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
+		for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+			if(istype(power, /datum/action/bloodsucker/gohome))
+				bloodsuckerdatum.powers -= power
+				power.Remove(bloodsucker_minds.current)

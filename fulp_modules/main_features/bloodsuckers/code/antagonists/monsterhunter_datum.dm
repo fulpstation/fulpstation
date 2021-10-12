@@ -89,20 +89,20 @@
 
 /// Mind version
 /datum/mind/proc/make_monsterhunter()
-	var/datum/antagonist/monsterhunter/C = has_antag_datum(/datum/antagonist/monsterhunter)
-	if(!C)
-		C = add_antag_datum(/datum/antagonist/monsterhunter)
+	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
+	if(!monsterhunterdatum)
+		monsterhunterdatum = add_antag_datum(/datum/antagonist/monsterhunter)
 		special_role = ROLE_MONSTERHUNTER
-	return C
+	return monsterhunterdatum
 
 /datum/mind/proc/remove_monsterhunter()
-	var/datum/antagonist/monsterhunter/C = has_antag_datum(/datum/antagonist/monsterhunter)
-	if(C)
+	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
+	if(monsterhunterdatum)
 		remove_antag_datum(/datum/antagonist/monsterhunter)
 		special_role = null
 
 /// Called when using admin tools to give antag status
-/datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner,mob/admin)
+/datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner, mob/admin)
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
 	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
 	new_owner.add_antag_datum(src)
@@ -149,28 +149,22 @@
 	var/turf/my_loc = get_turf(owner)
 
 	var/list/mob/living/carbon/monsters = list()
-	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
-		if(C != owner && C.mind)
-			var/datum/mind/UM = C.mind
-			if(UM.has_antag_datum(/datum/antagonist/changeling))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/heretic))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/cult))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/ashwalker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
-				monsters += UM
+	for(var/mob/living/carbon/all_carbons in GLOB.alive_mob_list)
+		if(all_carbons != owner && all_carbons.mind)
+			var/datum/mind/carbon_minds = all_carbons.mind
+			if(IS_HERETIC(all_carbons) || IS_BLOODSUCKER(all_carbons) || IS_CULTIST(all_carbons) || IS_WIZARD(all_carbons))
+				monsters += carbon_minds
+			if(carbon_minds.has_antag_datum(/datum/antagonist/changeling))
+				monsters += carbon_minds
+			if(carbon_minds.has_antag_datum(/datum/antagonist/ashwalker))
+				monsters += carbon_minds
+			if(carbon_minds.has_antag_datum(/datum/antagonist/wizard/apprentice))
+				monsters += carbon_minds
 			if(istype(monsters))
-				var/their_loc = get_turf(C)
+				var/their_loc = get_turf(all_carbons)
 				var/distance = get_dist_euclidian(my_loc, their_loc)
 				if(distance < HUNTER_SCAN_MAX_DISTANCE)
-					monsters[C] = (HUNTER_SCAN_MAX_DISTANCE ** 2) - (distance ** 2)
+					monsters[all_carbons] = (HUNTER_SCAN_MAX_DISTANCE ** 2) - (distance ** 2)
 
 	if(monsters.len)
 		/// Point at a 'random' monster, biasing heavily towards closer ones.
@@ -182,4 +176,4 @@
 /datum/status_effect/agent_pinpointer/hunter_edition/Destroy()
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost the trail."))
-	..()
+	. = ..()

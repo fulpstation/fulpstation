@@ -48,12 +48,12 @@ GLOBAL_PROTECT(mentor_href_token)
 /proc/RawMentorHrefToken(forceGlobal = FALSE)
 	var/tok = GLOB.mentor_href_token
 	if(!forceGlobal && usr)
-		var/client/C = usr.client
-		to_chat(world, C)
+		var/client/all_clients = usr.client
+		to_chat(world, all_clients)
 		to_chat(world, usr)
-		if(!C)
+		if(!all_clients)
 			CRASH("No client for HrefToken()!")
-		var/datum/mentors/holder = C.mentor_datum
+		var/datum/mentors/holder = all_clients.mentor_datum
 		if(holder)
 			tok = holder.href_token
 	return tok
@@ -63,9 +63,9 @@ GLOBAL_PROTECT(mentor_href_token)
 
 /proc/load_mentors()
 	GLOB.mentor_datums.Cut()
-	for(var/client/C in GLOB.mentors)
-		C.remove_mentor_verbs()
-		C.mentor_datum = null
+	for(var/client/mentor_clients in GLOB.mentors)
+		mentor_clients.remove_mentor_verbs()
+		mentor_clients.mentor_datum = null
 	GLOB.mentors.Cut()
 	var/list/lines = world.file2list("[global.config.directory]/mentors.txt")
 	for(var/line in lines)

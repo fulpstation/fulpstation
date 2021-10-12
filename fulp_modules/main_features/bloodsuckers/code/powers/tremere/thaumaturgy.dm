@@ -141,17 +141,17 @@
 
 /obj/projectile/magic/arcane_barrage/bloodsucker/on_hit(target)
 	if(istype(target, /obj/structure/closet) && bloodsucker_power.tremere_level >= 3)
-		var/obj/structure/closet/C = target
-		if(C)
-			C.welded = FALSE
-			C.locked = FALSE
-			C.broken = TRUE
-			C.update_appearance()
+		var/obj/structure/closet/hit_closet = target
+		if(hit_closet)
+			hit_closet.welded = FALSE
+			hit_closet.locked = FALSE
+			hit_closet.broken = TRUE
+			hit_closet.update_appearance()
 			qdel(src)
 			return BULLET_ACT_HIT
 	else if(istype(target, /obj/machinery/door) && bloodsucker_power.tremere_level >= 3)
-		var/obj/machinery/door/D = target
-		D.open(2)
+		var/obj/machinery/door/hit_airlock = target
+		hit_airlock.open(2)
 		qdel(src)
 		return BULLET_ACT_HIT
 	else if(ismob(target))

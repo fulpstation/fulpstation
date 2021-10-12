@@ -172,8 +172,8 @@
 	return TRUE
 
 /datum/mind/proc/remove_bloodsucker()
-	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
-	if(C)
+	var/datum/antagonist/bloodsucker/removed_bloodsucker = has_antag_datum(/datum/antagonist/bloodsucker)
+	if(removed_bloodsucker)
 		remove_antag_datum(/datum/antagonist/bloodsucker)
 		special_role = null
 
@@ -225,20 +225,20 @@
 	// WHEN YOU DELETE THE ABOVE: Remove the 3 second timer on converting the vassal too.
 	return FALSE
 
-/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C, can_vassal_sleeping = FALSE)
-	C.silent = 0
-	return make_vassal(C, owner, can_vassal_sleeping)
+/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/target, can_vassal_sleeping = FALSE)
+	target.silent = 0
+	return make_vassal(target, owner, can_vassal_sleeping)
 
 /datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator, sleeping = FALSE)
 	if(!can_make_vassal(target, creator, can_vassal_sleeping = sleeping))
 		return FALSE
 	// Make Vassal
-	var/datum/antagonist/vassal/V = new(target.mind)
-	var/datum/antagonist/bloodsucker/B = creator.has_antag_datum(/datum/antagonist/bloodsucker)
-	V.master = B
-	target.mind.add_antag_datum(V, V.master.get_team())
+	var/datum/antagonist/vassal/vassaldatum = new(target.mind)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = creator.has_antag_datum(/datum/antagonist/bloodsucker)
+	vassaldatum.master = bloodsuckerdatum
+	target.mind.add_antag_datum(vassaldatum, vassaldatum.master.get_team())
 	// Update Bloodsucker Title
-	B.SelectTitle(am_fledgling = FALSE) // Only works if you have no title yet.
+	bloodsuckerdatum.SelectTitle(am_fledgling = FALSE) // Only works if you have no title yet.
 	// Log it
 	message_admins("[target] has become a Vassal, and is enslaved to [creator].")
 	log_admin("[target] has become a Vassal, and is enslaved to [creator].")

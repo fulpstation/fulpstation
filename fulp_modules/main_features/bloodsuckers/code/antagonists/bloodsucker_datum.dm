@@ -223,11 +223,11 @@
 		return
 	var/list/report = list()
 	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-	for(var/datum/mind/M in members)
-		for(var/datum/antagonist/bloodsucker/H in M.antag_datums)
-			if(M.has_antag_datum(/datum/antagonist/vassal)) // Skip over Ventrue's Favorite Vassal
+	for(var/datum/mind/mind_members in members)
+		for(var/datum/antagonist/bloodsucker/individual_bloodsuckers in mind_members.antag_datums)
+			if(mind_members.has_antag_datum(/datum/antagonist/vassal)) // Skip over Ventrue's Favorite Vassal
 				continue
-			report += H.roundend_report()
+			report += individual_bloodsuckers.roundend_report()
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
 
@@ -745,34 +745,34 @@
  *	// GOAL: Bloodsuckers can see each other.
  */
 
-/// Remember: A is being added to M's hud. Because M's hud is a /antag/vassal hud, this means M is the vassal here.
-/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/M, atom/A)
+/// Remember: target is being added to hud_user's hud. Because hud_user's hud is a /antag/vassal hud, this means hud_user is the vassal here.
+/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/hud_user, atom/target)
 	// Ghost Admins always see Bloodsuckers/Vassals
-	if(isobserver(M))
+	if(isobserver(hud_user))
 		return TRUE
 
-	if(!M || !A || !ismob(A) || !M.mind)// || !A.mind)
+	if(!hud_user || !target || !ismob(target) || !hud_user.mind)// || !target.mind)
 		return FALSE
-	var/mob/A_mob = A
-	if(!A_mob.mind)
+	var/mob/target_mob = target
+	if(!target_mob.mind)
 		return FALSE
 	// Find Datums: Bloodsucker
-	var/datum/antagonist/bloodsucker/atom_B = A_mob.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/datum/antagonist/bloodsucker/mob_B = M.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/atom_Bloodsucker = target_mob.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/mob_Bloodsucker = hud_user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Check 1) Are we both Bloodsuckers?
-	if(atom_B && mob_B)
+	if(atom_Bloodsucker && mob_Bloodsucker)
 		return TRUE
 	// Find Datums: Vassal
-	var/datum/antagonist/vassal/atom_V = A_mob.mind.has_antag_datum(/datum/antagonist/vassal)
-	var/datum/antagonist/vassal/mob_V = M.mind.has_antag_datum(/datum/antagonist/vassal)
+	var/datum/antagonist/vassal/atom_Vassal = target_mob.mind.has_antag_datum(/datum/antagonist/vassal)
+	var/datum/antagonist/vassal/mob_Vassal = hud_user.mind.has_antag_datum(/datum/antagonist/vassal)
 	// Check 2) If they are a BLOODSUCKER, then are they my Master?
-	if(mob_V && atom_B == mob_V.master)
+	if(mob_Vassal && atom_Bloodsucker == mob_Vassal.master)
 		return TRUE // SUCCESS!
 	// Check 3) If I am a BLOODSUCKER, then are they my Vassal?
-	if(mob_B && atom_V && (atom_V in mob_B.vassals))
+	if(mob_Bloodsucker && atom_Vassal && (atom_Vassal in mob_Bloodsucker.vassals))
 		return TRUE // SUCCESS!
 	// Check 4) If we are both VASSAL, then do we have the same master?
-	if(atom_V && mob_V && atom_V.master == mob_V.master)
+	if(atom_Vassal && mob_Vassal && atom_Vassal.master == mob_Vassal.master)
 		return TRUE // SUCCESS!
 	return FALSE
 

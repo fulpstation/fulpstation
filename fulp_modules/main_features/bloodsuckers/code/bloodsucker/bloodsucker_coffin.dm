@@ -113,13 +113,13 @@
 	if(!.)
 		return FALSE
 	if(user in src)
-		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(!B)
-			return
-		if(B.lair != get_area(B.coffin))
-			if(B.coffin)
-				B.coffin.UnclaimCoffin()
-		var/list/turf/area_turfs = get_area_turfs(B.lair)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(!bloodsuckerdatum)
+			return FALSE
+		if(bloodsuckerdatum.lair != get_area(bloodsuckerdatum.coffin))
+			if(bloodsuckerdatum.coffin)
+				bloodsuckerdatum.coffin.UnclaimCoffin()
+		var/list/turf/area_turfs = get_area_turfs(bloodsuckerdatum.lair)
 		// Create Dirt etc.
 		var/turf/T_Dirty = pick(area_turfs)
 		if(T_Dirty && !T_Dirty.density)
@@ -145,7 +145,8 @@
 			var/mobCount = 0
 			var/mobMax = clamp(area_turfs.len / 25, 1, 4)
 			for(var/turf/T in area_turfs)
-				if(!T) continue
+				if(!T)
+					continue
 				var/mob/living/simple_animal/SA = locate() in T
 				if(SA)
 					mobCount ++
@@ -153,7 +154,7 @@
 						break
 				Spawn One
 			if(mobCount < mobMax)
-				 Seek Out Location
+//				Seek Out Location
 				while(area_turfs.len > 0)
 					var/turf/T = pick(area_turfs) // We use while&pick instead of a for/loop so it's random, rather than from the top of the list.
 					if(T && !T.density)

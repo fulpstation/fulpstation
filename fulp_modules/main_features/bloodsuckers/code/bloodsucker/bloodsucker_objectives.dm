@@ -293,15 +293,15 @@
 	if(!bloodsuckerdatum)
 		return FALSE
 
-	for(var/datum/mind/M in bloodsuckerdatum.clan?.members)
-		var/datum/antagonist/bloodsucker/allsuckers = M.has_antag_datum(/datum/antagonist/bloodsucker)
+	for(var/datum/mind/bloodsucker_minds in bloodsuckerdatum.clan?.members)
+		var/datum/antagonist/bloodsucker/allsuckers = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(allsuckers.my_clan != CLAN_NOSFERATU)
 			continue
-		if(!isliving(M.current))
+		if(!isliving(bloodsucker_minds.current))
 			continue
 		var/list/all_items = allsuckers.owner.current.get_all_contents()
-		for(var/obj/I in all_items)
-			if(istype(I, /obj/item/book/kindred))
+		for(var/obj/items in all_items)
+			if(istype(items, /obj/item/book/kindred))
 				return TRUE
 	return FALSE
 

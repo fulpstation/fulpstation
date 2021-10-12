@@ -37,7 +37,7 @@
 
 /proc/key_name_mentor(whom, include_link = null, include_name = TRUE, include_follow = TRUE, char_name_only = TRUE)
 	var/mob/M
-	var/client/C
+	var/client/chosen_client
 	var/key
 	var/ckey
 
@@ -45,21 +45,21 @@
 		return "*null*"
 
 	if(istype(whom, /client))
-		C = whom
-		M = C.mob
-		key = C.key
-		ckey = C.ckey
+		chosen_client = whom
+		M = chosen_client.mob
+		key = chosen_client.key
+		ckey = chosen_client.ckey
 	else if(ismob(whom))
 		M = whom
-		C = M.client
+		chosen_client = M.client
 		key = M.key
 		ckey = M.ckey
 	else if(istext(whom))
 		key = whom
 		ckey = ckey(whom)
-		C = GLOB.directory[ckey]
-		if(C)
-			M = C.mob
+		chosen_client = GLOB.directory[ckey]
+		if(chosen_client)
+			M = chosen_client.mob
 	else
 		return "*invalid*"
 
@@ -72,11 +72,11 @@
 		if(include_link != null)
 			. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
 
-		if(C && C.holder && C.holder.fakekey)
+		if(chosen_client && chosen_client.holder && chosen_client.holder.fakekey)
 			. += "Administrator"
 		else
 			. += key
-		if(!C)
+		if(!chosen_client)
 			. += "\[DC\]"
 
 		if(include_link != null)

@@ -81,30 +81,29 @@
 			if ("-")
 				BP.generic_bleedstacks -= amount
 
-/datum/species/beefman/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
+/datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
 	. = ..()
 	// Taken DIRECTLY from ethereal!
-	if(!ishuman(C))
+	if(!ishuman(user))
 		return
 
 	// 2) BODYPARTS
-	C.part_default_head = /obj/item/bodypart/head/beef
-	C.part_default_chest = /obj/item/bodypart/chest/beef
-	C.part_default_l_arm = /obj/item/bodypart/l_arm/beef
-	C.part_default_r_arm = /obj/item/bodypart/r_arm/beef
-	C.part_default_l_leg = /obj/item/bodypart/l_leg/beef
-	C.part_default_r_leg = /obj/item/bodypart/r_leg/beef
-	C.ReassignForeignBodyparts()
+	user.part_default_head = /obj/item/bodypart/head/beef
+	user.part_default_chest = /obj/item/bodypart/chest/beef
+	user.part_default_l_arm = /obj/item/bodypart/l_arm/beef
+	user.part_default_r_arm = /obj/item/bodypart/r_arm/beef
+	user.part_default_l_leg = /obj/item/bodypart/l_leg/beef
+	user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
+	user.ReassignForeignBodyparts()
 
 	// 3) Load it all
-	proof_beefman_features(C.dna.features) // Missing Defaults in DNA? Randomize!
-	var/mob/living/carbon/human/beefuser = C
-	set_beef_color(beefuser)
+	proof_beefman_features(user.dna.features) // Missing Defaults in DNA? Randomize!
+	set_beef_color(user)
 
 	// Be Spooked but Educated
-	//C.gain_trauma(pick(startTraumas))
-	C.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
-	C.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+//	user.gain_trauma(pick(startTraumas))
+	user.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -155,21 +154,21 @@
 		var/obj/item/bodypart/limb = new part_default_r_leg
 		limb.replace_limb(src,TRUE)
 
-/datum/species/beefman/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
-	..()
+/datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
+	. = ..()
 
 	// 2) BODYPARTS
-	C.part_default_head = /obj/item/bodypart/head
-	C.part_default_chest = /obj/item/bodypart/chest
-	C.part_default_l_arm = /obj/item/bodypart/l_arm
-	C.part_default_r_arm = /obj/item/bodypart/r_arm
-	C.part_default_l_leg = /obj/item/bodypart/l_leg
-	C.part_default_r_leg = /obj/item/bodypart/r_leg
-	C.ReassignForeignBodyparts()
+	user.part_default_head = /obj/item/bodypart/head
+	user.part_default_chest = /obj/item/bodypart/chest
+	user.part_default_l_arm = /obj/item/bodypart/l_arm
+	user.part_default_r_arm = /obj/item/bodypart/r_arm
+	user.part_default_l_leg = /obj/item/bodypart/l_leg
+	user.part_default_r_leg = /obj/item/bodypart/r_leg
+	user.ReassignForeignBodyparts()
 
 	// Resolve Trauma
-	C.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/H)	// This is your life ticker.
 	..()

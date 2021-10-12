@@ -140,16 +140,17 @@
 
 /// Used for Admin removing Vassals.
 /datum/mind/proc/remove_vassal()
-	var/datum/antagonist/vassal/C = has_antag_datum(/datum/antagonist/vassal)
-	if(C)
+	var/datum/antagonist/vassal/selected_vassal = has_antag_datum(/datum/antagonist/vassal)
+	if(selected_vassal)
 		remove_antag_datum(/datum/antagonist/vassal)
 
 /// When a Bloodsucker gets FinalDeath, all Vassals are freed - This is a Bloodsucker proc, not a Vassal one.
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
-	for(var/datum/antagonist/vassal/V in vassals)
-		if(V.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+	for(var/datum/antagonist/vassal/all_vassals in vassals)
+		// Skip over any Bloodsucker Vassals, they're too far gone to have all their stuff taken away from them
+		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 			continue
-		remove_vassal(V.owner)
+		remove_vassal(all_vassals.owner)
 
 /// Called by FreeAllVassals()
 /datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)

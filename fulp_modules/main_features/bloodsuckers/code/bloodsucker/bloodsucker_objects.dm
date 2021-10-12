@@ -99,8 +99,8 @@
 /// Livers run on_life(), which calls reagents.metabolize() in holder.dm, which calls on_mob_life.dm in the cheam (medicine_reagents.dm)
 /obj/item/organ/liver/vampliver
 /obj/item/organ/liver/vampliver/on_life()
-	var/mob/living/carbon/C = owner
-	if(!istype(C))
+	var/mob/living/carbon/user = owner
+	if(!istype(user))
 		return
 */
 
@@ -184,21 +184,20 @@
 	/// Time it takes to embed the stake into someone's chest.
 	var/staketime = 12 SECONDS
 
-/obj/item/stake/afterattack(mob/living/target, mob/living/user, proximity, discover_after = TRUE)
+/obj/item/stake/afterattack(mob/living/carbon/target, mob/living/user, proximity, discover_after = TRUE)
 	// Invalid Target, or not targetting the chest?
-	if(!iscarbon(target) || check_zone(user.zone_selected) != BODY_ZONE_CHEST)
+	if(check_zone(user.zone_selected) != BODY_ZONE_CHEST)
 		return
-	var/mob/living/carbon/C = target
 	// Needs to be Down/Slipped in some way to Stake.
-	if(!C.can_be_staked() || target == user) // Oops! Can't.
+	if(!target.can_be_staked() || target == user) // Oops! Can't.
 		to_chat(user, span_danger("You can't stake [target] when they are moving about! They have to be laying down or grabbed by the neck!"))
 		return
-	if(HAS_TRAIT(C, TRAIT_PIERCEIMMUNE))
+	if(HAS_TRAIT(target, TRAIT_PIERCEIMMUNE))
 		to_chat(user, span_danger("[target]'s chest resists the stake. It won't go in."))
 		return
 	to_chat(user, span_notice("You put all your weight into embedding the stake into [target]'s chest..."))
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
-	if(!do_mob(user, C, staketime, extra_checks = CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
+	if(!do_mob(user, target, staketime, extra_checks = CALLBACK(target, /mob/living/carbon.proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
 	user.visible_message(
@@ -212,15 +211,16 @@
 		discover_after = FALSE
 	if(QDELETED(src)) // in case trying to embed it caused its deletion (say, if it's DROPDEL)
 		return
-	if(C.mind)
-		var/datum/antagonist/bloodsucker/bloodsucker = C.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsucker)
-			// If DEAD or TORPID...kill vamp!
-			if(C.StakeCanKillMe()) // NOTE: This is the ONLY time a staked Torpid vamp dies.
-				bloodsucker.FinalDeath()
-				return
-			else
-				to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
+	if(!target.mind)
+		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum)
+		// If DEAD or TORPID... Kill Bloodsucker!
+		if(target.StakeCanKillMe())
+			bloodsuckerdatum.FinalDeath()
+		else
+			to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
+			target.balloon_alert(target, "you have been staked!")
 
 /// Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/carbon/proc/can_be_staked()

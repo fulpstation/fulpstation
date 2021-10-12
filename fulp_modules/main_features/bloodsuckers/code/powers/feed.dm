@@ -277,8 +277,8 @@
 			)
 			// Deal Damage to Target (should have been more careful!)
 			if(iscarbon(feed_target))
-				var/mob/living/carbon/C = feed_target
-				C.bleed(15)
+				var/mob/living/carbon/carbon_target = feed_target
+				carbon_target.bleed(15)
 			playsound(get_turf(feed_target), 'sound/effects/splat.ogg', 40, 1)
 			if(ishuman(feed_target))
 				var/mob/living/carbon/human/H = feed_target
