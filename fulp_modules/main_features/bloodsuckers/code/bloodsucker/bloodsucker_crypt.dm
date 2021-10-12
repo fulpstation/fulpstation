@@ -290,7 +290,7 @@
 		var/breakout_timer = IS_MONSTERHUNTER(user) ? 20 SECONDS : 10 SECONDS
 		if(!do_mob(user, buckled_mob, breakout_timer))
 			return
-	unbuckle_mob(M)
+	unbuckle_mob(buckled_mob)
 	. = ..()
 
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
