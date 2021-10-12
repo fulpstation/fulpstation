@@ -116,7 +116,7 @@
 
 /datum/species/beefman/set_beef_color(mob/living/carbon/human/user)
 	// Called on Assign, or on Color Change (or any time proof_beefman_features() is used, such as in bs_veil.dm)
-	fixed_mut_color = H.dna.features["beefcolor"]
+	fixed_mut_color = user.dna.features["beefcolor"]
 	default_color = fixed_mut_color
 
 /mob/living/carbon/proc/ReassignForeignBodyparts() //This proc hurts me so much, it used to be worse, this really should be a list or something

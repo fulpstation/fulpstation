@@ -54,7 +54,7 @@
 	register_body_camera(I, user)
 
 /// Manual Register via ID
-/obj/item/clothing/suit/armor/proc/register_body_camera(obj/item/card/id/id_card, ob/living/carbon/human/user)
+/obj/item/clothing/suit/armor/proc/register_body_camera(obj/item/card/id/id_card, mob/living/carbon/human/user)
 	if(!id_card)
 		return
 	var/obj/item/clothing/suit/armor/worn_suit = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
@@ -85,8 +85,8 @@
 	for(var/obj/machinery/camera/matching_camera in GLOB.cameranet.cameras)
 		if(cam_name == matching_camera.c_tag)
 			to_chat(user, span_notice("Matching registration found. Unregistering previously registered body camera."))
-			if(S)
-				S.unregister_body_camera(user)
+			if(worn_suit)
+				worn_suit.unregister_body_camera(user)
 			break
 
 	builtInCamera.c_tag = "[cam_name]"

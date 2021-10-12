@@ -366,7 +366,7 @@
 	if(ishuman(target))
 		var/mob/living/carbon/human/victim = target
 		victim.Knockdown(30)
-		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "gnomed", /datum/mood_event/gnomed)
+		SEND_SIGNAL(target, COMSIG_ADD_MOOD_EVENT, "gnomed", /datum/mood_event/gnomed)
 	playsound(src, 'fulp_modules/features/halloween/sounds/gnomed.ogg', 50, TRUE)
 	armed = FALSE
 	update_icon()
