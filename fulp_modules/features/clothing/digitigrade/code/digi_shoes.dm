@@ -66,7 +66,7 @@
 
 /obj/item/clothing/shoes/brown/digitigrade
 	name = "digitigrade brown shoes"
-	desc = "A pair of digitigrade brown shoes. Shame they don't come in more colours."
+	desc = "A pair of digitigrade brown shoes. Shame they don't come in more colors."
 	flags_inv = FULL_DIGITIGRADE
 	icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_brown"
