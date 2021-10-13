@@ -59,8 +59,6 @@
 				var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 				if(!istype(bloodsuckerdatum))
 					continue
-				bloodsuckerdatum.warn_sun_locker = FALSE
-				bloodsuckerdatum.warn_sun_burn = FALSE
 				for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
 					if(istype(power, /datum/action/bloodsucker/gohome))
 						bloodsuckerdatum.powers -= power
@@ -134,20 +132,20 @@
 				SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
 				continue
 			else
-				if(!bloodsuckerdatum.warn_sun_locker)
+				if(COOLDOWN_FINISHED(src, BLOODSUCKER_SPAM_SOL_LOCKER))
 					to_chat(M, span_warning("Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment."))
-					bloodsuckerdatum.warn_sun_locker = TRUE
+					COOLDOWN_START(src, BLOODSUCKER_SPAM_SOL_LOCKER, 30 SECONDS) //This should happen twice per Sol
 				M.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2) // M.current.fireloss += 0.5 + bloodsuckerdatum.bloodsucker_level / 2  //  Do DIRECT damage. Being spaced was causing this to not occur. setFireLoss(bloodsuckerdatum.bloodsucker_level)
 				M.current.updatehealth()
 				SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
 		/// Out in the Open?
 		else
-			if(!bloodsuckerdatum.warn_sun_burn)
+			if(COOLDOWN_FINISHED(src, BLOODSUCKER_SPAM_SOL_BURN))
 				if(bloodsuckerdatum.bloodsucker_level > 0)
 					to_chat(M, span_userdanger("The solar flare sets your skin ablaze!"))
 				else
 					to_chat(M, span_userdanger("The solar flare scalds your neophyte skin!"))
-				bloodsuckerdatum.warn_sun_burn = TRUE
+				COOLDOWN_START(src, BLOODSUCKER_SPAM_SOL_BURN, 30 SECONDS) //This should happen twice per Sol
 			if(M.current.fire_stacks <= 0)
 				M.current.fire_stacks = 0
 			if(bloodsuckerdatum.bloodsucker_level > 0)

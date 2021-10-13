@@ -80,12 +80,12 @@
 	 *	# SPAM PREVENTION
 	 *	These are all used to prevent spam messages to Bloodsuckers
 	 */
-	///Span prevention for locker messages
-	var/warn_sun_locker
-	///Spam prevention for burn messages
-	var/warn_sun_burn
-	///Spam prevention for healing messages
-	var/notice_healing
+	///Timer between alerts for Locker messages
+	COOLDOWN_DECLARE(BLOODSUCKER_SPAM_SOL_LOCKER)
+	///Timer between alerts for Burn messages
+	COOLDOWN_DECLARE(BLOODSUCKER_SPAM_SOL_BURN)
+	///Timer between alerts for Healing messages
+	COOLDOWN_DECLARE(BLOODSUCKER_SPAM_HEALING)
 
 	///Used in Bloodsucker huds
 	var/valuecolor

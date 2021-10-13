@@ -24,11 +24,9 @@
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
-		if(!notice_healing && owner.current.blood_volume > 0)
-			to_chat(owner, span_notice("The power of your blood begins knitting your wounds..."))
-			notice_healing = TRUE
-	else if(notice_healing)
-		notice_healing = FALSE
+		if((COOLDOWN_FINISHED(src, BLOODSUCKER_SPAM_HEALING)) && owner.current.blood_volume > 0)
+			to_chat(owner.current, span_notice("The power of your blood begins knitting your wounds..."))
+			COOLDOWN_START(src, BLOODSUCKER_SPAM_HEALING, 15 SECONDS)
 	// Standard Updates
 	INVOKE_ASYNC(src, .proc/HandleDeath)
 	INVOKE_ASYNC(src, .proc/HandleStarving)
@@ -106,7 +104,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// It is called from your coffin on close (by you only)
+/// Constantly runs on Bloodsucker's LifeTick, and is increased by being in Torpor/Coffins
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
 	// Don't heal if I'm staked or on Masquerade (+ not in a Coffin). Masqueraded Bloodsuckers in a Coffin however, will heal.

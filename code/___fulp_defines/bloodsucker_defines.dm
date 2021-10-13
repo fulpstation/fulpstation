@@ -39,6 +39,18 @@
 /// You have special interactions with Bloodsuckers
 #define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
 
+
+/**
+ * Cooldown defines
+ * Used in Cooldowns Bloodsuckers use to prevent spamming
+ */
+///Spam prevention for healing messages
+#define BLOODSUCKER_SPAM_HEALING "bloodsucker_spam_healing"
+///Span prevention for locker messages
+#define BLOODSUCKER_SPAM_SOL_LOCKER "bloodsucker_spam_sol_locker"
+///Spam prevention for burn messages
+#define BLOODSUCKER_SPAM_SOL_BURN "bloodsucker_spam_sol_burn"
+
 /**
  * Source traits
  */
