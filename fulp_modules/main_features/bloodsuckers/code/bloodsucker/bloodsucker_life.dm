@@ -24,9 +24,9 @@
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
-		if((COOLDOWN_FINISHED(src, BLOODSUCKER_SPAM_HEALING)) && owner.current.blood_volume > 0)
+		if((COOLDOWN_FINISHED(src, bloodsucker_spam_healing)) && owner.current.blood_volume > 0)
 			to_chat(owner.current, span_notice("The power of your blood begins knitting your wounds..."))
-			COOLDOWN_START(src, BLOODSUCKER_SPAM_HEALING, 15 SECONDS)
+			COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_HEALING)
 	// Standard Updates
 	INVOKE_ASYNC(src, .proc/HandleDeath)
 	INVOKE_ASYNC(src, .proc/HandleStarving)

@@ -45,11 +45,9 @@
  * Used in Cooldowns Bloodsuckers use to prevent spamming
  */
 ///Spam prevention for healing messages
-#define BLOODSUCKER_SPAM_HEALING "bloodsucker_spam_healing"
-///Span prevention for locker messages
-#define BLOODSUCKER_SPAM_SOL_LOCKER "bloodsucker_spam_sol_locker"
-///Spam prevention for burn messages
-#define BLOODSUCKER_SPAM_SOL_BURN "bloodsucker_spam_sol_burn"
+#define BLOODSUCKER_SPAM_HEALING (15 SECONDS)
+///Span prevention for Sol messages
+#define BLOODSUCKER_SPAM_SOL (30 SECONDS)
 
 /**
  * Source traits

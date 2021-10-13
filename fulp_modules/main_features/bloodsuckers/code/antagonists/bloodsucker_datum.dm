@@ -12,11 +12,11 @@
 
 	// TIMERS //
 	///Timer between alerts for Burn messages
-	COOLDOWN_DECLARE(BLOODSUCKER_SPAM_SOL_BURN)
+	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
 	///Timer between alerts for Locker messages
-	COOLDOWN_DECLARE(BLOODSUCKER_SPAM_SOL_LOCKER)
+	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_locker)
 	///Timer between alerts for Healing messages
-	COOLDOWN_DECLARE(BLOODSUCKER_SPAM_HEALING)
+	COOLDOWN_DECLARE(static/bloodsucker_spam_healing)
 
 	///Used for assigning your name
 	var/bloodsucker_name
