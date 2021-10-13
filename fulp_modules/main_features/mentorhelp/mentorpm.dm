@@ -24,6 +24,12 @@
 		C = GLOB.directory[whom]
 	else if(istype(whom,/client))
 		C = whom
+	if(C.prefs.muted & MUTE_ADMINHELP)
+		to_chat(src,
+			type = MESSAGE_TYPE_MODCHAT,
+			html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
+			confidential = TRUE)
+		return
 	if(!C)
 		if(is_mentor())
 			to_chat(src,
