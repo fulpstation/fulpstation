@@ -87,7 +87,7 @@
 					span_userdanger("The sunlight is visible throughout the station, the Bloodsuckers must be asleep by now!"))
 				message_admins("BLOODSUCKER NOTICE: Daylight Beginning (Lasts for [TIME_BLOODSUCKER_DAY / 60] minutes.)")
 
-/obj/effect/sunlight/proc/warn_daylight(danger_level =0, vampwarn = "", vassalwarn = "", hunteralert = "")
+/obj/effect/sunlight/proc/warn_daylight(danger_level = 0, vampwarn = "", vassalwarn = "", hunteralert = "")
 	for(var/datum/mind/M as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(!istype(M))
 			continue
@@ -125,33 +125,29 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = M.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(!istype(bloodsuckerdatum))
 			continue
-		/// Closets offer SOME protection
 		if(istype(M.current.loc, /obj/structure))
-			/// Coffins offer the BEST protection
-			if(istype(M.current.loc, /obj/structure/closet/crate/coffin))
+			if(istype(M.current.loc, /obj/structure/closet/crate/coffin)) // Coffins offer the BEST protection
 				SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
 				continue
-			else
-				if(COOLDOWN_FINISHED(src, BLOODSUCKER_SPAM_SOL_LOCKER))
-					to_chat(M, span_warning("Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment."))
-					COOLDOWN_START(src, BLOODSUCKER_SPAM_SOL_LOCKER, 30 SECONDS) //This should happen twice per Sol
-				M.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2) // M.current.fireloss += 0.5 + bloodsuckerdatum.bloodsucker_level / 2  //  Do DIRECT damage. Being spaced was causing this to not occur. setFireLoss(bloodsuckerdatum.bloodsucker_level)
-				M.current.updatehealth()
-				SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
-		/// Out in the Open?
-		else
-			if(COOLDOWN_FINISHED(src, BLOODSUCKER_SPAM_SOL_BURN))
+			if(COOLDOWN_FINISHED(bloodsuckerdatum, BLOODSUCKER_SPAM_SOL_LOCKER)) // Closets offer SOME protection
+				to_chat(M, span_warning("Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment."))
+				COOLDOWN_START(bloodsuckerdatum, BLOODSUCKER_SPAM_SOL_LOCKER, 30 SECONDS) //This should happen twice per Sol
+			M.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2)
+			M.current.updatehealth()
+			SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
+		else // Out in the Open?
+			if(COOLDOWN_FINISHED(bloodsuckerdatum, BLOODSUCKER_SPAM_SOL_BURN))
 				if(bloodsuckerdatum.bloodsucker_level > 0)
 					to_chat(M, span_userdanger("The solar flare sets your skin ablaze!"))
 				else
 					to_chat(M, span_userdanger("The solar flare scalds your neophyte skin!"))
-				COOLDOWN_START(src, BLOODSUCKER_SPAM_SOL_BURN, 30 SECONDS) //This should happen twice per Sol
+				COOLDOWN_START(bloodsuckerdatum, BLOODSUCKER_SPAM_SOL_BURN, 30 SECONDS) //This should happen twice per Sol
 			if(M.current.fire_stacks <= 0)
 				M.current.fire_stacks = 0
 			if(bloodsuckerdatum.bloodsucker_level > 0)
 				M.current.adjust_fire_stacks(0.2 + bloodsuckerdatum.bloodsucker_level / 10)
 				M.current.IgniteMob()
-			M.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level) // M.current.fireloss += 2 + bloodsuckerdatum.bloodsucker_level //Do DIRECT damage. Being spaced was causing this to not occur.  //setFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
+			M.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
 			M.current.updatehealth()
 			SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_2)
 
