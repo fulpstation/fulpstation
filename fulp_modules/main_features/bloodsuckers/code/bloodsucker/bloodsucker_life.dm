@@ -408,7 +408,6 @@
 	var/mob/living/carbon/user = owner.current
 	owner.current.drop_all_held_items()
 	owner.current.unequip_everything()
-	var/mob/living/carbon/user = owner.current
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 	// Elders get dusted, Fledglings get gibbed
