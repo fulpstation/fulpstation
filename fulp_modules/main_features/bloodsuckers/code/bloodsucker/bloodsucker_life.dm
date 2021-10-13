@@ -307,21 +307,21 @@
 	else
 		additional_regen = 0.5
 
-/*
-	# Torpor
-
-	Torpor is what deals with the Bloodsucker falling asleep, their healing, the effects, ect.
-	This is basically what Sol is meant to do to them, but they can also trigger it manually if they wish to heal, as Burn is only healed through Torpor.
-	You cannot manually exit Torpor, it is instead entered/exited by:
-
-	Torpor is triggered by:
-	- Being in a Coffin while Sol is on, dealt with by /HandleTorpor()
-	- Entering a Coffin with more than 10 combined Brute/Burn damage, dealt with by /closet/crate/coffin/close() [bloodsucker_coffin.dm]
-	- Death, dealt with by /HandleDeath()
-	Torpor is ended by:
-	- Having less than 10 Brute damage while OUTSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
-	- Having less than 10 Brute & Burn Combined while INSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
-	- Sol being over, dealt with by /sunlight/process() [bloodsucker_daylight.dm]
+/**
+ * # Torpor
+ *
+ * Torpor is what deals with the Bloodsucker falling asleep, their healing, the effects, ect.
+ * This is basically what Sol is meant to do to them, but they can also trigger it manually if they wish to heal, as Burn is only healed through Torpor.
+ * You cannot manually exit Torpor, it is instead entered/exited by:
+ *
+ * Torpor is triggered by:
+ * - Being in a Coffin while Sol is on, dealt with by /HandleTorpor()
+ * - Entering a Coffin with more than 10 combined Brute/Burn damage, dealt with by /closet/crate/coffin/close() [bloodsucker_coffin.dm]
+ * - Death, dealt with by /HandleDeath()
+ * Torpor is ended by:
+ * - Having less than 10 Brute damage while OUTSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
+ * - Having less than 10 Brute & Burn Combined while INSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
+ * - Sol being over, dealt with by /sunlight/process() [bloodsucker_daylight.dm]
 */
 
 /datum/antagonist/bloodsucker/proc/HandleTorpor()
@@ -391,18 +391,21 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	HealVampireOrgans()
 
+/datum/antagonist/bloodsucker/proc/on_death()
+	SIGNAL_HANDLER
+
+	addtimer(CALLBACK(src, .proc/HandleDeath), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
-	// Check for non carbons and end it early.
-	if(!iscarbon(owner.current))
-		owner.current.gib()
+	FreeAllVassals()
+	// If we have no body, end here.
+	if(!owner.current)
 		return
 
-	// End Bloodsucker processes
-	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
-	FreeAllVassals()
 	DisableAllPowers()
 	// Drop anything in us and play a tune
+	var/mob/living/carbon/user = owner.current
 	owner.current.drop_all_held_items()
 	owner.current.unequip_everything()
 	var/mob/living/carbon/user = owner.current
@@ -548,7 +551,7 @@
 	mood_change = -5
 	timeout = 5 MINUTES
 
-/// Candelabrum
+///Candelabrum's mood event to non Bloodsucker/Vassals
 /datum/mood_event/vampcandle
 	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
 	mood_change = -15

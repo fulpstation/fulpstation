@@ -94,14 +94,14 @@
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
+  RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
-	return
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/current_mob = mob_override || owner.current
 	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
+  UnregisterSignal(owner.current, COMSIG_LIVING_DEATH)
 	handle_clown_mutation(current_mob, removing = FALSE)
-	return
 
 /datum/antagonist/bloodsucker/get_admin_commands()
 	. = ..()
