@@ -103,7 +103,7 @@
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/clown/commander
 	name = "clown emergency response team commander helmet"
-	desc = "The integrated helmet of an ERT hardsuit, this one is colourful, with a green visor!"
+	desc = "The integrated helmet of an ERT hardsuit, this one is colorful, with a green visor!"
 	worn_icon = 'fulp_modules/features/ert/icons/hardsuit_worn.dmi'
 	icon = 'fulp_modules/features/ert/icons/hardsuit.dmi'
 	icon_state = "hardsuit0-clownert_commander"
@@ -111,7 +111,7 @@
 
 /obj/item/clothing/suit/space/hardsuit/ert/clown/commander
 	name = "clown emergency response team commander hardsuit"
-	desc = "The non-standard issue hardsuit of the Honk Prime, this one is colourful! Offers superb protection against environmental hazards. Does not offer superb protection against a ravaging crew."
+	desc = "The non-standard issue hardsuit of the Honk Prime, this one is colorful! Offers superb protection against environmental hazards. Does not offer superb protection against a ravaging crew."
 	worn_icon = 'fulp_modules/features/ert/icons/hardsuit_worn.dmi'
 	icon = 'fulp_modules/features/ert/icons/hardsuit.dmi'
 	icon_state = "clownert_commander"
