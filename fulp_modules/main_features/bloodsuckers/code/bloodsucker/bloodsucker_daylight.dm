@@ -130,11 +130,11 @@
 				SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
 				continue
 			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_locker)) // Closets offer SOME protection
-				to_chat(bloodsucker_minds, span_warning("Your skin sizzles. [M.current.loc] doesn't protect well against UV bombardment."))
+				to_chat(bloodsucker_minds, span_warning("Your skin sizzles. [bloodsucker_minds.current.loc] doesn't protect well against UV bombardment."))
 				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_locker, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
 			bloodsucker_minds.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2)
 			bloodsucker_minds.current.updatehealth()
-			SEND_SIGNAL(M.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
+			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
 		else // Out in the Open?
 			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_locker))
 				if(bloodsuckerdatum.bloodsucker_level > 0)
