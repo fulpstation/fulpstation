@@ -28,7 +28,8 @@
 	return TRUE
 
 /datum/action/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
-	for(var/obj/machinery/light/L in view(flicker_range, get_turf(owner)))
+	for(var/obj/machinery/light/nearby_lights in view(flicker_range, get_turf(owner)))
+		nearby_lights.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
@@ -40,8 +41,8 @@
 	flicker_lights(4, 40)
 	sleep(50)
 	flicker_lights(4, 60)
-	for(var/obj/machinery/light/L in view(6, get_turf(owner)))
-		L.flicker(5)
+	for(var/obj/machinery/light/nearby_lights in view(6, get_turf(owner)))
+		nearby_lights.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', 60, 1)
 	/// STEP TWO: Lights OFF?
 	/// CHECK: Still have Coffin?
@@ -60,22 +61,22 @@
 	if(!isturf(owner.loc))
 		return
 	// A) Check for Darkness (we can just leave)
-	var/turf/T = get_turf(user)
-	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
+	var/turf/current_turf = get_turf(user)
+	if(current_turf && current_turf.lighting_object && current_turf.get_lumcount()>= 0.1)
 		// B) Check for Viewers
-		for(var/mob/living/M in viewers(world.view, get_turf(owner)) - owner)
-			if(M.client && !M.has_unlimited_silicon_privilege && !M.eye_blind)
+		for(var/mob/living/watchers in viewers(world.view, get_turf(owner)) - owner)
+			if(watchers.client && !watchers.has_unlimited_silicon_privilege && !watchers.eye_blind)
 				am_seen = TRUE
-				if(!IS_BLOODSUCKER(M) && !IS_VASSAL(M))
+				if(!IS_BLOODSUCKER(watchers) && !IS_VASSAL(watchers))
 					drop_item = TRUE
 					break
 	/// LOSE CUFFS
 	if(user.handcuffed)
-		var/obj/O = user.handcuffed
-		user.dropItemToGround(O)
+		var/obj/handcuffs = user.handcuffed
+		user.dropItemToGround(handcuffs)
 	if(user.legcuffed)
-		var/obj/O = user.legcuffed
-		user.dropItemToGround(O)
+		var/obj/legcuffs = user.legcuffed
+		user.dropItemToGround(legcuffs)
 	/// SEEN!
 	if(drop_item)
 		// DROP: Clothes, held items, and cuffs etc
@@ -83,10 +84,10 @@
 		// *force* all items to drop, so we had to just gut the code out of it.
 		var/list/items = list()
 		items |= user.get_equipped_items()
-		for(var/I in items)
-			user.dropItemToGround(I,TRUE)
-		for(var/obj/item/I in owner.held_items)	//drop_all_held_items()
-			user.dropItemToGround(I, TRUE)
+		for(var/belongings in items)
+			user.dropItemToGround(belongings, TRUE)
+		for(var/obj/item/held_posessions in owner.held_items) //drop_all_held_items()
+			user.dropItemToGround(held_posessions, TRUE)
 	/// POOF EFFECTS
 	if(am_seen)
 		playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)

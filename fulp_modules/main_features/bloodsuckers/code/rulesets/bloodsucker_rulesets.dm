@@ -33,18 +33,18 @@
 	for(var/i = 1 to num_bloodsuckers)
 		if(candidates.len <= 0)
 			break
-		var/mob/M = pick_n_take(candidates)
-		assigned += M.mind
-		M.mind.restricted_roles = restricted_roles
-		M.mind.special_role = ROLE_BLOODSUCKER
-		GLOB.pre_setup_antags += M.mind
+		var/mob/selected_mobs = pick_n_take(candidates)
+		assigned += selected_mobs.mind
+		selected_mobs.mind.restricted_roles = restricted_roles
+		selected_mobs.mind.special_role = ROLE_BLOODSUCKER
+		GLOB.pre_setup_antags += selected_mobs.mind
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/execute()
-	for(var/M in assigned)
-		var/datum/mind/bloodsuckermind = M
-		if(!bloodsuckermind.make_bloodsucker(M))
-			assigned -= M
+	for(var/assigned_bloodsuckers in assigned)
+		var/datum/mind/bloodsuckermind = assigned_bloodsuckers
+		if(!bloodsuckermind.make_bloodsucker(assigned_bloodsuckers))
+			assigned -= assigned_bloodsuckers
 		GLOB.pre_setup_antags -= bloodsuckermind
 	return TRUE
 
@@ -83,18 +83,18 @@
 			living_players -= player // We don't allow people with roles already
 
 /datum/dynamic_ruleset/midround/bloodsucker/execute()
-	var/mob/M = pick(living_players)
-	assigned += M
-	living_players -= M
-	var/datum/mind/bloodsuckermind = M
+	var/mob/selected_mobs = pick(living_players)
+	assigned += selected_mobs
+	living_players -= selected_mobs
+	var/datum/mind/bloodsuckermind = selected_mobs
 	var/datum/antagonist/bloodsucker/sucker = new
-	if(!bloodsuckermind.make_bloodsucker(M))
-		assigned -= M
-		message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
+	if(!bloodsuckermind.make_bloodsucker(selected_mobs))
+		assigned -= selected_mobs
+		message_admins("[ADMIN_LOOKUPFLW(selected_mobs)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
 		return FALSE
 	sucker.bloodsucker_level_unspent = rand(2,3)
-	message_admins("[ADMIN_LOOKUPFLW(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
-	log_game("DYNAMIC: [key_name(M)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	message_admins("[ADMIN_LOOKUPFLW(selected_mobs)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
+	log_game("DYNAMIC: [key_name(selected_mobs)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
 
 //////////////////////////////////////////////
@@ -122,8 +122,8 @@
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/latejoin/bloodsucker/execute()
-	var/mob/M = pick(candidates) // This should contain a single player, but in case.
-	assigned += M.mind
+	var/mob/latejoiner = pick(candidates) // This should contain a single player, but in case.
+	assigned += latejoiner.mind
 
 	for(var/selected_player in assigned)
 		var/datum/mind/bloodsuckermind = selected_player
@@ -149,8 +149,8 @@
 
 /datum/mind/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
 	// Species Must have a HEART (Sorry Plasmamen)
-	var/mob/living/carbon/human/H = bloodsucker.current
-	if(!(H.dna?.species) || !(H.mob_biotypes & MOB_ORGANIC))
+	var/mob/living/carbon/human/user = bloodsucker.current
+	if(!(user.dna?.species) || !(user.mob_biotypes & MOB_ORGANIC))
 		if(creator)
 			to_chat(creator, span_danger("[bloodsucker]'s DNA isn't compatible!"))
 		return FALSE
@@ -172,8 +172,8 @@
 	return TRUE
 
 /datum/mind/proc/remove_bloodsucker()
-	var/datum/antagonist/bloodsucker/C = has_antag_datum(/datum/antagonist/bloodsucker)
-	if(C)
+	var/datum/antagonist/bloodsucker/removed_bloodsucker = has_antag_datum(/datum/antagonist/bloodsucker)
+	if(removed_bloodsucker)
 		remove_antag_datum(/datum/antagonist/bloodsucker)
 		special_role = null
 
@@ -189,9 +189,9 @@
 			to_chat(creator, span_danger("[target] isn't self-aware enough to be made into a Vassal."))
 		return FALSE
 	// Already MY Vassal
-	var/datum/antagonist/vassal/V = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(istype(V) && V.master)
-		if(V.master.owner == creator)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(istype(vassaldatum) && vassaldatum.master)
+		if(vassaldatum.master.owner == creator)
 			if(display_warning)
 				to_chat(creator, span_danger("[target] is already your loyal Vassal!"))
 		else
@@ -205,40 +205,40 @@
 		return FALSE
 	return TRUE
 
-/datum/antagonist/bloodsucker/proc/AmValidAntag(mob/M)
+/datum/antagonist/bloodsucker/proc/AmValidAntag(mob/target)
 	/// Check if they are an antag, if so, check if they're Invalid.
-	if(M.mind?.special_role || !isnull(M.mind?.antag_datums))
-		return !AmInvalidAntag(M)
+	if(target.mind?.special_role || !isnull(target.mind?.antag_datums))
+		return !AmInvalidAntag(target)
 	/// Otherwise, just cancel out.
 	return FALSE
 
-/datum/antagonist/bloodsucker/proc/AmInvalidAntag(mob/M)
+/datum/antagonist/bloodsucker/proc/AmInvalidAntag(mob/target)
 	/// Not an antag?
-	if(!is_special_character(M))
+	if(!is_special_character(target))
 		return FALSE
 	/// Checks if the person is an antag banned from being vassalized, stored in bloodsucker's datum.
-	for(var/datum/antagonist/antag_datum in M.mind.antag_datums)
+	for(var/datum/antagonist/antag_datum in target.mind.antag_datums)
 		if(antag_datum.type in vassal_banned_antags)
 			//message_admins("DEBUG VASSAL: Found Invalid: [antag_datum] // [antag_datum.type]")
 			return TRUE
-	//message_admins("DEBUG VASSAL: Valid Antags! (total of [M.antag_datums.len])")
+//	message_admins("DEBUG VASSAL: Valid Antags! (total of [target.antag_datums.len])")
 	// WHEN YOU DELETE THE ABOVE: Remove the 3 second timer on converting the vassal too.
 	return FALSE
 
-/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/C, can_vassal_sleeping = FALSE)
-	C.silent = 0
-	return make_vassal(C, owner, can_vassal_sleeping)
+/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/target, can_vassal_sleeping = FALSE)
+	target.silent = 0
+	return make_vassal(target, owner, can_vassal_sleeping)
 
 /datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator, sleeping = FALSE)
 	if(!can_make_vassal(target, creator, can_vassal_sleeping = sleeping))
 		return FALSE
 	// Make Vassal
-	var/datum/antagonist/vassal/V = new(target.mind)
-	var/datum/antagonist/bloodsucker/B = creator.has_antag_datum(/datum/antagonist/bloodsucker)
-	V.master = B
-	target.mind.add_antag_datum(V, V.master.get_team())
+	var/datum/antagonist/vassal/vassaldatum = new(target.mind)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = creator.has_antag_datum(/datum/antagonist/bloodsucker)
+	vassaldatum.master = bloodsuckerdatum
+	target.mind.add_antag_datum(vassaldatum, vassaldatum.master.get_team())
 	// Update Bloodsucker Title
-	B.SelectTitle(am_fledgling = FALSE) // Only works if you have no title yet.
+	bloodsuckerdatum.SelectTitle(am_fledgling = FALSE) // Only works if you have no title yet.
 	// Log it
 	message_admins("[target] has become a Vassal, and is enslaved to [creator].")
 	log_admin("[target] has become a Vassal, and is enslaved to [creator].")

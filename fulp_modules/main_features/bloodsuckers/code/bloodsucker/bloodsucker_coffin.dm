@@ -113,13 +113,13 @@
 	if(!.)
 		return FALSE
 	if(user in src)
-		var/datum/antagonist/bloodsucker/B = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(!B)
-			return
-		if(B.lair != get_area(B.coffin))
-			if(B.coffin)
-				B.coffin.UnclaimCoffin()
-		var/list/turf/area_turfs = get_area_turfs(B.lair)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(!bloodsuckerdatum)
+			return FALSE
+		if(bloodsuckerdatum.lair != get_area(bloodsuckerdatum.coffin))
+			if(bloodsuckerdatum.coffin)
+				bloodsuckerdatum.coffin.UnclaimCoffin()
+		var/list/turf/area_turfs = get_area_turfs(bloodsuckerdatum.lair)
 		// Create Dirt etc.
 		var/turf/T_Dirty = pick(area_turfs)
 		if(T_Dirty && !T_Dirty.density)
@@ -144,23 +144,24 @@
 /*		if(rand(0,2) == 0)
 			var/mobCount = 0
 			var/mobMax = clamp(area_turfs.len / 25, 1, 4)
-			for(var/turf/T in area_turfs)
-				if(!T) continue
-				var/mob/living/simple_animal/SA = locate() in T
+			for(var/turf/lair_turfs in area_turfs)
+				if(!lair_turfs)
+					continue
+				var/mob/living/simple_animal/SA = locate() in lair_turfs
 				if(SA)
-					mobCount ++
-					if (mobCount >= mobMax) // Already at max
+					mobCount++
+					if(mobCount >= mobMax) // Already at max
 						break
 				Spawn One
 			if(mobCount < mobMax)
-				 Seek Out Location
+//				Seek Out Location
 				while(area_turfs.len > 0)
-					var/turf/T = pick(area_turfs) // We use while&pick instead of a for/loop so it's random, rather than from the top of the list.
-					if(T && !T.density)
-						var/mob/living/simple_animal/SA = /mob/living/simple_animal/mouse // pick(/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse, /mob/living/simple_animal/hostile/retaliate/bat) //prob(300) /mob/living/simple_animal/mouse,
-						new SA (T)
+					var/turf/lair_turfs = pick(area_turfs) // We use while&pick instead of a for/loop so it's random, rather than from the top of the list.
+					if(lair_turfs && !lair_turfs.density)
+						var/mob/living/simple_animal/selected_simplemob = /mob/living/simple_animal/mouse // pick(/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse, /mob/living/simple_animal/hostile/retaliate/bat) //prob(300) /mob/living/simple_animal/mouse,
+						new selected_simplemob(lair_turfs)
 						break
-					area_turfs -= T*/
+					area_turfs -= lair_turfs*/
 
 /obj/structure/closet/crate/proc/UnclaimCoffin(manual = FALSE)
 	// Unanchor it (If it hasn't been broken, anyway)
@@ -217,21 +218,21 @@
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
-/obj/structure/closet/crate/coffin/attackby(obj/item/W, mob/user, params)
+/obj/structure/closet/crate/coffin/attackby(obj/item/item, mob/user, params)
 	if(resident)
 		if(user != resident)
-			if(istype(W, cutting_tool))
+			if(istype(item, cutting_tool))
 				to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
 				return
-		if(anchored && istype(W, /obj/item/wrench))
+		if(anchored && istype(item, /obj/item/wrench))
 			to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt Click to unclaim and unwrench your Coffin." : ""]"))
 			return
 
-	if(locked && istype(W, /obj/item/crowbar))
-		var/pry_time = pryLidTimer * W.toolspeed // Pry speed must be affected by the speed of the tool.
+	if(locked && istype(item, /obj/item/crowbar))
+		var/pry_time = pryLidTimer * item.toolspeed // Pry speed must be affected by the speed of the tool.
 		user.visible_message(
-			span_notice("[user] tries to pry the lid off of [src] with [W]."),
-			span_notice("You begin prying the lid off of [src] with [W]. This should take about [DisplayTimeText(pry_time)]."),
+			span_notice("[user] tries to pry the lid off of [src] with [item]."),
+			span_notice("You begin prying the lid off of [src] with [item]. This should take about [DisplayTimeText(pry_time)]."),
 		)
 		if(!do_mob(user, src, pry_time))
 			return

@@ -33,8 +33,8 @@
 				* Additionally, Brawn and punches deal more damage than other Bloodsuckers. Use this to your advantage!\n\
 				* Finally, your Favorite Vassal will gain the Brawn ability to help you in combat."))
 			/// Makes their max punch, and by extension Brawn, stronger - Stolen from SpendRank()
-			var/datum/species/S = bloodsucker.dna.species
-			S.punchdamagehigh += 1.5
+			var/datum/species/user_species = bloodsucker.dna.species
+			user_species.punchdamagehigh += 1.5
 			AddHumanityLost(17.5)
 			BuyPower(new /datum/action/bloodsucker/brujah)
 			var/datum/objective/bloodsucker/gourmand/brujah/brujah_objective = new

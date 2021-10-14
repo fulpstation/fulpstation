@@ -350,8 +350,8 @@
 	return
 
 ///Prevents using a screwdriver on it
-/obj/item/ammo_casing/caseless/foam_dart/arm_ball/attackby(obj/item/A)
-	if(A.tool_behaviour == TOOL_SCREWDRIVER)
+/obj/item/ammo_casing/caseless/foam_dart/arm_ball/attackby(obj/item/used_tool)
+	if(used_tool.tool_behaviour == TOOL_SCREWDRIVER)
 		return
 	..()
 

@@ -35,16 +35,16 @@ GLOBAL_LIST_INIT(mouths_beefman, list(
 
 /mob/living/carbon/getBruteLoss_nonProsthetic()
 	var/amount = 0
-	for(var/obj/item/bodypart/BP in bodyparts)
-		if (BP.status < BODYPART_ROBOTIC)
-			amount += BP.brute_dam
+	for(var/obj/item/bodypart/chosen_bodypart in bodyparts)
+		if(chosen_bodypart.status < BODYPART_ROBOTIC)
+			amount += chosen_bodypart.brute_dam
 	return amount
 
 /mob/living/carbon/getFireLoss_nonProsthetic()
 	var/amount = 0
-	for(var/obj/item/bodypart/BP in bodyparts)
-		if (BP.status < BODYPART_ROBOTIC)
-			amount += BP.burn_dam
+	for(var/obj/item/bodypart/chosen_bodypart in bodyparts)
+		if(chosen_bodypart.status < BODYPART_ROBOTIC)
+			amount += chosen_bodypart.burn_dam
 	return amount
 
 /*

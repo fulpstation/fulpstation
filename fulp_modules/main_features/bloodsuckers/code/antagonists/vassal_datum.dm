@@ -66,8 +66,8 @@
 	/// Remove Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
-	for(var/T in owner.current.status_traits)
-		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
+	for(var/all_status_traits in owner.current.status_traits)
+		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	/// Remove Recuperate Power
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
@@ -78,11 +78,11 @@
 	update_vassal_icons_removed(owner)
 	return ..()
 
-/datum/antagonist/vassal/proc/add_objective(datum/objective/O)
-	objectives += O
+/datum/antagonist/vassal/proc/add_objective(datum/objective/added_objective)
+	objectives += added_objective
 
-/datum/antagonist/vassal/proc/remove_objectives(datum/objective/O)
-	objectives -= O
+/datum/antagonist/vassal/proc/remove_objectives(datum/objective/removed_objective)
+	objectives -= removed_objective
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a bloodsucking vampire!"))
@@ -140,16 +140,17 @@
 
 /// Used for Admin removing Vassals.
 /datum/mind/proc/remove_vassal()
-	var/datum/antagonist/vassal/C = has_antag_datum(/datum/antagonist/vassal)
-	if(C)
+	var/datum/antagonist/vassal/selected_vassal = has_antag_datum(/datum/antagonist/vassal)
+	if(selected_vassal)
 		remove_antag_datum(/datum/antagonist/vassal)
 
 /// When a Bloodsucker gets FinalDeath, all Vassals are freed - This is a Bloodsucker proc, not a Vassal one.
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
-	for(var/datum/antagonist/vassal/V in vassals)
-		if(V.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+	for(var/datum/antagonist/vassal/all_vassals in vassals)
+		// Skip over any Bloodsucker Vassals, they're too far gone to have all their stuff taken away from them
+		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 			continue
-		remove_vassal(V.owner)
+		remove_vassal(all_vassals.owner)
 
 /// Called by FreeAllVassals()
 /datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)

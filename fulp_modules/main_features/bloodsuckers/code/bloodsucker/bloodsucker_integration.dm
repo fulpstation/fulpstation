@@ -4,13 +4,13 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 
 /client/has_antag_hud()
 	var/adding_hud = !has_fulp_antag_hud()
-	for(var/datum/atom_hud/antag/H in GLOB.fulp_huds) // add antag huds
-		(adding_hud) ? H.add_hud_to(usr) : H.remove_hud_from(usr)
+	for(var/datum/atom_hud/antag/all_huds in GLOB.fulp_huds) // add antag huds
+		(adding_hud) ? all_huds.add_hud_to(usr) : all_huds.remove_hud_from(usr)
 	. = ..()
 
 /client/proc/has_fulp_antag_hud()
-	var/datum/atom_hud/A = GLOB.fulp_huds[ANTAG_HUD_TRAITOR]
-	return A.hudusers[mob]
+	var/datum/atom_hud/antag_huds = GLOB.fulp_huds[ANTAG_HUD_TRAITOR]
+	return antag_huds.hudusers[mob]
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,10 +19,10 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// Gives Curators their abilities
-/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/curator/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
 	. = ..()
 
-	ADD_TRAIT(H, TRAIT_BLOODSUCKER_HUNTER, JOB_TRAIT)
+	ADD_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER, JOB_TRAIT)
 
 /// Prevents using a Memento Mori
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
@@ -31,9 +31,9 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 		return
 	. = ..()
 
-/datum/species/jelly/slime/spec_life(mob/living/carbon/human/H)
+/datum/species/jelly/slime/spec_life(mob/living/carbon/human/user)
 	// Prevents Slimeperson 'gaming
-	if(IS_BLOODSUCKER(H))
+	if(IS_BLOODSUCKER(user))
 		return
 	. = ..()
 

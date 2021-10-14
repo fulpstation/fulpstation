@@ -8,16 +8,16 @@
 /datum/job/fulp
 	var/fulp_spawn = null //give it a room's type path to spawn there
 
-/datum/job/fulp/after_spawn(mob/living/H, mob/M, latejoin)
+/datum/job/fulp/after_spawn(mob/living/user, mob/player, latejoin)
 	. = ..()
 	if(!latejoin && fulp_spawn)
-		var/turf/T = get_fulp_spawn(fulp_spawn)
-		H.Move(T)
+		var/turf/spawn_turf = get_fulp_spawn(fulp_spawn)
+		user.Move(spawn_turf)
 
 /proc/get_fulp_spawn(area/room) // Reworked to find any empty tile
-	for(var/turf/T in shuffle(get_area_turfs(room)))
-		if(!T.is_blocked_turf(TRUE))
-			return T
+	for(var/turf/spawn_turf in shuffle(get_area_turfs(room)))
+		if(!spawn_turf.is_blocked_turf(TRUE))
+			return spawn_turf
 
 /// We're overwriting TG's Chain of Command with our own via /New()
 /datum/controller/subsystem/job

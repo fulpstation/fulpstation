@@ -194,14 +194,14 @@
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/fulp/deputy/service
 
-/datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
+/datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/user, mob/player, latejoin = FALSE)
 	. = ..()
 
 	var/assigned_department = SEC_DEPT_NONE // Might be worth merging this into deputy_department soon.
 	var/channel
 
 	if(!deputy_department || deputy_department == DEPARTMENT_SECURITY)
-		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
+		to_chat(user, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 		return
 	switch(deputy_department)
 		if(DEPARTMENT_ENGINEERING)
@@ -219,8 +219,8 @@
 		if(DEPARTMENT_SERVICE)
 			assigned_department = SEC_DEPT_SERVICE
 			channel = RADIO_CHANNEL_SERVICE
-	announce_deputy(H, assigned_department, channel)
-	to_chat(M, "<b>You have been assigned to [assigned_department]!</b>")
+	announce_deputy(user, assigned_department, channel)
+	to_chat(player, "<b>You have been assigned to [assigned_department]!</b>")
 
 /datum/job/fulp/deputy/proc/announce_deputy(mob/deputy, department, channel)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)

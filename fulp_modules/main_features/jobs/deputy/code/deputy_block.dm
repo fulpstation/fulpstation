@@ -38,11 +38,11 @@
 		return TRUE
 
 /// This is required or else the block chance just wont work
-/datum/martial_art/deputyblock/disarm_act(mob/living/A, mob/living/D)
-	..()
+/datum/martial_art/deputyblock/disarm_act(mob/living/user, mob/living/target)
+	. = ..()
 
-/datum/martial_art/deputyblock/grab_act(mob/living/A, mob/living/D)
-	..()
+/datum/martial_art/deputyblock/grab_act(mob/living/user, mob/living/target)
+	. = ..()
 
-/datum/martial_art/deputyblock/harm_act(mob/living/A, mob/living/D)
-	..()
+/datum/martial_art/deputyblock/harm_act(mob/living/user, mob/living/target)
+	. = ..()

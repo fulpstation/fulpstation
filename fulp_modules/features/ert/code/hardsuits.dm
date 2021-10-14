@@ -12,15 +12,15 @@
 	..()
 	to_chat(user, "Your helmet's visor activates its integrated HUD, revealing information around you.")
 	ADD_TRAIT(user, TRAIT_SECURITY_HUD, HELMET_TRAIT)
-	var/datum/atom_hud/H = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
-	H.add_hud_to(user)
+	var/datum/atom_hud/security_hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
+	security_hud.add_hud_to(user)
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/commandermed/dropped(mob/living/carbon/human/user)
 	..()
 	to_chat(user, "You remove your helmet, disabling its integrated hud.")
 	REMOVE_TRAIT(user, TRAIT_SECURITY_HUD, HELMET_TRAIT)
-	var/datum/atom_hud/H = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
-	H.remove_hud_from(user)
+	var/datum/atom_hud/security_hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
+	security_hud.remove_hud_from(user)
 
 /obj/item/clothing/suit/space/hardsuit/ert/commandermed
 	name = "medical emergency response team commander hardsuit"
@@ -46,15 +46,15 @@
 	..()
 	to_chat(user, "Your helmet's visor activates its integrated HUD, revealing information around you.")
 	ADD_TRAIT(user, TRAIT_SECURITY_HUD, HELMET_TRAIT)
-	var/datum/atom_hud/H = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
-	H.add_hud_to(user)
+	var/datum/atom_hud/security_hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
+	security_hud.add_hud_to(user)
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/commandersec/dropped(mob/living/carbon/human/user)
 	..()
 	to_chat(user, "You remove your helmet, disabling its integrated hud.")
 	REMOVE_TRAIT(user, TRAIT_SECURITY_HUD, HELMET_TRAIT)
-	var/datum/atom_hud/H = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
-	H.remove_hud_from(user)
+	var/datum/atom_hud/security_hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
+	security_hud.remove_hud_from(user)
 
 /obj/item/clothing/suit/space/hardsuit/ert/commandersec
 	name = "security emergency response team commander hardsuit"
@@ -80,15 +80,15 @@
 	..()
 	to_chat(user, "Your helmet's visor activates its integrated HUD, revealing information around you.")
 	ADD_TRAIT(user, TRAIT_SECURITY_HUD, HELMET_TRAIT)
-	var/datum/atom_hud/H = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
-	H.add_hud_to(user)
+	var/datum/atom_hud/security_hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
+	security_hud.add_hud_to(user)
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/commandereng/dropped(mob/living/carbon/human/user)
 	..()
 	to_chat(user, "You remove your helmet, disabling its integrated hud.")
 	REMOVE_TRAIT(user, TRAIT_SECURITY_HUD, HELMET_TRAIT)
-	var/datum/atom_hud/H = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
-	H.remove_hud_from(user)
+	var/datum/atom_hud/security_hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
+	security_hud.remove_hud_from(user)
 
 /obj/item/clothing/suit/space/hardsuit/ert/commandereng
 	name = "engineering emergency response team commander hardsuit"
