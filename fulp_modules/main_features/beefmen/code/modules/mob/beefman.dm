@@ -71,40 +71,36 @@
 		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
 
 /mob/living/carbon/human/proc/adjust_bl_all(type = "add", amount)
-	for(var/i in bodyparts)
-		var/obj/item/bodypart/BP = i
+	for(var/all_bodyparts in bodyparts)
+		var/obj/item/bodypart/chosen_bodypart = all_bodyparts
 		switch(type)
 			if ("+")
-				BP.generic_bleedstacks += amount
+				chosen_bodypart.generic_bleedstacks += amount
 			if ("=")
-				BP.generic_bleedstacks = amount
+				chosen_bodypart.generic_bleedstacks = amount
 			if ("-")
-				BP.generic_bleedstacks -= amount
+				chosen_bodypart.generic_bleedstacks -= amount
 
-/datum/species/beefman/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
+// Taken from Ethereal
+/datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
 	. = ..()
-	// Taken DIRECTLY from ethereal!
-	if(!ishuman(C))
-		return
+	// 1) BODYPARTS
+	user.part_default_head = /obj/item/bodypart/head/beef
+	user.part_default_chest = /obj/item/bodypart/chest/beef
+	user.part_default_l_arm = /obj/item/bodypart/l_arm/beef
+	user.part_default_r_arm = /obj/item/bodypart/r_arm/beef
+	user.part_default_l_leg = /obj/item/bodypart/l_leg/beef
+	user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
+	user.ReassignForeignBodyparts()
 
-	// 2) BODYPARTS
-	C.part_default_head = /obj/item/bodypart/head/beef
-	C.part_default_chest = /obj/item/bodypart/chest/beef
-	C.part_default_l_arm = /obj/item/bodypart/l_arm/beef
-	C.part_default_r_arm = /obj/item/bodypart/r_arm/beef
-	C.part_default_l_leg = /obj/item/bodypart/l_leg/beef
-	C.part_default_r_leg = /obj/item/bodypart/r_leg/beef
-	C.ReassignForeignBodyparts()
-
-	// 3) Load it all
-	proof_beefman_features(C.dna.features) // Missing Defaults in DNA? Randomize!
-	var/mob/living/carbon/human/beefuser = C
-	set_beef_color(beefuser)
+	// 2) Load it all
+	proof_beefman_features(user.dna.features) // Missing Defaults in DNA? Randomize!
+	set_beef_color(user)
 
 	// Be Spooked but Educated
-	//C.gain_trauma(pick(startTraumas))
-	C.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
-	C.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+//	user.gain_trauma(pick(startTraumas))
+	user.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -115,12 +111,12 @@
 
 	return features
 
-/datum/species/proc/set_beef_color(mob/living/carbon/human/H)
+/datum/species/proc/set_beef_color(mob/living/carbon/human/user)
 	return // Do Nothing
 
-/datum/species/beefman/set_beef_color(mob/living/carbon/human/H)
+/datum/species/beefman/set_beef_color(mob/living/carbon/human/user)
 	// Called on Assign, or on Color Change (or any time proof_beefman_features() is used, such as in bs_veil.dm)
-	fixed_mut_color = H.dna.features["beefcolor"]
+	fixed_mut_color = user.dna.features["beefcolor"]
 	default_color = fixed_mut_color
 
 /mob/living/carbon/proc/ReassignForeignBodyparts() //This proc hurts me so much, it used to be worse, this really should be a list or something
@@ -155,41 +151,41 @@
 		var/obj/item/bodypart/limb = new part_default_r_leg
 		limb.replace_limb(src,TRUE)
 
-/datum/species/beefman/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
-	..()
+/datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
+	. = ..()
 
 	// 2) BODYPARTS
-	C.part_default_head = /obj/item/bodypart/head
-	C.part_default_chest = /obj/item/bodypart/chest
-	C.part_default_l_arm = /obj/item/bodypart/l_arm
-	C.part_default_r_arm = /obj/item/bodypart/r_arm
-	C.part_default_l_leg = /obj/item/bodypart/l_leg
-	C.part_default_r_leg = /obj/item/bodypart/r_leg
-	C.ReassignForeignBodyparts()
+	user.part_default_head = /obj/item/bodypart/head
+	user.part_default_chest = /obj/item/bodypart/chest
+	user.part_default_l_arm = /obj/item/bodypart/l_arm
+	user.part_default_r_arm = /obj/item/bodypart/r_arm
+	user.part_default_l_leg = /obj/item/bodypart/l_leg
+	user.part_default_r_leg = /obj/item/bodypart/r_leg
+	user.ReassignForeignBodyparts()
 
 	// Resolve Trauma
-	C.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	C.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 
-/datum/species/beefman/spec_life(mob/living/carbon/human/H)	// This is your life ticker.
+/datum/species/beefman/spec_life(mob/living/carbon/human/user)	// This is your life ticker.
 	..()
 	// 		** BLEED YOUR JUICES **         //-- BODYTEMP_NORMAL = 293.15
 
 	// Step 1) Being burned keeps the juices in.
-	var/searJuices = H.getFireLoss_nonProsthetic() / 30 //-- Now that is a lot of damage
+	var/searJuices = user.getFireLoss_nonProsthetic() / 30 //-- Now that is a lot of damage
 
 	// Step 2) Bleed out those juices by warmth, minus burn damage. If we are salted - bleed more
 	if (dehydrate > 0)
-		H.adjust_bl_all("=", clamp((H.bodytemperature - 297.15) / 20 - searJuices, 2, 10))
+		user.adjust_bl_all("=", clamp((user.bodytemperature - 297.15) / 20 - searJuices, 2, 10))
 		dehydrate -= 0.5
 	else
-		H.adjust_bl_all("=", clamp((H.bodytemperature - 297.15) / 20 - searJuices, 0, 5))
+		user.adjust_bl_all("=", clamp((user.bodytemperature - 297.15) / 20 - searJuices, 0, 5))
 
 	// Replenish Blood Faster! (But only if you actually make blood)
 	var/bleed_rate = 0
-	for(var/i in H.bodyparts)
-		var/obj/item/bodypart/BP = i
-		bleed_rate += BP.generic_bleedstacks
+	for(var/all_bodyparts in user.bodyparts)
+		var/obj/item/bodypart/chosen_bodypart = all_bodyparts
+		bleed_rate += chosen_bodypart.generic_bleedstacks
 
 /datum/species/beefman/pre_equip_species_outfit(datum/job/job, mob/living/carbon/human/equipping, visuals_only = FALSE)
 
@@ -303,21 +299,21 @@
 	equipping.equip_to_slot_or_del(newSash, ITEM_SLOT_ICLOTHING, TRUE) // TRUE is whether or not this is "INITIAL", as in startup
 	return ..()
 
-/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
+/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user)
 	. = ..() // Let species run its thing by default, TRUST ME
 	// Salt HURTS
 	if(chem.type == /datum/reagent/saltpetre || chem.type == /datum/reagent/consumable/salt)
-		H.adjustToxLoss(0.5, 0) // adjustFireLoss
-		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
-		if (prob(5) || dehydrate == 0)
-			to_chat(H, span_alert("Your beefy mouth tastes dry."))
+		user.adjustToxLoss(0.5, 0) // adjustFireLoss
+		user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
+		if(prob(5) || dehydrate == 0)
+			to_chat(user, span_alert("Your beefy mouth tastes dry."))
 		dehydrate ++
 		return TRUE
 	// Regain BLOOD
 	if(istype(chem, /datum/reagent/consumable/nutriment) || istype(chem, /datum/reagent/iron))
-		if (H.blood_volume < BLOOD_VOLUME_NORMAL)
-			H.blood_volume += 5
-			H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
+		if(user.blood_volume < BLOOD_VOLUME_NORMAL)
+			user.blood_volume += 5
+			user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
 			return TRUE
 
 // TO-DO // Weak to salt etc!
@@ -330,7 +326,7 @@
 ////////
 
 // TO-DO // Do funny stuff with Radiation
-/datum/species/beefman/handle_mutations_and_radiation(mob/living/carbon/human/H)
+/datum/species/beefman/handle_mutations_and_radiation(mob/living/carbon/human/user)
 	. = ..()
 
 
@@ -382,9 +378,9 @@
 			playsound(get_turf(user), 'fulp_modules/main_features/beefmen/sounds/beef_hit.ogg', 40, 1)
 
 			// Destroy Limb, Drop Meat, Pick Up
-			var/obj/item/I = affecting.drop_limb() //  <--- This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
-			if (istype(I, /obj/item/food/meat/slab))
-				user.put_in_hands(I)
+			var/obj/item/dropped_meat = affecting.drop_limb() //  <--- This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
+			if (istype(dropped_meat, /obj/item/food/meat/slab))
+				user.put_in_hands(dropped_meat)
 
 			return TRUE
 	return ..()
@@ -396,48 +392,41 @@
 	return ..()
 
 
-/datum/species/beefman/proc/handle_limb_mashing()
-	SIGNAL_HANDLER
-
-/datum/species/beefman/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/H, modifiers)
-	handle_limb_mashing()
-	// MEAT LIMBS: If our limb is missing, and we're using meat, stick it in!
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
-		return
-	if(H.stat < DEAD && !affecting && istype(I, /obj/item/food/meat/slab))
+/datum/species/beefman/spec_attacked_by(obj/item/meat_slab, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
+	if(beefboy.stat < DEAD && !affecting && istype(meat_slab, /obj/item/food/meat/slab))
 		var/target_zone = user.zone_selected
 		var/list/limbs = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 
 		if((target_zone in limbs))
-			if(user == H)
+			if(user == beefboy)
 				user.visible_message(
-					span_notice("[user] begins mashing [I] into [H]'s torso."),
-					span_notice("You begin mashing [I] into your torso."),
+					span_notice("[user] begins mashing [meat_slab] into [beefboy]'s torso."),
+					span_notice("You begin mashing [meat_slab] into your torso."),
 				)
 			else
 				user.visible_message(
-					span_notice("[user] begins mashing [I] into [H]'s torso."),
-					span_notice("You begin mashing [I] into [H]'s torso."),
+					span_notice("[user] begins mashing [meat_slab] into [beefboy]'s torso."),
+					span_notice("You begin mashing [meat_slab] into [beefboy]'s torso."),
 				)
 
 			// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
 			spawn(1)
-				if(do_mob(user,H))
-					// Attach the part!
-					var/obj/item/bodypart/newBP = H.newBodyPart(target_zone, FALSE)
-					H.visible_message(
-						span_notice("The meat sprouts digits and becomes [H]'s new [newBP.name]!"),
-						span_notice("The meat sprouts digits and becomes your new [newBP.name]!"),
-					)
-					newBP.attach_limb(H)
-					newBP.give_meat(H, I)
-					playsound(get_turf(H), 'fulp_modules/main_features/beefmen/sounds/beef_grab.ogg', 50, 1)
+				if(!do_mob(user, beefboy))
+					return
+				// Attach the part!
+				var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
+				beefboy.visible_message(
+					span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
+					span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"),
+				)
+				new_bodypart.attach_limb(beefboy)
+				new_bodypart.give_meat(beefboy, meat_slab)
+				playsound(get_turf(beefboy), 'fulp_modules/main_features/beefmen/sounds/beef_grab.ogg', 50, 1)
 
 			return TRUE // True CANCELS the sequence.
-
 	return ..() // TRUE FALSE
 
-			//// OUTSIDE PROCS ////
+//// OUTSIDE PROCS ////
 
 /datum/species/beefman/random_name(gender,unique,lastname)
 	if(unique)
@@ -506,9 +495,9 @@
 	var/prevOrganicState_Aux			// The hand sprite
 	var/prevOrganicIcon
 
-/obj/item/bodypart/add_mob_blood(mob/living/M) // Cancel adding blood if I'm deletin (throws errors)
-	if (!amCondemned)
-		..()
+/obj/item/bodypart/add_mob_blood(mob/living/user) // Cancel adding blood if I'm deletin (throws errors)
+	if(!amCondemned)
+		. = ..()
 
 /mob/living/carbon
 	// Type References for Bodyparts
@@ -532,9 +521,8 @@
 		// 2) Sort through all reagent datums in newMeat.list_reagents and adjust each version in newMeat.reagents.reagent_list/(REAGENT)/.volume
 		// 3) Apply a small part of my body's metabolic reagents to the meat. Check how Feed does this.
 
-// Meat has been assigned to this NEW limb! Give it meat and damage me as needed.
-
-/obj/item/bodypart/proc/give_meat(mob/living/carbon/human/H, obj/item/food/meat/slab/inMeatObj)
+///Meat has been assigned to this NEW limb! Give it meat and damage me as needed.
+/obj/item/bodypart/proc/give_meat(mob/living/carbon/human/beefboy, obj/item/food/meat/slab/inMeatObj)
 	// Assign Type
 	myMeatType = inMeatObj.type
 
@@ -542,30 +530,30 @@
 
 	// Get Original Amount
 	var/amountOriginal
-	for (var/R in inMeatObj.food_reagents) // <---- List of TYPES and the starting AMOUNTS
-		amountOriginal += inMeatObj.food_reagents[R]
+	for(var/reagents in inMeatObj.food_reagents) // List of TYPES and the starting AMOUNTS
+		amountOriginal += inMeatObj.food_reagents[reagents]
 	// Get Current Amount (of original reagents only)
 	var/amountCurrent
-	for (var/datum/reagent/R in inMeatObj.reagents.reagent_list) // <---- Actual REAGENT DATUMS and their VOLUMES
+	for(var/datum/reagent/extra_reagents in inMeatObj.reagents.reagent_list) // Actual REAGENT DATUMS and their VOLUMES
 		// This datum exists in the original list?
-		if (locate(R.type) in inMeatObj.food_reagents)
-			amountCurrent += R.volume
+		if(locate(extra_reagents.type) in inMeatObj.food_reagents)
+			amountCurrent += extra_reagents.volume
 			// Remove it from Meat (all others are about to be injected)
-			inMeatObj.reagents.remove_reagent(R.type, R.volume)
+			inMeatObj.reagents.remove_reagent(extra_reagents.type, extra_reagents.volume)
 	inMeatObj.reagents.update_total()
 	// Set Health:
 	var/percentDamage = 1 - amountCurrent / amountOriginal
 	receive_damage(brute = max_damage * percentDamage)
-	if (percentDamage >= 0.9)
+	if(percentDamage >= 0.9)
 		to_chat(owner, span_alert("It's almost completely useless. That [inMeatObj.name] was no good!"))
-	else if (percentDamage > 0.5)
+	else if(percentDamage > 0.5)
 		to_chat(owner, span_alert("It's riddled with bite marks."))
-	else if (percentDamage > 0)
+	else if(percentDamage > 0)
 		to_chat(owner, span_alert("It looks a little eaten away, but it'll do."))
 
 	// Apply meat's Reagents to Me
 	if(inMeatObj.reagents && inMeatObj.reagents.total_volume)
-		//inMeatObj.reagents.reaction(owner, INJECT, inMeatObj.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
+//		inMeatObj.reagents.reaction(owner, INJECT, inMeatObj.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
 		inMeatObj.reagents.trans_to(owner, inMeatObj.reagents.total_volume)	// Run transfer of 1 unit of reagent from them to me.
 
 	qdel(inMeatObj)
@@ -574,36 +562,36 @@
 /obj/item/bodypart/proc/drop_meat(mob/inOwner)
 
 	//Checks tile for cloning pod, if found then limb stays limb. Stops cloner from breaking beefmen making them useless after being cloned.
-	//var/turf/T = get_turf(src)
-	//for(var/obj/machinery/M in T)
-	//	if(istype(M,/obj/machinery/clonepod))
-	//		return FALSE
+//	var/turf/current_turf = get_turf(src)
+//	for(var/obj/machinery/machines in current_turf)
+//		if(istype(machines, /obj/machinery/clonepod))
+//			return FALSE
 
 	// Not Organic? ABORT! Robotic stays robotic, desnt delete and turn to meat.
-	if (status != BODYPART_ORGANIC)
+	if(status != BODYPART_ORGANIC)
 		return FALSE
 
 	// If not 0% health, let's do it!
 	var/percentHealth = 1 - (brute_dam + burn_dam) / max_damage
-	if (myMeatType != null && percentHealth > 0)
+	if(myMeatType != null && percentHealth > 0)
 
 		// Create Meat
-		var/obj/item/food/meat/slab/newMeat =	new myMeatType(src.loc)///obj/item/food/meat/slab(src.loc)
+		var/obj/item/food/meat/slab/newMeat = new myMeatType(src.loc)// /obj/item/food/meat/slab(src.loc)
 
 		// Adjust Reagents by Health Percent
-		for (var/datum/reagent/R in newMeat.reagents.reagent_list)
-			R.volume *= percentHealth
+		for(var/datum/reagent/reagents in newMeat.reagents.reagent_list)
+			reagents.volume *= percentHealth
 		newMeat.reagents.update_total()
 
 		// Apply my Reagents to Meat
 		if(inOwner.reagents && inOwner.reagents.total_volume)
-			//inOwner.reagents.reaction(newMeat, INJECT, 20 / inOwner.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
+//			inOwner.reagents.reaction(newMeat, INJECT, 20 / inOwner.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
 			inOwner.reagents.trans_to(newMeat, 20)	// Run transfer of 1 unit of reagent from them to me.
 
 		. = newMeat // Return MEAT
 
 	qdel(src)
-	//QDEL_IN(src,1) // Delete later. If we do it now, we screw up the "attack chain" that called this meat to attack the Beefman's stump.
+//	QDEL_IN(src,1) // Delete later. If we do it now, we screw up the "attack chain" that called this meat to attack the Beefman's stump.
 
 ///Limbs
 /obj/item/bodypart/head/beef

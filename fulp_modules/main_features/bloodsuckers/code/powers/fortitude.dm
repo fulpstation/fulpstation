@@ -26,14 +26,14 @@
 	ADD_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
 	if(level_current >= 4)
 		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // They'll get stun resistance + this, who cares.
-	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/bloodsucker_user = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
-		H.physiology.brute_mod *= fortitude_resist
-		H.physiology.stamina_mod *= fortitude_resist
+		bloodsucker_user.physiology.brute_mod *= fortitude_resist
+		bloodsucker_user.physiology.stamina_mod *= fortitude_resist
 	if(IS_MONSTERHUNTER(owner))
-		H.physiology.brute_mod *= 0.4
-		H.physiology.burn_mod *= 0.4
+		bloodsucker_user.physiology.brute_mod *= 0.4
+		bloodsucker_user.physiology.burn_mod *= 0.4
 		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
@@ -58,14 +58,14 @@
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	if(!ishuman(owner))
 		return
-	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/bloodsucker_user = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
-		H.physiology.brute_mod /= fortitude_resist
+		bloodsucker_user.physiology.brute_mod /= fortitude_resist
 		if(!HAS_TRAIT_FROM(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT))
-			H.physiology.stamina_mod /= fortitude_resist
+			bloodsucker_user.physiology.stamina_mod /= fortitude_resist
 	if(IS_MONSTERHUNTER(owner))
-		H.physiology.brute_mod /= 0.4
-		H.physiology.burn_mod /= 0.4
+		bloodsucker_user.physiology.brute_mod /= 0.4
+		bloodsucker_user.physiology.burn_mod /= 0.4
 	// Remove Traits & Effects
 	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)

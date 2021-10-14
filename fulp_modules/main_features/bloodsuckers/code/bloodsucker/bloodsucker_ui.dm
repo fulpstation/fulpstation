@@ -40,15 +40,10 @@
 	var/datum/browser/popup = new(user, "modpicker", "Malf Module Menu")
 	popup.set_content(dat.Join())
 	popup.open()
-*/
-/*
 	var/dat = ""
 	var/datum/bank_account/account
-	var/mob/living/carbon/human/H
 	var/obj/item/card/id/C
-	if(ishuman(user))
-		H = user
-		C = H.get_idcard(TRUE)
+	C = user.get_idcard(TRUE)
 	if(!C)
 		dat += "<font color = 'red'><h3>No ID Card detected!</h3></font>"
 	else if (!C.registered_account)

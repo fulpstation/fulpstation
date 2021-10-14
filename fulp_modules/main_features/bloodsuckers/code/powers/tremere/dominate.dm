@@ -48,17 +48,17 @@
 	bloodcost = 30
 	cooldown = 35 SECONDS
 
-/datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/target_atom, display_error)
 	. = ..()
 	if(!.)
 		return FALSE
 	// Check: Self
-	if(A == owner)
+	if(target_atom == owner)
 		return FALSE
-	var/mob/living/target = A
-	if(!target.mind)
+	var/mob/living/selected_target = target_atom
+	if(!selected_target.mind)
 		if(display_error)
-			owner.balloon_alert(owner, "[target] is mindless")
+			owner.balloon_alert(owner, "[selected_target] is mindless")
 		return FALSE
 	return TRUE
 
@@ -94,27 +94,27 @@
 	cooldown = 120 SECONDS // 2 minutes
 
 // The advanced version
-/datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/target_atom, display_error)
 	. = ..()
 	if(!.)
 		return FALSE
 	// Check: Self
-	if(A == owner)
+	if(target_atom == owner)
 		return FALSE
-	var/mob/living/target = A
-	if(!target.mind)
+	var/mob/living/selected_target = target_atom
+	if(!selected_target.mind)
 		if(display_error)
-			owner.balloon_alert(owner, "[target] is mindless")
+			owner.balloon_alert(owner, "[selected_target] is mindless")
 		return FALSE
-	if((IS_VASSAL(target) || target.stat >= SOFT_CRIT) && !owner.Adjacent(target))
+	if((IS_VASSAL(selected_target) || selected_target.stat >= SOFT_CRIT) && !owner.Adjacent(selected_target))
 		if(display_error)
 			owner.balloon_alert(owner, "vassaling require being adjacent")
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/targeted/tremere/dominate/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/tremere/dominate/FireTargetedPower(atom/target_atom)
 	. = ..()
-	var/mob/living/target = A
+	var/mob/living/target = target_atom
 	var/mob/living/user = owner
 	if(target.stat >= SOFT_CRIT && user.Adjacent(target) && tremere_level >= 4)
 		attempt_vassalize(target, user)

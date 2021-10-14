@@ -49,7 +49,7 @@
 	if(power_flags & BP_AM_SINGLEUSE)
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
 
-/datum/action/bloodsucker/Grant(mob/M)
+/datum/action/bloodsucker/Grant(mob/user)
 	. = ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	if(bloodsuckerdatum)
@@ -108,10 +108,10 @@
 			to_chat(owner, "[src] is unavailable. Wait [(power_cooldown - world.time) / 10] seconds.")
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
-	var/mob/living/L = owner
+	var/mob/living/user = owner
 	if(bloodsuckerdatum_power?.frenzied)
 		return TRUE
-	if(L.blood_volume < bloodcost)
+	if(user.blood_volume < bloodcost)
 		if(display_error)
 			to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 		return FALSE
@@ -182,8 +182,8 @@
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 	if(bloodsuckerdatum_power?.frenzied)
 		return
-	var/mob/living/carbon/human/H = owner
-	H.blood_volume -= bloodcost
+	var/mob/living/carbon/human/user = owner
+	user.blood_volume -= bloodcost
 	bloodsuckerdatum_power?.update_hud()
 
 /datum/action/bloodsucker/proc/ActivatePower()
@@ -233,12 +233,14 @@
 /*
 /// New Type: Passive (Always on, no button)
 /datum/action/bloodsucker/passive
+
 /// Don't Display Button! (it doesn't do anything anyhow)
 /datum/action/bloodsucker/passive/New()
 	..()
 	button.screen_loc = DEFAULT_BLOODSPELLS
 	button.moved = DEFAULT_BLOODSPELLS
 	button.ordered = FALSE
+
 /datum/action/bloodsucker/passive/Destroy()
 	if(owner)
 		Remove(owner)
@@ -276,10 +278,10 @@
 	active = !active
 	UpdateButtonIcon()
 	// Create & Link Targeting Proc
-	var/mob/living/L = owner
-	if(L.ranged_ability)
-		L.ranged_ability.remove_ranged_ability()
-	bs_proc_holder.add_ranged_ability(L)
+	var/mob/living/user = owner
+	if(user.ranged_ability)
+		user.ranged_ability.remove_ranged_ability()
+	bs_proc_holder.add_ranged_ability(user)
 	if(prefire_message != "")
 		to_chat(owner, span_announce("[prefire_message]"))
 	return TRUE
@@ -303,28 +305,28 @@
 	bs_proc_holder.remove_ranged_ability()
 
 /// Check if target is VALID (wall, turf, or character?)
-/datum/action/bloodsucker/targeted/proc/CheckValidTarget(atom/A)
+/datum/action/bloodsucker/targeted/proc/CheckValidTarget(atom/target_atom)
 	return FALSE // FALSE targets nothing.
 
 /// Check if valid target meets conditions
-/datum/action/bloodsucker/targeted/proc/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/proc/CheckCanTarget(atom/target_atom, display_error)
 	// Out of Range
-	if(!(A in view(target_range, owner)))
+	if(!(target_atom in view(target_range, owner)))
 		if(display_error && target_range > 1) // Only warn for range if it's greater than 1. Brawn doesn't need to announce itself.
 			to_chat(owner, span_warning("Your target is out of range."))
 		return FALSE
-	return istype(A)
+	return istype(target_atom)
 
 /// Click Target
-/datum/action/bloodsucker/targeted/proc/ClickWithPower(atom/A)
+/datum/action/bloodsucker/targeted/proc/ClickWithPower(atom/target_atom)
 	// CANCEL RANGED TARGET check
-	if(power_in_use || !CheckValidTarget(A))
+	if(power_in_use || !CheckValidTarget(target_atom))
 		return FALSE
 	// Valid? (return true means DON'T cancel power!)
-	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE) || !CheckCanTarget(A, TRUE))
+	if(!CheckCanPayCost(TRUE) || !CheckCanUse(TRUE) || !CheckCanTarget(target_atom, TRUE))
 		return TRUE
-	power_in_use = TRUE	 // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
-	FireTargetedPower(A) // We use this instead of ActivatePower(), which has no input
+	power_in_use = TRUE // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
+	FireTargetedPower(target_atom) // We use this instead of ActivatePower(), which has no input
 	// Skip this part so we can return TRUE right away.
 	if(power_activates_immediately)
 		PowerActivatedSuccessfully() // Mesmerize pays only after success.
@@ -332,8 +334,8 @@
 	return TRUE
 
 /// Like ActivatePower, but specific to Targeted (and takes an atom input). We don't use ActivatePower for targeted.
-/datum/action/bloodsucker/targeted/proc/FireTargetedPower(atom/A)
-	log_combat(owner, A, "used [name] on")
+/datum/action/bloodsucker/targeted/proc/FireTargetedPower(atom/target_atom)
+	log_combat(owner, target_atom, "used [name] on")
 
 /// The power went off! We now pay the cost of the power.
 /datum/action/bloodsucker/targeted/proc/PowerActivatedSuccessfully()
@@ -355,5 +357,5 @@
 	linked_power.DeactivatePower()
 */
 
-/obj/effect/proc_holder/bloodsucker/InterceptClickOn(mob/living/caller, params, atom/A)
-	return linked_power.ClickWithPower(A)
+/obj/effect/proc_holder/bloodsucker/InterceptClickOn(mob/living/caller, params, atom/targeted_atom)
+	return linked_power.ClickWithPower(targeted_atom)

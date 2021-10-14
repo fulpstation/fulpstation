@@ -34,8 +34,8 @@
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
-		var/area/A = get_area(owner.current)
-		if(istype(A, /area/service/chapel))
+		var/area/current_area = get_area(owner.current)
+		if(istype(current_area, /area/service/chapel))
 			to_chat(owner.current, span_warning("You don't belong in holy areas!"))
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
@@ -113,47 +113,47 @@
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
 	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
-		var/mob/living/carbon/C = owner.current
+		var/mob/living/carbon/user = owner.current
 		var/costMult = 1 // Coffin makes it cheaper
-		var/bruteheal = min(C.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
+		var/bruteheal = min(user.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
 		var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
 		/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
-		var/amInCoffin = istype(C.loc, /obj/structure/closet/crate/coffin)
-		if(amInCoffin && HAS_TRAIT(C, TRAIT_NODEATH))
+		var/amInCoffin = istype(user.loc, /obj/structure/closet/crate/coffin)
+		if(amInCoffin && HAS_TRAIT(user, TRAIT_NODEATH))
 			if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-				to_chat(C, span_warning("You will not heal while your Masquerade ability is active."))
+				to_chat(user, span_warning("You will not heal while your Masquerade ability is active."))
 				return
-			fireheal = min(C.getFireLoss_nonProsthetic(), actual_regen)
+			fireheal = min(user.getFireLoss_nonProsthetic(), actual_regen)
 			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 			costMult /= 2 // Decrease cost if we're sleeping in a coffin.
-			C.extinguish_mob()
-			C.remove_all_embedded_objects() // Remove Embedded!
+			user.extinguish_mob()
+			user.remove_all_embedded_objects() // Remove Embedded!
 			if(check_limbs(costMult))
 				return TRUE
 		// In Torpor, but not in a Coffin? Heal faster anyways.
-		else if(HAS_TRAIT(C, TRAIT_NODEATH))
+		else if(HAS_TRAIT(user, TRAIT_NODEATH))
 			mult *= 3
 		// Heal if Damaged
 		if((bruteheal + fireheal > 0) && mult != 0) // Just a check? Don't heal/spend, and return.
 			// We have damage. Let's heal (one time)
-			C.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
-			C.adjustFireLoss(-fireheal * mult, forced=TRUE)
+			user.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
+			user.adjustFireLoss(-fireheal * mult, forced=TRUE)
 			AddBloodVolume(((bruteheal * -0.5) + (fireheal * -1)) * costMult * mult) // Costs blood to heal
 			return TRUE
 
 /datum/antagonist/bloodsucker/proc/check_limbs(costMult = 1)
 	var/limb_regen_cost = 50 * -costMult
-	var/mob/living/carbon/C = owner.current
-	var/list/missing = C.get_missing_limbs()
-	if(missing.len && C.blood_volume < limb_regen_cost + 5)
+	var/mob/living/carbon/user = owner.current
+	var/list/missing = user.get_missing_limbs()
+	if(missing.len && user.blood_volume < limb_regen_cost + 5)
 		return FALSE
 	for(var/targetLimbZone in missing) // 1) Find ONE Limb and regenerate it.
-		C.regenerate_limb(targetLimbZone, FALSE) // regenerate_limbs() <--- If you want to EXCLUDE certain parts, do it like this ----> regenerate_limbs(0, list("head"))
+		user.regenerate_limb(targetLimbZone, FALSE) // regenerate_limbs() <--- If you want to EXCLUDE certain parts, do it like this ----> regenerate_limbs(0, list("head"))
 		AddBloodVolume(limb_regen_cost)
-		var/obj/item/bodypart/L = C.get_bodypart(targetLimbZone) // 2) Limb returns Damaged
-		L.brute_dam = 60
-		to_chat(C, span_notice("Your flesh knits as it regrows your [L]!"))
-		playsound(C, 'sound/magic/demon_consume.ogg', 50, TRUE)
+		var/obj/item/bodypart/missing_bodypart = user.get_bodypart(targetLimbZone) // 2) Limb returns Damaged
+		missing_bodypart.brute_dam = 60
+		to_chat(user, span_notice("Your flesh knits as it regrows your [missing_bodypart]!"))
+		playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
 		return TRUE
 
 /*
@@ -175,21 +175,21 @@
 	bloodsuckeruser.regenerate_organs()
 
 	// Step 2 NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
-	for(var/O in bloodsuckeruser.internal_organs)
-		var/obj/item/organ/organ = O
+	for(var/all_organs in bloodsuckeruser.internal_organs)
+		var/obj/item/organ/organ = all_organs
 		organ.setOrganDamage(0)
-	var/obj/item/organ/heart/O = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
-		qdel(O)
-		var/obj/item/organ/heart/vampheart/H = new
-		H.Insert(owner.current)
-		H.Stop()
-	var/obj/item/organ/eyes/E = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
-	if(E)
-		E.flash_protect = max(initial(E.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
-		E.sight_flags = SEE_MOBS
-		E.see_in_dark = 8
-		E.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	var/obj/item/organ/heart/all_organs = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(all_organs, /obj/item/organ/heart/vampheart) || !istype(all_organs, /obj/item/organ/heart/demon) || !istype(all_organs, /obj/item/organ/heart/cursed))
+		qdel(all_organs)
+		var/obj/item/organ/heart/vampheart/vampiric_heart = new
+		vampiric_heart.Insert(owner.current)
+		vampiric_heart.Stop()
+	var/obj/item/organ/eyes/user_eyes = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
+	if(user_eyes)
+		user_eyes.flash_protect = max(initial(user_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
+		user_eyes.sight_flags = SEE_MOBS
+		user_eyes.see_in_dark = 8
+		user_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	bloodsuckeruser.update_sight()
 
 	// Step 3
@@ -248,17 +248,14 @@
 	/*
 	// Disable Powers: Masquerade * NOTE * This should happen as a FLAW!
 	if(stat >= UNCONSCIOUS)
-		for(var/datum/action/bloodsucker/masquerade/P in powers)
-			P.Deactivate()
+		for(var/datum/action/bloodsucker/masquerade/masquerade_power in powers)
+			masquerade_power.Deactivate()
 	*/
 	/// Temporary Death? Convert to Torpor.
 	if(owner.current.stat == DEAD)
-		var/mob/living/carbon/human/H = owner.current
-		/// We won't use the spam check if they're on masquerade, we want to spam them until they notice, else they'll cry to me about shit being broken.
-		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-			to_chat(H, span_warning("Your wounds will not heal until you disable the <span class='boldnotice'>Masquerade</span> power."))
-		else if(!HAS_TRAIT(H, TRAIT_NODEATH))
-			to_chat(H, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
+		var/mob/living/carbon/human/dead_bloodsucker = owner.current
+		if(!HAS_TRAIT(dead_bloodsucker, TRAIT_NODEATH))
+			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 			Check_Begin_Torpor(TRUE)
 
 /*
@@ -406,10 +403,10 @@
 
 	DisableAllPowers()
 	// Drop anything in us and play a tune
-	var/mob/living/carbon/C = owner.current
+	var/mob/living/carbon/user = owner.current
 	owner.current.drop_all_held_items()
 	owner.current.unequip_everything()
-	C.remove_all_embedded_objects()
+	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 	// Elders get dusted, Fledglings get gibbed
 	if(bloodsucker_level >= 4)
@@ -436,21 +433,20 @@
 /mob/proc/CheckBloodsuckerEatFood(food_nutrition)
 	if(!isliving(src))
 		return
-	var/mob/living/L = src
-	if(!IS_BLOODSUCKER(L))
+	var/mob/living/user = src
+	if(!IS_BLOODSUCKER(user))
 		return
 	// We're a bloodsucker? Try to eat food...
-	var/datum/antagonist/bloodsucker/B = L.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	B.handle_eat_human_food(food_nutrition)
-
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	bloodsuckerdatum.handle_eat_human_food(food_nutrition)
 
 /datum/antagonist/bloodsucker/proc/handle_eat_human_food(food_nutrition, puke_blood = TRUE, masquerade_override) // Called from snacks.dm and drinks.dm
 	set waitfor = FALSE
 	if(!owner.current || !iscarbon(owner.current))
 		return
-	var/mob/living/carbon/C = owner.current
+	var/mob/living/carbon/user = owner.current
 	// Remove Nutrition, Give Bad Food
-	C.adjust_nutrition(-food_nutrition)
+	user.adjust_nutrition(-food_nutrition)
 	foodInGut += food_nutrition
 	// Already ate some bad clams? Then we can back out, because we're already sick from it.
 	if(foodInGut != food_nutrition)
@@ -460,39 +456,39 @@
 		to_chat(C, span_notice("Your stomach turns, but your \"human disguise\" keeps the food down...for now."))
 	// Keep looping until we purge. If we have activated our Human Disguise, we ignore the food. But it'll come up eventually...
 	var/sickphase = 0
-	while(foodInGut && do_mob(C, C, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
-		C.adjust_disgust(10 * sickphase)
+	while(foodInGut && do_mob(user, user, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
+		user.adjust_disgust(10 * sickphase)
 		// Wait an interval...
 		sleep(50 + 50 * sickphase) // At intervals of 100, 150, and 200. (10 seconds, 15 seconds, and 20 seconds)
 		// Died? Cancel
-		if(C.stat == DEAD)
+		if(user.stat == DEAD)
 			return
 		// Put up disguise? Then hold off the vomit.
 		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !masquerade_override)
 			if(sickphase > 0)
-				to_chat(C, span_notice("Your stomach settles temporarily. You regain your composure...for now."))
+				to_chat(user, span_notice("Your stomach settles temporarily. You regain your composure...for now."))
 			sickphase = 0
 			continue
 		switch(sickphase)
 			if(1)
-				to_chat(C, span_warning("You feel unwell. You can taste ash on your tongue."))
-				C.Stun(10)
+				to_chat(user, span_warning("You feel unwell. You can taste ash on your tongue."))
+				user.Stun(10)
 			if(2)
-				to_chat(C, span_warning("Your stomach turns. Whatever you ate tastes of grave dirt and brimstone."))
-				C.Dizzy(15)
-				C.Stun(13)
+				to_chat(user, span_warning("Your stomach turns. Whatever you ate tastes of grave dirt and brimstone."))
+				user.Dizzy(15)
+				user.Stun(13)
 			if(3)
-				to_chat(C, span_warning("You purge the food of the living from your viscera! You've never felt worse."))
+				to_chat(user, span_warning("You purge the food of the living from your viscera! You've never felt worse."))
 				 //Puke blood only if puke_blood is true, and loose some blood, else just puke normally.
 				if(puke_blood)
-					C.blood_volume = max(0, C.blood_volume - foodInGut * 2)
-					C.vomit(foodInGut * 4, foodInGut * 2, 0)
+					user.blood_volume = max(0, user.blood_volume - foodInGut * 2)
+					user.vomit(foodInGut * 4, foodInGut * 2, 0)
 				else
-					C.vomit(foodInGut * 4, FALSE, 0)
-				C.Stun(30)
-				//C.Dizzy(50)
+					user.vomit(foodInGut * 4, FALSE, 0)
+				user.Stun(30)
+//				user.Dizzy(50)
 				foodInGut = 0
-				SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "vampdisgust", /datum/mood_event/bloodsucker_disgust)
+				SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "vampdisgust", /datum/mood_event/bloodsucker_disgust)
 		sickphase++
 */
 

@@ -83,7 +83,7 @@
 	cooldown = 8 SECONDS
 
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/A)
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/target_atom)
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(display_error)
@@ -111,20 +111,20 @@
 		qdel(blood_shield)
 	return ..()
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/target_atom)
 	. = ..()
 
 	var/mob/living/user = owner
 	owner.balloon_alert(owner, "you fire a blood bolt!")
 	to_chat(user, span_warning("You fire a blood bolt!"))
 	user.changeNext_move(CLICK_CD_RANGE)
-	user.newtonian_move(get_dir(A, user))
-	var/obj/projectile/magic/arcane_barrage/bloodsucker/LE = new(user.loc)
-	LE.bloodsucker_power = src
-	LE.firer = user
-	LE.def_zone = ran_zone(user.zone_selected)
-	LE.preparePixelProjectile(A, user)
-	INVOKE_ASYNC(LE, /obj/projectile.proc/fire)
+	user.newtonian_move(get_dir(target_atom, user))
+	var/obj/projectile/magic/arcane_barrage/bloodsucker/magic_9ball = new(user.loc)
+	magic_9ball.bloodsucker_power = src
+	magic_9ball.firer = user
+	magic_9ball.def_zone = ran_zone(user.zone_selected)
+	magic_9ball.preparePixelProjectile(target_atom, user)
+	INVOKE_ASYNC(magic_9ball, /obj/projectile.proc/fire)
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
 
 /*
@@ -141,17 +141,17 @@
 
 /obj/projectile/magic/arcane_barrage/bloodsucker/on_hit(target)
 	if(istype(target, /obj/structure/closet) && bloodsucker_power.tremere_level >= 3)
-		var/obj/structure/closet/C = target
-		if(C)
-			C.welded = FALSE
-			C.locked = FALSE
-			C.broken = TRUE
-			C.update_appearance()
+		var/obj/structure/closet/hit_closet = target
+		if(hit_closet)
+			hit_closet.welded = FALSE
+			hit_closet.locked = FALSE
+			hit_closet.broken = TRUE
+			hit_closet.update_appearance()
 			qdel(src)
 			return BULLET_ACT_HIT
 	else if(istype(target, /obj/machinery/door) && bloodsucker_power.tremere_level >= 3)
-		var/obj/machinery/door/D = target
-		D.open(2)
+		var/obj/machinery/door/hit_airlock = target
+		hit_airlock.open(2)
 		qdel(src)
 		return BULLET_ACT_HIT
 	else if(ismob(target))
