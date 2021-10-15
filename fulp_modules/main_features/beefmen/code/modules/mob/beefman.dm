@@ -11,7 +11,7 @@
 	sexes = FALSE
 	default_color = "e73f4e"
 	species_traits = list(NOEYESPRITES, NO_UNDERWEAR, DYNCOLORS, AGENDER, HAS_FLESH, HAS_BONE)
-	mutant_bodyparts = list("beefcolor" = "Medium Rare","beefmouth" = "Smile1", "beefeyes" = "Olives")
+	mutant_bodyparts = list("beefcolor" = "Medium Rare", "beefmouth" = "Smile1", "beefeyes" = "Olives")
 	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_RESISTCOLD,
 		TRAIT_CAN_STRIP,

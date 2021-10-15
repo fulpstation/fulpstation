@@ -160,7 +160,7 @@
 
 	if(monsters.len)
 		/// Point at a 'random' monster, biasing heavily towards closer ones.
-		scan_target = pickweight(monsters)
+		scan_target = pick_weight(monsters)
 		to_chat(owner, span_warning("You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b>"))
 	else
 		scan_target = null
