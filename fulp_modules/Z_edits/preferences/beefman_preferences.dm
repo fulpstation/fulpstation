@@ -25,7 +25,7 @@
 		var/color = GLOB.color_list_beefman[name]
 
 		var/icon/icon = new(beefman_base)
-		icon.Blend("#[color]", ICON_MULTIPLY)
+		icon.Blend("[color]", ICON_MULTIPLY)
 		values[name] = icon
 
 	return values
