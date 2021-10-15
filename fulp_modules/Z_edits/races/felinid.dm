@@ -2,7 +2,7 @@
 	. = ..()
 	var/mob/living/carbon/human/catperson = exposed_mob
 	if((methods & TOUCH) && isfelinid(catperson))
-		if(catperson.can_inject(catperson, BODY_ZONE_CHEST))
+		if(catperson.can_inject(catperson, BODY_ZONE_HEAD))
 			exposed_mob.Stun(1)
 			SEND_SIGNAL(exposed_mob, COMSIG_ADD_MOOD_EVENT, "watersprayed", /datum/mood_event/felinid_watersprayed)
 
