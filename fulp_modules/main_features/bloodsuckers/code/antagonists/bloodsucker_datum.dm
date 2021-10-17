@@ -10,6 +10,14 @@
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 
+	// TIMERS //
+	///Timer between alerts for Burn messages
+	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
+	///Timer between alerts for Locker messages
+	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_locker)
+	///Timer between alerts for Healing messages
+	COOLDOWN_DECLARE(static/bloodsucker_spam_healing)
+
 	///Used for assigning your name
 	var/bloodsucker_name
 	///Used for assigning your title
@@ -75,17 +83,6 @@
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
-
-	/**
-	 *	# SPAM PREVENTION
-	 *	These are all used to prevent spam messages to Bloodsuckers
-	 */
-	///Span prevention for locker messages
-	var/warn_sun_locker
-	///Spam prevention for burn messages
-	var/warn_sun_burn
-	///Spam prevention for healing messages
-	var/notice_healing
 
 	///Used in Bloodsucker huds
 	var/valuecolor
