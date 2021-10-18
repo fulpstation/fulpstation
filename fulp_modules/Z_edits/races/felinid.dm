@@ -8,5 +8,5 @@
 
 /datum/mood_event/felinid_watersprayed
 	description = "<span class='boldwarning'>I hate being sprayed with water!</span>\n"
-	mood_change = -5
+	mood_change = -2
 	timeout = 1 MINUTES
