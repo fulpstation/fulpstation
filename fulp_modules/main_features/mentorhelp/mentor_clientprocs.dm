@@ -15,10 +15,10 @@
 
 	/// Mentor Follow
 	if(href_list["mentor_follow"])
-		var/mob/living/M = locate(href_list["mentor_follow"])
+		var/mob/living/followed_guy = locate(href_list["mentor_follow"])
 
-		if(istype(M))
-			mentor_follow(M)
+		if(istype(followed_guy))
+			mentor_follow(followed_guy)
 		return TRUE
 
 

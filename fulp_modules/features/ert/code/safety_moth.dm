@@ -125,13 +125,13 @@
 	trim = /datum/id_trim/centcom/ert/commander
 
 // Headset
-/datum/outfit/centcom/ert/safety_moth/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/centcom/ert/safety_moth/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
 	. = ..()
 	if(visualsOnly)
 		return
-	var/obj/item/radio/R = H.ears
-	R.keyslot = new /obj/item/encryptionkey/heads/captain
-	R.recalculateChannels()
+	var/obj/item/radio/equipped_radio = user.ears
+	equipped_radio.keyslot = new /obj/item/encryptionkey/heads/captain
+	equipped_radio.recalculateChannels()
 
 //Eng
 /obj/item/clothing/suit/space/safety_moth
