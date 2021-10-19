@@ -5,7 +5,7 @@
 		to_chat(user, span_holoparasite("You already have a [mob_name]!"))
 		used = FALSE
 		return
-	if(IS_BLOODSUCKER(user))
+	if(IS_BLOODSUCKER(user) && prob(80))
 		var/pickedtype = /mob/living/simple_animal/hostile/guardian/punch/timestop
 		var/mob/living/simple_animal/hostile/guardian/punch/timestop/bloodsucker_guardian = new pickedtype(user, theme)
 		bloodsucker_guardian.name = mob_name
@@ -27,6 +27,8 @@
 /mob/living/simple_animal/hostile/guardian/punch/timestop
 	melee_damage_lower = 15
 	melee_damage_upper = 20
+	// Like Bloodsuckers do, you will take more damage to Burn and less to Brute
+	damage_coeff = list(BRUTE = 0.5, BURN = 2.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	obj_damage = 80
 	//Slightly faster - Used to be -1, why??
 	speed = -0.2
