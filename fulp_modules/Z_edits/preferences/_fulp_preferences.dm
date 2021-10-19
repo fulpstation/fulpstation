@@ -8,20 +8,20 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	var/savefile/S = new /savefile(path)
-	if(!S)
+	var/savefile/new_savefile = new /savefile(path)
+	if(!new_savefile)
 		return FALSE
-	WRITE_FILE(S["antag_tips"], antag_tips)
+	WRITE_FILE(new_savefile["antag_tips"], antag_tips)
 	return TRUE
 
 /datum/preferences/load_preferences()
 	. = ..()
 	if(!.)
 		return FALSE
-	var/savefile/S = new /savefile(path)
-	if(!S)
+	var/savefile/new_savefile = new /savefile(path)
+	if(!new_savefile)
 		return FALSE
-	READ_FILE(S["antag_tips"], antag_tips)
+	READ_FILE(new_savefile["antag_tips"], antag_tips)
 	antag_tips = sanitize_integer(antag_tips, FALSE, TRUE, initial(antag_tips))
 	return TRUE
 */

@@ -68,20 +68,20 @@
 		RemoveHood()
 		return
 	if(ishuman(src.loc))
-		var/mob/living/carbon/human/H = src.loc
-		if(H.wear_suit != src)
-			to_chat(H, span_warning("You must be wearing [src] to put up the hood!"))
+		var/mob/living/carbon/human/user = src.loc
+		if(user.wear_suit != src)
+			to_chat(user, span_warning("You must be wearing [src] to put up the hood!"))
 			return
-		if(H.head)
-			to_chat(H, span_warning("You're already wearing something on your head!"))
+		if(user.head)
+			to_chat(user, span_warning("You're already wearing something on your head!"))
 			return
-		else if(H.equip_to_slot_if_possible(hood, ITEM_SLOT_HEAD,0,0,1))
+		else if(user.equip_to_slot_if_possible(hood, ITEM_SLOT_HEAD,0,0,1))
 			suittoggled = TRUE
 			src.icon_state = "[initial(icon_state)]"
-			H.update_inv_wear_suit()
-			for(var/X in actions)
-				var/datum/action/A = X
-				A.UpdateButtonIcon()
+			user.update_inv_wear_suit()
+			for(var/all_selections in actions)
+				var/datum/action/onesie_options = all_selections
+				onesie_options.UpdateButtonIcon()
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/proc/toggle_suit_light(mob/living/user)
 	on = !on
@@ -198,16 +198,16 @@
 	desc = "A zzoft fly hoodie with big zzome big fly eyezz. Buzzin'"
 	icon_state = "onesie_fly_hood"
 
-/obj/item/clothing/head/hooded/onesie/fly/equipped(mob/M, slot)
+/obj/item/clothing/head/hooded/onesie/fly/equipped(mob/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_HEAD)
-		RegisterSignal(M, COMSIG_MOB_SAY, .proc/handle_speech)
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
-		UnregisterSignal(M, COMSIG_MOB_SAY)
+		UnregisterSignal(user, COMSIG_MOB_SAY)
 
-/obj/item/clothing/head/hooded/onesie/fly/dropped(mob/M)
+/obj/item/clothing/head/hooded/onesie/fly/dropped(mob/user)
 	. = ..()
-	UnregisterSignal(M, COMSIG_MOB_SAY)
+	UnregisterSignal(user, COMSIG_MOB_SAY)
 
 /obj/item/clothing/head/hooded/onesie/fly/proc/handle_speech(datum/source, mob/speech_args)
 	SIGNAL_HANDLER
@@ -232,15 +232,15 @@
 	desc = "This hoodie was made from a rather tough fabric. Don't poke your eyes out on the horns."
 	icon_state = "onesie_lizard_hood"
 
-/obj/item/clothing/head/hooded/onesie/lizard/equipped(mob/M, slot)
+/obj/item/clothing/head/hooded/onesie/lizard/equipped(mob/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_HEAD)
-		RegisterSignal(M, COMSIG_MOB_SAY, .proc/handle_speech)
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 	else
-		UnregisterSignal(M, COMSIG_MOB_SAY)
+		UnregisterSignal(user, COMSIG_MOB_SAY)
 
-/obj/item/clothing/head/hooded/onesie/lizard/dropped(mob/M)
-	UnregisterSignal(M, COMSIG_MOB_SAY)
+/obj/item/clothing/head/hooded/onesie/lizard/dropped(mob/user)
+	UnregisterSignal(user, COMSIG_MOB_SAY)
 	return ..()
 
 /obj/item/clothing/head/hooded/onesie/lizard/proc/handle_speech(datum/source, mob/speech_args)

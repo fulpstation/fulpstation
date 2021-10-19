@@ -25,23 +25,23 @@
 	return TRUE
 
 
-/datum/action/bloodsucker/targeted/trespass/CheckValidTarget(atom/A)
+/datum/action/bloodsucker/targeted/trespass/CheckValidTarget(atom/target_atom)
 	// Can't target my tile
-	if(A == get_turf(owner) || get_turf(A) == get_turf(owner))
+	if(target_atom == get_turf(owner) || get_turf(target_atom) == get_turf(owner))
 		return FALSE
 	return TRUE // All we care about is destination. Anything you click is fine.
 
 
-/datum/action/bloodsucker/targeted/trespass/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/trespass/CheckCanTarget(atom/target_atom, display_error)
 	// NOTE: Do NOT use ..()! We don't want to check distance or anything.
 
 	// Get clicked tile
-	var/final_turf = isturf(A) ? A : get_turf(A)
+	var/final_turf = isturf(target_atom) ? target_atom : get_turf(target_atom)
 
 	// Are either tiles WALLS?
 	var/turf/from_turf = get_turf(owner)
 	var/this_dir // = get_dir(from_turf, target_turf)
-	for(var/i=1 to 2)
+	for(var/i = 1 to 2)
 		// Keep Prev Direction if we've reached final turf
 		if(from_turf != final_turf)
 			this_dir = get_dir(from_turf, final_turf) // Recalculate dir so we don't overshoot on a diagonal.
@@ -57,7 +57,7 @@
 
 	return TRUE
 
-/datum/action/bloodsucker/targeted/trespass/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/trespass/FireTargetedPower(atom/target_atom)
 	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 

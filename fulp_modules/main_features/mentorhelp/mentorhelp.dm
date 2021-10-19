@@ -20,9 +20,9 @@
 	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
 	/// Send the Mhelp to all Mentors/Admins
-	for(var/client/X in GLOB.mentors | GLOB.admins)
-		X << 'sound/items/bikehorn.ogg'
-		to_chat(X,
+	for(var/client/honked_clients in GLOB.mentors | GLOB.admins)
+		honked_clients << 'sound/items/bikehorn.ogg'
+		to_chat(honked_clients,
 			type = MESSAGE_TYPE_MODCHAT,
 			html = mentor_msg,
 			confidential = TRUE)
@@ -36,8 +36,8 @@
 	return
 
 /proc/key_name_mentor(whom, include_link = null, include_name = TRUE, include_follow = TRUE, char_name_only = TRUE)
-	var/mob/M
-	var/client/C
+	var/mob/user
+	var/client/chosen_client
 	var/key
 	var/ckey
 
@@ -45,21 +45,21 @@
 		return "*null*"
 
 	if(istype(whom, /client))
-		C = whom
-		M = C.mob
-		key = C.key
-		ckey = C.ckey
+		chosen_client = whom
+		user = chosen_client.mob
+		key = chosen_client.key
+		ckey = chosen_client.ckey
 	else if(ismob(whom))
-		M = whom
-		C = M.client
-		key = M.key
-		ckey = M.ckey
+		user = whom
+		chosen_client = user.client
+		key = user.key
+		ckey = user.ckey
 	else if(istext(whom))
 		key = whom
 		ckey = ckey(whom)
-		C = GLOB.directory[ckey]
-		if(C)
-			M = C.mob
+		chosen_client = GLOB.directory[ckey]
+		if(chosen_client)
+			user = chosen_client.mob
 	else
 		return "*invalid*"
 
@@ -72,11 +72,11 @@
 		if(include_link != null)
 			. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
 
-		if(C && C.holder && C.holder.fakekey)
+		if(chosen_client && chosen_client.holder && chosen_client.holder.fakekey)
 			. += "Administrator"
 		else
 			. += key
-		if(!C)
+		if(!chosen_client)
 			. += "\[DC\]"
 
 		if(include_link != null)
@@ -85,6 +85,6 @@
 		. += "*no key*"
 
 	if(include_follow)
-		. += " (<a href='?_src_=mentor;mentor_follow=[REF(M)];[MentorHrefToken(TRUE)]'>F</a>)"
+		. += " (<a href='?_src_=mentor;mentor_follow=[REF(user)];[MentorHrefToken(TRUE)]'>F</a>)"
 
 	return .

@@ -7,9 +7,9 @@
 	if(!brigdoc_kit_choice)
 		brigdoc_kit_choice = list()
 		var/list/templist = typesof(/obj/structure/closet/crate/medical/brigdoc)
-		for(var/V in templist)
-			var/atom/A = V
-			brigdoc_kit_choice[initial(A.name)] = A
+		for(var/templates in templist)
+			var/atom/all_options = templates
+			brigdoc_kit_choice[initial(all_options.name)] = all_options
 	return brigdoc_kit_choice
 
 // SURGERY-READY KIT

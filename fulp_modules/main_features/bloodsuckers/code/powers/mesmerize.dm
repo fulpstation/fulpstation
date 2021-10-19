@@ -43,74 +43,74 @@
 			to_chat(owner, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
-	var/mob/living/carbon/L = owner
-	if(istype(L) && (L.is_eyes_covered() && level_current <= 2) || !isturf(L.loc))
+	var/mob/living/carbon/user = owner
+	if(istype(user) && (user.is_eyes_covered() && level_current <= 2) || !isturf(user.loc))
 		if(display_error)
 			owner.balloon_alert(owner, "your eyes are concealed from sight.")
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/targeted/mesmerize/CheckValidTarget(atom/A)
-	return isliving(A)
+/datum/action/bloodsucker/targeted/mesmerize/CheckValidTarget(atom/target_atom)
+	return isliving(target_atom)
 
-/datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/target_atom, display_error)
 	. = ..()
 	if(!.)
 		return FALSE
 	// Check: Self
-	if(A == owner)
+	if(target_atom == owner)
 		return FALSE
-	var/mob/living/target = A // We already know it's carbon due to CheckValidTarget()
+	var/mob/living/current_target = target_atom // We already know it's carbon due to CheckValidTarget()
 	// No mind
-	if(!target.mind)
+	if(!current_target.mind)
 		if(display_error)
-			owner.balloon_alert(owner, "[target] is mindless.")
+			owner.balloon_alert(owner, "[current_target] is mindless.")
 		return FALSE
 	// Bloodsucker
-	if(IS_BLOODSUCKER(target))
+	if(IS_BLOODSUCKER(current_target))
 		if(display_error)
 			owner.balloon_alert(owner, "bloodsuckers are immune to [src].")
 		return FALSE
 	// Dead/Unconscious
-	if(target.stat > CONSCIOUS)
+	if(current_target.stat > CONSCIOUS)
 		if(display_error)
-			owner.balloon_alert(owner, "[target] is not [(target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH))?"alive":"conscious"].")
+			owner.balloon_alert(owner, "[current_target] is not [(current_target.stat == DEAD || HAS_TRAIT(current_target, TRAIT_FAKEDEATH)) ? "alive" : "conscious"].")
 		return FALSE
 	// Check: Target has eyes?
-	if(!target.getorganslot(ORGAN_SLOT_EYES))
+	if(!current_target.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)
-			owner.balloon_alert(owner, "[target] has no eyes!")
+			owner.balloon_alert(owner, "[current_target] has no eyes!")
 		return FALSE
 	// Check: Target blind?
-	if(target.eye_blind > 0)
+	if(current_target.eye_blind > 0)
 		if(display_error)
-			owner.balloon_alert(owner, "[target] is blind.")
+			owner.balloon_alert(owner, "[current_target] is blind.")
 		return FALSE
 	// Check: Target See Me? (behind wall)
-	if(!(owner in view(target_range, get_turf(target))))
+	if(!(owner in view(target_range, get_turf(current_target))))
 		// Sub-Check: GET CLOSER
-		//if (!(owner in range(target_range, get_turf(target)))
-		//	if (display_error)
-		//		to_chat(owner, span_warning("You're too far from your victim."))
+//		if(!(owner in range(target_range, get_turf(current_target)))
+//			if(display_error)
+//				owner.balloon_alert(owner, "too far away!")
 		if(display_error)
 			owner.balloon_alert(owner, "too far away!")
 		return FALSE
 	// Check: Facing target?
-	if(!is_source_facing_target(owner, target)) // in unsorted.dm
+	if(!is_source_facing_target(owner, current_target)) // in unsorted.dm
 		if(display_error)
-			owner.balloon_alert(owner, "you must be facing [target].")
+			owner.balloon_alert(owner, "you must be facing [current_target].")
 		return FALSE
 	// Check: Target facing me? (On the floor, they're facing everyone)
-	if(((target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(target, owner) && level_current <= 4))
+	if(((current_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(current_target, owner) && level_current <= 4))
 		if(display_error)
-			owner.balloon_alert(owner, "[target] must be facing you.")
+			owner.balloon_alert(owner, "[current_target] must be facing you.")
 		return FALSE
 
 	// Gone through our checks, let's mark our guy.
 	mesmerized_target = target
 	return TRUE
 
-/datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/target_atom)
 	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 

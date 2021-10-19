@@ -76,8 +76,8 @@
 	cooldown = 8 SECONDS
 
 
-/datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/A)
-	return isturf(A)
+/datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/target_atom)
+	return isturf(target_atom)
 
 /datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower()
 	. = ..()
@@ -89,10 +89,10 @@
 	owner.RemoveElement(/datum/element/digitalcamo)
 	return ..()
 
-/datum/action/bloodsucker/targeted/tremere/auspex/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/tremere/auspex/FireTargetedPower(atom/target_atom)
 	. = ..()
 	var/mob/living/user = owner
-	var/turf/targeted_turf = get_turf(A)
+	var/turf/targeted_turf = get_turf(target_atom)
 	auspex_blink(user, targeted_turf)
 
 /datum/action/bloodsucker/targeted/tremere/auspex/proc/auspex_blink(mob/living/user, turf/targeted_turf)

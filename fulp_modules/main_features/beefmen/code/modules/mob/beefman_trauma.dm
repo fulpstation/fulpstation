@@ -1,27 +1,27 @@
 //Procs first
-/proc/check_location_seen(atom/subject, turf/T)
-	if (!isturf(T)) // Only check if I wasn't given a locker or something
+/proc/check_location_seen(atom/subject, turf/target_turf)
+	if(!isturf(target_turf)) // Only check if I wasn't given a locker or something
 		return FALSE
 	// A) Check for Darkness
-	if(T && T.lighting_object && T.get_lumcount()>= 0.1)
+	if(target_turf && target_turf.lighting_object && target_turf.get_lumcount()>= 0.1)
 		// B) Check for Viewers
-		for(var/mob/living/M in viewers(T))
-			if(M != subject && isliving(M) && M.mind && !M.has_unlimited_silicon_privilege && !M.eye_blind) // M.client <--- add this in after testing!
+		for(var/mob/living/nearby_viewers in viewers(target_turf))
+			if(nearby_viewers != subject && isliving(nearby_viewers) && nearby_viewers.mind && !nearby_viewers.has_unlimited_silicon_privilege && !nearby_viewers.eye_blind) // M.client <--- add this in after testing!
 				return TRUE
 	return FALSE
 
-/proc/return_valid_floor_in_range(atom/A, checkRange = 8, minRange = 0, checkFloor = TRUE)
+/proc/return_valid_floor_in_range(atom/targeted_atom, checkRange = 8, minRange = 0, checkFloor = TRUE)
 	// FAIL: Atom doesn't exist. Aren't you real?
-	if (!istype(A))
+	if(!istype(targeted_atom))
 		return null
 
 	var/deltaX = rand(minRange,checkRange)*pick(-1,1)
 	var/deltaY = rand(minRange,checkRange)*pick(-1,1)
-	var/turf/center = get_turf(A)
+	var/turf/center = get_turf(targeted_atom)
 
 	var/target = locate((center.x + deltaX),(center.y + deltaY),center.z)
 
-	if (check_turf_is_valid(target, checkFloor))
+	if(check_turf_is_valid(target, checkFloor))
 		return target
 	return null
 
@@ -36,7 +36,7 @@
  */
 /proc/check_turf_is_valid(turf/open_turf, checkFloor = TRUE)
 	// Checking for Floor...
-	if (checkFloor && !istype(open_turf, /turf/open/floor))
+	if(checkFloor && !istype(open_turf, /turf/open/floor))
 		return FALSE
 	// Checking for Density...
 	if(open_turf.density)
@@ -67,17 +67,17 @@
 
 	COOLDOWN_START(src, portal_cooldown, 10 SECONDS)
 	var/list/turf/possible_tears = list()
-	for(var/turf/T as anything in RANGE_TURFS(8, owner))
-		if(T.density)
+	for(var/turf/nearby_turfs as anything in RANGE_TURFS(8, owner))
+		if(nearby_turfs.density)
 			continue
 
 		var/clear = TRUE
-		for(var/obj/O in T)
-			if(O.density)
+		for(var/obj/nearby_objects in nearby_turfs)
+			if(nearby_objects.density)
 				clear = FALSE
 				break
 		if(clear)
-			possible_tears += T
+			possible_tears += nearby_turfs
 
 	if(!LAZYLEN(possible_tears))
 		return

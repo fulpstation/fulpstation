@@ -6,6 +6,6 @@
 // Cryopods themselves, replaced with punching bags.
 /obj/machinery/cryopod/Initialize(mapload)
 	. = ..()
-	var/turf/T = get_turf(src)
-	new /obj/structure/punching_bag(T)
+	var/turf/cryopod_turf = get_turf(src)
+	new /obj/structure/punching_bag(cryopod_turf)
 	return INITIALIZE_HINT_QDEL

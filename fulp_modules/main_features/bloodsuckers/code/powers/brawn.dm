@@ -69,13 +69,13 @@
 
 	// Remove Straightjackets
 	if(user.wear_suit?.breakouttime && !used)
-		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+		var/obj/item/clothing/suit/straightjacket = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 		user.visible_message(
-			span_warning("[user] rips straight through the [user.p_their()] [S]!"),
-			span_warning("We tear through our straightjacket!"),
+			span_warning("[user] rips straight through the [user.p_their()] [straightjacket]!"),
+			span_warning("We tear through our [straightjacket]!"),
 		)
-		if(S && user.wear_suit == S)
-			qdel(S)
+		if(straightjacket && user.wear_suit == straightjacket)
+			qdel(straightjacket)
 		used = TRUE
 
 	// Did we end up using our ability? If so, play the sound effect and return TRUE
@@ -94,34 +94,34 @@
 /datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
 	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
 		return FALSE
-	var/mob/M = owner.pulledby
-	var/pull_power = M.grab_state
-	playsound(get_turf(M), 'sound/effects/woodhit.ogg', 75, 1, -1)
+	var/mob/pulled_mob = owner.pulledby
+	var/pull_power = pulled_mob.grab_state
+	playsound(get_turf(pulled_mob), 'sound/effects/woodhit.ogg', 75, 1, -1)
 	// Knock Down (if Living)
-	if(isliving(M))
-		var/mob/living/L = M
-		L.Knockdown(pull_power * 10 + 20)
+	if(isliving(pulled_mob))
+		var/mob/living/hit_target = pulled_mob
+		hit_target.Knockdown(pull_power * 10 + 20)
 	// Knock Back (before Knockdown, which probably cancels pull)
-	var/send_dir = get_dir(owner, M)
-	var/turf/T = get_ranged_target_turf(M, send_dir, pull_power)
+	var/send_dir = get_dir(owner, pulled_mob)
+	var/turf/turf_thrown_at = get_ranged_target_turf(pulled_mob, send_dir, pull_power)
 	owner.newtonian_move(send_dir) // Bounce back in 0 G
-	M.throw_at(T, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
+	pulled_mob.throw_at(turf_thrown_at, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
-	log_combat(owner, M, "used Brawn power")
+	log_combat(owner, pulled_mob, "used Brawn power")
 	owner.visible_message(
-		span_warning("[owner] tears free of [M]'s grasp!"),
-		span_warning("You shrug off [M]'s grasp!"),
+		span_warning("[owner] tears free of [pulled_mob]'s grasp!"),
+		span_warning("You shrug off [pulled_mob]'s grasp!"),
 	)
 	owner.pulledby = null // It's already done, but JUST IN CASE.
 	return TRUE
 
-/datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/target_atom)
 	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/user = owner
 	// Target Type: Mob
-	if(isliving(A))
-		var/mob/living/target = A
+	if(isliving(target_atom))
+		var/mob/living/target = target_atom
 		var/mob/living/carbon/carbonuser = user
 		var/hitStrength = carbonuser.dna.species.punchdamagehigh * 1.25 + 2
 		// Knockdown!
@@ -140,15 +140,15 @@
 		target.apply_damage(hitStrength, BRUTE, affecting)
 		// Knockback
 		var/send_dir = get_dir(owner, target)
-		var/turf/T = get_ranged_target_turf(target, send_dir, powerlevel)
+		var/turf/turf_thrown_at = get_ranged_target_turf(target, send_dir, powerlevel)
 		owner.newtonian_move(send_dir) // Bounce back in 0 G
-		target.throw_at(T, powerlevel, TRUE, owner) //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
+		target.throw_at(turf_thrown_at, powerlevel, TRUE, owner) //new /datum/forced_movement(target, get_ranged_target_turf(target, send_dir, (hitStrength / 4)), 1, FALSE)
 		// Target Type: Cyborg (Also gets the effects above)
 		if(issilicon(target))
 			target.emp_act(EMP_HEAVY)
 	// Target Type: Locker
-	else if(istype(A, /obj/structure/closet) && level_current >= 3)
-		var/obj/structure/closet/target_closet = A
+	else if(istype(target_atom, /obj/structure/closet) && level_current >= 3)
+		var/obj/structure/closet/target_closet = target_atom
 		user.balloon_alert(user, "you prepare to bash [target_closet] open...")
 		if(!do_mob(user, target_closet, 2.5 SECONDS))
 			user.balloon_alert(user, "interrupted!")
@@ -157,8 +157,8 @@
 		addtimer(CALLBACK(src, .proc/break_closet, user, target_closet), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 	// Target Type: Door
-	else if(istype(A, /obj/machinery/door) && level_current >= 4)
-		var/obj/machinery/door/target_airlock = A
+	else if(istype(target_atom, /obj/machinery/door) && level_current >= 4)
+		var/obj/machinery/door/target_airlock = target_atom
 		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
 		owner.balloon_alert(owner, "you prepare to tear open [target_airlock]...")
 		if(!do_mob(user, target_airlock, 2.5 SECONDS))
@@ -171,10 +171,10 @@
 			playsound(get_turf(target_airlock), 'sound/effects/bang.ogg', 30, 1, -1)
 			target_airlock.open(2) // open(2) is like a crowbar or jaws of life.
 
-/datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/A)
-	return isliving(A) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet)
+/datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/target_atom)
+	return isliving(target_atom) || istype(target_atom, /obj/machinery/door) || istype(target_atom, /obj/structure/closet)
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom, display_error)
 	// DEFAULT CHECKS (Distance)
 	. = ..()
 	if(!.) // Disable range notice for Brawn.
@@ -183,15 +183,15 @@
 	if(!isturf(owner.loc))
 		return FALSE
 	// Check: Self
-	if(A == owner)
+	if(target_atom == owner)
 		return FALSE
 	// Target Type: Living
-	if(isliving(A))
+	if(isliving(target_atom))
 		return TRUE
 	// Target Type: Door
-	else if(istype(A, /obj/machinery/door))
+	else if(istype(target_atom, /obj/machinery/door))
 		return TRUE
 	// Target Type: Locker
-	else if(istype(A, /obj/structure/closet))
+	else if(istype(target_atom, /obj/structure/closet))
 		return TRUE
 	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
