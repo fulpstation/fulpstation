@@ -1,4 +1,4 @@
-///Spawn the Guardian if a Bloodsucker uses te guardian creator
+///Bloodsuckers spawning a Guardian will get the Bloodsucker one instead.
 /obj/item/guardiancreator/spawn_guardian(mob/living/user, mob/dead/candidate)
 	var/list/guardians = user.hasparasites()
 	if(guardians.len && !allowmultiple)
@@ -20,10 +20,10 @@
 		bloodsucker_guardian?.client.init_verbs()
 		return
 
-	// Call parent to deal with non-Bloodsuckers
+	// Call parent to deal with everyone else
 	. = ..()
 
-///Guardian
+///The Guardian
 /mob/living/simple_animal/hostile/guardian/punch/timestop
 	melee_damage_lower = 15
 	melee_damage_upper = 20
@@ -41,12 +41,13 @@
 	miner_fluff_string = "<span class='holoparasite'>You encounter... The World, the controller of time and space.</span>"
 
 /mob/living/simple_animal/hostile/guardian/punch/timestop/Initialize(mapload, theme)
+	//Wizard Holoparasite theme, just to be more visibly stronger than regular ones
 	theme = "magic"
 	. = ..()
 	var/obj/effect/proc_holder/spell/aoe_turf/timestop/guardian/timestop_ability = new
 	AddSpell(timestop_ability)
 
-/// Guardian Timestop ability
+///Guardian Timestop ability
 /obj/effect/proc_holder/spell/aoe_turf/timestop/guardian
 	name = "Stop Time"
 	desc = "This spell stops time for everyone except for you and your master, allowing you to move freely while your enemies and even projectiles are frozen."
@@ -57,7 +58,7 @@
 	cooldown_min = 150
 	var/list/safe_people = list()
 
-/// Timestop - Adding protected_summoner to the list of protected people
+///Timestop + Adding protected_summoner to the list of protected people
 /obj/effect/proc_holder/spell/aoe_turf/timestop/guardian/cast(list/targets, mob/user = usr)
 	if(!(user in safe_people))
 		var/mob/living/simple_animal/hostile/guardian/punch/timestop/bloodsucker_guardian = user
