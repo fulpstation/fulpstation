@@ -62,8 +62,6 @@
 				var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 				if(!istype(bloodsuckerdatum))
 					continue
-				bloodsuckerdatum.warn_sun_locker = FALSE
-				bloodsuckerdatum.warn_sun_burn = FALSE
 				take_home_power()
 	else
 		switch(time_til_cycle)
@@ -127,34 +125,31 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(!istype(bloodsuckerdatum))
 			continue
-		/// Closets offer SOME protection
 		if(istype(bloodsucker_minds.current.loc, /obj/structure))
-			/// Coffins offer the BEST protection
-			if(istype(bloodsucker_minds.current.loc, /obj/structure/closet/crate/coffin))
+			if(istype(bloodsucker_minds.current.loc, /obj/structure/closet/crate/coffin)) // Coffins offer the BEST protection
 				SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
 				continue
-			if(!bloodsuckerdatum.warn_sun_locker)
+			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_locker)) // Closets offer SOME protection
 				to_chat(bloodsucker_minds, span_warning("Your skin sizzles. [bloodsucker_minds.current.loc] doesn't protect well against UV bombardment."))
-				bloodsuckerdatum.warn_sun_locker = TRUE
-			bloodsucker_minds.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2) // bloodsucker_minds.current.fireloss += 0.5 + bloodsuckerdatum.bloodsucker_level / 2  //  Do DIRECT damage. Being spaced was causing this to not occur. setFireLoss(bloodsuckerdatum.bloodsucker_level)
+				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_locker, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
+			bloodsucker_minds.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2)
 			bloodsucker_minds.current.updatehealth()
 			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
-			return
-		/// Out in the Open?
-		if(!bloodsuckerdatum.warn_sun_burn)
+		else // Out in the Open?
+			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_locker))
+				if(bloodsuckerdatum.bloodsucker_level > 0)
+					to_chat(bloodsucker_minds, span_userdanger("The solar flare sets your skin ablaze!"))
+				else
+					to_chat(bloodsucker_minds, span_userdanger("The solar flare scalds your neophyte skin!"))
+				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_locker, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
+			if(bloodsucker_minds.current.fire_stacks <= 0)
+				bloodsucker_minds.current.fire_stacks = 0
 			if(bloodsuckerdatum.bloodsucker_level > 0)
-				to_chat(bloodsucker_minds, span_userdanger("The solar flare sets your skin ablaze!"))
-			else
-				to_chat(bloodsucker_minds, span_userdanger("The solar flare scalds your neophyte skin!"))
-			bloodsuckerdatum.warn_sun_burn = TRUE
-		if(bloodsucker_minds.current.fire_stacks <= 0)
-			bloodsucker_minds.current.fire_stacks = 0
-		if(bloodsuckerdatum.bloodsucker_level > 0)
-			bloodsucker_minds.current.adjust_fire_stacks(0.2 + bloodsuckerdatum.bloodsucker_level / 10)
-			bloodsucker_minds.current.IgniteMob()
-		bloodsucker_minds.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level) // bloodsucker_minds.current.fireloss += 2 + bloodsuckerdatum.bloodsucker_level //Do DIRECT damage. Being spaced was causing this to not occur.  //setFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
-		bloodsucker_minds.current.updatehealth()
-		SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_2)
+				bloodsucker_minds.current.adjust_fire_stacks(0.2 + bloodsuckerdatum.bloodsucker_level / 10)
+				bloodsucker_minds.current.IgniteMob()
+			bloodsucker_minds.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
+			bloodsucker_minds.current.updatehealth()
+			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_2)
 
 /// It's late, give the "Vanishing Act" (gohome) power to Bloodsuckers.
 /obj/effect/sunlight/proc/give_home_power()

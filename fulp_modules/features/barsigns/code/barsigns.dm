@@ -5,7 +5,7 @@
 /// Redirect our barsigns to use OUR .dmi file instead.
 /obj/structure/sign/barsign/set_sign(datum/barsign/sign)
 	. = ..()
-	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/barsigns.dmi' : 'icons/obj/barsigns.dmi'
+	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/barsigns.dmi'
 
 /// Barsigns!
 /datum/barsign/fulp
@@ -44,4 +44,4 @@
 	name = "The Crimson Chalice"
 	icon = "thecrimsonchalice"
 	desc = "A hive of unbridled hedonism. A roiling apiary where instinct and impulse can be indulged with wild abandon."
-	
+
