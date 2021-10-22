@@ -172,6 +172,9 @@
 			target_airlock.open(2) // open(2) is like a crowbar or jaws of life.
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(target_atom) || istype(target_atom, /obj/machinery/door) || istype(target_atom, /obj/structure/closet)
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom, display_error)

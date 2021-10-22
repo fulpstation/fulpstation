@@ -26,6 +26,9 @@
 
 
 /datum/action/bloodsucker/targeted/trespass/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	// Can't target my tile
 	if(target_atom == get_turf(owner) || get_turf(target_atom) == get_turf(owner))
 		return FALSE

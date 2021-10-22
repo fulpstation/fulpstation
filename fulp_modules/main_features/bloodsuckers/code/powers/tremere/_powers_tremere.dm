@@ -67,6 +67,9 @@
 
 
 /datum/action/bloodsucker/targeted/tremere/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(target_atom)
 
 /datum/action/bloodsucker/targeted/tremere/CheckCanTarget(atom/target_atom, display_error)

@@ -84,12 +84,15 @@
 
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(display_error)
 	. = ..()
 	if(!.)
-		return
+		return FALSE
 	if(!active) // Only do this when first activating.
 		var/mob/living/user = owner
 		if(tremere_level >= 2) // Only if we're at least level 2.
@@ -132,7 +135,6 @@
  *
  *	This is the projectile this Power will fire.
  */
-
 /obj/projectile/magic/arcane_barrage/bloodsucker
 	name = "blood bolt"
 	icon_state = "mini_leaper"

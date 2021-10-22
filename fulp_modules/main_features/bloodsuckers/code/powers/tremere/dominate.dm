@@ -52,9 +52,6 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	// Check: Self
-	if(target_atom == owner)
-		return FALSE
 	var/mob/living/selected_target = target_atom
 	if(!selected_target.mind)
 		if(display_error)
@@ -97,14 +94,6 @@
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/target_atom, display_error)
 	. = ..()
 	if(!.)
-		return FALSE
-	// Check: Self
-	if(target_atom == owner)
-		return FALSE
-	var/mob/living/selected_target = target_atom
-	if(!selected_target.mind)
-		if(display_error)
-			owner.balloon_alert(owner, "[selected_target] is mindless")
 		return FALSE
 	if((IS_VASSAL(selected_target) || selected_target.stat >= SOFT_CRIT) && !owner.Adjacent(selected_target))
 		if(display_error)

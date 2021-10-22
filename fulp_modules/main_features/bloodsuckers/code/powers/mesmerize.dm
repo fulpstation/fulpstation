@@ -51,6 +51,9 @@
 	return TRUE
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(target_atom)
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/target_atom, display_error)

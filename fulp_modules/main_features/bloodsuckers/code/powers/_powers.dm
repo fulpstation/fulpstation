@@ -306,7 +306,9 @@
 
 /// Check if target is VALID (wall, turf, or character?)
 /datum/action/bloodsucker/targeted/proc/CheckValidTarget(atom/target_atom)
-	return FALSE // FALSE targets nothing.
+	if(target_atom == owner)
+		return FALSE
+	return TRUE // FALSE targets nothing.
 
 /// Check if valid target meets conditions
 /datum/action/bloodsucker/targeted/proc/CheckCanTarget(atom/target_atom, display_error)

@@ -45,7 +45,10 @@
 
 /// Anything will do, if it's not me or my square
 /datum/action/bloodsucker/targeted/haste/CheckValidTarget(atom/target_atom)
-	return isturf(target_atom) || target_atom.loc != owner.loc
+	. = ..()
+	if(!.)
+		return FALSE
+	return target_atom.loc != owner.loc
 
 /datum/action/bloodsucker/targeted/haste/CheckCanTarget(atom/target_atom, display_error)
 	// DEFAULT CHECKS (Distance)

@@ -35,6 +35,9 @@
 
 /// Check: Are we lunging at a person?
 /datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(target_atom)
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom, display_error)
