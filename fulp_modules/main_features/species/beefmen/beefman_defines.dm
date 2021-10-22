@@ -6,7 +6,7 @@ GLOBAL_LIST_INIT(color_list_beefman, list(
 	"Medium" = "f05b68",
 	"Medium Well" = "e76b76",
 	"Well Done" = "d36b75",
-	))
+))
 
 // Taken from _HELPERS/mobs.dm
 GLOBAL_LIST_INIT(eyes_beefman, list(
@@ -14,7 +14,7 @@ GLOBAL_LIST_INIT(eyes_beefman, list(
 	"Cloves",
 	"Olives",
 	"Peppercorns",
-	))
+))
 
 GLOBAL_LIST_INIT(mouths_beefman, list(
 	"Frown1",
@@ -23,29 +23,7 @@ GLOBAL_LIST_INIT(mouths_beefman, list(
 	"Grit2",
 	"Smile1",
 	"Smile2",
-	))
-
-
-// PROSTHETICS	//
-/mob/living/proc/getBruteLoss_nonProsthetic()
-	return getBruteLoss()
-
-/mob/living/proc/getFireLoss_nonProsthetic()
-	return getFireLoss()
-
-/mob/living/carbon/getBruteLoss_nonProsthetic()
-	var/amount = 0
-	for(var/obj/item/bodypart/chosen_bodypart in bodyparts)
-		if(chosen_bodypart.status < BODYPART_ROBOTIC)
-			amount += chosen_bodypart.brute_dam
-	return amount
-
-/mob/living/carbon/getFireLoss_nonProsthetic()
-	var/amount = 0
-	for(var/obj/item/bodypart/chosen_bodypart in bodyparts)
-		if(chosen_bodypart.status < BODYPART_ROBOTIC)
-			amount += chosen_bodypart.burn_dam
-	return amount
+))
 
 /*
  *	# Names
@@ -164,8 +142,8 @@ GLOBAL_LIST_INIT(russian_names, list(
 	"Vinsky",
 	"Volski",
 	"Zakharov",
-
 ))
+
 GLOBAL_LIST_INIT(experiment_names, list(
 	"Experiment",
 	"Attempt",
