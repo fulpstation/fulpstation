@@ -60,9 +60,6 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	// Check: Self
-	if(target_atom == owner)
-		return FALSE
 	var/mob/living/current_target = target_atom // We already know it's carbon due to CheckValidTarget()
 	// No mind
 	if(!current_target.mind)
@@ -82,7 +79,7 @@
 	// Check: Target has eyes?
 	if(!current_target.getorganslot(ORGAN_SLOT_EYES))
 		if(display_error)
-			owner.balloon_alert(owner, "[current_target] has no eyes!")
+			owner.balloon_alert(owner, "[current_target] has no eyes.")
 		return FALSE
 	// Check: Target blind?
 	if(current_target.eye_blind > 0)

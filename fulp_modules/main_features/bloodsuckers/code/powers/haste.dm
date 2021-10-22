@@ -55,9 +55,12 @@
 	. = ..()
 	if(!.)
 		return FALSE
+	/*
 	// Check: Range
-	//if (!(target_atom in view(target_range, get_turf(owner))))
-	//	return FALSE
+	if(!(target_atom in view(target_range, get_turf(owner))))
+		owner.balloon_alert(owner, "out of range.")
+		return FALSE
+	*/
 	return TRUE
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.

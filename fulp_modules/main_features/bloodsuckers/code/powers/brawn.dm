@@ -185,9 +185,6 @@
 	// Must outside Closet to target anyone!
 	if(!isturf(owner.loc))
 		return FALSE
-	// Check: Self
-	if(target_atom == owner)
-		return FALSE
 	// Target Type: Living
 	if(isliving(target_atom))
 		return TRUE
@@ -197,4 +194,4 @@
 	// Target Type: Locker
 	else if(istype(target_atom, /obj/structure/closet))
 		return TRUE
-	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
+	return FALSE

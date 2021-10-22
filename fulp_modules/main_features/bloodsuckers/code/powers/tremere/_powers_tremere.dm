@@ -76,7 +76,4 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	// Check: Self
-	if(target_atom == owner)
-		return FALSE
 	return TRUE
