@@ -95,6 +95,7 @@
 	. = ..()
 	if(!.)
 		return FALSE
+	var/mob/living/selected_target = target_atom
 	if((IS_VASSAL(selected_target) || selected_target.stat >= SOFT_CRIT) && !owner.Adjacent(selected_target))
 		if(display_error)
 			owner.balloon_alert(owner, "out of range.")
