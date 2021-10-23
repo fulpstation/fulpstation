@@ -45,16 +45,22 @@
 
 /// Anything will do, if it's not me or my square
 /datum/action/bloodsucker/targeted/haste/CheckValidTarget(atom/target_atom)
-	return isturf(target_atom) || target_atom.loc != owner.loc
+	. = ..()
+	if(!.)
+		return FALSE
+	return target_atom.loc != owner.loc
 
 /datum/action/bloodsucker/targeted/haste/CheckCanTarget(atom/target_atom, display_error)
 	// DEFAULT CHECKS (Distance)
 	. = ..()
 	if(!.)
 		return FALSE
+	/*
 	// Check: Range
-	//if (!(target_atom in view(target_range, get_turf(owner))))
-	//	return FALSE
+	if(!(target_atom in view(target_range, get_turf(owner))))
+		owner.balloon_alert(owner, "out of range.")
+		return FALSE
+	*/
 	return TRUE
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.

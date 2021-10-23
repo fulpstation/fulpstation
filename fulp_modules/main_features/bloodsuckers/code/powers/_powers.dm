@@ -290,8 +290,9 @@
 	. = ..()
 	if(!.)
 		return
-	if(!owner.client) // <--- We don't allow non client usage so that using powers like mesmerize will FAIL if you try to use them as ghost. Why? because ranged_abvility in spell.dm
-		return FALSE //		doesn't let you remove powers if you're not there. So, let's just cancel the power entirely.
+	// We don't allow non client usage so that using powers like mesmerize will FAIL if you try to use them as ghost.
+	if(!owner.client)
+		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/targeted/DeactivatePower(mob/living/user = owner, mob/living/target)
@@ -306,14 +307,16 @@
 
 /// Check if target is VALID (wall, turf, or character?)
 /datum/action/bloodsucker/targeted/proc/CheckValidTarget(atom/target_atom)
-	return FALSE // FALSE targets nothing.
+	if(target_atom == owner)
+		return FALSE
+	return TRUE
 
 /// Check if valid target meets conditions
 /datum/action/bloodsucker/targeted/proc/CheckCanTarget(atom/target_atom, display_error)
 	// Out of Range
 	if(!(target_atom in view(target_range, owner)))
 		if(display_error && target_range > 1) // Only warn for range if it's greater than 1. Brawn doesn't need to announce itself.
-			to_chat(owner, span_warning("Your target is out of range."))
+			owner.balloon_alert(owner, "out of range.")
 		return FALSE
 	return istype(target_atom)
 
