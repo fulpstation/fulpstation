@@ -839,7 +839,7 @@
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/M)
 	. = ..()
 	update_armrest()
-	M.pixel_y += 6
+	M.pixel_y += 2
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
@@ -849,7 +849,7 @@
 	. = ..()
 
 /obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/M)
-	M.pixel_y -= 6
+	M.pixel_y -= 2
 
 // Buckling people in
 /obj/structure/bloodsucker/bloodthrone/attackby(obj/item/P, mob/living/user, params)
