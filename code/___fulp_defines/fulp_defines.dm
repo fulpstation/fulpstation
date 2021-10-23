@@ -39,13 +39,31 @@
 /*
  *	Antag Tip Defines
  */
+///Antag Tips - Abductors
 #define ABDUCTOR_TIPS "abductor"
+///Antag Tips - Bloodsuckers
 #define BLOODSUCKER_TIPS "bloodsucker"
+///Antag Tips - Changelings
 #define CHANGELING_TIPS "changeling"
+///Antag Tips - Cultists
 #define CULTIST_TIPS "cultist"
+///Antag Tips - Heretics
 #define HERETIC_TIPS "heretic"
+///Antag Tips - Imposter Wizard
+#define IMPOSTER_TIPS "imposter"
+///Antag Tips - Malfunctional AIs
 #define MALF_TIPS "malf_ai"
+///Antag Tips - Monster Hunters
 #define MONSTERHUNTER_TIPS "monsterhunter"
+///Antag Tips - Nuclear Operatives
 #define NUKIE_TIPS "nukie"
+///Antag Tips - Revolutionaries
 #define REVOLUTIONARY_TIPS "revolutionary"
+///Antag Tips - Traitor
+#define TRAITOR_TIPS "traitor"
+///Antag Tips - Vassals
 #define VASSAL_TIPS "vassal"
+///Antag Tips - Wizard Apprentice
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+///Antag Tips - Wizard
+#define WIZARD_TIPS "wizard"

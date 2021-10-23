@@ -4,7 +4,7 @@
 /datum/antagonist/on_gain()
 	. = ..()
 	if(owner.current.client?.prefs?.read_preference(/datum/preference/toggle/antag_tips))
-		if(!silent && tips)
+		if(!silent && !isnull(tips))
 			show_tips(tips)
 
 /datum/antagonist/on_removal()
