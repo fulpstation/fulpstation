@@ -1,7 +1,10 @@
 /// We're loading Mentors from here
 /world/New()
 	. = ..()
+	// Load Mentors
 	load_mentors()
+	// Load Fulp race datums
+	make_fulp_datum_references_lists()
 
 /// Redirect of update_status to use our own via not calling parent.
 /world/update_status()

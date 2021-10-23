@@ -50,7 +50,7 @@
 	stamp_max = 2
 	stamp_offset_y = 5
 
-/obj/item/mail/Initialize()
+/obj/item/mail/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_MOVABLE_DISPOSING, .proc/disposal_handling)
 	AddElement(/datum/element/item_scaling, 0.75, 1)
@@ -139,13 +139,13 @@
 
 /// Accepts a mind to initialize goodies for a piece of mail.
 /obj/item/mail/proc/initialize_for_recipient(datum/mind/recipient)
-	name = "[initial(name)] for [recipient.name] ([recipient.assigned_role])"
+	name = "[initial(name)] for [recipient.name] ([recipient.assigned_role.title])"
 	recipient_ref = WEAKREF(recipient)
 
 	var/mob/living/body = recipient.current
 	var/list/goodies = generic_goodies
 
-	var/datum/job/this_job = SSjob.name_occupations[recipient.assigned_role]
+	var/datum/job/this_job = recipient.assigned_role
 	if(this_job)
 		if(this_job.paycheck_department && department_colors[this_job.paycheck_department])
 			color = department_colors[this_job.paycheck_department]
@@ -193,7 +193,7 @@
 		disposal_holder.destinationTag = sort_tag
 
 /// Subtype that's always junkmail
-/obj/item/mail/junkmail/Initialize()
+/obj/item/mail/junkmail/Initialize(mapload)
 	. = ..()
 	junk_mail()
 
@@ -222,7 +222,7 @@
 		if(human.stat == DEAD || !human.mind)
 			continue
 		// Skip wizards, nuke ops, cyborgs; Centcom does not send them mail
-		if(!SSjob.GetJob(human.mind.assigned_role) || (human.mind.assigned_role in GLOB.nonhuman_positions))
+		if(!(human.mind.assigned_role.job_flags & JOB_CREW_MEMBER))
 			continue
 
 		mail_recipients += human.mind
@@ -243,7 +243,7 @@
 	update_icon()
 
 /// Crate for mail that automatically depletes the economy subsystem's pending mail counter.
-/obj/structure/closet/crate/mail/economy/Initialize()
+/obj/structure/closet/crate/mail/economy/Initialize(mapload)
 	. = ..()
 	populate(SSeconomy.mail_waiting)
 	SSeconomy.mail_waiting = 0
@@ -253,7 +253,7 @@
 	name = "brimming mail crate"
 	desc = "A certified post crate from CentCom. Looks stuffed to the gills."
 
-/obj/structure/closet/crate/mail/full/Initialize()
+/obj/structure/closet/crate/mail/full/Initialize(mapload)
 	. = ..()
 	populate(INFINITY)
 
@@ -285,7 +285,7 @@
 	icon_state = "scrap"
 	var/nuclear_option_odds = 0.1
 
-/obj/item/paper/fluff/junkmail_redpill/Initialize()
+/obj/item/paper/fluff/junkmail_redpill/Initialize(mapload)
 	. = ..()
 	if(!prob(nuclear_option_odds)) // 1 in 1000 chance of getting 2 random nuke code characters.
 		info = "<i>You need to escape the simulation. Don't forget the numbers, they help you remember:</i> '[rand(0,9)][rand(0,9)][rand(0,9)]...'"
@@ -303,6 +303,6 @@
 	name = "important document"
 	icon_state = "paper_words"
 
-/obj/item/paper/fluff/junkmail_generic/Initialize()
+/obj/item/paper/fluff/junkmail_generic/Initialize(mapload)
 	. = ..()
 	info = pick(GLOB.junkmail_messages)

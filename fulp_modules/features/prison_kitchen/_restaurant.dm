@@ -20,6 +20,8 @@
 		/datum/customer_data/prisoner = 35,
 		/datum/customer_data/british/bobby = 30, // I guess they're also police?
 		/datum/customer_data/american = 30, // Americans love prisons
+		/datum/customer_data/xarsee = 25, // Originally meant for abandoned kitchens, plans were... abandoned.
+		/datum/customer_data/rat = 25,
 		/datum/customer_data/head_of_sec = 25,
 		/datum/customer_data/italian = 20,
 		/datum/customer_data/mexican = 20,
@@ -32,7 +34,7 @@
 	linked_venue = /datum/venue/restaurant/prison
 
 // Don't do anything or else it BREAKS
-/obj/machinery/restaurant_portal/restaurant/prison/attacked_by(obj/item/I, mob/living/user)
+/obj/machinery/restaurant_portal/restaurant/prison/attacked_by(obj/item/item, mob/living/user)
 	return
 
 // Holosign projector

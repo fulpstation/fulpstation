@@ -18,7 +18,7 @@
 	new /obj/item/grenade/flashbang(src)
 	new /obj/item/assembly/flash/handheld(src)
 	new	/obj/item/holosign_creator/security(src)
-	new /obj/item/melee/baton/loaded(src)
+	new /obj/item/melee/baton/security/loaded(src)
 	update_icon()
 
 /obj/item/storage/belt/medical/alien/PopulateContents()
@@ -37,3 +37,4 @@
 	desc = "Very pricy specialized combat gloves, thicker than latex. Transfers intimate paramedic knowledge into the user via nanochips, along with providing insulation."
 	icon_state = "nitrile"
 	inhand_icon_state = "nitrilegloves"
+	clothing_traits = list(TRAIT_QUICKER_CARRY, TRAIT_FASTMED)

@@ -142,9 +142,9 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 /obj/effect/statclick/ticket_list
 	var/current_state
 
-/obj/effect/statclick/ticket_list/New(loc, name, state)
+/obj/effect/statclick/ticket_list/Initialize(mapload, name, state)
+	. = ..()
 	current_state = state
-	..()
 
 /obj/effect/statclick/ticket_list/Click()
 	GLOB.ahelp_tickets.BrowseTickets(current_state)
@@ -186,12 +186,12 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
  * Call this on its own to create a ticket, don't manually assign current_ticket
  *
  * Arguments:
- * * msg - The title of the ticket: usually the ahelp text
+ * * msg_raw - The first message of this admin_help: used for the initial title of the ticket
  * * is_bwoink - Boolean operator, TRUE if this ticket was started by an admin PM
  */
-/datum/admin_help/New(msg, client/C, is_bwoink)
+/datum/admin_help/New(msg_raw, client/C, is_bwoink)
 	//clean the input msg
-	msg = sanitize(copytext_char(msg, 1, MAX_MESSAGE_LEN))
+	var/msg = sanitize(copytext_char(msg_raw, 1, MAX_MESSAGE_LEN))
 	if(!msg || !C || !C.mob)
 		qdel(src)
 		return
@@ -219,7 +219,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		AddInteraction("<font color='blue'>[key_name_admin(usr)] PM'd [LinkedReplyName()]</font>")
 		message_admins("<font color='blue'>Ticket [TicketHref("#[id]")] created</font>")
 	else
-		MessageNoRecipient(msg)
+		MessageNoRecipient(msg_raw)
 
 		//send it to TGS if nobody is on and tell us how many were on
 		var/admin_number_present = send2tgs_adminless_only(initiator_ckey, "Ticket #[id]: [msg]")
@@ -252,6 +252,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		ref_src = "[REF(src)]"
 	. = ADMIN_FULLMONTY_NONAME(initiator.mob)
 	if(state == AHELP_ACTIVE)
+		if (CONFIG_GET(flag/popup_admin_pm))
+			. += " (<A HREF='?_src_=holder;[HrefToken(TRUE)];adminpopup=[REF(initiator)]'>POPUP</A>)"
 		. += ClosureLinks(ref_src)
 
 //private
@@ -344,6 +346,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	GLOB.ahelp_tickets.active_tickets -= src
 	if(initiator && initiator.current_ticket == src)
 		initiator.current_ticket = null
+
+	SEND_SIGNAL(src, COMSIG_ADMIN_HELP_MADE_INACTIVE)
 
 //Mark open ticket as closed/meme
 /datum/admin_help/proc/Close(key_name = key_name_admin(usr), silent = FALSE)
@@ -450,7 +454,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 				continue
 			dat += "[related_ticket.TicketHref("#[related_ticket.id]")] ([related_ticket.ticket_status()]): [related_ticket.name]<br/>"
 
-	usr << browse(dat.Join(), "window=ahelp[id];size=620x480")
+	usr << browse(dat.Join(), "window=ahelp[id];size=700x480")
 
 /**
  * Renders the current status of the ticket into a displayable string
@@ -487,10 +491,6 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			Retitle()
 		if("reject")
 			Reject()
-		// FULP EDIT - MENTORHELP
-		if("mhelp")
-			MHelpThis()
-		// FULP EDIT END
 		if("reply")
 			usr.client.cmd_ahelp_reply(initiator)
 		if("icissue")
@@ -782,3 +782,34 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 				break
 
 	return potential_hits
+
+/**
+ * Checks a given message to see if any of the words contain an active admin's ckey with an @ before it
+ *
+ * Returns nothing if no pings are found, otherwise returns an associative list with ckey -> client
+ * Also modifies msg to underline the pings, then stores them in the key [ADMINSAY_PING_UNDERLINE_NAME_INDEX] for returning
+ *
+ * Arguments:
+ * * msg - the message being scanned
+ */
+/proc/check_admin_pings(msg)
+	//explode the input msg into a list
+	var/list/msglist = splittext(msg, " ")
+	var/list/admins_to_ping = list()
+
+	var/i = 0
+	for(var/word in msglist)
+		i++
+		if(!length(word))
+			continue
+		if(word[1] != "@")
+			continue
+		var/ckey_check = lowertext(copytext(word, 2))
+		var/client/client_check = GLOB.directory[ckey_check]
+		if(client_check?.holder)
+			msglist[i] = "<u>[word]</u>"
+			admins_to_ping[ckey_check] = client_check
+
+	if(length(admins_to_ping))
+		admins_to_ping[ADMINSAY_PING_UNDERLINE_NAME_INDEX] = jointext(msglist, " ") // without tuples, we must make do!
+		return admins_to_ping

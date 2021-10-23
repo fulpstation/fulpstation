@@ -2,6 +2,12 @@
 	. = ..()
 	mentor_datum_set()
 
+// Overwrites /client/Topic to return for mentor client procs
+/client/Topic(href, href_list, hsrc)
+	if(mentor_client_procs(href_list))
+		return
+	. = ..()
+
 /client/proc/mentor_client_procs(href_list)
 	if(href_list["mentor_msg"])
 		cmd_mentor_pm(href_list["mentor_msg"],null)
@@ -9,10 +15,10 @@
 
 	/// Mentor Follow
 	if(href_list["mentor_follow"])
-		var/mob/living/M = locate(href_list["mentor_follow"])
+		var/mob/living/followed_guy = locate(href_list["mentor_follow"])
 
-		if(istype(M))
-			mentor_follow(M)
+		if(istype(followed_guy))
+			mentor_follow(followed_guy)
 		return TRUE
 
 

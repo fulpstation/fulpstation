@@ -22,7 +22,8 @@
 	popup.set_content(dat.Join())
 	popup.open()
 /datum/antagonist/bloodsucker/Topic(href, href_list)
-	if(..())
+	. = ..()
+	if(.)
 		return   // From browser.dm:   /datum/browser/New(nuser, nwindow_id, ntitle = 0, nwidth = 0, nheight = 0, var/atom/nref = null)
 	var/list/dat = list()
 	dat += "<B>Select use of processing time: (currently #[processing_time] left.)</B><BR>"
@@ -39,15 +40,10 @@
 	var/datum/browser/popup = new(user, "modpicker", "Malf Module Menu")
 	popup.set_content(dat.Join())
 	popup.open()
-*/
-/*
 	var/dat = ""
 	var/datum/bank_account/account
-	var/mob/living/carbon/human/H
 	var/obj/item/card/id/C
-	if(ishuman(user))
-		H = user
-		C = H.get_idcard(TRUE)
+	C = user.get_idcard(TRUE)
 	if(!C)
 		dat += "<font color = 'red'><h3>No ID Card detected!</h3></font>"
 	else if (!C.registered_account)

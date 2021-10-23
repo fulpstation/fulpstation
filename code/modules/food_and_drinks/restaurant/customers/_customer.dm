@@ -84,6 +84,7 @@
 			/obj/item/food/pizza/pineapple = 1,
 			/obj/item/food/burger/baconburger = 10,
 			/obj/item/food/pancakes = 4,
+			/obj/item/food/eggsausage = 5,
 		),
 		VENUE_BAR = list(
 			/datum/reagent/consumable/ethanol/b52 = 6,
@@ -408,7 +409,7 @@
 			/obj/item/food/benedict = 5,
 			/obj/item/food/full_english = 2,
 			/obj/item/food/soup/indian_curry = 3,
-			/obj/item/food/beef_wellington/slice = 2,
+			/obj/item/food/beef_wellington_slice = 2,
 		),
 		VENUE_BAR = list(
 			/datum/reagent/consumable/ethanol/ale = 10,

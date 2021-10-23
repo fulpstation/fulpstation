@@ -4,30 +4,31 @@
 
 	var/msg = "<b>Current Mentors:</b>\n"
 	if(holder)
-		for(var/client/C in GLOB.mentors)
-			if(C.mentor_datum && !check_rights_for(C, R_ADMIN,0))
-				msg += "\t[C] is a mentor"
-				if(isobserver(C.mob))
+		for(var/client/mentor_clients in GLOB.mentors)
+			if(mentor_clients.mentor_datum)
+				msg += "\t[mentor_clients] is a mentor"
+				if(isobserver(mentor_clients.mob))
 					msg += " - Observing"
-				else if(isnewplayer(C.mob))
+				else if(isnewplayer(mentor_clients.mob))
 					msg += " - Lobby"
 				else
 					msg += " - Playing"
 
-				if(C.is_afk())
+				if(mentor_clients.is_afk())
 					msg += " (AFK)"
 				msg += "\n"
 	else
-		for(var/client/C in GLOB.mentors)
-			if(C.is_afk())
+		for(var/client/mentor_clients in GLOB.mentors)
+			if(mentor_clients.is_afk())
 				continue
-			if(check_rights_for(C, R_ADMIN,0))
+			if(check_rights_for(mentor_clients, R_ADMIN,0))
 				continue
 			// Dont show deadmined folk
 			if(GLOB.deadmins[ckey])
 				continue
-			if(C.mentor_datum?.is_contributor)
-				msg += "\t[C] is a Contributor\n"
-			else if(C.mentor_datum)
-				msg += "\t[C] is a Mentor\n"
+			if(mentor_clients.mentor_datum?.is_contributor)
+				msg += "\t[mentor_clients] is a Contributor\n"
+			else if(mentor_clients.mentor_datum)
+				msg += "\t[mentor_clients] is a Mentor\n"
+
 	to_chat(src, msg)
