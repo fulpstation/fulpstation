@@ -5,6 +5,7 @@
 /obj/item/clothing/under/costume_2021
 	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
+	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2021
 	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'

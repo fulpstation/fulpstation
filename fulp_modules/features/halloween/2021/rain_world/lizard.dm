@@ -5,7 +5,7 @@
  */
 
 /obj/item/clothing/suit/hooded/costume_2021/lizard
-	name = "lizard onesie"
+	name = "slugcat lizard onesie"
 	desc = "A snuggly animal oneise, made from a stretchy hide."
 	icon_state = "lizard"
 	greyscale_config = /datum/greyscale_config/lizard_onesie
@@ -25,7 +25,7 @@
 	)
 
 /obj/item/clothing/head/hooded/costume_2021/lizard_head
-	name = "lizard onesie"
+	name = "slugcat lizard hoodie"
 	icon_state = "lizard_head"
 	greyscale_config = /datum/greyscale_config/lizard_onesie_head
 	greyscale_config_worn = /datum/greyscale_config/lizard_onesie_head/worn
@@ -51,7 +51,7 @@
 		. += emissive_appearance(icon_file, "lizardhead_emissive", alpha = src.alpha)
 
 /obj/item/storage/box/halloween/edition_21/lizard
-	theme_name = "2021's lizard onesie"
+	theme_name = "2021's Slugcat Lizard Onesie"
 	costume_contents = list(
 		/obj/item/clothing/suit/hooded/costume_2021/lizard,
 	)

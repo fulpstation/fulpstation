@@ -17,7 +17,7 @@
 	icon_state = "lady_maria_hat"
 
 /obj/item/storage/box/halloween/edition_21/oldhunter
-	theme_name = "2021's Old Hunter's set"
+	theme_name = "2021's Old Hunter"
 	costume_contents = list(
 		/obj/item/clothing/suit/costume_2021/oldhunter,
 		/obj/item/clothing/head/costume_2021/oldhunter,

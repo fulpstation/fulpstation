@@ -27,7 +27,7 @@
 	)
 
 /obj/item/clothing/head/hooded/costume_2021/slugcat_head
-	name = "slugcat onesie"
+	name = "slugcat hoodie"
 	icon_state = "slugcat_head"
 	greyscale_config = /datum/greyscale_config/slugcat_head
 	greyscale_config_worn = /datum/greyscale_config/slugcat_head/worn
@@ -53,7 +53,7 @@
 		. += emissive_appearance(icon_file, "slugcathead_emissive", alpha = src.alpha)
 
 /obj/item/storage/box/halloween/edition_21/slugcat
-	theme_name = "2021's slugcat onesie"
+	theme_name = "2021's Slugcat Onesie"
 	costume_contents = list(
 		/obj/item/clothing/suit/hooded/costume_2021/slugcat,
 	)
