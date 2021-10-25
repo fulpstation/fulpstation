@@ -16,7 +16,10 @@
 		add_verb(user, list(
 			/mob/living/proc/guardian_comm,
 			/mob/living/proc/guardian_recall,
-			/mob/living/proc/guardian_reset))
+			/mob/living/proc/guardian_reset,
+		))
+		to_chat(user, "[bloodsucker_guardian.magic_fluff_string]")
+		to_chat(user, span_holoparasite("<b>[bloodsucker_guardian.real_name]</b> has been summoned!"))
 		bloodsucker_guardian?.client.init_verbs()
 		return
 
