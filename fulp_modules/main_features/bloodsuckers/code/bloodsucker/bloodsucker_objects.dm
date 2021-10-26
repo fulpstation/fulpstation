@@ -291,7 +291,8 @@
 
 // Overwriting attackby to prevent cutting the book out
 /obj/item/book/kindred/attackby(obj/item/item, mob/user, params)
-	if((istype(item, /obj/item/kitchen/knife) || item.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
+	// Copied from '/obj/item/book/attackby(obj/item/item, mob/user, params)'
+	if((istype(item, /obj/item/knife) || item.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
 		to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [title]."))
 		return
 	. = ..()
