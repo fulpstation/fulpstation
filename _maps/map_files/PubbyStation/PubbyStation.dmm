@@ -11131,16 +11131,6 @@
 /obj/effect/decal/cleanable/cobweb/cobweb2,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
-"aKy" = (
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
-/obj/machinery/door/airlock/external{
-	name = "Escape Airlock";
-	safety_mode = 1
-	},
-/turf/open/floor/plating,
-/area/hallway/secondary/exit/departure_lounge)
 "aKz" = (
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
@@ -11154,16 +11144,6 @@
 /turf/open/floor/iron/white/corner{
 	dir = 1
 	},
-/area/hallway/secondary/exit/departure_lounge)
-"aKB" = (
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 8
-	},
-/obj/machinery/door/airlock/external{
-	name = "Escape Airlock";
-	safety_mode = 1
-	},
-/turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
 "aKD" = (
 /obj/structure/disposalpipe/segment{
@@ -15665,7 +15645,8 @@
 "bbQ" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/airlock/external{
-	name = "Port Docking Bay 1"
+	name = "Arrival Airlock";
+	space_dir = 1
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
@@ -16135,7 +16116,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/external{
-	name = "Port Docking Bay 1"
+	name = "Arrival Airlock"
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
@@ -30025,10 +30006,6 @@
 /turf/open/floor/iron,
 /area/engineering/main)
 "cbg" = (
-/obj/item/book/manual/wiki/engineering_singulo_tesla{
-	pixel_x = 3;
-	pixel_y = 3
-	},
 /obj/item/book/manual/wiki/engineering_guide,
 /obj/structure/table/glass,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -31259,7 +31236,7 @@
 /obj/structure/table,
 /obj/item/reagent_containers/food/condiment/flour,
 /obj/item/kitchen/rollingpin,
-/obj/item/kitchen/knife,
+/obj/item/knife,
 /obj/machinery/light/small,
 /turf/open/floor/iron,
 /area/service/chapel/monastery)
@@ -35522,6 +35499,13 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
+"dux" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/external{
+	name = "Arrival Airlock"
+	},
+/turf/open/floor/plating,
+/area/hallway/secondary/entry)
 "duC" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -35573,9 +35557,9 @@
 /obj/item/kitchen/spoon/plastic,
 /obj/item/kitchen/spoon/plastic,
 /obj/item/kitchen/spoon/plastic,
-/obj/item/kitchen/knife/plastic,
-/obj/item/kitchen/knife/plastic,
-/obj/item/kitchen/knife/plastic,
+/obj/item/knife/plastic,
+/obj/item/knife/plastic,
+/obj/item/knife/plastic,
 /obj/item/storage/bag/tray/cafeteria,
 /obj/item/storage/bag/tray/cafeteria,
 /obj/item/storage/bag/tray/cafeteria,
@@ -35603,7 +35587,7 @@
 /obj/structure/sign/departments/science{
 	pixel_y = 32
 	},
-/obj/item/kitchen/knife,
+/obj/item/knife,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "dym" = (
@@ -37134,7 +37118,7 @@
 /obj/structure/window/reinforced/plasma/spawner/east,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
-/obj/machinery/power/grounding_rod/anchored,
+/obj/machinery/power/energy_accumulator/grounding_rod/anchored,
 /turf/open/floor/engine,
 /area/engineering/supermatter)
 "eXa" = (
@@ -38268,17 +38252,16 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/external{
-	name = "Cargo Escape Airlock";
-	safety_mode = 1
+	name = "External Docking Port"
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
 "fTZ" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/obj/machinery/door/airlock/external{
-	name = "Port Docking Bay 1"
-	},
 /obj/machinery/navbeacon/wayfinding/dockarrival,
+/obj/machinery/door/airlock/external{
+	name = "Arrival Airlock"
+	},
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
 "fUc" = (
@@ -40024,7 +40007,7 @@
 	c_tag = "Engineering Supermatter Chamber";
 	network = list("ss13","engine")
 	},
-/obj/machinery/power/tesla_coil/anchored,
+/obj/machinery/power/energy_accumulator/tesla_coil/anchored,
 /turf/open/floor/engine,
 /area/engineering/supermatter)
 "hGQ" = (
@@ -40655,8 +40638,9 @@
 /turf/open/floor/iron/stairs,
 /area/engineering/storage/tech)
 "imB" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/engine_waste{
-	dir = 1
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
+	dir = 1;
+	name = "engine outlet injector"
 	},
 /turf/open/floor/plating/airless,
 /area/engineering/supermatter/room)
@@ -41998,7 +41982,7 @@
 "jPf" = (
 /obj/structure/closet,
 /obj/effect/spawner/random/maintenance,
-/obj/item/kitchen/knife,
+/obj/item/knife,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/maintenance/department/engine)
@@ -43235,7 +43219,7 @@
 /obj/structure/sign/painting/library_secure{
 	pixel_y = -32
 	},
-/obj/item/kitchen/knife/combat/bone{
+/obj/item/knife/combat/bone{
 	desc = "An old bone sharpened into a blade. It's rather dull nowadays.";
 	force = 8;
 	name = "ancient bone dagger";
@@ -44166,6 +44150,16 @@
 "lZc" = (
 /turf/open/floor/iron,
 /area/science/robotics/mechbay)
+"lZC" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/obj/machinery/door/airlock/external{
+	name = "Arrival Airlock";
+	space_dir = 2
+	},
+/turf/open/floor/plating,
+/area/hallway/secondary/entry)
 "maH" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
@@ -48840,7 +48834,7 @@
 /obj/structure/window/reinforced/plasma/spawner/west,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/green/visible,
-/obj/machinery/power/tesla_coil/anchored,
+/obj/machinery/power/energy_accumulator/tesla_coil/anchored,
 /turf/open/floor/engine,
 /area/engineering/supermatter)
 "qqr" = (
@@ -49196,8 +49190,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "Cargo Escape Airlock";
-	safety_mode = 1
+	name = "External Docking Port";
+	space_dir = 8
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
@@ -52143,7 +52137,7 @@
 /obj/structure/window/reinforced/plasma/spawner/west,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/green/visible,
-/obj/machinery/power/grounding_rod/anchored,
+/obj/machinery/power/energy_accumulator/grounding_rod/anchored,
 /turf/open/floor/engine,
 /area/engineering/supermatter)
 "toR" = (
@@ -56099,11 +56093,10 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
-/obj/machinery/door/airlock/external{
-	name = "Escape Airlock";
-	safety_mode = 1
-	},
 /obj/machinery/navbeacon/wayfinding/dockesc,
+/obj/machinery/door/airlock/external{
+	name = "External Docking Port"
+	},
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
 "wDx" = (
@@ -56674,7 +56667,7 @@
 /obj/structure/window/reinforced/plasma/spawner/east,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
-/obj/machinery/power/tesla_coil/anchored,
+/obj/machinery/power/energy_accumulator/tesla_coil/anchored,
 /turf/open/floor/engine,
 /area/engineering/supermatter)
 "wYi" = (
@@ -56850,7 +56843,7 @@
 /turf/open/floor/iron,
 /area/science/xenobiology)
 "xdQ" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
 	dir = 1
 	},
 /obj/structure/lattice/catwalk,
@@ -75283,15 +75276,15 @@ aaa
 aaa
 aaa
 aHA
-aKy
+qIC
 xee
-aKy
+qIC
 aHA
 aaa
 aaa
 aaa
 aHA
-aKy
+qIC
 xee
 qIC
 aHA
@@ -76311,9 +76304,9 @@ aiu
 aiu
 aHz
 xee
-aKB
+fTY
 nYn
-aKB
+fTY
 xee
 aHA
 aHA
@@ -77097,9 +77090,9 @@ aie
 aYG
 nJB
 vvo
-bbQ
+dux
 bcX
-bdV
+lZC
 aaa
 aaa
 aaa
@@ -78641,7 +78634,7 @@ oPg
 bop
 fTZ
 bcX
-bdV
+lZC
 aaa
 aaa
 aaa
