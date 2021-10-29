@@ -152,7 +152,7 @@
 	 	/obj/item/clothing/under/costume_2021/chris,
 	 	/obj/item/clothing/shoes/jackboots,
 		/obj/item/gun/ballistic/automatic/pistol/toy,
-		/obj/item/kitchen/knife/plastic,
+		/obj/item/knife/plastic,
 	)
 
 /// IRA
