@@ -172,6 +172,9 @@
 			target_airlock.open(2) // open(2) is like a crowbar or jaws of life.
 
 /datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(target_atom) || istype(target_atom, /obj/machinery/door) || istype(target_atom, /obj/structure/closet)
 
 /datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom, display_error)
@@ -182,9 +185,6 @@
 	// Must outside Closet to target anyone!
 	if(!isturf(owner.loc))
 		return FALSE
-	// Check: Self
-	if(target_atom == owner)
-		return FALSE
 	// Target Type: Living
 	if(isliving(target_atom))
 		return TRUE
@@ -194,4 +194,4 @@
 	// Target Type: Locker
 	else if(istype(target_atom, /obj/structure/closet))
 		return TRUE
-	return ..() // yes, FALSE! You failed if you got here! BAD TARGET
+	return FALSE

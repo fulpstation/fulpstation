@@ -778,7 +778,7 @@
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
 	update_armrest()
-	target.pixel_y += 6
+	target.pixel_y += 2
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
@@ -788,7 +788,7 @@
 	. = ..()
 
 /obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/target)
-	target.pixel_y -= 6
+	target.pixel_y -= 2
 
 // The speech itself
 /obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)

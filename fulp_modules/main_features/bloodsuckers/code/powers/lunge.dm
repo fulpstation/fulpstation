@@ -35,6 +35,9 @@
 
 /// Check: Are we lunging at a person?
 /datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(target_atom)
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom, display_error)
@@ -42,16 +45,13 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	// Check: Self
-	if(target_atom == owner)
-		return FALSE
-/*
+	/*
 	/// Check: Range
 	if(!(target_atom in view(target_range, get_turf(owner))))
 		if(display_error)
-			to_chat(owner, span_warning("Your victim is too far away."))
+			owner.balloon_alert(owner, "out of range.")
 		return FALSE
-*/
+	*/
 	// Check: Turf
 	var/mob/living/turf_target = target_atom
 	if(!isturf(turf_target.loc))
