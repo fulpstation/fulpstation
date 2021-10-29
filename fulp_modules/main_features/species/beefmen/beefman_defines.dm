@@ -1,11 +1,11 @@
 // Taken from ethereals (color_list_ethereal)
 GLOBAL_LIST_INIT(color_list_beefman, list(
-	"Very Rare" = "d93356",
-	"Rare" = "da2e4a",
-	"Medium Rare" = "e73f4e",
-	"Medium" = "f05b68",
-	"Medium Well" = "e76b76",
-	"Well Done" = "d36b75",
+	"Very Rare" = "#d93356",
+	"Rare" = "#da2e4a",
+	"Medium Rare" = "#e73f4e",
+	"Medium" = "#f05b68",
+	"Medium Well" = "#e76b76",
+	"Well Done" = "#d36b75",
 ))
 
 // Taken from _HELPERS/mobs.dm

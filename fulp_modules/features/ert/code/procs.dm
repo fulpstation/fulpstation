@@ -8,7 +8,7 @@
 	var/normal_outfit = /datum/outfit/centcom/ert/medic/specialized
 	var/alien_outfit = /datum/outfit/centcom/ert/medic/specialized/alien
 	var/oath_outfit = /datum/outfit/centcom/ert/medic/specialized/oath
-	var/specialty = pickweight(list("Default" = 85, "Alien" = 5, "Oath" = 10))
+	var/specialty = pick_weight(list("Default" = 85, "Alien" = 5, "Oath" = 10))
 	user.delete_equipment() //To prevent double equipment shenanigans
 
 	switch(specialty)
@@ -25,7 +25,7 @@
 	var/normal_outfit = /datum/outfit/centcom/ert/commander/medical
 	var/alien_outfit = /datum/outfit/centcom/ert/commander/medical/alien
 	var/oath_outfit = /datum/outfit/centcom/ert/commander/medical/oath
-	var/specialty = pickweight(list("Default" = 85, "Alien" = 5, "Oath" = 10))
+	var/specialty = pick_weight(list("Default" = 85, "Alien" = 5, "Oath" = 10))
 	user.delete_equipment()
 
 	switch(specialty)
@@ -41,7 +41,7 @@
 	var/mob/living/carbon/human/user = owner.current
 	var/synth = /datum/species/synth
 	var/mil_synth = /datum/species/synth/military
-	var/race = pickweight(list("Default" = 90, "Military" = 1, "Synth" = 9)) // VERY low chance to become a Military Synth, 1/10 chance to become a synth
+	var/race = pick_weight(list("Default" = 90, "Military" = 1, "Synth" = 9)) // VERY low chance to become a Military Synth, 1/10 chance to become a synth
 
 	switch(race)
 		if("Military")

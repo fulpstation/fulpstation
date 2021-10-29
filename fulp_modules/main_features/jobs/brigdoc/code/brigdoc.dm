@@ -36,6 +36,7 @@
 		/obj/effect/spawner/random/medical/organs = 5,
 		/obj/effect/spawner/random/medical/memeorgans = 1,
 	)
+	rpg_title = "Undeterred Healer"
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
 	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
@@ -80,7 +81,7 @@
 	assignment = "Brig Physician"
 	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 	trim_state = "trim_brigphysician"
-	full_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
+	extra_access = list(ACCESS_PHARMACY, ACCESS_CHEMISTRY)
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
 	config_job = "brig_physician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)

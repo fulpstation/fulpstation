@@ -18,4 +18,4 @@ GLOBAL_LIST_INIT(credits_music, list(
 // The proc that decides which track to play for the credits, from the G.credits_music global list
 // This allows for a much easier time adding some more credits music.
 /client/proc/returncreditsmusic()
-	return pickweight(GLOB.credits_music)
+	return pick_weight(GLOB.credits_music)
