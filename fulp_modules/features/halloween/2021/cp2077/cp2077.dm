@@ -20,7 +20,7 @@
 	icon_state = "cp2077jsh_jacket"
 	body_parts_covered = CHEST|ARMS
 
-/obj/item/clothing/suit/costume_2021/cp2077_rockerboy/Initialize(mapload)
+/obj/item/clothing/suit/costume_2021/cp2077_rockerjacket/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/toggle_icon)
 
