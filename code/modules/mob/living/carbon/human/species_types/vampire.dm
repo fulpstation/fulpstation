@@ -10,7 +10,7 @@
 		TRAIT_NOBREATH,
 	)
 	inherent_biotypes = MOB_UNDEAD|MOB_HUMANOID
-	mutant_bodyparts = list("tail_human" = "None", "ears" = "None", "wings" = "None")
+	mutant_bodyparts = list("wings" = "None")
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | ERT_SPAWN
 	exotic_bloodtype = "U"
 	use_skintones = TRUE
@@ -143,3 +143,14 @@
 	charge_max = 50
 	cooldown_min = 50
 	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/bat/Shapeshift(mob/living/caster)
+	. = ..()
+
+	if(!.)
+		return
+
+	var/mob/living/simple_animal/hostile/retaliate/bat/bat_shape = .
+
+	REMOVE_TRAIT(bat_shape, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+	ADD_TRAIT(bat_shape, TRAIT_VENTCRAWLER_VAMPIRE_BAT, INNATE_TRAIT)

@@ -514,6 +514,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
  * wearing no clothes and holding no items. If both present, *_ALWAYS
  * takes precedence.
  */
+/// Limited ability to ventcrawl. Can't exit vents in blacklisted areas such as armory/cap's quarters.
+#define TRAIT_VENTCRAWLER_VAMPIRE_BAT "ventcrawler_vampire_bat"
 #define TRAIT_VENTCRAWLER_ALWAYS "ventcrawler_always"
 #define TRAIT_VENTCRAWLER_NUDE "ventcrawler_nude"
 
