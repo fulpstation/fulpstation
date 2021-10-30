@@ -591,6 +591,7 @@ SUBSYSTEM_DEF(job)
 
 
 /datum/controller/subsystem/job/proc/LoadJobs()
+	log_config("Loading config file jobs.txt...")
 	var/jobstext = file2text("[global.config.directory]/jobs.txt")
 	for(var/datum/job/job as anything in joinable_occupations)
 		var/regex/jobs = new("[job.title]=(-1|\\d+),(-1|\\d+)")
