@@ -290,7 +290,7 @@ GLOBAL_LIST_INIT(organ_process_order, list(
 #define SPECIES_GOLEM_BLUESPACE "bluespace golem"
 #define SPECIES_GOLEM_BANANIUM "bananium golem"
 #define SPECIES_GOLEM_CULT "runic golem"
-#define SPECIES_GOLEM_CLOTH "cloth golem"
+#define SPECIES_GOLEM_CLOTH "cloth_golem"
 #define SPECIES_GOLEM_PLASTIC "plastic golem"
 #define SPECIES_GOLEM_BRONZE "bronze golem"
 #define SPECIES_GOLEM_CARDBOARD "cardboard golem"
