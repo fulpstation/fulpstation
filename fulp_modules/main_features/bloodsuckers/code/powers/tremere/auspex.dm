@@ -77,6 +77,9 @@
 
 
 /datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isturf(target_atom)
 
 /datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower()

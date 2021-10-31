@@ -156,6 +156,8 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 
 /// Am I "pale" when examined? - Bloodsuckers on Masquerade will hide this.
 /mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user, apparent_blood_volume)
+	if(!mind)
+		return BLOODSUCKER_HIDE_BLOOD
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Not a Bloodsucker?
 	if(!bloodsuckerdatum)

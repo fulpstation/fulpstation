@@ -38,6 +38,7 @@
 		/obj/item/crowbar/large = 1,
 		/obj/item/melee/baton/security/boomerang/loaded = 1,
 	)
+	rpg_title = "Independent Guardsman"
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
@@ -146,7 +147,7 @@
 	assignment = "Deputy"
 	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
 	trim_state = "trim_deputy"
-	full_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
+	extra_access = list(ACCESS_MAINT_TUNNELS)
 	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
@@ -155,7 +156,8 @@
 	var/department_access = list()
 
 /datum/id_trim/job/deputy/refresh_trim_access()
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 	access |= department_access
 

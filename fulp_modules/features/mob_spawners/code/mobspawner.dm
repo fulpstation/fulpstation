@@ -4,7 +4,7 @@
 	name = "custom mob spawner"
 	//valid_mobs is a list of paths with lists
 	//each path's list MUST have 3 numbers
-	//pickweight, min spawn, max spawn
+	//pick_weight, min spawn, max spawn
 	var/list/valid_mobs
 
 /obj/effect/spawner/random_mob/Initialize(mapload)
@@ -33,7 +33,7 @@
 
 
 ///  code/__HELPERS/_lists.dm ///
-///This version only works with associated lists where the value is a list containing 3 ints - pickweight, min, and max. Returns list (array) where 1 is path and 2 is num
+///This version only works with associated lists where the value is a list containing 3 ints - pick_weight, min, and max. Returns list (array) where 1 is path and 2 is num
 /proc/pick_random_item_and_count(list/random_stuff)
 	var/total = 0
 	var/item

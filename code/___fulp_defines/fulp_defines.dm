@@ -8,6 +8,8 @@
  */
 /// Used in hunterfu.dm
 #define MARTIALART_HUNTERFU "hunterfu"
+/// Used in velvet_fu.dm
+#define MARTIALART_VELVETFU "velvetfu"
 /// Used in deputy_block.dm
 #define MARTIALART_DEPUTYBLOCK "deputy blocking"
 /// Used in bloodsucker_life.dm
@@ -27,6 +29,8 @@
 /*
  *	Misc Defines
  */
+/// Defines the bullet type for Joel's gun, used in joel_gun.dm
+#define CALIBER_C22 ".c22"
 /// Human sub-species defines
 #define SPECIES_BEEFMAN "beefman"
 #define isbeefman(A) (is_species(A,/datum/species/beefman))
@@ -39,13 +43,31 @@
 /*
  *	Antag Tip Defines
  */
+///Antag Tips - Abductors
 #define ABDUCTOR_TIPS "abductor"
+///Antag Tips - Bloodsuckers
 #define BLOODSUCKER_TIPS "bloodsucker"
+///Antag Tips - Changelings
 #define CHANGELING_TIPS "changeling"
+///Antag Tips - Cultists
 #define CULTIST_TIPS "cultist"
+///Antag Tips - Heretics
 #define HERETIC_TIPS "heretic"
+///Antag Tips - Imposter Wizard
+#define IMPOSTER_TIPS "imposter"
+///Antag Tips - Malfunctional AIs
 #define MALF_TIPS "malf_ai"
+///Antag Tips - Monster Hunters
 #define MONSTERHUNTER_TIPS "monsterhunter"
+///Antag Tips - Nuclear Operatives
 #define NUKIE_TIPS "nukie"
+///Antag Tips - Revolutionaries
 #define REVOLUTIONARY_TIPS "revolutionary"
+///Antag Tips - Traitor
+#define TRAITOR_TIPS "traitor"
+///Antag Tips - Vassals
 #define VASSAL_TIPS "vassal"
+///Antag Tips - Wizard Apprentice
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+///Antag Tips - Wizard
+#define WIZARD_TIPS "wizard"

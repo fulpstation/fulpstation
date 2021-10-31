@@ -9,7 +9,7 @@
 	for(var/client/T)
 		targets["[T]"] = T
 
-	var/list/sorted = sortList(targets)
+	var/list/sorted = sort_list(targets)
 	var/target = input(src,"To whom shall we send a message?","Mentor PM",null) in sorted|null
 	cmd_mentor_pm(targets[target],null)
 	SSblackbox.record_feedback("tally", "Mentor_verb", 1, "MentorPM") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -24,6 +24,12 @@
 		chosen_client = GLOB.directory[whom]
 	else if(istype(whom,/client))
 		chosen_client = whom
+	if(chosen_client.prefs.muted & MUTE_ADMINHELP)
+		to_chat(src,
+			type = MESSAGE_TYPE_MODCHAT,
+			html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
+			confidential = TRUE)
+		return
 	if(!chosen_client)
 		if(is_mentor())
 			to_chat(src,

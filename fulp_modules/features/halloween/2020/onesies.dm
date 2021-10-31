@@ -38,10 +38,10 @@
 /obj/item/clothing/suit/hooded/onesie/beefman/Initialize()
 	. = ..()
 	AddComponent(/datum/component/squeak, list(
-		'fulp_modules/main_features/beefmen/sounds/footstep_splat1.ogg' = 1,
-		'fulp_modules/main_features/beefmen/sounds/footstep_splat2.ogg' = 1,
-		'fulp_modules/main_features/beefmen/sounds/footstep_splat3.ogg' = 1,
-		'fulp_modules/main_features/beefmen/sounds/footstep_splat4.ogg' = 1,
+		'fulp_modules/main_features/species/sounds/footstep_splat1.ogg' = 1,
+		'fulp_modules/main_features/species/sounds/footstep_splat2.ogg' = 1,
+		'fulp_modules/main_features/species/sounds/footstep_splat3.ogg' = 1,
+		'fulp_modules/main_features/species/sounds/footstep_splat4.ogg' = 1,
 		), 50)
 
 /obj/item/clothing/head/hooded/onesie/beefman
@@ -64,7 +64,7 @@
 	dynamic_hair_suffix = ""
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/ToggleHood()
-	if(suittoggled)
+	if(hood_up)
 		RemoveHood()
 		return
 	if(ishuman(src.loc))
@@ -76,7 +76,7 @@
 			to_chat(user, span_warning("You're already wearing something on your head!"))
 			return
 		else if(user.equip_to_slot_if_possible(hood, ITEM_SLOT_HEAD,0,0,1))
-			suittoggled = TRUE
+			hood_up = TRUE
 			src.icon_state = "[initial(icon_state)]"
 			user.update_inv_wear_suit()
 			for(var/all_selections in actions)
