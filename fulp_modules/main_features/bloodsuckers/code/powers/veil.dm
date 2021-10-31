@@ -6,12 +6,12 @@
 		Activating Veil of Many Faces will shroud you in smoke and forge you a new identity.\n\
 		Your name and appearance will be completely randomized, and turning the ability off again will undo it all.\n\
 		Clothes, gear, and Security/Medical HUD status is kept the same while this power is active."
+	power_flags = BP_AM_TOGGLE
+	check_flags = BP_CANT_USE_IN_FRENZY
+	purchase_flags = VASSAL_CAN_BUY
 	bloodcost = 15
 	constant_bloodcost = 0.1
-	cooldown = 100
-	amToggle = TRUE
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = TRUE
+	cooldown = 10 SECONDS
 	// Outfit Vars
 	var/list/original_items = list()
 	// Identity Vars
@@ -28,7 +28,8 @@
 	var/list/prev_features // For lizards and such
 
 /datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	return TRUE
 
@@ -46,81 +47,80 @@
 
 /datum/action/bloodsucker/veil/proc/Disguise_FaceName()
 	// Change Name/Voice
-	var/mob/living/carbon/human/H = owner
-	H.name_override = H.dna.species.random_name(H.gender)
-	H.name = H.name_override
-	H.SetSpecialVoice(H.name_override)
+	var/mob/living/carbon/human/user = owner
+	user.name_override = user.dna.species.random_name(user.gender)
+	user.name = user.name_override
+	user.SetSpecialVoice(user.name_override)
 	to_chat(owner, span_warning("You mystify the air around your person. Your identity is now altered."))
 
 	// Store Prev Appearance
-	prev_gender = H.gender
-	prev_skin_tone = H.skin_tone
-	prev_hair_style = H.hairstyle
-	prev_facial_hair_style = H.facial_hairstyle
-	prev_hair_color = H.hair_color
-	prev_facial_hair_color = H.facial_hair_color
-	prev_underwear = H.underwear
-	prev_undershirt = H.undershirt
-	prev_socks = H.socks
+	prev_gender = user.gender
+	prev_skin_tone = user.skin_tone
+	prev_hair_style = user.hairstyle
+	prev_facial_hair_style = user.facial_hairstyle
+	prev_hair_color = user.hair_color
+	prev_facial_hair_color = user.facial_hair_color
+	prev_underwear = user.underwear
+	prev_undershirt = user.undershirt
+	prev_socks = user.socks
 //	prev_eye_color
-	prev_disfigured = HAS_TRAIT(H, TRAIT_DISFIGURED) // I was disfigured! //prev_disabilities = H.disabilities
-	prev_features = H.dna.features
+	prev_disfigured = HAS_TRAIT(user, TRAIT_DISFIGURED) // I was disfigured! //prev_disabilities = user.disabilities
+	prev_features = user.dna.features
 
 	// Change Appearance
-	H.gender = pick(MALE, FEMALE)
-	H.skin_tone = random_skin_tone()
-	H.hairstyle = random_hairstyle(H.gender)
-	H.facial_hairstyle = pick(random_facial_hairstyle(H.gender),"Shaved")
-	H.hair_color = random_short_color()
-	H.facial_hair_color = H.hair_color
-	H.underwear = random_underwear(H.gender)
-	H.undershirt = random_undershirt(H.gender)
-	H.socks = random_socks(H.gender)
-	//H.eye_color = random_eye_color()
-	REMOVE_TRAIT(H, TRAIT_DISFIGURED, null)
-	H.dna.features = random_features()
+	user.gender = pick(MALE, FEMALE)
+	user.skin_tone = random_skin_tone()
+	user.hairstyle = random_hairstyle(user.gender)
+	user.facial_hairstyle = pick(random_facial_hairstyle(user.gender),"Shaved")
+	user.hair_color = random_short_color()
+	user.facial_hair_color = user.hair_color
+	user.underwear = random_underwear(user.gender)
+	user.undershirt = random_undershirt(user.gender)
+	user.socks = random_socks(user.gender)
+	//user.eye_color = random_eye_color()
+	REMOVE_TRAIT(user, TRAIT_DISFIGURED, null)
+	user.dna.features = random_features()
 
 	// Beefmen
-	proof_beefman_features(H.dna.features)
-	H.dna.species.set_beef_color(H)
+	proof_beefman_features(user.dna.features)
+	user.dna.species.set_beef_color(user)
 
 	// Apply Appearance
-	H.update_body() // Outfit and underware, also body.
-	H.update_mutant_bodyparts() // Lizard tails etc
-	H.update_hair()
-	H.update_body_parts()
+	user.update_body() // Outfit and underware, also body.
+	user.update_mutant_bodyparts() // Lizard tails etc
+	user.update_hair()
+	user.update_body_parts()
 
-/datum/action/bloodsucker/veil/DeactivatePower(mob/living/user = owner, mob/living/target)
+/datum/action/bloodsucker/veil/DeactivatePower(mob/living/carbon/human/user = owner, mob/living/target)
 	. = ..()
 	if(!ishuman(user))
 		return
-	var/mob/living/carbon/human/H = user
 
 	// Revert Identity
-	H.UnsetSpecialVoice()
-	H.name_override = null
-	H.name = H.real_name
+	user.UnsetSpecialVoice()
+	user.name_override = null
+	user.name = user.real_name
 
 	// Revert Appearance
-	H.gender = prev_gender
-	H.skin_tone = prev_skin_tone
-	H.hairstyle = prev_hair_style
-	H.facial_hairstyle = prev_facial_hair_style
-	H.hair_color = prev_hair_color
-	H.facial_hair_color = prev_facial_hair_color
-	H.underwear = prev_underwear
-	H.undershirt = prev_undershirt
-	H.socks = prev_socks
+	user.gender = prev_gender
+	user.skin_tone = prev_skin_tone
+	user.hairstyle = prev_hair_style
+	user.facial_hairstyle = prev_facial_hair_style
+	user.hair_color = prev_hair_color
+	user.facial_hair_color = prev_facial_hair_color
+	user.underwear = prev_underwear
+	user.undershirt = prev_undershirt
+	user.socks = prev_socks
 
-	//H.disabilities = prev_disabilities // Restore HUSK, CLUMSY, etc.
+	//user.disabilities = prev_disabilities // Restore HUSK, CLUMSY, etc.
 	if(prev_disfigured)
-		ADD_TRAIT(H, TRAIT_DISFIGURED, TRAIT_HUSK) // NOTE: We are ASSUMING husk. // H.status_flags |= DISFIGURED	// Restore "Unknown" disfigurement
-	H.dna.features = prev_features
+		ADD_TRAIT(user, TRAIT_DISFIGURED, TRAIT_HUSK) // NOTE: We are ASSUMING husk. // user.status_flags |= DISFIGURED	// Restore "Unknown" disfigurement
+	user.dna.features = prev_features
 
 	// Apply Appearance
-	H.update_body() // Outfit and underware, also body.
-	H.update_hair()
-	H.update_body_parts()	// Body itself, maybe skin color?
+	user.update_body() // Outfit and underware, also body.
+	user.update_hair()
+	user.update_body_parts()	// Body itself, maybe skin color?
 
 	cast_effect() // POOF
 	owner.balloon_alert(owner, "veil turned off.")

@@ -6,7 +6,6 @@
 
 ## TG edits:
 
-- code/modules/admin/verbs/adminhelp.dm > Adds a button for redirecting people to Mentorhelp
 - code/modules/client/client_procs.dm > Gives the mentorhelp verb
 
 ## TG sounds/sprites used:

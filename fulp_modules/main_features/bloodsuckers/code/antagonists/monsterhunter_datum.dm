@@ -13,6 +13,7 @@
 	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
 	tips = MONSTERHUNTER_TIPS
+	preview_outfit = /datum/outfit/monsterhunter
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
@@ -20,12 +21,12 @@
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
+	var/mob/living/current_mob = mob_override || owner.current
+	add_antag_hud(antag_hud_type, antag_hud_name, current_mob)
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
+	var/mob/living/current_mob = mob_override || owner.current
+	remove_antag_hud(antag_hud_type, current_mob)
 
 /datum/antagonist/monsterhunter/on_gain()
 	/// Buffs Monster Hunters
@@ -41,25 +42,10 @@
 		monsterhunter_objective.owner = owner
 		objectives += monsterhunter_objective
 		/// Give Theft Objective
-		if(prob(35) && !(locate(/datum/objective/download) in objectives) && !(owner.assigned_role in list("Research Director", "Scientist", "Roboticist", "Geneticist")))
-			var/datum/objective/download/download_objective = new
-			download_objective.owner = owner
-			download_objective.gen_amount_goal()
-			objectives += download_objective
-		else
-			var/datum/objective/steal/steal_objective = new
-			steal_objective.owner = owner
-			steal_objective.find_target()
-			objectives += steal_objective
-/*		// >> If the Theft objective isnt enough to get Monster hunters to not team with Security, swap it out with this.
-
-		/// Give Assassinate objective
-		var/sec_members = SSjob.get_all_sec()
-		for(var/datum/mind/M in sec_members)
-			var/datum/objective/assassinate/kill_objective = new()
-			kill_objective.owner = owner
-			kill_objective.find_target()
-			objectives += kill_objective */
+		var/datum/objective/steal/steal_objective = new
+		steal_objective.owner = owner
+		steal_objective.find_target()
+		objectives += steal_objective
 
 	/// Give Martial Arts
 	my_kungfu.teach(owner.current, 0)
@@ -72,8 +58,8 @@
 	/// Remove buffs
 	owner.unconvertable = FALSE
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
-	for(var/T in owner.current.status_traits)
-		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
+	for(var/all_status_traits in owner.current.status_traits)
+		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	/// Remove Monster Hunter powers
 	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)
@@ -83,22 +69,32 @@
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
 
+/datum/outfit/monsterhunter
+	name = "Monster Hunter (Preview Only)"
+
+	l_hand = /obj/item/stake
+	r_hand = /obj/item/stake/hardened/silver
+	uniform = /obj/item/clothing/under/rank/medical/paramedic
+	head = /obj/item/clothing/head/soft/paramedic
+	suit =  /obj/item/clothing/suit/toggle/labcoat/paramedic
+	gloves = /obj/item/clothing/gloves/color/latex/nitrile
+
 /// Mind version
 /datum/mind/proc/make_monsterhunter()
-	var/datum/antagonist/monsterhunter/C = has_antag_datum(/datum/antagonist/monsterhunter)
-	if(!C)
-		C = add_antag_datum(/datum/antagonist/monsterhunter)
+	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
+	if(!monsterhunterdatum)
+		monsterhunterdatum = add_antag_datum(/datum/antagonist/monsterhunter)
 		special_role = ROLE_MONSTERHUNTER
-	return C
+	return monsterhunterdatum
 
 /datum/mind/proc/remove_monsterhunter()
-	var/datum/antagonist/monsterhunter/C = has_antag_datum(/datum/antagonist/monsterhunter)
-	if(C)
+	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
+	if(monsterhunterdatum)
 		remove_antag_datum(/datum/antagonist/monsterhunter)
 		special_role = null
 
 /// Called when using admin tools to give antag status
-/datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner,mob/admin)
+/datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner, mob/admin)
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into [name].")
 	log_admin("[key_name(admin)] made [key_name(new_owner)] into [name].")
 	new_owner.add_antag_datum(src)
@@ -111,11 +107,11 @@
 	log_admin("[key_name(user)] has removed [name] antagonist status from [key_name(owner)].")
 	on_removal()
 
-/datum/antagonist/monsterhunter/proc/add_objective(datum/objective/O)
-	objectives += O
+/datum/antagonist/monsterhunter/proc/add_objective(datum/objective/added_objective)
+	objectives += added_objective
 
-/datum/antagonist/monsterhunter/proc/remove_objectives(datum/objective/O)
-	objectives -= O
+/datum/antagonist/monsterhunter/proc/remove_objectives(datum/objective/removed_objective)
+	objectives -= removed_objective
 
 /datum/antagonist/monsterhunter/greet()
 	to_chat(owner.current, span_userdanger("After witnessing recent events on the station, we return to your old profession, we are a Monster Hunter!"))
@@ -129,7 +125,7 @@
 //			Monster Hunter Pinpointer
 //////////////////////////////////////////////////////////////////////////
 
-/// TAKEN FROM:  /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
+/// TAKEN FROM: /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
 /datum/status_effect/agent_pinpointer/hunter_edition
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
 	minimum_range = HUNTER_SCAN_MIN_DISTANCE
@@ -145,28 +141,22 @@
 	var/turf/my_loc = get_turf(owner)
 
 	var/list/mob/living/carbon/monsters = list()
-	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
-		if(C != owner && C.mind)
-			var/datum/mind/UM = C.mind
-			if(UM.has_antag_datum(/datum/antagonist/changeling))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/heretic))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/cult))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/ashwalker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
-				monsters += UM
+	for(var/mob/living/carbon/all_carbons in GLOB.alive_mob_list)
+		if(all_carbons != owner && all_carbons.mind)
+			var/datum/mind/carbon_minds = all_carbons.mind
+			if(IS_HERETIC(all_carbons) || IS_BLOODSUCKER(all_carbons) || IS_CULTIST(all_carbons) || IS_WIZARD(all_carbons))
+				monsters += carbon_minds
+			if(carbon_minds.has_antag_datum(/datum/antagonist/changeling))
+				monsters += carbon_minds
+			if(carbon_minds.has_antag_datum(/datum/antagonist/ashwalker))
+				monsters += carbon_minds
+			if(carbon_minds.has_antag_datum(/datum/antagonist/wizard/apprentice))
+				monsters += carbon_minds
 			if(istype(monsters))
-				var/their_loc = get_turf(C)
+				var/their_loc = get_turf(all_carbons)
 				var/distance = get_dist_euclidian(my_loc, their_loc)
 				if(distance < HUNTER_SCAN_MAX_DISTANCE)
-					monsters[C] = (HUNTER_SCAN_MAX_DISTANCE ** 2) - (distance ** 2)
+					monsters[all_carbons] = (HUNTER_SCAN_MAX_DISTANCE ** 2) - (distance ** 2)
 
 	if(monsters.len)
 		/// Point at a 'random' monster, biasing heavily towards closer ones.
@@ -178,4 +168,4 @@
 /datum/status_effect/agent_pinpointer/hunter_edition/Destroy()
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost the trail."))
-	..()
+	. = ..()

@@ -66,8 +66,8 @@
 	/// Remove Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
-	for(var/T in owner.current.status_traits)
-		REMOVE_TRAIT(owner.current, T, BLOODSUCKER_TRAIT)
+	for(var/all_status_traits in owner.current.status_traits)
+		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	/// Remove Recuperate Power
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
@@ -78,25 +78,27 @@
 	update_vassal_icons_removed(owner)
 	return ..()
 
-/datum/antagonist/vassal/proc/add_objective(datum/objective/O)
-	objectives += O
+/datum/antagonist/vassal/proc/add_objective(datum/objective/added_objective)
+	objectives += added_objective
 
-/datum/antagonist/vassal/proc/remove_objectives(datum/objective/O)
-	objectives -= O
+/datum/antagonist/vassal/proc/remove_objectives(datum/objective/removed_objective)
+	objectives -= removed_objective
 
 /datum/antagonist/vassal/greet()
 	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a bloodsucking vampire!"))
 	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.\n\
-			You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed."))
+		You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed."))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
-	antag_memory += "You became the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
+	antag_memory += "You, becoming the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 	/// Message told to your Master.
 	to_chat(master.owner, span_userdanger("[owner.current] has become addicted to your immortal blood. [owner.current.p_they(TRUE)] [owner.current.p_are()] now your undying servant!"))
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/vassal/farewell()
-	owner.current.visible_message(span_deconversion_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm,\
-			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self."), null, null, null, owner.current)
+	owner.current.visible_message(
+		span_deconversion_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm, \
+		like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self."),
+	)
 	to_chat(owner, span_deconversion_message("With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will."))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	/// Message told to your (former) Master.
@@ -113,7 +115,7 @@
 	// Now let's give them their assigned bonuses.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
-		BuyPower(new /datum/action/bloodsucker/targeted/brawn/vassal)
+		BuyPower(new /datum/action/bloodsucker/targeted/brawn)
 	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
 		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
@@ -138,16 +140,17 @@
 
 /// Used for Admin removing Vassals.
 /datum/mind/proc/remove_vassal()
-	var/datum/antagonist/vassal/C = has_antag_datum(/datum/antagonist/vassal)
-	if(C)
+	var/datum/antagonist/vassal/selected_vassal = has_antag_datum(/datum/antagonist/vassal)
+	if(selected_vassal)
 		remove_antag_datum(/datum/antagonist/vassal)
 
 /// When a Bloodsucker gets FinalDeath, all Vassals are freed - This is a Bloodsucker proc, not a Vassal one.
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
-	for(var/datum/antagonist/vassal/V in vassals)
-		if(V.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+	for(var/datum/antagonist/vassal/all_vassals in vassals)
+		// Skip over any Bloodsucker Vassals, they're too far gone to have all their stuff taken away from them
+		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 			continue
-		remove_vassal(V.owner)
+		remove_vassal(all_vassals.owner)
 
 /// Called by FreeAllVassals()
 /datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
@@ -176,13 +179,13 @@
 		else
 			icontype = "vassal"
 	// This is a copy of Bloodsucker's hud.
-	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	hud.join_hud(owner.current)
 	set_antag_hud(owner.current, icontype)
 	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype)
 
 /datum/antagonist/vassal/proc/update_vassal_icons_removed(datum/mind/vassal)
-	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_BLOODSUCKER]
+	var/datum/atom_hud/antag/hud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	set_antag_hud(owner.current, null)
 	hud.leave_hud(owner.current)
 

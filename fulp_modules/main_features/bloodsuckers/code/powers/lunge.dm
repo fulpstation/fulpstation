@@ -8,14 +8,13 @@
 		If the target is wearing riot gear or is a Monster Hunter, you will merely passively grab them.\n\
 		If grabbed from behind or from the darkness (Cloak of Darkness counts), you will additionally knock the target down.\n\
 		Higher levels will increase the knockdown dealt to enemies."
+	power_flags = NONE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
-	cooldown = 100
+	cooldown = 10 SECONDS
 	target_range = 3
 	power_activates_immediately = TRUE
-	message_Trigger = ""
-	must_be_capacitated = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
 
 /*
  *	Level 1: Grapple level 2
@@ -24,7 +23,8 @@
  */
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
@@ -34,56 +34,56 @@
 	return TRUE
 
 /// Check: Are we lunging at a person?
-/datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/A)
-	return isliving(A)
+/datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
+	return isliving(target_atom)
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/A, display_error)
-	/// Default Checks (Distance)
+/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom, display_error)
+	// Default Checks (Distance)
 	. = ..()
 	if(!.)
 		return FALSE
-	/// Check: Self
-	if(target == owner)
+	// Check: Self
+	if(target_atom == owner)
 		return FALSE
 /*
 	/// Check: Range
-	if(!(target in view(target_range, get_turf(owner))))
+	if(!(target_atom in view(target_range, get_turf(owner))))
 		if(display_error)
 			to_chat(owner, span_warning("Your victim is too far away."))
 		return FALSE
 */
-	/// Check: Turf
-	var/mob/living/L = A
-	if(!isturf(L.loc))
+	// Check: Turf
+	var/mob/living/turf_target = target_atom
+	if(!isturf(turf_target.loc))
 		return FALSE
-	/// Check: can the Bloodsucker even move?
+	// Check: can the Bloodsucker even move?
 	var/mob/living/user = owner
 	if(user.body_position == LYING_DOWN || HAS_TRAIT(owner, TRAIT_IMMOBILIZED))
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
 	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/user = owner
-	var/mob/living/carbon/target = A
-	var/turf/T = get_turf(target)
+	var/mob/living/carbon/target = target_atom
+	var/turf/targeted_turf = get_turf(target)
 
 	/// Stop pulling anyone (If we are)
 	owner.pulling = null
 
-	owner.face_atom(A)
+	owner.face_atom(target_atom)
 	/// Don't move as we perform this, please.
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	/// Directly copied from haste.dm
-	var/safety = get_dist(user, T) * 3 + 1
+	var/safety = get_dist(user, targeted_turf) * 3 + 1
 	var/consequetive_failures = 0
 	while(--safety && !target.Adjacent(user))
 		/// This does not try to go around obstacles.
-		var/success = step_towards(user, T)
+		var/success = step_towards(user, targeted_turf)
 		if(!success)
 			/// This does
-			success = step_to(user, T)
+			success = step_to(user, targeted_turf)
 		if(!success)
 			consequetive_failures++
 			/// If 3 steps don't work, just stop.
@@ -98,9 +98,9 @@
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = hit_atom
-	var/turf/T = get_turf(target)
+	var/turf/target_turf = get_turf(target)
 	// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
-	var/do_knockdown = !is_A_facing_B(target, owner) || owner.alpha <= 40 || istype(owner.loc, /obj/structure/closet)
+	var/do_knockdown = !is_source_facing_target(target, owner) || owner.alpha <= 40 || istype(owner.loc, /obj/structure/closet)
 
 	/// We got a target?
 	/// Am I next to my target to start giving the effects?
@@ -141,7 +141,7 @@
 	// Lastly, did we get knocked down by the time we did this?
 	if(user && user.incapacitated())
 		if(!(user.body_position == LYING_DOWN))
-			var/send_dir = get_dir(user, T)
+			var/send_dir = get_dir(user, target_turf)
 			new /datum/forced_movement(user, get_ranged_target_turf(user, send_dir, 1), 1, FALSE)
 			user.spin(10)
 

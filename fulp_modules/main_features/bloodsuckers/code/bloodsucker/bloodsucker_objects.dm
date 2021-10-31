@@ -3,25 +3,29 @@
 //////////////////////
 
 /// Taken from drinks.dm
-/obj/item/reagent_containers/blood/attack(mob/M, mob/user, def_zone)
+/obj/item/reagent_containers/blood/attack(mob/user, mob/user, def_zone)
 	if(reagents.total_volume > 0)
-		if(user != M)
-			user.visible_message(span_notice("[user] forces [M] to drink from the [src]."), \
-							  	span_notice("You put the [src] up to [M]'s mouth."))
-			if(!do_mob(user, M, 5 SECONDS))
+		if(user != user)
+			user.visible_message(
+				span_notice("[user] forces [user] to drink from the [src]."),
+				span_notice("You put the [src] up to [user]'s mouth."),
+			)
+			if(!do_mob(user, user, 5 SECONDS))
 				return
 		else
-			if(!do_mob(user, M, 1 SECONDS))
+			if(!do_mob(user, user, 1 SECONDS))
 				return
-			user.visible_message(span_notice("[user] puts the [src] up to their mouth."), \
-		  		span_notice("You take a sip from the [src]."))
+			user.visible_message(
+				span_notice("[user] puts the [src] up to their mouth."),
+				span_notice("You take a sip from the [src]."),
+			)
 		// Safety: In case you spam clicked the blood bag on yourself, and it is now empty (below will divide by zero)
 		if(reagents.total_volume <= 0)
 			return
 		var/gulp_size = 5
-		reagents.trans_to(M, gulp_size, transfered_by = user, methods = INGEST)
-		playsound(M.loc, 'sound/items/drink.ogg', rand(10,50), 1)
-	..()
+		reagents.trans_to(user, gulp_size, transfered_by = user, methods = INGEST)
+		playsound(user.loc, 'sound/items/drink.ogg', rand(10,50), 1)
+	. = ..()
 
 //////////////////////
 //      HEART       //
@@ -30,20 +34,20 @@
 /// Do I have any parts that need replacing?
 /* // Removed - Replaced with HealVampireOrgans()
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
-	var/obj/item/organ/heart/O = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(O, /obj/item/organ/heart/vampheart) || !istype(O, /obj/item/organ/heart/demon) || !istype(O, /obj/item/organ/heart/cursed))
-		qdel(O)
-		var/obj/item/organ/heart/vampheart/H = new
-		H.Insert(owner.current)
+	var/obj/item/organ/heart/vampiricheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(vampiricheart, /obj/item/organ/heart/vampheart) || !istype(vampiricheart, /obj/item/organ/heart/demon) || !istype(vampiricheart, /obj/item/organ/heart/cursed))
+		qdel(vampiricheart)
+		var/obj/item/organ/heart/vampheart/vampiricheart = new
+		vampiricheart.Insert(owner.current)
 		/// Now... stop beating!
-		H.Stop()
+		vampiricheart.Stop()
 */
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	var/obj/item/organ/heart/H = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(H)
-		qdel(H)
-	H = new()
-	H.Insert(owner.current)
+	var/obj/item/organ/heart/newheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(newheart)
+		qdel(newheart)
+	newheart = new()
+	newheart.Insert(owner.current)
 
 // 		HEART: OVERWRITE	//
 // 		HEART 		//
@@ -95,8 +99,8 @@
 /// Livers run on_life(), which calls reagents.metabolize() in holder.dm, which calls on_mob_life.dm in the cheam (medicine_reagents.dm)
 /obj/item/organ/liver/vampliver
 /obj/item/organ/liver/vampliver/on_life()
-	var/mob/living/carbon/C = owner
-	if(!istype(C))
+	var/mob/living/carbon/user = owner
+	if(!istype(user))
 		return
 */
 
@@ -110,37 +114,44 @@
  */
 
 /// Crafting
-/obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params)
-	if(W.get_sharpness())
-		user.visible_message("[user] begins whittling [src] into a pointy object.", span_notice("You begin whittling [src] into a sharp point at one end."), "<span class='italics'>You hear wood carving.</span>")
-		// 8 Second Timer
-		if(!do_after(user, 8 SECONDS, src, NONE, TRUE))
+/obj/item/stack/sheet/mineral/wood/attackby(obj/item/item, mob/user, params)
+	if(item.get_sharpness())
+		user.visible_message(
+			span_notice("[user] begins whittling [src] into a pointy object."),
+			span_notice("You begin whittling [src] into a sharp point at one end."),
+			span_hear("You hear wood carving."),
+		)
+		// 5 Second Timer
+		if(!do_after(user, 5 SECONDS, src, NONE, TRUE))
 			return
 		// Make Stake
 		var/obj/item/stake/new_item = new(user.loc)
-		user.visible_message("[user] finishes carving a stake out of [src].", span_notice("You finish carving a stake out of [src]."))
+		user.visible_message(
+			span_notice("[user] finishes carving a stake out of [src]."),
+			span_notice("You finish carving a stake out of [src]."),
+		)
 		// Prepare to Put in Hands (if holding wood)
-		var/obj/item/stack/sheet/mineral/wood/N = src
-		var/replace = (user.get_inactive_held_item() == N)
+		var/obj/item/stack/sheet/mineral/wood/wood_stack = src
+		var/replace = (user.get_inactive_held_item() == wood_stack)
 		// Use Wood
-		N.use(1)
+		wood_stack.use(1)
 		// If stack depleted, put item in that hand (if it had one)
-		if(!N && replace)
+		if(!wood_stack && replace)
 			user.put_in_hands(new_item)
-	if(istype(W, merge_type))
-		var/obj/item/stack/S = W
-		if(merge(S))
-			to_chat(user, span_notice("Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s."))
+	if(istype(item, merge_type))
+		var/obj/item/stack/merged_stack = item
+		if(merge(merged_stack))
+			to_chat(user, span_notice("Your [merged_stack.name] stack now contains [merged_stack.get_amount()] [merged_stack.singular_name]\s."))
 	else
 		. = ..()
 
 /// Do I have a stake in my heart?
 /mob/living/AmStaked()
-	var/obj/item/bodypart/BP = get_bodypart(BODY_ZONE_CHEST)
-	if(!BP)
+	var/obj/item/bodypart/chosen_bodypart = get_bodypart(BODY_ZONE_CHEST)
+	if(!chosen_bodypart)
 		return FALSE
-	for(var/obj/item/I in BP.embedded_objects)
-		if(istype(I,/obj/item/stake))
+	for(var/obj/item/embedded_stake in chosen_bodypart.embedded_objects)
+		if(istype(embedded_stake, /obj/item/stake))
 			return TRUE
 	return FALSE
 
@@ -173,25 +184,26 @@
 	/// Time it takes to embed the stake into someone's chest.
 	var/staketime = 12 SECONDS
 
-/obj/item/stake/afterattack(mob/living/target, mob/living/user, proximity, discover_after = TRUE)
+/obj/item/stake/afterattack(mob/living/carbon/target, mob/living/user, proximity, discover_after = TRUE)
 	// Invalid Target, or not targetting the chest?
-	if(!iscarbon(target) || check_zone(user.zone_selected) != BODY_ZONE_CHEST)
+	if(check_zone(user.zone_selected) != BODY_ZONE_CHEST)
 		return
-	var/mob/living/carbon/C = target
 	// Needs to be Down/Slipped in some way to Stake.
-	if(!C.can_be_staked() || target == user) // Oops! Can't.
+	if(!target.can_be_staked() || target == user) // Oops! Can't.
 		to_chat(user, span_danger("You can't stake [target] when they are moving about! They have to be laying down or grabbed by the neck!"))
 		return
-	if(HAS_TRAIT(C, TRAIT_PIERCEIMMUNE))
+	if(HAS_TRAIT(target, TRAIT_PIERCEIMMUNE))
 		to_chat(user, span_danger("[target]'s chest resists the stake. It won't go in."))
 		return
 	to_chat(user, span_notice("You put all your weight into embedding the stake into [target]'s chest..."))
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
-	if(!do_mob(user, C, staketime, extra_checks = CALLBACK(C, /mob/living/carbon/proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
+	if(!do_mob(user, target, staketime, extra_checks = CALLBACK(target, /mob/living/carbon.proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
-	user.visible_message(span_danger("[user.name] drives the [src] into [target]'s chest!"), \
-			 span_danger("You drive the [src] into [target]'s chest!"))
+	user.visible_message(
+		span_danger("[user.name] drives the [src] into [target]'s chest!"),
+		span_danger("You drive the [src] into [target]'s chest!"),
+	)
 	playsound(get_turf(target), 'sound/effects/splat.ogg', 40, 1)
 	user.dropItemToGround(src, TRUE) //user.drop_item() // "drop item" doesn't seem to exist anymore. New proc is user.dropItemToGround() but it doesn't seem like it's needed now?
 	if(tryEmbed(target.get_bodypart(BODY_ZONE_CHEST), TRUE, TRUE)) //and if it embeds successfully in their chest, cause a lot of pain
@@ -199,15 +211,16 @@
 		discover_after = FALSE
 	if(QDELETED(src)) // in case trying to embed it caused its deletion (say, if it's DROPDEL)
 		return
-	if(C.mind)
-		var/datum/antagonist/bloodsucker/bloodsucker = C.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsucker)
-			// If DEAD or TORPID...kill vamp!
-			if(C.StakeCanKillMe()) // NOTE: This is the ONLY time a staked Torpid vamp dies.
-				bloodsucker.FinalDeath()
-				return
-			else
-				to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
+	if(!target.mind)
+		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum)
+		// If DEAD or TORPID... Kill Bloodsucker!
+		if(target.StakeCanKillMe())
+			bloodsuckerdatum.FinalDeath()
+		else
+			to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
+			target.balloon_alert(target, "you have been staked!")
 
 /// Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/carbon/proc/can_be_staked()
@@ -242,7 +255,7 @@
 /*
  *	# Archives of the Kindred:
  *
- *	A book that can only be used by Curators and Tremere Bloodsuckers.
+ *	A book that can only be used by Curators.
  *	When used on a player, after a short timer, will reveal if the player is a Bloodsucker, including their real name and Clan.
  *	This book should not work on Bloodsuckers using the Masquerade ability.
  *	If it reveals a Bloodsucker, the Curator will then be able to tell they are a Bloodsucker on examine (Like a Vassal).
@@ -254,8 +267,8 @@
 
 /obj/item/book/codex_gigas/Initialize(mapload)
 	. = ..()
-	var/turf/T = get_turf(src)
-	new /obj/item/book/kindred(T)
+	var/turf/current_turf = get_turf(src)
+	new /obj/item/book/kindred(current_turf)
 
 /obj/item/book/kindred
 	name = "\improper Archive of the Kindred"
@@ -277,8 +290,8 @@
 	AddComponent(/datum/component/stationloving, FALSE, TRUE)
 
 // Overwriting attackby to prevent cutting the book out
-/obj/item/book/kindred/attackby(obj/item/I, mob/user, params)
-	if((istype(I, /obj/item/kitchen/knife) || I.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
+/obj/item/book/kindred/attackby(obj/item/item, mob/user, params)
+	if((istype(item, /obj/item/kitchen/knife) || item.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
 		to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [title]."))
 		return
 	. = ..()
@@ -286,7 +299,7 @@
 /*
  *	# Attacking someone with the Book
  */
-// M is the person being hit here
+// target is the person being hit here
 /obj/item/book/kindred/afterattack(mob/living/target, mob/living/user, flag, params)
 	. = ..()
 	if(!user.can_read(src))
@@ -303,8 +316,8 @@
 			return
 		in_use = FALSE
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
-		// Are we a Bloodsucker | Are we not part of a Clan | Are we on Masquerade. If any are true, they will fail.
-		if(IS_BLOODSUCKER(target) && !bloodsuckerdatum?.poweron_masquerade)
+		// Are we a Bloodsucker | Are we on Masquerade. If one is true, they will fail.
+		if(IS_BLOODSUCKER(target) && !HAS_TRAIT(target, TRAIT_MASQUERADE))
 			if(bloodsuckerdatum.broke_masquerade)
 				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is indeed a [bloodsuckerdatum.my_clan] Bloodsucker, but you already knew this."))
 				return
@@ -351,7 +364,8 @@
 		ui.open()
 
 /obj/item/book/kindred/ui_act(action, params)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!action)
 		return FALSE
@@ -375,7 +389,7 @@
 	dat = "<head>List of information gathered on the <b>[clan]</b>:</head><br>"
 	if(clan == CLAN_BRUJAH)
 		dat += "This Clan has proven to be the strongest in melee combat, boasting a <b>powerful punch</b>.<br> \
-		They also appear to be more calm than the others, entering their 'Frenzies' whenever they want, but <i>dont seem affected</i>.<br> \
+		They also appear to be more calm than the others, entering their 'frenzies' whenever they want, but <i>dont seem affected</i>.<br> \
 		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy.<br> \
 		<b>Favorite Vassal</b>: Their favorite Vassal gains the Brawn ability. \
 		<b>Strength</b>: Frenzy will not kill them, punches deal a lot of damage.<br> \

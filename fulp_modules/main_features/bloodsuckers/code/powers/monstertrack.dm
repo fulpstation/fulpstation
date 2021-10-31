@@ -3,10 +3,13 @@
 	name = "Track Monster"
 	desc = "Take a moment to look for clues of any nearby monsters.<br>These creatures are slippery, and often look like the crew."
 	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
-	background_icon_state = "vamp_power_off"
 	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	background_icon_state = "vamp_power_off"
 	button_icon_state = "power_hunter"
-	cooldown = 300
+	power_flags = NONE
+	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = NONE
+	cooldown = 30 SECONDS
 	bloodcost = 0
 	/// Removed, set to TRUE to re-add, either here to be a default function, or in-game through VV for neat Admin stuff -Willard
 	var/give_pinpointer = FALSE
@@ -31,37 +34,32 @@
 
 	/// Track ALL living Monsters.
 	var/list/datum/mind/monsters = list()
-	for(var/mob/living/carbon/C in GLOB.alive_mob_list)
-		if(C.mind)
-			var/datum/mind/UM = C.mind
-			if(UM.has_antag_datum(/datum/antagonist/changeling))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/heretic))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/bloodsucker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/cult))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/ashwalker))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard))
-				monsters += UM
-			if(UM.has_antag_datum(/datum/antagonist/wizard/apprentice))
-				monsters += UM
-
-	for(var/datum/mind/M in monsters)
-		if(!M.current || M.current == owner) // || !get_turf(M.current) || !get_turf(owner))
+	for(var/mob/living/carbon/all_carbons in GLOB.alive_mob_list)
+		if(!all_carbons.mind)
 			continue
-		for(var/a in M.antag_datums)
-			var/datum/antagonist/antag_datum = a
+		var/datum/mind/carbon_minds = all_carbons.mind
+		if(IS_HERETIC(all_carbons) || IS_BLOODSUCKER(all_carbons) || IS_CULTIST(all_carbons) || IS_WIZARD(all_carbons))
+			monsters += carbon_minds
+		if(carbon_minds.has_antag_datum(/datum/antagonist/changeling))
+			monsters += carbon_minds
+		if(carbon_minds.has_antag_datum(/datum/antagonist/ashwalker))
+			monsters += carbon_minds
+		if(carbon_minds.has_antag_datum(/datum/antagonist/wizard/apprentice))
+			monsters += carbon_minds
+
+	for(var/datum/mind/monster_minds in monsters)
+		if(!monster_minds.current || monster_minds.current == owner) // || !get_turf(M.current) || !get_turf(owner))
+			continue
+		for(var/antag_datums in monster_minds.antag_datums)
+			var/datum/antagonist/antag_datum = antag_datums
 			if(!istype(antag_datum))
 				continue
-			var/their_loc = get_turf(M.current)
+			var/their_loc = get_turf(monster_minds.current)
 			var/distance = get_dist_euclidian(my_loc, their_loc)
 			/// Found One: Closer than previous/max distance
-			if (distance < best_dist && distance <= HUNTER_SCAN_MAX_DISTANCE)
+			if(distance < best_dist && distance <= HUNTER_SCAN_MAX_DISTANCE)
 				best_dist = distance
-				best_vamp = M.current
+				best_vamp = monster_minds.current
 				/// Stop searching through my antag datums and go to the next guy
 				break
 

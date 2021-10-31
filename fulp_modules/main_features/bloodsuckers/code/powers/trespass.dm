@@ -6,18 +6,18 @@
 		Click anywhere from 1-2 tiles away from you to teleport.\n\
 		This power goes through all obstacles except Walls.\n\
 		Higher levels decrease the sound played from using the Power, and increase the speed of the transition."
+	power_flags = NONE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
-	cooldown = 80
+	cooldown = 8 SECONDS
+	prefire_message = "Select a target."
 	//target_range = 2
-	can_use_in_frenzy = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
-	must_be_capacitated = FALSE
-	can_use_w_immobilize = TRUE
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
 /datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	if(owner.notransform || !get_turf(owner))
 		return FALSE
@@ -25,23 +25,23 @@
 	return TRUE
 
 
-/datum/action/bloodsucker/targeted/trespass/CheckValidTarget(atom/A)
+/datum/action/bloodsucker/targeted/trespass/CheckValidTarget(atom/target_atom)
 	// Can't target my tile
-	if(A == get_turf(owner) || get_turf(A) == get_turf(owner))
+	if(target_atom == get_turf(owner) || get_turf(target_atom) == get_turf(owner))
 		return FALSE
 	return TRUE // All we care about is destination. Anything you click is fine.
 
 
-/datum/action/bloodsucker/targeted/trespass/CheckCanTarget(atom/A, display_error)
+/datum/action/bloodsucker/targeted/trespass/CheckCanTarget(atom/target_atom, display_error)
 	// NOTE: Do NOT use ..()! We don't want to check distance or anything.
 
 	// Get clicked tile
-	var/final_turf = isturf(A) ? A : get_turf(A)
+	var/final_turf = isturf(target_atom) ? target_atom : get_turf(target_atom)
 
 	// Are either tiles WALLS?
 	var/turf/from_turf = get_turf(owner)
 	var/this_dir // = get_dir(from_turf, target_turf)
-	for(var/i=1 to 2)
+	for(var/i = 1 to 2)
 		// Keep Prev Direction if we've reached final turf
 		if(from_turf != final_turf)
 			this_dir = get_dir(from_turf, final_turf) // Recalculate dir so we don't overshoot on a diagonal.
@@ -57,7 +57,7 @@
 
 	return TRUE
 
-/datum/action/bloodsucker/targeted/trespass/FireTargetedPower(atom/A)
+/datum/action/bloodsucker/targeted/trespass/FireTargetedPower(atom/target_atom)
 	. = ..()
 	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 
@@ -65,8 +65,10 @@
 	var/mob/living/carbon/user = owner
 	var/turf/my_turf = get_turf(owner)
 
-	user.visible_message(span_warning("[user]'s form dissipates into a cloud of mist!"), \
-					 	 span_notice("You disspiate into formless mist."))
+	user.visible_message(
+		span_warning("[user]'s form dissipates into a cloud of mist!"),
+		span_notice("You disspiate into formless mist."),
+	)
 	// Effect Origin
 	var/sound_strength = max(60, 70 - level_current * 10)
 	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', sound_strength, 1)

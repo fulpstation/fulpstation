@@ -8,17 +8,20 @@
 		You will heal Brute and Toxin damage, at the cost of Stamina damage, and blood from both you and your Master.\n\
 		If you aren't a bloodless race, you will additionally heal Burn damage.\n\
 		The power will cancel out if you are incapacitated or dead."
-	amToggle = TRUE
+	power_flags = BP_AM_TOGGLE
+	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = NONE
 	bloodcost = 1.5
-	cooldown = 100
+	cooldown = 10 SECONDS
 
 /datum/action/bloodsucker/recuperate/ActivatePower(mob/living/carbon/user = owner)
-	to_chat(owner, "<span class='notice'>Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds.</span>")
+	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	owner.balloon_alert(owner, "recuperate turned on.")
 	. = ..()
 
 /datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user)
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
@@ -37,7 +40,8 @@
 	user.Jitter(5)
 
 /datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
-/*	if(!..()) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
+/*	. = ..()
+	if(!.) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
 		return */
 	if(owner.stat >= DEAD || owner.incapacitated())
 		owner.balloon_alert(owner, "you are incapacitated...")

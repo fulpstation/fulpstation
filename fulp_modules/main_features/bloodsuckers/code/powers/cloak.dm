@@ -7,19 +7,20 @@
 		While using Cloak of Darkness, attempting to run will crush you.\n\
 		Additionally, while Cloak is active, you are completely invisible to the AI.\n\
 		Higher levels will increase how invisible you are."
+	power_flags = BP_AM_TOGGLE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 5
 	constant_bloodcost = 0.2
-	conscious_constant_bloodcost = TRUE
-	cooldown = 50
-	bloodsucker_can_buy = TRUE
-	amToggle = TRUE
+	cooldown = 5 SECONDS
 	var/was_running
 
 /// Must have nobody around to see the cloak
 /datum/action/bloodsucker/cloak/CheckCanUse(display_error)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
-	for(var/mob/living/M in viewers(9, owner) - owner)
+	for(var/mob/living/watchers in viewers(9, owner) - owner)
 		owner.balloon_alert(owner, "you can only vanish unseen.")
 		return FALSE
 	return TRUE
@@ -34,7 +35,8 @@
 
 /datum/action/bloodsucker/cloak/UsePower(mob/living/user)
 	// Checks that we can keep using this.
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 	animate(user, alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current)), time = 1.5 SECONDS)
 	// Prevents running while on Cloak of Darkness
@@ -44,7 +46,8 @@
 		user.adjustBruteLoss(rand(5,15))
 
 /datum/action/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 	/// Must be CONSCIOUS
 	if(user.stat != CONSCIOUS)

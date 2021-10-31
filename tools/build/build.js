@@ -66,9 +66,9 @@ export const DmTarget = new Juke.Target({
     '_maps/map_files/generic/**',
     'code/**',
     'goon/**',
-    // FULP - We add our modular folder as part of the dependecies, so that build doesn't fail if the only file edited is inside it.
+    // Fulp edit START - Build //Add our folder as part of dependecies, so the build doesn't fail if the only file edited is inside it.
     'fulp_modules/**',
-    // FULP EDIT END
+    // Fulp edit END
     'html/**',
     'icons/**',
     'interface/**',
@@ -194,6 +194,11 @@ export const TguiDevTarget = new Juke.Target({
 export const TguiAnalyzeTarget = new Juke.Target({
   dependsOn: [YarnTarget],
   executes: () => yarn('tgui:analyze'),
+});
+
+export const TguiBenchTarget = new Juke.Target({
+  dependsOn: [YarnTarget],
+  executes: () => yarn('tgui:bench'),
 });
 
 export const TestTarget = new Juke.Target({

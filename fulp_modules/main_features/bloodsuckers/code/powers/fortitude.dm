@@ -8,15 +8,12 @@
 		While using Fortitude, attempting to run will crush you.\n\
 		At level 4, you gain complete stun immunity.\n\
 		Higher levels will increase Brute and Stamina resistance."
+	power_flags = BP_AM_TOGGLE
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_AM_COSTLESS_UNCONSCIOUS
+	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
-	cooldown = 80
+	cooldown = 8 SECONDS
 	constant_bloodcost = 0.2
-	conscious_constant_bloodcost = TRUE
-	bloodsucker_can_buy = TRUE
-	vassal_can_buy = TRUE
-	amToggle = TRUE
-	can_use_in_torpor = TRUE
-	must_be_concious = FALSE
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
@@ -29,14 +26,14 @@
 	ADD_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
 	if(level_current >= 4)
 		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // They'll get stun resistance + this, who cares.
-	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/bloodsucker_user = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
-		H.physiology.brute_mod *= fortitude_resist
-		H.physiology.stamina_mod *= fortitude_resist
+		bloodsucker_user.physiology.brute_mod *= fortitude_resist
+		bloodsucker_user.physiology.stamina_mod *= fortitude_resist
 	if(IS_MONSTERHUNTER(owner))
-		H.physiology.brute_mod *= 0.4
-		H.physiology.burn_mod *= 0.4
+		bloodsucker_user.physiology.brute_mod *= 0.4
+		bloodsucker_user.physiology.burn_mod *= 0.4
 		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
@@ -46,7 +43,8 @@
 
 /datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
 	// Checks that we can keep using this.
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 	/// Prevents running while on Fortitude
 	if(user.m_intent != MOVE_INTENT_WALK)
@@ -60,14 +58,14 @@
 /datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
 	if(!ishuman(owner))
 		return
-	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/bloodsucker_user = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
-		H.physiology.brute_mod /= fortitude_resist
+		bloodsucker_user.physiology.brute_mod /= fortitude_resist
 		if(!HAS_TRAIT_FROM(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT))
-			H.physiology.stamina_mod /= fortitude_resist
+			bloodsucker_user.physiology.stamina_mod /= fortitude_resist
 	if(IS_MONSTERHUNTER(owner))
-		H.physiology.brute_mod /= 0.4
-		H.physiology.burn_mod /= 0.4
+		bloodsucker_user.physiology.brute_mod /= 0.4
+		bloodsucker_user.physiology.burn_mod /= 0.4
 	// Remove Traits & Effects
 	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
@@ -83,5 +81,4 @@
 /datum/action/bloodsucker/fortitude/hunter
 	name = "Flow"
 	desc = "Use the arts to Flow, giving shove and stun immunity, as well as brute, burn, dismember and pierce resistance. You cannot run while this is active."
-	bloodsucker_can_buy = FALSE
-	vassal_can_buy = FALSE
+	purchase_flags = HUNTER_CAN_BUY

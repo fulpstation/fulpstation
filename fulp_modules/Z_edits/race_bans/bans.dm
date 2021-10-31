@@ -2,21 +2,20 @@
 /mob/sync_mind()
 	. = ..()
 	if(ishuman(src))
-		var/mob/living/carbon/human/H = src
-		H?.dna?.species.check_banned(H)
+		var/mob/living/carbon/human/user = src
+		user?.dna?.species.check_banned(user)
 
 /// Case 2: Species Change. People can change their species midgame so we have to add this check aswell. sync_mind() only happens on login
-/datum/species/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
+/datum/species/on_species_gain(mob/living/carbon/user, datum/species/old_species, pref_load)
 	. = ..()
-	check_banned(C)
+	INVOKE_ASYNC(src, .proc/check_banned, user)
 
-/datum/species/proc/check_banned(mob/living/carbon/C)
-	if(!C.ckey) // Checking for the value instead of using C?.ckey since it's immediately sent to a proc
+/datum/species/proc/check_banned(mob/living/carbon/user)
+	if(!user.ckey) // Checking for the value instead of using C?.ckey since it's immediately sent to a proc
 		return
 
-	if(is_banned_from(C.ckey, id))
-		addtimer(CALLBACK(C, /mob/living/carbon/proc/banned_species_revert), 10 SECONDS)
-		return
+	if(is_banned_from(user.ckey, id))
+		addtimer(CALLBACK(user, /mob/living/carbon.proc/banned_species_revert), 10 SECONDS)
 
 /// Made into an individual proc to ensure that the to_chat message would always show to users. Sometimes it would not appear during roundstart as it would be sent too soon.
 /mob/living/carbon/proc/banned_species_revert()
@@ -34,7 +33,8 @@
 		// Literally copypasted code from sql_ban_system.dm apart from removing one variable that can't be noted. This has the side effect of not telling admins if someone is
 		// already banned from a fulp ban (I assume)
 		for(var/department in GLOB.fulp_ban_list) // For each list within the list...
-			output += "<div class='column'><label class='rolegroup long [ckey(department)]'>[department]</label><div class='content'>"
+			var/tgui_fancy = usr.client.prefs.read_preference(/datum/preference/toggle/tgui_fancy)
+			output += "<div class='column'><label class='rolegroup [ckey(department)]'>[tgui_fancy ? "<input type='checkbox' name='[department]' class='hidden' onClick='header_click_all_checkboxes(this)'>" : ""][department]</label><div class='content'>"
 			break_counter = 0
 			for(var/job in GLOB.fulp_ban_list[department]) // Go to each element and add it with a little checkbox underneath the relevant "Department"
 				if(break_counter > 0 && (break_counter % 10 == 0))
