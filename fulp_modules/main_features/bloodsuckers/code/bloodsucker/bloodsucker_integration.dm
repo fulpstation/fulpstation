@@ -46,14 +46,14 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 		return
 	. = ..()
 
-/mob/living/carbon/natural_bodytemperature_stabilization()
+/mob/living/carbon/human/natural_bodytemperature_stabilization(datum/gas_mixture/environment, delta_time, times_fired)
 	// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
 	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
 		return 0
 	. = ..()
 
-// Overwrites mob/living/life.dm for LifeTick
-/mob/living/Life(delta_time = SSMOBS_DT, times_fired)
+// Overwrites mob/living/life.dm instead of doing handle_changeling
+/mob/living/carbon/human/Life(delta_time = SSMOBS_DT, times_fired)
 	. = ..()
 	SEND_SIGNAL(src, COMSIG_LIVING_BIOLOGICAL_LIFE, delta_time, times_fired)
 
@@ -177,15 +177,6 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 			return "<b>[p_they(TRUE)] look[p_s()] like pale death.</b>\n"
 	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)
 //	return blood_volume < BLOOD_VOLUME_OKAY // && !(bodytemperature <= get_temperature() + 2)
-/*
-/mob/living/carbon/proc/scan_blood_volume()
-	// Vamps don't show up normally to scanners unless Masquerade power is on ----> scanner.dm
-	if(mind)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(istype(bloodsuckerdatum) && HAS_TRAIT(src, TRAIT_MASQUERADE))
-			return BLOOD_VOLUME_NORMAL
-	return blood_volume
-*/
 
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"
