@@ -430,10 +430,8 @@
 	name = "Toolbox Tournamet silver medal"
 	desc = "A silver medal for the second place finalists of the Toolbox Tournament. This one is for the year 2561."
 	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
 	icon_state = "tt_medal"
 	resistance_flags = FIRE_PROOF
-	above_suit = TRUE
 
 /**
  * Dancing Man
@@ -457,7 +455,7 @@
 	icon_state = "pucci_wig"
 
 /obj/item/storage/box/halloween/edition_21/pucci
-	theme_name = "2021's dancing man"
+	theme_name = "2021's Dancing Man"
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2021/pucci_suit,
 		/obj/item/clothing/suit/costume_2021/pucci_jacket,
@@ -493,7 +491,7 @@
 	icon_state = "buckleshoe"
 
 /obj/item/storage/box/halloween/edition_21/willard
-	theme_name = "2021's male witch"
+	theme_name = "2021's Male Witch"
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2021/willard_suit,
 		/obj/item/clothing/suit/costume_2021/willard_jacket,
@@ -519,7 +517,7 @@
 	icon_state = "thirsty"
 
 /obj/item/storage/box/halloween/edition_21/thirsty
-	theme_name = "2021's thirsty flower"
+	theme_name = "2021's Thirsty Flower"
 	costume_contents = list(
 		/obj/item/clothing/under/color/thirsty_suit,
 		/obj/item/clothing/head/costume_2021/thirsty_hat,
