@@ -104,7 +104,6 @@
 	bloodsuckerdatum.frenzied = FALSE
 	return ..()
 
-
 /datum/status_effect/frenzy/tick()
 	var/mob/living/carbon/human/user = owner
 	if(!bloodsuckerdatum.frenzied)

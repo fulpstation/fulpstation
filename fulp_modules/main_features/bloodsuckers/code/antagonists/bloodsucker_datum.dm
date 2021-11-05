@@ -84,9 +84,6 @@
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
 
-	///Used in Bloodsucker huds
-	var/valuecolor
-
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/current_mob = mob_override || owner.current
@@ -821,6 +818,7 @@
 /datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
 	if(!owner.current.hud_used)
 		return
+	var/valuecolor
 	if(owner.current.hud_used && owner.current.hud_used.blood_display)
 		if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
 			valuecolor = "#FFDDDD"
@@ -837,6 +835,7 @@
 /datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
 	if(!owner.current.hud_used)
 		return
+	var/valuecolor
 	if(owner.current.hud_used && owner.current.hud_used.sunlight_display)
 		var/sunlight_display_icon = "sunlight_"
 		if(amDay)

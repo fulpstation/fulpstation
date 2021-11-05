@@ -156,7 +156,6 @@
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
 /datum/action/bloodsucker/proc/StartCooldown()
-	set waitfor = FALSE
 	// Alpha Out
 	button.color = rgb(128,0,0,128)
 	button.alpha = 100
@@ -228,26 +227,6 @@
 /datum/action/bloodsucker/proc/Upgrade()
 	level_current++
 
-///////////////////////////////////  PASSIVE POWERS	///////////////////////////////////
-
-/*
-/// New Type: Passive (Always on, no button)
-/datum/action/bloodsucker/passive
-
-/// Don't Display Button! (it doesn't do anything anyhow)
-/datum/action/bloodsucker/passive/New()
-	..()
-	button.screen_loc = DEFAULT_BLOODSPELLS
-	button.moved = DEFAULT_BLOODSPELLS
-	button.ordered = FALSE
-
-/datum/action/bloodsucker/passive/Destroy()
-	if(owner)
-		Remove(owner)
-	target = null
-	return ..()
-*/
-
 ///////////////////////////////////  TARGETED POWERS	///////////////////////////////////
 
 /// NOTE: All Targeted spells are Toggles! We just don't bother checking here.
@@ -289,7 +268,7 @@
 /datum/action/bloodsucker/targeted/CheckCanUse(display_error)
 	. = ..()
 	if(!.)
-		return
+		return FALSE
 	// We don't allow non client usage so that using powers like mesmerize will FAIL if you try to use them as ghost.
 	if(!owner.client)
 		return FALSE
