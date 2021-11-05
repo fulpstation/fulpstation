@@ -159,7 +159,7 @@
 	icon_state = "hardhat0_guy"
 	on = FALSE
 	hat_type = "guy"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0, WOUND = 0)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0, WOUND = 0)
 	resistance_flags = null
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
@@ -173,7 +173,7 @@
 	icon_state = "hardhat0_thomas"
 	on = FALSE
 	hat_type = "thomas"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0, WOUND = 0)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0, WOUND = 0)
 	resistance_flags = null
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
