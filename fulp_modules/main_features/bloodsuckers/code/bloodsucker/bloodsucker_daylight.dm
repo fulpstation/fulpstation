@@ -103,7 +103,7 @@
 				if(4)
 					bloodsucker_minds.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
 				if(5)
-					bloodsucker_minds.current.playsound_local(null, 'sound/spookoween/ghosty_wind.ogg', 90, 1)
+					bloodsucker_minds.current.playsound_local(null, 'sound/misc/ghosty_wind.ogg', 90, 1)
 	if(vassalwarn != "")
 		for(var/datum/mind/vassal_minds as anything in get_antag_minds(/datum/antagonist/vassal))
 			if(!istype(vassal_minds))
