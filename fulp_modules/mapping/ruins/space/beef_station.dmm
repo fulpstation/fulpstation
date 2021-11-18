@@ -11,7 +11,7 @@
 "aC" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "aG" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -52,9 +52,18 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
+"aY" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
+	},
+/turf/open/floor/light,
+/area/ruin/space/has_grav/powered/beef)
 "bn" = (
 /obj/machinery/door/airlock/alarmlock,
-/turf/open/floor/iron/freezer,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "beefstation-frontdoor"
+	},
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "bz" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
@@ -73,13 +82,13 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
 	},
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "bU" = (
 /obj/structure/table/reinforced,
 /obj/item/lighter,
 /obj/item/storage/backpack/satchel,
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "bY" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -119,7 +128,18 @@
 /obj/item/clothing/shoes/russian,
 /obj/item/clothing/shoes/russian,
 /obj/item/storage/backpack/satchel,
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/powered/beef)
+"cg" = (
+/obj/machinery/light,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 1
+	},
+/obj/structure/closet/secure_closet/freezer/fridge{
+	anchored = 1;
+	req_access = null
+	},
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/space/has_grav/powered/beef)
 "ck" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -221,13 +241,6 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
-"df" = (
-/obj/machinery/jukebox/disco,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 8
-	},
-/turf/open/floor/light,
-/area/ruin/space/has_grav/powered/beef)
 "dj" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
@@ -261,6 +274,11 @@
 /area/ruin/space/has_grav/powered/beef)
 "du" = (
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
+/area/ruin/space/has_grav/powered/beef)
+"dv" = (
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "dz" = (
 /obj/machinery/vending/dinnerware{
@@ -344,10 +362,9 @@
 "en" = (
 /obj/structure/closet/emcloset,
 /obj/machinery/light/small,
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "et" = (
-/obj/structure/chair/stool/bar,
 /obj/effect/turf_decal/tile/blue{
 	color = "#414ad1"
 	},
@@ -359,6 +376,7 @@
 	color = "#2e2e2e";
 	dir = 4
 	},
+/obj/structure/chair/stool/bar/directional/west,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "ev" = (
@@ -443,9 +461,32 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
+"fa" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/door/window{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	color = "#2e2e2e";
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
 "fc" = (
-/mob/living/simple_animal/bot/cleanbot,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/structure/window{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	color = "#2e2e2e";
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "fh" = (
@@ -473,6 +514,10 @@
 "fC" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
+/area/ruin/space/has_grav/powered/beef)
+"fF" = (
+/obj/machinery/oven,
+/turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "fG" = (
 /obj/structure/closet/secure_closet/personal/cabinet{
@@ -531,13 +576,6 @@
 	},
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
-"gK" = (
-/obj/machinery/light,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 1
-	},
-/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
-/area/ruin/space/has_grav/powered/beef)
 "hb" = (
 /obj/machinery/door/airlock,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -552,19 +590,18 @@
 /obj/structure/window{
 	dir = 4
 	},
-/obj/structure/closet/crate/freezer/blood,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
 	dir = 4
 	},
+/obj/machinery/stasis,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "hp" = (
 /obj/structure/window{
 	dir = 4
 	},
-/obj/machinery/stasis,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
@@ -572,6 +609,9 @@
 	},
 /obj/machinery/defibrillator_mount/charging{
 	pixel_y = -32
+	},
+/obj/machinery/computer/operating{
+	dir = 1
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
@@ -753,6 +793,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 5
 	},
+/mob/living/simple_animal/bot/cleanbot,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "kq" = (
@@ -787,6 +828,14 @@
 	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
+	},
+/obj/structure/window{
+	dir = 1
+	},
+/obj/structure/closet/crate/freezer/blood,
+/obj/effect/turf_decal/tile/neutral{
+	color = "#2e2e2e";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
@@ -953,13 +1002,6 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
-"oF" = (
-/mob/living/simple_animal/bot/vibebot,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 4
-	},
-/turf/open/floor/light,
-/area/ruin/space/has_grav/powered/beef)
 "pa" = (
 /obj/structure/rack,
 /obj/item/stack/sheet/iron/fifty,
@@ -972,11 +1014,10 @@
 /obj/item/lighter,
 /obj/item/storage/toolbox/emergency,
 /obj/item/storage/backpack/satchel,
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "pi" = (
 /obj/structure/window,
-/obj/machinery/light/floor,
 /turf/open/floor/wood,
 /area/ruin/space/has_grav/powered/beef)
 "pj" = (
@@ -990,7 +1031,11 @@
 /obj/structure/closet/gimmick/russian{
 	anchored = 1
 	},
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/powered/beef)
+"ps" = (
+/obj/structure/lattice,
+/turf/open/space/basic,
 /area/ruin/space/has_grav/powered/beef)
 "pv" = (
 /obj/machinery/portable_atmospherics/scrubber/huge,
@@ -1003,7 +1048,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 9
 	},
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "pJ" = (
 /obj/structure/window{
@@ -1042,6 +1087,10 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
+/obj/structure/sink/kitchen{
+	dir = 8;
+	pixel_x = 5
+	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "qp" = (
@@ -1133,6 +1182,10 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
+/obj/machinery/hydroponics/constructable,
+/obj/machinery/door/window{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "qH" = (
@@ -1155,6 +1208,12 @@
 /obj/item/bedsheet/dorms,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/mineral/plastitanium/red,
+/area/ruin/space/has_grav/powered/beef)
+"rd" = (
+/obj/machinery/door/window{
+	dir = 4
+	},
+/turf/open/floor/wood,
 /area/ruin/space/has_grav/powered/beef)
 "rh" = (
 /obj/structure/closet/lasertag/red{
@@ -1189,10 +1248,6 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
-"rQ" = (
-/obj/machinery/hydroponics/constructable,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
 "sc" = (
 /obj/structure/window/reinforced/spawner{
 	dir = 4
@@ -1203,6 +1258,8 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
+/obj/item/reagent_containers/glass/bucket,
+/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "sf" = (
@@ -1289,13 +1346,6 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
-"tR" = (
-/obj/structure/closet/secure_closet/freezer/fridge{
-	anchored = 1;
-	req_access = null
-	},
-/turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "tY" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -1395,31 +1445,6 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
-"vN" = (
-/obj/machinery/hydroponics/constructable,
-/obj/structure/window{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
-"vP" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/obj/machinery/door/window{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
 "we" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 6
@@ -1432,6 +1457,23 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
+/area/ruin/space/has_grav/powered/beef)
+"wh" = (
+/obj/structure/window{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/neutral{
+	color = "#2e2e2e";
+	dir = 4
+	},
+/obj/structure/window{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "wl" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -1453,19 +1495,6 @@
 	},
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
-/area/ruin/space/has_grav/powered/beef)
-"wM" = (
-/obj/structure/window{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "wP" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -1566,10 +1595,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e"
 	},
 /turf/open/floor/iron,
@@ -1583,10 +1608,6 @@
 /turf/open/floor/plastic,
 /area/ruin/space/has_grav/powered/beef)
 "yg" = (
-/obj/machinery/hydroponics/constructable,
-/obj/structure/window{
-	dir = 4
-	},
 /obj/structure/window/reinforced/spawner{
 	dir = 8
 	},
@@ -1660,8 +1681,6 @@
 /turf/open/floor/engine,
 /area/ruin/space/has_grav/powered/beef)
 "zl" = (
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4,
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
 	dir = 4
@@ -1670,7 +1689,18 @@
 	color = "#414ad1";
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
+"zu" = (
+/obj/structure/table/wood,
+/obj/effect/spawner/random/beef_station,
+/turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "zP" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -1699,20 +1729,6 @@
 	dir = 10
 	},
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
-/area/ruin/space/has_grav/powered/beef)
-"AC" = (
-/obj/structure/window{
-	dir = 1
-	},
-/obj/machinery/computer/operating,
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "AD" = (
 /obj/structure/fans/tiny,
@@ -1764,18 +1780,6 @@
 	},
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
-"By" = (
-/obj/effect/turf_decal/tile/blue{
-	color = "#414ad1";
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/obj/machinery/vending/games,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
 "BK" = (
 /obj/effect/turf_decal/tile/blue{
 	color = "#414ad1";
@@ -1792,6 +1796,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/vending/sovietsoda,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "BS" = (
@@ -1814,24 +1819,6 @@
 "CE" = (
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
-"CK" = (
-/obj/structure/window{
-	dir = 4
-	},
-/obj/machinery/stasis,
-/obj/structure/window{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
 "CM" = (
 /obj/item/wrench,
 /obj/machinery/atmospherics/components/unary/portables_connector{
@@ -1842,6 +1829,19 @@
 "CP" = (
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/beef)
+"CW" = (
+/obj/structure/window{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	color = "#2e2e2e";
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
 "Df" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral,
@@ -1851,7 +1851,7 @@
 /obj/structure/table/reinforced,
 /obj/item/lighter,
 /obj/item/storage/backpack/satchel,
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Di" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -1893,6 +1893,24 @@
 	dir = 8
 	},
 /turf/open/floor/iron/cafeteria,
+/area/ruin/space/has_grav/powered/beef)
+"DT" = (
+/obj/structure/window/reinforced/spawner{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	color = "#2e2e2e";
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/machinery/hydroponics/constructable,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
+"DY" = (
+/obj/machinery/door/airlock/alarmlock,
+/turf/open/floor/carpet/red,
 /area/ruin/space/has_grav/powered/beef)
 "DZ" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -1964,10 +1982,9 @@
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "Fm" = (
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Fu" = (
-/obj/structure/chair/stool/bar,
 /obj/effect/turf_decal/tile/blue{
 	color = "#414ad1"
 	},
@@ -1975,6 +1992,7 @@
 	color = "#2e2e2e";
 	dir = 4
 	},
+/obj/structure/chair/stool/bar/directional/west,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Fv" = (
@@ -2019,6 +2037,9 @@
 	},
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
+"FZ" = (
+/turf/closed/wall/mineral/titanium,
+/area/ruin/space/has_grav/powered/beef)
 "Gc" = (
 /turf/closed/wall,
 /area/ruin/space/has_grav/powered/beef)
@@ -2042,6 +2063,11 @@
 	color = "#414ad1"
 	},
 /turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
+"GO" = (
+/obj/structure/table/reinforced,
+/obj/effect/spawner/random/beef_station,
+/turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "GR" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
@@ -2168,12 +2194,6 @@
 /turf/open/floor/wood,
 /area/ruin/space/has_grav/powered/beef)
 "It" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 10
-	},
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
 	dir = 4
@@ -2181,6 +2201,12 @@
 /obj/effect/turf_decal/tile/blue{
 	color = "#414ad1";
 	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
@@ -2205,18 +2231,11 @@
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
-"IL" = (
+"IG" = (
 /obj/structure/window{
 	dir = 1
 	},
-/obj/structure/table/optable,
-/obj/structure/window{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 8
-	},
+/obj/machinery/iv_drip,
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
@@ -2246,7 +2265,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Jb" = (
 /obj/machinery/door/airlock/alarmlock,
@@ -2334,6 +2353,10 @@
 /obj/machinery/griddle,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
+"KB" = (
+/mob/living/simple_animal/bot/vibebot,
+/turf/open/floor/light,
+/area/ruin/space/has_grav/powered/beef)
 "KF" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/effect/turf_decal/tile/blue{
@@ -2365,7 +2388,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 6
 	},
-/turf/closed/wall,
+/turf/closed/wall/mineral/titanium,
 /area/ruin/space/has_grav/powered/beef)
 "LM" = (
 /obj/machinery/light/small{
@@ -2381,6 +2404,12 @@
 /obj/item/canvas/nineteen_nineteen,
 /obj/item/canvas/nineteen_nineteen,
 /turf/open/floor/carpet/orange,
+/area/ruin/space/has_grav/powered/beef)
+"LS" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/turf/open/floor/light,
 /area/ruin/space/has_grav/powered/beef)
 "Mg" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -2405,13 +2434,13 @@
 	color = "#2e2e2e";
 	dir = 8
 	},
+/obj/structure/table/optable,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "MF" = (
 /obj/structure/window{
 	dir = 4
 	},
-/obj/machinery/iv_drip,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
@@ -2421,21 +2450,7 @@
 /area/ruin/space/has_grav/powered/beef)
 "MG" = (
 /obj/effect/mob_spawn/human/beefman/beef_station,
-/turf/open/floor/iron/freezer,
-/area/ruin/space/has_grav/powered/beef)
-"MO" = (
-/obj/structure/window{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/iron,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "MQ" = (
 /obj/machinery/light/floor,
@@ -2443,7 +2458,7 @@
 /area/ruin/space/has_grav/powered/beef)
 "Nd" = (
 /obj/machinery/light,
-/turf/open/floor/iron/freezer,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Nj" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
@@ -2532,11 +2547,15 @@
 /obj/structure/closet/toolcloset,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
+"Ou" = (
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
 "Ow" = (
 /obj/machinery/door/airlock/alarmlock,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/open/floor/iron,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Oy" = (
 /obj/structure/chair/sofa{
@@ -2687,6 +2706,10 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/beef)
+"QR" = (
+/obj/machinery/vending/games,
+/turf/open/floor/wood,
+/area/ruin/space/has_grav/powered/beef)
 "QW" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron,
@@ -2701,7 +2724,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 9
 	},
-/turf/closed/wall,
+/turf/closed/wall/mineral/titanium,
 /area/ruin/space/has_grav/powered/beef)
 "RE" = (
 /obj/structure/window/reinforced/spawner{
@@ -2890,6 +2913,10 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
+/obj/machinery/hydroponics/constructable,
+/obj/machinery/door/window{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Uq" = (
@@ -2907,7 +2934,7 @@
 "Us" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
-/area/space)
+/area/ruin/space/has_grav/powered/beef)
 "Ut" = (
 /obj/structure/closet/secure_closet/freezer/meat{
 	anchored = 1;
@@ -2932,18 +2959,6 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
-"UM" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e"
-	},
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
 "US" = (
 /obj/structure/table/reinforced,
 /obj/machinery/reagentgrinder,
@@ -2959,6 +2974,10 @@
 	color = "#414ad1"
 	},
 /turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
+"Va" = (
+/obj/machinery/jukebox/disco,
+/turf/open/floor/light,
 /area/ruin/space/has_grav/powered/beef)
 "Vc" = (
 /obj/machinery/door/airlock/alarmlock,
@@ -3006,7 +3025,10 @@
 "Wy" = (
 /obj/machinery/door/airlock/public,
 /obj/structure/fans/tiny,
-/turf/open/floor/plating,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "beefstation-frontdoor"
+	},
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "WM" = (
 /obj/machinery/atmospherics/components/binary/pump/on{
@@ -3037,13 +3059,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/visible,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
-"Yj" = (
-/mob/living/simple_animal/bot/vibebot,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 4
-	},
-/turf/open/floor/light,
-/area/ruin/space/has_grav/powered/beef)
 "Yv" = (
 /obj/structure/table/glass,
 /obj/item/canvas/twentythree_nineteen,
@@ -3061,13 +3076,6 @@
 	dir = 6
 	},
 /turf/open/floor/eighties,
-/area/ruin/space/has_grav/powered/beef)
-"YK" = (
-/obj/machinery/jukebox/disco,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 8
-	},
-/turf/open/floor/light,
 /area/ruin/space/has_grav/powered/beef)
 "YN" = (
 /obj/structure/table/wood/shuttle_bar,
@@ -3108,6 +3116,10 @@
 	color = "#4a4a4a"
 	},
 /turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/beef)
+"ZD" = (
+/obj/machinery/skill_station,
+/turf/open/floor/wood,
 /area/ruin/space/has_grav/powered/beef)
 "ZO" = (
 /obj/machinery/door/window{
@@ -3480,7 +3492,7 @@ uq
 LE
 Jn
 Fd
-Gc
+FZ
 uq
 uq
 uq
@@ -3522,14 +3534,14 @@ uq
 uq
 uq
 uq
-Gc
+FZ
 LE
 Rp
 QD
 UF
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -3569,14 +3581,14 @@ uq
 uq
 uq
 uq
-Gc
+FZ
 RY
 tD
 ka
 KY
 Fv
 AN
-Gc
+FZ
 uq
 uq
 uq
@@ -3614,18 +3626,18 @@ uq
 uq
 uq
 uq
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 iv
 CM
 JD
 PJ
 SJ
 em
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -3659,9 +3671,9 @@ uq
 uq
 uq
 uq
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 SH
 pv
 Nj
@@ -3672,9 +3684,9 @@ SJ
 tD
 DF
 PH
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -3706,7 +3718,7 @@ uq
 uq
 uq
 uq
-Gc
+FZ
 lq
 IB
 pZ
@@ -3721,7 +3733,7 @@ JD
 jm
 pa
 gu
-Gc
+FZ
 uq
 uq
 uq
@@ -3752,8 +3764,8 @@ uq
 uq
 uq
 uq
-Gc
-Gc
+FZ
+FZ
 jE
 IB
 pZ
@@ -3768,8 +3780,8 @@ SJ
 PJ
 SJ
 PJ
-Gc
-Gc
+FZ
+FZ
 uq
 uq
 uq
@@ -3799,7 +3811,7 @@ uq
 uq
 uq
 uq
-Gc
+FZ
 wf
 Yb
 SN
@@ -3845,8 +3857,8 @@ uq
 uq
 uq
 uq
-Gc
-Gc
+FZ
+FZ
 Gc
 Gc
 Gc
@@ -3863,8 +3875,8 @@ Gc
 Gc
 Gc
 Gc
-Gc
-Gc
+FZ
+FZ
 uq
 uq
 uq
@@ -3911,7 +3923,7 @@ cM
 dY
 uQ
 LR
-Gc
+FZ
 uq
 uq
 uq
@@ -3958,7 +3970,7 @@ eG
 eG
 eG
 qv
-Gc
+FZ
 uq
 uq
 uq
@@ -3992,7 +4004,7 @@ Gc
 Gc
 NU
 Gc
-By
+bZ
 Zz
 kF
 qY
@@ -4005,7 +4017,7 @@ HO
 eG
 eG
 VY
-Gc
+FZ
 uq
 uq
 uq
@@ -4029,12 +4041,12 @@ Qd
 Fz
 Qd
 YA
-WT
-WT
-WT
-WT
+ps
+ps
+ps
+ps
 fC
-BS
+QR
 QE
 BS
 BS
@@ -4052,10 +4064,10 @@ NG
 Te
 eG
 Yv
-Gc
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -4081,9 +4093,9 @@ Us
 Us
 Us
 fC
+ZD
+BS
 TG
-BS
-BS
 BS
 pi
 bZ
@@ -4099,11 +4111,11 @@ eG
 Tr
 eG
 eG
-fS
-qJ
+DY
 fv
-Gc
-Gc
+fv
+FZ
+FZ
 uq
 uq
 uq
@@ -4123,15 +4135,15 @@ Qd
 Fz
 Qd
 YA
-WT
-WT
-WT
-WT
+ps
+ps
+ps
+ps
 fC
 ST
 ST
 ST
-ST
+rd
 Is
 kX
 Bn
@@ -4149,8 +4161,8 @@ Iu
 fS
 fv
 fv
-fv
-Gc
+qJ
+FZ
 uq
 uq
 uq
@@ -4197,7 +4209,7 @@ fS
 YU
 Hj
 fv
-Gc
+FZ
 uq
 uq
 uq
@@ -4236,7 +4248,7 @@ bz
 nj
 js
 qB
-vN
+eE
 ed
 Wr
 Hg
@@ -4244,7 +4256,7 @@ fS
 ei
 Go
 fv
-Gc
+FZ
 uq
 uq
 uq
@@ -4270,7 +4282,7 @@ uq
 uq
 fC
 SW
-Tx
+zu
 CE
 Tx
 Bq
@@ -4283,7 +4295,7 @@ mw
 uE
 js
 qB
-vN
+eE
 dG
 kS
 oa
@@ -4291,7 +4303,7 @@ fC
 Gc
 Gc
 Gc
-Gc
+FZ
 uq
 uq
 uq
@@ -4330,7 +4342,7 @@ cF
 NL
 js
 qB
-rQ
+eE
 ae
 AM
 RE
@@ -4338,7 +4350,7 @@ fC
 pc
 Fm
 MG
-Gc
+FZ
 uq
 uq
 uq
@@ -4376,16 +4388,16 @@ op
 cF
 JU
 js
-qB
+DT
 Nn
-lG
+eE
 cL
 Ml
 fC
 bU
 Fm
 Nd
-Gc
+FZ
 uq
 uq
 uq
@@ -4427,14 +4439,14 @@ sk
 ca
 we
 yN
-eE
+lG
 fC
 Fm
 Fm
 MG
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -4479,9 +4491,9 @@ fC
 po
 IX
 Fm
-Gc
+FZ
 en
-Gc
+FZ
 uq
 uq
 uq
@@ -4516,7 +4528,7 @@ eO
 Nx
 cF
 lr
-UM
+bA
 ya
 aT
 cz
@@ -4563,8 +4575,8 @@ iz
 yk
 cF
 NL
+eE
 js
-IL
 kH
 Hd
 qz
@@ -4573,9 +4585,9 @@ fC
 cd
 bG
 Fm
-Gc
+FZ
 en
-Gc
+FZ
 uq
 uq
 uq
@@ -4610,9 +4622,9 @@ qM
 yk
 cF
 uE
-js
-AC
 eE
+js
+IG
 eE
 eE
 jW
@@ -4620,9 +4632,9 @@ fC
 Fm
 Fm
 MG
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -4657,8 +4669,8 @@ yk
 Ly
 lQ
 tY
+Ou
 eB
-MO
 fc
 Kc
 eE
@@ -4667,7 +4679,7 @@ fC
 Df
 Fm
 Nd
-Gc
+FZ
 uq
 uq
 uq
@@ -4704,9 +4716,9 @@ eO
 eO
 cF
 pS
-UY
-vP
 SZ
+UY
+fa
 kj
 eE
 iC
@@ -4714,7 +4726,7 @@ fC
 bU
 Fm
 MG
-Gc
+FZ
 uq
 uq
 uq
@@ -4751,9 +4763,9 @@ Xc
 Xc
 IT
 JU
-js
-wM
 eE
+js
+CW
 FF
 eE
 EE
@@ -4761,7 +4773,7 @@ Gc
 Gc
 Gc
 Gc
-Gc
+FZ
 uq
 uq
 uq
@@ -4798,9 +4810,9 @@ eE
 eE
 bz
 nj
-js
-wM
 eE
+js
+CW
 eE
 eE
 Mw
@@ -4808,7 +4820,7 @@ Gc
 ra
 Hv
 lP
-Gc
+FZ
 uq
 uq
 uq
@@ -4828,10 +4840,10 @@ Qd
 Fz
 Qd
 YA
-WT
-WT
-WT
-WT
+ps
+ps
+ps
+ps
 fC
 et
 Fu
@@ -4845,9 +4857,9 @@ eE
 eE
 eE
 ny
+eE
 js
-CK
-MF
+wh
 hm
 MF
 hp
@@ -4855,7 +4867,7 @@ Gc
 Gc
 jA
 Gc
-Gc
+FZ
 uq
 uq
 uq
@@ -4892,8 +4904,8 @@ eE
 eE
 SO
 DZ
+dv
 bA
-vr
 Ny
 vr
 vr
@@ -4902,7 +4914,7 @@ ij
 Ke
 QQ
 CP
-Gc
+FZ
 uq
 uq
 uq
@@ -4922,16 +4934,16 @@ Qd
 Fz
 Qd
 YA
-WT
-WT
-WT
-WT
+ps
+ps
+ps
+ps
 fC
+Kn
 Ud
 Ud
 Ud
-dp
-Ud
+dz
 Gc
 cJ
 eE
@@ -4948,8 +4960,8 @@ qr
 Gc
 LM
 ua
-Gc
-Gc
+FZ
+FZ
 uq
 uq
 uq
@@ -4974,12 +4986,12 @@ uq
 uq
 uq
 fC
-dz
+Kn
 Ud
 Ii
-NX
-uC
-Zx
+dp
+Ud
+Gc
 zl
 eE
 eE
@@ -4992,10 +5004,10 @@ Nm
 Gc
 Gc
 hb
-Gc
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -5021,12 +5033,12 @@ uq
 uq
 uq
 fC
-cl
+fF
 Ud
-Kn
-vE
 te
-Gc
+NX
+uC
+Zx
 It
 mk
 Wu
@@ -5039,7 +5051,7 @@ FW
 Gc
 aS
 St
-Gc
+FZ
 uq
 uq
 uq
@@ -5068,11 +5080,11 @@ uq
 uq
 uq
 fC
-tR
-hM
-YW
-dO
-vz
+fF
+Ud
+GO
+vE
+Ii
 Gc
 BK
 eE
@@ -5086,7 +5098,7 @@ Nr
 Gc
 qe
 Nr
-Gc
+FZ
 uq
 uq
 uq
@@ -5115,11 +5127,11 @@ uq
 uq
 uq
 fC
-OB
-lH
-DL
-US
-Ii
+cl
+hM
+YW
+dO
+vz
 Gc
 eW
 tv
@@ -5133,7 +5145,7 @@ CE
 Gc
 fG
 CE
-Gc
+FZ
 uq
 uq
 uq
@@ -5161,12 +5173,12 @@ uq
 uq
 uq
 uq
-Gc
-Gc
-Gc
-Jb
-Gc
-Gc
+fC
+OB
+lH
+DL
+Ud
+US
 Gc
 yJ
 yJ
@@ -5179,8 +5191,8 @@ Gc
 Gc
 Gc
 Gc
-Gc
-Gc
+FZ
+FZ
 uq
 uq
 uq
@@ -5208,12 +5220,12 @@ uq
 uq
 uq
 uq
-uq
+FZ
+FZ
 Gc
-nr
-OQ
-in
-gK
+Jb
+Gc
+Gc
 Gc
 Or
 Or
@@ -5226,7 +5238,7 @@ GU
 ul
 Jm
 yS
-Gc
+FZ
 uq
 uq
 uq
@@ -5256,11 +5268,11 @@ uq
 uq
 uq
 uq
-Gc
-Gc
-Ut
-du
-du
+FZ
+nr
+OQ
+in
+cg
 Gc
 Or
 Or
@@ -5272,8 +5284,8 @@ Vc
 xW
 ul
 Gc
-Gc
-Gc
+FZ
+FZ
 uq
 uq
 uq
@@ -5303,23 +5315,23 @@ uq
 uq
 uq
 uq
-uq
+FZ
+FZ
+Ut
+du
+du
 Gc
-Ah
-Pp
-lt
-Gc
 Or
-Or
-Yj
-oF
-Or
+KB
+aG
+Mj
+Va
 Or
 Gc
 EH
 ul
 Kf
-Gc
+FZ
 uq
 uq
 uq
@@ -5351,10 +5363,10 @@ uq
 uq
 uq
 uq
-Gc
-Gc
-Gc
-AQ
+FZ
+Ah
+Pp
+lt
 Gc
 Or
 Or
@@ -5364,9 +5376,9 @@ Or
 Or
 Gc
 yc
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -5398,10 +5410,10 @@ uq
 uq
 uq
 uq
-uq
-uq
-Gc
-Gc
+FZ
+FZ
+FZ
+AQ
 Gc
 Or
 Or
@@ -5409,9 +5421,9 @@ aG
 Mj
 Or
 Or
-Gc
-Gc
-Gc
+FZ
+FZ
+FZ
 uq
 uq
 uq
@@ -5447,16 +5459,16 @@ uq
 uq
 uq
 uq
-uq
-uq
-Gc
+FZ
+FZ
+FZ
 Or
 Or
-aG
-Mj
+aY
+LS
 Or
 Or
-Gc
+FZ
 uq
 uq
 uq
@@ -5496,14 +5508,14 @@ uq
 uq
 uq
 uq
-Gc
-Gc
-Gc
-YK
-df
-Gc
-Gc
-Gc
+FZ
+fC
+fC
+Or
+Or
+fC
+fC
+FZ
 uq
 uq
 uq
@@ -5545,10 +5557,10 @@ uq
 uq
 uq
 uq
-Gc
-Gc
-Gc
-Gc
+fC
+fC
+fC
+fC
 uq
 uq
 uq
