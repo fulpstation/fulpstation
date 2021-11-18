@@ -126,7 +126,7 @@
 /obj/effect/hallucination/simple/phobetor
 	name = "phobetor tear"
 	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
-	image_icon = 'fulp_modules/main_features/species/icons/phobetor_tear.dmi'
+	image_icon = 'fulp_modules/features/species/icons/phobetor_tear.dmi'
 	image_state = "phobetor_tear"
 	image_layer = ABOVE_LIGHTING_PLANE // Place this above shadows so it always glows.
 	var/exist_length = 500

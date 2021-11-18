@@ -14,8 +14,8 @@ Contains:
 /obj/item/clothing/head/fulpberet/brigphysician
 	name = "medical security beret"
 	desc = "This proud white-blue beret is a distinct color, mainly used to represent medical professionals that became part of the security department."
-	worn_icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_worn.dmi'
-	icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_icons.dmi'
+	worn_icon = 'fulp_modules/features/jobs/icons/clothing_worn.dmi'
+	icon = 'fulp_modules/features/jobs/icons/clothing_icons.dmi'
 	icon_state = "beret_medbay"
 
 // Labcoat
@@ -23,8 +23,8 @@ Contains:
 /obj/item/clothing/suit/toggle/labcoat/armored
 	name = "armored labcoat"
 	desc = "A specialized labcoat with kevlar treading as to provide protection to field doctors."
-	worn_icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_worn.dmi'
-	icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_icons.dmi'
+	worn_icon = 'fulp_modules/features/jobs/icons/clothing_worn.dmi'
+	icon = 'fulp_modules/features/jobs/icons/clothing_icons.dmi'
 	icon_state = "labcoat_brigdoc"
 	inhand_icon_state = "labcoat"
 	blood_overlay_type = "coat"
@@ -47,8 +47,8 @@ Contains:
 /obj/item/clothing/under/rank/medical/brigdoc
 	name = "brig physician's jumpsuit"
 	desc = "It's made of a special fiber that provides minor protection against biohazards and Close Quarters weaponry. It has a brig physician stripe on it."
-	worn_icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_worn.dmi'
-	icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_icons.dmi'
+	worn_icon = 'fulp_modules/features/jobs/icons/clothing_worn.dmi'
+	icon = 'fulp_modules/features/jobs/icons/clothing_icons.dmi'
 	icon_state = "jumpsuit_brigdoc"
 	permeability_coefficient = 0.5
 	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 30, ACID = 30)
@@ -66,8 +66,8 @@ Contains:
 /obj/item/clothing/under/plasmaman/brigdoc
 	name = "brig physician's envirosuit"
 	desc = "A lightly armoured envirosuit for our plasmamen Brig Physicians."
-	worn_icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_worn.dmi'
-	icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_icons.dmi'
+	worn_icon = 'fulp_modules/features/jobs/icons/clothing_worn.dmi'
+	icon = 'fulp_modules/features/jobs/icons/clothing_icons.dmi'
 	icon_state = "envirosuit_brigdoc"
 	permeability_coefficient = 0.5
 	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 95, ACID = 95)
@@ -77,7 +77,7 @@ Contains:
 /obj/item/clothing/head/helmet/space/plasmaman/brigdoc
 	name = "brig physician's plasma envirosuit helmet"
 	desc = "A plasmaman containment helmet for brig physicians."
-	worn_icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_worn.dmi'
-	icon = 'fulp_modules/main_features/jobs/brigdoc/icons/clothing_icons.dmi'
+	worn_icon = 'fulp_modules/features/jobs/icons/clothing_worn.dmi'
+	icon = 'fulp_modules/features/jobs/icons/clothing_icons.dmi'
 	icon_state = "brigdoc_envirohelm"
 	inhand_icon_state = "security_envirohelm"

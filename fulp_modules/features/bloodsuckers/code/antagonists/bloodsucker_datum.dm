@@ -142,7 +142,7 @@
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
 		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
-	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'fulp_modules/features/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
 /datum/antagonist/bloodsucker/farewell()
@@ -667,7 +667,7 @@
 /datum/antagonist/bloodsucker/proc/break_masquerade()
 	if(broke_masquerade)
 		return
-	owner.current.playsound_local(null, 'fulp_modules/main_features/bloodsuckers/sounds/lunge_warn.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'fulp_modules/features/bloodsuckers/sounds/lunge_warn.ogg', 100, FALSE, pressure_affected = FALSE)
 	to_chat(owner.current, span_cultboldtalic("You have broken the Masquerade!"))
 	to_chat(owner.current, span_warning("Bloodsucker Tip: When you break the Masquerade, you become open for termination by fellow Bloodsuckers, and your Vassals are no longer completely loyal to you, as other Bloodsuckers can steal them for themselves!"))
 	broke_masquerade = TRUE
@@ -709,7 +709,7 @@
 	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	vamphud.join_hud(owner.current)
 	set_antag_hud(owner.current, icontype)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype) // Check prepare_huds in mob.dm to see why.
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype) // Check prepare_huds in mob.dm to see why.
 
 /datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
 	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
@@ -790,7 +790,7 @@
 	owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
 
 /atom/movable/screen/bloodsucker
-	icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	invisibility = INVISIBILITY_ABSTRACT
 
 /atom/movable/screen/bloodsucker/proc/clear()

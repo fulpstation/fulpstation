@@ -25,8 +25,8 @@ GLOBAL_LIST_INIT(mentor_verbs, list(
 
 // For the credits music, the number associated is its relative weight,
 GLOBAL_LIST_INIT(credits_music, list(
-	'fulp_modules/fulp_configs/sound/Fulp_Piano.ogg' = 80,
-	'fulp_modules/fulp_configs/sound/Fulp_Piano_Old.ogg' = 20,
+	'fulp_modules/sounds/sound/credits/Fulp_Piano.ogg' = 80,
+	'fulp_modules/sounds/sound/credits/Fulp_Piano_Old.ogg' = 20,
 ))
 
 // SPECIES BANS //

@@ -1,2 +1,2 @@
 /obj/effect/turf_decal/plaque
-	icon = 'fulp_modules/mapping/fulp_logo/fulp_logo.dmi'
+	icon = 'fulp_modules/mapping/objects/fulp_logo/fulp_logo.dmi'

@@ -179,10 +179,10 @@
 	name = "bloodshield"
 	desc = "A shield made out of blood, requiring blood to sustain hits."
 	item_flags = ABSTRACT | DROPDEL
-	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "blood_shield"
-	lefthand_file = 'fulp_modules/main_features/bloodsuckers/icons/bs_leftinhand.dmi'
-	righthand_file = 'fulp_modules/main_features/bloodsuckers/icons/bs_rightinhand.dmi'
+	lefthand_file = 'fulp_modules/features/bloodsuckers/icons/bs_leftinhand.dmi'
+	righthand_file = 'fulp_modules/features/bloodsuckers/icons/bs_rightinhand.dmi'
 	block_chance = 75
 
 /obj/item/shield/bloodsucker/Initialize()

@@ -145,7 +145,7 @@
 /// Default Deputy trim, this should never be assigned roundstart.
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
-	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
+	trim_icon = 'fulp_modules/features/jobs/icons/cards.dmi'
 	trim_state = "trim_deputy"
 	extra_access = list(ACCESS_MAINT_TUNNELS)
 	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)

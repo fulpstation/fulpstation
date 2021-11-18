@@ -108,7 +108,7 @@
 /obj/structure/bloodsucker/vassalrack
 	name = "persuasion rack"
 	desc = "If this wasn't meant for torture, then someone has some fairly horrifying hobbies."
-	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "vassalrack"
 	anchored = FALSE
 	/// Start dense. Once fixed in place, go non-dense.
@@ -398,7 +398,7 @@
 			alert_text += "\n\nYou will not lose your current objectives, but they come second to the will of your new master!"
 			to_chat(target, span_cultlarge("THE HORRIBLE PAIN! WHEN WILL IT END?!"))
 			var/list/torture_icons = list(
-				"Accept" = image(icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "power_recup"),
+				"Accept" = image(icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "power_recup"),
 				"Refuse" = image(icon = 'icons/obj/items_and_weapons.dmi', icon_state = "stunbaton_active")
 				)
 			var/torture_response = show_radial_menu(target, src, torture_icons, radius = 36, require_near = TRUE)
@@ -467,7 +467,7 @@
 /obj/structure/bloodsucker/candelabrum
 	name = "candelabrum"
 	desc = "It burns slowly, but doesn't radiate any heat."
-	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "candelabrum"
 	light_color = "#66FFFF"//LIGHT_COLOR_BLUEGREEN // lighting.dm
 	light_power = 3
@@ -641,7 +641,7 @@
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
 	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
-	icon = 'fulp_modules/main_features/bloodsuckers/icons/vamp_obj_64.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj_64.dmi'
 	icon_state = "throne"
 	buckle_lying = 0
 	anchored = FALSE
@@ -675,7 +675,7 @@
 
 // Armrests
 /obj/structure/bloodsucker/bloodthrone/proc/GetArmrest()
-	return mutable_appearance('fulp_modules/main_features/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
+	return mutable_appearance('fulp_modules/features/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
 
 /obj/structure/bloodsucker/bloodthrone/proc/update_armrest()
 	if(has_buckled_mobs())

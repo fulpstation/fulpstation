@@ -79,7 +79,7 @@
 
 /datum/id_trim/job/brig_physician
 	assignment = "Brig Physician"
-	trim_icon = 'fulp_modules/main_features/jobs/cards.dmi'
+	trim_icon = 'fulp_modules/features/jobs/icons/cards.dmi'
 	trim_state = "trim_brigphysician"
 	extra_access = list(ACCESS_PHARMACY, ACCESS_CHEMISTRY)
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)

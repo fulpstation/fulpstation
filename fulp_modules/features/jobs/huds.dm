@@ -10,6 +10,6 @@
 	var/obj/item/card/id/id_card = wear_id?.GetID()
 	var/id_codebase = id_card?.trim?.assignment
 	if(id_codebase in GLOB.fulp_job_assignments)
-		user.icon = 'fulp_modules/main_features/jobs/huds.dmi'
+		user.icon = 'fulp_modules/features/jobs/icons/huds.dmi'
 	else
 		user.icon = 'icons/mob/hud.dmi'

@@ -7,7 +7,7 @@
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet. Examine again for more information."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
 	custom_premium_price = PAYCHECK_HARD * 1.75
-	
+
 	/// Cooldown between ability uses
 	var/used_ability = FALSE
 
@@ -193,7 +193,7 @@
 				span_hear("You hear aggressive shuffling!"),
 				COMBAT_MESSAGE_RANGE,
 			)
-			main_victims.forceMove(target)
+			main_victims.Move(target)
 	// Everyone else will just notice it
 	for(var/mob/living/extra_victims in viewers(5, target))
 		extra_victims.face_atom(target)

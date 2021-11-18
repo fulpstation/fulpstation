@@ -182,7 +182,7 @@
 	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
 	hud.join_hud(owner.current)
 	set_antag_hud(owner.current, icontype)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype)
+	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype)
 
 /datum/antagonist/vassal/proc/update_vassal_icons_removed(datum/mind/vassal)
 	var/datum/atom_hud/antag/hud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]

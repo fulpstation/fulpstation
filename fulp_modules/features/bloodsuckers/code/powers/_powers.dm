@@ -2,12 +2,12 @@
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
 	//This is the FILE for the background icon
-	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	button_icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	//This is the ICON_STATE for the background icon
 	background_icon_state = "vamp_power_off"
 	var/background_icon_state_on = "vamp_power_on"
 	var/background_icon_state_off = "vamp_power_off"
-	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	icon_icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.

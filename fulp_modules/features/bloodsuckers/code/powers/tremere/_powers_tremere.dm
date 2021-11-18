@@ -15,8 +15,8 @@
 	background_icon_state = "tremere_power_off"
 	background_icon_state_on = "tremere_power_on"
 	background_icon_state_off = "tremere_power_off"
-	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
-	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
+	button_icon = 'fulp_modules/features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
+	icon_icon = 'fulp_modules/features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
 
 	// We're dealing with this ourselves, we don't want anyone else to have them
 	power_flags = NONE

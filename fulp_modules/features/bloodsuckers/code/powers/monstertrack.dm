@@ -2,8 +2,8 @@
 /datum/action/bloodsucker/trackvamp
 	name = "Track Monster"
 	desc = "Take a moment to look for clues of any nearby monsters.<br>These creatures are slippery, and often look like the crew."
-	button_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
-	icon_icon = 'fulp_modules/main_features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	button_icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
+	icon_icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	background_icon_state = "vamp_power_off"
 	button_icon_state = "power_hunter"
 	power_flags = NONE

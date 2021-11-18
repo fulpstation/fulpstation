@@ -9,3 +9,5 @@
 	// Update Vassal HUDs
 	var/datum/antagonist/vassal/vassaldatum = has_antag_datum(/datum/antagonist/vassal)
 	vassaldatum?.update_vassal_icons_added(src, automatic = TRUE)
+
+// TODO: Delete this when we have new modular HUDs.
