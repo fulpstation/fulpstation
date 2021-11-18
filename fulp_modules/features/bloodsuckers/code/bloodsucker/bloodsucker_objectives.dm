@@ -88,7 +88,7 @@
 		"Medical",
 	)
 
-	var/target_role	// Equals "HEAD" when it's not a department role.
+	var/target_department	// Equals "HEAD" when it's not a department role.
 	var/department_string
 
 // GENERATE!
@@ -97,19 +97,19 @@
 		// Vasssalize Command/QM
 		if(0)
 			target_amount = 1
-			target_role = VASSALIZE_COMMAND
+			target_department = VASSALIZE_COMMAND
 		// Vassalize a certain department
 		else
 			target_amount = rand(2,3)
-			target_role = pick(departments)
+			target_department = pick(departments)
 	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
-	if(target_role == VASSALIZE_COMMAND)
+	if(target_department == VASSALIZE_COMMAND)
 		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
 	else
-		explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [department_string] department."
+		explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [target_department] department."
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/protege/check_completion()
@@ -120,7 +120,7 @@
 
 	// Get list of all jobs that are qualified (for HEAD, this is already done)
 	var/list/valid_jobs
-	if(target_role == VASSALIZE_COMMAND)
+	if(target_department == VASSALIZE_COMMAND)
 		valid_jobs = heads
 	else
 		valid_jobs = list()
@@ -130,7 +130,7 @@
 			if(!istype(all_jobs))
 				continue
 			// Found a job whose Dept Head matches either list of heads, or this job IS the head. We exclude the QM from this, HoP handles Cargo.
-			if((target_role in all_jobs.department_head) || target_role == all_jobs.title)
+			if((target_department in all_jobs.department_head) || target_department == all_jobs.title)
 				valid_jobs += all_jobs.title
 
 	// Check Vassals, and see if they match
@@ -164,7 +164,7 @@
 
 		// SUCCESS!
 		objcount++
-		if(target_role == VASSALIZE_COMMAND)
+		if(target_department == VASSALIZE_COMMAND)
 			counted_roles += this_role // Add to list so we don't count it again (but only if it's a Head)
 
 	return objcount >= target_amount
@@ -420,7 +420,7 @@
 /// Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
 	name = "vassalhim"
-	var/target_role_type = FALSE
+	var/target_department_type = FALSE
 
 /datum/objective/bloodsucker/vassalhim/New()
 	var/list/possible_targets = return_possible_targets()
@@ -431,7 +431,7 @@
 /datum/objective/bloodsucker/vassalhim/update_explanation_text()
 	. = ..()
 	if(target?.current)
-		explanation_text = "Ensure [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role], is Vassalized via the Persuasion Rack."
+		explanation_text = "Ensure [target.name], the [!target_department_type ? target.assigned_role.title : target.special_role], is Vassalized via the Persuasion Rack."
 	else
 		explanation_text = "Free Objective"
 
