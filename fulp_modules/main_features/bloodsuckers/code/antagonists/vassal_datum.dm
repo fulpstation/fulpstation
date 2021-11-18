@@ -8,8 +8,9 @@
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
+	antag_hud_name = "vassal"
 	show_in_roundend = FALSE
-	show_name_in_check_antagonists = TRUE
+	hud_icon = 'fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tips = VASSAL_TIPS
 	/// The Master Bloodsucker's antag datum.
 	var/datum/antagonist/bloodsucker/master
@@ -21,10 +22,10 @@
 	var/vassal_level
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
-	return
-
-/datum/antagonist/vassal/remove_innate_effects(mob/living/mob_override)
-	return
+	. = ..()
+	var/mob/living/current_mob = mob_override || owner.current
+	add_team_hud(current_mob)
+	add_team_hud(current_mob, /datum/antagonist/bloodsucker)
 
 /datum/antagonist/vassal/pre_mindshield(mob/implanter, mob/living/mob_override)
 	if(favorite_vassal)
@@ -54,7 +55,6 @@
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
-	update_vassal_icons_added(owner, "vassal")
 	. = ..()
 
 /datum/antagonist/vassal/on_removal()
@@ -75,7 +75,6 @@
 		power.Remove(owner.current)
 	/// Remove Language & Hud
 	owner.current.remove_language(/datum/language/vampiric)
-	update_vassal_icons_removed(owner)
 	return ..()
 
 /datum/antagonist/vassal/proc/add_objective(datum/objective/added_objective)
@@ -109,9 +108,11 @@
 /datum/antagonist/vassal/proc/make_favorite(mob/living/master)
 	// Default stuff for all
 	favorite_vassal = TRUE
-	update_vassal_icons_added(owner, "vassal6")
+	antag_hud_name = "vassal6"
+	owner.antag_hud.update_antag_hud_images(owner)
 	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
+
 	// Now let's give them their assigned bonuses.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
@@ -164,30 +165,6 @@
 /datum/antagonist/vassal/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power in powers)
 		power.level_current++
-
-/*
- *	# Vassal HUDs
- *
- *	We're basically coping Bloodsuckers here.
- *	They share the same code, so most of it is dealt by Bloodsucker code.
- */
-
-/datum/antagonist/vassal/proc/update_vassal_icons_added(datum/mind/vassal, icontype = "vassal", automatic = FALSE)
-	if(automatic) // Should we automatically decide that HUD to give? This is done when deconverted from another Antagonist.
-		if(favorite_vassal)
-			icontype = "vassal6"
-		else
-			icontype = "vassal"
-	// This is a copy of Bloodsucker's hud.
-	var/datum/atom_hud/antag/bloodsucker/hud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
-	hud.join_hud(owner.current)
-	set_antag_hud(owner.current, icontype)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype)
-
-/datum/antagonist/vassal/proc/update_vassal_icons_removed(datum/mind/vassal)
-	var/datum/atom_hud/antag/hud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
-	set_antag_hud(owner.current, null)
-	hud.leave_hud(owner.current)
 
 /*
  *	# Vassal Pinpointer

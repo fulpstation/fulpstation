@@ -1,17 +1,3 @@
-GLOBAL_LIST_INIT(fulp_huds, list(
-	ANTAG_HUD_BLOODSUCKER = new/datum/atom_hud/antag/bloodsucker(),
-))
-
-/client/has_antag_hud()
-	var/adding_hud = !has_fulp_antag_hud()
-	for(var/datum/atom_hud/antag/all_huds in GLOB.fulp_huds) // add antag huds
-		(adding_hud) ? all_huds.add_hud_to(usr) : all_huds.remove_hud_from(usr)
-	. = ..()
-
-/client/proc/has_fulp_antag_hud()
-	var/datum/atom_hud/antag_huds = GLOB.fulp_huds[ANTAG_HUD_TRAITOR]
-	return antag_huds.hudusers[mob]
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //			TG OVERWRITES

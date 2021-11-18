@@ -12,4 +12,4 @@
 	if(id_codebase in GLOB.fulp_job_assignments)
 		user.icon = 'fulp_modules/main_features/jobs/huds.dmi'
 	else
-		user.icon = 'icons/mob/hud.dmi'
+		user.icon = 'icons/mob/huds/hud.dmi'
