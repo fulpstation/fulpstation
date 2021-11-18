@@ -6,6 +6,6 @@
 /datum/controller/subsystem/sounds/setup_available_channels()
 	. = ..()
 
-	//Space-ambience music addition.
+	//Made by Mokoshotar
 	GLOB.space_ambience += 'fulp_modules/sounds/sound/ambience/spacepad.ogg'
 
