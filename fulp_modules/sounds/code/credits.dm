@@ -1,14 +1,3 @@
-/*  This is where the sound edits are made.
-*	There might be changes that had to be made in /tg/ files, but those will be listed in this file.
-*/
-
-// For the credits music, the number associated is its relative weight,
-// values can be tweaked as much as needed and don't need to equal to a hundred.
-GLOBAL_LIST_INIT(credits_music, list(
-	'fulp_modules/fulp_configs/sound/Fulp_Piano.ogg' = 80,
-	'fulp_modules/fulp_configs/sound/Fulp_Piano_Old.ogg' = 20,
-))
-
 // This is triggered in roundend.dm, so that we have some round-end music instead of just playing lobby music again.
 /client/proc/playcreditsmusic(vol = 85)
 	set waitfor = FALSE

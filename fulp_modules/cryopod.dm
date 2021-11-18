@@ -9,3 +9,5 @@
 	var/turf/cryopod_turf = get_turf(src)
 	new /obj/structure/punching_bag(cryopod_turf)
 	return INITIALIZE_HINT_QDEL
+
+// TODO: Delete this when we remove cryopods.

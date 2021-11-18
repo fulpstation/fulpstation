@@ -52,8 +52,3 @@
 
 		ncontent = splicetext(ncontent, closing_form_index, 0, jointext(output, ""))
 	. = ..()
-
-
-
-
-

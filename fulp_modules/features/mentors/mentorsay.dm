@@ -32,11 +32,6 @@
 	cmd_mentor_say(msg)
 
 /// Gives Mentors/Admins the MSAY verb
-GLOBAL_LIST_INIT(mentor_verbs, list(
-	/client/proc/cmd_mentor_say
-	))
-GLOBAL_PROTECT(mentor_verbs)
-
 /client/proc/add_mentor_verbs()
 	///Both mentors and admins will get those verbs.
 	if(mentor_datum || holder)
