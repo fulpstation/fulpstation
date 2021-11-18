@@ -675,7 +675,7 @@
 	to_chat(owner.current, span_warning("Bloodsucker Tip: When you break the Masquerade, you become open for termination by fellow Bloodsuckers, and your Vassals are no longer completely loyal to you, as other Bloodsuckers can steal them for themselves!"))
 	broke_masquerade = TRUE
 	antag_hud_name = "masquerade_broken"
-	owner.antag_hud.update_antag_hud_images(owner)
+	add_team_hud(owner.current)
 	for(var/datum/mind/clan_minds in clan?.members)
 		var/datum/antagonist/bloodsucker/allsuckers = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(owner.current == allsuckers)
@@ -699,7 +699,7 @@
 	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))
 	broke_masquerade = FALSE
 	antag_hud_name = initial(antag_hud_name)
-	owner.antag_hud.update_antag_hud_images(owner)
+	add_team_hud(owner.current)
 
 /////////////////////////////////////
 //  BLOOD COUNTER & RANK MARKER !  //

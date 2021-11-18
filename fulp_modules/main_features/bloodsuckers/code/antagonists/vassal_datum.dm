@@ -109,7 +109,7 @@
 	// Default stuff for all
 	favorite_vassal = TRUE
 	antag_hud_name = "vassal6"
-	owner.antag_hud.update_antag_hud_images(owner)
+	add_team_hud(owner.current, /datum/antagonist/bloodsucker)
 	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 
