@@ -4,7 +4,8 @@
 
 // Using setup_available_channels() proc as it's a setup proc of the sound subsystem.
 /datum/controller/subsystem/sounds/setup_available_channels()
+	. = ..()
+
 	//Space-ambience music addition.
 	GLOB.space_ambience += 'fulp_modules/sounds/sound/ambience/spacepad.ogg'
 
-	. = ..()

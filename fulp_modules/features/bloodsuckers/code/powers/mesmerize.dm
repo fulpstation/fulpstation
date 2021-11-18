@@ -107,7 +107,7 @@
 		return FALSE
 
 	// Gone through our checks, let's mark our guy.
-	mesmerized_target = target
+	mesmerized_target = current_target
 	return TRUE
 
 /datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/target_atom)

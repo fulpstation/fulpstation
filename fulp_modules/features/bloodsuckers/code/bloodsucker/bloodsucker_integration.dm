@@ -39,7 +39,7 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 
 /// Prevents Bloodsuckers from naturally regenerating Blood - Even while on masquerade
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
-	if(IS_BLOODSUCKER(src))
+	if(mind && IS_BLOODSUCKER(src))
 		return
 	/// For Vassals -- Bloodsuckers get this removed while on Masquerade, so we don't want to remove the check above.
 	if(HAS_TRAIT(src, TRAIT_NOPULSE))
@@ -59,6 +59,8 @@ GLOBAL_LIST_INIT(fulp_huds, list(
 
 // Used when analyzing a Bloodsucker, Masquerade will hide brain traumas (Unless you're a Beefman)
 /mob/living/carbon/get_traumas()
+	if(!mind)
+		return ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(src)
 	if(bloodsuckerdatum && HAS_TRAIT(src, TRAIT_MASQUERADE) && !isbeefman(src))
 		return
