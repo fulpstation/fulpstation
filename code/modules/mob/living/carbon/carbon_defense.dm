@@ -261,7 +261,6 @@
 	var/obj/structure/table/target_table
 	var/obj/machinery/disposal/bin/target_disposal_bin
 	var/shove_blocked = FALSE //Used to check if a shove is blocked so that if it is knockdown logic can be applied
-
 	//Thank you based whoneedsspace
 	target_collateral_carbon = locate(/mob/living/carbon) in target_shove_turf.contents
 

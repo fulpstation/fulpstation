@@ -32,7 +32,7 @@
 
 	/// A regex that matches words blocked IC, but not in PDAs
 	var/static/regex/ic_outside_pda_filter_regex
-	
+
 	/// A regex that matches words soft blocked IC
 	var/static/regex/soft_ic_filter_regex
 

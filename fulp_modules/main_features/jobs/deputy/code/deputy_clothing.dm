@@ -167,33 +167,36 @@
 /obj/item/clothing/head/fulpberet
 	worn_icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/head_worn.dmi'
 	icon = 'fulp_modules/main_features/jobs/deputy/deputy_clothing/head_icons.dmi'
-	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
+	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
 	icon_state = "beret_supply"
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 
 /obj/item/clothing/head/fulpberet/engineering
-	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 40, BIO = 100, RAD = 100, FIRE = 100, ACID = 90, WOUND = 5) // CE level
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 40, BIO = 100, FIRE = 100, ACID = 90, WOUND = 5) // CE level
 	name = "engineering deputy beret"
 	desc = "Perhaps the only thing standing between the supermatter and a station-wide explosive sabotage. Comes with radiation protection."
 	icon_state = "beret_engi"
-	flags_1 = RAD_PROTECT_CONTENTS_1
+
+/obj/item/clothing/head/fulpberet/engineering/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)
 
 /obj/item/clothing/head/fulpberet/medical
-	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 10, BIO = 100, RAD = 60, FIRE = 60, ACID = 75, WOUND = 5) // CMO level
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 10, BIO = 100, FIRE = 60, ACID = 75, WOUND = 5) // CMO level
 	name = "medical deputy beret"
 	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry, or just used as a bio hood."
 	icon_state = "beret_medbay"
 
 /obj/item/clothing/head/fulpberet/science
-	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 100, BIO = 100, RAD = 60, FIRE = 60, ACID = 80, WOUND = 5) // RD level
+	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 100, BIO = 100, FIRE = 60, ACID = 80, WOUND = 5) // RD level
 	name = "science deputy beret"
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
 
 /obj/item/clothing/head/fulpberet/service
-	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, RAD = 50, FIRE = 100, ACID = 100, WOUND = 15) // Captain level
+	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15) // Captain level
 	name = "service deputy beret"
 	desc = "The beret of the one able to defeat the Chef in his own kitchen."
 	icon_state = "beret_service"

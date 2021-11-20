@@ -27,7 +27,7 @@
 /obj/item/clothing/under/bodysash/security
 	name = "security's sash"
 	icon_state = "security"
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
+	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 30, ACID = 30, WOUND = 10)
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
 

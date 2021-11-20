@@ -21,12 +21,11 @@
 	var/list/possible_targets = list()
 	for(var/datum/mind/possible_target in get_crewmember_minds())
 		// Check One: Default Valid User
-		if(possible_target != owner && ishuman(possible_target.current) && possible_target.current.stat != DEAD)// && is_unique_objective(possible_target))
-			// Check Two: Am Bloodsucker? OR in Bloodsucker list?
-			if(possible_target.has_antag_datum(/datum/antagonist/bloodsucker))
+		if(possible_target != owner && ishuman(possible_target.current) && possible_target.current.stat != DEAD)
+			// Check Two: Am Bloodsucker?
+			if(IS_BLOODSUCKER(possible_target.current))
 				continue
-			else
-				possible_targets += possible_target
+			possible_targets += possible_target
 
 	return possible_targets
 
@@ -47,8 +46,8 @@
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/lair/check_completion()
-	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(antagdatum && antagdatum.coffin && antagdatum.lair)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum && bloodsuckerdatum.coffin && bloodsuckerdatum.lair)
 		return TRUE
 	return FALSE
 
@@ -65,8 +64,9 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
+#define VASSALIZE_COMMAND "command_vassalization"
+
 /// Vassalize someone in charge (Head of Staff + QM)
-/// LOOKUP: /datum/crewmonitor/proc/update_data(z) for .assignment to see how to get a person's PDA.
 /datum/objective/bloodsucker/protege
 	name = "vassalization"
 
@@ -79,12 +79,13 @@
 		"Chief Medical Officer",
 		"Quartermaster",
 	)
-	var/list/departs = list(
-		"Head of Security",
-		"Head of Personnel",
-		"Research Director",
-		"Chief Engineer",
-		"Chief Medical Officer",
+
+	var/list/departments = list(
+		"Security",
+		"Supply",
+		"Science",
+		"Engineering",
+		"Medical",
 	)
 
 	var/target_role	// Equals "HEAD" when it's not a department role.
@@ -92,30 +93,20 @@
 
 // GENERATE!
 /datum/objective/bloodsucker/protege/New()
-	// Choose between Command and a Department
-	switch(rand(0,2))
-		if(0) // Command
+	switch(rand(0, 2))
+		// Vasssalize Command/QM
+		if(0)
 			target_amount = 1
-			target_role = "HEAD"
-		else // Department
+			target_role = VASSALIZE_COMMAND
+		// Vassalize a certain department
+		else
 			target_amount = rand(2,3)
-			target_role = pick(departs)
-			switch(target_role)
-				if("Head of Security")
-					department_string = "Security"
-				if("Head of Personnel")
-					department_string = "Cargo"
-				if("Research Director")
-					department_string = "Science"
-				if("Chief Engineer")
-					department_string = "Engineering"
-				if("Chief Medical Officer")
-					department_string = "Medical"
+			target_role = pick(departments)
 	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/protege/update_explanation_text()
-	if(target_role == "HEAD")
+	if(target_role == VASSALIZE_COMMAND)
 		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
 	else
 		explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [department_string] department."
@@ -123,13 +114,13 @@
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/protege/check_completion()
 
-	var/datum/antagonist/bloodsucker/antagdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!antagdatum || antagdatum.vassals.len == 0)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum || !bloodsuckerdatum.vassals.len)
 		return FALSE
 
 	// Get list of all jobs that are qualified (for HEAD, this is already done)
 	var/list/valid_jobs
-	if(target_role == "HEAD")
+	if(target_role == VASSALIZE_COMMAND)
 		valid_jobs = heads
 	else
 		valid_jobs = list()
@@ -145,7 +136,7 @@
 	// Check Vassals, and see if they match
 	var/objcount = 0
 	var/list/counted_roles = list() // So you can't have more than one Captain count.
-	for(var/datum/antagonist/vassal/bloodsucker_vassals in antagdatum.vassals)
+	for(var/datum/antagonist/vassal/bloodsucker_vassals in bloodsuckerdatum.vassals)
 		if(!bloodsucker_vassals || !bloodsucker_vassals.owner)	// Must exist somewhere, and as a vassal.
 			continue
 
@@ -173,7 +164,7 @@
 
 		// SUCCESS!
 		objcount++
-		if(target_role == "HEAD")
+		if(target_role == VASSALIZE_COMMAND)
 			counted_roles += this_role // Add to list so we don't count it again (but only if it's a Head)
 
 	return objcount >= target_amount
@@ -206,16 +197,16 @@
 /datum/objective/bloodsucker/heartthief/check_completion()
 	if(!owner.current)
 		return FALSE
-	var/list/all_items = owner.current.get_all_contents()
-	var/itemcount = FALSE
-	for(var/obj/all_contents in all_items)
-		if(istype(all_contents, /obj/item/organ/heart))
-			var/obj/item/organ/heart/heart_item = all_contents
-			if(!(heart_item.organ_flags & ORGAN_SYNTHETIC)) // No robo-hearts allowed
-				itemcount++
-			if(itemcount >= target_amount)
-				return TRUE
 
+	var/list/all_items = owner.current.get_all_contents()
+	var/heart_count = 0
+	for(var/obj/item/organ/heart/current_hearts in all_items)
+		if(current_hearts.organ_flags & ORGAN_SYNTHETIC) // No robo-hearts allowed
+			continue
+		heart_count++
+
+	if(heart_count >= target_amount)
+		return TRUE
 	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////

@@ -37,5 +37,7 @@
 /datum/antagonist/wizard/apprentice
 	tips = WIZARD_APPRENTICE_TIPS
 
-/datum/antagonist/wizard/imposter
+/datum/antagonist/wizard/apprentice/imposter
 	tips = IMPOSTER_TIPS
+	show_in_antagpanel = TRUE
+	allow_rename = TRUE

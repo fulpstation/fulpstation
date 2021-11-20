@@ -1,19 +1,3 @@
-/*
- *		TO PLUG INTO LIFE:
- *
- * Cancel BLOOD life
- * Cancel METABOLISM life   (or find a way to control what gets digested)
- *
- * 		EXAMINE
- *
- * Show as dead when...
- *
- * How to Burn Vamps:
- *		C.adjustFireLoss(20)
- *		C.adjust_fire_stacks(6)
- *		C.IgniteMob()
- */
-
 /// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	SIGNAL_HANDLER
@@ -161,7 +145,7 @@
  *
  *	This is used by Bloodsuckers, these are the steps of this proc:
  *	Step 1 - Cure husking and Regenerate organs. regenerate_organs() removes their Vampire Heart & Eye augments, which leads us to...
- *	Step 2 - Repair any (shouldnt be possible) Organ damage, then return their Vampiric Heart & Eye benefits.
+ *	Step 2 - Repair any (shouldn't be possible) Organ damage, then return their Vampiric Heart & Eye benefits.
  *	Step 3 - Revive them, clear all wounds, remove any Tumors (If any).
  *
  *	This is called on Bloodsucker's Assign, and when they end Torpor.
@@ -239,12 +223,6 @@
 	if(!(owner.current.mob_biotypes & MOB_ORGANIC))
 		FinalDeath()
 		return
-	/* !! Removed due to killing Slimepeople. Replaced with the ORGANIC check above. Torpor should be checking their organs anyways.
-	// Missing Brain or Heart?
-	if(!owner.current.HaveBloodsuckerBodyparts())
-		FinalDeath()
-		return
-	*/
 	/*
 	// Disable Powers: Masquerade * NOTE * This should happen as a FLAW!
 	if(stat >= UNCONSCIOUS)
@@ -258,11 +236,11 @@
 			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 			Check_Begin_Torpor(TRUE)
 
-/*
- *	High: 	Faster Healing
- *	Med: 	Pale
- *	Low: 	Twitch
- *	V.Low:   Blur Vision
+/**
+ *	High:	Faster Healing
+ *	Med:	Pale
+ *	Low:	Twitch
+ *	V.Low:	Blur Vision
  *	EMPTY:	Frenzy!
  */
 
@@ -292,7 +270,7 @@
 			for(var/datum/action/bloodsucker/power in powers)
 				if(istype(power, /datum/action/bloodsucker/brujah))
 					if(power.active)
-						return
+						break
 					power.ActivatePower()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
@@ -422,77 +400,8 @@
 		span_hear("<span class='italics'>You hear a wet, bursting sound."))
 	owner.current.gib(TRUE, FALSE, FALSE)
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//			HUMAN FOOD
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/*
-/// This isnt ever called, someone should really add it eventually...
-/mob/proc/CheckBloodsuckerEatFood(food_nutrition)
-	if(!isliving(src))
-		return
-	var/mob/living/user = src
-	if(!IS_BLOODSUCKER(user))
-		return
-	// We're a bloodsucker? Try to eat food...
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	bloodsuckerdatum.handle_eat_human_food(food_nutrition)
-
-/datum/antagonist/bloodsucker/proc/handle_eat_human_food(food_nutrition, puke_blood = TRUE, masquerade_override) // Called from snacks.dm and drinks.dm
-	set waitfor = FALSE
-	if(!owner.current || !iscarbon(owner.current))
-		return
-	var/mob/living/carbon/user = owner.current
-	// Remove Nutrition, Give Bad Food
-	user.adjust_nutrition(-food_nutrition)
-	foodInGut += food_nutrition
-	// Already ate some bad clams? Then we can back out, because we're already sick from it.
-	if(foodInGut != food_nutrition)
-		return
-	// Haven't eaten, but I'm in a Human Disguise.
-	else if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !masquerade_override)
-		to_chat(C, span_notice("Your stomach turns, but your \"human disguise\" keeps the food down...for now."))
-	// Keep looping until we purge. If we have activated our Human Disguise, we ignore the food. But it'll come up eventually...
-	var/sickphase = 0
-	while(foodInGut && do_mob(user, user, 5 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED), progress = FALSE))
-		user.adjust_disgust(10 * sickphase)
-		// Wait an interval...
-		sleep(50 + 50 * sickphase) // At intervals of 100, 150, and 200. (10 seconds, 15 seconds, and 20 seconds)
-		// Died? Cancel
-		if(user.stat == DEAD)
-			return
-		// Put up disguise? Then hold off the vomit.
-		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !masquerade_override)
-			if(sickphase > 0)
-				to_chat(user, span_notice("Your stomach settles temporarily. You regain your composure...for now."))
-			sickphase = 0
-			continue
-		switch(sickphase)
-			if(1)
-				to_chat(user, span_warning("You feel unwell. You can taste ash on your tongue."))
-				user.Stun(10)
-			if(2)
-				to_chat(user, span_warning("Your stomach turns. Whatever you ate tastes of grave dirt and brimstone."))
-				user.Dizzy(15)
-				user.Stun(13)
-			if(3)
-				to_chat(user, span_warning("You purge the food of the living from your viscera! You've never felt worse."))
-				 //Puke blood only if puke_blood is true, and loose some blood, else just puke normally.
-				if(puke_blood)
-					user.blood_volume = max(0, user.blood_volume - foodInGut * 2)
-					user.vomit(foodInGut * 4, foodInGut * 2, 0)
-				else
-					user.vomit(foodInGut * 4, FALSE, 0)
-				user.Stun(30)
-//				user.Dizzy(50)
-				foodInGut = 0
-				SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "vampdisgust", /datum/mood_event/bloodsucker_disgust)
-		sickphase++
-*/
-
-/// Bloodsuckers moodlets
+// Bloodsuckers moodlets //
 /datum/mood_event/drankblood
 	description = "<span class='nicegreen'>I have fed greedly from that which nourishes me.</span>\n"
 	mood_change = 10
@@ -523,11 +432,6 @@
 	mood_change = 15
 	timeout = 20 MINUTES
 
-/datum/mood_event/vampatefood
-	description = "<span class='boldwarning'>Mortal nourishment no longer sustains me. I feel unwell.</span>\n"
-	mood_change = -6
-	timeout = 8 MINUTES
-
 /datum/mood_event/coffinsleep
 	description = "<span class='nicegreen'>I slept in a coffin during the day. I feel whole again.</span>\n"
 	mood_change = 10
@@ -542,11 +446,6 @@
 	description = "<span class='boldwarning'>I have been scorched by the unforgiving rays of the sun.</span>\n"
 	mood_change = -6
 	timeout = 6 MINUTES
-
-/datum/mood_event/bloodsucker_disgust
-	description = "<span class='boldwarning'>Something I recently ate was horrifyingly disgusting.</span>\n"
-	mood_change = -5
-	timeout = 5 MINUTES
 
 ///Candelabrum's mood event to non Bloodsucker/Vassals
 /datum/mood_event/vampcandle

@@ -8,11 +8,10 @@
 	ADD_TRAIT(src, TRAIT_AGEUSIA, NO_TONGUE_TRAIT)
 
 	GLOB.carbon_list += src
-	RegisterSignal(src, COMSIG_LIVING_DEATH, .proc/attach_rot)
 
 /mob/living/carbon/Destroy()
 	//This must be done first, so the mob ghosts correctly before DNA etc is nulled
-	. =  ..()
+	. = ..()
 
 	QDEL_LIST(hand_bodyparts)
 	QDEL_LIST(internal_organs)
@@ -389,6 +388,9 @@
 	var/obj/item/organ/alien/plasmavessel/vessel = getorgan(/obj/item/organ/alien/plasmavessel)
 	if(vessel)
 		. += "Plasma Stored: [vessel.storedPlasma]/[vessel.max_plasma]"
+	var/obj/item/organ/heart/vampire/darkheart = getorgan(/obj/item/organ/heart/vampire)
+	if(darkheart)
+		. += "Current blood level: [blood_volume]/[BLOOD_VOLUME_MAXIMUM]."
 	if(locate(/obj/item/assembly/health) in src)
 		. += "Health: [health]"
 
@@ -829,9 +831,9 @@
 		suiciding = FALSE
 		regenerate_limbs()
 		regenerate_organs()
+		QDEL_NULL(handcuffed)
+		QDEL_NULL(legcuffed)
 		set_handcuffed(null)
-		for(var/obj/item/restraints/R in contents) //actually remove cuffs from inventory
-			qdel(R)
 		update_handcuffed()
 	cure_all_traumas(TRAUMA_RESILIENCE_MAGIC)
 	..()
@@ -843,7 +845,7 @@
 
 /mob/living/carbon/proc/can_defib()
 
-	
+
 	if (suiciding)
 		return DEFIB_FAIL_SUICIDE
 
@@ -875,10 +877,10 @@
 
 		if (BR.suicided || BR.brainmob?.suiciding)
 			return DEFIB_FAIL_NO_INTELLIGENCE
-	
+
 	if(key && key[1] == "@") // Adminghosts (#61870)
 		return DEFIB_NOGRAB_AGHOST
-	
+
 	return DEFIB_POSSIBLE
 
 /mob/living/carbon/harvest(mob/living/user)
@@ -1286,6 +1288,6 @@
 	return ..()
 
 
-/mob/living/carbon/proc/attach_rot(mapload)
-	SIGNAL_HANDLER
-	AddComponent(/datum/component/rot, 6 MINUTES, 10 MINUTES, 1)
+/mob/living/carbon/proc/attach_rot()
+	if(mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD))
+		AddComponent(/datum/component/rot, 6 MINUTES, 10 MINUTES, 1)

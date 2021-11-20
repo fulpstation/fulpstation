@@ -1,62 +1,3 @@
-/*									IDEAS		--
- *					An object that disguises your coffin while you're in it!
- *
- *					An object that lets your lair itself protect you from sunlight, like a coffin would (no healing tho)
- *
- *
- * Hide a random object somewhere on the station:
- *		var/turf/targetturf = get_random_station_turf()
- *		var/turf/targetturf = get_safe_random_station_turf()
- *
- *
- * 		CRYPT OBJECTS
- *
- *
- * 	PODIUM		Stores your Relics
- *
- * 	ALTAR		Transmute items into unholy items.
- *
- *	PORTRAIT	Gaze into your past to: restore mood boost?
- *
- *	BOOKSHELF	Discover secrets about crew and locations. Learn languages. Learn marial arts.
- *
- *	BRAZER		Burn rare ingredients to gleen insights.
- *
- *	RUG			Ornate, and creaks when stepped upon by any humanoid other than yourself and your vassals.
- *
- *	X COFFIN		(Handled elsewhere)
- *
- *	X CANDELABRA	(Handled elsewhere)
- *
- *	THRONE		Your mental powers work at any range on anyone inside your crypt.
- *
- *	MIRROR		Find any person
- *
- *	BUST/STATUE	Create terror, but looks just like you (maybe just in Examine?)
- *
- *
- *		RELICS
- *
- *	RITUAL DAGGER
- *
- * 	SKULL
- *
- *	VAMPIRIC SCROLL
- *
- *	SAINTS BONES
- *
- *	GRIMOIRE
- *
- *
- * 		RARE INGREDIENTS
- * Ore
- * Books (Manuals)
- *
- *
- *	NOTE:  Look up AI and Sentient Disease to see how the game handles the selector logo that only one player is allowed to see. We could add hud for vamps to that?
- *	ALTERNATIVELY, use the Vamp Huds on relics to mark them, but only show to relevant vamps?
- */
-
 /obj/structure/bloodsucker
 	///Who owns this structure?
 	var/mob/living/owner
@@ -66,7 +7,6 @@
 	 *	We use vars to add descriptions to items.
 	 *	This way we don't have to make a new /examine for each structure
 	 *	And it's easier to edit.
-	 *	Since we're beginner friendly, letting Ghosts see what Structures do is a good way to teach people how things work.
 	 */
 	var/Ghost_desc
 	var/Vamp_desc
@@ -122,8 +62,7 @@
 		to_chat(user, span_notice("Do you wish to secure [src] here?"))
 		var/list/secure_options = list(
 			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
-		)
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"))
 		var/secure_response = show_radial_menu(user, src, secure_options, radius = 36, require_near = TRUE)
 		if(!secure_response)
 			return FALSE
@@ -164,7 +103,6 @@
 	name = "faded mirror"
 	desc = "You get the sense that the foggy reflection looking back at you has an alien intelligence to it."
 /obj/item/restraints/legcuffs/beartrap/bloodsucker
-//   OTHER THINGS TO USE: HUMAN BLOOD. /obj/effect/decal/cleanable/blood
 */
 
 /obj/structure/bloodsucker/vassalrack
@@ -296,21 +234,22 @@
 /obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
 	. = ..()
 	if(!.)
-		return
+		return FALSE
 	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat == DEAD ? "'s corpse" : ""] slides off of the rack."))
 	density = FALSE
 	buckled_mob.Paralyze(3 SECONDS)
 	update_icon()
 	use_lock = FALSE // Failsafe
+	return TRUE
 
 /obj/structure/bloodsucker/vassalrack/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(!.)
-		return
+		return FALSE
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Is there anyone on the rack & If so, are they being tortured?
 	if(use_lock || !has_buckled_mobs())
-		return
+		return FALSE
 	var/mob/living/carbon/buckled_carbons = pick(buckled_mobs)
 	/// If I'm not a Bloodsucker, try to unbuckle them.
 	if(!istype(bloodsuckerdatum))

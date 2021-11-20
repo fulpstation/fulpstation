@@ -325,11 +325,6 @@
 //LIFE//
 ////////
 
-// TO-DO // Do funny stuff with Radiation
-/datum/species/beefman/handle_mutations_and_radiation(mob/living/carbon/human/user)
-	. = ..()
-
-
 //////////////////
 // ATTACK PROCS //
 //////////////////
