@@ -981,11 +981,11 @@
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "asr" = (
-/obj/machinery/door/airlock/external{
-	name = "Port Docking Bay 1";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/external{
+	name = "Security Escape Pod";
+	space_dir = 1
+	},
 /turf/open/floor/plating,
 /area/security/prison/visit)
 "ass" = (
@@ -2449,13 +2449,12 @@
 /turf/open/floor/iron/showroomfloor,
 /area/security/warden)
 "aPj" = (
-/obj/machinery/door/airlock/external{
-	name = "Escape Pod";
-	req_one_access_txt = "10;24";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/external{
+	name = "Cooling Loop Exterior Access";
+	req_one_access_txt = "10;24"
 	},
 /turf/open/floor/engine,
 /area/engineering/supermatter/room)
@@ -2551,13 +2550,12 @@
 /turf/open/floor/plating,
 /area/engineering/supermatter/room)
 "aQp" = (
-/obj/machinery/door/airlock/external{
-	name = "Escape Pod";
-	req_one_access_txt = "10;24";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/external{
+	name = "Cooling Loop Exterior Access";
+	req_one_access_txt = "10;24"
 	},
 /turf/open/floor/plating,
 /area/engineering/supermatter/room)
@@ -3748,7 +3746,7 @@
 "bkc" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/airlock/external{
-	name = "Atmospherics Internal Airlock";
+	name = "Atmospherics Exterior Airlock";
 	req_access_txt = "24"
 	},
 /turf/open/floor/plating,
@@ -3783,19 +3781,15 @@
 /turf/open/floor/plating/airless,
 /area/science/test_area)
 "bkq" = (
-/obj/machinery/door/window{
-	base_state = "rightsecure";
-	dir = 4;
-	icon_state = "rightsecure";
-	name = "Primary AI Core Access";
-	obj_integrity = 300;
-	req_access_txt = "16"
-	},
 /obj/structure/cable,
 /obj/machinery/requests_console/directional/north{
 	department = "AI";
 	departmentType = 5;
 	name = "AI Requests Console"
+	},
+/obj/machinery/door/window/brigdoor/eastright{
+	name = "AI Core door";
+	req_access_txt = "16"
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
@@ -4861,7 +4855,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/external{
-	name = "Atmospherics Internal Airlock";
+	name = "Atmospherics Exterior Airlock";
 	req_access_txt = "24"
 	},
 /turf/open/floor/plating,
@@ -8197,15 +8191,15 @@
 /turf/open/floor/iron/dark,
 /area/medical/morgue)
 "cyL" = (
-/obj/machinery/door/airlock/external{
-	name = "Escape Pod";
-	req_one_access_txt = "10;24";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
-/turf/open/space/basic,
+/obj/machinery/door/airlock/external{
+	name = "Engineering Escape Pod";
+	req_access_txt = "32";
+	space_dir = null
+	},
+/turf/open/floor/iron,
 /area/engineering/lobby)
 "cyM" = (
 /turf/open/floor/iron,
@@ -8231,13 +8225,13 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat/service)
 "cyX" = (
-/obj/machinery/door/airlock/external{
-	name = "Escape Pod";
-	req_one_access_txt = "10;24";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/external{
+	name = "Engineering Escape Pod";
+	req_access_txt = "32";
+	space_dir = null
 	},
 /turf/open/floor/iron,
 /area/engineering/lobby)
@@ -27572,12 +27566,12 @@
 /turf/open/floor/iron,
 /area/commons/lounge)
 "hYW" = (
-/obj/machinery/door/airlock/external{
-	name = "Port Docking Bay 1";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/external{
+	name = "Security Escape Pod";
+	space_dir = 1
 	},
 /turf/open/floor/plating,
 /area/security/prison/visit)
@@ -38526,7 +38520,7 @@
 /area/science/xenobiology)
 "lpI" = (
 /obj/machinery/camera{
-	c_tag = Central Hallway - D&D area";
+	c_tag = Central Hallway - DnD area";
 	name = "Hallway Camera"
 	},
 /obj/machinery/status_display/evac/directional/north,
@@ -39981,12 +39975,13 @@
 /turf/open/floor/carpet/purple,
 /area/command/heads_quarters/rd)
 "lLi" = (
-/obj/machinery/door/airlock/external{
-	name = "Port Docking Bay 1";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/external{
+	name = "Escape Pod";
+	req_one_access_txt = "10;24";
+	safety_mode = 1
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
@@ -42109,11 +42104,12 @@
 	},
 /area/hallway/primary/aft)
 "mrH" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/airlock/external{
-	name = "Port Docking Bay 1";
+	name = "Escape Pod";
+	req_one_access_txt = "10;24";
 	safety_mode = 1
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
 "mrL" = (
@@ -43618,16 +43614,12 @@
 	pixel_x = 3;
 	pixel_y = -23
 	},
-/obj/machinery/door/window{
-	base_state = "leftsecure";
-	dir = 8;
-	icon_state = "leftsecure";
-	name = "Primary AI Core Access";
-	obj_integrity = 300;
-	req_access_txt = "16"
-	},
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/north,
+/obj/machinery/door/window/brigdoor/westleft{
+	name = "AI Core door";
+	req_access_txt = "16"
+	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
 "mNz" = (
@@ -52110,13 +52102,11 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "pfy" = (
-/obj/machinery/door/airlock/external{
-	name = "Security Escape Airlock";
-	req_access_txt = "2";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/external{
+	name = "Arrival Airlock"
 	},
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
@@ -66539,13 +66529,11 @@
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
 "trU" = (
-/obj/machinery/door/airlock/external{
-	name = "Security Escape Airlock";
-	req_access_txt = "2";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/external{
+	name = "Arrival Airlock"
 	},
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
@@ -73283,12 +73271,10 @@
 	},
 /area/ai_monitored/turret_protected/aisat/foyer)
 "vpw" = (
-/obj/machinery/door/airlock/external{
-	name = "Security Escape Airlock";
-	req_access_txt = "2";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/external{
+	name = "Arrival Airlock"
+	},
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
 "vpB" = (
@@ -75293,13 +75279,11 @@
 /turf/open/floor/iron/white,
 /area/science/lab)
 "vUI" = (
-/obj/machinery/door/airlock/external{
-	name = "Security Escape Airlock";
-	req_access_txt = "2";
-	safety_mode = 1
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/external{
+	name = "Arrival Airlock"
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
@@ -76162,7 +76146,7 @@
 	name = "port bay 2";
 	width = 5
 	},
-/turf/open/floor/plating,
+/turf/open/space/basic,
 /area/space)
 "whS" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -91757,9 +91741,9 @@ sTs
 thn
 kNl
 bwY
-mrH
+vpw
 mwM
-lLi
+vUI
 meC
 meC
 meC
@@ -93556,9 +93540,9 @@ sWM
 tiE
 kNl
 bwY
-mrH
+vpw
 mwM
-lLi
+vUI
 meC
 meC
 meC
@@ -95107,19 +95091,19 @@ vak
 lIO
 meC
 meC
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -95364,19 +95348,19 @@ kNl
 qII
 qII
 qII
-xtp
-meC
-meC
-xtp
 meC
 meC
 meC
 meC
-xtp
 meC
 meC
 meC
-xtp
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -95622,18 +95606,18 @@ vpw
 mwM
 vUI
 whN
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -95878,19 +95862,19 @@ kNl
 qII
 qII
 qII
-xtp
-meC
-meC
-xtp
 meC
 meC
 meC
 meC
-xtp
 meC
 meC
 meC
-xtp
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -96135,19 +96119,19 @@ kNl
 lIO
 meC
 meC
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
-xtp
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
