@@ -8,7 +8,7 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
-	hud_icon = 'fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi'
+	hud_icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 
