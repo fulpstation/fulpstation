@@ -1,3 +1,8 @@
+
+/client
+	///If this is set, this person is a Mentor.
+	var/datum/mentors/mentor_datum
+
 /client/New()
 	. = ..()
 	mentor_datum_set()
