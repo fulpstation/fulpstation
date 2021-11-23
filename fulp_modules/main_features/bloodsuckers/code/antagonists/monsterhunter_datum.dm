@@ -10,7 +10,6 @@
 	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
-	antag_hud_type = ANTAG_HUD_OBSESSED
 	antag_hud_name = "obsessed"
 	tips = MONSTERHUNTER_TIPS
 	preview_outfit = /datum/outfit/monsterhunter
@@ -19,14 +18,6 @@
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
-
-/datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/current_mob = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, current_mob)
-
-/datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/current_mob = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, current_mob)
 
 /datum/antagonist/monsterhunter/on_gain()
 	/// Buffs Monster Hunters
