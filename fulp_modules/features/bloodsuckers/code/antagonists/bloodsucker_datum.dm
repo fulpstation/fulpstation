@@ -4,9 +4,11 @@
 	roundend_category = "bloodsuckers"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
+	antag_hud_name = "bloodsucker"
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
+	hud_icon = 'fulp_modules/main_features/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 
@@ -86,12 +88,15 @@
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
+	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
 	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
+	add_team_hud(current_mob)
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
+	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	UnregisterSignal(owner.current, COMSIG_LIVING_DEATH)
@@ -120,9 +125,8 @@
 		SelectFirstName()
 		SelectTitle(am_fledgling = TRUE)
 		SelectReputation(am_fledgling = TRUE)
-		// Objectives & HUDs
+		// Objectives
 		forge_bloodsucker_objectives()
-		update_bloodsucker_icons_added(owner.current, "bloodsucker")
 
 	. = ..()
 	// Assign Powers
@@ -133,7 +137,6 @@
 	/// End Sunlight? (if last Vamp)
 	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
-	update_bloodsucker_icons_removed(owner.current)
 	return ..()
 
 /datum/antagonist/bloodsucker/greet()
@@ -671,10 +674,11 @@
 	to_chat(owner.current, span_cultboldtalic("You have broken the Masquerade!"))
 	to_chat(owner.current, span_warning("Bloodsucker Tip: When you break the Masquerade, you become open for termination by fellow Bloodsuckers, and your Vassals are no longer completely loyal to you, as other Bloodsuckers can steal them for themselves!"))
 	broke_masquerade = TRUE
-	update_bloodsucker_icons_added(owner, "masquerade_broken")
+	antag_hud_name = "masquerade_broken"
+	add_team_hud(owner.current)
 	for(var/datum/mind/clan_minds in clan?.members)
 		var/datum/antagonist/bloodsucker/allsuckers = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(allsuckers == owner.current)
+		if(owner.current == allsuckers)
 			continue
 		if(!isliving(clan_minds.current))
 			continue
@@ -694,74 +698,7 @@
 		return
 	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))
 	broke_masquerade = FALSE
-	update_bloodsucker_icons_added(owner, "bloodsucker")
 
-//////////////////
-	// HUD! //
-//////////////////
-
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_added(datum/mind/m, icontype = "bloodsucker", automatic = FALSE)
-	if(automatic) // Should we automatically decide that HUD to give? This is done when deconverted from another Antagonist.
-		if(broke_masquerade)
-			icontype = "masquerade_broken"
-		else
-			icontype = "bloodsucker"
-	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.join_hud(owner.current)
-	set_antag_hud(owner.current, icontype)
-	owner.current.hud_list[ANTAG_HUD].icon = image('fulp_modules/features/bloodsuckers/icons/bloodsucker_icons.dmi', owner.current, icontype) // Check prepare_huds in mob.dm to see why.
-
-/datum/antagonist/bloodsucker/proc/update_bloodsucker_icons_removed(datum/mind/m)
-	var/datum/atom_hud/antag/vamphud = GLOB.fulp_huds[ANTAG_HUD_BLOODSUCKER]
-	vamphud.leave_hud(owner.current)
-	set_antag_hud(owner.current, null)
-	owner.current.prepare_huds()
-
-/// From hud.dm -- Also see data_huds.dm + antag_hud.dm
-/datum/atom_hud/antag/bloodsucker
-
-/// This checks if the Mob is a Vassal, and if the Atom is his master OR on his team.
-/datum/atom_hud/antag/bloodsucker/add_to_single_hud(mob/user, atom/target)
-	if(!check_valid_hud_user(user, target))
-		return
-	..()
-
- /*
- * 	// GOAL: Vassals see their Master and his other Vassals.
- *	// GOAL: Vassals can BE seen by their Bloodsucker and his other Vassals.
- *	// GOAL: Bloodsuckers can see each other.
- */
-
-/// Remember: target is being added to hud_user's hud. Because hud_user's hud is a /antag/vassal hud, this means hud_user is the vassal here.
-/datum/atom_hud/antag/bloodsucker/proc/check_valid_hud_user(mob/hud_user, atom/target)
-	// Ghost Admins always see Bloodsuckers/Vassals
-	if(isobserver(hud_user))
-		return TRUE
-
-	if(!hud_user || !target || !ismob(target) || !hud_user.mind)// || !target.mind)
-		return FALSE
-	var/mob/target_mob = target
-	if(!target_mob.mind)
-		return FALSE
-	// Find Datums: Bloodsucker
-	var/datum/antagonist/bloodsucker/atom_Bloodsucker = target_mob.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/datum/antagonist/bloodsucker/mob_Bloodsucker = hud_user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	// Check 1) Are we both Bloodsuckers?
-	if(atom_Bloodsucker && mob_Bloodsucker)
-		return TRUE
-	// Find Datums: Vassal
-	var/datum/antagonist/vassal/atom_Vassal = target_mob.mind.has_antag_datum(/datum/antagonist/vassal)
-	var/datum/antagonist/vassal/mob_Vassal = hud_user.mind.has_antag_datum(/datum/antagonist/vassal)
-	// Check 2) If they are a BLOODSUCKER, then are they my Master?
-	if(mob_Vassal && atom_Bloodsucker == mob_Vassal.master)
-		return TRUE // SUCCESS!
-	// Check 3) If I am a BLOODSUCKER, then are they my Vassal?
-	if(mob_Bloodsucker && atom_Vassal && (atom_Vassal in mob_Bloodsucker.vassals))
-		return TRUE // SUCCESS!
-	// Check 4) If we are both VASSAL, then do we have the same master?
-	if(atom_Vassal && mob_Vassal && atom_Vassal.master == mob_Vassal.master)
-		return TRUE // SUCCESS!
-	return FALSE
 
 /////////////////////////////////////
 //  BLOOD COUNTER & RANK MARKER !  //
