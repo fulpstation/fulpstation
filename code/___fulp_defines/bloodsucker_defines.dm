@@ -119,5 +119,3 @@
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"
 /// 6 pixels to the right, zero tiles & 5 pixels DOWN.
 #define ui_sunlight_display "WEST:6,CENTER-0:0"
-/// Define for Bloodsucker Antag HUDs
-#define ANTAG_HUD_BLOODSUCKER 1
