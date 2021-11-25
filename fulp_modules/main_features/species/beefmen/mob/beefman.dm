@@ -12,7 +12,7 @@
 	default_color = "#e73f4e"
 	species_traits = list(NOEYESPRITES, NO_UNDERWEAR, DYNCOLORS, AGENDER, HAS_FLESH, HAS_BONE)
 	mutant_bodyparts = list("beefcolor" = "Medium Rare", "beefmouth" = "Smile1", "beefeyes" = "Olives")
-	mutanttongue= /obj/item/organ/tongue/beefman_tongue
+	mutanttongue = /obj/item/organ/tongue/beefman_tongue
 	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_RESISTCOLD,
 		TRAIT_CAN_STRIP,
@@ -725,7 +725,7 @@
 	icon_state = "smile2"
 
 /obj/item/organ/tongue/beefman_tongue
-	name = "tongue"
+	name = "Meaty sausage tongue"
 	desc = "A meaty and thick muscle typically found in Beefmen"
 	icon = 'icons/obj/food/food.dmi'
 	icon_state = "raw_sausage"
@@ -748,7 +748,7 @@
 		/datum/language/terrum,
 		/datum/language/nekomimetic,
 		/datum/language/russian,
-		/datum/language/buzzwords
+		/datum/language/buzzwords,
 	))
 
 /obj/item/organ/tongue/beefman_tongue/Initialize(mapload)
