@@ -12027,16 +12027,14 @@
 /turf/open/floor/iron/white,
 /area/medical/treatment_center)
 "dyS" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 4;
-	height = 6;
-	id = "supply_home";
-	name = "Cargo Bay";
-	width = 12
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/turf/open/space/basic,
-/area/space)
+/obj/structure/cable,
+/turf/open/floor/iron/dark/side{
+	dir = 1
+	},
+/area/hallway/primary/starboard)
 "dyV" = (
 /obj/machinery/door/window/brigdoor/westright{
 	name = "Canister Racks";
@@ -13469,11 +13467,8 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "dSQ" = (
-/obj/machinery/door/airlock/maintenance{
-	req_access_txt = "12"
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/starboard)
+/turf/closed/wall,
+/area/science/misc_lab)
 "dTb" = (
 /obj/machinery/atmospherics/components/binary/pump/on{
 	name = "Mix 2 to Filter"
@@ -30722,6 +30717,17 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/security/brig)
+"iRQ" = (
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/tile/purple/half{
+	color = "#4D0067"
+	},
+/obj/machinery/door/airlock/public/glass{
+	name = "Research Main Hall";
+	req_access_txt = "47"
+	},
+/turf/open/floor/iron/white/side,
+/area/science/research)
 "iRR" = (
 /obj/machinery/camera/motion/directional/west{
 	c_tag = "Minisat Foyer Hall";
@@ -39642,14 +39648,19 @@
 /turf/open/floor/iron,
 /area/cargo/miningoffice)
 "lvj" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/open/floor/iron/dark/side{
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/tile/purple/half{
+	color = "#4D0067";
 	dir = 1
 	},
-/area/hallway/primary/starboard)
+/obj/machinery/door/airlock/public/glass{
+	name = "Research Main Hall";
+	req_access_txt = "47"
+	},
+/turf/open/floor/iron/white/side{
+	dir = 1
+	},
+/area/science/research)
 "lvp" = (
 /obj/machinery/light/directional/north,
 /obj/effect/turf_decal/tile/purple/half{
@@ -40385,6 +40396,20 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
+"lFa" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/door/airlock/public/glass{
+	name = "Research Main Hall";
+	req_access_txt = "47"
+	},
+/turf/open/floor/iron/white,
+/area/science/research)
 "lFv" = (
 /obj/machinery/porta_turret/ai{
 	installation = /obj/item/gun/energy/e_gun
@@ -49626,7 +49651,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron/white,
+/turf/closed/wall,
 /area/science/misc_lab)
 "ogS" = (
 /obj/effect/turf_decal/trimline/blue/line{
@@ -73385,7 +73410,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "uXr" = (
-/turf/closed/wall/r_wall,
+/turf/closed/wall,
 /area/science/breakroom)
 "uXv" = (
 /obj/machinery/duct,
@@ -102644,10 +102669,10 @@ nAz
 ols
 ols
 rnn
-vuD
-hha
-oyx
 oFr
+hha
+oFr
+rnn
 ols
 fdX
 nYR
@@ -103671,7 +103696,7 @@ ols
 ols
 ols
 ols
-rnn
+oyx
 ycH
 ops
 xLc
@@ -104185,8 +104210,8 @@ eHv
 eHv
 eHv
 eHv
-eHv
-eHv
+dSQ
+dSQ
 opB
 ozn
 ayg
@@ -104443,7 +104468,7 @@ niX
 urp
 nPC
 beB
-eHv
+dSQ
 pYZ
 xCL
 oFG
@@ -105985,7 +106010,7 @@ ddr
 sBj
 lAm
 nGh
-eHv
+dSQ
 anG
 xCL
 woX
@@ -106976,7 +107001,7 @@ meC
 meC
 meC
 meC
-dyS
+meC
 meC
 meC
 meC
@@ -107271,9 +107296,9 @@ nIj
 nQH
 nIj
 ogW
-opB
-ozn
-oFN
+lvj
+lFa
+iRQ
 xij
 xij
 tEe
@@ -109083,8 +109108,8 @@ tqs
 qHv
 myb
 myb
-xHk
-xHk
+tqs
+tqs
 xHk
 fnV
 atP
@@ -112918,7 +112943,7 @@ mvZ
 fHF
 hSl
 xJT
-uJl
+hSl
 npm
 xzr
 tKs
@@ -113175,7 +113200,7 @@ mvZ
 jhm
 hSl
 xJT
-uJl
+hSl
 npp
 uqu
 uqu
@@ -113432,7 +113457,7 @@ mvZ
 kzk
 hSl
 xJT
-uJl
+hSl
 nqY
 uqu
 uqu
@@ -113689,7 +113714,7 @@ mvZ
 fHG
 hSl
 xJT
-uJl
+hSl
 nrc
 uqu
 nJl
@@ -113946,7 +113971,7 @@ lDB
 izJ
 hSl
 xJT
-uJl
+hSl
 nrg
 uqu
 rOn
@@ -114203,7 +114228,7 @@ lDB
 izJ
 fnV
 xJT
-uJl
+hSl
 dUc
 uqu
 uqu
@@ -114460,7 +114485,7 @@ izJ
 izJ
 hSl
 mUa
-uJl
+hSl
 nrh
 uqu
 uqu
@@ -114717,7 +114742,7 @@ xXP
 mVh
 xXP
 mUb
-nbh
+wWw
 nrB
 wmd
 wmd
@@ -131668,7 +131693,7 @@ xTI
 xTI
 xTI
 lkK
-lvj
+dyS
 feU
 wKO
 wvr
@@ -133246,7 +133271,7 @@ hoQ
 hoQ
 jLQ
 vPG
-wMl
+cEv
 vsD
 yjs
 jaO
@@ -133760,7 +133785,7 @@ kIr
 rRk
 sdJ
 hoQ
-wMl
+cEv
 wLV
 yjs
 jaO
@@ -134017,7 +134042,7 @@ caF
 wWB
 cEv
 xIq
-wMl
+cEv
 wLV
 yjs
 jaO
@@ -134274,7 +134299,7 @@ vZA
 rRp
 gVG
 oIT
-wMl
+cEv
 wLV
 yjs
 jaO
@@ -134531,7 +134556,7 @@ sHI
 sHI
 sHI
 ssv
-wMl
+cEv
 wLV
 yjs
 jaO
@@ -134788,7 +134813,7 @@ rHw
 rRw
 ova
 pIx
-wMl
+cEv
 wLV
 yjs
 jaO
@@ -135045,7 +135070,7 @@ rHM
 vgg
 duw
 pjy
-wMl
+cEv
 wLV
 yjs
 jaO
@@ -135302,7 +135327,7 @@ rHP
 rRK
 sdX
 pjy
-wMl
+cEv
 sOA
 eIA
 qcG
@@ -135559,7 +135584,7 @@ rHM
 drE
 seG
 ssG
-wMl
+cEv
 uOs
 yjs
 okb
@@ -135816,13 +135841,13 @@ rIc
 rRU
 sdX
 pjy
-wMl
+cEv
 wLV
 yjs
 okb
 yjs
 tJC
-wnT
+kbw
 nfA
 nfA
 nfA
@@ -136073,7 +136098,7 @@ rHP
 drE
 duw
 pjy
-wMl
+cEv
 wLV
 dtA
 twi
@@ -136330,7 +136355,7 @@ rIi
 drE
 duw
 pIx
-wMl
+cEv
 sOO
 mhh
 twB
@@ -136587,7 +136612,7 @@ hII
 eTa
 rAN
 pjy
-wMl
+cEv
 sPf
 tfQ
 sIn
@@ -136844,7 +136869,7 @@ rxn
 rxn
 rxn
 stq
-wMl
+cEv
 sPA
 tgj
 twB
@@ -137101,7 +137126,7 @@ rIn
 rSb
 gVG
 uwX
-wMl
+cEv
 vsD
 tgy
 gBH
@@ -137349,7 +137374,7 @@ wMl
 wMl
 wMl
 wMl
-wMl
+cEv
 kUA
 cEv
 cEv
@@ -137358,7 +137383,7 @@ cEv
 cEv
 cEv
 cEv
-wMl
+cEv
 vsD
 yjs
 okb
@@ -139934,7 +139959,7 @@ sRg
 txA
 yjs
 tLd
-iur
+uAH
 qKw
 uqT
 iur
@@ -140191,7 +140216,7 @@ yjs
 yjs
 yjs
 nta
-dSQ
+rPD
 qQq
 qKw
 eAS
