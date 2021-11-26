@@ -38,10 +38,10 @@
 /obj/item/clothing/suit/hooded/onesie/beefman/Initialize()
 	. = ..()
 	AddComponent(/datum/component/squeak, list(
-		'fulp_modules/main_features/species/sounds/footstep_splat1.ogg' = 1,
-		'fulp_modules/main_features/species/sounds/footstep_splat2.ogg' = 1,
-		'fulp_modules/main_features/species/sounds/footstep_splat3.ogg' = 1,
-		'fulp_modules/main_features/species/sounds/footstep_splat4.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat1.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat2.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat3.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat4.ogg' = 1,
 		), 50)
 
 /obj/item/clothing/head/hooded/onesie/beefman
