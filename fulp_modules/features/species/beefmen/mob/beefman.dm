@@ -751,6 +751,6 @@
 		/datum/language/buzzwords,
 	))
 
-/obj/item/organ/tongue/beefman_tongue/Initialize(mapload)
+/obj/item/organ/tongue/beefman/Initialize(mapload)
     . = ..()
     languages_possible = languages_possible_meat
