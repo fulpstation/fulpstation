@@ -724,7 +724,7 @@
 	name = "Smile2"
 	icon_state = "smile2"
 
-/obj/item/organ/tongue/beefman_tongue
+/obj/item/organ/tongue/beefman
 	name = "meaty sausage tongue"
 	desc = "A meaty and thick muscle typically found in Beefmen."
 	icon = 'icons/obj/food/food.dmi'
