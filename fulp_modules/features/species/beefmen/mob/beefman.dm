@@ -725,9 +725,9 @@
 	icon_state = "smile2"
 
 /obj/item/organ/tongue/beefman
-	name = "meaty sausage tongue"
+	name = "meaty tongue"
 	desc = "A meaty and thick muscle typically found in Beefmen."
-	icon = 'fulp_modules/main_features/species/beefman/icons/mob/beef_tongue.dmi'
+	icon = 'fulp_modules/features/species/icons/mob/beef_tongue.dmi'
 	icon_state = "beef_tongue"
 	say_mod = "gurgles"
 	taste_sensitivity = 15
