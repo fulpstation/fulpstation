@@ -6,7 +6,12 @@
 	//Admin version
 	if(holder)
 		for(var/client/mentor_clients in GLOB.mentors)
-			msg += "\t[mentor_clients] is a [mentor_clients.holder && mentor_clients.holder.deadmined ? "Deadmin" : "Mentor"]"
+			if(GLOB.deadmins[mentor_clients.ckey])
+				msg += "\t[mentor_clients] is a Deadmin"
+			else if(mentor_clients.mentor_datum.is_contributor)
+				msg += "\t[mentor_clients] is a Contributor"
+			else
+				msg += "\t[mentor_clients] is a Mentor"
 
 			if(isobserver(mentor_clients.mob))
 				msg += " - Observing"
@@ -25,7 +30,7 @@
 		for(var/client/mentor_clients in GLOB.mentors)
 			if(mentor_clients.is_afk())
 				continue
-			if(mentor_clients.holder && mentor_clients.holder.deadmined)
+			if(GLOB.deadmins[mentor_clients.ckey])
 				continue
 
 			if(mentor_clients.mentor_datum.is_contributor)
