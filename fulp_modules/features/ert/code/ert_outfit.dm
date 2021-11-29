@@ -17,11 +17,11 @@
 	suit_store = /obj/item/gun/energy/e_gun
 	back = /obj/item/storage/backpack/ert/medical
 	backpack_contents = list(
-		/obj/item/gun/medbeam=1,
-		/obj/item/melee/baton/security/loaded=1,
-		/obj/item/reagent_containers/hypospray/combat/nanites=1,
-		/obj/item/storage/box/survival/engineer=1,
-		)
+		/obj/item/gun/medbeam = 1,
+		/obj/item/melee/baton/security/loaded = 1,
+		/obj/item/reagent_containers/hypospray/combat/nanites = 1,
+		/obj/item/storage/box/survival/engineer = 1,
+	)
 	belt = /obj/item/storage/belt/medical/advanced
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	gloves = /obj/item/clothing/gloves/combat/nitrile
@@ -32,22 +32,22 @@
 	uniform = /obj/item/clothing/under/abductor
 	backpack_contents = list(
 		/obj/item/gun/energy/alien = 1,
-		/obj/item/gun/medbeam=1,
-		/obj/item/melee/baton/security/loaded=1,
-		/obj/item/reagent_containers/hypospray/combat=1,
-		/obj/item/storage/box/survival/engineer=1,
-		)
+		/obj/item/gun/medbeam = 1,
+		/obj/item/melee/baton/security/loaded = 1,
+		/obj/item/reagent_containers/hypospray/combat = 1,
+		/obj/item/storage/box/survival/engineer = 1,
+	)
 	belt = /obj/item/storage/belt/medical/alien
 
 /datum/outfit/centcom/ert/medic/specialized/oath
 	name = "ERT Medic - Oath"
 
 	backpack_contents = list(
-		/obj/item/gun/medbeam=1,
-		/obj/item/reagent_containers/hypospray/combat=1,
-		/obj/item/storage/box/survival/engineer=1,
-		/obj/item/storage/firstaid/regular=1,
-		)
+		/obj/item/gun/medbeam = 1,
+		/obj/item/reagent_containers/hypospray/combat = 1,
+		/obj/item/storage/box/survival/engineer = 1,
+		/obj/item/storage/firstaid/regular = 1,
+	)
 	l_hand = /obj/item/rod_of_asclepius
 
 /datum/outfit/centcom/ert/commander/medical/alien
@@ -57,21 +57,21 @@
 	suit_store = /obj/item/gun/energy/alien
 	backpack_contents = list(
 		/obj/item/gun/medbeam=1,
-		/obj/item/melee/baton/security/loaded=1,
-		/obj/item/reagent_containers/hypospray/combat/nanites=1,
-		/obj/item/storage/box/survival/engineer=1,
-		)
+		/obj/item/melee/baton/security/loaded = 1,
+		/obj/item/reagent_containers/hypospray/combat/nanites = 1,
+		/obj/item/storage/box/survival/engineer = 1,
+	)
 	belt = /obj/item/storage/belt/medical/alien
 
 /datum/outfit/centcom/ert/commander/medical/oath
 	name = "ERT Commander - Medical Oath"
 
 	backpack_contents = list(
-		/obj/item/gun/medbeam=1,
-		/obj/item/reagent_containers/hypospray/combat/nanites=1,
-		/obj/item/storage/box/survival/engineer=1,
-		/obj/item/storage/firstaid/regular=1,
-		)
+		/obj/item/gun/medbeam = 1,
+		/obj/item/reagent_containers/hypospray/combat/nanites = 1,
+		/obj/item/storage/box/survival/engineer = 1,
+		/obj/item/storage/firstaid/regular = 1,
+	)
 	l_pocket = /obj/item/flashlight/pen/paramedic
 	l_hand = /obj/item/rod_of_asclepius
 
@@ -90,10 +90,10 @@
 	suit_store = /obj/item/gun/energy/e_gun/stun
 	back = /obj/item/storage/backpack/ert/security
 	backpack_contents = list(
-		/obj/item/melee/baton/security/loaded=1,
-		/obj/item/storage/box/handcuffs=1,
-		/obj/item/storage/box/survival/engineer=1,
-		)
+		/obj/item/melee/baton/security/loaded = 1,
+		/obj/item/storage/box/handcuffs = 1,
+		/obj/item/storage/box/survival/engineer = 1,
+	)
 	belt = /obj/item/storage/belt/security/webbing/full
 	glasses = /obj/item/clothing/glasses/thermal/eyepatch
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
@@ -116,10 +116,10 @@
 	suit_store = /obj/item/tank/internals/oxygen
 	back = /obj/item/storage/backpack/ert/engineer
 	backpack_contents = list(
-		/obj/item/construction/rcd/combat=1,
-		/obj/item/melee/baton/security/loaded=1,
-		/obj/item/storage/box/survival/engineer=1,
-		)
+		/obj/item/construction/rcd/combat = 1,
+		/obj/item/melee/baton/security/loaded = 1,
+		/obj/item/storage/box/survival/engineer = 1,
+	)
 	belt = /obj/item/storage/belt/utility/full/powertools
 	glasses = /obj/item/clothing/glasses/meson/engine
 	mask = /obj/item/clothing/mask/gas
@@ -132,47 +132,47 @@
 	name = "ERT Clown - Specialized"
 
 	backpack_contents = list(
-		/obj/item/melee/energy/sword/bananium=1,
-		/obj/item/shield/energy/bananium=1,
-		/obj/item/storage/box/hug/survival=1,
-		)
+		/obj/item/melee/energy/sword/bananium = 1,
+		/obj/item/shield/energy/bananium = 1,
+		/obj/item/storage/box/hug/survival = 1,
+	)
 	glasses = /obj/item/clothing/glasses/night
 
-/datum/outfit/centcom/ert/clown/honk/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE) // Just to make sure
-	..()
+/datum/outfit/centcom/ert/clown/honk/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE) // Just to make sure
+	. = ..()
 	if(visualsOnly)
 		return
-	var/obj/item/radio/R = H.ears
-	R.keyslot = new /obj/item/encryptionkey/headset_service
-	R.recalculateChannels()
-	ADD_TRAIT(H, TRAIT_NAIVE, INNATE_TRAIT)
-	H.dna.add_mutation(CLOWNMUT)
-	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
-		M.mutadone_proof = TRUE
+	var/obj/item/radio/equipped_radio = user.ears
+	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
+	equipped_radio.recalculateChannels()
+	ADD_TRAIT(user, TRAIT_NAIVE, INNATE_TRAIT)
+	user.dna.add_mutation(CLOWNMUT)
+	for(var/datum/mutation/human/clumsy/clumsy_mutation in user.dna.mutations)
+		clumsy_mutation.mutadone_proof = TRUE
 
 /datum/outfit/centcom/ert/clown/commander
 	name = "ERT Commander - Clown"
 
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/clown/commander
 	backpack_contents = list(
-		/obj/item/melee/energy/sword/bananium=1,
-		/obj/item/shield/energy/bananium=1,
-		/obj/item/storage/box/hug/survival=1,
-		/obj/item/storage/box/fireworks=2,
-		)
+		/obj/item/melee/energy/sword/bananium = 1,
+		/obj/item/shield/energy/bananium = 1,
+		/obj/item/storage/box/hug/survival = 1,
+		/obj/item/storage/box/fireworks = 2,
+	)
 	glasses = /obj/item/clothing/glasses/night
 	shoes = /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat
 	l_hand = /obj/item/pneumatic_cannon/pie/selfcharge
 
-/datum/outfit/centcom/ert/clown/commander/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE) // Same here
-	..()
+/datum/outfit/centcom/ert/clown/commander/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE) // Same here
+	. = ..()
 	if(visualsOnly)
 		return
-	var/obj/item/radio/R = H.ears
-	R.keyslot = new /obj/item/encryptionkey/headset_service
-	R.recalculateChannels()
-	ADD_TRAIT(H, TRAIT_NAIVE, INNATE_TRAIT)
-	H.dna.add_mutation(CLOWNMUT)
-	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
-		M.mutadone_proof = TRUE
+	var/obj/item/radio/equipped_radio = user.ears
+	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
+	equipped_radio.recalculateChannels()
+	ADD_TRAIT(user, TRAIT_NAIVE, INNATE_TRAIT)
+	user.dna.add_mutation(CLOWNMUT)
+	for(var/datum/mutation/human/clumsy/clumsy_mutation in user.dna.mutations)
+		clumsy_mutation.mutadone_proof = TRUE
 

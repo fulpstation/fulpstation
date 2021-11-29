@@ -285,7 +285,7 @@
 <th>Criminal Status</th>
 </tr>"}
 					if(!isnull(GLOB.data_core.general))
-						for(var/datum/data/record/R in sortRecord(GLOB.data_core.general, sortBy, order))
+						for(var/datum/data/record/R in sort_record(GLOB.data_core.general, sortBy, order))
 							var/crimstat = ""
 							for(var/datum/data/record/E in GLOB.data_core.security)
 								if((E.fields["name"] == R.fields["name"]) && (E.fields["id"] == R.fields["id"]))
@@ -871,8 +871,8 @@ What a mess.*/
 										"name" = "Security Citation",
 										"job" = "Citation Server",
 										"message" = message,
-										"targets" = list("[P.owner] ([P.ownjob])"),
-										"automated" = 1
+										"targets" = list(STRINGIFY_PDA_TARGET(P.owner, P.ownjob)),
+										"automated" = TRUE
 									))
 									signal.send_to_receivers()
 									usr.log_message("(PDA: Citation Server) sent \"[message]\" to [signal.format_target()]", LOG_PDA)

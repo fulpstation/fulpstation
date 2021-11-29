@@ -30,7 +30,7 @@
 	resistance_flags = FIRE_PROOF
 	permeability_coefficient = 0.05
 	body_parts_covered = LEG_LEFT|LEG_RIGHT
-	armor = list(MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 20, BIO = 5, RAD = 0, FIRE = 40, ACID = 20)
+	armor = list(MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 20, BIO = 5, FIRE = 40, ACID = 20)
 
 ///Jackboots
 
@@ -66,7 +66,7 @@
 
 /obj/item/clothing/shoes/brown/digitigrade
 	name = "digitigrade brown shoes"
-	desc = "A pair of digitigrade brown shoes. Shame they don't come in more colours."
+	desc = "A pair of digitigrade brown shoes. Shame they don't come in more colors."
 	flags_inv = FULL_DIGITIGRADE
 	icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_shoes.dmi'
 	icon_state = "digi_brown"

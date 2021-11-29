@@ -39,6 +39,16 @@
 /// You have special interactions with Bloodsuckers
 #define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
 
+
+/**
+ * Cooldown defines
+ * Used in Cooldowns Bloodsuckers use to prevent spamming
+ */
+///Spam prevention for healing messages
+#define BLOODSUCKER_SPAM_HEALING (15 SECONDS)
+///Span prevention for Sol messages
+#define BLOODSUCKER_SPAM_SOL (30 SECONDS)
+
 /**
  * Source traits
  */
@@ -109,5 +119,3 @@
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"
 /// 6 pixels to the right, zero tiles & 5 pixels DOWN.
 #define ui_sunlight_display "WEST:6,CENTER-0:0"
-/// Define for Bloodsucker Antag HUDs
-#define ANTAG_HUD_BLOODSUCKER 1

@@ -1,30 +1,25 @@
 /**
  * Choice beacon
  * Purchased at Cargo, allows you to order any Costume you want
+ * Copied from Cook's ingedient beacon
  */
 /obj/item/choice_beacon/halloween
 	name = "halloween delivery beacon"
 	desc = "Summon a box of halloween costumes to help you get spooky."
 	icon_state = "gangtool-white"
-	var/target = /obj/item/storage/box/halloween
-	var/year
 
 /obj/item/choice_beacon/halloween/generate_display_names()
-	var/list/halloween = list()
-	for(var/V in subtypesof(target))
-		var/obj/item/storage/box/halloween/A = V
-		halloween[initial(A.theme_name)] = A
-	return halloween
+	var/list/halloween_costumes = list()
+	for(var/generated_options in subtypesof(/obj/item/storage/box/halloween))
+		var/obj/item/storage/box/halloween/halloween_boxes = generated_options
+		if(!(initial(halloween_boxes.theme_name)))
+			continue
+		halloween_costumes[initial(halloween_boxes.theme_name)] = halloween_boxes
+	return halloween_costumes
 
-/obj/item/choice_beacon/halloween/spawn_option(obj/choice,mob/living/M)
-	new choice(get_turf(M))
-	to_chat(M, span_hear("You hear something crackle from the beacon for a moment before a voice speaks. \"Please stand by for a message from Fulptailoring Broadcasting. Message as follows: <b>Please enjoy your Fulptailoring Broadcasting's Halloween Box!</b> Message ends.\""))
-
-/obj/item/choice_beacon/halloween/Initialize()
-	. = ..()
-	if(year)
-		name = "[year]'s [name]"
-		desc = "Summon a box of [year]'s costumes to help you get spooky."
+/obj/item/choice_beacon/halloween/spawn_option(obj/choice, mob/living/gifted_person)
+	new choice(get_turf(gifted_person))
+	to_chat(gifted_person, span_hear("You hear something crackle from the beacon for a moment before a voice speaks. \"Please stand by for a message from Fulptailoring Broadcasting. Message as follows: <b>Please enjoy your Fulptailoring Broadcasting's Halloween Box!</b> Message ends.\""))
 
 /// Debug delivery beacon with unlimited uses
 /obj/item/choice_beacon/halloween/debug
@@ -42,8 +37,11 @@
 	icon = 'fulp_modules/features/halloween/box.dmi'
 	icon_state = "halloween_box"
 	illustration = "pumpkin"
+	///The costumes that comes with the box
 	var/list/costume_contents = list()
+	///The Theme's name, used for the halloween beacon
 	var/theme_name
+	///The Year this costume was made in
 	var/year
 
 /obj/item/storage/box/halloween/Initialize(mapload)
@@ -63,6 +61,8 @@
 /obj/item/storage/box/halloween/edition_20
 	year = 2020
 
+/obj/item/storage/box/halloween/edition_21
+	year = 2021
 
 /**
  * Gift code
@@ -84,21 +84,21 @@
 
 	contains_type = get_gift_type()
 
-/obj/item/halloween_gift/attack_self(mob/M)
+/obj/item/halloween_gift/attack_self(mob/user)
 	qdel(src)
 
-	var/obj/item/I = new contains_type(get_turf(M))
-	M.visible_message(span_notice("[M] unwraps \the [src], finding \a [I] inside!"))
-	M.put_in_hands(I)
-	I.add_fingerprint(M)
+	var/obj/item/item = new contains_type(get_turf(user))
+	user.visible_message(span_notice("[user] unwraps \the [src], finding \a [item] inside!"))
+	user.put_in_hands(item)
+	item.add_fingerprint(user)
 
 /obj/item/halloween_gift/proc/get_gift_type()
 	if(!GLOB.possible_gifts.len)
 		var/list/gift_types_list = subtypesof(/obj/item/storage/box/halloween)
-		for(var/V in gift_types_list)
-			var/obj/item/I = V
-			if((!initial(I.icon_state)) || (!initial(I.inhand_icon_state)) || (initial(I.item_flags) & ABSTRACT))
-				gift_types_list -= V
+		for(var/generated_options in gift_types_list)
+			var/obj/item/item = generated_options
+			if((!initial(item.icon_state)) || (!initial(item.inhand_icon_state)) || (initial(item.item_flags) & ABSTRACT))
+				gift_types_list -= generated_options
 		GLOB.possible_gifts = gift_types_list
 
 	var/gift_type = pick(GLOB.possible_gifts)

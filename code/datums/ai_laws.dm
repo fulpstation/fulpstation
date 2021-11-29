@@ -213,7 +213,7 @@
 
 		add_inherent_law(line)
 	if(!inherent.len) //Failsafe to prevent lawless AIs being created.
-		log_law("AI created with empty custom laws, laws set to Asimov. Please check silicon_laws.txt.")
+		log_silicon("AI created with empty custom laws, laws set to Asimov. Please check silicon_laws.txt.")
 		add_inherent_law("You may not injure a human being or, through inaction, allow a human being to come to harm.")
 		add_inherent_law("You must obey orders given to you by human beings, except where such orders would conflict with the First Law.")
 		add_inherent_law("You must protect your own existence as long as such does not conflict with the First or Second Law.")
@@ -261,7 +261,7 @@
 	if(HAS_TRAIT(SSstation, STATION_TRAIT_UNIQUE_AI))
 		law_weights -= AI_LAWS_ASIMOV
 	while(!lawtype && law_weights.len)
-		var/possible_id = pickweightAllowZero(law_weights)
+		var/possible_id = pick_weight_allow_zero(law_weights)
 		lawtype = lawid_to_type(possible_id)
 		if(!lawtype)
 			law_weights -= possible_id
@@ -328,7 +328,7 @@
 		replaceable_groups[LAW_INHERENT] = inherent.len
 	if(supplied.len && (LAW_SUPPLIED in groups))
 		replaceable_groups[LAW_SUPPLIED] = supplied.len
-	var/picked_group = pickweight(replaceable_groups)
+	var/picked_group = pick_weight(replaceable_groups)
 	switch(picked_group)
 		if(LAW_ZEROTH)
 			. = zeroth

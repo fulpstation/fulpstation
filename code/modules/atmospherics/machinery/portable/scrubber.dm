@@ -23,7 +23,7 @@
 		/datum/gas/carbon_dioxide,
 		/datum/gas/nitrous_oxide,
 		/datum/gas/bz,
-		/datum/gas/nitryl,
+		/datum/gas/nitrium,
 		/datum/gas/tritium,
 		/datum/gas/hypernoblium,
 		/datum/gas/water_vapor,
@@ -205,7 +205,7 @@
 
 	if(!holding)
 		var/turf/T = get_turf(src)
-		for(var/turf/AT in T.GetAtmosAdjacentTurfs(alldir = TRUE))
+		for(var/turf/AT in T.get_atmos_adjacent_turfs(alldir = TRUE))
 			scrub(AT.return_air())
 
 	return ..()

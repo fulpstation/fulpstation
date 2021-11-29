@@ -29,9 +29,9 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 /datum/adventure_loot_generator/maintenance/generate()
 	var/list/all_loot = list()
 	for(var/i in 1 to amount)
-		var/lootspawn = pickweight(GLOB.maintenance_loot)
+		var/lootspawn = pick_weight(GLOB.maintenance_loot)
 		while(islist(lootspawn))
-			lootspawn = pickweight(lootspawn)
+			lootspawn = pick_weight(lootspawn)
 		var/atom/movable/loot = new lootspawn()
 		all_loot += loot
 	return all_loot
@@ -85,6 +85,11 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 /datum/adventure_loot_generator/simple/weapons
 	id = "weapons"
 	loot_list = list(/obj/item/gun/energy/laser,/obj/item/melee/baton/security/loaded)
+
+/// Rare fish! Of the syndicate variety
+/datum/adventure_loot_generator/simple/syndicate_fish
+	id = "syndicate_fish"
+	loot_list = list(/obj/item/storage/fish_case/syndicate)
 
 /// Pets and pet accesories in carriers
 /datum/adventure_loot_generator/pet

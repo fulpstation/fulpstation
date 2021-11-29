@@ -229,7 +229,7 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define ORBITRON "Orbitron"
 #define SHARE "Share Tech Mono"
 
-GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
+GLOBAL_LIST_INIT(pda_styles, sort_list(list(MONO, VT, ORBITRON, SHARE)))
 
 /////////////////////////////////////
 // atom.appearence_flags shortcuts //
@@ -516,3 +516,5 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 
 /// Emoji icon set
 #define EMOJI_SET 'icons/emoji.dmi'
+/// Achievements icon set
+#define ACHIEVEMENTS_SET 'icons/ui_icons/achievements/achievements.dmi'
