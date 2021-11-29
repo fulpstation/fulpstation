@@ -13,17 +13,17 @@
 	species_traits = list(NOEYESPRITES, NO_UNDERWEAR, DYNCOLORS, AGENDER, HAS_FLESH, HAS_BONE)
 	mutant_bodyparts = list("beefcolor" = "Medium Rare", "beefmouth" = "Smile1", "beefeyes" = "Olives")
 	mutanttongue = /obj/item/organ/tongue/beefman
-	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER,
-		TRAIT_RESISTCOLD,
+	inherent_traits = list(
+		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_EASYDISMEMBER,
+		TRAIT_GENELESS,
+		TRAIT_RESISTCOLD,
 		TRAIT_SLEEPIMMUNE,
 	)
-	offset_features = list(
-		OFFSET_UNIFORM = list(0,2), OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3),
+	offset_features = list(OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,-4), OFFSET_GLASSES = list(0,3),
 		OFFSET_EARS = list(0,3), OFFSET_SHOES = list(0,0), OFFSET_S_STORE = list(0,2), OFFSET_FACEMASK = list(0,3),
-		OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_BACK = list(0,2),
-		OFFSET_SUIT = list(0,2), OFFSET_NECK = list(0,3),
+		OFFSET_HEAD = list(0,3), OFFSET_FACE = list(0,3), OFFSET_BELT = list(0,3), OFFSET_NECK = list(0,3),
 	)
 
 	skinned_type = /obj/item/food/meatball // NO SKIN //  /obj/item/stack/sheet/animalhide/human
