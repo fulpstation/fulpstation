@@ -224,23 +224,23 @@
 
 		// Medical
 		if("Chief Medical Officer")
-			newSash = new /obj/item/clothing/under/bodysash/cmo()
+			newSash = new /obj/item/clothing/under/bodysash/medical/cmo()
 		if("Medical Doctor")
 			newSash = new /obj/item/clothing/under/bodysash/medical()
 		if("Chemist")
-			newSash = new /obj/item/clothing/under/bodysash/chemist()
+			newSash = new /obj/item/clothing/under/bodysash/medical/chemist()
 		if("Virologist")
-			newSash = new /obj/item/clothing/under/bodysash/virologist()
+			newSash = new /obj/item/clothing/under/bodysash/medical/virologist()
 		if("Paramedic")
-			newSash = new /obj/item/clothing/under/bodysash/paramedic()
+			newSash = new /obj/item/clothing/under/bodysash/medical/paramedic()
 
 		// Engineering
 		if("Chief Engineer")
-			newSash = new /obj/item/clothing/under/bodysash/ce()
+			newSash = new /obj/item/clothing/under/bodysash/engineer/ce()
 		if("Station Engineer")
 			newSash = new /obj/item/clothing/under/bodysash/engineer()
 		if("Atmospheric Technician")
-			newSash = new /obj/item/clothing/under/bodysash/atmos()
+			newSash = new /obj/item/clothing/under/bodysash/engineer/atmos()
 
 		// Science
 		if("Research Director")
