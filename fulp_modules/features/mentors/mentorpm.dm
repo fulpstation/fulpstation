@@ -22,7 +22,7 @@
 		chosen_client = potential_mobs.client
 	else if(istext(whom))
 		chosen_client = GLOB.directory[whom]
-	else if(istype(whom,/client))
+	else if(istype(whom, /client))
 		chosen_client = whom
 	if(chosen_client.prefs.muted & MUTE_ADMINHELP)
 		to_chat(src,
