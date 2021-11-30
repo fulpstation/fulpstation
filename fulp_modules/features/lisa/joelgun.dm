@@ -7,8 +7,7 @@
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet. Examine again for more information."
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
 	custom_premium_price = PAYCHECK_HARD * 1.75
-	
-	/// Cooldown between ability uses
+	///Cooldown between ability uses
 	var/used_ability = FALSE
 
 /obj/item/gun/ballistic/revolver/joel/examine_more(mob/user)
@@ -23,17 +22,15 @@
 	)
 
 /obj/item/gun/ballistic/revolver/joel/proc/clear_cooldown()
-	// Only do it if we haven't already cleared it.
-	if(used_ability)
-		used_ability = FALSE
+	used_ability = FALSE
 
 /obj/item/gun/ballistic/revolver/joel/proc/velvet_check(mob/living/target)
 	if(target.mind && istype(target.mind.martial_art, /datum/martial_art/velvetfu))
 		return TRUE
 	return FALSE
 
-/obj/item/gun/ballistic/revolver/joel/attackby(obj/item/A, mob/user, params)
-	if(!istype(A, /obj/item/ammo_casing/c22))
+/obj/item/gun/ballistic/revolver/joel/attackby(obj/item/attacking_item, mob/user, params)
+	if(!istype(attacking_item, /obj/item/ammo_casing/c22))
 		return
 	if(get_ammo(countchambered = TRUE) >= 1)
 		to_chat(user, span_warning("[src] already has a bullet loaded!"))
@@ -47,12 +44,13 @@
 	)
 	. = ..()
 	clear_cooldown()
-	A.update_appearance()
+	attacking_item.update_appearance()
 
 /obj/item/gun/ballistic/revolver/joel/attack_self(mob/living/carbon/user)
 	if(used_ability)
 		to_chat(user, span_warning("You have to wait before using an ability!"))
 		return
+	. = ..()
 	// If you have a holster, you'll spin it instead, you're experienced.
 	if(HAS_TRAIT(user, TRAIT_GUNFLIP))
 		user.visible_message(
@@ -193,7 +191,7 @@
 				span_hear("You hear aggressive shuffling!"),
 				COMBAT_MESSAGE_RANGE,
 			)
-			main_victims.forceMove(target)
+			main_victims.Move(target)
 	// Everyone else will just notice it
 	for(var/mob/living/extra_victims in viewers(5, target))
 		extra_victims.face_atom(target)
@@ -205,7 +203,7 @@
 	return
 
 
-/*
+/**
  *	# Cylinder, bullet & casing.
  *
  *	We're using unique ones so people cant get more bullets for anything.
