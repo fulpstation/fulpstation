@@ -7906,14 +7906,13 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 4
-	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Security Post - Medbay Entrance Control";
 	name = "Security Post Camera";
 	network = list("ss13","medbay")
+	},
+/obj/machinery/computer/secure_data{
+	dir = 1
 	},
 /turf/open/floor/iron/white,
 /area/security/checkpoint/medical)
@@ -19949,9 +19948,14 @@
 /turf/open/floor/iron/dark,
 /area/engineering/atmos/project)
 "fBz" = (
-/obj/structure/sign/directions/medical,
-/turf/closed/wall/r_wall,
-/area/medical/virology)
+/obj/machinery/door/airlock/medical{
+	name = "Psych Ward Isolation Cell 2";
+	req_one_access_txt = "70,45"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/iron/white,
+/area/medical/psychology)
 "fBJ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
@@ -22103,6 +22107,9 @@
 "ghE" = (
 /obj/effect/landmark/start/depsec/medical,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
 /turf/open/floor/iron/white,
 /area/security/checkpoint/medical)
 "ghN" = (
@@ -22213,6 +22220,9 @@
 /obj/effect/landmark/start/depsec/medical,
 /obj/effect/landmark/event_spawn,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/security/checkpoint/medical)
 "giM" = (
@@ -22480,6 +22490,9 @@
 	name = "security red"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
 /turf/open/floor/iron/white,
 /area/security/checkpoint/medical)
 "glP" = (
@@ -29277,6 +29290,14 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/hallway/secondary/exit/departure_lounge)
+"iuC" = (
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/public/glass{
+	name = "Medbay South Hall Access";
+	req_access_txt = "5"
+	},
+/turf/open/floor/iron/white,
+/area/medical/medbay/central)
 "iuD" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -40666,6 +40687,10 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/misc_lab)
+"lKn" = (
+/obj/structure/sign/directions/medical,
+/turf/closed/wall/r_wall,
+/area/medical/virology)
 "lKv" = (
 /obj/item/instrument/banjo,
 /obj/structure/table,
@@ -47282,7 +47307,8 @@
 /area/science/server)
 "nDx" = (
 /obj/machinery/door/window/eastleft{
-	dir = 1
+	dir = 1;
+	req_access_txt = "70"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -51365,9 +51391,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /turf/open/floor/iron/white,
 /area/security/checkpoint/medical)
 "oDk" = (
@@ -51379,14 +51402,6 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/iron,
 /area/hallway/primary/central/fore)
-"oDz" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron/white,
-/area/security/checkpoint/medical)
 "oDK" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -51959,6 +51974,7 @@
 "oMv" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/white,
 /area/security/checkpoint/medical)
 "oMx" = (
@@ -55721,7 +55737,8 @@
 	dir = 6;
 	name = "security red"
 	},
-/obj/machinery/computer/secure_data{
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
 	dir = 1
 	},
 /turf/open/floor/iron/white,
@@ -58085,11 +58102,19 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/door/airlock/public/glass{
+	name = "Medbay South Hall Access";
+	req_access_txt = "5"
+	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "qDl" = (
 /obj/machinery/light/directional/east,
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/public/glass{
+	name = "Medbay South Hall Access";
+	req_access_txt = "5"
+	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "qDp" = (
@@ -66176,6 +66201,9 @@
 	},
 /obj/item/paper_bin,
 /obj/item/pen,
+/obj/machinery/door/window/eastright{
+	dir = 8
+	},
 /turf/open/floor/iron/white,
 /area/security/checkpoint/medical)
 "sQD" = (
@@ -73507,7 +73535,7 @@
 "uZl" = (
 /obj/machinery/door/airlock/medical{
 	name = "Morgue";
-	req_access_txt = "6;5"
+	req_access_txt = "5"
 	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
@@ -74670,7 +74698,10 @@
 	},
 /area/ai_monitored/turret_protected/aisat/atmos)
 "vqQ" = (
-/obj/machinery/door/airlock/medical,
+/obj/machinery/door/airlock/medical{
+	name = "Psych Ward Isolation Cell 1";
+	req_one_access_txt = "70,45"
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
@@ -82135,6 +82166,15 @@
 "xtk" = (
 /turf/open/floor/carpet/purple,
 /area/command/heads_quarters/rd)
+"xtp" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
+/obj/machinery/door/airlock/maintenance{
+	req_access_txt = "12"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "xtx" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
@@ -126482,7 +126522,7 @@ wvr
 swd
 ouN
 udf
-vqQ
+fBz
 tlR
 swd
 nPG
@@ -130605,7 +130645,7 @@ xiX
 ocn
 ojz
 oup
-oDz
+oMv
 oMv
 ghE
 pqT
@@ -133183,7 +133223,7 @@ hoQ
 oZn
 hoQ
 hoQ
-wAq
+iuC
 hoQ
 hoQ
 hoQ
@@ -136282,7 +136322,7 @@ mhh
 twB
 tBb
 tKg
-fBz
+lKn
 kbw
 kbw
 kbw
@@ -136796,7 +136836,7 @@ tgj
 twB
 tBn
 tKt
-fBz
+lKn
 ujw
 tnN
 kbw
@@ -137296,7 +137336,7 @@ wMl
 wMl
 wMl
 cEv
-kUA
+xtp
 cEv
 cEv
 cEv
