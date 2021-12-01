@@ -42,3 +42,8 @@
 	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_wings.dmi'
 	name = "Maple"
 	icon_state = "maple"
+
+/datum/sprite_accessory/moth_wings/tetractys
+	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_wings.dmi'
+	name = "Tetractys"
+	icon_state = "tetractys"

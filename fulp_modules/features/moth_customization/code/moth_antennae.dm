@@ -47,3 +47,8 @@
 	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_antennae.dmi'
 	name = "Maple"
 	icon_state = "maple"
+
+/datum/sprite_accessory/moth_antennae/tetractys
+	icon = 'fulp_modules/features/moth_customization/icons/fulp_moth_antennae.dmi'
+	name = "Tetractys"
+	icon_state = "tetractys"
