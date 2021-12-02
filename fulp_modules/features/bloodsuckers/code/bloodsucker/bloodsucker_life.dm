@@ -208,7 +208,7 @@
 /// FINAL DEATH
 /datum/antagonist/bloodsucker/proc/HandleDeath()
 	/// Not "Alive"?
-	if(!owner.current || !isliving(owner.current) || isbrain(owner.current) || !get_turf(owner.current))
+	if(!owner.current || !iscarbon(owner.current) || isbrain(owner.current) || !get_turf(owner.current))
 		FinalDeath()
 		return
 	/// Fire Damage? (above double health)
@@ -380,6 +380,9 @@
 		return
 
 	DisableAllPowers()
+	if(!iscarbon(owner.current))
+		owner.current.gib(TRUE, FALSE, FALSE)
+		return
 	// Drop anything in us and play a tune
 	var/mob/living/carbon/user = owner.current
 	owner.current.drop_all_held_items()
