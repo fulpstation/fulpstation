@@ -11,9 +11,10 @@
 	exp_requirements = 120
 	exp_required_type = EXP_TYPE_CREW
 	exp_required_type_department = EXP_TYPE_MEDICAL
-	
+	exp_granted_type = EXP_TYPE_SECURITY
+
 	fulp_spawn = /obj/effect/landmark/start/brigdoc
-	
+
 	outfit = /datum/outfit/job/brigdoc
 	plasmaman_outfit = /datum/outfit/plasmaman/brigdoc
 
