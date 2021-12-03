@@ -21,12 +21,13 @@
 	var/config_job
 	/// An ID card with an access in this list can apply this trim to IDs or use it as a job template when adding access to a card. If the list is null, cannot be used as a template. Should be Head of Staff or ID Console accesses or it may do nothing.
 	var/list/template_access
-	/// The typepath to the job datum from the id_trim.
-	var/datum/job/job
-	/// List of job accesses that this trim overrides as common. If an access is in this list, it will always be added as a common wildcard to ID cards holding this trim.
-	var/list/common_access = list()
+	/// The typepath to the job datum from the id_trim. This is converted to one of the job singletons in New().
+	var/datum/job/job = /datum/job/unassigned
 
 /datum/id_trim/job/New()
+	if(ispath(job))
+		job = SSjob.GetJobType(job)
+
 	if(isnull(job_changes))
 		job_changes = SSmapping.config.job_changes
 
@@ -50,9 +51,6 @@
 		minimal_wildcard_access |= access_changes["additional_minimal_wildcard_access"]
 
 	refresh_trim_access()
-
-/datum/id_trim/job/get_common_wildcard_overrides()
-	return common_access.Copy()
 
 /**
  * Goes through various non-map config settings and modifies the trim's access based on this.
@@ -88,7 +86,6 @@
 	config_job = "assistant"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/assistant
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/assistant/refresh_trim_access()
 	. = ..()
@@ -109,7 +106,6 @@
 	config_job = "atmospheric_technician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CE, ACCESS_CHANGE_IDS)
 	job = /datum/job/atmospheric_technician
-	common_access = JOB_ACCESS_ENGINEERING
 
 /datum/id_trim/job/bartender
 	assignment = "Bartender"
@@ -119,7 +115,6 @@
 	config_job = "bartender"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/bartender
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/botanist
 	assignment = "Botanist"
@@ -129,7 +124,6 @@
 	config_job = "botanist"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/botanist
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/captain
 	assignment = "Captain"
@@ -155,7 +149,6 @@
 	config_job = "cargo_technician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/cargo_technician
-	common_access = JOB_ACCESS_SUPPLY
 
 /datum/id_trim/job/chaplain
 	assignment = "Chaplain"
@@ -165,7 +158,6 @@
 	config_job = "chaplain"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/chaplain
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/chemist
 	assignment = "Chemist"
@@ -175,7 +167,6 @@
 	config_job = "chemist"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_CHANGE_IDS)
 	job = /datum/job/chemist
-	common_access = JOB_ACCESS_MEDBAY
 
 /datum/id_trim/job/chief_engineer
 	assignment = "Chief Engineer"
@@ -189,7 +180,6 @@
 	config_job = "chief_engineer"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CHANGE_IDS)
 	job = /datum/job/chief_engineer
-	common_access = JOB_ACCESS_ENGINEERING
 
 /datum/id_trim/job/chief_medical_officer
 	assignment = "Chief Medical Officer"
@@ -203,7 +193,6 @@
 	config_job = "chief_medical_officer"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CHANGE_IDS)
 	job = /datum/job/chief_medical_officer
-	common_access = JOB_ACCESS_MEDBAY
 
 /datum/id_trim/job/clown
 	assignment = "Clown"
@@ -213,7 +202,6 @@
 	config_job = "clown"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/clown
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/cook
 	assignment = "Cook"
@@ -223,7 +211,6 @@
 	config_job = "cook"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/cook
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/curator
 	assignment = "Curator"
@@ -233,7 +220,6 @@
 	config_job = "curator"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/curator
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/detective
 	assignment = "Detective"
@@ -244,7 +230,6 @@
 	config_job = "detective"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	job = /datum/job/detective
-	common_access = JOB_ACCESS_SECURITY
 
 /datum/id_trim/job/detective/refresh_trim_access()
 	. = ..()
@@ -264,7 +249,6 @@
 	config_job = "geneticist"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
 	job = /datum/job/geneticist
-	common_access = JOB_ACCESS_RESEARCH
 
 /datum/id_trim/job/head_of_personnel
 	assignment = "Head of Personnel"
@@ -283,10 +267,6 @@
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CHANGE_IDS)
 	job = /datum/job/head_of_personnel
 
-/datum/id_trim/job/head_of_personnel/New()
-	common_access = JOB_ACCESS_GENERAL | JOB_ACCESS_SUPPLY
-	return ..()
-
 /datum/id_trim/job/head_of_security
 	assignment = "Head of Security"
 	trim_state = "trim_headofsecurity"
@@ -300,7 +280,6 @@
 	config_job = "head_of_security"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CHANGE_IDS)
 	job = /datum/job/head_of_security
-	common_access = JOB_ACCESS_SECURITY
 
 /datum/id_trim/job/head_of_security/refresh_trim_access()
 	. = ..()
@@ -320,7 +299,6 @@
 	config_job = "janitor"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/janitor
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/lawyer
 	assignment = "Lawyer"
@@ -330,7 +308,6 @@
 	config_job = "lawyer"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	job = /datum/job/lawyer
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/medical_doctor
 	assignment = "Medical Doctor"
@@ -340,7 +317,6 @@
 	config_job = "medical_doctor"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_CHANGE_IDS)
 	job = /datum/job/doctor
-	common_access = JOB_ACCESS_MEDBAY
 
 /datum/id_trim/job/mime
 	assignment = "Mime"
@@ -350,7 +326,6 @@
 	config_job = "mime"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/mime
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/paramedic
 	assignment = "Paramedic"
@@ -361,7 +336,6 @@
 	config_job = "paramedic"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_CHANGE_IDS)
 	job = /datum/job/paramedic
-	common_access = JOB_ACCESS_MEDBAY
 
 /datum/id_trim/job/prisoner
 	assignment = "Prisoner"
@@ -406,7 +380,6 @@
 	config_job = "psychologist"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CMO, ACCESS_CHANGE_IDS)
 	job = /datum/job/psychologist
-	common_access = JOB_ACCESS_GENERAL
 
 /datum/id_trim/job/quartermaster
 	assignment = "Quartermaster"
@@ -417,7 +390,6 @@
 	config_job = "quartermaster"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/quartermaster
-	common_access = JOB_ACCESS_SUPPLY
 
 /datum/id_trim/job/research_director
 	assignment = "Research Director"
@@ -433,7 +405,6 @@
 	config_job = "research_director"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CHANGE_IDS)
 	job = /datum/job/research_director
-	common_access = JOB_ACCESS_RESEARCH
 
 /datum/id_trim/job/roboticist
 	assignment = "Roboticist"
@@ -444,7 +415,6 @@
 	config_job = "roboticist"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
 	job = /datum/job/roboticist
-	common_access = JOB_ACCESS_RESEARCH
 
 /datum/id_trim/job/scientist
 	assignment = "Scientist"
@@ -455,7 +425,6 @@
 	config_job = "scientist"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
 	job = /datum/job/scientist
-	common_access = JOB_ACCESS_RESEARCH
 
 /// Sec officers have departmental variants. They each have their own trims with bonus departmental accesses.
 /datum/id_trim/job/security_officer
@@ -469,7 +438,6 @@
 	config_job = "security_officer"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	job = /datum/job/security_officer
-	common_access = JOB_ACCESS_SECURITY
 
 /datum/id_trim/job/security_officer/refresh_trim_access()
 	. = ..()
@@ -512,7 +480,6 @@
 	config_job = "shaft_miner"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/shaft_miner
-	common_access = JOB_ACCESS_SUPPLY
 
 /// ID card obtained from the mining Disney dollar points vending machine.
 /datum/id_trim/job/shaft_miner/spare
@@ -529,7 +496,6 @@
 	config_job = "station_engineer"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CE, ACCESS_CHANGE_IDS)
 	job = /datum/job/station_engineer
-	common_access = JOB_ACCESS_ENGINEERING
 
 /datum/id_trim/job/virologist
 	assignment = "Virologist"
@@ -539,7 +505,6 @@
 	config_job = "virologist"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_CHANGE_IDS)
 	job = /datum/job/virologist
-	common_access = JOB_ACCESS_MEDBAY
 
 /datum/id_trim/job/warden
 	assignment = "Warden"
@@ -550,7 +515,6 @@
 	config_job = "warden"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	job = /datum/job/warden
-	common_access = JOB_ACCESS_SECURITY
 
 /datum/id_trim/job/warden/refresh_trim_access()
 	. = ..()

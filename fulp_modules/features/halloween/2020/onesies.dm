@@ -14,7 +14,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|FEET
 	cold_protection = CHEST|GROIN|ARMS|LEGS|FEET
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
 
 /obj/item/clothing/head/hooded/onesie
 	name = "winter hood"
@@ -26,7 +26,7 @@
 	cold_protection = HEAD
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	flags_inv = HIDEHAIR|HIDEEARS
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
 
 ///Beefman onesie
 /obj/item/clothing/suit/hooded/onesie/beefman
@@ -38,10 +38,10 @@
 /obj/item/clothing/suit/hooded/onesie/beefman/Initialize()
 	. = ..()
 	AddComponent(/datum/component/squeak, list(
-		'fulp_modules/main_features/species/sounds/footstep_splat1.ogg' = 1,
-		'fulp_modules/main_features/species/sounds/footstep_splat2.ogg' = 1,
-		'fulp_modules/main_features/species/sounds/footstep_splat3.ogg' = 1,
-		'fulp_modules/main_features/species/sounds/footstep_splat4.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat1.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat2.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat3.ogg' = 1,
+		'fulp_modules/features/species/sounds/footstep_splat4.ogg' = 1,
 		), 50)
 
 /obj/item/clothing/head/hooded/onesie/beefman
