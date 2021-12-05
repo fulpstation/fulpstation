@@ -52,7 +52,6 @@
 
 	//We created a spider, let us announce this to ourselves.
 	ling_datum.spiders_created++
-	qdel(sacrificed_spider)
 
 //	new /obj/effect/mob_spawn/spider/bloody(user.loc) // Handled by Parent, so call ..() instead
 	return ..()
