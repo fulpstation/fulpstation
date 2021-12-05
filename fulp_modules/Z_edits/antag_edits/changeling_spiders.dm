@@ -20,9 +20,8 @@
 /datum/action/changeling/spiders/proc/has_spiders(mob/user)
 	var/list/hand_items = list(user.get_active_held_item(), user.get_inactive_held_item())
 	for(var/obj/held_items in hand_items)
-		if(!istype(held_items, /obj/item/food/spidereggs) || !istype(held_items, /obj/item/food/spiderling))
+		if(!istype(held_items, /obj/item/food/spidereggs) && !istype(held_items, /obj/item/food/spiderling))
 			continue
-		// We found one? We're good to go, then.
 		return TRUE
 	return FALSE
 
