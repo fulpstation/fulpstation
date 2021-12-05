@@ -191,7 +191,7 @@
 				span_hear("You hear aggressive shuffling!"),
 				COMBAT_MESSAGE_RANGE,
 			)
-			main_victims.throw_at(target, 1, 1, user, FALSE)
+			step_towards(main_victims, target)
 			main_victims.Knockdown(1 SECONDS)
 	// Everyone else will just notice it
 	for(var/mob/living/extra_victims in viewers(5, target))
