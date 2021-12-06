@@ -30,7 +30,7 @@
 	var/datum/antagonist/changeling/ling_datum = user.mind.has_antag_datum(/datum/antagonist/changeling)
 	if(!ling_datum)
 		return FALSE
-	if(!has_spiders)
+	if(!has_spiders(user))
 		to_chat(user, span_notice("You need a Spider egg or spiderling to reference off of!"))
 		return FALSE
 
