@@ -26,18 +26,11 @@
 		return TRUE
 	return FALSE
 
-//Makes a spider egg cluster. Allows you enable further general havok by introducing spiders to the station.
 /datum/action/changeling/spiders/sting_action(mob/user)
 	var/datum/antagonist/changeling/ling_datum = user.mind.has_antag_datum(/datum/antagonist/changeling)
 	if(!ling_datum)
 		return FALSE
-	var/obj/sacrificed_spider = FALSE
-	var/list/hand_items = list(user.get_active_held_item(), user.get_inactive_held_item())
-	for(var/obj/held_items in hand_items)
-		if(istype(held_items, /obj/item/food/spidereggs) || istype(held_items, /obj/item/food/spiderling))
-			sacrificed_spider = held_items
-			break
-	if(!sacrificed_spider)
+	if(!has_spiders)
 		to_chat(user, span_notice("You need a Spider egg or spiderling to reference off of!"))
 		return FALSE
 
