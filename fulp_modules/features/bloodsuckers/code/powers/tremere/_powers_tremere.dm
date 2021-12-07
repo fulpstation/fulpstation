@@ -37,6 +37,8 @@
 /datum/antagonist/bloodsucker/proc/LevelUpTremerePower(mob/living/user)
 	var/list/options = list()
 	for(var/datum/action/bloodsucker/targeted/tremere/power as anything in powers)
+		if(!istype(power, /datum/action/bloodsucker/targeted/tremere))
+			continue
 		if(isnull(power.upgraded_power))
 			continue
 		options[initial(power.name)] = power
