@@ -12,7 +12,7 @@
 		The Power will not work if you are lying down, in no gravity, or are aggressively grabbed.\n\
 		Anyone in your way during your Haste will be knocked down and Payalyzed, moreso if they are using Flow.\n\
 		Higher levels will increase the knockdown dealt to enemies."
-	power_flags = NONE
+	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 6
@@ -23,23 +23,20 @@
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 
-/datum/action/bloodsucker/targeted/haste/CheckCanUse(display_error)
+/datum/action/bloodsucker/targeted/haste/CheckCanUse()
 	. = ..()
 	if(!.)
 		return FALSE
 	// Being Grabbed
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
-		if(display_error)
-			owner.balloon_alert(owner, "you're being grabbed!")
+		owner.balloon_alert(owner, "you're being grabbed!")
 		return FALSE
 	if(!owner.has_gravity(owner.loc)) //We dont want people to be able to use this to fly around in space
-		if(display_error)
-			owner.balloon_alert(owner, "you cannot dash while floating!")
+		owner.balloon_alert(owner, "you cannot dash while floating!")
 		return FALSE
 	var/mob/living/user = owner
 	if(user.body_position == LYING_DOWN)
-		if(display_error)
-			owner.balloon_alert(owner, "you must be standing to tackle!")
+		owner.balloon_alert(owner, "you must be standing to tackle!")
 		return FALSE
 	return TRUE
 
@@ -49,19 +46,6 @@
 	if(!.)
 		return FALSE
 	return target_atom.loc != owner.loc
-
-/datum/action/bloodsucker/targeted/haste/CheckCanTarget(atom/target_atom, display_error)
-	// DEFAULT CHECKS (Distance)
-	. = ..()
-	if(!.)
-		return FALSE
-	/*
-	// Check: Range
-	if(!(target_atom in view(target_range, get_turf(owner))))
-		owner.balloon_alert(owner, "out of range.")
-		return FALSE
-	*/
-	return TRUE
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
 /datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/target_atom)

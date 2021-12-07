@@ -8,7 +8,7 @@
 		If the target is wearing riot gear or is a Monster Hunter, you will merely passively grab them.\n\
 		If grabbed from behind or from the darkness (Cloak of Darkness counts), you will additionally knock the target down.\n\
 		Higher levels will increase the knockdown dealt to enemies."
-	power_flags = NONE
+	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
@@ -22,14 +22,13 @@
  *	Level 3: Grapple 3 from Shadows
  */
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanUse(display_error)
+/datum/action/bloodsucker/targeted/lunge/CheckCanUse()
 	. = ..()
 	if(!.)
 		return FALSE
 	/// Are we being grabbed?
 	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
-		if(display_error)
-			to_chat(owner, span_warning("You're being grabbed!"))
+		to_chat(owner, span_warning("You're being grabbed!"))
 		return FALSE
 	return TRUE
 
@@ -40,18 +39,11 @@
 		return FALSE
 	return isliving(target_atom)
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom, display_error)
-	// Default Checks (Distance)
+/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom)
+	// Default Checks
 	. = ..()
 	if(!.)
 		return FALSE
-	/*
-	/// Check: Range
-	if(!(target_atom in view(target_range, get_turf(owner))))
-		if(display_error)
-			owner.balloon_alert(owner, "out of range.")
-		return FALSE
-	*/
 	// Check: Turf
 	var/mob/living/turf_target = target_atom
 	if(!isturf(turf_target.loc))

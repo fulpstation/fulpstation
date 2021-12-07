@@ -147,25 +147,25 @@
  *	Also deals with Vassalization status.
  */
 
-/datum/mind/proc/can_make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
+/datum/mind/proc/can_make_bloodsucker(datum/mind/convertee, datum/mind/converter)
 	// Species Must have a HEART (Sorry Plasmamen)
-	var/mob/living/carbon/human/user = bloodsucker.current
+	var/mob/living/carbon/human/user = convertee.current
 	if(!(user.dna?.species) || !(user.mob_biotypes & MOB_ORGANIC))
-		if(creator)
-			to_chat(creator, span_danger("[bloodsucker]'s DNA isn't compatible!"))
+		if(converter)
+			to_chat(converter, span_danger("[convertee]'s DNA isn't compatible!"))
 		return FALSE
 	// Check for Fledgeling
-	if(creator)
-		// Check if their Creator is Malkavian trying to turn a Beefman into one.
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = creator.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(converter)
+		// Check if the person converting is Malkavian trying to turn a Beefman into one.
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = converter.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum?.my_clan == CLAN_MALKAVIAN)
-			if(isbeefman(bloodsucker.current))
+			if(isbeefman(convertee.current))
 				return FALSE
-		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
-		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
+		message_admins("[convertee] has become a Bloodsucker, and was created by [converter].")
+		log_admin("[convertee] has become a Bloodsucker, and was created by [converter].")
 	return TRUE
 
-/datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker, datum/mind/creator)
+/datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker)
 	if(!can_make_bloodsucker(bloodsucker))
 		return FALSE
 	add_antag_datum(/datum/antagonist/bloodsucker)
@@ -177,31 +177,31 @@
 		remove_antag_datum(/datum/antagonist/bloodsucker)
 		special_role = null
 
-/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/target, datum/mind/creator, display_warning = TRUE, can_vassal_sleeping = FALSE)//, check_antag_or_loyal=FALSE)
+/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/converted, datum/mind/converter, display_warning = TRUE, can_vassal_sleeping = FALSE)//, check_antag_or_loyal=FALSE)
 	// Not Correct Type: Abort
-	if(!iscarbon(target) || !creator)
+	if(!iscarbon(converted) || !converter)
 		return FALSE
-	if(target.stat > UNCONSCIOUS && !can_vassal_sleeping)
+	if(converted.stat > UNCONSCIOUS && !can_vassal_sleeping)
 		return FALSE
 	// No Mind!
-	if(!target.mind)
+	if(!converted.mind)
 		if(display_warning)
-			to_chat(creator, span_danger("[target] isn't self-aware enough to be made into a Vassal."))
+			to_chat(converter, span_danger("[converted] isn't self-aware enough to be made into a Vassal."))
 		return FALSE
 	// Already MY Vassal
-	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/vassal/vassaldatum = converted.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(istype(vassaldatum) && vassaldatum.master)
-		if(vassaldatum.master.owner == creator)
+		if(vassaldatum.master.owner == converter)
 			if(display_warning)
-				to_chat(creator, span_danger("[target] is already your loyal Vassal!"))
+				to_chat(converter, span_danger("[converted] is already your loyal Vassal!"))
 		else
 			if(display_warning)
-				to_chat(creator, span_danger("[target] is the loyal Vassal of another Bloodsucker!"))
+				to_chat(converter, span_danger("[converted] is the loyal Vassal of another Bloodsucker!"))
 		return FALSE
 	// Already Antag or Loyal (Vamp Hunters count as antags)
-	if(target.mind.enslaved_to || AmInvalidAntag(target)) //!VassalCheckAntagValid(target.mind, check_antag_or_loyal)) // HAS_TRAIT(target, TRAIT_MINDSHIELD, "implant") ||
+	if(converted.mind.enslaved_to || AmInvalidAntag(converted)) //!VassalCheckAntagValid(converted.mind, check_antag_or_loyal)) // HAS_TRAIT(converted, TRAIT_MINDSHIELD, "implant") ||
 		if(display_warning)
-			to_chat(creator, span_danger("[target] resists the power of your blood to dominate their mind!"))
+			to_chat(converter, span_danger("[converted] resists the power of your blood to dominate their mind!"))
 		return FALSE
 	return TRUE
 
@@ -225,21 +225,21 @@
 	// WHEN YOU DELETE THE ABOVE: Remove the 3 second timer on converting the vassal too.
 	return FALSE
 
-/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/target, can_vassal_sleeping = FALSE)
-	target.silent = 0
-	return make_vassal(target, owner, can_vassal_sleeping)
+/datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/convertee, can_vassal_sleeping = FALSE)
+	convertee.silent = 0
+	return make_vassal(convertee, owner, can_vassal_sleeping)
 
-/datum/antagonist/bloodsucker/proc/make_vassal(mob/living/target, datum/mind/creator, sleeping = FALSE)
-	if(!can_make_vassal(target, creator, can_vassal_sleeping = sleeping))
+/datum/antagonist/bloodsucker/proc/make_vassal(mob/living/convertee, datum/mind/converter, sleeping = FALSE)
+	if(!can_make_vassal(convertee, converter, can_vassal_sleeping = sleeping))
 		return FALSE
 	// Make Vassal
-	var/datum/antagonist/vassal/vassaldatum = new(target.mind)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = creator.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/vassal/vassaldatum = new(convertee.mind)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = converter.has_antag_datum(/datum/antagonist/bloodsucker)
 	vassaldatum.master = bloodsuckerdatum
-	target.mind.add_antag_datum(vassaldatum, vassaldatum.master.get_team())
+	convertee.mind.add_antag_datum(vassaldatum, vassaldatum.master.get_team())
 	// Update Bloodsucker Title
 	bloodsuckerdatum.SelectTitle(am_fledgling = FALSE) // Only works if you have no title yet.
 	// Log it
-	message_admins("[target] has become a Vassal, and is enslaved to [creator].")
-	log_admin("[target] has become a Vassal, and is enslaved to [creator].")
+	message_admins("[convertee] has become a Vassal, and is enslaved to [converter].")
+	log_admin("[convertee] has become a Vassal, and is enslaved to [converter].")
 	return TRUE

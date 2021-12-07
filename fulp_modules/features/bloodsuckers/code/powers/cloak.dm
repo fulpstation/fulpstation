@@ -16,7 +16,7 @@
 	var/was_running
 
 /// Must have nobody around to see the cloak
-/datum/action/bloodsucker/cloak/CheckCanUse(display_error)
+/datum/action/bloodsucker/cloak/CheckCanUse()
 	. = ..()
 	if(!.)
 		return FALSE

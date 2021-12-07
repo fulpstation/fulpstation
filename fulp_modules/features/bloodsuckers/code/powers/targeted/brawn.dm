@@ -8,7 +8,7 @@
 		At level 3, you get the ability to break closets open, additionally can both break restraints AND knock a grabber down in the same use.\n\
 		At level 4, you get the ability to bash airlocks open, as long as they aren't bolted.\n\
 		Higher levels will increase the damage and knockdown when punching someone."
-	power_flags = NONE
+	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 8
@@ -17,23 +17,20 @@
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanUse(display_error)
+/datum/action/bloodsucker/targeted/brawn/CheckCanUse()
 	. = ..()
 	if(!.) // Default checks
 		return FALSE
-	///Have we used our power yet?
-	var/usedPower = FALSE
 
-	if(CheckBreakRestraints()) // Did we break out of our handcuffs?
-		usedPower = TRUE
-	if(usedPower || level_current >= 3)
-		if(CheckEscapePuller()) // Did we knock a grabber down? We can only do this while not also breaking restraints if strong enough.
-			usedPower = TRUE
-	// If we broke restraints or knocked a grabber down, we've spent our power.
-	if(usedPower == TRUE)
+	// Did we break out of our handcuffs?
+	if(CheckBreakRestraints())
 		PowerActivatedSuccessfully()
 		return FALSE
-	// Otherwise, we can now punch someone.
+	// Did we knock a grabber down? We can only do this while not also breaking restraints if strong enough.
+	if(level_current >= 3 && CheckEscapePuller())
+		PowerActivatedSuccessfully()
+		return FALSE
+	// Did neither, now we can PUNCH.
 	return TRUE
 
 // Look at 'biodegrade.dm' for reference
@@ -177,7 +174,7 @@
 		return FALSE
 	return isliving(target_atom) || istype(target_atom, /obj/machinery/door) || istype(target_atom, /obj/structure/closet)
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom, display_error)
+/datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom)
 	// DEFAULT CHECKS (Distance)
 	. = ..()
 	if(!.) // Disable range notice for Brawn.

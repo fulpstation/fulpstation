@@ -6,7 +6,7 @@
 		Click anywhere from 1-2 tiles away from you to teleport.\n\
 		This power goes through all obstacles except Walls.\n\
 		Higher levels decrease the sound played from using the Power, and increase the speed of the transition."
-	power_flags = NONE
+	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
@@ -15,13 +15,12 @@
 	//target_range = 2
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
-/datum/action/bloodsucker/targeted/trespass/CheckCanUse(display_error)
+/datum/action/bloodsucker/targeted/trespass/CheckCanUse()
 	. = ..()
 	if(!.)
 		return FALSE
 	if(owner.notransform || !get_turf(owner))
 		return FALSE
-
 	return TRUE
 
 
@@ -35,7 +34,7 @@
 	return TRUE // All we care about is destination. Anything you click is fine.
 
 
-/datum/action/bloodsucker/targeted/trespass/CheckCanTarget(atom/target_atom, display_error)
+/datum/action/bloodsucker/targeted/trespass/CheckCanTarget(atom/target_atom)
 	// NOTE: Do NOT use ..()! We don't want to check distance or anything.
 
 	// Get clicked tile
@@ -51,9 +50,8 @@
 		from_turf = get_step(from_turf, this_dir)
 		// ERROR! Wall!
 		if(iswallturf(from_turf))
-			if (display_error)
-				var/wallwarning = (i == 1) ? "in the way" : "at your destination"
-				owner.balloon_alert(owner, "There is a wall [wallwarning].")
+			var/wallwarning = (i == 1) ? "in the way" : "at your destination"
+			owner.balloon_alert(owner, "There is a wall [wallwarning].")
 			return FALSE
 	// Done
 	target_turf = from_turf

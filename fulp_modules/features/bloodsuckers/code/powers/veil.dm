@@ -27,12 +27,6 @@
 	var/prev_disfigured
 	var/list/prev_features // For lizards and such
 
-/datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return FALSE
-	return TRUE
-
 /datum/action/bloodsucker/veil/ActivatePower()
 	cast_effect() // POOF
 	//if(blahblahblah)

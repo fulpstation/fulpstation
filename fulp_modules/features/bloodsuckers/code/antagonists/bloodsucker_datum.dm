@@ -15,10 +15,27 @@
 	// TIMERS //
 	///Timer between alerts for Burn messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
-	///Timer between alerts for Locker messages
-	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_locker)
 	///Timer between alerts for Healing messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_healing)
+
+	///Default Bloodsucker traits
+	var/static/list/bloodsucker_traits = list(
+		TRAIT_NOBREATH,
+		TRAIT_SLEEPIMMUNE,
+		TRAIT_NOCRITDAMAGE,
+		TRAIT_RESISTCOLD,
+		TRAIT_RADIMMUNE,
+		TRAIT_GENELESS,
+		TRAIT_STABLEHEART,
+		TRAIT_NOSOFTCRIT,
+		TRAIT_NOHARDCRIT,
+		TRAIT_AGEUSIA,
+		TRAIT_NOPULSE,
+		TRAIT_COLDBLOODED,
+		TRAIT_VIRUSIMMUNE,
+		TRAIT_TOXIMMUNE,
+		TRAIT_HARDLY_WOUNDED,
+	)
 
 	///Used for assigning your name
 	var/bloodsucker_name
@@ -26,19 +43,15 @@
 	var/bloodsucker_title
 	///Used for assigning your reputation
 	var/bloodsucker_reputation
+
+	///Amount of Humanity lost
+	var/humanity_lost = 0
+	///Have we been broken the Masquerade?
+	var/broke_masquerade = FALSE
 	///Blood required to enter Frenzy
 	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
-	///Default Bloodsucker traits
-	var/static/list/default_traits = list(
-		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE,
-		TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD,
-		TRAIT_RADIMMUNE, TRAIT_GENELESS,
-		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT,
-		TRAIT_NOHARDCRIT, TRAIT_AGEUSIA,
-		TRAIT_NOPULSE, TRAIT_COLDBLOODED,
-		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE,
-		TRAIT_HARDLY_WOUNDED,
-	)
+	///If we are currently in a Frenzy
+	var/frenzied = FALSE
 
 	///ALL Powers currently owned
 	var/list/datum/action/powers = list()
@@ -47,21 +60,22 @@
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab = new
 	///You get assigned a Clan once you Rank up enough
-	var/my_clan = CLAN_NONE
+	var/my_clan = NONE
 
-	///The Bloodsucker/Vassal's creator
-	var/datum/mind/creator
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Have we selected our Favorite Vassal yet?
 	var/has_favorite_vassal = FALSE
 	/// Antagonists that cannot be Vassalized no matter what
 	var/list/vassal_banned_antags = list(
-		/datum/antagonist/bloodsucker, /datum/antagonist/monsterhunter,
-		/datum/antagonist/changeling, /datum/antagonist/cult,
-		/datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
-		/datum/antagonist/xeno, /datum/antagonist/obsessed,
-		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
+		/datum/antagonist/bloodsucker,
+		/datum/antagonist/monsterhunter,
+		/datum/antagonist/changeling,
+		/datum/antagonist/cult,
+		/datum/antagonist/heretic,
+		/datum/antagonist/xeno,
+		/datum/antagonist/obsessed,
+		/datum/antagonist/ert/safety_moth,
 	)
 
 	var/bloodsucker_level
@@ -71,20 +85,23 @@
 	var/bloodsucker_regen_rate = 0.3
 	var/max_blood_volume = 600
 
-	///Amount of Humanity lost
-	var/humanity_lost = 0
-	///Have we been broken the Masquerade?
-	var/broke_masquerade = FALSE
-	///How much food to throw up later. You shouldn't have eaten that.
-//	var/foodInGut
-	///If we are currently in a Frenzy
-	var/frenzied = FALSE
 	// Used for Bloodsucker Objectives
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
+
+/mob/living/proc/explain_powers()
+	set name = "Bloodsucker Help"
+	set category = "Mentor"
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
+	if(!choice)
+		return
+	var/datum/action/bloodsucker/power = choice
+	to_chat(usr, span_warning("[power.power_explanation]"))
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -115,7 +132,6 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	/// If I have a creator, then set as Fledgling.
 	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
 	else
@@ -236,7 +252,7 @@
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 	report += printplayer(owner)
 	// Clan (Actual Clan, not Team) name
-	if(my_clan != CLAN_NONE)
+	if(my_clan != NONE)
 		report += "They were part of the <b>[my_clan]</b>!"
 
 	// Default Report
@@ -306,8 +322,8 @@
 		user_species.punchdamagelow += 1 //lowest possible punch damage - 0
 		user_species.punchdamagehigh += 1 //highest possible punch damage - 9
 	/// Give Bloodsucker Traits
-	for(var/bloodsucker_traits in default_traits)
-		ADD_TRAIT(owner.current, bloodsucker_traits, BLOODSUCKER_TRAIT)
+	for(var/all_traits in bloodsucker_traits)
+		ADD_TRAIT(owner.current, all_traits, BLOODSUCKER_TRAIT)
 	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
@@ -389,6 +405,8 @@
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power in powers)
+		if(istype(power, /datum/action/bloodsucker/targeted/tremere))
+			continue
 		power.level_current++
 
 ///Disables all powers, accounting for torpor

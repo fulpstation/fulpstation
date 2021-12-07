@@ -10,9 +10,6 @@
 	bloodcost = 10
 	cooldown = 10 SECONDS
 
-/datum/action/bloodsucker/distress/CheckCanUse(display_error)
-	return TRUE
-
 /datum/action/bloodsucker/distress/ActivatePower(mob/living/user = owner)
 	var/turf/open/floor/target_area = get_area(user)
 	var/datum/antagonist/vassal/vassaldatum = user.mind.has_antag_datum(/datum/antagonist/vassal)

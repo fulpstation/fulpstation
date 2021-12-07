@@ -322,7 +322,7 @@
 			if(bloodsuckerdatum.broke_masquerade)
 				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is indeed a [bloodsuckerdatum.my_clan] Bloodsucker, but you already knew this."))
 				return
-			if(bloodsuckerdatum.my_clan != CLAN_NONE)
+			if(bloodsuckerdatum.my_clan != NONE)
 				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
 			else
 				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is not knowingly part of a Clan. You quickly note this information down, memorizing it."))
