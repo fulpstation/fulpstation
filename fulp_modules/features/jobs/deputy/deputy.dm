@@ -37,6 +37,7 @@
 		/obj/item/choice_beacon/music = 5,
 		/obj/item/crowbar/large = 1,
 		/obj/item/melee/baton/security/boomerang/loaded = 1,
+		/obj/item/clothing/gloves/tackler/offbrand = 1,
 	)
 	rpg_title = "Independent Guardsman"
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
