@@ -8,6 +8,7 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
 	backpack_contents = list(
 		/obj/item/holosign_creator/security = 1,
+		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
 	)
 
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
@@ -51,6 +52,7 @@
 
 	backpack_contents = list(
 		/obj/item/holosign_creator/security = 1,
+		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
 		/obj/item/reagent_containers/hypospray/medipen/mutadone = 2,
 	)
 	neck = /obj/item/clothing/neck/fulptie/science
@@ -67,6 +69,7 @@
 	backpack_contents = list(
 		/obj/item/holosign_creator/security = 1,
 		/obj/item/export_scanner = 1,
+		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
 	)
 	head = /obj/item/clothing/head/fulpberet
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
@@ -172,6 +175,7 @@
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
 	icon_state = "beret_supply"
 	resistance_flags = ACID_PROOF | FIRE_PROOF
+	clothing_flags = SNUG_FIT //Prevents being knocked off
 
 /obj/item/clothing/head/fulpberet/engineering
 	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 40, BIO = 100, FIRE = 100, ACID = 90, WOUND = 5) // CE level
@@ -198,8 +202,9 @@
 /obj/item/clothing/head/fulpberet/service
 	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15) // Captain level
 	name = "service deputy beret"
-	desc = "The beret of the one able to defeat the Chef in his own kitchen."
+	desc = "The beret of the one able to defeat the Chef in his own kitchen. Can be used to protect you against BEES."
 	icon_state = "beret_service"
+	clothing_flags = THICKMATERIAL | SNUG_FIT
 
 /// Headsets - Base + Engineering
 /obj/item/radio/headset/headset_dep

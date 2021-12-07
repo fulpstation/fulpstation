@@ -37,14 +37,21 @@
 		/obj/item/choice_beacon/music = 5,
 		/obj/item/crowbar/large = 1,
 		/obj/item/melee/baton/security/boomerang/loaded = 1,
-		/obj/item/clothing/gloves/tackler/rocket = 1,
+		/obj/item/clothing/gloves/tackler/offbrand = 1,
 	)
 	rpg_title = "Independent Guardsman"
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
 	fulp_spawn = /obj/effect/landmark/start/deputy
 
-	///Which department are we in?
+	///The Deputy's assigned department
 	var/deputy_department = DEPARTMENT_SECURITY
+
+/datum/job/fulp/deputy/config_check()
+	if(deputy_department == DEPARTMENT_SECURITY)
+		return CONFIG_GET(flag/allow_departmentless_deputy)
+	if(deputy_department == DEPARTMENT_SERVICE)
+		return CONFIG_GET(flag/allow_service_deputy)
+	return TRUE
 
 /// Engineering
 /datum/job/fulp/deputy/engineering
@@ -64,6 +71,7 @@
 		/datum/job_department/security,
 		/datum/job_department/engineering,
 	)
+
 ///Medical
 /datum/job/fulp/deputy/medical
 	title = "Medical Deputy"
@@ -82,6 +90,7 @@
 		/datum/job_department/security,
 		/datum/job_department/medical,
 	)
+
 ///Science
 /datum/job/fulp/deputy/science
 	title = "Science Deputy"
@@ -100,6 +109,7 @@
 		/datum/job_department/security,
 		/datum/job_department/science,
 	)
+
 ///Supply
 /datum/job/fulp/deputy/supply
 	title = "Supply Deputy"
@@ -118,6 +128,7 @@
 		/datum/job_department/security,
 		/datum/job_department/cargo,
 	)
+
 ///Service
 /datum/job/fulp/deputy/service
 	title = "Service Deputy"
@@ -136,14 +147,11 @@
 		/datum/job_department/service,
 	)
 
-/datum/job/fulp/deputy/config_check()
-	if(deputy_department == DEPARTMENT_SECURITY)
-		return CONFIG_GET(flag/allow_departmentless_deputy)
-	if(deputy_department == DEPARTMENT_SERVICE)
-		return CONFIG_GET(flag/allow_service_deputy)
-	return TRUE
 
-/// Default Deputy trim, this should never be assigned roundstart.
+/**
+ * TRIMS
+ */
+
 /datum/id_trim/job/deputy
 	assignment = "Deputy"
 	trim_icon = 'fulp_modules/features/jobs/icons/cards.dmi'
@@ -193,9 +201,20 @@
 /datum/id_trim/job/deputy/service
 	assignment = "Service Deputy"
 	trim_state = "trim_deputyservice"
-	department_access = list(ACCESS_PSYCHOLOGY, ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_THEATRE, ACCESS_CHAPEL_OFFICE, ACCESS_LIBRARY)
+	department_access = list(
+		//The main three
+		ACCESS_BAR, ACCESS_KITCHEN, ACCESS_HYDROPONICS,
+		//The next big ones
+		ACCESS_THEATRE, ACCESS_JANITOR, ACCESS_LAWYER, ACCESS_CHAPEL_OFFICE, ACCESS_CREMATORIUM, ACCESS_LIBRARY,
+		//Psychology (lol)
+		ACCESS_MEDICAL, ACCESS_PSYCHOLOGY,
+	)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
 	job = /datum/job/fulp/deputy/service
+
+/**
+ * DEPUTY SPAWNING
+ */
 
 /datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/user, mob/player, latejoin = FALSE)
 	. = ..()
