@@ -108,7 +108,7 @@
 <p>Pax - Pacifies anyone who has it in their system. Use to neutralize possible hostile menaces without fear of them harming you. NOTE: Does not stop non-lethal attacks.</p>
 <p>Mannitol - Used to heal brain damage. NOTE: Does NOT heal brain traumas.</p>
 <p>Multiver - Treats toxin damage and purges chemicals. Does lung damage, with damage effect and purge effectiveness decreasing with the amounts of chemicals in the host.</p>
-<p>Potassium Iodide - Heals low level of radiations, does not heal any toxin by itself.</p>
+<p>Potassium Iodide - Temporarily halts the damaging effects of radiation.</p>
 <p>Mutadone - Removes the host's mutations once its in the system.</p>
 <p>Atropine - Heals all damage types rapidly if the host is in critical condition.</p>
 </ol>
