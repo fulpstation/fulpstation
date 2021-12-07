@@ -14,15 +14,6 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/eyes, GLOB.eyes_beefman)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/mouth, GLOB.mouths_beefman)
 
-/proc/proof_beefman_features(list/inFeatures)
-	// Missing Defaults in DNA? Randomize!
-	if(inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
-		inFeatures["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
-	if(inFeatures["beefeyes"] == null || inFeatures["beefeyes"] == "")
-		inFeatures["beefeyes"] = pick(GLOB.eyes_beefman)
-	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
-		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
-
 /**
  * CARBON INTEGRATION
  *

@@ -83,7 +83,6 @@
 
 	// Beefmen
 	proof_beefman_features(user.dna.features)
-	user.dna.species.set_beef_color(user)
 
 	// Apply Appearance
 	user.update_body() // Outfit and underware, also body.
