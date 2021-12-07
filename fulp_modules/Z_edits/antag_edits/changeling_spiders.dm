@@ -3,6 +3,7 @@
 ///The chance of a Central Command announcement of you making spiders.
 #define CHANGELING_BLOODSPIDER_ANNOUNCEMENT_CHANCE 10
 
+//This is on the antag datum itself, not the Power.
 /datum/antagonist/changeling
 	///Amount of Spiders this Changeling has made.
 	var/spiders_created = 0
