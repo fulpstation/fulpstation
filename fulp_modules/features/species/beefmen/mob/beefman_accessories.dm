@@ -1,4 +1,3 @@
-// SPRITE PARTS //
 /datum/sprite_accessory/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 
