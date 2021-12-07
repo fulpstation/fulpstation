@@ -1,3 +1,7 @@
+/**
+ * this file is just to show some of the things I plan on deleting, shouldn't be merged.
+ */
+
 /mob/living/carbon/proc/ReassignForeignBodyparts()
 	var/all_bodyparts = list(
 		BODY_ZONE_HEAD,
