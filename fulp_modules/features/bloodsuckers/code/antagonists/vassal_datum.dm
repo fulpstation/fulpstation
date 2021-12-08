@@ -121,9 +121,9 @@
 		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 		to_chat(owner, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
-	if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
-		var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
-		owner.current.AddSpell(batform)
+//	if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
+//		var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
+//		owner.current.AddSpell(batform)
 	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 		to_chat(master, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
 		BuyPower(new /datum/action/bloodsucker/distress)

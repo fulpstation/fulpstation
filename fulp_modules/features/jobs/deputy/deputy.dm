@@ -1,5 +1,7 @@
 /datum/job/fulp/deputy
 	title = "Deputy"
+	description = "Help Security enforce Space Law, \
+		Capture criminals and deliver them to the Brig."
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security")
 	faction = FACTION_STATION
@@ -56,6 +58,8 @@
 /// Engineering
 /datum/job/fulp/deputy/engineering
 	title = "Engineering Deputy"
+	description = "Help Security enforce Space Law within the Engineering department, \
+		Capture criminals in Engineering and deliver them to the Brig."
 	department_head = list("Chief Engineer")
 	selection_color = "#fff5cc"
 	total_positions = 1
@@ -71,10 +75,13 @@
 		/datum/job_department/security,
 		/datum/job_department/engineering,
 	)
+	department_for_prefs = /datum/job_department/engineering
 
 ///Medical
 /datum/job/fulp/deputy/medical
 	title = "Medical Deputy"
+	description = "Help Security enforce Space Law within the Medical department, \
+		Capture criminals in Medical and deliver them to the Brig."
 	department_head = list("Chief Medical Officer")
 	selection_color = "#ffeef0"
 	total_positions = 1
@@ -90,10 +97,13 @@
 		/datum/job_department/security,
 		/datum/job_department/medical,
 	)
+	department_for_prefs = /datum/job_department/medical
 
 ///Science
 /datum/job/fulp/deputy/science
 	title = "Science Deputy"
+	description = "Help Security enforce Space Law within the Science department, \
+		Capture criminals in Science and deliver them to the Brig."
 	department_head = list("Research Director")
 	selection_color = "#ffeeff"
 	total_positions = 1
@@ -109,10 +119,13 @@
 		/datum/job_department/security,
 		/datum/job_department/science,
 	)
+	department_for_prefs = /datum/job_department/science
 
 ///Supply
 /datum/job/fulp/deputy/supply
 	title = "Supply Deputy"
+	description = "Help Security enforce Space Law within the Supply department, \
+		Capture criminals  in Cargo and deliver them to the Brig."
 	department_head = list("Head of Personnel")
 	selection_color = "#dcba97"
 	total_positions = 1
@@ -128,10 +141,13 @@
 		/datum/job_department/security,
 		/datum/job_department/cargo,
 	)
+	department_for_prefs = /datum/job_department/cargo
 
 ///Service
 /datum/job/fulp/deputy/service
 	title = "Service Deputy"
+	description = "Help Security enforce Space Law within the Service department, \
+		Capture criminals... wherever Service is... and deliver them to the Brig."
 	department_head = list("Head of Personnel")
 	selection_color = "#bbe291"
 	total_positions = 1
@@ -146,6 +162,7 @@
 		/datum/job_department/security,
 		/datum/job_department/service,
 	)
+	department_for_prefs = /datum/job_department/service
 
 
 /**
