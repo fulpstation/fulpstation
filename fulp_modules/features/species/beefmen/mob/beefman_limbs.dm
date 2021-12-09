@@ -1,10 +1,6 @@
 /obj/item/bodypart
-	var/obj/item/food/meat/slab/myMeatType = /obj/item/food/meat/slab // For remembering what kind of meat this was made of. Default is base meat slab.
-	var/amCondemned = FALSE // I'm about to be destroyed. Don't add blood to me, and throw null error crap next tick.
-
-/obj/item/bodypart/add_mob_blood(mob/living/user) // Cancel adding blood if I'm deletin (throws errors)
-	if(!amCondemned)
-		. = ..()
+	///The slab of meat this limb was made out of.
+	var/obj/item/food/meat/slab/myMeatType = /obj/item/food/meat/slab
 
 
 /**
@@ -15,14 +11,10 @@
  * 3) Percent = Compare the STARTER VALUES in list_reagents against the CURRENT VALUES in thisMeat.reagents.reagent_list/
  * 4) Inject ALL OTHER CHEMS into bloodstream
  *
- * # LIMB-TO-MEAT
- * 1) Create new meat
- * 2) Sort through all reagent datums in newMeat.list_reagents and adjust each version in newMeat.reagents.reagent_list/(REAGENT)/.volume
- * 3) Apply a small part of my body's metabolic reagents to the meat. Check how Feed does this.
  */
 
 ///Meat has been assigned to this NEW limb! Give it meat and damage me as needed.
-/obj/item/bodypart/proc/give_meat(mob/living/carbon/human/beefboy, obj/item/food/meat/slab/inMeatObj)
+/obj/item/bodypart/proc/give_meat(mob/living/carbon/human/beefboy, obj/item/food/meat/slab/inMeatObj) // <--- not touched yet
 	// Assign Type
 	myMeatType = inMeatObj.type
 
@@ -53,41 +45,45 @@
 
 	// Apply meat's Reagents to Me
 	if(inMeatObj.reagents && inMeatObj.reagents.total_volume)
-//		inMeatObj.reagents.reaction(owner, INJECT, inMeatObj.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
 		inMeatObj.reagents.trans_to(owner, inMeatObj.reagents.total_volume)	// Run transfer of 1 unit of reagent from them to me.
 
 	qdel(inMeatObj)
 
 
-/obj/item/bodypart/proc/drop_meat(mob/inOwner)
+/**
+ * # LIMB-TO-MEAT
+ * 1) Create new meat
+ * 2) Sort through all reagent datums in new_meat.list_reagents and adjust each version in new_meat.reagents.reagent_list/(REAGENT)/.volume
+ * 3) Apply a small part of my body's metabolic reagents to the meat. Check how Feed does this.
+ */
 
+/obj/item/bodypart/proc/drop_meat(mob/inOwner) // <--- stupid, dumb proc. I hope it dies.
 	// Not Organic? ABORT! Robotic stays robotic, desnt delete and turn to meat.
 	if(status != BODYPART_ORGANIC)
 		return FALSE
-
 	// If not 0% health, let's do it!
 	var/percentHealth = 1 - (brute_dam + burn_dam) / max_damage
-	if(myMeatType != null && percentHealth > 0)
+	if(isnull(myMeatType) || percentHealth <= 0)
+		return
 
-		// Create Meat
-		var/obj/item/food/meat/slab/newMeat = new myMeatType(src.loc)// /obj/item/food/meat/slab(src.loc)
+	// Create Meat
+	var/obj/item/food/meat/slab/new_meat = new myMeatType(inOwner.loc)
+	// Adjust Reagents by Health Percent
+	for(var/datum/reagent/reagents in new_meat.reagents.reagent_list)
+		reagents.volume *= percentHealth
+	new_meat.reagents.update_total()
+	// Apply my Reagents to Meat
+	if(inOwner.reagents && inOwner.reagents.total_volume)
+		inOwner.reagents.trans_to(new_meat, 20)	// Run transfer of 1 unit of reagent from them to me.
 
-		// Adjust Reagents by Health Percent
-		for(var/datum/reagent/reagents in newMeat.reagents.reagent_list)
-			reagents.volume *= percentHealth
-		newMeat.reagents.update_total()
+	. = new_meat // Return MEAT
 
-		// Apply my Reagents to Meat
-		if(inOwner.reagents && inOwner.reagents.total_volume)
-//			inOwner.reagents.reaction(newMeat, INJECT, 20 / inOwner.reagents.total_volume) // Run Reaction: what happens when what they have mixes with what I have?	DEAD CODE MUST REWORK
-			inOwner.reagents.trans_to(newMeat, 20)	// Run transfer of 1 unit of reagent from them to me.
-
-		. = newMeat // Return MEAT
-
-	qdel(src)
-//	QDEL_IN(src,1) // Delete later. If we do it now, we screw up the "attack chain" that called this meat to attack the Beefman's stump.
-
-///Limbs
+/**
+ * # LIMBS
+ *
+ * drop_limb() from 'dismemberment.dm'
+ * Head and Chest CANNOT be torn off into meat.
+ */
 /obj/item/bodypart/head/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -109,12 +105,11 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/// from dismemberment.dm
 /obj/item/bodypart/r_arm/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache))
+		qdel(src)
 
 /obj/item/bodypart/l_arm/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -123,12 +118,11 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-// from dismemberment.dm
 /obj/item/bodypart/l_arm/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache))
+		qdel(src)
 
 /obj/item/bodypart/r_leg/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -137,12 +131,11 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/// from dismemberment.dm
 /obj/item/bodypart/r_leg/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache))
+		qdel(src)
 
 /obj/item/bodypart/l_leg/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -151,9 +144,8 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 
-/// from dismemberment.dm
 /obj/item/bodypart/l_leg/beef/drop_limb(special)
-	amCondemned = TRUE
-	var/mob/owner_cache = owner
-	..() // Create Meat, Remove Limb
-	return drop_meat(owner_cache)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache))
+		qdel(src)

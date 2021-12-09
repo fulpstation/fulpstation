@@ -103,13 +103,6 @@
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
 	. = ..()
 
-	user.part_default_head = /obj/item/bodypart/head/beef
-	user.part_default_chest = /obj/item/bodypart/chest/beef
-	user.part_default_l_arm = /obj/item/bodypart/l_arm/beef
-	user.part_default_r_arm = /obj/item/bodypart/r_arm/beef
-	user.part_default_l_leg = /obj/item/bodypart/l_leg/beef
-	user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
-
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = T20C
 
@@ -121,13 +114,6 @@
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
-	user.part_default_head = /obj/item/bodypart/head
-	user.part_default_chest = /obj/item/bodypart/chest
-	user.part_default_l_arm = /obj/item/bodypart/l_arm
-	user.part_default_r_arm = /obj/item/bodypart/r_arm
-	user.part_default_l_leg = /obj/item/bodypart/l_leg
-	user.part_default_r_leg = /obj/item/bodypart/r_leg
-
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 	user.cure_trauma_type(possible_traumas, TRAUMA_RESILIENCE_ABSOLUTE)
 	return ..()

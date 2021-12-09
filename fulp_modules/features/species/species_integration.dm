@@ -20,15 +20,6 @@
  * All overrides of mob/living and mob/living/carbon
  */
 
-/mob/living/carbon
-	// Type References for Bodyparts
-	var/obj/item/bodypart/head/part_default_head = /obj/item/bodypart/head
-	var/obj/item/bodypart/chest/part_default_chest = /obj/item/bodypart/chest
-	var/obj/item/bodypart/l_arm/part_default_l_arm = /obj/item/bodypart/l_arm
-	var/obj/item/bodypart/r_arm/part_default_r_arm = /obj/item/bodypart/r_arm
-	var/obj/item/bodypart/l_leg/part_default_l_leg = /obj/item/bodypart/l_leg
-	var/obj/item/bodypart/r_leg/part_default_r_leg = /obj/item/bodypart/r_leg
-
 // PROSTHETICS //
 /mob/living/proc/getBruteLoss_nonProsthetic()
 	return getBruteLoss()
