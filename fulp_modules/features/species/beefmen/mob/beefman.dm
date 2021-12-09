@@ -37,6 +37,7 @@
 		OFFSET_HEAD = list(0,3),
 		OFFSET_FACE = list(0,3),
 		OFFSET_BELT = list(0,3),
+		OFFSET_SUIT = list(0,2),
 		OFFSET_NECK = list(0,3),
 	)
 
@@ -86,6 +87,7 @@
 		/datum/brain_trauma/mild/hallucinations,
 		/datum/brain_trauma/mild/phobia/ocky_icky,
 		/datum/brain_trauma/special/death_whispers,
+		/datum/brain_trauma/severe/hypnotic_stupor,
 	)
 	///List of all limbs that can be removed and replaced at will.
 	var/list/tearable_limbs = list(
@@ -107,6 +109,9 @@
 	user.part_default_r_arm = /obj/item/bodypart/r_arm/beef
 	user.part_default_l_leg = /obj/item/bodypart/l_leg/beef
 	user.part_default_r_leg = /obj/item/bodypart/r_leg/beef
+
+	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
+	user.bodytemperature = T20C
 
 	// Missing Defaults in DNA? Randomize!
 	proof_beefman_features(user.dna.features)
