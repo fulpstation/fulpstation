@@ -29,26 +29,26 @@
 	use_static = TRUE
 	color_src = 0
 
-/datum/sprite_accessory/beef/mouth/frown1
-	name = "Frown1"
-	icon_state = "frown1"
+/datum/sprite_accessory/beef/mouth/frown
+	name = "Frown"
+	icon_state = "frown"
 
-/datum/sprite_accessory/beef/mouth/frown2
-	name = "Frown2"
-	icon_state = "frown2"
+/datum/sprite_accessory/beef/mouth/dissapointed
+	name = "Dissapointed"
+	icon_state = "dissapointing"
 
-/datum/sprite_accessory/beef/mouth/grit1
-	name = "Grit1"
-	icon_state = "grit1"
+/datum/sprite_accessory/beef/mouth/grit
+	name = "Grit"
+	icon_state = "grit"
 
-/datum/sprite_accessory/beef/mouth/grit2
-	name = "Grit2"
-	icon_state = "grit2"
+/datum/sprite_accessory/beef/mouth/grittingsmile
+	name = "Gritting Smile"
+	icon_state = "grittingsmile"
 
-/datum/sprite_accessory/beef/mouth/smile1
-	name = "Smile1"
-	icon_state = "smile1"
+/datum/sprite_accessory/beef/mouth/smile
+	name = "Smile"
+	icon_state = "smile"
 
-/datum/sprite_accessory/beef/mouth/smile2
-	name = "Smile2"
-	icon_state = "smile2"
+/datum/sprite_accessory/beef/mouth/smirk
+	name = "Smirk"
+	icon_state = "smirk"

@@ -2,12 +2,6 @@
 	var/obj/item/food/meat/slab/myMeatType = /obj/item/food/meat/slab // For remembering what kind of meat this was made of. Default is base meat slab.
 	var/amCondemned = FALSE // I'm about to be destroyed. Don't add blood to me, and throw null error crap next tick.
 
-	//var/species_id_original = "human" 	// So we know to whom we originally belonged. This swaps freely until the DROP LOCK below is set.
-	var/organicDropLocked = FALSE   	// When set to TRUE, that means this part has been CLAIMED by the race that dropped it.
-	var/prevOrganicState				// Remember each organic icon as you build it; if this limb drops, its stuck with that forever.
-	var/prevOrganicState_Aux			// The hand sprite
-	var/prevOrganicIcon
-
 /obj/item/bodypart/add_mob_blood(mob/living/user) // Cancel adding blood if I'm deletin (throws errors)
 	if(!amCondemned)
 		. = ..()
