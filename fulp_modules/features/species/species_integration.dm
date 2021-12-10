@@ -14,6 +14,19 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/eyes, GLOB.eyes_beefman)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/mouth, GLOB.mouths_beefman)
 
+
+/**
+ * SPECIES OVERWRITE
+ *
+ * We add our own vars to Species for certain things, so it's done here.
+ */
+
+/datum/species
+	var/bruising_desc = "bruising"
+	var/burns_desc = "burns"
+	var/cellulardamage_desc = "cellular damage"
+
+
 /**
  * CARBON INTEGRATION
  *
@@ -40,14 +53,3 @@
 		if(chosen_bodypart.status < BODYPART_ROBOTIC)
 			amount += chosen_bodypart.burn_dam
 	return amount
-
-/**
- * SPECIES OVERWRITE
- *
- * We add our own vars to Species for certain things, so it's done here.
- */
-
-/datum/species
-	var/bruising_desc = "bruising"
-	var/burns_desc = "burns"
-	var/cellulardamage_desc = "cellular damage"

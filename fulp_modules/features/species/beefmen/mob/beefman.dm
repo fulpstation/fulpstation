@@ -60,7 +60,16 @@
 	punchdamagelow = 1
 	punchdamagehigh = 5
 	siemens_coeff = 0.7 // base electrocution coefficient
+	bodytemp_normal = T20C
 
+	bodypart_overides = list(
+		BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,\
+		BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,\
+		BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,\
+		BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,\
+		BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,\
+		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
+	)
 	deathsound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
@@ -71,16 +80,8 @@
 		'fulp_modules/features/species/sounds/footstep_splat4.ogg',
 	)
 
-	bodytemp_normal = T20C
-	bodypart_overides = list(
-		BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,\
-		BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,\
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,\
-		BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,\
-		BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,\
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
-	)
-
+	///Dehydration caused by consuming Salt. Causes bleeding and affects how much they will bleed.
+	var/dehydrated = 0
 	///List of all brain traumas a Beefman can spawn with.
 	var/static/list/possible_traumas = list(
 		/datum/brain_trauma/mild/phobia/strangers,
@@ -96,8 +97,6 @@
 		BODY_ZONE_L_LEG,
 		BODY_ZONE_R_LEG,
 	)
-	///How dehydrated a Beefman is from consuming Salt. Affects how much they bleed as well.
-	var/dehydrate = 0
 
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
@@ -124,9 +123,9 @@
 	var/searJuices = user.getFireLoss_nonProsthetic() / 30
 
 	// Bleed out those juices by warmth, minus burn damage. If we are salted - bleed more
-	if(dehydrate > 0)
+	if(dehydrated > 0)
 		user.adjust_beefman_bleeding(clamp((user.bodytemperature - 297.15) / 20 - searJuices, 2, 10))
-		dehydrate -= 0.5
+		dehydrated -= 0.5
 	else
 		user.adjust_beefman_bleeding(clamp((user.bodytemperature - 297.15) / 20 - searJuices, 0, 5))
 
@@ -139,9 +138,9 @@
 	// Salt HURTS
 	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
 		user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
-		if(DT_PROB(10, delta_time) || dehydrate == 0)
+		if(DT_PROB(10, delta_time) || dehydrated == 0)
 			to_chat(user, span_alert("Your beefy mouth tastes dry."))
-		dehydrate++
+		dehydrated++
 	// Regain BLOOD
 	else if(istype(chem, /datum/reagent/consumable/nutriment))
 		if(user.blood_volume < BLOOD_VOLUME_NORMAL)
@@ -180,8 +179,8 @@
 	if(user != target && user.is_bleeding())
 		target.add_mob_blood(user)
 
+///Called on Assign, or on Color Change (or any time proof_beefman_features() is used)
 /datum/species/beefman/proc/set_beef_color(mob/living/carbon/human/user)
-	// Called on Assign, or on Color Change (or any time proof_beefman_features() is used)
 	fixed_mut_color = user.dna.features["beefcolor"]
 	default_color = fixed_mut_color
 
@@ -274,6 +273,7 @@
 		span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
 	new_bodypart.attach_limb(beefboy)
 	new_bodypart.give_meat(beefboy, meat_slab)
+	qdel(meat_slab)
 	playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
 	return TRUE
 
