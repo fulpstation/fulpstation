@@ -47,13 +47,13 @@
  * 3) Apply a small part of my body's metabolic reagents to the meat. Check how Feed does this.
  */
 
-/obj/item/bodypart/proc/drop_meat(mob/inOwner)
+/obj/item/bodypart/proc/drop_meat(mob/inOwner, dismembered = FALSE)
 	// Not Organic? ABORT! Robotic stays robotic, desnt delete and turn to meat.
 	if(status != BODYPART_ORGANIC)
 		return FALSE
 	// If not 0% health, let's do it!
 	var/percentHealth = 1 - (brute_dam + burn_dam) / max_damage
-	if(percentHealth <= 0)
+	if(percentHealth <= 0 && !dismembered)
 		return
 
 	// Create Meat
@@ -66,8 +66,10 @@
 	if(inOwner.reagents && inOwner.reagents.total_volume)
 		inOwner.reagents.trans_to(new_meat, 20)	// Run transfer of 1 unit of reagent from them to me.
 
-	inOwner.put_in_hands(new_meat)
+	if(dismembered)
+		inOwner.put_in_hands(new_meat)
 	. = new_meat
+
 
 /**
  * # LIMBS
@@ -102,6 +104,12 @@
 	if(drop_meat(owner_cache))
 		qdel(src)
 
+/obj/item/bodypart/r_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache, TRUE))
+		qdel(src)
+
 /obj/item/bodypart/l_arm/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -113,6 +121,12 @@
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(drop_meat(owner_cache))
+		qdel(src)
+
+/obj/item/bodypart/l_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache, TRUE))
 		qdel(src)
 
 /obj/item/bodypart/r_leg/beef
@@ -128,6 +142,12 @@
 	if(drop_meat(owner_cache))
 		qdel(src)
 
+/obj/item/bodypart/r_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache, TRUE))
+		qdel(src)
+
 /obj/item/bodypart/l_leg/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -139,4 +159,10 @@
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(drop_meat(owner_cache))
+		qdel(src)
+
+/obj/item/bodypart/l_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
+	var/mob/living/carbon/owner_cache = owner
+	..()
+	if(drop_meat(owner_cache, TRUE))
 		qdel(src)
