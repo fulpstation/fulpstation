@@ -694,14 +694,13 @@
 	broke_masquerade = TRUE
 	antag_hud_name = "masquerade_broken"
 	add_team_hud(owner.current)
-	for(var/datum/mind/clan_minds in clan?.members)
-		var/datum/antagonist/bloodsucker/allsuckers = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(owner.current == allsuckers)
+	for(var/datum/mind/clan_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		if(owner == clan_minds)
 			continue
 		if(!isliving(clan_minds.current))
 			continue
 		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
-		if(allsuckers.my_clan != CLAN_MALKAVIAN)
+		if(clan_minds.my_clan != CLAN_MALKAVIAN)
 			continue
 		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
 		masquerade_objective.target = owner.current
