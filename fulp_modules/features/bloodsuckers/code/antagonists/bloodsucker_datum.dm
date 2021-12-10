@@ -707,7 +707,7 @@
 		masquerade_objective.target = owner.current
 		masquerade_objective.objective_name = "Clan Objective"
 		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, is Final Death'ed."
-		allsuckers.objectives += masquerade_objective
+		bloodsuckerdatum.objectives += masquerade_objective
 		clan_minds.announce_objectives()
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
