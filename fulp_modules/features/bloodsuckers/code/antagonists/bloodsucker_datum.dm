@@ -700,7 +700,8 @@
 		if(!isliving(clan_minds.current))
 			continue
 		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
-		if(clan_minds.my_clan != CLAN_MALKAVIAN)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
 			continue
 		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
 		masquerade_objective.target = owner.current
