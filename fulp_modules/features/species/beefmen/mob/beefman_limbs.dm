@@ -8,36 +8,36 @@
  */
 
 ///Meat has been assigned to this NEW limb! Give it meat and damage me as needed.
-/obj/item/bodypart/proc/give_meat(mob/living/carbon/human/beefboy, obj/item/food/meat/slab/inMeatObj)
+/obj/item/bodypart/proc/give_meat(mob/living/carbon/human/beefboy, obj/item/food/meat/slab/given_meat)
 
 	///All default reagents
 	var/amount_original
-	for(var/reagents in inMeatObj.food_reagents) // List of TYPES and the starting AMOUNTS
-		amount_original += inMeatObj.food_reagents[reagents]
+	for(var/reagents in given_meat.food_reagents) // List of TYPES and the starting AMOUNTS
+		amount_original += given_meat.food_reagents[reagents]
 
 	///All (current) default reagents
 	var/amount_current
-	for(var/datum/reagent/extra_reagents as anything in inMeatObj.reagents.reagent_list) // Actual REAGENT DATUMS and their VOLUMES
-		if(!(locate(extra_reagents.type) in inMeatObj.food_reagents))
+	for(var/datum/reagent/extra_reagents as anything in given_meat.reagents.reagent_list) // Actual REAGENT DATUMS and their VOLUMES
+		if(!(locate(extra_reagents.type) in given_meat.food_reagents))
 			continue
 		amount_current += extra_reagents.volume
-		inMeatObj.reagents.remove_reagent(extra_reagents.type, extra_reagents.volume)
+		given_meat.reagents.remove_reagent(extra_reagents.type, extra_reagents.volume)
 
-	inMeatObj.reagents.update_total()
+	given_meat.reagents.update_total()
 
 	var/damaged_limb_percent = 1 - amount_current / amount_original
 	receive_damage(brute = max_damage * damaged_limb_percent)
 	if(damaged_limb_percent >= 0.9)
-		to_chat(owner, span_alert("It's almost completely useless. That [inMeatObj.name] was no good!"))
+		to_chat(owner, span_alert("It's almost completely useless. That [given_meat.name] was no good!"))
 	else if(damaged_limb_percent > 0.5)
-		to_chat(owner, span_alert("[inMeatObj.name] is riddled with bite marks..."))
+		to_chat(owner, span_alert("\the [given_meat.name] is riddled with bite marks..."))
 	else if(damaged_limb_percent > 0)
-		to_chat(owner, span_alert("[inMeatObj.name] looks a little eaten away, but it'll do."))
+		to_chat(owner, span_alert("\the [given_meat.name] looks a little eaten away, but it'll do."))
 
 	// Apply meat's Reagents to Me
-	if(inMeatObj.reagents && inMeatObj.reagents.total_volume)
+	if(given_meat.reagents && given_meat.reagents.total_volume)
 		// Run transfer of 1 unit of reagent from them to me.
-		inMeatObj.reagents.trans_to(owner, inMeatObj.reagents.total_volume)
+		given_meat.reagents.trans_to(owner, given_meat.reagents.total_volume)
 
 
 /**
