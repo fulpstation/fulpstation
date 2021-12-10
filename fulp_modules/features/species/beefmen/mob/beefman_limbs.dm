@@ -66,7 +66,7 @@
 	if(inOwner.reagents && inOwner.reagents.total_volume)
 		inOwner.reagents.trans_to(new_meat, 20)	// Run transfer of 1 unit of reagent from them to me.
 
-	if(dismembered)
+	if(!dismembered)
 		inOwner.put_in_hands(new_meat)
 	. = new_meat
 
