@@ -73,13 +73,12 @@
 /turf/open/floor/engine,
 /area/engineering/main)
 "ach" = (
-/obj/machinery/processor,
-/obj/machinery/airalarm/directional/north,
-/obj/machinery/camera/directional/north{
-	c_tag = "Kitchen N";
-	name = "service camera"
+/obj/structure/table,
+/obj/machinery/microwave,
+/obj/item/toy/figure/chef{
+	pixel_x = -6;
+	pixel_y = 12
 	},
-/obj/machinery/light/directional/north,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "ack" = (
@@ -6208,8 +6207,7 @@
 /turf/open/floor/iron,
 /area/security/prison)
 "bTI" = (
-/obj/machinery/deepfryer,
-/obj/machinery/light/directional/north,
+/obj/machinery/processor,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "bTQ" = (
@@ -10925,10 +10923,13 @@
 	pixel_x = -27;
 	req_access_txt = "28"
 	},
-/obj/machinery/computer/chef_order{
-	dir = 4
+/obj/machinery/light/directional/north,
+/obj/machinery/requests_console/directional/north{
+	department = "Kitchen";
+	departmentType = 2;
+	name = "Kitchen RC"
 	},
-/obj/machinery/light_switch/directional/north,
+/obj/machinery/deepfryer,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "dib" = (
@@ -25926,13 +25927,6 @@
 /obj/machinery/status_display/ai/directional/east,
 /turf/open/floor/iron/dark,
 /area/ai_monitored/turret_protected/aisat/foyer)
-"hkb" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 1
-	},
-/turf/open/floor/iron/cafeteria,
-/area/service/kitchen)
 "hkz" = (
 /obj/effect/turf_decal/siding/thinplating{
 	dir = 8
@@ -26885,11 +26879,11 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "hCh" = (
+/obj/structure/disposalpipe/segment,
 /obj/structure/sink/kitchen{
 	dir = 8;
 	pixel_x = 14
 	},
-/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "hCj" = (
@@ -27248,8 +27242,13 @@
 	pixel_y = 25;
 	req_access_txt = "28"
 	},
-/obj/structure/table,
-/obj/machinery/microwave,
+/obj/machinery/light/directional/north,
+/obj/machinery/airalarm/directional/east,
+/obj/machinery/camera/directional/north{
+	c_tag = "Kitchen N";
+	name = "service camera"
+	},
+/obj/machinery/deepfryer,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "hIl" = (
@@ -34498,6 +34497,9 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "jTa" = (
@@ -44784,10 +44786,6 @@
 /turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "mQk" = (
-/obj/machinery/light/directional/south,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/structure/closet/secure_closet/freezer/fridge,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
@@ -47613,8 +47611,8 @@
 /area/medical/surgery/room_b)
 "nEk" = (
 /obj/structure/cable,
-/turf/open/space/basic,
-/area/space)
+/turf/open/floor/iron/white,
+/area/medical/chemistry)
 "nEl" = (
 /obj/effect/turf_decal/tile/blue/half{
 	color = "#4169E1";
@@ -48581,11 +48579,9 @@
 /turf/open/floor/circuit/telecomms/server,
 /area/science/server)
 "nQv" = (
+/obj/machinery/light/directional/south,
+/obj/machinery/light_switch/directional/south,
 /obj/machinery/vending/dinnerware,
-/obj/item/toy/figure/chef{
-	pixel_x = -6;
-	pixel_y = 12
-	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "nQz" = (
@@ -55434,9 +55430,9 @@
 /turf/open/floor/iron/white,
 /area/science/breakroom)
 "pLq" = (
-/obj/structure/cable,
-/turf/open/floor/iron/white,
-/area/medical/chemistry)
+/obj/structure/table,
+/turf/open/floor/iron/cafeteria,
+/area/service/kitchen)
 "pLD" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -57863,10 +57859,12 @@
 /turf/open/floor/iron/showroomfloor,
 /area/commons/toilet)
 "qwq" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron,
-/area/commons/dorms)
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 1
+	},
+/turf/open/floor/iron/cafeteria,
+/area/service/kitchen)
 "qwx" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -58189,11 +58187,8 @@
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "qAZ" = (
-/obj/machinery/requests_console/directional/north{
-	department = "Kitchen";
-	departmentType = 2;
-	name = "Kitchen RC"
-	},
+/obj/structure/table,
+/obj/machinery/microwave,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "qBv" = (
@@ -58845,11 +58840,11 @@
 "qKb" = (
 /obj/machinery/duct,
 /obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "qKi" = (
@@ -58895,9 +58890,7 @@
 /turf/open/floor/iron/dark,
 /area/science/storage)
 "qKu" = (
-/obj/item/radio/intercom/directional/east,
-/obj/structure/table,
-/obj/machinery/microwave,
+/obj/structure/extinguisher_cabinet/directional/east,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "qKw" = (
@@ -59670,29 +59663,14 @@
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "qWM" = (
-/obj/structure/table,
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/storage/box/papersack{
-	icon_state = "paperbag_NanotrasenStandard_closed"
-	},
-/obj/item/kitchen/rollingpin,
+/obj/machinery/oven,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "qWZ" = (
-/obj/structure/tank_holder/extinguisher,
-/turf/open/floor/iron/cafeteria,
-/area/service/kitchen)
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/iron,
+/area/commons/dorms)
 "qXc" = (
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
@@ -60537,15 +60515,15 @@
 /turf/open/floor/iron/white,
 /area/science/misc_lab)
 "rjI" = (
-/obj/effect/landmark/start/cook,
 /obj/machinery/duct,
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/cook,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rjS" = (
 /obj/structure/table,
-/obj/item/food/dough,
-/obj/item/food/dough,
+/obj/item/reagent_containers/food/condiment/enzyme,
+/obj/item/reagent_containers/glass/beaker,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rkj" = (
@@ -60578,11 +60556,11 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/command/storage/eva)
 "rkX" = (
-/obj/effect/landmark/start/cook,
 /obj/structure/cable,
 /obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/landmark/start/cook,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rlc" = (
@@ -61129,7 +61107,8 @@
 /area/security/prison/shower)
 "rst" = (
 /obj/structure/table,
-/obj/item/holosign_creator/robot_seat/restaurant,
+/obj/item/food/dough,
+/obj/item/food/dough,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rsw" = (
@@ -61149,18 +61128,32 @@
 /area/engineering/storage/tech)
 "rsK" = (
 /obj/structure/table,
-/obj/item/reagent_containers/food/condiment/enzyme,
-/obj/item/reagent_containers/glass/beaker,
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
+/obj/item/storage/box/papersack{
+	icon_state = "paperbag_NanotrasenStandard_closed"
+	},
+/obj/item/kitchen/rollingpin,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rsR" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/sink/kitchen{
 	dir = 4;
 	pixel_x = -11
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rtc" = (
@@ -62140,11 +62133,8 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central/aft)
 "rEb" = (
-/obj/structure/table,
-/obj/item/storage/bag/tray,
-/obj/item/food/mint,
-/turf/open/floor/iron/cafeteria,
-/area/service/kitchen)
+/turf/closed/wall/r_wall,
+/area/maintenance/port/aft)
 "rEg" = (
 /obj/structure/transit_tube/curved{
 	dir = 4
@@ -62495,7 +62485,7 @@
 /turf/open/floor/carpet/royalblue,
 /area/medical/medbay/central)
 "rHW" = (
-/obj/machinery/oven,
+/obj/machinery/griddle,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rHX" = (
@@ -62998,8 +62988,9 @@
 /turf/open/floor/iron,
 /area/security/prison/work)
 "rNH" = (
-/obj/machinery/deepfryer,
-/obj/item/book/manual/chef_recipes,
+/obj/structure/table,
+/obj/item/storage/bag/tray,
+/obj/item/food/mint,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rNN" = (
@@ -63850,7 +63841,8 @@
 /turf/open/floor/iron/dark,
 /area/science/xenobiology)
 "rYC" = (
-/obj/machinery/griddle,
+/obj/structure/table,
+/obj/item/holosign_creator/robot_seat/restaurant,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "rYH" = (
@@ -64834,12 +64826,16 @@
 /turf/open/floor/iron,
 /area/security/checkpoint/science/research)
 "spa" = (
-/obj/machinery/griddle,
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/west{
 	c_tag = "Kitchen S";
 	name = "service camera"
 	},
+/obj/machinery/computer/chef_order{
+	dir = 4
+	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "spf" = (
@@ -70015,7 +70011,12 @@
 /turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "tSQ" = (
-/turf/closed/wall/r_wall,
+/obj/machinery/power/apc/auto_name/directional/west{
+	areastring = "/area/service/hydroponics/garden";
+	name = "Garden APC"
+	},
+/obj/structure/cable,
+/turf/open/floor/plating,
 /area/maintenance/port/aft)
 "tSX" = (
 /obj/machinery/door/poddoor/shutters{
@@ -76635,7 +76636,9 @@
 	},
 /area/ai_monitored/turret_protected/aisat/service)
 "vMY" = (
-/obj/structure/table,
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "vNd" = (
@@ -78189,11 +78192,8 @@
 	},
 /area/commons/fitness/recreation)
 "wjS" = (
-/obj/machinery/power/apc/auto_name/directional/west{
-	areastring = "/area/service/hydroponics/garden";
-	name = "Garden APC"
-	},
-/obj/structure/cable,
+/obj/effect/spawner/random/contraband/narcotics,
+/obj/effect/spawner/random/contraband/prison,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "wjT" = (
@@ -84511,11 +84511,6 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/storage)
-"xQn" = (
-/obj/effect/spawner/random/contraband/narcotics,
-/obj/effect/spawner/random/contraband/prison,
-/turf/open/floor/plating,
-/area/maintenance/port/aft)
 "xQq" = (
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
@@ -98943,7 +98938,7 @@ rkv
 rkv
 pCI
 vrg
-xQn
+wjS
 vrg
 pCI
 meC
@@ -100710,7 +100705,7 @@ jVB
 jwH
 jwH
 kfi
-qwq
+qWZ
 kAs
 rUu
 kud
@@ -102802,7 +102797,7 @@ pCI
 pCI
 rkv
 pCI
-tSQ
+rEb
 oQQ
 dNl
 oQQ
@@ -103059,7 +103054,7 @@ pCI
 rKn
 rkv
 rkv
-tSQ
+rEb
 uMq
 oGA
 jeX
@@ -103316,7 +103311,7 @@ pCI
 svM
 rkv
 rkv
-tSQ
+rEb
 uWr
 wCe
 tXJ
@@ -103573,7 +103568,7 @@ sEv
 jvJ
 jvJ
 jvJ
-tSQ
+rEb
 oeg
 tDf
 vRs
@@ -103830,11 +103825,11 @@ pCI
 pCI
 pCI
 sEv
-tSQ
+rEb
 pKO
 jRg
-tSQ
-tSQ
+rEb
+rEb
 pCI
 xOw
 meC
@@ -113836,7 +113831,7 @@ vdT
 vuy
 vuy
 pCI
-rkv
+pCI
 rGG
 vYO
 wSR
@@ -114093,7 +114088,7 @@ pYM
 pYM
 jRA
 pCI
-pCI
+tSQ
 rGG
 pCI
 wST
@@ -114350,7 +114345,7 @@ kMb
 vva
 vva
 pCI
-wjS
+rkv
 rGG
 pCI
 pCI
@@ -116662,11 +116657,11 @@ hFP
 hFP
 hFP
 hFP
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
+rEb
+rEb
+rEb
+rEb
+rEb
 uEe
 xpm
 uEe
@@ -116690,11 +116685,11 @@ meC
 meC
 meC
 pCI
-tSQ
-tSQ
+rEb
+rEb
 tyC
-tSQ
-tSQ
+rEb
+rEb
 tmE
 waX
 lrm
@@ -116931,10 +116926,10 @@ vxD
 vqH
 uEe
 tBF
-tSQ
+rEb
 mWs
-tSQ
-tSQ
+rEb
+rEb
 rkv
 rkv
 rkv
@@ -116951,7 +116946,7 @@ wka
 rHv
 rkv
 sBx
-tSQ
+rEb
 htP
 qoU
 pDC
@@ -117191,7 +117186,7 @@ fBV
 xar
 ipV
 mvx
-tSQ
+rEb
 nWT
 rkv
 rkv
@@ -117208,7 +117203,7 @@ rHv
 rHv
 rkv
 rkv
-tSQ
+rEb
 swm
 qYk
 qxo
@@ -117448,24 +117443,24 @@ kWu
 rxY
 wlu
 xEu
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
+rEb
+rEb
+rEb
+rEb
+rEb
+rEb
+rEb
+rEb
+rEb
 rkv
 rHv
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
-tSQ
+rEb
+rEb
+rEb
+rEb
+rEb
+rEb
+rEb
 seN
 fnm
 seN
@@ -117713,10 +117708,10 @@ fry
 alD
 xiU
 jUm
-tSQ
+rEb
 rkv
 rHv
-tSQ
+rEb
 ptk
 fUj
 jab
@@ -118227,10 +118222,10 @@ nvh
 nvh
 xLG
 ylK
-tSQ
+rEb
 sBx
 sBx
-tSQ
+rEb
 mOh
 pIR
 jfS
@@ -118484,10 +118479,10 @@ nvh
 xLG
 xLG
 kEq
-tSQ
+rEb
 pFH
 pFH
-tSQ
+rEb
 sKs
 sKs
 sKs
@@ -119468,9 +119463,9 @@ qfM
 hsS
 dhX
 vMY
-xLY
-xLY
-xLY
+rDO
+rDO
+qwq
 bTI
 rNH
 rYC
@@ -119982,10 +119977,10 @@ luZ
 hsS
 qAZ
 qKb
-hkb
-fTI
+qWM
+pLq
 rst
-rEb
+fTI
 rHW
 gGl
 sps
@@ -120753,7 +120748,7 @@ qgr
 vXs
 hHU
 qKu
-qWZ
+xLY
 xLY
 xLY
 xLY
@@ -123173,7 +123168,7 @@ meC
 meC
 meC
 meC
-nEk
+meC
 meC
 meC
 meC
@@ -130518,7 +130513,7 @@ wAP
 wAP
 hgZ
 gGZ
-pLq
+nEk
 vra
 rov
 rvp
