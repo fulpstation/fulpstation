@@ -15470,7 +15470,7 @@
 	name = "Atmospherics Blast Door"
 	},
 /obj/machinery/door/firedoor/heavy,
-/obj/effect/spawner/structure/window/plasma,
+/obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
 /area/engineering/storage_shared)
 "eqQ" = (
@@ -20038,11 +20038,11 @@
 /turf/open/floor/iron,
 /area/maintenance/starboard/fore)
 "fBJ" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
 /area/engineering/atmospherics_engine)
 "fBN" = (
@@ -24473,10 +24473,10 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 4
 	},
-/obj/structure/cable,
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "gOy" = (
@@ -24484,13 +24484,13 @@
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
 "gOA" = (
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 10
 	},
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 5
 	},
+/obj/structure/cable,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "gON" = (
@@ -74326,16 +74326,13 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "vdi" = (
-/obj/effect/turf_decal/tile/blue/half{
-	color = "#4169E1";
-	dir = 4;
-	name = "Command blue half"
+/obj/machinery/door/airlock/maintenance{
+	name = "Head of Personnel Maintenance Access";
+	req_access_txt = "57"
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-10"
-	},
-/turf/open/floor/iron/dark,
-/area/hallway/secondary/command)
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "vdo" = (
 /obj/machinery/door/airlock/maintenance{
 	req_access_txt = "12"
@@ -74582,9 +74579,16 @@
 /turf/open/floor/iron,
 /area/hallway/primary/aft)
 "vgr" = (
-/obj/effect/spawner/random/contraband/narcotics,
-/turf/open/floor/plating,
-/area/maintenance/port/aft)
+/obj/effect/turf_decal/tile/blue/half{
+	color = "#4169E1";
+	dir = 4;
+	name = "Command blue half"
+	},
+/obj/item/kirbyplants{
+	icon_state = "plant-10"
+	},
+/turf/open/floor/iron/dark,
+/area/hallway/secondary/command)
 "vgv" = (
 /obj/machinery/firealarm/directional/east,
 /obj/effect/turf_decal/siding/brown{
@@ -75259,7 +75263,6 @@
 /area/ai_monitored/command/nuke_storage)
 "vrg" = (
 /obj/effect/spawner/random/contraband/narcotics,
-/obj/effect/spawner/random/contraband/prison,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "vrh" = (
@@ -84508,6 +84511,11 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/storage)
+"xQn" = (
+/obj/effect/spawner/random/contraband/narcotics,
+/obj/effect/spawner/random/contraband/prison,
+/turf/open/floor/plating,
+/area/maintenance/port/aft)
 "xQq" = (
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
@@ -98934,9 +98942,9 @@ rkv
 rkv
 rkv
 pCI
-vgr
 vrg
-vgr
+xQn
+vrg
 pCI
 meC
 xOw
@@ -127964,7 +127972,7 @@ hgw
 mJH
 dOA
 cni
-tJH
+vdi
 oil
 oil
 oil
@@ -128996,7 +129004,7 @@ rBC
 rBC
 lcD
 rBC
-vdi
+vgr
 xLs
 iJF
 tLF
