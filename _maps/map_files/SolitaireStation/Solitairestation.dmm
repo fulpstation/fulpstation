@@ -21677,9 +21677,13 @@
 /turf/open/floor/carpet/neon/simple/purple,
 /area/command/heads_quarters/rd)
 "gcn" = (
-/obj/structure/extinguisher_cabinet/directional/west,
-/turf/closed/wall,
-/area/maintenance/department/electrical)
+/obj/machinery/door/airlock/maintenance{
+	name = "Engineering Maintenance";
+	req_one_access_txt = "10; 24"
+	},
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/engineering/storage/tech)
 "gcx" = (
 /obj/structure/showcase/machinery/cloning_pod{
 	desc = "An old prototype cloning pod, permanently decommissioned following the incident.";
@@ -23130,9 +23134,6 @@
 	color = "#73c2fb";
 	name = "Medical blue half"
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
 "gsQ" = (
@@ -24033,8 +24034,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
 "gHc" = (
@@ -25726,16 +25725,8 @@
 /turf/open/floor/grass,
 /area/service/chapel/monastery)
 "hgZ" = (
-/obj/machinery/door/airlock/medical/glass{
-	name = "Chemistry Lab";
-	req_access_txt = "5; 33"
-	},
-/obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron/white,
+/turf/closed/wall/r_wall,
 /area/medical/chemistry)
 "hha" = (
 /obj/machinery/light/directional/west,
@@ -29402,13 +29393,8 @@
 /turf/open/floor/iron,
 /area/security/prison)
 "iuy" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Engineering Maintenance";
-	req_one_access_txt = "10; 24"
-	},
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/engineering/storage/tech)
+/turf/closed/wall/r_wall,
+/area/maintenance/starboard/fore)
 "iuC" = (
 /obj/structure/reagent_dispensers/fueltank,
 /obj/effect/turf_decal/tile/yellow/anticorner{
@@ -31246,8 +31232,10 @@
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "iXh" = (
-/turf/closed/wall/r_wall,
-/area/maintenance/starboard/fore)
+/obj/structure/closet/crate,
+/obj/item/storage/box/lights/tubes,
+/turf/open/floor/plating,
+/area/maintenance/fore)
 "iXj" = (
 /obj/effect/turf_decal/tile/brown/half{
 	dir = 4
@@ -33077,10 +33065,9 @@
 /turf/closed/wall/r_wall,
 /area/security/prison)
 "jyw" = (
-/obj/structure/closet/crate,
-/obj/item/storage/box/lights/tubes,
-/turf/open/floor/plating,
-/area/maintenance/fore)
+/obj/structure/sign/warning/biohazard,
+/turf/closed/wall/r_wall,
+/area/maintenance/department/science)
 "jyx" = (
 /obj/machinery/duct,
 /turf/open/floor/iron,
@@ -34534,9 +34521,8 @@
 /turf/open/floor/iron,
 /area/service/hydroponics/garden)
 "jTn" = (
-/obj/structure/sign/warning/biohazard,
-/turf/closed/wall/r_wall,
-/area/maintenance/department/science)
+/turf/closed/wall,
+/area/maintenance/department/medical/central)
 "jTp" = (
 /obj/machinery/light_switch/directional/east,
 /obj/machinery/porta_turret/ai{
@@ -34720,8 +34706,9 @@
 /turf/open/floor/iron,
 /area/commons/lounge)
 "jVG" = (
-/turf/closed/wall,
-/area/maintenance/department/medical/central)
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/maintenance/department/medical/morgue)
 "jVU" = (
 /obj/effect/spawner/random/maintenance,
 /turf/open/floor/plating,
@@ -39207,7 +39194,6 @@
 /turf/open/floor/plating/grass/jungle,
 /area/service/hydroponics/garden/abandoned)
 "lkY" = (
-/obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
 "lkZ" = (
@@ -39348,7 +39334,7 @@
 	},
 /area/ai_monitored/turret_protected/aisat/hallway)
 "lmS" = (
-/turf/open/floor/plating,
+/turf/closed/wall/r_wall,
 /area/maintenance/department/medical/morgue)
 "lnb" = (
 /obj/effect/turf_decal/stripes/full,
@@ -40552,7 +40538,7 @@
 /area/maintenance/port/aft)
 "lFa" = (
 /turf/closed/wall/r_wall,
-/area/maintenance/department/medical/morgue)
+/area/maintenance/starboard)
 "lFv" = (
 /obj/machinery/porta_turret/ai{
 	installation = /obj/item/gun/energy/e_gun
@@ -41384,8 +41370,9 @@
 /turf/open/floor/iron/sepia,
 /area/maintenance/department/science)
 "lRB" = (
-/turf/closed/wall/r_wall,
-/area/maintenance/starboard)
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/maintenance/department/medical/morgue)
 "lRD" = (
 /obj/structure/filingcabinet,
 /obj/structure/disposalpipe/segment,
@@ -41648,6 +41635,8 @@
 /area/service/library)
 "lVr" = (
 /obj/machinery/space_heater,
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
 "lVt" = (
@@ -43138,7 +43127,7 @@
 "msx" = (
 /obj/machinery/door/airlock/maintenance{
 	name = "Morgue Maintenance";
-	req_one_access_txt = "6;5;12"
+	req_one_access_txt = "6;5"
 	},
 /obj/machinery/door/poddoor/preopen{
 	id = "MedQuarantine";
@@ -55445,11 +55434,9 @@
 /turf/open/floor/iron/white,
 /area/science/breakroom)
 "pLq" = (
-/obj/machinery/space_heater,
-/obj/machinery/power/apc/auto_name/directional/north,
 /obj/structure/cable,
-/turf/open/floor/plating,
-/area/maintenance/department/medical/morgue)
+/turf/open/floor/iron/white,
+/area/medical/chemistry)
 "pLD" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -61184,8 +61171,6 @@
 	color = "#73c2fb";
 	name = "Medical blue half"
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
@@ -66848,7 +66833,6 @@
 	name = "Maintenance Hatch";
 	req_access_txt = "12"
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "sTl" = (
@@ -79466,9 +79450,6 @@
 /area/security/detectives_office)
 "wAP" = (
 /obj/structure/disposalpipe/segment,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
 "wAQ" = (
@@ -85875,9 +85856,6 @@
 	color = "#73c2fb";
 	name = "Medical blue half"
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
 "yfN" = (
@@ -104550,7 +104528,7 @@ jbq
 jBR
 sXd
 jBR
-jTn
+jyw
 uJl
 qvR
 fnV
@@ -118146,7 +118124,7 @@ fTe
 fTe
 vXa
 vXa
-iuy
+gcn
 idG
 ikx
 itV
@@ -118669,7 +118647,7 @@ iQr
 jbS
 jmQ
 fTe
-jyw
+iXh
 qfF
 xDG
 qfF
@@ -127682,8 +127660,8 @@ xas
 xVc
 yjs
 wvr
-jVG
-jVG
+jTn
+jTn
 swd
 swd
 gfT
@@ -128196,7 +128174,7 @@ xas
 xVc
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 koo
@@ -128453,7 +128431,7 @@ xas
 xVc
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 sQS
@@ -128710,7 +128688,7 @@ xas
 xVc
 yjs
 wvr
-jVG
+jTn
 vVD
 usD
 ogS
@@ -128967,7 +128945,7 @@ lEE
 xVc
 sTq
 nSi
-jVG
+jTn
 vfk
 usD
 qGU
@@ -129224,7 +129202,7 @@ xas
 xVc
 yjs
 wvr
-jVG
+jTn
 mMa
 usD
 xIh
@@ -129481,7 +129459,7 @@ xas
 uiG
 yjs
 rSv
-jVG
+jTn
 vfk
 usD
 rpu
@@ -129738,7 +129716,7 @@ xas
 uiG
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 tUd
@@ -129995,7 +129973,7 @@ xas
 uiG
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 fcI
@@ -130252,7 +130230,7 @@ xas
 uiG
 yjs
 fjV
-jVG
+jTn
 vfk
 usD
 cvY
@@ -130509,7 +130487,7 @@ xas
 uiG
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 uJf
@@ -130532,7 +130510,7 @@ wAP
 wAP
 hgZ
 gGZ
-vra
+pLq
 vra
 rov
 rvp
@@ -130766,7 +130744,7 @@ jGP
 frY
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 uUe
@@ -131023,7 +131001,7 @@ xas
 uiG
 yjs
 mgK
-jVG
+jTn
 vfk
 usD
 vkA
@@ -131280,7 +131258,7 @@ xas
 uiG
 yjs
 rSv
-jVG
+jTn
 mrt
 usD
 fhQ
@@ -131537,7 +131515,7 @@ xas
 lMz
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 vRy
@@ -131794,7 +131772,7 @@ hEO
 lMF
 hlv
 tCi
-jVG
+jTn
 vfk
 usD
 whK
@@ -132051,7 +132029,7 @@ xas
 wKO
 yjs
 tCb
-jVG
+jTn
 vfk
 usD
 usD
@@ -132308,7 +132286,7 @@ feU
 wKO
 dtA
 tCc
-jVG
+jTn
 xQQ
 tAg
 tAg
@@ -132564,12 +132542,12 @@ lvz
 xas
 wKO
 wvr
-jVG
-jVG
+jTn
+jTn
 xQQ
 sll
 dKB
-jVG
+jTn
 jMK
 mOg
 xgz
@@ -132821,16 +132799,16 @@ lww
 xas
 wKO
 emg
-jVG
+jTn
 xrM
 xQQ
-jVG
-jVG
-jVG
+jTn
+jTn
+jTn
 nsA
-jVG
-jVG
-jVG
+jTn
+jTn
+jTn
 xNK
 xNK
 ocs
@@ -133078,10 +133056,10 @@ lww
 xas
 lMK
 wvr
-jVG
+jTn
 xrM
 xQQ
-jVG
+jTn
 yfE
 vCk
 vht
@@ -133335,10 +133313,10 @@ lww
 xas
 wKO
 rSv
-jVG
+jTn
 rIk
 xQQ
-jVG
+jTn
 bJY
 mmN
 vht
@@ -133592,10 +133570,10 @@ vbm
 feU
 wKO
 wvr
-jVG
+jTn
 mOg
 xQQ
-jVG
+jTn
 mJv
 vda
 vht
@@ -133849,10 +133827,10 @@ sfR
 xas
 wKO
 mgK
-jVG
+jTn
 mOg
 xQQ
-jVG
+jTn
 xmh
 vht
 mWN
@@ -134106,10 +134084,10 @@ qVf
 xas
 wKO
 wvr
-jVG
+jTn
 kdM
 xQQ
-jVG
+jTn
 pKI
 gDk
 xRl
@@ -134363,7 +134341,7 @@ rhF
 lFx
 wKO
 fjV
-jVG
+jTn
 xgz
 xQQ
 nTN
@@ -134620,10 +134598,10 @@ sfR
 xas
 wKO
 rSv
-jVG
+jTn
 xgz
 xQQ
-jVG
+jTn
 pKI
 qYz
 xRl
@@ -134643,7 +134621,7 @@ cOS
 cOS
 cOS
 cOS
-lFa
+lmS
 sgw
 xhu
 xIq
@@ -134877,10 +134855,10 @@ lwG
 lFC
 wKO
 lTx
-jVG
-jVG
+jTn
+jTn
 xQQ
-jVG
+jTn
 tqH
 vht
 oas
@@ -134900,7 +134878,7 @@ pEH
 bFI
 bFI
 qti
-lFa
+lmS
 kUA
 xhu
 oIT
@@ -135135,9 +135113,9 @@ xas
 lNl
 lUg
 mhn
-jVG
+jTn
 xQQ
-jVG
+jTn
 xQD
 vda
 vda
@@ -135157,7 +135135,7 @@ rGb
 aMu
 uKq
 qtq
-lFa
+lmS
 kUA
 xhu
 olJ
@@ -135414,7 +135392,7 @@ pES
 mwN
 uKq
 qub
-lFa
+lmS
 kUA
 xhu
 roA
@@ -135649,9 +135627,9 @@ yjs
 wKO
 yjs
 rSv
-jVG
+jTn
 xQQ
-jVG
+jTn
 yfE
 mRs
 mXc
@@ -135671,7 +135649,7 @@ pEZ
 pSK
 uKq
 sNF
-lFa
+lmS
 kUA
 xhu
 gjD
@@ -135928,7 +135906,7 @@ pES
 pSR
 uKq
 quM
-lFa
+lmS
 kUA
 xhu
 owU
@@ -136163,7 +136141,7 @@ yjs
 wKO
 yjs
 nSi
-jVG
+jTn
 vfk
 usD
 wiG
@@ -136185,7 +136163,7 @@ pFh
 pST
 qjO
 xpW
-lFa
+lmS
 kUA
 xhu
 roU
@@ -136232,7 +136210,7 @@ jTY
 fae
 tNB
 lMf
-gcn
+sGz
 meC
 meC
 meC
@@ -136420,7 +136398,7 @@ yjs
 wKO
 yjs
 wvr
-jVG
+jTn
 vfk
 usD
 xDO
@@ -136442,7 +136420,7 @@ pFo
 pSX
 qrP
 quY
-lFa
+lmS
 kUA
 raS
 owU
@@ -136677,7 +136655,7 @@ yjs
 wKO
 yjs
 wvr
-jVG
+jTn
 vfk
 mBF
 xDO
@@ -136699,7 +136677,7 @@ wMK
 pTw
 wMK
 wMK
-lFa
+lmS
 kUA
 xhu
 owU
@@ -136934,9 +136912,9 @@ lGi
 wKO
 yjs
 mgK
-jVG
+jTn
 msx
-jVG
+jTn
 xDO
 xDO
 xDO
@@ -136956,7 +136934,7 @@ pFW
 vgh
 qkp
 wMK
-lVr
+lRB
 kUA
 xhu
 uhA
@@ -137213,7 +137191,7 @@ edR
 wxi
 qkx
 wMK
-lVr
+lRB
 kUA
 xhu
 owU
@@ -137470,7 +137448,7 @@ xeR
 pTy
 yhR
 wMK
-pLq
+lVr
 kUA
 xhu
 rpf
@@ -137979,11 +137957,11 @@ vPG
 mVk
 oOJ
 jSo
-lFa
-lFa
-lFa
-lFa
-lFa
+lmS
+lmS
+lmS
+lmS
+lmS
 xhu
 mIT
 xhu
@@ -138450,11 +138428,11 @@ meC
 meC
 meC
 vdE
-iXh
-iXh
+iuy
+iuy
 ixd
-iXh
-iXh
+iuy
+iuy
 vdE
 vdE
 vdE
@@ -138495,19 +138473,19 @@ hvw
 hvw
 hvw
 hvw
-lmS
+lkY
 xme
 qvf
-lmS
-lmS
+lkY
+lkY
 raT
-lFa
-lFa
+lmS
+lmS
 rIq
-lFa
-lFa
-lFa
-lFa
+lmS
+lmS
+lmS
+lmS
 sQV
 lGA
 sOf
@@ -138735,13 +138713,13 @@ yjs
 wvr
 xhu
 mtK
-lmS
+lkY
 xhu
 mRS
 mXV
 njM
 nws
-lmS
+lkY
 odZ
 odZ
 odZ
@@ -138755,9 +138733,9 @@ xhu
 xhu
 qky
 xhu
+lkY
 lmS
-lFa
-lFa
+lmS
 oRk
 wmC
 kYf
@@ -138991,17 +138969,17 @@ wKO
 yjs
 rSv
 xhu
+jVG
 lkY
-lmS
 xhu
 mRZ
-lmS
+lkY
 njX
 xhu
 nFq
 odZ
-lmS
-lmS
+lkY
+lkY
 xhu
 ovG
 frF
@@ -139009,11 +138987,11 @@ oPf
 iXN
 psQ
 xhu
-lVr
+lRB
 qkL
 xhu
 swY
-lFa
+lmS
 jXk
 rVd
 ryr
@@ -139248,8 +139226,8 @@ wKO
 yjs
 nSi
 xhu
-lmS
-lmS
+lkY
+lkY
 xhu
 mSa
 xhu
@@ -139257,8 +139235,8 @@ xhu
 xhu
 vtO
 odZ
-lmS
-lmS
+lkY
+lkY
 xhu
 owg
 frF
@@ -139270,7 +139248,7 @@ pUa
 qkM
 xhu
 pfc
-lFa
+lmS
 qlG
 qWc
 qWc
@@ -139509,12 +139487,12 @@ iqQ
 iqQ
 bLk
 mSi
-lmS
-lmS
-lmS
-lmS
+lkY
+lkY
+lkY
+lkY
 odZ
-lmS
+lkY
 pip
 xhu
 aLv
@@ -139526,8 +139504,8 @@ xhu
 pUf
 qlc
 xhu
-lVr
-lFa
+lRB
+lmS
 xng
 uBN
 rzi
@@ -141321,7 +141299,7 @@ nFt
 tWO
 xkT
 nXP
-lRB
+lFa
 iur
 iur
 iur
@@ -141578,7 +141556,7 @@ nFz
 oQD
 xkT
 puF
-lRB
+lFa
 pUC
 qKw
 tIl
@@ -142092,7 +142070,7 @@ tWO
 tWO
 xkT
 puG
-lRB
+lFa
 qKw
 kBM
 iur
@@ -142349,7 +142327,7 @@ nFD
 nSc
 xkT
 puP
-lRB
+lFa
 qQq
 kBM
 iur
@@ -142606,7 +142584,7 @@ nFz
 fGN
 xkT
 tWO
-lRB
+lFa
 pUC
 qlv
 iur
@@ -142863,7 +142841,7 @@ tNK
 tWO
 xkT
 tWO
-lRB
+lFa
 pUQ
 qlw
 iur
@@ -143120,7 +143098,7 @@ xkT
 xkT
 xkT
 qFd
-lRB
+lFa
 iur
 iur
 iur
