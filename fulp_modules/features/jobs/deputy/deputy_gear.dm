@@ -166,7 +166,7 @@
 	icon_state = "deputy_envirohelm"
 	inhand_icon_state = "deputy_envirohelm"
 
-/// Berets - We're using Supply as the main one over Engineering, because I dont want them inheriting rad protection.
+/// Berets
 /obj/item/clothing/head/fulpberet
 	worn_icon = 'fulp_modules/features/jobs/icons/head_worn.dmi'
 	icon = 'fulp_modules/features/jobs/icons/head_icons.dmi'
