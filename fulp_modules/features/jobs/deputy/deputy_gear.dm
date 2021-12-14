@@ -29,7 +29,7 @@
 	name = "Deputy - Engineering"
 
 	head = /obj/item/clothing/head/fulpberet/engineering
-	ears = /obj/item/radio/headset/headset_dep
+	ears = /obj/item/radio/headset/headset_dep/engineering
 	neck = /obj/item/clothing/neck/fulptie/engineering
 	id_trim = /datum/id_trim/job/deputy/engineering
 	accessory = /obj/item/clothing/accessory/armband/engine
@@ -40,7 +40,7 @@
 	name = "Deputy - Medical"
 
 	head = /obj/item/clothing/head/fulpberet/medical
-	ears = /obj/item/radio/headset/headset_dep/med
+	ears = /obj/item/radio/headset/headset_dep/medical
 	neck = /obj/item/clothing/neck/fulptie/medical
 	id_trim = /datum/id_trim/job/deputy/medical
 	accessory = /obj/item/clothing/accessory/armband/medblue
@@ -56,7 +56,7 @@
 		/obj/item/reagent_containers/hypospray/medipen/mutadone = 2,
 	)
 	neck = /obj/item/clothing/neck/fulptie/science
-	ears = /obj/item/radio/headset/headset_dep/sci
+	ears = /obj/item/radio/headset/headset_dep/science
 	head = /obj/item/clothing/head/fulpberet/science
 	id_trim = /datum/id_trim/job/deputy/science
 	accessory = /obj/item/clothing/accessory/armband/science
@@ -71,7 +71,7 @@
 		/obj/item/export_scanner = 1,
 		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
 	)
-	head = /obj/item/clothing/head/fulpberet
+	head = /obj/item/clothing/head/fulpberet/supply
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
 	ears = /obj/item/radio/headset/headset_dep/supply
 	neck = /obj/item/clothing/neck/fulptie/supply
@@ -170,10 +170,9 @@
 /obj/item/clothing/head/fulpberet
 	worn_icon = 'fulp_modules/features/jobs/icons/head_worn.dmi'
 	icon = 'fulp_modules/features/jobs/icons/head_icons.dmi'
-	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
-	name = "supply deputy beret"
-	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
-	icon_state = "beret_supply"
+	name = "generic deputy beret"
+	desc = "You shouldn't be seeing this! File a bug report."
+	icon_state = "beret_engi"
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	clothing_flags = SNUG_FIT //Prevents being knocked off
 
@@ -199,6 +198,12 @@
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
 
+/obj/item/clothing/head/fulpberet/supply
+	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
+	name = "supply deputy beret"
+	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
+	icon_state = "beret_supply"
+
 /obj/item/clothing/head/fulpberet/service
 	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15) // Captain level
 	name = "service deputy beret"
@@ -206,30 +211,36 @@
 	icon_state = "beret_service"
 	clothing_flags = THICKMATERIAL | SNUG_FIT
 
-/// Headsets - Base + Engineering
+/// Headsets - Base
 /obj/item/radio/headset/headset_dep
 	icon = 'fulp_modules/features/jobs/icons/radio.dmi'
 	worn_icon = 'icons/mob/clothing/ears.dmi'
 	worn_icon_state = "sec_headset_alt"
 
-	name = "engineering bowman headset"
-	desc = "The best way to stay alert of any possible sabotage."
+	name = "generic deputy headset"
+	desc = "You shouldn't be seeing this! File a bug report."
 	icon_state = "eng_headset"
-	keyslot = new /obj/item/encryptionkey/headset_eng
 
 /obj/item/radio/headset/headset_dep/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/wearertargeting/earprotection, list(ITEM_SLOT_EARS))
 
+/// Engineering
+/obj/item/radio/headset/headset_dep/engineering
+	name = "engineering bowman headset"
+	desc = "The best way to stay alert of any possible sabotage."
+	icon_state = "eng_headset"
+	keyslot = new /obj/item/encryptionkey/headset_eng
+
 /// Medical
-/obj/item/radio/headset/headset_dep/med
+/obj/item/radio/headset/headset_dep/medical
 	name = "medical bowman headset"
 	desc = "Looks a little worn out from all the chemistry explosions."
 	icon_state = "med_headset"
 	keyslot = new /obj/item/encryptionkey/headset_med
 
 /// Science
-/obj/item/radio/headset/headset_dep/sci
+/obj/item/radio/headset/headset_dep/science
 	name = "science bowman headset"
 	desc = "Suddenly turns off when the Research Director starts yelling Malf."
 	icon_state = "sci_headset"
@@ -248,103 +259,6 @@
 	desc = "For the one constantly recieving calls from the Law office to Botany, Service comms are the most well organized."
 	icon_state = "service_headset"
 	keyslot = new /obj/item/encryptionkey/headset_service
-
-/// Base Skillchip
-/obj/item/skillchip/job/deputy
-	name = "D3PU7Y skillchip"
-	desc = "You think they learn this stuff naturally?"
-	skill_icon = "sitemap"
-	var/deputy
-	var/department
-	var/datum/martial_art/deputyblock/style
-
-/obj/item/skillchip/job/deputy/Initialize()
-	. = ..()
-	if(deputy)
-		name = "[deputy]-D3PU7Y skillchip"
-	if(department)
-		skill_name = "[department] deputy"
-		skill_description = "Recognizes [department] as their home, making them feel happy in it, and tends to be harsher on criminals with their grabs."
-		activate_message = span_notice("You suddenly feel safe in [department].")
-		deactivate_message = span_notice("[department] no longer feels safe.")
-	style = new
-
-/obj/item/skillchip/job/deputy/on_activate(mob/living/carbon/user, silent = FALSE)
-	. = ..()
-	style.teach(user, TRUE)
-
-/obj/item/skillchip/job/deputy/on_deactivate(mob/living/carbon/user, silent = FALSE)
-	style.remove(user)
-	return ..()
-
-/*
- *	Deputies are meant to get NOGUNS trait.
- *	Lore-wise reason is that they are privately-owned, and trained by non-NT folk.
- *	These folk believe professionalism and the way people look at you, is more important than efficiency.
- *	No one wants to see a deputy with a gun, so they're trained in not using it.
- *
- *	Actual reason why is balance and to prevent powergaming.
- */
-
-/// Engineering Skillchip
-/obj/item/skillchip/job/deputy/engineering
-	deputy = "3NG1N3ER1N9"
-	department = "Engineering"
-	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
-
-/area/engineering
-	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
-	mood_trait = TRAIT_ENGINEERINGDEPUTY
-
-/// Medical Skillchip
-/obj/item/skillchip/job/deputy/medical
-	deputy = "M3D1C4L"
-	department = "Medbay"
-	auto_traits = list(TRAIT_MEDICALDEPUTY, TRAIT_NOGUNS, TRAIT_QUICK_CARRY) /// Medical deputies on their way to arrest dead bodies?
-
-/area/medical
-	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
-	mood_trait = TRAIT_MEDICALDEPUTY
-
-/// Science Skillchip
-/obj/item/skillchip/job/deputy/science
-	deputy = "5C1ENC3"
-	department = "Science"
-	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS) /// No bonus here, they get a Mutadone medipen instead.
-
-/area/science
-	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
-	mood_trait = TRAIT_SCIENCEDEPUTY
-
-/// Supply Skillchip
-/obj/item/skillchip/job/deputy/supply
-	deputy = "5UPP1Y"
-	department = "Cargo"
-	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_NOGUNS) /// No bonus here, they get an armor vest instead.
-
-/area/cargo
-	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
-	mood_trait = TRAIT_SUPPLYDEPUTY
-
-/// Service Skillchip
-/obj/item/skillchip/job/deputy/service
-	deputy = "S5RV1C3"
-	department = "Service"
-	auto_traits = list(TRAIT_SERVICEDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_SOOTHER) /// Psychologist bonus without the hallucination protection.
-
-/area/service
-	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
-	mood_trait = TRAIT_SERVICEDEPUTY
-
-/// Mood buff from being within your department.
-/datum/mood_event/deputy_helpful
-	description = "<span class='nicegreen'>I love helping out my department!</span>\n"
-	mood_change = 5
 
 /// Used for Science Deputies and Brig doctor's Chemical kit.
 /obj/item/reagent_containers/hypospray/medipen/mutadone
