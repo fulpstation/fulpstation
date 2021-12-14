@@ -120,7 +120,7 @@
 /obj/item/bodypart/l_arm/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(drop_meat(owner_cache))
+	if(!special && drop_meat(owner_cache))
 		qdel(src)
 
 /obj/item/bodypart/l_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
