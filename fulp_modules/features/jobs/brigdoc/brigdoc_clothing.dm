@@ -17,6 +17,7 @@ Contains:
 	worn_icon = 'fulp_modules/features/jobs/icons/clothing_worn.dmi'
 	icon = 'fulp_modules/features/jobs/icons/clothing_icons.dmi'
 	icon_state = "beret_medbay"
+	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, FIRE = 50, ACID = 60, WOUND = 5)
 
 // Labcoat
 
