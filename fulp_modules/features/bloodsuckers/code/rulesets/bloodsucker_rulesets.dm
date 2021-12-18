@@ -156,8 +156,8 @@
 		return FALSE
 	// Check for Fledgeling
 	if(converter)
-		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [converter].")
-		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [converter].")
+		message_admins("[convertee] has become a Bloodsucker, and was created by [converter].")
+		log_admin("[convertee] has become a Bloodsucker, and was created by [converter].")
 	return TRUE
 
 /datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker)
