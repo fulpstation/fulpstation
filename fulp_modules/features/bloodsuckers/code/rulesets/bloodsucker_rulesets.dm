@@ -172,7 +172,7 @@
 		remove_antag_datum(/datum/antagonist/bloodsucker)
 		special_role = null
 
-/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/converted, datum/mind/converter, display_warning = TRUE, can_vassal_sleeping = FALSE)//, check_antag_or_loyal=FALSE)
+/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/converted, datum/mind/converter, can_vassal_sleeping = FALSE)//, check_antag_or_loyal=FALSE)
 	// Not Correct Type: Abort
 	if(!iscarbon(converted) || !converter)
 		return FALSE
@@ -180,23 +180,19 @@
 		return FALSE
 	// No Mind!
 	if(!converted.mind)
-		if(display_warning)
-			to_chat(converter, span_danger("[converted] isn't self-aware enough to be made into a Vassal."))
+		to_chat(converter, span_danger("[converted] isn't self-aware enough to be made into a Vassal."))
 		return FALSE
 	// Already MY Vassal
 	var/datum/antagonist/vassal/vassaldatum = converted.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(istype(vassaldatum) && vassaldatum.master)
 		if(vassaldatum.master.owner == converter)
-			if(display_warning)
-				to_chat(converter, span_danger("[converted] is already your loyal Vassal!"))
+			to_chat(converter, span_danger("[converted] is already your loyal Vassal!"))
 		else
-			if(display_warning)
-				to_chat(converter, span_danger("[converted] is the loyal Vassal of another Bloodsucker!"))
+			to_chat(converter, span_danger("[converted] is the loyal Vassal of another Bloodsucker!"))
 		return FALSE
 	// Already Antag or Loyal (Vamp Hunters count as antags)
-	if(converted.mind.enslaved_to || AmInvalidAntag(converted)) //!VassalCheckAntagValid(converted.mind, check_antag_or_loyal)) // HAS_TRAIT(converted, TRAIT_MINDSHIELD, "implant") ||
-		if(display_warning)
-			to_chat(converter, span_danger("[converted] resists the power of your blood to dominate their mind!"))
+	if(!isnull(converted.mind.enslaved_to) || AmInvalidAntag(converted))
+		to_chat(converter, span_danger("[converted] resists the power of your blood to dominate their mind!"))
 		return FALSE
 	return TRUE
 
