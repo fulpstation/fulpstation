@@ -156,11 +156,6 @@
 		return FALSE
 	// Check for Fledgeling
 	if(creator)
-		// Check if their Creator is Malkavian trying to turn a Beefman into one.
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = creator.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum?.my_clan == CLAN_MALKAVIAN)
-			if(isbeefman(bloodsucker.current))
-				return FALSE
 		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
 		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
 	return TRUE
