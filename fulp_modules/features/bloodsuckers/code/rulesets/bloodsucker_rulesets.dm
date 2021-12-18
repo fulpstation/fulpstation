@@ -155,14 +155,9 @@
 			to_chat(converter, span_danger("[convertee]'s DNA isn't compatible!"))
 		return FALSE
 	// Check for Fledgeling
-	if(converter)
-		// Check if the person converting is Malkavian trying to turn a Beefman into one.
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = converter.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum?.my_clan == CLAN_MALKAVIAN)
-			if(isbeefman(convertee.current))
-				return FALSE
-		message_admins("[convertee] has become a Bloodsucker, and was created by [converter].")
-		log_admin("[convertee] has become a Bloodsucker, and was created by [converter].")
+	if(creator)
+		message_admins("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
+		log_admin("[bloodsucker] has become a Bloodsucker, and was created by [creator].")
 	return TRUE
 
 /datum/mind/proc/make_bloodsucker(datum/mind/bloodsucker)

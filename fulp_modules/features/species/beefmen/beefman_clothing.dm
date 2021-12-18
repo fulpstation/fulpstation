@@ -1,14 +1,14 @@
 /obj/item/clothing/under/bodysash
 	name = "assistant sash"
 	desc = "A simple assistant sash, slung from shoulder to hip."
-	icon = 'fulp_modules/features/species/icons/mob/clothing/beefclothing.dmi' // item icon
-	worn_icon =  'fulp_modules/features/species/icons/mob/clothing/beefclothing_worn.dmi' // mob worn icon
+	icon = 'fulp_modules/features/species/icons/mob/clothing/beefclothing.dmi'
+	worn_icon =  'fulp_modules/features/species/icons/mob/clothing/beefclothing_worn.dmi'
 	icon_state = "assistant" // Inventory Icon
-	body_parts_covered = CHEST // |GROIN|ARMS
 	lefthand_file = 'fulp_modules/features/species/icons/mob/clothing/beefclothing_hold_left.dmi'
 	righthand_file = 'fulp_modules/features/species/icons/mob/clothing/beefclothing_hold_right.dmi'
 	inhand_icon_state = "sash" // In-hand Icon
 	can_adjust = FALSE
+	body_parts_covered = CHEST
 
 //Captain
 /obj/item/clothing/under/bodysash/captain
@@ -158,7 +158,7 @@
 
 /obj/item/clothing/under/bodysash/clown/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/squeak, list('sound/items/bikehorn.ogg'=1), 50, falloff_exponent = 20) //die off quick please
+	AddComponent(/datum/component/squeak, list('sound/items/bikehorn.ogg' = 1), 50, falloff_exponent = 20)
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_CLOWN, CELL_VIRUS_TABLE_GENERIC, rand(2,3), 0)
 
 /obj/item/clothing/under/bodysash/mime
@@ -238,7 +238,6 @@
 	icon_state = "civilian"
 
 ///Misc
-
 /obj/item/clothing/under/bodysash/russia
 	name = "Russian sash"
 	desc = "A simple Russian sash, slung from shoulder to hip."
