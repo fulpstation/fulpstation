@@ -564,14 +564,14 @@
 /turf/open/floor/iron/dark,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "ajO" = (
-/obj/machinery/power/apc{
+/obj/structure/cable,
+/obj/effect/turf_decal/delivery,
+/obj/machinery/power/apc/highcap/fifteen_k{
 	areastring = "/area/engineering/supermatter/room";
 	dir = 1;
 	name = "Supermatter APC";
 	pixel_y = 23
 	},
-/obj/structure/cable,
-/obj/effect/turf_decal/delivery,
 /turf/open/floor/engine,
 /area/engineering/supermatter/room)
 "ajP" = (
@@ -1769,7 +1769,7 @@
 	dir = 8;
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "aCK" = (
 /obj/structure/closet/secure_closet/warden,
 /obj/item/grenade/barrier,
@@ -3320,9 +3320,10 @@
 /turf/open/floor/engine,
 /area/engineering/storage)
 "aZo" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/maintenance/solars/port/aft)
+/obj/machinery/power/tracker,
+/obj/structure/cable,
+/turf/open/floor/iron/solarpanel/airless,
+/area/maintenance/solars/port/fore)
 "aZt" = (
 /obj/structure/table,
 /obj/item/weldingtool,
@@ -5734,7 +5735,7 @@
 	uses = 10
 	},
 /turf/open/floor/glass/reinforced,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "bKO" = (
 /obj/effect/turf_decal/siding/thinplating/dark,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -7207,7 +7208,7 @@
 "cgw" = (
 /obj/machinery/light/floor,
 /turf/open/floor/glass/reinforced,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "cgx" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrous_output,
 /turf/open/floor/engine/n2o,
@@ -7453,8 +7454,13 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central/aft)
 "clx" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/obj/machinery/power/solar{
+	id = "permar";
+	name = "Perma Solar Array"
+	},
+/obj/structure/cable,
+/obj/structure/cable,
+/turf/open/floor/iron/solarpanel/airless,
 /area/maintenance/solars/starboard/fore)
 "clz" = (
 /obj/machinery/camera{
@@ -7625,7 +7631,7 @@
 "cnt" = (
 /obj/structure/legionnaire_bonfire,
 /turf/open/floor/iron/dark,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "cnu" = (
 /obj/machinery/suit_storage_unit/ce,
 /obj/effect/turf_decal/siding/yellow{
@@ -8164,7 +8170,7 @@
 /turf/open/floor/iron{
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "cva" = (
 /obj/structure/cable,
 /obj/machinery/duct,
@@ -12499,7 +12505,7 @@
 	installation = /obj/item/gun/energy/e_gun
 	},
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "dDh" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/brown/visible,
 /turf/open/floor/iron,
@@ -12713,7 +12719,7 @@
 /turf/open/floor/iron{
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "dFF" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -14137,7 +14143,7 @@
 /obj/item/radio/intercom/directional/east,
 /obj/machinery/light/small/directional/east,
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "dXM" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/plating,
@@ -17110,7 +17116,7 @@
 /obj/item/radio/intercom/directional/west,
 /obj/machinery/light/small/directional/west,
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "eKT" = (
 /obj/machinery/airalarm/directional/east{
 	frequency = 1459;
@@ -18467,7 +18473,7 @@
 /obj/machinery/holopad/secure,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "fbH" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
@@ -20892,7 +20898,7 @@
 /obj/structure/cable,
 /obj/machinery/light/small/directional/east,
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "fNZ" = (
 /obj/structure/chair,
 /turf/open/floor/iron/white/side,
@@ -22349,6 +22355,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/tcommsat/computer)
 "ghE" = (
@@ -23589,9 +23596,8 @@
 /area/service/chapel/monastery)
 "gwt" = (
 /obj/structure/lattice/catwalk,
-/obj/item/stack/cable_coil,
 /turf/open/space/basic,
-/area/maintenance/solars/port/aft)
+/area/maintenance/solars/starboard/fore)
 "gwB" = (
 /obj/structure/railing{
 	dir = 1;
@@ -24081,7 +24087,7 @@
 "gFy" = (
 /obj/machinery/light/small/directional/west,
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "gFE" = (
 /obj/effect/turf_decal/siding/thinplating{
 	dir = 4
@@ -29785,7 +29791,7 @@
 	installation = /obj/item/gun/energy/e_gun
 	},
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "iyS" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
@@ -30983,7 +30989,7 @@
 	},
 /obj/machinery/status_display/evac/directional/west,
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "iRX" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -31204,16 +31210,6 @@
 	icon_state = "chapel"
 	},
 /area/ai_monitored/turret_protected/ai)
-"iUY" = (
-/obj/effect/turf_decal/tile/blue/half{
-	color = "#4169E1";
-	name = "Command blue half"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
-/turf/open/floor/iron/dark,
-/area/hallway/secondary/command)
 "iVa" = (
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
@@ -32695,7 +32691,7 @@
 	dir = 4;
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "jqw" = (
 /obj/machinery/microwave{
 	desc = "Cooks and boils stuff, somehow.";
@@ -34651,7 +34647,7 @@
 	installation = /obj/item/gun/energy/e_gun
 	},
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "jTu" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -37821,15 +37817,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
-"kOa" = (
-/obj/structure/lattice,
-/obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/ai_upload";
-	name = "AI Upload turret control";
-	pixel_x = 25
-	},
-/turf/open/space/basic,
-/area/space/nearstation)
 "kOb" = (
 /obj/structure/flora/grass/jungle,
 /obj/structure/flora/ausbushes/lavendergrass,
@@ -40077,7 +40064,7 @@
 	dir = 4
 	},
 /turf/open/floor/glass/reinforced,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "lwG" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -40738,7 +40725,7 @@
 	installation = /obj/item/gun/energy/e_gun
 	},
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "lFx" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -41913,7 +41900,7 @@
 /obj/machinery/holopad/secure,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "lWh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -44801,6 +44788,7 @@
 /area/service/janitor)
 "mNp" = (
 /obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/ai";
 	icon_state = "control_stun";
 	name = "AI Chamber turret control";
 	pixel_x = 3;
@@ -46460,7 +46448,7 @@
 /area/security/brig)
 "nlI" = (
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "nlK" = (
 /obj/machinery/atmospherics/components/binary/pump/on{
 	dir = 8
@@ -50186,7 +50174,7 @@
 	dir = 8;
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "oht" = (
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron/dark,
@@ -54268,7 +54256,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "prD" = (
 /obj/structure/table/glass,
 /obj/item/paicard,
@@ -57208,6 +57196,11 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
+"qio" = (
+/obj/structure/lattice/catwalk,
+/obj/item/stack/cable_coil,
+/turf/open/space/basic,
+/area/maintenance/solars/port/aft)
 "qiz" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable,
@@ -57350,7 +57343,7 @@
 	dir = 4;
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "qkm" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
@@ -58168,12 +58161,10 @@
 /turf/open/floor/iron,
 /area/science/explab)
 "qwH" = (
-/obj/structure/chair/comfy/brown,
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
-/turf/open/floor/carpet/neon/simple/blue,
-/area/command/heads_quarters/hop)
+/obj/structure/lattice/catwalk,
+/obj/item/stack/cable_coil,
+/turf/open/space/basic,
+/area/maintenance/solars/starboard/fore)
 "qwQ" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/tile/purple/half{
@@ -59369,12 +59360,10 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "qNS" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 2
-	},
-/turf/open/floor/carpet/royalblue,
-/area/command/heads_quarters/hop)
+/obj/machinery/power/tracker,
+/obj/structure/cable,
+/turf/open/floor/iron/solarpanel/airless,
+/area/maintenance/solars/starboard/fore)
 "qNT" = (
 /obj/machinery/door/airlock/hatch{
 	name = "MiniSat Antechamber";
@@ -59385,7 +59374,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "qOf" = (
 /obj/item/stack/sheet/cardboard,
 /turf/open/floor/plating,
@@ -59761,10 +59750,9 @@
 /turf/open/floor/iron/white,
 /area/science/robotics/lab)
 "qTT" = (
-/obj/machinery/power/tracker,
-/obj/structure/cable,
-/turf/open/floor/iron/solarpanel/airless,
-/area/maintenance/solars/port/aft)
+/obj/structure/grille/broken,
+/turf/open/space/basic,
+/area/space/nearstation)
 "qUg" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
@@ -60035,7 +60023,7 @@
 	dir = 1;
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "qXG" = (
 /obj/structure/table,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -61021,6 +61009,10 @@
 /obj/effect/turf_decal/trimline/blue/filled/corner,
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
+"rmQ" = (
+/obj/structure/lattice,
+/turf/open/space/basic,
+/area/maintenance/solars/port/aft)
 "rmT" = (
 /obj/effect/turf_decal/siding/blue{
 	color = "#4169E1";
@@ -63292,7 +63284,7 @@
 	dir = 1;
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "rNh" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -64582,7 +64574,7 @@
 	req_access_txt = "65"
 	},
 /turf/open/floor/plating,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "sfi" = (
 /obj/effect/turf_decal/siding/blue{
 	color = "#4169E1";
@@ -66297,10 +66289,11 @@
 /turf/open/floor/iron,
 /area/hallway/primary/port)
 "sEW" = (
-/obj/machinery/power/tracker,
-/obj/structure/cable,
-/turf/open/floor/iron/solarpanel/airless,
-/area/maintenance/solars/port/fore)
+/obj/item/kirbyplants{
+	icon_state = "plant-21"
+	},
+/turf/open/floor/carpet/neon/simple/blue,
+/area/command/heads_quarters/hop)
 "sFh" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
@@ -66546,7 +66539,7 @@
 /turf/open/floor/iron{
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "sJy" = (
 /obj/structure/ore_box,
 /obj/effect/turf_decal/tile/brown/half,
@@ -67339,10 +67332,9 @@
 /turf/open/floor/engine,
 /area/science/xenobiology)
 "sVu" = (
-/obj/structure/lattice/catwalk,
-/obj/item/stack/cable_coil,
-/turf/open/space/basic,
-/area/maintenance/solars/starboard/fore)
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/carpet/royalblue,
+/area/command/heads_quarters/hop)
 "sVz" = (
 /obj/effect/turf_decal/plaque{
 	icon_state = "L5"
@@ -67507,10 +67499,15 @@
 /turf/open/floor/carpet/black,
 /area/command/meeting_room/council)
 "sYr" = (
-/obj/machinery/power/tracker,
-/obj/structure/cable,
-/turf/open/floor/iron/solarpanel/airless,
-/area/maintenance/solars/starboard/fore)
+/obj/effect/turf_decal/tile/blue/half{
+	color = "#4169E1";
+	name = "Command blue half"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/iron/dark,
+/area/hallway/secondary/command)
 "sYy" = (
 /obj/effect/turf_decal/tile/blue/half{
 	color = "#4169E1";
@@ -71116,7 +71113,7 @@
 	dir = 8
 	},
 /turf/open/floor/glass/reinforced,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "ucF" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -71700,7 +71697,10 @@
 	},
 /area/commons/fitness)
 "ukZ" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/commons/fitness/recreation)
 "ulo" = (
@@ -71870,7 +71870,12 @@
 /turf/open/floor/iron,
 /area/service/hydroponics/garden)
 "umW" = (
-/obj/structure/grille/broken,
+/obj/structure/lattice,
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/ai_upload";
+	name = "AI Upload turret control";
+	pixel_x = 25
+	},
 /turf/open/space/basic,
 /area/space/nearstation)
 "umZ" = (
@@ -72331,12 +72336,11 @@
 /turf/open/floor/iron/white/corner,
 /area/commons/fitness/recreation)
 "utz" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white/side,
 /area/commons/fitness/recreation)
 "utG" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/white/side,
 /area/commons/fitness/recreation)
 "utK" = (
@@ -72640,11 +72644,12 @@
 /turf/open/floor/grass,
 /area/service/hydroponics/garden)
 "uxx" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
-	},
 /obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/trunk{
+	dir = 1
+	},
+/obj/machinery/disposal/bin,
 /turf/open/floor/carpet/neon/simple/blue,
 /area/command/heads_quarters/hop)
 "uxD" = (
@@ -73347,7 +73352,6 @@
 	color = "#f2c2e3";
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
 /area/commons/fitness/recreation)
@@ -73358,6 +73362,7 @@
 	dir = 4
 	},
 /obj/effect/landmark/start/hangover/closet,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/commons/fitness/recreation)
 "uIL" = (
@@ -74620,6 +74625,7 @@
 /obj/effect/turf_decal/tile/neutral/anticorner{
 	color = "#f2c2e3"
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/commons/fitness/recreation)
 "vbv" = (
@@ -75610,7 +75616,7 @@
 /area/security/brig)
 "vps" = (
 /obj/machinery/turretid{
-	control_area = "/area/ai_multicam_room";
+	control_area = "/area/ai_monitored/turret_protected/ai_sat_ext_as";
 	name = "Hallway Turret Control";
 	pixel_y = -24;
 	req_access = null;
@@ -75642,7 +75648,6 @@
 	},
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
 /area/commons/fitness/recreation)
@@ -75673,6 +75678,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/commons/fitness/recreation)
 "vqk" = (
@@ -76115,7 +76121,7 @@
 /area/command/heads_quarters/hop)
 "vxB" = (
 /obj/structure/disposalpipe/segment{
-	dir = 4
+	dir = 6
 	},
 /turf/open/floor/carpet/neon/simple/blue,
 /area/command/heads_quarters/hop)
@@ -76647,7 +76653,6 @@
 	},
 /obj/structure/closet/lasertag/red,
 /obj/effect/landmark/start/hangover/closet,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
 /area/commons/fitness/recreation)
@@ -77771,13 +77776,13 @@
 /turf/open/floor/iron,
 /area/security/prison/rec)
 "vVX" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white/side{
 	dir = 1
 	},
 /area/commons/fitness/recreation)
 "vWc" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/white/side{
 	dir = 1
 	},
@@ -78222,7 +78227,7 @@
 	dir = 4;
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "wbS" = (
 /obj/machinery/status_display/ai/directional/east,
 /obj/effect/turf_decal/tile/blue/anticorner{
@@ -78308,6 +78313,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/royalblue,
 /area/command/heads_quarters/hop)
 "wcD" = (
@@ -79331,7 +79337,7 @@
 /turf/open/floor/iron{
 	icon_state = "chapel"
 	},
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "wtn" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -79450,10 +79456,10 @@
 	},
 /area/service/chapel)
 "wvd" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/commons/fitness/recreation)
 "wvh" = (
@@ -79698,7 +79704,7 @@
 "wyw" = (
 /obj/machinery/status_display/ai/directional/east,
 /turf/open/floor/circuit,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "wyx" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
@@ -81214,14 +81220,10 @@
 /turf/open/floor/iron/dark,
 /area/service/library/abandoned)
 "wRc" = (
-/obj/machinery/power/solar{
-	id = "permar";
-	name = "Perma Solar Array"
-	},
-/obj/structure/cable,
+/obj/machinery/power/tracker,
 /obj/structure/cable,
 /turf/open/floor/iron/solarpanel/airless,
-/area/maintenance/solars/starboard/fore)
+/area/maintenance/solars/port/aft)
 "wRj" = (
 /obj/effect/turf_decal/tile/neutral/half{
 	color = "#f2c2e3";
@@ -82320,7 +82322,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/plating,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "xgZ" = (
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
@@ -84308,7 +84310,7 @@
 /obj/machinery/light/floor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "xGY" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/airalarm/directional/north,
@@ -85061,7 +85063,7 @@
 /area/hallway/primary/central/aft)
 "xQs" = (
 /turf/closed/wall/r_wall,
-/area/ai_multicam_room)
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "xQv" = (
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/aisat/foyer)
@@ -85296,7 +85298,6 @@
 	dir = 8
 	},
 /obj/effect/landmark/start/hangover/closet,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
 /area/commons/fitness/recreation)
@@ -98974,17 +98975,17 @@ meC
 meC
 meC
 meC
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
 meC
 meC
 meC
 meC
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
 meC
 meC
 meC
@@ -99227,27 +99228,27 @@ pCI
 pCI
 meC
 meC
-rCR
-rCR
-rCR
-rCR
-rCR
-xOw
-xOw
-xOw
-xOw
-xOw
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
 meC
 meC
 meC
 meC
+rCR
+rCR
+rCR
+rCR
+rCR
+xOw
+xOw
+xOw
+xOw
+xOw
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
 meC
 meC
 meC
@@ -99483,6 +99484,10 @@ wAB
 dQx
 pCI
 meC
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -99491,7 +99496,7 @@ xOw
 xOw
 xOw
 xOw
-qTT
+wRc
 xOw
 xOw
 xOw
@@ -99501,10 +99506,6 @@ xOw
 xOw
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -99740,6 +99741,10 @@ pCI
 pCI
 pCI
 pCI
+meC
+meC
+meC
+meC
 xOw
 xOw
 uQk
@@ -99755,13 +99760,9 @@ uQk
 uQk
 uQk
 uQk
-aZo
+rmQ
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -99997,6 +99998,10 @@ fQZ
 oHd
 kqD
 pCI
+meC
+meC
+meC
+meC
 xOw
 uQk
 lfA
@@ -100015,10 +100020,6 @@ lfA
 uQk
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -100254,6 +100255,10 @@ rkv
 rkv
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 xOw
 uQk
@@ -100262,20 +100267,16 @@ uQk
 uQk
 uQk
 xOw
-gwt
+qio
 xOw
 uQk
 uQk
 uQk
 uQk
 uQk
-aZo
+rmQ
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -100511,6 +100512,10 @@ lQK
 tSa
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 xOw
 uQk
@@ -100526,13 +100531,9 @@ uQk
 uQk
 uQk
 uQk
-aZo
+rmQ
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -100768,6 +100769,10 @@ pCI
 pCI
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 uQk
 lfA
@@ -100786,10 +100791,6 @@ lfA
 uQk
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -101025,6 +101026,10 @@ meC
 pCI
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 xOw
 uQk
@@ -101040,13 +101045,9 @@ uQk
 uQk
 uQk
 uQk
-aZo
+rmQ
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -101282,6 +101283,10 @@ meC
 pCI
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 xOw
 uQk
@@ -101297,13 +101302,9 @@ uQk
 uQk
 uQk
 uQk
-aZo
+rmQ
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -101539,6 +101540,10 @@ meC
 pCI
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 uQk
 lfA
@@ -101557,10 +101562,6 @@ lfA
 uQk
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -101796,6 +101797,10 @@ meC
 pCI
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 xOw
 uQk
@@ -101811,13 +101816,9 @@ uQk
 uQk
 uQk
 uQk
-aZo
+rmQ
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -102053,6 +102054,10 @@ meC
 pFH
 rkv
 pCI
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -102071,10 +102076,6 @@ xOw
 xOw
 xOw
 rCR
-meC
-meC
-meC
-meC
 meC
 meC
 meC
@@ -102319,10 +102320,10 @@ lfA
 heI
 heI
 heI
-xOw
-xOw
-xOw
-xOw
+heI
+heI
+heI
+heI
 xOw
 xOw
 xOw
@@ -103578,7 +103579,7 @@ xTu
 vpP
 vGi
 vVX
-nWu
+wvl
 wvd
 wFD
 wQP
@@ -107574,15 +107575,15 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
 meC
 meC
 meC
@@ -107831,15 +107832,15 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+rCR
 meC
 meC
 meC
@@ -108085,21 +108086,21 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
+rCR
+rCR
+rCR
+xOw
+xOw
+xOw
+aZo
+xOw
+xOw
+xOw
+rCR
+rCR
+rCR
+rCR
 meC
 meC
 meC
@@ -108342,21 +108343,21 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+uGv
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
 meC
 meC
 meC
@@ -108599,21 +108600,21 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
+xOw
+cOR
+cOR
+cOR
+cOR
+cOR
+bUt
+cOR
+cOR
+cOR
+cOR
+cOR
+cOI
+xOw
 meC
 meC
 meC
@@ -108856,21 +108857,21 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
+cOR
+uGv
+uGv
+uGv
+uGv
+uGv
+bUt
+uGv
+uGv
+uGv
+uGv
+uGv
+cOR
+xOw
 meC
 meC
 meC
@@ -109113,22 +109114,22 @@ meC
 meC
 meC
 meC
+rCR
+xOw
+cOR
+cOR
+cOR
+cOR
+cOR
+bUt
+cOR
+cOR
+cOR
+cOR
+cOR
+cOI
+xOw
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
 meC
 meC
 meC
@@ -109370,22 +109371,22 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
+cOR
+cOR
+cOR
+cOR
+cOR
+bUt
+cOR
+cOR
+cOR
+cOR
+cOR
+cOI
 xOw
-xOw
-xOw
-xOw
-xOw
-xOw
-rCR
+meC
 meC
 meC
 meC
@@ -109627,25 +109628,25 @@ meC
 meC
 meC
 meC
+rCR
+cOR
+uGv
+uGv
+uGv
+uGv
+uGv
+bUt
+uGv
+uGv
+uGv
+uGv
+uGv
+cOR
+xOw
 meC
 meC
 meC
 meC
-rCR
-rCR
-rCR
-rCR
-xOw
-xOw
-xOw
-sEW
-xOw
-xOw
-xOw
-rCR
-rCR
-rCR
-rCR
 meC
 meC
 meC
@@ -109884,25 +109885,25 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
 rCR
 xOw
+cOR
+cOR
+cOR
+cOR
+cOR
+bUt
+cOR
+cOR
+cOR
+cOR
+cOR
+cOI
 xOw
-xOw
-xOw
-xOw
-xOw
-uGv
-xOw
-xOw
-xOw
-xOw
-xOw
-xOw
-xOw
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -110141,10 +110142,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 cOR
@@ -110160,6 +110157,10 @@ cOR
 cOR
 cOI
 xOw
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -110398,10 +110399,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
 rCR
 cOR
 uGv
@@ -110417,6 +110414,10 @@ uGv
 uGv
 cOR
 xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -110657,16 +110658,12 @@ meC
 meC
 rCR
 xOw
-xOw
-xOw
-rCR
-xOw
 cOR
 cOR
 cOR
 cOR
 cOR
-bUt
+bUR
 cOR
 cOR
 cOR
@@ -110674,6 +110671,10 @@ cOR
 cOR
 cOI
 xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -110916,21 +110917,21 @@ rCR
 xOw
 xOw
 xOw
-rCR
 xOw
-cOR
-cOR
-cOR
-cOR
-cOR
+xOw
+xOw
 bUt
-cOR
-cOR
-cOR
-cOR
-cOR
-cOI
 xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -111173,21 +111174,21 @@ rCR
 xOw
 xOw
 xOw
-rCR
-cOR
-uGv
-uGv
-uGv
-uGv
-uGv
-bUt
-uGv
-uGv
-uGv
-uGv
-uGv
-cOR
 xOw
+xOw
+xOw
+bUt
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -111430,21 +111431,21 @@ rCR
 xOw
 xOw
 xOw
-rCR
 xOw
-cOR
-cOR
-cOR
-cOR
-cOR
+xOw
+xOw
 bUt
-cOR
-cOR
-cOR
-cOR
-cOR
-cOI
 xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -111687,21 +111688,21 @@ rCR
 xOw
 xOw
 xOw
-rCR
 xOw
-cOR
-cOR
-cOR
-cOR
-cOR
+xOw
+xOw
 bUt
-cOR
-cOR
-cOR
-cOR
-cOR
-cOI
 xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -111944,21 +111945,21 @@ rCR
 xOw
 xOw
 xOw
-rCR
-cOR
-uGv
-uGv
-uGv
-uGv
-uGv
-bUt
-uGv
-uGv
-uGv
-uGv
-uGv
-cOR
 xOw
+xOw
+xOw
+bUt
+bUt
+bUt
+bUt
+bUt
+xOw
+xOw
+xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -112201,21 +112202,21 @@ meC
 xOw
 xOw
 xOw
-rCR
 xOw
-cOR
-cOR
-cOR
-cOR
-cOR
-bUR
-cOR
-cOR
-cOR
-cOR
-cOR
-cOI
 xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+bUt
+xOw
+xOw
+xOw
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -112458,7 +112459,7 @@ rCR
 xOw
 xOw
 xOw
-rCR
+xOw
 xOw
 xOw
 xOw
@@ -112469,10 +112470,10 @@ bUt
 xOw
 xOw
 xOw
-xOw
-xOw
-xOw
-xOw
+rCR
+rCR
+rCR
+rCR
 meC
 meC
 meC
@@ -112713,9 +112714,9 @@ rCR
 meC
 rCR
 xOw
-rCR
-rCR
-rCR
+xOw
+xOw
+xOw
 xOw
 xOw
 xOw
@@ -126959,7 +126960,7 @@ yjs
 tSO
 tgl
 pof
-tqT
+sEW
 fnz
 mDF
 wlZ
@@ -127989,8 +127990,8 @@ mlS
 yeR
 tvO
 uRX
-qNS
-qwH
+wLT
+xmS
 vPE
 wcl
 wmR
@@ -128248,7 +128249,7 @@ eqK
 wLT
 wLT
 vxB
-wLT
+sVu
 wcr
 uxx
 xHv
@@ -129030,7 +129031,7 @@ uCh
 xLh
 eYP
 ygF
-iUY
+sYr
 fkv
 vea
 yiB
@@ -130068,7 +130069,7 @@ ucb
 xVS
 wJf
 fkv
-kOa
+umW
 xOw
 xOw
 xOw
@@ -138705,12 +138706,12 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
 xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 vdE
@@ -138962,12 +138963,12 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
 xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -139217,14 +139218,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
 xOw
+xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -139474,14 +139475,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
 xOw
+xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -139731,14 +139732,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
-meC
+rCR
 xOw
+xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -139988,14 +139989,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
+xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -140245,14 +140246,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
+rCR
+xOw
+xOw
 meC
 meC
 bZt
-rCR
-xOw
+meC
+meC
 meC
 meC
 meC
@@ -140502,14 +140503,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
+xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -140759,14 +140760,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
+xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -141016,14 +141017,14 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
+xOw
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -141273,20 +141274,20 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
-meC
-meC
-meC
-meC
 xOw
-xOw
+meC
+meC
+meC
+meC
+meC
+gwt
+gwt
+gwt
+gwt
+gwt
+gwt
 joK
 xOw
 xOw
@@ -141530,12 +141531,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -141544,7 +141539,7 @@ xOw
 xOw
 xOw
 xOw
-clx
+gwt
 xOw
 xOw
 xOw
@@ -141553,6 +141548,12 @@ xOw
 xOw
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -141787,12 +141788,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -141801,7 +141796,7 @@ czQ
 czQ
 czQ
 czQ
-clx
+gwt
 czQ
 czQ
 czQ
@@ -141810,6 +141805,12 @@ czQ
 xOw
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -142044,12 +142045,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 czQ
@@ -142058,15 +142053,21 @@ joK
 joK
 joK
 joK
+gwt
+joK
+joK
+joK
+joK
+joK
 clx
-joK
-joK
-joK
-joK
-joK
-wRc
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -142301,12 +142302,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -142315,7 +142310,7 @@ czQ
 czQ
 czQ
 czQ
-clx
+gwt
 czQ
 czQ
 czQ
@@ -142324,6 +142319,12 @@ czQ
 xOw
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -142558,12 +142559,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -142572,7 +142567,7 @@ czQ
 czQ
 czQ
 czQ
-clx
+gwt
 czQ
 czQ
 czQ
@@ -142581,6 +142576,12 @@ czQ
 xOw
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -142815,12 +142816,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 czQ
@@ -142829,15 +142824,21 @@ joK
 joK
 joK
 joK
+gwt
+joK
+joK
+joK
+joK
+joK
 clx
-joK
-joK
-joK
-joK
-joK
-wRc
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -143072,12 +143073,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -143086,7 +143081,7 @@ czQ
 czQ
 czQ
 czQ
-clx
+gwt
 czQ
 czQ
 czQ
@@ -143095,6 +143090,12 @@ czQ
 xOw
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -143329,12 +143330,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -143343,7 +143338,7 @@ czQ
 czQ
 czQ
 czQ
-clx
+gwt
 czQ
 czQ
 czQ
@@ -143352,6 +143347,12 @@ czQ
 xOw
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -143586,12 +143587,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 czQ
@@ -143600,15 +143595,21 @@ joK
 joK
 joK
 joK
+gwt
+joK
+joK
+joK
+joK
+joK
 clx
-joK
-joK
-joK
-joK
-joK
-wRc
 xOw
 xOw
+meC
+meC
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -143843,12 +143844,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -143857,7 +143852,7 @@ czQ
 czQ
 czQ
 czQ
-sVu
+qwH
 czQ
 czQ
 czQ
@@ -143866,6 +143861,12 @@ czQ
 xOw
 xOw
 rCR
+meC
+meC
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -144100,12 +144101,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -144123,6 +144118,12 @@ xOw
 xOw
 xOw
 rCR
+meC
+meC
+meC
+meC
+meC
+meC
 xOw
 xOw
 xOw
@@ -144357,12 +144358,6 @@ meC
 meC
 meC
 meC
-meC
-meC
-meC
-meC
-meC
-meC
 rCR
 xOw
 xOw
@@ -144371,7 +144366,7 @@ xOw
 xOw
 xOw
 xOw
-sYr
+qNS
 xOw
 xOw
 xOw
@@ -144380,6 +144375,12 @@ xOw
 xOw
 xOw
 rCR
+meC
+meC
+meC
+meC
+meC
+meC
 meC
 meC
 meC
@@ -144614,29 +144615,29 @@ meC
 meC
 meC
 meC
+rCR
+rCR
+rCR
+rCR
+rCR
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+xOw
+rCR
+rCR
+rCR
+rCR
+rCR
 meC
 meC
 meC
 meC
 meC
 meC
-rCR
-rCR
-rCR
-rCR
-rCR
-xOw
-xOw
-xOw
-xOw
-xOw
-xOw
-xOw
-rCR
-rCR
-rCR
-rCR
-rCR
 meC
 meC
 meC
@@ -144875,21 +144876,21 @@ meC
 meC
 meC
 meC
+rCR
+rCR
+rCR
+rCR
+rCR
+rCR
+qTT
+rCR
+rCR
 meC
 meC
 meC
 meC
 meC
 meC
-rCR
-rCR
-rCR
-rCR
-rCR
-rCR
-umW
-rCR
-rCR
 meC
 meC
 meC
