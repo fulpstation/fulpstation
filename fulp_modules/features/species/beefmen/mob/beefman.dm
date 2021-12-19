@@ -101,12 +101,12 @@
 	// Missing Defaults in DNA? Randomize!
 	proof_beefman_features(user.dna.features)
 	set_beef_color(user)
-	user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
+	user.gain_trauma(user?.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	user.cure_trauma_type(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(user?.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	return ..()
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
