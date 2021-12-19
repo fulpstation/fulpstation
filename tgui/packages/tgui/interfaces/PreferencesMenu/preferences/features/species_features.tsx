@@ -25,6 +25,11 @@ export const hair_gradient_color: Feature<string> = {
   component: FeatureColorInput,
 };
 
+export const feature_beef_trauma: Feature<string> = {
+  name: "Beefman Trauma",
+  component: FeatureDropdownInput,
+};
+
 
 export const feature_human_ears: FeatureChoiced = {
   name: "Ears",
