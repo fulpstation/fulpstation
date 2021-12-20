@@ -199,7 +199,7 @@
 	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
 		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
 	if(inFeatures["beef_trauma"] == null || inFeatures["beef_trauma"] == "")
-		inFeatures["beef_trauma"] = pick(GLOB.beefmen_traumas)
+		inFeatures["beef_trauma"] = GLOB.beefmen_traumas[pick(GLOB.beefmen_traumas)]
 
 /**
  * ATTACK PROCS
