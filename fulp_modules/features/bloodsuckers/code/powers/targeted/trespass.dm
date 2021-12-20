@@ -15,11 +15,11 @@
 	//target_range = 2
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 
-/datum/action/bloodsucker/targeted/trespass/CheckCanUse()
+/datum/action/bloodsucker/targeted/trespass/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
-	if(owner.notransform || !get_turf(owner))
+	if(user.notransform || !get_turf(user))
 		return FALSE
 	return TRUE
 
@@ -60,7 +60,6 @@
 
 /datum/action/bloodsucker/targeted/trespass/FireTargetedPower(atom/target_atom)
 	. = ..()
-	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 
 	// Find target turf, at or below Atom
 	var/mob/living/carbon/user = owner

@@ -14,19 +14,19 @@
 	bloodcost = 1.5
 	cooldown = 10 SECONDS
 
-/datum/action/bloodsucker/recuperate/CheckCanUse()
+/datum/action/bloodsucker/recuperate/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return
-	if(owner.stat >= DEAD || owner.incapacitated())
-		owner.balloon_alert(owner, "you are incapacitated...")
+	if(user.stat >= DEAD || user.incapacitated())
+		user.balloon_alert(user, "you are incapacitated...")
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/ActivatePower(mob/living/carbon/user = owner)
+	. = ..()
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	owner.balloon_alert(owner, "recuperate turned on.")
-	. = ..()
 
 /datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user)
 	. = ..()

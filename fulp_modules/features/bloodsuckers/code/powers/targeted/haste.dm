@@ -23,20 +23,19 @@
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 
-/datum/action/bloodsucker/targeted/haste/CheckCanUse()
+/datum/action/bloodsucker/targeted/haste/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
 	// Being Grabbed
-	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
-		owner.balloon_alert(owner, "you're being grabbed!")
+	if(user.pulledby && user.pulledby.grab_state >= GRAB_AGGRESSIVE)
+		user.balloon_alert(user, "you're being grabbed!")
 		return FALSE
-	if(!owner.has_gravity(owner.loc)) //We dont want people to be able to use this to fly around in space
-		owner.balloon_alert(owner, "you cannot dash while floating!")
+	if(!user.has_gravity(user.loc)) //We dont want people to be able to use this to fly around in space
+		user.balloon_alert(user, "you cannot dash while floating!")
 		return FALSE
-	var/mob/living/user = owner
 	if(user.body_position == LYING_DOWN)
-		owner.balloon_alert(owner, "you must be standing to tackle!")
+		user.balloon_alert(user, "you must be standing to tackle!")
 		return FALSE
 	return TRUE
 

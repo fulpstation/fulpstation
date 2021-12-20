@@ -17,7 +17,7 @@
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanUse()
+/datum/action/bloodsucker/targeted/brawn/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.) // Default checks
 		return FALSE
@@ -114,7 +114,6 @@
 
 /datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/target_atom)
 	. = ..()
-	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/user = owner
 	// Target Type: Mob
 	if(isliving(target_atom))

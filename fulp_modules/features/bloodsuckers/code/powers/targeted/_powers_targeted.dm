@@ -65,7 +65,7 @@
 	if(power_in_use || !CheckValidTarget(target_atom))
 		return FALSE
 	// Valid? (return true means DON'T cancel power!)
-	if(!CheckCanPayCost() || !CheckCanUse() || !CheckCanTarget(target_atom))
+	if(!CheckCanPayCost() || !CheckCanUse(owner) || !CheckCanTarget(target_atom))
 		return TRUE
 	power_in_use = TRUE // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
 	FireTargetedPower(target_atom) // We use this instead of ActivatePower(), which has no input

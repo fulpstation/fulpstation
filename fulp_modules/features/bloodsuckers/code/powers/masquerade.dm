@@ -29,6 +29,7 @@
 	constant_bloodcost = 0.1
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
+	. = ..()
 	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
 	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
@@ -54,7 +55,6 @@
 	if(istype(vampheart))
 		vampheart.FakeStart()
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
-	. = ..()
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.

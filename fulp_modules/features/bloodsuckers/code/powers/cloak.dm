@@ -16,7 +16,7 @@
 	var/was_running
 
 /// Must have nobody around to see the cloak
-/datum/action/bloodsucker/cloak/CheckCanUse()
+/datum/action/bloodsucker/cloak/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -26,12 +26,12 @@
 	return TRUE
 
 /datum/action/bloodsucker/cloak/ActivatePower(mob/living/user = owner)
+	. = ..()
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
 	user.AddElement(/datum/element/digitalcamo)
 	user.balloon_alert(user, "cloak turned on.")
-	. = ..()
 
 /datum/action/bloodsucker/cloak/UsePower(mob/living/user)
 	// Checks that we can keep using this.

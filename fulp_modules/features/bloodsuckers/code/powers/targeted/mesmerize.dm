@@ -33,18 +33,17 @@
 	///Our mesmerized target - Prevents several mesmerizes.
 	var/mob/living/mesmerized_target
 
-/datum/action/bloodsucker/targeted/mesmerize/CheckCanUse()
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.) // Default checks
 		return FALSE
-	if(!owner.getorganslot(ORGAN_SLOT_EYES))
+	if(!user.getorganslot(ORGAN_SLOT_EYES))
 		// Cant use balloon alert, they've got no eyes!
-		to_chat(owner, span_warning("You have no eyes with which to mesmerize."))
+		to_chat(user, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
-	var/mob/living/carbon/user = owner
 	if(istype(user) && (user.is_eyes_covered() && level_current <= 2) || !isturf(user.loc))
-		owner.balloon_alert(owner, "your eyes are concealed from sight.")
+		user.balloon_alert(user, "your eyes are concealed from sight.")
 		return FALSE
 	return TRUE
 
@@ -98,7 +97,6 @@
 
 /datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/target_atom)
 	. = ..()
-	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 
 	var/mob/living/user = owner
 
@@ -144,4 +142,4 @@
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
-	return ..() && CheckCanUse() && CheckCanTarget(target)
+	return ..() && CheckCanUse(user) && CheckCanTarget(target)

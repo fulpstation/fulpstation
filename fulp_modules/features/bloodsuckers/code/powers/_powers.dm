@@ -73,19 +73,14 @@
 	if(active && CheckCanDeactivate()) // Active? DEACTIVATE AND END!
 		DeactivatePower()
 		return FALSE
-	if(!CheckCanPayCost() || !CheckCanUse())
+	if(!CheckCanPayCost() || !CheckCanUse(owner))
 		return FALSE
 	PayCost()
-	UpdateButtonIcon()
 	ActivatePower()
 	if(power_flags & BP_AM_SINGLEUSE)
 		RemoveAfterUse()
 		return TRUE
-	if(power_flags & BP_AM_TOGGLE)
-		active = !active
-		UpdateButtonIcon()
-	else
-		StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
+	StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
 	return TRUE
 
 /datum/action/bloodsucker/proc/CheckCanPayCost()
@@ -104,36 +99,35 @@
 		return FALSE
 	return TRUE
 
-///Checks if the Power is available to use. -- Used to be 'CheckCanUse()'
-/datum/action/bloodsucker/proc/CheckCanUse()
+///Checks if the Power is available to use.
+/datum/action/bloodsucker/proc/CheckCanUse(mob/living/carbon/user)
 	if(!owner)
 		return FALSE
-	if(!isliving(owner))
+	if(!isliving(user))
 		return FALSE
-	var/mob/living/bloodsuckerliving = owner
 	// Torpor?
-	if((check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner, TRAIT_NODEATH))
-		to_chat(owner, span_warning("Not while you're in Torpor."))
+	if((check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(user, TRAIT_NODEATH))
+		to_chat(user, span_warning("Not while you're in Torpor."))
 		return FALSE
 	// Frenzy?
 	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum_power?.frenzied && bloodsuckerdatum_power?.my_clan != CLAN_BRUJAH))
-		to_chat(owner, span_warning("You cannot use powers while in a Frenzy!"))
+		to_chat(user, span_warning("You cannot use powers while in a Frenzy!"))
 		return FALSE
 	// Stake?
-	if((check_flags & BP_CANT_USE_WHILE_STAKED) && owner.AmStaked())
-		to_chat(owner, span_warning("You have a stake in your chest! Your powers are useless."))
+	if((check_flags & BP_CANT_USE_WHILE_STAKED) && user.AmStaked())
+		to_chat(user, span_warning("You have a stake in your chest! Your powers are useless."))
 		return FALSE
 	// Conscious? -- We use our own (AB_CHECK_CONSCIOUS) here so we can control it more, like the error message.
-	if((check_flags & BP_CANT_USE_WHILE_UNCONSCIOUS) && owner.stat != CONSCIOUS)
-		to_chat(owner, span_warning("You can't do this while you are unconcious!"))
+	if((check_flags & BP_CANT_USE_WHILE_UNCONSCIOUS) && user.stat != CONSCIOUS)
+		to_chat(user, span_warning("You can't do this while you are unconcious!"))
 		return FALSE
 	// Incapacitated?
-	if((check_flags & BP_CANT_USE_WHILE_INCAPACITATED) && (bloodsuckerliving.incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE)))
-		to_chat(owner, span_warning("Not while you're incapacitated!"))
+	if((check_flags & BP_CANT_USE_WHILE_INCAPACITATED) && (user.incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE)))
+		to_chat(user, span_warning("Not while you're incapacitated!"))
 		return FALSE
 	// Constant Cost (out of blood)
-	if(constant_bloodcost > 0 && bloodsuckerliving.blood_volume <= 0)
-		to_chat(owner, span_warning("You don't have the blood to upkeep [src]."))
+	if(constant_bloodcost > 0 && user.blood_volume <= 0)
+		to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 		return FALSE
 	return TRUE
 
@@ -170,7 +164,10 @@
 
 /datum/action/bloodsucker/proc/ActivatePower()
 	if(power_flags & BP_AM_TOGGLE)
+		active = TRUE
 		RegisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/UsePower)
+
+	UpdateButtonIcon()
 
 /datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
 	if(power_flags & BP_AM_TOGGLE)

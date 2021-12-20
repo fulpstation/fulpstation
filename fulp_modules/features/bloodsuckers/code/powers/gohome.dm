@@ -16,7 +16,7 @@
 	bloodcost = 100
 	cooldown = 100 SECONDS
 
-/datum/action/bloodsucker/gohome/CheckCanUse()
+/datum/action/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -33,6 +33,7 @@
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
+	. = ..()
 	to_chat(user, span_notice("You focus on separating your consciousness from your physical form..."))
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
@@ -113,4 +114,3 @@
 		// Lock Coffin
 		bloodsuckerdatum_power.coffin.LockMe(owner)
 		bloodsuckerdatum_power.Check_Begin_Torpor(FALSE) // Are we meant to enter Torpor here?
-	. = ..()

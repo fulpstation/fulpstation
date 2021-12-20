@@ -42,13 +42,12 @@
 	var/warning_target_bloodvol = 99999
 	var/was_alive = FALSE
 
-/datum/action/bloodsucker/feed/CheckCanUse()
+/datum/action/bloodsucker/feed/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
 
 	// Wearing mask
-	var/mob/living/user = owner
 	if(user.is_mouth_covered())
 		owner.balloon_alert(owner, "your mouth is covered!")
 		return FALSE
@@ -150,7 +149,7 @@
 		return TRUE
 
 /datum/action/bloodsucker/feed/ActivatePower(mob/living/user = owner)
-//	set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up Activate(), so Deactivate() can happen after.
+	. = ..()
 	// Checks: Step 1 - Am I SECRET or LOUD?
 	if(!bloodsuckerdatum_power.frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
@@ -238,7 +237,6 @@
 	// FEEEEEEEEED!! //
 	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // Prevents spilling blood accidentally.
-	. = ..()
 
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
 //	. = ..() // We have a target to keep track of during ContinueActive, so we don't use parent

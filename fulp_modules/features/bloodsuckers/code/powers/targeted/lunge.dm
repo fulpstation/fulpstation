@@ -22,13 +22,13 @@
  *	Level 3: Grapple 3 from Shadows
  */
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanUse()
+/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
 	/// Are we being grabbed?
-	if(owner.pulledby && owner.pulledby.grab_state >= GRAB_AGGRESSIVE)
-		to_chat(owner, span_warning("You're being grabbed!"))
+	if(user.pulledby && user.pulledby.grab_state >= GRAB_AGGRESSIVE)
+		to_chat(user, span_warning("You're being grabbed!"))
 		return FALSE
 	return TRUE
 
@@ -56,7 +56,6 @@
 
 /datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
 	. = ..()
-	// set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = target_atom
 	var/turf/targeted_turf = get_turf(target)

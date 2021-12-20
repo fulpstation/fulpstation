@@ -18,6 +18,7 @@
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
 /datum/action/bloodsucker/fortitude/ActivatePower(mob/living/user = owner)
+	. = ..()
 	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(user, span_notice("Your flesh, skin, and muscles become as steel."))
 	// Traits & Effects
@@ -39,7 +40,6 @@
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
-	. = ..()
 
 /datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
 	// Checks that we can keep using this.

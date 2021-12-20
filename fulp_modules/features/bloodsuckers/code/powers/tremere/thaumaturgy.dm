@@ -89,24 +89,23 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse()
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
 	if(active) // Only do this when first activating.
 		return FALSE
-	var/mob/living/user = owner
 	if(level_current >= 2) // Only if we're at least level 2.
 		blood_shield = new
 		if(!user.put_in_inactive_hand(blood_shield))
-			owner.balloon_alert(owner, "off hand is full!")
+			user.balloon_alert(user, "off hand is full!")
 			to_chat(user, span_notice("Blood shield couldn't be activated as your off hand is full."))
 			return FALSE
 		user.visible_message(
 			span_warning("[user]\'s hands begins to bleed and forms into a blood shield!"),
 			span_warning("We activate our Blood shield!"),
 			span_hear("You hear liquids forming together."))
-	owner.balloon_alert(user, "you start thaumaturgy")
+	user.balloon_alert(user, "you start thaumaturgy")
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
