@@ -132,7 +132,9 @@
 	return TRUE
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
-/datum/action/bloodsucker/proc/StartCooldown()
+/datum/action/bloodsucker/proc/StartCooldown(include_toggled = FALSE)
+	if((power_flags & BP_AM_TOGGLE) && !include_toggled)
+		return
 	// Alpha Out
 	button.color = rgb(128,0,0,128)
 	button.alpha = 100
@@ -174,7 +176,7 @@
 		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
 	UpdateButtonIcon()
-	StartCooldown()
+	StartCooldown(TRUE)
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)
