@@ -24,13 +24,15 @@
 	/// Who can purchase the Power
 	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
 
+	// COOLDOWNS //
+	///Timer between Power uses.
+	COOLDOWN_DECLARE(static/bloodsucker_power_cooldown)
+
 	// VARS //
 	/// If the Power is currently active.
 	var/active = FALSE
 	/// Cooldown between each use.
 	var/cooldown = 2 SECONDS
-	/// Check: If the Cooldown is over yet
-	var/power_cooldown = 0
 	///Can increase to yield new abilities - Each Power ranks up each Rank
 	var/level_current = 0
 	///The cost to ACTIVATE this Power
@@ -87,8 +89,9 @@
 	if(!owner || !owner.mind)
 		return FALSE
 	// Cooldown?
-	if(power_cooldown > world.time)
-		to_chat(owner, "[src] is unavailable. Wait [(power_cooldown - world.time) / 10] seconds.")
+	if(!COOLDOWN_FINISHED(src, bloodsucker_power_cooldown))
+		owner.balloon_alert(owner, "power unavailable!")
+		to_chat(owner, "[src] is unavailable. Wait [bloodsucker_power_cooldown / 10] seconds.")
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/user = owner
@@ -139,10 +142,14 @@
 	button.color = rgb(128,0,0,128)
 	button.alpha = 100
 	// Calculate Cooldown (by power's level)
-	var/this_cooldown = ((power_flags & BP_AM_STATIC_COOLDOWN) || (power_flags & BP_AM_SINGLEUSE)) ? cooldown : max(cooldown / 2, cooldown - (cooldown / 16 * (level_current-1)))
+	var/this_cooldown
+	if(power_flags & BP_AM_STATIC_COOLDOWN)
+		this_cooldown = cooldown
+	else
+		this_cooldown = max(cooldown / 2, cooldown - (cooldown / 16 * (level_current-1)))
 
 	// Wait for cooldown
-	power_cooldown = world.time + this_cooldown
+	COOLDOWN_START(src, bloodsucker_power_cooldown, this_cooldown)
 	addtimer(CALLBACK(src, .proc/alpha_in), this_cooldown)
 
 /datum/action/bloodsucker/proc/alpha_in()

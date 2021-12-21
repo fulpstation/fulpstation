@@ -22,7 +22,7 @@
 	// Tremere powers don't level up, we have them hardcoded.
 	level_current = 0
 	// Re-defining these as we want total control over them
-	power_flags = BP_AM_TOGGLE
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	purchase_flags = NONE
 	// Targeted stuff
 	target_range = 99
