@@ -250,14 +250,7 @@
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !frenzied)
-		if(my_clan != CLAN_BRUJAH)
-			owner.current.apply_status_effect(STATUS_EFFECT_FRENZY)
-		else
-			for(var/datum/action/bloodsucker/power in powers)
-				if(istype(power, /datum/action/bloodsucker/brujah))
-					if(power.active)
-						break
-					power.ActivatePower()
+		enter_frenzy()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
 	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
@@ -268,6 +261,17 @@
 		additional_regen = 0.4
 	else
 		additional_regen = 0.5
+
+/datum/antagonist/bloodsucker/proc/enter_frenzy()
+	if(my_clan == CLAN_BRUJAH)
+		for(var/datum/action/bloodsucker/power in powers)
+			if(!(istype(power, /datum/action/bloodsucker/brujah)))
+				continue
+			if(power.active)
+				break
+			power.ActivatePower()
+	else
+		owner.current.apply_status_effect(STATUS_EFFECT_FRENZY)
 
 /**
  * # Torpor
