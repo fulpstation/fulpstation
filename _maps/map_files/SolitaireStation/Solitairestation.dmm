@@ -6654,7 +6654,7 @@
 /turf/open/floor/engine/vacuum,
 /area/engineering/atmos)
 "bYA" = (
-/obj/machinery/portable_atmospherics/canister,
+/obj/machinery/portable_atmospherics/canister/tier_3,
 /turf/open/floor/engine/vacuum,
 /area/engineering/atmos)
 "bYH" = (
@@ -7171,6 +7171,7 @@
 /area/maintenance/department/security/upper)
 "cfF" = (
 /obj/machinery/air_sensor/atmos/mix_tank{
+	id_tag = "mix_sensor2";
 	name = "mix 2 tank gas sensor"
 	},
 /turf/open/floor/engine/vacuum,
@@ -7231,7 +7232,7 @@
 /turf/open/floor/wood,
 /area/maintenance/starboard/fore)
 "cgK" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos,
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/plasma_output,
 /turf/open/floor/engine/plasma,
 /area/engineering/atmos)
 "cgN" = (
@@ -7256,11 +7257,11 @@
 /turf/open/floor/plating,
 /area/maintenance/radshelter/sec)
 "cgX" = (
-/obj/machinery/air_sensor/atmos,
+/obj/machinery/air_sensor/atmos/plasma_tank,
 /turf/open/floor/engine/plasma,
 /area/engineering/atmos)
 "chd" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos,
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/plasma_input,
 /turf/open/floor/engine/plasma,
 /area/engineering/atmos)
 "chf" = (
@@ -9151,7 +9152,8 @@
 /area/engineering/atmos)
 "cHX" = (
 /obj/machinery/computer/atmos_control/tank/mix_tank{
-	name = "Gas Mix 2 Tank Control"
+	name = "Gas Mix 2 Tank Control";
+	sensors = list("mix_sensor2" = "Gas Mix 2 Tank")
 	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -9330,7 +9332,6 @@
 /turf/open/floor/carpet/green,
 /area/command/corporate_showroom)
 "cJg" = (
-/obj/machinery/computer/atmos_control/tank,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 1;
@@ -9340,6 +9341,7 @@
 	color = "#FF6700"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
+/obj/machinery/computer/atmos_control/tank/plasma_tank,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cJh" = (
@@ -38552,6 +38554,7 @@
 "kYj" = (
 /obj/machinery/door/poddoor/massdriver_ordnance,
 /obj/effect/turf_decal/stripes/full,
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/science/mixing)
 "kYm" = (
@@ -65118,6 +65121,10 @@
 /obj/item/clothing/head/welding,
 /obj/item/storage/belt/utility,
 /obj/item/clothing/head/welding,
+/obj/machinery/ecto_sniffer{
+	pixel_x = 6;
+	pixel_y = 6
+	},
 /turf/open/floor/iron,
 /area/science/robotics/lab)
 "son" = (
