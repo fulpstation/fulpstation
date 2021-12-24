@@ -15,7 +15,7 @@
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 
-## List of all files not withing fulp_modules:
+## All Fulp files not contained within /fulp_modules/
 
 ### Maps
 
