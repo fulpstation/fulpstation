@@ -12,7 +12,7 @@
 	name = "Level 1: Thaumaturgy"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
 	desc = "Fire a blood bolt at your enemy, dealing Burn damage."
-	tremere_level = 1
+	level_current = 1
 	button_icon_state = "power_thaumaturgy"
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
@@ -27,7 +27,7 @@
 	name = "Level 2: Thaumaturgy"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/three
 	desc = "Create a Blood shield and fire a blood bolt at your enemy, dealing Burn damage."
-	tremere_level = 2
+	level_current = 2
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
@@ -41,7 +41,7 @@
 	name = "Level 3: Thaumaturgy"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
-	tremere_level = 3
+	level_current = 3
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
@@ -54,7 +54,7 @@
 	name = "Level 4: Blood Strike"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
-	tremere_level = 4
+	level_current = 4
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
@@ -72,7 +72,7 @@
 	name = "Level 5: Blood Strike"
 	upgraded_power = null
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage, stealing Blood and opening doors/lockers."
-	tremere_level = 5
+	level_current = 5
 	power_explanation = "<b>Thaumaturgy</b>:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
@@ -89,24 +89,23 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(display_error)
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
-	if(!active) // Only do this when first activating.
-		var/mob/living/user = owner
-		if(tremere_level >= 2) // Only if we're at least level 2.
-			blood_shield = new
-			if(!user.put_in_inactive_hand(blood_shield))
-				owner.balloon_alert(owner, "off hand is full!")
-				to_chat(user, span_notice("Blood shield couldn't be activated as your off hand is full."))
-				return FALSE
-			user.visible_message(
-				span_warning("[user]\'s hands begins to bleed and forms into some form of a shield!"),
-				span_warning("We activate our Blood shield!"),
-				span_hear("You hear liquids forming together."),
-			)
-		to_chat(user, span_notice("You prepare Thaumaturgy."))
+	if(active) // Only do this when first activating.
+		return FALSE
+	if(level_current >= 2) // Only if we're at least level 2.
+		blood_shield = new
+		if(!user.put_in_inactive_hand(blood_shield))
+			user.balloon_alert(user, "off hand is full!")
+			to_chat(user, span_notice("Blood shield couldn't be activated as your off hand is full."))
+			return FALSE
+		user.visible_message(
+			span_warning("[user]\'s hands begins to bleed and forms into a blood shield!"),
+			span_warning("We activate our Blood shield!"),
+			span_hear("You hear liquids forming together."))
+	user.balloon_alert(user, "you start thaumaturgy")
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
@@ -130,8 +129,8 @@
 	INVOKE_ASYNC(magic_9ball, /obj/projectile.proc/fire)
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
 
-/*
- *	# Blood Bolt
+/**
+ * 	# Blood Bolt
  *
  *	This is the projectile this Power will fire.
  */
@@ -142,7 +141,7 @@
 	var/datum/action/bloodsucker/targeted/tremere/thaumaturgy/bloodsucker_power
 
 /obj/projectile/magic/arcane_barrage/bloodsucker/on_hit(target)
-	if(istype(target, /obj/structure/closet) && bloodsucker_power.tremere_level >= 3)
+	if(istype(target, /obj/structure/closet) && bloodsucker_power.level_current >= 3)
 		var/obj/structure/closet/hit_closet = target
 		if(hit_closet)
 			hit_closet.welded = FALSE
@@ -151,15 +150,15 @@
 			hit_closet.update_appearance()
 			qdel(src)
 			return BULLET_ACT_HIT
-	else if(istype(target, /obj/machinery/door) && bloodsucker_power.tremere_level >= 3)
+	if(istype(target, /obj/machinery/door) && bloodsucker_power.level_current >= 3)
 		var/obj/machinery/door/hit_airlock = target
 		hit_airlock.open(2)
 		qdel(src)
 		return BULLET_ACT_HIT
-	else if(ismob(target))
-		if(bloodsucker_power.tremere_level >= 4)
+	if(ismob(target))
+		if(bloodsucker_power.level_current >= 4)
 			damage = 40
-		if(bloodsucker_power.tremere_level >= 5)
+		if(bloodsucker_power.level_current >= 5)
 			var/mob/living/user = bloodsucker_power.owner
 			var/mob/living/person_hit = target
 			person_hit.blood_volume -= 100
@@ -168,7 +167,7 @@
 		return BULLET_ACT_HIT
 	. = ..()
 
-/*
+/**
  *	# Blood Shield
  *
  *	The shield spawned when using Thaumaturgy when strong enough.

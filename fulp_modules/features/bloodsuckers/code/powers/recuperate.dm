@@ -14,10 +14,19 @@
 	bloodcost = 1.5
 	cooldown = 10 SECONDS
 
+/datum/action/bloodsucker/recuperate/CheckCanUse(mob/living/carbon/user)
+	. = ..()
+	if(!.)
+		return
+	if(user.stat >= DEAD || user.incapacitated())
+		user.balloon_alert(user, "you are incapacitated...")
+		return FALSE
+	return TRUE
+
 /datum/action/bloodsucker/recuperate/ActivatePower(mob/living/carbon/user = owner)
+	. = ..()
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	owner.balloon_alert(owner, "recuperate turned on.")
-	. = ..()
 
 /datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user)
 	. = ..()
@@ -26,9 +35,10 @@
 
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	vassaldatum.master.AddBloodVolume(-1)
+	user.Jitter(5)
+	user.adjustStaminaLoss(bloodcost * 1.1)
 	user.adjustBruteLoss(-2.5)
 	user.adjustToxLoss(-2, forced = TRUE)
-	user.adjustStaminaLoss(bloodcost * 1.1)
 	// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
 	if(!(NOBLOOD in user.dna.species.species_traits))
 		user.blood_volume -= bloodcost
@@ -37,23 +47,12 @@
 	if(istype(user) && user.is_bleeding())
 		for(var/obj/item/bodypart/part in user.bodyparts)
 			part.generic_bleedstacks--
-	user.Jitter(5)
-
-/datum/action/bloodsucker/recuperate/CheckCanUse(display_error)
-/*	. = ..()
-	if(!.) // Vassals use this, not Bloodsuckers, so we don't want them using these checks.
-		return */
-	if(owner.stat >= DEAD || owner.incapacitated())
-		owner.balloon_alert(owner, "you are incapacitated...")
-		return FALSE
-	return TRUE
 
 /datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
 	if(user.stat >= DEAD)
-		to_chat(owner, span_notice("You are dead."))
 		return FALSE
 	if(user.incapacitated())
-		owner.balloon_alert(owner, "you are too exhausted...")
+		owner.balloon_alert(owner, "too exhausted...")
 		return FALSE
 	return TRUE
 

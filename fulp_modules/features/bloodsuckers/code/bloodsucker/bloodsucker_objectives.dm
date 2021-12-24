@@ -308,7 +308,7 @@
 /datum/objective/bloodsucker/tremere_power/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	for(var/datum/action/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
-		if(tremere_powers.tremere_level >= 5)
+		if(isnull(tremere_powers))
 			return TRUE
 	return FALSE
 

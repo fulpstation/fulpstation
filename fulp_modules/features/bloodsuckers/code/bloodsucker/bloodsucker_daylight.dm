@@ -129,19 +129,19 @@
 			if(istype(bloodsucker_minds.current.loc, /obj/structure/closet/crate/coffin)) // Coffins offer the BEST protection
 				SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
 				continue
-			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_locker)) // Closets offer SOME protection
+			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_burn)) // Closets offer SOME protection
 				to_chat(bloodsucker_minds, span_warning("Your skin sizzles. [bloodsucker_minds.current.loc] doesn't protect well against UV bombardment."))
-				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_locker, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
+				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_burn, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
 			bloodsucker_minds.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2)
 			bloodsucker_minds.current.updatehealth()
 			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
 		else // Out in the Open?
-			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_locker))
+			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_burn))
 				if(bloodsuckerdatum.bloodsucker_level > 0)
 					to_chat(bloodsucker_minds, span_userdanger("The solar flare sets your skin ablaze!"))
 				else
 					to_chat(bloodsucker_minds, span_userdanger("The solar flare scalds your neophyte skin!"))
-				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_locker, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
+				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_burn, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
 			if(bloodsucker_minds.current.fire_stacks <= 0)
 				bloodsucker_minds.current.fire_stacks = 0
 			if(bloodsuckerdatum.bloodsucker_level > 0)
