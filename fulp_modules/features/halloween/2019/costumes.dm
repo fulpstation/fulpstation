@@ -290,7 +290,6 @@
 	heat_protection = null
 	slowdown = 0
 	actions_types = list(/datum/action/item_action/toggle_helmet)
-	helmettype = /obj/item/clothing/head/helmet/space/varia
 
 /obj/item/clothing/head/helmet/space/varia
 	name = "plastic bounty hunter's helmet"
