@@ -276,7 +276,7 @@
 	alternate_worn_layer = GLOVES_LAYER //copied blindly from mech jumpsuit lmao
 	can_adjust = FALSE
 
-/obj/item/clothing/suit/space/hardsuit/varia // Hardsuits aren't subtypes of the regular suit
+/obj/item/clothing/suit/space/varia // Hardsuits aren't subtypes of the regular suit
 	name = "plastic bounty hunter's hardsuit"
 	desc = "It's variapparent that this is injection-moulded."
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
@@ -290,9 +290,9 @@
 	heat_protection = null
 	slowdown = 0
 	actions_types = list(/datum/action/item_action/toggle_helmet)
-	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/varia
+	helmettype = /obj/item/clothing/head/helmet/space/varia
 
-/obj/item/clothing/head/helmet/space/hardsuit/varia
+/obj/item/clothing/head/helmet/space/varia
 	name = "plastic bounty hunter's helmet"
 	desc = "A cheap plastic helmet spring-loaded into the suit."
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
@@ -304,8 +304,7 @@
 	min_cold_protection_temperature = null
 	max_heat_protection_temperature = null
 	cold_protection = null
-	heat_protection = null
-	hardsuit_type = "varia"
+	heat_protection = nullnd 
 
 ///Toy arm cannon used in the Samus costume
 /obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon
@@ -359,7 +358,8 @@
 	theme_name = "2019's Bounty Hunter"
 	costume_contents = list(
 		/obj/item/clothing/under/costume/costume_2019/zero_suit,
-		/obj/item/clothing/suit/space/hardsuit/varia,
+		/obj/item/clothing/suit/space/varia,
+		/obj/item/clothing/head/helmet/space/varia,
 		/obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon,
 	)
 

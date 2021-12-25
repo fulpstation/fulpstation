@@ -10,13 +10,13 @@
 	antag_datum = /datum/antagonist/bloodsucker
 	protected_roles = list(
 		// Command
-		"Captain", "Head of Personnel", "Head of Security",
+		JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_HEAD_OF_SECURITY,
 		// Security
-		"Warden", "Security Officer", "Detective", "Brig Physician",
+		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE, JOB_BRIG_PHYSICIAN,
 		// Deputies
-		"Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy",
+		JOB_DEPUTY, JOB_DEPUTY_ENG, JOB_DEPUTY_SUP, JOB_DEPUTY_MED, JOB_DEPUTY_SCI, JOB_DEPUTY_SRV,
 		// Curator
-		"Curator",
+		JOB_CURATOR,
 	)
 	restricted_roles = list("AI", "Cyborg")
 	required_candidates = 1
@@ -60,10 +60,10 @@
 	antag_flag = ROLE_VAMPIRICACCIDENT
 	antag_flag_override = ROLE_BLOODSUCKER
 	protected_roles = list(
-		"Captain", "Head of Personnel", "Head of Security",
-		"Warden", "Security Officer", "Detective", "Brig Physician",
-		"Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy",
-		"Curator",
+		JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_HEAD_OF_SECURITY,
+		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE, JOB_BRIG_PHYSICIAN,
+		JOB_DEPUTY, JOB_DEPUTY_ENG, JOB_DEPUTY_SUP, JOB_DEPUTY_MED, JOB_DEPUTY_SCI, JOB_DEPUTY_SRV,
+		JOB_CURATOR,
 	)
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
 	required_candidates = 1
@@ -109,10 +109,10 @@
 	antag_flag = ROLE_BLOODSUCKERBREAKOUT
 	antag_flag_override = ROLE_BLOODSUCKER
 	protected_roles = list(
-		"Captain", "Head of Personnel", "Head of Security",
-		"Warden", "Security Officer", "Detective", "Brig Physician",
-		"Deputy", "Supply Deputy", "Engineering Deputy", "Medical Deputy", "Science Deputy", "Service Deputy",
-		"Curator",
+		JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_HEAD_OF_SECURITY,
+		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE, JOB_BRIG_PHYSICIAN,
+		JOB_DEPUTY, JOB_DEPUTY_ENG, JOB_DEPUTY_SUP, JOB_DEPUTY_MED, JOB_DEPUTY_SCI, JOB_DEPUTY_SRV,
+		JOB_CURATOR,
 	)
 	restricted_roles = list("AI","Cyborg")
 	required_candidates = 1

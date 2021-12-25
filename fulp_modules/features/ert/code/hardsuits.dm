@@ -117,3 +117,4 @@
 	icon_state = "clownert_commander"
 	inhand_icon_state = "ert_clown"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/clown/commander
+

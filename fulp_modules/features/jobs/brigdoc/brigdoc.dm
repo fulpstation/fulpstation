@@ -1,5 +1,5 @@
 /datum/job/fulp/brigdoc
-	title = "Brig Physician"
+	title = JOB_BRIG_PHYSICIAN
 	description = "Help treat Security personnel and Prisoners alike, \
 		Offer implants and surgeries to Brig personnel."
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY

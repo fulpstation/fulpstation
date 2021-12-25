@@ -1,5 +1,5 @@
 /datum/job/fulp/deputy
-	title = "Deputy"
+	title = JOB_DEPUTY
 	description = "Help Security enforce Space Law, \
 		Capture criminals and deliver them to the Brig."
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
@@ -57,7 +57,7 @@
 
 /// Engineering
 /datum/job/fulp/deputy/engineering
-	title = "Engineering Deputy"
+	title = JOB_DEPUTY_ENG
 	description = "Help Security enforce Space Law within the Engineering department, \
 		Capture criminals in Engineering and deliver them to the Brig."
 	department_head = list("Chief Engineer")
@@ -79,7 +79,7 @@
 
 ///Medical
 /datum/job/fulp/deputy/medical
-	title = "Medical Deputy"
+	title = JOB_DEPUTY_MED
 	description = "Help Security enforce Space Law within the Medical department, \
 		Capture criminals in Medical and deliver them to the Brig."
 	department_head = list("Chief Medical Officer")
@@ -101,7 +101,7 @@
 
 ///Science
 /datum/job/fulp/deputy/science
-	title = "Science Deputy"
+	title = JOB_DEPUTY_SCI
 	description = "Help Security enforce Space Law within the Science department, \
 		Capture criminals in Science and deliver them to the Brig."
 	department_head = list("Research Director")
@@ -123,7 +123,7 @@
 
 ///Supply
 /datum/job/fulp/deputy/supply
-	title = "Supply Deputy"
+	title = JOB_DEPUTY_SUP
 	description = "Help Security enforce Space Law within the Supply department, \
 		Capture criminals  in Cargo and deliver them to the Brig."
 	department_head = list("Head of Personnel")
@@ -145,7 +145,7 @@
 
 ///Service
 /datum/job/fulp/deputy/service
-	title = "Service Deputy"
+	title = JOB_DEPUTY_SRV
 	description = "Help Security enforce Space Law within the Service department, \
 		Capture criminals... wherever Service is... and deliver them to the Brig."
 	department_head = list("Head of Personnel")
