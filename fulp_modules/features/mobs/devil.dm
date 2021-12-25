@@ -25,15 +25,4 @@
 	health = 350
 	maxHealth = 350
 
-/mob/living/simple_animal/hostile/devil/imp
-	name = "imp"
-	desc = "A large, menacing creature covered in armored black scales."
-	icon = 'icons/mob/mob.dmi'
-	icon_state = "imp"
-	icon_living = "imp"
-	speak_emote = list("cackles")
-	health = 150
-	maxHealth = 150
-	obj_damage = 15
-	melee_damage_lower = 10
-	melee_damage_upper = 15
+
