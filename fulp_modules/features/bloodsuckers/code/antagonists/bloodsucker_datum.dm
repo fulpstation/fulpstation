@@ -443,7 +443,7 @@
 		var/upgrade_message = target ? "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve." : "You have the opportunity to grow more ancient. Select a power to advance your Rank."
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(bloodsucker_level_unspent <= 0 && !Spend_Rank)
+		if(bloodsucker_level_unspent <= 0 && Spend_Rank)
 			return
 		// Did you choose a power?
 		if(!choice || !options[choice])
