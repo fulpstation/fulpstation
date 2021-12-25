@@ -17,7 +17,6 @@
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	del_on_death = TRUE
 
-Message #shadow-council
 
 /mob/living/simple_animal/hostile/devil/arch_devil
 	name = "Arch Devil"
