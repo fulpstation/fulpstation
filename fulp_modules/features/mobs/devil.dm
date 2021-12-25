@@ -24,5 +24,3 @@
 	icon_state = "arch_devil"
 	health = 350
 	maxHealth = 350
-
-
