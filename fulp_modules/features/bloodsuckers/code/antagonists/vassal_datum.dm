@@ -120,9 +120,9 @@
 		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 		to_chat(owner, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
-//	if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
-//		var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
-//		owner.current.AddSpell(batform)
+	if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
+		var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform = new
+		owner.current.AddSpell(batform)
 	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 		to_chat(master, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
 		BuyPower(new /datum/action/bloodsucker/distress)
@@ -198,3 +198,15 @@
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost your master's trail."))
 	..()
+
+/**
+ * # BATFORM
+ *
+ * TG removed this, so we're re-adding it
+ */
+/obj/effect/proc_holder/spell/targeted/shapeshift/bat
+	name = "Bat Form"
+	desc = "Take on the shape of a space bat."
+	invocation = "SQUEAAAAK!"
+	convert_damage = FALSE
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat
