@@ -16,6 +16,12 @@
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 
+/mob/living/simple_animal/hostile/devil/death()
+    src.visible_message(span_danger("[src] turns into a pile of ash!"))
+    for(var/i in 1 to rand(3,5))
+        new /obj/effect/decal/cleanable/ash(get_turf(src))
+    qdel(src)
+
 /mob/living/simple_animal/hostile/devil/arch_devil
 	name = "Arch Devil"
 	desc = "A pile of infernal energy, taking a goatlike form."
