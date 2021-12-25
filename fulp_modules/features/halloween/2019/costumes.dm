@@ -304,7 +304,7 @@
 	min_cold_protection_temperature = null
 	max_heat_protection_temperature = null
 	cold_protection = null
-	heat_protection = nullnd 
+	heat_protection = null
 
 ///Toy arm cannon used in the Samus costume
 /obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon
