@@ -5,7 +5,7 @@
 		to_chat(user, span_holoparasite("You already have a [mob_name]!"))
 		used = FALSE
 		return
-	if(IS_BLOODSUCKER(user) && prob(80))
+	if(IS_BLOODSUCKER(user))
 		var/pickedtype = /mob/living/simple_animal/hostile/guardian/punch/timestop
 		var/mob/living/simple_animal/hostile/guardian/punch/timestop/bloodsucker_guardian = new pickedtype(user, theme)
 		bloodsucker_guardian.name = mob_name

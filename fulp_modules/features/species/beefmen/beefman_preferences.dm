@@ -47,7 +47,7 @@
 	var/icon/beef_head = icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "beefman_head")
 	beef_head.Blend("#d93356", ICON_MULTIPLY) // Make it red at least
 
-	for (var/eye_name in GLOB.eyes_beefman)
+	for(var/eye_name in GLOB.eyes_beefman)
 		var/datum/sprite_accessory/eyes = GLOB.eyes_beefman[eye_name]
 
 		var/icon/icon_with_eye = new(beef_head)
@@ -76,7 +76,7 @@
 	var/icon/beef_head = icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "beefman_head")
 	beef_head.Blend("#d93356", ICON_MULTIPLY) // Make it red at least
 
-	for (var/mouth_name in GLOB.mouths_beefman)
+	for(var/mouth_name in GLOB.mouths_beefman)
 		var/datum/sprite_accessory/mouths = GLOB.mouths_beefman[mouth_name]
 
 		var/icon/icon_with_mouth = new(beef_head)

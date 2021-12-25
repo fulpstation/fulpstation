@@ -61,8 +61,7 @@
 	/// Free them from their Master
 	if(master && master.owner)
 		master.vassals -= src
-		if(owner.enslaved_to == master.owner.current)
-			owner.enslaved_to = null
+		owner.enslaved_to = null
 	/// Remove Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.

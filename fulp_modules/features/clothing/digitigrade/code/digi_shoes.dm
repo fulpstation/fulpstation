@@ -1,4 +1,6 @@
-///Laceups
+/// TODO: Turn into GAGS you lazy fuck ///
+
+/// Laceups
 
 /obj/item/clothing/shoes/laceup/digitigrade
 	name = "digitigrade laceup shoes"
@@ -8,7 +10,7 @@
 	icon_state = "digi_laceups"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 
-///Workboots
+/// Workboots
 
 /obj/item/clothing/shoes/workboots/digitigrade
 	name = "digitigrade workboots"
@@ -18,7 +20,7 @@
 	icon_state = "digi_workboots"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 
-///Combat Boots
+/// Combat Boots
 
 /obj/item/clothing/shoes/digicombat
 	name = "digitigrade combat boots"
@@ -32,7 +34,7 @@
 	body_parts_covered = LEG_LEFT|LEG_RIGHT
 	armor = list(MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 20, BIO = 5, FIRE = 40, ACID = 20)
 
-///Jackboots
+/// Jackboots
 
 /obj/item/clothing/shoes/jackboots/digitigrade
 	name = "digitigrade jackboots"
@@ -42,7 +44,7 @@
 	icon_state = "digi_jackboots"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 
-///Clown Shoes
+/// Clown Shoes
 
 /obj/item/clothing/shoes/clown_shoes/digitigrade
 	name = "digitigrade clown shoes"
@@ -52,7 +54,7 @@
 	icon_state = "digi_clown"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 
-///Sandals
+/// Sandals
 
 /obj/item/clothing/shoes/sandal/digitigrade
 	name = "digitigrade sandals"
@@ -62,7 +64,7 @@
 	icon_state = "digi_wizard"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 
-///Generic Shoes
+/// Generic Shoes
 
 /obj/item/clothing/shoes/brown/digitigrade
 	name = "digitigrade brown shoes"
@@ -72,7 +74,7 @@
 	icon_state = "digi_brown"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 
-///Magboots
+/// Magboots
 
 /obj/item/clothing/shoes/magboots/digitigrade
 	name = "digitigrade magboots"
@@ -93,7 +95,7 @@
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
-///Mime Shoes
+/// Mime Shoes
 
 /obj/item/clothing/shoes/mime/digitigrade
 	name = "digitigrade mime shoes"
@@ -103,7 +105,7 @@
 	icon_state = "digi_mime"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 
-///Jump Boots
+/// Jump Boots
 
 /obj/item/clothing/shoes/bhop/digitigrade
 	name = "digitigrade jump boots"
@@ -114,3 +116,29 @@
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 	resistance_flags = FIRE_PROOF
 	permeability_coefficient = 0.05
+
+/// Put them into garment bags
+
+/obj/item/storage/bag/garment/captain/PopulateContents()
+	. = ..()
+	new /obj/item/clothing/shoes/brown/digitigrade(src)
+
+/obj/item/storage/bag/garment/hop/PopulateContents()
+	. = ..()
+	new /obj/item/clothing/shoes/brown/digitigrade(src)
+
+/obj/item/storage/bag/garment/hos/PopulateContents()
+	. = ..()
+	new /obj/item/clothing/shoes/jackboots/digitigrade(src)
+
+/obj/item/storage/bag/garment/research_director/PopulateContents()
+	. = ..()
+	new /obj/item/clothing/shoes/brown/digitigrade(src)
+
+/obj/item/storage/bag/garment/chief_medical/PopulateContents()
+	. = ..()
+	new /obj/item/clothing/shoes/brown/digitigrade(src)
+
+/obj/item/storage/bag/garment/engineering_chief/PopulateContents()
+	. = ..()
+	new /obj/item/clothing/shoes/workboots/digitigrade(src)

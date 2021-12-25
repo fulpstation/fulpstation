@@ -60,6 +60,4 @@
 	tips = WIZARD_APPRENTICE_TIPS
 
 /datum/antagonist/wizard/apprentice/imposter
-	tips = IMPOSTER_TIPS
-	show_in_antagpanel = TRUE
-	allow_rename = TRUE
+	tips = WIZ_IMPOSTER_TIPS

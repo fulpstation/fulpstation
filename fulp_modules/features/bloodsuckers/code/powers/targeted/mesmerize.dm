@@ -22,7 +22,7 @@
 		At level 5, you will be able to mesmerize regardless of your target's direction.\n\
 		At level 6, you will cause your target to fall asleep.\n\
 		Higher levels will increase the time of the mesmerize's freeze."
-	power_flags = NONE
+	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
@@ -33,20 +33,17 @@
 	///Our mesmerized target - Prevents several mesmerizes.
 	var/mob/living/mesmerized_target
 
-/datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(display_error)
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.) // Default checks
 		return FALSE
-	if(!owner.getorganslot(ORGAN_SLOT_EYES))
-		if(display_error)
-			// Cant use balloon alert, they've got no eyes!
-			to_chat(owner, span_warning("You have no eyes with which to mesmerize."))
+	if(!user.getorganslot(ORGAN_SLOT_EYES))
+		// Cant use balloon alert, they've got no eyes!
+		to_chat(user, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
-	var/mob/living/carbon/user = owner
 	if(istype(user) && (user.is_eyes_covered() && level_current <= 2) || !isturf(user.loc))
-		if(display_error)
-			owner.balloon_alert(owner, "your eyes are concealed from sight.")
+		user.balloon_alert(user, "your eyes are concealed from sight.")
 		return FALSE
 	return TRUE
 
@@ -56,54 +53,42 @@
 		return FALSE
 	return isliving(target_atom)
 
-/datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/target_atom, display_error)
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	var/mob/living/current_target = target_atom // We already know it's carbon due to CheckValidTarget()
 	// No mind
 	if(!current_target.mind)
-		if(display_error)
-			owner.balloon_alert(owner, "[current_target] is mindless.")
+		owner.balloon_alert(owner, "[current_target] is mindless.")
 		return FALSE
 	// Bloodsucker
 	if(IS_BLOODSUCKER(current_target))
-		if(display_error)
-			owner.balloon_alert(owner, "bloodsuckers are immune to [src].")
+		owner.balloon_alert(owner, "bloodsuckers are immune to [src].")
 		return FALSE
 	// Dead/Unconscious
 	if(current_target.stat > CONSCIOUS)
-		if(display_error)
-			owner.balloon_alert(owner, "[current_target] is not [(current_target.stat == DEAD || HAS_TRAIT(current_target, TRAIT_FAKEDEATH)) ? "alive" : "conscious"].")
+		owner.balloon_alert(owner, "[current_target] is not [(current_target.stat == DEAD || HAS_TRAIT(current_target, TRAIT_FAKEDEATH)) ? "alive" : "conscious"].")
 		return FALSE
 	// Check: Target has eyes?
 	if(!current_target.getorganslot(ORGAN_SLOT_EYES))
-		if(display_error)
-			owner.balloon_alert(owner, "[current_target] has no eyes.")
+		owner.balloon_alert(owner, "[current_target] has no eyes.")
 		return FALSE
 	// Check: Target blind?
 	if(current_target.eye_blind > 0)
-		if(display_error)
-			owner.balloon_alert(owner, "[current_target] is blind.")
+		owner.balloon_alert(owner, "[current_target] is blind.")
 		return FALSE
 	// Check: Target See Me? (behind wall)
 	if(!(owner in view(target_range, get_turf(current_target))))
-		// Sub-Check: GET CLOSER
-//		if(!(owner in range(target_range, get_turf(current_target)))
-//			if(display_error)
-//				owner.balloon_alert(owner, "too far away!")
-		if(display_error)
-			owner.balloon_alert(owner, "too far away!")
+		owner.balloon_alert(owner, "too far away!")
 		return FALSE
 	// Check: Facing target?
 	if(!is_source_facing_target(owner, current_target)) // in unsorted.dm
-		if(display_error)
-			owner.balloon_alert(owner, "you must be facing [current_target].")
+		owner.balloon_alert(owner, "you must be facing [current_target].")
 		return FALSE
 	// Check: Target facing me? (On the floor, they're facing everyone)
 	if(((current_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(current_target, owner) && level_current <= 4))
-		if(display_error)
-			owner.balloon_alert(owner, "[current_target] must be facing you.")
+		owner.balloon_alert(owner, "[current_target] must be facing you.")
 		return FALSE
 
 	// Gone through our checks, let's mark our guy.
@@ -112,7 +97,6 @@
 
 /datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/target_atom)
 	. = ..()
-	// set waitfor = FALSE   <---- DONT DO THIS!We WANT this power to hold up ClickWithPower(), so that we can unlock the power when it's done.
 
 	var/mob/living/user = owner
 
@@ -158,4 +142,4 @@
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
-	return ..() && CheckCanUse() && CheckCanTarget(target)
+	return ..() && CheckCanUse(user) && CheckCanTarget(target)

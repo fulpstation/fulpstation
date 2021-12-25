@@ -27,19 +27,13 @@
 	var/prev_disfigured
 	var/list/prev_features // For lizards and such
 
-/datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return FALSE
-	return TRUE
-
 /datum/action/bloodsucker/veil/ActivatePower()
+	. = ..()
 	cast_effect() // POOF
 	//if(blahblahblah)
 	//	Disguise_Outfit()
 	Disguise_FaceName()
 	owner.balloon_alert(owner, "veil turned on.")
-	. = ..()
 
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
 	return
@@ -83,7 +77,6 @@
 
 	// Beefmen
 	proof_beefman_features(user.dna.features)
-	user.dna.species.set_beef_color(user)
 
 	// Apply Appearance
 	user.update_body() // Outfit and underware, also body.

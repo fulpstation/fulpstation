@@ -61,12 +61,12 @@ GLOBAL_LIST_INIT(eyes_beefman, list(
 ))
 
 GLOBAL_LIST_INIT(mouths_beefman, list(
-	"Frown1",
-	"Frown2",
-	"Grit1",
-	"Grit2",
-	"Smile1",
-	"Smile2",
+	"Frown",
+	"Dissapointed",
+	"Grit",
+	"Gritting Smile",
+	"Smile",
+	"Smirk",
 ))
 
 GLOBAL_LIST_INIT(russian_names, list(
