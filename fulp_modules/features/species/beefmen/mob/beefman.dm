@@ -17,6 +17,7 @@
 		"beefcolor" = "Medium Rare",
 		"beefeyes" = "Olives",
 		"beefmouth" = "Smile",
+		"beef_trauma" = "Strangers",
 	)
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
@@ -82,14 +83,6 @@
 
 	///Dehydration caused by consuming Salt. Causes bleeding and affects how much they will bleed.
 	var/dehydrated = 0
-	///List of all brain traumas a Beefman can spawn with.
-	var/static/list/possible_traumas = list(
-		/datum/brain_trauma/mild/phobia/strangers,
-		/datum/brain_trauma/mild/hallucinations,
-		/datum/brain_trauma/mild/phobia/ocky_icky,
-		/datum/brain_trauma/special/death_whispers,
-		/datum/brain_trauma/severe/hypnotic_stupor,
-	)
 	///List of all limbs that can be removed and replaced at will.
 	var/list/tearable_limbs = list(
 		BODY_ZONE_L_ARM,
@@ -108,13 +101,12 @@
 	// Missing Defaults in DNA? Randomize!
 	proof_beefman_features(user.dna.features)
 	set_beef_color(user)
-
-	user.gain_trauma(pick(possible_traumas), TRAUMA_RESILIENCE_ABSOLUTE)
+	user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	user.cure_trauma_type(possible_traumas, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	return ..()
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
@@ -154,6 +146,7 @@
 	features += "feature_beefcolor"
 	features += "feature_beefeyes"
 	features += "feature_beefmouth"
+	features += "feature_beef_trauma"
 
 	return features
 
@@ -205,7 +198,8 @@
 		inFeatures["beefeyes"] = pick(GLOB.eyes_beefman)
 	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
 		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
-
+	if(inFeatures["beef_trauma"] == null || inFeatures["beef_trauma"] == "")
+		inFeatures["beef_trauma"] = GLOB.beefmen_traumas[pick(GLOB.beefmen_traumas)]
 
 /**
  * ATTACK PROCS

@@ -15,7 +15,7 @@
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 
-## List of all files not withing fulp_modules:
+## All Fulp files not contained within /fulp_modules/
 
 ### Maps
 
@@ -37,5 +37,6 @@
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsuckerbreakout.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/monsterhunter.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
+- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/beefman_features.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/character_preferences/antag_tips.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/species/beefman.ts
