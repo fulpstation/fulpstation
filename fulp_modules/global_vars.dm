@@ -228,3 +228,10 @@ GLOBAL_LIST_INIT(beef_names, list(
 	"Broil",
 	"Fry",
 ))
+
+GLOBAL_LIST_INIT(beefmen_traumas, list(
+	"Strangers" = /datum/brain_trauma/mild/phobia/strangers,
+	"Hallucinations" = /datum/brain_trauma/mild/hallucinations,
+	"Ocky Icky" = /datum/brain_trauma/mild/phobia/ocky_icky,
+	"Hypnotic Stupor" = /datum/brain_trauma/severe/hypnotic_stupor,
+))
