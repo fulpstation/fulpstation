@@ -430,7 +430,7 @@
 	set waitfor = FALSE
 
 	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
+	if(!owner || !owner.current || !owner.current.client || bloodsucker_level_unspent <= 0)
 		return
 	//Who am I purchasing Powers for?
 	var/power_mode = PURCHASE_DEFAULT
@@ -443,19 +443,26 @@
 		upgrade_message = "You have the opportunity to grow more ancient. Select a power you wish to upgrade."
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/datum/action/bloodsucker/power as anything in subtypesof(/datum/action/bloodsucker))
-		switch(power_mode)
-			if(PURCHASE_DEFAULT)
+	switch(power_mode)
+		if(PURCHASE_DEFAULT)
+			for(var/datum/action/bloodsucker/power as anything in subtypesof(/datum/action/bloodsucker))
 				if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in powers))
 					options[initial(power.name)] = power
-			if(PURCHASE_VASSAL)
+		if(PURCHASE_VASSAL)
+			for(var/datum/action/bloodsucker/power as anything in subtypesof(/datum/action/bloodsucker))
 				if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
 					options[initial(power.name)] = power
-			if(PURCHASE_TREMERE)
-				if(initial(power.purchase_flags) & TREMERE_CAN_BUY && (locate(power) in powers))
-					options[initial(power.name)] = power
+		if(PURCHASE_TREMERE)
+			for(var/datum/action/bloodsucker/targeted/tremere/power as anything in powers)
+				if(!(power.purchase_flags & TREMERE_CAN_BUY))
+					continue
+				if(isnull(power.upgraded_power))
+					continue
+				options[initial(power.name)] = power
 
-	if(options.len >= 1)
+	if(options.len < 1)
+		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
+	else
 		// Give them the UI to purchase a power.
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
@@ -491,47 +498,42 @@
 				to_chat(target, span_notice("Your master taught you how to use [choice]!"))
 			if(PURCHASE_TREMERE)
 				var/datum/action/bloodsucker/targeted/tremere/tremere_power = purchased_power
-				if(isnull(initial(tremere_power.upgraded_power)))
+				if(isnull(tremere_power.upgraded_power))
 					owner.current.balloon_alert(owner.current, "cannot upgrade [choice]!")
 					to_chat(owner.current, span_notice("[choice] is already at max level!"))
 					return
-				var/datum/action/bloodsucker/targeted/tremere/upgraded_power = initial(tremere_power.upgraded_power)
-				BuyPower(new upgraded_power)
+				BuyPower(new tremere_power.upgraded_power)
 				RemovePower(tremere_power)
 				owner.current.balloon_alert(owner.current, "upgraded [choice]!")
 				to_chat(owner.current, span_notice("You have upgraded [choice]!"))
 
-	// No more powers available to purchase? Start levelling up anyways.
-	else
-		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
-
-	/// Advance Powers - Includes the one you just purchased.
+	// Advance Powers - Includes the one you just purchased.
 	LevelUpPowers()
 	vassaldatum?.LevelUpPowers()
-	/// Bloodsucker-only Stat upgrades
+	// Bloodsucker-only Stat upgrades
 	bloodsucker_regen_rate += 0.05
 	max_blood_volume += 100
-	/// Misc. Stats Upgrades
+	// Misc. Stats Upgrades
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/user = owner.current
 		var/datum/species/user_species = user.dna.species
 		user_species.punchdamagelow += 0.5
-		/// This affects the hitting power of Brawn.
+		// This affects the hitting power of Brawn.
 		user_species.punchdamagehigh += 0.5
 
-	/// We're almost done - Spend your Rank now.
+	// We're almost done - Spend your Rank now.
 	vassaldatum?.vassal_level++
 	bloodsucker_level++
 	if(spend_rank)
 		bloodsucker_level_unspent--
 
-	/// Ranked up enough? Let them join a Clan.
+	// Ranked up enough? Let them join a Clan.
 	if(bloodsucker_level == 3)
 		AssignClanAndBane()
-	/// Alright, enough playing around, get your true Reputation.
+	// Ranked up enough to get your true Reputation?
 	if(bloodsucker_level == 4)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
-	if(target)
+	if(power_mode == PURCHASE_VASSAL)
 		if(vassaldatum.vassal_level == 2)
 			ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
@@ -556,7 +558,8 @@
 			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
 		if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
 			set_vassal_level(target)
-	/// Done! Let them know & Update their HUD.
+
+	// Done! Let them know & Update their HUD.
 	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!\n\
 	* Your existing powers have all ranked up as well!"))
 	update_hud(owner.current)

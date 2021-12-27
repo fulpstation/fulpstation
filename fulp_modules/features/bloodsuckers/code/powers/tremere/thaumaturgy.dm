@@ -19,7 +19,6 @@
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 20
 	cooldown = 6 SECONDS
-	purchase_flags = TREMERE_CAN_BUY
 	prefire_message = "Click where you wish to fire."
 	///The shield this Power gives
 	var/obj/item/shield/bloodsucker/blood_shield

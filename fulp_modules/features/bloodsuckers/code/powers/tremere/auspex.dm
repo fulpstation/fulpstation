@@ -23,7 +23,6 @@
 	bloodcost = 5
 	cooldown = 12 SECONDS
 	target_range = 2
-	purchase_flags = TREMERE_CAN_BUY
 	prefire_message = "Where do you wish to teleport to?"
 
 /datum/action/bloodsucker/targeted/tremere/auspex/two

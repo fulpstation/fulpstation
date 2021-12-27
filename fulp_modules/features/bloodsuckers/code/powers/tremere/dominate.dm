@@ -24,7 +24,6 @@
 	bloodcost = 15
 	cooldown = 50 SECONDS
 	target_range = 6
-	purchase_flags = TREMERE_CAN_BUY
 	prefire_message = "Select a target."
 
 /datum/action/bloodsucker/targeted/tremere/dominate/two
