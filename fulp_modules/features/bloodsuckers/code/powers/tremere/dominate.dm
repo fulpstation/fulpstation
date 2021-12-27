@@ -1,4 +1,4 @@
-/*
+/**
  *	# Dominate;
  *
  *	Level 1 - Mesmerizes target
@@ -24,6 +24,7 @@
 	bloodcost = 15
 	cooldown = 50 SECONDS
 	target_range = 6
+	purchase_flags = TREMERE_CAN_BUY
 	prefire_message = "Select a target."
 
 /datum/action/bloodsucker/targeted/tremere/dominate/two
@@ -47,6 +48,12 @@
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds."
 	bloodcost = 30
 	cooldown = 35 SECONDS
+
+/datum/action/bloodsucker/targeted/tremere/dominate/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
+	return isliving(target_atom)
 
 /datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/target_atom)
 	. = ..()

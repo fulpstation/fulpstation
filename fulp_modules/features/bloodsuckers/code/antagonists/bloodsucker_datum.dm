@@ -200,7 +200,7 @@
 
 	return finish_preview_icon(enrico_icon)
 
-/*
+/**
  *	# Vampire Clan
  *
  *	This is used for dealing with the Vampire Clan.
@@ -281,7 +281,7 @@
 
 	return report
 
-/*
+/**
  *	# Assigning Sol
  *
  *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn.
@@ -305,6 +305,16 @@
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
+
+/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+		if(initial(power.name) == all_powers.name)
+			power = all_powers
+			break
+	if(power.active)
+		power.DeactivatePower()
+	powers -= power
+	power.Remove(owner.current)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
@@ -361,7 +371,6 @@
 	owner.current.setMaxHealth(MAX_LIVING_HEALTH)
 	// Language
 	owner.current.remove_language(/datum/language/vampiric)
-//	owner.current.hellbound = FALSE
 	/// Heart
 	RemoveVampOrgans()
 	/// Eyes
@@ -395,88 +404,105 @@
 	bloodsucker_level_unspent--
 
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
 			continue
-		powers -= power
-		if(power.active)
-			power.DeactivatePower()
-		power.Remove(owner.current)
+		RemovePower(power)
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		if(istype(power, /datum/action/bloodsucker/targeted/tremere))
 			continue
 		power.level_current++
 
 ///Disables all powers, accounting for torpor
 /datum/antagonist/bloodsucker/proc/DisableAllPowers()
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		if((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			if(power.active)
 				power.DeactivatePower()
 
-/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, Spend_Rank = TRUE)
+#define PURCHASE_VASSAL "Vassal"
+#define PURCHASE_TREMERE "Tremere"
+#define PURCHASE_DEFAULT "Default"
+
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE)
 	set waitfor = FALSE
 
 	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
 		return
+	//Who am I purchasing Powers for?
+	var/power_mode = PURCHASE_DEFAULT
+	var/upgrade_message = "You have the opportunity to grow more ancient. Select a power to advance your Rank."
+	if(target)
+		power_mode = PURCHASE_VASSAL
+		upgrade_message = "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve."
+	if(my_clan == CLAN_TREMERE)
+		power_mode = PURCHASE_TREMERE
+		upgrade_message = "You have the opportunity to grow more ancient. Select a power you wish to upgrade."
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/all_powers in subtypesof(/datum/action/bloodsucker))
-		var/datum/action/bloodsucker/power = all_powers
-		if(my_clan == CLAN_TREMERE)
-			if(LevelUpTremerePower(owner.current))
-				break // Did we buy a power? Break here.
-			else
-				return // Didnt buy one? Dont continue on, then.
-
-		// Check If I don't own it & I'm allowed to buy it.
-		if(target && (initial(power.purchase_flags) & VASSAL_CAN_BUY) && !(locate(power) in vassaldatum.powers))
-			options[initial(power.name)] = power
-		else if((initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY) && !(locate(power) in powers))
-			options[initial(power.name)] = power
+	for(var/datum/action/bloodsucker/power as anything in subtypesof(/datum/action/bloodsucker))
+		switch(power_mode)
+			if(PURCHASE_DEFAULT)
+				if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in powers))
+					options[initial(power.name)] = power
+			if(PURCHASE_VASSAL)
+				if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
+					options[initial(power.name)] = power
+			if(PURCHASE_TREMERE)
+				if(initial(power.purchase_flags) & TREMERE_CAN_BUY && (locate(power) in powers))
+					options[initial(power.name)] = power
 
 	if(options.len >= 1)
-		/// Give them the UI to purchase a power.
-		var/upgrade_message = target ? "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve." : "You have the opportunity to grow more ancient. Select a power to advance your Rank."
+		// Give them the UI to purchase a power.
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(bloodsucker_level_unspent <= 0 && !Spend_Rank)
+		if(bloodsucker_level_unspent <= 0 && spend_rank)
 			return
 		// Did you choose a power?
 		if(!choice || !options[choice])
 			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
-		if(target)
-			if((locate(options[choice]) in vassaldatum.powers))
-				to_chat(owner.current, span_notice("You prevent their blood from thickening just yet, but you may try again later."))
-				return
-		else
-			// Do we already have the Power - Added due to window stacking
-			if((locate(options[choice]) in powers))
+		if(power_mode != PURCHASE_TREMERE)
+			// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
+			if((locate(options[choice]) in (power_mode == PURCHASE_VASSAL ? vassaldatum.powers : powers)))
 				to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 				return
+		if(power_mode != PURCHASE_VASSAL)
 			// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
 			if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-				to_chat(owner.current, span_warning("Return to your coffin to advance your Rank."))
+				to_chat(owner.current, span_warning("You must be in your Coffin to purchase Powers."))
 				return
 
-		/// Good to go - Buy Power!
-		var/datum/action/bloodsucker/power = options[choice]
-		if(!target)
-			BuyPower(new power)
-			owner.current.balloon_alert(owner.current, "learned [initial(power.name)]!")
-			to_chat(owner.current, span_notice("You have learned how to use [initial(power.name)]!"))
-		else
-			vassaldatum.BuyPower(new power)
-			to_chat(owner.current, span_notice("You taught [target] how to use [initial(power.name)]!"))
-			to_chat(target, span_notice("Your master taught you how to use [initial(power.name)]!"))
-			owner.current.balloon_alert(owner.current, "taught [initial(power.name)]!")
-			target.balloon_alert(target, "learned [initial(power.name)]!")
+		// Good to go - Buy Power!
+		var/datum/action/bloodsucker/purchased_power = options[choice]
+		switch(power_mode)
+			if(PURCHASE_DEFAULT)
+				BuyPower(new purchased_power)
+				owner.current.balloon_alert(owner.current, "learned [choice]!")
+				to_chat(owner.current, span_notice("You have learned how to use [choice]!"))
+			if(PURCHASE_VASSAL)
+				vassaldatum.BuyPower(new purchased_power)
+				owner.current.balloon_alert(owner.current, "taught [choice]!")
+				to_chat(owner.current, span_notice("You taught [target] how to use [choice]!"))
+				target.balloon_alert(target, "learned [choice]!")
+				to_chat(target, span_notice("Your master taught you how to use [choice]!"))
+			if(PURCHASE_TREMERE)
+				var/datum/action/bloodsucker/targeted/tremere/tremere_power = purchased_power
+				if(isnull(initial(tremere_power.upgraded_power)))
+					owner.current.balloon_alert(owner.current, "cannot upgrade [choice]!")
+					to_chat(owner.current, span_notice("[choice] is already at max level!"))
+					return
+				var/datum/action/bloodsucker/targeted/tremere/upgraded_power = initial(tremere_power.upgraded_power)
+				BuyPower(new upgraded_power)
+				RemovePower(tremere_power)
+				owner.current.balloon_alert(owner.current, "upgraded [choice]!")
+				to_chat(owner.current, span_notice("You have upgraded [choice]!"))
+
 	// No more powers available to purchase? Start levelling up anyways.
-	else if(my_clan != CLAN_TREMERE)
+	else
 		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
 
 	/// Advance Powers - Includes the one you just purchased.
@@ -492,12 +518,11 @@
 		user_species.punchdamagelow += 0.5
 		/// This affects the hitting power of Brawn.
 		user_species.punchdamagehigh += 0.5
-	owner.current.setMaxHealth(owner.current.maxHealth + 5) // Why is this a thing...
 
 	/// We're almost done - Spend your Rank now.
 	vassaldatum?.vassal_level++
 	bloodsucker_level++
-	if(Spend_Rank)
+	if(spend_rank)
 		bloodsucker_level_unspent--
 
 	/// Ranked up enough? Let them join a Clan.
@@ -536,6 +561,10 @@
 	* Your existing powers have all ranked up as well!"))
 	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
+
+#undef PURCHASE_VASSAL
+#undef PURCHASE_TREMERE
+#undef PURCHASE_DEFAULT
 
 ///Set the Vassal's rank to their Bloodsucker level
 /datum/antagonist/bloodsucker/proc/set_vassal_level(mob/living/carbon/human/target)
@@ -770,7 +799,7 @@
 	screen_loc = ui_sunlight_display
 
 /// Update Blood Counter + Rank Counter
-/datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
+/datum/antagonist/bloodsucker/proc/update_hud(updateRank = FALSE)
 	if(!owner.current.hud_used)
 		return
 	var/valuecolor

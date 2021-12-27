@@ -93,10 +93,12 @@
 
 /// This Power can be purchased by Bloodsuckers
 #define BLOODSUCKER_CAN_BUY (1<<0)
+/// This Power can be purchased by Tremere Bloodsuckers
+#define TREMERE_CAN_BUY (1<<1)
 /// This Power can be purchased by Vassals
-#define VASSAL_CAN_BUY (1<<1)
+#define VASSAL_CAN_BUY (1<<2)
 /// This Power can be purchased by Monster Hunters
-#define HUNTER_CAN_BUY (1<<2)
+#define HUNTER_CAN_BUY (1<<3)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)

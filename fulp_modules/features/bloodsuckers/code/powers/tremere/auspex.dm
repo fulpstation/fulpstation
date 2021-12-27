@@ -1,4 +1,4 @@
-/*
+/**
  *	# Auspex
  *
  *	Level 1 - Cloak of Darkness until clicking an area, teleports the user to the selected area (max 2 tile)
@@ -23,6 +23,7 @@
 	bloodcost = 5
 	cooldown = 12 SECONDS
 	target_range = 2
+	purchase_flags = TREMERE_CAN_BUY
 	prefire_message = "Where do you wish to teleport to?"
 
 /datum/action/bloodsucker/targeted/tremere/auspex/two
