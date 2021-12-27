@@ -4,7 +4,7 @@
 	description = "A remote research outpost."
 	suffix = "beef_cytology.dmm"
 
-/obj/effect/mob_spawn/ghost_role/human/beefman/cytology
+/obj/effect/mob_spawn/ghost_role/human/beefman
 	name = "Beefman Cytology Researcher"
 	desc = "A cryogenics pod, storing meat for future consumption."
 	prompt_name = "a beefman cytologist"
