@@ -4,7 +4,7 @@
 #define VASSAL_SCAN_PING_TIME 20
 
 /datum/antagonist/vassal
-	name = "Vassal"
+	name = "\improper Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
@@ -83,7 +83,8 @@
 	objectives -= removed_objective
 
 /datum/antagonist/vassal/greet()
-	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a bloodsucking vampire!"))
+	. = ..()
+	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a Bloodsucker!"))
 	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.\n\
 		You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed."))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
