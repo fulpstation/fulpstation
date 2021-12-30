@@ -6,7 +6,7 @@
 
 /obj/item/mod/control/pre_equipped/fulp/Initialize(mapload, new_theme, new_skin)
 	. = ..()
-	if (icon_path && worn_icon_path)
+	if(icon_path && worn_icon_path)
 		for(var/obj/item/clothing as anything in mod_parts)
 			clothing.icon = icon_path
 			clothing.worn_icon = worn_icon_path

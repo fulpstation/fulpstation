@@ -7,7 +7,8 @@
 	cell = /obj/item/stock_parts/cell/hyper
 
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
-	theme = /datum/mod_theme/responsory/fulp/medical
+	theme = /datum/mod_theme/responsory/fulp
+	applied_skin = "medert_commander"
 	initial_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/flashlight,
@@ -16,7 +17,8 @@
 	)
 
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/engineering
-	theme = /datum/mod_theme/responsory/fulp/engineering
+	theme = /datum/mod_theme/responsory/fulp
+	applied_skin = "engert_commander"
 	initial_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/welding,
@@ -26,7 +28,8 @@
 	)
 
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/security
-	theme = /datum/mod_theme/responsory/fulp/security
+	theme = /datum/mod_theme/responsory/fulp
+	applied_skin = "secert_commander"
 	initial_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/welding,
@@ -36,7 +39,8 @@
 	)
 
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/clown
-	theme = /datum/mod_theme/responsory/fulp/clown
+	theme = /datum/mod_theme/responsory/fulp
+	applied_skin = "clownert_commander"
 	initial_modules = list(
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/welding,
@@ -47,8 +51,6 @@
 /datum/mod_theme/responsory/fulp
 	name = "responsory commander"
 	desc = "A high-speed suit by Nanotrasen, intended for its' emergency response teams' top-of-the-line commanders."
-
-/datum/mod_theme/responsory/fulp/medical
 	default_skin = "medert_commander"
 	skins = list(
 		"medert_commander" = list(
@@ -73,11 +75,6 @@
 				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
 			),
 		),
-	)
-
-/datum/mod_theme/responsory/fulp/engineering
-	default_skin = "engert_commander"
-	skins = list(
 		"engert_commander" = list(
 			HELMET_LAYER = null,
 			HELMET_FLAGS = list(
@@ -100,11 +97,6 @@
 				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
 			),
 		),
-	)
-
-/datum/mod_theme/responsory/fulp/security
-	default_skin = "secert_commander"
-	skins = list(
 		"secert_commander" = list(
 			HELMET_LAYER = null,
 			HELMET_FLAGS = list(
@@ -127,11 +119,6 @@
 				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
 			),
 		),
-	)
-
-/datum/mod_theme/responsory/fulp/clown
-	default_skin = "clownert_commander"
-	skins = list(
 		"clownert_commander" = list(
 			HELMET_LAYER = null,
 			HELMET_FLAGS = list(
