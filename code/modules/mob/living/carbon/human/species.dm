@@ -1097,9 +1097,12 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			if(H.num_legs < 2)
 				return FALSE
 			// Fulp edit START - Species
-//			if((DIGITIGRADE in species_traits) && !(I.item_flags & IGNORE_DIGITIGRADE))
-			if((DIGITIGRADE in species_traits) && (!(I.item_flags & IGNORE_DIGITIGRADE)) || !(I.flags_inv & FULL_DIGITIGRADE))
+			if(!(DIGITIGRADE in species_traits) && (I.flags_inv & FULL_DIGITIGRADE))
+				if(!disable_warning)
+					to_chat(H, span_warning("These types of shoes don't fit you!"))
+				return FALSE
 			// Fulp edit END
+			if((DIGITIGRADE in species_traits) && !(I.item_flags & IGNORE_DIGITIGRADE))
 				if(!disable_warning)
 					to_chat(H, span_warning("The footwear around here isn't compatible with your feet!"))
 				return FALSE
