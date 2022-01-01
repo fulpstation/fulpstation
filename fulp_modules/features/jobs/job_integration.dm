@@ -37,24 +37,24 @@
 /datum/controller/subsystem/job/setup_job_lists()
 	. = ..()
 	station_jobs += list(
-		"Brig Physician",
-		"Deputy",
-		"Supply Deputy",
-		"Engineering Deputy",
-		"Medical Deputy",
-		"Science Deputy",
-		"Service Deputy",
+		JOB_BRIG_PHYSICIAN,
+		JOB_DEPUTY,
+		JOB_DEPUTY_SUP,
+		JOB_DEPUTY_ENG,
+		JOB_DEPUTY_MED,
+		JOB_DEPUTY_SCI,
+		JOB_DEPUTY_SRV,
 	)
 
 // Add Fulp jobs to the Crew monitor, at their assigned position (/datum/crewmonitor/var/list/jobs)
 /datum/crewmonitor/New()
 	. = ..()
 	jobs += list(
-		"Brig Physician" = 18,
-		"Deputy" = 17,
-		"Supply Deputy" = 54,
-		"Engineering Deputy" = 43,
-		"Medical Deputy" = 25,
-		"Science Deputy" = 34,
-		"Service Deputy" = 72,
+		JOB_BRIG_PHYSICIAN = 18,
+		JOB_DEPUTY = 17,
+		JOB_DEPUTY_SUP = 54,
+		JOB_DEPUTY_ENG = 43,
+		JOB_DEPUTY_MED = 25,
+		JOB_DEPUTY_SCI = 34,
+		JOB_DEPUTY_SRV = 72,
 	)

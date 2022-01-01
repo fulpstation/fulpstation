@@ -1,5 +1,5 @@
 /datum/antagonist/bloodsucker
-	name = "Bloodsucker"
+	name = "\improper Bloodsucker"
 	show_in_antagpanel = TRUE
 	roundend_category = "bloodsuckers"
 	antagpanel_category = "Bloodsucker"
@@ -156,8 +156,9 @@
 	return ..()
 
 /datum/antagonist/bloodsucker/greet()
+	. = ..()
 	var/fullname = ReturnFullName(TRUE)
-	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a bloodsucker!"))
+	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
 		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
