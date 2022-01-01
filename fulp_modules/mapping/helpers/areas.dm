@@ -7,3 +7,11 @@
 
 /area/service/lawoffice/upper
 	name = "\improper Upper Law Office"
+
+/area/ruin/powered/beefcyto
+	name = "Research Outpost"
+	icon_state = "dk_yellow"
+
+/area/ruin/space/has_grav/powered/beef
+	name = "beef station"
+	icon_state = "green"

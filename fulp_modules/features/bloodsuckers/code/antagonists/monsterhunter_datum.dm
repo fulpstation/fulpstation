@@ -6,7 +6,7 @@
 #define STATUS_EFFECT_HUNTERPINPOINTER /datum/status_effect/agent_pinpointer/hunter_edition
 
 /datum/antagonist/monsterhunter
-	name = "Monster Hunter"
+	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
@@ -105,6 +105,7 @@
 	objectives -= removed_objective
 
 /datum/antagonist/monsterhunter/greet()
+	. = ..()
 	to_chat(owner.current, span_userdanger("After witnessing recent events on the station, we return to your old profession, we are a Monster Hunter!"))
 	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
 	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))

@@ -17,6 +17,7 @@
 		"beefcolor" = "Medium Rare",
 		"beefeyes" = "Olives",
 		"beefmouth" = "Smile",
+		"beef_trauma" = "Strangers",
 	)
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
@@ -82,14 +83,6 @@
 
 	///Dehydration caused by consuming Salt. Causes bleeding and affects how much they will bleed.
 	var/dehydrated = 0
-	///List of all brain traumas a Beefman can spawn with.
-	var/static/list/possible_traumas = list(
-		/datum/brain_trauma/mild/phobia/strangers,
-		/datum/brain_trauma/mild/hallucinations,
-		/datum/brain_trauma/mild/phobia/ocky_icky,
-		/datum/brain_trauma/special/death_whispers,
-		/datum/brain_trauma/severe/hypnotic_stupor,
-	)
 	///List of all limbs that can be removed and replaced at will.
 	var/list/tearable_limbs = list(
 		BODY_ZONE_L_ARM,
@@ -108,13 +101,12 @@
 	// Missing Defaults in DNA? Randomize!
 	proof_beefman_features(user.dna.features)
 	set_beef_color(user)
-
-	user.gain_trauma(pick(possible_traumas), TRAUMA_RESILIENCE_ABSOLUTE)
+	user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	user.cure_trauma_type(possible_traumas, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	return ..()
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
@@ -154,6 +146,7 @@
 	features += "feature_beefcolor"
 	features += "feature_beefeyes"
 	features += "feature_beefmouth"
+	features += "feature_beef_trauma"
 
 	return features
 
@@ -205,7 +198,8 @@
 		inFeatures["beefeyes"] = pick(GLOB.eyes_beefman)
 	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
 		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
-
+	if(inFeatures["beef_trauma"] == null || inFeatures["beef_trauma"] == "")
+		inFeatures["beef_trauma"] = GLOB.beefmen_traumas[pick(GLOB.beefmen_traumas)]
 
 /**
  * ATTACK PROCS
@@ -288,98 +282,100 @@
 	var/obj/item/clothing/under/bodysash/new_sash
 	switch(job.title)
 		// Captain
-		if("Captain")
+		if(JOB_CAPTAIN)
 			new_sash = new /obj/item/clothing/under/bodysash/captain()
 		// Security
-		if("Head of Security")
+		if(JOB_HEAD_OF_SECURITY)
 			new_sash = new /obj/item/clothing/under/bodysash/security/hos()
-		if("Warden")
+		if(JOB_WARDEN)
 			new_sash = new /obj/item/clothing/under/bodysash/security/warden()
-		if("Security Officer")
+		if(JOB_SECURITY_OFFICER)
 			new_sash = new /obj/item/clothing/under/bodysash/security()
-		if("Detective")
+		if(JOB_DETECTIVE)
 			new_sash = new /obj/item/clothing/under/bodysash/security/detective()
-		if("Brig Physician")
+		if(JOB_BRIG_PHYSICIAN)
 			new_sash = new /obj/item/clothing/under/bodysash/security/brigdoc()
 
 		// Subtype - Deputies
-		if("Deputy")
+		if(JOB_DEPUTY)
 			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Engineering Deputy")
+		if(JOB_DEPUTY_ENG)
 			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Medical Deputy")
+		if(JOB_DEPUTY_MED)
 			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Science Deputy")
+		if(JOB_DEPUTY_SCI)
 			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
-		if("Supply Deputy")
+		if(JOB_DEPUTY_SUP)
+			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if(JOB_DEPUTY_SRV)
 			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
 
 		// Medical
-		if("Chief Medical Officer")
+		if(JOB_CHIEF_MEDICAL_OFFICER)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/cmo()
-		if("Medical Doctor")
+		if(JOB_MEDICAL_DOCTOR)
 			new_sash = new /obj/item/clothing/under/bodysash/medical()
-		if("Chemist")
+		if(JOB_CHEMIST)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/chemist()
-		if("Virologist")
+		if(JOB_VIROLOGIST)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/virologist()
-		if("Paramedic")
+		if(JOB_PARAMEDIC)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/paramedic()
 
 		// Engineering
-		if("Chief Engineer")
+		if(JOB_CHIEF_ENGINEER)
 			new_sash = new /obj/item/clothing/under/bodysash/engineer/ce()
-		if("Station Engineer")
+		if(JOB_STATION_ENGINEER)
 			new_sash = new /obj/item/clothing/under/bodysash/engineer()
-		if("Atmospheric Technician")
+		if(JOB_ATMOSPHERIC_TECHNICIAN)
 			new_sash = new /obj/item/clothing/under/bodysash/engineer/atmos()
 
 		// Science
-		if("Research Director")
+		if(JOB_RESEARCH_DIRECTOR)
 			new_sash = new /obj/item/clothing/under/bodysash/rd()
-		if("Scientist")
+		if(JOB_SCIENTIST)
 			new_sash = new /obj/item/clothing/under/bodysash/scientist()
-		if("Roboticist")
+		if(JOB_ROBOTICIST)
 			new_sash = new /obj/item/clothing/under/bodysash/roboticist()
-		if("Geneticist")
+		if(JOB_GENETICIST)
 			new_sash = new /obj/item/clothing/under/bodysash/geneticist()
 
 		// Supply
-		if("Head of Personnel")
+		if(JOB_HEAD_OF_PERSONNEL)
 			new_sash = new /obj/item/clothing/under/bodysash/hop()
-		if("Quartermaster")
+		if(JOB_QUARTERMASTER)
 			new_sash = new /obj/item/clothing/under/bodysash/qm()
-		if("Cargo Technician")
+		if(JOB_CARGO_TECHNICIAN)
 			new_sash = new /obj/item/clothing/under/bodysash/cargo()
-		if("Shaft Miner")
+		if(JOB_SHAFT_MINER)
 			new_sash = new /obj/item/clothing/under/bodysash/miner()
 
 		// Service
-		if("Clown")
+		if(JOB_CLOWN)
 			new_sash = new /obj/item/clothing/under/bodysash/clown()
-		if("Mime")
+		if(JOB_MIME)
 			new_sash = new /obj/item/clothing/under/bodysash/mime()
-		if("Cook")
+		if(JOB_COOK)
 			new_sash = new /obj/item/clothing/under/bodysash/cook()
-		if("Bartender")
+		if(JOB_BARTENDER)
 			new_sash = new /obj/item/clothing/under/bodysash/bartender()
-		if("Chaplain")
+		if(JOB_CHAPLAIN)
 			new_sash = new /obj/item/clothing/under/bodysash/chaplain()
-		if("Curator")
+		if(JOB_CURATOR)
 			new_sash = new /obj/item/clothing/under/bodysash/curator()
-		if("Lawyer")
+		if(JOB_LAWYER)
 			new_sash = new /obj/item/clothing/under/bodysash/lawyer()
-		if("Botanist")
+		if(JOB_BOTANIST)
 			new_sash = new /obj/item/clothing/under/bodysash/botanist()
-		if("Janitor")
+		if(JOB_JANITOR)
 			new_sash = new /obj/item/clothing/under/bodysash/janitor()
-		if("Psychologist")
+		if(JOB_PSYCHOLOGIST)
 			new_sash = new /obj/item/clothing/under/bodysash/psychologist()
 
 		// Assistant
-		if("Assistant")
+		if(JOB_ASSISTANT)
 			new_sash = new /obj/item/clothing/under/bodysash()
-		if("Prisoner")
+		if(JOB_PRISONER)
 			new_sash = new /obj/item/clothing/under/bodysash/prisoner()
 
 		else

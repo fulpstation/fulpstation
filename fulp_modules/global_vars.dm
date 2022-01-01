@@ -4,13 +4,13 @@
 
 /// This list is used in job_integration.dm to assign jobs their HUD Icons. When adding new jobs, add them to this list.
 GLOBAL_LIST_INIT(fulp_job_assignments, list(
-	"Brig Physician",
-	"Deputy",
-	"Supply Deputy",
-	"Engineering Deputy",
-	"Medical Deputy",
-	"Science Deputy",
-	"Service Deputy",
+	JOB_BRIG_PHYSICIAN,
+	JOB_DEPUTY,
+	JOB_DEPUTY_SUP,
+	JOB_DEPUTY_ENG,
+	JOB_DEPUTY_MED,
+	JOB_DEPUTY_SCI,
+	JOB_DEPUTY_SRV,
 ))
 
 // MENTORS //
@@ -227,4 +227,11 @@ GLOBAL_LIST_INIT(beef_names, list(
 	"Sear",
 	"Broil",
 	"Fry",
+))
+
+GLOBAL_LIST_INIT(beefmen_traumas, list(
+	"Strangers" = /datum/brain_trauma/mild/phobia/strangers,
+	"Hallucinations" = /datum/brain_trauma/mild/hallucinations,
+	"Ocky Icky" = /datum/brain_trauma/mild/phobia/ocky_icky,
+	"Hypnotic Stupor" = /datum/brain_trauma/severe/hypnotic_stupor,
 ))
