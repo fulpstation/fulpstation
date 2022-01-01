@@ -219,11 +219,8 @@
 	assignment = "Service Deputy"
 	trim_state = "trim_deputyservice"
 	department_access = list(
-		//The main three
-		ACCESS_BAR, ACCESS_KITCHEN, ACCESS_HYDROPONICS,
-		//The next big ones
+		ACCESS_BAR, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_SERVICE,
 		ACCESS_THEATRE, ACCESS_JANITOR, ACCESS_LAWYER, ACCESS_CHAPEL_OFFICE, ACCESS_CREMATORIUM, ACCESS_LIBRARY,
-		//Psychology (lol)
 		ACCESS_MEDICAL, ACCESS_PSYCHOLOGY,
 	)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
