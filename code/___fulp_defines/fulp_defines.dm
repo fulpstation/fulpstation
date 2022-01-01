@@ -20,8 +20,8 @@
 #define MARTIALART_FRENZYGRAB "frenzy grabbing"
 
 
-/*
- * # DEPUTIES
+/**
+ * # JOBS
  */
 #define TRAIT_ENGINEERINGDEPUTY "engineeringdeputy"
 #define TRAIT_MEDICALDEPUTY "medicaldeputy"
@@ -30,6 +30,14 @@
 #define TRAIT_SERVICEDEPUTY "servicedeputy"
 ///Service deputy's assigned department
 #define SEC_DEPT_SERVICE "Service"
+
+#define JOB_BRIG_PHYSICIAN "Brig Physician"
+#define JOB_DEPUTY "Deputy"
+#define JOB_DEPUTY_ENG "Engineering Deputy"
+#define JOB_DEPUTY_MED "Medical Deputy"
+#define JOB_DEPUTY_SUP "Supply Deputy"
+#define JOB_DEPUTY_SCI "Science Deputy"
+#define JOB_DEPUTY_SRV "Service Deputy"
 
 
 /**

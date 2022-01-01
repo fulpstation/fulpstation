@@ -69,13 +69,6 @@
 	icon_state = "[initial(icon_state)][anchored ? null : "_off"]"
 	return ..()
 
-/obj/structure/destructible/cult/attackby(obj/I, mob/user, params)
-	if(istype(I, /obj/item/melee/cultblade/dagger) && IS_CULTIST(user))
-		set_anchored(!anchored)
-		to_chat(user, span_notice("You [anchored ? "":"un"]secure \the [src] [anchored ? "to":"from"] the floor."))
-	else
-		return ..()
-
 /obj/structure/destructible/cult/proc/check_menu(mob/user)
 	if(!istype(user))
 		return FALSE
@@ -156,7 +149,7 @@
 	var/list/pickedtype = list()
 	switch(choice)
 		if("Nar'Sien Hardened Armor")
-			pickedtype += /obj/item/clothing/suit/space/hardsuit/cult/real
+			pickedtype += /obj/item/clothing/suit/hooded/cultrobes/hardened
 		if("Flagellant's Robe")
 			pickedtype += /obj/item/clothing/suit/hooded/cultrobes/berserker
 		if("Eldritch Longsword")

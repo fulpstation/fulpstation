@@ -7,98 +7,100 @@
 	switch(job.title)
 
 		// Assistant
-		if("Assistant")
+		if(JOB_ASSISTANT)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		// Captain
-		if("Captain")
+		if(JOB_CAPTAIN)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 		// Security
-		if("Head of Security")
+		if(JOB_HEAD_OF_SECURITY)
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
-		if("Warden")
+		if(JOB_WARDEN)
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
-		if("Security Officer")
+		if(JOB_SECURITY_OFFICER)
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
-		if("Detective")
+		if(JOB_DETECTIVE)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Brig Physician")
+		if(JOB_BRIG_PHYSICIAN)
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
-		if("Deputy")
+		if(JOB_DEPUTY)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		// Deputies
-		if("Engineering Deputy")
+		if(JOB_DEPUTY_ENG)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Medical Deputy")
+		if(JOB_DEPUTY_MED)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Science Deputy")
+		if(JOB_DEPUTY_SCI)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Supply Deputy")
+		if(JOB_DEPUTY_SUP)
+			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
+		if(JOB_DEPUTY_SRV)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 
 		// Medical
-		if("Chief Medical Officer")
+		if(JOB_CHIEF_MEDICAL_OFFICER)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Medical Doctor")
+		if(JOB_MEDICAL_DOCTOR)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Chemist")
+		if(JOB_CHEMIST)
 			newShoes = /obj/item/clothing/shoes/brown/digitigrade
-		if("Virologist")
+		if(JOB_VIROLOGIST)
 			newShoes = /obj/item/clothing/shoes/brown/digitigrade
-		if("Paramedic")
+		if(JOB_PARAMEDIC)
 			newShoes = /obj/item/clothing/shoes/brown/digitigrade
 
 		// Engineering
-		if("Chief Engineer")
+		if(JOB_CHIEF_ENGINEER)
 			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
-		if("Station Engineer")
+		if(JOB_STATION_ENGINEER)
 			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
-		if("Atmospheric Technician")
+		if(JOB_ATMOSPHERIC_TECHNICIAN)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 
 		// Science
-		if("Research Director")
+		if(JOB_RESEARCH_DIRECTOR)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Scientist")
+		if(JOB_SCIENTIST)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Roboticist")
+		if(JOB_ROBOTICIST)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Geneticist")
+		if(JOB_GENETICIST)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
 
-		// Supply/Service
-		if("Head of Personnel")
+		// Supply
+		if(JOB_HEAD_OF_PERSONNEL)
 			newShoes = /obj/item/clothing/shoes/brown/digitigrade
-		if("Quartermaster")
+		if(JOB_QUARTERMASTER)
 			newShoes = /obj/item/clothing/shoes/brown/digitigrade
-		if("Cargo Technician")
+		if(JOB_CARGO_TECHNICIAN)
 			newShoes = /obj/item/clothing/shoes/brown/digitigrade
-		if("Shaft Miner")
+		if(JOB_SHAFT_MINER)
 			newShoes = new /obj/item/clothing/shoes/workboots/digitigrade
 
 		// Clown
-		if("Clown")
+		if(JOB_CLOWN)
 			newShoes = new /obj/item/clothing/shoes/clown_shoes/digitigrade
 		// Mime
-		if("Mime")
+		if(JOB_MIME)
 			newShoes = new /obj/item/clothing/shoes/mime/digitigrade
 
-		if("Prisoner")
+		if(JOB_PRISONER)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Cook")
+		if(JOB_COOK)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Bartender")
+		if(JOB_BARTENDER)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Chaplain")
+		if(JOB_CHAPLAIN)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Curator")
+		if(JOB_CURATOR)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Lawyer")
+		if(JOB_LAWYER)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if("Botanist")
+		if(JOB_BOTANIST)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Janitor")
+		if(JOB_JANITOR)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
-		if("Psychologist")
+		if(JOB_PSYCHOLOGIST)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 
 		// Civilian

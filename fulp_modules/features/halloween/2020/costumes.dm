@@ -728,7 +728,7 @@
 		/obj/item/clothing/under/suit/black,
 		/obj/item/clothing/under/suit/burgundy,
 		/obj/item/clothing/under/suit/navy,
-		/obj/item/clothing/under/suit/black/female,
+		/obj/item/clothing/under/suit/black/skirt,
 	)
 	. = ..()
 
