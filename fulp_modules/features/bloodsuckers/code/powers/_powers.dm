@@ -91,7 +91,7 @@
 	// Cooldown?
 	if(!COOLDOWN_FINISHED(src, bloodsucker_power_cooldown))
 		owner.balloon_alert(owner, "power unavailable!")
-		to_chat(owner, "[src] is unavailable. Wait [bloodsucker_power_cooldown / 10] seconds.")
+		to_chat(owner, "[src] on cooldown!")
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/user = owner
@@ -135,9 +135,7 @@
 	return TRUE
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
-/datum/action/bloodsucker/proc/StartCooldown(include_toggled = FALSE)
-	if((power_flags & BP_AM_TOGGLE) && !include_toggled)
-		return
+/datum/action/bloodsucker/proc/StartCooldown()
 	// Alpha Out
 	button.color = rgb(128,0,0,128)
 	button.alpha = 100
@@ -183,7 +181,7 @@
 		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
 	UpdateButtonIcon()
-	StartCooldown(TRUE)
+	StartCooldown()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)

@@ -117,6 +117,7 @@
 	magic_9ball.preparePixelProjectile(target_atom, user)
 	INVOKE_ASYNC(magic_9ball, /obj/projectile.proc/fire)
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
+	PowerActivatedSuccessfully()
 
 /**
  * 	# Blood Bolt

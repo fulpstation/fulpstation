@@ -22,7 +22,7 @@
 	purchase_flags = TREMERE_CAN_BUY
 	// Targeted stuff
 	target_range = 99
-	power_activates_immediately = TRUE
+	power_activates_immediately = FALSE
 
 	///The upgraded version of this Power. 'null' means it's the max level.
 	var/upgraded_power = null
