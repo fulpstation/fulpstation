@@ -49,6 +49,10 @@
 /datum/map_template/shuttle/emergency/fulp
 	prefix = "fulp_modules/mapping/shuttles/evac/"
 	suffix = "xeno"
-	name = "Xeno Emergency Shuttle"
+	name = "Non-responsive shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
-	description = "The shuttle is in range of us, but it isn't responding to our radio. Strange. I'm not sure if calling it is a good idea..."
+	description = "The shuttle is in range of us, but it isn't responding to our radio. Strange. I'm not sure if calling it is a good idea, it is good value though..."
+	admin_notes = "Containts 7 xenos mobs (3 drone, 1 hunter 2 hunter, 1 sentinel, 1 larva. There are no live eggs, queen or praetorian. The mobs are not player controlled"
+	
+/datum/map_template/shuttle/emergency/xeno/prerequisites_met()
+	return SSshuttle.shuttle_purchase_requirements_met[SHUTTLE_UNLOCK_ALIENTECH]
