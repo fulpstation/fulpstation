@@ -92,6 +92,9 @@
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
 
+	/// Static typecache of all changeling powers that are usable.
+	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/bloodsucker, TRUE)
+
 /mob/living/proc/explain_powers()
 	set name = "Bloodsucker Help"
 	set category = "Mentor"
@@ -446,11 +449,11 @@
 	var/list/options = list()
 	switch(power_mode)
 		if(PURCHASE_DEFAULT)
-			for(var/datum/action/bloodsucker/power as anything in subtypesof(/datum/action/bloodsucker))
+			for(var/datum/action/bloodsucker/power as anything in all_bloodsucker_powers)
 				if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in powers))
 					options[initial(power.name)] = power
 		if(PURCHASE_VASSAL)
-			for(var/datum/action/bloodsucker/power as anything in subtypesof(/datum/action/bloodsucker))
+			for(var/datum/action/bloodsucker/power as anything in all_bloodsucker_powers)
 				if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
 					options[initial(power.name)] = power
 		if(PURCHASE_TREMERE)
