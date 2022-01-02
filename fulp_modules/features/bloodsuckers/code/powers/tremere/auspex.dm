@@ -1,4 +1,4 @@
-/*
+/**
  *	# Auspex
  *
  *	Level 1 - Cloak of Darkness until clicking an area, teleports the user to the selected area (max 2 tile)
@@ -117,3 +117,4 @@
 			living_mob.SetUnconscious(10 SECONDS)
 
 	do_teleport(owner, targeted_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	PowerActivatedSuccessfully()

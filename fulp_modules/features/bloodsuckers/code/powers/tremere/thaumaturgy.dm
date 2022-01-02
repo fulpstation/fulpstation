@@ -1,4 +1,4 @@
-/*
+/**
  *	# Thaumaturgy
  *
  *	Level 1 - One shot bloodbeam spell
@@ -82,31 +82,20 @@
 	bloodcost = 80
 	cooldown = 8 SECONDS
 
-
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckValidTarget(atom/target_atom)
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/ActivatePower()
 	. = ..()
-	if(!.)
-		return FALSE
-	return TRUE
-
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/CheckCanUse(mob/living/carbon/user)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(active) // Only do this when first activating.
-		return FALSE
+	owner.balloon_alert(owner, "you start thaumaturgy")
 	if(level_current >= 2) // Only if we're at least level 2.
 		blood_shield = new
-		if(!user.put_in_inactive_hand(blood_shield))
-			user.balloon_alert(user, "off hand is full!")
-			to_chat(user, span_notice("Blood shield couldn't be activated as your off hand is full."))
+		if(!owner.put_in_inactive_hand(blood_shield))
+			owner.balloon_alert(owner, "off hand is full!")
+			to_chat(owner, span_notice("Blood shield couldn't be activated as your off hand is full."))
 			return FALSE
-		user.visible_message(
-			span_warning("[user]\'s hands begins to bleed and forms into a blood shield!"),
+		owner.visible_message(
+			span_warning("[owner]\'s hands begins to bleed and forms into a blood shield!"),
 			span_warning("We activate our Blood shield!"),
-			span_hear("You hear liquids forming together."))
-	user.balloon_alert(user, "you start thaumaturgy")
-	return TRUE
+			span_hear("You hear liquids forming together."),
+		)
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
 	if(blood_shield)
@@ -128,6 +117,7 @@
 	magic_9ball.preparePixelProjectile(target_atom, user)
 	INVOKE_ASYNC(magic_9ball, /obj/projectile.proc/fire)
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
+	PowerActivatedSuccessfully()
 
 /**
  * 	# Blood Bolt
@@ -175,7 +165,7 @@
  */
 
 /obj/item/shield/bloodsucker
-	name = "bloodshield"
+	name = "blood shield"
 	desc = "A shield made out of blood, requiring blood to sustain hits."
 	item_flags = ABSTRACT | DROPDEL
 	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'

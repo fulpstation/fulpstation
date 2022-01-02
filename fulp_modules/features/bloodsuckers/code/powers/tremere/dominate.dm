@@ -1,4 +1,4 @@
-/*
+/**
  *	# Dominate;
  *
  *	Level 1 - Mesmerizes target
@@ -20,7 +20,6 @@
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
-	power_activates_immediately = FALSE
 	bloodcost = 15
 	cooldown = 50 SECONDS
 	target_range = 6
@@ -47,6 +46,12 @@
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds."
 	bloodcost = 30
 	cooldown = 35 SECONDS
+
+/datum/action/bloodsucker/targeted/tremere/dominate/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
+	return isliving(target_atom)
 
 /datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/target_atom)
 	. = ..()
