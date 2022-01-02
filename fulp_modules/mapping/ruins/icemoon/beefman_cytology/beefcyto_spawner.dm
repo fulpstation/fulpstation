@@ -1,32 +1,25 @@
-/obj/effect/mob_spawn/human/beefman/cytology
-	death = FALSE
-	roundstart = FALSE
-	random = TRUE
-	mob_name = "Beefman Cytology Researcher"
-	mob_species = /datum/species/beefman
-	mob_type = /mob/living/carbon/human/species/beefman
-	name = "Beefman Cytology Researcher"
-	icon = 'icons/obj/machines/sleeper.dmi'
-	icon_state = "sleeper"
-	short_desc = "You are a cytological researcher in a remote scientific outpost."
-	flavour_text = "You and your fellow researcher are studying cellular biology to better understand the origins of your species. Sample the subjects provided and the surrounding area for testing."
-	spawner_job_path = /datum/job/fulp_cytology
-	outfit = /datum/outfit/russian_beefman
-
-/datum/job/fulp_cytology
-	title = ROLE_BEEFMAN_CYTOLOGY
-
-/area/ruin/powered/beefcyto
-	name = "Research Outpost"
-	icon_state = "dk_yellow"
-
 /datum/map_template/ruin/icemoon/underground/fulp/cyto
 	name = "Beefman Research Outpost"
 	id = "beef cyto"
 	description = "A remote research outpost."
 	suffix = "beef_cytology.dmm"
 
+/obj/effect/mob_spawn/ghost_role/human/beefman
+	name = "Beefman Cytology Researcher"
+	desc = "A cryogenics pod, storing meat for future consumption."
+	prompt_name = "a beefman cytologist"
+	icon = 'icons/obj/machines/sleeper.dmi'
+	icon_state = "sleeper"
+	mob_species = /datum/species/beefman
+	you_are_text = "You are a cytological researcher in a remote scientific outpost."
+	flavour_text = "You and your fellow researcher are studying cellular biology to better understand the origins of your species. \
+	Sample the subjects provided and the surrounding area for testing."
+	important_text = "This is meant as a way to learn how to play Cytology!"
+	outfit = /datum/outfit/russian_beefman
+	spawner_job_path = /datum/job/fulp_cytology
 
+/datum/job/fulp_cytology
+	title = ROLE_BEEFMAN_CYTOLOGY
 
 /datum/outfit/russian_beefman
 	name = "Russian Beefman"

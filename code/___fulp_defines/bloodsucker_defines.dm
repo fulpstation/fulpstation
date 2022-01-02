@@ -68,7 +68,6 @@
 /**
  * Clan defines
  */
-#define CLAN_NONE "No Clan"
 #define CLAN_BRUJAH "Brujah Clan"
 #define CLAN_NOSFERATU "Nosferatu Clan"
 #define CLAN_TREMERE "Tremere Clan"

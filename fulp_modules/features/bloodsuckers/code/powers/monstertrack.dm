@@ -15,6 +15,7 @@
 	var/give_pinpointer = FALSE
 
 /datum/action/bloodsucker/trackvamp/ActivatePower(mob/living/user = owner)
+	. = ..()
 	/// Return text indicating direction
 	to_chat(user, span_notice("You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order."))
 	if(!do_mob(user, owner, 80))
@@ -22,9 +23,6 @@
 	if(give_pinpointer)
 		user.apply_status_effect(STATUS_EFFECT_HUNTERPINPOINTER)
 	display_proximity()
-	// NOTE: DON'T DEACTIVATE!
-	//DeactivatePower()
-	. = ..()
 
 /datum/action/bloodsucker/trackvamp/proc/display_proximity()
 	/// Pick target

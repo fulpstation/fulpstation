@@ -29,7 +29,7 @@
 	tick_interval = 10
 	examine_text = "<span class='notice'>They seem... inhumane, and feral!</span>"
 	alert_type = /atom/movable/screen/alert/status_effect/frenzy
-	/// Store whether they were a tool user to return afterwards.
+	/// Store whether they were an advancedtooluser, to give the trait back upon exiting.
 	var/was_tooluser = FALSE
 	/// The stored Bloodsucker antag datum
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum
@@ -49,15 +49,13 @@
 	var/mob/living/carbon/human/user = owner
 	bloodsuckerdatum = IS_BLOODSUCKER(user)
 
-	// Disable ALL Powers
+	// Disable ALL Powers and notify their entry
 	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
 		bloodsuckerdatum.DisableAllPowers()
-	owner.balloon_alert(owner, "you enter a frenzy!")
-
-	// Notify their entry
-	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
 		to_chat(owner, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
 		to_chat(owner, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, have stun resistance, cannot speak, hear, or use any powers outside of Feed and Trespass (If you have it)."))
+
+	owner.balloon_alert(owner, "you enter a frenzy!")
 
 	// Stamina resistances
 	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
@@ -87,20 +85,22 @@
 /datum/status_effect/frenzy/on_remove()
 	var/mob/living/carbon/human/user = owner
 	owner.balloon_alert(owner, "you come back to your senses.")
-	REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_MUTE, FRENZY_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_DEAF, FRENZY_TRAIT)
 	if(was_tooluser)
 		ADD_TRAIT(owner, TRAIT_ADVANCEDTOOLUSER, SPECIES_TRAIT)
 		was_tooluser = FALSE
-	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
-		owner.Dizzy(3 SECONDS)
-		owner.Paralyze(2 SECONDS)
-	if(bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
-		user.physiology.stamina_mod *= 0.4
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
 	bloodsuckerdatum.frenzygrab.remove(user)
 	owner.remove_client_colour(/datum/client_colour/cursed_heart_blood)
+
+	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
+		REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
+	else if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
+		owner.Dizzy(3 SECONDS)
+		owner.Paralyze(2 SECONDS)
+		user.physiology.stamina_mod /= 0.4
+
 	bloodsuckerdatum.frenzied = FALSE
 	return ..()
 

@@ -1,4 +1,4 @@
-/*
+/**
  *	# Tremere Powers
  *
  *	This file is for Tremere power procs and Bloodsucker procs that deals exclusively with Tremere.
@@ -8,7 +8,8 @@
 /datum/action/bloodsucker/targeted/tremere
 	name = "Tremere Gift"
 	desc = "A tremere exclusive gift."
-	var/upgraded_power
+	///The upgraded version of this Power. 'null' means it's the max level.
+	var/upgraded_power = null
 
 	// Icon stuff
 	button_icon_state = "power_feed"
@@ -18,31 +19,32 @@
 	button_icon = 'fulp_modules/features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
 	icon_icon = 'fulp_modules/features/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
 
-	// We're dealing with this ourselves, we don't want anyone else to have them
-	power_flags = NONE
+	// Tremere powers don't level up, we have them hardcoded.
+	level_current = 0
+	// Re-defining these as we want total control over them
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	purchase_flags = NONE
 	// Targeted stuff
 	target_range = 99
 	power_activates_immediately = TRUE
 
-/datum/action/bloodsucker/targeted/tremere/Trigger()
+/datum/action/bloodsucker/targeted/tremere/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
-		return
-	ActivatePower()
+		return FALSE
+	return isliving(target_atom)
 
 /datum/antagonist/bloodsucker/proc/LevelUpTremerePower(mob/living/user)
-
 	var/list/options = list()
-	for(var/datum/action/bloodsucker/targeted/tremere/power in powers)
-		if(!(locate(power) in powers))
+	for(var/datum/action/bloodsucker/targeted/tremere/power as anything in powers)
+		if(!istype(power, /datum/action/bloodsucker/targeted/tremere))
 			continue
-		var/datum/action/bloodsucker/targeted/tremere/current_power = (locate(power) in powers)
-		if(initial(power.tremere_level) >= current_power.tremere_level)
-			options[initial(power.name)] = power
+		if(isnull(power.upgraded_power))
+			continue
+		options[initial(power.name)] = power
 
 	if(options.len >= 1)
-		var/choice = tgui_input_list(user, "You have the opportunity to grow more ancient. Select a power you wish to Upgrade.", "Your Blood Thickens...", options)
+		var/choice = tgui_input_list(user, "You have the opportunity to grow more ancient. Select a power you wish to upgrade.", "Your Blood Thickens...", options)
 		/// Did you choose a power?
 		if(!choice || !options[choice])
 			to_chat(user, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
@@ -64,16 +66,3 @@
 			user.balloon_alert(user, "cannot upgrade [selected_power]!")
 			to_chat(user, span_notice("[selected_power] is already at max level!"))
 	return FALSE
-
-
-/datum/action/bloodsucker/targeted/tremere/CheckValidTarget(atom/target_atom)
-	. = ..()
-	if(!.)
-		return FALSE
-	return isliving(target_atom)
-
-/datum/action/bloodsucker/targeted/tremere/CheckCanTarget(atom/target_atom, display_error)
-	. = ..()
-	if(!.)
-		return FALSE
-	return TRUE

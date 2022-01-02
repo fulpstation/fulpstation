@@ -32,6 +32,9 @@
 	var/externalreplyamount = 0
 	///Tracks say() usage for ic/dchat while slowmode is enabled
 	COOLDOWN_DECLARE(say_slowmode)
+	/// The last urgent ahelp that this player sent
+	COOLDOWN_DECLARE(urgent_ahelp_cooldown)
+
 		/////////
 		//OTHER//
 		/////////
@@ -161,6 +164,7 @@
 
 	var/list/parallax_layers
 	var/list/parallax_layers_cached
+	///this is the last recorded client eye by SSparallax/fire()
 	var/atom/movable/movingmob
 	var/turf/previous_turf
 	///world.time of when we can state animate()ing parallax again

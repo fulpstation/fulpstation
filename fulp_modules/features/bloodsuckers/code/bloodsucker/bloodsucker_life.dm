@@ -96,34 +96,35 @@
 		return FALSE
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
-	if(iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
-		var/mob/living/carbon/user = owner.current
-		var/costMult = 1 // Coffin makes it cheaper
-		var/bruteheal = min(user.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
-		var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-		/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
-		var/amInCoffin = istype(user.loc, /obj/structure/closet/crate/coffin)
-		if(amInCoffin && HAS_TRAIT(user, TRAIT_NODEATH))
-			if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-				to_chat(user, span_warning("You will not heal while your Masquerade ability is active."))
-				return
-			fireheal = min(user.getFireLoss_nonProsthetic(), actual_regen)
-			mult *= 5 // Increase multiplier if we're sleeping in a coffin.
-			costMult /= 2 // Decrease cost if we're sleeping in a coffin.
-			user.extinguish_mob()
-			user.remove_all_embedded_objects() // Remove Embedded!
-			if(check_limbs(costMult))
-				return TRUE
-		// In Torpor, but not in a Coffin? Heal faster anyways.
-		else if(HAS_TRAIT(user, TRAIT_NODEATH))
-			mult *= 3
-		// Heal if Damaged
-		if((bruteheal + fireheal > 0) && mult != 0) // Just a check? Don't heal/spend, and return.
-			// We have damage. Let's heal (one time)
-			user.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
-			user.adjustFireLoss(-fireheal * mult, forced=TRUE)
-			AddBloodVolume(((bruteheal * -0.5) + (fireheal * -1)) * costMult * mult) // Costs blood to heal
+	if(!iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
+		return
+	var/mob/living/carbon/user = owner.current
+	var/costMult = 1 // Coffin makes it cheaper
+	var/bruteheal = min(user.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
+	var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
+	/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
+	var/amInCoffin = istype(user.loc, /obj/structure/closet/crate/coffin)
+	if(amInCoffin && HAS_TRAIT(user, TRAIT_NODEATH))
+		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
+			to_chat(user, span_warning("You will not heal while your Masquerade ability is active."))
+			return
+		fireheal = min(user.getFireLoss_nonProsthetic(), actual_regen)
+		mult *= 5 // Increase multiplier if we're sleeping in a coffin.
+		costMult /= 2 // Decrease cost if we're sleeping in a coffin.
+		user.extinguish_mob()
+		user.remove_all_embedded_objects() // Remove Embedded!
+		if(check_limbs(costMult))
 			return TRUE
+	// In Torpor, but not in a Coffin? Heal faster anyways.
+	else if(HAS_TRAIT(user, TRAIT_NODEATH))
+		mult *= 3
+	// Heal if Damaged
+	if((bruteheal + fireheal > 0) && mult != 0) // Just a check? Don't heal/spend, and return.
+		// We have damage. Let's heal (one time)
+		user.adjustBruteLoss(-bruteheal * mult, forced=TRUE) // Heal BRUTE / BURN in random portions throughout the body.
+		user.adjustFireLoss(-fireheal * mult, forced=TRUE)
+		AddBloodVolume(((bruteheal * -0.5) + (fireheal * -1)) * costMult * mult) // Costs blood to heal
+		return TRUE
 
 /datum/antagonist/bloodsucker/proc/check_limbs(costMult = 1)
 	var/limb_regen_cost = 50 * -costMult
@@ -154,7 +155,7 @@
 /datum/antagonist/bloodsucker/proc/HealVampireOrgans()
 	var/mob/living/carbon/bloodsuckeruser = owner.current
 
-	// Step 1
+	// Step 1 - Fix basic things, husk and organs.
 	bloodsuckeruser.cure_husk()
 	bloodsuckeruser.regenerate_organs()
 
@@ -162,18 +163,18 @@
 	for(var/all_organs in bloodsuckeruser.internal_organs)
 		var/obj/item/organ/organ = all_organs
 		organ.setOrganDamage(0)
-	var/obj/item/organ/heart/all_organs = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(all_organs, /obj/item/organ/heart/vampheart) || !istype(all_organs, /obj/item/organ/heart/demon) || !istype(all_organs, /obj/item/organ/heart/cursed))
-		qdel(all_organs)
+	var/obj/item/organ/heart/current_heart = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
+	if(!istype(current_heart, /obj/item/organ/heart/vampheart) && !istype(current_heart, /obj/item/organ/heart/demon) && !istype(current_heart, /obj/item/organ/heart/cursed))
+		qdel(current_heart)
 		var/obj/item/organ/heart/vampheart/vampiric_heart = new
 		vampiric_heart.Insert(owner.current)
 		vampiric_heart.Stop()
-	var/obj/item/organ/eyes/user_eyes = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
-	if(user_eyes)
-		user_eyes.flash_protect = max(initial(user_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
-		user_eyes.sight_flags = SEE_MOBS
-		user_eyes.see_in_dark = 8
-		user_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	var/obj/item/organ/eyes/current_eyes = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
+	if(current_eyes)
+		current_eyes.flash_protect = max(initial(current_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
+		current_eyes.sight_flags = SEE_MOBS
+		current_eyes.see_in_dark = 8
+		current_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	bloodsuckeruser.update_sight()
 
 	// Step 3
@@ -207,45 +208,30 @@
 
 /// FINAL DEATH
 /datum/antagonist/bloodsucker/proc/HandleDeath()
-	/// Not "Alive"?
+	// Not "Alive"?
 	if(!owner.current || !iscarbon(owner.current) || isbrain(owner.current) || !get_turf(owner.current))
 		FinalDeath()
 		return
-	/// Fire Damage? (above double health)
+	// Fire Damage? (above double health)
 	if(owner.current.getFireLoss() >= owner.current.maxHealth * 2.5)
 		FinalDeath()
 		return
-	/// Staked while "Temp Death" or Asleep
+	// Staked while "Temp Death" or Asleep
 	if(owner.current.StakeCanKillMe() && owner.current.AmStaked())
 		FinalDeath()
 		return
-	/// Not organic/living? (Zombie/Skeleton/Plasmaman)
+	// Not organic/living? (Zombie/Skeleton/Plasmaman)
 	if(!(owner.current.mob_biotypes & MOB_ORGANIC))
 		FinalDeath()
 		return
-	/*
-	// Disable Powers: Masquerade * NOTE * This should happen as a FLAW!
-	if(stat >= UNCONSCIOUS)
-		for(var/datum/action/bloodsucker/masquerade/masquerade_power in powers)
-			masquerade_power.Deactivate()
-	*/
-	/// Temporary Death? Convert to Torpor.
+	// Temporary Death? Convert to Torpor.
 	if(owner.current.stat == DEAD)
 		var/mob/living/carbon/human/dead_bloodsucker = owner.current
 		if(!HAS_TRAIT(dead_bloodsucker, TRAIT_NODEATH))
 			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 			Check_Begin_Torpor(TRUE)
 
-/**
- *	High:	Faster Healing
- *	Med:	Pale
- *	Low:	Twitch
- *	V.Low:	Blur Vision
- *	EMPTY:	Frenzy!
- */
-
-/// I am thirsty for blood!
-/datum/antagonist/bloodsucker/proc/HandleStarving()
+/datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
 	// Nutrition - The amount of blood is how full we are.
 	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED))
 
@@ -264,14 +250,7 @@
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !frenzied)
-		if(my_clan != CLAN_BRUJAH)
-			owner.current.apply_status_effect(STATUS_EFFECT_FRENZY)
-		else
-			for(var/datum/action/bloodsucker/power in powers)
-				if(istype(power, /datum/action/bloodsucker/brujah))
-					if(power.active)
-						break
-					power.ActivatePower()
+		enter_frenzy()
 	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
 	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
@@ -282,6 +261,17 @@
 		additional_regen = 0.4
 	else
 		additional_regen = 0.5
+
+/datum/antagonist/bloodsucker/proc/enter_frenzy()
+	if(my_clan == CLAN_BRUJAH)
+		for(var/datum/action/bloodsucker/power in powers)
+			if(!(istype(power, /datum/action/bloodsucker/brujah)))
+				continue
+			if(power.active)
+				break
+			power.ActivatePower()
+	else
+		owner.current.apply_status_effect(STATUS_EFFECT_FRENZY)
 
 /**
  * # Torpor

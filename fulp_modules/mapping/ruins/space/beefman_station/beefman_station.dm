@@ -1,29 +1,26 @@
-/obj/effect/mob_spawn/human/beefman/beef_station
-	death = FALSE
-	roundstart = FALSE
-	random = TRUE
-	mob_name = "Govyadina Station Inhabitant"
-	mob_species = /datum/species/beefman
-	mob_type = /mob/living/carbon/human/species/beefman
-	name = "Govyadina Station Inhabitant"
-	icon = 'icons/obj/machines/sleeper.dmi'
-	icon_state = "sleeper"
-	short_desc = "You are an inhabitant of Govyadina Station, a station made specificially for beefmen."
-	flavour_text = "After undergoing many experiments at the hands of the Union of Soviet Socialist Planets researchers, you and your fellow beefmen have been given freedom aboard Govyadina Station. Work with your fellow beefmen to embrace your new community and home."
-	spawner_job_path = /datum/job/fulp_beefstation
-
-/datum/job/fulp_beefstation
-	title = ROLE_BEEFMAN_STATION
-
-/area/ruin/space/has_grav/powered/beef
-	name = "beef station"
-	icon_state = "green"
-
 /datum/map_template/ruin/space/fulp/beef_station
 	name = "Govyadina Station"
 	id = "beef station"
 	description = "A station built for beefmen"
 	suffix = "beef_station.dmm"
+
+/obj/effect/mob_spawn/ghost_role/human/beefman/beef_station
+	name = "Govyadina Station Inhabitant"
+	desc = "A cryogenics pod, storing meat for future consumption."
+	prompt_name = "a beefman"
+	icon = 'icons/obj/machines/sleeper.dmi'
+	icon_state = "sleeper"
+	mob_species = /datum/species/beefman
+	you_are_text = "You are an inhabitant of Govyadina Station, a station made specificially for beefmen."
+	flavour_text = "After undergoing many experiments at the hands of the Union of Soviet Socialist Planets researchers, \
+	you and your fellow beefmen have been given freedom aboard Govyadina Station. \
+	Work with your fellow beefmen to embrace your new community and home."
+	important_text = "Try to avoid leaving the station and be careful with the Atmospherics equipment!"
+	spawner_job_path = /datum/job/fulp_beefstation
+
+
+/datum/job/fulp_beefstation
+	title = ROLE_BEEFMAN_STATION
 
 /obj/effect/spawner/random/beef_station
 	name = "Beef Station spawner"
