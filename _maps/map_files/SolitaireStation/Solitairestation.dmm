@@ -4029,23 +4029,28 @@
 /turf/closed/wall,
 /area/hallway/primary/fore)
 "bjC" = (
+/obj/effect/turf_decal/siding/yellow{
+	color = "#FFD700";
+	name = "engineering yellow"
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 10
+	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 6
 	},
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
 "bjG" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
-	dir = 8;
+	dir = 1;
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/engineering/atmospherics_engine)
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4,
+/turf/open/floor/iron/smooth_large,
+/area/engineering/atmos/upper)
 "bjH" = (
 /obj/effect/turf_decal/arrows/white{
 	dir = 4
@@ -4477,25 +4482,6 @@
 /obj/machinery/power/apc/auto_name/directional/west,
 /turf/open/floor/iron,
 /area/maintenance/solars/starboard/aft)
-"box" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 6
-	},
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/turf/open/floor/plating,
-/area/engineering/atmospherics_engine)
-"bpg" = (
-/obj/effect/turf_decal/siding/yellow{
-	color = "#FFD700";
-	dir = 8;
-	name = "engineering yellow"
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/engineering/atmospherics_engine)
 "bpi" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock{
@@ -4677,12 +4663,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/orange/visible,
 /turf/closed/wall/r_wall,
 /area/command/heads_quarters/ce)
-"brt" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/turf/open/floor/plating,
-/area/engineering/atmospherics_engine)
 "brB" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
 /obj/effect/turf_decal/siding/yellow{
@@ -4699,6 +4679,8 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/light/directional/east,
+/obj/structure/rack,
+/obj/item/multitool,
 /turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
 "brK" = (
@@ -5111,11 +5093,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/command/bridge)
-"bxU" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/closed/wall/r_wall,
-/area/engineering/atmospherics_engine)
 "bxV" = (
 /obj/machinery/atmospherics/components/binary/valve,
 /obj/effect/turf_decal/siding/yellow{
@@ -5170,6 +5147,9 @@
 	name = "engineering yellow"
 	},
 /obj/structure/extinguisher_cabinet/directional/south,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
 "byW" = (
@@ -5177,6 +5157,9 @@
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	name = "engineering yellow"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
@@ -5512,6 +5495,8 @@
 	},
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/firedoor,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
 "bEt" = (
@@ -6323,11 +6308,11 @@
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/visible{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
-	dir = 8
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
-	dir = 8
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 6
 	},
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
@@ -15613,7 +15598,8 @@
 	pixel_x = 32
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 8
+	dir = 8;
+	frequency = 1459
 	},
 /turf/open/floor/engine/vacuum,
 /area/engineering/atmospherics_engine)
@@ -31542,9 +31528,8 @@
 /turf/open/floor/iron/dark,
 /area/science/storage)
 "iRu" = (
-/obj/machinery/atmospherics/components/binary/valve/digital/layer2{
-	dir = 4;
-	name = "waste release"
+/obj/machinery/atmospherics/components/binary/valve/digital/on/layer2{
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/engineering/supermatter/room)
@@ -127921,11 +127906,11 @@ aQU
 aQU
 aQV
 aQV
-bjC
-box
-brt
-bxU
-bxU
+aQV
+aQV
+aQV
+aQU
+aQU
 bRE
 cbv
 ckc
@@ -128178,8 +128163,8 @@ aQU
 aSC
 aVu
 aVu
-bjG
-bpg
+aVu
+aVu
 brB
 bxV
 bDE
@@ -128952,9 +128937,9 @@ bbN
 bjL
 bpp
 aVA
-byA
+bjC
 bEj
-bSJ
+bjG
 ccr
 ckQ
 crg
