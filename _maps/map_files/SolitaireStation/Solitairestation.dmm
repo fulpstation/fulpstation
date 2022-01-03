@@ -23502,6 +23502,8 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/directional/north,
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "grz" = (
@@ -34119,6 +34121,8 @@
 	dir = 8
 	},
 /obj/machinery/status_display/evac/directional/north,
+/obj/machinery/power/apc/auto_name/directional/east,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/service/library)
 "jCr" = (
@@ -34742,6 +34746,14 @@
 /obj/item/food/grown/poppy/geranium,
 /turf/open/floor/iron,
 /area/service/chapel)
+"jLk" = (
+/obj/effect/turf_decal/bot,
+/obj/structure/window{
+	dir = 1
+	},
+/obj/item/robot_suit,
+/turf/open/floor/iron/dark,
+/area/science/robotics/lab)
 "jLm" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/stairs,
@@ -39198,11 +39210,12 @@
 	color = "#990099";
 	name = "research purple"
 	},
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 1
-	},
 /obj/structure/cable,
+/obj/structure/table,
+/obj/item/healthanalyzer,
+/obj/item/healthanalyzer,
+/obj/item/storage/firstaid,
+/obj/item/storage/firstaid,
 /turf/open/floor/iron/white,
 /area/science/robotics/lab)
 "kXJ" = (
@@ -39412,6 +39425,11 @@
 	icon_state = "chapel"
 	},
 /area/ai_monitored/turret_protected/ai)
+"lag" = (
+/obj/machinery/duct,
+/obj/structure/cable,
+/turf/open/floor/iron/white,
+/area/science/robotics/lab)
 "lai" = (
 /obj/item/paper_bin,
 /obj/item/pen,
@@ -45416,10 +45434,10 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/exit/departure_lounge)
 "mPI" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/disposalpipe/junction/flip,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/hallway/secondary/command)
 "mPK" = (
@@ -45483,6 +45501,9 @@
 /area/hallway/primary/starboard)
 "mQk" = (
 /obj/structure/closet/secure_closet/freezer/fridge,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "mQy" = (
@@ -53461,9 +53482,6 @@
 	dir = 6;
 	name = "research purple"
 	},
-/obj/structure/sign/warning/testchamber{
-	pixel_y = -32
-	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Test Lab";
 	network = list("ss13", "rd")
@@ -54389,17 +54407,17 @@
 /turf/open/floor/carpet/royalblue,
 /area/command/heads_quarters/cmo)
 "prR" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/blue/half{
 	color = "#4169E1";
 	dir = 4;
 	name = "Command blue half"
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/command)
 "psh" = (
@@ -58160,6 +58178,14 @@
 	icon_state = "chapel"
 	},
 /area/service/chapel)
+"qCH" = (
+/obj/machinery/duct,
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/iron/white,
+/area/science/robotics/lab)
 "qCO" = (
 /obj/machinery/duct,
 /obj/structure/cable,
@@ -59984,12 +60010,11 @@
 /area/hallway/primary/central/fore)
 "rhq" = (
 /obj/structure/cable,
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 12
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /turf/open/floor/iron,
 /area/science/research)
 "rhs" = (
@@ -66670,14 +66695,17 @@
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/command)
 "sYy" = (
-/obj/effect/turf_decal/tile/blue/half{
-	color = "#4169E1";
-	dir = 4;
-	name = "Command blue half"
+/obj/effect/turf_decal/siding/purple{
+	color = "#990099";
+	dir = 8;
+	name = "research purple"
 	},
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/iron/dark,
-/area/hallway/secondary/command)
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/turf/open/floor/iron/white,
+/area/science/robotics/lab)
 "sYC" = (
 /obj/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -67605,6 +67633,8 @@
 /obj/item/stock_parts/cell/high/plus,
 /obj/item/toy/figure/roboticist,
 /obj/structure/extinguisher_cabinet/directional/north,
+/obj/item/stock_parts/cell/high,
+/obj/item/stock_parts/cell/high,
 /turf/open/floor/iron/dark,
 /area/science/robotics/mechbay)
 "tnb" = (
@@ -71114,9 +71144,6 @@
 	color = "#4169E1";
 	dir = 4;
 	name = "Command blue half"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 9
 	},
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/command)
@@ -74697,13 +74724,10 @@
 /turf/open/floor/plating,
 /area/ai_monitored/command/storage/eva)
 "vmJ" = (
-/obj/structure/cable,
-/obj/machinery/duct,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/hallway/secondary/command)
 "vmV" = (
@@ -75432,13 +75456,12 @@
 /turf/open/floor/iron/dark,
 /area/hallway/secondary/command)
 "vxY" = (
-/obj/structure/cable,
-/obj/machinery/duct,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 9
+/obj/structure/disposalpipe/sorting/mail{
+	sortType = 15
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/hallway/secondary/command)
 "vya" = (
@@ -79270,6 +79293,9 @@
 	color = "#990099";
 	name = "research purple"
 	},
+/obj/structure/sign/warning/testchamber{
+	pixel_y = -32
+	},
 /turf/open/floor/iron/white,
 /area/science/explab)
 "wzC" = (
@@ -82643,6 +82669,32 @@
 	dir = 5;
 	name = "research purple"
 	},
+/obj/structure/table,
+/obj/item/mod/construction/core{
+	pixel_x = -4
+	},
+/obj/item/mod/construction/core{
+	pixel_x = 4
+	},
+/obj/item/assembly/prox_sensor{
+	pixel_x = 5;
+	pixel_y = 7
+	},
+/obj/item/assembly/prox_sensor{
+	pixel_x = 5;
+	pixel_y = 7
+	},
+/obj/item/assembly/prox_sensor{
+	pixel_x = 5;
+	pixel_y = 7
+	},
+/obj/item/mod/construction/core{
+	pixel_y = 4
+	},
+/obj/machinery/ecto_sniffer{
+	pixel_x = -6;
+	pixel_y = 6
+	},
 /turf/open/floor/iron/white,
 /area/science/robotics/lab)
 "xqR" = (
@@ -85966,12 +86018,12 @@
 /turf/open/floor/iron/dark,
 /area/cargo/warehouse)
 "ygF" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/disposalpipe/junction/flip{
 	dir = 8
 	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/hallway/secondary/command)
 "ygH" = (
@@ -85985,13 +86037,13 @@
 /turf/open/floor/plating,
 /area/maintenance/department/security/upper)
 "ygP" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/duct,
 /turf/open/floor/iron,
 /area/hallway/secondary/command)
 "ygU" = (
@@ -106883,7 +106935,7 @@ oVk
 heY
 pEj
 oZs
-bNj
+oVk
 bNj
 bNj
 bNj
@@ -113059,7 +113111,7 @@ dJR
 dvG
 sel
 rCX
-kCw
+sYy
 rXJ
 aAV
 jkT
@@ -113316,8 +113368,8 @@ wbr
 cEQ
 xzi
 vKn
-vKn
-vKn
+qCH
+lag
 kXw
 jkT
 sGj
@@ -114344,7 +114396,7 @@ qIF
 lqr
 uaB
 tSz
-rMr
+jLk
 shG
 nxh
 jkT
@@ -129008,7 +129060,7 @@ tYp
 uCs
 rBC
 prR
-sYy
+rBC
 umu
 wcD
 rBC
