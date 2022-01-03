@@ -99,7 +99,7 @@
 				CRASH("[src] ran on_revive but still completed an objective.")
 			to_chat(owner.current, span_userdanger("Your sensors tell you that [internal_objectives.target.current.real_name], one of the targets you were meant to have killed, pulled one over on you, and is still alive - do the job properly this time!"))
 			internal_objectives.stolen = FALSE
-			internal_minds.objectives -= internal_objectives
+			objectives -= internal_objectives
 
 ///When an IAA dies, their hunter completes their objective and inherits their targets
 /datum/antagonist/traitor/internal_affairs/proc/on_death()
