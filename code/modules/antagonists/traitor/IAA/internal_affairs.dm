@@ -12,6 +12,10 @@
 	/// List of all Targets we have stolen thus far
 	var/list/datum/mind/targets_stolen = list()
 
+/datum/antagonist/traitor/internal_affairs/external
+	name = "\improper External Affairs Agent"
+	should_give_codewords = TRUE
+
 /datum/antagonist/traitor/internal_affairs/on_gain()
 	. = ..()
 	RegisterSignal(owner.current, COMSIG_LIVING_REVIVE, .proc/on_revive)
@@ -33,20 +37,30 @@
 	return ..()
 
 /datum/antagonist/traitor/internal_affairs/greet()
+	. = ..()
 	var/crime = pick(
-		"distribution of contraband", "unauthorized erotic action on duty",
-		"embezzlement", "piloting under the influence",
-		"dereliction of duty", "syndicate collaboration",
-		"mutiny", "multiple homicides",
-		"corporate espionage", "receiving bribes",
-		"malpractice", "worship of prohibited life forms",
-		"possession of profane texts", "murder",
-		"arson", "insulting their manager",
-		"grand theft", "conspiracy", "attempting to unionize",
-		"vandalism", "gross incompetence",
+		"distribution of contraband",
+		"unauthorized erotic action on duty",
+		"embezzlement",
+		"piloting under the influence",
+		"dereliction of duty",
+		"syndicate collaboration",
+		"mutiny",
+		"multiple homicides",
+		"corporate espionage",
+		"receiving bribes",
+		"malpractice",
+		"worship of prohibited life forms",
+		"possession of profane texts",
+		"murder",
+		"arson",
+		"insulting their manager",
+		"grand theft",
+		"conspiracy",
+		"attempting to unionize",
+		"vandalism",
+		"gross incompetence",
 	)
-
-	to_chat(owner.current, span_notice("You are the [employer]."))
 
 	if(employer == EXTERNAL_AFFAIRS)
 		to_chat(owner.current, span_userdanger("Your target has been framed for [crime], and you have been tasked with eliminating them to prevent them defending themselves in court."))
