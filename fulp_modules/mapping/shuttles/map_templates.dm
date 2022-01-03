@@ -46,7 +46,7 @@
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "The standard-issue escape shuttle for models of station this large. Will get you home in moderate style."
 	
-/datum/map_template/shuttle/emergency/fulp
+/datum/map_template/shuttle/emergency/fulp/xeno
 	prefix = "fulp_modules/mapping/shuttles/evac/"
 	suffix = "xeno"
 	name = "Ominously Quiet Shuttle"
@@ -54,5 +54,5 @@
 	description = "We conducted routine research and it has revealed this shuttle is in range of us, but it isn't responding to our radio hailing. Strange. I'm not sure if calling it is a good idea, but it is seriously good value for it's size though..."
 	admin_notes = "Contains 7 xenos simplemobs (3 drone, 3 sentinel, 1 larva. There are no live eggs, queen or praetorian. The mobs are not player controlled"
 	
-/datum/map_template/shuttle/emergency/fulp/prerequisites_met()
+/datum/map_template/shuttle/emergency/fulp/xeno/prerequisites_met()
 	return SSshuttle.shuttle_purchase_requirements_met[SHUTTLE_UNLOCK_XENO]
