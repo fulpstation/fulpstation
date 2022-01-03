@@ -13,8 +13,10 @@ export enum Food {
   Gross = "GROSS",
   Junkfood = "JUNKFOOD",
   Meat = "MEAT",
+  Nuts = "NUTS",
   Pineapple = "PINEAPPLE",
   Raw = "RAW",
+  Seafood = "SEAFOOD",
   Sugar = "SUGAR",
   Toxic = "TOXIC",
   Vegetables = "VEGETABLES",
@@ -44,6 +46,15 @@ export type ServerSpeciesData = {
   liked_food: Food[];
   disliked_food: Food[];
   toxic_food: Food[];
+};
+
+export type Department = {
+  head?: string;
+};
+
+export type Job = {
+  description: string;
+  department: string;
 };
 
 export type Quirk = {
@@ -143,6 +154,10 @@ export type PreferencesMenuData = {
 };
 
 export type ServerData = {
+  jobs: {
+    departments: Record<string, Department>;
+    jobs: Record<string, Job>;
+  };
   names: {
     types: Record<string, Name>;
   };

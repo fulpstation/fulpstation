@@ -5,7 +5,7 @@
 // You do not need to raise this if you are adding new values that have sane defaults.
 // Only raise this value when changing the meaning/format/name/layout of an existing value
 // where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX 41
+#define SAVEFILE_VERSION_MAX 42
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -100,6 +100,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if (current_version < 41)
 		migrate_character_to_tgui_prefs_menu()
 
+	if (current_version < 42)
+		migrate_body_types(savefile)
+
 /// checks through keybindings for outdated unbound keys and updates them
 /datum/preferences/proc/check_keybindings()
 	if(!parent)
@@ -163,12 +166,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		fcopy(S, bacpath) //byond helpfully lets you use a savefile for the first arg.
 		return FALSE
 
-	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
-		if (preference.savefile_identifier != PREFERENCE_PLAYER)
-			continue
-
-		value_cache -= preference.type
-		preference.apply_to_client(parent, read_preference(preference.type))
+	apply_all_client_preferences()
 
 	//general preferences
 	READ_FILE(S["lastchangelog"], lastchangelog)
@@ -193,7 +191,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		var/datum/outfit/path = text2path(typetext)
 		if(ispath(path)) //whatever typepath fails this check probably doesn't exist anymore
 			parsed_favs += path
-	favorite_outfits = uniqueList(parsed_favs)
+	favorite_outfits = unique_list(parsed_favs)
 
 	// Custom hotkeys
 	READ_FILE(S["key_bindings"], key_bindings)
@@ -213,7 +211,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	lastchangelog = sanitize_text(lastchangelog, initial(lastchangelog))
 	default_slot = sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
 	toggles = sanitize_integer(toggles, 0, (2**24)-1, initial(toggles))
-	be_special = SANITIZE_LIST(be_special)
+	be_special = sanitize_be_special(SANITIZE_LIST(be_special))
 	key_bindings = sanitize_keybindings(key_bindings)
 	favorite_outfits = SANITIZE_LIST(favorite_outfits)
 
@@ -332,7 +330,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(job_preferences[j] != JP_LOW && job_preferences[j] != JP_MEDIUM && job_preferences[j] != JP_HIGH)
 			job_preferences -= j
 
-	all_quirks = SANITIZE_LIST(all_quirks)
+	all_quirks = SSquirks.filter_invalid_quirks(SANITIZE_LIST(all_quirks))
 	validate_quirks()
 
 	return TRUE
@@ -378,6 +376,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["all_quirks"] , all_quirks)
 
 	return TRUE
+
+/datum/preferences/proc/sanitize_be_special(list/input_be_special)
+	var/list/output = list()
+
+	for (var/role in input_be_special)
+		if (role in GLOB.special_roles)
+			output += role
+
+	return output.len == input_be_special.len ? input_be_special : output
 
 /proc/sanitize_keybindings(value)
 	var/list/base_bindings = sanitize_islist(value,list())

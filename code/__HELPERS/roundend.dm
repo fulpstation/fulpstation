@@ -133,23 +133,24 @@
 		SSblackbox.record_feedback("associative", "antagonists", 1, antag_info)
 
 /datum/controller/subsystem/ticker/proc/record_nuke_disk_location()
-	var/obj/item/disk/nuclear/N = locate() in GLOB.poi_list
-	if(N)
+	var/disk_count = 1
+	for(var/obj/item/disk/nuclear/nuke_disk as anything in SSpoints_of_interest.real_nuclear_disks)
 		var/list/data = list()
-		var/turf/T = get_turf(N)
-		if(T)
-			data["x"] = T.x
-			data["y"] = T.y
-			data["z"] = T.z
-		var/atom/outer = get_atom_on_turf(N,/mob/living)
-		if(outer != N)
+		var/turf/disk_turf = get_turf(nuke_disk)
+		if(disk_turf)
+			data["x"] = disk_turf.x
+			data["y"] = disk_turf.y
+			data["z"] = disk_turf.z
+		var/atom/outer = get_atom_on_turf(nuke_disk, /mob/living)
+		if(outer != nuke_disk)
 			if(isliving(outer))
-				var/mob/living/L = outer
-				data["holder"] = L.real_name
+				var/mob/living/disk_holder = outer
+				data["holder"] = disk_holder.real_name
 			else
 				data["holder"] = outer.name
 
-		SSblackbox.record_feedback("associative", "roundend_nukedisk", 1 , data)
+		SSblackbox.record_feedback("associative", "roundend_nukedisk", disk_count, data)
+		disk_count++
 
 /datum/controller/subsystem/ticker/proc/gather_newscaster()
 	var/json_file = file("[GLOB.log_directory]/newscaster.json")
@@ -230,10 +231,9 @@
 	CHECK_TICK
 
 	// Add AntagHUD to everyone, see who was really evil the whole time!
-	for(var/datum/atom_hud/antag/H in GLOB.huds)
-		for(var/m in GLOB.player_list)
-			var/mob/M = m
-			H.add_hud_to(M)
+	for(var/datum/atom_hud/alternate_appearance/basic/antagonist_hud/antagonist_hud in GLOB.active_alternate_appearances)
+		for(var/mob/player as anything in GLOB.player_list)
+			antagonist_hud.add_hud_to(player)
 
 	CHECK_TICK
 
@@ -316,7 +316,7 @@
 	//Economy & Money
 	parts += market_report()
 
-	listclearnulls(parts)
+	list_clear_nulls(parts)
 
 	return parts.Join()
 
@@ -441,7 +441,7 @@
 
 /datum/controller/subsystem/ticker/proc/law_report()
 	var/list/parts = list()
-	var/borg_spacer = FALSE //inserts an extra linebreak to seperate AIs from independent borgs, and then multiple independent borgs.
+	var/borg_spacer = FALSE //inserts an extra linebreak to separate AIs from independent borgs, and then multiple independent borgs.
 	//Silicon laws report
 	for (var/i in GLOB.ai_list)
 		var/mob/living/silicon/ai/aiPlayer = i

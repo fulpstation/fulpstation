@@ -3,6 +3,7 @@
 	desc = "I feel bad for the heartless bastard who lost this."
 	icon_state = "heart-on"
 	base_icon_state = "heart"
+	visual = FALSE
 	zone = BODY_ZONE_CHEST
 	slot = ORGAN_SLOT_HEART
 
@@ -253,12 +254,10 @@
 		if(owner.reagents.get_reagent_amount(/datum/reagent/medicine/ephedrine) < 20)
 			owner.reagents.add_reagent(/datum/reagent/medicine/ephedrine, 10)
 
-
-
-
 /obj/item/organ/heart/ethereal
 	name = "crystal core"
 	icon_state = "ethereal_heart" //Welp. At least it's more unique in functionaliy.
+	visual = TRUE //This is used by the ethereal species for color
 	desc = "A crystal-like organ that functions similarly to a heart for Ethereals. It can revive its owner."
 
 	///Cooldown for the next time we can crystalize
@@ -272,10 +271,9 @@
 	///Color of the heart, is set by the species on gain
 	var/ethereal_color = "#9c3030"
 
-/obj/item/organ/heart/ethereal/Initialize()
+/obj/item/organ/heart/ethereal/Initialize(mapload)
 	. = ..()
 	add_atom_colour(ethereal_color, FIXED_COLOUR_PRIORITY)
-
 
 /obj/item/organ/heart/ethereal/Insert(mob/living/carbon/owner, special = 0)
 	. = ..()

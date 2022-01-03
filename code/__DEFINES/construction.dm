@@ -95,8 +95,10 @@
 #define CAT_EGG "Egg-Based Food"
 #define CAT_LIZARD "Lizard Food"
 #define CAT_MEAT "Meats"
+#define CAT_SEAFOOD "Seafood"
 #define CAT_MISCFOOD "Misc. Food"
 #define CAT_MEXICAN "Mexican Food"
+#define CAT_MOTH "Mothic Food"
 #define CAT_PASTRY "Pastries"
 #define CAT_PIE "Pies"
 #define CAT_PIZZA "Pizzas"
@@ -107,6 +109,7 @@
 #define CAT_ICE "Frozen"
 #define CAT_DRINK "Drinks"
 #define CAT_CHEMISTRY "Chemistry"
+#define CAT_ATMOSPHERIC "Atmospheric"
 
 //rcd modes
 #define RCD_FLOORWALL 0

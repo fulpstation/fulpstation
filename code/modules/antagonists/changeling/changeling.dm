@@ -3,12 +3,11 @@
 #define LING_ABSORB_RECENT_SPEECH 8 //The amount of recent spoken lines to gain on absorbing a mob
 
 /datum/antagonist/changeling
-	name = "Changeling"
-	roundend_category  = "changelings"
+	name = "\improper Changeling"
+	roundend_category = "changelings"
 	antagpanel_category = "Changeling"
 	job_rank = ROLE_CHANGELING
 	antag_moodlet = /datum/mood_event/focused
-	antag_hud_type = ANTAG_HUD_CHANGELING
 	antag_hud_name = "changeling"
 	hijack_speed = 0.5
 	ui_name = "AntagInfoChangeling"
@@ -382,12 +381,10 @@
 			B.decoy_override = TRUE
 		RegisterSignal(C, list(COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON), .proc/stingAtom)
 	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
 	handle_clown_mutation(M, "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself.")
 
 /datum/antagonist/changeling/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
 	handle_clown_mutation(M, removing = FALSE)
 	UnregisterSignal(owner.current, list(COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON))
 
@@ -418,16 +415,10 @@
 			objectives += ac
 
 	if(prob(60))
-		if(prob(85))
-			var/datum/objective/steal/steal_objective = new
-			steal_objective.owner = owner
-			steal_objective.find_target()
-			objectives += steal_objective
-		else
-			var/datum/objective/download/download_objective = new
-			download_objective.owner = owner
-			download_objective.gen_amount_goal()
-			objectives += download_objective
+		var/datum/objective/steal/steal_objective = new
+		steal_objective.owner = owner
+		steal_objective.find_target()
+		objectives += steal_objective
 
 	var/list/active_ais = active_ais()
 	if(active_ais.len && prob(100/GLOB.joined_player_list.len))
@@ -715,7 +706,7 @@
 	var/list/memories = list()
 
 	for(var/memory_key as anything in user?.mind.memories)
-		var/datum/memory/memory =  user.mind.memories[memory_key]
+		var/datum/memory/memory = user.mind.memories[memory_key]
 		memories += list(list("name" = memory.name, "quality" = memory.story_value))
 
 	data["memories"] = memories
@@ -723,7 +714,7 @@
 
 // Changelings spawned from non-changeling headslugs (IE, due to being transformed into a headslug as a non-ling). Weaker than a normal changeling.
 /datum/antagonist/changeling/headslug
-	name = "Headslug Changeling"
+	name = "\improper Headslug Changeling"
 	show_in_antagpanel = FALSE
 	give_objectives = FALSE
 	soft_antag = TRUE

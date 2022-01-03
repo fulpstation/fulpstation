@@ -9,27 +9,27 @@
 		. += "It appears to have an <b>active</b> body camera attached."
 
 /// Modifying the Jumpsuit
-/obj/item/clothing/suit/armor/attackby(obj/item/W, mob/user, params)
+/obj/item/clothing/suit/armor/attackby(obj/item/item, mob/user, params)
 	. = ..()
 
 	// Using a bodycam on the jumpsuit, upgrading it
-	if(istype(W, /obj/item/bodycam_upgrade))
+	if(istype(item, /obj/item/bodycam_upgrade))
 		// Check if its already upgraded
 		if(upgraded)
-			to_chat(user, span_warning("We have already installed [W] into [src]!"))
+			to_chat(user, span_warning("We have already installed [item] into [src]!"))
 			playsound(loc, 'sound/machines/buzz-two.ogg', get_clamped_volume(), TRUE, -1)
 			return
 		upgraded = TRUE
-		to_chat(user, span_warning("You install [W] into [src]."))
+		to_chat(user, span_warning("You install [item] into [src]."))
 		playsound(loc, 'sound/items/drill_use.ogg', get_clamped_volume(), TRUE, -1)
-		qdel(W)
+		qdel(item)
 		return
 
 	// Check: Is the Jumpsuit upgraded?
 	if(!upgraded)
 		return
 	// Upgraded, but removing it.
-	if(W.tool_behaviour == TOOL_SCREWDRIVER)
+	if(item.tool_behaviour == TOOL_SCREWDRIVER)
 		// If it isnt upgraded, it will go onto the next check, and just return.
 		if(upgraded)
 			to_chat(user, span_warning("You remove the upgrade from [src]."))
@@ -41,25 +41,24 @@
 			return
 
 	// Registering our ID
-	var/obj/item/card/id/I
-	if(isidcard(W))
-		I = W
-	else if(istype(W, /obj/item/pda))
-		var/obj/item/pda/P = W
-		I = P.id
-	if(!I)
+	var/obj/item/card/id/id_card
+	if(isidcard(item))
+		id_card = item
+	else if(istype(item, /obj/item/pda))
+		var/obj/item/pda/worn_pda = item
+		id_card = worn_pda.id
+	if(!id_card)
 		to_chat(user, span_warning("No ID detected for body camera registration."))
 		return
 
-	register_body_camera(I, user)
+	register_body_camera(id_card, user)
 
 /// Manual Register via ID
-/obj/item/clothing/suit/armor/proc/register_body_camera(obj/item/card/id/id_card, mob/user)
+/obj/item/clothing/suit/armor/proc/register_body_camera(obj/item/card/id/id_card, mob/living/carbon/human/user)
 	if(!id_card)
 		return
-	var/mob/living/carbon/human/H = user
-	var/obj/item/clothing/suit/armor/S = H.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-	if(!istype(S))
+	var/obj/item/clothing/suit/armor/worn_suit = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+	if(!istype(worn_suit))
 		to_chat(user, span_warning("You have to be wearing [src] to turn the body camera on!"))
 		return
 	var/id_name = id_card.registered_name
@@ -86,8 +85,8 @@
 	for(var/obj/machinery/camera/matching_camera in GLOB.cameranet.cameras)
 		if(cam_name == matching_camera.c_tag)
 			to_chat(user, span_notice("Matching registration found. Unregistering previously registered body camera."))
-			if(S)
-				S.unregister_body_camera(user)
+			if(worn_suit)
+				worn_suit.unregister_body_camera(user)
 			break
 
 	builtInCamera.c_tag = "[cam_name]"

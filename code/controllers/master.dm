@@ -127,7 +127,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 /datum/controller/master/Shutdown()
 	processing = FALSE
 	sortTim(subsystems, /proc/cmp_subsystem_init)
-	reverseRange(subsystems)
+	reverse_range(subsystems)
 	for(var/datum/controller/subsystem/ss in subsystems)
 		log_world("Shutting down [ss.name] subsystem...")
 		ss.Shutdown()
@@ -463,7 +463,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	. = 1
 
 
-// Run thru the queue of subsystems to run, running them while balancing out their allocated tick precentage
+/// Run thru the queue of subsystems to run, running them while balancing out their allocated tick precentage
 /datum/controller/master/proc/RunQueue()
 	. = 0
 	var/datum/controller/subsystem/queue_node

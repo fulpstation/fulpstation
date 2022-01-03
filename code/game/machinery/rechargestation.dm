@@ -1,6 +1,6 @@
 /obj/machinery/recharge_station
-	name = "cyborg recharging station"
-	desc = "This device recharges cyborgs and resupplies them with materials."
+	name = "recharging station"
+	desc = "This device recharges energy dependent lifeforms, like cyborgs, ethereals and MODsuit users."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "borgcharger0"
 	density = FALSE
@@ -16,7 +16,7 @@
 	var/repairs
 
 
-/obj/machinery/recharge_station/Initialize()
+/obj/machinery/recharge_station/Initialize(mapload)
 	. = ..()
 	update_appearance()
 	if(is_operational)

@@ -34,7 +34,7 @@
 	///Innate spells that are supposed to be added when a beast is created
 	var/list/spells_to_add
 
-/mob/living/simple_animal/hostile/eldritch/Initialize()
+/mob/living/simple_animal/hostile/eldritch/Initialize(mapload)
 	. = ..()
 	add_spells()
 
@@ -63,7 +63,7 @@
 
 	var/list/linked_mobs = list()
 
-/mob/living/simple_animal/hostile/eldritch/raw_prophet/Initialize()
+/mob/living/simple_animal/hostile/eldritch/raw_prophet/Initialize(mapload)
 	. = ..()
 	link_mob(src)
 
@@ -241,7 +241,7 @@
 		if(current_stacks >= stacks_to_grow)
 			var/mob/living/simple_animal/hostile/eldritch/armsy/prev = new type(drop_location(),spawn_more = FALSE)
 			icon_state = "armsy_mid"
-			icon_living =  "armsy_mid"
+			icon_living = "armsy_mid"
 			back = prev
 			prev.icon_state = "armsy_end"
 			prev.icon_living = "armsy_end"

@@ -5,17 +5,25 @@
 	icon_state = "generic_camera"
 	var/allowed_area = null
 
-/mob/camera/ai_eye/remote/xenobio/Initialize()
+/mob/camera/ai_eye/remote/xenobio/Initialize(mapload)
 	var/area/A = get_area(loc)
 	allowed_area = A.name
 	. = ..()
 
-/mob/camera/ai_eye/remote/xenobio/setLoc(destination)
+/mob/camera/ai_eye/remote/xenobio/setLoc(turf/destination, force_update = FALSE)
 	var/area/new_area = get_area(destination)
 	if(new_area && new_area.name == allowed_area || new_area && (new_area.area_flags & XENOBIOLOGY_COMPATIBLE))
 		return ..()
 	else
 		return
+
+/mob/camera/ai_eye/remote/xenobio/can_z_move(direction, turf/start, turf/destination, z_move_flags = NONE, mob/living/rider)
+	. = ..()
+	if(!.)
+		return
+	var/area/new_area = get_area(.)
+	if(new_area.name != allowed_area && !(new_area.area_flags & XENOBIOLOGY_COMPATIBLE))
+		return FALSE
 
 /obj/machinery/computer/camera_advanced/xenobio
 	name = "Slime management console"

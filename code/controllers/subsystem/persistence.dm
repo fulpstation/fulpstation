@@ -142,7 +142,7 @@ SUBSYSTEM_DEF(persistence)
 	if(json["version"] < TATTOO_PERSISTENCE_VERSION)
 		update_prisoner_tattoos(json)
 
-	var/datum/job/prisoner_datum = SSjob.name_occupations["Prisoner"]
+	var/datum/job/prisoner_datum = SSjob.name_occupations[JOB_PRISONER]
 	if(!prisoner_datum)
 		return
 	var/iterations_allowed = prisoner_datum.spawn_positions
@@ -261,6 +261,19 @@ SUBSYSTEM_DEF(persistence)
 	var/frame_path = file("data/photo_frames.json")
 	if(fexists(frame_path))
 		return json_decode(file2text(frame_path))
+
+/// Removes the identifier of a persitent photo frame from the json.
+/datum/controller/subsystem/persistence/proc/RemovePhotoFrame(identifier)
+	var/frame_path = file("data/photo_frames.json")
+	if(!fexists(frame_path))
+		return
+
+	var/frame_json = json_decode(file2text(frame_path))
+	frame_json -= identifier
+
+	frame_json = json_encode(frame_json)
+	fdel(frame_path)
+	WRITE_FILE(frame_path, frame_json)
 
 /datum/controller/subsystem/persistence/proc/LoadPhotoPersistence()
 	var/album_path = file("data/photo_albums.json")

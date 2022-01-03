@@ -83,7 +83,7 @@ Your `.tsx` file would look like:
 ```ts
 import { CheckboxInput, FeatureToggle } from "../base";
 
-export const enable_breathing: Feature<number> = {
+export const enable_breathing: FeatureToggle = {
   name: "Enable breathing",
   component: CheckboxInput,
 }
@@ -360,30 +360,6 @@ Middleware can hijack actions by specifying `action_delegations`:
 ```
 
 Middleware can inject its own data at several points, such as providing new UI assets, compiled data (used by middleware such as quirks to tell the client what quirks exist), etc. Look at `code/modules/client/preferences/middleware/_middleware.dm` for full information.
-
----
-
-## Jobs
-
-Every job must have an associated `.ts` file so that the UI knows where to place it.
-
-Create a file in `tgui/packages/tgui/interfaces/PreferencesMenu/jobs/jobs/`.
-
-This will specify the description and department of the job. Here is the details for the medical doctor:
-
-```ts
-import { Job } from "../base";
-import { Service } from "../departments";
-
-const Cook: Job = {
-  name: "Cook",
-  // If you need more room, use `multiline`
-  description: "Serve food, cook meat, keep the crew fed.",
-  department: Service,
-};
-
-export default Cook;
-```
 
 ---
 

@@ -3,7 +3,6 @@
 	roundend_category = "syndicate operatives" //just in case
 	antagpanel_category = "NukeOp"
 	job_rank = ROLE_OPERATIVE
-	antag_hud_type = ANTAG_HUD_OPS
 	antag_hud_name = "synd"
 	antag_moodlet = /datum/mood_event/focused
 	show_to_ghosts = TRUE
@@ -21,14 +20,6 @@
 	/// In the preview icon, a nuclear fission explosive device, only appearing if there's an icon state for it.
 	var/nuke_icon_state = "nuclearbomb_base"
 
-/datum/antagonist/nukeop/apply_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	add_antag_hud(antag_hud_type, antag_hud_name, M)
-
-/datum/antagonist/nukeop/remove_innate_effects(mob/living/mob_override)
-	var/mob/living/M = mob_override || owner.current
-	remove_antag_hud(antag_hud_type, M)
-
 /datum/antagonist/nukeop/proc/equip_op()
 	if(!ishuman(owner.current))
 		return
@@ -41,7 +32,7 @@
 
 /datum/antagonist/nukeop/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0, use_reverb = FALSE)
-	to_chat(owner, span_notice("You are a [nuke_team ? nuke_team.syndicate_name : "syndicate"] agent!"))
+	to_chat(owner, span_big("You are a [nuke_team ? nuke_team.syndicate_name : "syndicate"] agent!"))
 	owner.announce_objectives()
 
 /datum/antagonist/nukeop/on_gain()
@@ -60,6 +51,9 @@
 
 /datum/antagonist/nukeop/get_team()
 	return nuke_team
+
+/datum/antagonist/nukeop/apply_innate_effects(mob/living/mob_override)
+	add_team_hud(mob_override || owner.current, /datum/antagonist/nukeop)
 
 /datum/antagonist/nukeop/proc/assign_nuke()
 	if(nuke_team && !nuke_team.tracked_nuke)
@@ -178,18 +172,26 @@
 /datum/outfit/nuclear_operative
 	name = "Nuclear Operative (Preview only)"
 
-	suit = /obj/item/clothing/suit/space/hardsuit/syndi
-	head = /obj/item/clothing/head/helmet/space/hardsuit/syndi
+	back = /obj/item/mod/control/pre_equipped/syndicate_empty
+	uniform = /obj/item/clothing/under/syndicate
+
+/datum/outfit/nuclear_operative/post_equip(mob/living/carbon/human/H, visualsOnly)
+	var/obj/item/mod/module/armor_booster/booster = locate() in H.back
+	booster.active = TRUE
+	H.update_inv_back()
 
 /datum/outfit/nuclear_operative_elite
 	name = "Nuclear Operative (Elite, Preview only)"
 
-	suit = /obj/item/clothing/suit/space/hardsuit/syndi/elite
-	head = /obj/item/clothing/head/helmet/space/hardsuit/syndi/elite
+	back = /obj/item/mod/control/pre_equipped/syndicate_empty/elite
+	uniform = /obj/item/clothing/under/syndicate
 	l_hand = /obj/item/modular_computer/tablet/nukeops
 	r_hand = /obj/item/shield/energy
 
 /datum/outfit/nuclear_operative_elite/post_equip(mob/living/carbon/human/H, visualsOnly)
+	var/obj/item/mod/module/armor_booster/elite/booster = locate() in H.back
+	booster.active = TRUE
+	H.update_inv_back()
 	var/obj/item/shield/energy/shield = locate() in H.held_items
 	shield.icon_state = "[shield.base_icon_state]1"
 	H.update_inv_hands()
@@ -227,6 +229,12 @@
 	to_chat(owner, "<span class='warningplain'><B>If you feel you are not up to this task, give your ID to another operative.</B></span>")
 	if(!CONFIG_GET(flag/disable_warops))
 		to_chat(owner, "<span class='warningplain'><B>In your hand you will find a special item capable of triggering a greater challenge for your team. Examine it carefully and consult with your fellow operatives before activating it.</B></span>")
+
+	owner.announce_objectives()
+
+/datum/antagonist/nukeop/leader/on_gain()
+	. = ..()
+	if(!CONFIG_GET(flag/disable_warops))
 		var/obj/item/dukinuki = new challengeitem
 		var/mob/living/carbon/human/H = owner.current
 		if(!istype(H))
@@ -234,9 +242,8 @@
 		else
 			H.put_in_hands(dukinuki, TRUE)
 		nuke_team.war_button_ref = WEAKREF(dukinuki)
-	owner.announce_objectives()
-	addtimer(CALLBACK(src, .proc/nuketeam_name_assign), 1)
 
+	addtimer(CALLBACK(src, .proc/nuketeam_name_assign), 1)
 
 /datum/antagonist/nukeop/leader/proc/nuketeam_name_assign()
 	if(!nuke_team)
@@ -256,7 +263,7 @@
 
 /datum/antagonist/nukeop/leader/proc/ask_name()
 	var/randomname = pick(GLOB.last_names)
-	var/newname = stripped_input(owner.current,"You are the nuke operative [title]. Please choose a last name for your family.", "Name change",randomname)
+	var/newname = tgui_input_text(owner.current, "You are the nuclear operative [title]. Please choose a last name for your family.", "Name change", randomname, MAX_NAME_LEN)
 	if (!newname)
 		newname = randomname
 	else
@@ -313,7 +320,7 @@
 		objectives += O
 
 /datum/team/nuclear/proc/disk_rescued()
-	for(var/obj/item/disk/nuclear/D in GLOB.poi_list)
+	for(var/obj/item/disk/nuclear/D in SSpoints_of_interest.real_nuclear_disks)
 		//If emergency shuttle is in transit disk is only safe on it
 		if(SSshuttle.emergency.mode == SHUTTLE_ESCAPE)
 			if(!SSshuttle.emergency.is_in_shuttle_bounds(D))
@@ -376,7 +383,7 @@
 			parts += "<B>[syndicate_name] operatives have destroyed [station_name()]!</B>"
 		if(NUKE_RESULT_NOSURVIVORS)
 			parts += "<span class='neutraltext big'>Total Annihilation</span>"
-			parts +=  "<B>[syndicate_name] operatives destroyed [station_name()] but did not leave the area in time and got caught in the explosion.</B> Next time, don't lose the disk!"
+			parts += "<B>[syndicate_name] operatives destroyed [station_name()] but did not leave the area in time and got caught in the explosion.</B> Next time, don't lose the disk!"
 		if(NUKE_RESULT_WRONG_STATION)
 			parts += "<span class='redtext big'>Crew Minor Victory</span>"
 			parts += "<B>[syndicate_name] operatives secured the authentication disk but blew up something that wasn't [station_name()].</B> Next time, don't do that!"
@@ -428,7 +435,7 @@
 /datum/team/nuclear/antag_listing_entry()
 	var/disk_report = "<b>Nuclear Disk(s)</b><br>"
 	disk_report += "<table cellspacing=5>"
-	for(var/obj/item/disk/nuclear/N in GLOB.poi_list)
+	for(var/obj/item/disk/nuclear/N in SSpoints_of_interest.real_nuclear_disks)
 		disk_report += "<tr><td>[N.name], "
 		var/atom/disk_loc = N.loc
 		while(!isturf(disk_loc))

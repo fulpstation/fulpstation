@@ -5,7 +5,7 @@
 	foodtypes = GRAIN
 	venue_value = FOOD_PRICE_CHEAP
 
-/obj/item/food/spaghetti/Initialize()
+/obj/item/food/spaghetti/Initialize(mapload)
 	. = ..()
 	if(!microwaved_type) // This isn't cooked, why would you put uncooked spaghetti in your pocket?
 		var/list/display_message = list(
@@ -27,7 +27,7 @@
 
 	food_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/nutriment/vitamin = 1)
 
-/obj/item/food/spaghetti/boiledspaghetti/Initialize()
+/obj/item/food/spaghetti/boiledspaghetti/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/customizable_reagent_holder, null, CUSTOM_INGREDIENT_ICON_SCATTER, max_ingredients = 6)
 
@@ -94,4 +94,12 @@
 
 	food_reagents = list(/datum/reagent/consumable/nutriment = 9, /datum/reagent/consumable/nutriment/vitamin = 2)
 	tastes = list("noodle" = 1, "butter" = 1)
+	foodtypes = GRAIN | DAIRY
+
+/obj/item/food/spaghetti/mac_n_cheese
+	name = "mac n' cheese"
+	desc = "Made the proper way with only the finest cheese and breadcrumbs. And yet, it can't scratch the same itch as Ready-Donk."
+	icon_state = "mac_n_cheese"
+	food_reagents = list(/datum/reagent/consumable/nutriment = 9, /datum/reagent/consumable/nutriment/vitamin = 2)
+	tastes = list("cheese" = 1, "breadcrumbs" = 1, "pasta" = 1)
 	foodtypes = GRAIN | DAIRY

@@ -2,9 +2,9 @@
 	name = "Heretic"
 	roundend_category = "Heretics"
 	antagpanel_category = "Heretic"
+	ui_name = "AntagInfoHeretic"
 	antag_moodlet = /datum/mood_event/heretics
 	job_rank = ROLE_HERETIC
-	antag_hud_type = ANTAG_HUD_HERETIC
 	antag_hud_name = "heretic"
 	hijack_speed = 0.5
 	suicide_cry = "THE MANSUS SMILES UPON ME!!"
@@ -14,6 +14,13 @@
 	var/total_sacrifices = 0
 	var/ascended = FALSE
 
+/datum/antagonist/heretic/ui_static_data(mob/user)
+	var/list/data = list()
+	data["total_sacrifices"] = total_sacrifices
+	data["ascended"] = ascended
+	data["objectives"] = get_objectives()
+	return data
+
 /datum/antagonist/heretic/admin_add(datum/mind/new_owner,mob/admin)
 	give_equipment = FALSE
 	new_owner.add_antag_datum(src)
@@ -21,8 +28,9 @@
 	log_admin("[key_name(admin)] has heresized [key_name(new_owner)].")
 
 /datum/antagonist/heretic/greet()
+	. = ..()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ecult_op.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)//subject to change
-	to_chat(owner, "<span class='warningplain'><font color=red><B>You are the Heretic!</B></font></span><br><B>The old ones gave you these tasks to fulfill:</B>")
+	to_chat(owner, "</font></span><br><B>The old ones gave you these tasks to fulfill:</B>")
 	owner.announce_objectives()
 	to_chat(owner, span_cult("<span class='warningplain'>The book whispers softly, its forbidden knowledge walks this plane once again!</span>"))
 	var/policy = get_policy(ROLE_HERETIC)
@@ -174,7 +182,6 @@
 	var/mob/living/current = owner.current
 	if(mob_override)
 		current = mob_override
-	add_antag_hud(antag_hud_type, antag_hud_name, current)
 	handle_clown_mutation(current, mob_override ? null : "Ancient knowledge described in the book allows you to overcome your clownish nature, allowing you to use complex items effectively.")
 	current.faction |= "heretics"
 
@@ -183,7 +190,6 @@
 	var/mob/living/current = owner.current
 	if(mob_override)
 		current = mob_override
-	remove_antag_hud(antag_hud_type, current)
 	handle_clown_mutation(current, removing = FALSE)
 	current.faction -= "heretics"
 

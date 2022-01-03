@@ -28,7 +28,7 @@
 /obj/item/gun/ballistic/automatic/pistol/toy/riot
 	mag_type = /obj/item/ammo_box/magazine/toy/pistol/riot
 
-/obj/item/gun/ballistic/automatic/pistol/riot/Initialize()
+/obj/item/gun/ballistic/automatic/pistol/riot/Initialize(mapload)
 	magazine = new /obj/item/ammo_box/magazine/toy/pistol/riot(src)
 	return ..()
 
@@ -43,6 +43,7 @@
 	item_flags = NONE
 	casing_ejector = FALSE
 	can_suppress = FALSE
+	weapon_weight = WEAPON_LIGHT
 	pb_knockback = 0
 	gun_flags = TOY_FIREARM_OVERLAY
 

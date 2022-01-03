@@ -9,7 +9,7 @@
 	desc = "A machine given the thankless job of trying to sell wayfinding pinpointers. They point to common locations."
 	density = FALSE
 	layer = HIGH_OBJ_LAYER
-	armor = list(MELEE = 80, BULLET = 30, LASER = 30, ENERGY = 60, BOMB = 90, BIO = 0, RAD = 0, FIRE = 100, ACID = 80)
+	armor = list(MELEE = 80, BULLET = 30, LASER = 30, ENERGY = 60, BOMB = 90, BIO = 0, FIRE = 100, ACID = 80)
 	payment_department = ACCOUNT_CIV
 	light_power = 0.5
 	light_range = MINIMUM_USEFUL_LIGHT_RANGE
@@ -113,7 +113,7 @@
 
 	user_interact_cooldowns[user.real_name] = world.time + COOLDOWN_INTERACT
 
-	for(var/obj/item/pinpointer/wayfinding/held_pinpointer in user.GetAllContents())
+	for(var/obj/item/pinpointer/wayfinding/held_pinpointer in user.get_all_contents())
 		set_expression("veryhappy", 2 SECONDS)
 		say("You already have a pinpointer!")
 		return
@@ -177,7 +177,7 @@
 			holochip.name = "[holochip.credits] credit holochip"
 			user.put_in_hands(holochip)
 		else if(!itsmypinpointer)
-			var/costume = pick(subtypesof(/obj/effect/spawner/bundle/costume))
+			var/costume = pick(subtypesof(/obj/effect/spawner/costume))
 			new costume(user.loc)
 			is_a_thing = "is a freshly synthesised costume!"
 			if(prob(funnyprob))
@@ -253,20 +253,24 @@
 	if (!owner)
 		owner = user.real_name
 
-	if(beacons.len)
+	if(length(beacons))
 		beacons.Cut()
 	for(var/obj/machinery/navbeacon/B in GLOB.wayfindingbeacons)
 		beacons[B.codes["wayfinding"]] = B
 
-	if(!beacons.len)
+	if(!length(beacons))
 		to_chat(user, span_notice("Your pinpointer fails to detect a signal."))
 		return
 
-	var/A = input(user, "", "Pinpoint") as null|anything in sortList(beacons)
-	if(!A || QDELETED(src) || !user || !user.is_holding(src) || user.incapacitated())
+	var/wayfind_target = tgui_input_list(user, "Select a location", "Pinpoint", sort_list(beacons))
+	if(isnull(wayfind_target))
 		return
-
-	target = beacons[A]
+	if(isnull(beacons[wayfind_target]))
+		to_chat(user, span_warning("Your pinpointer fails to detect a signal."))
+		return
+	if(QDELETED(src) || !user || !user.is_holding(src) || user.incapacitated())
+		return
+	target = beacons[wayfind_target]
 	toggle_on()
 	to_chat(user, span_notice("You activate your pinpointer."))
 
@@ -274,7 +278,7 @@
 	. = ..()
 	var/msg = "Its tracking indicator reads "
 	if(target)
-		var/obj/machinery/navbeacon/wayfinding/B  = target
+		var/obj/machinery/navbeacon/wayfinding/B = target
 		msg += "\"[B.codes["wayfinding"]]\"."
 	else
 		msg = "Its tracking indicator is blank."

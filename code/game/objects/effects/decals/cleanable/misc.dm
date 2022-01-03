@@ -13,7 +13,7 @@
 	mergeable_decal = FALSE
 	beauty = -50
 
-/obj/effect/decal/cleanable/ash/Initialize()
+/obj/effect/decal/cleanable/ash/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(/datum/reagent/ash, 30)
 	pixel_x = base_pixel_x + rand(-5, 5)
@@ -28,7 +28,7 @@
 	icon_state = "big_ash"
 	beauty = -100
 
-/obj/effect/decal/cleanable/ash/large/Initialize()
+/obj/effect/decal/cleanable/ash/large/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(/datum/reagent/ash, 30) //double the amount of ash.
 
@@ -39,7 +39,7 @@
 	icon_state = "tiny"
 	beauty = -100
 
-/obj/effect/decal/cleanable/glass/Initialize()
+/obj/effect/decal/cleanable/glass/Initialize(mapload)
 	. = ..()
 	setDir(pick(GLOB.cardinals))
 
@@ -61,7 +61,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	beauty = -75
 
-/obj/effect/decal/cleanable/dirt/Initialize()
+/obj/effect/decal/cleanable/dirt/Initialize(mapload)
 	. = ..()
 	var/turf/T = get_turf(src)
 	if(T.tiled_dirt)
@@ -91,7 +91,7 @@
 /obj/effect/decal/cleanable/greenglow/ex_act()
 	return FALSE
 
-/obj/effect/decal/cleanable/greenglow/filled/Initialize()
+/obj/effect/decal/cleanable/greenglow/filled/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(pick(/datum/reagent/uranium, /datum/reagent/uranium/radium), 5)
 
@@ -250,11 +250,12 @@
 	desc = "A split open garbage bag, its stinking content seems to be partially liquified. Yuck!"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "garbage"
-	layer = OBJ_LAYER //To display the decal over wires.
+	plane = GAME_PLANE
+	layer = FLOOR_CLEAN_LAYER //To display the decal over wires.
 	beauty = -150
 	clean_type = CLEAN_TYPE_HARD_DECAL
 
-/obj/effect/decal/cleanable/garbage/Initialize()
+/obj/effect/decal/cleanable/garbage/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_SLUDGE, CELL_VIRUS_TABLE_GENERIC, rand(2,4), 15)
 
@@ -264,6 +265,7 @@
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "ants"
 	beauty = -150
+	plane = GAME_PLANE
 	layer = LOW_OBJ_LAYER
 	var/ant_bite_damage = 0.1
 	var/ant_volume

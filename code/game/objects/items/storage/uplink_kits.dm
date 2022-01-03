@@ -23,7 +23,7 @@
 /obj/item/storage/box/syndicate
 
 /obj/item/storage/box/syndicate/bundle_a/PopulateContents()
-	switch (pickweight(list(
+	switch (pick_weight(list(
 		KIT_RECON = 2,
 		KIT_BLOODY_SPAI = 3,
 		KIT_STEALTHY = 2,
@@ -142,7 +142,7 @@
 			new /obj/item/clothing/under/suit/black_really(src)
 
 		if(KIT_NUKEOPS_METAGAME)
-			new /obj/item/clothing/suit/space/hardsuit/syndi(src) // 8 tc
+			new /obj/item/mod/control/pre_equipped/nuclear(src) // 8 tc
 			new /obj/item/gun/ballistic/shotgun/bulldog/unrestricted(src) // 8 tc
 			new /obj/item/implanter/explosive(src) // 2 tc
 			new /obj/item/ammo_box/magazine/m12g(src) // 2 tc
@@ -153,7 +153,7 @@
 			new /obj/item/card/emag/doorjack(src) // 3 tc
 
 /obj/item/storage/box/syndicate/bundle_b/PopulateContents()
-	switch (pickweight(list(
+	switch (pick_weight(list(
 		KIT_JAMES_BOND = 2,
 		KIT_NINJA = 1,
 		KIT_DARK_LORD = 1,
@@ -193,7 +193,7 @@
 		if(KIT_WHITE_WHALE_HOLY_GRAIL) //Unique items that don't appear anywhere else
 			new /obj/item/gun/ballistic/rifle/boltaction/harpoon(src)
 			new /obj/item/storage/bag/harpoon_quiver(src)
-			new /obj/item/clothing/suit/space/hardsuit/carp(src)
+			new /obj/item/clothing/suit/hooded/carp_costume/spaceproof(src)
 			new /obj/item/clothing/mask/gas/carp(src)
 			new /obj/item/grenade/spawnergrenade/spesscarp(src)
 
@@ -267,7 +267,7 @@
 /obj/item/paper/contractor_guide
 	name = "Contractor Guide"
 
-/obj/item/paper/contractor_guide/Initialize()
+/obj/item/paper/contractor_guide/Initialize(mapload)
 	info = {"<p>Welcome agent, congratulations on your new position as contractor. On top of your already assigned objectives,
 			this kit will provide you contracts to take on for TC payments.</p>
 

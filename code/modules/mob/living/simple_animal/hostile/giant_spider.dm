@@ -63,12 +63,14 @@
 	/// Short description of what this mob is capable of, for radial menu uses
 	var/menu_description = "Versatile spider variant for frontline combat with high health and damage. Does not inject toxin."
 
-/mob/living/simple_animal/hostile/giant_spider/Initialize()
+/mob/living/simple_animal/hostile/giant_spider/Initialize(mapload)
 	. = ..()
 	lay_web = new
 	lay_web.Grant(src)
 	if(poison_per_bite)
 		AddElement(/datum/element/venomous, poison_type, poison_per_bite)
+	AddElement(/datum/element/nerfed_pulling, GLOB.typecache_general_bad_things_to_easily_move)
+	AddElement(/datum/element/prevent_attacking_of_types, GLOB.typecache_general_bad_hostile_attack_targets, "this tastes awful!")
 
 /mob/living/simple_animal/hostile/giant_spider/Login()
 	. = ..()
@@ -84,7 +86,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/giant_spider/mob_negates_gravity()
-	return ..() || (locate(/obj/structure/spider/stickyweb) in loc)
+	return (locate(/obj/structure/spider/stickyweb) in loc) || ..()
 
 /**
  * # Spider Hunter
@@ -103,7 +105,7 @@
 	health = 50
 	melee_damage_lower = 15
 	melee_damage_upper = 20
-	poison_per_bite = 10
+	poison_per_bite = 5
 	move_to_delay = 5
 	speed = -0.1
 	menu_description = "Fast spider variant specializing in catching running prey and toxin injection, but has less health and damage. Toxin injection of 10u per bite."
@@ -135,7 +137,7 @@
 	///The health HUD applied to the mob.
 	var/health_hud = DATA_HUD_MEDICAL_ADVANCED
 
-/mob/living/simple_animal/hostile/giant_spider/nurse/Initialize()
+/mob/living/simple_animal/hostile/giant_spider/nurse/Initialize(mapload)
 	. = ..()
 	var/datum/atom_hud/datahud = GLOB.huds[health_hud]
 	datahud.add_hud_to(src)
@@ -189,17 +191,25 @@
 	status_flags = NONE
 	mob_size = MOB_SIZE_LARGE
 	gold_core_spawnable = NO_SPAWN
-	charger = TRUE
-	charge_distance = 4
 	menu_description = "Tank spider variant with an enormous amount of health and damage, but is very slow when not on webbing. It also has a charge ability to close distance with a target after a small windup. Does not inject toxin."
-	///Whether or not the tarantula is currently walking on webbing.
+	/// Whether or not the tarantula is currently walking on webbing.
 	var/silk_walking = TRUE
+	/// Charging ability
+	var/datum/action/cooldown/mob_cooldown/charge/basic_charge/charge
 
-/mob/living/simple_animal/hostile/giant_spider/tarantula/ranged_secondary_attack(atom/target, modifiers)
-	if(COOLDOWN_FINISHED(src, charge_cooldown))
-		INVOKE_ASYNC(src, /mob/living/simple_animal/hostile/.proc/enter_charge, target)
-	else
-		to_chat(src, span_notice("Your charge is still on cooldown!"))
+/mob/living/simple_animal/hostile/giant_spider/tarantula/Initialize(mapload)
+	. = ..()
+	charge = new /datum/action/cooldown/mob_cooldown/charge/basic_charge()
+	charge.Grant(src)
+
+/mob/living/simple_animal/hostile/giant_spider/tarantula/Destroy()
+	QDEL_NULL(charge)
+	return ..()
+
+/mob/living/simple_animal/hostile/giant_spider/tarantula/OpenFire()
+	if(client)
+		return
+	charge.Trigger(target)
 
 /mob/living/simple_animal/hostile/giant_spider/tarantula/Moved(atom/oldloc, dir)
 	. = ..()
@@ -229,7 +239,7 @@
 	health = 40
 	melee_damage_lower = 5
 	melee_damage_upper = 5
-	poison_per_bite = 6
+	poison_per_bite = 5
 	move_to_delay = 4
 	poison_type = /datum/reagent/toxin/venom
 	speed = -0.5
@@ -280,7 +290,7 @@
 	///The ability for the spider to send a message to all currently living spiders.
 	var/datum/action/innate/spider/comm/letmetalkpls
 
-/mob/living/simple_animal/hostile/giant_spider/midwife/Initialize()
+/mob/living/simple_animal/hostile/giant_spider/midwife/Initialize(mapload)
 	. = ..()
 	wrap = new
 	AddAbility(wrap)
@@ -468,8 +478,8 @@
 			if(spider.is_busy)
 				eggs = locate() in get_turf(spider)
 				if(!eggs || !isturf(spider.loc))
-					var/egg_choice = enriched ? /obj/effect/mob_spawn/spider/enriched : /obj/effect/mob_spawn/spider
-					var/obj/effect/mob_spawn/spider/new_eggs = new egg_choice(get_turf(spider))
+					var/egg_choice = enriched ? /obj/effect/mob_spawn/ghost_role/spider/enriched : /obj/effect/mob_spawn/ghost_role/spider
+					var/obj/effect/mob_spawn/ghost_role/spider/new_eggs = new egg_choice(get_turf(spider))
 					new_eggs.directive = spider.directive
 					new_eggs.faction = spider.faction
 					if(enriched)
@@ -500,7 +510,9 @@
 	if(!istype(owner, /mob/living/simple_animal/hostile/giant_spider/midwife))
 		return
 	var/mob/living/simple_animal/hostile/giant_spider/midwife/spider = owner
-	spider.directive = stripped_input(spider, "Enter the new directive", "Create directive", "[spider.directive]")
+	spider.directive = tgui_input_text(spider, "Enter the new directive", "Create directive", "[spider.directive]")
+	if(isnull(spider.directive))
+		return
 	message_admins("[ADMIN_LOOKUPFLW(owner)] set its directive to: '[spider.directive]'.")
 	log_game("[key_name(owner)] set its directive to: '[spider.directive]'.")
 
@@ -517,7 +529,7 @@
 		return TRUE
 
 /datum/action/innate/spider/comm/Trigger()
-	var/input = stripped_input(owner, "Input a command for your legions to follow.", "Command", "")
+	var/input = tgui_input_text(owner, "Input a command for your legions to follow.", "Command")
 	if(QDELETED(src) || !input || !IsAvailable())
 		return FALSE
 	spider_command(owner, input)
@@ -693,6 +705,6 @@
 	health = 80
 	menu_description = "Stronger assassin spider variant with an unmatched speed, high amount of health and very deadly poison, but deals very low amount of damage. It also has ability to ventcrawl. Venom injection of 6u per bite."
 
-/mob/living/simple_animal/hostile/giant_spider/viper/wizard/Initialize()
+/mob/living/simple_animal/hostile/giant_spider/viper/wizard/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)

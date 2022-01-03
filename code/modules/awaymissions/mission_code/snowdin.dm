@@ -208,8 +208,9 @@
 		burn_human.emote("scream")
 		ADD_TRAIT(burn_limb, TRAIT_PLASMABURNT, src)
 		burn_human.update_body_parts()
-		burn_human.visible_message(span_warning("[burn_human] screams in pain as [burn_human.p_their()] [burn_limb] melts down to the bone!"), \
-			span_userdanger("You scream out in pain as your [burn_limb] melts down to the bone, leaving an eerie plasma-like glow where flesh used to be!"))
+		burn_human.emote("scream")
+		burn_human.visible_message(span_warning("[burn_human]'s [burn_limb.name] melts down to the bone!"), \
+			span_userdanger("You scream out in pain as your [burn_limb.name] melts down to the bone, leaving an eerie plasma-like glow where flesh used to be!"))
 	if(!plasma_parts.len && !robo_parts.len) //a person with no potential organic limbs left AND no robotic limbs, time to turn them into a plasmaman
 		burn_human.IgniteMob()
 		burn_human.set_species(/datum/species/plasmaman)
@@ -429,88 +430,6 @@
 	SAY AAAAAAAAAAAAAAAA FUCK THAT
 	DELAY 15;"}
 
-//lootspawners//--
-
-/obj/effect/spawner/lootdrop/snowdin
-	name = "why are you using this dummy"
-	lootdoubles = 0
-	lootcount = 1
-	loot = list(/obj/item/bikehorn = 100)
-
-/obj/effect/spawner/lootdrop/snowdin/dungeonlite
-	name = "dungeon lite"
-	loot = list(/obj/item/melee/baton = 11,
-				/obj/item/melee/baton/telescopic = 12,
-				/obj/item/book/granter/spell/smoke = 10,
-				/obj/item/book/granter/spell/blind = 10,
-				/obj/item/storage/firstaid/regular = 45,
-				/obj/item/storage/firstaid/toxin = 35,
-				/obj/item/storage/firstaid/brute = 27,
-				/obj/item/storage/firstaid/fire = 27,
-				/obj/item/storage/toolbox/syndicate = 12,
-				/obj/item/grenade/c4 = 7,
-				/obj/item/grenade/clusterbuster/smoke = 15,
-				/obj/item/clothing/under/chameleon = 13,
-				/obj/item/clothing/shoes/chameleon/noslip = 10,
-				/obj/item/borg/upgrade/ddrill = 3,
-				/obj/item/borg/upgrade/soh = 3)
-
-/obj/effect/spawner/lootdrop/snowdin/dungeonmid
-	name = "dungeon mid"
-	loot = list(/obj/item/defibrillator/compact = 6,
-				/obj/item/storage/firstaid/tactical = 35,
-				/obj/item/shield/energy = 6,
-				/obj/item/shield/riot/tele = 12,
-				/obj/item/dnainjector/lasereyesmut = 7,
-				/obj/item/gun/magic/wand/fireball/inert = 3,
-				/obj/item/pneumatic_cannon = 15,
-				/obj/item/melee/energy/sword = 7,
-				/obj/item/book/granter/spell/knock = 15,
-				/obj/item/book/granter/spell/summonitem = 20,
-				/obj/item/book/granter/spell/forcewall = 17,
-				/obj/item/storage/backpack/holding = 12,
-				/obj/item/grenade/spawnergrenade/manhacks = 6,
-				/obj/item/grenade/spawnergrenade/spesscarp = 7,
-				/obj/item/grenade/clusterbuster/inferno = 3,
-				/obj/item/stack/sheet/mineral/diamond{amount = 15} = 10,
-				/obj/item/stack/sheet/mineral/uranium{amount = 15} = 10,
-				/obj/item/stack/sheet/mineral/plasma{amount = 15} = 10,
-				/obj/item/stack/sheet/mineral/gold{amount = 15} = 10,
-				/obj/item/book/granter/spell/barnyard = 4,
-				/obj/item/pickaxe/drill/diamonddrill = 6,
-				/obj/item/borg/upgrade/disablercooler = 7)
-
-
-/obj/effect/spawner/lootdrop/snowdin/dungeonheavy
-	name = "dungeon heavy"
-	loot = list(/obj/item/singularityhammer = 25,
-				/obj/item/mjollnir = 10,
-				/obj/item/fireaxe = 25,
-				/obj/item/organ/brain/alien = 17,
-				/obj/item/dualsaber = 15,
-				/obj/item/organ/heart/demon = 7,
-				/obj/item/gun/ballistic/automatic/c20r/unrestricted = 16,
-				/obj/item/gun/magic/wand/resurrection/inert = 15,
-				/obj/item/gun/magic/wand/resurrection = 10,
-				/obj/item/uplink/old = 2,
-				/obj/item/book/granter/spell/charge = 12,
-				/obj/item/grenade/clusterbuster/spawner_manhacks = 15,
-				/obj/item/book/granter/spell/fireball = 10,
-				/obj/item/pickaxe/drill/jackhammer = 30,
-				/obj/item/borg/upgrade/syndicate = 13,
-				/obj/item/borg/upgrade/selfrepair = 17)
-
-/obj/effect/spawner/lootdrop/snowdin/dungeonmisc
-	name = "dungeon misc"
-	lootdoubles = 2
-	lootcount = 1
-
-	loot = list(/obj/item/stack/sheet/mineral/snow{amount = 25} = 10,
-				/obj/item/toy/snowball = 15,
-				/obj/item/shovel = 10,
-				/obj/item/spear = 8,
-				)
-
 //special items//--
 
 /obj/structure/barricade/wooden/snowed
@@ -522,7 +441,7 @@
 /obj/item/clothing/under/syndicate/coldres
 	name = "insulated tactical turtleneck"
 	desc = "A nondescript and slightly suspicious-looking turtleneck with digital camouflage cargo pants. The interior has been padded with special insulation for both warmth and protection."
-	armor = list(MELEE = 20, BULLET = 10, LASER = 0,ENERGY = 5, BOMB = 0, BIO = 0, RAD = 0, FIRE = 25, ACID = 25)
+	armor = list(MELEE = 20, BULLET = 10, LASER = 0,ENERGY = 5, BOMB = 0, BIO = 0, FIRE = 25, ACID = 25)
 	cold_protection = CHEST|GROIN|ARMS|LEGS
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 
@@ -540,40 +459,6 @@
 	name = "weakened wand of healing"
 	desc = "This wand uses healing magics to heal and revive. The years of the cold have weakened the magic inside the wand."
 	max_charges = 5
-
-/obj/effect/mob_spawn/human/syndicatesoldier/coldres
-	name = "Syndicate Snow Operative"
-	outfit = /datum/outfit/snowsyndie/corpse
-
-/datum/outfit/snowsyndie/corpse
-	name = "Syndicate Snow Operative Corpse"
-	implants = null
-
-/obj/effect/mob_spawn/human/syndicatesoldier/coldres/alive
-	name = "sleeper"
-	mob_name = "Syndicate Snow Operative"
-	icon = 'icons/obj/machines/sleeper.dmi'
-	icon_state = "sleeper"
-	roundstart = FALSE
-	death = FALSE
-	faction = list(ROLE_SYNDICATE)
-	outfit = /datum/outfit/snowsyndie
-	short_desc = "You are a syndicate operative recently awoken from cryostasis in an underground outpost."
-	flavour_text = "You are a syndicate operative recently awoken from cryostasis in an underground outpost. Monitor Nanotrasen communications and record information. All intruders should be \
-	disposed of swiftly to assure no gathered information is stolen or lost. Try not to wander too far from the outpost as the caves can be a deadly place even for a trained operative such as yourself."
-
-/datum/outfit/snowsyndie
-	name = "Syndicate Snow Operative"
-	uniform = /obj/item/clothing/under/syndicate/coldres
-	shoes = /obj/item/clothing/shoes/combat/coldres
-	ears = /obj/item/radio/headset/syndicate/alt
-	r_pocket = /obj/item/gun/ballistic/automatic/pistol
-	id = /obj/item/card/id/advanced/chameleon
-	implants = list(/obj/item/implant/exile)
-	id_trim = /datum/id_trim/chameleon/operative
-
-/obj/effect/mob_spawn/human/syndicatesoldier/coldres/alive/female
-	mob_gender = FEMALE
 
 //mobs//--
 

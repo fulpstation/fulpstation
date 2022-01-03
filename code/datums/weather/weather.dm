@@ -59,7 +59,7 @@
 	/// Since it's above everything else, this is the layer used by default. TURF_LAYER is below mobs and walls if you need to use that.
 	var/overlay_layer = AREA_LAYER
 	/// Plane for the overlay
-	var/overlay_plane = BLACKNESS_PLANE
+	var/overlay_plane = ABOVE_LIGHTING_PLANE
 	/// If the weather has no purpose other than looks
 	var/aesthetic = FALSE
 	/// Used by mobs (or movables containing mobs, such as enviro bags) to prevent them from being affected by the weather.
@@ -108,7 +108,7 @@
 		if(A.z in impacted_z_levels)
 			impacted_areas |= A
 	weather_duration = rand(weather_duration_lower, weather_duration_upper)
-	START_PROCESSING(SSweather, src)
+	SSweather.processing |= src
 	update_areas()
 	for(var/z_level in impacted_z_levels)
 		for(var/mob/player as anything in SSmobs.clients_by_zlevel[z_level])
@@ -182,7 +182,7 @@
 		return
 	SEND_GLOBAL_SIGNAL(COMSIG_WEATHER_END(type))
 	stage = END_STAGE
-	STOP_PROCESSING(SSweather, src)
+	SSweather.processing -= src
 	update_areas()
 
 /**

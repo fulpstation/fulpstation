@@ -3,7 +3,7 @@
 #define EXTERNAL_CHANCE 20
 
 /datum/antagonist/traitor/internal_affairs
-	name = "Internal Affairs Agent"
+	name = "\improper Internal Affairs Agent"
 	roundend_category = "internal affairs agents"
 	suicide_cry = "FOR THE CORPORATION!!"
 	job_rank = ROLE_INTERNAL_AFFAIRS

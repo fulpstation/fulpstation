@@ -6,6 +6,7 @@
 /obj/item/circuit_component/sdql_operation
 	display_name = "SDQL Operation"
 	desc = "A component that performs an SDQL operation when invoked."
+	category = "Admin"
 	circuit_flags = CIRCUIT_FLAG_INPUT_SIGNAL|CIRCUIT_FLAG_OUTPUT_SIGNAL|CIRCUIT_FLAG_ADMIN
 
 	/// SDQL Operation to invoke
@@ -16,7 +17,7 @@
 
 /obj/item/circuit_component/sdql_operation/populate_ports()
 	sdql_operation = add_input_port("SDQL String", PORT_TYPE_STRING)
-	results = add_output_port("Result", PORT_TYPE_LIST)
+	results = add_output_port("Result", PORT_TYPE_LIST(PORT_TYPE_STRING))
 
 /obj/item/circuit_component/sdql_operation/input_received(datum/port/input/port)
 	if(GLOB.AdminProcCaller)
@@ -27,11 +28,8 @@
 /obj/item/circuit_component/sdql_operation/proc/execute_sdql(datum/port/input/port)
 	var/operation = sdql_operation.value
 
-	if(GLOB.AdminProcCaller || !operation)
+	if(!operation)
 		return
 
-	GLOB.AdminProcCaller = "CHAT_[parent.display_name]" //_ won't show up in ckeys so it'll never match with a real admin
-	var/list/result = world.SDQL2_query(operation, parent.get_creator_admin(), parent.get_creator())
-	GLOB.AdminProcCaller = null
-
+	var/result = HandleUserlessSDQL(parent.get_creator(), operation)
 	results.set_output(result)

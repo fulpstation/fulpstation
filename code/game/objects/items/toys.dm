@@ -3,7 +3,6 @@
  * Balloons
  * Fake singularity
  * Toy gun
- * Toy crossbow
  * Toy swords
  * Crayons
  * Snap pops
@@ -46,7 +45,7 @@
 	inhand_icon_state = "balloon-empty"
 
 
-/obj/item/toy/waterballoon/Initialize()
+/obj/item/toy/waterballoon/Initialize(mapload)
 	. = ..()
 	create_reagents(10)
 
@@ -198,7 +197,7 @@
 	if(!myhead)
 		user.visible_message(span_suicide("[user] tries consuming [src]... but [user.p_they()] [user.p_have()] no mouth!")) // and i must scream
 		return SHAME
-	user.visible_message(span_suicide("[user] consumes [src]! It looks like [user.p_theyre()] trying to commit suicicide!"))
+	user.visible_message(span_suicide("[user] consumes [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
 	playsound(user, 'sound/items/eatfood.ogg', 50, TRUE)
 	user.adjust_nutrition(50) // mmmm delicious
 	addtimer(CALLBACK(src, .proc/manual_suicide, user), (3SECONDS))
@@ -250,7 +249,7 @@
 	worn_icon_state = "gun"
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
-	flags_1 =  CONDUCT_1
+	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_NORMAL
 	custom_materials = list(/datum/material/iron=10, /datum/material/glass=10)
@@ -337,7 +336,7 @@
 	/// The color of our fake energy sword
 	var/saber_color = "blue"
 
-/obj/item/toy/sword/Initialize()
+/obj/item/toy/sword/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/transforming, \
 		throw_speed_on = throw_speed, \
@@ -417,7 +416,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/toolbox_righthand.dmi'
 	hitsound = 'sound/weapons/smash.ogg'
 	drop_sound = 'sound/items/handling/toolbox_drop.ogg'
-	pickup_sound =  'sound/items/handling/toolbox_pickup.ogg'
+	pickup_sound = 'sound/items/handling/toolbox_pickup.ogg'
 	attack_verb_continuous = list("robusts")
 	attack_verb_simple = list("robust")
 	var/active = FALSE
@@ -539,7 +538,7 @@
 	if(!..())
 		pop_burst()
 
-/obj/item/toy/snappop/Initialize()
+/obj/item/toy/snappop/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
@@ -562,7 +561,7 @@
 /obj/effect/decal/cleanable/ash/snappop_phoenix
 	var/respawn_time = 300
 
-/obj/effect/decal/cleanable/ash/snappop_phoenix/Initialize()
+/obj/effect/decal/cleanable/ash/snappop_phoenix/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/respawn), respawn_time)
 
@@ -686,7 +685,7 @@
 	var/list/card_attack_verb_simple = list("attack")
 
 
-/obj/item/toy/cards/Initialize()
+/obj/item/toy/cards/Initialize(mapload)
 	. = ..()
 	if(card_attack_verb_continuous)
 		card_attack_verb_continuous = string_list(card_attack_verb_continuous)
@@ -714,7 +713,7 @@
 	var/obj/machinery/computer/holodeck/holo = null // Holodeck cards should not be infinite
 	var/list/cards = list()
 
-/obj/item/toy/cards/deck/Initialize()
+/obj/item/toy/cards/deck/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/drag_pickup)
 	populate_deck()
@@ -843,7 +842,6 @@
 	cardUser.visible_message(span_notice("[cardUser] draws a card from [cardUser.p_their()] hand."), span_notice("You take the [C.cardname] from your hand."))
 
 	interact(cardUser)
-	update_sprite()
 	if(length(currenthand) == 1)
 		var/obj/item/toy/cards/singlecard/N = new/obj/item/toy/cards/singlecard(loc)
 		N.parentdeck = parentdeck
@@ -852,7 +850,9 @@
 		qdel(src)
 		N.pickup(cardUser)
 		cardUser.put_in_hands(N)
-		to_chat(cardUser, span_notice("You also take [currenthand[1]] and hold it."))
+		to_chat(cardUser, span_notice("You also take [N.cardname] and hold it."))
+	else
+		update_sprite()
 
 /obj/item/toy/cards/cardhand/attackby(obj/item/toy/cards/singlecard/C, mob/living/user, params)
 	if(istype(C))
@@ -1058,7 +1058,7 @@
 /obj/item/toy/nuke/emag_act(mob/user)
 	if (obj_flags & EMAGGED)
 		return
-	to_chat(user, "<span class = 'notice'> You short-circuit \the [src].</span>")
+	to_chat(user, span_warning("You short-circuit \the [src]."))
 	obj_flags |= EMAGGED
 /*
  * Fake meteor
@@ -1074,7 +1074,7 @@
 /obj/item/toy/minimeteor/emag_act(mob/user)
 	if (obj_flags & EMAGGED)
 		return
-	to_chat(user, "<span class = 'notice'> You short-circuit whatever electronics exist inside \the [src], if there even are any.</span>")
+	to_chat(user, span_warning("You short-circuit whatever electronics exist inside \the [src], if there even are any."))
 	obj_flags |= EMAGGED
 
 /obj/item/toy/minimeteor/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
@@ -1243,7 +1243,7 @@
 	var/toysound = 'sound/machines/click.ogg'
 	w_class = WEIGHT_CLASS_SMALL
 
-/obj/item/toy/figure/Initialize()
+/obj/item/toy/figure/Initialize(mapload)
 	. = ..()
 	desc = "A \"Space Life\" brand [src]."
 
@@ -1467,7 +1467,7 @@
 
 //Add changing looks when i feel suicidal about making 20 inhands for these.
 /obj/item/toy/dummy/attack_self(mob/user)
-	var/new_name = stripped_input(usr,"What would you like to name the dummy?","Input a name",doll_name,MAX_NAME_LEN)
+	var/new_name = tgui_input_text(usr, "What would you like to name the dummy?", "Doll Name", doll_name, MAX_NAME_LEN)
 	if(!new_name)
 		return
 	doll_name = new_name
@@ -1490,14 +1490,14 @@
 	desc = "May you always have a shell in your pocket and sand in your shoes. Whatever that's supposed to mean."
 	icon = 'icons/misc/beach.dmi'
 	icon_state = "shell1"
-	var/static/list/possible_colors = list("" =  2, COLOR_PURPLE_GRAY = 1, COLOR_OLIVE = 1, COLOR_PALE_BLUE_GRAY = 1, COLOR_RED_GRAY = 1)
+	var/static/list/possible_colors = list("" = 2, COLOR_PURPLE_GRAY = 1, COLOR_OLIVE = 1, COLOR_PALE_BLUE_GRAY = 1, COLOR_RED_GRAY = 1)
 
-/obj/item/toy/seashell/Initialize()
+/obj/item/toy/seashell/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
 	icon_state = "shell[rand(1,3)]"
-	color = pickweight(possible_colors)
+	color = pick_weight(possible_colors)
 	setDir(pick(GLOB.cardinals))
 
 /obj/item/toy/brokenradio

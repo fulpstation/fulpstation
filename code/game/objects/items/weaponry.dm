@@ -12,10 +12,10 @@
 	attack_verb_continuous = list("bans")
 	attack_verb_simple = list("ban")
 	max_integrity = 200
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 100, ACID = 70)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 100, ACID = 70)
 	resistance_flags = FIRE_PROOF
 
-/obj/item/banhammer/Initialize()
+/obj/item/banhammer/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/kneejerk)
 
@@ -74,10 +74,10 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	block_chance = 50
 	sharpness = SHARP_EDGED
 	max_integrity = 200
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 100, ACID = 50)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 100, ACID = 50)
 	resistance_flags = FIRE_PROOF
 
-/obj/item/claymore/Initialize()
+/obj/item/claymore/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 40, 105)
 
@@ -111,7 +111,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	var/notches = 0 //HOW MANY PEOPLE HAVE BEEN SLAIN WITH THIS BLADE
 	var/obj/item/disk/nuclear/nuke_disk //OUR STORED NUKE DISK
 
-/obj/item/claymore/highlander/Initialize()
+/obj/item/claymore/highlander/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, HIGHLANDER_TRAIT)
 	START_PROCESSING(SSobj, src)
@@ -234,7 +234,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	icon_state = "claymore_cyborg"
 	var/mob/living/silicon/robot/robot
 
-/obj/item/claymore/highlander/robot/Initialize()
+/obj/item/claymore/highlander/robot/Initialize(mapload)
 	var/obj/item/robot_model/kiltkit = loc
 	robot = kiltkit.loc
 	. = ..()
@@ -263,7 +263,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	block_chance = 50
 	sharpness = SHARP_EDGED
 	max_integrity = 200
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 100, ACID = 50)
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 100, ACID = 50)
 	resistance_flags = FIRE_PROOF
 
 /obj/item/katana/suicide_act(mob/user)
@@ -367,7 +367,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	/// Whether the switchblade starts extended or not.
 	var/start_extended = FALSE
 
-/obj/item/switchblade/Initialize()
+/obj/item/switchblade/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
 	AddComponent(/datum/component/butchering, 7 SECONDS, 100)
@@ -502,7 +502,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	tool_behaviour = TOOL_SAW
 	toolspeed = 1
 
-/obj/item/mounted_chainsaw/Initialize()
+/obj/item/mounted_chainsaw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)
 
@@ -531,7 +531,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	attack_verb_simple = list("bust")
 	var/impressiveness = 45
 
-/obj/item/statuebust/Initialize()
+/obj/item/statuebust/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/art, impressiveness)
 	AddElement(/datum/element/beauty, 1000)
@@ -630,7 +630,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	var/homerun_ready = 0
 	var/homerun_able = 0
 
-/obj/item/melee/baseball_bat/Initialize()
+/obj/item/melee/baseball_bat/Initialize(mapload)
 	. = ..()
 	if(prob(1))
 		name = "cricket bat"
@@ -667,7 +667,9 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
-	var/atom/throw_target = get_edge_target_turf(target, user.dir)
+	// we obtain the relative direction from the bat itself to the target
+	var/relative_direction = get_cardinal_dir(src, target)
+	var/atom/throw_target = get_edge_target_turf(target, relative_direction)
 	if(homerun_ready)
 		user.visible_message(span_userdanger("It's a home run!"))
 		target.throw_at(throw_target, rand(8,10), 14, user)
@@ -713,7 +715,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	//Things in this list will be instantly splatted.  Flyman weakness is handled in the flyman species weakness proc.
 	var/list/strong_against
 
-/obj/item/melee/flyswatter/Initialize()
+/obj/item/melee/flyswatter/Initialize(mapload)
 	. = ..()
 	strong_against = typecacheof(list(
 					/mob/living/simple_animal/hostile/bee/,
@@ -804,7 +806,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	var/wielded = FALSE // track wielded status on item
 
-/obj/item/vibro_weapon/Initialize()
+/obj/item/vibro_weapon/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_TWOHANDED_WIELD, .proc/on_wield)
 	RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, .proc/on_unwield)

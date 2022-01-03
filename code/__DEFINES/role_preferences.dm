@@ -26,13 +26,14 @@
 #define ROLE_BLOB "Blob"
 #define ROLE_BLOB_INFECTION "Blob Infection"
 #define ROLE_FAMILY_HEAD_ASPIRANT "Family Head Aspirant"
+#define ROLE_FUGITIVE "Fugitive"
 #define ROLE_LONE_OPERATIVE "Lone Operative"
 #define ROLE_MALF_MIDROUND "Malf AI (Midround)"
 #define ROLE_NIGHTMARE "Nightmare"
 #define ROLE_NINJA "Space Ninja"
-#define ROLE_REV_HEAD "Head Revolutionary"
 #define ROLE_OBSESSED "Obsessed"
 #define ROLE_OPERATIVE_MIDROUND "Operative (Midround)"
+#define ROLE_REV_HEAD "Head Revolutionary"
 #define ROLE_SENTIENT_DISEASE "Sentient Disease"
 #define ROLE_SLEEPER_AGENT "Syndicate Sleeper Agent"
 #define ROLE_SPACE_DRAGON "Space Dragon"
@@ -53,6 +54,7 @@
 #define ROLE_MONKEY_HELMET "Monkey Mind Magnification Helmet"
 #define ROLE_REVENANT "Revenant"
 #define ROLE_BRAINWASHED "Brainwashed Victim"
+#define ROLE_HYPNOTIZED "Hypnotized Victim"
 #define ROLE_OVERTHROW "Syndicate Mutineer" //Role removed, left here for safety.
 #define ROLE_HIVE "Hivemind Host" //Role removed, left here for safety.
 #define ROLE_SENTIENCE "Sentience Potion Spawn"
@@ -72,7 +74,6 @@
 #define ROLE_SLAUGHTER_DEMON "Slaughter Demon"
 #define ROLE_MORPH "Morph"
 #define ROLE_SANTA "Santa"
-#define ROLE_FUGITIVE "Fugitive"
 
 //Spawner roles
 #define ROLE_GHOST_ROLE "Ghost Role"
@@ -106,6 +107,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	// Roundstart
 	ROLE_BROTHER = 0,
 	ROLE_CHANGELING = 0,
+	ROLE_CLOWN_OPERATIVE = 14,
 	ROLE_CULTIST = 14,
 	ROLE_FAMILIES = 0,
 	ROLE_HERETIC = 0,
@@ -123,8 +125,10 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_BLOB = 0,
 	ROLE_BLOB_INFECTION = 0,
 	ROLE_FAMILY_HEAD_ASPIRANT = 0,
+	ROLE_FUGITIVE = 0,
 	ROLE_LONE_OPERATIVE = 14,
 	ROLE_MALF_MIDROUND = 0,
+	ROLE_NIGHTMARE = 0,
 	ROLE_NINJA = 0,
 	ROLE_OBSESSED = 0,
 	ROLE_OPERATIVE_MIDROUND = 14,
@@ -134,6 +138,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_SPACE_DRAGON = 0,
 	ROLE_SPIDER = 0,
 	ROLE_SWARMER = 0,
+	ROLE_WIZARD_MIDROUND = 14,
 
 	// Latejoin
 	ROLE_HERETIC_SMUGGLER = 0,

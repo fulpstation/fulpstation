@@ -44,7 +44,7 @@
 	song_length = length
 	song_beat = beat
 
-/obj/machinery/jukebox/Initialize()
+/obj/machinery/jukebox/Initialize(mapload)
 	. = ..()
 	var/list/tracks = flist("[global.config.directory]/jukebox_music/sounds/")
 
@@ -159,7 +159,7 @@
 			return TRUE
 		if("set_volume")
 			var/new_volume = params["volume"]
-			if(new_volume  == "reset")
+			if(new_volume == "reset")
 				volume = initial(volume)
 				return TRUE
 			else if(new_volume == "min")

@@ -41,17 +41,11 @@ const Beefman: Species = {
     }],
   },
   lore: [
-    "On a very quiet day, the Chef was cooking food for the crew, they realized they were out of meat.",
-    "They decided that they would pay a visit to the Morgue, unaware of the consequences for their actions.",
-    "It was going to be a one time thing anyways, who would mind a body or two missing? They thought, as they grabbed a body laying on a morgue tray.",
-    "What the Chef hadn't noticed, was the Morgue's alarm was green, the body was filled with a soul begging not to be gibbed.",
-    "The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on unupgraded parts.",
-    "Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out...",
-    "But this wasn't regular meat. It had eyes, and a mouth too.",
-    "Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef.",
-    "Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted.",
-    "What the Russian Sol Government has done with them has never been released, but there have since beem more of them,",
-    "and these 'Beefmen' have never been able to sleep or think straight ever since.",
+    "On a very quiet day, the Chef was cooking food for the crew, they realized they were out of meat. They decided that they would pay a visit to the Morgue, unaware of the consequences for their actions. It was going to be a one time thing anyways, who would mind a body or two missing? They thought, as they grabbed a body laying on a morgue tray.",
+    "What the Chef hadn't noticed, the Morgue's soul alarm was off, the body was filled with a soul begging not to be gibbed.",
+    "The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out...",
+    "But this wasn't regular meat. It had eyes, and a mouth too. Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef.",
+    "Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted. What the Russian Sol Government has done with them has never been released, but since then, there seems to have more of them than people remember, and these 'Beefmen' have never been able to sleep or think straight ever again.",
   ],
 };
 

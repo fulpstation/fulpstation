@@ -94,7 +94,7 @@ Let's briefly go over the more painful ones yeah?
 
 ### Sleeping procs
 
-Any proc that calls `sleep()`, `spawn()`, or anything that creates a seperate "thread" (not technically a thread, but it's the same in these terms. Not gonna cause any race conditions tho) will hang references to any var inside it. This includes the usr it started from, the src it was called on, and any vars created as a part of processing
+Any proc that calls `sleep()`, `spawn()`, or anything that creates a separate "thread" (not technically a thread, but it's the same in these terms. Not gonna cause any race conditions tho) will hang references to any var inside it. This includes the usr it started from, the src it was called on, and any vars created as a part of processing
 
 ### Static vars
 
@@ -137,7 +137,7 @@ Once you've found the issue, it becomes a matter of making sure the ref is clear
 First and simplest we have `Destroy()`. Use this to clean up after yourself for simple cases
 
 ```dm
-/someobject/Initialize()
+/someobject/Initialize(mapload)
     . = ..()
     GLOB.somethings += src //We add ourselves to some global list
 
@@ -157,12 +157,12 @@ This is helpful when for cases where both objects "own" each other
 /someotherobject
     var/someobject/friend
 
-/someobject/Initialize()
+/someobject/Initialize(mapload)
     if(!buddy)
         buddy = new()
         buddy.friend = src
 
-/someotherobject/Initialize()
+/someotherobject/Initialize(mapload)
     if(!friend)
         friend = new()
         friend.buddy = src

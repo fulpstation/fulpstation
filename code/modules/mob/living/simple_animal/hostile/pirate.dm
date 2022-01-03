@@ -24,7 +24,7 @@
 	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	unsuitable_atmos_damage = 7.5
 	speak_emote = list("yarrs")
-	loot = list(/obj/effect/mob_spawn/human/corpse/pirate,
+	loot = list(/obj/effect/mob_spawn/corpse/human/pirate,
 			/obj/item/melee/energy/sword/pirate)
 	del_on_death = 1
 	faction = list("pirate")
@@ -55,11 +55,11 @@
 	minbodytemp = 0
 	speed = 1
 
-/mob/living/simple_animal/hostile/pirate/melee/space/Initialize()
+/mob/living/simple_animal/hostile/pirate/melee/space/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 
-/mob/living/simple_animal/hostile/pirate/melee/Initialize()
+/mob/living/simple_animal/hostile/pirate/melee/Initialize(mapload)
 	. = ..()
 	sord = new(src)
 
@@ -67,7 +67,7 @@
 	QDEL_NULL(sord)
 	return ..()
 
-/mob/living/simple_animal/hostile/pirate/melee/Initialize()
+/mob/living/simple_animal/hostile/pirate/melee/Initialize(mapload)
 	. = ..()
 	set_light(2)
 
@@ -83,7 +83,7 @@
 	retreat_distance = 5
 	minimum_distance = 5
 	projectiletype = /obj/projectile/beam/laser
-	loot = list(/obj/effect/mob_spawn/human/corpse/pirate/ranged)
+	loot = list(/obj/effect/mob_spawn/corpse/human/pirate/ranged)
 
 /mob/living/simple_animal/hostile/pirate/ranged/space
 	name = "Space Pirate Gunner"
@@ -94,6 +94,6 @@
 	minbodytemp = 0
 	speed = 1
 
-/mob/living/simple_animal/hostile/pirate/ranged/space/Initialize()
+/mob/living/simple_animal/hostile/pirate/ranged/space/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
