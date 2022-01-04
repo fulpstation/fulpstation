@@ -10,6 +10,18 @@
 	if(!msg)
 		return
 
+	var/list/pinged_mentor_clients = check_admin_pings(msg)
+	if(length(pinged_mentor_clients) && pinged_mentor_clients[ADMINSAY_PING_UNDERLINE_NAME_INDEX])
+		msg = pinged_mentor_clients[ADMINSAY_PING_UNDERLINE_NAME_INDEX]
+		pinged_mentor_clients -= ADMINSAY_PING_UNDERLINE_NAME_INDEX
+
+	for(var/iter_ckey in pinged_mentor_clients)
+		var/client/iter_mentor_client = pinged_mentor_clients[iter_ckey]
+		if(!iter_mentor_client?.holder)
+			continue
+		window_flash(iter_mentor_client)
+		SEND_SOUND(iter_mentor_client.mob, sound('sound/misc/bloop.ogg'))
+
 	log_mentor("MSAY: [key_name(src)] : [msg]")
 	msg = keywords_lookup(msg)
 	if(src.key == "[CONFIG_GET(string/headofpseudostaff)]")
