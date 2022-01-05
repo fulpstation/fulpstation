@@ -52,8 +52,8 @@
 	name = "Internal Affairs"
 	antag_flag = ROLE_INTERNAL_AFFAIRS
 	antag_datum = /datum/antagonist/traitor/internal_affairs
-	protected_roles = list("Prisoner","Security Officer", "Warden", "Detective", "Head of Security", "Captain")
-	restricted_roles = list("AI", "Cyborg")
+	protected_roles = list(JOB_CAPTAIN, JOB_HEAD_OF_SECURITY, JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE, JOB_PRISONER)
+	restricted_roles = list(JOB_AI, JOB_CYBORG)
 	required_candidates = 4
 	weight = 4
 	cost = 10
@@ -73,7 +73,6 @@
 			break
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
-		M.mind.special_role = ROLE_INTERNAL_AFFAIRS
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
 	return TRUE

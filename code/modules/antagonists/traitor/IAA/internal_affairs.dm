@@ -12,10 +12,6 @@
 	/// List of all Targets we have stolen thus far
 	var/list/datum/mind/targets_stolen = list()
 
-/datum/antagonist/traitor/internal_affairs/external
-	name = "\improper External Affairs Agent"
-	should_give_codewords = TRUE
-
 /datum/antagonist/traitor/internal_affairs/on_gain()
 	. = ..()
 	RegisterSignal(owner.current, COMSIG_LIVING_REVIVE, .proc/on_revive)
@@ -71,9 +67,12 @@
 	owner.announce_objectives()
 
 /datum/antagonist/traitor/internal_affairs/forge_traitor_objectives()
+	var/list/all_iaas = list()
 	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
-		internal_minds -= owner
-		var/datum/mind/target_mind = internal_minds
+		all_iaas[internal_minds] = internal_minds
+
+	if(all_iaas.len && all_iaas[owner])
+		var/datum/mind/target_mind = all_iaas[owner]
 
 		var/datum/objective/assassinate/internal/kill_objective = new
 		kill_objective.owner = owner
@@ -99,6 +98,7 @@
 
 	// External Affairs get an additional objective, done here since objectives are already assigned
 	if(employer == EXTERNAL_AFFAIRS)
+		should_give_codewords = TRUE
 		objectives += forge_single_generic_objective()
 
 ///When an IAA is revived, their hunter(s) have to kill them again
@@ -170,6 +170,8 @@
 		var/mob/living/carbon/agents = internal_minds.current
 		if(istype(agents) && agents.stat == DEAD)
 			agents.makeUncloneable()
+			ADD_TRAIT(agents, TRAIT_DEFIB_BLACKLISTED, REF(src))
+			agents.med_hud_set_status()
 
 /datum/antagonist/traitor/internal_affairs/proc/replace_escape_objective()
 	if(!owner || !objectives.len)
