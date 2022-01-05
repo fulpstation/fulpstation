@@ -82,7 +82,7 @@
 		GLOB.pre_setup_antags -= M
 
 	for(var/datum/mind/assigned_traitors as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
-		var/datum/antagonist/traitor/internal_affairs/iaa_datum = all_iaas.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
+		var/datum/antagonist/traitor/internal_affairs/iaa_datum = assigned_traitors.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
 		log_admin("Attempting to set up objectives for [assigned_traitors.current].")
 		message_admins("Attempting to set up objectives for [assigned_traitors.current].")
 		if(target_list.len && target_list[assigned_traitors.current])
