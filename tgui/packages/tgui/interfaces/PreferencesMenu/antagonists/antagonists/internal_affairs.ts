@@ -9,7 +9,6 @@ const InternalAffairsAgent: Antagonist = {
     TRAITOR_MECHANICAL_DESCRIPTION,
   ],
   category: Category.Roundstart,
-  priority: -1,
 };
 
 export default InternalAffairsAgent;

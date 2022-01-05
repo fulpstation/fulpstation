@@ -111,6 +111,8 @@
 	SIGNAL_HANDLER
 
 	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
+		if(!internal_minds.current || internal_minds.current.stat == DEAD)
+			continue
 		for(var/datum/objective/assassinate/internal/internal_objectives as anything in internal_minds.get_all_objectives())
 			if(!internal_objectives.target || internal_objectives.target != owner)
 				continue
