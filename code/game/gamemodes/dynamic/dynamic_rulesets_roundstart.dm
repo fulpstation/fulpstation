@@ -58,7 +58,7 @@
 	weight = 4
 	cost = 10
 	scaling_cost = 2
-	requirements = list(10,10,10,10,10,10,10,10,10,10)
+	requirements = list(8,8,8,8,8,8,8,8,8,8)
 	antag_cap = list("denominator" = 20, "offset" = 2)
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
@@ -72,7 +72,7 @@
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
 	return TRUE
-
+/*
 /datum/dynamic_ruleset/roundstart/internal_affairs/execute()
 	var/list/target_list = list()
 
@@ -97,7 +97,7 @@
 			message_admins("Gave [all_iaas.current] the objective to murder [target_mind.current].")
 
 	return TRUE
-
+*/
 
 //////////////////////////////////////////////
 //                                          //
