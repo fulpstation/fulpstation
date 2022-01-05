@@ -60,6 +60,8 @@
 	scaling_cost = 2
 	requirements = list(8,8,8,8,8,8,8,8,8,8)
 	antag_cap = list("denominator" = 20, "offset" = 2)
+	///List of all IAAs
+	var/list/target_list = list()
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
 	. = ..()
@@ -68,18 +70,16 @@
 		if(candidates.len <= 0)
 			break
 		var/mob/M = pick_n_take(candidates)
+		target_list[M.mind] = affair_number[num_traitors]
 		assigned += M.mind
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/execute()
-	var/list/target_list = list()
-
-	for(var/datum/mind/assigned_traitors as anything in assigned)
-		target_list[assigned_traitors] = assigned
-		assigned_traitors.add_antag_datum(antag_datum)
-		GLOB.pre_setup_antags -= assigned_traitors
+	for(var/datum/mind/M in assigned)
+		M.add_antag_datum(antag_datum)
+		GLOB.pre_setup_antags -= M
 
 	for(var/datum/mind/assigned_traitors as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
 		log_admin("Attempting to set up objectives for [assigned_traitors.current.current].")
