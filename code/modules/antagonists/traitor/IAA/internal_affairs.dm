@@ -67,22 +67,7 @@
 
 ///We handle this in the dynamic ruleset instead.
 /datum/antagonist/traitor/internal_affairs/forge_traitor_objectives()
-	var/list/target_list = list()
-
-	for(var/datum/mind/assigned_traitors as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
-		target_list[assigned_traitors] = get_antag_minds(/datum/antagonist/traitor/internal_affairs)
-
-	log_admin("Attempting to set up objectives for [owner.current].")
-	message_admins("Attempting to set up objectives for [owner.current].")
-	if(target_list.len && target_list[owner])
-		var/datum/mind/target_mind = target_list
-
-		var/datum/objective/assassinate/internal/kill_objective = new
-		kill_objective.owner = owner
-		kill_objective.target = target_mind
-		objectives += kill_objective
-		log_admin("Gave [owner.current] the objective to murder [target_mind.current].")
-		message_admins("Gave [owner.current] the objective to murder [target_mind.current].")
+	return
 
 /datum/antagonist/traitor/internal_affairs/forge_ending_objective()
 	if(issilicon(owner.current))

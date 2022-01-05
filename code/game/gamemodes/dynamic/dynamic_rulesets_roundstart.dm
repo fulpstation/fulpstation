@@ -72,32 +72,30 @@
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
 	return TRUE
-/*
+
 /datum/dynamic_ruleset/roundstart/internal_affairs/execute()
 	var/list/target_list = list()
 
-	for(var/datum/mind/assigned_traitors in assigned)
+	for(var/datum/mind/assigned_traitors as anything in assigned)
 		target_list[assigned_traitors] = assigned
 		assigned_traitors.add_antag_datum(antag_datum)
 		GLOB.pre_setup_antags -= assigned_traitors
 
-
-	for(var/datum/mind/all_iaas in target_list)
-		var/datum/antagonist/traitor/internal_affairs/iaa_datum = all_iaas.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
-		log_admin("Attempting to set up objectives for [all_iaas.current].")
-		message_admins("Attempting to set up objectives for [all_iaas.current].")
-		if(target_list.len && target_list[all_iaas])
-			var/datum/mind/target_mind = target_list[all_iaas]
+	for(var/datum/mind/assigned_traitors as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
+		log_admin("Attempting to set up objectives for [owner.current].")
+		message_admins("Attempting to set up objectives for [owner.current].")
+		if(target_list.len && target_list[owner])
+			var/datum/mind/target_mind = target_list[owner]
 
 			var/datum/objective/assassinate/internal/kill_objective = new
-			kill_objective.owner = all_iaas
+			kill_objective.owner = owner
 			kill_objective.target = target_mind
-			iaa_datum.objectives += kill_objective
-			log_admin("Gave [all_iaas.current] the objective to murder [target_mind.current].")
-			message_admins("Gave [all_iaas.current] the objective to murder [target_mind.current].")
+			objectives += kill_objective
+			log_admin("Gave [owner.current] the objective to murder [target_mind.current].")
+			message_admins("Gave [owner.current] the objective to murder [target_mind.current].")
 
 	return TRUE
-*/
+
 
 //////////////////////////////////////////////
 //                                          //
