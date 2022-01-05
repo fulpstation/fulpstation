@@ -60,10 +60,8 @@
 	scaling_cost = 2
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 20, "offset" = 2)
-
-/datum/dynamic_ruleset/roundstart/internal_affairs/ready(population, forced = FALSE)
-	required_candidates = get_antag_cap(population)
-	. = ..()
+	///List of all IAA's, used to give targets out
+	var/list/target_list = list()
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
 	. = ..()
@@ -78,20 +76,21 @@
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/execute()
-	var/list/target_list = list()
 	for(var/datum/mind/assigned_traitors in assigned)
 		target_list[assigned_traitors] = assigned
-		GLOB.pre_setup_antags -= assigned_traitors
 		assigned_traitors.add_antag_datum(antag_datum)
+		GLOB.pre_setup_antags -= assigned_traitors
+
 
 	for(var/datum/mind/all_iaas in target_list)
+		var/datum/antagonist/traitor/internal_affairs/iaa_datum = all_iaas.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
 		if(target_list.len && target_list[all_iaas])
 			var/datum/mind/target_mind = target_list[all_iaas]
 
 			var/datum/objective/assassinate/internal/kill_objective = new
 			kill_objective.owner = all_iaas
 			kill_objective.target = target_mind
-			antag_datum.objectives += kill_objective
+			iaa_datum.objectives += kill_objective
 
 
 //////////////////////////////////////////////
