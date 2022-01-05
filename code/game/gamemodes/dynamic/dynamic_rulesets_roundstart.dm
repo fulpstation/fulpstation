@@ -70,19 +70,25 @@
 		if(candidates.len <= 0)
 			break
 		var/mob/M = pick_n_take(candidates)
-		target_list[M.mind] = affair_number[num_traitors]
 		assigned += M.mind
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
+		target_list[M.mind] = num_traitors
+		log_admin("Added [M] to the list of IAAs to set up.")
+		message_admins("Added [M] to the list of IAAs to set up.")
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/execute()
-	for(var/datum/mind/M in assigned)
-		M.add_antag_datum(antag_datum)
-		GLOB.pre_setup_antags -= M
+	. = ..()
+	if(!.)
+		return FALSE
 
 	for(var/datum/mind/assigned_traitors as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
 		var/datum/antagonist/traitor/internal_affairs/iaa_datum = assigned_traitors.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
+		if(!iaa_datum)
+			log_admin("Attempted to set up objectives for [assigned_traitors.current], but they aren't an IAA!")
+			message_admins("Attemptedto set up objectives for [assigned_traitors.current], but they aren't an IAA!")
+			continue
 		log_admin("Attempting to set up objectives for [assigned_traitors.current].")
 		message_admins("Attempting to set up objectives for [assigned_traitors.current].")
 		if(target_list.len && target_list[assigned_traitors.current])
