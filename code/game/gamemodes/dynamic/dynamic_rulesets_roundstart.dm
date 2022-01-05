@@ -84,6 +84,8 @@
 
 	for(var/datum/mind/all_iaas in target_list)
 		var/datum/antagonist/traitor/internal_affairs/iaa_datum = all_iaas.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
+		log_admin("Attempting to set up objectives for [all_iaas.current].")
+		message_admins("Attempting to set up objectives for [all_iaas.current].")
 		if(target_list.len && target_list[all_iaas])
 			var/datum/mind/target_mind = target_list[all_iaas]
 
@@ -91,6 +93,8 @@
 			kill_objective.owner = all_iaas
 			kill_objective.target = target_mind
 			iaa_datum.objectives += kill_objective
+			log_admin("Gave [all_iaas.current] the objective to murder [target_mind.current].")
+			message_admins("Gave [all_iaas.current] the objective to murder [target_mind.current].")
 
 
 //////////////////////////////////////////////
