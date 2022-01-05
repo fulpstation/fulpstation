@@ -82,8 +82,8 @@
 		GLOB.pre_setup_antags -= M
 
 	for(var/datum/mind/assigned_traitors as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
-		log_admin("Attempting to set up objectives for [assigned_traitors.current.current].")
-		message_admins("Attempting to set up objectives for [assigned_traitors.current.current].")
+		log_admin("Attempting to set up objectives for [assigned_traitors.current].")
+		message_admins("Attempting to set up objectives for [assigned_traitors.current].")
 		if(target_list.len && target_list[assigned_traitors.current])
 			var/datum/mind/target_mind = target_list[assigned_traitors.current]
 
@@ -91,8 +91,8 @@
 			kill_objective.owner = assigned_traitors
 			kill_objective.target = target_mind
 			objectives += kill_objective
-			log_admin("Gave [assigned_traitors.current.current] the objective to murder [target_mind.current].")
-			message_admins("Gave [assigned_traitors.current.current] the objective to murder [target_mind.current].")
+			log_admin("Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
+			message_admins("Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
 
 	return TRUE
 
