@@ -1,5 +1,4 @@
-#define INTERNAL_AFFAIRS "Internal Affairs Agent"
-#define EXTERNAL_AFFAIRS "External Affairs Agent"
+#define ROLE_EXTERNAL_AFFAIRS "External Affairs Agent"
 #define EXTERNAL_CHANCE 20
 
 /datum/antagonist/traitor/internal_affairs
@@ -58,7 +57,7 @@
 		"gross incompetence",
 	)
 
-	if(employer == EXTERNAL_AFFAIRS)
+	if(employer == ROLE_EXTERNAL_AFFAIRS)
 		to_chat(owner.current, span_userdanger("Your target has been framed for [crime], and you have been tasked with eliminating them to prevent them defending themselves in court."))
 	else
 		to_chat(owner.current, span_userdanger("Your target is suspected of [crime], and you have been tasked with eliminating them by any means necessary to avoid a costly and embarrassing public trial."))
@@ -81,14 +80,15 @@
 
 /// Affairs Agents can only roll Internal or External, rather than the normal
 /datum/antagonist/traitor/internal_affairs/pick_employer()
-	var/faction = prob(EXTERNAL_CHANCE) ? EXTERNAL_AFFAIRS : INTERNAL_AFFAIRS
+	var/faction = prob(EXTERNAL_CHANCE) ? ROLE_EXTERNAL_AFFAIRS : ROLE_INTERNAL_AFFAIRS
 
 	employer = faction
 
 	traitor_flavor = strings(IAA_FLAVOR_FILE, employer)
 
 	// External Affairs get an additional objective, done here since objectives are already assigned
-	if(employer == EXTERNAL_AFFAIRS)
+	if(employer == ROLE_EXTERNAL_AFFAIRS)
+		owner.special_role = ROLE_EXTERNAL_AFFAIRS
 		should_give_codewords = TRUE
 		objectives += forge_single_generic_objective()
 
@@ -147,7 +147,7 @@
 	for(var/datum/objective/assassinate/internal/objective as anything in owner.get_all_objectives())
 		if(!objective.check_completion())
 			return
-	if(employer == EXTERNAL_AFFAIRS)
+	if(employer == ROLE_EXTERNAL_AFFAIRS)
 		to_chat(owner.current, span_userdanger("All the loyalist agents are dead, and no more is required of you. Die a glorious death, agent."))
 	else
 		to_chat(owner.current, span_userdanger("All the other agents are dead, and you're the last loose end. Stage a Syndicate terrorist attack to cover up for today's events. You no longer have any limits on collateral damage."))
@@ -190,6 +190,5 @@
 
 	owner.update_inv_hands()
 
-#undef INTERNAL_AFFAIRS
-#undef EXTERNAL_AFFAIRS
+#undef ROLE_EXTERNAL_AFFAIRS
 #undef EXTERNAL_CHANCE

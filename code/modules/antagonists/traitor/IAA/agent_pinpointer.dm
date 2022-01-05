@@ -45,9 +45,8 @@
 	scan_target = null
 	if(!owner && !owner.mind)
 		return
-	for(var/datum/objective/objective_datums as anything in owner.mind.get_all_objectives())
-		var/datum/objective/assassinate/internal/internal_objectives = objective_datums
-		var/mob/tracked_target = internal_objectives.target.current
+	for(var/datum/objective/assassinate/internal/objective_datums as anything in owner.mind.get_all_objectives())
+		var/mob/tracked_target = objective_datums.target.current
 		if(!tracked_target || tracked_target.stat == DEAD)
 			continue
 		scan_target = tracked_target

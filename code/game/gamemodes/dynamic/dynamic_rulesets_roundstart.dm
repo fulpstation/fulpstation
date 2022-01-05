@@ -60,8 +60,6 @@
 	scaling_cost = 2
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 20, "offset" = 2)
-	///List of all IAA's, used to give targets out
-	var/list/target_list = list()
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
 	. = ..()
@@ -76,6 +74,8 @@
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/execute()
+	var/list/target_list = list()
+
 	for(var/datum/mind/assigned_traitors in assigned)
 		target_list[assigned_traitors] = assigned
 		assigned_traitors.add_antag_datum(antag_datum)
@@ -95,6 +95,8 @@
 			iaa_datum.objectives += kill_objective
 			log_admin("Gave [all_iaas.current] the objective to murder [target_mind.current].")
 			message_admins("Gave [all_iaas.current] the objective to murder [target_mind.current].")
+
+	return TRUE
 
 
 //////////////////////////////////////////////
