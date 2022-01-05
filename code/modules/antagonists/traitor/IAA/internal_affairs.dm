@@ -66,18 +66,9 @@
 	to_chat(owner.current, span_userdanger("Finally, watch your back. Your target has friends in high places, and intel suggests someone may have taken out a contract of their own to protect them."))
 	owner.announce_objectives()
 
+///We handle this in the dynamic ruleset instead.
 /datum/antagonist/traitor/internal_affairs/forge_traitor_objectives()
-	var/list/all_iaas = list()
-	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
-		all_iaas[internal_minds] = internal_minds
-
-	if(all_iaas.len && all_iaas[owner])
-		var/datum/mind/target_mind = all_iaas[owner]
-
-		var/datum/objective/assassinate/internal/kill_objective = new
-		kill_objective.owner = owner
-		kill_objective.target = target_mind
-		objectives += kill_objective
+	return
 
 /datum/antagonist/traitor/internal_affairs/forge_ending_objective()
 	if(issilicon(owner.current))

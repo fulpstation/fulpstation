@@ -59,7 +59,7 @@
 	cost = 10
 	scaling_cost = 2
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	antag_cap = list("denominator" = 20)
+	antag_cap = list("denominator" = 20, "offset" = 2)
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/ready(population, forced = FALSE)
 	required_candidates = get_antag_cap(population)
@@ -76,6 +76,23 @@
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
 	return TRUE
+
+/datum/dynamic_ruleset/roundstart/internal_affairs/execute()
+	var/list/target_list = list()
+	for(var/datum/mind/assigned_traitors in assigned)
+		target_list[assigned_traitors] = assigned
+		GLOB.pre_setup_antags -= assigned_traitors
+		assigned_traitors.add_antag_datum(antag_datum)
+
+	for(var/datum/mind/all_iaas in target_list)
+		if(target_list.len && target_list[all_iaas])
+			var/datum/mind/target_mind = target_list[all_iaas]
+
+			var/datum/objective/assassinate/internal/kill_objective = new
+			kill_objective.owner = all_iaas
+			kill_objective.target = target_mind
+			antag_datum.objectives += kill_objective
+
 
 //////////////////////////////////////////////
 //                                          //
