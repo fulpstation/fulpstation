@@ -75,7 +75,7 @@
 	log_admin("Attempting to set up objectives for [owner.current].")
 	message_admins("Attempting to set up objectives for [owner.current].")
 	if(target_list.len && target_list[owner])
-		var/datum/mind/target_mind = target_list[owner]
+		var/datum/mind/target_mind = target_list
 
 		var/datum/objective/assassinate/internal/kill_objective = new
 		kill_objective.owner = owner
