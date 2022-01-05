@@ -14,7 +14,7 @@
 	///Created tears, only checking the FIRST one, not the one it's created to link to.
 	var/list/created_firsts = list()
 
-//Called when removed from a mob
+///When the trauma is removed from a mob.
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
 	for(var/obj/effect/hallucination/simple/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
