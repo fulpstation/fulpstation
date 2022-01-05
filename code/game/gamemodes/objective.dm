@@ -929,6 +929,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/frenzy,
 		// Fulp edit END
 		/datum/objective/assassinate/destroy,
+		/datum/objective/assassinate/internal, // ADMIN TESTING ONLY - REMOVE BEFORE PR'ING TO TG
 		/datum/objective/hijack,
 		/datum/objective/escape,
 		/datum/objective/survive,
