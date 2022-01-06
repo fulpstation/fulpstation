@@ -55,7 +55,8 @@
 	protected_roles = list(JOB_CAPTAIN, JOB_HEAD_OF_SECURITY, JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE, JOB_PRISONER)
 	restricted_roles = list(JOB_AI, JOB_CYBORG)
 	required_candidates = 6
-	weight = 4
+	// WILLARD TESTING
+	weight = 0 // 4
 	cost = 10
 	scaling_cost = 2
 	requirements = list(8,8,8,8,8,8,8,8,8,8)

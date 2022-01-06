@@ -152,6 +152,8 @@
 			new_objective.target = objective.target
 			new_objective.update_explanation_text()
 			objectives += new_objective
+			owner.announce_objectives()
+
 			targets_stolen += objective.target
 			var/status_text = objective.check_completion() ? "neutralised" : "active"
 			to_chat(owner.current, span_userdanger("New target added to database: [objective.target.name] ([status_text])"))
@@ -193,6 +195,7 @@
 	var/datum/objective/martyr/martyr_objective = new
 	martyr_objective.owner = owner
 	objectives += martyr_objective
+	owner.announce_objectives()
 
 /datum/outfit/internal_affair_agent
 	name = "IAA (Preview only)"
