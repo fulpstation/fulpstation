@@ -96,13 +96,16 @@
 /datum/antagonist/traitor/internal_affairs/proc/on_revive()
 	SIGNAL_HANDLER
 
+	// WILLARD TESTING
+	log_admin("IAA: Running on_revive on [owner.current].")
+	message_admins("IAA: Running on_revive on [owner.current].")
 	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
 		for(var/datum/objective/assassinate/internal/internal_objectives as anything in internal_minds.get_all_objectives())
 			if(!internal_objectives.target || internal_objectives.target != owner)
 				continue
 			if(internal_objectives.check_completion())
 				CRASH("[src] ran on_revive but still completed an objective.")
-			to_chat(owner.current, span_userdanger("Your sensors tell you that [internal_objectives.target.current.real_name], one of the targets you were meant to have killed, pulled one over on you, and is still alive - do the job properly this time!"))
+			to_chat(internal_minds.current, span_userdanger("Your sensors tell you that [internal_objectives.target.current.real_name], one of the targets you were meant to have killed, pulled one over on you, and is still alive - do the job properly this time!"))
 			internal_objectives.stolen = FALSE
 			objectives -= internal_objectives
 
@@ -110,6 +113,9 @@
 /datum/antagonist/traitor/internal_affairs/proc/on_death()
 	SIGNAL_HANDLER
 
+	// WILLARD TESTING
+	log_admin("IAA: Running on_death on [owner.current].")
+	message_admins("IAA: Running on_death on [owner.current].")
 	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
 		if(!internal_minds.current || internal_minds.current.stat == DEAD)
 			continue
@@ -119,8 +125,13 @@
 			if(!internal_objectives.check_completion())
 				CRASH("[src] ran on_death and failed to complete an objective.")
 			if(internal_objectives.stolen)
+				// WILLARD TESTING
+				log_admin("IAA: on_death on [owner.current] hit internal_objectives.stolen and broke.")
+				message_admins("IAA: on_death on [owner.current] hit internal_objectives.stolen and broke.")
 				break
-			steal_targets(internal_objectives.target)
+			var/datum/antagonist/traitor/internal_affairs/iaa_datum = internal_minds.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
+			//This is on the TARGET's IAA datum, NOT ours.
+			iaa_datum.steal_targets(internal_objectives.target)
 			internal_objectives.stolen = TRUE
 			break
 
@@ -128,6 +139,9 @@
 /datum/antagonist/traitor/internal_affairs/proc/steal_targets(datum/mind/victim)
 	if(!owner.current || owner.current.stat == DEAD)
 		return
+	// WILLARD TESTING
+	log_admin("IAA: Running steal_targets on [owner.current].")
+	message_admins("IAA: Running steal_targets on [owner.current].")
 	to_chat(owner.current, span_userdanger("Target eliminated: [victim.name]"))
 	for(var/datum/objective/assassinate/internal/objective as anything in owner.get_all_objectives())
 		if(objective.target == owner)
@@ -142,11 +156,13 @@
 			var/status_text = objective.check_completion() ? "neutralised" : "active"
 			to_chat(owner.current, span_userdanger("New target added to database: [objective.target.name] ([status_text])"))
 
-	check_last_man_standing()
+	check_last_man_standing(owner)
 
 /// Check all our internal objectives, if one fails, return. Otherwise, we're the last man standing
 /datum/antagonist/traitor/internal_affairs/proc/check_last_man_standing()
 	for(var/datum/objective/assassinate/internal/objective as anything in owner.get_all_objectives())
+		if(!istype(objective, /datum/objective/assassinate/internal))
+			continue
 		if(!objective.check_completion())
 			return
 	if(employer == ROLE_EXTERNAL_AFFAIRS)
@@ -158,7 +174,7 @@
 	make_iaa_unrevivable()
 
 /// Upon becoming the last man standing, all other IAA's become unrevivable
-/datum/antagonist/traitor/internal_affairs/proc/make_iaa_unrevivable(mob/living/last_man)
+/datum/antagonist/traitor/internal_affairs/proc/make_iaa_unrevivable()
 	for(var/datum/mind/internal_minds as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
 		var/mob/living/carbon/agents = internal_minds.current
 		if(istype(agents) && agents.stat == DEAD)

@@ -76,6 +76,7 @@
 		GLOB.pre_setup_antags += M.mind
 		i++
 		target_list[M.mind] = num_traitors[i+1]
+		// WILLARD TESTING
 		log_admin("Added [M] to the list of IAAs to set up.")
 		message_admins("Added [M] to the list of IAAs to set up.")
 	return TRUE
@@ -88,9 +89,11 @@
 	for(var/datum/mind/assigned_traitors as anything in get_antag_minds(/datum/antagonist/traitor/internal_affairs))
 		var/datum/antagonist/traitor/internal_affairs/iaa_datum = assigned_traitors.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
 		if(!iaa_datum)
+			// WILLARD TESTING
 			log_admin("Attempted to set up objectives for [assigned_traitors.current], but they aren't an IAA!")
 			message_admins("Attemptedto set up objectives for [assigned_traitors.current], but they aren't an IAA!")
 			continue
+		// WILLARD TESTING
 		log_admin("Attempting to set up objectives for [assigned_traitors.current].")
 		message_admins("Attempting to set up objectives for [assigned_traitors.current].")
 		if(target_list.len && target_list[assigned_traitors])
@@ -100,6 +103,7 @@
 			kill_objective.owner = assigned_traitors
 			kill_objective.target = target_mind
 			iaa_datum.objectives += kill_objective
+			// WILLARD TESTING
 			log_admin("Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
 			message_admins("Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
 
