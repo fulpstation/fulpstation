@@ -53,7 +53,7 @@
 	antag_flag = ROLE_INTERNAL_AFFAIRS
 	antag_datum = /datum/antagonist/traitor/internal_affairs
 	protected_roles = list(JOB_CAPTAIN, JOB_HEAD_OF_SECURITY, JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE, JOB_PRISONER)
-	restricted_roles = list(JOB_AI, JOB_CYBORG)
+	restricted_roles = list(JOB_CYBORG)
 	required_candidates = 6
 	// WILLARD TESTING
 	weight = 0 // 4
@@ -66,7 +66,7 @@
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
 	. = ..()
-	var/i = 0
+	var/list_position = 0
 	var/num_traitors = get_antag_cap(population)
 	for(var/affair_number = 1 to num_traitors)
 		if(candidates.len <= 0)
@@ -75,8 +75,8 @@
 		assigned += M.mind
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
-		i++
-		target_list[M.mind] = num_traitors[i+1]
+		target_list[M.mind] = num_traitors[list_position]
+		list_position++
 		// WILLARD TESTING
 		log_admin("Added [M] to the list of IAAs to set up.")
 		message_admins("Added [M] to the list of IAAs to set up.")
