@@ -10,7 +10,7 @@
 	if(!msg)
 		return
 
-	var/list/pinged_mentor_clients = check_admin_pings(msg)
+	var/list/pinged_mentor_clients = check_mentor_pings(msg)
 	if(length(pinged_mentor_clients) && pinged_mentor_clients[ADMINSAY_PING_UNDERLINE_NAME_INDEX])
 		msg = pinged_mentor_clients[ADMINSAY_PING_UNDERLINE_NAME_INDEX]
 		pinged_mentor_clients -= ADMINSAY_PING_UNDERLINE_NAME_INDEX
@@ -42,6 +42,27 @@
 /client/proc/get_mentor_say()
 	var/msg = input(src, null, "msay \"text\"") as text|null
 	cmd_mentor_say(msg)
+
+/proc/check_mentor_pings(msg) /// see /proc/check_admin_pings(msg) we just check for mentor_datum instead of holder
+	var/list/msglist = splittext(msg, " ")
+	var/list/mentors_to_ping = list()
+
+	var/i = 0
+	for(var/word in msglist)
+		i++
+		if(!length(word))
+			continue
+		if(word[1] != "@")
+			continue
+		var/ckey_check = lowertext(copytext(word, 2))
+		var/client/client_check = GLOB.directory[ckey_check]
+		if(client_check?.mentor_datum)
+			msglist[i] = "<u>[word]</u>"
+			mentors_to_ping[ckey_check] = client_check
+
+	if(length(mentors_to_ping))
+		mentors_to_ping[ADMINSAY_PING_UNDERLINE_NAME_INDEX] = jointext(msglist, " ")
+		return mentors_to_ping
 
 /// Gives Mentors/Admins the MSAY verb
 /client/proc/add_mentor_verbs()
