@@ -67,15 +67,13 @@
 
 ///We handle this in the dynamic ruleset instead.
 /datum/antagonist/traitor/internal_affairs/forge_traitor_objectives()
-	return
+	// External Affairs get an additional objective, done here since objectives are already assigned
+	if(employer == ROLE_EXTERNAL_AFFAIRS)
+		objectives += forge_single_generic_objective()
 
 /datum/antagonist/traitor/internal_affairs/forge_ending_objective()
-	if(issilicon(owner.current))
-		ending_objective = new /datum/objective/survive/malf
-		ending_objective.owner = owner
-	else
-		ending_objective = new /datum/objective/escape
-		ending_objective.owner = owner
+	ending_objective = new /datum/objective/escape
+	ending_objective.owner = owner
 	objectives += ending_objective
 
 /// Affairs Agents can only roll Internal or External, rather than the normal
@@ -90,7 +88,6 @@
 	if(employer == ROLE_EXTERNAL_AFFAIRS)
 		owner.special_role = ROLE_EXTERNAL_AFFAIRS
 		should_give_codewords = TRUE
-		objectives += forge_single_generic_objective()
 
 ///When an IAA is revived, their hunter(s) have to kill them again
 /datum/antagonist/traitor/internal_affairs/proc/on_revive()
@@ -140,10 +137,10 @@
 	if(!owner.current || owner.current.stat == DEAD)
 		return
 	// WILLARD TESTING
-	log_admin("IAA: Running steal_targets on [owner.current].")
-	message_admins("IAA: Running steal_targets on [owner.current].")
+	log_admin("IAA: Running steal_targets on [owner.current] over the death of [victim.current].")
+	message_admins("IAA: Running steal_targets on [owner.current] over the death of [victim.current].")
 	to_chat(owner.current, span_userdanger("Target eliminated: [victim.name]"))
-	for(var/datum/objective/assassinate/internal/objective as anything in owner.get_all_objectives())
+	for(var/datum/objective/assassinate/internal/objective as anything in victim.get_all_objectives())
 		if(objective.target == owner)
 			continue
 		if(targets_stolen.Find(objective.target) == 0)
