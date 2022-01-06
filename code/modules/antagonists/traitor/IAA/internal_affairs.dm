@@ -182,6 +182,7 @@
 	name = "IAA (Preview only)"
 
 	uniform = /obj/item/clothing/under/rank/centcom/officer
+	head = /obj/item/clothing/head/centhat
 	glasses = /obj/item/clothing/glasses/sunglasses
 	r_hand = /obj/item/melee/energy/sword
 
@@ -191,18 +192,6 @@
 	sword.worn_icon_state = "e_sword_on_blue"
 
 	owner.update_inv_hands()
-
-/datum/antagonist/traitor/internal_affairs/get_preview_icon()
-	var/mob/living/carbon/human/dummy/consistent/affair_agent = new
-
-	affair_agent.hairstyle = "Oxton"
-	affair_agent.hair_color = "#998877"
-
-	var/icon/iaa_icon = render_preview_outfit(/datum/outfit/internal_affair_agent, affair_agent)
-
-	qdel(affair_agent)
-
-	return finish_preview_icon(iaa_icon)
 
 #undef ROLE_EXTERNAL_AFFAIRS
 #undef EXTERNAL_CHANCE
