@@ -53,7 +53,7 @@
 	antag_flag = ROLE_INTERNAL_AFFAIRS
 	antag_datum = /datum/antagonist/traitor/internal_affairs
 	protected_roles = list(JOB_CAPTAIN, JOB_HEAD_OF_SECURITY, JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE, JOB_PRISONER)
-	restricted_roles = list(JOB_CYBORG)
+	restricted_roles = list(JOB_AI, JOB_CYBORG)
 	required_candidates = 6
 	// WILLARD TESTING
 	weight = 0 // 4
