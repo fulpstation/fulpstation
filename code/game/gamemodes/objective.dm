@@ -242,6 +242,7 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 
 // Internal affairs
 /datum/objective/assassinate/internal
+	name = "assasinate - internal"
 	///Have we already eliminated this target?
 	var/stolen = FALSE
 
