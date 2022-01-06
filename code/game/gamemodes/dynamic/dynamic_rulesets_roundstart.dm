@@ -65,6 +65,7 @@
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
 	. = ..()
+	var/i = 0
 	var/num_traitors = get_antag_cap(population)
 	for(var/affair_number = 1 to num_traitors)
 		if(candidates.len <= 0)
@@ -73,7 +74,8 @@
 		assigned += M.mind
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
-		target_list[M.mind] = num_traitors
+		i++
+		target_list[M.mind] = num_traitors[i+1]
 		log_admin("Added [M] to the list of IAAs to set up.")
 		message_admins("Added [M] to the list of IAAs to set up.")
 	return TRUE
