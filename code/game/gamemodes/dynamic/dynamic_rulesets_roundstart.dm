@@ -66,7 +66,6 @@
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
 	. = ..()
-	var/list_position = 0
 	var/num_traitors = get_antag_cap(population)
 	for(var/affair_number = 1 to num_traitors)
 		if(candidates.len <= 0)
@@ -75,11 +74,19 @@
 		assigned += M.mind
 		M.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += M.mind
-		target_list[M.mind] = num_traitors[list_position]
-		list_position++
 		// WILLARD TESTING
-		log_admin("Added [M] to the list of IAAs to set up.")
-		message_admins("Added [M] to the list of IAAs to set up.")
+		log_admin("IAA: Added [M] to the list of IAAs to set up.")
+		message_admins("IAA: Added [M] to the list of IAAs to set up.")
+
+	var/list_position = 0
+	for(var/datum/mind/iaa_minds in assigned)
+		list_position++
+		if(list_position + 1 > assigned.len)
+			list_position = 0
+		target_list[iaa_minds] = num_traitors[list_position+1]
+		// WILLARD TESTING
+		log_admin("IAA: Added [iaa_minds.current] to list_positions.")
+		message_admins("IAA: Added [iaa_minds.current] to list_positions.")
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/execute()
@@ -91,12 +98,12 @@
 		var/datum/antagonist/traitor/internal_affairs/iaa_datum = assigned_traitors.has_antag_datum(/datum/antagonist/traitor/internal_affairs)
 		if(!iaa_datum)
 			// WILLARD TESTING
-			log_admin("Attempted to set up objectives for [assigned_traitors.current], but they aren't an IAA!")
-			message_admins("Attemptedto set up objectives for [assigned_traitors.current], but they aren't an IAA!")
+			log_admin("IAA: Attempted to set up objectives for [assigned_traitors.current], but they aren't an IAA!")
+			message_admins("IAA: Attemptedto set up objectives for [assigned_traitors.current], but they aren't an IAA!")
 			continue
 		// WILLARD TESTING
-		log_admin("Attempting to set up objectives for [assigned_traitors.current].")
-		message_admins("Attempting to set up objectives for [assigned_traitors.current].")
+		log_admin("IAA: Attempting to set up objectives for [assigned_traitors.current].")
+		message_admins("IAA: Attempting to set up objectives for [assigned_traitors.current].")
 		if(target_list.len && target_list[assigned_traitors])
 			var/datum/mind/target_mind = target_list[assigned_traitors]
 
@@ -105,8 +112,8 @@
 			kill_objective.target = target_mind
 			iaa_datum.objectives += kill_objective
 			// WILLARD TESTING
-			log_admin("Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
-			message_admins("Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
+			log_admin("IAA: Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
+			message_admins("IAA: Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
 
 	return TRUE
 

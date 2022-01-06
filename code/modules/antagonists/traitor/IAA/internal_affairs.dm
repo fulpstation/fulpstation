@@ -155,7 +155,7 @@
 			var/status_text = objective.check_completion() ? "neutralised" : "active"
 			to_chat(owner.current, span_userdanger("New target added to database: [objective.target.name] ([status_text])"))
 
-	check_last_man_standing(owner)
+	check_last_man_standing()
 
 /// Check all our internal objectives, if one fails, return. Otherwise, we're the last man standing
 /datum/antagonist/traitor/internal_affairs/proc/check_last_man_standing()
