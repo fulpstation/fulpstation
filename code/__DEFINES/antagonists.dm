@@ -134,7 +134,6 @@ GLOBAL_LIST_INIT(nanotrasen_employers, list(
 	"Champions of Evil",
 	"Corporate Climber",
 	"Gone Postal",
-	"Corporate Climber",
 	"Legal Trouble"
 ))
 
