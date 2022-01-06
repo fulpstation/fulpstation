@@ -161,7 +161,7 @@
 	if(prob(KILL_PROB))
 		var/list/active_ais = active_ais()
 		if(active_ais.len && prob(DESTROY_AI_PROB(GLOB.joined_player_list.len)))
-			var/datum/objective/assassinate/destroy/destroy_objective = new
+			var/datum/objective/destroy/destroy_objective = new
 			destroy_objective.owner = owner
 			destroy_objective.find_target()
 			return destroy_objective
