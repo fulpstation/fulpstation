@@ -139,7 +139,7 @@
 	// WILLARD TESTING
 	log_admin("IAA: Running steal_targets on [owner.current] over the death of [victim.current].")
 	message_admins("IAA: Running steal_targets on [owner.current] over the death of [victim.current].")
-	to_chat(owner.current, span_userdanger("Target eliminated: [victim.name]"))
+	to_chat(owner.current, span_userdanger("Target eliminated: [victim.current]"))
 	for(var/datum/objective/assassinate/internal/objective as anything in victim.get_all_objectives())
 		if(objective.target == owner)
 			continue
