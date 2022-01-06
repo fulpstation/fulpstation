@@ -59,7 +59,7 @@
 	cost = 10
 	scaling_cost = 2
 	requirements = list(8,8,8,8,8,8,8,8,8,8)
-	antag_cap = list("denominator" = 24)
+	antag_cap = list("denominator" = 24, "offset" = 3)
 	///List of all IAAs
 	var/list/target_list = list()
 
