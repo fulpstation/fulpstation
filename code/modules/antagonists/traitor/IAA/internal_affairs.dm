@@ -1,4 +1,6 @@
+///External Affairs is basically a default Traitor
 #define ROLE_EXTERNAL_AFFAIRS "External Affairs Agent"
+///The chance you have of rolling EAA
 #define EXTERNAL_CHANCE 20
 
 /datum/antagonist/traitor/internal_affairs
@@ -8,8 +10,10 @@
 	job_rank = ROLE_INTERNAL_AFFAIRS
 	preview_outfit = /datum/outfit/internal_affair_agent
 	should_give_codewords = FALSE
-	/// List of all Targets we have stolen thus far
+	///List of all targets we have stolen thus far.
 	var/list/datum/mind/targets_stolen = list()
+	///The crime we've committed, used for flavortext.
+	var/crime
 
 /datum/antagonist/traitor/internal_affairs/on_gain()
 	. = ..()
@@ -31,9 +35,23 @@
 	datum_owner.remove_status_effect(/datum/status_effect/agent_pinpointer)
 	return ..()
 
+/// Affairs Agents can only roll Internal or External, rather than the normal factions.
+/datum/antagonist/traitor/internal_affairs/pick_employer()
+	var/faction = prob(EXTERNAL_CHANCE) ? ROLE_EXTERNAL_AFFAIRS : ROLE_INTERNAL_AFFAIRS
+
+	employer = faction
+
+	traitor_flavor = strings(IAA_FLAVOR_FILE, employer)
+
+	// External Affairs get an additional objective, done here since objectives are already assigned
+	if(employer == ROLE_EXTERNAL_AFFAIRS)
+		owner.special_role = ROLE_EXTERNAL_AFFAIRS
+		should_give_codewords = TRUE
+		objectives += forge_single_generic_objective()
+
 /datum/antagonist/traitor/internal_affairs/greet()
 	. = ..()
-	var/crime = pick(
+	crime = pick(
 		"distribution of contraband",
 		"unauthorized erotic action on duty",
 		"embezzlement",
@@ -67,27 +85,13 @@
 
 ///We handle this in the dynamic ruleset instead.
 /datum/antagonist/traitor/internal_affairs/forge_traitor_objectives()
-	// External Affairs get an additional objective, done here since objectives are already assigned
-	if(employer == ROLE_EXTERNAL_AFFAIRS)
-		objectives += forge_single_generic_objective()
+	return
 
+///All IAA's have to escape until they're the very last alive.
 /datum/antagonist/traitor/internal_affairs/forge_ending_objective()
 	ending_objective = new /datum/objective/escape
 	ending_objective.owner = owner
 	objectives += ending_objective
-
-/// Affairs Agents can only roll Internal or External, rather than the normal
-/datum/antagonist/traitor/internal_affairs/pick_employer()
-	var/faction = prob(EXTERNAL_CHANCE) ? ROLE_EXTERNAL_AFFAIRS : ROLE_INTERNAL_AFFAIRS
-
-	employer = faction
-
-	traitor_flavor = strings(IAA_FLAVOR_FILE, employer)
-
-	// External Affairs get an additional objective, done here since objectives are already assigned
-	if(employer == ROLE_EXTERNAL_AFFAIRS)
-		owner.special_role = ROLE_EXTERNAL_AFFAIRS
-		should_give_codewords = TRUE
 
 ///When an IAA is revived, their hunter(s) have to kill them again
 /datum/antagonist/traitor/internal_affairs/proc/on_revive()
@@ -141,7 +145,7 @@
 	message_admins("IAA: Running steal_targets on [owner.current] over the death of [victim.current].")
 	to_chat(owner.current, span_userdanger("Target eliminated: [victim.current]"))
 	for(var/datum/objective/assassinate/internal/objective as anything in victim.get_all_objectives())
-		if(objective.target == owner)
+		if(!objective.target || objective.target == owner)
 			continue
 		if(targets_stolen.Find(objective.target) == 0)
 			var/datum/objective/assassinate/internal/new_objective = new
