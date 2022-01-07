@@ -27,7 +27,7 @@
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
 	cooldown = 20 SECONDS
-	target_range = 5
+	target_range = 8
 	power_activates_immediately = FALSE
 	prefire_message = "Whom will you subvert to your will?"
 	///Our mesmerized target - Prevents several mesmerizes.
@@ -77,10 +77,6 @@
 	// Check: Target blind?
 	if(current_target.eye_blind > 0)
 		owner.balloon_alert(owner, "[current_target] is blind.")
-		return FALSE
-	// Check: Target See Me? (behind wall)
-	if(!(owner in view(target_range, get_turf(current_target))))
-		owner.balloon_alert(owner, "too far away!")
 		return FALSE
 	// Check: Facing target?
 	if(!is_source_facing_target(owner, current_target)) // in unsorted.dm
