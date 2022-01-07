@@ -149,11 +149,16 @@
 			new_objective.target = objective.target
 			new_objective.update_explanation_text()
 			objectives += new_objective
+
 			owner.announce_objectives()
+			objective.stolen = TRUE
 
 			targets_stolen += objective.target
 			var/status_text = objective.check_completion() ? "neutralised" : "active"
-			to_chat(owner.current, span_userdanger("New target added to database: [objective.target.name] ([status_text])"))
+			to_chat(owner.current, span_userdanger("New target added to database: [objective.target.current] ([status_text])"))
+			// WILLARD TESTING
+			log_admin("IAA: [owner.current] stole [victim.current]'s objective of [objective.target.current].")
+			message_admins("IAA: [owner.current] stole [victim.current]'s objective of [objective.target.current]..")
 
 	check_last_man_standing()
 
