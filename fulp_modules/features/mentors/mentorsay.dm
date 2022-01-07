@@ -17,7 +17,7 @@
 
 	for(var/iter_ckey in pinged_mentor_clients)
 		var/client/iter_mentor_client = pinged_mentor_clients[iter_ckey]
-		if(!iter_mentor_client?.holder)
+		if(!iter_mentor_client?.mentor_datum)
 			continue
 		window_flash(iter_mentor_client)
 		SEND_SOUND(iter_mentor_client.mob, sound('sound/misc/bloop.ogg'))
