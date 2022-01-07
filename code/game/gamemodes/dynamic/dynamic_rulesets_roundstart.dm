@@ -83,7 +83,7 @@
 		list_position++
 		if(list_position + 1 > assigned.len)
 			list_position = 0
-		target_list[iaa_minds] = num_traitors[list_position+1]
+		target_list[iaa_minds] = assigned[list_position+1]
 		// WILLARD TESTING
 		log_admin("IAA: Added [iaa_minds.current] to list_positions.")
 		message_admins("IAA: Added [iaa_minds.current] to list_positions.")
