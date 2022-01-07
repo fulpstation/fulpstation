@@ -110,6 +110,7 @@
 			var/datum/objective/assassinate/internal/kill_objective = new
 			kill_objective.owner = assigned_traitors
 			kill_objective.target = target_mind
+			kill_objective.update_explanation_text()
 			iaa_datum.objectives += kill_objective
 			// WILLARD TESTING
 			log_admin("IAA: Gave [assigned_traitors.current] the objective to murder [target_mind.current].")
