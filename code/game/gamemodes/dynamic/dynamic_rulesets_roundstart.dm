@@ -57,11 +57,11 @@
 	required_candidates = 6
 	// WILLARD TESTING
 	weight = 0 // 4
-	cost = 10
+	cost = 8
 	scaling_cost = 2
 	requirements = list(8,8,8,8,8,8,8,8,8,8)
 	antag_cap = list("denominator" = 24, "offset" = 3)
-	///List of all IAAs
+	///List of all IAAs, inserted in the correct order to assign eachother as objectives of one another.
 	var/list/target_list = list()
 
 /datum/dynamic_ruleset/roundstart/internal_affairs/pre_execute(population)
