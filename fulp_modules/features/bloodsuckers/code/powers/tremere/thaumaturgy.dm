@@ -18,6 +18,7 @@
 		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 20
+	constant_bloodcost = 0
 	cooldown = 6 SECONDS
 	prefire_message = "Click where you wish to fire."
 	///The shield this Power gives

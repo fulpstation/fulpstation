@@ -26,7 +26,7 @@
 
 	// COOLDOWNS //
 	///Timer between Power uses.
-	COOLDOWN_DECLARE(static/bloodsucker_power_cooldown)
+	COOLDOWN_DECLARE(bloodsucker_power_cooldown)
 
 	// VARS //
 	/// If the Power is currently active.
@@ -36,7 +36,7 @@
 	///Can increase to yield new abilities - Each Power ranks up each Rank
 	var/level_current = 0
 	///The cost to ACTIVATE this Power
-	var/bloodcost
+	var/bloodcost = 0
 	///The cost to MAINTAIN this Power - Only used for Constant Cost Powers
 	var/constant_bloodcost = 0
 
@@ -82,7 +82,8 @@
 	if(power_flags & BP_AM_SINGLEUSE)
 		RemoveAfterUse()
 		return TRUE
-	StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
+	if(!(power_flags & BP_AM_TOGGLE) || !active)
+		StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
 	return TRUE
 
 /datum/action/bloodsucker/proc/CheckCanPayCost()

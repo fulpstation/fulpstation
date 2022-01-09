@@ -21,6 +21,7 @@
 		Click any area up to 2 tile away to teleport there, ending the Power."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 5
+	constant_bloodcost = 2
 	cooldown = 12 SECONDS
 	target_range = 2
 	prefire_message = "Where do you wish to teleport to?"

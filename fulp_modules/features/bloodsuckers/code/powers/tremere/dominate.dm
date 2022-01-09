@@ -21,6 +21,7 @@
 		This will completely immobilize them for the next 10.5 seconds."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 15
+	constant_bloodcost = 2
 	cooldown = 50 SECONDS
 	target_range = 6
 	prefire_message = "Select a target."
