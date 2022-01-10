@@ -27,12 +27,6 @@
 	icon_state = "green"
 	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
 
-/datum/map_template/ruin/space/fulp/beef_station
-	name = "Govyadina Station"
-	id = "beef station"
-	description = "A station built for beefmen"
-	suffix = "beef_station.dmm"
-
 /obj/effect/spawner/random/beef_station
 	name = "Beef Station spawner"
 	loot = list(
