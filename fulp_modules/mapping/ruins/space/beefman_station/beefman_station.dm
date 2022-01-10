@@ -18,6 +18,7 @@
 /area/ruin/space/has_grav/powered/beef
 	name = "beef station"
 	icon_state = "green"
+	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
 
 /datum/map_template/ruin/space/fulp/beef_station
 	name = "Govyadina Station"
