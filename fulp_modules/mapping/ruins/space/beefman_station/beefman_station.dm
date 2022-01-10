@@ -22,11 +22,6 @@
 /datum/job/fulp_beefstation
 	title = ROLE_BEEFMAN_STATION
 
-/area/ruin/space/has_grav/powered/beef
-	name = "beef station"
-	icon_state = "green"
-	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
-
 /obj/effect/spawner/random/beef_station
 	name = "Beef Station spawner"
 	loot = list(
