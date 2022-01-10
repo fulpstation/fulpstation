@@ -22,21 +22,21 @@
 	/// Requirement flags for checks
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	/// Who can purchase the Power
-	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
+	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|TREMERE_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
 
 	// COOLDOWNS //
 	///Timer between Power uses.
-	COOLDOWN_DECLARE(static/bloodsucker_power_cooldown)
+	COOLDOWN_DECLARE(bloodsucker_power_cooldown)
 
 	// VARS //
 	/// If the Power is currently active.
 	var/active = FALSE
-	/// Cooldown between each use.
+	/// Cooldown you'll have to wait between each use, decreases depending on level.
 	var/cooldown = 2 SECONDS
 	///Can increase to yield new abilities - Each Power ranks up each Rank
 	var/level_current = 0
 	///The cost to ACTIVATE this Power
-	var/bloodcost
+	var/bloodcost = 0
 	///The cost to MAINTAIN this Power - Only used for Constant Cost Powers
 	var/constant_bloodcost = 0
 
@@ -82,7 +82,8 @@
 	if(power_flags & BP_AM_SINGLEUSE)
 		RemoveAfterUse()
 		return TRUE
-	StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
+	if(!(power_flags & BP_AM_TOGGLE) || !active)
+		StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
 	return TRUE
 
 /datum/action/bloodsucker/proc/CheckCanPayCost()
@@ -91,7 +92,7 @@
 	// Cooldown?
 	if(!COOLDOWN_FINISHED(src, bloodsucker_power_cooldown))
 		owner.balloon_alert(owner, "power unavailable!")
-		to_chat(owner, "[src] is unavailable. Wait [bloodsucker_power_cooldown / 10] seconds.")
+		to_chat(owner, "[src] on cooldown!")
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	var/mob/living/user = owner
@@ -135,9 +136,7 @@
 	return TRUE
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
-/datum/action/bloodsucker/proc/StartCooldown(include_toggled = FALSE)
-	if((power_flags & BP_AM_TOGGLE) && !include_toggled)
-		return
+/datum/action/bloodsucker/proc/StartCooldown()
 	// Alpha Out
 	button.color = rgb(128,0,0,128)
 	button.alpha = 100
@@ -183,7 +182,7 @@
 		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
 	UpdateButtonIcon()
-	StartCooldown(TRUE)
+	StartCooldown()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)

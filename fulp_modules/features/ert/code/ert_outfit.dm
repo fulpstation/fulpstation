@@ -13,9 +13,7 @@
 /datum/outfit/centcom/ert/commander/medical
 	name = "ERT Commander - Medical"
 
-	suit = /obj/item/clothing/suit/space/hardsuit/ert/commandermed
-	suit_store = /obj/item/gun/energy/e_gun
-	back = /obj/item/storage/backpack/ert/medical
+	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
 	backpack_contents = list(
 		/obj/item/gun/medbeam = 1,
 		/obj/item/melee/baton/security/loaded = 1,
@@ -54,7 +52,6 @@
 	name = "ERT Commander - Medical Alien"
 
 	uniform = /obj/item/clothing/under/abductor
-	suit_store = /obj/item/gun/energy/alien
 	backpack_contents = list(
 		/obj/item/gun/medbeam=1,
 		/obj/item/melee/baton/security/loaded = 1,
@@ -86,9 +83,7 @@
 /datum/outfit/centcom/ert/commander/security
 	name = "ERT Commander - Security"
 
-	suit = /obj/item/clothing/suit/space/hardsuit/ert/commandersec
-	suit_store = /obj/item/gun/energy/e_gun/stun
-	back = /obj/item/storage/backpack/ert/security
+	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/security
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/storage/box/handcuffs = 1,
@@ -98,6 +93,7 @@
 	glasses = /obj/item/clothing/glasses/thermal/eyepatch
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
 	mask = /obj/item/clothing/mask/gas/sechailer/swat
+	l_hand = /obj/item/gun/energy/e_gun
 
 // ENGINEERING ERT OUTFITS
 
@@ -112,9 +108,8 @@
 /datum/outfit/centcom/ert/commander/engineer
 	name = "ERT Commander - Engineer"
 
-	suit = /obj/item/clothing/suit/space/hardsuit/ert/commandereng
 	suit_store = /obj/item/tank/internals/oxygen
-	back = /obj/item/storage/backpack/ert/engineer
+	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/engineering
 	backpack_contents = list(
 		/obj/item/construction/rcd/combat = 1,
 		/obj/item/melee/baton/security/loaded = 1,
@@ -153,7 +148,7 @@
 /datum/outfit/centcom/ert/clown/commander
 	name = "ERT Commander - Clown"
 
-	suit = /obj/item/clothing/suit/space/hardsuit/ert/clown/commander
+	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/clown
 	backpack_contents = list(
 		/obj/item/melee/energy/sword/bananium = 1,
 		/obj/item/shield/energy/bananium = 1,
@@ -175,4 +170,3 @@
 	user.dna.add_mutation(CLOWNMUT)
 	for(var/datum/mutation/human/clumsy/clumsy_mutation in user.dna.mutations)
 		clumsy_mutation.mutadone_proof = TRUE
-

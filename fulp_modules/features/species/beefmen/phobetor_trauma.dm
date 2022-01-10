@@ -14,9 +14,9 @@
 	///Created tears, only checking the FIRST one, not the one it's created to link to.
 	var/list/created_firsts = list()
 
-//Called when removed from a mob
+///When the trauma is removed from a mob.
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
-	for(var/phobetor_tears in created_firsts)
+	for(var/obj/effect/hallucination/simple/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
 
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_life(delta_time, times_fired)
@@ -125,9 +125,10 @@
 	created_on = world.time
 
 /obj/effect/hallucination/simple/phobetor/Destroy()
-	linked_to.linked_to = null
-	qdel(linked_to)
-	. = ..()
+	if(linked_to)
+		linked_to.linked_to = null
+		QDEL_NULL(linked_to)
+	return ..()
 
 /obj/effect/hallucination/simple/phobetor/proc/check_location_seen(atom/subject, turf/target_turf)
 	if(!target_turf)

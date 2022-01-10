@@ -566,7 +566,7 @@
 /area/ai_monitored/turret_protected/aisat_interior)
 "acy" = (
 /obj/docking_port/stationary/random{
-	id = "pod_lavaland3";
+	id = "pod_3_lavaland";
 	name = "lavaland"
 	},
 /turf/open/space,
@@ -9973,6 +9973,12 @@
 /obj/machinery/ecto_sniffer{
 	pixel_x = -6
 	},
+/obj/item/mod/construction/core{
+	pixel_x = -4
+	},
+/obj/item/mod/construction/core{
+	pixel_x = 4
+	},
 /turf/open/floor/iron/dark,
 /area/science/robotics/lab)
 "aXj" = (
@@ -13456,9 +13462,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-05"
-	},
+/obj/machinery/computer/cargo/request,
 /turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "bpM" = (
@@ -19728,7 +19732,7 @@
 "ccg" = (
 /obj/docking_port/stationary/random{
 	dir = 8;
-	id = "pod_lavaland2";
+	id = "pod_2_lavaland";
 	name = "lavaland"
 	},
 /turf/open/space,
@@ -20795,11 +20799,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/event_spawn,
-/mob/living/simple_animal/bot/medbot{
-	auto_patrol = 1;
-	desc = "A little medical robot, officially part of the Nanotrasen medical inspectorate. He looks somewhat underwhelmed.";
-	name = "Inspector Johnson"
-	},
+/mob/living/simple_animal/bot/medbot/autopatrol,
 /turf/open/floor/iron/showroomfloor,
 /area/medical/medbay/lobby)
 "cgO" = (
@@ -21336,22 +21336,22 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/structure/destructible/cult/tome,
-/obj/effect/decal/cleanable/cobweb,
-/obj/item/book/codex_gigas{
+/obj/structure/table/wood,
+/obj/item/storage/photo_album{
 	pixel_x = -4;
 	pixel_y = 4
 	},
-/obj/item/flashlight/lantern{
-	pixel_x = 4
-	},
-/obj/machinery/light_switch/directional/north,
-/obj/machinery/newscaster/security_unit/directional/west,
 /obj/effect/decal/cleanable/dirt,
-/obj/item/storage/fancy/candle_box{
-	pixel_x = 4;
+/obj/item/taperecorder{
+	pixel_x = 5;
 	pixel_y = 4
 	},
+/obj/item/camera,
+/obj/item/pen{
+	pixel_x = -7;
+	pixel_y = -5
+	},
+/obj/machinery/newscaster/security_unit/directional/north,
 /turf/open/floor/iron/dark,
 /area/service/library)
 "cjL" = (
@@ -25614,7 +25614,7 @@
 "cGA" = (
 /obj/docking_port/stationary/random{
 	dir = 2;
-	id = "pod_lavaland1";
+	id = "pod_lavaland";
 	name = "lavaland"
 	},
 /turf/open/space,
@@ -28052,24 +28052,6 @@
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/medical/exam_room)
-"drk" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/item/kirbyplants{
-	icon_state = "plant-10"
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/airalarm/directional/east,
-/turf/open/floor/iron/showroomfloor,
-/area/service/library)
 "drN" = (
 /obj/structure/closet/crate,
 /obj/item/stack/sheet/iron/fifty,
@@ -28476,11 +28458,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
-/mob/living/simple_animal/bot/cleanbot{
-	auto_patrol = 1;
-	icon_state = "cleanbot1";
-	name = "Mopficcer Sweepsky"
-	},
+/mob/living/simple_animal/bot/cleanbot/autopatrol,
 /turf/open/floor/iron,
 /area/hallway/primary/starboard)
 "dAD" = (
@@ -29013,7 +28991,7 @@
 /obj/machinery/light/small/directional/south,
 /obj/item/radio/intercom/directional/south,
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/modular_computer/console/preset/curator{
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
@@ -29985,12 +29963,12 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "ehz" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/effect/turf_decal/delivery,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/neutral,
+/obj/machinery/recharge_station,
 /turf/open/floor/iron/dark,
 /area/engineering/main)
 "ehK" = (
@@ -30022,7 +30000,7 @@
 /area/hallway/primary/starboard)
 "eiB" = (
 /obj/structure/closet/secure_closet/detective,
-/obj/structure/reagent_dispensers/peppertank/directional/north,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/north,
 /obj/structure/cable,
 /obj/item/book/manual/wiki/detective,
 /obj/machinery/power/apc/auto_name/directional/west,
@@ -30063,7 +30041,7 @@
 /obj/structure/chair/stool/bar/directional/west,
 /mob/living/simple_animal/hostile/russian{
 	environment_smash = 0;
-	loot = list(/obj/effect/mob_spawn/human/corpse/russian);
+	loot = list(/obj/effect/mob_spawn/corpse/human/russian);
 	name = "Russian Mobster"
 	},
 /turf/open/floor/wood,
@@ -30784,12 +30762,6 @@
 /turf/open/floor/iron,
 /area/security/office)
 "euH" = (
-/obj/structure/table/glass,
-/obj/item/paper_bin{
-	pixel_x = -4;
-	pixel_y = 4
-	},
-/obj/item/pen,
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
@@ -30803,6 +30775,7 @@
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/recharge_station,
 /turf/open/floor/iron/showroomfloor,
 /area/medical/storage)
 "evT" = (
@@ -34403,7 +34376,7 @@
 	dir = 4
 	},
 /obj/machinery/light/directional/south,
-/obj/structure/reagent_dispensers/peppertank/directional/south,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/south,
 /obj/item/crowbar,
 /obj/item/book/manual/wiki/security_space_law,
 /obj/structure/cable,
@@ -39524,7 +39497,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/reagent_dispensers/peppertank/directional/west,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/west,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
@@ -40964,6 +40937,27 @@
 	icon_state = "platingdmg1"
 	},
 /area/maintenance/starboard/aft)
+"iqB" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/destructible/cult/tome,
+/obj/item/storage/fancy/candle_box{
+	pixel_x = 4;
+	pixel_y = 4
+	},
+/obj/item/flashlight/lantern{
+	pixel_x = 4
+	},
+/obj/item/book/codex_gigas{
+	pixel_x = -4;
+	pixel_y = 4
+	},
+/obj/effect/decal/cleanable/cobweb,
+/turf/open/floor/iron/dark,
+/area/service/library)
 "iqM" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -44290,7 +44284,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Warden's Office"
 	},
-/obj/structure/reagent_dispensers/peppertank/directional/west,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/west,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
@@ -46841,7 +46835,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/structure/reagent_dispensers/virusfood/directional/south,
+/obj/structure/reagent_dispensers/wall/virusfood/directional/south,
 /turf/open/floor/iron/dark,
 /area/medical/virology)
 "kwT" = (
@@ -49764,25 +49758,16 @@
 /turf/open/floor/iron/dark,
 /area/service/bar)
 "lxQ" = (
-/obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/structure/table/wood,
-/obj/item/storage/photo_album{
-	pixel_x = -4;
-	pixel_y = 4
-	},
-/obj/machinery/computer/security/telescreen/entertainment/directional/south,
+/obj/effect/turf_decal/tile/neutral,
 /obj/effect/decal/cleanable/dirt,
-/obj/item/taperecorder{
-	pixel_x = 5;
-	pixel_y = 4
-	},
-/obj/item/camera,
-/obj/item/pen{
-	pixel_x = -7;
-	pixel_y = -5
+/obj/effect/landmark/start/librarian,
+/obj/structure/chair/comfy/brown{
+	buildstackamount = 0;
+	color = "#c45c57";
+	dir = 8
 	},
 /turf/open/floor/iron/dark,
 /area/service/library)
@@ -50961,12 +50946,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/mob/living/simple_animal/bot/secbot/beepsky{
-	desc = "It's Officer Beepsky! Powered by a potato and a shot of whiskey, and with a sturdier reinforced chassis, too.";
-	health = 45;
-	maxHealth = 45;
-	name = "Officer Beepsky"
-	},
+/mob/living/simple_animal/bot/secbot/beepsky/officer,
 /turf/open/floor/iron/dark,
 /area/security/office)
 "lXd" = (
@@ -54008,6 +53988,8 @@
 /obj/item/electronics/apc,
 /obj/item/stack/cable_coil,
 /obj/item/stack/cable_coil,
+/obj/item/mod/module/plasma_stabilizer,
+/obj/item/mod/module/thermal_regulator,
 /turf/open/floor/iron/dark,
 /area/engineering/main)
 "mWt" = (
@@ -55145,12 +55127,13 @@
 /turf/open/floor/iron/dark,
 /area/command/bridge)
 "nyV" = (
-/obj/item/kirbyplants,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/extinguisher_cabinet/directional/west,
+/obj/machinery/recharge_station,
+/obj/effect/turf_decal/bot,
 /turf/open/floor/iron/dark,
 /area/security/courtroom)
 "nzj" = (
@@ -55322,7 +55305,10 @@
 	pixel_x = 8
 	},
 /obj/machinery/button/door/directional/north{
-	pixel_x = -8
+	id = "kitchen";
+	name = "Serving Hatch Toggle";
+	pixel_x = -8;
+	req_access_txt = "28"
 	},
 /turf/open/floor/iron/dark,
 /area/service/kitchen)
@@ -55687,7 +55673,7 @@
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/bot,
-/obj/structure/reagent_dispensers/peppertank/directional/west,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/west,
 /turf/open/floor/iron/dark,
 /area/security/brig)
 "nLl" = (
@@ -55956,7 +55942,7 @@
 	dir = 4
 	},
 /obj/machinery/airalarm/directional/east,
-/obj/structure/reagent_dispensers/peppertank/directional/south,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/south,
 /obj/machinery/camera/directional/east{
 	c_tag = "Science Security Post";
 	name = "science camera";
@@ -59459,8 +59445,8 @@
 /turf/open/floor/plating,
 /area/cargo/sorting)
 "pfL" = (
-/mob/living/simple_animal/butterfly,
 /obj/effect/spawner/random/engineering/tracking_beacon,
+/mob/living/simple_animal/butterfly,
 /turf/open/floor/grass,
 /area/service/chapel)
 "pfM" = (
@@ -59663,7 +59649,7 @@
 /turf/open/floor/iron/dark,
 /area/service/kitchen)
 "piY" = (
-/obj/effect/mob_spawn/human/corpse/charredskeleton,
+/obj/effect/mob_spawn/corpse/human/charredskeleton,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
@@ -59729,8 +59715,9 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/machinery/airalarm/directional/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 4
+	dir = 8
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/service/library)
@@ -61085,19 +61072,6 @@
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/iron/dark,
 /area/cargo/miningoffice)
-"pHZ" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/turf/open/floor/iron/showroomfloor,
-/area/service/library)
 "pIj" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
 /turf/closed/wall/r_wall,
@@ -61196,7 +61170,7 @@
 /obj/machinery/light_switch/directional/south{
 	pixel_x = 10
 	},
-/obj/structure/reagent_dispensers/peppertank/directional/west,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/west,
 /obj/item/screwdriver,
 /obj/machinery/firealarm/directional/south{
 	pixel_x = -3
@@ -62651,16 +62625,6 @@
 /obj/structure/cable,
 /turf/open/floor/circuit/red,
 /area/engineering/supermatter/room)
-"qld" = (
-/obj/machinery/door/airlock/grunge{
-	name = "Art Cabinet"
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/iron/dark,
-/area/service/library)
 "qlf" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
@@ -64148,6 +64112,7 @@
 /obj/machinery/door/airlock/public/glass{
 	name = "Art Cabinet"
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/service/library)
 "qMS" = (
@@ -64409,6 +64374,15 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/break_room)
+"qRK" = (
+/obj/docking_port/stationary/random{
+	dir = 4;
+	id = "pod_4_lavaland";
+	name = "lavaland"
+	},
+/obj/structure/lattice,
+/turf/open/space,
+/area/space/nearstation)
 "qRS" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -68110,6 +68084,10 @@
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron/dark,
 /area/medical/virology)
+"sem" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/closed/wall,
+/area/service/library)
 "sen" = (
 /obj/structure/grille,
 /obj/item/shard,
@@ -69471,7 +69449,7 @@
 	pixel_x = 6
 	},
 /obj/effect/turf_decal/bot,
-/obj/structure/reagent_dispensers/peppertank/directional/east,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/south,
 /turf/open/floor/iron/dark,
@@ -69988,7 +69966,7 @@
 /obj/item/paper_bin,
 /obj/item/pen,
 /obj/machinery/computer/security/telescreen/entertainment/directional/south,
-/obj/structure/reagent_dispensers/peppertank/directional/east,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
 /turf/open/floor/iron/dark,
 /area/command/heads_quarters/hos)
 "sSm" = (
@@ -70167,6 +70145,18 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark,
 /area/security/brig)
+"sXi" = (
+/obj/machinery/computer/security/telescreen/entertainment/directional/south,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/modular_computer/console/preset/curator{
+	dir = 4
+	},
+/turf/open/floor/iron/dark,
+/area/service/library)
 "sXv" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -70199,6 +70189,9 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/disposalpipe/segment{
 	dir = 5
+	},
+/obj/item/kirbyplants{
+	icon_state = "plant-02"
 	},
 /turf/open/floor/iron,
 /area/security/office)
@@ -70582,10 +70575,6 @@
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "tfS" = (
-/obj/item/storage/box/donkpockets{
-	pixel_x = 3;
-	pixel_y = 5
-	},
 /obj/structure/table/glass,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -70594,6 +70583,12 @@
 	dir = 4
 	},
 /obj/structure/mirror/directional/south,
+/obj/item/mod/module/plasma_stabilizer,
+/obj/item/mod/module/thermal_regulator,
+/obj/item/storage/box/donkpockets{
+	pixel_x = 3;
+	pixel_y = 5
+	},
 /turf/open/floor/iron/dark,
 /area/medical/storage)
 "tgp" = (
@@ -71518,7 +71513,7 @@
 "txC" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Service Production";
-	req_one_access_txt = "22;25;26;28;35;37;38;46;70"
+	req_one_access_txt = "73"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -72024,7 +72019,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /mob/living/simple_animal/hostile/russian{
 	environment_smash = 0;
-	loot = list(/obj/effect/mob_spawn/human/corpse/russian);
+	loot = list(/obj/effect/mob_spawn/corpse/human/russian);
 	name = "Russian Mobster"
 	},
 /turf/open/floor/carpet/green,
@@ -72656,16 +72651,9 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/structure/chair/comfy/brown{
-	buildstackamount = 0;
-	color = "#c45c57"
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 1
-	},
-/obj/effect/landmark/start/librarian,
 /obj/effect/landmark/xeno_spawn,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/service/library)
 "tSA" = (
@@ -73548,7 +73536,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/structure/reagent_dispensers/peppertank/directional/south,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/south,
 /turf/open/floor/iron/dark,
 /area/security/checkpoint/medical)
 "uiT" = (
@@ -75526,7 +75514,7 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/south,
-/obj/structure/reagent_dispensers/peppertank/directional/south,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/south,
 /obj/item/storage/box/firingpins,
 /obj/item/storage/box/firingpins,
 /obj/item/storage/lockbox/loyalty,
@@ -75964,7 +75952,7 @@
 /obj/item/clothing/accessory/armband/deputy,
 /obj/item/clothing/accessory/armband/deputy,
 /obj/item/clothing/accessory/armband/deputy,
-/obj/item/food/donut,
+/obj/item/food/donut/plain,
 /obj/item/inspector,
 /turf/open/floor/iron/dark,
 /area/security/office)
@@ -76348,10 +76336,8 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-05"
-	},
 /obj/machinery/airalarm/directional/south,
+/obj/machinery/recharge_station,
 /turf/open/floor/iron,
 /area/commons/fitness/recreation)
 "vpk" = (
@@ -78696,15 +78682,12 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-02";
-	pixel_y = 3
-	},
 /obj/structure/extinguisher_cabinet/directional/west,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/iron,
 /area/security/office)
 "wjW" = (
@@ -79955,7 +79938,7 @@
 /obj/effect/landmark/event_spawn,
 /mob/living/simple_animal/hostile/russian{
 	environment_smash = 0;
-	loot = list(/obj/effect/mob_spawn/human/corpse/russian);
+	loot = list(/obj/effect/mob_spawn/corpse/human/russian);
 	name = "Russian Mobster"
 	},
 /turf/open/floor/carpet/green,
@@ -108527,7 +108510,7 @@ oIr
 eyj
 sim
 jId
-pHZ
+lXq
 dfF
 sim
 bDk
@@ -109039,9 +109022,9 @@ kPG
 uwS
 rMv
 rnk
-qld
-lXq
-drk
+sim
+sem
+thp
 sim
 sim
 bRX
@@ -109297,8 +109280,8 @@ pBd
 moO
 jlg
 sim
-sim
-thp
+iqB
+sXi
 sim
 bAM
 bRY
@@ -129582,7 +129565,7 @@ aeU
 aof
 qJs
 acK
-acm
+qRK
 acK
 qJs
 aeu

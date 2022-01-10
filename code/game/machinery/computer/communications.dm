@@ -556,10 +556,6 @@
 	)
 
 /obj/machinery/computer/communications/Topic(href, href_list)
-	. = ..()
-	if (.)
-		return
-
 	if (href_list["reject_cross_comms_message"])
 		if (!usr.client?.holder)
 			log_game("[key_name(usr)] tried to reject a cross-comms message without being an admin.")
@@ -577,6 +573,8 @@
 		message_admins("[key_name(usr)] has cancelled the outgoing cross-comms message.")
 
 		return TRUE
+
+	return ..()
 
 /// Returns whether or not the communications console can communicate with the station
 /obj/machinery/computer/communications/proc/has_communication()
@@ -659,7 +657,7 @@
 	if(!SScommunications.can_announce(user, is_ai))
 		to_chat(user, span_alert("Intercomms recharging. Please stand by."))
 		return
-	var/input = stripped_input(user, "Please choose a message to announce to the station crew.", "What?")
+	var/input = tgui_input_text(user, "Message to announce to the station crew", "Announcement")
 	if(!input || !user.canUseTopic(src, !issilicon(usr)))
 		return
 	if(!(user.can_speak())) //No more cheating, mime/random mute guy!
