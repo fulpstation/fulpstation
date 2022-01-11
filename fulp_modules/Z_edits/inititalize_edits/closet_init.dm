@@ -9,3 +9,8 @@
 /obj/structure/closet/secure_closet/brig/Initialize()
 	new /obj/item/clothing/suit/hooded/wintercoat/security/pris(src)
 	. = ..()
+
+/obj/structure/closet/secure_closet/chief_medical/Initialize()
+	new /obj/item/storage/lockbox/medal/med(src)
+	. = ..()
+	
