@@ -16,7 +16,7 @@
 	Luckily, you were able to find safety in an abandoned museum. Create art and try to build your new home, but be warned, sometimes it feels like the statues in the back are watching you."
 	important_text = "Make art and upload it to the database in peace!"
 	outfit = /datum/outfit/ethereal_maze
-	spawner_job_path = /datum/job/fulp_museum
+
 
 /datum/outfit/ethereal_maze
 	name = "Ethereal Museum Curator"
@@ -27,7 +27,7 @@
 	box = /obj/item/storage/box/survival
 
 /obj/item/clothing/under/misc/durathread/ethereal
-	alpha = 50
+	alpha = 75
 
 /obj/item/clothing/suit/changshan_blue/ethereal
 	alpha = 150
@@ -44,8 +44,9 @@
 	icon_state = "statue"
 	loot = list(
 
-		/mob/living/simple_animal/hostile/statue/maze_museum = 2,
-		/obj/structure/statue/sandstone/assistant = 1,
+		/obj/structure/statue/sandstone/generic = 6,
+		/obj/structure/statue/sandstone/assistant = 2,
+		/mob/living/simple_animal/hostile/statue/maze_museum = 1,
 		/obj/structure/statue/silver/md = 1,
 		/obj/structure/statue/silver/janitor = 1,
 		/obj/structure/statue/silver/sec = 1,
@@ -58,9 +59,20 @@
 		/obj/structure/statue/bronze/marx = 1,
 		/obj/structure/statue/bananium/clown = 1,
 		/obj/structure/statue/diamond/captain = 1,
+
 	)
 
 /mob/living/simple_animal/hostile/statue/maze_museum
 	obj_damage = 0
 	maxHealth = 500
 	health = 500
+	faction = list("statue", "spiders")
+
+/obj/structure/statue/sandstone/generic
+	desc = "An incredibly lifelike marble carving. Its eyes seem to follow you..."
+	icon_state = "human_male"
+
+
+/area/ruin/powered/maze
+	name = "Maze Museum"
+	icon_state = "dk_yellow"
