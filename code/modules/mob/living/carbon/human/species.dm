@@ -1105,6 +1105,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 					to_chat(H, span_warning("These types of shoes don't fit you!"))
 				return FALSE
 			// Fulp edit END
+			if((DIGITIGRADE in species_traits) && !(I.item_flags & IGNORE_DIGITIGRADE))
 				if(!disable_warning)
 					to_chat(H, span_warning("The footwear around here isn't compatible with your feet!"))
 				return FALSE
