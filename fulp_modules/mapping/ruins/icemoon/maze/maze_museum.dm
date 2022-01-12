@@ -44,7 +44,7 @@
 	icon_state = "statue"
 	loot = list(
 
-		/obj/structure/statue/sandstone/generic = 6,
+		/obj/structure/statue/petrified = 6,
 		/obj/structure/statue/sandstone/assistant = 2,
 		/mob/living/simple_animal/hostile/statue/maze_museum = 1,
 		/obj/structure/statue/silver/md = 1,
@@ -67,11 +67,6 @@
 	maxHealth = 500
 	health = 500
 	faction = list("statue", "spiders")
-
-/obj/structure/statue/sandstone/generic
-	desc = "An incredibly lifelike marble carving. Its eyes seem to follow you..."
-	icon_state = "human_male"
-
 
 /area/ruin/powered/maze
 	name = "Maze Museum"
