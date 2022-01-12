@@ -68,7 +68,6 @@
 	health = 500
 	faction = list("statue", "spiders")
 
-
 /area/ruin/powered/maze
 	name = "Maze Museum"
 	icon_state = "dk_yellow"
