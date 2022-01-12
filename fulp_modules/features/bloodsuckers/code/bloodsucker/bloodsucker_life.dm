@@ -200,6 +200,13 @@
 		bloodsuckeruser.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 	// Good to go!
 
+/datum/antagonist/bloodsucker/proc/remove_bloodsucker_organs()
+	var/obj/item/organ/heart/newheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	if(newheart)
+		qdel(newheart)
+	newheart = new()
+	newheart.Insert(owner.current)
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //			DEATH
