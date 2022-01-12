@@ -141,18 +141,18 @@
 		playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
 		return TRUE
 
-/*
- *	# Heal Vampire Organs
+/**
+ *	# Heal Bloodsucker Organs
  *
  *	This is used by Bloodsuckers, these are the steps of this proc:
- *	Step 1 - Cure husking and Regenerate organs. regenerate_organs() removes their Vampire Heart & Eye augments, which leads us to...
- *	Step 2 - Repair any (shouldn't be possible) Organ damage, then return their Vampiric Heart & Eye benefits.
+ *	Step 1 - Cure husking and Regenerate organs. regenerate_organs() removes their Bloodsucker Heart & Eye augments, which leads us to...
+ *	Step 2 - Repair any (shouldn't be possible) Organ damage, then return their Bloodsucker Heart & Eye benefits.
  *	Step 3 - Revive them, clear all wounds, remove any Tumors (If any).
  *
  *	This is called on Bloodsucker's Assign, and when they end Torpor.
  */
 
-/datum/antagonist/bloodsucker/proc/HealVampireOrgans()
+/datum/antagonist/bloodsucker/proc/heal_bloodsucker_organs()
 	var/mob/living/carbon/bloodsuckeruser = owner.current
 
 	// Step 1 - Fix basic things, husk and organs.
@@ -164,11 +164,11 @@
 		var/obj/item/organ/organ = all_organs
 		organ.setOrganDamage(0)
 	var/obj/item/organ/heart/current_heart = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(current_heart, /obj/item/organ/heart/vampheart) && !istype(current_heart, /obj/item/organ/heart/demon) && !istype(current_heart, /obj/item/organ/heart/cursed))
+	if(!istype(current_heart, /obj/item/organ/heart/bloodsucker_heart) && !istype(current_heart, /obj/item/organ/heart/demon) && !istype(current_heart, /obj/item/organ/heart/cursed))
 		qdel(current_heart)
-		var/obj/item/organ/heart/vampheart/vampiric_heart = new
-		vampiric_heart.Insert(owner.current)
-		vampiric_heart.Stop()
+		var/obj/item/organ/heart/bloodsucker_heart/new_heart = new
+		new_heart.Insert(owner.current)
+		new_heart.Stop()
 	var/obj/item/organ/eyes/current_eyes = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
 	if(current_eyes)
 		current_eyes.flash_protect = max(initial(current_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
@@ -355,7 +355,7 @@
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	HealVampireOrgans()
+	heal_bloodsucker_organs()
 
 /datum/antagonist/bloodsucker/proc/on_death()
 	SIGNAL_HANDLER
@@ -420,7 +420,7 @@
 	mood_change = -15
 	timeout = 10 MINUTES
 
-/datum/mood_event/madevamp
+/datum/mood_event/madebloodsucker
 	description = "<span class='boldwarning'>A soul has been cursed to undeath by my own hand.</span>\n"
 	mood_change = 15
 	timeout = 20 MINUTES
@@ -441,7 +441,7 @@
 	timeout = 6 MINUTES
 
 ///Candelabrum's mood event to non Bloodsucker/Vassals
-/datum/mood_event/vampcandle
+/datum/mood_event/bloodsuckercandle
 	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
 	mood_change = -15
 	timeout = 5 MINUTES

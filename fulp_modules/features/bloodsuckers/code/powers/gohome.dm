@@ -2,8 +2,8 @@
 	name = "Vanishing Act"
 	desc = "As dawn aproaches, disperse into mist and return directly to your Lair.<br><b>WARNING:</b> You will drop <b>ALL</b> of your possessions if observed by mortals."
 	button_icon_state = "power_gohome"
-	background_icon_state_on = "vamp_power_off_oneshot"
-	background_icon_state_off = "vamp_power_off_oneshot"
+	background_icon_state_on = "bs_power_off_oneshot"
+	background_icon_state_off = "bs_power_off_oneshot"
 	power_explanation = "<b>Vanishing Act</b>: \n\
 		Activating Vanishing Act will, after a short delay, teleport the user to their <b>Claimed Coffin</b>. \n\
 		The power will cancel out if the <b>Claimed Coffin</b> is somehow destroyed. \n\
@@ -55,7 +55,7 @@
 
 	/// Do Effects (seen by anyone)
 	var/am_seen = FALSE
-	/// Drop Stuff (seen by non-vamp)
+	/// Drop Stuff (seen by non-bloodsucker)
 	var/drop_item = FALSE
 	// Only check if I'm not in a Locker or something.
 	if(!isturf(owner.loc))
@@ -92,7 +92,7 @@
 	if(am_seen)
 		playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
 		var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread()
-		puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
+		puff.effect_type = /obj/effect/particle_effect/smoke/bloodsucker_smoke
 		puff.set_up(3, 0, get_turf(owner))
 		puff.start()
 
