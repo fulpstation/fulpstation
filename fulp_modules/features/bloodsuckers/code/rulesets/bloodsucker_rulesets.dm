@@ -190,7 +190,7 @@
 		else
 			to_chat(converter, span_danger("[converted] is the loyal Vassal of another Bloodsucker!"))
 		return FALSE
-	// Already Antag or Loyal (Vamp Hunters count as antags)
+	// Already Antag or Loyal (Monster Hunters count as antags)
 	if(!isnull(converted.mind.enslaved_to) || AmInvalidAntag(converted))
 		to_chat(converter, span_danger("[converted] resists the power of your blood to dominate their mind!"))
 		return FALSE
