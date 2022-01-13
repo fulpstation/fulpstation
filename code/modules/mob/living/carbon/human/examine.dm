@@ -19,10 +19,10 @@
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
 
 	// Fulp edit START - Bloodsuckers
-	var/vampDesc = ReturnVampExamine(user)
+	var/bloodsuckerDesc = ReturnBloodsuckerExamine(user)
 	var/vassDesc = ReturnVassalExamine(user)
-	if(vampDesc != "")
-		. += vampDesc
+	if(bloodsuckerDesc != "")
+		. += bloodsuckerDesc
 	if(vassDesc != "")
 		. += vassDesc
 	// Fulp edit END
