@@ -31,43 +31,23 @@
 //      HEART       //
 //////////////////////
 
-/// Do I have any parts that need replacing?
-/* // Removed - Replaced with HealVampireOrgans()
-/datum/antagonist/bloodsucker/proc/CheckVampOrgans()
-	var/obj/item/organ/heart/vampiricheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(vampiricheart, /obj/item/organ/heart/vampheart) || !istype(vampiricheart, /obj/item/organ/heart/demon) || !istype(vampiricheart, /obj/item/organ/heart/cursed))
-		qdel(vampiricheart)
-		var/obj/item/organ/heart/vampheart/vampiricheart = new
-		vampiricheart.Insert(owner.current)
-		/// Now... stop beating!
-		vampiricheart.Stop()
-*/
-/datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	var/obj/item/organ/heart/newheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(newheart)
-		qdel(newheart)
-	newheart = new()
-	newheart.Insert(owner.current)
+/obj/item/organ/heart/bloodsucker_heart
+	beating = BEAT_NONE
+	var/fakingit = FALSE
 
-// 		HEART: OVERWRITE	//
-// 		HEART 		//
-/obj/item/organ/heart/vampheart
-	beating = 0
-	var/fakingit = 0
-
-/obj/item/organ/heart/vampheart/Restart()
-	beating = 0	// DONT run ..() -- We don't want to start beating again.
+/obj/item/organ/heart/bloodsucker_heart/Restart()
+	beating = 0 // DONT run ..() -- We don't want to start beating again.
 	return 0
 
-/obj/item/organ/heart/vampheart/Stop()
-	fakingit = 0
+/obj/item/organ/heart/bloodsucker_heart/Stop()
+	fakingit = FALSE
 	return ..()
 
-/obj/item/organ/heart/vampheart/proc/FakeStart()
-	fakingit = 1 // We're pretending to beat, to fool people.
+/obj/item/organ/heart/bloodsucker_heart/proc/FakeStart()
+	fakingit = TRUE // We're pretending to beat, to fool people.
 
 /// Bloodsuckers don't have a heartbeat at all when stopped (default is "an unstable")
-/obj/item/organ/heart/vampheart/HeartStrengthMessage()
+/obj/item/organ/heart/bloodsucker_heart/HeartStrengthMessage()
 	if(fakingit)
 		return "a healthy"
 	return span_danger("no")
@@ -78,27 +58,14 @@
 		return "a healthy"
 	return span_danger("an unstable")
 
-//////////////////////
-//      EYES        //
-//////////////////////
-
-/* /// Removed due to Mothpeople & Flypeople spawning with Vampiric eyes, getting them instantly lynched.
-/// Taken from augmented_eyesight.dm
-/obj/item/organ/eyes/bloodsucker
-	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
-	see_in_dark = 12
-	sight_flags = SEE_MOBS // Bloodsuckers are predators, and detect life/heartbeats nearby. -2019 Breakdown of Bloodsuckers
-	flash_protect = -1 // These eyes are weaker to flashes, but let you see in the dark
-*/
-
 /*
 //////////////////////
 //      LIVER       //
 //////////////////////
 
 /// Livers run on_life(), which calls reagents.metabolize() in holder.dm, which calls on_mob_life.dm in the cheam (medicine_reagents.dm)
-/obj/item/organ/liver/vampliver
-/obj/item/organ/liver/vampliver/on_life()
+/obj/item/organ/liver/bloodsucker_liver
+/obj/item/organ/liver/bloodsucker_liver/on_life()
 	var/mob/living/carbon/user = owner
 	if(!istype(user))
 		return
@@ -274,7 +241,7 @@
 	name = "\improper Archive of the Kindred"
 	title = "the Archive of the Kindred"
 	desc = "Cryptic documents explaining hidden truths behind Undead beings. It is said only Curators can decipher what they really mean."
-	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_obj.dmi'
 	lefthand_file = 'fulp_modules/features/bloodsuckers/icons/bs_leftinhand.dmi'
 	righthand_file = 'fulp_modules/features/bloodsuckers/icons/bs_rightinhand.dmi'
 	icon_state = "kindred_book"
@@ -322,7 +289,7 @@
 			if(bloodsuckerdatum.broke_masquerade)
 				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is indeed a [bloodsuckerdatum.my_clan] Bloodsucker, but you already knew this."))
 				return
-			if(bloodsuckerdatum.my_clan != CLAN_NONE)
+			if(bloodsuckerdatum.my_clan != NONE)
 				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
 			else
 				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName(TRUE)]', is not knowingly part of a Clan. You quickly note this information down, memorizing it."))
@@ -398,13 +365,13 @@
 	if(clan == CLAN_TOREADOR) // Flavortext only
 		dat += "The most charming Clan of them all, being borderline <i>party animals</i>, allowing them to <i>very easily</i> disguise among the crew.<br> \
 		They are more in touch with their <i>morals</i>, so they suffer and benefit more strongly from the humanity cost or gain of their actions.<br> \
-		They can be best defined as 'The most humane kind of vampire', due to their kindred with an obsession with perfectionism and beauty<br> \
+		They can be best defined as 'The most humane kind of bloodsucker', due to their kindred with an obsession with perfectionism and beauty<br> \
 		<b>Favorite Vassal</b>: Their favorite Vassal gains the Mesmerize ability \
 		<b>Strength</b>: Highly charismatic and influential.<br> \
 		<b>Weakness</b>: Physically and Morally weak."
 	if(clan == CLAN_NOSFERATU)
 		dat += "This Clan has been the most obvious to find information about.<br> \
-		They are <i>disfigured, ghoul-like</i> vampires upon embrace by their Sire, scouts that travel through desolate paths to avoid violating the Masquerade.<br> \
+		They are <i>disfigured, ghoul-like</i> Bloodsuckers upon embrace by their Sire, scouts that travel through desolate paths to avoid violating the Masquerade.<br> \
 		They make <i>no attempts</i> at hiding themselves within the crew, and have a terrible taste for <i>heavy items</i>.<br> \
 		They also seem to manage to fit themsleves into small spaces such as <i>vents</i>.<br> \
 		<b>Favorite Vassal</b>: Their Favorite Vassal gains the ability to ventcrawl while naked and becomes disfigured. \
@@ -412,14 +379,14 @@
 		<b>Weakness</b>: Can't disguise themselves, permanently pale, can easily be discovered by their DNA or Blood Level."
 	if(clan == CLAN_TREMERE)
 		dat += "This Clan seems to hate entering the <i>Chapel</i>.<br> \
-		They are a secluded Clan, they are Vampires who've mastered the power of blood, and seek knowledge.<br> \
+		They are a secluded Clan, they are Bloodsucker who've mastered the power of blood, and seek knowledge.<br> \
 		They appear to be focused more on their Blood Magic than their other Powers, getting stronger faster the more Vassals they have.<br> \
 		They have 3 different paths they can take, from reviving people as Vassals, to stealing blood with beams made of the same essence.<br> \
 		<b>Favorite Vassal</b>: Their Favorite Vassal gains the ability to shift into a Bat at will. \
 		<b>Strength</b>: 3 different Powers that get stupidly strong overtime.<br> \
 		<b>Weakness</b>: Cannot get regular Powers, with no way to get stun resistance outside of Frenzy."
 	if(clan == CLAN_GANGREL) // Flavortext only
-		dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
+		dat += "This Clan seems to be closer to <i>Animals</i> than to other Bloodsuckers.<br> \
 		They also go by the name of <i>Werewolves</i>, as that is what appears when they enter a Frenzy.<br> \
 		Despite this, they appear to be scared of <i>'True Faith'</i>, someone's ultimate and undying Faith, which itself doesn't require being something Religious.<br> \
 		They hate seeing many people, and tend to avoid Stations that have <i>more crewmembers than Nanotrasen's average</i>. Due to this, they are harder to find than others.<br> \

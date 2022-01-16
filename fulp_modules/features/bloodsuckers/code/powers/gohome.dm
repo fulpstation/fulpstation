@@ -2,28 +2,27 @@
 	name = "Vanishing Act"
 	desc = "As dawn aproaches, disperse into mist and return directly to your Lair.<br><b>WARNING:</b> You will drop <b>ALL</b> of your possessions if observed by mortals."
 	button_icon_state = "power_gohome"
-	background_icon_state_on = "vamp_power_off_oneshot"
-	background_icon_state_off = "vamp_power_off_oneshot"
+	background_icon_state_on = "bs_power_off_oneshot"
+	background_icon_state_off = "bs_power_off_oneshot"
 	power_explanation = "<b>Vanishing Act</b>: \n\
 		Activating Vanishing Act will, after a short delay, teleport the user to their <b>Claimed Coffin</b>. \n\
 		The power will cancel out if the <b>Claimed Coffin</b> is somehow destroyed. \n\
 		Immediately after activating, lights around the user will begin to flicker. \n\
 		Once the user teleports to their coffin, in their place will be a Rat or Bat."
-	power_flags = BP_AM_SINGLEUSE
+	power_flags = BP_AM_SINGLEUSE|BP_AM_STATIC_COOLDOWN
 	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED
 	// You only get this once you've claimed a lair and Sol is near.
 	purchase_flags = NONE
 	bloodcost = 100
 	cooldown = 100 SECONDS
 
-/datum/action/bloodsucker/gohome/CheckCanUse(display_error)
+/datum/action/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
 	/// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
 	if(!istype(bloodsuckerdatum_power) || !bloodsuckerdatum_power.coffin)
-		if(display_error)
-			owner.balloon_alert(owner, "your coffin has been destroyed!")
+		owner.balloon_alert(owner, "your coffin has been destroyed!")
 		return FALSE
 	return TRUE
 
@@ -34,6 +33,7 @@
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
 /datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
+	. = ..()
 	to_chat(user, span_notice("You focus on separating your consciousness from your physical form..."))
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
@@ -55,7 +55,7 @@
 
 	/// Do Effects (seen by anyone)
 	var/am_seen = FALSE
-	/// Drop Stuff (seen by non-vamp)
+	/// Drop Stuff (seen by non-bloodsucker)
 	var/drop_item = FALSE
 	// Only check if I'm not in a Locker or something.
 	if(!isturf(owner.loc))
@@ -92,7 +92,7 @@
 	if(am_seen)
 		playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
 		var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread()
-		puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
+		puff.effect_type = /obj/effect/particle_effect/smoke/bloodsucker_smoke
 		puff.set_up(3, 0, get_turf(owner))
 		puff.start()
 
@@ -114,4 +114,3 @@
 		// Lock Coffin
 		bloodsuckerdatum_power.coffin.LockMe(owner)
 		bloodsuckerdatum_power.Check_Begin_Torpor(FALSE) // Are we meant to enter Torpor here?
-	. = ..()

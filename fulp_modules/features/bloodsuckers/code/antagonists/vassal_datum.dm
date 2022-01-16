@@ -4,7 +4,7 @@
 #define VASSAL_SCAN_PING_TIME 20
 
 /datum/antagonist/vassal
-	name = "Vassal"
+	name = "\improper Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
 	job_rank = ROLE_BLOODSUCKER
@@ -12,6 +12,7 @@
 	show_in_roundend = FALSE
 	hud_icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tips = VASSAL_TIPS
+
 	/// The Master Bloodsucker's antag datum.
 	var/datum/antagonist/bloodsucker/master
 	/// List of all Purchased Powers, like Bloodsuckers.
@@ -52,17 +53,16 @@
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
 	objectives += vassal_objective
-	/// Give Vampire Language & Hud
+	/// Give Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
-	owner.current.grant_language(/datum/language/vampiric)
+	owner.current.grant_language(/datum/language/bloodsucker)
 	. = ..()
 
 /datum/antagonist/vassal/on_removal()
 	/// Free them from their Master
 	if(master && master.owner)
 		master.vassals -= src
-		if(owner.enslaved_to == master.owner.current)
-			owner.enslaved_to = null
+		owner.enslaved_to = null
 	/// Remove Pinpointer
 	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
@@ -74,7 +74,7 @@
 		powers -= power
 		power.Remove(owner.current)
 	/// Remove Language & Hud
-	owner.current.remove_language(/datum/language/vampiric)
+	owner.current.remove_language(/datum/language/bloodsucker)
 	return ..()
 
 /datum/antagonist/vassal/proc/add_objective(datum/objective/added_objective)
@@ -84,11 +84,12 @@
 	objectives -= removed_objective
 
 /datum/antagonist/vassal/greet()
-	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a bloodsucking vampire!"))
+	. = ..()
+	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a Bloodsucker!"))
 	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.\n\
-		You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed."))
+		You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your undead master's word must be obeyed."))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
-	antag_memory += "You, becoming the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
+	antag_memory += "You, becoming the mortal servant of <b>[master.owner.current]</b>, an undead bloodsucking!<br>"
 	/// Message told to your Master.
 	to_chat(master.owner, span_userdanger("[owner.current] has become addicted to your immortal blood. [owner.current.p_they(TRUE)] [owner.current.p_are()] now your undying servant!"))
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
@@ -199,3 +200,15 @@
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost your master's trail."))
 	..()
+
+/**
+ * # BATFORM
+ *
+ * TG removed this, so we're re-adding it
+ */
+/obj/effect/proc_holder/spell/targeted/shapeshift/bat
+	name = "Bat Form"
+	desc = "Take on the shape of a space bat."
+	invocation = "SQUEAAAAK!"
+	convert_damage = FALSE
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat

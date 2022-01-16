@@ -1172,7 +1172,7 @@
 	},
 /obj/machinery/requests_console/directional/north{
 	department = "Toxins Lab";
-	name = "Toxins RC";
+	name = "Ordnance RC";
 	receive_ore_updates = 1
 	},
 /turf/open/floor/iron/white,
@@ -5038,7 +5038,7 @@
 /area/service/chapel/dock)
 "bsw" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Lab";
+	name = "Ordnance Lab";
 	req_access_txt = "8"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -5871,7 +5871,7 @@
 	dir = 8;
 	name = "Security red corner"
 	},
-/obj/structure/reagent_dispensers/peppertank/directional/south,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/south,
 /turf/open/floor/iron,
 /area/security/office)
 "bCV" = (
@@ -11438,7 +11438,7 @@
 	name = "Medical blue corner"
 	},
 /obj/machinery/light/directional/west,
-/obj/item/clothing/under/bodysash/chemist,
+/obj/item/clothing/under/bodysash/medical/chemist,
 /obj/machinery/requests_console/directional/west{
 	department = "Chemistry";
 	departmentType = 2;
@@ -13967,7 +13967,7 @@
 	dir = 1;
 	name = "Security red corner"
 	},
-/obj/structure/reagent_dispensers/peppertank/directional/north,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/north,
 /obj/item/grenade/barrier,
 /obj/item/grenade/barrier,
 /obj/item/grenade/barrier,
@@ -16590,6 +16590,7 @@
 /obj/machinery/power/terminal{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "esY" = (
@@ -16702,7 +16703,7 @@
 /obj/structure/chair{
 	name = "Prosecution"
 	},
-/obj/structure/reagent_dispensers/peppertank{
+/obj/structure/reagent_dispensers/wall/peppertank{
 	pixel_y = 32
 	},
 /turf/open/floor/wood,
@@ -18342,7 +18343,7 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/item/clothing/under/bodysash/paramedic,
+/obj/item/clothing/under/bodysash/medical/paramedic,
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Storage";
 	network = list("ss13", "medbay")
@@ -22451,7 +22452,7 @@
 	},
 /obj/machinery/button/door/directional/south{
 	id = "toxinsstorage";
-	name = "Toxins Secure Storage Blast Door";
+	name = "Ordnance Secure Storage Blast Door";
 	pixel_x = 5;
 	req_access_txt = "30"
 	},
@@ -27368,7 +27369,7 @@
 /obj/machinery/power/apc{
 	areastring = "/area/science/mixing/chamber";
 	dir = 1;
-	name = "Toxins Chamber APC";
+	name = "Ordnance Chamber APC";
 	pixel_y = 24
 	},
 /obj/structure/cable,
@@ -29025,7 +29026,7 @@
 /obj/item/hand_labeler,
 /obj/item/hand_labeler_refill,
 /obj/machinery/light/directional/east,
-/obj/structure/reagent_dispensers/virusfood/directional/south,
+/obj/structure/reagent_dispensers/wall/virusfood/directional/south,
 /turf/open/floor/iron/white,
 /area/medical/virology)
 "hHE" = (
@@ -32174,7 +32175,7 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/item/clothing/under/bodysash/cmo,
+/obj/item/clothing/under/bodysash/medical/cmo,
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/east{
 	c_tag = "Medical - CMO Office";
@@ -36114,7 +36115,9 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
-/obj/item/kirbyplants/random,
+/obj/machinery/computer/cargo/request{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/cargo/office)
 "jCv" = (
@@ -37822,7 +37825,7 @@
 /area/maintenance/central)
 "jVN" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Launch Room";
+	name = "Ordnance Launch Room";
 	req_access_txt = "8"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -39377,7 +39380,6 @@
 /turf/open/floor/wood,
 /area/service/library)
 "krE" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
 	dir = 1;
@@ -40837,7 +40839,7 @@
 /area/maintenance/fore)
 "kJt" = (
 /obj/structure/closet,
-/obj/effect/mob_spawn/human/corpse/assistant,
+/obj/effect/mob_spawn/corpse/human/assistant,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/plating,
 /area/maintenance/fore)
@@ -41781,6 +41783,9 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/neutral,
+/obj/machinery/camera/directional/east{
+	c_tag = "Public - Game Room Hall"
+	},
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
 "kVJ" = (
@@ -42796,7 +42801,7 @@
 	},
 /obj/machinery/door/poddoor{
 	id = "toxinsstorage";
-	name = "Toxins Secure Storage"
+	name = "Ordnance Secure Storage"
 	},
 /turf/open/floor/iron/white,
 /area/science/storage)
@@ -47985,14 +47990,13 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/machinery/camera{
-	c_tag = "Public - Dorms Hall";
-	dir = 10
-	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/neutral,
+/obj/machinery/camera/directional/south{
+	c_tag = "Public - Dorms Hall"
+	},
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
 "mwM" = (
@@ -52901,7 +52905,6 @@
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
 "nIs" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
 	dir = 1;
@@ -53905,7 +53908,7 @@
 /area/security/checkpoint/medical)
 "nWu" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Storage";
+	name = "Ordnance Storage";
 	req_access_txt = "8"
 	},
 /obj/effect/turf_decal/tile/purple{
@@ -54862,6 +54865,12 @@
 	name = "Engineering yellow corner"
 	},
 /obj/machinery/light/directional/north,
+/obj/machinery/requests_console/directional/north{
+	announcementConsole = 1;
+	department = "Telecomms Admin";
+	departmentType = 5;
+	name = "Telecomms Requests Console"
+	},
 /turf/open/floor/iron,
 /area/tcommsat/computer)
 "oke" = (
@@ -57745,7 +57754,7 @@
 /obj/item/hand_labeler,
 /obj/item/hand_labeler_refill,
 /obj/machinery/light_switch/directional/west,
-/obj/structure/reagent_dispensers/virusfood/directional/north,
+/obj/structure/reagent_dispensers/wall/virusfood/directional/north,
 /turf/open/floor/iron/white,
 /area/medical/virology)
 "pdF" = (
@@ -65796,7 +65805,7 @@
 "rhr" = (
 /obj/effect/decal/cleanable/blood,
 /obj/item/bodybag,
-/obj/effect/mob_spawn/human/corpse/damaged,
+/obj/effect/mob_spawn/corpse/human/damaged,
 /obj/structure/closet/crate,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
@@ -65952,7 +65961,7 @@
 	dir = 4;
 	name = "Security red corner"
 	},
-/obj/structure/reagent_dispensers/peppertank/directional/east,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
 /obj/structure/tank_holder/extinguisher,
 /turf/open/floor/iron,
 /area/security/checkpoint/medical)
@@ -68793,7 +68802,7 @@
 /turf/open/floor/iron,
 /area/maintenance/department/crew_quarters/dorms)
 "rWK" = (
-/obj/effect/mob_spawn/human/corpse/charredskeleton,
+/obj/effect/mob_spawn/corpse/human/charredskeleton,
 /turf/open/floor/plating/asteroid/basalt,
 /area/maintenance/fore)
 "rWM" = (
@@ -68988,7 +68997,7 @@
 /turf/open/floor/iron,
 /area/service/library/abandoned)
 "rZd" = (
-/obj/effect/mob_spawn/human/corpse/assistant,
+/obj/effect/mob_spawn/corpse/human/assistant,
 /turf/open/floor/plating{
 	initial_gas_mix = "o2=12;n2=72;n2o=20;TEMP=293.15"
 	},
@@ -72855,7 +72864,7 @@
 /obj/machinery/power/apc{
 	areastring = "/area/science/mixing";
 	dir = 4;
-	name = "Toxins Lab APC";
+	name = "Ordnance Lab APC";
 	pixel_x = 24
 	},
 /obj/structure/cable,
@@ -73409,7 +73418,7 @@
 	},
 /obj/machinery/door/poddoor{
 	id = "toxinsstorage";
-	name = "Toxins Secure Storage"
+	name = "Ordnance Secure Storage"
 	},
 /turf/open/floor/iron/white,
 /area/science/storage)
@@ -73469,10 +73478,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
 	dir = 4
-	},
-/obj/machinery/camera{
-	c_tag = "Public - Game Room Hall";
-	dir = 9
 	},
 /obj/effect/turf_decal/tile/neutral{
 	color = "#000000";
@@ -87221,7 +87226,7 @@
 /area/cargo/qm)
 "wPR" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Toxins Lab Maintenance";
+	name = "Ordnance Lab Maintenance";
 	req_access_txt = "8"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -90826,7 +90831,7 @@
 	pixel_y = 3
 	},
 /obj/item/pen,
-/obj/structure/reagent_dispensers/peppertank/directional/east,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
 /turf/open/floor/iron,
 /area/security/checkpoint/supply)
 "xJb" = (
@@ -92253,7 +92258,7 @@
 	},
 /obj/structure/table,
 /obj/item/paper_bin,
-/obj/structure/reagent_dispensers/peppertank/directional/north,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/north,
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/security/checkpoint/engineering)

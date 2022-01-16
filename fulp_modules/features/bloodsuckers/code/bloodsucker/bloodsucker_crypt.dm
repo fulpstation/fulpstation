@@ -9,7 +9,7 @@
 	 *	And it's easier to edit.
 	 */
 	var/Ghost_desc
-	var/Vamp_desc
+	var/bloodsucker_desc
 	var/Vassal_desc
 	var/Hunter_desc
 
@@ -17,11 +17,11 @@
 	. = ..()
 	if(!user.mind && Ghost_desc != "")
 		. += span_cult(Ghost_desc)
-	if(IS_BLOODSUCKER(user) && Vamp_desc)
+	if(IS_BLOODSUCKER(user) && bloodsucker_desc)
 		if(!owner)
 			. += span_cult("It is unsecured. Click on [src] while in your lair to secure it in place to get its full potential.")
 			return
-		. += span_cult(Vamp_desc)
+		. += span_cult(bloodsucker_desc)
 	if(IS_VASSAL(user) && Vassal_desc != "")
 		. += span_cult(Vassal_desc)
 	if(IS_MONSTERHUNTER(user) && Hunter_desc != "")
@@ -108,7 +108,7 @@
 /obj/structure/bloodsucker/vassalrack
 	name = "persuasion rack"
 	desc = "If this wasn't meant for torture, then someone has some fairly horrifying hobbies."
-	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_obj.dmi'
 	icon_state = "vassalrack"
 	anchored = FALSE
 	/// Start dense. Once fixed in place, go non-dense.
@@ -116,7 +116,7 @@
 	can_buckle = TRUE
 	buckle_lying = 180
 	Ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
-	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
+	bloodsucker_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
 		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.\n\
 		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand. This costs Blood to do.\n\
 		Once you have Vassals ready, you are able to select a Favorite Vassal;\n\
@@ -231,7 +231,7 @@
 	unbuckle_mob(buckled_mob)
 	. = ..()
 
-/obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
+/obj/structure/bloodsucker/vassalrack/unbuckle_mob(mob/living/buckled_mob, force = FALSE, can_fall = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -467,7 +467,7 @@
 /obj/structure/bloodsucker/candelabrum
 	name = "candelabrum"
 	desc = "It burns slowly, but doesn't radiate any heat."
-	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_obj.dmi'
 	icon_state = "candelabrum"
 	light_color = "#66FFFF"//LIGHT_COLOR_BLUEGREEN // lighting.dm
 	light_power = 3
@@ -477,7 +477,7 @@
 	anchored = FALSE
 	Ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals.\n\
 		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
-	Vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.\n\
+	bloodsucker_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.\n\
 		You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally."
 	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n\
 		You can turn it on and off by clicking on it while you are next to it.\n\
@@ -540,7 +540,7 @@
 		if(IS_VASSAL(nearly_people) || IS_BLOODSUCKER(nearly_people))
 			continue
 		nearly_people.hallucination += 5
-		SEND_SIGNAL(nearly_people, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+		SEND_SIGNAL(nearly_people, COMSIG_ADD_MOOD_EVENT, "bloodsuckercandle", /datum/mood_event/bloodsuckercandle)
 
 /*
  *	# Candelabrum Ventrue Stuff
@@ -632,7 +632,7 @@
 	update_icon()
 
 /// Attempt Unbuckle
-/obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE)
+/obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE, can_fall = TRUE)
 	. = ..()
 	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum."))
 	update_icon()
@@ -641,14 +641,14 @@
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
 	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
-	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj_64.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_obj_64.dmi'
 	icon_state = "throne"
 	buckle_lying = 0
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
 	Ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
-	Vamp_desc = "This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
+	bloodsucker_desc = "This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
 	Vassal_desc = "This is a Blood throne, it allows your Master to telepathically speak to you and others like you."
 	Hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
 		While buckled, Monsters can use this to telepathically communicate with eachother."
@@ -675,7 +675,7 @@
 
 // Armrests
 /obj/structure/bloodsucker/bloodthrone/proc/GetArmrest()
-	return mutable_appearance('fulp_modules/features/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
+	return mutable_appearance('fulp_modules/features/bloodsuckers/icons/bloodsucker_obj_64.dmi', "thronearm")
 
 /obj/structure/bloodsucker/bloodthrone/proc/update_armrest()
 	if(has_buckled_mobs())
@@ -720,7 +720,7 @@
 	target.pixel_y += 2
 
 // Unbuckling
-/obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE)
+/obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE, can_fall = TRUE)
 	src.visible_message(span_danger("[user] unbuckles themselves from [src]."))
 	if(IS_BLOODSUCKER(user))
 		UnregisterSignal(user, COMSIG_MOB_SAY)

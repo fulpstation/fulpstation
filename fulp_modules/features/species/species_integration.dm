@@ -15,6 +15,24 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/mouth, GLOB.mouths_beefman)
 
 
+/**
+ * SPECIES OVERWRITE
+ *
+ * We add our own vars to Species for certain things, so it's done here.
+ */
+
+/datum/species
+	var/bruising_desc = "bruising"
+	var/burns_desc = "burns"
+	var/cellulardamage_desc = "cellular damage"
+
+
+/**
+ * CARBON INTEGRATION
+ *
+ * All overrides of mob/living and mob/living/carbon
+ */
+
 // PROSTHETICS //
 /mob/living/proc/getBruteLoss_nonProsthetic()
 	return getBruteLoss()

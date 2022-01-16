@@ -6,7 +6,7 @@
 #define STATUS_EFFECT_HUNTERPINPOINTER /datum/status_effect/agent_pinpointer/hunter_edition
 
 /datum/antagonist/monsterhunter
-	name = "Monster Hunter"
+	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
@@ -16,7 +16,7 @@
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
-	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
+	var/datum/action/bloodsucker/monster_tracker = new/datum/action/bloodsucker/track_monster()
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
 
 /datum/antagonist/monsterhunter/on_gain()
@@ -25,7 +25,7 @@
 	ADD_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	/// Give Monster Hunter powers
-	trackvamp.Grant(owner.current)
+	monster_tracker.Grant(owner.current)
 	fortitude.Grant(owner.current)
 	if(give_objectives)
 		/// Give Hunter Objective
@@ -52,7 +52,7 @@
 	for(var/all_status_traits in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	/// Remove Monster Hunter powers
-	trackvamp.Remove(owner.current)
+	monster_tracker.Remove(owner.current)
 	fortitude.Remove(owner.current)
 	/// Remove Martial Arts
 	if(my_kungfu)
@@ -105,6 +105,7 @@
 	objectives -= removed_objective
 
 /datum/antagonist/monsterhunter/greet()
+	. = ..()
 	to_chat(owner.current, span_userdanger("After witnessing recent events on the station, we return to your old profession, we are a Monster Hunter!"))
 	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
 	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))

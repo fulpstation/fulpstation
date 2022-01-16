@@ -1,5 +1,5 @@
 /datum/antagonist/bloodsucker
-	name = "Bloodsucker"
+	name = "\improper Bloodsucker"
 	show_in_antagpanel = TRUE
 	roundend_category = "bloodsuckers"
 	antagpanel_category = "Bloodsucker"
@@ -15,10 +15,27 @@
 	// TIMERS //
 	///Timer between alerts for Burn messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
-	///Timer between alerts for Locker messages
-	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_locker)
 	///Timer between alerts for Healing messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_healing)
+
+	///Default Bloodsucker traits
+	var/static/list/bloodsucker_traits = list(
+		TRAIT_NOBREATH,
+		TRAIT_SLEEPIMMUNE,
+		TRAIT_NOCRITDAMAGE,
+		TRAIT_RESISTCOLD,
+		TRAIT_RADIMMUNE,
+		TRAIT_GENELESS,
+		TRAIT_STABLEHEART,
+		TRAIT_NOSOFTCRIT,
+		TRAIT_NOHARDCRIT,
+		TRAIT_AGEUSIA,
+		TRAIT_NOPULSE,
+		TRAIT_COLDBLOODED,
+		TRAIT_VIRUSIMMUNE,
+		TRAIT_TOXIMMUNE,
+		TRAIT_HARDLY_WOUNDED,
+	)
 
 	///Used for assigning your name
 	var/bloodsucker_name
@@ -26,42 +43,39 @@
 	var/bloodsucker_title
 	///Used for assigning your reputation
 	var/bloodsucker_reputation
+
+	///Amount of Humanity lost
+	var/humanity_lost = 0
+	///Have we been broken the Masquerade?
+	var/broke_masquerade = FALSE
 	///Blood required to enter Frenzy
 	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
-	///Default Bloodsucker traits
-	var/static/list/default_traits = list(
-		TRAIT_NOBREATH, TRAIT_SLEEPIMMUNE,
-		TRAIT_NOCRITDAMAGE, TRAIT_RESISTCOLD,
-		TRAIT_RADIMMUNE, TRAIT_GENELESS,
-		TRAIT_STABLEHEART, TRAIT_NOSOFTCRIT,
-		TRAIT_NOHARDCRIT, TRAIT_AGEUSIA,
-		TRAIT_NOPULSE, TRAIT_COLDBLOODED,
-		TRAIT_VIRUSIMMUNE, TRAIT_TOXIMMUNE,
-		TRAIT_HARDLY_WOUNDED,
-	)
+	///If we are currently in a Frenzy
+	var/frenzied = FALSE
 
 	///ALL Powers currently owned
 	var/list/datum/action/powers = list()
 	///Bloodsucker Clan - Used for dealing with Sol
-	var/datum/team/vampireclan/clan
+	var/datum/team/bloodsucker_clan/clan
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab = new
 	///You get assigned a Clan once you Rank up enough
-	var/my_clan = CLAN_NONE
+	var/my_clan = NONE
 
-	///The Bloodsucker/Vassal's creator
-	var/datum/mind/creator
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Have we selected our Favorite Vassal yet?
 	var/has_favorite_vassal = FALSE
 	/// Antagonists that cannot be Vassalized no matter what
 	var/list/vassal_banned_antags = list(
-		/datum/antagonist/bloodsucker, /datum/antagonist/monsterhunter,
-		/datum/antagonist/changeling, /datum/antagonist/cult,
-		/datum/antagonist/wizard, /datum/antagonist/wizard/apprentice,
-		/datum/antagonist/xeno, /datum/antagonist/obsessed,
-		/datum/antagonist/ert/safety_moth, /datum/antagonist/wishgranter,
+		/datum/antagonist/bloodsucker,
+		/datum/antagonist/monsterhunter,
+		/datum/antagonist/changeling,
+		/datum/antagonist/cult,
+		/datum/antagonist/heretic,
+		/datum/antagonist/xeno,
+		/datum/antagonist/obsessed,
+		/datum/antagonist/ert/safety_moth,
 	)
 
 	var/bloodsucker_level
@@ -71,14 +85,6 @@
 	var/bloodsucker_regen_rate = 0.3
 	var/max_blood_volume = 600
 
-	///Amount of Humanity lost
-	var/humanity_lost = 0
-	///Have we been broken the Masquerade?
-	var/broke_masquerade = FALSE
-	///How much food to throw up later. You shouldn't have eaten that.
-//	var/foodInGut
-	///If we are currently in a Frenzy
-	var/frenzied = FALSE
 	// Used for Bloodsucker Objectives
 	var/area/lair
 	var/obj/structure/closet/crate/coffin
@@ -86,13 +92,27 @@
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
 
+	/// Static typecache of all changeling powers that are usable.
+	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/bloodsucker, TRUE)
+
+/mob/living/proc/explain_powers()
+	set name = "Bloodsucker Help"
+	set category = "Mentor"
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
+	if(!choice)
+		return
+	var/datum/action/bloodsucker/power = choice
+	to_chat(usr, span_warning("[power.power_explanation]"))
+
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
 	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
-	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
+	handle_clown_mutation(current_mob, mob_override ? null : "As an undead clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
@@ -115,7 +135,6 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	/// If I have a creator, then set as Fledgling.
 	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
 	else
@@ -134,14 +153,15 @@
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
-	/// End Sunlight? (if last Vamp)
+	/// End Sunlight? (if last Bloodsucker)
 	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
 	return ..()
 
 /datum/antagonist/bloodsucker/greet()
+	. = ..()
 	var/fullname = ReturnFullName(TRUE)
-	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a bloodsucker!"))
+	to_chat(owner, span_userdanger("You are [fullname], an undead Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
 		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
@@ -184,21 +204,21 @@
 
 	return finish_preview_icon(enrico_icon)
 
-/*
- *	# Vampire Clan
+/**
+ *	# Bloodsucker Clan
  *
- *	This is used for dealing with the Vampire Clan.
+ *	This is used for dealing with the Bloodsucker Clan.
  *	This handles Sol for Bloodsuckers, making sure to not have several.
  *	None of this should appear in game, we are using it JUST for Sol. All Bloodsuckers should have their individual report.
  */
 
-/datum/team/vampireclan
+/datum/team/bloodsucker_clan
 	name = "Clan"
 
 	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 	var/obj/effect/sunlight/bloodsucker_sunlight
 
-/datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
+/datum/antagonist/bloodsucker/create_team(datum/team/bloodsucker_clan/team)
 	if(!team)
 		for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
 			if(!bloodsuckerdatums.owner)
@@ -206,7 +226,7 @@
 			if(bloodsuckerdatums.clan)
 				clan = bloodsuckerdatums.clan
 				return
-		clan = new /datum/team/vampireclan
+		clan = new /datum/team/bloodsucker_clan
 		return
 	if(!istype(team))
 		stack_trace("Wrong team type passed to [type] initialization.")
@@ -215,7 +235,7 @@
 /datum/antagonist/bloodsucker/get_team()
 	return clan
 
-/datum/team/vampireclan/roundend_report()
+/datum/team/bloodsucker_clan/roundend_report()
 	if(members.len <= 0)
 		return
 	var/list/report = list()
@@ -232,11 +252,11 @@
 /datum/antagonist/bloodsucker/roundend_report()
 	// Get the default Objectives
 	var/list/report = list()
-	// Vamp name
+	// Bloodsucker name
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 	report += printplayer(owner)
 	// Clan (Actual Clan, not Team) name
-	if(my_clan != CLAN_NONE)
+	if(my_clan != NONE)
 		report += "They were part of the <b>[my_clan]</b>!"
 
 	// Default Report
@@ -265,7 +285,7 @@
 
 	return report
 
-/*
+/**
  *	# Assigning Sol
  *
  *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn.
@@ -273,13 +293,13 @@
  */
 
 /// Start Sol, called when someone is assigned Bloodsucker
-/datum/team/vampireclan/proc/check_start_sunlight()
+/datum/team/bloodsucker_clan/proc/check_start_sunlight()
 	if(members.len <= 1)
 		message_admins("New Sol has been created due to Bloodsucker assignment.")
 		bloodsucker_sunlight = new()
 
 /// End Sol, if you're the last Bloodsucker
-/datum/team/vampireclan/proc/check_cancel_sunlight()
+/datum/team/bloodsucker_clan/proc/check_cancel_sunlight()
 	// No minds in the clan? Delete Sol.
 	if(members.len <= 1)
 		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
@@ -289,6 +309,16 @@
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
+
+/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+		if(initial(power.name) == all_powers.name)
+			power = all_powers
+			break
+	if(power.active)
+		power.DeactivatePower()
+	powers -= power
+	power.Remove(owner.current)
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
@@ -306,8 +336,8 @@
 		user_species.punchdamagelow += 1 //lowest possible punch damage - 0
 		user_species.punchdamagehigh += 1 //highest possible punch damage - 9
 	/// Give Bloodsucker Traits
-	for(var/bloodsucker_traits in default_traits)
-		ADD_TRAIT(owner.current, bloodsucker_traits, BLOODSUCKER_TRAIT)
+	for(var/all_traits in bloodsucker_traits)
+		ADD_TRAIT(owner.current, all_traits, BLOODSUCKER_TRAIT)
 	/// Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
@@ -316,9 +346,9 @@
 		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
 	// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
-	owner.current.grant_language(/datum/language/vampiric)
+	owner.current.grant_language(/datum/language/bloodsucker)
 	/// Clear Disabilities & Organs
-	HealVampireOrgans()
+	heal_bloodsucker_organs()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	/// Remove huds
@@ -344,10 +374,9 @@
 	/// Update Health
 	owner.current.setMaxHealth(MAX_LIVING_HEALTH)
 	// Language
-	owner.current.remove_language(/datum/language/vampiric)
-//	owner.current.hellbound = FALSE
+	owner.current.remove_language(/datum/language/bloodsucker)
 	/// Heart
-	RemoveVampOrgans()
+	remove_bloodsucker_organs()
 	/// Eyes
 	var/mob/living/carbon/user = owner.current
 	var/obj/item/organ/eyes/user_eyes = user.getorganslot(ORGAN_SLOT_EYES)
@@ -379,116 +408,136 @@
 	bloodsucker_level_unspent--
 
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
 			continue
-		powers -= power
-		if(power.active)
-			power.DeactivatePower()
-		power.Remove(owner.current)
+		RemovePower(power)
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
+		if(istype(power, /datum/action/bloodsucker/targeted/tremere))
+			continue
 		power.level_current++
 
 ///Disables all powers, accounting for torpor
 /datum/antagonist/bloodsucker/proc/DisableAllPowers()
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		if((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			if(power.active)
 				power.DeactivatePower()
 
-/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, Spend_Rank = TRUE)
+#define PURCHASE_VASSAL "Vassal"
+#define PURCHASE_TREMERE "Tremere"
+#define PURCHASE_DEFAULT "Default"
+
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE)
 	set waitfor = FALSE
 
 	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(bloodsucker_level_unspent <= 0 || !owner || !owner.current || !owner.current.client)
+	if(!owner || !owner.current || !owner.current.client || bloodsucker_level_unspent <= 0)
 		return
+	//Who am I purchasing Powers for?
+	var/power_mode = PURCHASE_DEFAULT
+	var/upgrade_message = "You have the opportunity to grow more ancient. Select a power to advance your Rank."
+	if(target)
+		power_mode = PURCHASE_VASSAL
+		upgrade_message = "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve."
+	if(my_clan == CLAN_TREMERE)
+		power_mode = PURCHASE_TREMERE
+		upgrade_message = "You have the opportunity to grow more ancient. Select a power you wish to upgrade."
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/all_powers in subtypesof(/datum/action/bloodsucker))
-		var/datum/action/bloodsucker/power = all_powers
-		if(my_clan == CLAN_TREMERE)
-			if(LevelUpTremerePower(owner.current))
-				break // Did we buy a power? Break here.
-			else
-				return // Didnt buy one? Dont continue on, then.
+	switch(power_mode)
+		if(PURCHASE_DEFAULT)
+			for(var/datum/action/bloodsucker/power as anything in all_bloodsucker_powers)
+				if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in powers))
+					options[initial(power.name)] = power
+		if(PURCHASE_VASSAL)
+			for(var/datum/action/bloodsucker/power as anything in all_bloodsucker_powers)
+				if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
+					options[initial(power.name)] = power
+		if(PURCHASE_TREMERE)
+			for(var/datum/action/bloodsucker/targeted/tremere/power as anything in powers)
+				if(!(power.purchase_flags & TREMERE_CAN_BUY))
+					continue
+				if(isnull(power.upgraded_power))
+					continue
+				options[initial(power.name)] = power
 
-		// Check If I don't own it & I'm allowed to buy it.
-		if(target && (initial(power.purchase_flags) & VASSAL_CAN_BUY) && !(locate(power) in vassaldatum.powers))
-			options[initial(power.name)] = power
-		else if((initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY) && !(locate(power) in powers))
-			options[initial(power.name)] = power
-
-	if(options.len >= 1)
-		/// Give them the UI to purchase a power.
-		var/upgrade_message = target ? "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve." : "You have the opportunity to grow more ancient. Select a power to advance your Rank."
+	if(options.len < 1)
+		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
+	else
+		// Give them the UI to purchase a power.
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(bloodsucker_level_unspent <= 0 && !Spend_Rank)
+		if(bloodsucker_level_unspent <= 0 && spend_rank)
 			return
 		// Did you choose a power?
 		if(!choice || !options[choice])
 			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
-		if(target)
-			if((locate(options[choice]) in vassaldatum.powers))
-				to_chat(owner.current, span_notice("You prevent their blood from thickening just yet, but you may try again later."))
-				return
-		else
-			// Do we already have the Power - Added due to window stacking
-			if((locate(options[choice]) in powers))
+		if(power_mode != PURCHASE_TREMERE)
+			// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
+			if((locate(options[choice]) in (power_mode == PURCHASE_VASSAL ? vassaldatum.powers : powers)))
 				to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 				return
+		if(power_mode != PURCHASE_VASSAL)
 			// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
 			if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-				to_chat(owner.current, span_warning("Return to your coffin to advance your Rank."))
+				to_chat(owner.current, span_warning("You must be in your Coffin to purchase Powers."))
 				return
 
-		/// Good to go - Buy Power!
-		var/datum/action/bloodsucker/power = options[choice]
-		if(!target)
-			BuyPower(new power)
-			owner.current.balloon_alert(owner.current, "learned [initial(power.name)]!")
-			to_chat(owner.current, span_notice("You have learned how to use [initial(power.name)]!"))
-		else
-			vassaldatum.BuyPower(new power)
-			to_chat(owner.current, span_notice("You taught [target] how to use [initial(power.name)]!"))
-			to_chat(target, span_notice("Your master taught you how to use [initial(power.name)]!"))
-			owner.current.balloon_alert(owner.current, "taught [initial(power.name)]!")
-			target.balloon_alert(target, "learned [initial(power.name)]!")
-	// No more powers available to purchase? Start levelling up anyways.
-	else if(my_clan != CLAN_TREMERE)
-		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
+		// Good to go - Buy Power!
+		var/datum/action/bloodsucker/purchased_power = options[choice]
+		switch(power_mode)
+			if(PURCHASE_DEFAULT)
+				BuyPower(new purchased_power)
+				owner.current.balloon_alert(owner.current, "learned [choice]!")
+				to_chat(owner.current, span_notice("You have learned how to use [choice]!"))
+			if(PURCHASE_VASSAL)
+				vassaldatum.BuyPower(new purchased_power)
+				owner.current.balloon_alert(owner.current, "taught [choice]!")
+				to_chat(owner.current, span_notice("You taught [target] how to use [choice]!"))
+				target.balloon_alert(target, "learned [choice]!")
+				to_chat(target, span_notice("Your master taught you how to use [choice]!"))
+			if(PURCHASE_TREMERE)
+				var/datum/action/bloodsucker/targeted/tremere/tremere_power = purchased_power
+				if(isnull(tremere_power.upgraded_power))
+					owner.current.balloon_alert(owner.current, "cannot upgrade [choice]!")
+					to_chat(owner.current, span_notice("[choice] is already at max level!"))
+					return
+				BuyPower(new tremere_power.upgraded_power)
+				RemovePower(tremere_power)
+				owner.current.balloon_alert(owner.current, "upgraded [choice]!")
+				to_chat(owner.current, span_notice("You have upgraded [choice]!"))
 
-	/// Advance Powers - Includes the one you just purchased.
+	// Advance Powers - Includes the one you just purchased.
 	LevelUpPowers()
 	vassaldatum?.LevelUpPowers()
-	/// Bloodsucker-only Stat upgrades
+	// Bloodsucker-only Stat upgrades
 	bloodsucker_regen_rate += 0.05
 	max_blood_volume += 100
-	/// Misc. Stats Upgrades
+	// Misc. Stats Upgrades
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/user = owner.current
 		var/datum/species/user_species = user.dna.species
 		user_species.punchdamagelow += 0.5
-		/// This affects the hitting power of Brawn.
+		// This affects the hitting power of Brawn.
 		user_species.punchdamagehigh += 0.5
-	owner.current.setMaxHealth(owner.current.maxHealth + 5) // Why is this a thing...
 
-	/// We're almost done - Spend your Rank now.
+	// We're almost done - Spend your Rank now.
 	vassaldatum?.vassal_level++
 	bloodsucker_level++
-	if(Spend_Rank)
+	if(spend_rank)
 		bloodsucker_level_unspent--
 
-	/// Ranked up enough? Let them join a Clan.
+	// Ranked up enough? Let them join a Clan.
 	if(bloodsucker_level == 3)
 		AssignClanAndBane()
-	/// Alright, enough playing around, get your true Reputation.
+	// Ranked up enough to get your true Reputation?
 	if(bloodsucker_level == 4)
 		SelectReputation(am_fledgling = FALSE, forced = TRUE)
-	if(target)
+	if(power_mode == PURCHASE_VASSAL)
 		if(vassaldatum.vassal_level == 2)
 			ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
@@ -510,14 +559,19 @@
 		if(vassaldatum.vassal_level == 6)
 			to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead."))
 			target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
-			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
+			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madebloodsucker", /datum/mood_event/madebloodsucker)
 		if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
 			set_vassal_level(target)
-	/// Done! Let them know & Update their HUD.
+
+	// Done! Let them know & Update their HUD.
 	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!\n\
 	* Your existing powers have all ranked up as well!"))
 	update_hud(owner.current)
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
+
+#undef PURCHASE_VASSAL
+#undef PURCHASE_TREMERE
+#undef PURCHASE_DEFAULT
 
 ///Set the Vassal's rank to their Bloodsucker level
 /datum/antagonist/bloodsucker/proc/set_vassal_level(mob/living/carbon/human/target)
@@ -676,20 +730,20 @@
 	broke_masquerade = TRUE
 	antag_hud_name = "masquerade_broken"
 	add_team_hud(owner.current)
-	for(var/datum/mind/clan_minds in clan?.members)
-		var/datum/antagonist/bloodsucker/allsuckers = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(owner.current == allsuckers)
+	for(var/datum/mind/clan_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		if(owner == clan_minds)
 			continue
 		if(!isliving(clan_minds.current))
 			continue
 		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
-		if(allsuckers.my_clan != CLAN_MALKAVIAN)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
 			continue
 		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
 		masquerade_objective.target = owner.current
 		masquerade_objective.objective_name = "Clan Objective"
 		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, is Final Death'ed."
-		allsuckers.objectives += masquerade_objective
+		bloodsuckerdatum.objectives += masquerade_objective
 		clan_minds.announce_objectives()
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
@@ -708,14 +762,14 @@
 	. = ..()
 	blood_display = new /atom/movable/screen/bloodsucker/blood_counter
 	infodisplay += blood_display
-	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter
-	infodisplay += vamprank_display
+	bloodsucker_rank_display = new /atom/movable/screen/bloodsucker/rank_counter
+	infodisplay += bloodsucker_rank_display
 	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter
 	infodisplay += sunlight_display
 
 /datum/hud
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
-	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
+	var/atom/movable/screen/bloodsucker/rank_counter/bloodsucker_rank_display
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 /datum/antagonist/bloodsucker/proc/add_hud()
@@ -723,7 +777,7 @@
 
 /datum/antagonist/bloodsucker/proc/remove_hud()
 	owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
-	owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
+	owner.current.hud_used.bloodsucker_rank_display.invisibility = INVISIBILITY_ABSTRACT
 	owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
 
 /atom/movable/screen/bloodsucker
@@ -744,7 +798,7 @@
 /atom/movable/screen/bloodsucker/rank_counter
 	name = "Bloodsucker Rank"
 	icon_state = "rank"
-	screen_loc = ui_vamprank_display
+	screen_loc = ui_bloodsucker_rank_display
 
 /atom/movable/screen/bloodsucker/sunlight_counter
 	name = "Solar Flare Timer"
@@ -752,7 +806,7 @@
 	screen_loc = ui_sunlight_display
 
 /// Update Blood Counter + Rank Counter
-/datum/antagonist/bloodsucker/proc/update_hud(updateRank=FALSE)
+/datum/antagonist/bloodsucker/proc/update_hud(updateRank = FALSE)
 	if(!owner.current.hud_used)
 		return
 	var/valuecolor
@@ -762,11 +816,11 @@
 		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
 			valuecolor = "#FFAAAA"
 		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
-	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
-		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
+	if(owner.current.hud_used && owner.current.hud_used.bloodsucker_rank_display)
+		owner.current.hud_used.bloodsucker_rank_display.update_counter(bloodsucker_level, valuecolor)
 		/// Only change icon on special request.
 		if(updateRank)
-			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
+			owner.current.hud_used.bloodsucker_rank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
 
 /// Update Sun Time
 /datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)

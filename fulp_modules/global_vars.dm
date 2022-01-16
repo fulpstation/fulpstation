@@ -4,13 +4,13 @@
 
 /// This list is used in job_integration.dm to assign jobs their HUD Icons. When adding new jobs, add them to this list.
 GLOBAL_LIST_INIT(fulp_job_assignments, list(
-	"Brig Physician",
-	"Deputy",
-	"Supply Deputy",
-	"Engineering Deputy",
-	"Medical Deputy",
-	"Science Deputy",
-	"Service Deputy",
+	JOB_BRIG_PHYSICIAN,
+	JOB_DEPUTY,
+	JOB_DEPUTY_SUP,
+	JOB_DEPUTY_ENG,
+	JOB_DEPUTY_MED,
+	JOB_DEPUTY_SCI,
+	JOB_DEPUTY_SRV,
 ))
 
 // MENTORS //
@@ -34,14 +34,6 @@ GLOBAL_LIST_INIT(credits_music, list(
 // SPECIES BANS //
 
 GLOBAL_LIST_INIT(fulp_ban_list, list(
-	"Fulp Race Bans" = list(
-		SPECIES_FELINE,
-		SPECIES_MOTH,
-		SPECIES_ETHEREAL,
-		SPECIES_PLASMAMAN,
-		SPECIES_LIZARD,
-		SPECIES_BEEFMAN,
-	),
 	"Antagonist Positions" = list(
 		ROLE_BLOODSUCKER,
 		ROLE_MONSTERHUNTER,
@@ -69,12 +61,12 @@ GLOBAL_LIST_INIT(eyes_beefman, list(
 ))
 
 GLOBAL_LIST_INIT(mouths_beefman, list(
-	"Frown1",
-	"Frown2",
-	"Grit1",
-	"Grit2",
-	"Smile1",
-	"Smile2",
+	"Frown",
+	"Dissapointed",
+	"Grit",
+	"Gritting Smile",
+	"Smile",
+	"Smirk",
 ))
 
 GLOBAL_LIST_INIT(russian_names, list(
@@ -235,4 +227,11 @@ GLOBAL_LIST_INIT(beef_names, list(
 	"Sear",
 	"Broil",
 	"Fry",
+))
+
+GLOBAL_LIST_INIT(beefmen_traumas, list(
+	"Strangers" = /datum/brain_trauma/mild/phobia/strangers,
+	"Hallucinations" = /datum/brain_trauma/mild/hallucinations,
+	"Ocky Icky" = /datum/brain_trauma/mild/phobia/ocky_icky,
+	"Hypnotic Stupor" = /datum/brain_trauma/severe/hypnotic_stupor,
 ))

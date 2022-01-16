@@ -1,4 +1,4 @@
-/*
+/**
  *	# Dominate;
  *
  *	Level 1 - Mesmerizes target
@@ -13,15 +13,15 @@
 /datum/action/bloodsucker/targeted/tremere/dominate
 	name = "Level 1: Dominate"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/two
-	tremere_level = 1
+	level_current = 1
 	desc = "Mesmerize any foe who stands still long enough."
 	button_icon_state = "power_dominate"
 	power_explanation = "<b>Level 1: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
-	power_activates_immediately = FALSE
 	bloodcost = 15
+	constant_bloodcost = 2
 	cooldown = 50 SECONDS
 	target_range = 6
 	prefire_message = "Select a target."
@@ -29,7 +29,7 @@
 /datum/action/bloodsucker/targeted/tremere/dominate/two
 	name = "Level 2: Dominate"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/three
-	tremere_level = 2
+	level_current = 2
 	desc = "Mesmerize and mute any foe who stands still long enough."
 	power_explanation = "<b>Level 2: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
@@ -40,7 +40,7 @@
 /datum/action/bloodsucker/targeted/tremere/dominate/three
 	name = "Level 3: Dominate"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/advanced
-	tremere_level = 3
+	level_current = 3
 	desc = "Mesmerize, mute and blind any foe who stands still long enough."
 	power_explanation = "<b>Level 3: Dominate</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
@@ -48,21 +48,26 @@
 	bloodcost = 30
 	cooldown = 35 SECONDS
 
-/datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/target_atom, display_error)
+/datum/action/bloodsucker/targeted/tremere/dominate/CheckValidTarget(atom/target_atom)
+	. = ..()
+	if(!.)
+		return FALSE
+	return isliving(target_atom)
+
+/datum/action/bloodsucker/targeted/tremere/dominate/CheckCanTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	var/mob/living/selected_target = target_atom
 	if(!selected_target.mind)
-		if(display_error)
-			owner.balloon_alert(owner, "[selected_target] is mindless.")
+		owner.balloon_alert(owner, "[selected_target] is mindless.")
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced
 	name = "Level 4: Possession"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
-	tremere_level = 4
+	level_current = 4
 	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
 	power_explanation = "<b>Level 4: Possession</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
@@ -79,7 +84,7 @@
 /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
 	name = "Level 5: Possession"
 	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
-	tremere_level = 5
+	level_current = 5
 	upgraded_power = null
 	power_explanation = "<b>Level 5: Possession</b>:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
@@ -91,14 +96,13 @@
 	cooldown = 120 SECONDS // 2 minutes
 
 // The advanced version
-/datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/target_atom, display_error)
+/datum/action/bloodsucker/targeted/tremere/dominate/advanced/CheckCanTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	var/mob/living/selected_target = target_atom
 	if((IS_VASSAL(selected_target) || selected_target.stat >= SOFT_CRIT) && !owner.Adjacent(selected_target))
-		if(display_error)
-			owner.balloon_alert(owner, "out of range.")
+		owner.balloon_alert(owner, "out of range.")
 		return FALSE
 	return TRUE
 
@@ -106,7 +110,7 @@
 	. = ..()
 	var/mob/living/target = target_atom
 	var/mob/living/user = owner
-	if(target.stat >= SOFT_CRIT && user.Adjacent(target) && tremere_level >= 4)
+	if(target.stat >= SOFT_CRIT && user.Adjacent(target) && level_current >= 4)
 		attempt_vassalize(target, user)
 		return
 	else if(IS_VASSAL(target))
@@ -120,7 +124,7 @@
 		return
 
 	PowerActivatedSuccessfully()
-	var/power_time = 90 + tremere_level * 15
+	var/power_time = 90 + level_current * 15
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("You feel you something crawling under your skin, but it passes."))
 		return
@@ -130,9 +134,9 @@
 	if(iscarbon(target))
 		var/mob/living/carbon/mesmerized = target
 		owner.balloon_alert(owner, "successfully mesmerized [mesmerized].")
-		if(tremere_level >= 2)
+		if(level_current >= 2)
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		if(tremere_level >= 3)
+		if(level_current >= 3)
 			ADD_TRAIT(target, TRAIT_BLIND, BLOODSUCKER_TRAIT)
 		mesmerized.Immobilize(power_time)
 		mesmerized.next_move = world.time + power_time
@@ -171,11 +175,11 @@
 	target.mind.grab_ghost()
 	target.revive(full_heal = TRUE, admin_revive = TRUE)
 	var/living_time
-	if(tremere_level == 4)
+	if(level_current == 4)
 		living_time = 5 MINUTES
 		ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(target, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-	else if(tremere_level == 5)
+	else if(level_current == 5)
 		living_time = 8 MINUTES
 	addtimer(CALLBACK(src, .proc/end_possession, target), living_time)
 

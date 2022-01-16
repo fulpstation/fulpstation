@@ -1,4 +1,4 @@
-/*
+/**
  *	# Auspex
  *
  *	Level 1 - Cloak of Darkness until clicking an area, teleports the user to the selected area (max 2 tile)
@@ -13,7 +13,7 @@
 /datum/action/bloodsucker/targeted/tremere/auspex
 	name = "Level 1: Auspex"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/two
-	tremere_level = 1
+	level_current = 1
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport up to 2 tiles away."
 	button_icon_state = "power_auspex"
 	power_explanation = "<b>Level 1: Auspex</b>:\n\
@@ -21,6 +21,7 @@
 		Click any area up to 2 tile away to teleport there, ending the Power."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 5
+	constant_bloodcost = 2
 	cooldown = 12 SECONDS
 	target_range = 2
 	prefire_message = "Where do you wish to teleport to?"
@@ -28,7 +29,7 @@
 /datum/action/bloodsucker/targeted/tremere/auspex/two
 	name = "Level 2: Auspex"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/three
-	tremere_level = 2
+	level_current = 2
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport up to 3 tiles away."
 	power_explanation = "<b>Level 2: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
@@ -40,7 +41,7 @@
 /datum/action/bloodsucker/targeted/tremere/auspex/three
 	name = "Level 3: Auspex"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/advanced
-	tremere_level = 3
+	level_current = 3
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport."
 	power_explanation = "<b>Level 3: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
@@ -52,7 +53,7 @@
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced
 	name = "Level 4: Auspex"
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
-	tremere_level = 4
+	level_current = 4
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport, leaving nearby people bleeding."
 	power_explanation = "<b>Level 4: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
@@ -67,7 +68,7 @@
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
 	name = "Level 5: Auspex"
 	upgraded_power = null
-	tremere_level = 5
+	level_current = 5
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport, leaving nearby people bleeding and asleep."
 	power_explanation = "<b>Level 5: Auspex</b>:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
@@ -102,18 +103,19 @@
 	playsound(user, 'sound/magic/summon_karp.ogg', 60)
 	playsound(targeted_turf, 'sound/magic/summon_karp.ogg', 60)
 
-	new /obj/effect/particle_effect/smoke/vampsmoke(user.drop_location())
-	new /obj/effect/particle_effect/smoke/vampsmoke(targeted_turf)
+	new /obj/effect/particle_effect/smoke/bloodsucker_smoke(user.drop_location())
+	new /obj/effect/particle_effect/smoke/bloodsucker_smoke(targeted_turf)
 
 	for(var/mob/living/carbon/living_mob in range(1, targeted_turf)-user)
 		if(IS_BLOODSUCKER(living_mob) || IS_VASSAL(living_mob))
 			continue
-		if(tremere_level == 4)
+		if(level_current == 4)
 			var/obj/item/bodypart/bodypart = pick(living_mob.bodyparts)
 			var/datum/wound/slash/critical/crit_wound = new
 			crit_wound.apply_wound(bodypart)
 			living_mob.adjustFireLoss(20)
-		if(tremere_level == 5)
+		if(level_current == 5)
 			living_mob.SetUnconscious(10 SECONDS)
 
 	do_teleport(owner, targeted_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	PowerActivatedSuccessfully()

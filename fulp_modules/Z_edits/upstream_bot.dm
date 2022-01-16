@@ -3,32 +3,8 @@
  *
  */
 
-///MALFUNCTIONING - only shows up once per venue, very rare
 /datum/customer_data/malfunction
-	base_icon = "defect"
 	prefix_file = "fulp_modules/malfunction_bot/upstream_prefix.txt"
-	speech_sound = 'sound/effects/clang.ogg'
-	clothing_sets = list("defect_wires", "defect_bad_takes")
-	is_unique = TRUE
-	orderable_objects = list(
-		VENUE_RESTAURANT = list(
-			/obj/item/toy/crayon/red = 1,
-			/obj/item/toy/crayon/orange = 1,
-			/obj/item/toy/crayon/yellow = 1,
-			/obj/item/toy/crayon/green = 1,
-			/obj/item/toy/crayon/blue = 1,
-			/obj/item/toy/crayon/purple = 1,
-			/obj/item/food/canned/peaches/maint = 6,
-			/obj/item/food/tofu = 1,
-		),
-		VENUE_BAR = list(
-			/datum/reagent/consumable/ethanol/beer = 1,
-			/datum/reagent/consumable/failed_reaction = 1,
-			/datum/reagent/spraytan = 1,
-			/datum/reagent/reaction_agent/basic_buffer = 1,
-			/datum/reagent/reaction_agent/acidic_buffer = 1,
-		),
-	)
 
 	found_seat_lines = list(
 		"customer_pawn.say(pick(customer_data.found_seat_lines))",

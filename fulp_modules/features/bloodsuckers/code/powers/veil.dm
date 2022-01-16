@@ -27,19 +27,13 @@
 	var/prev_disfigured
 	var/list/prev_features // For lizards and such
 
-/datum/action/bloodsucker/veil/CheckCanUse(display_error)
-	. = ..()
-	if(!.)
-		return FALSE
-	return TRUE
-
 /datum/action/bloodsucker/veil/ActivatePower()
+	. = ..()
 	cast_effect() // POOF
 	//if(blahblahblah)
 	//	Disguise_Outfit()
 	Disguise_FaceName()
 	owner.balloon_alert(owner, "veil turned on.")
-	. = ..()
 
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
 	return
@@ -83,7 +77,6 @@
 
 	// Beefmen
 	proof_beefman_features(user.dna.features)
-	user.dna.species.set_beef_color(user)
 
 	// Apply Appearance
 	user.update_body() // Outfit and underware, also body.
@@ -130,16 +123,16 @@
 	// Effect
 	playsound(get_turf(owner), 'sound/magic/smoke.ogg', 20, 1)
 	var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread/()
-	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
+	puff.effect_type = /obj/effect/particle_effect/smoke/bloodsucker_smoke
 	puff.set_up(3, 0, get_turf(owner))
 	puff.attach(owner) //OPTIONAL
 	puff.start()
 	owner.spin(8, 1) //Spin around like a loon.
 
-/obj/effect/particle_effect/smoke/vampsmoke
+/obj/effect/particle_effect/smoke/bloodsucker_smoke
 	opaque = FALSE
 	amount = 0
 	lifetime = 0
 
-/obj/effect/particle_effect/smoke/vampsmoke/fade_out(frames = 6)
+/obj/effect/particle_effect/smoke/bloodsucker_smoke/fade_out(frames = 6)
 	..(frames)

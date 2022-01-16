@@ -20,7 +20,7 @@
 		- Your eyes turn to that of a regular human as your heart begins to beat.\n\
 		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
 		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
-		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
+		At the end of a Masquerade, you will re-gain your Bloodsucker abilities, as well as lose any Disease & Gene you might have."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	check_flags = BP_CANT_USE_IN_FRENZY|BP_AM_COSTLESS_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY
@@ -29,9 +29,10 @@
 	constant_bloodcost = 0.1
 
 /datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
+	. = ..()
 	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
-	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
+	to_chat(user, span_warning("Your healing is halted while imitating life."))
 
 	// Remove Bloodsucker traits
 	REMOVE_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
@@ -50,11 +51,10 @@
 	// Organs
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	eyes.flash_protect = initial(eyes.flash_protect)
-	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.FakeStart()
+	var/obj/item/organ/heart/bloodsucker_heart/wanted_heart = user.getorganslot(ORGAN_SLOT_HEART)
+	if(istype(wanted_heart))
+		wanted_heart.FakeStart()
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
-	. = ..()
 
 /datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
 	// Disable if unable to use power anymore.
@@ -81,9 +81,9 @@
 	user.dna.remove_all_mutations()
 	ADD_TRAIT(user, TRAIT_GENELESS, BLOODSUCKER_TRAIT)
 	// Organs
-	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.Stop()
+	var/obj/item/organ/heart/bloodsucker_heart/wanted_heart = user.getorganslot(ORGAN_SLOT_HEART)
+	if(istype(wanted_heart))
+		wanted_heart.Stop()
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
@@ -107,7 +107,7 @@
 
 /atom/movable/screen/alert/status_effect/masquerade
 	name = "Masquerade"
-	desc = "You are currently hiding your identity using the Masquerade power. This halts Vampiric healing."
+	desc = "You are currently hiding your identity using the Masquerade power. This halts your healing."
 	icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	icon_state = "power_human"
 	alerttooltipstyle = "cult"

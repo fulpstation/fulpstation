@@ -3345,15 +3345,6 @@
 	},
 /turf/open/floor/iron,
 /area/security/office)
-"aje" = (
-/obj/machinery/rnd/production/techfab/department/security,
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	name = "security red"
-	},
-/obj/structure/reagent_dispensers/peppertank/directional/south,
-/turf/open/floor/iron,
-/area/security/office)
 "ajf" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/siding/red{
@@ -5590,17 +5581,6 @@
 	},
 /turf/open/floor/vault,
 /area/command/bridge)
-"anp" = (
-/obj/effect/landmark/secequipment,
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 4;
-	name = "security red"
-	},
-/obj/effect/turf_decal/bot_red,
-/obj/structure/reagent_dispensers/peppertank/directional/east,
-/turf/open/floor/iron/showroomfloor,
-/area/security/brig/upper)
 "anq" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
@@ -10282,9 +10262,6 @@
 	},
 /turf/open/floor/wood,
 /area/command/bridge)
-"axB" = (
-/turf/open/space/basic,
-/area/maintenance/starboard/fore)
 "axC" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/loading_area{
@@ -16504,15 +16481,6 @@
 /obj/structure/closet/l3closet/virology,
 /turf/open/floor/iron/dark,
 /area/medical/virology)
-"aLA" = (
-/obj/structure/table/glass,
-/obj/item/clothing/glasses/science,
-/obj/item/clothing/gloves/color/latex,
-/obj/item/clothing/mask/surgical,
-/obj/item/storage/firstaid/regular,
-/obj/structure/reagent_dispensers/virusfood/directional/south,
-/turf/open/floor/iron/dark,
-/area/medical/virology)
 "aLB" = (
 /obj/structure/table/glass,
 /obj/item/storage/box/beakers,
@@ -20854,7 +20822,7 @@
 "aVw" = (
 /obj/effect/turf_decal/siding/wood,
 /obj/machinery/button/door/directional/south{
-	id = "law";
+	id = "law2";
 	name = "Blue Law Office Privacy";
 	req_access_txt = "38"
 	},
@@ -27787,21 +27755,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/commons/toilet)
-"bne" = (
-/obj/structure/closet/secure_closet/security/med,
-/obj/machinery/camera/directional/north{
-	c_tag = "Security Post - Medbay";
-	name = "Security Post Camera";
-	network = list("ss13","medbay")
-	},
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 9;
-	name = "security red"
-	},
-/obj/structure/reagent_dispensers/peppertank/directional/west,
-/turf/open/floor/iron,
-/area/security/checkpoint/medical)
 "bnf" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -38136,6 +38089,10 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/genetics)
+"bNi" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron,
+/area/maintenance/disposal/incinerator)
 "bNk" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -39209,17 +39166,6 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron,
 /area/hallway/primary/aft)
-"bPZ" = (
-/obj/structure/filingcabinet,
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 10;
-	name = "security red"
-	},
-/obj/machinery/light/directional/south,
-/obj/structure/reagent_dispensers/peppertank/directional/south,
-/turf/open/floor/iron,
-/area/security/checkpoint/science/research)
 "bQa" = (
 /obj/structure/closet/secure_closet/security/science,
 /obj/effect/turf_decal/siding/red{
@@ -40153,6 +40099,17 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"bSn" = (
+/obj/effect/landmark/secequipment,
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	dir = 4;
+	name = "security red"
+	},
+/obj/effect/turf_decal/bot_red,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
+/turf/open/floor/iron/showroomfloor,
+/area/security/brig/upper)
 "bSo" = (
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
@@ -42544,7 +42501,7 @@
 /obj/machinery/power/apc{
 	areastring = "/area/science/mixing/chamber";
 	dir = 1;
-	name = "Toxins Chamber APC";
+	name = "Ordnance Chamber APC";
 	pixel_y = 24
 	},
 /obj/structure/cable,
@@ -42587,7 +42544,7 @@
 /obj/machinery/power/apc{
 	areastring = "/area/science/mixing";
 	dir = 8;
-	name = "Toxins Lab APC";
+	name = "Ordnance Lab APC";
 	pixel_x = -25;
 	pixel_y = 3
 	},
@@ -43499,6 +43456,12 @@
 /obj/item/paper_bin,
 /obj/item/pen,
 /obj/machinery/light/directional/east,
+/obj/machinery/requests_console/directional/east{
+	announcementConsole = 1;
+	department = "Telecomms Admin";
+	departmentType = 5;
+	name = "Telecomms Requests Console"
+	},
 /turf/open/floor/iron/dark,
 /area/tcommsat/computer)
 "cag" = (
@@ -43856,16 +43819,6 @@
 /obj/item/toy/plush/lizard_plushie,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
-"cbe" = (
-/obj/structure/disposalpipe/segment,
-/obj/machinery/vending/cigarette,
-/obj/effect/turf_decal/siding/yellow{
-	color = "#FFD700";
-	dir = 4;
-	name = "engineering yellow"
-	},
-/turf/open/floor/iron,
-/area/engineering/lobby)
 "cbf" = (
 /obj/effect/turf_decal/siding/brown{
 	dir = 10
@@ -44192,7 +44145,7 @@
 "cbK" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "Toxins Lab NE";
-	name = "Toxins Mixing Camera";
+	name = "Ordnance Mixing Camera";
 	network = list("ss13","rd")
 	},
 /obj/effect/turf_decal/siding/purple{
@@ -44336,7 +44289,7 @@
 	},
 /obj/machinery/button/door/directional/east{
 	id = "toxinsrd";
-	name = "Toxins Shield Button";
+	name = "Ordnance Shield Button";
 	pixel_x = 37;
 	pixel_y = -5;
 	req_access_txt = "30"
@@ -44709,7 +44662,7 @@
 /area/science/mixing)
 "ccY" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Lab";
+	name = "Ordnance Lab";
 	req_access_txt = "7"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -44752,7 +44705,7 @@
 /area/science/mixing)
 "cdc" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Launch Room";
+	name = "Ordnance Launch Room";
 	req_access_txt = "7"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -45532,7 +45485,7 @@
 /area/maintenance/starboard)
 "ceE" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Lab";
+	name = "Ordnance Lab";
 	req_access_txt = "7"
 	},
 /obj/structure/disposalpipe/segment{
@@ -45658,7 +45611,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Toxins Launch";
-	name = "Toxins Launch Camera";
+	name = "Ordnance Launch Camera";
 	network = list("ss13","rd")
 	},
 /obj/effect/turf_decal/siding/purple{
@@ -46001,7 +45954,7 @@
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/machinery/camera/directional/west{
 	c_tag = "Toxins Storage";
-	name = "Toxins Storage Camera";
+	name = "Ordnance Storage Camera";
 	network = list("ss13","rd")
 	},
 /obj/effect/turf_decal/siding/purple{
@@ -46085,7 +46038,7 @@
 /obj/machinery/power/apc{
 	areastring = "/area/science/storage";
 	dir = 4;
-	name = "Toxins Storage APC";
+	name = "ORdnance Storage APC";
 	pixel_x = 24
 	},
 /obj/structure/cable,
@@ -46099,7 +46052,7 @@
 /area/maintenance/starboard)
 "cfX" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Lab";
+	name = "Ordnance Lab";
 	req_access_txt = "7"
 	},
 /obj/effect/turf_decal/tile/purple{
@@ -46504,19 +46457,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/maintenance/department/cargo)
-"cgR" = (
-/obj/structure/disposalpipe/segment,
-/obj/machinery/vending/wardrobe/engi_wardrobe,
-/obj/structure/sign/poster/official/random{
-	pixel_x = 30
-	},
-/obj/effect/turf_decal/siding/yellow{
-	color = "#FFD700";
-	dir = 4;
-	name = "engineering yellow"
-	},
-/turf/open/floor/iron,
-/area/engineering/lobby)
 "cgS" = (
 /obj/structure/table,
 /obj/item/stack/sticky_tape,
@@ -46631,7 +46571,7 @@
 "chh" = (
 /obj/machinery/camera/directional/west{
 	c_tag = "Toxins Lab SW";
-	name = "Toxins Lab Camera";
+	name = "Ordnance Lab Camera";
 	network = list("ss13","rd")
 	},
 /obj/effect/turf_decal/siding/purple{
@@ -46855,7 +46795,7 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/requests_console/directional/west{
 	department = "Toxins Lab";
-	name = "Toxins RC";
+	name = "Ordnance RC";
 	receive_ore_updates = 1
 	},
 /turf/open/floor/iron/white,
@@ -47637,13 +47577,6 @@
 	},
 /turf/open/floor/iron,
 /area/tcommsat/computer)
-"cjD" = (
-/obj/structure/lattice,
-/obj/structure/sign/warning/electricshock{
-	pixel_y = -30
-	},
-/turf/open/space/basic,
-/area/space/nearstation)
 "cjE" = (
 /obj/structure/rack,
 /obj/item/stock_parts/subspace/transmitter,
@@ -47731,12 +47664,6 @@
 	color = "#FFD700";
 	dir = 6;
 	name = "engineering yellow"
-	},
-/obj/machinery/requests_console/directional/east{
-	announcementConsole = 1;
-	department = "Telecomms Admin";
-	departmentType = 5;
-	name = "Telecomms RC"
 	},
 /turf/open/floor/iron,
 /area/tcommsat/computer)
@@ -47877,22 +47804,10 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron,
 /area/cargo/warehouse)
-"ckd" = (
-/obj/structure/table,
-/obj/item/paper_bin,
-/obj/item/pen,
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 4;
-	name = "security red"
-	},
-/obj/structure/reagent_dispensers/peppertank/directional/east,
-/turf/open/floor/iron,
-/area/security/checkpoint/supply)
 "cke" = (
 /obj/machinery/door/poddoor{
 	id = "toxinsstorage";
-	name = "Toxins Secure Storage"
+	name = "Ordnance Secure Storage"
 	},
 /obj/effect/turf_decal/tile/purple{
 	color = "#990099";
@@ -47909,7 +47824,7 @@
 "ckf" = (
 /obj/machinery/door/poddoor{
 	id = "toxinsstorage";
-	name = "Toxins Secure Storage"
+	name = "Ordnance Secure Storage"
 	},
 /obj/effect/turf_decal/tile/purple{
 	color = "#990099";
@@ -47926,7 +47841,7 @@
 "ckg" = (
 /obj/machinery/door/poddoor{
 	id = "toxinsstorage";
-	name = "Toxins Secure Storage"
+	name = "Ordnance Secure Storage"
 	},
 /obj/effect/turf_decal/tile/purple{
 	color = "#990099";
@@ -47941,7 +47856,7 @@
 /area/science/storage)
 "ckh" = (
 /obj/machinery/door/airlock/research{
-	name = "Toxins Storage";
+	name = "Ordnance Storage";
 	req_access_txt = "8"
 	},
 /obj/effect/turf_decal/tile/purple{
@@ -50893,10 +50808,7 @@
 	dir = 5
 	},
 /obj/machinery/light/directional/east,
-/obj/effect/spawner/random/maintenance,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
+/obj/machinery/computer/cargo/request,
 /turf/open/floor/iron,
 /area/cargo/office)
 "cqs" = (
@@ -53053,23 +52965,6 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/office)
-"cvw" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 9
-	},
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 4;
-	name = "security red"
-	},
-/obj/effect/landmark/start/depsec/engineering,
-/obj/machinery/light/directional/east,
-/obj/structure/reagent_dispensers/peppertank/directional/east,
-/turf/open/floor/iron,
-/area/security/checkpoint/engineering)
 "cvx" = (
 /obj/effect/turf_decal/loading_area{
 	dir = 4
@@ -54588,7 +54483,7 @@
 	name = "engineering yellow"
 	},
 /turf/open/floor/iron,
-/area/engineering/transit_tube)
+/area/maintenance/disposal/incinerator)
 "cza" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/transit_tube,
@@ -55692,17 +55587,13 @@
 	dir = 8;
 	name = "engineering yellow"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cBD" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/open/floor/iron,
-/area/maintenance/disposal/incinerator)
-"cBE" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cBF" = (
@@ -56261,7 +56152,6 @@
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cCU" = (
-/obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -56291,6 +56181,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cCX" = (
@@ -56759,23 +56650,20 @@
 /area/maintenance/disposal/incinerator)
 "cEk" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 8;
 	name = "engineering yellow"
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cEl" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4;
-	name = "atmospherics mix pump"
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
@@ -56784,11 +56672,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/brown/visible{
 	dir = 10
 	},
-/turf/open/floor/iron,
-/area/maintenance/disposal/incinerator)
-"cEn" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cEo" = (
@@ -56870,9 +56753,7 @@
 /area/service/hydroponics/garden)
 "cEy" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold/supply/visible{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
 "cEz" = (
@@ -56954,11 +56835,8 @@
 	dir = 4;
 	name = "engineering yellow"
 	},
-/obj/machinery/power/apc{
-	areastring = "/area/engineering/atmos/upper";
-	dir = 4;
-	name = "Atmospherics Upper APC";
-	pixel_x = 25
+/obj/machinery/atmospherics/components/binary/thermomachine/heater{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
@@ -57191,30 +57069,22 @@
 /area/maintenance/disposal/incinerator)
 "cFr" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 8;
 	name = "engineering yellow"
 	},
+/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cFs" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 4;
-	name = "Port Out"
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/open/floor/iron,
-/area/maintenance/disposal/incinerator)
-"cFt" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/manifold/brown/visible{
-	dir = 4
+	name = "atmospherics mix pump"
 	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
@@ -57224,6 +57094,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/orange/visible{
 	dir = 6
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cFv" = (
@@ -57449,6 +57320,7 @@
 	departmentType = 4;
 	name = "Atmos RC"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
 "cFT" = (
@@ -57671,18 +57543,27 @@
 	dir = 8;
 	name = "engineering yellow"
 	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cGz" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "Port Out"
+	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cGA" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/simple/brown/visible,
+/obj/machinery/atmospherics/pipe/smart/manifold/brown/visible{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cGB" = (
@@ -57920,12 +57801,12 @@
 /turf/open/floor/engine,
 /area/engineering/main)
 "cHb" = (
-/obj/machinery/portable_atmospherics/canister,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 4;
 	name = "engineering yellow"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
 "cHc" = (
@@ -59180,6 +59061,7 @@
 	name = "engineering yellow"
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/portable_atmospherics/canister,
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
 "cJp" = (
@@ -59287,6 +59169,13 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/light/directional/east,
+/obj/machinery/power/apc{
+	areastring = "/area/engineering/atmos/upper";
+	dir = 4;
+	name = "Atmospherics Upper APC";
+	pixel_x = 25
+	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
 "cJC" = (
@@ -60590,12 +60479,6 @@
 /obj/structure/cable,
 /turf/open/floor/engine/vacuum,
 /area/maintenance/disposal/incinerator)
-"cMU" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/maintenance/disposal/incinerator)
 "cMV" = (
 /obj/structure/sign/warning/fire,
 /turf/closed/wall/r_wall,
@@ -61214,7 +61097,7 @@
 /area/engineering/main)
 "cOr" = (
 /obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/components/unary/passive_vent{
+/obj/machinery/atmospherics/components/unary/passive_vent/layer2{
 	dir = 1
 	},
 /turf/open/space/basic,
@@ -64421,7 +64304,7 @@
 "cXc" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Toxins Hallway";
-	name = "Toxins Lab Camera";
+	name = "Ordnance Lab Camera";
 	network = list("ss13","rd")
 	},
 /obj/structure/closet/emcloset,
@@ -64528,7 +64411,7 @@
 	},
 /obj/machinery/button/door/directional/south{
 	id = "toxinsstorage";
-	name = "Toxins Secure Storage Blast Door";
+	name = "Ordnance Secure Storage Blast Door";
 	req_access_txt = "30"
 	},
 /turf/open/floor/iron/dark,
@@ -64693,7 +64576,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
 	id = "toxinsrd";
-	name = "Toxins Shield RD Office"
+	name = "Ordnance Shield RD Office"
 	},
 /turf/open/floor/plating,
 /area/command/heads_quarters/rd)
@@ -65192,6 +65075,12 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron,
 /area/commons/fitness/recreation)
+"dGZ" = (
+/obj/machinery/atmospherics/components/unary/passive_vent{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "dHf" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -65451,6 +65340,19 @@
 /obj/item/toy/plush/pico,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
+"eos" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/vending/cigarette,
+/obj/effect/turf_decal/siding/yellow{
+	color = "#FFD700";
+	dir = 4;
+	name = "engineering yellow"
+	},
+/obj/structure/sign/poster/official/random{
+	pixel_x = 30
+	},
+/turf/open/floor/iron,
+/area/engineering/lobby)
 "eov" = (
 /obj/machinery/shower{
 	dir = 4
@@ -65824,6 +65726,12 @@
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/rec)
+"fak" = (
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/closed/wall/r_wall,
+/area/maintenance/disposal/incinerator)
 "faA" = (
 /obj/effect/turf_decal/siding/red{
 	color = "#FF0000";
@@ -67195,6 +67103,19 @@
 /obj/machinery/exodrone_launcher,
 /turf/open/floor/plating,
 /area/cargo/warehouse)
+"hHJ" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/vending/wardrobe/engi_wardrobe,
+/obj/effect/turf_decal/siding/yellow{
+	color = "#FFD700";
+	dir = 4;
+	name = "engineering yellow"
+	},
+/obj/structure/sign/warning/electricshock{
+	pixel_x = 30
+	},
+/turf/open/floor/iron,
+/area/engineering/lobby)
 "hID" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
@@ -67359,6 +67280,21 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/storage/tech)
+"iaG" = (
+/obj/structure/closet/secure_closet/security/med,
+/obj/machinery/camera/directional/north{
+	c_tag = "Security Post - Medbay";
+	name = "Security Post Camera";
+	network = list("ss13","medbay")
+	},
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	dir = 9;
+	name = "security red"
+	},
+/obj/structure/reagent_dispensers/wall/peppertank/directional/west,
+/turf/open/floor/iron,
+/area/security/checkpoint/medical)
 "ibG" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -67600,6 +67536,17 @@
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"iAW" = (
+/obj/structure/filingcabinet,
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	dir = 10;
+	name = "security red"
+	},
+/obj/machinery/light/directional/south,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/south,
+/turf/open/floor/iron,
+/area/security/checkpoint/science/research)
 "iBu" = (
 /obj/effect/turf_decal/siding/brown{
 	dir = 4
@@ -71898,6 +71845,15 @@
 /obj/effect/turf_decal/bot/left,
 /turf/open/floor/iron,
 /area/engineering/atmos)
+"qRq" = (
+/obj/machinery/rnd/production/techfab/department/security,
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	name = "security red"
+	},
+/obj/structure/reagent_dispensers/wall/peppertank/directional/south,
+/turf/open/floor/iron,
+/area/security/office)
 "qRX" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
@@ -72192,6 +72148,15 @@
 	},
 /turf/open/floor/vault,
 /area/command/bridge)
+"rtd" = (
+/obj/structure/table/glass,
+/obj/item/clothing/glasses/science,
+/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/mask/surgical,
+/obj/item/storage/firstaid/regular,
+/obj/structure/reagent_dispensers/wall/virusfood/directional/south,
+/turf/open/floor/iron/dark,
+/area/medical/virology)
 "rtE" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -74925,6 +74890,18 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/port)
+"wQM" = (
+/obj/structure/table,
+/obj/item/paper_bin,
+/obj/item/pen,
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	dir = 4;
+	name = "security red"
+	},
+/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
+/turf/open/floor/iron,
+/area/security/checkpoint/supply)
 "wRt" = (
 /obj/structure/bed,
 /obj/item/clothing/suit/straight_jacket,
@@ -74983,6 +74960,23 @@
 	},
 /turf/open/floor/iron,
 /area/security/prison)
+"wYv" = (
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 9
+	},
+/obj/effect/turf_decal/siding/red{
+	color = "#FF0000";
+	dir = 4;
+	name = "security red"
+	},
+/obj/effect/landmark/start/depsec/engineering,
+/obj/machinery/light/directional/east,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
+/turf/open/floor/iron,
+/area/security/checkpoint/engineering)
 "wYI" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/structure/cable,
@@ -103494,11 +103488,11 @@ bWg
 bXK
 bYW
 cpg
-cbe
+eos
 ccq
 cdW
 cfK
-cgR
+hHJ
 chX
 cjQ
 ckx
@@ -103665,7 +103659,7 @@ mFs
 jtA
 alA
 amw
-anp
+bSn
 anU
 aoq
 aoS
@@ -104777,7 +104771,7 @@ bMj
 bxJ
 bWj
 bOQ
-bYN
+aak
 bZZ
 odO
 cch
@@ -104785,7 +104779,7 @@ cdL
 cch
 vxS
 bZZ
-cjD
+aak
 bXs
 clU
 cmU
@@ -105458,7 +105452,7 @@ agG
 aht
 ahT
 ady
-aje
+qRq
 acc
 ajP
 akP
@@ -106601,8 +106595,8 @@ cAn
 mmv
 cBB
 cCS
+fak
 cEj
-cFq
 cFq
 cHO
 cxT
@@ -106868,7 +106862,7 @@ cKm
 cKm
 cKm
 cKm
-cMU
+dGZ
 bZD
 aak
 aak
@@ -107108,7 +107102,7 @@ jjw
 sxx
 gth
 cuC
-cvw
+wYv
 cwN
 cxS
 cyW
@@ -107370,10 +107364,10 @@ csI
 cxT
 czm
 cXO
-cBE
+bNi
 cCV
+bNi
 cEm
-cFt
 cGA
 cHR
 cIO
@@ -107629,7 +107623,7 @@ czn
 cAr
 cBF
 cCW
-cEn
+cBF
 cFu
 cGB
 cHS
@@ -107881,7 +107875,7 @@ cqv
 cug
 aak
 cXT
-cug
+cxT
 cyZ
 cAD
 cBY
@@ -108138,8 +108132,8 @@ bJe
 cug
 cug
 cug
-cug
-cug
+cxT
+cxT
 cxT
 cxT
 cKK
@@ -110182,7 +110176,7 @@ cea
 cfy
 ccB
 cil
-ckd
+wQM
 ckS
 cmr
 cnO
@@ -111676,9 +111670,9 @@ aUA
 aQu
 aWF
 aYK
-axB
-axB
-axB
+aaa
+aaa
+aaa
 bcj
 bdf
 aZO
@@ -118369,7 +118363,7 @@ beO
 cMH
 blL
 blP
-bne
+iaG
 boA
 bpS
 brr
@@ -123788,7 +123782,7 @@ bJJ
 bLd
 bMO
 vDN
-bPZ
+iAW
 bIp
 bSX
 bUn
@@ -124769,7 +124763,7 @@ dqW
 aJa
 aJN
 aKH
-aLA
+rtd
 aEe
 xgN
 eMf

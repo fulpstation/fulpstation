@@ -42,83 +42,72 @@
 	var/warning_target_bloodvol = 99999
 	var/was_alive = FALSE
 
-/datum/action/bloodsucker/feed/CheckCanUse(display_error)
+/datum/action/bloodsucker/feed/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
-		return
+		return FALSE
+
 	// Wearing mask
-	var/mob/living/user = owner
 	if(user.is_mouth_covered())
-		if(display_error)
-			owner.balloon_alert(owner, "your mouth is covered!")
+		owner.balloon_alert(owner, "your mouth is covered!")
 		return FALSE
 	// Find my Target!
-	if(!FindMyTarget(display_error)) // Sets feed_target within after Validating
+	if(!find_target())
 		return FALSE
-		// Not in correct state
 	// DONE!
 	return TRUE
 
 /// Called twice: validating a subtle victim, or validating your grapple victim.
-/datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target, display_error)
+/datum/action/bloodsucker/feed/proc/ValidateTarget(mob/living/target)
 	// Must have Target.
 	if(!target)//|| !ismob(target)
-		if(display_error)
-			to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
+		to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
 		return FALSE
 	// Not even living!
 	if(!isliving(target) || issilicon(target))
-		if(display_error)
-			to_chat(owner, span_warning("You may only feed from living beings."))
+		to_chat(owner, span_warning("You may only feed from living beings."))
 		return FALSE
 	// Is a Mouse on an Invalid Clan.
 	if(istype(target, /mob/living/simple_animal/mouse))
 		if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE)
-			if(display_error)
-				to_chat(owner, span_warning("The thought of feeding off of a dirty rat leaves your stomach aching."))
+			to_chat(owner, span_warning("The thought of feeding off of a dirty rat leaves your stomach aching."))
 			return FALSE
 	// Check for other animals (Supposed to be after Mouse so Mouse can skip over it)
 	else if(!iscarbon(target))
-		if(display_error)
-			to_chat(owner, span_warning("Such simple beings cannot be fed off of."))
+		to_chat(owner, span_warning("Such simple beings cannot be fed off of."))
 		return FALSE
 	// Has no blood to take!
 	else if(target.blood_volume <= 0)
-		if(display_error)
-			to_chat(owner, span_warning("Your victim has no blood to take."))
+		to_chat(owner, span_warning("Your victim has no blood to take."))
 		return FALSE
 	// Bloodsuckers can be fed off of if they are grabbed more than Passively.
 	if(IS_BLOODSUCKER(target) && target == owner.pulling && owner.grab_state <= GRAB_PASSIVE)
-		if(display_error)
-			to_chat(owner, span_warning("Other Bloodsuckers will not fall for your subtle approach."))
+		to_chat(owner, span_warning("Other Bloodsuckers will not fall for your subtle approach."))
 		return FALSE
 	if(ishuman(target))
 		var/mob/living/carbon/human/target_user = target
 		if(!target_user.can_inject(owner, BODY_ZONE_HEAD, INJECT_CHECK_PENETRATE_THICK) && target == owner.pulling && owner.grab_state < GRAB_AGGRESSIVE)
-			if(display_error)
-				to_chat(owner, span_warning("Their suit is too thick to feed through."))
+			to_chat(owner, span_warning("Their suit is too thick to feed through."))
 			return FALSE
 		if(NOBLOOD in target_user.dna.species.species_traits)// || owner.get_blood_id() != target.get_blood_id())
-			if(display_error)
-				to_chat(owner, span_warning("Your victim's blood is not suitable for you to take."))
+			to_chat(owner, span_warning("Your victim's blood is not suitable for you to take."))
 			return FALSE
 	// Special Check: If you're part of the Ventrue clan, they can't be mindless!
 	if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE && !bloodsuckerdatum_power.frenzied)
 		if(!target.mind)
-			if(display_error)
-				to_chat(owner, span_warning("The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth."))
+			to_chat(owner, span_warning("The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth."))
 			return FALSE
 	return TRUE
 
 /// If I'm not grabbing someone, find me someone nearby.
-/datum/action/bloodsucker/feed/proc/FindMyTarget(display_error)
+/datum/action/bloodsucker/feed/proc/find_target()
 	// Default
 	feed_target = null
 	target_grappled = FALSE
 	// If you are pulling a mob, that's your target. If you don't like it, then release them.
 	if(owner.pulling && ismob(owner.pulling))
 		// Check grapple target Valid
-		if(!ValidateTarget(owner.pulling, display_error)) // Grabbed targets display error.
+		if(!ValidateTarget(owner.pulling)) // Grabbed targets display error.
 			return FALSE
 		target_grappled = TRUE
 		feed_target = owner.pulling
@@ -131,15 +120,14 @@
 			seen_mobs += watchers
 	// None Seen!
 	if(seen_mobs.len == 0)
-		if(display_error)
-			to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
+		to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
 		return FALSE
 	// Check Valids...
 	var/list/targets_valid = list()
 	var/list/targets_dead = list()
 	for(var/mob/living/watchers in seen_mobs)
 		// Check adjecent Valid target
-		if(watchers != owner && ValidateTarget(watchers, display_error = FALSE)) // Do NOT display errors. We'll be doing this again in CheckCanUse(), which will rule out grabbed targets.
+		if(watchers != owner && ValidateTarget(watchers)) // Do NOT display errors. We'll be doing this again in CheckCanUse(), which will rule out grabbed targets.
 			// Prioritize living, but remember dead as backup
 			if(watchers.stat < DEAD)
 				targets_valid += watchers
@@ -152,23 +140,16 @@
 	if(targets_valid.len == 0)
 		// Did I see targets? Then display at least one error
 		if(seen_mobs.len > 1)
-			if (display_error)
-				to_chat(owner, span_warning("None of these are valid targets to feed from subtly."))
+			to_chat(owner, span_warning("None of these are valid targets to feed from subtly."))
 		else
-			ValidateTarget(seen_mobs[1], display_error)
+			ValidateTarget(seen_mobs[1])
 		return FALSE
-	// BLOODSUCKER_TRAIT - Too many targets!
-//	else if(targets.len > 1)
-//		if(display_error)
-//			to_chat(owner, span_warning("You are adjecent to too many witnesses. Either grab your victim or move away."))
-//	return FALSE
-	//One Target!
 	else
 		feed_target = pick(targets_valid)//targets[1]
 		return TRUE
 
 /datum/action/bloodsucker/feed/ActivatePower(mob/living/user = owner)
-//	set waitfor = FALSE   <---- DONT DO THIS! We WANT this power to hold up Activate(), so Deactivate() can happen after.
+	. = ..()
 	// Checks: Step 1 - Am I SECRET or LOUD?
 	if(!bloodsuckerdatum_power.frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
@@ -249,14 +230,13 @@
 		feeds_noticed++
 		owner.balloon_alert(owner, "someone may have noticed...")
 		if(!bloodsuckerdatum_power.broke_masquerade)
-			to_chat(user, span_cultbold("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Vampiric Cause!"))
+			to_chat(user, span_cultbold("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Bloodsucker's Cause!"))
 	else
 		owner.balloon_alert(owner, "you think no one saw you...")
 
 	// FEEEEEEEEED!! //
 	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // Prevents spilling blood accidentally.
-	. = ..()
 
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
 //	. = ..() // We have a target to keep track of during ContinueActive, so we don't use parent
@@ -361,7 +341,7 @@
 	if(!target_grappled || user.pulling) // Active, and still antag
 		return TRUE
 
-/// Bloodsuckers not affected by "the Kiss" of another vampire
+/// Bloodsuckers not affected by "the Kiss" of another bloodsucker
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
 	if(!IS_BLOODSUCKER(target))
 		target.Unconscious(50,0)
