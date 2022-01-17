@@ -71,7 +71,7 @@
  */
 
 //This is when we CLICK on the ability Icon, not USING.
-/datum/action/bloodsucker/Trigger()
+/datum/action/bloodsucker/Trigger(trigger_flags)
 	if(active && CheckCanDeactivate()) // Active? DEACTIVATE AND END!
 		DeactivatePower()
 		return FALSE

@@ -60,7 +60,7 @@
 	button_icon_state = "receding_stance"
 	var/stancing = FALSE
 
-/datum/action/receding_stance/Trigger(mob/living/user = owner)
+/datum/action/receding_stance/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
@@ -78,7 +78,7 @@
 			span_userdanger("You focus on your stance. Stamina..."),
 		)
 		owner.mind.martial_art.streak = RECEDING_STANCE
-		user.adjustStaminaLoss(-40)
+		owner.adjustStaminaLoss(-40)
 		stancing = FALSE
 	else
 		owner.visible_message(span_danger("[owner] stops moving back.</i></b>"))
@@ -91,7 +91,7 @@
 	icon_icon = 'fulp_modules/features/lisa/icons/stances.dmi'
 	button_icon_state = "twisted_stance"
 
-/datum/action/twisted_stance/Trigger(mob/living/user = owner)
+/datum/action/twisted_stance/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
@@ -100,16 +100,16 @@
 			span_danger("[owner] suddenly twists themselves even further!"),
 			span_userdanger("You twist yourself even further!"),
 		)
-		user.adjustStaminaLoss(-40)
-		user.apply_damage(8, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
+		owner.adjustStaminaLoss(-40)
+		owner.apply_damage(8, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 		return
 	owner.visible_message(
 		span_danger("[owner] suddenly twists and turns, what a strange stance!"),
 		span_userdanger("You twist and turn, your twisted stance is done!"),
 	)
 	owner.mind.martial_art.streak = TWISTED_STANCE
-	user.adjustStaminaLoss(-40)
-	user.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
+	owner.adjustStaminaLoss(-40)
+	owner.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	addtimer(CALLBACK(src, .proc/untwist), 15 SECONDS)
 
 /datum/action/twisted_stance/proc/untwist()
