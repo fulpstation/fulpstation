@@ -266,24 +266,17 @@
 	return TRUE
 
 /datum/species/beefman/spec_attacked_by(var/obj/item/meat, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
-	if(affecting || !istype(meat, /obj/item/food/meat/slab))
-		if(!istype(meat, /obj/item/organ/tongue/beefman))
-			return ..()
+	if(affecting && !istype(meat, /obj/item/organ/tongue/beefman) && !istype(meat, /obj/item/food/meat/slab))
+		return ..()
 	var/target_zone = user.zone_selected
+	var/F = FALSE
 	if(!(target_zone in tearable_limbs))
 		return FALSE
-	if(target_zone == BODY_ZONE_PRECISE_MOUTH )
-		if(!istype(meat, /obj/item/organ/tongue/beefman))
-			return FALSE
-		var/mob/living/carbon/C = user
-		var/obj/item/organ/tongue/tongue
-		for(var/org in C.internal_organs)
-			if(istype(org, /obj/item/organ/tongue))
-				tongue = org
-				break
+	if(target_zone == BODY_ZONE_PRECISE_MOUTH && istype(meat, /obj/item/organ/tongue/beefman))
+		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(tongue)
 			user.visible_message(
-				span_notice("You already have a tongue."))
+				span_notice("You already have a tongue"))
 			return FALSE
 		user.visible_message(
 			span_notice("[user] begins mashing the Meaty tongue into [beefboy]'s mouth."),
@@ -296,25 +289,26 @@
 		var/obj/item/organ/tongue/beefman/new_tongue
 		new_tongue = new()
 		new_tongue.Insert(user, special = TRUE)
-	if(target_zone !=BODY_ZONE_PRECISE_MOUTH)
-		if(!istype(meat, /obj/item/food/meat/slab))
-			return FALSE
+		F = TRUE
+	if(target_zone !=BODY_ZONE_PRECISE_MOUTH && istype(meat, /obj/item/food/meat/slab))
 		user.visible_message(
 			span_notice("[user] begins mashing [meat] into [beefboy]'s torso."),
 			span_notice("You begin mashing [meat] into [beefboy]'s torso."))
-	// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
+	    // Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
 		if(!do_mob(user, beefboy))
 			return FALSE
-	// Attach the part!
+	    // Attach the part!
 		var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
 		beefboy.visible_message(
 			span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
 			span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
 		new_bodypart.attach_limb(beefboy)
 		new_bodypart.give_meat(beefboy, meat)
-	qdel(meat)
-	playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
-	return TRUE
+		F = TRUE
+	if(F)
+		qdel(meat)
+		playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
+		return TRUE
 
 
 /**
