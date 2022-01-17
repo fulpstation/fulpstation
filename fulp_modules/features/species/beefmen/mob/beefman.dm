@@ -89,6 +89,7 @@
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_LEG,
 		BODY_ZONE_R_LEG,
+		BODY_ZONE_PRECISE_MOUTH,
 	)
 
 // Taken from Ethereal
@@ -231,6 +232,23 @@
 		return FALSE
 
 	// Pry it off...
+	if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+		var/mob/living/carbon/C = user
+		var/obj/item/organ/tongue/beefman/tongue
+		for(var/org in C.internal_organs)
+			if(istype(org, /obj/item/organ/tongue/beefman))
+				tongue = org
+				break
+		if(!tongue)
+			user.visible_message(
+				span_notice("You do not have a Meaty Tongue."))
+		tongue.Remove(C, special = TRUE)
+		user.put_in_hands(tongue)
+		playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_hit.ogg', 40, 1)
+		user.visible_message(
+			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
+			span_notice("You grab hold of your tongue and yank hard."))
+		return TRUE
 	user.visible_message(
 		span_notice("[user] grabs onto [p_their()] own [affecting.name] and pulls."),
 		span_notice("You grab hold of your [affecting.name] and yank hard."))
@@ -245,6 +263,37 @@
 	//This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
 	if(istype(dropped_meat, /obj/item/food/meat/slab))
 		user.put_in_hands(dropped_meat)
+	return TRUE
+
+/datum/species/beefman/spec_attacked_by(var/obj/item/organ/tongue/beefman/meaty_tongue, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
+	if(!istype(meaty_tongue, /obj/item/organ/tongue/beefman))
+		return ..()
+	var/target_zone = user.zone_selected
+	if((target_zone != BODY_ZONE_PRECISE_MOUTH))
+		return FALSE
+	var/mob/living/carbon/C = user
+	var/obj/item/organ/tongue/tongue
+	for(var/org in C.internal_organs)
+		if(istype(org, /obj/item/organ/tongue))
+			tongue = org
+			break
+	if(tongue)
+		user.visible_message(
+			span_notice("You already have a tongue."))
+		return FALSE
+	user.visible_message(
+		span_notice("[user] begins mashing [meaty_tongue] into [beefboy]'s mouth."),
+		span_notice("You begin mashing [meaty_tongue] into [beefboy]'s mouth."))
+	if(!do_mob(user, beefboy))
+		return FALSE
+	user.visible_message(
+		span_notice("The meat sprouts and becomes [beefboy]'s new tongue!"),
+		span_notice("The meat sprouts and becomes your new tongue!"))
+	var/obj/item/organ/tongue/beefman/new_tongue
+	new_tongue = new()
+	new_tongue.Insert(user, special = TRUE)
+	qdel(meaty_tongue)
+	playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
 	return TRUE
 
 /datum/species/beefman/spec_attacked_by(obj/item/meat_slab, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
