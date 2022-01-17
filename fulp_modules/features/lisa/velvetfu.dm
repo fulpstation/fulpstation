@@ -67,23 +67,23 @@
 	if(stancing)
 		to_chat(owner, span_warning("You're already stancing."))
 		return
+	var/mob/living/user = owner
 	owner.visible_message(
 		span_danger("[owner] moves back and begins to form a stance."),
 		span_userdanger("<b><i>You backpedal and begin to form your stance.</i></b>"),
 	)
 	stancing = TRUE
-	if(do_after(owner, 3 SECONDS))
-		owner.visible_message(
-			span_danger("[owner] focuses on his stance."),
-			span_userdanger("You focus on your stance. Stamina..."),
-		)
-		owner.mind.martial_art.streak = RECEDING_STANCE
-		owner.adjustStaminaLoss(-40)
-		stancing = FALSE
-	else
+	if(!do_after(owner, 3 SECONDS))
 		owner.visible_message(span_danger("[owner] stops moving back.</i></b>"))
 		stancing = FALSE
 		return
+	owner.visible_message(
+		span_danger("[owner] focuses on his stance."),
+		span_userdanger("You focus on your stance. Stamina..."),
+	)
+	owner.mind.martial_art.streak = RECEDING_STANCE
+	user.adjustStaminaLoss(-40)
+	stancing = FALSE
 
 /// Twisted Stance
 /datum/action/twisted_stance
@@ -95,21 +95,22 @@
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
+	var/mob/living/user = owner
 	if(owner.mind.martial_art.streak == TWISTED_STANCE)
 		owner.visible_message(
 			span_danger("[owner] suddenly twists themselves even further!"),
 			span_userdanger("You twist yourself even further!"),
 		)
-		owner.adjustStaminaLoss(-40)
-		owner.apply_damage(8, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
+		user.adjustStaminaLoss(-40)
+		user.apply_damage(8, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 		return
 	owner.visible_message(
 		span_danger("[owner] suddenly twists and turns, what a strange stance!"),
 		span_userdanger("You twist and turn, your twisted stance is done!"),
 	)
 	owner.mind.martial_art.streak = TWISTED_STANCE
-	owner.adjustStaminaLoss(-40)
-	owner.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
+	user.adjustStaminaLoss(-40)
+	user.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	addtimer(CALLBACK(src, .proc/untwist), 15 SECONDS)
 
 /datum/action/twisted_stance/proc/untwist()
