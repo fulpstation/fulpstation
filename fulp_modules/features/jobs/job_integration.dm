@@ -38,13 +38,15 @@
 	. = ..()
 	station_jobs += list(
 		JOB_BRIG_PHYSICIAN,
-		JOB_DEPUTY,
 		JOB_DEPUTY_SUP,
 		JOB_DEPUTY_ENG,
 		JOB_DEPUTY_MED,
 		JOB_DEPUTY_SCI,
-		JOB_DEPUTY_SRV,
 	)
+	if(CONFIG_GET(flag/allow_departmentless_deputy))
+		station_jobs += list(JOB_DEPUTY)
+	if(CONFIG_GET(flag/allow_service_deputy))
+		station_jobs += list(JOB_DEPUTY_SRV)
 
 // Add Fulp jobs to the Crew monitor, at their assigned position (/datum/crewmonitor/var/list/jobs)
 /datum/crewmonitor/New()
