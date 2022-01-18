@@ -32,20 +32,6 @@
 		"Warden" = 8,
 	)
 
-
-// Add Fulp jobs to the list of station jobs
-/datum/controller/subsystem/job/setup_job_lists()
-	. = ..()
-	station_jobs += list(
-		JOB_BRIG_PHYSICIAN,
-		JOB_DEPUTY,
-		JOB_DEPUTY_SUP,
-		JOB_DEPUTY_ENG,
-		JOB_DEPUTY_MED,
-		JOB_DEPUTY_SCI,
-		JOB_DEPUTY_SRV,
-	)
-
 // Add Fulp jobs to the Crew monitor, at their assigned position (/datum/crewmonitor/var/list/jobs)
 /datum/crewmonitor/New()
 	. = ..()
