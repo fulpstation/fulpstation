@@ -18,15 +18,6 @@
 
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
 
-	// Fulp edit START - Bloodsuckers
-	var/vampDesc = ReturnVampExamine(user)
-	var/vassDesc = ReturnVassalExamine(user)
-	if(vampDesc != "")
-		. += vampDesc
-	if(vassDesc != "")
-		. += vassDesc
-	// Fulp edit END
-
 	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 
@@ -200,41 +191,30 @@
 		else
 			temp = getBruteLoss()
 		if(temp)
-		// Fulp edit START - Species
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor bruising.\n"
-				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n"
+				msg += "[t_He] [t_has] minor bruising.\n"
 			else if(temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
-				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.bruising_desc]!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
 			else
-//				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
-				msg += "<B>[t_He] [t_has] severe [dna.species.bruising_desc]!</B>\n"
+				msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
 
 		temp = getFireLoss()
 		if(temp)
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor burns.\n"
-				msg += "[t_He] [t_has] minor [dna.species.burns_desc].\n"
+				msg += "[t_He] [t_has] minor burns.\n"
 			else if (temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
-				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.burns_desc]!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
 			else
-//				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
-				msg += "<B>[t_He] [t_has] severe [dna.species.burns_desc]!</B>\n"
+				msg += "<B>[t_He] [t_has] severe burns!</B>\n"
 
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-//				msg += "[t_He] [t_has] minor cellular damage.\n"
-				msg += "[t_He] [t_has] minor [dna.species.cellulardamage_desc].\n"
+				msg += "[t_He] [t_has] minor cellular damage.\n"
 			else if(temp < 50)
-//				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
-				msg += "[t_He] [t_has] <b>moderate</b> [dna.species.cellulardamage_desc]!\n"
+				msg += "[t_He] [t_has] <b>moderate</b> cellular damage!\n"
 			else
-//				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
-				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n"
-		// Fulp edit END
+				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
 
 
 	if(fire_stacks > 0)
@@ -264,12 +244,7 @@
 	var/apparent_blood_volume = blood_volume
 	if(skin_tone == "albino")
 		apparent_blood_volume -= 150 // enough to knock you down one tier
-	// Fulp edit START - Bloodsuckers
-	var/bloodDesc = ShowAsPaleExamine(user, apparent_blood_volume)
-	if(bloodDesc != BLOODSUCKER_HIDE_BLOOD)
-		msg += bloodDesc
-	else switch(apparent_blood_volume)
-	// Fulp edit END
+	switch(apparent_blood_volume)
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
 			msg += "[t_He] [t_has] pale skin.\n"
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
