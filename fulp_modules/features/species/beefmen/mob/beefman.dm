@@ -233,21 +233,19 @@
 
 	// Pry it off...
 	if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
-		var/mob/living/carbon/C = user
-		var/obj/item/organ/tongue/beefman/tongue
-		for(var/org in C.internal_organs)
-			if(istype(org, /obj/item/organ/tongue/beefman))
-				tongue = org
-				break
+		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(!tongue)
 			user.visible_message(
-				span_notice("You do not have a Meaty Tongue."))
-		tongue.Remove(C, special = TRUE)
-		user.put_in_hands(tongue)
-		playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_hit.ogg', 40, 1)
+				to_chat("You do not have a tongue."))
 		user.visible_message(
 			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
 			span_notice("You grab hold of your tongue and yank hard."))
+		if(!do_mob(user, target))
+			return FALSE
+		var/obj/item/food/meat/slab/meat = new /obj/item/food/meat/slab
+		tongue.Remove(user, special = TRUE)
+		user.put_in_hands(meat)
+		playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_hit.ogg', 40, 1)
 		return TRUE
 	user.visible_message(
 		span_notice("[user] grabs onto [p_their()] own [affecting.name] and pulls."),
@@ -266,46 +264,47 @@
 	return TRUE
 
 /datum/species/beefman/spec_attacked_by(var/obj/item/meat, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
-	if(affecting && !istype(meat, /obj/item/organ/tongue/beefman) && !istype(meat, /obj/item/food/meat/slab))
+	if(!istype(meat, /obj/item/food/meat/slab))
 		return ..()
 	var/target_zone = user.zone_selected
-	var/F = FALSE
 	if(!(target_zone in tearable_limbs))
 		return FALSE
-	if(target_zone == BODY_ZONE_PRECISE_MOUTH && istype(meat, /obj/item/organ/tongue/beefman))
+	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(tongue)
 			user.visible_message(
-				span_notice("You already have a tongue"))
+				to_chat("You already have a tongue"))
 			return FALSE
 		user.visible_message(
-			span_notice("[user] begins mashing the Meaty tongue into [beefboy]'s mouth."),
-			span_notice("You begin mashing the Meaty tongue into [beefboy]'s mouth."))
-		if(!do_mob(user, beefboy))
+			span_notice("[user] begins mashing [meat] into [beefboy]'s mouth."),
+			span_notice("You begin mashing [meat] into [beefboy]'s mouth."))
+		if(!do_mob(user, beefboy, 2 SECONDS))
 			return FALSE
 		user.visible_message(
-			span_notice("The meat sprouts and becomes [beefboy]'s new tongue!"),
-			span_notice("The tongue successfully fuses with your mouth!"))
+			span_notice("The [meat] sprouts and becomes [beefboy]'s new tongue!"),
+			span_notice("The [meat] successfully fuses with your mouth!"))
 		var/obj/item/organ/tongue/beefman/new_tongue
 		new_tongue = new()
 		new_tongue.Insert(user, special = TRUE)
-		F = TRUE
-	if(target_zone !=BODY_ZONE_PRECISE_MOUTH && istype(meat, /obj/item/food/meat/slab))
+		qdel(meat)
+		playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
+		return TRUE
+	else
+		if(affecting)
+			return FALSE
 		user.visible_message(
 			span_notice("[user] begins mashing [meat] into [beefboy]'s torso."),
 			span_notice("You begin mashing [meat] into [beefboy]'s torso."))
-	    // Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
-		if(!do_mob(user, beefboy))
+		// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
+		if(!do_mob(user, beefboy, 2 SECONDS))
 			return FALSE
-	    // Attach the part!
+		// Attach the part!
 		var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
 		beefboy.visible_message(
 			span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
 			span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
 		new_bodypart.attach_limb(beefboy)
 		new_bodypart.give_meat(beefboy, meat)
-		F = TRUE
-	if(F)
 		qdel(meat)
 		playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
 		return TRUE
