@@ -85,11 +85,11 @@
 	var/dehydrated = 0
 	///List of all limbs that can be removed and replaced at will.
 	var/list/tearable_limbs = list(
+		BODY_ZONE_PRECISE_MOUTH,
 		BODY_ZONE_L_ARM,
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_LEG,
 		BODY_ZONE_R_LEG,
-		BODY_ZONE_PRECISE_MOUTH,
 	)
 
 // Taken from Ethereal
@@ -236,7 +236,7 @@
 		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(!tongue)
 			user.visible_message(
-				to_chat("You do not have a tongue."))
+			to_chat("You do not have a tongue."))
 		user.visible_message(
 			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
 			span_notice("You grab hold of your tongue and yank hard."))
@@ -263,7 +263,7 @@
 		user.put_in_hands(dropped_meat)
 	return TRUE
 
-/datum/species/beefman/spec_attacked_by(var/obj/item/meat, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
+/datum/species/beefman/spec_attacked_by(obj/item/meat, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
 	if(!istype(meat, /obj/item/food/meat/slab))
 		return ..()
 	var/target_zone = user.zone_selected
@@ -273,7 +273,7 @@
 		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(tongue)
 			user.visible_message(
-				to_chat("You already have a tongue"))
+			to_chat("You already have a tongue"))
 			return FALSE
 		user.visible_message(
 			span_notice("[user] begins mashing [meat] into [beefboy]'s mouth."),
@@ -289,25 +289,24 @@
 		qdel(meat)
 		playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
 		return TRUE
-	else
-		if(affecting)
-			return FALSE
-		user.visible_message(
-			span_notice("[user] begins mashing [meat] into [beefboy]'s torso."),
-			span_notice("You begin mashing [meat] into [beefboy]'s torso."))
-		// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
-		if(!do_mob(user, beefboy, 2 SECONDS))
-			return FALSE
-		// Attach the part!
-		var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
-		beefboy.visible_message(
-			span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
-			span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
-		new_bodypart.attach_limb(beefboy)
-		new_bodypart.give_meat(beefboy, meat)
-		qdel(meat)
-		playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
-		return TRUE
+	if(affecting)
+		return FALSE
+	user.visible_message(
+		span_notice("[user] begins mashing [meat] into [beefboy]'s torso."),
+		span_notice("You begin mashing [meat] into [beefboy]'s torso."))
+	// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
+	if(!do_mob(user, beefboy, 2 SECONDS))
+		return FALSE
+	// Attach the part!
+	var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
+	beefboy.visible_message(
+		span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
+		span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
+	new_bodypart.attach_limb(beefboy)
+	new_bodypart.give_meat(beefboy, meat)
+	qdel(meat)
+	playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
+	return TRUE
 
 
 /**
