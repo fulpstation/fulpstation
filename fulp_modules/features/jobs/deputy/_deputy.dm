@@ -48,13 +48,6 @@
 	///The Deputy's assigned department
 	var/deputy_department = DEPARTMENT_SECURITY
 
-/datum/job/fulp/deputy/config_check()
-	if(deputy_department == DEPARTMENT_SECURITY)
-		return CONFIG_GET(flag/allow_departmentless_deputy)
-	if(deputy_department == DEPARTMENT_SERVICE)
-		return CONFIG_GET(flag/allow_service_deputy)
-	return TRUE
-
 /// Engineering
 /datum/job/fulp/deputy/engineering
 	title = JOB_DEPUTY_ENG

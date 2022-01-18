@@ -789,9 +789,6 @@ SUBSYSTEM_DEF(job)
 /// Builds various lists of jobs based on station, centcom and additional jobs with icons associated with them.
 /datum/controller/subsystem/job/proc/setup_job_lists()
 	station_jobs = list(
-		// Fulp edit - JOBS
-		JOB_BRIG_PHYSICIAN, JOB_DEPUTY, JOB_DEPUTY_SUP, JOB_DEPUTY_ENG, JOB_DEPUTY_MED, JOB_DEPUTY_SCI, JOB_DEPUTY_SRV,
-		// Fulp edit ENDS
 		JOB_ASSISTANT, JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_BARTENDER, JOB_BOTANIST,
 		JOB_COOK, JOB_JANITOR, JOB_CLOWN, JOB_MIME, JOB_CURATOR, JOB_LAWYER, JOB_CHAPLAIN,
 		JOB_PSYCHOLOGIST, JOB_CHIEF_ENGINEER, JOB_STATION_ENGINEER, JOB_ATMOSPHERIC_TECHNICIAN,
