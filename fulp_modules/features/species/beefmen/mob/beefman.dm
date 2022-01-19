@@ -235,8 +235,8 @@
 	if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(!tongue)
-			user.visible_message(
-			to_chat("You do not have a tongue."))
+			to_chat(user, span_notice("You do not have a tongue!"))
+			return FALSE
 		user.visible_message(
 			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
 			span_notice("You grab hold of your tongue and yank hard."))
@@ -272,8 +272,7 @@
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(tongue)
-			user.visible_message(
-			to_chat("You already have a tongue"))
+			to_chat(user, span_notice("You already have a tongue!"))
 			return FALSE
 		user.visible_message(
 			span_notice("[user] begins mashing [meat] into [beefboy]'s mouth."),
