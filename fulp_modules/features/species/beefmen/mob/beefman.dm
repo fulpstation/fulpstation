@@ -240,7 +240,7 @@
 		user.visible_message(
 			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
 			span_notice("You grab hold of your tongue and yank hard."))
-		if(!do_mob(user, target))
+		if(!do_mob(user, target, 1 SECONDS))
 			return FALSE
 		var/obj/item/food/meat/slab/meat = new /obj/item/food/meat/slab
 		tongue.Remove(user, special = TRUE)
