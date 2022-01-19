@@ -18,6 +18,7 @@
 		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 20
+	constant_bloodcost = 0
 	cooldown = 6 SECONDS
 	prefire_message = "Click where you wish to fire."
 	///The shield this Power gives
@@ -168,7 +169,7 @@
 	name = "blood shield"
 	desc = "A shield made out of blood, requiring blood to sustain hits."
 	item_flags = ABSTRACT | DROPDEL
-	icon = 'fulp_modules/features/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_obj.dmi'
 	icon_state = "blood_shield"
 	lefthand_file = 'fulp_modules/features/bloodsuckers/icons/bs_leftinhand.dmi'
 	righthand_file = 'fulp_modules/features/bloodsuckers/icons/bs_rightinhand.dmi'

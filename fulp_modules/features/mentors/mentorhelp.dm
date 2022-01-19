@@ -16,7 +16,7 @@
 		return
 
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
-	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, TRUE, FALSE)]</b>: [msg]</font></span>"
+	var/mentor_msg = "<font color='purple'><span class='mentornotice'><b>MENTORHELP:</b> <b>[key_name_mentor(src, TRUE, FALSE)]</b>: </span><span class='message linkify'>[msg]</span></font>"
 	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
 	/// Send the Mhelp to all Mentors/Admins
@@ -30,7 +30,7 @@
 	/// Also show it to person Mhelping
 	to_chat(usr,
 		type = MESSAGE_TYPE_MODCHAT,
-		html = "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>",
+		html = "<font color='purple'><span class='mentornotice'>PM to-<b>Mentors</b>:</span> <span class='message linkify'>[msg]</span></font>",
 		confidential = TRUE)
 
 	return

@@ -21,6 +21,7 @@
 		Click any area up to 2 tile away to teleport there, ending the Power."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 5
+	constant_bloodcost = 2
 	cooldown = 12 SECONDS
 	target_range = 2
 	prefire_message = "Where do you wish to teleport to?"
@@ -102,8 +103,8 @@
 	playsound(user, 'sound/magic/summon_karp.ogg', 60)
 	playsound(targeted_turf, 'sound/magic/summon_karp.ogg', 60)
 
-	new /obj/effect/particle_effect/smoke/vampsmoke(user.drop_location())
-	new /obj/effect/particle_effect/smoke/vampsmoke(targeted_turf)
+	new /obj/effect/particle_effect/smoke/bloodsucker_smoke(user.drop_location())
+	new /obj/effect/particle_effect/smoke/bloodsucker_smoke(targeted_turf)
 
 	for(var/mob/living/carbon/living_mob in range(1, targeted_turf)-user)
 		if(IS_BLOODSUCKER(living_mob) || IS_VASSAL(living_mob))

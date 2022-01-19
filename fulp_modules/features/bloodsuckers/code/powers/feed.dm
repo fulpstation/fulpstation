@@ -230,7 +230,7 @@
 		feeds_noticed++
 		owner.balloon_alert(owner, "someone may have noticed...")
 		if(!bloodsuckerdatum_power.broke_masquerade)
-			to_chat(user, span_cultbold("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Vampiric Cause!"))
+			to_chat(user, span_cultbold("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Bloodsucker's Cause!"))
 	else
 		owner.balloon_alert(owner, "you think no one saw you...")
 
@@ -341,7 +341,7 @@
 	if(!target_grappled || user.pulling) // Active, and still antag
 		return TRUE
 
-/// Bloodsuckers not affected by "the Kiss" of another vampire
+/// Bloodsuckers not affected by "the Kiss" of another bloodsucker
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
 	if(!IS_BLOODSUCKER(target))
 		target.Unconscious(50,0)
