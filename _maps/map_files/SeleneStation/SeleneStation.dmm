@@ -3495,6 +3495,26 @@
 /obj/machinery/duct,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
+"aWP" = (
+/obj/machinery/vending/medical{
+	pixel_x = -2
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 4;
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "aWT" = (
 /obj/structure/chair,
 /obj/effect/turf_decal/tile/blue{
@@ -3621,14 +3641,9 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "aZA" = (
-/obj/structure/table,
-/obj/item/storage/firstaid/advanced{
-	pixel_x = -3;
-	pixel_y = 3
-	},
-/obj/item/storage/firstaid/toxin,
 /obj/structure/extinguisher_cabinet/directional/west,
 /obj/machinery/light/directional/west,
+/obj/machinery/recharge_station,
 /turf/open/floor/vault,
 /area/command/bridge)
 "aZP" = (
@@ -5798,7 +5813,6 @@
 /turf/open/floor/iron/dark,
 /area/service/chapel/dock)
 "bCg" = (
-/obj/structure/closet/secure_closet/personal/patient,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 4;
@@ -5808,6 +5822,8 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
+/obj/structure/bed,
+/obj/item/bedsheet/medical,
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "bCh" = (
@@ -5944,37 +5960,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/genetics)
-"bEe" = (
-/obj/structure/table,
-/obj/item/storage/box/beakers{
-	pixel_x = 2;
-	pixel_y = 2
-	},
-/obj/item/storage/box/syringes,
-/obj/item/reagent_containers/glass/bottle/epinephrine{
-	pixel_x = 7;
-	pixel_y = -3
-	},
-/obj/item/reagent_containers/glass/bottle/morphine{
-	pixel_x = 8;
-	pixel_y = -3
-	},
-/obj/item/reagent_containers/syringe{
-	pixel_x = 6;
-	pixel_y = -3
-	},
-/obj/machinery/airalarm/directional/east,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 4;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/turf/open/floor/iron/white,
-/area/medical/storage)
 "bEf" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -6324,27 +6309,6 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/iron,
 /area/engineering/engine_smes)
-"bIk" = (
-/obj/structure/bed,
-/obj/item/bedsheet/medical,
-/obj/machinery/light_switch/directional/west,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 4;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 1;
-	name = "Medical blue corner"
-	},
-/turf/open/floor/iron/white,
-/area/medical/exam_room)
 "bIt" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -6592,10 +6556,6 @@
 /turf/open/floor/wood,
 /area/service/library/printer)
 "bNg" = (
-/obj/structure/window/reinforced{
-	dir = 8;
-	pixel_x = -4
-	},
 /obj/machinery/power/apc{
 	areastring = "/area/medical/exam_room";
 	name = "Medbay Exam Room APC";
@@ -7719,6 +7679,11 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 1;
+	name = "Medical blue corner"
+	},
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "cbH" = (
@@ -8262,21 +8227,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/hallway/primary/central)
-"cjF" = (
-/obj/structure/bed,
-/obj/item/bedsheet/medical,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 1;
-	name = "Medical blue corner"
-	},
-/turf/open/floor/iron/white,
-/area/medical/exam_room)
 "ckv" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -9012,22 +8962,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/medical/medbay)
-"cvl" = (
-/obj/structure/bed,
-/obj/item/bedsheet/medical,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 1;
-	name = "Medical blue corner"
-	},
-/obj/item/radio/intercom/directional/west,
-/turf/open/floor/iron/white,
-/area/medical/exam_room)
 "cvp" = (
 /turf/open/floor/iron/white/side{
 	dir = 1
@@ -9614,6 +9548,28 @@
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron/white,
 /area/service/theater)
+"cBc" = (
+/obj/machinery/light/directional/south,
+/obj/machinery/camera/directional/south{
+	c_tag = "Medical - Storage";
+	network = list("ss13", "medbay")
+	},
+/obj/structure/closet/secure_closet/medical3,
+/obj/item/storage/belt/medical{
+	pixel_y = 2
+	},
+/obj/item/clothing/glasses/hud/health,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "cBo" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -10066,6 +10022,10 @@
 	},
 /turf/open/floor/iron,
 /area/maintenance/department/medical)
+"cGs" = (
+/obj/structure/lattice,
+/turf/closed/wall/r_wall,
+/area/maintenance/starboard)
 "cGw" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 5
@@ -12958,6 +12918,16 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 1;
+	name = "Medical blue corner"
+	},
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "duW" = (
@@ -14156,6 +14126,10 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
+"dMg" = (
+/obj/structure/lattice,
+/turf/closed/wall,
+/area/maintenance/starboard)
 "dMp" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -14188,6 +14162,18 @@
 	icon_state = "wood-broken2"
 	},
 /area/security/prison/rec)
+"dMR" = (
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 10
+	},
+/obj/structure/cable,
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/starboard)
 "dMW" = (
 /obj/machinery/ai_slipper{
 	uses = 10
@@ -14527,6 +14513,27 @@
 	},
 /turf/open/floor/iron/dark,
 /area/security/warden)
+"dSp" = (
+/obj/structure/extinguisher_cabinet/directional/south,
+/obj/structure/closet/secure_closet/medical3,
+/obj/item/storage/belt/medical{
+	pixel_y = 2
+	},
+/obj/item/clothing/glasses/hud/health,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "dSt" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/blue{
@@ -18327,30 +18334,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/mixing)
-"eQi" = (
-/obj/structure/closet/secure_closet/medical3,
-/obj/item/clothing/neck/stethoscope,
-/obj/item/clothing/glasses/hud/health,
-/obj/item/storage/belt/medical{
-	pixel_y = 2
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/obj/item/clothing/under/bodysash/medical/paramedic,
-/obj/machinery/camera/directional/south{
-	c_tag = "Medical - Storage";
-	network = list("ss13", "medbay")
-	},
-/obj/machinery/status_display/evac/directional/south,
-/turf/open/floor/iron/white,
-/area/medical/storage)
 "eQo" = (
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
 	dir = 4
@@ -18791,6 +18774,12 @@
 	dir = 1;
 	name = "Medical blue corner"
 	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/machinery/light_switch/directional/west,
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "eXr" = (
@@ -19268,10 +19257,16 @@
 /turf/open/floor/iron/grimy,
 /area/security/courtroom)
 "fdN" = (
-/obj/structure/extinguisher_cabinet/directional/south,
 /obj/machinery/light/directional/south,
 /obj/machinery/computer/department_orders/medical{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/medical/storage)
@@ -21924,6 +21919,17 @@
 /obj/machinery/duct,
 /turf/open/floor/iron,
 /area/service/janitor)
+"fMz" = (
+/obj/structure/cable,
+/obj/structure/closet/l3closet,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard)
 "fME" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 5
@@ -24011,10 +24017,6 @@
 /obj/item/bodybag,
 /turf/open/floor/iron/dark,
 /area/security/execution/transfer)
-"gqn" = (
-/obj/effect/spawner/random/decoration/glowstick,
-/turf/open/floor/iron,
-/area/maintenance/starboard)
 "gqo" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -25002,13 +25004,13 @@
 /turf/open/floor/wood,
 /area/hallway/secondary/service)
 "gEv" = (
-/obj/machinery/rnd/bepis,
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/iron,
 /area/cargo/storage)
 "gEE" = (
@@ -25468,6 +25470,7 @@
 	dir = 4
 	},
 /obj/machinery/light/directional/east,
+/obj/machinery/rnd/bepis,
 /turf/open/floor/iron,
 /area/cargo/storage)
 "gKs" = (
@@ -25499,7 +25502,6 @@
 /turf/open/floor/iron,
 /area/maintenance/starboard/fore)
 "gKA" = (
-/obj/structure/closet/secure_closet/personal/patient,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 4;
@@ -25514,6 +25516,8 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
+/obj/structure/bed,
+/obj/item/bedsheet/medical,
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "gKO" = (
@@ -26490,25 +26494,6 @@
 	},
 /turf/open/floor/iron/grimy,
 /area/security/courtroom)
-"gXQ" = (
-/obj/machinery/power/apc{
-	areastring = "/area/medical/storage";
-	dir = 4;
-	name = "Medbay Storage APC";
-	pixel_x = 24
-	},
-/obj/structure/cable,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 4;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/turf/open/floor/iron/white,
-/area/medical/storage)
 "gXR" = (
 /obj/structure/rack,
 /obj/item/storage/box/mousetraps,
@@ -27186,6 +27171,18 @@
 	color = "#4D0067";
 	name = "Science purple corner"
 	},
+/obj/structure/closet/crate/science{
+	name = "MOD core crate"
+	},
+/obj/item/mod/construction/core{
+	pixel_x = -4
+	},
+/obj/item/mod/construction/core{
+	pixel_x = 4
+	},
+/obj/item/mod/construction/core{
+	pixel_y = 4
+	},
 /turf/open/floor/iron,
 /area/science/robotics/mechbay)
 "hin" = (
@@ -27376,7 +27373,6 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "hlG" = (
-/obj/structure/closet/secure_closet/personal/patient,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 8;
@@ -27391,6 +27387,8 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
+/obj/structure/bed,
+/obj/item/bedsheet/medical,
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "hlN" = (
@@ -27690,6 +27688,26 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/starboard)
+"hpL" = (
+/obj/machinery/power/apc{
+	areastring = "/area/medical/storage";
+	dir = 4;
+	name = "Medbay Storage APC";
+	pixel_x = 24
+	},
+/obj/structure/cable,
+/obj/machinery/recharge_station,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 4;
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "hql" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
@@ -29446,17 +29464,6 @@
 /turf/open/floor/iron,
 /area/security/prison/garden)
 "hLJ" = (
-/obj/structure/closet/secure_closet/medical3,
-/obj/item/clothing/neck/stethoscope,
-/obj/item/clothing/glasses/hud/health,
-/obj/item/storage/belt/medical{
-	pixel_y = 2
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/obj/item/clothing/under/bodysash/medical,
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
@@ -31464,6 +31471,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/iron,
 /area/hallway/secondary/service)
 "inX" = (
@@ -35459,6 +35467,17 @@
 	},
 /turf/open/floor/engine/o2,
 /area/engineering/atmos)
+"jte" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/cable,
+/obj/effect/spawner/random/decoration/glowstick,
+/turf/open/floor/plating,
+/area/maintenance/starboard)
 "jtk" = (
 /obj/structure/cable,
 /obj/machinery/power/apc{
@@ -37355,10 +37374,6 @@
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
 "jQv" = (
-/obj/structure/window/reinforced{
-	dir = 8;
-	pixel_x = -4
-	},
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 4;
@@ -38234,6 +38249,42 @@
 /obj/structure/showcase/machinery/tv,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
+"kcg" = (
+/obj/structure/table,
+/obj/item/storage/box/beakers{
+	pixel_x = 2;
+	pixel_y = 2
+	},
+/obj/item/storage/box/syringes,
+/obj/item/reagent_containers/glass/bottle/epinephrine{
+	pixel_x = 7;
+	pixel_y = -3
+	},
+/obj/item/reagent_containers/glass/bottle/morphine{
+	pixel_x = 8;
+	pixel_y = -3
+	},
+/obj/item/reagent_containers/syringe{
+	pixel_x = 6;
+	pixel_y = -3
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 4;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/structure/table,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 1;
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "kcC" = (
 /obj/structure/closet/l3closet,
 /turf/open/floor/plating,
@@ -39863,10 +39914,6 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/engineering/atmos)
-"kzG" = (
-/obj/structure/closet/l3closet,
-/turf/open/floor/plating,
-/area/maintenance/starboard)
 "kAm" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -41045,6 +41092,12 @@
 	},
 /obj/machinery/modular_computer/console/preset/cargochat/medical{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/medical/storage)
@@ -43763,6 +43816,20 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
+"luv" = (
+/obj/machinery/airalarm/directional/east,
+/obj/machinery/rnd/production/techfab/department/medical,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 4;
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "luK" = (
 /obj/effect/turf_decal/trimline/purple/end{
 	color = "#4D0067";
@@ -44204,19 +44271,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/science/test_area)
-"lAO" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 5
-	},
-/obj/structure/cable,
-/obj/structure/sign/poster/contraband/syndicate_pistol{
-	pixel_x = -32
-	},
-/turf/open/floor/plating,
-/area/maintenance/starboard)
 "lAW" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 10
@@ -45425,24 +45479,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/circuit/green,
 /area/ai_monitored/turret_protected/aisat/atmos)
-"lRc" = (
-/obj/machinery/vending/wardrobe/medi_wardrobe,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 4;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/turf/open/floor/iron/white,
-/area/medical/storage)
 "lRd" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -48525,10 +48561,6 @@
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "mDf" = (
-/obj/structure/window/reinforced{
-	dir = 8;
-	pixel_x = -4
-	},
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "mDi" = (
@@ -48836,6 +48868,16 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
+"mGW" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard)
 "mHe" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
 	dir = 1
@@ -49602,6 +49644,17 @@
 /obj/machinery/duct,
 /turf/open/floor/iron/showroomfloor,
 /area/service/kitchen/coldroom)
+"mQR" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/cable,
+/obj/structure/closet/athletic_mixed,
+/turf/open/floor/plating,
+/area/maintenance/starboard)
 "mQT" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -52147,6 +52200,20 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay)
+"nxI" = (
+/obj/item/radio/intercom/directional/south,
+/obj/machinery/suit_storage_unit/medical,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "nxO" = (
 /obj/machinery/modular_computer/console/preset/id{
 	dir = 4
@@ -55518,6 +55585,12 @@
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
 /area/engineering/main)
+"ouk" = (
+/obj/structure/sign/poster/contraband/syndicate_pistol{
+	pixel_x = -32
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard)
 "oum" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/structure/disposalpipe/segment{
@@ -55884,15 +55957,12 @@
 /area/maintenance/department/crew_quarters/dorms)
 "oAL" = (
 /obj/structure/table,
-/obj/item/reagent_containers/glass/bottle/formaldehyde,
-/obj/item/reagent_containers/glass/bottle/epinephrine{
-	pixel_x = -5;
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/syringe{
-	name = "steel point"
-	},
 /obj/machinery/firealarm/directional/west,
+/obj/item/storage/firstaid/toxin,
+/obj/item/storage/firstaid/advanced{
+	pixel_x = -3;
+	pixel_y = 3
+	},
 /turf/open/floor/vault,
 /area/command/bridge)
 "oAS" = (
@@ -64583,22 +64653,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/mixing)
-"qTz" = (
-/obj/machinery/vending/medical{
-	pixel_x = -2
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/obj/item/radio/intercom/directional/south,
-/turf/open/floor/iron/white,
-/area/medical/storage)
 "qTB" = (
 /obj/item/clothing/under/trek/engsec/next,
 /obj/item/clothing/shoes/sneakers/black,
@@ -68481,6 +68535,18 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/on,
 /turf/open/floor/engine,
 /area/science/xenobiology)
+"rRL" = (
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 4;
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "rRQ" = (
 /turf/closed/wall,
 /area/maintenance/department/engine/atmos)
@@ -73036,10 +73102,6 @@
 	dir = 4;
 	name = "Medical blue corner"
 	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
 /turf/open/floor/iron/white,
 /area/medical/storage)
 "tfc" = (
@@ -73679,25 +73741,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/storage/tech)
-"tlV" = (
-/obj/structure/bed,
-/obj/item/bedsheet/medical,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 1;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/turf/open/floor/iron/white,
-/area/medical/exam_room)
 "tms" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -76717,6 +76760,25 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/plating/asteroid/basalt,
 /area/maintenance/fore)
+"ucb" = (
+/obj/machinery/status_display/evac/directional/south,
+/obj/structure/closet/secure_closet/medical3,
+/obj/item/storage/belt/medical{
+	pixel_y = 2
+	},
+/obj/item/clothing/glasses/hud/health,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/obj/item/clothing/neck/stethoscope,
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "ucl" = (
 /turf/open/floor/iron/grimy,
 /area/security/prison/rec)
@@ -82158,6 +82220,7 @@
 	dir = 1;
 	name = "Security red corner"
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/iron,
 /area/security/office)
 "vyR" = (
@@ -84584,20 +84647,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
-"wiG" = (
-/obj/machinery/rnd/production/techfab/department/medical,
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	dir = 8;
-	name = "Medical blue corner"
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#73c2fb";
-	name = "Medical blue corner"
-	},
-/obj/machinery/light/directional/south,
-/turf/open/floor/iron/white,
-/area/medical/storage)
 "wiO" = (
 /obj/effect/turf_decal/box/white,
 /obj/effect/turf_decal/arrows/white{
@@ -84979,7 +85028,6 @@
 /turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
 "woI" = (
-/obj/structure/closet/secure_closet/personal/patient,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 4;
@@ -84993,6 +85041,8 @@
 	c_tag = "Medical - Exam Room";
 	network = list("ss13", "medbay")
 	},
+/obj/structure/bed,
+/obj/item/bedsheet/medical,
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "woJ" = (
@@ -88640,6 +88690,17 @@
 	dir = 5
 	},
 /obj/structure/cable,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 1;
+	name = "Medical blue corner"
+	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/iron/white,
 /area/medical/exam_room)
 "xha" = (
@@ -89371,9 +89432,6 @@
 /turf/open/floor/iron/dark,
 /area/medical/morgue)
 "xnF" = (
-/obj/structure/rack,
-/obj/item/storage/toolbox/electrical,
-/obj/item/storage/toolbox/mechanical,
 /obj/machinery/bounty_board/directional/north,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
@@ -89389,6 +89447,7 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/iron,
 /area/engineering/lobby)
 "xnJ" = (
@@ -90372,10 +90431,6 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/engine,
 /area/engineering/main)
-"xCU" = (
-/obj/structure/closet/athletic_mixed,
-/turf/open/floor/plating,
-/area/maintenance/starboard)
 "xCX" = (
 /turf/closed/wall/r_wall,
 /area/engineering/atmos)
@@ -92824,6 +92879,19 @@
 	},
 /turf/open/floor/engine,
 /area/engineering/main)
+"yfx" = (
+/obj/machinery/vending/wardrobe/medi_wardrobe,
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	dir = 8;
+	name = "Medical blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#73c2fb";
+	name = "Medical blue corner"
+	},
+/turf/open/floor/iron/white,
+/area/medical/storage)
 "yfJ" = (
 /obj/structure/table,
 /obj/item/circuitboard/machine/vendatray,
@@ -135064,7 +135132,7 @@ rTC
 rTC
 lFT
 xBU
-yju
+dMg
 yju
 hVO
 wmI
@@ -135320,7 +135388,7 @@ xOX
 xaG
 xaG
 ajJ
-xBU
+ouk
 xBU
 yju
 hVO
@@ -135577,7 +135645,7 @@ eHl
 kLj
 xaG
 wnX
-lAO
+lFT
 xBU
 yju
 hVO
@@ -135833,7 +135901,7 @@ vrV
 aoU
 fdN
 xaG
-fHF
+xaG
 hpm
 xBU
 iYz
@@ -136089,8 +136157,8 @@ ddv
 dVd
 gKk
 hLJ
+dSp
 xaG
-fHF
 ajJ
 xBU
 yju
@@ -136345,10 +136413,10 @@ upW
 aok
 ayz
 sch
-eQi
+vrV
+ucb
 xaG
-wpj
-ajJ
+jte
 xBU
 yju
 yju
@@ -136602,13 +136670,13 @@ upW
 uYA
 vrV
 wWU
-wiG
+vrV
+cBc
 xaG
-gqn
 ajJ
 xBU
 xBU
-xBU
+yju
 yju
 hVO
 jRe
@@ -136859,12 +136927,12 @@ upW
 wyW
 vrV
 wWU
-qTz
+vrV
+nxI
 xaG
-xCU
 iYb
-rTC
-lFT
+mGW
+xBU
 xBU
 yju
 hVO
@@ -137114,14 +137182,14 @@ rVZ
 rGr
 upW
 teZ
-bEe
-gXQ
-lRc
+vrV
+wWU
+vrV
+yfx
 xaG
-kzG
 wpj
-eNI
-hpm
+dMR
+fMz
 xBU
 yju
 yju
@@ -137370,15 +137438,15 @@ ouL
 rVZ
 fmk
 atl
-atl
-atl
-atl
-atl
-xBU
-xBU
-xBU
+kcg
+luv
+hpL
+rRL
+aWP
+xaG
+eNI
 wpj
-ajJ
+mQR
 xBU
 xBU
 xBU
@@ -137626,13 +137694,13 @@ uOx
 ouL
 cba
 rGr
-rvE
-bIk
-cjF
-cvl
-tlV
 mrA
-yju
+mrA
+mrA
+mrA
+mrA
+mrA
+cGs
 xBU
 bGV
 ajJ
