@@ -163,7 +163,7 @@
 		if(bloodsuckerdatum_power.my_clan != CLAN_NOSFERATU && bloodsuckerdatum_power.my_clan != CLAN_MALKAVIAN)
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 			bloodsuckerdatum_power.AddHumanityLost(1)
-		DeactivatePower(user)
+		DeactivatePower()
 		mouse_target.adjustBruteLoss(20)
 		return
 	// Checks: Step 3 - How fast should I be and how much should I drink?
@@ -190,7 +190,7 @@
 	// Start the countdown
 	if(!do_mob(user, feed_target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, feed_target)))
 		owner.balloon_alert(owner, "your feeding was interrupted!")
-		DeactivatePower(user)
+		DeactivatePower()
 		return
 
 	// Give them the effects (Depending on if we are silent or not)
@@ -214,23 +214,21 @@
 	// Check if we have anyone watching - If there is one, we broke the Masquerade.
 	for(var/mob/living/watchers in viewers(notice_range, owner) - owner - feed_target)
 		// Are they someone who will actually report our behavior?
-		if( \
-			watchers.client \
-			&& !watchers.has_unlimited_silicon_privilege \
-			&& watchers.stat != DEAD \
-			&& watchers.eye_blind == 0 \
-			&& watchers.eye_blurry == 0 \
-			&& !IS_BLOODSUCKER(watchers) \
-			&& !IS_VASSAL(watchers) \
-			&& !HAS_TRAIT(watchers, TRAIT_BLOODSUCKER_HUNTER) \
-		)
+		if(watchers.client \
+				&& !watchers.has_unlimited_silicon_privilege \
+				&& watchers.stat != DEAD \
+				&& watchers.eye_blind == 0 \
+				&& watchers.eye_blurry == 0 \
+				&& !IS_BLOODSUCKER(watchers) \
+				&& !IS_VASSAL(watchers) \
+				&& !HAS_TRAIT(watchers, TRAIT_BLOODSUCKER_HUNTER))
 			was_noticed = TRUE
 			break
 	if(was_noticed && !target_grappled)
 		feeds_noticed++
 		owner.balloon_alert(owner, "someone may have noticed...")
 		if(!bloodsuckerdatum_power.broke_masquerade)
-			to_chat(user, span_cultbold("Be careful, you broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Bloodsucker's Cause!"))
+			to_chat(user, span_cultbold("You broke the Masquerade [feeds_noticed] time(s), if you break it 3 times, you become a criminal to the Bloodsucker's Cause!"))
 	else
 		owner.balloon_alert(owner, "you think no one saw you...")
 
@@ -238,40 +236,34 @@
 	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // Prevents spilling blood accidentally.
 
-/datum/action/bloodsucker/feed/UsePower(mob/living/user)
-//	. = ..() // We have a target to keep track of during ContinueActive, so we don't use parent
-//	if(!.)
-//		return
+/datum/action/bloodsucker/feed/UsePower(mob/living/user, mob/living/target)
+	. = ..()
+	if(!.)
+		return
 
-	// Did we deactivate this manually? Let's end it here.
-	if(!active)
-		return
-	if(!ContinueActive(user, feed_target))
-		if(amSilent)
-			to_chat(user, span_warning("Your feeding has been interrupted... but [feed_target.p_they()] didn't seem to notice you."))
-		else
-			to_chat(user, span_warning("Your feeding has been interrupted!"))
-			user.visible_message(
-				span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
-				span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
-			)
-			// Deal Damage to Target (should have been more careful!)
-			if(iscarbon(feed_target))
-				var/mob/living/carbon/carbon_target = feed_target
-				carbon_target.bleed(15)
-			playsound(get_turf(feed_target), 'sound/effects/splat.ogg', 40, 1)
-			if(ishuman(feed_target))
-				var/mob/living/carbon/human/target_user = feed_target
-				var/obj/item/bodypart/head_part = target_user.get_bodypart(BODY_ZONE_HEAD)
-				if(head_part)
-					head_part.generic_bleedstacks += 5
-			feed_target.add_splatter_floor(get_turf(feed_target))
-			user.add_mob_blood(feed_target) // Put target's blood on us. The donor goes in the ( )
-			feed_target.add_mob_blood(feed_target)
-			feed_target.apply_damage(10, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
-			INVOKE_ASYNC(feed_target, /mob.proc/emote, "scream")
-		DeactivatePower(user)
-		return
+	if(amSilent)
+		to_chat(user, span_warning("Your feeding has been interrupted... but [feed_target.p_they()] didn't seem to notice you."))
+	else
+		to_chat(user, span_warning("Your feeding has been interrupted!"))
+		user.visible_message(
+			span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
+			span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
+		)
+		// Deal Damage to Target (should have been more careful!)
+		if(iscarbon(feed_target))
+			var/mob/living/carbon/carbon_target = feed_target
+			carbon_target.bleed(15)
+		playsound(get_turf(feed_target), 'sound/effects/splat.ogg', 40, 1)
+		if(ishuman(feed_target))
+			var/mob/living/carbon/human/target_user = feed_target
+			var/obj/item/bodypart/head_part = target_user.get_bodypart(BODY_ZONE_HEAD)
+			if(head_part)
+				head_part.generic_bleedstacks += 5
+		feed_target.add_splatter_floor(get_turf(feed_target))
+		user.add_mob_blood(feed_target) // Put target's blood on us. The donor goes in the ( )
+		feed_target.add_mob_blood(feed_target)
+		feed_target.apply_damage(10, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
+		INVOKE_ASYNC(feed_target, /mob.proc/emote, "scream")
 
 	///////////////////////////////////////////////////////////
 	// 		Handle Feeding! User & Victim Effects (per tick)
@@ -315,7 +307,7 @@
 	// Done?
 	if(feed_target.blood_volume <= 0)
 		owner.balloon_alert(owner, "you have bled your victim dry...")
-		DeactivatePower(user)
+		DeactivatePower()
 		return
 
 	// Blood Gulp Sound
@@ -324,9 +316,9 @@
 		feed_target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 
 /// Check if we killed our target
-/datum/action/bloodsucker/feed/proc/CheckKilledTarget(mob/living/user, mob/living/target)
+/datum/action/bloodsucker/feed/proc/CheckKilledTarget(mob/living/target)
 	if(target && target.stat >= DEAD && ishuman(target))
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankkilled", /datum/mood_event/drankkilled)
+		SEND_SIGNAL(owner, COMSIG_ADD_MOOD_EVENT, "drankkilled", /datum/mood_event/drankkilled)
 		bloodsuckerdatum_power.AddHumanityLost(10)
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
@@ -338,8 +330,9 @@
 		return FALSE
 	if(!user.Adjacent(target))
 		return FALSE
-	if(!target_grappled || user.pulling) // Active, and still antag
-		return TRUE
+	if(target_grappled && !user.pulling)
+		return FALSE
+	return TRUE
 
 /// Bloodsuckers not affected by "the Kiss" of another bloodsucker
 /datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
@@ -349,21 +342,20 @@
 		if(ishuman(target))
 			target.adjustStaminaLoss(5, forced = TRUE) // Base Stamina Damage
 
-/datum/action/bloodsucker/feed/DeactivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/feed/DeactivatePower()
 	. = ..() // activate = FALSE
 
 	if(feed_target) // Check: Otherwise it runtimes if you fail to feed on someone.
 		if(amSilent)
-			to_chat(user, span_notice("You slowly release [feed_target]'s wrist." + (feed_target.stat == 0 ? " [feed_target.p_their(TRUE)] face lacks expression, like you've already been forgotten." : "")))
+			to_chat(owner, span_notice("You slowly release [feed_target]'s wrist." + (feed_target.stat == 0 ? " [feed_target.p_their(TRUE)] face lacks expression, like you've already been forgotten." : "")))
 		else
-			user.visible_message(
-				span_warning("[user] unclenches their teeth from [feed_target]'s neck."),
-				span_warning("You retract your fangs and release [feed_target] from your bite."),
-			)
+			owner.visible_message(
+				span_warning("[owner] unclenches their teeth from [feed_target]'s neck."),
+				span_warning("You retract your fangs and release [feed_target] from your bite."))
 		log_combat(owner, feed_target, "fed on blood", addition="(and took [amount_taken] blood)")
 	// Did we kill our target?
 	if(was_alive)
-		CheckKilledTarget(user, feed_target)
+		CheckKilledTarget(feed_target)
 	// Only break it once we've broken it 3 times, not more.
 	if(feeds_noticed == 3)
 		bloodsuckerdatum_power.break_masquerade()
@@ -376,6 +368,6 @@
 	feed_target = null
 	warning_target_bloodvol = 99999
 	// Let me move!
-	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	// My mouth is no longer full
 	REMOVE_TRAIT(owner, TRAIT_MUTE, BLOODSUCKER_TRAIT)

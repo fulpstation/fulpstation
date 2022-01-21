@@ -13,7 +13,7 @@
 	constant_bloodcost = 0.1
 	cooldown = 10 SECONDS
 	// Outfit Vars
-	var/list/original_items = list()
+//	var/list/original_items = list()
 	// Identity Vars
 	var/prev_gender
 	var/prev_skin_tone
@@ -30,16 +30,18 @@
 /datum/action/bloodsucker/veil/ActivatePower()
 	. = ..()
 	cast_effect() // POOF
-	//if(blahblahblah)
-	//	Disguise_Outfit()
-	Disguise_FaceName()
+//	if(blahblahblah)
+//		Disguise_Outfit()
+	veil_user()
 	owner.balloon_alert(owner, "veil turned on.")
 
+/* // Meant to disguise your character's clothing into fake ones.
 /datum/action/bloodsucker/veil/proc/Disguise_Outfit()
 	return
 	// Step One: Back up original items
+*/
 
-/datum/action/bloodsucker/veil/proc/Disguise_FaceName()
+/datum/action/bloodsucker/veil/proc/veil_user()
 	// Change Name/Voice
 	var/mob/living/carbon/human/user = owner
 	user.name_override = user.dna.species.random_name(user.gender)
@@ -62,17 +64,18 @@
 	prev_features = user.dna.features
 
 	// Change Appearance
-	user.gender = pick(MALE, FEMALE)
+	user.gender = pick(MALE, FEMALE, PLURAL)
 	user.skin_tone = random_skin_tone()
 	user.hairstyle = random_hairstyle(user.gender)
-	user.facial_hairstyle = pick(random_facial_hairstyle(user.gender),"Shaved")
+	user.facial_hairstyle = pick(random_facial_hairstyle(user.gender), "Shaved")
 	user.hair_color = random_short_color()
 	user.facial_hair_color = user.hair_color
 	user.underwear = random_underwear(user.gender)
 	user.undershirt = random_undershirt(user.gender)
 	user.socks = random_socks(user.gender)
 	//user.eye_color = random_eye_color()
-	REMOVE_TRAIT(user, TRAIT_DISFIGURED, null)
+	if(prev_disfigured)
+		REMOVE_TRAIT(user, TRAIT_DISFIGURED, null)
 	user.dna.features = random_features()
 
 	// Beefmen
@@ -84,10 +87,11 @@
 	user.update_hair()
 	user.update_body_parts()
 
-/datum/action/bloodsucker/veil/DeactivatePower(mob/living/carbon/human/user = owner, mob/living/target)
+/datum/action/bloodsucker/veil/DeactivatePower()
 	. = ..()
-	if(!ishuman(user))
+	if(!ishuman(owner))
 		return
+	var/mob/living/carbon/human/user = owner
 
 	// Revert Identity
 	user.UnsetSpecialVoice()
@@ -107,16 +111,18 @@
 
 	//user.disabilities = prev_disabilities // Restore HUSK, CLUMSY, etc.
 	if(prev_disfigured)
-		ADD_TRAIT(user, TRAIT_DISFIGURED, TRAIT_HUSK) // NOTE: We are ASSUMING husk. // user.status_flags |= DISFIGURED	// Restore "Unknown" disfigurement
+		//We are ASSUMING husk. // user.status_flags |= DISFIGURED // Restore "Unknown" disfigurement
+		ADD_TRAIT(user, TRAIT_DISFIGURED, TRAIT_HUSK)
 	user.dna.features = prev_features
 
 	// Apply Appearance
 	user.update_body() // Outfit and underware, also body.
 	user.update_hair()
-	user.update_body_parts()	// Body itself, maybe skin color?
+	user.update_body_parts() // Body itself, maybe skin color?
 
 	cast_effect() // POOF
 	owner.balloon_alert(owner, "veil turned off.")
+
 
 // CAST EFFECT // General effect (poof, splat, etc) when you cast. Doesn't happen automatically!
 /datum/action/bloodsucker/veil/proc/cast_effect()

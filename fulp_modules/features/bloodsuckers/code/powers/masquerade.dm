@@ -56,15 +56,10 @@
 		wanted_heart.FakeStart()
 	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
 
-/datum/action/bloodsucker/masquerade/ContinueActive(mob/living/user)
-	// Disable if unable to use power anymore.
-//	if(user.stat == DEAD || user.blood_volume <= 0) // not conscious or soft critor uncon, just dead
-//		return FALSE
-	return ..() // Active, and still Antag
-
-/datum/action/bloodsucker/masquerade/DeactivatePower(mob/living/carbon/user = owner, mob/living/target)
+/datum/action/bloodsucker/masquerade/DeactivatePower()
 	. = ..() // activate = FALSE
 	owner.balloon_alert(owner, "masquerade turned off.")
+	var/mob/living/carbon/user = owner
 	user.remove_status_effect(STATUS_EFFECT_MASQUERADE)
 	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)

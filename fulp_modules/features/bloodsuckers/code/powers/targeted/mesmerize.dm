@@ -1,4 +1,4 @@
-/*
+/**
  *	MEZMERIZE
  *	 Locks a target in place for a certain amount of time.
  *
@@ -22,7 +22,7 @@
 		At level 5, you will be able to mesmerize regardless of your target's direction.\n\
 		At level 6, you will cause your target to fall asleep.\n\
 		Higher levels will increase the time of the mesmerize's freeze."
-	power_flags = BP_AM_TOGGLE
+	power_flags = NONE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
@@ -70,19 +70,19 @@
 	if(current_target.stat > CONSCIOUS)
 		owner.balloon_alert(owner, "[current_target] is not [(current_target.stat == DEAD || HAS_TRAIT(current_target, TRAIT_FAKEDEATH)) ? "alive" : "conscious"].")
 		return FALSE
-	// Check: Target has eyes?
+	// Target has eyes?
 	if(!current_target.getorganslot(ORGAN_SLOT_EYES))
 		owner.balloon_alert(owner, "[current_target] has no eyes.")
 		return FALSE
-	// Check: Target blind?
+	// Target blind?
 	if(current_target.eye_blind > 0)
 		owner.balloon_alert(owner, "[current_target] is blind.")
 		return FALSE
-	// Check: Facing target?
+	// Facing target?
 	if(!is_source_facing_target(owner, current_target)) // in unsorted.dm
 		owner.balloon_alert(owner, "you must be facing [current_target].")
 		return FALSE
-	// Check: Target facing me? (On the floor, they're facing everyone)
+	// Target facing me? (On the floor, they're facing everyone)
 	if(((current_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(current_target, owner) && level_current <= 4))
 		owner.balloon_alert(owner, "[current_target] must be facing you.")
 		return FALSE
@@ -129,6 +129,10 @@
 	// Finished, clear target.
 	mesmerized_target = null
 
+/datum/action/bloodsucker/targeted/mesmerize/DeactivatePower()
+	mesmerized_target = null
+	. = ..()
+
 /datum/action/bloodsucker/targeted/mesmerize/proc/end_mesmerize(mob/living/user, mob/living/target)
 	target.notransform = FALSE
 	REMOVE_TRAIT(target, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
@@ -138,4 +142,4 @@
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
-	return ..() && CheckCanUse(user) && CheckCanTarget(target)
+	return ..() && CheckCanUse(user) && CheckCanTarget(mesmerized_target)

@@ -177,7 +177,7 @@
 
 	UpdateButtonIcon()
 
-/datum/action/bloodsucker/proc/DeactivatePower(mob/living/user = owner, mob/living/target)
+/datum/action/bloodsucker/proc/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
 		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
@@ -185,12 +185,12 @@
 	StartCooldown()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
-/datum/action/bloodsucker/proc/UsePower(mob/living/user)
+/datum/action/bloodsucker/proc/UsePower(mob/living/user, mob/living/target)
 	SIGNAL_HANDLER
 
 	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
 		return FALSE
-	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
+	if(!ContinueActive(user, target)) // We can't afford the Power? Deactivate it.
 		DeactivatePower()
 		return FALSE
 	// We can keep this up (For now), so Pay Cost!

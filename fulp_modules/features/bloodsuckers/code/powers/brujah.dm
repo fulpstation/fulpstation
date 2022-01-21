@@ -19,8 +19,9 @@
 	user.apply_status_effect(STATUS_EFFECT_FRENZY)
 	. = ..()
 
-/datum/action/bloodsucker/brujah/DeactivatePower(mob/living/user = owner, mob/living/target)
+/datum/action/bloodsucker/brujah/DeactivatePower()
 	. = ..()
+	var/mob/living/user = owner
 	user.remove_status_effect(STATUS_EFFECT_FRENZY)
 
 /datum/action/bloodsucker/brujah/CheckCanDeactivate()
