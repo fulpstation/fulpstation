@@ -73,33 +73,33 @@
 		if(displaymessage != "")
 			to_chat(src, span_warning("Without a head, you are incapable of [displaymessage]."))
 		return FALSE
-	if(!getorgan(/obj/item/organ/brain)) // NOTE: This is mostly just here so we can do one scan for all needed parts when creating a bloodsucker. You probably won't be trying to use powers w/out a brain.
+	if(!getorgan(/obj/item/organ/brain)) // NOTE: This is mostly just here so we can do one scan for all needed parts when creating a vamp. You probably won't be trying to use powers w/out a brain.
 		if(displaymessage != "")
 			to_chat(src, span_warning("Without a brain, you are incapable of [displaymessage]."))
 		return FALSE
 	return TRUE
 
 // EXAMINING
-/mob/living/carbon/human/proc/ReturnBloodsuckerExamine(mob/living/viewer)
+/mob/living/carbon/human/proc/ReturnVampExamine(mob/living/viewer)
 	if(!mind || !viewer.mind)
 		return ""
-	// Target must be a Bloodsucker
+	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return ""
 	// Viewer is Target's Vassal?
 	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
 		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
-		var/returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/bloodsucker_huds.dmi', world, "bloodsucker")]"
+		var/returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
 		returnString += "\n"
 		return returnIcon + returnString
-	// Viewer not a Bloodsucker AND not the target's vassal?
+	// Viewer not a Vamp AND not the target's vassal?
 	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
 		if(!(HAS_TRAIT(viewer, TRAIT_BLOODSUCKER_HUNTER) && bloodsuckerdatum.broke_masquerade))
 			return ""
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName(1)]</EM></span>\]"
-	var/returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/bloodsucker_huds.dmi', world, "bloodsucker")]"
+	var/returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
 
 	// In Disguise (Veil)?
 	//if (name_override != null)
@@ -123,19 +123,19 @@
 		// Am I Viewer's Vassal?
 		if(vassaldatum?.master.owner == viewer.mind)
 			returnString += "This [dna.species.name] bears YOUR mark!"
-			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/bloodsucker_huds.dmi', world, "vassal")]"
+			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
 		// Am I someone ELSE'S Vassal?
 		else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
 			returnString +=	"This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName(vassaldatum.master.owner.current,TRUE)][vassaldatum.master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
-			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/bloodsucker_huds.dmi', world, "vassal_grey")]"
+			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
 		// Are you serving the same master as I am?
 		else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)
 			returnString += "[p_they(TRUE)] bears the mark of your Master"
-			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/bloodsucker_huds.dmi', world, "vassal")]"
+			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
 		// You serve a different Master than I do.
 		else
 			returnString += "[p_they(TRUE)] bears the mark of another Bloodsucker"
-			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/bloodsucker_huds.dmi', world, "vassal_grey")]"
+			returnIcon = "[icon2html('fulp_modules/features/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
 	else
 		return ""
 
