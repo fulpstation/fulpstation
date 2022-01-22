@@ -12,7 +12,7 @@
 	show_in_roundend = FALSE
 	hud_icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tips = VASSAL_TIPS
-	
+
 	/// The Master Bloodsucker's antag datum.
 	var/datum/antagonist/bloodsucker/master
 	/// List of all Purchased Powers, like Bloodsuckers.
@@ -39,7 +39,7 @@
 /// This is called when the antagonist is successfully mindshielded.
 /datum/antagonist/vassal/on_mindshield(mob/implanter, mob/living/mob_override)
 	owner.remove_antag_datum(/datum/antagonist/vassal)
-	current.log_message("has been deconverted from Vassalization by [implanter]!", LOG_ATTACK, color="#960000")
+	owner.current.log_message("has been deconverted from Vassalization by [implanter]!", LOG_ATTACK, color="#960000")
 	return COMPONENT_MINDSHIELD_DECONVERTED
 
 /datum/antagonist/vassal/on_gain()
@@ -49,7 +49,7 @@
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
-	current.log_message("has been vassalized by [master.current.name]!", LOG_ATTACK, color="#960000")
+	owner.current.log_message("has been vassalized by [master.current.name]!", LOG_ATTACK, color="#960000")
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Give Recuperate Power
