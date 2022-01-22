@@ -22,6 +22,9 @@
 	/// Bloodsucker levels, but for Vassals.
 	var/vassal_level
 
+/datum/antagonist/vassal/antag_panel_data()
+	return "Master : [master.owner.name]"
+
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
