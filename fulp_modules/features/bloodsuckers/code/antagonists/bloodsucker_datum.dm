@@ -37,7 +37,7 @@
 	///ALL Powers currently owned
 	var/list/datum/action/powers = list()
 	///Bloodsucker Clan - Used for dealing with Sol
-	var/datum/team/bloodsucker_clan/clan
+	var/datum/team/vampireclan/clan
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab = new
 	///You get assigned a Clan once you Rank up enough
@@ -111,7 +111,7 @@
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
 	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
-	handle_clown_mutation(current_mob, mob_override ? null : "As an undead clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
+	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
 	add_team_hud(current_mob, /datum/antagonist/vassal)
 
@@ -153,7 +153,7 @@
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
-	/// End Sunlight? (if last Bloodsucker)
+	/// End Sunlight? (if last Vamp)
 	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
 	return ..()
@@ -161,7 +161,7 @@
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
 	var/fullname = ReturnFullName(TRUE)
-	to_chat(owner, span_userdanger("You are [fullname], an undead Bloodsucker!"))
+	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
 		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
@@ -205,20 +205,20 @@
 	return finish_preview_icon(enrico_icon)
 
 /**
- *	# Bloodsucker Clan
+ *	# Vampire Clan
  *
- *	This is used for dealing with the Bloodsucker Clan.
+ *	This is used for dealing with the Vampire Clan.
  *	This handles Sol for Bloodsuckers, making sure to not have several.
  *	None of this should appear in game, we are using it JUST for Sol. All Bloodsuckers should have their individual report.
  */
 
-/datum/team/bloodsucker_clan
+/datum/team/vampireclan
 	name = "Clan"
 
 	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
 	var/obj/effect/sunlight/bloodsucker_sunlight
 
-/datum/antagonist/bloodsucker/create_team(datum/team/bloodsucker_clan/team)
+/datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
 	if(!team)
 		for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
 			if(!bloodsuckerdatums.owner)
@@ -226,7 +226,7 @@
 			if(bloodsuckerdatums.clan)
 				clan = bloodsuckerdatums.clan
 				return
-		clan = new /datum/team/bloodsucker_clan
+		clan = new /datum/team/vampireclan
 		return
 	if(!istype(team))
 		stack_trace("Wrong team type passed to [type] initialization.")
@@ -235,7 +235,7 @@
 /datum/antagonist/bloodsucker/get_team()
 	return clan
 
-/datum/team/bloodsucker_clan/roundend_report()
+/datum/team/vampireclan/roundend_report()
 	if(members.len <= 0)
 		return
 	var/list/report = list()
@@ -252,7 +252,7 @@
 /datum/antagonist/bloodsucker/roundend_report()
 	// Get the default Objectives
 	var/list/report = list()
-	// Bloodsucker name
+	// Vamp name
 	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
 	report += printplayer(owner)
 	// Clan (Actual Clan, not Team) name
@@ -293,13 +293,13 @@
  */
 
 /// Start Sol, called when someone is assigned Bloodsucker
-/datum/team/bloodsucker_clan/proc/check_start_sunlight()
+/datum/team/vampireclan/proc/check_start_sunlight()
 	if(members.len <= 1)
 		message_admins("New Sol has been created due to Bloodsucker assignment.")
 		bloodsucker_sunlight = new()
 
 /// End Sol, if you're the last Bloodsucker
-/datum/team/bloodsucker_clan/proc/check_cancel_sunlight()
+/datum/team/vampireclan/proc/check_cancel_sunlight()
 	// No minds in the clan? Delete Sol.
 	if(members.len <= 1)
 		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
@@ -346,9 +346,9 @@
 		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
 	// Tongue & Language
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
-	owner.current.grant_language(/datum/language/bloodsucker)
+	owner.current.grant_language(/datum/language/vampiric)
 	/// Clear Disabilities & Organs
-	heal_bloodsucker_organs()
+	HealVampireOrgans()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	/// Remove huds
@@ -374,9 +374,9 @@
 	/// Update Health
 	owner.current.setMaxHealth(MAX_LIVING_HEALTH)
 	// Language
-	owner.current.remove_language(/datum/language/bloodsucker)
+	owner.current.remove_language(/datum/language/vampiric)
 	/// Heart
-	remove_bloodsucker_organs()
+	RemoveVampOrgans()
 	/// Eyes
 	var/mob/living/carbon/user = owner.current
 	var/obj/item/organ/eyes/user_eyes = user.getorganslot(ORGAN_SLOT_EYES)
@@ -559,7 +559,7 @@
 		if(vassaldatum.vassal_level == 6)
 			to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead."))
 			target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
-			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madebloodsucker", /datum/mood_event/madebloodsucker)
+			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
 		if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
 			set_vassal_level(target)
 
@@ -762,14 +762,14 @@
 	. = ..()
 	blood_display = new /atom/movable/screen/bloodsucker/blood_counter
 	infodisplay += blood_display
-	bloodsucker_rank_display = new /atom/movable/screen/bloodsucker/rank_counter
-	infodisplay += bloodsucker_rank_display
+	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter
+	infodisplay += vamprank_display
 	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter
 	infodisplay += sunlight_display
 
 /datum/hud
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
-	var/atom/movable/screen/bloodsucker/rank_counter/bloodsucker_rank_display
+	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 /datum/antagonist/bloodsucker/proc/add_hud()
@@ -777,7 +777,7 @@
 
 /datum/antagonist/bloodsucker/proc/remove_hud()
 	owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
-	owner.current.hud_used.bloodsucker_rank_display.invisibility = INVISIBILITY_ABSTRACT
+	owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
 	owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
 
 /atom/movable/screen/bloodsucker
@@ -798,7 +798,7 @@
 /atom/movable/screen/bloodsucker/rank_counter
 	name = "Bloodsucker Rank"
 	icon_state = "rank"
-	screen_loc = ui_bloodsucker_rank_display
+	screen_loc = ui_vamprank_display
 
 /atom/movable/screen/bloodsucker/sunlight_counter
 	name = "Solar Flare Timer"
@@ -816,11 +816,11 @@
 		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
 			valuecolor = "#FFAAAA"
 		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
-	if(owner.current.hud_used && owner.current.hud_used.bloodsucker_rank_display)
-		owner.current.hud_used.bloodsucker_rank_display.update_counter(bloodsucker_level, valuecolor)
+	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
+		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
 		/// Only change icon on special request.
 		if(updateRank)
-			owner.current.hud_used.bloodsucker_rank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
+			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
 
 /// Update Sun Time
 /datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)

@@ -103,8 +103,8 @@
 	playsound(user, 'sound/magic/summon_karp.ogg', 60)
 	playsound(targeted_turf, 'sound/magic/summon_karp.ogg', 60)
 
-	new /obj/effect/particle_effect/smoke/bloodsucker_smoke(user.drop_location())
-	new /obj/effect/particle_effect/smoke/bloodsucker_smoke(targeted_turf)
+	new /obj/effect/particle_effect/smoke/vampsmoke(user.drop_location())
+	new /obj/effect/particle_effect/smoke/vampsmoke(targeted_turf)
 
 	for(var/mob/living/carbon/living_mob in range(1, targeted_turf)-user)
 		if(IS_BLOODSUCKER(living_mob) || IS_VASSAL(living_mob))

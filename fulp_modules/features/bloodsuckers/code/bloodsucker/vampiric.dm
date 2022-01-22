@@ -1,4 +1,4 @@
-/datum/language/bloodsucker
+/datum/language/vampiric
 	name = "Blah-Sucker"
 	desc = "The native language of the Bloodsucker elders, learned intuitively by Fledglings as they pass from death into immortality."
 	key = "l"
@@ -18,4 +18,4 @@
 		)
 
 	icon_state = "bloodsucker"
-	icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_huds.dmi'
+	icon = 'fulp_modules/features/bloodsuckers/icons/vampiric.dmi'

@@ -1,12 +1,12 @@
 /datum/action/bloodsucker
-	name = "Bloodsucker Gift"
-	desc = "An undead gift."
+	name = "Vampiric Gift"
+	desc = "A vampiric gift."
 	//This is the FILE for the background icon
 	button_icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	//This is the ICON_STATE for the background icon
-	background_icon_state = "bs_power_off"
-	var/background_icon_state_on = "bs_power_on"
-	var/background_icon_state_off = "bs_power_off"
+	background_icon_state = "vamp_power_off"
+	var/background_icon_state_on = "vamp_power_on"
+	var/background_icon_state_off = "vamp_power_off"
 	icon_icon = 'fulp_modules/features/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
@@ -71,7 +71,7 @@
  */
 
 //This is when we CLICK on the ability Icon, not USING.
-/datum/action/bloodsucker/Trigger()
+/datum/action/bloodsucker/Trigger(trigger_flags)
 	if(active && CheckCanDeactivate()) // Active? DEACTIVATE AND END!
 		DeactivatePower()
 		return FALSE

@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/devil
 	name = "True Devil"
 	desc = "A pile of infernal energy, taking a vaguely humanoid form."
-	icon = 'icons/mob/32x64.dmi'
+	icon = 'fulp_modules/features/mobs/32x64.dmi'
 	icon_state = "true_devil"
 	gender = NEUTER
 	health = 200
@@ -16,7 +16,6 @@
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	del_on_death = TRUE
-
 
 /mob/living/simple_animal/hostile/devil/arch_devil
 	name = "Arch Devil"

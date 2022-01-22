@@ -16,7 +16,7 @@
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
-	var/datum/action/bloodsucker/monster_tracker = new/datum/action/bloodsucker/track_monster()
+	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
 
 /datum/antagonist/monsterhunter/on_gain()
@@ -25,7 +25,7 @@
 	ADD_TRAIT(owner.current, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	/// Give Monster Hunter powers
-	monster_tracker.Grant(owner.current)
+	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
 	if(give_objectives)
 		/// Give Hunter Objective
@@ -52,7 +52,7 @@
 	for(var/all_status_traits in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	/// Remove Monster Hunter powers
-	monster_tracker.Remove(owner.current)
+	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)
 	/// Remove Martial Arts
 	if(my_kungfu)

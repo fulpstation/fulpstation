@@ -4,7 +4,7 @@
 	// see fulpmodules/Z_edits/modsuits.dm
 	icon_path = 'fulp_modules/features/ert/icons/modsuit.dmi'
 	worn_icon_path = 'fulp_modules/features/ert/icons/modsuit_worn.dmi'
-	cell = /obj/item/stock_parts/cell/hyper
+	applied_cell = /obj/item/stock_parts/cell/hyper
 
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
 	theme = /datum/mod_theme/responsory/fulp
