@@ -18,7 +18,7 @@
 	bs_proc_holder = new()
 	bs_proc_holder.linked_power = src
 
-/datum/action/bloodsucker/targeted/Trigger()
+/datum/action/bloodsucker/targeted/Trigger(trigger_flags)
 	if(active && CheckCanDeactivate())
 		DeactivatePower()
 		return FALSE
