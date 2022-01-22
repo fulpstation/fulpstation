@@ -49,7 +49,7 @@
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
-	owner.current.log_message("has been vassalized by [master.current.name]!", LOG_ATTACK, color="#960000")
+	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Give Recuperate Power
@@ -172,12 +172,16 @@
 	for(var/datum/action/bloodsucker/power in powers)
 		power.level_current++
 
-/*
+/**
  *	# Vassal Pinpointer
  *
  *	Pinpointer that points to their Master's location at all times.
  *	Unlike the Monster hunter one, this one is permanently active, and has no power needed to activate it.
  */
+
+/atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
+	name = "Blood Bond"
+	desc = "You always know where your master is."
 
 /datum/status_effect/agent_pinpointer/vassal_edition
 	id = "agent_pinpointer"
@@ -187,24 +191,18 @@
 	duration = -1
 	range_fuzz_factor = 0
 
-/atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
-	name = "Blood Bond"
-	desc = "You always know where your master is."
-//	icon = 'icons/obj/device.dmi'
-//	icon_state = "pinon"
-
 /datum/status_effect/agent_pinpointer/vassal_edition/on_creation(mob/living/new_owner, ...)
 	..()
 	var/datum/antagonist/vassal/antag_datum = new_owner.mind.has_antag_datum(/datum/antagonist/vassal)
 	scan_target = antag_datum?.master?.owner?.current
 
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
-	// DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
+	return
 
 /datum/status_effect/agent_pinpointer/vassal_edition/Destroy()
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost your master's trail."))
-	..()
+	return ..()
 
 /**
  * # BATFORM

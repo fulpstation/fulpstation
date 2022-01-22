@@ -110,16 +110,13 @@
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
-	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
-	add_team_hud(current_mob, /datum/antagonist/vassal)
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
-	UnregisterSignal(owner.current, COMSIG_LIVING_DEATH)
 	handle_clown_mutation(current_mob, removing = FALSE)
 
 /datum/antagonist/bloodsucker/get_admin_commands()
@@ -434,7 +431,7 @@
 	set waitfor = FALSE
 
 	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(!owner || !owner.current || !owner.current.client || bloodsucker_level_unspent <= 0)
+	if(!owner || !owner.current || !owner.current.client || (spend_rank && bloodsucker_level_unspent <= 0))
 		return
 	//Who am I purchasing Powers for?
 	var/power_mode = PURCHASE_DEFAULT
@@ -470,7 +467,7 @@
 		// Give them the UI to purchase a power.
 		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(bloodsucker_level_unspent <= 0 && spend_rank)
+		if(spend_rank && bloodsucker_level_unspent <= 0)
 			return
 		// Did you choose a power?
 		if(!choice || !options[choice])
