@@ -175,6 +175,7 @@
 		active = TRUE
 		RegisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/UsePower)
 
+	owner.log_message("used [src].", LOG_ATTACK, color="red")
 	UpdateButtonIcon()
 
 /datum/action/bloodsucker/proc/DeactivatePower()

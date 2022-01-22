@@ -18,25 +18,6 @@
 	///Timer between alerts for Healing messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_healing)
 
-	///Default Bloodsucker traits
-	var/static/list/bloodsucker_traits = list(
-		TRAIT_NOBREATH,
-		TRAIT_SLEEPIMMUNE,
-		TRAIT_NOCRITDAMAGE,
-		TRAIT_RESISTCOLD,
-		TRAIT_RADIMMUNE,
-		TRAIT_GENELESS,
-		TRAIT_STABLEHEART,
-		TRAIT_NOSOFTCRIT,
-		TRAIT_NOHARDCRIT,
-		TRAIT_AGEUSIA,
-		TRAIT_NOPULSE,
-		TRAIT_COLDBLOODED,
-		TRAIT_VIRUSIMMUNE,
-		TRAIT_TOXIMMUNE,
-		TRAIT_HARDLY_WOUNDED,
-	)
-
 	///Used for assigning your name
 	var/bloodsucker_name
 	///Used for assigning your title
@@ -66,17 +47,6 @@
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Have we selected our Favorite Vassal yet?
 	var/has_favorite_vassal = FALSE
-	/// Antagonists that cannot be Vassalized no matter what
-	var/list/vassal_banned_antags = list(
-		/datum/antagonist/bloodsucker,
-		/datum/antagonist/monsterhunter,
-		/datum/antagonist/changeling,
-		/datum/antagonist/cult,
-		/datum/antagonist/heretic,
-		/datum/antagonist/xeno,
-		/datum/antagonist/obsessed,
-		/datum/antagonist/ert/safety_moth,
-	)
 
 	var/bloodsucker_level
 	var/bloodsucker_level_unspent = 1
@@ -92,8 +62,37 @@
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
 
-	/// Static typecache of all changeling powers that are usable.
+	/// Static typecache of all bloodsucker powers.
 	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/bloodsucker, TRUE)
+	/// Antagonists that cannot be Vassalized no matter what
+	var/list/vassal_banned_antags = list(
+		/datum/antagonist/bloodsucker,
+		/datum/antagonist/monsterhunter,
+		/datum/antagonist/changeling,
+		/datum/antagonist/cult,
+		/datum/antagonist/heretic,
+		/datum/antagonist/xeno,
+		/datum/antagonist/obsessed,
+		/datum/antagonist/ert/safety_moth,
+	)
+	///Default Bloodsucker traits
+	var/static/list/bloodsucker_traits = list(
+		TRAIT_NOBREATH,
+		TRAIT_SLEEPIMMUNE,
+		TRAIT_NOCRITDAMAGE,
+		TRAIT_RESISTCOLD,
+		TRAIT_RADIMMUNE,
+		TRAIT_GENELESS,
+		TRAIT_STABLEHEART,
+		TRAIT_NOSOFTCRIT,
+		TRAIT_NOHARDCRIT,
+		TRAIT_AGEUSIA,
+		TRAIT_NOPULSE,
+		TRAIT_COLDBLOODED,
+		TRAIT_VIRUSIMMUNE,
+		TRAIT_TOXIMMUNE,
+		TRAIT_HARDLY_WOUNDED,
+	)
 
 /mob/living/proc/explain_powers()
 	set name = "Bloodsucker Help"
@@ -114,6 +113,7 @@
 	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
 	handle_clown_mutation(current_mob, mob_override ? null : "As an undead clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
+	add_team_hud(current_mob, /datum/antagonist/vassal)
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
