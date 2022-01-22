@@ -232,7 +232,7 @@
 		return FALSE
 
 	// Pry it off...
-	if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
 		if(!tongue)
 			to_chat("You do not have a tongue!")
