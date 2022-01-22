@@ -25,7 +25,7 @@
 	if(!CheckCanPayCost(owner) || !CheckCanUse(owner))
 		return FALSE
 
-	active = !active
+	ActivatePower()
 	UpdateButtonIcon()
 	// Create & Link Targeting Proc
 	var/mob/living/user = owner

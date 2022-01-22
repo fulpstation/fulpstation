@@ -89,7 +89,7 @@
 	if(level_current >= 2) // Only if we're at least level 2.
 		var/obj/item/shield/bloodsucker/new_shield = new
 		blood_shield = WEAKREF(new_shield)
-		if(!owner.put_in_inactive_hand(blood_shield))
+		if(!owner.put_in_inactive_hand(new_shield))
 			owner.balloon_alert(owner, "off hand is full!")
 			to_chat(owner, span_notice("Blood shield couldn't be activated as your off hand is full."))
 			return FALSE

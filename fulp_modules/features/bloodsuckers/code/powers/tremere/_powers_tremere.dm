@@ -26,4 +26,3 @@
 
 	///The upgraded version of this Power. 'null' means it's the max level.
 	var/upgraded_power = null
-
