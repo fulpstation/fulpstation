@@ -1236,21 +1236,18 @@
 /turf/open/floor/engine,
 /area/engineering/supermatter/room)
 "avu" = (
-/obj/structure/toilet/greyscale{
-	dir = 8
-	},
-/obj/effect/turf_decal/siding/brown/end{
-	color = "#FF6700";
-	dir = 4
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
-/obj/machinery/light/small/directional/north,
-/obj/structure/sign/poster/contraband/random{
-	pixel_y = 30
+/obj/effect/turf_decal/siding/brown{
+	color = "#FF6700";
+	dir = 6;
+	name = "prison orange"
 	},
-/obj/effect/decal/cleanable/dirt,
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = 12
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "avD" = (
@@ -4706,12 +4703,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/command/heads_quarters/ce)
-"bqI" = (
-/obj/effect/turf_decal/trimline/red/filled/corner{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/security/processing)
 "bqO" = (
 /obj/structure/cable,
 /obj/machinery/door/poddoor/preopen{
@@ -11145,17 +11136,18 @@
 	dir = 6;
 	network = list("ss13","prison")
 	},
-/obj/effect/turf_decal/siding/brown{
-	color = "#FF6700";
-	dir = 5;
-	name = "prison orange"
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
-/obj/structure/sink{
+/obj/structure/toilet/greyscale{
 	dir = 8;
-	pixel_x = 12
+	open = 1
+	},
+/obj/machinery/light/small/directional/east,
+/obj/item/radio/intercom/prison/directional/south,
+/obj/effect/turf_decal/siding/brown/end{
+	color = "#FF6700";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
@@ -11302,6 +11294,15 @@
 /obj/item/food/grown/tobacco,
 /turf/open/floor/carpet/orange,
 /area/command/heads_quarters/ce)
+"dcb" = (
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/security/processing)
 "dcd" = (
 /obj/structure/bed,
 /obj/item/bedsheet/ce,
@@ -11414,11 +11415,6 @@
 "dek" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/turf_decal/siding/brown/corner{
-	color = "#FF6700";
-	dir = 4;
-	name = "prison orange"
-	},
 /obj/effect/turf_decal/siding/brown/corner{
 	color = "#FF6700";
 	name = "prison orange"
@@ -13159,15 +13155,6 @@
 	dir = 4;
 	name = "Security red corner"
 	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	name = "Security red corner"
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 1;
-	name = "Security red corner"
-	},
 /obj/structure/table,
 /obj/machinery/recharger{
 	pixel_y = 4
@@ -13236,17 +13223,14 @@
 	id = "flashcell2"
 	},
 /obj/effect/landmark/start/prisoner,
-/obj/effect/turf_decal/siding/brown/end{
-	color = "#FF6700";
-	dir = 1
-	},
 /obj/item/radio/intercom/prison/directional/west,
-/obj/machinery/camera{
-	c_tag = "Prison - Cell 2";
-	dir = 6;
-	network = list("ss13","prison")
-	},
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/siding/brown{
+	color = "#FF6700";
+	dir = 9;
+	name = "prison orange"
+	},
+/obj/machinery/duct,
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "dDz" = (
@@ -16221,25 +16205,14 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "eqf" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
 /obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 9
+	dir = 10
 	},
 /obj/item/radio/intercom/directional/west,
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 8;
-	name = "Security red corner"
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 1;
-	name = "Security red corner"
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 4;
-	name = "Security red corner"
-	},
+/obj/structure/closet/firecloset,
 /turf/open/floor/iron,
 /area/security/processing)
 "eql" = (
@@ -17864,7 +17837,7 @@
 	dir = 1;
 	name = "Security red corner"
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured_large,
 /area/security/processing)
 "eNi" = (
 /obj/structure/cable,
@@ -24540,6 +24513,10 @@
 /obj/machinery/duct,
 /obj/machinery/newscaster/directional/west,
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/siding/brown/corner{
+	color = "#FF6700";
+	name = "prison orange"
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "gFU" = (
@@ -25861,13 +25838,10 @@
 	id = "flashcell6";
 	pixel_y = -27
 	},
-/obj/effect/turf_decal/siding/brown{
-	color = "#FF6700";
-	dir = 10;
-	name = "prison orange"
-	},
-/obj/machinery/duct,
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/siding/brown/end{
+	color = "#FF6700"
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "hbP" = (
@@ -28827,17 +28801,6 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/aft)
-"hYf" = (
-/obj/effect/turf_decal/trimline/red/filled/corner{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 1;
-	name = "Security red corner"
-	},
-/turf/open/floor/iron,
-/area/security/processing)
 "hYg" = (
 /obj/item/book/granter/spell/smoke/lesser,
 /obj/item/organ/heart,
@@ -31700,22 +31663,19 @@
 /turf/open/floor/iron/dark,
 /area/security/courtroom)
 "iQm" = (
-/obj/effect/turf_decal/trimline/red/filled/corner,
-/obj/effect/turf_decal/trimline/red/filled/corner{
+/obj/machinery/gulag_teleporter,
+/obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	name = "Security red corner"
+/obj/machinery/camera/directional/east{
+	c_tag = "Security - Labor Camp Transfer W";
+	name = "Security Camera";
+	network = list("ss13","security")
 	},
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 4;
 	name = "Security red corner"
-	},
-/obj/structure/reagent_dispensers/wall/peppertank/directional/east,
-/obj/machinery/photocopier{
-	pixel_y = 3
 	},
 /turf/open/floor/iron,
 /area/security/processing)
@@ -33867,10 +33827,6 @@
 	},
 /turf/open/floor/iron,
 /area/security/prison)
-"jva" = (
-/obj/effect/turf_decal/trimline/red/filled/line,
-/turf/open/floor/iron,
-/area/security/processing)
 "jvm" = (
 /obj/structure/sign/poster/contraband/random{
 	pixel_y = 30
@@ -36970,26 +36926,16 @@
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 9
 	},
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
 	name = "Security red corner"
 	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 4;
-	name = "Security red corner"
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 8;
-	name = "Security red corner"
-	},
 /obj/machinery/light_switch/directional/north,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/security/processing)
 "koy" = (
@@ -37234,13 +37180,13 @@
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
 	name = "Security red corner"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/security/processing)
@@ -38296,7 +38242,7 @@
 	dir = 1;
 	name = "Security red corner"
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured_large,
 /area/security/processing)
 "kGV" = (
 /obj/effect/turf_decal/tile/brown/half{
@@ -38955,8 +38901,8 @@
 /obj/item/storage/secure/safe/hos{
 	pixel_x = -25
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-10"
+/obj/machinery/photocopier{
+	pixel_y = 3
 	},
 /turf/open/floor/carpet/red,
 /area/command/heads_quarters/hos)
@@ -39451,10 +39397,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/security/prison)
-"kXj" = (
-/obj/effect/turf_decal/trimline/red/filled/corner,
-/turf/open/floor/iron,
-/area/security/processing)
 "kXu" = (
 /obj/structure/flora/junglebush/large,
 /obj/structure/flora/rock/jungle,
@@ -42493,6 +42435,24 @@
 /obj/structure/cable,
 /turf/open/floor/carpet/neon/simple/blue,
 /area/command/heads_quarters/hop)
+"lOm" = (
+/obj/structure/sign/poster/contraband/random{
+	pixel_y = 30
+	},
+/obj/effect/turf_decal/siding/brown{
+	color = "#FF6700";
+	dir = 5;
+	name = "prison orange"
+	},
+/obj/machinery/light/small/directional/north,
+/obj/structure/toilet/greyscale,
+/obj/machinery/camera{
+	c_tag = "Prison - Cell 2";
+	dir = 6;
+	network = list("ss13","prison")
+	},
+/turf/open/floor/iron,
+/area/security/prison/safe)
 "lOu" = (
 /obj/structure/chair,
 /obj/structure/sign/warning/pods{
@@ -43259,11 +43219,8 @@
 	dir = 4;
 	name = "Security red corner"
 	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 1;
-	name = "Security red corner"
-	},
+/obj/structure/table,
+/obj/item/reagent_containers/spray/pepper,
 /turf/open/floor/iron,
 /area/security/processing)
 "mby" = (
@@ -44574,15 +44531,6 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/sorting)
-"myh" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 10
-	},
-/turf/open/floor/iron,
-/area/security/processing)
 "myy" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
@@ -45059,16 +45007,11 @@
 	},
 /area/science/research)
 "mFq" = (
-/obj/machinery/computer/prisoner/gulag_teleporter_computer{
+/obj/machinery/computer/security/labor{
 	dir = 8
 	},
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 4
-	},
-/obj/machinery/light/directional/east,
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	name = "Security red corner"
 	},
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
@@ -47672,12 +47615,6 @@
 /obj/item/stamp/clown,
 /turf/open/floor/eighties,
 /area/service/theater)
-"ntr" = (
-/obj/machinery/photocopier{
-	pixel_y = 3
-	},
-/turf/open/floor/stone,
-/area/command/heads_quarters/hos)
 "ntw" = (
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp/bananalamp{
@@ -51578,7 +51515,7 @@
 	dir = 1;
 	name = "Security red corner"
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured_large,
 /area/security/processing)
 "owc" = (
 /obj/structure/closet/crate{
@@ -55508,11 +55445,6 @@
 	dir = 1;
 	name = "Security red corner"
 	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 8;
-	name = "Security red corner"
-	},
 /turf/open/floor/iron,
 /area/security/processing)
 "pPX" = (
@@ -56728,12 +56660,12 @@
 /turf/open/floor/iron/showroomfloor,
 /area/commons/toilet)
 "qmE" = (
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /turf/open/floor/iron,
 /area/security/processing)
 "qnc" = (
@@ -57377,6 +57309,12 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/large,
 /area/security/range)
+"qzh" = (
+/obj/item/kirbyplants{
+	icon_state = "plant-10"
+	},
+/turf/open/floor/carpet/red,
+/area/command/heads_quarters/hos)
 "qzM" = (
 /obj/machinery/firealarm/directional/east,
 /obj/effect/turf_decal/tile/blue/half{
@@ -60694,6 +60632,11 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
+"rFK" = (
+/obj/effect/turf_decal/trimline/red/filled/corner,
+/obj/effect/turf_decal/stripes/corner,
+/turf/open/floor/iron,
+/area/security/processing)
 "rFN" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -62172,6 +62115,19 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
+"rYZ" = (
+/obj/effect/turf_decal/tile/red{
+	color = "#FF0000";
+	dir = 1;
+	name = "Security red corner"
+	},
+/obj/machinery/firealarm/directional/west,
+/obj/structure/closet/emcloset,
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 9
+	},
+/turf/open/floor/iron,
+/area/security/processing)
 "rZq" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
@@ -66575,18 +66531,9 @@
 /turf/open/floor/iron/grimy,
 /area/security/detectives_office)
 "tsW" = (
-/obj/machinery/firealarm/directional/west,
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
-	name = "Security red corner"
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 8;
 	name = "Security red corner"
 	},
 /turf/open/floor/iron,
@@ -68963,11 +68910,6 @@
 	dir = 4;
 	name = "Security red corner"
 	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 1;
-	name = "Security red corner"
-	},
 /obj/structure/table,
 /obj/item/razor{
 	pixel_x = -8;
@@ -69602,11 +69544,6 @@
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 1;
-	name = "Security red corner"
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 8;
 	name = "Security red corner"
 	},
 /obj/machinery/newscaster/directional/west,
@@ -74935,6 +74872,9 @@
 /obj/effect/turf_decal/trimline/red/corner{
 	dir = 1
 	},
+/obj/machinery/photocopier{
+	pixel_y = 3
+	},
 /turf/open/floor/iron/smooth,
 /area/security/warden)
 "vOH" = (
@@ -75683,15 +75623,9 @@
 	dir = 4;
 	name = "Security red corner"
 	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 1;
-	name = "Security red corner"
-	},
 /obj/structure/table,
 /obj/item/restraints/handcuffs,
 /obj/item/assembly/flash/handheld,
-/obj/item/reagent_containers/spray/pepper,
 /turf/open/floor/iron,
 /area/security/processing)
 "vZA" = (
@@ -79459,24 +79393,6 @@
 /obj/structure/table/glass,
 /turf/open/floor/carpet/executive,
 /area/command/meeting_room/council)
-"xfg" = (
-/obj/machinery/computer/security/labor{
-	dir = 8
-	},
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	name = "Security red corner"
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	dir = 4;
-	name = "Security red corner"
-	},
-/turf/open/floor/iron,
-/area/security/processing)
 "xfh" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "Aft East Hallway - Private Detective Office";
@@ -81845,19 +81761,13 @@
 /turf/open/floor/iron,
 /area/security/brig/upper)
 "xTh" = (
-/obj/machinery/gulag_teleporter,
+/obj/machinery/computer/prisoner/gulag_teleporter_computer{
+	dir = 8
+	},
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 4
 	},
-/obj/machinery/camera/directional/east{
-	c_tag = "Security - Labor Camp Transfer W";
-	name = "Security Camera";
-	network = list("ss13","security")
-	},
-/obj/effect/turf_decal/tile/red{
-	color = "#FF0000";
-	name = "Security red corner"
-	},
+/obj/machinery/light/directional/east,
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
 	dir = 4;
@@ -116751,7 +116661,7 @@ xWc
 xWc
 xWc
 xWc
-xWc
+lOm
 avu
 wUw
 hGM
@@ -117007,7 +116917,7 @@ dBf
 mMR
 sbc
 kPH
-ntr
+xWc
 xWc
 vpZ
 vpZ
@@ -117791,7 +117701,7 @@ suG
 wdN
 wUw
 cZD
-vRJ
+ygZ
 ygZ
 xJj
 xJj
@@ -118029,7 +117939,7 @@ cLQ
 ktZ
 tsk
 fuV
-xue
+qzh
 wLj
 xgy
 rFq
@@ -118049,10 +117959,10 @@ xJj
 ygZ
 ygZ
 ygZ
-ygZ
+rYZ
 eqf
-myh
 qmj
+meC
 meC
 meC
 meC
@@ -118307,11 +118217,11 @@ kox
 pPT
 ukc
 tsW
-hYf
 vFO
 dyj
 dyj
 dyj
+meC
 meC
 meC
 meC
@@ -118564,11 +118474,11 @@ ksP
 tdy
 tdy
 cju
-xkj
 ivt
 uBb
 aHZ
 nxX
+meC
 meC
 meC
 meC
@@ -118820,12 +118730,12 @@ ovH
 qmE
 jqa
 gyC
-gyC
-kXj
+rFK
 uIq
 dyj
 dyj
 dyj
+meC
 meC
 meC
 meC
@@ -119077,10 +118987,10 @@ kGI
 jOA
 tag
 gyC
-gyC
-jva
+jWQ
 qmj
 qmj
+meC
 meC
 meC
 meC
@@ -119334,12 +119244,12 @@ cPV
 mbu
 tag
 gyC
-gyC
-bqI
+dcb
 wcP
 dyj
 dyj
 dyj
+meC
 meC
 meC
 meC
@@ -119592,12 +119502,12 @@ vZv
 tag
 tag
 xhS
-xkj
 jWQ
 uBb
 hcy
 nxX
 quU
+meC
 meC
 meC
 meC
@@ -119849,11 +119759,11 @@ ucO
 xkj
 gyC
 gyC
-gyC
 oIe
 dyj
 dyj
 dyj
+meC
 meC
 meC
 meC
@@ -120106,9 +120016,9 @@ dBQ
 iQm
 xTh
 mFq
-xfg
 tMH
 qmj
+meC
 meC
 meC
 meC
@@ -120365,7 +120275,7 @@ oWx
 oWx
 oWx
 oWx
-oWx
+meC
 meC
 meC
 meC
