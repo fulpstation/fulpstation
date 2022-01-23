@@ -1,112 +1,97 @@
-/*
- *	Due to how DEFINES work, they have to be in a file read before the code actually using said defines
- *	Therefore, Fulp DEFINES must all be placed in this folder, despite modularity.
+/**
+ * # DEFINES
+ *
+ * Due to how DEFINES work, they ALWAYS have to be read FIRST.
+ * Therefore, Fulp defines must all be placed in this folder, despite modularity.
  */
 
-/*
- *	Role Defines, used for Antagonist jobs.
- */
-/// Bloodsuckers - Defines the role for preferences
-#define ROLE_BLOODSUCKER "Bloodsucker"
-/// Monster Hunters - Defines the role for preferences
-#define ROLE_MONSTERHUNTER "Monster Hunter"
 
-/*
- *	Source Trait Defines
+/**
+ * # MARTIAL ARTS
  */
-/// Source trait for Bloodsuckers/Monster Hunters/Vassals
-#define BLOODSUCKER_TRAIT "bloodsucker_trait"
-/// Source trait for Frenzies
-#define FRENZY_TRAIT "frenzy_trait"
 
-/*
- *	Martial art Defines
- */
-/// Used in hunterfu.dm
+//Used in hunterfu.dm
 #define MARTIALART_HUNTERFU "hunterfu"
-/// Used in deputy_block.dm
-#define MARTIALART_DEPUTYBLOCK "deputyblock"
-/// Used in bloodsucker_life.dm
-#define MARTIALART_FRENZYGRAB "FrenzyGrab"
+//Used in velvet_fu.dm
+#define MARTIALART_VELVETFU "velvetfu"
+//Used in deputy_block.dm
+#define MARTIALART_DEPUTYBLOCK "deputy blocking"
+//Used in bloodsucker_life.dm
+#define MARTIALART_FRENZYGRAB "frenzy grabbing"
 
-/*
- *	Bloodsucker Defines
- */
-/// You have special interactions with Bloodsuckers
-#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
-/// Your heart doesn't beat
-#define TRAIT_NOPULSE "nopulse"
-/// Falsifies Health analyzers
-#define TRAIT_MASQUERADE "masquerade"
-/// Your body is literal room temperature. Does not make you immune to the temp
-#define TRAIT_COLDBLOODED "coldblooded"
-/// Definition for whether to hide our blood volume
-#define BLOODSUCKER_HIDE_BLOOD "hide_blood_volume"
-/// Used for Bloodsucker's LifeTick() signal
-#define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
-/// Used for determining the rate at which a bloodsucker regens
-#define BS_BLOOD_VOLUME_MAX_REGEN 700
-/// Frenzy Thresholds
-#define FRENZY_THRESHOLD_ENTER 25
-#define FRENZY_THRESHOLD_EXIT 250
-/// Torture price defines
-#define TORTURE_BLOOD_COST "15"
-#define TORTURE_CONVERSION_COST "50"
-/// Antagonist checks
-#define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
-#define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
-#define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
-#define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
-/* Clan defines
-*/
-/// Not in a Clan
-#define CLAN_NONE "No Clan"
-/// More prone to Frenzy & Brawn/Punches deal more damage
-#define CLAN_BRUJAH "Brujah Clan"
-/// Can't use Masquerade, gets Bad Back quirk, Disfigured Trait & Gains the ability to Ventcrawl.
-#define CLAN_NOSFERATU "Nosferatu Clan"
-/// Weaker to HunterFu, burns in the Chapel, Can mutate their Vassals (who cannot be deconverted via Mindshielding) & Can revive dead people via the Persuasion Rack.
-#define CLAN_TREMERE "Tremere Clan"
-/// Cant drink blood out of mindless mobs, cant rank up, instead ranks their favorite vassal up.
-#define CLAN_VENTRUE "Ventrue Clan"
-/// Constant hallucinations & Bluespace Prophet traumas - Beefmen cannot join this.
-#define CLAN_MALKAVIAN "Malkavian Clan"
-// Used ONLY as Flavor text in Archives of Kindred
-#define CLAN_TOREADOR "Toreador Clan"
-#define CLAN_GANGREL "Gangrel Clan"
 
-/*
- *	Deputy Defines
+/**
+ * # JOBS
  */
 #define TRAIT_ENGINEERINGDEPUTY "engineeringdeputy"
 #define TRAIT_MEDICALDEPUTY "medicaldeputy"
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
 #define TRAIT_SUPPLYDEPUTY "supplydeputy"
 #define TRAIT_SERVICEDEPUTY "servicedeputy"
-/// Used to assign the Service deputy, since TG doesnt have such a thing (Who knows why, its great!)
+///Service deputy's assigned department
 #define SEC_DEPT_SERVICE "Service"
 
-/*
- *	Misc Defines
- */
-/// Human sub-species defines
-#define SPECIES_BEEFMAN "beefman"
-#define isbeefman(A) (is_species(A,/datum/species/beefman))
-/// Defines the Mentorhelp's Mentorsay button
-#define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
-///Defines the Beefman Cytology Scientist's Spawner job
-#define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology"
+#define JOB_BRIG_PHYSICIAN "Brig Physician"
+#define JOB_DEPUTY "Deputy"
+#define JOB_DEPUTY_ENG "Engineering Deputy"
+#define JOB_DEPUTY_MED "Medical Deputy"
+#define JOB_DEPUTY_SUP "Supply Deputy"
+#define JOB_DEPUTY_SCI "Science Deputy"
+#define JOB_DEPUTY_SRV "Service Deputy"
 
-/*
- *	Antag Tip Defines NOTE: Monster hunter, bloodsucker and vassal don't have any HTMLs! Willard will have to add them in.
+
+/**
+ * # SPECIES
  */
+///Beefmen Species define
+#define SPECIES_BEEFMAN "beefman"
+///Check if we are indeed a Beefman
+#define isbeefman(A) (is_species(A, /datum/species/beefman))
+///Job define for the Beefmen Cytology (Icemoon) Spawner
+#define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology"
+///Job define for the Beefmen Station (Space) Spawner
+#define ROLE_BEEFMAN_STATION "Beefman Station"
+
+
+/**
+ * # ANTAG TIPS
+ */
+///Abductors
 #define ABDUCTOR_TIPS "abductor"
+///Bloodsuckers
 #define BLOODSUCKER_TIPS "bloodsucker"
+///Changelings
 #define CHANGELING_TIPS "changeling"
+///Cultists
 #define CULTIST_TIPS "cultist"
+///Heretics
 #define HERETIC_TIPS "heretic"
+///Malfunctional AIs
 #define MALF_TIPS "malf_ai"
+///Monster Hunters
 #define MONSTERHUNTER_TIPS "monsterhunter"
+///Nuclear Operatives
 #define NUKIE_TIPS "nukie"
+///Revolutionaries
 #define REVOLUTIONARY_TIPS "revolutionary"
+///Traitors
+#define TRAITOR_TIPS "traitor"
+///Vassals
 #define VASSAL_TIPS "vassal"
+///Wizards
+#define WIZARD_TIPS "wizard"
+///Wizard Apprentices
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+///Imposter Wizard
+#define WIZ_IMPOSTER_TIPS "imposter"
+
+
+/**
+ * # MISC
+ */
+
+///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
+#define CALIBER_C22 ".c22"
+
+///Mentorsay's keybind being pressed.
+#define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"

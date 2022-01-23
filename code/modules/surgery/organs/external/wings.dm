@@ -4,7 +4,7 @@
 	slot = ORGAN_SLOT_EXTERNAL_WINGS
 	layers = EXTERNAL_BEHIND | EXTERNAL_ADJACENT | EXTERNAL_FRONT
 
-	preference = "wings"
+	feature_key = "wings"
 
 /obj/item/organ/external/wings/can_draw_on_bodypart(mob/living/carbon/human/human)
 	if(!human.wear_suit)
@@ -15,15 +15,19 @@
 		return TRUE
 	return FALSE
 
+///Checks if the wings can soften short falls
+/obj/item/organ/external/wings/proc/can_soften_fall()
+	return TRUE
+
 ///The true wings that you can use to fly and shit (you cant actually shit with them)
 /obj/item/organ/external/wings/functional
 	///The flight action object
 	var/datum/action/innate/flight/fly
 
 	///The preference type for opened wings
-	var/wings_open_preference = "wingsopen"
+	var/wings_open_feature_key = "wingsopen"
 	///The preference type for closed wings
-	var/wings_closed_preference = "wings"
+	var/wings_closed_feature_key = "wings"
 
 	///Are our wings open or closed?
 	var/wings_open = FALSE
@@ -100,7 +104,7 @@
 		buckled_obj.unbuckle_mob(human)
 		step(buckled_obj, olddir)
 	else
-		new /datum/forced_movement(human, get_ranged_target_turf(human, olddir, 4), 1, FALSE, CALLBACK(human, /mob/living/carbon/.proc/spin, 1, 1))
+		human.AddComponent(/datum/component/force_move, get_ranged_target_turf(human, olddir, 4), TRUE)
 	return TRUE
 
 ///UNSAFE PROC, should only be called through the Activate or other sources that check for CanFly
@@ -120,7 +124,7 @@
 
 ///SPREAD OUR WINGS AND FLLLLLYYYYYY
 /obj/item/organ/external/wings/functional/proc/open_wings()
-	preference = wings_open_preference
+	feature_key = wings_open_feature_key
 	wings_open = TRUE
 
 	cache_key = generate_icon_cache() //we've changed preference to open, so we only need to update the key and ask for an update to change our sprite
@@ -128,7 +132,7 @@
 
 ///close our wings
 /obj/item/organ/external/wings/functional/proc/close_wings()
-	preference = wings_closed_preference
+	feature_key = wings_closed_feature_key
 	wings_open = FALSE
 
 	cache_key = generate_icon_cache()
@@ -157,7 +161,8 @@
 
 ///Moth wings! They can flutter in low-grav and burn off in heat
 /obj/item/organ/external/wings/moth
-	preference = "moth_wings"
+	feature_key = "moth_wings"
+	preference = "feature_moth_wings"
 	layers = EXTERNAL_BEHIND | EXTERNAL_FRONT
 
 	dna_block = DNA_MOTH_WINGS_BLOCK
@@ -185,6 +190,9 @@
 
 	UnregisterSignal(organ_owner, list(COMSIG_HUMAN_BURNING, COMSIG_LIVING_POST_FULLY_HEAL, COMSIG_MOVABLE_PRE_MOVE))
 	REMOVE_TRAIT(organ_owner, TRAIT_FREE_FLOAT_MOVEMENT, src)
+
+/obj/item/organ/external/wings/moth/can_soften_fall()
+	return !burnt
 
 ///Check if we can flutter around
 /obj/item/organ/external/wings/moth/proc/update_float_move()

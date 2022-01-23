@@ -33,6 +33,8 @@
 		// The following are all for medical treatment, they're here instead of /stack/medical because sticky tape can be used as a makeshift bandage or splint
 	/// If set and this used as a splint for a broken bone wound, this is used as a multiplier for applicable slowdowns (lower = better) (also for speeding up burn recoveries)
 	var/splint_factor
+	/// Like splint_factor but for burns instead of bone wounds. This is a multiplier used to speed up burn recoveries
+	var/burn_cleanliness_bonus
 	/// How much blood flow this stack can absorb if used as a bandage on a cut wound, note that absorption is how much we lower the flow rate, not the raw amount of blood we suck up
 	var/absorption_capacity
 	/// How quickly we lower the blood flow on a cut wound we're bandaging. Expected lifetime of this bandage in seconds is thus absorption_capacity/absorption_rate, or until the cut heals, whichever comes first
@@ -289,9 +291,9 @@
 			if(QDELETED(O))
 				return //It's a stack and has already been merged
 
+			O.add_fingerprint(usr) //Add fingerprints first, otherwise O might already be deleted because of stack merging
 			if(isitem(O))
 				usr.put_in_hands(O)
-			O.add_fingerprint(usr)
 
 			//BubbleWrap - so newly formed boxes are empty
 			if(istype(O, /obj/item/storage))
@@ -514,10 +516,11 @@
 	if(is_zero_amount(delete_if_zero = TRUE))
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	var/max = get_amount()
-	var/stackmaterial = round(input(user, "How many sheets do you wish to take out of this stack? (Maximum [max])", "Stack Split") as null|num)
-	max = get_amount()
+	var/stackmaterial = round(tgui_input_number(user, "How many sheets do you wish to take out of this stack?", "Stack Split", max_value = max))
+	if(isnull(stackmaterial))
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	stackmaterial = min(max, stackmaterial)
-	if(stackmaterial == null || stackmaterial <= 0 || !user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, !iscyborg(user)))
+	if(stackmaterial <= 0 || !user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, !iscyborg(user)))
 		return SECONDARY_ATTACK_CONTINUE_CHAIN
 	split_stack(user, stackmaterial)
 	to_chat(user, span_notice("You take [stackmaterial] sheets out of the stack."))
@@ -555,7 +558,7 @@
 	add_blood_DNA(from.return_blood_DNA())
 	add_fingerprint_list(from.return_fingerprints())
 	add_hiddenprint_list(from.return_hiddenprints())
-	fingerprintslast  = from.fingerprintslast
+	fingerprintslast = from.fingerprintslast
 	//TODO bloody overlay
 
 /obj/item/stack/microwave_act(obj/machinery/microwave/M)

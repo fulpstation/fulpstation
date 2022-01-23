@@ -10,7 +10,6 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
 	grind_results = list(/datum/reagent/iodine = 4)
-	material_flags = MATERIAL_NO_EFFECTS
 	var/datum/picture/picture
 	var/scribble //Scribble on the back.
 
@@ -36,10 +35,15 @@
 
 	if(!P.see_ghosts) ///Dont bother with this last bit if we can't see ghosts
 		return
-	for(var/i in P.mobs_seen) //Any ghosts in the pic? its a haunted photo ooooo~
-		if(isobserver(i))
-			set_custom_materials(list(/datum/material/hauntium = 2000))
-			break
+	for(var/datum/weakref/seen_ref in P.mobs_seen) //Any ghosts in the pic? its a haunted photo ooooo~
+		var/mob/seen = seen_ref.resolve()
+		if(!seen)
+			P.mobs_seen -= seen_ref
+			continue
+		if(!isobserver(seen))
+			continue
+		set_custom_materials(list(/datum/material/hauntium = 2000))
+		break
 
 /obj/item/photo/update_icon_state()
 	if(!istype(picture) || !picture.picture_image)
@@ -67,7 +71,7 @@
 		if(!user.is_literate())
 			to_chat(user, span_notice("You scribble illegibly on [src]!"))
 			return
-		var/txt = stripped_input(user, "What would you like to write on the back?", "Photo Writing", "", 128)
+		var/txt = tgui_input_text(user, "What would you like to write on the back?", "Photo Writing", max_length = 128)
 		if(txt && user.canUseTopic(src, BE_CLOSE))
 			scribble = txt
 	else
@@ -98,7 +102,7 @@
 	set category = "Object"
 	set src in usr
 
-	var/n_name = stripped_input(usr, "What would you like to label the photo?", "Photo Labelling", "", MAX_NAME_LEN)
+	var/n_name = tgui_input_text(usr, "What would you like to label the photo?", "Photo Labelling", max_length = MAX_NAME_LEN)
 	//loc.loc check is for making possible renaming photos in clipboards
 	if(n_name && (loc == usr || loc.loc && loc.loc == usr) && usr.stat == CONSCIOUS && !usr.incapacitated())
 		name = "photo[(n_name ? text("- '[n_name]'") : null)]"

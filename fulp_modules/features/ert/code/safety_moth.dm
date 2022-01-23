@@ -51,7 +51,7 @@
 	name = "Safety Moth Engineer"
 
 	head = /obj/item/clothing/head/helmet/space/safety_moth
-	glasses =  /obj/item/clothing/glasses/meson/engine
+	glasses = /obj/item/clothing/glasses/meson/engine
 	mask = /obj/item/clothing/mask/breath
 	suit = /obj/item/clothing/suit/space/safety_moth
 	suit_store = /obj/item/tank/internals/oxygen
@@ -60,7 +60,7 @@
 	belt = /obj/item/storage/belt/utility/full/powertools
 	back = /obj/item/storage/backpack/ert/engineer
 	backpack_contents = list(
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/construction/rcd/loaded/upgraded = 1,
 		/obj/item/pipe_dispenser = 1,
 		/obj/item/modular_computer/tablet/preset/advanced/engineering = 1,
@@ -86,9 +86,9 @@
 	belt = /obj/item/storage/belt/medical/advanced
 	back = /obj/item/storage/backpack/ert/medical
 	backpack_contents = list(
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/gun/medbeam = 1,
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/storage/box/hug/plushes = 1,
 		/obj/item/storage/box/survival/engineer = 1,
 	)
@@ -110,7 +110,7 @@
 	belt = /obj/item/storage/belt/security/full
 	back = /obj/item/storage/backpack/ert/security
 	backpack_contents = list(
-		/obj/item/melee/baton/loaded = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/storage/box/handcuffs = 1,
 		/obj/item/storage/box/survival/engineer = 1,
 	)
@@ -125,13 +125,13 @@
 	trim = /datum/id_trim/centcom/ert/commander
 
 // Headset
-/datum/outfit/centcom/ert/safety_moth/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/centcom/ert/safety_moth/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
 	. = ..()
 	if(visualsOnly)
 		return
-	var/obj/item/radio/R = H.ears
-	R.keyslot = new /obj/item/encryptionkey/heads/captain
-	R.recalculateChannels()
+	var/obj/item/radio/equipped_radio = user.ears
+	equipped_radio.keyslot = new /obj/item/encryptionkey/heads/captain
+	equipped_radio.recalculateChannels()
 
 //Eng
 /obj/item/clothing/suit/space/safety_moth
@@ -140,7 +140,7 @@
 	icon_state = "hazard"
 	inhand_icon_state = "hazard"
 	flags_inv = null
-	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, RAD = 100, FIRE = 100, ACID = 80)
+	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/toy/plush/moth)
 	resistance_flags = FIRE_PROOF
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -151,11 +151,11 @@
 	desc = "The standard issue safety hardhat belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon_state = "hardhat0_yellow"
 	resistance_flags = FIRE_PROOF
-	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, RAD = 100, FIRE = 100, ACID = 80)
+	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 /obj/item/clothing/shoes/magboots/safety_moth
-	desc = "A special pair of Magnetic boots which doesn't weight you down." // Do they even need this? They're a fucking moth.
+	desc = "A special pair of Magnetic boots which doesn't weight you down." // Do they even need this? They're a moth...
 	name = "safety magboots"
 	slowdown_active = SHOES_SLOWDOWN
 
@@ -181,3 +181,12 @@
 	name = "Safety Moth riot helmet"
 	desc = "The standard issue riot helmet belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon_state = "riot"
+
+
+/obj/item/clothing/suit/space/safety_moth/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)
+
+/obj/item/clothing/head/helmet/space/safety_moth/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)

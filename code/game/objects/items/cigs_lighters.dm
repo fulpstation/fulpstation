@@ -117,7 +117,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	custom_materials = list(/datum/material/wood = MINERAL_MATERIAL_AMOUNT)
 	grind_results = list(/datum/reagent/carbon = 2)
 
-/obj/item/match/firebrand/Initialize()
+/obj/item/match/firebrand/Initialize(mapload)
 	. = ..()
 	matchignite()
 
@@ -161,7 +161,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/lung_harm = 1
 
 
-/obj/item/clothing/mask/cigarette/Initialize()
+/obj/item/clothing/mask/cigarette/Initialize(mapload)
 	. = ..()
 	create_reagents(chem_volume, INJECTABLE | NO_REACT)
 	if(list_reagents)
@@ -179,17 +179,23 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	return (TOXLOSS|OXYLOSS)
 
 /obj/item/clothing/mask/cigarette/attackby(obj/item/W, mob/user, params)
-	if(lit || smoketime <= 0)
+	if(lit)
 		return ..()
+
+	var/lighting_text = W.ignition_effect(src, user)
+	if(!lighting_text)
+		return ..()
+
 	if(!reagents.has_reagent(/datum/reagent/oxygen)) //cigarettes need oxygen
 		var/datum/gas_mixture/air = return_air()
 		if(!air || !air.has_gas(/datum/gas/oxygen, 1)) //or oxygen on a tile to burn
 			to_chat(user, span_notice("Your [name] needs a source of oxygen to burn."))
 			return ..()
 
-	var/lighting_text = W.ignition_effect(src, user)
-	if(lighting_text)
+	if(smoketime > 0)
 		light(lighting_text)
+	else
+		to_chat(user, span_warning("There is nothing to smoke!"))
 
 /obj/item/clothing/mask/cigarette/afterattack(obj/item/reagent_containers/glass/glass, mob/user, proximity)
 	. = ..()
@@ -206,17 +212,21 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	else
 		to_chat(user, span_warning("[src] is full!"))
 
+/obj/item/clothing/mask/cigarette/update_icon_state()
+	. = ..()
+	icon_state = lit ? icon_on : icon_off
+
 /// Lights the cigarette with given flavor text.
 /obj/item/clothing/mask/cigarette/proc/light(flavor_text = null)
 	if(lit)
 		return
-	if(!(flags_1 & INITIALIZED_1))
-		icon_state = icon_on
-		inhand_icon_state = icon_on
-		return
 
 	lit = TRUE
-	name = "lit [name]"
+
+	if(!(flags_1 & INITIALIZED_1))
+		update_icon()
+		return
+
 	attack_verb_continuous = string_list(list("burns", "singes"))
 	attack_verb_simple = string_list(list("burn", "singe"))
 	hitsound = 'sound/items/welder.ogg'
@@ -225,20 +235,19 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(reagents.get_reagent_amount(/datum/reagent/toxin/plasma)) // the plasma explodes when exposed to fire
 		var/datum/effect_system/reagents_explosion/e = new()
 		e.set_up(round(reagents.get_reagent_amount(/datum/reagent/toxin/plasma) / 2.5, 1), get_turf(src), 0, 0)
-		e.start()
+		e.start(src)
 		qdel(src)
 		return
 	if(reagents.get_reagent_amount(/datum/reagent/fuel)) // the fuel explodes, too, but much less violently
 		var/datum/effect_system/reagents_explosion/e = new()
 		e.set_up(round(reagents.get_reagent_amount(/datum/reagent/fuel) / 5, 1), get_turf(src), 0, 0)
-		e.start()
+		e.start(src)
 		qdel(src)
 		return
 	// allowing reagents to react after being lit
 	reagents.flags &= ~(NO_REACT)
 	reagents.handle_reactions()
-	icon_state = icon_on
-	inhand_icon_state = icon_on
+	update_icon()
 	if(flavor_text)
 		var/turf/T = get_turf(src)
 		T.visible_message(flavor_text)
@@ -253,14 +262,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/extinguish()
 	if(!lit)
 		return
-	name = copytext_char(name, 5) //5 == length_char("lit ") + 1
 	attack_verb_continuous = null
 	attack_verb_simple = null
 	hitsound = null
 	damtype = BRUTE
 	force = 0
-	icon_state = icon_off
-	inhand_icon_state = icon_off
+	update_icon()
 	STOP_PROCESSING(SSobj, src)
 	reagents.flags |= NO_REACT
 	lit = FALSE
@@ -275,7 +282,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(!reagents.total_volume)
 		return
 	reagents.expose_temperature(heat, 0.05)
-
+	if(!reagents.total_volume) //may have reacted and gone to 0 after expose_temperature
+		return
 	var/to_smoke = smoke_all ? (reagents.total_volume * (dragtime / smoketime)) : REAGENTS_METABOLISM
 	var/mob/living/carbon/smoker = loc
 	if(!istype(smoker) || src != smoker.wear_mask)
@@ -285,16 +293,14 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	reagents.expose(smoker, INGEST, min(to_smoke / reagents.total_volume, 1))
 	var/obj/item/organ/lungs/lungs = smoker.getorganslot(ORGAN_SLOT_LUNGS)
 	if(lungs && !(lungs.organ_flags & ORGAN_SYNTHETIC))
-		smoker.adjustOrganLoss(ORGAN_SLOT_LUNGS, lung_harm)
+		var/smoker_resistance = HAS_TRAIT(smoker, TRAIT_SMOKER) ? 0.5 : 1
+		smoker.adjustOrganLoss(ORGAN_SLOT_LUNGS, lung_harm*smoker_resistance)
 	if(!reagents.trans_to(smoker, to_smoke, methods = INGEST, ignore_stomach = TRUE))
 		reagents.remove_any(to_smoke)
 
-
 /obj/item/clothing/mask/cigarette/process(delta_time)
-	var/turf/location = get_turf(src)
-	var/mob/living/M = loc
-	if(isliving(loc))
-		M.IgniteMob()
+	var/mob/living/user = isliving(loc) ? loc : null
+	user?.IgniteMob()
 	if(!reagents.has_reagent(/datum/reagent/oxygen)) //cigarettes need oxygen
 		var/datum/gas_mixture/air = return_air()
 		if(!air || !air.has_gas(/datum/gas/oxygen, 1)) //or oxygen on a tile to burn
@@ -303,10 +309,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 	smoketime -= delta_time * (1 SECONDS)
 	if(smoketime <= 0)
-		new type_butt(location)
-		if(ismob(loc))
-			to_chat(M, span_notice("Your [name] goes out."))
-		qdel(src)
+		put_out(user)
 		return
 
 	open_flame(heat)
@@ -316,11 +319,18 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/clothing/mask/cigarette/attack_self(mob/user)
 	if(lit)
-		user.visible_message(span_notice("[user] calmly drops and treads on \the [src], putting it out instantly."))
-		new type_butt(user.loc)
-		new /obj/effect/decal/cleanable/ash(user.loc)
-		qdel(src)
+		put_out(user, TRUE)
 	return ..()
+
+/obj/item/clothing/mask/cigarette/proc/put_out(mob/user, done_early = FALSE)
+	var/atom/location = drop_location()
+	if(done_early)
+		user.visible_message(span_notice("[user] calmly drops and treads on \the [src], putting it out instantly."))
+		new /obj/effect/decal/cleanable/ash(location)
+	else if(user)
+		to_chat(user, span_notice("Your [name] goes out."))
+	new type_butt(location)
+	qdel(src)
 
 /obj/item/clothing/mask/cigarette/attack(mob/living/carbon/M, mob/living/carbon/user)
 	if(!istype(M))
@@ -371,7 +381,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/carp
 	desc = "A Carp Classic brand cigarette. A small label on its side indicates that it does NOT contain carpotoxin."
 
-/obj/item/clothing/mask/cigarette/carp/Initialize()
+/obj/item/clothing/mask/cigarette/carp/Initialize(mapload)
 	. = ..()
 	if(!prob(5))
 		return
@@ -382,14 +392,17 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	chem_volume = 60
 	smoketime = 2 MINUTES
 	smoke_all = TRUE
+	lung_harm = 1.5
 	list_reagents = list(/datum/reagent/drug/nicotine = 10, /datum/reagent/medicine/omnizine = 15)
 
 /obj/item/clothing/mask/cigarette/shadyjims
 	desc = "A Shady Jim's Super Slims cigarette."
+	lung_harm = 1.5
 	list_reagents = list(/datum/reagent/drug/nicotine = 15, /datum/reagent/toxin/lipolicide = 4, /datum/reagent/ammonia = 2, /datum/reagent/toxin/plantbgone = 1, /datum/reagent/toxin = 1.5)
 
 /obj/item/clothing/mask/cigarette/xeno
 	desc = "A Xeno Filtered brand cigarette."
+	lung_harm = 2
 	list_reagents = list (/datum/reagent/drug/nicotine = 20, /datum/reagent/medicine/regen_jelly = 15, /datum/reagent/drug/krokodil = 4)
 
 // Rollies.
@@ -407,8 +420,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	chem_volume = 50
 	list_reagents = null
 
-/obj/item/clothing/mask/cigarette/rollie/Initialize()
-	. = ..()
+/obj/item/clothing/mask/cigarette/rollie/Initialize(mapload)
 	name = pick(list(
 		"bifta",
 		"bifter",
@@ -450,6 +462,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		"torpedo",
 		"zoot",
 		"zooter"))
+	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
 
@@ -467,7 +480,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	list_reagents = list(/datum/reagent/toxin/mindbreaker = 35, /datum/reagent/toxin/lipolicide = 15)
 
 /obj/item/clothing/mask/cigarette/candy
-	name = "Little Timmy's candy cigarette"
+	name = "\improper Little Timmy's candy cigarette"
 	desc = "For all ages*! Doesn't contain any amount of nicotine. Health and safety risks can be read on the tip of the cigarette."
 	smoketime = 2 MINUTES
 	icon_on = "candyon"
@@ -476,6 +489,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_state = "candyoff"
 	type_butt = /obj/item/food/candy_trash
 	heat = 473.15 // Lowered so that the sugar can be carmalized, but not burnt.
+	lung_harm = 0.5
 	list_reagents = list(/datum/reagent/consumable/sugar = 20)
 
 /obj/item/clothing/mask/cigarette/candy/nicotine
@@ -489,7 +503,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = "A manky old roach, or for non-stoners, a used rollup."
 	icon_state = "roach"
 
-/obj/item/cigbutt/roach/Initialize()
+/obj/item/cigbutt/roach/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
@@ -528,8 +542,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_on = "cigar2on"
 	icon_off = "cigar2off"
 	smoketime = 30 MINUTES
-	chem_volume = 50
-	list_reagents =list(/datum/reagent/drug/nicotine = 15)
+	chem_volume = 60
+	list_reagents =list(/datum/reagent/drug/nicotine = 45)
 
 /obj/item/cigbutt
 	name = "cigarette butt"
@@ -558,48 +572,35 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 0
 	chem_volume = 200 // So we can fit densified chemicals plants
 	list_reagents = null
-	var/packeditem = FALSE
+	///name of the stuff packed inside this pipe
+	var/packeditem
 
-/obj/item/clothing/mask/cigarette/pipe/Initialize()
+/obj/item/clothing/mask/cigarette/pipe/Initialize(mapload)
 	. = ..()
-	name = "empty [initial(name)]"
+	update_name()
 
-/obj/item/clothing/mask/cigarette/pipe/Destroy()
+/obj/item/clothing/mask/cigarette/pipe/update_name()
+	. = ..()
+	name = packeditem ? "[packeditem]-packed [initial(name)]" : "empty [initial(name)]"
+
+/obj/item/clothing/mask/cigarette/pipe/put_out(mob/user, done_early = FALSE)
+	lit = FALSE
+	if(done_early)
+		user.visible_message(span_notice("[user] puts out [src]."), span_notice("You put out [src]."))
+
+	else
+		if(user)
+			to_chat(user, span_notice("Your [name] goes out."))
+		packeditem = null
+	update_icon()
+
+	inhand_icon_state = icon_off
+	user?.update_inv_wear_mask()
 	STOP_PROCESSING(SSobj, src)
-	return ..()
-
-/obj/item/clothing/mask/cigarette/pipe/process(delta_time)
-	var/turf/location = get_turf(src)
-	smoketime -= delta_time
-	if(smoketime <= 0)
-		new /obj/effect/decal/cleanable/ash(location)
-		if(ismob(loc))
-			var/mob/living/M = loc
-			to_chat(M, span_notice("Your [name] goes out."))
-			lit = FALSE
-			icon_state = icon_off
-			inhand_icon_state = icon_off
-			M.update_inv_wear_mask()
-			packeditem = FALSE
-			name = "empty [initial(name)]"
-		STOP_PROCESSING(SSobj, src)
-		return
-
-	open_flame(heat)
-	if(reagents?.total_volume) // check if it has any reagents at all
-		handle_reagents()
 
 /obj/item/clothing/mask/cigarette/pipe/attackby(obj/item/thing, mob/user, params)
 	if(!istype(thing, /obj/item/food/grown))
-		var/lighting_text = thing.ignition_effect(src,user)
-		if(!lighting_text)
-			return ..()
-
-		if(smoketime > 0)
-			light(lighting_text)
-		else
-			to_chat(user, span_warning("There is nothing to smoke!"))
-		return
+		return ..()
 
 	var/obj/item/food/grown/to_smoke = thing
 	if(packeditem)
@@ -611,32 +612,24 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 	to_chat(user, span_notice("You stuff [to_smoke] into [src]."))
 	smoketime = 13 MINUTES
-	packeditem = TRUE
-	name = "[to_smoke.name]-packed [initial(name)]"
+	packeditem = to_smoke.name
+	update_name()
 	if(to_smoke.reagents)
 		to_smoke.reagents.trans_to(src, to_smoke.reagents.total_volume, transfered_by = user)
 	qdel(to_smoke)
 
 
 /obj/item/clothing/mask/cigarette/pipe/attack_self(mob/user)
-	var/turf/location = get_turf(user)
-	if(lit)
-		user.visible_message(span_notice("[user] puts out [src]."), span_notice("You put out [src]."))
-		lit = FALSE
-		icon_state = icon_off
-		inhand_icon_state = icon_off
-		STOP_PROCESSING(SSobj, src)
+	var/atom/location = drop_location()
+	if(packeditem && !lit)
+		to_chat(user, span_notice("You empty [src] onto [location]."))
+		new /obj/effect/decal/cleanable/ash(location)
+		packeditem = null
+		smoketime = 0
+		reagents.clear_reagents()
+		update_name()
 		return
-
-	if(smoketime <= 0)
-		return
-
-	to_chat(user, span_notice("You empty [src] onto [location]."))
-	new /obj/effect/decal/cleanable/ash(location)
-	packeditem = FALSE
-	smoketime = 0
-	reagents.clear_reagents()
-	name = "empty [initial(name)]"
+	return ..()
 
 /obj/item/clothing/mask/cigarette/pipe/cobpipe
 	name = "corn cob pipe"
@@ -683,7 +676,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		"snake"
 		)
 
-/obj/item/lighter/Initialize()
+/obj/item/lighter/Initialize(mapload)
 	. = ..()
 	if(!overlay_state)
 		overlay_state = pick(overlay_list)
@@ -857,7 +850,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		COLOR_ASSEMBLY_PURPLE
 		)
 
-/obj/item/lighter/greyscale/Initialize()
+/obj/item/lighter/greyscale/Initialize(mapload)
 	. = ..()
 	if(!lighter_color)
 		lighter_color = pick(color_list)
@@ -893,25 +886,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_state = "cig_paper"
 	w_class = WEIGHT_CLASS_TINY
 
-/obj/item/rollingpaper/afterattack(atom/target, mob/user, proximity)
+/obj/item/rollingpaper/Initialize(mapload)
 	. = ..()
-	if(!proximity)
-		return
-	if(!istype(target, /obj/item/food/grown))
-		return
+	AddComponent(/datum/component/customizable_reagent_holder, /obj/item/clothing/mask/cigarette/rollie, CUSTOM_INGREDIENT_ICON_NOCHANGE, ingredient_type=CUSTOM_INGREDIENT_TYPE_DRYABLE, max_ingredients=2)
 
-	if(!HAS_TRAIT(target, TRAIT_DRIED))
-		to_chat(user, span_warning("You need to dry [target] first!"))
-		return
-
-	var/obj/item/clothing/mask/cigarette/rollie/R = new /obj/item/clothing/mask/cigarette/rollie(user.loc)
-	R.chem_volume = target.reagents.maximum_volume
-	target.reagents.trans_to(R, R.chem_volume, transfered_by = user)
-	qdel(target)
-	qdel(src)
-	user.put_in_active_hand(R)
-	to_chat(user, span_notice("You roll the [target.name] into a rolling paper."))
-	R.desc = "Dried [target.name] rolled up in a thin piece of paper."
 
 ///////////////
 //VAPE NATION//
@@ -1042,7 +1020,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(reagents.get_reagent_amount(/datum/reagent/toxin/plasma)) // the plasma explodes when exposed to fire
 		var/datum/effect_system/reagents_explosion/e = new()
 		e.set_up(round(reagents.get_reagent_amount(/datum/reagent/toxin/plasma) / 2.5, 1), get_turf(src), 0, 0)
-		e.start()
+		e.start(src)
 		qdel(src)
 
 	if(!reagents.trans_to(vaper, REAGENTS_METABOLISM, methods = INGEST, ignore_stomach = TRUE))

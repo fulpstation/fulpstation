@@ -45,7 +45,7 @@
 					span_userdanger("You are kicked square in the chest by [A], sending you flying!"), span_hear("You hear a sickening sound of flesh hitting flesh!"), COMBAT_MESSAGE_RANGE, A)
 	playsound(get_turf(A), 'sound/effects/hit_kick.ogg', 50, TRUE, -1)
 	var/atom/throw_target = get_edge_target_turf(D, A.dir)
-	D.throw_at(throw_target, 7, 14, A)
+	D.throw_at(throw_target, 7, 4, A)
 	D.apply_damage(15, A.get_attack_type(), BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	log_combat(A, D, "launchkicked (Sleeping Carp)")
 	return
@@ -169,7 +169,7 @@
 	block_chance = 50
 	var/wielded = FALSE // track wielded status on item
 
-/obj/item/staff/bostaff/Initialize()
+/obj/item/staff/bostaff/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_TWOHANDED_WIELD, .proc/on_wield)
 	RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, .proc/on_unwield)

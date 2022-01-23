@@ -81,18 +81,17 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	special_target = aimed_at
 	loopy_rod = force_looping
 
-	AddElement(/datum/element/point_of_interest)
+	SSpoints_of_interest.make_point_of_interest(src)
 
 	RegisterSignal(src, COMSIG_ATOM_ENTERING, .proc/on_entering_atom)
 
 	if(special_target)
-		walk_towards(src, special_target, 1)
+		SSmove_manager.home_onto(src, special_target)
 	else
-		walk_towards(src, destination, 1)
+		SSmove_manager.move_towards(src, destination)
 
 /obj/effect/immovablerod/Destroy(force)
 	UnregisterSignal(src, COMSIG_ATOM_ENTERING)
-	RemoveElement(/datum/element/point_of_interest)
 	SSaugury.unregister_doom(src)
 
 	return ..()
@@ -154,7 +153,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 				return
 
 			visible_message(span_danger("[src] phases into reality."))
-			walk_towards(src, special_target, 1)
+			SSmove_manager.home_onto(src, special_target)
 
 		if(loc == target_turf)
 			complete_trajectory()
@@ -170,7 +169,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 		if(target_turf.z != z)
 			if(loopy_rod)
 				complete_trajectory()
-				return
+				return ..()
 
 			qdel(src)
 			return
@@ -194,6 +193,9 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 
 /obj/effect/immovablerod/singularity_pull()
 	return
+
+/obj/effect/immovablerod/Process_Spacemove()
+	return TRUE
 
 /obj/effect/immovablerod/Bump(atom/clong)
 	if(prob(10))
@@ -258,7 +260,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 		penetrated_chest?.receive_damage(60, wound_bonus = 20, sharpness=SHARP_POINTY)
 
 	if(smeared_mob.density || prob(10))
-		smeared_mob.ex_act(EXPLODE_HEAVY)
+		EX_ACT(smeared_mob, EXPLODE_HEAVY)
 
 /obj/effect/immovablerod/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
@@ -294,12 +296,12 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
  * Stops your rod's automated movement. Sit... Stay... Good rod!
  */
 /obj/effect/immovablerod/proc/sit_stay_good_rod()
-	walk(src, 0)
+	SSmove_manager.stop_looping(src)
 
 /**
  * Allows your rod to release restraint level zero and go for a walk.
  *
- * If walkies_location is set, rod will walk_towards the location, chasing it across z-levels if necessary.
+ * If walkies_location is set, rod will move towards the location, chasing it across z-levels if necessary.
  * If walkies_location is not set, rod will call complete_trajectory() and follow the logic from that proc.
  *
  * Arguments:
@@ -308,7 +310,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 /obj/effect/immovablerod/proc/go_for_a_walk(walkies_location = null)
 	if(walkies_location)
 		special_target = walkies_location
-		walk_towards(src, special_target, 1)
+		SSmove_manager.home_onto(src, special_target)
 		return
 
 	complete_trajectory()
@@ -324,4 +326,4 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
  */
 /obj/effect/immovablerod/proc/walk_in_direction(direction)
 	destination = get_edge_target_turf(src, direction)
-	walk_towards(src, destination, 1)
+	SSmove_manager.move_towards(src, destination)

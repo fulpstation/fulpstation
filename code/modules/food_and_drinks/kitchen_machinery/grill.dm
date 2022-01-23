@@ -9,6 +9,7 @@
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "grill_open"
 	density = TRUE
+	pass_flags_self = PASSMACHINE | LETPASSTHROW
 	layer = BELOW_OBJ_LAYER
 	use_power = NO_POWER_USE
 	var/grill_fuel = 0
@@ -16,7 +17,7 @@
 	var/grill_time = 0
 	var/datum/looping_sound/grill/grill_loop
 
-/obj/machinery/grill/Initialize()
+/obj/machinery/grill/Initialize(mapload)
 	. = ..()
 	grill_loop = new(src, FALSE)
 

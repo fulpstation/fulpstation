@@ -111,6 +111,10 @@
 	name = "\improper Hotel Staff Room"
 	icon_state = "crew_quarters"
 
+/area/ruin/space/has_grav/hotel/storeroom
+	name = "\improper Hotel Staff Storage"
+	icon_state = "crew_quarters"
+
 
 
 
@@ -371,6 +375,12 @@
 
 /area/ruin/space/djstation/solars
 	name = "\improper DJ Station Solars"
+	icon_state = "DJ"
+	area_flags = UNIQUE_AREA | AREA_USES_STARLIGHT
+	has_gravity = STANDARD_GRAVITY
+
+/area/ruin/space/djstation/service
+	name = "\improper DJ Station Service"
 	icon_state = "DJ"
 	has_gravity = STANDARD_GRAVITY
 

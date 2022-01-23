@@ -94,7 +94,7 @@
 
 /datum/looping_sound/jackpot
 	mid_length = 11
-	mid_sounds = list('sound/machines/roulettejackpot.ogg')
+	mid_sounds = list('sound/machines/roulettejackpot.ogg'=1)
 	volume = 85
 	vary = TRUE
 
@@ -128,3 +128,8 @@
 	volume = 40
 	falloff_distance = 5
 	falloff_exponent = 20
+
+/datum/looping_sound/gravgen/kinesis
+	volume = 20
+	falloff_distance = 2
+	falloff_exponent = 5

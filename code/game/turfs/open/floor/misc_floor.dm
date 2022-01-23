@@ -7,7 +7,7 @@
 	floor_tile = /obj/item/stack/tile/circuit
 	var/on = TRUE
 
-/turf/open/floor/circuit/Initialize()
+/turf/open/floor/circuit/Initialize(mapload)
 	SSmapping.nuke_tiles += src
 	update_appearance()
 	. = ..()
@@ -149,7 +149,7 @@
 	floor_tile = /obj/item/stack/tile/bronze/flat
 
 /turf/open/floor/bronze/filled
-	icon = 'icons/obj/clockwork_objects.dmi'
+	icon_state = "clockwork_floor_filled"
 	floor_tile = /obj/item/stack/tile/bronze/filled
 
 /turf/open/floor/bronze/filled/lavaland

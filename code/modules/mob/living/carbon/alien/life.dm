@@ -10,6 +10,9 @@
 		//Aliens breathe in vaccuum
 		return 0
 
+	if(health <= HEALTH_THRESHOLD_CRIT)
+		adjustOxyLoss(2)
+
 	var/plasma_used = 0
 	var/plas_detect_threshold = 0.02
 	var/breath_pressure = (breath.total_moles()*R_IDEAL_GAS_EQUATION*breath.temperature)/BREATH_VOLUME
@@ -43,9 +46,6 @@
 	//natural reduction of movement delay due to stun.
 	if(move_delay_add > 0)
 		move_delay_add = max(0, move_delay_add - (0.5 * rand(1, 2) * delta_time))
-
-/mob/living/carbon/alien/handle_changeling()
-	return
 
 /mob/living/carbon/alien/handle_fire(delta_time, times_fired)//Aliens on fire code
 	. = ..()

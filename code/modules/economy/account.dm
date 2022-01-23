@@ -11,7 +11,7 @@
 	var/being_dumped = FALSE //pink levels are rising
 	var/datum/bounty/civilian_bounty
 	var/list/datum/bounty/bounties
-	var/bounty_timer = 0
+	COOLDOWN_DECLARE(bounty_timer)
 
 /datum/bank_account/New(newname, job, modifier = 1)
 	account_holder = newname
@@ -26,6 +26,8 @@
 
 /// Proc guarantees the account_id possesses a unique number. If it doesn't, it tries to find a unique alternative. It then adds it to the `SSeconomy.bank_accounts_by_id` global list.
 /datum/bank_account/proc/setup_unique_account_id()
+	if (!add_to_accounts)
+		return
 	if(account_id && !SSeconomy.bank_accounts_by_id["[account_id]"])
 		SSeconomy.bank_accounts_by_id["[account_id]"] = src
 		return //Already unique
@@ -170,7 +172,7 @@
  */
 /datum/bank_account/proc/reset_bounty()
 	civilian_bounty = null
-	bounty_timer = 0
+	COOLDOWN_RESET(src, bounty_timer)
 
 /datum/bank_account/department
 	account_holder = "Guild Credit Agency"

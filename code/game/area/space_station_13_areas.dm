@@ -26,7 +26,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	requires_power = TRUE
 	always_unpowered = TRUE
 	static_lighting = FALSE
-	base_lighting_color = COLOR_WHITE
+
 	base_lighting_alpha = 255
 	power_light = FALSE
 	power_equip = FALSE
@@ -70,9 +70,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	max_ambience_cooldown = 220 SECONDS
 
 /area/asteroid/nearstation
-	static_lighting = FALSE
-	base_lighting_alpha = 255
-	base_lighting_color = COLOR_WHITE
+	static_lighting = TRUE
 	ambience_index = AMBIENCE_RUINS
 	always_unpowered = FALSE
 	requires_power = TRUE
@@ -107,7 +105,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/ai_will_not_hear_this = list('sound/ambience/ambimalf.ogg')
 	airlock_wires = /datum/wires/airlock/ai
 
-/area/ai_monitored/turret_protected/Initialize()
+/area/ai_monitored/turret_protected/Initialize(mapload)
 	. = ..()
 	if(ai_will_not_hear_this)
 		ambientsounds += ai_will_not_hear_this
@@ -170,7 +168,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance
 	name = "Generic Maintenance"
 	ambience_index = AMBIENCE_MAINT
-	area_flags = BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED
+	area_flags = BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED | PERSISTENT_ENGRAVINGS
 	airlock_wires = /datum/wires/airlock/maint
 	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
 
@@ -579,6 +577,10 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "\improper Female Sleep Barracks"
 	icon_state = "dorms_female"
 
+/area/commons/dorms/laundry
+	name = "\improper Laundry Room"
+	icon_state = "laundry_room"
+
 /area/commons/toilet
 	name = "\improper Dormitory Toilets"
 	icon_state = "toilet"
@@ -625,12 +627,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "\improper Recreation Area"
 	icon_state = "rec"
 
-/area/commons/cryopods
-	name = "\improper Cryopod Room"
-	icon_state = "cryopod"
-
 // Commons - Vacant Rooms
-
 /area/commons/vacant_room
 	name = "\improper Vacant Room"
 	icon_state = "vacant_room"
@@ -693,6 +690,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/service/kitchen/diner
 	name = "\improper Diner"
 
+/area/service/kitchen/abandoned
+	name = "\improper Abandoned Kitchen"
+
 /area/service/bar
 	name = "\improper Bar"
 	icon_state = "bar"
@@ -722,9 +722,13 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/service/abandoned_gambling_den/secondary
 	icon_state = "abandoned_g_den_2"
 
+/area/service/abandoned_gambling_den/gaming
+	name = "\improper Abandoned Gaming Den"
+	icon_state = "abandoned_g_den_2"
+
 /area/service/theater
 	name = "\improper Theater"
-	icon_state = "Theater"
+	icon_state = "theatre"
 	sound_environment = SOUND_AREA_WOODFLOOR
 
 /area/service/theater/abandoned
@@ -886,12 +890,12 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 /area/engineering/storage
 	name = "Engineering Storage"
-	icon_state = "engi_storage"
+	icon_state = "engine_storage"
 	sound_environment = SOUND_AREA_SMALL_ENCLOSED
 
 /area/engineering/storage_shared
 	name = "Shared Engineering Storage"
-	icon_state = "engi_storage"
+	icon_state = "engine_storage_shared"
 
 /area/engineering/transit_tube
 	name = "\improper Transit Tube"
@@ -1159,6 +1163,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/security/prison
 	name = "\improper Prison Wing"
 	icon_state = "sec_prison"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED | PERSISTENT_ENGRAVINGS
 
 /area/security/prison/toilet //radproof
 	name = "\improper Prison Toilet"
@@ -1211,7 +1216,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 /area/security/interrogation
 	name = "\improper Interrogation Room"
-	icon_state =  "interrogation"
+	icon_state = "interrogation"
 	sound_environment = SOUND_AREA_SMALL_ENCLOSED
 
 /area/security/warden
@@ -1278,7 +1283,16 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	icon_state = "customs_point"
 
 /area/security/checkpoint/customs/auxiliary
+	name = "Auxiliary Customs"
 	icon_state = "customs_point_aux"
+
+/area/security/checkpoint/customs/fore
+	name = "Fore Customs"
+	icon_state = "customs_point_fore"
+
+/area/security/checkpoint/customs/aft
+	name = "Aft Customs"
+	icon_state = "customs_point_aft"
 
 //Security - AI Monitored
 /area/ai_monitored/security/armory
@@ -1307,6 +1321,10 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "\improper Warehouse"
 	icon_state = "cargo_warehouse"
 	sound_environment = SOUND_AREA_LARGE_ENCLOSED
+
+/area/cargo/drone_bay
+	name = "\improper Drone Bay"
+	icon_state = "cargo_drone"
 
 /area/cargo/warehouse/upper
 	name = "\improper Upper Warehouse"

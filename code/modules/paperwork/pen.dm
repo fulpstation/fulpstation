@@ -54,6 +54,7 @@
 /obj/item/pen/fourcolor
 	desc = "It's a fancy four-color ink pen, set to black."
 	name = "four-color pen"
+	icon_state = "pen_4color"
 	colour = "black"
 
 /obj/item/pen/fourcolor/attack_self(mob/living/carbon/user)
@@ -112,7 +113,7 @@
 						)
 	embedding = list("embed_chance" = 75)
 
-/obj/item/pen/fountain/captain/Initialize()
+/obj/item/pen/fountain/captain/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 200, 115) //the pen is mightier than the sword
 
@@ -126,11 +127,12 @@
 	if(.)
 		return
 
-	var/deg = input(user, "What angle would you like to rotate the pen head to? (1-360)", "Rotate Pen Head") as null|num
-	if(deg && (deg > 0 && deg <= 360))
-		degrees = deg
-		to_chat(user, span_notice("You rotate the top of the pen to [degrees] degrees."))
-		SEND_SIGNAL(src, COMSIG_PEN_ROTATED, deg, user)
+	var/deg = tgui_input_number(user, "What angle would you like to rotate the pen head to? (1-360)", "Rotate Pen Head", max_value = 360)
+	if(isnull(deg))
+		return
+	degrees = round(deg)
+	to_chat(user, span_notice("You rotate the top of the pen to [degrees] degrees."))
+	SEND_SIGNAL(src, COMSIG_PEN_ROTATED, deg, user)
 
 /obj/item/pen/attack(mob/living/M, mob/user, params)
 	if(force) // If the pen has a force value, call the normal attack procs. Used for e-daggers and captain's pen mostly.
@@ -146,11 +148,11 @@
 	. = ..()
 	//Changing name/description of items. Only works if they have the UNIQUE_RENAME object flag set
 	if(isobj(O) && proximity && (O.obj_flags & UNIQUE_RENAME))
-		var/penchoice = input(user, "What would you like to edit?", "Rename, change description or reset both?") as null|anything in list("Rename","Change description","Reset")
+		var/penchoice = tgui_alert(user, "What would you like to edit?", "Pen Setting", list("Rename","Description","Reset"))
 		if(QDELETED(O) || !user.canUseTopic(O, BE_CLOSE))
 			return
 		if(penchoice == "Rename")
-			var/input = stripped_input(user,"What do you want to name [O]?", ,"[O.name]", MAX_NAME_LEN)
+			var/input = tgui_input_text(user, "What do you want to name [O]?", "Object Name", "[O.name]", MAX_NAME_LEN)
 			var/oldname = O.name
 			if(QDELETED(O) || !user.canUseTopic(O, BE_CLOSE))
 				return
@@ -165,8 +167,8 @@
 				to_chat(user, span_notice("You have successfully renamed \the [oldname] to [O]."))
 				O.renamedByPlayer = TRUE
 
-		if(penchoice == "Change description")
-			var/input = stripped_input(user,"Describe [O] here:", ,"[O.desc]", 140)
+		if(penchoice == "Description")
+			var/input = tgui_input_text(user, "Describe [O]", "Description", "[O.desc]", 140)
 			var/olddesc = O.desc
 			if(QDELETED(O) || !user.canUseTopic(O, BE_CLOSE))
 				return
@@ -207,7 +209,7 @@
 	reagents.trans_to(M, reagents.total_volume, transfered_by = user, methods = INJECT)
 
 
-/obj/item/pen/sleepy/Initialize()
+/obj/item/pen/sleepy/Initialize(mapload)
 	. = ..()
 	create_reagents(45, OPENCONTAINER)
 	reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, 20)
@@ -223,10 +225,14 @@
 	sharpness = SHARP_POINTY
 	/// The real name of our item when extended.
 	var/hidden_name = "energy dagger"
+	/// The real desc of our item when extended.
+	var/hidden_desc = "It's a normal black ink pen."
+	/// The real icons used when extended.
+	var/hidden_icon = "edagger"
 	/// Whether or pen is extended
 	var/extended = FALSE
 
-/obj/item/pen/edagger/Initialize()
+/obj/item/pen/edagger/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, _speed = 6 SECONDS, _butcher_sound = 'sound/weapons/blade1.ogg')
 	AddComponent(/datum/component/transforming, \
@@ -257,13 +263,15 @@
 	extended = active
 	if(active)
 		name = hidden_name
-		icon_state = "edagger"
-		inhand_icon_state = "edagger"
+		desc = hidden_desc
+		icon_state = hidden_icon
+		inhand_icon_state = hidden_icon
 		lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 		righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 		embedding = list(embed_chance = 100) // Rule of cool
 	else
 		name = initial(name)
+		desc = initial(desc)
 		icon_state = initial(icon_state)
 		inhand_icon_state = initial(inhand_icon_state)
 		lefthand_file = initial(lefthand_file)
@@ -274,6 +282,15 @@
 	balloon_alert(user, "[hidden_name] [active ? "active":"concealed"]")
 	playsound(user ? user : src, active ? 'sound/weapons/saberon.ogg' : 'sound/weapons/saberoff.ogg', 5, TRUE)
 	return COMPONENT_NO_DEFAULT_MESSAGE
+
+///syndicate prototype for smuggling missions
+/obj/item/pen/edagger/prototype
+	name = "odd pen"
+	desc = "It's an abnormal black ink pen, with weird chunks of metal sticking out of it..."
+	hidden_name = "prototype hardlight dagger"
+	hidden_desc = "Waffle Corp R&D's prototype for energy daggers. Hardlight may be inferior \
+	to energy weapons, but it's still surprisingly deadly."
+	hidden_icon = "eprototypedagger"
 
 /obj/item/pen/survival
 	name = "survival pen"
@@ -289,3 +306,5 @@
 	grind_results = list(/datum/reagent/iron = 2, /datum/reagent/iodine = 1)
 	tool_behaviour = TOOL_MINING //For the classic "digging out of prison with a spoon but you're in space so this analogy doesn't work" situation.
 	toolspeed = 10 //You will never willingly choose to use one of these over a shovel.
+	font = FOUNTAIN_PEN_FONT
+	colour = "blue"

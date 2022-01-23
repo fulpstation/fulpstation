@@ -148,6 +148,12 @@
 			to_chat(user, span_notice("You clean \the [target.name]."))
 			target.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
 			target.set_opacity(initial(target.opacity))
+			var/obj/structure/window/our_window = target
+			if(our_window.bloodied)
+				for(var/obj/effect/decal/cleanable/blood/iter_blood in our_window)
+					our_window.vis_contents -= iter_blood
+					qdel(iter_blood)
+					our_window.bloodied = FALSE
 			user.mind?.adjust_experience(/datum/skill/cleaning, CLEAN_SKILL_GENERIC_WASH_XP)
 			decreaseUses(user)
 	else
@@ -188,7 +194,7 @@
 	///sound file given to the squeaky component we make in Initialize() so sub-types can specify their own sound
 	var/sound_file = 'sound/items/bikehorn.ogg'
 
-/obj/item/bikehorn/Initialize()
+/obj/item/bikehorn/Initialize(mapload)
 	. = ..()
 	var/list/sound_list = list()
 	sound_list[sound_file] = 1

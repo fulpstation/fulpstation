@@ -41,6 +41,11 @@
 #define PILL_STYLE_COUNT 22 //Update this if you add more pill icons or you die
 #define RANDOM_PILL_STYLE 22 //Dont change this one though
 
+//used by chem masters and pill presses
+//update this if you add more patch icons
+#define PATCH_STYLE_LIST list("bandaid", "bandaid_brute", "bandaid_burn", "bandaid_both") //icon_state list
+#define DEFAULT_PATCH_STYLE "bandaid"
+
 //used by chem master
 #define CONDIMASTER_STYLE_AUTO "auto"
 #define CONDIMASTER_STYLE_FALLBACK "_"
@@ -80,6 +85,8 @@
 #define REAGENT_CAN_BE_SYNTHESIZED (1<<5)
 ///Allows a reagent to work on a mob regardless of stasis
 #define REAGENT_IGNORE_STASIS (1<<6)
+///This reagent won't be used in most randomized recipes. Meant for reagents that could be synthetized but are normally inaccessible or TOO hard to get.
+#define REAGENT_NO_RANDOM_RECIPE (1<<7)
 
 //Chemical reaction flags, for determining reaction specialties
 ///Convert into impure/pure on reaction completion
@@ -177,4 +184,4 @@
 #define BLASTOFF_DANCE_MOVES_PER_SUPER_MOVE 3
 
 ///This is the center of a 1 degree deadband in which water will neither freeze to ice nor melt to liquid
-#define WATER_MATTERSTATE_CHANGE_TEMP 245.5 
+#define WATER_MATTERSTATE_CHANGE_TEMP 274.5

@@ -15,15 +15,14 @@
 //#define REFERENCE_TRACKING
 #ifdef REFERENCE_TRACKING
 
-///Should we be logging our findings or not
-#define REFERENCE_TRACKING_LOG
-
 ///Used for doing dry runs of the reference finder, to test for feature completeness
+///Slightly slower, higher in memory. Just not optimal
 //#define REFERENCE_TRACKING_DEBUG
 
 ///Run a lookup on things hard deleting by default.
 //#define GC_FAILURE_HARD_LOOKUP
 #ifdef GC_FAILURE_HARD_LOOKUP
+///Don't stop when searching, go till you're totally done
 #define FIND_REF_NO_CHECK_TICK
 #endif //ifdef GC_FAILURE_HARD_LOOKUP
 
@@ -40,6 +39,16 @@
 #define TRACK_MAX_SHARE //Allows max share tracking, for use in the atmos debugging ui
 #endif //ifdef TESTING
 
+/// If this is uncommented, we set up the ref tracker to be used in a live environment
+/// And to log events to [log_dir]/harddels.log
+//#define REFERENCE_DOING_IT_LIVE
+#ifdef REFERENCE_DOING_IT_LIVE
+// compile the backend
+#define REFERENCE_TRACKING
+// actually look for refs
+#define GC_FAILURE_HARD_LOOKUP
+#endif // REFERENCE_DOING_IT_LIVE
+
 //#define UNIT_TESTS //If this is uncommented, we do a single run though of the game setup and tear down process with unit tests in between
 
 #ifndef PRELOAD_RSC //set to:
@@ -48,7 +57,8 @@
 								// 2 for preloading absolutely everything;
 
 #ifdef LOWMEMORYMODE
-#define FORCE_MAP "_maps/runtimestation.json"
+#define FORCE_MAP "runtimestation"
+#define FORCE_MAP_DIRECTORY "_maps"
 #endif
 
 //Update this whenever you need to take advantage of more recent byond features
@@ -78,6 +88,7 @@
 #define REFERENCE_TRACKING
 #define REFERENCE_TRACKING_DEBUG
 #define FIND_REF_NO_CHECK_TICK
+#define GC_FAILURE_HARD_LOOKUP
 #endif
 
 #ifdef TGS

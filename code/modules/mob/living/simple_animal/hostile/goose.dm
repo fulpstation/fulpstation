@@ -38,7 +38,7 @@
 	var/message_cooldown = 0
 	var/choking = FALSE
 
-/mob/living/simple_animal/hostile/retaliate/goose/Initialize()
+/mob/living/simple_animal/hostile/retaliate/goose/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/goosement)
 
@@ -91,7 +91,7 @@
 	var/vomitTimeBonus = 0
 	var/datum/action/cooldown/vomit/goosevomit
 
-/mob/living/simple_animal/hostile/retaliate/goose/vomit/Initialize()
+/mob/living/simple_animal/hostile/retaliate/goose/vomit/Initialize(mapload)
 	. = ..()
 	goosevomit = new
 	goosevomit.Grant(src)
@@ -246,14 +246,16 @@
 	icon_icon = 'icons/mob/animal.dmi'
 	cooldown_time = 250
 
-/datum/action/cooldown/vomit/Trigger()
-	if(!..())
-		return FALSE
+/datum/action/cooldown/vomit/Activate(atom/target)
 	if(!istype(owner, /mob/living/simple_animal/hostile/retaliate/goose/vomit))
 		return FALSE
-	var/mob/living/simple_animal/hostile/retaliate/goose/vomit/vomit = owner
-	if(!vomit.vomiting)
-		vomit.vomit_prestart(vomit.vomitTimeBonus + 25)
-		vomit.vomitCoefficient = 1
-		vomit.vomitTimeBonus = 0
+
+	StartCooldown(10 SECONDS)
+	var/mob/living/simple_animal/hostile/retaliate/goose/vomit/probably_birdboat = owner
+	if(!probably_birdboat.vomiting)
+		probably_birdboat.vomit_prestart(probably_birdboat.vomitTimeBonus + 25)
+		probably_birdboat.vomitCoefficient = 1
+		probably_birdboat.vomitTimeBonus = 0
+
+	StartCooldown()
 	return TRUE

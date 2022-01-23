@@ -34,7 +34,7 @@
 	linked_venue = /datum/venue/restaurant/prison
 
 // Don't do anything or else it BREAKS
-/obj/machinery/restaurant_portal/restaurant/prison/attacked_by(obj/item/I, mob/living/user)
+/obj/machinery/restaurant_portal/restaurant/prison/attacked_by(obj/item/item, mob/living/user)
 	return
 
 // Holosign projector

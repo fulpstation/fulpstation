@@ -4,6 +4,7 @@
 	icon = 'icons/obj/machines/kitchenmachines.dmi'
 	icon_state = "griddle1_off"
 	density = TRUE
+	pass_flags_self = PASSMACHINE | PASSTABLE| LETPASSTHROW // It's roughly the height of a table.
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 5
 	layer = BELOW_OBJ_LAYER
@@ -22,7 +23,7 @@
 	///How many shit fits on the griddle?
 	var/max_items = 8
 
-/obj/machinery/griddle/Initialize()
+/obj/machinery/griddle/Initialize(mapload)
 	. = ..()
 	grill_loop = new(src, FALSE)
 	if(isnum(variant))
@@ -128,7 +129,7 @@
 	return TRUE
 
 ///Override to prevent storage dumping onto the griddle until I figure out how to navigate the mess that is storage code to allow me to nicely move the dumped objects onto the griddle.
-/obj/machinery/griddle/get_dumping_location(obj/item/storage/source, mob/user)
+/obj/machinery/griddle/get_dumping_location()
 	return
 
 /obj/machinery/griddle/process(delta_time)

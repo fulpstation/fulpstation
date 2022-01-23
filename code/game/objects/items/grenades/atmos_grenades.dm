@@ -14,11 +14,13 @@
 			to_chat(user, span_warning("You crush the [src]! [capitalize(DisplayTimeText(det_time))]!"))
 	if(shrapnel_type && shrapnel_radius)
 		shrapnel_initialized = TRUE
-		AddComponent(/datum/component/pellet_cloud, projectile_type=shrapnel_type, magnitude=shrapnel_radius)
+		AddComponent(/datum/component/pellet_cloud, projectile_type = shrapnel_type, magnitude = shrapnel_radius)
 	active = TRUE
 	icon_state = initial(icon_state) + "_active"
 	playsound(src, 'sound/effects/hit_on_shattered_glass.ogg', volume, TRUE)
 	SEND_SIGNAL(src, COMSIG_GRENADE_ARMED, det_time, delayoverride)
+	if(user)
+		SEND_SIGNAL(src, COMSIG_MOB_GRENADE_ARMED, user, src, det_time, delayoverride)
 	addtimer(CALLBACK(src, .proc/detonate), isnull(delayoverride)? det_time : delayoverride)
 
 /obj/item/grenade/gas_crystal/healium_crystal
@@ -106,7 +108,7 @@
 
 	var/turf/detonation_turf = get_turf(src)
 
-	chem_splash(detonation_turf, breach_range, reactants)
+	chem_splash(detonation_turf, null, breach_range, reactants)
 
 	playsound(src, 'sound/effects/spray2.ogg', 100, TRUE)
 	log_game("A grenade detonated at [AREACOORD(detonation_turf)]")

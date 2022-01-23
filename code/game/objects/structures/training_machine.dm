@@ -47,7 +47,7 @@
 /**
  * Called on a normal destruction, so we have a cool explosion and toss whatever's attached
  */
-/obj/structure/training_machine/obj_destruction(damage_flag)
+/obj/structure/training_machine/atom_destruction(damage_flag)
 	remove_attached_item(throwing = TRUE)
 	explosion(src, light_impact_range = 1, flash_range = 2)
 	return ..()
@@ -164,7 +164,7 @@
 		UnregisterSignal(attached_item, COMSIG_PARENT_QDELETING)
 		qdel(attached_item)
 	else if (user)
-		user.put_in_hands(attached_item)
+		INVOKE_ASYNC(user, /mob/proc/put_in_hands, attached_item)
 	else
 		attached_item.forceMove(drop_location())
 	if (throwing && !QDELETED(attached_item)) //Fun little thing where we throw out the old attached item when emagged
@@ -342,12 +342,12 @@
  */
 /obj/item/training_toolbox
 	name = "Training Toolbox"
-	desc = "AURUMILL-Brand Baby's First Training Toolbox. A digital display on the back keeps track of hits made by the user. Second toolbox sold seperately!"
-	icon = 'icons/obj/storage.dmi'
+	desc = "AURUMILL-Brand Baby's First Training Toolbox. A digital display on the back keeps track of hits made by the user. Second toolbox sold separately!"
+	icon = 'goon/icons/obj/toolbox.dmi'
 	icon_state = "gold"
 	inhand_icon_state = "toolbox_gold"
-	lefthand_file = 'icons/mob/inhands/equipment/toolbox_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/toolbox_righthand.dmi'
+	lefthand_file = 'goon/icons/mob/inhands/equipment/toolbox_lefthand.dmi'
+	righthand_file = 'goon/icons/mob/inhands/equipment/toolbox_righthand.dmi'
 	flags_1 = CONDUCT_1
 	force = 0
 	throwforce = 0
@@ -396,6 +396,8 @@
 
 /obj/item/training_toolbox/AltClick(mob/user)
 	. = ..()
+	if(!can_interact(user))
+		return
 	to_chat(user, span_notice("You push the 'Lap' button on the toolbox's display."))
 	lap_hits = initial(lap_hits)
 

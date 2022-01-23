@@ -47,7 +47,7 @@
 		maxcharge = override_maxcharge
 	charge = maxcharge
 	if(ratingdesc)
-		desc += " This one has a rating of [DisplayEnergy(maxcharge)], and you should not swallow it."
+		desc += " This one has a rating of [display_energy(maxcharge)], and you should not swallow it."
 	update_appearance()
 
 /obj/item/stock_parts/cell/create_reagents(max_vol, flags)
@@ -73,13 +73,13 @@
 	return 100*charge/maxcharge
 
 // use power from a cell
-/obj/item/stock_parts/cell/use(amount)
+/obj/item/stock_parts/cell/use(amount, force)
 	if(rigged && amount > 0)
 		explode()
 		return FALSE
-	if(charge < amount)
+	if(!force && charge < amount)
 		return FALSE
-	charge = (charge - amount)
+	charge = max(charge - amount, 0)
 	if(!istype(loc, /obj/machinery/power/apc))
 		SSblackbox.record_feedback("tally", "cell_used", 1, type)
 	return TRUE
@@ -203,8 +203,12 @@
 /obj/item/stock_parts/cell/get_part_rating()
 	return rating * maxcharge
 
+/obj/item/stock_parts/cell/attackby_storage_insert(datum/component/storage, atom/storage_holder, mob/user)
+	var/obj/item/mod/control/mod = storage_holder
+	return !(istype(mod) && mod.open)
+
 /* Cell variants*/
-/obj/item/stock_parts/cell/empty/Initialize()
+/obj/item/stock_parts/cell/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
@@ -215,7 +219,7 @@
 	maxcharge = 500
 	custom_materials = list(/datum/material/glass=40)
 
-/obj/item/stock_parts/cell/crap/empty/Initialize()
+/obj/item/stock_parts/cell/crap/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
@@ -237,7 +241,7 @@
 	maxcharge = 600 //600 max charge / 100 charge per shot = six shots
 	custom_materials = list(/datum/material/glass=40)
 
-/obj/item/stock_parts/cell/secborg/empty/Initialize()
+/obj/item/stock_parts/cell/secborg/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
@@ -278,7 +282,7 @@
 	chargerate = 2250
 	rating = 2
 
-/obj/item/stock_parts/cell/high/empty/Initialize()
+/obj/item/stock_parts/cell/high/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
@@ -291,7 +295,7 @@
 	chargerate = 2000
 	rating = 3
 
-/obj/item/stock_parts/cell/super/empty/Initialize()
+/obj/item/stock_parts/cell/super/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
@@ -304,7 +308,7 @@
 	chargerate = 3000
 	rating = 4
 
-/obj/item/stock_parts/cell/hyper/empty/Initialize()
+/obj/item/stock_parts/cell/hyper/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
@@ -318,7 +322,7 @@
 	chargerate = 4000
 	rating = 5
 
-/obj/item/stock_parts/cell/bluespace/empty/Initialize()
+/obj/item/stock_parts/cell/bluespace/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
@@ -367,13 +371,22 @@
 	. = ..()
 	AddElement(/datum/element/empprotection, EMP_PROTECT_SELF)
 
-/obj/item/stock_parts/cell/emproof/empty/Initialize()
+/obj/item/stock_parts/cell/emproof/empty/Initialize(mapload)
 	. = ..()
 	charge = 0
 	update_appearance()
 
 /obj/item/stock_parts/cell/emproof/corrupt()
 	return
+
+/obj/item/stock_parts/cell/emproof/slime
+	name = "EMP-proof slime core"
+	desc = "A yellow slime core infused with plasma. Its organic nature makes it immune to EMPs."
+	icon = 'icons/mob/slimes.dmi'
+	icon_state = "yellow slime extract"
+	custom_materials = null
+	maxcharge = 5000
+	rating = 5
 
 /obj/item/stock_parts/cell/beam_rifle
 	name = "beam rifle capacitor"
@@ -397,7 +410,7 @@
 	custom_materials = list(/datum/material/glass = 20)
 	w_class = WEIGHT_CLASS_TINY
 
-/obj/item/stock_parts/cell/emergency_light/Initialize()
+/obj/item/stock_parts/cell/emergency_light/Initialize(mapload)
 	. = ..()
 	var/area/A = get_area(src)
 	if(!A.lightswitch || !A.light_power)
@@ -413,7 +426,7 @@
 	grind_results = null
 	rating = 5
 
-/obj/item/stock_parts/cell/crystal_cell/Initialize()
+/obj/item/stock_parts/cell/crystal_cell/Initialize(mapload)
 	. = ..()
 	charge = 50000
 

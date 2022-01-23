@@ -45,7 +45,7 @@
 /obj/item/gun/energy/get_cell()
 	return cell
 
-/obj/item/gun/energy/Initialize()
+/obj/item/gun/energy/Initialize(mapload)
 	. = ..()
 	if(cell_type)
 		cell = new cell_type(src)
@@ -79,14 +79,14 @@
 	readout += "\nStandard models of this projectile weapon have [span_warning("[ammo_type.len] mode\s")]"
 	readout += "Our heroic interns have shown that one can theoretically stay standing after..."
 	for(var/obj/item/ammo_casing/energy/for_ammo as anything in ammo_type)
-		exam_proj = GLOB.proj_by_path_key[for_ammo?.projectile_type]
-		if(!istype(exam_proj))
+		exam_proj = for_ammo.projectile_type
+		if(!ispath(exam_proj))
 			continue
 
-		if(exam_proj.damage > 0) // Don't divide by 0!!!!!
-			readout += "[span_warning("[HITS_TO_CRIT(exam_proj.damage)] shot\s")] on [span_warning("[for_ammo.select_name]")] mode before collapsing from [exam_proj.damage_type == STAMINA ? "immense pain" : "their wounds"]."
-			if(exam_proj.stamina > 0) // In case a projectile does damage AND stamina damage (Energy Crossbow)
-				readout += "[span_warning("[HITS_TO_CRIT(exam_proj.stamina)] shot\s")] on [span_warning("[for_ammo.select_name]")] mode before collapsing from immense pain."
+		if(initial(exam_proj.damage) > 0) // Don't divide by 0!!!!!
+			readout += "[span_warning("[HITS_TO_CRIT(initial(exam_proj.damage) * for_ammo.pellets)] shot\s")] on [span_warning("[for_ammo.select_name]")] mode before collapsing from [initial(exam_proj.damage_type) == STAMINA ? "immense pain" : "their wounds"]."
+			if(initial(exam_proj.stamina) > 0) // In case a projectile does damage AND stamina damage (Energy Crossbow)
+				readout += "[span_warning("[HITS_TO_CRIT(initial(exam_proj.stamina) * for_ammo.pellets)] shot\s")] on [span_warning("[for_ammo.select_name]")] mode before collapsing from immense pain."
 		else
 			readout += "a theoretically infinite number of shots on [span_warning("[for_ammo.select_name]")] mode."
 
@@ -98,7 +98,7 @@
 
 /obj/item/gun/energy/proc/update_ammo_types()
 	var/obj/item/ammo_casing/energy/shot
-	for (var/i = 1, i <= ammo_type.len, i++)
+	for (var/i in 1 to ammo_type.len)
 		var/shottype = ammo_type[i]
 		shot = new shottype(src)
 		ammo_type[i] = shot
@@ -154,7 +154,7 @@
 			if(!chambered.loaded_projectile)
 				chambered.newshot()
 
-/obj/item/gun/energy/process_chamber()
+/obj/item/gun/energy/handle_chamber()
 	if(chambered && !chambered.loaded_projectile) //if loaded_projectile is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
 		cell.use(shot.e_cost)//... drain the cell cell

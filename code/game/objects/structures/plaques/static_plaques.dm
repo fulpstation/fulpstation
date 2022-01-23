@@ -118,6 +118,10 @@
 	desc = "Next to the extremely long list of names and job titles, there is a drawing of a little child. The child appears to be disabled. Beneath the image, someone has scratched the word \"PACKETS\"."
 	icon_state = "kiddieplaque"
 
+/obj/structure/sign/plaques/kiddie/devils_tooth
+	name = "\improper Devil's Tooth Plaque"
+	desc = "A plaque commemorating the fallen souls who had to die tunneling out this segment of the frozen ice planet that surrounds it. It's named \"Devil's Tooth\" because those who laid down their life here surely thought they were in hell."
+
 /obj/structure/sign/plaques/kiddie/badger
 	name = "\improper Remembrance Plaque"
 	desc = "A plaque commemorating the fallen, may they rest in peace, forever asleep amongst the stars. Someone has drawn a picture of a crying badger at the bottom."
@@ -133,9 +137,3 @@
 /obj/structure/sign/plaques/kiddie/perfect_drone
 	name = "\improper 'Perfect Drone' sign"
 	desc = "A guide to the drone shell dispenser, detailing the constructive and destructive applications of modern repair drones, as well as the development of the incorruptible cyborg servants of tomorrow, available today."
-
-/obj/structure/sign/plaques/deempisi
-	name = "\improper Mr. Deempisi portrait"
-	desc = "Under the painting a plaque reads: 'While the meat grinder may not have spared you, fear not. Not one part of you has gone to waste... You were delicious.'"
-	icon_state = "monkey_painting"
-	custom_materials = list(/datum/material/wood = 2000) //The same as /obj/structure/sign/picture_frame

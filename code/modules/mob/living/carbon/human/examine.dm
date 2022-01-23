@@ -18,12 +18,14 @@
 
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
 
-	var/vampDesc = ReturnVampExamine(user) // Fulpstation Bloodsuckers edit
+	// Fulp edit START - Bloodsuckers
+	var/vampDesc = ReturnVampExamine(user)
 	var/vassDesc = ReturnVassalExamine(user)
 	if(vampDesc != "")
 		. += vampDesc
 	if(vassDesc != "")
-		. += vassDesc // Fulpstation edit ends
+		. += vassDesc
+	// Fulp edit END
 
 	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
@@ -90,11 +92,10 @@
 	if(!(obscured & ITEM_SLOT_EYES) )
 		if(glasses  && !(glasses.item_flags & EXAMINE_SKIP))
 			. += "[t_He] [t_has] [glasses.get_examine_string(user)] covering [t_his] eyes."
-		else if(eye_color == BLOODCULT_EYE)
-			if(IS_CULTIST(src) && HAS_TRAIT(src, TRAIT_CULT_EYES))
-				. += "<span class='warning'><B>[t_His] eyes are glowing an unnatural red!</B></span>"
-			else if(HAS_TRAIT(src, TRAIT_BLOODSHOT_EYES))
-				. += "<span class='warning'><B>[t_His] eyes are bloodshot!</B></span>"
+		else if(HAS_TRAIT(src, TRAIT_UNNATURAL_RED_GLOWY_EYES))
+			. += "<span class='warning'><B>[t_His] eyes are glowing with an unnatural red aura!</B></span>"
+		else if(HAS_TRAIT(src, TRAIT_BLOODSHOT_EYES))
+			. += "<span class='warning'><B>[t_His] eyes are bloodshot!</B></span>"
 
 	//ears
 	if(ears && !(obscured & ITEM_SLOT_EARS) && !(ears.item_flags & EXAMINE_SKIP))
@@ -199,7 +200,7 @@
 		else
 			temp = getBruteLoss()
 		if(temp)
-		// FULP EDIT - SPECIES DAMAGE DESCRIPTIONS
+		// Fulp edit START - Species
 			if(temp < 25)
 //				msg += "[t_He] [t_has] minor bruising.\n"
 				msg += "[t_He] [t_has] minor [dna.species.bruising_desc].\n"
@@ -233,7 +234,7 @@
 			else
 //				msg += "<b>[t_He] [t_has] severe cellular damage!</b>\n"
 				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n"
-		// FULP EDIT END
+		// Fulp edit END
 
 
 	if(fire_stacks > 0)
@@ -263,13 +264,12 @@
 	var/apparent_blood_volume = blood_volume
 	if(skin_tone == "albino")
 		apparent_blood_volume -= 150 // enough to knock you down one tier
-	// Fulpstation Bloodsuckers edit - Blood level examining edits
+	// Fulp edit START - Bloodsuckers
 	var/bloodDesc = ShowAsPaleExamine(user, apparent_blood_volume)
-	if(bloodDesc == BLOODSUCKER_HIDE_BLOOD) // Do nothing, we're hiding!
-	else if(bloodDesc != "")
+	if(bloodDesc != BLOODSUCKER_HIDE_BLOOD)
 		msg += bloodDesc
 	else switch(apparent_blood_volume)
-	// Fulpstation edit ENDS
+	// Fulp edit END
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
 			msg += "[t_He] [t_has] pale skin.\n"
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
@@ -469,3 +469,23 @@
 			dat += "[new_text]\n" //dat.Join("\n") doesn't work here, for some reason
 	if(dat.len)
 		return dat.Join()
+
+/mob/living/carbon/human/examine_more(mob/user)
+	. = ..()
+	if ((wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE)))
+		return
+	var/age_text
+	switch(age)
+		if(-INFINITY to 25)
+			age_text = "very young"
+		if(26 to 35)
+			age_text = "of adult age"
+		if(36 to 55)
+			age_text = "middle-aged"
+		if(56 to 75)
+			age_text = "rather old"
+		if(76 to 100)
+			age_text = "very old"
+		if(101 to INFINITY)
+			age_text = "withering away"
+	. += list(span_notice("[p_they(TRUE)] appear[p_s()] to be [age_text]."))

@@ -14,6 +14,7 @@
 	icon = 'icons/obj/machines/kitchenmachines.dmi'
 	icon_state = "oven_off"
 	density = TRUE
+	pass_flags_self = PASSMACHINE | LETPASSTHROW
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 5
 	layer = BELOW_OBJ_LAYER
@@ -30,7 +31,7 @@
 	///Current state of smoke coming from the oven
 	var/smoke_state = OVEN_SMOKE_STATE_NONE
 
-/obj/machinery/oven/Initialize()
+/obj/machinery/oven/Initialize(mapload)
 	. = ..()
 	oven_loop = new(src)
 	add_tray_to_oven(new /obj/item/plate/oven_tray(src)) //Start with a tray

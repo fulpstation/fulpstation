@@ -5,30 +5,31 @@
 	icon_state = "generic_camera"
 	var/allowed_area = null
 
-/mob/camera/ai_eye/remote/xenobio/Initialize()
+/mob/camera/ai_eye/remote/xenobio/Initialize(mapload)
 	var/area/A = get_area(loc)
 	allowed_area = A.name
 	. = ..()
 
-/mob/camera/ai_eye/remote/xenobio/setLoc(destination)
+/mob/camera/ai_eye/remote/xenobio/setLoc(turf/destination, force_update = FALSE)
 	var/area/new_area = get_area(destination)
 	if(new_area && new_area.name == allowed_area || new_area && (new_area.area_flags & XENOBIOLOGY_COMPATIBLE))
 		return ..()
 	else
 		return
 
+/mob/camera/ai_eye/remote/xenobio/can_z_move(direction, turf/start, turf/destination, z_move_flags = NONE, mob/living/rider)
+	. = ..()
+	if(!.)
+		return
+	var/area/new_area = get_area(.)
+	if(new_area.name != allowed_area && !(new_area.area_flags & XENOBIOLOGY_COMPATIBLE))
+		return FALSE
+
 /obj/machinery/computer/camera_advanced/xenobio
 	name = "Slime management console"
 	desc = "A computer used for remotely handling slimes."
 	networks = list("ss13")
 	circuit = /obj/item/circuitboard/computer/xenobiology
-	var/datum/action/innate/slime_place/slime_place_action
-	var/datum/action/innate/slime_pick_up/slime_up_action
-	var/datum/action/innate/feed_slime/feed_slime_action
-	var/datum/action/innate/monkey_recycle/monkey_recycle_action
-	var/datum/action/innate/slime_scan/scan_action
-	var/datum/action/innate/feed_potion/potion_action
-	var/datum/action/innate/hotkey_help/hotkey_help
 
 	var/obj/machinery/monkey_recycler/connected_recycler
 	var/list/stored_slimes
@@ -43,13 +44,14 @@
 
 /obj/machinery/computer/camera_advanced/xenobio/Initialize(mapload)
 	. = ..()
-	slime_place_action = new
-	slime_up_action = new
-	feed_slime_action = new
-	monkey_recycle_action = new
-	scan_action = new
-	potion_action = new
-	hotkey_help = new
+	actions += new /datum/action/innate/slime_place(src)
+	actions += new /datum/action/innate/slime_pick_up(src)
+	actions += new /datum/action/innate/feed_slime(src)
+	actions += new /datum/action/innate/monkey_recycle(src)
+	actions += new /datum/action/innate/slime_scan(src)
+	actions += new /datum/action/innate/feed_potion(src)
+	actions += new /datum/action/innate/hotkey_help(src)
+
 	stored_slimes = list()
 	for(var/obj/machinery/monkey_recycler/recycler in GLOB.monkey_recyclers)
 		if(get_area(recycler.loc) == get_area(loc))
@@ -83,43 +85,9 @@
 
 /obj/machinery/computer/camera_advanced/xenobio/GrantActions(mob/living/user)
 	..()
-
-	if(slime_up_action)
-		slime_up_action.target = src
-		slime_up_action.Grant(user)
-		actions += slime_up_action
-
-	if(slime_place_action)
-		slime_place_action.target = src
-		slime_place_action.Grant(user)
-		actions += slime_place_action
-
-	if(feed_slime_action)
-		feed_slime_action.target = src
-		feed_slime_action.Grant(user)
-		actions += feed_slime_action
-
-	if(monkey_recycle_action)
-		monkey_recycle_action.target = src
-		monkey_recycle_action.Grant(user)
-		actions += monkey_recycle_action
-
-	if(scan_action)
-		scan_action.target = src
-		scan_action.Grant(user)
-		actions += scan_action
-
-	if(potion_action)
-		potion_action.target = src
-		potion_action.Grant(user)
-		actions += potion_action
-
-	if(hotkey_help)
-		hotkey_help.target = src
-		hotkey_help.Grant(user)
-		actions += hotkey_help
-
-	RegisterSignal(user, COMSIG_MOB_CTRL_CLICKED, .proc/on_ctrl_click)
+	RegisterSignal(user, COMSIG_XENO_SLIME_CLICK_CTRL, .proc/XenoSlimeClickCtrl)
+	RegisterSignal(user, COMSIG_XENO_TURF_CLICK_CTRL, .proc/XenoTurfClickCtrl)
+	RegisterSignal(user, COMSIG_XENO_MONKEY_CLICK_CTRL, .proc/XenoMonkeyClickCtrl)
 	RegisterSignal(user, COMSIG_XENO_SLIME_CLICK_ALT, .proc/XenoSlimeClickAlt)
 	RegisterSignal(user, COMSIG_XENO_SLIME_CLICK_SHIFT, .proc/XenoSlimeClickShift)
 	RegisterSignal(user, COMSIG_XENO_TURF_CLICK_SHIFT, .proc/XenoTurfClickShift)
@@ -132,7 +100,9 @@
 				connected_recycler.connected += src
 
 /obj/machinery/computer/camera_advanced/xenobio/remove_eye_control(mob/living/user)
-	UnregisterSignal(user, COMSIG_MOB_CTRL_CLICKED)
+	UnregisterSignal(user, COMSIG_XENO_SLIME_CLICK_CTRL)
+	UnregisterSignal(user, COMSIG_XENO_TURF_CLICK_CTRL)
+	UnregisterSignal(user, COMSIG_XENO_MONKEY_CLICK_CTRL)
 	UnregisterSignal(user, COMSIG_XENO_SLIME_CLICK_ALT)
 	UnregisterSignal(user, COMSIG_XENO_SLIME_CLICK_SHIFT)
 	UnregisterSignal(user, COMSIG_XENO_TURF_CLICK_SHIFT)
@@ -351,17 +321,24 @@
 	SEND_SIGNAL(user, COMSIG_XENO_TURF_CLICK_SHIFT, src)
 	..()
 
-/obj/machinery/computer/camera_advanced/xenobio/proc/on_ctrl_click(datum/source, atom/clicked_atom)
-	SIGNAL_HANDLER
-	if(ismonkey(clicked_atom))
-		XenoMonkeyClickCtrl(source, clicked_atom)
-	if(isopenturf(clicked_atom))
-		XenoTurfClickCtrl(source, clicked_atom)
-	if(isslime(clicked_atom))
-		XenoSlimeClickCtrl(source, clicked_atom)
+//scans slimes
+/mob/living/simple_animal/slime/CtrlClick(mob/user)
+	SEND_SIGNAL(user, COMSIG_XENO_SLIME_CLICK_CTRL, src)
+	..()
+
+//picks up dead monkies
+/mob/living/carbon/human/species/monkey/CtrlClick(mob/user)
+	SEND_SIGNAL(user, COMSIG_XENO_MONKEY_CLICK_CTRL, src)
+	..()
+
+//places monkies
+/turf/open/CtrlClick(mob/user)
+	SEND_SIGNAL(user, COMSIG_XENO_TURF_CLICK_CTRL, src)
+	..()
 
 // Scans slime
 /obj/machinery/computer/camera_advanced/xenobio/proc/XenoSlimeClickCtrl(mob/living/user, mob/living/simple_animal/slime/S)
+	SIGNAL_HANDLER
 	if(!GLOB.cameranet.checkTurfVis(S.loc))
 		to_chat(user, span_warning("Target is not near a camera. Cannot proceed."))
 		return
@@ -429,6 +406,7 @@
 
 //Place monkey
 /obj/machinery/computer/camera_advanced/xenobio/proc/XenoTurfClickCtrl(mob/living/user, turf/open/T)
+	SIGNAL_HANDLER
 	if(!GLOB.cameranet.checkTurfVis(T))
 		to_chat(user, span_warning("Target is not near a camera. Cannot proceed."))
 		return
@@ -449,6 +427,7 @@
 
 //Pick up monkey
 /obj/machinery/computer/camera_advanced/xenobio/proc/XenoMonkeyClickCtrl(mob/living/user, mob/living/carbon/human/M)
+	SIGNAL_HANDLER
 	if(!ismonkey(M))
 		return
 	if(!isturf(M.loc) || !GLOB.cameranet.checkTurfVis(M.loc))

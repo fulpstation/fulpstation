@@ -4,6 +4,13 @@
 	icon = 'icons/obj/abductor.dmi'
 	icon_state = "alien-pad-idle"
 	var/turf/teleport_target
+	var/obj/machinery/abductor/console/console
+
+/obj/machinery/abductor/pad/Destroy()
+	if(console)
+		console.pad = null
+		console = null
+	return ..()
 
 /obj/machinery/abductor/pad/proc/Warp(mob/living/target)
 	if(!target.buckled)
@@ -49,7 +56,7 @@
 	icon_state = "teleport"
 	duration = 80
 
-/obj/effect/temp_visual/teleport_abductor/Initialize()
+/obj/effect/temp_visual/teleport_abductor/Initialize(mapload)
 	. = ..()
 	var/datum/effect_system/spark_spread/S = new
 	S.set_up(10,0,loc)

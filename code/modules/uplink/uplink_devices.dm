@@ -35,7 +35,7 @@
 	. = ..()
 	var/datum/component/uplink/hidden_uplink = GetComponent(/datum/component/uplink)
 	hidden_uplink.name = "debug uplink"
-	hidden_uplink.debug = TRUE
+	hidden_uplink.uplink_handler.debug_mode = TRUE
 
 /obj/item/uplink/nuclear
 	uplink_flag = UPLINK_NUKE_OPS
@@ -48,12 +48,12 @@
 	. = ..()
 	var/datum/component/uplink/hidden_uplink = GetComponent(/datum/component/uplink)
 	hidden_uplink.name = "debug nuclear uplink"
-	hidden_uplink.debug = TRUE
+	hidden_uplink.uplink_handler.debug_mode = TRUE
 
 /obj/item/uplink/nuclear_restricted
 	uplink_flag = UPLINK_NUKE_OPS
 
-/obj/item/uplink/nuclear_restricted/Initialize()
+/obj/item/uplink/nuclear_restricted/Initialize(mapload)
 	. = ..()
 	var/datum/component/uplink/hidden_uplink = GetComponent(/datum/component/uplink)
 	hidden_uplink.allow_restricted = FALSE

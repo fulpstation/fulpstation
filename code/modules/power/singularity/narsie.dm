@@ -9,7 +9,7 @@
 /obj/narsie
 	name = "Nar'Sie"
 	desc = "Your mind begins to bubble and ooze as it tries to comprehend what it sees."
-	icon = 'icons/obj/narsie.dmi'
+	icon = 'icons/obj/cult/narsie.dmi'
 	icon_state = "narsie"
 	anchored = TRUE
 	appearance_flags = LONG_GLIDE
@@ -36,10 +36,10 @@
 	var/souls = 0
 	var/resolved = FALSE
 
-/obj/narsie/Initialize()
+/obj/narsie/Initialize(mapload)
 	. = ..()
 
-	AddElement(/datum/element/point_of_interest)
+	SSpoints_of_interest.make_point_of_interest(src)
 
 	singularity = WEAKREF(AddComponent(
 		/datum/component/singularity, \
@@ -57,7 +57,7 @@
 
 	var/area/area = get_area(src)
 	if(area)
-		var/mutable_appearance/alert_overlay = mutable_appearance('icons/effects/cult_effects.dmi', "ghostalertsie")
+		var/mutable_appearance/alert_overlay = mutable_appearance('icons/effects/cult/effects.dmi', "ghostalertsie")
 		notify_ghosts("Nar'Sie has risen in [area]. Reach out to the Geometer to be given a new shell for your soul.", source = src, alert_overlay = alert_overlay, action = NOTIFY_ATTACK)
 	narsie_spawn_animation()
 
@@ -244,6 +244,7 @@
 /proc/narsie_apocalypse()
 	if(QDELETED(GLOB.cult_narsie)) // tres
 		priority_announce("Normalization detected! Abort the solution package!","Central Command Higher Dimensional Affairs", 'sound/misc/notice1.ogg')
+		SSshuttle.clearHostileEnvironment(GLOB.cult_narsie)
 		GLOB.cult_narsie = null
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/narsie_last_second_win), 2 SECONDS)
 		return
@@ -255,7 +256,6 @@
 ///Called only if the crew managed to destroy narsie at the very last second for [/proc/begin_the_end()]
 /proc/narsie_last_second_win()
 	set_security_level("red")
-	SSshuttle.clearHostileEnvironment()
 	SSshuttle.lockdown = FALSE
 	INVOKE_ASYNC(GLOBAL_PROC, .proc/cult_ending_helper, 2)
 

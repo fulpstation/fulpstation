@@ -134,6 +134,14 @@ GLOBAL_VAR_INIT(cmp_field, "name")
 /proc/cmp_mob_realname_dsc(mob/A,mob/B)
 	return sorttext(A.real_name,B.real_name)
 
+/// Orders by integrated circuit weight
+/proc/cmp_port_order_asc(datum/port/compare1, datum/port/compare2)
+	return compare1.order - compare2.order
+
+/// Orders by uplink category weight
+/proc/cmp_uplink_category_desc(datum/uplink_category/compare1, datum/uplink_category/compare2)
+	return initial(compare2.weight) - initial(compare1.weight)
+
 /**
  * Sorts crafting recipe requirements before the crafting recipe is inserted into GLOB.crafting_recipes
  *

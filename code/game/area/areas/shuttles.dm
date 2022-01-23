@@ -107,10 +107,10 @@
 
 /area/shuttle/arrival/on_joining_game(mob/living/boarder)
 	if(SSshuttle.arrivals?.mode == SHUTTLE_CALL)
-		var/atom/movable/screen/splash/Spl = new(boarder.client, TRUE)
+		var/atom/movable/screen/splash/Spl = new(null, boarder.client, TRUE)
 		Spl.Fade(TRUE)
 //		boarder.playsound_local(get_turf(boarder), 'sound/voice/ApproachingTG.ogg', 25)
-		boarder.playsound_local(get_turf(boarder), 'fulp_modules/fulp_configs/sound/ApproachingFulp.ogg', 25) // Fulpstation Config edit - Use our latejoining sound instead
+		boarder.playsound_local(get_turf(boarder), 'fulp_modules/sounds/sound/arrival/ApproachingFulp.ogg', 25) // Fulp edit - Music
 	boarder.update_parallax_teleport()
 
 
@@ -193,6 +193,9 @@
 /area/shuttle/sbc_fighter2
 	name = "SBC Fighter 2"
 
+/area/shuttle/sbc_fighter3
+	name = "SBC Fighter 3"
+
 /area/shuttle/sbc_corvette
 	name = "SBC corvette"
 
@@ -234,7 +237,7 @@
 	timeleft = 0
 	var/list/warp_points = list()
 
-/obj/effect/forcefield/arena_shuttle/Initialize()
+/obj/effect/forcefield/arena_shuttle/Initialize(mapload)
 	. = ..()
 	for(var/obj/effect/landmark/shuttle_arena_safe/exit in GLOB.landmarks_list)
 		warp_points += exit
