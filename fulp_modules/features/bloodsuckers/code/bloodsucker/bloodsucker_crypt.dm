@@ -735,7 +735,7 @@
 
 	var/message = speech_args[SPEECH_MESSAGE]
 	var/mob/living/carbon/human/user = source
-	var/rendered = span_cultbold("<b>[user.real_name]:</b> [message]")
+	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	for(var/mob/living/carbon/human/vassals in GLOB.player_list)
 		var/datum/antagonist/vassal/vassaldatum = vassals.mind.has_antag_datum(/datum/antagonist/vassal)
