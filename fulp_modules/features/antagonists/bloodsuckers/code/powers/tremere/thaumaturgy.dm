@@ -22,7 +22,7 @@
 	cooldown = 6 SECONDS
 	prefire_message = "Click where you wish to fire."
 	///The shield this Power gives
-	var/obj/item/shield/bloodsucker/blood_shield
+	var/datum/weakref/blood_shield
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
 	name = "Level 2: Thaumaturgy"
@@ -87,8 +87,9 @@
 	. = ..()
 	owner.balloon_alert(owner, "you start thaumaturgy")
 	if(level_current >= 2) // Only if we're at least level 2.
-		blood_shield = new
-		if(!owner.put_in_inactive_hand(blood_shield))
+		var/obj/item/shield/bloodsucker/new_shield = new
+		blood_shield = WEAKREF(new_shield)
+		if(!owner.put_in_inactive_hand(new_shield))
 			owner.balloon_alert(owner, "off hand is full!")
 			to_chat(owner, span_notice("Blood shield couldn't be activated as your off hand is full."))
 			return FALSE
@@ -100,7 +101,7 @@
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
 	if(blood_shield)
-		qdel(blood_shield)
+		QDEL_NULL(blood_shield)
 	return ..()
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/target_atom)

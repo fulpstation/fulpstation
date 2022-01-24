@@ -33,7 +33,7 @@
 	user.AddElement(/datum/element/digitalcamo)
 	user.balloon_alert(user, "cloak turned on.")
 
-/datum/action/bloodsucker/cloak/UsePower(mob/living/user)
+/datum/action/bloodsucker/cloak/UsePower(mob/living/user, mob/living/target)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
@@ -55,8 +55,9 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/cloak/DeactivatePower(mob/living/user = owner, mob/living/target)
+/datum/action/bloodsucker/cloak/DeactivatePower()
 	. = ..()
+	var/mob/living/user = owner
 	animate(user, alpha = 255, time = 1 SECONDS)
 	user.RemoveElement(/datum/element/digitalcamo)
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)

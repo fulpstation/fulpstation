@@ -80,9 +80,6 @@
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 	hit = null
 
-/datum/action/bloodsucker/targeted/haste/DeactivatePower(mob/living/user = owner, mob/living/target)
-	..() // activate = FALSE
-
 /datum/action/bloodsucker/targeted/haste/proc/on_move()
 	for(var/mob/living/all_targets in dview(1, get_turf(owner)))
 		if(!hit[all_targets] && (all_targets != owner))
