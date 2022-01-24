@@ -87,3 +87,21 @@
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "beefman"
 	squeak_override = list('sound/effects/meatslap.ogg'=1)
+
+/obj/item/toy/plush/beefplushie/living_beefplushie
+	desc = "It looks oddly alive. You feel like you should pet it."
+	COOLDOWN_DECLARE(beefplushie_cooldown)
+	var/beefplushie_cooldown_time = 2 MINUTES
+
+/obj/item/toy/plush/beefplushie/living_beefplushie/attack_self(mob/user)
+	. = ..()
+	if(!COOLDOWN_FINISHED(src, beefplushie_cooldown))
+		user.balloon_alert(user, "[src] isn't ready yet!")
+		return
+	user.balloon_alert(user, "producing meat")
+	if(!do_after(user, 3 SECONDS, target = src))
+		user.balloon_alert(user, "interrupted!")
+		return
+	playsound(src, "sound/effects/splat.ogg", 50)
+	new /obj/item/food/meat/slab get_turf(loc)
+	COOLDOWN_START(src, beefplushie_cooldown, beefplushie_cooldown_time)
