@@ -12,7 +12,7 @@
 	show_in_roundend = FALSE
 	hud_icon = 'fulp_modules/features/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tips = VASSAL_TIPS
-	
+
 	/// The Master Bloodsucker's antag datum.
 	var/datum/antagonist/bloodsucker/master
 	/// List of all Purchased Powers, like Bloodsuckers.
@@ -21,6 +21,9 @@
 	var/favorite_vassal = FALSE
 	/// Bloodsucker levels, but for Vassals.
 	var/vassal_level
+
+/datum/antagonist/vassal/antag_panel_data()
+	return "Master : [master.owner.name]"
 
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -36,6 +39,7 @@
 /// This is called when the antagonist is successfully mindshielded.
 /datum/antagonist/vassal/on_mindshield(mob/implanter, mob/living/mob_override)
 	owner.remove_antag_datum(/datum/antagonist/vassal)
+	owner.current.log_message("has been deconverted from Vassalization by [implanter]!", LOG_ATTACK, color="#960000")
 	return COMPONENT_MINDSHIELD_DECONVERTED
 
 /datum/antagonist/vassal/on_gain()
@@ -45,6 +49,7 @@
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
+	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Vassal Pinpointer
 	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Give Recuperate Power
@@ -167,12 +172,16 @@
 	for(var/datum/action/bloodsucker/power in powers)
 		power.level_current++
 
-/*
+/**
  *	# Vassal Pinpointer
  *
  *	Pinpointer that points to their Master's location at all times.
  *	Unlike the Monster hunter one, this one is permanently active, and has no power needed to activate it.
  */
+
+/atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
+	name = "Blood Bond"
+	desc = "You always know where your master is."
 
 /datum/status_effect/agent_pinpointer/vassal_edition
 	id = "agent_pinpointer"
@@ -182,24 +191,18 @@
 	duration = -1
 	range_fuzz_factor = 0
 
-/atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
-	name = "Blood Bond"
-	desc = "You always know where your master is."
-//	icon = 'icons/obj/device.dmi'
-//	icon_state = "pinon"
-
 /datum/status_effect/agent_pinpointer/vassal_edition/on_creation(mob/living/new_owner, ...)
 	..()
 	var/datum/antagonist/vassal/antag_datum = new_owner.mind.has_antag_datum(/datum/antagonist/vassal)
 	scan_target = antag_datum?.master?.owner?.current
 
 /datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
-	// DO NOTHING. We already have our target, and don't wanna do anything from agent_pinpointer
+	return
 
 /datum/status_effect/agent_pinpointer/vassal_edition/Destroy()
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost your master's trail."))
-	..()
+	return ..()
 
 /**
  * # BATFORM

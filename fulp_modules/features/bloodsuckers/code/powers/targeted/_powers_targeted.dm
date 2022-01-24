@@ -19,10 +19,14 @@
 	bs_proc_holder.linked_power = src
 
 /datum/action/bloodsucker/targeted/Trigger(trigger_flags)
-	. = ..()
-	if(!.)
+	if(active && CheckCanDeactivate())
+		DeactivatePower()
+		return FALSE
+	if(!CheckCanPayCost(owner) || !CheckCanUse(owner))
 		return FALSE
 
+	ActivatePower()
+	UpdateButtonIcon()
 	// Create & Link Targeting Proc
 	var/mob/living/user = owner
 	if(user.ranged_ability)
@@ -32,7 +36,7 @@
 		to_chat(owner, span_announce("[prefire_message]"))
 	return TRUE
 
-/datum/action/bloodsucker/targeted/DeactivatePower(mob/living/user = owner, mob/living/target)
+/datum/action/bloodsucker/targeted/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
 		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
 	active = FALSE
@@ -85,19 +89,10 @@
 	DeactivatePower()
 	StartCooldown()	// Do AFTER UpdateIcon() inside of DeactivatePower. Otherwise icon just gets wiped.
 
-/// Used by loops to make sure this power can stay active.
-/datum/action/bloodsucker/targeted/ContinueActive(mob/living/user, mob/living/target)
-	return ..()
-
 /// Target Proc Holder
 /obj/effect/proc_holder/bloodsucker
+	///The linked Bloodsucker power
 	var/datum/action/bloodsucker/targeted/linked_power
-
-/*
-/obj/effect/proc_holder/bloodsucker/remove_ranged_ability(msg)
-	..()
-	linked_power.DeactivatePower()
-*/
 
 /obj/effect/proc_holder/bloodsucker/InterceptClickOn(mob/living/caller, params, atom/targeted_atom)
 	return linked_power.ClickWithPower(targeted_atom)

@@ -28,7 +28,7 @@
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	owner.balloon_alert(owner, "recuperate turned on.")
 
-/datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user)
+/datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user, mob/living/target)
 	. = ..()
 	if(!.)
 		return
@@ -48,7 +48,7 @@
 		for(var/obj/item/bodypart/part in user.bodyparts)
 			part.generic_bleedstacks--
 
-/datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user)
+/datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user, mob/living/target)
 	if(user.stat >= DEAD)
 		return FALSE
 	if(user.incapacitated())
@@ -56,6 +56,6 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/recuperate/DeactivatePower(mob/living/user = owner, mob/living/target)
+/datum/action/bloodsucker/recuperate/DeactivatePower()
 	. = ..()
 	owner.balloon_alert(owner, "recuperate turned off.")

@@ -3,6 +3,7 @@
 	SIGNAL_HANDLER
 
 	if(!owner)
+		INVOKE_ASYNC(src, .proc/HandleDeath)
 		return
 	// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
@@ -355,16 +356,12 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	HealVampireOrgans()
 
-/datum/antagonist/bloodsucker/proc/on_death()
-	SIGNAL_HANDLER
-
-	addtimer(CALLBACK(src, .proc/HandleDeath), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
-
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
 	FreeAllVassals()
+	var/dust_timer
 	// If we have no body, end here.
-	if(!owner.current)
+	if(!owner.current || dust_timer)
 		return
 
 	DisableAllPowers()
@@ -383,7 +380,7 @@
 			span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
 			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 			span_hear("You hear a dry, crackling sound."))
-		addtimer(CALLBACK(owner.current, /mob/living.proc/dust), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+		dust_timer = addtimer(CALLBACK(owner.current, /mob/living.proc/dust), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 		return
 	owner.current.visible_message(
 		span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),

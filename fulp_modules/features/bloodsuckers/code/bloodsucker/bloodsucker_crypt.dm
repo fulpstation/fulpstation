@@ -301,7 +301,7 @@
 					to_chat(user, span_notice("[target] looks ready for the <b>Dark Communion</b>."))
 			/// Otherwise, we're not done, we need to persuade them some more.
 			else
-				to_chat(user, span_notice("[target] could use [convert_progress == 1?"a little":"some"] more <i>persuasion</i>."))
+				to_chat(user, span_notice("[target] could use [convert_progress == 1 ? "a little" : "some"] more <i>persuasion</i>."))
 		use_lock = FALSE
 		return
 	/// Check: Mindshield & Antag
@@ -569,7 +569,7 @@
 			return
 		// Are we spending a Rank?
 		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
-			bloodsuckerdatum.SpendRank(target, TRUE)
+			bloodsuckerdatum.SpendRank(target)
 		else if(user.blood_volume >= 550)
 			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
 			to_chat(user, span_warning("Do you wish to spend 550 Blood to Rank [target] up?"))
@@ -581,7 +581,7 @@
 			switch(rank_response)
 				if("Yes")
 					user.blood_volume -= 550
-					bloodsuckerdatum.SpendRank(target, FALSE)
+					bloodsuckerdatum.SpendRank(target, spend_rank = FALSE)
 					return
 		else
 			// Neither? Shame. Goodbye!

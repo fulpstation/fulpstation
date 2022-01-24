@@ -136,8 +136,6 @@
 			new /datum/forced_movement(user, get_ranged_target_turf(user, send_dir, 1), 1, FALSE)
 			user.spin(10)
 
-	//DeactivatePower()
-
-/datum/action/bloodsucker/targeted/lunge/DeactivatePower(mob/living/user = owner, mob/living/target)
-	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-	..()
+/datum/action/bloodsucker/targeted/lunge/DeactivatePower()
+	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
+	. = ..()

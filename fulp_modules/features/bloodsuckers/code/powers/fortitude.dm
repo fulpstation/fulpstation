@@ -41,7 +41,7 @@
 	if(was_running)
 		user.toggle_move_intent()
 
-/datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
+/datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user, mob/living/target)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
@@ -55,25 +55,25 @@
 	if(user.buckled && istype(user.buckled, /obj/vehicle))
 		user.buckled.unbuckle_mob(src, force=TRUE)
 
-/datum/action/bloodsucker/fortitude/DeactivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/fortitude/DeactivatePower()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/bloodsucker_user = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
 		bloodsucker_user.physiology.brute_mod /= fortitude_resist
-		if(!HAS_TRAIT_FROM(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT))
+		if(!HAS_TRAIT_FROM(bloodsucker_user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT))
 			bloodsucker_user.physiology.stamina_mod /= fortitude_resist
 	if(IS_MONSTERHUNTER(owner))
 		bloodsucker_user.physiology.brute_mod /= 0.4
 		bloodsucker_user.physiology.burn_mod /= 0.4
 	// Remove Traits & Effects
-	REMOVE_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(bloodsucker_user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(bloodsucker_user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(bloodsucker_user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(bloodsucker_user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 
-	if(was_running && user.m_intent == MOVE_INTENT_WALK)
-		user.toggle_move_intent()
+	if(was_running && bloodsucker_user.m_intent == MOVE_INTENT_WALK)
+		bloodsucker_user.toggle_move_intent()
 	owner.balloon_alert(owner, "fortitude turned off.")
 	return ..()
 
