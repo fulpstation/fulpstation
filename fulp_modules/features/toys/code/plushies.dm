@@ -88,11 +88,14 @@
 	icon_state = "beefman"
 	squeak_override = list('sound/effects/meatslap.ogg'=1)
 
+//Do your cooldown changes here.
+#define BEEFPLUSHIE_COOLDOWN_TIME (2 MINUTES)
+
 /obj/item/toy/plush/beefplushie/living_beefplushie
 	desc = "It looks oddly alive. You feel like you should pet it."
 	COOLDOWN_DECLARE(beefplushie_cooldown)
-	#define BEEFPLUSHIE_COOLDOWN_TIME (2 MINUTES)
 
+//When used in hand.
 /obj/item/toy/plush/beefplushie/living_beefplushie/attack_self(mob/user)
 	. = ..()
 	if(!COOLDOWN_FINISHED(src, beefplushie_cooldown))
@@ -104,3 +107,5 @@
 	playsound(src, "sound/effects/splat.ogg", 50)
 	new /obj/item/food/meat/slab get_turf(loc)
 	COOLDOWN_START(src, beefplushie_cooldown, BEEFPLUSHIE_COOLDOWN_TIME)
+
+#undef BEEFPLUSHIE_COOLDOWN_TIME
