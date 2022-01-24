@@ -264,6 +264,5 @@
 	new /obj/item/reagent_containers/spray/pepper(src)
 	new /obj/item/restraints/handcuffs(src)
 	new /obj/item/grenade/smokebomb(src)
-	new /obj/item/melee/baton/security/loaded(src)
 	new /obj/item/holosign_creator/security(src)
 	update_appearance()
