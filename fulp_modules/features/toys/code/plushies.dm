@@ -100,7 +100,6 @@
 		return
 	user.balloon_alert(user, "producing meat")
 	if(!do_after(user, 3 SECONDS, target = src))
-		user.balloon_alert(user, "interrupted!")
 		return
 	playsound(src, "sound/effects/splat.ogg", 50)
 	new /obj/item/food/meat/slab get_turf(loc)
