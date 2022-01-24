@@ -91,7 +91,7 @@
 /obj/item/toy/plush/beefplushie/living_beefplushie
 	desc = "It looks oddly alive. You feel like you should pet it."
 	COOLDOWN_DECLARE(beefplushie_cooldown)
-	var/beefplushie_cooldown_time = 2 MINUTES
+	#define BEEFPLUSHIE_COOLDOWN_TIME (2 MINUTES)
 
 /obj/item/toy/plush/beefplushie/living_beefplushie/attack_self(mob/user)
 	. = ..()
@@ -103,4 +103,4 @@
 		return
 	playsound(src, "sound/effects/splat.ogg", 50)
 	new /obj/item/food/meat/slab get_turf(loc)
-	COOLDOWN_START(src, beefplushie_cooldown, beefplushie_cooldown_time)
+	COOLDOWN_START(src, beefplushie_cooldown, BEEFPLUSHIE_COOLDOWN_TIME)
