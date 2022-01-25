@@ -14,13 +14,14 @@
 	/// Removed, set to TRUE to re-add, either here to be a default function, or in-game through VV for neat Admin stuff -Willard
 	var/give_pinpointer = FALSE
 
-/datum/action/bloodsucker/trackvamp/ActivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/trackvamp/ActivatePower()
 	. = ..()
 	/// Return text indicating direction
-	to_chat(user, span_notice("You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order."))
-	if(!do_mob(user, owner, 80))
+	to_chat(owner, span_notice("You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order."))
+	if(!do_after(owner, 6 SECONDS, src))
 		return
 	if(give_pinpointer)
+		var/mob/living/user = owner
 		user.apply_status_effect(STATUS_EFFECT_HUNTERPINPOINTER)
 	display_proximity()
 

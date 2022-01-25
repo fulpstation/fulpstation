@@ -17,16 +17,16 @@
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
-/datum/action/bloodsucker/fortitude/ActivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/fortitude/ActivatePower()
 	. = ..()
 	owner.balloon_alert(owner, "fortitude turned on.")
-	to_chat(user, span_notice("Your flesh, skin, and muscles become as steel."))
+	to_chat(owner, span_notice("Your flesh, skin, and muscles become as steel."))
 	// Traits & Effects
-	ADD_TRAIT(user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
+	ADD_TRAIT(owner, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
 	if(level_current >= 4)
-		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // They'll get stun resistance + this, who cares.
+		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // They'll get stun resistance + this, who cares.
 	var/mob/living/carbon/human/bloodsucker_user = owner
 	if(IS_BLOODSUCKER(owner) || IS_VASSAL(owner))
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
@@ -35,13 +35,13 @@
 	if(IS_MONSTERHUNTER(owner))
 		bloodsucker_user.physiology.brute_mod *= 0.4
 		bloodsucker_user.physiology.burn_mod *= 0.4
-		ADD_TRAIT(user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 
-	was_running = (user.m_intent == MOVE_INTENT_RUN)
+	was_running = (owner.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
-		user.toggle_move_intent()
+		bloodsucker_user.toggle_move_intent()
 
-/datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user, mob/living/target)
+/datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
