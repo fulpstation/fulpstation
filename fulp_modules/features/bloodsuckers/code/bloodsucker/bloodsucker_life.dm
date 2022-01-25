@@ -28,7 +28,7 @@
 	if(my_clan == CLAN_MALKAVIAN)
 		if(prob(85) || owner.current.stat != CONSCIOUS || HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 			return
-		var/message = pick(strings("malkavian_revelations.json", "revelations", "fulp_modules"))
+		var/message = pick(strings("malkavian_revelations.json", "revelations", "fulp_modules/strings/bloodsuckers"))
 		INVOKE_ASYNC(owner.current, /atom/movable/proc/say, message, , , , , , CLAN_MALKAVIAN)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
