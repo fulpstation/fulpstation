@@ -113,13 +113,13 @@
 		feed_target = owner.pulling
 		return TRUE
 	// Find Targets
-	var/list/mob/living/seen_targets = view(1, owner)
 	var/list/mob/living/seen_mobs = list()
-	for(var/mob/living/watchers in seen_targets)
-		if(isliving(watchers) && watchers != owner)
-			seen_mobs += watchers
+	for(var/mob/living/watchers in view(1, owner) - owner)
+		if(!isliving(watchers))
+			continue
+		seen_mobs |= watchers
 	// None Seen!
-	if(seen_mobs.len == 0)
+	if(!seen_mobs.len)
 		to_chat(owner, span_warning("You must be next to or grabbing a victim to feed from them."))
 		return FALSE
 	// Check Valids...
@@ -130,14 +130,14 @@
 		if(watchers != owner && ValidateTarget(watchers)) // Do NOT display errors. We'll be doing this again in CheckCanUse(), which will rule out grabbed targets.
 			// Prioritize living, but remember dead as backup
 			if(watchers.stat < DEAD)
-				targets_valid += watchers
+				targets_valid |= watchers
 			else
-				targets_dead += watchers
+				targets_dead |= watchers
 	// No Living? Try dead.
-	if(targets_valid.len == 0 && targets_dead.len > 0)
+	if(!targets_valid.len && targets_dead.len)
 		targets_valid = targets_dead
 	// No Targets
-	if(targets_valid.len == 0)
+	if(!targets_valid.len)
 		// Did I see targets? Then display at least one error
 		if(seen_mobs.len > 1)
 			to_chat(owner, span_warning("None of these are valid targets to feed from subtly."))
@@ -145,11 +145,12 @@
 			ValidateTarget(seen_mobs[1])
 		return FALSE
 	else
-		feed_target = pick(targets_valid)//targets[1]
+		feed_target = pick(targets_valid)
 		return TRUE
 
-/datum/action/bloodsucker/feed/ActivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/feed/ActivatePower()
 	. = ..()
+	var/mob/living/user = owner
 	// Checks: Step 1 - Am I SECRET or LOUD?
 	if(!bloodsuckerdatum_power.frenzied && (!target_grappled || owner.grab_state <= GRAB_PASSIVE)) // && iscarbon(target) // Non-carbons (animals) not passive. They go straight into aggressive.
 		amSilent = TRUE
@@ -188,7 +189,7 @@
 		owner.balloon_alert(owner, "you pull [feed_target] close to you!")
 
 	// Start the countdown
-	if(!do_mob(user, feed_target, feed_time, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, feed_target)))
+	if(!do_mob(user, feed_target, feed_time, NONE, TRUE))
 		owner.balloon_alert(owner, "your feeding was interrupted!")
 		DeactivatePower()
 		return
@@ -236,34 +237,31 @@
 	ADD_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT) // My mouth is full!
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT) // Prevents spilling blood accidentally.
 
-/datum/action/bloodsucker/feed/UsePower(mob/living/user, mob/living/target)
-	. = ..()
-	if(!.)
+/datum/action/bloodsucker/feed/UsePower(mob/living/user)
+	if(!ContinueActive(user, feed_target))
+		if(amSilent)
+			to_chat(user, span_warning("Your feeding has been interrupted... but [feed_target.p_they()] didn't seem to notice you."))
+		else
+			to_chat(user, span_warning("Your feeding has been interrupted!"))
+			user.visible_message(
+				span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
+				span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"))
+			// Deal Damage to Target (should have been more careful!)
+			if(iscarbon(feed_target))
+				var/mob/living/carbon/carbon_target = feed_target
+				carbon_target.bleed(15)
+			playsound(get_turf(feed_target), 'sound/effects/splat.ogg', 40, 1)
+			if(ishuman(feed_target))
+				var/mob/living/carbon/human/target_user = feed_target
+				var/obj/item/bodypart/head_part = target_user.get_bodypart(BODY_ZONE_HEAD)
+				if(head_part)
+					head_part.generic_bleedstacks += 5
+			feed_target.add_splatter_floor(get_turf(feed_target))
+			user.add_mob_blood(feed_target) // Put target's blood on us. The donor goes in the ( )
+			feed_target.add_mob_blood(feed_target)
+			feed_target.apply_damage(10, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
+			INVOKE_ASYNC(feed_target, /mob.proc/emote, "scream")
 		return
-
-	if(amSilent)
-		to_chat(user, span_warning("Your feeding has been interrupted... but [feed_target.p_they()] didn't seem to notice you."))
-	else
-		to_chat(user, span_warning("Your feeding has been interrupted!"))
-		user.visible_message(
-			span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
-			span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
-		)
-		// Deal Damage to Target (should have been more careful!)
-		if(iscarbon(feed_target))
-			var/mob/living/carbon/carbon_target = feed_target
-			carbon_target.bleed(15)
-		playsound(get_turf(feed_target), 'sound/effects/splat.ogg', 40, 1)
-		if(ishuman(feed_target))
-			var/mob/living/carbon/human/target_user = feed_target
-			var/obj/item/bodypart/head_part = target_user.get_bodypart(BODY_ZONE_HEAD)
-			if(head_part)
-				head_part.generic_bleedstacks += 5
-		feed_target.add_splatter_floor(get_turf(feed_target))
-		user.add_mob_blood(feed_target) // Put target's blood on us. The donor goes in the ( )
-		feed_target.add_mob_blood(feed_target)
-		feed_target.apply_damage(10, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
-		INVOKE_ASYNC(feed_target, /mob.proc/emote, "scream")
 
 	///////////////////////////////////////////////////////////
 	// 		Handle Feeding! User & Victim Effects (per tick)
@@ -323,9 +321,6 @@
 
 /// NOTE: We only care about pulling if target started off that way. Mostly only important for Aggressive feed.
 /datum/action/bloodsucker/feed/ContinueActive(mob/living/user, mob/living/target)
-	. = ..()
-	if(!.)
-		return FALSE
 	if(!target)
 		return FALSE
 	if(!user.Adjacent(target))

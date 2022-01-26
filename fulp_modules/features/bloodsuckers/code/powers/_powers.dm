@@ -186,12 +186,12 @@
 	StartCooldown()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
-/datum/action/bloodsucker/proc/UsePower(mob/living/user, mob/living/target)
+/datum/action/bloodsucker/proc/UsePower(mob/living/user)
 	SIGNAL_HANDLER
 
 	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
 		return FALSE
-	if(!ContinueActive(user, target)) // We can't afford the Power? Deactivate it.
+	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
 		DeactivatePower()
 		return FALSE
 	// We can keep this up (For now), so Pay Cost!

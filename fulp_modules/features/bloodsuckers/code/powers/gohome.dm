@@ -32,9 +32,9 @@
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
 /// IMPORTANT: Check for lair at every step! It might get destroyed.
-/datum/action/bloodsucker/gohome/ActivatePower(mob/living/carbon/user = owner)
+/datum/action/bloodsucker/gohome/ActivatePower()
 	. = ..()
-	to_chat(user, span_notice("You focus on separating your consciousness from your physical form..."))
+	to_chat(owner, span_notice("You focus on separating your consciousness from your physical form..."))
 	/// STEP ONE: Flicker Lights
 	flicker_lights(3, 20)
 	sleep(50)
@@ -47,7 +47,7 @@
 	/// STEP TWO: Lights OFF?
 	/// CHECK: Still have Coffin?
 	if(!bloodsuckerdatum_power.coffin)
-		to_chat(user, span_warning("Your coffin has been destroyed! You no longer have a destination."))
+		to_chat(owner, span_warning("Your coffin has been destroyed! You no longer have a destination."))
 		return FALSE
 	if(!owner)
 		return
@@ -61,7 +61,7 @@
 	if(!isturf(owner.loc))
 		return
 	// A) Check for Darkness (we can just leave)
-	var/turf/current_turf = get_turf(user)
+	var/turf/current_turf = get_turf(owner)
 	if(current_turf && current_turf.lighting_object && current_turf.get_lumcount()>= 0.1)
 		// B) Check for Viewers
 		for(var/mob/living/watchers in viewers(world.view, get_turf(owner)) - owner)
@@ -71,6 +71,7 @@
 					drop_item = TRUE
 					break
 	/// LOSE CUFFS
+	var/mob/living/carbon/user = owner
 	if(user.handcuffed)
 		var/obj/handcuffs = user.handcuffed
 		user.dropItemToGround(handcuffs)
