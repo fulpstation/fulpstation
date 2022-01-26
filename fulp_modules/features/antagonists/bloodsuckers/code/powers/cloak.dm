@@ -25,15 +25,16 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/cloak/ActivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/cloak/ActivatePower()
 	. = ..()
+	var/mob/living/user = owner
 	was_running = (user.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
 		user.toggle_move_intent()
 	user.AddElement(/datum/element/digitalcamo)
 	user.balloon_alert(user, "cloak turned on.")
 
-/datum/action/bloodsucker/cloak/UsePower(mob/living/user, mob/living/target)
+/datum/action/bloodsucker/cloak/UsePower(mob/living/user)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)

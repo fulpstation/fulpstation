@@ -12,10 +12,11 @@
 	bloodcost = 2
 	cooldown = 10 SECONDS
 
-/datum/action/bloodsucker/brujah/ActivatePower(mob/living/user = owner)
+/datum/action/bloodsucker/brujah/ActivatePower()
 	if(active && bloodsuckerdatum_power && bloodsuckerdatum_power.frenzied)
 		owner.balloon_alert(owner, "already in a frenzy!")
 		return FALSE
+	var/mob/living/user = owner
 	user.apply_status_effect(STATUS_EFFECT_FRENZY)
 	. = ..()
 

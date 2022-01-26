@@ -163,9 +163,11 @@
 	desc = "A pair of dark blue sandals, fit with light socks. The leather is falling apart."
 	icon_state = "deadcells_feet"
 
-/obj/item/clothing/head/hardhat/costume_2021/deadcells_hat
+/obj/item/clothing/head/hardhat/deadcells_hat
 	name = "homonculus mask"
 	desc = "May possess you if you aren't careful."
+	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
 	icon_state = "hardhat0_deadcells"
 	on = FALSE
 	hat_type = "deadcells"
@@ -177,7 +179,7 @@
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2021/deadcells_suit,
 		/obj/item/clothing/shoes/costume_2021/deadcells_shoes,
-		/obj/item/clothing/head/hardhat/costume_2021/deadcells_hat,
+		/obj/item/clothing/head/hardhat/deadcells_hat,
 	)
 
 /**

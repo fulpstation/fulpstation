@@ -28,8 +28,9 @@
 	cooldown = 5 SECONDS
 	constant_bloodcost = 0.1
 
-/datum/action/bloodsucker/masquerade/ActivatePower(mob/living/carbon/user = owner)
+/datum/action/bloodsucker/masquerade/ActivatePower()
 	. = ..()
+	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned on.")
 	to_chat(user, span_notice("Your heart beats falsely within your lifeless chest. You may yet pass for a mortal."))
 	to_chat(user, span_warning("Your vampiric healing is halted while imitating life."))
