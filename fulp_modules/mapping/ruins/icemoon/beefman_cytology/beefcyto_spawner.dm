@@ -18,6 +18,10 @@
 	outfit = /datum/outfit/russian_beefman
 	spawner_job_path = /datum/job/fulp_cytology
 
+/obj/effect/mob_spawn/ghost_role/human/beefman/special(mob/living/carbon/human/spawned_human)
+	. = ..()
+	spawned_human.fully_replace_character_name(null, random_unique_beefman_name(gender))
+
 /datum/job/fulp_cytology
 	title = ROLE_BEEFMAN_CYTOLOGY
 
