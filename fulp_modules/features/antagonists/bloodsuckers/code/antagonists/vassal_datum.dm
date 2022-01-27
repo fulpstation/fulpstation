@@ -167,6 +167,7 @@
 /datum/antagonist/vassal/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
+	log_uplink("[key_name(owner.current)] purchased [power].")
 
 /datum/antagonist/vassal/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power in powers)
