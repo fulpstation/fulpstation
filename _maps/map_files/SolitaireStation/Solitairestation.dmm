@@ -6817,14 +6817,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/door_buttons/access_button{
-	idDoor = "virology_airlock_interior";
-	idSelf = "virology_airlock_control";
-	name = "Virology Access Button";
-	pixel_x = -25;
-	pixel_y = 25;
-	req_access_txt = "39"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/disposalpipe/segment,
@@ -12706,7 +12698,7 @@
 	},
 /obj/item/paper_bin,
 /obj/item/pen,
-/turf/open/floor/iron/showroomfloor,
+/turf/open/floor/iron/smooth,
 /area/security/warden)
 "dEo" = (
 /obj/effect/landmark/start/hangover,
@@ -13115,6 +13107,15 @@
 	dir = 5
 	},
 /obj/effect/turf_decal/bot,
+/obj/machinery/door_buttons/airlock_controller{
+	idExterior = "virology_airlock_exterior";
+	idInterior = "virology_airlock_interior";
+	idSelf = "virology_airlock_control";
+	name = "Virology Access Console";
+	pixel_x = -10;
+	pixel_y = 24;
+	req_access_txt = "39"
+	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/medical/virology)
 "dJR" = (
@@ -25650,6 +25651,14 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/carpet/blue,
 /area/commons/dorms)
+"hpQ" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/machinery/holopad/secure,
+/turf/open/floor/iron/textured_large,
+/area/security/brig)
 "hpU" = (
 /obj/item/mining_voucher,
 /turf/open/floor/plating,
@@ -34568,6 +34577,20 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/cafeteria,
 /area/security/prison/mess)
+"jWx" = (
+/obj/effect/turf_decal/tile/blue{
+	color = "#4169E1";
+	dir = 4;
+	name = "Command blue corner"
+	},
+/obj/effect/turf_decal/tile/blue{
+	color = "#4169E1";
+	dir = 8;
+	name = "Command blue corner"
+	},
+/obj/machinery/holopad/secure,
+/turf/open/floor/iron,
+/area/command/bridge)
 "jWD" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -35023,6 +35046,11 @@
 /obj/structure/flora/grass/jungle/b,
 /turf/open/floor/plating/grass/jungle,
 /area/service/hydroponics/garden/abandoned)
+"keu" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/holopad/secure,
+/turf/open/floor/iron,
+/area/security/prison)
 "keM" = (
 /obj/structure/flora/junglebush/c,
 /turf/open/floor/plating/grass/jungle,
@@ -36164,6 +36192,7 @@
 	dir = 1
 	},
 /obj/machinery/status_display/ai/directional/south,
+/obj/machinery/light/directional/south,
 /turf/open/floor/wood,
 /area/command/heads_quarters/hop)
 "kwx" = (
@@ -41179,7 +41208,7 @@
 	},
 /obj/item/paper_bin,
 /obj/item/pen,
-/turf/closed/wall,
+/turf/open/floor/iron,
 /area/security/brig/upper)
 "lPu" = (
 /obj/structure/disposalpipe/segment{
@@ -41583,6 +41612,7 @@
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
 	},
+/obj/machinery/holopad/secure,
 /turf/open/floor/iron/dark/smooth_large,
 /area/security/office)
 "lWE" = (
@@ -51652,7 +51682,6 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central/aft)
 "oZR" = (
-/obj/machinery/light/directional/south,
 /obj/machinery/newscaster/security_unit/directional/south,
 /obj/machinery/computer/shuttle/mining{
 	dir = 1
@@ -56614,6 +56643,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
+"qVr" = (
+/obj/machinery/holopad/secure,
+/turf/open/floor/iron,
+/area/security/processing)
 "qVs" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
@@ -61814,6 +61847,15 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door_buttons/access_button{
+	dir = 1;
+	idDoor = "virology_airlock_exterior";
+	idSelf = "virology_airlock_control";
+	name = "Virology Access Button";
+	pixel_x = -24;
+	pixel_y = -2;
+	req_access_txt = "39"
+	},
 /turf/open/floor/iron/dark/textured_large,
 /area/medical/virology)
 "sLT" = (
@@ -65557,6 +65599,7 @@
 	dir = 8;
 	name = "command blue"
 	},
+/obj/machinery/holopad/secure,
 /turf/open/floor/iron/dark/smooth_large,
 /area/command/meeting_room/council)
 "ucF" = (
@@ -106937,7 +106980,7 @@ akF
 nWm
 wxV
 nWm
-nWm
+keu
 wxV
 oIV
 eVm
@@ -112842,7 +112885,7 @@ ptn
 icM
 cqb
 cqb
-cqb
+hpQ
 cqb
 cqb
 cqb
@@ -113106,7 +113149,7 @@ fet
 kGI
 jOA
 tag
-gyC
+qVr
 jWQ
 qmj
 qmj
@@ -121042,7 +121085,7 @@ vQv
 iJt
 tGd
 pcS
-fpR
+jWx
 tll
 mFH
 gcB
