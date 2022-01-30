@@ -7,20 +7,16 @@
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
 	backpack_contents = list(
-		/obj/item/holosign_creator/security = 1,
+		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
 	)
 
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
-	gloves = /obj/item/clothing/gloves/color/black
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
-	belt = /obj/item/storage/belt/security/deputy
 	shoes = /obj/item/clothing/shoes/laceup
-	l_pocket = /obj/item/pda/security
 	r_pocket = /obj/item/flashlight/seclite
 
-	pda_slot = ITEM_SLOT_LPOCKET
 	id_trim = /datum/id_trim/job/deputy
 	box = /obj/item/storage/box/survival
 
@@ -28,7 +24,6 @@
 /datum/outfit/job/deputy/engineering
 	name = "Deputy - Engineering"
 
-	head = /obj/item/clothing/head/fulpberet/engineering
 	ears = /obj/item/radio/headset/headset_dep/engineering
 	neck = /obj/item/clothing/neck/fulptie/engineering
 	id_trim = /datum/id_trim/job/deputy/engineering
@@ -39,7 +34,6 @@
 /datum/outfit/job/deputy/medical
 	name = "Deputy - Medical"
 
-	head = /obj/item/clothing/head/fulpberet/medical
 	ears = /obj/item/radio/headset/headset_dep/medical
 	neck = /obj/item/clothing/neck/fulptie/medical
 	id_trim = /datum/id_trim/job/deputy/medical
@@ -50,14 +44,8 @@
 /datum/outfit/job/deputy/science
 	name = "Deputy - Science"
 
-	backpack_contents = list(
-		/obj/item/holosign_creator/security = 1,
-		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
-		/obj/item/reagent_containers/hypospray/medipen/mutadone = 2,
-	)
 	neck = /obj/item/clothing/neck/fulptie/science
 	ears = /obj/item/radio/headset/headset_dep/science
-	head = /obj/item/clothing/head/fulpberet/science
 	id_trim = /datum/id_trim/job/deputy/science
 	accessory = /obj/item/clothing/accessory/armband/science
 	skillchips = list(/obj/item/skillchip/job/deputy/science)
@@ -66,12 +54,6 @@
 /datum/outfit/job/deputy/supply
 	name = "Deputy - Supply"
 
-	backpack_contents = list(
-		/obj/item/holosign_creator/security = 1,
-		/obj/item/export_scanner = 1,
-		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
-	)
-	head = /obj/item/clothing/head/fulpberet/supply
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
 	ears = /obj/item/radio/headset/headset_dep/supply
 	neck = /obj/item/clothing/neck/fulptie/supply
@@ -83,12 +65,18 @@
 /datum/outfit/job/deputy/service
 	name = "Deputy - Service"
 
+	//LOCKER EQUIPMENT: They don't get a locker, so spawn with it.
 	head = /obj/item/clothing/head/fulpberet/service
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	gloves = /obj/item/clothing/gloves/color/black
+	belt = /obj/item/storage/belt/security/deputy
+	pda_slot = ITEM_SLOT_LPOCKET
+	//END OF LOCKER EQUIPMENT
+
 	ears = /obj/item/radio/headset/headset_dep/service
 	neck = /obj/item/clothing/neck/fulptie/service
 	id_trim = /datum/id_trim/job/deputy/service
 	accessory = /obj/item/clothing/accessory/armband/hydro
-	box = null
 	skillchips = list(/obj/item/skillchip/job/deputy/service)
 
 /// Plasmamen Datum
@@ -276,5 +264,5 @@
 	new /obj/item/reagent_containers/spray/pepper(src)
 	new /obj/item/restraints/handcuffs(src)
 	new /obj/item/grenade/smokebomb(src)
-	new /obj/item/melee/baton/security/loaded(src)
+	new /obj/item/holosign_creator/security(src)
 	update_appearance()
