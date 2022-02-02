@@ -89,7 +89,7 @@
 	squeak_override = list('sound/effects/meatslap.ogg'=1)
 
 //Do your cooldown changes here.
-#define BEEFPLUSHIE_COOLDOWN_TIME (2 MINUTES)
+#define BEEFPLUSHIE_COOLDOWN_TIME (1 MINUTES)
 
 /obj/item/toy/plush/beefplushie/living
 	desc = "It looks oddly alive. You feel like you should pet it."
