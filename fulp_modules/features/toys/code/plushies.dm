@@ -101,11 +101,11 @@
 	if(!COOLDOWN_FINISHED(src, beefplushie_cooldown))
 		user.balloon_alert(user, "not ready yet!")
 		return
-	user.balloon_alert(user, "producing meat")
-	if(!do_after(user, 3 SECONDS, target = src))
+	balloon_alert(user, "producing meat")
+	if(!do_after(user, 2 SECONDS, target = src))
 		return
 	playsound(src, "sound/effects/splat.ogg", 50)
-	new /obj/item/food/meat/slab (get_turf(loc))
+	new /obj/item/food/meat/slab(loc)
 	COOLDOWN_START(src, beefplushie_cooldown, BEEFPLUSHIE_COOLDOWN_TIME)
 
 #undef BEEFPLUSHIE_COOLDOWN_TIME
