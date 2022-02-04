@@ -7,6 +7,11 @@
 * [KiloStation](https://tgstation13.org/wiki/KiloStation)
 * [TramStation](https://tgstation13.org/wiki/Tramstation)
 
+Fulpstation currently has three maps in rotation in addition to the /tg/station maps.
+* [HelioStation](https://wiki.fulp.gg/en/Heliostation)
+* [SeleneStation](https://wiki.fulp.gg/en/SeleneStation)
+* [PubbyStation](https://tgstation13.org/wiki/PubbyStation)
+
 Outdated or removed maps.
 * [BoxStation](https://tgstation13.org/wiki/Boxstation)
 * [PubbyStation](https://tgstation13.org/wiki/PubbyStation)
