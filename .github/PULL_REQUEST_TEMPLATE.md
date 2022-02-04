@@ -1,11 +1,5 @@
 <!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable. -->
 <!-- You can view Contributing.MD for a detailed description of the pull request process. -->
-<!--
-IMPORTANT: For large prs, make sure include in your title [IDB IGNORE] and/or [MDB IGNORE] to keep their bots from crashing. 
-MDB is especially important for large map changes
-Failure to do so could result in repoban
-If you need help please reach out on the discord!
--->
 
 ## About The Pull Request
 

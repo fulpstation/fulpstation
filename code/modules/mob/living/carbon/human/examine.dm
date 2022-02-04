@@ -236,7 +236,6 @@
 				msg += "<b>[t_He] [t_has] severe [dna.species.cellulardamage_desc]!</b>\n"
 		// Fulp edit END
 
-
 	if(fire_stacks > 0)
 		msg += "[t_He] [t_is] covered in something flammable.\n"
 	if(fire_stacks < 0)

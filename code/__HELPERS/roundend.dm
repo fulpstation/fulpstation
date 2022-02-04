@@ -220,7 +220,7 @@
 		if(!C?.credits)
 			C?.RollCredits()
 //		C?.playtitlemusic(40)
-		C?.playcreditsmusic(40) // Fulp edit - Music
+		C?.playtitlemusic(40) // Fulp edit - Music
 		if(speed_round)
 			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
 		HandleRandomHardcoreScore(C)
