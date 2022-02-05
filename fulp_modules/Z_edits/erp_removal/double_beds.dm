@@ -1,3 +1,10 @@
+/**
+ * # DOUBLE BED REMOVAL
+ *
+ * Removes double beds by making them spawn a single bed instead.
+ * Also balloon alerts to say not to ERP, mostly just so people know this is intentional, and don't ahelp about it being broken.
+ */
+
 /obj/structure/bed/double/Initialize(mapload)
 	. = ..()
 	var/turf/locker_turf = get_turf(src)
