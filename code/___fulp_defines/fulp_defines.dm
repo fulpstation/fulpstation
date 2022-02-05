@@ -52,6 +52,13 @@
 ///Job define for the Beefmen Station (Space) Spawner
 #define ROLE_BEEFMAN_STATION "Beefman Station Inhabitant"
 
+/**
+ * # PRISON DEFINES
+ */
+#define ACCOUNT_PRISON "PRS"
+#define ACCOUNT_PRISON_NAME "Prison Budget"
+#define COMSIG_PRISON_OBJECTIVE_COMPLETED "prison_objective_complete"
+
 
 /**
  * # ANTAG TIPS

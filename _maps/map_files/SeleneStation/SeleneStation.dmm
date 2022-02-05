@@ -13155,6 +13155,17 @@
 	},
 /turf/open/floor/iron/dark,
 /area/engineering/lobby)
+"dzs" = (
+/obj/docking_port/stationary{
+	dir = 4;
+	dwidth = 5;
+	height = 7;
+	id = "prisonshuttle";
+	name = "Cargo Bay";
+	width = 12
+	},
+/turf/open/space/basic,
+/area/space)
 "dzt" = (
 /obj/structure/table/wood,
 /obj/item/stamp/law,
@@ -18658,6 +18669,9 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
+"eWf" = (
+/turf/closed/wall/r_wall,
+/area/space)
 "eWj" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/neutral{
@@ -18708,6 +18722,7 @@
 	c_tag = "Permabrig - Rec Room";
 	network = list("ss13","prison")
 	},
+/obj/item/radio/intercom/broadcaster_perma/directional/west,
 /turf/open/floor/iron/grimy,
 /area/security/prison/rec)
 "eWT" = (
@@ -40048,6 +40063,9 @@
 	name = "Prison Orange"
 	},
 /obj/machinery/duct,
+/obj/item/radio/intercom/broadcaster_perma/directional/west{
+	pixel_y = 26
+	},
 /turf/open/floor/iron/dark,
 /area/security/prison)
 "kBn" = (
@@ -49196,15 +49214,6 @@
 "mKk" = (
 /turf/closed/wall,
 /area/security/execution/transfer)
-"mKM" = (
-/obj/item/stack/license_plates/empty/fifty,
-/obj/item/stack/license_plates/empty/fifty,
-/obj/item/stack/license_plates/empty/fifty,
-/obj/effect/spawner/random/contraband/prison,
-/obj/structure/closet/crate,
-/obj/machinery/firealarm/directional/east,
-/turf/open/floor/iron,
-/area/security/prison/work)
 "mKN" = (
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
@@ -54788,6 +54797,7 @@
 	color = "#FF6700";
 	name = "Prison Orange"
 	},
+/obj/item/radio/intercom/broadcaster_perma/directional/south,
 /turf/open/floor/iron,
 /area/security/prison/upper)
 "ohO" = (
@@ -59810,6 +59820,7 @@
 /obj/structure/table,
 /obj/item/instrument/harmonica,
 /obj/item/instrument/banjo,
+/obj/structure/window,
 /turf/open/floor/wood,
 /area/security/prison/rec)
 "pFh" = (
@@ -60568,20 +60579,6 @@
 /obj/structure/dresser,
 /turf/open/floor/iron,
 /area/maintenance/department/crew_quarters/dorms)
-"pQf" = (
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/obj/item/radio/intercom/directional/east{
-	desc = "Talk through this. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = -2;
-	prison_radio = 1
-	},
-/obj/item/reagent_containers/glass/bottle/ammonia,
-/obj/structure/closet/crate/bin,
-/turf/open/floor/iron,
-/area/security/prison/work)
 "pQn" = (
 /obj/machinery/door/airlock/public/glass{
 	name = "Library"
@@ -63138,6 +63135,7 @@
 /obj/structure/table,
 /obj/item/book/manual/random,
 /obj/machinery/airalarm/directional/north,
+/obj/item/radio/intercom/broadcaster_perma/directional/east,
 /turf/open/floor/iron/grimy,
 /area/security/prison/rec)
 "qya" = (
@@ -66747,6 +66745,7 @@
 	color = "#FF0000";
 	name = "Security red corner"
 	},
+/obj/item/radio/intercom/broadcaster_perma/directional/north,
 /turf/open/floor/iron,
 /area/security/prison/garden)
 "rsb" = (
@@ -78423,11 +78422,6 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/central)
-"uvq" = (
-/obj/machinery/plate_press,
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/security/prison/work)
 "uvy" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -78477,6 +78471,12 @@
 	},
 /turf/closed/wall/r_wall,
 /area/engineering/supermatter)
+"uwg" = (
+/obj/machinery/door/airlock/security{
+	name = "Permanent Cell 6"
+	},
+/turf/open/floor/iron,
+/area/space)
 "uwp" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/structure/cable,
@@ -78649,11 +78649,6 @@
 "uye" = (
 /turf/closed/wall,
 /area/science/xenobiology)
-"uyk" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/security/prison/work)
 "uyD" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -83037,14 +83032,6 @@
 /obj/machinery/atmospherics/components/binary/valve,
 /turf/open/floor/plating,
 /area/maintenance/fore)
-"vII" = (
-/obj/item/stack/license_plates/empty/fifty,
-/obj/item/stack/license_plates/empty/fifty,
-/obj/item/stack/license_plates/empty/fifty,
-/obj/effect/spawner/random/contraband/prison,
-/obj/structure/closet/crate,
-/turf/open/floor/iron,
-/area/security/prison/work)
 "vIP" = (
 /obj/structure/mineral_door/wood,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -88821,11 +88808,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/research)
-"xiy" = (
-/obj/machinery/light/directional/east,
-/obj/machinery/plate_press,
-/turf/open/floor/iron,
-/area/security/prison/work)
 "xiL" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4,
@@ -114729,13 +114711,13 @@ jeo
 mZx
 dML
 pCr
-rsO
-hGC
-pQf
-mKM
-uvq
-vII
-xiy
+ucl
+ucl
+ylZ
+ylZ
+ylZ
+ylZ
+ylZ
 alX
 alX
 iQW
@@ -114986,13 +114968,13 @@ cbK
 ncQ
 oge
 pFg
-cbK
-cbK
-alX
-alX
-uyk
-uyk
-alX
+rsO
+hGC
+ylZ
+ylZ
+ylZ
+ylZ
+ylZ
 alX
 iQW
 iQW
@@ -115244,13 +115226,13 @@ qGW
 qGW
 qGW
 cbK
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
+eWf
+uwg
+uwg
+uwg
+uwg
+uwg
+eWf
 iQW
 iQW
 iQW
@@ -115504,7 +115486,7 @@ iQW
 iQW
 iQW
 iQW
-iQW
+dzs
 iQW
 iQW
 iQW
