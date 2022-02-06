@@ -22,8 +22,3 @@
 /area/shuttle/prison_shuttle
 	name = "Prison Shuttle"
 	area_flags = NOTELEPORT
-
-/*
-/obj/machinery/smartfridge/proc/load(obj/item/O)
-	COMSIG_TRY_STORAGE_TAKE
-*/

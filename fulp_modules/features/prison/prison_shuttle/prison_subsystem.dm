@@ -9,19 +9,14 @@
 	if(prison_stationary_shuttle)
 		SSpermabrig.flags &= ~SS_NO_FIRE
 
-#define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
-#define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
-#define PERMABRIG_SHUTTLE_OBJECTIVE_NEUTRAL "Permabrig Neutral"
-
-#define SHUTTLE_DISPOSALS "Disposals Shuttle"
-#define SHUTTLE_MAIL "Mail Shuttle"
-#define SHUTTLE_BAR "Bar Shuttle"
-#define SHUTTLE_PLATE_PRESS "Plate Pressing Shuttle"
-#define SHUTTLE_CLEANUP "Cleanup Shuttle"
+//#define SHUTTLE_DISPOSALS "Disposals Shuttle"
+//#define SHUTTLE_MAIL "Mail Shuttle"
+//#define SHUTTLE_BAR "Bar Shuttle"
+//#define SHUTTLE_PLATE_PRESS "Plate Pressing Shuttle"
+//#define SHUTTLE_CLEANUP "Cleanup Shuttle"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
-#define SHUTTLE_ROBOTICS "Robotics Shuttle"
-#define SHUTTLE_ENGINEERING "Engineering Shuttle"
-
+//#define SHUTTLE_ROBOTICS "Robotics Shuttle"
+//#define SHUTTLE_ENGINEERING "Engineering Shuttle"
 
 /**
  * Prison subsystem
@@ -41,10 +36,6 @@ SUBSYSTEM_DEF(permabrig)
 	var/min_time_between_shuttles = 2 MINUTES
 	///Max time between new visits
 	var/max_time_between_shuttles = 3 MINUTES
-	///Was the shuttle objective completed? TODO: Remove this, move it to the ship instead?
-	var/objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_NEUTRAL
-	///How much money is this objective worth? Gain on completion, lose on failure. TODO: Remove this, move it to the ship instead?
-	var/objective_price = 500
 	///Where players get dropped off if found on the shuttle after it departs.
 	var/dropoff_area = /area/security/prison
 	///The shuttle currently loaded.
@@ -90,13 +81,10 @@ SUBSYSTEM_DEF(permabrig)
 	loaded_shuttle = pick(valid_shuttle_templates)
 	SSshuttle.action_load(loaded_shuttle, SSshuttle.prison_stationary_shuttle, replace = TRUE)
 
-	RegisterSignal(SSshuttle.prison_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED, .proc/complete_objective)
 	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters as anything in GLOB.prison_broadcasters)
 		broadcasters.say("The permabrig shuttle has now docked! Please complete the objective as soon as possible!")
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_end_condition()
-	UnregisterSignal(SSshuttle.prison_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
-
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
 	//Kick everyone off
 	for(var/area/shuttle/shuttle_area in shuttle_areas)
@@ -112,54 +100,27 @@ SUBSYSTEM_DEF(permabrig)
 	var/datum/bank_account/prison_account = SSeconomy.get_dep_account(ACCOUNT_PRISON)
 	var/message
 	if(!prison_account)
-		CRASH("Subsystem [src] tried to add [objective_price] to a non existant prison account!")
+		CRASH("Subsystem [src] tried to add [loaded_shuttle.objective_price] to a non existant prison account!")
 
 	//Did we complete the objective?
-	switch(objective_status)
+	switch(loaded_shuttle.objective_status)
 		if(PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS)
-			prison_account.adjust_money(objective_price)
-			message = "Shuttle successfully left with the objective! [objective_price] has been deposited into the Prison account."
-		if(PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE || PERMABRIG_SHUTTLE_OBJECTIVE_NEUTRAL)
-			prison_account.adjust_money(-objective_price)
-			message = "Shuttle failed to leave with the objective. [objective_price] has been deducted from the Prison account."
+			prison_account.adjust_money(loaded_shuttle.objective_price)
+			message = "Shuttle successfully left with the objective! [loaded_shuttle.objective_price] has been deposited into the Prison budget."
+		if(PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE)
+			prison_account.adjust_money(-loaded_shuttle.objective_price)
+			message = "Shuttle failed to leave with the objective. [loaded_shuttle.objective_price] has been deducted from the Prison budget."
 
 	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters as anything in GLOB.prison_broadcasters)
 		broadcasters.say("[message]")
 
 	SSshuttle.prison_shuttle.jumpToNullSpace()
 
-/**
- * complete_objective
- *
- * Sets the objective as completed, unless you've already failed it.
- * TODO: Remove this, move it to the ship instead?
- */
-/datum/controller/subsystem/permabrig/proc/complete_objective()
-	SIGNAL_HANDLER
-	if(objective_status == PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE)
-		return
-	objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS
-
-/**
- * fail_objective
- *
- * Sets the objective to fail, unless you've already completed it.
- * TODO: Remove this, move it to the ship instead?
- */
-/datum/controller/subsystem/permabrig/proc/fail_objective()
-	SIGNAL_HANDLER
-	if(objective_status == PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS)
-		return
-	objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE
-
-#undef SHUTTLE_ENGINEERING
-#undef SHUTTLE_ROBOTICS
+//#undef SHUTTLE_ENGINEERING
+//#undef SHUTTLE_ROBOTICS
 #undef SHUTTLE_XENOBIOLOGY
-#undef SHUTTLE_CLEANUP
-#undef SHUTTLE_PLATE_PRESS
-#undef SHUTTLE_BAR
-#undef SHUTTLE_MAIL
-#undef SHUTTLE_DISPOSALS
-
-#undef PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS
-#undef PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE
+//#undef SHUTTLE_CLEANUP
+//#undef SHUTTLE_PLATE_PRESS
+//#undef SHUTTLE_BAR
+//#undef SHUTTLE_MAIL
+//#undef SHUTTLE_DISPOSALS

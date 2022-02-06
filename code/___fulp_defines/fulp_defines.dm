@@ -58,7 +58,9 @@
 #define ACCOUNT_PRISON "PRS"
 #define ACCOUNT_PRISON_NAME "Prison Budget"
 #define COMSIG_PRISON_OBJECTIVE_COMPLETED "prison_objective_complete"
-
+#define COMSIG_PRISON_OBJECTIVE_FAILED "prison_objective_failed"
+#define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
+#define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
 
 /**
  * # ANTAG TIPS
