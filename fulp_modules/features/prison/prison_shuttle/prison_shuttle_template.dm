@@ -77,6 +77,11 @@
 	name = "Bar Shuttle (Prison)"
 	objective_price = 300
 
+/datum/map_template/shuttle/prison/kitchen
+	suffix = "kitchen"
+	name = "Kitchen Shuttle (Prison)"
+	objective_price = 600
+
 /datum/map_template/shuttle/prison/xenobiology
 	suffix = "xenobio"
 	name = "Xenobiology Shuttle (Prison)"

@@ -16,7 +16,7 @@
 /obj/machinery/smartfridge/prison/examine(mob/user)
 	. = ..()
 	if(station_objective)
-		. += span_notice("The fridge indicates[objectives_required > 1 ? " [objectives_required] of" : ""] [station_objective.name] is its objective.")
+		. += span_notice("Current objective: [(objectives_required > 1) ? " [objectives_required] types of" : ""] [initial(station_objective.name)].")
 
 /obj/machinery/smartfridge/prison/Initialize(mapload)
 	. = ..()
@@ -26,7 +26,7 @@
 
 /obj/machinery/smartfridge/prison/accept_check(obj/item/inserted_object)
 	if(!istype(inserted_object, station_objective))
-		say("This item is not allowed! Only [station_objective.name] count towards your objective!")
+		say("This item is not allowed! Only [initial(station_objective.name)] count towards your objective!")
 		return FALSE
 	return TRUE
 
@@ -34,9 +34,12 @@
 	if(no_text)
 		return ..()
 	if(objective_completed)
-		say("You have already completed the objective!")
+		say("Objective completed, inserting more items futile.")
 		return
 	objectives_required--
+	if(objectives_required >= 1)
+		say("Objective counted! [objectives_required] left to go!")
+		return ..()
 	if(!objectives_required)
 		say("Objective completed! Thank you for your work, Prisoner!")
 		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
@@ -48,8 +51,36 @@
 		return ..()
 	objectives_required++
 	if(objectives_required)
-		say("Objective removed! Objective no longer considered completed.")
+		say("Objective removed! Please re-insert item!")
 		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_FAILED)
+		objective_completed = FALSE
+	return ..()
+
+/**
+ * # Disposals shuttle
+ */
+/obj/machinery/smartfridge/prison/disposal
+	name = "important documents storage"
+	objectives_required = 3
+	no_text = TRUE
+	possible_objectives = list(
+		/obj/item/paper,
+	)
+
+/obj/machinery/smartfridge/prison/disposal/load(obj/item/inserted_object)
+	if(istype(inserted_object, /obj/item/paper/prison_paperwork))
+		objectives_required--
+
+	playsound(src, 'sound/machines/ping.ogg', 20, TRUE)
+	if(!objectives_required)
+		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
+		objective_completed = TRUE
+	return ..()
+
+/obj/machinery/smartfridge/prison/disposal/dispense(obj/item/inserted_object, mob/user)
+	if(istype(inserted_object, /obj/item/paper/prison_paperwork))
+		objectives_required++
+	if(objectives_required)
 		objective_completed = FALSE
 	return ..()
 
@@ -104,29 +135,18 @@
 	return TRUE
 
 /**
- * # Disposals shuttle
+ * Kitchen shuttle
  */
-/obj/machinery/smartfridge/prison/disposal
-	name = "important documents storage"
+/obj/machinery/smartfridge/prison/kitchen
+	name = "smart prison food storage"
 	objectives_required = 3
-	no_text = TRUE
 	possible_objectives = list(
-		/obj/item/paper,
+		/obj/item/food/pizza/vegetable,
+		/obj/item/food/grilled_cheese_sandwich,
+		/obj/item/food/pancakes,
+		/obj/item/food/spaghetti/butternoodles,
+		/obj/item/food/meatbun,
+		/obj/item/food/taco/plain,
+		/obj/item/food/burrito,
+		/obj/item/food/pie/meatpie,
 	)
-
-/obj/machinery/smartfridge/prison/disposal/load(obj/item/inserted_object)
-	if(istype(inserted_object, /obj/item/paper/prison_paperwork))
-		objectives_required--
-
-	playsound(src, 'sound/machines/ping.ogg', 20, TRUE)
-	if(!objectives_required)
-		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
-		objective_completed = TRUE
-	return ..()
-
-/obj/machinery/smartfridge/prison/disposal/dispense(obj/item/inserted_object, mob/user)
-	if(istype(inserted_object, /obj/item/paper/prison_paperwork))
-		objectives_required++
-	if(objectives_required)
-		objective_completed = FALSE
-	return ..()

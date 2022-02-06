@@ -16,7 +16,7 @@
 #define SHUTTLE_DISPOSALS "prison_disposals"
 //#define SHUTTLE_MAIL "Mail Shuttle"
 #define SHUTTLE_BAR "prison_bar"
-//#define SHUTTLE_KITCHEN "Kitchen shuttle"
+#define SHUTTLE_KITCHEN "prison_kitchen"
 //#define SHUTTLE_PLATE_PRESS "Plate Pressing Shuttle"
 //#define SHUTTLE_CLEANUP "Cleanup Shuttle"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
@@ -32,8 +32,8 @@ SUBSYSTEM_DEF(permabrig)
 	priority = FIRE_PRIORITY_PROCESS
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
-	//wait a while because there's a cooldown regardless
-	wait = 2 MINUTES
+	//timer between intercom alerts
+	wait = 15 SECONDS //1 MINUTES
 
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
@@ -49,8 +49,7 @@ SUBSYSTEM_DEF(permabrig)
 		//Sorting through mail and sending them in the proper tube
 //		SHUTTLE_MAIL,
 		SHUTTLE_BAR,
-		//Make food
-//		SHUTTLE_KITCHEN
+		SHUTTLE_KITCHEN
 		//Pressing a stack of plates
 //		SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
@@ -113,7 +112,7 @@ SUBSYSTEM_DEF(permabrig)
 #undef SHUTTLE_XENOBIOLOGY
 //#undef SHUTTLE_CLEANUP
 //#undef SHUTTLE_PLATE_PRESS
-//#undef SHUTTLE_KITCHEN
+#undef SHUTTLE_KITCHEN
 #undef SHUTTLE_BAR
 //#undef SHUTTLE_MAIL
 #undef SHUTTLE_DISPOSALS
