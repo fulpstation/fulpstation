@@ -38,9 +38,11 @@
 		return
 	objectives_required--
 	if(objectives_required >= 1)
+		playsound(src, 'sound/machines/ping.ogg', 20, TRUE)
 		say("Objective counted! [objectives_required] left to go!")
 		return ..()
 	if(!objectives_required)
+		playsound(src, 'sound/machines/chime.ogg', 20, TRUE)
 		say("Objective completed! Thank you for your work, Prisoner!")
 		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
 		objective_completed = TRUE
@@ -71,7 +73,7 @@
 	if(istype(inserted_object, /obj/item/paper/prison_paperwork))
 		objectives_required--
 
-	playsound(src, 'sound/machines/ping.ogg', 20, TRUE)
+	playsound(src, 'sound/machines/coindrop2.ogg', 20, TRUE)
 	if(!objectives_required)
 		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
 		objective_completed = TRUE

@@ -10,6 +10,8 @@
 	var/objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE
 	///How much money is this objective worth? Given/taken from the Budget when completed/failed.
 	var/objective_price = 500
+	///Explanation text on how this shuttle and its objective operates.
+	var/explanation_text
 
 /datum/map_template/shuttle/prison/New()
 	. = ..()
@@ -54,9 +56,11 @@
 	suffix = "disposals"
 	name = "Disposals Shuttle (Prison)"
 	objective_price = 600
+	explanation_text = "Central Command has accidentally lost important documents within their junkmail, \
+		please sort through them and store away the important documents within the on-board smartfridge. \
+		Recycle any junkmail you may find, if there is any mail leftover on the shuttle, it will fail regardless."
 
 /datum/map_template/shuttle/prison/disposals/check_end_shuttle()
-	. = ..()
 	var/list/all_documents = list()
 
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
@@ -66,27 +70,38 @@
 				if(!istype(item, /obj/item/paper) && !istype(item, /obj/item/mail))
 					continue
 				all_documents += item
-
 	//Check if 3 or more documents were left unrecycled on the shuttle
 	if(all_documents.len >= 3)
 		INVOKE_ASYNC(src, .proc/fail_objective)
+
+	return ..()
 
 
 /datum/map_template/shuttle/prison/bar
 	suffix = "bar"
 	name = "Bar Shuttle (Prison)"
 	objective_price = 300
+	explanation_text = "The last Bartender we've hired had drank themselves to death after their shotgun was stolen. \
+		We are in desperate need for some drinks, please mix up a few glasses and store them in the fridge."
 
 /datum/map_template/shuttle/prison/kitchen
 	suffix = "kitchen"
 	name = "Kitchen Shuttle (Prison)"
 	objective_price = 600
+	explanation_text = "We hope you are aware of the recent changes made to your station's Kitchen reworks. \
+		Please make something good for as a delivery to prove this effort was worthwhile. \
+		You may see your smart fridge for more information."
 
-/datum/map_template/shuttle/prison/kitchen
+/datum/map_template/shuttle/prison/platepress
 	suffix = "platepress"
 	name = "Plate Pressing Shuttle (Prison)"
 	objective_price = 200
+	explanation_text = "We are in dire need of pressed plates to make new prisoner jumpsuits, please send us any you have. One stack should be enough. \
+		There's some things leftover that the previous person left. Leave them or throw them out, doesn't bother us."
 
 /datum/map_template/shuttle/prison/xenobiology
 	suffix = "xenobio"
 	name = "Xenobiology Shuttle (Prison)"
+	explanation_text = "Our Xenobiology has had a very large accident and is non functional, as are our Scientists. \
+		We are sending our shuttle to make a short stop at your station, please start on some Xenobiology work to get us a head start. \
+		A single extract should do, please see your smart fridge for more information."

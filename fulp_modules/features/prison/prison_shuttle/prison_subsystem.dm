@@ -8,7 +8,6 @@
 	. = ..()
 	if(prison_stationary_shuttle)
 		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
-		SSpermabrig.fire()
 
 /datum/controller/subsystem/shuttle/proc/start_permabrig()
 	SSpermabrig.flags &= ~SS_NO_FIRE
@@ -36,16 +35,16 @@ SUBSYSTEM_DEF(permabrig)
 	//timer between intercom alerts
 	wait = 1 MINUTES
 
+	///The shuttle currently loaded.
+	var/datum/map_template/shuttle/prison/loaded_shuttle
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
 	///Min time between new visits
-	var/min_shuttle_time = 2 MINUTES
+	var/min_shuttle_time = 3 MINUTES
 	///Max time between new visits
-	var/max_shuttle_time = 3 MINUTES
+	var/max_shuttle_time = 4 MINUTES
 	///Time you have between shuttles
 	var/delay_between_shuttles = 8 MINUTES
-	///The shuttle currently loaded.
-	var/datum/map_template/shuttle/prison/loaded_shuttle
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
 		SHUTTLE_DISPOSALS,
@@ -67,9 +66,9 @@ SUBSYSTEM_DEF(permabrig)
 /datum/controller/subsystem/permabrig/fire(resumed)
 	if(!COOLDOWN_FINISHED(src, shuttle_cooldown))
 		for(var/obj/item/radio/intercom/prison/broadcasters as anything in GLOB.prison_broadcasters)
-			broadcasters.say("[round(COOLDOWN_TIMELEFT(src, shuttle_cooldown) / 600)] minutes until the permabrig shuttle [SSshuttle.prison_shuttle ? "leaves. Ensure the current objective has been completed before it departs." : "arrives"]")
+			broadcasters.say("[round(COOLDOWN_TIMELEFT(src, shuttle_cooldown) / 600)] minutes until the permabrig shuttle [loaded_shuttle ? "leaves. Ensure the current objective has been completed before it departs." : "arrives"]")
 			return
-	if(!SSshuttle.prison_shuttle)
+	if(!loaded_shuttle)
 		check_shuttle_start_condition()
 		return
 	check_shuttle_end_condition()
@@ -81,18 +80,20 @@ SUBSYSTEM_DEF(permabrig)
 		var/datum/map_template/shuttle/template = SSmapping.shuttle_templates[shuttle_id]
 		if(shuttle_id in shuttle_types)
 			valid_shuttle_templates += template
+	COOLDOWN_START(src, shuttle_cooldown, rand(min_shuttle_time, max_shuttle_time))
 	loaded_shuttle = pick(valid_shuttle_templates)
 	SSshuttle.action_load(loaded_shuttle, SSshuttle.prison_stationary_shuttle, replace = TRUE)
-	COOLDOWN_START(src, shuttle_cooldown, rand(min_shuttle_time, max_shuttle_time))
-
 	for(var/obj/item/radio/intercom/prison/broadcasters as anything in GLOB.prison_broadcasters)
-		broadcasters.say("The permabrig shuttle has now docked! Please complete the objective as soon as possible!")
+		playsound(broadcasters, 'sound/machines/dotprinter.ogg', 20, TRUE)
+		broadcasters.say("The permabrig shuttle has now docked! Please standby for your incoming message from Central Command...")
+		broadcasters.say("[loaded_shuttle.explanation_text]")
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_end_condition()
 	loaded_shuttle.check_end_shuttle()
 
 	var/datum/bank_account/prison_account = SSeconomy.get_dep_account(ACCOUNT_PRISON)
 	var/message
+	var/sound
 	if(!prison_account)
 		CRASH("Subsystem [src] tried to add [loaded_shuttle.objective_price] to a non existant prison account!")
 	COOLDOWN_START(src, shuttle_cooldown, delay_between_shuttles)
@@ -102,13 +103,17 @@ SUBSYSTEM_DEF(permabrig)
 		if(PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS)
 			prison_account.adjust_money(loaded_shuttle.objective_price)
 			message = "Shuttle successfully left with the objective! [loaded_shuttle.objective_price] has been deposited into the Prison budget."
+			sound = 'sound/machines/synth_yes.ogg'
 		if(PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE)
 			prison_account.adjust_money(-loaded_shuttle.objective_price)
 			message = "Shuttle failed to leave with the objective. [loaded_shuttle.objective_price] has been deducted from the Prison budget."
+			sound = 'sound/machines/synth_no.ogg'
 
 	for(var/obj/item/radio/intercom/prison/broadcasters as anything in GLOB.prison_broadcasters)
 		broadcasters.say("[message]")
+		playsound(broadcasters, sound, 20, TRUE)
 
+	QDEL_NULL(loaded_shuttle)
 	SSshuttle.prison_shuttle.jumpToNullSpace()
 
 //#undef SHUTTLE_ENGINEERING

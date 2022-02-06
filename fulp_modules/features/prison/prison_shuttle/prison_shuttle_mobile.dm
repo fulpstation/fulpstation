@@ -16,5 +16,5 @@
 	SSshuttle.prison_shuttle = src
 
 /obj/docking_port/mobile/prison/unregister()
-	SSshuttle.prison_shuttle -= src
+	SSshuttle.prison_shuttle = null
 	return ..()
