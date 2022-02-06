@@ -33,7 +33,7 @@ SUBSYSTEM_DEF(permabrig)
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
 	//wait a while because there's a cooldown regardless
-	wait = 45 SECONDS
+	wait = 30 SECONDS // 2 MINUTES
 
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
@@ -47,6 +47,8 @@ SUBSYSTEM_DEF(permabrig)
 	var/objective_price = 500
 	///Where players get dropped off if found on the shuttle after it departs.
 	var/dropoff_area = /area/security/prison
+	///The shuttle currently loaded.
+	var/datum/map_template/shuttle/prison/loaded_shuttle
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
 		//Sorting through disposals and confiscating important items
@@ -69,9 +71,9 @@ SUBSYSTEM_DEF(permabrig)
 
 /datum/controller/subsystem/permabrig/fire(resumed)
 	if(!COOLDOWN_FINISHED(src, shuttle_cooldown))
-		for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters in GLOB.prison_broadcasters)
-			broadcasters.say("There is [COOLDOWN_TIMELEFT(src, shuttle_cooldown) / 10] seconds until the permabrig shuttle leaves! Please make sure the objective has been completed!")
-		return
+		for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters as anything in GLOB.prison_broadcasters)
+			broadcasters.say("[round(COOLDOWN_TIMELEFT(src, shuttle_cooldown) / 600)] minutes until the permabrig shuttle [SSshuttle.prison_shuttle ? "leaves. Ensure the current objective has been completed before it departs." : "arrives"]")
+			return
 	COOLDOWN_START(src, shuttle_cooldown, rand(min_time_between_shuttles, max_time_between_shuttles))
 	if(!SSshuttle.prison_shuttle)
 		check_shuttle_start_condition()
@@ -80,7 +82,6 @@ SUBSYSTEM_DEF(permabrig)
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_start_condition()
 	SSshuttle.unload_preview()
-	var/loaded_shuttle
 	var/list/valid_shuttle_templates = list()
 	for(var/shuttle_id in SSmapping.shuttle_templates)
 		var/datum/map_template/shuttle/template = SSmapping.shuttle_templates[shuttle_id]
@@ -90,7 +91,7 @@ SUBSYSTEM_DEF(permabrig)
 	SSshuttle.action_load(loaded_shuttle, SSshuttle.prison_stationary_shuttle, replace = TRUE)
 
 	RegisterSignal(SSshuttle.prison_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED, .proc/complete_objective)
-	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters in GLOB.prison_broadcasters)
+	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters as anything in GLOB.prison_broadcasters)
 		broadcasters.say("The permabrig shuttle has now docked! Please complete the objective as soon as possible!")
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_end_condition()
@@ -101,10 +102,12 @@ SUBSYSTEM_DEF(permabrig)
 	for(var/area/shuttle/shuttle_area in shuttle_areas)
 		for(var/turf/shuttle_turf in shuttle_area)
 			for(var/mob/living/passenger in shuttle_turf.get_all_contents())
+				if(!passenger.mind)
+					continue
 				to_chat(passenger, span_notice("You fell off the shuttle!"))
 				passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
 				passenger.adjustBruteLoss(15)
-				passenger.Stun(10 SECONDS)
+				passenger.Paralyze(10 SECONDS)
 
 	var/datum/bank_account/prison_account = SSeconomy.get_dep_account(ACCOUNT_PRISON)
 	var/message
@@ -120,7 +123,7 @@ SUBSYSTEM_DEF(permabrig)
 			prison_account.adjust_money(-objective_price)
 			message = "Shuttle failed to leave with the objective. [objective_price] has been deducted from the Prison account."
 
-	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters in GLOB.prison_broadcasters)
+	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters as anything in GLOB.prison_broadcasters)
 		broadcasters.say("[message]")
 
 	SSshuttle.prison_shuttle.jumpToNullSpace()
