@@ -29,12 +29,11 @@
 
 SUBSYSTEM_DEF(permabrig)
 	name = "Permabrig"
-	init_order = INIT_ORDER_SHUTTLE
 	priority = FIRE_PRIORITY_PROCESS
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
 	//wait a while because there's a cooldown regardless
-	wait = 30 SECONDS
+	wait = 45 SECONDS
 
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
@@ -42,9 +41,9 @@ SUBSYSTEM_DEF(permabrig)
 	var/min_time_between_shuttles = 2 MINUTES
 	///Max time between new visits
 	var/max_time_between_shuttles = 3 MINUTES
-	///Was the shuttle objective completed?
+	///Was the shuttle objective completed? TODO: Remove this, move it to the ship instead?
 	var/objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_NEUTRAL
-	///How much money is this objective worth? Gain on completion, lose on failure.
+	///How much money is this objective worth? Gain on completion, lose on failure. TODO: Remove this, move it to the ship instead?
 	var/objective_price = 500
 	///Where players get dropped off if found on the shuttle after it departs.
 	var/dropoff_area = /area/security/prison
@@ -69,7 +68,9 @@ SUBSYSTEM_DEF(permabrig)
 	)
 
 /datum/controller/subsystem/permabrig/fire(resumed)
-	if(!COOLDOWN_FINISHED(src, shuttle_cooldown) || prob(30)) //small chance CC forgets and gives you another 30 seconds.
+	if(!COOLDOWN_FINISHED(src, shuttle_cooldown))
+		for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters in GLOB.prison_broadcasters)
+			broadcasters.say("There is [COOLDOWN_TIMELEFT(src, shuttle_cooldown) / 10] seconds until the permabrig shuttle leaves! Please make sure the objective has been completed!")
 		return
 	COOLDOWN_START(src, shuttle_cooldown, rand(min_time_between_shuttles, max_time_between_shuttles))
 	if(!SSshuttle.prison_shuttle)
@@ -102,6 +103,8 @@ SUBSYSTEM_DEF(permabrig)
 			for(var/mob/living/passenger in shuttle_turf.get_all_contents())
 				to_chat(passenger, span_notice("You fell off the shuttle!"))
 				passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
+				passenger.adjustBruteLoss(15)
+				passenger.Stun(10 SECONDS)
 
 	var/datum/bank_account/prison_account = SSeconomy.get_dep_account(ACCOUNT_PRISON)
 	var/message
@@ -126,6 +129,7 @@ SUBSYSTEM_DEF(permabrig)
  * complete_objective
  *
  * Sets the objective as completed, unless you've already failed it.
+ * TODO: Remove this, move it to the ship instead?
  */
 /datum/controller/subsystem/permabrig/proc/complete_objective()
 	SIGNAL_HANDLER
@@ -137,6 +141,7 @@ SUBSYSTEM_DEF(permabrig)
  * fail_objective
  *
  * Sets the objective to fail, unless you've already completed it.
+ * TODO: Remove this, move it to the ship instead?
  */
 /datum/controller/subsystem/permabrig/proc/fail_objective()
 	SIGNAL_HANDLER
