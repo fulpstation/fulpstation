@@ -18,7 +18,7 @@
 #define SHUTTLE_BAR "prison_bar"
 #define SHUTTLE_KITCHEN "prison_kitchen"
 #define SHUTTLE_PLATE_PRESS "prison_platepress"
-//#define SHUTTLE_CLEANUP "Cleanup Shuttle"
+#define SHUTTLE_CLEANUP "prison_cleaning"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
 //#define SHUTTLE_ROBOTICS "Robotics Shuttle"
 //#define SHUTTLE_ENGINEERING "Engineering Shuttle"
@@ -33,7 +33,7 @@ SUBSYSTEM_DEF(permabrig)
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
 	//timer between intercom alerts
-	wait = 1 MINUTES
+	wait = 15 SECONDS//1 MINUTES
 
 	///The shuttle currently loaded.
 	var/datum/map_template/shuttle/prison/loaded_shuttle
@@ -55,7 +55,7 @@ SUBSYSTEM_DEF(permabrig)
 		//Pressing a stack of plates
 		SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
-//		SHUTTLE_CLEANUP,
+		SHUTTLE_CLEANUP,
 		SHUTTLE_XENOBIOLOGY,
 		//Building a small Bot
 //		SHUTTLE_ROBOTICS,
@@ -119,7 +119,7 @@ SUBSYSTEM_DEF(permabrig)
 //#undef SHUTTLE_ENGINEERING
 //#undef SHUTTLE_ROBOTICS
 #undef SHUTTLE_XENOBIOLOGY
-//#undef SHUTTLE_CLEANUP
+#undef SHUTTLE_CLEANUP
 #undef SHUTTLE_PLATE_PRESS
 #undef SHUTTLE_KITCHEN
 #undef SHUTTLE_BAR

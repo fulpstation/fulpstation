@@ -76,6 +76,25 @@
 
 	return ..()
 
+/datum/map_template/shuttle/prison/cleaning
+	suffix = "cleaning"
+	name = "Cleaning Shuttle (Prison)"
+	objective_price = 150
+	explanation_text = "We noticed that one of our ships were getting a little... dirty. Please clean up in there. \
+		Leave absolutely NOTHING in the shuttle. AT ALL. We want it completely clean and empty."
+
+/datum/map_template/shuttle/prison/cleaning/check_end_shuttle()
+	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
+	for(var/area/shuttle/shuttle_area in shuttle_areas)
+		for(var/turf/shuttle_turf in shuttle_area)
+			for(var/obj/item/item in shuttle_turf.get_all_contents())
+				if(istype(item, /obj/item/radio/intercom))
+					continue
+				//Literally NOTHING
+				INVOKE_ASYNC(src, .proc/fail_objective)
+				break
+
+	return ..()
 
 /datum/map_template/shuttle/prison/bar
 	suffix = "bar"
