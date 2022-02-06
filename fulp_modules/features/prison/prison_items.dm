@@ -15,5 +15,5 @@ GLOBAL_LIST_EMPTY(prison_broadcasters)
 
 /obj/item/radio/intercom/broadcaster_perma/Destroy()
 	GLOB.prison_broadcasters -= src
-	. = ..()
+	return ..()
 

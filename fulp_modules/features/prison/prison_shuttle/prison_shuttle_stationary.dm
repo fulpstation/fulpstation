@@ -8,3 +8,10 @@
 	dwidth = 5
 	dir = EAST
 
+/obj/docking_port/stationary/prison/register(replace)
+	. = ..()
+	SSshuttle.prison_stationary_shuttle = src
+
+/obj/docking_port/stationary/prison/unregister()
+	SSshuttle.prison_stationary_shuttle -= src
+	return ..()

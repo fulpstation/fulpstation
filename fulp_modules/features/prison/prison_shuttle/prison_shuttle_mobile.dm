@@ -16,8 +16,8 @@
 	SSshuttle.prison_shuttle = src
 
 /obj/docking_port/mobile/prison/unregister()
-	. = ..()
 	SSshuttle.prison_shuttle -= src
+	return ..()
 
 /area/shuttle/prison_shuttle
 	name = "Prison Shuttle"

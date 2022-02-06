@@ -1,19 +1,17 @@
 /datum/controller/subsystem/shuttle
 	/// The current prison shuttle's mobile docking port.
 	var/obj/docking_port/mobile/prison/prison_shuttle
-
-/datum/controller/subsystem/shuttle/Recover()
-	. = ..()
-	if(istype(SSshuttle.prison_shuttle))
-		prison_shuttle = SSshuttle.prison_shuttle
+	///The stationary docking port, verifying we actually have a prison shuttle this round.
+	var/obj/docking_port/stationary/prison/prison_stationary_shuttle
 
 /datum/controller/subsystem/shuttle/Initialize(timeofday)
 	. = ..()
-	if(prison_shuttle)
-		SSpermabrig.flags &= SS_NO_FIRE
+	if(prison_stationary_shuttle)
+		SSpermabrig.flags &= ~SS_NO_FIRE
 
 #define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
 #define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
+#define PERMABRIG_SHUTTLE_OBJECTIVE_NEUTRAL "Permabrig Neutral"
 
 #define SHUTTLE_DISPOSALS "Disposals Shuttle"
 #define SHUTTLE_MAIL "Mail Shuttle"
@@ -41,11 +39,11 @@ SUBSYSTEM_DEF(permabrig)
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
 	///Min time between new visits
-	var/min_time_between_shuttles = 8 MINUTES
+	var/min_time_between_shuttles = 2 MINUTES
 	///Max time between new visits
-	var/max_time_between_shuttles = 10 MINUTES
+	var/max_time_between_shuttles = 3 MINUTES
 	///Was the shuttle objective completed?
-	var/objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE
+	var/objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_NEUTRAL
 	///How much money is this objective worth? Gain on completion, lose on failure.
 	var/objective_price = 500
 	///Where players get dropped off if found on the shuttle after it departs.
@@ -61,7 +59,7 @@ SUBSYSTEM_DEF(permabrig)
 		//Pressing a stack of plates
 //		SHUTTLE_PLATE_PRESS = 15,
 		//Clean up a messy shuttle
-		SHUTTLE_CLEANUP = 15,
+//		SHUTTLE_CLEANUP = 15,
 		//Getting a certain slime extract
 		SHUTTLE_XENOBIOLOGY = 10,
 		//Building a small Bot
@@ -70,23 +68,18 @@ SUBSYSTEM_DEF(permabrig)
 //		SHUTTLE_ENGINEERING = 5,
 	)
 
-/datum/controller/subsystem/permabrig/New()
-	. = ..()
-	//Immediately start with half the cooldown to give some time for prisoners to get settled in.
-	COOLDOWN_START(src, shuttle_cooldown, rand((min_time_between_shuttles / 2), (max_time_between_shuttles / 2)))
-
 /datum/controller/subsystem/permabrig/fire(resumed)
 	if(!COOLDOWN_FINISHED(src, shuttle_cooldown) || prob(30)) //small chance CC forgets and gives you another 30 seconds.
 		return
 	COOLDOWN_START(src, shuttle_cooldown, rand(min_time_between_shuttles, max_time_between_shuttles))
-	if(SSshuttle.prison_shuttle.mode != SHUTTLE_IDLE)
-		check_shuttle_end_condition()
+	if(!SSshuttle.prison_shuttle)
+		check_shuttle_start_condition()
 		return
-	check_shuttle_start_condition()
+	check_shuttle_end_condition()
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_start_condition()
 	var/loaded_shuttle = pick_weight(shuttle_types)
-	SSshuttle.action_load(loaded_shuttle, replace = TRUE)
+	SSshuttle.prison_shuttle = new(SSshuttle.action_load(loaded_shuttle, SSshuttle.prison_stationary_shuttle, replace = TRUE))
 	RegisterSignal(SSshuttle.prison_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED, .proc/complete_objective)
 	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters in GLOB.prison_broadcasters)
 		broadcasters.say("The permabrig shuttle has now docked! Please complete the objective as soon as possible!")
@@ -114,7 +107,7 @@ SUBSYSTEM_DEF(permabrig)
 		if(PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS)
 			prison_account.adjust_money(objective_price)
 			message = "Shuttle successfully left with the objective! [objective_price] has been deposited into the Prison account."
-		if(PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE)
+		if(PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE || PERMABRIG_SHUTTLE_OBJECTIVE_NEUTRAL)
 			prison_account.adjust_money(-objective_price)
 			message = "Shuttle failed to leave with the objective. [objective_price] has been deducted from the Prison account."
 
@@ -124,11 +117,24 @@ SUBSYSTEM_DEF(permabrig)
 /**
  * complete_objective
  *
- * Sets the objective to truly be completed
+ * Sets the objective as completed, unless you've already failed it.
  */
 /datum/controller/subsystem/permabrig/proc/complete_objective()
 	SIGNAL_HANDLER
+	if(objective_status == PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE)
+		return
 	objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS
+
+/**
+ * fail_objective
+ *
+ * Sets the objective to fail, unless you've already completed it.
+ */
+/datum/controller/subsystem/permabrig/proc/fail_objective()
+	SIGNAL_HANDLER
+	if(objective_status == PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS)
+		return
+	objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE
 
 #undef SHUTTLE_ENGINEERING
 #undef SHUTTLE_ROBOTICS
