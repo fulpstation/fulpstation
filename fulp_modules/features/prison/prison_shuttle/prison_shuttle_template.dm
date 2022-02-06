@@ -29,7 +29,7 @@
 			for(var/mob/living/passenger in shuttle_turf.get_all_contents())
 				if(!passenger.mind)
 					continue
-				to_chat(passenger, span_notice("You fell off the shuttle!"))
+				to_chat(passenger, span_boldwarning("You fell off the shuttle!"))
 				passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
 				passenger.adjustBruteLoss(20)
 				passenger.Paralyze(10 SECONDS)

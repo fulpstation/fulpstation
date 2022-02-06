@@ -20,6 +20,8 @@
 
 /obj/machinery/smartfridge/prison/Initialize(mapload)
 	. = ..()
+	if(!possible_objectives.len)
+		return
 	station_objective = pick(possible_objectives)
 
 /obj/machinery/smartfridge/prison/accept_check(obj/item/inserted_object)
