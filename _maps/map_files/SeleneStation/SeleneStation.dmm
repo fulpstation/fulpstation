@@ -5423,7 +5423,7 @@
 /area/command/heads_quarters/hop)
 "bxl" = (
 /turf/closed/wall/r_wall,
-/area/space)
+/area/space/nearstation)
 "bxm" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -8961,6 +8961,15 @@
 	},
 /turf/open/floor/iron/dark,
 /area/medical/medbay)
+"cvn" = (
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/obj/item/stack/license_plates/empty/fifty,
+/obj/item/stack/license_plates/empty/fifty,
+/obj/item/stack/license_plates/empty/fifty,
+/turf/open/floor/iron/textured,
+/area/security/prison/work)
 "cvp" = (
 /turf/open/floor/iron/white/side{
 	dir = 1
@@ -11433,7 +11442,7 @@
 /obj/machinery/holopad,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "dbm" = (
 /obj/machinery/door/morgue{
@@ -13496,13 +13505,8 @@
 /obj/structure/toilet/greyscale{
 	dir = 4
 	},
-/obj/item/radio/intercom/directional/north{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = 24;
-	prison_radio = 1
-	},
 /obj/effect/spawner/random/contraband/prison,
+/obj/item/radio/intercom/prison/directional/north,
 /turf/open/floor/iron/white,
 /area/security/prison/safe)
 "dEO" = (
@@ -13582,7 +13586,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 5
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "dFX" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -14294,12 +14298,6 @@
 /obj/effect/turf_decal/tile{
 	color = "#FF6700";
 	name = "Prison Orange"
-	},
-/obj/item/radio/intercom/directional/south{
-	desc = "Talk through this. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = -25;
-	prison_radio = 1
 	},
 /turf/open/floor/iron,
 /area/security/prison/upper)
@@ -18715,7 +18713,7 @@
 	c_tag = "Permabrig - Rec Room";
 	network = list("ss13","prison")
 	},
-/obj/item/radio/intercom/broadcaster_perma/directional/west,
+/obj/item/radio/intercom/prison/directional/west,
 /turf/open/floor/iron/grimy,
 /area/security/prison/rec)
 "eWT" = (
@@ -23077,12 +23075,6 @@
 "gcg" = (
 /obj/structure/table,
 /obj/item/book/manual/random,
-/obj/item/radio/intercom/directional/north{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = 24;
-	prison_radio = 1
-	},
 /obj/machinery/newscaster/directional/east,
 /turf/open/floor/iron/grimy,
 /area/security/prison/rec)
@@ -32673,6 +32665,7 @@
 /obj/effect/landmark/start/prisoner,
 /obj/machinery/light/small/directional/north,
 /obj/item/bedsheet/random,
+/obj/item/radio/intercom/prison/directional/north,
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
 "iES" = (
@@ -34898,7 +34891,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "jnc" = (
 /obj/structure/reagent_dispensers/watertank,
@@ -35625,7 +35618,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "jvd" = (
 /obj/item/stock_parts/micro_laser,
@@ -40056,9 +40049,6 @@
 	name = "Prison Orange"
 	},
 /obj/machinery/duct,
-/obj/item/radio/intercom/broadcaster_perma/directional/west{
-	pixel_y = 26
-	},
 /turf/open/floor/iron/dark,
 /area/security/prison)
 "kBn" = (
@@ -44128,8 +44118,8 @@
 /obj/machinery/computer/cargo/request/prison{
 	dir = 8
 	},
-/obj/item/radio/intercom/broadcaster_perma/directional/east,
-/turf/open/floor/iron,
+/obj/item/radio/intercom/prison/directional/east,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "lyJ" = (
 /obj/machinery/meter,
@@ -47817,7 +47807,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/start/prisoner,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "mtZ" = (
 /obj/machinery/disposal/bin,
@@ -54797,7 +54787,7 @@
 	color = "#FF6700";
 	name = "Prison Orange"
 	},
-/obj/item/radio/intercom/broadcaster_perma/directional/south,
+/obj/item/radio/intercom/prison/directional/south,
 /turf/open/floor/iron,
 /area/security/prison/upper)
 "ohO" = (
@@ -56006,7 +55996,7 @@
 "oCc" = (
 /obj/machinery/washing_machine,
 /obj/machinery/airalarm/directional/south,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "oCd" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -63135,7 +63125,7 @@
 /obj/structure/table,
 /obj/item/book/manual/random,
 /obj/machinery/airalarm/directional/north,
-/obj/item/radio/intercom/broadcaster_perma/directional/east,
+/obj/item/radio/intercom/prison/directional/east,
 /turf/open/floor/iron/grimy,
 /area/security/prison/rec)
 "qya" = (
@@ -64167,15 +64157,6 @@
 /obj/effect/spawner/random/maintenance/two,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
-"qLC" = (
-/obj/item/radio/intercom/directional/west{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	prison_radio = 1
-	},
-/obj/structure/chair/stool/directional/south,
-/turf/open/floor/iron/grimy,
-/area/security/prison/rec)
 "qLQ" = (
 /obj/effect/turf_decal/bot/left,
 /turf/open/floor/iron,
@@ -65288,7 +65269,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 10
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "rbk" = (
 /obj/structure/table/glass,
@@ -66745,7 +66726,6 @@
 	color = "#FF0000";
 	name = "Security red corner"
 	},
-/obj/item/radio/intercom/broadcaster_perma/directional/north,
 /turf/open/floor/iron,
 /area/security/prison/garden)
 "rsb" = (
@@ -69325,7 +69305,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
 	dir = 4
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "sdd" = (
 /turf/open/floor/plating,
@@ -69722,7 +69702,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "siK" = (
 /obj/machinery/hydroponics/constructable,
@@ -75469,12 +75449,6 @@
 	dir = 1;
 	name = "Prison Orange"
 	},
-/obj/item/radio/intercom/directional/north{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = 24;
-	prison_radio = 1
-	},
 /turf/open/floor/iron/dark,
 /area/security/prison)
 "tKn" = (
@@ -76144,7 +76118,7 @@
 "tVj" = (
 /obj/effect/spawner/random/contraband/prison,
 /obj/structure/closet/crate/trashcart/laundry,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "tVk" = (
 /obj/structure/closet/crate/trashcart/laundry,
@@ -78237,7 +78211,7 @@
 "uuf" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "uuh" = (
 /obj/effect/turf_decal/tile/red{
@@ -81365,12 +81339,6 @@
 	name = "Prison Orange"
 	},
 /obj/machinery/duct,
-/obj/item/radio/intercom/directional/north{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = 24;
-	prison_radio = 1
-	},
 /turf/open/floor/iron/dark,
 /area/security/prison)
 "vkR" = (
@@ -81948,11 +81916,7 @@
 /area/maintenance/starboard/fore)
 "vtt" = (
 /obj/machinery/hydroponics/constructable,
-/obj/item/radio/intercom/directional/west{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	prison_radio = 1
-	},
+/obj/item/radio/intercom/prison/directional/west,
 /turf/open/floor/grass,
 /area/security/prison/garden)
 "vtx" = (
@@ -83571,7 +83535,7 @@
 /obj/structure/table,
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/structure/cable,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "vRk" = (
 /turf/closed/wall,
@@ -84042,7 +84006,7 @@
 /area/maintenance/department/crew_quarters/dorms)
 "vYu" = (
 /obj/structure/cable,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "vYw" = (
 /obj/machinery/air_sensor/atmos/air_tank,
@@ -85606,6 +85570,10 @@
 /obj/effect/landmark/start/hangover/closet,
 /turf/open/floor/iron,
 /area/hallway/primary/aft)
+"wwK" = (
+/obj/machinery/plate_press,
+/turf/open/floor/iron/textured,
+/area/security/prison/work)
 "wwL" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden,
 /turf/open/floor/iron/white{
@@ -92506,7 +92474,7 @@
 "ycw" = (
 /obj/machinery/light/directional/south,
 /obj/machinery/washing_machine,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "ycH" = (
 /turf/open/floor/iron/dark,
@@ -93031,6 +92999,7 @@
 /obj/machinery/light/small/directional/north,
 /obj/effect/spawner/random/contraband/prison,
 /obj/item/bedsheet/random,
+/obj/item/radio/intercom/prison/directional/north,
 /turf/open/floor/iron/dark,
 /area/security/prison/safe)
 "yhj" = (
@@ -93285,7 +93254,7 @@
 /turf/open/floor/iron/dark,
 /area/service/bar/atrium)
 "ylZ" = (
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured,
 /area/security/prison/work)
 "ymc" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -113422,7 +113391,7 @@ rVE
 rVE
 eoy
 lAn
-qLC
+qDZ
 aea
 eWN
 ptV
@@ -114713,17 +114682,17 @@ dML
 pCr
 ucl
 ucl
+siv
 ylZ
 ylZ
 ylZ
-ylZ
-ylZ
+cvn
 alX
 alX
-iQW
-iQW
-iQW
-iQW
+yju
+yju
+yju
+yju
 iQW
 iQW
 iQW
@@ -114970,17 +114939,17 @@ oge
 pFg
 rsO
 hGC
-ylZ
+siv
 ylZ
 lyH
 ylZ
-ylZ
+wwK
 alX
-iQW
-iQW
-iQW
-iQW
-iQW
+bfi
+bfi
+bfi
+bfi
+yju
 iQW
 iQW
 iQW
@@ -115236,8 +115205,8 @@ alX
 bxl
 bxl
 bxl
-iQW
-iQW
+bfi
+yju
 iQW
 iQW
 iQW
@@ -115478,7 +115447,7 @@ iQW
 iQW
 iQW
 yju
-iQW
+bfi
 bxl
 bxl
 iQW
@@ -115493,8 +115462,8 @@ iQW
 iQW
 iQW
 bxl
-iQW
-bDE
+bfi
+yju
 iQW
 iQW
 iQW
@@ -115735,7 +115704,7 @@ yju
 yju
 iQW
 yju
-iQW
+bfi
 bxl
 iQW
 iQW
@@ -115750,11 +115719,11 @@ iQW
 iQW
 iQW
 bxl
+bfi
+yju
 iQW
 iQW
-iQW
-iQW
-iQW
+bDE
 iQW
 iQW
 iQW
@@ -115992,7 +115961,7 @@ vmD
 xdv
 vmD
 vmD
-iQW
+bfi
 bxl
 iQW
 iQW
@@ -116007,8 +115976,8 @@ iQW
 iQW
 iQW
 bxl
-iQW
-iQW
+bfi
+yju
 iQW
 iQW
 iQW
@@ -116248,8 +116217,8 @@ yju
 iQW
 iQW
 iQW
-iQW
-iQW
+yju
+bfi
 bxl
 iQW
 iQW
@@ -116264,8 +116233,8 @@ iQW
 iQW
 iQW
 bxl
-iQW
-iQW
+bfi
+yju
 iQW
 mfQ
 mfQ
@@ -116505,8 +116474,8 @@ yju
 iQW
 iQW
 iQW
-iQW
-iQW
+yju
+bfi
 bxl
 iQW
 iQW
@@ -116521,8 +116490,8 @@ iQW
 iQW
 iQW
 bxl
-iQW
-iQW
+bfi
+yju
 iQW
 mAQ
 mFv
@@ -116762,8 +116731,8 @@ yju
 iQW
 iQW
 iQW
-iQW
-iQW
+yju
+bfi
 bxl
 iQW
 iQW
@@ -116778,8 +116747,8 @@ iQW
 iQW
 iQW
 bxl
-iQW
-iQW
+bfi
+yju
 iQW
 mfQ
 mfQ
@@ -117020,7 +116989,7 @@ iQW
 iQW
 iQW
 yju
-iQW
+bfi
 bxl
 bxl
 iQW
@@ -117035,8 +117004,8 @@ iQW
 iQW
 iQW
 bxl
-iQW
-iQW
+bfi
+yju
 iQW
 iQW
 vwe
@@ -117273,12 +117242,12 @@ iQW
 iQW
 iQW
 yju
-iQW
-iQW
+adS
+adS
 yju
 yju
-iQW
-iQW
+bfi
+bfi
 bxl
 bxl
 bxl
@@ -117292,8 +117261,8 @@ bxl
 bxl
 bxl
 bxl
-iQW
-iQW
+bfi
+yju
 iQW
 iQW
 vwe
@@ -117535,22 +117504,22 @@ nxe
 nxe
 nxe
 nxe
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
-iQW
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+bfi
+yju
 iQW
 iQW
 vwe

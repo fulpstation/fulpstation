@@ -35,6 +35,11 @@
  * SHUTTLE TEMPLATES
  */
 
+/datum/map_template/shuttle/prison/bar
+	suffix = "bar"
+	name = "Bar Shuttle (Prison)"
+	objective_price = 300
+
 /datum/map_template/shuttle/prison/xenobiology
 	suffix = "xenobio"
 	name = "Xenobiology Shuttle (Prison)"
