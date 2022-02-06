@@ -7,7 +7,7 @@
 /datum/controller/subsystem/shuttle/Initialize(timeofday)
 	. = ..()
 	if(prison_stationary_shuttle)
-		addtimer(CALLBACK(src, .proc/start_permabrig), 10 MINUTES, TIMER_UNIQUE)
+		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
 
 /datum/controller/subsystem/shuttle/proc/start_permabrig()
 	SSpermabrig.flags &= ~SS_NO_FIRE
@@ -32,7 +32,7 @@ SUBSYSTEM_DEF(permabrig)
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
 	//wait a while because there's a cooldown regardless
-	wait =  2 MINUTES
+	wait = 2 MINUTES
 
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
@@ -50,13 +50,11 @@ SUBSYSTEM_DEF(permabrig)
 //		SHUTTLE_DISPOSALS,
 		//Sorting through mail and sending them in the proper tube
 //		SHUTTLE_MAIL,
-		//Making a certain drink
 		SHUTTLE_BAR,
 		//Pressing a stack of plates
 //		SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
 //		SHUTTLE_CLEANUP,
-		//Getting a certain slime extract
 		SHUTTLE_XENOBIOLOGY,
 		//Building a small Bot
 //		SHUTTLE_ROBOTICS,
@@ -98,7 +96,7 @@ SUBSYSTEM_DEF(permabrig)
 					continue
 				to_chat(passenger, span_notice("You fell off the shuttle!"))
 				passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
-				passenger.adjustBruteLoss(15)
+				passenger.adjustBruteLoss(20)
 				passenger.Paralyze(10 SECONDS)
 
 	var/datum/bank_account/prison_account = SSeconomy.get_dep_account(ACCOUNT_PRISON)
