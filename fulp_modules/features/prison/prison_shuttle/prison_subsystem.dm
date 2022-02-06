@@ -8,7 +8,6 @@
 	. = ..()
 	if(prison_stationary_shuttle)
 		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
-		SSpermabrig.fire()
 
 /datum/controller/subsystem/shuttle/proc/start_permabrig()
 	SSpermabrig.flags &= ~SS_NO_FIRE
@@ -33,7 +32,7 @@ SUBSYSTEM_DEF(permabrig)
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
 	//wait a while because there's a cooldown regardless
-	wait = 20 SECONDS //2 MINUTES
+	wait = 2 MINUTES
 
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
@@ -48,12 +47,12 @@ SUBSYSTEM_DEF(permabrig)
 		SHUTTLE_DISPOSALS,
 		//Sorting through mail and sending them in the proper tube
 //		SHUTTLE_MAIL,
-		//					SHUTTLE_BAR,
+		SHUTTLE_BAR,
 		//Pressing a stack of plates
 //		SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
 //		SHUTTLE_CLEANUP,
-		//					SHUTTLE_XENOBIOLOGY,
+		SHUTTLE_XENOBIOLOGY,
 		//Building a small Bot
 //		SHUTTLE_ROBOTICS,
 		//Repair a certain thing (floors, platings, tables)
