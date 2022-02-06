@@ -37,9 +37,9 @@ SUBSYSTEM_DEF(permabrig)
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
 	///Min time between new visits
-	var/min_time_between_shuttles = 2 MINUTES
+	var/min_time_between_shuttles = 8 MINUTES
 	///Max time between new visits
-	var/max_time_between_shuttles = 3 MINUTES
+	var/max_time_between_shuttles = 10 MINUTES
 	///The shuttle currently loaded.
 	var/datum/map_template/shuttle/prison/loaded_shuttle
 	///Types of shuttle that will dock, each with a specific task to do
