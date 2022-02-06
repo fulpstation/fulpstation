@@ -105,7 +105,7 @@ SUBSYSTEM_DEF(permabrig)
 			message = "Shuttle successfully left with the objective! [loaded_shuttle.objective_price] has been deposited into the Prison budget."
 			sound = 'sound/machines/synth_yes.ogg'
 		if(PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE)
-			prison_account.adjust_money(-loaded_shuttle.objective_price)
+			prison_account.adjust_money(-(loaded_shuttle.objective_price*2))
 			message = "Shuttle failed to leave with the objective. [loaded_shuttle.objective_price] has been deducted from the Prison budget."
 			sound = 'sound/machines/synth_no.ogg'
 
