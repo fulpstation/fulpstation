@@ -16,7 +16,7 @@
 			/obj/item/food/nugget = 4,
 			/obj/item/food/soup/miso = 4,
 			/obj/item/food/grilled_cheese_sandwich = 3,
-			/obj/item/food/spaghetti = 3,
+			/obj/item/food/spaghetti/boiledspaghetti = 3,
 			/obj/item/food/eggsausage = 3,
 			/obj/item/food/burger/plain = 1,
 		),
