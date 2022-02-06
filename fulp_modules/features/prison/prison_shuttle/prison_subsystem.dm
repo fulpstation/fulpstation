@@ -18,7 +18,7 @@
 #define SHUTTLE_BAR "Bar Shuttle"
 #define SHUTTLE_PLATE_PRESS "Plate Pressing Shuttle"
 #define SHUTTLE_CLEANUP "Cleanup Shuttle"
-#define SHUTTLE_XENOBIOLOGY /datum/map_template/shuttle/prison/xenobiology
+#define SHUTTLE_XENOBIOLOGY "prison_xenobio"
 #define SHUTTLE_ROBOTICS "Robotics Shuttle"
 #define SHUTTLE_ENGINEERING "Engineering Shuttle"
 
@@ -51,21 +51,21 @@ SUBSYSTEM_DEF(permabrig)
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
 		//Sorting through disposals and confiscating important items
-//		SHUTTLE_DISPOSALS = 20,
+//		SHUTTLE_DISPOSALS,
 		//Sorting through mail and sending them in the proper tube
-//		SHUTTLE_MAIL = 20,
+//		SHUTTLE_MAIL,
 		//Making a certain drink
-//		SHUTTLE_BAR = 15,
+//		SHUTTLE_BAR,
 		//Pressing a stack of plates
-//		SHUTTLE_PLATE_PRESS = 15,
+//		SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
-//		SHUTTLE_CLEANUP = 15,
+//		SHUTTLE_CLEANUP,
 		//Getting a certain slime extract
-		SHUTTLE_XENOBIOLOGY = 10,
+		SHUTTLE_XENOBIOLOGY,
 		//Building a small Bot
 //		SHUTTLE_ROBOTICS = 10,
 		//Repair a certain thing (floors, platings, tables)
-//		SHUTTLE_ENGINEERING = 5,
+//		SHUTTLE_ENGINEERING,
 	)
 
 /datum/controller/subsystem/permabrig/fire(resumed)
@@ -78,24 +78,30 @@ SUBSYSTEM_DEF(permabrig)
 	check_shuttle_end_condition()
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_start_condition()
-	var/loaded_shuttle = pick_weight(shuttle_types)
-	SSshuttle.prison_shuttle = new(SSshuttle.action_load(loaded_shuttle, SSshuttle.prison_stationary_shuttle, replace = TRUE))
+	SSshuttle.unload_preview()
+	var/loaded_shuttle
+	var/list/valid_shuttle_templates = list()
+	for(var/shuttle_id in SSmapping.shuttle_templates)
+		var/datum/map_template/shuttle/template = SSmapping.shuttle_templates[shuttle_id]
+		if(shuttle_id in shuttle_types)
+			valid_shuttle_templates += template
+	loaded_shuttle = pick(valid_shuttle_templates)
+	SSshuttle.action_load(loaded_shuttle, SSshuttle.prison_stationary_shuttle, replace = TRUE)
+
 	RegisterSignal(SSshuttle.prison_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED, .proc/complete_objective)
 	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters in GLOB.prison_broadcasters)
 		broadcasters.say("The permabrig shuttle has now docked! Please complete the objective as soon as possible!")
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_end_condition()
 	UnregisterSignal(SSshuttle.prison_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
-	SSshuttle.prison_shuttle.intoTheSunset()
-	var/obj/docking_port/mobile/prison/shuttle = SSshuttle.prison_shuttle
-	QDEL_IN(shuttle, 10 SECONDS)
 
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
 	//Kick everyone off
-	for(var/turf/open/floor/shuttle_turf in shuttle_areas)
-		for(var/mob/passenger in shuttle_turf.get_all_contents())
-			to_chat(passenger, span_notice("You fell off the shuttle!"))
-			passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
+	for(var/area/shuttle/shuttle_area in shuttle_areas)
+		for(var/turf/shuttle_turf in shuttle_area)
+			for(var/mob/living/passenger in shuttle_turf.get_all_contents())
+				to_chat(passenger, span_notice("You fell off the shuttle!"))
+				passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
 
 	var/datum/bank_account/prison_account = SSeconomy.get_dep_account(ACCOUNT_PRISON)
 	var/message
@@ -113,6 +119,8 @@ SUBSYSTEM_DEF(permabrig)
 
 	for(var/obj/item/radio/intercom/broadcaster_perma/broadcasters in GLOB.prison_broadcasters)
 		broadcasters.say("[message]")
+
+	SSshuttle.prison_shuttle.jumpToNullSpace()
 
 /**
  * complete_objective
