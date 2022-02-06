@@ -1,7 +1,6 @@
 /**
- * Mail
+ * Mail shuttle
  */
-GLOBAL_LIST_INIT(important_prison_messages, world.file2list("fulp_modules/strings/prison/important_documents.txt"))
 
 // PAPER
 /obj/item/paper/prison_paperwork/Initialize(mapload)

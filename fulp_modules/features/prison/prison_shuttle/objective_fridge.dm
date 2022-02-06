@@ -150,3 +150,22 @@
 		/obj/item/food/burrito,
 		/obj/item/food/pie/meatpie,
 	)
+
+/**
+ * Plate Pressing shuttle
+ */
+/obj/machinery/smartfridge/prison/license_plates
+	name = "smart plate pressing storage"
+	possible_objectives = list(
+		/obj/item/stack/license_plates/filled,
+	)
+
+/obj/machinery/smartfridge/prison/license_plates/accept_check(obj/item/inserted_object)
+	. = ..()
+	if(!.)
+		return FALSE
+	var/obj/item/stack/license_plates/filled/pressed_plates = inserted_object
+	if(pressed_plates.amount < pressed_plates.max_amount)
+		say("A full stack is required to accept this.")
+		return FALSE
+	return TRUE

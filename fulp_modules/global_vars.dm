@@ -13,6 +13,10 @@ GLOBAL_LIST_INIT(fulp_job_assignments, list(
 	JOB_DEPUTY_SRV,
 ))
 
+// PRISON //
+
+GLOBAL_LIST_INIT(important_prison_messages, world.file2list("fulp_modules/strings/prison/important_documents.txt"))
+
 // MENTORS //
 
 GLOBAL_PROTECT(mentor_verbs)
