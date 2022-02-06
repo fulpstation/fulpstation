@@ -306,6 +306,7 @@
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
+	log_uplink("[key_name(owner.current)] purchased [power].")
 
 /datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
 	for(var/datum/action/bloodsucker/all_powers as anything in powers)
