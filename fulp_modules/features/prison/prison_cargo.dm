@@ -5,7 +5,7 @@
 	circuit = /obj/item/circuitboard/computer/cargo
 
 	contraband = TRUE
-	///The account this console processes and displays. Independent from the account the shuttle processes.
+	//The account this console processes and displays. Independent from the account the shuttle processes.
 	cargo_account = ACCOUNT_PRISON
 
 /obj/item/circuitboard/computer/cargo/request/prison

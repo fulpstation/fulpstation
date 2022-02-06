@@ -8,6 +8,8 @@
 	var/objectives_required = 1
 	///Whether we completed the objective yet or not
 	var/objective_completed = FALSE
+	///Whether we prevent parent from saying things upon load() and dispense()
+	var/no_text = FALSE
 	///Randomly selected objective is chosen from this list
 	var/list/possible_objectives = list()
 
@@ -27,6 +29,8 @@
 	return TRUE
 
 /obj/machinery/smartfridge/prison/load(obj/item/inserted_object)
+	if(no_text)
+		return ..()
 	if(objective_completed)
 		say("You have already completed the objective!")
 		return
@@ -38,6 +42,8 @@
 	return ..()
 
 /obj/machinery/smartfridge/prison/dispense(obj/item/inserted_object, mob/user)
+	if(no_text)
+		return ..()
 	objectives_required++
 	if(objectives_required)
 		say("Objective removed! Objective no longer considered completed.")
@@ -82,8 +88,8 @@
 
 /obj/machinery/smartfridge/prison/bar/Initialize(mapload)
 	. = ..()
-	station_objective = null
 	drink_objective = pick(possible_objectives)
+	station_objective = null
 
 /obj/machinery/smartfridge/prison/bar/accept_check(obj/item/inserted_object)
 	if(!istype(inserted_object, /obj/item/reagent_containers/food/drinks))
@@ -94,3 +100,31 @@
 		say("Only drinks with at least [VENUE_BAR_MINIMUM_REAGENTS] units of [initial(drink_objective.name)] count towards your objective!")
 		return FALSE
 	return TRUE
+
+/**
+ * # Disposals shuttle
+ */
+/obj/machinery/smartfridge/prison/disposal
+	name = "important documents storage"
+	objectives_required = 3
+	no_text = TRUE
+	possible_objectives = list(
+		/obj/item/paper,
+	)
+
+/obj/machinery/smartfridge/prison/disposal/load(obj/item/inserted_object)
+	if(istype(inserted_object, /obj/item/paper/prison_paperwork))
+		objectives_required--
+
+	playsound(src, 'sound/machines/ping.ogg', 20, TRUE)
+	if(!objectives_required)
+		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_COMPLETED)
+		objective_completed = TRUE
+	return ..()
+
+/obj/machinery/smartfridge/prison/disposal/dispense(obj/item/inserted_object, mob/user)
+	if(istype(inserted_object, /obj/item/paper/prison_paperwork))
+		objectives_required++
+	if(objectives_required)
+		objective_completed = FALSE
+	return ..()

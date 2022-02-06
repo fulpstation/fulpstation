@@ -8,12 +8,13 @@
 	. = ..()
 	if(prison_stationary_shuttle)
 		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
+		SSpermabrig.fire()
 
 /datum/controller/subsystem/shuttle/proc/start_permabrig()
 	SSpermabrig.flags &= ~SS_NO_FIRE
 	SSpermabrig.fire()
 
-//#define SHUTTLE_DISPOSALS "Disposals Shuttle"
+#define SHUTTLE_DISPOSALS "prison_disposals"
 //#define SHUTTLE_MAIL "Mail Shuttle"
 #define SHUTTLE_BAR "prison_bar"
 //#define SHUTTLE_PLATE_PRESS "Plate Pressing Shuttle"
@@ -32,7 +33,7 @@ SUBSYSTEM_DEF(permabrig)
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
 	//wait a while because there's a cooldown regardless
-	wait = 2 MINUTES
+	wait = 20 SECONDS //2 MINUTES
 
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
@@ -40,22 +41,19 @@ SUBSYSTEM_DEF(permabrig)
 	var/min_time_between_shuttles = 2 MINUTES
 	///Max time between new visits
 	var/max_time_between_shuttles = 3 MINUTES
-	///Where players get dropped off if found on the shuttle after it departs.
-	var/dropoff_area = /area/security/prison
 	///The shuttle currently loaded.
 	var/datum/map_template/shuttle/prison/loaded_shuttle
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
-		//Sorting through disposals and confiscating important items
-//		SHUTTLE_DISPOSALS,
+		SHUTTLE_DISPOSALS,
 		//Sorting through mail and sending them in the proper tube
 //		SHUTTLE_MAIL,
-		SHUTTLE_BAR,
+		//					SHUTTLE_BAR,
 		//Pressing a stack of plates
 //		SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
 //		SHUTTLE_CLEANUP,
-		SHUTTLE_XENOBIOLOGY,
+		//					SHUTTLE_XENOBIOLOGY,
 		//Building a small Bot
 //		SHUTTLE_ROBOTICS,
 		//Repair a certain thing (floors, platings, tables)
@@ -87,17 +85,7 @@ SUBSYSTEM_DEF(permabrig)
 		broadcasters.say("The permabrig shuttle has now docked! Please complete the objective as soon as possible!")
 
 /datum/controller/subsystem/permabrig/proc/check_shuttle_end_condition()
-	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
-	//Kick everyone off
-	for(var/area/shuttle/shuttle_area in shuttle_areas)
-		for(var/turf/shuttle_turf in shuttle_area)
-			for(var/mob/living/passenger in shuttle_turf.get_all_contents())
-				if(!passenger.mind)
-					continue
-				to_chat(passenger, span_notice("You fell off the shuttle!"))
-				passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
-				passenger.adjustBruteLoss(20)
-				passenger.Paralyze(10 SECONDS)
+	loaded_shuttle.check_end_shuttle()
 
 	var/datum/bank_account/prison_account = SSeconomy.get_dep_account(ACCOUNT_PRISON)
 	var/message
@@ -125,4 +113,4 @@ SUBSYSTEM_DEF(permabrig)
 //#undef SHUTTLE_PLATE_PRESS
 #undef SHUTTLE_BAR
 //#undef SHUTTLE_MAIL
-//#undef SHUTTLE_DISPOSALS
+#undef SHUTTLE_DISPOSALS
