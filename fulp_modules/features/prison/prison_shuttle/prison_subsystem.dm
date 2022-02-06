@@ -49,7 +49,7 @@ SUBSYSTEM_DEF(permabrig)
 		//Sorting through mail and sending them in the proper tube
 //		SHUTTLE_MAIL,
 		SHUTTLE_BAR,
-		SHUTTLE_KITCHEN
+		SHUTTLE_KITCHEN,
 		//Pressing a stack of plates
 //		SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
