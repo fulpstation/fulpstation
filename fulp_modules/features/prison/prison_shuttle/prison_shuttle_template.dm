@@ -79,9 +79,64 @@
 /datum/map_template/shuttle/prison/cleaning
 	suffix = "cleaning"
 	name = "Cleaning Shuttle (Prison)"
+	objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS
 	objective_price = 150
 	explanation_text = "We noticed that one of our ships were getting a little... dirty. Please clean up in there. \
 		Leave absolutely NOTHING in the shuttle. AT ALL. We want it completely clean and empty."
+
+/datum/map_template/shuttle/prison/cleaning/New()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/send_more_trash), 45 SECONDS, TIMER_UNIQUE)
+
+/datum/map_template/shuttle/prison/cleaning/proc/send_more_trash()
+	var/turf/pod_one
+	var/turf/pod_two
+	var/turf/pod_three
+	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
+	for(var/area/shuttle/shuttle_area in shuttle_areas)
+		for(var/turf/shuttle_turf in shuttle_area)
+			if(iswallturf(shuttle_turf))
+				continue
+			if(!pod_one && prob(20))
+				pod_one = shuttle_turf
+				break
+			else if(!pod_two && prob(20))
+				pod_two = shuttle_turf
+				break
+			else if(!pod_three && !prob(20))
+				pod_three = shuttle_turf
+				break
+
+	var/list/spawned_garbage = list(
+		/obj/item/trash,
+		/obj/item/trash/candy,
+		/obj/item/trash/syndi_cakes,
+		/obj/item/trash/raisins,
+		/obj/item/trash/can/food/peaches/maint,
+		/obj/item/trash/energybar,
+		/obj/item/trash/chips,
+	)
+	podspawn(list(
+		"target" = pod_one,
+		"path" = /obj/structure/closet/supplypod/bluespacepod,
+		"style" = STYLE_SYNDICATE,
+		"spawn" = pick(spawned_garbage),
+		"delays" = list(POD_TRANSIT = 10, POD_FALLING = 4, POD_OPENING = 0, POD_LEAVING = 15)
+	))
+	podspawn(list(
+		"target" = pod_two,
+		"path" = /obj/structure/closet/supplypod/bluespacepod,
+		"style" = STYLE_SYNDICATE,
+		"spawn" = pick(spawned_garbage),
+		"delays" = list(POD_TRANSIT = 10, POD_FALLING = 4, POD_OPENING = 0, POD_LEAVING = 15)
+	))
+	podspawn(list(
+		"target" = pod_three,
+		"path" = /obj/structure/closet/supplypod/bluespacepod,
+		"style" = STYLE_SYNDICATE,
+		"spawn" = pick(spawned_garbage),
+		"delays" = list(POD_TRANSIT = 10, POD_FALLING = 4, POD_OPENING = 0, POD_LEAVING = 15)
+	))
 
 /datum/map_template/shuttle/prison/cleaning/check_end_shuttle()
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas

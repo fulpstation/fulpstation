@@ -7,7 +7,9 @@
 /datum/controller/subsystem/shuttle/Initialize(timeofday)
 	. = ..()
 	if(prison_stationary_shuttle)
-		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
+//		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
+		SSpermabrig.flags &= ~SS_NO_FIRE
+		SSpermabrig.fire()
 
 /datum/controller/subsystem/shuttle/proc/start_permabrig()
 	SSpermabrig.flags &= ~SS_NO_FIRE
@@ -47,16 +49,16 @@ SUBSYSTEM_DEF(permabrig)
 	var/delay_between_shuttles = 8 MINUTES
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
-		SHUTTLE_DISPOSALS,
+	//	SHUTTLE_DISPOSALS,
 		//Sorting through mail and sending them in the proper tube
 //		SHUTTLE_MAIL,
-		SHUTTLE_BAR,
-		SHUTTLE_KITCHEN,
+	//	SHUTTLE_BAR,
+	//	SHUTTLE_KITCHEN,
 		//Pressing a stack of plates
-		SHUTTLE_PLATE_PRESS,
+	//	SHUTTLE_PLATE_PRESS,
 		//Clean up a messy shuttle
 		SHUTTLE_CLEANUP,
-		SHUTTLE_XENOBIOLOGY,
+	//	SHUTTLE_XENOBIOLOGY,
 		//Building a small Bot
 //		SHUTTLE_ROBOTICS,
 		//Repair a certain thing (floors, platings, tables)
