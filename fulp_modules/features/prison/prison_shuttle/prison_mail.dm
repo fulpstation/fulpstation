@@ -22,6 +22,7 @@
 
 /obj/item/prison_mail/Initialize(mapload)
 	. = ..()
+	name = "[unit_department] mail"
 	AddElement(/datum/element/item_scaling, 0.75, 1)
 	var/stamp_count = rand(1, 3)
 	for(var/i in 1 to stamp_count)
@@ -94,9 +95,11 @@
 	if(inserted_mail.mail_department != unit_department)
 		say("MAIL SENT TO THE WRONG DEPARTMENT!")
 		playsound(src, 'sound/machines/warning-buzzer.ogg', 40, TRUE)
+		qdel(inserted_mail)
 		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_FAILED)
 		return
 	say("Mail delivered to [unit_department].")
+	playsound(src, 'sound/machines/ping.ogg', 20, TRUE)
 	qdel(inserted_mail)
 
 /obj/machinery/disposal/bin/prison/security/Initialize(mapload, obj/structure/disposalconstruct/make_from)
@@ -130,14 +133,13 @@
 /obj/structure/closet/crate/mail/prison/prison_mail/populate()
 	return
 /obj/structure/closet/crate/mail/prison/prison_mail/PopulateContents()
-	. = ..()
 	var/list/mail_type = list(
-		/obj/machinery/disposal/bin/prison/security,
-		/obj/machinery/disposal/bin/prison/engineering,
-		/obj/machinery/disposal/bin/prison/science,
-		/obj/machinery/disposal/bin/prison/medical,
-		/obj/machinery/disposal/bin/prison/service,
-		/obj/machinery/disposal/bin/prison/supply,
+		/obj/item/prison_mail/security,
+		/obj/item/prison_mail/engineering,
+		/obj/item/prison_mail/science,
+		/obj/item/prison_mail/medical,
+		/obj/item/prison_mail/service,
+		/obj/item/prison_mail/supply,
 	)
 
 	for(var/i in 1 to 20)
