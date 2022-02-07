@@ -22,7 +22,7 @@
 
 /obj/item/prison_mail/Initialize(mapload)
 	. = ..()
-	name = "[unit_department] mail"
+	name = "[mail_department] mail"
 	AddElement(/datum/element/item_scaling, 0.75, 1)
 	var/stamp_count = rand(1, 3)
 	for(var/i in 1 to stamp_count)
