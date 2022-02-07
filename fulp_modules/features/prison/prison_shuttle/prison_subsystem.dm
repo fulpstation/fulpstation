@@ -17,6 +17,7 @@
 //#define SHUTTLE_MAIL "Mail Shuttle"
 #define SHUTTLE_BAR "prison_bar"
 #define SHUTTLE_KITCHEN "prison_kitchen"
+//#define SHUTTLE_BOTANY "Botany Shuttle"
 #define SHUTTLE_PLATE_PRESS "prison_platepress"
 #define SHUTTLE_CLEANUP "prison_cleaning"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
@@ -52,6 +53,8 @@ SUBSYSTEM_DEF(permabrig)
 //		SHUTTLE_MAIL,
 		SHUTTLE_BAR,
 		SHUTTLE_KITCHEN,
+		//Plant a certain plant
+//		SHUTTLE_BOTANY
 		SHUTTLE_PLATE_PRESS,
 		SHUTTLE_CLEANUP,
 		SHUTTLE_XENOBIOLOGY,
@@ -119,6 +122,7 @@ SUBSYSTEM_DEF(permabrig)
 #undef SHUTTLE_XENOBIOLOGY
 #undef SHUTTLE_CLEANUP
 #undef SHUTTLE_PLATE_PRESS
+//#undef SHUTTLE_BOTANY
 #undef SHUTTLE_KITCHEN
 #undef SHUTTLE_BAR
 //#undef SHUTTLE_MAIL
