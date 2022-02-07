@@ -14,53 +14,45 @@
 	SSpermabrig.fire()
 
 #define SHUTTLE_DISPOSALS "prison_disposals"
-//#define SHUTTLE_MAIL "Mail Shuttle"
+#define SHUTTLE_MAIL "prison_mailroom"
 #define SHUTTLE_BAR "prison_bar"
 #define SHUTTLE_KITCHEN "prison_kitchen"
 #define SHUTTLE_BOTANY "prison_botany"
 #define SHUTTLE_PLATE_PRESS "prison_platepress"
 #define SHUTTLE_CLEANUP "prison_cleaning"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
-//#define SHUTTLE_ROBOTICS "Robotics Shuttle"
-//#define SHUTTLE_ENGINEERING "Engineering Shuttle"
 
 /**
  * Prison subsystem
  */
-
 SUBSYSTEM_DEF(permabrig)
 	name = "Permabrig"
 	priority = FIRE_PRIORITY_PROCESS
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_NO_FIRE
 
 	//timer between intercom alerts
-	wait = 15 SECONDS//1 MINUTES
+	wait = 1 MINUTES
 
 	///The shuttle currently loaded.
 	var/datum/map_template/shuttle/prison/loaded_shuttle
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
 	///Min time between new visits
-	var/min_shuttle_time = 10 MINUTES
+	var/min_shuttle_time = 4 MINUTES
 	///Max time between new visits
-	var/max_shuttle_time = 10 MINUTES
+	var/max_shuttle_time = 5 MINUTES
 	///Time you have between shuttles
 	var/delay_between_shuttles = 8 MINUTES
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
 		SHUTTLE_DISPOSALS,
-		//Sorting through mail and sending them in the proper tube
-//		SHUTTLE_MAIL,
+		SHUTTLE_MAIL,
 		SHUTTLE_BAR,
 		SHUTTLE_KITCHEN,
 		SHUTTLE_BOTANY,
 		SHUTTLE_PLATE_PRESS,
 		SHUTTLE_CLEANUP,
 		SHUTTLE_XENOBIOLOGY,
-		//Building a small Bot
-//		SHUTTLE_ROBOTICS,
-		//Repair a certain thing (floors, platings, tables)
-//		SHUTTLE_ENGINEERING,
 	)
 
 /datum/controller/subsystem/permabrig/fire(resumed)
@@ -117,13 +109,11 @@ SUBSYSTEM_DEF(permabrig)
 	QDEL_NULL(loaded_shuttle)
 	SSshuttle.prison_shuttle.jumpToNullSpace()
 
-//#undef SHUTTLE_ENGINEERING
-//#undef SHUTTLE_ROBOTICS
 #undef SHUTTLE_XENOBIOLOGY
 #undef SHUTTLE_CLEANUP
 #undef SHUTTLE_PLATE_PRESS
 #undef SHUTTLE_BOTANY
 #undef SHUTTLE_KITCHEN
 #undef SHUTTLE_BAR
-//#undef SHUTTLE_MAIL
+#undef SHUTTLE_MAIL
 #undef SHUTTLE_DISPOSALS

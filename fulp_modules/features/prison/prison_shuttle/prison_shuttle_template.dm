@@ -65,6 +65,8 @@
 		please sort through them and store away the important documents within the on-board smartfridge. \
 		Recycle any junkmail you may find, if there is any mail leftover on the shuttle, it will fail regardless."
 
+// In the future we should just keep track of all items and check if they still exist in the world
+
 /datum/map_template/shuttle/prison/disposals/check_end_shuttle()
 	var/list/all_documents = list()
 
@@ -78,6 +80,27 @@
 	//Check if 3 or more documents were left unrecycled on the shuttle
 	if(all_documents.len >= 3)
 		INVOKE_ASYNC(src, .proc/fail_objective)
+
+	return ..()
+
+/datum/map_template/shuttle/prison/mailroom
+	suffix = "mailroom"
+	name = "Mailroom Shuttle (Prison)"
+	objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS
+	objective_price = 750
+	explanation_text = "the Cargo department is overflowing with mail and have requested emergency help, \
+		Sort through the mail and send each one into their respective department. Do not leave any behind."
+
+// In the future we should just keep track of all items and check if they still exist in the world
+
+/datum/map_template/shuttle/prison/disposals/check_end_shuttle()
+	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
+	for(var/area/shuttle/shuttle_area in shuttle_areas)
+		for(var/turf/shuttle_turf in shuttle_area)
+			for(var/obj/item/item in shuttle_turf.get_all_contents())
+				if(!istype(item, /obj/item/prison_mail))
+					continue
+				INVOKE_ASYNC(src, .proc/fail_objective)
 
 	return ..()
 

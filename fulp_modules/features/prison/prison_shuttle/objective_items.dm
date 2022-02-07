@@ -6,6 +6,7 @@
 /obj/item/paper/prison_paperwork/Initialize(mapload)
 	info = pick(GLOB.important_prison_messages)
 	. = ..()
+	stamp(rand(0, 400), rand(0, 500), rand(0, 360), "paper_stamp-centcom")
 
 // MAIL
 /obj/item/mail/junkmail/prison/junk_mail()
