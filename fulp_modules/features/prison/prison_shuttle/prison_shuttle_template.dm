@@ -23,6 +23,11 @@
 	UnregisterSignal(src, COMSIG_PRISON_OBJECTIVE_COMPLETED)
 	return ..()
 
+///Any special code for when an objective starts
+/datum/map_template/shuttle/prison/proc/special_start_objective()
+	return
+
+///Any special code for when an objective ends
 /datum/map_template/shuttle/prison/proc/check_end_shuttle()
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
 	//Kick everyone off
@@ -84,7 +89,7 @@
 	explanation_text = "We noticed that one of our ships were getting a little... dirty. Please clean up in there. \
 		Leave absolutely NOTHING in the shuttle. AT ALL. We want it completely clean and empty."
 
-/datum/map_template/shuttle/prison/cleaning/New()
+/datum/map_template/shuttle/prison/cleaning/special_start_objective()
 	. = ..()
 	addtimer(CALLBACK(src, .proc/send_more_trash), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/send_more_trash), 30 SECONDS)
@@ -143,6 +148,14 @@
 	objective_price = 600
 	explanation_text = "We hope you are aware of the recent changes made to your station's Kitchen reworks. \
 		Please make something good for as a delivery to prove this effort was worthwhile. \
+		You may see your smart fridge for more information."
+
+/datum/map_template/shuttle/prison/botany
+	suffix = "botany"
+	name = "Hydroponics Shuttle (Prison)"
+	objective_price = 400
+	explanation_text = "The Chefs at Central Command has ran out of plants to make food out of... \
+		Please plant some and deliver them to us as soon as possible! \
 		You may see your smart fridge for more information."
 
 /datum/map_template/shuttle/prison/platepress

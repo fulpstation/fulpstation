@@ -12,5 +12,5 @@
 	SSshuttle.prison_stationary_shuttle = src
 
 /obj/docking_port/stationary/prison/unregister()
-	SSshuttle.prison_stationary_shuttle -= src
+	SSshuttle.prison_stationary_shuttle = null
 	return ..()

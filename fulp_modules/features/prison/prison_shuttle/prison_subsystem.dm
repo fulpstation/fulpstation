@@ -7,7 +7,9 @@
 /datum/controller/subsystem/shuttle/Initialize(timeofday)
 	. = ..()
 	if(prison_stationary_shuttle)
-		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
+//		addtimer(CALLBACK(src, .proc/start_permabrig), 8 MINUTES, TIMER_UNIQUE)
+		SSpermabrig.flags &= ~SS_NO_FIRE
+		SSpermabrig.fire()
 
 /datum/controller/subsystem/shuttle/proc/start_permabrig()
 	SSpermabrig.flags &= ~SS_NO_FIRE
@@ -17,7 +19,7 @@
 //#define SHUTTLE_MAIL "Mail Shuttle"
 #define SHUTTLE_BAR "prison_bar"
 #define SHUTTLE_KITCHEN "prison_kitchen"
-//#define SHUTTLE_BOTANY "Botany Shuttle"
+#define SHUTTLE_BOTANY "prison_botany"
 #define SHUTTLE_PLATE_PRESS "prison_platepress"
 #define SHUTTLE_CLEANUP "prison_cleaning"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
@@ -41,23 +43,22 @@ SUBSYSTEM_DEF(permabrig)
 	///Cooldown for next shuttle to arrive
 	COOLDOWN_DECLARE(shuttle_cooldown)
 	///Min time between new visits
-	var/min_shuttle_time = 3 MINUTES
+	var/min_shuttle_time = 10 MINUTES
 	///Max time between new visits
-	var/max_shuttle_time = 4 MINUTES
+	var/max_shuttle_time = 10 MINUTES
 	///Time you have between shuttles
 	var/delay_between_shuttles = 8 MINUTES
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
-		SHUTTLE_DISPOSALS,
+	//	SHUTTLE_DISPOSALS,
 		//Sorting through mail and sending them in the proper tube
 //		SHUTTLE_MAIL,
-		SHUTTLE_BAR,
-		SHUTTLE_KITCHEN,
-		//Plant a certain plant
-//		SHUTTLE_BOTANY
-		SHUTTLE_PLATE_PRESS,
-		SHUTTLE_CLEANUP,
-		SHUTTLE_XENOBIOLOGY,
+	//	SHUTTLE_BAR,
+	//	SHUTTLE_KITCHEN,
+		SHUTTLE_BOTANY
+	//	SHUTTLE_PLATE_PRESS,
+	//	SHUTTLE_CLEANUP,
+	//	SHUTTLE_XENOBIOLOGY,
 		//Building a small Bot
 //		SHUTTLE_ROBOTICS,
 		//Repair a certain thing (floors, platings, tables)
@@ -84,6 +85,7 @@ SUBSYSTEM_DEF(permabrig)
 	COOLDOWN_START(src, shuttle_cooldown, rand(min_shuttle_time, max_shuttle_time))
 	loaded_shuttle = pick(valid_shuttle_templates)
 	SSshuttle.action_load(loaded_shuttle, SSshuttle.prison_stationary_shuttle, replace = TRUE)
+	loaded_shuttle.special_start_objective()
 	for(var/obj/item/radio/intercom/prison/broadcasters as anything in GLOB.prison_broadcasters)
 		playsound(broadcasters, 'sound/machines/dotprinter.ogg', 20, TRUE)
 		broadcasters.say("The permabrig shuttle has now docked! Please standby for your incoming message from Central Command...")
@@ -122,7 +124,7 @@ SUBSYSTEM_DEF(permabrig)
 #undef SHUTTLE_XENOBIOLOGY
 #undef SHUTTLE_CLEANUP
 #undef SHUTTLE_PLATE_PRESS
-//#undef SHUTTLE_BOTANY
+#undef SHUTTLE_BOTANY
 #undef SHUTTLE_KITCHEN
 #undef SHUTTLE_BAR
 //#undef SHUTTLE_MAIL

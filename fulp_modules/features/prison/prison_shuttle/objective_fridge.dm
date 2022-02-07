@@ -16,7 +16,7 @@
 /obj/machinery/smartfridge/prison/examine(mob/user)
 	. = ..()
 	if(station_objective)
-		. += span_notice("Current objective: [(objectives_required > 1) ? " [objectives_required] types of" : ""] [initial(station_objective.name)].")
+		. += span_notice("Current objective:[(objectives_required > 1) ? " [objectives_required] types of" : ""] [initial(station_objective.name)].")
 
 /obj/machinery/smartfridge/prison/Initialize(mapload)
 	. = ..()
@@ -63,6 +63,7 @@
  */
 /obj/machinery/smartfridge/prison/disposal
 	name = "important documents storage"
+	desc = "A storage unit for any important letters that should be sent to Central Command."
 	objectives_required = 3
 	no_text = TRUE
 	possible_objectives = list(
@@ -102,10 +103,26 @@
 	)
 
 /**
+ * # Botany shuttle
+ */
+/obj/machinery/smartfridge/prison/hydroponics
+	name = "hydroponics extract storage"
+	desc = "A refrigerated storage unit to place the grown plant for your objective."
+	objectives_required = 5
+	possible_objectives = list(
+		/obj/item/food/grown/ambrosia/vulgaris,
+		/obj/item/food/grown/banana,
+		/obj/item/food/grown/wheat,
+		/obj/item/food/grown/watermelon,
+		/obj/item/food/grown/tomato,
+	)
+
+/**
  * # Bar shuttle
  */
 /obj/machinery/smartfridge/prison/bar
 	name = "smart prison drink storage"
+	desc = "A refrigerated storage unit to keep cool the drinks you mix for your objective."
 	var/datum/reagent/drink_objective
 	possible_objectives = list(
 		/datum/reagent/consumable/ethanol/quadruple_sec,
@@ -141,6 +158,7 @@
  */
 /obj/machinery/smartfridge/prison/kitchen
 	name = "smart prison food storage"
+	desc = "A refrigerated storage unit to keep ready any food made."
 	objectives_required = 3
 	possible_objectives = list(
 		/obj/item/food/pizza/vegetable,
