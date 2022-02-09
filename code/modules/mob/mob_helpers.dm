@@ -83,7 +83,7 @@
 	var/rawchar = ""
 	for(var/i = 1, i <= leng, i += length(rawchar))
 		rawchar = newletter = phrase[i]
-		if(prob(33))
+		if(rand(1, 3) == 3)
 			var/lowerletter = lowertext(newletter)
 			if(lowerletter == "o")
 				newletter = "u"

@@ -1,4 +1,4 @@
-/datum/job/fulp/deputy
+/datum/job/deputy
 	title = JOB_DEPUTY
 	description = "Help Security enforce Space Law, \
 		Capture criminals and deliver them to the Brig."
@@ -42,14 +42,13 @@
 		/obj/item/clothing/gloves/tackler/offbrand = 1,
 	)
 	rpg_title = "Independent Guardsman"
-	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
-	fulp_spawn = /obj/effect/landmark/start/deputy
+	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
 
 	///The Deputy's assigned department
 	var/deputy_department = DEPARTMENT_SECURITY
 
 /// Engineering
-/datum/job/fulp/deputy/engineering
+/datum/job/deputy/engineering
 	title = JOB_DEPUTY_ENG
 	description = "Help Security enforce Space Law within the Engineering department, \
 		Capture criminals in Engineering and deliver them to the Brig."
@@ -60,7 +59,6 @@
 	exp_required_type_department = EXP_TYPE_ENGINEERING
 	exp_granted_type = EXP_TYPE_ENGINEERING
 	outfit = /datum/outfit/job/deputy/engineering
-	fulp_spawn = /obj/effect/landmark/start/deputy/engineering
 	deputy_department = DEPARTMENT_ENGINEERING
 
 	display_order = JOB_DISPLAY_ORDER_CHIEF_ENGINEER
@@ -71,7 +69,7 @@
 	department_for_prefs = /datum/job_department/engineering
 
 ///Medical
-/datum/job/fulp/deputy/medical
+/datum/job/deputy/medical
 	title = JOB_DEPUTY_MED
 	description = "Help Security enforce Space Law within the Medical department, \
 		Capture criminals in Medical and deliver them to the Brig."
@@ -82,7 +80,6 @@
 	exp_required_type_department = EXP_TYPE_MEDICAL
 	exp_granted_type = EXP_TYPE_MEDICAL
 	outfit = /datum/outfit/job/deputy/medical
-	fulp_spawn = /obj/effect/landmark/start/deputy/medical
 	deputy_department = DEPARTMENT_MEDICAL
 
 	display_order = JOB_DISPLAY_ORDER_CHIEF_MEDICAL_OFFICER
@@ -93,7 +90,7 @@
 	department_for_prefs = /datum/job_department/medical
 
 ///Science
-/datum/job/fulp/deputy/science
+/datum/job/deputy/science
 	title = JOB_DEPUTY_SCI
 	description = "Help Security enforce Space Law within the Science department, \
 		Capture criminals in Science and deliver them to the Brig."
@@ -104,7 +101,6 @@
 	exp_required_type_department = EXP_TYPE_SCIENCE
 	exp_granted_type = EXP_TYPE_SCIENCE
 	outfit = /datum/outfit/job/deputy/science
-	fulp_spawn = /obj/effect/landmark/start/deputy/science
 	deputy_department = DEPARTMENT_SCIENCE
 
 	display_order = JOB_DISPLAY_ORDER_RESEARCH_DIRECTOR
@@ -115,7 +111,7 @@
 	department_for_prefs = /datum/job_department/science
 
 ///Supply
-/datum/job/fulp/deputy/supply
+/datum/job/deputy/supply
 	title = JOB_DEPUTY_SUP
 	description = "Help Security enforce Space Law within the Supply department, \
 		Capture criminals  in Cargo and deliver them to the Brig."
@@ -126,7 +122,6 @@
 	exp_required_type_department = EXP_TYPE_SUPPLY
 	exp_granted_type = EXP_TYPE_SUPPLY
 	outfit = /datum/outfit/job/deputy/supply
-	fulp_spawn = /obj/effect/landmark/start/deputy/supply
 	deputy_department = DEPARTMENT_CARGO
 
 	display_order = JOB_DISPLAY_ORDER_QUARTERMASTER
@@ -137,7 +132,7 @@
 	department_for_prefs = /datum/job_department/cargo
 
 ///Service
-/datum/job/fulp/deputy/service
+/datum/job/deputy/service
 	title = JOB_DEPUTY_SRV
 	description = "Help Security enforce Space Law within the Service department, \
 		Capture criminals... wherever Service is... and deliver them to the Brig."
@@ -166,11 +161,12 @@
 	assignment = "Deputy"
 	trim_icon = 'fulp_modules/features/jobs/icons/cards.dmi'
 	trim_state = "trim_deputy"
+	sechud_icon_state = SECHUD_DEPUTY
 	extra_access = list(ACCESS_MAINT_TUNNELS)
 	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
-	job = /datum/job/fulp/deputy
+	job = /datum/job/deputy
 	/// Used to give the Departmental access
 	var/department_access = list()
 
@@ -183,47 +179,52 @@
 /datum/id_trim/job/deputy/engineering
 	assignment = "Engineering Deputy"
 	trim_state = "trim_deputyeng"
+	sechud_icon_state = SECHUD_DEPUTY_ENGINEERING
 	department_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE, ACCESS_CONSTRUCTION, ACCESS_MECH_ENGINE, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CE, ACCESS_CHANGE_IDS)
-	job = /datum/job/fulp/deputy/engineering
+	job = /datum/job/deputy/engineering
 
 /datum/id_trim/job/deputy/medical
 	assignment = "Medical Deputy"
 	trim_state = "trim_deputymed"
+	sechud_icon_state = SECHUD_DEPUTY_MEDICAL
 	department_access = list(ACCESS_MEDICAL, ACCESS_PSYCHOLOGY, ACCESS_MORGUE, ACCESS_VIROLOGY, ACCESS_PHARMACY, ACCESS_CHEMISTRY, ACCESS_SURGERY, ACCESS_MECH_MEDICAL)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_CMO, ACCESS_CHANGE_IDS)
-	job = /datum/job/fulp/deputy/medical
+	job = /datum/job/deputy/medical
 
 /datum/id_trim/job/deputy/science
 	assignment = "Science Deputy"
 	trim_state = "trim_deputysci"
+	sechud_icon_state = SECHUD_DEPUTY_SCIENCE
 	department_access = list(ACCESS_RND, ACCESS_GENETICS, ACCESS_ORDNANCE, ACCESS_MECH_SCIENCE, ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MINERAL_STOREROOM, ACCESS_ORDNANCE_STORAGE)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_RD, ACCESS_CHANGE_IDS)
-	job = /datum/job/fulp/deputy/science
+	job = /datum/job/deputy/science
 
 /datum/id_trim/job/deputy/supply
 	assignment = "Supply Deputy"
 	trim_state = "trim_deputysupply"
+	sechud_icon_state = SECHUD_DEPUTY_SUPPLY
 	department_access = list(ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM, ACCESS_AUX_BASE, ACCESS_QM)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
-	job = /datum/job/fulp/deputy/supply
+	job = /datum/job/deputy/supply
 
 /datum/id_trim/job/deputy/service
 	assignment = "Service Deputy"
 	trim_state = "trim_deputyservice"
+	sechud_icon_state = SECHUD_DEPUTY_SERVICE
 	department_access = list(
 		ACCESS_BAR, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_SERVICE,
 		ACCESS_THEATRE, ACCESS_JANITOR, ACCESS_LAWYER, ACCESS_CHAPEL_OFFICE, ACCESS_CREMATORIUM, ACCESS_LIBRARY,
 		ACCESS_MEDICAL, ACCESS_PSYCHOLOGY,
 	)
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOP, ACCESS_CHANGE_IDS)
-	job = /datum/job/fulp/deputy/service
+	job = /datum/job/deputy/service
 
 /**
  * DEPUTY SPAWNING
  */
 
-/datum/job/fulp/deputy/after_spawn(mob/living/carbon/human/user, mob/player, latejoin = FALSE)
+/datum/job/deputy/after_spawn(mob/living/carbon/human/user, mob/player, latejoin = FALSE)
 	. = ..()
 
 	var/assigned_department = SEC_DEPT_NONE // Might be worth merging this into deputy_department soon.
@@ -251,7 +252,7 @@
 	announce_deputy(user, assigned_department, channel)
 	to_chat(player, "<b>You have been assigned to [assigned_department]!</b>")
 
-/datum/job/fulp/deputy/proc/announce_deputy(mob/deputy, department, channel)
+/datum/job/deputy/proc/announce_deputy(mob/deputy, department, channel)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
