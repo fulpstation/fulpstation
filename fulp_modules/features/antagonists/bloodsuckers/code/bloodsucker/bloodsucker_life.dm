@@ -375,10 +375,6 @@
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 	// Elders get dusted, Fledglings get gibbed
-	if(my_clan == CLAN_MALKAVIAN)
-		var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(user))
-		stone.capture_soul(user, forced = TRUE)
-		return
 	if(bloodsucker_level >= 4)
 		owner.current.visible_message(
 			span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
