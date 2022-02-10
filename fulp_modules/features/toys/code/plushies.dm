@@ -99,7 +99,7 @@
 /obj/item/toy/plush/beefplushie/living/attack_self(mob/user)
 	. = ..()
 	if(!COOLDOWN_FINISHED(src, beefplushie_cooldown))
-		user.balloon_alert(user, "not ready yet!")
+		balloon_alert(user, "not ready yet!")
 		return
 	balloon_alert(user, "producing meat")
 	if(!do_after(user, 2 SECONDS, target = src))
