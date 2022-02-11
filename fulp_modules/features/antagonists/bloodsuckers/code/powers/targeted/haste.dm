@@ -73,7 +73,7 @@
 			consequetive_failures = 0
 		if(user.resting)
 			user.setDir(turn(user.dir, 90)) //down? spin2win?
-		if(user.incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE)) //actually down? stop.
+		if(user.incapacitated(IGNORE_RESTRAINTS, IGNORE_GRAB)) //actually down? stop.
 			break
 		if(success) //don't sleep if we failed to move.
 			sleep(speed)
