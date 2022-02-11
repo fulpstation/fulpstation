@@ -1,4 +1,4 @@
-/datum/job/fulp/brigdoc
+/datum/job/brigdoc
 	title = JOB_BRIG_PHYSICIAN
 	description = "Help treat Security personnel and Prisoners alike, \
 		Offer implants and surgeries to Brig personnel."
@@ -14,7 +14,6 @@
 	exp_required_type = EXP_TYPE_CREW
 	exp_required_type_department = EXP_TYPE_MEDICAL
 	exp_granted_type = EXP_TYPE_MEDICAL
-	fulp_spawn = /obj/effect/landmark/start/brigdoc
 
 	outfit = /datum/outfit/job/brigdoc
 	plasmaman_outfit = /datum/outfit/plasmaman/brigdoc
@@ -41,12 +40,12 @@
 		/obj/effect/spawner/random/medical/memeorgans = 1,
 	)
 	rpg_title = "Undeterred Healer"
-	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS
+	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
 	family_heirlooms = list(/obj/item/storage/firstaid/ancient/heirloom)
 
 /datum/outfit/job/brigdoc
 	name = "Brig Physician"
-	jobtype = /datum/job/fulp/brigdoc
+	jobtype = /datum/job/brigdoc
 
 	belt = /obj/item/storage/belt/medical/surgeryfilled
 	ears = /obj/item/radio/headset/headset_sec/alt/department/med
@@ -85,8 +84,9 @@
 	assignment = "Brig Physician"
 	trim_icon = 'fulp_modules/features/jobs/icons/cards.dmi'
 	trim_state = "trim_brigphysician"
+	sechud_icon_state = SECHUD_BRIG_PHYSICIAN
 	extra_access = list(ACCESS_PHARMACY, ACCESS_CHEMISTRY)
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
 	config_job = "brig_physician"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
-	job = /datum/job/fulp/brigdoc
+	job = /datum/job/brigdoc

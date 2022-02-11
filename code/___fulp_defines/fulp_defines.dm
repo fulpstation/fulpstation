@@ -39,6 +39,13 @@
 #define JOB_DEPUTY_SCI "Science Deputy"
 #define JOB_DEPUTY_SRV "Service Deputy"
 
+#define SECHUD_BRIG_PHYSICIAN "hudbrigphysician"
+#define SECHUD_DEPUTY "huddeputy"
+#define SECHUD_DEPUTY_ENGINEERING "hudengineeringdeputy"
+#define SECHUD_DEPUTY_MEDICAL "hudmedicaldeputy"
+#define SECHUD_DEPUTY_SCIENCE "hudsciencedeputy"
+#define SECHUD_DEPUTY_SUPPLY "hudsupplydeputy"
+#define SECHUD_DEPUTY_SERVICE "hudservicedeputy"
 
 /**
  * # SPECIES
