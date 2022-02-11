@@ -141,7 +141,7 @@
 	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
 	equipped_radio.recalculateChannels()
 	ADD_TRAIT(user, TRAIT_NAIVE, INNATE_TRAIT)
-	user.dna.add_mutation(CLOWNMUT)
+	user.dna.add_mutation(/datum/mutation/human/clumsy)
 	for(var/datum/mutation/human/clumsy/clumsy_mutation in user.dna.mutations)
 		clumsy_mutation.mutadone_proof = TRUE
 
@@ -167,6 +167,6 @@
 	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
 	equipped_radio.recalculateChannels()
 	ADD_TRAIT(user, TRAIT_NAIVE, INNATE_TRAIT)
-	user.dna.add_mutation(CLOWNMUT)
+	user.dna.add_mutation(/datum/mutation/human/clumsy)
 	for(var/datum/mutation/human/clumsy/clumsy_mutation in user.dna.mutations)
 		clumsy_mutation.mutadone_proof = TRUE
