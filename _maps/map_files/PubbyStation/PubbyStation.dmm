@@ -28288,7 +28288,7 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "bVY" = (
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
+/obj/machinery/atmospherics/pipe/smart/simple/dark/visible{
 	dir = 6
 	},
 /turf/open/floor/iron,
@@ -35280,8 +35280,9 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/dark/visible{
-	dir = 8
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 1;
+	name = "O2 Outlet Pump"
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
@@ -35997,9 +35998,8 @@
 /turf/open/floor/iron/white,
 /area/medical/paramedic)
 "euv" = (
-/obj/machinery/atmospherics/pipe/smart/simple/dark/visible,
-/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
-	dir = 4
+/obj/machinery/atmospherics/pipe/smart/manifold/dark/visible{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
@@ -37165,7 +37165,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/trinary/mixer/airmix,
+/obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "frX" = (
@@ -42506,6 +42506,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/science/xenobiology)
+"kRL" = (
+/obj/machinery/atmospherics/components/trinary/mixer/airmix,
+/turf/open/floor/iron,
+/area/engineering/atmos)
 "kSD" = (
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
@@ -44973,6 +44977,11 @@
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/iron,
 /area/science/mixing)
+"noR" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible,
+/turf/open/floor/plating,
+/area/engineering/atmos)
 "noT" = (
 /obj/structure/closet/crate{
 	icon_state = "crateopen"
@@ -47230,8 +47239,8 @@
 /turf/open/floor/iron,
 /area/engineering/main)
 "pyH" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 10
+/obj/machinery/atmospherics/pipe/smart/simple/dark/visible{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
@@ -48027,14 +48036,10 @@
 /turf/open/floor/plating,
 /area/science/explab)
 "qkk" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "O2 to Pure"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/dark/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "qkS" = (
@@ -48277,7 +48282,7 @@
 /turf/open/floor/iron/dark,
 /area/command/bridge)
 "qsH" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
@@ -48474,7 +48479,10 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 1;
+	name = "N2 Outlet Pump"
+	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "qGk" = (
@@ -50182,10 +50190,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	name = "O2 to Pure"
-	},
+/obj/machinery/atmospherics/pipe/smart/simple/dark/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "shv" = (
@@ -50689,6 +50694,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible,
 /obj/machinery/computer/atmos_control/tank/oxygen_tank{
 	dir = 1
 	},
@@ -54037,6 +54043,13 @@
 	luminosity = 2
 	},
 /area/maintenance/department/science)
+"vrw" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/engineering/atmos)
 "vrx" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
@@ -54369,6 +54382,9 @@
 /area/engineering/supermatter/room)
 "vJD" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
+	dir = 4
+	},
 /obj/machinery/atmospherics/pipe/smart/simple/dark/visible,
 /turf/open/floor/plating,
 /area/engineering/atmos)
@@ -55305,11 +55321,10 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "wwr" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 5
+	dir = 10
 	},
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/engineering/atmos)
 "wwG" = (
 /obj/effect/turf_decal/stripes/line{
@@ -93728,7 +93743,7 @@ eUb
 wCz
 mvA
 mkS
-tvq
+noR
 bZL
 caC
 cRY
@@ -93983,9 +93998,9 @@ bXC
 sGc
 bWO
 wCz
-bXx
+wwr
 sEx
-vzg
+vrw
 abI
 mkf
 cbv
@@ -94495,11 +94510,11 @@ bQK
 bPQ
 dsR
 sGc
-vtD
+pyH
 wCz
 pyH
-qkk
-wwr
+uWA
+xgG
 abI
 bJP
 bJP
@@ -94752,9 +94767,9 @@ bSR
 hfi
 nUq
 fDm
-vtD
+pyH
 lRh
-bXA
+kRL
 frC
 wYi
 fda
@@ -95009,7 +95024,7 @@ bWO
 bTR
 gbu
 fJw
-vtD
+qkk
 keN
 bWO
 taw
