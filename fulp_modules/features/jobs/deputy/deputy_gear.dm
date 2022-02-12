@@ -1,7 +1,7 @@
 /// Default Deputy
 /datum/outfit/job/deputy
 	name = "Deputy"
-	jobtype = /datum/job/fulp/deputy
+	jobtype = /datum/job/deputy
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
