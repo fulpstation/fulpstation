@@ -3,7 +3,7 @@
 	description = "Help treat Security personnel and Prisoners alike, \
 		Offer implants and surgeries to Brig personnel."
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security", "Chief Medical Officer")
+	department_head = list(JOB_HEAD_OF_SECURITY, JOB_CHIEF_MEDICAL_OFFICER)
 	faction = FACTION_STATION
 	total_positions = 1
 	spawn_positions = 1
