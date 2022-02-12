@@ -1,4 +1,4 @@
-///a changeling that has lost their powers. does nothing, other than signify they suck
+///a malkavian bloodsucker that has entered final death. does nothing, other than signify they suck
 /datum/antagonist/shaded_bloodsucker
 	name = "\improper Shaded Bloodsucker"
 	antagpanel_category = "Bloodsucker"
