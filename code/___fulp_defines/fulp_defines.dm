@@ -39,6 +39,13 @@
 #define JOB_DEPUTY_SCI "Science Deputy"
 #define JOB_DEPUTY_SRV "Service Deputy"
 
+#define SECHUD_BRIG_PHYSICIAN "hudbrigphysician"
+#define SECHUD_DEPUTY "huddeputy"
+#define SECHUD_DEPUTY_ENGINEERING "hudengineeringdeputy"
+#define SECHUD_DEPUTY_MEDICAL "hudmedicaldeputy"
+#define SECHUD_DEPUTY_SCIENCE "hudsciencedeputy"
+#define SECHUD_DEPUTY_SUPPLY "hudsupplydeputy"
+#define SECHUD_DEPUTY_SERVICE "hudservicedeputy"
 
 /**
  * # SPECIES
@@ -48,9 +55,9 @@
 ///Check if we are indeed a Beefman
 #define isbeefman(A) (is_species(A, /datum/species/beefman))
 ///Job define for the Beefmen Cytology (Icemoon) Spawner
-#define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology"
+#define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology Scientist"
 ///Job define for the Beefmen Station (Space) Spawner
-#define ROLE_BEEFMAN_STATION "Beefman Station"
+#define ROLE_BEEFMAN_STATION "Beefman Station Inhabitant"
 
 
 /**
