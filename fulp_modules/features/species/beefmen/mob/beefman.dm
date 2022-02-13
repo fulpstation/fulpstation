@@ -413,7 +413,8 @@
 			new_sash = new /obj/item/clothing/under/bodysash()
 		if(JOB_PRISONER)
 			new_sash = new /obj/item/clothing/under/bodysash/prisoner()
-
+			var/obj/item/implant/tracking/tracking_implant = new /obj/item/implant/tracking/
+			tracking_implant.implant(equipping, null , TRUE)
 		else
 			new_sash = new /obj/item/clothing/under/bodysash/civilian()
 
