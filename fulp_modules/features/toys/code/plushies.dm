@@ -105,7 +105,7 @@
 	if(!do_after(user, 2 SECONDS, target = src))
 		return
 	playsound(src, "sound/effects/splat.ogg", 50)
-	new /obj/item/food/meat/slab(loc)
+	user.put_in_hands(new /obj/item/food/meat/slab)
 	COOLDOWN_START(src, beefplushie_cooldown, BEEFPLUSHIE_COOLDOWN_TIME)
 
 #undef BEEFPLUSHIE_COOLDOWN_TIME
