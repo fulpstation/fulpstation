@@ -306,6 +306,7 @@
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
+	log_uplink("[key_name(owner.current)] purchased [power].")
 
 /datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
 	for(var/datum/action/bloodsucker/all_powers as anything in powers)
@@ -364,7 +365,7 @@
 		user_species.species_traits -= DRINKSBLOOD
 		// Clown
 		if(istype(user) && owner.assigned_role == "Clown")
-			user.dna.add_mutation(CLOWNMUT)
+			user.dna.add_mutation(/datum/mutation/human/clumsy)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source. - This is because of unique cases like Nosferatu getting Ventcrawling.
 	for(var/all_status_traits in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
