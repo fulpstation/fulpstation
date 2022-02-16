@@ -28,15 +28,8 @@
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	update_vassal_hud(current_mob)
-	update_vassal_hud(current_mob, /datum/antagonist/bloodsucker)
-
-/datum/antagonist/vassal/proc/update_vassal_hud(target, antag_to_check)
-	if(favorite_vassal)
-		antag_hud_name = "fav_vassal_" + master.vassal_color
-	else
-		antag_hud_name = "vassal_" + master.vassal_color
-	add_team_hud(target, antag_to_check)
+	add_team_hud(current_mob)
+	add_team_hud(current_mob, /datum/antagonist/bloodsucker)
 
 /datum/antagonist/vassal/pre_mindshield(mob/implanter, mob/living/mob_override)
 	if(favorite_vassal)
@@ -121,7 +114,8 @@
 /datum/antagonist/vassal/proc/make_favorite(mob/living/master)
 	// Default stuff for all
 	favorite_vassal = TRUE
-	update_vassal_hud(owner.current, /datum/antagonist/bloodsucker)
+	antag_hud_name = "vassal6"
+	add_team_hud(owner.current, /datum/antagonist/bloodsucker)
 	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 
