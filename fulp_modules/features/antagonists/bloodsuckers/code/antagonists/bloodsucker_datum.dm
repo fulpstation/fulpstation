@@ -24,6 +24,10 @@
 	var/bloodsucker_title
 	///Used for assigning your reputation
 	var/bloodsucker_reputation
+	///HUD color
+	var/vassal_color
+	///antag_hud_name is dynamic because of colors. Update THIS, not antag_hud_name.
+	var/base_hud_name = "bloodsucker"
 
 	///Amount of Humanity lost
 	var/humanity_lost = 0
@@ -111,7 +115,7 @@
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
-	add_team_hud(current_mob)
+	update_vassal_hud(current_mob)
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -141,6 +145,8 @@
 		SelectFirstName()
 		SelectTitle(am_fledgling = TRUE)
 		SelectReputation(am_fledgling = TRUE)
+		// HUD color
+		SelectColor()
 		// Objectives
 		forge_bloodsucker_objectives()
 
@@ -207,6 +213,7 @@
  *	This is used for dealing with the Vampire Clan.
  *	This handles Sol for Bloodsuckers, making sure to not have several.
  *	None of this should appear in game, we are using it JUST for Sol. All Bloodsuckers should have their individual report.
+ *  Clan is also used to ensure color uniqueness for HUDs.
  */
 
 /datum/team/vampireclan
@@ -718,6 +725,28 @@
 
 	return fullname
 
+///Different Bloodsuckers are assigned different, unique colors for their and their vassal's HUD icons.
+/datum/antagonist/bloodsucker/proc/SelectColor()
+	
+	var/list/PossibleColors = list("red", "orange", "yellow", "green", "blue", "purple", "grey", "white")
+	// Trim for uniqueness
+	for(var/datum/mind/mind_members in clan.members)
+		for(var/datum/antagonist/bloodsucker/individual_bloodsuckers in mind_members.antag_datums)
+			if(mind_members.has_antag_datum(/datum/antagonist/vassal)) // Favorite vassals do not have individual colors
+				continue
+			PossibleColors.Remove(individual_bloodsuckers.vassal_color)
+		
+		if(PossibleColors.len == 0)
+			PossibleColors = initial(PossibleColors)
+	
+	vassal_color = pick(PossibleColors)
+	update_vassal_hud(owner.current)
+
+///Updates the team HUD, with functionality from the colors.
+/datum/antagonist/bloodsucker/proc/update_vassal_hud(mob/target)
+	antag_hud_name = base_hud_name + "_" + vassal_color
+	add_team_hud(target)
+
 ///When a Bloodsucker breaks the Masquerade, they get their HUD icon changed, and Malkavian Bloodsuckers get alerted.
 /datum/antagonist/bloodsucker/proc/break_masquerade()
 	if(broke_masquerade)
@@ -726,8 +755,8 @@
 	to_chat(owner.current, span_cultboldtalic("You have broken the Masquerade!"))
 	to_chat(owner.current, span_warning("Bloodsucker Tip: When you break the Masquerade, you become open for termination by fellow Bloodsuckers, and your Vassals are no longer completely loyal to you, as other Bloodsuckers can steal them for themselves!"))
 	broke_masquerade = TRUE
-	antag_hud_name = "masquerade_broken"
-	add_team_hud(owner.current)
+	base_hud_name = "masquerade_broken"
+	update_vassal_hud(owner.current)
 	for(var/datum/mind/clan_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		if(owner == clan_minds)
 			continue
