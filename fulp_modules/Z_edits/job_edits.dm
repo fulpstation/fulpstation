@@ -8,7 +8,7 @@
 /** Security */
 /datum/job/warden
 	total_positions = 1
-	spawn_positions = 3
+	spawn_positions = 2
 
 /datum/job/detective
 	total_positions = 2
