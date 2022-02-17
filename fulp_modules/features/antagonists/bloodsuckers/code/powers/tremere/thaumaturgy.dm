@@ -21,7 +21,7 @@
 	constant_bloodcost = 0
 	cooldown = 6 SECONDS
 	prefire_message = "Click where you wish to fire."
-	///The shield this Power gives
+	///Blood shield given while this Power is active.
 	var/datum/weakref/blood_shield
 
 /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
@@ -78,7 +78,7 @@
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
-		If the Blood beam hits a person, it will deal 40 Burn damage and steal blood to feed yourself.\n\
+		If the Blood beam hits a person, it will deal 40 Burn damage and steal blood to feed yourself, though at a net-negative.\n\
 		If it hits a locker or door, it will break it open."
 	bloodcost = 80
 	cooldown = 8 SECONDS
@@ -153,8 +153,8 @@
 		if(bloodsucker_power.level_current >= 5)
 			var/mob/living/user = bloodsucker_power.owner
 			var/mob/living/person_hit = target
-			person_hit.blood_volume -= 100
-			user.blood_volume += 100
+			person_hit.blood_volume -= 60
+			user.blood_volume += 60
 		qdel(src)
 		return BULLET_ACT_HIT
 	. = ..()

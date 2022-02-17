@@ -5,9 +5,11 @@
 	power_explanation = "<b>Predatory Lunge</b>:\n\
 		Click any player to instantly dash at them, aggressively grabbing them.\n\
 		You cannot use the Power if you are aggressively grabbed.\n\
-		If the target is wearing riot gear or is a Monster Hunter, you will merely passively grab them.\n\
-		If grabbed from behind or from the darkness (Cloak of Darkness counts), you will additionally knock the target down.\n\
-		Higher levels will increase the knockdown dealt to enemies."
+		Higher levels will increase the knockdown dealt to enemies.\n\
+		If used on a dead body, will tear their heart out.\n\
+		Once this power reaches level 4, you unlock two new abilities;\n\
+		1 - If the target is wearing riot gear or is a Monster Hunter, you will merely passively grab them.\n\
+		2 - If grabbed from behind or from the darkness (Cloak of Darkness counts), you will additionally knock the target down."
 	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
@@ -15,12 +17,6 @@
 	cooldown = 10 SECONDS
 	target_range = 3
 	power_activates_immediately = TRUE
-
-/*
- *	Level 1: Grapple level 2
- *	Level 2: Grapple 3 from Behind
- *	Level 3: Grapple 3 from Shadows
- */
 
 /datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user)
 	. = ..()
@@ -91,7 +87,7 @@
 	var/mob/living/carbon/target = hit_atom
 	var/turf/target_turf = get_turf(target)
 	// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
-	var/do_knockdown = !is_source_facing_target(target, owner) || owner.alpha <= 40 || istype(owner.loc, /obj/structure/closet)
+	var/do_knockdown = !is_source_facing_target(target, owner) || owner.alpha <= 40
 
 	/// We got a target?
 	/// Am I next to my target to start giving the effects?
@@ -110,10 +106,10 @@
 		target.Stun(10 + level_current * 5)
 		// Instantly aggro grab them if they don't have riot gear.
 		target.grabbedby(owner)
-		if(!target.is_shove_knockdown_blocked())
+		if(!target.is_shove_knockdown_blocked() && level_current >= 4)
 			target.grippedby(owner, instant = TRUE)
 		// Did we knock them down?
-		if(do_knockdown && level_current >= 3)
+		if(do_knockdown && level_current >= 4)
 			target.Knockdown(10 + level_current * 5)
 			target.Paralyze(0.1)
 		/// Are they dead?

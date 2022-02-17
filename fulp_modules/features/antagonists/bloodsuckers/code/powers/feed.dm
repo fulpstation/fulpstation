@@ -5,11 +5,11 @@
 	power_explanation = "<b>Feed</b>:\n\
 		Activate Feed while next to someone and you will begin to feed blood off of them.\n\
 		If <b>passively</b> grabbed, you will feed faster than default.\n\
-		If <b>aggressively</b> grabbed, along with drinking even faster, your victim will additionally be put to sleep.\n\
+		If <b>aggressively</b> grabbed, along with drinking even faster, your victim will additionally be put to sleep temporarily.\n\
 		You cannot talk while Feeding, as your mouth is full of Blood.\n\
-		If you feed off of a Rat, unless you are Malkavian or Nosferatu, you will lose <b>Humanity</b> and get a mood debuff.\n\
-		Feeding off of someone until they die will cause you to lose <b>Humanity</b>.\n\
-		If you are seen feeding off of someone (2 tiles) while your target is grabbed, you will break the Masquerade.\n\
+		If you feed off of a Rat, unless you are Malkavian or Nosferatu, you will lose <b>Humanity</b>, and get a mood debuff.\n\
+		Feeding off of someone until they die will also cause you to lose <b>Humanity</b>.\n\
+		If you are seen feeding off of someone (2 tiles) while your target is grabbed, you will get a Masquerade infraction.\n\
 		Higher levels will increase the feeding's speed."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
@@ -196,8 +196,7 @@
 
 	// Give them the effects (Depending on if we are silent or not)
 	if(!amSilent)
-		// Sleep & paralysis.
-		ApplyVictimEffects(feed_target)
+		ApplyVictimEffects(feed_target, first_hit = TRUE)
 		// Pull target to you if they don't take up space.
 		if(!feed_target.density)
 			feed_target.Move(user.loc)
@@ -268,7 +267,7 @@
 	bloodsuckerdatum_power.HandleFeeding(feed_target, blood_take_mult, level_current)
 	amount_taken += amSilent ? 0.3 : 1
 	if(!amSilent)
-		ApplyVictimEffects(feed_target) // Sleep, paralysis, immobile, unconscious, and mute
+		ApplyVictimEffects(feed_target)
 
 	///////////////////////////////////////////////////////////
 	// MOOD EFFECTS //
@@ -330,12 +329,12 @@
 	return TRUE
 
 /// Bloodsuckers not affected by "the Kiss" of another vampire
-/datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target)
-	if(!IS_BLOODSUCKER(target))
-		target.Unconscious(50,0)
-		target.Paralyze(40 + 5 * level_current,1) // NOTE: This is based on level of power!
-		if(ishuman(target))
-			target.adjustStaminaLoss(5, forced = TRUE) // Base Stamina Damage
+/datum/action/bloodsucker/feed/proc/ApplyVictimEffects(mob/living/target, first_hit = FALSE)
+	if(IS_BLOODSUCKER(target) || IS_VASSAL(target) || IS_MONSTERHUNTER(target))
+		return
+	if(first_hit)
+		target.Unconscious(5 SECONDS, FALSE)
+	target.Paralyze(40 + 5 * level_current, 1)
 
 /datum/action/bloodsucker/feed/DeactivatePower()
 	. = ..() // activate = FALSE
