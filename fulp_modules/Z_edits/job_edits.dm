@@ -1,7 +1,7 @@
 /**
  *	# Job edits
  *
- * 	Overwrite TG code to add exp requirement of a few dangerous jobs.
+ * Overwrite TG code to add exp requirement of a few dangerous jobs.
  * Additionally setting fulp config job slots, since TG's job config is unstable, and overwrites map .json job positions.
  */
 
