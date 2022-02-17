@@ -2,6 +2,10 @@
 /datum/job/prisoner
 	paycheck_department = ACCOUNT_PRISON
 	department_for_prefs = /datum/job_department/service
+	//Set to service so award_service() works
+	departments_list = list(
+		/datum/job_department/service,
+		)
 
 /datum/job/prisoner/award_service(client/winner, award)
 	winner.give_award(award, winner.mob)
