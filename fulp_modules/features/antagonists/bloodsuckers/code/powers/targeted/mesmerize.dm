@@ -31,7 +31,7 @@
 	power_activates_immediately = FALSE
 	prefire_message = "Whom will you subvert to your will?"
 	///Our mesmerized target - Prevents several mesmerizes.
-	var/mob/living/mesmerized_target
+	var/datum/weakref/target_ref
 
 /datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(mob/living/carbon/user)
 	. = ..()
@@ -71,11 +71,11 @@
 		owner.balloon_alert(owner, "[current_target] is not [(current_target.stat == DEAD || HAS_TRAIT(current_target, TRAIT_FAKEDEATH)) ? "alive" : "conscious"].")
 		return FALSE
 	// Target has eyes?
-	if(!current_target.getorganslot(ORGAN_SLOT_EYES))
+	if(!current_target.getorganslot(ORGAN_SLOT_EYES) && !issilicon(current_target))
 		owner.balloon_alert(owner, "[current_target] has no eyes.")
 		return FALSE
 	// Target blind?
-	if(current_target.eye_blind > 0)
+	if(current_target.eye_blind > 0 && !issilicon(current_target))
 		owner.balloon_alert(owner, "[current_target] is blind.")
 		return FALSE
 	// Facing target?
@@ -88,13 +88,21 @@
 		return FALSE
 
 	// Gone through our checks, let's mark our guy.
-	mesmerized_target = current_target
+	target_ref = WEAKREF(current_target)
 	return TRUE
 
 /datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/target_atom)
 	. = ..()
 
 	var/mob/living/user = owner
+	var/mob/living/carbon/mesmerized_target = target_ref.resolve()
+
+	if(issilicon(mesmerized_target))
+		var/mob/living/silicon/mesmerized = mesmerized_target
+		mesmerized.emp_act(EMP_HEAVY)
+		owner.balloon_alert(owner, "temporarily shut [mesmerized] down.")
+		PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
+		return
 
 	if(istype(mesmerized_target))
 		owner.balloon_alert(owner, "attempting to hypnotically gaze [mesmerized_target]...")
@@ -102,7 +110,6 @@
 	if(!do_mob(user, mesmerized_target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, mesmerized_target)))
 		return
 
-	PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
 	var/power_time = 90 + level_current * 15
 	if(IS_MONSTERHUNTER(mesmerized_target))
 		to_chat(mesmerized_target, span_notice("You feel your eyes burn for a while, but it passes."))
@@ -111,26 +118,20 @@
 		owner.balloon_alert(owner, "[mesmerized_target] is already in a hypnotic gaze.")
 		return
 	if(iscarbon(mesmerized_target))
-		var/mob/living/carbon/mesmerized = mesmerized_target
-		owner.balloon_alert(owner, "successfully mesmerized [mesmerized].")
+		owner.balloon_alert(owner, "successfully mesmerized [mesmerized_target].")
 		if(level_current >= 6)
-			ADD_TRAIT(mesmerized, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
+			ADD_TRAIT(mesmerized_target, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
 		else if(level_current >= 2)
-			ADD_TRAIT(mesmerized, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		mesmerized.Immobilize(power_time)
-		//mesmerized.silent += power_time / 10 // Silent isn't based on ticks.
-		mesmerized.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized.changeNext_move(power_time) // check click.dm
-		mesmerized.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
+			ADD_TRAIT(mesmerized_target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
+		mesmerized_target.Immobilize(power_time)
+		//mesmerized_target.silent += power_time / 10 // Silent isn't based on ticks.
+		mesmerized_target.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized_target.changeNext_move(power_time) // check click.dm
+		mesmerized_target.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
 		addtimer(CALLBACK(src, .proc/end_mesmerize, user, mesmerized_target), power_time)
-	if(issilicon(mesmerized_target))
-		var/mob/living/silicon/mesmerized = mesmerized_target
-		mesmerized.emp_act(EMP_HEAVY)
-		owner.balloon_alert(owner, "temporarily shut [mesmerized] down.")
-	// Finished, clear target.
-	mesmerized_target = null
+	PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
 
 /datum/action/bloodsucker/targeted/mesmerize/DeactivatePower()
-	mesmerized_target = null
+	target_ref = null
 	. = ..()
 
 /datum/action/bloodsucker/targeted/mesmerize/proc/end_mesmerize(mob/living/user, mob/living/target)
@@ -142,4 +143,4 @@
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
-	return ..() && CheckCanUse(user) && CheckCanTarget(mesmerized_target)
+	return ..() && CheckCanUse(user) && CheckCanTarget(target)
