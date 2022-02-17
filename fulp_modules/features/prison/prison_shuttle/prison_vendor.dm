@@ -25,14 +25,14 @@
 		/obj/item/seeds/wheat = 3,
 	)
 	contraband = list(
+		/obj/item/seeds/ambrosia/deus = 1,
+	)
+	premium = list(
 		/obj/item/seeds/amanita = 2,
 		/obj/item/seeds/nettle = 2,
 		/obj/item/seeds/plump = 2,
 		/obj/item/seeds/reishi = 2,
 		/obj/item/seeds/starthistle = 2,
-	)
-	premium = list(
-		/obj/item/seeds/ambrosia/deus = 1
 	)
 	refill_canister = /obj/item/vending_refill/hydroseeds/prison
 	default_price = PAYCHECK_PRISONER
