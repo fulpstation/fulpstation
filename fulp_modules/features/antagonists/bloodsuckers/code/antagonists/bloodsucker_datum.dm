@@ -762,7 +762,7 @@
 			continue
 		if(!isliving(clan_minds.current))
 			continue
-		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
+		to_chat(clan_minds, span_userdanger("[owner.current], the [vassal_color]-colored bloodsucker, has broken the Masquerade! Ensure they are eliminated at all costs!"))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
 			continue
