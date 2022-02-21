@@ -540,7 +540,7 @@
 			ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_AGEUSIA, BLOODSUCKER_TRAIT)
-			to_chat(target, span_notice("Your blood begins to feel cold, and as an ash sits on your tongue, you stop breathing..."))
+			to_chat(target, span_notice("Your blood begins to feel cold, and as a mote of ash lands upon your tongue, you stop breathing..."))
 		if(vassaldatum.vassal_level == 3)
 			ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
