@@ -263,7 +263,7 @@
 	if(user == resident)
 		if(!broken)
 			locked = inLocked
-			if locked
+			if(locked)
 				to_chat(user, span_notice("You flip a secret latch and lock yourself inside [src]."))
 			else
 				to_chat(user, span_notice("You flip a secret latch and unlock [src]."))
