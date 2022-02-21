@@ -165,6 +165,7 @@
 	. = ..()
 	var/fullname = ReturnFullName(TRUE)
 	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
+	to_chat(owner, span_notice("You are the [vassal_color]-colored Bloodsucker. You can identify other bloodsuckers as they share similar icons, but different colors."))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
 		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
