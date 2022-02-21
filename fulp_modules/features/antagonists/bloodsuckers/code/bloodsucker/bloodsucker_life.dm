@@ -420,7 +420,7 @@
 	timeout = 10 MINUTES
 
 /datum/mood_event/madevamp
-	description = "<span class='boldwarning'>A soul has reached an apotheosis- undeath- by my own hand.</span>\n"
+	description = "<span class='boldwarning'>A vassal has reached an apotheosis- undeath- by my own hand.</span>\n"
 	mood_change = 15
 	timeout = 20 MINUTES
 
