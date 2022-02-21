@@ -21,7 +21,7 @@
 	if(my_clan == CLAN_TREMERE)
 		var/area/current_area = get_area(owner.current)
 		if(istype(current_area, /area/service/chapel))
-			to_chat(owner.current, span_warning("You don't belong in holy areas!"))
+			to_chat(owner.current, span_warning("You don't belong in holy areas! The Faith burns you!"))
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
 			owner.current.IgniteMob()
@@ -105,7 +105,7 @@
 	var/amInCoffin = istype(user.loc, /obj/structure/closet/crate/coffin)
 	if(amInCoffin && HAS_TRAIT(user, TRAIT_NODEATH))
 		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-			to_chat(user, span_warning("You will not heal while your Masquerade ability is active."))
+			to_chat(user, span_warning("You do not heal while your Masquerade ability is active."))
 			return
 		fireheal = min(user.getFireLoss_nonProsthetic(), actual_regen)
 		mult *= 5 // Increase multiplier if we're sleeping in a coffin.
@@ -420,7 +420,7 @@
 	timeout = 10 MINUTES
 
 /datum/mood_event/madevamp
-	description = "<span class='boldwarning'>A soul has been cursed to undeath by my own hand.</span>\n"
+	description = "<span class='boldwarning'>A soul has reached an apotheosis- undeath- by my own hand.</span>\n"
 	mood_change = 15
 	timeout = 20 MINUTES
 

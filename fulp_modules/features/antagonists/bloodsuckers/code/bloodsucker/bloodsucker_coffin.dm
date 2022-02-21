@@ -31,8 +31,8 @@
 	if(user == resident)
 		. += span_cult("This is your Claimed Coffin.")
 		. += span_cult("Rest in it while injured to enter Torpor. Entering it with unspent Ranks will allow you to spend one.")
-		. += span_cult("Alt Click while inside the Coffin to Lock/Unlock.")
-		. += span_cult("Alt Click while outside of your Coffin to Unclaim it, unwrenching it and all your other structures as a result.")
+		. += span_cult("Alt-Click while inside the Coffin to Lock/Unlock.")
+		. += span_cult("Alt-Click while outside of your Coffin to Unclaim it, unwrenching it and all your other structures as a result.")
 
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
@@ -179,7 +179,7 @@
 	if(manual)
 		to_chat(resident, span_cultitalic("You have unclaimed your coffin! This also unclaims all your other Bloodsucker structures!"))
 	else
-		to_chat(resident, span_cultitalic("You sense that the link with your coffin and your sacred lair, has been broken! You will need to seek another."))
+		to_chat(resident, span_cultitalic("You sense that the link with your coffin and your sacred lair has been broken! You will need to seek another."))
 	// Remove resident. Because this object isnt removed from the game immediately (GC?) we need to give them a way to see they don't have a home anymore.
 	resident = null
 
@@ -194,7 +194,7 @@
 		locked = FALSE
 		return TRUE
 	playsound(get_turf(src), 'sound/machines/door_locked.ogg', 20, 1)
-	to_chat(user, span_notice("[src] is locked tight from the inside."))
+	to_chat(user, span_notice("[src] appears to be locked tight from the inside."))
 
 /obj/structure/closet/crate/coffin/close(mob/living/user)
 	. = ..()
@@ -225,7 +225,7 @@
 				to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
 				return
 		if(anchored && istype(item, /obj/item/wrench))
-			to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt Click to unclaim and unwrench your Coffin." : ""]"))
+			to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt-Click to unclaim and unwrench your Coffin." : ""]"))
 			return
 
 	if(locked && istype(item, /obj/item/crowbar))
@@ -263,10 +263,13 @@
 	if(user == resident)
 		if(!broken)
 			locked = inLocked
-			to_chat(user, span_notice("You flip a secret latch and [locked?"":"un"]lock yourself inside [src]."))
+			if locked
+				to_chat(user, span_notice("You flip a secret latch and lock yourself inside [src]."))
+			else
+				to_chat(user, span_notice("You flip a secret latch and unlock [src]."))
 			return
 		// Broken? Let's fix it.
-		to_chat(resident, span_notice("The secret latch to lock [src] from the inside is broken. You set it back into place..."))
+		to_chat(resident, span_notice("The secret latch that would lock [src] from the inside is broken. You set it back into place..."))
 		if(!do_mob(resident, src, 5 SECONDS))
 			to_chat(resident, span_notice("You fail to fix [src]'s mechanism."))
 			return

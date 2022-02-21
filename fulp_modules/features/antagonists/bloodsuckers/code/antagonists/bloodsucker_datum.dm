@@ -540,7 +540,7 @@
 			ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_AGEUSIA, BLOODSUCKER_TRAIT)
-			to_chat(target, span_notice("Your blood begins you feel cold, as ash sits on your tongue, you stop breathing..."))
+			to_chat(target, span_notice("Your blood begins to feel cold, and as an ash sits on your tongue, you stop breathing..."))
 		if(vassaldatum.vassal_level == 3)
 			ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 			ADD_TRAIT(target, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
@@ -733,14 +733,14 @@
 			continue
 		if(!isliving(clan_minds.current))
 			continue
-		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure they are eliminated at all costs!"))
+		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure [owner.current.p_they()] [owner.current.p_are()] eliminated at all costs!"))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
 			continue
 		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
 		masquerade_objective.target = owner.current
 		masquerade_objective.objective_name = "Clan Objective"
-		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, is Final Death'ed."
+		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, succumbs to Final Death."
 		bloodsuckerdatum.objectives += masquerade_objective
 		clan_minds.announce_objectives()
 
