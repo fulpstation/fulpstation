@@ -3,6 +3,7 @@
 	port_id = "prison"
 	suffix = "default"
 	name = "Base Shuttle Template (Prison)"
+	admin_notes = "No shuttles have been tested to work with admin-intervention. Do not mess with for the sake of the server."
 	who_can_purchase = null
 	///Where players get dropped off if found on the shuttle after it departs.
 	var/dropoff_area = /area/security/prison
