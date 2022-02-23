@@ -100,8 +100,8 @@ SUBSYSTEM_DEF(permabrig)
 		broadcasters.say("[message]")
 		playsound(broadcasters, sound, 20, TRUE)
 
-	QDEL_NULL(loaded_shuttle)
 	SSshuttle.prison_shuttle.jumpToNullSpace()
+	QDEL_NULL(loaded_shuttle)
 
 #undef SHUTTLE_MIN_TIME
 #undef SHUTTLE_MAX_TIME
