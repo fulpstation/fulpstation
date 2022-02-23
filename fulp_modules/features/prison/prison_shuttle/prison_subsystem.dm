@@ -101,7 +101,7 @@ SUBSYSTEM_DEF(permabrig)
 		playsound(broadcasters, sound, 20, TRUE)
 
 	SSshuttle.prison_shuttle.jumpToNullSpace()
-	QDEL_NULL(loaded_shuttle)
+	loaded_shuttle = null
 
 #undef SHUTTLE_MIN_TIME
 #undef SHUTTLE_MAX_TIME
