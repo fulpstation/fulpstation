@@ -165,7 +165,7 @@
 		return
 	// Don't buckle Silicon to it please.
 	if(issilicon(living_target))
-		to_chat(user, span_danger("You realize that Silicon cannot be vassalized, therefore it is useless to buckle them."))
+		to_chat(user, span_danger("You realize that this machine cannot be vassalized, therefore it is useless to buckle them."))
 		return
 	// Good to go - Buckle them!
 	use_lock = TRUE
@@ -525,9 +525,11 @@
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
 	lit = !lit
 	if(lit)
+		desc = initial(desc)
 		set_light(2, 3, "#66FFFF")
 		START_PROCESSING(SSobj, src)
 	else
+		desc = "Despite not being lit, it makes your skin crawl."
 		set_light(0)
 		STOP_PROCESSING(SSobj, src)
 	update_icon()
@@ -648,8 +650,8 @@
 	density = TRUE
 	can_buckle = TRUE
 	Ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
-	Vamp_desc = "This is a Blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
-	Vassal_desc = "This is a Blood throne, it allows your Master to telepathically speak to you and others like you."
+	Vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
+	Vassal_desc = "This is a blood throne, it allows your Master to telepathically speak to you and others like you."
 	Hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
 		While buckled, Monsters can use this to telepathically communicate with eachother."
 	var/mutable_appearance/armrest
