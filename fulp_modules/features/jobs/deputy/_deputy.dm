@@ -3,7 +3,7 @@
 	description = "Help Security enforce Space Law, \
 		Capture criminals and deliver them to the Brig."
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security")
+	department_head = list(JOB_HEAD_OF_SECURITY)
 	faction = FACTION_STATION
 	total_positions = 0
 	spawn_positions = 0
@@ -52,7 +52,7 @@
 	title = JOB_DEPUTY_ENG
 	description = "Help Security enforce Space Law within the Engineering department, \
 		Capture criminals in Engineering and deliver them to the Brig."
-	department_head = list("Chief Engineer")
+	department_head = list(JOB_CHIEF_ENGINEER)
 	selection_color = "#fff5cc"
 	total_positions = 1
 	spawn_positions = 1
@@ -73,7 +73,7 @@
 	title = JOB_DEPUTY_MED
 	description = "Help Security enforce Space Law within the Medical department, \
 		Capture criminals in Medical and deliver them to the Brig."
-	department_head = list("Chief Medical Officer")
+	department_head = list(JOB_CHIEF_MEDICAL_OFFICER)
 	selection_color = "#ffeef0"
 	total_positions = 1
 	spawn_positions = 1
@@ -94,7 +94,7 @@
 	title = JOB_DEPUTY_SCI
 	description = "Help Security enforce Space Law within the Science department, \
 		Capture criminals in Science and deliver them to the Brig."
-	department_head = list("Research Director")
+	department_head = list(JOB_RESEARCH_DIRECTOR)
 	selection_color = "#ffeeff"
 	total_positions = 1
 	spawn_positions = 1
@@ -115,7 +115,7 @@
 	title = JOB_DEPUTY_SUP
 	description = "Help Security enforce Space Law within the Supply department, \
 		Capture criminals  in Cargo and deliver them to the Brig."
-	department_head = list("Head of Personnel")
+	department_head = list(JOB_HEAD_OF_PERSONNEL)
 	selection_color = "#dcba97"
 	total_positions = 1
 	spawn_positions = 1
@@ -136,10 +136,10 @@
 	title = JOB_DEPUTY_SRV
 	description = "Help Security enforce Space Law within the Service department, \
 		Capture criminals... wherever Service is... and deliver them to the Brig."
-	department_head = list("Head of Personnel")
+	department_head = list(JOB_HEAD_OF_PERSONNEL)
 	selection_color = "#bbe291"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 0
+	spawn_positions = 0
 	exp_required_type_department = EXP_TYPE_SERVICE
 	exp_granted_type = EXP_TYPE_SERVICE
 	outfit = /datum/outfit/job/deputy/service

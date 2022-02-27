@@ -16,3 +16,7 @@
 	name = "beef station"
 	icon_state = "green"
 	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
+
+/area/shuttle/prison_shuttle
+	name = "Prison Shuttle"
+	area_flags = NOTELEPORT
