@@ -1167,17 +1167,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/showroomfloor,
 /area/security/lockers)
-"aeC" = (
-/obj/item/reagent_containers/glass/bucket,
-/obj/item/mop,
-/obj/item/reagent_containers/glass/bottle/ammonia,
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 1
-	},
-/obj/structure/closet/crate/trashcart,
-/obj/effect/spawner/random/contraband/prison,
-/turf/open/floor/iron,
-/area/security/prison/safe)
 "aeD" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
 /obj/structure/chair{
@@ -1492,10 +1481,10 @@
 "afs" = (
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/effect/turf_decal/trimline/red/filled/line,
-/obj/effect/turf_decal/trimline/red/filled/corner{
+/obj/structure/cable,
+/obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 1
 	},
-/obj/structure/cable,
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "aft" = (
@@ -3706,6 +3695,19 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/security/warden)
+"aml" = (
+/obj/machinery/door/airlock/security{
+	name = "Permanent Cell 6"
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/security/prison)
 "amm" = (
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/directional/west{
@@ -11791,6 +11793,9 @@
 "aNT" = (
 /obj/machinery/airalarm/directional/south,
 /obj/effect/turf_decal/trimline/red/filled/line,
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 1
+	},
 /turf/open/floor/iron,
 /area/security/prison/safe)
 "aNU" = (
@@ -33832,12 +33837,12 @@
 /turf/open/floor/carpet,
 /area/service/library)
 "czK" = (
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 1
-	},
 /obj/effect/turf_decal/trimline/red/filled/corner,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/structure/cable,
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/security/prison)
 "czN" = (
@@ -35006,11 +35011,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/red,
-/obj/item/radio/intercom/directional/north{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "prison intercom";
-	prison_radio = 1
-	},
+/obj/item/radio/intercom/prison/directional/north,
 /turf/open/floor/iron/white,
 /area/security/prison)
 "dtK" = (
@@ -35374,6 +35375,12 @@
 	},
 /turf/open/floor/iron/dark,
 /area/service/chapel/dock)
+"dPr" = (
+/obj/docking_port/stationary/prison{
+	dir = 1
+	},
+/turf/open/space/basic,
+/area/space)
 "dPO" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -35549,6 +35556,16 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/orange/visible,
 /turf/open/floor/engine,
 /area/engineering/supermatter/room)
+"dWZ" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 4
+	},
+/obj/machinery/light/no_nightlight/directional/east,
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "dXU" = (
 /obj/machinery/light/directional/north,
 /obj/structure/extinguisher_cabinet/directional/north,
@@ -37547,12 +37564,14 @@
 /turf/open/floor/plating,
 /area/service/chapel/monastery)
 "fJd" = (
-/obj/structure/rack,
-/obj/item/tank/internals/emergency_oxygen,
-/obj/item/clothing/mask/breath,
+/obj/item/reagent_containers/glass/bucket,
+/obj/item/mop,
+/obj/item/reagent_containers/glass/bottle/ammonia,
 /obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 5
+	dir = 1
 	},
+/obj/structure/closet/crate/trashcart,
+/obj/effect/spawner/random/contraband/prison,
 /obj/machinery/light/small/directional/east,
 /turf/open/floor/iron,
 /area/security/prison/safe)
@@ -38369,6 +38388,18 @@
 	},
 /turf/open/floor/iron/dark,
 /area/science/xenobiology)
+"gzf" = (
+/obj/machinery/door/airlock/security{
+	name = "Permanent Cell 6"
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "gzy" = (
 /obj/structure/sign/poster/official/random{
 	pixel_y = -32
@@ -38523,6 +38554,14 @@
 	},
 /turf/open/floor/engine,
 /area/engineering/supermatter/room)
+"gEZ" = (
+/obj/machinery/computer/cargo/request/prison,
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 1
+	},
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/security/prison)
 "gFf" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -38823,6 +38862,18 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"gUA" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "gUJ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -44351,6 +44402,15 @@
 "mKE" = (
 /turf/closed/wall,
 /area/medical/medbay/lobby)
+"mKH" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "mLY" = (
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 10
@@ -46029,6 +46089,14 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/tcommsat/computer)
+"opQ" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/red/filled/line,
+/obj/item/radio/intercom/prison/directional/north,
+/turf/open/floor/iron,
+/area/security/prison)
 "oqY" = (
 /obj/machinery/door/airlock/maintenance{
 	req_access_txt = "12"
@@ -47015,6 +47083,16 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/psychology)
+"pje" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/trimline/red/filled/corner{
+	dir = 4
+	},
+/obj/effect/turf_decal/trimline/red/filled/corner,
+/turf/open/floor/iron,
+/area/security/prison)
 "pjX" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -50529,6 +50607,11 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
+"sxj" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/space/nearstation)
 "sxs" = (
 /obj/structure/rack,
 /obj/item/stack/sheet/iron/fifty,
@@ -51428,6 +51511,12 @@
 	},
 /turf/open/floor/iron,
 /area/medical/medbay/central)
+"thy" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 6
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "thT" = (
 /obj/effect/turf_decal/stripes/corner,
 /obj/machinery/meter,
@@ -51551,6 +51640,19 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron,
 /area/engineering/atmos)
+"tmh" = (
+/obj/machinery/door/airlock/security{
+	name = "Permanent Cell 6"
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/security/prison)
 "tna" = (
 /obj/structure/lattice,
 /obj/structure/grille/broken,
@@ -51580,6 +51682,9 @@
 /obj/machinery/power/energy_accumulator/grounding_rod/anchored,
 /turf/open/floor/engine,
 /area/engineering/supermatter)
+"top" = (
+/turf/closed/wall/r_wall,
+/area/space/nearstation)
 "toE" = (
 /obj/machinery/modular_computer/console/preset/cargochat/engineering{
 	dir = 8
@@ -54538,6 +54643,18 @@
 	},
 /turf/open/floor/iron/dark,
 /area/service/library)
+"vNY" = (
+/obj/machinery/door/airlock/security{
+	name = "Permanent Cell 6"
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/security/prison)
 "vOB" = (
 /obj/effect/landmark/start/paramedic,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
@@ -55876,11 +55993,11 @@
 /turf/open/floor/iron,
 /area/security/prison)
 "wPr" = (
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 9
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/structure/cable,
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/security/prison)
 "wPw" = (
@@ -75431,8 +75548,8 @@ aaa
 aaa
 aaa
 aaa
-aem
-aem
+adE
+adE
 acM
 acM
 aOn
@@ -75688,7 +75805,7 @@ aaa
 aaa
 aaa
 aaa
-aem
+adE
 dvY
 vXu
 sLC
@@ -75945,7 +76062,7 @@ aaa
 aaa
 aaa
 aaa
-aem
+adE
 pjX
 vXu
 xho
@@ -76184,15 +76301,15 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+aht
+aht
+aht
+aht
+aht
+aht
+aht
+aht
+aht
 aaa
 aaa
 adE
@@ -76440,17 +76557,17 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+aht
+aht
+fon
+fon
+fon
+fon
+fon
+fon
+fon
+aht
+aht
 aaa
 adE
 aeE
@@ -76696,18 +76813,18 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+aht
+aht
+fon
+top
+top
+top
+top
+top
+top
+top
+fon
+aht
 aaa
 adE
 arl
@@ -76953,18 +77070,18 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
+top
 aaa
 aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+top
+top
+aht
 aaa
 adE
 aeW
@@ -77210,6 +77327,9 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
 aaa
 aaa
 aaa
@@ -77217,11 +77337,8 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+top
+aht
 aaa
 adE
 aeX
@@ -77467,6 +77584,9 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
 aaa
 aaa
 aaa
@@ -77474,11 +77594,8 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+top
+aht
 aaa
 adE
 aeT
@@ -77724,6 +77841,9 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
 aaa
 aaa
 aaa
@@ -77731,11 +77851,8 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+sxj
+aht
 aaa
 adE
 afX
@@ -77981,6 +78098,9 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
 aaa
 aaa
 aaa
@@ -77988,12 +78108,9 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+acM
+acM
+acM
 adE
 adE
 adE
@@ -78238,22 +78355,22 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-pDW
 aht
-aem
+fon
+top
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+dPr
+gzf
+pje
+tmh
+mKH
+clK
+clK
 wPr
 kmV
 kdk
@@ -78495,22 +78612,22 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+aht
 fon
-aht
-aht
-aem
+top
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+agy
+opQ
+acM
+gEZ
+dGV
+act
 czK
 pEg
 act
@@ -78752,21 +78869,21 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-pDW
 aht
-ahC
+fon
+top
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+vNY
+gUA
+aml
+dWZ
+thy
 ahC
 oSI
 ahp
@@ -79009,22 +79126,22 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-pDW
 aht
+fon
+top
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+acM
+acM
+acM
+aem
 ahC
-dGY
+ahC
 afs
 ahp
 wNI
@@ -79266,6 +79383,9 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
 aaa
 aaa
 aaa
@@ -79273,15 +79393,12 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-pDW
+sxj
+aht
+aht
 aht
 ahC
-aeC
+dGY
 aNT
 ahp
 wFz
@@ -79523,6 +79640,9 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
 aaa
 aaa
 aaa
@@ -79530,12 +79650,9 @@ aaa
 aaa
 aaa
 aaa
+top
+aht
 aaa
-aaa
-aaa
-aaa
-aaa
-pDW
 aht
 ahC
 fJd
@@ -79780,6 +79897,9 @@ aaa
 aaa
 aaa
 aaa
+aht
+fon
+top
 aaa
 aaa
 aaa
@@ -79787,12 +79907,9 @@ aaa
 aaa
 aaa
 aaa
+top
+aht
 aaa
-aaa
-aaa
-aaa
-aaa
-pDW
 aht
 ahC
 ahC
@@ -80037,21 +80154,21 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-pDW
 aht
+fon
+top
+top
+top
+top
+top
+top
+top
+top
+top
 aht
+aaa
+aht
+fon
 aht
 aht
 aem
@@ -80294,20 +80411,20 @@ aaa
 aaa
 aaa
 aaa
+aht
+aht
+fon
+fon
+fon
+fon
+fon
+fon
+fon
+fon
+fon
+aht
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-pDW
+aht
 pDW
 pDW
 aht
@@ -80552,20 +80669,20 @@ aaa
 aaa
 aaa
 aaa
+aht
+aht
+aht
+aht
+aht
+aht
+aht
+aht
+aht
+aht
+aht
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+aht
+aht
 pDW
 aht
 aem
