@@ -3,7 +3,7 @@
 	desc = "Injure yourself, allowing you to make a desperate call for help to your Master."
 	button_icon_state = "power_distress"
 	power_explanation = "<b>Distress</b>:\n\
-		Use this Power from anywhere and your Master Bloodsucker will instnatly be alerted of your location."
+		Use this Power from anywhere and your Master Bloodsucker will instantly be alerted of your location."
 	power_flags = NONE
 	check_flags = NONE
 	purchase_flags = NONE
