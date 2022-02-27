@@ -1001,18 +1001,14 @@
 /turf/open/floor/iron/showroomfloor,
 /area/security/lockers)
 "adV" = (
-/turf/open/space,
-/area/ai_monitored/turret_protected/aisat_interior)
-"adW" = (
-/obj/structure/lattice,
+/obj/machinery/camera/directional/north{
+	c_tag = "MiniSat Bridge Starboard Fore";
+	network = list("minisat")
+	},
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/machinery/camera/directional/north{
-	c_tag = "MiniSat Bridge Port Fore";
-	network = list("minisat")
-	},
-/turf/open/space,
+/turf/open/floor/plating,
 /area/ai_monitored/turret_protected/aisat_interior)
 "adX" = (
 /turf/closed/wall/r_wall,
@@ -1023,7 +1019,6 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central)
 "aea" = (
-/obj/structure/lattice,
 /obj/machinery/light/small{
 	dir = 1
 	},
@@ -1031,7 +1026,7 @@
 	c_tag = "MiniSat Bridge Starboard Fore";
 	network = list("minisat")
 	},
-/turf/open/space,
+/turf/open/floor/plating,
 /area/ai_monitored/turret_protected/aisat_interior)
 "aec" = (
 /obj/machinery/suit_storage_unit/standard_unit,
@@ -1051,13 +1046,15 @@
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_sat_ext_ap)
 "aef" = (
-/obj/structure/window/reinforced/fulltile,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_sat_ext_ap)
 "aeh" = (
-/obj/structure/window/reinforced/fulltile,
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/open/floor/plating,
-/area/ai_monitored/turret_protected/aisat_interior)
+/area/ai_monitored/turret_protected/ai_sat_ext_ap)
 "aej" = (
 /obj/machinery/porta_turret/ai{
 	installation = /obj/item/gun/energy/e_gun
@@ -1065,7 +1062,7 @@
 /turf/open/floor/plating/airless,
 /area/ai_monitored/turret_protected/aisat_interior)
 "aek" = (
-/obj/structure/window/reinforced/fulltile,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_sat_ext_as)
 "ael" = (
@@ -1137,27 +1134,17 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/warehouse/upper)
-"aex" = (
-/obj/structure/lattice,
-/obj/machinery/light/small,
-/obj/machinery/camera/motion/directional/south{
-	c_tag = "MiniSat Bridge Port Aft";
-	network = list("minisat")
-	},
-/turf/open/space,
-/area/ai_monitored/turret_protected/aisat_interior)
 "aey" = (
 /obj/structure/window/reinforced,
 /turf/open/floor/iron,
 /area/cargo/warehouse/upper)
 "aez" = (
-/obj/structure/lattice,
 /obj/machinery/light/small,
 /obj/machinery/camera/motion/directional/south{
-	c_tag = "MiniSat Bridge Starboard Aft";
+	c_tag = "MiniSat Bridge Port Aft";
 	network = list("minisat")
 	},
-/turf/open/space,
+/turf/open/floor/plating,
 /area/ai_monitored/turret_protected/aisat_interior)
 "aeB" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -31902,11 +31889,18 @@
 /turf/open/floor/iron/dark,
 /area/ai_monitored/turret_protected/aisat_interior)
 "cnD" = (
-/turf/open/space/basic,
-/area/ai_monitored/turret_protected/aisat_interior)
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/cable,
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/ai_monitored/turret_protected/ai_sat_ext_as)
 "cnE" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
+/turf/open/floor/plating,
 /area/ai_monitored/turret_protected/aisat_interior)
 "cnJ" = (
 /obj/effect/turf_decal/delivery,
@@ -43947,6 +43941,14 @@
 /obj/machinery/holopad,
 /turf/open/floor/iron,
 /area/science/breakroom)
+"mos" = (
+/obj/machinery/camera/motion/directional/south{
+	c_tag = "MiniSat Bridge Starboard Aft";
+	network = list("minisat")
+	},
+/obj/machinery/light/small,
+/turf/open/floor/plating,
+/area/ai_monitored/turret_protected/aisat_interior)
 "mpd" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
@@ -89172,7 +89174,7 @@ hCS
 kjK
 olO
 olO
-olO
+aeh
 olO
 olO
 kjK
@@ -89684,11 +89686,11 @@ acY
 sPa
 vHR
 acP
-adV
-adV
-cnD
-adV
-adV
+aaa
+aaa
+aaa
+bBW
+bBW
 acP
 kbV
 acP
@@ -89941,11 +89943,11 @@ acP
 acP
 adv
 acP
-adW
+aea
 aej
 cnE
 aej
-aex
+aez
 acP
 afc
 acP
@@ -90198,11 +90200,11 @@ add
 adk
 cCO
 adX
-adV
-adV
-cnD
-adV
-adV
+bBW
+bBW
+aaa
+bBW
+bBW
 adX
 hoR
 afw
@@ -90456,9 +90458,9 @@ adl
 adx
 adX
 adX
-aeh
-aeh
-aeh
+agq
+agq
+agq
 adX
 adX
 afe
@@ -90970,9 +90972,9 @@ adn
 adz
 adX
 adX
-aeh
-aeh
-aeh
+agq
+agq
+agq
 adX
 adX
 afg
@@ -91226,11 +91228,11 @@ add
 ado
 ieU
 adX
-adV
-adV
-cnD
-adV
-adV
+bBW
+bBW
+aaa
+bBW
+bBW
 adX
 aEb
 afA
@@ -91483,11 +91485,11 @@ acU
 acU
 adB
 acU
-aea
+adV
 aej
 cnE
 aej
-aez
+mos
 acU
 afi
 acU
@@ -91740,11 +91742,11 @@ ade
 ael
 xEA
 acU
-adV
-adV
-cnD
-adV
-adV
+aaa
+aaa
+aaa
+bBW
+bBW
 acU
 szb
 acU
@@ -92256,7 +92258,7 @@ gAY
 aeS
 szb
 szb
-szb
+cnD
 szb
 szb
 aeS
