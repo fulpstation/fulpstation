@@ -95,11 +95,11 @@
  */
 /obj/item/clothing/suit/costume_2019/angel
 	name = "angel"
-	desc = "Heavenly Dress."
+	desc = "Heavenly dress."
 	icon_state = "angel"
 
 /obj/item/clothing/head/costume_2019/angel_halo
-	desc = "Heavenly Halo."
+	desc = "Heavenly halo."
 	icon_state = "angel_halo"
 
 /obj/item/storage/box/halloween/edition_19/angel
@@ -131,7 +131,7 @@
  */
 /obj/item/clothing/suit/costume_2019/skeleton
 	name = "Skeleton"
-	desc = "You are now Mr.Bones."
+	desc = "You are now Mr. Bones."
 	icon_state = "skeleton"
 
 /obj/item/clothing/head/costume_2019/skull
@@ -264,9 +264,7 @@
 		/obj/item/clothing/head/hardhat/sans,
 	)
 
-/**
- * Samus suit costume (please dont copyright us)
- */
+
 /obj/item/clothing/under/costume/costume_2019/zero_suit
 	name = "plastic bounty hunter's plugsuit"
 	desc = "A cheap plastic suit with zero practical use."
@@ -305,10 +303,10 @@
 	cold_protection = null
 	heat_protection = null
 
-///Toy arm cannon used in the Samus costume
+///Toy arm cannon used in the zero costume
 /obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon
 	name = "foam force arm cannon"
-	desc = "The chozo manufacturing industry exports thousands of these things a year. Ages 8+"
+	desc = "A cheap foam-force replica. Ages 8+"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/toy/arm_ball
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	icon_state = "arm_cannon"

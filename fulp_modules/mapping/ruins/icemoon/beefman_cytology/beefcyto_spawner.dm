@@ -20,7 +20,7 @@
 
 /obj/effect/mob_spawn/ghost_role/human/beefman/special(mob/living/carbon/human/spawned_human)
 	. = ..()
-	spawned_human.fully_replace_character_name(null, random_unique_beefman_name(gender))
+	spawned_human.fully_replace_character_name(null, random_unique_beefman_name())
 
 /datum/job/fulp_cytology
 	title = ROLE_BEEFMAN_CYTOLOGY
