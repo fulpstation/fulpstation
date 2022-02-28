@@ -378,32 +378,24 @@
 	SStgui.close_uis(src)
 	INVOKE_ASYNC(src, .proc/search, usr, action)
 
-#define BRUJAH_SEARCH "search_brujah"
-#define TOREADOR_SEARCH "search_toreador"
-#define NOSFERATU_SEARCH "search_nosferatu"
-#define TREMERE_SEARCH "search_tremere"
-#define GANGREL_SEARCH "search_gangrel"
-#define VENTRUE_SEARCH "search_ventrue"
-#define MALKAVIAN_SEARCH "search_malkavian"
-
 /obj/item/book/kindred/proc/search(mob/reader, clan)
 	dat = "<head>This is all knowledge about the Clan:</head><br>"
 	switch(clan)
-		if(BRUJAH_SEARCH)
+		if(CLAN_BRUJAH)
 			dat += "This Clan has proven to be the strongest in melee combat, boasting a <b>powerful punch</b>.<br> \
 			They also appear to be more calm than the others, entering their 'frenzies' whenever they want, but <i>dont seem affected</i>.<br> \
 			Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy.<br> \
 			<b>Favorite Vassal</b>: Their favorite Vassal gains the Brawn ability. \
 			<b>Strength</b>: Frenzy will not kill them, punches deal a lot of damage.<br> \
 			<b>Weakness</b>: They have to spend Blood on powers while in Frenzy too."
-		if(TOREADOR_SEARCH) // Flavortext only
+		if(CLAN_TOREADOR) // Flavortext only
 			dat += "The most charming Clan of them all, being borderline <i>party animals</i>, allowing them to <i>very easily</i> disguise among the crew.<br> \
 			They are more in touch with their <i>morals</i>, so they suffer and benefit more strongly from the humanity cost or gain of their actions.<br> \
 			They can be best defined as 'The most humane kind of vampire', due to their kindred with an obsession with perfectionism and beauty<br> \
 			<b>Favorite Vassal</b>: Their favorite Vassal gains the Mesmerize ability \
 			<b>Strength</b>: Highly charismatic and influential.<br> \
 			<b>Weakness</b>: Physically and Morally weak."
-		if(NOSFERATU_SEARCH)
+		if(CLAN_NOSFERATU)
 			dat += "This Clan has been the most obvious to find information about.<br> \
 			They are <i>disfigured, ghoul-like</i> vampires upon embrace by their Sire, scouts that travel through desolate paths to avoid violating the Masquerade.<br> \
 			They make <i>no attempts</i> at hiding themselves within the crew, and have a terrible taste for <i>heavy items</i>.<br> \
@@ -411,7 +403,7 @@
 			<b>Favorite Vassal</b>: Their Favorite Vassal gains the ability to ventcrawl while naked and becomes disfigured. \
 			<b>Strength</b>: Ventcrawl.<br> \
 			<b>Weakness</b>: Can't disguise themselves, permanently pale, can easily be discovered by their DNA or Blood Level."
-		if(TREMERE_SEARCH)
+		if(CLAN_TREMERE)
 			dat += "This Clan seems to hate entering the <i>Chapel</i>.<br> \
 			They are a secluded Clan, they are Vampires who've mastered the power of blood, and seek knowledge.<br> \
 			They appear to be focused more on their Blood Magic than their other Powers, getting stronger faster the more Vassals they have.<br> \
@@ -419,7 +411,7 @@
 			<b>Favorite Vassal</b>: Their Favorite Vassal gains the ability to shift into a Bat at will. \
 			<b>Strength</b>: 3 different Powers that get stupidly strong overtime.<br> \
 			<b>Weakness</b>: Cannot get regular Powers, with no way to get stun resistance outside of Frenzy."
-		if(GANGREL_SEARCH) // Flavortext only
+		if(CLAN_GANGREL) // Flavortext only
 			dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
 			They also go by the name of <i>Werewolves</i>, as that is what appears when they enter a Frenzy.<br> \
 			Despite this, they appear to be scared of <i>'True Faith'</i>, someone's ultimate and undying Faith, which itself doesn't require being something Religious.<br> \
@@ -427,7 +419,7 @@
 			<b>Favorite Vassal</b>: Their Favorite Vassal turns into a Werewolf whenever their Master does.. \
 			<b>Strength</b>: Feral, Werewolf during Frenzy.<br> \
 			<b>Weakness</b>: Weak to True Faith."
-		if(VENTRUE_SEARCH)
+		if(CLAN_VENTRUE)
 			dat += "This Clan seems to <i>despise</i> drinking from non sentient organics.<br> \
 			They are Masters of manipulation, Greedy and entitled. Authority figures between the kindred society.<br> \
 			They seem to take their Vassal's lives <i>very seriously</i>, going as far as to give Vassals some of their own Blood.<br> \
@@ -435,7 +427,7 @@
 			<b>Favorite Vassal</b>: Their Favorite Vassal will slowly be turned into a Bloodsucker overtime. \
 			<b>Strength</b>: Slowly turns a Vassal into a Bloodsucker.<br> \
 			<b>Weakness</b>: Does not gain more abilities overtime, it is best to target the Bloodsucker over the Vassal."
-		if(MALKAVIAN_SEARCH)
+		if(CLAN_MALKAVIAN)
 			dat += "There is barely any information known about this Clan.<br> \
 			Members of this Clan seems to <i>mumble things to themselves</i>, unaware of their surroundings.<br> \
 			They also seem to enter and dissapear into areas randomly, <i>as if not even they know where they are</i>.<br> \
@@ -444,11 +436,3 @@
 			<b>Weakness</b>: Unknown."
 
 	reader << browse("<meta charset=UTF-8><TT><I>Penned by [author].</I></TT> <BR>" + "[dat]", "window=book[window_size != null ? ";size=[window_size]" : ""]")
-
-#undef BRUJAH_SEARCH
-#undef TOREADOR_SEARCH
-#undef NOSFERATU_SEARCH
-#undef TREMERE_SEARCH
-#undef GANGREL_SEARCH
-#undef VENTRUE_SEARCH
-#undef MALKAVIAN_SEARCH
