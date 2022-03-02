@@ -1,6 +1,6 @@
 /datum/customer_data/rat
 	prefix_file = "fulp_modules/features/prison/prison_kitchen/prefixes/rat_prefix.txt"
-	base_icon = "british"
+	base_icon_state = "british"
 	clothing_sets = list("iamnotreal")
 
 	friendly_pull_line = "Squeak?"

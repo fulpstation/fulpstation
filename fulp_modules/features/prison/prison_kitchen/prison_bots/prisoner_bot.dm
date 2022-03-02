@@ -1,7 +1,7 @@
 /// Prisoner bot
 /datum/customer_data/prisoner
 	prefix_file = "fulp_modules/features/prison/prison_kitchen/prefixes/prisoner_prefix.txt"
-	base_icon = "japanese"
+	base_icon_state = "japanese"
 	clothing_sets = list("iamnotreal")
 
 	friendly_pull_line = "I'm starving, I don't want to go with you."
