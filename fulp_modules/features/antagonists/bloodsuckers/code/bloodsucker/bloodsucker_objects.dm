@@ -229,7 +229,7 @@
 /// Created by welding and acid-treating a simple stake.
 /obj/item/stake/hardened
 	name = "hardened stake"
-	desc = "A hardened wooden stake carved to a sharp point and scorched at the end."
+	desc = "A wooden stake carved to a sharp point and hardened by fire."
 	icon_state = "hardened"
 	force = 8
 	throwforce = 12
