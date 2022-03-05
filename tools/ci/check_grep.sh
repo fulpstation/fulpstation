@@ -7,6 +7,16 @@ shopt -s globstar
 st=0
 
 echo "Checking for map issues"
+for dmm in _maps/map_files/*/*.dmm
+do
+	echo $dmm
+	map="_maps/map_files/Heliostation/Heliostation.dmm"
+	if [ $dmm == "$map" ];
+	then
+		echo "ERROR: bad .dmm found in files, please verify the integrity of _maps/map_files"
+		st=1
+	fi
+done;
 if grep -El '^\".+\" = \(.+\)' _maps/**/*.dmm;	then
     echo "ERROR: Non-TGM formatted map detected. Please convert it using Map Merger!"
     st=1
