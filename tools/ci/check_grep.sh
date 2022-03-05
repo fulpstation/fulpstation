@@ -9,7 +9,6 @@ st=0
 echo "Checking for map issues"
 for dmm in _maps/map_files/*/*.dmm
 do
-	echo $dmm
 	map="_maps/map_files/Heliostation/Heliostation.dmm"
 	if [ $dmm == "$map" ];
 	then
