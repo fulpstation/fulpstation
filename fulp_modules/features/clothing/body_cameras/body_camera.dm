@@ -3,10 +3,6 @@
 	. = ..()
 	AddElement(/datum/element/bodycamera_holder)
 
-/obj/item/clothing/suit/armor/Destroy()
-	RemoveElement(/datum/element/bodycamera_holder)
-	return ..()
-
 /**
  * The bodycamera
  *
