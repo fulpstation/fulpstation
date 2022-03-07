@@ -43,13 +43,6 @@
 	desc = "A sash for someone that mean business."
 	icon_state = "detective"
 
-/obj/item/clothing/under/bodysash/security/brigdoc
-	name = "brig physician's sash"
-	desc = "It's made of a special fiber that provides minor protection against biohazards and Close Quarters weaponry. It has a brig physician stripe on it."
-	icon_state = "brigdoc"
-	permeability_coefficient = 0.5
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 30, ACID = 30)
-
 /obj/item/clothing/under/bodysash/security/deputy
 	name = "deputy's sash"
 	desc = "An awe-inspiring \"tactical\" sash; because safety never takes a holiday."

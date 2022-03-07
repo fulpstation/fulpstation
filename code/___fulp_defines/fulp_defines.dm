@@ -31,7 +31,6 @@
 ///Service deputy's assigned department
 #define SEC_DEPT_SERVICE "Service"
 
-#define JOB_BRIG_PHYSICIAN "Brig Physician"
 #define JOB_DEPUTY "Deputy"
 #define JOB_DEPUTY_ENG "Engineering Deputy"
 #define JOB_DEPUTY_MED "Medical Deputy"
@@ -39,7 +38,6 @@
 #define JOB_DEPUTY_SCI "Science Deputy"
 #define JOB_DEPUTY_SRV "Service Deputy"
 
-#define SECHUD_BRIG_PHYSICIAN "hudbrigphysician"
 #define SECHUD_DEPUTY "huddeputy"
 #define SECHUD_DEPUTY_ENGINEERING "hudengineeringdeputy"
 #define SECHUD_DEPUTY_MEDICAL "hudmedicaldeputy"

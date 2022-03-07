@@ -22,7 +22,6 @@
 /datum/crewmonitor/New()
 	. = ..()
 	jobs += list(
-		JOB_BRIG_PHYSICIAN = 18,
 		JOB_DEPUTY = 17,
 		JOB_DEPUTY_SUP = 54,
 		JOB_DEPUTY_ENG = 43,

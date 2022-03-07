@@ -9,7 +9,6 @@
 // JOBS //
 // This list is used in job_integration.dm to assign jobs their HUD Icons. When adding new jobs, add them to this list. //
 GLOBAL_LIST_INIT(fulp_job_assignments, list(
-	JOB_BRIG_PHYSICIAN,
 	JOB_DEPUTY,
 	JOB_DEPUTY_SUP,
 	JOB_DEPUTY_ENG,
