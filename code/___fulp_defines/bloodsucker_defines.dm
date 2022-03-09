@@ -69,13 +69,12 @@
  * Clan defines
  */
 #define CLAN_BRUJAH "Brujah Clan"
+#define CLAN_TOREADOR "Toreador Clan"
 #define CLAN_NOSFERATU "Nosferatu Clan"
 #define CLAN_TREMERE "Tremere Clan"
+#define CLAN_GANGREL "Gangrel Clan"
 #define CLAN_VENTRUE "Ventrue Clan"
 #define CLAN_MALKAVIAN "Malkavian Clan"
-// Flavortext-only clans
-#define CLAN_TOREADOR "Toreador Clan"
-#define CLAN_GANGREL "Gangrel Clan"
 
 /**
  * Power defines
