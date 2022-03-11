@@ -35,7 +35,7 @@
 	attack_verb = "meat"
 	payday_modifier = 0.75 //-- "Equality"
 	speedmod = -0.2 // this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
-	armor = -2 // overall defense for the race... or less defense, if it's negative.
+	armor = -20 // overall defense for the race... or less defense, if it's negative.
 	punchdamagelow = 1 //lowest possible punch damage. if this is set to 0, punches will always miss
 	punchdamagehigh = 5 // 10 //highest possible punch damage
 	siemens_coeff = 0.7 // Due to lack of density.   //base electrocution coefficient
