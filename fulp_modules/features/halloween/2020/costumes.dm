@@ -472,7 +472,7 @@
 ///Default Midsommer costume
 /obj/item/clothing/under/costume_2020/midsommer
 	name = "midsommer dress"
-	desc = "Write something here to show up when examined."
+	desc = "A cute embroidered dress."
 	icon_state = "midsommar_dress"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	fitted = FEMALE_UNIFORM_TOP
@@ -480,19 +480,19 @@
 
 /obj/item/clothing/head/costume_2020/midsommer
 	name = "flower crown"
-	desc = "Write something here to show up when examined."
+	desc = "A festive headpiece made of flowers."
 	icon_state = "flower_crown"
 
 ///Midsommer Queen costume
 /obj/item/clothing/suit/costume_2020/midsommer_queen
 	name = "May Queen"
-	desc = "Write something here to show up when examined."
+	desc = "A heavy-looking gown made almost entirely of flowers."
 	icon_state = "may_queen"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 
 /obj/item/clothing/head/costume_2020/midsommer_queen
 	name = "May Queen crown"
-	desc = "Write something here to show up when examined."
+	desc = "Heavy is the head that wears the crown."
 	icon_state = "flower_crown_tall"
 	worn_x_dimension = 64
 	worn_y_dimension = 64
@@ -728,7 +728,7 @@
 		/obj/item/clothing/under/suit/black,
 		/obj/item/clothing/under/suit/burgundy,
 		/obj/item/clothing/under/suit/navy,
-		/obj/item/clothing/under/suit/black/female,
+		/obj/item/clothing/under/suit/black/skirt,
 	)
 	. = ..()
 

@@ -95,11 +95,11 @@
  */
 /obj/item/clothing/suit/costume_2019/angel
 	name = "angel"
-	desc = "Heavenly Dress."
+	desc = "Heavenly dress."
 	icon_state = "angel"
 
 /obj/item/clothing/head/costume_2019/angel_halo
-	desc = "Heavenly Halo."
+	desc = "Heavenly halo."
 	icon_state = "angel_halo"
 
 /obj/item/storage/box/halloween/edition_19/angel
@@ -131,7 +131,7 @@
  */
 /obj/item/clothing/suit/costume_2019/skeleton
 	name = "Skeleton"
-	desc = "You are now Mr.Bones."
+	desc = "You are now Mr. Bones."
 	icon_state = "skeleton"
 
 /obj/item/clothing/head/costume_2019/skull
@@ -264,9 +264,7 @@
 		/obj/item/clothing/head/hardhat/sans,
 	)
 
-/**
- * Samus suit costume (please dont copyright us)
- */
+
 /obj/item/clothing/under/costume/costume_2019/zero_suit
 	name = "plastic bounty hunter's plugsuit"
 	desc = "A cheap plastic suit with zero practical use."
@@ -276,7 +274,7 @@
 	alternate_worn_layer = GLOVES_LAYER //copied blindly from mech jumpsuit lmao
 	can_adjust = FALSE
 
-/obj/item/clothing/suit/space/hardsuit/varia // Hardsuits aren't subtypes of the regular suit
+/obj/item/clothing/suit/space/varia // Hardsuits aren't subtypes of the regular suit
 	name = "plastic bounty hunter's hardsuit"
 	desc = "It's variapparent that this is injection-moulded."
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
@@ -290,9 +288,8 @@
 	heat_protection = null
 	slowdown = 0
 	actions_types = list(/datum/action/item_action/toggle_helmet)
-	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/varia
 
-/obj/item/clothing/head/helmet/space/hardsuit/varia
+/obj/item/clothing/head/helmet/space/varia
 	name = "plastic bounty hunter's helmet"
 	desc = "A cheap plastic helmet spring-loaded into the suit."
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
@@ -305,12 +302,11 @@
 	max_heat_protection_temperature = null
 	cold_protection = null
 	heat_protection = null
-	hardsuit_type = "varia"
 
-///Toy arm cannon used in the Samus costume
+///Toy arm cannon used in the zero costume
 /obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon
 	name = "foam force arm cannon"
-	desc = "The chozo manufacturing industry exports thousands of these things a year. Ages 8+"
+	desc = "A cheap foam-force replica. Ages 8+"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/toy/arm_ball
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	icon_state = "arm_cannon"
@@ -359,7 +355,8 @@
 	theme_name = "2019's Bounty Hunter"
 	costume_contents = list(
 		/obj/item/clothing/under/costume/costume_2019/zero_suit,
-		/obj/item/clothing/suit/space/hardsuit/varia,
+		/obj/item/clothing/suit/space/varia,
+		/obj/item/clothing/head/helmet/space/varia,
 		/obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon,
 	)
 

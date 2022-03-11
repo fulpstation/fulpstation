@@ -60,30 +60,30 @@
 	button_icon_state = "receding_stance"
 	var/stancing = FALSE
 
-/datum/action/receding_stance/Trigger(mob/living/user = owner)
+/datum/action/receding_stance/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
 	if(stancing)
 		to_chat(owner, span_warning("You're already stancing."))
 		return
+	var/mob/living/user = owner
 	owner.visible_message(
 		span_danger("[owner] moves back and begins to form a stance."),
 		span_userdanger("<b><i>You backpedal and begin to form your stance.</i></b>"),
 	)
 	stancing = TRUE
-	if(do_after(owner, 3 SECONDS))
-		owner.visible_message(
-			span_danger("[owner] focuses on his stance."),
-			span_userdanger("You focus on your stance. Stamina..."),
-		)
-		owner.mind.martial_art.streak = RECEDING_STANCE
-		user.adjustStaminaLoss(-40)
-		stancing = FALSE
-	else
+	if(!do_after(owner, 3 SECONDS))
 		owner.visible_message(span_danger("[owner] stops moving back.</i></b>"))
 		stancing = FALSE
 		return
+	owner.visible_message(
+		span_danger("[owner] focuses on his stance."),
+		span_userdanger("You focus on your stance. Stamina..."),
+	)
+	owner.mind.martial_art.streak = RECEDING_STANCE
+	user.adjustStaminaLoss(-40)
+	stancing = FALSE
 
 /// Twisted Stance
 /datum/action/twisted_stance
@@ -91,10 +91,11 @@
 	icon_icon = 'fulp_modules/features/lisa/icons/stances.dmi'
 	button_icon_state = "twisted_stance"
 
-/datum/action/twisted_stance/Trigger(mob/living/user = owner)
+/datum/action/twisted_stance/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
+	var/mob/living/user = owner
 	if(owner.mind.martial_art.streak == TWISTED_STANCE)
 		owner.visible_message(
 			span_danger("[owner] suddenly twists themselves even further!"),
@@ -218,7 +219,7 @@
 	if(HAS_TRAIT(A, TRAIT_PACIFISM))
 		return FALSE
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(HULK))
+	if(dna?.check_mutation(/datum/mutation/human/hulk))
 		return FALSE
 	add_to_streak("D",D)
 	if(check_streak(A,D))
@@ -245,7 +246,7 @@
 	if(HAS_TRAIT(A, TRAIT_PACIFISM))
 		return FALSE
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(HULK))
+	if(dna?.check_mutation(/datum/mutation/human/hulk))
 		return FALSE
 	add_to_streak("G",D)
 	if(check_streak(A,D))
@@ -266,7 +267,7 @@
 
 /datum/martial_art/velvetfu/harm_act(mob/living/A, mob/living/D)
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(HULK))
+	if(dna?.check_mutation(/datum/mutation/human/hulk))
 		return FALSE
 	add_to_streak("H",D)
 	if(check_streak(A,D))

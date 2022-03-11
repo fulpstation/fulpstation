@@ -44,9 +44,9 @@
  * Cooldown defines
  * Used in Cooldowns Bloodsuckers use to prevent spamming
  */
-///Spam prevention for healing messages
+///Spam prevention for healing messages.
 #define BLOODSUCKER_SPAM_HEALING (15 SECONDS)
-///Span prevention for Sol messages
+///Span prevention for Sol messages.
 #define BLOODSUCKER_SPAM_SOL (30 SECONDS)
 
 /**
@@ -68,15 +68,13 @@
 /**
  * Clan defines
  */
-#define CLAN_NONE "No Clan"
 #define CLAN_BRUJAH "Brujah Clan"
+#define CLAN_TOREADOR "Toreador Clan"
 #define CLAN_NOSFERATU "Nosferatu Clan"
 #define CLAN_TREMERE "Tremere Clan"
+#define CLAN_GANGREL "Gangrel Clan"
 #define CLAN_VENTRUE "Ventrue Clan"
 #define CLAN_MALKAVIAN "Malkavian Clan"
-// Flavortext-only clans
-#define CLAN_TOREADOR "Toreador Clan"
-#define CLAN_GANGREL "Gangrel Clan"
 
 /**
  * Power defines
@@ -94,10 +92,12 @@
 
 /// This Power can be purchased by Bloodsuckers
 #define BLOODSUCKER_CAN_BUY (1<<0)
+/// This Power can be purchased by Tremere Bloodsuckers
+#define TREMERE_CAN_BUY (1<<1)
 /// This Power can be purchased by Vassals
-#define VASSAL_CAN_BUY (1<<1)
+#define VASSAL_CAN_BUY (1<<2)
 /// This Power can be purchased by Monster Hunters
-#define HUNTER_CAN_BUY (1<<2)
+#define HUNTER_CAN_BUY (1<<3)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)

@@ -1,73 +1,113 @@
-/*
- *	Due to how DEFINES work, they have to be in a file read before the code actually using said defines
- *	Therefore, Fulp DEFINES must all be placed in this folder, despite modularity.
+/**
+ * # DEFINES
+ *
+ * Due to how DEFINES work, they ALWAYS have to be read FIRST.
+ * Therefore, Fulp defines must all be placed in this folder, despite modularity.
  */
 
-/*
- *	Martial art Defines
+
+/**
+ * # MARTIAL ARTS
  */
-/// Used in hunterfu.dm
+
+//Used in hunterfu.dm
 #define MARTIALART_HUNTERFU "hunterfu"
-/// Used in velvet_fu.dm
+//Used in velvet_fu.dm
 #define MARTIALART_VELVETFU "velvetfu"
-/// Used in deputy_block.dm
+//Used in deputy_block.dm
 #define MARTIALART_DEPUTYBLOCK "deputy blocking"
-/// Used in bloodsucker_life.dm
+//Used in bloodsucker_life.dm
 #define MARTIALART_FRENZYGRAB "frenzy grabbing"
 
-/*
- *	Deputy Defines
+
+/**
+ * # JOBS
  */
 #define TRAIT_ENGINEERINGDEPUTY "engineeringdeputy"
 #define TRAIT_MEDICALDEPUTY "medicaldeputy"
 #define TRAIT_SCIENCEDEPUTY "sciencedeputy"
 #define TRAIT_SUPPLYDEPUTY "supplydeputy"
 #define TRAIT_SERVICEDEPUTY "servicedeputy"
-/// Used to assign the Service deputy, since TG doesnt have such a thing
+///Service deputy's assigned department
 #define SEC_DEPT_SERVICE "Service"
 
-/*
- *	Misc Defines
- */
-/// Defines the bullet type for Joel's gun, used in joel_gun.dm
-#define CALIBER_C22 ".c22"
-/// Human sub-species defines
-#define SPECIES_BEEFMAN "beefman"
-#define isbeefman(A) (is_species(A,/datum/species/beefman))
-/// Defines the Mentorhelp's Mentorsay button
-#define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
-///Job defines for Spawners
-#define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology"
-#define ROLE_BEEFMAN_STATION "Beefman Station"
+#define JOB_BRIG_PHYSICIAN "Brig Physician"
+#define JOB_DEPUTY "Deputy"
+#define JOB_DEPUTY_ENG "Engineering Deputy"
+#define JOB_DEPUTY_MED "Medical Deputy"
+#define JOB_DEPUTY_SUP "Supply Deputy"
+#define JOB_DEPUTY_SCI "Science Deputy"
+#define JOB_DEPUTY_SRV "Service Deputy"
 
-/*
- *	Antag Tip Defines
+#define SECHUD_BRIG_PHYSICIAN "hudbrigphysician"
+#define SECHUD_DEPUTY "huddeputy"
+#define SECHUD_DEPUTY_ENGINEERING "hudengineeringdeputy"
+#define SECHUD_DEPUTY_MEDICAL "hudmedicaldeputy"
+#define SECHUD_DEPUTY_SCIENCE "hudsciencedeputy"
+#define SECHUD_DEPUTY_SUPPLY "hudsupplydeputy"
+#define SECHUD_DEPUTY_SERVICE "hudservicedeputy"
+
+/**
+ * # SPECIES
  */
-///Antag Tips - Abductors
+///Beefmen Species define
+#define SPECIES_BEEFMAN "beefman"
+///Check if we are indeed a Beefman
+#define isbeefman(A) (is_species(A, /datum/species/beefman))
+///Job define for the Beefmen Cytology (Icemoon) Spawner
+#define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology Scientist"
+///Job define for the Beefmen Station (Space) Spawner
+#define ROLE_BEEFMAN_STATION "Beefman Station Inhabitant"
+
+/**
+ * # PRISON DEFINES
+ */
+#define ACCOUNT_PRISON "PRS"
+#define ACCOUNT_PRISON_NAME "Prison Budget"
+#define COMSIG_PRISON_OBJECTIVE_COMPLETED "prison_objective_complete"
+#define COMSIG_PRISON_OBJECTIVE_FAILED "prison_objective_failed"
+#define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
+#define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
+
+/**
+ * # ANTAG TIPS
+ */
+///Abductors
 #define ABDUCTOR_TIPS "abductor"
-///Antag Tips - Bloodsuckers
+///Bloodsuckers
 #define BLOODSUCKER_TIPS "bloodsucker"
-///Antag Tips - Changelings
+///Changelings
 #define CHANGELING_TIPS "changeling"
-///Antag Tips - Cultists
+///Cultists
 #define CULTIST_TIPS "cultist"
-///Antag Tips - Heretics
+///Heretics
 #define HERETIC_TIPS "heretic"
-///Antag Tips - Imposter Wizard
-#define IMPOSTER_TIPS "imposter"
-///Antag Tips - Malfunctional AIs
+///Malfunctional AIs
 #define MALF_TIPS "malf_ai"
-///Antag Tips - Monster Hunters
+///Monster Hunters
 #define MONSTERHUNTER_TIPS "monsterhunter"
-///Antag Tips - Nuclear Operatives
+///Nuclear Operatives
 #define NUKIE_TIPS "nukie"
-///Antag Tips - Revolutionaries
+///Revolutionaries
 #define REVOLUTIONARY_TIPS "revolutionary"
-///Antag Tips - Traitor
+///Traitors
 #define TRAITOR_TIPS "traitor"
-///Antag Tips - Vassals
+///Vassals
 #define VASSAL_TIPS "vassal"
-///Antag Tips - Wizard Apprentice
-#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
-///Antag Tips - Wizard
+///Wizards
 #define WIZARD_TIPS "wizard"
+///Wizard Apprentices
+#define WIZARD_APPRENTICE_TIPS "wiz_apprentice"
+///Imposter Wizard
+#define WIZ_IMPOSTER_TIPS "imposter"
+
+
+/**
+ * # MISC
+ */
+
+///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
+#define CALIBER_C22 ".c22"
+
+///Mentorsay's keybind being pressed.
+#define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
