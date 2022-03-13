@@ -257,9 +257,9 @@
 		span_notice("Your [affecting.name] pops right off."))
 	playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_hit.ogg', 40, 1)
 	// Destroy Limb, Drop Meat, Pick Up
-	var/obj/item/dropped_meat = affecting.drop_limb()
+	var/obj/item/food/meat/slab/dropped_meat = affecting.drop_limb()
 	//This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
-	if(istype(dropped_meat, /obj/item/food/meat/slab))
+	if(dropped_meat)
 		user.put_in_hands(dropped_meat)
 	return TRUE
 
