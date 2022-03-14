@@ -106,15 +106,15 @@
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = hit_atom
 	var/turf/target_turf = get_turf(target)
-	// Check: Will our lunge knock them down? This is done if the target is looking away, the user is in Cloak of Darkness, or in a closet.
-	var/do_knockdown = level_current >= 4 && (!is_source_facing_target(target, owner) || owner.alpha <= 40)
 
-	// We got a target?
 	// Am I next to my target to start giving the effects?
 	if(!user.Adjacent(target))
 		return
-	// Did I slip?
-	if(!user.body_position == STANDING_UP)
+	// Did I slip or get knocked unconscious?
+	if(user.body_position != STANDING_UP || user.incapacitated())
+		var/send_dir = get_dir(user, target_turf)
+		new /datum/forced_movement(user, get_ranged_target_turf(user, send_dir, 1), 1, FALSE)
+		user.spin(10)
 		return
 	// Is my target a Monster hunter?
 	if(IS_MONSTERHUNTER(target) || target.is_shove_knockdown_blocked())
@@ -140,17 +140,10 @@
 	target.grabbedby(owner)
 	target.grippedby(owner, instant = TRUE)
 	// Did we knock them down?
-	if(do_knockdown)
+	if(level_current >= 4 && (!is_source_facing_target(target, owner) || owner.alpha <= 40))
 		target.Knockdown(10 + level_current * 5)
 		target.Paralyze(0.1)
-	// Lastly, did we get knocked down by the time we did this?
-	if(user.incapacitated())
-		if(user.body_position == LYING_DOWN)
-			return
-		var/send_dir = get_dir(user, target_turf)
-		new /datum/forced_movement(user, get_ranged_target_turf(user, send_dir, 1), 1, FALSE)
-		user.spin(10)
 
 /datum/action/bloodsucker/targeted/lunge/DeactivatePower()
 	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-	. = ..()
+	return ..()
