@@ -29,6 +29,8 @@
 	var/humanity_lost = 0
 	///Have we been broken the Masquerade?
 	var/broke_masquerade = FALSE
+	///How many Masquerade Infractions do we have?
+	var/masquerade_infractions = 0
 	///Blood required to enter Frenzy
 	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
 	///If we are currently in a Frenzy
@@ -384,6 +386,13 @@
 		user_eyes.see_in_dark = 2
 		user_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
 	user.update_sight()
+
+/datum/antagonist/bloodsucker/proc/give_masquerade_infraction()
+	masquerade_infractions++
+	if(masquerade_infractions >= 3)
+		break_masquerade()
+	else
+		to_chat(owner.current, span_cultbold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	set waitfor = FALSE
