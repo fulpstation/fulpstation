@@ -6,7 +6,9 @@
 	desc = "Feed blood off of a living creature."
 	button_icon_state = "power_feed"
 	power_explanation = "<b>Feed</b>:\n\
+		NOTE: Feed can't be used until you reach your first Bloodsucker level.\n\
 		Activate Feed while next to someone and you will begin to feed blood off of them.\n\
+		The time needed before you start feeding speeds up the higher level you are.\n\
 		Feeding off of someone while you have them <b>aggressively</b> grabbed will put them to sleep.\n\
 		While feeding, you can't speak, as your mouth is covered.\n\
 		Feeding while nearby (2 tiles away from) a mortal who is unaware of Bloodsuckers' existence, will cause a Masquerade Infraction\n\
@@ -15,7 +17,6 @@
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY
 	bloodcost = 0
-	level_current = 1
 	cooldown = 15 SECONDS
 	///Amount of blood taken, reset after each Feed. Used for logging.
 	var/blood_taken = 0
@@ -27,6 +28,10 @@
 /datum/action/bloodsucker/feed/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
+		return FALSE
+	if(!level_current)
+		owner.balloon_alert(owner, "too weak!")
+		to_chat(owner, span_warning("You can't use [src] until you level up."))
 		return FALSE
 	if(user.is_mouth_covered())
 		owner.balloon_alert(owner, "mouth covered!")
@@ -79,10 +84,11 @@
 		owner.balloon_alert(owner, "interrupted!")
 		DeactivatePower()
 		return
-	if(!IS_BLOODSUCKER(feed_target) && !IS_VASSAL(feed_target) && !IS_MONSTERHUNTER(feed_target))
-		feed_target.Unconscious((5 SECONDS + level_current))
-	if(!feed_target.density)
-		feed_target.Move(owner.loc)
+	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
+		if(!IS_BLOODSUCKER(feed_target) && !IS_VASSAL(feed_target) && !IS_MONSTERHUNTER(feed_target))
+			feed_target.Unconscious((5 SECONDS + level_current))
+		if(!feed_target.density)
+			feed_target.Move(owner.loc)
 	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
 		owner.visible_message(
 			span_warning("[owner] closes [owner.p_their()] mouth around [feed_target]'s neck!"),
