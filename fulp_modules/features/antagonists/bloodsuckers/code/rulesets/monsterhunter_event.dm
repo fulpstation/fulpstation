@@ -1,10 +1,4 @@
-/*
- * 		MONSTER HUNTERS:
- * 	Their job is to hunt Monsters (obviously).
- * 	I didnt know what better way to implement this, so they just cancel out if there's no monsters.
- */
-
-/// Spawns monster hunters.
+// Spawns monster hunters.
 /datum/round_event_control/monster_hunters
 	name = "Spawn Monster Hunter"
 	typepath = /datum/round_event/monster_hunters
@@ -16,15 +10,15 @@
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
-	var/cancel_me = FALSE
+	///Whether the event should be cancelled.
+	var/cancel_me = TRUE
 
 /datum/round_event/monster_hunters/start()
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(!IS_CULTIST(H) && !IS_HERETIC(H) && !IS_BLOODSUCKER(H) && !IS_WIZARD(H) && !H.mind.has_antag_datum(/datum/antagonist/changeling))
-			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
-			cancel_me = TRUE
+		if(IS_CULTIST(H) || IS_HERETIC(H) || IS_BLOODSUCKER(H) || IS_WIZARD(H) || H.mind.has_antag_datum(/datum/antagonist/changeling))
+			message_admins("MONSTERHUNTER NOTICE: Monster Hunters found a valid Monster.")
+			cancel_me = FALSE
 			break
-		message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
 	// because kill() doesn't work.
 	if(cancel_me)
 		return
