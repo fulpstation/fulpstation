@@ -123,7 +123,7 @@
 
 	ADD_TRAIT(owner, TRAIT_MUTE, FEED_TRAIT)
 	ADD_TRAIT(owner, TRAIT_IMMOBILIZED, FEED_TRAIT)
-	. = ..()
+	return ..()
 
 /datum/action/bloodsucker/feed/UsePower(mob/living/user)
 	var/mob/living/feed_target = target_ref.resolve()
