@@ -57,7 +57,7 @@
 	attack_verb = "meat"
 	payday_modifier = 0.75
 	speedmod = -0.2
-	armor = -2
+	armor = -20
 	punchdamagelow = 1
 	punchdamagehigh = 5
 	siemens_coeff = 0.7 // base electrocution coefficient
