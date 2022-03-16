@@ -1,10 +1,4 @@
-/*
- * 		MONSTER HUNTERS:
- * 	Their job is to hunt Monsters (obviously).
- * 	I didnt know what better way to implement this, so they just cancel out if there's no monsters.
- */
-
-/// Spawns monster hunters.
+// Spawns monster hunters.
 /datum/round_event_control/monster_hunters
 	name = "Spawn Monster Hunter"
 	typepath = /datum/round_event/monster_hunters
@@ -16,31 +10,30 @@
 
 /datum/round_event/monster_hunters
 	fakeable = FALSE
-	var/cancel_me = FALSE
+	///Whether the event should be cancelled.
+	var/cancel_me = TRUE
 
 /datum/round_event/monster_hunters/start()
-	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(!IS_CULTIST(H) && !IS_HERETIC(H) && !IS_BLOODSUCKER(H) && !IS_WIZARD(H) && !H.mind.has_antag_datum(/datum/antagonist/changeling))
-			message_admins("MONSTERHUNTER NOTICE: Monster Hunters couldnt verify any Monsters.")
-			cancel_me = TRUE
+	for(var/mob/living/carbon/human/all_players in GLOB.player_list)
+		if(IS_CULTIST(all_players) || IS_HERETIC(all_players) || IS_BLOODSUCKER(all_players) || IS_WIZARD(all_players) || all_players.mind.has_antag_datum(/datum/antagonist/changeling))
+			message_admins("MONSTERHUNTER NOTICE: Monster Hunters found a valid Monster.")
+			cancel_me = FALSE
 			break
-		message_admins("MONSTERHUNTER NOTICE: A Monster Hunter is attempting to awaken.")
-	// because kill() doesn't work.
 	if(cancel_me)
+		kill()
 		return
-	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		/// From obsessed
-		if(!H.client || !H.mind || !(ROLE_MONSTERHUNTER in H.client.prefs.be_special))
+	for(var/mob/living/carbon/human/all_players in shuffle(GLOB.player_list))
+		if(!all_players.client || !all_players.mind || !(ROLE_MONSTERHUNTER in all_players.client.prefs.be_special))
 			continue
-		if(H.stat == DEAD)
+		if(all_players.stat == DEAD)
 			continue
-		if(H.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND))
+		if(all_players.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND))
 			continue
-		/// Bobux no IS_CHANGELING
-		if(IS_HERETIC(H) || IS_CULTIST(H) || IS_BLOODSUCKER(H) || IS_VASSAL(H) || IS_WIZARD(H) || H.mind.has_antag_datum(/datum/antagonist/changeling))
+		// Bobux no IS_CHANGELING
+		if(IS_HERETIC(all_players) || IS_CULTIST(all_players) || IS_BLOODSUCKER(all_players) || IS_VASSAL(all_players) || IS_WIZARD(all_players) || all_players.mind.has_antag_datum(/datum/antagonist/changeling))
 			continue
-		if(!H.getorgan(/obj/item/organ/brain))
+		if(!all_players.getorgan(/obj/item/organ/brain))
 			continue
-		H.mind.add_antag_datum(/datum/antagonist/monsterhunter)
-		message_admins("MONSTERHUNTER NOTICE: [H] has awoken as a Monster Hunter.")
+		all_players.mind.add_antag_datum(/datum/antagonist/monsterhunter)
+		message_admins("MONSTERHUNTER NOTICE: [all_players] has awoken as a Monster Hunter.")
 		break
