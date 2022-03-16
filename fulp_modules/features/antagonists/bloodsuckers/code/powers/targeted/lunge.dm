@@ -60,11 +60,11 @@
 	var/turf/targeted_turf = get_turf(target)
 
 	owner.face_atom(target_atom)
-	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	if(level_current <= 3 && !prepare_target_lunge(target_atom))
 		PowerActivatedSuccessfully()
 		return
 
+	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	var/safety = get_dist(user, targeted_turf) * 3 + 1
 	var/consequetive_failures = 0
 	while(--safety && !target.Adjacent(user))
