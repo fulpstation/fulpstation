@@ -32,7 +32,6 @@
 
 	mail_goodies = list(
 		/obj/item/storage/fancy/cigarettes = 15,
-		/obj/item/pizzabox = 10,
 		/obj/effect/spawner/random/food_or_drink/donkpockets = 10,
 		/obj/item/storage/box/handcuffs = 10,
 		/obj/item/clothing/mask/whistle = 5,
@@ -40,6 +39,10 @@
 		/obj/item/crowbar/large = 1,
 		/obj/item/melee/baton/security/boomerang/loaded = 1,
 		/obj/item/clothing/gloves/tackler/offbrand = 1,
+		/obj/item/pizzabox/margherita = 3,
+		/obj/item/pizzabox/meat = 3,
+		/obj/item/pizzabox/vegetable = 2,
+		/obj/item/pizzabox/mushroom = 2,
 	)
 	rpg_title = "Independent Guardsman"
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN

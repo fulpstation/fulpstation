@@ -65,10 +65,7 @@
 	// Apply my Reagents to Meat
 	if(inOwner.reagents && inOwner.reagents.total_volume)
 		inOwner.reagents.trans_to(new_meat, 20)	// Run transfer of 1 unit of reagent from them to me.
-
-	if(!dismembered)
-		inOwner.put_in_hands(new_meat)
-	. = new_meat
+	return new_meat
 
 
 /**
@@ -101,14 +98,10 @@
 /obj/item/bodypart/r_arm/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache)
 		qdel(src)
-
-/obj/item/bodypart/r_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+		return new_meat
 
 /obj/item/bodypart/l_arm/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -120,14 +113,10 @@
 /obj/item/bodypart/l_arm/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
-
-/obj/item/bodypart/l_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+		return new_meat
 
 /obj/item/bodypart/r_leg/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -139,14 +128,10 @@
 /obj/item/bodypart/r_leg/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
-
-/obj/item/bodypart/r_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+		return new_meat
 
 /obj/item/bodypart/l_leg/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -158,11 +143,8 @@
 /obj/item/bodypart/l_leg/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
+		return new_meat
 
-/obj/item/bodypart/l_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
