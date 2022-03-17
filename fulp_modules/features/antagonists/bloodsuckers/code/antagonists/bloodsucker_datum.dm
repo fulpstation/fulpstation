@@ -388,6 +388,8 @@
 	user.update_sight()
 
 /datum/antagonist/bloodsucker/proc/give_masquerade_infraction()
+	if(broke_masquerade)
+		return
 	masquerade_infractions++
 	if(masquerade_infractions >= 3)
 		break_masquerade()
