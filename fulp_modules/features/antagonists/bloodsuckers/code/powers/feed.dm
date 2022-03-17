@@ -71,7 +71,7 @@
 		feed_target.death()
 		bloodsuckerdatum_power.AddBloodVolume(25)
 		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))
-		if(bloodsuckerdatum_power.my_clan != (CLAN_NOSFERATU|CLAN_MALKAVIAN))
+		if(bloodsuckerdatum_power.my_clan != CLAN_NOSFERATU && bloodsuckerdatum_power.my_clan != CLAN_MALKAVIAN)
 			SEND_SIGNAL(owner, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 			bloodsuckerdatum_power.AddHumanityLost(1)
 		DeactivatePower()
