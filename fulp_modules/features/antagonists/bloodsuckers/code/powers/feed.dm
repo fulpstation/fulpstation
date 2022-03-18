@@ -30,6 +30,8 @@
 	. = ..()
 	if(!.)
 		return FALSE
+	if(target_ref) //already sucking blood.
+		return FALSE
 	if(!level_current)
 		owner.balloon_alert(owner, "too weak!")
 		to_chat(owner, span_warning("You can't use [src] until you level up."))
@@ -50,8 +52,8 @@
 	return TRUE
 
 /datum/action/bloodsucker/feed/DeactivatePower()
-	var/mob/living/feed_target = target_ref.resolve()
-	if(feed_target)
+	if(target_ref)
+		var/mob/living/feed_target = target_ref.resolve()
 		log_combat(owner, feed_target, "fed on blood", addition="(and took [blood_taken] blood)")
 		owner.balloon_alert(owner, "feed stopped")
 		to_chat(owner, span_notice("You slowly release [feed_target]."))
