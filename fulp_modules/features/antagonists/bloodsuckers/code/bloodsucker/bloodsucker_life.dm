@@ -415,7 +415,7 @@
 	timeout = 8 MINUTES
 
 /datum/mood_event/drankkilled
-	description = "<span class='boldwarning'>I drank from my victim until they died. I feel... less human.</span>\n"
+	description = "<span class='boldwarning'>I fed off of a dead person. I feel... less human.</span>\n"
 	mood_change = -15
 	timeout = 10 MINUTES
 
