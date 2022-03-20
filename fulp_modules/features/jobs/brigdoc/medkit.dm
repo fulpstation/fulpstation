@@ -1,4 +1,4 @@
-/obj/item/storage/firstaid/medical/brigdoc
+/obj/item/storage/medkit/surgery/brigdoc
 	name = "medical aid kit"
 	icon = 'fulp_modules/features/jobs/icons/medkit.dmi'
 	lefthand_file = 'fulp_modules/features/jobs/icons/medkit_lefthand.dmi'
@@ -7,9 +7,7 @@
 	inhand_icon_state = "brigdoc_medkit"
 	desc = "A high capacity aid kit for brig physicians, full of medical supplies and basic equipment to aid them in their duties."
 
-/obj/item/storage/firstaid/medical/brigdoc/PopulateContents()
-	if(empty)
-		return
+/obj/item/storage/medkit/surgery/brigdoc/PopulateContents()
 	var/static/items_inside = list(
 		/obj/item/stack/medical/gauze/twelve = 1,
 		/obj/item/stack/medical/suture = 2,
