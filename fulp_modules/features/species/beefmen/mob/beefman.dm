@@ -1,5 +1,6 @@
 /datum/species/beefman
 	name = "Beefman"
+	plural_form = "Beefmen"
 	id = SPECIES_BEEFMAN
 	limbs_id = "beefman"
 	say_mod = "gurgles"
