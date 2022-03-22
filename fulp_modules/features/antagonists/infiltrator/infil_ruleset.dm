@@ -52,7 +52,7 @@
 		return MAP_ERROR
 
 
-	var/list/candidates = get_candidates(ROLE_INFILTRATOR, ROLE_INFILTRATOR)
+	var/list/candidates = get_candidates(ROLE_INFILTRATOR, ROLE_SYNDICATE)
 	if(!candidates.len)
 		return NOT_ENOUGH_PLAYERS
 
