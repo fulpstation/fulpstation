@@ -946,6 +946,8 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/monsterhunter,
 		/datum/objective/bloodsucker/vassalhim,
 		/datum/objective/bloodsucker/frenzy,
+		// IAA OBJECTIVES //
+		/datum/objective/assassinate/internal,
 		// Fulp edit END
 		/datum/objective/destroy,
 		/datum/objective/hijack,

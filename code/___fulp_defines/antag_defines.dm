@@ -5,6 +5,7 @@
 #define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
+#define ROLE_INTERNAL_AFFAIRS "Internal Affairs Agent"
 #define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
 #define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
 #define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
@@ -66,6 +67,8 @@
 #define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
 #define STATUS_EFFECT_FRENZY /datum/status_effect/frenzy
 
+///File to the IAA flavor
+#define IAA_FLAVOR_FILE "internalaffair_flavor.json"
 
 /**
  * Clan defines
