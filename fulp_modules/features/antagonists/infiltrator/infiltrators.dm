@@ -9,7 +9,6 @@
 	antag_moodlet = /datum/mood_event/focused
 	preview_outfit = /datum/outfit/infiltrator
 	var/give_equipment = TRUE
-	var/list/infil_flavor
 
 /datum/job/infiltrator
 	title = ROLE_INFILTRATOR
