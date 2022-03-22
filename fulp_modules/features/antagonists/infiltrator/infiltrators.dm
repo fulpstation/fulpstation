@@ -37,7 +37,6 @@
 		/obj/item/storage/box/survival/syndie = 1,
 		/obj/item/knife/combat/survival = 1,
 	)
-	id = /obj/item/card/id/advanced/chameleon
 	l_hand = /obj/item/tank/jetpack
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/combat
