@@ -60,8 +60,9 @@
 	head = /obj/item/clothing/head/helmet/space/syndicate
 	ears = /obj/item/radio/headset
 	back = /obj/item/storage/backpack/old
-	backpack_contents = list(/obj/item/storage/box/survival/syndie=1,\
-		/obj/item/knife/combat/survival,
+	backpack_contents = list(
+		/obj/item/storage/box/survival/syndie = 1,
+		/obj/item/knife/combat/survival = 1,
 	)
 	id = /obj/item/card/id/advanced/chameleon
 	l_hand = /obj/item/tank/jetpack
