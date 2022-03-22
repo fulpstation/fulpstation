@@ -1,3 +1,5 @@
+#define ADD_STEAL_ITEM(Source, Type) GLOB.steal_item_handler.objectives_by_path[Type] += Source
+
 /// Default Deputy
 /datum/outfit/job/deputy
 	name = "Deputy"
@@ -174,11 +176,17 @@
 	. = ..()
 	AddElement(/datum/element/radiation_protected_clothing)
 
+/obj/item/clothing/head/fulpberet/engineering/add_stealing_item_objective()
+	ADD_STEAL_ITEM(src, /obj/item/clothing/head/fulpberet/engineering)
+
 /obj/item/clothing/head/fulpberet/medical
 	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 10, BIO = 100, FIRE = 60, ACID = 75, WOUND = 5) // CMO level
 	name = "medical deputy beret"
 	desc = "This proud white-blue beret is a welcome sight when the greytide descends on chemistry, or just used as a bio hood."
 	icon_state = "beret_medbay"
+
+/obj/item/clothing/head/fulpberet/medical/add_stealing_item_objective()
+	ADD_STEAL_ITEM(src, /obj/item/clothing/head/fulpberet/medical)
 
 /obj/item/clothing/head/fulpberet/science
 	armor = list(MELEE = 30, BULLET = 30, LASER = 25, ENERGY = 20, BOMB = 100, BIO = 100, FIRE = 60, ACID = 80, WOUND = 5) // RD level
@@ -186,11 +194,17 @@
 	desc = "This loud purple beret screams 'Dont mess with his matter manipulator!'. Fairly bomb resistant."
 	icon_state = "beret_science"
 
+/obj/item/clothing/head/fulpberet/science/add_stealing_item_objective()
+	ADD_STEAL_ITEM(src, /obj/item/clothing/head/fulpberet/science)
+
 /obj/item/clothing/head/fulpberet/supply
 	armor = list(MELEE = 20, BULLET = 60, LASER = 10, ENERGY = 10, BOMB = 30, BIO = 10, FIRE = 50, ACID = 60, WOUND = 5) /// Bulletproof helmet level
 	name = "supply deputy beret"
 	desc = "The headwear for only the most eagle-eyed Deputy, able to watch both Cargo and Mining. It looks like it's been reinforced due to 'Cargonian' problems."
 	icon_state = "beret_supply"
+
+/obj/item/clothing/head/fulpberet/supply/add_stealing_item_objective()
+	ADD_STEAL_ITEM(src, /obj/item/clothing/head/fulpberet/supply)
 
 /obj/item/clothing/head/fulpberet/service
 	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15) // Captain level
@@ -266,3 +280,5 @@
 	new /obj/item/grenade/smokebomb(src)
 	new /obj/item/holosign_creator/security(src)
 	update_appearance()
+
+#undef ADD_STEAL_ITEM

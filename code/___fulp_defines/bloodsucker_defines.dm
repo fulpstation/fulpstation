@@ -54,6 +54,8 @@
  */
 /// Source trait for Bloodsuckers-related traits
 #define BLOODSUCKER_TRAIT "bloodsucker_trait"
+/// Source trait while Feeding
+#define FEED_TRAIT "feed_trait"
 /// Source trait during a Frenzy
 #define FRENZY_TRAIT "frenzy_trait"
 
@@ -69,13 +71,12 @@
  * Clan defines
  */
 #define CLAN_BRUJAH "Brujah Clan"
+#define CLAN_TOREADOR "Toreador Clan"
 #define CLAN_NOSFERATU "Nosferatu Clan"
 #define CLAN_TREMERE "Tremere Clan"
+#define CLAN_GANGREL "Gangrel Clan"
 #define CLAN_VENTRUE "Ventrue Clan"
 #define CLAN_MALKAVIAN "Malkavian Clan"
-// Flavortext-only clans
-#define CLAN_TOREADOR "Toreador Clan"
-#define CLAN_GANGREL "Gangrel Clan"
 
 /**
  * Power defines

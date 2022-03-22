@@ -23,8 +23,6 @@
 - _maps/heliostation.json
 - _maps/map_files/SeleneStation.dmm
 - _maps/Selenestation.json
-- _maps/map_files/Solitairestation.dmm
-- _maps/Solitairestation.json
 - _maps/map_files/PubbyStation.dmm
 - _maps/pubbystation.json
 
