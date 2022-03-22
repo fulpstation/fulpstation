@@ -7,6 +7,7 @@
 		JOB_DETECTIVE,
 		JOB_HEAD_OF_SECURITY,
 		JOB_SECURITY_OFFICER,
+		JOB_WARDEN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -27,15 +28,6 @@
 		return MAP_ERROR
 	return ..()
 
-/datum/round_event_control/infiltrator
-	name = "Spawn Infiltrator"
-	typepath = /datum/round_event/ghost_role/infiltrator
-	max_occurrences = 2
-	weight = 5
-	earliest_start = 20 MINUTES
-	min_players = 15
-	dynamic_should_hijack = TRUE
-
 /datum/round_event/ghost_role/infiltrator
 	minimum_required = 1
 	role_name = "Infiltrator"
@@ -52,7 +44,7 @@
 		return MAP_ERROR
 
 
-	var/list/candidates = get_candidates(ROLE_INFILTRATOR, ROLE_SYNDICATE)
+	var/list/candidates = get_candidates(ROLE_INFILTRATOR, ROLE_INFILTRATOR)
 	if(!candidates.len)
 		return NOT_ENOUGH_PLAYERS
 

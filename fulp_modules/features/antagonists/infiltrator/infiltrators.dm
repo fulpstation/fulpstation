@@ -17,36 +17,12 @@
 	return infiltrator.equipOutfit(/datum/outfit/infiltrator)
 
 /datum/antagonist/traitor/infiltrator/on_gain()
-	. = ..()
+	..()
 	if(give_equipment)
 		equip_infiltrator(owner.current)
 	owner.current.mind.set_assigned_role(SSjob.GetJobType(/datum/job/infiltrator))
 	owner.current.mind.special_role = ROLE_INFILTRATOR
 	traitor_flavor = strings("infiltrator_flavor.json", "infiltrator", "fulp_modules/strings/infils")
-
-/datum/antagonist/traitor/infiltrator/greet()
-	. = ..()
-	owner.announce_objectives()
-
-/datum/antagonist/traitor/infiltrator/ui_static_data(mob/user)
-	var/datum/component/uplink/uplink = uplink_ref?.resolve()
-	var/list/data = list()
-	data["has_codewords"] = should_give_codewords
-	if(should_give_codewords)
-		data["phrases"] = jointext(GLOB.syndicate_code_phrase, ", ")
-		data["responses"] = jointext(GLOB.syndicate_code_response, ", ")
-	data["theme"] = infil_flavor["ui_theme"]
-	data["code"] = uplink?.unlock_code
-	data["failsafe_code"] = uplink?.failsafe_code
-	data["intro"] = infil_flavor["introduction"]
-	data["allies"] = infil_flavor["allies"]
-	data["goal"] = infil_flavor["goal"]
-	data["has_uplink"] = uplink ? TRUE : FALSE
-	if(uplink)
-		data["uplink_intro"] = infil_flavor["uplink"]
-		data["uplink_unlock_info"] = uplink.unlock_text
-	data["objectives"] = get_objectives()
-	return data
 
 /datum/outfit/infiltrator
 	name = "Infiltrator"
