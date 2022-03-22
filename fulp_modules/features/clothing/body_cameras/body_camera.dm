@@ -37,12 +37,14 @@
 	builtin_bodycamera.internal_light = FALSE
 	builtin_bodycamera.network = list("ss13")
 	builtin_bodycamera.c_tag = "-Body Camera: [(id_card.registered_name)] ([id_card.assignment])"
-	user.balloon_alert(user, "bodycamera activated.")
 	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
+	if(user)
+		user.balloon_alert(user, "bodycamera activated.")
 
 /obj/item/bodycam_upgrade/proc/turn_off(mob/user)
+	if(user)
+		user.balloon_alert(user, "bodycamera deactivated.")
 	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
-	user.balloon_alert(user, "bodycamera deactivated.")
 	QDEL_NULL(builtin_bodycamera)
 
 
@@ -82,7 +84,7 @@
 /// When the camera holder is unequipped
 /datum/component/bodycamera_holder/proc/on_unequip(mob/living/source, force, atom/newloc, no_move, invdrop, silent)
 	SIGNAL_HANDLER
-	turn_camera_off(source)
+	turn_camera_off()
 
 /// When examining
 /datum/component/bodycamera_holder/proc/on_examine_more(atom/source, mob/user, list/examine_list)
