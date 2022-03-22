@@ -18,14 +18,12 @@
 	return infiltrator.equipOutfit(/datum/outfit/infiltrator)
 
 /datum/antagonist/traitor/infiltrator/on_gain()
-	if(give_objectives)
-		forge_traitor_objectives()
+	. = ..()
 	if(give_equipment)
 		equip_infiltrator(owner.current)
 	owner.current.mind.set_assigned_role(SSjob.GetJobType(/datum/job/infiltrator))
 	owner.current.mind.special_role = ROLE_INFILTRATOR
 	infil_flavor = strings("infiltrator_flavor.json", "infiltrator", "fulp_modules/strings/infils")
-	return ..()
 
 /datum/antagonist/traitor/infiltrator/greet()
 	. = ..()
