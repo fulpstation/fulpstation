@@ -22,7 +22,7 @@
 		equip_infiltrator(owner.current)
 	owner.current.mind.set_assigned_role(SSjob.GetJobType(/datum/job/infiltrator))
 	owner.current.mind.special_role = ROLE_INFILTRATOR
-	infil_flavor = strings("infiltrator_flavor.json", "infiltrator", "fulp_modules/strings/infils")
+	traitor_flavor = strings("infiltrator_flavor.json", "infiltrator", "fulp_modules/strings/infils")
 
 /datum/antagonist/traitor/infiltrator/greet()
 	. = ..()
