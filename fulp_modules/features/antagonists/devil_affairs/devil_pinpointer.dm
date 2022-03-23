@@ -1,13 +1,13 @@
-/atom/movable/screen/alert/status_effect/agent_pinpointer/internal_affairs
+/atom/movable/screen/alert/status_effect/agent_pinpointer/devil_affairs
 	name = "Internal Affairs Integrated Pinpointer"
 	desc = "Even stealthier than a normal implant."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "pinon"
 
-/datum/status_effect/agent_pinpointer/internal_affairs
-	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/internal_affairs
+/datum/status_effect/agent_pinpointer/devil_affairs
+	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/devil_affairs
 
-/datum/status_effect/agent_pinpointer/internal_affairs/scan_for_target()
+/datum/status_effect/agent_pinpointer/devil_affairs/scan_for_target()
 	scan_target = null
 	if(!owner && !owner.mind)
 		return

@@ -2,9 +2,9 @@ import { Antagonist, Category } from "../base";
 import { multiline } from "common/string";
 import { TRAITOR_MECHANICAL_DESCRIPTION } from "./traitor";
 
-const InternalAffairsAgent: Antagonist = {
-  key: "internalaffairsagent",
-  name: "Internal Affairs Agent",
+const DevilAffairsAgent: Antagonist = {
+  key: "devilaffairsagent",
+  name: "Devil Affairs Agent",
   description: [
     multiline`
       Sent by either Nanotrasen or the Syndicate, find and kill your target,
@@ -16,4 +16,4 @@ const InternalAffairsAgent: Antagonist = {
   category: Category.Roundstart,
 };
 
-export default InternalAffairsAgent;
+export default DevilAffairsAgent;
