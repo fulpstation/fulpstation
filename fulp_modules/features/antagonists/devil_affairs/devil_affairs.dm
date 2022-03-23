@@ -15,6 +15,7 @@
 	RegisterSignal(owner.current, COMSIG_LIVING_REVIVE, .proc/on_revive)
 	RegisterSignal(owner.current, COMSIG_LIVING_DEATH, .proc/on_death)
 	uplink_handler.has_progression = FALSE
+	uplink_handler.has_objectives = FALSE
 	pick_employer()
 
 /datum/antagonist/traitor/devil_affairs/on_removal()
