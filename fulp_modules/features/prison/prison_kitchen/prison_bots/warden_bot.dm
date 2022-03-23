@@ -1,7 +1,7 @@
 // Warden bot
 /datum/customer_data/warden
 	prefix_file = "fulp_modules/features/prison/prison_kitchen/prefixes/warden_prefix.txt"
-	base_icon = "italian"
+	base_icon_state = "italian"
 	// We set a non-existant icon_state because TG's code REQUIRES we have one, but we set one ourselves later.
 	clothing_sets = list("iamnotreal")
 

@@ -255,11 +255,13 @@
 	announce_deputy(user, assigned_department, channel)
 	to_chat(player, "<b>You have been assigned to [assigned_department]!</b>")
 
+
 /datum/job/deputy/proc/announce_deputy(mob/deputy, department, channel)
 	var/obj/machinery/announcement_system/announcement_system = pick(GLOB.announcement_systems)
 	if(isnull(announcement_system))
 		return
 	announcement_system.announce_deputy(deputy, department, channel)
+
 
 /obj/machinery/announcement_system/proc/announce_deputy(mob/deputy, department, channel)
 	if(!is_operational)

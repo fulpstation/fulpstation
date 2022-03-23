@@ -59,7 +59,7 @@ Jumpsuits (/obj/item/clothing/suit) may need additional measures
 [2] 'fitted' is for alternative clothing for women, saying how much the game can safely "take off" the uniform without it looking weird. The options are:
 1 - NO_FEMALE_UNIFORM
 2 - FEMALE_UNIFORM_FULL
-3 - FEMALE_UNIFORM_TOP
+3 - FEMALE_UNIFORM_TOP_ONLY
 
 #### Hardhats
 
