@@ -124,7 +124,7 @@
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
 	for(var/area/shuttle/shuttle_area in shuttle_areas)
 		for(var/turf/shuttle_turf in shuttle_area)
-			if(iswallturf(shuttle_turf))
+			if(iswallturf(shuttle_turf) || isstructure(shuttle_turf))
 				continue
 			if(!pod_loc && prob(5))
 				pod_loc = shuttle_turf
