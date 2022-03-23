@@ -6,7 +6,7 @@
 
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 
-- code/game/area/areas/shuttle.dm > Plays ApproachingFulp instead of ApproachingTG
+- code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
 - code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
 
@@ -39,4 +39,3 @@
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/beefman_features.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/character_preferences/antag_tips.tsx
-- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/species/beefman.ts

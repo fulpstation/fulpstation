@@ -83,7 +83,7 @@
 	var/rawchar = ""
 	for(var/i = 1, i <= leng, i += length(rawchar))
 		rawchar = newletter = phrase[i]
-		if(rand(1, 3) == 3)
+		if(prob(33))
 			var/lowerletter = lowertext(newletter)
 			if(lowerletter == "o")
 				newletter = "u"
@@ -120,7 +120,7 @@
 	var/rawchar = ""
 	for(var/i = 1, i <= leng, i += length(rawchar))
 		rawchar = newletter = phrase[i]
-		if(rand(1, 2) == 2)
+		if(prob(50))
 			var/lowerletter = lowertext(newletter)
 			if(lowerletter == "o")
 				newletter = "u"
@@ -134,7 +134,7 @@
 				newletter = " NAR "
 			else if(lowerletter == "s")
 				newletter = " SIE "
-		if(rand(1, 4) == 4)
+		if(prob(25))
 			if(newletter == " ")
 				newletter = " no hope... "
 			else if(newletter == "H")
@@ -152,6 +152,7 @@
 					newletter = "nglu"
 				if(5)
 					newletter = "glor"
+		. += newletter
 	return sanitize(.)
 
 ///Adds stuttering to the message passed in
@@ -486,7 +487,7 @@
 		if(LOG_RADIO_EMOTE)
 			colored_message = "(RADIOEMOTE) [colored_message]"
 
-	var/list/timestamped_message = list("\[[time_stamp()]\] [key_name(src)] [loc_name(src)] (Event #[LAZYLEN(logging[smessage_type])])" = colored_message)
+	var/list/timestamped_message = list("\[[time_stamp(format = "YYYY-MM-DD hh:mm:ss")]\] [key_name(src)] [loc_name(src)] (Event #[LAZYLEN(logging[smessage_type])])" = colored_message)
 
 	logging[smessage_type] += timestamped_message
 
@@ -531,3 +532,9 @@
 ///Can this mob hold items
 /mob/proc/can_hold_items(obj/item/I)
 	return length(held_items)
+
+/// Returns this mob's default lighting alpha
+/mob/proc/default_lighting_alpha()
+	if(client?.combo_hud_enabled && client?.prefs?.toggles & COMBOHUD_LIGHTING)
+		return LIGHTING_PLANE_ALPHA_INVISIBLE
+	return initial(lighting_alpha)

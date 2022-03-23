@@ -60,7 +60,7 @@ Contains:
 /obj/item/clothing/under/rank/medical/brigdoc/skirt
 	name = "brig physician's jumpskirt"
 	icon_state = "jumpskirt_brigdoc"
-	fitted = FEMALE_UNIFORM_TOP
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 
 // Envirosuit and Envirohelmet
 

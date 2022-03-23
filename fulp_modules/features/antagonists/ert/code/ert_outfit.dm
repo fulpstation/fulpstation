@@ -44,7 +44,7 @@
 		/obj/item/gun/medbeam = 1,
 		/obj/item/reagent_containers/hypospray/combat = 1,
 		/obj/item/storage/box/survival/engineer = 1,
-		/obj/item/storage/firstaid/regular = 1,
+		/obj/item/storage/medkit/regular = 1,
 	)
 	l_hand = /obj/item/rod_of_asclepius
 
@@ -67,7 +67,7 @@
 		/obj/item/gun/medbeam = 1,
 		/obj/item/reagent_containers/hypospray/combat/nanites = 1,
 		/obj/item/storage/box/survival/engineer = 1,
-		/obj/item/storage/firstaid/regular = 1,
+		/obj/item/storage/medkit/regular = 1,
 	)
 	l_pocket = /obj/item/flashlight/pen/paramedic
 	l_hand = /obj/item/rod_of_asclepius

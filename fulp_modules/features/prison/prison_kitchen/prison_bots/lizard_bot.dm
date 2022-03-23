@@ -1,7 +1,7 @@
 /// Lizard bot
 /datum/customer_data/xarsee
 	prefix_file = "strings/names/lizard_male.txt" // I really can't be arsed.
-	base_icon = "british"
+	base_icon_state = "british"
 	clothing_sets = list("iamnotreal")
 
 	friendly_pull_line = "Ho. Uzhuer. Zoiz ukkooir!"
