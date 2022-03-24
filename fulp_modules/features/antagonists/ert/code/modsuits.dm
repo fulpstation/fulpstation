@@ -43,10 +43,10 @@
 	applied_skin = "clownert_commander"
 	initial_modules = list(
 		/obj/item/mod/module/storage,
+		/obj/item/mod/module/waddle,
 		/obj/item/mod/module/welding,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/bikehorn,
-		/obj/item/mod/module/waddle,
 	)
 
 /datum/mod_theme/responsory/fulp
