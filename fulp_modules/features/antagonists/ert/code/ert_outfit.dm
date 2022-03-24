@@ -156,6 +156,7 @@
 		/obj/item/storage/box/fireworks = 2,
 	)
 	glasses = /obj/item/clothing/glasses/night
+	shoes = /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat
 	l_hand = /obj/item/pneumatic_cannon/pie/selfcharge
 
 /datum/outfit/centcom/ert/clown/commander/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE) // Same here
