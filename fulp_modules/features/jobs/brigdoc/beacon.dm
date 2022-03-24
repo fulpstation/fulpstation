@@ -35,10 +35,10 @@
 	name = "Medkit Variety Kit"
 
 /obj/structure/closet/crate/medical/brigdoc/medkit/PopulateContents()
-	new /obj/item/storage/firstaid/fire(src)
-	new /obj/item/storage/firstaid/toxin(src)
-	new /obj/item/storage/firstaid/brute(src)
-	new /obj/item/storage/firstaid/o2(src)
+	new /obj/item/storage/medkit/fire(src)
+	new /obj/item/storage/medkit/toxin(src)
+	new /obj/item/storage/medkit/brute(src)
+	new /obj/item/storage/medkit/o2(src)
 
 // STRANGE REAGENT KIT
 

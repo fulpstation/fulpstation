@@ -1,7 +1,7 @@
 // HoS bot
 /datum/customer_data/head_of_sec
 	prefix_file = "fulp_modules/features/prison/prison_kitchen/prefixes/hos_prefix.txt"
-	base_icon = "british"
+	base_icon_state = "british"
 	clothing_sets = list("iamnotreal")
 	is_unique = TRUE
 

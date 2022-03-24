@@ -5,7 +5,7 @@
 /obj/item/clothing/under/costume_2021
 	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
-	fitted = NO_FEMALE_UNIFORM
+	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2021
@@ -584,7 +584,7 @@
 	name = "Spin Master's coat"
 	desc = "GO! GO! ZEPPELI"
 	icon_state = "gyro_under"
-	fitted = FEMALE_UNIFORM_TOP
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 
 /obj/item/clothing/head/costume_2021/zeppeli_hat
 	name = "Spin Master's hat"
@@ -616,7 +616,7 @@
 	name = "thrift store dress"
 	desc = "Reminiscent of a schoolgirl uniform."
 	icon_state = "rakka_under"
-	fitted = FEMALE_UNIFORM_TOP
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 
 /obj/item/clothing/shoes/costume_2021/rakka_shoes
 	name = "wooden sandals"
@@ -627,7 +627,6 @@
 	name = "Old Home halo"
 	desc = "Not related to any religion."
 	icon_state = "rakka_hat"
-	dynamic_hair_suffix = ""
 
 /obj/item/clothing/suit/costume_2021/rakka_jacket
 	name = "thrift store jacket"

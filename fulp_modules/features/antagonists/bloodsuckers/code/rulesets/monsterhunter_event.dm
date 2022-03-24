@@ -29,8 +29,7 @@
 			continue
 		if(all_players.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND))
 			continue
-		// Bobux no IS_CHANGELING
-		if(IS_HERETIC(all_players) || IS_CULTIST(all_players) || IS_BLOODSUCKER(all_players) || IS_VASSAL(all_players) || IS_WIZARD(all_players) || all_players.mind.has_antag_datum(/datum/antagonist/changeling))
+		if(is_special_character(all_players))
 			continue
 		if(!all_players.getorgan(/obj/item/organ/brain))
 			continue
