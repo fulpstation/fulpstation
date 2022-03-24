@@ -46,6 +46,7 @@
 		/obj/item/mod/module/welding,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/bikehorn,
+		/obj/item/mod/module/waddle,
 	)
 
 /datum/mod_theme/responsory/fulp
