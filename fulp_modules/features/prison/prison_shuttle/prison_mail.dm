@@ -94,9 +94,9 @@
 	var/obj/item/prison_mail/inserted_mail = weapon
 	if(inserted_mail.mail_department != unit_department)
 		say("MAIL SENT TO THE WRONG DEPARTMENT!")
+		SEND_SIGNAL(inserted_mail, COMSIG_PRISON_MAIL_DELIVERED_WRONG)
 		playsound(src, 'sound/machines/warning-buzzer.ogg', 40, TRUE)
 		qdel(inserted_mail)
-		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_FAILED)
 		return
 	say("Mail delivered to [unit_department].")
 	playsound(src, 'sound/machines/ping.ogg', 20, TRUE)
