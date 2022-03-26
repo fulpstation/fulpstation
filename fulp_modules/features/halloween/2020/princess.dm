@@ -28,7 +28,6 @@
 	desc = "A brown wig with a golden hair band."
 	icon_state = "beauty_wig"
 	flags_inv = HIDEHAIR
-	dynamic_hair_suffix = ""
 
 /obj/item/clothing/gloves/costume_2020/beauty
 	name = "beauty's gloves"
@@ -47,7 +46,6 @@
 	desc = "The pretty colored wig."
 	icon_state = "tenacious_wig"
 	flags_inv = HIDEHAIR
-	dynamic_hair_suffix = ""
 
 ///Cruella
 /obj/item/clothing/under/costume_2020/cruel_devil
@@ -55,7 +53,7 @@
 	desc = "A sharp black dress."
 	icon_state = "cruel_devil_dress"
 	body_parts_covered = CHEST|GROIN
-	fitted = FEMALE_UNIFORM_TOP
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2020/cruel_devil
@@ -68,7 +66,6 @@
 	desc = "For when you want to be noticed."
 	icon_state = "cruel_devil_wig"
 	flags_inv = HIDEHAIR
-	dynamic_hair_suffix = ""
 
 /obj/item/clothing/gloves/costume_2020/cruel_devil
 	name = "cruel devil's gloves"
@@ -86,7 +83,7 @@
 	desc = "You will be the last drop of water in the desert with this."
 	icon_state = "arabian"
 	body_parts_covered = CHEST|GROIN|LEGS
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	can_adjust = FALSE
 
 /obj/item/clothing/head/costume_2020/arabian
@@ -94,7 +91,6 @@
 	desc = "It's a dazzling tiara on top of a wig."
 	icon_state = "arabian_wig"
 	flags_inv = HIDEHAIR
-	dynamic_hair_suffix = ""
 
 ///Snow White
 /obj/item/clothing/suit/costume_2020/sleeper
@@ -108,7 +104,6 @@
 	desc = "A wig with a red tiara on top of it."
 	icon_state = "sleeper_wig"
 	flags_inv = HIDEHAIR
-	dynamic_hair_suffix = ""
 
 ///Skeletor
 /obj/item/clothing/suit/costume_2020/skeletor
@@ -120,7 +115,6 @@
 	name = "Skeletor"
 	desc = "Scary."
 	icon_state = "skeletor_hood"
-	dynamic_hair_suffix = "+generic"
 
 ///Octopus
 /obj/item/clothing/suit/costume_2020/octopus
@@ -132,7 +126,6 @@
 	name = "octopus"
 	desc = "Not a princess mask."
 	icon_state = "octopus_head"
-	dynamic_hair_suffix = "+generic"
 
 /obj/item/clothing/gloves/costume_2020/octopus
 	name = "octopus gloves"

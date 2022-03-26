@@ -1,5 +1,6 @@
 /datum/species/beefman
 	name = "Beefman"
+	plural_form = "Beefmen"
 	id = SPECIES_BEEFMAN
 	limbs_id = "beefman"
 	say_mod = "gurgles"
@@ -57,7 +58,7 @@
 	attack_verb = "meat"
 	payday_modifier = 0.75
 	speedmod = -0.2
-	armor = -2
+	armor = -20
 	punchdamagelow = 1
 	punchdamagehigh = 5
 	siemens_coeff = 0.7 // base electrocution coefficient
@@ -161,6 +162,86 @@
 	race = /datum/species/beefman
 
 /**
+ * PREFS STUFF
+ */
+
+/datum/species/beefman/get_species_description()
+	return "Made entirely out of beef, Beefmen are completely delusional \
+		through and through, with constant hallucinations and 'tears in reality'"
+
+/datum/species/beefman/get_species_lore()
+	return list(
+		"On a very quiet day, the Chef was cooking food for the crew, they realized they were out of meat. \
+		They decided that they would pay a visit to the Morgue, unaware of the consequences for their actions. \n\
+		It was going to be a one time thing anyways, who would mind a body or two missing? \
+		They thought, as they grabbed a body laying on a morgue tray. \n\
+		What the Chef hadn't noticed, the Morgue's soul alarm was off, the body was filled with a soul begging not to be gibbed.\
+		The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \n\
+		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out... \
+		But this wasn't regular meat. It had eyes, and a mouth too. \n\
+		Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef. \
+		Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted. \n\
+		What the Russian Sol Government has done with them has never been released, but since then, there seems to have more of them than people remember, \
+		and these 'Beefmen' have never been able to sleep or think straight ever again.",
+	)
+
+/datum/species/beefman/create_pref_unique_perks()
+	var/list/to_add = list()
+
+	to_add += list(
+		//Positive
+		list(
+			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
+			SPECIES_PERK_ICON = "meat",
+			SPECIES_PERK_NAME = "Beefy Limbs",
+			SPECIES_PERK_DESC = "Beefmen are able to tear off and put limbs back on at will. They do this by targetting their limb and right clicking.",
+		),
+		list(
+			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
+			SPECIES_PERK_ICON = "running",
+			SPECIES_PERK_NAME = "Runners",
+			SPECIES_PERK_DESC = "Beefmen are 20% faster than other species by default, allowing them to outrun things that normal crewmembers cannot.",
+		),
+		list(
+			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
+			SPECIES_PERK_ICON = "temperature-low",
+			SPECIES_PERK_NAME = "Cold Loving",
+			SPECIES_PERK_DESC = "Beefmen are completely immune to the cold, even helping them prevent bleeding.",
+		),
+		//Neutral
+		list(
+			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
+			SPECIES_PERK_ICON = "link",
+			SPECIES_PERK_NAME = "Phobetor Tears",
+			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor tears, small tears in reality that, \
+				When used, teleports you to the other end of the tear. This cannot if someone is near the start and end.",
+		),
+		//Negative
+		list(
+			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
+			SPECIES_PERK_ICON = "shield-alt",
+			SPECIES_PERK_NAME = "Boneless Meat",
+			SPECIES_PERK_DESC = "Beefmen's meat is not well guarded, taking 20% more damage than normal crew.",
+		),
+		list(
+			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
+			SPECIES_PERK_ICON = "tint",
+			SPECIES_PERK_NAME = "Juice Bleeding",
+			SPECIES_PERK_DESC = "Beefmen will begin to bleed out when their temperature is above 24C, \
+				Though scaling burn damage will prevent the bleeding.",
+		),
+		list(
+			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
+			SPECIES_PERK_ICON = "briefcase-medical",
+			SPECIES_PERK_NAME = "Mentally unfit",
+			SPECIES_PERK_DESC = "Beefmen suffer terribly from a permanent brain trauma. \
+				that can't be repaired under normal circumstances.",
+		),
+	)
+
+	return to_add
+
+/**
  * BEEFMAN UNIQUE PROCS AND INTEGRATION
  */
 
@@ -257,9 +338,9 @@
 		span_notice("Your [affecting.name] pops right off."))
 	playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_hit.ogg', 40, 1)
 	// Destroy Limb, Drop Meat, Pick Up
-	var/obj/item/dropped_meat = affecting.drop_limb()
+	var/obj/item/food/meat/slab/dropped_meat = affecting.drop_limb()
 	//This will return a meat vis drop_meat(), even if only Beefman limbs return anything. If this was another species' limb, it just comes off.
-	if(istype(dropped_meat, /obj/item/food/meat/slab))
+	if(dropped_meat)
 		user.put_in_hands(dropped_meat)
 	return TRUE
 

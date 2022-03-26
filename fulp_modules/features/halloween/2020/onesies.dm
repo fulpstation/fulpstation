@@ -61,7 +61,6 @@
 	var/on = FALSE
 	flags_inv = 0
 	actions_types = list(/datum/action/item_action/toggle_hood)
-	dynamic_hair_suffix = ""
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/ToggleHood()
 	if(hood_up)
@@ -121,7 +120,6 @@
 	var/brightness_on = 1
 	var/on = FALSE
 	flags_inv = 0
-	dynamic_hair_suffix = ""
 
 /obj/item/clothing/head/hooded/onesie/ethereal/Initialize()
 	. = ..()

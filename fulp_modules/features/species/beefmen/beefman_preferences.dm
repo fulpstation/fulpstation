@@ -96,11 +96,11 @@
 	savefile_key = "feature_beef_trauma"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
-	can_randomize = FALSE
+	randomize_by_default = FALSE
 	relevant_mutant_bodypart = "beef_trauma"
 
 /datum/preference/choiced/beefman_trauma/init_possible_values()
-	return GLOB.beefmen_traumas
+	return assoc_to_keys(GLOB.beefmen_traumas)
 
 /datum/preference/choiced/beefman_trauma/apply_to_human(mob/living/carbon/human/target, value)
 	var/given_trauma = GLOB.beefmen_traumas[value]
