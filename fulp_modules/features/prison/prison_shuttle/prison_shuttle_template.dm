@@ -64,46 +64,56 @@
 	objective_price = 600
 	explanation_text = "Central Command has accidentally lost important documents within their junkmail, \
 		please sort through them and store away the important documents within the on-board smartfridge. \
-		Recycle any junkmail you may find, if there is any mail leftover on the shuttle, it will fail regardless."
+		Recycle any junkmail you may find, we don't want to deal with any leftovers."
 
-// In the future we should just keep track of all items and check if they still exist in the world
-
-/datum/map_template/shuttle/prison/disposals/check_end_shuttle()
+	///List of all roundstart documents. If at least 3 of these exist, the objective will fail regardless.
 	var/list/all_documents = list()
 
+/datum/map_template/shuttle/prison/disposals/special_start_objective()
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
 	for(var/area/shuttle/shuttle_area in shuttle_areas)
 		for(var/turf/shuttle_turf in shuttle_area)
 			for(var/obj/item/item in shuttle_turf.get_all_contents())
-				if(!istype(item, /obj/item/paper) && !istype(item, /obj/item/mail))
+				if(!istype(item, /obj/item/paper) && !istype(item, /obj/item/mail) && !istype(item, /obj/item/prison_mail))
 					continue
 				all_documents += item
+				RegisterSignal(item, COMSIG_PARENT_QDELETING, .proc/delete_mail)
+
+/datum/map_template/shuttle/prison/disposals/check_end_shuttle()
 	//Check if 3 or more documents were left unrecycled on the shuttle
 	if(all_documents.len >= 3)
 		INVOKE_ASYNC(src, .proc/fail_objective)
-
 	return ..()
 
-/datum/map_template/shuttle/prison/mailroom
+///When a letter is deleted, remove them from the list
+/datum/map_template/shuttle/prison/disposals/proc/delete_mail(datum/source)
+	SIGNAL_HANDLER
+	all_documents -= source
+
+/datum/map_template/shuttle/prison/disposals/mailroom
 	suffix = "mailroom"
 	name = "Mailroom Shuttle (Prison)"
 	objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS
 	objective_price = 750
 	explanation_text = "the Cargo department is overflowing with mail and have requested emergency help, \
-		Sort through the mail and send each one into their respective department. Do not leave any behind."
+		Sort through the mail and send each one into their respective department. Do not leave any behind. \
+		Please avoid sending letters to the wrong department, else we'll just fire you all regardless."
+	var/incorrect_deliveries
 
-// In the future we should just keep track of all items and check if they still exist in the world
+/datum/map_template/shuttle/prison/disposals/mailroom/special_start_objective()
+	. = ..()
+	for(var/obj/item/cargo_mail as anything in all_documents)
+		RegisterSignal(cargo_mail, COMSIG_PRISON_MAIL_DELIVERED_WRONG, .proc/on_wrong_delivery)
 
-/datum/map_template/shuttle/prison/disposals/check_end_shuttle()
-	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
-	for(var/area/shuttle/shuttle_area in shuttle_areas)
-		for(var/turf/shuttle_turf in shuttle_area)
-			for(var/obj/item/item in shuttle_turf.get_all_contents())
-				if(!istype(item, /obj/item/prison_mail))
-					continue
-				INVOKE_ASYNC(src, .proc/fail_objective)
-
+/datum/map_template/shuttle/prison/disposals/mailroom/check_end_shuttle()
+	if(all_documents.len)
+		INVOKE_ASYNC(src, .proc/fail_objective)
 	return ..()
+
+/datum/map_template/shuttle/prison/disposals/mailroom/proc/on_wrong_delivery()
+	incorrect_deliveries++
+	if(incorrect_deliveries >= 3)
+		SEND_SIGNAL(SSpermabrig.loaded_shuttle, COMSIG_PRISON_OBJECTIVE_FAILED)
 
 /datum/map_template/shuttle/prison/cleaning
 	suffix = "cleaning"

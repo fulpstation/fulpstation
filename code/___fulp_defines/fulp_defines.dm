@@ -64,6 +64,7 @@
 #define ACCOUNT_PRISON_NAME "Prison Budget"
 #define COMSIG_PRISON_OBJECTIVE_COMPLETED "prison_objective_complete"
 #define COMSIG_PRISON_OBJECTIVE_FAILED "prison_objective_failed"
+#define COMSIG_PRISON_MAIL_DELIVERED_WRONG "prison_mail_delivered_wrong"
 #define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
 #define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
 
