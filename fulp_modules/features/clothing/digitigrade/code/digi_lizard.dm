@@ -21,8 +21,6 @@
 			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
 		if(JOB_DETECTIVE)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
-		if(JOB_BRIG_PHYSICIAN)
-			newShoes = new /obj/item/clothing/shoes/jackboots/digitigrade
 		if(JOB_DEPUTY)
 			newShoes = new /obj/item/clothing/shoes/laceup/digitigrade
 		// Deputies

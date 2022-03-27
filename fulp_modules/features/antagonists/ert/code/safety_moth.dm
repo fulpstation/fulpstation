@@ -190,3 +190,22 @@
 /obj/item/clothing/head/helmet/space/safety_moth/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/radiation_protected_clothing)
+
+// The pill bottle
+
+/obj/item/storage/pill_bottle/strange_reagent
+	name = "bottle of strange reagent pills"
+	desc = "Contains pills, used to bring patients back to life with a very special and rare chemical."
+
+/obj/item/storage/pill_bottle/strange_reagent/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/reagent_containers/pill/strange_reagent(src)
+
+// ...And the pill itself.
+
+/obj/item/reagent_containers/pill/strange_reagent
+	name = "strange reagent pill"
+	desc = "Used to bring back people from the dead through holy means."
+	list_reagents = list(/datum/reagent/medicine/strange_reagent = 2)
+	icon_state = "pill22"
+	rename_with_volume = TRUE
