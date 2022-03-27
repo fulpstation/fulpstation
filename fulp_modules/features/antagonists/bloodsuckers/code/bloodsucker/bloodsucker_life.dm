@@ -239,7 +239,7 @@
 
 	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
 	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && frenzied && my_clan != CLAN_BRUJAH)
-		owner.current.remove_status_effect(STATUS_EFFECT_FRENZY)
+		owner.current.remove_status_effect(/datum/status_effect/frenzy)
 	// BLOOD_VOLUME_BAD: [224] - Jitter
 	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		owner.current.Jitter(3)
@@ -270,7 +270,7 @@
 				break
 			power.ActivatePower()
 	else
-		owner.current.apply_status_effect(STATUS_EFFECT_FRENZY)
+		owner.current.apply_status_effect(/datum/status_effect/frenzy)
 
 /**
  * # Torpor

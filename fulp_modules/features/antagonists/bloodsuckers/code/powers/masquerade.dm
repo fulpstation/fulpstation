@@ -55,13 +55,13 @@
 	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.FakeStart()
-	user.apply_status_effect(STATUS_EFFECT_MASQUERADE)
+	user.apply_status_effect(/datum/status_effect/masquerade)
 
 /datum/action/bloodsucker/masquerade/DeactivatePower()
 	. = ..() // activate = FALSE
 	owner.balloon_alert(owner, "masquerade turned off.")
 	var/mob/living/carbon/user = owner
-	user.remove_status_effect(STATUS_EFFECT_MASQUERADE)
+	user.remove_status_effect(/datum/status_effect/masquerade)
 	ADD_TRAIT(user, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)

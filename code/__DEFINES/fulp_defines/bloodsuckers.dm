@@ -5,21 +5,6 @@
 #define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
-#define IS_BLOODSUCKER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/bloodsucker))
-#define IS_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal))
-#define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
-
-
-/**
- * Traits
- */
-/// Your heart doesn't beat
-#define TRAIT_NOPULSE "nopulse"
-/// Falsifies Health analyzer blood levels
-#define TRAIT_MASQUERADE "masquerade"
-/// Your body is literal room temperature. Does not make you immune to the temp
-#define TRAIT_COLDBLOODED "coldblooded"
-
 
 /**
  * Bloodsucker defines
@@ -30,8 +15,6 @@
 #define TORTURE_BLOOD_COST "15"
 /// Cost to convert someone after successful torture, in blood
 #define TORTURE_CONVERSION_COST "50"
-/// Deals with constant processes off of LifeTick()
-#define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
 /// Once blood is this low, will enter Frenzy
 #define FRENZY_THRESHOLD_ENTER 25
 /// Once blood is this high, will exit Frenzy
@@ -48,24 +31,6 @@
 #define BLOODSUCKER_SPAM_HEALING (15 SECONDS)
 ///Span prevention for Sol messages.
 #define BLOODSUCKER_SPAM_SOL (30 SECONDS)
-
-/**
- * Source traits
- */
-/// Source trait for Bloodsuckers-related traits
-#define BLOODSUCKER_TRAIT "bloodsucker_trait"
-/// Source trait while Feeding
-#define FEED_TRAIT "feed_trait"
-/// Source trait during a Frenzy
-#define FRENZY_TRAIT "frenzy_trait"
-
-
-/**
- * Status effect defines
- */
-#define STATUS_EFFECT_MASQUERADE /datum/status_effect/masquerade
-#define STATUS_EFFECT_FRENZY /datum/status_effect/frenzy
-
 
 /**
  * Clan defines
