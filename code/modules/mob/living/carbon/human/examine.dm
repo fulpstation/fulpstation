@@ -263,7 +263,7 @@
 		apparent_blood_volume -= 150 // enough to knock you down one tier
 	// Fulp edit START - Bloodsuckers
 	var/bloodDesc = ShowAsPaleExamine(user, apparent_blood_volume)
-	if(bloodDesc != BLOODSUCKER_HIDE_BLOOD)
+	if(bloodDesc != "hide_blood_volume")
 		msg += bloodDesc
 	else switch(apparent_blood_volume)
 	// Fulp edit END

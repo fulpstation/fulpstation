@@ -422,7 +422,7 @@ GENE SCANNER
 				var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
 				blood_type = R ? R.name : blood_id
 			// Fulp edit START - Bloodsuckers
-			if(HAS_TRAIT(carbontarget, TRAIT_MASQUERADE))
+			if(HAS_TRAIT(carbontarget, "masquerade"))
 				render_list += "<span class='info ml-1'>Blood level: 100 %, 560 cl, type: [blood_type]</span>\n"
 			else if(carbontarget.blood_volume <= BLOOD_VOLUME_SAFE && carbontarget.blood_volume > BLOOD_VOLUME_OKAY)
 			// Fulp edit END
