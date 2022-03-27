@@ -26,11 +26,6 @@
 - _maps/map_files/PubbyStation.dmm
 - _maps/pubbystation.json
 
-### Defines
-
-- code\__fulp_defines\bloodsucker_defines.dm
-- code\__fulp_defines\fulp_defines.dm
-
 ### TGUI
 - tgui/packages/tgui/interfaces/KindredArchives.js
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
