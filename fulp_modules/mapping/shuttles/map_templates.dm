@@ -15,6 +15,11 @@
 	suffix = "solitaire"
 	name = "cargo ferry (Solitaire)"
 
+/datum/map_template/shuttle/cargo/fulp/eos // eosstation
+	suffix = "eos"
+	name = "cargo ferry (Eos)"
+
+
 /// Arrival
 /datum/map_template/shuttle/arrival/fulp
 	prefix = "fulp_modules/mapping/shuttles/arrival/"

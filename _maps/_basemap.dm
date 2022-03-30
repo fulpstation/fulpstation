@@ -16,7 +16,7 @@
 		#include "map_files\PubbyStation\PubbyStation.dmm"
 		#include "map_files\HelioStation\HelioStation.dmm"
 		#include "map_files\SeleneStation\SeleneStation.dmm"
-		#include "map_files\tramstation\tramstation.dmm"
+		#include "map_files\EosStation\eosstation.dmm"
 		// Fulp edit END
 
 		#ifdef CIBUILDING
