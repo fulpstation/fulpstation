@@ -410,8 +410,6 @@
 			new_sash = new /obj/item/clothing/under/bodysash/security()
 		if(JOB_DETECTIVE)
 			new_sash = new /obj/item/clothing/under/bodysash/security/detective()
-		if(JOB_BRIG_PHYSICIAN)
-			new_sash = new /obj/item/clothing/under/bodysash/security/brigdoc()
 
 		// Subtype - Deputies
 		if(JOB_DEPUTY)

@@ -31,7 +31,6 @@
 ///Service deputy's assigned department
 #define SEC_DEPT_SERVICE "Service"
 
-#define JOB_BRIG_PHYSICIAN "Brig Physician"
 #define JOB_DEPUTY "Deputy"
 #define JOB_DEPUTY_ENG "Engineering Deputy"
 #define JOB_DEPUTY_MED "Medical Deputy"
@@ -39,7 +38,6 @@
 #define JOB_DEPUTY_SCI "Science Deputy"
 #define JOB_DEPUTY_SRV "Service Deputy"
 
-#define SECHUD_BRIG_PHYSICIAN "hudbrigphysician"
 #define SECHUD_DEPUTY "huddeputy"
 #define SECHUD_DEPUTY_ENGINEERING "hudengineeringdeputy"
 #define SECHUD_DEPUTY_MEDICAL "hudmedicaldeputy"
@@ -66,6 +64,7 @@
 #define ACCOUNT_PRISON_NAME "Prison Budget"
 #define COMSIG_PRISON_OBJECTIVE_COMPLETED "prison_objective_complete"
 #define COMSIG_PRISON_OBJECTIVE_FAILED "prison_objective_failed"
+#define COMSIG_PRISON_MAIL_DELIVERED_WRONG "prison_mail_delivered_wrong"
 #define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
 #define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
 
