@@ -14,4 +14,4 @@
 		all_mobs.emote("laugh")
 
 /datum/round_event/hehehehaw/announce()
-	priority_announce("Nanotrasen has realized an incoming strike of laughter among the crew, please attempt to resist this.", "Heeheeheehaw.")
+	priority_announce("Nanotrasen has noticed an incoming Golden Chest being unlocked, please avoid spamming this notification.", "Heeheeheehaw.")
