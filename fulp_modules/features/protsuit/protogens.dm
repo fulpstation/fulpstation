@@ -25,9 +25,10 @@
 	species_language_holder = /datum/language_holder/synthetic
 	limbs_id = "protogen"
 	turn_limbs = FALSE
+	use_skintones = FALSE
+	sexes = FALSE
 	brutemod = 1.25
 	burnmod = 1.25
-	sexes = 0
 
 /datum/species/android/protogen/check_roundstart_eligible()
 	return TRUE
@@ -39,7 +40,7 @@
 
 /datum/species/android/protogen/get_species_lore()
 	return list(
-		"Robotic furries.",
+		"Robotic furries, there's not much else needed to know.",
 	)
 
 /datum/species/android/protogen/cargo
