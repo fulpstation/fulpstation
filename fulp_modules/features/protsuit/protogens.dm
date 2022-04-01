@@ -29,6 +29,16 @@
 /datum/species/android/protogen/check_roundstart_eligible()
 	return TRUE
 
+/datum/species/android/protogen/get_species_description()
+	return "Nanotrasen-built Protogens are the latest creation \
+		Originally invented to perform small tasks, they can now \
+		fully commit to entire jobs!"
+
+/datum/species/android/protogen/get_species_lore()
+	return list(
+		"Robotic furries.",
+	)
+
 /datum/species/android/protogen/cargo
 	name = "LOADER Protogen"
 	id = "loader"
