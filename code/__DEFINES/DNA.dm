@@ -206,6 +206,7 @@ GLOBAL_LIST_INIT(organ_process_order, list(
 #define SPECIES_ADDICT "goofzombies"
 
 #define SPECIES_ABDUCTOR "abductor"
+#define SPECIES_PROTOGEN "protogen"
 #define SPECIES_ANDROID "android"
 #define SPECIES_MUSHROOM "mush"
 #define SPECIES_PODPERSON "pod"
