@@ -1,7 +1,7 @@
 /datum/round_event_control/hehehehaw
 	name = "Heeheeheehaw"
 	typepath = /datum/round_event/hehehehaw
-	weight = 100
+	weight = 500
 	min_players = 1
 	max_occurrences = 1
 
