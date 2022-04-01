@@ -1,6 +1,5 @@
 /datum/species/android/protogen
 	name = "Protogen"
-	plural_form = "Protogens"
 	id = SPECIES_PROTOGEN
 	say_mod = "beeps"
 	species_traits = list(NOBLOOD, NO_DNA_COPY, NOTRANSSTING, NOEYESPRITES)
@@ -16,19 +15,14 @@
 		TRAIT_NOHUNGER,
 		TRAIT_LIMBATTACHMENT,
 		TRAIT_NOCLONELOSS,
+		TRAIT_CAN_USE_FLIGHT_POTION,
 	)
-	inherent_biotypes = MOB_ROBOTIC|MOB_HUMANOID
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
-	payday_modifier = 0.75
-	meat = null
-	damage_overlay_type = "synth"
-	species_language_holder = /datum/language_holder/synthetic
-	limbs_id = "protogen"
-	turn_limbs = FALSE
-	use_skintones = FALSE
-	sexes = FALSE
 	brutemod = 1.25
 	burnmod = 1.25
+	limbs_id = "protogen"
+	use_skintones = FALSE
+	sexes = FALSE
+	turn_limbs = FALSE
 
 /datum/species/android/protogen/check_roundstart_eligible()
 	return TRUE
