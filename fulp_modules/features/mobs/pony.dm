@@ -15,8 +15,8 @@
 	response_help_simple = "prod"
 	response_disarm_continuous = "challenges"
 	response_disarm_simple = "challenge"
-	response_harm_continuous = "thumps"
-	response_harm_simple = "thump"
+	response_harm_continuous = "clops"
+	response_harm_simple = "clops"
 	attack_verb_continuous = "uses the power of friendship to kick"
 	attack_verb_simple = "kick"
 	speak_emote = list("neighs")
