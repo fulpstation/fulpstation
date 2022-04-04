@@ -281,13 +281,14 @@
 
 /obj/item/clothing/mask/costume_2021/breather_mask
 	name = "breather mask"
-	desc = "A tight green balaclava with breathing apparatus strapped to the front."
+	desc = "A tight green balaclava with breathing apparatus strapped to the front. Only has one eye socket."
 	icon_state = "breather_mask"
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEHAIR
 	clothing_flags = MASKINTERNALS
 	modifies_speech = TRUE
 
 /obj/item/clothing/mask/costume_2021/breather_mask/blue
+	desc = "A tight blue balaclava with breathing apparatus strapped to the front. Only has one eye socket."
 	icon_state = "breather_mask_blue"
 
 /obj/item/clothing/mask/costume_2021/breather_mask/equipped(mob/user, slot)
