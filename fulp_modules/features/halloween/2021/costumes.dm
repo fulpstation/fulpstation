@@ -316,7 +316,7 @@
 		var/list/message_split = splittext(message, " ")
 		var/list/new_message = list()
 		for(var/word in message_split)
-			if(word != message_split[1]) //Minimum 1/20 chance of filler
+			if(word != message_split[1])
 				new_message += pick(
 					"..",
 					"...",
