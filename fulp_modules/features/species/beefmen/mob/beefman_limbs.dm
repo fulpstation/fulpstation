@@ -148,3 +148,8 @@
 		qdel(src)
 		return new_meat
 
+/mob/living/carbon/human/spread_bodyparts()
+	if(!isbeefman(src))
+		return ..()
+	for(var/obj/item/bodypart/bodypart in bodyparts)
+		bodypart.drop_limb()
