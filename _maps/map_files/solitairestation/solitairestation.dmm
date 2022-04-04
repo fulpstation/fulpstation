@@ -8295,10 +8295,10 @@
 /turf/open/floor/iron/white,
 /area/science/misc_lab)
 "enO" = (
-/obj/machinery/space_heater,
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 5
 	},
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/iron,
 /area/engineering/main)
 "enR" = (
@@ -12910,10 +12910,10 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "brig-entrance"
-	},
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "brig-entrance-right"
+	},
 /turf/open/floor/iron,
 /area/security/brig/upper)
 "gAZ" = (
@@ -15488,7 +15488,6 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central/aft)
 "hSX" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/effect/turf_decal/stripes/white/line,
 /turf/open/floor/iron/dark,
 /area/science/storage)
@@ -17931,6 +17930,9 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "atmos-entrance"
+	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/engineering/atmos/office)
 "iUh" = (
@@ -18612,6 +18614,9 @@
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "atmos-entrance"
+	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/engineering/atmos/office)
 "jmr" = (
@@ -19667,6 +19672,9 @@
 /obj/machinery/door/airlock/atmos{
 	name = "Atmospherics";
 	req_access_txt = "24"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "atmos-distro"
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/engineering/atmos)
@@ -23093,7 +23101,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "brig-entrance"
+	cycle_id = "brig-entrance-right"
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
@@ -23882,6 +23890,7 @@
 /area/maintenance/disposal)
 "lFR" = (
 /obj/structure/cable,
+/obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/iron/dark,
 /area/science/storage)
 "lFX" = (
@@ -26613,7 +26622,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "brig-entrance"
+	cycle_id = "brig-entrance-left"
 	},
 /turf/open/floor/iron,
 /area/security/brig/upper)
@@ -26719,6 +26728,7 @@
 	},
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,
+/obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/iron/dark,
 /area/science/storage)
 "mLG" = (
@@ -28529,7 +28539,6 @@
 /turf/open/floor/iron/dark,
 /area/medical/treatment_center)
 "nAw" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 8
 	},
@@ -38714,6 +38723,12 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/engineering/engine_smes)
+"swp" = (
+/obj/effect/turf_decal/stripes/white/line{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/science/storage)
 "sww" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
@@ -41263,6 +41278,9 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "atmos-distro"
+	},
 /turf/open/floor/iron/dark/textured_large,
 /area/engineering/atmos)
 "tHK" = (
@@ -44124,6 +44142,9 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "supermatter-entrance"
+	},
 /turf/open/floor/iron,
 /area/engineering/main)
 "uNY" = (
@@ -44518,10 +44539,10 @@
 /turf/open/floor/iron,
 /area/security/brig/upper)
 "uWe" = (
-/obj/machinery/space_heater,
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 9
 	},
+/obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/iron,
 /area/engineering/main)
 "uWk" = (
@@ -50543,7 +50564,7 @@
 /obj/machinery/navbeacon/wayfinding,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "brig-entrance"
+	cycle_id = "brig-entrance-left"
 	},
 /turf/open/floor/iron,
 /area/security/brig/upper)
@@ -50726,6 +50747,7 @@
 	department = "Science";
 	name = "Ordnance Storage Requests Console"
 	},
+/obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/iron/dark,
 /area/science/storage)
 "xwr" = (
@@ -72183,7 +72205,7 @@ xvY
 mLC
 czH
 jvP
-jvP
+swp
 nAw
 ejO
 wTU
@@ -72436,11 +72458,11 @@ kty
 oDR
 cEu
 cEu
-lgW
+hLq
 lFR
 hLq
 hLq
-hLq
+lgW
 hSX
 ejO
 wTU
