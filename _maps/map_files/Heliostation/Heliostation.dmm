@@ -51180,9 +51180,6 @@
 /obj/item/clothing/gloves/color/black,
 /obj/item/clothing/gloves/color/black,
 /obj/item/clothing/gloves/color/black,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/mask/gas,
 /obj/structure/sign/poster/official/random{
 	pixel_x = 30
 	},
@@ -51575,12 +51572,6 @@
 /obj/structure/rack,
 /obj/item/clothing/suit/hazardvest,
 /obj/item/clothing/suit/hazardvest,
-/obj/item/clothing/gloves/color/black,
-/obj/item/clothing/gloves/color/black,
-/obj/item/clothing/gloves/color/black,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/mask/gas,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/effect/turf_decal/siding/yellow{
@@ -51588,6 +51579,9 @@
 	dir = 4;
 	name = "engineering yellow"
 	},
+/obj/item/clothing/mask/gas/atmos,
+/obj/item/clothing/mask/gas/atmos,
+/obj/item/clothing/mask/gas/atmos,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cun" = (
@@ -53504,7 +53498,7 @@
 /area/maintenance/solars/starboard/aft)
 "cyV" = (
 /obj/machinery/camera/directional/west{
-	c_tag = "Construction Room";
+	c_tag = "Atmospherics Incinerator";
 	name = "Engineering Camera";
 	network = list("ss13","engineering")
 	},
@@ -53519,6 +53513,7 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cyW" = (
@@ -54106,10 +54101,10 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cAp" = (
-/obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
@@ -54650,7 +54645,6 @@
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cBD" = (
-/obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
@@ -55717,6 +55711,7 @@
 /obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cEl" = (
@@ -56131,6 +56126,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cFs" = (
@@ -56496,16 +56492,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
-"cGm" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	name = "CO2 Outlet Pump"
-	},
-/turf/open/floor/iron,
-/area/engineering/atmos)
 "cGn" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/plasma{
 	dir = 4
@@ -56603,7 +56589,6 @@
 /area/maintenance/disposal/incinerator)
 "cGz" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 4;
@@ -56613,7 +56598,6 @@
 /area/maintenance/disposal/incinerator)
 "cGA" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold/brown/visible{
 	dir = 4
 	},
@@ -56982,7 +56966,10 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 1;
+	name = "N2 Outlet Pump"
+	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cHo" = (
@@ -57046,7 +57033,10 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 1;
+	name = "O2 Outlet Pump"
+	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cHs" = (
@@ -57186,7 +57176,10 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "CO2 Outlet Pump"
+	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cHA" = (
@@ -57258,7 +57251,10 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "Plasma Outlet Pump"
+	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cHE" = (
@@ -57498,7 +57494,6 @@
 	pixel_x = 6;
 	pixel_y = -25
 	},
-/obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
@@ -63153,23 +63148,17 @@
 /turf/open/floor/engine,
 /area/engineering/main)
 "cWz" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/pump/on{
-	dir = 1;
-	name = "N2 Outlet Pump"
-	},
+/obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cWA" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/pump/on{
-	dir = 1;
-	name = "O2 Outlet Pump"
-	},
+/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cWB" = (
@@ -65541,12 +65530,12 @@
 /turf/open/floor/iron,
 /area/security/office)
 "gsR" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 4
-	},
 /obj/machinery/atmospherics/components/binary/pump/on{
 	dir = 1;
 	name = "Air Outlet Pump"
+	},
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
@@ -66198,6 +66187,13 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/virology)
+"hAj" = (
+/obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible,
+/obj/machinery/atmospherics/pipe/bridge_pipe/green/visible{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/engineering/atmos)
 "hBi" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -74607,16 +74603,6 @@
 	},
 /turf/open/floor/iron,
 /area/security/prison/work)
-"wMF" = (
-/obj/machinery/atmospherics/pipe/smart/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	name = "Plasma Outlet Pump"
-	},
-/turf/open/floor/iron,
-/area/engineering/atmos)
 "wNZ" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -100764,7 +100750,7 @@ csA
 cAe
 cDV
 ctX
-cGj
+hAj
 mnv
 cIz
 cJt
@@ -102306,7 +102292,7 @@ cyJ
 cCI
 cDX
 cFi
-cGm
+cWA
 cHz
 cID
 cJs
@@ -103334,7 +103320,7 @@ cAd
 crj
 cDY
 cFi
-wMF
+cWA
 cHD
 cID
 cJs
