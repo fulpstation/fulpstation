@@ -696,3 +696,12 @@
 	attack_verb_continuous = list("slashes", "bites", "charges")
 	attack_verb_simple = list("slash", "bite", "charge")
 	squeak_override = list('sound/items/intents/Help.ogg' = 1)
+
+/obj/item/toy/plush/plushie_cat
+	name = "cat plushie"
+	desc = "A soft plushie depicting a cat. Keep away from mice!"
+	icon_state = "plushie_cat"
+	inhand_icon_state = "plushie_cat"
+	attack_verb_continuous = list("nuzzles", "pounces", "purrs")
+	attack_verb_simple = list("nuzzle", "pounce", "purr")
+	squeak_override = list('sound/effects/meow1.ogg' = 1)
