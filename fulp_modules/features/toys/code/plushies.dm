@@ -109,3 +109,14 @@
 	COOLDOWN_START(src, beefplushie_cooldown, BEEFPLUSHIE_COOLDOWN_TIME)
 
 #undef BEEFPLUSHIE_COOLDOWN_TIME
+
+/obj/item/toy/plush/cat
+	name = "cat plushie"
+	desc = "A soft plushie depicting a cat. Keep away from mice!"
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "cat"
+	inhand_icon_state = "cat"
+	attack_verb_continuous = list("nuzzles", "pounces", "purrs")
+	attack_verb_simple = list("nuzzle", "pounce", "purr")
+	squeak_override = list('sound/effects/meow1.ogg' = 1)
+	
