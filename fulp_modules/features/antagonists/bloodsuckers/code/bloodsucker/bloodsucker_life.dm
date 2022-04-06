@@ -1,7 +1,9 @@
-/// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
+/// Runs from COMSIG_LIVING_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	SIGNAL_HANDLER
 
+	if(isbrain(owner.current))
+		return
 	if(!owner)
 		INVOKE_ASYNC(src, .proc/HandleDeath)
 		return
@@ -29,7 +31,7 @@
 		if(prob(85) || owner.current.stat != CONSCIOUS || HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 			return
 		var/message = pick(strings("malkavian_revelations.json", "revelations", "fulp_modules/strings/bloodsuckers"))
-		INVOKE_ASYNC(owner.current, /atom/movable/proc/say, message, , , , , , CLAN_MALKAVIAN)
+		INVOKE_ASYNC(owner.current, /atom/movable/proc/say, message, forced = CLAN_MALKAVIAN)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //			BLOOD
@@ -208,7 +210,7 @@
 /// FINAL DEATH
 /datum/antagonist/bloodsucker/proc/HandleDeath()
 	// Not "Alive"?
-	if(!owner.current || !iscarbon(owner.current) || isbrain(owner.current) || !get_turf(owner.current))
+	if(!owner.current || !get_turf(owner.current))
 		FinalDeath()
 		return
 	// Fire Damage? (above double health)

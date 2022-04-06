@@ -28,8 +28,13 @@
 /datum/antagonist/vassal/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	add_team_hud(current_mob)
+	current_mob.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	add_team_hud(current_mob, /datum/antagonist/bloodsucker)
+
+/datum/antagonist/vassal/remove_innate_effects(mob/living/mob_override)
+	. = ..()
+	var/mob/living/current_mob = mob_override || owner.current
+	current_mob.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 
 /datum/antagonist/vassal/pre_mindshield(mob/implanter, mob/living/mob_override)
 	if(favorite_vassal)
@@ -50,8 +55,6 @@
 			bloodsuckerdatum.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
-	/// Give Vassal Pinpointer
-	owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/bloodsucker/recuperate)
 	/// Give Objectives
@@ -64,23 +67,27 @@
 	. = ..()
 
 /datum/antagonist/vassal/on_removal()
-	/// Free them from their Master
+	//Free them from their Master
 	if(master && master.owner)
 		master.vassals -= src
 		owner.enslaved_to = null
-	/// Remove Pinpointer
-	owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
-	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
+	//Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
 	for(var/all_status_traits in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
-	/// Remove Recuperate Power
+	//Remove Recuperate Power
 	while(powers.len)
 		var/datum/action/bloodsucker/power = pick(powers)
 		powers -= power
 		power.Remove(owner.current)
-	/// Remove Language & Hud
+	//Remove Language & Hud
 	owner.current.remove_language(/datum/language/vampiric)
 	return ..()
+
+/datum/antagonist/vassal/on_body_transfer(mob/living/old_body, mob/living/new_body)
+	. = ..()
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+		all_powers.Remove(old_body)
+		all_powers.Grant(new_body)
 
 /datum/antagonist/vassal/proc/add_objective(datum/objective/added_objective)
 	objectives += added_objective

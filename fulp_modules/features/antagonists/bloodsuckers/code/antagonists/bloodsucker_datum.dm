@@ -111,14 +111,14 @@
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	RegisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/LifeTick)
+	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, .proc/LifeTick)
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	UnregisterSignal(owner.current, COMSIG_LIVING_BIOLOGICAL_LIFE)
+	UnregisterSignal(current_mob, COMSIG_LIVING_LIFE)
 	handle_clown_mutation(current_mob, removing = FALSE)
 
 /datum/antagonist/bloodsucker/get_admin_commands()
@@ -156,6 +156,36 @@
 	clan.check_cancel_sunlight()
 	ClearAllPowersAndStats()
 	return ..()
+
+/datum/antagonist/bloodsucker/on_body_transfer(mob/living/old_body, mob/living/new_body)
+	. = ..()
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+		all_powers.Remove(old_body)
+		all_powers.Grant(new_body)
+	var/old_punchdamagelow
+	var/old_punchdamagehigh
+	if(ishuman(old_body))
+		var/mob/living/carbon/human/old_user = old_body
+		var/datum/species/old_species = old_user.dna.species
+		old_species.species_traits -= DRINKSBLOOD
+		//Keep track of what they were
+		old_punchdamagelow = old_species.punchdamagelow
+		old_punchdamagehigh = old_species.punchdamagehigh
+		//Then reset them
+		old_species.punchdamagelow = initial(old_species.punchdamagelow)
+		old_species.punchdamagehigh = initial(old_species.punchdamagehigh)
+	if(ishuman(new_body))
+		var/mob/living/carbon/human/new_user = new_body
+		var/datum/species/new_species = new_user.dna.species
+		new_species.species_traits += DRINKSBLOOD
+		//Give old punch damage values
+		new_species.punchdamagelow = old_punchdamagelow
+		new_species.punchdamagehigh = old_punchdamagehigh
+
+	//Give Bloodsucker Traits
+	for(var/all_traits in bloodsucker_traits)
+		REMOVE_TRAIT(old_body, all_traits, BLOODSUCKER_TRAIT)
+		ADD_TRAIT(new_body, all_traits, BLOODSUCKER_TRAIT)
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
@@ -327,7 +357,7 @@
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/bloodsucker/veil)
 	add_verb(owner.current, /mob/living/proc/explain_powers)
-	// Traits: Species
+	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
 		var/datum/species/user_species = user.dna.species
@@ -335,13 +365,13 @@
 		user.dna?.remove_all_mutations()
 		user_species.punchdamagelow += 1 //lowest possible punch damage - 0
 		user_species.punchdamagehigh += 1 //highest possible punch damage - 9
-	/// Give Bloodsucker Traits
+	//Give Bloodsucker Traits
 	for(var/all_traits in bloodsucker_traits)
 		ADD_TRAIT(owner.current, all_traits, BLOODSUCKER_TRAIT)
-	/// Clear Addictions
+	//Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
-	/// No Skittish "People" allowed
+	//No Skittish "People" allowed
 	if(HAS_TRAIT(owner.current, TRAIT_SKITTISH))
 		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
 	// Tongue & Language
