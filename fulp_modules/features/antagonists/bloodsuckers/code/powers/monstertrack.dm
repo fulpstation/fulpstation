@@ -18,7 +18,7 @@
 	. = ..()
 	/// Return text indicating direction
 	to_chat(owner, span_notice("You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order."))
-	if(!do_after(owner, 6 SECONDS, src))
+	if(!do_after(owner, 6 SECONDS, owner))
 		return
 	if(give_pinpointer)
 		var/mob/living/user = owner
