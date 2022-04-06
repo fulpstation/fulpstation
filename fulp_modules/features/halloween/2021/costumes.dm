@@ -281,17 +281,66 @@
 
 /obj/item/clothing/mask/costume_2021/breather_mask
 	name = "breather mask"
-	desc = "A tight green balaclava with breathing apparatus strapped to the front."
+	desc = "A tight green balaclava with breathing apparatus strapped to the front. Only has one eye socket."
 	icon_state = "breather_mask"
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEHAIR
 	clothing_flags = MASKINTERNALS
+	modifies_speech = TRUE
+
+/obj/item/clothing/mask/costume_2021/breather_mask/blue
+	desc = "A tight blue balaclava with breathing apparatus strapped to the front. Only has one eye socket."
+	icon_state = "breather_mask_blue"
+
+/obj/item/clothing/mask/costume_2021/breather_mask/equipped(mob/user, slot)
+	. = ..()
+	if(slot != ITEM_SLOT_MASK)
+		return
+	START_PROCESSING(SSobj, src)
+
+/obj/item/clothing/mask/costume_2021/breather_mask/dropped(mob/user)
+	. = ..()
+	if(user.get_item_by_slot(ITEM_SLOT_MASK) == src)
+		STOP_PROCESSING(SSobj, src)
+
+/obj/item/clothing/mask/costume_2021/breather_mask/process(delta_time)
+	var/mob/living/breather_boy = loc
+	if(prob(70))
+		return
+	breather_boy.emote("gasp")
+	if(prob(15))
+		breather_boy.emote("gasp")
+		breather_boy.emote("gasp")
+
+/obj/item/clothing/mask/costume_2021/breather_mask/handle_speech(datum/source, mob/speech_args)
+	var/message = speech_args[SPEECH_MESSAGE]
+	if(message)
+		var/list/message_split = splittext(message, " ")
+		var/list/new_message = list()
+		for(var/word in message_split)
+			if(word != message_split[1])
+				new_message += pick(
+					"..",
+					"...",
+					"*gasp*",
+					"... *gasp*..",
+					"*cough*",
+					"..eugh.",
+				)
+			new_message += word
+		message = jointext(new_message, " ")
+		playsound(source, 'fulp_modules/features/halloween/2021/yoo.wav', 50, TRUE)
+	speech_args[SPEECH_MESSAGE] = message
+	if(ismob(source))
+		var/mob/source_mob = source
+		INVOKE_ASYNC(source_mob, /mob.proc/emote, "gasp")
+		if(prob(1))
+			INVOKE_ASYNC(source_mob, /mob.proc/emote, "collapse")
 
 /obj/item/storage/box/halloween/edition_21/breather_mask
 	theme_name = "2021's Breather Boys"
 	costume_contents = list(
 		/obj/item/clothing/mask/costume_2021/breather_mask,
-		/obj/item/clothing/mask/costume_2021/breather_mask,
-		/obj/item/clothing/mask/costume_2021/breather_mask,
+		/obj/item/clothing/mask/costume_2021/breather_mask/blue,
 	)
 
 
