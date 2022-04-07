@@ -1,6 +1,7 @@
 ///Never loses power
 /obj/machinery/prisongate/permabrig/power_change()
-	return
+	. = ..()
+	gate_active = TRUE
 
 ///Allows anyone with an ID to traverse through
 /obj/machinery/prisongate/permabrig/CanAllowThrough(atom/movable/gate_toucher, border_dir)
