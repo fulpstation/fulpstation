@@ -56,8 +56,8 @@
 	exp_requirements = 180
 
 /datum/job/paramedic
-	total_positions = 4
-	spawn_positions = 8
+	total_positions = 2
+	spawn_positions = 4
 	exp_requirements = 180
 
 /datum/job/chemist
