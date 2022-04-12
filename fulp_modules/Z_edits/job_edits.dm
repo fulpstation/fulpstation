@@ -19,7 +19,7 @@
 	spawn_positions = 8
 
 /datum/job/prisoner
-	total_positions = 2
+	total_positions = 0
 	spawn_positions = 0
 
 /** Engineering */
