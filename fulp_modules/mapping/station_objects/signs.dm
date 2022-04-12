@@ -18,3 +18,4 @@
 
 /obj/structure/sign/map/fulp/selene/right
 	icon_state = "map-right-selene"
+	
