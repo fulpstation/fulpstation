@@ -3,13 +3,17 @@
 	. = ..()
 	AddComponent(/datum/component/bodycamera_holder)
 
+/obj/item/clothing/suit/hooded/wintercoat/security/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/bodycamera_holder)
+
 /**
  * The bodycamera
  *
  * This is the item that gets installed into items that have the bodycamera_holder element
  */
 /obj/item/bodycam_upgrade
-	name = "body camera upgrade"
+	name = "\improper body camera"
 	icon = 'fulp_modules/features/clothing/body_cameras/bodycamera.dmi'
 	icon_state = "bodycamera"
 	desc = "An armor vest upgrade, there's an instructions tag if you look a little closer..."
