@@ -481,6 +481,7 @@
 	name = "Toolbox Tournamet silver medal"
 	desc = "A silver medal for the second place finalists of the Toolbox Tournament. This one is for the year 2561."
 	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
 	icon_state = "tt_medal"
 	resistance_flags = FIRE_PROOF
 
