@@ -1,7 +1,9 @@
-/// Runs from COMSIG_LIVING_BIOLOGICAL_LIFE, handles Bloodsucker constant proccesses.
+/// Runs from COMSIG_LIVING_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	SIGNAL_HANDLER
 
+	if(isbrain(owner.current))
+		return
 	if(!owner)
 		INVOKE_ASYNC(src, .proc/HandleDeath)
 		return
@@ -208,7 +210,7 @@
 /// FINAL DEATH
 /datum/antagonist/bloodsucker/proc/HandleDeath()
 	// Not "Alive"?
-	if(!owner.current || !iscarbon(owner.current) || isbrain(owner.current) || !get_turf(owner.current))
+	if(!owner.current || !get_turf(owner.current))
 		FinalDeath()
 		return
 	// Fire Damage? (above double health)

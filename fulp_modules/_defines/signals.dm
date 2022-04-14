@@ -1,6 +1,3 @@
-/// Deals with constant processes off of LifeTick()
-#define COMSIG_LIVING_BIOLOGICAL_LIFE "biological_life"
-
 ///Mentorsay's keybind being pressed.
 #define COMSIG_KB_ADMIN_MSAY_DOWN "keybinding_mentor_msay_down"
 

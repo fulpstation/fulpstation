@@ -22,7 +22,7 @@
 		return
 	if(give_pinpointer)
 		var/mob/living/user = owner
-		user.apply_status_effect(STATUS_EFFECT_HUNTERPINPOINTER)
+		user.apply_status_effect(/datum/status_effect/agent_pinpointer/hunter_edition)
 	display_proximity()
 
 /datum/action/bloodsucker/trackvamp/proc/display_proximity()
