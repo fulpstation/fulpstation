@@ -15,7 +15,7 @@
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
-/obj/machinery/newscaster/security_unit/directional/north,
+/obj/machinery/newscaster/directional/north,
 /obj/structure/reagent_dispensers/wall/peppertank/directional/west,
 /turf/open/floor/mineral/plastitanium/red/brig,
 /area/shuttle/escape/brig)
@@ -66,8 +66,7 @@
 /area/shuttle/escape/brig)
 "am" = (
 /obj/machinery/door/airlock/command{
-	name = "Emergency Recovery Airlock";
-	req_access_txt = "19"
+	name = "Emergency Recovery Airlock"
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -75,6 +74,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/effect/mapping_helpers/airlock/access/all/command/general,
 /turf/open/floor/iron,
 /area/shuttle/escape/brig)
 "an" = (
@@ -98,8 +98,7 @@
 /area/shuttle/escape)
 "aq" = (
 /obj/machinery/door/airlock/shuttle{
-	name = "Emergency Shuttle Airlock";
-	req_access_txt = "2"
+	name = "Emergency Shuttle Airlock"
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -107,6 +106,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/effect/mapping_helpers/airlock/access/all/security/brig,
 /turf/open/floor/iron/white,
 /area/shuttle/escape/brig)
 "ar" = (
@@ -143,9 +143,9 @@
 /area/shuttle/escape)
 "av" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Holding Area";
-	req_access_txt = "2"
+	name = "Holding Area"
 	},
+/obj/effect/mapping_helpers/airlock/access/all/security/brig,
 /turf/open/floor/mineral/plastitanium/red/brig,
 /area/shuttle/escape/brig)
 "aw" = (
@@ -154,13 +154,13 @@
 /area/shuttle/escape)
 "ax" = (
 /obj/machinery/door/airlock/command/glass{
-	name = "Cockpit";
-	req_access_txt = "19"
+	name = "Cockpit"
 	},
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/effect/mapping_helpers/airlock/access/all/command/general,
 /turf/open/floor/iron,
 /area/shuttle/escape)
 "ay" = (

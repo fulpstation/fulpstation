@@ -166,7 +166,7 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 	clothes_req = FALSE
 	nonabstract_req = TRUE
 	phase_allowed = TRUE
-	antimagic_allowed = TRUE
+	antimagic_flags = NONE
 	invocation_type = INVOCATION_NONE
 
 /obj/effect/proc_holder/spell/self/special_equipment_fallback/cast(list/targets, mob/user)
@@ -931,22 +931,6 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/protect,
 		/datum/objective/jailbreak,
 		/datum/objective/jailbreak/detain,
-		// Fulp edit START - Bloodsuckers
-		// DEFAULT OBJECTIVES //
-		/datum/objective/bloodsucker/lair,
-		/datum/objective/survive/bloodsucker,
-		/datum/objective/bloodsucker/protege,
-		/datum/objective/bloodsucker/heartthief,
-		/datum/objective/bloodsucker/gourmand,
-		// CLAN OBJECTIVES //
-		/datum/objective/bloodsucker/gourmand/brujah, //Brujah
-		/datum/objective/bloodsucker/kindred, //Nosferatu
-		/datum/objective/bloodsucker/embrace, //Ventrue
-		// MISC OBJECTIVES //
-		/datum/objective/bloodsucker/monsterhunter,
-		/datum/objective/bloodsucker/vassalhim,
-		/datum/objective/bloodsucker/frenzy,
-		// Fulp edit END
 		/datum/objective/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,

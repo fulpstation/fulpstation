@@ -8,10 +8,10 @@
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 - code/game/gamemodes/objective.dm > Added Bloodsucker objectives to the list of objectives Admins can make
-- code/game/objects/items/devices/scanners.dm > Falsifies health analyzers if you're on Masquerade
+- code/game/objects/items/devices/scanners/health_analyzer.dm > Falsifies health analyzers if you're on Masquerade
 
 - code/modules/mob/living/carbon/human/examine.dm > Changes examine text for Beefmen || Added examining Bloodsuckers/Vassals || adds ShowAsPaleExamine()
-- code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences || Makes Digitigrade shoes fit Digi Lizards.
+- code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 

@@ -10,6 +10,7 @@
 	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
+	transparent_when_unavailable = TRUE
 
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
 	var/power_explanation = ""
@@ -80,7 +81,7 @@
 	PayCost()
 	ActivatePower()
 	if(!(power_flags & BP_AM_TOGGLE) || !active)
-		StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
+		StartCooldown()
 	return TRUE
 
 /datum/action/bloodsucker/proc/CheckCanPayCost()
@@ -134,9 +135,6 @@
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
 /datum/action/bloodsucker/proc/StartCooldown()
-	// Alpha Out
-	button.color = rgb(128,0,0,128)
-	button.alpha = 100
 	// Calculate Cooldown (by power's level)
 	var/this_cooldown
 	if(power_flags & BP_AM_STATIC_COOLDOWN)
@@ -146,18 +144,14 @@
 
 	// Wait for cooldown
 	COOLDOWN_START(src, bloodsucker_power_cooldown, this_cooldown)
-	addtimer(CALLBACK(src, .proc/alpha_in), this_cooldown)
-
-/datum/action/bloodsucker/proc/alpha_in()
-	button.color = rgb(255,255,255,255)
-	button.alpha = 255
+	addtimer(CALLBACK(src, .proc/UpdateButton), this_cooldown)
 
 /datum/action/bloodsucker/proc/CheckCanDeactivate()
 	return TRUE
 
-/datum/action/bloodsucker/UpdateButtonIcon(force = FALSE)
-	background_icon_state = active ? background_icon_state_on : background_icon_state_off
+/datum/action/bloodsucker/UpdateButton(atom/movable/screen/movable/action_button/button, status_only = FALSE, force = FALSE)
 	. = ..()
+	background_icon_state = active ? background_icon_state_on : background_icon_state_off
 
 /datum/action/bloodsucker/proc/PayCost()
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
@@ -173,7 +167,7 @@
 		RegisterSignal(owner, COMSIG_LIVING_LIFE, .proc/UsePower)
 
 	owner.log_message("used [src][bloodcost != 0 ? " at the cost of [bloodcost]" : ""].", LOG_ATTACK, color="red")
-	UpdateButtonIcon()
+	UpdateButton()
 
 /datum/action/bloodsucker/proc/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
@@ -182,8 +176,8 @@
 		RemoveAfterUse()
 		return
 	active = FALSE
-	UpdateButtonIcon()
 	StartCooldown()
+	UpdateButton()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)

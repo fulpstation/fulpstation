@@ -24,7 +24,7 @@
 
 		user.mob_light(_color = LIGHT_COLOR_BLOOD_MAGIC, _range = 3, _duration = 2)
 
-		var/anti_magic_source = victim.anti_magic_check()
+		var/anti_magic_source = victim.can_block_magic()
 		if(anti_magic_source)
 
 			victim.mob_light(_color = LIGHT_COLOR_HOLY_MAGIC, _range = 2, _duration = 100)

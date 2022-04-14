@@ -2,7 +2,7 @@
 	name = "Beefman"
 	plural_form = "Beefmen"
 	id = SPECIES_BEEFMAN
-	limbs_id = "beefman"
+	examine_limb_id = SPECIES_BEEFMAN
 	say_mod = "gurgles"
 	sexes = FALSE
 	default_color = "#e73f4e"
@@ -64,7 +64,7 @@
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
-	bodypart_overides = list(
+	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,\
 		BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,\
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,\
@@ -105,6 +105,9 @@
 	set_beef_color(user)
 	user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+
+	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
+		limb.update_limb(is_creating = TRUE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
@@ -308,7 +311,7 @@
 	if(user.handcuffed)
 		to_chat(user, span_alert("You can't get a good enough grip with your hands bound."))
 		return FALSE
-	if(affecting.status != BODYPART_ORGANIC)
+	if(!IS_ORGANIC_LIMB(affecting))
 		to_chat(user, "That thing is on there good. It's not coming off with a gentle tug.")
 		return FALSE
 

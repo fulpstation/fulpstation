@@ -213,8 +213,6 @@
 #define COMSIG_ITEM_EXPORTED "item_sold"
 	/// Stops the export from adding the export information to the report, so you can handle it manually.
 	#define COMPONENT_STOP_EXPORT_REPORT (1<<0)
-///called when a wrapped up structure is opened by hand
-#define COMSIG_STRUCTURE_UNWRAPPED "structure_unwrapped"
 ///called when a wrapped up item is opened by hand
 #define COMSIG_ITEM_UNWRAPPED "item_unwrapped"
 ///called when getting the item's exact ratio for cargo's profit.
@@ -372,10 +370,6 @@
 #define COMSIG_ITEM_AFTERATTACK_SECONDARY "item_afterattack_secondary"
 ///from base of obj/item/attack_qdeleted(): (atom/target, mob/user, params)
 #define COMSIG_ITEM_ATTACK_QDELETED "item_attack_qdeleted"
-// Aquarium related signals
-#define COMSIG_AQUARIUM_BEFORE_INSERT_CHECK "aquarium_about_to_be_inserted"
-#define COMSIG_AQUARIUM_SURFACE_CHANGED "aquarium_surface_changed"
-#define COMSIG_AQUARIUM_FLUID_CHANGED "aquarium_fluid_changed"
 
 ///from /obj/item/assembly/proc/pulsed()
 #define COMSIG_ASSEMBLY_PULSED "assembly_pulsed"
