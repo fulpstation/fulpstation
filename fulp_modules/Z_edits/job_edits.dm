@@ -127,5 +127,5 @@
 /** Silicon */
 /datum/job/cyborg
 	total_positions = 0
-	spawn_positions = 1
+	spawn_positions = 2
 	exp_requirements = 300
