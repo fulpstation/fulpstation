@@ -21,6 +21,7 @@
 	var/obj/machinery/camera/builtin_bodycamera
 
 /obj/item/bodycam_upgrade/examine_more(mob/user)
+	. = ..()
 	. += list(span_notice("Use [src] on any valid vest to quickly install."))
 	. += list(span_notice("Use a [span_bold("screwdriver")] to remove it."))
 	. += list(span_notice("While equipped, use your ID card on the vest to activate/deactivate the camera."))

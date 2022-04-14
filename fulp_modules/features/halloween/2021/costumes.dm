@@ -256,7 +256,8 @@
 		user.dna.species.punchdamagehigh -= 0.1
 
 /obj/item/clothing/gloves/costume_2021/infinity_gloves/examine_more(mob/user)
-	. = list(span_notice("Wearing these will <i>very slightly</i> increase your punching damage."))
+	. = ..()
+	. += list(span_notice("Wearing these will <i>very slightly</i> increase your punching damage."))
 
 /obj/item/clothing/shoes/costume_2021/infinity_shoes
 	name = "infinity shoes"
