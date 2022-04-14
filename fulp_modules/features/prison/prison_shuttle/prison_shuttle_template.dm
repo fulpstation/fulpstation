@@ -35,7 +35,7 @@
 	for(var/area/shuttle/shuttle_area in shuttle_areas)
 		for(var/turf/shuttle_turf in shuttle_area)
 			for(var/mob/living/passenger in shuttle_turf.get_all_contents())
-				if(!passenger.mind)
+				if(!passenger.mind && !passenger.ckey) // no mind and ckey? don't care then.
 					continue
 				to_chat(passenger, span_boldannounce("You fell off the shuttle!"))
 				passenger.forceMove(pick(GLOB.areas_by_type[dropoff_area]))
