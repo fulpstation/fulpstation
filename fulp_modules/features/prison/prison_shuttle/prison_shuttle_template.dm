@@ -143,12 +143,16 @@
 	var/turf/pod_loc
 	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
 	for(var/area/shuttle/shuttle_area in shuttle_areas)
-		for(var/turf/shuttle_turf in shuttle_area)
-			if(iswallturf(shuttle_turf) || isstructure(shuttle_turf))
-				continue
-			if(!pod_loc && prob(5))
-				pod_loc = shuttle_turf
-				break
+		checking_turfs:
+			for(var/turf/shuttle_turf in shuttle_area)
+				if(!isfloorturf(shuttle_turf))
+					continue
+				for(var/obj/structure/checked_object in shuttle_turf)
+					if(checked_object.density)
+						continue checking_turfs
+				if(!pod_loc && prob(5))
+					pod_loc = shuttle_turf
+					break
 
 	var/list/spawned_garbage = list(
 		/obj/item/trash/candy,
