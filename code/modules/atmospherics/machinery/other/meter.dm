@@ -17,7 +17,7 @@
 	///The piping layer of the target
 	var/target_layer = PIPING_LAYER_DEFAULT
 
-/obj/machinery/meter/monitored/Destroy()
+/obj/machinery/meter/Destroy()
 	SSair.stop_processing_machine(src)
 	target = null
 	return ..()
