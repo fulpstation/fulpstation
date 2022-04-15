@@ -163,4 +163,4 @@
 		if(!IS_ORGANIC_LIMB(src))
 			icon_static = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 		else
-			icon_static = icon_greyscale
+			icon_static = initial(icon_static)
