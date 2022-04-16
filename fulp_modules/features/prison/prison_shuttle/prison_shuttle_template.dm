@@ -134,10 +134,10 @@
 
 /datum/map_template/shuttle/prison/cleaning/proc/send_more_trash()
 	var/turf/pod_loc
-	for(var/obj/effect/landmark/prison_shuttle_podspawn/chosen_spawn in GLOB.landmarks_list)
-		while(!pod_loc)
+	while(!pod_loc)
+		for(var/obj/effect/landmark/prison_shuttle_podspawn/chosen_spawn in GLOB.landmarks_list)
 			if(prob(20))
-				pod_loc = chosen_spawn
+				pod_loc = chosen_spawn.loc
 				break
 
 	var/list/spawned_garbage = list(
