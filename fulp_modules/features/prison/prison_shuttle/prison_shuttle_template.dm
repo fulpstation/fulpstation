@@ -122,24 +122,21 @@
 	objective_price = 150
 	explanation_text = "We noticed that one of our ships were getting a little... dirty. Please clean up in there. \
 		Leave absolutely NOTHING in the shuttle. AT ALL. We want it completely clean and empty."
+	// How many drop pods of extra trash we want to be spawned after the shuttle arrives
+	var/extra_trash_amount = 3
 
 /datum/map_template/shuttle/prison/cleaning/special_start_objective()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/send_more_trash), 15 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 30 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 45 SECONDS)
+	var/list/turf/possible_turfs = list()
+	for(var/obj/effect/landmark/prison_shuttle_podspawn/spawns in GLOB.landmarks_list)
+		possible_turfs += spawns.loc
+	for(var/i = 1, i <= extra_trash_amount, ++i)
+		addtimer(CALLBACK(src, .proc/send_more_trash, pick(possible_turfs)), (15*i) SECONDS)
 
 /obj/effect/landmark/prison_shuttle_podspawn
 	name = "prison_shuttle_podspawn"
 
-/datum/map_template/shuttle/prison/cleaning/proc/send_more_trash()
-	var/turf/pod_loc
-	while(!pod_loc)
-		for(var/obj/effect/landmark/prison_shuttle_podspawn/chosen_spawn in GLOB.landmarks_list)
-			if(prob(20))
-				pod_loc = chosen_spawn.loc
-				break
-
+/datum/map_template/shuttle/prison/cleaning/proc/send_more_trash(turf/pod_loc)
 	var/list/spawned_garbage = list(
 		/obj/item/trash/candy,
 		/obj/item/trash/syndi_cakes,
