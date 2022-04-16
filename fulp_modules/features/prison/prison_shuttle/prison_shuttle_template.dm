@@ -125,7 +125,17 @@
 
 /datum/map_template/shuttle/prison/cleaning/special_start_objective()
 	. = ..()
+	addtimer(CALLBACK(src, .proc/send_more_trash), 10 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 11 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 12 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 13 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 14 SECONDS)
 	addtimer(CALLBACK(src, .proc/send_more_trash), 15 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 16 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 17 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 18 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 19 SECONDS)
+	addtimer(CALLBACK(src, .proc/send_more_trash), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/send_more_trash), 30 SECONDS)
 	addtimer(CALLBACK(src, .proc/send_more_trash), 45 SECONDS)
 

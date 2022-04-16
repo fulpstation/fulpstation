@@ -18,9 +18,9 @@
 #define SHUTTLE_CLEANUP "prison_cleaning"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
 
-#define SHUTTLE_MIN_TIME (5.1 MINUTES)
-#define SHUTTLE_MAX_TIME (6.1 MINUTES)
-#define SHUTTLE_DELAY_TIME (8.1 MINUTES)
+#define SHUTTLE_MIN_TIME (1.1 MINUTES)
+#define SHUTTLE_MAX_TIME (2.1 MINUTES)
+#define SHUTTLE_DELAY_TIME (0.5 MINUTES)
 
 /**
  * Prison subsystem
@@ -39,14 +39,7 @@ SUBSYSTEM_DEF(permabrig)
 	COOLDOWN_DECLARE(shuttle_cooldown)
 	///Types of shuttle that will dock, each with a specific task to do
 	var/list/shuttle_types = list(
-		SHUTTLE_DISPOSALS,
-		SHUTTLE_MAIL,
-		SHUTTLE_BAR,
-		SHUTTLE_KITCHEN,
-		SHUTTLE_BOTANY,
-		SHUTTLE_PLATE_PRESS,
 		SHUTTLE_CLEANUP,
-		SHUTTLE_XENOBIOLOGY,
 	)
 
 /datum/controller/subsystem/permabrig/fire(resumed)
