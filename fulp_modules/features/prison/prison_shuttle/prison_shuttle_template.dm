@@ -125,35 +125,20 @@
 
 /datum/map_template/shuttle/prison/cleaning/special_start_objective()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/send_more_trash), 10 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 11 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 12 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 13 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 14 SECONDS)
 	addtimer(CALLBACK(src, .proc/send_more_trash), 15 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 16 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 17 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 18 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 19 SECONDS)
-	addtimer(CALLBACK(src, .proc/send_more_trash), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/send_more_trash), 30 SECONDS)
 	addtimer(CALLBACK(src, .proc/send_more_trash), 45 SECONDS)
 
+/obj/effect/landmark/prison_shuttle_podspawn
+	name = "prison_shuttle_podspawn"
+
 /datum/map_template/shuttle/prison/cleaning/proc/send_more_trash()
 	var/turf/pod_loc
-	var/list/area/shuttle/shuttle_areas = SSshuttle.prison_shuttle.shuttle_areas
-	for(var/area/shuttle/shuttle_area in shuttle_areas)
+	for(var/obj/effect/landmark/prison_shuttle_podspawn/chosen_spawn in GLOB.landmarks_list)
 		while(!pod_loc)
-			checking_turfs:
-				for(var/turf/shuttle_turf in shuttle_area)
-					if(!isfloorturf(shuttle_turf))
-						continue
-					for(var/obj/structure/checked_object in shuttle_turf)
-						if(checked_object.density)
-							continue checking_turfs
-					if(!pod_loc && prob(5))
-						pod_loc = shuttle_turf
-						break
+			if(prob(20))
+				pod_loc = chosen_spawn
+				break
 
 	var/list/spawned_garbage = list(
 		/obj/item/trash/candy,
