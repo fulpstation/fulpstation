@@ -226,6 +226,9 @@
 	enrico.hair_color = "FFF"
 	enrico.skin_tone = "african2"
 
+	enrico.update_hair()
+	enrico.update_body()
+
 	var/icon/enrico_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit, enrico)
 	enrico_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
 
