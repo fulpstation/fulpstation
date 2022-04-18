@@ -55,6 +55,7 @@
 	disliked_food = VEGETABLES | FRUIT | CLOTH
 	liked_food = RAW | MEAT | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
+	species_cookie = /obj/item/food/meat/slab
 	attack_verb = "meat"
 	payday_modifier = 0.75
 	speedmod = -0.2
