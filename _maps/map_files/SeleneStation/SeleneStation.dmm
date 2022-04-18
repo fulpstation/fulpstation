@@ -13400,6 +13400,9 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/sign/warning/securearea{
+	pixel_y = 28
+	},
 /turf/open/floor/plating,
 /area/science/mixing)
 "dwC" = (
@@ -18167,7 +18170,7 @@
 /area/engineering/atmos)
 "eLr" = (
 /obj/machinery/doppler_array{
-	dir = 8
+	dir = 4
 	},
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/neutral{
@@ -22123,6 +22126,9 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/stripes/line,
+/obj/machinery/mass_driver/ordnance{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/science/mixing)
 "fKO" = (
@@ -26499,8 +26505,15 @@
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
 "gSG" = (
+/obj/machinery/door/window/northright{
+	name = "Mass Driver Door";
+	req_access_txt = "8"
+	},
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
 /turf/open/floor/plating,
-/area/space/nearstation)
+/area/science/mixing)
 "gSR" = (
 /obj/structure/table/reinforced,
 /obj/item/trash/chips,
@@ -45693,17 +45706,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
-"lQK" = (
-/obj/structure/sign/warning/securearea{
-	pixel_y = 28
-	},
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating,
-/area/science/mixing)
 "lQL" = (
 /obj/machinery/atmospherics/pipe/smart/simple/purple/visible{
 	dir = 4
@@ -50256,9 +50258,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
-"mTu" = (
-/turf/closed/wall,
-/area/science/mixing)
 "mTy" = (
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Maintenance Hatch";
@@ -57953,19 +57952,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/research)
-"oZI" = (
-/obj/machinery/door/window/northright{
-	name = "Mass Driver Door";
-	req_access_txt = "8"
-	},
-/obj/effect/turf_decal/loading_area{
-	dir = 1
-	},
-/obj/machinery/computer/pod/old/mass_driver_controller/ordnancedriver{
-	pixel_x = -28
-	},
-/turf/open/floor/iron,
-/area/science/mixing)
 "pac" = (
 /obj/structure/bookcase,
 /turf/open/floor/plating,
@@ -69413,9 +69399,11 @@
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
 "rZH" = (
-/obj/structure/extinguisher_cabinet/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
+	},
+/obj/machinery/computer/pod/old/mass_driver_controller/ordnancedriver{
+	pixel_y = 32
 	},
 /turf/open/floor/iron,
 /area/science/mixing)
@@ -76675,13 +76663,6 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
-"tXl" = (
-/obj/machinery/mass_driver/ordnance{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/full,
-/turf/open/floor/plating,
-/area/science/mixing)
 "tXm" = (
 /obj/structure/table,
 /obj/item/gavelblock,
@@ -141984,7 +141965,7 @@ bke
 oSC
 sDL
 wpj
-gSG
+wpj
 xBU
 mSd
 iMG
@@ -142497,10 +142478,10 @@ xBU
 iQW
 iQW
 iQW
-iQW
+yju
+yju
+yju
 qMc
-tXl
-oZI
 qus
 ifn
 rsF
@@ -142756,8 +142737,8 @@ yju
 yju
 yju
 qMc
-lQK
-mTu
+qMc
+qMc
 rZH
 pIp
 sJZ
@@ -143014,7 +142995,7 @@ yju
 iQW
 qMc
 fKM
-qmp
+gSG
 msY
 sJZ
 sJZ
