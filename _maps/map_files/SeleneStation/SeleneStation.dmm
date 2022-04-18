@@ -3481,11 +3481,13 @@
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "aVd" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
+/obj/effect/turf_decal/stripes/corner{
 	dir = 1
 	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
 /area/science/mixing)
 "aVs" = (
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
@@ -4364,7 +4366,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating/airless,
-/area/space/nearstation)
+/area/science/mixing)
 "bia" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
@@ -9185,15 +9187,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/command/heads_quarters/rd)
-"csb" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/obj/effect/turf_decal/stripes/corner{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/space/nearstation)
 "csg" = (
 /obj/machinery/door/airlock{
 	name = "Service Hall";
@@ -13394,15 +13387,12 @@
 /turf/closed/wall,
 /area/hallway/primary/aft)
 "dwe" = (
-/obj/machinery/light/small/directional/north,
-/obj/effect/turf_decal/stripes/line,
+/obj/machinery/door/poddoor/massdriver_ordnance,
+/obj/structure/fans/tiny,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/sign/warning/securearea{
-	pixel_y = 28
-	},
+/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
 /area/science/mixing)
 "dwC" = (
@@ -21853,12 +21843,6 @@
 /obj/machinery/light/directional/west,
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
-"fIh" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/space/nearstation)
 "fIn" = (
 /obj/structure/table/wood,
 /obj/item/reagent_containers/food/drinks/waterbottle/large/empty,
@@ -22122,12 +22106,9 @@
 /turf/open/floor/circuit/green,
 /area/ai_monitored/turret_protected/aisat/atmos)
 "fKM" = (
+/obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
-	},
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/mass_driver/ordnance{
-	dir = 4
 	},
 /turf/open/floor/plating,
 /area/science/mixing)
@@ -26504,16 +26485,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
-"gSG" = (
-/obj/machinery/door/window/northright{
-	name = "Mass Driver Door";
-	req_access_txt = "8"
-	},
-/obj/effect/turf_decal/loading_area{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/science/mixing)
 "gSR" = (
 /obj/structure/table/reinforced,
 /obj/item/trash/chips,
@@ -43308,15 +43279,6 @@
 /obj/machinery/portable_atmospherics/canister/air,
 /turf/open/floor/engine/air,
 /area/engineering/atmos)
-"lmz" = (
-/obj/machinery/door/poddoor/massdriver_ordnance,
-/obj/structure/fans/tiny,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plating,
-/area/science/mixing)
 "lmI" = (
 /obj/structure/rack,
 /obj/effect/spawner/random/techstorage/engineering_all,
@@ -45706,6 +45668,18 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/lobby)
+"lQK" = (
+/obj/machinery/light/small/directional/north,
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/sign/warning/securearea{
+	pixel_y = 28
+	},
+/turf/open/floor/plating,
+/area/science/mixing)
 "lQL" = (
 /obj/machinery/atmospherics/pipe/smart/simple/purple/visible{
 	dir = 4
@@ -50258,6 +50232,9 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/atmospherics_engine)
+"mTu" = (
+/turf/closed/wall,
+/area/science/mixing)
 "mTy" = (
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Maintenance Hatch";
@@ -57952,6 +57929,16 @@
 	},
 /turf/open/floor/iron/white,
 /area/science/research)
+"oZI" = (
+/obj/machinery/door/window/northright{
+	name = "Mass Driver Door";
+	req_access_txt = "8"
+	},
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/science/mixing)
 "pac" = (
 /obj/structure/bookcase,
 /turf/open/floor/plating,
@@ -69403,7 +69390,7 @@
 	dir = 8
 	},
 /obj/machinery/computer/pod/old/mass_driver_controller/ordnancedriver{
-	pixel_y = 32
+	pixel_y = 28
 	},
 /turf/open/floor/iron,
 /area/science/mixing)
@@ -76663,6 +76650,16 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/service/kitchen)
+"tXl" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/mass_driver/ordnance{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/science/mixing)
 "tXm" = (
 /obj/structure/table,
 /obj/item/gavelblock,
@@ -142479,9 +142476,9 @@ iQW
 iQW
 iQW
 yju
-yju
-yju
 qMc
+tXl
+oZI
 qus
 ifn
 rsF
@@ -142737,8 +142734,8 @@ yju
 yju
 yju
 qMc
-qMc
-qMc
+lQK
+mTu
 rZH
 pIp
 sJZ
@@ -142995,7 +142992,7 @@ yju
 iQW
 qMc
 fKM
-gSG
+qmp
 msY
 sJZ
 sJZ
@@ -143507,7 +143504,7 @@ iQW
 iQW
 iQW
 iQW
-qMc
+bhZ
 aVd
 qmp
 gsw
@@ -143764,8 +143761,8 @@ iQW
 iQW
 iQW
 iQW
-qMc
-lmz
+yju
+iQW
 qMc
 qmp
 qmp
@@ -144021,9 +144018,9 @@ iQW
 iQW
 iQW
 iQW
-bhZ
-csb
-fIh
+yju
+iQW
+yju
 iQW
 iQW
 yju
