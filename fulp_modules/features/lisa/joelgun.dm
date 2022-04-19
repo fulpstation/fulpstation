@@ -11,7 +11,8 @@
 	var/used_ability = FALSE
 
 /obj/item/gun/ballistic/revolver/joel/examine_more(mob/user)
-	. = list(span_warning("<i>You examine [src]'s instructions;</i>"))
+	. = ..()
+	. += list(span_warning("<i>You examine [src]'s instructions;</i>"))
 	. += list(
 		span_warning("Activate [src] in hand to use Gun Toss (If wearing Holster: Gun Flip),\n\
 		AltClick [src] to use Mind Games (If wearing Holster: Holster reveal),\n\

@@ -24,7 +24,7 @@
 
 		user.mob_light(_color = LIGHT_COLOR_BLOOD_MAGIC, _range = 3, _duration = 2)
 
-		var/anti_magic_source = victim.anti_magic_check()
+		var/anti_magic_source = victim.can_block_magic()
 		if(anti_magic_source)
 
 			victim.mob_light(_color = LIGHT_COLOR_HOLY_MAGIC, _range = 2, _duration = 100)
@@ -48,8 +48,8 @@
 			if(HAS_TRAIT(target, TRAIT_MINDSHIELD)) // Mindshield just re-directs the stun's spell from their brain to their body.
 				var/mob/living/carbon/carbon_target = victim
 				to_chat(user, span_cultitalic("Our spell fails to brainwash their strong mind, tearing their skull open!"))
-				carbon_target.stuttering += 8
-				carbon_target.Jitter(6)
+				carbon_target.adjust_timed_status_effect(10 SECONDS, /datum/status_effect/speech/stutter)
+				carbon_target.Jitter(1 SECONDS)
 				carbon_target.bleed(30)
 				var/obj/item/bodypart/head = carbon_target.get_bodypart(BODY_ZONE_HEAD)
 				var/datum/wound/slash/moderate/crit_wound = new
@@ -65,8 +65,8 @@
 				else if(iscarbon(target))
 					var/mob/living/carbon/carbon_target = victim
 					carbon_target.silent += 6
-					carbon_target.stuttering += 15
-					carbon_target.cultslurring += 15
-					carbon_target.Jitter(15)
+					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/stutter)
+					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/slurring/cult)
+					carbon_target.Jitter(1.5 SECONDS)
 		uses--
-	. = ..()
+	return ..()

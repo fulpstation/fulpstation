@@ -36,17 +36,3 @@
 			user.equipOutfit(oath_outfit)
 		else
 			user.equipOutfit(normal_outfit)
-
-/datum/antagonist/ert/proc/choose_secert_race()
-	var/mob/living/carbon/human/user = owner.current
-	var/synth = /datum/species/synth
-	var/mil_synth = /datum/species/synth/military
-	var/race = pick_weight(list("Default" = 90, "Military" = 1, "Synth" = 9)) // VERY low chance to become a Military Synth, 1/10 chance to become a synth
-
-	switch(race)
-		if("Military")
-			user.set_species(mil_synth)
-		if("Synth")
-			user.set_species(synth)
-		else
-			return FALSE

@@ -43,13 +43,13 @@
 /mob/living/carbon/getBruteLoss_nonProsthetic()
 	var/amount = 0
 	for(var/obj/item/bodypart/chosen_bodypart in bodyparts)
-		if(chosen_bodypart.status < BODYPART_ROBOTIC)
+		if(IS_ORGANIC_LIMB(chosen_bodypart))
 			amount += chosen_bodypart.brute_dam
 	return amount
 
 /mob/living/carbon/getFireLoss_nonProsthetic()
 	var/amount = 0
 	for(var/obj/item/bodypart/chosen_bodypart in bodyparts)
-		if(chosen_bodypart.status < BODYPART_ROBOTIC)
+		if(IS_ORGANIC_LIMB(chosen_bodypart))
 			amount += chosen_bodypart.burn_dam
 	return amount
