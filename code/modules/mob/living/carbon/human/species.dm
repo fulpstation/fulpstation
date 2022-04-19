@@ -731,6 +731,13 @@ GLOBAL_LIST_EMPTY(features_by_species)
 					accessory = GLOB.animated_spines_list[source.dna.features["spines"]]
 				if("ears")
 					accessory = GLOB.ears_list[source.dna.features["ears"]]
+				// Fulp edit START - Species
+				if("beefeyes")
+					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
+						accessory = GLOB.eyes_beefman[source.dna.features["beefeyes"]]
+				if("beefmouth")
+					accessory = GLOB.mouths_beefman[source.dna.features["beefmouth"]]
+				// Fulp edit END
 				if("body_markings")
 					accessory = GLOB.body_markings_list[source.dna.features["body_markings"]]
 				if("legs")
