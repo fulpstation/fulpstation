@@ -34,3 +34,4 @@
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/beefman_features.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/character_preferences/antag_tips.tsx
+- tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/ghostinfiltrator.ts

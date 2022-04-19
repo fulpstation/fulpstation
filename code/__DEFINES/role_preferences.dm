@@ -105,6 +105,7 @@
 #define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
+#define ROLE_INFILTRATOR "Infiltrator"
 
 /// This defines the antagonists you can operate with in the settings.
 /// Keys are the antagonist, values are the number of days since the player's
@@ -159,6 +160,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_VAMPIRICACCIDENT = 0,
 	ROLE_BLOODSUCKERBREAKOUT = 0,
 	ROLE_MONSTERHUNTER = 0,
+	ROLE_INFILTRATOR = 0,
 	// Fulp edit END
 ))
 
