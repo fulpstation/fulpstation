@@ -25,7 +25,7 @@
 		var/gulp_size = 5
 		reagents.trans_to(user, gulp_size, transfered_by = user, methods = INGEST)
 		playsound(user.loc, 'sound/items/drink.ogg', rand(10,50), 1)
-	. = ..()
+	return ..()
 
 //////////////////////
 //      HEART       //
@@ -138,14 +138,13 @@
 		// If stack depleted, put item in that hand (if it had one)
 		if(!wood_stack && replace)
 			user.put_in_hands(new_item)
-	if(istype(item, merge_type))
-		var/obj/item/stack/merged_stack = item
-		if(merge(merged_stack))
-			to_chat(user, span_notice("Your [merged_stack.name] stack now contains [merged_stack.get_amount()] [merged_stack.singular_name]\s."))
-	else
-		. = ..()
+		return
+	return ..()
 
 /// Do I have a stake in my heart?
+/mob/proc/AmStaked()
+	return FALSE
+
 /mob/living/AmStaked()
 	var/obj/item/bodypart/chosen_bodypart = get_bodypart(BODY_ZONE_CHEST)
 	if(!chosen_bodypart)
@@ -153,9 +152,6 @@
 	for(var/obj/item/embedded_stake in chosen_bodypart.embedded_objects)
 		if(istype(embedded_stake, /obj/item/stake))
 			return TRUE
-	return FALSE
-
-/mob/proc/AmStaked()
 	return FALSE
 
 /// You can't go to sleep in a coffin with a stake in you.

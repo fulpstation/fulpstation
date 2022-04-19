@@ -343,7 +343,7 @@
 			)
 
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /obj/item/storage/box/halloween/edition_20/onesie/beefman
 	theme_name = "2020's Onesie - Beefman"
@@ -365,7 +365,7 @@
 		/obj/item/clothing/suit/hooded/onesie/ethereal/red,
 	)
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /obj/item/storage/box/halloween/edition_20/onesie/felinid
 	theme_name = "2020's Onesie - Felinid"

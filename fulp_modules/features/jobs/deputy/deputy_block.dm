@@ -36,13 +36,3 @@
 /datum/martial_art/deputyblock/can_use(mob/living/owner)
 	if(is_type_in_list(get_area(owner), valid_area))
 		return TRUE
-
-/// This is required or else the block chance just wont work
-/datum/martial_art/deputyblock/disarm_act(mob/living/user, mob/living/target)
-	. = ..()
-
-/datum/martial_art/deputyblock/grab_act(mob/living/user, mob/living/target)
-	. = ..()
-
-/datum/martial_art/deputyblock/harm_act(mob/living/user, mob/living/target)
-	. = ..()

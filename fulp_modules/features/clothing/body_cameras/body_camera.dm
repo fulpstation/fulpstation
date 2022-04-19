@@ -71,7 +71,6 @@
 	RegisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER), .proc/on_screwdriver_act)
 
 /datum/component/bodycamera_holder/UnregisterFromParent()
-	. = ..()
 	UnregisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER))
 	UnregisterSignal(parent, COMSIG_PARENT_ATTACKBY)
 	UnregisterSignal(parent, COMSIG_PARENT_EXAMINE)
