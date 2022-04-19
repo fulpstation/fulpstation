@@ -181,7 +181,7 @@
 /datum/objective/assassinate/monkify/update_explanation_text()
 	..()
 	if(target?.current)
-		explanation_text = "Transform [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] and euthanize him."
+		explanation_text = "Monkify [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] and euthanize him."
 
 
 //Mauradars Objectives
