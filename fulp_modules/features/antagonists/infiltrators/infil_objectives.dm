@@ -98,10 +98,7 @@
 
 /datum/objective/escape/escape_with_identity/infiltrator/proc/find_sec_target()
 	var/list/sec = SSjob.get_all_sec()
-	if(!sec.len)
-		find_target()
-	else
-		target = pick(sec)
+	target = (sec.len) ? pick(sec) : find_target()
 	update_explanation_text()
 
 //Animal Rights Consortium Objectives
@@ -123,6 +120,8 @@
 	target_pet = locate(chosen_pet) in GLOB.mob_living_list
 
 	update_explanation_text()
+
+
 
 /datum/objective/kill_pet/proc/remove_duplicate(possible_target_pets)
 	for(var/datum/objective/kill_pet/objective in owner.get_all_objectives())
@@ -164,10 +163,7 @@
 
 /datum/objective/assassinate/monkify/proc/find_head_target()
 	var/list/com_targets = SSjob.get_all_heads()
-	if(!com_targets.len)
-		find_target()
-	else
-		target = pick(com_targets)
+	target = (com_targets.len) ? pick(com_targets) : find_target()
 	update_explanation_text()
 
 /datum/objective/assassinate/monkify/check_completion()

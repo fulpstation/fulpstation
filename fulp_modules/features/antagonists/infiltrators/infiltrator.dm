@@ -61,7 +61,6 @@
 	gloves = /obj/item/clothing/gloves/combat
 	r_pocket = /obj/item/tank/internals/emergency_oxygen
 	internals_slot = ITEM_SLOT_RPOCKET
-	belt = /obj/item/crowbar/power/syndicate
 
 /datum/outfit/infiltrator/cc
 	name = "Corporate Climber Infiltrator"
