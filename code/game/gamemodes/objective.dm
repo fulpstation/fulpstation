@@ -931,6 +931,24 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/protect,
 		/datum/objective/jailbreak,
 		/datum/objective/jailbreak/detain,
+		// Fulp edit START - Bloodsuckers
+		// DEFAULT OBJECTIVES //
+		/datum/objective/bloodsucker/lair,
+		/datum/objective/survive/bloodsucker,
+		/datum/objective/bloodsucker/protege,
+		/datum/objective/bloodsucker/heartthief,
+		/datum/objective/bloodsucker/gourmand,
+		// CLAN OBJECTIVES //
+		/datum/objective/bloodsucker/gourmand/brujah,
+		/datum/objective/bloodsucker/kindred,
+		/datum/objective/bloodsucker/embrace,
+		// MISC OBJECTIVES //
+		/datum/objective/bloodsucker/monsterhunter,
+		/datum/objective/bloodsucker/vassalhim,
+		/datum/objective/bloodsucker/frenzy,
+		// DEVIL AFFAIR OBJECTIVES //
+		/datum/objective/assassinate/internal,
+		// Fulp edit END
 		/datum/objective/destroy,
 		/datum/objective/hijack,
 		/datum/objective/escape,

@@ -1,12 +1,4 @@
 /**
- * # DEFINES
- *
- * Due to how DEFINES work, they ALWAYS have to be read FIRST.
- * Therefore, Fulp defines must all be placed in this folder, despite modularity.
- */
-
-
-/**
  * # MARTIAL ARTS
  */
 //Used in hunterfu.dm
@@ -62,3 +54,5 @@
 
 ///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
 #define CALIBER_C22 ".c22"
+///File to the flavor file
+#define DEVILAFFAIR_FLAVOR_FILE "devilaffair_flavor.json"
