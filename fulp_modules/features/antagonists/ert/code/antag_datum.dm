@@ -42,14 +42,6 @@
 	engi_ert_alert()
 	. = ..()
 
-/datum/antagonist/ert/security/specialized/on_gain()
-	. = ..()
-	choose_secert_race()
-
-/datum/antagonist/ert/commander/security/on_gain()
-	. = ..()
-	choose_secert_race()
-
 /datum/antagonist/ert/medic/specialized/on_gain()
 	. = ..()
 	choose_medert_outfit()

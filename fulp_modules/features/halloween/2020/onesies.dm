@@ -80,7 +80,7 @@
 			user.update_inv_wear_suit()
 			for(var/all_selections in actions)
 				var/datum/action/onesie_options = all_selections
-				onesie_options.UpdateButtonIcon()
+				onesie_options.UpdateButton()
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/proc/toggle_suit_light(mob/living/user)
 	on = !on

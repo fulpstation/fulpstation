@@ -166,7 +166,7 @@
 	trim_state = "trim_deputy"
 	sechud_icon_state = SECHUD_DEPUTY
 	extra_access = list(ACCESS_MAINT_TUNNELS)
-	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
+	minimal_access = list(ACCESS_BRIG_ENTRANCE, ACCESS_SECURITY, ACCESS_BRIG, ACCESS_MINERAL_STOREROOM)
 	config_job = "deputy"
 	template_access = list(ACCESS_CAPTAIN, ACCESS_HOS, ACCESS_CHANGE_IDS)
 	job = /datum/job/deputy

@@ -56,8 +56,8 @@
 	exp_requirements = 180
 
 /datum/job/paramedic
-	total_positions = 4
-	spawn_positions = 8
+	total_positions = 2
+	spawn_positions = 4
 	exp_requirements = 180
 
 /datum/job/chemist
@@ -127,5 +127,5 @@
 /** Silicon */
 /datum/job/cyborg
 	total_positions = 0
-	spawn_positions = 4
+	spawn_positions = 2
 	exp_requirements = 300

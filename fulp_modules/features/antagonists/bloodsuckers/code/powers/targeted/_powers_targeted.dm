@@ -26,7 +26,6 @@
 		return FALSE
 
 	ActivatePower()
-	UpdateButtonIcon()
 	// Create & Link Targeting Proc
 	var/mob/living/user = owner
 	if(user.ranged_ability)
@@ -38,10 +37,10 @@
 
 /datum/action/bloodsucker/targeted/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
-		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
+		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
 	active = FALSE
 	DeactivateRangedAbility()
-	UpdateButtonIcon()
+	UpdateButtons()
 //	..() // we don't want to pay cost here
 
 /// Only Turned off when CLICK is disabled...aka, when you successfully clicked

@@ -5,11 +5,15 @@
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	//This is the ICON_STATE for the background icon
 	background_icon_state = "vamp_power_off"
-	var/background_icon_state_on = "vamp_power_on"
-	var/background_icon_state_off = "vamp_power_off"
 	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
+	transparent_when_unavailable = TRUE
+
+	///Background icon when the Power is active.
+	var/background_icon_state_on = "vamp_power_on"
+	///Background icon when the Power is NOT active.
+	var/background_icon_state_off = "vamp_power_off"
 
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
 	var/power_explanation = ""
@@ -55,20 +59,13 @@
 	return ..()
 
 /datum/action/bloodsucker/IsAvailable()
-	return TRUE
+	return COOLDOWN_FINISHED(src, bloodsucker_power_cooldown)
 
 /datum/action/bloodsucker/Grant(mob/user)
 	. = ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
 	if(bloodsuckerdatum)
 		bloodsuckerdatum_power = bloodsuckerdatum
-
-/**
- * # NOTES
- *
- * click.dm <--- Where we can take over mouse clicks
- * spells.dm  /add_ranged_ability()  <--- How we take over the mouse click to use a power on a target.
- */
 
 //This is when we CLICK on the ability Icon, not USING.
 /datum/action/bloodsucker/Trigger(trigger_flags)
@@ -80,7 +77,7 @@
 	PayCost()
 	ActivatePower()
 	if(!(power_flags & BP_AM_TOGGLE) || !active)
-		StartCooldown() // Must come AFTER UpdateButtonIcon(), otherwise icon will revert!
+		StartCooldown()
 	return TRUE
 
 /datum/action/bloodsucker/proc/CheckCanPayCost()
@@ -134,9 +131,6 @@
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
 /datum/action/bloodsucker/proc/StartCooldown()
-	// Alpha Out
-	button.color = rgb(128,0,0,128)
-	button.alpha = 100
 	// Calculate Cooldown (by power's level)
 	var/this_cooldown
 	if(power_flags & BP_AM_STATIC_COOLDOWN)
@@ -146,18 +140,17 @@
 
 	// Wait for cooldown
 	COOLDOWN_START(src, bloodsucker_power_cooldown, this_cooldown)
-	addtimer(CALLBACK(src, .proc/alpha_in), this_cooldown)
-
-/datum/action/bloodsucker/proc/alpha_in()
-	button.color = rgb(255,255,255,255)
-	button.alpha = 255
+	addtimer(CALLBACK(src, .proc/UpdateButtons), this_cooldown+(1 SECONDS))
 
 /datum/action/bloodsucker/proc/CheckCanDeactivate()
 	return TRUE
 
-/datum/action/bloodsucker/UpdateButtonIcon(force = FALSE)
-	background_icon_state = active ? background_icon_state_on : background_icon_state_off
-	. = ..()
+/datum/action/bloodsucker/UpdateButton(atom/movable/screen/movable/action_button/button, status_only = FALSE, force = FALSE)
+	if(active)
+		background_icon_state = background_icon_state_on
+	else
+		background_icon_state = background_icon_state_off
+	return ..()
 
 /datum/action/bloodsucker/proc/PayCost()
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
@@ -170,20 +163,20 @@
 /datum/action/bloodsucker/proc/ActivatePower()
 	active = TRUE
 	if(power_flags & BP_AM_TOGGLE)
-		RegisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE, .proc/UsePower)
+		RegisterSignal(owner, COMSIG_LIVING_LIFE, .proc/UsePower)
 
 	owner.log_message("used [src][bloodcost != 0 ? " at the cost of [bloodcost]" : ""].", LOG_ATTACK, color="red")
-	UpdateButtonIcon()
+	UpdateButtons()
 
 /datum/action/bloodsucker/proc/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
-		UnregisterSignal(owner, COMSIG_LIVING_BIOLOGICAL_LIFE)
+		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
 	if(power_flags & BP_AM_SINGLEUSE)
 		RemoveAfterUse()
 		return
 	active = FALSE
-	UpdateButtonIcon()
 	StartCooldown()
+	UpdateButtons()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/proc/UsePower(mob/living/user)
