@@ -84,7 +84,10 @@
 
 /datum/objective/escape/escape_with_identity/infiltrator/proc/find_sec_target()
 	var/list/sec = SSjob.get_all_sec()
-	target = (sec.len) ? pick(sec) : find_target()
+	if(!sec.len)
+		find_target()
+	else
+		target = pick(sec)
 	update_explanation_text()
 
 //Animal Rights Consortium Objectives
@@ -149,7 +152,16 @@
 
 /datum/objective/assassinate/monkify/proc/find_head_target()
 	var/list/com_targets = SSjob.get_all_heads()
-	target = (com_targets.len) ? pick(com_targets) : find_target()
+
+	for(var/targ in com_targets)   //removes beefmen and plasmamen from the list
+		var/datum/mind/mind = targ
+		if(HAS_TRAIT(mind.current, TRAIT_GENELESS))
+			com_targets -= targ
+
+	if(!com_targets.len)
+		find_target()
+	else
+		target = pick(com_targets)
 	update_explanation_text()
 
 /datum/objective/assassinate/monkify/check_completion()
