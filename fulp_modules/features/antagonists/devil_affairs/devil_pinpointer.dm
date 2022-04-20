@@ -1,5 +1,5 @@
 /atom/movable/screen/alert/status_effect/agent_pinpointer/devil_affairs
-	name = "Internal Affairs Integrated Pinpointer"
+	name = "Devil Affairs Integrated Pinpointer"
 	desc = "Even stealthier than a normal implant."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "pinon"

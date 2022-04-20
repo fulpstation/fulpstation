@@ -43,7 +43,7 @@
 	. = ..()
 	var/crime = pick(
 		"distribution of contraband",
-		"unauthorized erotic action on duty",
+		"ERP",
 		"embezzlement",
 		"piloting under the influence",
 		"dereliction of duty",
@@ -64,8 +64,14 @@
 		"vandalism",
 		"gross incompetence",
 	)
-	to_chat(owner.current, span_userdanger("After having sold your soul to the Devil to get away with [crime], you are in desperate need to pay your dues. Luckily, the Devil offered to let you off the hook, if you collect the souls of those with debts owed to the Devil."))
-	to_chat(owner.current, span_userdanger("Watch your back, as it isn't uncommon for the Devil to play around with their victims, and likely offered someone else the same deal."))
+	to_chat(owner.current, span_userdanger(
+		"After having sold your soul to the Devil to get away with [crime], \
+		you are in desperate need to pay your dues. \
+		Luckily, the Devil offered to let you off the hook, \n\
+		if you collect the other souls with overdue debts to Him."))
+	to_chat(owner.current, span_userdanger(
+		"Watch your back, as it isn't uncommon for the Devil to play around with their victims, \
+		and likely offered someone else the same deal."))
 	owner.announce_objectives()
 
 /datum/antagonist/traitor/devil_affairs/forge_traitor_objectives()
