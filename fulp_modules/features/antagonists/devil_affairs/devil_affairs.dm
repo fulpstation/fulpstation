@@ -170,7 +170,7 @@
 /datum/outfit/devil_affair_agent
 	name = "Devil Affairs Agent (Preview only)"
 
-	suit = /obj/item/clothing/suit/costume_2019/devil
+	uniform = /obj/item/clothing/under/rank/centcom/officer
 	head = /obj/item/clothing/head/costume_2019/devil_horns
 	glasses = /obj/item/clothing/glasses/sunglasses
 	r_hand = /obj/item/melee/energy/sword
