@@ -125,20 +125,19 @@
 	if(used)
 		to_chat(user, "<span class='warning'>[src] has been already used, you can't activate it again!</span>")
 		return
-	if(!used)
-		if(stored)
-			user.visible_message("<span class='warning'>[user.name] shivers in pain and soon transform into [stored.dna.real_name]!</span>", \
-			"<span class='notice'>You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name].</span>")
+	if(!stored)
+		to_chat(user, "<span class='warning'>[src] doesn't have any DNA loaded in it!</span>")
+		return
 
-			user.real_name = stored.real_name
-			stored.dna.transfer_identity(user, transfer_SE=1)
-			user.updateappearance(mutcolor_update=1)
-			user.domutcheck()
-			used = TRUE
+		user.visible_message("<span class='warning'>[user.name] shivers in pain and soon transform into [stored.dna.real_name]!</span>", \
+	"<span class='notice'>You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name].</span>")
 
-			icon_state = "dnainjector0"
-			desc = "Toxin that permanently changes your DNA into the one of last injected person. This one is used up."
+	user.real_name = stored.real_name
+	stored.dna.transfer_identity(user, transfer_SE=1)
+	user.updateappearance(mutcolor_update=1)
+	user.domutcheck()
+	used = TRUE
 
-		else
-			to_chat(user, "<span class='warning'>[src] doesn't have any DNA loaded in it!</span>")
+	icon_state = "dnainjector0"
+	desc = "Toxin that permanently changes your DNA into the one of last injected person. This one is used up."
 
