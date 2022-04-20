@@ -2,11 +2,9 @@
 	name = "Infiltrator"
 	antagpanel_category = "Infiltrator"
 	job_rank = ROLE_INFILTRATOR
-	antag_hud_name = "traitor"
 	hijack_speed = 1
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE
-	antag_moodlet = /datum/mood_event/focused
 	preview_outfit = /datum/outfit/infiltrator
 	var/give_equipment = TRUE
 

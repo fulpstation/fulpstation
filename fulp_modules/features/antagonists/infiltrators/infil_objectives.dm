@@ -3,76 +3,62 @@
 		return
 	switch(employer)
 		if("Corporate Climber")
-			forge_traitor_objectives_cc()
+			var/datum/objective/assassinate/killtraitor = new
+			killtraitor.owner = owner
+			killtraitor.find_traitor_target()
+			objectives += killtraitor
+
+			var/datum/objective/escape/escape_with_identity/infiltrator/escape = new
+			escape.owner = owner
+			escape.find_sec_target()
+			objectives += escape
+
+			var/datum/objective/assassinate/killsec = new
+			killsec.owner = owner
+			killsec.target = escape.target   //assassinate the officer you're supposed to impersonate
+			killsec.update_explanation_text()
+			objectives += killsec
+
+			for(var/i = 0, i < 2, i++)
+				var/datum/objective/steal/steal_objective = new
+				steal_objective.owner = owner
+				steal_objective.find_target()
+				objectives += steal_objective
+
 		if("Animal Rights Consortium")
-			forge_traitor_objectives_arc()
+			for(var/i = 0, i < 2, i++)
+				var/datum/objective/kill_pet/pet = new
+				pet.owner = owner
+				pet.find_pet_target()
+				objectives += pet
+
+			for(var/i = 0, i < 2, i++)
+				var/datum/objective/assassinate/kill = new
+				kill.owner = owner
+				kill.find_sci_target()
+				objectives += kill
+
+			var/datum/objective/assassinate/monkify/monk = new
+			monk.owner = owner
+			monk.find_head_target()
+			objectives += monk
+
 		if("Gorlex Marauders")
-			forge_traitor_objectives_gm()
+			for(var/i = 0, i < rand(3,5) , i++)
+				var/datum/objective/assassinate/assassinate = new
+				assassinate.owner = owner
+				assassinate.find_target()
+				objectives += assassinate
 
-// Corporate Climber Objectives
-
-/datum/antagonist/traitor/infiltrator/proc/forge_traitor_objectives_cc()
-	var/datum/objective/assassinate/killtraitor = new
-	killtraitor.owner = owner
-	killtraitor.find_traitor_target()
-	objectives += killtraitor
-
-	var/datum/objective/escape/escape_with_identity/infiltrator/escape = new
-	escape.owner = owner
-	escape.find_sec_target()
-	objectives += escape
-
-	var/datum/objective/assassinate/killsec = new
-	killsec.owner = owner
-	killsec.target = escape.target   //assassinate the officer you're supposed to impersonate
-	killsec.update_explanation_text()
-	objectives += killsec
-
-	for(var/i = 0, i < 2, i++)
-		var/datum/objective/steal/steal_objective = new
-		steal_objective.owner = owner
-		steal_objective.find_target()
-		objectives += steal_objective
-
-
-/datum/antagonist/traitor/infiltrator/proc/forge_traitor_objectives_arc()
-	for(var/i = 0, i < 2, i++)
-		var/datum/objective/kill_pet/pet = new
-		pet.owner = owner
-		pet.find_pet_target()
-		objectives += pet
-
-	for(var/i = 0, i < 2, i++)
-		var/datum/objective/assassinate/kill = new
-		kill.owner = owner
-		kill.find_sci_target()
-		objectives += kill
-
-	var/datum/objective/assassinate/monkify/monk = new
-	monk.owner = owner
-	monk.find_head_target()
-	objectives += monk
-
-
-/datum/antagonist/traitor/infiltrator/proc/forge_traitor_objectives_gm()
-	for(var/i = 0, i < rand(3,5) , i++)
-		var/datum/objective/assassinate/assassinate = new
-		assassinate.owner = owner
-		assassinate.find_target()
-		objectives += assassinate
-
-	var/datum/objective/emag_console/emag = new
-	emag.owner = owner
-	emag.update_explanation_text()
-	objectives += emag
-
+			var/datum/objective/emag_console/emag = new
+			emag.owner = owner
+			emag.update_explanation_text()
+			objectives += emag
 
 
 //Corporate Climber objectives
 
 //Find Traitor target
-
-
 /datum/objective/assassinate/proc/find_traitor_target()
 	var/list/possible_targets = list()
 	for(var/mob/living/carbon/human/player in GLOB.player_list)
