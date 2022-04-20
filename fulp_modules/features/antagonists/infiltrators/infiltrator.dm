@@ -129,7 +129,7 @@
 		to_chat(user, "<span class='warning'>[src] doesn't have any DNA loaded in it!</span>")
 		return
 
-		user.visible_message("<span class='warning'>[user.name] shivers in pain and soon transform into [stored.dna.real_name]!</span>", \
+	user.visible_message("<span class='warning'>[user.name] shivers in pain and soon transform into [stored.dna.real_name]!</span>", \
 	"<span class='notice'>You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name].</span>")
 
 	user.real_name = stored.real_name
