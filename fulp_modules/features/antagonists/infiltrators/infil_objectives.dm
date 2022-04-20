@@ -2,7 +2,7 @@
 	if(!employer)
 		return
 	switch(employer)
-		if("Corporate Climber")
+		if(INFILTRATOR_FACTION_CORPORATE_CLIMBER)
 			var/datum/objective/assassinate/killtraitor = new
 			killtraitor.owner = owner
 			killtraitor.find_traitor_target()
@@ -25,7 +25,7 @@
 				steal_objective.find_target()
 				objectives += steal_objective
 
-		if("Animal Rights Consortium")
+		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
 			for(var/i = 0, i < 2, i++)
 				var/datum/objective/kill_pet/pet = new
 				pet.owner = owner
@@ -43,7 +43,7 @@
 			monk.find_head_target()
 			objectives += monk
 
-		if("Gorlex Marauders")
+		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			for(var/i = 0, i < rand(3,5) , i++)
 				var/datum/objective/assassinate/assassinate = new
 				assassinate.owner = owner
@@ -95,6 +95,7 @@
 //pet killing
 
 /datum/objective/kill_pet
+	name = "Kill a command pet"
 	var/mob/living/target_pet
 	martyr_compatible = TRUE
 
@@ -149,6 +150,7 @@
 //monkifying head of staff
 
 /datum/objective/assassinate/monkify
+	name = "Monkify and eliminate a crewmember."
 
 /datum/objective/assassinate/monkify/proc/find_head_target()
 	var/list/com_targets = SSjob.get_all_heads()
@@ -170,7 +172,7 @@
 	if(!.)
 		return FALSE
 
-	return completed || ismonkey(target.current)
+	return completed || ismonkey(target?.current)
 
 /datum/objective/assassinate/monkify/update_explanation_text()
 	..()
@@ -183,6 +185,7 @@
 //emagging communication console
 
 /datum/objective/emag_console
+	name = "Emag the communication console"
 	explanation_text = "Secure communication lines between Space Station 13 and the Syndicate by emagging the communications console!"
 
 /datum/objective/emag_console/check_completion()

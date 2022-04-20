@@ -11,13 +11,14 @@
 /datum/job/infiltrator
 	title = ROLE_INFILTRATOR
 
+
 /datum/antagonist/traitor/infiltrator/proc/equip_infiltrator(mob/living/carbon/human/infiltrator = owner.current)
 	switch(employer)
-		if("Corporate Climber")
+		if(INFILTRATOR_FACTION_CORPORATE_CLIMBER)
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/cc)
-		if("Animal Rights Consortium")
+		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/arc)
-		if("Gorlex Marauders")
+		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/gm)
 
 
@@ -31,11 +32,11 @@
 	uplink_handler.has_objectives = FALSE
 
 /datum/antagonist/traitor/infiltrator/pick_employer(faction)
-	faction = prob(67) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
+	faction = prob(70) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
 	if(faction == FACTION_NANOTRASEN)
-		employer = "Corporate Climber"
+		employer = INFILTRATOR_FACTION_CORPORATE_CLIMBER
 	else
-		employer = pick("Animal Rights Consortium","Gorlex Marauders")
+		employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 	forge_traitor_objectives()
 	traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
 

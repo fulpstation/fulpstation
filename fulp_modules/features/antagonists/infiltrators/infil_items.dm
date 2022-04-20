@@ -9,9 +9,6 @@
 	var/used = FALSE
 	var/mob/living/carbon/human/stored
 
-/obj/item/adv_mulligan/attack(mob/living/carbon/human/target, mob/living/carbon/human/user)
-	return
-
 /obj/item/adv_mulligan/afterattack(atom/movable/AM, mob/living/carbon/human/user, proximity)
 	. = ..()
 	if(!proximity)
