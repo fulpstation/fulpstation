@@ -100,13 +100,13 @@
 #define ROLE_BATTLECRUISER_CREW "Battlecruiser Crew"
 #define ROLE_BATTLECRUISER_CAPTAIN "Battlecruiser Captain"
 
-// fulp edit start - antag roles
+// Fulp edit start - antag roles
 #define ROLE_BLOODSUCKER "Bloodsucker"
 #define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
 #define ROLE_DEVIL_AFFAIRS "Devil Affairs Agent"
-// fulp edit end
+// Fulp edit end
 
 /// This defines the antagonists you can operate with in the settings.
 /// Keys are the antagonist, values are the number of days since the player's
