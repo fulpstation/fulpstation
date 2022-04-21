@@ -26,7 +26,7 @@
 				objectives += steal_objective
 
 		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
-			for(var/i = 0, i < 2, i++)
+			for(var/i = 0, i < 3, i++)
 				var/datum/objective/kill_pet/pet = new
 				pet.owner = owner
 				pet.find_pet_target()
@@ -38,13 +38,13 @@
 				kill.find_sci_target()
 				objectives += kill
 
-			var/datum/objective/assassinate/monkify/monk = new
-			monk.owner = owner
-			monk.find_head_target()
-			objectives += monk
+			var/datum/objective/assassinate/kill_head = new
+			kill_head.owner = owner
+			kill_head.find_head_target()
+			objectives += kill_head
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
-			for(var/i = 0, i < rand(3,5) , i++)
+			for(var/i = 0, i < rand(4,6) , i++)
 				var/datum/objective/assassinate/assassinate = new
 				assassinate.owner = owner
 				assassinate.find_target()
@@ -149,37 +149,18 @@
 	if(target?.current)
 		explanation_text = "Make a stance against science's animal experimentation by assassinating [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]!"
 
-//monkifying head of staff
 
-/datum/objective/assassinate/monkify
-	name = "Monkify and eliminate a crewmember."
 
-/datum/objective/assassinate/monkify/proc/find_head_target()
+
+/datum/objective/assassinate/proc/find_head_target()
 	var/list/com_targets = SSjob.get_all_heads()
-
-	for(var/targ in com_targets)   //removes beefmen and plasmamen from the list
-		var/datum/mind/mind = targ
-		if(HAS_TRAIT(mind.current, TRAIT_GENELESS))
-			com_targets -= targ
 
 	if(!com_targets.len)
 		find_target()
+		return
 	else
 		target = pick(com_targets)
 	update_explanation_text()
-
-/datum/objective/assassinate/monkify/check_completion()
-	. = ..()
-
-	if(!.)
-		return FALSE
-
-	return completed || ismonkey(target?.current)
-
-/datum/objective/assassinate/monkify/update_explanation_text()
-	..()
-	if(target?.current)
-		explanation_text = "Monkify [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] and euthanize him."
 
 
 //Mauradars Objectives
@@ -187,14 +168,12 @@
 //emagging communication console
 
 /datum/objective/emag_console
-	name = "Emag the communication console"
-	explanation_text = "Secure communication lines between Space Station 13 and the Syndicate by emagging the communications console!"
+	name = "Emag the emergency shuttle console"
+	explanation_text = "Give the crew a bumpy ride back home by emagging the emergency shuttle console!"
 
 /datum/objective/emag_console/check_completion()
 	var/check_emag = FALSE
-	for(var/obj/machinery/computer/communications/console in GLOB.machines)
-		if(!is_station_level(console.z))
-			continue
+	for(var/obj/machinery/computer/emergency_shuttle/console in GLOB.machines)
 		if(console.obj_flags & EMAGGED)
 			check_emag = TRUE
 			break
