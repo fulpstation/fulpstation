@@ -75,11 +75,3 @@
 	log_game("DYNAMIC: [key_name(infiltrator)] was spawned as an infiltrator by the midround ruleset.")
 	return infiltrator
 
-/datum/round_event_control/infiltrator
-	name = "Spawn Infiltrator"
-	typepath = /datum/round_event/ghost_role/infiltrator
-	max_occurrences = 2
-	weight = 5
-	earliest_start = 20 MINUTES
-	min_players = 15
-	dynamic_should_hijack = TRUE

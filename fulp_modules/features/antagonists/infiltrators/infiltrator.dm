@@ -71,7 +71,6 @@
 	name = "Animal Rights Consortium Infiltrator"
 	suit = /obj/item/clothing/suit/space/syndicate/green
 	head = /obj/item/clothing/head/helmet/space/syndicate/green
-	r_hand = /obj/item/dnainjector/h2m
 
 /datum/outfit/infiltrator/gm
 	name = "Gorlex Marauders Infiltrator"

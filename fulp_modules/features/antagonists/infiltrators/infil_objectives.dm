@@ -26,7 +26,7 @@
 				objectives += steal_objective
 
 		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
-			for(var/i = 0, i < 3, i++)
+			for(var/i = 0, i < 2, i++)
 				var/datum/objective/kill_pet/pet = new
 				pet.owner = owner
 				pet.find_pet_target()
@@ -154,7 +154,6 @@
 
 /datum/objective/assassinate/proc/find_head_target()
 	var/list/com_targets = SSjob.get_all_heads()
-
 	if(!com_targets.len)
 		find_target()
 		return
