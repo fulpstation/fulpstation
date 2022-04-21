@@ -16,7 +16,7 @@
 	if(!istype(user))
 		return
 	if(used)
-		to_chat(user, "<span class='warning'>[src] has been already used, you can't activate it again!</span>")
+		to_chat(user, span_warning("[src] has been already used, you can't activate it again!"))
 		return
 	if(ishuman(AM))
 		var/mob/living/carbon/human/target = AM
