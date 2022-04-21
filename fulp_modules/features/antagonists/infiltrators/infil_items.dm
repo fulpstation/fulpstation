@@ -22,7 +22,7 @@
 		var/mob/living/carbon/human/target = AM
 		if(user.real_name != target.dna.real_name)
 			stored = target
-			to_chat(user, "<span class='notice'>You stealthly stab [target.name] with [src].</span>")
+			to_chat(user, span_notice("You stealthly stab [target.name] with [src]."))
 			desc = "Toxin that permanently changes your DNA into the one of last injected person. It has DNA of <span class='blue'>[stored.dna.real_name]</span> inside."
 			icon_state = "dnainjector"
 		else
