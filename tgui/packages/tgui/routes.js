@@ -10,8 +10,6 @@ import { selectDebug } from './debug/selectors';
 import { Window } from './layouts';
 import {loadInterface} from "../fulpui-patches";
 
-const requireInterface = require.context('./interfaces');
-
 const routingError = (type, name) => () => {
   return (
     <Window>
