@@ -100,10 +100,15 @@
 	martyr_compatible = TRUE
 
 /datum/objective/kill_pet/proc/find_pet_target()
-	var/list/possible_target_pets =list(/mob/living/simple_animal/pet/dog/corgi/ian,
-	/mob/living/simple_animal/pet/dog/corgi/puppy/ian, /mob/living/simple_animal/hostile/carp/lia,
-	/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus, /mob/living/simple_animal/pet/fox/renault,
- 	/mob/living/simple_animal/pet/cat/runtime, /mob/living/simple_animal/parrot/poly)
+	var/list/possible_target_pets = list(
+		/mob/living/simple_animal/pet/dog/corgi/ian,
+		/mob/living/simple_animal/pet/dog/corgi/puppy/ian,
+		/mob/living/simple_animal/hostile/carp/lia,
+		/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
+		/mob/living/simple_animal/pet/fox/renault,
+ 		/mob/living/simple_animal/pet/cat/runtime,
+ 		/mob/living/simple_animal/parrot/poly,
+ 	)
 
 	remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
 	var/chosen_pet
