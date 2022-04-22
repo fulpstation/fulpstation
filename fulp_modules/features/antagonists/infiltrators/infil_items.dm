@@ -23,7 +23,6 @@
 		if(user.real_name != target.dna.real_name)
 			store = WEAKREF(target)
 			to_chat(user, span_notice("You stealthly stab [target.name] with [src]."))
-			desc = "Toxin that permanently changes your DNA into the one of last injected person. It has DNA of <span class='blue'>[target.dna.real_name]</span> inside."
 			icon_state = "dnainjector"
 		else
 			if(store)
@@ -47,7 +46,7 @@
 
 	var/mob/living/carbon/human/stored = store.resolve()
 
-	user.visible_message(span_warning("[user.name] shivers in pain and soon transform into [stored.dna.real_name]!"), \
+	user.visible_message(span_warning("[user.name] shivers in pain and soon transforms into [stored.dna.real_name]!"), \
 		span_notice("You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name]."))
 
 	user.real_name = stored.real_name
@@ -57,6 +56,9 @@
 	used = TRUE
 
 	icon_state = "dnainjector0"
-	desc = "Toxin that permanently changes your DNA into the one of last injected person. This one is used up."
-
 	store = null
+
+/obj/item/adv_mulligan/examine(mob/user)
+	. = ..()
+	if (used)
+		. += "This one is all used up."
