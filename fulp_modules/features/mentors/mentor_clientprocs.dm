@@ -11,7 +11,7 @@
 /client/Topic(href, href_list, hsrc)
 	if(mentor_client_procs(href_list))
 		return
-	. = ..()
+	return ..()
 
 /client/proc/mentor_client_procs(href_list)
 	if(href_list["mentor_msg"])

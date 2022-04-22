@@ -15,13 +15,13 @@
 	if(IS_BLOODSUCKER(user))
 		to_chat(user, span_warning("The Memento notices your undead soul, and refuses to react.."))
 		return
-	. = ..()
+	return ..()
 
 /datum/species/jelly/slime/spec_life(mob/living/carbon/human/user)
 	// Prevents Slimeperson 'gaming
 	if(IS_BLOODSUCKER(user))
 		return
-	. = ..()
+	return ..()
 
 /// Prevents Bloodsuckers from naturally regenerating Blood - Even while on masquerade
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
@@ -30,13 +30,13 @@
 	/// For Vassals -- Bloodsuckers get this removed while on Masquerade, so we don't want to remove the check above.
 	if(HAS_TRAIT(src, TRAIT_NOPULSE))
 		return
-	. = ..()
+	return ..()
 
 /mob/living/carbon/human/natural_bodytemperature_stabilization(datum/gas_mixture/environment, delta_time, times_fired)
 	// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
 	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
 		return 0
-	. = ..()
+	return ..()
 
 // Used when analyzing a Bloodsucker, Masquerade will hide brain traumas (Unless you're a Beefman)
 /mob/living/carbon/get_traumas()
@@ -45,7 +45,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(src)
 	if(bloodsuckerdatum && HAS_TRAIT(src, TRAIT_MASQUERADE) && !isbeefman(src))
 		return
-	. = ..()
+	return ..()
 
 // Used to keep track of how much Blood we've drank so far
 /mob/living/carbon/human/get_status_tab_items()
@@ -58,21 +58,6 @@
 
 
 // INTEGRATION: Adding Procs and Datums to existing "classes" //
-
-/mob/living/proc/HaveBloodsuckerBodyparts(displaymessage = "") // displaymessage can be something such as "rising from death" for Torpid Sleep. givewarningto is the person receiving messages.
-	if(!getorganslot(ORGAN_SLOT_HEART))
-		if(displaymessage != "")
-			to_chat(src, span_warning("Without a heart, you are incapable of [displaymessage]."))
-		return FALSE
-	if(!get_bodypart(BODY_ZONE_HEAD))
-		if(displaymessage != "")
-			to_chat(src, span_warning("Without a head, you are incapable of [displaymessage]."))
-		return FALSE
-	if(!getorgan(/obj/item/organ/brain)) // NOTE: This is mostly just here so we can do one scan for all needed parts when creating a vamp. You probably won't be trying to use powers w/out a brain.
-		if(displaymessage != "")
-			to_chat(src, span_warning("Without a brain, you are incapable of [displaymessage]."))
-		return FALSE
-	return TRUE
 
 // EXAMINING
 /mob/living/carbon/human/proc/ReturnVampExamine(mob/living/viewer)
@@ -150,7 +135,7 @@
 		return BLOODSUCKER_HIDE_BLOOD
 	// Special check: Nosferatu will always be Pale Death
 	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
-		return "<b>[p_they(TRUE)] look[p_s()] like pale death"
+		return "<b>[p_they(TRUE)] look[p_s()] as pale as a Vampire, what the fuck?!\n"
 	if(HAS_TRAIT(src, TRAIT_MASQUERADE))
 		return BLOODSUCKER_HIDE_BLOOD
 	switch(apparent_blood_volume)
@@ -158,8 +143,6 @@
 			return "[p_they(TRUE)] [p_have()] pale skin.\n"
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
 			return "<b>[p_they(TRUE)] look[p_s()] like pale death.</b>\n"
-	// If a Bloodsucker is malnourished, AND if his temperature matches his surroundings (aka he hasn't fed recently and looks COLD)
-//	return blood_volume < BLOOD_VOLUME_OKAY // && !(bodytemperature <= get_temperature() + 2)
 
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"

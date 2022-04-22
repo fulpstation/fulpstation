@@ -95,5 +95,5 @@
 						power.DeactivatePower()
 				all_targets.Jitter(20)
 				all_targets.set_confusion(max(8, all_targets.get_confusion()))
-				all_targets.stuttering = max(8, all_targets.stuttering)
+				all_targets.adjust_timed_status_effect(8 SECONDS, /datum/status_effect/speech/stutter)
 				all_targets.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity

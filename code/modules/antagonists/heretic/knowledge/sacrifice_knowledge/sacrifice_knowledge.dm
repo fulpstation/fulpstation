@@ -65,7 +65,7 @@
 	// Let's remove any humans in our atoms list that aren't a sac target
 	for(var/mob/living/carbon/human/sacrifice in atoms)
 		// If the mob's not in soft crit or worse, or isn't one of the sacrifices, remove it from the list
-		if(sacrifice.stat < SOFT_CRIT || !(WEAKREF(sacrifice) in heretic_datum.sac_targets))
+		if(sacrifice.stat < SOFT_CRIT || !(sacrifice in heretic_datum.sac_targets))
 			atoms -= sacrifice
 
 	// Finally, return TRUE if we have a target in the list
@@ -179,12 +179,12 @@
 	var/mob/living/carbon/human/sacrifice = locate() in selected_atoms
 	if(!sacrifice)
 		CRASH("[type] sacrifice_process didn't have a human in the atoms list. How'd it make it so far?")
-	if(!(WEAKREF(sacrifice) in heretic_datum.sac_targets))
+	if(!(sacrifice in heretic_datum.sac_targets))
 		CRASH("[type] sacrifice_process managed to get a non-target human. This is incorrect.")
 
 	if(sacrifice.mind)
 		LAZYADD(target_blacklist, sacrifice.mind)
-	LAZYREMOVE(heretic_datum.sac_targets, WEAKREF(sacrifice))
+	heretic_datum.remove_sacrifice_target(sacrifice)
 
 	to_chat(user, span_hypnophrase("Your patrons accepts your offer."))
 
@@ -363,9 +363,8 @@
 	SEND_SIGNAL(sac_target, COMSIG_CLEAR_MOOD_EVENT, "shadow_realm")
 
 	// Wherever we end up, we sure as hell won't be able to explain
-	sac_target.slurring += 20
-	sac_target.cultslurring += 20
-	sac_target.stuttering += 20
+	sac_target.adjust_timed_status_effect(40 SECONDS, /datum/status_effect/speech/slurring/heretic)
+	sac_target.adjust_timed_status_effect(40 SECONDS, /datum/status_effect/speech/stutter)
 
 	// They're already back on the station for some reason, don't bother teleporting
 	if(is_station_level(sac_target.z))

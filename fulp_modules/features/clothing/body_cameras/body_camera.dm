@@ -21,6 +21,7 @@
 	var/obj/machinery/camera/builtin_bodycamera
 
 /obj/item/bodycam_upgrade/examine_more(mob/user)
+	. = ..()
 	. += list(span_notice("Use [src] on any valid vest to quickly install."))
 	. += list(span_notice("Use a [span_bold("screwdriver")] to remove it."))
 	. += list(span_notice("While equipped, use your ID card on the vest to activate/deactivate the camera."))
@@ -70,7 +71,6 @@
 	RegisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER), .proc/on_screwdriver_act)
 
 /datum/component/bodycamera_holder/UnregisterFromParent()
-	. = ..()
 	UnregisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER))
 	UnregisterSignal(parent, COMSIG_PARENT_ATTACKBY)
 	UnregisterSignal(parent, COMSIG_PARENT_EXAMINE)

@@ -25,7 +25,7 @@
 		var/gulp_size = 5
 		reagents.trans_to(user, gulp_size, transfered_by = user, methods = INGEST)
 		playsound(user.loc, 'sound/items/drink.ogg', rand(10,50), 1)
-	. = ..()
+	return ..()
 
 //////////////////////
 //      HEART       //
@@ -138,14 +138,13 @@
 		// If stack depleted, put item in that hand (if it had one)
 		if(!wood_stack && replace)
 			user.put_in_hands(new_item)
-	if(istype(item, merge_type))
-		var/obj/item/stack/merged_stack = item
-		if(merge(merged_stack))
-			to_chat(user, span_notice("Your [merged_stack.name] stack now contains [merged_stack.get_amount()] [merged_stack.singular_name]\s."))
-	else
-		. = ..()
+		return
+	return ..()
 
 /// Do I have a stake in my heart?
+/mob/proc/AmStaked()
+	return FALSE
+
 /mob/living/AmStaked()
 	var/obj/item/bodypart/chosen_bodypart = get_bodypart(BODY_ZONE_CHEST)
 	if(!chosen_bodypart)
@@ -153,9 +152,6 @@
 	for(var/obj/item/embedded_stake in chosen_bodypart.embedded_objects)
 		if(istype(embedded_stake, /obj/item/stake))
 			return TRUE
-	return FALSE
-
-/mob/proc/AmStaked()
 	return FALSE
 
 /// You can't go to sleep in a coffin with a stake in you.
@@ -287,13 +283,13 @@
  */
 /obj/item/book/kindred
 	name = "\improper Archive of the Kindred"
-	title = "the Archive of the Kindred"
+	starting_title = "the Archive of the Kindred"
 	desc = "Cryptic documents explaining hidden truths behind Undead beings. It is said only Curators can decipher what they really mean."
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_leftinhand.dmi'
 	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_rightinhand.dmi'
 	icon_state = "kindred_book"
-	author = "dozens of generations of Curators"
+	starting_author = "dozens of generations of Curators"
 	unique = TRUE
 	throw_speed = 1
 	throw_range = 10
@@ -308,7 +304,7 @@
 /obj/item/book/kindred/attackby(obj/item/item, mob/user, params)
 	// Copied from '/obj/item/book/attackby(obj/item/item, mob/user, params)'
 	if((istype(item, /obj/item/knife) || item.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
-		to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [title]."))
+		to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [starting_title]."))
 		return
 	return ..()
 
@@ -379,24 +375,24 @@
 	INVOKE_ASYNC(src, .proc/search, usr, action)
 
 /obj/item/book/kindred/proc/search(mob/reader, clan)
-	dat = "<head>This is all knowledge about the Clan:</head><br>"
+	starting_content = "<head>This is all knowledge about the Clan:</head><br>"
 	switch(clan)
 		if(CLAN_BRUJAH)
-			dat += "This Clan has proven to be the strongest in melee combat, boasting a <b>powerful punch</b>.<br> \
+			starting_content += "This Clan has proven to be the strongest in melee combat, boasting a <b>powerful punch</b>.<br> \
 			They also appear to be more calm than the others, entering their 'frenzies' whenever they want, but <i>dont seem affected</i>.<br> \
 			Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy.<br> \
 			<b>Favorite Vassal</b>: Their favorite Vassal gains the Brawn ability. \
 			<b>Strength</b>: Frenzy will not kill them, punches deal a lot of damage.<br> \
 			<b>Weakness</b>: They have to spend Blood on powers while in Frenzy too."
 		if(CLAN_TOREADOR) // Flavortext only
-			dat += "The most charming Clan of them all, being borderline <i>party animals</i>, allowing them to <i>very easily</i> disguise among the crew.<br> \
+			starting_content += "The most charming Clan of them all, being borderline <i>party animals</i>, allowing them to <i>very easily</i> disguise among the crew.<br> \
 			They are more in touch with their <i>morals</i>, so they suffer and benefit more strongly from the humanity cost or gain of their actions.<br> \
 			They can be best defined as 'The most humane kind of vampire', due to their kindred with an obsession with perfectionism and beauty<br> \
 			<b>Favorite Vassal</b>: Their favorite Vassal gains the Mesmerize ability \
 			<b>Strength</b>: Highly charismatic and influential.<br> \
 			<b>Weakness</b>: Physically and Morally weak."
 		if(CLAN_NOSFERATU)
-			dat += "This Clan has been the most obvious to find information about.<br> \
+			starting_content += "This Clan has been the most obvious to find information about.<br> \
 			They are <i>disfigured, ghoul-like</i> vampires upon embrace by their Sire, scouts that travel through desolate paths to avoid violating the Masquerade.<br> \
 			They make <i>no attempts</i> at hiding themselves within the crew, and have a terrible taste for <i>heavy items</i>.<br> \
 			They also seem to manage to fit themsleves into small spaces such as <i>vents</i>.<br> \
@@ -404,7 +400,7 @@
 			<b>Strength</b>: Ventcrawl.<br> \
 			<b>Weakness</b>: Can't disguise themselves, permanently pale, can easily be discovered by their DNA or Blood Level."
 		if(CLAN_TREMERE)
-			dat += "This Clan seems to hate entering the <i>Chapel</i>.<br> \
+			starting_content += "This Clan seems to hate entering the <i>Chapel</i>.<br> \
 			They are a secluded Clan, they are Vampires who've mastered the power of blood, and seek knowledge.<br> \
 			They appear to be focused more on their Blood Magic than their other Powers, getting stronger faster the more Vassals they have.<br> \
 			They have 3 different paths they can take, from reviving people as Vassals, to stealing blood with beams made of the same essence.<br> \
@@ -412,7 +408,7 @@
 			<b>Strength</b>: 3 different Powers that get stupidly strong overtime.<br> \
 			<b>Weakness</b>: Cannot get regular Powers, with no way to get stun resistance outside of Frenzy."
 		if(CLAN_GANGREL) // Flavortext only
-			dat += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
+			starting_content += "This Clan seems to be closer to <i>Animals</i> than to other Vampires.<br> \
 			They also go by the name of <i>Werewolves</i>, as that is what appears when they enter a Frenzy.<br> \
 			Despite this, they appear to be scared of <i>'True Faith'</i>, someone's ultimate and undying Faith, which itself doesn't require being something Religious.<br> \
 			They hate seeing many people, and tend to avoid Stations that have <i>more crewmembers than Nanotrasen's average</i>. Due to this, they are harder to find than others.<br> \
@@ -420,7 +416,7 @@
 			<b>Strength</b>: Feral, Werewolf during Frenzy.<br> \
 			<b>Weakness</b>: Weak to True Faith."
 		if(CLAN_VENTRUE)
-			dat += "This Clan seems to <i>despise</i> drinking from non sentient organics.<br> \
+			starting_content += "This Clan seems to <i>despise</i> drinking from non sentient organics.<br> \
 			They are Masters of manipulation, Greedy and entitled. Authority figures between the kindred society.<br> \
 			They seem to take their Vassal's lives <i>very seriously</i>, going as far as to give Vassals some of their own Blood.<br> \
 			Compared to other types, this one <i>relies</i> on their Vassals, rather than fighting for themselves.<br> \
@@ -428,11 +424,11 @@
 			<b>Strength</b>: Slowly turns a Vassal into a Bloodsucker.<br> \
 			<b>Weakness</b>: Does not gain more abilities overtime, it is best to target the Bloodsucker over the Vassal."
 		if(CLAN_MALKAVIAN)
-			dat += "There is barely any information known about this Clan.<br> \
+			starting_content += "There is barely any information known about this Clan.<br> \
 			Members of this Clan seems to <i>mumble things to themselves</i>, unaware of their surroundings.<br> \
 			They also seem to enter and dissapear into areas randomly, <i>as if not even they know where they are</i>.<br> \
 			<b>Favorite Vassal</b>: Unknown. \
 			<b>Strength</b>: Unknown.<br> \
 			<b>Weakness</b>: Unknown."
 
-	reader << browse("<meta charset=UTF-8><TT><I>Penned by [author].</I></TT> <BR>" + "[dat]", "window=book[window_size != null ? ";size=[window_size]" : ""]")
+	reader << browse("<meta charset=UTF-8><TT><I>Penned by [starting_author].</I></TT> <BR>" + "[starting_content]", "window=book[window_size != null ? ";size=[window_size]" : ""]")

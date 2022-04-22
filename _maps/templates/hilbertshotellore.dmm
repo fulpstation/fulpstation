@@ -24,6 +24,10 @@
 /obj/structure/table/wood,
 /obj/structure/showcase/machinery/tv,
 /obj/machinery/light/small/directional/north,
+/obj/effect/overlay{
+	icon_state = "television_broken";
+	icon = 'icons/obj/computer.dmi'
+	},
 /turf/open/indestructible/hotelwood,
 /area/hilbertshotel)
 "ag" = (
@@ -66,11 +70,6 @@
 /obj/machinery/light/small/directional/west,
 /turf/open/indestructible/hotelwood,
 /area/hilbertshotel)
-"ap" = (
-/obj/structure/bed,
-/obj/item/bedsheet/random,
-/turf/open/indestructible/hotelwood,
-/area/hilbertshotel)
 "aq" = (
 /obj/structure/chair/comfy/brown{
 	dir = 1
@@ -100,11 +99,7 @@
 /obj/structure/closet/cabinet{
 	anchored = 1
 	},
-/turf/open/indestructible/hotelwood,
-/area/hilbertshotel)
-"ax" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/cobweb/cobweb2,
+/obj/item/mod/module/eradication_lock,
 /turf/open/indestructible/hotelwood,
 /area/hilbertshotel)
 "ay" = (
@@ -136,7 +131,7 @@
 /turf/open/indestructible/hoteltile,
 /area/hilbertshotel)
 "aF" = (
-/obj/machinery/door/window/northleft,
+/obj/machinery/door/window/left/directional/north,
 /turf/open/indestructible/hotelwood,
 /area/hilbertshotel)
 "aG" = (
@@ -251,9 +246,7 @@
 /area/hilbertshotel)
 "aY" = (
 /obj/structure/chair/stool/bar/directional/south,
-/obj/effect/decal/cleanable/blood,
 /obj/effect/decal/cleanable/vomit,
-/obj/effect/mob_spawn/corpse/human/doctorhilbert,
 /turf/open/indestructible/hotelwood,
 /area/hilbertshotel)
 "aZ" = (
@@ -273,10 +266,6 @@
 	pixel_y = 2
 	},
 /obj/effect/decal/cleanable/dirt,
-/turf/open/indestructible/hoteltile,
-/area/hilbertshotel)
-"bc" = (
-/obj/effect/decal/cleanable/blood,
 /turf/open/indestructible/hoteltile,
 /area/hilbertshotel)
 "bd" = (
@@ -328,8 +317,14 @@
 /area/hilbertshotel)
 "bl" = (
 /obj/structure/table/reinforced,
-/obj/item/paper/crumpled/bloody/docsdeathnote,
+/obj/item/paper/crumpled/ruins/hotel_note,
 /turf/open/indestructible/hotelwood,
+/area/hilbertshotel)
+"LB" = (
+/turf/open/space/bluespace{
+	density = 1;
+	can_atmos_pass = 0
+	},
 /area/hilbertshotel)
 "Mn" = (
 /obj/structure/table/wood/fancy,
@@ -358,13 +353,13 @@ aa
 aa
 ab
 ab
-ab
+LB
 ab
 ab
 as
 ab
 ab
-ab
+LB
 ab
 ab
 ab
@@ -380,17 +375,17 @@ ak
 ad
 aL
 an
-ad
+LB
 aF
 be
 aQ
-aG
+LB
 ab
 aa
 "}
 (4,1,1) = {"
 aa
-ab
+LB
 ae
 ad
 al
@@ -402,7 +397,7 @@ aH
 ad
 aL
 aG
-ab
+LB
 aa
 "}
 (5,1,1) = {"
@@ -426,7 +421,7 @@ aa
 aa
 ab
 ae
-ad
+LB
 aM
 aq
 ad
@@ -435,13 +430,13 @@ aA
 bk
 bf
 bf
-aG
-ab
+LB
+LB
 aa
 "}
 (7,1,1) = {"
 aa
-ab
+LB
 aW
 aL
 am
@@ -459,9 +454,9 @@ aa
 (8,1,1) = {"
 aa
 ab
+LB
 ab
-ab
-ab
+LB
 ar
 ab
 ab
@@ -487,7 +482,7 @@ bb
 bh
 aI
 bj
-ab
+LB
 aa
 "}
 (10,1,1) = {"
@@ -497,13 +492,13 @@ ah
 ad
 aL
 aL
-ad
+LB
 ab
-aZ
+LB
 aZ
 aC
 aZ
-aZ
+LB
 ab
 aa
 "}
@@ -515,7 +510,7 @@ ad
 ad
 aL
 av
-ab
+LB
 aD
 aC
 aN
@@ -528,7 +523,7 @@ aa
 aa
 ab
 Mn
-ad
+LB
 aL
 ad
 aw
@@ -543,15 +538,15 @@ aa
 "}
 (13,1,1) = {"
 aa
-ab
-ad
+LB
+LB
 ad
 aL
-ad
+LB
 ad
 ab
 aC
-bc
+aC
 aZ
 aZ
 aC
@@ -561,9 +556,9 @@ aa
 (14,1,1) = {"
 aa
 ab
-ax
+aL
 aj
-ap
+LB
 aU
 ah
 ab
@@ -571,13 +566,16 @@ ba
 bd
 aP
 aK
-aC
+LB
 ab
 aa
 "}
 (15,1,1) = {"
 aa
 ab
+LB
+ab
+LB
 ab
 ab
 ab
@@ -585,10 +583,7 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
+LB
 ab
 aa
 "}

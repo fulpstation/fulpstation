@@ -80,7 +80,7 @@
 			user.update_inv_wear_suit()
 			for(var/all_selections in actions)
 				var/datum/action/onesie_options = all_selections
-				onesie_options.UpdateButtonIcon()
+				onesie_options.UpdateButton()
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/proc/toggle_suit_light(mob/living/user)
 	on = !on
@@ -343,7 +343,7 @@
 			)
 
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /obj/item/storage/box/halloween/edition_20/onesie/beefman
 	theme_name = "2020's Onesie - Beefman"
@@ -365,7 +365,7 @@
 		/obj/item/clothing/suit/hooded/onesie/ethereal/red,
 	)
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /obj/item/storage/box/halloween/edition_20/onesie/felinid
 	theme_name = "2020's Onesie - Felinid"

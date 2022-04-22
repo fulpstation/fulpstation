@@ -2,10 +2,9 @@
 
 	// What gives them the shoes
 	var/obj/item/clothing/shoes/newShoes
-	if(!(DIGITIGRADE in equipping.dna.species.species_traits))
+	if(!(bodytype & BODYTYPE_DIGITIGRADE))
 		return
 	switch(job.title)
-
 		// Assistant
 		if(JOB_ASSISTANT)
 			newShoes = new /obj/item/clothing/shoes/brown/digitigrade
