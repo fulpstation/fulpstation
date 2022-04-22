@@ -29,17 +29,17 @@
 			if(store)
 				mutate(user)
 			else
-				to_chat(user, "<span class='warning'>You can't stab yourself with [src]!</span>")
+				to_chat(user, span_notice("You can't stab yourself with [src]!"))
 
 /obj/item/adv_mulligan/attack_self(mob/living/carbon/user)
 	mutate(user)
 
 /obj/item/adv_mulligan/proc/mutate(mob/living/carbon/user)
 	if(used)
-		to_chat(user, "<span class='warning'>[src] has been already used, you can't activate it again!</span>")
+		to_chat(user, span_notice("[src] has been already used, you can't activate it again!"))
 		return
 	if(!store)
-		to_chat(user, "<span class='warning'>[src] doesn't have any DNA loaded in it!</span>")
+		to_chat(user, span_notice("[src] doesn't have any DNA loaded in it!"))
 		return
 
 	if(!do_after(user, 2 SECONDS))
@@ -47,8 +47,8 @@
 
 	var/mob/living/carbon/human/stored = store.resolve()
 
-	user.visible_message("<span class='warning'>[user.name] shivers in pain and soon transform into [stored.dna.real_name]!</span>", \
-	"<span class='notice'>You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name].</span>")
+	user.visible_message(span_warning("[user.name] shivers in pain and soon transform into [stored.dna.real_name]!"), \
+		span_notice("You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name]."))
 
 	user.real_name = stored.real_name
 	stored.dna.transfer_identity(user, transfer_SE=1)
