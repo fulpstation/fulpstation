@@ -144,7 +144,7 @@
 			user.blood_volume += 5
 			user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
 
-	. = ..()
+	return ..()
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()

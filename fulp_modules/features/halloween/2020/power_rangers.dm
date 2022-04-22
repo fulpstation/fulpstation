@@ -154,7 +154,7 @@
 			)
 
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /obj/item/storage/box/halloween/edition_20/power_ranger/black
 	theme_name = "2020's Power Ranger - Black"

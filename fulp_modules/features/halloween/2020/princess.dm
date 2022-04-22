@@ -196,7 +196,7 @@
 			)
 
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /obj/item/storage/box/halloween/edition_20/princess/wonderland
 	theme_name = "2020's Princess - Wonderland"
