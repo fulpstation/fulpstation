@@ -634,11 +634,17 @@
 
 	// Objective 1: Vassalize a Head/Command, or a specific target
 	switch(rand(1,3))
-		if(1) // Protege Objective
-			var/datum/objective/bloodsucker/protege/protege_objective = new
-			protege_objective.owner = owner
-			protege_objective.objective_name = "Optional Objective"
-			objectives += protege_objective
+		if(1) // Conversion Objective
+			if(prob(50))
+				var/datum/objective/bloodsucker/conversion/department/department_conversion_objective = new
+				department_conversion_objective.owner = owner
+				department_conversion_objective.objective_name = "Optional Objective"
+				objectives += department_conversion_objective
+			else
+				var/datum/objective/bloodsucker/conversion/command/command_conversion_objective = new
+				command_conversion_objective.owner = owner
+				command_conversion_objective.objective_name = "Optional Objective"
+				objectives += command_conversion_objective
 		if(2) // Heart Thief Objective
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner

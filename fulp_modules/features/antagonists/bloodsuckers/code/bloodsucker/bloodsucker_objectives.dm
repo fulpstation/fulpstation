@@ -64,110 +64,96 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-#define VASSALIZE_COMMAND "command_vassalization"
 
-/// Vassalize someone in charge (Head of Staff + QM)
-/datum/objective/bloodsucker/protege
+/// Vassalize a certain person / people
+/datum/objective/bloodsucker/conversion
 	name = "vassalization"
 
-	var/list/heads = list(
-		"Captain",
-		"Head of Personnel",
-		"Head of Security",
-		"Research Director",
-		"Chief Engineer",
-		"Chief Medical Officer",
-		"Quartermaster",
-	)
-
-	var/list/departments = list(
-		"Security",
-		"Supply",
-		"Science",
-		"Engineering",
-		"Medical",
-	)
-
-	var/target_department	// Equals "HEAD" when it's not a department role.
-	var/department_string
-
-// GENERATE!
-/datum/objective/bloodsucker/protege/New()
-	switch(rand(0, 2))
-		// Vasssalize Command/QM
-		if(0)
-			target_amount = 1
-			target_department = VASSALIZE_COMMAND
-		// Vassalize a certain department
-		else
-			target_amount = rand(2,3)
-			target_department = pick(departments)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/protege/update_explanation_text()
-	if(target_department == VASSALIZE_COMMAND)
-		explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
-	else
-		explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [target_department] department."
-
 // WIN CONDITIONS?
-/datum/objective/bloodsucker/protege/check_completion()
+/datum/objective/bloodsucker/conversion/check_completion()
 
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum || !bloodsuckerdatum.vassals.len)
 		return FALSE
 
-	// Get list of all jobs that are qualified (for HEAD, this is already done)
-	var/list/valid_jobs
-	if(target_department == VASSALIZE_COMMAND)
-		valid_jobs = heads
-	else
-		valid_jobs = list()
-		var/list/alljobs = subtypesof(/datum/job) // This is just a list of TYPES, not the actual variables!
-		for(var/listed_jobs in alljobs)
-			var/datum/job/all_jobs = SSjob.GetJobType(listed_jobs)
-			if(!istype(all_jobs))
-				continue
-			// Found a job whose Dept Head matches either list of heads, or this job IS the head. We exclude the QM from this, HoP handles Cargo.
-			if((target_department in all_jobs.department_head) || target_department == all_jobs.title)
-				valid_jobs += all_jobs.title
-
-	// Check Vassals, and see if they match
-	var/objcount = 0
-	var/list/counted_roles = list() // So you can't have more than one Captain count.
+	// Check Vassals and get their occupations
+	var/list/all_vassal_jobs = list()
+	var/vassal_job
 	for(var/datum/antagonist/vassal/bloodsucker_vassals in bloodsuckerdatum.vassals)
 		if(!bloodsucker_vassals || !bloodsucker_vassals.owner)	// Must exist somewhere, and as a vassal.
 			continue
-
-		var/this_role = "none"
-
 		// Mind Assigned
-		if((bloodsucker_vassals.owner.assigned_role in valid_jobs) && !(bloodsucker_vassals.owner.assigned_role in counted_roles))
-			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MIND ROLE)"))
-			this_role = bloodsucker_vassals.owner.assigned_role
+		if(bloodsucker_vassals.owner.assigned_role)
+			vassal_job = bloodsucker_vassals.owner.assigned_role
 		// Mob Assigned
-		else if((bloodsucker_vassals.owner.current.job in valid_jobs) && !(bloodsucker_vassals.owner.current.job in counted_roles))
-			//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (MOB JOB)"))
-			this_role = bloodsucker_vassals.owner.current.job
+		else if(bloodsucker_vassals.owner.current?.job)
+			vassal_job = bloodsucker_vassals.owner.current.job
 		// PDA Assigned
 		else if(bloodsucker_vassals.owner.current && ishuman(bloodsucker_vassals.owner.current))
 			var/mob/living/carbon/human/vassal_users = bloodsucker_vassals.owner.current
 			var/obj/item/card/id/id_cards = vassal_users.wear_id ? vassal_users.wear_id.GetID() : null
-			if(id_cards && (id_cards.assignment in valid_jobs) && !(id_cards.assignment in counted_roles))
-				//to_chat(owner, span_userdanger("PROTEGE OBJECTIVE: (GET ID)"))
-				this_role = id_cards.assignment
+			if(id_cards)
+				vassal_job = id_cards.assignment
+		if(vassal_job)
+			all_vassal_jobs += vassal_job
+	return all_vassal_jobs
 
-		// NO MATCH
-		if(this_role == "none")
-			continue
 
-		// SUCCESS!
-		objcount++
-		if(target_department == VASSALIZE_COMMAND)
-			counted_roles += this_role // Add to list so we don't count it again (but only if it's a Head)
+/////////////////////////////////
 
-	return objcount >= target_amount
+// Vassalize a head of staff
+/datum/objective/bloodsucker/conversion/command
+	name = "vassalizationcommand"
+
+// EXPLANATION
+/datum/objective/bloodsucker/conversion/command/update_explanation_text()
+	explanation_text = "Guarantee a Vassal ends up as a Department Head or in a Leadership role."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/conversion/command/check_completion()
+	var/list/vassal_jobs = ..()
+	for(var/datum/job/checked_job in vassal_jobs)
+		if((checked_job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND) || checked_job.title == JOB_QUARTERMASTER) // Exception because not even the code considers the QM part of command
+			return TRUE
+	return FALSE
+
+/////////////////////////////////
+
+// Vassalize crewmates in a department
+/datum/objective/bloodsucker/conversion/department
+	name = "vassalizationdepartment"
+
+	var/list/possible_departments = list(
+		/datum/job_department/security,
+		/datum/job_department/engineering,
+		/datum/job_department/medical,
+		/datum/job_department/science,
+		/datum/job_department/cargo,
+		/datum/job_department/service,
+	)
+	var/datum/job_department/target_department
+
+
+// GENERATE!
+/datum/objective/bloodsucker/conversion/department/New()
+	target_department = pick(possible_departments)
+	target_amount = rand(2,3)
+
+// EXPLANATION
+/datum/objective/bloodsucker/conversion/department/update_explanation_text()
+	explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [target_department.department_name] department."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/conversion/department/check_completion()
+	var/list/vassal_jobs = ..()
+	var/converted_count = 0
+	for(var/datum/job/checked_job in vassal_jobs)
+		if(checked_job.departments_bitflags & target_department.department_bitflags)
+			converted_count++
+	if(converted_count >= target_amount)
+		return TRUE
+	return FALSE
+
 	/**
 	 * # IMPORTANT NOTE!!
 	 *
