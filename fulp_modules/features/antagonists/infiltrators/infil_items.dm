@@ -6,10 +6,10 @@
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
-	var/used = FALSE
-	var/mob/living/carbon/human/stored
+	var/used = FALSE ///determines wether the injector is used up or nah
+	var/datum/weakref/store  ///the mob currently stored in the injector
 
-/obj/item/adv_mulligan/afterattack(atom/movable/AM, mob/living/carbon/human/user, proximity)
+/obj/item/adv_mulligan/afterattack(atom/movable/victim, mob/living/carbon/human/user, proximity)
 	. = ..()
 	if(!proximity)
 		return
@@ -18,15 +18,15 @@
 	if(used)
 		to_chat(user, span_warning("[src] has been already used, you can't activate it again!"))
 		return
-	if(ishuman(AM))
-		var/mob/living/carbon/human/target = AM
+	if(ishuman(victim))
+		var/mob/living/carbon/human/target = victim
 		if(user.real_name != target.dna.real_name)
-			stored = target
+			store = WEAKREF(target)
 			to_chat(user, span_notice("You stealthly stab [target.name] with [src]."))
-			desc = "Toxin that permanently changes your DNA into the one of last injected person. It has DNA of <span class='blue'>[stored.dna.real_name]</span> inside."
+			desc = "Toxin that permanently changes your DNA into the one of last injected person. It has DNA of <span class='blue'>[target.dna.real_name]</span> inside."
 			icon_state = "dnainjector"
 		else
-			if(stored)
+			if(store)
 				mutate(user)
 			else
 				to_chat(user, "<span class='warning'>You can't stab yourself with [src]!</span>")
@@ -38,9 +38,14 @@
 	if(used)
 		to_chat(user, "<span class='warning'>[src] has been already used, you can't activate it again!</span>")
 		return
-	if(!stored)
+	if(!store)
 		to_chat(user, "<span class='warning'>[src] doesn't have any DNA loaded in it!</span>")
 		return
+
+	if(!do_after(user, 2 SECONDS))
+		return
+
+	var/mob/living/carbon/human/stored = store.resolve()
 
 	user.visible_message("<span class='warning'>[user.name] shivers in pain and soon transform into [stored.dna.real_name]!</span>", \
 	"<span class='notice'>You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name].</span>")
@@ -53,3 +58,5 @@
 
 	icon_state = "dnainjector0"
 	desc = "Toxin that permanently changes your DNA into the one of last injected person. This one is used up."
+
+	store = null

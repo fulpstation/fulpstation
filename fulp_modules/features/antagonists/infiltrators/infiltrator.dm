@@ -6,7 +6,7 @@
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE
 	preview_outfit = /datum/outfit/infiltrator
-	var/give_equipment = TRUE
+	var/give_equipment = TRUE ///gives infiltrators equipment
 
 /datum/job/infiltrator
 	title = ROLE_INFILTRATOR

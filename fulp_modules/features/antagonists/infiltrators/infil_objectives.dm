@@ -96,8 +96,8 @@
 
 /datum/objective/kill_pet
 	name = "Kill a command pet"
-	var/mob/living/target_pet
 	martyr_compatible = TRUE
+	var/mob/living/target_pet ///The assigned target pet for the objective
 
 /datum/objective/kill_pet/proc/find_pet_target()
 	var/list/possible_target_pets = list(

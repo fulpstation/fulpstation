@@ -15,7 +15,7 @@
 	cost = 8
 	requirements = list(101,101,101,80,60,50,30,20,10,10)
 	repeatable = TRUE
-	var/list/spawn_locs = list()
+	var/list/spawn_locs = list() ///possible points of spawn
 
 
 /datum/dynamic_ruleset/midround/from_ghosts/infiltrator/execute()
