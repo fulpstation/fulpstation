@@ -14,8 +14,8 @@
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
-	var/datum/action/bloodsucker/trackvamp = new/datum/action/bloodsucker/trackvamp()
-	var/datum/action/bloodsucker/fortitude = new/datum/action/bloodsucker/fortitude/hunter()
+	var/datum/action/bloodsucker/trackvamp = new /datum/action/bloodsucker/trackvamp()
+	var/datum/action/bloodsucker/fortitude = new /datum/action/bloodsucker/fortitude/hunter()
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
