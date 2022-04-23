@@ -190,9 +190,6 @@
 
 /// Checks to make sure this power can stay active
 /datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)
-	if(!active)
-		owner.balloon_alert(owner, "[src] cancelled...")
-		return FALSE
 	if(!user)
 		return FALSE
 	if(!constant_bloodcost > 0 || user.blood_volume > 0)
