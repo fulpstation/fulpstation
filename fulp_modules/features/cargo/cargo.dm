@@ -2,7 +2,7 @@
 
 // Medipens
 /datum/supply_pack/security/mutadone_medipen
-	name = "Emergency Mutadine Kit"
+	name = "Emergency Mutadone Kit"
 	desc = "Contains one Mutadone medipen for instant genetic removal. Best used for hulks."
 	cost = CARGO_CRATE_VALUE * 1.5
 	contains = list(/obj/item/reagent_containers/hypospray/medipen/mutadone)
