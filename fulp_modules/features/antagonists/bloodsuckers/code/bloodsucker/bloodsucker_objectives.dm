@@ -136,12 +136,15 @@
 
 // GENERATE!
 /datum/objective/bloodsucker/conversion/department/New()
-	target_department = pick(possible_departments)
+	for(var/datum/job_department/chosen)
+	target_department = SSjob.get_department_type(pick(possible_departments))
 	target_amount = rand(2,3)
+	..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/conversion/department/update_explanation_text()
 	explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [target_department.department_name] department."
+	..()
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/conversion/department/check_completion()

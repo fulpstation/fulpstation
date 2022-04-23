@@ -636,7 +636,8 @@
 	objectives += survive_objective
 
 	// Objective 1: Vassalize a Head/Command, or a specific target
-	switch(rand(1,3))
+	var/shutupcompiler = 1
+	switch(shutupcompiler)
 		if(1) // Conversion Objective
 			if(prob(50))
 				var/datum/objective/bloodsucker/conversion/department/department_conversion_objective = new
@@ -648,16 +649,16 @@
 				command_conversion_objective.owner = owner
 				command_conversion_objective.objective_name = "Optional Objective"
 				objectives += command_conversion_objective
-		if(2) // Heart Thief Objective
-			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
-			heartthief_objective.owner = owner
-			heartthief_objective.objective_name = "Optional Objective"
-			objectives += heartthief_objective
-		if(3) // Drink Blood Objective
-			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
-			gourmand_objective.owner = owner
-			gourmand_objective.objective_name = "Optional Objective"
-			objectives += gourmand_objective
+		// if(2) // Heart Thief Objective
+		// 	var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
+		// 	heartthief_objective.owner = owner
+		// 	heartthief_objective.objective_name = "Optional Objective"
+		// 	objectives += heartthief_objective
+		// if(3) // Drink Blood Objective
+		// 	var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
+		// 	gourmand_objective.owner = owner
+		// 	gourmand_objective.objective_name = "Optional Objective"
+		// 	objectives += gourmand_objective
 
 
 /// Name shown on antag list
