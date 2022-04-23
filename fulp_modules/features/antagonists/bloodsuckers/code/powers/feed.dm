@@ -105,7 +105,7 @@
 			span_notice("You slip your fangs into [feed_target]'s wrist.[dead_message]"), \
 			vision_distance = FEED_NOTICE_RANGE, ignored_mobs = feed_target)
 
-	var/been_noticed = FALSE
+	//check if we were seen
 	for(var/mob/living/watchers in oviewers(FEED_NOTICE_RANGE) - feed_target)
 		if(!watchers.client)
 			continue
