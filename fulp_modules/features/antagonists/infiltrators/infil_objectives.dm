@@ -169,7 +169,7 @@
 
 //Mauradars Objectives
 
-//emagging communication console
+//emagging emergency shuttle console
 
 /datum/objective/emag_console
 	name = "Emag the emergency shuttle console"
