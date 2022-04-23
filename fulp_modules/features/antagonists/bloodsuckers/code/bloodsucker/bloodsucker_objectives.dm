@@ -29,6 +29,32 @@
 
 	return possible_targets
 
+/// Check Vassals and get their occupations
+/datum/objective/bloodsucker/proc/get_vassal_occupations()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum || !bloodsuckerdatum.vassals.len)
+		return FALSE
+	var/list/all_vassal_jobs = list()
+	var/vassal_job
+	for(var/datum/antagonist/vassal/bloodsucker_vassals in bloodsuckerdatum.vassals)
+		if(!bloodsucker_vassals || !bloodsucker_vassals.owner)	// Must exist somewhere, and as a vassal.
+			continue
+		// Mind Assigned
+		if(bloodsucker_vassals.owner.assigned_role)
+			vassal_job = bloodsucker_vassals.owner.assigned_role
+		// Mob Assigned
+		else if(bloodsucker_vassals.owner.current?.job)
+			vassal_job = bloodsucker_vassals.owner.current.job
+		// PDA Assigned
+		else if(bloodsucker_vassals.owner.current && ishuman(bloodsucker_vassals.owner.current))
+			var/mob/living/carbon/human/vassal_users = bloodsucker_vassals.owner.current
+			var/obj/item/card/id/id_cards = vassal_users.wear_id ? vassal_users.wear_id.GetID() : null
+			if(id_cards)
+				vassal_job = id_cards.assignment
+		if(vassal_job)
+			all_vassal_jobs += SSjob.GetJobType(vassal_job)
+	return all_vassal_jobs
+
 //////////////////////////////////////////////////////////////////////////////////////
 //	//							 OBJECTIVES 									//	//
 //////////////////////////////////////////////////////////////////////////////////////
@@ -69,41 +95,12 @@
 /datum/objective/bloodsucker/conversion
 	name = "vassalization"
 
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/conversion/check_completion()
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum || !bloodsuckerdatum.vassals.len)
-		return FALSE
-
-	// Check Vassals and get their occupations
-	var/list/all_vassal_jobs = list()
-	var/vassal_job
-	for(var/datum/antagonist/vassal/bloodsucker_vassals in bloodsuckerdatum.vassals)
-		if(!bloodsucker_vassals || !bloodsucker_vassals.owner)	// Must exist somewhere, and as a vassal.
-			continue
-		// Mind Assigned
-		if(bloodsucker_vassals.owner.assigned_role)
-			vassal_job = bloodsucker_vassals.owner.assigned_role
-		// Mob Assigned
-		else if(bloodsucker_vassals.owner.current?.job)
-			vassal_job = bloodsucker_vassals.owner.current.job
-		// PDA Assigned
-		else if(bloodsucker_vassals.owner.current && ishuman(bloodsucker_vassals.owner.current))
-			var/mob/living/carbon/human/vassal_users = bloodsucker_vassals.owner.current
-			var/obj/item/card/id/id_cards = vassal_users.wear_id ? vassal_users.wear_id.GetID() : null
-			if(id_cards)
-				vassal_job = id_cards.assignment
-		if(vassal_job)
-			all_vassal_jobs += vassal_job
-	return all_vassal_jobs
-
-
 /////////////////////////////////
 
 // Vassalize a head of staff
 /datum/objective/bloodsucker/conversion/command
 	name = "vassalizationcommand"
+	target_amount = 1
 
 // EXPLANATION
 /datum/objective/bloodsucker/conversion/command/update_explanation_text()
@@ -111,10 +108,10 @@
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/conversion/command/check_completion()
-	var/list/vassal_jobs = ..()
+	var/list/vassal_jobs = get_vassal_occupations()
 	for(var/datum/job/checked_job in vassal_jobs)
 		if((checked_job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND) || checked_job.title == JOB_QUARTERMASTER) // Exception because not even the code considers the QM part of command
-			return TRUE
+			return TRUE // We only need one, so we stop as soon as we get a match
 	return FALSE
 
 /////////////////////////////////
@@ -148,7 +145,7 @@
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/conversion/department/check_completion()
-	var/list/vassal_jobs = ..()
+	var/list/vassal_jobs = get_vassal_occupations()
 	var/converted_count = 0
 	for(var/datum/job/checked_job in vassal_jobs)
 		if(checked_job.departments_bitflags & target_department.department_bitflags)
