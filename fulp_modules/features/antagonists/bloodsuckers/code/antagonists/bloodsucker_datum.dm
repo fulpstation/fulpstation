@@ -864,11 +864,12 @@
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud()
 	var/valuecolor
+	if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
+		valuecolor = "#FFDDDD"
+	else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
+		valuecolor = "#FFAAAA"
+
 	if(blood_display)
-		if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
-			valuecolor = "#FFDDDD"
-		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
-			valuecolor = "#FFAAAA"
 		blood_display.update_counter(owner.current.blood_volume, valuecolor)
 
 	if(vamprank_display)
