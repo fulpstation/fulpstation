@@ -163,14 +163,14 @@
 /datum/action/bloodsucker/proc/ActivatePower()
 	active = TRUE
 	if(power_flags & BP_AM_TOGGLE)
-		RegisterSignal(owner, COMSIG_LIVING_LIFE, .proc/UsePower)
+		START_PROCESSING(SSprocessing, src)
 
 	owner.log_message("used [src][bloodcost != 0 ? " at the cost of [bloodcost]" : ""].", LOG_ATTACK, color="red")
 	UpdateButtons()
 
 /datum/action/bloodsucker/proc/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
-		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+		STOP_PROCESSING(SSprocessing, src)
 	if(power_flags & BP_AM_SINGLEUSE)
 		RemoveAfterUse()
 		return
@@ -179,16 +179,12 @@
 	UpdateButtons()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
-/datum/action/bloodsucker/proc/UsePower(mob/living/user)
-	SIGNAL_HANDLER
-
-	if(!active) // Power isn't active? Then stop here, so we dont keep looping UsePower for a non existent Power.
-		return FALSE
-	if(!ContinueActive(user)) // We can't afford the Power? Deactivate it.
+/datum/action/bloodsucker/process(delta_time)
+	if(!ContinueActive(owner)) // We can't afford the Power? Deactivate it.
 		DeactivatePower()
 		return FALSE
 	// We can keep this up (For now), so Pay Cost!
-	if(!(power_flags & BP_AM_COSTLESS_UNCONSCIOUS) && user.stat != CONSCIOUS)
+	if(!(power_flags & BP_AM_COSTLESS_UNCONSCIOUS) && owner.stat != CONSCIOUS)
 		bloodsuckerdatum_power?.AddBloodVolume(-constant_bloodcost)
 	return TRUE
 

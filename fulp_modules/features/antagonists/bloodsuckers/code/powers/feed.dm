@@ -129,7 +129,8 @@
 	ADD_TRAIT(owner, TRAIT_IMMOBILIZED, FEED_TRAIT)
 	return ..()
 
-/datum/action/bloodsucker/feed/UsePower(mob/living/user)
+/datum/action/bloodsucker/feed/process(delta_time)
+	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref.resolve()
 	if(!ContinueActive(user, feed_target))
 		owner.balloon_alert(owner, "interrupted!")
