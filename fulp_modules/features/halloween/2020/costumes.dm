@@ -588,7 +588,7 @@
 		if("yellow")
 			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/yellow)
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /**
  * Papa Ross costume
@@ -728,7 +728,7 @@
 		/obj/item/clothing/under/suit/navy,
 		/obj/item/clothing/under/suit/black/skirt,
 	)
-	. = ..()
+	return ..()
 
 /**
  * Skull masks costumes

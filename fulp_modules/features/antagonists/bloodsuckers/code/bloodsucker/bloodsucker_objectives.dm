@@ -387,35 +387,6 @@
 //    REMOVED OBJECTIVES    //
 //////////////////////////////
 
-/// Defile a facility with blood
-/datum/objective/bloodsucker/desecrate
-
-	// Space_Station_13_areas.dm  <--- all the areas
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Destroy the Solar Arrays
-/datum/objective/bloodsucker/solars
-/* // TG Updates broke this, it needs maintaining.
-// Space_Station_13_areas.dm  <--- all the areas
-/datum/objective/bloodsucker/solars/update_explanation_text()
-	. = ..()
-	explanation_text = "Prevent all solar arrays on the station from functioning."
-
-/datum/objective/bloodsucker/solars/check_completion()
-	// Sort through all /obj/machinery/power/solar_control in the station ONLY, and check that they are functioning.
-	// Make sure that lastgen is 0 or connected_panels.len is 0. Doesnt matter if it's tracking.
-	for (var/obj/machinery/power/solar_control/solar_control_consoles in SSsun.solars)
-		// Check On Station:
-		var/turf/solar_turfs = get_turf(solar_control_consoles)
-		if(!solar_turfs || !is_station_level(solar_turfs.z)) // <------ Taken from NukeOp
-			//message_admins("DEBUG A: [solar_control_consoles] not on station!")
-			continue // Not on station! We don't care about this.
-		if(solar_control_consoles && solar_control_consoles.lastgen > 0 && solar_control_consoles.connected_panels.len > 0 && solar_control_consoles.connected_tracker)
-			return FALSE
-	return TRUE
-*/
-
 // NOTE: Look up /assassinate in objective.dm for inspiration.
 /// Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
@@ -463,26 +434,3 @@
 	if(bloodsuckerdatum.frenzies >= target_amount)
 		return TRUE
 	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-/// Mutilate a certain amount of Vassals
-/*
-/datum/objective/bloodsucker/vassal_mutilation
-	name = "steal kindred"
-/datum/objective/bloodsucker/vassal_mutilation/New()
-	target_amount = rand(2,3)
-	..()
-
-// EXPLANATION
-/datum/objective/bloodsucker/vassal_mutilation/update_explanation_text()
-	. = ..()
-	explanation_text = "Mutate [target_amount] of Vassals into vile sevant creatures."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/vassal_mutilation/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum.vassals_mutated >= target_amount)
-		return TRUE
-	return FALSE
-*/
