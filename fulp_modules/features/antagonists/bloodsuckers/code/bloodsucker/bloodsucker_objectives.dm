@@ -41,7 +41,7 @@
 			continue
 		// Mind Assigned
 		if(bloodsucker_vassals.owner.assigned_role)
-			vassal_job = bloodsucker_vassals.owner.assigned_role
+			vassal_job = bloodsucker_vassals.owner.assigned_role.title
 		// Mob Assigned
 		else if(bloodsucker_vassals.owner.current?.job)
 			vassal_job = bloodsucker_vassals.owner.current.job
