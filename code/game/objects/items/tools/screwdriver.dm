@@ -43,6 +43,17 @@
 		"yellow" = "#ffa500"
 	)
 
+/obj/item/screwdriver/attack_self(mob/user)
+	var/job = user.job
+	var/text = SSjob.GetJob(job)
+	var/type = SSjob.GetJobType(text)
+	to_chat(user, span_warning("[job]"))
+	to_chat(user, span_warning("[text]"))
+	if(text == type)
+		to_chat(user, span_warning("But maybe we're both the same"))
+	else
+		to_chat(user, span_warning("They cannot make the judgement call"))
+
 /obj/item/screwdriver/suicide_act(mob/user)
 	user.visible_message(span_suicide("[user] is stabbing [src] into [user.p_their()] [pick("temple", "heart")]! It looks like [user.p_theyre()] trying to commit suicide!"))
 	return(BRUTELOSS)

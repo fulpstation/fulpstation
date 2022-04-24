@@ -41,7 +41,7 @@
 			continue
 		// Mind Assigned
 		if(bloodsucker_vassals.owner.assigned_role)
-			vassal_job = bloodsucker_vassals.owner.assigned_role.title
+			vassal_job = bloodsucker_vassals.owner.assigned_role
 		// Mob Assigned
 		else if(bloodsucker_vassals.owner.current?.job)
 			vassal_job = bloodsucker_vassals.owner.current.job
@@ -49,10 +49,6 @@
 		else if(bloodsucker_vassals.owner.current && ishuman(bloodsucker_vassals.owner.current))
 			var/mob/living/carbon/human/vassal_users = bloodsucker_vassals.owner.current
 			var/obj/item/card/id/id_cards = vassal_users.wear_id ? vassal_users.wear_id.GetID() : null
-			if(id_cards)
-				vassal_job = id_cards.assignment
-		if(vassal_job)
-			all_vassal_jobs += SSjob.GetJobType(vassal_job)
 	return all_vassal_jobs
 
 //////////////////////////////////////////////////////////////////////////////////////
