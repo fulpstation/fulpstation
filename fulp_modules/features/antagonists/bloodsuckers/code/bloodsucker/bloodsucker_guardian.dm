@@ -24,7 +24,7 @@
 		return
 
 	// Call parent to deal with everyone else
-	. = ..()
+	return ..()
 
 ///The Guardian
 /mob/living/simple_animal/hostile/guardian/punch/timestop
