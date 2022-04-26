@@ -147,3 +147,11 @@
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"
 	suit = /obj/item/clothing/suit/dracula
+
+/datum/outfit/bloodsucker_outfit/post_equip(mob/living/carbon/human/enrico, visualsOnly=FALSE)
+	enrico.hairstyle = "Undercut"
+	enrico.hair_color = "FFF"
+	enrico.skin_tone = "african2"
+
+	enrico.update_hair()
+	enrico.update_body()
