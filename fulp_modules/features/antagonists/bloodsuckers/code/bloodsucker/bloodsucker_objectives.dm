@@ -40,7 +40,7 @@
 		if(!bloodsucker_vassals || !bloodsucker_vassals.owner)	// Must exist somewhere, and as a vassal.
 			continue
 		// Mind Assigned
-		if(bloodsucker_vassals?.owner.assigned_role)
+		if(bloodsucker_vassals.owner?.assigned_role)
 			vassal_job = bloodsucker_vassals.owner.assigned_role
 		// Mob Assigned
 		else if(bloodsucker_vassals.owner?.current?.job)
