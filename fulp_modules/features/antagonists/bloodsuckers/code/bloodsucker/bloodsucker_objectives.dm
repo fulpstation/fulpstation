@@ -40,19 +40,17 @@
 		if(!bloodsucker_vassals || !bloodsucker_vassals.owner)	// Must exist somewhere, and as a vassal.
 			continue
 		// Mind Assigned
-		if(bloodsucker_vassals.owner?.assigned_role && !istype(bloodsucker_vassals.owner?.assigned_role, /datum/job/unassigned))
+		if(bloodsucker_vassals?.owner.assigned_role)
 			vassal_job = bloodsucker_vassals.owner.assigned_role
 		// Mob Assigned
-		else if(bloodsucker_vassals.owner.current?.job)
+		else if(bloodsucker_vassals.owner?.current?.job)
 			vassal_job = SSjob.GetJob(bloodsucker_vassals.owner.current.job)
 		// PDA Assigned
-		else if(bloodsucker_vassals.owner.current && ishuman(bloodsucker_vassals.owner.current))
-			var/mob/living/carbon/human/vassal_users = bloodsucker_vassals.owner.current
-			var/obj/item/card/id/id_cards = vassal_users.wear_id ? vassal_users.wear_id.GetID() : null
-			if(id_cards)
-				vassal_job = SSjob.GetJob(id_cards.assignment)
+		else if(bloodsucker_vassals.owner?.current && ishuman(bloodsucker_vassals.owner.current))
+			var/mob/living/carbon/human/vassal = bloodsucker_vassals.owner.current
+			vassal_job = SSjob.GetJob(vassal.get_assignment())
 		if(vassal_job)
-			all_vassal_jobs += SSjob.GetJobType(vassal_job)
+			all_vassal_jobs += vassal_job
 	return all_vassal_jobs
 
 //////////////////////////////////////////////////////////////////////////////////////
