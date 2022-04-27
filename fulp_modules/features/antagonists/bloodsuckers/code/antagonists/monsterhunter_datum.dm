@@ -150,8 +150,6 @@
 			monsters += brain
 		if(brain.has_antag_datum(/datum/antagonist/ashwalker))
 			monsters += brain
-		if(istype(monsters))
-			var/their_loc = get_turf(brain.current)
 
 	if(monsters.len)
 		/// Point at a 'random' monster, biasing heavily towards closer ones.
