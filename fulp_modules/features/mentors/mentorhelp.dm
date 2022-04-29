@@ -21,7 +21,7 @@
 
 	/// Send the Mhelp to all Mentors/Admins
 	for(var/client/honked_clients in GLOB.mentors | GLOB.admins)
-		honked_clients << 'sound/items/bikehorn.ogg'
+		honked_clients << 'fulp_modules/sounds/sound/effects/mhelp.ogg'
 		to_chat(honked_clients,
 			type = MESSAGE_TYPE_MODCHAT,
 			html = mentor_msg,
