@@ -33,6 +33,8 @@
 		html = "<font color='purple'><span class='mentornotice'>PM to-<b>Mentors</b>:</span> <span class='message linkify'>[msg]</span></font>",
 		confidential = TRUE)
 
+	GLOB.mentor_requests.mentorhelp(usr.client, msg)
+
 	return
 
 /proc/key_name_mentor(whom, include_link = null, include_name = TRUE, include_follow = TRUE, char_name_only = TRUE)

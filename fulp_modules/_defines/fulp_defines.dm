@@ -62,3 +62,4 @@
 
 ///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
 #define CALIBER_C22 ".c22"
+#define REQUEST_MENTORHELP "request_mentorhelp"
