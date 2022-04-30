@@ -8,20 +8,6 @@
 
 GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 
-/**
- * # Request Manager
- *
- * Handles all player requests (prayers, centcom requests, syndicate requests)
- * that occur in the duration of a round.
- */
-/datum/request_manager/mentor
-/*
-	/// Associative list of ckey -> list of requests
-	var/list/requests = list()
-	/// List where requests can be accessed by ID
-	var/list/requests_by_id = list()
-*/
-
 /datum/request_manager/mentor/ui_state(mob/user)
 	return GLOB.always_state
 
