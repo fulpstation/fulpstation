@@ -50,10 +50,7 @@
 				* Finally, your Favorite Vassal will become disfigured and will be able to ventcrawl wile naked."))
 			for(var/datum/action/bloodsucker/power in powers)
 				if(istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
-					powers -= power
-					if(power.active)
-						power.DeactivatePower()
-					power.Remove(owner.current)
+					RemovePower(power)
 			if(!bloodsucker.has_quirk(/datum/quirk/badback))
 				bloodsucker.add_quirk(/datum/quirk/badback)
 			if(!HAS_TRAIT(bloodsucker, TRAIT_VENTCRAWLER_ALWAYS))
