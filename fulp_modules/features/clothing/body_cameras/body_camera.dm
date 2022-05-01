@@ -7,6 +7,10 @@
 	. = ..()
 	AddComponent(/datum/component/bodycamera_holder)
 
+/obj/item/clothing/suit/security/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/bodycamera_holder)
+
 /**
  * The bodycamera
  *
