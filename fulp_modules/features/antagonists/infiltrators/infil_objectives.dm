@@ -87,7 +87,9 @@
 		find_target()
 	else
 		target = pick(sec)
-	update_explanation_text()
+
+	if(target?.current)
+		explanation_text = "Using Advanced Mulligan, escape with the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
 
 //Animal Rights Consortium Objectives
 

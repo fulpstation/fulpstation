@@ -56,7 +56,7 @@
 	)
 	id = /obj/item/card/id/advanced
 	id_trim = /datum/id_trim/chameleon/operative
-	l_hand = /obj/item/tank/jetpack
+	l_hand = /obj/item/tank/jetpack/oxygen
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/combat
 	r_pocket = /obj/item/tank/internals/emergency_oxygen
