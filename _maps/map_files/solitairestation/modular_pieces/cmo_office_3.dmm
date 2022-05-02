@@ -6,13 +6,6 @@
 /obj/machinery/vending/drugs,
 /turf/open/floor/iron/white/textured_large,
 /area/medical/medbay/lobby)
-"c" = (
-/obj/structure/chair/comfy/black{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue,
-/turf/open/floor/iron,
-/area/command/heads_quarters/cmo)
 "d" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -53,12 +46,14 @@
 /obj/modular_map_connector,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
+"g" = (
+/obj/structure/closet/crate/freezer/blood,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "h" = (
-/obj/structure/table,
-/obj/effect/spawner/random/food_or_drink/three_course_meal,
-/obj/effect/turf_decal/tile/blue,
-/turf/open/floor/iron,
-/area/command/heads_quarters/cmo)
+/obj/structure/closet/l3closet/virology,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "i" = (
 /obj/effect/turf_decal/siding/blue/corner{
 	color = "#73c2fb";
@@ -67,17 +62,8 @@
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/white,
-/area/command/heads_quarters/cmo)
-"j" = (
-/obj/structure/table,
-/obj/effect/spawner/random/food_or_drink/three_course_meal,
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/iron,
 /area/command/heads_quarters/cmo)
 "k" = (
 /obj/machinery/door/airlock/command{
@@ -103,6 +89,9 @@
 	color = "#73c2fb";
 	dir = 4;
 	name = "medical blue"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
@@ -132,15 +121,7 @@
 /obj/effect/turf_decal/box/white{
 	color = "#52B4E9"
 	},
-/obj/item/toy/cattoy,
 /turf/open/floor/iron/white,
-/area/command/heads_quarters/cmo)
-"o" = (
-/obj/structure/chair/comfy/black{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue,
-/turf/open/floor/iron,
 /area/command/heads_quarters/cmo)
 "p" = (
 /obj/effect/turf_decal/siding/blue{
@@ -149,10 +130,6 @@
 	name = "medical blue"
 	},
 /obj/machinery/newscaster/directional/east,
-/obj/structure/chair/office/light{
-	dir = 8
-	},
-/obj/effect/landmark/start/chief_medical_officer,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "q" = (
@@ -185,10 +162,6 @@
 	dir = 1
 	},
 /obj/structure/cable,
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 1
-	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "u" = (
@@ -204,13 +177,33 @@
 /area/command/heads_quarters/cmo)
 "v" = (
 /obj/machinery/firealarm/directional/north,
-/obj/machinery/computer/crew,
 /obj/effect/turf_decal/siding/blue{
 	color = "#73c2fb";
 	dir = 1;
 	name = "medical blue"
 	},
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
 /turf/open/floor/iron/white,
+/area/command/heads_quarters/cmo)
+"w" = (
+/obj/structure/table/glass,
+/obj/item/cartridge/chemistry,
+/obj/item/cartridge/medical,
+/obj/item/cartridge/medical,
+/obj/item/cartridge/medical,
+/turf/open/floor/iron/white,
+/area/maintenance/department/medical)
+"x" = (
+/turf/closed/wall/r_wall,
+/area/maintenance/department/medical)
+"y" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/structure/table,
+/obj/effect/spawner/random/food_or_drink/three_course_meal,
+/turf/open/floor/iron,
 /area/command/heads_quarters/cmo)
 "z" = (
 /obj/machinery/computer/med_data{
@@ -231,17 +224,13 @@
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "B" = (
-/obj/structure/table/glass,
-/obj/item/cartridge/medical,
-/obj/item/cartridge/medical,
-/obj/item/cartridge/medical,
-/obj/item/cartridge/chemistry,
-/obj/item/toy/figure/cmo,
 /obj/effect/turf_decal/siding/blue{
 	color = "#73c2fb";
 	name = "medical blue"
 	},
 /obj/machinery/light/directional/south,
+/obj/structure/bed/dogbed/runtime,
+/mob/living/simple_animal/pet/cat/runtime,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "C" = (
@@ -267,6 +256,9 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
+"G" = (
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "H" = (
 /obj/machinery/keycard_auth{
 	pixel_x = 25;
@@ -286,7 +278,6 @@
 "I" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "J" = (
@@ -299,8 +290,15 @@
 	dir = 8;
 	name = "medical blue"
 	},
+/obj/item/toy/cattoy,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
+"K" = (
+/obj/machinery/computer/crew{
+	dir = 1
+	},
+/turf/open/floor/iron/white,
+/area/maintenance/department/medical)
 "L" = (
 /obj/effect/turf_decal/siding/blue{
 	color = "#73c2fb";
@@ -311,17 +309,16 @@
 	dir = 4;
 	name = "medical blue"
 	},
-/turf/open/floor/iron/white,
-/area/command/heads_quarters/cmo)
-"M" = (
-/obj/structure/chair/comfy/black{
+/obj/structure/chair/office/light{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/iron,
+/obj/effect/landmark/start/chief_medical_officer,
+/turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
+"N" = (
+/obj/structure/bloodsucker/bloodthrone,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "O" = (
 /obj/effect/turf_decal/siding/blue{
 	color = "#73c2fb";
@@ -337,9 +334,16 @@
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
+"P" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/structure/chair/comfy/black{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/command/heads_quarters/cmo)
 "Q" = (
 /obj/structure/table/glass,
-/obj/item/clothing/glasses/hud/health,
+/obj/item/toy/figure/cmo,
 /obj/item/clothing/neck/stethoscope,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
@@ -398,13 +402,7 @@
 	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
-"V" = (
-/mob/living/simple_animal/pet/cat/runtime,
-/obj/structure/bed/dogbed/runtime,
-/turf/open/floor/iron/white,
-/area/command/heads_quarters/cmo)
 "W" = (
-/obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -413,6 +411,9 @@
 	dir = 8;
 	name = "medical blue"
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
 "X" = (
@@ -420,19 +421,13 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/blue,
+/obj/structure/chair/comfy/black{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/cmo)
 "Y" = (
 /obj/effect/turf_decal/tile/blue,
-/turf/open/floor/iron,
-/area/command/heads_quarters/cmo)
-"Z" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/structure/chair/comfy/black{
-	dir = 4
-	},
 /turf/open/floor/iron,
 /area/command/heads_quarters/cmo)
 
@@ -454,7 +449,7 @@ u
 z
 q
 a
-Z
+R
 X
 d
 "}
@@ -465,8 +460,8 @@ e
 D
 r
 a
-j
-Y
+R
+y
 d
 "}
 (4,1,1) = {"
@@ -476,8 +471,8 @@ i
 I
 s
 a
-M
-Y
+R
+P
 d
 "}
 (5,1,1) = {"
@@ -495,12 +490,12 @@ d
 a
 v
 A
-V
+D
 B
-a
-R
-c
-d
+x
+x
+x
+x
 "}
 (7,1,1) = {"
 a
@@ -508,10 +503,10 @@ T
 D
 Q
 C
-a
-R
+w
+x
 h
-d
+g
 "}
 (8,1,1) = {"
 a
@@ -519,10 +514,10 @@ m
 H
 p
 L
-a
-X
-o
-d
+K
+x
+G
+G
 "}
 (9,1,1) = {"
 a
@@ -530,8 +525,8 @@ a
 a
 a
 S
-a
-a
-a
-a
+x
+x
+N
+G
 "}
