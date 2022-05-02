@@ -19,11 +19,10 @@
 			killsec.update_explanation_text()
 			objectives += killsec
 
-			for(var/i = 0, i < 2, i++)
-				var/datum/objective/steal/steal_objective = new
-				steal_objective.owner = owner
-				steal_objective.find_target()
-				objectives += steal_objective
+			var/datum/objective/steal/steal_obj = new
+			steal_obj.owner = owner
+			steal_obj.find_target()
+			objectives += steal_obj
 
 		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
 			for(var/i = 0, i < 2, i++)
@@ -74,7 +73,7 @@
 		target = pick(possible_targets)
 
 	if(target?.current)
-		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]. as a threat to Nanotrasen. Eliminate them at all costs."
+		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]. as a threat to Nanotrasen, ensure they are eliminated."
 
 
 //advanced mulligan objective
@@ -144,6 +143,10 @@
 			continue
 		if((player.mind?.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_SCIENCE))
 			sci_targets += player.mind
+
+	for(var/datum/objective/assassinate/kill in owner.get_all_objectives())
+		if(kill.target in sci_targets)
+			sci_targets -= kill.target
 
 	if(!sci_targets.len)
 		find_target()

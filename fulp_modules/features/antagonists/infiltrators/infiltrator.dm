@@ -3,6 +3,7 @@
 	antagpanel_category = "Infiltrator"
 	job_rank = ROLE_INFILTRATOR
 	hijack_speed = 1
+	antag_hud_name = "traitor"
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE
 	preview_outfit = /datum/outfit/infiltrator
