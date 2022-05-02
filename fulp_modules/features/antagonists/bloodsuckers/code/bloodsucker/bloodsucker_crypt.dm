@@ -655,6 +655,12 @@
 	Hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
 		While buckled, Monsters can use this to telepathically communicate with eachother."
 	var/mutable_appearance/armrest
+	///Whether non-humans can buckle themselves onto this.
+	var/mundane = FALSE
+
+/obj/structure/bloodsucker/bloodthrone/mundane
+	desc = "A lame immitation of what would otherwise be threatening."
+	mundane = TRUE
 
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
@@ -700,7 +706,7 @@
 
 // Buckling
 /obj/structure/bloodsucker/bloodthrone/buckle_mob(mob/living/user, force = FALSE, check_loc = TRUE)
-	if(!anchored)
+	if(!anchored && !mundane)
 		to_chat(user, span_announce("[src] is not bolted to the ground!"))
 		return
 	. = ..()
@@ -710,7 +716,9 @@
 	)
 	if(IS_BLOODSUCKER(user))
 		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
-	else
+		if(mundane)
+			mundane = FALSE //mine now
+	else if(mundane)
 		user.Paralyze(6 SECONDS)
 		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
 		user.apply_damage(10, BRUTE)
