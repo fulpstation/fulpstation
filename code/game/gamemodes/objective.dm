@@ -935,7 +935,6 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		// DEFAULT OBJECTIVES //
 		/datum/objective/bloodsucker/lair,
 		/datum/objective/survive/bloodsucker,
-		/datum/objective/bloodsucker/protege,
 		/datum/objective/bloodsucker/heartthief,
 		/datum/objective/bloodsucker/gourmand,
 		// CLAN OBJECTIVES //
