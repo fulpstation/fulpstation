@@ -335,17 +335,18 @@
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/monsterhunter/check_completion()
 	var/list/datum/mind/monsters = list()
-	for(var/mob/living/players in GLOB.alive_mob_list)
-		if(IS_HERETIC(players) || IS_CULTIST(players) || IS_BLOODSUCKER(players) || IS_WIZARD(players))
-			monsters += players
-		if(players?.mind?.has_antag_datum(/datum/antagonist/changeling))
-			monsters += players
-		if(players?.mind?.has_antag_datum(/datum/antagonist/wizard/apprentice))
-			monsters += players
-	for(var/datum/mind/monster_minds in monsters)
-		if(monster_minds && monster_minds != owner && monster_minds.current.stat != DEAD)
-			return FALSE
-	return TRUE
+	for(var/datum/antagonist/monster in GLOB.antagonists)
+		var/datum/mind/brain = monster.owner
+		if(!brain || brain == owner)
+			continue
+		if(brain.current.stat == DEAD)
+			continue
+		if(IS_HERETIC(brain.current) || IS_CULTIST(brain.current) || IS_BLOODSUCKER(brain.current) || IS_WIZARD(brain.current))
+			monsters += brain
+		if(brain.has_antag_datum(/datum/antagonist/changeling))
+			monsters += brain
+
+	return completed || !monsters.len
 
 
 
