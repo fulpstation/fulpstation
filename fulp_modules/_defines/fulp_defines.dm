@@ -56,3 +56,4 @@
 #define CALIBER_C22 ".c22"
 ///File to the flavor file
 #define DEVILAFFAIR_FLAVOR_FILE "devilaffair_flavor.json"
+#define REQUEST_MENTORHELP "request_mentorhelp"

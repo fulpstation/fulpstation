@@ -105,31 +105,28 @@
 			span_notice("You slip your fangs into [feed_target]'s wrist.[dead_message]"), \
 			vision_distance = FEED_NOTICE_RANGE, ignored_mobs = feed_target)
 
-	var/been_noticed = FALSE
+	//check if we were seen
 	for(var/mob/living/watchers in oviewers(FEED_NOTICE_RANGE) - feed_target)
 		if(!watchers.client)
 			continue
 		if(watchers.has_unlimited_silicon_privilege)
 			continue
-		if(!watchers.stat)
+		if(watchers.stat >= DEAD)
 			continue
-		if(watchers.is_blind() || watchers.eye_blurry)
+		if(HAS_TRAIT(watchers, TRAIT_BLIND) || HAS_TRAIT(watchers, TRAIT_NEARSIGHT))
 			continue
 		if(IS_BLOODSUCKER(watchers) || IS_VASSAL(watchers) || HAS_TRAIT(watchers, TRAIT_BLOODSUCKER_HUNTER))
 			continue
-		been_noticed = TRUE
-		break
-	if(been_noticed)
 		owner.balloon_alert(owner, "feed noticed!")
 		bloodsuckerdatum_power.give_masquerade_infraction()
-	else
-		owner.balloon_alert(owner, "feed unnoticed.")
+		break
 
 	ADD_TRAIT(owner, TRAIT_MUTE, FEED_TRAIT)
 	ADD_TRAIT(owner, TRAIT_IMMOBILIZED, FEED_TRAIT)
 	return ..()
 
-/datum/action/bloodsucker/feed/UsePower(mob/living/user)
+/datum/action/bloodsucker/feed/process(delta_time)
+	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref.resolve()
 	if(!ContinueActive(user, feed_target))
 		owner.balloon_alert(owner, "interrupted!")

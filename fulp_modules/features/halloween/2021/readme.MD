@@ -109,7 +109,7 @@ Add this line of code to your costume
 	costume_contents += pick(
 		[This will have all the items you can choose, just like costume_contents]
 	)
-	. = ..()
+	return ..()
 
 Example of how it should be done:
 

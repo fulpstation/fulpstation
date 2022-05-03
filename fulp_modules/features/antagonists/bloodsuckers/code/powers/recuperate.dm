@@ -28,11 +28,12 @@
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	owner.balloon_alert(owner, "recuperate turned on.")
 
-/datum/action/bloodsucker/recuperate/UsePower(mob/living/carbon/user)
+/datum/action/bloodsucker/recuperate/process(delta_time)
 	. = ..()
 	if(!.)
 		return
 
+	var/mob/living/carbon/user = owner
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	vassaldatum.master.AddBloodVolume(-1)
 	user.Jitter(5)
@@ -57,5 +58,5 @@
 	return TRUE
 
 /datum/action/bloodsucker/recuperate/DeactivatePower()
-	. = ..()
 	owner.balloon_alert(owner, "recuperate turned off.")
+	return ..()

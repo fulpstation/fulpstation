@@ -9,7 +9,7 @@
 	self_defense_line = "Squeak!!"
 	orderable_objects = list(
 		VENUE_RESTAURANT = list(
-			/obj/item/food/cheese = 10,
+			/obj/item/food/cheese/wedge = 10,
 			/obj/item/food/grilled_cheese_sandwich = 8,
 			/obj/item/food/burger/cheese = 5,
 			/obj/item/food/cheese_sandwich = 4,

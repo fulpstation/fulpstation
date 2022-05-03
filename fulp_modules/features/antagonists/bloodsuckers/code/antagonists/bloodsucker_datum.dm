@@ -64,6 +64,13 @@
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
 
+	///Blood display HUD
+	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
+	///Vampire level display HUD
+	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
+	///Sunlight timer HUD
+	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
+
 	/// Static typecache of all bloodsucker powers.
 	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/bloodsucker, ignore_root_path = TRUE)
 	/// Antagonists that cannot be Vassalized no matter what
@@ -114,12 +121,58 @@
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, .proc/LifeTick)
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
+	if(current_mob.hud_used)
+		var/datum/hud/hud_used = current_mob.hud_used
+		//blood
+		blood_display = new /atom/movable/screen/bloodsucker/blood_counter()
+		blood_display.hud = hud_used
+		hud_used.infodisplay += blood_display
+		//rank
+		vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter()
+		vamprank_display.hud = hud_used
+		hud_used.infodisplay += vamprank_display
+		//sun
+		sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter()
+		sunlight_display.hud = hud_used
+		hud_used.infodisplay += sunlight_display
+		//update huds
+		hud_used.show_hud(hud_used.hud_version)
+	else
+		RegisterSignal(current_mob, COMSIG_MOB_HUD_CREATED, .proc/on_hud_created)
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	UnregisterSignal(current_mob, COMSIG_LIVING_LIFE)
 	handle_clown_mutation(current_mob, removing = FALSE)
+	if(current_mob.hud_used)
+		var/datum/hud/hud_used = current_mob.hud_used
+
+		hud_used.infodisplay -= blood_display
+		hud_used.infodisplay -= vamprank_display
+		hud_used.infodisplay -= sunlight_display
+		QDEL_NULL(blood_display)
+		QDEL_NULL(vamprank_display)
+		QDEL_NULL(sunlight_display)
+
+/datum/antagonist/bloodsucker/proc/on_hud_created(datum/source)
+	SIGNAL_HANDLER
+
+	var/datum/hud/bloodsucker_hud = owner.current.hud_used
+
+	blood_display = new /atom/movable/screen/bloodsucker/blood_counter()
+	blood_display.hud = bloodsucker_hud
+	bloodsucker_hud.infodisplay += blood_display
+
+	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter()
+	vamprank_display.hud = bloodsucker_hud
+	bloodsucker_hud.infodisplay += vamprank_display
+
+	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter()
+	sunlight_display.hud = bloodsucker_hud
+	bloodsucker_hud.infodisplay += sunlight_display
+
+	bloodsucker_hud.show_hud(bloodsucker_hud.hud_version)
 
 /datum/antagonist/bloodsucker/get_admin_commands()
 	. = ..()
@@ -212,7 +265,7 @@
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
 	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
 	var/msg = " made [key_name_admin(new_owner)] into \a [name]"
-	if(!isnull(levels))
+	if(levels > 1)
 		bloodsucker_level_unspent = levels
 		msg += " with [levels] extra unspent Ranks."
 	message_admins("[key_name_admin(usr)][msg]")
@@ -220,21 +273,11 @@
 	new_owner.add_antag_datum(src)
 
 /datum/antagonist/bloodsucker/get_preview_icon()
-	var/mob/living/carbon/human/dummy/consistent/enrico = new
 
-	enrico.hairstyle = "Undercut"
-	enrico.hair_color = "FFF"
-	enrico.skin_tone = "african2"
+	var/icon/final_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit)
+	final_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
 
-	enrico.update_hair()
-	enrico.update_body()
-
-	var/icon/enrico_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit, enrico)
-	enrico_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
-
-	qdel(enrico)
-
-	return finish_preview_icon(enrico_icon)
+	return finish_preview_icon(final_icon)
 
 /**
  *	# Vampire Clan
@@ -344,10 +387,6 @@
 	log_uplink("[key_name(owner.current)] purchased [power].")
 
 /datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
-	for(var/datum/action/bloodsucker/all_powers as anything in powers)
-		if(initial(power.name) == all_powers.name)
-			power = all_powers
-			break
 	if(power.active)
 		power.DeactivatePower()
 	powers -= power
@@ -384,15 +423,10 @@
 	HealVampireOrgans()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
-	/// Remove huds
-	remove_hud()
 	// Powers
 	remove_verb(owner.current, /mob/living/proc/explain_powers)
-	while(powers.len)
-		var/datum/action/bloodsucker/power = pick(powers)
-		powers -= power
-		power.Remove(owner.current)
-		// owner.RemoveSpell(power)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+		RemovePower(all_powers)
 	/// Stats
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/user = owner.current
@@ -608,7 +642,7 @@
 	// Done! Let them know & Update their HUD.
 	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!\n\
 	* Your existing powers have all ranked up as well!"))
-	update_hud(owner.current)
+	update_hud()
 	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
 
 #undef PURCHASE_VASSAL
@@ -637,11 +671,12 @@
 
 	// Objective 1: Vassalize a Head/Command, or a specific target
 	switch(rand(1,3))
-		if(1) // Protege Objective
-			var/datum/objective/bloodsucker/protege/protege_objective = new
-			protege_objective.owner = owner
-			protege_objective.objective_name = "Optional Objective"
-			objectives += protege_objective
+		if(1) // Conversion Objective
+			var/datum/objective/bloodsucker/conversion/chosen_subtype = pick(subtypesof(/datum/objective/bloodsucker/conversion))
+			var/datum/objective/bloodsucker/conversion/conversion_objective = new chosen_subtype
+			conversion_objective.owner = owner
+			conversion_objective.objective_name = "Optional Objective"
+			objectives += conversion_objective
 		if(2) // Heart Thief Objective
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner
@@ -744,10 +779,6 @@
 
 	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
 
-
-/datum/antagonist/bloodsucker/proc/AmFledgling()
-	return !bloodsucker_title
-
 /datum/antagonist/bloodsucker/proc/ReturnFullName(include_rep = FALSE)
 
 	var/fullname
@@ -800,37 +831,11 @@
 //  BLOOD COUNTER & RANK MARKER !  //
 /////////////////////////////////////
 
-/datum/hud/human/New(mob/living/carbon/human/owner)
-	. = ..()
-	blood_display = new /atom/movable/screen/bloodsucker/blood_counter
-	infodisplay += blood_display
-	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter
-	infodisplay += vamprank_display
-	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter
-	infodisplay += sunlight_display
-
-/datum/hud
-	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
-	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
-	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
-
-/datum/antagonist/bloodsucker/proc/add_hud()
-	return
-
-/datum/antagonist/bloodsucker/proc/remove_hud()
-	owner.current.hud_used.blood_display.invisibility = INVISIBILITY_ABSTRACT
-	owner.current.hud_used.vamprank_display.invisibility = INVISIBILITY_ABSTRACT
-	owner.current.hud_used.sunlight_display.invisibility = INVISIBILITY_ABSTRACT
-
 /atom/movable/screen/bloodsucker
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
-	invisibility = INVISIBILITY_ABSTRACT
 
-/atom/movable/screen/bloodsucker/proc/clear()
-	invisibility = INVISIBILITY_ABSTRACT
-
+///Updates the counter on said HUD
 /atom/movable/screen/bloodsucker/proc/update_counter()
-	invisibility = 0
 
 /atom/movable/screen/bloodsucker/blood_counter
 	name = "Blood Consumed"
@@ -848,59 +853,59 @@
 	screen_loc = ui_sunlight_display
 
 /// Update Blood Counter + Rank Counter
-/datum/antagonist/bloodsucker/proc/update_hud(updateRank = FALSE)
-	if(!owner.current.hud_used)
-		return
+/datum/antagonist/bloodsucker/proc/update_hud()
 	var/valuecolor
-	if(owner.current.hud_used && owner.current.hud_used.blood_display)
-		if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
-			valuecolor = "#FFDDDD"
-		else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
-			valuecolor = "#FFAAAA"
-		owner.current.hud_used.blood_display.update_counter(owner.current.blood_volume, valuecolor)
-	if(owner.current.hud_used && owner.current.hud_used.vamprank_display)
-		owner.current.hud_used.vamprank_display.update_counter(bloodsucker_level, valuecolor)
-		/// Only change icon on special request.
-		if(updateRank)
-			owner.current.hud_used.vamprank_display.icon_state = (bloodsucker_level_unspent > 0) ? "rank_up" : "rank"
+	if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
+		valuecolor = "#FFDDDD"
+	else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
+		valuecolor = "#FFAAAA"
+
+	if(blood_display)
+		blood_display.update_counter(owner.current.blood_volume, valuecolor)
+
+	if(vamprank_display)
+		if(bloodsucker_level_unspent > 0)
+			vamprank_display.icon_state = "rank_up"
+		else
+			vamprank_display.icon_state = "rank"
+		vamprank_display.update_counter(bloodsucker_level, valuecolor)
 
 /// Update Sun Time
 /datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
-	if(!owner.current.hud_used)
+	if(!sunlight_display)
 		return
 	var/valuecolor
-	if(owner.current.hud_used && owner.current.hud_used.sunlight_display)
-		var/sunlight_display_icon = "sunlight_"
-		if(amDay)
-			sunlight_display_icon += "day"
-			valuecolor = "#FF5555"
-		else
-			switch(round(value, 1))
-				if(0 to 30)
-					sunlight_display_icon += "30"
-					valuecolor = "#FFCCCC"
-				if(31 to 60)
-					sunlight_display_icon += "60"
-					valuecolor = "#FFE6CC"
-				if(61 to 90)
-					sunlight_display_icon += "90"
-					valuecolor = "#FFFFCC"
-				else
-					sunlight_display_icon += "night"
-					valuecolor = "#FFFFFF"
+	var/sunlight_display_icon = "sunlight_"
+	if(amDay)
+		sunlight_display_icon += "day"
+		valuecolor = "#FF5555"
+	else
+		switch(round(value, 1))
+			if(0 to 30)
+				sunlight_display_icon += "30"
+				valuecolor = "#FFCCCC"
+			if(31 to 60)
+				sunlight_display_icon += "60"
+				valuecolor = "#FFE6CC"
+			if(61 to 90)
+				sunlight_display_icon += "90"
+				valuecolor = "#FFFFCC"
+			else
+				sunlight_display_icon += "night"
+				valuecolor = "#FFFFFF"
 
-		var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
-		owner.current.hud_used.sunlight_display.update_counter(value_string, valuecolor)
-		owner.current.hud_used.sunlight_display.icon_state = sunlight_display_icon
+	var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
+	sunlight_display.update_counter(value_string, valuecolor)
+	sunlight_display.icon_state = sunlight_display_icon
 
 /atom/movable/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
-	..()
-	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
+	. = ..()
+	maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, value)
 
 /atom/movable/screen/bloodsucker/rank_counter/update_counter(value, valuecolor)
-	..()
-	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
+	. = ..()
+	maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, value)
 
 /atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
-	..()
-	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"
+	. = ..()
+	maptext = FORMAT_BLOODSUCKER_SUNLIGHT_TEXT(valuecolor, value)

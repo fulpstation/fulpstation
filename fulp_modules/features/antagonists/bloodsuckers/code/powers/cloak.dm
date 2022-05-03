@@ -34,11 +34,12 @@
 	user.AddElement(/datum/element/digitalcamo)
 	user.balloon_alert(user, "cloak turned on.")
 
-/datum/action/bloodsucker/cloak/UsePower(mob/living/user)
+/datum/action/bloodsucker/cloak/process(delta_time)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
 		return
+	var/mob/living/user = owner
 	animate(user, alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current)), time = 1.5 SECONDS)
 	// Prevents running while on Cloak of Darkness
 	if(user.m_intent != MOVE_INTENT_WALK)
@@ -57,10 +58,10 @@
 	return TRUE
 
 /datum/action/bloodsucker/cloak/DeactivatePower()
-	. = ..()
 	var/mob/living/user = owner
 	animate(user, alpha = 255, time = 1 SECONDS)
 	user.RemoveElement(/datum/element/digitalcamo)
 	if(was_running && user.m_intent == MOVE_INTENT_WALK)
 		user.toggle_move_intent()
 	user.balloon_alert(user, "cloak turned off.")
+	return ..()

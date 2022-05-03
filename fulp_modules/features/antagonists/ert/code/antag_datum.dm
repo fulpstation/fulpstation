@@ -36,11 +36,11 @@
 
 /datum/antagonist/ert/engineer/specialized/on_gain()
 	engi_ert_alert()
-	. = ..()
+	return ..()
 
 /datum/antagonist/ert/commander/engineer/on_gain()
 	engi_ert_alert()
-	. = ..()
+	return ..()
 
 /datum/antagonist/ert/medic/specialized/on_gain()
 	. = ..()

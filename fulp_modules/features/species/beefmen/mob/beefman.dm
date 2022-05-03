@@ -144,7 +144,7 @@
 			user.blood_volume += 5
 			user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
 
-	. = ..()
+	return ..()
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -386,6 +386,8 @@
 		span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
 		span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
 	new_bodypart.attach_limb(beefboy)
+	new_bodypart.update_limb(is_creating = TRUE)
+	beefboy.update_body_parts()
 	new_bodypart.give_meat(beefboy, meat)
 	qdel(meat)
 	playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)

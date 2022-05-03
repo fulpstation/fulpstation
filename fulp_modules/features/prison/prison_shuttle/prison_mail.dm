@@ -53,27 +53,27 @@
 /obj/item/prison_mail/security/Initialize(mapload)
 	color = COLOR_PALE_RED_GRAY
 	mail_department = DEPARTMENT_SECURITY
-	. = ..()
+	return ..()
 /obj/item/prison_mail/engineering/Initialize(mapload)
 	color = COLOR_PALE_ORANGE
 	mail_department = DEPARTMENT_ENGINEERING
-	. = ..()
+	return ..()
 /obj/item/prison_mail/science/Initialize(mapload)
 	color = COLOR_PALE_PURPLE_GRAY
 	mail_department = DEPARTMENT_SCIENCE
-	. = ..()
+	return ..()
 /obj/item/prison_mail/medical/Initialize(mapload)
 	color = COLOR_PALE_BLUE_GRAY
 	mail_department = DEPARTMENT_MEDICAL
-	. = ..()
+	return ..()
 /obj/item/prison_mail/service/Initialize(mapload)
 	color = COLOR_PALE_GREEN_GRAY
 	mail_department = DEPARTMENT_SERVICE
-	. = ..()
+	return ..()
 /obj/item/prison_mail/supply/Initialize(mapload)
 	color = COLOR_BEIGE
 	mail_department = DEPARTMENT_CARGO
-	. = ..()
+	return ..()
 
 /**
  * # BINS
@@ -105,27 +105,27 @@
 /obj/machinery/disposal/bin/prison/security/Initialize(mapload, obj/structure/disposalconstruct/make_from)
 	color = COLOR_PALE_RED_GRAY
 	unit_department = DEPARTMENT_SECURITY
-	. = ..()
+	return ..()
 /obj/machinery/disposal/bin/prison/engineering/Initialize(mapload, obj/structure/disposalconstruct/make_from)
 	color = COLOR_PALE_ORANGE
 	unit_department = DEPARTMENT_ENGINEERING
-	. = ..()
+	return ..()
 /obj/machinery/disposal/bin/prison/science/Initialize(mapload, obj/structure/disposalconstruct/make_from)
 	color = COLOR_PALE_PURPLE_GRAY
 	unit_department = DEPARTMENT_SCIENCE
-	. = ..()
+	return ..()
 /obj/machinery/disposal/bin/prison/medical/Initialize(mapload, obj/structure/disposalconstruct/make_from)
 	color = COLOR_PALE_BLUE_GRAY
 	unit_department = DEPARTMENT_MEDICAL
-	. = ..()
+	return ..()
 /obj/machinery/disposal/bin/prison/service/Initialize(mapload, obj/structure/disposalconstruct/make_from)
 	color = COLOR_PALE_GREEN_GRAY
 	unit_department = DEPARTMENT_SERVICE
-	. = ..()
+	return ..()
 /obj/machinery/disposal/bin/prison/supply/Initialize(mapload, obj/structure/disposalconstruct/make_from)
 	color = COLOR_BEIGE
 	unit_department = DEPARTMENT_CARGO
-	. = ..()
+	return ..()
 
 /**
  * MAIL CRATE
