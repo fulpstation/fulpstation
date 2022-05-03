@@ -37,7 +37,7 @@
 
 /datum/action/bloodsucker/targeted/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
-		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+		STOP_PROCESSING(SSprocessing, src)
 	active = FALSE
 	DeactivateRangedAbility()
 	UpdateButtons()

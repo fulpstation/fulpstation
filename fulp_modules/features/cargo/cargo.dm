@@ -1,5 +1,12 @@
 //Put all modular Fulp cargo crates in this folder.
 
+// Medipens
+/datum/supply_pack/security/mutadone_medipen
+	name = "Emergency Mutadone Kit"
+	desc = "Contains one Mutadone medipen for instant genetic removal. Best used for hulks."
+	cost = CARGO_CRATE_VALUE * 1.5
+	contains = list(/obj/item/reagent_containers/hypospray/medipen/mutadone)
+
 //Halloween
 /datum/supply_pack/goody/halloween_beacon
 	name = "Halloween Beacon"
@@ -11,7 +18,7 @@
 /datum/supply_pack/goody/clown_costume
 	name = "Clown Costume"
 	desc = "Supply the station's wannabe clown with their equipment and costume! Contains a full clown outfit along with a bike horn."
-	cost = PAYCHECK_MEDIUM * 2
+	cost = CARGO_CRATE_VALUE
 	contains = list(
 		/obj/item/bikehorn,
 		/obj/item/clothing/mask/gas/clown_hat,
@@ -23,7 +30,7 @@
 /datum/supply_pack/goody/mime_costume
 	name = "Mime Costume"
 	desc = "Supply the station's wannabe mime with their equipment and costume! Contains a full mime outfit along with a bottle of nothing."
-	cost = PAYCHECK_MEDIUM * 2
+	cost = CARGO_CRATE_VALUE
 	contains = list(
 		/obj/item/clothing/gloves/color/white,
 		/obj/item/clothing/head/frenchberet,

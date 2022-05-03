@@ -41,11 +41,12 @@
 	if(was_running)
 		bloodsucker_user.toggle_move_intent()
 
-/datum/action/bloodsucker/fortitude/UsePower(mob/living/carbon/user)
+/datum/action/bloodsucker/fortitude/process(delta_time)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
 		return
+	var/mob/living/carbon/user = owner
 	/// Prevents running while on Fortitude
 	if(user.m_intent != MOVE_INTENT_WALK)
 		user.toggle_move_intent()

@@ -78,3 +78,8 @@
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"
 /// 6 pixels to the right, zero tiles & 5 pixels DOWN.
 #define ui_sunlight_display "WEST:6,CENTER-0:0"
+
+///Maptext define for Bloodsucker HUDs
+#define FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, value) MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>")
+///Maptext define for Bloodsucker Sunlight HUDs
+#define FORMAT_BLOODSUCKER_SUNLIGHT_TEXT(valuecolor, value) MAPTEXT("<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>")

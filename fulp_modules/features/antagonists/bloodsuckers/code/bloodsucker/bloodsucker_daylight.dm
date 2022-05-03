@@ -168,5 +168,4 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
 		for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
 			if(istype(power, /datum/action/bloodsucker/gohome))
-				bloodsuckerdatum.powers -= power
-				power.Remove(bloodsucker_minds.current)
+				bloodsuckerdatum.RemovePower(power)
