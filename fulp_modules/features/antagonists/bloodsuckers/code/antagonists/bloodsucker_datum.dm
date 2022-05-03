@@ -265,7 +265,7 @@
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
 	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
 	var/msg = " made [key_name_admin(new_owner)] into \a [name]"
-	if(!isnull(levels))
+	if(levels > 1)
 		bloodsucker_level_unspent = levels
 		msg += " with [levels] extra unspent Ranks."
 	message_admins("[key_name_admin(usr)][msg]")
@@ -273,21 +273,11 @@
 	new_owner.add_antag_datum(src)
 
 /datum/antagonist/bloodsucker/get_preview_icon()
-	var/mob/living/carbon/human/dummy/consistent/enrico = new
 
-	enrico.hairstyle = "Undercut"
-	enrico.hair_color = "FFF"
-	enrico.skin_tone = "african2"
+	var/icon/final_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit)
+	final_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
 
-	enrico.update_hair()
-	enrico.update_body()
-
-	var/icon/enrico_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit, enrico)
-	enrico_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
-
-	qdel(enrico)
-
-	return finish_preview_icon(enrico_icon)
+	return finish_preview_icon(final_icon)
 
 /**
  *	# Vampire Clan
@@ -681,11 +671,12 @@
 
 	// Objective 1: Vassalize a Head/Command, or a specific target
 	switch(rand(1,3))
-		if(1) // Protege Objective
-			var/datum/objective/bloodsucker/protege/protege_objective = new
-			protege_objective.owner = owner
-			protege_objective.objective_name = "Optional Objective"
-			objectives += protege_objective
+		if(1) // Conversion Objective
+			var/datum/objective/bloodsucker/conversion/chosen_subtype = pick(subtypesof(/datum/objective/bloodsucker/conversion))
+			var/datum/objective/bloodsucker/conversion/conversion_objective = new chosen_subtype
+			conversion_objective.owner = owner
+			conversion_objective.objective_name = "Optional Objective"
+			objectives += conversion_objective
 		if(2) // Heart Thief Objective
 			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
 			heartthief_objective.owner = owner
