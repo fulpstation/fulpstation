@@ -43,7 +43,8 @@
 	var/msg = input(src, null, "msay \"text\"") as text|null
 	cmd_mentor_say(msg)
 
-/proc/check_mentor_pings(msg) /// see /proc/check_admin_pings(msg) we just check for mentor_datum instead of holder
+// see /proc/check_admin_pings(msg) we just check for mentor_datum instead of holder
+/proc/check_mentor_pings(msg)
 	var/list/msglist = splittext(msg, " ")
 	var/list/mentors_to_ping = list()
 
@@ -64,9 +65,8 @@
 		mentors_to_ping[ASAY_LINK_PINGED_ADMINS_INDEX] = jointext(msglist, " ")
 		return mentors_to_ping
 
-/// Gives Mentors/Admins the MSAY verb
+///Gives both Mentors & Admins all Mentor verb
 /client/proc/add_mentor_verbs()
-	///Both mentors and admins will get those verbs.
 	if(mentor_datum || holder)
 		add_verb(src, GLOB.mentor_verbs)
 
