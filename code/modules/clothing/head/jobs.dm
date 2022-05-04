@@ -261,7 +261,7 @@
 	flags_1 = NONE
 
 
-/obj/item/clothing/head/beret/sec/navywarden
+/obj/item/clothing/head/hos/beret/navyhos
 	name = "warden's beret"
 	desc = "A special beret with the Warden's insignia emblazoned on it. For wardens with class."
 	greyscale_colors = "#3C485A#00AEEF"

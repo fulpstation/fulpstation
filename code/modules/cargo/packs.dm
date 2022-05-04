@@ -372,7 +372,7 @@
 					/obj/item/clothing/head/beret/sec/navyofficer,
 					/obj/item/clothing/under/rank/security/warden/formal,
 					/obj/item/clothing/suit/security/warden,
-					/obj/item/clothing/head/beret/sec/navywarden,
+					/obj/item/clothing/head/hos/beret/navyhos,
 					/obj/item/clothing/under/rank/security/head_of_security/formal,
 					/obj/item/clothing/suit/security/hos,
 					/obj/item/clothing/head/hos/beret/navyhos)
