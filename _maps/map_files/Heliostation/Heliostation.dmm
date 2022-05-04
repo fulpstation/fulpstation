@@ -10284,6 +10284,8 @@
 	listening = 0;
 	name = "AI Intercom"
 	},
+/obj/effect/spawner/random/aimodule/harmless,
+/obj/structure/table,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "axS" = (
@@ -10724,20 +10726,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /turf/open/floor/iron/dark,
 /area/ai_monitored/turret_protected/ai_upload)
-"ayE" = (
-/obj/structure/table,
-/obj/item/ai_module/reset,
-/obj/item/ai_module/supplied/quarantine,
-/obj/item/ai_module/supplied/safeguard,
-/obj/effect/turf_decal/siding/blue{
-	color = "#4169E1";
-	dir = 4;
-	name = "command blue"
-	},
-/obj/item/ai_module/supplied/freeform,
-/obj/item/ai_module/toy_ai,
-/turf/open/floor/iron/dark,
-/area/ai_monitored/turret_protected/ai_upload)
 "ayF" = (
 /turf/open/floor/iron/white,
 /area/security/brig)
@@ -10986,17 +10974,23 @@
 	pixel_x = 30
 	},
 /obj/machinery/light/directional/east,
+/obj/item/ai_module/toy_ai,
+/obj/structure/table,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "azi" = (
 /obj/machinery/flasher/directional/east{
 	id = "AI"
 	},
+/obj/item/ai_module/supplied/freeform,
+/obj/item/ai_module/supplied/safeguard,
+/obj/item/ai_module/supplied/quarantine,
+/obj/item/ai_module/reset,
+/obj/structure/table,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "azj" = (
 /obj/structure/cable,
-/obj/structure/table,
 /obj/structure/window/reinforced{
 	dir = 8
 	},
@@ -11009,17 +11003,12 @@
 	name = "Core Modules";
 	req_access_txt = "20"
 	},
-/obj/effect/spawner/random/aimodule/harmless,
-/obj/effect/spawner/random/aimodule/neutral,
-/obj/item/ai_module/supplied/freeform,
-/obj/item/ai_module/core/freeformcore,
-/obj/item/ai_module/core/full/reporter,
-/obj/item/ai_module/core/full/asimov,
-/obj/item/ai_module/core/full/drone,
 /obj/effect/turf_decal/siding/blue{
 	color = "#4169E1";
 	name = "command blue"
 	},
+/obj/effect/spawner/random/aimodule/neutral,
+/obj/structure/table/wood/fancy/blue,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "azk" = (
@@ -11037,7 +11026,6 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "azm" = (
-/obj/structure/table,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -11049,15 +11037,12 @@
 	name = "Core Modules";
 	req_access_txt = "20"
 	},
-/obj/effect/spawner/random/aimodule/harmful,
-/obj/effect/spawner/random/aimodule/harmful,
-/obj/item/ai_module/reset/purge,
-/obj/item/ai_module/supplied/oxygen,
-/obj/item/ai_module/zeroth/onehuman,
 /obj/effect/turf_decal/siding/blue{
 	color = "#4169E1";
 	name = "command blue"
 	},
+/obj/effect/spawner/random/aimodule/harmful,
+/obj/structure/table/wood/fancy/red,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "azn" = (
@@ -17179,10 +17164,10 @@
 /area/command/heads_quarters/cmo)
 "aNL" = (
 /obj/structure/table/glass,
-/obj/item/cartridge/medical,
-/obj/item/cartridge/medical,
-/obj/item/cartridge/medical,
-/obj/item/cartridge/chemistry,
+/obj/item/computer_hardware/hard_drive/role/medical,
+/obj/item/computer_hardware/hard_drive/role/medical,
+/obj/item/computer_hardware/hard_drive/role/medical,
+/obj/item/computer_hardware/hard_drive/role/chemistry,
 /obj/item/toy/figure/cmo,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/cmo)
@@ -20672,7 +20657,6 @@
 	color = "#73c2fb";
 	name = "medical blue"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden,
 /obj/machinery/light/directional/south,
 /obj/structure/extinguisher_cabinet/directional/south,
 /turf/open/floor/iron/white,
@@ -21313,7 +21297,7 @@
 	dir = 1;
 	name = "medical blue"
 	},
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer,
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer,
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
 "aXK" = (
@@ -22250,10 +22234,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/medical/medbay/central)
-"bad" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden,
-/turf/closed/wall/r_wall,
-/area/medical/storage)
 "bae" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
 /turf/open/floor/iron/white,
@@ -29605,9 +29585,6 @@
 	color = "#73c2fb";
 	name = "medical blue"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 6
-	},
 /turf/open/floor/iron/white,
 /area/medical/storage)
 "btc" = (
@@ -29629,9 +29606,6 @@
 /obj/effect/turf_decal/siding/blue{
 	color = "#73c2fb";
 	name = "medical blue"
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 8
 	},
 /turf/open/floor/iron/white,
 /area/medical/storage)
@@ -39670,12 +39644,6 @@
 	},
 /turf/closed/wall/r_wall,
 /area/maintenance/starboard)
-"bTn" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden{
-	dir = 5
-	},
-/turf/closed/wall/r_wall,
-/area/science/mixing)
 "bTo" = (
 /obj/structure/sign/painting/library_private{
 	pixel_x = 32;
@@ -39912,7 +39880,7 @@
 	dir = 9;
 	name = "research purple"
 	},
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
@@ -40481,10 +40449,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
-"bVa" = (
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden,
-/turf/closed/wall/r_wall,
-/area/science/mixing)
 "bVc" = (
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/navbeacon{
@@ -43371,8 +43335,8 @@
 	color = "#73c2fb";
 	name = "medical blue"
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 6
 	},
 /turf/open/floor/iron/white,
 /area/medical/storage)
@@ -44539,9 +44503,9 @@
 "cez" = (
 /obj/structure/table/glass,
 /obj/item/paper_bin,
-/obj/item/cartridge/signal/ordnance,
-/obj/item/cartridge/signal/ordnance,
-/obj/item/cartridge/signal/ordnance,
+/obj/item/computer_hardware/hard_drive/role/signal/ordnance,
+/obj/item/computer_hardware/hard_drive/role/signal/ordnance,
+/obj/item/computer_hardware/hard_drive/role/signal/ordnance,
 /turf/open/floor/iron/white,
 /area/command/heads_quarters/rd)
 "ceA" = (
@@ -45195,7 +45159,6 @@
 	dir = 6;
 	name = "research purple"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/iron/white,
 /area/science/mixing)
@@ -45371,10 +45334,10 @@
 /area/science/mixing)
 "cgy" = (
 /obj/structure/table,
-/obj/item/cartridge/atmos,
-/obj/item/cartridge/engineering,
-/obj/item/cartridge/engineering,
-/obj/item/cartridge/engineering,
+/obj/item/computer_hardware/hard_drive/role/atmos,
+/obj/item/computer_hardware/hard_drive/role/engineering,
+/obj/item/computer_hardware/hard_drive/role/engineering,
+/obj/item/computer_hardware/hard_drive/role/engineering,
 /obj/item/lighter,
 /obj/item/toy/figure/ce,
 /turf/open/floor/iron,
@@ -45765,7 +45728,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark,
 /area/science/mixing)
@@ -46279,13 +46241,13 @@
 /turf/open/floor/iron/dark,
 /area/science/storage)
 "ciK" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
 /area/science/mixing)
 "ciL" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/heater{
+/obj/machinery/atmospherics/components/unary/thermomachine/heater{
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
@@ -46409,7 +46371,6 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
 /area/science/mixing)
 "cjd" = (
@@ -50589,7 +50550,6 @@
 /obj/machinery/computer/camera_advanced/xenobio{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/visible,
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "csc" = (
@@ -51077,9 +51037,6 @@
 	color = "#990099";
 	name = "research purple"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 5
-	},
 /turf/open/floor/iron/white,
 /area/science/xenobiology)
 "ctg" = (
@@ -51092,7 +51049,7 @@
 	color = "#990099";
 	name = "research purple"
 	},
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer/on{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
 	dir = 4
 	},
 /obj/machinery/light/directional/south,
@@ -52942,12 +52899,6 @@
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron,
 /area/engineering/atmos)
-"cxH" = (
-/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden{
-	dir = 4
-	},
-/turf/closed/wall/r_wall,
-/area/science/mixing)
 "cxI" = (
 /obj/item/wrench,
 /turf/open/floor/iron,
@@ -53309,12 +53260,6 @@
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 8;
 	name = "Port to Filter"
-	},
-/turf/open/floor/iron,
-/area/engineering/atmos)
-"cyF" = (
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/visible{
-	dir = 1
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
@@ -54043,17 +53988,16 @@
 	dir = 8;
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 9
+	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cAp" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 10
 	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
@@ -54513,12 +54457,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
-"cBu" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/department/science)
 "cBv" = (
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
 	dir = 10
@@ -54585,11 +54523,6 @@
 	name = "engineering yellow"
 	},
 /obj/structure/cable,
-/turf/open/floor/iron,
-/area/maintenance/disposal/incinerator)
-"cBD" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cBF" = (
@@ -55026,14 +54959,8 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
-"cCF" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 9
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/department/science)
 "cCG" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/heater,
+/obj/machinery/atmospherics/components/unary/thermomachine/heater,
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "cCI" = (
@@ -55148,17 +55075,6 @@
 	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
-"cCU" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/open/floor/iron,
-/area/maintenance/disposal/incinerator)
 "cCV" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/disposalpipe/segment{
@@ -55230,9 +55146,9 @@
 /area/cargo/qm)
 "cDf" = (
 /obj/structure/table,
-/obj/item/cartridge/quartermaster,
-/obj/item/cartridge/quartermaster,
-/obj/item/cartridge/quartermaster,
+/obj/item/computer_hardware/hard_drive/role/quartermaster,
+/obj/item/computer_hardware/hard_drive/role/quartermaster,
+/obj/item/computer_hardware/hard_drive/role/quartermaster,
 /obj/item/coin/gold{
 	desc = "A shiny gold coin. On closer inspection, it seems to be only gold plated.";
 	name = "Lucky Coin"
@@ -55646,17 +55562,7 @@
 	dir = 8;
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden{
-	dir = 4
-	},
 /obj/structure/cable,
-/turf/open/floor/iron,
-/area/maintenance/disposal/incinerator)
-"cEl" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 9
-	},
 /turf/open/floor/iron,
 /area/maintenance/disposal/incinerator)
 "cEm" = (
@@ -55825,7 +55731,7 @@
 	dir = 4;
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/components/binary/thermomachine/heater{
+/obj/machinery/atmospherics/components/unary/thermomachine/heater{
 	dir = 8
 	},
 /turf/open/floor/iron,
@@ -57360,7 +57266,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible/layer2,
 /turf/closed/wall/r_wall,
 /area/maintenance/disposal/incinerator)
 "cHP" = (
@@ -58526,7 +58432,7 @@
 /turf/open/floor/engine,
 /area/engineering/main)
 "cKD" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 8
 	},
 /obj/effect/turf_decal/siding/yellow{
@@ -59733,10 +59639,10 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "cNL" = (
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 10
 	},
+/obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
 /area/engineering/main)
 "cNN" = (
@@ -59801,7 +59707,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "cNX" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -60015,7 +59921,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "cOA" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/heater{
+/obj/machinery/atmospherics/components/unary/thermomachine/heater{
 	dir = 8
 	},
 /obj/machinery/light/small/directional/south,
@@ -64624,12 +64530,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/security/prison/rec)
-"fak" = (
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden{
-	dir = 1
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/disposal/incinerator)
 "faA" = (
 /obj/effect/turf_decal/siding/red{
 	color = "#FF0000";
@@ -65333,13 +65233,6 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/fore)
-"gnS" = (
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 10
-	},
-/turf/open/floor/plating,
-/area/engineering/main)
 "gqT" = (
 /obj/effect/turf_decal/siding/red{
 	color = "#FF0000";
@@ -66356,10 +66249,6 @@
 /obj/item/weldingtool,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
-"hVV" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/closed/wall/r_wall,
-/area/engineering/main)
 "hWb" = (
 /obj/structure/chair{
 	dir = 1
@@ -66836,7 +66725,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "iMt" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
+/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden,
 /turf/closed/wall/r_wall,
 /area/maintenance/disposal/incinerator)
 "iNh" = (
@@ -70381,8 +70270,8 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 9
 	},
 /turf/open/floor/iron/white,
 /area/science/mixing)
@@ -73980,16 +73869,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/security/prison/visit)
-"vwK" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
-	dir = 1
-	},
-/turf/open/floor/iron/white,
-/area/science/xenobiology)
 "vwM" = (
 /obj/structure/table/wood,
 /obj/effect/turf_decal/siding/blue/end{
@@ -95933,7 +95812,7 @@ cHi
 cKg
 pMf
 cLF
-nCr
+cyt
 cNL
 cOa
 cVs
@@ -96189,8 +96068,8 @@ gTl
 cKD
 cKD
 cLz
-cAU
-cAT
+cyo
+cyt
 aak
 aak
 aak
@@ -96443,10 +96322,10 @@ cyo
 cyt
 cyt
 cyt
-gnS
-cNL
-hVV
-iSu
+cyt
+cyt
+cyo
+cyo
 aak
 aak
 aak
@@ -101831,7 +101710,7 @@ eJe
 cve
 eJe
 qVU
-cyF
+csA
 cCG
 cyG
 crj
@@ -102088,7 +101967,7 @@ ctQ
 cvb
 cwp
 vEO
-cyF
+csA
 cCG
 cyG
 crj
@@ -106461,9 +106340,9 @@ cAn
 mmv
 cBB
 cCS
-fak
-iMt
-iMt
+cxT
+cxT
+cxT
 cHO
 iMt
 oai
@@ -106973,9 +106852,9 @@ cwN
 cxS
 cyW
 cAp
-cBD
-cCU
-cEl
+bNi
+cCV
+bNi
 cFs
 cGz
 cHQ
@@ -118786,7 +118665,7 @@ cmv
 cnB
 cov
 vUt
-vwK
+cIb
 csb
 ctf
 cut
@@ -120272,7 +120151,7 @@ aSL
 aTO
 bta
 aVT
-bad
+aWV
 aXJ
 aYZ
 cdn
@@ -120500,7 +120379,7 @@ avX
 azl
 alS
 alW
-ayE
+alW
 alW
 aDN
 azl
@@ -124948,7 +124827,7 @@ ceJ
 cfZ
 chj
 ciK
-bTn
+bVN
 cll
 cll
 coE
@@ -125205,7 +125084,7 @@ ceL
 cfZ
 chj
 ciL
-bVa
+bVN
 cll
 cno
 jvH
@@ -125462,7 +125341,7 @@ jxx
 cfZ
 chk
 ciM
-cxH
+bVN
 cll
 cnp
 cll
@@ -125719,7 +125598,7 @@ ceL
 cfZ
 chj
 ciW
-cBu
+bxD
 bxD
 bxD
 bxD
@@ -125976,7 +125855,7 @@ oTo
 cga
 chz
 cjb
-cCF
+bxD
 cln
 bXh
 cnL

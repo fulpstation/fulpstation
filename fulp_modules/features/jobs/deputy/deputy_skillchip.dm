@@ -39,7 +39,7 @@
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
 	department = "Engineering"
-	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
+	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
 
 /area/engineering
 	mood_bonus = 5
