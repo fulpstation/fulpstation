@@ -445,6 +445,13 @@
 /obj/effect/turf_decal/tile/purple,
 /turf/open/floor/iron,
 /area/security/checkpoint/science/research)
+"apn" = (
+/obj/machinery/door/airlock/maintenance{
+	name = "Mining Dock Maintenance";
+	req_access_txt = "48"
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard/fore)
 "apx" = (
 /obj/structure/rack,
 /obj/item/clothing/shoes/magboots{
@@ -9133,11 +9140,6 @@
 /area/command/gateway)
 "eAG" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/cargo/miningdock)
-"eBo" = (
-/obj/structure/cable,
 /turf/open/floor/iron,
 /area/cargo/miningdock)
 "eBX" = (
@@ -10263,6 +10265,7 @@
 /obj/structure/rack,
 /obj/item/storage/medkit/regular,
 /obj/machinery/light/directional/south,
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron,
 /area/cargo/miningdock)
 "fjo" = (
@@ -20215,6 +20218,11 @@
 	luminosity = 2
 	},
 /area/ai_monitored/command/nuke_storage)
+"jSR" = (
+/obj/effect/landmark/start/shaft_miner,
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/cargo/miningdock)
 "jTa" = (
 /obj/structure/closet/crate/silvercrate,
 /turf/open/floor/iron/dark,
@@ -30258,11 +30266,6 @@
 /obj/item/wheelchair,
 /turf/open/floor/plating,
 /area/maintenance/department/security)
-"oee" = (
-/obj/machinery/power/apc/auto_name/directional/east,
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/cargo/miningdock)
 "oeg" = (
 /obj/structure/table/glass,
 /obj/machinery/light/directional/west,
@@ -49158,11 +49161,12 @@
 /area/security/brig/upper)
 "vUD" = (
 /obj/structure/rack,
-/obj/machinery/airalarm/directional/east,
 /obj/item/storage/toolbox/mechanical,
 /obj/item/storage/toolbox/emergency{
 	pixel_y = 6
 	},
+/obj/machinery/power/apc/auto_name/directional/east,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/cargo/miningdock)
 "vUI" = (
@@ -98557,8 +98561,8 @@ vOi
 vOi
 ekx
 xWS
-eBo
-ezM
+xWS
+jSR
 fiT
 vdE
 fIV
@@ -98813,8 +98817,8 @@ meC
 meC
 vOi
 ekF
+xWS
 eqH
-oee
 vUD
 kES
 vdE
@@ -99070,7 +99074,7 @@ vdE
 vdE
 vdE
 vdE
-vdE
+apn
 vdE
 vdE
 vdE
@@ -99326,8 +99330,8 @@ dYy
 dpy
 vdE
 dXh
-sQJ
 izp
+sQJ
 dXA
 vdE
 lVP
