@@ -218,8 +218,7 @@
 	for(var/client/C in GLOB.clients)
 		if(!C?.credits)
 			C?.RollCredits()
-//		C?.playtitlemusic(40) // Fulp edit - play our music instead
-		C?.playcreditsmusic(40)
+		C?.playtitlemusic(40)
 		if(speed_round)
 			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
 		HandleRandomHardcoreScore(C)

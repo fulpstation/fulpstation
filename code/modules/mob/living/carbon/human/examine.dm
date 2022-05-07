@@ -1,3 +1,8 @@
+/datum/species
+	var/bruising_desc = "bruising"
+	var/burns_desc = "burns"
+	var/cellulardamage_desc = "cellular damage"
+
 /mob/living/carbon/human/examine(mob/user)
 //this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
 	var/t_He = p_they(TRUE)
@@ -13,15 +18,6 @@
 		var/mob/living/L = user
 		if(HAS_TRAIT(L, TRAIT_PROSOPAGNOSIA) || HAS_TRAIT(L, TRAIT_INVISIBLE_MAN))
 			obscure_name = TRUE
-
-	// Fulp edit START - Bloodsuckers
-	var/vampDesc = ReturnVampExamine(user)
-	var/vassDesc = ReturnVassalExamine(user)
-	if(vampDesc != "")
-		. += vampDesc
-	if(vassDesc != "")
-		. += vassDesc
-	// Fulp edit END
 
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
 
