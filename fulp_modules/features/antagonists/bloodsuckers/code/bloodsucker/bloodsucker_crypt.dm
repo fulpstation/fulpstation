@@ -718,7 +718,7 @@
 		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 		if(mundane)
 			mundane = FALSE //mine now
-	else if(mundane)
+	else if(!mundane)
 		user.Paralyze(6 SECONDS)
 		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
 		user.apply_damage(10, BRUTE)
