@@ -53,7 +53,7 @@
 	default_skin = "medert_commander"
 	skins = list(
 		"medert_commander" = list(
-			HELMET_LAYER = null,
+			UNSEALED_LAYER = null,
 			HELMET_FLAGS = list(
 				UNSEALED_CLOTHING = SNUG_FIT|THICKMATERIAL,
 				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
@@ -75,7 +75,7 @@
 			),
 		),
 		"engert_commander" = list(
-			HELMET_LAYER = null,
+			UNSEALED_LAYER = null,
 			HELMET_FLAGS = list(
 				UNSEALED_CLOTHING = SNUG_FIT|THICKMATERIAL,
 				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
@@ -97,7 +97,7 @@
 			),
 		),
 		"secert_commander" = list(
-			HELMET_LAYER = null,
+			UNSEALED_LAYER = null,
 			HELMET_FLAGS = list(
 				UNSEALED_CLOTHING = SNUG_FIT|THICKMATERIAL,
 				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
@@ -119,7 +119,7 @@
 			),
 		),
 		"clownert_commander" = list(
-			HELMET_LAYER = null,
+			UNSEALED_LAYER = null,
 			HELMET_FLAGS = list(
 				UNSEALED_CLOTHING = SNUG_FIT|THICKMATERIAL,
 				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
