@@ -82,6 +82,7 @@
 		/datum/antagonist/heretic,
 		/datum/antagonist/xeno,
 		/datum/antagonist/obsessed,
+		/datum/antagonist/ert/safety_moth,
 	)
 	///Default Bloodsucker traits
 	var/static/list/bloodsucker_traits = list(

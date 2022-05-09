@@ -25,6 +25,7 @@
 /obj/effect/spawner/random/beef_station
 	name = "Beef Station spawner"
 	loot = list(
+		/obj/item/clothing/neck/bfeemam = 3,
 		/obj/item/clothing/head/pirate/captain = 1,
 		/obj/item/clothing/suit/armor/vest/russian_coat = 1,
 		/obj/item/clothing/suit/security/officer/russian = 1,
