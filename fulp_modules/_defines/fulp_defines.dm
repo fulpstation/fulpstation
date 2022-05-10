@@ -56,4 +56,10 @@
 #define CALIBER_C22 ".c22"
 ///File to the flavor file
 #define DEVILAFFAIR_FLAVOR_FILE "devilaffair_flavor.json"
+
+///Infiltrator employer defines
+#define INFILTRATOR_FACTION_CORPORATE_CLIMBER "Corporate Climber"
+#define INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM "Animal Rights Consortium"
+#define INFILTRATOR_FACTION_GORLEX_MARAUDERS "Gorlex Marauders"
+
 #define REQUEST_MENTORHELP "request_mentorhelp"

@@ -106,6 +106,7 @@
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
 #define ROLE_DEVIL_AFFAIRS "Devil Affairs Agent"
+#define ROLE_INFILTRATOR "Infiltrator"
 // Fulp edit end
 
 /// This defines the antagonists you can operate with in the settings.
@@ -162,6 +163,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_BLOODSUCKERBREAKOUT = 0,
 	ROLE_MONSTERHUNTER = 0,
 	ROLE_DEVIL_AFFAIRS = 0,
+	ROLE_INFILTRATOR = 0,
 	// Fulp edit END
 ))
 
