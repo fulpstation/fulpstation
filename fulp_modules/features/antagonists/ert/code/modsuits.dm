@@ -6,6 +6,7 @@
 	worn_icon_path = 'fulp_modules/features/antagonists/ert/icons/modsuit_worn.dmi'
 	applied_cell = /obj/item/stock_parts/cell/hyper
 
+/*
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
 	theme = /datum/mod_theme/responsory/fulp
 	applied_skin = "medert_commander"
@@ -153,3 +154,4 @@
 			),
 		),
 	)
+*/

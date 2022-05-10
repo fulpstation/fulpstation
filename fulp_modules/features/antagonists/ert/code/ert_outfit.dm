@@ -13,7 +13,7 @@
 /datum/outfit/centcom/ert/commander/medical
 	name = "ERT Commander - Medical"
 
-	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
+	back = /obj/item/mod/control/pre_equipped/responsory/medic
 	backpack_contents = list(
 		/obj/item/gun/medbeam = 1,
 		/obj/item/melee/baton/security/loaded = 1,
@@ -83,7 +83,7 @@
 /datum/outfit/centcom/ert/commander/security
 	name = "ERT Commander - Security"
 
-	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/security
+	back = /obj/item/mod/control/pre_equipped/responsory/security
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/storage/box/handcuffs = 1,
@@ -109,7 +109,7 @@
 	name = "ERT Commander - Engineer"
 
 	suit_store = /obj/item/tank/internals/oxygen
-	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/engineering
+	back = /obj/item/mod/control/pre_equipped/responsory/engineer
 	backpack_contents = list(
 		/obj/item/construction/rcd/combat = 1,
 		/obj/item/melee/baton/security/loaded = 1,
@@ -148,7 +148,7 @@
 /datum/outfit/centcom/ert/clown/commander
 	name = "ERT Commander - Clown"
 
-	back = /obj/item/mod/control/pre_equipped/fulp/ert/commander/clown
+	back = /obj/item/mod/control/pre_equipped/responsory/clown
 	backpack_contents = list(
 		/obj/item/melee/energy/sword/bananium = 1,
 		/obj/item/shield/energy/bananium = 1,
