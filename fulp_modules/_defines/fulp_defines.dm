@@ -62,4 +62,9 @@
 
 ///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
 #define CALIBER_C22 ".c22"
+
+///Infiltrator employer defines
+#define INFILTRATOR_FACTION_CORPORATE_CLIMBER "Corporate Climber"
+#define INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM "Animal Rights Consortium"
+#define INFILTRATOR_FACTION_GORLEX_MARAUDERS "Gorlex Marauders"
 #define REQUEST_MENTORHELP "request_mentorhelp"
