@@ -14,6 +14,7 @@ You can use the run_loc_floor_bottom_left and run_loc_floor_top_right to get tur
 GLOBAL_DATUM(current_test, /datum/unit_test)
 GLOBAL_VAR_INIT(failed_any_test, FALSE)
 GLOBAL_VAR(test_log)
+GLOBAL_LIST_EMPTY(unit_test_mapping_logs)
 
 /datum/unit_test
 	//Bit of metadata for the future maybe
@@ -94,7 +95,8 @@ GLOBAL_VAR(test_log)
 	GLOB.current_test = null
 	GLOB.failed_any_test |= !test.succeeded
 
-	var/list/log_entry = list("[test.succeeded ? "PASS" : "FAIL"]: [test_path] [duration / 10]s")
+	var/map_name = SSmapping.config.map_name
+	var/list/log_entry = list("[map_name] [test.succeeded ? "PASS" : "FAIL"]: [test_path] [duration / 10]s")
 	var/list/fail_reasons = test.fail_reasons
 
 	for(var/J in 1 to LAZYLEN(fail_reasons))
