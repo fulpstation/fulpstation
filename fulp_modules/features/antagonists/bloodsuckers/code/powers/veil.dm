@@ -134,10 +134,10 @@
 	puff.start()
 	owner.spin(8, 1) //Spin around like a loon.
 
-/obj/effect/particle_effect/smoke/vampsmoke
+//obj/effect/particle_effect/fluid/smoke/vampsmoke
 	opaque = FALSE
 	amount = 0
 	lifetime = 0
 
-/obj/effect/particle_effect/smoke/vampsmoke/fade_out(frames = 6)
+//obj/effect/particle_effect/fluid/smoke/vampsmoke/fade_out(frames = 6)
 	..(frames)

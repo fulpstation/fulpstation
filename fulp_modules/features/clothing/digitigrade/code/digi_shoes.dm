@@ -33,7 +33,6 @@
 	icon_state = "digi_combats"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 	resistance_flags = FIRE_PROOF
-	permeability_coefficient = 0.05
 	body_parts_covered = LEG_LEFT|LEG_RIGHT
 	armor = list(MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 20, BIO = 5, FIRE = 40, ACID = 20)
 
@@ -125,7 +124,6 @@
 	icon_state = "digi_jumpboots"
 	worn_icon = 'fulp_modules/features/clothing/digitigrade/icons/digi_feet.dmi'
 	resistance_flags = FIRE_PROOF
-	permeability_coefficient = 0.05
 
 /// Put them into garment bags
 
