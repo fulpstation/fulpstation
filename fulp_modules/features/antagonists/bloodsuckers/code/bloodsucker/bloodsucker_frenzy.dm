@@ -99,7 +99,7 @@
 	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
 		REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
 	else if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
-		owner.Dizzy(3 SECONDS)
+		owner.set_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)
 		owner.Paralyze(2 SECONDS)
 		user.physiology.stamina_mod /= 0.4
 
