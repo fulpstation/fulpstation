@@ -80,15 +80,15 @@ const BloodsuckerIntro = () => {
           <Stack vertical>
             <Stack.Item>
               <span>
-                [conffinIcon] Rest in a <b>Coffin</b> to claim it,
+                Rest in a <b>Coffin</b> to claim it,
                 and that area, as your lair.
               </span><br />
               <span>
-                [vassalRackIcon] Examine your new structures
+                Examine your new structures
                 to see how they function!
               </span><br />
               <span>
-                [masqueradeIcon] Medical and Genetic Analyzers can sell you out,
+                Medical and Genetic Analyzers can sell you out,
                 your Masquerade ability will hide your identity to prevent this.
               </span><br />
             </Stack.Item>
