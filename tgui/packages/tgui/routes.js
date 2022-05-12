@@ -81,8 +81,15 @@ export const getRoutedComponent = store => {
   while (!esModule && interfacePathBuilders.length > 0) {
     const interfacePathBuilder = interfacePathBuilders.shift();
     const interfacePath = interfacePathBuilder(name);
-    // Fulp edit - Fulp TGUI
-    esModule = loadInterface(interfacePath);
+    try {
+      // Fulp edit - Fulp TGUI
+      esModule = loadInterface(interfacePath);
+    }
+    catch (err) {
+      if (err.code !== 'MODULE_NOT_FOUND') {
+        throw err;
+      }
+    }
   }
   if (!esModule) {
     return routingError('notFound', name);
