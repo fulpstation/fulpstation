@@ -28,10 +28,3 @@
 	)
 	return ..()
 
-/// Mining Equipment Vendor
-/obj/machinery/mineral/equipment_vendor/Initialize(mapload)
-	prize_list += list(
-		new /datum/data/mining_equipment("Digitigrate Combat Boots", /obj/item/clothing/shoes/digicombat, 450),
-		new /datum/data/mining_equipment("Digitigrade Jump Boots", /obj/item/clothing/shoes/bhop/digitigrade, 2500),
-	)
-	return ..()
