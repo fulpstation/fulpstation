@@ -25,8 +25,6 @@
 
 /datum/antagonist/traitor/infiltrator/on_gain()
 	..()
-	if(give_equipment)
-		equip_infiltrator(owner.current)
 	owner.current.mind.set_assigned_role(SSjob.GetJobType(/datum/job/infiltrator))
 	owner.current.mind.special_role = ROLE_INFILTRATOR
 	uplink_handler.has_progression = FALSE
@@ -38,6 +36,8 @@
 		employer = INFILTRATOR_FACTION_CORPORATE_CLIMBER
 	else
 		employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS)
+	if(give_equipment)
+		equip_infiltrator(owner.current)
 	forge_traitor_objectives()
 	traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
 
