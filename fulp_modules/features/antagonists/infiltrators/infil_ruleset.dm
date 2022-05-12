@@ -41,6 +41,7 @@
 
 /proc/create_infiltrator(spawn_loc)
 	var/mob/living/carbon/human/infiltrator = new(spawn_loc)
-	infiltrator.randomize_human_appearance((RANDOMIZE_NAME|RANDOMIZE_SPECIES))
+	infiltrator.randomize_human_appearance(~RANDOMIZE_SPECIES)
+	infiltrator.dna.update_dna_identity()
 	return infiltrator
 
