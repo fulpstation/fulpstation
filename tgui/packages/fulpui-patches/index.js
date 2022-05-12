@@ -14,7 +14,7 @@ const getComponent = (interfacePath, requireInterface) => {
   }
 
   return esModule;
-}
+};
 
 /**
  * This places precedence on Fulp's interfaces over the default ones
@@ -27,4 +27,4 @@ export const loadInterface = (interfacePath) => {
   }
 
   return getComponent(interfacePath, requireTgInterface);
-}
+};

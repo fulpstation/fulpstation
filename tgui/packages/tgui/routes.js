@@ -8,7 +8,7 @@ import { selectBackend } from './backend';
 import { Icon, Section, Stack } from './components';
 import { selectDebug } from './debug/selectors';
 import { Window } from './layouts';
-import {loadInterface} from "../fulpui-patches";
+import { loadInterface } from "../fulpui-patches";
 
 const routingError = (type, name) => () => {
   return (

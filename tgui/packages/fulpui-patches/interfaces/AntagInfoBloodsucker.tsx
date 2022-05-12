@@ -1,6 +1,6 @@
 import { BooleanLike } from "../../common/react";
-import {useBackend, useLocalState} from "../../tgui/backend";
-import {Section, Stack, Tabs} from "../../tgui/components";
+import { useBackend, useLocalState } from "../../tgui/backend";
+import { Section, Stack, Tabs } from "../../tgui/components";
 import { Window } from '../../tgui/layouts';
 
 type Objective = {
