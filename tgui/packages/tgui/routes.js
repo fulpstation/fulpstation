@@ -8,6 +8,7 @@ import { selectBackend } from './backend';
 import { Icon, Section, Stack } from './components';
 import { selectDebug } from './debug/selectors';
 import { Window } from './layouts';
+// Fulp edit - Fulp TGUI
 import { loadInterface } from "../fulpui-patches";
 
 const routingError = (type, name) => () => {
@@ -80,6 +81,7 @@ export const getRoutedComponent = store => {
   while (!esModule && interfacePathBuilders.length > 0) {
     const interfacePathBuilder = interfacePathBuilders.shift();
     const interfacePath = interfacePathBuilder(name);
+    // Fulp edit - Fulp TGUI
     esModule = loadInterface(interfacePath);
   }
   if (!esModule) {
