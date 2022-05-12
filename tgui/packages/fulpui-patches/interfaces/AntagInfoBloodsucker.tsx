@@ -121,13 +121,6 @@ export const AntagInfoBloodsucker = (props, context) => {
             onClick={() => setTab(1)}>
             Introduction
           </Tabs.Tab>
-          <Tabs.Tab
-            icon="list"
-            lineHeight="23px"
-            selected={tab === 2}
-            onClick={() => setTab(2)}>
-            Powers Help & Information
-          </Tabs.Tab>
         </Tabs>
         {tab === 1 && (
           <BloodsuckerIntro />
