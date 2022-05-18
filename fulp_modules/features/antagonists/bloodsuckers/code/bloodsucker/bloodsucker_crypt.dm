@@ -743,9 +743,10 @@
 	var/amount_of_vassals = 0
 	for(var/datum/antagonist/vassal/receiver in bloodsuckerdatum.vassals)
 		if(!receiver.owner.current)
-			var/mob/receiver_mob = receiver.owner.current
-			to_chat(receiver_mob, rendered)
-			amount_of_vassals++
+			continue
+		var/mob/receiver_mob = receiver.owner.current
+		to_chat(receiver_mob, rendered)
+		amount_of_vassals++
 	to_chat(user, rendered) // tell yourself, too.
 	to_chat(user, amount_of_vassals)
 
