@@ -740,7 +740,9 @@
 	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	to_chat(bloodsuckerdatum.vassals, rendered)
+	for(var/datum/antagonist/vassal/receiver in bloodsuckerdatum.vassals)
+		var/mob/receiver_mob = receiver.owner?.current
+		to_chat(receiver_mob, rendered)
 	to_chat(user, rendered) // tell yourself, too.
 
 	for(var/mob/dead_mob in GLOB.dead_mob_list)
