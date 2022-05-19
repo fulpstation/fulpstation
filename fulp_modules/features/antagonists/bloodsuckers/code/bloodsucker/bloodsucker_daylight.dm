@@ -146,7 +146,7 @@
 				bloodsucker_minds.current.fire_stacks = 0
 			if(bloodsuckerdatum.bloodsucker_level > 0)
 				bloodsucker_minds.current.adjust_fire_stacks(0.2 + bloodsuckerdatum.bloodsucker_level / 10)
-				bloodsucker_minds.current.IgniteMob()
+				bloodsucker_minds.current.ignite_mob()
 			bloodsucker_minds.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
 			bloodsucker_minds.current.updatehealth()
 			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_2)

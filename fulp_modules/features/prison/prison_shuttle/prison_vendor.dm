@@ -35,8 +35,8 @@
 		/obj/item/seeds/starthistle = 2,
 	)
 	refill_canister = /obj/item/vending_refill/hydroseeds/prison
-	default_price = PAYCHECK_PRISONER
-	extra_price = PAYCHECK_ASSISTANT
+	default_price = PAYCHECK_LOWER
+	extra_price = PAYCHECK_CREW
 	payment_department = ACCOUNT_PRISON
 
 /obj/item/vending_refill/hydroseeds/prison

@@ -5,7 +5,6 @@
 	examine_limb_id = SPECIES_BEEFMAN
 	say_mod = "gurgles"
 	sexes = FALSE
-	default_color = "#e73f4e"
 	species_traits = list(
 		NOEYESPRITES,
 		NO_UNDERWEAR,
@@ -260,7 +259,6 @@
 ///Called on Assign, or on Color Change (or any time proof_beefman_features() is used)
 /datum/species/beefman/proc/set_beef_color(mob/living/carbon/human/user)
 	fixed_mut_color = user.dna.features["beefcolor"]
-	default_color = fixed_mut_color
 
 // Taken from _HELPERS/mobs.dm
 /proc/random_unique_beefman_name(attempts_to_find_unique_name = 10)

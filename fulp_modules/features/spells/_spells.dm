@@ -47,7 +47,7 @@
 			i++
 
 /datum/effect_system/smoke_spread/transparent/dancefloor_devil
-	effect_type = /obj/effect/particle_effect/smoke/transparent/dancefloor_devil
+	effect_type = /obj/effect/particle_effect/fluid/smoke/transparent/dancefloor_devil
 
-/obj/effect/particle_effect/smoke/transparent/dancefloor_devil
+/obj/effect/particle_effect/fluid/smoke/transparent/dancefloor_devil
 	lifetime = 2
