@@ -22,11 +22,11 @@
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
 		var/area/current_area = get_area(owner.current)
-		if(istype(current_area, /area/service/chapel))
+		if(istype(current_area, /area/station/service/chapel))
 			to_chat(owner.current, span_warning("You don't belong in holy areas! The Faith burns you!"))
 			owner.current.adjustFireLoss(10)
 			owner.current.adjust_fire_stacks(2)
-			owner.current.IgniteMob()
+			owner.current.ignite_mob()
 	if(my_clan == CLAN_MALKAVIAN)
 		if(prob(85) || owner.current.stat != CONSCIOUS || HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 			return

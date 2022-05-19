@@ -940,6 +940,10 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/nuclear,
 		/datum/objective/capture,
 		/datum/objective/absorb,
+		/datum/objective/custom,
+		/datum/objective/kill_pet, ///Fulpstation Infiltrators edit
+		/datum/objective/emag_console,
+		/datum/objective/escape/escape_with_identity/infiltrator, /// Fulpstation Infiltrators edit end
 		/datum/objective/custom
 	),/proc/cmp_typepaths_asc)
 

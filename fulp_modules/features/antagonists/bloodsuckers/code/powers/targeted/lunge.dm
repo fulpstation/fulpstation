@@ -100,7 +100,7 @@
 		owner.spin(8, 1)
 		owner.balloon_alert_to_viewers("spins wildly!", "you spin!")
 		return
-	do_smoke(0, owner.loc, smoke_type = /obj/effect/particle_effect/smoke/transparent)
+	do_smoke(0, owner.loc, smoke_type = /obj/effect/particle_effect/fluid/smoke/transparent)
 
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner
