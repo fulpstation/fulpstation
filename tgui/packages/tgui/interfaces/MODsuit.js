@@ -311,7 +311,7 @@ const ParametersSection = (props, context) => {
           {status}
         </LabeledList.Item>
         <LabeledList.Item
-          label="ID Lock"
+          label="Lock"
           buttons={
             <Button
               icon={locked ? "lock-open" : "lock"}

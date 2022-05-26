@@ -35,5 +35,3 @@
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/beefman_features.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/character_preferences/antag_tips.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/ghostinfiltrator.ts
-- tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
-- tgui/yarn.lock > Our lockfile is slightly different - we have an additional workspace package, "fulpui-patches"

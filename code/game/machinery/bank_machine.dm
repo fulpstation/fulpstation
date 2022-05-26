@@ -3,6 +3,8 @@
 	desc = "A machine used to deposit and withdraw station funds."
 	icon_screen = "vault"
 	icon_keyboard = "security_key"
+	idle_power_usage = 100
+
 	var/siphoning = FALSE
 	var/next_warning = 0
 	var/obj/item/radio/radio
@@ -64,7 +66,6 @@
 		next_warning = world.time + minimum_time_between_warnings
 
 /obj/machinery/computer/bank_machine/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "BankMachine", name)

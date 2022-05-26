@@ -771,13 +771,12 @@
 				return FALSE
 
 			target.add_atom_colour(paint_color, WASHABLE_COLOUR_PRIORITY)
-			if(isitem(target) && isliving(target.loc))
-				var/obj/item/target_item = target
+			if(isliving(target.loc))
 				var/mob/living/holder = target.loc
-				if(holder.is_holding(target_item))
+				if(holder.is_holding(target))
 					holder.update_inv_hands()
 				else
-					holder.update_clothing(target_item.slot_flags)
+					holder.regenerate_icons()
 			SEND_SIGNAL(target, COMSIG_OBJ_PAINTED, color_is_dark)
 		. = use_charges(user, 2, requires_full = FALSE)
 		reagents.trans_to(target, ., volume_multiplier, transfered_by = user, methods = VAPOR)

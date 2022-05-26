@@ -13,7 +13,7 @@
 	outfit = /datum/outfit/job/curator
 	plasmaman_outfit = /datum/outfit/plasmaman/curator
 
-	paycheck = PAYCHECK_CREW
+	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_CURATOR
@@ -35,10 +35,11 @@
 	id_trim = /datum/id_trim/job/curator
 	uniform = /obj/item/clothing/under/rank/civilian/curator
 	backpack_contents = list(
+		/obj/item/modular_computer/tablet/preset/advanced/curator = 1,
 		/obj/item/barcodescanner = 1,
 		/obj/item/choice_beacon/hero = 1,
 	)
-	belt = /obj/item/modular_computer/tablet/pda/curator
+	belt = /obj/item/pda/curator
 	ears = /obj/item/radio/headset/headset_srv
 	shoes = /obj/item/clothing/shoes/laceup
 	l_pocket = /obj/item/laser_pointer

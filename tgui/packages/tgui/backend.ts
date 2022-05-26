@@ -134,15 +134,19 @@ export const backendMiddleware = store => {
     }
 
     if (type === 'ping') {
-      Byond.sendMessage('ping/reply');
+      sendMessage({
+        type: 'pingReply',
+      });
       return;
     }
 
     if (type === 'backend/suspendStart' && !suspendInterval) {
-      logger.log(`suspending (${Byond.windowId})`);
+      logger.log(`suspending (${window.__windowId__})`);
       // Keep sending suspend messages until it succeeds.
       // It may fail multiple times due to topic rate limiting.
-      const suspendFn = () => Byond.sendMessage('suspend');
+      const suspendFn = () => sendMessage({
+        type: 'suspend',
+      });
       suspendFn();
       suspendInterval = setInterval(suspendFn, 2000);
     }
@@ -151,7 +155,7 @@ export const backendMiddleware = store => {
       suspendRenderer();
       clearInterval(suspendInterval);
       suspendInterval = undefined;
-      Byond.winset(Byond.windowId, {
+      Byond.winset(window.__windowId__, {
         'is-visible': false,
       });
       setImmediate(() => focusMap());
@@ -167,7 +171,7 @@ export const backendMiddleware = store => {
       else if (fancyState !== fancy) {
         logger.log('changing fancy mode to', fancy);
         fancyState = fancy;
-        Byond.winset(Byond.windowId, {
+        Byond.winset(window.__windowId__, {
           titlebar: !fancy,
           'can-resize': !fancy,
         });
@@ -191,7 +195,7 @@ export const backendMiddleware = store => {
         if (suspended) {
           return;
         }
-        Byond.winset(Byond.windowId, {
+        Byond.winset(window.__windowId__, {
           'is-visible': true,
         });
         perf.mark('resume/finish');
@@ -207,6 +211,25 @@ export const backendMiddleware = store => {
 };
 
 /**
+ * Sends a message to /datum/tgui_window.
+ */
+export const sendMessage = (message: any = {}) => {
+  const { payload, ...rest } = message;
+  const data: any = {
+    // Message identifying header
+    tgui: 1,
+    window_id: window.__windowId__,
+    // Message body
+    ...rest,
+  };
+  // JSON-encode the payload
+  if (payload !== null && payload !== undefined) {
+    data.payload = JSON.stringify(payload);
+  }
+  Byond.topic(data);
+};
+
+/**
  * Sends an action to `ui_act` on `src_object` that this tgui window
  * is associated with.
  */
@@ -219,7 +242,10 @@ export const sendAct = (action: string, payload: object = {}) => {
     logger.error(`Payload for act() must be an object, got this:`, payload);
     return;
   }
-  Byond.sendMessage('act/' + action, payload);
+  sendMessage({
+    type: 'act/' + action,
+    payload,
+  });
 };
 
 type BackendState<TData> = {
@@ -346,7 +372,7 @@ export const useSharedState = <T>(
   return [
     sharedState,
     nextState => {
-      Byond.sendMessage({
+      sendMessage({
         type: 'setSharedState',
         key,
         value: JSON.stringify(

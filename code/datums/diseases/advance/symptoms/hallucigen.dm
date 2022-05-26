@@ -1,10 +1,18 @@
-/*Hallucigen
- * Slightly increases stealth
- * Lowers resistance tremendously
- * Slightly decreases stage speed
- * Slightly reduces transmissibility
- * Critical level
- * Bonus:Makes the affected mob be hallucinated for short periods of time.
+/*
+//////////////////////////////////////
+
+Hallucigen
+
+	Very noticable.
+	Lowers resistance considerably.
+	Decreases stage speed.
+	Reduced transmittable.
+	Critical Level.
+
+Bonus
+	Makes the affected mob be hallucinated for short periods of time.
+
+//////////////////////////////////////
 */
 
 /datum/symptom/hallucigen

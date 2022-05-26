@@ -45,7 +45,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/auxiliary_base, 32)
 	return ..()
 
 /obj/machinery/computer/auxiliary_base/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "AuxBaseConsole", name)
@@ -145,7 +144,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/auxiliary_base, 32)
 				return
 			var/shuttle_error = SSshuttle.moveShuttle(shuttleId, params["shuttle_id"], 1)
 			if(launch_warning)
-				say("Launch sequence activated! Prepare for drop!!", spans = list("danger"))
+				say(span_danger("Launch sequence activated! Prepare for drop!!"))
 				playsound(loc, 'sound/machines/warning-buzzer.ogg', 70, FALSE)
 				launch_warning = FALSE
 				blind_drop_ready = FALSE

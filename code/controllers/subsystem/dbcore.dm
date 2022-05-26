@@ -482,7 +482,7 @@ Delayed insert mode was removed in mysql 7 and only works with MyISAM type table
 	Close()
 	status = DB_QUERY_STARTED
 	if(async)
-		if(!MC_RUNNING(SSdbcore.init_stage))
+		if(!Master.current_runlevel || Master.processing == 0)
 			SSdbcore.run_query_sync(src)
 		else
 			SSdbcore.queue_query(src)

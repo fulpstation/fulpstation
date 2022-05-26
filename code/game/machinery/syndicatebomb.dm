@@ -16,7 +16,6 @@
 
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_OFFLINE
 
-	use_power = NO_POWER_USE
 	var/minimum_timer = 90
 	var/timer_set = 90
 	var/maximum_timer = 60000
@@ -331,6 +330,7 @@
 		holder.delayedlittle = FALSE
 		holder.explode_now = FALSE
 		holder.update_appearance()
+		holder.updateDialog()
 		STOP_PROCESSING(SSfastprocess, holder)
 
 /obj/item/bombcore/training/detonate()

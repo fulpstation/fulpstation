@@ -8,7 +8,8 @@
 	icon = 'icons/obj/plumbing/plumbers.dmi'
 	icon_state = "pump"
 	density = TRUE
-	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 7.5
+	active_power_usage = 30
+	use_power = ACTIVE_POWER_USE
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	///Plumbing machinery is always gonna need reagents, so we might aswell put it here
 	var/buffer = 50
@@ -21,7 +22,6 @@
 	set_anchored(bolt)
 	create_reagents(buffer, reagent_flags)
 	AddComponent(/datum/component/simple_rotation)
-	interaction_flags_machine |= INTERACT_MACHINE_OFFLINE
 
 /obj/machinery/plumbing/examine(mob/user)
 	. = ..()

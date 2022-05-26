@@ -95,7 +95,7 @@
 	if(!window.is_ready())
 		window.initialize(
 			fancy = user.client.prefs.read_preference(/datum/preference/toggle/tgui_fancy),
-			assets = list(
+			inline_assets = list(
 				get_asset_datum(/datum/asset/simple/tgui),
 			))
 	else
@@ -317,7 +317,7 @@
 			if(initialized)
 				send_full_update()
 			initialized = TRUE
-		if("ping/reply")
+		if("pingReply")
 			initialized = TRUE
 		if("suspend")
 			close(can_be_suspended = TRUE)

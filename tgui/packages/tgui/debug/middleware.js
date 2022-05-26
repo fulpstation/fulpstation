@@ -44,7 +44,7 @@ export const relayMiddleware = store => {
   if (externalBrowser) {
     devServer.subscribe(msg => {
       const { type, payload } = msg;
-      if (type === 'relay' && payload.windowId === Byond.windowId) {
+      if (type === 'relay' && payload.windowId === window.__windowId__) {
         store.dispatch({
           ...payload.action,
           relayed: true,
@@ -70,7 +70,7 @@ export const relayMiddleware = store => {
       devServer.sendMessage({
         type: 'relay',
         payload: {
-          windowId: Byond.windowId,
+          windowId: window.__windowId__,
           action,
         },
       });

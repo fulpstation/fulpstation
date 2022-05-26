@@ -119,16 +119,27 @@
 	var/mob/living/silicon/pai/pAI = usr
 	pAI.checklaws()
 
-/atom/movable/screen/pai/modpc
-	name = "Messenger"
+/atom/movable/screen/pai/pda_msg_send
+	name = "PDA - Send Message"
 	icon_state = "pda_send"
-	var/mob/living/silicon/pai/pAI
+	required_software = "digital messenger"
 
-/atom/movable/screen/pai/modpc/Click()
-	. = ..()
-	if(!.) // this works for some reason.
+/atom/movable/screen/pai/pda_msg_send/Click()
+	if(!..())
 		return
-	pAI.modularInterface?.interact(pAI)
+	var/mob/living/silicon/pai/pAI = usr
+	pAI.cmd_send_pdamesg(usr)
+
+/atom/movable/screen/pai/pda_msg_show
+	name = "PDA - Show Message Log"
+	icon_state = "pda_receive"
+	required_software = "digital messenger"
+
+/atom/movable/screen/pai/pda_msg_show/Click()
+	if(!..())
+		return
+	var/mob/living/silicon/pai/pAI = usr
+	pAI.cmd_show_message_log(usr)
 
 /atom/movable/screen/pai/internal_gps
 	name = "Internal GPS"
@@ -180,7 +191,6 @@
 /datum/hud/pai/New(mob/living/silicon/pai/owner)
 	..()
 	var/atom/movable/screen/using
-	var/mob/living/silicon/pai/mypai = mymob
 
 // Software menu
 	using = new /atom/movable/screen/pai/software
@@ -237,13 +247,15 @@
 	using.screen_loc = ui_pai_state_laws
 	static_inventory += using
 
-// Modular Interface
-	using = new /atom/movable/screen/pai/modpc()
-	using.screen_loc = ui_pai_mod_int
+// PDA message
+	using = new /atom/movable/screen/pai/pda_msg_send()
+	using.screen_loc = ui_pai_pda_send
 	static_inventory += using
-	mypai.interfaceButton = using
-	var/atom/movable/screen/pai/modpc/tabletbutton = using
-	tabletbutton.pAI = mypai
+
+// PDA log
+	using = new /atom/movable/screen/pai/pda_msg_show()
+	using.screen_loc = ui_pai_pda_log
+	static_inventory += using
 
 // Internal GPS
 	using = new /atom/movable/screen/pai/internal_gps()

@@ -176,8 +176,7 @@
 	integer = FALSE
 	min_val = 0
 
-/// If disabled, no-voters will automatically have their votes added to certain vote options
-/// (For eample: restart votes will default to "no restart", map votes will default to their preferred map / default map)
+/// vote does not default to nochange/norestart.
 /datum/config_entry/flag/default_no_vote
 
 /// Prevents dead people from voting.
@@ -222,6 +221,10 @@
 
 /datum/config_entry/flag/allow_holidays
 
+/datum/config_entry/number/tick_limit_mc_init //SSinitialization throttling
+	default = TICK_LIMIT_MC_INIT_DEFAULT
+	min_val = 0 //oranges warned us
+	integer = FALSE
 
 /datum/config_entry/flag/admin_legacy_system //Defines whether the server uses the legacy admin system with admins.txt or the SQL system
 	protection = CONFIG_ENTRY_LOCKED
@@ -543,7 +546,7 @@
 
 /datum/config_entry/flag/resume_after_initializations/ValidateAndSet(str_val)
 	. = ..()
-	if(. && MC_RUNNING())
+	if(. && Master.current_runlevel)
 		world.sleep_offline = !config_entry_value
 
 /datum/config_entry/number/rounds_until_hard_restart

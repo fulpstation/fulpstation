@@ -602,7 +602,6 @@
 	return data
 
 /obj/machinery/computer/communications/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if (!ui)
 		ui = new(user, src, "CommunicationsConsole")
@@ -896,6 +895,7 @@
 
 #undef IMPORTANT_ACTION_COOLDOWN
 #undef EMERGENCY_ACCESS_COOLDOWN
+#undef MAX_STATUS_LINE_LENGTH
 #undef STATE_BUYING_SHUTTLE
 #undef STATE_CHANGING_STATUS
 #undef STATE_MAIN

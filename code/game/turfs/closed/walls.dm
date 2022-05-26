@@ -52,7 +52,6 @@
 		underlays += underlay_appearance
 
 /turf/closed/wall/atom_destruction(damage_flag)
-	. = ..()
 	dismantle_wall(TRUE, FALSE)
 
 /turf/closed/wall/Destroy()

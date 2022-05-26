@@ -4,6 +4,7 @@
  * @license MIT
  */
 
+import { sendMessage } from 'tgui/backend';
 import { storage } from 'common/storage';
 import { createLogger } from 'tgui/logging';
 
@@ -33,8 +34,14 @@ export const telemetryMiddleware = store => {
       logger.debug('sending');
       const limits = payload?.limits || {};
       // Trim connections according to the server limit
-      const connections = telemetry.connections.slice(0, limits.connections);
-      Byond.sendMessage('telemetry', { connections });
+      const connections = telemetry.connections
+        .slice(0, limits.connections);
+      sendMessage({
+        type: 'telemetry',
+        payload: {
+          connections,
+        },
+      });
       return;
     }
     // Keep telemetry up to date

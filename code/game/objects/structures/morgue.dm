@@ -81,7 +81,8 @@ GLOBAL_LIST_EMPTY(bodycontainers) //Let them act as spawnpoints for revenants an
 /obj/structure/bodycontainer/attackby(obj/P, mob/user, params)
 	add_fingerprint(user)
 	if(istype(P, /obj/item/pen))
-		if(!user.can_write(P))
+		if(!user.is_literate())
+			to_chat(user, span_notice("You scribble illegibly on the side of [src]!"))
 			return
 		var/t = tgui_input_text(user, "What would you like the label to be?", text("[]", name), null)
 		if (user.get_active_held_item() != P)

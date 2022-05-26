@@ -20,7 +20,7 @@
 		/datum/job_department/security,
 		)
 
-	paycheck = PAYCHECK_CREW
+	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
 
 	mind_traits = list(TRAIT_DONUT_LOVER)
@@ -54,9 +54,10 @@
 	backpack_contents = list(
 		/obj/item/detective_scanner = 1,
 		/obj/item/melee/baton = 1,
+		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
 		/obj/item/storage/box/evidence = 1,
 		)
-	belt = /obj/item/modular_computer/tablet/pda/detective
+	belt = /obj/item/pda/detective
 	ears = /obj/item/radio/headset/headset_sec/alt
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/fedora/det_hat

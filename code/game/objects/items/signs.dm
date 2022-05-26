@@ -18,8 +18,9 @@
 	resistance_flags = NONE
 	actions_types = list(/datum/action/item_action/nano_picket_sign)
 
-/obj/item/picket_sign/proc/retext(mob/user, obj/item/writing_instrument)
-	if(!user.can_write(writing_instrument))
+/obj/item/picket_sign/proc/retext(mob/user)
+	if(!user.is_literate())
+		to_chat(user, span_notice("You scribble illegibly on [src]!"))
 		return
 	var/txt = tgui_input_text(user, "What would you like to write on the sign?", "Sign Label", max_length = 30)
 	if(txt && user.canUseTopic(src, BE_CLOSE))
@@ -29,7 +30,7 @@
 
 /obj/item/picket_sign/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/pen) || istype(W, /obj/item/toy/crayon))
-		retext(user, W)
+		retext(user)
 	else
 		return ..()
 

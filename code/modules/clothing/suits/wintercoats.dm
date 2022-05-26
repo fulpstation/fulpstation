@@ -17,7 +17,8 @@
 	allowed += list(
 		/obj/item/flashlight,
 		/obj/item/lighter,
-		/obj/item/modular_computer/tablet/pda,
+		/obj/item/modular_computer/tablet,
+		/obj/item/pda,
 		/obj/item/radio,
 		/obj/item/storage/fancy/cigarettes,
 		/obj/item/tank/internals/emergency_oxygen,
@@ -421,7 +422,7 @@
 	icon_state = "coatminer"
 	inhand_icon_state = "coatminer"
 	allowed = list(
-		/obj/item/gun/energy/recharge/kinetic_accelerator,
+		/obj/item/gun/energy/kinetic_accelerator,
 		/obj/item/mining_scanner,
 		/obj/item/pickaxe,
 		/obj/item/resonator,

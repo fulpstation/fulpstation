@@ -326,7 +326,7 @@ export const AntagInfoHeretic = (props, context) => {
   return (
     <Window
       width={675}
-      height={600}>
+      height={575}>
       <Window.Content
         style={{
           // 'font-family': 'Times New Roman',

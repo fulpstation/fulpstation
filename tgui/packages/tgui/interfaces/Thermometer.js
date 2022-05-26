@@ -5,13 +5,13 @@ import { Window } from '../layouts';
 
 export class Thermometer extends Component {
   componentDidMount() {
-    Byond.winset(Byond.windowId, {
+    Byond.winset(window.__windowId__, {
       'transparent-color': '#242322',
     });
   }
 
   componentWillUnmount() {
-    Byond.winset(Byond.windowId, {
+    Byond.winset(window.__windowId__, {
       'transparent-color': null,
     });
   }
