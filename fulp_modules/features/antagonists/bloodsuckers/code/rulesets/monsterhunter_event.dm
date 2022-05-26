@@ -36,3 +36,11 @@
 		all_players.mind.add_antag_datum(/datum/antagonist/monsterhunter)
 		message_admins("MONSTERHUNTER NOTICE: [all_players] has awoken as a Monster Hunter.")
 		break
+
+//gives monsterhunters an icon in the antag selection panel
+/datum/dynamic_ruleset/midround/monsterhunter
+	name = "Monster Hunter"
+	antag_datum = /datum/antagonist/monsterhunter
+	antag_flag = ROLE_MONSTERHUNTER
+	weight = 0
+	cost = 200
