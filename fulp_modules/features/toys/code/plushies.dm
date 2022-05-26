@@ -33,7 +33,7 @@
 	attack_verb_continuous = list("flails at")
 	attack_verb_simple = list("flail at")
 	squeak_override = list('fulp_modules/features/toys/sound/pico.ogg'= 1)
-	custom_price = PAYCHECK_HARD
+	custom_price = PAYCHECK_COMMAND
 
 /obj/item/toy/plush/fly
 	name = "fly plushie"

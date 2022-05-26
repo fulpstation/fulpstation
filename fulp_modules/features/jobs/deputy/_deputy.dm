@@ -18,7 +18,7 @@
 	outfit = /datum/outfit/job/deputy
 	plasmaman_outfit = /datum/outfit/plasmaman/deputy
 
-	paycheck = PAYCHECK_HARD
+	paycheck = PAYCHECK_CREW
 	paycheck_department = ACCOUNT_SEC
 
 	mind_traits = list(TRAIT_DONUT_LOVER)
