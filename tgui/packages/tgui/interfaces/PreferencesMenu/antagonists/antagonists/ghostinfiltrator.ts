@@ -1,7 +1,7 @@
 import { Antagonist, Category } from "../base";
 import { multiline } from "common/string";
 
-const GhostInfiltrator: Antagonist = {
+const Infiltrator: Antagonist = {
   key: "infiltrator",
   name: "Infiltrator",
   description: [
@@ -19,4 +19,4 @@ const GhostInfiltrator: Antagonist = {
   category: Category.Midround,
 };
 
-export default GhostInfiltrator;
+export default Infiltrator;

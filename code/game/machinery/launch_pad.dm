@@ -5,7 +5,9 @@
 	desc = "A bluespace pad able to thrust matter through bluespace, teleporting it to or from nearby locations."
 	icon = 'icons/obj/telescience.dmi'
 	icon_state = "lpad-idle"
-	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 2.5
+	use_power = IDLE_POWER_USE
+	idle_power_usage = 200
+	active_power_usage = 2500
 	hud_possible = list(DIAG_LAUNCHPAD_HUD)
 	circuit = /obj/item/circuitboard/machine/launchpad
 	var/icon_teleport = "lpad-beam"
@@ -24,18 +26,17 @@
 	var/teleport_beam = "sm_arc_supercharged"
 
 /obj/machinery/launchpad/RefreshParts()
-	. = ..()
-	var/max_range_multiplier = 0
+	var/E = 0
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
-		max_range_multiplier += M.rating
+		E += M.rating
 	range = initial(range)
-	range *= max_range_multiplier
+	range *= E
 
 /obj/machinery/launchpad/Initialize(mapload)
 	. = ..()
 	prepare_huds()
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
-		diag_hud.add_atom_to_hud(src)
+		diag_hud.add_to_hud(src)
 
 	var/image/holder = hud_list[DIAG_LAUNCHPAD_HUD]
 	var/mutable_appearance/MA = new /mutable_appearance()
@@ -49,7 +50,7 @@
 
 /obj/machinery/launchpad/Destroy()
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
-		diag_hud.remove_atom_from_hud(src)
+		diag_hud.remove_from_hud(src)
 	return ..()
 
 /obj/machinery/launchpad/examine(mob/user)
@@ -164,7 +165,7 @@
 		playsound(target, 'sound/weapons/emitter2.ogg', 25, TRUE)
 
 	// use a lot of power
-	use_power(active_power_usage)
+	use_power(1000)
 
 	var/turf/source = target
 	var/list/log_msg = list()
@@ -222,6 +223,7 @@
 		log_msg += "nothing"
 	log_msg += " [sending ? "to" : "from"] [target_x], [target_y], [z] ([A ? A.name : "null area"])"
 	log_game(log_msg.Join())
+	updateDialog()
 
 //Starts in the briefcase. Don't spawn this directly, or it will runtime when closing.
 /obj/machinery/launchpad/briefcase
@@ -230,7 +232,8 @@
 	icon_state = "blpad-idle"
 	icon_teleport = "blpad-beam"
 	anchored = FALSE
-	use_power = NO_POWER_USE
+	use_power = IDLE_POWER_USE
+	idle_power_usage = 0
 	active_power_usage = 0
 	teleport_speed = 20
 	range = 8
@@ -255,9 +258,7 @@
 /obj/machinery/launchpad/briefcase/isAvailable()
 	if(closed)
 		return FALSE
-	if(panel_open)
-		return FALSE
-	return TRUE
+	return ..()
 
 /obj/machinery/launchpad/briefcase/MouseDrop(over_object, src_location, over_location)
 	. = ..()

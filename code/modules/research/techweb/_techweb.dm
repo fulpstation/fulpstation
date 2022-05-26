@@ -115,8 +115,11 @@
 		if(wipe_custom_designs)
 			custom_designs = list()
 	for(var/id in processing)
-		update_node_status(SSresearch.techweb_node_by_id(id))
+		update_node_status(SSresearch.techweb_node_by_id(id), FALSE)
 		CHECK_TICK
+	for(var/v in consoles_accessing)
+		var/obj/machinery/computer/rdconsole/V = v
+		V.updateUsrDialog()
 
 /datum/techweb/proc/add_point_list(list/pointlist)
 	for(var/i in pointlist)
@@ -383,7 +386,7 @@
 					next += SSresearch.techweb_node_by_id(id)
 		current = next
 
-/datum/techweb/proc/update_node_status(datum/techweb_node/node)
+/datum/techweb/proc/update_node_status(datum/techweb_node/node, autoupdate_consoles = TRUE)
 	var/researched = FALSE
 	var/available = FALSE
 	var/visible = FALSE
@@ -412,6 +415,10 @@
 			if(visible)
 				visible_nodes[node.id] = TRUE
 	update_tiers(node)
+	if(autoupdate_consoles)
+		for(var/v in consoles_accessing)
+			var/obj/machinery/computer/rdconsole/V = v
+			V.updateUsrDialog()
 
 //Laggy procs to do specific checks, just in case. Don't use them if you can just use the vars that already store all this!
 /datum/techweb/proc/designHasReqs(datum/design/D)

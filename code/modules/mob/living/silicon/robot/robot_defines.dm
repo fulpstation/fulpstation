@@ -68,7 +68,8 @@
 	var/atom/movable/screen/robot/lamp/lampButton
 
 	///The reference to the built-in tablet that borgs carry.
-	var/atom/movable/screen/robot/modpc/interfaceButton
+	var/obj/item/modular_computer/tablet/integrated/modularInterface
+	var/atom/movable/screen/robot/modPC/interfaceButton
 
 	var/sight_mode = 0
 	hud_possible = list(ANTAG_HUD, DIAG_STAT_HUD, DIAG_HUD, DIAG_BATT_HUD, DIAG_TRACK_HUD)

@@ -3,8 +3,7 @@
 	icon = 'icons/obj/christmas.dmi'
 	icon_state = "cracker"
 	desc = "Directions for use: Requires two people, one to pull each end."
-	/// The crack state of the toy. If set to TRUE, you can no longer crack it by attacking.
-	var/cracked = FALSE
+	var/cracked = 0
 
 /obj/item/toy/xmas_cracker/attack(mob/target, mob/user)
 	if( !cracked && ishuman(target) && (target.stat == CONSCIOUS) && !target.get_active_held_item() )
@@ -23,7 +22,7 @@
 			"Why doesn't Santa have any children?\n\n<i>Because he only comes down the chimney.</i>")
 		new /obj/item/clothing/head/festive(target.loc)
 		user.update_icons()
-		cracked = TRUE
+		cracked = 1
 		icon_state = "cracker1"
 		var/obj/item/toy/xmas_cracker/other_half = new /obj/item/toy/xmas_cracker(target)
 		other_half.cracked = 1
@@ -48,9 +47,7 @@
 	layer = FLY_LAYER
 	plane = ABOVE_GAME_PLANE
 
-	/// Christmas tree, no presents included.
 	var/festive_tree = /obj/structure/flora/tree/pine/xmas
-	/// Christmas tree, presents included.
 	var/christmas_tree = /obj/structure/flora/tree/pine/xmas/presents
 
 /obj/effect/spawner/xmastree/Initialize(mapload)

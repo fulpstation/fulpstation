@@ -107,40 +107,40 @@
 	icon_file = 'icons/mob/inhands/clothing_righthand.dmi'
 	json_config = 'code/datums/greyscale/json_configs/jumpsuit_prison_inhand.json'
 
-/datum/greyscale_config/tablet
+/datum/greyscale_config/pda
 	name = "PDA"
-	icon_file = 'icons/obj/modular_pda.dmi'
+	icon_file = 'icons/obj/pda.dmi'
 	json_config = 'code/datums/greyscale/json_configs/pda.json'
 
-/datum/greyscale_config/tablet/chaplain
+/datum/greyscale_config/pda/chaplain
 	name = "Chaplain PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_chaplain.json'
 
-/datum/greyscale_config/tablet/captain
+/datum/greyscale_config/pda/captain
 	name = "Captain PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_captain.json'
 
-/datum/greyscale_config/tablet/clown
+/datum/greyscale_config/pda/clown
 	name = "Clown PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_clown.json'
 
-/datum/greyscale_config/tablet/head
+/datum/greyscale_config/pda/head
 	name = "Head PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_head.json'
 
-/datum/greyscale_config/tablet/mime
+/datum/greyscale_config/pda/mime
 	name = "Mime PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_mime.json'
 
-/datum/greyscale_config/tablet/stripe_split
+/datum/greyscale_config/pda/stripe_split
 	name = "Split Stripe PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_stripe_split.json'
 
-/datum/greyscale_config/tablet/stripe_thick
+/datum/greyscale_config/pda/stripe_thick
 	name = "Thick Stripe PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_stripe_thick.json'
 
-/datum/greyscale_config/tablet/stripe_thick/head
+/datum/greyscale_config/pda/stripe_thick/head
 	name = "Head Thick Stripe PDA"
 	json_config = 'code/datums/greyscale/json_configs/pda_stripe_thick_head.json'
 
@@ -512,8 +512,3 @@
 	name = "Worn Skull Bandana Up"
 	icon_file = 'icons/mob/clothing/mask.dmi'
 	json_config = 'code/datums/greyscale/json_configs/bandskull_worn_up.json'
-
-/datum/greyscale_config/material_airlock
-	name = "Material Airlock"
-	icon_file = 'icons/obj/doors/airlocks/material/material.dmi'
-	json_config = 'code/datums/greyscale/json_configs/material_airlock.json'

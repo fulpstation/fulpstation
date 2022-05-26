@@ -1,11 +1,20 @@
-/**Confusion
- * Slightly increases stealth
- * Slightly lowers resistance
- * Decreases stage speed
- * No effect to transmissibility
- * Intense level
- * Bonus: Makes the affected mob be confused for short periods of time.
- */
+/*
+//////////////////////////////////////
+
+Confusion
+
+	Little bit hidden.
+	Lowers resistance.
+	Decreases stage speed.
+	Not very transmissibile.
+	Intense Level.
+
+Bonus
+	Makes the affected mob be confused for short periods of time.
+
+//////////////////////////////////////
+*/
+
 /datum/symptom/confusion
 	name = "Confusion"
 	desc = "The virus interferes with the proper function of the neural system, leading to bouts of confusion and erratic movement."
@@ -37,7 +46,7 @@
 		suppress_warning = TRUE
 
 /datum/symptom/confusion/End(datum/disease/advance/A)
-	A.affected_mob.remove_status_effect(/datum/status_effect/confusion)
+	A.affected_mob.set_confusion(0)
 	return ..()
 
 /datum/symptom/confusion/Activate(datum/disease/advance/A)
@@ -51,7 +60,7 @@
 				to_chat(M, span_warning("[pick("Your head hurts.", "Your mind blanks for a moment.")]"))
 		else
 			to_chat(M, span_userdanger("You can't think straight!"))
-			M.adjust_timed_status_effect(16 SECONDS * power, /datum/status_effect/confusion)
+			M.add_confusion(16 * power)
 			if(brain_damage)
 				M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 3 * power, 80)
 				M.updatehealth()

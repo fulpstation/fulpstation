@@ -440,16 +440,13 @@
  *
  * Arguments:
  * - [check][/obj/item/stack]: The stack to check for mergeability.
- * - [inhand][boolean]: Whether or not the stack to check should act like it's in a mob's hand.
  */
-/obj/item/stack/proc/can_merge(obj/item/stack/check, inhand = FALSE)
+/obj/item/stack/proc/can_merge(obj/item/stack/check)
 	if(!istype(check, merge_type))
 		return FALSE
 	if(mats_per_unit ~! check.mats_per_unit) // ~! in case of lists this operator checks only keys, but not values
 		return FALSE
 	if(is_cyborg) // No merging cyborg stacks into other stacks
-		return FALSE
-	if(ismob(loc) && !inhand) // no merging with items that are on the mob
 		return FALSE
 	return TRUE
 
@@ -508,7 +505,7 @@
 		INVOKE_ASYNC(src, .proc/merge, arrived)
 
 /obj/item/stack/hitby(atom/movable/hitting, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
-	if(can_merge(hitting, inhand = TRUE))
+	if(can_merge(hitting))
 		merge(hitting)
 	. = ..()
 
@@ -559,7 +556,7 @@
 	is_zero_amount(delete_if_zero = TRUE)
 
 /obj/item/stack/attackby(obj/item/W, mob/user, params)
-	if(can_merge(W, inhand = TRUE))
+	if(can_merge(W))
 		var/obj/item/stack/S = W
 		if(merge(S))
 			to_chat(user, span_notice("Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s."))

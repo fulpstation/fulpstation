@@ -47,13 +47,6 @@
 /datum/symptom/heal/proc/passive_message_condition(mob/living/M)
 	return TRUE
 
-/*Starlight Condensation
- * Slightly reduces stealth
- * Reduces resistance
- * No change to stage speed
- * Slightly increases transmissibility
- * Bonus: Heals host when exposed to starlight
-*/
 
 /datum/symptom/heal/starlight
 	name = "Starlight Condensation"
@@ -182,13 +175,6 @@
 		return TRUE
 	return FALSE
 
-/*Toxolysis
- * No change to stealth
- * Reduces resistance
- * Increases stage speed
- * Reduces transmissibility
- * Bonus: Removes all reagents from the host
-*/
 /datum/symptom/heal/chem
 	name = "Toxolysis"
 	stealth = 0
@@ -222,14 +208,7 @@
 	return 1
 
 
-/*Metabolic Boost
- * Slightly reduces stealth
- * Reduces resistance
- * Increases stage speed
- * Slightly increases transmissibility
- * Bonus: Doubles the rate of chemical metabolisation
- * Increases nutrition loss rate
-*/
+
 /datum/symptom/heal/metabolism
 	name = "Metabolic Boost"
 	stealth = -1
@@ -266,13 +245,7 @@
 	if(prob(2))
 		to_chat(C, span_notice("You feel an odd gurgle in your stomach, as if it was working much faster than normal."))
 	return 1
-/*Nocturnal Regeneration
- * Increases stealth
- * Slightly reduces resistance
- * Reduces stage speed
- * Slightly reduces transmissibility
- * Bonus: Heals brute damage when in the dark
-*/
+
 /datum/symptom/heal/darkness
 	name = "Nocturnal Regeneration"
 	desc = "The virus is able to mend the host's flesh when in conditions of low light, repairing physical damage. More effective against brute damage."
@@ -322,13 +295,7 @@
 	if(M.getBruteLoss() || M.getFireLoss())
 		return TRUE
 	return FALSE
-/*Regen Coma
- * No effect on stealth
- * Increases resistance
- * Reduces stage speed greatly
- * Decreases transmissibility
- * Bonus: Puts the host into a coma when severely hurt, healing them
-*/
+
 /datum/symptom/heal/coma
 	name = "Regenerative Coma"
 	desc = "The virus causes the host to fall into a death-like coma when severely damaged, then rapidly fixes the damage."
@@ -455,7 +422,7 @@
 	. = 0
 	var/mob/living/M = A.affected_mob
 	if(M.fire_stacks < 0)
-		M.adjust_fire_stacks(min(absorption_coeff, -M.fire_stacks))
+		M.set_fire_stacks(min(M.fire_stacks + 1 * absorption_coeff, 0))
 		. += power
 	if(M.reagents.has_reagent(/datum/reagent/water/holywater, needs_metabolizing = FALSE))
 		M.reagents.remove_reagent(/datum/reagent/water/holywater, 0.5 * absorption_coeff)

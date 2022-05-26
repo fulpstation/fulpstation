@@ -1,13 +1,22 @@
-/**Spontaneous Combustion
- * Slightly hidden.
- * Lowers resistance tremendously.
- * Decreases stage speed tremendously.
- * Decreases transmittablity tremendously.
- * Fatal level
- * Bonus: Ignites infected mob.
- */
+/*
+//////////////////////////////////////
+
+Spontaneous Combustion
+
+	Slightly hidden.
+	Lowers resistance tremendously.
+	Decreases stage tremendously.
+	Decreases transmittablity tremendously.
+	Fatal Level.
+
+Bonus
+	Ignites infected mob.
+
+//////////////////////////////////////
+*/
 
 /datum/symptom/fire
+
 	name = "Spontaneous Combustion"
 	desc = "The virus turns fat into an extremely flammable compound, and raises the body's temperature, making the host burst into flames spontaneously."
 	stealth = -1
@@ -51,12 +60,12 @@
 				to_chat(M, span_warning("[pick("You feel hot.", "You hear a crackling noise.", "You smell smoke.")]"))
 		if(4)
 			Firestacks_stage_4(M, A)
-			M.ignite_mob()
+			M.IgniteMob()
 			to_chat(M, span_userdanger("Your skin bursts into flames!"))
 			M.emote("scream")
 		if(5)
 			Firestacks_stage_5(M, A)
-			M.ignite_mob()
+			M.IgniteMob()
 			to_chat(M, span_userdanger("Your skin erupts into an inferno!"))
 			M.emote("scream")
 
@@ -75,15 +84,21 @@
 	return 1
 
 /*
+//////////////////////////////////////
+
 Alkali perspiration
+
 	Hidden.
 	Lowers resistance.
 	Decreases stage speed.
-	Decreases transmissibility.
+	Decreases transmittablity.
 	Fatal Level.
+
 Bonus
 	Ignites infected mob.
 	Explodes mob on contact with water.
+
+//////////////////////////////////////
 */
 
 /datum/symptom/alkali
@@ -134,7 +149,7 @@ Bonus
 				M.visible_message(span_warning("[M]'s sweat sizzles and pops on contact with water!"))
 				explosion(M, devastation_range = -1, heavy_impact_range = (-1 + explosion_power), light_impact_range = (2 * explosion_power), explosion_cause = src)
 			Alkali_fire_stage_4(M, A)
-			M.ignite_mob()
+			M.IgniteMob()
 			to_chat(M, span_userdanger("Your sweat bursts into flames!"))
 			M.emote("scream")
 		if(5)
@@ -142,7 +157,7 @@ Bonus
 				M.visible_message(span_warning("[M]'s sweat sizzles and pops on contact with water!"))
 				explosion(M, devastation_range = -1, heavy_impact_range = (-1 + explosion_power), light_impact_range = (2 * explosion_power), explosion_cause = src)
 			Alkali_fire_stage_5(M, A)
-			M.ignite_mob()
+			M.IgniteMob()
 			to_chat(M, span_userdanger("Your skin erupts into an inferno!"))
 			M.emote("scream")
 

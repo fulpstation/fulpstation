@@ -24,11 +24,15 @@ export const NtosRoboControl = (props, context) => {
       <NtosWindow.Content scrollable>
         <Section title="Robot Control Console">
           <LabeledList>
-            <LabeledList.Item label="ID Card">
+            <LabeledList.Item label="Id Card">
               {id_owner}
-            </LabeledList.Item>
-            <LabeledList.Item label="Bots In Range">
-              {data.botcount}
+              {!!has_id && (
+                <Button
+                  ml={2}
+                  icon="eject"
+                  content="Eject"
+                  onClick={() => act('ejectcard')} />
+              )}
             </LabeledList.Item>
           </LabeledList>
         </Section>

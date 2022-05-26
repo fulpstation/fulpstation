@@ -1,4 +1,3 @@
-//Every time you got lost looking for keycards, incriment: 1
 //**************
 //*****Keys*******************
 //************** **  **

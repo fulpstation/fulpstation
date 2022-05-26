@@ -333,6 +333,9 @@
 /area/ruin/space/has_grav/powered/beef)
 "em" = (
 /obj/machinery/light,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
 "ev" = (
@@ -821,7 +824,7 @@
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "lJ" = (
-/obj/structure/sign/warning/secure_area,
+/obj/structure/sign/warning/securearea,
 /turf/closed/wall,
 /area/ruin/space/has_grav/powered/beef)
 "lP" = (
@@ -1678,6 +1681,12 @@
 	},
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/beef)
+"AN" = (
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/powered/beef)
 "AQ" = (
 /obj/structure/kitchenspike,
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
@@ -1935,7 +1944,7 @@
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "Fv" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
 	dir = 1
 	},
 /turf/open/floor/plating,
@@ -2696,7 +2705,7 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "RY" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -2868,8 +2877,10 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Up" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "beefstation-frontdoor"
+	},
 /obj/machinery/door/airlock/public,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Uq" = (
@@ -2933,8 +2944,8 @@
 "Vz" = (
 /obj/machinery/door/airlock/public,
 /obj/structure/fans/tiny,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "beefstation-frontdoor"
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
@@ -3598,7 +3609,7 @@ tD
 ka
 KY
 Fv
-SJ
+AN
 Iw
 uq
 uq
@@ -3639,7 +3650,7 @@ uq
 uq
 Iw
 Iw
-Sa
+Iw
 iv
 CM
 JD
@@ -3695,7 +3706,7 @@ SJ
 tD
 DF
 PH
-Sa
+Iw
 Iw
 Iw
 uq
@@ -3886,7 +3897,7 @@ Gc
 Gc
 Gc
 Gc
-Sa
+Iw
 Iw
 uq
 uq
@@ -4075,7 +4086,7 @@ NG
 Te
 eG
 Yv
-Sa
+Iw
 Iw
 Iw
 Iw
@@ -5327,7 +5338,7 @@ uq
 uq
 uq
 Iw
-Sa
+Iw
 Ut
 du
 du
@@ -5387,7 +5398,7 @@ Or
 Or
 Gc
 yc
-Sa
+Iw
 Iw
 Iw
 uq

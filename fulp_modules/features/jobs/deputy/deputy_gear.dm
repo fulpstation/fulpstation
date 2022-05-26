@@ -10,9 +10,10 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded = 1,
+		/obj/item/modular_computer/tablet/preset/advanced/security = 1,
 	)
 
-	belt = /obj/item/modular_computer/tablet/pda/security
+	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
 	uniform = /obj/item/clothing/under/rank/security/officer/mallcop
 	shoes = /obj/item/clothing/shoes/laceup
@@ -113,7 +114,7 @@
 	icon_state = "supply_tie"
 	inhand_icon_state = ""	//no inhands
 	w_class = WEIGHT_CLASS_SMALL
-	custom_price = PAYCHECK_CREW
+	custom_price = PAYCHECK_EASY
 	var/department
 
 /obj/item/clothing/neck/fulptie/Initialize()

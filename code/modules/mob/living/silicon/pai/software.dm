@@ -30,6 +30,9 @@
 	data["pda"] = list()
 	data["ram"] = ram
 	data["refresh_spam"] = refresh_spam
+	if(aiPDA)
+		data["pda"]["power"] = !aiPDA.toff
+		data["pda"]["silent"] = aiPDA.silent
 	if(master)
 		data["master"]["name"] = master
 		data["master"]["dna"] = master_dna
@@ -119,12 +122,21 @@
 			medHUD = !medHUD
 			if(medHUD)
 				var/datum/atom_hud/med = GLOB.huds[med_hud]
-				med.show_to(src)
+				med.add_hud_to(src)
 			else
 				var/datum/atom_hud/med = GLOB.huds[med_hud]
-				med.hide_from(src)
+				med.remove_hud_from(src)
 		if("newscaster")
 			newscaster.ui_interact(src)
+		if("pda")
+			if(isnull(aiPDA))
+				return FALSE
+			if(params["pda"] == "power")
+				aiPDA.toff = !aiPDA.toff
+			if(params["pda"] == "silent")
+				aiPDA.silent = !aiPDA.silent
+			if(params["pda"] == "message")
+				cmd_send_pdamesg(usr)
 		if("photography_module")
 			aicamera.toggle_camera_mode(usr)
 		if("printer_module")
@@ -147,10 +159,10 @@
 			secHUD = !secHUD
 			if(secHUD)
 				var/datum/atom_hud/sec = GLOB.huds[sec_hud]
-				sec.show_to(src)
+				sec.add_hud_to(src)
 			else
 				var/datum/atom_hud/sec = GLOB.huds[sec_hud]
-				sec.hide_from(src)
+				sec.remove_hud_from(src)
 		if("universal_translator")
 			if(!languages_granted)
 				grant_all_languages(TRUE, TRUE, TRUE, LANGUAGE_SOFTWARE)

@@ -277,8 +277,7 @@
 	var/mob/living/living_pawn = controller.pawn
 	var/datum/weakref/target_ref = controller.blackboard[attack_target_key]
 	var/mob/living/target = target_ref?.resolve()
-	var/datum/weakref/disposal_ref = controller.blackboard[disposal_target_key]
-	var/obj/machinery/disposal/disposal = disposal_ref?.resolve()
+	var/obj/machinery/disposal/disposal = controller.blackboard[disposal_target_key]
 
 	controller.blackboard[BB_MONKEY_DISPOSING] = TRUE
 

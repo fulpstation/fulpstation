@@ -449,10 +449,17 @@
 	denied_type = /obj/item/crusher_trophy/vortex_talisman
 
 /obj/item/crusher_trophy/vortex_talisman/effect_desc()
-	return "mark detonation to create a homing hierophant chaser"
+	return "mark detonation to create a barrier you can pass"
 
 /obj/item/crusher_trophy/vortex_talisman/on_mark_detonation(mob/living/target, mob/living/user)
-	if(isliving(target))
-		var/obj/effect/temp_visual/hierophant/chaser/chaser = new(get_turf(user), user, target, 3, TRUE)
-		chaser.monster_damage_boost = FALSE // Weaker cuz no cooldown
-		log_combat(user, target, "fired a chaser at", src)
+	var/turf/T = get_turf(user)
+	new /obj/effect/temp_visual/hierophant/wall/crusher(T, user) //a wall only you can pass!
+	var/turf/otherT = get_step(T, turn(user.dir, 90))
+	if(otherT)
+		new /obj/effect/temp_visual/hierophant/wall/crusher(otherT, user)
+	otherT = get_step(T, turn(user.dir, -90))
+	if(otherT)
+		new /obj/effect/temp_visual/hierophant/wall/crusher(otherT, user)
+
+/obj/effect/temp_visual/hierophant/wall/crusher
+	duration = 75
