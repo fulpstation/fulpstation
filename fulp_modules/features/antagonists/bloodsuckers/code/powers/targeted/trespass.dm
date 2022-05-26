@@ -101,6 +101,6 @@
 	// Effect Destination
 	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
 	puff = new /datum/effect_system/steam_spread/()
-	puff.effect_type = /obj/effect/particle_effect/smoke/vampsmoke
+	puff.effect_type = /obj/effect/particle_effect/fluid/smoke/vampsmoke
 	puff.set_up(3, 0, target_turf)
 	puff.start()
