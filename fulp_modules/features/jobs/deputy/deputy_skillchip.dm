@@ -39,9 +39,9 @@
 /obj/item/skillchip/job/deputy/engineering
 	deputy = "3NG1N3ER1N9"
 	department = "Engineering"
-	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
+	auto_traits = list(TRAIT_ENGINEERINGDEPUTY, TRAIT_NOGUNS, TRAIT_MADNESS_IMMUNE) /// Engineering deputies on their way to arrest the SM
 
-/area/engineering
+/area/station/engineering
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_ENGINEERINGDEPUTY
@@ -52,7 +52,7 @@
 	department = "Medbay"
 	auto_traits = list(TRAIT_MEDICALDEPUTY, TRAIT_NOGUNS, TRAIT_QUICK_CARRY) /// Medical deputies on their way to arrest dead bodies?
 
-/area/medical
+/area/station/medical
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_MEDICALDEPUTY
@@ -63,7 +63,7 @@
 	department = "Science"
 	auto_traits = list(TRAIT_SCIENCEDEPUTY, TRAIT_NOGUNS) /// No bonus here, they get a Mutadone medipen instead.
 
-/area/science
+/area/station/science
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_SCIENCEDEPUTY
@@ -74,7 +74,7 @@
 	department = "Cargo"
 	auto_traits = list(TRAIT_SUPPLYDEPUTY, TRAIT_NOGUNS) /// No bonus here, they get an armor vest instead.
 
-/area/cargo
+/area/station/cargo
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_SUPPLYDEPUTY
@@ -85,7 +85,7 @@
 	department = "Service"
 	auto_traits = list(TRAIT_SERVICEDEPUTY, TRAIT_NOGUNS, TRAIT_SUPERMATTER_SOOTHER) /// Psychologist bonus without the hallucination protection.
 
-/area/service
+/area/station/service
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love helping out my department!</span>\n"
 	mood_trait = TRAIT_SERVICEDEPUTY

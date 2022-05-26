@@ -173,8 +173,11 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "jz" = (
-/obj/item/wallframe/extinguisher_cabinet,
-/turf/closed/wall/r_wall,
+/obj/effect/turf_decal/trimline/purple/filled/line{
+	dir = 1
+	},
+/obj/structure/extinguisher_cabinet/directional/north,
+/turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "jX" = (
 /obj/machinery/light/floor,
@@ -248,6 +251,7 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 10
 	},
+/obj/structure/extinguisher_cabinet/directional/west,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "oB" = (
@@ -342,9 +346,8 @@
 /turf/open/floor/plating/snowed/icemoon,
 /area/ruin/powered/beefcyto)
 "sH" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ice,
-/turf/open/space/basic,
+/obj/effect/spawner/structure/window/ice,
+/turf/open/floor/plating/snowed/icemoon,
 /area/ruin/powered/beefcyto)
 "sR" = (
 /obj/machinery/biogenerator,
@@ -467,7 +470,7 @@
 /area/ruin/powered/beefcyto)
 "xF" = (
 /obj/structure/table/wood,
-/obj/item/gun/energy/kinetic_accelerator,
+/obj/item/gun/energy/recharge/kinetic_accelerator,
 /obj/item/knife/combat/survival,
 /obj/item/storage/medkit/surgery,
 /obj/effect/turf_decal/tile/red{
@@ -559,10 +562,6 @@
 	dir = 8
 	},
 /turf/open/floor/iron/kitchen_coldroom,
-/area/ruin/powered/beefcyto)
-"AQ" = (
-/obj/structure/sign/warning,
-/turf/closed/wall/r_wall,
 /area/ruin/powered/beefcyto)
 "AV" = (
 /obj/machinery/deepfryer,
@@ -889,6 +888,9 @@
 /area/ruin/powered/beefcyto)
 "RF" = (
 /obj/machinery/light/floor,
+/obj/structure/sign/warning{
+	pixel_y = -32
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/beefcyto)
 "RK" = (
@@ -1582,8 +1584,8 @@ pv
 pv
 pv
 by
+pv
 jz
-Rx
 nP
 nP
 nP
@@ -1609,13 +1611,13 @@ Iz
 yD
 vA
 yD
-AQ
+pv
 xA
 SN
 jx
 DP
 kI
-AQ
+pv
 yD
 yD
 yD
@@ -1629,7 +1631,7 @@ bB
 bB
 bB
 gh
-rc
+sH
 GX
 nP
 nP
@@ -1672,11 +1674,11 @@ pv
 iB
 pg
 pv
-jz
+pv
 pv
 bB
 RQ
-rc
+sH
 LX
 nP
 nP
@@ -1723,7 +1725,7 @@ op
 pv
 pv
 bB
-rc
+sH
 GX
 nP
 nP
@@ -1768,9 +1770,9 @@ nP
 nP
 zc
 co
-rc
+sH
 bB
-rc
+sH
 pm
 nS
 Wk
@@ -1815,7 +1817,7 @@ QA
 nP
 nP
 ph
-rc
+sH
 bB
 pv
 pv
@@ -1862,7 +1864,7 @@ Ku
 nP
 nP
 ve
-rc
+sH
 bB
 WQ
 yD
@@ -1909,7 +1911,7 @@ wf
 nP
 nP
 Ek
-rc
+sH
 bB
 pv
 pv
@@ -1956,7 +1958,7 @@ nP
 nP
 Lo
 zg
-rc
+sH
 bB
 pv
 uy
@@ -2005,7 +2007,7 @@ jy
 pv
 pv
 bB
-rc
+sH
 cQ
 pD
 Kz
@@ -2052,7 +2054,7 @@ pv
 pv
 bB
 bB
-rc
+sH
 cQ
 Ay
 Kz
@@ -2130,11 +2132,11 @@ yD
 yD
 yD
 yD
-rc
+sH
 Em
 oB
 xF
-rc
+sH
 bB
 bB
 bB
@@ -2177,11 +2179,11 @@ yD
 yD
 yD
 Ed
-rc
+sH
 nP
 aI
 Cc
-rc
+sH
 bB
 nl
 bB
@@ -2365,11 +2367,11 @@ yD
 yD
 yD
 Ed
-rc
+sH
 nP
 aI
 Cc
-rc
+sH
 yD
 yD
 yD
@@ -2412,11 +2414,11 @@ DW
 yD
 yD
 yD
-rc
+sH
 Em
 dB
 xF
-rc
+sH
 aX
 yD
 yD

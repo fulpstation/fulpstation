@@ -60,11 +60,14 @@
 //Find Traitor target
 /datum/objective/assassinate/proc/find_traitor_target()
 	var/list/possible_targets = list()
-	for(var/mob/living/carbon/human/player in GLOB.player_list)
-		if(player.stat == DEAD || player.mind == owner)
+	for(var/datum/antagonist/player in GLOB.antagonists)
+		var/datum/mind/traitor = player.owner
+		if(!traitor)
 			continue
-		if(player.mind?.has_antag_datum(/datum/antagonist/traitor))
-			possible_targets += player.mind
+		if(traitor.current.stat == DEAD || traitor == owner)
+			continue
+		if(traitor.has_antag_datum(/datum/antagonist/traitor))
+			possible_targets += traitor
 
 	if(!possible_targets.len)
 		find_target() //if no traitors on station, this becomes a normal assassination obj
