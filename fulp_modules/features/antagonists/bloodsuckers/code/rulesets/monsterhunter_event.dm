@@ -42,8 +42,8 @@
 	name = "Monster Hunter"
 	antag_datum = /datum/antagonist/monsterhunter
 	antag_flag = ROLE_MONSTERHUNTER
-	weight = 5
-	cost = 5
+	weight = 0
+	cost = 200
 	protected_roles = list(
 		JOB_CAPTAIN,
 		JOB_DETECTIVE,
