@@ -11,8 +11,8 @@
 	spawn_positions = 2
 
 /datum/job/detective
-	total_positions = 2
-	spawn_positions = 5
+	total_positions = 1
+	spawn_positions = 2
 
 /datum/job/security_officer
 	total_positions = 8
