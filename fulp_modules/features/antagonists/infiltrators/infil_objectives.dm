@@ -60,20 +60,18 @@
 //Find Traitor target
 /datum/objective/assassinate/proc/find_traitor_target()
 	var/list/possible_targets = list()
-	for(var/datum/antagonist/player in GLOB.antagonists)
-		var/datum/mind/traitor = player.owner
-		if(!traitor)
+	for(var/mob/living/carbon/human/player in GLOB.player_list)
+		if(player.stat == DEAD || player.mind == owner)
 			continue
-		if(traitor.current.stat == DEAD || traitor == owner)
-			continue
-		if(traitor.has_antag_datum(/datum/antagonist/traitor))
-			possible_targets += traitor
+		if(player.mind?.has_antag_datum(/datum/antagonist/traitor))
+			possible_targets += player.mind
+
 
 	if(!possible_targets.len)
 		find_target() //if no traitors on station, this becomes a normal assassination obj
 		return
-	else
-		target = pick(possible_targets)
+
+	target = pick(possible_targets)
 
 	if(target?.current)
 		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]. as a threat to Nanotrasen, ensure they are eliminated."
@@ -92,7 +90,13 @@
 		target = pick(sec)
 
 	if(target?.current)
+		target_real_name = target.current.real_name
+		var/mob/living/carbon/human/target_body = target.current
+		if(target_body && target_body.get_id_name() != target_real_name)
+			target_missing_id = 1
+
 		explanation_text = "Using Advanced Mulligan, escape with the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
+	return target
 
 //Animal Rights Consortium Objectives
 
