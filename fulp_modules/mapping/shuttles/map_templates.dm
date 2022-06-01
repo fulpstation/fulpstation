@@ -3,6 +3,7 @@
 
 /// Cargo
 /datum/map_template/shuttle/cargo/fulp
+	prefix = "fulp_modules/mapping/shuttles/cargo/"
 	suffix = "selene"
 	name = "supply shuttle (Selene)"
 
