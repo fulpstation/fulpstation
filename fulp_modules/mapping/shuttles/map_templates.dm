@@ -3,12 +3,11 @@
 
 /// Cargo
 /datum/map_template/shuttle/cargo/fulp
-	prefix = "fulp_modules/mapping/shuttles/cargo/"
 	suffix = "selene"
 	name = "supply shuttle (Selene)"
 
 /datum/map_template/shuttle/cargo/fulp/helio // Heliostation
-	suffix = "cargo_helio"
+	suffix = "helio"
 	name = "cargo ferry (Helio)"
 
 /datum/map_template/shuttle/cargo/fulp/solitaire // Solitairestation
