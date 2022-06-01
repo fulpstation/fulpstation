@@ -31,7 +31,7 @@
 			continue
 		if(is_special_character(all_players))
 			continue
-		if(!all_players.getorgan(/obj/item/organ/brain))
+		if(!all_players.getorgan(/obj/item/organ/internal/brain))
 			continue
 		all_players.mind.add_antag_datum(/datum/antagonist/monsterhunter)
 		message_admins("MONSTERHUNTER NOTICE: [all_players] has awoken as a Monster Hunter.")

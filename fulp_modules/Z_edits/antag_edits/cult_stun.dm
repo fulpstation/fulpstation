@@ -49,7 +49,7 @@
 				var/mob/living/carbon/carbon_target = victim
 				to_chat(user, span_cultitalic("Our spell fails to brainwash their strong mind, tearing their skull open!"))
 				carbon_target.adjust_timed_status_effect(10 SECONDS, /datum/status_effect/speech/stutter)
-				carbon_target.Jitter(1 SECONDS)
+				carbon_target.set_timed_status_effect(1 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 				carbon_target.bleed(30)
 				var/obj/item/bodypart/head = carbon_target.get_bodypart(BODY_ZONE_HEAD)
 				var/datum/wound/slash/moderate/crit_wound = new
@@ -67,6 +67,6 @@
 					carbon_target.silent += 6
 					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/stutter)
 					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/slurring/cult)
-					carbon_target.Jitter(1.5 SECONDS)
+					carbon_target.set_timed_status_effect(1.5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 		uses--
 	return ..()

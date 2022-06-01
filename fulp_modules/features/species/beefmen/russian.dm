@@ -22,7 +22,7 @@
 		/datum/language/common = list(LANGUAGE_ATOM),
 		/datum/language/russian = list(LANGUAGE_ATOM))
 
-/obj/item/organ/tongue/beefman
+/obj/item/organ/internal/tongue/beefman
 	name = "meaty tongue"
 	desc = "A meaty and thick muscle typically found in Beefmen."
 	icon = 'fulp_modules/features/species/icons/mob/beef_tongue.dmi'
@@ -49,6 +49,6 @@
 		/datum/language/buzzwords,
 	))
 
-/obj/item/organ/tongue/beefman/Initialize(mapload)
+/obj/item/organ/internal/tongue/beefman/Initialize(mapload)
     . = ..()
     languages_possible = languages_possible_meat
