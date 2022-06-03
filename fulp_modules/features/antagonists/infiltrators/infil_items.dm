@@ -1,7 +1,7 @@
 /obj/item/adv_mulligan
 	name = "advanced mulligan"
 	desc = "Toxin that permanently changes your DNA into the one of last injected person. Use it on the victim to extract their DNA then inject it into yourself!"
-	icon = 'icons/obj/items_and_weapons.dmi'
+	icon = 'icons/obj/syringe.dmi'
 	icon_state = "dnainjector0"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
