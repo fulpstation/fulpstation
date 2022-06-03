@@ -548,6 +548,7 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 			if(reserve.Reserve(width, height, z))
 				log_mapping("returned [reserve] - breakpoint 4 (last)")
 				return reserve
+	log_mapping("returned [reserve] - did nothing (fail)")
 	QDEL_NULL(reserve)
 
 //This is not for wiping reserved levels, use wipe_reservations() for that.
