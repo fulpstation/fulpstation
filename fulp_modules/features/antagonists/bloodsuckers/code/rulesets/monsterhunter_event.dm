@@ -41,6 +41,7 @@
 /datum/dynamic_ruleset/midround/monsterhunter
 	name = "Monster Hunter"
 	antag_datum = /datum/antagonist/monsterhunter
+	midround_ruleset_style = MIDROUND_RULESET_STYLE_LIGHT
 	antag_flag = ROLE_MONSTERHUNTER
 	weight = 0
 	cost = 200
