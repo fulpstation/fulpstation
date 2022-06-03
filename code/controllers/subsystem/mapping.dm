@@ -530,20 +530,27 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	if(!z)
 		for(var/i in levels_by_trait(ZTRAIT_RESERVED))
 			if(reserve.Reserve(width, height, i))
+				log_mapping("returned [reserve] - breakpoint 1")
 				return reserve
 		//If we didn't return at this point, theres a good chance we ran out of room on the exisiting reserved z levels, so lets try a new one
 		num_of_res_levels += 1
 		var/datum/space_level/newReserved = add_new_zlevel("Transit/Reserved [num_of_res_levels]", list(ZTRAIT_RESERVED = TRUE))
 		initialize_reserved_level(newReserved.z_value)
 		if(reserve.Reserve(width, height, newReserved.z_value))
+			log_mapping("returned [reserve] - breakpoint 2")
 			return reserve
+		log_mapping("returned [reserve] - had !z)")
 	else
 		if(!level_trait(z, ZTRAIT_RESERVED))
+			log_mapping("returned [reserve] - breakpoint 3 (qdel)")
 			qdel(reserve)
 			return
 		else
 			if(reserve.Reserve(width, height, z))
+				log_mapping("returned [reserve] - breakpoint 4 (last)")
 				return reserve
+		log_mapping("returned [reserve] - did not have !z")
+	log_mapping("returned [reserve] - did nothing (fail)")
 	QDEL_NULL(reserve)
 
 //This is not for wiping reserved levels, use wipe_reservations() for that.

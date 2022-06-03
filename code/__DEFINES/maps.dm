@@ -31,7 +31,7 @@ to trust the words presented within.
 
 We also provide this information to you so that you can have an at-a-glance look at how
 Z-Levels are arranged. It is extremely ill-advised to ever use the location of a Z-Level
-to assign traits to it or use it in coding. Use Z-Traits (ZTRAITs) for these.
+to assign traits to it or use it in coding. Use Z-Traits (ZTRAITs) for these. 
 
 If you want to start toying around with Z-Levels, do not take these words for fact.
 Always compile, always use that verb, and always make sure that it works for what you want to do.
@@ -65,9 +65,8 @@ Always compile, always use that verb, and always make sure that it works for wha
 
 /// List of directories we can load map .json files from
 #define MAP_DIRECTORY_MAPS "_maps"
-#define MAP_DIRECTORY_FULP "fulp_modules/mapping/shuttles"
 #define MAP_DIRECTORY_DATA "data"
-#define MAP_DIRECTORY_WHITELIST list(MAP_DIRECTORY_MAPS,MAP_DIRECTORY_DATA,MAP_DIRECTORY_FULP)
+#define MAP_DIRECTORY_WHITELIST list(MAP_DIRECTORY_MAPS,MAP_DIRECTORY_DATA)
 
 /// Special map path value for custom adminloaded stations.
 #define CUSTOM_MAP_PATH "custom"
