@@ -450,10 +450,12 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	for(var/item in subtypesof(/datum/map_template/shuttle))
 		var/datum/map_template/shuttle/shuttle_type = item
 		if(!(initial(shuttle_type.suffix)))
+			log_mapping("missing shuttle_type.suffix on [shuttle_type]")
 			continue
 
 		var/datum/map_template/shuttle/S = new shuttle_type()
 		if(unbuyable.Find(S.mappath))
+			log_mapping("missing S.mappath on [shuttle_type]")
 			S.who_can_purchase = null
 
 		shuttle_templates[S.shuttle_id] = S
