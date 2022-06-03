@@ -27,7 +27,7 @@
 	var/list/ceiling_baseturfs = list()
 
 /datum/map_template/New(path = null, rename = null, cache = FALSE)
-	if(path)
+	if(path && !mappath)
 		mappath = path
 	if(mappath)
 		preload_size(mappath, cache)
