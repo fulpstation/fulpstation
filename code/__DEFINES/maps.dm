@@ -64,10 +64,9 @@ Always compile, always use that verb, and always make sure that it works for wha
 #define PATH_TO_NEXT_MAP_JSON "data/next_map.json"
 
 /// List of directories we can load map .json files from
-#define MAP_DIRECTORY_MAPS "_maps"
-#define MAP_DIRECTORY_FULP "fulp_modules/mapping/shuttles"
+#define MAP_DIRECTORY_MAPS "fulp_modules/mapping/shuttles"
 #define MAP_DIRECTORY_DATA "data"
-#define MAP_DIRECTORY_WHITELIST list(MAP_DIRECTORY_MAPS,MAP_DIRECTORY_DATA,MAP_DIRECTORY_FULP)
+#define MAP_DIRECTORY_WHITELIST list(MAP_DIRECTORY_MAPS,MAP_DIRECTORY_DATA)
 
 /// Special map path value for custom adminloaded stations.
 #define CUSTOM_MAP_PATH "custom"
