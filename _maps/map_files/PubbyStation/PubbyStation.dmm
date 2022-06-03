@@ -513,7 +513,7 @@
 /area/station/cargo/warehouse/upper)
 "acq" = (
 /obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/ai";
+	control_area = "/area/station/ai_monitored/turret_protected/ai";
 	name = "AI Chamber turret control";
 	pixel_x = 5;
 	pixel_y = -24
@@ -7846,7 +7846,7 @@
 /area/station/command/bridge)
 "azk" = (
 /obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/ai_upload";
+	control_area = "/area/station/ai_monitored/turret_protected/ai_upload";
 	name = "AI Upload turret control";
 	pixel_y = -25
 	},
@@ -18757,9 +18757,7 @@
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
 	dir = 1
 	},
-/obj/machinery/power/apc/auto_name/directional/west{
-	dir = 1
-	},
+/obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/server)
@@ -23814,7 +23812,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
-/obj/structure/grille,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "bII" = (
@@ -24632,7 +24629,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
 	dir = 4
 	},
-/obj/structure/grille,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "bMj" = (
@@ -28471,19 +28467,16 @@
 "caB" = (
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
-/obj/structure/grille,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "caC" = (
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible,
-/obj/structure/grille,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "caE" = (
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/simple/dark/visible,
-/obj/structure/grille,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "caF" = (
@@ -28491,7 +28484,6 @@
 	name = "Mixed Air Tank In"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
-/obj/structure/grille,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "caH" = (
@@ -28499,7 +28491,6 @@
 	name = "Mixed Air Tank Out"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
-/obj/structure/grille,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "caQ" = (
@@ -30762,7 +30753,7 @@
 /area/space/nearstation)
 "cnC" = (
 /obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/aisat_interior";
+	control_area = "/area/station/ai_monitored/turret_protected/aisat_interior";
 	name = "AI Satellite turret control";
 	pixel_x = -5;
 	pixel_y = -24
@@ -52731,9 +52722,9 @@
 /area/station/medical/cryo)
 "umO" = (
 /obj/machinery/door/morgue{
-	name = "Private Exhibit"
+	name = "Private Exhibit";
+	req_access = list("library")
 	},
-/obj/effect/mapping_helpers/airlock/access/any/service/library,
 /turf/open/floor/iron/dark,
 /area/station/service/library/artgallery)
 "und" = (
