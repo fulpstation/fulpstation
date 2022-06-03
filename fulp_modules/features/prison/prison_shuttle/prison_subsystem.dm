@@ -18,9 +18,9 @@
 #define SHUTTLE_CLEANUP "prison_cleaning"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
 
-#define SHUTTLE_MIN_TIME (5.1 MINUTES)
-#define SHUTTLE_MAX_TIME (6.1 MINUTES)
-#define SHUTTLE_DELAY_TIME (8.1 MINUTES)
+#define SHUTTLE_MIN_TIME (5 MINUTES)
+#define SHUTTLE_MAX_TIME (6 MINUTES)
+#define SHUTTLE_DELAY_TIME (8 MINUTES)
 
 /**
  * Prison subsystem
@@ -31,7 +31,7 @@ SUBSYSTEM_DEF(permabrig)
 	flags = SS_BACKGROUND
 
 	//timer between intercom alerts
-	wait = 1 MINUTES
+	wait = 1.2 MINUTES
 
 	///The shuttle currently loaded.
 	var/datum/map_template/shuttle/prison/loaded_shuttle
