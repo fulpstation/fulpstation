@@ -539,6 +539,7 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 		if(reserve.Reserve(width, height, newReserved.z_value))
 			log_mapping("returned [reserve] - breakpoint 2")
 			return reserve
+		log_mapping("returned [reserve] - had !z)")
 	else
 		if(!level_trait(z, ZTRAIT_RESERVED))
 			log_mapping("returned [reserve] - breakpoint 3 (qdel)")
@@ -548,6 +549,7 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 			if(reserve.Reserve(width, height, z))
 				log_mapping("returned [reserve] - breakpoint 4 (last)")
 				return reserve
+		log_mapping("returned [reserve] - did not have !z")
 	log_mapping("returned [reserve] - did nothing (fail)")
 	QDEL_NULL(reserve)
 
