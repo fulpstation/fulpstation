@@ -21,9 +21,14 @@
 	INVOKE_ASYNC(SSmapping, /datum/controller/subsystem/mapping/proc/reserve_turfs, v)
 
 /datum/turf_reservation/proc/Reserve(width, height, zlevel)
-	if(width > world.maxx || height > world.maxy || width < 1 || height < 1)
-		log_mapping("[src] failed at return 1.")
-		return FALSE
+	if(width > world.maxx)
+		log_mapping("[src] width > world.maxx")
+	if(height > world.maxy)
+		log_mapping("[src] height > world.maxy")
+	if(width < 1)
+		log_mapping("[src] width < 1.")
+	if(height < 1)
+		log_mapping("[src] height < 1.")
 	var/list/avail = SSmapping.unused_turfs["[zlevel]"]
 	var/turf/BL
 	var/turf/TR
