@@ -7,7 +7,7 @@
 	suffix = "selene"
 	name = "supply shuttle (Selene)"
 
-/datum/map_template/shuttle/cargo/fulp/helio // Heliostation
+/datum/map_template/shuttle/cargo/helio // Heliostation
 	suffix = "helio"
 	name = "cargo ferry (Helio)"
 
