@@ -221,6 +221,7 @@
 		port_destinations = id
 
 	SSshuttle.stationary_docking_ports += src
+	log_mapping("[src] properly registered")
 
 /obj/docking_port/stationary/Initialize(mapload)
 	. = ..()

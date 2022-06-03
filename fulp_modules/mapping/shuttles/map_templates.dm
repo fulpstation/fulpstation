@@ -15,6 +15,7 @@
 /datum/map_template/shuttle/cargo/fulp/helio // Heliostation
 	suffix = "helio"
 	name = "cargo ferry (Helio)"
+	mappath = "fulp_modules/mapping/shuttles/cargo/cargo_helio.dmm"
 
 /datum/map_template/shuttle/cargo/fulp/solitaire // Solitairestation
 	suffix = "solitaire"
