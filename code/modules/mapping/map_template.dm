@@ -30,6 +30,7 @@
 	if(path)
 		mappath = path
 	if(mappath)
+		log_mapping("[src] loading with [mappath].")
 		preload_size(mappath, cache)
 	if(rename)
 		name = rename
@@ -41,6 +42,7 @@
 	if(bounds)
 		width = bounds[MAP_MAXX] // Assumes all templates are rectangular, have a single Z level, and begin at 1,1,1
 		height = bounds[MAP_MAXY]
+		log_mapping("[src] loading height [height] witdh [width].")
 		if(cache)
 			cached_map = parsed
 	return bounds
