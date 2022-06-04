@@ -37,11 +37,9 @@
 	ceiling_baseturfs.Insert(1, /turf/baseturf_bottom)
 
 /datum/map_template/proc/preload_size(path, cache = FALSE)
-	log_mapping("[path].")
 	var/datum/parsed_map/parsed = new(file(path))
-	log_mapping("[parsed].")
 	var/bounds = parsed?.bounds
-	log_mapping("[bounds].")
+	log_mapping("Returned bounds: [bounds].")
 	if(bounds)
 		width = bounds[MAP_MAXX] // Assumes all templates are rectangular, have a single Z level, and begin at 1,1,1
 		height = bounds[MAP_MAXY]

@@ -59,7 +59,9 @@
 		// create a new datum without loading a map
 		return
 
+	log_mapping("Parsed bounds on New: [parsed_bounds].")
 	bounds = parsed_bounds = list(1.#INF, 1.#INF, 1.#INF, -1.#INF, -1.#INF, -1.#INF)
+	log_mapping("Bounds on New: [bounds].")
 	var/stored_index = 1
 
 	//multiz lool
@@ -129,8 +131,11 @@
 
 	// Indicate failure to parse any coordinates by nulling bounds
 	if(bounds[1] == 1.#INF)
+		log_mapping("Bounds set to null.")
 		bounds = null
+	log_mapping("PRE-END of NEW: parsed: [parsed_bounds] bounds: [bounds]")
 	parsed_bounds = bounds
+	log_mapping("POST-END of NEW: parsed: [parsed_bounds] bounds: [bounds]")
 
 /// Load the parsed map into the world. See [/proc/load_map] for arguments.
 /datum/parsed_map/proc/load(x_offset, y_offset, z_offset, cropMap, no_changeturf, x_lower, x_upper, y_lower, y_upper, placeOnTop)
