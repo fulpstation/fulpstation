@@ -65,10 +65,12 @@
 
 	//multiz lool
 	while(dmmRegex.Find(tfile, stored_index))
+		log_mapping("dmmRegex found: [tfile] [stored_index].")
 		stored_index = dmmRegex.next
 
 		// "aa" = (/type{vars=blah})
 		if(dmmRegex.group[1]) // Model
+			log_mapping("dmmRegex found: group 1.")
 			var/key = dmmRegex.group[1]
 			if(grid_models[key]) // Duplicate model keys are ignored in DMMs
 				continue
@@ -82,6 +84,7 @@
 
 		// (1,1,1) = {"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
 		else if(dmmRegex.group[3]) // Coords
+			log_mapping("dmmRegex found: group 3.")
 			if(!key_len)
 				CRASH("Coords before model definition in DMM")
 
