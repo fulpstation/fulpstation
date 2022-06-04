@@ -117,13 +117,13 @@
 	map_file = json["map_file"]
 	// "map_file": "MetaStation.dmm"
 	if (istext(map_file))
-		if (!fexists("_maps/[map_path]/[map_file]"))
+		if (!fexists("[map_path]/[map_file]"))
 			log_world("Map file ([map_path]/[map_file]) does not exist!")
 			return
 	// "map_file": ["Lower.dmm", "Upper.dmm"]
 	else if (islist(map_file))
 		for (var/file in map_file)
-			if (!fexists("_maps/[map_path]/[file]"))
+			if (!fexists("[map_path]/[file]"))
 				log_world("Map file ([map_path]/[file]) does not exist!")
 				return
 	else
@@ -194,10 +194,10 @@
 
 /datum/map_config/proc/GetFullMapPaths()
 	if (istext(map_file))
-		return list("_maps/[map_path]/[map_file]")
+		return list("[map_path]/[map_file]")
 	. = list()
 	for (var/file in map_file)
-		. += "_maps/[map_path]/[file]"
+		. += "[map_path]/[file]"
 
 /datum/map_config/proc/MakeNextMap()
 	return config_filename == PATH_TO_NEXT_MAP_JSON || fcopy(config_filename, PATH_TO_NEXT_MAP_JSON)
