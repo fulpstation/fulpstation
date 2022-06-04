@@ -42,7 +42,7 @@
 	if(bounds)
 		width = bounds[MAP_MAXX] // Assumes all templates are rectangular, have a single Z level, and begin at 1,1,1
 		height = bounds[MAP_MAXY]
-		log_mapping("[src] loading height [height] witdh [width].")
+		log_mapping("[src] loading height [height] ([bounds[MAP_MAXX]]) witdh [width] (bounds[MAP_MAXY]).")
 		if(cache)
 			cached_map = parsed
 	return bounds
