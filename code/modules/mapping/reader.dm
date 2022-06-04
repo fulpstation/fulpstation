@@ -56,7 +56,6 @@
 		original_path = "[tfile]"
 		log_mapping("Original path: [original_path].")
 		tfile = file2text(tfile)
-		log_mapping("Original tfile: [tfile].")
 	else if(isnull(tfile))
 		// create a new datum without loading a map
 		return
