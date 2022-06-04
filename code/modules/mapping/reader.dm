@@ -65,7 +65,7 @@
 
 	//multiz lool
 	while(dmmRegex.Find(tfile, stored_index))
-		log_mapping("dmmRegex found: [tfile] [stored_index].")
+		log_mapping("dmmRegex found: [stored_index].")
 		stored_index = dmmRegex.next
 
 		// "aa" = (/type{vars=blah})
