@@ -58,6 +58,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 /obj/docking_port/mobile/supply/register()
 	. = ..()
 	SSshuttle.supply = src
+	log_mapping("[src] properly registered as supply")
 
 /obj/docking_port/mobile/supply/canMove()
 	if(is_station_level(z))

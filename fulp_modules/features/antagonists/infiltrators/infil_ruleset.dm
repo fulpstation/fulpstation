@@ -1,5 +1,6 @@
 /datum/dynamic_ruleset/midround/from_ghosts/infiltrator
 	name = "Infiltrator"
+	midround_ruleset_style = MIDROUND_RULESET_STYLE_LIGHT
 	antag_datum = /datum/antagonist/traitor/infiltrator
 	antag_flag = ROLE_INFILTRATOR
 	enemy_roles = list(

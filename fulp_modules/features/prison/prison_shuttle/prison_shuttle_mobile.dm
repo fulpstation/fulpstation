@@ -13,6 +13,8 @@
 
 /obj/docking_port/mobile/prison/register()
 	. = ..()
+	if(SSshuttle.prison_shuttle)
+		log_mapping("More than one prison shuttle docking_port placed on map! Ignoring duplicates.")
 	SSshuttle.prison_shuttle = src
 
 /obj/docking_port/mobile/prison/unregister()

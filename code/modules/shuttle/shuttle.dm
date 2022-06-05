@@ -430,6 +430,7 @@
 			SSshuttle.assoc_mobile[id] = 1
 
 	SSshuttle.mobile_docking_ports += src
+	log_mapping("[src] properly registered")
 
 /obj/docking_port/mobile/unregister()
 	. = ..()

@@ -164,7 +164,7 @@
 	A.adjustStaminaLoss(20)
 	if(prob(60) && !D.stat)
 		D.Paralyze(3 SECONDS)
-		D.Jitter(5 SECONDS)
+		D.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	/// Tell them in big text that they failed, since the effects aren't instantly visible like the others.
 	else
 		to_chat(A, span_userdanger("You fail to stun [D]!"))

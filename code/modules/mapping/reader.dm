@@ -54,6 +54,7 @@
 /datum/parsed_map/New(tfile, x_lower = -INFINITY, x_upper = INFINITY, y_lower = -INFINITY, y_upper=INFINITY, measureOnly=FALSE)
 	if(isfile(tfile))
 		original_path = "[tfile]"
+		log_mapping("Original path: [original_path].")
 		tfile = file2text(tfile)
 	else if(isnull(tfile))
 		// create a new datum without loading a map
@@ -64,10 +65,12 @@
 
 	//multiz lool
 	while(dmmRegex.Find(tfile, stored_index))
+		log_mapping("dmmRegex found: [stored_index].")
 		stored_index = dmmRegex.next
 
 		// "aa" = (/type{vars=blah})
 		if(dmmRegex.group[1]) // Model
+			log_mapping("dmmRegex found: group 1.")
 			var/key = dmmRegex.group[1]
 			if(grid_models[key]) // Duplicate model keys are ignored in DMMs
 				continue
@@ -81,6 +84,7 @@
 
 		// (1,1,1) = {"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
 		else if(dmmRegex.group[3]) // Coords
+			log_mapping("dmmRegex found: group 3.")
 			if(!key_len)
 				CRASH("Coords before model definition in DMM")
 
@@ -129,6 +133,7 @@
 
 	// Indicate failure to parse any coordinates by nulling bounds
 	if(bounds[1] == 1.#INF)
+		log_mapping("Bounds set to null.")
 		bounds = null
 	parsed_bounds = bounds
 
