@@ -52,6 +52,7 @@ export const DmMapsIncludeTarget = new Juke.Target({
     ];
     const content = folders
       .map((file) => file.replace('_maps/', ''))
+      .map((file) => file.replace('fulp_modules/', ''))
       .map((file) => `#include "${file}"`)
       .join('\n') + '\n';
     fs.writeFileSync('_maps/templates.dm', content);
