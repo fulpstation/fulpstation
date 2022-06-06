@@ -15,7 +15,7 @@
 
 	// Config actually from the JSON - should default to Meta
 	var/map_name = "Meta Station"
-	var/map_path = "_maps/map_files/MetaStation"
+	var/map_path = "map_files/MetaStation"
 	var/map_file = "MetaStation.dmm"
 
 	var/traits = null
@@ -35,6 +35,8 @@
 	var/job_changes = list()
 	/// List of additional areas that count as a part of the library
 	var/library_areas = list()
+	/// What message shows up when the orbit is shifted.
+	var/orbit_shift_replacement = "Attention crew, it appears that someone on your station has shifted your orbit into more dangerous territory."
 
 /**
  * Proc that simply loads the default map config, which should always be functional.
@@ -117,13 +119,13 @@
 	map_file = json["map_file"]
 	// "map_file": "MetaStation.dmm"
 	if (istext(map_file))
-		if (!fexists("[map_path]/[map_file]"))
+		if (!fexists("_maps/[map_path]/[map_file]"))
 			log_world("Map file ([map_path]/[map_file]) does not exist!")
 			return
 	// "map_file": ["Lower.dmm", "Upper.dmm"]
 	else if (islist(map_file))
 		for (var/file in map_file)
-			if (!fexists("[map_path]/[file]"))
+			if (!fexists("_maps/[map_path]/[file]"))
 				log_world("Map file ([map_path]/[file]) does not exist!")
 				return
 	else
@@ -166,6 +168,9 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
+	if("orbit_shift_replacement" in json)
+		orbit_shift_replacement = json["orbit_shift_replacement"]
+
 	if ("minetype" in json)
 		minetype = json["minetype"]
 
@@ -194,10 +199,10 @@
 
 /datum/map_config/proc/GetFullMapPaths()
 	if (istext(map_file))
-		return list("[map_path]/[map_file]")
+		return list("_maps/[map_path]/[map_file]")
 	. = list()
 	for (var/file in map_file)
-		. += "[map_path]/[file]"
+		. += "_maps/[map_path]/[file]"
 
 /datum/map_config/proc/MakeNextMap()
 	return config_filename == PATH_TO_NEXT_MAP_JSON || fcopy(config_filename, PATH_TO_NEXT_MAP_JSON)
