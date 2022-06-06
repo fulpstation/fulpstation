@@ -228,7 +228,7 @@ Used by the AI doomsday and the self-destruct nuke.
 	var/total_z = 0
 	var/list/parsed_maps = list()
 	for (var/file in files)
-		var/full_path = ""_maps/[path]/[file]""
+		var/full_path = "[path]/[file]"
 		var/datum/parsed_map/pm = new(file(full_path))
 		var/bounds = pm?.bounds
 		if (!bounds)
