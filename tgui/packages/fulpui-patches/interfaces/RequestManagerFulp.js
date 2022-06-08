@@ -5,10 +5,10 @@
  */
 
 import { decodeHtmlEntities } from 'common/string';
-import { useBackend, useLocalState } from '../backend';
-import { Button, Input, Section, Table } from '../components';
-import { Popper } from '../components/Popper';
-import { Window } from '../layouts';
+import { useBackend, useLocalState } from '../../tgui/backend';
+import { Button, Input, Section, Table } from '../../tgui/components';
+import { Popper } from '../../tgui/components/Popper';
+import { Window } from '../../tgui/layouts';
 
 export const RequestManagerFulp = (props, context) => {
   const { act, data } = useBackend(context);
