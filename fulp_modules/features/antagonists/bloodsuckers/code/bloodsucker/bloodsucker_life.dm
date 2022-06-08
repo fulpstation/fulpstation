@@ -20,6 +20,8 @@
 	INVOKE_ASYNC(src, .proc/HandleTorpor)
 	INVOKE_ASYNC(src, .proc/UpdateBlood)
 
+	INVOKE_ASYNC(src, .proc/update_hud)
+
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
 		var/area/current_area = get_area(owner.current)
@@ -40,7 +42,6 @@
 
 /datum/antagonist/bloodsucker/proc/AddBloodVolume(value)
 	bloodsucker_blood_volume = clamp(bloodsucker_blood_volume + value, 0, max_blood_volume)
-	update_hud()
 
 /datum/antagonist/bloodsucker/proc/AddHumanityLost(value)
 	if(humanity_lost >= 500)
@@ -376,7 +377,6 @@
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
 	FreeAllVassals()
-	var/dust_timer
 	// If we have no body, end here.
 	if(!owner.current || dust_timer)
 		return
@@ -407,7 +407,7 @@
 		span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
 		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 		span_hear("<span class='italics'>You hear a wet, bursting sound."))
-	owner.current.gib(TRUE, FALSE, FALSE)
+	dust_timer = addtimer(CALLBACK(owner.current, /mob/living.proc/gib, TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 
 
 // Bloodsuckers moodlets //

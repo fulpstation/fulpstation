@@ -68,6 +68,8 @@
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
+	/// If we're currently getting dusted, we won't final death repeatedly.
+	var/dust_timer
 
 	///Blood display HUD
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display

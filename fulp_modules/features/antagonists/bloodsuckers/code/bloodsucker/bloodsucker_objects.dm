@@ -52,31 +52,15 @@
 // 		HEART: OVERWRITE	//
 // 		HEART 		//
 /obj/item/organ/heart/vampheart
-	beating = 0
-	var/fakingit = 0
+	beating = FALSE
 
 /obj/item/organ/heart/vampheart/Restart()
-	beating = 0	// DONT run ..() -- We don't want to start beating again.
-	return 0
-
-/obj/item/organ/heart/vampheart/Stop()
-	fakingit = 0
-	return ..()
+	. = ..()
+	beating = FALSE
 
 /obj/item/organ/heart/vampheart/proc/FakeStart()
-	fakingit = 1 // We're pretending to beat, to fool people.
-
-/// Bloodsuckers don't have a heartbeat at all when stopped (default is "an unstable")
-/obj/item/organ/heart/vampheart/HeartStrengthMessage()
-	if(fakingit)
-		return "a healthy"
-	return span_danger("no")
-
-/// Proc for the default (Non-Bloodsucker) Heart!
-/obj/item/organ/heart/proc/HeartStrengthMessage()
-	if(beating)
-		return "a healthy"
-	return span_danger("an unstable")
+	// faking it
+	beating = TRUE
 
 //////////////////////
 //      EYES        //
