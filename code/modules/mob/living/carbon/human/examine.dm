@@ -261,12 +261,7 @@
 	var/apparent_blood_volume = blood_volume
 	if(skin_tone == "albino")
 		apparent_blood_volume -= 150 // enough to knock you down one tier
-	// Fulp edit START - Bloodsuckers
-	var/bloodDesc = ShowAsPaleExamine(user, apparent_blood_volume)
-	if(bloodDesc != "hide_blood_volume")
-		msg += bloodDesc
-	else switch(apparent_blood_volume)
-	// Fulp edit END
+	switch(apparent_blood_volume)
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
 			msg += "[t_He] [t_has] pale skin.\n"
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)

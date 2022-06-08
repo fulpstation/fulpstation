@@ -160,8 +160,6 @@
 		return TRUE
 	if(stat >= UNCONSCIOUS)
 		return TRUE
-	if(blood_volume <= 0)
-		return TRUE
 	if(HAS_TRAIT(src, TRAIT_NODEATH))
 		return TRUE
 	return FALSE
