@@ -15,7 +15,7 @@
 
 	// Config actually from the JSON - should default to Meta
 	var/map_name = "Meta Station"
-	var/map_path = "_maps/map_files/MetaStation"
+	var/map_path = "map_files/MetaStation"
 	var/map_file = "MetaStation.dmm"
 
 	var/traits = null
