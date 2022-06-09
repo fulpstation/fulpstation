@@ -6,7 +6,6 @@
  * CARGO
  */
 /datum/map_template/shuttle/cargo/fulp
-	prefix = "fulp_modules/mapping/shuttles/cargo/"
 
 /datum/map_template/shuttle/cargo/fulp/selene // Selenestation
 	suffix = "selene"
@@ -24,14 +23,12 @@
  * ARRIVALS
  */
 /datum/map_template/shuttle/arrival/fulp
-	prefix = "fulp_modules/mapping/shuttles/arrival/"
 
 /datum/map_template/shuttle/arrival/fulp/selene
 	suffix = "selene"
 	name = "arrival shuttle (Selene)"
 
 /datum/map_template/shuttle/arrival/fulp/solitaire // Solitairestation
-	prefix = "fulp_modules/mapping/shuttles/arrival/"
 	suffix = "solitaire"
 	name = "arrival shuttle (Solitaire)"
 
@@ -39,7 +36,6 @@
  * MINING
  */
 /datum/map_template/shuttle/mining/fulp
-	prefix = "fulp_modules/mapping/shuttles/mining/"
 
 /datum/map_template/shuttle/mining/fulp/selene // Selenestation
 	suffix = "selene"
