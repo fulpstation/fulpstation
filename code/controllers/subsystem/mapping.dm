@@ -544,7 +544,6 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 		else
 			if(reserve.Reserve(width, height, z))
 				return reserve
-		log_mapping("returned [reserve] - reserve.Reserve isn't properly working.")
 	QDEL_NULL(reserve)
 
 //This is not for wiping reserved levels, use wipe_reservations() for that.
