@@ -55,6 +55,7 @@
  * EMERGENCY SHUTTLE
  */
 /datum/map_template/shuttle/emergency/fulp
+	prefix = "fulp_modules/mapping/shuttles/evac/"
 	suffix = "selene"
 	name = "Selene Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
