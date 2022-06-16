@@ -41315,7 +41315,9 @@
 /turf/open/floor/engine/vacuum,
 /area/station/science/mixing/chamber)
 "bXQ" = (
-/obj/machinery/air_sensor/ordnance_mixing_tank,
+/obj/machinery/air_sensor{
+	chamber_id = "ordnancegas1"
+	},
 /turf/open/floor/engine/vacuum,
 /area/station/science/mixing/chamber)
 "bXS" = (
@@ -66100,6 +66102,11 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/camera/directional/south{
+	c_tag = "Ordnance Lab E";
+	name = "Research Camera";
+	network = list("ss13","rd")
+	},
 /turf/open/floor/iron/dark,
 /area/station/science/mixing)
 "jaf" = (
@@ -69878,6 +69885,18 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/warehouse)
+"oFT" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/camera/directional/north{
+	c_tag = "Ordnance Lab N";
+	name = "science camera";
+	network = list("ss13","rd")
+	},
+/turf/open/floor/iron/dark,
+/area/station/science/mixing)
 "oGd" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable,
@@ -72609,6 +72628,11 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
+/obj/machinery/camera/directional/south{
+	c_tag = "Ordnance Lab W";
+	name = "Research Camera";
+	network = list("ss13","rd")
+	},
 /turf/open/floor/iron/dark,
 /area/station/science/mixing)
 "tep" = (
@@ -73795,16 +73819,17 @@
 /area/station/security/prison/visit)
 "vhW" = (
 /obj/structure/table,
-/obj/item/reagent_containers/food/drinks/bottle/beer,
-/obj/item/reagent_containers/food/drinks/bottle/beer,
-/obj/item/reagent_containers/food/drinks/bottle/beer,
-/obj/item/reagent_containers/food/drinks/bottle/beer,
-/obj/item/reagent_containers/food/drinks/bottle/beer,
-/obj/item/reagent_containers/food/drinks/bottle/beer,
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
 	dir = 6;
 	name = "research purple"
+	},
+/obj/item/computer_hardware/hard_drive/portable{
+	pixel_x = 7;
+	pixel_y = 2
+	},
+/obj/item/computer_hardware/hard_drive/portable{
+	pixel_x = -2
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/mixing)
@@ -125563,7 +125588,7 @@ bRN
 bSZ
 jAX
 bVN
-vGJ
+oFT
 vGJ
 xLm
 fSt
