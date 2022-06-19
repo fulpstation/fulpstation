@@ -43,7 +43,7 @@
 		REMOVE_TRAIT(user, traits, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 	// Handle organs
-	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/internal/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.FakeStart()
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
@@ -67,7 +67,7 @@
 	REMOVE_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 
 	// Handle organs
-	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/internal/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.Stop()
 	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)

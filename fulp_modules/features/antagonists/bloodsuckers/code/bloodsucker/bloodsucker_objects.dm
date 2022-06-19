@@ -35,9 +35,9 @@
 /* // Removed - Replaced with HealVampireOrgans()
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
 	var/obj/item/organ/heart/vampiricheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(vampiricheart, /obj/item/organ/heart/vampheart) || !istype(vampiricheart, /obj/item/organ/heart/demon) || !istype(vampiricheart, /obj/item/organ/heart/cursed))
+	if(!istype(vampiricheart, /obj/item/organ/internal/heart/vampheart) || !istype(vampiricheart, /obj/item/organ/heart/demon) || !istype(vampiricheart, /obj/item/organ/heart/cursed))
 		qdel(vampiricheart)
-		var/obj/item/organ/heart/vampheart/vampiricheart = new
+		var/obj/item/organ/internal/heart/vampheart/vampiricheart = new
 		vampiricheart.Insert(owner.current)
 		/// Now... stop beating!
 		vampiricheart.Stop()
@@ -51,14 +51,14 @@
 
 // 		HEART: OVERWRITE	//
 // 		HEART 		//
-/obj/item/organ/heart/vampheart
+/obj/item/organ/internal/heart/vampheart
 	beating = FALSE
 
-/obj/item/organ/heart/vampheart/Restart()
+/obj/item/organ/internal/heart/vampheart/Restart()
 	. = ..()
 	beating = FALSE
 
-/obj/item/organ/heart/vampheart/proc/FakeStart()
+/obj/item/organ/internal/heart/vampheart/proc/FakeStart()
 	// faking it
 	beating = TRUE
 
