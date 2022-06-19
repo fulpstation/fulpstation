@@ -1,0 +1,49 @@
+/datum/species/human/felinid
+	changesource_flags = MIRROR_BADMIN | MIRROR_PRIDE | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
+	var/brain_damage_to_give = 199
+	var/give_traumas = TRUE
+
+/datum/species/human/felinid/on_species_gain(mob/living/carbon/felifriend, datum/species/old_species, pref_load)
+	. = ..()
+	if(brain_damage_to_give)
+		felifriend.setOrganLoss(ORGAN_SLOT_BRAIN, brain_damage_to_give) //Fuck you
+	if(give_traumas)
+		felifriend.gain_trauma_type(BRAIN_TRAUMA_SEVERE, TRAUMA_RESILIENCE_LOBOTOMY) //Fuck you even more
+		felifriend.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_LOBOTOMY)
+
+/datum/species/human/felinid/nobraindamage
+	id = "felinid-nobraindamage"
+	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | ERT_SPAWN
+	brain_damage_to_give = 0
+	give_traumas = FALSE
+
+/obj/item/clothing/head/kitty
+	desc = "A pair of kitty ears. Meow! Prone to causing the user to behave more absent-minded."
+	equip_delay_other = 20 MINUTES
+	equip_delay_self = 5 SECONDS
+	clothing_flags = SNUG_FIT | ANTI_TINFOIL_MANEUVER | DANGEROUS_OBJECT
+	clothing_traits = list(TRAIT_UNINTELLIGIBLE_SPEECH, TRAIT_CLUMSY, TRAIT_DUMB)
+
+/obj/item/clothing/head/kitty/proc/at_peace_check(mob/user)
+	if(iscarbon(user))
+		var/mob/living/carbon/carbon_user = user
+		if(src == carbon_user.head)
+			to_chat(user, span_warning("You feel at peace as a cat. <b style='color:pink'>Why would you want anything else?</b>"))
+			return TRUE
+	return FALSE
+
+/obj/item/clothing/head/kitty/attack_hand(mob/user, list/modifiers)
+	if(at_peace_check(user))
+		return
+	return ..()
+
+/obj/item/clothing/head/kitty/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
+	if(at_peace_check(usr))
+		return
+	return ..()
+
+/obj/item/clothing/head/kitty/equipped(mob/living/carbon/human/user, slot)
+	. = ..()
+	if(slot != ITEM_SLOT_HEAD)
+		return
+	user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 75, 199)
