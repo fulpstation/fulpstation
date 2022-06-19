@@ -15,6 +15,11 @@
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 
+- tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
+- tgui/yarn.lock > Our lockfile is slightly different - we have an additional workspace package, "fulpui-patches"
+
+- tgui/packages/fulpui_patches > Adds all Fulp TGUI files
+
 ## All Fulp files not contained within /fulp_modules/
 
 ### Maps
@@ -27,7 +32,6 @@
 - _maps/pubbystation.json
 
 ### TGUI
-- tgui/packages/tgui/interfaces/KindredArchives.js
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsuckerbreakout.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/monsterhunter.ts
@@ -35,5 +39,3 @@
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/beefman_features.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/character_preferences/antag_tips.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/ghostinfiltrator.ts
-- tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
-- tgui/yarn.lock > Our lockfile is slightly different - we have an additional workspace package, "fulpui-patches"
