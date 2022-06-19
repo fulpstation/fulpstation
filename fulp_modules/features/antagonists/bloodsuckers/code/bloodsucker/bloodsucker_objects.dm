@@ -43,7 +43,7 @@
 		vampiricheart.Stop()
 */
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	var/obj/item/organ/heart/newheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/internal/heart/newheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
 	if(newheart)
 		qdel(newheart)
 	newheart = new()
@@ -337,7 +337,7 @@
 		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
 		return
 	to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
-	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	user.blur_eyes(5)
 	eyes.applyOrganDamage(5)
 

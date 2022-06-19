@@ -58,7 +58,7 @@
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1000)
 	build_path = /obj/item/holosign_creator/robot_seat/restaurant/prison
 	category = list("Equipment")
-	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
 /datum/design/board/restaurant_portal/prison
 	name = "Machine Design (Prison Restaurant Portal)"

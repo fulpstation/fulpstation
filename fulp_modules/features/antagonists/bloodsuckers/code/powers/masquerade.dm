@@ -42,7 +42,6 @@
 	for(var/traits in bloodsuckerdatum_power.bloodsucker_traits)
 		REMOVE_TRAIT(user, traits, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
-
 	// Handle organs
 	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
@@ -71,7 +70,7 @@
 	var/obj/item/organ/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.Stop()
-	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
 	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))

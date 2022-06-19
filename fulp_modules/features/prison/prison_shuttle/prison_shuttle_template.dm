@@ -1,5 +1,4 @@
 /datum/map_template/shuttle/prison
-	prefix = "fulp_modules/mapping/prison_shuttles/"
 	port_id = "prison"
 	suffix = "default"
 	name = "Base Shuttle Template (Prison)"
