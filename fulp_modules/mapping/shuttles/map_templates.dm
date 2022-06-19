@@ -1,9 +1,13 @@
-// We set Fulp shuttles to use our prefix instead - Selene is our base just beacuse they have them all.
-// NOTE: Cargo and Emergency shuttle is added via the map's .json - The rest is done in the map itself!
+/**
+ * NOTE: Cargo and Emergency shuttle is added via the map's .json - The rest is done in the map itself!
+ */
 
-/// Cargo
+/**
+ * CARGO
+ */
 /datum/map_template/shuttle/cargo/fulp
-	prefix = "fulp_modules/mapping/shuttles/cargo/"
+
+/datum/map_template/shuttle/cargo/fulp/selene // Selenestation
 	suffix = "selene"
 	name = "supply shuttle (Selene)"
 
@@ -15,32 +19,42 @@
 	suffix = "solitaire"
 	name = "cargo ferry (Solitaire)"
 
-/// Arrival
+/**
+ * ARRIVALS
+ */
 /datum/map_template/shuttle/arrival/fulp
-	prefix = "fulp_modules/mapping/shuttles/arrival/"
+
+/datum/map_template/shuttle/arrival/fulp/selene
 	suffix = "selene"
 	name = "arrival shuttle (Selene)"
 
 /datum/map_template/shuttle/arrival/fulp/solitaire // Solitairestation
-	prefix = "fulp_modules/mapping/shuttles/arrival/"
 	suffix = "solitaire"
 	name = "arrival shuttle (Solitaire)"
 
-/// Mining
+/**
+ * MINING
+ */
 /datum/map_template/shuttle/mining/fulp
-	prefix = "fulp_modules/mapping/shuttles/mining/"
+
+/datum/map_template/shuttle/mining/fulp/selene // Selenestation
 	suffix = "selene"
 	name = "mining shuttle (Selene)"
 
-/// Ferry
-/datum/map_template/shuttle/ferry/fulp // Solitairestation
+/**
+ * FERRY
+ */
+/datum/map_template/shuttle/ferry/fulp
 	prefix = "fulp_modules/mapping/shuttles/ferry/"
+
+/datum/map_template/shuttle/ferry/fulp/solitaire // Solitairestation
 	suffix = "solitaire"
 	name = "ferry (Solitaire)"
 
-/// Emergency
+/**
+ * EMERGENCY SHUTTLE
+ */
 /datum/map_template/shuttle/emergency/fulp
-	prefix = "fulp_modules/mapping/shuttles/evac/"
 	suffix = "selene"
 	name = "Selene Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4

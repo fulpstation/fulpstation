@@ -36,7 +36,7 @@
 	var/mob/living/carbon/user = owner
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	vassaldatum.master.AddBloodVolume(-1)
-	user.Jitter(5)
+	user.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	user.adjustStaminaLoss(bloodcost * 1.1)
 	user.adjustBruteLoss(-2.5)
 	user.adjustToxLoss(-2, forced = TRUE)

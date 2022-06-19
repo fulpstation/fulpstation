@@ -31,7 +31,7 @@
 			continue
 		if(is_special_character(all_players))
 			continue
-		if(!all_players.getorgan(/obj/item/organ/brain))
+		if(!all_players.getorgan(/obj/item/organ/internal/brain))
 			continue
 		all_players.mind.add_antag_datum(/datum/antagonist/monsterhunter)
 		message_admins("MONSTERHUNTER NOTICE: [all_players] has awoken as a Monster Hunter.")
@@ -41,6 +41,7 @@
 /datum/dynamic_ruleset/midround/monsterhunter
 	name = "Monster Hunter"
 	antag_datum = /datum/antagonist/monsterhunter
+	midround_ruleset_style = MIDROUND_RULESET_STYLE_LIGHT
 	antag_flag = ROLE_MONSTERHUNTER
 	weight = 0
 	cost = 200

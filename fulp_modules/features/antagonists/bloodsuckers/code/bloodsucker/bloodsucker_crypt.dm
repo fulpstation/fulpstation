@@ -333,7 +333,7 @@
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
-		target.Jitter(15)
+		target.set_timed_status_effect(15 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 		INVOKE_ASYNC(target, /mob.proc/emote, "laugh")
 		//remove_victim(target) // Remove on CLICK ONLY!
 	use_lock = FALSE
@@ -382,7 +382,7 @@
 		span_userdanger("[user] performs a ritual, spilling some blood from your [target_string], shaking you up!"),
 	)
 	INVOKE_ASYNC(target, /mob.proc/emote, "scream")
-	target.Jitter(5)
+	target.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (selected_bodypart ? selected_bodypart.body_zone : null)) // take_overall_damage(6,0)
 	return TRUE
 

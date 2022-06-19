@@ -24,6 +24,7 @@
 		TRAIT_CAN_STRIP,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_GENELESS,
+		TRAIT_LITERATE,
 		TRAIT_RESISTCOLD,
 		TRAIT_SLEEPIMMUNE,
 	)
@@ -47,7 +48,7 @@
 	cellulardamage_desc = "meat degradation"
 
 	species_language_holder = /datum/language_holder/russian
-	mutanttongue = /obj/item/organ/tongue/beefman
+	mutanttongue = /obj/item/organ/internal/tongue/beefman
 	skinned_type = /obj/item/food/meatball
 	meat = /obj/item/food/meat/slab
 	toxic_food = DAIRY | PINEAPPLE
@@ -315,7 +316,7 @@
 
 	// Pry it off...
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
+		var/obj/item/organ/internal/tongue/tongue = user.getorgan(/obj/item/organ/internal/tongue)
 		if(!tongue)
 			to_chat("You do not have a tongue!")
 			return FALSE
@@ -352,7 +353,7 @@
 	if(!(target_zone in tearable_limbs))
 		return FALSE
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/tongue/tongue = user.getorgan(/obj/item/organ/tongue)
+		var/obj/item/organ/internal/tongue/tongue = user.getorgan(/obj/item/organ/internal/tongue)
 		if(tongue)
 			to_chat("You already have a tongue!")
 			return FALSE
@@ -364,7 +365,7 @@
 		user.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new tongue!"),
 			span_notice("The [meat] successfully fuses with your mouth!"))
-		var/obj/item/organ/tongue/beefman/new_tongue
+		var/obj/item/organ/internal/tongue/beefman/new_tongue
 		new_tongue = new()
 		new_tongue.Insert(user, special = TRUE)
 		qdel(meat)
