@@ -14921,6 +14921,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 2
 	},
+/obj/machinery/light/directional/north,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "aHJ" = (
@@ -17467,7 +17468,7 @@
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/cmo)
 "aOz" = (
-/obj/effect/spawner/structure/window/reinforced/tinted,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/station/medical/break_room)
 "aOA" = (
@@ -17483,18 +17484,15 @@
 	name = "Medical blue corner"
 	},
 /obj/structure/cable,
-/obj/machinery/door/airlock{
-	name = "Break Room"
-	},
 /obj/effect/mapping_helpers/airlock/access/all/medical/general,
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/glass{
+	name = "Break Room"
+	},
 /turf/open/floor/iron/dark/textured,
 /area/station/medical/break_room)
 "aOB" = (
-/obj/machinery/door/airlock/medical{
-	name = "Medbay Coldroom Storage"
-	},
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 1;
@@ -17506,6 +17504,9 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/medical/general,
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/medical/glass{
+	name = "Coldroom Storage"
+	},
 /turf/open/floor/iron/freezer,
 /area/station/medical/medbay/central)
 "aOC" = (
@@ -22889,14 +22890,19 @@
 /turf/closed/wall,
 /area/station/medical/medbay/central)
 "bdL" = (
+/obj/item/radio/intercom/directional/west,
+/obj/item/kirbyplants/random,
+/turf/open/floor/carpet,
+/area/station/medical/psychology)
+"bdM" = (
+/obj/machinery/newscaster/directional/north,
 /obj/structure/chair/sofa/right{
 	desc = "Made of very expensive furs, probably from an endangered animal.";
 	name = "Luxurious sofa"
 	},
-/obj/item/radio/intercom/directional/west,
 /turf/open/floor/carpet,
 /area/station/medical/psychology)
-"bdM" = (
+"bdN" = (
 /obj/structure/chair/sofa/left{
 	desc = "Made of very expensive furs, probably from an endangered animal.";
 	name = "Luxurious sofa"
@@ -22904,16 +22910,7 @@
 /obj/item/toy/plush/moth{
 	name = "Moffee"
 	},
-/obj/machinery/newscaster/directional/north,
-/turf/open/floor/carpet,
-/area/station/medical/psychology)
-"bdN" = (
-/obj/structure/reagent_dispensers/water_cooler,
-/obj/machinery/camera/directional/north{
-	c_tag = "Medbay - Psychologist's Office";
-	name = "Psychology Camera";
-	network = list("ss13","medbay")
-	},
+/obj/machinery/light/directional/north,
 /turf/open/floor/carpet,
 /area/station/medical/psychology)
 "bdO" = (
@@ -23347,17 +23344,16 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "bfd" = (
-/obj/structure/closet/secure_closet/psychology,
-/obj/effect/turf_decal/siding/wood{
-	dir = 1
-	},
-/obj/item/toy/figure/psychologist{
-	pixel_y = 18
-	},
-/obj/machinery/power/apc/auto_name/directional/east,
 /obj/structure/cable,
-/turf/open/floor/wood,
-/area/station/medical/psychology)
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 10
+	},
+/turf/open/floor/plating,
+/area/station/maintenance/department/medical)
 "bfe" = (
 /obj/structure/closet/crate{
 	icon_state = "crateopen"
@@ -23821,7 +23817,6 @@
 /area/station/service/chapel)
 "bgy" = (
 /obj/machinery/light_switch/directional/west,
-/obj/machinery/light/directional/west,
 /turf/open/floor/wood,
 /area/station/medical/psychology)
 "bgz" = (
@@ -23843,10 +23838,14 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
 "bgE" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/plating,
-/area/station/maintenance/department/medical)
+/obj/structure/reagent_dispensers/water_cooler,
+/obj/machinery/camera/directional/north{
+	c_tag = "Medbay - Psychologist's Office";
+	name = "Psychology Camera";
+	network = list("ss13","medbay")
+	},
+/turf/open/floor/carpet,
+/area/station/medical/psychology)
 "bgF" = (
 /obj/effect/decal/remains/xeno,
 /turf/open/floor/plating,
@@ -24275,9 +24274,7 @@
 /area/station/medical/psychology)
 "bhQ" = (
 /obj/structure/filingcabinet,
-/obj/structure/sign/poster/official/corporate_perks_vacation{
-	pixel_x = 32
-	},
+/obj/machinery/light/directional/south,
 /turf/open/floor/wood,
 /area/station/medical/psychology)
 "bhR" = (
@@ -24326,6 +24323,8 @@
 	pixel_x = 30
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "bhY" = (
@@ -24851,11 +24850,17 @@
 /turf/open/floor/carpet,
 /area/station/hallway/secondary/entry)
 "bjv" = (
-/obj/effect/spawner/random/maintenance,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/turf/open/floor/plating,
-/area/station/maintenance/department/medical)
+/obj/machinery/power/apc/auto_name/directional/east,
+/obj/effect/turf_decal/siding/wood{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/structure/chair/comfy/brown{
+	color = "#4169e1";
+	dir = 8
+	},
+/turf/open/floor/wood,
+/area/station/medical/psychology)
 "bjw" = (
 /obj/docking_port/stationary{
 	dir = 8;
@@ -25916,6 +25921,7 @@
 	dir = 5
 	},
 /obj/structure/chair/stool/directional/south,
+/obj/effect/spawner/random/maintenance,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "bmy" = (
@@ -44714,14 +44720,8 @@
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
 "cjT" = (
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 10
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/medical)
+/turf/open/floor/wood,
+/area/station/medical/psychology)
 "cjU" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/siding/brown{
@@ -63318,9 +63318,11 @@
 /turf/closed/wall/r_wall,
 /area/station/medical/psychology)
 "gvH" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/door/airlock/maintenance{
+	name = "Psychology Maintenance"
+	},
 /obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/access/all/medical/psychology,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "gxs" = (
@@ -66590,11 +66592,11 @@
 /area/station/engineering/gravity_generator)
 "kYQ" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
-	dir = 4
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
@@ -70155,13 +70157,15 @@
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "pUf" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Psychology Maintenance"
+/obj/structure/sign/poster/official/corporate_perks_vacation{
+	pixel_x = 32
 	},
-/obj/structure/cable,
-/obj/effect/mapping_helpers/airlock/access/all/medical/psychology,
-/turf/open/floor/plating,
-/area/station/maintenance/department/medical)
+/obj/structure/closet/secure_closet/psychology,
+/obj/item/toy/figure/psychologist{
+	pixel_y = 18
+	},
+/turf/open/floor/wood,
+/area/station/medical/psychology)
 "pUx" = (
 /obj/effect/turf_decal/siding/green,
 /obj/machinery/power/apc/auto_name/directional/south,
@@ -72558,6 +72562,10 @@
 	name = "Pharmacy Desk";
 	req_access = list("pharmacy")
 	},
+/obj/structure/desk_bell{
+	pixel_x = -7;
+	pixel_y = 7
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
 "tpF" = (
@@ -73169,6 +73177,12 @@
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
 /obj/effect/spawner/random/decoration/glowstick,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "upA" = (
@@ -121809,7 +121823,7 @@ aEd
 aHx
 aKD
 aEd
-bdK
+aEd
 bdK
 bdK
 bdK
@@ -124130,14 +124144,14 @@ aQd
 aSF
 rCy
 aQK
-aHx
-aHx
-aHx
-aHx
-aHx
-aHx
-bah
 xjL
+bah
+aHx
+aHx
+aHx
+aHx
+aHx
+aHx
 aEd
 bdL
 oFi
@@ -124654,8 +124668,8 @@ aXy
 bwu
 aEd
 bdN
-bfd
-cBw
+oFi
+cjT
 bhQ
 aEd
 bla
@@ -124910,10 +124924,10 @@ aPX
 aXy
 bwu
 aEd
-aEd
-aEd
+bgE
+bjv
+cBw
 pUf
-aEd
 aEd
 bla
 bme
@@ -125165,13 +125179,13 @@ xXB
 aXQ
 aPX
 aXy
-cjT
-bgE
-bgE
-bgE
+bwu
+aEd
+aEd
+aEd
 gvH
-bnG
-bjv
+aEd
+aEd
 kYQ
 bmx
 aQK
@@ -125422,13 +125436,13 @@ sht
 aXR
 aPX
 bap
-aUl
-aUl
-aUl
-aUl
-aUl
+bfd
+brN
+brN
+brN
+brN
 bhX
-aUl
+brN
 upg
 bmy
 aQK
