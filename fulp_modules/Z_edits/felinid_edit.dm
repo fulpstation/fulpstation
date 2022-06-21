@@ -28,7 +28,7 @@
 	if(iscarbon(user))
 		var/mob/living/carbon/carbon_user = user
 		if(src == carbon_user.head)
-			to_chat(user, span_warning("You feel at peace as a cat. <b style='color:pink'>Why would you want anything else?</b>"))
+			to_chat(user, span_warning("<b style='color:pink'>You feel unwilling to remove [src].</b>"))
 			return TRUE
 	return FALSE
 
@@ -46,4 +46,7 @@
 	. = ..()
 	if(slot != ITEM_SLOT_HEAD)
 		return
-	user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 75, 199)
+	user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100, 199)
+
+/mob/living/carbon/human/species/felinid
+	race = /datum/species/human/felinid/nobraindamage
