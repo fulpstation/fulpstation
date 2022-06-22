@@ -21821,7 +21821,6 @@
 /area/station/medical/storage)
 "bap" = (
 /obj/structure/cable,
-/obj/structure/reagent_dispensers/watertank,
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
@@ -25257,10 +25256,6 @@
 "bkJ" = (
 /obj/machinery/door/firedoor,
 /obj/structure/table/reinforced,
-/obj/machinery/door/poddoor/preopen{
-	id = "chemlock-a";
-	name = "Chemistry Lockdown Door"
-	},
 /obj/machinery/door/window/right/directional/east{
 	name = "Pharmacy Desk";
 	req_access = list("pharmacy")
@@ -25268,6 +25263,10 @@
 /obj/structure/desk_bell{
 	pixel_x = -7;
 	pixel_y = -1
+	},
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "chemlock-a";
+	name = "Pharmacy Lockdown Shutter"
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
@@ -61259,9 +61258,9 @@
 /area/station/engineering/lobby)
 "dem" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/preopen{
+/obj/machinery/door/poddoor/shutters/preopen{
 	id = "chemlock-a";
-	name = "Chemistry Lockdown Door"
+	name = "Pharmacy Lockdown Shutter"
 	},
 /turf/open/floor/plating,
 /area/station/medical/medbay/lobby)
@@ -62496,9 +62495,9 @@
 /area/station/hallway/primary/port)
 "fiZ" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/preopen{
+/obj/machinery/door/poddoor/shutters/preopen{
 	id = "chemlock-b";
-	name = "Chemistry Lockdown Door"
+	name = "Pharmacy Lockdown Shutter"
 	},
 /turf/open/floor/plating,
 /area/station/medical/medbay/lobby)
@@ -63642,10 +63641,6 @@
 "haa" = (
 /obj/machinery/door/firedoor,
 /obj/structure/table/reinforced,
-/obj/machinery/door/poddoor/preopen{
-	id = "chemlock-b";
-	name = "Chemistry Lockdown Door"
-	},
 /obj/machinery/door/window/left/directional/east{
 	name = "Pharmacy Desk";
 	req_access = list("pharmacy")
@@ -63653,6 +63648,10 @@
 /obj/structure/desk_bell{
 	pixel_x = -7;
 	pixel_y = -1
+	},
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "chemlock-b";
+	name = "Pharmacy Lockdown Shutter"
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
@@ -64476,11 +64475,11 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
 "hTp" = (
-/obj/structure/closet/secure_closet/personal/patient,
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/bot_white{
 	color = "#52B4E9"
 	},
+/obj/machinery/smartfridge/organ,
 /turf/open/floor/iron/white,
 /area/station/medical/surgery/aft)
 "hTK" = (
@@ -72824,6 +72823,11 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/hallway/primary/port)
+"tKM" = (
+/obj/effect/turf_decal/trimline/blue/filled/line,
+/obj/structure/cable,
+/turf/open/floor/iron/white,
+/area/station/medical/medbay/central)
 "tQo" = (
 /obj/machinery/embedded_controller/radio/airlock_controller/incinerator_ordmix{
 	pixel_x = 32;
@@ -119233,7 +119237,7 @@ twB
 gjk
 cyY
 cDj
-tTW
+blP
 biP
 pDn
 blP
@@ -119489,8 +119493,8 @@ twB
 twB
 bdv
 cyY
-cDj
-tTW
+tKM
+blP
 cWg
 nNH
 blS
@@ -124111,7 +124115,7 @@ aHx
 aHx
 aHx
 aHx
-aHx
+bbA
 aEd
 bdL
 oFi
@@ -124833,7 +124837,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+aaq
 aaa
 aaa
 aaa
@@ -125361,7 +125365,7 @@ aaa
 aaa
 aaa
 aaa
-aaq
+aaa
 aaa
 aaa
 aaa
@@ -129210,7 +129214,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+aaq
 aaa
 aaa
 aaa
@@ -129734,7 +129738,7 @@ aaa
 aaa
 aaa
 aaa
-aaq
+aaa
 aaa
 aaa
 aaa
@@ -130777,7 +130781,6 @@ aaa
 aaa
 aaa
 aaa
-aaq
 aaa
 aaa
 aaa
@@ -130795,7 +130798,8 @@ aaa
 aaa
 aaa
 aaa
-aaq
+aaa
+aaa
 aaa
 aaa
 aaa
@@ -132317,7 +132321,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+aaq
 aaa
 aaa
 aaa
@@ -134126,7 +134130,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+aaq
 aaa
 aaa
 aaa
