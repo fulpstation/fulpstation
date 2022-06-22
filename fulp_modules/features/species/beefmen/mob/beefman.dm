@@ -250,7 +250,7 @@
 
 /mob/living/carbon/human/proc/adjust_beefman_bleeding(amount)
 	for(var/obj/item/bodypart/all_bodyparts as anything in bodyparts)
-		all_bodyparts.setBleedStacks(amount)
+		all_bodyparts.generic_bleedstacks = amount
 
 ///When interacting with another person, you will bleed over them.
 /datum/species/beefman/proc/bleed_over_target(mob/living/carbon/human/user, mob/living/carbon/human/target)
