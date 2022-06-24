@@ -5,6 +5,8 @@
 
 /datum/species/human/felinid/on_species_gain(mob/living/carbon/felifriend, datum/species/old_species, pref_load)
 	. = ..()
+	if(felifriend == typesof(var/mob/living/carbon/human/dummy)
+		return
 	if(brain_damage_to_give)
 		felifriend.setOrganLoss(ORGAN_SLOT_BRAIN, brain_damage_to_give) //Fuck you
 	if(give_traumas)
