@@ -59,7 +59,7 @@
  */
 /mob/living/carbon/human/dummy/consistent/setup_human_dna()
 	. = ..()
-	dna.features["beef_color"] = GLOB.color_list_beefman[BEEF_COLOR_MEDIUM_RARE]
+	dna.features["beef_color"] = "#e73f4e"
 	dna.features["beef_eyes"] = BEEF_EYES_OLIVES
 	dna.features["beef_mouth"] = BEEF_MOUTH_SMILE
-	dna.features["beef_trauma"] = GLOB.beefmen_traumas[BEEF_TRAUMA_STRANGERS]
+	dna.features["beef_trauma"] = /datum/brain_trauma/mild/phobia/strangers
