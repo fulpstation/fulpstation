@@ -837,17 +837,17 @@
  * Made by: Manray
  */
 
-/obj/item/clothing/under/texasman
+/obj/item/clothing/under/costume_2020/texasman
 	name = "texasman blue uniform"
 	desc = "Whoooowee, would ya look at that!"
 	icon_state = "texasman_blue"
 
-/obj/item/clothing/gloves/texasman
+/obj/item/clothing/gloves/costume_2020/texasman
 	name = "texasman gloves"
 	desc = "Giddy up!"
 	icon_state = "texasman_glove"
 
-/obj/item/clothing/under/texasman/red
+/obj/item/clothing/under/costume_2020/texasman/red
 	name = "texasman red uniform"
 	icon_state = "texasman_red"
 
