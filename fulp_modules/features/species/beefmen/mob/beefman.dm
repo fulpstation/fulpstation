@@ -14,10 +14,10 @@
 		HAS_BONE,
 	)
 	mutant_bodyparts = list(
-		"beefcolor" = "Medium Rare",
-		"beefeyes" = "Olives",
-		"beefmouth" = "Smile",
-		"beef_trauma" = "Strangers",
+		"beef_color" = BEEF_COLOR_MEDIUM_RARE,
+		"beef_eyes" = BEEF_EYES_OLIVES,
+		"beef_mouth" = BEEF_MOUTH_SMILE,
+		"beef_trauma" = BEEF_TRAUMA_STRANGERS,
 	)
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
@@ -96,17 +96,16 @@
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
 	. = ..()
-
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
-	user.bodytemperature = T20C
+	user.bodytemperature = bodytemp_normal
 
-	// Missing Defaults in DNA? Randomize!
-	proof_beefman_features(user.dna.features)
-	set_beef_color(user)
+	fixed_mut_color = user.dna.features["beef_color"]
 	user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
+		if(limb.limb_id != SPECIES_BEEFMAN)
+			continue
 		limb.update_limb(is_creating = TRUE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
@@ -148,9 +147,9 @@
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
-	features += "feature_beefcolor"
-	features += "feature_beefeyes"
-	features += "feature_beefmouth"
+	features += "feature_beef_color"
+	features += "feature_beef_eyes"
+	features += "feature_beef_mouth"
 	features += "feature_beef_trauma"
 
 	return features
@@ -257,10 +256,6 @@
 	if(user != target && user.is_bleeding())
 		target.add_mob_blood(user)
 
-///Called on Assign, or on Color Change (or any time proof_beefman_features() is used)
-/datum/species/beefman/proc/set_beef_color(mob/living/carbon/human/user)
-	fixed_mut_color = user.dna.features["beefcolor"]
-
 // Taken from _HELPERS/mobs.dm
 /proc/random_unique_beefman_name(attempts_to_find_unique_name = 10)
 	for(var/i in 1 to attempts_to_find_unique_name)
@@ -273,17 +268,6 @@
 	if(prob(50))
 		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.russian_names)]"
 	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beef_names)]"
-
-// Missing Defaults in DNA? Randomize!
-/proc/proof_beefman_features(list/inFeatures)
-	if(inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
-		inFeatures["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
-	if(inFeatures["beefeyes"] == null || inFeatures["beefeyes"] == "")
-		inFeatures["beefeyes"] = pick(GLOB.eyes_beefman)
-	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
-		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
-	if(inFeatures["beef_trauma"] == null || inFeatures["beef_trauma"] == "")
-		inFeatures["beef_trauma"] = GLOB.beefmen_traumas[pick(GLOB.beefmen_traumas)]
 
 /**
  * ATTACK PROCS

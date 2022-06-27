@@ -53,3 +53,13 @@
 		if(IS_ORGANIC_LIMB(chosen_bodypart))
 			amount += chosen_bodypart.burn_dam
 	return amount
+
+/**
+ * Adds our species' prefs to consistent dummies for unit tests
+ */
+/mob/living/carbon/human/dummy/consistent/setup_human_dna()
+	. = ..()
+	dna.features["beef_color"] = BEEF_COLOR_MEDIUM_RARE
+	dna.features["beef_eyes"] = BEEF_EYES_OLIVES
+	dna.features["beef_mouth"] = BEEF_MOUTH_SMILE
+	dna.features["beef_trauma"] = GLOB.beefmen_traumas[BEEF_TRAUMA_STRANGERS]
