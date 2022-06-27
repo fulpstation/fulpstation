@@ -1,5 +1,7 @@
 ## List of all TG edits:
 
+- .github/workflows/ci_suite.yml > Comments screenshot tests out until Oranges' website is dehardcoded or an alternative way of disabling it is created at tg.
+
 - _maps/_basemap.dm > Adds our maps to the list of playable maps
 
 - code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
