@@ -59,6 +59,6 @@
  */
 /mob/living/carbon/human/dummy/consistent/setup_human_dna()
 	. = ..()
-    dna.features["beefcolor"] = "Medium Rare"
-    dna.features["beefeyes"] = "Peppercorns"
-    dna.features["beefmouth"] = "Smile"
+	dna.features["beefcolor"] = "Medium Rare"
+	dna.features["beefeyes"] = "Peppercorns"
+	dna.features["beefmouth"] = "Smile"
