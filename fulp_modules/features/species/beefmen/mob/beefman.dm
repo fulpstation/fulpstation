@@ -100,7 +100,7 @@
 	user.bodytemperature = bodytemp_normal
 
 	fixed_mut_color = user.dna.features["beef_color"]
-	var/obj/item/organ/internal/brain/has_brain = getorganslot(ORGAN_SLOT_BRAIN)
+	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
 	if(has_brain)
 		user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
 		user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
