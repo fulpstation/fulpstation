@@ -89,10 +89,9 @@
 		to_chat(owner, "[src] on cooldown!")
 		return FALSE
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
-	var/mob/living/user = owner
 	if(bloodsuckerdatum_power?.frenzied)
 		return TRUE
-	if(user.blood_volume < bloodcost)
+	if(bloodsuckerdatum_power.bloodsucker_blood_volume < bloodcost)
 		to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 		return FALSE
 	return TRUE
@@ -124,7 +123,7 @@
 		to_chat(user, span_warning("Not while you're incapacitated!"))
 		return FALSE
 	// Constant Cost (out of blood)
-	if(constant_bloodcost > 0 && user.blood_volume <= 0)
+	if(constant_bloodcost > 0 && bloodsuckerdatum_power.bloodsucker_blood_volume <= 0)
 		to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 		return FALSE
 	return TRUE
@@ -153,12 +152,14 @@
 	return ..()
 
 /datum/action/bloodsucker/proc/PayCost()
-	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
-	if(bloodsuckerdatum_power?.frenzied)
+	// Non-bloodsuckers will pay in other ways.
+	if(!bloodsuckerdatum_power)
 		return
-	var/mob/living/carbon/human/user = owner
-	user.blood_volume -= bloodcost
-	bloodsuckerdatum_power?.update_hud()
+	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
+	if(bloodsuckerdatum_power.frenzied)
+		return
+	bloodsuckerdatum_power.bloodsucker_blood_volume -= bloodcost
+	bloodsuckerdatum_power.update_hud()
 
 /datum/action/bloodsucker/proc/ActivatePower()
 	active = TRUE
@@ -192,7 +193,7 @@
 /datum/action/bloodsucker/proc/ContinueActive(mob/living/user, mob/living/target)
 	if(!user)
 		return FALSE
-	if(!constant_bloodcost > 0 || user.blood_volume > 0)
+	if(!constant_bloodcost > 0 || bloodsuckerdatum_power.bloodsucker_blood_volume > 0)
 		return TRUE
 
 /// Used to unlearn Single-Use Powers
