@@ -11,16 +11,13 @@
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
 	if(HandleHealing(1))
-		if((COOLDOWN_FINISHED(src, bloodsucker_spam_healing)) && bloodsucker_blood_volume > 0)
+		if((COOLDOWN_FINISHED(src, bloodsucker_spam_healing)) && owner.current.blood_volume > 0)
 			to_chat(owner.current, span_notice("The power of your blood begins knitting your wounds..."))
 			COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_HEALING)
 	// Standard Updates
 	INVOKE_ASYNC(src, .proc/HandleDeath)
 	INVOKE_ASYNC(src, .proc/HandleStarving)
 	INVOKE_ASYNC(src, .proc/HandleTorpor)
-	INVOKE_ASYNC(src, .proc/UpdateBlood)
-
-	INVOKE_ASYNC(src, .proc/update_hud)
 
 	// Clan-unique Checks
 	if(my_clan == CLAN_TREMERE)
@@ -41,7 +38,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/antagonist/bloodsucker/proc/AddBloodVolume(value)
-	bloodsucker_blood_volume = clamp(bloodsucker_blood_volume + value, 0, max_blood_volume)
+	owner.current.blood_volume = clamp(owner.current.blood_volume + value, 0, max_blood_volume)
+	update_hud()
 
 /datum/antagonist/bloodsucker/proc/AddHumanityLost(value)
 	if(humanity_lost >= 500)
@@ -56,10 +54,16 @@
 	var/feed_amount = 15 + (power_level * 2)
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult
 	target.blood_volume -= blood_taken
-
+	// Simple Animals lose a LOT of blood, and take damage. This is to keep cats, cows, and so forth from giving you insane amounts of blood.
+	if(!ishuman(target))
+		target.blood_volume -= (blood_taken / max(target.mob_size, 0.1)) * 3.5 // max() to prevent divide-by-zero
+		target.apply_damage_type(blood_taken / 3.5) // Don't do too much damage, or else they die and provide no blood nourishment.
+		if(target.blood_volume <= 0)
+			target.blood_volume = 0
+			target.death(0)
 	///////////
 	// Shift Body Temp (toward Target's temp, by volume taken)
-	owner.current.bodytemperature = ((bloodsucker_blood_volume * owner.current.bodytemperature) + (blood_taken * target.bodytemperature)) / (bloodsucker_blood_volume + blood_taken)
+	owner.current.bodytemperature = ((owner.current.blood_volume * owner.current.bodytemperature) + (blood_taken * target.bodytemperature)) / (owner.current.blood_volume + blood_taken)
 	// our volume * temp, + their volume * temp, / total volume
 	///////////
 	// Reduce Value Quantity
@@ -230,31 +234,31 @@
 
 /datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
 	// Nutrition - The amount of blood is how full we are.
-	owner.current.set_nutrition(min(bloodsucker_blood_volume, NUTRITION_LEVEL_FED))
+	owner.current.set_nutrition(min(owner.current.blood_volume, NUTRITION_LEVEL_FED))
 
 	// BLOOD_VOLUME_GOOD: [336] - Pale
 //	handled in bloodsucker_integration.dm
 
 	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
-	if(bloodsucker_blood_volume >= FRENZY_THRESHOLD_EXIT && frenzied && my_clan != CLAN_BRUJAH)
+	if(owner.current.blood_volume >= FRENZY_THRESHOLD_EXIT && frenzied && my_clan != CLAN_BRUJAH)
 		owner.current.remove_status_effect(/datum/status_effect/frenzy)
 	// BLOOD_VOLUME_BAD: [224] - Jitter
-	if(bloodsucker_blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
+	if(owner.current.blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		owner.current.set_timed_status_effect(3 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	// BLOOD_VOLUME_SURVIVE: [122] - Blur Vision
-	if(bloodsucker_blood_volume < BLOOD_VOLUME_SURVIVE)
-		owner.current.blur_eyes(8 - 8 * (bloodsucker_blood_volume / BLOOD_VOLUME_BAD))
+	if(owner.current.blood_volume < BLOOD_VOLUME_SURVIVE)
+		owner.current.blur_eyes(8 - 8 * (owner.current.blood_volume / BLOOD_VOLUME_BAD))
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
-	if(bloodsucker_blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !frenzied)
+	if(owner.current.blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !frenzied)
 		enter_frenzy()
-	else if(bloodsucker_blood_volume < BLOOD_VOLUME_BAD)
+	else if(owner.current.blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
-	else if(bloodsucker_blood_volume < BLOOD_VOLUME_OKAY)
+	else if(owner.current.blood_volume < BLOOD_VOLUME_OKAY)
 		additional_regen = 0.2
-	else if(bloodsucker_blood_volume < BLOOD_VOLUME_NORMAL)
+	else if(owner.current.blood_volume < BLOOD_VOLUME_NORMAL)
 		additional_regen = 0.3
-	else if(bloodsucker_blood_volume < BS_BLOOD_VOLUME_MAX_REGEN)
+	else if(owner.current.blood_volume < BS_BLOOD_VOLUME_MAX_REGEN)
 		additional_regen = 0.4
 	else
 		additional_regen = 0.5
@@ -354,29 +358,10 @@
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	HealVampireOrgans()
 
-/// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
-/datum/antagonist/bloodsucker/proc/UpdateBlood()
-	// Nosferatu bloodsuckers cannot hide properly.
-	if(my_clan == CLAN_NOSFERATU)
-		owner.current.blood_volume = BLOOD_VOLUME_SURVIVE
-		return
-
-	// If we're on Masquerade, we appear to have full blood, unless we are REALLY low, in which case we don't look as bad.
-	if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-		switch(bloodsucker_blood_volume)
-			if(BLOOD_VOLUME_OKAY to INFINITY) // 336 and up, we are perfectly fine.
-				owner.current.blood_volume = initial(bloodsucker_blood_volume)
-			if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY) // 224 to 336
-				owner.current.blood_volume = BLOOD_VOLUME_SAFE
-			else // 224 and below
-				owner.current.blood_volume = BLOOD_VOLUME_OKAY
-		return
-
-	owner.current.blood_volume = bloodsucker_blood_volume
-
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
 	FreeAllVassals()
+	var/dust_timer
 	// If we have no body, end here.
 	if(!owner.current || dust_timer)
 		return
@@ -407,7 +392,7 @@
 		span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
 		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 		span_hear("<span class='italics'>You hear a wet, bursting sound."))
-	dust_timer = addtimer(CALLBACK(owner.current, /mob/living.proc/gib, TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+	owner.current.gib(TRUE, FALSE, FALSE)
 
 
 // Bloodsuckers moodlets //

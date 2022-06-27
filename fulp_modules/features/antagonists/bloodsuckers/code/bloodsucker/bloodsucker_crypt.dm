@@ -454,7 +454,7 @@
 	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
 	switch(favorite_response)
 		if("Yes")
-			bloodsuckerdatum.bloodsucker_blood_volume -= 150
+			user.blood_volume -= 150
 			bloodsuckerdatum.has_favorite_vassal = TRUE
 			vassaldatum.make_favorite(user)
 		else
@@ -572,7 +572,7 @@
 		// Are we spending a Rank?
 		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			bloodsuckerdatum.SpendRank(target)
-		else if(bloodsuckerdatum.bloodsucker_blood_volume >= 550)
+		else if(user.blood_volume >= 550)
 			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
 			to_chat(user, span_warning("Do you wish to spend 550 Blood to Rank [target] up?"))
 			var/list/rank_options = list(
@@ -582,7 +582,7 @@
 			var/rank_response = show_radial_menu(user, src, rank_options, radius = 36, require_near = TRUE)
 			switch(rank_response)
 				if("Yes")
-					bloodsuckerdatum.bloodsucker_blood_volume -= 550
+					user.blood_volume -= 550
 					bloodsuckerdatum.SpendRank(target, spend_rank = FALSE)
 					return
 		else
