@@ -13,11 +13,6 @@
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 
-	/// How much blood we have, starting off at default blood levels.
-	var/bloodsucker_blood_volume = BLOOD_VOLUME_NORMAL
-	/// How much blood we can have at once, increases per level.
-	var/max_blood_volume = 600
-
 	// TIMERS //
 	///Timer between alerts for Burn messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
@@ -61,6 +56,7 @@
 	var/passive_blood_drain = -0.1
 	var/additional_regen
 	var/bloodsucker_regen_rate = 0.3
+	var/max_blood_volume = 600
 
 	// Used for Bloodsucker Objectives
 	var/area/lair
@@ -68,8 +64,6 @@
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
-	/// If we're currently getting dusted, we won't final death repeatedly.
-	var/dust_timer
 
 	///Blood display HUD
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
@@ -862,13 +856,13 @@
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud()
 	var/valuecolor
-	if(bloodsucker_blood_volume > BLOOD_VOLUME_SAFE)
+	if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
 		valuecolor = "#FFDDDD"
-	else if(bloodsucker_blood_volume > BLOOD_VOLUME_BAD)
+	else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
 		valuecolor = "#FFAAAA"
 
 	if(blood_display)
-		blood_display.update_counter(bloodsucker_blood_volume, valuecolor)
+		blood_display.update_counter(owner.current.blood_volume, valuecolor)
 
 	if(vamprank_display)
 		if(bloodsucker_level_unspent > 0)
