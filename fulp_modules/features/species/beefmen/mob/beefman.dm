@@ -14,10 +14,10 @@
 		HAS_BONE,
 	)
 	mutant_bodyparts = list(
-		"beef_color" = BEEF_COLOR_MEDIUM_RARE,
+		"beef_color" = GLOB.color_list_beefman[BEEF_COLOR_MEDIUM_RARE],
 		"beef_eyes" = BEEF_EYES_OLIVES,
 		"beef_mouth" = BEEF_MOUTH_SMILE,
-		"beef_trauma" = BEEF_TRAUMA_STRANGERS,
+		"beef_trauma" = GLOB.beefmen_traumas[BEEF_TRAUMA_STRANGERS],
 	)
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
