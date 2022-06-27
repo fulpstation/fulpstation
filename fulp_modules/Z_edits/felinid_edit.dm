@@ -3,6 +3,12 @@
 	var/brain_damage_to_give = 199
 	var/give_traumas = TRUE
 
+/datum/species/human/felinid/nobraindamage
+	id = "felinid-nobraindamage"
+	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | ERT_SPAWN
+	brain_damage_to_give = 0
+	give_traumas = FALSE
+
 /datum/species/human/felinid/on_species_gain(mob/living/carbon/felifriend, datum/species/old_species, pref_load)
 	. = ..()
 	if(istype(felifriend, /mob/living/carbon/human/dummy))
