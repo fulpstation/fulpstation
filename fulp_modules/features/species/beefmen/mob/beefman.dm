@@ -148,6 +148,94 @@
 
 	return ..()
 
+/datum/species/beefman/handle_mutant_bodyparts(mob/living/carbon/human/source, forced_colour)
+	. = ..()
+	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
+	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
+	var/list/standing = list()
+
+	source.remove_overlay(BODY_BEHIND_LAYER)
+	source.remove_overlay(BODY_ADJ_LAYER)
+	source.remove_overlay(BODY_FRONT_LAYER)
+
+	if(!mutant_bodyparts || HAS_TRAIT(source, TRAIT_INVISIBLE_MAN))
+		return
+
+	if(!bodyparts_to_add)
+		return
+
+	var/g = (source.physique == FEMALE) ? "f" : "m"
+
+	for(var/layer in relevent_layers)
+		var/layertext = mutant_bodyparts_layertext(layer)
+
+		for(var/bodypart in bodyparts_to_add)
+			var/datum/sprite_accessory/accessory
+			switch(bodypart)
+				if("beef_eyes")
+					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
+						accessory = GLOB.eyes_beefman[source.dna.features["beef_eyes"]]
+				if("beef_mouth")
+					accessory = GLOB.mouths_beefman[source.dna.features["beef_mouth"]]
+
+			if(!accessory || accessory.icon_state == "none")
+				continue
+
+			var/mutable_appearance/accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
+
+			if(accessory.gender_specific)
+				accessory_overlay.icon_state = "[g]_[bodypart]_[accessory.icon_state]_[layertext]"
+			else
+				accessory_overlay.icon_state = "m_[bodypart]_[accessory.icon_state]_[layertext]"
+
+			if(accessory.em_block)
+				accessory_overlay.overlays += emissive_blocker(accessory_overlay.icon, accessory_overlay.icon_state, accessory_overlay.alpha)
+
+			if(accessory.center)
+				accessory_overlay = center_image(accessory_overlay, accessory.dimension_x, accessory.dimension_y)
+
+			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
+				if(!forced_colour)
+					switch(accessory.color_src)
+						if(MUTCOLORS)
+							if(fixed_mut_color)
+								accessory_overlay.color = fixed_mut_color
+							else
+								accessory_overlay.color = source.dna.features["mcolor"]
+						if(HAIR)
+							if(hair_color == "mutcolor")
+								accessory_overlay.color = source.dna.features["mcolor"]
+							else if(hair_color == "fixedmutcolor")
+								accessory_overlay.color = fixed_mut_color
+							else
+								accessory_overlay.color = source.hair_color
+						if(FACEHAIR)
+							accessory_overlay.color = source.facial_hair_color
+						if(EYECOLOR)
+							accessory_overlay.color = source.eye_color_left
+				else
+					accessory_overlay.color = forced_colour
+			standing += accessory_overlay
+
+			if(accessory.hasinner)
+				var/mutable_appearance/inner_accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
+				if(accessory.gender_specific)
+					inner_accessory_overlay.icon_state = "[g]_[bodypart]inner_[accessory.icon_state]_[layertext]"
+				else
+					inner_accessory_overlay.icon_state = "m_[bodypart]inner_[accessory.icon_state]_[layertext]"
+
+				if(accessory.center)
+					inner_accessory_overlay = center_image(inner_accessory_overlay, accessory.dimension_x, accessory.dimension_y)
+
+				standing += inner_accessory_overlay
+
+		source.overlays_standing[layer] = standing.Copy()
+		standing = list()
+
+	source.apply_overlay(BODY_BEHIND_LAYER)
+	source.apply_overlay(BODY_ADJ_LAYER)
+	source.apply_overlay(BODY_FRONT_LAYER)
+
 /datum/species/beefman/get_features()
 	var/list/features = ..()
 	features += "feature_beef_color"

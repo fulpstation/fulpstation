@@ -701,13 +701,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			switch(bodypart)
 				if("ears")
 					accessory = GLOB.ears_list[source.dna.features["ears"]]
-				// Fulp edit START - Species
-				if("beef_eyes")
-					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
-						accessory = GLOB.eyes_beefman[source.dna.features["beef_eyes"]]
-				if("beef_mouth")
-					accessory = GLOB.mouths_beefman[source.dna.features["beef_mouth"]]
-				// Fulp edit END
 				if("body_markings")
 					accessory = GLOB.body_markings_list[source.dna.features["body_markings"]]
 				if("legs")
