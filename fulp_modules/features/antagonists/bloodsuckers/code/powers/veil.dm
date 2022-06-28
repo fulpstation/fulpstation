@@ -78,9 +78,6 @@
 		REMOVE_TRAIT(user, TRAIT_DISFIGURED, null)
 	user.dna.features = random_features()
 
-	// Beefmen
-	proof_beefman_features(user.dna.features)
-
 	// Apply Appearance
 	user.update_body() // Outfit and underware, also body.
 	user.update_mutant_bodyparts() // Lizard tails etc
