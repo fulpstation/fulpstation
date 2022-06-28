@@ -62,4 +62,3 @@
 	dna.features["beef_color"] = "#e73f4e"
 	dna.features["beef_eyes"] = BEEF_EYES_OLIVES
 	dna.features["beef_mouth"] = BEEF_MOUTH_SMILE
-
