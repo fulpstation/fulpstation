@@ -19,8 +19,6 @@
 /**
  * # SPECIES
  */
-///Beefmen Species define
-#define SPECIES_BEEFMAN "beefman"
 ///Job define for the Beefmen Cytology (Icemoon) Spawner
 #define ROLE_BEEFMAN_CYTOLOGY "Beefman Cytology Scientist"
 ///Job define for the Beefmen Station (Space) Spawner
