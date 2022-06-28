@@ -1,6 +1,6 @@
 // Color
 /datum/preference/choiced/beefman_color
-	savefile_key = "feature_beefcolor"
+	savefile_key = "feature_beef_color"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Beefman color"
@@ -31,11 +31,11 @@
 	return values
 
 /datum/preference/choiced/beefman_color/apply_to_human(mob/living/carbon/human/target, value)
-	target.dna.features["beefcolor"] = GLOB.color_list_beefman[value]
+	target.dna.features["beef_color"] = GLOB.color_list_beefman[value]
 
 // Eyes
 /datum/preference/choiced/beefman_eyes
-	savefile_key = "feature_beefeyes"
+	savefile_key = "feature_beef_eyes"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Beefman Eyes"
@@ -51,7 +51,7 @@
 		var/datum/sprite_accessory/eyes = GLOB.eyes_beefman[eye_name]
 
 		var/icon/icon_with_eye = new(beef_head)
-		icon_with_eye.Blend(icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "m_beefeyes_[eyes.icon_state]_ADJ"), ICON_OVERLAY)
+		icon_with_eye.Blend(icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "m_beef_eyes_[eyes.icon_state]_ADJ"), ICON_OVERLAY)
 		icon_with_eye.Scale(64, 64)
 		icon_with_eye.Crop(15, 64, 15 + 31, 64 - 31)
 
@@ -60,11 +60,11 @@
 	return values
 
 /datum/preference/choiced/beefman_eyes/apply_to_human(mob/living/carbon/human/target, value)
-	target.dna.features["beefeyes"] = value
+	target.dna.features["beef_eyes"] = value
 
 // Mouth
 /datum/preference/choiced/beefman_mouth
-	savefile_key = "feature_beefmouth"
+	savefile_key = "feature_beef_mouth"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Beefman Mouth"
@@ -80,7 +80,7 @@
 		var/datum/sprite_accessory/mouths = GLOB.mouths_beefman[mouth_name]
 
 		var/icon/icon_with_mouth = new(beef_head)
-		icon_with_mouth.Blend(icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "m_beefmouth_[mouths.icon_state]_ADJ"), ICON_OVERLAY)
+		icon_with_mouth.Blend(icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "m_beef_mouth_[mouths.icon_state]_ADJ"), ICON_OVERLAY)
 		icon_with_mouth.Scale(64, 64)
 		icon_with_mouth.Crop(15, 64, 15 + 31, 64 - 31)
 
@@ -89,7 +89,7 @@
 	return values
 
 /datum/preference/choiced/beefman_mouth/apply_to_human(mob/living/carbon/human/target, value)
-	target.dna.features["beefmouth"] = value
+	target.dna.features["beef_mouth"] = value
 
 //Trauma
 /datum/preference/choiced/beefman_trauma

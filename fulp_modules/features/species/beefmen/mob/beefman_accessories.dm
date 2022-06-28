@@ -8,20 +8,20 @@
 	color_src = EYECOLOR
 
 /datum/sprite_accessory/beef/eyes/capers
-	name = "Capers"
+	name = BEEF_EYES_CAPERS
 	icon_state = "capers"
 
+/datum/sprite_accessory/beef/eyes/olives
+	name = BEEF_EYES_OLIVES
+	icon_state = "olives"
+
 /datum/sprite_accessory/beef/eyes/cloves
-	name = "Cloves"
+	name = BEEF_EYES_CLOVES
 	icon_state = "cloves"
 
 /datum/sprite_accessory/beef/eyes/peppercorns
-	name = "Peppercorns"
+	name = BEEF_EYES_PEPPERCORNS
 	icon_state = "peppercorns"
-
-/datum/sprite_accessory/beef/eyes/olives
-	name = "Olives"
-	icon_state = "olives"
 
 // Mouth //
 
@@ -30,25 +30,25 @@
 	color_src = 0
 
 /datum/sprite_accessory/beef/mouth/frown
-	name = "Frown"
+	name = BEEF_MOUTH_FROWN
 	icon_state = "frown"
 
 /datum/sprite_accessory/beef/mouth/dissapointed
-	name = "Dissapointed"
+	name = BEEF_MOUTH_DISSAPOINTED
 	icon_state = "dissapointing"
 
 /datum/sprite_accessory/beef/mouth/grit
-	name = "Grit"
+	name = BEEF_MOUTH_GRIT
 	icon_state = "grit"
 
 /datum/sprite_accessory/beef/mouth/grittingsmile
-	name = "Gritting Smile"
+	name = BEEF_MOUTH_GRITTING_SMILE
 	icon_state = "grittingsmile"
 
 /datum/sprite_accessory/beef/mouth/smile
-	name = "Smile"
+	name = BEEF_MOUTH_SMILE
 	icon_state = "smile"
 
 /datum/sprite_accessory/beef/mouth/smirk
-	name = "Smirk"
+	name = BEEF_MOUTH_SMIRK
 	icon_state = "smirk"

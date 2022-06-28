@@ -11,7 +11,6 @@
 - code/game/objects/items/devices/scanners/health_analyzer.dm > Falsifies health analyzers if you're on Masquerade
 
 - code/modules/mob/living/carbon/human/examine.dm > Changes examine text for Beefmen || Added examining Bloodsuckers/Vassals || adds ShowAsPaleExamine()
-- code/modules/mob/living/carbon/human/species.dm > Beefmen customization/preferences
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 

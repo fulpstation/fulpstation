@@ -52,36 +52,36 @@ GLOBAL_LIST_INIT(fulp_ban_list, list(
 // SPECIES //
 // Taken from ethereals (color_list_ethereal)
 GLOBAL_LIST_INIT(color_list_beefman, list(
-	"Very Rare" = "#d93356",
-	"Rare" = "#da2e4a",
-	"Medium Rare" = "#e73f4e",
-	"Medium" = "#f05b68",
-	"Medium Well" = "#e76b76",
-	"Well Done" = "#d36b75",
+	BEEF_COLOR_VERY_RARE = "#d93356",
+	BEEF_COLOR_RARE = "#da2e4a",
+	BEEF_COLOR_MEDIUM_RARE = "#e73f4e",
+	BEEF_COLOR_MEDIUM = "#f05b68",
+	BEEF_COLOR_MEDIUM_WELL = "#e76b76",
+	BEEF_COLOR_WELL_DONE = "#d36b75",
 ))
 
 // Taken from _HELPERS/mobs.dm
 GLOBAL_LIST_INIT(eyes_beefman, list(
-	"Capers",
-	"Cloves",
-	"Olives",
-	"Peppercorns",
+	BEEF_EYES_CAPERS,
+	BEEF_EYES_CLOVES,
+	BEEF_EYES_OLIVES,
+	BEEF_EYES_PEPPERCORNS,
 ))
 
 GLOBAL_LIST_INIT(mouths_beefman, list(
-	"Frown",
-	"Dissapointed",
-	"Grit",
-	"Gritting Smile",
-	"Smile",
-	"Smirk",
+	BEEF_MOUTH_FROWN,
+	BEEF_MOUTH_DISSAPOINTED,
+	BEEF_MOUTH_GRIT,
+	BEEF_MOUTH_GRITTING_SMILE,
+	BEEF_MOUTH_SMILE,
+	BEEF_MOUTH_SMIRK,
 ))
 
 GLOBAL_LIST_INIT(beefmen_traumas, list(
-	"Strangers" = /datum/brain_trauma/mild/phobia/strangers,
-	"Hallucinations" = /datum/brain_trauma/mild/hallucinations,
-	"Ocky Icky" = /datum/brain_trauma/mild/phobia/ocky_icky,
-	"Hypnotic Stupor" = /datum/brain_trauma/severe/hypnotic_stupor,
+	BEEF_TRAUMA_STRANGERS = /datum/brain_trauma/mild/phobia/strangers,
+	BEEF_TRAUMA_HALLUCINATIONS = /datum/brain_trauma/mild/hallucinations,
+	BEEF_TRAUMA_OCKY_ICKY = /datum/brain_trauma/mild/phobia/ocky_icky,
+	BEEF_TRAUMA_HYPNOTIC_STUPOR = /datum/brain_trauma/severe/hypnotic_stupor,
 ))
 
 GLOBAL_LIST_INIT(experiment_names, list(
