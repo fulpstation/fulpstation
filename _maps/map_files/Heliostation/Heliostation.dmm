@@ -61544,7 +61544,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/medical{
-	name = "Surgery"
+	name = "Surgery B"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/medical/surgery,
 /turf/open/floor/iron/white,
@@ -68106,12 +68106,16 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "neh" = (
-/obj/machinery/camera/directional/west,
+/obj/machinery/camera/directional/west{
+	name = "Surgery B Camera"
+	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 5
 	},
 /obj/machinery/button/door/directional/west{
-	id = "surgeryb"
+	id = "surgeryb";
+	name = "Surgery Privacy Button";
+	req_access = list("surgery")
 	},
 /obj/effect/turf_decal/trimline/blue/filled/line,
 /turf/open/floor/iron/white,
@@ -69136,7 +69140,9 @@
 "ojw" = (
 /obj/effect/turf_decal/trimline/blue/filled/line,
 /obj/structure/cable,
-/obj/machinery/camera/directional/east,
+/obj/machinery/camera/directional/east{
+	name = "Surgery A Camera"
+	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
 	},
@@ -71406,7 +71412,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/medical{
-	name = "Surgery"
+	name = "Surgery A"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/medical/surgery,
 /turf/open/floor/iron/white,
