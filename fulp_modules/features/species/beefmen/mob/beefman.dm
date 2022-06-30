@@ -264,18 +264,24 @@
 
 /datum/species/beefman/get_species_lore()
 	return list(
-		"On a very quiet day, the Chef was cooking food for the crew, they realized they were out of meat. \
-		They decided that they would pay a visit to the Morgue, unaware of the consequences for their actions. \n\
-		It was going to be a one time thing anyways, who would mind a body or two missing? \
-		They thought, as they grabbed a body laying on a morgue tray. \n\
-		What the Chef hadn't noticed, the Morgue's soul alarm was off, the body was filled with a soul begging not to be gibbed.\
-		The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \n\
-		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out... \
-		But this wasn't regular meat. It had eyes, and a mouth too. \n\
-		Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef. \
-		Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted. \n\
-		What the Russian Sol Government has done with them has never been released, but since then, there seems to have more of them than people remember, \
-		and these 'Beefmen' have never been able to sleep or think straight ever again.",
+		"Hailing from an unknown world according to the Third Soviet Union, and the result of inhumane experiments according to follow-up investigations.",
+
+		"As the Spinward sector was first probed, the TSR's interest in space travel grew steadily. However, as the government was already collapsing,\
+		not much funding was able to be put toward the production of reliable faster-than-light-capable engines, an alternative was proposed:  \
+		As crew members would be put into cryo-sleep baskets, they needed a way to maintain the vessels for the duration of the travel. \
+		Slowly, prisoners of wars and political opponents of the government disappeared from records, some cargo vessels reported that research  \
+		stations previously declared 'defunct' were seen with their hallways' lights on as well as other signs of activity.",
+
+		"For months, the test subjects spent their days inside sealed cryo-cells, filled with airbone stimulants.  \
+		Spending this time in the cold, without physically being able to rest drove most of them mad, following in-depth investigations by TerraGov after  \
+		the Third Soviet Union's collapse, some of the resulting effects included the specimens tearing off their own flesh,  \
+		limbs, conducting self-cannibalism and vesicles across their body pouring out blood if not seared.",
+
+		"The project was deemed unecessary and was quickly closed when self-maintaining drones became more of a commidity, chosen to lead the KC13 project.  \
+		It wasn't until twenty years following the Union's collapse that Nanotrasen engineers discovered the species aboard a Space Russian derelict, \
+		proving themselves to be effective in menial tasks and cost effective to maintain, they were quickly assigned to various posts across the system.",
+
+		"Beefmen do not have a culture or history of their own, sharing their heritage and aesthetics with the Third Soviet Union and Space Russians.",
 	)
 
 /datum/species/beefman/create_pref_unique_perks()
