@@ -266,7 +266,7 @@
 	return list(
 		"Hailing from an unknown world according to the Third Soviet Union, and the result of inhumane experiments according to follow-up investigations.",
 
-		"As the Spinward sector was first probed, the TSR's interest in space travel grew steadily. However, as the government was already collapsing,\
+		"As the Spinward sector was first probed, the TSU's interest in space travel grew steadily. However, as the government was already collapsing,\
 		not much funding was able to be put toward the production of reliable faster-than-light-capable engines, an alternative was proposed:  \
 		As crew members would be put into cryo-sleep baskets, they needed a way to maintain the vessels for the duration of the travel. \
 		Slowly, prisoners of wars and political opponents of the government disappeared from records, some cargo vessels reported that research  \
