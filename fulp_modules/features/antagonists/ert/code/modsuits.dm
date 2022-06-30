@@ -1,12 +1,9 @@
+#define FULP_MOD_ICON_ERT 'fulp_modules/features/antagonists/ert/icons/modsuit.dmi'
+#define FULP_MOD_ICON_WORN_ERT 'fulp_modules/features/antagonists/ert/icons/modsuit_worn.dmi'
+
 /obj/item/mod/control/pre_equipped/fulp/ert
-	icon = 'fulp_modules/features/antagonists/ert/icons/modsuit.dmi'
-	worn_icon = 'fulp_modules/features/antagonists/ert/icons/modsuit_worn.dmi'
-	// see fulpmodules/Z_edits/modsuits.dm
-	icon_path = 'fulp_modules/features/antagonists/ert/icons/modsuit.dmi'
-	worn_icon_path = 'fulp_modules/features/antagonists/ert/icons/modsuit_worn.dmi'
 	applied_cell = /obj/item/stock_parts/cell/hyper
 
-/*
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
 	theme = /datum/mod_theme/responsory/fulp
 	applied_skin = "medert_commander"
@@ -54,6 +51,8 @@
 	default_skin = "medert_commander"
 	skins = list(
 		"medert_commander" = list(
+			MOD_ICON_OVERRIDE = FULP_MOD_ICON_ERT,
+			MOD_WORN_ICON_OVERRIDE = FULP_MOD_ICON_WORN_ERT,
 			HELMET_FLAGS = list(
 				UNSEALED_LAYER = NECK_LAYER,
 				UNSEALED_CLOTHING = SNUG_FIT,
@@ -79,6 +78,8 @@
 			),
 		),
 		"engert_commander" = list(
+			MOD_ICON_OVERRIDE = FULP_MOD_ICON_ERT,
+			MOD_WORN_ICON_OVERRIDE = FULP_MOD_ICON_WORN_ERT,
 			HELMET_FLAGS = list(
 				UNSEALED_LAYER = NECK_LAYER,
 				UNSEALED_CLOTHING = SNUG_FIT,
@@ -104,6 +105,8 @@
 			),
 		),
 		"secert_commander" = list(
+			MOD_ICON_OVERRIDE = FULP_MOD_ICON_ERT,
+			MOD_WORN_ICON_OVERRIDE = FULP_MOD_ICON_WORN_ERT,
 			HELMET_FLAGS = list(
 				UNSEALED_LAYER = NECK_LAYER,
 				UNSEALED_CLOTHING = SNUG_FIT,
@@ -129,6 +132,8 @@
 			),
 		),
 		"clownert_commander" = list(
+			MOD_ICON_OVERRIDE = FULP_MOD_ICON_ERT,
+			MOD_WORN_ICON_OVERRIDE = FULP_MOD_ICON_WORN_ERT,
 			HELMET_FLAGS = list(
 				UNSEALED_LAYER = NECK_LAYER,
 				UNSEALED_CLOTHING = SNUG_FIT,
@@ -154,4 +159,3 @@
 			),
 		),
 	)
-*/
