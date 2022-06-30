@@ -264,18 +264,22 @@
 
 /datum/species/beefman/get_species_lore()
 	return list(
-		"On a very quiet day, the Chef was cooking food for the crew, they realized they were out of meat. \
-		They decided that they would pay a visit to the Morgue, unaware of the consequences for their actions. \n\
-		It was going to be a one time thing anyways, who would mind a body or two missing? \
-		They thought, as they grabbed a body laying on a morgue tray. \n\
-		What the Chef hadn't noticed, the Morgue's soul alarm was off, the body was filled with a soul begging not to be gibbed.\
-		The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \n\
-		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out... \
-		But this wasn't regular meat. It had eyes, and a mouth too. \n\
-		Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef. \
-		Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted. \n\
-		What the Russian Sol Government has done with them has never been released, but since then, there seems to have more of them than people remember, \
-		and these 'Beefmen' have never been able to sleep or think straight ever again.",
+		"2231, a meteorite containing samples of bluespace minerals was discovered by the Germans and thus, \
+		a dedicated international German-led research team classified 'Team 129' was formed with the purpose of finding use for the newly discovered mineral to gain an edge in the war against\
+		the opposition. Using felled russian soldiers as test-subjects, their bodies were infused with bluespace residue with the belief they'd be able to jump through \
+		space and time, the process was very volitile however as many test-subjects perished, and the ones that did survive had some noticable physiological changes: \
+		their heights were abnormally elongated, and their skin rotted off... exposing their flesh.",
+
+		"The percentage that managed to survive the gruesome infusion process gained the ability to seep through holes leading to small pocket dimensions. What lies \
+		on the other side of these anomolous tears in the fabric of reality remains a mystery as meatmen refuse to speak about the matter. When confronted about \
+		the subject they'd remain silent even if it meant torture. Multiple cases of meatmen subjects dying during enhanced interrogation torture sessions \
+		were recorded, taking the secrets of these alternate dimensions with them to the grave. There was a particular instance however of a meatman rambling about 'the great one' \
+		blessing him with visions.",
+
+		"2520, an underground research facility on the outskirts of Berlin was unearthed. Thousands of cryo-sleepers containing bodies were found, all of them preserving \
+		meatmen 'asleep' with their eyes wide open. Documents detailing the experiments were found however only a fraction of them have been since successfully decrypted. \
+		The United Earth Goverment sourced a portion of these meatmen to Nanotrasen with the understanding that Nanotrasen is to deploy them into social environments \
+		to see how they would interact as a part of a social experiment.",
 	)
 
 /datum/species/beefman/create_pref_unique_perks()
