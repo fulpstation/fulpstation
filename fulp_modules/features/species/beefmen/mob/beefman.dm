@@ -273,11 +273,11 @@
 		stations previously declared 'defunct' were seen with their hallways' lights on as well as other signs of activity.",
 
 		"For months, the test subjects spent their days inside sealed cryo-cells, filled with airbone stimulants.  \
-		Spending this time in the cold, without physically being able to rest drove most of them mad, following in-depth investigations by TerraGov after  \
-		the Third Soviet Union's collapse, some of the resulting effects included the specimens tearing off their own flesh,  \
+		Spending this time in the cold, without physically being able to rest drove most of them mad< following in-depth investigations by TerraGov after  \
+		the Third Soviet Union's collapse, some of disturbing resulting effects were identified, some including the specimens tearing off their own flesh,  \
 		limbs, conducting self-cannibalism and vesicles across their body pouring out blood if not seared.",
 
-		"The project was deemed unecessary and was quickly closed when self-maintaining drones became more of a commidity, chosen to lead the KC13 project.  \
+		"The project was deemed unnecessary and was quickly closed when self-maintaining drones became more of a commodity, chosen to lead the KC13 project.  \
 		It wasn't until twenty years following the Union's collapse that Nanotrasen engineers discovered the species aboard a Space Russian derelict, \
 		proving themselves to be effective in menial tasks and cost effective to maintain, they were quickly assigned to various posts across the system.",
 
