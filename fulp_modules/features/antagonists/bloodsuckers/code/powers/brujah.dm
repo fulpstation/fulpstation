@@ -26,8 +26,7 @@
 	user.remove_status_effect(/datum/status_effect/frenzy)
 
 /datum/action/bloodsucker/brujah/CheckCanDeactivate()
-	var/mob/living/user = owner
-	if(user.blood_volume < FRENZY_THRESHOLD_EXIT)
+	if(bloodsuckerdatum_power.bloodsucker_blood_volume < FRENZY_THRESHOLD_EXIT)
 		owner.balloon_alert(owner, "not enough blood!")
 		return FALSE
 	return ..()
