@@ -372,14 +372,8 @@
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
 "abi" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 2;
-	height = 5;
-	id = "laborcamp_home";
-	name = "fore bay 1";
-	roundstart_template = /datum/map_template/shuttle/labour/generic;
-	width = 9
+/obj/docking_port/stationary/laborcamp_home{
+	dir = 4
 	},
 /turf/open/space/basic,
 /area/space)
@@ -14428,7 +14422,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Medbay - Virology Lab";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -15556,7 +15550,7 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Medbay - Virology Hallway";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -16153,9 +16147,7 @@
 	c_tag = "Fore Primary Hallway - Courtroom";
 	name = "Hallway Camera"
 	},
-/obj/structure/sign/departments/court{
-	pixel_x = -32
-	},
+/obj/structure/sign/departments/court/directional/west,
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "aLe" = (
@@ -17112,9 +17104,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "aNz" = (
-/obj/structure/sign/departments/court{
-	pixel_x = -32
-	},
+/obj/structure/sign/departments/court/directional/west,
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "aNA" = (
@@ -18895,7 +18885,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Medbay - Virology Dormitory";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /obj/item/storage/secure/safe/directional/north,
 /obj/machinery/button/door/directional/west{
@@ -20622,9 +20612,7 @@
 "aWL" = (
 /obj/structure/rack,
 /obj/effect/spawner/random/maintenance/three,
-/obj/structure/sign/warning/gas_mask{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/gas_mask/directional/north,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
@@ -22139,7 +22127,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Medbay - Treatment Center South";
 	name = "Stasis Camera";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/white/textured,
@@ -24446,8 +24434,6 @@
 /obj/structure/table/glass,
 /obj/item/crowbar,
 /obj/item/crowbar,
-/obj/item/reagent_containers/glass/bucket,
-/obj/item/reagent_containers/glass/bucket,
 /obj/item/hatchet,
 /obj/item/hatchet,
 /obj/effect/turf_decal/siding/wood{
@@ -24456,6 +24442,8 @@
 /obj/effect/turf_decal/siding/green{
 	dir = 1
 	},
+/obj/item/reagent_containers/glass/watering_can/wood,
+/obj/item/reagent_containers/glass/watering_can/wood,
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
 "bis" = (
@@ -30363,7 +30351,6 @@
 /obj/structure/closet/crate/hydroponics,
 /obj/item/wrench,
 /obj/item/shovel/spade,
-/obj/item/reagent_containers/glass/bucket,
 /obj/item/wirecutters,
 /obj/item/cultivator,
 /obj/effect/turf_decal/siding/green{
@@ -30371,6 +30358,7 @@
 	},
 /obj/machinery/light/directional/east,
 /obj/machinery/light_switch/directional/east,
+/obj/item/reagent_containers/glass/watering_can,
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
 "byC" = (
@@ -35725,7 +35713,7 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/gravity_generator)
 "bMt" = (
-/obj/machinery/gravity_generator/main/station,
+/obj/machinery/gravity_generator/main,
 /obj/effect/turf_decal/trimline/blue/line,
 /turf/open/floor/iron/dark,
 /area/station/engineering/gravity_generator)
@@ -36243,9 +36231,7 @@
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/station/service/kitchen)
 "bNQ" = (
-/obj/structure/musician/piano{
-	icon_state = "piano"
-	},
+/obj/structure/musician/piano,
 /turf/open/floor/wood,
 /area/station/service/theater)
 "bNR" = (
@@ -38041,7 +38027,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Medbay - Virology Airlock";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
@@ -38700,10 +38686,9 @@
 /turf/open/floor/iron/dark,
 /area/station/science/server)
 "bTT" = (
-/obj/structure/sign/warning/secure_area{
+/obj/structure/sign/warning/secure_area/directional/north{
 	desc = "A warning sign which reads 'SERVER ROOM'.";
-	name = "SERVER ROOM";
-	pixel_y = 32
+	name = "SERVER ROOM"
 	},
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
@@ -52224,14 +52209,8 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "cBo" = (
-/obj/docking_port/stationary{
-	dir = 8;
-	dwidth = 3;
-	height = 5;
-	id = "commonmining_home";
-	name = "SS13: Common Mining Dock";
-	roundstart_template = /datum/map_template/shuttle/mining_common/meta;
-	width = 7
+/obj/docking_port/stationary/mining_home/common{
+	dir = 8
 	},
 /turf/open/space/basic,
 /area/space)
@@ -61098,9 +61077,7 @@
 	c_tag = "Arrivals NW";
 	name = "Hallway Camera"
 	},
-/obj/structure/sign/warning/vacuum/external{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/vacuum/external/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
 "cXQ" = (
@@ -61110,9 +61087,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
 "cXR" = (
-/obj/structure/sign/warning/vacuum/external{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/vacuum/external/directional/north,
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
@@ -61185,14 +61160,8 @@
 /turf/open/floor/plating,
 /area/station/engineering/atmos/project)
 "cXX" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 5;
-	id = "mining_home";
-	name = "mining shuttle bay";
-	roundstart_template = /datum/map_template/shuttle/mining/delta;
-	width = 7
+/obj/docking_port/stationary/mining_home{
+	dir = 4
 	},
 /turf/open/space/basic,
 /area/space)
@@ -61805,9 +61774,7 @@
 /area/station/security/prison/toilet)
 "dXx" = (
 /obj/item/kirbyplants/random,
-/obj/structure/sign/departments/psychology{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/psychology/directional/east,
 /obj/effect/turf_decal/siding/wood,
 /obj/structure/cable,
 /turf/open/floor/wood,
@@ -63083,8 +63050,8 @@
 "gbK" = (
 /obj/structure/table,
 /obj/item/paper/guides/jobs/hydroponics,
-/obj/item/reagent_containers/glass/bucket,
-/obj/item/reagent_containers/glass/bucket,
+/obj/item/reagent_containers/glass/watering_can,
+/obj/item/reagent_containers/glass/watering_can,
 /turf/open/floor/iron/dark,
 /area/station/service/hydroponics)
 "gck" = (
@@ -66696,9 +66663,7 @@
 /turf/open/floor/iron,
 /area/station/maintenance/department/science/xenobiology)
 "lfh" = (
-/obj/structure/sign/warning/cold_temp{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/cold_temp/directional/north,
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
 	},
@@ -69601,7 +69566,7 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Medbay - Pharmacy";
 	name = "Pharmacy Camera";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
@@ -71232,7 +71197,7 @@
 /obj/machinery/camera/directional/south{
 	c_tag = "Medbay - Patient's Room";
 	name = "Medbay Camera";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/iron/freezer,
@@ -75816,7 +75781,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Medbay - Virology Test Subject Chamber";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1

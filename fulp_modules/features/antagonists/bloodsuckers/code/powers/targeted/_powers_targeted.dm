@@ -95,3 +95,7 @@
 	PayCost()
 	DeactivatePower()
 	StartCooldown()	// Do AFTER UpdateIcon() inside of DeactivatePower. Otherwise icon just gets wiped.
+
+/datum/action/cooldown/bloodsucker/targeted/InterceptClickOn(mob/living/caller, params, atom/target)
+	. = ..()
+	ClickWithPower(target)
