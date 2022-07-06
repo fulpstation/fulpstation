@@ -62,7 +62,8 @@
 	var/list/safe_people = list()
 
 ///Timestop + Adding protected_summoner to the list of protected people
-/datum/action/cooldown/spell/timestop/guardian/cast(list/targets)
+/datum/action/cooldown/spell/timestop/guardian/cast(atom/cast_on)
+	. = ..()
 	if(!(owner in safe_people))
 		var/mob/living/simple_animal/hostile/guardian/punch/timestop/bloodsucker_guardian = owner
 		safe_people += bloodsucker_guardian.summoner

@@ -14,7 +14,8 @@
 	var/dancefloor_exists = FALSE
 	var/datum/effect_system/smoke_spread/transparent/dancefloor_devil/smoke
 
-/datum/action/cooldown/spell/summon_dancefloor/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/summon_dancefloor/cast(atom/target)
+	. = ..()
 	LAZYINITLIST(dancefloor_turfs)
 	LAZYINITLIST(dancefloor_turfs_types)
 
