@@ -54,7 +54,7 @@
 
 ///Guardian Timestop ability
 /datum/action/cooldown/spell/timestop/guardian
-	name = "Stop Time"
+	name = "Guardian Timestop"
 	desc = "This spell stops time for everyone except for you and your master, allowing you to move freely while your enemies and even projectiles are frozen."
 	cooldown_time = 60 SECONDS
 	spell_requirements = NONE

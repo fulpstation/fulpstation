@@ -223,4 +223,4 @@
 	invocation = "SQUEAAAAK!"
 	invocation_type = INVOCATION_SHOUT
 	convert_damage = FALSE
-	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/bat
+	possible_shapes = list(/mob/living/simple_animal/hostile/retaliate/bat)
