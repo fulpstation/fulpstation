@@ -837,25 +837,25 @@
  * Made by: Manray
  */
 
-/obj/item/clothing/under/texasman
+/obj/item/clothing/under/costume_2020/texasman
 	name = "texasman blue uniform"
 	desc = "Whoooowee, would ya look at that!"
 	icon_state = "texasman_blue"
 
-/obj/item/clothing/gloves/texasman
+/obj/item/clothing/gloves/costume_2020/texasman
 	name = "texasman gloves"
 	desc = "Giddy up!"
 	icon_state = "texasman_glove"
 
-/obj/item/clothing/under/texasman/red
+/obj/item/clothing/under/costume_2020/texasman/red
 	name = "texasman red uniform"
 	icon_state = "texasman_red"
 
 /obj/item/storage/box/halloween/edition_20/texasman
 	theme_name = "2020's Blue Texasman"
 	costume_contents = list(
-		/obj/item/clothing/under/texasman,
-		/obj/item/clothing/gloves/texasman,
+		/obj/item/clothing/under/costume_2020/texasman,
+		/obj/item/clothing/gloves/costume_2020/texasman,
 		/obj/item/clothing/head/hardhat,
 		/obj/item/clothing/shoes/workboots,
 	)
@@ -863,8 +863,8 @@
 /obj/item/storage/box/halloween/edition_20/texasman/red
 	theme_name = "2020's Red Texasman"
 	costume_contents = list(
-		/obj/item/clothing/under/texasman/red,
-		/obj/item/clothing/gloves/texasman,
+		/obj/item/clothing/under/costume_2020/texasman/red,
+		/obj/item/clothing/gloves/costume_2020/texasman,
 		/obj/item/clothing/head/hardhat,
 		/obj/item/clothing/shoes/workboots,
 	)
