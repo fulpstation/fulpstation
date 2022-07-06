@@ -67,6 +67,12 @@
 
 /obj/item/infiltrator_radio
 	name = "Infiltrator Radio"
+	desc = "How is this thing running without a battery?"
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "infiltrator_radio"
+	w_class = WEIGHT_CLASS_SMALL
+	///has the player claimed all his objectives' rewards?
+	var/objectives_complete = FALSE
 	///List of objectives we have already checked
 	var/list/checked_objectives = list()
 	///Pool of rewards
@@ -81,12 +87,10 @@
 		/obj/item/reagent_containers/hypospray/medipen/stimulants,
 		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
-	desc = "How is this thing running without a battery?"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
-	icon_state = "infiltrator_radio"
-	w_class = WEIGHT_CLASS_SMALL
-	///has the player claimed all his objectives' rewards?
-	var/objectives_complete = FALSE
+
+/obj/item/infiltrator_radio/Initialize(mapload)
+	. = ..()
+	add_overlay("infiltrator_radio_overlay")
 
 /obj/item/infiltrator_radio/proc/check_reward_status(mob/living/user)
 	for(var/datum/objective/goal in user.mind.get_all_objectives())
@@ -140,6 +144,3 @@
 	return
 
 
-/obj/item/infiltrator_radio/Initialize(mapload)
-	. = ..()
-	add_overlay("infiltrator_radio_overlay")
