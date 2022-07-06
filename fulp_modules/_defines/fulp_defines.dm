@@ -31,12 +31,13 @@
 
 ///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
 #define CALIBER_C22 ".c22"
-///File to the flavor file
-#define DEVILAFFAIR_FLAVOR_FILE "devilaffair_flavor.json"
 
 ///Infiltrator employer defines
 #define INFILTRATOR_FACTION_CORPORATE_CLIMBER "Corporate Climber"
 #define INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM "Animal Rights Consortium"
 #define INFILTRATOR_FACTION_GORLEX_MARAUDERS "Gorlex Marauders"
+
+///File for Devil affair flavortexts
+#define DEVILAFFAIR_FLAVOR_FILE "devilaffair_flavor.json"
 
 #define REQUEST_MENTORHELP "request_mentorhelp"

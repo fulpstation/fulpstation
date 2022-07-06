@@ -947,6 +947,10 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/bloodsucker/frenzy,
 		// DEVIL AFFAIR OBJECTIVES //
 		/datum/objective/assassinate/internal,
+		// INFILTRATOR OBJECTIVES //
+		/datum/objective/kill_pet,
+		/datum/objective/emag_console,
+		/datum/objective/escape/escape_with_identity/infiltrator,
 		// Fulp edit END
 		/datum/objective/destroy,
 		/datum/objective/hijack,
@@ -958,9 +962,6 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 		/datum/objective/capture,
 		/datum/objective/absorb,
 		/datum/objective/custom,
-		/datum/objective/kill_pet, ///Fulpstation Infiltrators edit
-		/datum/objective/emag_console,
-		/datum/objective/escape/escape_with_identity/infiltrator, /// Fulpstation Infiltrators edit end
 		/datum/objective/custom
 	),/proc/cmp_typepaths_asc)
 
