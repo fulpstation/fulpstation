@@ -71,15 +71,15 @@
 	var/list/checked_objectives = list()
 	///Pool of rewards
 	var/reward_items = list(
-	/obj/item/card/emag,
-	/obj/item/card/emag/doorjack,
-	/obj/item/grenade/syndieminibomb,
-	/obj/item/grenade/c4/x4,
-	/obj/item/pen/edagger,
-	/obj/item/guardiancreator/tech/choose/traitor,
-	/obj/item/jammer,
-	/obj/item/reagent_containers/hypospray/medipen/stimulants,
-	/obj/item/storage/box/syndie_kit/imp_stealth,
+		/obj/item/card/emag,
+		/obj/item/card/emag/doorjack,
+		/obj/item/grenade/syndieminibomb,
+		/obj/item/grenade/c4/x4,
+		/obj/item/pen/edagger,
+		/obj/item/guardiancreator/tech/choose/traitor,
+		/obj/item/jammer,
+		/obj/item/reagent_containers/hypospray/medipen/stimulants,
+		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
 	desc = "How is this thing running without a battery?"
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
