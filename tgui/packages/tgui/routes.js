@@ -10,8 +10,7 @@ import { selectDebug } from './debug/selectors';
 import { Window } from './layouts';
 // Fulp edit - Fulp TGUI
 import { loadInterface } from "../fulpui-patches";
-
-const requireInterface = require.context('./interfaces');
+// const requireInterface = require.context('./interfaces');
 
 const routingError = (type, name) => () => {
   return (
