@@ -21,7 +21,7 @@
 
 	if(!smoke)
 		smoke = new()
-	smoke.set_up(0, get_turf(user))
+	smoke.set_up(0, get_turf(owner))
 	smoke.start()
 
 	if(dancefloor_exists)
@@ -30,9 +30,9 @@
 			var/turf/T = dancefloor_turfs[i]
 			T.ChangeTurf(dancefloor_turfs_types[i], flags = CHANGETURF_INHERIT_AIR)
 	else
-		var/list/funky_turfs = RANGE_TURFS(1, user)
+		var/list/funky_turfs = RANGE_TURFS(1, owner)
 		for(var/turf/closed/solid in funky_turfs)
-			to_chat(user, "<span class='warning'>You're too close to a wall.</span>")
+			to_chat(owner, "<span class='warning'>You're too close to a wall.</span>")
 			return
 		dancefloor_exists = TRUE
 		var/i = 1
