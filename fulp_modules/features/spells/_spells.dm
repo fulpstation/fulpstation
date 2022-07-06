@@ -1,22 +1,20 @@
-/obj/effect/proc_holder/spell/targeted/summon_dancefloor
+/datum/action/cooldown/spell/summon_dancefloor
 	name = "Summon Dancefloor"
 	desc = "When what a Devil really needs is funk."
-	include_user = TRUE
-	range = -1
-	clothes_req = FALSE
 
-	school = "conjuration"
-	charge_max = 10
-	cooldown_min = 50 //5 seconds, so the smoke can't be spammed
-	action_icon = 'icons/mob/actions/actions_minor_antag.dmi'
-	action_icon_state = "funk"
+	spell_requirements = NONE
+	school = SCHOOL_EVOCATION
+	cooldown_time = 5 SECONDS //5 seconds, so the smoke can't be spammed
+
+	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon_state = "funk"
 
 	var/list/dancefloor_turfs
 	var/list/dancefloor_turfs_types
 	var/dancefloor_exists = FALSE
 	var/datum/effect_system/smoke_spread/transparent/dancefloor_devil/smoke
 
-/obj/effect/proc_holder/spell/targeted/summon_dancefloor/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/summon_dancefloor/cast(list/targets, mob/user = usr)
 	LAZYINITLIST(dancefloor_turfs)
 	LAZYINITLIST(dancefloor_turfs_types)
 
