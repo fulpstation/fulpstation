@@ -247,7 +247,7 @@
 
 /obj/effect/forcefield/arena_shuttle
 	name = "portal"
-	timeleft = 0
+	initial_duration = 0
 	var/list/warp_points = list()
 
 /obj/effect/forcefield/arena_shuttle/Initialize(mapload)
@@ -284,7 +284,7 @@
 
 /obj/effect/forcefield/arena_shuttle_entrance
 	name = "portal"
-	timeleft = 0
+	initial_duration = 0
 	var/list/warp_points = list()
 
 /obj/effect/forcefield/arena_shuttle_entrance/Bumped(atom/movable/AM)
