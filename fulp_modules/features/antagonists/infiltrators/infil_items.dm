@@ -134,7 +134,7 @@
 	if(.)
 		return
 	switch(action)
-		if("fuck")
+		if("claim_reward")
 			if(check_reward_status(usr))
 				give_reward(usr)
 	return
