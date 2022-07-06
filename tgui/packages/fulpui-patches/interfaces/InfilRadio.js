@@ -28,7 +28,7 @@ export const InfilRadio = (props, context) => {
           <Section>
             <Button
               content={check ? "Claim Reward" : "Reward Unavailable"}
-              onClick={() => act('fuck')} />
+              onClick={() => act('claim_reward')} />
           </Section>
         )}
       </Window.Content>
