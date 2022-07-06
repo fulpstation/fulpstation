@@ -11,7 +11,7 @@
 /datum/supply_pack/goody/halloween_beacon
 	name = "Halloween Beacon"
 	desc = "Contains one halloween beacon used for bluespace costume delivery. Guaranteed to get you spooky!"
-	cost = PAYCHECK_MEDIUM * 2
+	cost = CARGO_CRATE_VALUE * 0.5
 	contains = list(/obj/item/choice_beacon/halloween)
 
 //Costume packs

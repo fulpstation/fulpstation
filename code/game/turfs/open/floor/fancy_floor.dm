@@ -111,7 +111,7 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 
 /turf/open/floor/bamboo/setup_broken_states()
-	return list("damaged")
+	return list("bamboodamaged")
 
 /turf/open/floor/grass
 	name = "grass patch"
@@ -219,9 +219,6 @@
 	clawfootstep = FOOTSTEP_CARPET_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
-
-/turf/open/floor/carpet/setup_broken_states()
-	return list("damaged")
 
 /turf/open/floor/carpet/examine(mob/user)
 	. = ..()
@@ -771,6 +768,12 @@
 	underlay_appearance.icon = 'icons/turf/floors.dmi'
 	underlay_appearance.icon_state = "basalt"
 	return TRUE
+
+/turf/open/floor/fakeice
+	desc = "Is it marble, polished to a mirror finish? Or just really, really grippy ice?"
+	icon = 'icons/turf/floors/ice_turf.dmi'
+	icon_state = "ice_turf-0"
+	base_icon_state = "ice_turf-0"
 
 /turf/open/floor/fakespace
 	icon = 'icons/turf/space.dmi'

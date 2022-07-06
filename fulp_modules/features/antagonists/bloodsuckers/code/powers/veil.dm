@@ -78,9 +78,6 @@
 		REMOVE_TRAIT(user, TRAIT_DISFIGURED, null)
 	user.dna.features = random_features()
 
-	// Beefmen
-	proof_beefman_features(user.dna.features)
-
 	// Apply Appearance
 	user.update_body() // Outfit and underware, also body.
 	user.update_mutant_bodyparts() // Lizard tails etc
@@ -134,10 +131,9 @@
 	puff.start()
 	owner.spin(8, 1) //Spin around like a loon.
 
-/obj/effect/particle_effect/smoke/vampsmoke
-	opaque = FALSE
-	amount = 0
+/obj/effect/particle_effect/fluid/smoke/vampsmoke
+	opacity = FALSE
 	lifetime = 0
 
-/obj/effect/particle_effect/smoke/vampsmoke/fade_out(frames = 6)
+/obj/effect/particle_effect/fluid/smoke/vampsmoke/fade_out(frames = 0.8 SECONDS)
 	..(frames)

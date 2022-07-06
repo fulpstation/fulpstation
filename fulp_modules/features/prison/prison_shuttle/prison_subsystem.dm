@@ -18,9 +18,9 @@
 #define SHUTTLE_CLEANUP "prison_cleaning"
 #define SHUTTLE_XENOBIOLOGY "prison_xenobio"
 
-#define SHUTTLE_MIN_TIME (5.1 MINUTES)
-#define SHUTTLE_MAX_TIME (6.1 MINUTES)
-#define SHUTTLE_DELAY_TIME (8.1 MINUTES)
+#define SHUTTLE_MIN_TIME (5 MINUTES)
+#define SHUTTLE_MAX_TIME (6 MINUTES)
+#define SHUTTLE_DELAY_TIME (8 MINUTES)
 
 /**
  * Prison subsystem
@@ -31,7 +31,7 @@ SUBSYSTEM_DEF(permabrig)
 	flags = SS_BACKGROUND
 
 	//timer between intercom alerts
-	wait = 1 MINUTES
+	wait = 1.2 MINUTES
 
 	///The shuttle currently loaded.
 	var/datum/map_template/shuttle/prison/loaded_shuttle
@@ -50,6 +50,8 @@ SUBSYSTEM_DEF(permabrig)
 	)
 
 /datum/controller/subsystem/permabrig/fire(resumed)
+	if(SSshuttle.emergency_no_escape || SSshuttle.admin_emergency_no_recall || SSshuttle.emergency_no_recall || !SSticker.HasRoundStarted())
+		return
 	if(!COOLDOWN_FINISHED(src, shuttle_cooldown))
 		for(var/obj/item/radio/intercom/prison/broadcasters as anything in GLOB.prison_broadcasters)
 			broadcasters.say("[round(COOLDOWN_TIMELEFT(src, shuttle_cooldown) / 600)] minutes until the permabrig shuttle [loaded_shuttle ? "leaves. Ensure the current objective has been completed before it departs." : "arrives"]")
@@ -100,8 +102,8 @@ SUBSYSTEM_DEF(permabrig)
 		broadcasters.say("[message]")
 		playsound(broadcasters, sound, 20, TRUE)
 
-	SSshuttle.prison_shuttle.jumpToNullSpace()
 	loaded_shuttle = null
+	SSshuttle.prison_shuttle.jumpToNullSpace()
 
 #undef SHUTTLE_MIN_TIME
 #undef SHUTTLE_MAX_TIME

@@ -100,7 +100,7 @@
 		owner.spin(8, 1)
 		owner.balloon_alert_to_viewers("spins wildly!", "you spin!")
 		return
-	do_smoke(0, owner.loc, smoke_type = /obj/effect/particle_effect/smoke/transparent)
+	do_smoke(0, owner.loc, smoke_type = /obj/effect/particle_effect/fluid/smoke/transparent)
 
 /datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner
@@ -130,7 +130,7 @@
 		owner.visible_message(
 			span_warning("[owner] tears into [target]'s chest!"),
 			span_warning("You tear into [target]'s chest!"))
-		var/obj/item/organ/heart/myheart_now = locate() in target.internal_organs
+		var/obj/item/organ/internal/heart/myheart_now = locate() in target.internal_organs
 		if(myheart_now)
 			myheart_now.Remove(target)
 			user.put_in_hands(myheart_now)

@@ -9,8 +9,14 @@
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
+	ui_name = "AntagInfoBloodsucker"
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
+
+	/// How much blood we have, starting off at default blood levels.
+	var/bloodsucker_blood_volume = BLOOD_VOLUME_NORMAL
+	/// How much blood we can have at once, increases per level.
+	var/max_blood_volume = 600
 
 	// TIMERS //
 	///Timer between alerts for Burn messages
@@ -55,7 +61,6 @@
 	var/passive_blood_drain = -0.1
 	var/additional_regen
 	var/bloodsucker_regen_rate = 0.3
-	var/max_blood_volume = 600
 
 	// Used for Bloodsucker Objectives
 	var/area/lair
@@ -63,6 +68,8 @@
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
+	/// If we're currently getting dusted, we won't final death repeatedly.
+	var/dust_timer
 
 	///Blood display HUD
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
@@ -446,7 +453,7 @@
 	RemoveVampOrgans()
 	/// Eyes
 	var/mob/living/carbon/user = owner.current
-	var/obj/item/organ/eyes/user_eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/internal/eyes/user_eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(user_eyes)
 		user_eyes.flash_protect += 1
 		user_eyes.sight_flags = 0
@@ -855,13 +862,13 @@
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud()
 	var/valuecolor
-	if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
+	if(bloodsucker_blood_volume > BLOOD_VOLUME_SAFE)
 		valuecolor = "#FFDDDD"
-	else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
+	else if(bloodsucker_blood_volume > BLOOD_VOLUME_BAD)
 		valuecolor = "#FFAAAA"
 
 	if(blood_display)
-		blood_display.update_counter(owner.current.blood_volume, valuecolor)
+		blood_display.update_counter(bloodsucker_blood_volume, valuecolor)
 
 	if(vamprank_display)
 		if(bloodsucker_level_unspent > 0)

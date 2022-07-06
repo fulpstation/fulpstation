@@ -88,7 +88,12 @@
 	else
 		target = pick(sec)
 
+
 	if(target?.current)
+		target_real_name = target.current.real_name
+		var/mob/living/carbon/human/target_body = target.current
+		if(target_body && target_body.get_id_name() != target_real_name)
+			target_missing_id = 1
 		explanation_text = "Using Advanced Mulligan, escape with the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
 
 //Animal Rights Consortium Objectives

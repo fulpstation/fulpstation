@@ -7,62 +7,58 @@
 
 /** Security */
 /datum/job/warden
-	total_positions = 1
-	spawn_positions = 2
+	total_positions = 2
+	spawn_positions = 1
 
 /datum/job/detective
 	total_positions = 2
-	spawn_positions = 5
+	spawn_positions = 1
 
 /datum/job/security_officer
 	total_positions = 8
 	spawn_positions = 8
 
-/datum/job/prisoner
-	total_positions = 2
-	spawn_positions = 0
-
 /** Engineering */
 /datum/job/station_engineer
-	total_positions = 5
-	spawn_positions = 7
+	total_positions = 7
+	spawn_positions = 5
 	exp_requirements = 180
 
 /datum/job/atmospheric_technician
-	total_positions = 2
-	spawn_positions = 6
+	total_positions = 6
+	spawn_positions = 2
 	exp_requirements = 300
 
 /** Science */
 /datum/job/scientist
-	total_positions = 3
-	spawn_positions = 7
+	total_positions = 7
+	spawn_positions = 3
 	exp_requirements = 180
 
 /datum/job/roboticist
-	total_positions = 2
-	spawn_positions = 5
+	total_positions = 5
+	spawn_positions = 2
 	exp_requirements = 180
 
 /datum/job/geneticist
-	total_positions = 2
-	spawn_positions = 4
+	total_positions = 4
+	spawn_positions = 2
 	exp_requirements = 180
 
 /** Medical */
 /datum/job/doctor
-	total_positions = 6
-	spawn_positions = 12
+	total_positions = 12
+	spawn_positions = 6
 	exp_requirements = 180
 
 /datum/job/paramedic
-	total_positions = 2
-	spawn_positions = 4
+	total_positions = 4
+	spawn_positions = 2
 	exp_requirements = 180
 
 /datum/job/chemist
-	total_positions = 2
-	spawn_positions = 3
+	total_positions = 3
+	spawn_positions = 2
 	exp_requirements = 180
 
 /datum/job/virologist
@@ -73,13 +69,13 @@
 	exp_requirements = 300
 
 /datum/job/cargo_technician
-	total_positions = 4
-	spawn_positions = 6
+	total_positions = 6
+	spawn_positions = 4
 	exp_requirements = 300
 
 /datum/job/shaft_miner
-	total_positions = 3
-	spawn_positions = 8
+	total_positions = 8
+	spawn_positions = 3
 	exp_requirements = 180
 	exp_required_type = EXP_TYPE_CREW
 
@@ -89,40 +85,40 @@
 	spawn_positions = 2
 
 /datum/job/botanist
-	total_positions = 3
-	spawn_positions = 5
+	total_positions = 5
+	spawn_positions = 3
 
 /datum/job/cook
 	total_positions = 2
 	spawn_positions = 2
 
 /datum/job/janitor
-	total_positions = 3
-	spawn_positions = 6
+	total_positions = 6
+	spawn_positions = 3
 
 /datum/job/clown
-	total_positions = 1
-	spawn_positions = 2
+	total_positions = 2
+	spawn_positions = 1
 
 /datum/job/mime
-	total_positions = 1
-	spawn_positions = 2
+	total_positions = 2
+	spawn_positions = 1
 
 /datum/job/curator
-	total_positions = 1
-	spawn_positions = 2
+	total_positions = 2
+	spawn_positions = 1
 
 /datum/job/lawyer
-	total_positions = 2
-	spawn_positions = 4
+	total_positions = 4
+	spawn_positions = 2
 
 /datum/job/chaplain
-	total_positions = 1
-	spawn_positions = 2
+	total_positions = 2
+	spawn_positions = 1
 
 /datum/job/psychologist
-	total_positions = 1
-	spawn_positions = 2
+	total_positions = 2
+	spawn_positions = 1
 
 /** Silicon */
 /datum/job/cyborg

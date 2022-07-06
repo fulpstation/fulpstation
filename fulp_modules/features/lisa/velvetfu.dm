@@ -27,19 +27,19 @@
 
 /datum/martial_art/velvetfu/proc/check_streak(mob/living/A, mob/living/D)
 	if(findtext(streak, FLYING_AXEKICK_COMBO))
-		streak = ""
+		reset_streak(A)
 		flyingAxekick(A,D)
 		return TRUE
 	if(findtext(streak, GOAT_HEADBUTT_COMBO))
-		streak = ""
+		reset_streak(A)
 		goatHeadbutt(A,D)
 		return TRUE
 	if(findtext(streak, FULL_THRUST_COMBO))
-		streak = ""
+		reset_streak(A)
 		fullThrust(A,D)
 		return TRUE
 	if(findtext(streak, MINOR_IRIS_COMBO))
-		streak = ""
+		reset_streak(A)
 		minorIris(A,D)
 	return FALSE
 
@@ -164,7 +164,7 @@
 	A.adjustStaminaLoss(20)
 	if(prob(60) && !D.stat)
 		D.Paralyze(3 SECONDS)
-		D.Jitter(5 SECONDS)
+		D.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	/// Tell them in big text that they failed, since the effects aren't instantly visible like the others.
 	else
 		to_chat(A, span_userdanger("You fail to stun [D]!"))

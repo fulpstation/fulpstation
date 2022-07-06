@@ -1,11 +1,12 @@
 /obj/item/adv_mulligan
 	name = "advanced mulligan"
-	desc = "Toxin that permanently changes your DNA into the one of last injected person. Use it on the victim to extract their DNA then inject it into yourself!"
-	icon = 'icons/obj/items_and_weapons.dmi'
+	desc = "A one use autoinjector with a toxin that permanently changes your DNA to the DNA of a previously injected person. Use it on the victim to extract their DNA then inject it into yourself!"
+	icon = 'icons/obj/syringe.dmi'
 	icon_state = "dnainjector0"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
+	item_flags = NOBLUDGEON
 	var/used = FALSE ///determines wether the injector is used up or nah
 	var/datum/weakref/store  ///the mob currently stored in the injector
 

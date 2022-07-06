@@ -1,12 +1,11 @@
 /datum/map_template/shuttle/prison
-	prefix = "fulp_modules/mapping/prison_shuttles/"
 	port_id = "prison"
 	suffix = "default"
 	name = "Base Shuttle Template (Prison)"
 	admin_notes = "No shuttles have been tested to work with admin-intervention. Do not mess with for the sake of the server."
 	who_can_purchase = null
 	///Where players get dropped off if found on the shuttle after it departs.
-	var/dropoff_area = /area/security/prison
+	var/dropoff_area = /area/station/security/prison
 	///What stage do we start this ship off at? Some will auto-start completed, and fail by screwing up.
 	var/objective_status = PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE
 	///How much money is this objective worth? Given/taken from the Budget when completed/failed.

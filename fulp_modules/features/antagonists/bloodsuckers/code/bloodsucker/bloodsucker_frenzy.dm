@@ -22,24 +22,26 @@
  * This deals with everything entering/exiting Frenzy is meant to deal with.
  */
 
-/datum/status_effect/frenzy
-	id = "Frenzy"
-	status_type = STATUS_EFFECT_UNIQUE
-	duration = -1
-	tick_interval = 10
-	examine_text = "<span class='notice'>They seem... inhumane, and feral!</span>"
-	alert_type = /atom/movable/screen/alert/status_effect/frenzy
-	/// Store whether they were an advancedtooluser, to give the trait back upon exiting.
-	var/was_tooluser = FALSE
-	/// The stored Bloodsucker antag datum
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum
-
 /atom/movable/screen/alert/status_effect/frenzy
 	name = "Frenzy"
 	desc = "You are in a Frenzy! You are entirely Feral and, depending on your Clan, fighting for your life!"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	icon_state = "power_recover"
 	alerttooltipstyle = "cult"
+
+/datum/status_effect/frenzy
+	id = "Frenzy"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = -1
+	tick_interval = 10
+	alert_type = /atom/movable/screen/alert/status_effect/frenzy
+	/// Store whether they were an advancedtooluser, to give the trait back upon exiting.
+	var/was_tooluser = FALSE
+	/// The stored Bloodsucker antag datum
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum
+
+/datum/status_effect/frenzy/get_examine_text()
+	return span_notice("They seem... inhumane, and feral!")
 
 /atom/movable/screen/alert/status_effect/masquerade/MouseEntered(location,control,params)
 	desc = initial(desc)
@@ -97,7 +99,7 @@
 	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
 		REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
 	else if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
-		owner.Dizzy(3 SECONDS)
+		owner.set_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)
 		owner.Paralyze(2 SECONDS)
 		user.physiology.stamina_mod /= 0.4
 

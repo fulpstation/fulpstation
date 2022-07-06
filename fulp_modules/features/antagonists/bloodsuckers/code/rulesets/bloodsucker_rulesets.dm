@@ -13,8 +13,6 @@
 		JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_HEAD_OF_SECURITY,
 		// Security
 		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE,
-		// Deputies
-		JOB_DEPUTY, JOB_DEPUTY_ENG, JOB_DEPUTY_SUP, JOB_DEPUTY_MED, JOB_DEPUTY_SCI, JOB_DEPUTY_SRV,
 		// Curator
 		JOB_CURATOR,
 	)
@@ -56,13 +54,13 @@
 
 /datum/dynamic_ruleset/midround/bloodsucker
 	name = "Vampiric Accident"
+	midround_ruleset_style = MIDROUND_RULESET_STYLE_HEAVY
 	antag_datum = /datum/antagonist/bloodsucker
 	antag_flag = ROLE_VAMPIRICACCIDENT
 	antag_flag_override = ROLE_BLOODSUCKER
 	protected_roles = list(
 		JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_HEAD_OF_SECURITY,
 		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE,
-		JOB_DEPUTY, JOB_DEPUTY_ENG, JOB_DEPUTY_SUP, JOB_DEPUTY_MED, JOB_DEPUTY_SCI, JOB_DEPUTY_SRV,
 		JOB_CURATOR,
 	)
 	restricted_roles = list("AI","Cyborg", "Positronic Brain")
@@ -111,7 +109,6 @@
 	protected_roles = list(
 		JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_HEAD_OF_SECURITY,
 		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE,
-		JOB_DEPUTY, JOB_DEPUTY_ENG, JOB_DEPUTY_SUP, JOB_DEPUTY_MED, JOB_DEPUTY_SCI, JOB_DEPUTY_SRV,
 		JOB_CURATOR,
 	)
 	restricted_roles = list("AI","Cyborg")

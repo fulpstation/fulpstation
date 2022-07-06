@@ -35,15 +35,15 @@
 /* // Removed - Replaced with HealVampireOrgans()
 /datum/antagonist/bloodsucker/proc/CheckVampOrgans()
 	var/obj/item/organ/heart/vampiricheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
-	if(!istype(vampiricheart, /obj/item/organ/heart/vampheart) || !istype(vampiricheart, /obj/item/organ/heart/demon) || !istype(vampiricheart, /obj/item/organ/heart/cursed))
+	if(!istype(vampiricheart, /obj/item/organ/internal/heart/vampheart) || !istype(vampiricheart, /obj/item/organ/heart/demon) || !istype(vampiricheart, /obj/item/organ/heart/cursed))
 		qdel(vampiricheart)
-		var/obj/item/organ/heart/vampheart/vampiricheart = new
+		var/obj/item/organ/internal/heart/vampheart/vampiricheart = new
 		vampiricheart.Insert(owner.current)
 		/// Now... stop beating!
 		vampiricheart.Stop()
 */
 /datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	var/obj/item/organ/heart/newheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/internal/heart/newheart = owner.current.getorganslot(ORGAN_SLOT_HEART)
 	if(newheart)
 		qdel(newheart)
 	newheart = new()
@@ -51,32 +51,16 @@
 
 // 		HEART: OVERWRITE	//
 // 		HEART 		//
-/obj/item/organ/heart/vampheart
-	beating = 0
-	var/fakingit = 0
+/obj/item/organ/internal/heart/vampheart
+	beating = FALSE
 
-/obj/item/organ/heart/vampheart/Restart()
-	beating = 0	// DONT run ..() -- We don't want to start beating again.
-	return 0
+/obj/item/organ/internal/heart/vampheart/Restart()
+	. = ..()
+	beating = FALSE
 
-/obj/item/organ/heart/vampheart/Stop()
-	fakingit = 0
-	return ..()
-
-/obj/item/organ/heart/vampheart/proc/FakeStart()
-	fakingit = 1 // We're pretending to beat, to fool people.
-
-/// Bloodsuckers don't have a heartbeat at all when stopped (default is "an unstable")
-/obj/item/organ/heart/vampheart/HeartStrengthMessage()
-	if(fakingit)
-		return "a healthy"
-	return span_danger("no")
-
-/// Proc for the default (Non-Bloodsucker) Heart!
-/obj/item/organ/heart/proc/HeartStrengthMessage()
-	if(beating)
-		return "a healthy"
-	return span_danger("an unstable")
+/obj/item/organ/internal/heart/vampheart/proc/FakeStart()
+	// faking it
+	beating = TRUE
 
 //////////////////////
 //      EYES        //
@@ -84,7 +68,7 @@
 
 /* /// Removed due to Mothpeople & Flypeople spawning with Vampiric eyes, getting them instantly lynched.
 /// Taken from augmented_eyesight.dm
-/obj/item/organ/eyes/bloodsucker
+/obj/item/organ/internal/eyes/bloodsucker
 	lighting_alpha = 180 // LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE  <--- This is too low a value at 128. We need to SEE what the darkness is so we can hide in it.
 	see_in_dark = 12
 	sight_flags = SEE_MOBS // Bloodsuckers are predators, and detect life/heartbeats nearby. -2019 Breakdown of Bloodsuckers
@@ -159,8 +143,6 @@
 	if(IsSleeping())
 		return TRUE
 	if(stat >= UNCONSCIOUS)
-		return TRUE
-	if(blood_volume <= 0)
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_NODEATH))
 		return TRUE
@@ -355,7 +337,7 @@
 		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
 		return
 	to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
-	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	user.blur_eyes(5)
 	eyes.applyOrganDamage(5)
 

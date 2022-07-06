@@ -30,7 +30,7 @@
 	healable = 0
 	melee_damage_lower = 5
 	melee_damage_upper = 25
-	see_in_dark = 8
+	see_in_dark = NIGHTVISION_FOV_RANGE
 
 	verb_say = "blorbles"
 	verb_ask = "inquisitively blorbles"
@@ -221,7 +221,7 @@
 						Atkcool = TRUE
 						addtimer(VARSET_CALLBACK(src, Atkcool, FALSE), 4.5 SECONDS)
 
-/mob/living/simple_animal/slime/Process_Spacemove(movement_dir = 0)
+/mob/living/simple_animal/slime/Process_Spacemove(movement_dir = 0, continuous_move = FALSE)
 	return 2
 
 /mob/living/simple_animal/slime/get_status_tab_items()

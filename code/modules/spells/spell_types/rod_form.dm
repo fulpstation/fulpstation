@@ -21,7 +21,7 @@
 
 /obj/effect/proc_holder/spell/targeted/rod_form/cast(list/targets, mob/user = usr)
 	var/area/our_area = get_area(user)
-	if(istype(our_area, /area/wizard_station))
+	if(istype(our_area, /area/centcom/wizard_station))
 		to_chat(user, span_warning("You know better than to trash Wizard Federation property. Best wait until you leave to use [src]."))
 		return
 
@@ -45,6 +45,7 @@
 /// Wizard Version of the Immovable Rod.
 /obj/effect/immovablerod/wizard
 	notify = FALSE
+	loopy_rod = TRUE
 	dnd_style_level_up = FALSE
 	/// The wizard who's piloting our rod.
 	var/datum/weakref/our_wizard

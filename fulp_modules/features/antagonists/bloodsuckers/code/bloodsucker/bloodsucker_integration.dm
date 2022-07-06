@@ -4,6 +4,13 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/datum/reagent/blood/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume, show_message=TRUE, touch_protection=0)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(exposed_mob)
+	if(bloodsuckerdatum)
+		bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+		return
+	return ..()
+
 /// Gives Curators their abilities
 /datum/outfit/job/curator/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
 	. = ..()
@@ -14,21 +21,6 @@
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
 	if(IS_BLOODSUCKER(user))
 		to_chat(user, span_warning("The Memento notices your undead soul, and refuses to react.."))
-		return
-	return ..()
-
-/datum/species/jelly/slime/spec_life(mob/living/carbon/human/user)
-	// Prevents Slimeperson 'gaming
-	if(IS_BLOODSUCKER(user))
-		return
-	return ..()
-
-/// Prevents Bloodsuckers from naturally regenerating Blood - Even while on masquerade
-/mob/living/carbon/human/handle_blood(delta_time, times_fired)
-	if(mind && IS_BLOODSUCKER(src))
-		return
-	/// For Vassals -- Bloodsuckers get this removed while on Masquerade, so we don't want to remove the check above.
-	if(HAS_TRAIT(src, TRAIT_NOPULSE))
 		return
 	return ..()
 
@@ -50,11 +42,12 @@
 // Used to keep track of how much Blood we've drank so far
 /mob/living/carbon/human/get_status_tab_items()
 	. = ..()
-	if(mind)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum)
-			. += ""
-			. += "Blood Drank: [bloodsuckerdatum.total_blood_drank]"
+	if(!mind)
+		return ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum)
+		. += ""
+		. += "Blood Drank: [bloodsuckerdatum.total_blood_drank]"
 
 
 // INTEGRATION: Adding Procs and Datums to existing "classes" //
@@ -122,28 +115,6 @@
 	returnString += "</span>\]" // \n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-/// Am I "pale" when examined? - Bloodsuckers on Masquerade will hide this.
-/mob/living/carbon/human/proc/ShowAsPaleExamine(mob/user, apparent_blood_volume)
-	if(!mind)
-		return BLOODSUCKER_HIDE_BLOOD
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	// Not a Bloodsucker?
-	if(!bloodsuckerdatum)
-		return BLOODSUCKER_HIDE_BLOOD
-	// Blood level too low to be hidden?
-	if(apparent_blood_volume <= BLOOD_VOLUME_BAD || bloodsuckerdatum.frenzied)
-		return BLOODSUCKER_HIDE_BLOOD
-	// Special check: Nosferatu will always be Pale Death
-	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
-		return "<b>[p_they(TRUE)] look[p_s()] as pale as a Vampire, what the fuck?!\n"
-	if(HAS_TRAIT(src, TRAIT_MASQUERADE))
-		return BLOODSUCKER_HIDE_BLOOD
-	switch(apparent_blood_volume)
-		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-			return "[p_they(TRUE)] [p_have()] pale skin.\n"
-		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
-			return "<b>[p_they(TRUE)] look[p_s()] like pale death.</b>\n"
-
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"
 	suit = /obj/item/clothing/suit/dracula
@@ -152,7 +123,8 @@
 	enrico.hairstyle = "Undercut"
 	enrico.hair_color = "FFF"
 	enrico.skin_tone = "african2"
-	enrico.eye_color = "#663300"
+	enrico.eye_color_left = "#663300"
+	enrico.eye_color_right = "#663300"
 
-	enrico.update_hair()
-	enrico.update_body()
+	enrico.update_hair(is_creating = TRUE)
+	enrico.update_body(is_creating = TRUE)

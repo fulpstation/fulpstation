@@ -333,7 +333,7 @@
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
-		target.Jitter(15)
+		target.set_timed_status_effect(15 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 		INVOKE_ASYNC(target, /mob.proc/emote, "laugh")
 		//remove_victim(target) // Remove on CLICK ONLY!
 	use_lock = FALSE
@@ -382,7 +382,7 @@
 		span_userdanger("[user] performs a ritual, spilling some blood from your [target_string], shaking you up!"),
 	)
 	INVOKE_ASYNC(target, /mob.proc/emote, "scream")
-	target.Jitter(5)
+	target.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (selected_bodypart ? selected_bodypart.body_zone : null)) // take_overall_damage(6,0)
 	return TRUE
 
@@ -454,7 +454,7 @@
 	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
 	switch(favorite_response)
 		if("Yes")
-			user.blood_volume -= 150
+			bloodsuckerdatum.bloodsucker_blood_volume -= 150
 			bloodsuckerdatum.has_favorite_vassal = TRUE
 			vassaldatum.make_favorite(user)
 		else
@@ -572,7 +572,7 @@
 		// Are we spending a Rank?
 		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			bloodsuckerdatum.SpendRank(target)
-		else if(user.blood_volume >= 550)
+		else if(bloodsuckerdatum.bloodsucker_blood_volume >= 550)
 			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
 			to_chat(user, span_warning("Do you wish to spend 550 Blood to Rank [target] up?"))
 			var/list/rank_options = list(
@@ -582,7 +582,7 @@
 			var/rank_response = show_radial_menu(user, src, rank_options, radius = 36, require_near = TRUE)
 			switch(rank_response)
 				if("Yes")
-					user.blood_volume -= 550
+					bloodsuckerdatum.bloodsucker_blood_volume -= 550
 					bloodsuckerdatum.SpendRank(target, spend_rank = FALSE)
 					return
 		else
@@ -740,7 +740,11 @@
 	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	to_chat(bloodsuckerdatum.vassals, rendered)
+	for(var/datum/antagonist/vassal/receiver as anything in bloodsuckerdatum.vassals)
+		if(!receiver.owner.current)
+			continue
+		var/mob/receiver_mob = receiver.owner.current
+		to_chat(receiver_mob, rendered)
 	to_chat(user, rendered) // tell yourself, too.
 
 	for(var/mob/dead_mob in GLOB.dead_mob_list)
