@@ -17491,6 +17491,7 @@
 /area/station/maintenance/department/medical)
 "aOI" = (
 /obj/structure/rack,
+/obj/effect/spawner/random/maintenance/eight,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "aOK" = (
@@ -18850,7 +18851,10 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "aSh" = (
-/obj/effect/spawner/random/maintenance/eight,
+/obj/item/shard{
+	icon_state = "medium"
+	},
+/obj/structure/table_frame,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "aSi" = (
@@ -19169,13 +19173,6 @@
 /obj/effect/landmark/start/virologist,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
-"aTf" = (
-/obj/structure/table_frame,
-/obj/item/shard{
-	icon_state = "medium"
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/port/fore)
 "aTg" = (
 /obj/structure/table,
 /obj/item/storage/pill_bottle/happy,
@@ -25991,9 +25988,8 @@
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/medical)
 "bni" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/random/maintenance,
-/obj/effect/spawner/random/maintenance,
+/obj/structure/rack,
+/obj/effect/spawner/random/maintenance/four,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "bnj" = (
@@ -42296,8 +42292,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
-/obj/structure/closet/crate,
-/obj/effect/spawner/random/maintenance/three,
+/obj/effect/spawner/random/structure/crate_abandoned,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "cfE" = (
@@ -57224,13 +57219,6 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/engine,
 /area/station/engineering/main)
-"cQa" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/effect/spawner/random/maintenance/two,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "cQb" = (
 /obj/structure/closet/firecloset,
 /obj/item/toy/figure/ninja,
@@ -62330,6 +62318,11 @@
 /obj/effect/spawner/random/maintenance,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
+"fUH" = (
+/obj/effect/spawner/random/maintenance/two,
+/obj/structure/closet/crate,
+/turf/open/floor/plating,
+/area/station/maintenance/department/science)
 "fVq" = (
 /obj/effect/turf_decal/siding/wideplating{
 	dir = 1
@@ -64348,8 +64341,6 @@
 /turf/open/floor/iron/white,
 /area/station/science/ordnance)
 "ixp" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/random/maintenance/two,
 /obj/structure/cable,
 /obj/machinery/camera/directional/south{
 	c_tag = "Solar Control - Starboard Aft Maint";
@@ -65589,6 +65580,12 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
+"kdk" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/plating,
+/area/station/maintenance/department/science/xenobiology)
 "kdO" = (
 /obj/structure/table,
 /obj/effect/turf_decal/siding/brown{
@@ -68261,11 +68258,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/engine_smes)
-"nuD" = (
-/obj/structure/disposalpipe/segment,
-/obj/structure/closet/firecloset,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "nvh" = (
 /obj/effect/turf_decal/tile/bar{
 	dir = 1
@@ -69644,6 +69636,10 @@
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/brig/upper)
+"oXb" = (
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/station/maintenance/department/medical)
 "oXf" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
@@ -70649,10 +70645,10 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "qlG" = (
-/obj/effect/mapping_helpers/airlock/access/any/engineering/maintenance,
 /obj/machinery/door/airlock/maintenance{
-	name = "Maintenance Access"
+	name = "Self Reflection Room"
 	},
+/obj/effect/mapping_helpers/airlock/access/any/medical/maintenance,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "qlV" = (
@@ -72749,11 +72745,6 @@
 	},
 /turf/open/floor/plating,
 /area/station/engineering/main)
-"sSd" = (
-/obj/structure/disposalpipe/segment,
-/obj/effect/spawner/random/engineering/tank,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "sTk" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
@@ -72770,6 +72761,12 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
+"sUm" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/station/maintenance/department/science/xenobiology)
 "sUr" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -73799,7 +73796,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
 	},
-/obj/effect/spawner/random/structure/crate_abandoned,
+/obj/structure/closet/firecloset,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "uhm" = (
@@ -76658,7 +76655,7 @@
 "xYy" = (
 /obj/effect/mapping_helpers/airlock/access/any/engineering/maintenance,
 /obj/machinery/door/airlock/maintenance{
-	name = "Maintenance Access"
+	name = "Abandoned Arcade"
 	},
 /obj/structure/barricade/wooden,
 /turf/open/floor/iron/dark,
@@ -76692,6 +76689,12 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
 	},
+/turf/open/floor/plating,
+/area/station/maintenance/department/science/xenobiology)
+"ycZ" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/effect/spawner/random/structure/crate_abandoned,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "ydQ" = (
@@ -95431,10 +95434,10 @@ aKP
 azQ
 pva
 aOI
-aSh
+aAi
 aRl
 aSh
-aTf
+eLa
 azQ
 iCK
 aWl
@@ -105197,7 +105200,7 @@ aAi
 aAi
 aAi
 aAi
-aAi
+aGU
 aAi
 aAi
 aAi
@@ -120711,7 +120714,7 @@ lxz
 ckj
 cPu
 cPM
-cQa
+xAZ
 ciP
 mHD
 chq
@@ -123265,9 +123268,9 @@ qmW
 cGS
 cxa
 cxa
-sSd
-sSd
-nuD
+cxa
+cxa
+cxa
 cny
 cxa
 cxa
@@ -123777,14 +123780,14 @@ qva
 qva
 qva
 cCc
-qva
-qva
+sUm
+kdk
 qva
 qva
 ugW
 ckj
 pIP
-qva
+ycZ
 qva
 qva
 cLo
@@ -124305,7 +124308,7 @@ ckk
 chq
 cOv
 chq
-mHD
+chq
 ctm
 cPC
 cPT
@@ -124466,7 +124469,7 @@ aQK
 aQK
 aQK
 aHx
-aNd
+iTv
 bSo
 sLn
 kGY
@@ -124561,7 +124564,7 @@ cxg
 ckk
 ckk
 cPL
-chq
+mHD
 chq
 ckj
 cPD
@@ -125252,8 +125255,8 @@ dwy
 aHx
 kGY
 aEd
-iTv
-iTv
+oXb
+bbA
 aEd
 bdL
 oFi
@@ -127872,9 +127875,9 @@ mzM
 bxD
 bBg
 bBg
+bCI
+bCI
 qzP
-qzP
-bBg
 bBg
 css
 bJT
@@ -128396,7 +128399,7 @@ mVE
 xsJ
 bJT
 nOx
-bBg
+fUH
 bxD
 cyT
 cAl
