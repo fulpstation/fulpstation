@@ -5573,7 +5573,9 @@
 /turf/open/floor/iron/dark,
 /area/station/security/brig)
 "anD" = (
-/obj/machinery/door/window/brigdoor/security/holding/right/directional/east,
+/obj/machinery/door/window/brigdoor/security/holding/right/directional/east{
+	req_one_access = list("brig_entrance")
+	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
@@ -6631,6 +6633,12 @@
 	},
 /obj/machinery/light/directional/north,
 /obj/structure/filingcabinet/chestdrawer,
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching Prison Wing holding areas.";
+	name = "Prison Monitor";
+	network = list("prison");
+	pixel_y = 30
+	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
 "apD" = (
@@ -13168,7 +13176,6 @@
 /turf/open/floor/circuit,
 /area/station/ai_monitored/command/nuke_storage)
 "aDM" = (
-/obj/structure/closet/secure_closet/evidence,
 /obj/machinery/camera/directional/east{
 	c_tag = "Evidence Room";
 	name = "Security Camera";
@@ -13178,6 +13185,9 @@
 	color = "#FF0000";
 	dir = 5;
 	name = "security red"
+	},
+/obj/structure/closet{
+	name = "Evidence Closet 4"
 	},
 /turf/open/floor/iron,
 /area/station/security/interrogation)
@@ -13335,7 +13345,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "aEn" = (
-/obj/structure/closet/secure_closet/evidence,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
 	},
@@ -13343,6 +13352,9 @@
 	color = "#FF0000";
 	dir = 8;
 	name = "security red"
+	},
+/obj/structure/closet{
+	name = "Evidence Closet 2"
 	},
 /turf/open/floor/iron,
 /area/station/security/interrogation)
@@ -13508,7 +13520,6 @@
 /turf/open/floor/circuit,
 /area/station/ai_monitored/command/nuke_storage)
 "aEG" = (
-/obj/structure/closet/secure_closet/evidence,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
@@ -13518,6 +13529,9 @@
 	name = "security red"
 	},
 /obj/machinery/light/small/directional/east,
+/obj/structure/closet{
+	name = "Evidence Closet 5"
+	},
 /turf/open/floor/iron,
 /area/station/security/interrogation)
 "aEH" = (
@@ -14046,11 +14060,13 @@
 /turf/open/floor/circuit,
 /area/station/ai_monitored/command/nuke_storage)
 "aFE" = (
-/obj/structure/closet/secure_closet/evidence,
 /obj/effect/turf_decal/siding/red{
 	color = "#FF0000";
 	dir = 9;
 	name = "security red"
+	},
+/obj/structure/closet{
+	name = "Evidence Closet 1"
 	},
 /turf/open/floor/iron,
 /area/station/security/interrogation)
@@ -14428,7 +14444,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Medbay - Virology Lab";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -15556,7 +15572,7 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Medbay - Virology Hallway";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -17624,6 +17640,12 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching Prison Wing holding areas.";
+	name = "Prison Monitor";
+	network = list("prison");
+	pixel_y = 30
+	},
 /turf/open/floor/carpet/purple,
 /area/station/service/lawoffice)
 "aOS" = (
@@ -18895,7 +18917,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Medbay - Virology Dormitory";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /obj/item/storage/secure/safe/directional/north,
 /obj/machinery/button/door/directional/west{
@@ -20129,6 +20151,13 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/siding/wood,
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching Prison Wing holding areas.";
+	name = "Prison Monitor";
+	network = list("prison");
+	pixel_y = -30;
+	dir = 1
+	},
 /turf/open/floor/carpet/blue,
 /area/station/service/lawoffice)
 "aVv" = (
@@ -22139,7 +22168,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Medbay - Treatment Center South";
 	name = "Stasis Camera";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/white/textured,
@@ -38041,7 +38070,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Medbay - Virology Airlock";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
@@ -69555,11 +69584,13 @@
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "oSk" = (
-/obj/structure/closet/secure_closet/evidence,
 /obj/effect/turf_decal/siding/red{
 	color = "#FF0000";
 	dir = 10;
 	name = "security red"
+	},
+/obj/structure/closet{
+	name = "Evidence Closet 3"
 	},
 /turf/open/floor/iron,
 /area/station/security/interrogation)
@@ -69601,7 +69632,7 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Medbay - Pharmacy";
 	name = "Pharmacy Camera";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
@@ -71232,7 +71263,7 @@
 /obj/machinery/camera/directional/south{
 	c_tag = "Medbay - Patient's Room";
 	name = "Medbay Camera";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/iron/freezer,
@@ -75816,7 +75847,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Medbay - Virology Test Subject Chamber";
 	name = "Virology Camera";
-	network = list("ss13","medbay", "viro")
+	network = list("ss13","medbay","viro")
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
