@@ -54,7 +54,7 @@
 	backpack_contents = list(
 		/obj/item/storage/box/survival/syndie = 1,
 		/obj/item/knife/combat/survival = 1,
-		/obj/item/infiltrator_radio =1,
+		/obj/item/infiltrator_radio = 1,
 	)
 	id = /obj/item/card/id/advanced
 	id_trim = /datum/id_trim/chameleon/operative
