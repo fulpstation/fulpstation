@@ -22,7 +22,7 @@
 
 /area/station/maintenance/department/medical/plasmaman
 	name = "\improper Plasmaman Medbay"
-	icon = "fulp_modules/mapping/areas/icons.dmi"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "pm_medbay"
 
 // Ruins
