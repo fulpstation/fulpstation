@@ -150,13 +150,7 @@
 		background_icon_state = background_icon_state_on
 	else
 		background_icon_state = background_icon_state_off
-	. = ..()
-	//hardcode moment, remove when /datum/action/cooldown/UpdateButton doesnt set `click_to_activate` to GREEN.
-	if((button.our_hud.mymob.click_intercept == src))
-		if(active)
-			button.color = rgb(255,255,255,255)
-		else
-			button.color = transparent_when_unavailable ? rgb(128,0,0,128) : rgb(128,0,0)
+	return ..()
 
 /datum/action/cooldown/bloodsucker/proc/PayCost()
 	// Non-bloodsuckers will pay in other ways.
