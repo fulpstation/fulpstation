@@ -5,8 +5,27 @@
  * Instead of messing with people's minds and using some random area, we make our own.
  */
 
+// Station
+
 /area/service/lawoffice/upper
 	name = "\improper Upper Law Office"
+
+/area/station/ai_monitored/turret_protected/aisat/solars
+	name = "\improper AI Satellite Solars"
+	icon = "fulp_modules/mapping/areas/icons.dmi"
+	icon_state = "ai_solars"
+
+/area/station/solars/ai
+	name = "\improper AI Satellite Solar Array"
+	icon = "fulp_modules/mapping/areas/icons.dmi"
+	icon_state = "ai_panels"
+
+/area/station/maintenance/department/medical/plasmaman
+	name = "\improper Plasmaman Medbay"
+	icon = "fulp_modules/mapping/areas/icons.dmi"
+	icon_state = "pm_medbay"
+
+// Ruins
 
 /area/ruin/powered/beefcyto
 	name = "Research Outpost"
@@ -16,6 +35,8 @@
 	name = "beef station"
 	icon_state = "green"
 	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
+
+// Shuttles
 
 /area/shuttle/prison_shuttle
 	name = "Prison Shuttle"
