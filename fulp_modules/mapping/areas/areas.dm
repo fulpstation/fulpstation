@@ -17,7 +17,7 @@
 
 /area/station/solars/ai
 	name = "\improper AI Satellite Solar Array"
-	icon = "fulp_modules/mapping/areas/icons.dmi"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "ai_panels"
 
 /area/station/maintenance/department/medical/plasmaman
