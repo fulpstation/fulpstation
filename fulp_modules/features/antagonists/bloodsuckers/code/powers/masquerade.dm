@@ -21,8 +21,8 @@
 		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
 		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
 		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
-	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
-	check_flags = BP_CANT_USE_IN_FRENZY|BP_AM_COSTLESS_UNCONSCIOUS
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
+	check_flags = BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_CAN_BUY
 	bloodcost = 10
 	cooldown = 5 SECONDS

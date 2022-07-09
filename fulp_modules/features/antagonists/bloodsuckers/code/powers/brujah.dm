@@ -6,8 +6,8 @@
 		A Brujah only Power. Activating it will make you enter a Frenzy.\n\
 		When in a Frenzy, you get extra stun resistance, slowly gain brute damage, move faster, become mute/deaf,\n\
 		and become unable to use complicated machinery as your screen goes blood-red."
-	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
-	check_flags = BP_AM_COSTLESS_UNCONSCIOUS
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
+	check_flags = NONE
 	purchase_flags = NONE
 	bloodcost = 2
 	cooldown = 10 SECONDS
