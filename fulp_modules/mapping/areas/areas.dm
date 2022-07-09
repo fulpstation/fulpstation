@@ -12,7 +12,7 @@
 
 /area/station/ai_monitored/turret_protected/aisat/solars
 	name = "\improper AI Satellite Solars"
-	icon = "fulp_modules/mapping/areas/icons.dmi"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "ai_solars"
 
 /area/station/solars/ai
