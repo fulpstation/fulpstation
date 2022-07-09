@@ -513,7 +513,7 @@
 #define PURCHASE_TREMERE "Tremere"
 #define PURCHASE_DEFAULT "Default"
 
-/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE)
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE, spend_blood = FALSE)
 	set waitfor = FALSE
 
 	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
@@ -613,6 +613,8 @@
 	bloodsucker_level++
 	if(spend_rank)
 		bloodsucker_level_unspent--
+	if(spend_blood)
+		bloodsucker_blood_volume -= 550
 
 	// Ranked up enough? Let them join a Clan.
 	if(bloodsucker_level == 3)

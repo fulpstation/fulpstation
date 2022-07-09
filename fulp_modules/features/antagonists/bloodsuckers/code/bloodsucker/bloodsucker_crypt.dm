@@ -582,7 +582,6 @@
 			var/rank_response = show_radial_menu(user, src, rank_options, radius = 36, require_near = TRUE)
 			switch(rank_response)
 				if("Yes")
-					bloodsuckerdatum.bloodsucker_blood_volume -= 550
 					bloodsuckerdatum.SpendRank(target, spend_rank = FALSE)
 					return
 		else
