@@ -63,3 +63,84 @@
 	. = ..()
 	if (used)
 		. += "This one is all used up."
+
+
+/obj/item/infiltrator_radio
+	name = "Infiltrator Radio"
+	desc = "How is this thing running without a battery?"
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "infiltrator_radio"
+	w_class = WEIGHT_CLASS_SMALL
+	///has the player claimed all his objectives' rewards?
+	var/objectives_complete = FALSE
+	///List of objectives we have already checked
+	var/list/checked_objectives = list()
+	///Pool of rewards
+	var/reward_items = list(
+		/obj/item/card/emag,
+		/obj/item/card/emag/doorjack,
+		/obj/item/grenade/syndieminibomb,
+		/obj/item/grenade/c4/x4,
+		/obj/item/pen/edagger,
+		/obj/item/guardiancreator/tech/choose/traitor,
+		/obj/item/jammer,
+		/obj/item/reagent_containers/hypospray/medipen/stimulants,
+		/obj/item/storage/box/syndie_kit/imp_stealth,
+	)
+
+/obj/item/infiltrator_radio/Initialize(mapload)
+	. = ..()
+	add_overlay("infiltrator_radio_overlay")
+
+/obj/item/infiltrator_radio/proc/check_reward_status(mob/living/user)
+	for(var/datum/objective/goal in user.mind.get_all_objectives())
+		if(goal.check_completion() && !(goal.explanation_text in checked_objectives))
+			return goal
+	return FALSE
+
+/obj/item/infiltrator_radio/proc/give_reward(mob/living/user)
+	var/datum/objective/addobj = check_reward_status(user)
+	checked_objectives += addobj.explanation_text
+	var/reward = pick(reward_items)
+	podspawn(list(
+		"target" = get_turf(user),
+		"style" = STYLE_SYNDICATE,
+		"spawn" = reward,
+		))
+	reward_items -= reward //cant get duplicate rewards
+	var/list/bitch = user.mind.get_all_objectives()
+	if(checked_objectives.len == bitch.len)
+		objectives_complete = TRUE
+		var/datum/objective/hijack/reward_obj = new
+		reward_obj.owner = user.mind
+		for(var/datum/antagonist/traitor/infiltrator/antag_datum in user.mind.antag_datums)
+			antag_datum.objectives += reward_obj
+
+
+/obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)
+	if(!user.mind?.has_antag_datum(/datum/antagonist/traitor/infiltrator))
+		to_chat(user, span_warning("The interface is covered with strange unintelligible encrypted symbols."))
+		return
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "InfilRadio", name)
+		ui.open()
+
+
+/obj/item/infiltrator_radio/ui_data(mob/user)
+	var/list/data = list()
+	data["check"] = check_reward_status(user)
+	data["completed"] = objectives_complete
+	return data
+
+/obj/item/infiltrator_radio/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+	switch(action)
+		if("claim_reward")
+			if(check_reward_status(usr))
+				give_reward(usr)
+	return
+
+
