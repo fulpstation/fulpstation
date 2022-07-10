@@ -31,11 +31,10 @@
 				pet.find_pet_target()
 				objectives += pet
 
-			for(var/i = 0, i < 2, i++)
-				var/datum/objective/assassinate/kill = new
-				kill.owner = owner
-				kill.find_sci_target()
-				objectives += kill
+			var/datum/objective/assassinate/kill = new
+			kill.owner = owner
+			kill.find_sci_target()
+			objectives += kill
 
 			var/datum/objective/assassinate/kill_head = new
 			kill_head.owner = owner
