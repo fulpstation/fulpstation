@@ -1,9 +1,9 @@
-import { Antagonist, Category } from "../base";
-import { multiline } from "common/string";
+import { Antagonist, Category } from '../base';
+import { multiline } from 'common/string';
 
 const GhostInfiltrator: Antagonist = {
-  key: "infiltrator",
-  name: "Infiltrator",
+  key: 'infiltrator',
+  name: 'Infiltrator',
   description: [
     multiline`
       Specialized stealth agents trained in espionage and in impeding
