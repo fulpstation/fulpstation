@@ -261,8 +261,8 @@
 
 /datum/antagonist/bloodsucker/proc/enter_frenzy()
 	if(my_clan == CLAN_BRUJAH)
-		for(var/datum/action/bloodsucker/power in powers)
-			if(!(istype(power, /datum/action/bloodsucker/brujah)))
+		for(var/datum/action/cooldown/bloodsucker/power in powers)
+			if(!(istype(power, /datum/action/cooldown/bloodsucker/brujah)))
 				continue
 			if(power.active)
 				break

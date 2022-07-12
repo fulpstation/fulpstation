@@ -49,25 +49,24 @@
 	//Wizard Holoparasite theme, just to be more visibly stronger than regular ones
 	theme = "magic"
 	. = ..()
-	var/obj/effect/proc_holder/spell/aoe_turf/timestop/guardian/timestop_ability = new
-	AddSpell(timestop_ability)
+	var/datum/action/cooldown/spell/timestop/guardian/timestop_ability = new()
+	timestop_ability.Grant(src)
 
 ///Guardian Timestop ability
-/obj/effect/proc_holder/spell/aoe_turf/timestop/guardian
-	name = "Stop Time"
+/datum/action/cooldown/spell/timestop/guardian
+	name = "Guardian Timestop"
 	desc = "This spell stops time for everyone except for you and your master, allowing you to move freely while your enemies and even projectiles are frozen."
-	charge_max = 600
-	clothes_req = FALSE
-	invocation = "none"
-	invocation_type = "none"
-	cooldown_min = 150
+	cooldown_time = 60 SECONDS
+	spell_requirements = NONE
+	invocation_type = INVOCATION_NONE
 	var/list/safe_people = list()
 
 ///Timestop + Adding protected_summoner to the list of protected people
-/obj/effect/proc_holder/spell/aoe_turf/timestop/guardian/cast(list/targets, mob/user = usr)
-	if(!(user in safe_people))
-		var/mob/living/simple_animal/hostile/guardian/punch/timestop/bloodsucker_guardian = user
+/datum/action/cooldown/spell/timestop/guardian/cast(atom/cast_on)
+	. = ..()
+	if(!(owner in safe_people))
+		var/mob/living/simple_animal/hostile/guardian/punch/timestop/bloodsucker_guardian = owner
 		safe_people += bloodsucker_guardian.summoner
-		safe_people += user
+		safe_people += owner
 
-	new /obj/effect/timestop/magic(get_turf(user), timestop_range, timestop_duration, safe_people)
+	new /obj/effect/timestop/magic(get_turf(owner), timestop_range, timestop_duration, safe_people)

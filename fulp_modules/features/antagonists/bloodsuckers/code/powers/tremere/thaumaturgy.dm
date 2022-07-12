@@ -8,9 +8,9 @@
  *	Level 5 - Bloodbeam spell that breaks open lockers/doors + double damage & steals blood - Gives them a Blood shield until they use Bloodbeam
  */
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy
 	name = "Level 1: Thaumaturgy"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two
 	desc = "Fire a blood bolt at your enemy, dealing Burn damage."
 	level_current = 1
 	button_icon_state = "power_thaumaturgy"
@@ -24,9 +24,9 @@
 	///Blood shield given while this Power is active.
 	var/datum/weakref/blood_shield
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/two
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two
 	name = "Level 2: Thaumaturgy"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/three
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/three
 	desc = "Create a Blood shield and fire a blood bolt at your enemy, dealing Burn damage."
 	level_current = 2
 	power_explanation = "<b>Thaumaturgy</b>:\n\
@@ -38,9 +38,9 @@
 	bloodcost = 40
 	cooldown = 4 SECONDS
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/three
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/three
 	name = "Level 3: Thaumaturgy"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
 	level_current = 3
 	power_explanation = "<b>Thaumaturgy</b>:\n\
@@ -51,9 +51,9 @@
 	bloodcost = 50
 	cooldown = 6 SECONDS
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced
 	name = "Level 4: Blood Strike"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
 	level_current = 4
 	power_explanation = "<b>Thaumaturgy</b>:\n\
@@ -69,7 +69,7 @@
 	bloodcost = 60
 	cooldown = 6 SECONDS
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	name = "Level 5: Blood Strike"
 	upgraded_power = null
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage, stealing Blood and opening doors/lockers."
@@ -83,7 +83,7 @@
 	bloodcost = 80
 	cooldown = 8 SECONDS
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/ActivatePower()
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/ActivatePower()
 	. = ..()
 	owner.balloon_alert(owner, "you start thaumaturgy")
 	if(level_current >= 2) // Only if we're at least level 2.
@@ -99,12 +99,12 @@
 			span_hear("You hear liquids forming together."),
 		)
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/DeactivatePower()
 	if(blood_shield)
 		QDEL_NULL(blood_shield)
 	return ..()
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/FireTargetedPower(atom/target_atom)
 	. = ..()
 
 	var/mob/living/user = owner
@@ -130,7 +130,7 @@
 	name = "blood bolt"
 	icon_state = "mini_leaper"
 	damage = 20
-	var/datum/action/bloodsucker/targeted/tremere/thaumaturgy/bloodsucker_power
+	var/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/bloodsucker_power
 
 /obj/projectile/magic/arcane_barrage/bloodsucker/on_hit(target)
 	if(istype(target, /obj/structure/closet) && bloodsucker_power.level_current >= 3)
