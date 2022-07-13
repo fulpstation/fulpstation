@@ -32,8 +32,8 @@ export const RequestManagerFulp = (props, context) => {
       (request) =>
         decodeHtmlEntities(request.message)
           .toLowerCase()
-          .includes(filterText)
-        || request.owner_name.toLowerCase().includes(filterText)
+          .includes(filterText) ||
+        request.owner_name.toLowerCase().includes(filterText)
     );
   }
 

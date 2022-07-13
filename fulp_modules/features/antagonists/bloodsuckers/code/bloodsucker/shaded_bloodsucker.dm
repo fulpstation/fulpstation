@@ -14,7 +14,7 @@
 	for(var/mob/shades in contents)
 		shades.mind.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
 
-/obj/item/soulstone/bloodsucker/getCultGhost(mob/living/carbon/victim, mob/user)
+/obj/item/soulstone/bloodsucker/get_ghost_to_replace_shade(mob/living/carbon/victim, mob/user)
 	var/mob/dead/observer/chosen_ghost
 	chosen_ghost = victim.get_ghost(TRUE,TRUE) //Try to grab original owner's ghost first
 	if(!chosen_ghost || !chosen_ghost.client) //Failing that, we grab a ghosts
