@@ -79,6 +79,7 @@
 
 /datum/objective/escape/escape_with_identity/infiltrator
 	name = "escape with identity (as infiltrator)"
+	admin_grantable = TRUE
 
 /datum/objective/escape/escape_with_identity/infiltrator/proc/find_sec_target()
 	var/list/sec = SSjob.get_all_sec()
@@ -102,6 +103,7 @@
 /datum/objective/kill_pet
 	name = "Kill a command pet"
 	martyr_compatible = TRUE
+	admin_grantable = TRUE
 	var/mob/living/target_pet ///The assigned target pet for the objective
 
 /datum/objective/kill_pet/proc/find_pet_target()
@@ -183,6 +185,7 @@
 /datum/objective/emag_console
 	name = "Emag the emergency shuttle console"
 	explanation_text = "Give the crew a bumpy ride back home by emagging the emergency shuttle console!"
+	admin_grantable = TRUE
 
 /datum/objective/emag_console/check_completion()
 	var/check_emag = FALSE

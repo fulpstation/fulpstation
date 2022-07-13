@@ -10,7 +10,7 @@
  *	- Normal body temp -- remove Cold Blooded (return on deactivate)
  */
 
-/datum/action/bloodsucker/masquerade
+/datum/action/cooldown/bloodsucker/masquerade
 	name = "Masquerade"
 	desc = "Feign the vital signs of a mortal, and escape both casual and medical notice as the monster you truly are."
 	button_icon_state = "power_human"
@@ -21,14 +21,14 @@
 		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
 		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
 		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
-	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
-	check_flags = BP_CANT_USE_IN_FRENZY|BP_AM_COSTLESS_UNCONSCIOUS
+	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
+	check_flags = BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_CAN_BUY
 	bloodcost = 10
 	cooldown = 5 SECONDS
 	constant_bloodcost = 0.1
 
-/datum/action/bloodsucker/masquerade/ActivatePower()
+/datum/action/cooldown/bloodsucker/masquerade/ActivatePower()
 	. = ..()
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned on.")
@@ -50,7 +50,7 @@
 	if(eyes)
 		eyes.flash_protect = initial(eyes.flash_protect)
 
-/datum/action/bloodsucker/masquerade/DeactivatePower()
+/datum/action/cooldown/bloodsucker/masquerade/DeactivatePower()
 	. = ..() // activate = FALSE
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned off.")
