@@ -4,9 +4,9 @@
 /area/station/command/heads_quarters/cmo)
 "b" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Medbay Maintenance";
-	req_access_txt = "5"
+	name = "Medbay Maintenance"
 	},
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "d" = (
@@ -141,8 +141,7 @@
 /area/station/command/heads_quarters/cmo)
 "u" = (
 /obj/machinery/door/airlock/command{
-	name = "Chief Medical Officer's Office";
-	req_access_txt = "40"
+	name = "Chief Medical Officer's Office"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
 	cycle_id = "CMO"
@@ -152,6 +151,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/modular_map_connector,
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/access/any/medical/cmo,
 /turf/open/floor/iron{
 	heat_capacity = 1e+006
 	},
@@ -301,12 +301,12 @@
 /area/station/command/heads_quarters/cmo)
 "O" = (
 /obj/machinery/door/airlock/command{
-	name = "Chief Medical Officer's Office";
-	req_access_txt = "40"
+	name = "Chief Medical Officer's Office"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
 	cycle_id = "CMO"
 	},
+/obj/effect/mapping_helpers/airlock/access/any/medical/cmo,
 /turf/open/floor/iron{
 	heat_capacity = 1e+006
 	},
@@ -387,9 +387,9 @@
 	cycle_id = "CMO"
 	},
 /obj/machinery/door/airlock/maintenance{
-	name = "Chief Medical Office Maintenance";
-	req_access_txt = "40"
+	name = "Chief Medical Office Maintenance"
 	},
+/obj/effect/mapping_helpers/airlock/access/any/medical/cmo,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "W" = (
