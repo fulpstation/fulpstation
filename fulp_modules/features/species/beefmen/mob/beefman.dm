@@ -264,18 +264,22 @@
 
 /datum/species/beefman/get_species_lore()
 	return list(
-		"On a very quiet day, the Chef was cooking food for the crew, they realized they were out of meat. \
-		They decided that they would pay a visit to the Morgue, unaware of the consequences for their actions. \n\
-		It was going to be a one time thing anyways, who would mind a body or two missing? \
-		They thought, as they grabbed a body laying on a morgue tray. \n\
-		What the Chef hadn't noticed, the Morgue's soul alarm was off, the body was filled with a soul begging not to be gibbed.\
-		The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \n\
-		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out... \
-		But this wasn't regular meat. It had eyes, and a mouth too. \n\
-		Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef. \
-		Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted. \n\
-		What the Russian Sol Government has done with them has never been released, but since then, there seems to have more of them than people remember, \
-		and these 'Beefmen' have never been able to sleep or think straight ever again.",
+		"On a very quiet day, the Russian-famous Fiddler Diner was serving food to the crew, when they realized they ran out of burger ingredients. \
+		After drawing straws, the Cook was sent to fetch some more meat from the Morgue, unaware of the events that will transpire. \
+		'It's normal for the Kitchen to grab dead bodies, right? It's not like they need them... Right?' The Cook thought, \
+		inattentively grabbing the first body they could find, trying to get this over with before it becomes a memory. \
+		What the Cook hadn't noticed, the Morgue's tray was green, the body was filled with a soul, one that was begging not to be gibbed.",
+
+		"The Cook one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \
+		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out, as if it was in reverse... \
+		The Cook looked over to see what was going on, but the slab of meat looked back, with massive eyes.",
+
+		"After a quick confiscation from the Russian Sol Government, most records of 'Beefmen' have gone dark, \
+		with minor glimpses of 'Sleep Experiments' going around. \
+		One thing is certain though, a rise of gibbers on-board Russian stations, which was followed by a rise in Beefmen. \
+		No one knows what happened during this era, but when the program finally ended and they were allowed into society, \
+		none of them were able to live 'normally'. Their complete inability to sleep, but their power in traversing the 'Phobetor Tear' \
+		immediately started popping everywhere, and has been at the	forefront of galaxy-wide investigations of their anatomy and the experiments.",
 	)
 
 /datum/species/beefman/create_pref_unique_perks()
