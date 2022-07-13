@@ -10,9 +10,9 @@
 
 // Look to /obj/effect/proc_holder/spell/pointed/void_blink for help.
 
-/datum/action/bloodsucker/targeted/tremere/auspex
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex
 	name = "Level 1: Auspex"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/two
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/auspex/two
 	level_current = 1
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport up to 2 tiles away."
 	button_icon_state = "power_auspex"
@@ -26,9 +26,9 @@
 	target_range = 2
 	prefire_message = "Where do you wish to teleport to?"
 
-/datum/action/bloodsucker/targeted/tremere/auspex/two
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/two
 	name = "Level 2: Auspex"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/three
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/auspex/three
 	level_current = 2
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport up to 3 tiles away."
 	power_explanation = "<b>Level 2: Auspex</b>:\n\
@@ -38,9 +38,9 @@
 	cooldown = 10 SECONDS
 	target_range = 3
 
-/datum/action/bloodsucker/targeted/tremere/auspex/three
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/three
 	name = "Level 3: Auspex"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/advanced
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/auspex/advanced
 	level_current = 3
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport."
 	power_explanation = "<b>Level 3: Auspex</b>:\n\
@@ -50,9 +50,9 @@
 	cooldown = 8 SECONDS
 	target_range = 6
 
-/datum/action/bloodsucker/targeted/tremere/auspex/advanced
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/advanced
 	name = "Level 4: Auspex"
-	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
+	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/auspex/advanced/two
 	level_current = 4
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport, leaving nearby people bleeding."
 	power_explanation = "<b>Level 4: Auspex</b>:\n\
@@ -65,7 +65,7 @@
 	cooldown = 6 SECONDS
 	target_range = 6
 
-/datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/advanced/two
 	name = "Level 5: Auspex"
 	upgraded_power = null
 	level_current = 5
@@ -77,29 +77,29 @@
 	cooldown = 8 SECONDS
 
 
-/datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	return isturf(target_atom)
 
-/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower()
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/ActivatePower()
 	. = ..()
 	owner.AddElement(/datum/element/digitalcamo)
 	animate(owner, alpha = 15, time = 1 SECONDS)
 
-/datum/action/bloodsucker/targeted/tremere/auspex/DeactivatePower()
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/DeactivatePower()
 	animate(owner, alpha = 255, time = 1 SECONDS)
 	owner.RemoveElement(/datum/element/digitalcamo)
 	return ..()
 
-/datum/action/bloodsucker/targeted/tremere/auspex/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/FireTargetedPower(atom/target_atom)
 	. = ..()
 	var/mob/living/user = owner
 	var/turf/targeted_turf = get_turf(target_atom)
 	auspex_blink(user, targeted_turf)
 
-/datum/action/bloodsucker/targeted/tremere/auspex/proc/auspex_blink(mob/living/user, turf/targeted_turf)
+/datum/action/cooldown/bloodsucker/targeted/tremere/auspex/proc/auspex_blink(mob/living/user, turf/targeted_turf)
 	playsound(user, 'sound/magic/summon_karp.ogg', 60)
 	playsound(targeted_turf, 'sound/magic/summon_karp.ogg', 60)
 

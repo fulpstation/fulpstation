@@ -1,4 +1,4 @@
-/datum/action/bloodsucker/fortitude
+/datum/action/cooldown/bloodsucker/fortitude
 	name = "Fortitude"
 	desc = "Withstand egregious physical wounds and walk away from attacks that would stun, pierce, and dismember lesser beings."
 	button_icon_state = "power_fortitude"
@@ -8,8 +8,8 @@
 		While using Fortitude, attempting to run will crush you.\n\
 		At level 4, you gain complete stun immunity.\n\
 		Higher levels will increase Brute and Stamina resistance."
-	power_flags = BP_AM_TOGGLE
-	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_AM_COSTLESS_UNCONSCIOUS
+	power_flags = BP_AM_TOGGLE|BP_AM_COSTLESS_UNCONSCIOUS
+	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
 	cooldown = 8 SECONDS
@@ -17,7 +17,7 @@
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
-/datum/action/bloodsucker/fortitude/ActivatePower()
+/datum/action/cooldown/bloodsucker/fortitude/ActivatePower()
 	. = ..()
 	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(owner, span_notice("Your flesh, skin, and muscles become as steel."))
@@ -41,7 +41,7 @@
 	if(was_running)
 		bloodsucker_user.toggle_move_intent()
 
-/datum/action/bloodsucker/fortitude/process(delta_time)
+/datum/action/cooldown/bloodsucker/fortitude/process(delta_time)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
@@ -56,7 +56,7 @@
 	if(user.buckled && istype(user.buckled, /obj/vehicle))
 		user.buckled.unbuckle_mob(src, force=TRUE)
 
-/datum/action/bloodsucker/fortitude/DeactivatePower()
+/datum/action/cooldown/bloodsucker/fortitude/DeactivatePower()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/bloodsucker_user = owner
@@ -79,7 +79,7 @@
 	return ..()
 
 /// Monster Hunter version
-/datum/action/bloodsucker/fortitude/hunter
+/datum/action/cooldown/bloodsucker/fortitude/hunter
 	name = "Flow"
 	desc = "Use the arts to Flow, giving shove and stun immunity, as well as brute, burn, dismember and pierce resistance. You cannot run while this is active."
 	purchase_flags = HUNTER_CAN_BUY

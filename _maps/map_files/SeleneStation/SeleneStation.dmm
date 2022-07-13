@@ -1176,8 +1176,7 @@
 /obj/machinery/button/flasher{
 	id = "hopflash";
 	pixel_x = 6;
-	pixel_y = 34;
-	req_access = null
+	pixel_y = 34
 	},
 /obj/machinery/button/ticket_machine{
 	pixel_x = -4;
@@ -1749,7 +1748,7 @@
 "awj" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - N2O Tank";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine/n2o,
 /area/station/engineering/atmos)
@@ -2174,9 +2173,8 @@
 /area/station/science/xenobiology)
 "aDc" = (
 /obj/structure/cable,
-/turf/open/floor/plating{
-	icon_state = "platingdmg3"
-	},
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/plating,
 /area/station/maintenance/department/engine/atmos)
 "aDs" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
@@ -2197,9 +2195,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
-/obj/structure/sign/warning/vacuum{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/vacuum/directional/south,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "aEr" = (
@@ -2456,7 +2452,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "aIE" = (
 /obj/structure/chair/pew/right,
 /obj/machinery/status_display/evac/directional/north,
@@ -2637,7 +2633,7 @@
 /obj/machinery/camera{
 	c_tag = "Research - Circuits Lab W";
 	dir = 8;
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
@@ -3079,9 +3075,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/maint/alt/directional/south,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
@@ -3928,9 +3922,7 @@
 /area/station/ai_monitored/turret_protected/aisat)
 "baQ" = (
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible,
-/obj/structure/sign/warning/radiation{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/radiation/directional/west,
 /obj/structure/cable,
 /turf/open/floor/engine,
 /area/station/engineering/main)
@@ -4225,7 +4217,7 @@
 /obj/item/book/manual/wiki/security_space_law,
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Security Office";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/engineering)
@@ -4320,7 +4312,6 @@
 /obj/item/hatchet,
 /obj/item/crowbar,
 /obj/item/plant_analyzer,
-/obj/item/reagent_containers/glass/bucket,
 /obj/machinery/airalarm/directional/west,
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -4329,6 +4320,7 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/west,
+/obj/item/reagent_containers/glass/watering_can,
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
 "bhA" = (
@@ -5345,7 +5337,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "buL" = (
 /obj/structure/table/glass,
 /obj/effect/turf_decal/tile/purple{
@@ -5824,9 +5816,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
-/obj/structure/sign/departments/medbay{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/medbay/directional/north,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
@@ -6096,7 +6086,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Research - Entrance";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron/dark,
@@ -6468,7 +6458,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Service - Art Gallery";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/carpet/royalblue,
 /area/station/service/library/artgallery)
@@ -6757,7 +6747,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Research - R&D Room";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/white,
 /area/station/science/research)
@@ -6863,9 +6853,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/crew_quarters/dorms)
 "bKy" = (
-/obj/structure/sign/warning/vacuum/external{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/vacuum/external/directional/south,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "bKF" = (
@@ -6882,9 +6870,7 @@
 	desc = "A pneumatic waste disposal unit. This one leads into space!";
 	name = "deathsposal unit"
 	},
-/obj/structure/sign/warning/deathsposal{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/deathsposal/directional/west,
 /turf/open/floor/iron,
 /area/station/science/xenobiology)
 "bLm" = (
@@ -7451,7 +7437,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "bTE" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/tile/red{
@@ -7609,7 +7595,7 @@
 "bVH" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Experimental Chamber";
-	network = list("ss13", "rd", "test")
+	network = list("ss13","rd","test")
 	},
 /turf/open/floor/engine,
 /area/station/science/explab)
@@ -7669,7 +7655,7 @@
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Kitchen";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/structure/table,
 /obj/machinery/microwave{
@@ -7699,7 +7685,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "bWO" = (
 /obj/machinery/vending/wardrobe/chef_wardrobe,
 /turf/open/floor/iron/cafeteria,
@@ -7893,7 +7879,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable,
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "bYB" = (
 /obj/machinery/computer/shuttle/labor{
 	dir = 8
@@ -8042,7 +8028,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Chaplain Office";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/machinery/power/apc/auto_name/directional/west,
 /turf/open/floor/iron/grimy,
@@ -8637,9 +8623,7 @@
 /area/station/security/prison/visit)
 "ckJ" = (
 /obj/structure/cable,
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/maint/alt/directional/north,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
@@ -8724,7 +8708,7 @@
 /obj/machinery/portable_atmospherics/canister/water_vapor,
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - Gas Storage";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos)
@@ -9056,7 +9040,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "cpE" = (
 /obj/effect/turf_decal/tile/blue{
 	color = "#4169E1";
@@ -9144,9 +9128,8 @@
 /turf/open/floor/iron,
 /area/station/cargo/warehouse)
 "cqJ" = (
-/obj/structure/sign/warning/pods{
-	dir = 8;
-	pixel_y = -32
+/obj/structure/sign/warning/pods/directional/south{
+	dir = 8
 	},
 /obj/effect/spawner/random/maintenance/four,
 /obj/structure/closet/crate,
@@ -9272,7 +9255,7 @@
 "cst" = (
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Stage";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/wood,
 /area/station/service/bar/atrium)
@@ -9291,9 +9274,7 @@
 /area/station/commons/dorms)
 "csV" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/structure/sign/warning/vacuum/external{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/vacuum/external/directional/north,
 /turf/open/floor/plating,
 /area/station/construction/mining/aux_base)
 "csX" = (
@@ -9769,9 +9750,7 @@
 	name = "Engineering yellow corner"
 	},
 /obj/item/airlock_painter,
-/obj/structure/sign/warning/radiation{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/radiation/directional/north,
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/main)
@@ -9810,7 +9789,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "cyH" = (
 /obj/structure/rack,
 /obj/item/clothing/suit/armor/bulletproof{
@@ -9922,7 +9901,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "czp" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -10036,7 +10015,7 @@
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Storage";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/structure/closet/secure_closet/medical3,
 /obj/item/storage/belt/medical{
@@ -10080,7 +10059,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/east{
 	c_tag = "AI - East Hall";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /obj/machinery/status_display/ai/directional/east,
 /turf/open/floor/circuit,
@@ -10116,9 +10095,7 @@
 	name = "Biohazard Containment Door"
 	},
 /obj/machinery/door/firedoor,
-/obj/structure/sign/departments/science{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/science/directional/south,
 /obj/effect/turf_decal/caution/stand_clear,
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
@@ -10289,9 +10266,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "cEo" = (
-/obj/structure/sign/warning/secure_area{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/secure_area/directional/west,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible/layer2,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
@@ -10558,7 +10533,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "cHs" = (
 /obj/structure/chair/comfy/beige{
 	dir = 4
@@ -11285,7 +11260,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Cryogenics";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/visible{
 	dir = 8
@@ -11327,7 +11302,7 @@
 /obj/machinery/power/emitter,
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - Laser Room N";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/main)
@@ -11600,7 +11575,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Plasma Medbay S";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/structure/sign/poster/official/random{
 	pixel_y = -32
@@ -11611,7 +11586,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "cXt" = (
 /obj/structure/closet,
 /obj/item/clothing/suit/hooded/bee_costume,
@@ -11936,7 +11911,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "dbh" = (
 /obj/machinery/holopad,
 /obj/structure/cable,
@@ -12314,9 +12289,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/door/firedoor,
-/obj/structure/sign/departments/maint/alt{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/maint/alt/directional/east,
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
@@ -12839,7 +12812,7 @@
 /obj/machinery/duct,
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Hall Custodian";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
@@ -13370,7 +13343,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Techfab";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
@@ -13494,7 +13467,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "dyU" = (
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
@@ -13717,7 +13690,7 @@
 /obj/machinery/light/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Atmospherics E";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -13886,7 +13859,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "dFF" = (
 /obj/machinery/camera{
 	c_tag = "Xenobiology Lab - Pen #5";
@@ -13931,7 +13904,6 @@
 /area/station/medical/medbay)
 "dGm" = (
 /obj/machinery/door/airlock/medical{
-	id_tag = null;
 	name = "Staff Restroom"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/medical/general,
@@ -13997,7 +13969,7 @@
 	},
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "dGQ" = (
 /obj/structure/rack,
 /turf/open/floor/plating,
@@ -14337,7 +14309,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "dKU" = (
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
@@ -14843,9 +14815,7 @@
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "dSO" = (
-/obj/structure/sign/warning/pods{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/pods/directional/west,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "dSX" = (
@@ -14942,7 +14912,7 @@
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/west{
 	c_tag = "Cargo - QM Office";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/machinery/status_display/supply{
 	pixel_x = -32
@@ -15193,7 +15163,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Surgery";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
@@ -15641,14 +15611,8 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "eck" = (
-/obj/docking_port/stationary{
-	dir = 8;
-	dwidth = 3;
-	height = 5;
-	id = "mining_home";
-	name = "mining shuttle bay";
-	roundstart_template = /datum/map_template/shuttle/mining/fulp/selene;
-	width = 7
+/obj/docking_port/stationary/mining_home{
+	dir = 8
 	},
 /turf/open/space/basic,
 /area/space)
@@ -16665,12 +16629,12 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Medical - Plasma Medbay N";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "eqU" = (
 /turf/open/floor/engine/plasma,
 /area/station/engineering/atmos)
@@ -17154,7 +17118,7 @@
 /obj/machinery/photocopier,
 /obj/machinery/camera/directional/south{
 	c_tag = "Service - Game Room";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/wood,
 /area/station/service/library/printer)
@@ -17385,7 +17349,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "eAc" = (
 /obj/structure/cable,
 /obj/effect/landmark/event_spawn,
@@ -17701,7 +17665,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Stasis Room";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
@@ -17869,7 +17833,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "eHI" = (
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/wood,
@@ -18056,9 +18020,7 @@
 	dir = 4;
 	name = "Medical blue corner"
 	},
-/obj/structure/sign/departments/chemistry{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/chemistry/directional/east,
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
 "eKM" = (
@@ -18894,7 +18856,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "eXj" = (
 /obj/structure/closet/emcloset,
 /obj/effect/turf_decal/tile/brown,
@@ -19069,7 +19031,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Research - Circuits Lab";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/white,
 /area/station/science/explab)
@@ -19127,7 +19089,7 @@
 /obj/item/kirbyplants/random,
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Pharmacy Desk";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/iron/white,
@@ -19192,9 +19154,7 @@
 /turf/open/floor/iron,
 /area/station/science/robotics/lab)
 "fae" = (
-/obj/structure/sign/warning/vacuum{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/vacuum/directional/east,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "faw" = (
@@ -19691,7 +19651,7 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Robotics Lab E";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron,
 /area/station/science/robotics/lab)
@@ -21159,9 +21119,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
 "fyp" = (
-/obj/structure/sign/warning/vacuum{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/vacuum/directional/east,
 /turf/open/floor/plating,
 /area/station/maintenance/solars/starboard/fore)
 "fyw" = (
@@ -21198,9 +21156,7 @@
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "fzk" = (
-/obj/structure/sign/departments/xenobio{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/xenobio/directional/south,
 /turf/open/floor/iron/white,
 /area/station/science)
 "fzl" = (
@@ -21593,9 +21549,7 @@
 /turf/open/floor/iron/white,
 /area/station/service/hydroponics)
 "fFn" = (
-/obj/structure/sign/warning/vacuum{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/vacuum/directional/west,
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
 "fFt" = (
@@ -22052,7 +22006,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Hall Bar";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/wood,
 /area/station/hallway/secondary/service)
@@ -22394,7 +22348,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "fOr" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -22437,9 +22391,7 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/secure_area/directional/north,
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
 	},
@@ -22926,9 +22878,7 @@
 /area/station/commons/locker)
 "fWX" = (
 /obj/structure/cable,
-/obj/structure/sign/warning/vacuum{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/vacuum/directional/north,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
 "fWY" = (
@@ -23304,7 +23254,7 @@
 /obj/item/clothing/glasses/science,
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Pharmacy";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
@@ -23537,7 +23487,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "AI - Atmospherics";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /obj/machinery/status_display/ai/directional/west,
 /turf/open/floor/iron/dark,
@@ -23894,7 +23844,7 @@
 /obj/structure/ore_box,
 /obj/machinery/camera{
 	c_tag = "Cargo - Mining Bay";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/structure/cable,
@@ -23927,9 +23877,7 @@
 "glk" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/structure/sign/departments/maint/alt{
-	pixel_x = -32
-	},
+/obj/structure/sign/departments/maint/alt/directional/west,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
@@ -23976,7 +23924,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "gmt" = (
 /obj/item/assembly/prox_sensor,
 /obj/structure/rack,
@@ -24076,7 +24024,7 @@
 "gob" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Tcomms";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/station/tcommsat/server)
@@ -24178,7 +24126,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Research - Ordnance Lab W";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
@@ -24371,9 +24319,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/maint/alt/directional/south,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
@@ -24497,7 +24443,7 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Hall Theatre";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/wood,
 /area/station/hallway/secondary/service)
@@ -24679,7 +24625,7 @@
 "gwN" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Research - RD Hallway";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/white,
 /area/station/science)
@@ -24700,9 +24646,7 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/secure_area/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/engineering/main)
 "gwV" = (
@@ -24751,7 +24695,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "gxn" = (
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat/hallway";
@@ -25218,7 +25162,7 @@
 /obj/machinery/light/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Aux Base Construction";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/iron,
@@ -25959,7 +25903,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Curator Desk";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/carpet/green,
 /area/station/service/library)
@@ -26678,7 +26622,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Security - Interrogation room";
-	network = list("interrogation", "security")
+	network = list("interrogation","security")
 	},
 /turf/open/floor/iron/dark,
 /area/station/maintenance/department/security/brig)
@@ -26744,7 +26688,7 @@
 /obj/machinery/camera{
 	c_tag = "Service - Library Desk";
 	dir = 4;
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/machinery/requests_console/directional/east{
 	department = "Library";
@@ -26798,7 +26742,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Cargo - Mining Office";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/miningoffice)
@@ -26958,9 +26902,7 @@
 /area/station/maintenance/starboard/fore)
 "gXS" = (
 /obj/structure/disposalpipe/segment,
-/obj/structure/sign/departments/maint/alt{
-	pixel_x = -32
-	},
+/obj/structure/sign/departments/maint/alt/directional/west,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
@@ -27987,7 +27929,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "hnv" = (
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
@@ -28737,9 +28679,7 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
-/obj/structure/sign/departments/maint/alt{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/maint/alt/directional/east,
 /turf/open/floor/iron,
 /area/station/cargo/miningoffice)
 "hyj" = (
@@ -29480,9 +29420,7 @@
 	dir = 4;
 	name = "Medical blue corner"
 	},
-/obj/structure/sign/departments/medbay{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/medbay/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Public - HoP Line"
 	},
@@ -29711,9 +29649,8 @@
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "hKv" = (
-/obj/structure/sign/warning/pods{
-	dir = 8;
-	pixel_y = -32
+/obj/structure/sign/warning/pods/directional/south{
+	dir = 8
 	},
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -29964,7 +29901,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "hNr" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -30029,9 +29966,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "hOt" = (
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/maint/alt/directional/north,
 /obj/machinery/modular_computer/console/preset/cargochat/service{
 	dir = 8
 	},
@@ -30527,9 +30462,7 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
 	},
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/maint/alt/directional/south,
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
 "hXG" = (
@@ -30788,9 +30721,7 @@
 	dir = 1;
 	name = "Medical blue corner"
 	},
-/obj/structure/sign/departments/medbay{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/medbay/directional/north,
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
@@ -31059,9 +30990,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/secure_area/directional/west,
 /turf/open/floor/engine,
 /area/station/engineering/main)
 "idB" = (
@@ -31197,7 +31126,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Research - Ordnance Launch";
 	dir = 10;
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
@@ -31275,7 +31204,7 @@
 /obj/machinery/camera/motion{
 	c_tag = "Engineering - Secure Tech Storage";
 	dir = 4;
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/storage/tech)
@@ -31516,7 +31445,7 @@
 /obj/structure/closet/secure_closet/psychology,
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Psychology";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/wood,
 /area/station/medical/psychology)
@@ -31776,7 +31705,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "imx" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -32557,9 +32486,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "ixG" = (
-/obj/structure/sign/warning/vacuum{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/vacuum/directional/south,
 /turf/closed/wall,
 /area/station/engineering/atmospherics_engine)
 "iyg" = (
@@ -32621,7 +32548,7 @@
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/east{
 	c_tag = "Medical - CMO Office";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/status_display/ai/directional/south,
 /obj/machinery/status_display/evac/directional/east,
@@ -32983,7 +32910,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "iEf" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/blue{
@@ -33294,7 +33221,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Virology Break Room";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -33759,7 +33686,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Chemistry Lab S";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
@@ -34466,7 +34393,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Entrance";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron,
@@ -34960,7 +34887,7 @@
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Curator Office";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/wood,
 /area/station/service/library/private)
@@ -35411,7 +35338,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Break Room";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/iron/white,
@@ -35470,7 +35397,7 @@
 /obj/structure/extinguisher_cabinet/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Service - Cafeteria";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/machinery/restaurant_portal/restaurant,
 /obj/effect/turf_decal/siding{
@@ -35847,9 +35774,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/turf/open/floor/plating{
-	icon_state = "platingdmg1"
-	},
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/plating,
 /area/station/maintenance/department/engine/atmos)
 "jtI" = (
 /obj/structure/table/wood,
@@ -35966,7 +35892,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "juV" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor/border_only{
@@ -36051,7 +35977,7 @@
 "jvU" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "AI - Outer Sat NE";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/space)
@@ -36192,7 +36118,7 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - SM Room SE";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/structure/cable,
 /turf/open/floor/engine,
@@ -36584,7 +36510,7 @@
 /obj/machinery/light/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Atmospherics Central";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -36713,7 +36639,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "jFM" = (
 /obj/item/storage/box/lights/tubes,
 /obj/structure/rack,
@@ -36754,9 +36680,7 @@
 	id = "QMLoad2"
 	},
 /obj/effect/turf_decal/stripes/box,
-/obj/structure/sign/warning/docking{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/docking/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "jGl" = (
@@ -36944,7 +36868,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Gravity Generator";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/status_display/evac/directional/south,
 /obj/structure/cable,
@@ -37208,7 +37132,7 @@
 /obj/structure/lattice/catwalk,
 /obj/machinery/camera/directional/south{
 	c_tag = "AI - Outer Sat NW";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -37403,7 +37327,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "jNE" = (
 /obj/structure/dresser,
 /obj/effect/turf_decal/tile/red{
@@ -37590,7 +37514,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "jQg" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -37666,7 +37590,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - Tcomms Control";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/iron,
@@ -38182,7 +38106,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "jXQ" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -38892,7 +38816,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "khu" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/loading_area,
@@ -39452,14 +39376,12 @@
 /turf/open/floor/iron/dark,
 /area/station/medical/medbay)
 "knM" = (
-/obj/structure/sign/warning/secure_area{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/secure_area/directional/east,
 /obj/effect/turf_decal/stripes/corner,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Gas Storage Exterior";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron,
 /area/station/science)
@@ -39607,7 +39529,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Service - Botany E";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron/white,
 /area/station/service/hydroponics)
@@ -39636,8 +39558,7 @@
 	dir = 8;
 	name = "Security red corner"
 	},
-/obj/structure/sign/warning/docking{
-	pixel_x = -32;
+/obj/structure/sign/warning/docking/directional/west{
 	pixel_y = -32
 	},
 /obj/effect/turf_decal/caution/stand_clear{
@@ -39721,7 +39642,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "kse" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/bot,
@@ -40174,9 +40095,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
-/obj/structure/sign/departments/science/alt{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/science/alt/directional/north,
 /turf/open/floor/iron,
 /area/station/maintenance/department/engine/atmos)
 "kza" = (
@@ -40199,8 +40118,7 @@
 /area/station/maintenance/department/engine/atmos)
 "kzj" = (
 /obj/machinery/vending/dinnerware,
-/obj/structure/sign/warning/cold_temp{
-	pixel_x = 32;
+/obj/structure/sign/warning/cold_temp/directional/east{
 	pixel_y = 32
 	},
 /obj/machinery/light_switch/directional/east,
@@ -40215,7 +40133,7 @@
 /obj/structure/closet/secure_closet/freezer/kitchen,
 /obj/machinery/camera/directional/east{
 	c_tag = "Service - Kitchen Coldroom";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
@@ -40604,9 +40522,7 @@
 	id = "QMLoad"
 	},
 /obj/effect/turf_decal/stripes/box,
-/obj/structure/sign/warning/docking{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/docking/directional/south,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "kDf" = (
@@ -40625,7 +40541,7 @@
 /obj/effect/turf_decal/stripes/box,
 /obj/machinery/camera/directional/south{
 	c_tag = "Cargo - Bay S";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/machinery/status_display/evac/directional/south,
 /turf/open/floor/iron,
@@ -40646,7 +40562,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "kEh" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -40707,7 +40623,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Viro Cleanroom";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -40903,9 +40819,7 @@
 	dir = 8;
 	name = "dark corner"
 	},
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/maint/alt/directional/south,
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
@@ -41332,7 +41246,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Medical - Chemistry E";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
@@ -41347,9 +41261,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/secure_area/directional/west,
 /turf/open/floor/engine,
 /area/station/engineering/main)
 "kMq" = (
@@ -41795,12 +41707,10 @@
 	dir = 1;
 	name = "Medical blue corner"
 	},
-/obj/structure/sign/departments/medbay{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/medbay/directional/north,
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Medbay Entrance";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/white,
@@ -41819,7 +41729,7 @@
 "kTt" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "AI - Outer Sat W";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/space)
@@ -41903,7 +41813,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "AI - Teleporter Room";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat_interior)
@@ -41920,7 +41830,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - Power Storage";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron,
@@ -42554,7 +42464,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - Meeting Area";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/status_display/evac/directional/west,
 /turf/open/floor/iron,
@@ -42850,7 +42760,7 @@
 /obj/structure/closet,
 /obj/machinery/camera/directional/south{
 	c_tag = "Service - Bar Backroom";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/item/vending_refill/cola,
 /turf/open/floor/wood,
@@ -43390,9 +43300,7 @@
 	dir = 8;
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/secure_area/directional/west,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "lpN" = (
@@ -43490,7 +43398,7 @@
 "lqW" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Air Tank";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine/air,
 /area/station/engineering/atmos)
@@ -43741,7 +43649,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "luT" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
@@ -43835,7 +43743,7 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Xenobiology Corridor";
 	dir = 6;
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
@@ -43938,7 +43846,7 @@
 /obj/machinery/duct,
 /obj/machinery/camera/directional/east{
 	c_tag = "Service - Hall Kitchen";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/machinery/light_switch/directional/east,
 /turf/open/floor/iron,
@@ -44041,7 +43949,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Cargo - Bounties";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron,
@@ -44802,7 +44710,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "lHY" = (
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
@@ -44900,7 +44808,7 @@
 "lIY" = (
 /obj/machinery/camera/directional/north{
 	c_tag = "AI - Outer Sat SE";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/space)
@@ -44991,7 +44899,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "lJI" = (
 /obj/machinery/icecream_vat,
 /turf/open/floor/iron/showroomfloor,
@@ -45355,7 +45263,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "lOB" = (
 /obj/machinery/computer/operating,
 /obj/effect/turf_decal/tile/blue{
@@ -45493,14 +45401,8 @@
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "lQa" = (
-/obj/docking_port/stationary{
-	dir = 8;
-	dwidth = 3;
-	height = 5;
-	id = "commonmining_home";
-	name = "SS13: Common Mining Dock";
-	roundstart_template = /datum/map_template/shuttle/mining_common/meta;
-	width = 7
+/obj/docking_port/stationary/mining_home/common{
+	dir = 8
 	},
 /turf/open/space/basic,
 /area/space)
@@ -45612,7 +45514,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Hall Botany";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
@@ -45712,7 +45614,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Chemistry Lab W";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/iron/white,
@@ -46304,7 +46206,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "lZr" = (
 /obj/machinery/atmospherics/pipe/smart/simple/purple/visible{
 	dir = 9
@@ -47462,9 +47364,7 @@
 	name = "Medical blue corner"
 	},
 /obj/effect/landmark/start/paramedic,
-/obj/structure/sign/departments/psychology{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/psychology/directional/north,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
 "mnn" = (
@@ -48199,7 +48099,7 @@
 /obj/effect/turf_decal/bot_red,
 /obj/machinery/camera/motion/directional/south{
 	c_tag = "Security - Armory S";
-	network = list("ss13", "security")
+	network = list("ss13","security")
 	},
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron/dark,
@@ -48397,9 +48297,7 @@
 /area/station/command/heads_quarters/captain)
 "mAf" = (
 /obj/machinery/light/small/directional/east,
-/obj/structure/sign/warning/vacuum/external{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/vacuum/external/directional/south,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
@@ -48575,9 +48473,7 @@
 /area/station/medical/pharmacy)
 "mBL" = (
 /obj/structure/cable,
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/maint/alt/directional/north,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
@@ -48822,9 +48718,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 6
 	},
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/maint/alt/directional/north,
 /obj/effect/turf_decal/siding/brown/corner{
 	color = "grey"
 	},
@@ -49258,9 +49152,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "mKj" = (
-/obj/structure/sign/warning/no_smoking{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/no_smoking/directional/south,
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "mKk" = (
@@ -49383,7 +49275,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Botany Office";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
@@ -49403,9 +49295,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/visible{
 	dir = 8
 	},
-/obj/structure/sign/warning/radiation{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/radiation/directional/west,
 /obj/structure/cable,
 /turf/open/floor/engine,
 /area/station/engineering/main)
@@ -49583,7 +49473,7 @@
 	name = "Port Out"
 	},
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "mPa" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
@@ -49884,7 +49774,7 @@
 /obj/machinery/light/small/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Ordnance Corridor";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
@@ -50789,7 +50679,7 @@
 /obj/item/wrench,
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Atmos Office";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -50819,7 +50709,7 @@
 /area/station/maintenance/department/engine/atmos)
 "ndK" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/book/granter/spell/smoke/lesser,
+/obj/item/book/granter/action/spell/smoke/lesser,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/office)
 "ndM" = (
@@ -50861,7 +50751,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "net" = (
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -51645,7 +51535,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Cargo - Commissary";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /turf/open/floor/iron,
 /area/station/commons/vacant_room/commissary)
@@ -51791,7 +51681,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Research - Security Office";
 	dir = 9;
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
@@ -52228,7 +52118,7 @@
 /obj/machinery/rnd/server/master,
 /obj/machinery/camera/directional/south{
 	c_tag = "Research - Server Room";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/circuit/telecomms/server,
 /area/station/science/server)
@@ -52609,7 +52499,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "nBT" = (
 /obj/structure/table/wood,
 /obj/item/paper_bin{
@@ -52672,7 +52562,7 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Cargo - Bay W";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/machinery/status_display/supply{
 	pixel_x = -32
@@ -52974,7 +52864,7 @@
 /obj/machinery/camera{
 	c_tag = "Medical - Viro Monkey Pen";
 	dir = 10;
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -53146,7 +53036,7 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Botany W";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/machinery/status_display/evac/directional/west,
 /obj/effect/spawner/random/trash/botanical_waste,
@@ -54011,7 +53901,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "nXF" = (
 /obj/item/trash/syndi_cakes,
 /turf/open/floor/plating,
@@ -54680,7 +54570,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "oeX" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -54890,9 +54780,7 @@
 /turf/open/floor/wood,
 /area/station/security/courtroom)
 "oiN" = (
-/obj/structure/sign/warning/vacuum{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/vacuum/directional/north,
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
 "oiY" = (
@@ -55069,7 +54957,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/south{
 	c_tag = "AI - South Hall";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat/service";
@@ -55200,7 +55088,7 @@
 /obj/machinery/camera{
 	c_tag = "AI - Outer Sat SW";
 	dir = 4;
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -55816,7 +55704,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "owx" = (
 /obj/item/radio/intercom/directional/north,
 /turf/open/floor/iron/cafeteria,
@@ -56167,7 +56055,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Viro Isolation";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -56198,7 +56086,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/starboard)
 "oCK" = (
-/obj/machinery/gravity_generator/main/station,
+/obj/machinery/gravity_generator/main,
 /obj/effect/turf_decal/trimline/neutral/end,
 /turf/open/floor/iron/dark,
 /area/station/engineering/gravity_generator)
@@ -56629,7 +56517,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Cargo - Warehouse";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/effect/spawner/random/entertainment/arcade,
 /turf/open/floor/iron,
@@ -56929,9 +56817,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
-/obj/structure/sign/warning/explosives/alt{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/explosives/alt/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "oNl" = (
@@ -57991,7 +57877,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "pcj" = (
 /turf/open/floor/engine/vacuum,
 /area/station/engineering/atmos)
@@ -58811,7 +58697,7 @@
 /obj/effect/turf_decal/tile/brown,
 /obj/machinery/camera/directional/east{
 	c_tag = "Cargo - Food Stall";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/machinery/status_display/evac/directional/east,
 /turf/open/floor/iron,
@@ -59897,7 +59783,7 @@
 /obj/machinery/light/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Cargo - Bay E";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -60455,9 +60341,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
-/obj/machinery/light_switch/directional/north{
-	dir = 1
-	},
+/obj/machinery/light_switch/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "pIp" = (
@@ -60522,9 +60406,7 @@
 /turf/open/floor/iron,
 /area/station/security/brig)
 "pJn" = (
-/obj/structure/sign/departments/restroom{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/restroom/directional/east,
 /turf/open/floor/plating,
 /area/station/maintenance/department/crew_quarters/dorms)
 "pJo" = (
@@ -60796,7 +60678,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "pNI" = (
 /obj/structure/bookcase,
 /turf/open/floor/wood,
@@ -61353,9 +61235,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "pVX" = (
-/obj/structure/sign/departments/restroom{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/restroom/directional/east,
 /obj/machinery/duct,
 /turf/open/floor/iron/showroomfloor,
 /area/station/commons/toilet/restrooms)
@@ -61599,7 +61479,7 @@
 "pZD" = (
 /obj/machinery/camera/directional/north{
 	c_tag = "AI - Outer Sat S";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/space)
@@ -61621,9 +61501,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "pZO" = (
-/obj/structure/sign/departments/science{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/science/directional/south,
 /obj/machinery/door/poddoor/preopen{
 	id = "Biohazard";
 	name = "Biohazard Containment Door"
@@ -61702,7 +61580,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/west{
 	c_tag = "AI - West Hall";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /obj/machinery/status_display/ai/directional/west,
 /turf/open/floor/circuit,
@@ -61843,7 +61721,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Medical - Central Hall NW";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/status_display/evac/directional/east,
 /turf/open/floor/iron/white,
@@ -61888,7 +61766,7 @@
 /obj/machinery/camera{
 	c_tag = "Engineering - SM Chamber";
 	dir = 4;
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
@@ -62113,7 +61991,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "qgo" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
@@ -62332,7 +62210,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Ordnance Lab E";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/engine,
 /area/station/science/ordnance)
@@ -62556,7 +62434,7 @@
 "qkV" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Plasma Tank";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine/plasma,
 /area/station/engineering/atmos)
@@ -62634,7 +62512,7 @@
 /obj/machinery/light/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Secure Storage";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/main)
@@ -62649,9 +62527,7 @@
 	dir = 4;
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/secure_area/directional/north,
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
@@ -62755,7 +62631,7 @@
 	dir = 9
 	},
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "qof" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/structure/cable,
@@ -63169,14 +63045,8 @@
 /turf/open/floor/wood,
 /area/station/service/chapel/office)
 "quh" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 2;
-	height = 5;
-	id = "laborcamp_home";
-	name = "fore bay 1";
-	roundstart_template = /datum/map_template/shuttle/labour/generic;
-	width = 9
+/obj/docking_port/stationary/laborcamp_home{
+	dir = 4
 	},
 /turf/open/space/basic,
 /area/space)
@@ -63303,14 +63173,12 @@
 	dir = 4;
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/warning/radiation{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/radiation/directional/north,
 /obj/machinery/light/directional/east,
 /obj/machinery/camera{
 	c_tag = "Engineering - SM Entrance";
 	dir = 4;
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/status_display/evac/directional/east,
 /turf/open/floor/iron,
@@ -63665,7 +63533,7 @@
 /obj/effect/turf_decal/bot_red,
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Reception";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
@@ -63885,7 +63753,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Viro Quarters B";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -64131,7 +63999,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "qHH" = (
 /obj/structure/table,
 /obj/item/clothing/gloves/color/yellow,
@@ -64344,7 +64212,7 @@
 "qLg" = (
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Abandoned Medbay";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
@@ -64358,7 +64226,7 @@
 	},
 /obj/machinery/bluespace_vendor/directional/north,
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "qLm" = (
 /obj/machinery/door/airlock{
 	name = "Custodial Closet"
@@ -64391,7 +64259,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "qLC" = (
 /obj/structure/chair/stool/directional/south,
 /obj/item/radio/intercom/prison/directional/west,
@@ -64496,7 +64364,7 @@
 /obj/structure/closet/crate/coffin,
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Coffin Storage";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
@@ -64527,9 +64395,7 @@
 	dir = 4;
 	name = "Medical blue corner"
 	},
-/obj/structure/sign/departments/medbay{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/medbay/directional/north,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 1;
@@ -64921,9 +64787,7 @@
 	dir = 4;
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/warning/engine_safety{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/engine_safety/directional/north,
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
@@ -65125,9 +64989,7 @@
 /area/station/security/range)
 "qWw" = (
 /obj/effect/turf_decal/caution/stand_clear,
-/obj/structure/sign/warning/radiation{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/radiation/directional/east,
 /turf/open/floor/engine,
 /area/station/engineering/main)
 "qWA" = (
@@ -65611,7 +65473,7 @@
 /obj/machinery/light/directional/north,
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - Foyer W";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
@@ -65682,7 +65544,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Engineering Foyer E";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
@@ -66092,7 +65954,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "rih" = (
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
@@ -66540,7 +66402,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "rnP" = (
 /obj/machinery/light/directional/south,
 /turf/open/floor/wood,
@@ -66754,12 +66616,8 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
-/obj/structure/sign/warning/biohazard{
-	pixel_y = 32
-	},
-/obj/structure/sign/warning/biohazard{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/biohazard/directional/north,
+/obj/structure/sign/warning/biohazard/directional/south,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "rqx" = (
@@ -66878,7 +66736,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "rsm" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 5
@@ -67304,7 +67162,7 @@
 "rxX" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - O2 Tank";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine/o2,
 /area/station/engineering/atmos)
@@ -67551,9 +67409,7 @@
 /turf/open/floor/iron,
 /area/station/cargo/qm)
 "rCi" = (
-/obj/structure/sign/warning/no_smoking{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/no_smoking/directional/east,
 /obj/machinery/atmospherics/pipe/smart/simple/dark/visible,
 /turf/open/floor/engine,
 /area/station/science/ordnance)
@@ -67942,7 +67798,7 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "rHw" = (
 /obj/machinery/mecha_part_fabricator,
 /obj/effect/turf_decal/delivery,
@@ -68020,7 +67876,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Theatre Backroom";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/item/radio/intercom/directional/north,
 /obj/structure/window/reinforced,
@@ -68076,7 +67932,7 @@
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/south{
 	c_tag = "Cargo - Delivery Office";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
@@ -68261,7 +68117,7 @@
 "rLy" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "AI - Service";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/service)
@@ -68440,7 +68296,7 @@
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Research - Ordnance Hallway";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/white,
 /area/station/science)
@@ -69298,8 +69154,8 @@
 /obj/structure/closet/crate/hydroponics,
 /obj/item/wrench,
 /obj/item/wirecutters,
-/obj/item/reagent_containers/glass/bucket,
 /obj/item/shovel/spade,
+/obj/item/reagent_containers/glass/watering_can,
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
 "sac" = (
@@ -69681,7 +69537,7 @@
 /obj/machinery/camera{
 	c_tag = "Medical - Morgue";
 	dir = 4;
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
@@ -70317,7 +70173,7 @@
 /obj/machinery/camera{
 	c_tag = "Engineering - CE Office";
 	dir = 10;
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/status_display/evac/directional/south,
 /obj/structure/cable,
@@ -70960,7 +70816,7 @@
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Atmospherics S";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -71200,7 +71056,7 @@
 "syC" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Service - Law Office";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/carpet/purple,
@@ -71522,7 +71378,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "sCQ" = (
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 4
@@ -71682,7 +71538,7 @@
 /obj/effect/spawner/random/vending/colavend,
 /obj/machinery/camera/directional/north{
 	c_tag = "Research - Break Room";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark,
 /area/station/science)
@@ -71885,7 +71741,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Research - Robotics Lab W";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron,
 /area/station/science/robotics/lab)
@@ -71914,7 +71770,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Bar";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/carpet/black,
 /area/station/service/bar)
@@ -72369,9 +72225,7 @@
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "sPD" = (
-/obj/structure/sign/warning/vacuum{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/vacuum/directional/west,
 /obj/machinery/shower{
 	dir = 4
 	},
@@ -72417,7 +72271,7 @@
 /obj/machinery/light/directional/north,
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Custodian Office";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron,
@@ -72568,7 +72422,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "sSu" = (
 /obj/machinery/atmospherics/pipe/layer_manifold/visible{
 	dir = 4
@@ -72893,7 +72747,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "sZy" = (
 /obj/effect/spawner/random/structure/grille,
 /obj/structure/cable,
@@ -73126,7 +72980,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - Tech Storage";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron,
@@ -73157,9 +73011,7 @@
 /turf/open/floor/engine/n2o,
 /area/station/engineering/atmos)
 "tdu" = (
-/obj/structure/sign/warning/vacuum{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/vacuum/directional/east,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard)
 "tdI" = (
@@ -73554,7 +73406,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "thQ" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -73719,7 +73571,7 @@
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/east{
 	c_tag = "Cargo - Lobby";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/iron,
@@ -73803,14 +73655,12 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Service - Chapel";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/carpet,
 /area/station/service/chapel)
 "tkY" = (
-/obj/structure/sign/warning/radiation{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/radiation/directional/east,
 /obj/effect/turf_decal/tile/yellow{
 	color = "#FFD700";
 	name = "Engineering yellow corner"
@@ -74206,7 +74056,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - Atmospherics W";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -74437,7 +74287,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/south{
 	c_tag = "AI - Main Hall";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /obj/machinery/status_display/ai/directional/south,
 /turf/open/floor/circuit,
@@ -74886,7 +74736,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "Medical - Surgery Hall";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
@@ -75544,7 +75394,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Research - Robotics Hallway";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/white,
 /area/station/science)
@@ -75853,9 +75703,7 @@
 	color = "#73c2fb";
 	name = "Medical blue corner"
 	},
-/obj/structure/sign/departments/chemistry/pharmacy{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/chemistry/pharmacy/directional/south,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
 "tOE" = (
@@ -76044,7 +75892,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Viro Quarters A";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -76115,9 +75963,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/sign/warning/docking{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/docking/directional/west,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
@@ -76213,9 +76059,6 @@
 /area/station/service/kitchen)
 "tTo" = (
 /obj/structure/table,
-/obj/item/ai_module/toy_ai{
-	pixel_y = 5
-	},
 /obj/structure/window/reinforced{
 	dir = 8
 	},
@@ -76223,6 +76066,7 @@
 	id = "AI"
 	},
 /obj/machinery/light/directional/west,
+/obj/effect/spawner/round_default_module,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "tTz" = (
@@ -76542,7 +76386,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "AI - Foyer";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/foyer)
@@ -76622,9 +76466,7 @@
 	dir = 1;
 	pixel_x = 32
 	},
-/obj/structure/sign/warning/radiation{
-	pixel_x = 32
-	},
+/obj/structure/sign/warning/radiation/directional/east,
 /obj/effect/turf_decal/caution/stand_clear{
 	dir = 1
 	},
@@ -76931,9 +76773,7 @@
 	dir = 4;
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_x = -32
-	},
+/obj/structure/sign/warning/secure_area/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/engineering/main)
 "ubZ" = (
@@ -77073,9 +76913,7 @@
 	dir = 1;
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/departments/engineering{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/engineering/directional/south,
 /obj/item/radio/intercom/directional/west{
 	freerange = 1;
 	freqlock = 1;
@@ -77204,7 +77042,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Central Hall NE";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
@@ -77341,7 +77179,6 @@
 /area/station/ai_monitored/security/armory)
 "uia" = (
 /obj/machinery/door/airlock/medical{
-	id_tag = null;
 	name = "Shower"
 	},
 /obj/machinery/duct,
@@ -77408,7 +77245,7 @@
 /obj/machinery/light/small/directional/east,
 /obj/machinery/camera/directional/east{
 	c_tag = "Cargo - Waste Disposal";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/structure/cable,
@@ -78277,7 +78114,7 @@
 /obj/item/radio/intercom/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Cargo - Security Office";
-	network = list("ss13", "cargo")
+	network = list("ss13","cargo")
 	},
 /obj/structure/extinguisher_cabinet/directional/west{
 	pixel_x = -40
@@ -78297,12 +78134,10 @@
 	name = "Engineering yellow corner"
 	},
 /obj/item/pipe_dispenser,
-/obj/structure/sign/warning/radiation{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/radiation/directional/north,
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - SM Control";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/main)
@@ -78860,9 +78695,7 @@
 /turf/open/floor/iron/dark,
 /area/station/security/prison)
 "uAV" = (
-/obj/structure/sign/departments/medbay{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/medbay/directional/north,
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
 	dir = 1;
@@ -78874,7 +78707,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "uBj" = (
 /obj/structure/cable,
 /obj/machinery/holopad,
@@ -78962,7 +78795,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Virology";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/door_buttons/airlock_controller{
 	idExterior = "virology_airlock_exterior";
@@ -79122,7 +78955,7 @@
 /obj/structure/reflector/single,
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Laser Room S";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/main)
@@ -80010,8 +79843,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/brown,
-/obj/structure/sign/warning/docking{
-	pixel_x = -32;
+/obj/structure/sign/warning/docking/directional/west{
 	pixel_y = -32
 	},
 /turf/open/floor/iron,
@@ -80089,7 +79921,7 @@
 /obj/machinery/status_display/evac/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - HFR";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmospherics_engine)
@@ -80128,9 +79960,7 @@
 	dir = 4;
 	name = "Security red corner"
 	},
-/obj/structure/sign/departments/security{
-	pixel_y = 32
-	},
+/obj/structure/sign/departments/security/directional/north,
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
@@ -81587,7 +81417,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "vmp" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/blue{
@@ -82306,7 +82136,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Research - Genetics";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
@@ -83375,7 +83205,7 @@
 /obj/machinery/newscaster/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Medical - Security Office";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/medical)
@@ -83491,7 +83321,7 @@
 /obj/machinery/computer/slot_machine,
 /obj/machinery/camera/directional/east{
 	c_tag = "Service - Gambling Den";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /obj/machinery/status_display/ai/directional/east,
 /turf/open/floor/iron/grimy,
@@ -83610,7 +83440,7 @@
 /area/station/security/prison/work)
 "vRk" = (
 /turf/closed/wall,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "vRn" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
@@ -83683,7 +83513,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - SM Room NE";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/structure/cable,
 /turf/open/floor/engine,
@@ -83713,7 +83543,7 @@
 	name = "Medical blue corner"
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "vSV" = (
 /obj/effect/turf_decal/siding/thinplating/dark,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -83905,9 +83735,7 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
-/obj/structure/sign/departments/cargo{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/cargo/directional/south,
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/iron,
 /area/station/hallway/primary/port)
@@ -84236,7 +84064,7 @@
 "vZO" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Mix Tank";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine/vacuum,
 /area/station/engineering/atmos)
@@ -84328,7 +84156,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - Mech Bay";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/robotics/mechbay)
@@ -84656,7 +84484,7 @@
 /obj/item/food/grown/poppy,
 /obj/machinery/camera/directional/south{
 	c_tag = "Service - Space Burial";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
@@ -85029,7 +84857,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Medical - Exam Room";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/structure/bed,
 /obj/item/bedsheet/medical,
@@ -85603,7 +85431,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "wwP" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/smart/simple/orange/visible,
@@ -86092,7 +85920,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Virology Hall";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
@@ -86280,7 +86108,7 @@
 /obj/machinery/portable_atmospherics/pump,
 /obj/machinery/camera/directional/north{
 	c_tag = "Research - Ordnance Gas Storage";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/science/ordnance/storage)
@@ -86462,7 +86290,7 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - SM Room NW";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine,
 /area/station/engineering/main)
@@ -86604,7 +86432,7 @@
 "wJf" = (
 /obj/machinery/camera/directional/west{
 	c_tag = "AI - Outer Sat E";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/space)
@@ -87163,9 +86991,7 @@
 /area/station/hallway/primary/central)
 "wPt" = (
 /obj/structure/cable,
-/obj/structure/sign/warning/vacuum{
-	pixel_y = -32
-	},
+/obj/structure/sign/warning/vacuum/directional/south,
 /turf/open/floor/plating,
 /area/station/maintenance/solars/port/aft)
 "wPB" = (
@@ -87200,9 +87026,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/sign/departments/science{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/science/directional/south,
 /obj/effect/turf_decal/tile/purple{
 	color = "#4D0067";
 	name = "Science purple corner"
@@ -87692,7 +87516,7 @@
 	},
 /obj/machinery/camera/directional/south{
 	c_tag = "AI - Entrance";
-	network = list("ss13", "minisat")
+	network = list("ss13","minisat")
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron/dark,
@@ -87733,7 +87557,7 @@
 /obj/item/radio/intercom/directional/south,
 /obj/machinery/camera/directional/east{
 	c_tag = "Research - RD Office";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/rd)
@@ -87791,7 +87615,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "wXj" = (
 /obj/structure/closet/emcloset,
 /obj/effect/turf_decal/tile/green{
@@ -88408,15 +88232,11 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
-/obj/structure/sign/departments/maint/alt{
-	pixel_y = 32
-	},
-/obj/structure/sign/warning/biohazard{
-	pixel_x = 32
-	},
+/obj/structure/sign/departments/maint/alt/directional/north,
+/obj/structure/sign/warning/biohazard/directional/east,
 /obj/machinery/camera/directional/north{
 	c_tag = "Medical - Viro Entrance";
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /turf/open/floor/iron/white,
 /area/station/maintenance/department/medical)
@@ -88432,7 +88252,7 @@
 /turf/open/floor/iron/white{
 	initial_gas_mix = "n2=100;TEMP=293.15"
 	},
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "xee" = (
 /obj/effect/turf_decal/tile/blue{
 	color = "#73c2fb";
@@ -88724,7 +88544,7 @@
 "xhK" = (
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - N2 Tank";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine/n2,
 /area/station/engineering/atmos)
@@ -88893,7 +88713,7 @@
 	},
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - Turbine";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/brown/visible,
@@ -88960,7 +88780,6 @@
 /area/station/hallway/primary/aft)
 "xkk" = (
 /obj/machinery/door/airlock/security/glass{
-	id_tag = null;
 	name = "Security EVAC"
 	},
 /obj/effect/turf_decal/tile/red{
@@ -90039,9 +89858,7 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "xxJ" = (
-/obj/structure/sign/departments/xenobio{
-	pixel_y = -32
-	},
+/obj/structure/sign/departments/xenobio/directional/south,
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
@@ -90211,6 +90028,8 @@
 	name = "Command blue corner"
 	},
 /obj/machinery/status_display/ai/directional/east,
+/obj/structure/table/wood/fancy/red,
+/obj/item/ai_module/reset/purge,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "xAx" = (
@@ -90702,7 +90521,7 @@
 "xFV" = (
 /obj/machinery/camera/directional/north{
 	c_tag = "Service - Library";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/carpet/green,
 /area/station/service/library)
@@ -90721,7 +90540,7 @@
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/south,
 /turf/open/floor/plating,
-/area/station/medical/abandoned)
+/area/station/maintenance/department/medical/plasmaman)
 "xGE" = (
 /obj/structure/chair/stool/bar/directional/north,
 /turf/open/floor/wood,
@@ -90893,7 +90712,7 @@
 /obj/effect/turf_decal/bot_red,
 /obj/machinery/camera/motion/directional/west{
 	c_tag = "Security - Armory N";
-	network = list("ss13", "security")
+	network = list("ss13","security")
 	},
 /obj/machinery/power/apc/auto_name/directional/west,
 /turf/open/floor/iron/dark,
@@ -91153,7 +90972,7 @@
 	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - Atmospherics N";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -91517,7 +91336,7 @@
 /obj/machinery/camera{
 	c_tag = "Medical - Viro Hallway";
 	dir = 10;
-	network = list("ss13", "medbay")
+	network = list("ss13","medbay")
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
@@ -91543,7 +91362,7 @@
 "xTg" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - CO2 Tank";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine/co2,
 /area/station/engineering/atmos)
@@ -92599,9 +92418,7 @@
 	dir = 4;
 	name = "Engineering yellow corner"
 	},
-/obj/structure/sign/warning/secure_area{
-	pixel_y = 32
-	},
+/obj/structure/sign/warning/secure_area/directional/north,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "yeQ" = (
@@ -92696,7 +92513,7 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - SM Room SW";
-	network = list("ss13", "engineering")
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/engine,
 /area/station/engineering/main)
@@ -92921,7 +92738,7 @@
 /obj/machinery/light/directional/south,
 /obj/machinery/camera/directional/south{
 	c_tag = "Service - Crematorium";
-	network = list("ss13", "service")
+	network = list("ss13","service")
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
