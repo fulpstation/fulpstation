@@ -48,11 +48,12 @@
 				assassinate.find_target()
 				objectives += assassinate
 
-			var/datum/objective/emag_console/emag = new
-			emag.owner = owner
-			emag.update_explanation_text()
-			objectives += emag
-
+		if(INFILTRATOR_FACTION_RUSSIAN)
+			for(var/i = 0, i < rand(4,6) , i++)
+				var/datum/objective/assassinate/assassinate = new
+				assassinate.owner = owner
+				assassinate.find_target()
+				objectives += assassinate
 
 //Corporate Climber objectives
 
@@ -176,23 +177,3 @@
 	else
 		target = pick(com_targets)
 	update_explanation_text()
-
-
-//Mauradars Objectives
-
-//emagging emergency shuttle console
-
-/datum/objective/emag_console
-	name = "Emag the emergency shuttle console"
-	explanation_text = "Give the crew a bumpy ride back home by emagging the emergency shuttle console!"
-	admin_grantable = TRUE
-
-/datum/objective/emag_console/check_completion()
-	var/check_emag = FALSE
-	for(var/obj/machinery/computer/emergency_shuttle/console in GLOB.machines)
-		if(console.obj_flags & EMAGGED)
-			check_emag = TRUE
-			break
-
-	return completed || check_emag
-

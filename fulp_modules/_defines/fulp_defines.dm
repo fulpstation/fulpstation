@@ -32,6 +32,15 @@
 #define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
 #define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
 
+/**
+ * # INFILTRATOR DEFINES
+ */
+///Infiltrator employer defines
+#define INFILTRATOR_FACTION_CORPORATE_CLIMBER "Corporate Climber"
+#define INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM "Animal Rights Consortium"
+#define INFILTRATOR_FACTION_GORLEX_MARAUDERS "Gorlex Marauders"
+#define INFILTRATOR_FACTION_RUSSIAN "Third Soviet Union"
+#define INFILTRATOR_FLAVOR_FILE "infiltrator_russian.json"
 
 /**
  * # MISC
@@ -40,8 +49,5 @@
 ///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
 #define CALIBER_C22 ".c22"
 
-///Infiltrator employer defines
-#define INFILTRATOR_FACTION_CORPORATE_CLIMBER "Corporate Climber"
-#define INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM "Animal Rights Consortium"
-#define INFILTRATOR_FACTION_GORLEX_MARAUDERS "Gorlex Marauders"
+// Mentor
 #define REQUEST_MENTORHELP "request_mentorhelp"

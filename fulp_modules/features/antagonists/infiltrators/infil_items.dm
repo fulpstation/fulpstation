@@ -143,4 +143,16 @@
 				give_reward(usr)
 	return
 
+/obj/item/clothing/suit/space/syndicate/soviet
+	name = "soviet space suit"
+	desc = "An experimental space suit based off of old Soviet blueprints."
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	worn_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils_worn.dmi'
+	icon_state = "soviet_spacesuit"
 
+/obj/item/clothing/head/helmet/space/syndicate/soviet
+	name = "soviet space helmet"
+	desc = "PLACEHOLDER"
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	worn_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils_worn.dmi'
+	icon_state = "soviet_spacehelmet"

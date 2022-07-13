@@ -22,6 +22,8 @@
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/arc)
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/gm)
+		if(INFILTRATOR_FACTION_RUSSIAN)
+			return infiltrator.equipOutfit(/datum/outfit/infiltrator/ru)
 
 
 /datum/antagonist/traitor/infiltrator/on_gain()
@@ -32,15 +34,18 @@
 	uplink_handler.has_objectives = FALSE
 
 /datum/antagonist/traitor/infiltrator/pick_employer(faction)
-	faction = prob(70) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
+	faction = prob(75) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
 	if(faction == FACTION_NANOTRASEN)
 		employer = INFILTRATOR_FACTION_CORPORATE_CLIMBER
 	else
-		employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS)
+		employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS, INFILTRATOR_FACTION_RUSSIAN)
 	if(give_equipment)
 		equip_infiltrator(owner.current)
 	forge_traitor_objectives()
-	traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
+	if(employer == INFILTRATOR_FACTION_RUSSIAN)
+		traitor_flavor = strings("infiltrator_russian.json", "Third Soviet Union", "fulp_modules/strings/infiltrator")
+	else
+		traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
 
 /datum/outfit/infiltrator
 	name = "Infiltrator"
@@ -81,5 +86,10 @@
 	head = /obj/item/clothing/head/helmet/space/syndicate/orange
 	r_hand = /obj/item/card/emag
 
-
+/datum/outfit/infiltrator/ru
+	name = "Third Soviet Union Infiltrator"
+	uniform = /obj/item/clothing/under/costume/soviet
+	suit = /obj/item/clothing/suit/space/syndicate/soviet
+	head = /obj/item/clothing/head/helmet/space/syndicate/soviet
+	r_hand = /obj/item/gun/ballistic/rifle/boltaction/brand_new
 
