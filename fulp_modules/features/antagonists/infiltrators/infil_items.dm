@@ -152,7 +152,7 @@
 
 /obj/item/clothing/head/helmet/space/syndicate/soviet
 	name = "soviet space helmet"
-	desc = "PLACEHOLDER"
+	desc = "An experimental helmet design based off of old Soviet blueprints "
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	worn_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils_worn.dmi'
 	icon_state = "soviet_spacehelmet"
