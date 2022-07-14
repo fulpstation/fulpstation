@@ -91,5 +91,3 @@
 	uniform = /obj/item/clothing/under/costume/soviet
 	suit = /obj/item/clothing/suit/space/syndicate/soviet
 	head = /obj/item/clothing/head/helmet/space/syndicate/soviet
-	r_hand = /obj/item/gun/ballistic/rifle/boltaction/brand_new
-
