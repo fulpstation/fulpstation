@@ -1,28 +1,27 @@
-/obj/effect/proc_holder/spell/targeted/summon_dancefloor
+/datum/action/cooldown/spell/summon_dancefloor
 	name = "Summon Dancefloor"
 	desc = "When what a Devil really needs is funk."
-	include_user = TRUE
-	range = -1
-	clothes_req = FALSE
 
-	school = "conjuration"
-	charge_max = 10
-	cooldown_min = 50 //5 seconds, so the smoke can't be spammed
-	action_icon = 'icons/mob/actions/actions_minor_antag.dmi'
-	action_icon_state = "funk"
+	spell_requirements = NONE
+	school = SCHOOL_EVOCATION
+	cooldown_time = 5 SECONDS //5 seconds, so the smoke can't be spammed
+
+	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon_state = "funk"
 
 	var/list/dancefloor_turfs
 	var/list/dancefloor_turfs_types
 	var/dancefloor_exists = FALSE
 	var/datum/effect_system/smoke_spread/transparent/dancefloor_devil/smoke
 
-/obj/effect/proc_holder/spell/targeted/summon_dancefloor/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/summon_dancefloor/cast(atom/target)
+	. = ..()
 	LAZYINITLIST(dancefloor_turfs)
 	LAZYINITLIST(dancefloor_turfs_types)
 
 	if(!smoke)
 		smoke = new()
-	smoke.set_up(0, get_turf(user))
+	smoke.set_up(0, get_turf(owner))
 	smoke.start()
 
 	if(dancefloor_exists)
@@ -31,9 +30,9 @@
 			var/turf/T = dancefloor_turfs[i]
 			T.ChangeTurf(dancefloor_turfs_types[i], flags = CHANGETURF_INHERIT_AIR)
 	else
-		var/list/funky_turfs = RANGE_TURFS(1, user)
+		var/list/funky_turfs = RANGE_TURFS(1, owner)
 		for(var/turf/closed/solid in funky_turfs)
-			to_chat(user, "<span class='warning'>You're too close to a wall.</span>")
+			to_chat(owner, "<span class='warning'>You're too close to a wall.</span>")
 			return
 		dancefloor_exists = TRUE
 		var/i = 1

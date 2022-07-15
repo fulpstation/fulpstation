@@ -27,19 +27,19 @@
 
 /datum/martial_art/velvetfu/proc/check_streak(mob/living/A, mob/living/D)
 	if(findtext(streak, FLYING_AXEKICK_COMBO))
-		streak = ""
+		reset_streak(A)
 		flyingAxekick(A,D)
 		return TRUE
 	if(findtext(streak, GOAT_HEADBUTT_COMBO))
-		streak = ""
+		reset_streak(A)
 		goatHeadbutt(A,D)
 		return TRUE
 	if(findtext(streak, FULL_THRUST_COMBO))
-		streak = ""
+		reset_streak(A)
 		fullThrust(A,D)
 		return TRUE
 	if(findtext(streak, MINOR_IRIS_COMBO))
-		streak = ""
+		reset_streak(A)
 		minorIris(A,D)
 	return FALSE
 

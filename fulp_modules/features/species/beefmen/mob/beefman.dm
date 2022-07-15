@@ -14,10 +14,10 @@
 		HAS_BONE,
 	)
 	mutant_bodyparts = list(
-		"beefcolor" = "Medium Rare",
-		"beefeyes" = "Olives",
-		"beefmouth" = "Smile",
-		"beef_trauma" = "Strangers",
+		"beef_color" = "#e73f4e",
+		"beef_eyes" = BEEF_EYES_OLIVES,
+		"beef_mouth" = BEEF_MOUTH_SMILE,
+		"beef_trauma" = /datum/brain_trauma/mild/phobia/strangers,
 	)
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
@@ -96,17 +96,19 @@
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
 	. = ..()
-
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
-	user.bodytemperature = T20C
+	user.bodytemperature = bodytemp_normal
 
-	// Missing Defaults in DNA? Randomize!
-	proof_beefman_features(user.dna.features)
-	set_beef_color(user)
-	user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
-	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+	fixed_mut_color = user.dna.features["beef_color"]
+	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
+	if(has_brain)
+		if(user.dna.features["beef_trauma"])
+			user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
+		user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
+		if(limb.limb_id != SPECIES_BEEFMAN)
+			continue
 		limb.update_limb(is_creating = TRUE)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
@@ -146,11 +148,99 @@
 
 	return ..()
 
+/datum/species/beefman/handle_mutant_bodyparts(mob/living/carbon/human/source, forced_colour)
+	. = ..()
+	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
+	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
+	var/list/standing = list()
+
+	source.remove_overlay(BODY_BEHIND_LAYER)
+	source.remove_overlay(BODY_ADJ_LAYER)
+	source.remove_overlay(BODY_FRONT_LAYER)
+
+	if(!mutant_bodyparts || HAS_TRAIT(source, TRAIT_INVISIBLE_MAN))
+		return
+
+	if(!bodyparts_to_add)
+		return
+
+	var/g = (source.physique == FEMALE) ? "f" : "m"
+
+	for(var/layer in relevent_layers)
+		var/layertext = mutant_bodyparts_layertext(layer)
+
+		for(var/bodypart in bodyparts_to_add)
+			var/datum/sprite_accessory/accessory
+			switch(bodypart)
+				if("beef_eyes")
+					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
+						accessory = GLOB.eyes_beefman[source.dna.features["beef_eyes"]]
+				if("beef_mouth")
+					accessory = GLOB.mouths_beefman[source.dna.features["beef_mouth"]]
+
+			if(!accessory || accessory.icon_state == "none")
+				continue
+
+			var/mutable_appearance/accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
+
+			if(accessory.gender_specific)
+				accessory_overlay.icon_state = "[g]_[bodypart]_[accessory.icon_state]_[layertext]"
+			else
+				accessory_overlay.icon_state = "m_[bodypart]_[accessory.icon_state]_[layertext]"
+
+			if(accessory.em_block)
+				accessory_overlay.overlays += emissive_blocker(accessory_overlay.icon, accessory_overlay.icon_state, accessory_overlay.alpha)
+
+			if(accessory.center)
+				accessory_overlay = center_image(accessory_overlay, accessory.dimension_x, accessory.dimension_y)
+
+			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
+				if(!forced_colour)
+					switch(accessory.color_src)
+						if(MUTCOLORS)
+							if(fixed_mut_color)
+								accessory_overlay.color = fixed_mut_color
+							else
+								accessory_overlay.color = source.dna.features["mcolor"]
+						if(HAIR)
+							if(hair_color == "mutcolor")
+								accessory_overlay.color = source.dna.features["mcolor"]
+							else if(hair_color == "fixedmutcolor")
+								accessory_overlay.color = fixed_mut_color
+							else
+								accessory_overlay.color = source.hair_color
+						if(FACEHAIR)
+							accessory_overlay.color = source.facial_hair_color
+						if(EYECOLOR)
+							accessory_overlay.color = source.eye_color_left
+				else
+					accessory_overlay.color = forced_colour
+			standing += accessory_overlay
+
+			if(accessory.hasinner)
+				var/mutable_appearance/inner_accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
+				if(accessory.gender_specific)
+					inner_accessory_overlay.icon_state = "[g]_[bodypart]inner_[accessory.icon_state]_[layertext]"
+				else
+					inner_accessory_overlay.icon_state = "m_[bodypart]inner_[accessory.icon_state]_[layertext]"
+
+				if(accessory.center)
+					inner_accessory_overlay = center_image(inner_accessory_overlay, accessory.dimension_x, accessory.dimension_y)
+
+				standing += inner_accessory_overlay
+
+		source.overlays_standing[layer] = standing.Copy()
+		standing = list()
+
+	source.apply_overlay(BODY_BEHIND_LAYER)
+	source.apply_overlay(BODY_ADJ_LAYER)
+	source.apply_overlay(BODY_FRONT_LAYER)
+
 /datum/species/beefman/get_features()
 	var/list/features = ..()
-	features += "feature_beefcolor"
-	features += "feature_beefeyes"
-	features += "feature_beefmouth"
+	features += "feature_beef_color"
+	features += "feature_beef_eyes"
+	features += "feature_beef_mouth"
 	features += "feature_beef_trauma"
 
 	return features
@@ -174,18 +264,22 @@
 
 /datum/species/beefman/get_species_lore()
 	return list(
-		"On a very quiet day, the Chef was cooking food for the crew, they realized they were out of meat. \
-		They decided that they would pay a visit to the Morgue, unaware of the consequences for their actions. \n\
-		It was going to be a one time thing anyways, who would mind a body or two missing? \
-		They thought, as they grabbed a body laying on a morgue tray. \n\
-		What the Chef hadn't noticed, the Morgue's soul alarm was off, the body was filled with a soul begging not to be gibbed.\
-		The chef one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \n\
-		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out... \
-		But this wasn't regular meat. It had eyes, and a mouth too. \n\
-		Realizing what had happened, the scared Chef immediately called Security, who refused to arrest the new 'Beefman', who grew attached to the Chef. \
-		Years later, the Russian Sol Government offered to buy the Beefman off of them, to which the Chef gladly accepted. \n\
-		What the Russian Sol Government has done with them has never been released, but since then, there seems to have more of them than people remember, \
-		and these 'Beefmen' have never been able to sleep or think straight ever again.",
+		"On a very quiet day, the Russian-famous Fiddler Diner was serving food to the crew, when they realized they ran out of burger ingredients. \
+		After drawing straws, the Cook was sent to fetch some more meat from the Morgue, unaware of the events that will transpire. \
+		'It's normal for the Kitchen to grab dead bodies, right? It's not like they need them... Right?' The Cook thought, \
+		inattentively grabbing the first body they could find, trying to get this over with before it becomes a memory. \
+		What the Cook hadn't noticed, the Morgue's tray was green, the body was filled with a soul, one that was begging not to be gibbed.",
+
+		"The Cook one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \
+		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out, as if it was in reverse... \
+		The Cook looked over to see what was going on, but the slab of meat looked back, with massive eyes.",
+
+		"After a quick confiscation from the Russian Sol Government, most records of 'Beefmen' have gone dark, \
+		with minor glimpses of 'Sleep Experiments' going around. \
+		One thing is certain though, a rise of gibbers on-board Russian stations, which was followed by a rise in Beefmen. \
+		No one knows what happened during this era, but when the program finally ended and they were allowed into society, \
+		none of them were able to live 'normally'. Their complete inability to sleep, but their power in traversing the 'Phobetor Tear' \
+		immediately started popping everywhere, and has been at the	forefront of galaxy-wide investigations of their anatomy and the experiments.",
 	)
 
 /datum/species/beefman/create_pref_unique_perks()
@@ -257,10 +351,6 @@
 	if(user != target && user.is_bleeding())
 		target.add_mob_blood(user)
 
-///Called on Assign, or on Color Change (or any time proof_beefman_features() is used)
-/datum/species/beefman/proc/set_beef_color(mob/living/carbon/human/user)
-	fixed_mut_color = user.dna.features["beefcolor"]
-
 // Taken from _HELPERS/mobs.dm
 /proc/random_unique_beefman_name(attempts_to_find_unique_name = 10)
 	for(var/i in 1 to attempts_to_find_unique_name)
@@ -273,17 +363,6 @@
 	if(prob(50))
 		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.russian_names)]"
 	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beef_names)]"
-
-// Missing Defaults in DNA? Randomize!
-/proc/proof_beefman_features(list/inFeatures)
-	if(inFeatures["beefcolor"] == null || inFeatures["beefcolor"] == "")
-		inFeatures["beefcolor"] = GLOB.color_list_beefman[pick(GLOB.color_list_beefman)]
-	if(inFeatures["beefeyes"] == null || inFeatures["beefeyes"] == "")
-		inFeatures["beefeyes"] = pick(GLOB.eyes_beefman)
-	if(inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
-		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
-	if(inFeatures["beef_trauma"] == null || inFeatures["beef_trauma"] == "")
-		inFeatures["beef_trauma"] = GLOB.beefmen_traumas[pick(GLOB.beefmen_traumas)]
 
 /**
  * ATTACK PROCS

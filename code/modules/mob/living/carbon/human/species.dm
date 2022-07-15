@@ -701,13 +701,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			switch(bodypart)
 				if("ears")
 					accessory = GLOB.ears_list[source.dna.features["ears"]]
-				// Fulp edit START - Species
-				if("beefeyes")
-					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
-						accessory = GLOB.eyes_beefman[source.dna.features["beefeyes"]]
-				if("beefmouth")
-					accessory = GLOB.mouths_beefman[source.dna.features["beefmouth"]]
-				// Fulp edit END
 				if("body_markings")
 					accessory = GLOB.body_markings_list[source.dna.features["body_markings"]]
 				if("legs")
@@ -946,7 +939,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 				return FALSE
 			return TRUE
 		if(ITEM_SLOT_BACKPACK)
-			if(H.back && SEND_SIGNAL(H.back, COMSIG_TRY_STORAGE_CAN_INSERT, I, H, TRUE))
+			if(H.back && H.back.atom_storage?.can_insert(I, H, messages = TRUE))
 				return TRUE
 			return FALSE
 	return FALSE //Unsupported slot

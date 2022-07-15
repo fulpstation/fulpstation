@@ -1,11 +1,27 @@
-/// Adds the var to change the .dmi file used for barsigns.
-/datum/barsign
-	var/fulpbarsign = FALSE
+/obj/structure/sign/barsign
+	icon = 'fulp_modules/features/barsigns/icons/barsigns.dmi' //'icons/obj/barsigns.dmi'
 
 /// Redirect our barsigns to use OUR .dmi file instead.
 /obj/structure/sign/barsign/set_sign(datum/barsign/sign)
 	. = ..()
 	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/barsigns.dmi'
+
+/**
+ * So what exactly is going on here?
+ *
+ * Barsign unit testing requires a .dmi file has all icon states, and the icon checked for these icon states is the bar sign's icon
+ * Because of this, we either add our signs to TG's file, or add TG's signs to ours, then use our dmi file.
+ * The problem with this is if TG changes how their signs look, we wouldn't update.
+ * Therefore, we keep the old system that will keep using TG's dmi for TG barsigns, therefore we only use our version of said signs for Ci
+ * Knowing they exist, then swapping to TG's anyways.
+ *
+ * Of course, none of this would be needed if it weren't for TG hardcoding everything, and it would mean Ci actually matters. Sucks to suck.
+ */
+
+/// Adds the var to change the .dmi file used for barsigns.
+/datum/barsign
+	///Should we use our own .dmi file
+	var/fulpbarsign = FALSE
 
 /// Barsigns!
 /datum/barsign/fulp

@@ -13,6 +13,11 @@
 	tips = BLOODSUCKER_TIPS
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 
+	/// How much blood we have, starting off at default blood levels.
+	var/bloodsucker_blood_volume = BLOOD_VOLUME_NORMAL
+	/// How much blood we can have at once, increases per level.
+	var/max_blood_volume = 600
+
 	// TIMERS //
 	///Timer between alerts for Burn messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
@@ -56,7 +61,6 @@
 	var/passive_blood_drain = -0.1
 	var/additional_regen
 	var/bloodsucker_regen_rate = 0.3
-	var/max_blood_volume = 600
 
 	// Used for Bloodsucker Objectives
 	var/area/lair
@@ -64,6 +68,8 @@
 	var/total_blood_drank = 0
 	var/frenzy_blood_drank = 0
 	var/frenzies = 0
+	/// If we're currently getting dusted, we won't final death repeatedly.
+	var/dust_timer
 
 	///Blood display HUD
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
@@ -73,7 +79,7 @@
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 	/// Static typecache of all bloodsucker powers.
-	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/bloodsucker, ignore_root_path = TRUE)
+	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/cooldown/bloodsucker, ignore_root_path = TRUE)
 	/// Antagonists that cannot be Vassalized no matter what
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker,
@@ -112,7 +118,7 @@
 	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
 	if(!choice)
 		return
-	var/datum/action/bloodsucker/power = choice
+	var/datum/action/cooldown/bloodsucker/power = choice
 	to_chat(usr, span_warning("[power.power_explanation]"))
 
 /// These handles the application of antag huds/special abilities
@@ -213,7 +219,7 @@
 
 /datum/antagonist/bloodsucker/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 	var/old_punchdamagelow
@@ -382,12 +388,12 @@
 		QDEL_NULL(bloodsucker_sunlight)
 
 /// Buying powers
-/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
+/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/cooldown/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
 	log_uplink("[key_name(owner.current)] purchased [power].")
 
-/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
+/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/cooldown/bloodsucker/power)
 	if(power.active)
 		power.DeactivatePower()
 	powers -= power
@@ -395,10 +401,10 @@
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
-	BuyPower(new /datum/action/bloodsucker/feed)
-	BuyPower(new /datum/action/bloodsucker/masquerade)
+	BuyPower(new /datum/action/cooldown/bloodsucker/feed)
+	BuyPower(new /datum/action/cooldown/bloodsucker/masquerade)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
-		BuyPower(new /datum/action/bloodsucker/veil)
+		BuyPower(new /datum/action/cooldown/bloodsucker/veil)
 	add_verb(owner.current, /mob/living/proc/explain_powers)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
@@ -426,7 +432,7 @@
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	// Powers
 	remove_verb(owner.current, /mob/living/proc/explain_powers)
-	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		RemovePower(all_powers)
 	/// Stats
 	if(ishuman(owner.current))
@@ -485,20 +491,20 @@
 	bloodsucker_level_unspent--
 
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
-	for(var/datum/action/bloodsucker/power as anything in powers)
-		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
+		if(istype(power, /datum/action/cooldown/bloodsucker/feed) || istype(power, /datum/action/cooldown/bloodsucker/masquerade) || istype(power, /datum/action/cooldown/bloodsucker/veil))
 			continue
 		RemovePower(power)
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
-	for(var/datum/action/bloodsucker/power as anything in powers)
-		if(istype(power, /datum/action/bloodsucker/targeted/tremere))
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
+		if(istype(power, /datum/action/cooldown/bloodsucker/targeted/tremere))
 			continue
 		power.level_current++
 
 ///Disables all powers, accounting for torpor
 /datum/antagonist/bloodsucker/proc/DisableAllPowers()
-	for(var/datum/action/bloodsucker/power as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
 		if((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			if(power.active)
 				power.DeactivatePower()
@@ -507,7 +513,7 @@
 #define PURCHASE_TREMERE "Tremere"
 #define PURCHASE_DEFAULT "Default"
 
-/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE)
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE, spend_blood = FALSE)
 	set waitfor = FALSE
 
 	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
@@ -526,15 +532,15 @@
 	var/list/options = list()
 	switch(power_mode)
 		if(PURCHASE_DEFAULT)
-			for(var/datum/action/bloodsucker/power as anything in all_bloodsucker_powers)
+			for(var/datum/action/cooldown/bloodsucker/power as anything in all_bloodsucker_powers)
 				if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in powers))
 					options[initial(power.name)] = power
 		if(PURCHASE_VASSAL)
-			for(var/datum/action/bloodsucker/power as anything in all_bloodsucker_powers)
+			for(var/datum/action/cooldown/bloodsucker/power as anything in all_bloodsucker_powers)
 				if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
 					options[initial(power.name)] = power
 		if(PURCHASE_TREMERE)
-			for(var/datum/action/bloodsucker/targeted/tremere/power as anything in powers)
+			for(var/datum/action/cooldown/bloodsucker/targeted/tremere/power as anything in powers)
 				if(!(power.purchase_flags & TREMERE_CAN_BUY))
 					continue
 				if(isnull(power.upgraded_power))
@@ -565,7 +571,7 @@
 				return
 
 		// Good to go - Buy Power!
-		var/datum/action/bloodsucker/purchased_power = options[choice]
+		var/datum/action/cooldown/bloodsucker/purchased_power = options[choice]
 		switch(power_mode)
 			if(PURCHASE_DEFAULT)
 				BuyPower(new purchased_power)
@@ -578,7 +584,7 @@
 				target.balloon_alert(target, "learned [choice]!")
 				to_chat(target, span_notice("Your master taught you how to use [choice]!"))
 			if(PURCHASE_TREMERE)
-				var/datum/action/bloodsucker/targeted/tremere/tremere_power = purchased_power
+				var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_power = purchased_power
 				if(isnull(tremere_power.upgraded_power))
 					owner.current.balloon_alert(owner.current, "cannot upgrade [choice]!")
 					to_chat(owner.current, span_notice("[choice] is already at max level!"))
@@ -607,6 +613,8 @@
 	bloodsucker_level++
 	if(spend_rank)
 		bloodsucker_level_unspent--
+	if(spend_blood)
+		bloodsucker_blood_volume -= 550
 
 	// Ranked up enough? Let them join a Clan.
 	if(bloodsucker_level == 3)
@@ -856,13 +864,13 @@
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud()
 	var/valuecolor
-	if(owner.current.blood_volume > BLOOD_VOLUME_SAFE)
+	if(bloodsucker_blood_volume > BLOOD_VOLUME_SAFE)
 		valuecolor = "#FFDDDD"
-	else if(owner.current.blood_volume > BLOOD_VOLUME_BAD)
+	else if(bloodsucker_blood_volume > BLOOD_VOLUME_BAD)
 		valuecolor = "#FFAAAA"
 
 	if(blood_display)
-		blood_display.update_counter(owner.current.blood_volume, valuecolor)
+		blood_display.update_counter(bloodsucker_blood_volume, valuecolor)
 
 	if(vamprank_display)
 		if(bloodsucker_level_unspent > 0)
