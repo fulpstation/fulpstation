@@ -1863,6 +1863,12 @@
 /obj/machinery/power/apc/auto_name/directional/west,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
+"axP" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/plasma_input{
+	dir = 1
+	},
+/turf/open/floor/engine/plasma,
+/area/station/engineering/atmos)
 "axR" = (
 /obj/structure/closet/toolcloset,
 /obj/structure/cable,
@@ -8356,13 +8362,6 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
-"chd" = (
-/obj/machinery/camera/directional/south{
-	c_tag = "Engineering - Plasma Tank";
-	network = list("ss13","engineering")
-	},
-/turf/open/floor/engine/plasma,
-/area/station/engineering/atmos)
 "cho" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/box,
@@ -8676,6 +8675,13 @@
 	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron/dark,
+/area/station/engineering/atmos)
+"clC" = (
+/obj/machinery/camera/directional/south{
+	c_tag = "Engineering - Mix Tank";
+	network = list("ss13","engineering")
+	},
+/turf/open/floor/engine/vacuum,
 /area/station/engineering/atmos)
 "clM" = (
 /obj/effect/turf_decal/tile/blue{
@@ -9064,6 +9070,12 @@
 /obj/effect/mapping_helpers/airlock/access/all/medical/general,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
+"cqe" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/carbon_output{
+	dir = 1
+	},
+/turf/open/floor/engine/co2,
+/area/station/engineering/atmos)
 "cqf" = (
 /obj/machinery/power/port_gen/pacman,
 /obj/structure/cable,
@@ -10811,6 +10823,13 @@
 /obj/effect/decal/cleanable/vomit/old,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
+"cNI" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/smart/simple/orange/visible{
+	dir = 9
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "cOb" = (
 /obj/structure/table/wood,
 /obj/item/book/manual/wiki/security_space_law,
@@ -11519,13 +11538,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
-"cWr" = (
-/obj/machinery/camera/directional/south{
-	c_tag = "Engineering - Mix Tank";
-	network = list("ss13","engineering")
-	},
-/turf/open/floor/engine/vacuum,
-/area/station/engineering/atmos)
 "cWB" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/plating,
@@ -13973,13 +13985,6 @@
 /obj/structure/grille/broken,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
-"dHB" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/smart/simple/orange/visible{
-	dir = 5
-	},
-/turf/open/space/basic,
-/area/space/nearstation)
 "dHI" = (
 /obj/item/stack/medical/gauze,
 /turf/open/floor/plating,
@@ -22384,6 +22389,12 @@
 	},
 /turf/open/floor/plating,
 /area/station/security/brig)
+"fOQ" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/mix_input{
+	dir = 1
+	},
+/turf/open/floor/engine/vacuum,
+/area/station/engineering/atmos)
 "fOS" = (
 /obj/structure/extinguisher_cabinet/directional/east,
 /obj/effect/turf_decal/tile/yellow{
@@ -27983,6 +27994,12 @@
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
+"hnU" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/plasma_output{
+	dir = 1
+	},
+/turf/open/floor/engine/plasma,
+/area/station/engineering/atmos)
 "hoo" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -33994,12 +34011,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/central)
-"iTB" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/carbon_input{
-	dir = 1
-	},
-/turf/open/floor/engine/co2,
-/area/station/engineering/atmos)
 "iTT" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /turf/open/floor/iron,
@@ -45399,12 +45410,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
-"lPW" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/plasma_output{
-	dir = 1
-	},
-/turf/open/floor/engine/plasma,
-/area/station/engineering/atmos)
 "lQa" = (
 /obj/docking_port/stationary/mining_home/common{
 	dir = 8
@@ -52399,6 +52404,7 @@
 	color = "#000000";
 	name = "dark corner"
 	},
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "nBa" = (
@@ -56631,6 +56637,10 @@
 "oKi" = (
 /turf/closed/wall,
 /area/station/medical/medbay)
+"oKp" = (
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
+/area/space)
 "oKD" = (
 /obj/effect/turf_decal/tile/red{
 	color = "#FF0000";
@@ -61555,13 +61565,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
-"qaY" = (
-/obj/machinery/camera/directional/south{
-	c_tag = "Engineering - CO2 Tank";
-	network = list("ss13","engineering")
-	},
-/turf/open/floor/engine/co2,
-/area/station/engineering/atmos)
 "qbb" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -64118,6 +64121,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/purple,
+/obj/machinery/atmospherics/pipe/smart/simple/green/visible,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "qJx" = (
@@ -67835,12 +67839,6 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical/plasmaman)
-"rHj" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/carbon_output{
-	dir = 1
-	},
-/turf/open/floor/engine/co2,
-/area/station/engineering/atmos)
 "rHw" = (
 /obj/machinery/mecha_part_fabricator,
 /obj/effect/turf_decal/delivery,
@@ -70978,10 +70976,6 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/hallway)
-"sxq" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space)
 "sxu" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -71578,6 +71572,19 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science)
+"sFW" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/carbon_input{
+	dir = 1
+	},
+/turf/open/floor/engine/co2,
+/area/station/engineering/atmos)
+"sFZ" = (
+/obj/machinery/camera/directional/south{
+	c_tag = "Engineering - CO2 Tank";
+	network = list("ss13","engineering")
+	},
+/turf/open/floor/engine/co2,
+/area/station/engineering/atmos)
 "sGf" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
@@ -72201,13 +72208,6 @@
 /obj/effect/landmark/blobstart,
 /turf/open/floor/wood,
 /area/station/maintenance/fore)
-"sOP" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/smart/simple/orange/visible{
-	dir = 4
-	},
-/turf/open/space/basic,
-/area/space/nearstation)
 "sOS" = (
 /obj/structure/table,
 /obj/machinery/microwave{
@@ -72968,12 +72968,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/station/science/ordnance)
-"tcG" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/plasma_input{
-	dir = 1
-	},
-/turf/open/floor/engine/plasma,
-/area/station/engineering/atmos)
 "tcI" = (
 /obj/structure/rack,
 /obj/effect/turf_decal/tile/brown{
@@ -75994,13 +75988,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/brig)
-"tRp" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/smart/simple/orange/visible{
-	dir = 9
-	},
-/turf/open/space/basic,
-/area/space/nearstation)
 "tRA" = (
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
@@ -80816,12 +80803,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/brig)
-"ves" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/mix_input{
-	dir = 1
-	},
-/turf/open/floor/engine/vacuum,
-/area/station/engineering/atmos)
 "vey" = (
 /turf/open/floor/iron,
 /area/station/security/office)
@@ -82491,6 +82472,13 @@
 	pixel_y = 7
 	},
 /turf/open/floor/plating/airless,
+/area/space/nearstation)
+"vCd" = (
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/smart/simple/orange/visible{
+	dir = 4
+	},
+/turf/open/space/basic,
 /area/space/nearstation)
 "vCq" = (
 /obj/machinery/atmospherics/components/binary/pump/on{
@@ -86766,6 +86754,13 @@
 "wLY" = (
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
+"wMb" = (
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/smart/simple/orange/visible{
+	dir = 5
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "wMg" = (
 /obj/structure/closet/secure_closet/medical2,
 /obj/machinery/light_switch/directional/west{
@@ -89581,6 +89576,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
+"xtb" = (
+/obj/machinery/camera/directional/south{
+	c_tag = "Engineering - Plasma Tank";
+	network = list("ss13","engineering")
+	},
+/turf/open/floor/engine/plasma,
+/area/station/engineering/atmos)
 "xte" = (
 /obj/machinery/door/airlock/security{
 	name = "Security Post - Engineering";
@@ -127699,7 +127701,7 @@ tgq
 wwP
 wwP
 wwP
-dHB
+wMb
 iQW
 iQW
 yju
@@ -128468,7 +128470,7 @@ uZp
 fcU
 hBt
 vZO
-cWr
+clC
 hBb
 tqS
 xdv
@@ -128723,7 +128725,7 @@ uig
 iEQ
 jJQ
 xrM
-ves
+fOQ
 pcj
 pcj
 hBb
@@ -129237,7 +129239,7 @@ qJv
 svK
 jJQ
 xrM
-tcG
+axP
 eqU
 eqU
 hBb
@@ -129496,7 +129498,7 @@ yju
 fcU
 rRV
 qkV
-chd
+xtb
 hBb
 tqS
 xdv
@@ -129751,7 +129753,7 @@ gzZ
 tlc
 ilH
 oUI
-lPW
+hnU
 eqU
 eqU
 hBb
@@ -130265,7 +130267,7 @@ nAX
 iEQ
 jJQ
 xrM
-iTB
+sFW
 mHZ
 mHZ
 hBb
@@ -130524,7 +130526,7 @@ yju
 fcU
 cKA
 xTg
-qaY
+sFZ
 hBb
 tqS
 xdv
@@ -130779,7 +130781,7 @@ jib
 oCS
 vZK
 oUI
-rHj
+cqe
 mHZ
 mHZ
 hBb
@@ -131297,7 +131299,7 @@ yju
 yju
 yju
 yju
-sOP
+vCd
 xdv
 bfi
 iQW
@@ -131554,7 +131556,7 @@ yju
 yju
 yju
 yju
-sOP
+vCd
 xBY
 yju
 xBY
@@ -131811,7 +131813,7 @@ lGj
 lGj
 lGj
 lGj
-tRp
+cNI
 xBY
 iQW
 bfi
@@ -133353,7 +133355,7 @@ iQW
 xBY
 xdv
 xdv
-sxq
+oKp
 iQW
 iQW
 iQW
