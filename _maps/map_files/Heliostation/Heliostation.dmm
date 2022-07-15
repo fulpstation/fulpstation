@@ -34585,14 +34585,6 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
-"bLz" = (
-/obj/effect/turf_decal/siding/yellow{
-	color = "#FFD700";
-	dir = 8;
-	name = "engineering yellow"
-	},
-/turf/open/floor/iron,
-/area/station/engineering/atmos/hfr_room)
 "bLD" = (
 /obj/structure/cable,
 /obj/structure/rack,
@@ -41219,20 +41211,22 @@
 	},
 /obj/machinery/firealarm/directional/north,
 /obj/machinery/button/door/directional/west{
-	desc = "A remote control switch for the engineering security doors.";
-	id = "Engineering";
-	name = "Engineering Lockdown";
-	pixel_y = -6
+	id = "engielock";
+	name = "Engineering Lockdown Control";
+	pixel_y = -6;
+	req_access = list("engineering")
 	},
 /obj/machinery/button/door/directional/west{
-	id = "atmos";
-	name = "Atmospherics Lockdown";
-	pixel_y = 6
+	id = "atmoslock";
+	name = "Atmospherics Lockdown Control";
+	pixel_y = 6;
+	req_access = list("atmospherics")
 	},
 /obj/machinery/button/door/directional/west{
 	id = "engstorage";
 	name = "Engineering Secure Storage Control";
-	pixel_x = -36
+	pixel_x = -36;
+	req_access = list("engine_equip")
 	},
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
@@ -51573,11 +51567,6 @@
 "cCu" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
-/obj/machinery/button/door/directional/south{
-	id = "engsm";
-	name = "Radiation Shutters Control";
-	req_one_access_txt = "10;24"
-	},
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "cCv" = (
@@ -59930,6 +59919,10 @@
 /obj/effect/turf_decal/trimline/blue/filled/warning,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
+"dhJ" = (
+/obj/machinery/atmospherics/components/unary/portables_connector/visible,
+/turf/open/floor/iron,
+/area/station/engineering/atmos/hfr_room)
 "din" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance{
@@ -61953,6 +61946,10 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/station/security/prison/mess)
+"fYn" = (
+/obj/effect/spawner/structure/window/reinforced/plasma,
+/turf/open/floor/plating,
+/area/station/engineering/atmos/hfr_room)
 "fYw" = (
 /obj/effect/turf_decal/siding/brown{
 	color = "#FF6700";
@@ -64498,13 +64495,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
-"iVb" = (
-/obj/effect/turf_decal/siding/yellow{
-	color = "#FFD700";
-	name = "engineering yellow"
-	},
-/turf/open/floor/iron,
-/area/station/engineering/atmos/hfr_room)
 "iWf" = (
 /obj/structure/cable,
 /obj/machinery/door/poddoor/preopen{
@@ -68551,6 +68541,13 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron/white,
 /area/station/commons/toilet)
+"nMt" = (
+/obj/effect/turf_decal/siding/yellow{
+	color = "#FFD700";
+	name = "engineering yellow"
+	},
+/turf/open/floor/iron,
+/area/station/engineering/atmos/hfr_room)
 "nMy" = (
 /obj/structure/grille/broken,
 /turf/open/floor/plating,
@@ -69057,10 +69054,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/office)
-"oiP" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible,
-/turf/open/floor/iron,
-/area/station/engineering/atmos/hfr_room)
 "ojt" = (
 /obj/effect/turf_decal/siding/red{
 	color = "#FF0000";
@@ -69807,10 +69800,6 @@
 /obj/item/storage/lockbox/loyalty,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
-"pnZ" = (
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/turf/open/floor/plating,
-/area/station/engineering/atmos/hfr_room)
 "poG" = (
 /obj/structure/bed,
 /obj/item/bedsheet/medical,
@@ -71194,6 +71183,9 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
+"qSn" = (
+/turf/open/floor/iron,
+/area/station/engineering/atmos/hfr_room)
 "qTf" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -75684,6 +75676,14 @@
 	},
 /turf/open/floor/wood,
 /area/station/medical/psychology)
+"wGn" = (
+/obj/effect/turf_decal/siding/yellow{
+	color = "#FFD700";
+	dir = 8;
+	name = "engineering yellow"
+	},
+/turf/open/floor/iron,
+/area/station/engineering/atmos/hfr_room)
 "wGo" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
@@ -76352,9 +76352,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
-"xzM" = (
-/turf/open/floor/iron,
-/area/station/engineering/atmos/hfr_room)
 "xzR" = (
 /obj/effect/turf_decal/siding/yellow/corner{
 	color = "#FFD700";
@@ -97606,11 +97603,11 @@ cmU
 lJc
 bXs
 cOw
-bLz
-bLz
-bLz
-bLz
-bLz
+wGn
+wGn
+wGn
+wGn
+wGn
 sVL
 cOm
 aaa
@@ -97866,9 +97863,9 @@ cOI
 cwD
 cwD
 ctF
-xzM
+qSn
 cwD
-iVb
+nMt
 cOm
 aaa
 cJq
@@ -98120,12 +98117,12 @@ cmU
 imH
 knY
 cOI
-xzM
+qSn
 cvm
 ctG
 qPR
-xzM
-iVb
+qSn
+nMt
 cOm
 aaa
 cBH
@@ -98382,8 +98379,8 @@ nAj
 eKm
 cuZ
 cwD
-iVb
-pnZ
+nMt
+fYn
 aaa
 aaa
 aaa
@@ -98634,7 +98631,7 @@ cmU
 imH
 bXs
 cxD
-xzM
+qSn
 qPR
 kme
 cvm
@@ -98892,10 +98889,10 @@ cnV
 knY
 cOI
 cwD
-xzM
+qSn
 nZg
-xzM
-xzM
+qSn
+qSn
 luK
 cOm
 aaa
@@ -99148,11 +99145,11 @@ cmU
 fHA
 knY
 cxF
-xzM
-xzM
-xzM
-xzM
-oiP
+qSn
+qSn
+qSn
+qSn
+dhJ
 tek
 cOm
 aaa
@@ -99662,11 +99659,11 @@ cmX
 cnW
 coW
 cOm
-pnZ
+fYn
 csw
 rwJ
 csw
-pnZ
+fYn
 wcB
 cOm
 coW
