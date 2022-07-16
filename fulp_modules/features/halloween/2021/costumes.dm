@@ -284,7 +284,7 @@
 	name = "breather mask"
 	desc = "A tight green balaclava with breathing apparatus strapped to the front. Only has one eye socket."
 	icon_state = "breather_mask"
-	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEHAIR
+	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEHAIR|HIDESNOUT
 	clothing_flags = MASKINTERNALS
 	modifies_speech = TRUE
 
