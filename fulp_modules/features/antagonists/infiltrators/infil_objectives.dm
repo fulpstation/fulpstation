@@ -114,14 +114,23 @@
 		/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
 		/mob/living/simple_animal/pet/fox/renault,
  		/mob/living/simple_animal/pet/cat/runtime,
- 		/mob/living/simple_animal/parrot/poly,
+		/mob/living/simple_animal/parrot/poly,
+		/mob/living/simple_animal/pet/dog/pug/mcgriff,
+		/mob/living/simple_animal/sloth/paperwork,
+		/mob/living/simple_animal/sloth/citrus,
  	)
 
 	remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
 	var/chosen_pet
-	while(!target_pet)
+	while(!target_pet && possible_target_pets.len)
 		chosen_pet = pick(possible_target_pets)
 		target_pet = locate(chosen_pet) in GLOB.mob_living_list
+		if(!target_pet)
+			possible_target_pets -=  chosen_pet
+			continue
+		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/simple_animal/parrot/poly/ghost))
+			target_pet = null
+		possible_target_pets -=  chosen_pet
 
 	update_explanation_text()
 
@@ -140,7 +149,9 @@
 
 
 /datum/objective/kill_pet/check_completion()
-	return completed || (target_pet?.stat == DEAD) || !target_pet
+	if(target_pet)
+		return completed || (target_pet.stat == DEAD) || !locate(target_pet) in GLOB.mob_living_list
+	return TRUE
 
 //scientist killing
 
