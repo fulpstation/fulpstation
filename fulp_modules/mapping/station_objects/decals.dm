@@ -1,3 +1,5 @@
+//Colored Tiles
+
 /obj/effect/turf_decal/tile/command
 	color = "#4169E1"
 	name = "command corner"
@@ -16,7 +18,7 @@
 
 /obj/effect/turf_decal/tile/command/fourcorners
 	icon_state = "tile_fourcorners"
-	name = "command blue fourcorner"
+	name = "command fourcorner"
 
 /obj/effect/turf_decal/tile/prison
 	color = "#FF6700"
@@ -117,3 +119,23 @@
 /obj/effect/turf_decal/tile/science/fourcorners
 	icon_state = "tile_fourcorners"
 	name = "science fourcorner"
+
+// Sidings
+
+/obj/effect/turf_decal/siding/grey
+	color = "grey"
+
+/obj/effect/turf_decal/siding/grey/corner
+	icon_state = "siding_corner"
+
+/obj/effect/turf_decal/siding/darkbrown
+	color = "#4C3117"
+
+/obj/effect/turf_decal/siding/darkbrown/corner
+	icon_state = "siding_corner"
+
+/obj/effect/turf_decal/siding/engineering
+	color = "#FFD700"
+
+/obj/effect/turf_decal/siding/engineering/corner
+	icon_state = "siding_corner"
