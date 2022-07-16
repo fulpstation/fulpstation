@@ -140,7 +140,7 @@
 
 
 /datum/objective/kill_pet/check_completion()
-	return completed || (target_pet?.stat == DEAD)
+	return completed || (target_pet?.stat == DEAD) || !target_pet
 
 //scientist killing
 
