@@ -102,19 +102,6 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 			soft_filter_result = CAN_BYPASS_FILTER(src) ? null : is_soft_ic_filtered(message)
 
 	if(sanitize)
-		var/list/french_words = strings("french_replacement.json", "french")
-
-		for(var/key in french_words)
-			var/value = french_words[key]
-			if(islist(value))
-				value = pick(value)
-
-			message = replacetextEx(message, "[uppertext(key)]", "[uppertext(value)]")
-			message = replacetextEx(message, "[capitalize(key)]", "[capitalize(value)]")
-			message = replacetextEx(message, "[key]", "[value]")
-
-		if(prob(3))
-			message += pick(" Honh honh honh!"," Honh!"," Zut Alors!")
 		message = trim(copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN))
 	if(!message || message == "")
 		return
@@ -282,6 +269,20 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 
 	if(pressure < ONE_ATMOSPHERE*0.4) //Thin air, let's italicise the message
 		spans |= SPAN_ITALICS
+
+	var/list/french_words = strings("french_replacement.json", "french")
+
+	for(var/key in french_words)
+		var/value = french_words[key]
+		if(islist(value))
+			value = pick(value)
+
+		message = replacetextEx(message, "[uppertext(key)]", "[uppertext(value)]")
+		message = replacetextEx(message, "[capitalize(key)]", "[capitalize(value)]")
+		message = replacetextEx(message, "[key]", "[value]")
+
+	if(prob(3))
+		message += pick(" Honh honh honh!"," Honh!"," Zut Alors!")
 
 	send_speech(message, message_range, src, bubble_type, spans, language, message_mods)//roughly 58% of living/say()'s total cost
 
