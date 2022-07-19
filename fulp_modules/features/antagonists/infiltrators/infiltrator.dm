@@ -50,7 +50,7 @@
 	mask = /obj/item/clothing/mask/gas/syndicate
 	head = /obj/item/clothing/head/helmet/space/syndicate
 	ears = /obj/item/radio/headset
-	back = /obj/item/storage/backpack/old
+	back = /obj/item/storage/backpack
 	backpack_contents = list(
 		/obj/item/storage/box/survival/syndie = 1,
 		/obj/item/knife/combat/survival = 1,
