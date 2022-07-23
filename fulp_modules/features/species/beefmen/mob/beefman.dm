@@ -95,6 +95,8 @@
 
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
+	if(!user.dna.features["beef_color"]) // in case we're meant to be randomized.
+		randomize_beefman(user)
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
@@ -110,6 +112,11 @@
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
 		limb.update_limb(is_creating = TRUE)
+
+/proc/randomize_beefman(mob/living/carbon/human/human) // our version of randomize_human()
+	human.dna.features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
+	human.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
+	human.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
