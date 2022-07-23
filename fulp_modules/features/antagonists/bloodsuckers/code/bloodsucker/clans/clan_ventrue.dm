@@ -10,7 +10,7 @@
 	rank_up_type = BLOODSUCKER_RANK_UP_VASSAL
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY
 
-/datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE)
+/datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 	// Purchase Power Prompt
 	var/list/options = list()

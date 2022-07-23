@@ -1,3 +1,6 @@
+///How much it costs for a Ventrue to rank up without a spare rank to spend.
+#define BLOODSUCKER_BLOOD_RANKUP_COST 550
+
 /obj/structure/bloodsucker
 	///Who owns this structure?
 	var/mob/living/owner
@@ -8,24 +11,24 @@
 	 *	This way we don't have to make a new /examine for each structure
 	 *	And it's easier to edit.
 	 */
-	var/Ghost_desc
-	var/Vamp_desc
-	var/Vassal_desc
-	var/Hunter_desc
+	var/ghost_desc
+	var/vamp_desc
+	var/vassal_desc
+	var/hunter_desc
 
 /obj/structure/bloodsucker/examine(mob/user)
 	. = ..()
-	if(!user.mind && Ghost_desc != "")
-		. += span_cult(Ghost_desc)
-	if(IS_BLOODSUCKER(user) && Vamp_desc)
+	if(!user.mind && ghost_desc != "")
+		. += span_cult(ghost_desc)
+	if(IS_BLOODSUCKER(user) && vamp_desc)
 		if(!owner)
 			. += span_cult("It is unsecured. Click on [src] while in your lair to secure it in place to get its full potential.")
 			return
-		. += span_cult(Vamp_desc)
-	if(IS_VASSAL(user) && Vassal_desc != "")
-		. += span_cult(Vassal_desc)
-	if(IS_MONSTERHUNTER(user) && Hunter_desc != "")
-		. += span_cult(Hunter_desc)
+		. += span_cult(vamp_desc)
+	if(IS_VASSAL(user) && vassal_desc != "")
+		. += span_cult(vassal_desc)
+	if(IS_MONSTERHUNTER(user) && hunter_desc != "")
+		. += span_cult(hunter_desc)
 
 /// This handles bolting down the structure.
 /obj/structure/bloodsucker/proc/bolt(mob/user)
@@ -115,17 +118,17 @@
 	density = TRUE
 	can_buckle = TRUE
 	buckle_lying = 180
-	Ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
-	Vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
+	ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
+	vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
 		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.\n\
 		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand. This costs Blood to do.\n\
 		Once you have Vassals ready, you are able to select a Favorite Vassal;\n\
 		Click the Rack as a Vassal is buckled onto it to turn them into your Favorite. This can only be done once, so choose carefully!\n\
 		This process costs 150 Blood to do, and will make your Vassal unable to be deconverted, outside of you reaching Final Death."
-	Vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions.\n\
+	vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions.\n\
 		Aid your master in bringing their victims here and keeping them secure.\n\
 		You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured."
-	Hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.\n\
+	hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.\n\
 		They usually ensure that victims are handcuffed, to prevent them from running away.\n\
 		Their rituals take time, allowing us to disrupt it."
 	/// So we can't spam buckle people onto the rack
@@ -453,14 +456,14 @@
 	density = FALSE
 	can_buckle = TRUE
 	anchored = FALSE
-	Ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals.\n\
+	ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals.\n\
 		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
-	Vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.\n\
+	vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.\n\
 		You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally."
-	Vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n\
+	vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n\
 		You can turn it on and off by clicking on it while you are next to it.\n\
 		If your Master is part of the Ventrue Clan, they utilize this to upgrade their Favorite Vassal."
-	Hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
+	hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
 
 /obj/structure/bloodsucker/candelabrum/Destroy()
@@ -530,7 +533,6 @@
  *
  *	Most of this is just copied over from Persuasion Rack.
  */
-
 /obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
 	if(!.)
@@ -552,9 +554,9 @@
 		// Are we spending a Rank?
 		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			bloodsuckerdatum.SpendRank(target)
-		else if(bloodsuckerdatum.bloodsucker_blood_volume >= 550)
+		else if(bloodsuckerdatum.bloodsucker_blood_volume >= BLOODSUCKER_BLOOD_RANKUP_COST)
 			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
-			to_chat(user, span_warning("Do you wish to spend 550 Blood to Rank [target] up?"))
+			to_chat(user, span_warning("Do you wish to spend [BLOODSUCKER_BLOOD_RANKUP_COST] Blood to Rank [target] up?"))
 			var/list/rank_options = list(
 				"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
 				"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
@@ -562,7 +564,7 @@
 			var/rank_response = show_radial_menu(user, src, rank_options, radius = 36, require_near = TRUE)
 			switch(rank_response)
 				if("Yes")
-					bloodsuckerdatum.SpendRank(target, cost_rank = FALSE, spend_blood = TRUE)
+					bloodsuckerdatum.SpendRank(target, cost_rank = FALSE, blood_cost = BLOODSUCKER_BLOOD_RANKUP_COST)
 					return
 		else
 			// Neither? Shame. Goodbye!
@@ -628,10 +630,10 @@
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
-	Ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
-	Vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
-	Vassal_desc = "This is a blood throne, it allows your Master to telepathically speak to you and others like you."
-	Hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
+	ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
+	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
+	vassal_desc = "This is a blood throne, it allows your Master to telepathically speak to you and others like you."
+	hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
 		While buckled, Monsters can use this to telepathically communicate with eachother."
 	var/mutable_appearance/armrest
 
@@ -731,3 +733,5 @@
 		to_chat(dead_mob, "[link] [rendered]")
 
 	speech_args[SPEECH_MESSAGE] = ""
+
+#undef BLOODSUCKER_BLOOD_RANKUP_COST

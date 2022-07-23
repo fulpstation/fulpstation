@@ -105,13 +105,14 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  * bloodsuckerdatum - the antagonist datum of the Bloodsucker running this.
  * target - The Vassal (if any) we are upgrading.
  * cost_rank - TRUE/FALSE on whether this will cost us a rank when we go through with it.
+ * blood_cost - A number saying how much it costs to rank up.
  */
-/datum/bloodsucker_clan/proc/on_spend_rank(datum/source, datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE)
+/datum/bloodsucker_clan/proc/on_spend_rank(datum/source, datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	SIGNAL_HANDLER
 
-	INVOKE_ASYNC(src, .proc/spend_rank, bloodsuckerdatum, target, cost_rank)
+	INVOKE_ASYNC(src, .proc/spend_rank, bloodsuckerdatum, target, cost_rank, blood_cost)
 
-/datum/bloodsucker_clan/proc/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE)
+/datum/bloodsucker_clan/proc/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	// Purchase Power Prompt
 	var/list/options = list()
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
@@ -145,9 +146,9 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 		bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "learned [choice]!")
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You have learned how to use [choice]!"))
 
-	finalize_spend_rank(bloodsuckerdatum, cost_rank)
+	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
 
-/datum/bloodsucker_clan/proc/finalize_spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, cost_rank = TRUE)
+/datum/bloodsucker_clan/proc/finalize_spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, cost_rank = TRUE, blood_cost)
 	bloodsuckerdatum.LevelUpPowers()
 	bloodsuckerdatum.bloodsucker_regen_rate += 0.05
 	bloodsuckerdatum.max_blood_volume += 100
@@ -163,6 +164,8 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	bloodsuckerdatum.bloodsucker_level++
 	if(cost_rank)
 		bloodsuckerdatum.bloodsucker_level_unspent--
+	if(blood_cost)
+		bloodsuckerdatum.AddBloodVolume(-blood_cost)
 
 	// Ranked up enough to get your true Reputation?
 	if(bloodsuckerdatum.bloodsucker_level == 4)
