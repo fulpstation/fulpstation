@@ -31,18 +31,43 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	if(!GLOB.bloodsucker_clan_members["[name]"])
 		GLOB.bloodsucker_clan_members["[name]"] = list()
 	GLOB.bloodsucker_clan_members["[name]"] |= user
-	RegisterSignal(src, BLOODSUCKER_RANK_UP, .proc/on_rank_up)
-	RegisterSignal(src, BLOODSUCKER_SPEND_RANK, .proc/on_spend_rank)
+
+	RegisterSignal(src, BLOODSUCKER_HANDLE_LIFE, .proc/handle_clan_life)
+
+	RegisterSignal(src, BLOODSUCKER_PRE_RANK_UP, .proc/pre_rank_up)
+	RegisterSignal(src, BLOODSUCKER_RANK_UP, .proc/on_spend_rank)
+
+	RegisterSignal(src, BLOODSUCKER_PRE_MAKE_FAVORITE, .proc/on_offer_favorite)
 	RegisterSignal(src, BLOODSUCKER_MAKE_FAVORITE, .proc/on_favorite_vassal)
+
+	RegisterSignal(src, BLOODSUCKER_MADE_VASSAL, .proc/on_vassal_made)
+
+	RegisterSignal(src, BLOODSUCKER_PRE_DRINK_BLOOD, .proc/pre_drink_blood)
+
 	to_chat(user, span_announce("[description]"))
 	give_clan_objective(user)
 
 /datum/bloodsucker_clan/Destroy(force, mob/living/carbon/user)
+	UnregisterSignal(src, BLOODSUCKER_PRE_RANK_UP)
 	UnregisterSignal(src, BLOODSUCKER_RANK_UP)
-	UnregisterSignal(src, BLOODSUCKER_SPEND_RANK)
+	UnregisterSignal(src, BLOODSUCKER_PRE_MAKE_FAVORITE)
 	UnregisterSignal(src, BLOODSUCKER_MAKE_FAVORITE)
 	GLOB.bloodsucker_clan_members[name] -= user
 	return ..()
+
+///legacy code support
+/datum/bloodsucker_clan/proc/get_clan()
+	return name
+
+/datum/bloodsucker_clan/proc/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	SIGNAL_HANDLER
+
+/datum/bloodsucker_clan/proc/on_vassal_made(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	SIGNAL_HANDLER
+
+/datum/bloodsucker_clan/proc/pre_drink_blood(atom/source)
+	SIGNAL_HANDLER
+	return COMPONENT_DRINK_NORMAL
 
 /datum/bloodsucker_clan/proc/give_clan_objective(mob/living/user)
 	if(isnull(clan_objective))
@@ -54,11 +79,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	bloodsuckerdatum.objectives += given_objective
 	user.mind.announce_objectives()
 
-///legacy code support
-/datum/bloodsucker_clan/proc/get_clan()
-	return name
-
-/datum/bloodsucker_clan/proc/on_rank_up(datum/source)
+/datum/bloodsucker_clan/proc/pre_rank_up(datum/source)
 	SIGNAL_HANDLER
 	return COMPONENT_RANK_UP
 
@@ -130,6 +151,26 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	user.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
 	antag_datum.update_hud()
 
+/datum/bloodsucker_clan/proc/on_offer_favorite(datum/source, datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
+	SIGNAL_HANDLER
+
+	INVOKE_ASYNC(src, .proc/offer_favorite)
+
+/datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
+	to_chat(user, span_notice("Would you like to turn this Vassal into your completely loyal Servant? This costs 150 Blood to do. You cannot undo this."))
+	var/list/favorite_options = list(
+		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+		"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
+	)
+	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
+	switch(favorite_response)
+		if("Yes")
+			bloodsuckerdatum.bloodsucker_blood_volume -= 150
+			bloodsuckerdatum.has_favorite_vassal = TRUE
+			vassaldatum.make_favorite(user)
+		else
+			to_chat(user, span_danger("You decide not to turn [target] into your Favorite Vassal."))
+
 /datum/bloodsucker_clan/proc/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	SIGNAL_HANDLER
 	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/brawn)
@@ -159,11 +200,17 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	ADD_TRAIT(user, TRAIT_VENTCRAWLER_ALWAYS, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 
+/datum/bloodsucker_clan/nosferatu/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	. = ..()
+	bloodsuckerdatum.owner.current.blood_volume = BLOOD_VOLUME_SURVIVE
+
 /datum/bloodsucker_clan/nosferatu/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	ADD_TRAIT(vassaldatum.owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(vassaldatum.owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 	to_chat(vassaldatum.owner.current, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
 
+/datum/bloodsucker_clan/nosferatu/pre_drink_blood(atom/source)
+	return COMPONENT_DRINK_INHUMANELY
 
 /**
  * Tremere
@@ -187,6 +234,15 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/dominate)
 	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/auspex)
 	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy)
+
+/datum/bloodsucker_clan/tremere/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	. = ..()
+	var/area/current_area = get_area(bloodsuckerdatum.owner.current)
+	if(istype(current_area, /area/station/service/chapel))
+		to_chat(bloodsuckerdatum.owner.current, span_warning("You don't belong in holy areas! The Faith burns you!"))
+		bloodsuckerdatum.owner.current.adjustFireLoss(10)
+		bloodsuckerdatum.owner.current.adjust_fire_stacks(2)
+		bloodsuckerdatum.owner.current.ignite_mob()
 
 /datum/bloodsucker_clan/tremere/spend_rank(datum/antagonist/bloodsucker/antag_datum, mob/living/carbon/user, mob/living/carbon/target, spend_rank = TRUE)
 	// Purchase Power Prompt
@@ -233,6 +289,10 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	var/datum/action/cooldown/spell/shapeshift/bat/batform = new()
 	batform.Grant(vassaldatum.owner.current)
 
+/datum/bloodsucker_clan/tremere/on_vassal_made(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	to_chat(bloodsuckerdatum.owner.current, span_danger("You have now gained an additional Rank to spend!"))
+	bloodsuckerdatum.bloodsucker_level_unspent++
+
 /**
  * Ventrue
  */
@@ -248,6 +308,9 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 
 /datum/bloodsucker_clan/ventrue/on_rank_up(datum/source)
 	return COMPONENT_RANK_UP_VASSAL
+
+/datum/bloodsucker_clan/ventrue/pre_drink_blood(atom/source)
+	return COMPONENT_DRINK_SNOBBY
 
 /datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/antag_datum, mob/living/carbon/user, mob/living/carbon/target, spend_rank = TRUE)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
@@ -336,11 +399,21 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 	ADD_TRAIT(user, TRAIT_XRAY_VISION, BLOODSUCKER_TRAIT)
 
+/datum/bloodsucker_clan/malkavian/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	. = ..()
+	if(prob(85) || bloodsuckerdatum.owner.current.stat != CONSCIOUS || HAS_TRAIT(bloodsuckerdatum.owner.current, TRAIT_MASQUERADE))
+		return
+	var/message = pick(strings("malkavian_revelations.json", "revelations", "fulp_modules/strings/bloodsuckers"))
+	INVOKE_ASYNC(bloodsuckerdatum.owner.current, /atom/movable/proc/say, message, , , , , , CLAN_MALKAVIAN)
+
 /datum/bloodsucker_clan/malkavian/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	var/mob/living/carbon/carbonowner = vassaldatum.owner.current
 	carbonowner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 	carbonowner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 	to_chat(vassaldatum.owner.current, span_notice("Additionally, you now suffer the same fate as your Master."))
+
+/datum/bloodsucker_clan/malkavian/pre_drink_blood(atom/source)
+	return COMPONENT_DRINK_INHUMANELY
 
 /datum/bloodsucker_clan/gangrel
 	name = CLAN_GANGREL
@@ -350,6 +423,15 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 		Full Moons do not seem to have an effect, despite common-told stories. <br> \
 		The Favorite Vassal turns into a Werewolf whenever their Master does."
 	joinable_clan = FALSE
+
+/datum/bloodsucker_clan/gangrel/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	. = ..()
+	var/area/current_area = get_area(owner.current)
+	if(istype(current_area, /area/station/service/chapel))
+		to_chat(owner.current, span_warning("You don't belong in holy areas! The Faith burns you to a crisp!"))
+		owner.current.adjustFireLoss(20)
+		owner.current.adjust_fire_stacks(2)
+		owner.current.ignite_mob()
 
 /datum/bloodsucker_clan/toreador
 	name = CLAN_TOREADOR

@@ -470,13 +470,12 @@
 		to_chat(owner.current, span_cultbold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
-	set waitfor = FALSE
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(owner.current)
 	if(!owner || !owner.current || vassaldatum)
 		return
 	bloodsucker_level_unspent++
 	// Spend Rank Immediately?
-	var/can_rank = SEND_SIGNAL(my_clan, BLOODSUCKER_RANK_UP)
+	var/can_rank = SEND_SIGNAL(my_clan, BLOODSUCKER_PRE_RANK_UP)
 	if(can_rank & COMPONENT_RANK_UP)
 		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</EM>"))
@@ -513,7 +512,7 @@
 	if(!owner || !owner.current || !owner.current.client || (spend_rank && bloodsucker_level_unspent <= 0))
 		return
 
-	SEND_SIGNAL(my_clan, BLOODSUCKER_SPEND_RANK, src, owner.current, target, spend_rank)
+	SEND_SIGNAL(my_clan, BLOODSUCKER_RANK_UP, src, owner.current, target, spend_rank)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

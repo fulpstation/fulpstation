@@ -307,14 +307,11 @@
 		in_use = FALSE
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
 		// Are we a Bloodsucker | Are we on Masquerade. If one is true, they will fail.
-		if(IS_BLOODSUCKER(target) && !HAS_TRAIT(target, TRAIT_MASQUERADE))
+		if(IS_BLOODSUCKER(target) && !HAS_TRAIT(target, TRAIT_MASQUERADE) && bloodsuckerdatum.my_clan)
 			if(bloodsuckerdatum.broke_masquerade)
-				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName()]', is indeed a [bloodsuckerdatum.my_clan] Bloodsucker, but you already knew this."))
+				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName()]', is indeed a Bloodsucker, but you already knew this."))
 				return
-			if(bloodsuckerdatum.my_clan != NONE)
-				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName()]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
-			else
-				to_chat(user, span_warning("You found the one! [target], also known as '[bloodsuckerdatum.ReturnFullName()]', is not knowingly part of a Clan. You quickly note this information down, memorizing it."))
+			to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.ReturnFullName()]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
 			bloodsuckerdatum.break_masquerade()
 		else
 			to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Bloodsucker."))
@@ -322,7 +319,7 @@
 		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
 	else
 		to_chat(user, span_warning("[src] burns your hands as you try to use it!"))
-		user.apply_damage(12, BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+		user.apply_damage(6, BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
 
 /obj/item/book/kindred/attack_self(mob/living/carbon/user)
 //	Don't call parent since it handles reading the book.

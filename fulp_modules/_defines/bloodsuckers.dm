@@ -77,13 +77,30 @@
  * Signals
  */
 ///Called when a Bloodsucker wants to get a new Rank to spend.
-#define BLOODSUCKER_RANK_UP "bloodsucker_rank_up"
-	///There's no problem ranking up
+#define BLOODSUCKER_PRE_RANK_UP "bloodsucker_pre_rank_up"
+	///They rank up the normal way.
 	#define COMPONENT_RANK_UP (1<<0)
-	///We want them to rank up their vassal instead.
+	///They rank up by ranking their Vassal up instead.
 	#define COMPONENT_RANK_UP_VASSAL (1<<1)
+///Called when a Bloodsucker ranks up: (datum/bloodsucker_datum, mob/owner, mob/target)
+#define BLOODSUCKER_RANK_UP "bloodsucker_rank_up"
 
-///Called when a Bloodsucker is spending their rank.
-#define BLOODSUCKER_SPEND_RANK "bloodsucker_spend_rank"
-///Called when a Bloodsucker makes a Vassal into their Favorite Vassal.
+///Called when a Bloodsucker attempts to make a Vassal into their Favorite.
+#define BLOODSUCKER_PRE_MAKE_FAVORITE "bloodsucker_pre_make_favorite"
+///Called when a Bloodsucker makes a Vassal into their Favorite Vassal: (datum/vassal_datum, mob/master)
 #define BLOODSUCKER_MAKE_FAVORITE "bloodsucker_make_favorite"
+
+///Called when a new Vassal is successfully made: (datum/bloodsucker_datum)
+#define BLOODSUCKER_MADE_VASSAL "bloodsucker_made_vassal"
+
+///Called before a Bloodsucker drinks blood
+#define BLOODSUCKER_PRE_DRINK_BLOOD "bloodsucker_pre_drink_blood"
+	///They drink blood normally.
+	#define COMPONENT_DRINK_NORMAL (1<<0)
+	///They are snobby with their meals. Won't drink from mindless
+	#define COMPONENT_DRINK_SNOBBY (1<<1)
+	///Drink inhumanely. Won't affect Humanity.
+	#define COMPONENT_DRINK_INHUMANELY (1<<2)
+
+///Called on Bloodsucker's LifeTick()
+#define BLOODSUCKER_HANDLE_LIFE "bloodsucker_handle_life"

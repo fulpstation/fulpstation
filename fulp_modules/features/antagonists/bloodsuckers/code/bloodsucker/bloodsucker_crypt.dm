@@ -255,14 +255,14 @@
 	if(!istype(bloodsuckerdatum))
 		user_unbuckle_mob(buckled_carbons, user)
 		return
+	if(!bloodsuckerdatum.my_clan)
+		user.balloon_alert(user, "join a clan!")
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(buckled_carbons)
 	// Are they our Vassal, or Dead?
 	if(istype(vassaldatum) && vassaldatum.master == bloodsuckerdatum || buckled_carbons.stat >= DEAD)
 		// Can we assign a Favorite Vassal?
-		if(istype(vassaldatum) && !bloodsuckerdatum.has_favorite_vassal && bloodsuckerdatum.my_clan)
-			if(buckled_carbons.mind.can_make_bloodsucker(buckled_carbons.mind))
-				offer_favorite_vassal(user, buckled_carbons)
-		use_lock = FALSE
+		if(istype(vassaldatum) && !bloodsuckerdatum.has_favorite_vassal)
+			SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_MAKE_FAVORITE, bloodsuckerdatum, vassaldatum)
 		return
 
 	// Not our Vassal, but Alive & We're a Bloodsucker, good to torture!
@@ -327,9 +327,7 @@
 	if(bloodsuckerdatum && bloodsuckerdatum.attempt_turn_vassal(target))
 		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 			remove_loyalties(target)
-		if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
-			to_chat(user, span_danger("You have now gained an additional Rank to spend!"))
-			bloodsuckerdatum.bloodsucker_level_unspent++
+		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MADE_VASSAL, bloodsuckerdatum)
 		user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
 		target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
@@ -442,26 +440,6 @@
 			if(all_implants.type == /obj/item/implant/mindshield)
 				all_implants.removed(target, silent = TRUE)
 
-/obj/structure/bloodsucker/vassalrack/proc/offer_favorite_vassal(mob/living/carbon/human/user, mob/living/target)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
-
-	to_chat(user, span_notice("Would you like to turn this Vassal into your completely loyal Servant? This costs 150 Blood to do. You cannot undo this."))
-	var/list/favorite_options = list(
-		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-		"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
-	)
-	var/favorite_response = show_radial_menu(user, src, favorite_options, radius = 36, require_near = TRUE)
-	switch(favorite_response)
-		if("Yes")
-			bloodsuckerdatum.bloodsucker_blood_volume -= 150
-			bloodsuckerdatum.has_favorite_vassal = TRUE
-			vassaldatum.make_favorite(user)
-		else
-			to_chat(user, span_danger("You decide not to turn [target] into your Favorite Vassal."))
-			use_lock = FALSE
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /obj/structure/bloodsucker/candelabrum
@@ -496,7 +474,7 @@
 /obj/structure/bloodsucker/candelabrum/examine(mob/user)
 	. = ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+	if(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_RANK_UP) & COMPONENT_RANK_UP_VASSAL)
 		. += span_cult("As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.\n\
 		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.\n\
 		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.")
@@ -561,7 +539,9 @@
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Checks: We're Ventrue, they're Buckled & Alive.
-	if(bloodsuckerdatum && bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+	if(!bloodsuckerdatum)
+		return ..()
+	if(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_RANK_UP) & COMPONENT_RANK_UP_VASSAL)
 		if(!has_buckled_mobs())
 			toggle()
 			return
@@ -606,7 +586,7 @@
 	if(!bloodsuckerdatum || !vassaldatum)
 		return
 	/// Are you part of Ventrue? No? Then go away.
-	if(!bloodsuckerdatum.my_clan == CLAN_VENTRUE)
+	if(!(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_RANK_UP) & COMPONENT_RANK_UP_VASSAL))
 		return
 	/// Are they a Favorite Vassal?
 	if(!vassaldatum.favorite_vassal)

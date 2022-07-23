@@ -52,18 +52,14 @@
 	bloodsuckerdatum = IS_BLOODSUCKER(user)
 
 	// Disable ALL Powers and notify their entry
-	if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
-		bloodsuckerdatum.DisableAllPowers()
-		to_chat(owner, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
-		to_chat(owner, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, have stun resistance, cannot speak, hear, or use any powers outside of Feed and Trespass (If you have it)."))
-
+	bloodsuckerdatum.DisableAllPowers()
+	to_chat(owner, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
+	to_chat(owner, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, have stun resistance, cannot speak, hear, or use any powers outside of Feed and Trespass (If you have it)."))
 	owner.balloon_alert(owner, "you enter a frenzy!")
 
 	// Stamina resistances
 	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
 		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
-	else if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
-		user.physiology.stamina_mod *= 0.4
 
 	// Give the other Frenzy effects
 	ADD_TRAIT(owner, TRAIT_MUTE, FRENZY_TRAIT)
@@ -98,7 +94,7 @@
 
 	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
 		REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
-	else if(bloodsuckerdatum.my_clan != CLAN_BRUJAH)
+	else
 		owner.set_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)
 		owner.Paralyze(2 SECONDS)
 		user.physiology.stamina_mod /= 0.4
@@ -110,7 +106,4 @@
 	var/mob/living/carbon/human/user = owner
 	if(!bloodsuckerdatum.frenzied)
 		return
-	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
-		user.adjustBruteLoss(1 + (bloodsuckerdatum.humanity_lost / 10))
-	else
-		user.adjustFireLoss(1.5 + (bloodsuckerdatum.humanity_lost / 10))
+	user.adjustFireLoss(1.5 + (bloodsuckerdatum.humanity_lost / 10))

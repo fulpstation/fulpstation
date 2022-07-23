@@ -22,19 +22,8 @@
 
 	INVOKE_ASYNC(src, .proc/update_hud)
 
-	// Clan-unique Checks
-	if(my_clan == CLAN_TREMERE)
-		var/area/current_area = get_area(owner.current)
-		if(istype(current_area, /area/station/service/chapel))
-			to_chat(owner.current, span_warning("You don't belong in holy areas! The Faith burns you!"))
-			owner.current.adjustFireLoss(10)
-			owner.current.adjust_fire_stacks(2)
-			owner.current.ignite_mob()
-	if(my_clan == CLAN_MALKAVIAN)
-		if(prob(85) || owner.current.stat != CONSCIOUS || HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-			return
-		var/message = pick(strings("malkavian_revelations.json", "revelations", "fulp_modules/strings/bloodsuckers"))
-		INVOKE_ASYNC(owner.current, /atom/movable/proc/say, message, , , , , , CLAN_MALKAVIAN)
+	if(my_clan)
+		SEND_SIGNAL(my_clan, BLOODSUCKER_HANDLE_LIFE, src)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //			BLOOD
@@ -236,7 +225,7 @@
 //	handled in bloodsucker_integration.dm
 
 	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
-	if(bloodsucker_blood_volume >= FRENZY_THRESHOLD_EXIT && frenzied && my_clan != CLAN_BRUJAH)
+	if(bloodsucker_blood_volume >= FRENZY_THRESHOLD_EXIT && frenzied)
 		owner.current.remove_status_effect(/datum/status_effect/frenzy)
 	// BLOOD_VOLUME_BAD: [224] - Jitter
 	if(bloodsucker_blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
@@ -247,7 +236,7 @@
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(bloodsucker_blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !frenzied)
-		enter_frenzy()
+		owner.current.apply_status_effect(/datum/status_effect/frenzy)
 	else if(bloodsucker_blood_volume < BLOOD_VOLUME_BAD)
 		additional_regen = 0.1
 	else if(bloodsucker_blood_volume < BLOOD_VOLUME_OKAY)
@@ -258,17 +247,6 @@
 		additional_regen = 0.4
 	else
 		additional_regen = 0.5
-
-/datum/antagonist/bloodsucker/proc/enter_frenzy()
-	if(my_clan == CLAN_BRUJAH)
-		for(var/datum/action/cooldown/bloodsucker/power in powers)
-			if(!(istype(power, /datum/action/cooldown/bloodsucker/brujah)))
-				continue
-			if(power.active)
-				break
-			power.ActivatePower()
-	else
-		owner.current.apply_status_effect(/datum/status_effect/frenzy)
 
 /**
  * # Torpor
@@ -356,12 +334,7 @@
 
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
 /datum/antagonist/bloodsucker/proc/UpdateBlood()
-	// Nosferatu bloodsuckers cannot hide properly.
-	if(my_clan == CLAN_NOSFERATU)
-		owner.current.blood_volume = BLOOD_VOLUME_SURVIVE
-		return
-
-	// If we're on Masquerade, we appear to have full blood, unless we are REALLY low, in which case we don't look as bad.
+	//If we're on Masquerade, we appear to have full blood, unless we are REALLY low, in which case we don't look as bad.
 	if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		switch(bloodsucker_blood_volume)
 			if(BLOOD_VOLUME_OKAY to INFINITY) // 336 and up, we are perfectly fine.
@@ -392,7 +365,7 @@
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 	// Elders get dusted, Fledglings get gibbed
-	if(my_clan == CLAN_MALKAVIAN)
+	if(my_clan.get_clan() == CLAN_MALKAVIAN)
 		var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(user))
 		stone.capture_soul(user, forced = TRUE)
 		return
