@@ -58,7 +58,7 @@
 	owner.balloon_alert(owner, "you enter a frenzy!")
 
 	// Stamina resistances
-	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
+	if(bloodsuckerdatum.my_clan.frenzy_stun_immune)
 		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
 
 	// Give the other Frenzy effects
@@ -92,7 +92,7 @@
 	bloodsuckerdatum.frenzygrab.remove(user)
 	owner.remove_client_colour(/datum/client_colour/cursed_heart_blood)
 
-	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
+	if(bloodsuckerdatum.my_clan.frenzy_stun_immune)
 		REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
 	else
 		owner.set_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)

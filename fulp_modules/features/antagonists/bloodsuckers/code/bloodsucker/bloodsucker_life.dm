@@ -180,11 +180,8 @@
 		yucky_organs.Remove(bloodsuckeruser)
 		yucky_organs.forceMove(get_turf(bloodsuckeruser))
 
-	// Part of Malkavian? Give them their traumas back.
-	if(my_clan == CLAN_MALKAVIAN)
-		bloodsuckeruser.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
-		bloodsuckeruser.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
-	// Good to go!
+	if(my_clan)
+		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, bloodsuckeruser)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

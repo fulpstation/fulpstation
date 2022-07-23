@@ -475,15 +475,14 @@
 		return
 	bloodsucker_level_unspent++
 	// Spend Rank Immediately?
-	var/can_rank = SEND_SIGNAL(my_clan, BLOODSUCKER_PRE_RANK_UP)
-	if(can_rank & COMPONENT_RANK_UP)
+	if(my_clan.rank_up_type == BLOODSUCKER_RANK_UP_NORMAL)
 		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 			to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</EM>"))
 			if(bloodsucker_level_unspent >= 2)
 				to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
 			return
 		SpendRank()
-	if(can_rank & COMPONENT_RANK_UP_VASSAL)
+	if(my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
 		to_chat(owner, span_announce("You have recieved a new Rank to level up your Favorite Vassal with!"))
 
 /datum/antagonist/bloodsucker/proc/RankDown()

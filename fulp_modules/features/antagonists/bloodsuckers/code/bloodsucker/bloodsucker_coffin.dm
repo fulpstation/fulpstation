@@ -212,7 +212,7 @@
 		/// Level up? Auto-Fails if not appropriate - Ventrue cannot level up in a Coffin.
 		if(!bloodsuckerdatum.my_clan)
 			bloodsuckerdatum.AssignClanAndBane()
-		else if(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_RANK_UP) & COMPONENT_RANK_UP)
+		else if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_NORMAL)
 			bloodsuckerdatum.SpendRank()
 		/// You're in a Coffin, everything else is done, you're likely here to heal. Let's offer them the oppertunity to do so.
 		bloodsuckerdatum.Check_Begin_Torpor()

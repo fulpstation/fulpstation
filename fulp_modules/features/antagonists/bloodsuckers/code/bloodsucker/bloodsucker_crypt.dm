@@ -256,7 +256,7 @@
 		user_unbuckle_mob(buckled_carbons, user)
 		return
 	if(!bloodsuckerdatum.my_clan)
-		user.balloon_alert(user, "join a clan!")
+		user.balloon_alert(user, "join a clan first!")
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(buckled_carbons)
 	// Are they our Vassal, or Dead?
 	if(istype(vassaldatum) && vassaldatum.master == bloodsuckerdatum || buckled_carbons.stat >= DEAD)
@@ -474,7 +474,7 @@
 /obj/structure/bloodsucker/candelabrum/examine(mob/user)
 	. = ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_RANK_UP) & COMPONENT_RANK_UP_VASSAL)
+	if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
 		. += span_cult("As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.\n\
 		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.\n\
 		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.")
@@ -541,7 +541,7 @@
 	// Checks: We're Ventrue, they're Buckled & Alive.
 	if(!bloodsuckerdatum)
 		return ..()
-	if(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_RANK_UP) & COMPONENT_RANK_UP_VASSAL)
+	if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
 		if(!has_buckled_mobs())
 			toggle()
 			return
@@ -586,7 +586,7 @@
 	if(!bloodsuckerdatum || !vassaldatum)
 		return
 	/// Are you part of Ventrue? No? Then go away.
-	if(!(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_RANK_UP) & COMPONENT_RANK_UP_VASSAL))
+	if(bloodsuckerdatum.my_clan.rank_up_type != BLOODSUCKER_RANK_UP_VASSAL)
 		return
 	/// Are they a Favorite Vassal?
 	if(!vassaldatum.favorite_vassal)

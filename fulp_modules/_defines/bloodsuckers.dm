@@ -14,6 +14,15 @@
 /// You have special interactions with Bloodsuckers
 #define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
 
+///Drinks blood the normal Bloodsucker way.
+#define BLOODSUCKER_DRINK_NORMAL "bloodsucker_drink_normal"
+///Drinks blood but is snobby, refusing to drink from mindless
+#define BLOODSUCKER_DRINK_SNOBBY "bloodsucker_drink_snobby"
+///Drinks blood from disgusting creatures without Humanity consequences.
+#define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
+
+#define BLOODSUCKER_RANK_UP_NORMAL "bloodsucker_rank_up_normal"
+#define BLOODSUCKER_RANK_UP_VASSAL "bloodsucker_rank_up_vassal"
 
 /**
  * Cooldown defines
@@ -68,20 +77,8 @@
 #define BP_AM_COSTLESS_UNCONSCIOUS (1<<3)
 
 /**
- * Misc defines
- */
-/// Whether we have succesfully hidden out blood level
-#define BLOODSUCKER_HIDE_BLOOD "hide_blood_volume"
-
-/**
  * Signals
  */
-///Called when a Bloodsucker wants to get a new Rank to spend.
-#define BLOODSUCKER_PRE_RANK_UP "bloodsucker_pre_rank_up"
-	///They rank up the normal way.
-	#define COMPONENT_RANK_UP (1<<0)
-	///They rank up by ranking their Vassal up instead.
-	#define COMPONENT_RANK_UP_VASSAL (1<<1)
 ///Called when a Bloodsucker ranks up: (datum/bloodsucker_datum, mob/owner, mob/target)
 #define BLOODSUCKER_RANK_UP "bloodsucker_rank_up"
 
@@ -89,18 +86,10 @@
 #define BLOODSUCKER_PRE_MAKE_FAVORITE "bloodsucker_pre_make_favorite"
 ///Called when a Bloodsucker makes a Vassal into their Favorite Vassal: (datum/vassal_datum, mob/master)
 #define BLOODSUCKER_MAKE_FAVORITE "bloodsucker_make_favorite"
-
 ///Called when a new Vassal is successfully made: (datum/bloodsucker_datum)
 #define BLOODSUCKER_MADE_VASSAL "bloodsucker_made_vassal"
 
-///Called before a Bloodsucker drinks blood
-#define BLOODSUCKER_PRE_DRINK_BLOOD "bloodsucker_pre_drink_blood"
-	///They drink blood normally.
-	#define COMPONENT_DRINK_NORMAL (1<<0)
-	///They are snobby with their meals. Won't drink from mindless
-	#define COMPONENT_DRINK_SNOBBY (1<<1)
-	///Drink inhumanely. Won't affect Humanity.
-	#define COMPONENT_DRINK_INHUMANELY (1<<2)
-
 ///Called on Bloodsucker's LifeTick()
 #define BLOODSUCKER_HANDLE_LIFE "bloodsucker_handle_life"
+///Called when a Bloodsucker exits Torpor.
+#define BLOODSUCKER_EXIT_TORPOR "bloodsucker_exit_torpor"
