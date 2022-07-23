@@ -11,10 +11,10 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	///The name of the clan we're in.
 	var/name = CLAN_BRUJAH
 	///Description of what the clan is, given when joining and through your antag UI.
-	var/description = "Brujah Clan \n\
-		The Bujah Clan is as basic as you can get with Bloodsuckers \n\
-		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. \n\
-		the Favorite Vassal will gain the Brawn ability, to help in combat."
+	var/description = "Brujah Clan <br> \
+		The Bujah Clan is as basic as you can get with Bloodsuckers. <br> \
+		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. <br> \
+		The Favorite Vassal will gain the Brawn ability, to help in combat."
 	///The clan objective that is required to greentext.
 	var/clan_objective
 	///The icon of the radial icon to join this clan.
@@ -139,10 +139,10 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  */
 /datum/bloodsucker_clan/nosferatu
 	name = CLAN_NOSFERATU
-	description = "Nosferatu Clan \n\
-		The Nosferatu Clan is unable to blend in with the crew, with no abilities such as Masquerade and Veil. \n\
-		Additionally, has a permanent bad back and looks like a Bloodsucker upon a simple examine, and is entirely unidentifiable, \n\
-		they can fit in the vents regardless of their form and equipment. \n\
+	description = "Nosferatu Clan <br> \
+		The Nosferatu Clan is unable to blend in with the crew, with no abilities such as Masquerade and Veil. <br> \
+		Additionally, has a permanent bad back and looks like a Bloodsucker upon a simple examine, and is entirely unidentifiable, <br> \
+		they can fit in the vents regardless of their form and equipment. <br> \
 		The Favorite Vassal is permanetly disfigured, and can also ventcrawl, but only while entirely nude."
 	clan_objective = /datum/objective/bloodsucker/kindred
 	join_description = "You are permanetly disfigured, look like a Bloodsucker to all who examine you, \
@@ -170,10 +170,10 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  */
 /datum/bloodsucker_clan/tremere
 	name = CLAN_TREMERE
-	description = "Tremere Clan \n\
-		The Tremere Clan is extremely weak to True Faith, and will burn when entering areas considered such, like the Chapel. \n\
-		Additionally, a whole new moveset is learned, built on Blood magic rather than Blood abilities, which are upgraded overtime. \n\
-		More ranks can be gained by Vassalizing crewmembers. \n\
+	description = "Tremere Clan <br> \
+		The Tremere Clan is extremely weak to True Faith, and will burn when entering areas considered such, like the Chapel. <br> \
+		Additionally, a whole new moveset is learned, built on Blood magic rather than Blood abilities, which are upgraded overtime. <br> \
+		More ranks can be gained by Vassalizing crewmembers. <br> \
 		The Favorite Vassal gains the Batform spell, being able to morph themselves at will."
 	clan_objective = /datum/objective/bloodsucker/tremere_power
 	join_description = "You will burn if you enter the Chapel, lose all default powers, \
@@ -238,9 +238,9 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  */
 /datum/bloodsucker_clan/ventrue
 	name = CLAN_VENTRUE
-	description = "Ventrue Clan \n\
-		The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. \n\
-		There is additionally no way to rank themselves up, instead will have to rank their Favorite vassal through a Persuasion Rack. \n\
+	description = "Ventrue Clan <br> \
+		The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. <br> \
+		There is additionally no way to rank themselves up, instead will have to rank their Favorite vassal through a Persuasion Rack. <br> \
 		The Favorite Vassal will slowly turn into a Bloodsucker this way, until they finally lose their last bits of Humanity."
 	clan_objective = /datum/objective/bloodsucker/embrace
 	join_description = "Lose the ability to drink from mindless mobs, can't level up or gain new powers, \
@@ -323,7 +323,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  */
 /datum/bloodsucker_clan/malkavian
 	name = CLAN_MALKAVIAN
-	description = "Little is documented about Malkavians. Complete insanity is the most common theme. \n\
+	description = "Little is documented about Malkavians. Complete insanity is the most common theme. <br> \
 		The Favorite Vassal will suffer the same fate as the Master."
 	join_description = "Completely insane. You gain constant hallucinations, become a prophet with unintelligable rambling, \
 		and become the enforcer of the Masquerade code."
@@ -344,18 +344,18 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 
 /datum/bloodsucker_clan/gangrel
 	name = CLAN_GANGREL
-	description = "Gangrel Clan \n\
-		Closer to Animals than Bloodsuckers, known as Werewolves waiting to happen, \n\
-		these are the most fearful of True Faith, being the most lethal thing they would ever see the night of. \n\
-		Full Moons do not seem to have an effect, despite common-told stories. \n\
+	description = "Gangrel Clan <br> \
+		Closer to Animals than Bloodsuckers, known as Werewolves waiting to happen, <br> \
+		these are the most fearful of True Faith, being the most lethal thing they would ever see the night of. <br> \
+		Full Moons do not seem to have an effect, despite common-told stories. <br> \
 		The Favorite Vassal turns into a Werewolf whenever their Master does."
 	joinable_clan = FALSE
 
 /datum/bloodsucker_clan/toreador
 	name = CLAN_TOREADOR
-	description = "Toreador Clan \n\
-		The most charming Clan of them all, allowing them to very easily disguise among the crew. \n\
-		More in touch with their morals, they suffer and benefit more strongly from humanity cost or gain of their actions. \n\
-		Known as 'The most humane kind of vampire', they have an obsession with perfectionism and beauty \n\
+	description = "Toreador Clan <br> \
+		The most charming Clan of them all, allowing them to very easily disguise among the crew. <br> \
+		More in touch with their morals, they suffer and benefit more strongly from humanity cost or gain of their actions. <br> \
+		Known as 'The most humane kind of vampire', they have an obsession with perfectionism and beauty <br> \
 		The Favorite Vassal gains the Mesmerize ability."
 	joinable_clan = FALSE

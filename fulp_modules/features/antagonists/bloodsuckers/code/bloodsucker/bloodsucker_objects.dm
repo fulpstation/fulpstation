@@ -359,7 +359,7 @@
 /obj/item/book/kindred/proc/search(mob/reader, clan)
 	starting_content = "<head>This is all knowledge about the Clan:</head><br>"
 	for(var/datum/bloodsucker_clan/all_clans as anything in typesof(/datum/bloodsucker_clan))
-		if(!istype(clan, all_clans))
+		if(clan != initial(all_clans.name))
 			continue
 		starting_content += initial(all_clans.description)
 
