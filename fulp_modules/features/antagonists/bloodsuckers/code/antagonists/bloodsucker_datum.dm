@@ -249,7 +249,7 @@
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
-	var/fullname = ReturnFullName(TRUE)
+	var/fullname = ReturnFullName()
 	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
@@ -335,7 +335,7 @@
 	// Get the default Objectives
 	var/list/report = list()
 	// Vamp name
-	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
+	report += "<br><span class='header'><b>\[[ReturnFullName()]\]</b></span>"
 	report += printplayer(owner)
 	// Clan (Actual Clan, not Team) name
 	if(my_clan != NONE)
@@ -700,7 +700,7 @@
 
 /// Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
-	return ..() + "([ReturnFullName(TRUE)])"
+	return ..() + "([ReturnFullName()])"
 
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
@@ -747,15 +747,34 @@
 	if(!forced && bloodsucker_title != null)
 		return
 	// Titles [Master]
-	if(!am_fledgling)
-		if(owner.current.gender == MALE)
-			bloodsucker_title = pick ("Count","Baron","Viscount","Prince","Duke","Tzar","Dreadlord","Lord","Master")
-		else
-			bloodsucker_title = pick ("Countess","Baroness","Viscountess","Princess","Duchess","Tzarina","Dreadlady","Lady","Mistress")
-		to_chat(owner, span_announce("You have earned a title! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
-	// Titles [Fledgling]
-	else
+	if(am_fledgling)
 		bloodsucker_title = null
+		return
+	if(owner.current.gender == MALE)
+		bloodsucker_title = pick(
+			"Count",
+			"Baron",
+			"Viscount",
+			"Prince",
+			"Duke",
+			"Tzar",
+			"Dreadlord",
+			"Lord",
+			"Master",
+		)
+	else
+		bloodsucker_title = pick(
+			"Countess",
+			"Baroness",
+			"Viscountess",
+			"Princess",
+			"Duchess",
+			"Tzarina",
+			"Dreadlady",
+			"Lady",
+			"Mistress",
+		)
+	to_chat(owner, span_announce("You have earned a title! You are now known as <i>[ReturnFullName()]</i>!"))
 
 /datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = FALSE, forced = FALSE)
 	// Already have Reputation
@@ -764,15 +783,48 @@
 
 	if(am_fledgling)
 		bloodsucker_reputation = pick(
-			"Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned",
-			"Fledgling","Young","Neonate","Scrapling","Untested","Unproven",
-			"Unknown","Newly Risen","Born","Scavenger","Unknowing","Unspoiled",
-			"Disgraced","Defrocked","Shamed","Meek","Timid","Broken","Fresh",
+			"Crude",
+			"Callow",
+			"Unlearned",
+			"Neophyte",
+			"Novice",
+			"Unseasoned",
+			"Fledgling",
+			"Young",
+			"Neonate",
+			"Scrapling",
+			"Untested",
+			"Unproven",
+			"Unknown",
+			"Newly Risen",
+			"Born",
+			"Scavenger",
+			"Unknowing",
+			"Unspoiled",
+			"Disgraced",
+			"Defrocked",
+			"Shamed",
+			"Meek",
+			"Timid",
+			"Broken",
+			"Fresh",
 		)
 	else if(owner.current.gender == MALE && prob(10))
-		bloodsucker_reputation = pick("King of the Damned", "Blood King", "Emperor of Blades", "Sinlord", "God-King")
+		bloodsucker_reputation = pick(
+			"King of the Damned",
+			"Blood King",
+			"Emperor of Blades",
+			"Sinlord",
+			"God-King",
+		)
 	else if(owner.current.gender == FEMALE && prob(10))
-		bloodsucker_reputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
+		bloodsucker_reputation = pick(
+			"Queen of the Damned",
+			"Blood Queen",
+			"Empress of Blades",
+			"Sinlady",
+			"God-Queen",
+		)
 	else
 		bloodsucker_reputation = pick(
 			"Butcher","Blood Fiend","Crimson","Red","Black","Terror",
@@ -786,19 +838,17 @@
 			"Corrupt","Hellspawn","Tyrant","Sanguineous",
 		)
 
-	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
+	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName()]</i>!"))
 
-/datum/antagonist/bloodsucker/proc/ReturnFullName(include_rep = FALSE)
+/datum/antagonist/bloodsucker/proc/ReturnFullName()
 
-	var/fullname
-	// Name First
-	fullname = (bloodsucker_name ? bloodsucker_name : owner.current.name)
+	var/fullname = bloodsucker_name ? bloodsucker_name : owner.current.name
 	// Title
 	if(bloodsucker_title)
-		fullname = bloodsucker_title + " " + fullname
+		fullname = "[bloodsucker_title] [fullname]"
 	// Rep
-	if(include_rep && bloodsucker_reputation)
-		fullname = fullname + " the " + bloodsucker_reputation
+	if(bloodsucker_reputation)
+		fullname += " the [bloodsucker_reputation]"
 
 	return fullname
 
@@ -834,87 +884,3 @@
 		return
 	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))
 	broke_masquerade = FALSE
-
-
-/////////////////////////////////////
-//  BLOOD COUNTER & RANK MARKER !  //
-/////////////////////////////////////
-
-/atom/movable/screen/bloodsucker
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
-
-///Updates the counter on said HUD
-/atom/movable/screen/bloodsucker/proc/update_counter()
-
-/atom/movable/screen/bloodsucker/blood_counter
-	name = "Blood Consumed"
-	icon_state = "blood_display"
-	screen_loc = ui_blood_display
-
-/atom/movable/screen/bloodsucker/rank_counter
-	name = "Bloodsucker Rank"
-	icon_state = "rank"
-	screen_loc = ui_vamprank_display
-
-/atom/movable/screen/bloodsucker/sunlight_counter
-	name = "Solar Flare Timer"
-	icon_state = "sunlight_night"
-	screen_loc = ui_sunlight_display
-
-/// Update Blood Counter + Rank Counter
-/datum/antagonist/bloodsucker/proc/update_hud()
-	var/valuecolor
-	if(bloodsucker_blood_volume > BLOOD_VOLUME_SAFE)
-		valuecolor = "#FFDDDD"
-	else if(bloodsucker_blood_volume > BLOOD_VOLUME_BAD)
-		valuecolor = "#FFAAAA"
-
-	if(blood_display)
-		blood_display.update_counter(bloodsucker_blood_volume, valuecolor)
-
-	if(vamprank_display)
-		if(bloodsucker_level_unspent > 0)
-			vamprank_display.icon_state = "rank_up"
-		else
-			vamprank_display.icon_state = "rank"
-		vamprank_display.update_counter(bloodsucker_level, valuecolor)
-
-/// Update Sun Time
-/datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
-	if(!sunlight_display)
-		return
-	var/valuecolor
-	var/sunlight_display_icon = "sunlight_"
-	if(amDay)
-		sunlight_display_icon += "day"
-		valuecolor = "#FF5555"
-	else
-		switch(round(value, 1))
-			if(0 to 30)
-				sunlight_display_icon += "30"
-				valuecolor = "#FFCCCC"
-			if(31 to 60)
-				sunlight_display_icon += "60"
-				valuecolor = "#FFE6CC"
-			if(61 to 90)
-				sunlight_display_icon += "90"
-				valuecolor = "#FFFFCC"
-			else
-				sunlight_display_icon += "night"
-				valuecolor = "#FFFFFF"
-
-	var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
-	sunlight_display.update_counter(value_string, valuecolor)
-	sunlight_display.icon_state = sunlight_display_icon
-
-/atom/movable/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
-	. = ..()
-	maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, value)
-
-/atom/movable/screen/bloodsucker/rank_counter/update_counter(value, valuecolor)
-	. = ..()
-	maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, value)
-
-/atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
-	. = ..()
-	maptext = FORMAT_BLOODSUCKER_SUNLIGHT_TEXT(valuecolor, value)
