@@ -1,10 +1,10 @@
-import { Antagonist, Category } from "../base";
-import { multiline } from "common/string";
-import { TRAITOR_MECHANICAL_DESCRIPTION } from "./traitor";
+import { Antagonist, Category } from '../base';
+import { multiline } from 'common/string';
+import { TRAITOR_MECHANICAL_DESCRIPTION } from './traitor';
 
 const DevilAffairsAgent: Antagonist = {
-  key: "devilaffairsagent",
-  name: "Devil Affairs Agent",
+  key: 'devilaffairsagent',
+  name: 'Devil Affairs Agent',
   description: [
     multiline`
       Sent by either Nanotrasen or the Syndicate, find and kill your target,
