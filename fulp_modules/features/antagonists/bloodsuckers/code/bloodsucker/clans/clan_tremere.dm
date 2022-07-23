@@ -43,7 +43,7 @@
 		// Give them the UI to purchase a power.
 		var/choice = tgui_input_list(bloodsuckerdatum.owner.current, "You have the opportunity to grow more ancient. Select a power you wish to upgrade.", "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(spend_rank && bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+		if(cost_rank && bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			return
 		// Did you choose a power?
 		if(!choice || !options[choice])
