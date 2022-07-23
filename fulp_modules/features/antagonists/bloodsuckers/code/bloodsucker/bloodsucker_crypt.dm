@@ -259,7 +259,7 @@
 	// Are they our Vassal, or Dead?
 	if(istype(vassaldatum) && vassaldatum.master == bloodsuckerdatum || buckled_carbons.stat >= DEAD)
 		// Can we assign a Favorite Vassal?
-		if(istype(vassaldatum) && !bloodsuckerdatum.has_favorite_vassal)
+		if(istype(vassaldatum) && !bloodsuckerdatum.has_favorite_vassal && bloodsuckerdatum.my_clan)
 			if(buckled_carbons.mind.can_make_bloodsucker(buckled_carbons.mind))
 				offer_favorite_vassal(user, buckled_carbons)
 		use_lock = FALSE

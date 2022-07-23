@@ -72,3 +72,18 @@
  */
 /// Whether we have succesfully hidden out blood level
 #define BLOODSUCKER_HIDE_BLOOD "hide_blood_volume"
+
+/**
+ * Signals
+ */
+///Called when a Bloodsucker wants to get a new Rank to spend.
+#define BLOODSUCKER_RANK_UP "bloodsucker_rank_up"
+	///There's no problem ranking up
+	#define COMPONENT_RANK_UP (1<<0)
+	///We want them to rank up their vassal instead.
+	#define COMPONENT_RANK_UP_VASSAL (1<<1)
+
+///Called when a Bloodsucker is spending their rank.
+#define BLOODSUCKER_SPEND_RANK "bloodsucker_spend_rank"
+///Called when a Bloodsucker makes a Vassal into their Favorite Vassal.
+#define BLOODSUCKER_MAKE_FAVORITE "bloodsucker_make_favorite"

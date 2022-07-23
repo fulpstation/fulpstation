@@ -38,14 +38,14 @@
 		valuecolor = "#FFAAAA"
 
 	if(blood_display)
-		blood_display.maptext = FORMAT_BLOODSUCKER_HUD_TEXT(bloodsucker_blood_volume, valuecolor)
+		blood_display.maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, bloodsucker_blood_volume)
 
 	if(vamprank_display)
 		if(bloodsucker_level_unspent > 0)
 			vamprank_display.icon_state = "rank_up"
 		else
 			vamprank_display.icon_state = "rank"
-		vamprank_display.maptext = FORMAT_BLOODSUCKER_HUD_TEXT(bloodsucker_level, valuecolor)
+		vamprank_display.maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, bloodsucker_level)
 
 /// Update Sun Time
 /datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
@@ -72,7 +72,7 @@
 				valuecolor = "#FFFFFF"
 
 	var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
-	sunlight_display.maptext = FORMAT_BLOODSUCKER_SUNLIGHT_TEXT(value_string, valuecolor)
+	sunlight_display.maptext = FORMAT_BLOODSUCKER_SUNLIGHT_TEXT(valuecolor, value_string)
 	sunlight_display.icon_state = sunlight_display_icon
 
 /// 1 tile down

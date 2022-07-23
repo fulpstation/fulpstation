@@ -227,28 +227,6 @@
 //     CLAN OBJECTIVES      //
 //////////////////////////////
 
-/// Drink certain amount of Blood while in a Frenzy - Brujah Clan Objective
-/datum/objective/bloodsucker/gourmand/brujah
-	name = "brujah gourmand"
-//	NOTE: This is a copy paste from default Gourmand objective.
-
-// EXPLANATION
-/datum/objective/bloodsucker/gourmand/brujah/update_explanation_text()
-	. = ..()
-	explanation_text = "While in a Frenzy, using your Feed ability, drink [target_amount] units of Blood."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/gourmand/brujah/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	var/stolen_blood = bloodsuckerdatum.frenzy_blood_drank
-	if(stolen_blood >= target_amount)
-		return TRUE
-	return FALSE
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 /// Steal the Archive of the Kindred - Nosferatu Clan objective
 /datum/objective/bloodsucker/kindred
 	name = "steal kindred"
@@ -370,7 +348,27 @@
 
 //////////////////////////////
 //    REMOVED OBJECTIVES    //
+// NOT GUARANTEED FUNCTIONAL//
 //////////////////////////////
+
+/// Drink certain amount of Blood while in a Frenzy. NOTE: This is a copy paste from default Gourmand objective.
+/datum/objective/bloodsucker/gourmand/brujah
+	name = "brujah gourmand"
+
+// EXPLANATION
+/datum/objective/bloodsucker/gourmand/brujah/update_explanation_text()
+	. = ..()
+	explanation_text = "While in a Frenzy, using your Feed ability, drink [target_amount] units of Blood."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/gourmand/brujah/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	var/stolen_blood = bloodsuckerdatum.frenzy_blood_drank
+	if(stolen_blood >= target_amount)
+		return TRUE
+	return FALSE
 
 // NOTE: Look up /assassinate in objective.dm for inspiration.
 /// Vassalize a target.

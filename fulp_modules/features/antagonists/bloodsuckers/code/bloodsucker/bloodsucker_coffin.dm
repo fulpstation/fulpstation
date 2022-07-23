@@ -210,7 +210,9 @@
 					ClaimCoffin(user)
 			LockMe(user)
 		/// Level up? Auto-Fails if not appropriate - Ventrue cannot level up in a Coffin.
-		if(bloodsuckerdatum.my_clan != CLAN_VENTRUE)
+		if(!bloodsuckerdatum.my_clan)
+			bloodsuckerdatum.AssignClanAndBane()
+		else if(SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_RANK_UP) & COMPONENT_RANK_UP)
 			bloodsuckerdatum.SpendRank()
 		/// You're in a Coffin, everything else is done, you're likely here to heal. Let's offer them the oppertunity to do so.
 		bloodsuckerdatum.Check_Begin_Torpor()
@@ -218,16 +220,17 @@
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
 /obj/structure/closet/crate/coffin/attackby(obj/item/item, mob/user, params)
-	if(resident)
-		if(user != resident)
-			if(istype(item, cutting_tool))
-				to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
-				return
-		if(anchored && istype(item, /obj/item/wrench))
-			to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt-Click to unclaim and unwrench your Coffin." : ""]"))
+	if(!resident)
+		return ..()
+	if(user != resident)
+		if(istype(item, cutting_tool))
+			to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
 			return
+	if(anchored && (item.tool_behaviour == TOOL_WRENCH))
+		to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt-Click to unclaim and unwrench your Coffin." : ""]"))
+		return
 
-	if(locked && istype(item, /obj/item/crowbar))
+	if(locked && (item.tool_behaviour == TOOL_CROWBAR))
 		var/pry_time = pryLidTimer * item.toolspeed // Pry speed must be affected by the speed of the tool.
 		user.visible_message(
 			span_notice("[user] tries to pry the lid off of [src] with [item]."),
@@ -239,7 +242,7 @@
 			span_notice("[user] snaps the door of [src] wide open."),
 			span_notice("The door of [src] snaps open."))
 		return
-	. = ..()
+	return ..()
 
 /// Distance Check (Inside Of)
 /obj/structure/closet/crate/coffin/AltClick(mob/user)
