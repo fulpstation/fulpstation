@@ -10,36 +10,36 @@
 	rank_up_type = BLOODSUCKER_RANK_UP_VASSAL
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY
 
-/datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/antag_datum, mob/living/carbon/user, mob/living/carbon/target, spend_rank = TRUE)
+/datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/datum/action/cooldown/bloodsucker/power as anything in antag_datum.all_bloodsucker_powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
 		if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
 			options[initial(power.name)] = power
 
 	if(options.len < 1)
-		to_chat(user, span_notice("You grow more ancient by the night!"))
+		to_chat(bloodsuckerdatum.owner.current, span_notice("You grow more ancient by the night!"))
 	else
 		// Give them the UI to purchase a power.
-		var/choice = tgui_input_list(user, "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve.", "Your Blood Thickens...", options)
+		var/choice = tgui_input_list(bloodsuckerdatum.owner.current, "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve.", "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(spend_rank && antag_datum.bloodsucker_level_unspent <= 0)
+		if(cost_rank && bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			return
 		// Did you choose a power?
 		if(!choice || !options[choice])
-			to_chat(user, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
+			to_chat(bloodsuckerdatum.owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
 		if((locate(options[choice]) in vassaldatum.powers))
-			to_chat(user, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
+			to_chat(bloodsuckerdatum.owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 
 		// Good to go - Buy Power!
 		var/datum/action/cooldown/bloodsucker/purchased_power = options[choice]
 		vassaldatum.BuyPower(new purchased_power)
-		user.balloon_alert(user, "taught [choice]!")
-		to_chat(user, span_notice("You taught [target] how to use [choice]!"))
+		bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "taught [choice]!")
+		to_chat(bloodsuckerdatum.owner.current, span_notice("You taught [target] how to use [choice]!"))
 		target.balloon_alert(target, "learned [choice]!")
 		to_chat(target, span_notice("Your master taught you how to use [choice]!"))
 
@@ -70,10 +70,10 @@
 			if(!target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 				to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead."))
 				target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
-				SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
+				SEND_SIGNAL(bloodsuckerdatum.owner.current, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
 			vassaldatum.set_vassal_level(target)
 
-	finalize_spend_rank(antag_datum, user, spend_rank)
+	finalize_spend_rank(bloodsuckerdatum, cost_rank)
 
 /datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	to_chat(bloodsucker, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))

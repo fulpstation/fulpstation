@@ -507,11 +507,11 @@
 			if(power.active)
 				power.DeactivatePower()
 
-/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE)
-	if(!owner || !owner.current || !owner.current.client || (spend_rank && bloodsucker_level_unspent <= 0))
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, cost_rank = TRUE)
+	if(!owner || !owner.current || !owner.current.client || (cost_rank && bloodsucker_level_unspent <= 0))
 		return
 
-	SEND_SIGNAL(my_clan, BLOODSUCKER_RANK_UP, src, owner.current, target, spend_rank)
+	SEND_SIGNAL(my_clan, BLOODSUCKER_RANK_UP, src, target, cost_rank)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

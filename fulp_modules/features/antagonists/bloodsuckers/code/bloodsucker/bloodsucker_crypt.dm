@@ -562,7 +562,7 @@
 			var/rank_response = show_radial_menu(user, src, rank_options, radius = 36, require_near = TRUE)
 			switch(rank_response)
 				if("Yes")
-					bloodsuckerdatum.SpendRank(target, spend_rank = FALSE, spend_blood = TRUE)
+					bloodsuckerdatum.SpendRank(target, cost_rank = FALSE, spend_blood = TRUE)
 					return
 		else
 			// Neither? Shame. Goodbye!

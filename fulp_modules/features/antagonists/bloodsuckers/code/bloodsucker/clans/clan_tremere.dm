@@ -27,10 +27,10 @@
 		bloodsuckerdatum.owner.current.adjust_fire_stacks(2)
 		bloodsuckerdatum.owner.current.ignite_mob()
 
-/datum/bloodsucker_clan/tremere/spend_rank(datum/antagonist/bloodsucker/antag_datum, mob/living/carbon/user, mob/living/carbon/target, spend_rank = TRUE)
+/datum/bloodsucker_clan/tremere/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE)
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/power as anything in antag_datum.powers)
+	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/power as anything in bloodsuckerdatum.powers)
 		if(!(power.purchase_flags & TREMERE_CAN_BUY))
 			continue
 		if(isnull(power.upgraded_power))
@@ -38,35 +38,35 @@
 		options[initial(power.name)] = power
 
 	if(options.len < 1)
-		to_chat(user, span_notice("You grow more ancient by the night!"))
+		to_chat(bloodsuckerdatum.owner.current, span_notice("You grow more ancient by the night!"))
 	else
 		// Give them the UI to purchase a power.
-		var/choice = tgui_input_list(user, "You have the opportunity to grow more ancient. Select a power you wish to upgrade.", "Your Blood Thickens...", options)
+		var/choice = tgui_input_list(bloodsuckerdatum.owner.current, "You have the opportunity to grow more ancient. Select a power you wish to upgrade.", "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(spend_rank && antag_datum.bloodsucker_level_unspent <= 0)
+		if(spend_rank && bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			return
 		// Did you choose a power?
 		if(!choice || !options[choice])
-			to_chat(user, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
+			to_chat(bloodsuckerdatum.owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
 			return
 		// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
-		if(!istype(user.loc, /obj/structure/closet/crate/coffin))
-			to_chat(user, span_warning("You must be in your Coffin to purchase Powers."))
+		if(!istype(bloodsuckerdatum.owner.current.loc, /obj/structure/closet/crate/coffin))
+			to_chat(bloodsuckerdatum.owner.current, span_warning("You must be in your Coffin to purchase Powers."))
 			return
 
 		// Good to go - Buy Power!
 		var/datum/action/cooldown/bloodsucker/purchased_power = options[choice]
 		var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_power = purchased_power
 		if(isnull(tremere_power.upgraded_power))
-			user.balloon_alert(user, "cannot upgrade [choice]!")
-			to_chat(user, span_notice("[choice] is already at max level!"))
+			bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "cannot upgrade [choice]!")
+			to_chat(bloodsuckerdatum.owner.current, span_notice("[choice] is already at max level!"))
 			return
-		antag_datum.BuyPower(new tremere_power.upgraded_power)
-		antag_datum.RemovePower(tremere_power)
-		user.balloon_alert(user, "upgraded [choice]!")
-		to_chat(user, span_notice("You have upgraded [choice]!"))
+		bloodsuckerdatum.BuyPower(new tremere_power.upgraded_power)
+		bloodsuckerdatum.RemovePower(tremere_power)
+		bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "upgraded [choice]!")
+		to_chat(bloodsuckerdatum.owner.current, span_notice("You have upgraded [choice]!"))
 
-	finalize_spend_rank(antag_datum, user, spend_rank)
+	finalize_spend_rank(bloodsuckerdatum, cost_rank)
 
 /datum/bloodsucker_clan/tremere/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	var/datum/action/cooldown/spell/shapeshift/bat/batform = new()
