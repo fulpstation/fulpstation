@@ -1,7 +1,7 @@
 import { resolveAsset } from 'tgui/assets';
 import { BooleanLike } from '../../common/react';
 import { useBackend, useLocalState, useSharedState } from '../../tgui/backend';
-import { Box, Button, Dropdown, Section, Stack, Tabs } from '../../tgui/components';
+import { Box, Button, Divider, Dropdown, Section, Stack, Tabs } from '../../tgui/components';
 import { Window } from '../../tgui/layouts';
 
 type Objective = {
@@ -253,7 +253,9 @@ const PowerSection = (props: any, context: any) => {
               src={resolveAsset(`bloodsucker.${selectedPower.power_icon}.png`)}
             />
           )}
+        <Divider Vertical />
         </Stack.Item>
+        <Stack.Divider />
         <Stack.Item scrollable grow={1} fontSize="16px">
           {!!selectedPower && selectedPower.power_explanation}
         </Stack.Item>
