@@ -60,6 +60,8 @@
 	// Stamina resistances
 	if(bloodsuckerdatum.my_clan.frenzy_stun_immune)
 		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
+	else
+		user.physiology.stamina_mod *= 0.4
 
 	// Give the other Frenzy effects
 	ADD_TRAIT(owner, TRAIT_MUTE, FRENZY_TRAIT)
