@@ -47,7 +47,6 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	RegisterSignal(src, BLOODSUCKER_MADE_VASSAL, .proc/on_vassal_made)
 	RegisterSignal(src, BLOODSUCKER_EXIT_TORPOR, .proc/on_exit_torpor)
 
-	to_chat(user, span_announce("[description]"))
 	give_clan_objective(user)
 
 /datum/bloodsucker_clan/Destroy(force, mob/living/carbon/user)

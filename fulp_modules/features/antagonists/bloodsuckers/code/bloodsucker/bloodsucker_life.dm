@@ -361,7 +361,7 @@
 	owner.current.unequip_everything()
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
-	// Elders get dusted, Fledglings get gibbed
+	// Elders get dusted, Fledglings get gibbed, Malkavians get soulsharded.
 	if(my_clan.get_clan() == CLAN_MALKAVIAN)
 		var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(user))
 		stone.capture_soul(user, forced = TRUE)
