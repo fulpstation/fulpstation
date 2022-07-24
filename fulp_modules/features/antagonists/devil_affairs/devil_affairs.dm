@@ -6,7 +6,7 @@
 	preview_outfit = /datum/outfit/devil_affair_agent
 	should_give_codewords = FALSE
 
-	///List of all targets we have stolen thus far.
+	///List of targets we stole off of others, used to find our new target.
 	var/list/datum/mind/targets_stolen = list()
 
 /datum/antagonist/traitor/devil_affairs/on_gain()
