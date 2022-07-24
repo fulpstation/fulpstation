@@ -209,7 +209,7 @@
 	if(!hud)
 		return
 
-	for( var/datum/antagonist/vassal/vassal as anything in master.vassals)
+	for(var/datum/antagonist/vassal/vassal as anything in master.vassals)
 		hud.show_to(vassal.owner.current)
 
 /**
