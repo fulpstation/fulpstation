@@ -190,7 +190,7 @@ const BloodsuckerClan = (props: any, context: any) => {
                     height="20rem"
                     opacity={0.25}
                     src={resolveAsset(`bloodsucker.${ClanInfo.clan_icon}.png`)}
-                     style={{
+                    style={{
                       '-ms-interpolation-mode': 'nearest-neighbor',
                       'position': 'absolute',
                     }}
@@ -215,7 +215,11 @@ const BloodsuckerClan = (props: any, context: any) => {
 const PowerSection = (props: any, context: any) => {
   const { act, data } = useBackend<BloodsuckerInformation>(context);
   const { power } = data;
-  const [selectedPower, setSelectedPower] = useSharedState(context, 'power', power[1]);
+  const [selectedPower, setSelectedPower] = useSharedState(
+    context,
+    'power',
+    power[1]
+  );
   return (
     <Section
       fill
@@ -235,7 +239,11 @@ const PowerSection = (props: any, context: any) => {
             selected={selectedPower.power_name}
             width="100%"
             options={power.map((powers) => powers.power_name)}
-            onSelected={(selected: PowerInfo) => setSelectedPower(selected)}
+            onSelected={(powerName: string) =>
+              setSelectedPower(
+                power.find((p) => p.power_name === powerName) || power[0]
+              )
+            }
           />
           {!!selectedPower && (
             <Box
