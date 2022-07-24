@@ -25,6 +25,11 @@
 	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "pm_medbay"
 
+/area/station/security/brig/hallway
+	name = "\improper Brig Hallway"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "brig_hallway"
+
 // Ruins
 
 /area/ruin/powered/beefcyto
