@@ -82,7 +82,7 @@
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	. = ..()
-	show_hud()
+	update_hud_viewers()
 
 /datum/antagonist/vassal/on_removal()
 	//Free them from their Master
@@ -141,7 +141,7 @@
 	favorite_vassal = TRUE
 	antag_hud_name = "vassal6"
 	add_team_hud(owner.current, /datum/antagonist/bloodsucker)
-	show_hud()
+	update_hud_viewers()
 	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 
@@ -199,7 +199,7 @@
 	for(var/datum/action/cooldown/bloodsucker/power in powers)
 		power.level_current++
 
-/datum/antagonist/vassal/proc/show_hud()
+/datum/antagonist/vassal/proc/update_hud_viewers()
 	var/datum/atom_hud/alternate_appearance/basic/has_antagonist/hud
 	for(var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
 		if(antag_hud.target != owner.current)
