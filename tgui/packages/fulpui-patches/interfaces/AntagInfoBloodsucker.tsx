@@ -15,7 +15,7 @@ type Objective = {
 type ClanInformation = {
   clan: ClanInfo[];
   in_clan: BooleanLike;
-}
+};
 
 type ClanInfo = {
   clan_name: string;
@@ -161,7 +161,8 @@ const BloodsuckerClan = (props, context) => {
             textAlign="center"
             fontSize="30px"
             lineHeight={2}
-            onClick={() => act('join_clan')} />
+            onClick={() => act('join_clan')}
+          />
         </Box>
       </Section>
     );
@@ -174,9 +175,14 @@ const BloodsuckerClan = (props, context) => {
           <Stack vertical>
             <Stack.Item>
               {clan.map((ClanInfo) => (
-                <Stack.Item key={ClanInfo.clan_name}>
-                  {ClanInfo.clan_description}
-                </Stack.Item>
+                <>
+                  <Stack.Item fontSize="20px" textAlign="center">
+                    You are the {ClanInfo.clan_name}
+                  </Stack.Item>
+                  <Stack.Item fontSize="16px">
+                    {ClanInfo.clan_description}
+                  </Stack.Item>
+                </>
               ))}
             </Stack.Item>
           </Stack>
