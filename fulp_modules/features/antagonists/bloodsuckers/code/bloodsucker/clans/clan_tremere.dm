@@ -1,9 +1,9 @@
 /datum/bloodsucker_clan/tremere
 	name = CLAN_TREMERE
-	description = "Tremere Clan <br> \
-		The Tremere Clan is extremely weak to True Faith, and will burn when entering areas considered such, like the Chapel. <br> \
-		Additionally, a whole new moveset is learned, built on Blood magic rather than Blood abilities, which are upgraded overtime. <br> \
-		More ranks can be gained by Vassalizing crewmembers. <br> \
+	description = "Tremere Clan \
+		The Tremere Clan is extremely weak to True Faith, and will burn when entering areas considered such, like the Chapel. \
+		Additionally, a whole new moveset is learned, built on Blood magic rather than Blood abilities, which are upgraded overtime. \
+		More ranks can be gained by Vassalizing crewmembers. \
 		The Favorite Vassal gains the Batform spell, being able to morph themselves at will."
 	clan_objective = /datum/objective/bloodsucker/tremere_power
 	join_description = "You will burn if you enter the Chapel, lose all default powers, \

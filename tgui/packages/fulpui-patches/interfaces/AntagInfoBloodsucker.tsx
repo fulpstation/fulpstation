@@ -1,6 +1,6 @@
 import { BooleanLike } from '../../common/react';
 import { useBackend, useLocalState } from '../../tgui/backend';
-import { Section, Stack, Tabs } from '../../tgui/components';
+import { Box, Button, Section, Stack, Tabs } from '../../tgui/components';
 import { Window } from '../../tgui/layouts';
 
 type Objective = {
@@ -10,6 +10,16 @@ type Objective = {
   complete: BooleanLike;
   was_uncompleted: BooleanLike;
   reward: number;
+};
+
+type ClanInformation = {
+  clan: ClanInfo[];
+  in_clan: BooleanLike;
+}
+
+type ClanInfo = {
+  clan_name: string;
+  clan_description: string;
 };
 
 type Info = {
@@ -31,6 +41,34 @@ const ObjectivePrintout = (props, context) => {
           ))}
       </Stack.Item>
     </Stack>
+  );
+};
+
+export const AntagInfoBloodsucker = (props, context) => {
+  const [tab, setTab] = useLocalState(context, 'tab', 1);
+  return (
+    <Window width={620} height={580}>
+      <Window.Content>
+        <Tabs>
+          <Tabs.Tab
+            icon="list"
+            lineHeight="23px"
+            selected={tab === 1}
+            onClick={() => setTab(1)}>
+            Introduction
+          </Tabs.Tab>
+          <Tabs.Tab
+            icon="list"
+            lineHeight="23px"
+            selected={tab === 2}
+            onClick={() => setTab(2)}>
+            Clan Information
+          </Tabs.Tab>
+        </Tabs>
+        {tab === 1 && <BloodsuckerIntro />}
+        {tab === 2 && <BloodsuckerClan />}
+      </Window.Content>
+    </Window>
   );
 };
 
@@ -105,22 +143,45 @@ const BloodsuckerIntro = () => {
   );
 };
 
-export const AntagInfoBloodsucker = (props, context) => {
-  const [tab, setTab] = useLocalState(context, 'tab', 1);
+const BloodsuckerClan = (props, context) => {
+  const { act, data } = useBackend<ClanInformation>(context);
+  const { clan, in_clan } = data;
+
+  if (!in_clan) {
+    return (
+      <Section minHeight="306px">
+        <Box mt={5} bold textAlign="center" fontSize="40px">
+          You are not in a Clan.
+        </Box>
+        <Box mt={3}>
+          <Button
+            fluid
+            icon="users"
+            content="Join Clan"
+            textAlign="center"
+            fontSize="30px"
+            lineHeight={2}
+            onClick={() => act('join_clan')} />
+        </Box>
+      </Section>
+    );
+  }
+
   return (
-    <Window width={620} height={580}>
-      <Window.Content>
-        <Tabs>
-          <Tabs.Tab
-            icon="list"
-            lineHeight="23px"
-            selected={tab === 1}
-            onClick={() => setTab(1)}>
-            Introduction
-          </Tabs.Tab>
-        </Tabs>
-        {tab === 1 && <BloodsuckerIntro />}
-      </Window.Content>
-    </Window>
+    <Stack vertical fill>
+      <Stack.Item minHeight="20rem">
+        <Section scrollable fill>
+          <Stack vertical>
+            <Stack.Item>
+              {clan.map((ClanInfo) => (
+                <Stack.Item key={ClanInfo.clan_name}>
+                  {ClanInfo.clan_description}
+                </Stack.Item>
+              ))}
+            </Stack.Item>
+          </Stack>
+        </Section>
+      </Stack.Item>
+    </Stack>
   );
 };

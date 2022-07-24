@@ -11,9 +11,9 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	///The name of the clan we're in.
 	var/name = CLAN_BRUJAH
 	///Description of what the clan is, given when joining and through your antag UI.
-	var/description = "Brujah Clan <br> \
-		The Bujah Clan is as basic as you can get with Bloodsuckers. <br> \
-		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. <br> \
+	var/description = "Brujah Clan \
+		The Bujah Clan is as basic as you can get with Bloodsuckers. \
+		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. \
 		The Favorite Vassal will gain the Brawn ability, to help in combat."
 	///The clan objective that is required to greentext.
 	var/clan_objective

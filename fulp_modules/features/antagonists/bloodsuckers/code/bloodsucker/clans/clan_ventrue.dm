@@ -1,8 +1,8 @@
 /datum/bloodsucker_clan/ventrue
 	name = CLAN_VENTRUE
-	description = "Ventrue Clan <br> \
-		The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. <br> \
-		There is additionally no way to rank themselves up, instead will have to rank their Favorite vassal through a Persuasion Rack. <br> \
+	description = "Ventrue Clan \n\
+		The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. \n\
+		There is additionally no way to rank themselves up, instead will have to rank their Favorite vassal through a Persuasion Rack. \n\
 		The Favorite Vassal will slowly turn into a Bloodsucker this way, until they finally lose their last bits of Humanity."
 	clan_objective = /datum/objective/bloodsucker/embrace
 	join_description = "Lose the ability to drink from mindless mobs, can't level up or gain new powers, \

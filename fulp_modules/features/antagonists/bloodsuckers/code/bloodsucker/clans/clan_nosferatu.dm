@@ -1,9 +1,9 @@
 /datum/bloodsucker_clan/nosferatu
 	name = CLAN_NOSFERATU
-	description = "Nosferatu Clan <br> \
-		The Nosferatu Clan is unable to blend in with the crew, with no abilities such as Masquerade and Veil. <br> \
-		Additionally, has a permanent bad back and looks like a Bloodsucker upon a simple examine, and is entirely unidentifiable, <br> \
-		they can fit in the vents regardless of their form and equipment. <br> \
+	description = "Nosferatu Clan \
+		The Nosferatu Clan is unable to blend in with the crew, with no abilities such as Masquerade and Veil. \
+		Additionally, has a permanent bad back and looks like a Bloodsucker upon a simple examine, and is entirely unidentifiable, \
+		they can fit in the vents regardless of their form and equipment. \
 		The Favorite Vassal is permanetly disfigured, and can also ventcrawl, but only while entirely nude."
 	clan_objective = /datum/objective/bloodsucker/kindred
 	join_description = "You are permanetly disfigured, look like a Bloodsucker to all who examine you, \

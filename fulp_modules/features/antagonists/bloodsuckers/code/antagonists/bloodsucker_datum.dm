@@ -286,6 +286,29 @@
 
 	return finish_preview_icon(final_icon)
 
+/datum/antagonist/bloodsucker/ui_data(mob/user)
+	var/list/data = list()
+
+	data["in_clan"] = !!my_clan
+	var/list/clan_data = list()
+	if(my_clan)
+		clan_data["clan_name"] = my_clan.name
+		clan_data["clan_description"] = my_clan.description
+
+		data["clan"] += list(clan_data)
+
+	return data
+
+/datum/antagonist/bloodsucker/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+
+	switch(action)
+		if("join_clan")
+			AssignClanAndBane()
+			return
+
 /**
  *	# Vampire Clan
  *

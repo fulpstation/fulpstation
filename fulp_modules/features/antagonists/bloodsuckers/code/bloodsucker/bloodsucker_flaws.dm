@@ -1,4 +1,7 @@
 /datum/antagonist/bloodsucker/proc/AssignClanAndBane()
+	if(my_clan)
+		return
+
 	var/list/options = list()
 	var/list/radial_display = list()
 	for(var/datum/bloodsucker_clan/all_clans as anything in typesof(/datum/bloodsucker_clan))
