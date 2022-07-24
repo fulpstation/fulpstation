@@ -200,12 +200,8 @@
 		power.level_current++
 
 /datum/antagonist/vassal/proc/update_hud_viewers()
-	var/datum/atom_hud/alternate_appearance/basic/has_antagonist/hud
-	for(var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
-		if(antag_hud.target != owner.current)
-			continue
-		hud = antag_hud
-		break
+	var/datum/atom_hud/alternate_appearance/basic/has_antagonist/hud = team_hud_ref.resolve()
+
 	if(!hud)
 		return
 
