@@ -5,6 +5,7 @@
 		More ranks can be gained by Vassalizing crewmembers. \n\
 		The Favorite Vassal gains the Batform spell, being able to morph themselves at will."
 	clan_objective = /datum/objective/bloodsucker/tremere_power
+	join_icon_state = "tremere"
 	join_description = "You will burn if you enter the Chapel, lose all default powers, \
 		but gain Blood Magic instead, powers you level up overtime."
 

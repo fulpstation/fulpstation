@@ -253,7 +253,7 @@ const PowerSection = (props: any, context: any) => {
               src={resolveAsset(`bloodsucker.${selectedPower.power_icon}.png`)}
             />
           )}
-        <Divider Vertical />
+          <Divider Vertical />
         </Stack.Item>
         <Stack.Divider />
         <Stack.Item scrollable grow={1} fontSize="16px">

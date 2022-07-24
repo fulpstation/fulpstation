@@ -5,6 +5,7 @@
 		they can fit in the vents regardless of their form and equipment. \n\
 		The Favorite Vassal is permanetly disfigured, and can also ventcrawl, but only while entirely nude."
 	clan_objective = /datum/objective/bloodsucker/kindred
+	join_icon_state = "nosferatu"
 	join_description = "You are permanetly disfigured, look like a Bloodsucker to all who examine you, \
 		lose your Masquerade ability, but gain the ability to Ventcrawl even while clothed."
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
