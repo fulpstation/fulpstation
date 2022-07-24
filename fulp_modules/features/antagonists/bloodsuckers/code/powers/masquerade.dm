@@ -14,7 +14,7 @@
 	name = "Masquerade"
 	desc = "Feign the vital signs of a mortal, and escape both casual and medical notice as the monster you truly are."
 	button_icon_state = "power_human"
-	power_explanation = "<b>Masquerade</b>:\n\
+	power_explanation = "Masquerade:\n\
 		Activating Masquerade will forge your identity to be practically identical to that of a human;\n\
 		- You lose nearly all Bloodsucker benefits, including healing, sleep, radiation, crit, virus and cold immunity.\n\
 		- Your eyes turn to that of a regular human as your heart begins to beat.\n\

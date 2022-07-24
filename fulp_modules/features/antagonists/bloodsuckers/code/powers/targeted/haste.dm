@@ -7,7 +7,7 @@
 	name = "Immortal Haste"
 	desc = "Dash somewhere with supernatural speed. Those nearby may be knocked away, stunned, or left empty-handed."
 	button_icon_state = "power_speed"
-	power_explanation = "<b>Immortal Haste</b>:\n\
+	power_explanation = "Immortal Haste:\n\
 		Click anywhere to immediately dash towards that location.\n\
 		The Power will not work if you are lying down, in no gravity, or are aggressively grabbed.\n\
 		Anyone in your way during your Haste will be knocked down and Payalyzed, moreso if they are using Flow.\n\

@@ -110,17 +110,6 @@
 		TRAIT_HARDLY_WOUNDED,
 	)
 
-/mob/living/proc/explain_powers()
-	set name = "Bloodsucker Help"
-	set category = "Mentor"
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
-	if(!choice)
-		return
-	var/datum/action/cooldown/bloodsucker/power = choice
-	to_chat(usr, span_warning("[power.power_explanation]"))
-
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -292,11 +281,21 @@
 	data["in_clan"] = !!my_clan
 	var/list/clan_data = list()
 	if(my_clan)
-		clan_data["clan_icon"] = my_clan.join_icon_state
 		clan_data["clan_name"] = my_clan.name
 		clan_data["clan_description"] = my_clan.description
+		clan_data["clan_icon"] = my_clan.join_icon_state
 
-		data["clan"] += list(clan_data)
+	data["clan"] += list(clan_data)
+
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
+		var/list/power_data = list()
+
+		power_data["power_name"] = power.name
+		power_data["power_explanation"] = power.power_explanation
+		power_data["power_icon"] = power.button_icon_state
+
+		data["power"] += list(power_data)
+
 
 	return data
 
@@ -433,7 +432,6 @@
 	BuyPower(new /datum/action/cooldown/bloodsucker/masquerade)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/cooldown/bloodsucker/veil)
-	add_verb(owner.current, /mob/living/proc/explain_powers)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
@@ -459,7 +457,6 @@
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	// Powers
-	remove_verb(owner.current, /mob/living/proc/explain_powers)
 	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		RemovePower(all_powers)
 	/// Stats
