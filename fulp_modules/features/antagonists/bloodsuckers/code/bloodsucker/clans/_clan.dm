@@ -17,9 +17,9 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	///The clan objective that is required to greentext.
 	var/clan_objective
 	///The icon of the radial icon to join this clan.
-	var/join_icon
+	var/join_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/clan_icons.dmi'
 	///Same as join_icon, but the state
-	var/join_icon_state
+	var/join_icon_state = "brujah"
 	///Description shown when trying to join the clan.
 	var/join_description = "The default, Classic Bloodsucker."
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.

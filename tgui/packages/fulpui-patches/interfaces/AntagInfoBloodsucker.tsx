@@ -1,3 +1,4 @@
+import { resolveAsset } from 'tgui/assets';
 import { BooleanLike } from '../../common/react';
 import { useBackend, useLocalState } from '../../tgui/backend';
 import { Box, Button, Section, Stack, Tabs } from '../../tgui/components';
@@ -20,6 +21,7 @@ type ClanInformation = {
 type ClanInfo = {
   clan_name: string;
   clan_description: string;
+  clan_icon: string;
 };
 
 type Info = {
@@ -176,6 +178,14 @@ const BloodsuckerClan = (props, context) => {
             <Stack.Item>
               {clan.map((ClanInfo) => (
                 <>
+                  <Box
+                    as="img"
+                    src={resolveAsset(`bloodsucker.${ClanInfo.clan_icon}.png`)}
+                     style={{
+                      '-ms-interpolation-mode': 'nearest-neighbor',
+                      'position': 'absolute',
+                    }}
+                  />
                   <Stack.Item fontSize="20px" textAlign="center">
                     You are the {ClanInfo.clan_name}
                   </Stack.Item>

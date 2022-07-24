@@ -292,12 +292,18 @@
 	data["in_clan"] = !!my_clan
 	var/list/clan_data = list()
 	if(my_clan)
+		clan_data["clan_icon"] = my_clan.join_icon_state
 		clan_data["clan_name"] = my_clan.name
 		clan_data["clan_description"] = my_clan.description
 
 		data["clan"] += list(clan_data)
 
 	return data
+
+/datum/antagonist/bloodsucker/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/simple/bloodsucker_icons),
+	)
 
 /datum/antagonist/bloodsucker/ui_act(action, params)
 	. = ..()
