@@ -123,7 +123,7 @@
 
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"
-	suit = /obj/item/clothing/suit/dracula
+	suit = /obj/item/clothing/suit/costume/dracula
 
 /datum/outfit/bloodsucker_outfit/post_equip(mob/living/carbon/human/enrico, visualsOnly=FALSE)
 	enrico.hairstyle = "Undercut"
