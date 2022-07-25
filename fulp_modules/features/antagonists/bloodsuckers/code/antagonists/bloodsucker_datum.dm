@@ -183,6 +183,7 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
+	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
 	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
 	else
@@ -201,6 +202,7 @@
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
+	UnregisterSignal(owner.current, COMSIG_PARENT_EXAMINE)
 	ClearAllPowersAndStats()
 	clan.check_cancel_sunlight() //check if sunlight should end
 	QDEL_NULL(my_clan)

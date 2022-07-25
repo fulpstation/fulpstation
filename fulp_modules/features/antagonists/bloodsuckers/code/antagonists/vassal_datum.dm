@@ -47,7 +47,17 @@
 	owner.current.log_message("has been deconverted from Vassalization by [implanter]!", LOG_ATTACK, color="#960000")
 	return COMPONENT_MINDSHIELD_DECONVERTED
 
+/datum/antagonist/vassal/proc/on_examine(datum/source, mob/examiner, examine_text)
+	SIGNAL_HANDLER
+
+	if(!iscarbon(source))
+		return
+	var/mob/living/carbon/carbon_source = source
+	var/vassal_examine = carbon_source.ReturnVassalExamine(examiner)
+	examine_text += vassal_examine
+
 /datum/antagonist/vassal/on_gain()
+	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
 	/// Enslave them to their Master
 	if(master)
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -64,9 +74,10 @@
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
-	. = ..()
+	return ..()
 
 /datum/antagonist/vassal/on_removal()
+	UnregisterSignal(owner.current, COMSIG_PARENT_EXAMINE)
 	//Free them from their Master
 	if(master && master.owner)
 		master.vassals -= src

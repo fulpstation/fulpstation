@@ -25,6 +25,15 @@
 	if(my_clan)
 		SEND_SIGNAL(my_clan, BLOODSUCKER_HANDLE_LIFE, src)
 
+/datum/antagonist/bloodsucker/proc/on_examine(datum/source, mob/examiner, examine_text)
+	SIGNAL_HANDLER
+
+	if(!iscarbon(source))
+		return
+	var/mob/living/carbon/carbon_source = source
+	var/vamp_examine = carbon_source.ReturnVampExamine(examiner)
+	examine_text += vamp_examine
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //			BLOOD
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
