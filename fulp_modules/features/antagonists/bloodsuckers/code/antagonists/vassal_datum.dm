@@ -29,7 +29,7 @@
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	current_mob.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
-	add_team_hud(current_mob, /datum/antagonist/bloodsucker)
+	add_team_hud(current_mob, /datum/antagonist/shaded_bloodsucker)
 
 /datum/antagonist/vassal/add_team_hud(mob/target, antag_to_check)
 	QDEL_NULL(team_hud_ref)
@@ -140,7 +140,7 @@
 	// Default stuff for all
 	favorite_vassal = TRUE
 	antag_hud_name = "vassal6"
-	add_team_hud(owner.current, /datum/antagonist/bloodsucker)
+	add_team_hud(owner.current, /datum/antagonist/shaded_bloodsucker)
 	update_hud_viewers()
 	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
@@ -207,6 +207,8 @@
 
 	for(var/datum/antagonist/vassal/vassal as anything in master.vassals)
 		hud.show_to(vassal.owner.current)
+
+	hud.show_to(master.owner.current)
 
 /**
  *	# Vassal Pinpointer
