@@ -4771,6 +4771,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/brig/hallway)
 "ang" = (
@@ -4915,6 +4916,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/brig/hallway)
 "ant" = (
@@ -11936,6 +11938,8 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Fore Primary Hallway - Detective's Office"
 	},
+/obj/machinery/power/apc/auto_name/directional/west,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "aEd" = (
@@ -23235,6 +23239,14 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/station/security/brig/hallway)
+"bkN" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 6
+	},
+/obj/machinery/power/apc/auto_name/directional/south,
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/station/security/brig/hallway)
 "bkO" = (
 /obj/structure/cable,
 /turf/open/floor/circuit,
@@ -23710,6 +23722,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/range)
+"bmk" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/spawner/random/trash/grille_or_waste,
+/turf/open/floor/plating,
+/area/station/maintenance/department/cargo)
 "bml" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 9
@@ -24156,6 +24175,26 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron,
 /area/station/security/range)
+"bny" = (
+/obj/machinery/conveyor{
+	dir = 1;
+	id = "QMLoad"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
+"bnz" = (
+/obj/machinery/conveyor{
+	dir = 1;
+	id = "QMLoad2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "bnD" = (
 /obj/structure/window/reinforced{
 	dir = 8
@@ -41422,11 +41461,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/warehouse)
-"cik" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/landmark/start/cargo_technician,
-/turf/open/floor/iron,
-/area/station/cargo/storage)
 "cil" = (
 /obj/machinery/conveyor{
 	dir = 4;
@@ -44594,6 +44628,7 @@
 	name = "Cargo Bay"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/supply/general,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/station/cargo/office)
 "cpt" = (
@@ -45117,6 +45152,7 @@
 	name = "Cargo Bay"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/supply/general,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/station/cargo/office)
 "cqJ" = (
@@ -59173,7 +59209,6 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
-/obj/effect/turf_decal/stripes/corner,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -60608,7 +60643,10 @@
 	name = "Warehouse Door Control";
 	req_access = list("cargo")
 	},
-/obj/effect/landmark/start/cargo_technician,
+/obj/effect/turf_decal/arrows{
+	dir = 8;
+	pixel_x = 14
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "gdo" = (
@@ -61817,18 +61855,12 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "hsx" = (
-/obj/machinery/conveyor{
-	dir = 1;
-	id = "QMLoad"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
 /obj/machinery/camera/directional/north{
 	c_tag = "Cargo Bay N";
 	name = "Cargo camera";
 	network = list("ss13","cargo")
 	},
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "hsP" = (
@@ -74498,9 +74530,11 @@
 /turf/closed/wall/r_wall,
 /area/station/security/prison/mess)
 "umo" = (
-/obj/effect/turf_decal/stripes/line,
 /obj/machinery/newscaster/directional/south,
 /obj/machinery/light/directional/south,
+/obj/effect/turf_decal/arrows{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "umL" = (
@@ -110378,7 +110412,7 @@ gnK
 hoJ
 qPC
 anf
-anI
+bkN
 apu
 apu
 aAq
@@ -110655,7 +110689,7 @@ alc
 aXu
 alc
 alc
-alc
+aXu
 alc
 alb
 alc
@@ -114835,7 +114869,7 @@ nhM
 pac
 ccB
 jIj
-ccB
+bmk
 cnv
 cnv
 cnu
@@ -115879,7 +115913,7 @@ tVd
 csX
 pIz
 flZ
-cik
+bUl
 coq
 cBS
 sVl
@@ -116127,7 +116161,7 @@ ckb
 ckP
 cgV
 gdb
-tVd
+bUl
 cpy
 tVd
 tVd
@@ -116384,7 +116418,7 @@ cml
 jLb
 cgV
 hsx
-kZo
+bny
 kZo
 cqM
 noZ
@@ -116392,8 +116426,8 @@ sBG
 noZ
 cvB
 hLp
-hLp
-hLp
+bnz
+noZ
 pIw
 teZ
 pWK
@@ -116915,7 +116949,7 @@ kUi
 lHP
 fkF
 dct
-dir
+kUi
 aaa
 aaa
 aak
@@ -117172,7 +117206,7 @@ cBL
 cCY
 fkF
 deq
-djj
+cBL
 aaa
 aaa
 aak
@@ -117429,7 +117463,7 @@ cBL
 cBL
 cUF
 cBL
-djj
+cBL
 aaa
 aaa
 aak
