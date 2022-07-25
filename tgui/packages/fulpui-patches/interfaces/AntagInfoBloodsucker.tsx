@@ -218,7 +218,7 @@ const PowerSection = (props: any, context: any) => {
   const [selectedPower, setSelectedPower] = useSharedState(
     context,
     'power',
-    power[1]
+    power[0]
   );
   return (
     <Section
@@ -245,7 +245,7 @@ const PowerSection = (props: any, context: any) => {
               )
             }
           />
-          {!!selectedPower && (
+          {selectedPower && (
             <Box
               position="absolute"
               height="12rem"
@@ -257,7 +257,7 @@ const PowerSection = (props: any, context: any) => {
         </Stack.Item>
         <Stack.Divider />
         <Stack.Item scrollable grow={1} fontSize="16px">
-          {!!selectedPower && selectedPower.power_explanation}
+          {selectedPower && selectedPower.power_explanation}
         </Stack.Item>
       </Stack>
     </Section>
