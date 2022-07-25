@@ -1,6 +1,6 @@
 import { resolveAsset } from 'tgui/assets';
 import { BooleanLike } from '../../common/react';
-import { useBackend, useLocalState, useSharedState } from '../../tgui/backend';
+import { useBackend, useLocalState } from '../../tgui/backend';
 import { Box, Button, Divider, Dropdown, Section, Stack, Tabs } from '../../tgui/components';
 import { Window } from '../../tgui/layouts';
 
@@ -215,7 +215,7 @@ const BloodsuckerClan = (props: any, context: any) => {
 const PowerSection = (props: any, context: any) => {
   const { act, data } = useBackend<BloodsuckerInformation>(context);
   const { power } = data;
-  const [selectedPower, setSelectedPower] = useSharedState(
+  const [selectedPower, setSelectedPower] = useLocalState(
     context,
     'power',
     power[0]
