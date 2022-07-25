@@ -1,24 +1,77 @@
 /datum/antagonist
-	var/tips
+	///The antag tip datum that holds our UI.
+	var/datum/antag_tip/tips
+	///Antag tip datum's UI name.
+	var/antag_tips
 
 /datum/antagonist/on_gain()
 	. = ..()
-	if(owner.current.client?.prefs?.read_preference(/datum/preference/toggle/antag_tips))
-		if(!silent && !isnull(tips))
-			show_tips(tips)
-
-/datum/antagonist/proc/show_tips(fileid)
-	if(!owner || !owner.current || !owner.current.client)
+	if(!owner.current.client?.prefs?.read_preference(/datum/preference/toggle/antag_tips))
 		return
-	var/datum/asset/stuff = get_asset_datum(/datum/asset/simple/antag_tip_icons)
-	stuff.send(owner.current.client)
-	var/datum/browser/popup = new(owner.current, "antagTips", null, 600, 600)
-	popup.set_window_options("titlebar=1;can_minimize=0;can_resize=0")
-	popup.set_content(replacetext(rustg_file_read("fulp_modules/features/antagonists/antag_tips/html/[html_encode(fileid)].html"), regex("\\w*.png", "gm"), /datum/antagonist/proc/get_asset_url_from))
-	popup.open(FALSE)
+	if(silent || isnull(antag_tips))
+		return
+	tips = new(antag_tips, name)
+	tips.ui_interact(owner.current)
+	add_verb(owner.current, /mob/living/proc/open_tips)
 
-/datum/antagonist/proc/get_asset_url_from(match)
-	return SSassets.transport.get_asset_url(match)
+/datum/antagonist/on_removal()
+	if(tips)
+		remove_verb(owner.current, /mob/living/proc/open_tips)
+		QDEL_NULL(tips)
+	return ..()
+
+/**
+ * Open Tips
+ *
+ * Tied to the Mob, allows anyone to see their antag tips
+ */
+/mob/living/proc/open_tips()
+	set name = "Open Antag tips"
+	set category = "Mentor"
+
+	for(var/datum/antagonist/antag_datum as anything in mind.antag_datums)
+		if(isnull(antag_datum.antag_tips))
+			continue
+		antag_datum.tips.ui_interact(src)
+
+/**
+ * Antag Tip datum
+ *
+ * Holds the UI we will run to see our TGUI Antag tips.
+ */
+/datum/antag_tip
+	///Name of the Antagonist, used in the UI's title
+	var/name
+	///Name of the UI we will open, set on New.
+	var/tip_ui_name
+
+/datum/antag_tip/New(tip_ui_name, name)
+	. = ..()
+	src.tip_ui_name = tip_ui_name
+	src.name = name
+
+/datum/antag_tip/ui_state()
+	return GLOB.always_state
+
+/datum/antag_tip/ui_static_data(mob/user)
+	. = ..()
+	var/list/data = list()
+
+	data["name"] = name
+
+	return data
+
+/datum/antag_tip/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/simple/antag_tip_icons),
+	)
+
+/datum/antag_tip/ui_interact(mob/user, datum/tgui/ui)
+	. = ..()
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, tip_ui_name, name)
+		ui.open()
 
 /**
  * Antag tips that would be nice to have:
@@ -27,37 +80,37 @@
  */
 
 /datum/antagonist/abductor
-	tips = ABDUCTOR_TIPS
+	antag_tips = ABDUCTOR_TIPS
 
 /datum/antagonist/changeling
-	tips = CHANGELING_TIPS
+	antag_tips = CHANGELING_TIPS
 
 /datum/antagonist/cult
-	tips = CULTIST_TIPS
+	antag_tips = CULTIST_TIPS
 
 /datum/antagonist/cult/master
-	tips = null
+	antag_tips = null
 
 /datum/antagonist/heretic
-	tips = HERETIC_TIPS
+	antag_tips = HERETIC_TIPS
 
 /datum/antagonist/malf_ai
-	tips = MALF_TIPS
+	antag_tips = MALF_TIPS
 
 /datum/antagonist/nukeop
-	tips = NUKIE_TIPS
+	antag_tips = NUKIE_TIPS
 
 /datum/antagonist/rev
-	tips = REVOLUTIONARY_TIPS
+	antag_tips = REVOLUTIONARY_TIPS
 
 /datum/antagonist/traitor
-	tips = TRAITOR_TIPS
+	antag_tips = TRAITOR_TIPS
 
 /datum/antagonist/wizard
-	tips = WIZARD_TIPS
+	antag_tips = WIZARD_TIPS
 
 /datum/antagonist/wizard/apprentice
-	tips = WIZARD_APPRENTICE_TIPS
+	antag_tips = WIZARD_APPRENTICE_TIPS
 
 /datum/antagonist/wizard/apprentice/imposter
-	tips = WIZ_IMPOSTER_TIPS
+	antag_tips = null
