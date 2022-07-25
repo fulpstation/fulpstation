@@ -29,24 +29,27 @@
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	current_mob.apply_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
-	add_team_hud(current_mob, /datum/antagonist/shaded_bloodsucker)
+	add_team_hud(current_mob)
 
-/datum/antagonist/vassal/add_team_hud(mob/target, antag_to_check)
+/datum/antagonist/vassal/add_team_hud(mob/target)
 	QDEL_NULL(team_hud_ref)
 
 	team_hud_ref = WEAKREF(target.add_alt_appearance(
 		/datum/atom_hud/alternate_appearance/basic/has_antagonist,
 		"antag_team_hud_[REF(src)]",
 		image(hud_icon, target, antag_hud_name),
-		antag_to_check || type,
 	))
+
+	var/datum/atom_hud/alternate_appearance/basic/has_antagonist/hud = team_hud_ref.resolve()
+
 	var/list/mob/mob_list = list()
 	for(var/datum/antagonist/vassal/vassal as anything in master.vassals)
 		mob_list += vassal.owner.current
 	for (var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
 		if(!(antag_hud.target in mob_list) && antag_hud.target != master.owner.current)
 			continue
-		antag_hud.show_to(owner.current)
+		antag_hud.show_to(target)
+		hud.show_to(antag_hud.target)
 
 /datum/antagonist/vassal/remove_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -82,7 +85,6 @@
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	. = ..()
-	update_hud_viewers()
 
 /datum/antagonist/vassal/on_removal()
 	//Free them from their Master
@@ -140,8 +142,7 @@
 	// Default stuff for all
 	favorite_vassal = TRUE
 	antag_hud_name = "vassal6"
-	add_team_hud(owner.current, /datum/antagonist/shaded_bloodsucker)
-	update_hud_viewers()
+	add_team_hud(owner.current)
 	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 
@@ -198,17 +199,6 @@
 /datum/antagonist/vassal/proc/LevelUpPowers()
 	for(var/datum/action/cooldown/bloodsucker/power in powers)
 		power.level_current++
-
-/datum/antagonist/vassal/proc/update_hud_viewers()
-	var/datum/atom_hud/alternate_appearance/basic/has_antagonist/hud = team_hud_ref.resolve()
-
-	if(!hud)
-		return
-
-	for(var/datum/antagonist/vassal/vassal as anything in master.vassals)
-		hud.show_to(vassal.owner.current)
-
-	hud.show_to(master.owner.current)
 
 /**
  *	# Vassal Pinpointer
