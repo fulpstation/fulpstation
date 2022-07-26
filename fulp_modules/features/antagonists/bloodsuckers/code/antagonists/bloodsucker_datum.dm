@@ -11,6 +11,7 @@
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
 	ui_name = "AntagInfoBloodsucker"
 	antag_tips = BLOODSUCKER_TIPS
+	tip_theme = "spookyconsole"
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 
 	/// How much blood we have, starting off at default blood levels.

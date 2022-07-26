@@ -3,6 +3,8 @@
 	var/datum/antag_tip/tips
 	///Antag tip datum's UI name.
 	var/antag_tips
+	///Theme of the antag tip's UI.
+	var/tip_theme = "ntos"
 
 /datum/antagonist/on_gain()
 	. = ..()
@@ -10,7 +12,7 @@
 		return
 	if(silent || isnull(antag_tips))
 		return
-	tips = new(antag_tips, name)
+	tips = new(antag_tips, name, tip_theme)
 	tips.ui_interact(owner.current)
 	add_verb(owner.current, /mob/living/proc/open_tips)
 
@@ -59,11 +61,14 @@
 	var/name
 	///Name of the UI we will open, set on New.
 	var/tip_ui_name
+	///Theme of the used UI
+	var/theme
 
-/datum/antag_tip/New(tip_ui_name, name)
+/datum/antag_tip/New(tip_ui_name, name, tip_theme)
 	. = ..()
 	src.tip_ui_name = tip_ui_name
-	src.name = name
+	src.name = lowertext(name)
+	src.theme = tip_theme
 
 /datum/antag_tip/ui_state()
 	return GLOB.always_state
@@ -72,36 +77,44 @@
 	. = ..()
 	var/list/data = list()
 
+	data["tip_ui_name"] = tip_ui_name
 	data["name"] = name
+	data["theme"] = theme
 
 	return data
 
 /datum/antag_tip/ui_assets(mob/user)
 	return list(
 		get_asset_datum(/datum/asset/simple/antag_tip_icons),
+		get_asset_datum(/datum/asset/spritesheet/antagonists),
 	)
 
 /datum/antag_tip/ui_interact(mob/user, datum/tgui/ui)
 	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, tip_ui_name, "[name] tips")
+		ui = new(user, src, "AntagTips", "[name] tips")
 		ui.open()
 
 /**
  * Antag tips that would be nice to have:
  * - Obsessed
  * - Blood Brother
+ * - IAAs
+ * - Infiltrators
+ * - Thief
  */
 
 /datum/antagonist/abductor
 	antag_tips = ABDUCTOR_TIPS
+	tip_theme = "abductor"
 
 /datum/antagonist/changeling
 	antag_tips = CHANGELING_TIPS
 
 /datum/antagonist/cult
 	antag_tips = CULTIST_TIPS
+	tip_theme = "spookyconsole"
 
 /datum/antagonist/cult/master
 	antag_tips = null
@@ -111,21 +124,26 @@
 
 /datum/antagonist/malf_ai
 	antag_tips = MALF_TIPS
+	tip_theme = "hackerman"
 
 /datum/antagonist/nukeop
 	antag_tips = NUKIE_TIPS
+	tip_theme = "syndicate"
 
 /datum/antagonist/rev
 	antag_tips = REVOLUTIONARY_TIPS
 
 /datum/antagonist/traitor
 	antag_tips = TRAITOR_TIPS
+	tip_theme = "syndicate"
 
 /datum/antagonist/wizard
 	antag_tips = WIZARD_TIPS
+	tip_theme = "wizard"
 
 /datum/antagonist/wizard/apprentice
 	antag_tips = WIZARD_APPRENTICE_TIPS
+	tip_theme = "wizard"
 
 /datum/antagonist/wizard/apprentice/imposter
 	antag_tips = null
