@@ -43,10 +43,12 @@
 	var/datum/atom_hud/alternate_appearance/basic/has_antagonist/hud = team_hud_ref.resolve()
 
 	var/list/mob/living/mob_list = list()
+	mob_list += master.owner.current
 	for(var/datum/antagonist/vassal/vassal as anything in master.vassals)
 		mob_list += vassal.owner.current
+
 	for (var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
-		if(!(antag_hud.target in mob_list) && antag_hud.target != master.owner.current)
+		if(!(antag_hud.target in mob_list))
 			continue
 		antag_hud.show_to(target)
 		hud.show_to(antag_hud.target)
