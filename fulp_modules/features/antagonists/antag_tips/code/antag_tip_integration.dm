@@ -43,7 +43,7 @@
 			antag_datum.tips.ui_interact(src)
 			return
 
-	var/choice = tgui_input_list(src, "What tips are you looking for", "Antag tips", antag_datum_list)
+	var/choice = tgui_input_list(src, "What tips are we interested in?", "Antagonist tips", antag_datum_list)
 	if(!choice)
 		return
 	var/datum/antagonist/chosen_datum = choice
