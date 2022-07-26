@@ -477,7 +477,7 @@
 /obj/structure/bloodsucker/candelabrum/examine(mob/user)
 	. = ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum || !blodsuckerdatum.my_clan)
+	if(!bloodsuckerdatum || !bloodsuckerdatum.my_clan)
 		return
 	if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
 		. += span_cult("As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.\n\
@@ -543,7 +543,7 @@
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Checks: We're Ventrue, they're Buckled & Alive.
-	if(!bloodsuckerdatum || !blodsuckerdatum.my_clan)
+	if(!bloodsuckerdatum || !bloodsuckerdatum.my_clan)
 		return ..()
 	if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
 		if(!has_buckled_mobs())
@@ -587,7 +587,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
 	/// Are you even a Bloodsucker?
-	if(!bloodsuckerdatum || !vassaldatum || !blodsuckerdatum.my_clan)
+	if(!bloodsuckerdatum || !vassaldatum || !bloodsuckerdatum.my_clan)
 		return
 	/// Are you part of Ventrue? No? Then go away.
 	if(bloodsuckerdatum.my_clan.rank_up_type != BLOODSUCKER_RANK_UP_VASSAL)
