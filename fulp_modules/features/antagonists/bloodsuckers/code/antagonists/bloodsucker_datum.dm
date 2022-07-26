@@ -506,6 +506,8 @@
 	if(!owner || !owner.current || vassaldatum)
 		return
 	bloodsucker_level_unspent++
+	if(!my_clan)
+		to_chat(owner.current, span_notice("You have gained a rank. Join a Clan to spend it."))
 	// Spend Rank Immediately?
 	if(my_clan.rank_up_type == BLOODSUCKER_RANK_UP_NORMAL)
 		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
