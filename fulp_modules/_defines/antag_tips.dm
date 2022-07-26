@@ -1,26 +1,28 @@
 ///Abductors
-#define ABDUCTOR_TIPS "AbductorTips"
+#define ABDUCTOR_TIPS "TipsAbductor"
 ///Bloodsuckers
-#define BLOODSUCKER_TIPS "BloodsuckerTips"
+#define BLOODSUCKER_TIPS "TipsBloodsucker"
 ///Changelings
-#define CHANGELING_TIPS "ChangelingTips"
+#define CHANGELING_TIPS "TipsChangeling"
 ///Cultists
-#define CULTIST_TIPS "CultistTips"
+#define CULTIST_TIPS "TipsCultist"
 ///Heretics
-#define HERETIC_TIPS "HereticTips"
+#define HERETIC_TIPS "TipsHeretic"
 ///Malfunctional AIs
-#define MALF_TIPS "MalfTips"
+#define MALF_TIPS "TipsMalf"
 ///Monster Hunters
-#define MONSTERHUNTER_TIPS "MonsterHunterTips"
+#define MONSTERHUNTER_TIPS "TipsMonsterHunter"
 ///Nuclear Operatives
-#define NUKIE_TIPS "NukieTips"
+#define NUKIE_TIPS "TipsNukie"
 ///Revolutionaries
-#define REVOLUTIONARY_TIPS "RevolutionaryTips"
+#define REVOLUTIONARY_TIPS "TipsRevolutionary"
 ///Traitors
-#define TRAITOR_TIPS "TraitorTips"
+#define TRAITOR_TIPS "TipsTraitor"
 ///Vassals
-#define VASSAL_TIPS "VassalTips"
+#define VASSAL_TIPS "TipsVassal"
 ///Wizards
-#define WIZARD_TIPS "WizardTips"
+#define WIZARD_TIPS "TipsWizard"
 ///Wizard Apprentices
-#define WIZARD_APPRENTICE_TIPS "WizardApprenticeTips"
+#define WIZARD_APPRENTICE_TIPS "TipsWizardApprentice"
+
+// TO DO: infiltrator. IAA.

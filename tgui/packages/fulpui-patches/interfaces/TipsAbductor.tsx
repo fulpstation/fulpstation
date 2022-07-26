@@ -1,4 +1,4 @@
-import { useBackend } from '../../tgui/backend';
+import { useBackend } from 'tgui/backend';
 import { Box, Flex, Divider, Section } from '../../tgui/components';
 import { resolveAsset } from '../../tgui/assets';
 import { Window } from '../../tgui/layouts';
@@ -7,7 +7,7 @@ type Name = {
   name: string;
 };
 
-export const AbductorTips = (props, context) => {
+export const TipsAbductor = (props, context) => {
   const { act, data } = useBackend<Name>(context);
   const { name } = data;
   return (
