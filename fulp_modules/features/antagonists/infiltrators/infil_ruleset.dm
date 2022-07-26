@@ -30,7 +30,7 @@
 
 /datum/dynamic_ruleset/midround/from_ghosts/infiltrator/generate_ruleset_body(mob/applicant)
 	var/mob/living/carbon/human/infiltrator = create_infiltrator(pick(spawn_locs))
-	infiltrator.key = applicant.key
+	applicant.mind.transfer_to(infiltrator)
 	infiltrator.mind.add_antag_datum(/datum/antagonist/traitor/infiltrator)
 
 	message_admins("[ADMIN_LOOKUPFLW(infiltrator)] has been made into an infiltrator by the midround ruleset.")
