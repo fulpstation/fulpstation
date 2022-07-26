@@ -11,7 +11,7 @@ export const TipsMonsterHunter = (props, context) => {
   const { act, data } = useBackend<Name>(context);
   const { name } = data;
   return (
-    <Window width={400} height={420} theme="malfunction">
+    <Window width={400} height={400} theme="malfunction">
       <Window.Content>
         <Section>
           <Flex>
@@ -41,7 +41,7 @@ export const TipsMonsterHunter = (props, context) => {
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
-            Use your abilities to your advantage! Try to deduce who the Monsters are, what they are, and plan how to eliminate them.
+              Use your abilities to your advantage! Try to deduce who the Monsters are, what they are, and plan how to eliminate them.
             </Flex.Item>
           </Flex>
         </Section>

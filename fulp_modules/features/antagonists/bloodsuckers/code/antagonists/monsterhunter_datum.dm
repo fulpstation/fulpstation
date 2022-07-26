@@ -9,7 +9,7 @@
 	antagpanel_category = "Monster Hunter"
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_name = "obsessed"
-	tips = MONSTERHUNTER_TIPS
+	antag_tips = MONSTERHUNTER_TIPS
 	preview_outfit = /datum/outfit/monsterhunter
 	var/list/datum/action/powers = list()
 	var/datum/martial_art/hunterfu/my_kungfu = new
