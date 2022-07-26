@@ -11,7 +11,7 @@ export const TipsNukie = (props, context) => {
   const { act, data } = useBackend<Name>(context);
   const { name } = data;
   return (
-    <Window width={400} height={450} theme="syndicate">
+    <Window width={400} height={470} theme="syndicate">
       <Window.Content>
         <Section>
           <Flex>
@@ -62,7 +62,7 @@ export const TipsNukie = (props, context) => {
           <Divider />
           <Flex>
             <Flex.Item>
-            To activate the nuke, you must put in the disk, type in the code, turn off the safety and enable it. You should first unanchor it, move it to the station, re-anchor it and then activate the nuke and take the disk away.
+              To activate the nuke, you must put in the disk, type in the code, turn off the safety and enable it. You should first unanchor it, move it to the station, re-anchor it and then activate the nuke and take the disk away.
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
@@ -82,7 +82,7 @@ export const TipsNukie = (props, context) => {
           <Divider />
           <Flex>
             <Flex.Item>
-            The leader of the team starts out with a war declaration. If activated, they'll be prompted to write a custom message and declare war.
+            The leader of the team starts out with a war declaration. If activated, they&#39;ll be prompted to write a custom message and declare war.
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
