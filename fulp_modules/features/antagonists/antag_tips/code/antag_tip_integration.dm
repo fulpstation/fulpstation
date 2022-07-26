@@ -16,7 +16,6 @@
 
 /datum/antagonist/on_removal()
 	if(tips)
-		remove_verb(owner.current, /mob/living/proc/open_tips)
 		QDEL_NULL(tips)
 	return ..()
 
@@ -29,10 +28,26 @@
 	set name = "Open Antag tips"
 	set category = "Mentor"
 
+	var/list/datum/antagonist/antag_datum_list = list()
+
 	for(var/datum/antagonist/antag_datum as anything in mind.antag_datums)
 		if(isnull(antag_datum.antag_tips))
 			continue
-		antag_datum.tips.ui_interact(src)
+		antag_datum_list += antag_datum
+
+	if(!antag_datum_list.len) //none? You shouldn't have this then.
+		remove_verb(src, /mob/living/proc/open_tips)
+		return
+	if(antag_datum_list.len <= 1) //only one? skip ui
+		for(var/datum/antagonist/antag_datum as anything in antag_datum_list)
+			antag_datum.tips.ui_interact(src)
+			return
+
+	var/choice = tgui_input_list(src, "What tips are you looking for", "Antag tips", antag_datum_list)
+	if(!choice)
+		return
+	var/datum/antagonist/chosen_datum = choice
+	chosen_datum.tips.ui_interact(src)
 
 /**
  * Antag Tip datum

@@ -7,11 +7,11 @@ type Name = {
   name: string;
 };
 
-export const TipsAbductor = (props, context) => {
+export const TipsChangeling = (props, context) => {
   const { act, data } = useBackend<Name>(context);
   const { name } = data;
   return (
-    <Window width={400} height={430} theme="abductor">
+    <Window width={400} height={430}>
       <Window.Content>
         <Section>
           <Flex>
@@ -24,18 +24,18 @@ export const TipsAbductor = (props, context) => {
                 height="12rem"
                 as="img"
                 opacity={0.4}
-                src={resolveAsset(`abductor.png`)}
+                src={resolveAsset(`changeling.png`)}
               />
             </Flex.Item>
           </Flex>
           <Divider />
           <Flex>
             <Flex.Item>
-              You and your teammate have been chosen by the mothership to go and capture some humans.
+              You are a Changeling, a shapeshifting alien assuming the form of a crewmember on Space Station 13.
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
-              There&#39;s two of you: the <b>scientist</b>, who must oversee the camera and surgery, and the <b>agent</b>, who must go down on the station to stun and cuff people.
+              You have the ability to take genomes, which serve as backup identities. To do this, you must take ANY human, and acquire their DNA through one of two methods.
             </Flex.Item>
           </Flex>
           <Divider />
@@ -44,13 +44,18 @@ export const TipsAbductor = (props, context) => {
               <Box
                 as="img"
                 height="20px"
-                src={resolveAsset(`scitool.png`)}
+                src={resolveAsset(`sting_extract.png`)}
               />
-              The scientist must utilize his <b>console</b> and <b>science tool</b>, to scan disguises and scan the agent for retrieval if neccesary.
+                Use the <b>DNA Extraction Sting</b> and sting a target to stealthily steal their DNA.
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
-              The scientist must look for targets and send down the agent, after the target is captured the scientist must go down and use the science tool to mark the teleport target.
+              <Box
+                as="img"
+                height="20px"
+                src={resolveAsset(`absorb.png`)}
+              />
+              You can <b>absorb</b> humans to drain their DNA, husking them and draining them of fluids.
             </Flex.Item>
             <Divider />
           </Flex>
@@ -60,24 +65,24 @@ export const TipsAbductor = (props, context) => {
               <Box
                 as="img"
                 height="20px"
-                src={resolveAsset(`alienorgan.png`)}
+                src={resolveAsset(`emporium.png`)}
               />
-              After that, he must do the <b>extraterrestrial experimental surgery</b>, which doesn&#39;t require any clothing to be removed.
+              Use the <b>Cellular Emporium</b> to acquire special abilities which will help you achieve your objectives.
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
-              <Box
-                as="img"
-                height="20px"
-                src={resolveAsset(`abaton.png`)}
-              />
-              The agent must be sent down by the scientist to stun and cuff a target and drag it into a hidden spot and wait for the scientist.
+              Absorbing a body will allow you to <b>readapt</b> and purchase different abilities.
             </Flex.Item>
           </Flex>
           <Divider />
           <Flex>
             <Flex.Item>
-              People wearing <b>tinfoil hats</b> are immune to the sleep effect of abductor batons.
+              <Box
+                as="img"
+                height="20px"
+                src={resolveAsset(`tentacle.png`)}
+              />
+              Although you are difficult to kill, stealth and deception is your friend. Be cautious: other changelings could have an objective to absorb you.
             </Flex.Item>
           </Flex>
         </Section>
