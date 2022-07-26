@@ -29,10 +29,10 @@
 	return ..()
 
 /datum/dynamic_ruleset/midround/from_ghosts/infiltrator/generate_ruleset_body(mob/applicant)
-	var/datum/mind/player_mind = new /datum/mind(applicant.key)
+	var/datum/mind/player_mind = applicant.mind
 	player_mind.active = TRUE
 
-	var/mob/living/carbon/human/infiltrator = new(pick(spawn_locs))
+	var/mob/living/carbon/human/infiltrator = new (pick(spawn_locs))
 	player_mind.transfer_to(infiltrator)
 	player_mind.add_antag_datum(/datum/antagonist/traitor/infiltrator)
 
