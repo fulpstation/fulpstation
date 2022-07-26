@@ -74,7 +74,7 @@ export const TipsWizardApprentice = (props, context) => {
           <Divider />
           <Flex>
             <Flex.Item>
-              <b>Healing:</b>Contains a healing staff, and the spells charge and forcewall. You can help as a support, able to heal your master's damage.
+              <b>Healing:</b>Contains a healing staff, and the spells charge and forcewall. You can help as a support, able to heal your master&#39;s damage.
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
