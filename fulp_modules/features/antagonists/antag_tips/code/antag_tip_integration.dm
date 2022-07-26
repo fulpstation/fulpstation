@@ -85,7 +85,7 @@
 	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, tip_ui_name, name)
+		ui = new(user, src, tip_ui_name, "[name] tips")
 		ui.open()
 
 /**
