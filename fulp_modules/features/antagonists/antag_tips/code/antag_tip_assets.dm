@@ -60,4 +60,5 @@
 		"scroll.png" = 'fulp_modules/features/antagonists/antag_tips/icons/scroll.png',
 		"spellbook.png" = 'fulp_modules/features/antagonists/antag_tips/icons/spellbook.png',
 		"wizard.png" = 'fulp_modules/features/antagonists/antag_tips/icons/wizard.png',
+		"mjolnir.png" = 'fulp_modules/features/antagonists/antag_tips/icons/mjolnir.png',
 	)

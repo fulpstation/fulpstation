@@ -90,7 +90,7 @@ export const TipsTraitor = (props, context) => {
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
-              The Syndicate has also given you and any other agents on board code-words which can be used to find eachother. They're highlighted in red and blue.
+              The Syndicate has also given you and any other agents on board code-words which can be used to find eachother. They&#39;re highlighted in red and blue.
             </Flex.Item>
           </Flex>
         </Section>
