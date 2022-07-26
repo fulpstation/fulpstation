@@ -23,7 +23,6 @@
 		"dagger.png" = 'fulp_modules/features/antagonists/antag_tips/icons/dagger.png',
 		"sacrune.png" = 'fulp_modules/features/antagonists/antag_tips/icons/sacrune.png',
 		//Heretic
-		"cicatrix.png" = 'fulp_modules/features/antagonists/antag_tips/icons/cicatrix.png',
 		"heart.png" = 'fulp_modules/features/antagonists/antag_tips/icons/heart.png',
 		"heretic.png" = 'fulp_modules/features/antagonists/antag_tips/icons/heretic.png',
 		"heretic_rune.png" = 'fulp_modules/features/antagonists/antag_tips/icons/heretic_rune.png',

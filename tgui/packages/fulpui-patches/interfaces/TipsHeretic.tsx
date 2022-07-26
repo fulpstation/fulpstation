@@ -36,7 +36,7 @@ export const TipsHeretic = (props, context) => {
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
-              Your antagonist UI page lays out your objectives and reseasrch paths.
+              Your antagonist UI page lays out your objectives and research paths. Once you choose a path, you are locked in it.
             </Flex.Item>
           </Flex>
           <Divider />
@@ -68,7 +68,7 @@ export const TipsHeretic = (props, context) => {
                 height="20px"
                 src={resolveAsset(`influence.png`)}
               />
-              You might find <b>influences</b> around the station, Right-Click thek with an empty hand to research them and gain knowledge, at the cost of making the influences visible to normal crew. These influences can be removed entirely using an Anomaly Neutralizer.
+              You might find <b>influences</b> around the station, Right-Click one with an empty hand to research them and gain knowledge, at the cost of making the influences visible to normal crew. These influences can be removed entirely using an Anomaly Neutralizer.
             </Flex.Item>
             <Divider vertical />
             <Flex.Item>
@@ -77,7 +77,7 @@ export const TipsHeretic = (props, context) => {
                 height="20px"
                 src={resolveAsset(`heretic_rune.png`)}
               />
-              With Mansus Grasp in your off-hand, use a pen on the ground to draw your <b>Sacrificial rune</b>. This is used for all your ritual needs.
+              With Mansus Grasp in your off-hand, use a pen on the ground to draw your <b>Sacrificial Rune</b>. This is used for all your ritual needs, such as sacrificing targets.
             </Flex.Item>
           </Flex>
         </Section>
