@@ -173,18 +173,18 @@
 /obj/item/stake/attack(mob/living/target, mob/living/user, params)
 	. = ..()
 	if(.)
-		return TRUE
+		return
 	// Invalid Target, or not targetting the chest?
 	if(check_zone(user.zone_selected) != BODY_ZONE_CHEST)
-		return TRUE
+		return
 	if(target == user)
-		return TRUE
+		return
 	if(!target.can_be_staked()) // Oops! Can't.
 		to_chat(user, span_danger("You can't stake [target] when they are moving about! They have to be laying down or grabbed by the neck!"))
-		return TRUE
+		return
 	if(HAS_TRAIT(target, TRAIT_PIERCEIMMUNE))
 		to_chat(user, span_danger("[target]'s chest resists the stake. It won't go in."))
-		return TRUE
+		return
 
 	to_chat(user, span_notice("You put all your weight into embedding the stake into [target]'s chest..."))
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
@@ -196,9 +196,8 @@
 		span_danger("You drive the [src] into [target]'s chest!"),
 	)
 	playsound(get_turf(target), 'sound/effects/splat.ogg', 40, 1)
-//	user.dropItemToGround(src, TRUE)
 	if(tryEmbed(target.get_bodypart(BODY_ZONE_CHEST), TRUE, TRUE)) //and if it embeds successfully in their chest, cause a lot of pain
-		target.apply_damage(max(10, force * 1.5), BRUTE, BODY_ZONE_CHEST, wound_bonus = 0, sharpness = TRUE)
+		target.apply_damage(max(10, force * 1.2), BRUTE, BODY_ZONE_CHEST, wound_bonus = 0, sharpness = TRUE)
 	if(QDELETED(src)) // in case trying to embed it caused its deletion (say, if it's DROPDEL)
 		return
 	if(!target.mind)
