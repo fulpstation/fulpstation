@@ -156,7 +156,7 @@
 
 /datum/objective/kill_pet/check_completion()
 	if(target_pet)
-		return completed || (target_pet.stat == DEAD) || !locate(target_pet) in GLOB.mob_living_list
+		return completed || (target_pet.stat == DEAD) || !locate(target_pet.type) in GLOB.mob_living_list
 	return TRUE
 
 //scientist killing
