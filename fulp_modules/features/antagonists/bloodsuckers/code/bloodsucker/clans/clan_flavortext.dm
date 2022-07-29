@@ -25,3 +25,10 @@
 		The Favorite Vassal gains the Mesmerize ability."
 	joinable_clan = FALSE
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY
+
+/datum/bloodsucker_clan/brujah
+	name = CLAN_BRUJAH
+	description = "The Brujah Clan is as basic as you can get with Bloodsuckers. \n\
+		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. \n\
+		The Favorite Vassal will gain the Brawn ability, to help in combat."
+	joinable_clan = FALSE

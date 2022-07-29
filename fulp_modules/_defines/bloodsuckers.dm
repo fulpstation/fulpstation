@@ -36,6 +36,7 @@
 /**
  * Clan defines
  */
+#define CLAN_NONE "Caitiff"
 #define CLAN_BRUJAH "Brujah Clan"
 #define CLAN_TOREADOR "Toreador Clan"
 #define CLAN_NOSFERATU "Nosferatu Clan"
@@ -49,7 +50,7 @@
  */
 /// This Power can't be used in Torpor
 #define BP_CANT_USE_IN_TORPOR (1<<0)
-/// This Power can't be used in Frenzy unless you're part of Brujah
+/// This Power can't be used in Frenzy.
 #define BP_CANT_USE_IN_FRENZY (1<<1)
 /// This Power can't be used with a stake in you
 #define BP_CANT_USE_WHILE_STAKED (1<<2)
