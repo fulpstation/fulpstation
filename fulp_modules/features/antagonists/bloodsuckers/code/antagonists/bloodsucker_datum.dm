@@ -292,8 +292,8 @@
 	return data
 
 /datum/antagonist/bloodsucker/ui_static_data(mob/user)
-	. = ..()
 	var/list/data = list()
+	data += ..()
 	//we don't need to update this that much.
 	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
 		var/list/power_data = list()
