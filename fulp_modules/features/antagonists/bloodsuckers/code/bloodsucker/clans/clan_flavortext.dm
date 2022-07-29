@@ -28,7 +28,8 @@
 
 /datum/bloodsucker_clan/brujah
 	name = CLAN_BRUJAH
-	description = "The Brujah Clan is as basic as you can get with Bloodsuckers. \n\
-		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. \n\
-		The Favorite Vassal will gain the Brawn ability, to help in combat."
+	description = "The Brujah Clan has proven to be the strongest in melee combat, boasting a powerful punch. \n\
+		They also appear to be more calm than the others, entering their 'frenzies' whenever they want, but dont seem affected much by them. \n\
+		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy. \n\
+		The Favorite Vassal gains brawn and a massive increase in brute damage from punching."
 	joinable_clan = FALSE
