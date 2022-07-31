@@ -6,6 +6,7 @@
 
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 
+- code/datums/greyscale/_grayscale_config.dm > Adds fulp_modules/strings/greyscale to the list of allowed locations for greyscale configs
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
 - code/modules/mob/living/carbon/human/examine.dm > Changes examine text for Beefmen || Added examining Bloodsuckers/Vassals
