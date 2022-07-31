@@ -200,10 +200,10 @@
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "joseph_scarf"
-	greyscale_colors = NULL
-	greyscale_config = NULL
-	greyscale_config_worn = NULL
-	flags_1 = NULL
+	greyscale_colors = null
+	greyscale_config = null
+	greyscale_config_worn = null
+	flags_1 = null
 
 /obj/item/clothing/shoes/tricksters_boots
 	name = "trickster's boots"
