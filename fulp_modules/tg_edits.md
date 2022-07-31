@@ -6,7 +6,6 @@
 
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 
-- code/datums/greyscale/json_config/fulpstation > adds our GAGS configs
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
 - code/modules/mob/living/carbon/human/examine.dm > Changes examine text for Beefmen || Added examining Bloodsuckers/Vassals
