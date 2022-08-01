@@ -1,5 +1,5 @@
 /mob/living/simple_animal/hostile/gorilla/albino
-	name = "Albino Gorilla"
+	name = "albino gorilla"
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/gorilla.dmi'
 	maxHealth = 170
 	health = 170
