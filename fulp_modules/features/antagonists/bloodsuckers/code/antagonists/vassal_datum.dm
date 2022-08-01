@@ -69,7 +69,17 @@
 	owner.current.log_message("has been deconverted from Vassalization by [implanter]!", LOG_ATTACK, color="#960000")
 	return COMPONENT_MINDSHIELD_DECONVERTED
 
+/datum/antagonist/vassal/proc/on_examine(datum/source, mob/examiner, examine_text)
+	SIGNAL_HANDLER
+
+	if(!iscarbon(source))
+		return
+	var/mob/living/carbon/carbon_source = source
+	var/vassal_examine = carbon_source.ReturnVassalExamine(examiner)
+	examine_text += vassal_examine
+
 /datum/antagonist/vassal/on_gain()
+	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
 	/// Enslave them to their Master
 	if(master)
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -86,9 +96,10 @@
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
-	. = ..()
+	return ..()
 
 /datum/antagonist/vassal/on_removal()
+	UnregisterSignal(owner.current, COMSIG_PARENT_EXAMINE)
 	//Free them from their Master
 	if(master && master.owner)
 		master.vassals -= src
@@ -131,9 +142,8 @@
 /datum/antagonist/vassal/farewell()
 	owner.current.visible_message(
 		span_deconversion_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm, \
-		like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self."),
-	)
-	to_chat(owner, span_deconversion_message("With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will."))
+			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self."), \
+		span_deconversion_message("With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will."))
 	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	/// Message told to your (former) Master.
 	if(master && master.owner)
@@ -148,25 +158,13 @@
 	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 
-	// Now let's give them their assigned bonuses.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
-		BuyPower(new /datum/action/cooldown/bloodsucker/targeted/brawn)
-	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
-		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
-		to_chat(owner, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
-	if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
-		var/datum/action/cooldown/spell/shapeshift/bat/batform = new()
-		batform.Grant(owner.current)
-	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
-		to_chat(master, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
-		BuyPower(new /datum/action/cooldown/bloodsucker/distress)
-	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
-		var/mob/living/carbon/carbonowner = owner.current
-		carbonowner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
-		carbonowner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-		to_chat(owner, span_notice("Additionally, you now suffer the same fate as your Master."))
+	SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
+
+///Set the Vassal's rank to their Bloodsucker level
+/datum/antagonist/vassal/proc/set_vassal_level(mob/living/carbon/human/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
+	bloodsuckerdatum.bloodsucker_level = vassal_level
 
 /// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)

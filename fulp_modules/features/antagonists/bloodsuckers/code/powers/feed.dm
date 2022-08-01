@@ -5,15 +5,15 @@
 	name = "Feed"
 	desc = "Feed blood off of a living creature."
 	button_icon_state = "power_feed"
-	power_explanation = "<b>Feed</b>:\n\
-		NOTE: Feed can't be used until you reach your first Bloodsucker level.\n\
+	power_explanation = "Feed:\n\
+		Feed can't be used until you reach your first Bloodsucker level.\n\
 		Activate Feed while next to someone and you will begin to feed blood off of them.\n\
 		The time needed before you start feeding speeds up the higher level you are.\n\
-		Feeding off of someone while you have them <b>aggressively</b> grabbed will put them to sleep.\n\
+		Feeding off of someone while you have them aggressively grabbed will put them to sleep.\n\
 		While feeding, you can't speak, as your mouth is covered.\n\
 		Feeding while nearby (2 tiles away from) a mortal who is unaware of Bloodsuckers' existence, will cause a Masquerade Infraction\n\
-		If you get too many Masquerade Infractions, you will <b>break the Masquerade</b>.\n\
-		If you are in desperate need of blood, <b>mice</b> can be fed off of, at a cost."
+		If you get too many Masquerade Infractions, you will break the Masquerade.\n\
+		If you are in desperate need of blood, mice can be fed off of, at a cost."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY
@@ -72,7 +72,7 @@
 	var/mob/living/feed_target = target_ref.resolve()
 	if(istype(feed_target, /mob/living/simple_animal/mouse) || istype(feed_target, /mob/living/simple_animal/hostile/rat))
 		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))
-		if(bloodsuckerdatum_power.my_clan != CLAN_NOSFERATU && bloodsuckerdatum_power.my_clan != CLAN_MALKAVIAN)
+		if(bloodsuckerdatum_power.my_clan.blood_drink_type != BLOODSUCKER_DRINK_INHUMANELY)
 			SEND_SIGNAL(owner, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 			bloodsuckerdatum_power.AddHumanityLost(1)
 		bloodsuckerdatum_power.AddBloodVolume(25)
@@ -145,7 +145,7 @@
 	if(feed_strength_mult > 5 && feed_target.stat < DEAD)
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood)
 	// Drank mindless as Ventrue? - BAD
-	if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE && !feed_target.mind)
+	if((bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY) && !feed_target.mind)
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
 	if(feed_target.stat >= DEAD)
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_dead)
@@ -203,7 +203,7 @@
 
 /datum/action/cooldown/bloodsucker/feed/proc/can_feed_from(mob/living/target, give_warnings = FALSE)
 	if(istype(target, /mob/living/simple_animal/mouse) || istype(target, /mob/living/simple_animal/hostile/rat))
-		if(bloodsuckerdatum_power.my_clan == CLAN_VENTRUE)
+		if(bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY)
 			if(give_warnings)
 				to_chat(owner, span_warning("The thought of feeding off of a dirty rat leaves your stomach aching."))
 			return FALSE
@@ -221,7 +221,7 @@
 		if(give_warnings)
 			to_chat(owner, span_warning("Their suit is too thick to feed through."))
 		return FALSE
-	if(!target_user.mind && (bloodsuckerdatum_power.my_clan == CLAN_VENTRUE && !bloodsuckerdatum_power.frenzied))
+	if((bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY) && !target_user.mind && !bloodsuckerdatum_power.frenzied)
 		if(give_warnings)
 			to_chat(owner, span_warning("The thought of drinking blood from the mindsless leaves a distasteful feeling in your mouth."))
 		return FALSE

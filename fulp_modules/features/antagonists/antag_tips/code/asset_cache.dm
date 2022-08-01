@@ -9,8 +9,6 @@
 		"bloodsucker.png" = 'fulp_modules/features/antagonists/antag_tips/icons/bloodsucker.png',
 		"coffin.png" = 'fulp_modules/features/antagonists/antag_tips/icons/coffin.png',
 		"day.png" = 'fulp_modules/features/antagonists/antag_tips/icons/day.png', // Also used in Vassal
-		"vassalrack.png" = 'fulp_modules/features/antagonists/antag_tips/icons/vassalrack.png',
-		"masquerade.png" = 'fulp_modules/features/antagonists/antag_tips/icons/masquerade.png',
 		//Changeling
 		"absorb.png" = 'fulp_modules/features/antagonists/antag_tips/icons/absorb.png',
 		"changeling.png" = 'fulp_modules/features/antagonists/antag_tips/icons/changeling.png',

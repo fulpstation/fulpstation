@@ -10,6 +10,9 @@ export const KindredArchives = (props, context) => {
         <Section title="What Clan are you dealing with?">
           {data.name}
           <LabeledList>
+            <LabeledList.Item label="Caitiff">
+              <Button content="Brujah" onClick={() => act('Caitiff')} />
+            </LabeledList.Item>
             <LabeledList.Item label="Brujah Clan">
               <Button content="Brujah" onClick={() => act('Brujah Clan')} />
             </LabeledList.Item>

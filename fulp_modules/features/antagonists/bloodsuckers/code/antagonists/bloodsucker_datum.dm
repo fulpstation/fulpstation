@@ -18,6 +18,8 @@
 	/// How much blood we can have at once, increases per level.
 	var/max_blood_volume = 600
 
+	var/datum/bloodsucker_clan/my_clan
+
 	// TIMERS //
 	///Timer between alerts for Burn messages
 	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
@@ -48,8 +50,6 @@
 	var/datum/team/vampireclan/clan
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab = new
-	///You get assigned a Clan once you Rank up enough
-	var/my_clan = NONE
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
@@ -109,17 +109,6 @@
 		TRAIT_TOXIMMUNE,
 		TRAIT_HARDLY_WOUNDED,
 	)
-
-/mob/living/proc/explain_powers()
-	set name = "Bloodsucker Help"
-	set category = "Mentor"
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/choice = tgui_input_list(usr, "What Power are you looking into?", "Mentorhelp v2", bloodsuckerdatum.powers)
-	if(!choice)
-		return
-	var/datum/action/cooldown/bloodsucker/power = choice
-	to_chat(usr, span_warning("[power.power_explanation]"))
 
 /// These handles the application of antag huds/special abilities
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
@@ -194,6 +183,7 @@
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
+	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
 	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
 	else
@@ -212,9 +202,10 @@
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
-	/// End Sunlight? (if last Vamp)
-	clan.check_cancel_sunlight()
+	UnregisterSignal(owner.current, COMSIG_PARENT_EXAMINE)
 	ClearAllPowersAndStats()
+	clan.check_cancel_sunlight() //check if sunlight should end
+	QDEL_NULL(my_clan)
 	return ..()
 
 /datum/antagonist/bloodsucker/on_body_transfer(mob/living/old_body, mob/living/new_body)
@@ -249,7 +240,7 @@
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
-	var/fullname = ReturnFullName(TRUE)
+	var/fullname = ReturnFullName()
 	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
@@ -285,6 +276,49 @@
 	final_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
 
 	return finish_preview_icon(final_icon)
+
+/datum/antagonist/bloodsucker/ui_data(mob/user)
+	var/list/data = list()
+
+	data["in_clan"] = !!my_clan
+	var/list/clan_data = list()
+	if(my_clan)
+		clan_data["clan_name"] = my_clan.name
+		clan_data["clan_description"] = my_clan.description
+		clan_data["clan_icon"] = my_clan.join_icon_state
+
+	data["clan"] += list(clan_data)
+
+	return data
+
+/datum/antagonist/bloodsucker/ui_static_data(mob/user)
+	var/list/data = list()
+	//we don't need to update this that much.
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
+		var/list/power_data = list()
+
+		power_data["power_name"] = power.name
+		power_data["power_explanation"] = power.power_explanation
+		power_data["power_icon"] = power.button_icon_state
+
+		data["power"] += list(power_data)
+
+	return data + ..()
+
+/datum/antagonist/bloodsucker/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/simple/bloodsucker_icons),
+	)
+
+/datum/antagonist/bloodsucker/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+
+	switch(action)
+		if("join_clan")
+			AssignClanAndBane()
+			return
 
 /**
  *	# Vampire Clan
@@ -335,11 +369,11 @@
 	// Get the default Objectives
 	var/list/report = list()
 	// Vamp name
-	report += "<br><span class='header'><b>\[[ReturnFullName(TRUE)]\]</b></span>"
+	report += "<br><span class='header'><b>\[[ReturnFullName()]\]</b></span>"
 	report += printplayer(owner)
-	// Clan (Actual Clan, not Team) name
-	if(my_clan != NONE)
-		report += "They were part of the <b>[my_clan]</b>!"
+	if(my_clan)
+		// Clan (Actual Clan, not Team) name
+		report += "They were part of the <b>[my_clan.name]</b>!"
 
 	// Default Report
 	var/objectives_complete = TRUE
@@ -405,7 +439,6 @@
 	BuyPower(new /datum/action/cooldown/bloodsucker/masquerade)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/cooldown/bloodsucker/veil)
-	add_verb(owner.current, /mob/living/proc/explain_powers)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
@@ -431,7 +464,6 @@
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	// Powers
-	remove_verb(owner.current, /mob/living/proc/explain_powers)
 	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		RemovePower(all_powers)
 	/// Stats
@@ -471,21 +503,23 @@
 		to_chat(owner.current, span_cultbold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
-	set waitfor = FALSE
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(owner.current)
 	if(!owner || !owner.current || vassaldatum)
 		return
 	bloodsucker_level_unspent++
+	if(!my_clan)
+		to_chat(owner.current, span_notice("You have gained a rank. Join a Clan to spend it."))
+		return
 	// Spend Rank Immediately?
-	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-		if(my_clan == CLAN_VENTRUE)
-			to_chat(owner, span_announce("You have recieved a new Rank to level up your Favorite Vassal with!"))
+	if(my_clan.rank_up_type == BLOODSUCKER_RANK_UP_NORMAL)
+		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+			to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</EM>"))
+			if(bloodsucker_level_unspent >= 2)
+				to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
 			return
 		SpendRank()
-	else
-		to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</EM>"))
-		if(bloodsucker_level_unspent >= 2)
-			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
+	if(my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
+		to_chat(owner, span_announce("You have recieved a new Rank to level up your Favorite Vassal with!"))
 
 /datum/antagonist/bloodsucker/proc/RankDown()
 	bloodsucker_level_unspent--
@@ -509,160 +543,11 @@
 			if(power.active)
 				power.DeactivatePower()
 
-#define PURCHASE_VASSAL "Vassal"
-#define PURCHASE_TREMERE "Tremere"
-#define PURCHASE_DEFAULT "Default"
-
-/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, spend_rank = TRUE, spend_blood = FALSE)
-	set waitfor = FALSE
-
-	var/datum/antagonist/vassal/vassaldatum = target?.mind.has_antag_datum(/datum/antagonist/vassal)
-	if(!owner || !owner.current || !owner.current.client || (spend_rank && bloodsucker_level_unspent <= 0))
+/datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, cost_rank = TRUE, blood_cost)
+	if(!owner || !owner.current || !owner.current.client || (cost_rank && bloodsucker_level_unspent <= 0))
 		return
-	//Who am I purchasing Powers for?
-	var/power_mode = PURCHASE_DEFAULT
-	var/upgrade_message = "You have the opportunity to grow more ancient. Select a power to advance your Rank."
-	if(target)
-		power_mode = PURCHASE_VASSAL
-		upgrade_message = "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve."
-	if(my_clan == CLAN_TREMERE)
-		power_mode = PURCHASE_TREMERE
-		upgrade_message = "You have the opportunity to grow more ancient. Select a power you wish to upgrade."
-	// Purchase Power Prompt
-	var/list/options = list()
-	switch(power_mode)
-		if(PURCHASE_DEFAULT)
-			for(var/datum/action/cooldown/bloodsucker/power as anything in all_bloodsucker_powers)
-				if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in powers))
-					options[initial(power.name)] = power
-		if(PURCHASE_VASSAL)
-			for(var/datum/action/cooldown/bloodsucker/power as anything in all_bloodsucker_powers)
-				if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
-					options[initial(power.name)] = power
-		if(PURCHASE_TREMERE)
-			for(var/datum/action/cooldown/bloodsucker/targeted/tremere/power as anything in powers)
-				if(!(power.purchase_flags & TREMERE_CAN_BUY))
-					continue
-				if(isnull(power.upgraded_power))
-					continue
-				options[initial(power.name)] = power
 
-	if(options.len < 1)
-		to_chat(owner.current, span_notice("You grow more ancient by the night!"))
-	else
-		// Give them the UI to purchase a power.
-		var/choice = tgui_input_list(owner.current, upgrade_message, "Your Blood Thickens...", options)
-		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-		if(spend_rank && bloodsucker_level_unspent <= 0)
-			return
-		// Did you choose a power?
-		if(!choice || !options[choice])
-			to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
-			return
-		if(power_mode != PURCHASE_TREMERE)
-			// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
-			if((locate(options[choice]) in (power_mode == PURCHASE_VASSAL ? vassaldatum.powers : powers)))
-				to_chat(owner.current, span_notice("You prevent your blood from thickening just yet, but you may try again later."))
-				return
-		if(power_mode != PURCHASE_VASSAL)
-			// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
-			if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-				to_chat(owner.current, span_warning("You must be in your Coffin to purchase Powers."))
-				return
-
-		// Good to go - Buy Power!
-		var/datum/action/cooldown/bloodsucker/purchased_power = options[choice]
-		switch(power_mode)
-			if(PURCHASE_DEFAULT)
-				BuyPower(new purchased_power)
-				owner.current.balloon_alert(owner.current, "learned [choice]!")
-				to_chat(owner.current, span_notice("You have learned how to use [choice]!"))
-			if(PURCHASE_VASSAL)
-				vassaldatum.BuyPower(new purchased_power)
-				owner.current.balloon_alert(owner.current, "taught [choice]!")
-				to_chat(owner.current, span_notice("You taught [target] how to use [choice]!"))
-				target.balloon_alert(target, "learned [choice]!")
-				to_chat(target, span_notice("Your master taught you how to use [choice]!"))
-			if(PURCHASE_TREMERE)
-				var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_power = purchased_power
-				if(isnull(tremere_power.upgraded_power))
-					owner.current.balloon_alert(owner.current, "cannot upgrade [choice]!")
-					to_chat(owner.current, span_notice("[choice] is already at max level!"))
-					return
-				BuyPower(new tremere_power.upgraded_power)
-				RemovePower(tremere_power)
-				owner.current.balloon_alert(owner.current, "upgraded [choice]!")
-				to_chat(owner.current, span_notice("You have upgraded [choice]!"))
-
-	// Advance Powers - Includes the one you just purchased.
-	LevelUpPowers()
-	vassaldatum?.LevelUpPowers()
-	// Bloodsucker-only Stat upgrades
-	bloodsucker_regen_rate += 0.05
-	max_blood_volume += 100
-	// Misc. Stats Upgrades
-	if(ishuman(owner.current))
-		var/mob/living/carbon/human/user = owner.current
-		var/datum/species/user_species = user.dna.species
-		user_species.punchdamagelow += 0.5
-		// This affects the hitting power of Brawn.
-		user_species.punchdamagehigh += 0.5
-
-	// We're almost done - Spend your Rank now.
-	vassaldatum?.vassal_level++
-	bloodsucker_level++
-	if(spend_rank)
-		bloodsucker_level_unspent--
-	if(spend_blood)
-		bloodsucker_blood_volume -= 550
-
-	// Ranked up enough? Let them join a Clan.
-	if(bloodsucker_level == 3)
-		AssignClanAndBane()
-	// Ranked up enough to get your true Reputation?
-	if(bloodsucker_level == 4)
-		SelectReputation(am_fledgling = FALSE, forced = TRUE)
-	if(power_mode == PURCHASE_VASSAL)
-		if(vassaldatum.vassal_level == 2)
-			ADD_TRAIT(target, TRAIT_COLDBLOODED, BLOODSUCKER_TRAIT)
-			ADD_TRAIT(target, TRAIT_NOBREATH, BLOODSUCKER_TRAIT)
-			ADD_TRAIT(target, TRAIT_AGEUSIA, BLOODSUCKER_TRAIT)
-			to_chat(target, span_notice("Your blood begins to feel cold, and as a mote of ash lands upon your tongue, you stop breathing..."))
-		if(vassaldatum.vassal_level == 3)
-			ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
-			ADD_TRAIT(target, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-			to_chat(target, span_notice("You feel your Master's blood reinforce you, strengthening you up."))
-		if(vassaldatum.vassal_level == 4)
-			ADD_TRAIT(target, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-			ADD_TRAIT(target, TRAIT_VIRUSIMMUNE, BLOODSUCKER_TRAIT)
-			to_chat(target, span_notice("You feel your Master's blood begin to protect you from bacteria."))
-			target.skin_tone = "albino"
-		if(vassaldatum.vassal_level == 5)
-			ADD_TRAIT(target, TRAIT_NOHARDCRIT, BLOODSUCKER_TRAIT)
-			ADD_TRAIT(target, TRAIT_HARDLY_WOUNDED, BLOODSUCKER_TRAIT)
-			to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
-		if(vassaldatum.vassal_level == 6)
-			to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead."))
-			target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
-			SEND_SIGNAL(owner.current, COMSIG_ADD_MOOD_EVENT, "madevamp", /datum/mood_event/madevamp)
-		if(vassaldatum.vassal_level >= 6) // We're a Bloodsucker now, lets update our Rank hud from now on.
-			set_vassal_level(target)
-
-	// Done! Let them know & Update their HUD.
-	to_chat(owner.current, span_notice("You are now a rank [bloodsucker_level] Bloodsucker. Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased!\n\
-	* Your existing powers have all ranked up as well!"))
-	update_hud()
-	owner.current.playsound_local(null, 'sound/effects/pope_entry.ogg', 25, TRUE, pressure_affected = FALSE)
-
-#undef PURCHASE_VASSAL
-#undef PURCHASE_TREMERE
-#undef PURCHASE_DEFAULT
-
-///Set the Vassal's rank to their Bloodsucker level
-/datum/antagonist/bloodsucker/proc/set_vassal_level(mob/living/carbon/human/target)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
-	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
-	bloodsuckerdatum.bloodsucker_level = vassaldatum.vassal_level
+	SEND_SIGNAL(my_clan, BLOODSUCKER_RANK_UP, src, target, cost_rank, blood_cost)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -700,7 +585,7 @@
 
 /// Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
-	return ..() + "([ReturnFullName(TRUE)])"
+	return ..() + "([ReturnFullName()])"
 
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
@@ -709,7 +594,7 @@
 		return "<font color=red>Final Death</font>"
 	return ..()
 
-/*
+/**
  *	# Bloodsucker Names
  *
  *	All Bloodsuckers get a name, and gets a better one when they hit Rank 4.
@@ -747,15 +632,34 @@
 	if(!forced && bloodsucker_title != null)
 		return
 	// Titles [Master]
-	if(!am_fledgling)
-		if(owner.current.gender == MALE)
-			bloodsucker_title = pick ("Count","Baron","Viscount","Prince","Duke","Tzar","Dreadlord","Lord","Master")
-		else
-			bloodsucker_title = pick ("Countess","Baroness","Viscountess","Princess","Duchess","Tzarina","Dreadlady","Lady","Mistress")
-		to_chat(owner, span_announce("You have earned a title! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
-	// Titles [Fledgling]
-	else
+	if(am_fledgling)
 		bloodsucker_title = null
+		return
+	if(owner.current.gender == MALE)
+		bloodsucker_title = pick(
+			"Count",
+			"Baron",
+			"Viscount",
+			"Prince",
+			"Duke",
+			"Tzar",
+			"Dreadlord",
+			"Lord",
+			"Master",
+		)
+	else
+		bloodsucker_title = pick(
+			"Countess",
+			"Baroness",
+			"Viscountess",
+			"Princess",
+			"Duchess",
+			"Tzarina",
+			"Dreadlady",
+			"Lady",
+			"Mistress",
+		)
+	to_chat(owner, span_announce("You have earned a title! You are now known as <i>[ReturnFullName()]</i>!"))
 
 /datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = FALSE, forced = FALSE)
 	// Already have Reputation
@@ -764,15 +668,48 @@
 
 	if(am_fledgling)
 		bloodsucker_reputation = pick(
-			"Crude","Callow","Unlearned","Neophyte","Novice","Unseasoned",
-			"Fledgling","Young","Neonate","Scrapling","Untested","Unproven",
-			"Unknown","Newly Risen","Born","Scavenger","Unknowing","Unspoiled",
-			"Disgraced","Defrocked","Shamed","Meek","Timid","Broken","Fresh",
+			"Crude",
+			"Callow",
+			"Unlearned",
+			"Neophyte",
+			"Novice",
+			"Unseasoned",
+			"Fledgling",
+			"Young",
+			"Neonate",
+			"Scrapling",
+			"Untested",
+			"Unproven",
+			"Unknown",
+			"Newly Risen",
+			"Born",
+			"Scavenger",
+			"Unknowing",
+			"Unspoiled",
+			"Disgraced",
+			"Defrocked",
+			"Shamed",
+			"Meek",
+			"Timid",
+			"Broken",
+			"Fresh",
 		)
 	else if(owner.current.gender == MALE && prob(10))
-		bloodsucker_reputation = pick("King of the Damned", "Blood King", "Emperor of Blades", "Sinlord", "God-King")
+		bloodsucker_reputation = pick(
+			"King of the Damned",
+			"Blood King",
+			"Emperor of Blades",
+			"Sinlord",
+			"God-King",
+		)
 	else if(owner.current.gender == FEMALE && prob(10))
-		bloodsucker_reputation = pick("Queen of the Damned", "Blood Queen", "Empress of Blades", "Sinlady", "God-Queen")
+		bloodsucker_reputation = pick(
+			"Queen of the Damned",
+			"Blood Queen",
+			"Empress of Blades",
+			"Sinlady",
+			"God-Queen",
+		)
 	else
 		bloodsucker_reputation = pick(
 			"Butcher","Blood Fiend","Crimson","Red","Black","Terror",
@@ -786,19 +723,17 @@
 			"Corrupt","Hellspawn","Tyrant","Sanguineous",
 		)
 
-	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName(TRUE)]</i>!"))
+	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName()]</i>!"))
 
-/datum/antagonist/bloodsucker/proc/ReturnFullName(include_rep = FALSE)
+/datum/antagonist/bloodsucker/proc/ReturnFullName()
 
-	var/fullname
-	// Name First
-	fullname = (bloodsucker_name ? bloodsucker_name : owner.current.name)
+	var/fullname = bloodsucker_name ? bloodsucker_name : owner.current.name
 	// Title
 	if(bloodsucker_title)
-		fullname = bloodsucker_title + " " + fullname
+		fullname = "[bloodsucker_title] [fullname]"
 	// Rep
-	if(include_rep && bloodsucker_reputation)
-		fullname = fullname + " the " + bloodsucker_reputation
+	if(bloodsucker_reputation)
+		fullname += " the [bloodsucker_reputation]"
 
 	return fullname
 
@@ -812,21 +747,17 @@
 	broke_masquerade = TRUE
 	antag_hud_name = "masquerade_broken"
 	add_team_hud(owner.current)
-	for(var/datum/mind/clan_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-		if(owner == clan_minds)
+	for(var/mob/living/all_malkavians as anything in GLOB.bloodsucker_clan_members[CLAN_MALKAVIAN])
+		if(!isliving(all_malkavians))
 			continue
-		if(!isliving(clan_minds.current))
-			continue
-		to_chat(clan_minds, span_userdanger("[owner.current] has broken the Masquerade! Ensure [owner.current.p_they()] [owner.current.p_are()] eliminated at all costs!"))
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = clan_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum.my_clan != CLAN_MALKAVIAN)
-			continue
+		to_chat(all_malkavians, span_userdanger("[owner.current] has broken the Masquerade! Ensure [owner.current.p_they()] [owner.current.p_are()] eliminated at all costs!"))
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = all_malkavians.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
 		masquerade_objective.target = owner.current
 		masquerade_objective.objective_name = "Clan Objective"
 		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, succumbs to Final Death."
 		bloodsuckerdatum.objectives += masquerade_objective
-		clan_minds.announce_objectives()
+		all_malkavians.mind.announce_objectives()
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
 /datum/antagonist/bloodsucker/proc/fix_masquerade()
@@ -834,87 +765,3 @@
 		return
 	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))
 	broke_masquerade = FALSE
-
-
-/////////////////////////////////////
-//  BLOOD COUNTER & RANK MARKER !  //
-/////////////////////////////////////
-
-/atom/movable/screen/bloodsucker
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
-
-///Updates the counter on said HUD
-/atom/movable/screen/bloodsucker/proc/update_counter()
-
-/atom/movable/screen/bloodsucker/blood_counter
-	name = "Blood Consumed"
-	icon_state = "blood_display"
-	screen_loc = ui_blood_display
-
-/atom/movable/screen/bloodsucker/rank_counter
-	name = "Bloodsucker Rank"
-	icon_state = "rank"
-	screen_loc = ui_vamprank_display
-
-/atom/movable/screen/bloodsucker/sunlight_counter
-	name = "Solar Flare Timer"
-	icon_state = "sunlight_night"
-	screen_loc = ui_sunlight_display
-
-/// Update Blood Counter + Rank Counter
-/datum/antagonist/bloodsucker/proc/update_hud()
-	var/valuecolor
-	if(bloodsucker_blood_volume > BLOOD_VOLUME_SAFE)
-		valuecolor = "#FFDDDD"
-	else if(bloodsucker_blood_volume > BLOOD_VOLUME_BAD)
-		valuecolor = "#FFAAAA"
-
-	if(blood_display)
-		blood_display.update_counter(bloodsucker_blood_volume, valuecolor)
-
-	if(vamprank_display)
-		if(bloodsucker_level_unspent > 0)
-			vamprank_display.icon_state = "rank_up"
-		else
-			vamprank_display.icon_state = "rank"
-		vamprank_display.update_counter(bloodsucker_level, valuecolor)
-
-/// Update Sun Time
-/datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
-	if(!sunlight_display)
-		return
-	var/valuecolor
-	var/sunlight_display_icon = "sunlight_"
-	if(amDay)
-		sunlight_display_icon += "day"
-		valuecolor = "#FF5555"
-	else
-		switch(round(value, 1))
-			if(0 to 30)
-				sunlight_display_icon += "30"
-				valuecolor = "#FFCCCC"
-			if(31 to 60)
-				sunlight_display_icon += "60"
-				valuecolor = "#FFE6CC"
-			if(61 to 90)
-				sunlight_display_icon += "90"
-				valuecolor = "#FFFFCC"
-			else
-				sunlight_display_icon += "night"
-				valuecolor = "#FFFFFF"
-
-	var/value_string = (value >= 60) ? "[round(value / 60, 1)] m" : "[round(value, 1)] s"
-	sunlight_display.update_counter(value_string, valuecolor)
-	sunlight_display.icon_state = sunlight_display_icon
-
-/atom/movable/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
-	. = ..()
-	maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, value)
-
-/atom/movable/screen/bloodsucker/rank_counter/update_counter(value, valuecolor)
-	. = ..()
-	maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, value)
-
-/atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
-	. = ..()
-	maptext = FORMAT_BLOODSUCKER_SUNLIGHT_TEXT(valuecolor, value)

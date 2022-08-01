@@ -2,7 +2,7 @@
 	name = "Predatory Lunge"
 	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
 	button_icon_state = "power_lunge"
-	power_explanation = "<b>Predatory Lunge</b>:\n\
+	power_explanation = "Predatory Lunge:\n\
 		Click any player to, after a short delay, dash at them.\n\
 		When lunging at someone, you will grab them, immediately starting off at aggressive.\n\
 		There is an exception to this, those wearing Riot gear, and Monster Hunters, will be passively grabbed instead.\n\

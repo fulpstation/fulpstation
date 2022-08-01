@@ -2,7 +2,7 @@
 	name = "Brawn"
 	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
 	button_icon_state = "power_strength"
-	power_explanation = "<b>Brawn</b>:\n\
+	power_explanation = "Brawn:\n\
 		Click any person to bash into them, break restraints you have or knocking a grabber down. Only one of these can be done per use.\n\
 		Punching a Cyborg will heavily EMP them in addition to deal damage.\n\
 		At level 3, you get the ability to break closets open, additionally can both break restraints AND knock a grabber down in the same use.\n\
