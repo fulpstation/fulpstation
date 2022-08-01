@@ -1,4 +1,4 @@
-/datum/action/cooldown/bloodsucker/brujah
+/datum/action/bloodsucker/brujah
 	name = "Frenzy"
 	desc = "Allow the Monster deep-inside of you, run free."
 	button_icon_state = "power_brujah"
@@ -12,7 +12,7 @@
 	bloodcost = 2
 	cooldown = 10 SECONDS
 
-/datum/action/cooldown/bloodsucker/brujah/ActivatePower()
+/datum/action/bloodsucker/brujah/ActivatePower()
 	if(active && bloodsuckerdatum_power && bloodsuckerdatum_power.frenzied)
 		owner.balloon_alert(owner, "already in a frenzy!")
 		return FALSE
@@ -20,12 +20,12 @@
 	user.apply_status_effect(/datum/status_effect/frenzy)
 	return ..()
 
-/datum/action/cooldown/bloodsucker/brujah/DeactivatePower()
+/datum/action/bloodsucker/brujah/DeactivatePower()
 	. = ..()
 	var/mob/living/user = owner
 	user.remove_status_effect(/datum/status_effect/frenzy)
 
-/datum/action/cooldown/bloodsucker/brujah/CheckCanDeactivate()
+/datum/action/bloodsucker/brujah/CheckCanDeactivate()
 	if(bloodsuckerdatum_power.bloodsucker_blood_volume < FRENZY_THRESHOLD_EXIT)
 		owner.balloon_alert(owner, "not enough blood!")
 		return FALSE

@@ -3,7 +3,7 @@
 #define GOHOME_FLICKER_TWO 4
 #define GOHOME_TELEPORT 6
 
-/datum/action/cooldown/bloodsucker/gohome
+/datum/action/bloodsucker/gohome
 	name = "Vanishing Act"
 	desc = "As dawn aproaches, disperse into mist and return directly to your Lair.<br><b>WARNING:</b> You will drop <b>ALL</b> of your possessions if observed by mortals."
 	button_icon_state = "power_gohome"
@@ -28,7 +28,7 @@
 		/mob/living/simple_animal/hostile/retaliate/bat = 1,
 	)
 
-/datum/action/cooldown/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -38,12 +38,12 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/bloodsucker/gohome/ActivatePower()
+/datum/action/bloodsucker/gohome/ActivatePower()
 	. = ..()
 	owner.balloon_alert(owner, "starting teleportation...")
 	to_chat(owner, span_notice("You focus on separating your consciousness from your physical form..."))
 
-/datum/action/cooldown/bloodsucker/gohome/process(delta_time)
+/datum/action/bloodsucker/gohome/process(delta_time)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -62,7 +62,7 @@
 			INVOKE_ASYNC(src, .proc/teleport_to_coffin, owner)
 	teleporting_stage++
 
-/datum/action/cooldown/bloodsucker/gohome/ContinueActive(mob/living/user, mob/living/target)
+/datum/action/bloodsucker/gohome/ContinueActive(mob/living/user, mob/living/target)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -74,12 +74,12 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
+/datum/action/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
 	for(var/obj/machinery/light/nearby_lights in view(flicker_range, get_turf(owner)))
 		nearby_lights.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
-/datum/action/cooldown/bloodsucker/gohome/proc/teleport_to_coffin(mob/living/carbon/user)
+/datum/action/bloodsucker/gohome/proc/teleport_to_coffin(mob/living/carbon/user)
 	var/drop_item = FALSE
 	var/turf/current_turf = get_turf(owner)
 	// If we aren't in the dark, anyone watching us will cause us to drop out stuff

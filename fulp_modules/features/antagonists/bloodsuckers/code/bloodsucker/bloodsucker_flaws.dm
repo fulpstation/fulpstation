@@ -36,7 +36,7 @@
 			var/datum/species/user_species = bloodsucker.dna.species
 			user_species.punchdamagehigh += 1.5
 			AddHumanityLost(17.5)
-			BuyPower(new /datum/action/cooldown/bloodsucker/brujah)
+			BuyPower(new /datum/action/bloodsucker/brujah)
 			var/datum/objective/bloodsucker/gourmand/brujah/brujah_objective = new
 			brujah_objective.owner = owner
 			brujah_objective.objective_name = "Clan Objective"
@@ -48,8 +48,8 @@
 				* As part of the Nosferatu Clan, you unable to disguise yourself within the crew, as such you do not know how to use the Masquerade or Veil ability.\n\
 				* Additionally, in exchange for having a bad back, always looking like Pale death, and not being identifiable, you can fit into vents using Alt+Click.\n\
 				* Finally, your Favorite Vassal will become disfigured and will be able to ventcrawl wile naked."))
-			for(var/datum/action/cooldown/bloodsucker/power in powers)
-				if(istype(power, /datum/action/cooldown/bloodsucker/masquerade) || istype(power, /datum/action/cooldown/bloodsucker/veil))
+			for(var/datum/action/bloodsucker/power in powers)
+				if(istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
 					RemovePower(power)
 			if(!bloodsucker.has_quirk(/datum/quirk/badback))
 				bloodsucker.add_quirk(/datum/quirk/badback)
@@ -74,9 +74,9 @@
 			bloodmagic_objective.owner = owner
 			bloodmagic_objective.objective_name = "Clan Objective"
 			objectives += bloodmagic_objective
-			BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/dominate)
-			BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/auspex)
-			BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy)
+			BuyPower(new /datum/action/bloodsucker/targeted/tremere/dominate)
+			BuyPower(new /datum/action/bloodsucker/targeted/tremere/auspex)
+			BuyPower(new /datum/action/bloodsucker/targeted/tremere/thaumaturgy)
 
 		if(CLAN_VENTRUE)
 			my_clan = CLAN_VENTRUE

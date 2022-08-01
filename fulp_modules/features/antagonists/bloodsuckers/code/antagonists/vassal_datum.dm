@@ -78,7 +78,7 @@
 		owner.enslave_mind_to_creator(master.owner.current)
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
-	BuyPower(new /datum/action/cooldown/bloodsucker/recuperate)
+	BuyPower(new /datum/action/bloodsucker/recuperate)
 	/// Give Objectives
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
@@ -98,7 +98,7 @@
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	//Remove Recuperate Power
 	while(powers.len)
-		var/datum/action/cooldown/bloodsucker/power = pick(powers)
+		var/datum/action/bloodsucker/power = pick(powers)
 		powers -= power
 		power.Remove(owner.current)
 	//Remove Language & Hud
@@ -107,7 +107,7 @@
 
 /datum/antagonist/vassal/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 
@@ -151,7 +151,7 @@
 	// Now let's give them their assigned bonuses.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum.my_clan == CLAN_BRUJAH)
-		BuyPower(new /datum/action/cooldown/bloodsucker/targeted/brawn)
+		BuyPower(new /datum/action/bloodsucker/targeted/brawn)
 	if(bloodsuckerdatum.my_clan == CLAN_NOSFERATU)
 		ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
@@ -161,7 +161,7 @@
 		batform.Grant(owner.current)
 	if(bloodsuckerdatum.my_clan == CLAN_VENTRUE)
 		to_chat(master, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
-		BuyPower(new /datum/action/cooldown/bloodsucker/distress)
+		BuyPower(new /datum/action/bloodsucker/distress)
 	if(bloodsuckerdatum.my_clan == CLAN_MALKAVIAN)
 		var/mob/living/carbon/carbonowner = owner.current
 		carbonowner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
@@ -193,13 +193,13 @@
 	vassal.remove_antag_datum(/datum/antagonist/vassal)
 
 /// Used when your Master teaches you a new Power.
-/datum/antagonist/vassal/proc/BuyPower(datum/action/cooldown/bloodsucker/power)
+/datum/antagonist/vassal/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
 	log_uplink("[key_name(owner.current)] purchased [power].")
 
 /datum/antagonist/vassal/proc/LevelUpPowers()
-	for(var/datum/action/cooldown/bloodsucker/power in powers)
+	for(var/datum/action/bloodsucker/power in powers)
 		power.level_current++
 
 /**
