@@ -46,7 +46,7 @@
 			target.AddComponent(/datum/component/creamed/gorilla, src)
 
 /datum/action/cooldown/spell/pointed/projectile/gorilla_dung
-	name = "Dung pie"
+	name = "dung pie"
 	desc = "Weaponize your faeces."
 	cooldown_time = 40 SECONDS
 	spell_requirements = NONE
