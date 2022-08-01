@@ -50,14 +50,6 @@
 	UpdateButtons()
 //	..() // we don't want to pay cost here
 
-/datum/action/bloodsucker/targeted/UpdateButton(atom/movable/screen/movable/action_button/button, status_only = FALSE, force = FALSE)
-	. = ..()
-	//hardcode moment, remove when /datum/action/cooldown/UpdateButton doesnt set `click_to_activate` to GREEN.
-	if(active)
-		button.color = rgb(255,255,255,255)
-	else if((button.our_hud.mymob.click_intercept == src))
-		button.color = transparent_when_unavailable ? rgb(128,0,0,128) : rgb(128,0,0)
-
 /// Check if target is VALID (wall, turf, or character?)
 /datum/action/bloodsucker/targeted/proc/CheckValidTarget(atom/target_atom)
 	if(target_atom == owner)
@@ -97,11 +89,10 @@
 /datum/action/bloodsucker/targeted/proc/PowerActivatedSuccessfully()
 	unset_click_ability(owner)
 	PayCost()
-	DeactivatePower()
 	StartCooldown()	// Do AFTER UpdateIcon() inside of DeactivatePower. Otherwise icon just gets wiped.
+	DeactivatePower()
 
 /datum/action/bloodsucker/targeted/proc/InterceptClickOn(mob/living/caller, params, atom/target)
-	. = ..()
 	ClickWithPower(target)
 
 /datum/action/bloodsucker/proc/set_click_ability(mob/on_who)

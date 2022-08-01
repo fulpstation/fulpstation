@@ -215,11 +215,16 @@ const BloodsuckerClan = (props: any, context: any) => {
 const PowerSection = (props: any, context: any) => {
   const { act, data } = useBackend<BloodsuckerInformation>(context);
   const { power } = data;
+  if (!power) {
+    return <Section minHeight="220px" />;
+  }
+
   const [selectedPower, setSelectedPower] = useLocalState(
     context,
     'power',
     power[0]
   );
+
   return (
     <Section
       fill
