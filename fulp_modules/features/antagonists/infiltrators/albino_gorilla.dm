@@ -27,7 +27,7 @@
 	return ..()
 
 /obj/projectile/gorilla_dung
-	name = "Dung pie"
+	name = "dung pie"
 	damage = 10
 	damage_type = BRUTE
 	nodamage = FALSE
