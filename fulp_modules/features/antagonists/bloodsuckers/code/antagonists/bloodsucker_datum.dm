@@ -294,7 +294,7 @@
 /datum/antagonist/bloodsucker/ui_static_data(mob/user)
 	var/list/data = list()
 	//we don't need to update this that much.
-	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		var/list/power_data = list()
 
 		power_data["power_name"] = power.name
@@ -438,7 +438,7 @@
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
-		BuyPower(new /datum/action/cooldown/bloodsucker/veil)
+		BuyPower(new /datum/action/bloodsucker/veil)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
@@ -464,7 +464,7 @@
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	// Powers
-	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		RemovePower(all_powers)
 	/// Stats
 	if(ishuman(owner.current))
