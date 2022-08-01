@@ -16,7 +16,7 @@
 	level_current = 1
 	desc = "Mesmerize any foe who stands still long enough."
 	button_icon_state = "power_dominate"
-	power_explanation = "<b>Level 1: Dominate</b>:\n\
+	power_explanation = "Level 1: Dominate:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
@@ -31,7 +31,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/three
 	level_current = 2
 	desc = "Mesmerize and mute any foe who stands still long enough."
-	power_explanation = "<b>Level 2: Dominate</b>:\n\
+	power_explanation = "Level 2: Dominate:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize and mute them for the next 12 seconds."
 	bloodcost = 20
@@ -42,7 +42,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/advanced
 	level_current = 3
 	desc = "Mesmerize, mute and blind any foe who stands still long enough."
-	power_explanation = "<b>Level 3: Dominate</b>:\n\
+	power_explanation = "Level 3: Dominate:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds."
 	bloodcost = 30
@@ -69,7 +69,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/dominate/advanced/two
 	level_current = 4
 	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
-	power_explanation = "<b>Level 4: Possession</b>:\n\
+	power_explanation = "Level 4: Possession:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
 		However, while adjacent to the target, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
@@ -86,7 +86,7 @@
 	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
 	level_current = 5
 	upgraded_power = null
-	power_explanation = "<b>Level 5: Possession</b>:\n\
+	power_explanation = "Level 5: Possession:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
 		However, while adjacent to the target, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\

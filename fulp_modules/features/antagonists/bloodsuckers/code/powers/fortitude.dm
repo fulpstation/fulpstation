@@ -2,7 +2,7 @@
 	name = "Fortitude"
 	desc = "Withstand egregious physical wounds and walk away from attacks that would stun, pierce, and dismember lesser beings."
 	button_icon_state = "power_fortitude"
-	power_explanation = "<b>Fortitude</b>:\n\
+	power_explanation = "Fortitude:\n\
 		Activating Fortitude will provide pierce, stun and dismember immunity.\n\
 		You will additionally gain resistance to Brute and Stamina damge, scaling with level.\n\
 		While using Fortitude, attempting to run will crush you.\n\

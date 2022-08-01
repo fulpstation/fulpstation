@@ -14,7 +14,7 @@
 	desc = "Fire a blood bolt at your enemy, dealing Burn damage."
 	level_current = 1
 	button_icon_state = "power_thaumaturgy"
-	power_explanation = "<b>Thaumaturgy</b>:\n\
+	power_explanation = "Thaumaturgy:\n\
 		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 20
@@ -29,7 +29,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/three
 	desc = "Create a Blood shield and fire a blood bolt at your enemy, dealing Burn damage."
 	level_current = 2
-	power_explanation = "<b>Thaumaturgy</b>:\n\
+	power_explanation = "Thaumaturgy:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
@@ -43,7 +43,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
 	level_current = 3
-	power_explanation = "<b>Thaumaturgy</b>:\n\
+	power_explanation = "Thaumaturgy:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
@@ -56,7 +56,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
 	level_current = 4
-	power_explanation = "<b>Thaumaturgy</b>:\n\
+	power_explanation = "Thaumaturgy:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\
@@ -74,7 +74,7 @@
 	upgraded_power = null
 	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage, stealing Blood and opening doors/lockers."
 	level_current = 5
-	power_explanation = "<b>Thaumaturgy</b>:\n\
+	power_explanation = "Thaumaturgy:\n\
 		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
 		You will also have the ability to fire a Blood beam, ending the Power.\n\

@@ -8,7 +8,7 @@
 /datum/action/bloodsucker/targeted/tremere
 	name = "Tremere Gift"
 	desc = "A Tremere exclusive gift."
-	button_icon_state = "power_feed"
+	button_icon_state = "power_auspex"
 	background_icon_state = "tremere_power_off"
 	background_icon_state_on = "tremere_power_on"
 	background_icon_state_off = "tremere_power_off"

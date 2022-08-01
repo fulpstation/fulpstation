@@ -16,7 +16,7 @@
 	level_current = 1
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport up to 2 tiles away."
 	button_icon_state = "power_auspex"
-	power_explanation = "<b>Level 1: Auspex</b>:\n\
+	power_explanation = "Level 1: Auspex:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 2 tile away to teleport there, ending the Power."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
@@ -31,7 +31,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/three
 	level_current = 2
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport up to 3 tiles away."
-	power_explanation = "<b>Level 2: Auspex</b>:\n\
+	power_explanation = "Level 2: Auspex:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to 3 tile away to teleport there, ending the Power."
 	bloodcost = 10
@@ -43,7 +43,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/advanced
 	level_current = 3
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport."
-	power_explanation = "<b>Level 3: Auspex</b>:\n\
+	power_explanation = "Level 3: Auspex:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to teleport there, ending the Power."
 	bloodcost = 15
@@ -55,7 +55,7 @@
 	upgraded_power = /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
 	level_current = 4
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport, leaving nearby people bleeding."
-	power_explanation = "<b>Level 4: Auspex</b>:\n\
+	power_explanation = "Level 4: Auspex:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to teleport there, ending the Power and causing people at your end location to start bleeding."
 	background_icon_state = "tremere_power_gold_off"
@@ -70,7 +70,7 @@
 	upgraded_power = null
 	level_current = 5
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport, leaving nearby people bleeding and asleep."
-	power_explanation = "<b>Level 5: Auspex</b>:\n\
+	power_explanation = "Level 5: Auspex:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
 		Click any area up to teleport there, ending the Power and causing people at your end location to fall asleep for 10 seconds."
 	bloodcost = 25
