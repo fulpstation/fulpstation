@@ -36,10 +36,14 @@
 			kill.find_sci_target()
 			objectives += kill
 
-			var/datum/objective/assassinate/kill_head = new
-			kill_head.owner = owner
-			kill_head.find_head_target()
-			objectives += kill_head
+			var/datum/objective/gorillize/gorilla = new
+			gorilla.owner = owner
+			gorilla.find_target()
+			objectives += gorilla
+
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/gorilla_serum/serum = infil.l_store
+			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/infiltrator))
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			for(var/i = 0, i < rand(4,6) , i++)
@@ -182,18 +186,14 @@
 	if(target?.current)
 		explanation_text = "Make a stance against science's animal experimentation by assassinating [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]!"
 
+/datum/objective/gorillize
+	name = "Summon endangered gorilla"
+	admin_grantable = TRUE
+	var/target_role_type = FALSE
 
-
-
-/datum/objective/assassinate/proc/find_head_target()
-	var/list/com_targets = SSjob.get_all_heads()
-	if(!com_targets.len)
-		find_target()
-		return
-	else
-		target = pick(com_targets)
-	update_explanation_text()
-
+/datum/objective/gorillize/update_explanation_text()
+	if(target?.current)
+		explanation_text = "Inject [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] with the gorilla serum!"
 
 //Mauradars Objectives
 

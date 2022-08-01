@@ -143,4 +143,63 @@
 				give_reward(usr)
 	return
 
+/obj/item/gorilla_serum
+	name = "Gorilla Serum"
+	desc = "A one use autoinjector with a toxin that permanently changes your DNA to the DNA of a previously injected person. Use it on the victim to extract their DNA then inject it into yourself!"
+	icon = 'icons/obj/syringe.dmi'
+	icon_state = "dnainjector0"
+	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
+	w_class = WEIGHT_CLASS_TINY
+	item_flags = NOBLUDGEON
+	///the target mob
+	var/datum/weakref/target
+	var/used = FALSE ///determines wether the injector is used up or nah
+
+/obj/item/gorilla_serum/proc/set_objective(datum/antagonist/traitor/infiltrator/criminal)
+	if(!criminal)
+		return
+	var/datum/objective/gorillize/objective = locate() in criminal.objectives
+	if(!objective)
+		return
+	target = WEAKREF(objective.target.current)
+
+/obj/item/gorilla_serum/afterattack(atom/movable/victim, mob/living/carbon/human/user, proximity)
+	. = ..()
+	if(!proximity)
+		return
+	if(used)
+		to_chat(user, span_notice("[src] has been already used, you can't activate it again!"))
+		return
+	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	if(!criminal)
+		to_chat(user, span_notice("You don't understand how this injector works."))
+		return
+	if(!ishuman(victim))
+		return
+	var/mob/living/carbon/human/man = victim
+	if(man != target.resolve())
+		to_chat(user, span_notice("The serum is not compatible with this entity."))
+		return
+	if(!do_after(user, 15 SECONDS))
+		return
+	var/mob/living/simple_animal/hostile/gorilla/albino/ape
+	var/mob/dead/observer/chosen_ghost
+	chosen_ghost = man.grab_ghost(TRUE,TRUE)
+	if(!chosen_ghost)
+		var/list/consenting_candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
+		if(length(consenting_candidates))
+			chosen_ghost = pick(consenting_candidates)
+	ape = new /mob/living/simple_animal/hostile/gorilla/albino(get_turf(man))
+	if(chosen_ghost)
+		ape.key = chosen_ghost.key
+	man.gib()
+	ape.mind?.enslave_mind_to_creator(user)
+	used = TRUE
+	target = null
+	var/datum/objective/gorillize/crime = locate() in criminal.objectives
+	if(!crime)
+		return
+	crime.completed = TRUE
+
 
