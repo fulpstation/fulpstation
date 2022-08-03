@@ -193,7 +193,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
 		"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
 	)
-	var/favorite_response = show_radial_menu(bloodsuckerdatum.owner.current, src, favorite_options, radius = 36, require_near = TRUE)
+	var/favorite_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, favorite_options, radius = 36, require_near = TRUE)
 	switch(favorite_response)
 		if("Yes")
 			bloodsuckerdatum.bloodsucker_blood_volume -= 150
