@@ -76,7 +76,8 @@
 		return
 	var/mob/living/carbon/carbon_source = source
 	var/vassal_examine = carbon_source.ReturnVassalExamine(examiner)
-	examine_text += vassal_examine
+	if(vassal_examine)
+		examine_text += vassal_examine
 
 /datum/antagonist/vassal/on_gain()
 	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
