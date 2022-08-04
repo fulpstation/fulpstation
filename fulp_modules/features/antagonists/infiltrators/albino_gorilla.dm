@@ -23,7 +23,7 @@
 	return
 
 /datum/action/cooldown/mob_cooldown/charge/Activate(atom/target_atom)
-	playsound(src, 'sound/creatures/gorilla.ogg', 200, 1)
+	playsound(owner, 'sound/creatures/gorilla.ogg', 200, 1)
 	return ..()
 
 /obj/projectile/gorilla_dung
@@ -38,9 +38,9 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/mob_target = target
-		mob_target.Paralyze(10 SECONDS)
+		mob_target.Paralyze(6 SECONDS)
 		mob_target.adjust_blurriness(5)
-		mob_target.visible_message(span_warning("[mob_target] is creamed by [src]!"), span_userdanger("You've been creamed by [src]!"))
+		mob_target.visible_message(span_warning("[mob_target] is dunged by [src]!"), span_userdanger("You've been dunged by [src]!"))
 		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
 		if(ishuman(mob_target))
 			target.AddComponent(/datum/component/creamed/gorilla, src)
