@@ -49,7 +49,7 @@
 
 /obj/item/bodypart/proc/drop_meat(mob/inOwner, dismembered = FALSE)
 	// Not Organic? ABORT! Robotic stays robotic, desnt delete and turn to meat.
-	if(status != BODYPART_ORGANIC)
+	if(!IS_ORGANIC_LIMB(src))
 		return FALSE
 	// If not 0% health, let's do it!
 	var/percentHealth = 1 - (brute_dam + burn_dam) / max_damage
@@ -65,10 +65,7 @@
 	// Apply my Reagents to Meat
 	if(inOwner.reagents && inOwner.reagents.total_volume)
 		inOwner.reagents.trans_to(new_meat, 20)	// Run transfer of 1 unit of reagent from them to me.
-
-	if(!dismembered)
-		inOwner.put_in_hands(new_meat)
-	. = new_meat
+	return new_meat
 
 
 /**
@@ -80,89 +77,90 @@
 /obj/item/bodypart/head/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
+	is_dimorphic = FALSE
 
 /obj/item/bodypart/chest/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
+	is_dimorphic = FALSE
 
 /obj/item/bodypart/r_arm/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
 
 /obj/item/bodypart/r_arm/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache)
 		qdel(src)
-
-/obj/item/bodypart/r_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+		return new_meat
 
 /obj/item/bodypart/l_arm/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
 
 /obj/item/bodypart/l_arm/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
-
-/obj/item/bodypart/l_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+		return new_meat
 
 /obj/item/bodypart/r_leg/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
 
 /obj/item/bodypart/r_leg/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
-
-/obj/item/bodypart/r_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+		return new_meat
 
 /obj/item/bodypart/l_leg/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
 
 /obj/item/bodypart/l_leg/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
+		return new_meat
 
-/obj/item/bodypart/l_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+/mob/living/carbon/human/spread_bodyparts()
+	if(!isbeefman(src))
+		return ..()
+	for(var/obj/item/bodypart/bodypart in bodyparts)
+		bodypart.drop_limb()
+
+
+/obj/item/bodypart/update_limb(dropping_limb = FALSE, is_creating = FALSE)
+	. = ..()
+	if(owner.dna.species.id == SPECIES_BEEFMAN)
+		if(!IS_ORGANIC_LIMB(src))
+			icon_static = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
+		else
+			icon_static = initial(icon_static)

@@ -41,7 +41,6 @@
 	name = "Hotdog hood"
 	desc = "Hot Dawg."
 	icon_state = "hotdog_top"
-	dynamic_hair_suffix = ""
 	flags_inv = HIDEHAIR|HIDEEARS
 
 /obj/item/storage/box/halloween/edition_19/hotdog
@@ -62,7 +61,6 @@
 /obj/item/clothing/head/costume_2019/ketchup_head
 	desc = "A soft plush ketchup bottle."
 	icon_state = "ketchup_top"
-	dynamic_hair_suffix = ""
 	flags_inv = HIDEHAIR|HIDEEARS
 
 /obj/item/storage/box/halloween/edition_19/ketchup
@@ -80,7 +78,6 @@
 /obj/item/clothing/head/costume_2019/mustard_head
 	desc = "A soft plush mustard bottle."
 	icon_state = "mustard_top"
-	dynamic_hair_suffix = ""
 	flags_inv = HIDEHAIR|HIDEEARS
 
 /obj/item/storage/box/halloween/edition_19/mustard
@@ -95,11 +92,11 @@
  */
 /obj/item/clothing/suit/costume_2019/angel
 	name = "angel"
-	desc = "Heavenly Dress."
+	desc = "Heavenly dress."
 	icon_state = "angel"
 
 /obj/item/clothing/head/costume_2019/angel_halo
-	desc = "Heavenly Halo."
+	desc = "Heavenly halo."
 	icon_state = "angel_halo"
 
 /obj/item/storage/box/halloween/edition_19/angel
@@ -117,7 +114,6 @@
 /obj/item/clothing/head/costume_2019/devil_horns
 	desc = "The one the only Devil."
 	icon_state = "devil_horns"
-	dynamic_hair_suffix = ""
 
 /obj/item/storage/box/halloween/edition_19/devil
 	theme_name = "2019's Devil"
@@ -131,14 +127,13 @@
  */
 /obj/item/clothing/suit/costume_2019/skeleton
 	name = "Skeleton"
-	desc = "You are now Mr.Bones."
+	desc = "You are now Mr. Bones."
 	icon_state = "skeleton"
 
 /obj/item/clothing/head/costume_2019/skull
 	name = "Skull"
 	desc = "A skull on your face."
 	icon_state = "skull"
-	dynamic_hair_suffix = ""
 	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACIALHAIR
 
 /obj/item/storage/box/halloween/edition_19/skeleton
@@ -174,7 +169,6 @@
 	name = "Witch Head"
 	desc = "A green face and a pointy hat."
 	icon_state = "witch_hat"
-	dynamic_hair_suffix = ""
 	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACIALHAIR
 
 /obj/item/storage/box/halloween/edition_19/witch
@@ -192,15 +186,13 @@
 	desc = "Someone's ruined this vest by cutting slots in it."
 	icon_state = "joseph_outfit"
 	body_parts_covered = CHEST|GROIN|LEGS
-	fitted = NO_FEMALE_UNIFORM
+	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
 /obj/item/clothing/head/costume_2019/tricksters_headband
 	name = "trickster's headband"
 	desc = "Smells like expired ceasar dressing."
 	icon_state = "joseph_headband"
-	dynamic_hair_suffix = ""
-
 /obj/item/clothing/neck/scarf/tricksters_scarf
 	name = "trickster's scarf"
 	desc = "The real trick is that it's held in place with a stiff wire."
@@ -239,7 +231,7 @@
 	name = "a skeleton\'s suit"
 	desc = "A baggy, comfortable combination of a tee and shorts. You can tell if you wear this you're gonna have a good time."
 	icon_state = "sans"
-	fitted = NO_FEMALE_UNIFORM
+	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
 /obj/item/clothing/head/hardhat/sans
@@ -255,7 +247,6 @@
 	flags_inv = HIDEHAIR|HIDEFACIALHAIR
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
-	dynamic_hair_suffix = ""
 
 /obj/item/storage/box/halloween/edition_19/sans
 	theme_name = "2019's Sans"
@@ -264,15 +255,13 @@
 		/obj/item/clothing/head/hardhat/sans,
 	)
 
-/**
- * Samus suit costume (please dont copyright us)
- */
+
 /obj/item/clothing/under/costume/costume_2019/zero_suit
 	name = "plastic bounty hunter's plugsuit"
 	desc = "A cheap plastic suit with zero practical use."
 	icon_state = "zerosuit"
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	fitted = NO_FEMALE_UNIFORM
+	female_sprite_flags = NO_FEMALE_UNIFORM
 	alternate_worn_layer = GLOVES_LAYER //copied blindly from mech jumpsuit lmao
 	can_adjust = FALSE
 
@@ -305,10 +294,10 @@
 	cold_protection = null
 	heat_protection = null
 
-///Toy arm cannon used in the Samus costume
+///Toy arm cannon used in the zero costume
 /obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon
 	name = "foam force arm cannon"
-	desc = "The chozo manufacturing industry exports thousands of these things a year. Ages 8+"
+	desc = "A cheap foam-force replica. Ages 8+"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/toy/arm_ball
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	icon_state = "arm_cannon"

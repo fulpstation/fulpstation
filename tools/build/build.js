@@ -115,6 +115,36 @@ export const DmTestTarget = new Juke.Target({
   },
 });
 
+export const AutowikiTarget = new Juke.Target({
+  parameters: [DefineParameter],
+  dependsOn: ({ get }) => [
+    get(DefineParameter).includes('ALL_MAPS') && DmMapsIncludeTarget,
+  ],
+  outputs: [
+    'data/autowiki_edits.txt',
+  ],
+  executes: async ({ get }) => {
+    fs.copyFileSync(`${DME_NAME}.dme`, `${DME_NAME}.test.dme`);
+    await DreamMaker(`${DME_NAME}.test.dme`, {
+      defines: ['CBT', 'AUTOWIKI', ...get(DefineParameter)],
+      warningsAsErrors: get(WarningParameter).includes('error'),
+    });
+    Juke.rm('data/autowiki_edits.txt');
+    Juke.rm('data/autowiki_files', { recursive: true });
+    Juke.rm('data/logs/ci', { recursive: true });
+    await DreamDaemon(
+      `${DME_NAME}.test.dmb`,
+      '-close', '-trusted', '-verbose',
+      '-params', 'log-directory=ci',
+    );
+    Juke.rm('*.test.*');
+    if (!fs.existsSync('data/autowiki_edits.txt')) {
+      Juke.logger.error('Autowiki did not generate an output, exiting');
+      throw new Juke.ExitCode(1);
+    }
+  },
+})
+
 export const YarnTarget = new Juke.Target({
   parameters: [CiParameter],
   inputs: [
@@ -156,6 +186,8 @@ export const TguiTarget = new Juke.Target({
     'tgui/public/tgui.bundle.js',
     'tgui/public/tgui-panel.bundle.css',
     'tgui/public/tgui-panel.bundle.js',
+    'tgui/public/tgui-say.bundle.css',
+    'tgui/public/tgui-say.bundle.js',
   ],
   executes: () => yarn('tgui:build'),
 });
@@ -164,6 +196,11 @@ export const TguiEslintTarget = new Juke.Target({
   parameters: [CiParameter],
   dependsOn: [YarnTarget],
   executes: ({ get }) => yarn('tgui:lint', !get(CiParameter) && '--fix'),
+});
+
+export const TguiPrettierTarget = new Juke.Target({
+  dependsOn: [YarnTarget],
+  executes: () => yarn('tgui:prettier'),
 });
 
 export const TguiSonarTarget = new Juke.Target({
@@ -183,7 +220,7 @@ export const TguiTestTarget = new Juke.Target({
 });
 
 export const TguiLintTarget = new Juke.Target({
-  dependsOn: [YarnTarget, TguiEslintTarget, TguiTscTarget],
+  dependsOn: [YarnTarget, TguiPrettierTarget, TguiEslintTarget, TguiTscTarget],
 });
 
 export const TguiDevTarget = new Juke.Target({

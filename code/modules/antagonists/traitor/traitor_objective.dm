@@ -30,12 +30,12 @@
 	var/skipped = FALSE
 
 	/// Determines how influential global progression will affect this objective. Set to 0 to disable.
-	var/global_progression_influence_intensity = 0.5
+	var/global_progression_influence_intensity = 0.1
 	/// Determines how great the deviance has to be before progression starts to get reduced.
-	var/global_progression_deviance_required = 0.5
+	var/global_progression_deviance_required = 1
 	/// Determines the minimum and maximum progression this objective can be worth as a result of being influenced by global progression
 	/// Should only be smaller than or equal to 1
-	var/global_progression_limit_coeff = 0.1
+	var/global_progression_limit_coeff = 0.6
 	/// The deviance coefficient used to determine the randomness of the progression rewards.
 	var/progression_cost_coeff_deviance = 0.05
 	/// This gets added onto the coeff when calculating the updated progression cost. Used for variability and a slight bit of randomness
@@ -106,7 +106,7 @@
 	if(global_progression_influence_intensity <= 0)
 		return
 	var/minimum_progression = progression_reward * global_progression_limit_coeff
-	var/maximum_progression = global_progression_limit_coeff != 0? progression_reward / global_progression_limit_coeff : INFINITY
+	var/maximum_progression = progression_reward * (2-global_progression_limit_coeff)
 	var/deviance = (SStraitor.current_global_progression - handler.progression_points) / SStraitor.progression_scaling_deviance
 	if(abs(deviance) < global_progression_deviance_required)
 		return
@@ -114,9 +114,13 @@
 		deviance = deviance - global_progression_deviance_required
 	else
 		deviance = deviance + global_progression_deviance_required
-	var/coeff = NUM_E ** (global_progression_influence_intensity * deviance) - 1
-	// This has less of an effect as the coeff gets nearer to 1. Is linear
-	coeff += progression_cost_coeff * (1 - coeff)
+	var/coeff = NUM_E ** (global_progression_influence_intensity * abs(deviance)) - 1
+	if(abs(deviance) != deviance)
+		coeff *= -1
+
+	// This has less of an effect as the coeff gets nearer to -1. Is linear
+	coeff += progression_cost_coeff * min(max(1 - abs(coeff), 1), 0)
+
 
 	progression_reward = clamp(
 		progression_reward + progression_reward * coeff,
@@ -148,7 +152,8 @@
 		"progression_reward" = progression_reward,
 		"original_progression" = original_progression,
 		"objective_state" = objective_state,
-		"forced" = forced
+		"forced" = forced,
+		"time_of_creation" = time_of_creation,
 	)
 
 /// Converts the type into a useful debug string to be used for logging and debug display.

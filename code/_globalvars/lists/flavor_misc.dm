@@ -20,8 +20,6 @@ GLOBAL_LIST_EMPTY(undershirt_f)  //stores only undershirt name
 GLOBAL_LIST_EMPTY(socks_list) //stores /datum/sprite_accessory/socks indexed by name
 	//Lizard Bits (all datum lists indexed by name)
 GLOBAL_LIST_EMPTY(body_markings_list)
-GLOBAL_LIST_EMPTY(tails_list_lizard)
-GLOBAL_LIST_EMPTY(animated_tails_list_lizard)
 GLOBAL_LIST_EMPTY(snouts_list)
 GLOBAL_LIST_EMPTY(horns_list)
 GLOBAL_LIST_EMPTY(frills_list)
@@ -30,8 +28,9 @@ GLOBAL_LIST_EMPTY(legs_list)
 GLOBAL_LIST_EMPTY(animated_spines_list)
 
 	//Mutant Human bits
-GLOBAL_LIST_EMPTY(tails_list_human)
-GLOBAL_LIST_EMPTY(animated_tails_list_human)
+GLOBAL_LIST_EMPTY(tails_list)
+GLOBAL_LIST_EMPTY(tails_list_human) //Only exists for preference choices. Use "tails_list" otherwise.
+GLOBAL_LIST_EMPTY(tails_list_lizard) //See above!
 GLOBAL_LIST_EMPTY(ears_list)
 GLOBAL_LIST_EMPTY(wings_list)
 GLOBAL_LIST_EMPTY(wings_open_list)
@@ -39,7 +38,7 @@ GLOBAL_LIST_EMPTY(moth_wings_list)
 GLOBAL_LIST_EMPTY(moth_antennae_list)
 GLOBAL_LIST_EMPTY(moth_markings_list)
 GLOBAL_LIST_EMPTY(caps_list)
-GLOBAL_LIST_EMPTY(tails_list_monkey)
+GLOBAL_LIST_EMPTY(pod_hair_list)
 
 GLOBAL_LIST_INIT(color_list_ethereal, list(
 	"Blue" = "#3399ff",
@@ -289,38 +288,14 @@ GLOBAL_LIST_INIT(scarySounds, list(
 //If you don't want to fuck up disposals, add to this list, and don't change the order.
 //If you insist on changing the order, you'll have to change every sort junction to reflect the new order. --Pete
 
-GLOBAL_LIST_INIT(TAGGERLOCATIONS, list(
-	"Atmospherics",
-	"Bar",
-	"Cargo Bay",
-	"CE Office",
-	"Chapel",
-	"Chemistry",
-	"CMO Office",
-	"Detective's Office",
-	"Disposals",
-	"Dormitories",
-	"Engineering",
-	"Experimentor Lab",
-	"Genetics",
-	"HoP Office",
-	"HoS Office",
-	"Hydroponics",
-	"Janitor Closet",
-	"Kitchen",
-	"Law Office",
-	"Library",
-	"Medbay",
-	"Ordnance",
-	"QM Office",
-	"RD Office",
-	"Research",
-	"Robotics",
-	"Security",
-	"Theatre",
-	"Virology",
-	"Xenobiology",
-))
+GLOBAL_LIST_INIT(TAGGERLOCATIONS, list("Disposals",
+	"Cargo Bay", "QM Office", "Engineering", "CE Office",
+	"Atmospherics", "Security", "HoS Office", "Medbay",
+	"CMO Office", "Chemistry", "Research", "RD Office",
+	"Robotics", "HoP Office", "Library", "Chapel", "Theatre",
+	"Bar", "Kitchen", "Hydroponics", "Janitor Closet","Genetics",
+	"Experimentor Lab", "Ordnance", "Dormitories", "Virology",
+	"Xenobiology", "Law Office","Detective's Office"))
 
 GLOBAL_LIST_INIT(station_prefixes, world.file2list("strings/station_prefixes.txt"))
 

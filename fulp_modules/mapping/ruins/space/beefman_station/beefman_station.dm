@@ -28,7 +28,7 @@
 		/obj/item/clothing/neck/bfeemam = 3,
 		/obj/item/clothing/head/pirate/captain = 1,
 		/obj/item/clothing/suit/armor/vest/russian_coat = 1,
-		/obj/item/clothing/suit/security/officer/russian = 1,
+		/obj/item/clothing/suit/jacket/officer/tan = 1,
 		/obj/item/clothing/under/costume/russian_officer = 1,
 		/obj/item/clothing/under/pants/track = 1,
 		/obj/item/food/grown/icepepper = 1,

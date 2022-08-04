@@ -59,6 +59,7 @@
 	suit_store = /obj/item/tank/internals/oxygen
 	back = /obj/item/mod/control/pre_equipped/prototype
 	mask = /obj/item/clothing/mask/breath
+	internals_slot = ITEM_SLOT_SUITSTORE
 
 /obj/effect/mob_spawn/ghost_role/human/oldsci
 	name = "old cryogenics pod"
@@ -95,7 +96,7 @@
 
 /obj/effect/mob_spawn/ghost_role/human/lavaland_syndicate/comms/space/Initialize(mapload)
 	. = ..()
-	if(prob(90)) //only has a 10% chance of existing, otherwise it'll just be a NPC syndie.
+	if(prob(85)) //only has a 15% chance of existing, otherwise it'll just be a NPC syndie.
 		new /mob/living/simple_animal/hostile/syndicate/ranged(get_turf(src))
 		return INITIALIZE_HINT_QDEL
 
@@ -104,11 +105,12 @@
 /obj/effect/mob_spawn/ghost_role/human/syndicate/battlecruiser
 	name = "Syndicate Battlecruiser Ship Operative"
 	you_are_text = "You are a crewmember aboard the syndicate flagship: the SBC Starfury."
-	flavour_text = "Your job is to follow your captain's orders, maintain the ship, and keep the engine running. If you are not familiar with how the supermatter engine functions: do not attempt to start it."
+	flavour_text = "Your job is to follow your captain's orders, maintain the ship, and keep the power flowing."
 	important_text = "The armory is not a candy store, and your role is not to assault the station directly, leave that work to the assault operatives."
 	prompt_name = "a battlecruiser crewmember"
 	outfit = /datum/outfit/syndicate_empty/battlecruiser
 	spawner_job_path = /datum/job/battlecruiser_crew
+	uses = 4
 
 	/// The antag team to apply the player to
 	var/datum/team/antag_team
@@ -153,6 +155,10 @@
 	to_chat(owner, span_big("You are a [name]!"))
 	owner.announce_objectives()
 
+/datum/antagonist/battlecruiser/ally
+	name = "Battlecruiser Ally"
+	show_to_ghosts = FALSE
+
 /datum/antagonist/battlecruiser/captain
 	name = "Battlecruiser Captain"
 	antag_hud_name = "battlecruiser_lead"
@@ -180,8 +186,9 @@
 
 /datum/outfit/syndicate_empty/battlecruiser
 	name = "Syndicate Battlecruiser Ship Operative"
-	l_pocket = /obj/item/gun/ballistic/automatic/pistol
+	l_pocket = /obj/item/gun/ballistic/automatic/pistol/clandestine
 	r_pocket = /obj/item/knife/combat/survival
+	box = /obj/item/storage/box/survival/syndie
 	belt = /obj/item/storage/belt/military/assault
 
 /obj/effect/mob_spawn/ghost_role/human/syndicate/battlecruiser/assault
@@ -191,6 +198,7 @@
 	important_text = "Work as a team with your fellow operatives and work out a plan of attack. If you are overwhelmed, escape back to your ship!"
 	prompt_name = "a battlecruiser operative"
 	outfit = /datum/outfit/syndicate_empty/battlecruiser/assault
+	uses = 8
 
 /datum/outfit/syndicate_empty/battlecruiser/assault
 	name = "Syndicate Battlecruiser Assault Operative"
@@ -199,8 +207,8 @@
 	r_pocket = /obj/item/modular_computer/tablet/nukeops
 	belt = /obj/item/storage/belt/military
 	suit = /obj/item/clothing/suit/armor/vest
-	suit_store = /obj/item/gun/ballistic/automatic/pistol
-	back = /obj/item/storage/backpack/security
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/clandestine
+	back = /obj/item/storage/backpack
 	mask = /obj/item/clothing/mask/gas/syndicate
 
 /obj/effect/mob_spawn/ghost_role/human/syndicate/battlecruiser/captain
@@ -212,6 +220,7 @@
 	outfit = /datum/outfit/syndicate_empty/battlecruiser/assault/captain
 	spawner_job_path = /datum/job/battlecruiser_captain
 	antag_datum_to_give = /datum/antagonist/battlecruiser/captain
+	uses = 1
 
 /datum/outfit/syndicate_empty/battlecruiser/assault/captain
 	name = "Syndicate Battlecruiser Captain"

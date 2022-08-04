@@ -41,7 +41,7 @@ Difficulty: Extremely Hard
 	crusher_achievement_type = /datum/award/achievement/boss/demonic_miner_crusher
 	score_achievement_type = /datum/award/score/demonic_miner_score
 	deathmessage = "falls to the ground, decaying into plasma particles."
-	deathsound = "bodyfall"
+	deathsound = SFX_BODYFALL
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	/// If the demonic frost miner is in its enraged state
 	var/enraged = FALSE
@@ -64,7 +64,7 @@ Difficulty: Extremely Hard
 	ice_shotgun.Grant(src)
 	for(var/obj/structure/frost_miner_prism/prism_to_set in GLOB.frost_miner_prisms)
 		prism_to_set.set_prism_light(LIGHT_COLOR_BLUE, 5)
-	RegisterSignal(src, COMSIG_ABILITY_STARTED, .proc/start_attack)
+	RegisterSignal(src, COMSIG_MOB_ABILITY_STARTED, .proc/start_attack)
 	AddElement(/datum/element/knockback, 7, FALSE, TRUE)
 	AddElement(/datum/element/lifesteal, 50)
 	ADD_TRAIT(src, TRAIT_NO_FLOATING_ANIM, INNATE_TRAIT)
@@ -261,7 +261,7 @@ Difficulty: Extremely Hard
 	desc = "A pair of winter boots contractually made by a devil, they cannot be taken off once put on."
 	actions_types = list(/datum/action/item_action/toggle)
 	var/on = FALSE
-	var/change_turf = /turf/open/floor/plating/ice/icemoon/no_planet_atmos
+	var/change_turf = /turf/open/misc/ice/icemoon/no_planet_atmos
 	var/duration = 6 SECONDS
 
 /obj/item/clothing/shoes/winterboots/ice_boots/ice_trail/Initialize(mapload)

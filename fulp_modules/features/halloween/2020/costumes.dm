@@ -35,7 +35,7 @@
 	desc = "A faint smell sulphur, mars dust and free space terrorism."
 	icon_state = "asshole_jumpsuit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	can_adjust = FALSE
 	alt_covers_chest = FALSE
 
@@ -72,7 +72,7 @@
 	name = "chaos mage tabard"
 	desc = "An old outfit which has lost its magical power. It is said that this belonged to a powerful mage."
 	icon_state = "chaos_tabard"
-	fitted = FEMALE_UNIFORM_TOP
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/hooded/wintercoat/chaosmage
@@ -112,7 +112,7 @@
 	desc = "With a bit of a mind flip..."
 	icon_state = "columbia"
 	body_parts_covered = CHEST|GROIN
-	fitted = NO_FEMALE_UNIFORM
+	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2020/columbia
@@ -183,7 +183,7 @@
 	desc = "Harder, Better, Faster, Stronger!"
 	icon_state = "the_suit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	has_sensor = HAS_SENSORS
 	random_sensor = TRUE
 	can_adjust = FALSE
@@ -239,7 +239,7 @@
 	name = "devil's body"
 	desc = "This is just red paint all over your body. And somehow it sticks well even after washing!"
 	icon_state = "devil_body"
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	can_adjust = FALSE
 
 /obj/item/clothing/head/costume_2020/devilfan
@@ -247,7 +247,6 @@
 	desc = "Are you finally revealing your true evil?"
 	icon_state = "devil_mask"
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR
-	dynamic_hair_suffix = "+generic"
 
 /obj/item/clothing/shoes/costume_2020/devilfan
 	name = "devil's hooves"
@@ -277,7 +276,7 @@
 	name = "forbidden cowboy suit"
 	desc = "Just looking at this suit makes you hear a quiet bwoink at the back of you mind."
 	icon_state = "forbiddencowboy_suit"
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	has_sensor = HAS_SENSORS
 	random_sensor = TRUE
 	can_adjust = FALSE
@@ -304,7 +303,7 @@
 	name = "frog onesie"
 	desc = "A comfortable and snuggly animal onesie."
 	icon_state = "frog_suit"
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	can_adjust = FALSE
 
 /obj/item/clothing/head/costume_2020/frog_head
@@ -340,7 +339,7 @@
 	desc = "A gnome suit for gnoming."
 	icon_state = "gnome_jumpsuit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2020/gnome
@@ -472,27 +471,27 @@
 ///Default Midsommer costume
 /obj/item/clothing/under/costume_2020/midsommer
 	name = "midsommer dress"
-	desc = "Write something here to show up when examined."
+	desc = "A cute embroidered dress."
 	icon_state = "midsommar_dress"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	fitted = FEMALE_UNIFORM_TOP
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 	can_adjust = FALSE
 
 /obj/item/clothing/head/costume_2020/midsommer
 	name = "flower crown"
-	desc = "Write something here to show up when examined."
+	desc = "A festive headpiece made of flowers."
 	icon_state = "flower_crown"
 
 ///Midsommer Queen costume
 /obj/item/clothing/suit/costume_2020/midsommer_queen
 	name = "May Queen"
-	desc = "Write something here to show up when examined."
+	desc = "A heavy-looking gown made almost entirely of flowers."
 	icon_state = "may_queen"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 
 /obj/item/clothing/head/costume_2020/midsommer_queen
 	name = "May Queen crown"
-	desc = "Write something here to show up when examined."
+	desc = "Heavy is the head that wears the crown."
 	icon_state = "flower_crown_tall"
 	worn_x_dimension = 64
 	worn_y_dimension = 64
@@ -589,7 +588,7 @@
 		if("yellow")
 			costume_contents += list(/obj/item/clothing/neck/costume_2020/moffking/yellow)
 	// Call parent to deal with the rest
-	. = ..()
+	return ..()
 
 /**
  * Papa Ross costume
@@ -600,7 +599,7 @@
 	desc = "We dont make mistakes. We just have happy accidents."
 	icon_state = "papa_ross_jumpsuit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2020/papa_ross
@@ -613,7 +612,6 @@
 	desc = "Thats a crooked tree. Well send him to Washington."
 	icon_state = "papa_ross_wig"
 	flags_inv = HIDEHAIR
-	dynamic_hair_suffix = "+generic"
 
 /obj/item/clothing/neck/costume_2020/papa_ross_squirrel
 	name = "Peapod the squirrel"
@@ -709,7 +707,7 @@
 		user.update_inv_wear_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
-			mask_options.UpdateButtonIcon()
+			mask_options.UpdateButton()
 		to_chat(user, span_notice("Your Heister's Mask has now morphed into [choice]!"))
 		return TRUE
 
@@ -730,7 +728,7 @@
 		/obj/item/clothing/under/suit/navy,
 		/obj/item/clothing/under/suit/black/skirt,
 	)
-	. = ..()
+	return ..()
 
 /**
  * Skull masks costumes
@@ -770,7 +768,7 @@
 		user.update_inv_wear_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
-			mask_options.UpdateButtonIcon()
+			mask_options.UpdateButton()
 		to_chat(user, span_notice("Your Skull Mime Mask has now morphed into [choice]!"))
 		return TRUE
 
@@ -818,7 +816,7 @@
 	desc = "Pizza."
 	icon_state = "pizza_leotard"
 	body_parts_covered = CHEST|GROIN
-	fitted = FEMALE_UNIFORM_FULL
+	female_sprite_flags = FEMALE_UNIFORM_FULL
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2020/pizza
@@ -832,4 +830,41 @@
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2020/pizza,
 		/obj/item/clothing/suit/costume_2020/pizza,
+	)
+
+/**
+ * Texasman
+ * Made by: Manray
+ */
+
+/obj/item/clothing/under/costume_2020/texasman
+	name = "texasman blue uniform"
+	desc = "Whoooowee, would ya look at that!"
+	icon_state = "texasman_blue"
+
+/obj/item/clothing/gloves/costume_2020/texasman
+	name = "texasman gloves"
+	desc = "Giddy up!"
+	icon_state = "texasman_glove"
+
+/obj/item/clothing/under/costume_2020/texasman/red
+	name = "texasman red uniform"
+	icon_state = "texasman_red"
+
+/obj/item/storage/box/halloween/edition_20/texasman
+	theme_name = "2020's Blue Texasman"
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/texasman,
+		/obj/item/clothing/gloves/costume_2020/texasman,
+		/obj/item/clothing/head/hardhat,
+		/obj/item/clothing/shoes/workboots,
+	)
+
+/obj/item/storage/box/halloween/edition_20/texasman/red
+	theme_name = "2020's Red Texasman"
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2020/texasman/red,
+		/obj/item/clothing/gloves/costume_2020/texasman,
+		/obj/item/clothing/head/hardhat,
+		/obj/item/clothing/shoes/workboots,
 	)

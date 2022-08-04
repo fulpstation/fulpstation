@@ -33,18 +33,6 @@
 	QDEL_NULL(manifest)
 	return ..()
 
-/obj/structure/closet/crate/update_overlays()
-	. = ..()
-	if(broken)
-		. += "securecrateemag"
-		return
-	if(locked)
-		. += "securecrater"
-		return
-	if(secure)
-		. += "securecrateg"
-		return
-
 /obj/structure/closet/crate/CanAllowThrough(atom/movable/mover, border_dir)
 	. = ..()
 	if(!istype(mover, /obj/structure/closet))
@@ -63,6 +51,12 @@
 	. = new_overlays
 	if(manifest)
 		. += "manifest"
+	if(broken)
+		. += "securecrateemag"
+	else if(locked)
+		. += "securecrater"
+	else if(secure)
+		. += "securecrateg"
 
 /obj/structure/closet/crate/attack_hand(mob/user, list/modifiers)
 	. = ..()
@@ -152,7 +146,7 @@
 	icon_state = "trashcart"
 	can_install_electronics = FALSE
 
-/obj/structure/closet/crate/trashcart/Moved()
+/obj/structure/closet/crate/trashcart/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change = TRUE)
 	. = ..()
 	if(has_gravity())
 		playsound(src, 'sound/effects/roll.ogg', 100, TRUE)

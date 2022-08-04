@@ -261,6 +261,7 @@
 /area/ruin/space/has_grav/powered/beef)
 "dC" = (
 /obj/structure/table/wood,
+/obj/effect/spawner/random/beef_station,
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/powered/beef)
 "dG" = (
@@ -268,7 +269,7 @@
 	dir = 1
 	},
 /mob/living/simple_animal/butterfly,
-/obj/structure/flora/ausbushes/ywflowers,
+/obj/structure/flora/bush/flowers_yw/style_random,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/beef)
 "dJ" = (
@@ -306,6 +307,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/bookbinder,
 /turf/open/floor/carpet/orange,
 /area/ruin/space/has_grav/powered/beef)
 "ed" = (
@@ -322,16 +324,15 @@
 "ek" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
-/area/ruin/space/has_grav/powered/beef)
+/area/space/nearstation)
 "el" = (
-/obj/structure/chair/stool/bar,
+/obj/structure/chair/stool/bar{
+	dir = 1
+	},
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "em" = (
 /obj/machinery/light,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 8
-	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
 "ev" = (
@@ -534,7 +535,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 8
 	},
-/turf/open/floor/plating,
+/turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "hD" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -578,7 +579,7 @@
 /obj/machinery/door/airlock/security,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/plating,
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/beef)
 "in" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -595,7 +596,7 @@
 /obj/machinery/door/airlock/public,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/plating/icemoon,
+/turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "iz" = (
 /mob/living/simple_animal/hostile/bear/snow{
@@ -673,7 +674,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/beef)
 "jE" = (
 /obj/machinery/portable_atmospherics/canister/plasma,
@@ -684,13 +685,13 @@
 /obj/structure/window/reinforced/spawner{
 	dir = 8
 	},
-/obj/structure/flora/ausbushes/brflowers,
+/obj/structure/flora/bush/flowers_br/style_random,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/beef)
 "jW" = (
 /obj/structure/table/glass,
-/obj/item/storage/firstaid/advanced,
-/obj/item/storage/firstaid/advanced,
+/obj/item/storage/medkit/advanced,
+/obj/item/storage/medkit/advanced,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
@@ -721,15 +722,14 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "ky" = (
-/obj/structure/bed,
-/obj/item/bedsheet/dorms,
-/obj/item/toy/plush/beefplushie,
-/turf/open/floor/eighties,
+/obj/structure/table/reinforced,
+/obj/item/toy/plush/beefplushie/living,
+/turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "kB" = (
-/obj/machinery/door/airlock/alarmlock,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/machinery/door/airlock/public,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "kD" = (
@@ -755,7 +755,7 @@
 /area/ruin/space/has_grav/powered/beef)
 "kS" = (
 /mob/living/simple_animal/chicken,
-/obj/structure/flora/ausbushes/ppflowers,
+/obj/structure/flora/bush/flowers_pp/style_random,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/beef)
 "kX" = (
@@ -821,7 +821,7 @@
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "lJ" = (
-/obj/structure/sign/warning/securearea,
+/obj/structure/sign/warning/secure_area,
 /turf/closed/wall,
 /area/ruin/space/has_grav/powered/beef)
 "lP" = (
@@ -839,7 +839,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 9
 	},
-/turf/closed/wall/mineral/titanium,
+/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/ruin/space/has_grav/powered/beef)
 "mh" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
@@ -853,10 +853,10 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "mn" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/mix_input{
+/obj/machinery/atmospherics/components/unary/passive_vent{
 	dir = 1
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/ruin/space/has_grav/powered/beef)
 "mw" = (
 /obj/structure/window/reinforced{
@@ -1101,8 +1101,8 @@
 	dir = 8
 	},
 /obj/structure/table/glass,
-/obj/item/storage/firstaid/o2,
-/obj/item/storage/firstaid/toxin,
+/obj/item/storage/medkit/o2,
+/obj/item/storage/medkit/toxin,
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
 	dir = 8
@@ -1194,6 +1194,12 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
+"rM" = (
+/obj/machinery/button/door/directional/south{
+	id = "beefkitchen"
+	},
+/turf/open/floor/iron/cafeteria,
+/area/ruin/space/has_grav/powered/beef)
 "sf" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/visible{
 	dir = 8
@@ -1245,7 +1251,7 @@
 	dir = 4
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "ta" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
 /obj/item/storage/toolbox/emergency,
@@ -1324,13 +1330,13 @@
 	dir = 4
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "ul" = (
 /turf/open/floor/plastic,
 /area/ruin/space/has_grav/powered/beef)
 "uq" = (
 /turf/open/space/basic,
-/area/space)
+/area/template_noop)
 "uw" = (
 /obj/effect/turf_decal/tile/neutral{
 	color = "#2e2e2e";
@@ -1482,23 +1488,9 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
-"wU" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/effect/turf_decal/tile/neutral{
-	color = "#2e2e2e";
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue{
-	color = "#414ad1";
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/beef)
 "xi" = (
-/obj/structure/table/wood/shuttle_bar,
 /obj/machinery/chem_dispenser/drinks/fullupgrade,
+/obj/structure/table/wood,
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "xp" = (
@@ -1650,7 +1642,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/door/window/northright{
+/obj/machinery/door/window/right/directional/north{
 	dir = 8
 	},
 /turf/open/floor/light,
@@ -1685,12 +1677,6 @@
 	dir = 4
 	},
 /turf/open/floor/grass,
-/area/ruin/space/has_grav/powered/beef)
-"AN" = (
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
-	dir = 5
-	},
-/turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
 "AQ" = (
 /obj/structure/kitchenspike,
@@ -1949,7 +1935,7 @@
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "Fv" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 1
 	},
 /turf/open/floor/plating,
@@ -1995,7 +1981,13 @@
 /area/ruin/space/has_grav/powered/beef)
 "Go" = (
 /obj/structure/table/wood,
-/obj/item/pen/fountain,
+/obj/item/pen/fountain{
+	pixel_x = -5
+	},
+/obj/item/flashlight/lamp{
+	pixel_x = 5;
+	pixel_y = 8
+	},
 /turf/open/floor/carpet/red,
 /area/ruin/space/has_grav/powered/beef)
 "Gu" = (
@@ -2151,7 +2143,7 @@
 	dir = 1
 	},
 /obj/machinery/airalarm/all_access{
-	dir = 8;
+	dir = 4;
 	pixel_x = 25
 	},
 /turf/open/floor/plating,
@@ -2181,7 +2173,7 @@
 /obj/structure/window/reinforced/spawner{
 	dir = 1
 	},
-/obj/structure/flora/ausbushes/ppflowers,
+/obj/structure/flora/bush/flowers_pp/style_random,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/beef)
 "IB" = (
@@ -2216,14 +2208,14 @@
 /turf/open/floor/engine,
 /area/ruin/space/has_grav/powered/beef)
 "Jb" = (
-/obj/machinery/door/airlock/alarmlock,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 8
 	},
-/turf/open/floor/plating,
+/obj/machinery/door/airlock/public/glass,
+/turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "Ji" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
@@ -2275,10 +2267,12 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Kd" = (
-/obj/structure/chair/stool/bar,
 /obj/effect/turf_decal/siding{
 	color = "#4a4a4a";
 	dir = 4
+	},
+/obj/structure/chair/stool/bar{
+	dir = 1
 	},
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
@@ -2323,10 +2317,6 @@
 /obj/structure/lattice/catwalk,
 /obj/structure/grille,
 /turf/closed/indestructible/reinforced,
-/area/ruin/space/has_grav/powered/beef)
-"Lv" = (
-/obj/machinery/door/airlock/alarmlock,
-/turf/open/floor/carpet/red,
 /area/ruin/space/has_grav/powered/beef)
 "Ly" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
@@ -2400,7 +2390,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "Nn" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
@@ -2441,6 +2431,15 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/carpet/orange,
 /area/ruin/space/has_grav/powered/beef)
+"NJ" = (
+/obj/structure/chair/stool/bar{
+	dir = 1
+	},
+/obj/structure/chair/stool/bar{
+	dir = 1
+	},
+/turf/open/floor/eighties,
+/area/ruin/space/has_grav/powered/beef)
 "NL" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
@@ -2469,7 +2468,7 @@
 /area/ruin/space/has_grav/powered/beef)
 "NU" = (
 /obj/machinery/door/airlock/public,
-/turf/open/floor/plating,
+/turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "NX" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
@@ -2538,7 +2537,9 @@
 /turf/open/floor/wood,
 /area/ruin/space/has_grav/powered/beef)
 "Pa" = (
-/obj/structure/table/wood/shuttle_bar,
+/obj/structure/table/wood/shuttle_bar{
+	boot_dir = 2
+	},
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "Pp" = (
@@ -2611,6 +2612,7 @@
 	dir = 8
 	},
 /obj/machinery/airalarm/all_access{
+	dir = 1;
 	frequency = 1204;
 	pixel_y = 25
 	},
@@ -2694,15 +2696,13 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "RY" = (
-/obj/machinery/atmospherics/components/binary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 4
 	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/beef)
 "Sa" = (
-/obj/structure/table/reinforced,
-/obj/effect/spawner/random/beef_station,
-/turf/open/floor/iron/cafeteria,
+/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/ruin/space/has_grav/powered/beef)
 "Sk" = (
 /obj/effect/turf_decal/tile/blue{
@@ -2823,10 +2823,12 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "TV" = (
-/obj/structure/table/wood/shuttle_bar,
 /obj/effect/turf_decal/siding{
 	color = "#4a4a4a";
 	dir = 4
+	},
+/obj/structure/table/wood/shuttle_bar{
+	boot_dir = 2
 	},
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
@@ -2866,10 +2868,8 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Up" = (
-/obj/machinery/door/airlock/alarmlock,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "beefstation-frontdoor"
-	},
+/obj/machinery/door/airlock/public,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Uq" = (
@@ -2925,16 +2925,16 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Vc" = (
-/obj/machinery/door/airlock/alarmlock,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/iron,
+/obj/machinery/door/airlock/public/glass,
+/turf/open/floor/plastic,
 /area/ruin/space/has_grav/powered/beef)
 "Vz" = (
 /obj/machinery/door/airlock/public,
 /obj/structure/fans/tiny,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "beefstation-frontdoor"
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
@@ -2960,13 +2960,15 @@
 /turf/open/floor/carpet/orange,
 /area/ruin/space/has_grav/powered/beef)
 "Wn" = (
-/obj/machinery/door/poddoor/shutters/preopen,
 /obj/structure/table/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "beefkitchen"
+	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Wr" = (
 /mob/living/simple_animal/butterfly,
-/obj/structure/flora/ausbushes/ywflowers,
+/obj/structure/flora/bush/flowers_yw/style_random,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/beef)
 "Wu" = (
@@ -2985,22 +2987,22 @@
 "WP" = (
 /obj/structure/lattice,
 /turf/open/space/basic,
-/area/ruin/space/has_grav/powered/beef)
+/area/space/nearstation)
 "WS" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
 	dir = 1
 	},
 /turf/open/floor/light,
 /area/ruin/space/has_grav/powered/beef)
-"WT" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space)
 "Xc" = (
 /obj/structure/window/reinforced{
 	dir = 4
 	},
 /turf/open/floor/engine,
+/area/ruin/space/has_grav/powered/beef)
+"XP" = (
+/obj/machinery/libraryscanner,
+/turf/open/floor/carpet/red,
 /area/ruin/space/has_grav/powered/beef)
 "XS" = (
 /turf/open/floor/mineral/gold,
@@ -3031,7 +3033,7 @@
 	color = "#2e2e2e";
 	dir = 4
 	},
-/obj/structure/chair/stool/bar/directional/west,
+/obj/structure/chair/stool/bar/directional/east,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "Yv" = (
@@ -3053,7 +3055,7 @@
 	color = "#2e2e2e";
 	dir = 4
 	},
-/obj/structure/chair/stool/bar/directional/west,
+/obj/structure/chair/stool/bar/directional/east,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/beef)
 "YA" = (
@@ -3068,16 +3070,16 @@
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "YN" = (
-/obj/structure/table/wood/shuttle_bar,
 /obj/machinery/chem_dispenser/drinks/beer/fullupgrade,
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/structure/table/wood,
 /turf/open/floor/eighties,
 /area/ruin/space/has_grav/powered/beef)
 "YU" = (
 /obj/structure/table/wood,
-/obj/item/flashlight/lamp,
+/obj/machinery/computer/libraryconsole/bookmanagement,
 /turf/open/floor/carpet/red,
 /area/ruin/space/has_grav/powered/beef)
 "YW" = (
@@ -3096,10 +3098,10 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/beef)
 "Zx" = (
-/obj/machinery/door/airlock/alarmlock,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/plating,
+/obj/machinery/door/airlock/public/glass,
+/turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/beef)
 "Zz" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -3447,10 +3449,10 @@ uq
 uq
 uq
 uq
-WT
+WP
 sX
 uf
-WT
+WP
 uq
 uq
 uq
@@ -3544,7 +3546,7 @@ DW
 lT
 QD
 UF
-Iw
+Sa
 Iw
 Iw
 uq
@@ -3592,7 +3594,7 @@ tD
 ka
 KY
 Fv
-AN
+SJ
 Iw
 uq
 uq
@@ -3633,14 +3635,14 @@ uq
 uq
 Iw
 Iw
-Iw
+Sa
 iv
 CM
 JD
 PJ
 SJ
 em
-Iw
+Sa
 Iw
 Iw
 uq
@@ -3678,7 +3680,7 @@ uq
 uq
 Iw
 Iw
-Iw
+Sa
 SH
 pv
 Nj
@@ -3689,7 +3691,7 @@ SJ
 tD
 DF
 PH
-Iw
+Sa
 Iw
 Iw
 uq
@@ -3863,7 +3865,7 @@ uq
 uq
 uq
 Iw
-Iw
+Sa
 Gc
 Gc
 Gc
@@ -3880,7 +3882,7 @@ Gc
 Gc
 Gc
 Gc
-Iw
+Sa
 Iw
 uq
 uq
@@ -3918,7 +3920,7 @@ iy
 Ui
 GR
 xv
-wU
+vr
 vr
 xv
 cN
@@ -4069,7 +4071,7 @@ NG
 Te
 eG
 Yv
-Iw
+Sa
 Iw
 Iw
 Iw
@@ -4116,10 +4118,10 @@ eG
 Tr
 eG
 eG
-Lv
+NU
 fv
 fv
-Iw
+Sa
 Iw
 uq
 uq
@@ -4260,7 +4262,7 @@ Hg
 fS
 ei
 Go
-fv
+XP
 Iw
 uq
 uq
@@ -4304,7 +4306,7 @@ eE
 dG
 kS
 oa
-fC
+Gc
 Gc
 Gc
 Gc
@@ -4571,7 +4573,7 @@ fC
 xi
 CE
 Pa
-el
+NJ
 jb
 bZ
 NL
@@ -4965,7 +4967,7 @@ qr
 Gc
 LM
 ua
-Iw
+Sa
 Iw
 uq
 uq
@@ -4993,9 +4995,9 @@ uq
 fC
 Kn
 Ud
-Ii
+ky
 dp
-Ud
+rM
 Gc
 uw
 eE
@@ -5009,7 +5011,7 @@ Nm
 Gc
 Gc
 hb
-Iw
+Sa
 Iw
 Iw
 Iw
@@ -5087,7 +5089,7 @@ uq
 fC
 PM
 Ud
-Sa
+Ii
 vE
 Ii
 Gc
@@ -5098,7 +5100,7 @@ kP
 eE
 uz
 Gc
-ky
+qe
 Nr
 Gc
 qe
@@ -5196,7 +5198,7 @@ Gc
 Gc
 Gc
 Gc
-Iw
+Sa
 Iw
 uq
 uq
@@ -5226,7 +5228,7 @@ uq
 uq
 uq
 Iw
-Iw
+Sa
 Gc
 Jb
 Gc
@@ -5289,7 +5291,7 @@ Vc
 xW
 ul
 Gc
-Iw
+Sa
 Iw
 uq
 uq
@@ -5321,7 +5323,7 @@ uq
 uq
 uq
 Iw
-Iw
+Sa
 Ut
 du
 du
@@ -5381,7 +5383,7 @@ Or
 Or
 Gc
 yc
-Iw
+Sa
 Iw
 Iw
 uq
@@ -5426,7 +5428,7 @@ aG
 Mj
 Or
 Or
-Iw
+Sa
 Iw
 Iw
 uq
@@ -5466,7 +5468,7 @@ uq
 uq
 Iw
 Iw
-Iw
+Sa
 Or
 Or
 mh

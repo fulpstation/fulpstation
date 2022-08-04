@@ -43,13 +43,6 @@
 	desc = "A sash for someone that mean business."
 	icon_state = "detective"
 
-/obj/item/clothing/under/bodysash/security/brigdoc
-	name = "brig physician's sash"
-	desc = "It's made of a special fiber that provides minor protection against biohazards and Close Quarters weaponry. It has a brig physician stripe on it."
-	icon_state = "brigdoc"
-	permeability_coefficient = 0.5
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 30, ACID = 30)
-
 /obj/item/clothing/under/bodysash/security/deputy
 	name = "deputy's sash"
 	desc = "An awe-inspiring \"tactical\" sash; because safety never takes a holiday."
@@ -60,7 +53,6 @@
 	name = "medical's sash"
 	desc = "A doctor's sash, It's made of a special fiber that provides minor protection against biohazards.."
 	icon_state = "medical"
-	permeability_coefficient = 0.5
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
 
 /obj/item/clothing/under/bodysash/medical/cmo
@@ -113,7 +105,6 @@
 	name = "scientist's sash"
 	desc = "It's made of a special fiber that provides minor \"protection\" against explosives. It has markings that denote the wearer as a scientist."
 	icon_state = "scientist"
-	permeability_coefficient = 0.5
 
 /obj/item/clothing/under/bodysash/roboticist
 	name = "roboticist's sash"
@@ -125,7 +116,6 @@
 	name = "geneticist's sash"
 	desc = "A geneticist's sash. It's made of a special fiber that gives special protection against biohazards."
 	icon_state = "geneticist"
-	permeability_coefficient = 0.5
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
 
 //Supply/Civilian
@@ -203,7 +193,6 @@
 	name = "botanist's sash"
 	desc = "It's a sash designed to protect against minor plant-related hazards."
 	icon_state = "botanist"
-	permeability_coefficient = 0.5
 
 /obj/item/clothing/under/bodysash/janitor
 	name = "janitor's sash"

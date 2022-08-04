@@ -11,7 +11,6 @@
 #define ROLE_BROTHER "Blood Brother"
 #define ROLE_CHANGELING "Changeling"
 #define ROLE_CULTIST "Cultist"
-#define ROLE_FAMILIES "Gangster"
 #define ROLE_HERETIC "Heretic"
 #define ROLE_MALF "Malf AI"
 #define ROLE_OPERATIVE "Operative"
@@ -24,7 +23,6 @@
 #define ROLE_ALIEN "Xenomorph"
 #define ROLE_BLOB "Blob"
 #define ROLE_BLOB_INFECTION "Blob Infection"
-#define ROLE_FAMILY_HEAD_ASPIRANT "Family Head Aspirant"
 #define ROLE_FUGITIVE "Fugitive"
 #define ROLE_LONE_OPERATIVE "Lone Operative"
 #define ROLE_MALF_MIDROUND "Malf AI (Midround)"
@@ -100,6 +98,12 @@
 #define ROLE_BATTLECRUISER_CREW "Battlecruiser Crew"
 #define ROLE_BATTLECRUISER_CAPTAIN "Battlecruiser Captain"
 
+//fulp edit - bloodsucker roles
+#define ROLE_BLOODSUCKER "Bloodsucker"
+#define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
+#define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
+#define ROLE_MONSTERHUNTER "Monster Hunter"
+#define ROLE_INFILTRATOR "Infiltrator"
 
 /// This defines the antagonists you can operate with in the settings.
 /// Keys are the antagonist, values are the number of days since the player's
@@ -110,7 +114,6 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_CHANGELING = 0,
 	ROLE_CLOWN_OPERATIVE = 14,
 	ROLE_CULTIST = 14,
-	ROLE_FAMILIES = 0,
 	ROLE_HERETIC = 0,
 	ROLE_MALF = 0,
 	ROLE_OPERATIVE = 14,
@@ -124,7 +127,6 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_ALIEN = 0,
 	ROLE_BLOB = 0,
 	ROLE_BLOB_INFECTION = 0,
-	ROLE_FAMILY_HEAD_ASPIRANT = 0,
 	ROLE_FUGITIVE = 0,
 	ROLE_LONE_OPERATIVE = 14,
 	ROLE_MALF_MIDROUND = 0,
@@ -154,6 +156,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_VAMPIRICACCIDENT = 0,
 	ROLE_BLOODSUCKERBREAKOUT = 0,
 	ROLE_MONSTERHUNTER = 0,
+	ROLE_INFILTRATOR = 0,
 	// Fulp edit END
 ))
 

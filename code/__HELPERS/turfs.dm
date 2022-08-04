@@ -1,7 +1,7 @@
 ///Returns location. Returns null if no location was found.
-/proc/get_teleport_loc(turf/location,mob/target,distance = 1, density = FALSE, errorx = 0, errory = 0, eoffsetx = 0, eoffsety = 0)
+/proc/get_teleport_loc(turf/location, mob/target, distance = 1, density_check = FALSE, closed_turf_check = FALSE, errorx = 0, errory = 0, eoffsetx = 0, eoffsety = 0)
 /*
-Location where the teleport begins, target that will teleport, distance to go, density checking 0/1(yes/no).
+Location where the teleport begins, target that will teleport, distance to go, density checking 0/1(yes/no), closed turf checking.
 Random error in tile placement x, error in tile placement y, and block offset.
 Block offset tells the proc how to place the box. Behind teleport location, relative to starting location, forward, etc.
 Negative values for offset are accepted, think of it in relation to North, -x is west, -y is south. Error defaults to positive.
@@ -63,8 +63,10 @@ Turf and target are separate in case you want to teleport some distance from a t
 		return
 
 	if(!errorx && !errory)//If errorx or y were not specified.
-		if(density&&destination.density)
+		if(density_check && destination.density)
 			return
+		if(closed_turf_check && isclosedturf(destination))
+			return//If closed was specified.
 		if(destination.x>world.maxx || destination.x<1)
 			return
 		if(destination.y>world.maxy || destination.y<1)
@@ -83,8 +85,10 @@ Turf and target are separate in case you want to teleport some distance from a t
 
 	//Now to find a box from center location and make that our destination.
 	for(var/turf/current_turf in block(locate(center.x + b1xerror, center.y + b1yerror, location.z), locate(center.x + b2xerror, center.y + b2yerror, location.z)))
-		if(density && current_turf.density)
+		if(density_check && current_turf.density)
 			continue//If density was specified.
+		if(closed_turf_check && isclosedturf(current_turf))
+			continue//If closed was specified.
 		if(current_turf.x > world.maxx || current_turf.x < 1)
 			continue//Don't want them to teleport off the map.
 		if(current_turf.y > world.maxy || current_turf.y < 1)
@@ -98,17 +102,26 @@ Turf and target are separate in case you want to teleport some distance from a t
 	return destination
 
 /**
- * Returns the atom sitting on the turf.
- * For example, using this on a disk, which is in a bag, on a mob, will return the mob because it's on the turf.
- * Optional arg 'type' to stop once it reaches a specific type instead of a turf.
-**/
-/proc/get_atom_on_turf(atom/movable/atom_on_turf, stop_type)
-	var/atom/turf_to_check = atom_on_turf
-	while(turf_to_check?.loc && !isturf(turf_to_check.loc))
-		turf_to_check = turf_to_check.loc
-		if(stop_type && istype(turf_to_check, stop_type))
+ * Returns the top-most atom sitting on the turf.
+ * For example, using this on a disk, which is in a bag, on a mob,
+ * will return the mob because it's on the turf.
+ *
+ * Arguments
+ * * something_in_turf - a movable within the turf, somewhere.
+ * * stop_type - optional - stops looking if stop_type is found in the turf, returning that type (if found).
+ **/
+/proc/get_atom_on_turf(atom/movable/something_in_turf, stop_type)
+	if(!istype(something_in_turf))
+		CRASH("get_atom_on_turf was not passed an /atom/movable! Got [isnull(something_in_turf) ? "null":"type: [something_in_turf.type]"]")
+
+	var/atom/movable/topmost_thing = something_in_turf
+
+	while(topmost_thing?.loc && !isturf(topmost_thing.loc))
+		topmost_thing = topmost_thing.loc
+		if(stop_type && istype(topmost_thing, stop_type))
 			break
-	return turf_to_check
+
+	return topmost_thing
 
 ///Returns the turf located at the map edge in the specified direction relative to target_atom used for mass driver
 /proc/get_edge_target_turf(atom/target_atom, direction)
@@ -220,8 +233,8 @@ Turf and target are separate in case you want to teleport some distance from a t
 	var/turf/atom_turf = get_turf(checked_atom) //use checked_atom's turfs, as it's coords are the same as checked_atom's AND checked_atom's coords are lost if it is inside another atom
 	if(!atom_turf)
 		return null
-	var/final_x = atom_turf.x + rough_x
-	var/final_y = atom_turf.y + rough_y
+	var/final_x = clamp(atom_turf.x + rough_x, 1, world.maxx)
+	var/final_y = clamp(atom_turf.y + rough_y, 1, world.maxy)
 
 	if(final_x || final_y)
 		return locate(final_x, final_y, atom_turf.z)
@@ -376,3 +389,20 @@ Turf and target are separate in case you want to teleport some distance from a t
 			if(rail.dir == test_dir || is_fulltile)
 				return FALSE
 	return TRUE
+
+/**
+ * Checks whether or not a particular typepath or subtype of it is present on a turf
+ *
+ * Returns TRUE if an instance of the desired type or a subtype of it is found
+ * Returns FALSE if the type is not found, or if no turf is supplied
+ *
+ * Arguments:
+ * * location - The turf to be checked for the desired type
+ * * type_to_find - The typepath whose presence you are checking for
+ */
+/proc/is_type_on_turf(turf/location, type_to_find)
+	if(!location)
+		return FALSE
+	if(locate(type_to_find) in location)
+		return TRUE
+	return FALSE
