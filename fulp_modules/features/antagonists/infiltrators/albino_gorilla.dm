@@ -38,8 +38,8 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/mob_target = target
-		mob_target.Paralyze(6 SECONDS)
-		mob_target.adjust_blurriness(5)
+		mob_target.adjustStaminaLoss(50)
+		mob_target.Knockdown(20)
 		mob_target.visible_message(span_warning("[mob_target] is dunged by [src]!"), span_userdanger("You've been dunged by [src]!"))
 		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
 		if(ishuman(mob_target))
