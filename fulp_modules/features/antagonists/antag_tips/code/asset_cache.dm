@@ -32,8 +32,6 @@
 		"beepsky.png" = 'fulp_modules/features/antagonists/antag_tips/icons/beepsky.png',
 		"cyborg.png" = 'fulp_modules/features/antagonists/antag_tips/icons/cyborg.png',
 		"malf_ai.png" = 'fulp_modules/features/antagonists/antag_tips/icons/malf_ai.png',
-		//Monster Hunter
-		"monsterhunter.png" = 'fulp_modules/features/antagonists/antag_tips/icons/monsterhunter.png',
 		//Nukie
 		"disk.png" = 'fulp_modules/features/antagonists/antag_tips/icons/disk.png',
 		"eshield.png" = 'fulp_modules/features/antagonists/antag_tips/icons/eshield.png',

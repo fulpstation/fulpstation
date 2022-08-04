@@ -32,10 +32,6 @@
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
 		bloodsucker_user.physiology.brute_mod *= fortitude_resist
 		bloodsucker_user.physiology.stamina_mod *= fortitude_resist
-	if(IS_MONSTERHUNTER(owner))
-		bloodsucker_user.physiology.brute_mod *= 0.4
-		bloodsucker_user.physiology.burn_mod *= 0.4
-		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 
 	was_running = (owner.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
@@ -64,9 +60,6 @@
 		bloodsucker_user.physiology.brute_mod /= fortitude_resist
 		if(!HAS_TRAIT_FROM(bloodsucker_user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT))
 			bloodsucker_user.physiology.stamina_mod /= fortitude_resist
-	if(IS_MONSTERHUNTER(owner))
-		bloodsucker_user.physiology.brute_mod /= 0.4
-		bloodsucker_user.physiology.burn_mod /= 0.4
 	// Remove Traits & Effects
 	REMOVE_TRAIT(bloodsucker_user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(bloodsucker_user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)

@@ -116,8 +116,8 @@
 		new /datum/forced_movement(user, get_ranged_target_turf(user, send_dir, 1), 1, FALSE)
 		user.spin(10)
 		return
-	// Is my target a Monster hunter?
-	if(IS_MONSTERHUNTER(target) || target.is_shove_knockdown_blocked())
+	// Is my target in riot gear?
+	if(target.is_shove_knockdown_blocked())
 		owner.balloon_alert(owner, "you get pushed away!")
 		target.grabbedby(owner)
 		return

@@ -10,8 +10,6 @@
 #define HERETIC_TIPS "heretic"
 ///Malfunctional AIs
 #define MALF_TIPS "malf_ai"
-///Monster Hunters
-#define MONSTERHUNTER_TIPS "monsterhunter"
 ///Nuclear Operatives
 #define NUKIE_TIPS "nukie"
 ///Revolutionaries

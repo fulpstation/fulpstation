@@ -88,12 +88,3 @@
 			all_targets.Knockdown(10 + level_current * 5)
 			all_targets.Paralyze(0.1)
 			all_targets.spin(10, 1)
-			if(IS_MONSTERHUNTER(all_targets) && HAS_TRAIT(all_targets, TRAIT_STUNIMMUNE))
-				all_targets.balloon_alert(all_targets, "knocked down!")
-				for(var/datum/action/cooldown/bloodsucker/power in all_targets.actions)
-					if(power.active)
-						power.DeactivatePower()
-				all_targets.set_timed_status_effect(8 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-				all_targets.set_timed_status_effect(8 SECONDS, /datum/status_effect/confusion, only_if_higher = TRUE)
-				all_targets.adjust_timed_status_effect(8 SECONDS, /datum/status_effect/speech/stutter)
-				all_targets.Knockdown(10 + level_current * 5) // Re-knock them down, the first one didn't work due to stunimmunity

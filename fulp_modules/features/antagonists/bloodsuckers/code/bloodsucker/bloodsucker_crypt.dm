@@ -14,7 +14,6 @@
 	var/ghost_desc
 	var/vamp_desc
 	var/vassal_desc
-	var/hunter_desc
 
 /obj/structure/bloodsucker/examine(mob/user)
 	. = ..()
@@ -27,8 +26,6 @@
 		. += span_cult(vamp_desc)
 	if(IS_VASSAL(user) && vassal_desc != "")
 		. += span_cult(vassal_desc)
-	if(IS_MONSTERHUNTER(user) && hunter_desc != "")
-		. += span_cult(hunter_desc)
 
 /// This handles bolting down the structure.
 /obj/structure/bloodsucker/proc/bolt(mob/user)
@@ -128,9 +125,6 @@
 	vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions.\n\
 		Aid your master in bringing their victims here and keeping them secure.\n\
 		You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured."
-	hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.\n\
-		They usually ensure that victims are handcuffed, to prevent them from running away.\n\
-		Their rituals take time, allowing us to disrupt it."
 	/// So we can't spam buckle people onto the rack
 	var/use_lock = FALSE
 	var/mob/buckled
@@ -227,9 +221,7 @@
 				span_danger("[user] tries to pull [buckled_mob] rack!"),
 				span_hear("You hear a squishy wet noise."),
 			)
-		// Monster hunters are used to this sort of stuff, they know how they work, which includes breaking others out
-		var/breakout_timer = IS_MONSTERHUNTER(user) ? 20 SECONDS : 10 SECONDS
-		if(!do_mob(user, buckled_mob, breakout_timer))
+		if(!do_mob(user, buckled_mob, (20 SECONDS)))
 			return
 	unbuckle_mob(buckled_mob)
 	. = ..()
@@ -463,7 +455,6 @@
 	vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n\
 		You can turn it on and off by clicking on it while you are next to it.\n\
 		If your Master is part of the Ventrue Clan, they utilize this to upgrade their Favorite Vassal."
-	hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
 
 /obj/structure/bloodsucker/candelabrum/Destroy()
@@ -635,8 +626,6 @@
 	ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
 	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
 	vassal_desc = "This is a blood throne, it allows your Master to telepathically speak to you and others like you."
-	hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
-		While buckled, Monsters can use this to telepathically communicate with eachother."
 	var/mutable_appearance/armrest
 
 // Add rotating and armrest
