@@ -56,7 +56,7 @@
 	///Have we selected our Favorite Vassal yet?
 	var/has_favorite_vassal = FALSE
 
-	var/bloodsucker_level
+	var/bloodsucker_level = 0
 	var/bloodsucker_level_unspent = 1
 	var/passive_blood_drain = -0.1
 	var/additional_regen
