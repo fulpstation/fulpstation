@@ -76,7 +76,7 @@
 		target = pick(possible_targets)
 
 	if(target?.current)
-		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]. as a threat to Nanotrasen, ensure they are eliminated."
+		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] as a Syndicate Agent, ensure they are eliminated."
 
 
 //advanced mulligan objective
@@ -97,7 +97,7 @@
 		var/mob/living/carbon/human/target_body = target.current
 		if(target_body && target_body.get_id_name() != target_real_name)
 			target_missing_id = 1
-		explanation_text = "Using Advanced Mulligan, escape with the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
+		explanation_text = "Using Advanced Mulligan, steal the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
 
 /datum/objective/escape/escape_with_identity/infiltrator/check_completion()
 	if(!target || !target_real_name)

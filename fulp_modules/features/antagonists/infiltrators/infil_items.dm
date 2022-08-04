@@ -87,6 +87,8 @@
 		/obj/item/reagent_containers/hypospray/medipen/stimulants,
 		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
+	///determines wether the final objective is a dagd or not
+	var/dagd = FALSE
 
 /obj/item/infiltrator_radio/Initialize(mapload)
 	. = ..()
@@ -111,7 +113,12 @@
 	var/list/bitch = user.mind.get_all_objectives()
 	if(checked_objectives.len == bitch.len)
 		objectives_complete = TRUE
-		var/datum/objective/hijack/reward_obj = new
+		var/datum/objective/reward_obj
+		if(prob(60))
+			reward_obj = new /datum/objective/hijack
+		else
+			reward_obj = new /datum/objective/martyr
+			dagd = TRUE
 		reward_obj.owner = user.mind
 		for(var/datum/antagonist/traitor/infiltrator/antag_datum in user.mind.antag_datums)
 			antag_datum.objectives += reward_obj
@@ -131,6 +138,7 @@
 	var/list/data = list()
 	data["check"] = check_reward_status(user)
 	data["completed"] = objectives_complete
+	data["dagd"] = dagd
 	return data
 
 /obj/item/infiltrator_radio/ui_act(action, params)
@@ -162,7 +170,8 @@
 	var/datum/objective/gorillize/objective = locate() in criminal.objectives
 	if(!objective)
 		return
-	target = WEAKREF(objective.target.current)
+	if(objective.target)
+		target = WEAKREF(objective.target.current)
 
 /obj/item/gorilla_serum/afterattack(atom/movable/victim, mob/living/carbon/human/user, proximity)
 	. = ..()
