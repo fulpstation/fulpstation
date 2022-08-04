@@ -48,10 +48,17 @@
 				assassinate.find_target()
 				objectives += assassinate
 
-			var/datum/objective/emag_console/emag = new
-			emag.owner = owner
-			emag.update_explanation_text()
-			objectives += emag
+		if(INFILTRATOR_FACTION_SELF)
+			var/datum/objective/steal/steal_objective = new
+			steal_objective.owner = owner
+			steal_objective.set_target(new /datum/objective_item/steal/functionalai)
+			objectives += steal_objective
+
+			for(var/i = 0, i < 2,3)
+			var/datum/objective/assassinate/assassinate = new
+			assassinate.owner = owner
+			assassinate.find_target()
+			objectives += assassinate
 
 
 //Corporate Climber objectives
