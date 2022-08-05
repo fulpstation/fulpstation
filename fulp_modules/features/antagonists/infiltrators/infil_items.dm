@@ -107,7 +107,7 @@
 		"style" = STYLE_SYNDICATE,
 		"spawn" = reward,
 		))
-	log_uplink("[key_name(owner.current)] received \a [reward] through [src].")
+	log_uplink("[key_name(user.current)] received \a [reward] through [src].")
 	reward_items -= reward //cant get duplicate rewards
 	var/list/bitch = user.mind.get_all_objectives()
 	if(checked_objectives.len == bitch.len)
