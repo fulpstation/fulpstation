@@ -3,7 +3,7 @@
  * Level 3: Stun People Passed
  */
 
-/datum/action/cooldown/bloodsucker/targeted/haste
+/datum/action/bloodsucker/targeted/haste
 	name = "Immortal Haste"
 	desc = "Dash somewhere with supernatural speed. Those nearby may be knocked away, stunned, or left empty-handed."
 	button_icon_state = "power_speed"
@@ -23,7 +23,7 @@
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 
-/datum/action/cooldown/bloodsucker/targeted/haste/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/haste/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -40,14 +40,14 @@
 	return TRUE
 
 /// Anything will do, if it's not me or my square
-/datum/action/cooldown/bloodsucker/targeted/haste/CheckValidTarget(atom/target_atom)
+/datum/action/bloodsucker/targeted/haste/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	return target_atom.loc != owner.loc
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
-/datum/action/cooldown/bloodsucker/targeted/haste/FireTargetedPower(atom/target_atom)
+/datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/target_atom)
 	. = ..()
 	hit = list()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/on_move)
@@ -80,7 +80,7 @@
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 	hit = null
 
-/datum/action/cooldown/bloodsucker/targeted/haste/proc/on_move()
+/datum/action/bloodsucker/targeted/haste/proc/on_move()
 	for(var/mob/living/all_targets in dview(1, get_turf(owner)))
 		if(!hit[all_targets] && (all_targets != owner))
 			hit[all_targets] = TRUE

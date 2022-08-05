@@ -1,4 +1,4 @@
-/datum/action/cooldown/bloodsucker/fortitude
+/datum/action/bloodsucker/fortitude
 	name = "Fortitude"
 	desc = "Withstand egregious physical wounds and walk away from attacks that would stun, pierce, and dismember lesser beings."
 	button_icon_state = "power_fortitude"
@@ -17,7 +17,7 @@
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
-/datum/action/cooldown/bloodsucker/fortitude/ActivatePower()
+/datum/action/bloodsucker/fortitude/ActivatePower()
 	. = ..()
 	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(owner, span_notice("Your flesh, skin, and muscles become as steel."))
@@ -37,7 +37,7 @@
 	if(was_running)
 		bloodsucker_user.toggle_move_intent()
 
-/datum/action/cooldown/bloodsucker/fortitude/process(delta_time)
+/datum/action/bloodsucker/fortitude/process(delta_time)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
@@ -52,7 +52,7 @@
 	if(user.buckled && istype(user.buckled, /obj/vehicle))
 		user.buckled.unbuckle_mob(src, force=TRUE)
 
-/datum/action/cooldown/bloodsucker/fortitude/DeactivatePower()
+/datum/action/bloodsucker/fortitude/DeactivatePower()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/bloodsucker_user = owner
@@ -72,7 +72,7 @@
 	return ..()
 
 /// Monster Hunter version
-/datum/action/cooldown/bloodsucker/fortitude/hunter
+/datum/action/bloodsucker/fortitude/hunter
 	name = "Flow"
 	desc = "Use the arts to Flow, giving shove and stun immunity, as well as brute, burn, dismember and pierce resistance. You cannot run while this is active."
 	purchase_flags = HUNTER_CAN_BUY
