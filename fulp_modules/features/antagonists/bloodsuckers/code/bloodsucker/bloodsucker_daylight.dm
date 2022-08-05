@@ -157,8 +157,8 @@
 		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(istype(bloodsuckerdatum) && bloodsuckerdatum.lair && !(locate(/datum/action/cooldown/bloodsucker/gohome) in bloodsuckerdatum.powers))
-			bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/gohome)
+		if(istype(bloodsuckerdatum) && bloodsuckerdatum.lair && !(locate(/datum/action/bloodsucker/gohome) in bloodsuckerdatum.powers))
+			bloodsuckerdatum.BuyPower(new /datum/action/bloodsucker/gohome)
 
 /// It's over now, remove the "Vanishing Act" (gohome) power from Bloodsuckers.
 /obj/effect/sunlight/proc/take_home_power()
@@ -166,6 +166,6 @@
 		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		for(var/datum/action/cooldown/bloodsucker/power in bloodsuckerdatum.powers)
-			if(istype(power, /datum/action/cooldown/bloodsucker/gohome))
+		for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+			if(istype(power, /datum/action/bloodsucker/gohome))
 				bloodsuckerdatum.RemovePower(power)

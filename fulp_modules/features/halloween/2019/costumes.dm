@@ -193,12 +193,17 @@
 	name = "trickster's headband"
 	desc = "Smells like expired ceasar dressing."
 	icon_state = "joseph_headband"
+
 /obj/item/clothing/neck/scarf/tricksters_scarf
 	name = "trickster's scarf"
 	desc = "The real trick is that it's held in place with a stiff wire."
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "joseph_scarf"
+	greyscale_colors = null
+	greyscale_config = null
+	greyscale_config_worn = null
+	flags_1 = null
 
 /obj/item/clothing/shoes/tricksters_boots
 	name = "trickster's boots"

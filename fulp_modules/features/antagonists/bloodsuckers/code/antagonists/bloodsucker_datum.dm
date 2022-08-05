@@ -79,7 +79,7 @@
 	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 	/// Static typecache of all bloodsucker powers.
-	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/cooldown/bloodsucker, ignore_root_path = TRUE)
+	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/bloodsucker, ignore_root_path = TRUE)
 	/// Antagonists that cannot be Vassalized no matter what
 	var/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker,
@@ -210,7 +210,7 @@
 
 /datum/antagonist/bloodsucker/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 	var/old_punchdamagelow
@@ -289,7 +289,7 @@
 
 	data["clan"] += list(clan_data)
 
-	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		var/list/power_data = list()
 
 		power_data["power_name"] = power.name
@@ -418,12 +418,12 @@
 		QDEL_NULL(bloodsucker_sunlight)
 
 /// Buying powers
-/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/cooldown/bloodsucker/power)
+/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
 	log_uplink("[key_name(owner.current)] purchased [power].")
 
-/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/cooldown/bloodsucker/power)
+/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
 	if(power.active)
 		power.DeactivatePower()
 	powers -= power
@@ -431,10 +431,10 @@
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
-	BuyPower(new /datum/action/cooldown/bloodsucker/feed)
-	BuyPower(new /datum/action/cooldown/bloodsucker/masquerade)
+	BuyPower(new /datum/action/bloodsucker/feed)
+	BuyPower(new /datum/action/bloodsucker/masquerade)
 	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
-		BuyPower(new /datum/action/cooldown/bloodsucker/veil)
+		BuyPower(new /datum/action/bloodsucker/veil)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
@@ -460,7 +460,7 @@
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	// Powers
-	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		RemovePower(all_powers)
 	/// Stats
 	if(ishuman(owner.current))
@@ -521,20 +521,20 @@
 	bloodsucker_level_unspent--
 
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
-	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
-		if(istype(power, /datum/action/cooldown/bloodsucker/feed) || istype(power, /datum/action/cooldown/bloodsucker/masquerade) || istype(power, /datum/action/cooldown/bloodsucker/veil))
+	for(var/datum/action/bloodsucker/power as anything in powers)
+		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
 			continue
 		RemovePower(power)
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
-	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
-		if(istype(power, /datum/action/cooldown/bloodsucker/targeted/tremere))
+	for(var/datum/action/bloodsucker/power as anything in powers)
+		if(istype(power, /datum/action/bloodsucker/targeted/tremere))
 			continue
 		power.level_current++
 
 ///Disables all powers, accounting for torpor
 /datum/antagonist/bloodsucker/proc/DisableAllPowers()
-	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
+	for(var/datum/action/bloodsucker/power as anything in powers)
 		if((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			if(power.active)
 				power.DeactivatePower()
@@ -542,7 +542,6 @@
 /datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, cost_rank = TRUE, blood_cost)
 	if(!owner || !owner.current || !owner.current.client || (cost_rank && bloodsucker_level_unspent <= 0))
 		return
-
 	SEND_SIGNAL(my_clan, BLOODSUCKER_RANK_UP, src, target, cost_rank, blood_cost)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
