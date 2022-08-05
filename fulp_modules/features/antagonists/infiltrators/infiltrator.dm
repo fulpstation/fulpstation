@@ -38,7 +38,7 @@
 		INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM,
 		INFILTRATOR_FACTION_GORLEX_MARAUDERS,
 	)
-	var/choice = input("What affiliation would you like [new_owner] to have?", "Affiliation") as pick(possible_employers) in possible_employers
+	var/choice = input("What affiliation would you like [new_owner] to have?", "Affiliation") in possible_employers
 	if(!choice)
 		return
 	employer = possible_employers[choice]
