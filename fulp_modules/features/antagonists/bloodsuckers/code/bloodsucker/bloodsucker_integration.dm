@@ -7,15 +7,26 @@
 // Prevents Bloodsuckers from getting affected by blood
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
 	if(mind && IS_BLOODSUCKER(src))
-		return
+		return FALSE
 	return ..()
 
 /datum/reagent/blood/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume, show_message=TRUE, touch_protection=0)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(exposed_mob)
-	if(bloodsuckerdatum)
-		bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+	if(!bloodsuckerdatum)
+		return ..()
+	bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+
+
+/mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced)
+	. = ..()
+
+	if(!mind)
 		return
-	return ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return
+	bloodsuckerdatum.bloodsucker_blood_volume -= amount
+
 
 /// Gives Curators their abilities
 /datum/outfit/job/curator/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
