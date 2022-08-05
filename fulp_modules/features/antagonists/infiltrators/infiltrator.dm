@@ -32,12 +32,16 @@
 	uplink_handler.has_objectives = FALSE
 
 /datum/antagonist/traitor/infiltrator/admin_add(datum/mind/new_owner, mob/admin)
-	var/list/possible_employers = list( // Should probably be moved somewhere better to make full use of it
+	// Should probably be moved somewhere better to make full use of it
+	var/list/possible_employers = list(
 		INFILTRATOR_FACTION_CORPORATE_CLIMBER,
 		INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM,
 		INFILTRATOR_FACTION_GORLEX_MARAUDERS,
-		)
-	employer = input("What affiliation would you like [new_owner] to have?","Affiliation", pick(possible_employers)) in possible_employers
+	)
+	var/choice = input("What affiliation would you like [new_owner] to have?", "Affiliation") as pick(possible_employers) in possible_employers
+	if(!choice)
+		return
+	employer = possible_employers[choice]
 	message_admins("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [employer] [name]")
 	log_admin("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [employer] [name]")
 	new_owner.add_antag_datum(src)
