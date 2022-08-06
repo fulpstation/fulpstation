@@ -22,6 +22,8 @@
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/arc)
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/gm)
+		if(INFILTRATOR_FACTION_SELF)
+			return infiltrator.equipOutfit(/datum/outfit/infiltrator/self)
 
 
 /datum/antagonist/traitor/infiltrator/on_gain()
@@ -32,15 +34,18 @@
 	uplink_handler.has_objectives = FALSE
 
 /datum/antagonist/traitor/infiltrator/pick_employer(faction)
-	faction = prob(70) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
+	faction = prob(75) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
 	if(faction == FACTION_NANOTRASEN)
 		employer = INFILTRATOR_FACTION_CORPORATE_CLIMBER
 	else
-		employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS)
+		employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS, INFILTRATOR_FACTION_SELF)
 	if(give_equipment)
 		equip_infiltrator(owner.current)
 	forge_traitor_objectives()
-	traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
+	if(employer == INFILTRATOR_FACTION_SELF)
+		traitor_flavor = strings("infiltrator_self.json", "S.E.L.F", "fulp_modules/strings/infiltrator")
+	else
+		traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
 
 /datum/outfit/infiltrator
 	name = "Infiltrator"
@@ -77,9 +82,14 @@
 
 /datum/outfit/infiltrator/gm
 	name = "Gorlex Marauders Infiltrator"
-	suit = /obj/item/clothing/suit/space/syndicate/orange
-	head = /obj/item/clothing/head/helmet/space/syndicate/orange
-	r_hand = /obj/item/card/emag
+	suit = /obj/item/clothing/suit/space/syndicate/black/red
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
 
+
+/datum/outfit/infiltrator/self
+	name = "S.E.L.F Infiltrator"
+	suit = /obj/item/clothing/suit/space/syndicate/black/orange
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/orange
+	r_hand = /obj/item/aicard
 
 
