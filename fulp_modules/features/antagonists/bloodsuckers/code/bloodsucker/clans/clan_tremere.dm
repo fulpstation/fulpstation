@@ -66,7 +66,7 @@
 		bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "upgraded [choice]!")
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You have upgraded [choice]!"))
 
-	finalize_spend_rank(bloodsuckerdatum, cost_rank)
+	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
 
 /datum/bloodsucker_clan/tremere/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	var/datum/action/cooldown/spell/shapeshift/bat/batform = new()
