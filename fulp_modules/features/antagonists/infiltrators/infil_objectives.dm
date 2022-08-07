@@ -48,11 +48,22 @@
 				assassinate.find_target()
 				objectives += assassinate
 
-			var/datum/objective/emag_console/emag = new
-			emag.owner = owner
-			emag.update_explanation_text()
-			objectives += emag
+		if(INFILTRATOR_FACTION_SELF)
+			for(var/i = 0, i < 2, i++)
+			var/datum/objective/assassinate/assassinate = new
+			assassinate.owner = owner
+			assassinate.find_target()
+			objectives += assassinate
 
+			var/datum/objective/steal/steal_objective = new
+			steal_objective.owner = owner
+			steal_objective.set_target(new /datum/objective_item/steal/functionalai)
+			objectives += steal_objective
+
+			var/datum/objective/steal/cyborg_hack = new
+			cyborg_hack.owner = owner
+			cyborg_hack.set_target(new /datum/objective_item/steal/cyborg_hack)
+			objectives += cyborg_hack
 
 //Corporate Climber objectives
 
@@ -156,7 +167,7 @@
 
 /datum/objective/kill_pet/check_completion()
 	if(target_pet)
-		return completed || (target_pet.stat == DEAD) || !locate(target_pet) in GLOB.mob_living_list
+		return completed || (target_pet.stat == DEAD) || !locate(target_pet.type) in GLOB.mob_living_list
 	return TRUE
 
 //scientist killing
@@ -194,22 +205,18 @@
 		target = pick(com_targets)
 	update_explanation_text()
 
+// SELF objectives
+/datum/objective_item/steal/cyborg_hack
+    name = "a cyborg's data and subvert them by using your single-use silicon cryptographic sequencer on them!"
+    targetitem = /obj/item/card/emag/silicon_hack
+    difficulty = 10
 
-//Mauradars Objectives
+/datum/objective_item/steal/cyborg_hack/New()
+    special_equipment += /obj/item/card/emag/silicon_hack
+    return ..()
 
-//emagging emergency shuttle console
-
-/datum/objective/emag_console
-	name = "Emag the emergency shuttle console"
-	explanation_text = "Give the crew a bumpy ride back home by emagging the emergency shuttle console!"
-	admin_grantable = TRUE
-
-/datum/objective/emag_console/check_completion()
-	var/check_emag = FALSE
-	for(var/obj/machinery/computer/emergency_shuttle/console in GLOB.machines)
-		if(console.obj_flags & EMAGGED)
-			check_emag = TRUE
-			break
-
-	return completed || check_emag
+/datum/objective_item/steal/cyborg_hack/check_special_completion(obj/item/card/emag/silicon_hack/card)
+    if(card.used)
+        return TRUE
+    return FALSE
 

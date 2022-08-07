@@ -107,6 +107,7 @@
 		"style" = STYLE_SYNDICATE,
 		"spawn" = reward,
 		))
+	log_uplink("[key_name(user)] received \a [reward] through [src].")
 	reward_items -= reward //cant get duplicate rewards
 	var/list/bitch = user.mind.get_all_objectives()
 	if(checked_objectives.len == bitch.len)
@@ -143,4 +144,35 @@
 				give_reward(usr)
 	return
 
+/obj/item/card/emag/silicon_hack
+	name = "single-use silicon cryptographic sequencer"
+	desc = "A specialized cryptographic sequencer used to free cyborgs. Will become voided after a one time use."
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "cyborg_hack"
+    //whether we have successfully emagged a borg
+	var/used = FALSE
 
+/obj/item/card/emag/silicon_hack/proc/use_charge(mob/user)
+    used = TRUE
+    to_chat(user, span_boldwarning("You use [src], and it interfaces with the cyborg's panel."))
+
+/obj/item/card/emag/silicon_hack/examine(mob/user)
+    . = ..()
+    . += span_notice("It can only be used on cyborgs.")
+
+/obj/item/card/emag/silicon_hack/can_emag(atom/target, mob/user)
+    if(used)
+        to_chat(user, span_warning("[src] is used up."))
+        return FALSE
+    if(!istype(target, /mob/living/silicon/robot))
+        to_chat(user, span_warning("[src] is unable to interface with this. It only seems to interface with cyborg panels."))
+        return FALSE
+    return TRUE
+
+/mob/living/silicon/robot/emag_act(mob/user, obj/item/card/emag/emag_card)
+    . = ..()
+    if(istype(emag_card, /obj/item/card/emag/silicon_hack))
+        var/obj/item/card/emag/silicon_hack/hack_card = emag_card
+        hack_card.use_charge(user)
+        playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+        return

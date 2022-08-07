@@ -1,6 +1,7 @@
+import { resolveAsset } from 'tgui/assets';
 import { BooleanLike } from '../../common/react';
 import { useBackend, useLocalState } from '../../tgui/backend';
-import { Section, Stack, Tabs } from '../../tgui/components';
+import { Box, Button, Divider, Dropdown, Section, Stack, Tabs } from '../../tgui/components';
 import { Window } from '../../tgui/layouts';
 
 type Objective = {
@@ -12,11 +13,29 @@ type Objective = {
   reward: number;
 };
 
+type BloodsuckerInformation = {
+  clan: ClanInfo[];
+  in_clan: BooleanLike;
+  power: PowerInfo[];
+};
+
+type ClanInfo = {
+  clan_name: string;
+  clan_description: string;
+  clan_icon: string;
+};
+
+type PowerInfo = {
+  power_name: string;
+  power_explanation: string;
+  power_icon: string;
+};
+
 type Info = {
   objectives: Objective[];
 };
 
-const ObjectivePrintout = (props, context) => {
+const ObjectivePrintout = (props: any, context: any) => {
   const { data } = useBackend<Info>(context);
   const { objectives } = data;
   return (
@@ -31,6 +50,34 @@ const ObjectivePrintout = (props, context) => {
           ))}
       </Stack.Item>
     </Stack>
+  );
+};
+
+export const AntagInfoBloodsucker = (props: any, context: any) => {
+  const [tab, setTab] = useLocalState(context, 'tab', 1);
+  return (
+    <Window width={620} height={580}>
+      <Window.Content>
+        <Tabs>
+          <Tabs.Tab
+            icon="list"
+            lineHeight="23px"
+            selected={tab === 1}
+            onClick={() => setTab(1)}>
+            Introduction
+          </Tabs.Tab>
+          <Tabs.Tab
+            icon="list"
+            lineHeight="23px"
+            selected={tab === 2}
+            onClick={() => setTab(2)}>
+            Clan & Powers
+          </Tabs.Tab>
+        </Tabs>
+        {tab === 1 && <BloodsuckerIntro />}
+        {tab === 2 && <BloodsuckerClan />}
+      </Window.Content>
+    </Window>
   );
 };
 
@@ -105,22 +152,119 @@ const BloodsuckerIntro = () => {
   );
 };
 
-export const AntagInfoBloodsucker = (props, context) => {
-  const [tab, setTab] = useLocalState(context, 'tab', 1);
+const BloodsuckerClan = (props: any, context: any) => {
+  const { act, data } = useBackend<BloodsuckerInformation>(context);
+  const { clan, in_clan } = data;
+
+  if (!in_clan) {
+    return (
+      <Section minHeight="220px">
+        <Box mt={5} bold textAlign="center" fontSize="40px">
+          You are not in a Clan.
+        </Box>
+        <Box mt={3}>
+          <Button
+            fluid
+            icon="users"
+            content="Join Clan"
+            textAlign="center"
+            fontSize="30px"
+            lineHeight={2}
+            onClick={() => act('join_clan')}
+          />
+        </Box>
+      </Section>
+    );
+  }
+
   return (
-    <Window width={620} height={580}>
-      <Window.Content>
-        <Tabs>
-          <Tabs.Tab
-            icon="list"
-            lineHeight="23px"
-            selected={tab === 1}
-            onClick={() => setTab(1)}>
-            Introduction
-          </Tabs.Tab>
-        </Tabs>
-        {tab === 1 && <BloodsuckerIntro />}
-      </Window.Content>
-    </Window>
+    <Stack vertical fill>
+      <Stack.Item minHeight="20rem">
+        <Section scrollable fill>
+          <Stack vertical>
+            <Stack.Item>
+              {clan.map((ClanInfo) => (
+                <>
+                  <Box
+                    as="img"
+                    height="20rem"
+                    opacity={0.25}
+                    src={resolveAsset(`bloodsucker.${ClanInfo.clan_icon}.png`)}
+                    style={{
+                      '-ms-interpolation-mode': 'nearest-neighbor',
+                      'position': 'absolute',
+                    }}
+                  />
+                  <Stack.Item fontSize="20px" textAlign="center">
+                    You are part of the {ClanInfo.clan_name}
+                  </Stack.Item>
+                  <Stack.Item fontSize="16px">
+                    {ClanInfo.clan_description}
+                  </Stack.Item>
+                </>
+              ))}
+            </Stack.Item>
+          </Stack>
+        </Section>
+        <PowerSection />
+      </Stack.Item>
+    </Stack>
+  );
+};
+
+const PowerSection = (props: any, context: any) => {
+  const { act, data } = useBackend<BloodsuckerInformation>(context);
+  const { power } = data;
+  if (!power) {
+    return <Section minHeight="220px" />;
+  }
+
+  const [selectedPower, setSelectedPower] = useLocalState(
+    context,
+    'power',
+    power[0]
+  );
+
+  return (
+    <Section
+      fill
+      scrollable={!!power}
+      title="Powers"
+      buttons={
+        <Button
+          icon="info"
+          tooltipPosition="left"
+          tooltip={'Select a Power to explain.'}
+        />
+      }>
+      <Stack>
+        <Stack.Item grow>
+          <Dropdown
+            displayText={selectedPower.power_name}
+            selected={selectedPower.power_name}
+            width="100%"
+            options={power.map((powers) => powers.power_name)}
+            onSelected={(powerName: string) =>
+              setSelectedPower(
+                power.find((p) => p.power_name === powerName) || power[0]
+              )
+            }
+          />
+          {selectedPower && (
+            <Box
+              position="absolute"
+              height="12rem"
+              as="img"
+              src={resolveAsset(`bloodsucker.${selectedPower.power_icon}.png`)}
+            />
+          )}
+          <Divider Vertical />
+        </Stack.Item>
+        <Stack.Divider />
+        <Stack.Item scrollable grow={1} fontSize="16px">
+          {selectedPower && selectedPower.power_explanation}
+        </Stack.Item>
+      </Stack>
+    </Section>
   );
 };
