@@ -2,7 +2,7 @@ import { useBackend } from 'tgui/backend';
 import { classes } from 'common/react';
 import { Box, Flex, Stack, Divider, Section } from '../../../tgui/components';
 import { Window } from '../../../tgui/layouts';
-import { TipsAbductor } from './TipsAbductor';
+const requireTipsPage = require.context('../AntagTips', true, /.tsx$/, "sync");
 
 type AntagTipInfo = {
   tip_ui_name: string;
@@ -10,11 +10,13 @@ type AntagTipInfo = {
   theme: string;
 };
 
+
 export const AntagTips = (props, context) => {
   const { act, data } = useBackend<AntagTipInfo>(context);
   const { tip_ui_name, theme, name } = data;
   const nameToUpperCase = (str: string) =>
     str.replace(/^\w/, (c) => c.toUpperCase());
+
   return (
     <Window width={400} height={480} theme={theme}>
       <Window.Content>
@@ -30,7 +32,7 @@ export const AntagTips = (props, context) => {
           <Divider />
           <Stack mb={1}>
             <Stack.Item grow>
-              <TipsAbductor />
+              omg hiiii
             </Stack.Item>
           </Stack>
           <Flex>
