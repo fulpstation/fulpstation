@@ -541,40 +541,44 @@
 		return
 	if(!anchored)
 		return
+
+	if(IS_VASSAL(user))
+		toggle()
+		return
+
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	// Checks: We're Ventrue, they're Buckled & Alive.
 	if(!bloodsuckerdatum || !bloodsuckerdatum.my_clan)
 		return ..()
-	if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
-		if(!has_buckled_mobs())
-			toggle()
-			return
-		var/mob/living/carbon/target = pick(buckled_mobs)
-		if(target.stat >= DEAD)
-			unbuckle_mob(target)
-			return
-		// Are we spending a Rank?
-		if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
-			bloodsuckerdatum.SpendRank(target)
-		else if(bloodsuckerdatum.bloodsucker_blood_volume >= BLOODSUCKER_BLOOD_RANKUP_COST)
-			// We don't have any ranks to spare? Let them upgrade... with enough Blood.
-			to_chat(user, span_warning("Do you wish to spend [BLOODSUCKER_BLOOD_RANKUP_COST] Blood to Rank [target] up?"))
-			var/list/rank_options = list(
-				"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-				"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
-			)
-			var/rank_response = show_radial_menu(user, src, rank_options, radius = 36, require_near = TRUE)
-			switch(rank_response)
-				if("Yes")
-					bloodsuckerdatum.SpendRank(target, cost_rank = FALSE, blood_cost = BLOODSUCKER_BLOOD_RANKUP_COST)
-					return
-		else
-			// Neither? Shame. Goodbye!
-			to_chat(user, span_danger("You don't have any levels or enough Blood to Rank [target] up with."))
-			return
 
-	if(IS_BLOODSUCKER(user) || IS_VASSAL(user))
+	if(!has_buckled_mobs())
 		toggle()
+		return
+
+	if(bloodsuckerdatum.my_clan.rank_up_type != BLOODSUCKER_RANK_UP_VASSAL)
+		return
+	var/mob/living/carbon/target = pick(buckled_mobs)
+	if(target.stat >= HARD_CRIT)
+		unbuckle_mob(target)
+		return
+	// Are we spending a Rank?
+	if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+		bloodsuckerdatum.SpendRank(target)
+	else if(bloodsuckerdatum.bloodsucker_blood_volume >= BLOODSUCKER_BLOOD_RANKUP_COST)
+		// We don't have any ranks to spare? Let them upgrade... with enough Blood.
+		to_chat(user, span_warning("Do you wish to spend [BLOODSUCKER_BLOOD_RANKUP_COST] Blood to Rank [target] up?"))
+		var/list/rank_options = list(
+			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
+		)
+		var/rank_response = show_radial_menu(user, target, rank_options, radius = 36, require_near = TRUE)
+		switch(rank_response)
+			if("Yes")
+				bloodsuckerdatum.SpendRank(target, cost_rank = FALSE, blood_cost = BLOODSUCKER_BLOOD_RANKUP_COST)
+				return
+	else
+		// Neither? Shame. Goodbye!
+		to_chat(user, span_danger("You don't have any levels or enough Blood to Rank [target] up with."))
 
 /// Buckling someone in
 /obj/structure/bloodsucker/candelabrum/MouseDrop_T(mob/living/target, mob/user)

@@ -32,7 +32,8 @@
 		return
 	var/mob/living/carbon/carbon_source = source
 	var/vamp_examine = carbon_source.ReturnVampExamine(examiner)
-	examine_text += vamp_examine
+	if(vamp_examine)
+		examine_text += vamp_examine
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //			BLOOD
