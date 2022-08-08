@@ -10,6 +10,8 @@
 	tackle.Grant(src)
 	var/datum/action/cooldown/spell/conjure/banana/trap = new(src)
 	trap.Grant(src)
+	var/datum/action/cooldown/spell/pointed/projectile/mud/not_poop = new(src)
+	not_poop.Grant(src)
 	return ..()
 
 
@@ -48,3 +50,54 @@
 	owner.spin(10, 1)
 	owner.balloon_alert_to_viewers("throws bananas all around!", "you throw bananas!")
 	..()
+
+
+/obj/projectile/mud
+	name = "Muddied Waters"
+	damage = 10
+	damage_type = BRUTE
+	nodamage = FALSE
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "trench_mud"
+
+
+/obj/projectile/mud/on_hit(atom/target, blocked = FALSE, pierce_hit)
+	. = ..()
+	if(isliving(target))
+		var/mob/living/mob_target = target
+		mob_target.Paralyze(10 SECONDS)
+		mob_target.adjust_blurriness(5)
+		mob_target.visible_message(span_warning("[mob_target] is muddied by [src]!"), span_userdanger("You've been muddied by [src]!"))
+		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
+		if(ishuman(mob_target))
+			target.AddComponent(/datum/component/creamed/gorilla, src)
+
+
+/datum/action/cooldown/spell/pointed/projectile/mud
+	name = "Mud"
+	desc = "Muddied waters from the heart of the Amazon forest."
+	cooldown_time = 30 SECONDS
+	spell_requirements = NONE
+	antimagic_flags = NONE
+	active_msg = "You dig the soil up."
+	deactive_msg = "You throw the mud."
+	projectile_type = /obj/projectile/mud
+	icon_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	button_icon_state = "trench_mud"
+
+/datum/component/creamed/gorilla
+
+/datum/component/creamed/gorilla/Initialize()
+	SEND_SIGNAL(parent, COMSIG_MOB_CREAMED)
+	creamface = mutable_appearance('fulp_modules/features/antagonists/infiltrators/icons/infils.dmi')
+
+	var/mob/living/carbon/human/man = parent
+	if(man.dna.species.bodytype & BODYTYPE_SNOUTED)
+		creamface.icon_state = "muddied_lizard"
+	else if(man.dna.species.bodytype & BODYTYPE_MONKEY)
+		creamface.icon_state = "muddied_monkey"
+	else
+		creamface.icon_state = "muddied_human"
+
+	var/atom/atom = parent
+	atom.add_overlay(creamface)
