@@ -1,13 +1,11 @@
-import { useBackend } from 'tgui/backend';
 import { Box, Flex, Divider, Section } from '../../../tgui/components';
 import { resolveAsset } from '../../../tgui/assets';
 
-export const info = {
-  body: () => <Tips />,
+export const render = () => {
+  return <Tips />;
 };
 
-export const Tips = (props, context) => {
-  const { act, data } = useBackend(context);
+const Tips = () => {
   return (
     <Section>
       <Flex>
