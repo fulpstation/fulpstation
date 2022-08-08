@@ -12,4 +12,4 @@
 		all_players.say("bruh")
 
 /datum/round_event/bruh_moment/announce(fake)
-	priority_announce("An incoming Bruh Moment has been issued. Please stand by.", "Anomaly Alert")
+	priority_announce("An incoming Bruh Moment has been detected. Please stand by.", "Anomaly Alert")
