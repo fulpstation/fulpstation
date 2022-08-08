@@ -8,8 +8,8 @@
 /mob/living/simple_animal/hostile/gorilla/albino/Initialize(mapload)
 	var/datum/action/cooldown/mob_cooldown/charge/gorilla/tackle = new(src)
 	tackle.Grant(src)
-	var/datum/action/cooldown/spell/pointed/projectile/gorilla_dung/poop = new(src)
-	poop.Grant(src)
+	var/datum/action/cooldown/spell/conjure/banana/trap = new(src)
+	trap.Grant(src)
 	return ..()
 
 
@@ -19,58 +19,32 @@
 	cooldown_time = 8 SECONDS
 
 
-/datum/action/cooldown/mob_cooldown/charge/do_charge_indicator(atom/charger, atom/charge_target)
+/datum/action/cooldown/mob_cooldown/charge/gorilla/do_charge_indicator(atom/charger, atom/charge_target)
 	return
 
-/datum/action/cooldown/mob_cooldown/charge/Activate(atom/target_atom)
+/datum/action/cooldown/mob_cooldown/charge/gorilla/Activate(atom/target_atom)
 	playsound(owner, 'sound/creatures/gorilla.ogg', 200, 1)
 	return ..()
 
-/obj/projectile/gorilla_dung
-	name = "dung pie"
-	damage = 10
-	damage_type = BRUTE
-	nodamage = FALSE
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
-	icon_state = "gorilla_dung"
+/datum/action/cooldown/spell/conjure/banana
+	name = "Monke Spin"
+	desc = "Throw slippery traps all around you."
+	sound = 'sound/creatures/gorilla.ogg'
 
-/obj/projectile/gorilla_dung/on_hit(atom/target, blocked = FALSE, pierce_hit)
-	. = ..()
-	if(isliving(target))
-		var/mob/living/mob_target = target
-		mob_target.adjustStaminaLoss(50)
-		mob_target.Knockdown(20)
-		mob_target.visible_message(span_warning("[mob_target] is dunged by [src]!"), span_userdanger("You've been dunged by [src]!"))
-		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
-		if(ishuman(mob_target))
-			target.AddComponent(/datum/component/creamed/gorilla, src)
+	school = SCHOOL_CONJURATION
+	cooldown_time = 30 SECONDS
 
-/datum/action/cooldown/spell/pointed/projectile/gorilla_dung
-	name = "dung pie"
-	desc = "Weaponize your faeces."
-	cooldown_time = 40 SECONDS
+	invocation = "OOO OOO AHH AHH"
+	invocation_type = INVOCATION_SHOUT
 	spell_requirements = NONE
-	antimagic_flags = NONE
-	active_msg = "You hold one in."
-	deactive_msg = "You relax."
-	projectile_type = /obj/projectile/gorilla_dung
-	icon_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
-	button_icon_state = "gorilla_dung"
 
+	summon_radius = 2
+	summon_type = list(/obj/item/grown/bananapeel)
+	summon_amount = 10
+	icon_icon = 'icons/obj/hydroponics/harvest.dmi'
+	button_icon_state = "banana_peel"
 
-/datum/component/creamed/gorilla
-
-/datum/component/creamed/gorilla/Initialize()
-	SEND_SIGNAL(parent, COMSIG_MOB_CREAMED)
-	creamface = mutable_appearance('fulp_modules/features/antagonists/infiltrators/icons/infils.dmi')
-
-	var/mob/living/carbon/human/man = parent
-	if(man.dna.species.bodytype & BODYTYPE_SNOUTED)
-		creamface.icon_state = "dunged_lizard"
-	else if(man.dna.species.bodytype & BODYTYPE_MONKEY)
-		creamface.icon_state = "dunged_monkey"
-	else
-		creamface.icon_state = "dunged_human"
-
-	var/atom/atom = parent
-	atom.add_overlay(creamface)
+/datum/action/cooldown/spell/conjure/banana/cast(atom/cast_on)
+	owner.spin(10, 1)
+	owner.balloon_alert_to_viewers("throws bananas all around!", "you throw bananas!")
+	..()
