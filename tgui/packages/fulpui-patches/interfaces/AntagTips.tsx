@@ -1,25 +1,23 @@
 import { useBackend } from 'tgui/backend';
 import { classes } from 'common/react';
-import { Box, Flex, Stack, Divider, Section } from '../../../tgui/components';
-import { Window } from '../../../tgui/layouts';
-const requireTipsPage = require.context('../AntagTips', true, /.tsx$/, "sync");
+import { Box, Flex, Stack, Divider, Section } from 'tgui/components';
+import { Window } from 'tgui/layouts';
 
 type AntagTipInfo = {
-  tip_ui_name: string;
   name: string;
   theme: string;
+  antag_tips: string[];
 };
-
 
 export const AntagTips = (props, context) => {
   const { act, data } = useBackend<AntagTipInfo>(context);
-  const { tip_ui_name, theme, name } = data;
+  const { theme, name, antag_tips } = data;
   const nameToUpperCase = (str: string) =>
     str.replace(/^\w/, (c) => c.toUpperCase());
 
   return (
-    <Window width={400} height={480} theme={theme}>
-      <Window.Content>
+    <Window width={400} height={500} theme={theme}>
+      <Window.Content scrollable>
         <Section>
           <Box bold inline p={2}>
             You are the {nameToUpperCase(name)}!
@@ -32,7 +30,15 @@ export const AntagTips = (props, context) => {
           <Divider />
           <Stack mb={1}>
             <Stack.Item grow>
-              omg hiiii
+            {(!antag_tips && 'None!') ||
+              antag_tips.map((antag_tip) => (
+                <>
+                  <Stack.Item key={antag_tip}>
+                    {antag_tip}
+                  </Stack.Item>
+                  <Divider />
+                </>
+              ))}
             </Stack.Item>
           </Stack>
           <Flex>

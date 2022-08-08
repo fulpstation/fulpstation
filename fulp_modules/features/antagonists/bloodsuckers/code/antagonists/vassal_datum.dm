@@ -11,8 +11,6 @@
 	antag_hud_name = "vassal"
 	show_in_roundend = FALSE
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
-	antag_tips = VASSAL_TIPS
-	tip_theme = "spookyconsole"
 
 	/// The Master Bloodsucker's antag datum.
 	var/datum/antagonist/bloodsucker/master
