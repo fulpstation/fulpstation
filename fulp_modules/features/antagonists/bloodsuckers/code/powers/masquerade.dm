@@ -10,11 +10,11 @@
  *	- Normal body temp -- remove Cold Blooded (return on deactivate)
  */
 
-/datum/action/cooldown/bloodsucker/masquerade
+/datum/action/bloodsucker/masquerade
 	name = "Masquerade"
 	desc = "Feign the vital signs of a mortal, and escape both casual and medical notice as the monster you truly are."
 	button_icon_state = "power_human"
-	power_explanation = "<b>Masquerade</b>:\n\
+	power_explanation = "Masquerade:\n\
 		Activating Masquerade will forge your identity to be practically identical to that of a human;\n\
 		- You lose nearly all Bloodsucker benefits, including healing, sleep, radiation, crit, virus and cold immunity.\n\
 		- Your eyes turn to that of a regular human as your heart begins to beat.\n\
@@ -28,7 +28,7 @@
 	cooldown = 5 SECONDS
 	constant_bloodcost = 0.1
 
-/datum/action/cooldown/bloodsucker/masquerade/ActivatePower()
+/datum/action/bloodsucker/masquerade/ActivatePower()
 	. = ..()
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned on.")
@@ -50,7 +50,7 @@
 	if(eyes)
 		eyes.flash_protect = initial(eyes.flash_protect)
 
-/datum/action/cooldown/bloodsucker/masquerade/DeactivatePower()
+/datum/action/bloodsucker/masquerade/DeactivatePower()
 	. = ..() // activate = FALSE
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned off.")

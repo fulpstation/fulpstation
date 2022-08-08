@@ -1,8 +1,8 @@
-/datum/action/cooldown/bloodsucker/targeted/lunge
+/datum/action/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
 	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
 	button_icon_state = "power_lunge"
-	power_explanation = "<b>Predatory Lunge</b>:\n\
+	power_explanation = "Predatory Lunge:\n\
 		Click any player to, after a short delay, dash at them.\n\
 		When lunging at someone, you will grab them, immediately starting off at aggressive.\n\
 		There is an exception to this, those wearing Riot gear, and Monster Hunters, will be passively grabbed instead.\n\
@@ -18,7 +18,7 @@
 	target_range = 6
 	power_activates_immediately = FALSE
 
-/datum/action/cooldown/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -32,13 +32,13 @@
 	return TRUE
 
 /// Check: Are we lunging at a person?
-/datum/action/cooldown/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
+/datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	return isliving(target_atom)
 
-/datum/action/cooldown/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom)
+/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom)
 	// Default Checks
 	. = ..()
 	if(!.)
@@ -53,7 +53,7 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
+/datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
 	. = ..()
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = target_atom
@@ -75,7 +75,7 @@
 	lunge_end(target)
 	PowerActivatedSuccessfully()
 
-/datum/action/cooldown/bloodsucker/targeted/lunge/proc/prepare_target_lunge(atom/target_atom)
+/datum/action/bloodsucker/targeted/lunge/proc/prepare_target_lunge(atom/target_atom)
 	START_PROCESSING(SSprocessing, src)
 	owner.balloon_alert(owner, "lunge started!")
 	//animate them shake
@@ -95,14 +95,14 @@
 	STOP_PROCESSING(SSprocessing, src)
 	return TRUE
 
-/datum/action/cooldown/bloodsucker/targeted/lunge/process()
+/datum/action/bloodsucker/targeted/lunge/process()
 	if(prob(75))
 		owner.spin(8, 1)
 		owner.balloon_alert_to_viewers("spins wildly!", "you spin!")
 		return
 	do_smoke(0, owner.loc, smoke_type = /obj/effect/particle_effect/fluid/smoke/transparent)
 
-/datum/action/cooldown/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
+/datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = hit_atom
 	var/turf/target_turf = get_turf(target)
@@ -144,6 +144,6 @@
 		target.Knockdown(10 + level_current * 5)
 		target.Paralyze(0.1)
 
-/datum/action/cooldown/bloodsucker/targeted/lunge/DeactivatePower()
+/datum/action/bloodsucker/targeted/lunge/DeactivatePower()
 	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	return ..()

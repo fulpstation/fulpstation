@@ -73,7 +73,7 @@
 			if(TIME_BLOODSUCKER_DAY_FINAL_WARN)
 				message_admins("BLOODSUCKER NOTICE: Daylight beginning in [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds.)")
 				warn_daylight(2, span_userdanger("Solar Flares are about to bombard the station! You have [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds to find cover!"), \
-					span_danger("In [TIME_BLOODSUCKER_DAY_FINAL_WARN / 10], your master will be at risk of a Solar Flare. Make sure they find cover!"), \
+					span_danger("In [TIME_BLOODSUCKER_DAY_FINAL_WARN] seconds, your master will be at risk of a Solar Flare. Make sure they find cover!"), \
 					"")
 			if(TIME_BLOODSUCKER_BURN_INTERVAL)
 				warn_daylight(3, span_userdanger("Seek cover, for Sol rises!"), \
@@ -157,8 +157,8 @@
 		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(istype(bloodsuckerdatum) && bloodsuckerdatum.lair && !(locate(/datum/action/cooldown/bloodsucker/gohome) in bloodsuckerdatum.powers))
-			bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/gohome)
+		if(istype(bloodsuckerdatum) && bloodsuckerdatum.lair && !(locate(/datum/action/bloodsucker/gohome) in bloodsuckerdatum.powers))
+			bloodsuckerdatum.BuyPower(new /datum/action/bloodsucker/gohome)
 
 /// It's over now, remove the "Vanishing Act" (gohome) power from Bloodsuckers.
 /obj/effect/sunlight/proc/take_home_power()
@@ -166,6 +166,6 @@
 		if(!istype(bloodsucker_minds) || !istype(bloodsucker_minds.current))
 			continue
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = bloodsucker_minds.has_antag_datum(/datum/antagonist/bloodsucker)
-		for(var/datum/action/cooldown/bloodsucker/power in bloodsuckerdatum.powers)
-			if(istype(power, /datum/action/cooldown/bloodsucker/gohome))
+		for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+			if(istype(power, /datum/action/bloodsucker/gohome))
 				bloodsuckerdatum.RemovePower(power)

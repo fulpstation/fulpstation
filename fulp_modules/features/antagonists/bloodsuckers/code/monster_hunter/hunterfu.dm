@@ -135,7 +135,7 @@
 		return TRUE
 	if(target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
-		if(bloodsuckerdatum.my_clan == CLAN_TREMERE)
+		if(bloodsuckerdatum.my_clan.get_clan() == CLAN_TREMERE)
 			to_chat(target, span_cultlarge("The holy water burns our flesh!"))
 			target.apply_damage(25, BURN)
 			target.adjustStaminaLoss(60)

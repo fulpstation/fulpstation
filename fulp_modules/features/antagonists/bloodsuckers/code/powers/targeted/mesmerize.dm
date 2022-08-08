@@ -8,11 +8,11 @@
  * 	Level 6: Causes the target to fall asleep
  */
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize
+/datum/action/bloodsucker/targeted/mesmerize
 	name = "Mesmerize"
 	desc = "Dominate the mind of a mortal who can see your eyes."
 	button_icon_state = "power_mez"
-	power_explanation = "<b>Mesmerize</b>:\n\
+	power_explanation = "Mesmerize:\n\
 		Click any player to attempt to mesmerize them.\n\
 		You cannot wear anything covering your face, and both parties must be facing eachother. Obviously, both parties need to not be blind. \n\
 		If your target is already mesmerized or a Monster Hunter, the Power will fail.\n\
@@ -33,7 +33,7 @@
 	///Our mesmerized target - Prevents several mesmerizes.
 	var/datum/weakref/target_ref
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(mob/living/carbon/user)
 	. = ..()
 	if(!.) // Default checks
 		return FALSE
@@ -47,13 +47,13 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize/CheckValidTarget(atom/target_atom)
+/datum/action/bloodsucker/targeted/mesmerize/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	return isliving(target_atom)
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/target_atom)
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -91,7 +91,7 @@
 	target_ref = WEAKREF(current_target)
 	return TRUE
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/target_atom)
+/datum/action/bloodsucker/targeted/mesmerize/FireTargetedPower(atom/target_atom)
 	. = ..()
 
 	var/mob/living/user = owner
@@ -130,11 +130,11 @@
 		addtimer(CALLBACK(src, .proc/end_mesmerize, user, mesmerized_target), power_time)
 	PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize/DeactivatePower()
+/datum/action/bloodsucker/targeted/mesmerize/DeactivatePower()
 	target_ref = null
 	. = ..()
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize/proc/end_mesmerize(mob/living/user, mob/living/target)
+/datum/action/bloodsucker/targeted/mesmerize/proc/end_mesmerize(mob/living/user, mob/living/target)
 	target.notransform = FALSE
 	REMOVE_TRAIT(target, TRAIT_KNOCKEDOUT, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
@@ -142,5 +142,5 @@
 	if(istype(user) && target.stat == CONSCIOUS && (target in view(6, get_turf(user))))
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
-/datum/action/cooldown/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
+/datum/action/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)
 	return ..() && CheckCanUse(user) && CheckCanTarget(target)
