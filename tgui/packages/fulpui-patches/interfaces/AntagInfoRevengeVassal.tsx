@@ -62,7 +62,8 @@ const VassalInfo = () => {
         <Section scrollable fill>
           <Stack vertical>
             <Stack.Item textColor="red" fontSize="20px">
-              You are a Vassal tasked with taking revenge for the death of your Master!
+              You are a Vassal tasked with taking revenge for the death of your
+              Master!
             </Stack.Item>
             <Stack.Item>
               <ObjectivePrintout />
@@ -75,9 +76,10 @@ const VassalInfo = () => {
           <Stack vertical>
             <Stack.Item>
               <span>
-                You have gained your Master&#39;s old Powers, and a brand new power.
-                You will have to survive and maintain your old Master&#39;s integrity.
-                Bring their old Vassals back into the fold using your new Ability.
+                You have gained your Master&#39;s old Powers, and a brand new
+                power. You will have to survive and maintain your old
+                Master&#39;s integrity. Bring their old Vassals back into the
+                fold using your new Ability.
               </span>
             </Stack.Item>
           </Stack>
