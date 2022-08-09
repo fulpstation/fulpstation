@@ -6,6 +6,17 @@
  * Because, due to some god-forsaken reason, either `GLOBAL_LIST_INIT` defined in Fulp folders causes TG's 'create and destroy' to fail.
  */
 
+// JOBS //
+// This list is used in job_integration.dm to assign jobs their HUD Icons. When adding new jobs, add them to this list. //
+GLOBAL_LIST_INIT(fulp_job_assignments, list(
+	JOB_DEPUTY,
+	JOB_DEPUTY_SUP,
+	JOB_DEPUTY_ENG,
+	JOB_DEPUTY_MED,
+	JOB_DEPUTY_SCI,
+	JOB_DEPUTY_SRV,
+))
+
 // PRISON //
 GLOBAL_LIST_INIT(important_prison_messages, list(
 	"Requisition form for equipment destined for rescue of personnel on-board of high-security containment station #S-2912 in Spinward Periphery approved by the NANOTRASEN commission of funds for outside sectors. As requested, a full set of tools, a toolbelt and a spare envirosuit will be shipped for the cost of 5780 credits from the 6000 credits tri-mensual budget designated for emergencies. Request for a pair of insulated gloves denied due to lack of funds, consider taking precautions when assessing the risks tied to air redistribution and shocked grilles. -Central Command Officer - Cargo Department, Ld. Peter",

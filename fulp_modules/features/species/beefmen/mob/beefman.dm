@@ -501,6 +501,20 @@
 		if(JOB_DETECTIVE)
 			new_sash = new /obj/item/clothing/under/bodysash/security/detective()
 
+		// Subtype - Deputies
+		if(JOB_DEPUTY)
+			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if(JOB_DEPUTY_ENG)
+			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if(JOB_DEPUTY_MED)
+			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if(JOB_DEPUTY_SCI)
+			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if(JOB_DEPUTY_SUP)
+			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
+		if(JOB_DEPUTY_SRV)
+			new_sash = new /obj/item/clothing/under/bodysash/security/deputy()
+
 		// Medical
 		if(JOB_CHIEF_MEDICAL_OFFICER)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/cmo()
