@@ -7,15 +7,26 @@
 // Prevents Bloodsuckers from getting affected by blood
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
 	if(mind && IS_BLOODSUCKER(src))
-		return
+		return FALSE
 	return ..()
 
 /datum/reagent/blood/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume, show_message=TRUE, touch_protection=0)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(exposed_mob)
-	if(bloodsuckerdatum)
-		bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+	if(!bloodsuckerdatum)
+		return ..()
+	bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+
+
+/mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced)
+	. = ..()
+
+	if(!mind)
 		return
-	return ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return
+	bloodsuckerdatum.bloodsucker_blood_volume -= amount
+
 
 /// Gives Curators their abilities
 /datum/outfit/job/curator/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
@@ -61,11 +72,11 @@
 // EXAMINING
 /mob/living/carbon/proc/ReturnVampExamine(mob/living/viewer)
 	if(!mind || !viewer.mind)
-		return ""
+		return FALSE
 	// Target must be a Vamp
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
-		return ""
+		return FALSE
 	// Viewer is Target's Vassal?
 	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
 		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
@@ -75,7 +86,7 @@
 	// Viewer not a Vamp AND not the target's vassal?
 	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
 		if(!(HAS_TRAIT(viewer, TRAIT_BLOODSUCKER_HUNTER) && bloodsuckerdatum.broke_masquerade))
-			return ""
+			return FALSE
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName()]</EM></span>\]"
 	var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
@@ -89,34 +100,33 @@
 
 /mob/living/carbon/proc/ReturnVassalExamine(mob/living/viewer)
 	if(!mind || !viewer.mind)
-		return ""
+		return FALSE
 	// Target must be a Vassal
 	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
 	if(!vassaldatum)
-		return ""
+		return FALSE
 	// Default String
 	var/returnString = "\[<span class='warning'>"
 	var/returnIcon = ""
 	// Vassals and Bloodsuckers recognize eachother, while Monster Hunters can see Vassals.
-	if(IS_BLOODSUCKER(viewer) || IS_VASSAL(viewer))
-		// Am I Viewer's Vassal?
-		if(vassaldatum?.master.owner == viewer.mind)
-			returnString += "This [dna.species.name] bears YOUR mark!"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
-		// Am I someone ELSE'S Vassal?
-		else if(IS_BLOODSUCKER(viewer))
-			returnString += "This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName()][vassaldatum.master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
-		// Are you serving the same master as I am?
-		else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)
-			returnString += "[p_they(TRUE)] bears the mark of your Master"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
-		// You serve a different Master than I do.
-		else
-			returnString += "[p_they(TRUE)] bears the mark of another Bloodsucker"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
+	if(!IS_BLOODSUCKER(viewer) && !IS_VASSAL(viewer))
+		return FALSE
+	// Am I Viewer's Vassal?
+	if(vassaldatum?.master.owner == viewer.mind)
+		returnString += "This [dna.species.name] bears YOUR mark!"
+		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
+	// Am I someone ELSE'S Vassal?
+	else if(IS_BLOODSUCKER(viewer))
+		returnString += "This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName()][vassaldatum.master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
+		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
+	// Are you serving the same master as I am?
+	else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)
+		returnString += "[p_they(TRUE)] bears the mark of your Master"
+		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
+	// You serve a different Master than I do.
 	else
-		return ""
+		returnString += "[p_they(TRUE)] bears the mark of another Bloodsucker"
+		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
 
 	returnString += "</span>\]" // \n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString

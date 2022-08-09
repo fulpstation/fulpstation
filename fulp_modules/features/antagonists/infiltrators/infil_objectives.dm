@@ -36,10 +36,14 @@
 			kill.find_sci_target()
 			objectives += kill
 
-			var/datum/objective/assassinate/kill_head = new
-			kill_head.owner = owner
-			kill_head.find_head_target()
-			objectives += kill_head
+			var/datum/objective/gorillize/gorilla = new
+			gorilla.owner = owner
+			gorilla.find_target()
+			objectives += gorilla
+
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/gorilla_serum/serum = infil.l_store
+			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/infiltrator))
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			for(var/i = 0, i < rand(4,6) , i++)
@@ -48,11 +52,22 @@
 				assassinate.find_target()
 				objectives += assassinate
 
-			var/datum/objective/emag_console/emag = new
-			emag.owner = owner
-			emag.update_explanation_text()
-			objectives += emag
+		if(INFILTRATOR_FACTION_SELF)
+			for(var/i = 0, i < 2, i++)
+			var/datum/objective/assassinate/assassinate = new
+			assassinate.owner = owner
+			assassinate.find_target()
+			objectives += assassinate
 
+			var/datum/objective/steal/steal_objective = new
+			steal_objective.owner = owner
+			steal_objective.set_target(new /datum/objective_item/steal/functionalai)
+			objectives += steal_objective
+
+			var/datum/objective/steal/cyborg_hack = new
+			cyborg_hack.owner = owner
+			cyborg_hack.set_target(new /datum/objective_item/steal/cyborg_hack)
+			objectives += cyborg_hack
 
 //Corporate Climber objectives
 
@@ -72,7 +87,7 @@
 		target = pick(possible_targets)
 
 	if(target?.current)
-		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]. as a threat to Nanotrasen, ensure they are eliminated."
+		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] as a Syndicate Agent, ensure they are eliminated."
 
 
 //advanced mulligan objective
@@ -93,7 +108,7 @@
 		var/mob/living/carbon/human/target_body = target.current
 		if(target_body && target_body.get_id_name() != target_real_name)
 			target_missing_id = 1
-		explanation_text = "Using Advanced Mulligan, escape with the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
+		explanation_text = "Using Advanced Mulligan, steal the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
 
 /datum/objective/escape/escape_with_identity/infiltrator/check_completion()
 	if(!target || !target_real_name)
@@ -182,34 +197,27 @@
 	if(target?.current)
 		explanation_text = "Make a stance against science's animal experimentation by assassinating [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]!"
 
-
-
-
-/datum/objective/assassinate/proc/find_head_target()
-	var/list/com_targets = SSjob.get_all_heads()
-	if(!com_targets.len)
-		find_target()
-		return
-	else
-		target = pick(com_targets)
-	update_explanation_text()
-
-
-//Mauradars Objectives
-
-//emagging emergency shuttle console
-
-/datum/objective/emag_console
-	name = "Emag the emergency shuttle console"
-	explanation_text = "Give the crew a bumpy ride back home by emagging the emergency shuttle console!"
+/datum/objective/gorillize
+	name = "Summon endangered gorilla"
 	admin_grantable = TRUE
+	var/target_role_type = FALSE
 
-/datum/objective/emag_console/check_completion()
-	var/check_emag = FALSE
-	for(var/obj/machinery/computer/emergency_shuttle/console in GLOB.machines)
-		if(console.obj_flags & EMAGGED)
-			check_emag = TRUE
-			break
+/datum/objective/gorillize/update_explanation_text()
+	if(target?.current)
+		explanation_text = "Inject [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] with the gorilla serum!"
 
-	return completed || check_emag
+// SELF objectives
+/datum/objective_item/steal/cyborg_hack
+    name = "a cyborg's data and subvert them by using your single-use silicon cryptographic sequencer on them!"
+    targetitem = /obj/item/card/emag/silicon_hack
+    difficulty = 10
+
+/datum/objective_item/steal/cyborg_hack/New()
+    special_equipment += /obj/item/card/emag/silicon_hack
+    return ..()
+
+/datum/objective_item/steal/cyborg_hack/check_special_completion(obj/item/card/emag/silicon_hack/card)
+    if(card.used)
+        return TRUE
+    return FALSE
 

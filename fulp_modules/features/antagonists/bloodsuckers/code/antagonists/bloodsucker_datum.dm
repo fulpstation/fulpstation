@@ -276,9 +276,9 @@
 
 	return finish_preview_icon(final_icon)
 
-/datum/antagonist/bloodsucker/ui_data(mob/user)
+/datum/antagonist/bloodsucker/ui_static_data(mob/user)
 	var/list/data = list()
-
+	//we don't need to update this that much.
 	data["in_clan"] = !!my_clan
 	var/list/clan_data = list()
 	if(my_clan)
@@ -288,11 +288,6 @@
 
 	data["clan"] += list(clan_data)
 
-	return data
-
-/datum/antagonist/bloodsucker/ui_static_data(mob/user)
-	var/list/data = list()
-	//we don't need to update this that much.
 	for(var/datum/action/bloodsucker/power as anything in powers)
 		var/list/power_data = list()
 
@@ -309,7 +304,7 @@
 		get_asset_datum(/datum/asset/simple/bloodsucker_icons),
 	)
 
-/datum/antagonist/bloodsucker/ui_act(action, params)
+/datum/antagonist/bloodsucker/ui_act(action, params, datum/tgui/ui)
 	. = ..()
 	if(.)
 		return
@@ -317,6 +312,7 @@
 	switch(action)
 		if("join_clan")
 			AssignClanAndBane()
+			ui.send_full_update(force = TRUE)
 			return
 
 /**
