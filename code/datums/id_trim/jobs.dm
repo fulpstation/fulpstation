@@ -966,7 +966,6 @@
 		ACCESS_CARGO,
 		ACCESS_MINING,
 		ACCESS_SHIPPING,
-		)
 	)
 	elevated_access = list(
 		ACCESS_AUX_BASE,
