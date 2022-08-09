@@ -80,12 +80,13 @@
 /datum/antagonist/vassal/on_gain()
 	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
 	/// Enslave them to their Master
-	if(!master)
+	if(!master || !istype(master, master))
 		return
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return
-	bloodsuckerdatum.vassals |= src
+	if(special_type)
+		if(!master.special_vassals[special_type])
+			master.special_vassals[special_type] = list()
+		master.special_vassals[special_type] |= src
+	master.vassals |= src
 	owner.enslave_mind_to_creator(master.owner.current)
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
@@ -103,6 +104,8 @@
 	UnregisterSignal(owner.current, COMSIG_PARENT_EXAMINE)
 	//Free them from their Master
 	if(master && master.owner)
+		if(special_type && master.special_vassals[special_type])
+			master.special_vassals[special_type] -= src
 		master.vassals -= src
 		owner.enslaved_to = null
 	//Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
@@ -167,6 +170,9 @@
 	for(var/datum/antagonist/vassal/all_vassals in vassals)
 		// Skip over any Bloodsucker Vassals, they're too far gone to have all their stuff taken away from them
 		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+			all_vassals.owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
+			continue
+		if(all_vassals.special_type == REVENGE_VASSAL)
 			continue
 		all_vassals.owner.remove_antag_datum(/datum/antagonist/vassal)
 
@@ -184,7 +190,7 @@
 /datum/antagonist/vassal/proc/make_special(datum/antagonist/vassal/vassal_type)
 	//store what we need
 	var/datum/mind/vassal_owner = owner
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master
 
 	//remove our antag datum
 	silent = TRUE
@@ -220,26 +226,42 @@
 
 /datum/antagonist/vassal/favorite/on_gain()
 	. = ..()
-	if(!master)
-		return
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum)
-		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
-		if(!bloodsuckerdatum.special_vassals[special_type])
-			bloodsuckerdatum.special_vassals[special_type] = list()
-		bloodsuckerdatum.special_vassals[special_type] |= src
-
-/datum/antagonist/vassal/favorite/on_removal()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return
-	bloodsuckerdatum.special_vassals[special_type] -= src
-	return ..()
+	SEND_SIGNAL(master.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
 
 /datum/antagonist/vassal/favorite/pre_mindshield(mob/implanter, mob/living/mob_override)
 	return COMPONENT_MINDSHIELD_RESISTED
 
 ///Set the Vassal's rank to their Bloodsucker level
 /datum/antagonist/vassal/favorite/proc/set_vassal_level(mob/living/carbon/human/target)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
-	bloodsuckerdatum.bloodsucker_level = vassal_level
+	master.bloodsucker_level = vassal_level
+
+/**
+ * Revenge Vassal
+ *
+ * Has the goal to 'get revenge' when their Master dies.
+ */
+/datum/antagonist/vassal/revenge
+	name = "\improper Revenge Vassal"
+	show_in_antagpanel = FALSE
+	antag_hud_name = "vassal4"
+	special_type = REVENGE_VASSAL
+	vassal_description = "The Revenge Vassal will not deconvert on your Final Death, \
+		instead they will gain all your Powers, and the objective to take revenge for your demise."
+
+/datum/antagonist/vassal/revenge/on_gain()
+	. = ..()
+	RegisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH, .proc/on_master_death)
+
+/datum/antagonist/vassal/revenge/on_removal()
+	UnregisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH)
+	return ..()
+
+/datum/antagonist/vassal/revenge/proc/on_master_death(datum/source, mob/living/carbon/master)
+	SIGNAL_HANDLER
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(master)
+	for(var/datum/action/bloodsucker/master_powers as anything in bloodsuckerdatum.powers)
+		if(master_powers.purchase_flags & BLOODSUCKER_DEFAULT_POWER)
+			continue
+		master_powers.Grant(owner.current)
+		owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)

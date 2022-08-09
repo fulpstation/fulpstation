@@ -356,11 +356,11 @@
 
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
-	FreeAllVassals()
 	// If we have no body, end here.
 	if(!owner.current || dust_timer)
 		return
 
+	FreeAllVassals()
 	DisableAllPowers()
 	if(!iscarbon(owner.current))
 		owner.current.gib(TRUE, FALSE, FALSE)
@@ -371,24 +371,9 @@
 	owner.current.unequip_everything()
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
-	// Elders get dusted, Fledglings get gibbed, Malkavians get soulsharded.
-	if(my_clan.get_clan() == CLAN_MALKAVIAN)
-		var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(user))
-		stone.capture_soul(user, forced = TRUE)
-		return
-	if(bloodsucker_level >= 4)
-		owner.current.visible_message(
-			span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
-			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
-			span_hear("You hear a dry, crackling sound."))
-		dust_timer = addtimer(CALLBACK(owner.current, /mob/living.proc/dust), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
-		return
-	owner.current.visible_message(
-		span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
-		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
-		span_hear("<span class='italics'>You hear a wet, bursting sound."))
-	dust_timer = addtimer(CALLBACK(owner.current, /mob/living.proc/gib, TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 
+	if(my_clan)
+		SEND_SIGNAL(my_clan, BLOODSUCKER_FINAL_DEATH, owner.current)
 
 // Bloodsuckers moodlets //
 /datum/mood_event/drankblood

@@ -45,7 +45,7 @@
 	var/frenzied = FALSE
 
 	///ALL Powers currently owned
-	var/list/datum/action/powers = list()
+	var/list/datum/action/bloodsucker/powers = list()
 	///Bloodsucker Clan - Used for dealing with Sol
 	var/datum/team/vampireclan/clan
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
@@ -437,10 +437,10 @@
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
-	BuyPower(new /datum/action/bloodsucker/feed)
-	BuyPower(new /datum/action/bloodsucker/masquerade)
-	if(!IS_FAVORITE_VASSAL(owner.current)) // Favorite Vassal gets their own.
-		BuyPower(new /datum/action/bloodsucker/veil)
+	for(var/datum/action/bloodsucker/all_powers as anything in all_bloodsucker_powers)
+		if(!(initial(all_powers.purchase_flags) & BLOODSUCKER_DEFAULT_POWER))
+			continue
+		BuyPower(new all_powers)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))

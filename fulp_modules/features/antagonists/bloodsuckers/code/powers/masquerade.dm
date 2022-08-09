@@ -23,7 +23,7 @@
 		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
 	check_flags = BP_CANT_USE_IN_FRENZY
-	purchase_flags = BLOODSUCKER_CAN_BUY
+	purchase_flags = BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER
 	bloodcost = 10
 	cooldown = 5 SECONDS
 	constant_bloodcost = 0.1

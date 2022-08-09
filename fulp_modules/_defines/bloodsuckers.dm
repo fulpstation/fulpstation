@@ -65,10 +65,12 @@
 
 /// This Power can be purchased by Bloodsuckers
 #define BLOODSUCKER_CAN_BUY (1<<0)
+/// This is a Default Power that all Bloodsuckers get.
+#define BLOODSUCKER_DEFAULT_POWER (1<<1)
 /// This Power can be purchased by Tremere Bloodsuckers
-#define TREMERE_CAN_BUY (1<<1)
+#define TREMERE_CAN_BUY (1<<2)
 /// This Power can be purchased by Vassals
-#define VASSAL_CAN_BUY (1<<2)
+#define VASSAL_CAN_BUY (1<<3)
 /// This Power can be purchased by Monster Hunters
 #define HUNTER_CAN_BUY (1<<3)
 
@@ -98,3 +100,5 @@
 #define BLOODSUCKER_HANDLE_LIFE "bloodsucker_handle_life"
 ///Called when a Bloodsucker exits Torpor.
 #define BLOODSUCKER_EXIT_TORPOR "bloodsucker_exit_torpor"
+///Called when a Bloodsucker reaches Final Death.
+#define BLOODSUCKER_FINAL_DEATH "bloodsucker_final_death"
