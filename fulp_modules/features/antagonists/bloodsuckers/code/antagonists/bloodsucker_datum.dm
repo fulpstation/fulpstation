@@ -184,7 +184,7 @@
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
-	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
+	if(IS_FAVORITE_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
 	else
 		// Start Sunlight if first Bloodsucker
@@ -385,10 +385,15 @@
 	// Now list their vassals
 	if(vassals.len > 0)
 		report += "<span class='header'>Their Vassals were...</span>"
-		for(var/datum/antagonist/vassal/all_vassals in vassals)
-			if(all_vassals.owner)
-				var/jobname = all_vassals.owner.assigned_role ? "the [all_vassals.owner.assigned_role.title]" : ""
-				report += "<b>[all_vassals.owner.name]</b> [jobname][all_vassals.favorite_vassal == TRUE ? " and was the <b>Favorite Vassal</b>" : ""]"
+		for(var/datum/antagonist/vassal/all_vassals as anything in vassals)
+			if(!all_vassals.owner)
+				continue
+			report += "<b>[all_vassals.owner.name]</b>"
+
+			if(all_vassals.owner.assigned_role)
+				report += " the [all_vassals.owner.assigned_role.title]"
+			if(IS_FAVORITE_VASSAL(all_vassals.owner.current))
+				report += " and was the <b>Favorite Vassal</b>"
 
 	if(objectives.len == 0 || objectives_complete)
 		report += "<span class='greentext big'>The [name] was successful!</span>"
@@ -433,7 +438,7 @@
 	// Purchase Roundstart Powers
 	BuyPower(new /datum/action/bloodsucker/feed)
 	BuyPower(new /datum/action/bloodsucker/masquerade)
-	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
+	if(!IS_FAVORITE_VASSAL(owner.current)) // Favorite Vassal gets their own.
 		BuyPower(new /datum/action/bloodsucker/veil)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
@@ -499,8 +504,7 @@
 		to_chat(owner.current, span_cultbold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
-	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(owner.current)
-	if(!owner || !owner.current || vassaldatum)
+	if(!owner || !owner.current || IS_FAVORITE_VASSAL(owner.current))
 		return
 	bloodsucker_level_unspent++
 	if(!my_clan)

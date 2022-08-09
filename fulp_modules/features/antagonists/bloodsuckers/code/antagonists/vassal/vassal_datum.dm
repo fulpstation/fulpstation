@@ -17,10 +17,8 @@
 	var/datum/antagonist/bloodsucker/master
 	/// List of all Purchased Powers, like Bloodsuckers.
 	var/list/datum/action/powers = list()
-	/// The favorite vassal gets unique features, and Ventrue can upgrade theirs
-	var/favorite_vassal = FALSE
-	/// Bloodsucker levels, but for Vassals.
-	var/vassal_level
+	///Whether this vassal is already a special type of Vassal.
+	var/special_vassal = FALSE
 
 /datum/antagonist/vassal/antag_panel_data()
 	return "Master : [master.owner.name]"
@@ -59,8 +57,6 @@
 	current_mob.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 
 /datum/antagonist/vassal/pre_mindshield(mob/implanter, mob/living/mob_override)
-	if(favorite_vassal)
-		return COMPONENT_MINDSHIELD_RESISTED
 	return COMPONENT_MINDSHIELD_PASSED
 
 /// This is called when the antagonist is successfully mindshielded.
@@ -131,6 +127,9 @@
 
 /datum/antagonist/vassal/greet()
 	. = ..()
+	if(silent)
+		return
+
 	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a Bloodsucker!"))
 	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.\n\
 		You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.")) // if only there was a /p_theirs() proc...
@@ -141,6 +140,9 @@
 	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/vassal/farewell()
+	if(silent)
+		return
+
 	owner.current.visible_message(
 		span_deconversion_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm, \
 			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self."), \
@@ -150,34 +152,11 @@
 	if(master && master.owner)
 		to_chat(master.owner, span_cultbold("You feel the bond with your vassal [owner.current] has somehow been broken!"))
 
-/// Called when we are made into the Favorite Vassal
-/datum/antagonist/vassal/proc/make_favorite(mob/living/master)
-	// Default stuff for all
-	favorite_vassal = TRUE
-	antag_hud_name = "vassal6"
-	add_team_hud(owner.current)
-	to_chat(master, span_danger("You have turned [owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
-	to_chat(owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
-
-///Set the Vassal's rank to their Bloodsucker level
-/datum/antagonist/vassal/proc/set_vassal_level(mob/living/carbon/human/target)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
-	bloodsuckerdatum.bloodsucker_level = vassal_level
-
 /// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
 /datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
 	if(!master)
 		return FALSE
 	return ..()
-
-/// Used for Admin removing Vassals.
-/datum/mind/proc/remove_vassal()
-	var/datum/antagonist/vassal/selected_vassal = has_antag_datum(/datum/antagonist/vassal)
-	if(selected_vassal)
-		remove_antag_datum(/datum/antagonist/vassal)
 
 /// When a Bloodsucker gets FinalDeath, all Vassals are freed - This is a Bloodsucker proc, not a Vassal one.
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
@@ -185,11 +164,7 @@
 		// Skip over any Bloodsucker Vassals, they're too far gone to have all their stuff taken away from them
 		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 			continue
-		remove_vassal(all_vassals.owner)
-
-/// Called by FreeAllVassals()
-/datum/antagonist/bloodsucker/proc/remove_vassal(datum/mind/vassal)
-	vassal.remove_antag_datum(/datum/antagonist/vassal)
+		all_vassals.owner.remove_antag_datum(/datum/antagonist/vassal)
 
 /// Used when your Master teaches you a new Power.
 /datum/antagonist/vassal/proc/BuyPower(datum/action/bloodsucker/power)
@@ -201,47 +176,53 @@
 	for(var/datum/action/bloodsucker/power in powers)
 		power.level_current++
 
-/**
- *	# Vassal Pinpointer
- *
- *	Pinpointer that points to their Master's location at all times.
- *	Unlike the Monster hunter one, this one is permanently active, and has no power needed to activate it.
- */
+/// Called when we are made into the Favorite Vassal
+/datum/antagonist/vassal/proc/make_favorite(mob/living/master)
+	silent = TRUE
+	var/datum/mind/vassal_owner = owner
+	vassal_owner.remove_antag_datum(/datum/antagonist/vassal)
+	var/datum/antagonist/vassal/favorite/new_favorite_vassal = new()
+	new_favorite_vassal.silent = TRUE
+	vassal_owner.add_antag_datum(new_favorite_vassal)
+	new_favorite_vassal.silent = FALSE
 
-/atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
-	name = "Blood Bond"
-	desc = "You always know where your master is."
+	to_chat(master, span_danger("You have turned [vassal_owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
+	to_chat(vassal_owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
+	vassal_owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)
 
-/datum/status_effect/agent_pinpointer/vassal_edition
-	id = "agent_pinpointer"
-	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
-	minimum_range = VASSAL_SCAN_MIN_DISTANCE
-	tick_interval = VASSAL_SCAN_PING_TIME
-	duration = -1
-	range_fuzz_factor = 0
-
-/datum/status_effect/agent_pinpointer/vassal_edition/on_creation(mob/living/new_owner, ...)
-	..()
-	var/datum/antagonist/vassal/antag_datum = new_owner.mind.has_antag_datum(/datum/antagonist/vassal)
-	scan_target = antag_datum?.master?.owner?.current
-
-/datum/status_effect/agent_pinpointer/vassal_edition/scan_for_target()
-	return
-
-/datum/status_effect/agent_pinpointer/vassal_edition/Destroy()
-	if(scan_target)
-		to_chat(owner, span_notice("You've lost your master's trail."))
-	return ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
 
 /**
- * # BATFORM
+ * Favorite Vassal
  *
- * TG removed this, so we're re-adding it
+ * Gets some cool abilities depending on the Clan.
  */
-/datum/action/cooldown/spell/shapeshift/bat
-	name = "Bat Form"
-	desc = "Take on the shape of a space bat."
-	invocation = "SQUEAAAAK!"
-	invocation_type = INVOCATION_SHOUT
-	convert_damage = FALSE
-	possible_shapes = list(/mob/living/simple_animal/hostile/retaliate/bat)
+/datum/antagonist/vassal/favorite
+	name = "\improper Favorite Vassal"
+	show_in_antagpanel = FALSE
+	antag_hud_name = "vassal6"
+	special_vassal = TRUE
+
+	///Bloodsucker levels, but for Vassals, used by Ventrue.
+	var/vassal_level
+
+/datum/antagonist/vassal/favorite/on_gain()
+	. = ..()
+	if(!master)
+		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum)
+		bloodsuckerdatum.vassals[FAVORITE_VASSAL] |= src
+
+/datum/antagonist/vassal/favorite/on_removal()
+	if(master && master.owner)
+		master.vassals[FAVORITE_VASSAL] -= src
+
+/datum/antagonist/vassal/favorite/pre_mindshield(mob/implanter, mob/living/mob_override)
+	return COMPONENT_MINDSHIELD_RESISTED
+
+///Set the Vassal's rank to their Bloodsucker level
+/datum/antagonist/vassal/favorite/proc/set_vassal_level(mob/living/carbon/human/target)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
+	bloodsuckerdatum.bloodsucker_level = vassal_level

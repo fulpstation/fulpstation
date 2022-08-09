@@ -260,12 +260,11 @@
 		return
 	if(!bloodsuckerdatum.my_clan)
 		user.balloon_alert(user, "join a clan first!")
+		return
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(buckled_carbons)
 	// Are they our Vassal, or Dead?
-	if(istype(vassaldatum) && vassaldatum.master == bloodsuckerdatum || buckled_carbons.stat >= DEAD)
-		// Can we assign a Favorite Vassal?
-		if(istype(vassaldatum) && !bloodsuckerdatum.has_favorite_vassal)
-			SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_MAKE_FAVORITE, bloodsuckerdatum, vassaldatum)
+	if(istype(vassaldatum) && (vassaldatum in bloodsuckerdatum.vassals))
+		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_MAKE_FAVORITE, bloodsuckerdatum, vassaldatum)
 		return
 
 	// Not our Vassal, but Alive & We're a Bloodsucker, good to torture!
@@ -279,6 +278,8 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(target in bloodsuckerdatum.vassals)
+		return
 	/// Prep...
 	use_lock = TRUE
 	/// Conversion Process
@@ -589,18 +590,15 @@
 	if(!target.Adjacent(src) || target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || target.buckled)
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(target)
+	var/datum/antagonist/vassal/favorite_vassaldatum = IS_FAVORITE_VASSAL(target)
 	/// Are you even a Bloodsucker?
-	if(!bloodsuckerdatum || !vassaldatum || !bloodsuckerdatum.my_clan)
+	if(!bloodsuckerdatum || !favorite_vassaldatum || !bloodsuckerdatum.my_clan)
 		return
 	/// Are you part of Ventrue? No? Then go away.
 	if(bloodsuckerdatum.my_clan.rank_up_type != BLOODSUCKER_RANK_UP_VASSAL)
 		return
-	/// Are they a Favorite Vassal?
-	if(!vassaldatum.favorite_vassal)
-		return
 	/// They are a Favorite vassal, but are they OUR Vassal?
-	if(!vassaldatum.master == bloodsuckerdatum)
+	if(!favorite_vassaldatum.master == bloodsuckerdatum)
 		return
 
 	/// Good to go - Buckle them!

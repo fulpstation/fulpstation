@@ -188,19 +188,22 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	INVOKE_ASYNC(src, .proc/offer_favorite, bloodsuckerdatum, vassaldatum)
 
 /datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
-	to_chat(bloodsuckerdatum.owner.current, span_notice("Would you like to turn this Vassal into your completely loyal Servant? This costs 150 Blood to do. You cannot undo this."))
-	var/list/favorite_options = list(
-		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-		"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
+	if(vassaldatum.special_vassal)
+		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
+		return
+	to_chat(bloodsuckerdatum.owner.current, span_notice("You can change who this Vassal is, who are they to you?"))
+	var/list/vassal_options = list(
+		"Cancel" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
 	)
-	var/favorite_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, favorite_options, radius = 36, require_near = TRUE)
-	switch(favorite_response)
-		if("Yes")
-			bloodsuckerdatum.bloodsucker_blood_volume -= 150
-			bloodsuckerdatum.has_favorite_vassal = TRUE
+	if(!bloodsuckerdatum.vassals[FAVORITE_VASSAL])
+		vassal_options += list("Favorite" = image(icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi', icon_state = "vassal6"))
+	var/vassal_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, vassal_options, radius = 36, require_near = TRUE)
+	switch(vassal_response)
+		if("Favorite")
 			vassaldatum.make_favorite(bloodsuckerdatum.owner.current)
+			bloodsuckerdatum.bloodsucker_blood_volume -= 150
 		else
-			to_chat(bloodsuckerdatum.owner.current, span_danger("You decide not to turn [vassaldatum.owner.current] into your Favorite Vassal."))
+			to_chat(bloodsuckerdatum.owner.current, span_danger("You decide not to turn [vassaldatum.owner.current] into anything."))
 
 /**
  * Called when we are successfully turn a Vassal into a Favorite Vassal
