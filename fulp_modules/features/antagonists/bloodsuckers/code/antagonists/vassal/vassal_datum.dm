@@ -129,9 +129,6 @@
 /datum/antagonist/vassal/proc/add_objective(datum/objective/added_objective)
 	objectives += added_objective
 
-/datum/antagonist/vassal/proc/remove_objectives(datum/objective/removed_objective)
-	objectives -= removed_objective
-
 /datum/antagonist/vassal/greet()
 	. = ..()
 	if(silent)
@@ -243,6 +240,8 @@
  */
 /datum/antagonist/vassal/revenge
 	name = "\improper Revenge Vassal"
+	roundend_category = "abandoned Vassals"
+	show_in_roundend = TRUE
 	show_in_antagpanel = FALSE
 	antag_hud_name = "vassal4"
 	special_type = REVENGE_VASSAL
@@ -251,6 +250,25 @@
 
 	///all ex-vassals brought back into the fold.
 	var/list/datum/antagonist/ex_vassals = list()
+
+/datum/antagonist/vassal/revenge/roundend_report()
+	var/list/report = list()
+	report += printplayer(owner)
+	if(objectives.len)
+		report += printobjectives(objectives)
+
+	// Now list their vassals
+	if(ex_vassals.len)
+		report += "<span class='header'>The Vassals brought back into the fold were...</span>"
+		for(var/datum/antagonist/ex_vassal/all_vassals as anything in ex_vassals)
+			if(!all_vassals.owner)
+				continue
+			report += "<b>[all_vassals.owner.name]</b>"
+
+			if(all_vassals.owner.assigned_role)
+				report += " the [all_vassals.owner.assigned_role.title]"
+
+	return report.Join("<br>")
 
 /datum/antagonist/vassal/revenge/on_gain()
 	. = ..()
@@ -263,6 +281,8 @@
 /datum/antagonist/vassal/revenge/proc/on_master_death(datum/source, mob/living/carbon/master)
 	SIGNAL_HANDLER
 
+	for(var/datum/objective/all_objectives as anything in objectives)
+		objectives -= all_objectives
 	BuyPower(new /datum/action/bloodsucker/vassal_blood)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(master)
 	for(var/datum/action/bloodsucker/master_powers as anything in bloodsuckerdatum.powers)
@@ -270,3 +290,9 @@
 			continue
 		master_powers.Grant(owner.current)
 		owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
+
+	var/datum/objective/survive/new_objective = new
+	new_objective.name = "Avenge Bloodsucker"
+	new_objective.explanation_text = "Avenge your Bloodsucker's death by recruiting their ex-vassals and continuing their operations."
+	new_objective.owner = owner
+	objectives += new_objective

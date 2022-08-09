@@ -257,8 +257,6 @@
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/added_objective)
 	objectives += added_objective
 
-/datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/removed_objective)
-	objectives -= removed_objective
 
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
@@ -538,9 +536,9 @@
 		power.level_current++
 
 ///Disables all powers, accounting for torpor
-/datum/antagonist/bloodsucker/proc/DisableAllPowers()
+/datum/antagonist/bloodsucker/proc/DisableAllPowers(forced = FALSE)
 	for(var/datum/action/bloodsucker/power as anything in powers)
-		if((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		if(forced || ((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH)))
 			if(power.active)
 				power.DeactivatePower()
 

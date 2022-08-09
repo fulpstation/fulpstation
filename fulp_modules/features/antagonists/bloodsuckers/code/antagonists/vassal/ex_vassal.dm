@@ -21,7 +21,9 @@
 	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
 
 /datum/antagonist/ex_vassal/on_removal()
-	revenge_vassal = null
+	if(revenge_vassal)
+		revenge_vassal.ex_vassals -= src
+		revenge_vassal = null
 	blood_timer = null
 	return ..()
 
@@ -61,9 +63,10 @@
  */
 /datum/antagonist/ex_vassal/proc/return_to_fold(datum/antagonist/vassal/revenge/mike_ehrmantraut)
 	revenge_vassal = mike_ehrmantraut
-	add_team_hud(owner.current)
+	mike_ehrmantraut.ex_vassals += src
 	COOLDOWN_START(src, blood_timer, BLOOD_TIMER_REQUIREMENT)
 	addtimer(CALLBACK(src, .proc/halfway_point), (BLOOD_TIMER_REQUIREMENT/2))
+	add_team_hud(owner.current)
 
 	RegisterSignal(src, COMSIG_LIVING_LIFE, .proc/on_life)
 

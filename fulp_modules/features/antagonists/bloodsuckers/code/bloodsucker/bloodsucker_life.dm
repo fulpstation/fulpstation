@@ -361,7 +361,7 @@
 		return
 
 	FreeAllVassals()
-	DisableAllPowers()
+	DisableAllPowers(forced = TRUE)
 	if(!iscarbon(owner.current))
 		owner.current.gib(TRUE, FALSE, FALSE)
 		return

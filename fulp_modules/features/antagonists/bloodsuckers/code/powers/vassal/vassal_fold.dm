@@ -30,8 +30,9 @@
 	if(owner.pulling && isliving(owner.pulling))
 		var/mob/living/pulled_target = owner.pulling
 		var/datum/antagonist/ex_vassal/former_vassal = pulled_target.mind.has_antag_datum(/datum/antagonist/ex_vassal)
-		if(former_vassal)
+		if(!former_vassal)
 			owner.balloon_alert(owner, "not a former vassal!")
+			return FALSE
 		target_ref = WEAKREF(owner.pulling)
 		return TRUE
 
@@ -39,24 +40,28 @@
 	if(!blood_bag)
 		owner.balloon_alert(owner, "blood bag needed!")
 		return FALSE
+	if(istype(blood_bag, /obj/item/reagent_containers/blood/o_minus/bloodsucker))
+		owner.balloon_alert(owner, "already bloodsucker blood!")
 
 	bloodbag = blood_bag
 	return TRUE
 
 /datum/action/bloodsucker/vassal_blood/ActivatePower(trigger_flags)
 	. = ..()
-	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/ex_vassal)
+	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/vassal/revenge)
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
-		var/list/all_information = list()
 		for(var/datum/antagonist/ex_vassal/former_vassals as anything in revenge_vassal.ex_vassals)
 			var/information = "[former_vassals.owner.current]"
-			information += " [round(COOLDOWN_TIMELEFT(former_vassals, blood_timer))] minutes left."
+			information += " - has [round(COOLDOWN_TIMELEFT(former_vassals, blood_timer) / 600)] minutes left of Blood"
+			var/turf/open/floor/target_area = get_area(owner)
+			if(target_area)
+				information += " - currently at [target_area]."
 			if(former_vassals.owner.current.stat >= DEAD)
 				information += " - DEAD."
 
-			all_information += information
+			to_chat(owner, "[information]")
 
-		to_chat(owner, "[all_information]")
+		DeactivatePower()
 		return
 
 	if(target_ref)
@@ -65,18 +70,16 @@
 		if(!former_vassal || former_vassal.revenge_vassal)
 			target_ref = null
 			return
-		former_vassal.return_to_fold(revenge_vassal)
+		if(do_after(owner, 5 SECONDS, target))
+			former_vassal.return_to_fold(revenge_vassal)
 		target_ref = null
+		DeactivatePower()
 		return
 
 	if(bloodbag)
 		var/mob/living/living_owner = owner
 		living_owner.blood_volume -= 150
 		QDEL_NULL(bloodbag)
-		var/obj/item/reagent_containers/blood/o_minus/bloodsucker/new_bag = new()
-		owner.put_in_hand(new_bag)
-
-///The bloodbag we make
-/obj/item/reagent_containers/blood/o_minus/bloodsucker
-	name = "blood pack"
-	unique_blood = /datum/reagent/blood/bloodsucker
+		var/obj/item/reagent_containers/blood/o_minus/bloodsucker/new_bag = new(owner.loc)
+		owner.put_in_active_hand(new_bag)
+		DeactivatePower()
