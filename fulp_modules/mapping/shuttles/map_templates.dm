@@ -59,3 +59,9 @@
 	name = "Selene Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "The standard-issue escape shuttle for models of station this large. Will get you home in moderate style."
+
+/datum/map_template/shuttle/emergency/fulp/helio
+	suffix = "helio"
+	name = "Helio Station Emergency Shuttle"
+	credit_cost = CARGO_CRATE_VALUE * 4
+	description = "For when you're not quite ready to say goodbye to your home station. May cause damage to smaller stations."
