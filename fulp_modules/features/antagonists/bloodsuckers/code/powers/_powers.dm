@@ -72,10 +72,10 @@
 	if(active && CheckCanDeactivate()) // Active? DEACTIVATE AND END!
 		DeactivatePower()
 		return FALSE
-	if(!CheckCanPayCost() || !CheckCanUse(owner))
+	if(!CheckCanPayCost() || !CheckCanUse(owner, trigger_flags))
 		return FALSE
 	PayCost()
-	ActivatePower()
+	ActivatePower(trigger_flags)
 	if(!(power_flags & BP_AM_TOGGLE) || !active)
 		StartCooldown()
 	return TRUE
@@ -88,8 +88,15 @@
 		owner.balloon_alert(owner, "power unavailable!")
 		to_chat(owner, "[src] on cooldown!")
 		return FALSE
+	if(!bloodsuckerdatum_power)
+		var/mob/living/living_owner = owner
+		if(living_owner.blood_volume < bloodcost)
+			to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
+			return FALSE
+		return TRUE
+
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
-	if(bloodsuckerdatum_power?.frenzied)
+	if(bloodsuckerdatum_power.frenzied)
 		return TRUE
 	if(bloodsuckerdatum_power.bloodsucker_blood_volume < bloodcost)
 		to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
@@ -97,7 +104,7 @@
 	return TRUE
 
 ///Checks if the Power is available to use.
-/datum/action/bloodsucker/proc/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/proc/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	if(!owner)
 		return FALSE
 	if(!isliving(user))
@@ -123,7 +130,7 @@
 		to_chat(user, span_warning("Not while you're incapacitated!"))
 		return FALSE
 	// Constant Cost (out of blood)
-	if(constant_bloodcost > 0 && bloodsuckerdatum_power.bloodsucker_blood_volume <= 0)
+	if(constant_bloodcost > 0 && bloodsuckerdatum_power?.bloodsucker_blood_volume <= 0)
 		to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 		return FALSE
 	return TRUE
@@ -154,6 +161,8 @@
 /datum/action/bloodsucker/proc/PayCost()
 	// Non-bloodsuckers will pay in other ways.
 	if(!bloodsuckerdatum_power)
+		var/mob/living/living_owner = owner
+		living_owner.blood_volume -= bloodcost
 		return
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 	if(bloodsuckerdatum_power.frenzied)
@@ -161,7 +170,7 @@
 	bloodsuckerdatum_power.bloodsucker_blood_volume -= bloodcost
 	bloodsuckerdatum_power.update_hud()
 
-/datum/action/bloodsucker/proc/ActivatePower()
+/datum/action/bloodsucker/proc/ActivatePower(trigger_flags)
 	active = TRUE
 	if(power_flags & BP_AM_TOGGLE)
 		START_PROCESSING(SSprocessing, src)
@@ -186,7 +195,11 @@
 		return FALSE
 	// We can keep this up (For now), so Pay Cost!
 	if(!(power_flags & BP_AM_COSTLESS_UNCONSCIOUS) && owner.stat != CONSCIOUS)
-		bloodsuckerdatum_power?.AddBloodVolume(-constant_bloodcost)
+		if(bloodsuckerdatum_power)
+			bloodsuckerdatum_power.AddBloodVolume(-constant_bloodcost)
+		else
+			var/mob/living/living_owner = owner
+			living_owner.blood_volume -= constant_bloodcost
 	return TRUE
 
 /// Checks to make sure this power can stay active

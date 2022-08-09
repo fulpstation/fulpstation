@@ -14,7 +14,7 @@
 	/// Removed, set to TRUE to re-add, either here to be a default function, or in-game through VV for neat Admin stuff -Willard
 	var/give_pinpointer = FALSE
 
-/datum/action/bloodsucker/trackvamp/ActivatePower()
+/datum/action/bloodsucker/trackvamp/ActivatePower(trigger_flags)
 	. = ..()
 	/// Return text indicating direction
 	to_chat(owner, span_notice("You look around, scanning your environment and discerning signs of any filthy, wretched affronts to the natural order."))

@@ -28,7 +28,7 @@
 		/mob/living/simple_animal/hostile/retaliate/bat = 1,
 	)
 
-/datum/action/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -38,7 +38,7 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/gohome/ActivatePower()
+/datum/action/bloodsucker/gohome/ActivatePower(trigger_flags)
 	. = ..()
 	owner.balloon_alert(owner, "starting teleportation...")
 	to_chat(owner, span_notice("You focus on separating your consciousness from your physical form..."))

@@ -14,7 +14,7 @@
 	bloodcost = 1.5
 	cooldown = 10 SECONDS
 
-/datum/action/bloodsucker/recuperate/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/recuperate/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return
@@ -23,7 +23,7 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/recuperate/ActivatePower()
+/datum/action/bloodsucker/recuperate/ActivatePower(trigger_flags)
 	. = ..()
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	owner.balloon_alert(owner, "recuperate turned on.")

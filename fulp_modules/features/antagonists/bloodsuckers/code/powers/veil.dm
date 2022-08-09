@@ -27,7 +27,7 @@
 	var/prev_disfigured
 	var/list/prev_features // For lizards and such
 
-/datum/action/bloodsucker/veil/ActivatePower()
+/datum/action/bloodsucker/veil/ActivatePower(trigger_flags)
 	. = ..()
 	cast_effect() // POOF
 //	if(blahblahblah)

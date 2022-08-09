@@ -83,7 +83,7 @@
 		return FALSE
 	return isturf(target_atom)
 
-/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower()
+/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower(trigger_flags)
 	. = ..()
 	owner.AddElement(/datum/element/digitalcamo)
 	animate(owner, alpha = 15, time = 1 SECONDS)

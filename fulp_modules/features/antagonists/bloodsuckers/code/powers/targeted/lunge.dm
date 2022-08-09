@@ -18,7 +18,7 @@
 	target_range = 6
 	power_activates_immediately = FALSE
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE

@@ -174,6 +174,7 @@
 			continue
 		if(all_vassals.special_type == REVENGE_VASSAL)
 			continue
+		all_vassals.owner.add_antag_datum(/datum/antagonist/ex_vassal)
 		all_vassals.owner.remove_antag_datum(/datum/antagonist/vassal)
 
 /// Used when your Master teaches you a new Power.
@@ -248,6 +249,9 @@
 	vassal_description = "The Revenge Vassal will not deconvert on your Final Death, \
 		instead they will gain all your Powers, and the objective to take revenge for your demise."
 
+	///all ex-vassals brought back into the fold.
+	var/list/datum/antagonist/ex_vassals = list()
+
 /datum/antagonist/vassal/revenge/on_gain()
 	. = ..()
 	RegisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH, .proc/on_master_death)
@@ -259,6 +263,7 @@
 /datum/antagonist/vassal/revenge/proc/on_master_death(datum/source, mob/living/carbon/master)
 	SIGNAL_HANDLER
 
+	BuyPower(new /datum/action/bloodsucker/vassal_blood)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(master)
 	for(var/datum/action/bloodsucker/master_powers as anything in bloodsuckerdatum.powers)
 		if(master_powers.purchase_flags & BLOODSUCKER_DEFAULT_POWER)

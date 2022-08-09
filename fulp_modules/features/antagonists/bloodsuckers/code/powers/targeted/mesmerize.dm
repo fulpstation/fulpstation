@@ -33,7 +33,7 @@
 	///Our mesmerized target - Prevents several mesmerizes.
 	var/datum/weakref/target_ref
 
-/datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/mesmerize/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.) // Default checks
 		return FALSE

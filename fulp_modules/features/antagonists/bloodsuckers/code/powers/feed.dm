@@ -26,7 +26,7 @@
 	///Reference to the target we've fed off of
 	var/datum/weakref/target_ref
 
-/datum/action/bloodsucker/feed/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/feed/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -68,7 +68,7 @@
 	REMOVE_TRAIT(owner, TRAIT_MUTE, FEED_TRAIT)
 	return ..()
 
-/datum/action/bloodsucker/feed/ActivatePower()
+/datum/action/bloodsucker/feed/ActivatePower(trigger_flags)
 	var/mob/living/feed_target = target_ref.resolve()
 	if(istype(feed_target, /mob/living/simple_animal/mouse) || istype(feed_target, /mob/living/simple_animal/hostile/rat))
 		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))

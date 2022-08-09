@@ -23,10 +23,10 @@
 	if(active && CheckCanDeactivate())
 		DeactivatePower()
 		return FALSE
-	if(!CheckCanPayCost(owner) || !CheckCanUse(owner))
+	if(!CheckCanPayCost(owner) || !CheckCanUse(owner, trigger_flags))
 		return FALSE
 
-	ActivatePower()
+	ActivatePower(trigger_flags)
 	if(prefire_message != "")
 		to_chat(owner, span_announce("[prefire_message]"))
 	if(target)
@@ -74,7 +74,7 @@
 	if(!CheckCanPayCost() || !CheckCanUse(owner) || !CheckCanTarget(target_atom))
 		return TRUE
 	power_in_use = TRUE // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
-	FireTargetedPower(target_atom) // We use this instead of ActivatePower(), which has no input
+	FireTargetedPower(target_atom) // We use this instead of ActivatePower(trigger_flags), which has no input
 	// Skip this part so we can return TRUE right away.
 	if(power_activates_immediately)
 		PowerActivatedSuccessfully() // Mesmerize pays only after success.
