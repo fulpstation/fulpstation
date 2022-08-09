@@ -89,10 +89,13 @@
  *
  * Artificially made, this must be fed to ex-vassals to keep them on their high.
  */
+/datum/reagent/blood/bloodsucker
+	name = "Blood...?"
+
 /datum/reagent/blood/bloodsucker/expose_mob(mob/living/exposed_mob, methods, reac_volume, show_message, touch_protection)
 	var/datum/antagonist/ex_vassal/former_vassal = exposed_mob.mind.has_antag_datum(/datum/antagonist/ex_vassal)
 	if(former_vassal)
-		to_chat(exposed_mob, span_cult("You are safe for now..."))
+		to_chat(exposed_mob, span_cult("You feel the blood restore you... You feel safe."))
 		COOLDOWN_RESET(former_vassal, blood_timer)
 		COOLDOWN_START(former_vassal, blood_timer, BLOOD_TIMER_REQUIREMENT)
 	return ..()
