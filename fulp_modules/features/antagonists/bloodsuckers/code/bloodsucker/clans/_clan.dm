@@ -192,18 +192,26 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return
 	to_chat(bloodsuckerdatum.owner.current, span_notice("You can change who this Vassal is, who are they to you?"))
-	var/list/vassal_options = list(
-		"Cancel" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
-	)
-	if(!bloodsuckerdatum.vassals[FAVORITE_VASSAL])
-		vassal_options += list("Favorite" = image(icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi', icon_state = "vassal6"))
-	var/vassal_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, vassal_options, radius = 36, require_near = TRUE)
-	switch(vassal_response)
-		if("Favorite")
-			vassaldatum.make_favorite(bloodsuckerdatum.owner.current)
-			bloodsuckerdatum.bloodsucker_blood_volume -= 150
-		else
-			to_chat(bloodsuckerdatum.owner.current, span_danger("You decide not to turn [vassaldatum.owner.current] into anything."))
+
+	var/list/options = list()
+	var/list/radial_display = list()
+	for(var/datum/antagonist/vassal/vassaldatums as anything in subtypesof(/datum/antagonist/vassal))
+		if(bloodsuckerdatum.vassals[vassaldatums.name])
+			continue
+		options[initial(vassaldatums.name)] = vassaldatums
+
+		var/datum/radial_menu_choice/option = new
+		option.image = image(icon = initial(vassaldatums.hud_icon), icon_state = initial(vassaldatums.antag_hud_name))
+		option.info = "[initial(vassaldatums.name)] - [span_boldnotice(initial(vassaldatums.vassal_description))]"
+		radial_display[initial(vassaldatums.name)] = option
+
+	var/vassal_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, radial_display)
+	vassal_response = options[vassal_response]
+	if(QDELETED(src) || QDELETED(bloodsuckerdatum.owner.current) || QDELETED(vassaldatum.owner.current))
+		return FALSE
+	vassaldatum.make_special(bloodsuckerdatum.owner.current, vassal_response)
+	bloodsuckerdatum.bloodsucker_blood_volume -= 150
+
 
 /**
  * Called when we are successfully turn a Vassal into a Favorite Vassal

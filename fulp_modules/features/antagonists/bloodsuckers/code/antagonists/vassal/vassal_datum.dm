@@ -19,6 +19,8 @@
 	var/list/datum/action/powers = list()
 	///Whether this vassal is already a special type of Vassal.
 	var/special_vassal = FALSE
+	///Description of what this Vassal does.
+	var/vassal_description
 
 /datum/antagonist/vassal/antag_panel_data()
 	return "Master : [master.owner.name]"
@@ -177,11 +179,11 @@
 		power.level_current++
 
 /// Called when we are made into the Favorite Vassal
-/datum/antagonist/vassal/proc/make_favorite(mob/living/master)
+/datum/antagonist/vassal/proc/make_special(mob/living/master, datum/antagonist/vassal/vassal_type)
 	silent = TRUE
 	var/datum/mind/vassal_owner = owner
 	vassal_owner.remove_antag_datum(/datum/antagonist/vassal)
-	var/datum/antagonist/vassal/favorite/new_favorite_vassal = new()
+	var/datum/antagonist/vassal/new_favorite_vassal = new vassal_type()
 	new_favorite_vassal.silent = TRUE
 	vassal_owner.add_antag_datum(new_favorite_vassal)
 	new_favorite_vassal.silent = FALSE
@@ -189,9 +191,6 @@
 	to_chat(master, span_danger("You have turned [vassal_owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(vassal_owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 	vassal_owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
 
 /**
  * Favorite Vassal
@@ -203,6 +202,8 @@
 	show_in_antagpanel = FALSE
 	antag_hud_name = "vassal6"
 	special_vassal = TRUE
+	vassal_description = "The Favorite Vassal gets unique abilities over other Vassals depending on your Clan \
+		and becomes completely immune to Mindshields. If part of Ventrue, this is the Vassal you will rank up."
 
 	///Bloodsucker levels, but for Vassals, used by Ventrue.
 	var/vassal_level
@@ -213,11 +214,13 @@
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum)
-		bloodsuckerdatum.vassals[FAVORITE_VASSAL] |= src
+		bloodsuckerdatum.vassals[name] |= src
+		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
 
 /datum/antagonist/vassal/favorite/on_removal()
 	if(master && master.owner)
-		master.vassals[FAVORITE_VASSAL] -= src
+		master.vassals[name] -= src
+	return ..()
 
 /datum/antagonist/vassal/favorite/pre_mindshield(mob/implanter, mob/living/mob_override)
 	return COMPONENT_MINDSHIELD_RESISTED
