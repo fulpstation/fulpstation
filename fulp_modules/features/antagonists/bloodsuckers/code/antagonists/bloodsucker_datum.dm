@@ -53,6 +53,7 @@
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
+	var/list/special_vassals = list()
 	///Have we selected our Favorite Vassal yet?
 	var/has_favorite_vassal = FALSE
 

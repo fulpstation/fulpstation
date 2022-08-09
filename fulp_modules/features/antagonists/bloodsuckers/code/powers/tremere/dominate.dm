@@ -175,7 +175,7 @@
 	target.mind.grab_ghost()
 	target.revive(full_heal = TRUE, admin_revive = TRUE)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
-	vassaldatum.special_vassal = TRUE //don't turn them into a favorite please
+	vassaldatum.special_type = TREMERE_VASSAL //don't turn them into a favorite please
 	var/living_time
 	if(level_current == 4)
 		living_time = 5 MINUTES

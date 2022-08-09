@@ -18,7 +18,7 @@
 	/// List of all Purchased Powers, like Bloodsuckers.
 	var/list/datum/action/powers = list()
 	///Whether this vassal is already a special type of Vassal.
-	var/special_vassal = FALSE
+	var/special_type = FALSE
 	///Description of what this Vassal does.
 	var/vassal_description
 
@@ -80,11 +80,13 @@
 /datum/antagonist/vassal/on_gain()
 	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
 	/// Enslave them to their Master
-	if(master)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(bloodsuckerdatum)
-			bloodsuckerdatum.vassals |= src
-		owner.enslave_mind_to_creator(master.owner.current)
+	if(!master)
+		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return
+	bloodsuckerdatum.vassals |= src
+	owner.enslave_mind_to_creator(master.owner.current)
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/bloodsucker/recuperate)
@@ -179,16 +181,24 @@
 		power.level_current++
 
 /// Called when we are made into the Favorite Vassal
-/datum/antagonist/vassal/proc/make_special(mob/living/master, datum/antagonist/vassal/vassal_type)
-	silent = TRUE
+/datum/antagonist/vassal/proc/make_special(datum/antagonist/vassal/vassal_type)
+	//store what we need
 	var/datum/mind/vassal_owner = owner
-	vassal_owner.remove_antag_datum(/datum/antagonist/vassal)
-	var/datum/antagonist/vassal/new_favorite_vassal = new vassal_type()
-	new_favorite_vassal.silent = TRUE
-	vassal_owner.add_antag_datum(new_favorite_vassal)
-	new_favorite_vassal.silent = FALSE
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 
-	to_chat(master, span_danger("You have turned [vassal_owner.current] into your Favorite Vassal! They will no longer be deconverted upon Mindshielding!"))
+	//remove our antag datum
+	silent = TRUE
+	vassal_owner.remove_antag_datum(/datum/antagonist/vassal)
+
+	//give our new one
+	var/datum/antagonist/vassal/vassaldatum = new vassal_type(vassal_owner)
+	vassaldatum.master = bloodsuckerdatum
+	vassaldatum.silent = TRUE
+	vassal_owner.add_antag_datum(vassaldatum, vassaldatum.master.get_team())
+	vassaldatum.silent = FALSE
+
+	//send alerts of completion
+	to_chat(master, span_danger("You have turned [vassal_owner.current] into your [vassaldatum.name]! They will no longer be deconverted upon Mindshielding!"))
 	to_chat(vassal_owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
 	vassal_owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)
 
@@ -201,7 +211,7 @@
 	name = "\improper Favorite Vassal"
 	show_in_antagpanel = FALSE
 	antag_hud_name = "vassal6"
-	special_vassal = TRUE
+	special_type = FAVORITE_VASSAL
 	vassal_description = "The Favorite Vassal gets unique abilities over other Vassals depending on your Clan \
 		and becomes completely immune to Mindshields. If part of Ventrue, this is the Vassal you will rank up."
 
@@ -214,12 +224,16 @@
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum)
-		bloodsuckerdatum.vassals[name] |= src
 		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MAKE_FAVORITE, src, master)
+		if(!bloodsuckerdatum.special_vassals[special_type])
+			bloodsuckerdatum.special_vassals[special_type] = list()
+		bloodsuckerdatum.special_vassals[special_type] |= src
 
 /datum/antagonist/vassal/favorite/on_removal()
-	if(master && master.owner)
-		master.vassals[name] -= src
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return
+	bloodsuckerdatum.special_vassals[special_type] -= src
 	return ..()
 
 /datum/antagonist/vassal/favorite/pre_mindshield(mob/implanter, mob/living/mob_override)

@@ -45,6 +45,7 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 #define CLAN_MALKAVIAN "Malkavian Clan"
 
+#define TREMERE_VASSAL "tremere_vassal"
 #define FAVORITE_VASSAL "favorite_vassal"
 #define REVENGE_VASSAL "revenge_vassal"
 

@@ -188,15 +188,14 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	INVOKE_ASYNC(src, .proc/offer_favorite, bloodsuckerdatum, vassaldatum)
 
 /datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
-	if(vassaldatum.special_vassal)
+	if(vassaldatum.special_type)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return
-	to_chat(bloodsuckerdatum.owner.current, span_notice("You can change who this Vassal is, who are they to you?"))
 
 	var/list/options = list()
 	var/list/radial_display = list()
 	for(var/datum/antagonist/vassal/vassaldatums as anything in subtypesof(/datum/antagonist/vassal))
-		if(bloodsuckerdatum.vassals[vassaldatums.name])
+		if(bloodsuckerdatum.special_vassals[initial(vassaldatums.special_type)])
 			continue
 		options[initial(vassaldatums.name)] = vassaldatums
 
@@ -205,11 +204,17 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 		option.info = "[initial(vassaldatums.name)] - [span_boldnotice(initial(vassaldatums.vassal_description))]"
 		radial_display[initial(vassaldatums.name)] = option
 
+	if(!options.len)
+		return
+
+	to_chat(bloodsuckerdatum.owner.current, span_notice("You can change who this Vassal is, who are they to you?"))
 	var/vassal_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, radial_display)
+	if(!vassal_response)
+		return
 	vassal_response = options[vassal_response]
 	if(QDELETED(src) || QDELETED(bloodsuckerdatum.owner.current) || QDELETED(vassaldatum.owner.current))
 		return FALSE
-	vassaldatum.make_special(bloodsuckerdatum.owner.current, vassal_response)
+	vassaldatum.make_special(vassal_response)
 	bloodsuckerdatum.bloodsucker_blood_volume -= 150
 
 

@@ -214,7 +214,7 @@
 	return FALSE
 
 /datum/antagonist/bloodsucker/proc/attempt_turn_vassal(mob/living/carbon/convertee, can_vassal_sleeping = FALSE)
-	convertee.silent = 0
+	convertee.silent = FALSE
 	return make_vassal(convertee, owner, can_vassal_sleeping)
 
 /datum/antagonist/bloodsucker/proc/make_vassal(mob/living/convertee, datum/mind/converter, sleeping = FALSE)
