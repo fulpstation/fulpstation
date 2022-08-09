@@ -278,6 +278,19 @@
 	UnregisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH)
 	return ..()
 
+/datum/antagonist/vassal/revenge/ui_static_data(mob/user)
+	var/list/data = list()
+	for(var/datum/action/bloodsucker/power as anything in powers)
+		var/list/power_data = list()
+
+		power_data["power_name"] = power.name
+		power_data["power_explanation"] = power.power_explanation
+		power_data["power_icon"] = power.button_icon_state
+
+		data["power"] += list(power_data)
+
+	return data + ..()
+
 /datum/antagonist/vassal/revenge/proc/on_master_death(datum/source, mob/living/carbon/master)
 	SIGNAL_HANDLER
 
@@ -296,3 +309,11 @@
 	new_objective.explanation_text = "Avenge your Bloodsucker's death by recruiting their ex-vassals and continuing their operations."
 	new_objective.owner = owner
 	objectives += new_objective
+
+	if(info_button_ref)
+		QDEL_NULL(info_button_ref)
+
+	ui_name = "AntagInfoRevengeVassal" //give their new ui
+	var/datum/action/antag_info/info_button = new(src)
+	info_button.Grant(owner.current)
+	info_button_ref = WEAKREF(info_button)
