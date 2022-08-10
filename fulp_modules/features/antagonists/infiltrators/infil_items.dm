@@ -238,9 +238,19 @@
     return TRUE
 
 /mob/living/silicon/robot/emag_act(mob/user, obj/item/card/emag/emag_card)
-    . = ..()
-    if(istype(emag_card, /obj/item/card/emag/silicon_hack))
-        var/obj/item/card/emag/silicon_hack/hack_card = emag_card
-        hack_card.use_charge(user)
-        playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
-        return
+	. = ..()
+	if(!istype(emag_card, /obj/item/card/emag/silicon_hack))
+		return
+	var/list/law_list
+	law_list = laws.get_law_list(include_zeroth=TRUE)
+	if(!law_list.len)
+		return
+	var/zeroth_law
+	zeroth_law = law_list[1]
+	if(!zeroth_law)
+		return
+	if(!findtext(zeroth_law, user.real_name))
+		return
+	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
+	hack_card.use_charge(user)
+	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
