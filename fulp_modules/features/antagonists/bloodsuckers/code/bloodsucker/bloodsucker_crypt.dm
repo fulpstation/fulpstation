@@ -263,7 +263,7 @@
 		return
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(buckled_carbons)
 	// Are they our Vassal, or Dead?
-	if(istype(vassaldatum) && (vassaldatum in bloodsuckerdatum.vassals))
+	if(vassaldatum && (vassaldatum in bloodsuckerdatum.vassals))
 		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_MAKE_FAVORITE, bloodsuckerdatum, vassaldatum)
 		return
 
