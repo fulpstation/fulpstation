@@ -246,7 +246,8 @@
 	antag_hud_name = "vassal4"
 	special_type = REVENGE_VASSAL
 	vassal_description = "The Revenge Vassal will not deconvert on your Final Death, \
-		instead they will gain all your Powers, and the objective to take revenge for your demise."
+		instead they will gain all your Powers, and the objective to take revenge for your demise. \
+		They additionally maintain your Vassals after your departure, rather than become aimless."
 
 	///all ex-vassals brought back into the fold.
 	var/list/datum/antagonist/ex_vassals = list()
