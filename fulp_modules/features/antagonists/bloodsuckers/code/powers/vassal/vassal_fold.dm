@@ -25,6 +25,9 @@
 		return FALSE
 
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
+		if(!revenge_vassal.ex_vassals.len)
+			owner.balloon_alert(owner, "no vassals!")
+			return FALSE
 		return TRUE
 
 	if(owner.pulling && isliving(owner.pulling))

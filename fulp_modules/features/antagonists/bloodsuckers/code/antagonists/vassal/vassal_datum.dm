@@ -264,10 +264,7 @@
 		for(var/datum/antagonist/ex_vassal/all_vassals as anything in ex_vassals)
 			if(!all_vassals.owner)
 				continue
-			report += "<b>[all_vassals.owner.name]</b>"
-
-			if(all_vassals.owner.assigned_role)
-				report += " the [all_vassals.owner.assigned_role.title]"
+			report += "<b>[all_vassals.owner.name]</b> the [all_vassals.owner.assigned_role.title]"
 
 	return report.Join("<br>")
 
