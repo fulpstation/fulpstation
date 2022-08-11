@@ -110,4 +110,3 @@
 	r_hand = /obj/item/aicard
 
 
-
