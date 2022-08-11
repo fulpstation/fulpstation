@@ -60,3 +60,4 @@
 		"explosionSize" = list(3,4,5,5),
 		"delays" = list(POD_TRANSIT = 60, POD_FALLING = 60)
 	))
+
