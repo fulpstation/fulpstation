@@ -57,6 +57,6 @@
 		"target" = targetloc,
 		"style" = STYLE_MISSILE,
 		"effectMissile" = TRUE,
-		"explosionSize" = list(2,3,5,5),
+		"explosionSize" = list(3,4,5,5),
 		"delays" = list(POD_TRANSIT = 60, POD_FALLING = 60)
 	))
