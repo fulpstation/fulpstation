@@ -43,8 +43,8 @@
 /datum/round_event_control/missilegalore
 	name = "Missiles"
 	typepath = /datum/round_event/missilegalore
-	max_occurrences = 1
-	weight = 20
+	max_occurrences = 0
+	weight = 0
 
 /datum/round_event/missilegalore/announce(fake)
 
