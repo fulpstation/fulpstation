@@ -84,9 +84,9 @@
 	var/mob/selected_mobs = pick(living_players)
 	assigned += selected_mobs
 	living_players -= selected_mobs
-	var/datum/mind/bloodsuckermind = selected_mobs
+	var/datum/mind/bloodsuckermind = selected_mobs.mind
 	var/datum/antagonist/bloodsucker/sucker = new
-	if(!bloodsuckermind.make_bloodsucker(selected_mobs))
+	if(!bloodsuckermind.make_bloodsucker(selected_mobs.mind))
 		assigned -= selected_mobs
 		message_admins("[ADMIN_LOOKUPFLW(selected_mobs)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
 		return FALSE
