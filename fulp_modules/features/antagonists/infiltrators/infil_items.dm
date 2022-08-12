@@ -248,7 +248,7 @@
 	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
 
 /obj/item/missile_disk
-	name = "Missile Disk"
+	name = "missile disk"
 	desc = "Used to store the coordinates of the station."
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	icon_state = "missiledisk"
@@ -263,7 +263,9 @@
 		return
 	if(!istype(victim, /obj/machinery/computer/communications))
 		return
-
+	if(stored)
+		to_chat(user, span_warning("Disk already contains station coordinates..."))
+		return
 	to_chat(user, span_warning("Downloading station coordinates..."))
 	if(!do_after(user, 8 SECONDS))
 		return
@@ -272,7 +274,7 @@
 	stored = TRUE
 
 /obj/item/missilephone
-	name = "Large Handphone"
+	name = "large handphone"
 	desc = "Hello? Is this the police?"
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	icon_state = "missilephone"
@@ -280,6 +282,7 @@
 	item_flags = NOBLUDGEON
 	///has a disk been inserted into the phone?
 	var/disk = FALSE
+	///has the phone served its purpose?
 	var/used = FALSE
 
 /obj/item/missilephone/attackby(obj/item/missile_disk/terrorism, mob/user)
