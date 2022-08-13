@@ -308,6 +308,8 @@
 		return
 	switch(action)
 		if("launch_missiles")
+			if(!disk)
+				return
 			used = TRUE
 			var/datum/round_event_control/missilegalore/missiles = new
 			missiles.runEvent()
