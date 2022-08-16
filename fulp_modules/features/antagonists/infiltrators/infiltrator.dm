@@ -9,6 +9,7 @@
 	show_to_ghosts = TRUE
 	preview_outfit = /datum/outfit/infiltrator
 	var/give_equipment = TRUE ///gives infiltrators equipment
+	var/admin_selected ///faction selected by admins if true
 
 /datum/job/infiltrator
 	title = ROLE_INFILTRATOR
@@ -40,21 +41,26 @@
 		INFILTRATOR_FACTION_CORPORATE_CLIMBER,
 		INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM,
 		INFILTRATOR_FACTION_GORLEX_MARAUDERS,
+		INFILTRATOR_FACTION_SELF
 	)
 	var/choice = input("What affiliation would you like [new_owner] to have?", "Affiliation") in possible_employers
 	if(!choice)
 		return
-	employer = possible_employers[choice]
-	message_admins("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [employer] [name]")
-	log_admin("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [employer] [name]")
+	admin_selected = choice
+	message_admins("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [admin_selected] [name]")
+	log_admin("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [admin_selected] [name]")
 	new_owner.add_antag_datum(src)
 
 /datum/antagonist/traitor/infiltrator/pick_employer(faction)
-	faction = prob(75) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
-	if(faction == FACTION_NANOTRASEN)
-		employer = INFILTRATOR_FACTION_CORPORATE_CLIMBER
+	if(admin_selected)
+		employer = admin_selected
 	else
-		employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS, INFILTRATOR_FACTION_SELF)
+		faction = prob(75) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
+		if(faction == FACTION_NANOTRASEN)
+			employer = INFILTRATOR_FACTION_CORPORATE_CLIMBER
+		else
+			employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS, INFILTRATOR_FACTION_SELF)
+
 	if(give_equipment)
 		equip_infiltrator(owner.current)
 	forge_traitor_objectives()
