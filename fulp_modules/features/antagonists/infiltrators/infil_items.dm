@@ -353,16 +353,14 @@
 		bombing_zone = selected_area
 		break
 
-/obj/item/grenade/c4/wormhole/afterattack(atom/movable/AM, mob/user, flag)
-	if(!isturf(AM))
-		return
-	if(AM.density)
-		return
+/obj/item/grenade/c4/wormhole/afterattack(atom/movable/bombed, mob/user, flag)
+	if(!isfloorturf(bombed))
+		to_chat(user, span_notice("This wormhole projector must be planted on a floor!"))
 	if((get_area(target) != bombing_zone) && (get_area(src) != bombing_zone))
 		if (!active)
 			to_chat(user, span_notice("This isn't the location you're supposed to use this!"))
 	bomber = WEAKREF(user)
-	wormhole_spawn = AM
+	wormhole_spawn = bombed
 	return ..()
 
 
