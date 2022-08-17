@@ -328,6 +328,7 @@
 	if(!ui)
 		ui = new(user, src, "MissilePhone", name)
 		ui.open()
+
 /obj/item/grenade/c4/wormhole
 	name = "Wormhole Projector"
 	desc = "A device that opens up a portal gateway to our allies."
