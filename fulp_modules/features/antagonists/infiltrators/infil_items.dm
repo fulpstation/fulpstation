@@ -264,7 +264,7 @@
 	if(!istype(victim, /obj/machinery/computer/communications))
 		return
 	if(stored)
-		to_chat(user, span_warning("Disk already contains station coordinates..."))
+		to_chat(user, span_warning("Disk already contains station coordinates."))
 		return
 	to_chat(user, span_warning("Downloading station coordinates..."))
 	if(!do_after(user, 8 SECONDS))
