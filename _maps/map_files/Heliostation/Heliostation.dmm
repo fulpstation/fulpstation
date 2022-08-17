@@ -37942,7 +37942,11 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 8
 	},
-/obj/machinery/light_switch/directional/north,
+/obj/machinery/camera/directional/north{
+	c_tag = "Engineering Foyer";
+	name = "Engineering Camera";
+	network = list("ss13","engineering")
+	},
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "bYH" = (
@@ -42973,11 +42977,6 @@
 /area/station/engineering/hallway)
 "clI" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/camera/directional/north{
-	c_tag = "Engineering Hall - Atmospherics Port Side";
-	name = "Engineering Camera";
-	network = list("ss13","engineering")
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 1;
@@ -43061,7 +43060,7 @@
 /area/station/engineering/break_room)
 "clV" = (
 /obj/machinery/camera/directional/north{
-	c_tag = "Engineering Hall - Entrance";
+	c_tag = "Engineering Lobby - Entrance";
 	name = "Engineering Camera";
 	network = list("ss13","engineering")
 	},
@@ -43877,7 +43876,7 @@
 /area/station/engineering/hallway)
 "cnT" = (
 /obj/machinery/camera/directional/south{
-	c_tag = "Engineering Hall - Shared Engineering Storage";
+	c_tag = "Engineering Hall -  Engineering Storage";
 	name = "Engineering Camera";
 	network = list("ss13","engineering")
 	},
@@ -44434,11 +44433,6 @@
 /turf/open/floor/iron,
 /area/station/engineering/break_room)
 "cpg" = (
-/obj/machinery/camera/directional/east{
-	c_tag = "Engineering Foyer";
-	name = "Engineering Camera";
-	network = list("ss13","engineering")
-	},
 /obj/structure/noticeboard{
 	dir = 8;
 	pixel_x = 32
@@ -44894,6 +44888,11 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/portable_atmospherics/canister/air,
+/obj/machinery/camera/directional/north{
+	c_tag = "Atmospherics - Central Fore";
+	name = "Atmos Camera";
+	network = list("ss13","engineering","atmos")
+	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "cqj" = (
@@ -44930,14 +44929,13 @@
 	dir = 1;
 	name = "engineering yellow"
 	},
-/obj/machinery/camera/directional/south{
-	c_tag = "Atmospherics";
-	dir = 1;
-	name = "Atmos Camera";
-	network = list("ss13","engineering","atmos")
+/obj/machinery/camera/directional/north{
+	c_tag = "Engineering Hall - HFR Room";
+	name = "Engineering Camera";
+	network = list("ss13","engineering")
 	},
 /turf/open/floor/iron,
-/area/station/engineering/atmos)
+/area/station/engineering/hallway)
 "cqn" = (
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -45149,12 +45147,6 @@
 /obj/item/clothing/gloves/color/black,
 /obj/item/clothing/gloves/color/black,
 /obj/item/clothing/gloves/color/black,
-/obj/machinery/camera/directional/south{
-	c_tag = "Atmospherics Entrance";
-	dir = 4;
-	name = "Atmos Camera";
-	network = list("ss13","engineering","atmos")
-	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "cqO" = (
@@ -45621,7 +45613,7 @@
 /area/station/cargo/lobby)
 "crJ" = (
 /obj/machinery/camera/directional/east{
-	c_tag = "Engineering Hall - Atmos Entrance";
+	c_tag = "Engineering Lobby - Atmos Entrance";
 	name = "Engineering Camera";
 	network = list("ss13","engineering")
 	},
@@ -46047,7 +46039,7 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/supply/visible/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "csU" = (
@@ -48661,7 +48653,6 @@
 	dir = 1;
 	name = "engineering yellow"
 	},
-/obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "czY" = (
@@ -48824,6 +48815,11 @@
 	name = "engineering yellow"
 	},
 /obj/structure/closet/crate/internals,
+/obj/machinery/camera/directional/east{
+	c_tag = "Atmospherics - Air Distribution";
+	name = "Atmos Camera";
+	network = list("ss13","engineering","atmos")
+	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos/pumproom)
 "cAA" = (
@@ -49245,11 +49241,6 @@
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "cBQ" = (
-/obj/machinery/camera/directional/east{
-	c_tag = "Atmospherics Air Distribution";
-	name = "Atmos Camera";
-	network = list("ss13","engineering","atmos")
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 4;
@@ -51443,7 +51434,7 @@
 /area/station/engineering/atmos)
 "cHs" = (
 /obj/machinery/camera/directional/south{
-	c_tag = "Atmospherics Air Mixing";
+	c_tag = "Atmospherics - Air Mixing";
 	name = "Atmos Camera";
 	network = list("ss13","engineering","atmos")
 	},
@@ -51451,7 +51442,6 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/light/directional/south,
 /obj/machinery/atmospherics/components/binary/pump/on{
 	dir = 1;
 	name = "O2 Air Mix Pump"
@@ -51640,11 +51630,6 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "cHD" = (
-/obj/machinery/camera/directional/south{
-	c_tag = "Atmospherics Plasma Outlet";
-	name = "Atmos Camera";
-	network = list("ss13","engineering","atmos")
-	},
 /obj/effect/turf_decal/tile{
 	color = "#FF6700";
 	dir = 4;
@@ -51683,9 +51668,13 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/light/directional/south,
 /obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible{
 	dir = 4
+	},
+/obj/machinery/camera/directional/south{
+	c_tag = "Atmospherics - Plasma Outlet";
+	name = "Atmos Camera";
+	network = list("ss13","engineering","atmos")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -51760,6 +51749,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible{
 	dir = 9
 	},
+/obj/machinery/light/directional/south,
 /turf/open/floor/iron,
 /area/station/engineering/atmos/pumproom)
 "cHJ" = (
@@ -52678,7 +52668,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible/layer2,
 /turf/open/floor/iron,
-/area/space)
+/area/station/maintenance/disposal/incinerator)
 "cKq" = (
 /obj/structure/window/reinforced{
 	dir = 8
@@ -56825,11 +56815,10 @@
 /obj/machinery/computer/atmos_alert{
 	dir = 4
 	},
-/obj/machinery/camera/directional/north{
-	c_tag = "Atmospherics Monitoring Room";
-	dir = 8;
+/obj/machinery/camera/directional/west{
+	c_tag = "Atmospherics - Monitoring Room";
 	name = "Atmos Camera";
-	network = list("ss13","engineering","atmos")
+	network = list("ss13", "engineering", "atmos")
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos/pumproom)
@@ -57048,6 +57037,7 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/light/directional/west,
+/obj/machinery/light_switch/directional/west,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "cXb" = (
@@ -58221,7 +58211,7 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/visible,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/visible/layer4{
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
 /turf/open/floor/iron,
@@ -59724,9 +59714,15 @@
 /turf/open/floor/iron,
 /area/station/commons/dorms)
 "fwl" = (
-/obj/machinery/light/floor,
-/turf/open/floor/iron/dark,
-/area/station/engineering/atmos)
+/obj/effect/turf_decal/siding/yellow{
+	color = "#FFD700";
+	name = "engineering yellow"
+	},
+/obj/machinery/camera/directional/south{
+	c_tag = "Engineering Lobby - Starboard"
+	},
+/turf/open/floor/iron,
+/area/station/engineering/break_room)
 "fwv" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/structure/disposalpipe/segment,
@@ -65136,7 +65132,7 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/supply/visible/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "kII" = (
@@ -66365,7 +66361,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet/directional/west,
 /turf/open/floor/iron,
 /area/station/maintenance/disposal/incinerator)
 "lWp" = (
@@ -67567,24 +67562,19 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 6
 	},
-/obj/machinery/camera/directional/east{
-	c_tag = "Atmospherics Incinerator";
-	dir = 8;
-	name = "Atmos Camera";
-	network = list("ss13","engineering","atmos")
-	},
+/obj/structure/extinguisher_cabinet/directional/west,
 /turf/open/floor/iron,
 /area/station/maintenance/disposal/incinerator)
 "ndT" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/supply/visible/layer4{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	name = "engineering yellow"
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -70003,7 +69993,11 @@
 "ptJ" = (
 /obj/structure/sign/poster/official/random/directional/south,
 /obj/structure/closet/secure_closet/atmospherics,
-/obj/machinery/camera/directional/south,
+/obj/machinery/camera/directional/south{
+	c_tag = "Atmospherics - Storage";
+	name = "Atmos Camera";
+	network = list("ss13","engineering","atmos")
+	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos/storage)
 "ptT" = (
@@ -73383,11 +73377,7 @@
 	dir = 1;
 	name = "engineering yellow"
 	},
-/obj/machinery/camera/directional/north{
-	c_tag = "Atmospherics Computers";
-	name = "Atmos Camera";
-	network = list("ss13","engineering","atmos")
-	},
+/obj/machinery/light/floor,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "sCC" = (
@@ -75412,6 +75402,11 @@
 	dir = 1;
 	name = "engineering yellow"
 	},
+/obj/machinery/camera/directional/north{
+	c_tag = "Atmospherics Computers";
+	name = "Atmos Camera";
+	network = list("ss13","engineering","atmos")
+	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "uMa" = (
@@ -77072,7 +77067,7 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/supply/visible/layer4{
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 9
 	},
 /turf/open/floor/iron,
@@ -77759,12 +77754,13 @@
 	dir = 1;
 	name = "engineering yellow"
 	},
-/obj/machinery/computer/security/telescreen/turbine{
-	dir = 3;
-	pixel_y = 30
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/camera/directional/north{
+	c_tag = "Atmospherics - Incinerator Room";
+	name = "Atmos Camera";
+	network = list("ss13","engineering","atmos")
 	},
 /turf/open/floor/iron,
 /area/station/maintenance/disposal/incinerator)
@@ -78311,6 +78307,15 @@
 /obj/machinery/holopad,
 /turf/open/floor/iron,
 /area/station/security/prison)
+"xNc" = (
+/obj/effect/turf_decal/siding/yellow{
+	color = "#FFD700";
+	dir = 1;
+	name = "engineering yellow"
+	},
+/obj/machinery/light/directional/north,
+/turf/open/floor/iron,
+/area/station/engineering/atmos)
 "xNO" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -100989,7 +100994,7 @@ caI
 chO
 cjy
 bXp
-nUC
+cqm
 cmZ
 cnY
 tdM
@@ -103561,7 +103566,7 @@ cjw
 ckt
 clK
 cmY
-cnY
+cvd
 cyB
 cqa
 crk
@@ -103571,7 +103576,7 @@ cWq
 cwk
 cxJ
 cyB
-vEO
+xNc
 vbA
 cCE
 cDX
@@ -103818,7 +103823,7 @@ sUr
 cdG
 clL
 cmZ
-cvd
+cnY
 cyB
 cqb
 cxw
@@ -104085,7 +104090,7 @@ cyB
 cyB
 cyB
 cyB
-sCy
+vEO
 hfg
 dNc
 cDV
@@ -105880,9 +105885,9 @@ lsh
 crq
 kIC
 cwt
-fwl
 cwt
-vEO
+cwt
+sCy
 cyG
 cxI
 cyG
@@ -106904,7 +106909,7 @@ clT
 cne
 coa
 coW
-cqm
+vEO
 crj
 ctL
 wNZ
@@ -107416,7 +107421,7 @@ aak
 cyK
 cDW
 cIC
-khy
+fwl
 coW
 cqn
 oLc
