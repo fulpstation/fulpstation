@@ -58,11 +58,11 @@
 			objectives += rocket
 
 		if(INFILTRATOR_FACTION_SELF)
-			for(var/i = 0, i < 2, i++)
-			var/datum/objective/assassinate/assassinate = new
-			assassinate.owner = owner
-			assassinate.find_target()
-			objectives += assassinate
+			for(var/i = 0, i < 2 , i++)
+				var/datum/objective/assassinate = new
+				assassinate.owner = owner
+				assassinate.find_target()
+				objectives += assassinate
 
 			var/datum/objective/steal/steal_objective = new
 			steal_objective.owner = owner
@@ -73,6 +73,15 @@
 			cyborg_hack.owner = owner
 			cyborg_hack.set_target(new /datum/objective_item/steal/cyborg_hack)
 			objectives += cyborg_hack
+
+			var/datum/objective/summon_wormhole/wormhole = new
+			wormhole.owner = owner
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/grenade/c4/wormhole/bomb = infil.l_store
+			bomb.set_bombing_zone()
+			wormhole.explanation_text = "Summon a cyborg rift in [bomb.bombing_zone]!"
+			objectives += wormhole
+
 
 //Corporate Climber objectives
 
@@ -231,3 +240,7 @@
 
 /datum/objective/missiles/update_explanation_text()
 		explanation_text = "Launch missiles towards the station by using the Missile Disk on a communications console and inserting it into the Large Handphone. "
+
+/datum/objective/summon_wormhole
+	name = "Summon a cyborg wormhole"
+

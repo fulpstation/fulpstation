@@ -328,3 +328,102 @@
 	if(!ui)
 		ui = new(user, src, "MissilePhone", name)
 		ui.open()
+/obj/item/grenade/c4/wormhole
+	name = "Wormhole Projector"
+	desc = "A device that opens up a portal gateway to our allies."
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	lefthand_file = 'fulp_modules/features/antagonists/infiltrators/icons/wormhole_left.dmi'
+	righthand_file = 'fulp_modules/features/antagonists/infiltrators/icons/wormhole_right.dmi'
+	icon_state = "wormhole-explosive0"
+	inhand_icon_state = "wormhole-explosive"
+	boom_sizes = list(0, 0, 0)
+	///The place that wiLL be used to summon the wormhole
+	var/area/bombing_zone
+	///the terrorist in question
+	var/datum/weakref/bomber
+	///location of wormhole opening
+	var/turf/wormhole_spawn
+
+/obj/item/grenade/c4/wormhole/proc/set_bombing_zone()
+	for(var/sanity in 1 to 100)
+		var/area/selected_area = pick(GLOB.sortedAreas)
+		if(!is_station_level(selected_area.z) || !(selected_area.area_flags & VALID_TERRITORY))
+			continue
+		bombing_zone = selected_area
+		break
+
+/obj/item/grenade/c4/wormhole/afterattack(atom/movable/AM, mob/user, flag)
+	if(!isturf(AM))
+		return
+	if(AM.density)
+		return
+	if((get_area(target) != bombing_zone) && (get_area(src) != bombing_zone))
+		if (!active)
+			to_chat(user, span_notice("This isn't the location you're supposed to use this!"))
+	bomber = WEAKREF(user)
+	wormhole_spawn = AM
+	return ..()
+
+
+/obj/item/grenade/c4/wormhole/detonate(mob/living/lanced_by)
+	if(!bomber)
+		return
+	var/mob/terrorist = bomber.resolve()
+	. = ..()
+	var/obj/structure/cyborg_rift/rift = new /obj/structure/cyborg_rift(wormhole_spawn)
+	playsound(rift, 'sound/vehicles/rocketlaunch.ogg', 100, TRUE)
+	notify_ghosts("An infiltrator has opened a cyborg rift!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Cyborg rift Opened")
+	var/datum/antagonist/traitor/infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	if(!infil)
+		return
+	var/datum/objective/summon_wormhole/objective = locate() in infil.objectives
+	objective.completed = TRUE
+
+/obj/item/grenade/c4/wormhole/Destroy()
+	bombing_zone = null
+	bomber = null
+	return ..()
+
+/obj/structure/cyborg_rift
+	name = "cyborg rift"
+	desc = "A portal opened up to long-forgotten cyborgs."
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 100, BOMB = 50, BIO = 0, FIRE = 100, ACID = 100)
+	max_integrity = 300
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "cyborg_rift"
+	anchored = TRUE
+	density = FALSE
+	plane = MASSIVE_OBJ_PLANE
+	///How many cyborgs have we spawned
+	var/count_borgs = 0
+
+/obj/structure/cyborg_rift/attack_ghost(mob/user)
+	. = ..()
+	if(.)
+		return
+	summon_cyborg(user)
+	if(count_borgs == 2)
+		qdel(src)
+
+/obj/structure/cyborg_rift/proc/summon_cyborg(mob/user)
+	var/cyborg_check = tgui_alert(user, "Become a rogue security cyborg?", "Cyborg Rift", list("Yes", "No"))
+	if(cyborg_check != "Yes" || !src || QDELETED(src) || QDELETED(user))
+		return FALSE
+
+	var/mob/living/silicon/robot/model/infiltrator/borg = new /mob/living/silicon/robot/model/infiltrator(loc)
+	borg.SetEmagged(1)
+	borg.set_connected_ai(null)
+	borg.laws = new /datum/ai_laws/syndicate_override
+	borg.set_zeroth_law("Aid the SELF affilaited infiltrator with his tasks in exacting revenge against Nanotrasen.")
+	borg.laws.associate(src)
+	borg.key = user.key
+	count_borgs++
+
+/mob/living/silicon/robot/model/infiltrator
+	set_model = /obj/item/robot_model/security/infiltrator
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "infilsec"
+
+/obj/item/robot_model/security/infiltrator
+	name = "Infiltrator Security"
+	cyborg_base_icon = "infilsec"

@@ -116,5 +116,6 @@
 	suit = /obj/item/clothing/suit/space/syndicate/black/orange
 	head = /obj/item/clothing/head/helmet/space/syndicate/black/orange
 	r_hand = /obj/item/aicard
+	l_pocket = /obj/item/grenade/c4/wormhole
 
 
