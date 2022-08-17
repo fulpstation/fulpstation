@@ -12,4 +12,4 @@
 		all_players.say("bruh")
 
 /datum/round_event/bruh_moment/announce(fake)
-	priority_announce("NanoTrasen is issuing a Bruh Moment warning. Please stand by.", "Anomaly Alert")
+	priority_announce("Nanotrasen is issuing a Bruh Moment warning. Please stand by.", "Anomaly Alert")
