@@ -383,6 +383,7 @@
 /obj/item/grenade/c4/wormhole/Destroy()
 	bombing_zone = null
 	bomber = null
+	wormhole_spawn = null
 	return ..()
 
 /obj/structure/cyborg_rift
