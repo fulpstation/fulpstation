@@ -59,7 +59,7 @@
 
 		if(INFILTRATOR_FACTION_SELF)
 			for(var/i = 0, i < 2 , i++)
-				var/datum/objective/assassinate = new
+				var/datum/objective/assassinate/assassinate = new
 				assassinate.owner = owner
 				assassinate.find_target()
 				objectives += assassinate
