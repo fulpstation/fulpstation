@@ -356,9 +356,11 @@
 /obj/item/grenade/c4/wormhole/afterattack(atom/movable/bombed, mob/user, flag)
 	if(!isfloorturf(bombed))
 		to_chat(user, span_notice("This wormhole projector must be planted on a floor!"))
+		return
 	if((get_area(target) != bombing_zone) && (get_area(src) != bombing_zone))
 		if (!active)
 			to_chat(user, span_notice("This isn't the location you're supposed to use this!"))
+			return
 	bomber = WEAKREF(user)
 	wormhole_spawn = bombed
 	return ..()
@@ -426,3 +428,10 @@
 /obj/item/robot_model/security/infiltrator
 	name = "Infiltrator Security"
 	cyborg_base_icon = "infilsec"
+
+
+/mob/living/silicon/robot/model/infiltrator/emag_act(mob/user, obj/item/card/emag/emag_card)
+	if(istype(emag_card, /obj/item/card/emag/silicon_hack)) //cheeky MF thought YOU WAS CLEVER?
+		to_chat(user, span_warning("This sequencer seems to be incompatible with this model of cyborgs!"))
+		return
+	return ..()
