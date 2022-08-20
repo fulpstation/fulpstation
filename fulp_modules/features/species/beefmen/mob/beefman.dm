@@ -112,9 +112,9 @@
 		limb.update_limb(is_creating = TRUE)
 
 /datum/species/beefman/randomize_features(mob/living/carbon/human/human_mob)
-	human.dna.features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
-	human.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
-	human.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
+	human_mob.dna.features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
+	human_mob.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
+	human_mob.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
