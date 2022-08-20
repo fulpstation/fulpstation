@@ -107,8 +107,6 @@
 	name = "Gorlex Marauders Infiltrator"
 	suit = /obj/item/clothing/suit/space/syndicate/black/red
 	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
-	r_hand = /obj/item/missile_disk
-	l_hand = /obj/item/missilephone
 
 
 /datum/outfit/infiltrator/self
@@ -116,5 +114,6 @@
 	suit = /obj/item/clothing/suit/space/syndicate/black/orange
 	head = /obj/item/clothing/head/helmet/space/syndicate/black/orange
 	r_hand = /obj/item/aicard
+
 
 

@@ -525,7 +525,7 @@
 		if(IS_VASSAL(nearly_people) || IS_BLOODSUCKER(nearly_people))
 			continue
 		nearly_people.hallucination += 5
-		SEND_SIGNAL(nearly_people, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+		nearly_people.add_mood_event("vampcandle", /datum/mood_event/vampcandle)
 
 /*
  *	# Candelabrum Ventrue Stuff

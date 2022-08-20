@@ -77,7 +77,7 @@
 		else if(user.equip_to_slot_if_possible(hood, ITEM_SLOT_HEAD,0,0,1))
 			hood_up = TRUE
 			src.icon_state = "[initial(icon_state)]"
-			user.update_inv_wear_suit()
+			user.update_worn_oversuit()
 			for(var/all_selections in actions)
 				var/datum/action/onesie_options = all_selections
 				onesie_options.UpdateButton()

@@ -21,8 +21,6 @@
 	var/favorite_vassal = FALSE
 	/// Bloodsucker levels, but for Vassals.
 	var/vassal_level
-	///is this vassal temporary?
-	var/temporary_vassal = FALSE
 
 /datum/antagonist/vassal/antag_panel_data()
 	return "Master : [master.owner.name]"

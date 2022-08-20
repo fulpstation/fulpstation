@@ -173,8 +173,6 @@
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))
 	target.mind.grab_ghost()
-	var/datum/antagonist/vassal/vas = target.mind.has_antag_datum(/datum/antagonist/vassal)
-	vas.temporary_vassal = TRUE
 	target.revive(full_heal = TRUE, admin_revive = TRUE)
 	var/living_time
 	if(level_current == 4)

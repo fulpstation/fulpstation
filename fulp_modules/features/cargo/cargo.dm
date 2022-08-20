@@ -38,7 +38,7 @@
 		/obj/item/clothing/shoes/sneakers/black,
 		/obj/item/clothing/suit/toggle/suspenders,
 		/obj/item/clothing/under/rank/civilian/mime,
-		/obj/item/reagent_containers/food/drinks/bottle/bottleofnothing,
+		/obj/item/reagent_containers/cup/glass/bottle/bottleofnothing,
 		/obj/item/storage/backpack/mime,
 	)
 

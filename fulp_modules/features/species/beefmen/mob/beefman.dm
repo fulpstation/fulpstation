@@ -43,9 +43,9 @@
 		OFFSET_NECK = list(0,3),
 	)
 
-	bruising_desc = "tenderizing"
-	burns_desc = "searing"
-	cellulardamage_desc = "meat degradation"
+	brute_damage_desc  = "tenderizing"
+	burn_damage_desc  = "searing"
+	cellular_damage_desc  = "meat degradation"
 
 	species_language_holder = /datum/language_holder/russian
 	mutanttongue = /obj/item/organ/internal/tongue/beefman
@@ -72,7 +72,7 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,\
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
 	)
-	deathsound = 'fulp_modules/features/species/sounds/beef_die.ogg'
+	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
 	special_step_sounds = list(
@@ -95,8 +95,6 @@
 
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
-	if(!user.dna.features["beef_color"]) // in case we're meant to be randomized.
-		randomize_beefman(user)
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
@@ -113,7 +111,7 @@
 			continue
 		limb.update_limb(is_creating = TRUE)
 
-/proc/randomize_beefman(mob/living/carbon/human/human) // our version of randomize_human()
+/datum/species/beefman/randomize_features(mob/living/carbon/human/human_mob)
 	human.dna.features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
 	human.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
 	human.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)

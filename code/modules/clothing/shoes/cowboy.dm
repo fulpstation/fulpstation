@@ -19,7 +19,7 @@
 
 /obj/item/clothing/shoes/cowboy/equipped(mob/living/carbon/user, slot)
 	. = ..()
-	RegisterSignal(user, COMSIG_LIVING_SLAM_TABLE, .proc/table_slam)
+	RegisterSignal(user, COMSIG_LIVING_SLAM_TABLE, .proc/table_slam, override = TRUE)
 	if(slot == ITEM_SLOT_FEET)
 		for(var/mob/living/occupant in contents)
 			occupant.forceMove(user.drop_location())
@@ -50,7 +50,7 @@
 	if(contents.len >= max_occupants)
 		to_chat(user, span_warning("[src] are full!"))
 		return
-	if(istype(target, /mob/living/simple_animal/hostile/retaliate/snake) || istype(target, /mob/living/simple_animal/hostile/headcrab) || istype(target, /mob/living/carbon/alien/larva))
+	if(istype(target, /mob/living/simple_animal/hostile/retaliate/snake) || istype(target, /mob/living/simple_animal/hostile/headcrab) || islarva(target))
 		target.forceMove(src)
 		to_chat(user, span_notice("[target] slithers into [src]."))
 

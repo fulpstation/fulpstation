@@ -15,10 +15,6 @@
 	suffix = "helio"
 	name = "cargo ferry (Helio)"
 
-/datum/map_template/shuttle/cargo/fulp/solitaire // Solitairestation
-	suffix = "solitaire"
-	name = "cargo ferry (Solitaire)"
-
 /**
  * ARRIVALS
  */
@@ -27,10 +23,6 @@
 /datum/map_template/shuttle/arrival/fulp/selene
 	suffix = "selene"
 	name = "arrival shuttle (Selene)"
-
-/datum/map_template/shuttle/arrival/fulp/solitaire // Solitairestation
-	suffix = "solitaire"
-	name = "arrival shuttle (Solitaire)"
 
 /**
  * MINING
@@ -46,10 +38,6 @@
  */
 /datum/map_template/shuttle/ferry/fulp
 	prefix = "fulp_modules/mapping/shuttles/ferry/"
-
-/datum/map_template/shuttle/ferry/fulp/solitaire // Solitairestation
-	suffix = "solitaire"
-	name = "ferry (Solitaire)"
 
 /**
  * EMERGENCY SHUTTLE
