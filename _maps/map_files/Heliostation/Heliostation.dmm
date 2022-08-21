@@ -6469,7 +6469,6 @@
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/hop)
 "aqZ" = (
-/obj/structure/extinguisher_cabinet/directional/east,
 /obj/machinery/fax{
 	fax_name = "Head of Personnel's Office";
 	name = "Head of Personnel's Fax Machine"
@@ -12475,6 +12474,7 @@
 	dir = 4;
 	name = "command blue"
 	},
+/obj/machinery/power/apc/auto_name/directional/east,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "aFl" = (
@@ -12694,7 +12694,6 @@
 	color = "#4169E1";
 	name = "command blue"
 	},
-/obj/machinery/power/apc/auto_name/directional/south,
 /obj/structure/table/wood,
 /obj/machinery/fax{
 	fax_name = "Captain's Office";
@@ -31490,6 +31489,8 @@
 /obj/structure/table,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/item/paper_bin,
+/obj/item/pen,
 /turf/open/floor/iron,
 /area/station/service/cafeteria)
 "bHJ" = (
@@ -37920,6 +37921,7 @@
 	department = "Engineering";
 	name = "Engineering RC"
 	},
+/obj/machinery/photocopier,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "bYF" = (
@@ -38377,13 +38379,17 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "bZU" = (
-/obj/structure/reagent_dispensers/fueltank/large,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 8;
 	name = "engineering yellow"
 	},
 /obj/machinery/light/directional/west,
+/obj/structure/table,
+/obj/machinery/fax{
+	fax_name = "Engineering Lobby";
+	name = "Engineering Lobby Fax Machine"
+	},
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "bZV" = (
@@ -39386,11 +39392,6 @@
 	dir = 8;
 	name = "research purple"
 	},
-/obj/structure/table/glass,
-/obj/machinery/fax{
-	fax_name = "Research Director's Office";
-	name = "Research Director's Fax Machine"
-	},
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/rd)
 "ccN" = (
@@ -40157,6 +40158,7 @@
 /obj/item/folder/blue,
 /obj/item/stamp/rd,
 /obj/item/stamp/denied,
+/obj/item/toy/figure/rd,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/rd)
 "ceB" = (
@@ -40283,11 +40285,14 @@
 /area/station/science/ordnance/testlab)
 "ceT" = (
 /obj/structure/table/glass,
-/obj/item/toy/figure/rd,
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
 	dir = 4;
 	name = "research purple"
+	},
+/obj/machinery/fax{
+	fax_name = "Research Director's Office";
+	name = "Research Director's Fax Machine"
 	},
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/rd)
@@ -42329,6 +42334,7 @@
 	name = "engineering yellow"
 	},
 /obj/structure/extinguisher_cabinet/directional/west,
+/obj/structure/reagent_dispensers/fueltank/large,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "ckv" = (
@@ -55116,8 +55122,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/disposal)
 "cPY" = (
-/obj/machinery/mineral/stacking_unit_console{
-	},
+/obj/machinery/mineral/stacking_unit_console,
 /turf/closed/wall,
 /area/station/maintenance/disposal)
 "cPZ" = (
@@ -59005,6 +59010,14 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
+"eqM" = (
+/obj/structure/table/wood,
+/obj/item/pen{
+	layer = 3.1
+	},
+/obj/item/paper_bin,
+/turf/open/floor/carpet/purple,
+/area/station/engineering/main)
 "eqU" = (
 /obj/machinery/status_display/ai/directional/north,
 /turf/open/space/basic,
@@ -63546,6 +63559,10 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance/storage)
+"jaR" = (
+/obj/structure/extinguisher_cabinet/directional/west,
+/turf/open/floor/wood,
+/area/station/command/heads_quarters/hop)
 "jbs" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -105186,7 +105203,7 @@ caT
 ccc
 cdI
 cfk
-cdI
+eqM
 chN
 cjA
 ckv
@@ -113582,7 +113599,7 @@ anJ
 aot
 amB
 apP
-aqo
+jaR
 asc
 ate
 auA
