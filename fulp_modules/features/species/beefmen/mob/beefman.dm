@@ -43,9 +43,9 @@
 		OFFSET_NECK = list(0,3),
 	)
 
-	brute_damage_desc  = "tenderizing"
-	burn_damage_desc  = "searing"
-	cellular_damage_desc  = "meat degradation"
+	brute_damage_desc = "tenderizing"
+	burn_damage_desc = "searing"
+	cellular_damage_desc = "meat degradation"
 
 	species_language_holder = /datum/language_holder/russian
 	mutanttongue = /obj/item/organ/internal/tongue/beefman

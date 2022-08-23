@@ -35,8 +35,8 @@
 		/obj/item/food/meat/slab/meatwheat = 1,
 		/obj/item/food/pie/baklava = 1,
 		/obj/item/food/khachapuri = 1,
-		/obj/item/reagent_containers/cup/glass/bottle/vodka/badminka = 1,
-		/obj/item/reagent_containers/cup/bottle/frostoil = 1,
+		/obj/item/reagent_containers/food/drinks/bottle/vodka/badminka = 1,
+		/obj/item/reagent_containers/glass/bottle/frostoil = 1,
 		/obj/item/toy/plush/beefplushie = 3,
 	)
 

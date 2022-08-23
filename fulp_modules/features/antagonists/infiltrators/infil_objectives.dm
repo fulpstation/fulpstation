@@ -46,11 +46,16 @@
 			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/infiltrator))
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
-			for(var/i = 0, i < rand(4,6) , i++)
+			for(var/i = 0, i < rand(3,5) , i++)
 				var/datum/objective/assassinate/assassinate = new
 				assassinate.owner = owner
 				assassinate.find_target()
 				objectives += assassinate
+
+			var/datum/objective/missiles/rocket = new
+			rocket.owner = owner
+			rocket.update_explanation_text()
+			objectives += rocket
 
 		if(INFILTRATOR_FACTION_SELF)
 			for(var/i = 0, i < 2, i++)
@@ -221,3 +226,8 @@
         return TRUE
     return FALSE
 
+/datum/objective/missiles
+	name = "Missile Barrage"
+
+/datum/objective/missiles/update_explanation_text()
+		explanation_text = "Launch missiles towards the station by using the Missile Disk on a communications console and inserting it into the Large Handphone. "
