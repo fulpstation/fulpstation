@@ -232,7 +232,10 @@
 /datum/antagonist/vassal/admin_add(datum/mind/new_owner, mob/admin)
 	var/list/datum/mind/possible_vampires = list()
 	for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
-		if(!bloodsuckerdatums.owner)
+		var/datum/mind/vamp = bloodsuckerdatums.owner
+		if(!vamp)
+			continue
+		if(vamp.current.stat == DEAD)
 			continue
 		possible_vampires += bloodsuckerdatums.owner
 	if(!length(possible_vampires))
