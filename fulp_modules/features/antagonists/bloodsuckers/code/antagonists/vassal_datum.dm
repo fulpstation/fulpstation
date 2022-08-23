@@ -235,6 +235,8 @@
 		var/datum/mind/vamp = bloodsuckerdatums.owner
 		if(!vamp)
 			continue
+		if(!vamp.current)
+			continue
 		if(vamp.current.stat == DEAD)
 			continue
 		possible_vampires += vamp
