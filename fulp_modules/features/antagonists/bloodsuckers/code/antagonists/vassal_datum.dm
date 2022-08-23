@@ -237,7 +237,7 @@
 			continue
 		if(vamp.current.stat == DEAD)
 			continue
-		possible_vampires += bloodsuckerdatums.owner
+		possible_vampires += vamp
 	if(!length(possible_vampires))
 		message_admins("[key_name_admin(usr)] tried vassalizing [key_name_admin(new_owner)], but there were no bloodsuckers!")
 		return
