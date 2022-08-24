@@ -98,9 +98,10 @@
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
+	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
-	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
+	spec_updatehealth(user)
 	if(has_brain)
 		if(user.dna.features["beef_trauma"])
 			user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
@@ -241,6 +242,11 @@
 	source.apply_overlay(BODY_BEHIND_LAYER)
 	source.apply_overlay(BODY_ADJ_LAYER)
 	source.apply_overlay(BODY_FRONT_LAYER)
+
+/datum/species/beefman/spec_updatehealth(mob/living/carbon/human/beefman)
+	..()
+	fixed_mut_color = beefman.dna.features["beef_color"]
+	beefman.update_body()
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
