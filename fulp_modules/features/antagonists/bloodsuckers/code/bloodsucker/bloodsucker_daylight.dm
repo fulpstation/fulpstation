@@ -127,14 +127,14 @@
 			continue
 		if(istype(bloodsucker_minds.current.loc, /obj/structure))
 			if(istype(bloodsucker_minds.current.loc, /obj/structure/closet/crate/coffin)) // Coffins offer the BEST protection
-				SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/coffinsleep)
+				bloodsucker_minds.current.add_mood_event("vampsleep", /datum/mood_event/coffinsleep)
 				continue
 			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_burn)) // Closets offer SOME protection
 				to_chat(bloodsucker_minds, span_warning("Your skin sizzles. [bloodsucker_minds.current.loc] doesn't protect well against UV bombardment."))
 				COOLDOWN_START(bloodsuckerdatum, bloodsucker_spam_sol_burn, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
 			bloodsucker_minds.current.adjustFireLoss(0.5 + bloodsuckerdatum.bloodsucker_level / 2)
 			bloodsucker_minds.current.updatehealth()
-			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_1)
+			bloodsucker_minds.current.add_mood_event("vampsleep", /datum/mood_event/daylight_1)
 		else // Out in the Open?
 			if(COOLDOWN_FINISHED(bloodsuckerdatum, bloodsucker_spam_sol_burn))
 				if(bloodsuckerdatum.bloodsucker_level > 0)
@@ -149,7 +149,7 @@
 				bloodsucker_minds.current.ignite_mob()
 			bloodsucker_minds.current.adjustFireLoss(2 + bloodsuckerdatum.bloodsucker_level)
 			bloodsucker_minds.current.updatehealth()
-			SEND_SIGNAL(bloodsucker_minds.current, COMSIG_ADD_MOOD_EVENT, "vampsleep", /datum/mood_event/daylight_2)
+			bloodsucker_minds.current.add_mood_event("vampsleep", /datum/mood_event/daylight_2)
 
 /// It's late, give the "Vanishing Act" (gohome) power to Bloodsuckers.
 /obj/effect/sunlight/proc/give_home_power()

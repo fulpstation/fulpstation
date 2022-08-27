@@ -359,13 +359,13 @@
 	icon_state = "gnome_hat"
 	var/armed = FALSE
 
-/obj/item/clothing/head/costume_2020/gnome/proc/triggered(mob/target)
+/obj/item/clothing/head/costume_2020/gnome/proc/triggered(mob/living/target)
 	if(!armed)
 		return
 	if(ishuman(target))
 		var/mob/living/carbon/human/victim = target
 		victim.Knockdown(30)
-		SEND_SIGNAL(target, COMSIG_ADD_MOOD_EVENT, "gnomed", /datum/mood_event/gnomed)
+		target.add_mood_event("gnomed", /datum/mood_event/gnomed)
 	playsound(src, 'fulp_modules/features/halloween/sounds/gnomed.ogg', 50, TRUE)
 	armed = FALSE
 	update_icon()
@@ -648,7 +648,7 @@
 	else
 		icon_state = "ross_squirrel_left"
 		to_chat(user, span_notice("You moved Peapod to your left shoulder."))
-	usr.update_inv_neck()
+	usr.update_worn_neck()
 
 /obj/item/clothing/neck/costume_2020/papa_ross_squirrel/examine(mob/user)
 	. = ..()
@@ -704,7 +704,7 @@
 
 	if(src && choice && !user.incapacitated() && in_range(user, src))
 		icon_state = options[choice]
-		user.update_inv_wear_mask()
+		user.update_worn_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
 			mask_options.UpdateButton()
@@ -765,7 +765,7 @@
 
 	if(src && choice && !user.incapacitated() && in_range(user,src))
 		icon_state = options[choice]
-		user.update_inv_wear_mask()
+		user.update_worn_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
 			mask_options.UpdateButton()

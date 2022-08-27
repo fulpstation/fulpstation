@@ -117,4 +117,3 @@
 	head = /obj/item/clothing/head/helmet/space/syndicate/black/orange
 	r_hand = /obj/item/aicard
 
-
