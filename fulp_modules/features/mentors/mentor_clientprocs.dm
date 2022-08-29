@@ -42,7 +42,7 @@
 				continue
 			if(findtextEx(line, "#", 1, 2))
 				continue
-			if(ckey == undertext(contributors))
+			if(ckey == ckey(contributors))
 				mentor_datum.is_contributor = TRUE
 
 /// Admins are Mentors, too
