@@ -404,7 +404,7 @@
 	if(.)
 		return
 	summon_cyborg(user)
-	if(count_borgs == 2)
+	if(count_borgs >= 2)
 		qdel(src)
 
 /obj/structure/cyborg_rift/proc/summon_cyborg(mob/user)
@@ -412,6 +412,10 @@
 	if(cyborg_check != "Yes" || !src || QDELETED(src) || QDELETED(user))
 		return FALSE
 
+	if(count_borgs >= 2)
+		return FALSE
+
+	count_borgs++
 	var/mob/living/silicon/robot/model/infiltrator/borg = new /mob/living/silicon/robot/model/infiltrator(loc)
 	borg.SetEmagged(1)
 	borg.set_connected_ai(null)
@@ -419,7 +423,6 @@
 	borg.set_zeroth_law("Aid the SELF affilaited infiltrator with his tasks in exacting revenge against Nanotrasen.")
 	borg.laws.associate(src)
 	borg.key = user.key
-	count_borgs++
 
 /mob/living/silicon/robot/model/infiltrator
 	set_model = /obj/item/robot_model/security/infiltrator
