@@ -238,9 +238,93 @@
     return TRUE
 
 /mob/living/silicon/robot/emag_act(mob/user, obj/item/card/emag/emag_card)
-    . = ..()
-    if(istype(emag_card, /obj/item/card/emag/silicon_hack))
-        var/obj/item/card/emag/silicon_hack/hack_card = emag_card
-        hack_card.use_charge(user)
-        playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
-        return
+	. = ..()
+	if(!istype(emag_card, /obj/item/card/emag/silicon_hack))
+		return
+	if(!opened)
+		return
+	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
+	hack_card.use_charge(user)
+	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+
+/obj/item/missile_disk
+	name = "missile disk"
+	desc = "Used to store the coordinates of the station."
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "missiledisk"
+	w_class = WEIGHT_CLASS_TINY
+	item_flags = NOBLUDGEON
+	///Does the disk have the station coordinates?
+	var/stored = FALSE
+
+/obj/item/missile_disk/afterattack(atom/movable/victim, mob/living/carbon/human/user, proximity)
+	. = ..()
+	if(!proximity)
+		return
+	if(!istype(victim, /obj/machinery/computer/communications))
+		return
+	if(stored)
+		to_chat(user, span_warning("Disk already contains station coordinates."))
+		return
+	to_chat(user, span_warning("Downloading station coordinates..."))
+	if(!do_after(user, 8 SECONDS))
+		return
+	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+	to_chat(user, span_warning("Station coordinates successfully downloaded!"))
+	stored = TRUE
+
+/obj/item/missilephone
+	name = "large handphone"
+	desc = "Hello? Is this the police?"
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon_state = "missilephone"
+	w_class = WEIGHT_CLASS_SMALL
+	item_flags = NOBLUDGEON
+	///has a disk been inserted into the phone?
+	var/disk = FALSE
+	///has the phone served its purpose?
+	var/used = FALSE
+
+/obj/item/missilephone/attackby(obj/item/missile_disk/terrorism, mob/user)
+	if(!terrorism.stored)
+		return
+	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+	to_chat(user, span_warning("Station coordinates uploaded to phone!"))
+	disk = TRUE
+	qdel(terrorism)
+	add_overlay("missilephone_overlay")
+
+
+/obj/item/missilephone/ui_data(mob/user)
+	var/list/data = list()
+	data["disk_inserted"] = disk
+	data["used"] = used
+	data["can_use"] = !used && disk
+	return data
+
+/obj/item/missilephone/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+	switch(action)
+		if("launch_missiles")
+			if(!disk)
+				return
+			used = TRUE
+			var/datum/round_event_control/missilegalore/missiles = new
+			missiles.runEvent()
+			var/datum/antagonist/traitor/infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+			if(!terrorist)
+				return
+			var/datum/objective/missiles/terrorism = locate() in terrorist.objectives
+			if(!terrorism)
+				return
+			terrorism.completed = TRUE
+
+	return
+
+/obj/item/missilephone/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "MissilePhone", name)
+		ui.open()

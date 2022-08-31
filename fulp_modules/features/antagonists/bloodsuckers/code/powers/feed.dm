@@ -52,28 +52,30 @@
 	return TRUE
 
 /datum/action/bloodsucker/feed/DeactivatePower()
+	var/mob/living/user = owner
 	if(target_ref)
 		var/mob/living/feed_target = target_ref.resolve()
-		log_combat(owner, feed_target, "fed on blood", addition="(and took [blood_taken] blood)")
-		owner.balloon_alert(owner, "feed stopped")
-		to_chat(owner, span_notice("You slowly release [feed_target]."))
+		log_combat(user, feed_target, "fed on blood", addition="(and took [blood_taken] blood)")
+		user.balloon_alert(owner, "feed stopped")
+		to_chat(user, span_notice("You slowly release [feed_target]."))
 		if(feed_target.stat == DEAD)
-			SEND_SIGNAL(owner, COMSIG_ADD_MOOD_EVENT, "drankkilled", /datum/mood_event/drankkilled)
+			user.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
 			bloodsuckerdatum_power.AddHumanityLost(10)
 
 	target_ref = null
 	warning_target_bloodvol = BLOOD_VOLUME_MAX_LETHAL
 	blood_taken = 0
-	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, FEED_TRAIT)
-	REMOVE_TRAIT(owner, TRAIT_MUTE, FEED_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, FEED_TRAIT)
+	REMOVE_TRAIT(user, TRAIT_MUTE, FEED_TRAIT)
 	return ..()
 
 /datum/action/bloodsucker/feed/ActivatePower()
+	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref.resolve()
 	if(istype(feed_target, /mob/living/simple_animal/mouse) || istype(feed_target, /mob/living/simple_animal/hostile/rat))
-		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))
+		to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
 		if(bloodsuckerdatum_power.my_clan.blood_drink_type != BLOODSUCKER_DRINK_INHUMANELY)
-			SEND_SIGNAL(owner, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
+			user.add_mood_event("drankblood", /datum/mood_event/drankblood_bad)
 			bloodsuckerdatum_power.AddHumanityLost(1)
 		bloodsuckerdatum_power.AddBloodVolume(25)
 		DeactivatePower()
@@ -83,25 +85,25 @@
 	if(bloodsuckerdatum_power.frenzied)
 		feed_timer = 2 SECONDS
 
-	owner.balloon_alert(owner, "feeding off [feed_target]...")
-	if(!do_mob(owner, feed_target, feed_timer, NONE, TRUE))
-		owner.balloon_alert(owner, "interrupted!")
+	user.balloon_alert(user, "feeding off [feed_target]...")
+	if(!do_mob(user, feed_target, feed_timer, NONE, TRUE))
+		user.balloon_alert(user, "interrupted!")
 		DeactivatePower()
 		return
-	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
+	if(user.pulling == feed_target && user.grab_state >= GRAB_AGGRESSIVE)
 		if(!IS_BLOODSUCKER(feed_target) && !IS_VASSAL(feed_target) && !IS_MONSTERHUNTER(feed_target))
 			feed_target.Unconscious((5 SECONDS + level_current))
 		if(!feed_target.density)
-			feed_target.Move(owner.loc)
-	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
-		owner.visible_message(
-			span_warning("[owner] closes [owner.p_their()] mouth around [feed_target]'s neck!"),
+			feed_target.Move(user.loc)
+	if(user.pulling == feed_target && user.grab_state >= GRAB_AGGRESSIVE)
+		user.visible_message(
+			span_warning("[user] closes [user.p_their()] mouth around [feed_target]'s neck!"),
 			span_warning("You sink your fangs into [feed_target]'s neck."))
 	else
 		// Only people who AREN'T the target will notice this action.
 		var/dead_message = feed_target.stat != DEAD ? " <i>[feed_target.p_they(TRUE)] looks dazed, and will not remember this.</i>" : ""
-		owner.visible_message(
-			span_notice("[owner] puts [feed_target]'s wrist up to [owner.p_their()] mouth."), \
+		user.visible_message(
+			span_notice("[user] puts [feed_target]'s wrist up to [user.p_their()] mouth."), \
 			span_notice("You slip your fangs into [feed_target]'s wrist.[dead_message]"), \
 			vision_distance = FEED_NOTICE_RANGE, ignored_mobs = feed_target)
 
@@ -117,12 +119,12 @@
 			continue
 		if(IS_BLOODSUCKER(watchers) || IS_VASSAL(watchers) || HAS_TRAIT(watchers, TRAIT_BLOODSUCKER_HUNTER))
 			continue
-		owner.balloon_alert(owner, "feed noticed!")
+		user.balloon_alert(user, "feed noticed!")
 		bloodsuckerdatum_power.give_masquerade_infraction()
 		break
 
-	ADD_TRAIT(owner, TRAIT_MUTE, FEED_TRAIT)
-	ADD_TRAIT(owner, TRAIT_IMMOBILIZED, FEED_TRAIT)
+	ADD_TRAIT(user, TRAIT_MUTE, FEED_TRAIT)
+	ADD_TRAIT(user, TRAIT_IMMOBILIZED, FEED_TRAIT)
 	return ..()
 
 /datum/action/bloodsucker/feed/process(delta_time)
@@ -143,12 +145,12 @@
 	blood_taken += bloodsuckerdatum_power.HandleFeeding(feed_target, feed_strength_mult, level_current)
 
 	if(feed_strength_mult > 5 && feed_target.stat < DEAD)
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood)
+		user.add_mood_event("drankblood", /datum/mood_event/drankblood)
 	// Drank mindless as Ventrue? - BAD
 	if((bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY) && !feed_target.mind)
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_bad)
+		user.add_mood_event("drankblood", /datum/mood_event/drankblood_bad)
 	if(feed_target.stat >= DEAD)
-		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "drankblood", /datum/mood_event/drankblood_dead)
+		user.add_mood_event("drankblood", /datum/mood_event/drankblood_dead)
 
 	if(!IS_BLOODSUCKER(feed_target))
 		if(feed_target.blood_volume <= BLOOD_VOLUME_BAD && warning_target_bloodvol > BLOOD_VOLUME_BAD)

@@ -188,6 +188,9 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	INVOKE_ASYNC(src, .proc/offer_favorite, bloodsuckerdatum, vassaldatum)
 
 /datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
+	if(vassaldatum.temporary_vassal)
+		to_chat(bloodsuckerdatum.owner.current, span_notice("This entity lives in a feeble temporary vessel, they are not suitable to be our favorite vassal."))
+		return
 	to_chat(bloodsuckerdatum.owner.current, span_notice("Would you like to turn this Vassal into your completely loyal Servant? This costs 150 Blood to do. You cannot undo this."))
 	var/list/favorite_options = list(
 		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),

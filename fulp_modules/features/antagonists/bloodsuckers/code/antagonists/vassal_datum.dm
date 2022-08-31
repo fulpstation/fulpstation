@@ -21,6 +21,8 @@
 	var/favorite_vassal = FALSE
 	/// Bloodsucker levels, but for Vassals.
 	var/vassal_level
+	///is this vassal temporary?
+	var/temporary_vassal = FALSE
 
 /datum/antagonist/vassal/antag_panel_data()
 	return "Master : [master.owner.name]"
@@ -87,7 +89,7 @@
 		if(bloodsuckerdatum)
 			bloodsuckerdatum.vassals |= src
 		owner.enslave_mind_to_creator(master.owner.current)
-	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
+		owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/bloodsucker/recuperate)
 	/// Give Objectives
@@ -167,12 +169,6 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
 	bloodsuckerdatum.bloodsucker_level = vassal_level
 
-/// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
-/datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
-	if(!master)
-		return FALSE
-	return ..()
-
 /// Used for Admin removing Vassals.
 /datum/mind/proc/remove_vassal()
 	var/datum/antagonist/vassal/selected_vassal = has_antag_datum(/datum/antagonist/vassal)
@@ -232,6 +228,29 @@
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost your master's trail."))
 	return ..()
+
+/datum/antagonist/vassal/admin_add(datum/mind/new_owner, mob/admin)
+	var/list/datum/mind/possible_vampires = list()
+	for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
+		var/datum/mind/vamp = bloodsuckerdatums.owner
+		if(!vamp)
+			continue
+		if(!vamp.current)
+			continue
+		if(vamp.current.stat == DEAD)
+			continue
+		possible_vampires += vamp
+	if(!length(possible_vampires))
+		message_admins("[key_name_admin(usr)] tried vassalizing [key_name_admin(new_owner)], but there were no bloodsuckers!")
+		return
+	var/datum/mind/choice = input("Which bloodsucker should this vassal belong to?", "Bloodsucker") in possible_vampires
+	if(!choice)
+		return
+	log_admin("[key_name_admin(usr)] turned [key_name_admin(new_owner)] into a vassal of [key_name_admin(choice)]!")
+	var/datum/antagonist/bloodsucker/vampire = choice.has_antag_datum(/datum/antagonist/bloodsucker)
+	master = vampire
+	new_owner.add_antag_datum(src)
+	to_chat(choice, span_notice("Through divine intervention, you've gained a new vassal!"))
 
 /**
  * # BATFORM
