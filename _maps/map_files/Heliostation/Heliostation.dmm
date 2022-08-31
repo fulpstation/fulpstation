@@ -3208,7 +3208,7 @@
 	dir = 1;
 	name = "Command blue corner"
 	},
-/obj/machinery/light/directional/north,
+/obj/machinery/light/directional/west,
 /turf/open/floor/vault,
 /area/station/command/bridge)
 "ajz" = (
@@ -3457,8 +3457,8 @@
 	dir = 1;
 	name = "Command blue corner"
 	},
-/obj/machinery/light/directional/north,
 /obj/structure/extinguisher_cabinet/directional/east,
+/obj/machinery/light/directional/east,
 /turf/open/floor/vault,
 /area/station/command/bridge)
 "aka" = (
@@ -4155,7 +4155,6 @@
 	dir = 9;
 	name = "command blue"
 	},
-/obj/machinery/light/directional/west,
 /turf/open/floor/vault,
 /area/station/command/bridge)
 "alO" = (
@@ -4322,7 +4321,6 @@
 	dir = 1;
 	name = "Science purple corner"
 	},
-/obj/machinery/light/directional/east,
 /turf/open/floor/vault,
 /area/station/command/bridge)
 "aml" = (
@@ -7897,8 +7895,7 @@
 /obj/machinery/button/flasher{
 	id = "hopflash";
 	pixel_x = 35;
-	pixel_y = -7;
-	req_one_access_txt = "57"
+	pixel_y = -7
 	},
 /obj/machinery/modular_computer/console/preset/id{
 	dir = 8
@@ -11204,6 +11201,7 @@
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/command/teleporter,
+/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain/private)
 "aCl" = (
@@ -16574,6 +16572,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
+/obj/effect/mapping_helpers/airlock/access/all/engineering/external,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "aQg" = (
@@ -21420,6 +21419,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
+/obj/effect/mapping_helpers/airlock/access/all/engineering/external,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "bfs" = (
@@ -31311,6 +31311,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
+/obj/effect/mapping_helpers/airlock/access/all/engineering/external,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "bHh" = (
@@ -37473,6 +37474,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
+/obj/effect/mapping_helpers/airlock/access/all/engineering/external,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "bXm" = (
@@ -43031,14 +43033,11 @@
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "clL" = (
-/obj/structure/sign/poster/official/random{
-	pixel_y = 30
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
-	dir = 1
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
 	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -43046,6 +43045,9 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/light/directional/north,
+/obj/structure/sign/poster/official/random{
+	pixel_y = 32
+	},
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "clN" = (
@@ -44320,6 +44322,7 @@
 	name = "Engineering yellow corner"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "coI" = (
@@ -47075,6 +47078,7 @@
 	name = "Engineering yellow corner"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "cvE" = (
@@ -49995,7 +49999,6 @@
 /area/space/nearstation)
 "cCY" = (
 /obj/structure/ore_box,
-/obj/machinery/light/small/directional/north,
 /turf/open/floor/catwalk_floor/iron,
 /area/station/cargo/miningoffice)
 "cCZ" = (
@@ -57845,6 +57848,7 @@
 /obj/effect/turf_decal/tile/neutral/half{
 	dir = 1
 	},
+/obj/machinery/light/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/cargo/miningoffice)
 "cYM" = (
@@ -58381,7 +58385,6 @@
 	department = "Mining";
 	name = "Mining Dock RC"
 	},
-/obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark/textured_half{
 	dir = 1
 	},
@@ -60550,12 +60553,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/security/prison/work)
-"fXJ" = (
-/obj/machinery/door/airlock/external{
-	name = "External Airlock"
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/medical)
 "fXO" = (
 /obj/effect/turf_decal/tile{
 	color = "#FF6700";
@@ -66288,6 +66285,7 @@
 "lHP" = (
 /obj/structure/ore_box,
 /obj/structure/sign/warning/docking/directional/north,
+/obj/machinery/light/small/directional/north,
 /turf/open/floor/catwalk_floor/iron,
 /area/station/cargo/miningoffice)
 "lIG" = (
@@ -73463,12 +73461,11 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "sLw" = (
-/obj/structure/lattice,
 /obj/structure/sign/nanotrasen{
 	pixel_x = -32
 	},
 /turf/open/space/basic,
-/area/space/nearstation)
+/area/space)
 "sMr" = (
 /obj/effect/turf_decal/siding/red/corner{
 	color = "#FF0000";
@@ -102365,7 +102362,7 @@ cbY
 cbY
 cbY
 cbY
-jOg
+clL
 cmU
 imH
 coW
@@ -103393,7 +103390,7 @@ cgA
 chK
 eAd
 cdG
-clL
+irJ
 cmZ
 cnY
 coY
@@ -122857,7 +122854,7 @@ aak
 aak
 aOq
 aHx
-fXJ
+aHx
 bhJ
 gMT
 aEd
