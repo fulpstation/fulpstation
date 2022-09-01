@@ -342,8 +342,6 @@
 	var/area/bombing_zone
 	///the terrorist in question
 	var/datum/weakref/bomber
-	///location of wormhole opening
-	var/turf/wormhole_spawn
 
 /obj/item/grenade/c4/wormhole/proc/set_bombing_zone()
 	for(var/sanity in 1 to 100)
@@ -362,7 +360,6 @@
 			to_chat(user, span_notice("This isn't the location you're supposed to use this!"))
 			return
 	bomber = WEAKREF(user)
-	wormhole_spawn = bombed
 	return ..()
 
 
@@ -370,8 +367,10 @@
 	if(!bomber)
 		return
 	var/mob/terrorist = bomber.resolve()
+	var/turf/location
+	location = get_turf(target)
 	. = ..()
-	var/obj/structure/cyborg_rift/rift = new /obj/structure/cyborg_rift(wormhole_spawn)
+	var/obj/structure/cyborg_rift/rift = new /obj/structure/cyborg_rift(location)
 	playsound(rift, 'sound/vehicles/rocketlaunch.ogg', 100, TRUE)
 	notify_ghosts("An infiltrator has opened a cyborg rift!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Cyborg rift Opened")
 	var/datum/antagonist/traitor/infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
@@ -389,7 +388,7 @@
 /obj/structure/cyborg_rift
 	name = "cyborg rift"
 	desc = "A portal opened up to long-forgotten cyborgs."
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 100, BOMB = 50, BIO = 0, FIRE = 100, ACID = 100)
+	armor = list(MELEE = 100, BULLET = 0, LASER = 0, ENERGY = 100, BOMB = 100, BIO = 0, FIRE = 100, ACID = 100)
 	max_integrity = 300
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	icon_state = "cyborg_rift"
