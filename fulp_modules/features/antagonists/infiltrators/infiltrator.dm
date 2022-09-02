@@ -118,4 +118,3 @@
 	r_hand = /obj/item/aicard
 	l_pocket = /obj/item/grenade/c4/wormhole
 
-

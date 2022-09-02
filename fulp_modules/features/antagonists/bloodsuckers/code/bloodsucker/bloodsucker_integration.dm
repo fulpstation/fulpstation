@@ -142,5 +142,4 @@
 	enrico.eye_color_left = "#663300"
 	enrico.eye_color_right = "#663300"
 
-	enrico.update_hair(is_creating = TRUE)
 	enrico.update_body(is_creating = TRUE)

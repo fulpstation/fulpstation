@@ -195,14 +195,18 @@
 		return
 	var/mob/living/simple_animal/hostile/gorilla/albino/ape
 	var/mob/dead/observer/chosen_ghost
-	chosen_ghost = man.grab_ghost(TRUE,TRUE)
-	if(!chosen_ghost)
-		var/list/consenting_candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
-		if(length(consenting_candidates))
-			chosen_ghost = pick(consenting_candidates)
+	if(man.stat == DEAD)
+		chosen_ghost = man.grab_ghost(TRUE,TRUE)
+	if((!chosen_ghost && man.stat == DEAD) || considered_afk(man.mind))
+		var/list/mob/dead/observer/candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
+		if(LAZYLEN(candidates))
+			chosen_ghost = pick(candidates)
 	ape = new /mob/living/simple_animal/hostile/gorilla/albino(get_turf(man))
 	if(chosen_ghost)
 		ape.key = chosen_ghost.key
+	else
+		ape.key = man.key
+
 	man.gib()
 	ape.mind?.enslave_mind_to_creator(user)
 	used = TRUE
