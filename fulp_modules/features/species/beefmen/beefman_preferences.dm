@@ -107,4 +107,4 @@
 	target.dna.features["beef_trauma"] = given_trauma
 
 /datum/preference/choiced/beefman_trauma/create_default_value()
-	return "Strangers"
+	return "Phobia of Strangers"
