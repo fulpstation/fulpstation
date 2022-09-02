@@ -34,7 +34,7 @@
 /**
  * Beefman trauma pref defines
  */
-#define BEEF_TRAUMA_STRANGERS "Strangers"
-#define BEEF_TRAUMA_HALLUCINATIONS "Hallucinations"
-#define BEEF_TRAUMA_OCKY_ICKY "Ocky Icky"
+#define BEEF_TRAUMA_STRANGERS "Phobia of Strangers"
+#define BEEF_TRAUMA_HALLUCINATIONS "Severe Hallucinations"
+#define BEEF_TRAUMA_OCKY_ICKY "Phobia of Conspiracies"
 #define BEEF_TRAUMA_PACIFISM "Pacifism"
