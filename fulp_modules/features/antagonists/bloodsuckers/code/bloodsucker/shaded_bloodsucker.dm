@@ -12,7 +12,7 @@
 /obj/item/soulstone/bloodsucker/init_shade(mob/living/carbon/human/victim, mob/user, message_user = FALSE, mob/shade_controller)
 	. = ..()
 	for(var/mob/shades in contents)
-		shades.mind.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
+		shades.mind?.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
 
 /obj/item/soulstone/bloodsucker/get_ghost_to_replace_shade(mob/living/carbon/victim, mob/user)
 	var/mob/dead/observer/chosen_ghost
