@@ -37,4 +37,4 @@
 #define BEEF_TRAUMA_STRANGERS "Strangers"
 #define BEEF_TRAUMA_HALLUCINATIONS "Hallucinations"
 #define BEEF_TRAUMA_OCKY_ICKY "Ocky Icky"
-#define BEEF_TRAUMA_HYPNOTIC_STUPOR "Hypnotic Stupor"
+#define BEEF_TRAUMA_PACIFISM "Pacifism"
