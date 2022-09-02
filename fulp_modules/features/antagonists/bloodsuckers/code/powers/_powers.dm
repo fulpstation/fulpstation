@@ -91,7 +91,7 @@
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
 	if(bloodsuckerdatum_power?.frenzied)
 		return TRUE
-	if(bloodsuckerdatum_power?.bloodsucker_blood_volume < bloodcost)
+	if(bloodsuckerdatum_power.bloodsucker_blood_volume < bloodcost)
 		to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 		return FALSE
 	return TRUE
