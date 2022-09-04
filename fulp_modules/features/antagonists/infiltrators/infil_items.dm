@@ -428,7 +428,7 @@
 
 /mob/living/silicon/robot/model/infiltrator
 	set_model = /obj/item/robot_model/security/infiltrator
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/features/antagonists/infiltrators/icons/robot.dmi'
 	icon_state = "infilsec"
 
 /obj/item/robot_model/security/infiltrator
@@ -441,3 +441,6 @@
 		to_chat(user, span_warning("This sequencer seems to be incompatible with this model of cyborgs!"))
 		return
 	return ..()
+
+/mob/living/silicon/robot/model/infiltrator/ResetModel()
+	self_destruct(src)
