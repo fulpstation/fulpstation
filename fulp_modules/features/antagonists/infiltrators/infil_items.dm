@@ -430,6 +430,7 @@
 	set_model = /obj/item/robot_model/security/infiltrator
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/robot.dmi'
 	icon_state = "infilsec"
+	scrambledcodes = TRUE
 
 /obj/item/robot_model/security/infiltrator
 	name = "Infiltrator Security"
