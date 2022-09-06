@@ -38,7 +38,7 @@
 		add_mentor_verbs()
 		var/list/cdatums = list()
 		for(var/coder in world.file2list("[global.config.directory]/contributors.txt"))
-			cdatums += lowertext(coder)
+			cdatums += ckey(coder)
 		if(ckey in cdatums)
 			mentor_datum.is_contributor = TRUE
 
