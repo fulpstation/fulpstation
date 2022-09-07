@@ -85,3 +85,7 @@
 	purchase_flags = HUNTER_CAN_BUY
 	bloodcost = 0
 	constant_bloodcost = 0
+
+
+/datum/action/bloodsucker/fortitude/hunter/CheckCanPayCost()
+	return TRUE
