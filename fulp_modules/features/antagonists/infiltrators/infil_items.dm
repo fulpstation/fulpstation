@@ -122,8 +122,10 @@
 			dagd = TRUE
 		reward_obj.owner = user.mind
 		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
-		for(var/datum/objective in terrorist.objectives)
-			terrorist.objectives -= objective
+		if(!terrorist)
+			return
+		for(var/datum/objective/obj in terrorist.objectives)
+			terrorist.objectives -= obj
 		terrorist.objectives += reward_obj
 
 
