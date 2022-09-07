@@ -298,7 +298,6 @@
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
 "aaW" = (
-/obj/structure/cable,
 /obj/effect/landmark/event_spawn,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
@@ -361,13 +360,18 @@
 /obj/structure/sign/warning/vacuum/external{
 	pixel_y = 30
 	},
-/obj/structure/closet/emcloset,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 5;
 	name = "engineering yellow"
 	},
-/obj/machinery/light/directional/east,
+/obj/structure/cable,
+/obj/machinery/camera/directional/east{
+	c_tag = "Solar Control - Starboard Fore";
+	name = "Solars Camera";
+	network = list("ss13","engineering")
+	},
+/obj/structure/closet/emcloset,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
 "abj" = (
@@ -403,7 +407,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/security/upper)
 "abs" = (
-/obj/structure/cable,
 /obj/machinery/camera/directional/south{
 	c_tag = "Solar Control - Starboard Fore";
 	name = "Solars Camera";
@@ -415,13 +418,11 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/power/apc/auto_name/directional/west,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
 "abt" = (
 /obj/structure/cable,
-/obj/machinery/power/terminal{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	name = "engineering yellow"
@@ -597,9 +598,15 @@
 /turf/open/floor/iron,
 /area/station/maintenance/department/security/upper)
 "abO" = (
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 8
+	},
 /obj/structure/cable,
-/turf/closed/wall/r_wall,
-/area/station/maintenance/department/security/upper)
+/turf/open/floor/iron,
+/area/station/hallway/primary/aft)
 "abU" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -17063,6 +17070,8 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/light/directional/east,
+/obj/structure/cable,
+/obj/structure/closet/emcloset,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/fore)
 "aRx" = (
@@ -17237,13 +17246,12 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "aSe" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 8;
 	name = "engineering yellow"
 	},
-/obj/machinery/power/apc/auto_name/directional/west,
+/obj/machinery/light/directional/west,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/fore)
 "aSf" = (
@@ -17329,6 +17337,8 @@
 	dir = 4;
 	name = "engineering yellow"
 	},
+/obj/machinery/power/terminal,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/fore)
 "aSt" = (
@@ -17494,20 +17504,17 @@
 /turf/open/floor/plating,
 /area/station/science/robotics/lab)
 "aTc" = (
-/obj/structure/cable,
-/obj/structure/closet/emcloset,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 10;
 	name = "engineering yellow"
 	},
+/obj/machinery/power/apc/auto_name/directional/west,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/fore)
 "aTd" = (
 /obj/structure/cable,
-/obj/machinery/power/terminal{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	name = "engineering yellow"
@@ -17831,6 +17838,7 @@
 	name = "Engineering yellow corner"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/port/fore)
 "aUg" = (
@@ -17930,10 +17938,6 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/station/service/lawoffice)
-"aUs" = (
-/obj/structure/cable,
-/turf/closed/wall/r_wall,
-/area/station/maintenance/port/fore)
 "aUt" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/sorting/mail/flip{
@@ -32587,7 +32591,6 @@
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
-/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/engineering/gravity_generator)
 "bKw" = (
@@ -40441,6 +40444,7 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "cfl" = (
@@ -44480,11 +44484,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/commons/dorms)
-"cpo" = (
-/obj/structure/cable,
-/obj/machinery/space_heater,
-/turf/open/floor/plating,
-/area/station/maintenance/port/fore)
 "cpp" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -46201,6 +46200,7 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/status_display/ai/directional/north,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/engine_smes)
 "ctt" = (
@@ -46597,18 +46597,20 @@
 /obj/structure/sign/warning/vacuum/external{
 	pixel_x = -30
 	},
-/obj/structure/closet/emcloset,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 9;
 	name = "engineering yellow"
 	},
+/obj/structure/cable,
+/obj/machinery/camera/directional/north{
+	c_tag = "Solar Control - Port Aft";
+	name = "Solars Camera";
+	network = list("ss13","engineering")
+	},
+/obj/structure/closet/emcloset,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/aft)
-"cuH" = (
-/obj/structure/cable,
-/turf/closed/wall/r_wall,
-/area/station/engineering/engine_smes)
 "cuI" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/yellow{
@@ -47113,6 +47115,7 @@
 	name = "Engineering yellow corner"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/engineering/general,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/engine_smes)
 "cwa" = (
@@ -47238,9 +47241,6 @@
 /area/station/maintenance/solars/port/aft)
 "cwy" = (
 /obj/structure/cable,
-/obj/machinery/power/terminal{
-	dir = 1
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 4;
@@ -47506,10 +47506,6 @@
 "cxj" = (
 /turf/closed/wall/r_wall,
 /area/station/maintenance/solars/starboard/aft)
-"cxk" = (
-/obj/structure/cable,
-/turf/closed/wall/r_wall,
-/area/station/maintenance/department/science)
 "cxm" = (
 /obj/machinery/power/solar_control{
 	dir = 4;
@@ -47806,7 +47802,6 @@
 /turf/open/floor/iron,
 /area/station/engineering/transit_tube)
 "cxY" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	name = "engineering yellow"
@@ -47826,18 +47821,13 @@
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "cya" = (
-/obj/structure/cable,
-/obj/machinery/camera/directional/south{
-	c_tag = "Solar Control - Port Aft";
-	name = "Solars Camera";
-	network = list("ss13","engineering")
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 6;
 	name = "engineering yellow"
 	},
-/obj/machinery/power/apc/auto_name/directional/east,
+/obj/machinery/power/apc/auto_name/directional/south,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/aft)
 "cyb" = (
@@ -47933,15 +47923,12 @@
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "cym" = (
-/obj/structure/cable,
-/obj/machinery/power/terminal{
-	dir = 8
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 1;
 	name = "engineering yellow"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "cyn" = (
@@ -48155,13 +48142,13 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "cyT" = (
-/obj/structure/cable,
-/obj/structure/closet/emcloset,
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	dir = 5;
 	name = "engineering yellow"
 	},
+/obj/machinery/power/apc/auto_name/directional/east,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "cyV" = (
@@ -48468,6 +48455,10 @@
 	name = "engineering yellow"
 	},
 /obj/machinery/light/directional/west,
+/obj/machinery/power/terminal{
+	dir = 1
+	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "czE" = (
@@ -48668,7 +48659,6 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos/pumproom)
 "cAl" = (
-/obj/structure/cable,
 /obj/machinery/camera/directional/east{
 	c_tag = "Solar Control - Starboard Aft";
 	name = "Solars Camera";
@@ -48892,7 +48882,7 @@
 	dir = 10;
 	name = "engineering yellow"
 	},
-/obj/machinery/power/apc/auto_name/directional/west,
+/obj/structure/closet/emcloset,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "cAQ" = (
@@ -50144,6 +50134,8 @@
 "cEw" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "cEx" = (
@@ -52425,6 +52417,12 @@
 "cJI" = (
 /obj/effect/turf_decal/siding/dark_blue,
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 9
+	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/command/nuke_storage)
 "cJJ" = (
@@ -53192,14 +53190,11 @@
 	name = "Turbine Intake Pump"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/turf/open/floor/iron,
-/area/station/maintenance/disposal/incinerator)
-"cLT" = (
 /obj/machinery/button/ignition/incinerator/atmos{
-	pixel_x = -6;
+	pixel_x = -36;
 	pixel_y = 1
 	},
-/turf/closed/wall/r_wall,
+/turf/open/floor/iron,
 /area/station/maintenance/disposal/incinerator)
 "cLX" = (
 /obj/machinery/camera/directional/west{
@@ -55275,7 +55270,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/effect/landmark/navigate_destination/minisat_access_ai,
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/foyer)
 "cRz" = (
@@ -55423,7 +55418,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/foyer)
 "cSb" = (
@@ -55555,7 +55550,8 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/ai_upload,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/hallway)
 "cSs" = (
@@ -55598,7 +55594,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "cSB" = (
@@ -55759,7 +55755,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/service)
 "cSZ" = (
@@ -55871,7 +55867,8 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/ai_upload,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/hallway)
 "cTp" = (
@@ -55908,7 +55905,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "cTs" = (
@@ -55966,7 +55963,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "cTC" = (
@@ -56195,7 +56192,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/service)
 "cUv" = (
@@ -56246,7 +56243,7 @@
 	},
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/all/science/minisat,
+/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "cUF" = (
@@ -57575,11 +57572,6 @@
 /obj/machinery/space_heater,
 /turf/open/floor/catwalk_floor/iron,
 /area/station/cargo/miningoffice)
-"des" = (
-/obj/effect/spawner/random/trash/mess,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science)
 "deu" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
@@ -61274,6 +61266,8 @@
 	dir = 1
 	},
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/command/nuke_storage)
 "heL" = (
@@ -65695,6 +65689,8 @@
 /area/station/security/brig/hallway)
 "lim" = (
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "liq" = (
@@ -67228,6 +67224,7 @@
 	name = "Engineering yellow corner"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "mHl" = (
@@ -67284,7 +67281,6 @@
 /turf/open/floor/engine,
 /area/station/command/bridge)
 "mJe" = (
-/obj/structure/cable,
 /obj/machinery/camera/directional/south{
 	c_tag = "Solar Control - Starboard Aft Maint";
 	name = "Solars Camera";
@@ -67964,6 +67960,9 @@
 	dir = 4;
 	name = "engineering yellow"
 	},
+/obj/machinery/light/directional/east,
+/obj/machinery/power/terminal,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
 "noW" = (
@@ -71719,6 +71718,8 @@
 	dir = 1
 	},
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "qTU" = (
@@ -73295,8 +73296,8 @@
 /obj/effect/landmark/navigate_destination/vault,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/effect/mapping_helpers/airlock/locked,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/command/nuke_storage)
 "sBs" = (
@@ -75111,6 +75112,19 @@
 /obj/effect/mapping_helpers/airlock/access/any/security/detective,
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
+"utQ" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/station/cargo/lobby)
 "uuo" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -75541,6 +75555,10 @@
 	dir = 1;
 	name = "engineering yellow"
 	},
+/obj/machinery/power/terminal{
+	dir = 4
+	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/aft)
 "uRV" = (
@@ -76958,6 +76976,7 @@
 	dir = 8;
 	name = "engineering yellow"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/engine_smes)
 "wrR" = (
@@ -95032,7 +95051,7 @@ aaa
 aaa
 coT
 coT
-cuH
+coT
 cvW
 coT
 pMG
@@ -95742,7 +95761,7 @@ loG
 aSf
 aTd
 aUd
-aAi
+aCR
 aWl
 aAi
 bEn
@@ -95998,8 +96017,8 @@ aOa
 aRw
 aSs
 aTy
-aUs
-cpo
+bdS
+aCp
 aWl
 aXe
 bEn
@@ -108411,7 +108430,7 @@ iMt
 iMt
 iMt
 iMt
-cLT
+iMt
 iMt
 iMt
 iMt
@@ -111211,7 +111230,7 @@ bJe
 rOd
 rOd
 rOd
-bJe
+dSK
 bXy
 lUI
 ckA
@@ -111220,7 +111239,7 @@ csG
 cma
 duA
 qGF
-dSK
+bJe
 bJe
 cug
 cug
@@ -112228,7 +112247,7 @@ bMM
 bOA
 bPY
 icD
-bJe
+abO
 bVD
 bWv
 cmp
@@ -112388,7 +112407,7 @@ aat
 abg
 nnS
 abX
-abO
+abM
 acs
 adg
 abM
@@ -114570,7 +114589,7 @@ mXO
 czk
 hDw
 cBO
-cGq
+utQ
 cEw
 qTK
 lim
@@ -129729,9 +129748,9 @@ bJT
 aZN
 bBg
 tsK
-des
+oAd
 mJe
-cxk
+bxD
 cyl
 czD
 cAO
@@ -129987,7 +130006,7 @@ aZN
 bTe
 bTe
 bTe
-bBg
+bTe
 mFL
 cym
 czE
