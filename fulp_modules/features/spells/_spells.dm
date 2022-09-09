@@ -56,6 +56,8 @@
 /datum/action/cooldown/spell/aoe/blight
 	name = "Blight"
 	desc = "Causes nearby living things to waste away."
+	invocation = "BOLLOCKS!!"
+	invocation_type = INVOCATION_SHOUT
 	icon_icon = 'icons/mob/actions/actions_revenant.dmi'
 	button_icon_state = "blight"
 	cooldown_time = 20 SECONDS
@@ -189,12 +191,13 @@
 				to_chat(caster, span_warning("You are not close enough to siphon [victim ? "[victim]'s":"[victim.p_their()]"] soul. The link has been broken."))
 	draining = FALSE
 	var/overall_damage = caster.getBruteLoss() + caster.getFireLoss() + caster.getToxLoss() + caster.getOxyLoss()
-	caster.adjustOxyLoss((essence_drained*-0.25) * (caster.getOxyLoss() / overall_damage), 0)
-	caster.adjustToxLoss((essence_drained*-0.25) * (caster.getToxLoss() / overall_damage), 0)
-	caster.adjustFireLoss((essence_drained*-0.25) * (caster.getFireLoss() / overall_damage), 0)
-	caster.adjustBruteLoss((essence_drained*-0.25) * (caster.getBruteLoss() / overall_damage), 0)
-	caster.updatehealth()
-	playsound(get_turf(caster), 'sound/magic/staff_healing.ogg', 25)
+	if(overall_damage > 0)
+		caster.adjustOxyLoss((essence_drained*-0.25) * (caster.getOxyLoss() / overall_damage), 0)
+		caster.adjustToxLoss((essence_drained*-0.25) * (caster.getToxLoss() / overall_damage), 0)
+		caster.adjustFireLoss((essence_drained*-0.25) * (caster.getFireLoss() / overall_damage), 0)
+		caster.adjustBruteLoss((essence_drained*-0.25) * (caster.getBruteLoss() / overall_damage), 0)
+		caster.updatehealth()
+		playsound(get_turf(caster), 'sound/magic/staff_healing.ogg', 25)
 	essence_drained = 0
 	return TRUE
 
