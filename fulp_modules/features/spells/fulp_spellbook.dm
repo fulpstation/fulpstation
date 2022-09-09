@@ -11,3 +11,10 @@
 	spell_type = /datum/action/cooldown/spell/aoe/blight
 	category = "Offensive"
 	cost = 1
+
+/datum/spellbook_entry/soul_drain
+	name = "Syphon Vim"
+	desc = "Drain the souls of the living to extend your life."
+	spell_type = /datum/action/cooldown/spell/touch/soul_drain
+	category = "Offensive"
+	cost = 1

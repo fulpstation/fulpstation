@@ -103,101 +103,98 @@
 		tray.set_weedlevel(rand(8, 10))
 		tray.set_toxic(rand(45, 55))
 
-/*
+
 /datum/action/cooldown/spell/touch/soul_drain
 	name = "Syphon Vim"
 	desc = "Drain the life energy of a living victim to extend your reign."
+	invocation = "GOD SAVE THE QUEEN!!"
+	sparks_amt = 4
+	icon_icon = 'icons/mob/actions/actions_ecult.dmi'
+	button_icon_state = "mansus_grasp"
+	hand_path = /obj/item/melee/touch_attack/mansus_fist
+	school = SCHOOL_EVOCATION
 	cooldown_time = 10 SECONDS
 	var/draining = FALSE
 	var/essence_drained = 0
+	var/essence_regen_cap = 75
+	var/essence_regen_amount = 2.5
 
-/datum/action/cooldown/spell/touch/soul_drain/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/touch/soul_drain/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/carbon/human/victim, mob/living/carbon/caster)
 	if(draining)
-		to_chat(src, span_warning("You are already siphoning the essence of a soul!"))
+		to_chat(caster, span_warning("You are already siphoning the essence of a soul!"))
 		return
-	if(!victim.stat)
-		to_chat(src, span_notice("[victim.p_their(TRUE)] soul is too strong to harvest."))
+	if(!victim?.stat)
+		to_chat(caster, span_notice("[victim.p_their(TRUE)] soul is too strong to harvest."))
 		if(prob(10))
 			to_chat(victim, span_notice("You feel as if you are being watched."))
 		return
-	log_combat(src, victim, "started to harvest")
-	face_atom(victim)
+	log_combat(caster, victim, "started to harvest")
+	caster.face_atom(victim)
 	draining = TRUE
 	essence_drained += rand(15, 20)
-	to_chat(src, span_notice("You search for the soul of [victim]."))
-	if(do_after(src, rand(10, 20), victim, timed_action_flags = IGNORE_HELD_ITEM)) //did they get deleted in that second?
+	to_chat(caster, span_notice("You search for the soul of [victim]."))
+	if(do_after(caster, rand(10, 20), victim, timed_action_flags = IGNORE_HELD_ITEM)) //did they get deleted in that second?
 		if(victim.ckey)
-			to_chat(src, span_notice("[victim.p_their(TRUE)] soul burns with intelligence."))
+			to_chat(caster, span_notice("[victim.p_their(TRUE)] soul burns with intelligence."))
 			essence_drained += rand(20, 30)
 		if(victim.stat != DEAD && !HAS_TRAIT(victim, TRAIT_WEAK_SOUL))
-			to_chat(src, span_notice("[victim.p_their(TRUE)] soul blazes with life!"))
+			to_chat(caster, span_notice("[victim.p_their(TRUE)] soul blazes with life!"))
 			essence_drained += rand(40, 50)
 		if(HAS_TRAIT(victim, TRAIT_WEAK_SOUL) && !victim.ckey)
-			to_chat(src, span_notice("[victim.p_their(TRUE)] soul is weak and underdeveloped. They won't be worth very much."))
+			to_chat(caster, span_notice("[victim.p_their(TRUE)] soul is weak and underdeveloped. They won't be worth very much."))
 			essence_drained = 5
 		else
-			to_chat(src, span_notice("[victim.p_their(TRUE)] soul is weak and faltering."))
-		if(do_after(src, rand(15, 20), victim, timed_action_flags = IGNORE_HELD_ITEM)) //did they get deleted NOW?
+			to_chat(caster, span_notice("[victim.p_their(TRUE)] soul is weak and faltering."))
+		if(do_after(caster, rand(15, 20), victim, timed_action_flags = IGNORE_HELD_ITEM)) //did they get deleted NOW?
 			switch(essence_drained)
 				if(1 to 30)
-					to_chat(src, span_notice("[victim] will not yield much essence. Still, every bit counts."))
+					to_chat(caster, span_notice("[victim] will not yield much essence. Still, every bit counts."))
 				if(30 to 70)
-					to_chat(src, span_notice("[victim] will yield an average amount of essence."))
+					to_chat(caster, span_notice("[victim] will yield an average amount of essence."))
 				if(70 to 90)
-					to_chat(src, span_boldnotice("Such a feast! [victim] will yield much essence to you."))
+					to_chat(caster, span_boldnotice("Such a feast! [victim] will yield much essence to you."))
 				if(90 to INFINITY)
-					to_chat(src, span_bignotice("Ah, the perfect soul. [victim] will yield massive amounts of essence to you."))
-			if(do_after(src, rand(15, 25), victim, timed_action_flags = IGNORE_HELD_ITEM)) //how about now
+					to_chat(caster, span_notice("Ah, the perfect soul. [victim] will yield massive amounts of essence to you."))
+			if(do_after(caster, rand(15, 25), victim, timed_action_flags = IGNORE_HELD_ITEM)) //how about now
 				if(!victim.stat)
-					to_chat(src, span_warning("[victim.p_theyre(TRUE)] now powerful enough to fight off your draining."))
+					to_chat(caster, span_warning("[victim.p_theyre(TRUE)] now powerful enough to fight off your draining."))
 					to_chat(victim, span_boldannounce("You feel something tugging across your body before subsiding."))
 					draining = 0
 					essence_drained = 0
 					return //hey, wait a minute...
-				to_chat(src, span_notice("You begin siphoning essence from [victim]'s soul."))
+				to_chat(caster, span_notice("You begin siphoning essence from [victim]'s soul."))
 				if(victim.stat != DEAD)
 					to_chat(victim, span_warning("You feel a horribly unpleasant draining sensation as your grip on life weakens..."))
 				if(victim.stat == SOFT_CRIT)
 					victim.Stun(46)
-				reveal(46)
-				stun(46)
 				victim.visible_message(span_warning("[victim] suddenly rises slightly into the air, [victim.p_their()] skin turning an ashy gray."))
 				if(victim.can_block_magic(MAGIC_RESISTANCE_HOLY))
-					to_chat(src, span_notice("Something's wrong! [victim] seems to be resisting the siphoning, leaving you vulnerable!"))
-					victim.visible_message(span_warning("[victim] slumps onto the ground."), \
-					span_warning("Violet lights, dancing in your vision, receding--"))
+					to_chat(caster, span_notice("Something's wrong! [victim] seems to be resisting the siphoning, leaving you vulnerable!"))
+					victim.visible_message(span_warning("[victim] slumps onto the ground."))
+					caster.visible_message(span_warning("Violet lights, dancing in your vision, receding--"))
 					draining = FALSE
 					return
-				var/datum/beam/B = Beam(victim,icon_state="drain_life")
-				if(do_after(src, 46, victim, timed_action_flags = IGNORE_HELD_ITEM)) //As one cannot prove the existance of ghosts, ghosts cannot prove the existance of the victim they were draining.
-					change_essence_amount(essence_drained, FALSE, victim)
-					if(essence_drained <= 90 && victim.stat != DEAD && !HAS_TRAIT(victim, TRAIT_WEAK_SOUL))
-						essence_regen_cap += 5
-						to_chat(src, span_boldnotice("The absorption of [victim]'s living soul has increased your maximum essence level. Your new maximum essence is [essence_regen_cap]."))
-					if(essence_drained > 90)
-						essence_regen_cap += 15
-						perfectsouls++
-						to_chat(src, span_boldnotice("The perfection of [victim]'s soul has increased your maximum essence level. Your new maximum essence is [essence_regen_cap]."))
-					to_chat(src, span_notice("[victim]'s soul has been considerably weakened and will yield no more essence for the time being."))
-					victim.visible_message(span_warning("[victim] slumps onto the ground."), \
-										   span_warning("Violets lights, dancing in your vision, getting clo--"))
-					drained_mobs += REF(victim)
+				var/datum/beam/B = caster.Beam(victim,icon_state="drain_life")
+				if(do_after(caster, 46, victim, timed_action_flags = IGNORE_HELD_ITEM)) //As one cannot prove the existance of ghosts, ghosts cannot prove the existance of the victim they were draining.
+					victim.visible_message(span_warning("[victim] slumps onto the ground."))
+					caster.visible_message(span_warning("Violets lights, dancing in your vision, getting clo--"))
 					victim.death(0)
 				else
-					to_chat(src, span_warning("[victim ? "[victim] has":"[victim.p_theyve(TRUE)]"] been drawn out of your grasp. The link has been broken."))
+					to_chat(caster, span_warning("[victim ? "[victim] has":"[victim.p_theyve(TRUE)]"] been drawn out of your grasp. The link has been broken."))
 					if(victim) //Wait, victim is WHERE NOW?
-						victim.visible_message(span_warning("[victim] slumps onto the ground."), \
-											   span_warning("Violets lights, dancing in your vision, receding--"))
+						victim.visible_message(span_warning("[victim] slumps onto the ground."))
+						caster.visible_message(span_warning("Violets lights, dancing in your vision, receding--"))
 				qdel(B)
 			else
-				to_chat(src, span_warning("You are not close enough to siphon [victim ? "[victim]'s":"[victim.p_their()]"] soul. The link has been broken."))
+				to_chat(caster, span_warning("You are not close enough to siphon [victim ? "[victim]'s":"[victim.p_their()]"] soul. The link has been broken."))
 	draining = FALSE
-	var/overall_damage = H.getBruteLoss() + H.getFireLoss() + H.getToxLoss() + H.getOxyLoss()
-	H.adjustOxyLoss((essence_drained*0.25) * (H.getOxyLoss() / overall_damage), 0)
-	H.adjustToxLoss((essence_drained*0.25) * (H.getToxLoss() / overall_damage), 0)
-	H.adjustFireLoss((essence_drained*0.25) * (H.getFireLoss() / overall_damage), 0)
-	H.adjustBruteLoss((essence_drained*0.25) * (H.getBruteLoss() / overall_damage), 0)
-	H.updatehealth()
-	playsound(get_turf(H), 'sound/magic/staff_healing.ogg', 25)
+	var/overall_damage = caster.getBruteLoss() + caster.getFireLoss() + caster.getToxLoss() + caster.getOxyLoss()
+	caster.adjustOxyLoss((essence_drained*-0.25) * (caster.getOxyLoss() / overall_damage), 0)
+	caster.adjustToxLoss((essence_drained*-0.25) * (caster.getToxLoss() / overall_damage), 0)
+	caster.adjustFireLoss((essence_drained*-0.25) * (caster.getFireLoss() / overall_damage), 0)
+	caster.adjustBruteLoss((essence_drained*-0.25) * (caster.getBruteLoss() / overall_damage), 0)
+	caster.updatehealth()
+	playsound(get_turf(caster), 'sound/magic/staff_healing.ogg', 25)
 	essence_drained = 0
-*/
+	return TRUE
+
