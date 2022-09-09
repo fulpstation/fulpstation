@@ -200,4 +200,4 @@
 	H.updatehealth()
 	playsound(get_turf(H), 'sound/magic/staff_healing.ogg', 25)
 	essence_drained = 0
-/*
+*/
