@@ -75,14 +75,14 @@
 					to_chat(caster, span_warning("The spirit of Ireland protects [mob] from your blight!"))
 					continue
 				var/mob/living/carbon/human/H = mob
-				victim.set_haircolor("#1d2953", override = TRUE) //will be reset when blight is cured
+				H.set_haircolor("#1d2953", override = TRUE) //will be reset when blight is cured
 				var/blightfound = FALSE
-				for(var/datum/disease/revblight/blight in victim.diseases)
+				for(var/datum/disease/revblight/blight in H.diseases)
 					blightfound = TRUE
 					if(blight.stage < 5)
 						blight.stage++
 				if(!blightfound)
-					victim.ForceContractDisease(new /datum/disease/revblight(), FALSE, TRUE)
+					H.ForceContractDisease(new /datum/disease/revblight(), FALSE, TRUE)
 					to_chat(H, span_notice("You feel [pick("suddenly sick", "a surge of nausea", "like your teeth are <i>wrong</i>")]."))
 			else
 				if(mob.reagents)
@@ -192,13 +192,12 @@
 			else
 				to_chat(src, span_warning("You are not close enough to siphon [victim ? "[victim]'s":"[victim.p_their()]"] soul. The link has been broken."))
 	draining = FALSE
-	var/overall_damage = victim.getBruteLoss() + victim.getFireLoss() + victim.getToxLoss() + victim.getOxyLoss()
-	victim.adjustOxyLoss((essence_drained*0.25) * (victim.getOxyLoss() / overall_damage), 0)
-	victim.adjustToxLoss((essence_drained*0.25) * (victim.getToxLoss() / overall_damage), 0)
-	victim.adjustFireLoss((essence_drained*0.25) * (victim.getFireLoss() / overall_damage), 0)
-	victim.adjustBruteLoss((essence_drained*0.25) * (victim.getBruteLoss() / overall_damage), 0)
-	victim.updatehealth()
+	var/overall_damage = H.getBruteLoss() + H.getFireLoss() + H.getToxLoss() + H.getOxyLoss()
+	H.adjustOxyLoss((essence_drained*0.25) * (H.getOxyLoss() / overall_damage), 0)
+	H.adjustToxLoss((essence_drained*0.25) * (H.getToxLoss() / overall_damage), 0)
+	H.adjustFireLoss((essence_drained*0.25) * (H.getFireLoss() / overall_damage), 0)
+	H.adjustBruteLoss((essence_drained*0.25) * (H.getBruteLoss() / overall_damage), 0)
+	H.updatehealth()
 	playsound(get_turf(H), 'sound/magic/staff_healing.ogg', 25)
 	essence_drained = 0
-
-*/
+/*
