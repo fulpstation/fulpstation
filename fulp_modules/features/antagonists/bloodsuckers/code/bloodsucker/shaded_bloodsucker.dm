@@ -12,7 +12,7 @@
 /obj/item/soulstone/bloodsucker/init_shade(mob/living/carbon/human/victim, mob/user, message_user = FALSE, mob/shade_controller)
 	. = ..()
 	for(var/mob/shades in contents)
-		shades.mind?.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
+		shades.mind.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
 
 /obj/item/soulstone/bloodsucker/get_ghost_to_replace_shade(mob/living/carbon/victim, mob/user)
 	var/mob/dead/observer/chosen_ghost
@@ -21,6 +21,9 @@
 		var/list/consenting_candidates = poll_ghost_candidates("Would you like to play as a Shade?", "Cultist", ROLE_CULTIST, 50, POLL_IGNORE_SHADE)
 		if(consenting_candidates.len)
 			chosen_ghost = pick(consenting_candidates)
+	if(!chosen_ghost)
+		victim.dust()
+		return FALSE
 	if(!victim)
 		return FALSE
 	if(contents.len) //If they used the soulstone on someone else in the meantime
