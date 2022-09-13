@@ -21,10 +21,10 @@
 		var/list/consenting_candidates = poll_ghost_candidates("Would you like to play as a Shade?", "Cultist", ROLE_CULTIST, 50, POLL_IGNORE_SHADE)
 		if(consenting_candidates.len)
 			chosen_ghost = pick(consenting_candidates)
+	if(!victim)
+		return FALSE
 	if(!chosen_ghost)
 		victim.dust()
-		return FALSE
-	if(!victim)
 		return FALSE
 	if(contents.len) //If they used the soulstone on someone else in the meantime
 		return FALSE
