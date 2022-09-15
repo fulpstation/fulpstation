@@ -448,7 +448,7 @@
 
 
 /obj/item/antag_spawner/nuke_ops/infiltrator_backup
-	name = "Corporate Yes-man beacon"
+	name = "\improper Corporate Yes-man beacon"
 	desc = "Request backup from corp."
 	special_role_name = ROLE_INFILTRATOR
 	outfit = /datum/outfit/infiltrator_reinforcement
@@ -469,7 +469,7 @@
 		do_sparks(4, TRUE, src)
 		qdel(src)
 	else
-		to_chat(user, span_warning("Unable to contact corporate. Please wait and try again later."))
+		to_chat(user, span_warning("Unable to contact Corporate. Please wait and try again later."))
 
 /obj/item/antag_spawner/nuke_ops/infiltrator_backup/spawn_antag(client/C, turf/T, kind, datum/mind/user)
 	var/mob/living/carbon/human/infil = new()

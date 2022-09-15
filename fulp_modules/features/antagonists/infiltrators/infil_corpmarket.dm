@@ -48,6 +48,11 @@
 	///description of the item
 	var/desc
 
+
+///////////////////Uplink items
+
+//////assault
+
 /datum/infil_corpitem/assault/sniper
 	name = "Sniper"
 	cost = 30
@@ -71,8 +76,9 @@
 	name = "Sniper Rounds"
 	cost = 10
 	item = /obj/item/ammo_box/magazine/sniper_rounds
-	desc = "An extra round for the Sniper rifle."
+	desc = "An extra magazine for the Sniper rifle."
 
+////////ammunition
 
 /datum/infil_corpitem/ammo/plastikov
 	name = "PP-95 Magazine"
@@ -87,6 +93,8 @@
 	item = /obj/item/ammo_box/magazine/wt550m9
 	desc = "An extra magazine for the Security Rifle."
 
+////////support
+
 /datum/infil_corpitem/support/backup
 	name = "Request Backup"
 	cost = 30
@@ -100,7 +108,7 @@
 	desc = "Shield capable of reflecting energy projectiles!"
 
 
-
+/////////////////////uplink object and UI
 
 
 /obj/item/infil_uplink
