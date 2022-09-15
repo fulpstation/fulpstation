@@ -157,12 +157,12 @@
 	data["viewing_category"] = viewing_category
 	data["connected"] = connected
 	if(viewing_category)
-		for(var/datum/infil_corpitem/I in viewing_category.item)
+		for(var/datum/infil_corpitem/contraband in viewing_category.item)
 			data["items"] += list(list(
-			"id" = I.type,
-			"name" = I.name,
-			"desc" = I.desc,
-			"cost" = I.cost,
+			"id" = contraband.type,
+			"name" = contraband.name,
+			"desc" = contraband.desc,
+			"cost" = contraband.cost,
 				))
 	return data
 
