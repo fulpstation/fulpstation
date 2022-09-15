@@ -14,7 +14,8 @@ const ConnectScreen = (props, context) => {
         <Box color={area ? 'green' : 'red'} bold fontSize={1.2}>
           {area
             ? 'Signal detected'
-            : 'No Signal detected, must be activated in ' + connecting_zone}
+            : 'No Signal detected, device must be activated in ' +
+            connecting_zone}
         </Box>
       </Section>
     </Section>
