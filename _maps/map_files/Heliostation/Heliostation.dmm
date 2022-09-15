@@ -37593,7 +37593,8 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/iron,
 /area/station/maintenance/department/engine)
 "bXv" = (
@@ -41388,8 +41389,12 @@
 	},
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/carpet/purple,
 /area/station/engineering/break_room)
 "chO" = (
@@ -44330,7 +44335,7 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "coI" = (
@@ -47034,7 +47039,7 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "cvE" = (
@@ -48244,6 +48249,9 @@
 /area/station/command/heads_quarters/ce)
 "cyW" = (
 /obj/structure/chair/office,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 6
+	},
 /turf/open/floor/carpet/purple,
 /area/station/engineering/break_room)
 "cyX" = (
@@ -59763,6 +59771,16 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron,
 /area/station/commons/dorms)
+"fwk" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/station/engineering/break_room)
 "fwv" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/structure/disposalpipe/segment,
@@ -60129,6 +60147,16 @@
 /obj/effect/turf_decal/loading_area,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
+"fMJ" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/station/engineering/break_room)
 "fNy" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4{
@@ -69871,8 +69899,7 @@
 /area/station/maintenance/department/crew_quarters/dorms)
 "oYM" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2{
-	dir = 1;
-	frequency = 1459
+	dir = 1
 	},
 /turf/open/floor/engine,
 /area/station/maintenance/disposal/incinerator)
@@ -107847,7 +107874,7 @@ bZZ
 aak
 cyI
 cqm
-cIE
+fMJ
 vct
 coW
 cqn
@@ -108361,7 +108388,7 @@ bZZ
 aak
 cyI
 cDW
-cIE
+fwk
 wcB
 coW
 cqp
