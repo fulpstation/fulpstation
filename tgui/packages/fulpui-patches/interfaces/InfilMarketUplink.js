@@ -4,10 +4,19 @@ import { Window } from '../../tgui/layouts';
 
 const ConnectScreen = (props, context) => {
   const { act, data } = useBackend(context);
-  const { connected } = data;
+  const { area, connecting_zone } = data;
   return (
     <Section>
-      <Button content={'Connect Uplink'} onClick={() => act('connect')} />
+      <Section>
+        <Button content={'Connect Uplink'} onClick={() => act('connect')} />
+      </Section>
+      <Section>
+        <Box color={area ? 'green' : 'red'} bold fontSize={1.2}>
+          {area
+            ? 'Signal detected'
+            : 'No Signal detected, must be activated in ' + connecting_zone}
+        </Box>
+      </Section>
     </Section>
   );
 };
@@ -27,8 +36,8 @@ export const InfilMarketUplink = (props, context) => {
         <Section
           title="Restricted Market"
           buttons={
-            <Box color="green" bold fontSize={1.2}>
-              {currency + ' Points'}
+            <Box color={connected ? 'green' : 'red'} bold fontSize={1.2}>
+              {connected ? currency + ' Points' : 'ERROR'}
             </Box>
           }
         />

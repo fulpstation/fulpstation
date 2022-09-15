@@ -23,7 +23,6 @@
 			uplink.owner = owner
 			var/mob/living/carbon/human/infil = owner.current
 			var/obj/item/infil_uplink/radio = infil.l_store
-			radio.set_connecting_zone()
 			uplink.explanation_text = "Connect the Uplink Radio to HQ in [radio.connecting_zone]"
 			objectives += uplink
 

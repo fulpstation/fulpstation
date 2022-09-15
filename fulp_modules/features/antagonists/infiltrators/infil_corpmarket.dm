@@ -137,6 +137,7 @@
 
 /obj/item/infil_uplink/Initialize(mapload)
 	. = ..()
+	set_connecting_zone()
 	market = new /datum/infil_corpmarket
 	viewing_category = market.category[1]
 
@@ -148,6 +149,9 @@
 		ui = new(user, src, "InfilMarketUplink", name)
 		ui.open()
 
+/obj/item/infil_uplink/proc/check_area()
+	return (get_area(src) == connecting_zone)
+
 /obj/item/infil_uplink/ui_data(mob/user)
 	var/list/data = list()
 	data["categories"] = market.category
@@ -156,6 +160,8 @@
 	data["items"] = list()
 	data["viewing_category"] = viewing_category
 	data["connected"] = connected
+	data["area"] = check_area()
+	data["connecting_zone"] = connecting_zone.name
 	if(viewing_category)
 		for(var/datum/infil_corpitem/contraband in viewing_category.item)
 			data["items"] += list(list(
