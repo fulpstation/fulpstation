@@ -36,14 +36,11 @@
 		GLOB.mentors |= src
 		mentor_datum.owner = src
 		add_mentor_verbs()
-		var/list/contributors = world.file2list("[global.config.directory]/contributors.txt")
-		for(var/line in contributors)
-			if(!length(line))
-				continue
-			if(findtextEx(line, "#", 1, 2))
-				continue
-			if(ckey == ckey(contributors))
-				mentor_datum.is_contributor = TRUE
+		var/list/cdatums = list()
+		for(var/coder in world.file2list("[global.config.directory]/contributors.txt"))
+			cdatums += ckey(coder)
+		if(ckey in cdatums)
+			mentor_datum.is_contributor = TRUE
 
 /// Admins are Mentors, too
 /client/proc/is_mentor()

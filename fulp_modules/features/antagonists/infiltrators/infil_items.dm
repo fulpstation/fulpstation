@@ -121,8 +121,12 @@
 			reward_obj = new /datum/objective/martyr
 			dagd = TRUE
 		reward_obj.owner = user.mind
-		for(var/datum/antagonist/traitor/infiltrator/antag_datum in user.mind.antag_datums)
-			antag_datum.objectives += reward_obj
+		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+		if(!terrorist)
+			return
+		for(var/datum/objective/obj in terrorist.objectives)
+			terrorist.objectives -= obj
+		terrorist.objectives += reward_obj
 
 
 /obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)
