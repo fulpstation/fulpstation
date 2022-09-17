@@ -208,7 +208,7 @@
 			buying = FALSE
 			selected_item = null
 		if("connect")
-			if((get_area(usr) != connecting_zone) && (get_area(src) != connecting_zone))
+			if((get_area(usr) != connecting_zone))
 				to_chat(usr, span_notice("The signal isn't strong enough here to contact HQ!"))
 				return
 			var/datum/antagonist/traitor/infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
