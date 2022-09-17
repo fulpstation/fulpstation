@@ -87,7 +87,7 @@
 		/obj/item/reagent_containers/hypospray/medipen/stimulants,
 		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
-	///determines wether the final objective is a dagd or not
+	///final objective picked
 	var/datum/final_objective/final
 
 /obj/item/infiltrator_radio/Initialize(mapload)
@@ -161,8 +161,11 @@
 	return
 
 /datum/final_objective
+	///name of the ojbective
 	var/name
+	///description that will appear on the UI
 	var/description
+	///path of the objective
 	var/objective
 
 /datum/final_objective/shuttle
