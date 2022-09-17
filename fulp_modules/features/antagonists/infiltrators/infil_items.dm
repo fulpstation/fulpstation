@@ -88,11 +88,19 @@
 		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
 	///determines wether the final objective is a dagd or not
-	var/dagd = FALSE
+	var/datum/final_objective/final
 
 /obj/item/infiltrator_radio/Initialize(mapload)
 	. = ..()
 	add_overlay("infiltrator_radio_overlay")
+	pick_final()
+
+/obj/item/infiltrator_radio/proc/pick_final()
+	var/list/obj = list()
+	for(var/objectives in subtypesof(/datum/final_objective))
+		obj += new objectives
+	final = pick(obj)
+
 
 /obj/item/infiltrator_radio/proc/check_reward_status(mob/living/user)
 	for(var/datum/objective/goal in user.mind.get_all_objectives())
@@ -115,11 +123,7 @@
 	if(checked_objectives.len == bitch.len)
 		objectives_complete = TRUE
 		var/datum/objective/reward_obj
-		if(prob(60))
-			reward_obj = new /datum/objective/hijack
-		else
-			reward_obj = new /datum/objective/martyr
-			dagd = TRUE
+		reward_obj = new final.objective
 		reward_obj.owner = user.mind
 		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 		if(!terrorist)
@@ -143,7 +147,7 @@
 	var/list/data = list()
 	data["check"] = check_reward_status(user)
 	data["completed"] = objectives_complete
-	data["dagd"] = dagd
+	data["final"] = final.description
 	return data
 
 /obj/item/infiltrator_radio/ui_act(action, params)
@@ -155,6 +159,24 @@
 			if(check_reward_status(usr))
 				give_reward(usr)
 	return
+
+/datum/final_objective
+	var/name
+	var/description
+	var/objective
+
+/datum/final_objective/shuttle
+	name = "Shuttle Hijack"
+	description = "You have proven yourself worthy of our final mission. \
+	The stereo system in our shuttle was stolen, we need you to grand theft auto their emergency escape shuttle for spares."
+	objective = /datum/objective/hijack
+
+/datum/final_objective/dagd
+	name = "DAGD"
+	description ="Frankly, we have no more uses for you and we would prefer if you \
+    removed all potential evidence of your existence. May you have \
+    an everlasting glorious death."
+	objective = /datum/objective/martyr
 
 /obj/item/gorilla_serum
 	name = "Gorilla Serum"
