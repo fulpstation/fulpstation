@@ -137,6 +137,7 @@
 
 /// When a screwdriver is used on it
 /datum/component/bodycamera_holder/proc/on_screwdriver_act(atom/source, mob/user, obj/item/tool)
+
 	SIGNAL_HANDLER
 
 	if(!bodycamera_installed)
