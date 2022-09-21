@@ -254,6 +254,14 @@
 	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
 	hack_card.use_charge(user)
 	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+	var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	if(!terrorist)
+		return
+	var/datum/objective/cyborg_hack/terrorism = locate() in terrorist.objectives
+	if(!terrorism)
+		return
+	terrorism.completed = TRUE
+
 
 /obj/item/missile_disk
 	name = "missile disk"
