@@ -146,16 +146,22 @@
 /obj/item/infil_uplink/Initialize(mapload)
 	. = ..()
 	set_connecting_zone()
+	add_overlay("uplink_seeking")
 	market = new /datum/infil_corpmarket
 	viewing_category = market.category[1]
 
 
-/obj/item/infil_uplink/ui_interact(mob/user, datum/tgui/ui)
+/obj/item/infil_uplink/ui_interact(mob/living/user, datum/tgui/ui)
 
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
+		add_overlay("uplink_on")
 		ui = new(user, src, "InfilMarketUplink", name)
 		ui.open()
+
+/obj/item/infil_uplink/ui_close(mob/living/user)
+	. = ..()
+	cut_overlay("uplink_on")
 
 /obj/item/infil_uplink/proc/check_area()
 	return (get_area(src) == connecting_zone)
@@ -218,7 +224,10 @@
 			if(!terrorism)
 				return
 			terrorism.completed = TRUE
+			cut_overlay("uplink_seeking")
+			add_overlay("uplink_found")
 			playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+
 			connected = TRUE
 
 /obj/item/infil_uplink/proc/purchase(item, category, user)
