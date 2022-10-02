@@ -87,12 +87,20 @@
 		/obj/item/reagent_containers/hypospray/medipen/stimulants,
 		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
-	///determines wether the final objective is a dagd or not
-	var/dagd = FALSE
+	///final objective picked
+	var/datum/final_objective/final
 
 /obj/item/infiltrator_radio/Initialize(mapload)
 	. = ..()
 	add_overlay("infiltrator_radio_overlay")
+	pick_final()
+
+/obj/item/infiltrator_radio/proc/pick_final()
+	var/list/obj = list()
+	for(var/objectives in subtypesof(/datum/final_objective))
+		obj += new objectives
+	final = pick(obj)
+
 
 /obj/item/infiltrator_radio/proc/check_reward_status(mob/living/user)
 	for(var/datum/objective/goal in user.mind.get_all_objectives())
@@ -115,11 +123,7 @@
 	if(checked_objectives.len == bitch.len)
 		objectives_complete = TRUE
 		var/datum/objective/reward_obj
-		if(prob(60))
-			reward_obj = new /datum/objective/hijack
-		else
-			reward_obj = new /datum/objective/martyr
-			dagd = TRUE
+		reward_obj = new final.objective
 		reward_obj.owner = user.mind
 		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 		if(!terrorist)
@@ -143,7 +147,7 @@
 	var/list/data = list()
 	data["check"] = check_reward_status(user)
 	data["completed"] = objectives_complete
-	data["dagd"] = dagd
+	data["final"] = final.description
 	return data
 
 /obj/item/infiltrator_radio/ui_act(action, params)
@@ -155,6 +159,27 @@
 			if(check_reward_status(usr))
 				give_reward(usr)
 	return
+
+/datum/final_objective
+	///name of the ojbective
+	var/name
+	///description that will appear on the UI
+	var/description
+	///path of the objective
+	var/objective
+
+/datum/final_objective/shuttle
+	name = "Shuttle Hijack"
+	description = "You have proven yourself worthy of our final mission. \
+	The stereo system in our shuttle was stolen, we need you to grand theft auto their emergency escape shuttle for spares."
+	objective = /datum/objective/hijack
+
+/datum/final_objective/dagd
+	name = "DAGD"
+	description ="Frankly, we have no more uses for you and we would prefer if you \
+    removed all potential evidence of your existence. May you have \
+    an everlasting glorious death."
+	objective = /datum/objective/martyr
 
 /obj/item/gorilla_serum
 	name = "Gorilla Serum"
@@ -254,6 +279,14 @@
 	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
 	hack_card.use_charge(user)
 	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+	var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	if(!terrorist)
+		return
+	var/datum/objective/cyborg_hack/terrorism = locate() in terrorist.objectives
+	if(!terrorism)
+		return
+	terrorism.completed = TRUE
+
 
 /obj/item/missile_disk
 	name = "missile disk"
@@ -449,3 +482,48 @@
 
 /mob/living/silicon/robot/model/infiltrator/ResetModel()
 	self_destruct(src)
+
+
+/obj/item/antag_spawner/nuke_ops/infiltrator_backup
+	name = "\improper Corporate Yes-man beacon"
+	desc = "Request backup from corp."
+	special_role_name = ROLE_INFILTRATOR
+	outfit = /datum/outfit/infiltrator_reinforcement
+	antag_datum = /datum/antagonist/infiltrator_backup
+
+/obj/item/antag_spawner/nuke_ops/infiltrator_backup/attack_self(mob/user)
+	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	if(!criminal)
+		return
+	if(!do_after(user, 5 SECONDS))
+		return
+	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
+	var/list/infil_candidates = poll_ghost_candidates("Do you want to play as an infiltrator backup?", ROLE_INFILTRATOR, ROLE_INFILTRATOR, 150, POLL_IGNORE_SYNDICATE)
+	if(LAZYLEN(infil_candidates))
+		used = TRUE
+		var/mob/dead/observer/ghost = pick(infil_candidates)
+		spawn_antag(ghost.client, get_turf(src), "infiltrator", user.mind)
+		do_sparks(4, TRUE, src)
+		qdel(src)
+	else
+		to_chat(user, span_warning("Unable to contact Corporate. Please wait and try again later."))
+
+/obj/item/antag_spawner/nuke_ops/infiltrator_backup/spawn_antag(client/C, turf/T, kind, datum/mind/user)
+	var/mob/living/carbon/human/infil = new()
+	var/obj/structure/closet/supplypod/pod = setup_pod()
+	infil.ckey = C.key
+	var/datum/mind/infil_mind = infil.mind
+	if(length(GLOB.newplayer_start))
+		infil.forceMove(pick(GLOB.newplayer_start))
+	else
+		infil.forceMove(locate(1,1,1))
+
+	antag_datum = new /datum/antagonist/infiltrator_backup
+	var/datum/antagonist/infiltrator_backup/datum = antag_datum
+	var/datum/antagonist/traitor/infiltrator/criminal = user.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	datum.purchaser = criminal
+	infil_mind.add_antag_datum(datum)
+	infil.forceMove(pod)
+	new /obj/effect/pod_landingzone(get_turf(src), pod)
+
+

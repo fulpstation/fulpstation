@@ -3189,7 +3189,7 @@
 /obj/machinery/door/window/left/directional/west{
 	dir = 2;
 	name = "Cargo Desk";
-	req_access = list("mail_sorting")
+	req_access = list("cargo")
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron,
@@ -3238,7 +3238,7 @@
 	},
 /obj/machinery/door/window/right/directional/south{
 	name = "Cargo Desk";
-	req_access = list("mail_sorting")
+	req_access = list("cargo")
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron,
@@ -5540,6 +5540,7 @@
 /area/station/commons/dorms)
 "asl" = (
 /obj/structure/grille/broken,
+/obj/machinery/power/port_gen/pacman/pre_loaded,
 /turf/open/floor/plating,
 /area/station/maintenance/department/crew_quarters/dorms)
 "asm" = (
@@ -14936,7 +14937,7 @@
 	},
 /obj/machinery/door/window/left/directional/west{
 	name = "Trash Chute";
-	req_access = list("mail_sorting")
+	req_access = list("shipping")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
@@ -22013,14 +22014,13 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "bCi" = (
-/obj/structure/closet/secure_closet/chief_medical,
-/obj/item/valentine,
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/machinery/pdapainter/medbay,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "bCj" = (
@@ -22585,15 +22585,11 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/structure/table/glass,
-/obj/item/computer_hardware/hard_drive/portable/medical,
-/obj/item/computer_hardware/hard_drive/portable/chemistry{
-	pixel_x = 5;
-	pixel_y = 5
-	},
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/structure/cable,
 /obj/machinery/firealarm/directional/south,
+/obj/structure/closet/secure_closet/chief_medical,
+/obj/item/valentine,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "bEI" = (
@@ -24856,6 +24852,7 @@
 	dir = 1
 	},
 /obj/effect/mapping_helpers/broken_floor,
+/obj/machinery/power/port_gen/pacman/pre_loaded,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "bNX" = (
@@ -29571,9 +29568,9 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/airlock/engineering/glass/critical{
 	heat_proof = 1;
-	name = "Supermatter Chamber";
-	req_one_access_txt = "10;24"
+	name = "Supermatter Chamber"
 	},
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
 "ciJ" = (
@@ -31728,7 +31725,7 @@
 	},
 /obj/machinery/door/window/left/directional/west{
 	name = "Deliveries";
-	req_access = list("mail_sorting")
+	req_access = list("shipping")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
@@ -32183,7 +32180,6 @@
 /turf/open/floor/iron/dark,
 /area/station/service/library/lounge)
 "cxJ" = (
-/obj/machinery/door/firedoor,
 /obj/effect/mapping_helpers/airlock/access/any/supply/general,
 /obj/machinery/door/airlock/external/glass{
 	name = "Supply Door Airlock"
@@ -33481,6 +33477,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/tcommsat/computer)
+"dqg" = (
+/obj/machinery/power/port_gen/pacman/pre_loaded,
+/turf/open/floor/plating,
+/area/station/maintenance/department/cargo)
 "dqw" = (
 /obj/machinery/door/airlock/research/glass{
 	name = "Genetics"
@@ -33701,6 +33701,10 @@
 "dAa" = (
 /turf/closed/wall/r_wall,
 /area/station/security/lockers)
+"dAE" = (
+/obj/machinery/power/port_gen/pacman/pre_loaded,
+/turf/open/floor/plating,
+/area/station/maintenance/department/science/xenobiology)
 "dAF" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/sign/warning/vacuum/external,
@@ -35205,7 +35209,7 @@
 	id = "Disposal Exit";
 	name = "Disposal Vent Control";
 	pixel_y = 6;
-	req_access = list("mail_sorting")
+	req_access = list("maint_tunnels")
 	},
 /turf/open/floor/iron,
 /area/station/maintenance/disposal)
@@ -37706,6 +37710,10 @@
 /obj/item/toy/cards/deck,
 /turf/open/floor/iron,
 /area/station/security/prison/workout)
+"gVi" = (
+/obj/machinery/power/port_gen/pacman/pre_loaded,
+/turf/open/floor/plating,
+/area/station/maintenance/central)
 "gVk" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -38285,6 +38293,15 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/item/computer_hardware/hard_drive/portable/chemistry{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/computer_hardware/hard_drive/portable/chemistry{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/computer_hardware/hard_drive/portable/medical,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "hBT" = (
@@ -39035,7 +39052,6 @@
 	dir = 4
 	},
 /obj/machinery/airalarm/directional/south,
-/obj/machinery/pdapainter/medbay,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "iok" = (
@@ -39808,15 +39824,12 @@
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/qm)
 "jdr" = (
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/obj/structure/window/reinforced,
 /obj/machinery/status_display/supply{
 	dir = 4;
 	layer = 4;
 	pixel_y = 32
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "jdA" = (
@@ -40534,9 +40547,9 @@
 	},
 /obj/machinery/door/airlock/engineering/glass/critical{
 	heat_proof = 1;
-	name = "Supermatter Chamber";
-	req_one_access_txt = "10;24"
+	name = "Supermatter Chamber"
 	},
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
 "jOk" = (
@@ -42591,6 +42604,18 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/paramedic)
+"lEz" = (
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/power/port_gen/pacman/pre_loaded,
+/turf/open/floor/plating,
+/area/station/maintenance/department/engine)
 "lFb" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -45400,6 +45425,10 @@
 /obj/machinery/holopad,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/qm)
+"ofr" = (
+/obj/machinery/power/port_gen/pacman/pre_loaded,
+/turf/open/floor/plating,
+/area/station/maintenance/department/science/central)
 "ofN" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -48911,6 +48940,7 @@
 /area/station/maintenance/department/chapel/monastery)
 "qVi" = (
 /obj/structure/sign/warning/vacuum/external/directional/east,
+/obj/machinery/power/port_gen/pacman/pre_loaded,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "qVP" = (
@@ -49023,6 +49053,11 @@
 	},
 /turf/open/floor/iron,
 /area/station/service/chapel/storage)
+"qZk" = (
+/obj/effect/spawner/random/maintenance,
+/obj/machinery/power/port_gen/pacman/pre_loaded,
+/turf/open/floor/plating,
+/area/station/maintenance/department/security/brig)
 "qZN" = (
 /obj/item/assembly/prox_sensor{
 	pixel_x = -8;
@@ -49811,7 +49846,7 @@
 	},
 /obj/machinery/door/window/left/directional/west{
 	name = "Deliveries Chute";
-	req_access = list("mail_sorting")
+	req_access = list("shipping")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -55220,6 +55255,7 @@
 "vPf" = (
 /obj/structure/sign/warning/firing_range/directional/west,
 /obj/effect/mapping_helpers/broken_floor,
+/obj/machinery/power/port_gen/pacman/pre_loaded,
 /turf/open/floor/plating,
 /area/station/maintenance/department/security/brig)
 "vPE" = (
@@ -55571,7 +55607,7 @@
 	dir = 1;
 	name = "Returns";
 	pixel_y = 7;
-	req_access = list("mail_sorting")
+	req_access = list("shipping")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
@@ -76867,7 +76903,7 @@ hHr
 hHr
 xTe
 ezF
-aod
+qZk
 aqg
 aiu
 iab
@@ -85157,7 +85193,7 @@ bKH
 iOl
 iyg
 iOl
-nqB
+lEz
 bBX
 mbe
 ete
@@ -87155,7 +87191,7 @@ aKT
 aPz
 aLL
 aOw
-aLL
+gVi
 wbR
 aKT
 aSI
@@ -103339,7 +103375,7 @@ aFi
 yiL
 aEj
 aFi
-aFi
+dqg
 aEj
 aNW
 aEj
@@ -103643,7 +103679,7 @@ uvq
 bFx
 bGB
 rKi
-lWy
+dAE
 bwm
 aht
 bwm
@@ -105161,7 +105197,7 @@ aht
 gvM
 vzT
 gUb
-yet
+ofr
 gvM
 gSI
 uSW
