@@ -634,7 +634,7 @@
 
 /obj/item/clothing/neck/costume_2020/papa_ross_squirrel/AltClick(mob/user)
 	. = ..()
-	if(!user.canUseTopic(src, be_close = TRUE, ismonkey(user)))
+	if(!user.canUseTopic(src, be_close = TRUE, no_dexterity = TRUE))
 		return
 	flip(user)
 
