@@ -475,7 +475,7 @@
 	beefboy.visible_message(
 		span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
 		span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
-	new_bodypart.attach_limb(beefboy)
+	new_bodypart.try_attach_limb(beefboy)
 	new_bodypart.update_limb(is_creating = TRUE)
 	beefboy.update_body_parts()
 	new_bodypart.give_meat(beefboy, meat)
