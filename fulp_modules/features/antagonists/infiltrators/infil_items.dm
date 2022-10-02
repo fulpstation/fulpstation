@@ -482,3 +482,48 @@
 
 /mob/living/silicon/robot/model/infiltrator/ResetModel()
 	self_destruct(src)
+
+
+/obj/item/antag_spawner/nuke_ops/infiltrator_backup
+	name = "\improper Corporate Yes-man beacon"
+	desc = "Request backup from corp."
+	special_role_name = ROLE_INFILTRATOR
+	outfit = /datum/outfit/infiltrator_reinforcement
+	antag_datum = /datum/antagonist/infiltrator_backup
+
+/obj/item/antag_spawner/nuke_ops/infiltrator_backup/attack_self(mob/user)
+	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	if(!criminal)
+		return
+	if(!do_after(user, 5 SECONDS))
+		return
+	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
+	var/list/infil_candidates = poll_ghost_candidates("Do you want to play as an infiltrator backup?", ROLE_INFILTRATOR, ROLE_INFILTRATOR, 150, POLL_IGNORE_SYNDICATE)
+	if(LAZYLEN(infil_candidates))
+		used = TRUE
+		var/mob/dead/observer/ghost = pick(infil_candidates)
+		spawn_antag(ghost.client, get_turf(src), "infiltrator", user.mind)
+		do_sparks(4, TRUE, src)
+		qdel(src)
+	else
+		to_chat(user, span_warning("Unable to contact Corporate. Please wait and try again later."))
+
+/obj/item/antag_spawner/nuke_ops/infiltrator_backup/spawn_antag(client/C, turf/T, kind, datum/mind/user)
+	var/mob/living/carbon/human/infil = new()
+	var/obj/structure/closet/supplypod/pod = setup_pod()
+	infil.ckey = C.key
+	var/datum/mind/infil_mind = infil.mind
+	if(length(GLOB.newplayer_start))
+		infil.forceMove(pick(GLOB.newplayer_start))
+	else
+		infil.forceMove(locate(1,1,1))
+
+	antag_datum = new /datum/antagonist/infiltrator_backup
+	var/datum/antagonist/infiltrator_backup/datum = antag_datum
+	var/datum/antagonist/traitor/infiltrator/criminal = user.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	datum.purchaser = criminal
+	infil_mind.add_antag_datum(datum)
+	infil.forceMove(pod)
+	new /obj/effect/pod_landingzone(get_turf(src), pod)
+
+

@@ -19,10 +19,12 @@
 			killsec.update_explanation_text()
 			objectives += killsec
 
-			var/datum/objective/steal/steal_obj = new
-			steal_obj.owner = owner
-			steal_obj.find_target()
-			objectives += steal_obj
+			var/datum/objective/connect_uplink/uplink = new
+			uplink.owner = owner
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/infil_uplink/radio = infil.l_store
+			uplink.explanation_text = "Connect the Uplink Radio to HQ in [radio.connecting_zone]"
+			objectives += uplink
 
 		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
 			for(var/i = 0, i < 2, i++)
@@ -240,3 +242,6 @@
 /datum/objective/summon_wormhole
 	name = "Summon a cyborg wormhole"
 
+
+/datum/objective/connect_uplink
+	name = "Connect uplink"

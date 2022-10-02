@@ -96,6 +96,7 @@
 	suit = /obj/item/clothing/suit/space/syndicate/blue
 	head = /obj/item/clothing/head/helmet/space/syndicate/blue
 	r_hand = /obj/item/adv_mulligan
+	l_pocket = /obj/item/infil_uplink
 
 /datum/outfit/infiltrator/arc
 	name = "Animal Rights Consortium Infiltrator"
@@ -118,3 +119,39 @@
 	r_hand = /obj/item/aicard
 	l_pocket = /obj/item/grenade/c4/wormhole
 
+
+/datum/antagonist/infiltrator_backup
+	name = "Infiltrator"
+	antagpanel_category = "Infiltrator"
+	job_rank = ROLE_INFILTRATOR
+	hijack_speed = 1
+	hud_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	antag_hud_name = "infil_hud"
+	show_name_in_check_antagonists = TRUE
+	show_to_ghosts = TRUE
+	///the owner of this kid
+	var/datum/antagonist/traitor/infiltrator/purchaser
+
+
+/datum/antagonist/infiltrator_backup/on_gain()
+	if(!purchaser)
+		return
+	owner.enslave_mind_to_creator(purchaser.owner.current)
+	var/mob/living/carbon/human/infiltrator = owner.current
+	infiltrator.equipOutfit(/datum/outfit/infiltrator_reinforcement)
+	return ..()
+
+
+/datum/outfit/infiltrator_reinforcement
+	name = "Infiltrator Reinforcement"
+	uniform = /obj/item/clothing/under/syndicate/combat
+	suit = /obj/item/clothing/suit/jacket/oversized
+	gloves = /obj/item/clothing/gloves/fingerless
+	glasses = /obj/item/clothing/glasses/sunglasses
+	mask = /obj/item/clothing/mask/cigarette/cigar
+	ears = /obj/item/radio/headset
+	back = /obj/item/storage/backpack
+	backpack_contents = list(
+		/obj/item/storage/box/survival/syndie = 1,
+		/obj/item/knife/combat/survival = 1,
+	)
