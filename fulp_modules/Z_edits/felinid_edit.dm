@@ -37,7 +37,7 @@
 /obj/item/clothing/head/kitty/proc/speech_check(datum/source, mob/speech_args)
 	SIGNAL_HANDLER
 
-	var/list/trigger_words = strings("cringe_speechtest.json", "cringe", "fulp_modules/strings/kittyear")
+	var/list/trigger_words = strings("cringe_speech.json", "cringe", "fulp_modules/strings/kittyear")
 	var/mob/living/carbon/human/user = source
 	var/spoken_text = speech_args[SPEECH_MESSAGE]
 	if(spoken_text[1] != "*")
