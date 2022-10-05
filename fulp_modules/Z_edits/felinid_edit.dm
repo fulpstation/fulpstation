@@ -43,7 +43,7 @@
 	if(spoken_text[1] != "*")
 		spoken_text = " [spoken_text]"
 		if(findtext(spoken_text, trigger_words))
-			to_chat(user, span_warning("<b style='color:pink'>A overwhelming pain has stricken your brain.</b>"))
+			to_chat(user, span_warning("A overwhelming pain has stricken your brain."))
 			user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100)
 
 /obj/item/clothing/head/kitty/attack_hand(mob/user, list/modifiers)
