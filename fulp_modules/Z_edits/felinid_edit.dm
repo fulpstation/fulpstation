@@ -34,6 +34,18 @@
 			return TRUE
 	return FALSE
 
+/obj/item/clothing/head/kitty/proc/speech_check(datum/source, mob/speech_args)
+	SIGNAL_HANDLER
+
+	var/list/trigger_words = strings("cringe_speechtest.json", "cringe", "fulp_modules/strings/kittyear")
+	var/mob/living/carbon/human/user = source
+	var/spoken_text = speech_args[SPEECH_MESSAGE]
+	if(spoken_text[1] != "*")
+		spoken_text = " [spoken_text]"
+		if(findtext(spoken_text, trigger_words))
+			to_chat(user, span_warning("<b style='color:pink'>You die as you live. A dumbass.</b>"))
+			user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100)
+
 /obj/item/clothing/head/kitty/attack_hand(mob/user, list/modifiers)
 	if(at_peace_check(user))
 		return
@@ -46,9 +58,12 @@
 
 /obj/item/clothing/head/kitty/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	if(slot != ITEM_SLOT_HEAD)
+	if (slot == ITEM_SLOT_HEAD)
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/speech_check)
+		user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100, 199)
+	else
+		UnregisterSignal(user, COMSIG_MOB_SAY)
 		return
-	user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100, 199)
 
 /mob/living/carbon/human/species/felinid
 	race = /datum/species/human/felinid/nobraindamage
