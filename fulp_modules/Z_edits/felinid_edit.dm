@@ -42,10 +42,8 @@
 	var/spoken_text = speech_args[SPEECH_MESSAGE]
 	if(spoken_text[1] != "*")
 		spoken_text = " [spoken_text]"
-		if(findtext(spoken_text, trigger_words))
+		if(findtext(spoken_text, "[trigger_words]"))
 			to_chat(user, span_userdanger("As you say the word, an overwhelming pain fills your head!"))
-			user.emote("scream")
-			user.set_timed_status_effect(10 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 			user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 99)
 
 /obj/item/clothing/head/kitty/attack_hand(mob/user, list/modifiers)
@@ -61,7 +59,7 @@
 /obj/item/clothing/head/kitty/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if (slot == ITEM_SLOT_HEAD)
-		RegisterSignal(user, COMSIG_MOB_SAY, .proc/speech_check)
+		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
 		user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100, 199)
 	else
 		UnregisterSignal(user, COMSIG_MOB_SAY)
