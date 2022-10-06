@@ -47,7 +47,6 @@
 	var/regex/tirgger_regex = regex("(\\b|\\A)([words_match])('?s*)(\\b|\\|)", "ig")
 
 	var/mob/living/carbon/human/user = source
-	var/spoken_text = speech_args[SPEECH_MESSAGE]
 	if(tirgger_regex.Find(speech_args[SPEECH_MESSAGE]) != 0)
 		to_chat(user, span_userdanger("As you say the word, an overwhelming pain fills your head!"))
 		user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 99)
