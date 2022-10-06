@@ -38,13 +38,19 @@
 	SIGNAL_HANDLER
 
 	var/list/trigger_words = strings("cringe_speech.json", "cringe", "fulp_modules/strings/kittyear")
+	if(!length(trigger_words))
+		CRASH("trigger word [trigger_words] has no entries")
+	var/words_match = ""
+	for(var/word in trigger_words)
+		words_match += "[REGEX_QUOTE(word)]|"
+	words_match = copytext(words_match, 1, -1)
+	var/regex/tirgger_regex = regex("(\\b|\\A)([words_match])('?s*)(\\b|\\|)", "ig")
+
 	var/mob/living/carbon/human/user = source
 	var/spoken_text = speech_args[SPEECH_MESSAGE]
-	if(spoken_text[1] != "*")
-		spoken_text = " [spoken_text]"
-		if(findtext(spoken_text, "[trigger_words]"))
-			to_chat(user, span_userdanger("As you say the word, an overwhelming pain fills your head!"))
-			user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 99)
+	if(tirgger_regex.Find(speech_args[SPEECH_MESSAGE]) != 0)
+		to_chat(user, span_userdanger("As you say the word, an overwhelming pain fills your head!"))
+		user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 99)
 
 /obj/item/clothing/head/kitty/attack_hand(mob/user, list/modifiers)
 	if(at_peace_check(user))
@@ -67,3 +73,4 @@
 
 /mob/living/carbon/human/species/felinid
 	race = /datum/species/human/felinid/nobraindamage
+
