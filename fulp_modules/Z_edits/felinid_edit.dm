@@ -34,7 +34,7 @@
 			return TRUE
 	return FALSE
 
-/obj/item/clothing/head/kitty/proc/speech_check(datum/source, mob/speech_args)
+/obj/item/clothing/head/kitty/proc/handle_speech(datum/source, mob/speech_args)
 	SIGNAL_HANDLER
 
 	var/list/trigger_words = strings("cringe_speech.json", "cringe", "fulp_modules/strings/kittyear")
@@ -44,6 +44,8 @@
 		spoken_text = " [spoken_text]"
 		if(findtext(spoken_text, trigger_words))
 			to_chat(user, span_userdanger("As you say the word, an overwhelming pain fills your head!"))
+			user.emote("scream")
+			user.set_timed_status_effect(10 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 			user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 99)
 
 /obj/item/clothing/head/kitty/attack_hand(mob/user, list/modifiers)
