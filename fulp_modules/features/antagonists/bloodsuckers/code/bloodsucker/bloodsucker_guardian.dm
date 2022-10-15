@@ -1,6 +1,6 @@
 ///Bloodsuckers spawning a Guardian will get the Bloodsucker one instead.
 /obj/item/guardiancreator/spawn_guardian(mob/living/user, mob/dead/candidate)
-	var/list/guardians = user.hasparasites()
+	var/list/guardians = user.get_all_linked_holoparasites()
 	if(guardians.len && !allowmultiple)
 		to_chat(user, span_holoparasite("You already have a [mob_name]!"))
 		used = FALSE

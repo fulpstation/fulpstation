@@ -63,7 +63,7 @@
 		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/construction/rcd/loaded/upgraded = 1,
 		/obj/item/pipe_dispenser = 1,
-		/obj/item/modular_computer/tablet/preset/advanced/engineering = 1,
+		/obj/item/modular_computer/tablet/pda/engineering = 1,
 		/obj/item/storage/box/survival/engineer = 1,
 	)
 	r_hand = /obj/item/clipboard

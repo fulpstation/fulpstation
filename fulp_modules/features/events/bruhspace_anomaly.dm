@@ -5,7 +5,7 @@
 	max_occurrences = 1
 
 /datum/round_event/bruh_moment
-	startWhen = 8
+	start_when = 8
 
 /datum/round_event/bruh_moment/start()
 	for(var/mob/living/all_players as anything in GLOB.alive_player_list)
