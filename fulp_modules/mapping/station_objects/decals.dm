@@ -20,6 +20,26 @@
 	icon_state = "tile_fourcorners"
 	name = "command fourcorner"
 
+/obj/effect/turf_decal/tile/prison
+	color = "#FF6700"
+	name = "prison corner"
+
+/obj/effect/turf_decal/tile/prison/anticorner
+	icon_state = "tile_anticorner_contrasted"
+	name = "prison anticorner"
+
+/obj/effect/turf_decal/tile/prison/half
+	icon_state = "tile_half_contrasted"
+	name = "prison half"
+
+/obj/effect/turf_decal/tile/prison/opposingcorners
+	icon_state = "tile_opposing_corners"
+	name = "prison opposing corner"
+
+/obj/effect/turf_decal/tile/prison/fourcorners
+	icon_state = "tile_fourcorners"
+	name = "prison fourcorner"
+
 /obj/effect/turf_decal/tile/security
 	color = "#FF0000"
 	name = "security corner"
