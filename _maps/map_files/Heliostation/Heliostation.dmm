@@ -69,7 +69,7 @@
 /area/space)
 "aas" = (
 /obj/docking_port/stationary/random{
-	id = "pod_lavaland2";
+	shuttle_id = "pod_lavaland2";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
@@ -2527,7 +2527,6 @@
 	dir = 1;
 	name = "Prison Orange"
 	},
-/obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/all/security/brig,
 /turf/open/floor/iron,
 /area/station/security/prison/safe)
@@ -21496,7 +21495,7 @@
 	dheight = 4;
 	dwidth = 4;
 	height = 9;
-	id = "aux_base_zone";
+	shuttle_id = "aux_base_zone";
 	name = "aux base zone";
 	roundstart_template = /datum/map_template/shuttle/aux_base/default;
 	width = 9
@@ -22767,7 +22766,7 @@
 "bjf" = (
 /obj/docking_port/stationary/random{
 	dir = 8;
-	id = "pod_lavaland2";
+	shuttle_id = "pod_lavaland2";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
@@ -24123,7 +24122,7 @@
 /turf/open/floor/iron,
 /area/station/commons/lounge)
 "bnh" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "medcell";
 	name = "Medical Cell";
 	pixel_x = 32
@@ -24757,6 +24756,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "boW" = (
@@ -25350,8 +25350,8 @@
 	dir = 2;
 	dwidth = 11;
 	height = 22;
-	id = "whiteship_home";
 	name = "SS13: Whiteship dock";
+	shuttle_id = "whiteship_home";
 	width = 35
 	},
 /turf/open/space/basic,
@@ -26833,9 +26833,9 @@
 	dir = 8;
 	dwidth = 3;
 	height = 15;
-	id = "arrivals_stationary";
 	name = "arrivals";
 	roundstart_template = /datum/map_template/shuttle/arrival/box;
+	shuttle_id = "arrival_stationary";
 	width = 7
 	},
 /turf/open/space/basic,
@@ -34869,8 +34869,8 @@
 	dir = 4;
 	dwidth = 12;
 	height = 18;
-	id = "emergency_home";
 	name = "BoxStation emergency evac bay";
+	shuttle_id = "emergency_home";
 	width = 32
 	},
 /turf/open/space/basic,
@@ -39054,7 +39054,7 @@
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance/storage)
 "cbJ" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 3";
 	name = "Cell 3";
 	pixel_x = 32
@@ -40011,6 +40011,7 @@
 	name = "engineering yellow"
 	},
 /obj/structure/cable,
+/obj/structure/sign/delamination_counter/directional/north,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "cdW" = (
@@ -43551,8 +43552,8 @@
 	dir = 8;
 	dwidth = 2;
 	height = 13;
-	id = "ferry_home";
 	name = "port bay 2";
+	shuttle_id = "ferry_home";
 	width = 5
 	},
 /turf/open/space/basic,
@@ -46279,8 +46280,8 @@
 	dir = 1;
 	name = "engineering yellow"
 	},
-/obj/machinery/status_display/ai/directional/north,
 /obj/structure/cable,
+/obj/structure/sign/delamination_counter/directional/north,
 /turf/open/floor/iron,
 /area/station/engineering/engine_smes)
 "ctt" = (
@@ -57466,6 +57467,7 @@
 	name = "Engineering External Access"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/construction)
 "cXW" = (
@@ -60382,6 +60384,7 @@
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "fYE" = (
@@ -62831,6 +62834,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "ijY" = (
@@ -66805,6 +66809,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 6
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "mbH" = (
@@ -68024,6 +68029,11 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/service)
+"ngT" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/station/hallway/secondary/construction)
 "nhz" = (
 /obj/structure/holohoop{
 	dir = 4
@@ -69910,8 +69920,8 @@
 	dir = 4;
 	dwidth = 4;
 	height = 7;
-	id = "supply_home";
 	name = "Cargo Bay";
+	shuttle_id = "cargo_home";
 	width = 12
 	},
 /turf/open/space/basic,
@@ -70274,6 +70284,7 @@
 	dir = 8
 	},
 /obj/machinery/door/firedoor,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "ppG" = (
@@ -75740,7 +75751,7 @@
 /turf/open/floor/iron,
 /area/station/security/prison)
 "uNf" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 2";
 	name = "Cell 2";
 	pixel_x = 32
@@ -78053,7 +78064,7 @@
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "xmr" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 1";
 	name = "Cell 1";
 	pixel_x = 32
@@ -89214,7 +89225,7 @@ aak
 aOd
 cSk
 cJi
-cDB
+ngT
 cXV
 cFH
 cGW
@@ -95652,7 +95663,7 @@ cCp
 oop
 cNd
 cNx
-cNS
+cNR
 cNR
 cNR
 cNb

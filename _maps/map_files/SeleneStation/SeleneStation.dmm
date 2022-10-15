@@ -207,7 +207,7 @@
 /area/station/hallway/primary/aft)
 "adQ" = (
 /obj/docking_port/stationary/random{
-	id = "pod_lavaland2";
+	shuttle_id = "pod_lavaland2";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
@@ -255,8 +255,8 @@
 	dir = 8;
 	dwidth = 5;
 	height = 7;
-	id = "supply_home";
 	name = "Cargo Bay";
+	shuttle_id = "cargo_home";
 	width = 12
 	},
 /turf/open/space/basic,
@@ -990,7 +990,7 @@
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "arg" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 4";
 	name = "Cell 4";
 	pixel_y = -32
@@ -1945,7 +1945,6 @@
 /obj/machinery/atmospherics/components/binary/pump/on{
 	name = "Cooling Loop to Gas"
 	},
-/obj/structure/cable,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "aIZ" = (
@@ -2974,6 +2973,7 @@
 /obj/item/stock_parts/cell/high,
 /obj/item/reagent_containers/pill/patch/aiuri,
 /obj/effect/turf_decal/tile/engineering/half,
+/obj/structure/sign/delamination_counter/directional/south,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "baq" = (
@@ -3972,7 +3972,7 @@
 	layer = 2.9
 	},
 /obj/structure/filingcabinet,
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "engcell";
 	name = "Engineering Cell";
 	pixel_y = 30
@@ -4392,9 +4392,9 @@
 	dir = 8;
 	dwidth = 5;
 	height = 17;
-	id = "arrivals_stationary";
 	name = "selene arrivals";
 	roundstart_template = /datum/map_template/shuttle/arrival/fulp/selene;
+	shuttle_id = "arrival_stationary";
 	width = 11
 	},
 /turf/open/space/basic,
@@ -6865,7 +6865,7 @@
 "coy" = (
 /obj/docking_port/stationary/random{
 	dir = 8;
-	id = "pod_lavaland1";
+	shuttle_id = "pod_lavaland1";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
@@ -11047,7 +11047,7 @@
 	dir = 8;
 	dwidth = 4;
 	height = 9;
-	id = "aux_base_zone";
+	shuttle_id = "aux_base_zone";
 	name = "aux base zone";
 	roundstart_template = /datum/map_template/shuttle/aux_base/default;
 	width = 9
@@ -11154,7 +11154,7 @@
 /area/station/maintenance/fore)
 "dLN" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "scicell";
 	name = "Science Cell";
 	pixel_y = -30
@@ -13248,6 +13248,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
 	},
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "evT" = (
@@ -15064,7 +15065,7 @@
 /turf/open/floor/iron/dark,
 /area/station/science/server)
 "fdi" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 2";
 	name = "Cell 2";
 	pixel_y = -32
@@ -16946,7 +16947,7 @@
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
 "fIu" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 1";
 	name = "Cell 1";
 	pixel_y = -32
@@ -21442,7 +21443,7 @@
 "hhx" = (
 /obj/structure/table/glass,
 /obj/item/book/manual/wiki/medicine,
-/obj/item/modular_computer/tablet/preset/advanced/command,
+/obj/item/modular_computer/tablet/pda/heads,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "hhz" = (
@@ -28607,8 +28608,8 @@
 	dir = 8;
 	dwidth = 11;
 	height = 22;
-	id = "whiteship_home";
 	name = "SS13: Whiteship dock";
+	shuttle_id = "whiteship_home";
 	width = 35
 	},
 /turf/open/space/basic,
@@ -29202,8 +29203,8 @@
 	dir = 8;
 	dwidth = 2;
 	height = 13;
-	id = "ferry_home";
 	name = "port bay 2";
+	shuttle_id = "ferry_home";
 	width = 5
 	},
 /turf/open/space/basic,
@@ -29863,7 +29864,6 @@
 	pixel_x = 6;
 	pixel_y = -3
 	},
-/obj/structure/table,
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 4
 	},
@@ -31553,12 +31553,10 @@
 /turf/open/floor/iron/grimy,
 /area/station/hallway/primary/port)
 "kCt" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 8
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 10
 	},
-/obj/structure/window,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "kCu" = (
@@ -33945,9 +33943,8 @@
 /turf/open/floor/iron/dark,
 /area/station/command/gateway)
 "lth" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/directional{
 	dir = 4
 	},
 /turf/open/floor/wood,
@@ -36713,8 +36710,8 @@
 	dir = 8;
 	dwidth = 14;
 	height = 28;
-	id = "emergency_home";
 	name = "emergency evac bay";
+	shuttle_id = "emergency_home";
 	width = 15
 	},
 /turf/open/space/basic,
@@ -39716,7 +39713,7 @@
 /turf/open/floor/iron,
 /area/station/cargo/miningoffice)
 "njC" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 3";
 	name = "Cell 3";
 	pixel_y = -32
@@ -41460,7 +41457,7 @@
 "nNV" = (
 /obj/docking_port/stationary/random{
 	dir = 2;
-	id = "pod_lavaland4";
+	shuttle_id = "pod_lavaland4";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
@@ -45196,7 +45193,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
 "pdK" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 5";
 	name = "Cell 5";
 	pixel_y = 32
@@ -45290,11 +45287,9 @@
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/hos)
 "peO" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window,
-/obj/structure/window{
-	dir = 4
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 6
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -46766,6 +46761,7 @@
 /area/station/maintenance/department/science)
 "pEH" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "pEL" = (
@@ -48687,9 +48683,8 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "qmi" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window,
+/obj/effect/spawner/structure/window/hollow/directional,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "qmj" = (
@@ -48702,9 +48697,8 @@
 /turf/open/floor/plating,
 /area/station/science/ordnance)
 "qmy" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/directional{
 	dir = 8
 	},
 /turf/open/floor/wood,
@@ -48748,14 +48742,9 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
 "qnM" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 4
-	},
-/obj/structure/window{
-	dir = 1;
-	layer = 3
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 5
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -51339,15 +51328,10 @@
 /turf/open/floor/iron/white,
 /area/station/science/ordnance/burnchamber)
 "rhM" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/end{
 	dir = 4
 	},
-/obj/structure/window{
-	dir = 1
-	},
-/obj/structure/window,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "rhX" = (
@@ -53776,7 +53760,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "rZv" = (
-/obj/structure/table,
 /obj/structure/table,
 /obj/item/reagent_containers/condiment/saltshaker{
 	pixel_y = 2
@@ -58450,15 +58433,9 @@
 /turf/open/floor/engine,
 /area/station/medical/chemistry)
 "tBe" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/end{
 	dir = 8
-	},
-/obj/structure/window{
-	dir = 1;
-	layer = 3
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -60606,7 +60583,7 @@
 /turf/closed/wall,
 /area/station/service/library/private)
 "upN" = (
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "Cell 6";
 	name = "Cell 6";
 	pixel_y = 32
@@ -60883,6 +60860,7 @@
 /obj/effect/turf_decal/tile/engineering/half{
 	dir = 1
 	},
+/obj/structure/sign/delamination_counter/directional/north,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "usG" = (
@@ -60895,11 +60873,9 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "usI" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 1;
-	layer = 3
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 1
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -61522,14 +61498,9 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
 "uEs" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 1;
-	layer = 3
-	},
-/obj/structure/window{
-	dir = 8
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 9
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -64572,7 +64543,7 @@
 "vFW" = (
 /obj/structure/window/reinforced,
 /obj/structure/closet/secure_closet/security/cargo,
-/obj/machinery/door_timer{
+/obj/machinery/status_display/door_timer{
 	id = "cargocell";
 	name = "Cargo Cell";
 	pixel_x = 32
