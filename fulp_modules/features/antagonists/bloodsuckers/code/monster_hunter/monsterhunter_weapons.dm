@@ -1,4 +1,5 @@
 #define upgraded_val(x,y) ( CEILING((x * (1.07 ** y)), 1) )
+#define CALIBER_BLOODSILVER "bloodsilver"
 
 /obj/item/melee/trick_weapon
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
@@ -202,10 +203,12 @@
 	qdel(src)
 
 /obj/item/gun/ballistic/revolver/hunter_revolver
-	name = "Hunter's Revolver"
+	name = "\improper Hunter's Revolver"
 	desc = "Does minimal damage but slows down the enemy."
 	icon_state = "revolver"
+	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
+	initial_caliber = CALIBER_BLOODSILVER
 
 /datum/movespeed_modifier/silver_bullet
 	movetypes = GROUND
@@ -216,13 +219,16 @@
 /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	name = "detective revolver cylinder"
 	ammo_type = /obj/item/ammo_casing/silver
-	caliber = "Bloodsilver"
+	caliber = CALIBER_BLOODSILVER
 	max_ammo = 2
 
 /obj/item/ammo_casing/silver
 	name = "Bloodsilver casing"
 	desc = "A Bloodsilver bullet casing."
+	icon_state = "bloodsilver"
+	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 	projectile_type = /obj/projectile/bullet/bloodsilver
+	caliber = CALIBER_BLOODSILVER
 
 
 /obj/projectile/bullet/bloodsilver
@@ -232,6 +238,8 @@
 
 /obj/projectile/bullet/bloodsilver/on_hit(atom/target, blocked = FALSE)
 	. = ..()
+	if(!iscarbon(target))
+		return
 	var/mob/living/carbon/man = target
 	if(!man)
 		return
@@ -240,13 +248,25 @@
 	if(!(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
-	addtimer(CALLBACK(src, .proc/fall, man), 4 SECONDS)
+	addtimer(CALLBACK(man, mob/living/carbon/proc/remove_bloodsiver, man), 20 SECONDS)
 
+/mob/living/carbon/proc/remove_bloodsilver()
+	if (src.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
+		remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 
-/obj/projectile/bullet/bloodsilver/proc/fall(mob/living/carbon/man)
-	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
-		man.remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
+/datum/action/cooldown/spell/conjure_item/blood_silver
+	name = "Create bloodsilver bullet"
+	desc = "Wield your blood and mold it into a bloodsilver bullet"
+	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	button_icon_state = "blood_silver"
+	cooldown_time = 2 MINUTES
+	item_type = /obj/item/ammo_casing/silver
+	delete_old = FALSE
 
-
-
-
+/datum/action/cooldown/spell/blood_silver/conjure_item/cast(mob/living/carbon/cast_on)
+	if(cast_on.blood_volume < BLOOD_VOLUME_NORMAL)
+		to_chat(cast_on, span_warning ("Using this ability would put our health at risk!"))
+		return
+	. = ..()
+	cast_on.blood_volume -= 50
