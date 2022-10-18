@@ -1,8 +1,8 @@
 /obj/item/hunting_contract
 	name = "\improper Hunter's Contract"
 	desc = "Should I have my lawyer read this?"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
-	icon_state = "infiltrator_uplink"
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
 	var/bought = FALSE
 	var/datum/hunter_market/shop
