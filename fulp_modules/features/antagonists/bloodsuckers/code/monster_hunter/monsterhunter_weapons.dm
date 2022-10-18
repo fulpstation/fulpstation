@@ -5,10 +5,15 @@
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons_lefthand.dmi'
 	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons_righthand.dmi'
+	///upgrade level of the weapon
 	var/upgrade_level
+	///base force when transformed
 	var/on_force
+	///base force when in default state
 	var/base_force
+	///default name of the weapon
 	var/base_name
+	///is the weapon in its transformed state?
 	var/enabled = FALSE
 
 /obj/item/melee/trick_weapon/darkmoon
@@ -26,6 +31,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
+	///ready to launch a beam attack?
 	var/charged = TRUE
 
 
@@ -43,7 +49,6 @@
 /obj/item/melee/trick_weapon/darkmoon/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
-	playsound(user ? user : src, 'sound/weapons/batonextend.ogg', 50, TRUE)
 	inhand_icon_state = active ? "darkmoon" : "darkmoon_hilt"
 	enabled = active
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
@@ -77,7 +82,6 @@
 	moon.firer = user
 	moon.fire()
 	charged = FALSE
-	play_cinematic(/datum/cinematic/monster, world)
 	addtimer(CALLBACK(src, .proc/recharge), 4 SECONDS)
 
 
@@ -109,7 +113,6 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
-	var/charged = TRUE
 
 
 /obj/item/melee/trick_weapon/threaded_cane/Initialize(mapload)
@@ -126,7 +129,6 @@
 /obj/item/melee/trick_weapon/threaded_cane/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
-	playsound(user ? user : src, 'sound/weapons/batonextend.ogg', 50, TRUE)
 	inhand_icon_state = active ? "chain" : "threaded_cane"
 	reach = active ? 2 : 1
 	enabled = active

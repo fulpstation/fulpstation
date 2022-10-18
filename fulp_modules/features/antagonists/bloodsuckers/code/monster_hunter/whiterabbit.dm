@@ -5,8 +5,10 @@
 	image_state = "white_rabbit"
 	image_layer = ABOVE_LIGHTING_PLANE
 	image_layer = ABOVE_MOB_LAYER
-	image_plane = GAME_PLANE_UPPER
+	image_plane =
+	///the rabbit's whisper
 	var/description
+	///has the rabbit already whispered?
 	var/being_used = FALSE
 
 
@@ -47,7 +49,7 @@
 	scan_desc = "rabbit chaser"
 	gain_text = "<span class='notice'>You see the white rabbits clearly, have they always been there?"
 	lose_text = "<span class='warning'>The rabbits scurry off in a hurry, perhaps there's trouble in the wonderland."
-
+	///the list of rabbit holes the owner can currently interact with
 	var/list/white_rabbits = list()
 
 /datum/brain_trauma/special/rabbit_hole/on_lose(silent)
@@ -58,4 +60,6 @@
 	..()
 	for(var/i in 1 to 5 )
 		var/turf/rabbit_hole = get_safe_random_station_turf()
-		new /obj/effect/client_image_holder/white_rabbit(rabbit_hole, owner)
+		var//obj/effect/client_image_holder/white_rabbit/cretin =  new /obj/effect/client_image_holder/white_rabbit(rabbit_hole, owner)
+		white_rabbits += cretin
+

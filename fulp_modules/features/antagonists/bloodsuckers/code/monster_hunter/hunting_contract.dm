@@ -4,18 +4,22 @@
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
+	///have we claimed our weapon?
 	var/bought = FALSE
+	///the datum containing all weapons
 	var/datum/hunter_market/shop
+	///the weapon that we have purchased
 	var/selected_item
+	///the owner of this contract
 	var/datum/antagonist/monsterhunter/owner
 
 /obj/item/hunting_contract/Initialize(mapload)
 	. = ..()
 	shop = new /datum/hunter_market
-	for(var/datum/antagonist/monsterhunter/moh in GLOB.antagonists)
-		if(!moh)
-			continue
-		owner = moh
+///	for(var/datum/antagonist/monsterhunter/moh in GLOB.antagonists)
+///		if(!moh)
+///			continue
+///		owner = moh
 
 /obj/item/hunting_contract/ui_interact(mob/living/user, datum/tgui/ui)
 	if(!IS_MONSTERHUNTER(user))
@@ -84,8 +88,11 @@
 
 
 /datum/hunter_weapons
+	///name of the weapon
 	var/name
+	///description of the weapon that will appear on the UI
 	var/desc
+	///path of the weapon
 	var/item
 
 /datum/hunter_weapons/threaded_cane
