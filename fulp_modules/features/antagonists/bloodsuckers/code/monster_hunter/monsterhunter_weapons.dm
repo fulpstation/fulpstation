@@ -233,9 +233,9 @@
 /obj/projectile/bullet/bloodsilver/on_hit(atom/target, blocked = FALSE)
 	. = ..()
 	var/mob/living/carbon/man = target
-	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
-		return
 	if(!man)
+		return
+	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
 		return
 	if(!(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
