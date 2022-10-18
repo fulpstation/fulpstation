@@ -31,6 +31,4 @@
 	death_message = "succumbs to the moonlight."
 	death_sound = 'sound/effects/gravhit.ogg'
 	footstep_type = FOOTSTEP_MOB_HEAVY
-	attack_action_types = list(/datum/action/innate/megafauna_attack/rabbit_spawn,
-							   /datum/action/innate/megafauna_attack/charge,
-							   /datum/action/innate/megafauna_attack/shockwave_scream)
+	attack_action_types = list(/datum/action/innate/megafauna_attack/rabbit_spawn)

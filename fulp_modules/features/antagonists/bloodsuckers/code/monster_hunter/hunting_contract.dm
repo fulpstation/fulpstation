@@ -64,7 +64,6 @@
 	for(var/datum/hunter_weapons/contraband in shop.weapons)
 		if(contraband.type != item)
 			continue
-		var/shit = contraband.item
 		bought = TRUE
 		purchased = contraband.item
 

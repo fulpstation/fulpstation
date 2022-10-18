@@ -38,11 +38,16 @@
 	//Give Monster Hunter powers
 	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
-	if(give_objectives)
-		var/datum/objective/assassinate/kill = new
-		kill.owner = owner
-		kill.find_target()
-		objectives += kill
+	//Give Hunter Objective
+		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
+		monsterhunter_objective.owner = owner
+		objectives += monsterhunter_objective
+		//Give Theft Objective
+		var/datum/objective/steal/steal_objective = new
+		steal_objective.owner = owner
+		steal_objective.find_target()
+		objectives += steal_objective
+
 
 	//Teach Stake crafting
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
