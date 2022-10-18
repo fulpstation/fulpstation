@@ -207,6 +207,11 @@
 	icon_state = "revolver"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 
+/datum/movespeed_modifier/silver_bullet
+	movetypes = GROUND
+	multiplicative_slowdown = 4
+	flags = IGNORE_NOSLOW
+
 
 /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	name = "detective revolver cylinder"
@@ -228,19 +233,19 @@
 /obj/projectile/bullet/bloodsilver/on_hit(atom/target, blocked = FALSE)
 	. = ..()
 	var/mob/living/carbon/man = target
-	if(man.has_movespeed_modifier(/datum/movespeed_modifier/shrink_ray))
+	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
 		return
 	if(!man)
 		return
 	if(!(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
-	man.add_movespeed_modifier(/datum/movespeed_modifier/shrink_ray)
+	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 	addtimer(CALLBACK(src, .proc/fall, man), 4 SECONDS)
 
 
 /obj/projectile/bullet/bloodsilver/proc/fall(mob/living/carbon/man)
-	if(man.has_movespeed_modifier(/datum/movespeed_modifier/shrink_ray))
-		man.remove_movespeed_modifier(/datum/movespeed_modifier/shrink_ray)
+	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
+		man.remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 
 
 

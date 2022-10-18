@@ -39,6 +39,7 @@
 	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
 	//Give Hunter Objective
+	if(give_objectives)
 		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
 		monsterhunter_objective.owner = owner
 		objectives += monsterhunter_objective
