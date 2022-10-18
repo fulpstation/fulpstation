@@ -248,7 +248,7 @@
 	if(!(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
-	addtimer(CALLBACK(man, mob/living/carbon/proc/remove_bloodsiver, man), 20 SECONDS)
+	addtimer(CALLBACK(man, /mob/living/carbon/proc/remove_bloodsiver), 20 SECONDS)
 
 /mob/living/carbon/proc/remove_bloodsilver()
 	if (src.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
