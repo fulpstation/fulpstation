@@ -39,19 +39,16 @@
 	trackvamp.Grant(owner.current)
 	fortitude.Grant(owner.current)
 	if(give_objectives)
-		//Give Hunter Objective
-		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
-		monsterhunter_objective.owner = owner
-		objectives += monsterhunter_objective
-		//Give Theft Objective
-		var/datum/objective/steal/steal_objective = new
-		steal_objective.owner = owner
-		steal_objective.find_target()
-		objectives += steal_objective
+		var/datum/objective/assassinate/kill = new
+		kill.owner = owner
+		kill.find_target()
+		objectives += kill
 
 	//Teach Stake crafting
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
+	var/mob/living/carbon/human/killer = owner.current
+	killer.gain_trauma(/datum/brain_trauma/special/rabbit_hole)
 	return ..()
 
 /datum/antagonist/monsterhunter/on_removal()
