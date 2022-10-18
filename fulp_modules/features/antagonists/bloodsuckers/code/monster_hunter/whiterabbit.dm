@@ -5,7 +5,7 @@
 	image_state = "white_rabbit"
 	image_layer = ABOVE_LIGHTING_PLANE
 	image_layer = ABOVE_MOB_LAYER
-	image_plane =
+	image_plane =  GAME_PLANE_UPPER
 	///the rabbit's whisper
 	var/description
 	///has the rabbit already whispered?
@@ -35,7 +35,7 @@
 		description += "[ability.name], "
 	image_icon = "rabbit_hole"
 	to_chat(user,span_notice("[description]"))
-	new /obj/item/rabbit_eye(get_turf(user))
+	new /obj/item/rabbit_eye(loc)
 	QDEL_IN(src, 8 SECONDS)
 
 
@@ -60,6 +60,6 @@
 	..()
 	for(var/i in 1 to 5 )
 		var/turf/rabbit_hole = get_safe_random_station_turf()
-		var//obj/effect/client_image_holder/white_rabbit/cretin =  new /obj/effect/client_image_holder/white_rabbit(rabbit_hole, owner)
+		var/obj/effect/client_image_holder/white_rabbit/cretin =  new /obj/effect/client_image_holder/white_rabbit(rabbit_hole, owner)
 		white_rabbits += cretin
 
