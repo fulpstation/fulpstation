@@ -3,7 +3,6 @@
 	desc = "FEED YOUR HEAD."
 	image_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	image_state = "white_rabbit"
-	// Place this above shadows so it always glows.
 	image_layer = ABOVE_LIGHTING_PLANE
 	image_layer = ABOVE_MOB_LAYER
 	image_plane = GAME_PLANE_UPPER
