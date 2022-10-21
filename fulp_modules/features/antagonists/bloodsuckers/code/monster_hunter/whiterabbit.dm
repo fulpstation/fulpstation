@@ -63,3 +63,4 @@
 		var/obj/effect/client_image_holder/white_rabbit/cretin =  new /obj/effect/client_image_holder/white_rabbit(rabbit_hole, owner)
 		white_rabbits += cretin
 
+
