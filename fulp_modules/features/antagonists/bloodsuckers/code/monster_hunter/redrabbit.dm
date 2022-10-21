@@ -31,16 +31,19 @@
 	death_message = "succumbs to the moonlight."
 	death_sound = 'sound/effects/gravhit.ogg'
 	footstep_type = FOOTSTEP_MOB_HEAVY
-	attack_action_types = list(/datum/action/innate/megafauna_attack/rabbit_spawn)
+	attack_action_types = list(/datum/action/innate/megafauna_attack/rabbit_spawn, /datum/action/innate/megafauna_attack/red_rabbit_hole)
 	COOLDOWN_DECLARE(birth_cooldown)
 
 
-/mob/living/simple_animal/hostile/megafauna/red_rabbit/OpenFire()
+/mob/living/simple_animal/hostile/megafauna/red_rabbit/OpenFire(target)
+	var/place = get_turf(target)
 	update_cooldowns(list(COOLDOWN_UPDATE_SET_MELEE = 5 SECONDS, COOLDOWN_UPDATE_SET_RANGED = 10 SECONDS))
 	if(client)
 		switch(chosen_attack)
 			if(1)
 				birth_rabbit()
+			if(2)
+				new /obj/effect/rabbit_hole/first(place)
 		return
 
 /datum/action/innate/megafauna_attack/rabbit_spawn
@@ -84,3 +87,44 @@
 
 
 
+/datum/action/innate/megafauna_attack/red_rabbit_hole
+	name = "Create Rabbit Hole"
+	button_icon_state = "hole_effect_button"
+	chosen_message = "Drop your enemies into the wonderland."
+	chosen_attack_num = 2
+
+	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+
+
+/obj/effect/rabbit_hole
+	name = "Rabbit Hole"
+	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	icon_state = "hole_effect"
+	layer = BELOW_MOB_LAYER
+	plane = GAME_PLANE
+
+/obj/effect/rabbit_hole/first
+
+/obj/effect/rabbit_hole/Initialize(mapload)
+	. = ..()
+	addtimer(CALLBACK(src, .proc/fell), 1 SECONDS)
+	QDEL_IN(src, 4 SECONDS)
+
+/obj/effect/rabbit_hole/proc/fell()
+	for(var/mob/living/carbon/human/man in loc)
+		if(man.stat == DEAD)
+			continue
+		visible_message(span_danger("[man] falls into the rabbit hole!"))
+		man.Knockdown(5 SECONDS)
+		man.adjustBruteLoss(20)
+
+
+/obj/effect/rabbit_hole/first/Initialize(mapload, new_spawner)
+	. = ..()
+	var/list/directions = GLOB.cardinals.Copy()
+	for(var/i in 1 to 4)
+		var/spawndir = pick_n_take(directions)
+		var/turf/hole = get_step(src, spawndir)
+		if(hole)
+			new /obj/effect/rabbit_hole(hole)
