@@ -207,7 +207,7 @@
 /area/station/hallway/primary/aft)
 "adQ" = (
 /obj/docking_port/stationary/random{
-	id = "pod_lavaland2";
+	shuttle_id = "pod_lavaland2";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
@@ -255,8 +255,8 @@
 	dir = 8;
 	dwidth = 5;
 	height = 7;
-	id = "supply_home";
 	name = "Cargo Bay";
+	shuttle_id = "cargo_home";
 	width = 12
 	},
 /turf/open/space/basic,
@@ -989,24 +989,6 @@
 /obj/machinery/holopad,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
-"arg" = (
-/obj/machinery/door_timer{
-	id = "Cell 4";
-	name = "Cell 4";
-	pixel_y = -32
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/station/security/brig)
 "art" = (
 /obj/structure/cable,
 /obj/structure/chair/stool/directional/north,
@@ -1386,6 +1368,9 @@
 /area/station/engineering/atmos)
 "axd" = (
 /obj/structure/reagent_dispensers/cooking_oil,
+/obj/item/toy/figure/chef{
+	pixel_y = 10
+	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
 "axf" = (
@@ -1664,9 +1649,9 @@
 	dir = 8
 	},
 /obj/structure/rack,
-/obj/item/restraints/handcuffs,
-/obj/item/restraints/handcuffs,
 /obj/item/crowbar,
+/obj/item/restraints/handcuffs,
+/obj/item/restraints/handcuffs,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "aCk" = (
@@ -1956,7 +1941,6 @@
 /obj/machinery/atmospherics/components/binary/pump/on{
 	name = "Cooling Loop to Gas"
 	},
-/obj/structure/cable,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "aIZ" = (
@@ -3984,23 +3968,6 @@
 	layer = 2.9
 	},
 /obj/structure/filingcabinet,
-/obj/machinery/door_timer{
-	id = "engcell";
-	name = "Engineering Cell";
-	pixel_y = 30
-	},
-/obj/effect/turf_decal/tile/security/anticorner{
-	dir = 1
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/window/reinforced{
-	dir = 8;
-	layer = 2.9
-	},
-/obj/structure/filingcabinet,
 /obj/effect/turf_decal/tile/security/anticorner{
 	dir = 1
 	},
@@ -4416,9 +4383,9 @@
 	dir = 8;
 	dwidth = 5;
 	height = 17;
-	id = "arrivals_stationary";
 	name = "selene arrivals";
 	roundstart_template = /datum/map_template/shuttle/arrival/fulp/selene;
+	shuttle_id = "arrival_stationary";
 	width = 11
 	},
 /turf/open/space/basic,
@@ -5343,17 +5310,6 @@
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/effect/turf_decal/tile/medical/half,
 /obj/structure/table/glass,
-/obj/item/clothing/under/misc/pj/blue,
-/obj/item/clothing/under/misc/pj/red,
-/obj/item/toy/figure/md,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/directional/south,
-/obj/effect/turf_decal/tile/medical/half,
-/obj/structure/table/glass,
 /obj/item/clothing/under/misc/pj/blue{
 	pixel_x = 5
 	},
@@ -6260,18 +6216,6 @@
 	},
 /obj/structure/table/glass,
 /obj/item/clothing/suit/jacket/straight_jacket,
-/obj/item/clothing/glasses/blindfold,
-/obj/item/clothing/ears/earmuffs,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/airalarm/directional/south,
-/obj/effect/turf_decal/tile/medical/anticorner{
-	dir = 8
-	},
-/obj/structure/table/glass,
-/obj/item/clothing/suit/jacket/straight_jacket,
 /obj/item/clothing/glasses/eyepatch,
 /obj/item/clothing/glasses/blindfold,
 /obj/item/clothing/ears/earmuffs,
@@ -6331,6 +6275,7 @@
 /obj/effect/turf_decal/tile/security/half{
 	dir = 8
 	},
+/obj/item/toy/figure/secofficer,
 /turf/open/floor/iron,
 /area/station/security/office)
 "ccw" = (
@@ -6928,21 +6873,11 @@
 "coy" = (
 /obj/docking_port/stationary/random{
 	dir = 8;
-	id = "pod_lavaland1";
+	shuttle_id = "pod_lavaland1";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
 /area/space)
-"coA" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/medical{
-	dir = 8
-	},
-/turf/open/floor/iron/white,
-/area/station/medical/chemistry)
 "coL" = (
 /obj/structure/table/glass,
 /obj/item/paper_bin,
@@ -7523,6 +7458,7 @@
 /obj/effect/turf_decal/tile/security/half{
 	dir = 4
 	},
+/obj/item/toy/figure/warden,
 /turf/open/floor/iron/dark,
 /area/station/security/warden)
 "cxT" = (
@@ -8981,15 +8917,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
-"cWu" = (
-/obj/structure/table/glass,
-/obj/item/storage/box/beakers{
-	pixel_x = 2;
-	pixel_y = 2
-	},
-/obj/machinery/light/directional/east,
-/turf/open/floor/engine,
-/area/station/medical/pharmacy)
 "cWB" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/plating,
@@ -10014,6 +9941,9 @@
 /obj/effect/turf_decal/tile/dark/half/contrasted{
 	dir = 4
 	},
+/obj/item/toy/figure/mime{
+	pixel_y = 14
+	},
 /turf/open/floor/iron/white,
 /area/station/service/theater)
 "dpS" = (
@@ -10970,6 +10900,11 @@
 	},
 /turf/open/floor/wood,
 /area/station/service/cafeteria)
+"dHW" = (
+/obj/structure/table/wood/fancy,
+/obj/item/toy/figure/wizard,
+/turf/open/floor/carpet,
+/area/station/maintenance/fore)
 "dHX" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -11117,7 +11052,7 @@
 	dir = 8;
 	dwidth = 4;
 	height = 9;
-	id = "aux_base_zone";
+	shuttle_id = "aux_base_zone";
 	name = "aux base zone";
 	roundstart_template = /datum/map_template/shuttle/aux_base/default;
 	width = 9
@@ -11208,10 +11143,11 @@
 "dLu" = (
 /obj/structure/table,
 /obj/item/newspaper,
-/obj/item/toy/figure/chemist,
+/obj/item/toy/figure/md,
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 8
 	},
+/obj/item/toy/figure/paramedic,
 /turf/open/floor/iron/white,
 /area/station/medical/break_room)
 "dLw" = (
@@ -11222,30 +11158,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
 "dLN" = (
-/obj/structure/table/reinforced,
-/obj/machinery/door_timer{
-	id = "scicell";
-	name = "Science Cell";
-	pixel_y = -30
-	},
-/obj/item/paper_bin,
-/obj/item/folder/red,
-/obj/item/pen,
-/obj/item/radio/intercom/directional/west,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/siding/thinplating/dark{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/security/half{
-	dir = 8
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
 /obj/item/folder/red,
@@ -12808,15 +12720,15 @@
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "enn" = (
+/obj/machinery/door/airlock/maintenance{
+	name = "Pharmacy Maintenance"
+	},
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/medical/pharmacy,
 /obj/effect/turf_decal/tile/medical/opposingcorners,
-/obj/machinery/door/airlock/maintenance{
-	name = "Pharmacy Maintenance"
-	},
 /turf/open/floor/iron/white,
 /area/station/maintenance/starboard)
 "enI" = (
@@ -13337,6 +13249,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
 	},
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "evT" = (
@@ -14068,16 +13981,13 @@
 /turf/open/floor/plating,
 /area/station/commons/fitness)
 "eKF" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/medical{
-	dir = 4
-	},
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/effect/turf_decal/tile/medical{
+	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
@@ -14916,27 +14826,9 @@
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 8
 	},
-/obj/item/reagent_containers/syringe{
-	pixel_x = 6;
-	pixel_y = -3
-	},
-/obj/item/reagent_containers/cup/bottle/epinephrine{
-	pixel_x = 7;
-	pixel_y = -3
-	},
 /obj/item/reagent_containers/cup/bottle/multiver,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/table/glass,
-/obj/machinery/light_switch/directional/west,
-/obj/structure/cable,
-/obj/item/storage/box,
-/obj/machinery/power/apc/auto_name/directional/south,
-/obj/effect/turf_decal/tile/medical/anticorner{
-	dir = 8
-	},
+/obj/item/reagent_containers/cup/bottle/epinephrine,
+/obj/item/reagent_containers/syringe,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "faa" = (
@@ -15168,22 +15060,6 @@
 /turf/open/floor/iron/dark,
 /area/station/science/server)
 "fdi" = (
-/obj/machinery/door_timer{
-	id = "Cell 2";
-	name = "Cell 2";
-	pixel_y = -32
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/camera{
-	c_tag = "Security - West Cells";
-	network = list("ss13","security")
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -15982,16 +15858,16 @@
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "fqm" = (
+/obj/structure/rack,
+/obj/item/book/manual/wiki/grenades,
+/obj/item/book/manual/wiki/chemistry,
+/obj/item/book/manual/wiki/plumbing,
+/obj/item/construction/plumbing,
+/obj/item/construction/plumbing,
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/medical{
 	dir = 4
 	},
-/obj/structure/rack,
-/obj/item/construction/plumbing,
-/obj/item/construction/plumbing,
-/obj/item/book/manual/wiki/plumbing,
-/obj/item/book/manual/wiki/chemistry,
-/obj/item/book/manual/wiki/grenades,
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
 "fqq" = (
@@ -17069,19 +16945,6 @@
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
 "fIu" = (
-/obj/machinery/door_timer{
-	id = "Cell 1";
-	name = "Cell 1";
-	pixel_y = -32
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/security/half,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -17785,6 +17648,10 @@
 /area/station/hallway/secondary/service)
 "fUp" = (
 /obj/structure/filingcabinet/chestdrawer,
+/obj/item/toy/figure/dsquad{
+	pixel_y = 11;
+	pixel_x = -1
+	},
 /turf/open/floor/iron,
 /area/station/maintenance/port/aft)
 "fUs" = (
@@ -18647,7 +18514,7 @@
 /obj/machinery/chem_dispenser,
 /obj/structure/sign/departments/chemistry/directional/north,
 /turf/open/floor/engine,
-/area/station/medical/chemistry)
+/area/space/nearstation)
 "giQ" = (
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 10
@@ -20236,6 +20103,7 @@
 /obj/structure/table,
 /obj/effect/spawner/random/food_or_drink/donkpockets,
 /obj/effect/turf_decal/tile/green/anticorner/contrasted,
+/obj/item/toy/figure/virologist,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "gKv" = (
@@ -20534,6 +20402,9 @@
 /obj/effect/turf_decal/tile/prison/half,
 /turf/open/floor/iron/dark,
 /area/station/security/prison)
+"gOd" = (
+/turf/closed/wall/r_wall,
+/area/space/nearstation)
 "gOz" = (
 /obj/structure/cable,
 /obj/machinery/camera{
@@ -20968,6 +20839,10 @@
 	},
 /obj/effect/turf_decal/tile/brown/half/contrasted{
 	dir = 4
+	},
+/obj/item/toy/figure/miner{
+	pixel_y = 16;
+	pixel_x = 6
 	},
 /turf/open/floor/iron,
 /area/station/cargo/miningoffice)
@@ -21454,6 +21329,10 @@
 "hfm" = (
 /obj/machinery/chem_mass_spec,
 /obj/effect/turf_decal/tile/medical/half,
+/obj/item/toy/figure/chemist{
+	pixel_x = 7;
+	pixel_y = -1
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
 "hfo" = (
@@ -21587,8 +21466,7 @@
 "hhx" = (
 /obj/structure/table/glass,
 /obj/item/book/manual/wiki/medicine,
-/obj/item/modular_computer/tablet/preset/advanced/command,
-/obj/item/toy/figure/cmo,
+/obj/item/modular_computer/tablet/pda/heads,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "hhz" = (
@@ -23305,8 +23183,13 @@
 /area/station/science/xenobiology)
 "hNk" = (
 /obj/structure/table/wood,
-/obj/item/toy/figure/syndie,
+/obj/item/toy/figure/syndie{
+	pixel_x = 7
+	},
 /obj/structure/cable,
+/obj/item/toy/figure/curator{
+	pixel_x = -7
+	},
 /turf/open/floor/carpet/donk,
 /area/station/service/library/printer)
 "hNq" = (
@@ -24505,15 +24388,6 @@
 	dir = 4
 	},
 /obj/structure/table/reinforced/rglass,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/airalarm/directional/east,
-/obj/effect/turf_decal/tile/medical/half{
-	dir = 4
-	},
-/obj/structure/table/reinforced/rglass,
 /obj/item/book/manual/wiki/surgery,
 /obj/item/blood_filter,
 /turf/open/floor/iron/white,
@@ -24543,12 +24417,16 @@
 	c_tag = "Medical - Psychology";
 	network = list("ss13","medbay")
 	},
+/obj/item/toy/figure/psychologist{
+	pixel_y = 16;
+	pixel_x = 4
+	},
 /turf/open/floor/wood,
 /area/station/medical/psychology)
 "iiY" = (
 /obj/effect/landmark/start/chemist,
 /turf/open/floor/engine,
-/area/station/medical/chemistry)
+/area/space/nearstation)
 "iiZ" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/engineering,
@@ -25168,13 +25046,13 @@
 /area/station/hallway/primary/aft)
 "iuj" = (
 /obj/structure/cable,
+/obj/machinery/door/airlock/maintenance{
+	name = "Chemistry Lab Maintenance"
+	},
+/obj/effect/mapping_helpers/airlock/access/all/medical/chemistry,
 /obj/effect/turf_decal/tile/medical/opposingcorners{
 	dir = 1
 	},
-/obj/machinery/door/airlock/maintenance{
-	name = "Chemistry Maintenance"
-	},
-/obj/effect/mapping_helpers/airlock/access/all/medical/chemistry,
 /turf/open/floor/iron/white,
 /area/station/maintenance/starboard)
 "iuq" = (
@@ -25401,6 +25279,7 @@
 "iyv" = (
 /obj/structure/window/reinforced,
 /obj/machinery/chem_master,
+/obj/machinery/light/directional/east,
 /turf/open/floor/engine,
 /area/station/medical/pharmacy)
 "iyx" = (
@@ -26661,8 +26540,6 @@
 	id = "pharmacy_shutters";
 	name = "Pharmacy Shutters"
 	},
-/obj/item/paper_bin,
-/obj/item/pen,
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
 "iVL" = (
@@ -27398,16 +27275,13 @@
 /turf/open/floor/iron,
 /area/station/security/brig)
 "jlb" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
 /obj/effect/turf_decal/tile/medical{
 	dir = 4
 	},
-/obj/structure/cable,
-/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/iron/white,
-/area/station/medical/chemistry)
+/area/space/nearstation)
 "jlh" = (
 /obj/structure/chair{
 	dir = 8
@@ -28780,8 +28654,8 @@
 	dir = 8;
 	dwidth = 11;
 	height = 22;
-	id = "whiteship_home";
 	name = "SS13: Whiteship dock";
+	shuttle_id = "whiteship_home";
 	width = 35
 	},
 /turf/open/space/basic,
@@ -29374,8 +29248,8 @@
 	dir = 8;
 	dwidth = 2;
 	height = 13;
-	id = "ferry_home";
 	name = "port bay 2";
+	shuttle_id = "ferry_home";
 	width = 5
 	},
 /turf/open/space/basic,
@@ -29847,6 +29721,9 @@
 /area/station/command/heads_quarters/qm)
 "jYl" = (
 /obj/machinery/vending/wardrobe/chap_wardrobe,
+/obj/item/toy/figure/chaplain{
+	pixel_y = 16
+	},
 /turf/open/floor/wood,
 /area/station/service/chapel/office)
 "jYA" = (
@@ -30016,10 +29893,6 @@
 /area/station/maintenance/port/aft)
 "kcg" = (
 /obj/structure/table,
-/obj/item/storage/box/beakers{
-	pixel_x = 2;
-	pixel_y = 2
-	},
 /obj/item/storage/box/syringes,
 /obj/item/reagent_containers/cup/bottle/epinephrine{
 	pixel_x = 7;
@@ -30033,10 +29906,11 @@
 	pixel_x = 6;
 	pixel_y = -3
 	},
-/obj/structure/table,
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 4
 	},
+/obj/item/storage/box/rxglasses,
+/obj/item/hand_labeler,
 /turf/open/floor/iron/white,
 /area/station/medical/storage)
 "kcB" = (
@@ -30350,10 +30224,10 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "kgq" = (
+/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/structure/extinguisher_cabinet/directional/north,
 /obj/effect/turf_decal/tile/medical{
 	dir = 4
 	},
@@ -31450,7 +31324,7 @@
 "kyO" = (
 /obj/machinery/chem_heater/withbuffer,
 /turf/open/floor/engine,
-/area/station/medical/chemistry)
+/area/station/maintenance/starboard)
 "kyT" = (
 /obj/structure/sign/directions/supply{
 	dir = 8
@@ -31729,12 +31603,10 @@
 /turf/open/floor/iron/grimy,
 /area/station/hallway/primary/port)
 "kCt" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 8
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 10
 	},
-/obj/structure/window,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "kCu" = (
@@ -32372,9 +32244,7 @@
 /obj/effect/turf_decal/tile/medical{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/binary/valve/digital/layer2{
-	color = "#FF0000"
-	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
 "kMi" = (
@@ -34124,9 +33994,8 @@
 /turf/open/floor/iron/dark,
 /area/station/command/gateway)
 "lth" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/directional{
 	dir = 4
 	},
 /turf/open/floor/wood,
@@ -34563,6 +34432,10 @@
 /area/station/security/checkpoint/medical)
 "lAZ" = (
 /obj/machinery/vending/games,
+/obj/item/toy/figure/prisoner{
+	pixel_y = -13;
+	pixel_x = -8
+	},
 /turf/open/floor/iron/grimy,
 /area/station/security/prison/rec)
 "lBo" = (
@@ -35800,6 +35673,7 @@
 /turf/open/misc/grass,
 /area/station/service/hydroponics/garden)
 "lUO" = (
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
 /obj/effect/turf_decal/tile/medical{
 	dir = 8
 	},
@@ -36889,8 +36763,8 @@
 	dir = 8;
 	dwidth = 14;
 	height = 28;
-	id = "emergency_home";
 	name = "emergency evac bay";
+	shuttle_id = "emergency_home";
 	width = 15
 	},
 /turf/open/space/basic,
@@ -39890,24 +39764,6 @@
 /obj/effect/turf_decal/tile/brown/half/contrasted,
 /turf/open/floor/iron,
 /area/station/cargo/miningoffice)
-"njC" = (
-/obj/machinery/door_timer{
-	id = "Cell 3";
-	name = "Cell 3";
-	pixel_y = -32
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/station/security/brig)
 "njG" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/hidden/layer4{
 	dir = 1
@@ -41267,12 +41123,11 @@
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "nHl" = (
-/obj/machinery/camera{
-	c_tag = "Medical - Viro Monkey Pen";
-	dir = 10;
-	network = list("ss13","medbay")
-	},
 /obj/effect/turf_decal/tile/green/anticorner/contrasted,
+/obj/machinery/camera{
+	c_tag = "Public - Arrivals N";
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "nHm" = (
@@ -41638,7 +41493,7 @@
 "nNV" = (
 /obj/docking_port/stationary/random{
 	dir = 2;
-	id = "pod_lavaland4";
+	shuttle_id = "pod_lavaland4";
 	name = "lavaland"
 	},
 /turf/open/space/basic,
@@ -43330,7 +43185,9 @@
 	dir = 4
 	},
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/maintenance/starboard)
 "ory" = (
@@ -44137,7 +43994,7 @@
 /obj/structure/sign/poster/contraband/syndicate_pistol{
 	pixel_x = -32
 	},
-/obj/structure/closet/emcloset,
+/obj/structure/closet/emcloset/anchored,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard)
 "oHe" = (
@@ -44343,6 +44200,10 @@
 "oKZ" = (
 /obj/structure/dresser,
 /obj/item/storage/secure/safe/directional/east,
+/obj/item/toy/figure/captain{
+	pixel_y = 14;
+	pixel_x = -1
+	},
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/captain)
 "oLj" = (
@@ -45379,32 +45240,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
-"pdK" = (
-/obj/machinery/door_timer{
-	id = "Cell 5";
-	name = "Cell 5";
-	pixel_y = 32
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/obj/structure/cable,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/station/security/brig)
 "pdP" = (
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
 	dir = 4
@@ -45485,11 +45320,9 @@
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/hos)
 "peO" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window,
-/obj/structure/window{
-	dir = 4
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 6
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -46960,6 +46793,7 @@
 /area/station/maintenance/department/science)
 "pEH" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "pEL" = (
@@ -47928,10 +47762,12 @@
 /turf/open/floor/iron,
 /area/station/maintenance/port/aft)
 "pWn" = (
-/obj/structure/closet/crate/solarpanel_small,
 /obj/structure/cable,
 /obj/machinery/light_switch/directional/east,
 /obj/effect/turf_decal/tile/engineering/anticorner,
+/obj/structure/rack,
+/obj/item/mod/module/plasma_stabilizer,
+/obj/item/mod/module/thermal_regulator,
 /turf/open/floor/iron,
 /area/station/engineering/engine_smes)
 "pWs" = (
@@ -48433,6 +48269,16 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/disposal)
+"qfq" = (
+/obj/item/toy/katana,
+/obj/item/toy/figure/ninja{
+	pixel_y = 6;
+	pixel_x = -8
+	},
+/turf/open/floor/plating{
+	initial_gas_mix = "o2=12;n2=72;n2o=20;TEMP=293.15"
+	},
+/area/station/maintenance/department/medical)
 "qfP" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
@@ -48881,9 +48727,8 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "qmi" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window,
+/obj/effect/spawner/structure/window/hollow/directional,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "qmj" = (
@@ -48896,9 +48741,8 @@
 /turf/open/floor/plating,
 /area/station/science/ordnance)
 "qmy" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/directional{
 	dir = 8
 	},
 /turf/open/floor/wood,
@@ -48942,14 +48786,9 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
 "qnM" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 4
-	},
-/obj/structure/window{
-	dir = 1;
-	layer = 3
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 5
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -49826,6 +49665,9 @@
 	pixel_y = 10
 	},
 /obj/effect/turf_decal/tile/random/fourcorners,
+/obj/item/toy/figure/clown{
+	pixel_x = 6
+	},
 /turf/open/floor/iron/white,
 /area/station/service/theater)
 "qDP" = (
@@ -51123,20 +50965,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/item/blood_filter,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/table/glass,
-/obj/item/storage/box/masks,
-/obj/item/storage/box/gloves,
-/obj/item/healthanalyzer,
-/obj/item/healthanalyzer/wound,
-/obj/effect/turf_decal/tile/medical/half,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "rbr" = (
@@ -51291,6 +51119,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
+"rdl" = (
+/obj/item/toy/figure/janitor{
+	pixel_y = 1;
+	pixel_x = -5
+	},
+/turf/closed/wall,
+/area/station/maintenance/fore)
 "rdy" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -51555,15 +51390,10 @@
 /turf/open/floor/iron/white,
 /area/station/science/ordnance/burnchamber)
 "rhM" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/end{
 	dir = 4
 	},
-/obj/structure/window{
-	dir = 1
-	},
-/obj/structure/window,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "rhX" = (
@@ -53467,16 +53297,6 @@
 	dir = 8
 	},
 /obj/structure/table/reinforced/rglass,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/airalarm/directional/west,
-/obj/item/book/manual/wiki/surgery,
-/obj/effect/turf_decal/tile/medical/half{
-	dir = 8
-	},
-/obj/structure/table/reinforced/rglass,
 /obj/item/blood_filter,
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
@@ -54006,7 +53826,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "rZv" = (
-/obj/structure/table,
 /obj/structure/table,
 /obj/item/reagent_containers/condiment/saltshaker{
 	pixel_y = 2
@@ -56446,6 +56265,11 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
+"sMj" = (
+/obj/structure/table,
+/obj/item/toy/figure/assistant,
+/turf/open/floor/carpet/purple,
+/area/station/commons/dorms)
 "sMl" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible{
@@ -56542,17 +56366,6 @@
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "sOX" = (
-/obj/effect/turf_decal/tile/medical/anticorner{
-	dir = 1
-	},
-/obj/machinery/defibrillator_mount{
-	pixel_y = 28
-	},
-/obj/structure/table/reinforced/rglass,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 1
 	},
@@ -58696,15 +58509,9 @@
 /turf/open/floor/engine,
 /area/station/medical/chemistry)
 "tBe" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window,
-/obj/structure/window{
+/obj/effect/spawner/structure/window/hollow/end{
 	dir = 8
-	},
-/obj/structure/window{
-	dir = 1;
-	layer = 3
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -60431,6 +60238,19 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
+"ugV" = (
+/obj/machinery/mech_bay_recharge_port{
+	pixel_x = 6
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/item/toy/figure/borg{
+	pixel_y = 10;
+	pixel_x = 3
+	},
+/turf/open/floor/iron,
+/area/station/science/robotics/mechbay)
 "ugZ" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
 /obj/item/gun/ballistic/revolver/russian,
@@ -60851,32 +60671,6 @@
 "upK" = (
 /turf/closed/wall,
 /area/station/service/library/private)
-"upN" = (
-/obj/machinery/door_timer{
-	id = "Cell 6";
-	name = "Cell 6";
-	pixel_y = 32
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/obj/structure/cable,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/station/security/brig)
 "upW" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -61152,11 +60946,9 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "usI" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 1;
-	layer = 3
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 1
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -61222,7 +61014,6 @@
 /area/station/maintenance/department/engine)
 "utF" = (
 /obj/structure/table/wood,
-/obj/item/toy/figure/curator,
 /obj/item/toy/mecha/marauder{
 	pixel_y = 10
 	},
@@ -61779,14 +61570,9 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
 "uEs" = (
-/obj/structure/grille,
 /obj/structure/cable,
-/obj/structure/window{
-	dir = 1;
-	layer = 3
-	},
-/obj/structure/window{
-	dir = 8
+/obj/effect/spawner/structure/window/hollow/directional{
+	dir = 9
 	},
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
@@ -62461,6 +62247,10 @@
 "uQR" = (
 /obj/structure/table/wood,
 /obj/machinery/computer/security/wooden_tv,
+/obj/item/toy/figure/detective{
+	pixel_y = 14;
+	pixel_x = -7
+	},
 /turf/open/floor/carpet,
 /area/station/security/detectives_office)
 "uRa" = (
@@ -63898,11 +63688,8 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/medical{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/medical{
-	dir = 8
+/obj/effect/turf_decal/tile/medical/opposingcorners{
+	dir = 1
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
@@ -64834,18 +64621,6 @@
 /turf/open/misc/grass,
 /area/station/security/prison/garden)
 "vFW" = (
-/obj/structure/window/reinforced,
-/obj/structure/closet/secure_closet/security/cargo,
-/obj/machinery/door_timer{
-	id = "cargocell";
-	name = "Cargo Cell";
-	pixel_x = 32
-	},
-/obj/effect/turf_decal/tile/security/anticorner,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/structure/window/reinforced,
 /obj/structure/closet/secure_closet/security/cargo,
 /obj/effect/turf_decal/tile/security/anticorner,
@@ -66099,9 +65874,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/effect/landmark/event_spawn,
-/obj/effect/turf_decal/tile/medical{
-	dir = 4
-	},
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
 "wga" = (
@@ -66453,7 +66225,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/white,
-/area/station/medical/chemistry)
+/area/space/nearstation)
 "wnb" = (
 /obj/machinery/vending/wardrobe/jani_wardrobe,
 /obj/machinery/light/directional/east,
@@ -67128,18 +66900,14 @@
 /turf/open/floor/plating,
 /area/station/maintenance/disposal)
 "wyW" = (
-/obj/item/storage/box/bodybags{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/storage/box/rxglasses,
-/obj/item/hand_labeler,
 /obj/item/gun/syringe,
 /obj/item/gun/syringe,
-/obj/structure/table,
 /obj/effect/turf_decal/tile/medical/half{
 	dir = 1
 	},
+/obj/structure/rack,
+/obj/item/mod/module/plasma_stabilizer,
+/obj/item/mod/module/thermal_regulator,
 /turf/open/floor/iron/white,
 /area/station/medical/storage)
 "wzj" = (
@@ -69146,17 +68914,6 @@
 	},
 /area/station/maintenance/department/medical/plasmaman)
 "xee" = (
-/obj/effect/turf_decal/tile/medical/anticorner{
-	dir = 4
-	},
-/obj/machinery/defibrillator_mount{
-	pixel_y = 28
-	},
-/obj/structure/table/reinforced/rglass,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 4
 	},
@@ -71605,7 +71362,7 @@
 /obj/structure/window/reinforced,
 /obj/item/plunger,
 /turf/open/floor/engine,
-/area/station/medical/chemistry)
+/area/space/nearstation)
 "xTW" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -72510,7 +72267,6 @@
 /area/station/security/warden)
 "ygo" = (
 /obj/structure/chair/sofa/right,
-/obj/item/toy/figure/paramedic,
 /obj/machinery/airalarm/directional/north,
 /obj/effect/turf_decal/tile/medical/half{
 	dir = 1
@@ -88101,7 +87857,7 @@ ozx
 meT
 eZY
 eDz
-ozx
+dHW
 hxt
 lkz
 uOg
@@ -99397,7 +99153,7 @@ qpr
 uOg
 tVk
 vDp
-uOg
+rdl
 faa
 oxb
 uLs
@@ -105283,7 +105039,7 @@ cQw
 nBf
 mYb
 odm
-nuS
+sMj
 oEd
 qAr
 dYi
@@ -107157,7 +106913,7 @@ xbi
 nVn
 nVn
 nVn
-pdK
+bzu
 fdi
 nVn
 nVn
@@ -108185,8 +107941,8 @@ uhW
 nVn
 nVn
 nVn
-upN
-njC
+bzu
+ezW
 nVn
 nVn
 nVn
@@ -109214,7 +108970,7 @@ nVn
 nVn
 nVn
 eyZ
-arg
+ezW
 nVn
 nVn
 nVn
@@ -112021,7 +111777,7 @@ uaz
 fou
 daY
 ihF
-uaz
+ihF
 uaz
 hVO
 hnk
@@ -113579,7 +113335,7 @@ yjZ
 xaG
 hnE
 xaG
-teh
+ugV
 wgH
 jFD
 vYy
@@ -113814,7 +113570,7 @@ ykY
 fNJ
 aPe
 nPY
-cWu
+gcB
 iyv
 sGj
 etD
@@ -114334,12 +114090,12 @@ fFV
 wpj
 hfS
 xaG
-hVO
-hVO
+xaG
+gOd
 kgq
 ptu
-coA
-goE
+lUO
+rEP
 ptu
 ptu
 ptu
@@ -114592,12 +114348,12 @@ rTC
 rTC
 lFT
 oHc
-hVO
+xaG
 wmI
 ptu
 ptu
 lUO
-xXq
+goE
 goE
 tAW
 tCK
@@ -115107,7 +114863,7 @@ xaG
 wnX
 lFT
 xaG
-hVO
+gOd
 hVO
 jCH
 ani
@@ -117125,7 +116881,7 @@ pvt
 jTX
 vzb
 rvY
-mLg
+qfq
 mLg
 lKW
 mLg
