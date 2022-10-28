@@ -4391,6 +4391,7 @@
 /area/station/ai_monitored/turret_protected/ai_upload)
 "anR" = (
 /obj/effect/spawner/random/contraband/narcotics,
+/obj/structure/closet/crate/bin,
 /turf/open/misc/asteroid,
 /area/station/security/prison/rec)
 "anS" = (
@@ -57397,6 +57398,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
+"evR" = (
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/wood,
+/area/station/security/courtroom)
 "ewp" = (
 /obj/effect/turf_decal/tile/red/half/contrasted,
 /obj/structure/cable,
@@ -57978,6 +57983,12 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
+	},
+/obj/machinery/button/door/directional/south{
+	desc = "Controls the shutters over the Prison Wing Access.";
+	id = "Prison Gate";
+	name = "Prison Wing Lockdown";
+	req_access = list("security")
 	},
 /turf/open/floor/iron,
 /area/station/security/prison/visit)
@@ -62262,6 +62273,12 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/machinery/button/door/directional/south{
+	desc = "Controls the shutters over the Prison Wing Access.";
+	id = "Prison Gate";
+	name = "Prison Wing Lockdown";
+	req_access = list("security")
 	},
 /turf/open/floor/iron,
 /area/station/security/prison/visit)
@@ -72322,13 +72339,13 @@
 /obj/structure/chair{
 	name = "Judge"
 	},
-/obj/item/radio/intercom/directional/north,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 6
 	},
+/obj/machinery/light/directional/north,
 /turf/open/floor/wood,
 /area/station/security/courtroom)
 "sgL" = (
@@ -100690,7 +100707,7 @@ kpo
 uPb
 sxa
 sxa
-sxa
+avF
 anW
 afJ
 ajO
@@ -100949,7 +100966,7 @@ uPb
 sxa
 sxa
 aof
-sxa
+aiJ
 aue
 sxa
 uPb
@@ -101206,7 +101223,7 @@ uPb
 uPb
 uPb
 uPb
-sxa
+aiJ
 auf
 sxa
 uPb
@@ -108456,7 +108473,7 @@ aEr
 maJ
 hUZ
 aDG
-wGI
+evR
 aHS
 tYG
 hIB
