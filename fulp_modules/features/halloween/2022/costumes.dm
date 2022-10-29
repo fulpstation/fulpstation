@@ -3,8 +3,8 @@
  * We're only setting the most commonly used items to use it.
  */
 /obj/item/clothing/under/costume_2022
-	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
+	icon = 'fulp_modules/features/halloween/2022/2022_icons.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2022/2022_icons_worn.dmi'
 	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
@@ -18,7 +18,7 @@
 
 /obj/item/clothing/head/costume_2022
 	icon = 'fulp_modules/features/halloween/2022/2022_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
+	worn_icon = 'fulp_modules/features/halloween/2022/2022_icons_worn.dmi'
 
 /obj/item/clothing/head/hooded/costume_2022
 	icon = 'fulp_modules/features/halloween/2022/2022_icons.dmi'
@@ -53,6 +53,8 @@
 	name = "Jack-o's halo"
 	desc = ""
 	icon_state = "jacko_head"
+	worn_y_offset = 2
+	clothing_flags = HIDEHAIR
 
 /obj/item/clothing/mask/costume_2022/jacko_mask
 	name = "Jack-o's mask"
@@ -76,7 +78,7 @@
 	icon_state = "jacko_shoes"
 
 /obj/item/clothing/neck/costume_2022/jacko_neck
-	name = "Ankh necklace"
+	name = "Jack-o's necklace"
 	desc = ""
 	icon_state = "jacko_neck"
 
@@ -91,3 +93,14 @@
 		/obj/item/clothing/head/costume_2022/jacko_head,
 	)
 
+/obj/item/clothing/head/costume_2022/oogey
+	name = "Oogey"
+	desc = "Oogey :)"
+	icon_state = "oogey"
+	clothing_flags = HIDEHAIR
+
+/obj/item/storage/box/halloween/edition_22/oogey
+	theme_name = "2022's Oogey"
+	costume_contents = list(
+		/obj/item/clothing/head/costume_2022/oogey,
+	)
