@@ -93,6 +93,11 @@
 		/obj/item/clothing/head/costume_2022/jacko_head,
 	)
 
+/**
+ * Oogey
+ * By: BalkyGoat
+ */
+
 /obj/item/clothing/head/costume_2022/oogey
 	name = "Oogey"
 	desc = "Oogey :)"
