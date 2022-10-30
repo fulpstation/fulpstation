@@ -46,6 +46,7 @@
 
 /**
  * Jack-O
+ * From: Guilty Gear
  * By: Sheets
  */
 
@@ -109,3 +110,82 @@
 	costume_contents = list(
 		/obj/item/clothing/head/costume_2022/oogey,
 	)
+
+/**
+ * MT Foxtrot
+ * From: Cruelty Squad
+ * By: boltonshead
+ */
+
+
+/obj/item/clothing/under/costume_2022/crueltysquad_under
+	name = "CSIJ level I body armor"
+	desc = "armor used by assassins working for Cruelty Squad, stripped of all of its functions for kids to play with."
+	icon_state = "icon_crueltysquad_under"
+
+/obj/item/clothing/shoes/costume_2022/crueltysquad_shoes
+	name = "CSIJ level I combat boots"
+	desc = "boots specifically designed to fit into the CSIJ level I body armor."
+	icon_state = "icon_crueltysquad_shoes"
+
+/obj/item/clothing/glasses/costume_2022/crueltysquad_glasses
+	name = "CS inactive vision augmenter"
+	desc = "a pair of glasses usually designed to identify targets for execution, although this mechanic has been removed for civilian casual use."
+	icon_state = "icon_crueltysquad_glasses"
+
+/obj/item/storage/box/halloween/edition_22/crueltysquad
+	theme_name = "2022's MT Foxtrot"
+	costume_contents = list(
+		/obj/item/clothing/glasses/costume_2022/crueltysquad_glasses,
+		/obj/item/clothing/under/costume_2022/crueltysquad_under,
+		/obj/item/clothing/shoes/costume_2022/crueltysquad_shoes,
+    )
+
+/**
+ * Madotsuki
+ * By: Reina
+ */
+
+
+/obj/item/clothing/under/costume_2022/madotsuki_under
+	name = "Madotsuki's sweater"
+	desc = ""
+	icon_state = "madotsuki_under"
+
+/obj/item/clothing/shoes/costume_2022/madotsuki_shoes
+	name = "Madotsuki's shoes"
+	desc = ""
+	icon_state = "madotsuki_shoes"
+
+/obj/item/storage/box/halloween/edition_22/madotsuki
+	theme_name = "2022's Madotsuki"
+	illustration = "reina_box"
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2022/madotsuki_under,
+		/obj/item/clothing/shoes/costume_2022/madotsuki_shoes,
+		/obj/item/knife/plastic,
+    )
+
+/**
+ * Madotsuki
+ * By: Heather
+ */
+
+
+/obj/item/clothing/under/costume_2022/heather_under
+	name = "Heather's vest"
+	desc = ""
+	icon_state = "heather_under"
+
+/obj/item/clothing/shoes/costume_2022/heather_shoes
+	name = "Heather's shoes"
+	desc = ""
+	icon_state = "heather_shoes"
+
+/obj/item/storage/box/halloween/edition_22/heather
+	theme_name = "2022's Heather"
+	illustration = "reina_box"
+	costume_contents = list(
+		/obj/item/clothing/under/costume_2022/heather_under,
+		/obj/item/clothing/shoes/costume_2022/heather_shoes,
+    )
