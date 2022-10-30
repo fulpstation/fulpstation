@@ -211,6 +211,10 @@
 			to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
 			target.balloon_alert(target, "you have been staked!")
 
+/obj/item/stake/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/caltrop, min_damage = force)
+
 ///Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/proc/can_be_staked()
 	return FALSE
