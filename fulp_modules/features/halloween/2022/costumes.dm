@@ -167,19 +167,19 @@
     )
 
 /**
- * Madotsuki
- * By: Heather
+ * Heather
+ * By: Reina
  */
 
 
 /obj/item/clothing/under/costume_2022/heather_under
-	name = "Heather's vest"
-	desc = ""
+	name = "Vest and turtleneck"
+	desc = "Its a vest with a turtleneck under it"
 	icon_state = "heather_under"
 
 /obj/item/clothing/shoes/costume_2022/heather_shoes
-	name = "Heather's shoes"
-	desc = ""
+	name = "Brown boots"
+	desc = "It's a pair of boots"
 	icon_state = "heather_shoes"
 
 /obj/item/storage/box/halloween/edition_22/heather
