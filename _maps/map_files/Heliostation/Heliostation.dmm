@@ -1029,7 +1029,6 @@
 /turf/open/floor/iron,
 /area/station/security/office)
 "adz" = (
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 9
 	},
@@ -4033,12 +4032,12 @@
 /turf/open/floor/iron,
 /area/station/security/brig/hallway)
 "ane" = (
-/obj/machinery/vending/hydroseeds/prison,
 /obj/effect/turf_decal/tile/green/anticorner{
 	dir = 8
 	},
 /obj/machinery/light_switch/directional/south,
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/vending/hydroseeds/prison,
 /turf/open/floor/iron/corner{
 	dir = 4
 	},
@@ -5774,8 +5773,10 @@
 /turf/open/floor/iron/dark/textured,
 /area/station/ai_monitored/security/armory)
 "arR" = (
-/obj/machinery/duct,
-/turf/open/floor/iron,
+/obj/machinery/smartfridge{
+	name = "Hydro-Kitchen Smartfridge"
+	},
+/turf/closed/wall,
 /area/station/security/prison/garden)
 "arS" = (
 /obj/effect/turf_decal/trimline/red/filled/line,
@@ -11483,10 +11484,12 @@
 /turf/closed/wall/r_wall,
 /area/mine/explored)
 "aGn" = (
-/obj/machinery/vending/hydroseeds/prison,
 /obj/effect/turf_decal/siding/wood{
 	dir = 10
 	},
+/obj/structure/reagent_dispensers/watertank,
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/security/prison/garden)
 "aGo" = (
@@ -13538,9 +13541,9 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/obj/machinery/hydroponics/soil,
 /obj/item/cultivator,
 /obj/structure/cable,
+/obj/machinery/hydroponics/constructable,
 /turf/open/floor/grass,
 /area/station/security/prison/garden)
 "aMi" = (
@@ -13893,8 +13896,8 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/obj/machinery/hydroponics/soil,
 /obj/item/shovel/spade,
+/obj/machinery/hydroponics/constructable,
 /turf/open/floor/grass,
 /area/station/security/prison/garden)
 "aMY" = (
@@ -57328,6 +57331,7 @@
 /obj/effect/turf_decal/tile/green/anticorner{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/corner,
 /area/station/security/prison/garden)
 "erR" = (
@@ -57853,7 +57857,6 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "eUP" = (
-/obj/structure/sink/directional/west,
 /obj/effect/turf_decal/tile/green/half{
 	dir = 4
 	},
@@ -58146,16 +58149,14 @@
 /turf/open/floor/plating,
 /area/station/medical/medbay/lobby)
 "fjd" = (
-/obj/item/kirbyplants/random,
 /obj/effect/turf_decal/tile/green/anticorner{
 	dir = 4
 	},
-/obj/machinery/power/apc/auto_name/directional/east,
-/obj/structure/cable,
 /obj/machinery/camera/directional/east{
 	c_tag = "Security - Prison - Garden";
 	network = list("ss13","security","prison")
 	},
+/obj/structure/sink/directional/west,
 /turf/open/floor/iron/corner{
 	dir = 8
 	},
@@ -60745,6 +60746,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/machinery/duct,
 /turf/open/floor/iron/edge{
 	dir = 4
 	},
@@ -65475,11 +65477,13 @@
 "lMU" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
+/obj/machinery/duct,
 /turf/open/floor/iron,
 /area/station/security/prison/garden)
 "lNc" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/obj/machinery/duct,
 /turf/open/floor/iron,
 /area/station/security/prison/garden)
 "lNl" = (
@@ -71170,6 +71174,7 @@
 /obj/effect/spawner/random/trash/garbage,
 /obj/effect/spawner/random/contraband/prison,
 /obj/effect/spawner/random/trash/garbage,
+/obj/item/toy/plush/fly,
 /turf/open/floor/plating,
 /area/station/security/prison/safe/exterior)
 "qWw" = (
@@ -96865,7 +96870,7 @@ awx
 ajP
 fjj
 aHV
-eBL
+eLL
 agl
 hBG
 agl
@@ -97639,7 +97644,7 @@ aNA
 eBL
 agl
 ajJ
-arR
+agl
 pYV
 wJJ
 sgL
@@ -98153,7 +98158,7 @@ sfT
 sfT
 aDC
 mfJ
-sfT
+arR
 sfT
 wJJ
 oVj
