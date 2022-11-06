@@ -213,15 +213,21 @@
 	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
-	var/old_punchdamagelow
-	var/old_punchdamagehigh
+	var/old_left_arm
+	var/old_right_arm
+	var/old_left_arm_unarmed_damage_low
+	var/old_left_arm_unarmed_damage_high
+	var/old_right_arm_unarmed_damage_low
+	var/old_right_arm_unarmed_damage_high
 	if(ishuman(old_body))
 		var/mob/living/carbon/human/old_user = old_body
 		var/datum/species/old_species = old_user.dna.species
 		old_species.species_traits -= DRINKSBLOOD
 		//Keep track of what they were
-		old_punchdamagelow = old_species.punchdamagelow
-		old_punchdamagehigh = old_species.punchdamagehigh
+		old_left_arm = old_body.get_bodypart(ARM_LEFT)
+		old_right_arm = old_body.get_bodypart(ARM_RIGHT)
+		old_left_arm_unarmed_damage_low = old_left_arm.unarmed_damage_low
+		old_left_arm_unarmed_damage_high = old_left_arm.unarmed_damage_high
 		//Then reset them
 		old_species.punchdamagelow = initial(old_species.punchdamagelow)
 		old_species.punchdamagehigh = initial(old_species.punchdamagehigh)
