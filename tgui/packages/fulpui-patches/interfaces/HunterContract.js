@@ -4,23 +4,32 @@ import { Window } from '../../tgui/layouts';
 
 const HunterObjectives = (props, context) => {
   const { act, data } = useBackend(context);
-  const { objectives = [], bought } = data;
+  const { objectives = [], all_completed } = data;
   return (
-    <Stack vertical>
+    <Stack vertical fill>
       <Stack.Item grow>
-        {objectives.map((objective) => (
-          <Box key={objective.explanation}>
-            <Stack align="baseline">
-              <Stack.Item grow bold>
-                {objective.explanation}
-              </Stack.Item>
-            </Stack>
-            <Icon
-              name={objective.completed ? 'check' : 'times'}
-              color={objective.completed ? 'good' : 'bad'}
+        <Section fill title="Objectives">
+          {objectives.map((objective) => (
+            <Box key={objective.explanation}>
+              <Stack align="baseline">
+                <Stack.Item grow bold>
+                  {objective.explanation}
+                </Stack.Item>
+              </Stack>
+              <Icon
+                name={objective.completed ? 'check' : 'times'}
+                color={objective.completed ? 'good' : 'bad'}
+              />
+            </Box>
+          ))}
+          <Box>
+            <Button
+              content={'Ascend'}
+              disabled={all_completed}
+              onClick={() => act('claim_reward')}
             />
           </Box>
-        ))}
+        </Section>
       </Stack.Item>
     </Stack>
   );
@@ -30,11 +39,14 @@ export const HunterContract = (props, context) => {
   const { act, data } = useBackend(context);
   const { items = [], bought } = data;
   return (
-    <Window width={670} height={500} theme="malfunction">
+    <Window width={670} height={400} theme="malfunction">
       <Window.Content scrollable>
         <Section title="Hunter's Contract" />
         {
           <Stack vertical fill>
+            <Stack.Item fontSize="20px" textAlign="center">
+              Pick your Hunter tool
+            </Stack.Item>
             <Stack.Item grow>
               {items.map((item) => (
                 <Box key={item.name} className="candystripe" p={1} pb={2}>
@@ -58,7 +70,25 @@ export const HunterContract = (props, context) => {
                 </Box>
               ))}
             </Stack.Item>
-            <Stack.Item grow>
+            <Stack.Item>
+              <Section fill title="Strengths and Weaknesses">
+                <Stack vertical fill>
+                  <Stack.Item>
+                    <span>
+                      Seek the white rabbits; their eyes possess the materials
+                      required to upgrade your hunter&#39;s weapon!
+                    </span>
+                    <span>
+                      Only when the contract is fullfilled will you be able to
+                      ascend to the ultimate
+                      <span className={'color-green'}> Divine form</span>!
+                    </span>
+                    <br />
+                  </Stack.Item>
+                </Stack>
+              </Section>
+            </Stack.Item>
+            <Stack.Item>
               <Box>
                 <HunterObjectives />
               </Box>
