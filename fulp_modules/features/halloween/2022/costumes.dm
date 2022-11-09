@@ -134,7 +134,7 @@
 	icon_state = "icon_crueltysquad_glasses"
 
 /obj/item/clothing/gloves/costume_2022/crueltysquad_gloves
-name = "CSIJ level I gloves"
+	name = "CSIJ level I gloves"
     desc = "armor used by assassins working for Cruelty Squad, stripped of all of its functions for kids to play with."
     icon_state = "icon_crueltysquad_gloves"
 
