@@ -213,8 +213,8 @@
 	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
-	var/old_left_arm
-	var/old_right_arm
+	var/obj/item/bodypart/old_left_arm = old_body.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
+	var/obj/item/bodypart/old_right_arm = old_body.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
 	var/old_left_arm_unarmed_damage_low
 	var/old_left_arm_unarmed_damage_high
 	var/old_right_arm_unarmed_damage_low
@@ -224,20 +224,32 @@
 		var/datum/species/old_species = old_user.dna.species
 		old_species.species_traits -= DRINKSBLOOD
 		//Keep track of what they were
-		old_left_arm = old_body.get_bodypart(ARM_LEFT)
-		old_right_arm = old_body.get_bodypart(ARM_RIGHT)
 		old_left_arm_unarmed_damage_low = old_left_arm.unarmed_damage_low
 		old_left_arm_unarmed_damage_high = old_left_arm.unarmed_damage_high
+		old_right_arm_unarmed_damage_low = old_right_arm.unarmed_damage_low
+		old_right_arm_unarmed_damage_high = old_right_arm.unarmed_damage_high
 		//Then reset them
-		old_species.punchdamagelow = initial(old_species.punchdamagelow)
-		old_species.punchdamagehigh = initial(old_species.punchdamagehigh)
+		old_left_arm.unarmed_damage_low = initial(old_left_arm.unarmed_damage_low)
+		old_left_arm.unarmed_damage_high = initial(old_left_arm.unarmed_damage_high)
+		old_right_arm.unarmed_damage_low = initial(old_right_arm.unarmed_damage_low)
+		old_right_arm.unarmed_damage_high = initial(old_right_arm.unarmed_damage_high)
 	if(ishuman(new_body))
 		var/mob/living/carbon/human/new_user = new_body
 		var/datum/species/new_species = new_user.dna.species
 		new_species.species_traits += DRINKSBLOOD
+		var/obj/item/bodypart/new_left_arm
+		var/obj/item/bodypart/new_right_arm
+		var/new_left_arm_unarmed_damage_low
+		var/new_left_arm_unarmed_damage_high
+		var/new_right_arm_unarmed_damage_low
+		var/new_right_arm_unarmed_damage_high
 		//Give old punch damage values
-		new_species.punchdamagelow = old_punchdamagelow
-		new_species.punchdamagehigh = old_punchdamagehigh
+		new_left_arm = new_body.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
+		new_right_arm = new_body.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
+		new_left_arm.unarmed_damage_low = old_left_arm_unarmed_damage_low
+		new_left_arm.unarmed_damage_high = old_left_arm_unarmed_damage_high
+		new_right_arm.unarmed_damage_low = old_right_arm_unarmed_damage_low
+		new_right_arm.unarmed_damage_high = old_right_arm_unarmed_damage_high
 
 	//Give Bloodsucker Traits
 	for(var/all_traits in bloodsucker_traits)
@@ -445,10 +457,14 @@
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
 		var/datum/species/user_species = user.dna.species
+		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
+		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
 		user_species.species_traits += DRINKSBLOOD
 		user.dna?.remove_all_mutations()
-		user_species.punchdamagelow += 1 //lowest possible punch damage - 0
-		user_species.punchdamagehigh += 1 //highest possible punch damage - 9
+		user_left_arm.unarmed_damage_low += 1 //lowest possible punch damage - 0
+		user_left_arm.unarmed_damage_high += 1 //highest possible punch damage - 9
+		user_right_arm.unarmed_damage_low += 1 //lowest possible punch damage - 0
+		user_right_arm.unarmed_damage_high += 1 //highest possible punch damage - 9
 	//Give Bloodsucker Traits
 	for(var/all_traits in bloodsucker_traits)
 		ADD_TRAIT(owner.current, all_traits, BLOODSUCKER_TRAIT)

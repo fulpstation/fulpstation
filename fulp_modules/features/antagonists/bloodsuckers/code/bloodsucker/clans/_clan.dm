@@ -155,9 +155,13 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	if(ishuman(bloodsuckerdatum.owner.current))
 		var/mob/living/carbon/human/human_user = bloodsuckerdatum.owner.current
 		var/datum/species/user_species = human_user.dna.species
-		user_species.punchdamagelow += 0.5
+		var/obj/item/bodypart/user_left_hand = human_user.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
+		var/obj/item/bodypart/user_right_hand = human_user.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
+		user_left_hand.unarmed_damage_low += 0.5
+		user_right_hand.unarmed_damage_low += 0.5
 		// This affects the hitting power of Brawn.
-		user_species.punchdamagehigh += 0.5
+		user_left_hand.unarmed_damage_high += 0.5
+		user_right_hand.unarmed_damage_high += 0.5
 
 	// We're almost done - Spend your Rank now.
 	bloodsuckerdatum.bloodsucker_level++
