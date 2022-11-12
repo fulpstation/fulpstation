@@ -151,13 +151,12 @@
  * Made by: Franklin
  */
 ///Golden punk helmet
-/obj/item/clothing/head/hardhat/golden_punk
+/obj/item/clothing/head/utility/hardhat/golden_punk
 	name = "Guy-Manuel Helmet"
 	desc = "Give life back to music!"
 	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_guy"
-	on = FALSE
 	hat_type = "guy"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0, WOUND = 0)
 	resistance_flags = null
@@ -165,13 +164,12 @@
 	flags_cover = HEADCOVERSEYES
 
 ///Silver punk helmet
-/obj/item/clothing/head/hardhat/silver_punk
+/obj/item/clothing/head/utility/hardhat/silver_punk
 	name = "Thomas Helmet"
 	desc = "Reminds you of touch..."
 	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_thomas"
-	on = FALSE
 	hat_type = "thomas"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0, WOUND = 0)
 	resistance_flags = null

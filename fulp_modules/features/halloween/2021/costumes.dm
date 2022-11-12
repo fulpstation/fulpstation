@@ -163,13 +163,12 @@
 	desc = "A pair of dark blue sandals, fit with light socks. The leather is falling apart."
 	icon_state = "deadcells_feet"
 
-/obj/item/clothing/head/hardhat/deadcells_hat
+/obj/item/clothing/head/utility/hardhat/deadcells_hat
 	name = "homonculus mask"
 	desc = "May possess you if you aren't careful."
 	icon = 'fulp_modules/features/halloween/2021/2021_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2021/2021_icons_worn.dmi'
 	icon_state = "hardhat0_deadcells"
-	on = FALSE
 	hat_type = "deadcells"
 	flags_cover = HEADCOVERSEYES
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDESNOUT|HIDENECK
@@ -244,16 +243,24 @@
 	if(!ishuman(user))
 		return
 	if(slot == ITEM_SLOT_GLOVES)
-		user.dna.species.punchdamagelow += 0.2
-		user.dna.species.punchdamagehigh += 0.1
+		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
+		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
+		user_left_arm.unarmed_damage_low += 0.2
+		user_right_arm.unarmed_damage_low += 0.2
+		user_left_arm.unarmed_damage_high += 0.1
+		user_right_arm.unarmed_damage_high += 0.1
 
 /obj/item/clothing/gloves/costume_2021/infinity_gloves/dropped(mob/living/carbon/user)
 	. = ..()
 	if(!ishuman(user))
 		return
 	if(user.get_item_by_slot(ITEM_SLOT_GLOVES) == src)
-		user.dna.species.punchdamagelow -= 0.2
-		user.dna.species.punchdamagehigh -= 0.1
+		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
+		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
+		user_left_arm.unarmed_damage_low += 0.2
+		user_right_arm.unarmed_damage_low += 0.2
+		user_left_arm.unarmed_damage_high += 0.1
+		user_right_arm.unarmed_damage_high += 0.1
 
 /obj/item/clothing/gloves/costume_2021/infinity_gloves/examine_more(mob/user)
 	. = ..()

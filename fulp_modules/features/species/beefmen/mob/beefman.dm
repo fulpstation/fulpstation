@@ -55,12 +55,9 @@
 	disliked_food = VEGETABLES | FRUIT | CLOTH
 	liked_food = RAW | MEAT | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
-	attack_verb = "meat"
 	payday_modifier = 0.75
 	speedmod = -0.2
 	armor = -20
-	punchdamagelow = 1
-	punchdamagehigh = 5
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
@@ -73,7 +70,6 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
 	)
 	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
-	attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
 	special_step_sounds = list(
 		'fulp_modules/features/species/sounds/footstep_splat1.ogg',
