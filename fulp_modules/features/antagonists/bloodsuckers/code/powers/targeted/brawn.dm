@@ -120,9 +120,8 @@
 		var/mob/living/target = target_atom
 		var/mob/living/carbon/carbonuser = user
 		//You know what I'm just going to take the average of the user's limbs max damage instead of dealing with 2 hands
-		var/obj/item/bodypart/user_left_arm = carbonuser.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
-		var/obj/item/bodypart/user_right_arm = carbonuser.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
-		var/hitStrength = (user_left_arm.unarmed_damage_high + user_right_arm.unarmed_damage_high) * 0.5 * 1.25 + 2
+		var/obj/item/bodypart/user_active_arm = carbonuser.get_active_hand()
+		var/hitStrength = user_active_arm.unarmed_damage_high * 1.25 + 2
 		// Knockdown!
 		var/powerlevel = min(5, 1 + level_current)
 		if(rand(5 + powerlevel) >= 5)

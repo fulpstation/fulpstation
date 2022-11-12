@@ -243,24 +243,18 @@
 	if(!ishuman(user))
 		return
 	if(slot == ITEM_SLOT_GLOVES)
-		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
-		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
-		user_left_arm.unarmed_damage_low += 0.2
-		user_right_arm.unarmed_damage_low += 0.2
-		user_left_arm.unarmed_damage_high += 0.1
-		user_right_arm.unarmed_damage_high += 0.1
+		var/obj/item/bodypart/user_active_arm = user.get_active_hand()
+		user_active_arm.unarmed_damage_low += 0.2
+		user_active_arm.unarmed_damage_high += 0.1
 
 /obj/item/clothing/gloves/costume_2021/infinity_gloves/dropped(mob/living/carbon/user)
 	. = ..()
 	if(!ishuman(user))
 		return
 	if(user.get_item_by_slot(ITEM_SLOT_GLOVES) == src)
-		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
-		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
-		user_left_arm.unarmed_damage_low += 0.2
-		user_right_arm.unarmed_damage_low += 0.2
-		user_left_arm.unarmed_damage_high += 0.1
-		user_right_arm.unarmed_damage_high += 0.1
+		var/obj/item/bodypart/user_active_arm = user.get_active_hand()
+		user_active_arm.unarmed_damage_low -= 0.2
+		user_active_arm.unarmed_damage_high -= 0.1
 
 /obj/item/clothing/gloves/costume_2021/infinity_gloves/examine_more(mob/user)
 	. = ..()

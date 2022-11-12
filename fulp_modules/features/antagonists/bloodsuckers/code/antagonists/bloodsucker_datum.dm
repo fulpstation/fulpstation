@@ -213,8 +213,8 @@
 	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
-	var/obj/item/bodypart/old_left_arm = old_body.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
-	var/obj/item/bodypart/old_right_arm = old_body.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
+	var/obj/item/bodypart/old_left_arm = old_body.get_bodypart(BODY_ZONE_L_ARM)
+	var/obj/item/bodypart/old_right_arm = old_body.get_bodypart(BODY_ZONE_R_ARM)
 	var/old_left_arm_unarmed_damage_low
 	var/old_left_arm_unarmed_damage_high
 	var/old_right_arm_unarmed_damage_low
@@ -240,8 +240,8 @@
 		var/obj/item/bodypart/new_left_arm
 		var/obj/item/bodypart/new_right_arm
 		//Give old punch damage values
-		new_left_arm = new_body.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
-		new_right_arm = new_body.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
+		new_left_arm = new_body.get_bodypart(BODY_ZONE_L_ARM)
+		new_right_arm = new_body.get_bodypart(BODY_ZONE_R_ARM)
 		new_left_arm.unarmed_damage_low = old_left_arm_unarmed_damage_low
 		new_left_arm.unarmed_damage_high = old_left_arm_unarmed_damage_high
 		new_right_arm.unarmed_damage_low = old_right_arm_unarmed_damage_low
@@ -453,8 +453,8 @@
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
 		var/datum/species/user_species = user.dna.species
-		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
-		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_PRECISE_R_HAND)
+		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_L_ARM)
+		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_R_ARM)
 		user_species.species_traits += DRINKSBLOOD
 		user.dna?.remove_all_mutations()
 		user_left_arm.unarmed_damage_low += 1 //lowest possible punch damage - 0
