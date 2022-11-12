@@ -239,10 +239,6 @@
 		new_species.species_traits += DRINKSBLOOD
 		var/obj/item/bodypart/new_left_arm
 		var/obj/item/bodypart/new_right_arm
-		var/new_left_arm_unarmed_damage_low
-		var/new_left_arm_unarmed_damage_high
-		var/new_right_arm_unarmed_damage_low
-		var/new_right_arm_unarmed_damage_high
 		//Give old punch damage values
 		new_left_arm = new_body.get_bodypart(BODY_ZONE_PRECISE_L_HAND)
 		new_right_arm = new_body.get_bodypart(BODY_ZONE_PRECISE_R_HAND)

@@ -178,7 +178,7 @@
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2021/deadcells_suit,
 		/obj/item/clothing/shoes/costume_2021/deadcells_shoes,
-		/obj/item/clothing/head/hardhat/deadcells_hat,
+		/obj/item/clothing/head/utility/hardhat/deadcells_hat,
 	)
 
 /**

@@ -200,8 +200,8 @@
 	theme_name = "2020's Daft Punk Duo"
 	illustration = "daft"
 	costume_contents = list(
-		/obj/item/clothing/head/hardhat/golden_punk,
-		/obj/item/clothing/head/hardhat/silver_punk,
+		/obj/item/clothing/head/utility/hardhat/golden_punk,
+		/obj/item/clothing/head/utility/hardhat/silver_punk,
 		/obj/item/clothing/gloves/costume_2020/daft_golden,
 		/obj/item/clothing/gloves/costume_2020/daft_silver,
 		/obj/item/instrument/eguitar,
@@ -213,7 +213,7 @@
 /obj/item/storage/box/halloween/edition_20/daft_box/golden
 	theme_name = "2020's Daft Punk Golden"
 	costume_contents = list(
-		/obj/item/clothing/head/hardhat/golden_punk,
+		/obj/item/clothing/head/utility/hardhat/golden_punk,
 		/obj/item/clothing/gloves/costume_2020/daft_golden,
 		/obj/item/instrument/eguitar,
 		/obj/item/clothing/under/costume_2020/sparky,
@@ -223,7 +223,7 @@
 /obj/item/storage/box/halloween/edition_20/daft_box/silver
 	theme_name = "2020's Daft Punk Silver"
 	costume_contents = list(
-		/obj/item/clothing/head/hardhat/silver_punk,
+		/obj/item/clothing/head/utility/hardhat/silver_punk,
 		/obj/item/clothing/gloves/costume_2020/daft_silver,
 		/obj/item/instrument/piano_synth,
 		/obj/item/clothing/under/costume_2020/sparky,
@@ -854,7 +854,7 @@
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2020/texasman,
 		/obj/item/clothing/gloves/costume_2020/texasman,
-		/obj/item/clothing/head/hardhat,
+		/obj/item/clothing/head/utility/hardhat,
 		/obj/item/clothing/shoes/workboots,
 	)
 
@@ -863,6 +863,6 @@
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2020/texasman/red,
 		/obj/item/clothing/gloves/costume_2020/texasman,
-		/obj/item/clothing/head/hardhat,
+		/obj/item/clothing/head/utility/hardhat,
 		/obj/item/clothing/shoes/workboots,
 	)

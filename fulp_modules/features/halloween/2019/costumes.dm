@@ -256,7 +256,7 @@
 	theme_name = "2019's Sans"
 	costume_contents = list(
 		/obj/item/clothing/under/costume/costume_2019/sans,
-		/obj/item/clothing/head/hardhat/sans,
+		/obj/item/clothing/head/utility/hardhat/sans,
 	)
 
 

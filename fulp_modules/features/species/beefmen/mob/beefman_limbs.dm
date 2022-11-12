@@ -94,7 +94,7 @@
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	unarmed_attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
-	unarmed_attack_verb = 'meat'
+	unarmed_attack_verb = "meat"
 	unarmed_damage_low = 1
 	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
@@ -113,7 +113,7 @@
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	unarmed_attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
-	unarmed_attack_verb = 'meat'
+	unarmed_attack_verb = "meat"
 	unarmed_damage_low = 1
 	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
