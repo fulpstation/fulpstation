@@ -119,6 +119,15 @@
 	r_hand = /obj/item/aicard
 	l_pocket = /obj/item/grenade/c4/wormhole
 
+/datum/antagonist/traitor/infiltrator/ui_static_data(mob/user)
+	var/list/data = ..()
+	data -= data["objectives"]
+	return data
+
+/datum/antagonist/traitor/infiltrator/ui_data(mob/user)
+	var/list/data = list()
+	data["objectives"] = get_objectives()
+	return data
 
 /datum/antagonist/infiltrator_backup
 	name = "Infiltrator"
