@@ -386,7 +386,7 @@
 
 /obj/item/grenade/c4/wormhole/proc/set_bombing_zone()
 	for(var/sanity in 1 to 100)
-		var/area/selected_area = pick(GLOB.sortedAreas)
+		var/area/selected_area = pick(get_sorted_areas())
 		if(!is_station_level(selected_area.z) || !(selected_area.area_flags & VALID_TERRITORY))
 			continue
 		bombing_zone = selected_area
