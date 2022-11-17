@@ -8,7 +8,7 @@
 
 /obj/item/soulstone/bloodsucker
 	theme = THEME_WIZARD
-	required_role = null
+	required_role = /datum/antagonist/vassal //vassals can free their master
 
 /obj/item/soulstone/bloodsucker/init_shade(mob/living/carbon/human/victim, mob/user, message_user = FALSE, mob/shade_controller)
 	. = ..()

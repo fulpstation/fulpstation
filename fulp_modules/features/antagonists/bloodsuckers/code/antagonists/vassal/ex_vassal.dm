@@ -1,4 +1,5 @@
 #define BLOOD_TIMER_REQUIREMENT (10 MINUTES)
+#define BLOOD_TIMER_HALWAY (BLOOD_TIMER_REQUIREMENT / 2)
 
 /datum/antagonist/ex_vassal
 	name = "\improper Ex-Vassal"
@@ -66,18 +67,15 @@
 	revenge_vassal = mike_ehrmantraut
 	mike_ehrmantraut.ex_vassals += src
 	COOLDOWN_START(src, blood_timer, BLOOD_TIMER_REQUIREMENT)
-	addtimer(CALLBACK(src, .proc/halfway_point), (BLOOD_TIMER_REQUIREMENT/2))
 	add_team_hud(owner.current)
 
 	RegisterSignal(src, COMSIG_LIVING_LIFE, .proc/on_life)
 
-/datum/antagonist/ex_vassal/proc/halfway_point()
-	if(COOLDOWN_TIMELEFT(src, blood_timer) <= (BLOOD_TIMER_REQUIREMENT/2)) //halfway
-		to_chat(owner.current, span_cultbold("You need new blood from your Master!"))
-
 /datum/antagonist/ex_vassal/proc/on_life(datum/source, delta_time, times_fired)
 	SIGNAL_HANDLER
 
+	if(COOLDOWN_TIMELEFT(src, blood_timer) <= BLOOD_TIMER_HALWAY + 2 && COOLDOWN_TIMELEFT(src, blood_timer) >= BLOOD_TIMER_HALWAY - 2) //just about halfway
+		to_chat(owner.current, span_cultbold("You need new blood from your Master!"))
 	if(!COOLDOWN_FINISHED(src, blood_timer))
 		return
 	to_chat(owner.current, span_cultbold("You are out of blood!"))
@@ -102,3 +100,4 @@
 	return ..()
 
 #undef BLOOD_TIMER_REQUIREMENT
+#undef BLOOD_TIMER_HALWAY
