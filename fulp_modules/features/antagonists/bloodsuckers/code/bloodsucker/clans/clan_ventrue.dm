@@ -79,4 +79,4 @@
 
 /datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	to_chat(bloodsucker, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
-	vassaldatum.BuyPower(new /datum/action/bloodsucker/vassal/distress)
+	vassaldatum.BuyPower(new /datum/action/bloodsucker/distress)

@@ -102,3 +102,6 @@
 #define BLOODSUCKER_EXIT_TORPOR "bloodsucker_exit_torpor"
 ///Called when a Bloodsucker reaches Final Death.
 #define BLOODSUCKER_FINAL_DEATH "bloodsucker_final_death"
+
+///Whether the Bloodsucker should not be dusted when arriving Final Death
+#define DONT_DUST (1<<0)

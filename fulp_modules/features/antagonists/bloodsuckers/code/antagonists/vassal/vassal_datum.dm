@@ -288,7 +288,7 @@
 
 	for(var/datum/objective/all_objectives as anything in objectives)
 		objectives -= all_objectives
-	BuyPower(new /datum/action/bloodsucker_blood)
+	BuyPower(new /datum/action/bloodsucker/vassal_blood)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(master)
 	for(var/datum/action/bloodsucker/master_powers as anything in bloodsuckerdatum.powers)
 		if(master_powers.purchase_flags & BLOODSUCKER_DEFAULT_POWER)

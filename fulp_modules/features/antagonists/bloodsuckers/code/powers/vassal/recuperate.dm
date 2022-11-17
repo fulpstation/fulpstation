@@ -23,6 +23,7 @@
 		return FALSE
 	return TRUE
 
+
 /datum/action/bloodsucker/recuperate/ActivatePower(trigger_flags)
 	. = ..()
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))

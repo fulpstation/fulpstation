@@ -36,3 +36,4 @@
 /datum/bloodsucker_clan/malkavian/on_final_death(atom/source, mob/living/carbon/user)
 	var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(user))
 	stone.capture_soul(user, forced = TRUE)
+	return DONT_DUST
