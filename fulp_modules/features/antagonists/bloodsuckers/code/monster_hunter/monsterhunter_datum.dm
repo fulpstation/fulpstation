@@ -48,7 +48,10 @@
 		steal_objective.owner = owner
 		steal_objective.find_target()
 		objectives += steal_objective
-
+	var/datum/map_template/wonderland/wonder = new()
+	if(!wonder.load_new_z())
+		message_admins("The wonderland failed to load.")
+		CRASH("Failed to initialize wonderland!")
 
 	//Teach Stake crafting
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
