@@ -6,7 +6,7 @@
 		used = FALSE
 		return
 	if(IS_BLOODSUCKER(user))
-		var/pickedtype = /mob/living/basic/guardian ///hostile/guardian/punch/timestop
+		var/pickedtype = /mob/living/simple_animal/hostile/guardian/punch/timestop
 		var/mob/living/simple_animal/hostile/guardian/punch/timestop/bloodsucker_guardian = new pickedtype(user, theme)
 		bloodsucker_guardian.name = mob_name
 		bloodsucker_guardian.summoner = user
