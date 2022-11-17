@@ -213,3 +213,22 @@
 /datum/action/bloodsucker/proc/RemoveAfterUse()
 	bloodsuckerdatum_power?.powers -= src
 	Remove(owner)
+
+
+/datum/action/bloodsucker/vassal
+
+
+/datum/action/bloodsucker/vassal/CheckCanPayCost()
+	if(!owner || !owner.mind)
+		return FALSE
+	// Cooldown?
+	if(!COOLDOWN_FINISHED(src, bloodsucker_power_cooldown))
+		owner.balloon_alert(owner, "power unavailable!")
+		to_chat(owner, "[src] on cooldown!")
+		return FALSE
+	var/mob/living/carbon/human/user = owner
+	if(user.blood_volume < bloodcost)
+		to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
+		return FALSE
+	return TRUE
+

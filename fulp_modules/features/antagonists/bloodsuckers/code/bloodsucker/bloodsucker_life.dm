@@ -373,7 +373,24 @@
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 
 	if(my_clan)
-		SEND_SIGNAL(my_clan, BLOODSUCKER_FINAL_DEATH, owner.current)
+		var/unique_death = SEND_SIGNAL(my_clan, BLOODSUCKER_FINAL_DEATH, owner.current)
+		if(unique_death & DONT_DUST)
+			return
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	// Elders get dusted, Fledglings get gibbed.
+	if(bloodsuckerdatum.bloodsucker_level >= 4)
+		user.visible_message(
+			span_warning("[user]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
+			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
+			span_hear("You hear a dry, crackling sound."))
+		bloodsuckerdatum.dust_timer = addtimer(CALLBACK(user, /mob/living.proc/dust), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+		return
+	user.visible_message(
+		span_warning("[user]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
+		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
+		span_hear("<span class='italics'>You hear a wet, bursting sound."))
+	bloodsuckerdatum.dust_timer = addtimer(CALLBACK(user, /mob/living.proc/gib, TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 
 // Bloodsuckers moodlets //
 /datum/mood_event/drankblood

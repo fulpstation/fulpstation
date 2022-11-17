@@ -156,12 +156,6 @@
 	if(master && master.owner)
 		to_chat(master.owner, span_cultbold("You feel the bond with your vassal [owner.current] has somehow been broken!"))
 
-/// If we weren't created by a bloodsucker, then we cannot be a vassal (assigned from antag panel)
-/datum/antagonist/vassal/can_be_owned(datum/mind/new_owner)
-	if(!master)
-		return FALSE
-	return ..()
-
 /// When a Bloodsucker gets FinalDeath, all Vassals are freed - This is a Bloodsucker proc, not a Vassal one.
 /datum/antagonist/bloodsucker/proc/FreeAllVassals()
 	for(var/datum/antagonist/vassal/all_vassals in vassals)
@@ -294,7 +288,7 @@
 
 	for(var/datum/objective/all_objectives as anything in objectives)
 		objectives -= all_objectives
-	BuyPower(new /datum/action/bloodsucker/vassal_blood)
+	BuyPower(new /datum/action/bloodsucker_blood)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(master)
 	for(var/datum/action/bloodsucker/master_powers as anything in bloodsuckerdatum.powers)
 		if(master_powers.purchase_flags & BLOODSUCKER_DEFAULT_POWER)
@@ -315,3 +309,26 @@
 	var/datum/action/antag_info/info_button = new(src)
 	info_button.Grant(owner.current)
 	info_button_ref = WEAKREF(info_button)
+
+/datum/antagonist/vassal/admin_add(datum/mind/new_owner, mob/admin)
+	var/list/datum/mind/possible_vampires = list()
+	for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
+		var/datum/mind/vamp = bloodsuckerdatums.owner
+		if(!vamp)
+			continue
+		if(!vamp.current)
+			continue
+		if(vamp.current.stat == DEAD)
+			continue
+		possible_vampires += vamp
+	if(!length(possible_vampires))
+		message_admins("[key_name_admin(usr)] tried vassalizing [key_name_admin(new_owner)], but there were no bloodsuckers!")
+		return
+	var/datum/mind/choice = input("Which bloodsucker should this vassal belong to?", "Bloodsucker") in possible_vampires
+	if(!choice)
+		return
+	log_admin("[key_name_admin(usr)] turned [key_name_admin(new_owner)] into a vassal of [key_name_admin(choice)]!")
+	var/datum/antagonist/bloodsucker/vampire = choice.has_antag_datum(/datum/antagonist/bloodsucker)
+	master = vampire
+	new_owner.add_antag_datum(src)
+	to_chat(choice, span_notice("Through divine intervention, you've gained a new vassal!"))

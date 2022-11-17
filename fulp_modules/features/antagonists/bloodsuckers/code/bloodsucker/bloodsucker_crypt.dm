@@ -181,7 +181,7 @@
 	. = ..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
-	if(!user.canUseTopic(src, BE_CLOSE))
+	if(!user.canUseTopic(src, be_close = TRUE))
 		return
 	if(!has_buckled_mobs() || !isliving(user) || use_lock)
 		return
@@ -401,7 +401,7 @@
 			to_chat(target, span_cultlarge("THE HORRIBLE PAIN! WHEN WILL IT END?!"))
 			var/list/torture_icons = list(
 				"Accept" = image(icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi', icon_state = "power_recup"),
-				"Refuse" = image(icon = 'icons/obj/items_and_weapons.dmi', icon_state = "stunbaton_active")
+				"Refuse" = image(icon = 'icons/obj/weapons/items_and_weapons.dmi', icon_state = "stunbaton_active")
 				)
 			var/torture_response = show_radial_menu(target, src, torture_icons, radius = 36, require_near = TRUE)
 			switch(torture_response)
@@ -526,7 +526,7 @@
 		if(IS_VASSAL(nearly_people) || IS_BLOODSUCKER(nearly_people))
 			continue
 		nearly_people.hallucination += 5
-		SEND_SIGNAL(nearly_people, COMSIG_ADD_MOOD_EVENT, "vampcandle", /datum/mood_event/vampcandle)
+		nearly_people.add_mood_event("vampcandle", /datum/mood_event/vampcandle)
 
 /*
  *	# Candelabrum Ventrue Stuff

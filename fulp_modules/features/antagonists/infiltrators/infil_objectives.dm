@@ -19,10 +19,12 @@
 			killsec.update_explanation_text()
 			objectives += killsec
 
-			var/datum/objective/steal/steal_obj = new
-			steal_obj.owner = owner
-			steal_obj.find_target()
-			objectives += steal_obj
+			var/datum/objective/connect_uplink/uplink = new
+			uplink.owner = owner
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/infil_uplink/radio = infil.l_store
+			uplink.explanation_text = "Connect the Uplink Radio to HQ in [radio.connecting_zone]"
+			objectives += uplink
 
 		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
 			for(var/i = 0, i < 2, i++)
@@ -46,28 +48,38 @@
 			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/infiltrator))
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
-			for(var/i = 0, i < rand(4,6) , i++)
+			for(var/i = 0, i < rand(3,5) , i++)
 				var/datum/objective/assassinate/assassinate = new
 				assassinate.owner = owner
 				assassinate.find_target()
 				objectives += assassinate
 
+			var/datum/objective/missiles/rocket = new
+			rocket.owner = owner
+			rocket.update_explanation_text()
+			objectives += rocket
+
 		if(INFILTRATOR_FACTION_SELF)
-			for(var/i = 0, i < 2, i++)
-			var/datum/objective/assassinate/assassinate = new
-			assassinate.owner = owner
-			assassinate.find_target()
-			objectives += assassinate
+			for(var/i = 0, i < 2 , i++)
+				var/datum/objective/assassinate/assassinate = new
+				assassinate.owner = owner
+				assassinate.find_target()
+				objectives += assassinate
 
-			var/datum/objective/steal/steal_objective = new
-			steal_objective.owner = owner
-			steal_objective.set_target(new /datum/objective_item/steal/functionalai)
-			objectives += steal_objective
+			var/datum/objective/cyborg_hack/hacking = new
+			hacking.owner = owner
+			hacking.update_explanation_text()
+			hacking.give_card()
+			objectives += hacking
 
-			var/datum/objective/steal/cyborg_hack = new
-			cyborg_hack.owner = owner
-			cyborg_hack.set_target(new /datum/objective_item/steal/cyborg_hack)
-			objectives += cyborg_hack
+			var/datum/objective/summon_wormhole/wormhole = new
+			wormhole.owner = owner
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/grenade/c4/wormhole/bomb = infil.l_store
+			bomb.set_bombing_zone()
+			wormhole.explanation_text = "Summon a cyborg rift in [bomb.bombing_zone]!"
+			objectives += wormhole
+
 
 //Corporate Climber objectives
 
@@ -207,17 +219,29 @@
 		explanation_text = "Inject [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] with the gorilla serum!"
 
 // SELF objectives
-/datum/objective_item/steal/cyborg_hack
-    name = "a cyborg's data and subvert them by using your single-use silicon cryptographic sequencer on them!"
-    targetitem = /obj/item/card/emag/silicon_hack
-    difficulty = 10
+/datum/objective/cyborg_hack
+    name = "Emag Robot"
 
-/datum/objective_item/steal/cyborg_hack/New()
-    special_equipment += /obj/item/card/emag/silicon_hack
-    return ..()
+/datum/objective/cyborg_hack/update_explanation_text()
+	explanation_text = "Steal a cyborg's data and subvert them by using your single-use silicon cryptographic sequencer on them!"
 
-/datum/objective_item/steal/cyborg_hack/check_special_completion(obj/item/card/emag/silicon_hack/card)
-    if(card.used)
-        return TRUE
-    return FALSE
+/datum/objective/cyborg_hack/proc/give_card()
+	if(!owner)
+		return
+	var/mob/living/carbon/criminal = owner.current
+	var/obj/item/card/emag/silicon_hack/card = new(criminal)
+	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK)
+	criminal.equip_in_one_of_slots(card, slots)
 
+/datum/objective/missiles
+	name = "Missile Barrage"
+
+/datum/objective/missiles/update_explanation_text()
+		explanation_text = "Launch missiles towards the station by using the Missile Disk on a communications console and inserting it into the Large Handphone. "
+
+/datum/objective/summon_wormhole
+	name = "Summon a cyborg wormhole"
+
+
+/datum/objective/connect_uplink
+	name = "Connect uplink"

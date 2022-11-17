@@ -70,3 +70,6 @@
 	/// Will yield a "?"
 	else
 		to_chat(owner, span_notice("There are no monsters nearby."))
+
+/datum/action/bloodsucker/trackvamp/CheckCanPayCost()
+	return TRUE

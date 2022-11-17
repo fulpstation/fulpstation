@@ -40,3 +40,24 @@
 	log_game("DYNAMIC: [key_name(infiltrator)] was spawned as an infiltrator by the midround ruleset.")
 	return infiltrator
 
+/datum/round_event_control/missilegalore
+	name = "Missiles"
+	typepath = /datum/round_event/missilegalore
+	max_occurrences = 0
+	weight = 0
+
+/datum/round_event/missilegalore/announce(fake)
+
+	priority_announce("Multiple missiles detected en route to the station. Seek shelter", "Missile Detection System", 'fulp_modules/features/antagonists/infiltrators/sounds/missile_alert.ogg')
+
+/datum/round_event/missilegalore/start()
+	for(var/i = 1, i < 6, i++)
+		var/turf/targetloc = get_safe_random_station_turf()
+		podspawn(list(
+		"target" = targetloc,
+		"style" = STYLE_MISSILE,
+		"effectMissile" = TRUE,
+		"explosionSize" = list(3,4,5,5),
+		"delays" = list(POD_TRANSIT = 60, POD_FALLING = 60)
+	))
+

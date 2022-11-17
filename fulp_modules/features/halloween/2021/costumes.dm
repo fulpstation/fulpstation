@@ -560,8 +560,8 @@
  */
 
 /obj/item/clothing/under/color/thirsty_suit
-	name = "thirsy flower jumpsuit"
-	desc = "A dark green jumpsuit that represents a thirty flower's stem."
+	name = "thirsty flower jumpsuit"
+	desc = "A dark green jumpsuit that represents a thirsty flower's stem."
 	greyscale_colors = "#128512"
 
 /obj/item/clothing/head/costume_2021/thirsty_hat

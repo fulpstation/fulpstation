@@ -23,6 +23,9 @@
 			chosen_ghost = pick(consenting_candidates)
 	if(!victim)
 		return FALSE
+	if(!chosen_ghost)
+		victim.dust()
+		return FALSE
 	if(contents.len) //If they used the soulstone on someone else in the meantime
 		return FALSE
 	victim.unequip_everything()

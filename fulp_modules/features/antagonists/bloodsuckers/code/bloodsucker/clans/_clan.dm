@@ -93,21 +93,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  */
 /datum/bloodsucker_clan/proc/on_final_death(atom/source, mob/living/carbon/user)
 	SIGNAL_HANDLER
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	// Elders get dusted, Fledglings get gibbed.
-	if(bloodsuckerdatum.bloodsucker_level >= 4)
-		user.visible_message(
-			span_warning("[user]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
-			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
-			span_hear("You hear a dry, crackling sound."))
-		bloodsuckerdatum.dust_timer = addtimer(CALLBACK(user, /mob/living.proc/dust), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
-		return
-	user.visible_message(
-		span_warning("[user]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
-		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
-		span_hear("<span class='italics'>You hear a wet, bursting sound."))
-	bloodsuckerdatum.dust_timer = addtimer(CALLBACK(user, /mob/living.proc/gib, TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+	return FALSE
 
 /**
  * Called during Bloodsucker's LifeTick
