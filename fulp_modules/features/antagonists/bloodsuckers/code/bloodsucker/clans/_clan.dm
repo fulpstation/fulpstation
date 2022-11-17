@@ -64,10 +64,6 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	GLOB.bloodsucker_clan_members[name] -= user
 	return ..()
 
-///legacy code support
-/datum/bloodsucker_clan/proc/get_clan()
-	return name
-
 /datum/bloodsucker_clan/proc/give_clan_objective(mob/living/user)
 	if(isnull(clan_objective))
 		return
