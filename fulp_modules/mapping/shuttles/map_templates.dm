@@ -53,3 +53,14 @@
 	name = "Helio Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "For when you're not quite ready to say goodbye to your home station. May cause damage to smaller stations."
+
+/**
+ * LABOUR SHUTTLE
+ */
+
+/datum/map_template/shuttle/labour/helio
+	suffix = "helio"
+	name = "labour shuttle (Helio)"
+
+/obj/docking_port/stationary/laborcamp_home/helio
+	roundstart_template = /datum/map_template/shuttle/labour/helio
