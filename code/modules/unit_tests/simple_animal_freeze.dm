@@ -379,9 +379,6 @@
 		/mob/living/simple_animal/pet/penguin/baby,
 		/mob/living/simple_animal/pet/penguin/emperor,
 		/mob/living/simple_animal/pet/penguin/emperor/shamebrero,
-		/mob/living/simple_animal/rabbit,
-		/mob/living/simple_animal/rabbit/easter,
-		/mob/living/simple_animal/rabbit/easter/space,
 		/mob/living/simple_animal/revenant,
 		/mob/living/simple_animal/robot_customer,
 		/mob/living/simple_animal/shade,
@@ -395,14 +392,6 @@
 		/mob/living/simple_animal/soulscythe,
 		// DO NOT ADD NEW ENTRIES TO THIS LIST
 		// READ THE COMMENT ABOVE
-		// Fulp TGEdit here to add in some of the mobs that are affected by this test
-		// so that it ignores these mobs before we start to refactor them else TGU will never be completed
-		/mob/living/simple_animal/hostile/guardian/punch/timestop,
-		/mob/living/simple_animal/hostile/gorilla/albino,
-		/mob/living/simple_animal/hostile/devil/arch_devil,
-		/mob/living/simple_animal/hostile/devil,
-		/mob/living/simple_animal/pet/fox/ventcrawl,
-		/mob/living/simple_animal/deer/ventcrawl,
 	)
 
 /datum/unit_test/simple_animal_freeze/Run()
