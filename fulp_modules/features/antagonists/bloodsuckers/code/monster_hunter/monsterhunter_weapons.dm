@@ -179,15 +179,10 @@
 	icon_state = "rabbit_eye"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 
-/obj/item/rabbit_eye/afterattack(obj/item/weapon, mob/user, proximity)
-	. = ..()
-	if(!proximity)
-		return
-	if(!istype(weapon, /obj/item/melee/trick_weapon))
-		return
-	var/obj/item/melee/trick_weapon/killer = weapon
+/obj/item/rabbit_eye/proc/upgrade(obj/item/melee/trick_weapon/killer, mob/user)
 	if(killer.upgrade_level >= 3)
 		user.balloon_alert(user, "Already at maximum upgrade!")
+		return
 	killer.upgrade_level++
 	var/number = killer.enabled ? killer.on_force : killer.base_force
 	var/two_handed = FALSE
@@ -272,3 +267,28 @@
 		return
 	. = ..()
 	cast_on.blood_volume -= 50
+
+/obj/structure/table/weaponsmith
+	name = "Weapon Forge"
+	desc = "Table used by blacksmiths to upgrade weapons."
+	icon = 'icons/obj/smooth_structures/fancy_table_black.dmi'
+	icon_state = "fancy_table_black-0"
+	base_icon_state = "fancy_table_black"
+	resistance_flags = INDESTRUCTIBLE
+
+
+/obj/structure/table/weaponsmith/attackby(obj/item/I, mob/living/user, params)
+	if(!istype(I, /obj/item/rabbit_eye))
+		return ..()
+	var/obj/item/rabbit_eye/eye = I
+	var/obj/item/melee/trick_weapon/tool
+	for(var/obj/item/weapon in src.loc.contents)
+		if(!istype(weapon, /obj/item/melee/trick_weapon))
+			continue
+		tool = weapon
+		break
+	if(!tool)
+		to_chat(user, span_warning ("Place your weapon upon the table before upgrading it!"))
+		return
+	eye.upgrade(tool,user)
+
