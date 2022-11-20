@@ -401,8 +401,6 @@
 		/mob/living/simple_animal/hostile/gorilla/albino,
 		/mob/living/simple_animal/hostile/devil/arch_devil,
 		/mob/living/simple_animal/hostile/devil,
-		/mob/living/simple_animal/pet/fox/ventcrawl,
-		/mob/living/simple_animal/deer/ventcrawl,
 	)
 
 /datum/unit_test/simple_animal_freeze/Run()
