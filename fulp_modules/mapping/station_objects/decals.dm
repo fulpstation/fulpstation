@@ -139,3 +139,60 @@
 
 /obj/effect/turf_decal/siding/engineering/corner
 	icon_state = "siding_corner"
+
+
+// Trimline
+
+/obj/effect/turf_decal/trimline/prison
+	color = "#FF6700"
+/obj/effect/turf_decal/trimline/prison/line
+	name = "trim decal"
+	icon_state = "trimline"
+
+/obj/effect/turf_decal/trimline/prison/corner
+	icon_state = "trimline_corner"
+
+/obj/effect/turf_decal/trimline/prison/end
+	icon_state = "trimline_end"
+
+/obj/effect/turf_decal/trimline/prison/arrow_cw
+	icon_state = "trimline_arrow_cw"
+
+/obj/effect/turf_decal/trimline/prison/arrow_ccw
+	icon_state = "trimline_arrow_ccw"
+
+/obj/effect/turf_decal/trimline/prison/warning
+	icon_state = "trimline_warn"
+
+/obj/effect/turf_decal/trimline/prison/mid_joiner
+	icon_state = "trimline_mid"
+
+/obj/effect/turf_decal/trimline/prison/filled
+	icon_state = "trimline_box_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/line
+	icon_state = "trimline_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/corner
+	icon_state = "trimline_corner_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/end
+	icon_state = "trimline_end_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/arrow_cw
+	icon_state = "trimline_arrow_cw_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/arrow_ccw
+	icon_state = "trimline_arrow_ccw_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/warning
+	icon_state = "trimline_warn_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/mid_joiner
+	icon_state = "trimline_mid_fill"
+
+/obj/effect/turf_decal/trimline/prison/filled/shrink_cw
+	icon_state = "trimline_shrink_cw"
+
+/obj/effect/turf_decal/trimline/prison/filled/shrink_ccw
+	icon_state = "trimline_shrink_ccw"

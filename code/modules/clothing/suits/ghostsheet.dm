@@ -11,6 +11,18 @@
 	alternate_worn_layer = UNDER_HEAD_LAYER
 	species_exception = list(/datum/species/golem)
 
+
+/obj/item/clothing/suit/costume/ghost_sheet/Initialize(mapload)
+	. = ..()
+	if(check_holidays(HALLOWEEN))
+		update_icon(UPDATE_OVERLAYS)
+
+/obj/item/clothing/suit/costume/ghost_sheet/worn_overlays(mutable_appearance/standing, isinhands, icon_file)
+	. = ..()
+	if(check_holidays(HALLOWEEN))
+		if(!isinhands)
+			. += emissive_appearance('icons/mob/simple/mob.dmi', "ghost", offset_spokesman = src, alpha = src.alpha)
+
 /obj/item/clothing/suit/costume/ghost_sheet/spooky
 	name = "spooky ghost"
 	desc = "This is obviously just a bedsheet, but maybe try it on?"
