@@ -675,7 +675,6 @@
 	icon = 'fulp_modules/features/halloween/2020/2020_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "dallas"
-	inhand_icon_state = "mime"
 
 /obj/item/clothing/mask/gas/mime/heister_mask/Initialize(mapload)
 	. = ..()
