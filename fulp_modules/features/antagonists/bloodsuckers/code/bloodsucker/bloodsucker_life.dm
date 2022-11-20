@@ -18,7 +18,7 @@
 	INVOKE_ASYNC(src, .proc/HandleDeath)
 	INVOKE_ASYNC(src, .proc/HandleStarving)
 	INVOKE_ASYNC(src, .proc/HandleTorpor)
-	INVOKE_ASYNC(src, .proc/UpdateBlood)
+	INVOKE_ASYNC(src, .proc/update_blood)
 
 	INVOKE_ASYNC(src, .proc/update_hud)
 
@@ -31,7 +31,7 @@
 	if(!iscarbon(source))
 		return
 	var/mob/living/carbon/carbon_source = source
-	var/vamp_examine = carbon_source.ReturnVampExamine(examiner)
+	var/vamp_examine = carbon_source.return_vamp_examine(examiner)
 	if(vamp_examine)
 		examine_text += vamp_examine
 
@@ -50,7 +50,7 @@
 	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity, you will now enter Frenzy at [FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)] Blood."))
 
 /// mult: SILENT feed is 1/3 the amount
-/datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1, power_level)
+/datum/antagonist/bloodsucker/proc/handle_feeding(mob/living/carbon/target, mult=1, power_level)
 	// Starts at 15 (now 8 since we doubled the Feed time)
 	var/feed_amount = 15 + (power_level * 2)
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult
@@ -88,7 +88,7 @@
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
 	// Don't heal if I'm staked or on Masquerade (+ not in a Coffin). Masqueraded Bloodsuckers in a Coffin however, will heal.
-	if(owner.current.AmStaked() || (HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !HAS_TRAIT(owner.current, TRAIT_NODEATH)))
+	if(owner.current.am_staked() || (HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !HAS_TRAIT(owner.current, TRAIT_NODEATH)))
 		return FALSE
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
@@ -148,7 +148,7 @@
  *	This is called on Bloodsucker's Assign, and when they end Torpor.
  */
 
-/datum/antagonist/bloodsucker/proc/HealVampireOrgans()
+/datum/antagonist/bloodsucker/proc/heal_vampire_organs()
 	var/mob/living/carbon/bloodsuckeruser = owner.current
 
 	// Step 1 - Fix basic things, husk and organs.
@@ -210,7 +210,7 @@
 		FinalDeath()
 		return
 	// Staked while "Temp Death" or Asleep
-	if(owner.current.StakeCanKillMe() && owner.current.AmStaked())
+	if(owner.current.StakeCanKillMe() && owner.current.am_staked())
 		FinalDeath()
 		return
 	// Not organic/living? (Zombie/Skeleton/Plasmaman)
@@ -222,7 +222,7 @@
 		var/mob/living/carbon/human/dead_bloodsucker = owner.current
 		if(!HAS_TRAIT(dead_bloodsucker, TRAIT_NODEATH))
 			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
-			Check_Begin_Torpor(TRUE)
+			check_begin_torpor(TRUE)
 
 /datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
 	// Nutrition - The amount of blood is how full we are.
@@ -278,45 +278,45 @@
 	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
 		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			/// Staked? Dont heal
-			if(owner.current.AmStaked())
+			if(owner.current.am_staked())
 				to_chat(owner.current, span_userdanger("You are staked! Remove the offending weapon from your heart before sleeping."))
 				return
 			/// Otherwise, check if it's Sol, to enter Torpor.
-			if(clan.bloodsucker_sunlight.amDay)
-				Check_Begin_Torpor(TRUE)
+			if(clan.bloodsucker_sunlight.sunlight_active)
+				check_begin_torpor(TRUE)
 	if(HAS_TRAIT(owner.current, TRAIT_NODEATH)) // Check so I don't go insane.
-		Check_End_Torpor()
+		check_end_torpor()
 
-/datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(SkipChecks = FALSE)
+/datum/antagonist/bloodsucker/proc/check_begin_torpor(SkipChecks = FALSE)
 	/// Are we entering Torpor via Sol/Death? Then entering it isnt optional!
 	if(SkipChecks)
-		Torpor_Begin()
+		torpor_begin()
 		return
 	var/mob/living/carbon/user = owner.current
 	var/total_brute = user.getBruteLoss_nonProsthetic()
 	var/total_burn = user.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	/// Checks - Not daylight & Has more than 10 Brute/Burn & not already in Torpor
-	if(!clan.bloodsucker_sunlight.amDay && total_damage >= 10 && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		Torpor_Begin()
+	if(!clan.bloodsucker_sunlight.sunlight_active && total_damage >= 10 && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		torpor_begin()
 
-/datum/antagonist/bloodsucker/proc/Check_End_Torpor()
+/datum/antagonist/bloodsucker/proc/check_end_torpor()
 	var/mob/living/carbon/user = owner.current
 	var/total_brute = user.getBruteLoss_nonProsthetic()
 	var/total_burn = user.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	// You are in a Coffin, so instead we'll check TOTAL damage, here.
 	if(istype(user.loc, /obj/structure/closet/crate/coffin))
-		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
-			Torpor_End()
+		if(!clan.bloodsucker_sunlight.sunlight_active && total_damage <= 10)
+			torpor_end()
 	// You're not in a Coffin? We won't check for low Burn damage
-	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
+	else if(!clan.bloodsucker_sunlight.sunlight_active && total_brute <= 10)
 		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, to prevent spam revival/death. Only way out is healing that Burn.
 		if(total_burn >= 199)
 			return
-		Torpor_End()
+		torpor_end()
 
-/datum/antagonist/bloodsucker/proc/Torpor_Begin()
+/datum/antagonist/bloodsucker/proc/torpor_begin()
 	to_chat(owner.current, span_notice("You enter the horrible slumber of deathless Torpor. You will heal until you are renewed."))
 	/// Force them to go to sleep
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
@@ -329,7 +329,7 @@
 	/// Disable ALL Powers
 	DisableAllPowers()
 
-/datum/antagonist/bloodsucker/proc/Torpor_End()
+/datum/antagonist/bloodsucker/proc/torpor_end()
 	owner.current.grab_ghost()
 	to_chat(owner.current, span_warning("You have recovered from Torpor."))
 	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
@@ -337,10 +337,10 @@
 	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	HealVampireOrgans()
+	heal_vampire_organs()
 
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
-/datum/antagonist/bloodsucker/proc/UpdateBlood()
+/datum/antagonist/bloodsucker/proc/update_blood()
 	//If we're on Masquerade, we appear to have full blood, unless we are REALLY low, in which case we don't look as bad.
 	if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		switch(bloodsucker_blood_volume)
@@ -360,7 +360,7 @@
 	if(!owner.current || dust_timer)
 		return
 
-	FreeAllVassals()
+	free_all_vassals()
 	DisableAllPowers(forced = TRUE)
 	if(!iscarbon(owner.current))
 		owner.current.gib(TRUE, FALSE, FALSE)

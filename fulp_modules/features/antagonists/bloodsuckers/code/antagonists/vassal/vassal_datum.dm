@@ -73,7 +73,7 @@
 	if(!iscarbon(source))
 		return
 	var/mob/living/carbon/carbon_source = source
-	var/vassal_examine = carbon_source.ReturnVassalExamine(examiner)
+	var/vassal_examine = carbon_source.return_vassal_examine(examiner)
 	if(vassal_examine)
 		examine_text += vassal_examine
 
@@ -157,7 +157,7 @@
 		to_chat(master.owner, span_cultbold("You feel the bond with your vassal [owner.current] has somehow been broken!"))
 
 /// When a Bloodsucker gets FinalDeath, all Vassals are freed - This is a Bloodsucker proc, not a Vassal one.
-/datum/antagonist/bloodsucker/proc/FreeAllVassals()
+/datum/antagonist/bloodsucker/proc/free_all_vassals()
 	for(var/datum/antagonist/vassal/all_vassals in vassals)
 		// Skip over any Bloodsucker Vassals, they're too far gone to have all their stuff taken away from them
 		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
