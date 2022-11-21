@@ -292,3 +292,12 @@
 		return
 	eye.upgrade(tool,user)
 
+
+/obj/item/clothing/mask/cursed_rabbit
+	name = "Damned Rabbit Mask"
+	desc = "Slip into the wonderland."
+	icon =  'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon_state = "rabbit_mask"
+	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
+	worn_icon_state = "rabbit_mask"
+	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
