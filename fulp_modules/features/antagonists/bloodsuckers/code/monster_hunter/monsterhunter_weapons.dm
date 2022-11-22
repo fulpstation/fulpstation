@@ -301,3 +301,27 @@
 	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	var/datum/action/cooldown/paradox/paradox
+
+
+/obj/item/clothing/mask/cursed_rabbit/Initialize(mapload)
+	. = ..()
+	var/datum/action/cooldown/paradox/rabby = new
+	if(!rabby)
+		return
+	rabby.chessmark = GLOB.wonderland_marks["Wonderchess landmark"]
+	if(!rabby.chessmark)
+		return
+	paradox = rabby
+
+/obj/item/clothing/mask/cursed_rabbit/equipped(mob/living/carbon/human/user,slot)
+	..()
+	if(!paradox)
+		return
+	if(!(slot & ITEM_SLOT_MASK))
+		return
+	paradox.Grant(user)
+
+/obj/item/clothing/mask/cursed_rabbit/dropped(mob/user)
+	. = ..()
+	paradox.Remove(user)

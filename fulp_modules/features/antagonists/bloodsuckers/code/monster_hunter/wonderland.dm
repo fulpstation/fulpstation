@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(wonderland_marks)
+
 /datum/map_template/wonderland
 	name = "Wonderland"
 	mappath = "fulp_modules/mapping/custom/wonderland.dmm"
@@ -11,3 +13,17 @@
 /obj/effect/landmark/wonderland_mark
 	name = "Wonderland landmark"
 	icon_state = "x"
+
+/obj/effect/landmark/wonderchess_mark
+	name = "Wonderchess landmark"
+	icon_state = "x"
+
+/obj/effect/landmark/wonderland_mark/Initialize(mapload)
+	. = ..()
+	GLOB.wonderland_marks[name] = src
+
+
+/obj/effect/landmark/wonderchess_mark/Initialize(mapload)
+	. = ..()
+	GLOB.wonderland_marks[name] = src
+

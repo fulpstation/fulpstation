@@ -1,0 +1,30 @@
+/datum/action/cooldown/paradox
+	name = "Paradox Rabbit"
+	icon_icon = 'icons/mob/simple/rabbit.dmi'
+	button_icon_state = "rabbit_white_dead"
+	var/obj/effect/landmark/wonderchess_mark/chessmark
+	var/mob/living/simple_animal/rabbit/rabbit
+	cooldown_time = 3 MINUTES
+
+/datum/action/cooldown/paradox/Activate()
+	if(!chessmark)
+		return
+	var/turf/theplace = get_turf(chessmark)
+	var/mob/living/simple_animal/rabbit/bunny
+	bunny = new /mob/living/simple_animal/rabbit(theplace)
+	if(!bunny)
+		return
+	var/mob/living/master = owner
+	owner.mind.transfer_to(bunny)
+	playsound(bunny, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/paradoxskip.ogg',100)
+	addtimer(CALLBACK(src,.proc/return_to_station, master, bunny, theplace),19 SECONDS)
+
+/datum/action/cooldown/paradox/proc/return_to_station(mob/user, mob/bunny,turf/mark)
+	var/new_x = bunny.x - mark.x
+	var/new_y = bunny.y - mark.y
+	var/turf/new_location = locate((user.x + new_x) , (user.y + new_y) , user.z)
+	user.forceMove(new_location)
+	bunny.mind.transfer_to(user)
+	rabbit = null
+	qdel(bunny)
+
