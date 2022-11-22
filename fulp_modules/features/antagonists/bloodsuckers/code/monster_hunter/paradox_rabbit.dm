@@ -7,6 +7,7 @@
 	cooldown_time = 3 MINUTES
 
 /datum/action/cooldown/paradox/Activate()
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	if(!chessmark)
 		return
 	var/turf/theplace = get_turf(chessmark)
@@ -18,6 +19,7 @@
 	owner.mind.transfer_to(bunny)
 	playsound(bunny, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/paradoxskip.ogg',100)
 	addtimer(CALLBACK(src,.proc/return_to_station, master, bunny, theplace),19 SECONDS)
+	StartCooldown()
 
 /datum/action/cooldown/paradox/proc/return_to_station(mob/user, mob/bunny,turf/mark)
 	var/new_x = bunny.x - mark.x
