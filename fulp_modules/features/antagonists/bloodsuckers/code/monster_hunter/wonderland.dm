@@ -6,3 +6,8 @@
 	mob_type = /mob/living/simple_animal/rabbit
 	icon = 'icons/mob/simple/rabbit.dmi'
 	icon_state = "rabbit_white_dead"
+
+
+/obj/effect/landmark/wonderland_mark
+	name = "Wonderland landmark"
+	icon_state = "x"
