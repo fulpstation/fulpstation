@@ -333,7 +333,6 @@
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL
 	var/datum/brain_trauma/special/rabbit_hole/mental
-	var/obj/effect/current_rabbit
 	var/cooldown = TRUE
 
 
@@ -348,22 +347,26 @@
 		return
 	if(!mental)
 		return
-	if(!current_rabbit)
-		current_rabbit = mental.white_rabbits[1]
-	var/distance = get_dist(user,current_rabbit)
+	var/distance = get_minimum_distance(user)
 	var/sound_value
 	if(distance >= 50)
 		sound_value = 0
+		to_chat(user,span_warning("Too far away..."))
 	if(distance >= 40 && distance < 50)
 		sound_value = 20
+		to_chat(user,span_warning("You feel the slightest hint..."))
 	if(distance >=30 && distance < 40)
 		sound_value = 40
+		to_chat(user,span_warning("You feel a mild hint..."))
 	if(distance >=20 && distance < 30)
 		sound_value = 60
+		to_chat(user,span_warning("You feel a strong hint..."))
 	if(distance >= 10 && distance < 20)
 		sound_value = 80
+		to_chat(user,span_warning("You feel an intense hint..."))
 	if(distance < 10)
 		sound_value = 100
+		to_chat(user,span_warning("Here...its definitely here!"))
 	playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
 	cooldown = !cooldown
 	addtimer(CALLBACK(src, .proc/recharge), 9 SECONDS)
@@ -371,3 +374,14 @@
 
 /obj/item/rabbit_locator/proc/recharge()
 	cooldown = !cooldown
+
+/obj/item/rabbit_locator/proc/get_minimum_distance(mob/user)
+	var/dist=1000
+	if(!mental)
+		return
+	if(!mental.white_rabbits.len)
+		return
+	for(var/obj/effect/located as anything in mental.white_rabbits)
+		if(get_dist(user,located) < dist)
+			dist = get_dist(user,located)
+	return dist

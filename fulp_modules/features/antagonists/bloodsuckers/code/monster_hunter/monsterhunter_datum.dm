@@ -41,14 +41,7 @@
 	fortitude.Grant(owner.current)
 	//Give Hunter Objective
 	if(give_objectives)
-		var/datum/objective/bloodsucker/monsterhunter/monsterhunter_objective = new
-		monsterhunter_objective.owner = owner
-		objectives += monsterhunter_objective
-		//Give Theft Objective
-		var/datum/objective/steal/steal_objective = new
-		steal_objective.owner = owner
-		steal_objective.find_target()
-		objectives += steal_objective
+		find_monster_targets()
 	var/datum/map_template/wonderland/wonder = new()
 	if(!wonder.load_new_z())
 		message_admins("The wonderland failed to load.")
@@ -177,3 +170,22 @@
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost the trail."))
 	. = ..()
+
+
+/datum/antagonist/monsterhunter/proc/find_monster_targets()
+	var/list/possible_targets = list()
+	for(var/datum/antagonist/victim in GLOB.antagonists)
+		if(!victim.owner)
+			continue
+		if(victim.owner.current.stat == DEAD || victim.owner == owner)
+			continue
+		if(victim.owner.has_antag_datum(/datum/antagonist/changeling) || IS_BLOODSUCKER(victim.owner.current))
+			possible_targets += victim.owner
+	for(var/i  in 1 to 3)
+		var/datum/objective/assassinate/kill_monster = new
+		kill_monster.owner = owner
+		var/datum/mind/target = pick(possible_targets)
+		possible_targets -= target
+		kill_monster.target = target
+		kill_monster.update_explanation_text()
+		objectives += kill_monster

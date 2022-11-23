@@ -20,12 +20,20 @@
 	. = ..()
 	if(.)
 		return
-
 	if(!(user in who_sees_us))
 		return
 	if(being_used)
 		return
 	being_used = TRUE
+	image_state = "rabbit_hole"
+	update_appearance()
+	if(drop_mask)
+		new /obj/item/clothing/mask/cursed_rabbit(loc)
+	if(drop_gun)
+		new /obj/item/gun/ballistic/revolver/hunter_revolver(loc)
+	if(illness)
+		illness.white_rabbits -= src
+	QDEL_IN(src, 8 SECONDS)
 	var/datum/antagonist/monsterhunter/hunta = user.mind.has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!hunta)
 		return
@@ -38,7 +46,7 @@
 			if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
 				continue
 			description += "[ability.name], "
-	image_icon = "rabbit_hole"
+	image_state = "rabbit_hole"
 	update_appearance()
 	to_chat(user,span_notice("[description]"))
 	new /obj/item/rabbit_eye(loc)
