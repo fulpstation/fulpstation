@@ -1,5 +1,5 @@
 /mob/living/simple_animal/hostile/megafauna/red_rabbit
-	name = "Red Rabbit"
+	name = "Jabberwocky"
 	desc = "Servant of the moon."
 	health = 500
 	maxHealth = 500
