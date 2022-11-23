@@ -27,3 +27,9 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	. = ..()
 	GLOB.wonderland_marks[name] = src
 
+
+/obj/structure/chess/redqueen
+	name = "\improper Red Queen"
+	desc = "What is this doing here?"
+	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	icon_state = "red_queen"

@@ -25,20 +25,11 @@
 	if(being_used)
 		return
 	being_used = TRUE
-	image_state = "rabbit_hole"
-	update_appearance()
-	if(drop_mask)
-		new /obj/item/clothing/mask/cursed_rabbit(loc)
-	if(drop_gun)
-		new /obj/item/gun/ballistic/revolver/hunter_revolver(loc)
-	if(illness)
-		illness.white_rabbits -= src
-	QDEL_IN(src, 8 SECONDS)
 	var/datum/antagonist/monsterhunter/hunta = user.mind.has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!hunta)
 		return
 	var/datum/objective/assassinate/obj = pick(hunta.objectives)
-	if(obj.target)
+	if(obj)
 		description = "TARGET [obj.target.current.real_name], ABILITIES "
 		for(var/datum/action/ability in obj.target.current.actions)
 			if(!ability)
