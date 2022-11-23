@@ -10,6 +10,10 @@
 	var/description
 	///has the rabbit already whispered?
 	var/being_used = FALSE
+	///trauma this rabbit is tied to
+	var/datum/brain_trauma/special/rabbit_hole/illness
+	var/drop_mask = FALSE
+	var/drop_gun = FALSE
 
 
 /obj/effect/client_image_holder/white_rabbit/attack_hand(mob/user, list/modifiers)
@@ -26,16 +30,24 @@
 	if(!hunta)
 		return
 	var/datum/objective/assassinate/obj = pick(hunta.objectives)
-	description = "TARGET [obj.target.current.real_name], ABILITIES "
-	for(var/datum/action/ability in obj.target.current.actions)
-		if(!ability)
-			continue
-		if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
-			continue
-		description += "[ability.name], "
+	if(obj.target)
+		description = "TARGET [obj.target.current.real_name], ABILITIES "
+		for(var/datum/action/ability in obj.target.current.actions)
+			if(!ability)
+				continue
+			if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
+				continue
+			description += "[ability.name], "
 	image_icon = "rabbit_hole"
+	update_appearance()
 	to_chat(user,span_notice("[description]"))
 	new /obj/item/rabbit_eye(loc)
+	if(drop_mask)
+		new /obj/item/clothing/mask/cursed_rabbit(loc)
+	if(drop_gun)
+		new /obj/item/gun/ballistic/revolver/hunter_revolver(loc)
+	if(illness)
+		illness.white_rabbits -= src
 	QDEL_IN(src, 8 SECONDS)
 
 
@@ -61,6 +73,13 @@
 	for(var/i in 1 to 5 )
 		var/turf/rabbit_hole = get_safe_random_station_turf()
 		var/obj/effect/client_image_holder/white_rabbit/cretin =  new /obj/effect/client_image_holder/white_rabbit(rabbit_hole, owner)
+		cretin.illness = src
 		white_rabbits += cretin
+	var/obj/effect/client_image_holder/white_rabbit/mask_holder = pick(white_rabbits)
+	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(white_rabbits)
+	mask_holder.drop_mask = TRUE
+	gun_holder.drop_gun = TRUE
+
+
 
 

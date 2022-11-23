@@ -325,3 +325,49 @@
 /obj/item/clothing/mask/cursed_rabbit/dropped(mob/user)
 	. = ..()
 	paradox.Remove(user)
+
+/obj/item/rabbit_locator
+	name = "Accursed Red Queen card"
+	desc = "Hunts down the white rabbits."
+	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon_state = "locator"
+	w_class = WEIGHT_CLASS_SMALL
+	var/datum/brain_trauma/special/rabbit_hole/mental
+	var/obj/effect/current_rabbit
+	var/cooldown = TRUE
+
+
+/obj/item/rabbit_locator/Initialize(mapload, datum/antagonist/monsterhunter/hunter)
+	. = ..()
+	if(!hunter)
+		return
+	mental = hunter.sickness
+
+/obj/item/rabbit_locator/attack_self(mob/user, modifiers)
+	if(!cooldown)
+		return
+	if(!mental)
+		return
+	if(!current_rabbit)
+		current_rabbit = mental.white_rabbits[1]
+	var/distance = get_dist(user,current_rabbit)
+	var/sound_value
+	if(distance >= 50)
+		sound_value = 0
+	if(distance >= 40 && distance < 50)
+		sound_value = 20
+	if(distance >=30 && distance < 40)
+		sound_value = 40
+	if(distance >=20 && distance < 30)
+		sound_value = 60
+	if(distance >= 10 && distance < 20)
+		sound_value = 80
+	if(distance < 10)
+		sound_value = 100
+	playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
+	cooldown = !cooldown
+	addtimer(CALLBACK(src, .proc/recharge), 9 SECONDS)
+
+
+/obj/item/rabbit_locator/proc/recharge()
+	cooldown = !cooldown

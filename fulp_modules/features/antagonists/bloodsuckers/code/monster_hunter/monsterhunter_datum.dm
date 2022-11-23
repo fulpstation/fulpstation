@@ -16,6 +16,7 @@
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new /datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new /datum/action/bloodsucker/fortitude/hunter()
+	var/datum/brain_trauma/special/rabbit_hole/sickness
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -57,7 +58,15 @@
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/human/killer = owner.current
-	killer.gain_trauma(/datum/brain_trauma/special/rabbit_hole)
+	var/datum/brain_trauma/special/rabbit_hole/disease = new
+	killer.gain_trauma(disease)
+	sickness = disease
+	var/mob/living/carbon/criminal = owner.current
+	var/obj/item/rabbit_locator/card = new(criminal,src)
+	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK)
+	criminal.equip_in_one_of_slots(card, slots)
+	var/obj/item/hunting_contract/contract = new(criminal,src)
+	criminal.equip_in_one_of_slots(contract, slots)
 	return ..()
 
 /datum/antagonist/monsterhunter/on_removal()

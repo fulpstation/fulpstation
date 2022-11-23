@@ -13,13 +13,11 @@
 	///the owner of this contract
 	var/datum/antagonist/monsterhunter/owner
 
-/obj/item/hunting_contract/Initialize(mapload)
+/obj/item/hunting_contract/Initialize(mapload, datum/antagonist/monsterhunter/hunter)
 	. = ..()
 	shop = new /datum/hunter_market
-///	for(var/datum/antagonist/monsterhunter/moh in GLOB.antagonists)
-///		if(!moh)
-///			continue
-///		owner = moh
+	if(hunter)
+		owner = hunter
 
 /obj/item/hunting_contract/ui_interact(mob/living/user, datum/tgui/ui)
 	if(!IS_MONSTERHUNTER(user))
