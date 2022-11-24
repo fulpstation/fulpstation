@@ -16,6 +16,13 @@
 	///is the weapon in its transformed state?
 	var/enabled = FALSE
 
+/obj/item/melee/trick_weapon/attack(mob/target, mob/living/user, params) //our weapon does 25% less damage on non monsters
+	var/old_force = force
+	if(!(target.mind?.has_antag_datum(/datum/antagonist/changeling)) && !IS_BLOODSUCKER(target))
+		force = force * 0.75
+	..()
+	force = old_force
+
 /obj/item/melee/trick_weapon/darkmoon
 	name = "Darkmoon Greatsword"
 	base_name = "Darkmoon Greatsword"
@@ -23,11 +30,12 @@
 	icon_state = "darkmoon"
 	inhand_icon_state = "darkmoon_hilt"
 	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_BELT
+	slot_flags = ITEM_SLOT_BELT
 	block_chance = 20
 	on_force = 20
 	base_force = 17
 	throwforce = 12
+	damtype = BURN
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
@@ -90,10 +98,11 @@
 
 /obj/projectile/moonbeam
 	name = "Moonlight"
-	icon_state = "moonlight"
-	damage = 20
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "plasmasoul"
+	damage = 10
 	damage_type = BURN
-	range = 6
+	range = 10
 
 
 
@@ -104,13 +113,14 @@
 	icon_state = "threaded_cane"
 	inhand_icon_state = "threaded_cane"
 	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_BELT
+	slot_flags = ITEM_SLOT_BELT
 	block_chance = 20
 	on_force = 15
 	base_force = 18
 	throwforce = 12
 	reach = 1
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	damtype = BURN
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 
@@ -139,17 +149,18 @@
 /obj/item/melee/trick_weapon/hunter_axe
 	name = "Hunter's Axe"
 	base_name = "Hunter's Axe"
-	desc = "A blind man's whip."
+	desc = "A brute's tool of choice."
 	icon_state = "hunteraxe0"
 	base_icon_state = "hunteraxe"
 	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_BELT
+	slot_flags = ITEM_SLOT_BELT
 	block_chance = 20
 	base_force = 20
 	on_force = 23
 	throwforce = 12
 	reach = 1
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	damtype = BURN
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	var/charged = TRUE
@@ -187,7 +198,7 @@
 	var/number = killer.enabled ? killer.on_force : killer.base_force
 	var/two_handed = FALSE
 	for(var/datum/component/two_handed/hands as anything in killer.GetComponents(/datum/component/two_handed))
-		if(!hands)
+		if(!hands) //for weapons that use the two handed component rather than the transform component
 			continue
 		hands.force_wielded = upgraded_val(killer.on_force, killer.upgrade_level)
 		hands.force_unwielded =  upgraded_val(killer.base_force, killer.upgrade_level)
@@ -346,6 +357,9 @@
 	if(!cooldown)
 		return
 	if(!mental)
+		return
+	if(!is_station_level(user.loc.z))
+		to_chat(user,span_warning("The card cannot be used here..."))
 		return
 	var/distance = get_minimum_distance(user)
 	var/sound_value
