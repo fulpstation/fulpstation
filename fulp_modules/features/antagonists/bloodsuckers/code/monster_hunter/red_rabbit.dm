@@ -31,7 +31,7 @@
 	death_message = "succumbs to the moonlight."
 	death_sound = 'sound/effects/gravhit.ogg'
 	footstep_type = FOOTSTEP_MOB_HEAVY
-	attack_action_types = list(/datum/action/innate/megafauna_attack/rabbit_spawn, /datum/action/innate/megafauna_attack/red_rabbit_hole)
+	attack_action_types = list(/datum/action/innate/megafauna_attack/rabbit_spawn, /datum/action/innate/megafauna_attack/red_rabbit_hole, /datum/action/cooldown/mob_cooldown/projectile_attack/shotgun_blast/colossus)
 	COOLDOWN_DECLARE(birth_cooldown)
 
 

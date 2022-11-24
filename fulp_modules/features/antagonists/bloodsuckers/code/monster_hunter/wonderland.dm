@@ -28,11 +28,11 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	GLOB.wonderland_marks[name] = src
 
 /obj/effect/landmark/wonderland_mark/Destroy()
-	GLOB.heretic_sacrifice_landmarks[name] = null
+	GLOB.wonderland_marks[name] = null
 	return ..()
 
 /obj/effect/landmark/wonderchess_mark/Destroy()
-	GLOB.heretic_sacrifice_landmarks[name] = null
+	GLOB.wonderland_marks[name] = null
 	return ..()
 
 /obj/structure/chess/redqueen
