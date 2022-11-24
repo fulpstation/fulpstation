@@ -31,39 +31,34 @@
 	death_message = "succumbs to the moonlight."
 	death_sound = 'sound/effects/gravhit.ogg'
 	footstep_type = FOOTSTEP_MOB_HEAVY
-	attack_action_types = list(/datum/action/innate/megafauna_attack/rabbit_spawn, /datum/action/innate/megafauna_attack/red_rabbit_hole, /datum/action/cooldown/mob_cooldown/projectile_attack/shotgun_blast/colossus)
-	COOLDOWN_DECLARE(birth_cooldown)
 
 
-/mob/living/simple_animal/hostile/megafauna/red_rabbit/OpenFire(target)
-	var/place = get_turf(target)
-	update_cooldowns(list(COOLDOWN_UPDATE_SET_MELEE = 5 SECONDS, COOLDOWN_UPDATE_SET_RANGED = 10 SECONDS))
-	if(client)
-		switch(chosen_attack)
-			if(1)
-				birth_rabbit()
-			if(2)
-				new /obj/effect/rabbit_hole/first(place)
-		return
 
-/datum/action/innate/megafauna_attack/rabbit_spawn
+/mob/living/simple_animal/hostile/megafauna/red_rabbit/Initialize(mapload)
+	. = ..()
+	var/datum/action/cooldown/mob_cooldown/projectile_attack/shotgun_blast/red_rabbit/cards = new
+	var/datum/action/cooldown/mob_cooldown/red_rabbit_hole/hole = new
+	var/datum/action/cooldown/mob_cooldown/rabbit_spawn/rabbit = new
+	cards.Grant(src)
+	hole.Grant(src)
+	rabbit.Grant(src)
+
+/datum/action/cooldown/mob_cooldown/rabbit_spawn
 	name = "Create Offspring"
 	button_icon_state = "killer_rabbit"
-	chosen_message = "Create killer white rabbits to target your enemy."
-	chosen_attack_num = 1
-
+	cooldown_time = 30 SECONDS
 	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 
-/mob/living/simple_animal/hostile/megafauna/red_rabbit/proc/birth_rabbit(target) //pregnancy RP
-	if(!COOLDOWN_FINISHED(src, birth_cooldown))
-		return
-	COOLDOWN_START(src, birth_cooldown, 30 SECONDS)
-	visible_message(span_boldwarning("The Red Rabbit screams in agony!"))
+
+/datum/action/cooldown/mob_cooldown/rabbit_spawn/Activate(atom/target_atom)
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	for(var/i in 3 to 5 )
-		var/mob/living/simple_animal/hostile/killer_rabbit/rabbit = new /mob/living/simple_animal/hostile/killer_rabbit(loc)
+		var/mob/living/simple_animal/hostile/killer_rabbit/rabbit = new /mob/living/simple_animal/hostile/killer_rabbit(owner.loc)
 		rabbit.GiveTarget(target)
-		rabbit.faction = faction.Copy()
+		rabbit.faction = owner.faction.Copy()
+	StartCooldown()
+
 
 
 /mob/living/simple_animal/hostile/killer_rabbit
@@ -87,11 +82,10 @@
 
 
 
-/datum/action/innate/megafauna_attack/red_rabbit_hole
+/datum/action/cooldown/mob_cooldown/red_rabbit_hole
 	name = "Create Rabbit Hole"
 	button_icon_state = "hole_effect_button"
-	chosen_message = "Drop your enemies into the wonderland."
-	chosen_attack_num = 2
+	cooldown_time = 8 SECONDS
 
 	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
@@ -128,3 +122,28 @@
 		var/turf/hole = get_step(src, spawndir)
 		if(hole)
 			new /obj/effect/rabbit_hole(hole)
+
+
+/datum/action/cooldown/mob_cooldown/projectile_attack/shotgun_blast/red_rabbit
+	cooldown_time = 10 SECONDS
+	projectile_type = /obj/projectile/red_rabbit
+
+/obj/projectile/red_rabbit
+	name = "Red Queen"
+	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon_state = "locator"
+	damage = 7
+	armour_penetration = 100
+	speed = 2
+	eyeblur = 0
+	damage_type = BRUTE
+	pass_flags = PASSTABLE
+	plane = GAME_PLANE
+
+
+/datum/action/cooldown/mob_cooldown/red_rabbit_hole/Activate(atom/target_atom)
+	StartCooldown(360 SECONDS, 360 SECONDS)
+	new /obj/effect/rabbit_hole/first(target_atom)
+	StartCooldown()
+
+
