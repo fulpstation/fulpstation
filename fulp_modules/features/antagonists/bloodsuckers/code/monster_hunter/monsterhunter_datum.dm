@@ -75,15 +75,36 @@
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 
+/datum/antagonist/monsterhunter/get_preview_icon()
+	var/mob/living/carbon/human/dummy/consistent/hunter = new
+	var/icon/white_rabbit = icon('fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi', "white_rabbit")
+	var/icon/red_rabbit = icon('fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi', "killer_rabbit")
+	var/icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
+
+	var/icon/final_icon = hunter_icon
+	white_rabbit.Shift(EAST,8)
+	white_rabbit.Shift(NORTH,18)
+	red_rabbit.Shift(WEST,8)
+	red_rabbit.Shift(NORTH,18)
+	red_rabbit.Blend(rgb(165, 165, 165, 165), ICON_MULTIPLY)
+	white_rabbit.Blend(rgb(165, 165, 165, 165), ICON_MULTIPLY)
+	final_icon.Blend(white_rabbit, ICON_UNDERLAY)
+	final_icon.Blend(red_rabbit, ICON_UNDERLAY)
+
+	final_icon.Scale(ANTAGONIST_PREVIEW_ICON_SIZE, ANTAGONIST_PREVIEW_ICON_SIZE)
+	qdel(hunter)
+
+	return finish_preview_icon(final_icon)
+
 /datum/outfit/monsterhunter
 	name = "Monster Hunter (Preview Only)"
 
-	l_hand = /obj/item/stake
-	r_hand = /obj/item/stake/hardened/silver
-	uniform = /obj/item/clothing/under/rank/medical/paramedic
-	head = /obj/item/clothing/head/soft/paramedic
-	suit =  /obj/item/clothing/suit/toggle/labcoat/paramedic
-	gloves = /obj/item/clothing/gloves/color/latex/nitrile
+	l_hand = /obj/item/knife/butcher
+	mask = /obj/item/clothing/mask/monster_preview_mask
+	uniform = /obj/item/clothing/under/suit/black
+	head = /obj/item/clothing/mask/monster_preview_hat
+	suit =  /obj/item/clothing/suit/hooded/techpriest
+	gloves = /obj/item/clothing/gloves/color/white
 
 /// Mind version
 /datum/mind/proc/make_monsterhunter()
@@ -189,3 +210,14 @@
 		kill_monster.target = target
 		kill_monster.update_explanation_text()
 		objectives += kill_monster
+
+/obj/item/clothing/mask/monster_preview_mask
+	name = "Monster Preview Mask"
+	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
+	worn_icon_state = "monoclerabbit"
+
+/obj/item/clothing/mask/monster_preview_hat
+	name = "Monster Preview Hat"
+	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
+	worn_icon_state = "tophat"
+

@@ -71,16 +71,17 @@ export const HunterContract = (props, context) => {
               ))}
             </Stack.Item>
             <Stack.Item>
-              <Section fill title="Strengths and Weaknesses">
+              <Section fill title="Hunter's Guide">
                 <Stack vertical fill>
                   <Stack.Item>
                     <span>
-                      Seek the white rabbits; their eyes possess the materials
-                      required to upgrade your hunter&#39;s weapon!
+                      Look for the white rabbits! Use their eyes to upgrade your
+                      hunter&#39;s weapon, the red queen&#39;s card will guide
+                      you!
                     </span>
                     <span>
-                      Only when the contract is fullfilled will you be able to
-                      ascend to the ultimate
+                      Only once the contract is fullfilled and the rabbits are
+                      found will you be able to ascend to your true
                       <span className={'color-green'}> Divine form</span>!
                     </span>
                     <br />
