@@ -102,7 +102,6 @@
 	l_hand = /obj/item/knife/butcher
 	mask = /obj/item/clothing/mask/monster_preview_mask
 	uniform = /obj/item/clothing/under/suit/black
-	head = /obj/item/clothing/mask/monster_preview_hat
 	suit =  /obj/item/clothing/suit/hooded/techpriest
 	gloves = /obj/item/clothing/gloves/color/white
 
@@ -216,8 +215,5 @@
 	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "monoclerabbit"
 
-/obj/item/clothing/mask/monster_preview_hat
-	name = "Monster Preview Hat"
-	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
-	worn_icon_state = "tophat"
+
 
