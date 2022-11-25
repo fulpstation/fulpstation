@@ -126,4 +126,4 @@
 /obj/item/hunting_contract/Destroy()
 	owner = null
 	shop = null
-	..()
+	return ..()
