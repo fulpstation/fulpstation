@@ -18,7 +18,7 @@
 	var/mob/living/master = owner
 	owner.mind.transfer_to(bunny)
 	playsound(bunny, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/paradoxskip.ogg',100)
-	addtimer(CALLBACK(src,.proc/return_to_station, master, bunny, theplace),19 SECONDS)
+	addtimer(CALLBACK(src,.proc/return_to_station, master, bunny, theplace), 5 SECONDS)
 	StartCooldown()
 
 /datum/action/cooldown/paradox/proc/return_to_station(mob/user, mob/bunny,turf/mark)
@@ -27,6 +27,7 @@
 	var/turf/new_location = locate((user.x + new_x) , (user.y + new_y) , user.z)
 	user.forceMove(new_location)
 	bunny.mind.transfer_to(user)
+	playsound(user, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/paradoxskip.ogg',100)
 	rabbit = null
 	qdel(bunny)
 
