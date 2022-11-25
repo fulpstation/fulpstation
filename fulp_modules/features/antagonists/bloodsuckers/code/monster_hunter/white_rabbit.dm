@@ -32,7 +32,7 @@
 		return
 	var/datum/objective/assassinate/obj
 	if(hunta.objectives.len)
-	obj = pick(hunta.objectives)
+		obj = pick(hunta.objectives)
 	if(obj)
 		description = "TARGET [obj.target.current.real_name], ABILITIES "
 		for(var/datum/action/ability in obj.target.current.actions)
