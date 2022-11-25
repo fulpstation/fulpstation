@@ -12,7 +12,9 @@
 	var/being_used = FALSE
 	///trauma this rabbit is tied to
 	var/datum/brain_trauma/special/rabbit_hole/illness
+	///is this rabbit selected to drop the mask?
 	var/drop_mask = FALSE
+	///is this rabbit selected to drop the gun?
 	var/drop_gun = FALSE
 
 

@@ -2,9 +2,11 @@
 	name = "Paradox Rabbit"
 	icon_icon = 'icons/mob/simple/rabbit.dmi'
 	button_icon_state = "rabbit_white_dead"
-	var/obj/effect/landmark/wonderchess_mark/chessmark
-	var/mob/living/simple_animal/rabbit/rabbit
 	cooldown_time = 3 MINUTES
+	///where we will be teleporting the rabbit too
+	var/obj/effect/landmark/wonderchess_mark/chessmark
+	///the rabbit in question if it exists
+	var/mob/living/simple_animal/rabbit/rabbit
 
 /datum/action/cooldown/paradox/Activate()
 	StartCooldown(360 SECONDS, 360 SECONDS)

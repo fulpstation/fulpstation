@@ -347,7 +347,9 @@
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL
+	///the trauma generating the rabbits
 	var/datum/brain_trauma/special/rabbit_hole/mental
+	///cooldown for the locator
 	var/cooldown = TRUE
 
 
