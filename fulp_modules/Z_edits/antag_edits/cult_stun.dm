@@ -64,7 +64,7 @@
 					silicon_victim.emp_act(EMP_HEAVY)
 				else if(iscarbon(target))
 					var/mob/living/carbon/carbon_target = victim
-					carbon_target.silent += 6
+					carbon_target.adjust_silence(6 SECONDS)
 					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/stutter)
 					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/slurring/cult)
 					carbon_target.set_timed_status_effect(1.5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)

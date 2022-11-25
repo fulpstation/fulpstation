@@ -72,7 +72,7 @@
 /datum/action/bloodsucker/feed/ActivatePower()
 	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref.resolve()
-	if(istype(feed_target, /mob/living/simple_animal/mouse) || istype(feed_target, /mob/living/simple_animal/hostile/rat))
+	if(istype(feed_target, /mob/living/basic/mouse) || istype(feed_target, /mob/living/basic/mouse/rat))
 		to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
 		if(bloodsuckerdatum_power.my_clan.blood_drink_type != BLOODSUCKER_DRINK_INHUMANELY)
 			user.add_mood_event("drankblood", /datum/mood_event/drankblood_bad)
@@ -204,7 +204,7 @@
 	return FALSE
 
 /datum/action/bloodsucker/feed/proc/can_feed_from(mob/living/target, give_warnings = FALSE)
-	if(istype(target, /mob/living/simple_animal/mouse) || istype(target, /mob/living/simple_animal/hostile/rat))
+	if(istype(target, /mob/living/basic/mouse) || istype(target, /mob/living/basic/mouse/rat))
 		if(bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY)
 			if(give_warnings)
 				to_chat(owner, span_warning("The thought of feeding off of a dirty rat leaves your stomach aching."))
