@@ -74,8 +74,7 @@
 	return GLOB.always_state
 
 /datum/antag_tip/ui_static_data(mob/user)
-	. = ..()
-	var/list/data = list()
+	var/list/data = ..()
 
 	data["name"] = name
 	data["theme"] = theme
