@@ -46,14 +46,14 @@
 /datum/action/cooldown/mob_cooldown/rabbit_spawn
 	name = "Create Offspring"
 	button_icon_state = "killer_rabbit"
-	cooldown_time = 30 SECONDS
+	cooldown_time = 5 SECONDS
 	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 
 
 /datum/action/cooldown/mob_cooldown/rabbit_spawn/Activate(atom/target_atom)
 	StartCooldown(360 SECONDS, 360 SECONDS)
-	for(var/i in 3 to 5 )
+	for(var/i in 1 to 3 )
 		var/mob/living/simple_animal/hostile/killer_rabbit/rabbit = new /mob/living/simple_animal/hostile/killer_rabbit(owner.loc)
 		rabbit.GiveTarget(target)
 		rabbit.faction = owner.faction.Copy()
@@ -85,7 +85,7 @@
 /datum/action/cooldown/mob_cooldown/red_rabbit_hole
 	name = "Create Rabbit Hole"
 	button_icon_state = "hole_effect_button"
-	cooldown_time = 8 SECONDS
+	cooldown_time = 5 SECONDS
 
 	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
@@ -125,14 +125,14 @@
 
 
 /datum/action/cooldown/mob_cooldown/projectile_attack/shotgun_blast/red_rabbit
-	cooldown_time = 10 SECONDS
+	cooldown_time = 5 SECONDS
 	projectile_type = /obj/projectile/red_rabbit
 
 /obj/projectile/red_rabbit
 	name = "Red Queen"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
-	damage = 7
+	damage = 20
 	armour_penetration = 100
 	speed = 2
 	eyeblur = 0

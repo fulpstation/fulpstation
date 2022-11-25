@@ -46,6 +46,7 @@
 			"explanation" = obj.explanation_text,
 			"completed" = (obj.check_completion()),
 			))
+		data["rabbits_found"] = !(owner.sickness.white_rabbits.len)
 	return data
 
 /obj/item/hunting_contract/ui_act(action, params)
@@ -60,6 +61,18 @@
 			selected_item = item
 			. = TRUE
 			purchase(selected_item, usr)
+		if("claim_reward")
+			var/mob/living/simple_animal/hostile/megafauna/red_rabbit/evil_rabbit
+			evil_rabbit = new /mob/living/simple_animal/hostile/megafauna/red_rabbit(get_turf(usr))
+			usr.mind.transfer_to(evil_rabbit)
+			var/mob/living/carbon/human/man = usr
+			man.gib()
+			var/datum/objective/survive/destruction = new
+			destruction.name = "Wreak Havoc"
+			destruction.explanation_text = "Wreak havoc upon the station"
+			destruction.owner = owner.owner
+			owner.objectives += destruction
+
 
 /obj/item/hunting_contract/proc/purchase(item, user)
 	var/purchased
@@ -108,3 +121,9 @@
 	name = "Darkmoon greatsword"
 	desc = "a heavy sword hilt that would knock anyone out cold, can transform into the darkmoonlight greatsword. "
 	item = /obj/item/melee/trick_weapon/darkmoon
+
+
+/obj/item/hunting_contract/Destroy()
+	owner = null
+	shop = null
+	..()
