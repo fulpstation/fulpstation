@@ -3,6 +3,7 @@
 	desc = "A one use autoinjector with a toxin that permanently changes your DNA to the DNA of a previously injected person. Use it on the victim to extract their DNA then inject it into yourself!"
 	icon = 'icons/obj/medical/syringe.dmi'
 	icon_state = "dnainjector0"
+	inhand_icon_state = "dnainjector"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
@@ -186,6 +187,7 @@
 	desc = "Allows one to unleash the beast within."
 	icon = 'icons/obj/medical/syringe.dmi'
 	icon_state = "dnainjector0"
+	inhand_icon_state = "dnainjector"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
@@ -386,7 +388,7 @@
 
 /obj/item/grenade/c4/wormhole/proc/set_bombing_zone()
 	for(var/sanity in 1 to 100)
-		var/area/selected_area = pick(GLOB.sortedAreas)
+		var/area/selected_area = pick(get_sorted_areas())
 		if(!is_station_level(selected_area.z) || !(selected_area.area_flags & VALID_TERRITORY))
 			continue
 		bombing_zone = selected_area

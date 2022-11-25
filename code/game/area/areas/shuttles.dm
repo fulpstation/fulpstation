@@ -9,7 +9,7 @@
 	has_gravity = STANDARD_GRAVITY
 	always_unpowered = FALSE
 	// Loading the same shuttle map at a different time will produce distinct area instances.
-	area_flags = NO_ALERTS
+	area_flags = NONE
 	icon = 'icons/area/areas_station.dmi'
 	icon_state = "shuttle"
 	flags_1 = CAN_BE_DIRTY_1
@@ -144,7 +144,6 @@
 
 /area/shuttle/mining
 	name = "Mining Shuttle"
-	area_flags = NONE //Set this so it doesn't inherit NO_ALERTS
 
 /area/shuttle/mining/large
 	name = "Mining Shuttle"
@@ -152,7 +151,6 @@
 
 /area/shuttle/labor
 	name = "Labor Camp Shuttle"
-	area_flags = NONE //Set this so it doesn't inherit NO_ALERTS
 
 /area/shuttle/supply
 	name = "Supply Shuttle"
@@ -163,7 +161,7 @@
 	area_flags = BLOBS_ALLOWED
 	area_limited_icon_smoothing = /area/shuttle/escape
 	flags_1 = CAN_BE_DIRTY_1
-	area_flags = NO_ALERTS | CULT_PERMITTED
+	area_flags = CULT_PERMITTED
 
 /area/shuttle/escape/backup
 	name = "Backup Emergency Shuttle"
@@ -190,6 +188,9 @@
 /area/shuttle/escape/meteor
 	name = "\proper a meteor with engines strapped to it"
 	luminosity = NONE
+
+/area/shuttle/escape/engine
+	name = "Escape Shuttle Engine"
 
 /area/shuttle/transport
 	name = "Transport Shuttle"
