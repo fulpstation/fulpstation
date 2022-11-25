@@ -335,6 +335,10 @@
 
 /obj/item/clothing/mask/cursed_rabbit/dropped(mob/user)
 	. = ..()
+	if(!paradox)
+		return
+	if(paradox.owner != user)
+		return
 	paradox.Remove(user)
 
 /obj/item/rabbit_locator
