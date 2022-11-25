@@ -90,7 +90,6 @@
  */
 /datum/reagent/blood/bloodsucker
 	name = "Blood two"
-	desc = "If blood is so good, why isn't there a second?"
 
 /datum/reagent/blood/bloodsucker/expose_mob(mob/living/exposed_mob, methods, reac_volume, show_message, touch_protection)
 	var/datum/antagonist/ex_vassal/former_vassal = exposed_mob.mind.has_antag_datum(/datum/antagonist/ex_vassal)
