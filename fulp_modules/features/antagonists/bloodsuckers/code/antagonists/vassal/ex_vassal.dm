@@ -89,7 +89,8 @@
  * Artificially made, this must be fed to ex-vassals to keep them on their high.
  */
 /datum/reagent/blood/bloodsucker
-	name = "Blood...?"
+	name = "Blood two"
+	desc = "If blood is so good, why isn't there a second?"
 
 /datum/reagent/blood/bloodsucker/expose_mob(mob/living/exposed_mob, methods, reac_volume, show_message, touch_protection)
 	var/datum/antagonist/ex_vassal/former_vassal = exposed_mob.mind.has_antag_datum(/datum/antagonist/ex_vassal)
