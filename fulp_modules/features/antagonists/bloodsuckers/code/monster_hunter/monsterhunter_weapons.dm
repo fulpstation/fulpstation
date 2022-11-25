@@ -312,7 +312,10 @@
 	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	///the paradox rabbit ability
 	var/datum/action/cooldown/paradox/paradox
+	///teleporting to the wonderland
+	var/datum/action/cooldown/wonderland_drop/wonderland
 
 
 /obj/item/clothing/mask/cursed_rabbit/Initialize(mapload)
@@ -324,14 +327,25 @@
 	if(!rabby.chessmark)
 		return
 	paradox = rabby
+	var/datum/action/cooldown/wonderland_drop/drop = new
+	if(!drop)
+		return
+	drop.landmark = GLOB.wonderland_marks["Wonderland landmark"]
+	if(!drop.landmark)
+		return
+	wonderland = drop
 
 /obj/item/clothing/mask/cursed_rabbit/equipped(mob/living/carbon/human/user,slot)
 	..()
 	if(!paradox)
 		return
+	if(!wonderland)
+		return
 	if(!(slot & ITEM_SLOT_MASK))
 		return
 	paradox.Grant(user)
+	wonderland.Grant(user)
+
 
 /obj/item/clothing/mask/cursed_rabbit/dropped(mob/user)
 	. = ..()
@@ -340,6 +354,11 @@
 	if(paradox.owner != user)
 		return
 	paradox.Remove(user)
+	if(!wonderland)
+		return
+	if(!wonderland.owner != user)
+		return
+	wonderland.Remove(user)
 
 /obj/item/rabbit_locator
 	name = "Accursed Red Queen card"

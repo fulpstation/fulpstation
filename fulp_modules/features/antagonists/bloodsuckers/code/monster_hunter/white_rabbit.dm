@@ -30,7 +30,9 @@
 	var/datum/antagonist/monsterhunter/hunta = user.mind.has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!hunta)
 		return
-	var/datum/objective/assassinate/obj = pick(hunta.objectives)
+	var/datum/objective/assassinate/obj
+	if(hunta.objectives.len)
+	obj = pick(hunta.objectives)
 	if(obj)
 		description = "TARGET [obj.target.current.real_name], ABILITIES "
 		for(var/datum/action/ability in obj.target.current.actions)

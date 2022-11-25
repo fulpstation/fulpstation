@@ -33,3 +33,32 @@
 	rabbit = null
 	qdel(bunny)
 
+
+/datum/action/cooldown/wonderland_drop
+	name = "To Wonderland"
+	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	button_icon_state = "to_wonderland"
+	cooldown_time = 3 MINUTES
+	///where we will be teleporting the user too
+	var/obj/effect/landmark/wonderland_mark/landmark
+	///where the user originally was
+	var/turf/original_loc
+
+
+/datum/action/cooldown/wonderland_drop/Activate()
+	StartCooldown(360 SECONDS, 360 SECONDS)
+	if(!landmark)
+		return
+	original_loc = get_turf(owner)
+	var/turf/theplace = get_turf(landmark)
+	owner.forceMove(theplace)
+	to_chat(owner, span_warning("You wake up in the Wonderland"))
+	addtimer(CALLBACK(src,.proc/return_to_station, owner), 30 SECONDS)
+	StartCooldown()
+
+/datum/action/cooldown/wonderland_drop/proc/return_to_station()
+	if(!original_loc)
+		return
+	owner.forceMove(original_loc)
+	to_chat(owner, span_warning("Was it all a dream?"))
+	original_loc = null
