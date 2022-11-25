@@ -130,8 +130,10 @@
 		if(!terrorist)
 			return
 		for(var/datum/objective/obj in terrorist.objectives)
+			log_traitor("Objective: [obj.explanation_text], removed from [key_name(user)]")
 			terrorist.objectives -= obj
 		terrorist.objectives += reward_obj
+		log_traitor("[key_name(user)] has gained the objective [reward_obj.explanation_text]")
 
 
 /obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)

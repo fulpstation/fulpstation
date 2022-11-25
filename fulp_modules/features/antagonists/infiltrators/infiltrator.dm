@@ -121,7 +121,7 @@
 
 
 /datum/antagonist/infiltrator_backup
-	name = "Infiltrator"
+	name = "Infiltrator Reinforcement"
 	antagpanel_category = "Infiltrator"
 	job_rank = ROLE_INFILTRATOR
 	hijack_speed = 1
@@ -137,6 +137,11 @@
 	if(!purchaser)
 		return
 	owner.enslave_mind_to_creator(purchaser.owner.current)
+	var/datum/objective/custom/custom = new
+	custom.owner = owner
+	custom.name = "Aid [purchaser.owner.name]"
+	custom.explanation_text = "Aid [purchaser.owner.name] with their goals!"
+	objectives += custom
 	var/mob/living/carbon/human/infiltrator = owner.current
 	infiltrator.equipOutfit(/datum/outfit/infiltrator_reinforcement)
 	return ..()
