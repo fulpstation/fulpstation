@@ -40,7 +40,7 @@
 	desc = "A plushie depicting a despicable flyperson. It looks like a discontinued human plushie dropped in a teleporter."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "fly"
-	inhand_icon_state = "fly"
+	inhand_icon_state = null
 	attack_verb_continuous = list("buzzes", "swats")
 	attack_verb_simple = list("buzz", "swat")
 	squeak_override = list( 'sound/effects/snap.ogg'=1)
@@ -50,7 +50,7 @@
 	desc = "Don't look inside of the suit."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "freddy"
-	inhand_icon_state = "freddy"
+	inhand_icon_state = null
 	attack_verb_continuous = list("jumpscares")
 	attack_verb_simple = list("jumpscare")
 	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)
@@ -60,7 +60,7 @@
 	desc = "Despite saying let's eat on the bib, please do not attempt to feed the plush."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "chica"
-	inhand_icon_state = "chica"
+	inhand_icon_state = null
 	attack_verb_continuous = list("jumpscares")
 	attack_verb_simple = list("jumpscare")
 	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)

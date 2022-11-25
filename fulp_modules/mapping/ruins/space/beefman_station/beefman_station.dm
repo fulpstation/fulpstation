@@ -26,7 +26,7 @@
 	name = "Beef Station spawner"
 	loot = list(
 		/obj/item/clothing/neck/bfeemam = 3,
-		/obj/item/clothing/head/pirate/captain = 1,
+		/obj/item/clothing/head/costume/pirate = 1,
 		/obj/item/clothing/suit/armor/vest/russian_coat = 1,
 		/obj/item/clothing/suit/jacket/officer/tan = 1,
 		/obj/item/clothing/under/costume/russian_officer = 1,

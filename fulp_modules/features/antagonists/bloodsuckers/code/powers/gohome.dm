@@ -24,7 +24,7 @@
 	///What stage of the teleportation are we in
 	var/teleporting_stage = GOHOME_START
 	var/list/spawning_mobs = list(
-		/mob/living/simple_animal/mouse = 3,
+		/mob/living/basic/mouse = 3,
 		/mob/living/simple_animal/hostile/retaliate/bat = 1,
 	)
 

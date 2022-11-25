@@ -58,7 +58,7 @@
 	bloodsuckerdatum_power = null
 	return ..()
 
-/datum/action/bloodsucker/IsAvailable()
+/datum/action/bloodsucker/IsAvailable(feedback = FALSE)
 	return COOLDOWN_FINISHED(src, bloodsucker_power_cooldown)
 
 /datum/action/bloodsucker/Grant(mob/user)
