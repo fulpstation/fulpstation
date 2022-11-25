@@ -55,25 +55,21 @@
 	disliked_food = VEGETABLES | FRUIT | CLOTH
 	liked_food = RAW | MEAT | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
-	attack_verb = "meat"
 	payday_modifier = 0.75
 	speedmod = -0.2
 	armor = -20
-	punchdamagelow = 1
-	punchdamagehigh = 5
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
 	bodypart_overrides = list(
-		BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,\
-		BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,\
+		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/beef,\
+		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/beef,\
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,\
-		BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,\
-		BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,\
+		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/beef,\
+		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/beef,\
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
 	)
 	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
-	attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
 	special_step_sounds = list(
 		'fulp_modules/features/species/sounds/footstep_splat1.ogg',

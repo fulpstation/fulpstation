@@ -239,13 +239,12 @@
 	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
-/obj/item/clothing/head/hardhat/sans
+/obj/item/clothing/head/utility/hardhat/sans
 	name = "massive foam skull"
 	desc = "What's this guy's name again? Sand? Sailsbury?"
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "hardhat0_sans"
-	on = FALSE
 	hat_type = "sans"
 	armor = list(MELEE = -10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 0, ACID = 0) //just dodge, duh
 	resistance_flags = null
@@ -257,7 +256,7 @@
 	theme_name = "2019's Sans"
 	costume_contents = list(
 		/obj/item/clothing/under/costume/costume_2019/sans,
-		/obj/item/clothing/head/hardhat/sans,
+		/obj/item/clothing/head/utility/hardhat/sans,
 	)
 
 

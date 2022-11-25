@@ -7,9 +7,9 @@
 #define PRIDE_ALPHA 60
 
 /obj/effect/turf_decal/tile/Initialize(mapload)
-	if(check_holidays(APRIL_FOOLS))
+	if (check_holidays(APRIL_FOOLS))
 		color = "#[random_short_color()]"
-	else if(check_holidays(PRIDE_WEEK))
+	else if (check_holidays(PRIDE_WEEK))
 		var/datum/holiday/pride_week/pride_week = GLOB.holidays[PRIDE_WEEK]
 		color = pride_week.get_floor_tile_color(src)
 

@@ -138,7 +138,7 @@
 	name = "Safety Moth safety vest"
 	desc = "The standard issue safety vest belonging to Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
 	icon_state = "hazard"
-	inhand_icon_state = "hazard"
+	inhand_icon_state = null
 	flags_inv = null
 	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/toy/plush/moth)
@@ -146,6 +146,7 @@
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	slowdown = 0
+
 /obj/item/clothing/head/helmet/space/safety_moth
 	name = "Safety Moth safety hardhat"
 	desc = "The standard issue safety hardhat belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
@@ -154,6 +155,7 @@
 	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+
 /obj/item/clothing/shoes/magboots/safety_moth
 	desc = "A special pair of Magnetic boots which doesn't weight you down." // Do they even need this? They're a moth...
 	name = "safety magboots"
@@ -164,7 +166,7 @@
 	name = "Safety Moth medical jacket"
 	desc = "The standard issue safety jacket belonging to Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
 	icon_state = "labcoat_paramedic"
-	inhand_icon_state = "labcoat_paramedic"
+
 /obj/item/clothing/head/helmet/space/safety_moth/med
 	name = "Safety Moth medical cap"
 	desc = "The standard issue safety cap belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
@@ -175,8 +177,9 @@
 	name = "Safety Moth riot suit"
 	desc = "The standard issue riot suit belonging to Safety Moth themselves. Functions like a hardsuit, resists shoves, and offers superb protection against environmental hazards."
 	icon_state = "riot"
-	inhand_icon_state = "riot"
+	inhand_icon_state = "swat_suit"
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCKS_SHOVE_KNOCKDOWN
+
 /obj/item/clothing/head/helmet/space/safety_moth/sec
 	name = "Safety Moth riot helmet"
 	desc = "The standard issue riot helmet belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
