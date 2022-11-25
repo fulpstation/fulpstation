@@ -110,7 +110,7 @@
 	if(!do_mob(user, mesmerized_target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, mesmerized_target)))
 		return
 
-	var/power_time = 90 + level_current * 15
+	var/power_time = 9 SECONDS + level_current * 1.5 SECONDS
 	if(IS_MONSTERHUNTER(mesmerized_target))
 		to_chat(mesmerized_target, span_notice("You feel your eyes burn for a while, but it passes."))
 		return
@@ -124,6 +124,7 @@
 		else if(level_current >= 2)
 			ADD_TRAIT(mesmerized_target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		mesmerized_target.Immobilize(power_time)
+		mesmerized_target.adjust_silence(power_time)
 		//mesmerized_target.silent += power_time / 10 // Silent isn't based on ticks.
 		mesmerized_target.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized_target.changeNext_move(power_time) // check click.dm
 		mesmerized_target.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.

@@ -19,14 +19,14 @@
 		felifriend.gain_trauma_type(BRAIN_TRAUMA_SEVERE, TRAUMA_RESILIENCE_LOBOTOMY) //Fuck you even more
 		felifriend.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_LOBOTOMY)
 
-/obj/item/clothing/head/kitty
+/obj/item/clothing/head/costume/kitty
 	desc = "A pair of kitty ears. Meow! Prone to causing the user to behave more absent-minded."
 	equip_delay_other = 20 MINUTES
 	equip_delay_self = 5 SECONDS
 	clothing_flags = SNUG_FIT | ANTI_TINFOIL_MANEUVER | DANGEROUS_OBJECT
 	clothing_traits = list(TRAIT_UNINTELLIGIBLE_SPEECH, TRAIT_CLUMSY, TRAIT_DUMB)
 
-/obj/item/clothing/head/kitty/proc/at_peace_check(mob/user)
+/obj/item/clothing/head/costume/kitty/proc/at_peace_check(mob/user)
 	if(iscarbon(user))
 		var/mob/living/carbon/carbon_user = user
 		if(src == carbon_user.head)
@@ -34,17 +34,17 @@
 			return TRUE
 	return FALSE
 
-/obj/item/clothing/head/kitty/attack_hand(mob/user, list/modifiers)
+/obj/item/clothing/head/costume/kitty/attack_hand(mob/user, list/modifiers)
 	if(at_peace_check(user))
 		return
 	return ..()
 
-/obj/item/clothing/head/kitty/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
+/obj/item/clothing/head/costume/kitty/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
 	if(at_peace_check(usr))
 		return
 	return ..()
 
-/obj/item/clothing/head/kitty/equipped(mob/living/carbon/human/user, slot)
+/obj/item/clothing/head/costume/kitty/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(slot != ITEM_SLOT_HEAD)
 		return

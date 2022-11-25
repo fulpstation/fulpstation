@@ -133,9 +133,15 @@
 	desc = "a pair of glasses usually designed to identify targets for execution, although this mechanic has been removed for civilian casual use."
 	icon_state = "icon_crueltysquad_glasses"
 
+/obj/item/clothing/gloves/costume_2022/crueltysquad_gloves
+	name = "CSIJ level I gloves"
+	desc = "armor used by assassins working for Cruelty Squad, stripped of all of its functions for kids to play with."
+	icon_state = "icon_crueltysquad_gloves"
+
 /obj/item/storage/box/halloween/edition_22/crueltysquad
 	theme_name = "2022's MT Foxtrot"
 	costume_contents = list(
+		/obj/item/clothing/gloves/costume_2022/crueltysquad_gloves,
 		/obj/item/clothing/glasses/costume_2022/crueltysquad_glasses,
 		/obj/item/clothing/under/costume_2022/crueltysquad_under,
 		/obj/item/clothing/shoes/costume_2022/crueltysquad_shoes,

@@ -142,7 +142,7 @@
 
 	return ..()
 
-/datum/action/item_action/rune_shatter/IsAvailable()
+/datum/action/item_action/rune_shatter/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return
@@ -238,7 +238,7 @@
 		return
 	var/mob/living/carbon/carbon_victim = victim
 	carbon_victim.adjustStaminaLoss(80)
-	carbon_victim.silent += 10
+	carbon_victim.adjust_silence(20 SECONDS)
 	carbon_victim.adjust_stutter(1 MINUTES)
 	carbon_victim.adjust_confusion(5 SECONDS)
 	carbon_victim.set_jitter_if_lower(20 SECONDS)
