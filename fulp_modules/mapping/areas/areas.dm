@@ -30,6 +30,11 @@
 	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "brig_hallway"
 
+/area/station/security/prison/safe/exterior
+	name = "\improper Prison Exterior"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "prison_ext_safe"
+
 // Ruins
 
 /area/ruin/powered/beefcyto
@@ -40,9 +45,3 @@
 	name = "beef station"
 	icon_state = "green"
 	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
-
-// Shuttles
-
-/area/shuttle/prison_shuttle
-	name = "Prison Shuttle"
-	area_flags = NOTELEPORT
