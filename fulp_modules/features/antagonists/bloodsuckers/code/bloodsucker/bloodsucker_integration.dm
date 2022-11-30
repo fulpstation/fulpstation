@@ -70,7 +70,7 @@
 // INTEGRATION: Adding Procs and Datums to existing "classes" //
 
 // EXAMINING
-/mob/living/carbon/proc/ReturnVampExamine(mob/living/viewer)
+/mob/living/carbon/proc/return_vamp_examine(mob/living/viewer)
 	if(!mind || !viewer.mind)
 		return FALSE
 	// Target must be a Vamp
@@ -88,7 +88,7 @@
 		if(!(HAS_TRAIT(viewer, TRAIT_BLOODSUCKER_HUNTER) && bloodsuckerdatum.broke_masquerade))
 			return FALSE
 	// Default String
-	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName()]</EM></span>\]"
+	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.return_full_name()]</EM></span>\]"
 	var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
 
 	// In Disguise (Veil)?
@@ -98,7 +98,7 @@
 	//returnString += "\n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
 
-/mob/living/carbon/proc/ReturnVassalExamine(mob/living/viewer)
+/mob/living/carbon/proc/return_vassal_examine(mob/living/viewer)
 	if(!mind || !viewer.mind)
 		return FALSE
 	// Target must be a Vassal
@@ -117,7 +117,7 @@
 		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
 	// Am I someone ELSE'S Vassal?
 	else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
-		returnString += "This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName()][vassaldatum.master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
+		returnString += "This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.return_full_name()][vassaldatum.master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
 		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
 	// Are you serving the same master as I am?
 	else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)

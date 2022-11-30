@@ -72,7 +72,7 @@
 /datum/action/bloodsucker/feed/ActivatePower(trigger_flags)
 	var/mob/living/feed_target = target_ref.resolve()
 	if(istype(feed_target, /mob/living/basic/mouse))
-		to_chat(user, span_notice("You recoil at the taste of a lesser lifeform."))
+		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))
 		if(bloodsuckerdatum_power.my_clan.blood_drink_type != BLOODSUCKER_DRINK_INHUMANELY)
 			var/mob/living/user = owner
 			user.add_mood_event("drankblood", /datum/mood_event/drankblood_bad)
@@ -142,7 +142,7 @@
 		feed_strength_mult = 1
 	else
 		feed_strength_mult = 0.3
-	blood_taken += bloodsuckerdatum_power.HandleFeeding(feed_target, feed_strength_mult, level_current)
+	blood_taken += bloodsuckerdatum_power.handle_feeding(feed_target, feed_strength_mult, level_current)
 
 	if(feed_strength_mult > 5 && feed_target.stat < DEAD)
 		user.add_mood_event("drankblood", /datum/mood_event/drankblood)

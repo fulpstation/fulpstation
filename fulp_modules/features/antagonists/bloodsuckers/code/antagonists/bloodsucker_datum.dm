@@ -254,7 +254,7 @@
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
-	var/fullname = ReturnFullName()
+	var/fullname = return_full_name()
 	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
@@ -324,7 +324,7 @@
 
 	switch(action)
 		if("join_clan")
-			AssignClanAndBane()
+			assign_clan_and_bane()
 			ui.send_full_update(force = TRUE)
 			return
 
@@ -377,7 +377,7 @@
 	// Get the default Objectives
 	var/list/report = list()
 	// Vamp name
-	report += "<br><span class='header'><b>\[[ReturnFullName()]\]</b></span>"
+	report += "<br><span class='header'><b>\[[return_full_name()]\]</b></span>"
 	report += printplayer(owner)
 	if(my_clan)
 		// Clan (Actual Clan, not Team) name
@@ -477,7 +477,7 @@
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	/// Clear Disabilities & Organs
-	HealVampireOrgans()
+	heal_vampire_organs()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	// Powers
@@ -600,7 +600,7 @@
 
 /// Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
-	return ..() + "([ReturnFullName()])"
+	return ..() + "([return_full_name()])"
 
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
@@ -674,7 +674,7 @@
 			"Lady",
 			"Mistress",
 		)
-	to_chat(owner, span_announce("You have earned a title! You are now known as <i>[ReturnFullName()]</i>!"))
+	to_chat(owner, span_announce("You have earned a title! You are now known as <i>[return_full_name()]</i>!"))
 
 /datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = FALSE, forced = FALSE)
 	// Already have Reputation
@@ -738,9 +738,9 @@
 			"Corrupt","Hellspawn","Tyrant","Sanguineous",
 		)
 
-	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName()]</i>!"))
+	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[return_full_name()]</i>!"))
 
-/datum/antagonist/bloodsucker/proc/ReturnFullName()
+/datum/antagonist/bloodsucker/proc/return_full_name()
 
 	var/fullname = bloodsucker_name ? bloodsucker_name : owner.current.name
 	// Title

@@ -118,7 +118,7 @@
 		to_chat(user, span_warning("You cannot use powers while in a Frenzy!"))
 		return FALSE
 	// Stake?
-	if((check_flags & BP_CANT_USE_WHILE_STAKED) && user.AmStaked())
+	if((check_flags & BP_CANT_USE_WHILE_STAKED) && user.am_staked())
 		to_chat(user, span_warning("You have a stake in your chest! Your powers are useless."))
 		return FALSE
 	// Conscious? -- We use our own (AB_CHECK_CONSCIOUS) here so we can control it more, like the error message.

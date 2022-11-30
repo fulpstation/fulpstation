@@ -45,7 +45,7 @@
 	// Handle organs
 	var/obj/item/organ/internal/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
-		vampheart.FakeStart()
+		vampheart.fake_start_heart()
 	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = initial(eyes.flash_protect)
