@@ -108,7 +108,7 @@
 /datum/objective/bloodsucker/conversion/command/check_completion()
 	var/list/vassal_jobs = get_vassal_occupations()
 	for(var/datum/job/checked_job in vassal_jobs)
-		if((checked_job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
+		if(checked_job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
 			return TRUE // We only need one, so we stop as soon as we get a match
 	return FALSE
 
