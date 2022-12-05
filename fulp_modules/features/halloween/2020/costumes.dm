@@ -564,7 +564,7 @@
 	costume_contents = list(
 		/obj/item/clothing/suit/costume_2020/moffking,
 		/obj/item/clothing/head/costume_2020/moffking,
-		/obj/item/shield/riot/buckler,
+		/obj/item/shield/buckler,
 	)
 
 	cloakcolor = pick("black","blue","green","purple","red","orange","white","yellow")

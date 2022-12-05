@@ -163,7 +163,7 @@
 		PowerActivatedSuccessfully()
 		to_chat(user, span_warning("We revive [target]!"))
 		target.mind.grab_ghost()
-		target.revive(full_heal = TRUE, admin_revive = TRUE)
+		target.revive(ADMIN_HEAL_ALL)
 		return
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("Their body refuses to react..."))
@@ -175,7 +175,7 @@
 	target.mind.grab_ghost()
 	var/datum/antagonist/vassal/vas = target.mind.has_antag_datum(/datum/antagonist/vassal)
 	vas.temporary_vassal = TRUE
-	target.revive(full_heal = TRUE, admin_revive = TRUE)
+	target.revive(ADMIN_HEAL_ALL)
 	var/living_time
 	if(level_current == 4)
 		living_time = 5 MINUTES
