@@ -10807,13 +10807,8 @@
 /obj/structure/toilet/greyscale{
 	dir = 4
 	},
-/obj/item/radio/intercom/directional/north{
-	desc = "A station intercom. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = 25;
-	prison_radio = 1
-	},
 /obj/effect/spawner/random/contraband/prison,
+/obj/item/radio/intercom/prison/directional/north,
 /turf/open/floor/iron/white,
 /area/station/security/prison/safe)
 "dEK" = (
@@ -43425,7 +43420,9 @@
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
 	dir = 8
 	},
-/obj/machinery/computer/department_orders/engineering,
+/obj/machinery/computer/department_orders/engineering{
+	department_delivery_areas = list(/area/station/engineering/lobby)
+	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "osB" = (
@@ -51742,13 +51739,8 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
 	},
-/obj/item/radio/intercom/directional/east{
-	desc = "Talk through this. It looks like it has been modified to not broadcast.";
-	name = "Prison Intercom (General)";
-	pixel_y = -2;
-	prison_radio = 1
-	},
 /obj/effect/turf_decal/tile/prison/opposingcorners,
+/obj/item/radio/intercom/prison/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/security/brig)
 "rmL" = (
