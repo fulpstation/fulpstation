@@ -90,14 +90,18 @@
 	limb_id = SPECIES_BEEFMAN
 	is_dimorphic = FALSE
 
-/obj/item/bodypart/r_arm/beef
+/obj/item/bodypart/arm/right/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
+	unarmed_attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
+	unarmed_attack_verb = "meat"
+	unarmed_damage_low = 1
+	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
 
-/obj/item/bodypart/r_arm/beef/drop_limb(special)
+/obj/item/bodypart/arm/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
@@ -105,14 +109,18 @@
 		qdel(src)
 		return new_meat
 
-/obj/item/bodypart/l_arm/beef
+/obj/item/bodypart/arm/left/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
+	unarmed_attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
+	unarmed_attack_verb = "meat"
+	unarmed_damage_low = 1
+	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
 
-/obj/item/bodypart/l_arm/beef/drop_limb(special)
+/obj/item/bodypart/arm/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
@@ -120,14 +128,14 @@
 		qdel(src)
 		return new_meat
 
-/obj/item/bodypart/r_leg/beef
+/obj/item/bodypart/leg/right/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
 
-/obj/item/bodypart/r_leg/beef/drop_limb(special)
+/obj/item/bodypart/leg/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
@@ -135,14 +143,14 @@
 		qdel(src)
 		return new_meat
 
-/obj/item/bodypart/l_leg/beef
+/obj/item/bodypart/leg/left/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
 
-/obj/item/bodypart/l_leg/beef/drop_limb(special)
+/obj/item/bodypart/leg/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)

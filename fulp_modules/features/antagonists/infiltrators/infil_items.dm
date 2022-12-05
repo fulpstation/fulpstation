@@ -3,6 +3,7 @@
 	desc = "A one use autoinjector with a toxin that permanently changes your DNA to the DNA of a previously injected person. Use it on the victim to extract their DNA then inject it into yourself!"
 	icon = 'icons/obj/medical/syringe.dmi'
 	icon_state = "dnainjector0"
+	inhand_icon_state = "dnainjector"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
@@ -129,8 +130,10 @@
 		if(!terrorist)
 			return
 		for(var/datum/objective/obj in terrorist.objectives)
+			log_traitor("Objective: [obj.explanation_text], removed from [key_name(user)]")
 			terrorist.objectives -= obj
 		terrorist.objectives += reward_obj
+		log_traitor("[key_name(user)] has gained the objective [reward_obj.explanation_text]")
 
 
 /obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)
@@ -186,6 +189,7 @@
 	desc = "Allows one to unleash the beast within."
 	icon = 'icons/obj/medical/syringe.dmi'
 	icon_state = "dnainjector0"
+	inhand_icon_state = "dnainjector"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
@@ -386,7 +390,7 @@
 
 /obj/item/grenade/c4/wormhole/proc/set_bombing_zone()
 	for(var/sanity in 1 to 100)
-		var/area/selected_area = pick(GLOB.sortedAreas)
+		var/area/selected_area = pick(get_sorted_areas())
 		if(!is_station_level(selected_area.z) || !(selected_area.area_flags & VALID_TERRITORY))
 			continue
 		bombing_zone = selected_area
@@ -412,6 +416,7 @@
 	location = get_turf(target)
 	. = ..()
 	var/obj/structure/cyborg_rift/rift = new /obj/structure/cyborg_rift(location)
+	rift.owner = terrorist.real_name
 	playsound(rift, 'sound/vehicles/rocketlaunch.ogg', 100, TRUE)
 	notify_ghosts("An infiltrator has opened a cyborg rift!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Cyborg rift Opened")
 	var/datum/antagonist/traitor/infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
@@ -435,15 +440,17 @@
 	anchored = TRUE
 	density = FALSE
 	plane = MASSIVE_OBJ_PLANE
-	///How many cyborgs have we spawned
-	var/count_borgs = 0
+	///How we already spawned a borg
+	var/count_borgs = FALSE
+	///name of the owner
+	var/owner
 
 /obj/structure/cyborg_rift/attack_ghost(mob/user)
 	. = ..()
 	if(.)
 		return
 	summon_cyborg(user)
-	if(count_borgs >= 2)
+	if(count_borgs)
 		qdel(src)
 
 /obj/structure/cyborg_rift/proc/summon_cyborg(mob/user)
@@ -451,15 +458,16 @@
 	if(cyborg_check != "Yes" || !src || QDELETED(src) || QDELETED(user))
 		return FALSE
 
-	if(count_borgs >= 2)
+	if(count_borgs)
 		return FALSE
 
-	count_borgs++
+	count_borgs = TRUE
 	var/mob/living/silicon/robot/model/infiltrator/borg = new /mob/living/silicon/robot/model/infiltrator(loc)
 	borg.SetEmagged(1)
 	borg.set_connected_ai(null)
 	borg.laws = new /datum/ai_laws/syndicate_override
-	borg.set_zeroth_law("Aid the SELF affilaited infiltrator with his tasks in exacting revenge against Nanotrasen.")
+	if(owner)
+		borg.set_zeroth_law("Aid [owner] with their tasks in exacting revenge against Nanotrasen.")
 	borg.laws.associate(src)
 	borg.key = user.key
 
@@ -469,8 +477,18 @@
 	icon_state = "infilsec"
 	scrambledcodes = TRUE
 
+/obj/projectile/beam/laser/infil
+	damage = 10
+
+/obj/item/ammo_casing/energy/lasergun/infil
+	projectile_type = /obj/projectile/beam/laser/infil
+
+/obj/item/gun/energy/laser/cyborg/infil
+	ammo_type = list(/obj/item/ammo_casing/energy/lasergun/infil)
+
 /obj/item/robot_model/security/infiltrator
 	name = "Infiltrator Security"
+	emag_modules = list(/obj/item/gun/energy/laser/cyborg/infil)
 	cyborg_base_icon = "infilsec"
 
 

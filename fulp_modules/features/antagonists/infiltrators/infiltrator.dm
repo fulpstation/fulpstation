@@ -119,9 +119,18 @@
 	r_hand = /obj/item/aicard
 	l_pocket = /obj/item/grenade/c4/wormhole
 
+/datum/antagonist/traitor/infiltrator/ui_static_data(mob/user)
+	var/list/data = ..()
+	data -= data["objectives"]
+	return data
+
+/datum/antagonist/traitor/infiltrator/ui_data(mob/user)
+	var/list/data = list()
+	data["objectives"] = get_objectives()
+	return data
 
 /datum/antagonist/infiltrator_backup
-	name = "Infiltrator"
+	name = "Infiltrator Reinforcement"
 	antagpanel_category = "Infiltrator"
 	job_rank = ROLE_INFILTRATOR
 	hijack_speed = 1
@@ -137,6 +146,11 @@
 	if(!purchaser)
 		return
 	owner.enslave_mind_to_creator(purchaser.owner.current)
+	var/datum/objective/custom/custom = new
+	custom.owner = owner
+	custom.name = "Aid [purchaser.owner.name]"
+	custom.explanation_text = "Aid [purchaser.owner.name] with their goals!"
+	objectives += custom
 	var/mob/living/carbon/human/infiltrator = owner.current
 	infiltrator.equipOutfit(/datum/outfit/infiltrator_reinforcement)
 	return ..()
