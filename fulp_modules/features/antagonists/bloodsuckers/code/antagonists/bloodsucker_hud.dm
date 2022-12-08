@@ -48,12 +48,12 @@
 		vamprank_display.maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, bloodsucker_level)
 
 /// Update Sun Time
-/datum/antagonist/bloodsucker/proc/update_sunlight(value, amDay = FALSE)
+/datum/antagonist/bloodsucker/proc/update_sunlight(value, sunlight_active = FALSE)
 	if(!sunlight_display)
 		return
 	var/valuecolor
 	var/sunlight_display_icon = "sunlight_"
-	if(amDay)
+	if(sunlight_active)
 		sunlight_display_icon += "day"
 		valuecolor = "#FF5555"
 	else

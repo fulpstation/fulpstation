@@ -23,7 +23,7 @@
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 
-/datum/action/bloodsucker/targeted/haste/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/haste/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
