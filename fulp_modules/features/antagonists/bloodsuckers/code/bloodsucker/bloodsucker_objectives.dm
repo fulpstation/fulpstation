@@ -108,7 +108,7 @@
 /datum/objective/bloodsucker/conversion/command/check_completion()
 	var/list/vassal_jobs = get_vassal_occupations()
 	for(var/datum/job/checked_job in vassal_jobs)
-		if((checked_job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND) || checked_job.title == JOB_QUARTERMASTER) // Exception because not even the code considers the QM part of command
+		if(checked_job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
 			return TRUE // We only need one, so we stop as soon as we get a match
 	return FALSE
 
@@ -286,7 +286,7 @@
 	if(!bloodsuckerdatum)
 		return FALSE
 	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
-		if(vassaldatum.owner && vassaldatum.favorite_vassal)
+		if(IS_FAVORITE_VASSAL(vassaldatum.owner.current))
 			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 				return TRUE
 	return FALSE
