@@ -1,4 +1,4 @@
-/datum/antagonist/bloodsucker/proc/ClaimCoffin(obj/structure/closet/crate/claimed)
+/datum/antagonist/bloodsucker/proc/claim_coffin(obj/structure/closet/crate/claimed)
 	// ALREADY CLAIMED
 	if(claimed.resident)
 		if(claimed.resident == owner.current)
@@ -92,18 +92,18 @@
 //////////////////////////////////////////////
 
 /// NOTE: This can be any coffin that you are resting AND inside of.
-/obj/structure/closet/crate/coffin/proc/ClaimCoffin(mob/living/claimant)
+/obj/structure/closet/crate/coffin/proc/claim_coffin(mob/living/claimant)
 	// Bloodsucker Claim
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum)
 		// Successfully claimed?
-		if(bloodsuckerdatum.ClaimCoffin(src))
+		if(bloodsuckerdatum.claim_coffin(src))
 			resident = claimant
 			anchored = TRUE
 			START_PROCESSING(SSprocessing, src)
 
 /obj/structure/closet/crate/coffin/Destroy()
-	UnclaimCoffin()
+	unclaim_coffin()
 	STOP_PROCESSING(SSprocessing, src)
 	return ..()
 
@@ -117,7 +117,7 @@
 			return FALSE
 		if(bloodsuckerdatum.lair != get_area(bloodsuckerdatum.coffin))
 			if(bloodsuckerdatum.coffin)
-				bloodsuckerdatum.coffin.UnclaimCoffin()
+				bloodsuckerdatum.coffin.unclaim_coffin()
 		var/list/turf/area_turfs = get_area_turfs(bloodsuckerdatum.lair)
 		// Create Dirt etc.
 		var/turf/T_Dirty = pick(area_turfs)
@@ -162,7 +162,7 @@
 						break
 					area_turfs -= lair_turfs*/
 
-/obj/structure/closet/crate/proc/UnclaimCoffin(manual = FALSE)
+/obj/structure/closet/crate/proc/unclaim_coffin(manual = FALSE)
 	// Unanchor it (If it hasn't been broken, anyway)
 	anchored = FALSE
 	if(!resident || !resident.mind)
@@ -207,7 +207,7 @@
 		if(!bloodsuckerdatum.coffin && !resident)
 			switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
 				if("Yes")
-					ClaimCoffin(user)
+					claim_coffin(user)
 			LockMe(user)
 		//Level up if possible.
 		if(!bloodsuckerdatum.my_clan)
@@ -216,7 +216,7 @@
 		if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_NORMAL || (bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL && bloodsuckerdatum.bloodsucker_level < 2))
 			bloodsuckerdatum.SpendRank()
 		/// You're in a Coffin, everything else is done, you're likely here to heal. Let's offer them the oppertunity to do so.
-		bloodsuckerdatum.Check_Begin_Torpor()
+		bloodsuckerdatum.check_begin_torpor()
 	return TRUE
 
 /// You cannot weld or deconstruct an owned coffin. Only the owner can destroy their own coffin.
@@ -260,7 +260,7 @@
 		var/unclaim_response = show_radial_menu(user, src, unclaim_options, radius = 36, require_near = TRUE)
 		switch(unclaim_response)
 			if("Yes")
-				UnclaimCoffin(TRUE)
+				unclaim_coffin(TRUE)
 
 /obj/structure/closet/crate/proc/LockMe(mob/user, inLocked = TRUE)
 	if(user == resident)
