@@ -105,3 +105,11 @@
 
 ///Whether the Bloodsucker should not be dusted when arriving Final Death
 #define DONT_DUST (1<<0)
+
+/**
+ * Sol signals
+ */
+#define COMSIG_SOL_RANKUP_BLOODSUCKERS "comsig_sol_rankup_bloodsuckers"
+#define COMSIG_SOL_RISE_TICK "comsig_sol_rise_tick"
+#define COMSIG_SOL_NEAR_START "comsig_sol_near_start"
+#define COMSIG_SOL_END "comsig_sol_end"
