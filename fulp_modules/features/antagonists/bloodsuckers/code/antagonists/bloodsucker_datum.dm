@@ -339,7 +339,7 @@
 	SIGNAL_HANDLER
 	INVOKE_ASYNC(src, .proc/RankUp)
 
-///Called when Sol first starts.
+///Called when Sol is near starting.
 /datum/antagonist/bloodsucker/proc/sol_near_start(atom/source)
 	SIGNAL_HANDLER
 	if(lair && !(locate(/datum/action/bloodsucker/gohome) in powers))
