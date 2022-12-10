@@ -356,7 +356,7 @@
 	heal_vampire_organs()
 
 	if(my_clan)
-		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, bloodsuckeruser)
+		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, owner.current)
 
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
 /datum/antagonist/bloodsucker/proc/update_blood()
