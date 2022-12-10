@@ -7,6 +7,8 @@
 	if(!owner)
 		INVOKE_ASYNC(src, .proc/HandleDeath)
 		return
+	if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		check_end_torpor()
 	// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
@@ -186,9 +188,6 @@
 		yucky_organs.Remove(bloodsuckeruser)
 		yucky_organs.forceMove(get_turf(bloodsuckeruser))
 
-	if(my_clan)
-		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, bloodsuckeruser)
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //			DEATH
@@ -355,6 +354,9 @@
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	heal_vampire_organs()
+
+	if(my_clan)
+		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, bloodsuckeruser)
 
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
 /datum/antagonist/bloodsucker/proc/update_blood()
