@@ -47544,7 +47544,7 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /obj/structure/cable,
-/turf/open/floor/plating,
+/turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/main)
 "dGY" = (
 /obj/structure/closet/firecloset,
@@ -47728,8 +47728,7 @@
 	pixel_x = -32
 	},
 /obj/structure/cable,
-/obj/effect/spawner/random/trash/mess,
-/turf/open/floor/plating,
+/turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/main)
 "dOs" = (
 /obj/effect/mapping_helpers/broken_floor,
@@ -50286,10 +50285,6 @@
 /obj/structure/sign/warning/directional,
 /turf/closed/wall/r_wall,
 /area/lavaland/surface)
-"fve" = (
-/obj/effect/spawner/random/trash/cigbutt,
-/turf/open/floor/plating,
-/area/station/engineering/main)
 "fvI" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
@@ -52702,22 +52697,22 @@
 /obj/structure/table/reinforced/rglass,
 /obj/structure/sign/clock/directional/north,
 /obj/item/reagent_containers/cup/glass/waterbottle{
-	pixel_x = 6;
+	pixel_x = 4;
 	pixel_y = 10
-	},
-/obj/item/reagent_containers/cup/glass/mug/nanotrasen{
-	pixel_x = -4;
-	pixel_y = 7
-	},
-/obj/item/reagent_containers/cup/rag{
-	pixel_x = 1;
-	pixel_y = 5
 	},
 /obj/structure/window{
 	dir = 4
 	},
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
+	},
+/obj/item/reagent_containers/cup/glass/mug/nanotrasen{
+	pixel_x = -8;
+	pixel_y = 7
+	},
+/obj/item/reagent_containers/cup/rag{
+	pixel_x = -2;
+	pixel_y = 5
 	},
 /turf/open/floor/wood,
 /area/station/engineering/break_room)
@@ -54595,6 +54590,7 @@
 	pixel_x = 6;
 	pixel_y = -1
 	},
+/obj/machinery/light/very_dim/directional/east,
 /turf/open/floor/wood/parquet,
 /area/station/command/heads_quarters/ce)
 "ief" = (
@@ -56353,9 +56349,6 @@
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 8
 	},
-/obj/machinery/camera/directional/south{
-	c_tag = "Service Hallway East"
-	},
 /obj/structure/sign/painting/library{
 	pixel_y = -32
 	},
@@ -57837,8 +57830,13 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/command/nuke_storage)
 "jYV" = (
-/turf/closed/wall/r_wall,
-/area/space)
+/obj/effect/turf_decal/tile/green/half/contrasted,
+/obj/structure/sign/flag/nanotrasen/directional/south,
+/obj/machinery/camera/directional/south{
+	c_tag = "Service Hallway Center"
+	},
+/turf/open/floor/iron,
+/area/station/hallway/secondary/service)
 "kao" = (
 /obj/machinery/disposal/bin,
 /obj/structure/extinguisher_cabinet/directional/east,
@@ -58236,7 +58234,7 @@
 	name = "Atmospherics HFR Room"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/atmos,
-/turf/open/floor/plating,
+/turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/atmos/hfr_room)
 "kpo" = (
 /obj/structure/lattice/catwalk,
@@ -60679,6 +60677,10 @@
 	pixel_x = -3
 	},
 /obj/machinery/airalarm/directional/west,
+/obj/machinery/camera/directional/west{
+	c_tag = "Engineering - Transit Tube Access";
+	network = list("ss13","engineering")
+	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/transit_tube)
 "lSn" = (
@@ -63833,8 +63835,8 @@
 /area/station/medical/chemistry)
 "nFo" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/iron,
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/main)
 "nFE" = (
 /obj/machinery/door/airlock/medical/glass{
@@ -67554,6 +67556,9 @@
 	name = "Engineering Maintenance"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/aft/lesser)
 "pMb" = (
@@ -68512,7 +68517,7 @@
 /area/station/engineering/atmos)
 "qqB" = (
 /obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron,
+/turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/main)
 "qqF" = (
 /obj/effect/decal/cleanable/dirt,
@@ -71331,9 +71336,21 @@
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
 "sef" = (
-/obj/effect/turf_decal/tile/green/half/contrasted,
-/obj/machinery/camera/directional/south{
-	c_tag = "Service Hallway Center"
+/obj/effect/turf_decal/tile/green/half/contrasted{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/cable,
+/obj/machinery/camera/directional/north{
+	c_tag = "Service Hallway East"
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
@@ -71598,13 +71615,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
-"soa" = (
-/obj/effect/turf_decal/tile/green/half/contrasted,
-/obj/machinery/camera/directional/south{
-	c_tag = "Service Hallway West"
-	},
-/turf/open/floor/iron,
-/area/station/hallway/secondary/service)
 "sov" = (
 /obj/effect/turf_decal/stripes/asteroid/corner{
 	dir = 1
@@ -72181,7 +72191,7 @@
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden)
 "sEL" = (
-/turf/open/floor/plating,
+/turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/main)
 "sFg" = (
 /obj/effect/turf_decal/box/white{
@@ -73139,10 +73149,6 @@
 /obj/effect/landmark/start/depsec/engineering,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/engineering)
-"tpu" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating,
-/area/station/engineering/main)
 "tpF" = (
 /turf/closed/wall/r_wall,
 /area/station/command/heads_quarters/qm)
@@ -75242,11 +75248,11 @@
 "uEm" = (
 /obj/structure/table/reinforced/rglass,
 /obj/item/newspaper{
-	pixel_x = -3;
+	pixel_x = -7;
 	pixel_y = 4
 	},
 /obj/item/reagent_containers/cup/glass/britcup{
-	pixel_x = 5;
+	pixel_x = 12;
 	pixel_y = 2
 	},
 /turf/open/floor/wood,
@@ -76777,6 +76783,9 @@
 	dir = 8
 	},
 /obj/machinery/airalarm/directional/west,
+/obj/machinery/camera/directional/west{
+	c_tag = "Service Hallway West"
+	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "vuY" = (
@@ -77025,7 +77034,8 @@
 "vEJ" = (
 /obj/structure/table/reinforced/rglass,
 /obj/effect/spawner/random/entertainment/deck{
-	pixel_y = 2
+	pixel_y = 2;
+	pixel_x = -2
 	},
 /obj/structure/window{
 	dir = 4
@@ -77790,7 +77800,6 @@
 /area/station/service/abandoned_gambling_den)
 "wgT" = (
 /obj/structure/sign/delamination_counter/directional/west,
-/obj/machinery/light/very_dim/directional/west,
 /turf/open/floor/iron/grimy,
 /area/station/command/heads_quarters/ce)
 "whz" = (
@@ -80903,11 +80912,14 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos/storage/gas)
 "yeA" = (
-/obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible{
-	dir = 4
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "atmos";
+	name = "Atmospherics Blast Door"
 	},
-/turf/open/floor/iron,
-/area/station/engineering/atmos)
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
+/turf/open/floor/plating,
+/area/station/engineering/atmos/pumproom)
 "yeE" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -99028,15 +99040,15 @@ aaa
 aak
 cKh
 iUx
-cKh
+eUS
 fes
 cKh
 iUx
-cKh
+eUS
 ugn
 cKh
 iUx
-cKh
+eUS
 ugn
 cKh
 aak
@@ -99555,7 +99567,7 @@ mSD
 coW
 coW
 wBO
-jYV
+coW
 aaa
 aak
 aaa
@@ -99812,7 +99824,7 @@ fVM
 qjt
 cwt
 oqY
-jYV
+coW
 aaa
 aak
 aaa
@@ -100320,7 +100332,7 @@ peN
 cFi
 cFi
 gmf
-yeA
+cyL
 crj
 crj
 crj
@@ -103648,7 +103660,7 @@ cKh
 tEy
 cCW
 cCV
-cKh
+eUS
 aak
 crh
 xSi
@@ -104194,8 +104206,8 @@ upB
 cOk
 cOk
 bXs
-bXs
-bXs
+ccf
+ccf
 bXs
 bXs
 bXs
@@ -104450,10 +104462,10 @@ vvC
 jkF
 kov
 sEL
-fve
+sEL
 qqB
 nFo
-tpu
+qqB
 dNT
 pOC
 pTI
@@ -106223,7 +106235,7 @@ eKX
 ujJ
 mDA
 knJ
-fEj
+yeA
 gpU
 vDm
 fAQ
@@ -107237,7 +107249,7 @@ ahh
 eZg
 kvJ
 xWP
-soa
+nGs
 bxJ
 rfL
 qDF
@@ -108779,7 +108791,7 @@ tku
 rYp
 eKU
 wBb
-evs
+jYV
 bxJ
 mvz
 iHQ
@@ -109036,7 +109048,7 @@ pgO
 xBy
 gNN
 wBb
-sef
+nGs
 bxJ
 kpY
 bxJ
@@ -111862,7 +111874,7 @@ bRl
 bSE
 bTF
 bPu
-mbw
+sef
 tIV
 bkv
 bxJ
@@ -114980,7 +114992,7 @@ cCZ
 cCZ
 cCZ
 cCZ
-jYV
+cCZ
 aaa
 aaa
 aaa
@@ -117573,7 +117585,7 @@ cAu
 dWD
 cQZ
 cQZ
-cQZ
+cRO
 cRO
 cRO
 cRo
@@ -117829,8 +117841,8 @@ aak
 cAu
 tXV
 cRS
-cRS
 cLr
+cRS
 cRS
 cRS
 aoC
@@ -118087,7 +118099,7 @@ aak
 cQZ
 cQZ
 cQZ
-cQZ
+cRO
 cRL
 cRk
 cRq
