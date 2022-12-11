@@ -39,9 +39,17 @@
 	var/datum/action/cooldown/mob_cooldown/projectile_attack/shotgun_blast/red_rabbit/cards = new
 	var/datum/action/cooldown/mob_cooldown/red_rabbit_hole/hole = new
 	var/datum/action/cooldown/mob_cooldown/rabbit_spawn/rabbit = new
+	var/datum/action/cooldown/mob_cooldown/charge/rabbit/spear = new
 	cards.Grant(src)
 	hole.Grant(src)
 	rabbit.Grant(src)
+	spear.Grant(src)
+
+/datum/action/cooldown/mob_cooldown/charge/rabbit
+	destroy_objects = TRUE
+	charge_past = 5
+	cooldown_time = 8 SECONDS
+
 
 /datum/action/cooldown/mob_cooldown/rabbit_spawn
 	name = "Create Offspring"

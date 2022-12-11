@@ -424,3 +424,49 @@
 		if(get_dist(user,located) < dist)
 			dist = get_dist(user,located)
 	return dist
+
+/obj/item/grenade/jack
+	name = "jack in the bomb"
+	desc = "Best kids' toy"
+	w_class = WEIGHT_CLASS_SMALL
+	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon_state = "jack_in_the_bomb"
+	inhand_icon_state = "flashbang"
+	worn_icon_state = "grenade"
+	det_time = 12 SECONDS
+	ex_dev = 1
+	ex_heavy = 2
+	ex_light = 4
+	ex_flame = 2
+
+
+
+/obj/item/grenade/jack/arm_grenade(mob/user, delayoverride, msg = TRUE, volume = 60)
+	log_grenade(user) //Inbuilt admin procs already handle null users
+	if(user)
+		add_fingerprint(user)
+		if(msg)
+			to_chat(user, span_warning("You prime [src]! [capitalize(DisplayTimeText(det_time))]!"))
+	playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/jackinthebomb.ogg', volume, TRUE)
+	if(istype(user))
+		user.mind?.add_memory(MEMORY_BOMB_PRIMED, list(DETAIL_BOMB_TYPE = src), story_value = STORY_VALUE_OKAY)
+	active = TRUE
+	icon_state = initial(icon_state) + "_active"
+	SEND_SIGNAL(src, COMSIG_GRENADE_ARMED, det_time, delayoverride)
+	addtimer(CALLBACK(src, .proc/detonate), isnull(delayoverride)? det_time : delayoverride)
+
+
+/obj/item/grenade/jack/detonate(mob/living/lanced_by)
+	if (dud_flags)
+		active = FALSE
+		update_appearance()
+		return FALSE
+
+	dud_flags |= GRENADE_USED // Don't detonate if we have already detonated.
+	icon_state = "jack_in_the_bomb_live"
+	addtimer(CALLBACK(src, .proc/exploding), 2 SECONDS)
+
+
+/obj/item/grenade/jack/proc/exploding(mob/living/lanced_by)
+	SEND_SIGNAL(src, COMSIG_GRENADE_DETONATE, lanced_by)
+	explosion(src, ex_dev, ex_heavy, ex_light, ex_flame)
