@@ -47,22 +47,22 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 
 	RegisterSignal(src, BLOODSUCKER_MADE_VASSAL, .proc/on_vassal_made)
 	RegisterSignal(src, BLOODSUCKER_EXIT_TORPOR, .proc/on_exit_torpor)
+	RegisterSignal(src, BLOODSUCKER_FINAL_DEATH, .proc/on_final_death)
 
 	give_clan_objective(user)
 
 /datum/bloodsucker_clan/Destroy(force, mob/living/carbon/user)
-	UnregisterSignal(src, BLOODSUCKER_HANDLE_LIFE)
-	UnregisterSignal(src, BLOODSUCKER_RANK_UP)
-	UnregisterSignal(src, BLOODSUCKER_PRE_MAKE_FAVORITE)
-	UnregisterSignal(src, BLOODSUCKER_MAKE_FAVORITE)
-	UnregisterSignal(src, BLOODSUCKER_MADE_VASSAL)
-	UnregisterSignal(src, BLOODSUCKER_EXIT_TORPOR)
+	UnregisterSignal(src, list(
+		BLOODSUCKER_HANDLE_LIFE,
+		BLOODSUCKER_RANK_UP,
+		BLOODSUCKER_PRE_MAKE_FAVORITE,
+		BLOODSUCKER_MAKE_FAVORITE,
+		BLOODSUCKER_MADE_VASSAL,
+		BLOODSUCKER_EXIT_TORPOR,
+		BLOODSUCKER_FINAL_DEATH,
+	))
 	GLOB.bloodsucker_clan_members[name] -= user
 	return ..()
-
-///legacy code support
-/datum/bloodsucker_clan/proc/get_clan()
-	return name
 
 /datum/bloodsucker_clan/proc/give_clan_objective(mob/living/user)
 	if(isnull(clan_objective))
@@ -81,6 +81,15 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  */
 /datum/bloodsucker_clan/proc/on_exit_torpor(atom/source, mob/living/carbon/user)
 	SIGNAL_HANDLER
+
+/**
+ * Called when a Bloodsucker enters Final Death
+ * args:
+ * user - the Bloodsucker exiting Torpor
+ */
+/datum/bloodsucker_clan/proc/on_final_death(atom/source, mob/living/carbon/user)
+	SIGNAL_HANDLER
+	return FALSE
 
 /**
  * Called during Bloodsucker's LifeTick
@@ -191,22 +200,35 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	INVOKE_ASYNC(src, .proc/offer_favorite, bloodsuckerdatum, vassaldatum)
 
 /datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
-	if(vassaldatum.temporary_vassal)
-		to_chat(bloodsuckerdatum.owner.current, span_notice("This entity lives in a feeble temporary vessel, they are not suitable to be our favorite vassal."))
+	if(vassaldatum.special_type)
+		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return
-	to_chat(bloodsuckerdatum.owner.current, span_notice("Would you like to turn this Vassal into your completely loyal Servant? This costs 150 Blood to do. You cannot undo this."))
-	var/list/favorite_options = list(
-		"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-		"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
-	)
-	var/favorite_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, favorite_options, radius = 36, require_near = TRUE)
-	switch(favorite_response)
-		if("Yes")
-			bloodsuckerdatum.bloodsucker_blood_volume -= 150
-			bloodsuckerdatum.has_favorite_vassal = TRUE
-			vassaldatum.make_favorite(bloodsuckerdatum.owner.current)
-		else
-			to_chat(bloodsuckerdatum.owner.current, span_danger("You decide not to turn [vassaldatum.owner.current] into your Favorite Vassal."))
+
+	var/list/options = list()
+	var/list/radial_display = list()
+	for(var/datum/antagonist/vassal/vassaldatums as anything in subtypesof(/datum/antagonist/vassal))
+		if(bloodsuckerdatum.special_vassals[initial(vassaldatums.special_type)])
+			continue
+		options[initial(vassaldatums.name)] = vassaldatums
+
+		var/datum/radial_menu_choice/option = new
+		option.image = image(icon = initial(vassaldatums.hud_icon), icon_state = initial(vassaldatums.antag_hud_name))
+		option.info = "[initial(vassaldatums.name)] - [span_boldnotice(initial(vassaldatums.vassal_description))]"
+		radial_display[initial(vassaldatums.name)] = option
+
+	if(!options.len)
+		return
+
+	to_chat(bloodsuckerdatum.owner.current, span_notice("You can change who this Vassal is, who are they to you?"))
+	var/vassal_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, radial_display)
+	if(!vassal_response)
+		return
+	vassal_response = options[vassal_response]
+	if(QDELETED(src) || QDELETED(bloodsuckerdatum.owner.current) || QDELETED(vassaldatum.owner.current))
+		return FALSE
+	vassaldatum.make_special(vassal_response)
+	bloodsuckerdatum.bloodsucker_blood_volume -= 150
+
 
 /**
  * Called when we are successfully turn a Vassal into a Favorite Vassal
