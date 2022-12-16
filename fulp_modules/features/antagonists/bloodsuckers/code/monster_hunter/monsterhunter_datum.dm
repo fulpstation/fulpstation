@@ -16,6 +16,8 @@
 	var/datum/action/bloodsucker/trackvamp = new /datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new /datum/action/bloodsucker/fortitude/hunter()
 	var/datum/brain_trauma/special/rabbit_hole/sickness
+	///how many rabbits have we found
+	var/rabbits_spotted = 0
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -211,7 +213,7 @@
 			if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
 				continue
 			description += "[ability.name], "
-
+	rabbits_spotted++
 	to_chat(owner.current,span_notice("[description]"))
 
 /datum/antagonist/monsterhunter/proc/find_monster_targets()

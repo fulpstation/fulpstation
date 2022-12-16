@@ -46,6 +46,7 @@
 			"explanation" = obj.explanation_text,
 			"completed" = (obj.check_completion()),
 			))
+		data["number_of_rabbits"] = owner.rabbits_spotted
 		data["rabbits_found"] = !(owner.sickness.white_rabbits.len)
 	return data
 

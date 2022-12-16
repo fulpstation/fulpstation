@@ -37,7 +37,7 @@ const HunterObjectives = (props, context) => {
 
 export const HunterContract = (props, context) => {
   const { act, data } = useBackend(context);
-  const { items = [], bought } = data;
+  const { items = [], bought, number_of_rabbits } = data;
   return (
     <Window width={670} height={400} theme="malfunction">
       <Window.Content scrollable>
@@ -77,12 +77,15 @@ export const HunterContract = (props, context) => {
                     <span>
                       Look for the white rabbits! Use their eyes to upgrade your
                       hunter&#39;s weapon, the red queen&#39;s card will guide
-                      you!
-                    </span>
-                    <span>
+                      you!{' '}
+                      <span className={'color-red'}>
+                        {' '}
+                        YOU HAVE FOUND {number_of_rabbits}{' '}
+                        {number_of_rabbits === 1 ? 'RABBIT' : 'RABBITS'}{' '}
+                      </span>
                       Only once the contract is fullfilled and the rabbits are
                       found will you be able to ascend to your true
-                      <span className={'color-green'}> Divine form</span>!
+                      <span className={'color-green'}> Divine form </span>!
                     </span>
                     <br />
                   </Stack.Item>

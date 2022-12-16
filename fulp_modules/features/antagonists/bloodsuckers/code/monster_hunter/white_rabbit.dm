@@ -50,7 +50,6 @@
 		new /obj/item/gun/ballistic/revolver/hunter_revolver(loc)
 	if(illness)
 		illness.white_rabbits -= src
-	illness.found_rabbits++
 	UnregisterSignal(src, RABBIT_FOUND)
 
 
@@ -67,8 +66,6 @@
 	lose_text = "<span class='warning'>The rabbits scurry off in a hurry, perhaps there's trouble in the wonderland."
 	///the list of rabbit holes the owner can currently interact with
 	var/list/white_rabbits = list()
-	///the number of rabits the owner has found
-	var/found_rabbits = 0
 
 /datum/brain_trauma/special/rabbit_hole/on_lose(silent)
 	for(var/obj/effect/client_image_holder/white_rabbit/rabbit as anything in white_rabbits)
