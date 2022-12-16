@@ -1,12 +1,13 @@
 #define upgraded_val(x,y) ( CEILING((x * (1.07 ** y)), 1) )
 #define CALIBER_BLOODSILVER "bloodsilver"
+#define WEAPON_UPGRADE "weapon_upgrade"
 
 /obj/item/melee/trick_weapon
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons_lefthand.dmi'
 	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons_righthand.dmi'
 	///upgrade level of the weapon
-	var/upgrade_level
+	var/upgrade_level = 0
 	///base force when transformed
 	var/on_force
 	///base force when in default state
@@ -53,10 +54,23 @@
 		sharpness_on = SHARP_EDGED, \
 		w_class_on = WEIGHT_CLASS_BULKY)
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, .proc/on_transform)
+	RegisterSignal(src, WEAPON_UPGRADE, .proc/upgrade_weapon)
+
+
+/obj/item/melee/trick_weapon/darkmoon/proc/upgrade_weapon()
+	SIGNAL_HANDLER
+
+	upgrade_level++
+	force = upgraded_val(base_force,upgrade_level)
+	var/datum/component/transforming/transform = src.GetComponent(/datum/component/transforming)
+	transform.force_on = upgraded_val(on_force,upgrade_level)
+
 
 /obj/item/melee/trick_weapon/darkmoon/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
+	if(active)
+		playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/moonlightsword.ogg',50)
 	inhand_icon_state = active ? "darkmoon" : "darkmoon_hilt"
 	enabled = active
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
@@ -135,11 +149,25 @@
 		sharpness_on = SHARP_EDGED, \
 		w_class_on = WEIGHT_CLASS_BULKY)
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, .proc/on_transform)
+	RegisterSignal(src,WEAPON_UPGRADE, .proc/upgrade_weapon)
+
+
+
+/obj/item/melee/trick_weapon/threaded_cane/proc/upgrade_weapon()
+	SIGNAL_HANDLER
+
+	upgrade_level++
+	force = upgraded_val(base_force,upgrade_level)
+	var/datum/component/transforming/transform = src.GetComponent(/datum/component/transforming)
+	transform.force_on = upgraded_val(on_force,upgrade_level)
+
 
 /obj/item/melee/trick_weapon/threaded_cane/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
 	inhand_icon_state = active ? "chain" : "threaded_cane"
+	if(active)
+		playsound(src,'sound/magic/clockwork/fellowship_armory.ogg',50)
 	reach = active ? 2 : 1
 	enabled = active
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
@@ -156,16 +184,13 @@
 	slot_flags = ITEM_SLOT_BELT
 	block_chance = 20
 	base_force = 20
-	on_force = 23
+	on_force = 25
 	throwforce = 12
 	reach = 1
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	damtype = BURN
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
-	var/charged = TRUE
-	var/force_unwielded = 20
-	var/force_wielded = 25
 
 
 
@@ -173,9 +198,20 @@
 	. = ..()
 	force = base_force
 	AddComponent(/datum/component/two_handed, force_unwielded=base_force, force_wielded= on_force, icon_wielded="[base_icon_state]1", wield_callback = CALLBACK(src, .proc/on_wield), unwield_callback = CALLBACK(src, .proc/on_unwield))
+	RegisterSignal(src,WEAPON_UPGRADE, .proc/upgrade_weapon)
+
+/obj/item/melee/trick_weapon/hunter_axe/proc/upgrade_weapon()
+	SIGNAL_HANDLER
+
+	upgrade_level++
+	var/datum/component/two_handed/handed = src.GetComponent(/datum/component/two_handed)
+	handed.force_wielded = upgraded_val(on_force, upgrade_level)
+	handed.force_unwielded = upgraded_val(base_force,upgrade_level)
+	force = handed.force_unwielded
 
 /obj/item/melee/trick_weapon/hunter_axe/update_icon_state()
 	icon_state = "[base_icon_state]0"
+	playsound(src,'sound/magic/clockwork/fellowship_armory.ogg',50)
 	return ..()
 
 /obj/item/melee/trick_weapon/hunter_axe/proc/on_wield(obj/item/source)
@@ -194,18 +230,10 @@
 	if(killer.upgrade_level >= 3)
 		user.balloon_alert(user, "Already at maximum upgrade!")
 		return
-	killer.upgrade_level++
-	var/number = killer.enabled ? killer.on_force : killer.base_force
-	var/two_handed = FALSE
-	for(var/datum/component/two_handed/hands as anything in killer.GetComponents(/datum/component/two_handed))
-		if(!hands) //for weapons that use the two handed component rather than the transform component
-			continue
-		hands.force_wielded = upgraded_val(killer.on_force, killer.upgrade_level)
-		hands.force_unwielded =  upgraded_val(killer.base_force, killer.upgrade_level)
-		killer.force = killer.enabled ? hands.force_wielded : hands.force_unwielded
-		two_handed = TRUE
-	if(!two_handed)
-		killer.force = upgraded_val(number, killer.upgrade_level)
+	if(killer.enabled)
+		user.balloon_alert(user, "Weapon must be in base form!")
+		return
+	SEND_SIGNAL(killer,WEAPON_UPGRADE)
 	killer.name = "[killer.base_name] +[killer.upgrade_level]"
 	to_chat(user, span_warning ("The [src] crumbles away..."))
 	qdel(src)
