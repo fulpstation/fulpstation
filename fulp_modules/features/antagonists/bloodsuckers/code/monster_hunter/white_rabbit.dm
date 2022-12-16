@@ -17,6 +17,9 @@
 	///is this rabbit selected to drop the gun?
 	var/drop_gun = FALSE
 
+/obj/effect/client_image_holder/white_rabbit/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, RABBIT_FOUND, .proc/spotted)
 
 /obj/effect/client_image_holder/white_rabbit/attack_hand(mob/user, list/modifiers)
 	. = ..()
@@ -27,23 +30,19 @@
 	if(being_used)
 		return
 	being_used = TRUE
+	SEND_SIGNAL(src, RABBIT_FOUND,user)
 	var/datum/antagonist/monsterhunter/hunta = user.mind.has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!hunta)
 		return
-	var/datum/objective/assassinate/obj
-	if(hunta.objectives.len)
-		obj = pick(hunta.objectives)
-	if(obj)
-		description = "TARGET [obj.target.current.real_name], ABILITIES "
-		for(var/datum/action/ability in obj.target.current.actions)
-			if(!ability)
-				continue
-			if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
-				continue
-			description += "[ability.name], "
+	SEND_SIGNAL(hunta, GAIN_INSIGHT)
 	image_state = "rabbit_hole"
 	update_appearance()
-	to_chat(user,span_notice("[description]"))
+	QDEL_IN(src, 8 SECONDS)
+
+
+/obj/effect/client_image_holder/white_rabbit/proc/spotted(mob/user)
+	SIGNAL_HANDLER
+
 	new /obj/item/rabbit_eye(loc)
 	if(drop_mask)
 		new /obj/item/clothing/mask/cursed_rabbit(loc)
@@ -51,7 +50,9 @@
 		new /obj/item/gun/ballistic/revolver/hunter_revolver(loc)
 	if(illness)
 		illness.white_rabbits -= src
-	QDEL_IN(src, 8 SECONDS)
+	illness.found_rabbits++
+	UnregisterSignal(src, RABBIT_FOUND)
+
 
 
 
@@ -66,6 +67,8 @@
 	lose_text = "<span class='warning'>The rabbits scurry off in a hurry, perhaps there's trouble in the wonderland."
 	///the list of rabbit holes the owner can currently interact with
 	var/list/white_rabbits = list()
+	///the number of rabits the owner has found
+	var/found_rabbits = 0
 
 /datum/brain_trauma/special/rabbit_hole/on_lose(silent)
 	for(var/obj/effect/client_image_holder/white_rabbit/rabbit as anything in white_rabbits)

@@ -105,3 +105,8 @@
 
 ///Whether the Bloodsucker should not be dusted when arriving Final Death
 #define DONT_DUST (1<<0)
+
+
+///monsterhunters
+#define RABBIT_FOUND "rabbit_found"
+#define GAIN_INSIGHT "gain_insight"

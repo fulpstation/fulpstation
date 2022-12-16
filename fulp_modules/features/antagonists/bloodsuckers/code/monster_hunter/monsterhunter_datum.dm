@@ -59,14 +59,19 @@
 	criminal.equip_in_one_of_slots(card, slots)
 	var/obj/item/hunting_contract/contract = new(criminal,src)
 	criminal.equip_in_one_of_slots(contract, slots)
+	RegisterSignal(src, GAIN_INSIGHT, .proc/insight_gained)
 	return ..()
+
+
 
 /datum/antagonist/monsterhunter/on_removal()
 	//Remove Monster Hunter powers
 	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)
+	UnregisterSignal(src, GAIN_INSIGHT)
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
+
 
 /datum/antagonist/monsterhunter/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
@@ -190,6 +195,24 @@
 		to_chat(owner, span_notice("You've lost the trail."))
 	. = ..()
 
+
+/datum/antagonist/monsterhunter/proc/insight_gained()
+	SIGNAL_HANDLER
+
+	var/description
+	var/datum/objective/assassinate/obj
+	if(objectives.len)
+		obj = pick(objectives)
+	if(obj)
+		description = "TARGET [obj.target.current.real_name], ABILITIES "
+		for(var/datum/action/ability in obj.target.current.actions)
+			if(!ability)
+				continue
+			if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
+				continue
+			description += "[ability.name], "
+
+	to_chat(owner.current,span_notice("[description]"))
 
 /datum/antagonist/monsterhunter/proc/find_monster_targets()
 	var/list/possible_targets = list()
