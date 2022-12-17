@@ -17,6 +17,16 @@
 	///is the weapon in its transformed state?
 	var/enabled = FALSE
 
+
+/obj/item/melee/trick_weapon/proc/upgrade_weapon()
+	SIGNAL_HANDLER
+
+	upgrade_level++
+	force = upgraded_val(base_force,upgrade_level)
+	var/datum/component/transforming/transform = src.GetComponent(/datum/component/transforming)
+	transform.force_on = upgraded_val(on_force,upgrade_level)
+
+
 /obj/item/melee/trick_weapon/attack(mob/target, mob/living/user, params) //our weapon does 25% less damage on non monsters
 	var/old_force = force
 	if(!(target.mind?.has_antag_datum(/datum/antagonist/changeling)) && !IS_BLOODSUCKER(target))
@@ -56,14 +66,6 @@
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, .proc/on_transform)
 	RegisterSignal(src, WEAPON_UPGRADE, .proc/upgrade_weapon)
 
-
-/obj/item/melee/trick_weapon/darkmoon/proc/upgrade_weapon()
-	SIGNAL_HANDLER
-
-	upgrade_level++
-	force = upgraded_val(base_force,upgrade_level)
-	var/datum/component/transforming/transform = src.GetComponent(/datum/component/transforming)
-	transform.force_on = upgraded_val(on_force,upgrade_level)
 
 
 /obj/item/melee/trick_weapon/darkmoon/proc/on_transform(obj/item/source, mob/user, active)
@@ -153,15 +155,6 @@
 
 
 
-/obj/item/melee/trick_weapon/threaded_cane/proc/upgrade_weapon()
-	SIGNAL_HANDLER
-
-	upgrade_level++
-	force = upgraded_val(base_force,upgrade_level)
-	var/datum/component/transforming/transform = src.GetComponent(/datum/component/transforming)
-	transform.force_on = upgraded_val(on_force,upgrade_level)
-
-
 /obj/item/melee/trick_weapon/threaded_cane/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
@@ -200,8 +193,7 @@
 	AddComponent(/datum/component/two_handed, force_unwielded=base_force, force_wielded= on_force, icon_wielded="[base_icon_state]1", wield_callback = CALLBACK(src, .proc/on_wield), unwield_callback = CALLBACK(src, .proc/on_unwield))
 	RegisterSignal(src,WEAPON_UPGRADE, .proc/upgrade_weapon)
 
-/obj/item/melee/trick_weapon/hunter_axe/proc/upgrade_weapon()
-	SIGNAL_HANDLER
+/obj/item/melee/trick_weapon/hunter_axe/upgrade_weapon()
 
 	upgrade_level++
 	var/datum/component/two_handed/handed = src.GetComponent(/datum/component/two_handed)
@@ -348,20 +340,19 @@
 
 /obj/item/clothing/mask/cursed_rabbit/Initialize(mapload)
 	. = ..()
-	var/datum/action/cooldown/paradox/rabby = new
-	if(!rabby)
+	generate_abilities()
+
+
+/obj/item/clothing/mask/cursed_rabbit/proc/generate_abilities()
+	var/datum/action/cooldown/paradox/para = new
+	if(!para.landmark || !para.chessmark)
 		return
-	rabby.chessmark = GLOB.wonderland_marks["Wonderchess landmark"]
-	if(!rabby.chessmark)
-		return
-	paradox = rabby
+	paradox = para
 	var/datum/action/cooldown/wonderland_drop/drop = new
-	if(!drop)
-		return
-	drop.landmark = GLOB.wonderland_marks["Wonderland landmark"]
 	if(!drop.landmark)
 		return
 	wonderland = drop
+
 
 /obj/item/clothing/mask/cursed_rabbit/equipped(mob/living/carbon/human/user,slot)
 	..()
