@@ -73,7 +73,8 @@
 	var/turf/theplace = get_turf(landmark)
 	owner.forceMove(theplace)
 	to_chat(owner, span_warning("You wake up in the Wonderland"))
-	addtimer(CALLBACK(src,.proc/return_to_station, owner), 30 SECONDS)
+	playsound(owner, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/wonderlandmusic.ogg',30)
+	addtimer(CALLBACK(src,.proc/return_to_station, owner), 1 MINUTES)
 	StartCooldown()
 
 /datum/action/cooldown/wonderland_drop/proc/return_to_station()
