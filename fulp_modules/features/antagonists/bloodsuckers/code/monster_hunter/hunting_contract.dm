@@ -40,12 +40,16 @@
 			"name" = contraband.name,
 			"desc" = contraband.desc,
 				))
+	var/check_completed = TRUE  ///determines if all objectives have been completed
 	if(owner)
 		for(var/datum/objective/obj in owner.objectives)
 			data["objectives"] += list(list(
 			"explanation" = obj.explanation_text,
-			"completed" = (obj.check_completion()),
+			"completed" = (obj.check_completion())
 			))
+			if(!(obj.check_completion()))
+				check_completed = FALSE
+		data["all_completed"] = check_completed
 		data["number_of_rabbits"] = owner.rabbits_spotted
 		data["rabbits_found"] = !(owner.sickness.white_rabbits.len)
 	return data
@@ -63,16 +67,7 @@
 			. = TRUE
 			purchase(selected_item, usr)
 		if("claim_reward")
-			var/mob/living/simple_animal/hostile/megafauna/red_rabbit/evil_rabbit
-			evil_rabbit = new /mob/living/simple_animal/hostile/megafauna/red_rabbit(get_turf(usr))
-			usr.mind.transfer_to(evil_rabbit)
-			var/mob/living/carbon/human/man = usr
-			man.gib()
-			var/datum/objective/survive/destruction = new
-			destruction.name = "Wreak Havoc"
-			destruction.explanation_text = "Wreak havoc upon the station"
-			destruction.owner = owner.owner
-			owner.objectives += destruction
+			SEND_SIGNAL(owner, BEASTIFY)
 
 
 /obj/item/hunting_contract/proc/purchase(item, user)

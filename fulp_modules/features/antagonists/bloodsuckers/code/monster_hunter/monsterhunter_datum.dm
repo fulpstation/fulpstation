@@ -15,6 +15,7 @@
 	var/give_objectives = TRUE
 	var/datum/action/bloodsucker/trackvamp = new /datum/action/bloodsucker/trackvamp()
 	var/datum/action/bloodsucker/fortitude = new /datum/action/bloodsucker/fortitude/hunter()
+	///the rabbit illusion trauma related to us
 	var/datum/brain_trauma/special/rabbit_hole/sickness
 	///how many rabbits have we found
 	var/rabbits_spotted = 0
@@ -62,6 +63,7 @@
 	var/obj/item/hunting_contract/contract = new(criminal,src)
 	criminal.equip_in_one_of_slots(contract, slots)
 	RegisterSignal(src, GAIN_INSIGHT, .proc/insight_gained)
+	RegisterSignal(src, BEASTIFY, .proc/turn_beast)
 	return ..()
 
 
@@ -71,6 +73,7 @@
 	trackvamp.Remove(owner.current)
 	fortitude.Remove(owner.current)
 	UnregisterSignal(src, GAIN_INSIGHT)
+	UnregisterSignal(src, BEASTIFY)
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
 
@@ -225,7 +228,10 @@
 			continue
 		if(victim.owner.has_antag_datum(/datum/antagonist/changeling) || IS_BLOODSUCKER(victim.owner.current))
 			possible_targets += victim.owner
-	for(var/i  in 1 to 3)
+
+	for(var/i in 1 to 3) //we get 3 targets
+		if(!(possible_targets.len))
+			break
 		var/datum/objective/assassinate/kill_monster = new
 		kill_monster.owner = owner
 		var/datum/mind/target = pick(possible_targets)
@@ -233,6 +239,20 @@
 		kill_monster.target = target
 		kill_monster.update_explanation_text()
 		objectives += kill_monster
+
+
+/datum/antagonist/monsterhunter/proc/turn_beast()
+	SIGNAL_HANDLER
+
+	var/mob/living/simple_animal/hostile/megafauna/red_rabbit/evil_rabbit = new (get_turf(owner.current))
+	owner.current.gib()
+	owner.transfer_to(evil_rabbit)
+	var/datum/objective/survive/destruction = new
+	destruction.name = "Wreak Havoc"
+	destruction.explanation_text = "Wreak havoc upon the station"
+	destruction.owner = owner
+	objectives += destruction
+
 
 /obj/item/clothing/mask/monster_preview_mask
 	name = "Monster Preview Mask"

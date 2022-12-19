@@ -25,7 +25,7 @@ const HunterObjectives = (props, context) => {
           <Box>
             <Button
               content={'Ascend'}
-              disabled={all_completed || rabbits_found}
+              disabled={!all_completed || !rabbits_found}
               onClick={() => act('claim_reward')}
             />
           </Box>

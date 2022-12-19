@@ -72,6 +72,9 @@
 	original_loc = get_turf(owner)
 	var/turf/theplace = get_turf(landmark)
 	owner.forceMove(theplace)
+	var/mob/living/sleeper = owner
+	sleeper.Sleeping(2 SECONDS)
+	sleep(3 SECONDS)
 	to_chat(owner, span_warning("You wake up in the Wonderland"))
 	playsound(owner, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/wonderlandmusic.ogg',30)
 	addtimer(CALLBACK(src,.proc/return_to_station, owner), 1 MINUTES)

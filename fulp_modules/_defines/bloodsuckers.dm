@@ -110,3 +110,4 @@
 ///monsterhunters
 #define RABBIT_FOUND "rabbit_found"
 #define GAIN_INSIGHT "gain_insight"
+#define BEASTIFY "beastify"
