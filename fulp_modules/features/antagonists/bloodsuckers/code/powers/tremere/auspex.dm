@@ -48,7 +48,7 @@
 		Click any area up to teleport there, ending the Power."
 	bloodcost = 15
 	cooldown = 8 SECONDS
-	target_range = 6
+	target_range = 9
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced
 	name = "Level 4: Auspex"
@@ -63,7 +63,7 @@
 	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 20
 	cooldown = 6 SECONDS
-	target_range = 6
+	target_range = 9
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
 	name = "Level 5: Auspex"
@@ -83,7 +83,7 @@
 		return FALSE
 	return isturf(target_atom)
 
-/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower()
+/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower(trigger_flags)
 	. = ..()
 	owner.AddElement(/datum/element/digitalcamo)
 	animate(owner, alpha = 15, time = 1 SECONDS)

@@ -173,9 +173,9 @@
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))
 	target.mind.grab_ghost()
-	var/datum/antagonist/vassal/vas = target.mind.has_antag_datum(/datum/antagonist/vassal)
-	vas.temporary_vassal = TRUE
 	target.revive(ADMIN_HEAL_ALL)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	vassaldatum.special_type = TREMERE_VASSAL //don't turn them into a favorite please
 	var/living_time
 	if(level_current == 4)
 		living_time = 5 MINUTES
@@ -188,6 +188,6 @@
 /datum/action/bloodsucker/targeted/tremere/proc/end_possession(mob/living/user)
 	REMOVE_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-	user.mind.remove_vassal()
-	to_chat(user, span_warning("You feel the Blood of your Master quickly flee!"))
+	user.mind.remove_antag_datum(/datum/antagonist/vassal)
+	to_chat(user, span_warning("You feel the Blood of your Master run out!"))
 	user.death()

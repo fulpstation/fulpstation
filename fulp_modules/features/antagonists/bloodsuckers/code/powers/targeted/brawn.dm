@@ -17,7 +17,7 @@
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/brawn/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.) // Default checks
 		return FALSE

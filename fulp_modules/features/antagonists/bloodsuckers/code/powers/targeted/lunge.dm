@@ -15,10 +15,9 @@
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
 	cooldown = 10 SECONDS
-	target_range = 6
 	power_activates_immediately = FALSE
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
