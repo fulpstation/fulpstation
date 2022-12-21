@@ -208,7 +208,9 @@
 			switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
 				if("Yes")
 					claim_coffin(user)
-			LockMe(user)
+				if("No")
+					return
+		LockMe(user)
 		//Level up if possible.
 		if(!bloodsuckerdatum.my_clan)
 			to_chat(user, span_notice("You must enter a Clan to rank up."))
