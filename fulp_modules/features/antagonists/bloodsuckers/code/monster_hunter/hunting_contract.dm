@@ -71,12 +71,16 @@
 
 
 /obj/item/hunting_contract/proc/purchase(item, user)
-	var/purchased
+	var/obj/item/purchased
 	for(var/datum/hunter_weapons/contraband in shop.weapons)
 		if(contraband.type != item)
 			continue
 		bought = TRUE
-		purchased = contraband.item
+		purchased = new contraband.item
+
+	var/datum/action/cooldown/spell/summonitem/recall = new()
+	recall.mark_item(purchased)
+	recall.Grant(user)
 
 	podspawn(list(
 		"target" = get_turf(user),

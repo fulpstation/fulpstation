@@ -30,7 +30,7 @@
 	if(being_used)
 		return
 	being_used = TRUE
-	SEND_SIGNAL(src, RABBIT_FOUND,user)
+	SEND_SIGNAL(src, RABBIT_FOUND, user)
 	var/datum/antagonist/monsterhunter/hunta = user.mind.has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!hunta)
 		return
@@ -40,7 +40,7 @@
 	QDEL_IN(src, 8 SECONDS)
 
 
-/obj/effect/client_image_holder/white_rabbit/proc/spotted(mob/user)
+/obj/effect/client_image_holder/white_rabbit/proc/spotted(datum/source, mob/user)
 	SIGNAL_HANDLER
 
 	new /obj/item/rabbit_eye(loc)
@@ -48,6 +48,9 @@
 		new /obj/item/clothing/mask/cursed_rabbit(loc)
 	if(drop_gun)
 		new /obj/item/gun/ballistic/revolver/hunter_revolver(loc)
+		var/datum/action/cooldown/spell/conjure_item/blood_silver/silverblood = new(user)
+		silverblood.StartCooldown()
+		silverblood.Grant(user)
 	if(illness)
 		illness.white_rabbits -= src
 	UnregisterSignal(src, RABBIT_FOUND)

@@ -282,22 +282,6 @@
 	if (src.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
 		remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 
-/datum/action/cooldown/spell/conjure_item/blood_silver
-	name = "Create bloodsilver bullet"
-	desc = "Wield your blood and mold it into a bloodsilver bullet"
-	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
-	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
-	button_icon_state = "blood_silver"
-	cooldown_time = 2 MINUTES
-	item_type = /obj/item/ammo_casing/silver
-	delete_old = FALSE
-
-/datum/action/cooldown/spell/blood_silver/conjure_item/cast(mob/living/carbon/cast_on)
-	if(cast_on.blood_volume < BLOOD_VOLUME_NORMAL)
-		to_chat(cast_on, span_warning ("Using this ability would put our health at risk!"))
-		return
-	. = ..()
-	cast_on.blood_volume -= 50
 
 /obj/structure/table/weaponsmith
 	name = "Weapon Forge"
@@ -447,7 +431,9 @@
 	return dist
 
 /obj/item/rabbit_locator/Destroy()
-	mental = null
+	if(mental)
+		mental.locator = null
+		mental = null
 	. = ..()
 
 /obj/item/grenade/jack
