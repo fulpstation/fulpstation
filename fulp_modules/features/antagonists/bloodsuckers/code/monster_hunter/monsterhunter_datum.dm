@@ -74,6 +74,7 @@
 	fortitude.Remove(owner.current)
 	UnregisterSignal(src, GAIN_INSIGHT)
 	UnregisterSignal(src, BEASTIFY)
+	sickness.Destroy()
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
 
@@ -154,7 +155,7 @@
 	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
 	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))
 	to_chat(owner.current, span_announce("In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection."))
-	owner.current.playsound_local(null, 'sound/effects/his_grace_ascend.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/monsterhunterintro.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
 //////////////////////////////////////////////////////////////////////////

@@ -66,10 +66,19 @@
 	lose_text = "<span class='warning'>The rabbits scurry off in a hurry, perhaps there's trouble in the wonderland."
 	///the list of rabbit holes the owner can currently interact with
 	var/list/white_rabbits = list()
+	///the red card tied to this trauma if any
+	var/obj/item/rabbit_locator/locator
 
-/datum/brain_trauma/special/rabbit_hole/on_lose(silent)
+/datum/brain_trauma/special/rabbit_hole/on_lose()
 	for(var/obj/effect/client_image_holder/white_rabbit/rabbit as anything in white_rabbits)
+		white_rabbits -= rabbit
 		qdel(rabbit)
+	var/datum/antagonist/monsterhunter/monst = owner.mind.has_antag_datum(/datum/antagonist/monsterhunter)
+	monst.sickness = null
+	if(locator)
+		locator.mental = null
+	locator = null
+	. = ..()
 
 /datum/brain_trauma/special/rabbit_hole/on_gain()
 	..()
@@ -82,7 +91,6 @@
 	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(white_rabbits)
 	mask_holder.drop_mask = TRUE
 	gun_holder.drop_gun = TRUE
-
 
 
 

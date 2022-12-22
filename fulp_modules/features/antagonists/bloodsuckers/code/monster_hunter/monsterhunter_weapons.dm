@@ -308,10 +308,10 @@
 	resistance_flags = INDESTRUCTIBLE
 
 
-/obj/structure/table/weaponsmith/attackby(obj/item/I, mob/living/user, params)
-	if(!istype(I, /obj/item/rabbit_eye))
+/obj/structure/table/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
+	if(!istype(organ, /obj/item/rabbit_eye))
 		return ..()
-	var/obj/item/rabbit_eye/eye = I
+	var/obj/item/rabbit_eye/eye = organ
 	var/obj/item/melee/trick_weapon/tool
 	for(var/obj/item/weapon in src.loc.contents)
 		if(!istype(weapon, /obj/item/melee/trick_weapon))
@@ -396,11 +396,13 @@
 	if(!hunter)
 		return
 	mental = hunter.sickness
+	mental.locator = src
 
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
 	if(!cooldown)
 		return
 	if(!mental)
+		to_chat(user,span_warning("It's just a normal playing card!"))
 		return
 	if(!is_station_level(user.loc.z))
 		to_chat(user,span_warning("The card cannot be used here..."))
@@ -443,6 +445,10 @@
 		if(get_dist(user,located) < dist)
 			dist = get_dist(user,located)
 	return dist
+
+/obj/item/rabbit_locator/Destroy()
+	mental = null
+	. = ..()
 
 /obj/item/grenade/jack
 	name = "jack in the bomb"
