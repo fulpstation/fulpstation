@@ -21,7 +21,6 @@
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	purchase_flags = TREMERE_CAN_BUY
 	// Targeted stuff
-	target_range = 99
 	power_activates_immediately = FALSE
 
 	///The upgraded version of this Power. 'null' means it's the max level.
