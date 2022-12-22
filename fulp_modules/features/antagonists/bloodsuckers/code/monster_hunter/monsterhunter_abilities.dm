@@ -91,9 +91,10 @@
 	name = "Create bloodsilver bullet"
 	desc = "Wield your blood and mold it into a bloodsilver bullet"
 	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
-	button_icon_state = "blood_silver"
+	button_icon_state = "bloodsilver"
 	cooldown_time = 2 MINUTES
 	item_type = /obj/item/ammo_casing/silver
+	spell_requirements = NONE
 	delete_old = FALSE
 
 /datum/action/cooldown/spell/blood_silver/conjure_item/cast(mob/living/carbon/cast_on)
