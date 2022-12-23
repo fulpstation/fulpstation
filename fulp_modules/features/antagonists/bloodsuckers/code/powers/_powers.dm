@@ -2,10 +2,10 @@
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
 	//This is the FILE for the background icon
-	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	background_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	//This is the ICON_STATE for the background icon
 	background_icon_state = "vamp_power_off"
-	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 	transparent_when_unavailable = TRUE
@@ -146,12 +146,12 @@
 
 	// Wait for cooldown
 	COOLDOWN_START(src, bloodsucker_power_cooldown, this_cooldown)
-	addtimer(CALLBACK(src, .proc/UpdateButtons), this_cooldown+(1 SECONDS))
+	addtimer(CALLBACK(src, .proc/build_all_button_icons), this_cooldown+(1 SECONDS))
 
 /datum/action/bloodsucker/proc/CheckCanDeactivate()
 	return TRUE
 
-/datum/action/bloodsucker/UpdateButton(atom/movable/screen/movable/action_button/button, status_only = FALSE, force = FALSE)
+/datum/action/bloodsucker/build_all_button_icons(atom/movable/screen/movable/action_button/button, update_flags = ALL, force = FALSE)
 	if(active)
 		background_icon_state = background_icon_state_on
 	else
@@ -176,7 +176,7 @@
 		START_PROCESSING(SSprocessing, src)
 
 	owner.log_message("used [src][bloodcost != 0 ? " at the cost of [bloodcost]" : ""].", LOG_ATTACK, color="red")
-	UpdateButtons()
+	build_all_button_icons()
 
 /datum/action/bloodsucker/proc/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
@@ -186,7 +186,7 @@
 		return
 	active = FALSE
 	StartCooldown()
-	UpdateButtons()
+	build_all_button_icons()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/process(delta_time)

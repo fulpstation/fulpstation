@@ -704,7 +704,7 @@
 		user.update_worn_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
-			mask_options.UpdateButton()
+			mask_options.build_all_button_icons()
 		to_chat(user, span_notice("Your Heister's Mask has now morphed into [choice]!"))
 		return TRUE
 
@@ -765,7 +765,7 @@
 		user.update_worn_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
-			mask_options.UpdateButton()
+			mask_options.build_all_button_icons()
 		to_chat(user, span_notice("Your Skull Mime Mask has now morphed into [choice]!"))
 		return TRUE
 

@@ -3,7 +3,6 @@
 	plural_form = "Beefmen"
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
-	say_mod = "gurgles"
 	sexes = FALSE
 	species_traits = list(
 		NOEYESPRITES,
@@ -43,8 +42,6 @@
 		OFFSET_NECK = list(0,3),
 	)
 
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
 	cellular_damage_desc = "meat degradation"
 
 	species_language_holder = /datum/language_holder/russian
@@ -60,6 +57,8 @@
 	armor = -20
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
+
+	mutantbrain = /obj/item/organ/internal/brain/beefman
 
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/beef,\
@@ -94,14 +93,9 @@
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
-	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	spec_updatehealth(user)
-	if(has_brain)
-		if(user.dna.features["beef_trauma"])
-			user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
-		user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
@@ -114,10 +108,6 @@
 	human_mob.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
 	human_mob.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
 
-/datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
-	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	user.cure_trauma_type(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
-	return ..()
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
