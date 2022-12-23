@@ -383,6 +383,11 @@
 	mental.locator = src
 
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
+	for(var/obj/machinery/power/apc/apc as anything in GLOB.apcs_list)
+		if(is_station_level(apc.z))
+			apc.overload_lighting()
+	sleep(5 SECONDS)
+	priority_announce("Whh@t the h?!l is going on?! WEeE have detected a massive upspike in %^%*&^%$! c())@ming from your st!*i@n!","?????????", 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/beastification.ogg')
 	if(!cooldown)
 		return
 	if(!mental)
