@@ -111,6 +111,10 @@
 	human_mob.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
 	human_mob.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
 
+/datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
+	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
+	user.cure_trauma_type(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
+	return ..()
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
