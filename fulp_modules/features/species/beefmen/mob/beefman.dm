@@ -58,8 +58,6 @@
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
-	mutantbrain = /obj/item/organ/internal/brain/beefman
-
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/beef,\
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/beef,\
@@ -93,9 +91,14 @@
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
+	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	spec_updatehealth(user)
+	if(has_brain)
+		if(user.dna.features["beef_trauma"])
+			user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
+		user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
