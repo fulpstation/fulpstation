@@ -2006,9 +2006,9 @@
 /obj/structure/cable,
 /obj/effect/landmark/start/security_officer,
 /obj/structure/disposalpipe/sorting/mail{
-	dir = 2;
-	sortType = 7
+	dir = 2
 	},
+/obj/effect/mapping_helpers/mail_sorting/security/general,
 /turf/open/floor/iron,
 /area/station/security/office)
 "agH" = (
@@ -3586,8 +3586,9 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/sorting/mail{
-	sortType = 8
+	dir = 2
 	},
+/obj/effect/mapping_helpers/mail_sorting/security/hos_office,
 /turf/open/floor/iron,
 /area/station/security/office)
 "alz" = (
@@ -7901,7 +7902,6 @@
 	id = "hopqueue";
 	name = "HoP Queue Shutters"
 	},
-/obj/machinery/ticket_machine/directional/east,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/command)
 "axD" = (
@@ -8098,9 +8098,9 @@
 "ayc" = (
 /obj/machinery/light/directional/north,
 /obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 8;
-	sortType = 30
+	dir = 8
 	},
+/obj/effect/mapping_helpers/mail_sorting/service/law_office,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/command)
 "ayd" = (
@@ -8174,9 +8174,9 @@
 /area/station/hallway/secondary/command)
 "ayj" = (
 /obj/structure/disposalpipe/sorting/mail{
-	dir = 8;
-	sortType = 15
+	dir = 8
 	},
+/obj/effect/mapping_helpers/mail_sorting/security/hos_office,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/command)
 "ayk" = (
@@ -15194,13 +15194,13 @@
 /area/station/maintenance/port/fore)
 "aQd" = (
 /obj/structure/cable,
-/obj/structure/disposalpipe/sorting/mail{
-	dir = 8;
-	sortType = 27
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/mail_sorting/medbay/virology,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "aQe" = (
@@ -15801,8 +15801,9 @@
 /area/station/medical/medbay/central)
 "aRP" = (
 /obj/structure/disposalpipe/sorting/mail/flip{
-	sortType = 9
+	dir = 2
 	},
+/obj/effect/mapping_helpers/mail_sorting/medbay/general,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "aRR" = (
@@ -16575,8 +16576,9 @@
 "aUt" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/sorting/mail/flip{
-	sortType = 29
+	dir = 2
 	},
+/obj/effect/mapping_helpers/mail_sorting/service/law_office,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "aUu" = (
@@ -19081,8 +19083,9 @@
 /area/station/maintenance/starboard/fore)
 "bcm" = (
 /obj/structure/disposalpipe/sorting/mail{
-	sortType = 17
+	dir = 2
 	},
+/obj/effect/mapping_helpers/mail_sorting/service/chapel,
 /turf/open/floor/plating,
 /area/station/maintenance/department/crew_quarters/dorms)
 "bco" = (
@@ -22609,13 +22612,13 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/trimline/blue/filled/line,
-/obj/structure/disposalpipe/sorting/mail{
-	dir = 8;
-	sortType = 10
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 5
 	},
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/mail_sorting/medbay/cmo_office,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "bmM" = (
@@ -32714,19 +32717,19 @@
 "bPT" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 14
+	dir = 4
 	},
+/obj/effect/mapping_helpers/mail_sorting/science/robotics,
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "bPU" = (
 /obj/structure/cable,
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 12
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/mail_sorting/science/research,
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "bPV" = (
@@ -34191,10 +34194,6 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "bUm" = (
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 23
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
@@ -34204,6 +34203,10 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/mail_sorting/science/genetics,
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "bUn" = (
@@ -35172,6 +35175,7 @@
 "bXE" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/bluespace_vendor/directional/west,
+/obj/machinery/ticket_machine/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/command)
 "bXG" = (
@@ -36370,16 +36374,16 @@
 /area/station/maintenance/department/cargo)
 "cea" = (
 /obj/structure/cable,
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 16
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/mail_sorting/service/library,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "ceb" = (
@@ -37392,15 +37396,15 @@
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance/storage)
 "ciL" = (
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 18
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/effect/mapping_helpers/mail_sorting/service/theater,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "ciN" = (
@@ -38398,16 +38402,16 @@
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "cmw" = (
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 8;
-	sortType = 28
-	},
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
 	name = "research purple"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/mail_sorting/science/xenobiology,
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "cmx" = (
@@ -38446,15 +38450,14 @@
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "cmA" = (
-/obj/structure/disposalpipe/sorting/mail{
-	dir = 8;
-	name = "RD's Junction";
-	sortType = 13
-	},
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
 	name = "research purple"
 	},
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/mail_sorting/science/rd_office,
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "cmB" = (
@@ -38574,15 +38577,15 @@
 /turf/open/space/basic,
 /area/space)
 "cnh" = (
-/obj/structure/disposalpipe/sorting/mail{
-	dir = 8;
-	sortType = 25
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
 	name = "research purple"
 	},
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/mail_sorting/science/ordnance,
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "cnk" = (
@@ -41855,9 +41858,9 @@
 	},
 /obj/structure/cable,
 /obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 3
+	dir = 4
 	},
+/obj/effect/mapping_helpers/mail_sorting/supply/qm_office,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "cDi" = (
@@ -47366,6 +47369,13 @@
 	},
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
+"dur" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/turf/open/floor/iron/dark,
+/area/station/science/ordnance)
 "duF" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/caution/stand_clear,
@@ -49627,9 +49637,9 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/structure/cable,
 /obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 1;
-	sortType = 2
+	dir = 1
 	},
+/obj/effect/mapping_helpers/mail_sorting/supply/cargo_bay,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "eUP" = (
@@ -53920,9 +53930,9 @@
 	dir = 1
 	},
 /obj/structure/disposalpipe/sorting/mail{
-	dir = 4;
-	sortType = 4
+	dir = 4
 	},
+/obj/effect/mapping_helpers/mail_sorting/engineering/general,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "hAw" = (
@@ -54383,10 +54393,6 @@
 /area/station/hallway/secondary/service)
 "hOK" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 22
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
@@ -54394,6 +54400,10 @@
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/effect/mapping_helpers/mail_sorting/service/janitor_closet,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/maintenance/department/engine)
 "hOS" = (
@@ -54943,11 +54953,11 @@
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/engineering/lobby)
 "iii" = (
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 19
-	},
 /obj/structure/cable,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/mail_sorting/service/bar,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "iiB" = (
@@ -58685,6 +58695,7 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "kox" = (
@@ -58770,6 +58781,9 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "ksZ" = (
@@ -62817,6 +62831,9 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "mMo" = (
@@ -62844,6 +62861,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "mOF" = (
@@ -66849,6 +66867,10 @@
 	name = "Research Camera";
 	network = list("ss13","rd")
 	},
+/obj/structure/disposalpipe/trunk{
+	dir = 1
+	},
+/obj/machinery/disposal/bin,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "pgh" = (
@@ -69297,9 +69319,9 @@
 	},
 /obj/structure/cable,
 /obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 1;
-	sortType = 11
+	dir = 1
 	},
+/obj/effect/mapping_helpers/mail_sorting/medbay/chemistry,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical)
 "qAI" = (
@@ -70984,10 +71006,6 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "rCr" = (
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 21
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
@@ -70995,6 +71013,10 @@
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/effect/mapping_helpers/mail_sorting/service/hydroponics,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "rCC" = (
@@ -73357,13 +73379,13 @@
 /area/station/hallway/secondary/service)
 "tjv" = (
 /obj/machinery/duct,
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 20
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/mail_sorting/service/kitchen,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "tke" = (
@@ -75565,6 +75587,9 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "uHl" = (
@@ -76332,9 +76357,9 @@
 	dir = 1
 	},
 /obj/structure/disposalpipe/sorting/mail{
-	dir = 4;
-	sortType = 5
+	dir = 4
 	},
+/obj/effect/mapping_helpers/mail_sorting/engineering/ce_office,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "vcw" = (
@@ -76503,12 +76528,13 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/main)
 "vgz" = (
-/obj/structure/disposalpipe/sorting/mail{
-	sortType = 1
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 2
+	},
+/obj/effect/mapping_helpers/mail_sorting/supply/disposals,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "vgE" = (
@@ -78544,9 +78570,9 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/effect/mapping_helpers/mail_sorting/engineering/general,
 /obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 4
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
@@ -79097,6 +79123,9 @@
 "wLz" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "wLA" = (
@@ -80492,10 +80521,11 @@
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "xGK" = (
-/obj/structure/disposalpipe/sorting/mail/flip{
-	sortType = 26
-	},
 /obj/structure/grille,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 2
+	},
+/obj/effect/mapping_helpers/mail_sorting/service/dormitories,
 /turf/open/floor/plating,
 /area/station/maintenance/department/crew_quarters/dorms)
 "xHm" = (
@@ -129843,7 +129873,7 @@ wsh
 mbH
 mbH
 mbH
-mbH
+dur
 koo
 mNW
 pgg
