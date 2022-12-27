@@ -1694,6 +1694,7 @@
 	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/effect/turf_decal/bot,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
 "afv" = (
@@ -5978,6 +5979,7 @@
 	c_tag = "Security - Holding Cell";
 	network = list("ss13","security")
 	},
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron,
 /area/station/security/holding_cell)
 "arY" = (
@@ -19607,11 +19609,6 @@
 /obj/structure/closet/crate/coffin,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel)
-"bdX" = (
-/turf/open/floor/iron{
-	dir = 1
-	},
-/area/station/hallway/primary/fore)
 "bdY" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
@@ -25635,15 +25632,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
-"bvY" = (
-/obj/effect/turf_decal/tile/green{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/green,
-/turf/open/floor/iron{
-	dir = 1
-	},
-/area/station/hallway/primary/port)
 "bvZ" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Port Primary Hallway - Botany";
@@ -26228,9 +26216,7 @@
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/any/service/hydroponics,
 /obj/effect/mapping_helpers/airlock/access/any/service/kitchen,
-/turf/open/floor/iron{
-	dir = 1
-	},
+/turf/open/floor/iron,
 /area/station/service/hydroponics)
 "bxC" = (
 /obj/machinery/door/airlock/maintenance{
@@ -35457,6 +35443,7 @@
 	dir = 10;
 	name = "research purple"
 	},
+/obj/machinery/bci_implanter,
 /turf/open/floor/iron/white,
 /area/station/science/auxlab)
 "bZm" = (
@@ -36059,6 +36046,7 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance/testlab)
 "cbY" = (
@@ -46474,9 +46462,7 @@
 	dir = 4;
 	pixel_y = -25
 	},
-/turf/open/floor/iron{
-	dir = 1
-	},
+/turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "cXz" = (
 /obj/structure/sign/directions/evac{
@@ -52110,9 +52096,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
-	dir = 9
-	},
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/transit_tube)
 "gzc" = (
@@ -56300,6 +56283,8 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/effect/turf_decal/bot,
 /obj/machinery/light/directional/north,
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
 "iXV" = (
@@ -59687,6 +59672,8 @@
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 1
 	},
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/holding_cell)
 "kQw" = (
@@ -60189,6 +60176,7 @@
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
 "lim" = (
@@ -63369,6 +63357,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
 "nfc" = (
@@ -64862,6 +64851,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
 "nWr" = (
@@ -68198,8 +68188,10 @@
 /area/station/security/prison/safe)
 "pVi" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
+	dir = 9
+	},
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/station/engineering/transit_tube)
 "pVo" = (
@@ -79892,14 +79884,6 @@
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/wood/parquet,
 /area/station/command/heads_quarters/ce)
-"xnB" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/railing/corner{
-	dir = 8
-	},
-/obj/structure/marker_beacon/bronze,
-/turf/open/space/basic,
-/area/space/nearstation)
 "xnY" = (
 /obj/effect/turf_decal/tile/yellow/opposingcorners,
 /obj/structure/cable,
@@ -104729,7 +104713,7 @@ wNj
 cLt
 vff
 aOd
-xnB
+xHL
 aak
 iGu
 iGu
@@ -108247,7 +108231,7 @@ aJd
 bsI
 bUF
 bsI
-bvY
+nAD
 bxq
 mCJ
 bAw
@@ -114616,7 +114600,7 @@ xul
 mZx
 oMi
 xYu
-bdX
+alc
 alc
 alc
 alc

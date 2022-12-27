@@ -3499,8 +3499,9 @@
 /obj/machinery/door/airlock/engineering{
 	name = "Engineering Access"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
 /obj/effect/turf_decal/tile/engineering/opposingcorners,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/construction,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "bjw" = (
@@ -7878,6 +7879,7 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/brig,
 /obj/effect/turf_decal/tile/security/opposingcorners,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
 "cDl" = (
@@ -8610,7 +8612,6 @@
 /turf/open/floor/glass/reinforced,
 /area/station/service/cafeteria)
 "cSP" = (
-/obj/machinery/airalarm/directional/south,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -9739,6 +9740,13 @@
 /obj/effect/spawner/random/trash/botanical_waste,
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
+"dlX" = (
+/obj/effect/turf_decal/tile/security/half{
+	dir = 8
+	},
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/iron/dark,
+/area/station/command/heads_quarters/hos)
 "dmc" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 9
@@ -18330,9 +18338,7 @@
 	},
 /obj/effect/mapping_helpers/airlock/abandoned,
 /obj/effect/mapping_helpers/airlock/access/any/engineering/maintenance,
-/turf/open/floor/iron{
-	heat_capacity = 1e+006
-	},
+/turf/open/floor/iron,
 /area/station/maintenance/starboard)
 "gfM" = (
 /obj/structure/cable,
@@ -44153,12 +44159,13 @@
 /turf/closed/wall,
 /area/station/medical/medbay)
 "oKD" = (
-/obj/machinery/camera/directional/north{
-	c_tag = "Security - Evidence";
-	network = list("ss13","security")
-	},
 /obj/effect/turf_decal/tile/security/anticorner{
 	dir = 4
+	},
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/camera/directional/east{
+	c_tag = "Security - Evidence";
+	network = list("ss13","security")
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
@@ -46959,12 +46966,10 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "pGk" = (
-/obj/item/paper_bin,
-/obj/item/pen,
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/siding/thinplating/dark{
 	dir = 8
 	},
+/obj/machinery/bci_implanter,
 /turf/open/floor/iron/dark,
 /area/station/science/explab)
 "pGr" = (
@@ -49182,6 +49187,8 @@
 /area/station/maintenance/starboard/fore)
 "quH" = (
 /obj/effect/turf_decal/tile/security/anticorner,
+/obj/machinery/power/apc/auto_name/directional/south,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/evidence)
 "quL" = (
@@ -52750,9 +52757,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/green/opposingcorners,
-/turf/open/floor/iron{
-	heat_capacity = 1e+006
-	},
+/turf/open/floor/iron,
 /area/station/maintenance/starboard)
 "rGe" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -63794,8 +63799,9 @@
 /obj/machinery/door/airlock/engineering{
 	name = "Engineering Access"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/engineering/construction,
 /obj/effect/turf_decal/tile/engineering/opposingcorners,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/construction,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "vqS" = (
@@ -99925,7 +99931,7 @@ aJw
 lKJ
 erK
 dZG
-lYC
+dlX
 fpT
 aSz
 peG
