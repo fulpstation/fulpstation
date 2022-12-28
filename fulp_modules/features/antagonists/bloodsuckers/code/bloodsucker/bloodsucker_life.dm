@@ -173,7 +173,7 @@
 
 	// Step 3
 	if(bloodsuckeruser.stat == DEAD)
-		bloodsuckeruser.revive(full_heal = FALSE, admin_revive = FALSE)
+		bloodsuckeruser.revive()
 	for(var/i in bloodsuckeruser.all_wounds)
 		var/datum/wound/iter_wound = i
 		iter_wound.remove_wound()

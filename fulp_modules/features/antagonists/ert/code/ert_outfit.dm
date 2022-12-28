@@ -129,7 +129,7 @@
 	backpack_contents = list(
 		/obj/item/melee/energy/sword/bananium = 1,
 		/obj/item/shield/energy/bananium = 1,
-		/obj/item/storage/box/hug/survival = 1,
+		/obj/item/storage/box/survival/hug = 1,
 	)
 	glasses = /obj/item/clothing/glasses/night
 
@@ -152,7 +152,7 @@
 	backpack_contents = list(
 		/obj/item/melee/energy/sword/bananium = 1,
 		/obj/item/shield/energy/bananium = 1,
-		/obj/item/storage/box/hug/survival = 1,
+		/obj/item/storage/box/survival/hug = 1,
 		/obj/item/storage/box/fireworks = 2,
 	)
 	glasses = /obj/item/clothing/glasses/night

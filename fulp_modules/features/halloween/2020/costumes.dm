@@ -564,7 +564,7 @@
 	costume_contents = list(
 		/obj/item/clothing/suit/costume_2020/moffking,
 		/obj/item/clothing/head/costume_2020/moffking,
-		/obj/item/shield/riot/buckler,
+		/obj/item/shield/buckler,
 	)
 
 	cloakcolor = pick("black","blue","green","purple","red","orange","white","yellow")
@@ -704,7 +704,7 @@
 		user.update_worn_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
-			mask_options.UpdateButton()
+			mask_options.build_all_button_icons()
 		to_chat(user, span_notice("Your Heister's Mask has now morphed into [choice]!"))
 		return TRUE
 
@@ -765,7 +765,7 @@
 		user.update_worn_mask()
 		for(var/all_selections in actions)
 			var/datum/action/mask_options = all_selections
-			mask_options.UpdateButton()
+			mask_options.build_all_button_icons()
 		to_chat(user, span_notice("Your Skull Mime Mask has now morphed into [choice]!"))
 		return TRUE
 

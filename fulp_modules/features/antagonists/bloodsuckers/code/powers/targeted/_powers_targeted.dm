@@ -49,7 +49,7 @@
 	if(power_flags & BP_AM_TOGGLE)
 		STOP_PROCESSING(SSprocessing, src)
 	active = FALSE
-	UpdateButtons()
+	build_all_button_icons()
 //	..() // we don't want to pay cost here
 
 /// Check if target is VALID (wall, turf, or character?)
