@@ -173,6 +173,8 @@
 
 	/// the datum handler for our contents - see create_storage() for creation method
 	var/datum/storage/atom_storage
+	/// How this atom should react to having its astar blocking checked
+	var/can_astar_pass = CANASTARPASS_DENSITY
 
 /**
  * Called when an atom is created in byond (built in engine proc)
@@ -256,22 +258,7 @@
 	if (light_system == STATIC_LIGHT && light_power && light_range)
 		update_light()
 
-	if (length(smoothing_groups))
-		#ifdef UNIT_TESTS
-		assert_sorted(smoothing_groups, "[type].smoothing_groups")
-		#endif
-
-		SET_BITFLAG_LIST(smoothing_groups)
-
-	if (length(canSmoothWith))
-		#ifdef UNIT_TESTS
-		assert_sorted(canSmoothWith, "[type].canSmoothWith")
-		#endif
-
-		if(canSmoothWith[length(canSmoothWith)] > MAX_S_TURF) //If the last element is higher than the maximum turf-only value, then it must scan turf contents for smoothing targets.
-			smoothing_flags |= SMOOTH_OBJ
-
-		SET_BITFLAG_LIST(canSmoothWith)
+	SETUP_SMOOTHING()
 
 	if(uses_integrity)
 		if (islist(armor))
@@ -335,7 +322,10 @@
 
 	orbiters = null // The component is attached to us normaly and will be deleted elsewhere
 
-	LAZYCLEARLIST(overlays)
+	// Checking length(overlays) before cutting has significant speed benefits
+	if (length(overlays))
+		overlays.Cut()
+
 	LAZYNULL(managed_overlays)
 
 	QDEL_NULL(light)
@@ -750,6 +740,24 @@
 	. = list()
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE_MORE, user, .)
 
+/// Wrapper for _update_appearance that is only called when APPEARANCE_SUCCESS_TRACKING is defined
+#ifdef APPEARANCE_SUCCESS_TRACKING
+/atom/proc/wrap_update_appearance(file, line, updates)
+	INIT_COST_STATIC()
+	EXPORT_STATS_TO_CSV_LATER("appearance_efficency.csv", _costs, _counting)
+	var/old_appearance = appearance
+
+	_update_appearance(updates)
+	// We're checking to see if update_appearance DID anything to our appearance
+	// If it didn't, or it produced the same thing, we'll mark it as such so it can potentially be opitmized
+	if(old_appearance == appearance)
+		SET_COST("SAME [file] [line]")
+		return FALSE
+	else
+		SET_COST("DIFFERENT [file] [line]")
+		return TRUE
+#endif
+
 /**
  * Updates the appearence of the icon
  *
@@ -912,7 +920,7 @@
 /atom/proc/hitby(atom/movable/hitting_atom, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	SEND_SIGNAL(src, COMSIG_ATOM_HITBY, hitting_atom, skipcatch, hitpush, blocked, throwingdatum)
 	if(density && !has_gravity(hitting_atom)) //thrown stuff bounces off dense stuff in no grav, unless the thrown stuff ends up inside what it hit(embedding, bola, etc...).
-		addtimer(CALLBACK(src, .proc/hitby_react, hitting_atom), 2)
+		addtimer(CALLBACK(src, PROC_REF(hitby_react), hitting_atom), 2)
 
 /**
  * We have have actually hit the passed in atom
@@ -1285,7 +1293,7 @@
 						if(!valid_id)
 							to_chat(usr, span_warning("A reagent with that ID doesn't exist!"))
 				if("Choose from a list")
-					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in sort_list(subtypesof(/datum/reagent), /proc/cmp_typepaths_asc)
+					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in sort_list(subtypesof(/datum/reagent), GLOBAL_PROC_REF(cmp_typepaths_asc))
 				if("I'm feeling lucky")
 					chosen_id = pick(subtypesof(/datum/reagent))
 			if(chosen_id)
@@ -1597,7 +1605,7 @@
 
 /atom/proc/update_filters()
 	filters = null
-	filter_data = sortTim(filter_data, /proc/cmp_filter_data_priority, TRUE)
+	filter_data = sortTim(filter_data, GLOBAL_PROC_REF(cmp_filter_data_priority), TRUE)
 	for(var/f in filter_data)
 		var/list/data = filter_data[f]
 		var/list/arguments = data.Copy()
@@ -1629,7 +1637,7 @@
 
 /obj/item/update_filters()
 	. = ..()
-	update_action_buttons()
+	update_item_action_buttons()
 
 /atom/proc/get_filter(name)
 	if(filter_data && filter_data[name])
@@ -1837,11 +1845,16 @@
 		if(!length(forced_gravity))
 			SEND_SIGNAL(gravity_turf, COMSIG_TURF_HAS_GRAVITY, src, forced_gravity)
 
-		var/max_grav = 0
-		for(var/i in forced_gravity)//our gravity is the strongest return forced gravity we get
-			max_grav = max(max_grav, i)
-		//cut so we can reuse the list, this is ok since forced gravity movers are exceedingly rare compared to all other movement
-		return max_grav
+		var/positive_grav = 0
+		var/negative_grav = 0
+		//our gravity is sum of the most massive positive and negative numbers returned by the signal
+		//so that adding two forced_gravity elements with an effect size of 1 each doesnt add to 2 gravity
+		//but negative force gravity effects can cancel out positive ones
+		for(var/gravity_influence in forced_gravity)
+			positive_grav = max(positive_grav, gravity_influence)
+			negative_grav = min(negative_grav, gravity_influence)
+
+		return (positive_grav + negative_grav)
 
 	var/area/turf_area = gravity_turf.loc
 
@@ -2064,6 +2077,9 @@
  * * to_dir- What direction we're trying to move in, relevant for things like directional windows that only block movement in certain directions
  * * caller- The movable we're checking pass flags for, if we're making any such checks
  * * no_id: When true, doors with public access will count as impassible
+ *
+ * IMPORTANT NOTE: /turf/proc/LinkBlockedWithAccess assumes that overrides of CanAStarPass will always return true if density is FALSE
+ * If this is NOT you, ensure you edit your can_astar_pass variable. Check __DEFINES/path.dm
  **/
 /atom/proc/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller, no_id = FALSE)
 	if(caller && (caller.pass_flags & pass_flags_self))

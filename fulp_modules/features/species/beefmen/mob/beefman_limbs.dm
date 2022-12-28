@@ -80,7 +80,10 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
+	brute_damage_desc = "tenderizing"
+	burn_damage_desc = "searing"
 	is_dimorphic = FALSE
+	icon_state = "beefman_head"
 
 /obj/item/bodypart/chest/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -88,7 +91,11 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
+	brute_damage_desc = "tenderizing"
+	burn_damage_desc = "searing"
 	is_dimorphic = FALSE
+	icon_state = "beefman_chest"
+
 
 /obj/item/bodypart/arm/right/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -100,6 +107,9 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
+	brute_damage_desc = "tenderizing"
+	burn_damage_desc = "searing"
+	icon_state = "beefman_r_arm"
 
 /obj/item/bodypart/arm/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
@@ -118,7 +128,10 @@
 	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	brute_damage_desc = "tenderizing"
+	burn_damage_desc = "searing"
 	limb_id = SPECIES_BEEFMAN
+	icon_state = "beefman_l_arm"
 
 /obj/item/bodypart/arm/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
@@ -133,7 +146,10 @@
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	brute_damage_desc = "tenderizing"
+	burn_damage_desc = "searing"
 	limb_id = SPECIES_BEEFMAN
+	icon_state = "beefman_r_leg"
 
 /obj/item/bodypart/leg/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
@@ -148,7 +164,10 @@
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	brute_damage_desc = "tenderizing"
+	burn_damage_desc = "searing"
 	limb_id = SPECIES_BEEFMAN
+	icon_state = "beefman_l_leg"
 
 /obj/item/bodypart/leg/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner

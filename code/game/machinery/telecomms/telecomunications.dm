@@ -141,8 +141,12 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 	icon_state = "[initial(icon_state)][panel_open ? "_o" : null][on ? null : "_off"]"
 	return ..()
 
-/obj/machinery/telecomms/proc/update_power()
+/obj/machinery/telecomms/on_set_panel_open(old_value)
+	update_appearance()
+	return ..()
 
+/obj/machinery/telecomms/proc/update_power()
+	var/old_on = on
 	if(toggled)
 		if(machine_stat & (BROKEN|NOPOWER|EMPED)) // if powered, on. if not powered, off. if too damaged, off
 			on = FALSE
@@ -153,12 +157,11 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 	else
 		on = FALSE
 		soundloop.stop()
+	if(old_on != on)
+		update_appearance()
 
 /obj/machinery/telecomms/process(delta_time)
 	update_power()
-
-	// Update the icon
-	update_appearance()
 
 	if(traffic > 0)
 		traffic -= netspeed * delta_time
@@ -170,7 +173,7 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 	if(prob(100/severity) && !(machine_stat & EMPED))
 		set_machine_stat(machine_stat | EMPED)
 		var/duration = (300 * 10)/severity
-		addtimer(CALLBACK(src, .proc/de_emp), rand(duration - 20, duration + 20))
+		addtimer(CALLBACK(src, PROC_REF(de_emp)), rand(duration - 20, duration + 20))
 
 /obj/machinery/telecomms/proc/de_emp()
 	set_machine_stat(machine_stat & ~EMPED)

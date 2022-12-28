@@ -56,7 +56,7 @@
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
 		H.update_worn_oversuit()
-	update_action_buttons()
+	update_item_action_buttons()
 
 /obj/item/clothing/suit/armor/abductor/vest/item_action_slot_check(slot, mob/user)
 	if(slot & ITEM_SLOT_OCLOTHING) //we only give the mob the ability to activate the vest if he's actually wearing it.
@@ -451,6 +451,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	knockdown_time = 14 SECONDS
 	on_stun_sound = 'sound/weapons/egloves.ogg'
 	affect_cyborg = TRUE
+	chunky_finger_usable = TRUE
 
 	var/mode = BATON_STUN
 
@@ -666,7 +667,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	user.visible_message(span_notice("[user] places down [src] and activates it."), span_notice("You place down [src] and activate it."))
 	user.dropItemToGround(src)
 	playsound(src, 'sound/machines/terminal_alert.ogg', 50)
-	addtimer(CALLBACK(src, .proc/try_spawn_machine), 30)
+	addtimer(CALLBACK(src, PROC_REF(try_spawn_machine)), 30)
 
 /obj/item/abductor_machine_beacon/proc/try_spawn_machine()
 	var/viable = FALSE
@@ -735,7 +736,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 /obj/item/clothing/head/helmet/abductor/equipped(mob/living/user, slot)
 	. = ..()
 	if(slot_flags & slot)
-		RegisterSignal(user, COMSIG_LIVING_CAN_TRACK, .proc/can_track)
+		RegisterSignal(user, COMSIG_LIVING_CAN_TRACK, PROC_REF(can_track))
 	else
 		UnregisterSignal(user, COMSIG_LIVING_CAN_TRACK)
 
@@ -806,8 +807,8 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	framestack = /obj/item/stack/sheet/mineral/abductor
 	buildstackamount = 1
 	framestackamount = 1
-	smoothing_groups = list(SMOOTH_GROUP_ABDUCTOR_TABLES)
-	canSmoothWith = list(SMOOTH_GROUP_ABDUCTOR_TABLES)
+	smoothing_groups = SMOOTH_GROUP_ABDUCTOR_TABLES
+	canSmoothWith = SMOOTH_GROUP_ABDUCTOR_TABLES
 	frame = /obj/structure/table_frame/abductor
 	custom_materials = list(/datum/material/silver = 2000)
 
@@ -830,7 +831,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 /obj/structure/table/optable/abductor/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
