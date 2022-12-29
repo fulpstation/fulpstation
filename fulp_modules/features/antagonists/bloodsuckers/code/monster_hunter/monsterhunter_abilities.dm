@@ -1,6 +1,6 @@
 /datum/action/cooldown/paradox
 	name = "Paradox Rabbit"
-	icon_icon = 'icons/mob/simple/rabbit.dmi'
+	button_icon = 'icons/mob/simple/rabbit.dmi'
 	button_icon_state = "rabbit_white_dead"
 	cooldown_time = 3 MINUTES
 	///where we will be teleporting the rabbit too
@@ -8,7 +8,7 @@
 	///where the user will be while this whole ordeal is happening
 	var/obj/effect/landmark/wonderland_mark/landmark
 	///the rabbit in question if it exists
-	var/mob/living/simple_animal/rabbit/rabbit
+	var/mob/living/basic/rabbit/rabbit
 	///where the user originally was
 	var/turf/original_loc
 
@@ -25,16 +25,15 @@
 		return
 	var/turf/theplace = get_turf(chessmark)
 	var/turf/land_mark = get_turf(landmark)
-	var/mob/living/simple_animal/rabbit/bunny
 	original_loc = get_turf(owner)
-	bunny = new /mob/living/simple_animal/rabbit(theplace)
+	var/mob/living/basic/rabbit/bunny = new(theplace)
 	if(!bunny)
 		return
 	owner.forceMove(land_mark) ///the user remains safe in the wonderland
 	var/mob/living/master = owner
 	owner.mind.transfer_to(bunny)
 	playsound(bunny, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/paradoxskip.ogg',100)
-	addtimer(CALLBACK(src,.proc/return_to_station, master, bunny, theplace), 5 SECONDS)
+	addtimer(CALLBACK(src,PROC_REF(return_to_station), master, bunny, theplace), 5 SECONDS)
 	StartCooldown()
 
 /datum/action/cooldown/paradox/proc/return_to_station(mob/user, mob/bunny,turf/mark)
@@ -51,9 +50,9 @@
 
 /datum/action/cooldown/wonderland_drop
 	name = "To Wonderland"
-	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
-	button_icon_state = "to_wonderland"
-	cooldown_time = 3 MINUTES
+	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	button_icon_state = "killer_rabbit"
+	cooldown_time = 5 MINUTES
 	///where we will be teleporting the user too
 	var/obj/effect/landmark/wonderland_mark/landmark
 	///where the user originally was
@@ -74,11 +73,11 @@
 	owner.forceMove(theplace)
 	var/mob/living/sleeper = owner
 	sleeper.Sleeping(2 SECONDS)
-	sleep(3 SECONDS)
+	StartCooldown()
+	//sleep(3 SECONDS)
 	to_chat(owner, span_warning("You wake up in the Wonderland"))
 	playsound(owner, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/wonderlandmusic.ogg',30)
-	addtimer(CALLBACK(src,.proc/return_to_station, owner), 1 MINUTES)
-	StartCooldown()
+	addtimer(CALLBACK(src, PROC_REF(return_to_station), owner), 1 MINUTES)
 
 /datum/action/cooldown/wonderland_drop/proc/return_to_station()
 	if(!original_loc)
@@ -90,7 +89,7 @@
 /datum/action/cooldown/spell/conjure_item/blood_silver
 	name = "Create bloodsilver bullet"
 	desc = "Wield your blood and mold it into a bloodsilver bullet"
-	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
 	button_icon_state = "bloodsilver"
 	cooldown_time = 2 MINUTES
 	item_type = /obj/item/ammo_casing/silver

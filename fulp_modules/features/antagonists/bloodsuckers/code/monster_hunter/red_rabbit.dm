@@ -55,8 +55,8 @@
 	name = "Create Offspring"
 	button_icon_state = "killer_rabbit"
 	cooldown_time = 5 SECONDS
-	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	button_icon_state = "killer_rabbit"
 
 
 /datum/action/cooldown/mob_cooldown/rabbit_spawn/Activate(atom/target_atom)
@@ -94,9 +94,8 @@
 	name = "Create Rabbit Hole"
 	button_icon_state = "hole_effect_button"
 	cooldown_time = 5 SECONDS
-
-	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	button_icon_state = "hole_effect_button"
 
 
 /obj/effect/rabbit_hole
@@ -110,7 +109,7 @@
 
 /obj/effect/rabbit_hole/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/fell), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(fell)), 1 SECONDS)
 	QDEL_IN(src, 4 SECONDS)
 
 /obj/effect/rabbit_hole/proc/fell()

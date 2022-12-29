@@ -106,7 +106,7 @@
 	moon.firer = user
 	moon.fire()
 	charged = FALSE
-	addtimer(CALLBACK(src, .proc/recharge), 4 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(recharge)), 4 SECONDS)
 
 
 /obj/item/melee/trick_weapon/darkmoon/proc/recharge()
@@ -276,7 +276,7 @@
 	if(!(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
-	addtimer(CALLBACK(man, /mob/living/carbon/proc/remove_bloodsilver), 20 SECONDS)
+	addtimer(CALLBACK(man, /mob/living/carbon.proc/remove_bloodsilver), 20 SECONDS)
 
 /mob/living/carbon/proc/remove_bloodsilver()
 	if (src.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
@@ -359,7 +359,7 @@
 	paradox.Remove(user)
 	if(!wonderland)
 		return
-	if(!wonderland.owner != user)
+	if(wonderland.owner != user)
 		return
 	wonderland.Remove(user)
 
@@ -374,6 +374,8 @@
 	///cooldown for the locator
 	var/cooldown = TRUE
 
+	COOLDOWN_DECLARE(locator_timer)
+
 
 /obj/item/rabbit_locator/Initialize(mapload, datum/antagonist/monsterhunter/hunter)
 	. = ..()
@@ -383,11 +385,8 @@
 	mental.locator = src
 
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
-	for(var/obj/machinery/power/apc/apc as anything in GLOB.apcs_list)
-		if(is_station_level(apc.z))
-			apc.overload_lighting()
-	sleep(5 SECONDS)
-	priority_announce("Whh@t the h?!l is going on?! WEeE have detected a massive upspike in %^%*&^%$! c())@ming from your st!*i@n!","?????????", 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/beastification.ogg')
+	if (!COOLDOWN_FINISHED(src, locator_timer))
+		return
 	if(!cooldown)
 		return
 	if(!mental)
@@ -417,8 +416,7 @@
 		sound_value = 100
 		to_chat(user,span_warning("Here...its definitely here!"))
 	playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
-	cooldown = !cooldown
-	addtimer(CALLBACK(src, .proc/recharge), 9 SECONDS)
+	COOLDOWN_START(src, locator_timer, 7 SECONDS)
 
 
 /obj/item/rabbit_locator/proc/recharge()
@@ -469,7 +467,7 @@
 	active = TRUE
 	icon_state = initial(icon_state) + "_active"
 	SEND_SIGNAL(src, COMSIG_GRENADE_ARMED, det_time, delayoverride)
-	addtimer(CALLBACK(src, .proc/detonate), isnull(delayoverride)? det_time : delayoverride)
+	addtimer(CALLBACK(src, PROC_REF(detonate)), isnull(delayoverride)? det_time : delayoverride)
 
 
 /obj/item/grenade/jack/detonate(mob/living/lanced_by)
@@ -480,7 +478,7 @@
 
 	dud_flags |= GRENADE_USED // Don't detonate if we have already detonated.
 	icon_state = "jack_in_the_bomb_live"
-	addtimer(CALLBACK(src, .proc/exploding), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(exploding)), 2 SECONDS)
 
 
 /obj/item/grenade/jack/proc/exploding(mob/living/lanced_by)

@@ -5,7 +5,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	mappath = "fulp_modules/mapping/custom/wonderland.dmm"
 
 /obj/effect/mob_spawn/corpse/rabbit
-	mob_type = /mob/living/simple_animal/rabbit
+	mob_type = /mob/living/basic/rabbit
 	icon = 'icons/mob/simple/rabbit.dmi'
 	icon_state = "rabbit_white_dead"
 
