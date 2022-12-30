@@ -20,8 +20,8 @@
 
 
 /datum/action/cooldown/paradox/Activate()
-	if(!is_station_level(user.loc.z))
-		to_chat(user,span_warning("The pull of the ice moon isn't strong enough here.."))
+	if(!is_station_level(owner.loc.z))
+		to_chat(owner,span_warning("The pull of the ice moon isn't strong enough here.."))
 		return
 	StartCooldown(360 SECONDS, 360 SECONDS)
 	if(!chessmark)
