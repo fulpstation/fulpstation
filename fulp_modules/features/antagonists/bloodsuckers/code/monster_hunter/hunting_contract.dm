@@ -67,6 +67,9 @@
 			. = TRUE
 			purchase(selected_item, usr)
 		if("claim_reward")
+			if(!is_station_level(user.loc.z))
+				to_chat(user,span_warning("The pull of the ice moon isn't strong enough here.."))
+				return
 			SEND_SIGNAL(owner, BEASTIFY)
 
 

@@ -149,10 +149,10 @@
 
 
 /datum/action/cooldown/mob_cooldown/red_rabbit_hole/Activate(atom/target_atom)
-	StartCooldown(360 SECONDS, 360 SECONDS)
 	if(!isfloorturf(target_atom))
 		to_chat(owner, span_warning("Holes can only be opened up on floors!"))
 		return
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	new /obj/effect/rabbit_hole/first(target_atom)
 	StartCooldown()
 
