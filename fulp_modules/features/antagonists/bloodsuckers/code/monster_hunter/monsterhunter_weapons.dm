@@ -53,6 +53,8 @@
 	///ready to launch a beam attack?
 	var/charged = TRUE
 
+	COOLDOWN_DECLARE(moonbeam_fire)
+
 
 /obj/item/melee/trick_weapon/darkmoon/Initialize(mapload)
 	. = ..()
@@ -95,7 +97,7 @@
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/melee/trick_weapon/darkmoon/proc/fire_moonbeam(atom/target, mob/living/user, clickparams)
-	if(!charged)
+	if (!COOLDOWN_FINISHED(src, moonbeam_fire))
 		return
 	var/modifiers = params2list(clickparams)
 	var/turf/proj_turf = user.loc
@@ -106,11 +108,8 @@
 	moon.firer = user
 	moon.fire()
 	charged = FALSE
-	addtimer(CALLBACK(src, PROC_REF(recharge)), 4 SECONDS)
+	COOLDOWN_START(src, moonbeam_fire, 4 SECONDS)
 
-
-/obj/item/melee/trick_weapon/darkmoon/proc/recharge()
-	charged = !charged
 
 /obj/projectile/moonbeam
 	name = "Moonlight"
@@ -417,10 +416,6 @@
 		to_chat(user,span_warning("Here...its definitely here!"))
 	playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
 	COOLDOWN_START(src, locator_timer, 7 SECONDS)
-
-
-/obj/item/rabbit_locator/proc/recharge()
-	cooldown = !cooldown
 
 /obj/item/rabbit_locator/proc/get_minimum_distance(mob/user)
 	var/dist=1000
