@@ -141,7 +141,7 @@
 	icon_state = "hazard"
 	inhand_icon_state = null
 	flags_inv = null
-	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
+	armor_type = /datum/armor/safety_moth
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/toy/plush/moth)
 	resistance_flags = FIRE_PROOF
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -154,9 +154,19 @@
 	icon = 'icons/obj/clothing/head/utility.dmi'
 	icon_state = "hardhat0_yellow"
 	resistance_flags = FIRE_PROOF
-	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
+	armor_type = /datum/armor/safety_moth
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+
+/datum/armor/safety_moth
+	melee = 50
+	bullet = 40
+	laser = 40
+	energy = 50
+	bomb = 50
+	bio = 100
+	fire = 100
+	acid = 80
 
 /obj/item/clothing/shoes/magboots/safety_moth
 	desc = "A special pair of Magnetic boots which doesn't weight you down." // Do they even need this? They're a moth...

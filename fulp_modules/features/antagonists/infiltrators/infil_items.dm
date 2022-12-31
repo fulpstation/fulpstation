@@ -436,7 +436,7 @@
 /obj/structure/cyborg_rift
 	name = "cyborg rift"
 	desc = "A portal opened up to long-forgotten cyborgs."
-	armor = list(MELEE = 100, BULLET = 0, LASER = 0, ENERGY = 100, BOMB = 100, BIO = 0, FIRE = 100, ACID = 100)
+	armor_type = /datum/armor/cyborg_rift
 	max_integrity = 300
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	icon_state = "cyborg_rift"
@@ -447,6 +447,13 @@
 	var/count_borgs = FALSE
 	///name of the owner
 	var/owner
+
+/datum/armor/cyborg_rift
+	melee = 100
+	energy = 100
+	bomb = 100
+	fire = 100
+	acid = 100
 
 /obj/structure/cyborg_rift/attack_ghost(mob/user)
 	. = ..()

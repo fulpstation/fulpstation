@@ -298,7 +298,7 @@
 		return
 	to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
 	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
-	user.blur_eyes(5)
+	user.set_eye_blur_if_lower(10 SECONDS)
 	eyes.applyOrganDamage(5)
 
 /obj/item/book/kindred/ui_interact(mob/user, datum/tgui/ui)

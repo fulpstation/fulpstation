@@ -16,7 +16,7 @@
 	coffin = claimed
 	lair = get_area(claimed)
 	to_chat(owner, span_userdanger("You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair]."))
-	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Tribal tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
+	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Furniture tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
 	return TRUE
 
 /// From crate.dm
@@ -45,7 +45,15 @@
 	resistance_flags = NONE
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
-	armor = list(MELEE = 50, BULLET = 20, LASER = 30, ENERGY = 0, BOMB = 50, BIO = 0, FIRE = 70, ACID = 60)
+	armor_type = /datum/armor/blackcoffin
+
+/datum/armor/blackcoffin
+	melee = 50
+	bullet = 20
+	laser = 30
+	bomb = 50
+	fire = 70
+	acid = 60
 
 /obj/structure/closet/crate/coffin/securecoffin
 	name = "secure coffin"
@@ -59,7 +67,15 @@
 	resistance_flags = FIRE_PROOF | LAVA_PROOF | ACID_PROOF
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
-	armor = list(MELEE = 35, BULLET = 20, LASER = 20, ENERGY = 0, BOMB = 100, BIO = 0, FIRE = 100, ACID = 100)
+	armor_type = /datum/armor/securecoffin
+
+/datum/armor/securecoffin
+	melee = 35
+	bullet = 20
+	laser = 20
+	bomb = 100
+	fire = 100
+	acid = 100
 
 /obj/structure/closet/crate/coffin/meatcoffin
 	name = "meat coffin"
@@ -73,7 +89,15 @@
 	pryLidTimer = 20 SECONDS
 	material_drop = /obj/item/food/meat/slab/human
 	material_drop_amount = 3
-	armor = list(MELEE = 70, BULLET = 10, LASER = 10, ENERGY = 0, BOMB = 70, BIO = 0, FIRE = 70, ACID = 60)
+	armor_type = /datum/armor/meatcoffin
+
+/datum/armor/meatcoffin
+	melee = 70
+	bullet = 10
+	laser = 10
+	bomb = 70
+	fire = 70
+	acid = 60
 
 /obj/structure/closet/crate/coffin/metalcoffin
 	name = "metal coffin"
@@ -87,7 +111,15 @@
 	pryLidTimer = 30 SECONDS
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 5
-	armor = list(MELEE = 40, BULLET = 15, LASER = 50, ENERGY = 0, BOMB = 10, BIO = 0, FIRE = 70, ACID = 60)
+	armor_type = /datum/armor/metalcoffin
+
+/datum/armor/metalcoffin
+	melee = 40
+	bullet = 15
+	laser = 50
+	bomb = 10
+	fire = 70
+	acid = 60
 
 //////////////////////////////////////////////
 

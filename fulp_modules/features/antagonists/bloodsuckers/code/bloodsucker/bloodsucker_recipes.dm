@@ -10,7 +10,7 @@
 		/obj/item/stack/sheet/iron = 1,
 	)
 	time = 15 SECONDS
-	category = CAT_PRIMAL
+	category = CAT_FURNITURE
 
 /datum/crafting_recipe/securecoffin
 	name = "Secure Coffin"
@@ -22,7 +22,7 @@
 		/obj/item/stack/sheet/iron = 5,
 	)
 	time = 15 SECONDS
-	category = CAT_PRIMAL
+	category = CAT_FURNITURE
 
 /datum/crafting_recipe/meatcoffin
 	name = "Meat Coffin"
@@ -33,7 +33,7 @@
 		/obj/item/restraints/handcuffs/cable = 1,
 	)
 	time = 15 SECONDS
-	category = CAT_PRIMAL
+	category = CAT_FURNITURE
 	always_available = FALSE //The sacred coffin!
 
 /datum/crafting_recipe/metalcoffin
@@ -44,7 +44,7 @@
 		/obj/item/stack/rods = 2,
 	)
 	time = 10 SECONDS
-	category = CAT_PRIMAL
+	category = CAT_FURNITURE
 
 /datum/crafting_recipe/vassalrack
 	name = "Persuasion Rack"
@@ -56,7 +56,7 @@
 		/obj/item/restraints/handcuffs/cable = 2,
 	)
 	time = 15 SECONDS
-	category = CAT_PRIMAL
+	category = CAT_FURNITURE
 	always_available = FALSE
 
 /datum/crafting_recipe/candelabrum
@@ -69,7 +69,7 @@
 		/obj/item/candle = 1,
 	)
 	time = 10 SECONDS
-	category = CAT_PRIMAL
+	category = CAT_FURNITURE
 	always_available = FALSE
 
 /datum/crafting_recipe/bloodthrone
@@ -82,7 +82,7 @@
 		/obj/item/stack/sheet/mineral/wood = 1,
 	)
 	time = 5 SECONDS
-	category = CAT_PRIMAL
+	category = CAT_FURNITURE
 	always_available = FALSE
 
 /datum/crafting_recipe/stake
@@ -90,8 +90,7 @@
 	result = /obj/item/stake
 	reqs = list(/obj/item/stack/sheet/mineral/wood = 3)
 	time = 8 SECONDS
-	category = CAT_WEAPONRY
-	subcategory = CAT_WEAPON
+	category = CAT_WEAPON_MELEE
 
 /datum/crafting_recipe/hardened_stake
 	name = "Hardened Stake"
@@ -99,8 +98,7 @@
 	tool_behaviors = list(TOOL_WELDER)
 	reqs = list(/obj/item/stack/rods = 1)
 	time = 6 SECONDS
-	category = CAT_WEAPONRY
-	subcategory = CAT_WEAPON
+	category = CAT_WEAPON_MELEE
 	always_available = FALSE
 
 /datum/crafting_recipe/silver_stake
@@ -112,6 +110,5 @@
 		/obj/item/stake/hardened = 1,
 	)
 	time = 8 SECONDS
-	category = CAT_WEAPONRY
-	subcategory = CAT_WEAPON
+	category = CAT_WEAPON_MELEE
 	always_available = FALSE

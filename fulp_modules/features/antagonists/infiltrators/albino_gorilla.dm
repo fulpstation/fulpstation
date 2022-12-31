@@ -66,7 +66,7 @@
 	if(isliving(target))
 		var/mob/living/mob_target = target
 		mob_target.Paralyze(10 SECONDS)
-		mob_target.adjust_blurriness(5)
+		mob_target.set_eye_blur_if_lower(10 SECONDS)
 		mob_target.visible_message(span_warning("[mob_target] is muddied by [src]!"), span_userdanger("You've been muddied by [src]!"))
 		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
 		if(ishuman(mob_target))
