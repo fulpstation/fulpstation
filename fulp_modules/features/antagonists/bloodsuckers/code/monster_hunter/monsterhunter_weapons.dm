@@ -51,7 +51,6 @@
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	///ready to launch a beam attack?
-	var/charged = TRUE
 
 	COOLDOWN_DECLARE(moonbeam_fire)
 
@@ -87,18 +86,17 @@
 /obj/item/melee/trick_weapon/darkmoon/afterattack_secondary(atom/target, mob/living/user, clickparams)
 	if(!enabled)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
-	if(!charged)
+	if(!COOLDOWN_FINISHED(src, moonbeam_fire))
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(target == user)
 		balloon_alert(user, "can't aim at yourself!")
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	fire_moonbeam(target, user, clickparams)
 	user.changeNext_move(CLICK_CD_MELEE)
+	COOLDOWN_START(src, moonbeam_fire, 4 SECONDS)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/melee/trick_weapon/darkmoon/proc/fire_moonbeam(atom/target, mob/living/user, clickparams)
-	if (!COOLDOWN_FINISHED(src, moonbeam_fire))
-		return
 	var/modifiers = params2list(clickparams)
 	var/turf/proj_turf = user.loc
 	if(!isturf(proj_turf))
@@ -107,8 +105,6 @@
 	moon.preparePixelProjectile(target, user, modifiers)
 	moon.firer = user
 	moon.fire()
-	charged = FALSE
-	COOLDOWN_START(src, moonbeam_fire, 4 SECONDS)
 
 
 /obj/projectile/moonbeam
@@ -389,6 +385,9 @@
 	if(!cooldown)
 		return
 	if(!mental)
+		to_chat(user,span_warning("It's just a normal playing card!"))
+		return
+	if(mental.owner != user)
 		to_chat(user,span_warning("It's just a normal playing card!"))
 		return
 	if(!is_station_level(user.loc.z))

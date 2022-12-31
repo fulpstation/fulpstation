@@ -24,7 +24,12 @@ const HunterObjectives = (props, context) => {
           ))}
           <Box>
             <Button
+              fluid
+              textAlign="center"
+              align="center"
+              width={50}
               content={'Ascend'}
+              fontSize="200%"
               disabled={!all_completed || !rabbits_found}
               onClick={() => act('claim_reward')}
             />
@@ -39,7 +44,7 @@ export const HunterContract = (props, context) => {
   const { act, data } = useBackend(context);
   const { items = [], bought, number_of_rabbits } = data;
   return (
-    <Window width={670} height={400} theme="malfunction">
+    <Window width={670} height={400}>
       <Window.Content scrollable>
         <Section title="Hunter's Contract" />
         {
