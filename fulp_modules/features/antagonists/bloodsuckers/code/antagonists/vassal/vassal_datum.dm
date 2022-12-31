@@ -77,7 +77,7 @@
 		examine_text += vassal_examine
 
 /datum/antagonist/vassal/on_gain()
-	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
+	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	/// Enslave them to their Master
 	if(!master || !istype(master, master))
 		return
@@ -263,7 +263,7 @@
 
 /datum/antagonist/vassal/revenge/on_gain()
 	. = ..()
-	RegisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH, .proc/on_master_death)
+	RegisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH, PROC_REF(on_master_death))
 
 /datum/antagonist/vassal/revenge/on_removal()
 	UnregisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH)

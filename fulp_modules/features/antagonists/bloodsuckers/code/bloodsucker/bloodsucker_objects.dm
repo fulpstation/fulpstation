@@ -152,7 +152,7 @@
 
 	to_chat(user, span_notice("You put all your weight into embedding the stake into [target]'s chest..."))
 	playsound(user, 'sound/magic/Demon_consume.ogg', 50, 1)
-	if(!do_mob(user, target, staketime, extra_checks = CALLBACK(target, /mob/living/carbon.proc/can_be_staked))) // user / target / time / uninterruptable / show progress bar / extra checks
+	if(!do_mob(user, target, staketime, extra_checks = CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon, can_be_staked)))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
 	// Drop & Embed Stake
 	user.visible_message(
@@ -314,7 +314,7 @@
 	if(!action)
 		return FALSE
 	SStgui.close_uis(src)
-	INVOKE_ASYNC(src, .proc/search, usr, action)
+	INVOKE_ASYNC(src, PROC_REF(search), usr, action)
 
 /obj/item/book/kindred/proc/search(mob/reader, clan)
 	starting_content = "<head>This is all knowledge about the Clan:</head><br>"

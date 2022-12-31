@@ -117,7 +117,7 @@
 	magic_9ball.firer = user
 	magic_9ball.def_zone = ran_zone(user.zone_selected)
 	magic_9ball.preparePixelProjectile(target_atom, user)
-	INVOKE_ASYNC(magic_9ball, /obj/projectile.proc/fire)
+	INVOKE_ASYNC(magic_9ball, TYPE_PROC_REF(/obj/projectile, fire))
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
 	PowerActivatedSuccessfully()
 

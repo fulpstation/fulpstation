@@ -114,7 +114,7 @@
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, .proc/LifeTick)
+	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(LifeTick))
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
 	if(current_mob.hud_used)
@@ -134,7 +134,7 @@
 		//update huds
 		hud_used.show_hud(hud_used.hud_version)
 	else
-		RegisterSignal(current_mob, COMSIG_MOB_HUD_CREATED, .proc/on_hud_created)
+		RegisterSignal(current_mob, COMSIG_MOB_HUD_CREATED, PROC_REF(on_hud_created))
 
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -172,23 +172,23 @@
 
 /datum/antagonist/bloodsucker/get_admin_commands()
 	. = ..()
-	.["Give Level"] = CALLBACK(src, .proc/RankUp)
+	.["Give Level"] = CALLBACK(src, PROC_REF(RankUp))
 	if(bloodsucker_level_unspent >= 1)
-		.["Remove Level"] = CALLBACK(src, .proc/RankDown)
+		.["Remove Level"] = CALLBACK(src, PROC_REF(RankDown))
 
 	if(broke_masquerade)
-		.["Fix Masquerade"] = CALLBACK(src, .proc/fix_masquerade)
+		.["Fix Masquerade"] = CALLBACK(src, PROC_REF(fix_masquerade))
 	else
-		.["Break Masquerade"] = CALLBACK(src, .proc/break_masquerade)
+		.["Break Masquerade"] = CALLBACK(src, PROC_REF(break_masquerade))
 
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
-	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
+	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 
-	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, .proc/sol_rank_up)
-	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, .proc/sol_near_start)
-	RegisterSignal(SSsunlight, COMSIG_SOL_END, .proc/on_sol_end)
-	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, .proc/handle_sol)
+	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up))
+	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start))
+	RegisterSignal(SSsunlight, COMSIG_SOL_END, PROC_REF(on_sol_end))
+	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, PROC_REF(handle_sol))
 
 	if(IS_FAVORITE_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
@@ -337,7 +337,7 @@
 ///Ranks the Bloodsucker up, called by Sol.
 /datum/antagonist/bloodsucker/proc/sol_rank_up(atom/source)
 	SIGNAL_HANDLER
-	INVOKE_ASYNC(src, .proc/RankUp)
+	INVOKE_ASYNC(src, PROC_REF(RankUp))
 
 ///Called when Sol is near starting.
 /datum/antagonist/bloodsucker/proc/sol_near_start(atom/source)

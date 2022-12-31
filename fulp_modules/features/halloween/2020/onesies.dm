@@ -199,7 +199,7 @@
 /obj/item/clothing/head/hooded/onesie/fly/equipped(mob/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_HEAD)
-		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
+		RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	else
 		UnregisterSignal(user, COMSIG_MOB_SAY)
 
@@ -233,7 +233,7 @@
 /obj/item/clothing/head/hooded/onesie/lizard/equipped(mob/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_HEAD)
-		RegisterSignal(user, COMSIG_MOB_SAY, .proc/handle_speech)
+		RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	else
 		UnregisterSignal(user, COMSIG_MOB_SAY)
 

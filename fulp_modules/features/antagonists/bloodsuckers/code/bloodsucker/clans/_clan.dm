@@ -39,15 +39,15 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 		GLOB.bloodsucker_clan_members["[name]"] = list()
 	GLOB.bloodsucker_clan_members["[name]"] |= user
 
-	RegisterSignal(src, BLOODSUCKER_HANDLE_LIFE, .proc/handle_clan_life)
-	RegisterSignal(src, BLOODSUCKER_RANK_UP, .proc/on_spend_rank)
+	RegisterSignal(src, BLOODSUCKER_HANDLE_LIFE, PROC_REF(handle_clan_life))
+	RegisterSignal(src, BLOODSUCKER_RANK_UP, PROC_REF(on_spend_rank))
 
-	RegisterSignal(src, BLOODSUCKER_PRE_MAKE_FAVORITE, .proc/on_offer_favorite)
-	RegisterSignal(src, BLOODSUCKER_MAKE_FAVORITE, .proc/on_favorite_vassal)
+	RegisterSignal(src, BLOODSUCKER_PRE_MAKE_FAVORITE, PROC_REF(on_offer_favorite))
+	RegisterSignal(src, BLOODSUCKER_MAKE_FAVORITE, PROC_REF(on_favorite_vassal))
 
-	RegisterSignal(src, BLOODSUCKER_MADE_VASSAL, .proc/on_vassal_made)
-	RegisterSignal(src, BLOODSUCKER_EXIT_TORPOR, .proc/on_exit_torpor)
-	RegisterSignal(src, BLOODSUCKER_FINAL_DEATH, .proc/on_final_death)
+	RegisterSignal(src, BLOODSUCKER_MADE_VASSAL, PROC_REF(on_vassal_made))
+	RegisterSignal(src, BLOODSUCKER_EXIT_TORPOR, PROC_REF(on_exit_torpor))
+	RegisterSignal(src, BLOODSUCKER_FINAL_DEATH, PROC_REF(on_final_death))
 
 	give_clan_objective(user)
 
@@ -118,7 +118,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 /datum/bloodsucker_clan/proc/on_spend_rank(datum/source, datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	SIGNAL_HANDLER
 
-	INVOKE_ASYNC(src, .proc/spend_rank, bloodsuckerdatum, target, cost_rank, blood_cost)
+	INVOKE_ASYNC(src, PROC_REF(spend_rank), bloodsuckerdatum, target, cost_rank, blood_cost)
 
 /datum/bloodsucker_clan/proc/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	// Purchase Power Prompt
@@ -197,7 +197,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 /datum/bloodsucker_clan/proc/on_offer_favorite(datum/source, datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
 	SIGNAL_HANDLER
 
-	INVOKE_ASYNC(src, .proc/offer_favorite, bloodsuckerdatum, vassaldatum)
+	INVOKE_ASYNC(src, PROC_REF(offer_favorite), bloodsuckerdatum, vassaldatum)
 
 /datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
 	if(vassaldatum.special_type)
