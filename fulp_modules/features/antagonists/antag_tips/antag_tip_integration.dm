@@ -8,7 +8,7 @@
 
 /datum/antagonist/on_gain()
 	. = ..()
-	if(silent || isnull(antag_tips))
+	if(silent || !antag_tips.len)
 		return
 	tips = new(name, tip_theme, antag_tips)
 	add_verb(owner.current, /mob/living/proc/open_tips)
