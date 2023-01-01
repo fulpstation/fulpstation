@@ -21,7 +21,7 @@
 
 ## All Fulp files not contained within /fulp_modules/
 
-### Maps
+### Maps & Shuttles
 
 - _maps/map_files/Heliostation.dmm
 - _maps/shuttles/cargo_helio.dmm
