@@ -76,17 +76,17 @@
 	owner.forceMove(theplace)
 	var/mob/living/sleeper = owner
 	sleeper.Sleeping(2 SECONDS)
-	StartCooldown()
-	//sleep(3 SECONDS)
+	sleep(3 SECONDS)
 	to_chat(owner, span_warning("You wake up in the Wonderland"))
 	playsound(owner, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/wonderlandmusic.ogg',30)
 	addtimer(CALLBACK(src, PROC_REF(return_to_station), owner), 1 MINUTES)
+	StartCooldown()
 
 /datum/action/cooldown/wonderland_drop/proc/return_to_station()
 	if(!original_loc)
 		return
 	owner.forceMove(original_loc)
-	to_chat(owner, span_warning("Was it all a dream?"))
+	to_chat(owner, span_warning("You feel like you wake up from a deep slumber, was it all a dream?"))
 	original_loc = null
 
 /datum/action/cooldown/spell/conjure_item/blood_silver

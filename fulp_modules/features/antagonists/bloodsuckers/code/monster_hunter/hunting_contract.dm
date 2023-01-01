@@ -1,6 +1,6 @@
 /obj/item/hunting_contract
 	name = "\improper Hunter's Contract"
-	desc = "Should I have my lawyer read this?"
+	desc = "A contract detailing all the guidelines a good hunter needs."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
@@ -21,7 +21,7 @@
 
 /obj/item/hunting_contract/ui_interact(mob/living/user, datum/tgui/ui)
 	if(!IS_MONSTERHUNTER(user))
-		to_chat(usr, span_notice("What the hell do these symbols mean?"))
+		to_chat(usr, span_notice("You are unable to decipher the symbols."))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -68,7 +68,7 @@
 			purchase(selected_item, usr)
 		if("claim_reward")
 			if(!is_station_level(usr.loc.z))
-				to_chat(usr,span_warning("The pull of the ice moon isn't strong enough here.."))
+				to_chat(usr,span_warning("The pull of the ice moon isn't strong enough here...."))
 				return
 			SEND_SIGNAL(owner, BEASTIFY)
 

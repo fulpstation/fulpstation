@@ -1,5 +1,5 @@
 /mob/living/simple_animal/hostile/megafauna/red_rabbit
-	name = "Jabberwocky"
+	name = "jabberwocky"
 	desc = "Servant of the moon."
 	health = 500
 	maxHealth = 500
@@ -70,7 +70,7 @@
 
 
 /mob/living/simple_animal/hostile/killer_rabbit
-	name = "Killer baby rabbit"
+	name = "killer baby rabbit"
 	desc = "A cute little rabbit, surely its harmless... right?"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
 	icon_state = "killer_rabbit"
@@ -80,10 +80,9 @@
 
 /mob/living/simple_animal/hostile/killer_rabbit/AttackingTarget()
 	var/mob/living/carbon/human
-	if(iscarbon(target))
-		human = target
-	else
+	if(!iscarbon(target))
 		return
+	human = target
 	if(human)
 		explosion(src,heavy_impact_range = 1, light_impact_range = 1, flame_range = 2)
 
