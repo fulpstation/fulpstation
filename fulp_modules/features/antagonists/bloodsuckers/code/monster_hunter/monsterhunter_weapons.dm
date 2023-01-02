@@ -478,3 +478,4 @@
 /obj/item/grenade/jack/proc/exploding(mob/living/lanced_by)
 	SEND_SIGNAL(src, COMSIG_GRENADE_DETONATE, lanced_by)
 	explosion(src, ex_dev, ex_heavy, ex_light, ex_flame)
+
