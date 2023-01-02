@@ -210,13 +210,19 @@
 	if(objectives.len)
 		obj = pick(objectives)
 	if(obj)
-		description = "TARGET [obj.target.current.real_name], ABILITIES "
-		for(var/datum/action/ability in obj.target.current.actions)
-			if(!ability)
-				continue
-			if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
-				continue
-			description += "[ability.name], "
+		var/datum/antagonist/heretic/heretic_target = IS_HERETIC(obj.target.current)
+		if(heretic_target)
+			description = "your target [heretic_target.owner.current.real_name] follows the [heretic_target.heretic_path], dear hunter."
+
+		else
+			description = "O' hunter, your target [obj.target.current.real_name] bears these lethal abilities:  "
+			for(var/datum/action/ability in obj.target.current.actions)
+				if(!ability)
+					continue
+				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
+					continue
+				description += "[ability.name], "
+
 	rabbits_spotted++
 	to_chat(owner.current,span_notice("[description]"))
 
@@ -227,7 +233,7 @@
 			continue
 		if(victim.owner.current.stat == DEAD || victim.owner == owner)
 			continue
-		if(victim.owner.has_antag_datum(/datum/antagonist/changeling) || IS_BLOODSUCKER(victim.owner.current))
+		if(victim.owner.has_antag_datum(/datum/antagonist/changeling) || IS_BLOODSUCKER(victim.owner.current) || IS_HERETIC(victim.owner.current))
 			possible_targets += victim.owner
 
 	for(var/i in 1 to 3) //we get 3 targets

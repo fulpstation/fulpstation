@@ -29,7 +29,7 @@
 
 /obj/item/melee/trick_weapon/attack(mob/target, mob/living/user, params) //our weapon does 25% less damage on non monsters
 	var/old_force = force
-	if(!(target.mind?.has_antag_datum(/datum/antagonist/changeling)) && !IS_BLOODSUCKER(target))
+	if(!(target.mind?.has_antag_datum(/datum/antagonist/changeling)) && !IS_BLOODSUCKER(target) && !IS_HERETIC(target))
 		force = force * 0.75
 	..()
 	force = old_force
