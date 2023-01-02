@@ -310,7 +310,7 @@
 	icon_state = "rabbit_mask"
 	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
-	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	///the paradox rabbit ability
 	var/datum/action/cooldown/paradox/paradox
 	///teleporting to the wonderland
@@ -472,7 +472,7 @@
 
 	dud_flags |= GRENADE_USED // Don't detonate if we have already detonated.
 	icon_state = "jack_in_the_bomb_live"
-	addtimer(CALLBACK(src, PROC_REF(exploding)), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(exploding)), 1 SECONDS)
 
 
 /obj/item/grenade/jack/proc/exploding(mob/living/lanced_by)
