@@ -19,7 +19,7 @@
 		owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
 		owner.current.balloon_alert(owner.current, "new recipes learned!")
 	to_chat(owner, span_userdanger("You have claimed the [claimed] as your place of immortal rest! Your lair is now [bloodsucker_lair_area]."))
-	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Tribal tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
+	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Structures tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
 	return TRUE
 
 /// From crate.dm
