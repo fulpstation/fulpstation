@@ -137,7 +137,7 @@
 
 
 /obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)
-	if(!user.mind?.has_antag_datum(/datum/antagonist/traitor/infiltrator))
+	if(!isobserver(user) && !user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator))
 		to_chat(user, span_warning("The interface is covered with strange unintelligible encrypted symbols."))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -196,7 +196,12 @@
 	item_flags = NOBLUDGEON
 	///the target mob
 	var/datum/weakref/target
-	var/used = FALSE ///determines wether the injector is used up or nah
+	///Boolean on whether the injector is used up or nah
+	var/used = FALSE
+
+/obj/item/gorilla_serum/Destroy(force)
+	target = null
+	return ..()
 
 /obj/item/gorilla_serum/proc/set_objective(datum/antagonist/traitor/infiltrator/criminal)
 	if(!criminal)
@@ -226,7 +231,6 @@
 		return
 	if(!do_after(user, 15 SECONDS))
 		return
-	var/mob/living/simple_animal/hostile/gorilla/albino/ape
 	var/mob/dead/observer/chosen_ghost
 	if(man.stat == DEAD)
 		chosen_ghost = man.grab_ghost(TRUE,TRUE)
@@ -234,16 +238,15 @@
 		var/list/mob/dead/observer/candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
 		if(LAZYLEN(candidates))
 			chosen_ghost = pick(candidates)
-	ape = new /mob/living/simple_animal/hostile/gorilla/albino(get_turf(man))
+	var/mob/living/simple_animal/hostile/gorilla/albino/ape = new(get_turf(man))
 	if(chosen_ghost)
 		ape.key = chosen_ghost.key
 	else
 		ape.key = man.key
 
 	man.gib()
-	ape.mind?.enslave_mind_to_creator(user)
+	ape.mind.enslave_mind_to_creator(user)
 	used = TRUE
-	target = null
 	var/datum/objective/gorillize/crime = locate() in criminal.objectives
 	if(!crime)
 		return
@@ -254,7 +257,7 @@
 	desc = "A specialized cryptographic sequencer used to free cyborgs. Will become voided after a one time use."
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	icon_state = "cyborg_hack"
-    //whether we have successfully emagged a borg
+    ///Boolean on whether we have successfully emagged a borg
 	var/used = FALSE
 
 /obj/item/card/emag/silicon_hack/proc/use_charge(mob/user)
@@ -269,7 +272,7 @@
     if(used)
         to_chat(user, span_warning("[src] is used up."))
         return FALSE
-    if(!istype(target, /mob/living/silicon/robot))
+    if(!iscyborg(target))
         to_chat(user, span_warning("[src] is unable to interface with this. It only seems to interface with cyborg panels."))
         return FALSE
     return TRUE

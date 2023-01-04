@@ -2,7 +2,9 @@
 /datum/action/bloodsucker/targeted
 	power_flags = BP_AM_TOGGLE
 
-	var/target_range = 99
+	///If set, how far the target has to be for the power to work.
+	var/target_range
+	///Message sent to chat when clicking on the power, before you use it.
 	var/prefire_message = ""
 	///Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.
 	var/power_activates_immediately = TRUE
@@ -23,10 +25,10 @@
 	if(active && CheckCanDeactivate())
 		DeactivatePower()
 		return FALSE
-	if(!CheckCanPayCost(owner) || !CheckCanUse(owner))
+	if(!CheckCanPayCost(owner) || !CheckCanUse(owner, trigger_flags))
 		return FALSE
 
-	ActivatePower()
+	ActivatePower(trigger_flags)
 	if(prefire_message != "")
 		to_chat(owner, span_announce("[prefire_message]"))
 	if(target)
@@ -47,7 +49,7 @@
 	if(power_flags & BP_AM_TOGGLE)
 		STOP_PROCESSING(SSprocessing, src)
 	active = FALSE
-	UpdateButtons()
+	build_all_button_icons()
 //	..() // we don't want to pay cost here
 
 /// Check if target is VALID (wall, turf, or character?)
@@ -58,11 +60,12 @@
 
 /// Check if valid target meets conditions
 /datum/action/bloodsucker/targeted/proc/CheckCanTarget(atom/target_atom)
-	// Out of Range
-	if(!(target_atom in view(target_range, owner)))
-		if(target_range > 1) // Only warn for range if it's greater than 1. Brawn doesn't need to announce itself.
-			owner.balloon_alert(owner, "out of range.")
-		return FALSE
+	if(target_range)
+		// Out of Range
+		if(!(target_atom in view(target_range, owner)))
+			if(target_range > 1) // Only warn for range if it's greater than 1. Brawn doesn't need to announce itself.
+				owner.balloon_alert(owner, "out of range.")
+			return FALSE
 	return istype(target_atom)
 
 /// Click Target
@@ -74,7 +77,7 @@
 	if(!CheckCanPayCost() || !CheckCanUse(owner) || !CheckCanTarget(target_atom))
 		return TRUE
 	power_in_use = TRUE // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
-	FireTargetedPower(target_atom) // We use this instead of ActivatePower(), which has no input
+	FireTargetedPower(target_atom) // We use this instead of ActivatePower(trigger_flags), which has no input
 	// Skip this part so we can return TRUE right away.
 	if(power_activates_immediately)
 		PowerActivatedSuccessfully() // Mesmerize pays only after success.

@@ -141,14 +141,14 @@
 
 /datum/objective/kill_pet/proc/find_pet_target()
 	var/list/possible_target_pets = list(
-		/mob/living/simple_animal/pet/dog/corgi/ian,
-		/mob/living/simple_animal/pet/dog/corgi/puppy/ian,
+		/mob/living/basic/pet/dog/corgi/ian,
+		/mob/living/basic/pet/dog/corgi/puppy/ian,
+		/mob/living/basic/pet/dog/pug/mcgriff,
 		/mob/living/simple_animal/hostile/carp/lia,
 		/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
 		/mob/living/simple_animal/pet/fox/renault,
  		/mob/living/simple_animal/pet/cat/runtime,
 		/mob/living/simple_animal/parrot/poly,
-		/mob/living/simple_animal/pet/dog/pug/mcgriff,
 		/mob/living/simple_animal/sloth/paperwork,
 		/mob/living/simple_animal/sloth/citrus,
  	)

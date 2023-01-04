@@ -32,3 +32,8 @@
 /datum/bloodsucker_clan/malkavian/on_exit_torpor(atom/source, mob/living/carbon/user)
 	user.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 	user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
+
+/datum/bloodsucker_clan/malkavian/on_final_death(atom/source, mob/living/carbon/user)
+	var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(user))
+	stone.capture_soul(user, forced = TRUE)
+	return DONT_DUST

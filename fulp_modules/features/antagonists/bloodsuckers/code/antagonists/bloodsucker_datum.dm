@@ -44,7 +44,7 @@
 	var/frenzied = FALSE
 
 	///ALL Powers currently owned
-	var/list/datum/action/powers = list()
+	var/list/datum/action/bloodsucker/powers = list()
 	///Bloodsucker Clan - Used for dealing with Sol
 	var/datum/team/vampireclan/clan
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
@@ -52,6 +52,7 @@
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
+	var/list/special_vassals = list()
 	///Have we selected our Favorite Vassal yet?
 	var/has_favorite_vassal = FALSE
 
@@ -183,7 +184,13 @@
 /// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
 /datum/antagonist/bloodsucker/on_gain()
 	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
-	if(IS_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
+
+	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, .proc/sol_rank_up)
+	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, .proc/sol_near_start)
+	RegisterSignal(SSsunlight, COMSIG_SOL_END, .proc/on_sol_end)
+	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, .proc/handle_sol)
+
+	if(IS_FAVORITE_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
 	else
 		// Start Sunlight if first Bloodsucker
@@ -253,7 +260,7 @@
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
-	var/fullname = ReturnFullName()
+	var/fullname = return_full_name()
 	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
@@ -269,8 +276,6 @@
 /datum/antagonist/bloodsucker/proc/add_objective(datum/objective/added_objective)
 	objectives += added_objective
 
-/datum/antagonist/bloodsucker/proc/remove_objectives(datum/objective/removed_objective)
-	objectives -= removed_objective
 
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
@@ -325,110 +330,30 @@
 
 	switch(action)
 		if("join_clan")
-			AssignClanAndBane()
+			assign_clan_and_bane()
 			ui.send_full_update(force = TRUE)
 			return
 
-/**
- *	# Vampire Clan
- *
- *	This is used for dealing with the Vampire Clan.
- *	This handles Sol for Bloodsuckers, making sure to not have several.
- *	None of this should appear in game, we are using it JUST for Sol. All Bloodsuckers should have their individual report.
- */
+///Ranks the Bloodsucker up, called by Sol.
+/datum/antagonist/bloodsucker/proc/sol_rank_up(atom/source)
+	SIGNAL_HANDLER
+	INVOKE_ASYNC(src, .proc/RankUp)
 
-/datum/team/vampireclan
-	name = "Clan"
+///Called when Sol is near starting.
+/datum/antagonist/bloodsucker/proc/sol_near_start(atom/source)
+	SIGNAL_HANDLER
+	if(lair && !(locate(/datum/action/bloodsucker/gohome) in powers))
+		BuyPower(new /datum/action/bloodsucker/gohome)
 
-	/// Sunlight Timer. Created on first Bloodsucker assign. Destroyed on last removed Bloodsucker.
-	var/obj/effect/sunlight/bloodsucker_sunlight
+///Called when Sol first ends.
+/datum/antagonist/bloodsucker/proc/on_sol_end(atom/source)
+	SIGNAL_HANDLER
+	check_end_torpor()
+	for(var/datum/action/bloodsucker/power in powers)
+		if(istype(power, /datum/action/bloodsucker/gohome))
+			RemovePower(power)
 
-/datum/antagonist/bloodsucker/create_team(datum/team/vampireclan/team)
-	if(!team)
-		for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
-			if(!bloodsuckerdatums.owner)
-				continue
-			if(bloodsuckerdatums.clan)
-				clan = bloodsuckerdatums.clan
-				return
-		clan = new /datum/team/vampireclan
-		return
-	if(!istype(team))
-		stack_trace("Wrong team type passed to [type] initialization.")
-	clan = team
 
-/datum/antagonist/bloodsucker/get_team()
-	return clan
-
-/datum/team/vampireclan/roundend_report()
-	if(members.len <= 0)
-		return
-	var/list/report = list()
-	report += "<span class='header'>Lurking in the darkness, the Bloodsuckers were:</span><br>"
-	for(var/datum/mind/mind_members in members)
-		for(var/datum/antagonist/bloodsucker/individual_bloodsuckers in mind_members.antag_datums)
-			if(mind_members.has_antag_datum(/datum/antagonist/vassal)) // Skip over Ventrue's Favorite Vassal
-				continue
-			report += individual_bloodsuckers.roundend_report()
-
-	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
-
-/// Individual roundend report
-/datum/antagonist/bloodsucker/roundend_report()
-	// Get the default Objectives
-	var/list/report = list()
-	// Vamp name
-	report += "<br><span class='header'><b>\[[ReturnFullName()]\]</b></span>"
-	report += printplayer(owner)
-	if(my_clan)
-		// Clan (Actual Clan, not Team) name
-		report += "They were part of the <b>[my_clan.name]</b>!"
-
-	// Default Report
-	var/objectives_complete = TRUE
-	if(objectives.len)
-		report += printobjectives(objectives)
-		for(var/datum/objective/objective in objectives)
-			if(objective.objective_name == "Optional Objective")
-				continue
-			if(!objective.check_completion())
-				objectives_complete = FALSE
-				break
-
-	// Now list their vassals
-	if(vassals.len > 0)
-		report += "<span class='header'>Their Vassals were...</span>"
-		for(var/datum/antagonist/vassal/all_vassals in vassals)
-			if(all_vassals.owner)
-				var/jobname = all_vassals.owner.assigned_role ? "the [all_vassals.owner.assigned_role.title]" : ""
-				report += "<b>[all_vassals.owner.name]</b> [jobname][all_vassals.favorite_vassal == TRUE ? " and was the <b>Favorite Vassal</b>" : ""]"
-
-	if(objectives.len == 0 || objectives_complete)
-		report += "<span class='greentext big'>The [name] was successful!</span>"
-	else
-		report += "<span class='redtext big'>The [name] has failed!</span>"
-
-	return report
-
-/**
- *	# Assigning Sol
- *
- *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn.
- *	This was originally dealt with by the gamemode, but as gamemodes no longer exist, it is dealt with by the team.
- */
-
-/// Start Sol, called when someone is assigned Bloodsucker
-/datum/team/vampireclan/proc/check_start_sunlight()
-	if(members.len <= 1)
-		message_admins("New Sol has been created due to Bloodsucker assignment.")
-		bloodsucker_sunlight = new()
-
-/// End Sol, if you're the last Bloodsucker
-/datum/team/vampireclan/proc/check_cancel_sunlight()
-	// No minds in the clan? Delete Sol.
-	if(members.len <= 1)
-		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
-		QDEL_NULL(bloodsucker_sunlight)
 
 /// Buying powers
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
@@ -444,10 +369,10 @@
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
-	BuyPower(new /datum/action/bloodsucker/feed)
-	BuyPower(new /datum/action/bloodsucker/masquerade)
-	if(!IS_VASSAL(owner.current)) // Favorite Vassal gets their own.
-		BuyPower(new /datum/action/bloodsucker/veil)
+	for(var/datum/action/bloodsucker/all_powers as anything in all_bloodsucker_powers)
+		if(!(initial(all_powers.purchase_flags) & BLOODSUCKER_DEFAULT_POWER))
+			continue
+		BuyPower(new all_powers)
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
@@ -473,7 +398,7 @@
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	/// Clear Disabilities & Organs
-	HealVampireOrgans()
+	heal_vampire_organs()
 
 /datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
 	// Powers
@@ -516,8 +441,7 @@
 		to_chat(owner.current, span_cultbold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
-	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(owner.current)
-	if(!owner || !owner.current || vassaldatum)
+	if(!owner || !owner.current || IS_FAVORITE_VASSAL(owner.current))
 		return
 	bloodsucker_level_unspent++
 	if(!my_clan)
@@ -550,9 +474,9 @@
 		power.level_current++
 
 ///Disables all powers, accounting for torpor
-/datum/antagonist/bloodsucker/proc/DisableAllPowers()
+/datum/antagonist/bloodsucker/proc/DisableAllPowers(forced = FALSE)
 	for(var/datum/action/bloodsucker/power as anything in powers)
-		if((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		if(forced || ((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH)))
 			if(power.active)
 				power.DeactivatePower()
 
@@ -597,7 +521,7 @@
 
 /// Name shown on antag list
 /datum/antagonist/bloodsucker/antag_listing_name()
-	return ..() + "([ReturnFullName()])"
+	return ..() + "([return_full_name()])"
 
 /// Whatever interesting things happened to the antag admins should know about
 /// Include additional information about antag in this part
@@ -671,7 +595,7 @@
 			"Lady",
 			"Mistress",
 		)
-	to_chat(owner, span_announce("You have earned a title! You are now known as <i>[ReturnFullName()]</i>!"))
+	to_chat(owner, span_announce("You have earned a title! You are now known as <i>[return_full_name()]</i>!"))
 
 /datum/antagonist/bloodsucker/proc/SelectReputation(am_fledgling = FALSE, forced = FALSE)
 	// Already have Reputation
@@ -735,9 +659,9 @@
 			"Corrupt","Hellspawn","Tyrant","Sanguineous",
 		)
 
-	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[ReturnFullName()]</i>!"))
+	to_chat(owner, span_announce("You have earned a reputation! You are now known as <i>[return_full_name()]</i>!"))
 
-/datum/antagonist/bloodsucker/proc/ReturnFullName()
+/datum/antagonist/bloodsucker/proc/return_full_name()
 
 	var/fullname = bloodsucker_name ? bloodsucker_name : owner.current.name
 	// Title

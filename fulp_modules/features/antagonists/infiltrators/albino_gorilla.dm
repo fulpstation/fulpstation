@@ -43,7 +43,7 @@
 	summon_radius = 2
 	summon_type = list(/obj/item/grown/bananapeel)
 	summon_amount = 10
-	icon_icon = 'icons/obj/hydroponics/harvest.dmi'
+	button_icon = 'icons/obj/hydroponics/harvest.dmi'
 	button_icon_state = "banana_peel"
 
 /datum/action/cooldown/spell/conjure/banana/cast(atom/cast_on)
@@ -82,7 +82,7 @@
 	active_msg = "You dig the soil up."
 	deactive_msg = "You throw the mud."
 	projectile_type = /obj/projectile/mud
-	icon_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	button_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	button_icon_state = "trench_mud"
 
 /datum/component/creamed/gorilla

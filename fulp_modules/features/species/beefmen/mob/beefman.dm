@@ -3,7 +3,6 @@
 	plural_form = "Beefmen"
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
-	say_mod = "gurgles"
 	sexes = FALSE
 	species_traits = list(
 		NOEYESPRITES,
@@ -43,8 +42,6 @@
 		OFFSET_NECK = list(0,3),
 	)
 
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
 	cellular_damage_desc = "meat degradation"
 
 	species_language_holder = /datum/language_holder/russian
