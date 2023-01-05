@@ -23,7 +23,7 @@
 
 	upgrade_level++
 	force = upgraded_val(base_force,upgrade_level)
-	var/datum/component/transforming/transform = src.GetComponent(/datum/component/transforming)
+	var/datum/component/transforming/transform = GetComponent(/datum/component/transforming)
 	transform.force_on = upgraded_val(on_force,upgrade_level)
 
 
@@ -51,7 +51,6 @@
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	///ready to launch a beam attack?
-
 	COOLDOWN_DECLARE(moonbeam_fire)
 
 
@@ -191,7 +190,7 @@
 /obj/item/melee/trick_weapon/hunter_axe/upgrade_weapon()
 
 	upgrade_level++
-	var/datum/component/two_handed/handed = src.GetComponent(/datum/component/two_handed)
+	var/datum/component/two_handed/handed = GetComponent(/datum/component/two_handed)
 	handed.force_wielded = upgraded_val(on_force, upgrade_level)
 	handed.force_unwielded = upgraded_val(base_force,upgrade_level)
 	force = handed.force_unwielded
@@ -274,7 +273,7 @@
 	addtimer(CALLBACK(man, /mob/living/carbon.proc/remove_bloodsilver), 20 SECONDS)
 
 /mob/living/carbon/proc/remove_bloodsilver()
-	if (src.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
+	if (has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
 		remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 
 
@@ -431,7 +430,7 @@
 	if(mental)
 		mental.locator = null
 		mental = null
-	. = ..()
+	return ..()
 
 /obj/item/grenade/jack
 	name = "jack in the bomb"

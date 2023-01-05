@@ -40,13 +40,13 @@
 			"id" = contraband.type,
 			"name" = contraband.name,
 			"desc" = contraband.desc,
-				))
+			))
 	var/check_completed = TRUE  ///determines if all objectives have been completed
 	if(owner)
-		for(var/datum/objective/obj in owner.objectives)
+		for(var/datum/objective/obj as anything in owner.objectives)
 			data["objectives"] += list(list(
 			"explanation" = obj.explanation_text,
-			"completed" = (obj.check_completion())
+			"completed" = (obj.check_completion()),
 			))
 			if(!(obj.check_completion()))
 				check_completed = FALSE
@@ -68,10 +68,10 @@
 			. = TRUE
 			purchase(selected_item, usr)
 		if("claim_reward")
-			if(!is_station_level(usr.loc.z))
+			if(!is_station_level(loc.z))
 				to_chat(usr,span_warning("The pull of the ice moon isn't strong enough here...."))
 				return
-			SEND_SIGNAL(owner, BEASTIFY)
+			SEND_SIGNAL(owner, COMSIG_BEASTIFY)
 
 
 /obj/item/hunting_contract/proc/purchase(item, user)
@@ -91,6 +91,11 @@
 		"style" = STYLE_SYNDICATE,
 		"spawn" = purchased,
 		))
+
+/obj/item/hunting_contract/Destroy()
+	owner = null
+	weapons = null
+	return ..()
 
 /datum/hunter_weapons
 	///name of the weapon
@@ -117,7 +122,3 @@
 	item = /obj/item/melee/trick_weapon/darkmoon
 
 
-/obj/item/hunting_contract/Destroy()
-	owner = null
-	weapons = null
-	return ..()

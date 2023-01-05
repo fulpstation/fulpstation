@@ -19,7 +19,7 @@
 
 /obj/effect/client_image_holder/white_rabbit/Initialize(mapload)
 	. = ..()
-	RegisterSignal(src, RABBIT_FOUND, .proc/spotted)
+	RegisterSignal(src, COMSIG_RABBIT_FOUND, .proc/spotted)
 
 /obj/effect/client_image_holder/white_rabbit/attack_hand(mob/user, list/modifiers)
 	. = ..()
@@ -30,11 +30,11 @@
 	if(being_used)
 		return
 	being_used = TRUE
-	SEND_SIGNAL(src, RABBIT_FOUND, user)
+	SEND_SIGNAL(src, COMSIG_RABBIT_FOUND, user)
 	var/datum/antagonist/monsterhunter/hunta = user.mind.has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!hunta)
 		return
-	SEND_SIGNAL(hunta, GAIN_INSIGHT)
+	SEND_SIGNAL(hunta, COMSIG_GAIN_INSIGHT)
 	image_state = "rabbit_hole"
 	update_appearance()
 	QDEL_IN(src, 8 SECONDS)
@@ -53,7 +53,7 @@
 		silverblood.Grant(user)
 	if(illness)
 		illness.white_rabbits -= src
-	UnregisterSignal(src, RABBIT_FOUND)
+	UnregisterSignal(src, COMSIG_RABBIT_FOUND)
 
 
 
@@ -82,7 +82,7 @@
 	if(locator)
 		locator.mental = null
 	locator = null
-	. = ..()
+	return ..()
 
 /datum/brain_trauma/special/rabbit_hole/on_gain()
 	..()

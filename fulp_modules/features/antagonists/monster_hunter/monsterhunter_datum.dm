@@ -49,19 +49,19 @@
 	sickness = disease
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(criminal,src)
-	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK)
+	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
 	criminal.equip_in_one_of_slots(card, slots)
 	var/obj/item/hunting_contract/contract = new(criminal,src)
 	criminal.equip_in_one_of_slots(contract, slots)
-	RegisterSignal(src, GAIN_INSIGHT, .proc/insight_gained)
-	RegisterSignal(src, BEASTIFY, .proc/turn_beast)
+	RegisterSignal(src, COMSIG_GAIN_INSIGHT, .proc/insight_gained)
+	RegisterSignal(src, COMSIG_BEASTIFY, .proc/turn_beast)
 	return ..()
 
 
 
 /datum/antagonist/monsterhunter/on_removal()
-	UnregisterSignal(src, GAIN_INSIGHT)
-	UnregisterSignal(src, BEASTIFY)
+	UnregisterSignal(src, COMSIG_GAIN_INSIGHT)
+	UnregisterSignal(src, COMSIG_BEASTIFY)
 	sickness.Destroy()
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
