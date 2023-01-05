@@ -3,9 +3,9 @@
 #define WEAPON_UPGRADE "weapon_upgrade"
 
 /obj/item/melee/trick_weapon
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
-	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons_lefthand.dmi'
-	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons_righthand.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	lefthand_file = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons_lefthand.dmi'
+	righthand_file = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons_righthand.dmi'
 	///upgrade level of the weapon
 	var/upgrade_level = 0
 	///base force when transformed
@@ -73,7 +73,7 @@
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
 	if(active)
-		playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/moonlightsword.ogg',50)
+		playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/moonlightsword.ogg',50)
 	inhand_icon_state = active ? "darkmoon" : "darkmoon_hilt"
 	enabled = active
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
@@ -211,7 +211,7 @@
 	name = "Rabbit eye"
 	desc = "An item that resonates with trick weapons."
 	icon_state = "rabbit_eye"
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 
 /obj/item/rabbit_eye/proc/upgrade(obj/item/melee/trick_weapon/killer, mob/user)
 	if(killer.upgrade_level >= 3)
@@ -229,7 +229,7 @@
 	name = "\improper Hunter's Revolver"
 	desc = "Does minimal damage but slows down the enemy."
 	icon_state = "revolver"
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	initial_caliber = CALIBER_BLOODSILVER
 
@@ -249,7 +249,7 @@
 	name = "Bloodsilver casing"
 	desc = "A Bloodsilver bullet casing."
 	icon_state = "bloodsilver"
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	projectile_type = /obj/projectile/bullet/bloodsilver
 	caliber = CALIBER_BLOODSILVER
 
@@ -306,9 +306,9 @@
 /obj/item/clothing/mask/cursed_rabbit
 	name = "Damned Rabbit Mask"
 	desc = "Slip into the wonderland."
-	icon =  'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon =  'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "rabbit_mask"
-	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
+	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	///the paradox rabbit ability
@@ -361,7 +361,7 @@
 /obj/item/rabbit_locator
 	name = "Accursed Red Queen card"
 	desc = "Hunts down the white rabbits."
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL
 	///the trauma generating the rabbits
@@ -413,7 +413,7 @@
 	if(distance < 10)
 		sound_value = 100
 		to_chat(user,span_warning("Here...its definitely here!"))
-	playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
+	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
 	COOLDOWN_START(src, locator_timer, 7 SECONDS)
 
 /obj/item/rabbit_locator/proc/get_minimum_distance(mob/user)
@@ -437,7 +437,7 @@
 	name = "jack in the bomb"
 	desc = "Best kids' toy"
 	w_class = WEIGHT_CLASS_SMALL
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "jack_in_the_bomb"
 	inhand_icon_state = "flashbang"
 	worn_icon_state = "grenade"
@@ -455,7 +455,7 @@
 		add_fingerprint(user)
 		if(msg)
 			to_chat(user, span_warning("You prime [src]! [capitalize(DisplayTimeText(det_time))]!"))
-	playsound(src, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/jackinthebomb.ogg', volume, TRUE)
+	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/jackinthebomb.ogg', volume, TRUE)
 	if(istype(user))
 		user.mind?.add_memory(MEMORY_BOMB_PRIMED, list(DETAIL_BOMB_TYPE = src), story_value = STORY_VALUE_OKAY)
 	active = TRUE

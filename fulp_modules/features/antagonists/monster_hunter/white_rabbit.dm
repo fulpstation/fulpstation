@@ -1,7 +1,7 @@
 /obj/effect/client_image_holder/white_rabbit
 	name = "white rabbit"
 	desc = "FEED YOUR HEAD."
-	image_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	image_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	image_state = "white_rabbit"
 	image_layer = ABOVE_LIGHTING_PLANE
 	image_layer = ABOVE_MOB_LAYER
@@ -64,6 +64,7 @@
 /datum/brain_trauma/special/rabbit_hole
 	name = "Rabbit Chaser"
 	desc = "They believe in a wonderland they lie."
+	resilience = TRAUMA_RESILIENCE_ABSOLUTE
 	scan_desc = "rabbit chaser"
 	gain_text = "<span class='notice'>You see the white rabbits clearly, have they always been there?"
 	lose_text = "<span class='warning'>The rabbits scurry off in a hurry, perhaps there's trouble in the wonderland."

@@ -3,7 +3,7 @@
 	desc = "Servant of the moon."
 	health = 500
 	maxHealth = 500
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/red_rabbit.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/red_rabbit.dmi'
 	icon_state = "red_rabbit"
 	attack_verb_continuous = "claws"
 	attack_verb_simple = "claw"
@@ -55,7 +55,7 @@
 	name = "Create Offspring"
 	button_icon_state = "killer_rabbit"
 	cooldown_time = 5 SECONDS
-	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	button_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	button_icon_state = "killer_rabbit"
 
 
@@ -72,7 +72,7 @@
 /mob/living/simple_animal/hostile/killer_rabbit
 	name = "killer baby rabbit"
 	desc = "A cute little rabbit, surely its harmless... right?"
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	icon_state = "killer_rabbit"
 	maxHealth = 5
 	melee_damage_lower = 5
@@ -93,13 +93,13 @@
 	name = "Create Rabbit Hole"
 	button_icon_state = "hole_effect_button"
 	cooldown_time = 5 SECONDS
-	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	button_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	button_icon_state = "hole_effect_button"
 
 
 /obj/effect/rabbit_hole
 	name = "Rabbit Hole"
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	icon_state = "hole_effect"
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE
@@ -136,7 +136,7 @@
 
 /obj/projectile/red_rabbit
 	name = "Red Queen"
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
 	damage = 20
 	armour_penetration = 100

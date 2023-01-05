@@ -11,10 +11,7 @@
 	antag_hud_name = "obsessed"
 	preview_outfit = /datum/outfit/monsterhunter
 	var/list/datum/action/powers = list()
-	var/datum/martial_art/hunterfu/my_kungfu = new
 	var/give_objectives = TRUE
-	var/datum/action/bloodsucker/trackvamp = new /datum/action/bloodsucker/trackvamp()
-	var/datum/action/bloodsucker/fortitude = new /datum/action/bloodsucker/fortitude/hunter()
 	///the rabbit illusion trauma related to us
 	var/datum/brain_trauma/special/rabbit_hole/sickness
 	///how many rabbits have we found
@@ -26,7 +23,6 @@
 	ADD_TRAIT(current_mob, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(current_mob, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	owner.unconvertable = TRUE
-	my_kungfu.teach(current_mob, make_temporary = FALSE)
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -34,13 +30,8 @@
 	REMOVE_TRAIT(current_mob, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(current_mob, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
 	owner.unconvertable = FALSE
-	if(my_kungfu)
-		my_kungfu.remove(current_mob)
 
 /datum/antagonist/monsterhunter/on_gain()
-	//Give Monster Hunter powers
-	trackvamp.Grant(owner.current)
-	fortitude.Grant(owner.current)
 	//Give Hunter Objective
 	if(give_objectives)
 		find_monster_targets()
@@ -69,9 +60,6 @@
 
 
 /datum/antagonist/monsterhunter/on_removal()
-	//Remove Monster Hunter powers
-	trackvamp.Remove(owner.current)
-	fortitude.Remove(owner.current)
 	UnregisterSignal(src, GAIN_INSIGHT)
 	UnregisterSignal(src, BEASTIFY)
 	sickness.Destroy()
@@ -87,8 +75,8 @@
 
 /datum/antagonist/monsterhunter/get_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/hunter = new
-	var/icon/white_rabbit = icon('fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi', "white_rabbit")
-	var/icon/red_rabbit = icon('fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/rabbit.dmi', "killer_rabbit")
+	var/icon/white_rabbit = icon('fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi', "white_rabbit")
+	var/icon/red_rabbit = icon('fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi', "killer_rabbit")
 	var/icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
 
 	var/icon/final_icon = hunter_icon
@@ -155,7 +143,7 @@
 	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
 	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))
 	to_chat(owner.current, span_announce("In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection."))
-	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/monsterhunterintro.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
 //////////////////////////////////////////////////////////////////////////
@@ -262,12 +250,12 @@
 	for(var/obj/machinery/power/apc/apc as anything in GLOB.apcs_list)
 		if(is_station_level(apc.z))
 			apc.overload_lighting()
-	priority_announce("What the heELl is going on?! WEeE have detected  massive up-spikes in ##@^^?? coming fr*m yoOourr st!*i@n! GeEeEEET out of THERE NOW!!","?????????", 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/sounds/beastification.ogg')
+	priority_announce("What the heELl is going on?! WEeE have detected  massive up-spikes in ##@^^?? coming fr*m yoOourr st!*i@n! GeEeEEET out of THERE NOW!!","?????????", 'fulp_modules/features/antagonists/monster_hunter/sounds/beastification.ogg')
 
 
 /obj/item/clothing/mask/monster_preview_mask
 	name = "Monster Preview Mask"
-	worn_icon = 'fulp_modules/features/antagonists/bloodsuckers/code/monster_hunter/icons/worn_mask.dmi'
+	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "monoclerabbit"
 
 

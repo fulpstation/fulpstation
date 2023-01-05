@@ -7,7 +7,7 @@
 	///have we claimed our weapon?
 	var/bought = FALSE
 	///the datum containing all weapons
-	var/datum/hunter_market/shop
+	var/list/datum/hunter_weapons/weapons = list()
 	///the weapon that we have purchased
 	var/selected_item
 	///the owner of this contract
@@ -15,7 +15,8 @@
 
 /obj/item/hunting_contract/Initialize(mapload, datum/antagonist/monsterhunter/hunter)
 	. = ..()
-	shop = new /datum/hunter_market
+	for(var/items in subtypesof(/datum/hunter_weapons))
+		weapons += new items
 	if(hunter)
 		owner = hunter
 
@@ -33,8 +34,8 @@
 	data["bought"] = bought
 	data["items"] = list()
 	data["objectives"] = list()
-	if(shop)
-		for(var/datum/hunter_weapons/contraband in shop.weapons)
+	if(weapons.len)
+		for(var/datum/hunter_weapons/contraband as anything in weapons)
 			data["items"] += list(list(
 			"id" = contraband.type,
 			"name" = contraband.name,
@@ -75,7 +76,7 @@
 
 /obj/item/hunting_contract/proc/purchase(item, user)
 	var/obj/item/purchased
-	for(var/datum/hunter_weapons/contraband in shop.weapons)
+	for(var/datum/hunter_weapons/contraband as anything in weapons)
 		if(contraband.type != item)
 			continue
 		bought = TRUE
@@ -90,16 +91,6 @@
 		"style" = STYLE_SYNDICATE,
 		"spawn" = purchased,
 		))
-
-
-/datum/hunter_market
-	var/name = "Hunter's market"
-	var/list/datum/hunter_weapons/weapons = list()
-
-/datum/hunter_market/New()
-	for(var/items in subtypesof(/datum/hunter_weapons))
-		weapons += new items
-
 
 /datum/hunter_weapons
 	///name of the weapon
@@ -128,5 +119,5 @@
 
 /obj/item/hunting_contract/Destroy()
 	owner = null
-	shop = null
+	weapons = null
 	return ..()
