@@ -175,7 +175,7 @@
 	else
 		.["Break Masquerade"] = CALLBACK(src, .proc/break_masquerade)
 
-/// Called by the add_antag_datum() mind proc after the instanced datum is added to the mind's antag_datums list.
+///Called when you get the antag datum, called only ONCE per antagonist.
 /datum/antagonist/bloodsucker/on_gain()
 	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, .proc/sol_rank_up)
 	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, .proc/sol_near_start)

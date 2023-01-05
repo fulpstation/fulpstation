@@ -81,7 +81,7 @@
 
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
 	for(var/datum/action/bloodsucker/power as anything in powers)
-		if(istype(power, /datum/action/bloodsucker/feed) || istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
+		if(power.purchase_flags & BLOODSUCKER_DEFAULT_POWER)
 			continue
 		RemovePower(power)
 
