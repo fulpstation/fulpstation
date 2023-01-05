@@ -363,30 +363,30 @@
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL
-	///the trauma generating the rabbits
-	var/datum/brain_trauma/special/rabbit_hole/mental
+	///the hunter the card is tied too
+	var/datum/antagonist/monsterhunter/hunter
 	///cooldown for the locator
 	var/cooldown = TRUE
 
 	COOLDOWN_DECLARE(locator_timer)
 
 
-/obj/item/rabbit_locator/Initialize(mapload, datum/antagonist/monsterhunter/hunter)
+/obj/item/rabbit_locator/Initialize(mapload, datum/antagonist/monsterhunter/killer)
 	. = ..()
-	if(!hunter)
+	if(!killer)
 		return
-	mental = hunter.sickness
-	mental.locator = src
+	hunter = killer
+	hunter.locator = src
 
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
 	if (!COOLDOWN_FINISHED(src, locator_timer))
 		return
 	if(!cooldown)
 		return
-	if(!mental)
+	if(!hunter)
 		to_chat(user,span_warning("It's just a normal playing card!"))
 		return
-	if(mental.owner != user)
+	if(hunter.owner.current != user)
 		to_chat(user,span_warning("It's just a normal playing card!"))
 		return
 	if(!is_station_level(user.loc.z))
@@ -417,19 +417,19 @@
 
 /obj/item/rabbit_locator/proc/get_minimum_distance(mob/user)
 	var/dist=1000
-	if(!mental)
+	if(!hunter)
 		return
-	if(!mental.white_rabbits.len)
+	if(!hunter.rabbits.len)
 		return
-	for(var/obj/effect/located as anything in mental.white_rabbits)
+	for(var/obj/effect/located as anything in hunter.rabbits)
 		if(get_dist(user,located) < dist)
 			dist = get_dist(user,located)
 	return dist
 
 /obj/item/rabbit_locator/Destroy()
-	if(mental)
-		mental.locator = null
-		mental = null
+	if(hunter)
+		hunter.locator = null
+		hunter = null
 	return ..()
 
 /obj/item/grenade/jack

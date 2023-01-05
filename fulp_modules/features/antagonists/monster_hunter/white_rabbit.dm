@@ -10,8 +10,8 @@
 	var/description
 	///has the rabbit already whispered?
 	var/being_used = FALSE
-	///trauma this rabbit is tied to
-	var/datum/brain_trauma/special/rabbit_hole/illness
+	///the hunter this rabbit is tied to
+	var/datum/antagonist/monsterhunter/hunter
 	///is this rabbit selected to drop the mask?
 	var/drop_mask = FALSE
 	///is this rabbit selected to drop the gun?
@@ -31,10 +31,9 @@
 		return
 	being_used = TRUE
 	SEND_SIGNAL(src, COMSIG_RABBIT_FOUND, user)
-	var/datum/antagonist/monsterhunter/hunta = user.mind.has_antag_datum(/datum/antagonist/monsterhunter)
-	if(!hunta)
+	if(!hunter)
 		return
-	SEND_SIGNAL(hunta, COMSIG_GAIN_INSIGHT)
+	SEND_SIGNAL(hunter, COMSIG_GAIN_INSIGHT)
 	image_state = "rabbit_hole"
 	update_appearance()
 	QDEL_IN(src, 8 SECONDS)
@@ -51,50 +50,10 @@
 		var/datum/action/cooldown/spell/conjure_item/blood_silver/silverblood = new(user)
 		silverblood.StartCooldown()
 		silverblood.Grant(user)
-	if(illness)
-		illness.white_rabbits -= src
+	if(hunter)
+		hunter.rabbits -= src
 	UnregisterSignal(src, COMSIG_RABBIT_FOUND)
 
-
-
-
-
-
-
-/datum/brain_trauma/special/rabbit_hole
-	name = "Rabbit Chaser"
-	desc = "They believe in a wonderland they lie."
-	resilience = TRAUMA_RESILIENCE_ABSOLUTE
-	scan_desc = "rabbit chaser"
-	gain_text = "<span class='notice'>You see the white rabbits clearly, have they always been there?"
-	lose_text = "<span class='warning'>The rabbits scurry off in a hurry, perhaps there's trouble in the wonderland."
-	///the list of rabbit holes the owner can currently interact with
-	var/list/white_rabbits = list()
-	///the red card tied to this trauma if any
-	var/obj/item/rabbit_locator/locator
-
-/datum/brain_trauma/special/rabbit_hole/on_lose()
-	for(var/obj/effect/client_image_holder/white_rabbit/rabbit as anything in white_rabbits)
-		white_rabbits -= rabbit
-		qdel(rabbit)
-	var/datum/antagonist/monsterhunter/monst = owner.mind.has_antag_datum(/datum/antagonist/monsterhunter)
-	monst.sickness = null
-	if(locator)
-		locator.mental = null
-	locator = null
-	return ..()
-
-/datum/brain_trauma/special/rabbit_hole/on_gain()
-	..()
-	for(var/i in 1 to 5 )
-		var/turf/rabbit_hole = get_safe_random_station_turf()
-		var/obj/effect/client_image_holder/white_rabbit/cretin =  new /obj/effect/client_image_holder/white_rabbit(rabbit_hole, owner)
-		cretin.illness = src
-		white_rabbits += cretin
-	var/obj/effect/client_image_holder/white_rabbit/mask_holder = pick(white_rabbits)
-	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(white_rabbits)
-	mask_holder.drop_mask = TRUE
-	gun_holder.drop_gun = TRUE
 
 
 

@@ -12,10 +12,12 @@
 	preview_outfit = /datum/outfit/monsterhunter
 	var/list/datum/action/powers = list()
 	var/give_objectives = TRUE
-	///the rabbit illusion trauma related to us
-	var/datum/brain_trauma/special/rabbit_hole/sickness
 	///how many rabbits have we found
 	var/rabbits_spotted = 0
+	///the list of white rabbits
+	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
+	///the red card tied to this trauma if any
+	var/obj/item/rabbit_locator/locator
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -43,10 +45,6 @@
 	//Teach Stake crafting
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
-	var/mob/living/carbon/human/killer = owner.current
-	var/datum/brain_trauma/special/rabbit_hole/disease = new
-	killer.gain_trauma(disease)
-	sickness = disease
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(criminal,src)
 	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
@@ -55,6 +53,16 @@
 	criminal.equip_in_one_of_slots(contract, slots)
 	RegisterSignal(src, COMSIG_GAIN_INSIGHT, .proc/insight_gained)
 	RegisterSignal(src, COMSIG_BEASTIFY, .proc/turn_beast)
+	for(var/i in 1 to 5 )
+		var/turf/rabbit_hole = get_safe_random_station_turf()
+		var/obj/effect/client_image_holder/white_rabbit/cretin =  new(rabbit_hole, owner.current)
+		cretin.hunter = src
+		rabbits += cretin
+	var/obj/effect/client_image_holder/white_rabbit/mask_holder = pick(rabbits)
+	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(rabbits)
+	mask_holder.drop_mask = TRUE
+	gun_holder.drop_gun = TRUE
+
 	return ..()
 
 
@@ -62,7 +70,12 @@
 /datum/antagonist/monsterhunter/on_removal()
 	UnregisterSignal(src, COMSIG_GAIN_INSIGHT)
 	UnregisterSignal(src, COMSIG_BEASTIFY)
-	sickness.Destroy()
+	for(var/obj/effect/client_image_holder/white_rabbit/white as anything in rabbits)
+		rabbits -= white
+		qdel(white)
+	if(locator)
+		locator.hunter = null
+	locator = null
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()
 

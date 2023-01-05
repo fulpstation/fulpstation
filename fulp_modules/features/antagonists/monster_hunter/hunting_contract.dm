@@ -52,7 +52,7 @@
 				check_completed = FALSE
 		data["all_completed"] = check_completed
 		data["number_of_rabbits"] = owner.rabbits_spotted
-		data["rabbits_found"] = !(owner.sickness.white_rabbits.len)
+		data["rabbits_found"] = !(owner.rabbits.len)
 	return data
 
 /obj/item/hunting_contract/ui_act(action, params)
