@@ -252,18 +252,9 @@
 /datum/antagonist/monsterhunter/proc/turn_beast()
 	SIGNAL_HANDLER
 
-	var/mob/living/simple_animal/hostile/megafauna/red_rabbit/evil_rabbit = new (get_turf(owner.current))
-	owner.current.gib()
-	owner.transfer_to(evil_rabbit)
-	var/datum/objective/survive/destruction = new
-	destruction.name = "Wreak Havoc"
-	destruction.explanation_text = "Wreak havoc upon the station"
-	destruction.owner = owner
-	objectives += destruction
-	for(var/obj/machinery/power/apc/apc as anything in GLOB.apcs_list)
-		if(is_station_level(apc.z))
-			apc.overload_lighting()
-	priority_announce("What the heELl is going on?! WEeE have detected  massive up-spikes in ##@^^?? coming fr*m yoOourr st!*i@n! GeEeEEET out of THERE NOW!!","?????????", 'fulp_modules/features/antagonists/monster_hunter/sounds/beastification.ogg')
+	var/datum/round_event_control/wonderlandapocalypse/invasion = new
+	invasion.runEvent()
+
 
 
 /obj/item/clothing/mask/monster_preview_mask

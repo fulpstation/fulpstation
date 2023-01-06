@@ -12,6 +12,8 @@
 	var/selected_item
 	///the owner of this contract
 	var/datum/antagonist/monsterhunter/owner
+	///is the contract used up?
+	var/used_up = FALSE
 
 /obj/item/hunting_contract/Initialize(mapload, datum/antagonist/monsterhunter/hunter)
 	. = ..()
@@ -53,6 +55,7 @@
 		data["all_completed"] = check_completed
 		data["number_of_rabbits"] = owner.rabbits_spotted
 		data["rabbits_found"] = !(owner.rabbits.len)
+		data["used_up"] = used_up
 	return data
 
 /obj/item/hunting_contract/ui_act(action, params)
@@ -72,6 +75,7 @@
 				to_chat(usr,span_warning("The pull of the ice moon isn't strong enough here...."))
 				return
 			SEND_SIGNAL(owner, COMSIG_BEASTIFY)
+			used_up = TRUE
 
 
 /obj/item/hunting_contract/proc/purchase(item, user)

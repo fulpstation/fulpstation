@@ -4,7 +4,7 @@ import { Window } from '../../tgui/layouts';
 
 const HunterObjectives = (props, context) => {
   const { act, data } = useBackend(context);
-  const { objectives = [], all_completed, rabbits_found } = data;
+  const { objectives = [], all_completed, rabbits_found, used_up } = data;
   return (
     <Stack vertical fill>
       <Stack.Item grow>
@@ -28,9 +28,9 @@ const HunterObjectives = (props, context) => {
               textAlign="center"
               align="center"
               width={50}
-              content={'Ascend'}
+              content={'Commence Apocalypse'}
               fontSize="200%"
-              disabled={!all_completed || !rabbits_found}
+              disabled={!all_completed || !rabbits_found || used_up}
               onClick={() => act('claim_reward')}
             />
           </Box>
