@@ -7,7 +7,9 @@
 	replace_objs = list(\
 		/obj/structure/chair = list(/obj/structure/chair/wood = 1), \
 		/obj/machinery/door/airlock = list(/obj/machinery/door/airlock/wood = 1, /obj/machinery/door/airlock/wood/glass = 1), \
-		/obj/structure/table = list(/obj/structure/table/wood = 1),)
+		/obj/structure/table = list(/obj/structure/table/wood = 1), \
+		/obj/machinery/holopad  = list(/obj/structure/flora/tree/jungle = 1 ), \
+		/obj/machinery/atmospherics/components/unary/vent_scrubber = list(/obj/structure/flora/tree/dead = 1))
 
 
 /turf/open/misc/grass/jungle/wonderland
