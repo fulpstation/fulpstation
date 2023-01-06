@@ -26,7 +26,7 @@
 	priority_announce("What the heELl is going on?! WEeE have detected  massive up-spikes in ##@^^?? coming fr*m yoOourr st!*i@n! GeEeEEET out of THERE NOW!!","?????????", 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg')
 
 /datum/round_event/wonderlandapocalypse/start()
-	for(var/i = 1, i < 10, i++)
+	for(var/i = 1, i < 16, i++)
 		var/turf/targetloc = get_safe_random_station_turf()
 		var/datum/dimension_theme/wonderland/greenery = new()
 		new /obj/effect/anomaly/dimensional/wonderland(targetloc, null, FALSE, greenery)
