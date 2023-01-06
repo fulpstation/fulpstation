@@ -383,7 +383,7 @@
 		/mob/living/simple_animal/hostile/gorilla/albino,
 		/mob/living/simple_animal/hostile/devil/arch_devil,
 		/mob/living/simple_animal/hostile/devil,
-		/mob/living/simple_animal/hostile/megafauna/red_rabbit,
+		/mob/living/simple_animal/hostile/red_rabbit,
 		/mob/living/simple_animal/hostile/killer_rabbit,
 	)
 
