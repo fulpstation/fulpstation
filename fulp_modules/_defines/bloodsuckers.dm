@@ -113,4 +113,3 @@
 #define COMSIG_SOL_RISE_TICK "comsig_sol_rise_tick"
 #define COMSIG_SOL_NEAR_START "comsig_sol_near_start"
 #define COMSIG_SOL_END "comsig_sol_end"
-
