@@ -5,7 +5,7 @@
 	tgui_icon = "robot"
 	alignment = ALIGNMENT_NEUT
 	desired_items = list(/obj/item/reagent_containers = "holding blood", /mob/living/basic/cow/bull,)
-	rites_list = list(/datum/religion_rites/pure_heart, /datum/religion_rites/big_cow, /datum/religion_rites/bull_sacrifice)
+	rites_list = list(/datum/religion_rites/pure_heart, /datum/religion_rites/aurochs, /datum/religion_rites/bull_sacrifice)
 	altar_icon_state = "convertaltar-blue"
 	max_favor = 10000
 
@@ -49,8 +49,8 @@
 
 /datum/religion_rites/bull_sacrifice
 	name = "Bull sacrifice"
-	desc = "put a fucking cow on the altar."
-	ritual_length = 5 SECONDS
+	desc = "Nourish Mother Earth with the blood of a sacrificial bull."
+	ritual_length = 10 SECONDS
 	ritual_invocations = list("This fearless bull ...",
 	"... blood for the earth  ...",
 	"... sacred cuts ...")
@@ -92,15 +92,23 @@
 	chosen_sacrifice = null
 	return TRUE
 
-/datum/religion_rites/big_cow
+
+
+/datum/religion_rites/aurochs
 	name = "Big cow time."
 	desc = "Summons a mother fucking cow"
 	invoke_msg = "big beefy boy"
 	favor_cost = 8000
 
-/datum/religion_rites/big_cow/invoke_effect(mob/living/user, atom/movable/religious_tool)
+/datum/religion_sect/earth/proc/remove_bull()
+	rites_list = list(/datum/religion_rites/pure_heart, /datum/religion_rites/bull_sacrifice)
+
+
+/datum/religion_rites/aurochs/invoke_effect(mob/living/user, atom/movable/religious_tool)
 	..()
 	var/altar_turf = get_turf(religious_tool)
 	new /mob/living/basic/cow/bull(altar_turf)
 	//playsound(get_turf(religious_tool), 'sound/effects/cashregister.ogg', 60, TRUE)
+	var/datum/religion_sect/earth/sect = GLOB.religious_sect
+	sect.remove_bull()
 	return TRUE

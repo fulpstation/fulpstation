@@ -53,4 +53,10 @@
 		/obj/item/toy/plush/chica,
 	)
 	crate_name = "five nights at freddy's plushy crate"
+// Animal
 
+/datum/supply_pack/critter/bull
+	name = "Halloween Beacon"
+	desc = "Contains one halloween beacon used for bluespace costume delivery. Guaranteed to get you spooky!"
+	cost = CARGO_CRATE_VALUE * 0.5
+	contains = list(/obj/item/choice_beacon/halloween)
