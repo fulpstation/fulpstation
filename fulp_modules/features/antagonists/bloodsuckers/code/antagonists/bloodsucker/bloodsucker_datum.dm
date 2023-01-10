@@ -53,12 +53,9 @@
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
 	var/list/special_vassals = list()
-	///Have we selected our Favorite Vassal yet?
-	var/has_favorite_vassal = FALSE
 
 	var/bloodsucker_level = 0
 	var/bloodsucker_level_unspent = 1
-	var/passive_blood_drain = -0.1
 	var/additional_regen
 	var/bloodsucker_regen_rate = 0.3
 
