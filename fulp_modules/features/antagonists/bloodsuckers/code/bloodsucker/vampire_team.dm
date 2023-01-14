@@ -65,14 +65,16 @@
 		for(var/datum/antagonist/vassal/all_vassals as anything in vassals)
 			if(!all_vassals.owner)
 				continue
-			report += "<b>[all_vassals.owner.name]</b>"
+			var/list/vassal_report = list()
+			vassal_report += "<b>[all_vassals.owner.name]</b>"
 
 			if(all_vassals.owner.assigned_role)
-				report += " the [all_vassals.owner.assigned_role.title]"
+				vassal_report += " the [all_vassals.owner.assigned_role.title]"
 			if(IS_FAVORITE_VASSAL(all_vassals.owner.current))
-				report += " and was the <b>Favorite Vassal</b>"
+				vassal_report += " and was the <b>Favorite Vassal</b>"
 			else if(IS_REVENGE_VASSAL(all_vassals.owner.current))
-				report += " and was the <b>Revenge Vassal</b>"
+				vassal_report += " and was the <b>Revenge Vassal</b>"
+			report += vassal_report.Join()
 
 	if(objectives.len == 0 || objectives_complete)
 		report += "<span class='greentext big'>The [name] was successful!</span>"

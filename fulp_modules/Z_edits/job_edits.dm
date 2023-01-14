@@ -108,6 +108,10 @@
 	total_positions = 2
 	spawn_positions = 1
 
+/datum/job/curator/New()
+	mind_traits += list(TRAIT_BLOODSUCKER_HUNTER)
+	return ..()
+
 /datum/job/lawyer
 	total_positions = 4
 	spawn_positions = 2

@@ -259,7 +259,7 @@
 	. = ..()
 	if(!user.can_read(src))
 		return
-	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
+	if(HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
 		if(in_use || (target == user) || !ismob(target))
 			return
 		user.visible_message(span_notice("[user] begins to quickly look through [src], repeatedly looking back up at [target]."))
@@ -290,7 +290,7 @@
 //	. = ..()
 	if(!user.can_read(src))
 		return
-	if(HAS_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER))
+	if(HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
 		user.visible_message(span_notice("[user] opens [src] and begins reading intently."))
 		ui_interact(user)
 		return
