@@ -8,7 +8,7 @@
  *	Level 5 - Cloak of Darkness until clicking an area, teleports the user to the selected area, causes nearby people to fall asleep.
  */
 
-// Look to /obj/effect/proc_holder/spell/pointed/void_blink for help.
+// Look to /datum/action/cooldown/spell/pointed/void_phase for help.
 
 /datum/action/bloodsucker/targeted/tremere/auspex
 	name = "Level 1: Auspex"
@@ -48,7 +48,7 @@
 		Click any area up to teleport there, ending the Power."
 	bloodcost = 15
 	cooldown = 8 SECONDS
-	target_range = 9
+	target_range = null
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced
 	name = "Level 4: Auspex"
@@ -63,7 +63,7 @@
 	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 20
 	cooldown = 6 SECONDS
-	target_range = 9
+	target_range = null
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
 	name = "Level 5: Auspex"
@@ -75,7 +75,6 @@
 		Click any area up to teleport there, ending the Power and causing people at your end location to fall asleep for 10 seconds."
 	bloodcost = 25
 	cooldown = 8 SECONDS
-
 
 /datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/target_atom)
 	. = ..()
