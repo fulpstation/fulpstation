@@ -1,3 +1,6 @@
+///How much Blood it costs to live.
+#define BLOODSUCKER_PASSIVE_BLOOD_DRAIN 0.1
+
 /// Runs from COMSIG_LIVING_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	SIGNAL_HANDLER
@@ -11,7 +14,7 @@
 		check_end_torpor()
 	// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
+		INVOKE_ASYNC(src, .proc/AddBloodVolume, -BLOODSUCKER_PASSIVE_BLOOD_DRAIN) // -.1 currently
 	if(HandleHealing())
 		if((COOLDOWN_FINISHED(src, bloodsucker_spam_healing)) && bloodsucker_blood_volume > 0)
 			to_chat(owner.current, span_notice("The power of your blood begins knitting your wounds..."))
@@ -25,16 +28,6 @@
 
 	if(my_clan)
 		SEND_SIGNAL(my_clan, BLOODSUCKER_HANDLE_LIFE, src)
-
-/datum/antagonist/bloodsucker/proc/on_examine(datum/source, mob/examiner, examine_text)
-	SIGNAL_HANDLER
-
-	if(!iscarbon(source))
-		return
-	var/mob/living/carbon/carbon_source = source
-	var/vamp_examine = carbon_source.return_vamp_examine(examiner)
-	if(vamp_examine)
-		examine_text += vamp_examine
 
 /**
  * ## BLOOD STUFF
@@ -250,114 +243,6 @@
 	else
 		additional_regen = 0.5
 
-/// Cycle through all vamp antags and check if they're inside a closet.
-/datum/antagonist/bloodsucker/proc/handle_sol()
-	if(!istype(owner.current.loc, /obj/structure))
-		if(COOLDOWN_FINISHED(src, bloodsucker_spam_sol_burn))
-			if(bloodsucker_level > 0)
-				to_chat(owner, span_userdanger("The solar flare sets your skin ablaze!"))
-			else
-				to_chat(owner, span_userdanger("The solar flare scalds your neophyte skin!"))
-			COOLDOWN_START(src, bloodsucker_spam_sol_burn, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
-
-		if(owner.current.fire_stacks <= 0)
-			owner.current.fire_stacks = 0
-		if(bloodsucker_level > 0)
-			owner.current.adjust_fire_stacks(0.2 + bloodsucker_level / 10)
-			owner.current.ignite_mob()
-		owner.current.adjustFireLoss(2 + (bloodsucker_level / 2))
-		owner.current.updatehealth()
-		owner.current.add_mood_event("vampsleep", /datum/mood_event/daylight_2)
-		return
-
-	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin)) // Coffins offer the BEST protection
-		if(owner.current.am_staked() && COOLDOWN_FINISHED(src, bloodsucker_spam_sol_burn))
-			to_chat(owner.current, span_userdanger("You are staked! Remove the offending weapon from your heart before sleeping."))
-			COOLDOWN_START(src, bloodsucker_spam_sol_burn, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
-		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
-			check_begin_torpor(TRUE)
-			owner.current.add_mood_event("vampsleep", /datum/mood_event/coffinsleep)
-		return
-
-	if(COOLDOWN_FINISHED(src, bloodsucker_spam_sol_burn)) // Closets offer SOME protection
-		to_chat(owner, span_warning("Your skin sizzles. [owner.current.loc] doesn't protect well against UV bombardment."))
-		COOLDOWN_START(src, bloodsucker_spam_sol_burn, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
-	owner.current.adjustFireLoss(0.5 + (bloodsucker_level / 4))
-	owner.current.updatehealth()
-	owner.current.add_mood_event("vampsleep", /datum/mood_event/daylight_1)
-
-
-/**
- * # Torpor
- *
- * Torpor is what deals with the Bloodsucker falling asleep, their healing, the effects, ect.
- * This is basically what Sol is meant to do to them, but they can also trigger it manually if they wish to heal, as Burn is only healed through Torpor.
- * You cannot manually exit Torpor, it is instead entered/exited by:
- *
- * Torpor is triggered by:
- * - Being in a Coffin while Sol is on, dealt with by Sol
- * - Entering a Coffin with more than 10 combined Brute/Burn damage, dealt with by /closet/crate/coffin/close() [bloodsucker_coffin.dm]
- * - Death, dealt with by /HandleDeath()
- * Torpor is ended by:
- * - Having less than 10 Brute damage while OUTSIDE of your Coffin while it isnt Sol.
- * - Having less than 10 Brute & Burn Combined while INSIDE of your Coffin while it isnt Sol.
- * - Sol being over, dealt with by /sunlight/process() [bloodsucker_daylight.dm]
-*/
-/datum/antagonist/bloodsucker/proc/check_begin_torpor(SkipChecks = FALSE)
-	/// Are we entering Torpor via Sol/Death? Then entering it isnt optional!
-	if(SkipChecks)
-		torpor_begin()
-		return
-	var/mob/living/carbon/user = owner.current
-	var/total_brute = user.getBruteLoss_nonProsthetic()
-	var/total_burn = user.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
-	/// Checks - Not daylight & Has more than 10 Brute/Burn & not already in Torpor
-	if(!SSsunlight.sunlight_active && total_damage >= 10 && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		torpor_begin()
-
-/datum/antagonist/bloodsucker/proc/check_end_torpor()
-	var/mob/living/carbon/user = owner.current
-	var/total_brute = user.getBruteLoss_nonProsthetic()
-	var/total_burn = user.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
-	// You are in a Coffin, so instead we'll check TOTAL damage, here.
-	if(istype(user.loc, /obj/structure/closet/crate/coffin))
-		if(!SSsunlight.sunlight_active && total_damage <= 10)
-			torpor_end()
-	// You're not in a Coffin? We won't check for low Burn damage
-	else if(!SSsunlight.sunlight_active && total_brute <= 10)
-		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, to prevent spam revival/death. Only way out is healing that Burn.
-		if(total_burn >= 199)
-			return
-		torpor_end()
-
-/datum/antagonist/bloodsucker/proc/torpor_begin()
-	to_chat(owner.current, span_notice("You enter the horrible slumber of deathless Torpor. You will heal until you are renewed."))
-	/// Force them to go to sleep
-	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	/// Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
-	owner.current.set_timed_status_effect(0 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-	/// Disable ALL Powers
-	DisableAllPowers()
-
-/datum/antagonist/bloodsucker/proc/torpor_end()
-	owner.current.grab_ghost()
-	to_chat(owner.current, span_warning("You have recovered from Torpor."))
-	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	heal_vampire_organs()
-
-	if(my_clan)
-		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, owner.current)
-
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
 /datum/antagonist/bloodsucker/proc/update_blood()
 	//If we're on Masquerade, we appear to have full blood, unless we are REALLY low, in which case we don't look as bad.
@@ -410,55 +295,4 @@
 		span_hear("<span class='italics'>You hear a wet, bursting sound."))
 	dust_timer = addtimer(CALLBACK(user, /mob/living.proc/gib, TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 
-// Bloodsuckers moodlets //
-/datum/mood_event/drankblood
-	description = "<span class='nicegreen'>I have fed greedly from that which nourishes me.</span>\n"
-	mood_change = 10
-	timeout = 8 MINUTES
-
-/datum/mood_event/drankblood_bad
-	description = "<span class='boldwarning'>I drank the blood of a lesser creature. Disgusting.</span>\n"
-	mood_change = -4
-	timeout = 3 MINUTES
-
-/datum/mood_event/drankblood_dead
-	description = "<span class='boldwarning'>I drank dead blood. I am better than this.</span>\n"
-	mood_change = -7
-	timeout = 8 MINUTES
-
-/datum/mood_event/drankblood_synth
-	description = "<span class='boldwarning'>I drank synthetic blood. What is wrong with me?</span>\n"
-	mood_change = -7
-	timeout = 8 MINUTES
-
-/datum/mood_event/drankkilled
-	description = "<span class='boldwarning'>I fed off of a dead person. I feel... less human.</span>\n"
-	mood_change = -15
-	timeout = 10 MINUTES
-
-/datum/mood_event/madevamp
-	description = "<span class='boldwarning'>A mortal has reached an apotheosis- undeath- by my own hand.</span>\n"
-	mood_change = 15
-	timeout = 20 MINUTES
-
-/datum/mood_event/coffinsleep
-	description = "<span class='nicegreen'>I slept in a coffin during the day. I feel whole again.</span>\n"
-	mood_change = 10
-	timeout = 6 MINUTES
-
-/datum/mood_event/daylight_1
-	description = "<span class='boldwarning'>I slept poorly in a makeshift coffin during the day.</span>\n"
-	mood_change = -3
-	timeout = 6 MINUTES
-
-/datum/mood_event/daylight_2
-	description = "<span class='boldwarning'>I have been scorched by the unforgiving rays of the sun.</span>\n"
-	mood_change = -6
-	timeout = 6 MINUTES
-
-///Candelabrum's mood event to non Bloodsucker/Vassals
-/datum/mood_event/vampcandle
-	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
-	mood_change = -15
-	timeout = 5 MINUTES
-
+#undef BLOODSUCKER_PASSIVE_BLOOD_DRAIN

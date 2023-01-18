@@ -71,7 +71,7 @@
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/lair/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum && bloodsuckerdatum.coffin && bloodsuckerdatum.lair)
+	if(bloodsuckerdatum && bloodsuckerdatum.coffin && bloodsuckerdatum.bloodsucker_lair_area)
 		return TRUE
 	return FALSE
 
