@@ -13,7 +13,7 @@
 		target.grabbedby(user)
 		target.grippedby(user, instant = TRUE)
 		return TRUE
-	..()
+	return ..()
 
 /**
  * # Status effect

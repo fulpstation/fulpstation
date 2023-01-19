@@ -43,7 +43,8 @@
 
 /area/ruin/space/has_grav/powered/beef
 	name = "beef station"
-	icon_state = "green"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
 
 
@@ -64,3 +65,6 @@
 	name = "Prison Shuttle"
 	area_flags = NOTELEPORT
 
+/area/ruin/space/has_grav/powered/beef/atmos
+	name = "beef station atmos"
+	icon_state = "beef_station_atmos"

@@ -38,15 +38,14 @@
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"
 
-/// Individual roundend report
+
 /datum/antagonist/bloodsucker/roundend_report()
-	// Get the default Objectives
 	var/list/report = list()
+
 	// Vamp name
 	report += "<br><span class='header'><b>\[[return_full_name()]\]</b></span>"
 	report += printplayer(owner)
 	if(my_clan)
-		// Clan (Actual Clan, not Team) name
 		report += "They were part of the <b>[my_clan.name]</b>!"
 
 	// Default Report
@@ -61,17 +60,21 @@
 				break
 
 	// Now list their vassals
-	if(vassals.len > 0)
+	if(vassals.len)
 		report += "<span class='header'>Their Vassals were...</span>"
 		for(var/datum/antagonist/vassal/all_vassals as anything in vassals)
 			if(!all_vassals.owner)
 				continue
-			report += "<b>[all_vassals.owner.name]</b>"
+			var/list/vassal_report = list()
+			vassal_report += "<b>[all_vassals.owner.name]</b>"
 
 			if(all_vassals.owner.assigned_role)
-				report += " the [all_vassals.owner.assigned_role.title]"
+				vassal_report += " the [all_vassals.owner.assigned_role.title]"
 			if(IS_FAVORITE_VASSAL(all_vassals.owner.current))
-				report += " and was the <b>Favorite Vassal</b>"
+				vassal_report += " and was the <b>Favorite Vassal</b>"
+			else if(IS_REVENGE_VASSAL(all_vassals.owner.current))
+				vassal_report += " and was the <b>Revenge Vassal</b>"
+			report += vassal_report.Join()
 
 	if(objectives.len == 0 || objectives_complete)
 		report += "<span class='greentext big'>The [name] was successful!</span>"

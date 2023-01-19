@@ -24,6 +24,12 @@
 #define BLOODSUCKER_RANK_UP_NORMAL "bloodsucker_rank_up_normal"
 #define BLOODSUCKER_RANK_UP_VASSAL "bloodsucker_rank_up_vassal"
 
+#define DANGER_LEVEL_FIRST_WARNING 1
+#define DANGER_LEVEL_SECOND_WARNING 2
+#define DANGER_LEVEL_THIRD_WARNING 3
+#define DANGER_LEVEL_SOL_ROSE 4
+#define DANGER_LEVEL_SOL_ENDED 5
+
 /**
  * Cooldown defines
  * Used in Cooldowns Bloodsuckers use to prevent spamming
@@ -72,7 +78,7 @@
 /// This Power can be purchased by Vassals
 #define VASSAL_CAN_BUY (1<<3)
 /// This Power can be purchased by Monster Hunters
-#define HUNTER_CAN_BUY (1<<3)
+#define HUNTER_CAN_BUY (1<<4)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)
@@ -113,3 +119,5 @@
 #define COMSIG_SOL_RISE_TICK "comsig_sol_rise_tick"
 #define COMSIG_SOL_NEAR_START "comsig_sol_near_start"
 #define COMSIG_SOL_END "comsig_sol_end"
+///Sent when a warning for Sol is meant to go out: (danger_level, vampire_warning_message, vassal_warning_message)
+#define COMSIG_SOL_WARNING_GIVEN "comsig_sol_warning_given"
