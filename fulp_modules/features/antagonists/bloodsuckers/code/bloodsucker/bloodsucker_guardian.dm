@@ -39,11 +39,11 @@
 	next_move_modifier = 0.8
 
 	//None of these shouldn't appear in game outside of admin intervention
-	playstyle_string = "<span class='holoparasite'>As a <b>time manipulation</b> type you can stop time and you have a damage multiplier instead of armor as-well as powerful melee attacks capable of smashing through walls.</span>"
-	magic_fluff_string = "<span class='holoparasite'>...And draw... The World, through sheer luck or perhaps destiny, maybe even your own physiology. Manipulator of time, a guardian powerful enough to control THE WORLD!.</span>"
-	tech_fluff_string = "<span class='holoparasite'>ERROR... T$M3 M4N!PULA%I0N modules loaded. Holoparasite swarm online.</span>"
-	carp_fluff_string = "<span class='holoparasite'>CARP CARP CARP! You caught one! It's imbued with the power of Carp'Sie herself. Time to rule THE WORLD!.</span>"
-	miner_fluff_string = "<span class='holoparasite'>You encounter... The World, the controller of time and space.</span>"
+	playstyle_string = span_holoparasite("As a <b>time manipulation</b> type you can stop time and you have a damage multiplier instead of armor as-well as powerful melee attacks capable of smashing through walls.")
+	magic_fluff_string = span_holoparasite("...And draw... The World, through sheer luck or perhaps destiny, maybe even your own physiology. Manipulator of time, a guardian powerful enough to control THE WORLD!.")
+	tech_fluff_string = span_holoparasite("ERROR... T$M3 M4N!PULA%I0N modules loaded. Holoparasite swarm online.")
+	carp_fluff_string = span_holoparasite("CARP CARP CARP! You caught one! It's imbued with the power of Carp'Sie herself. Time to rule THE WORLD!.")
+	miner_fluff_string = span_holoparasite("You encounter... The World, the controller of time and space.")
 
 /mob/living/simple_animal/hostile/guardian/punch/timestop/Initialize(mapload, theme)
 	//Wizard Holoparasite theme, just to be more visibly stronger than regular ones

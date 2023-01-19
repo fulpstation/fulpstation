@@ -117,7 +117,7 @@
 			continue
 		if(HAS_TRAIT(watchers, TRAIT_BLIND) || HAS_TRAIT(watchers, TRAIT_NEARSIGHT))
 			continue
-		if(IS_BLOODSUCKER(watchers) || IS_VASSAL(watchers) || HAS_TRAIT(watchers, TRAIT_BLOODSUCKER_HUNTER))
+		if(IS_BLOODSUCKER(watchers) || IS_VASSAL(watchers) || HAS_TRAIT(watchers.mind, TRAIT_BLOODSUCKER_HUNTER))
 			continue
 		owner.balloon_alert(owner, "feed noticed!")
 		bloodsuckerdatum_power.give_masquerade_infraction()

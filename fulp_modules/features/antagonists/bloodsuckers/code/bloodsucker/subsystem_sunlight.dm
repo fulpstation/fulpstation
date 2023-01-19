@@ -12,12 +12,6 @@
 ///How much time Sol can be 'off' by, keeping the time inconsistent.
 #define TIME_BLOODSUCKER_SOL_DELAY 90
 
-#define DANGER_LEVEL_FIRST_WARNING 1
-#define DANGER_LEVEL_SECOND_WARNING 2
-#define DANGER_LEVEL_THIRD_WARNING 3
-#define DANGER_LEVEL_SOL_ROSE 4
-#define DANGER_LEVEL_SOL_ENDED 5
-
 SUBSYSTEM_DEF(sunlight)
 	name = "Sol"
 	can_fire = FALSE
@@ -84,33 +78,7 @@ SUBSYSTEM_DEF(sunlight)
 			)
 
 /datum/controller/subsystem/sunlight/proc/warn_daylight(danger_level, vampire_warning_message, vassal_warning_message)
-	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
-		to_chat(bloodsucker_minds, vampire_warning_message)
-
-		if(bloodsucker_minds.current)
-			switch(danger_level)
-				if(DANGER_LEVEL_FIRST_WARNING)
-					bloodsucker_minds.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/sounds/griffin_3.ogg', 50, 1)
-				if(DANGER_LEVEL_SECOND_WARNING)
-					bloodsucker_minds.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/sounds/griffin_5.ogg', 50, 1)
-				if(DANGER_LEVEL_THIRD_WARNING)
-					bloodsucker_minds.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
-				if(DANGER_LEVEL_SOL_ROSE)
-					bloodsucker_minds.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
-				if(DANGER_LEVEL_SOL_ENDED)
-					bloodsucker_minds.current.playsound_local(null, 'sound/misc/ghosty_wind.ogg', 90, 1)
-
-	if(vassal_warning_message)
-		for(var/datum/mind/vassal_minds as anything in get_antag_minds(/datum/antagonist/vassal))
-			if(IS_BLOODSUCKER(vassal_minds.current))
-				continue
-			to_chat(vassal_minds, vassal_warning_message)
-
-#undef DANGER_LEVEL_FIRST_WARNING
-#undef DANGER_LEVEL_SECOND_WARNING
-#undef DANGER_LEVEL_THIRD_WARNING
-#undef DANGER_LEVEL_SOL_ROSE
-#undef DANGER_LEVEL_SOL_ENDED
+	SEND_SIGNAL(src, COMSIG_SOL_WARNING_GIVEN, danger_level, vampire_warning_message, vassal_warning_message)
 
 #undef TIME_BLOODSUCKER_SOL_DELAY
 

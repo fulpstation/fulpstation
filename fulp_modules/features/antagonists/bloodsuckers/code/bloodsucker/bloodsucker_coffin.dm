@@ -1,4 +1,4 @@
-/datum/antagonist/bloodsucker/proc/claim_coffin(obj/structure/closet/crate/claimed)
+/datum/antagonist/bloodsucker/proc/claim_coffin(obj/structure/closet/crate/claimed, area/current_area)
 	// ALREADY CLAIMED
 	if(claimed.resident)
 		if(claimed.resident == owner.current)
@@ -6,24 +6,29 @@
 		else
 			to_chat(owner, "This [src] has already been claimed by another.")
 		return FALSE
+	if(!(current_area.area_flags & CULT_PERMITTED))
+		claimed.balloon_alert(owner.current, "not part of station!")
+		return
+	// This is my Lair
+	coffin = claimed
+	bloodsucker_lair_area = current_area
 	if(!(/datum/crafting_recipe/vassalrack in owner?.learned_recipes))
 		owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
 		owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
 		owner.teach_crafting_recipe(/datum/crafting_recipe/bloodthrone)
 		owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
 		owner.current.balloon_alert(owner.current, "new recipes learned!")
-	// This is my Lair
-	coffin = claimed
-	lair = get_area(claimed)
-	to_chat(owner, span_userdanger("You have claimed the [claimed] as your place of immortal rest! Your lair is now [lair]."))
-	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Tribal tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
+	to_chat(owner, span_userdanger("You have claimed the [claimed] as your place of immortal rest! Your lair is now [bloodsucker_lair_area]."))
+	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Structures tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
 	return TRUE
 
 /// From crate.dm
 /obj/structure/closet/crate
-	var/mob/living/resident /// This lets bloodsuckers claim any "crate" as a Coffin.
-	var/pryLidTimer = 25 SECONDS
 	breakout_time = 20 SECONDS
+	///The resident (owner) of this crate/coffin.
+	var/mob/living/resident
+	///The time it takes to pry this open with a crowbar.
+	var/pry_lid_timer = 25 SECONDS
 
 /obj/structure/closet/crate/coffin/examine(mob/user)
 	. = ..()
@@ -41,7 +46,7 @@
 	open_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_open.ogg'
 	close_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_close.ogg'
 	breakout_time = 30 SECONDS
-	pryLidTimer = 20 SECONDS
+	pry_lid_timer = 20 SECONDS
 	resistance_flags = NONE
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
@@ -55,7 +60,7 @@
 	open_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_open.ogg'
 	close_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_close.ogg'
 	breakout_time = 35 SECONDS
-	pryLidTimer = 35 SECONDS
+	pry_lid_timer = 35 SECONDS
 	resistance_flags = FIRE_PROOF | LAVA_PROOF | ACID_PROOF
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 2
@@ -70,7 +75,7 @@
 	open_sound = 'sound/effects/footstep/slime1.ogg'
 	close_sound = 'sound/effects/footstep/slime1.ogg'
 	breakout_time = 25 SECONDS
-	pryLidTimer = 20 SECONDS
+	pry_lid_timer = 20 SECONDS
 	material_drop = /obj/item/food/meat/slab/human
 	material_drop_amount = 3
 	armor = list(MELEE = 70, BULLET = 10, LASER = 10, ENERGY = 0, BOMB = 70, BIO = 0, FIRE = 70, ACID = 60)
@@ -84,7 +89,7 @@
 	open_sound = 'sound/effects/pressureplate.ogg'
 	close_sound = 'sound/effects/pressureplate.ogg'
 	breakout_time = 25 SECONDS
-	pryLidTimer = 30 SECONDS
+	pry_lid_timer = 30 SECONDS
 	material_drop = /obj/item/stack/sheet/iron
 	material_drop_amount = 5
 	armor = list(MELEE = 40, BULLET = 15, LASER = 50, ENERGY = 0, BOMB = 10, BIO = 0, FIRE = 70, ACID = 60)
@@ -92,15 +97,13 @@
 //////////////////////////////////////////////
 
 /// NOTE: This can be any coffin that you are resting AND inside of.
-/obj/structure/closet/crate/coffin/proc/claim_coffin(mob/living/claimant)
-	// Bloodsucker Claim
+/obj/structure/closet/crate/coffin/proc/claim_coffin(mob/living/claimant, area/current_area)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = claimant.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum)
-		// Successfully claimed?
-		if(bloodsuckerdatum.claim_coffin(src))
-			resident = claimant
-			anchored = TRUE
-			START_PROCESSING(SSprocessing, src)
+	// Successfully claimed?
+	if(bloodsuckerdatum.claim_coffin(src, current_area))
+		resident = claimant
+		anchored = TRUE
+		START_PROCESSING(SSprocessing, src)
 
 /obj/structure/closet/crate/coffin/Destroy()
 	unclaim_coffin()
@@ -112,19 +115,11 @@
 	if(!.)
 		return FALSE
 	if(user in src)
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		if(!bloodsuckerdatum)
-			return FALSE
-		if(bloodsuckerdatum.lair != get_area(bloodsuckerdatum.coffin))
-			if(bloodsuckerdatum.coffin)
-				bloodsuckerdatum.coffin.unclaim_coffin()
-		var/list/turf/area_turfs = get_area_turfs(bloodsuckerdatum.lair)
+		var/list/turf/area_turfs = get_area_turfs(get_area(src))
 		// Create Dirt etc.
 		var/turf/T_Dirty = pick(area_turfs)
 		if(T_Dirty && !T_Dirty.density)
 			// Default: Dirt
-			// CHECK: Cobweb already there?
-			//if (!locate(var/obj/effect/decal/cleanable/cobweb) in T_Dirty)	// REMOVED! Cleanables don't stack.
 			// STEP ONE: COBWEBS
 			// CHECK: Wall to North?
 			var/turf/check_N = get_step(T_Dirty, NORTH)
@@ -132,35 +127,12 @@
 				// CHECK: Wall to West?
 				var/turf/check_W = get_step(T_Dirty, WEST)
 				if(istype(check_W, /turf/closed/wall))
-					new /obj/effect/decal/cleanable/cobweb (T_Dirty)
+					new /obj/effect/decal/cleanable/cobweb(T_Dirty)
 				// CHECK: Wall to East?
 				var/turf/check_E = get_step(T_Dirty, EAST)
 				if(istype(check_E, /turf/closed/wall))
-					new /obj/effect/decal/cleanable/cobweb/cobweb2 (T_Dirty)
-			// STEP TWO: DIRT
-			new /obj/effect/decal/cleanable/dirt (T_Dirty)
-		// Find Animals in Area
-/*		if(rand(0,2) == 0)
-			var/mobCount = 0
-			var/mobMax = clamp(area_turfs.len / 25, 1, 4)
-			for(var/turf/lair_turfs in area_turfs)
-				if(!lair_turfs)
-					continue
-				var/mob/living/simple_animal/SA = locate() in lair_turfs
-				if(SA)
-					mobCount++
-					if(mobCount >= mobMax) // Already at max
-						break
-				Spawn One
-			if(mobCount < mobMax)
-//				Seek Out Location
-				while(area_turfs.len > 0)
-					var/turf/lair_turfs = pick(area_turfs) // We use while&pick instead of a for/loop so it's random, rather than from the top of the list.
-					if(lair_turfs && !lair_turfs.density)
-						var/mob/living/simple_animal/selected_simplemob = /mob/living/simple_animal/mouse // pick(/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse,/mob/living/simple_animal/mouse, /mob/living/simple_animal/hostile/retaliate/bat) //prob(300) /mob/living/simple_animal/mouse,
-						new selected_simplemob(lair_turfs)
-						break
-					area_turfs -= lair_turfs*/
+					new /obj/effect/decal/cleanable/cobweb/cobweb2(T_Dirty)
+			new /obj/effect/decal/cleanable/dirt(T_Dirty)
 
 /obj/structure/closet/crate/proc/unclaim_coffin(manual = FALSE)
 	// Unanchor it (If it hasn't been broken, anyway)
@@ -171,7 +143,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
 		bloodsuckerdatum.coffin = null
-		bloodsuckerdatum.lair = null
+		bloodsuckerdatum.bloodsucker_lair_area = null
 	for(var/obj/structure/bloodsucker/bloodsucker_structure in get_area(src))
 		if(bloodsucker_structure.owner == resident)
 			bloodsucker_structure.unbolt()
@@ -204,10 +176,11 @@
 		var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 		if(!bloodsuckerdatum)
 			return FALSE
+		var/area/current_area = get_area(src)
 		if(!bloodsuckerdatum.coffin && !resident)
-			switch(tgui_alert(user,"Do you wish to claim this as your coffin? [get_area(src)] will be your lair.","Claim Lair", list("Yes", "No")))
+			switch(tgui_alert(user, "Do you wish to claim this as your coffin? [current_area] will be your lair.", "Claim Lair", list("Yes", "No")))
 				if("Yes")
-					claim_coffin(user)
+					claim_coffin(user, current_area)
 				if("No")
 					return
 		LockMe(user)
@@ -234,7 +207,7 @@
 		return
 
 	if(locked && (item.tool_behaviour == TOOL_CROWBAR))
-		var/pry_time = pryLidTimer * item.toolspeed // Pry speed must be affected by the speed of the tool.
+		var/pry_time = pry_lid_timer * item.toolspeed // Pry speed must be affected by the speed of the tool.
 		user.visible_message(
 			span_notice("[user] tries to pry the lid off of [src] with [item]."),
 			span_notice("You begin prying the lid off of [src] with [item]. This should take about [DisplayTimeText(pry_time)]."))
