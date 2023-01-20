@@ -310,6 +310,8 @@
 	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
+	flash_protect = FLASH_PROTECTION_WELDER
 	///the paradox rabbit ability
 	var/datum/action/cooldown/paradox/paradox
 	///teleporting to the wonderland
