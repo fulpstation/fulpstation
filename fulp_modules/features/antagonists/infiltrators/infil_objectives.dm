@@ -8,6 +8,7 @@
 			killtraitor.find_traitor_target()
 			objectives += killtraitor
 
+
 			var/datum/objective/escape/escape_with_identity/infiltrator/escape = new
 			escape.owner = owner
 			escape.find_sec_target()
