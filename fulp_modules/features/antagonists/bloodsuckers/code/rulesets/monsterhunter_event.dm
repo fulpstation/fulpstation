@@ -5,7 +5,7 @@
 	antag_datum = /datum/antagonist/monsterhunter
 	midround_ruleset_style = MIDROUND_RULESET_STYLE_HEAVY
 	antag_flag = ROLE_MONSTERHUNTER
-	weight = 4
+	weight = 5
 	cost = 15
 	protected_roles = list(
 		JOB_CAPTAIN,
@@ -46,6 +46,8 @@
 		living_players -= monster
 		var/datum/antagonist/profession = pick(possible_monsters)
 		monster.mind.add_antag_datum(profession)
+		message_admins("[ADMIN_LOOKUPFLW(monster)] was selected by the [name] ruleset and has been made into a Monster.")
+		log_game("DYNAMIC: [key_name(monster)] was selected by the [name] ruleset and has been made into a Monster.")
 
 /datum/dynamic_ruleset/midround/monsterhunter/ready(forced = FALSE)
 	var/count = 0
