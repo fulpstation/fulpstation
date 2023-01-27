@@ -3,10 +3,10 @@
 /datum/dynamic_ruleset/midround/monsterhunter
 	name = "Monster Hunter"
 	antag_datum = /datum/antagonist/monsterhunter
-	midround_ruleset_style = MIDROUND_RULESET_STYLE_LIGHT
+	midround_ruleset_style = MIDROUND_RULESET_STYLE_HEAVY
 	antag_flag = ROLE_MONSTERHUNTER
-	weight = 7
-	cost = 5
+	weight = 4
+	cost = 15
 	protected_roles = list(
 		JOB_CAPTAIN,
 		JOB_DETECTIVE,
@@ -36,6 +36,17 @@
 		if((player.mind?.special_role || player.mind?.antag_datums?.len))
 			living_players -= player
 
+/datum/dynamic_ruleset/midround/monsterhunter/proc/generate_monsters(amount)
+	var/list/possible_monsters = list(/datum/antagonist/bloodsucker,
+	/datum/antagonist/heretic,
+	/datum/antagonist/changeling)
+	for(var/i in 1 to amount)
+		var/mob/living/monster = pick(living_players)
+		assigned += monster
+		living_players -= monster
+		var/datum/antagonist/profession = pick(possible_monsters)
+		monster.mind.add_antag_datum(profession)
+
 /datum/dynamic_ruleset/midround/monsterhunter/ready(forced = FALSE)
 	var/count = 0
 	for(var/datum/antagonist/monster in GLOB.antagonists)
@@ -44,9 +55,10 @@
 			continue
 		if(IS_BLOODSUCKER(candidate.current) || candidate.has_antag_datum(/datum/antagonist/changeling))
 			count++
-	if(!(count >= minimum_monsters_required))
-		message_admins("MONSTERHUNTER NOTICE: Monster Hunters did not find enough monsters.")
-		return FALSE
+	if(count < minimum_monsters_required)
+		var/needed_monsters = minimum_monsters_required - count
+		generate_monsters(needed_monsters)
+		message_admins("MONSTERHUNTER NOTICE: Monster Hunters did not find enough monsters, generating monsters...")
 	if (required_candidates > living_players.len)
 		return FALSE
 	return ..()
