@@ -59,12 +59,6 @@
 	static_lighting = FALSE
 	base_lighting_alpha = 255
 
-// Shuttles
-
-/area/shuttle/prison_shuttle
-	name = "Prison Shuttle"
-	area_flags = NOTELEPORT
-
 /area/ruin/space/has_grav/powered/beef/atmos
 	name = "beef station atmos"
 	icon_state = "beef_station_atmos"
