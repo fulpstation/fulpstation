@@ -116,9 +116,12 @@
 
 // Vassalize crewmates in a department
 /datum/objective/bloodsucker/conversion/department
-	name = "vassalizationdepartment"
+	name = "vassalize department"
 
-	var/list/possible_departments = list(
+	///The selected department we have to vassalize.
+	var/datum/job_department/target_department
+	///List of all departments that can be selected for the objective.
+	var/static/list/possible_departments = list(
 		/datum/job_department/security,
 		/datum/job_department/engineering,
 		/datum/job_department/medical,
@@ -126,20 +129,18 @@
 		/datum/job_department/cargo,
 		/datum/job_department/service,
 	)
-	var/datum/job_department/target_department
 
 
 // GENERATE!
 /datum/objective/bloodsucker/conversion/department/New()
-	for(var/datum/job_department/chosen)
 	target_department = SSjob.get_department_type(pick(possible_departments))
-	target_amount = rand(2,3)
-	..()
+	target_amount = rand(2, 3)
+	return ..()
 
 // EXPLANATION
 /datum/objective/bloodsucker/conversion/department/update_explanation_text()
 	explanation_text = "Have [target_amount] Vassal[target_amount == 1 ? "" : "s"] in the [target_department.department_name] department."
-	..()
+	return ..()
 
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/conversion/department/check_completion()
@@ -346,25 +347,6 @@
 // NOT GUARANTEED FUNCTIONAL//
 //////////////////////////////
 
-/// Drink certain amount of Blood while in a Frenzy. NOTE: This is a copy paste from default Gourmand objective.
-/datum/objective/bloodsucker/gourmand/brujah
-	name = "brujah gourmand"
-
-// EXPLANATION
-/datum/objective/bloodsucker/gourmand/brujah/update_explanation_text()
-	. = ..()
-	explanation_text = "While in a Frenzy, using your Feed ability, drink [target_amount] units of Blood."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/gourmand/brujah/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	var/stolen_blood = bloodsuckerdatum.frenzy_blood_drank
-	if(stolen_blood >= target_amount)
-		return TRUE
-	return FALSE
-
 // NOTE: Look up /assassinate in objective.dm for inspiration.
 /// Vassalize a target.
 /datum/objective/bloodsucker/vassalhim
@@ -390,25 +372,5 @@
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/vassalhim/check_completion()
 	if(!target || target.has_antag_datum(/datum/antagonist/vassal))
-		return TRUE
-	return FALSE
-
-/// Enter Frenzy repeatedly
-/datum/objective/bloodsucker/frenzy
-	name = "frenzy"
-
-/datum/objective/bloodsucker/frenzy/New()
-	target_amount = rand(3,4)
-	..()
-
-/datum/objective/bloodsucker/frenzy/update_explanation_text()
-	. = ..()
-	explanation_text = "Enter Frenzy [target_amount] of times without succumbing to Final Death."
-
-/datum/objective/bloodsucker/frenzy/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	if(bloodsuckerdatum.frenzies >= target_amount)
 		return TRUE
 	return FALSE

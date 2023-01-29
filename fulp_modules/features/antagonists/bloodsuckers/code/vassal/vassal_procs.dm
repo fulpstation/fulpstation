@@ -63,7 +63,7 @@
 	var/datum/antagonist/vassal/vassaldatum = new vassal_type(vassal_owner)
 	vassaldatum.master = bloodsuckerdatum
 	vassaldatum.silent = TRUE
-	vassal_owner.add_antag_datum(vassaldatum, vassaldatum.master.get_team())
+	vassal_owner.add_antag_datum(vassaldatum)
 	vassaldatum.silent = FALSE
 
 	//send alerts of completion

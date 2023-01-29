@@ -82,7 +82,7 @@
 /datum/action/bloodsucker/fortitude/hunter
 	name = "Flow"
 	desc = "Use the arts to Flow, giving shove and stun immunity, as well as brute, burn, dismember and pierce resistance. You cannot run while this is active."
-	purchase_flags = HUNTER_CAN_BUY
+	purchase_flags = NONE
 	bloodcost = 0
 	constant_bloodcost = 0
 

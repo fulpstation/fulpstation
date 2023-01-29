@@ -33,3 +33,10 @@
 		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy. \n\
 		The Favorite Vassal gains brawn and a massive increase in brute damage from punching."
 	joinable_clan = FALSE
+
+/datum/bloodsucker_clan/tzimisce
+	name = CLAN_TZIMISCE
+	description = "The Tzimisce Clan has no knowledge about it. \n\
+		If you see one, you should probably run away.\n\
+		*the rest of the page is full of undecipherable scribbles...*"
+	joinable_clan = FALSE

@@ -26,7 +26,7 @@
 	/// Requirement flags for checks
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	/// Who can purchase the Power
-	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER|TREMERE_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
+	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER|TREMERE_CAN_BUY|VASSAL_CAN_BUY
 
 	// COOLDOWNS //
 	///Timer between Power uses.
@@ -102,6 +102,10 @@
 		to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 		return FALSE
 	return TRUE
+
+///Called when the Power is upgraded.
+/datum/action/bloodsucker/proc/upgrade_power()
+	level_current++
 
 ///Checks if the Power is available to use.
 /datum/action/bloodsucker/proc/CheckCanUse(mob/living/carbon/user, trigger_flags)
