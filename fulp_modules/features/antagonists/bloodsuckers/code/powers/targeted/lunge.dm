@@ -19,6 +19,7 @@
 	power_activates_immediately = FALSE
 
 /datum/action/bloodsucker/targeted/lunge/upgrade_power()
+	. = ..()
 	//range is lowered when you get stronger.
 	if(level_current > 3)
 		target_range = 6
