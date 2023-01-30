@@ -41,7 +41,6 @@
 	icon_state = "darkmoon"
 	inhand_icon_state = "darkmoon_hilt"
 	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_BELT
 	block_chance = 20
 	on_force = 20
 	base_force = 17
@@ -123,7 +122,6 @@
 	icon_state = "threaded_cane"
 	inhand_icon_state = "threaded_cane"
 	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_BELT
 	block_chance = 20
 	on_force = 15
 	base_force = 18
@@ -168,7 +166,6 @@
 	icon_state = "hunteraxe0"
 	base_icon_state = "hunteraxe"
 	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_BELT
 	block_chance = 20
 	base_force = 20
 	on_force = 25
@@ -202,9 +199,11 @@
 
 /obj/item/melee/trick_weapon/hunter_axe/proc/on_wield(obj/item/source)
 	enabled = TRUE
+	block_chance = 75
 
 /obj/item/melee/trick_weapon/hunter_axe/proc/on_unwield(obj/item/source)
 	enabled = FALSE
+	block_chance = 20
 
 /obj/item/rabbit_eye
 	name = "Rabbit eye"
