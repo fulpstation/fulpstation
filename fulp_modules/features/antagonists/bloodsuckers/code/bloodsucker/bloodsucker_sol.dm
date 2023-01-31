@@ -2,7 +2,6 @@
  *	# Assigning Sol
  *
  *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn.
- *	This was originally dealt with by the gamemode, but as gamemodes no longer exist, it is dealt with by the team.
  */
 
 /// Start Sol, called when someone is assigned Bloodsucker
@@ -13,7 +12,6 @@
 
 /// End Sol, if you're the last Bloodsucker
 /datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
-	// No minds in the clan? Delete Sol.
 	if(!length(get_antag_minds(/datum/antagonist/bloodsucker)))
 		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
 		SSsunlight.can_fire = FALSE
