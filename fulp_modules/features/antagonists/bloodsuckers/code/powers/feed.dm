@@ -115,7 +115,7 @@
 			continue
 		if(watchers.stat >= DEAD)
 			continue
-		if(HAS_TRAIT(watchers, TRAIT_BLIND) || HAS_TRAIT(watchers, TRAIT_NEARSIGHT))
+		if(watchers.is_blind() || watchers.is_nearsighted_currently())
 			continue
 		if(IS_BLOODSUCKER(watchers) || IS_VASSAL(watchers) || HAS_TRAIT(watchers.mind, TRAIT_BLOODSUCKER_HUNTER))
 			continue

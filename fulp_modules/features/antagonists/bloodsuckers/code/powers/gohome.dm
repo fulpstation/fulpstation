@@ -92,7 +92,7 @@
 				continue
 			if(watchers.has_unlimited_silicon_privilege)
 				continue
-			if(watchers.eye_blind)
+			if(watchers.is_blind())
 				continue
 			if(!IS_BLOODSUCKER(watchers) && !IS_VASSAL(watchers))
 				drop_item = TRUE

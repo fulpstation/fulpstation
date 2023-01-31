@@ -137,7 +137,7 @@
 		if(level_current >= 2)
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		if(level_current >= 3)
-			ADD_TRAIT(target, TRAIT_BLIND, BLOODSUCKER_TRAIT)
+			target.become_blind(BLOODSUCKER_TRAIT)
 		mesmerized.Immobilize(power_time)
 		mesmerized.next_move = world.time + power_time
 		mesmerized.notransform = TRUE
@@ -149,7 +149,7 @@
 
 /datum/action/bloodsucker/targeted/tremere/proc/end_mesmerize(mob/living/user, mob/living/target)
 	target.notransform = FALSE
-	REMOVE_TRAIT(target, TRAIT_BLIND, BLOODSUCKER_TRAIT)
+	target.cure_blind(BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	if(istype(user) && target.stat == CONSCIOUS && (target in view(6, get_turf(user))))
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")

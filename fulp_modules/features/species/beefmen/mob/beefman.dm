@@ -65,8 +65,6 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
 	)
 
-	mutantbrain = /obj/item/organ/internal/brain/beefman
-
 	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
 	special_step_sounds = list(

@@ -713,7 +713,7 @@
 	costume_contents = list(
 		/obj/item/clothing/mask/gas/mime/heister_mask,
 		/obj/item/toy/gun,
-		/obj/item/clothing/gloves/color/latex/nitrile,
+		/obj/item/clothing/gloves/latex/nitrile,
 		/obj/item/clothing/shoes/laceup,
 	)
 

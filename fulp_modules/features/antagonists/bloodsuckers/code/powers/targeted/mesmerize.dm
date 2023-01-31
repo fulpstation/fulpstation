@@ -75,7 +75,7 @@
 		owner.balloon_alert(owner, "[current_target] has no eyes.")
 		return FALSE
 	// Target blind?
-	if(current_target.eye_blind > 0 && !issilicon(current_target))
+	if(current_target.is_blind() && !issilicon(current_target))
 		owner.balloon_alert(owner, "[current_target] is blind.")
 		return FALSE
 	// Facing target?
