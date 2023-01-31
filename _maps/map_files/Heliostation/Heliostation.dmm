@@ -14799,7 +14799,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/door/airlock/maintenance{
 	name = "Maintenance Access";
-	req_one_access_txt = "5;12"
+	req_one_access = list("medical","maint_tunnels")
 	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/mapping_helpers/airlock/access/any/medical/maintenance,
@@ -41120,7 +41120,7 @@
 	network = list("cargo");
 	pixel_x = 1;
 	pixel_y = -27;
-	req_one_access_txt = "41"
+	req_one_access = list("qm")
 	},
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/qm)
@@ -45653,7 +45653,7 @@
 /obj/machinery/button/door/directional/west{
 	id = "teledoor";
 	name = "MiniSat Teleport Shutters Control";
-	req_one_access_txt = "17;65"
+	req_one_access = list("minisat","teleporter")
 	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat_interior)
