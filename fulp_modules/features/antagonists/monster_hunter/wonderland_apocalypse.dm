@@ -97,6 +97,7 @@
 	if(enemy_spawned)
 		qdel(src)
 
+
 /obj/structure/wonderland_rift/proc/summon_rabbit(mob/user)
 	var/spawn_check = tgui_alert(user, "Become a Jabberwocky?", "Wonderland Rift", list("Yes", "No"))
 	if(spawn_check != "Yes" || !src || QDELETED(src) || QDELETED(user))
