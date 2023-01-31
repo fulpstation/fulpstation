@@ -8,8 +8,9 @@ import { selectBackend } from './backend';
 import { Icon, Section, Stack } from './components';
 import { selectDebug } from './debug/selectors';
 import { Window } from './layouts';
-
-const requireInterface = require.context('./interfaces');
+// Fulp edit - Fulp TGUI
+import { loadInterface } from '../fulpui-patches';
+// const requireInterface = require.context('./interfaces');
 
 const routingError = (type, name) => () => {
   return (
@@ -83,7 +84,8 @@ export const getRoutedComponent = (store) => {
     const interfacePathBuilder = interfacePathBuilders.shift();
     const interfacePath = interfacePathBuilder(name);
     try {
-      esModule = requireInterface(interfacePath);
+      // Fulp edit - Fulp TGUI
+      esModule = loadInterface(interfacePath);
     } catch (err) {
       if (err.code !== 'MODULE_NOT_FOUND') {
         throw err;
