@@ -3,6 +3,11 @@
 #define GOHOME_FLICKER_TWO 4
 #define GOHOME_TELEPORT 6
 
+/**
+ * Given to Bloodsuckers near Sol if they have a Coffin claimed.
+ * Teleports them to their Coffin after a delay.
+ * Makes them drop everything if someone witnesses the act.
+ */
 /datum/action/bloodsucker/gohome
 	name = "Vanishing Act"
 	desc = "As dawn aproaches, disperse into mist and return directly to your Lair.<br><b>WARNING:</b> You will drop <b>ALL</b> of your possessions if observed by mortals."
@@ -15,15 +20,15 @@
 		Immediately after activating, lights around the user will begin to flicker. \n\
 		Once the user teleports to their coffin, in their place will be a Rat or Bat."
 	power_flags = BP_AM_TOGGLE|BP_AM_SINGLEUSE|BP_AM_STATIC_COOLDOWN
-	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED
-	// You only get this once you've claimed a lair and Sol is near.
+	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED
 	purchase_flags = NONE
 	bloodcost = 100
 	constant_bloodcost = 2
 	cooldown = 100 SECONDS
 	///What stage of the teleportation are we in
 	var/teleporting_stage = GOHOME_START
-	var/list/spawning_mobs = list(
+	///The types of mobs that will drop post-teleportation.
+	var/static/list/spawning_mobs = list(
 		/mob/living/basic/mouse = 3,
 		/mob/living/simple_animal/hostile/retaliate/bat = 1,
 	)
@@ -34,21 +39,19 @@
 		return FALSE
 	/// Have No Lair (NOTE: You only got this power if you had a lair, so this means it's destroyed)
 	if(!istype(bloodsuckerdatum_power) || !bloodsuckerdatum_power.coffin)
-		owner.balloon_alert(owner, "your coffin has been destroyed!")
+		owner.balloon_alert(owner, "coffin was destroyed!")
 		return FALSE
 	return TRUE
 
 /datum/action/bloodsucker/gohome/ActivatePower(trigger_flags)
 	. = ..()
-	owner.balloon_alert(owner, "starting teleportation...")
-	to_chat(owner, span_notice("You focus on separating your consciousness from your physical form..."))
+	owner.balloon_alert(owner, "preparing to teleport...")
 
 /datum/action/bloodsucker/gohome/process(delta_time)
 	. = ..()
 	if(!.)
 		return FALSE
 	if(!bloodsuckerdatum_power.coffin)
-		to_chat(owner, span_warning("Your coffin has been destroyed! You no longer have a destination."))
 		return FALSE
 
 	switch(teleporting_stage)
@@ -106,6 +109,7 @@
 			owner.dropItemToGround(literally_everything, TRUE)
 
 	playsound(current_turf, 'sound/magic/summon_karp.ogg', 60, 1)
+
 	var/datum/effect_system/steam_spread/bloodsucker/puff = new /datum/effect_system/steam_spread/bloodsucker()
 	puff.set_up(3, 0, current_turf)
 	puff.start()
@@ -117,6 +121,7 @@
 	user.set_resting(TRUE, TRUE, FALSE)
 	do_teleport(owner, bloodsuckerdatum_power.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
 	user.Stun(3 SECONDS, TRUE)
+
 	// Puts me inside.
 	if(!bloodsuckerdatum_power.coffin.insert(owner))
 		// CLOSE LID: If fail, force me in.

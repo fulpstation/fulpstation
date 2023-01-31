@@ -1,12 +1,10 @@
 ///How much it costs for a Ventrue to rank up without a spare rank to spend.
-#define BLOODSUCKER_BLOOD_RANKUP_COST 550
+#define BLOODSUCKER_BLOOD_RANKUP_COST (550)
 
 /obj/structure/bloodsucker
 	///Who owns this structure?
 	var/mob/living/owner
 	/*
-	 *	# Descriptions
-	 *
 	 *	We use vars to add descriptions to items.
 	 *	This way we don't have to make a new /examine for each structure
 	 *	And it's easier to edit.
@@ -45,20 +43,20 @@
 	/// If a Bloodsucker tries to wrench it in place, yell at them.
 	if(item.tool_behaviour == TOOL_WRENCH && !anchored && IS_BLOODSUCKER(user))
 		user.playsound_local(null, 'sound/machines/buzz-sigh.ogg', 40, FALSE, pressure_affected = FALSE)
-		to_chat(user, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!"))
+		to_chat(user, span_announce("* Bloodsucker Tip: Examine Bloodsucker structures to understand how they function!"))
 		return
-	. = ..()
+	return ..()
 
 /obj/structure/bloodsucker/attack_hand(mob/user, list/modifiers)
 //	. = ..() // Don't call parent, else they will handle unbuckling.
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	/// Claiming the Rack instead of using it?
 	if(istype(bloodsuckerdatum) && !owner)
-		if(!bloodsuckerdatum.lair)
+		if(!bloodsuckerdatum.bloodsucker_lair_area)
 			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
 			return FALSE
-		if(bloodsuckerdatum.lair != get_area(src))
-			to_chat(user, span_danger("You may only activate this structure in your lair: [bloodsuckerdatum.lair]."))
+		if(bloodsuckerdatum.bloodsucker_lair_area != get_area(src))
+			to_chat(user, span_danger("You may only activate this structure in your lair: [bloodsuckerdatum.bloodsucker_lair_area]."))
 			return FALSE
 
 		/// Radial menu for securing your Persuasion rack in place.
