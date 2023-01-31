@@ -18,6 +18,8 @@
 	mutanteyes = /obj/item/organ/internal/eyes/dullahan
 	mutanttongue = /obj/item/organ/internal/tongue/dullahan
 	mutantears = /obj/item/organ/internal/ears/dullahan
+	mutantstomach = null
+	mutantlungs = null
 	examine_limb_id = SPECIES_HUMAN
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | ERT_SPAWN
@@ -160,6 +162,11 @@
 
 	return to_add
 
+/datum/species/dullahan/randomize_active_underwear_only(mob/living/carbon/human/human_mob)
+	human_mob.undershirt = random_undershirt(human_mob.gender)
+	human_mob.underwear = random_underwear(human_mob.gender)
+	human_mob.socks = random_socks(human_mob.gender)
+
 /obj/item/organ/internal/brain/dullahan
 	decoy_override = TRUE
 	organ_flags = NONE
@@ -271,3 +278,4 @@
 			owner.gib()
 	owner = null
 	return ..()
+

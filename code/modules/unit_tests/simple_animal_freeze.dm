@@ -149,7 +149,6 @@
 		/mob/living/simple_animal/hostile/construct/wraith/noncult,
 		/mob/living/simple_animal/hostile/dark_wizard,
 		/mob/living/simple_animal/hostile/eyeball,
-		/mob/living/simple_animal/hostile/faithless,
 		/mob/living/simple_animal/hostile/giant_spider,
 		/mob/living/simple_animal/hostile/giant_spider/hunter,
 		/mob/living/simple_animal/hostile/giant_spider/hunter/flesh,
@@ -275,7 +274,6 @@
 		/mob/living/simple_animal/hostile/retaliate/clown/mutant,
 		/mob/living/simple_animal/hostile/retaliate/clown/mutant/glutton,
 		/mob/living/simple_animal/hostile/retaliate/clown/mutant/slow,
-		/mob/living/simple_animal/hostile/retaliate/ghost,
 		/mob/living/simple_animal/hostile/retaliate/goat,
 		/mob/living/simple_animal/hostile/retaliate/goose,
 		/mob/living/simple_animal/hostile/retaliate/goose/vomit,
@@ -340,13 +338,6 @@
 		/mob/living/simple_animal/soulscythe,
 		// DO NOT ADD NEW ENTRIES TO THIS LIST
 		// READ THE COMMENT ABOVE
-		// Fulp TGEdit here to add in some of the mobs that are affected by this test
-		// so that it ignores these mobs before we start to refactor them else TGU will never be completed
-		/mob/living/simple_animal/hostile/guardian/punch/timestop,
-		/mob/living/simple_animal/hostile/guardian/punch,
-		/mob/living/simple_animal/hostile/gorilla/albino,
-		/mob/living/simple_animal/hostile/devil/arch_devil,
-		/mob/living/simple_animal/hostile/devil,
 	)
 
 /datum/unit_test/simple_animal_freeze/Run()

@@ -29,6 +29,7 @@
 #define ROLE_NINJA "Space Ninja"
 #define ROLE_OBSESSED "Obsessed"
 #define ROLE_OPERATIVE_MIDROUND "Operative (Midround)"
+#define ROLE_PARADOX_CLONE "Paradox Clone"
 #define ROLE_REV_HEAD "Head Revolutionary"
 #define ROLE_SENTIENT_DISEASE "Sentient Disease"
 #define ROLE_SLEEPER_AGENT "Syndicate Sleeper Agent"
@@ -97,13 +98,6 @@
 #define ROLE_BATTLECRUISER_CAPTAIN "Battlecruiser Captain"
 #define ROLE_VENUSHUMANTRAP "Venus Human Trap"
 
-// Fulp edit START - Bloodsuckers
-#define ROLE_BLOODSUCKER "Bloodsucker"
-#define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
-#define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
-#define ROLE_MONSTERHUNTER "Monster Hunter"
-#define ROLE_INFILTRATOR "Infiltrator"
-// Fulp edit END
 
 /// This defines the antagonists you can operate with in the settings.
 /// Keys are the antagonist, values are the number of days since the player's
@@ -133,6 +127,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_NINJA = 0,
 	ROLE_OBSESSED = 0,
 	ROLE_OPERATIVE_MIDROUND = 14,
+	ROLE_PARADOX_CLONE = 0,
 	ROLE_REVENANT = 0,
 	ROLE_SENTIENT_DISEASE = 0,
 	ROLE_SLEEPER_AGENT = 0,
@@ -148,14 +143,6 @@ GLOBAL_LIST_INIT(special_roles, list(
 	// I'm not too sure why these are here, but they're not moving.
 	ROLE_PAI = 0,
 	ROLE_SENTIENCE = 0,
-
-	// Fulp edit START - Bloodsuckers
-	ROLE_BLOODSUCKER = 0,
-	ROLE_VAMPIRICACCIDENT = 0,
-	ROLE_BLOODSUCKERBREAKOUT = 0,
-	ROLE_MONSTERHUNTER = 0,
-	ROLE_INFILTRATOR = 0,
-	// Fulp edit END
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

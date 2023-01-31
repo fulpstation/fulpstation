@@ -45,7 +45,7 @@
 	// Create our paper
 	var/obj/item/paper/report_paper = new(get_turf(src))
 
-	//This could be a global count like sec and med record printouts. See GLOB.data_core.medicalPrintCount AKA datacore.dm
+	//This could be a global count like sec and med record printouts. See GLOB.manifest.generalPrintCount AKA datacore.dm
 	var/frNum = ++forensicPrintCount
 
 	report_paper.name = text("FR-[] 'Forensic Record'", frNum)
@@ -72,7 +72,7 @@
 /obj/item/detective_scanner/afterattack(atom/A, mob/user, params)
 	. = ..()
 	scan(A, user)
-	return FALSE
+	return . | AFTERATTACK_PROCESSED_ITEM
 
 /obj/item/detective_scanner/proc/scan(atom/A, mob/user)
 	set waitfor = FALSE
