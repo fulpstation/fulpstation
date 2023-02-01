@@ -88,9 +88,8 @@
  * creator - Person attempting to convert them.
  */
 /datum/mind/proc/make_bloodsucker(datum/mind/creator)
-	if(!can_make_bloodsucker(creator))
-		return FALSE
-	if(creator)
+	var/datum/antagonnist/bloodsuckerdatum = add_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum && creator)
 		message_admins("[src] has become a Bloodsucker, and was created by [creator].")
 		log_admin("[src] has become a Bloodsucker, and was created by [creator].")
-	return add_antag_datum(/datum/antagonist/bloodsucker)
+	return bloodsuckerdatum
