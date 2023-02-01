@@ -288,7 +288,7 @@
 /obj/item/book/kindred/on_read(mob/living/user)
 	ui_interact(user)
 
-/obj/item/book/kindred/ui_interact(mob/user, datum/tgui/ui)
+/obj/item/book/kindred/ui_interact(mob/living/user, datum/tgui/ui)
 	if(!HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
 		if(IS_BLOODSUCKER(user))
 			to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
