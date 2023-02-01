@@ -6,7 +6,7 @@
 /datum/antagonist/vassal/revenge
 	name = "\improper Revenge Vassal"
 	roundend_category = "abandoned Vassals"
-	show_in_roundend = TRUE
+	show_in_roundend = FALSE
 	show_in_antagpanel = FALSE
 	antag_hud_name = "vassal4"
 	special_type = REVENGE_VASSAL
@@ -15,7 +15,7 @@
 		They additionally maintain your Vassals after your departure, rather than become aimless."
 
 	///all ex-vassals brought back into the fold.
-	var/list/datum/antagonist/ex_vassals = list()
+	var/list/datum/antagonist/ex_vassal/ex_vassals = list()
 
 /datum/antagonist/vassal/revenge/roundend_report()
 	var/list/report = list()
@@ -57,6 +57,7 @@
 /datum/antagonist/vassal/revenge/proc/on_master_death(datum/source, mob/living/carbon/master)
 	SIGNAL_HANDLER
 
+	show_in_roundend = TRUE
 	for(var/datum/objective/all_objectives as anything in objectives)
 		objectives -= all_objectives
 	BuyPower(new /datum/action/bloodsucker/vassal_blood)
