@@ -16,7 +16,7 @@
 		// Curator
 		JOB_CURATOR,
 	)
-	restricted_roles = list("AI", "Cyborg")
+	restricted_roles = list(JOB_AI, JOB_CYBORG)
 	required_candidates = 1
 	weight = 5
 	cost = 10
@@ -34,16 +34,17 @@
 		var/mob/selected_mobs = pick_n_take(candidates)
 		assigned += selected_mobs.mind
 		selected_mobs.mind.restricted_roles = restricted_roles
-		selected_mobs.mind.special_role = ROLE_BLOODSUCKER
 		GLOB.pre_setup_antags += selected_mobs.mind
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/bloodsucker/execute()
-	for(var/assigned_bloodsuckers in assigned)
-		var/datum/mind/bloodsuckermind = assigned_bloodsuckers
-		if(!bloodsuckermind.make_bloodsucker(assigned_bloodsuckers))
-			assigned -= assigned_bloodsuckers
-		GLOB.pre_setup_antags -= bloodsuckermind
+	for(var/datum/mind/candidate_minds as anything in assigned)
+		if(!candidate_minds.make_bloodsucker())
+			message_admins("[ADMIN_LOOKUPFLW(candidate_minds)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
+			assigned -= candidate_minds
+			continue
+		GLOB.pre_setup_antags -= candidate_minds
+		candidate_minds.special_role = ROLE_BLOODSUCKER
 	return TRUE
 
 //////////////////////////////////////////////
@@ -63,7 +64,7 @@
 		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE,
 		JOB_CURATOR,
 	)
-	restricted_roles = list("AI","Cyborg", "Positronic Brain")
+	restricted_roles = list(JOB_AI, JOB_CYBORG, "Positronic Brain")
 	required_candidates = 1
 	weight = 5
 	cost = 10
@@ -73,24 +74,27 @@
 /datum/dynamic_ruleset/midround/bloodsucker/trim_candidates()
 	. = ..()
 	for(var/mob/living/player in living_players)
-		if(issilicon(player)) // Your assigned role doesn't change when you are turned into a silicon.
+		// Your assigned role doesn't change when you are turned into a silicon.
+		if(issilicon(player))
 			living_players -= player
-		else if(is_centcom_level(player.z))
-			living_players -= player // We don't allow people in CentCom
-		else if(player.mind && (player.mind.special_role || player.mind.antag_datums?.len > 0))
-			living_players -= player // We don't allow people with roles already
+		// Only people on-station are allowed
+		else if(!is_station_level(player.z) || !is_mining_level(player.z))
+			living_players -= player
+		// We don't allow people with roles already
+		else if(player.mind.special_role || player.mind.antag_datums.len)
+			living_players -= player
 
 /datum/dynamic_ruleset/midround/bloodsucker/execute()
 	var/mob/selected_mobs = pick(living_players)
 	assigned += selected_mobs.mind
 	living_players -= selected_mobs
-	var/datum/mind/bloodsuckermind = selected_mobs.mind
-	var/datum/antagonist/bloodsucker/sucker = new
-	if(!bloodsuckermind.make_bloodsucker(selected_mobs.mind))
+	var/datum/mind/candidate_mind = selected_mobs.mind
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = candidate_mind.make_bloodsucker()
+	if(!bloodsuckerdatum)
 		assigned -= selected_mobs.mind
 		message_admins("[ADMIN_LOOKUPFLW(selected_mobs)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
 		return FALSE
-	sucker.bloodsucker_level_unspent = rand(2,3)
+	bloodsuckerdatum.bloodsucker_level_unspent = rand(2,3)
 	message_admins("[ADMIN_LOOKUPFLW(selected_mobs)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	log_game("DYNAMIC: [key_name(selected_mobs)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE
@@ -111,7 +115,7 @@
 		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE,
 		JOB_CURATOR,
 	)
-	restricted_roles = list("AI","Cyborg")
+	restricted_roles = list(JOB_AI, JOB_CYBORG)
 	required_candidates = 1
 	weight = 5
 	cost = 10
@@ -122,14 +126,13 @@
 	var/mob/latejoiner = pick(candidates) // This should contain a single player, but in case.
 	assigned += latejoiner.mind
 
-	for(var/selected_player in assigned)
-		var/datum/mind/bloodsuckermind = selected_player
-		var/datum/antagonist/bloodsucker/sucker = new
-		if(!bloodsuckermind.make_bloodsucker(selected_player))
+	for(var/datum/mind/candidate_mind as anything in assigned)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = candidate_mind.make_bloodsucker()
+		if(!bloodsuckerdatum)
 			assigned -= selected_player
 			message_admins("[ADMIN_LOOKUPFLW(selected_player)] was selected by the [name] ruleset, but couldn't be made into a Bloodsucker.")
-			return FALSE
-		sucker.bloodsucker_level_unspent = rand(2,3)
+			continue
+		bloodsuckerdatum.bloodsucker_level_unspent = rand(2,3)
 		message_admins("[ADMIN_LOOKUPFLW(selected_player)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 		log_game("DYNAMIC: [key_name(selected_player)] was selected by the [name] ruleset and has been made into a midround Bloodsucker.")
 	return TRUE

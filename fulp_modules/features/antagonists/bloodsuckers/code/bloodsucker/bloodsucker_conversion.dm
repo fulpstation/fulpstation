@@ -48,7 +48,12 @@
 	if(!can_make_vassal(conversion_target))
 		return FALSE
 
-	var/datum/antagonist/vassal/vassaldatum = conversion_target.mind.add_antag_datum(/datum/antagonnist/vassal)
+	//Check if they used to be a Vassal and was stolen.
+	var/datum/antagonist/vassal/old_vassal = conversion_target.mind.has_antag_datum(/datum/antagonnist/vassal)
+	if(old_vassal)
+		conversion_target.mind.remove_antag_datum(/datum/antagonnist/vassal)
+
+	var/datum/antagonist/vassal/vassaldatum = conversion_target.mind.add_antag_datum(/datum/antagonist/vassal)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
 	vassaldatum.master = bloodsuckerdatum
 	bloodsuckerdatum.SelectTitle(am_fledgling = FALSE)
@@ -66,10 +71,10 @@
  * creator - Person attempting to convert them.
  */
 /datum/mind/proc/can_make_bloodsucker(datum/mind/creator)
-	var/mob/living/carbon/human/user = current
+	var/mob/living/user = current
 	if(!(user.mob_biotypes & MOB_ORGANIC))
-		if(converter)
-			to_chat(converter, span_danger("[convertee]'s DNA isn't compatible!"))
+		if(creator)
+			to_chat(creator, span_danger("[user]'s DNA isn't compatible!"))
 		return FALSE
 	return TRUE
 
@@ -81,8 +86,9 @@
  * creator - Person attempting to convert them.
  */
 /datum/mind/proc/make_bloodsucker(datum/mind/creator)
-	if(!can_make_bloodsucker(src, creator))
+	if(!can_make_bloodsucker(creator))
 		return FALSE
-	message_admins("[src] has become a Bloodsucker, and was created by [creator].")
-	log_admin("[src] has become a Bloodsucker, and was created by [creator].")
+	if(creator)
+		message_admins("[src] has become a Bloodsucker, and was created by [creator].")
+		log_admin("[src] has become a Bloodsucker, and was created by [creator].")
 	return add_antag_datum(/datum/antagonist/bloodsucker)

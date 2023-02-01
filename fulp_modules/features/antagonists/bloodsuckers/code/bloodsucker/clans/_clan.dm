@@ -203,7 +203,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 	if(vassaldatum.special_type)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return FALSE
-	if(!vassaldatum.owner.can_make_bloodsucker(creator = bloodsucker))
+	if(!vassaldatum.owner.can_make_bloodsucker(creator = bloodsuckerdatum.owner))
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal is unable to gain a Special rank due to innate features."))
 		return FALSE
 
