@@ -1716,6 +1716,10 @@
 /obj/effect/turf_decal/tile/green/anticorner/contrasted{
 	dir = 8
 	},
+/obj/structure/rack,
+/obj/item/restraints/handcuffs,
+/obj/item/restraints/handcuffs,
+/obj/item/crowbar,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "aCk" = (
@@ -2892,6 +2896,7 @@
 /obj/structure/cable,
 /obj/machinery/duct,
 /obj/effect/turf_decal/tile/medical/opposingcorners,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "aXd" = (
@@ -5412,6 +5417,16 @@
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/effect/turf_decal/tile/medical/half,
+/obj/structure/table/glass,
+/obj/item/clothing/shoes/sneakers/white,
+/obj/item/clothing/shoes/sneakers/white,
+/obj/item/clothing/under/misc/pj/red{
+	pixel_y = 1
+	},
+/obj/item/clothing/under/misc/pj/blue{
+	pixel_x = 3
+	},
+/obj/item/toy/figure/md,
 /turf/open/floor/iron/white,
 /area/station/medical/exam_room)
 "bNk" = (
@@ -7027,11 +7042,21 @@
 /area/station/medical/chemistry)
 "coL" = (
 /obj/structure/table/glass,
-/obj/item/paper_bin,
-/obj/item/pen/fountain,
-/obj/item/toy/figure/cmo,
+/obj/item/paper_bin{
+	pixel_x = -6
+	},
+/obj/item/pen/fountain{
+	pixel_x = -6
+	},
 /obj/effect/turf_decal/trimline/blue/end{
 	color = "#FFD700"
+	},
+/obj/item/stamp/denied{
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/stamp/cmo{
+	pixel_x = 8
 	},
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
@@ -14924,14 +14949,12 @@
 /obj/structure/table/glass,
 /obj/machinery/light_switch/directional/west,
 /obj/structure/cable,
-/obj/item/clothing/under/misc/pj/blue,
-/obj/item/clothing/under/misc/pj/red,
-/obj/item/storage/box,
-/obj/item/blood_filter,
-/obj/machinery/power/apc/auto_name/directional/south,
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 8
 	},
+/obj/machinery/power/apc/auto_name/directional/south,
+/obj/item/storage/box/gloves,
+/obj/item/blood_filter,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "faa" = (
@@ -16065,7 +16088,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/solars/port/aft)
 "frD" = (
-/obj/structure/table/glass,
+/obj/structure/table/reinforced/rglass,
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/west,
@@ -16089,6 +16112,10 @@
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 4
+	},
+/obj/item/toy/figure/cmo{
+	pixel_y = 9;
+	pixel_x = 8
 	},
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
@@ -21711,11 +21738,13 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai)
 "hmE" = (
-/obj/structure/table/glass,
 /obj/machinery/airalarm/directional/east,
 /obj/machinery/firealarm/directional/south,
-/obj/item/defibrillator,
 /obj/effect/turf_decal/tile/medical/anticorner,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "hmK" = (
@@ -24302,7 +24331,7 @@
 /turf/open/floor/iron,
 /area/station/security/prison/mess)
 "iiw" = (
-/obj/structure/table/glass,
+/obj/structure/table/reinforced/rglass,
 /obj/machinery/airalarm/directional/east,
 /obj/effect/turf_decal/tile/medical/half{
 	dir = 4
@@ -29338,6 +29367,19 @@
 /obj/effect/turf_decal/tile/medical/half{
 	dir = 1
 	},
+/obj/structure/table/glass,
+/obj/item/clothing/suit/jacket/straight_jacket{
+	pixel_x = -6
+	},
+/obj/item/clothing/ears/earmuffs{
+	pixel_x = -6
+	},
+/obj/item/clothing/glasses/blindfold{
+	pixel_x = -6
+	},
+/obj/item/healthanalyzer/wound{
+	pixel_x = 6
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/exam_room)
 "jQK" = (
@@ -29592,9 +29634,7 @@
 /obj/structure/cable,
 /obj/item/book/manual/wiki/medicine,
 /obj/effect/turf_decal/tile/medical/half,
-/obj/item/toy/plush/lizard_plushie,
-/obj/item/paper_bin,
-/obj/item/pen,
+/obj/item/healthanalyzer,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "jUQ" = (
@@ -30064,10 +30104,10 @@
 "kdu" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/machinery/duct,
+/obj/structure/disposalpipe/junction{
+	dir = 8
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
 "kdw" = (
@@ -36318,6 +36358,10 @@
 	dir = 4
 	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "Virology Breach";
+	name = "Virology Breach Prevention"
+	},
 /turf/open/floor/plating,
 /area/station/medical/virology)
 "mah" = (
@@ -41419,12 +41463,11 @@
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "nHl" = (
-/obj/machinery/camera{
-	c_tag = "Medical - Viro Monkey Pen";
-	dir = 10;
-	network = list("ss13","medbay")
-	},
 /obj/effect/turf_decal/tile/green/anticorner/contrasted,
+/obj/machinery/camera{
+	c_tag = "Public - Arrivals N";
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "nHm" = (
@@ -42055,6 +42098,7 @@
 /obj/effect/turf_decal/tile/medical/half{
 	dir = 1
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay)
 "nSI" = (
@@ -50937,6 +50981,11 @@
 /obj/item/storage/box/masks,
 /obj/item/storage/box/bodybags,
 /obj/effect/turf_decal/tile/green/anticorner/contrasted,
+/obj/machinery/button/door/directional/south{
+	id = Virology Breach;
+	req_access = list("virology");
+	name = "Virology Breach Prevention"
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "qZe" = (
@@ -51108,11 +51157,12 @@
 /area/station/security/prison/work)
 "rbk" = (
 /obj/structure/table/glass,
-/obj/item/storage/box/masks,
 /obj/item/storage/box/gloves,
-/obj/item/healthanalyzer,
-/obj/item/healthanalyzer/wound,
 /obj/effect/turf_decal/tile/medical/half,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/item/toy/plush/lizard_plushie,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "rbr" = (
@@ -51720,6 +51770,9 @@
 /area/station/service/hydroponics/garden)
 "rld" = (
 /obj/effect/turf_decal/tile/medical/half,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "rlq" = (
@@ -53391,7 +53444,7 @@
 /turf/open/floor/iron/white,
 /area/station/maintenance/starboard)
 "rQt" = (
-/obj/structure/table/glass,
+/obj/structure/table/reinforced/rglass,
 /obj/machinery/airalarm/directional/west,
 /obj/item/book/manual/wiki/surgery,
 /obj/effect/turf_decal/tile/medical/half{
@@ -56393,9 +56446,12 @@
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "sOX" = (
-/obj/structure/table/glass,
+/obj/structure/table/reinforced/rglass,
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 1
+	},
+/obj/machinery/defibrillator_mount{
+	pixel_y = 28
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
@@ -58619,6 +58675,14 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
+"tDz" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "Virology Breach";
+	name = "Virology Breach Prevention"
+	},
+/turf/open/floor/plating,
+/area/station/medical/virology)
 "tDD" = (
 /obj/structure/table,
 /obj/effect/spawner/random/clothing/gloves,
@@ -65595,7 +65659,7 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "vXl" = (
-/obj/structure/table/glass,
+/obj/structure/table/reinforced/rglass,
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/effect/turf_decal/tile/medical/half{
 	dir = 4
@@ -68910,9 +68974,12 @@
 	},
 /area/station/maintenance/department/medical/plasmaman)
 "xee" = (
-/obj/structure/table/glass,
+/obj/structure/table/reinforced/rglass,
 /obj/effect/turf_decal/tile/medical/anticorner{
 	dir = 4
+	},
+/obj/machinery/defibrillator_mount{
+	pixel_y = 28
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
@@ -70494,6 +70561,9 @@
 /obj/structure/cable,
 /obj/machinery/duct,
 /obj/effect/turf_decal/tile/medical/half,
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "xEi" = (
@@ -121709,7 +121779,7 @@ uCZ
 mpH
 tsD
 aio
-fiV
+tDz
 iQW
 iQW
 yju
@@ -122217,7 +122287,7 @@ iQW
 iQW
 iQW
 iQW
-fiV
+tDz
 fOh
 ygZ
 vEF
@@ -122985,7 +123055,7 @@ iQW
 vmD
 iQW
 iQW
-fiV
+tDz
 aOT
 tpi
 jhI
@@ -122997,7 +123067,7 @@ jNf
 rdg
 rdg
 ubw
-fiV
+tDz
 iQW
 iQW
 vmD
@@ -123242,7 +123312,7 @@ iQW
 yju
 iQW
 iQW
-fiV
+tDz
 lrF
 uJD
 gOP
@@ -123254,7 +123324,7 @@ iVl
 oWL
 qNs
 ubw
-fiV
+tDz
 iQW
 iQW
 xBY
@@ -125303,9 +125373,9 @@ iQW
 iQW
 iQW
 nit
-fiV
+tDz
 mab
-fiV
+tDz
 nit
 iQW
 iQW
