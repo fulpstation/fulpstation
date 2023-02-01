@@ -5,10 +5,12 @@
  * target - The person we check for antag datums.
  */
 /datum/antagonist/bloodsucker/proc/AmValidAntag(mob/target)
+	if(target.mind.unconvertable)
+		return FALSE
 	for(var/datum/antagonist/antag_datum as anything in target.mind.antag_datums)
 		if(antag_datum.type in vassal_banned_antags)
-			return TRUE
-	return FALSE
+			return FALSE
+	return TRUE
 
 /**
  * # can_make_vassal
