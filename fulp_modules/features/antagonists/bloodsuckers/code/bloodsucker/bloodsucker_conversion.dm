@@ -51,9 +51,9 @@
 		return FALSE
 
 	//Check if they used to be a Vassal and was stolen.
-	var/datum/antagonist/vassal/old_vassal = conversion_target.mind.has_antag_datum(/datum/antagonnist/vassal)
+	var/datum/antagonist/vassal/old_vassal = conversion_target.mind.has_antag_datum(/datum/antagonist/vassal)
 	if(old_vassal)
-		conversion_target.mind.remove_antag_datum(/datum/antagonnist/vassal)
+		conversion_target.mind.remove_antag_datum(/datum/antagonist/vassal)
 
 	var/datum/antagonist/vassal/vassaldatum = conversion_target.mind.add_antag_datum(/datum/antagonist/vassal)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -88,7 +88,7 @@
  * creator - Person attempting to convert them.
  */
 /datum/mind/proc/make_bloodsucker(datum/mind/creator)
-	var/datum/antagonnist/bloodsuckerdatum = add_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsuckerdatum = add_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum && creator)
 		message_admins("[src] has become a Bloodsucker, and was created by [creator].")
 		log_admin("[src] has become a Bloodsucker, and was created by [creator].")
