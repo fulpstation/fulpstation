@@ -17,16 +17,23 @@
 - tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
 - tgui/yarn.lock > Our lockfile is slightly different - we have an additional workspace package, "fulpui-patches"
 
-- tgui/packages/fulpui_patches > Adds all Fulp TGUI files
+- tgui/packages/fulpui-patches > Adds all Fulp TGUI files
 
 ## All Fulp files not contained within /fulp_modules/
 
-### Maps
+### Maps & Shuttles
 
 - _maps/map_files/Heliostation.dmm
+- _maps/shuttles/cargo_helio.dmm
+- _maps/shuttles/emergency_helio.dmm
+- _maps/shuttles/labour_helio.dmm
 - _maps/heliostation.json
 - _maps/map_files/SeleneStation.dmm
-- _maps/Selenestation.json
+- _maps/shuttles/arrival_selene.dmm
+- _maps/shuttles/cargo_selene.dmm
+- _maps/shuttles/emergency_selene.dmm
+- _maps/shuttles/mining_selene.dmm
+- _maps/selenestation.json
 - _maps/map_files/PubbyStation.dmm
 - _maps/pubbystation.json
 

@@ -56,13 +56,13 @@
 
 	switch(teleporting_stage)
 		if(GOHOME_START)
-			INVOKE_ASYNC(src, .proc/flicker_lights, 3, 20)
+			INVOKE_ASYNC(src, PROC_REF(flicker_lights), 3, 20)
 		if(GOHOME_FLICKER_ONE)
-			INVOKE_ASYNC(src, .proc/flicker_lights, 4, 40)
+			INVOKE_ASYNC(src, PROC_REF(flicker_lights), 4, 40)
 		if(GOHOME_FLICKER_TWO)
-			INVOKE_ASYNC(src, .proc/flicker_lights, 4, 60)
+			INVOKE_ASYNC(src, PROC_REF(flicker_lights), 4, 60)
 		if(GOHOME_TELEPORT)
-			INVOKE_ASYNC(src, .proc/teleport_to_coffin, owner)
+			INVOKE_ASYNC(src, PROC_REF(teleport_to_coffin), owner)
 	teleporting_stage++
 
 /datum/action/bloodsucker/gohome/ContinueActive(mob/living/user, mob/living/target)
@@ -92,7 +92,7 @@
 				continue
 			if(watchers.has_unlimited_silicon_privilege)
 				continue
-			if(watchers.eye_blind)
+			if(watchers.is_blind())
 				continue
 			if(!IS_BLOODSUCKER(watchers) && !IS_VASSAL(watchers))
 				drop_item = TRUE

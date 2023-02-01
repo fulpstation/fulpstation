@@ -20,7 +20,7 @@
 
 /datum/antagonist/ex_vassal/on_gain()
 	. = ..()
-	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, .proc/on_examine)
+	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 
 /datum/antagonist/ex_vassal/on_removal()
 	if(revenge_vassal)
@@ -69,7 +69,7 @@
 	COOLDOWN_START(src, blood_timer, BLOOD_TIMER_REQUIREMENT)
 	add_team_hud(owner.current)
 
-	RegisterSignal(src, COMSIG_LIVING_LIFE, .proc/on_life)
+	RegisterSignal(src, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
 /datum/antagonist/ex_vassal/proc/on_life(datum/source, delta_time, times_fired)
 	SIGNAL_HANDLER

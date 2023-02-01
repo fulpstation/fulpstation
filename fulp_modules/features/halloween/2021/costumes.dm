@@ -334,9 +334,9 @@
 	speech_args[SPEECH_MESSAGE] = message
 	if(ismob(source))
 		var/mob/source_mob = source
-		INVOKE_ASYNC(source_mob, /mob.proc/emote, "gasp")
+		INVOKE_ASYNC(source_mob, TYPE_PROC_REF(/mob, emote), "gasp")
 		if(prob(1))
-			INVOKE_ASYNC(source_mob, /mob.proc/emote, "collapse")
+			INVOKE_ASYNC(source_mob, TYPE_PROC_REF(/mob, emote), "collapse")
 
 /obj/item/storage/box/halloween/edition_21/breather_mask
 	theme_name = "2021's Breather Boys"

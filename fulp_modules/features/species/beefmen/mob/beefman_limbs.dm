@@ -80,8 +80,7 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	is_dimorphic = FALSE
 	icon_state = "beefman_head"
 
@@ -91,8 +90,7 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	is_dimorphic = FALSE
 	icon_state = "beefman_chest"
 
@@ -107,8 +105,7 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	icon_state = "beefman_r_arm"
 
 /obj/item/bodypart/arm/right/beef/drop_limb(special)
@@ -128,8 +125,7 @@
 	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_l_arm"
 
@@ -146,8 +142,7 @@
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_r_leg"
 
@@ -164,8 +159,7 @@
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
-	brute_damage_desc = "tenderizing"
-	burn_damage_desc = "searing"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_l_leg"
 
@@ -177,7 +171,7 @@
 		qdel(src)
 		return new_meat
 
-/mob/living/carbon/human/spread_bodyparts()
+/mob/living/carbon/human/spread_bodyparts(skip_head = FALSE)
 	if(!isbeefman(src))
 		return ..()
 	for(var/obj/item/bodypart/bodypart in bodyparts)

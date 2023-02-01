@@ -129,16 +129,39 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 /// Returns TRUE if the call is allowed, FALSE otherwise
 /atom/movable/screen/plane_master/proc/show_to(mob/mymob)
 	SHOULD_CALL_PARENT(TRUE)
-	if(force_hidden || is_outside_bounds)
+	if(force_hidden)
 		return FALSE
 
 	var/client/our_client = mymob?.client
+	// Alright, let's get this out of the way
+	// Mobs can move z levels without their client. If this happens, we need to ensure critical display settings are respected
+	// This is done here. Mild to severe pain but it's nessesary
+	if(check_outside_bounds())
+		if(!(critical & PLANE_CRITICAL_DISPLAY))
+			return FALSE
+		if(!our_client)
+			return TRUE
+		our_client.screen += src
+
+		if(!(critical & PLANE_CRITICAL_NO_EMPTY_RELAY))
+			our_client.screen += relays
+			return TRUE
+		for(var/atom/movable/render_plane_relay/relay as anything in relays)
+			if(relay.critical_target)
+				our_client.screen += relay
+		return TRUE
+
 	if(!our_client)
 		return TRUE
 
 	our_client.screen += src
 	our_client.screen += relays
 	return TRUE
+
+/// Hook to allow planes to work around is_outside_bounds
+/// Return false to allow a show, true otherwise
+/atom/movable/screen/plane_master/proc/check_outside_bounds()
+	return is_outside_bounds
 
 /// Hides a plane master from the passeed in mob
 /// Do your effect cleanup here
@@ -188,11 +211,10 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 		if(!(critical & PLANE_CRITICAL_NO_EMPTY_RELAY))
 			return
 		var/client/our_client = relevant.client
-		if(!our_client)
-			return
-		for(var/atom/movable/render_plane_relay/relay as anything in relays)
-			if(!relay.critical_target)
-				our_client.screen -= relay
+		if(our_client)
+			for(var/atom/movable/render_plane_relay/relay as anything in relays)
+				if(!relay.critical_target)
+					our_client.screen -= relay
 
 		// We here assume that your render target starts with *
 		if(render_target)
@@ -206,11 +228,10 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 		if(!(critical & PLANE_CRITICAL_NO_EMPTY_RELAY))
 			return
 		var/client/our_client = relevant.client
-		if(!our_client)
-			return
-		for(var/atom/movable/render_plane_relay/relay as anything in relays)
-			if(!relay.critical_target)
-				our_client.screen += relay
+		if(our_client)
+			for(var/atom/movable/render_plane_relay/relay as anything in relays)
+				if(!relay.critical_target)
+					our_client.screen += relay
 
 		// We here assume that your render target starts with *
 		if(render_target)
@@ -248,6 +269,10 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 	render_relay_planes = list(RENDER_PLANE_GAME, EMISSIVE_MASK_PLANE)
 	critical = PLANE_CRITICAL_FUCKO_PARALLAX // goes funny when touched. no idea why I don't trust byond
 
+/atom/movable/screen/plane_master/parallax_white/Initialize(mapload, datum/plane_master_group/home, offset)
+	. = ..()
+	add_relay_to(GET_NEW_PLANE(EMISSIVE_RENDER_PLATE, offset), relay_layer = EMISSIVE_SPACE_LAYER)
+
 ///Contains space parallax
 /atom/movable/screen/plane_master/parallax
 	name = "Parallax"
@@ -260,7 +285,6 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 	blend_mode = BLEND_MULTIPLY
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	multiz_scaled = FALSE
-	critical = PLANE_CRITICAL_FUCKO_PARALLAX
 
 /atom/movable/screen/plane_master/parallax/Initialize(mapload, datum/plane_master_group/home, offset)
 	. = ..()
@@ -287,6 +311,14 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 		remove_relay_from(GET_NEW_PLANE(RENDER_PLANE_GAME, 0))
 		is_outside_bounds = TRUE // I'm sorry :(
 		return
+	// If we can't render, and we aren't the bottom layer, don't render us
+	// This way we only multiply against stuff that's not fullwhite space
+	var/atom/movable/screen/plane_master/parent_parallax = home.our_hud.get_plane_master(PLANE_SPACE_PARALLAX)
+	var/turf/viewing_turf = get_turf(relevant)
+	if(!viewing_turf || offset != GET_LOWEST_STACK_OFFSET(viewing_turf.z))
+		parent_parallax.remove_relay_from(plane)
+	else
+		parent_parallax.add_relay_to(plane, BLEND_OVERLAY)
 	return ..()
 
 /atom/movable/screen/plane_master/parallax/inside_bounds(mob/relevant)
@@ -294,7 +326,15 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 		add_relay_to(GET_NEW_PLANE(RENDER_PLANE_GAME, 0))
 		is_outside_bounds = FALSE
 		return
+	// Always readd, just in case we lost it
+	var/atom/movable/screen/plane_master/parent_parallax = home.our_hud.get_plane_master(PLANE_SPACE_PARALLAX)
+	parent_parallax.add_relay_to(plane, BLEND_OVERLAY)
 	return ..()
+
+// Needs to handle rejoining on a lower z level, so we NEED to readd old planes
+/atom/movable/screen/plane_master/parallax/check_outside_bounds()
+	// If we're outside bounds AND we're the 0th plane, we need to show cause parallax is hacked to hell
+	return offset != 0 && is_outside_bounds
 
 /atom/movable/screen/plane_master/gravpulse
 	name = "Gravpulse"
@@ -315,11 +355,19 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 	plane = FLOOR_PLANE
 	render_relay_planes = list(RENDER_PLANE_GAME, EMISSIVE_MASK_PLANE)
 
+/atom/movable/screen/plane_master/floor/Initialize(mapload, datum/plane_master_group/home, offset)
+	. = ..()
+	add_relay_to(GET_NEW_PLANE(EMISSIVE_RENDER_PLATE, offset), relay_layer = EMISSIVE_FLOOR_LAYER, relay_color = GLOB.em_block_color)
+
 /atom/movable/screen/plane_master/wall
 	name = "Wall"
 	documentation = "Holds all walls. We render this onto the game world. Separate so we can use this + space and floor planes as a guide for where byond blackness is NOT."
 	plane = WALL_PLANE
 	render_relay_planes = list(RENDER_PLANE_GAME_WORLD, EMISSIVE_MASK_PLANE)
+
+/atom/movable/screen/plane_master/wall/Initialize(mapload, datum/plane_master_group/home, offset)
+	. = ..()
+	add_relay_to(GET_NEW_PLANE(EMISSIVE_RENDER_PLATE, offset), relay_layer = EMISSIVE_WALL_LAYER, relay_color = GLOB.em_block_color)
 
 /atom/movable/screen/plane_master/game
 	name = "Lower game world"
@@ -370,13 +418,17 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 	plane = WALL_PLANE_UPPER
 	render_relay_planes = list(RENDER_PLANE_GAME_WORLD, EMISSIVE_MASK_PLANE)
 
+/atom/movable/screen/plane_master/wall_upper/Initialize(mapload, datum/plane_master_group/home, offset)
+	. = ..()
+	add_relay_to(GET_NEW_PLANE(EMISSIVE_RENDER_PLATE, offset), relay_layer = EMISSIVE_WALL_LAYER, relay_color = GLOB.em_block_color)
+
 /atom/movable/screen/plane_master/game_world_upper_fov_hidden
 	name = "Upper game world fov hidden"
 	documentation = "Just as we need a place to draw things \"above\" the hidden fov plane, we also need to be able to hide stuff that draws over the upper game plane."
 	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	render_relay_planes = list(RENDER_PLANE_GAME_WORLD)
 
-/atom/movable/screen/plane_master/game_world_upper_fov_hidden/Initialize()
+/atom/movable/screen/plane_master/game_world_upper_fov_hidden/Initialize(mapload)
 	. = ..()
 	// Dupe of the other hidden plane
 	add_filter("vision_cone", 1, alpha_mask_filter(render_source = OFFSET_RENDER_TARGET(FIELD_OF_VISION_BLOCKER_RENDER_TARGET, offset), flags = MASK_INVERSE))
@@ -463,24 +515,14 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
  */
 /atom/movable/screen/plane_master/emissive
 	name = "Emissive"
-	documentation = "This system works by exploiting BYONDs color matrix filter to use layers to handle emissive blockers.\
-		<br>Emissive overlays are pasted with an atom color that converts them to be entirely some specific color.\
-		<br>Emissive blockers are pasted with an atom color that converts them to be entirely some different color.\
-		<br>Emissive overlays and emissive blockers are put onto the same plane (This one).\
-		<br>The layers for the emissive overlays and emissive blockers cause them to mask eachother similar to normal BYOND objects.\
-		<br>A color matrix filter is applied to the emissive plane to mask out anything that isn't whatever the emissive color is.\
-		<br>This is then used to alpha mask the lighting plane."
+	documentation = "Holds things that will be used to mask the lighting plane later on. Masked by the Emissive Mask plane to ensure we don't emiss out under a wall.\
+		<br>Relayed onto the Emissive render plane to do the actual masking of lighting, since we need to be transformed and other emissive stuff needs to be transformed too.\
+		<br>Don't want to double scale now."
 	plane = EMISSIVE_PLANE
 	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	render_target = EMISSIVE_RENDER_TARGET
-	render_relay_planes = list()
+	render_relay_planes = list(EMISSIVE_RENDER_PLATE)
 	critical = PLANE_CRITICAL_DISPLAY
-
-/atom/movable/screen/plane_master/emissive/Initialize(mapload)
-	. = ..()
-	add_filter("emissive_mask", 1, alpha_mask_filter(render_source = OFFSET_RENDER_TARGET(EMISSIVE_MASK_RENDER_TARGET, offset)))
-	add_filter("em_block_masking", 2, color_matrix_filter(GLOB.em_mask_matrix))
 
 /atom/movable/screen/plane_master/pipecrawl
 	name = "Pipecrawl"
@@ -579,8 +621,16 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/plane_master)
 
 /atom/movable/screen/plane_master/splashscreen
 	name = "Splashscreen"
-	documentation = "Anything that's drawn above LITERALLY everything else. Think cinimatics and the well, spashscreen."
+	documentation = "Cinematics and the splash screen."
 	plane = SPLASHSCREEN_PLANE
 	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
 	render_relay_planes = list(RENDER_PLANE_NON_GAME)
+	allows_offsetting = FALSE
+
+/atom/movable/screen/plane_master/escape_menu
+	name = "Escape Menu"
+	documentation = "Anything relating to the escape menu."
+	plane = ESCAPE_MENU_PLANE
+	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
+	render_relay_planes = list(RENDER_PLANE_MASTER)
 	allows_offsetting = FALSE
