@@ -168,7 +168,7 @@
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("Their body refuses to react..."))
 		return
-	if(!bloodsuckerdatum_power.attempt_turn_vassal(target, TRUE))
+	if(!bloodsuckerdatum_power.make_vassal(target))
 		return
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))

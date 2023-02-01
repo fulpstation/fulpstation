@@ -1,0 +1,88 @@
+/**
+ * Checks if the target has antag datums and, if so,
+ * are they allowed to be Vassalized or not.
+ * Args:
+ * target - The person we check for antag datums.
+ */
+/datum/antagonist/bloodsucker/proc/AmValidAntag(mob/target)
+	for(var/datum/antagonist/antag_datum as anything in target.mind.antag_datums)
+		if(antag_datum.type in vassal_banned_antags)
+			return TRUE
+	return FALSE
+
+/**
+ * # can_make_vassal
+ * Checks if the person is allowed to turn into the Bloodsucker's
+ * Vassal, ensuring they are a player and valid.
+ * If they are a Vassal themselves, will check if their master
+ * has broken the Masquerade, to steal them.
+ * Args:
+ * conversion_target - Person being vassalized
+ */
+/datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/conversion_target)
+	if(!iscarbon(conversion_target) || conversion_target.stat > UNCONSCIOUS)
+		return FALSE
+	// No Mind!
+	if(!conversion_target.mind)
+		to_chat(owner.current, span_danger("[conversion_target] isn't self-aware enough to be made into a Vassal."))
+		return FALSE
+	if(!AmValidAntag(conversion_target))
+		to_chat(owner.current, span_danger("[conversion_target] resists the power of your blood to dominate their mind!"))
+		return FALSE
+	if(isnull(conversion_target.mind.enslaved_to) || (conversion_target.mind.enslaved_to == owner.current))
+		return TRUE
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = conversion_target.mind.enslaved_to.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(bloodsuckerdatum && bloodsuckerdatum.broke_masquerade)
+		//vassal stealing
+		return TRUE
+	to_chat(owner.current, span_danger("[conversion_target]'s mind is overwhelmed with too much external force to put your own!"))
+	return FALSE
+
+/**
+ * First will check if the target can be turned into a Vassal, if so then it will
+ * turn them into one, log it, sync their minds, then updates the Rank
+ * Args:
+ * conversion_target - The person converted.
+ */
+/datum/antagonist/bloodsucker/proc/make_vassal(mob/living/conversion_target)
+	if(!can_make_vassal(conversion_target))
+		return FALSE
+
+	var/datum/antagonist/vassal/vassaldatum = conversion_target.mind.add_antag_datum(/datum/antagonnist/vassal)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	vassaldatum.master = bloodsuckerdatum
+	bloodsuckerdatum.SelectTitle(am_fledgling = FALSE)
+
+	message_admins("[conversion_target] has become a Vassal, and is enslaved to [owner.current].")
+	log_admin("[conversion_target] has become a Vassal, and is enslaved to [owner.current].")
+	return TRUE
+
+/*
+ *	# can_make_bloodsucker
+ *
+ * MIND Helper proc that ensures the person can be a Bloodsucker,
+ * without actually giving the antag datum to them.
+ * Args:
+ * creator - Person attempting to convert them.
+ */
+/datum/mind/proc/can_make_bloodsucker(datum/mind/creator)
+	var/mob/living/carbon/human/user = current
+	if(!(user.mob_biotypes & MOB_ORGANIC))
+		if(converter)
+			to_chat(converter, span_danger("[convertee]'s DNA isn't compatible!"))
+		return FALSE
+	return TRUE
+
+/*
+ *	# make_bloodsucker
+ *
+ * MIND Helper proc that turns the person into a Bloodsucker
+ * Args:
+ * creator - Person attempting to convert them.
+ */
+/datum/mind/proc/make_bloodsucker(datum/mind/creator)
+	if(!can_make_bloodsucker(src, creator))
+		return FALSE
+	message_admins("[src] has become a Bloodsucker, and was created by [creator].")
+	log_admin("[src] has become a Bloodsucker, and was created by [creator].")
+	return add_antag_datum(/datum/antagonist/bloodsucker)

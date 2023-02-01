@@ -326,7 +326,7 @@
 		return
 	/// Convert to Vassal!
 	bloodsuckerdatum.AddBloodVolume(-TORTURE_CONVERSION_COST)
-	if(bloodsuckerdatum && bloodsuckerdatum.attempt_turn_vassal(target))
+	if(bloodsuckerdatum && bloodsuckerdatum.make_vassal(target))
 		if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 			remove_loyalties(target)
 		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MADE_VASSAL, bloodsuckerdatum)
