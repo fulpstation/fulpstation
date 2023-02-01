@@ -62,8 +62,8 @@
 		throw_speed_on = throw_speed, \
 		sharpness_on = SHARP_EDGED, \
 		w_class_on = WEIGHT_CLASS_BULKY)
-	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, .proc/on_transform)
-	RegisterSignal(src, WEAPON_UPGRADE, .proc/upgrade_weapon)
+	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
+	RegisterSignal(src, WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
 
 
@@ -142,8 +142,8 @@
 		throw_speed_on = throw_speed, \
 		sharpness_on = SHARP_EDGED, \
 		w_class_on = WEIGHT_CLASS_BULKY)
-	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, .proc/on_transform)
-	RegisterSignal(src,WEAPON_UPGRADE, .proc/upgrade_weapon)
+	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
+	RegisterSignal(src,WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
 
 
@@ -181,8 +181,14 @@
 /obj/item/melee/trick_weapon/hunter_axe/Initialize(mapload)
 	. = ..()
 	force = base_force
-	AddComponent(/datum/component/two_handed, force_unwielded=base_force, force_wielded= on_force, icon_wielded="[base_icon_state]1", wield_callback = CALLBACK(src, .proc/on_wield), unwield_callback = CALLBACK(src, .proc/on_unwield))
-	RegisterSignal(src,WEAPON_UPGRADE, .proc/upgrade_weapon)
+	AddComponent(/datum/component/two_handed, \
+		force_unwielded=base_force, \
+		force_wielded= on_force, \
+		icon_wielded="[base_icon_state]1", \
+		wield_callback = CALLBACK(src, PROC_REF(on_wield)), \
+		unwield_callback = CALLBACK(src, PROC_REF(on_unwield)), \
+	)
+	RegisterSignal(src, WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
 /obj/item/melee/trick_weapon/hunter_axe/upgrade_weapon()
 
@@ -269,7 +275,7 @@
 	if(!(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
-	addtimer(CALLBACK(man, /mob/living/carbon.proc/remove_bloodsilver), 20 SECONDS)
+	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob/living/carbon, remove_bloodsilver), 20 SECONDS))
 
 /mob/living/carbon/proc/remove_bloodsilver()
 	if (has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
@@ -457,7 +463,7 @@
 			to_chat(user, span_warning("You prime [src]! [capitalize(DisplayTimeText(det_time))]!"))
 	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/jackinthebomb.ogg', volume, TRUE)
 	if(istype(user))
-		user.mind?.add_memory(MEMORY_BOMB_PRIMED, list(DETAIL_BOMB_TYPE = src), story_value = STORY_VALUE_OKAY)
+		user.add_mob_memory(/datum/memory/bomb_planted, protagonist = user, antagonist = src)
 	active = TRUE
 	icon_state = initial(icon_state) + "_active"
 	SEND_SIGNAL(src, COMSIG_GRENADE_ARMED, det_time, delayoverride)

@@ -84,7 +84,7 @@
 	departmentType = 5;
 	name = "Head of Security's Requests Console"
 	},
-/mob/living/simple_animal/hostile/carp/lia,
+/mob/living/basic/carp/pet/lia,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hos)
 "aaq" = (
@@ -709,13 +709,7 @@
 /turf/open/floor/iron/smooth_edge,
 /area/station/security/office)
 "ach" = (
-/obj/docking_port/stationary{
-	dwidth = 1;
-	height = 4;
-	name = "escape pod loader";
-	roundstart_template = /datum/map_template/shuttle/escape_pod/default;
-	width = 3
-	},
+/obj/docking_port/stationary/escape_pod,
 /turf/open/space/basic,
 /area/space)
 "aci" = (
@@ -1707,7 +1701,7 @@
 /area/station/maintenance/department/security/upper)
 "afD" = (
 /obj/structure/table/reinforced/rglass,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/healthanalyzer,
 /obj/item/reagent_containers/spray/cleaner{
 	pixel_x = -3;
@@ -9261,7 +9255,7 @@
 /area/station/security/brig)
 "aAA" = (
 /obj/structure/table,
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = -8;
 	pixel_y = 8
 	},
@@ -11454,8 +11448,7 @@
 /area/station/command/heads_quarters/captain)
 "aFP" = (
 /obj/structure/displaycase/captain{
-	req_access = null;
-	req_access_txt = "20"
+	req_access = list("captain")
 	},
 /obj/effect/turf_decal/siding/blue{
 	color = "#4169E1";
@@ -14805,7 +14798,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/door/airlock/maintenance{
 	name = "Maintenance Access";
-	req_one_access_txt = "5;12"
+	req_one_access = list("medical","maint_tunnels")
 	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/mapping_helpers/airlock/access/any/medical/maintenance,
@@ -14968,8 +14961,7 @@
 /area/station/command/heads_quarters/cmo)
 "aPu" = (
 /obj/machinery/door/airlock/command{
-	name = "Chief Medical Officer's Office";
-	req_access_txt = "40"
+	name = "Chief Medical Officer's Office"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -18060,7 +18052,7 @@
 /obj/structure/closet/secure_closet/medical3,
 /obj/item/storage/belt/medical,
 /obj/item/clothing/neck/stethoscope,
-/obj/item/clothing/gloves/color/latex/nitrile,
+/obj/item/clothing/gloves/latex/nitrile,
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/bot_white,
 /turf/open/floor/iron/white,
@@ -19894,7 +19886,7 @@
 /turf/open/floor/iron/white,
 /area/station/commons/dorms)
 "beI" = (
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/suit/apron/surgical,
 /obj/item/clothing/mask/surgical,
 /obj/item/surgical_drapes,
@@ -20496,7 +20488,7 @@
 /area/station/service/chapel)
 "bgL" = (
 /obj/structure/table/wood,
-/obj/item/candle,
+/obj/item/flashlight/flare/candle,
 /turf/open/floor/carpet,
 /area/station/service/chapel)
 "bgM" = (
@@ -21480,13 +21472,8 @@
 /turf/open/floor/wood,
 /area/station/medical/psychology)
 "bjw" = (
-/obj/docking_port/stationary{
-	dir = 8;
-	dwidth = 1;
-	height = 4;
-	name = "escape pod loader";
-	roundstart_template = /datum/map_template/shuttle/escape_pod/default;
-	width = 3
+/obj/docking_port/stationary/escape_pod{
+	dir = 8
 	},
 /turf/open/space/basic,
 /area/space)
@@ -24179,8 +24166,7 @@
 /area/station/maintenance/starboard/fore)
 "brf" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Medbay Maintenance";
-	req_access_txt = "5"
+	name = "Medbay Maintenance"
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -31149,7 +31135,7 @@
 "bKN" = (
 /obj/structure/table,
 /obj/item/storage/box/bodybags,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/razor,
 /obj/effect/turf_decal/siding/purple{
@@ -40217,7 +40203,7 @@
 /obj/item/clothing/glasses/science,
 /obj/item/clothing/glasses/science,
 /obj/item/clothing/mask/surgical,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/structure/sign/departments/xenobio{
 	pixel_y = -30
 	},
@@ -40263,7 +40249,7 @@
 /obj/item/clothing/glasses/science,
 /obj/item/clothing/glasses/science,
 /obj/item/clothing/mask/surgical,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/effect/turf_decal/siding/purple{
 	color = "#990099";
 	name = "research purple"
@@ -41131,7 +41117,7 @@
 	network = list("cargo");
 	pixel_x = 1;
 	pixel_y = -27;
-	req_one_access_txt = "41"
+	req_one_access = list("qm")
 	},
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/qm)
@@ -45664,7 +45650,7 @@
 /obj/machinery/button/door/directional/west{
 	id = "teledoor";
 	name = "MiniSat Teleport Shutters Control";
-	req_one_access_txt = "17;65"
+	req_one_access = list("minisat","teleporter")
 	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat_interior)
@@ -53214,7 +53200,7 @@
 /area/station/ai_monitored/command/nuke_storage)
 "heE" = (
 /obj/structure/table/reinforced,
-/obj/item/candle,
+/obj/item/flashlight/flare/candle,
 /obj/machinery/door/poddoor/shutters{
 	id = "abandoned_kitchen"
 	},
@@ -61605,7 +61591,7 @@
 "lZF" = (
 /obj/structure/table/glass,
 /obj/item/clothing/glasses/science,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/storage/medkit/regular,
 /obj/effect/turf_decal/trimline/green/filled/line{
@@ -68684,10 +68670,10 @@
 /area/station/command/bridge)
 "qdB" = (
 /obj/structure/table,
-/obj/item/clothing/gloves/color/latex{
+/obj/item/clothing/gloves/latex{
 	pixel_y = 8
 	},
-/obj/item/clothing/gloves/color/latex{
+/obj/item/clothing/gloves/latex{
 	pixel_y = 5
 	},
 /obj/item/geiger_counter{
@@ -81354,7 +81340,7 @@
 "xWr" = (
 /obj/structure/table,
 /obj/item/storage/box/bodybags,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -81362,7 +81348,6 @@
 /obj/item/shard{
 	icon_state = "small"
 	},
-/obj/structure/table/reinforced/rglass,
 /obj/effect/turf_decal/tile/neutral/anticorner/contrasted{
 	dir = 4
 	},

@@ -72,7 +72,7 @@
 /obj/structure/wonderland_rift
 	name = "Wonderland Door"
 	desc = "A door leading to a magical beautiful land."
-	armor = list(MELEE = 100, BULLET = 0, LASER = 0, ENERGY = 100, BOMB = 100, BIO = 0, FIRE = 100, ACID = 100)
+	armor_type = /datum/armor/wonderland_rift
 	max_integrity = 300
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	icon_state = "cyborg_rift"
@@ -82,6 +82,13 @@
 	///Have we already spawned an enemy?
 	var/enemy_spawned = FALSE
 
+/datum/armor/wonderland_rift
+	melee = 100
+	energy = 100
+	bomb = 100
+	fire = 100
+	acid = 100
+
 /obj/structure/wonderland_rift/attack_ghost(mob/user)
 	. = ..()
 	if(.)
@@ -89,6 +96,7 @@
 	summon_rabbit(user)
 	if(enemy_spawned)
 		qdel(src)
+
 
 /obj/structure/wonderland_rift/proc/summon_rabbit(mob/user)
 	var/spawn_check = tgui_alert(user, "Become a Jabberwocky?", "Wonderland Rift", list("Yes", "No"))

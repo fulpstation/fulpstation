@@ -19,7 +19,7 @@
 
 /obj/effect/client_image_holder/white_rabbit/Initialize(mapload)
 	. = ..()
-	RegisterSignal(src, COMSIG_RABBIT_FOUND, .proc/spotted)
+	RegisterSignal(src, COMSIG_RABBIT_FOUND, PROC_REF(spotted))
 
 /obj/effect/client_image_holder/white_rabbit/attack_hand(mob/user, list/modifiers)
 	. = ..()
