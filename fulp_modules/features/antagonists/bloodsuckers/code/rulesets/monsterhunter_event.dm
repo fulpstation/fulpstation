@@ -50,32 +50,36 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		if((player.mind?.special_role || player.mind?.antag_datums?.len))
 			living_players -= player
 
-/datum/dynamic_ruleset/midround/monsterhunter/proc/generate_monsters(amount)
-	for(var/i in 1 to amount)
-		var/mob/living/monster = pick(living_players)
-		var/datum/antagonist/profession = pick_weight(GLOB.monster_antagonist_types)
-		if(!monster.mind.add_antag_datum(profession))
-			amount++
-			continue
-		if(!profession.enabled_in_preferences(monster.mind))
-			amount++
-			continue
-		assigned += monster
-		living_players -= monster
-		message_admins("[ADMIN_LOOKUPFLW(monster)] was selected by the [name] ruleset and has been made into a Monster.")
-		log_game("DYNAMIC: [key_name(monster)] was selected by the [name] ruleset and has been made into a Monster.")
+/datum/dynamic_ruleset/midround/monsterhunter/proc/generate_monster()
+	var/mob/living/monster = pick(living_players)
+	var/datum/antagonist/antag_type = pick_weight(GLOB.monster_antagonist_types)
+
+	//gets the antag type without initializing it
+	var/datum/antagonist/profession = GLOB.antag_prototypes[initial(antag_type.antagpanel_category)]
+
+	if(!profession.enabled_in_preferences(monster.mind))
+		return FALSE
+	if(!monster.mind.add_antag_datum(antag_type))
+		return FALSE
+	assigned += monster
+	living_players -= monster
+	message_admins("[ADMIN_LOOKUPFLW(monster)] was selected by the [name] ruleset and has been made into a Monster.")
+	log_game("DYNAMIC: [key_name(monster)] was selected by the [name] ruleset and has been made into a Monster.")
+	return TRUE
 
 /datum/dynamic_ruleset/midround/monsterhunter/ready(forced = FALSE)
+	if(required_candidates > living_players.len)
+		return FALSE
+
 	var/count = 0
 	for(var/datum/antagonist/monster as anything in GLOB.antagonists)
 		if(GLOB.monster_antagonist_types.Find(monster.type))
 			count++
-	if(count < MINIMUM_MONSTERS_REQUIRED)
-		var/needed_monsters = MINIMUM_MONSTERS_REQUIRED - count
-		generate_monsters(needed_monsters)
-		message_admins("MONSTERHUNTER NOTICE: Monster Hunters did not find enough monsters, generating monsters...")
-	if(required_candidates > living_players.len)
-		return FALSE
+
+	while(count < MINIMUM_MONSTERS_REQUIRED)
+		if(generate_monster())
+			count++
+
 	return ..()
 
 /datum/dynamic_ruleset/midround/monsterhunter/execute()
