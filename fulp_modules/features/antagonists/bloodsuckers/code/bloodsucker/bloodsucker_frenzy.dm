@@ -77,8 +77,6 @@
 	if(user.handcuffed || user.legcuffed)
 		user.clear_cuffs(cuffs, TRUE)
 		user.clear_cuffs(legcuffs, TRUE)
-	// Keep track of how many times we've entered a Frenzy.
-	bloodsuckerdatum.frenzies += 1
 	bloodsuckerdatum.frenzied = TRUE
 	return ..()
 

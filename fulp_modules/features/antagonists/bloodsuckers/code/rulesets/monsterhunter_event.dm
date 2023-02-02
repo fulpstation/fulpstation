@@ -55,6 +55,10 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		var/mob/living/monster = pick(living_players)
 		var/datum/antagonist/profession = pick_weight(GLOB.monster_antagonist_types)
 		if(!monster.mind.add_antag_datum(profession))
+			amount++
+			continue
+		if(!profession.enabled_in_preferences(monster.mind))
+			amount++
 			continue
 		assigned += monster
 		living_players -= monster

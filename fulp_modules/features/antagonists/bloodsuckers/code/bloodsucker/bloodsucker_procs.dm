@@ -89,7 +89,7 @@
 	for(var/datum/action/bloodsucker/power as anything in powers)
 		if(istype(power, /datum/action/bloodsucker/targeted/tremere))
 			continue
-		power.level_current++
+		power.upgrade_power()
 
 ///Disables all powers, accounting for torpor
 /datum/antagonist/bloodsucker/proc/DisableAllPowers(forced = FALSE)
