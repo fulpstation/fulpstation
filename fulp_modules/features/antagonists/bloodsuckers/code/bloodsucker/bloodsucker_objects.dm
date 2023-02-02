@@ -257,72 +257,60 @@
 ///Attacking someone with the book.
 /obj/item/book/kindred/afterattack(mob/living/target, mob/living/user, flag, params)
 	. = ..()
-	if(!user.can_read(src))
+	if(!user.can_read(src) || in_use || (target == user) || !ismob(target))
 		return
-	if(HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
-		if(in_use || (target == user) || !ismob(target))
+	if(!HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
+		if(IS_BLOODSUCKER(user))
+			to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
 			return
-		user.visible_message(span_notice("[user] begins to quickly look through [src], repeatedly looking back up at [target]."))
-		in_use = TRUE
-		if(!do_mob(user, target, 3 SECONDS, NONE, TRUE))
-			to_chat(user, span_notice("You quickly close [src]."))
-			in_use = FALSE
-			return
-		in_use = FALSE
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
-		// Are we a Bloodsucker | Are we on Masquerade. If one is true, they will fail.
-		if(IS_BLOODSUCKER(target) && !HAS_TRAIT(target, TRAIT_MASQUERADE) && bloodsuckerdatum.my_clan)
-			if(bloodsuckerdatum.broke_masquerade)
-				to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.return_full_name()]', is indeed a Bloodsucker, but you already knew this."))
-				return
-			to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.return_full_name()]', is part of the [bloodsuckerdatum.my_clan]! You quickly note this information down, memorizing it."))
-			bloodsuckerdatum.break_masquerade()
-		else
-			to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Bloodsucker."))
-	else if(IS_BLOODSUCKER(user))
-		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
-	else
 		to_chat(user, span_warning("[src] burns your hands as you try to use it!"))
-		user.apply_damage(6, BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+		user.apply_damage(3, BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+		return
 
-/obj/item/book/kindred/attack_self(mob/living/carbon/user)
-//	Don't call parent since it handles reading the book.
-//	. = ..()
-	if(!user.can_read(src))
+	in_use = TRUE
+	user.balloon_alert_to_viewers(user, "reading book...", "looks at [target] and [src]")
+	if(!do_after(user, 3 SECONDS, target, timed_action_flags = NONE, progress = TRUE))
+		to_chat(user, span_notice("You quickly close [src]."))
+		in_use = FALSE
 		return
-	if(HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
-		user.visible_message(span_notice("[user] opens [src] and begins reading intently."))
-		ui_interact(user)
-		return
-	if(IS_BLOODSUCKER(user))
-		to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
-		return
-	to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
-	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
-	user.set_eye_blur_if_lower(10 SECONDS)
-	eyes.applyOrganDamage(5)
+	in_use = FALSE
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(target)
+	// Are we a Bloodsucker | Are we on Masquerade. If one is true, they will fail.
+	if(IS_BLOODSUCKER(target) && !HAS_TRAIT(target, TRAIT_MASQUERADE))
+		if(bloodsuckerdatum.broke_masquerade)
+			to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.return_full_name()]', is indeed a Bloodsucker, but you already knew this."))
+			return
+		to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.return_full_name()]', [bloodsuckerdatum.my_clan ? "is part of the [bloodsuckerdatum.my_clan]!" : "is not part of a clan."] You quickly note this information down, memorizing it."))
+		bloodsuckerdatum.break_masquerade()
+	else
+		to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Bloodsucker."))
 
-/obj/item/book/kindred/ui_interact(mob/user, datum/tgui/ui)
+/obj/item/book/kindred/on_read(mob/living/user)
+	ui_interact(user)
+
+/obj/item/book/kindred/ui_interact(mob/living/user, datum/tgui/ui)
+	if(user.mind && !HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
+		if(IS_BLOODSUCKER(user))
+			to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
+			return
+		to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
+		var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+		user.set_eye_blur_if_lower(10 SECONDS)
+		eyes.applyOrganDamage(5)
+		return
+
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "KindredArchives", name)
+		ui = new(user, src, "KindredBook", name)
 		ui.open()
 
-/obj/item/book/kindred/ui_act(action, params)
-	. = ..()
-	if(.)
-		return
-	if(!action)
-		return FALSE
-	SStgui.close_uis(src)
-	INVOKE_ASYNC(src, PROC_REF(search), usr, action)
+/obj/item/book/kindred/ui_static_data(mob/user)
+	var/data = list()
 
-/obj/item/book/kindred/proc/search(mob/reader, clan)
-	starting_content = "<head>This is all knowledge about the Clan:</head><br>"
-	for(var/datum/bloodsucker_clan/all_clans as anything in typesof(/datum/bloodsucker_clan))
-		if(clan != initial(all_clans.name))
-			continue
-		starting_content += initial(all_clans.name) + "<br>" + initial(all_clans.description)
+	for(var/datum/bloodsucker_clan/clans as anything in subtypesof(/datum/bloodsucker_clan))
+		var/clan_data = list()
+		clan_data["clan_name"] = initial(clans.name)
+		clan_data["clan_desc"] = initial(clans.description)
+		data["clans"] += list(clan_data)
 
-	reader << browse("<meta charset=UTF-8><TT><I>Penned by [starting_author].</I></TT> <BR>" + "[starting_content]", "window=book[window_size != null ? ";size=[window_size]" : ""]")
-
+	return data

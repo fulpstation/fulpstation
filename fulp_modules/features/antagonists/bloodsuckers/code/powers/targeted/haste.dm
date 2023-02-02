@@ -19,7 +19,8 @@
 	cooldown = 12 SECONDS
 	target_range = 15
 	power_activates_immediately = TRUE
-	var/list/hit //current hit, set while power is in use as we can't pass the list as an extra calling argument in registersignal.
+	/// Current hit, set while power is in use as we can't pass the list as an extra calling argument in registersignal.
+	var/list/hit = list()
 	/// If set, uses this speed in deciseconds instead of world.tick_lag
 	var/speed_override
 

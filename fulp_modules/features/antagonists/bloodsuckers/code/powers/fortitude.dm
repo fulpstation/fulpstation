@@ -77,4 +77,3 @@
 		bloodsucker_user.toggle_move_intent()
 	owner.balloon_alert(owner, "fortitude turned off.")
 	return ..()
-

@@ -114,15 +114,6 @@
 		"The agent must be sent down by the scientist to stun and cuff a target and drag it into a hidden spot and wait for the scientist.",
 	)
 
-/datum/antagonist/bloodsucker
-	tip_theme = "spookyconsole"
-	antag_tips = list(
-		"You are a Bloodsucker, an undead blood-seeking monster living aboard Space Station 13.",
-		"You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!",
-		"Use your Antagonist UI page to enter a Clan and learn how your Powers work.",
-		"While not in a Clan, you will be unable to rank up, Feed, or do any other Bloodsucker activities.",
-	)
-
 /datum/antagonist/changeling
 	antag_tips = list(
 		"You are a Changeling, a shapeshifting alien assuming the form of a crewmember on Space Station 13.",

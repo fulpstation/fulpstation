@@ -223,7 +223,7 @@
 	var/datum/antagonist/vassal/vassaldatum = new(convertee.mind)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = converter.has_antag_datum(/datum/antagonist/bloodsucker)
 	vassaldatum.master = bloodsuckerdatum
-	convertee.mind.add_antag_datum(vassaldatum, vassaldatum.master.get_team())
+	convertee.mind.add_antag_datum(vassaldatum)
 	// Update Bloodsucker Title
 	bloodsuckerdatum.SelectTitle(am_fledgling = FALSE) // Only works if you have no title yet.
 	// Log it

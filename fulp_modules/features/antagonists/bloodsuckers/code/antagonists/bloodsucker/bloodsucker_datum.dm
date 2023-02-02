@@ -11,6 +11,13 @@
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
 	ui_name = "AntagInfoBloodsucker"
 	preview_outfit = /datum/outfit/bloodsucker_outfit
+	tip_theme = "spookyconsole"
+	antag_tips = list(
+		"You are a Bloodsucker, an undead blood-seeking monster living aboard Space Station 13.",
+		"You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!",
+		"Use your Antagonist UI page to enter a Clan and learn how your Powers work.",
+		"While not in a Clan, you will be unable to rank up, Feed, or do any other Bloodsucker activities.",
+	)
 
 	/// How much blood we have, starting off at default blood levels.
 	var/bloodsucker_blood_volume = BLOOD_VOLUME_NORMAL
@@ -45,14 +52,13 @@
 
 	///ALL Powers currently owned
 	var/list/datum/action/bloodsucker/powers = list()
-	///Bloodsucker Clan - Used for dealing with Sol
-	var/datum/team/vampireclan/clan
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab = new
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
-	var/list/special_vassals = list()
+	///Special vassals I own, to not have double of the same type.
+	var/list/datum/antagonist/vassal/special_vassals = list()
 
 	var/bloodsucker_level = 0
 	var/bloodsucker_level_unspent = 1
@@ -63,8 +69,6 @@
 	var/area/bloodsucker_lair_area
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
-	var/frenzy_blood_drank = 0
-	var/frenzies = 0
 	/// If we're currently getting dusted, we won't final death repeatedly.
 	var/dust_timer
 
@@ -182,9 +186,10 @@
 
 	if(IS_FAVORITE_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
+		show_in_roundend = FALSE
 	else
 		// Start Sunlight if first Bloodsucker
-		clan.check_start_sunlight()
+		check_start_sunlight()
 		// Name and Titles
 		SelectFirstName()
 		SelectTitle(am_fledgling = TRUE)
@@ -200,7 +205,7 @@
 /datum/antagonist/bloodsucker/on_removal()
 	UnregisterSignal(SSsunlight, list(COMSIG_SOL_RANKUP_BLOODSUCKERS, COMSIG_SOL_NEAR_START, COMSIG_SOL_END, COMSIG_SOL_RISE_TICK, COMSIG_SOL_WARNING_GIVEN))
 	ClearAllPowersAndStats()
-	clan.check_cancel_sunlight() //check if sunlight should end
+	check_cancel_sunlight() //check if sunlight should end
 	QDEL_NULL(my_clan)
 	return ..()
 

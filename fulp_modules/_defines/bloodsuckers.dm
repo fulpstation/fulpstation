@@ -50,6 +50,7 @@
 #define CLAN_GANGREL "Gangrel Clan"
 #define CLAN_VENTRUE "Ventrue Clan"
 #define CLAN_MALKAVIAN "Malkavian Clan"
+#define CLAN_TZIMISCE "Tzimisce Clan"
 
 #define TREMERE_VASSAL "tremere_vassal"
 #define FAVORITE_VASSAL "favorite_vassal"
@@ -77,8 +78,6 @@
 #define TREMERE_CAN_BUY (1<<2)
 /// This Power can be purchased by Vassals
 #define VASSAL_CAN_BUY (1<<3)
-/// This Power can be purchased by Monster Hunters
-#define HUNTER_CAN_BUY (1<<4)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)
