@@ -9,16 +9,19 @@
 	emp_vulnerability = 0
 
 
+
 /obj/item/organ/internal/heart/cybernetic/earth/Insert(mob/living/carbon/heart_owner, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
 	ADD_TRAIT(heart_owner, TRAIT_SPIRITUAL, ORGAN_TRAIT)
 	ADD_TRAIT(heart_owner, TRAIT_VIRUSIMMUNE, ORGAN_TRAIT)
+	RegisterSignal(GLOB.great_aurochs, COMSIG_LIVING_DEATH, PROC_REF(aurochs_death))
 	owner.faction |= "earth"
 
 
 /obj/item/organ/internal/heart/cybernetic/earth/Remove(mob/living/carbon/heart_owner, special = FALSE)
 	REMOVE_TRAIT(heart_owner, TRAIT_SPIRITUAL, ORGAN_TRAIT)
 	REMOVE_TRAIT(heart_owner, TRAIT_VIRUSIMMUNE, ORGAN_TRAIT)
+	UnregisterSignal(GLOB.great_aurochs, COMSIG_LIVING_DEATH, PROC_REF(aurochs_death))
 	owner.faction -= "earth"
 	return ..()
 

@@ -107,7 +107,7 @@
 /datum/religion_rites/aurochs/invoke_effect(mob/living/user, atom/movable/religious_tool)
 	..()
 	var/altar_turf = get_turf(religious_tool)
-	new /mob/living/basic/cow/bull(altar_turf)
+	new /mob/living/basic/cow/bull/big(altar_turf)
 	//playsound(get_turf(religious_tool), 'sound/effects/cashregister.ogg', 60, TRUE)
 	var/datum/religion_sect/earth/sect = GLOB.religious_sect
 	sect.remove_bull()
