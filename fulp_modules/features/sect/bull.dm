@@ -90,7 +90,6 @@ GLOBAL_DATUM(great_aurochs, /mob/living/basic/cow/bull/big)
 
 
 
-
 /mob/living/basic/cow/bull/big/death(gibbed)
     if(stat == DEAD)
         return
