@@ -76,8 +76,12 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		if(GLOB.monster_antagonist_types.Find(monster.type))
 			count++
 
-	while(count < MINIMUM_MONSTERS_REQUIRED)
-		if(generate_monster())
+	//don't continue endlessly if you just can't do it, otherwise you'll freeze/crash the whole game.
+	var/attempts
+	while(count < MINIMUM_MONSTERS_REQUIRED && (attempts < 5))
+		if(!generate_monster())
+			attempts++
+		else
 			count++
 
 	return ..()
