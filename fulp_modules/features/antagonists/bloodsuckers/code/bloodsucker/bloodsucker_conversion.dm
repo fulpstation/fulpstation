@@ -6,7 +6,7 @@
  */
 /datum/antagonist/bloodsucker/proc/AmValidAntag(mob/target)
 	if(target.mind.unconvertable)
-		return FALSE
+		return VASSALIZATION_BANNED
 
 	var/vassalization_status = VASSALIZATION_ALLOWED
 	for(var/datum/antagonist/antag_datum as anything in target.mind.antag_datums)
