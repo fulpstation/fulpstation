@@ -104,8 +104,12 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  * args:
  * bloodsuckerdatum - the antagonist datum of the Bloodsucker running this.
  */
-/datum/bloodsucker_clan/proc/on_vassal_made(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+/datum/bloodsucker_clan/proc/on_vassal_made(atom/source, mob/living/user, mob/living/target)
 	SIGNAL_HANDLER
+	user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
+	target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
+	target.set_timed_status_effect(15 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
+	INVOKE_ASYNC(target, TYPE_PROC_REF(/mob, emote), "laugh")
 
 /**
  * Called when a Bloodsucker successfully starts spending their Rank

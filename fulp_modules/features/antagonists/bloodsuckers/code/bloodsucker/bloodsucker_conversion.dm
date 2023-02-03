@@ -1,16 +1,19 @@
 /**
  * Checks if the target has antag datums and, if so,
- * are they allowed to be Vassalized or not.
+ * are they allowed to be Vassalized, or not, or banned.
  * Args:
  * target - The person we check for antag datums.
  */
 /datum/antagonist/bloodsucker/proc/AmValidAntag(mob/target)
 	if(target.mind.unconvertable)
 		return FALSE
+
+	var/vassalization_status = VASSALIZATION_ALLOWED
 	for(var/datum/antagonist/antag_datum as anything in target.mind.antag_datums)
 		if(antag_datum.type in vassal_banned_antags)
-			return FALSE
-	return TRUE
+			return VASSALIZATION_BANNED
+		vassalization_status = VASSALIZATION_DISLOYAL
+	return vassalization_status
 
 /**
  * # can_make_vassal
@@ -55,10 +58,13 @@
 	if(old_vassal)
 		conversion_target.mind.remove_antag_datum(/datum/antagonist/vassal)
 
-	var/datum/antagonist/vassal/vassaldatum = conversion_target.mind.add_antag_datum(/datum/antagonist/vassal)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	vassaldatum.master = bloodsuckerdatum
 	bloodsuckerdatum.SelectTitle(am_fledgling = FALSE)
+
+	//set the master, then give the datum.
+	var/datum/antagonist/vassal/vassaldatum = new(conversion_target.mind)
+	vassaldatum.master = bloodsuckerdatum
+	conversion_target.mind.add_antag_datum(vassaldatum)
 
 	message_admins("[conversion_target] has become a Vassal, and is enslaved to [owner.current].")
 	log_admin("[conversion_target] has become a Vassal, and is enslaved to [owner.current].")

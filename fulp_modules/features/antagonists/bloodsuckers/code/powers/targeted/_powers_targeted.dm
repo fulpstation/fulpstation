@@ -5,7 +5,7 @@
 	///If set, how far the target has to be for the power to work.
 	var/target_range
 	///Message sent to chat when clicking on the power, before you use it.
-	var/prefire_message = ""
+	var/prefire_message
 	///Most powers happen the moment you click. Some, like Mesmerize, require time and shouldn't cost you if they fail.
 	var/power_activates_immediately = TRUE
 	///Is this power LOCKED due to being used?
@@ -28,20 +28,12 @@
 	if(!CheckCanPayCost(owner) || !CheckCanUse(owner, trigger_flags))
 		return FALSE
 
-	ActivatePower(trigger_flags)
-	if(prefire_message != "")
+	if(prefire_message)
 		to_chat(owner, span_announce("[prefire_message]"))
+
+	ActivatePower(trigger_flags)
 	if(target)
 		return InterceptClickOn(owner, null, target)
-
-	var/datum/action/cooldown/already_set = owner.click_intercept
-	if(already_set == src)
-		// if we clicked ourself and we're already set, unset and return
-		return unset_click_ability(owner)
-
-	else if(istype(already_set))
-		// if we have an active set already, unset it before we set our's
-		already_set.unset_click_ability(owner)
 
 	return set_click_ability(owner)
 
@@ -50,6 +42,7 @@
 		STOP_PROCESSING(SSprocessing, src)
 	active = FALSE
 	build_all_button_icons()
+	unset_click_ability(owner)
 //	..() // we don't want to pay cost here
 
 /// Check if target is VALID (wall, turf, or character?)

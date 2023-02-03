@@ -6,7 +6,7 @@
 		else
 			to_chat(owner, "This [src] has already been claimed by another.")
 		return FALSE
-	if(!(current_area.area_flags & CULT_PERMITTED))
+	if(!(GLOB.the_station_areas.Find(current_area.type)))
 		claimed.balloon_alert(owner.current, "not part of station!")
 		return
 	// This is my Lair
@@ -261,7 +261,7 @@
 
 	if(user == resident && user.Adjacent(src))
 		balloon_alert(user, "unclaim coffin?")
-		var/list/unclaim_options = list(
+		var/static/list/unclaim_options = list(
 			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
 			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"))
 		var/unclaim_response = show_radial_menu(user, src, unclaim_options, radius = 36, require_near = TRUE)

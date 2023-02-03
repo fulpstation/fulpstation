@@ -3,10 +3,10 @@
  */
 /// Determines Bloodsucker regeneration rate
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
-/// Cost to torture someone, in blood
-#define TORTURE_BLOOD_COST "15"
+/// Cost to torture someone halfway, in blood. Called twice for full cost
+#define TORTURE_BLOOD_HALF_COST 8
 /// Cost to convert someone after successful torture, in blood
-#define TORTURE_CONVERSION_COST "50"
+#define TORTURE_CONVERSION_COST 50
 /// Once blood is this low, will enter Frenzy
 #define FRENZY_THRESHOLD_ENTER 25
 /// Once blood is this high, will exit Frenzy
@@ -23,6 +23,13 @@
 
 #define BLOODSUCKER_RANK_UP_NORMAL "bloodsucker_rank_up_normal"
 #define BLOODSUCKER_RANK_UP_VASSAL "bloodsucker_rank_up_vassal"
+
+///If someone passes all checks and can be vassalized
+#define VASSALIZATION_ALLOWED "allowed"
+///If someone has to accept vassalization
+#define VASSALIZATION_DISLOYAL "disloyal"
+///If someone is not allowed under any circimstances to become a Vassal
+#define VASSALIZATION_BANNED "banned"
 
 #define DANGER_LEVEL_FIRST_WARNING 1
 #define DANGER_LEVEL_SECOND_WARNING 2
