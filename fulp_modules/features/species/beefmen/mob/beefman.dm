@@ -9,8 +9,6 @@
 		NO_UNDERWEAR,
 		DYNCOLORS,
 		AGENDER,
-		HAS_FLESH,
-		HAS_BONE,
 	)
 	mutant_bodyparts = list(
 		"beef_color" = "#e73f4e",
@@ -66,6 +64,7 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/beef,\
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
 	)
+
 	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
 	special_step_sounds = list(

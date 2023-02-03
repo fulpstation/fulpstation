@@ -246,11 +246,14 @@
 	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "hardhat0_sans"
 	hat_type = "sans"
-	armor = list(MELEE = -10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 0, ACID = 0) //just dodge, duh
+	armor_type = /datum/armor/sans_the_skeleton
 	resistance_flags = null
 	flags_inv = HIDEHAIR|HIDEFACIALHAIR
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
+
+/datum/armor/sans_the_skeleton
+	melee = -10 // just dodge, huh
 
 /obj/item/storage/box/halloween/edition_19/sans
 	theme_name = "2019's Sans"
@@ -275,7 +278,7 @@
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "varia_suit"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 0, ACID = 0)
+	armor_type = /datum/armor/none
 	clothing_flags = NONE
 	min_cold_protection_temperature = null
 	max_heat_protection_temperature = null
@@ -291,7 +294,7 @@
 	worn_icon = 'fulp_modules/features/halloween/2019/2019_icons_worn.dmi'
 	icon_state = "hardsuit0-varia"
 	max_integrity = 300
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 0, ACID = 0)
+	armor_type = /datum/armor/none
 	clothing_flags = NONE
 	min_cold_protection_temperature = null
 	max_heat_protection_temperature = null

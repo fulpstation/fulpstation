@@ -11,6 +11,13 @@
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
 	ui_name = "AntagInfoBloodsucker"
 	preview_outfit = /datum/outfit/bloodsucker_outfit
+	tip_theme = "spookyconsole"
+	antag_tips = list(
+		"You are a Bloodsucker, an undead blood-seeking monster living aboard Space Station 13.",
+		"You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!",
+		"Use your Antagonist UI page to enter a Clan and learn how your Powers work.",
+		"While not in a Clan, you will be unable to rank up, Feed, or do any other Bloodsucker activities.",
+	)
 
 	/// How much blood we have, starting off at default blood levels.
 	var/bloodsucker_blood_volume = BLOOD_VOLUME_NORMAL
@@ -45,14 +52,13 @@
 
 	///ALL Powers currently owned
 	var/list/datum/action/bloodsucker/powers = list()
-	///Bloodsucker Clan - Used for dealing with Sol
-	var/datum/team/vampireclan/clan
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab = new
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
-	var/list/special_vassals = list()
+	///Special vassals I own, to not have double of the same type.
+	var/list/datum/antagonist/vassal/special_vassals = list()
 
 	var/bloodsucker_level = 0
 	var/bloodsucker_level_unspent = 1
@@ -63,8 +69,6 @@
 	var/area/bloodsucker_lair_area
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
-	var/frenzy_blood_drank = 0
-	var/frenzies = 0
 	/// If we're currently getting dusted, we won't final death repeatedly.
 	var/dust_timer
 
@@ -112,15 +116,15 @@
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	RegisterSignal(current_mob, COMSIG_PARENT_EXAMINE, .proc/on_examine)
-	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, .proc/LifeTick)
+	RegisterSignal(current_mob, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(LifeTick))
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
 
 	if(current_mob.hud_used)
 		on_hud_created()
 	else
-		RegisterSignal(current_mob, COMSIG_MOB_HUD_CREATED, .proc/on_hud_created)
+		RegisterSignal(current_mob, COMSIG_MOB_HUD_CREATED, PROC_REF(on_hud_created))
 
 /**
  * Remove innate effects is everything given to the mob
@@ -163,28 +167,29 @@
 
 /datum/antagonist/bloodsucker/get_admin_commands()
 	. = ..()
-	.["Give Level"] = CALLBACK(src, .proc/RankUp)
+	.["Give Level"] = CALLBACK(src, PROC_REF(RankUp))
 	if(bloodsucker_level_unspent >= 1)
-		.["Remove Level"] = CALLBACK(src, .proc/RankDown)
+		.["Remove Level"] = CALLBACK(src, PROC_REF(RankDown))
 
 	if(broke_masquerade)
-		.["Fix Masquerade"] = CALLBACK(src, .proc/fix_masquerade)
+		.["Fix Masquerade"] = CALLBACK(src, PROC_REF(fix_masquerade))
 	else
-		.["Break Masquerade"] = CALLBACK(src, .proc/break_masquerade)
+		.["Break Masquerade"] = CALLBACK(src, PROC_REF(break_masquerade))
 
 ///Called when you get the antag datum, called only ONCE per antagonist.
 /datum/antagonist/bloodsucker/on_gain()
-	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, .proc/sol_rank_up)
-	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, .proc/sol_near_start)
-	RegisterSignal(SSsunlight, COMSIG_SOL_END, .proc/on_sol_end)
-	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, .proc/handle_sol)
+	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up))
+	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start))
+	RegisterSignal(SSsunlight, COMSIG_SOL_END, PROC_REF(on_sol_end))
+	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, PROC_REF(handle_sol))
 	RegisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN, PROC_REF(give_warning))
 
 	if(IS_FAVORITE_VASSAL(owner.current)) // Vassals shouldnt be getting the same benefits as Bloodsuckers.
 		bloodsucker_level_unspent = 0
+		show_in_roundend = FALSE
 	else
 		// Start Sunlight if first Bloodsucker
-		clan.check_start_sunlight()
+		check_start_sunlight()
 		// Name and Titles
 		SelectFirstName()
 		SelectTitle(am_fledgling = TRUE)
@@ -200,7 +205,7 @@
 /datum/antagonist/bloodsucker/on_removal()
 	UnregisterSignal(SSsunlight, list(COMSIG_SOL_RANKUP_BLOODSUCKERS, COMSIG_SOL_NEAR_START, COMSIG_SOL_END, COMSIG_SOL_RISE_TICK, COMSIG_SOL_WARNING_GIVEN))
 	ClearAllPowersAndStats()
-	clan.check_cancel_sunlight() //check if sunlight should end
+	check_cancel_sunlight() //check if sunlight should end
 	QDEL_NULL(my_clan)
 	return ..()
 

@@ -55,7 +55,7 @@
 	mask = /obj/item/clothing/mask/breath
 	suit = /obj/item/clothing/suit/space/safety_moth
 	suit_store = /obj/item/tank/internals/oxygen
-	gloves = /obj/item/clothing/gloves/color/chief_engineer
+	gloves = /obj/item/clothing/gloves/chief_engineer
 	shoes = /obj/item/clothing/shoes/magboots/safety_moth
 	belt = /obj/item/storage/belt/utility/full/powertools
 	back = /obj/item/storage/backpack/ert/engineer
@@ -138,10 +138,11 @@
 	name = "Safety Moth safety vest"
 	desc = "The standard issue safety vest belonging to Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/suits/utility.dmi'
+	worn_icon = 'icons/obj/clothing/suits/utility.dmi'
 	icon_state = "hazard"
 	inhand_icon_state = null
 	flags_inv = null
-	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
+	armor_type = /datum/armor/safety_moth
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/toy/plush/moth)
 	resistance_flags = FIRE_PROOF
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -152,11 +153,22 @@
 	name = "Safety Moth safety hardhat"
 	desc = "The standard issue safety hardhat belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/head/utility.dmi'
+	worn_icon = 'icons/obj/clothing/head/utility.dmi'
 	icon_state = "hardhat0_yellow"
 	resistance_flags = FIRE_PROOF
-	armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 80)
+	armor_type = /datum/armor/safety_moth
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+
+/datum/armor/safety_moth
+	melee = 50
+	bullet = 40
+	laser = 40
+	energy = 50
+	bomb = 50
+	bio = 100
+	fire = 100
+	acid = 80
 
 /obj/item/clothing/shoes/magboots/safety_moth
 	desc = "A special pair of Magnetic boots which doesn't weight you down." // Do they even need this? They're a moth...
@@ -168,12 +180,14 @@
 	name = "Safety Moth medical jacket"
 	desc = "The standard issue safety jacket belonging to Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/suits/labcoat.dmi'
+	worn_icon = 'icons/obj/clothing/suits/labcoat.dmi'
 	icon_state = "labcoat_paramedic"
 
 /obj/item/clothing/head/helmet/space/safety_moth/med
 	name = "Safety Moth medical cap"
 	desc = "The standard issue safety cap belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/head/hats.dmi'
+	worn_icon = 'icons/obj/clothing/head/hats.dmi'
 	icon_state = "paramedicsoft"
 
 //Sec
@@ -181,6 +195,7 @@
 	name = "Safety Moth riot suit"
 	desc = "The standard issue riot suit belonging to Safety Moth themselves. Functions like a hardsuit, resists shoves, and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/suits/armor.dmi'
+	worn_icon = 'icons/obj/clothing/suits/armor.dmi'
 	icon_state = "riot"
 	inhand_icon_state = "swat_suit"
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCKS_SHOVE_KNOCKDOWN
@@ -189,6 +204,7 @@
 	name = "Safety Moth riot helmet"
 	desc = "The standard issue riot helmet belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/head/helmet.dmi'
+	worn_icon = 'icons/obj/clothing/head/helmet.dmi'
 	icon_state = "riot"
 
 

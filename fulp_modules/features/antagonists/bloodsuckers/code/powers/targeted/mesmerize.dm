@@ -17,7 +17,7 @@
 		You cannot wear anything covering your face, and both parties must be facing eachother. Obviously, both parties need to not be blind. \n\
 		If your target is already mesmerized or a Monster Hunter, the Power will fail.\n\
 		Once mesmerized, the target will be unable to move for a certain amount of time, scaling with level.\n\
-		At level 2, your target will additionally be Muted.\n\
+		At level 2, your target will additionally be muted.\n\
 		At level 3, you will be able to use the power through items covering your face.\n\
 		At level 5, you will be able to mesmerize regardless of your target's direction.\n\
 		At level 6, you will cause your target to fall asleep.\n\
@@ -75,7 +75,7 @@
 		owner.balloon_alert(owner, "[current_target] has no eyes.")
 		return FALSE
 	// Target blind?
-	if(current_target.eye_blind > 0 && !issilicon(current_target))
+	if(current_target.is_blind() && !issilicon(current_target))
 		owner.balloon_alert(owner, "[current_target] is blind.")
 		return FALSE
 	// Facing target?
@@ -107,7 +107,7 @@
 	if(istype(mesmerized_target))
 		owner.balloon_alert(owner, "attempting to hypnotically gaze [mesmerized_target]...")
 
-	if(!do_mob(user, mesmerized_target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, .proc/ContinueActive, user, mesmerized_target)))
+	if(!do_mob(user, mesmerized_target, 4 SECONDS, NONE, TRUE, extra_checks = CALLBACK(src, PROC_REF(ContinueActive), user, mesmerized_target)))
 		return
 
 	var/power_time = 9 SECONDS + level_current * 1.5 SECONDS
@@ -128,7 +128,7 @@
 		//mesmerized_target.silent += power_time / 10 // Silent isn't based on ticks.
 		mesmerized_target.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move // mesmerized_target.changeNext_move(power_time) // check click.dm
 		mesmerized_target.notransform = TRUE // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
-		addtimer(CALLBACK(src, .proc/end_mesmerize, user, mesmerized_target), power_time)
+		addtimer(CALLBACK(src, PROC_REF(end_mesmerize), user, mesmerized_target), power_time)
 	PowerActivatedSuccessfully() // PAY COST! BEGIN COOLDOWN!
 
 /datum/action/bloodsucker/targeted/mesmerize/DeactivatePower()

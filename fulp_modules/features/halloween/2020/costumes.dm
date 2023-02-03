@@ -158,7 +158,7 @@
 	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_guy"
 	hat_type = "guy"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0, WOUND = 0)
+	armor_type = /datum/armor/civilian_janitor
 	resistance_flags = null
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
@@ -171,7 +171,7 @@
 	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_thomas"
 	hat_type = "thomas"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0, WOUND = 0)
+	armor_type = /datum/armor/civilian_janitor
 	resistance_flags = null
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
@@ -713,7 +713,7 @@
 	costume_contents = list(
 		/obj/item/clothing/mask/gas/mime/heister_mask,
 		/obj/item/toy/gun,
-		/obj/item/clothing/gloves/color/latex/nitrile,
+		/obj/item/clothing/gloves/latex/nitrile,
 		/obj/item/clothing/shoes/laceup,
 	)
 

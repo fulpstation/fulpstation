@@ -7,7 +7,7 @@
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
 	theme = /datum/mod_theme/responsory/fulp
 	applied_skin = "medert_commander"
-	initial_modules = list(
+	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/health_analyzer,
@@ -17,7 +17,7 @@
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/engineering
 	theme = /datum/mod_theme/responsory/fulp
 	applied_skin = "engert_commander"
-	initial_modules = list(
+	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/welding,
 		/obj/item/mod/module/rad_protection,
@@ -28,7 +28,7 @@
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/security
 	theme = /datum/mod_theme/responsory/fulp
 	applied_skin = "secert_commander"
-	initial_modules = list(
+	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/welding,
 		/obj/item/mod/module/flashlight,
@@ -38,7 +38,7 @@
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/clown
 	theme = /datum/mod_theme/responsory/fulp
 	applied_skin = "clownert_commander"
-	initial_modules = list(
+	applied_modules = list(
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/welding,
 		/obj/item/mod/module/flashlight,

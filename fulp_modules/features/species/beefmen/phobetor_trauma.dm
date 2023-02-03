@@ -142,7 +142,7 @@
 			continue
 		if(!isliving(nearby_viewers) || !nearby_viewers.mind)
 			continue
-		if(nearby_viewers.has_unlimited_silicon_privilege || nearby_viewers.eye_blind)
+		if(nearby_viewers.has_unlimited_silicon_privilege || nearby_viewers.is_blind())
 			continue
 		return TRUE
 	return FALSE

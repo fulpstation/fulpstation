@@ -9,8 +9,6 @@
 /**
  * # MARTIAL ARTS
  */
-//Used in hunterfu.dm
-#define MARTIALART_HUNTERFU "hunterfu"
 //Used in velvet_fu.dm
 #define MARTIALART_VELVETFU "velvetfu"
 //Used in bloodsucker_life.dm
@@ -46,3 +44,8 @@
 #define INFILTRATOR_FACTION_GORLEX_MARAUDERS "Gorlex Marauders"
 #define INFILTRATOR_FACTION_SELF "S.E.L.F"
 #define REQUEST_MENTORHELP "request_mentorhelp"
+
+///monsterhunter signals
+#define COMSIG_RABBIT_FOUND "rabbit_found"
+#define COMSIG_GAIN_INSIGHT "gain_insight"
+#define COMSIG_BEASTIFY "beastify"
