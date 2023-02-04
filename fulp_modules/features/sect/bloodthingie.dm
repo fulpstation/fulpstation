@@ -13,6 +13,7 @@
 	volume = 150
 	custom_materials = list(/datum/material/iron=10, /datum/material/glass=20)
 	sharpness = SHARP_EDGED
+	item_flags = SURGICAL_TOOL
 
 
 
@@ -21,8 +22,7 @@
 	AddElement(/datum/element/update_icon_updates_onmob)
 
 /obj/item/reagent_containers/syringe/afterattack(atom/target, mob/user, proximity)
-	if(!reagents.total_volume)
-		to_chat(user, span_warning("[src] is empty! Right-click to draw."))
+	to_chat(user, span_warning("[src] is empty! Right-click to draw."))
 	return
 
 /obj/item/reagent_containers/syringe/earth/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
