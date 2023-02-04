@@ -52,6 +52,8 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 
 /datum/dynamic_ruleset/midround/monsterhunter/proc/generate_monster()
 	var/mob/living/monster = pick(living_players)
+	if(!monster)
+		return FALSE
 	var/datum/antagonist/antag_type = pick_weight(GLOB.monster_antagonist_types)
 
 	//gets the antag type without initializing it
@@ -70,6 +72,16 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 /datum/dynamic_ruleset/midround/monsterhunter/ready(forced = FALSE)
 	if(required_candidates > living_players.len)
 		return FALSE
+	//check if the list is empty
+	if(!GLOB.antag_prototypes)
+		GLOB.antag_prototypes = list()
+		for(var/antag_type in subtypesof(/datum/antagonist))
+			var/datum/antagonist/A = new antag_type
+			var/cat_id = A.antagpanel_category
+			if(!GLOB.antag_prototypes[cat_id])
+				GLOB.antag_prototypes[cat_id] = list(A)
+			else
+				GLOB.antag_prototypes[cat_id] += A
 
 	var/count = 0
 	for(var/datum/antagonist/monster as anything in GLOB.antagonists)
