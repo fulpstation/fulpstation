@@ -16,11 +16,6 @@
 	item_flags = SURGICAL_TOOL
 
 
-
-/obj/item/reagent_containers/syringe/earth/Initialize(mapload)
-	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob)
-
 /obj/item/reagent_containers/syringe/afterattack(atom/target, mob/user, proximity)
 	to_chat(user, span_warning("[src] is empty! Right-click to draw."))
 	return
