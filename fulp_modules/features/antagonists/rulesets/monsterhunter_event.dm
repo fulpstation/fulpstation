@@ -3,8 +3,6 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 	/datum/antagonist/bloodsucker = 50,
 	/datum/antagonist/heretic = 50,
 	/datum/antagonist/changeling = 20,
-	/datum/antagonist/cult = 3,
-	/datum/antagonist/wizard/apprentice/imposter = 1,
 ))
 
 #define MINIMUM_MONSTERS_REQUIRED 3
@@ -57,9 +55,10 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 	var/datum/antagonist/antag_type = pick_weight(GLOB.monster_antagonist_types)
 
 	//gets the antag type without initializing it
-	var/datum/antagonist/profession = GLOB.antag_prototypes[initial(antag_type.antagpanel_category)]
+	var/list/profession = GLOB.antag_prototypes[initial(antag_type.antagpanel_category)]
+	var/datum/antagonist/specific = profession[1]
 
-	if(!profession.enabled_in_preferences(monster.mind))
+	if(!specific.enabled_in_preferences(monster.mind))
 		return FALSE
 	if(!monster.mind.add_antag_datum(antag_type))
 		return FALSE
@@ -90,6 +89,8 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		if(GLOB.monster_antagonist_types.Find(monster.type))
 			count++
 
+	if((MINIMUM_MONSTERS_REQUIRED - count) + 1 > living_players.len)
+		return FALSE
 	//don't continue endlessly if you just can't do it, otherwise you'll freeze/crash the whole game.
 	var/attempts
 	while(count < MINIMUM_MONSTERS_REQUIRED && (attempts < 5))
