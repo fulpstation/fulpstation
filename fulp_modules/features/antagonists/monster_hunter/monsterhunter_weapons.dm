@@ -44,6 +44,11 @@
 	block_chance = 20
 	on_force = 20
 	base_force = 17
+	light_system = MOVABLE_LIGHT
+	light_color = "#ff42ec"
+	light_range = 2
+	light_power = 2
+	light_on = FALSE
 	throwforce = 12
 	damtype = BURN
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -74,6 +79,7 @@
 		playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/moonlightsword.ogg',50)
 	inhand_icon_state = active ? "darkmoon" : "darkmoon_hilt"
 	enabled = active
+	set_light_on(active)
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
 	return COMPONENT_NO_DEFAULT_MESSAGE
 
@@ -110,9 +116,14 @@
 	name = "Moonlight"
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "plasmasoul"
-	damage = 10
+	damage = 25
+	light_system = MOVABLE_LIGHT
+	light_range = 2
+	light_power = 1
+	light_color = "#ff42ec"
 	damage_type = BURN
-	range = 10
+	hitsound = 'sound/weapons/sear.ogg'
+	hitsound_wall = 'sound/weapons/effects/searwall.ogg'
 
 
 
@@ -274,14 +285,13 @@
 		return
 	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
 		return
-	if(!(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
+	if(!IS_HERETIC(man) && !(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
-	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob/living/carbon, remove_bloodsilver), 20 SECONDS))
-
-/mob/living/carbon/proc/remove_bloodsilver()
-	if (has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
-		remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
+	if(!(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)))
+		return
+	sleep(5 SECONDS)
+	man.remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 
 
 /obj/structure/rack/weaponsmith
