@@ -283,16 +283,14 @@
 		remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 
 
-/obj/structure/table/weaponsmith
+/obj/structure/rack/weaponsmith
 	name = "Weapon Forge"
-	desc = "Table used by blacksmiths to upgrade weapons."
-	icon = 'icons/obj/smooth_structures/fancy_table_black.dmi'
-	icon_state = "fancy_table_black-0"
-	base_icon_state = "fancy_table_black"
+	desc = "Fueled by the tears of rabbits."
+	icon = 'icons/obj/cult/structures.dmi'
+	icon_state = "altar"
 	resistance_flags = INDESTRUCTIBLE
 
-
-/obj/structure/table/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
+/obj/structure/rack/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
 	if(!istype(organ, /obj/item/rabbit_eye))
 		return ..()
 	var/obj/item/rabbit_eye/eye = organ
