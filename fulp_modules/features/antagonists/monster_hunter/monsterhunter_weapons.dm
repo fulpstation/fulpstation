@@ -102,6 +102,7 @@
 	var/obj/projectile/moonbeam/moon = new(proj_turf)
 	moon.preparePixelProjectile(target, user, modifiers)
 	moon.firer = user
+	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/moonlightbeam.ogg',50)
 	moon.fire()
 
 
