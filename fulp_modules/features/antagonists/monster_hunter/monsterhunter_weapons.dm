@@ -285,17 +285,12 @@
 		return
 	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
 		return
-	if(!IS_HERETIC(user) && !(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
+	if(!IS_HERETIC(man) && !(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 	if(!(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)))
 		return
-	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob/living/carbon, remove_bloodsilver), 20 SECONDS))
-
-/mob/living/carbon/proc/remove_bloodsilver()
-	if (has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
-		remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
-
+	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 20 SECONDS)
 
 /obj/structure/rack/weaponsmith
 	name = "Weapon Forge"
