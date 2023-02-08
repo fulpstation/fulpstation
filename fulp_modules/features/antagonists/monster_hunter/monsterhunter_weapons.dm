@@ -226,7 +226,8 @@
 		return
 	SEND_SIGNAL(killer,WEAPON_UPGRADE)
 	killer.name = "[killer.base_name] +[killer.upgrade_level]"
-	to_chat(user, span_warning ("The [src] crumbles away..."))
+	balloon_alert(user, "[src] crumbles away...")
+	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/weaponsmithing.ogg', 50)
 	qdel(src)
 
 /obj/item/gun/ballistic/revolver/hunter_revolver
