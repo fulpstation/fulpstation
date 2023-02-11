@@ -48,16 +48,15 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		if((player.mind?.special_role || player.mind?.antag_datums?.len))
 			living_players -= player
 
-/datum/dynamic_ruleset/midround/monsterhunter/proc/generate_monster()
-	var/mob/living/monster = pick(living_players)
+/datum/dynamic_ruleset/midround/monsterhunter/proc/generate_monster(list/attempted_list)
+	var/mob/living/monster = pick(attempted_list)
 	if(!monster)
 		return FALSE
+	attempted_list -= monster
 	var/datum/antagonist/antag_type = pick_weight(GLOB.monster_antagonist_types)
-
 	//gets the antag type without initializing it
 	var/list/profession = GLOB.antag_prototypes[initial(antag_type.antagpanel_category)]
 	var/datum/antagonist/specific = profession[1]
-
 	if(!specific.enabled_in_preferences(monster.mind))
 		return FALSE
 	if(!monster.mind.add_antag_datum(antag_type))
@@ -86,6 +85,10 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 	for(var/datum/antagonist/monster as anything in GLOB.antagonists)
 		if(!monster.owner)
 			continue
+		if(!monster.owner.current)
+			continue
+		if(monster.owner.stat == DEAD)
+			continue
 		if(GLOB.monster_antagonist_types.Find(monster.type))
 			count++
 
@@ -93,8 +96,11 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		return FALSE
 	//don't continue endlessly if you just can't do it, otherwise you'll freeze/crash the whole game.
 	var/attempts
-	while(count < MINIMUM_MONSTERS_REQUIRED && (attempts < 5))
-		if(!generate_monster())
+	var/list/attempted_list = living_players.Copy()
+	while(count < MINIMUM_MONSTERS_REQUIRED && (attempts < 10))
+		if(!attempted_list.len)
+			break
+		if(!generate_monster(attempted_list))
 			attempts++
 		else
 			count++

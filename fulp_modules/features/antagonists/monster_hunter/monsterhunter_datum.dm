@@ -241,9 +241,11 @@
 	for(var/datum/antagonist/victim in GLOB.antagonists)
 		if(!victim.owner)
 			continue
+		if(!victim.owner.current)
+			continue
 		if(victim.owner.current.stat == DEAD || victim.owner == owner)
 			continue
-		if(victim.owner.has_antag_datum(/datum/antagonist/changeling) || IS_BLOODSUCKER(victim.owner.current) || IS_HERETIC(victim.owner.current))
+		if(istype(victim, /datum/antagonist/changeling) || istype(victim, /datum/antagonist/heretic) || istype(victim, /datum/antagonist/bloodsucker))
 			possible_targets += victim.owner
 
 	for(var/i in 1 to 3) //we get 3 targets
