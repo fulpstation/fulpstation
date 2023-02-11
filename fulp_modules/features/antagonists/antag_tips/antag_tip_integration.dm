@@ -195,16 +195,6 @@
 		"The Syndicate has also given you and any other agents on board code-words which can be used to find eachother. They're highlighted in red and blue.",
 	)
 
-/datum/antagonist/vassal
-	tip_theme = "spookyconsole"
-	antag_tips = list(
-		"You are a Vassal, enslaved to your Vampiric Master, you obey their instructions above all else.",
-		"You have the ability tp Recuperate, allowing you to heal at the exchange of your own Blood.",
-		"Fear Mindshields! You will get deconverted if you get mindshielded, resist them at all costs!",
-		"Help ensure your Master is safe from Daylight! Solar flares will bombard the station periodically, and if your Master is exposed, they will burn alive.",
-		"Your Master can optionally upgrade you into the Favorite Vassal. Depending on their Clan, you will get different benefits.",
-	)
-
 /datum/antagonist/wizard
 	tip_theme = "wizard"
 	antag_tips = list(

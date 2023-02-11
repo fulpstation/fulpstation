@@ -108,6 +108,14 @@
 		TRAIT_HARDLY_WOUNDED,
 	)
 
+/datum/antagonist/bloodsucker/can_be_owned(datum/mind/new_owner)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!new_owner.can_make_bloodsucker())
+		return FALSE
+	return TRUE
+
 /**
  * Apply innate effects is everything given to the mob
  * When a body is tranferred, this is called on the new mob
