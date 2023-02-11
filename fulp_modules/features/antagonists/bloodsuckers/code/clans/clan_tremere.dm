@@ -72,6 +72,8 @@
 	var/datum/action/cooldown/spell/shapeshift/bat/batform = new(vassaldatum.owner || vassaldatum.owner.current)
 	batform.Grant(vassaldatum.owner.current)
 
-/datum/bloodsucker_clan/tremere/on_vassal_made(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+/datum/bloodsucker_clan/tremere/on_vassal_made(atom/source, mob/living/user, mob/living/target)
+	. = ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	to_chat(bloodsuckerdatum.owner.current, span_danger("You have now gained an additional Rank to spend!"))
 	bloodsuckerdatum.bloodsucker_level_unspent++
