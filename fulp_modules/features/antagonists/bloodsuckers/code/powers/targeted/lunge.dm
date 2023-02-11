@@ -59,6 +59,9 @@
 		return FALSE
 	return TRUE
 
+/datum/action/bloodsucker/targeted/lunge/CheckCanDeactivate()
+	return !(datum_flags & DF_ISPROCESSING) //only if you aren't lunging
+
 /datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
 	. = ..()
 	owner.face_atom(target_atom)

@@ -104,8 +104,12 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  * args:
  * bloodsuckerdatum - the antagonist datum of the Bloodsucker running this.
  */
-/datum/bloodsucker_clan/proc/on_vassal_made(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+/datum/bloodsucker_clan/proc/on_vassal_made(atom/source, mob/living/user, mob/living/target)
 	SIGNAL_HANDLER
+	user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
+	target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
+	target.set_timed_status_effect(15 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
+	INVOKE_ASYNC(target, TYPE_PROC_REF(/mob, emote), "laugh")
 
 /**
  * Called when a Bloodsucker successfully starts spending their Rank
@@ -202,7 +206,10 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 /datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/bloodsuckerdatum, datum/antagonist/vassal/vassaldatum)
 	if(vassaldatum.special_type)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
-		return
+		return FALSE
+	if(!vassaldatum.owner.can_make_bloodsucker(creator = bloodsuckerdatum.owner))
+		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal is unable to gain a Special rank due to innate features."))
+		return FALSE
 
 	var/list/options = list()
 	var/list/radial_display = list()
@@ -228,7 +235,6 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 		return FALSE
 	vassaldatum.make_special(vassal_response)
 	bloodsuckerdatum.bloodsucker_blood_volume -= 150
-
 
 /**
  * Called when we are successfully turn a Vassal into a Favorite Vassal
