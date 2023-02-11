@@ -87,7 +87,7 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 			continue
 		if(!monster.owner.current)
 			continue
-		if(monster.owner.stat == DEAD)
+		if(monster.owner.current.stat == DEAD)
 			continue
 		if(GLOB.monster_antagonist_types.Find(monster.type))
 			count++
