@@ -98,6 +98,8 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 	var/attempts
 	var/list/attempted_list = living_players.Copy()
 	while(count < MINIMUM_MONSTERS_REQUIRED && (attempts < 10))
+		if(living_players.len == 1 ) //this is our monster hunter incase something went wrong
+			break
 		if(!attempted_list.len)
 			break
 		if(!generate_monster(attempted_list))
