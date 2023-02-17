@@ -18,6 +18,15 @@
 	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
 	///the red card tied to this trauma if any
 	var/obj/item/rabbit_locator/locator
+	tip_theme = "spookyconsole"
+	antag_tips = list(
+		"You are the Monster Hunter, hired to rid this station of several troublesome creatures.",
+		"The contract paper provided to you details all the tasks our anonymous employers paid us to complete.",
+		"On this station are five white rabbits only you can see, use the accursed queen card to track them down!",
+		"One of the rabbits will provide you the gateway to Wonderland.",
+		"You can upgrade your weapon in Wonderland by placing it on the weapon forge table and using a rabbit's eye on the table!",
+		"Only when all the rabbits are found and the monsters are terminated can we unleash the apocalypse."
+	)
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -46,11 +55,11 @@
 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/criminal = owner.current
-	var/obj/item/rabbit_locator/card = new(criminal,src)
+	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
 	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
-	criminal.equip_in_one_of_slots(card, slots)
-	var/obj/item/hunting_contract/contract = new(criminal,src)
-	criminal.equip_in_one_of_slots(contract, slots)
+	criminal.equip_in_one_of_slots(card, slots, qdel_on_fail = FALSE)
+	var/obj/item/hunting_contract/contract = new(get_turf(criminal), src)
+	criminal.equip_in_one_of_slots(contract, slots, qdel_on_fail = FALSE)
 	RegisterSignal(src, COMSIG_GAIN_INSIGHT, PROC_REF(insight_gained))
 	RegisterSignal(src, COMSIG_BEASTIFY, PROC_REF(turn_beast))
 	for(var/i in 1 to 5 )
@@ -232,9 +241,11 @@
 	for(var/datum/antagonist/victim in GLOB.antagonists)
 		if(!victim.owner)
 			continue
+		if(!victim.owner.current)
+			continue
 		if(victim.owner.current.stat == DEAD || victim.owner == owner)
 			continue
-		if(victim.owner.has_antag_datum(/datum/antagonist/changeling) || IS_BLOODSUCKER(victim.owner.current) || IS_HERETIC(victim.owner.current))
+		if(istype(victim, /datum/antagonist/changeling) || istype(victim, /datum/antagonist/heretic) || istype(victim, /datum/antagonist/bloodsucker))
 			possible_targets += victim.owner
 
 	for(var/i in 1 to 3) //we get 3 targets

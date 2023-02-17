@@ -25489,6 +25489,15 @@
 /obj/effect/mapping_helpers/airlock/access/any/engineering/external,
 /turf/open/floor/plating,
 /area/station/service/chapel/asteroid/monastery)
+"bXO" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/camera/directional/west{
+	c_tag = "Drone Bay Ext."
+	},
+/turf/open/floor/plating,
+/area/station/cargo/drone_bay)
 "bXU" = (
 /obj/effect/spawner/random/maintenance,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -29700,6 +29709,9 @@
 /obj/machinery/door/airlock/external/glass{
 	name = "Supply Door Airlock"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "cxM" = (
@@ -30384,6 +30396,12 @@
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/plating,
 /area/station/maintenance/department/security/brig)
+"cJa" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "cJo" = (
 /obj/machinery/space_heater,
 /obj/effect/mapping_helpers/broken_floor,
@@ -40090,14 +40108,14 @@
 /turf/open/floor/iron,
 /area/station/medical/cryo)
 "mhw" = (
-/obj/structure/window/reinforced{
-	dir = 1
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
 	},
-/obj/structure/window/reinforced{
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "mhF" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -42916,6 +42934,16 @@
 	},
 /turf/open/floor/iron/grimy,
 /area/station/service/chapel/monastery)
+"oMp" = (
+/obj/effect/mapping_helpers/airlock/access/any/supply/general,
+/obj/machinery/door/airlock/external/glass{
+	name = "Supply Door Airlock"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "oMH" = (
 /obj/machinery/suit_storage_unit/industrial/loader,
 /turf/open/floor/iron,
@@ -44155,6 +44183,10 @@
 /mob/living/simple_animal/butterfly,
 /turf/open/floor/grass,
 /area/station/medical/psychology)
+"pOy" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "pPr" = (
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
@@ -45791,13 +45823,18 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/central)
 "rng" = (
-/obj/structure/window/reinforced,
-/obj/machinery/camera/directional/east{
-	c_tag = "Cargo Docking Arm"
+/obj/structure/window/reinforced{
+	dir = 1
 	},
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/structure/window/reinforced,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "rnE" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -51383,9 +51420,7 @@
 	pixel_x = -8;
 	pixel_y = 10
 	},
-/obj/structure/window/reinforced{
-	dir = 4
-	},
+/obj/machinery/camera/directional/east,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "vRm" = (
@@ -53487,6 +53522,12 @@
 	cycle_id = "cargo-maint-passthrough"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/supply/general,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "xur" = (
@@ -98985,7 +99026,7 @@ afj
 ecR
 tko
 bbG
-aVI
+rng
 bbG
 aaa
 aaa
@@ -99242,7 +99283,7 @@ afl
 aha
 tko
 bGI
-aVI
+rng
 sut
 aaa
 aaa
@@ -99499,7 +99540,7 @@ jUX
 tko
 tko
 bGI
-aVI
+rng
 sut
 aaa
 bGI
@@ -99756,7 +99797,7 @@ ktQ
 rWE
 aht
 aYE
-aVI
+rng
 rWE
 aht
 aYE
@@ -100006,14 +100047,14 @@ aht
 cdm
 tko
 wmE
-wmE
+bXO
 ofR
 qfa
 sZh
 cxg
 bVp
 cqU
-aVI
+rng
 fYY
 bVp
 bGI
@@ -100270,7 +100311,7 @@ sZh
 dWo
 aTy
 qof
-cCB
+mhw
 mRD
 aTy
 uhk
@@ -100526,9 +100567,9 @@ nkE
 sZh
 xMS
 cCB
-cCB
-cCB
-cCB
+pOy
+mhw
+cJa
 cCB
 jZL
 baG
@@ -101040,9 +101081,9 @@ aYF
 sZh
 cxg
 crO
-cre
-aVI
-mhw
+bbG
+jdr
+dUZ
 crO
 bGI
 baG
@@ -101297,9 +101338,9 @@ aYF
 sZh
 kKz
 aht
-rng
-aVI
-kKz
+bbG
+oMp
+bbG
 aht
 aqG
 baG
@@ -101555,8 +101596,8 @@ sZh
 cxg
 aaa
 bbG
-jdr
-dUZ
+aVI
+bbG
 aaa
 bGI
 baG
