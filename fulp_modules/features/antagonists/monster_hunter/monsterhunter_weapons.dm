@@ -427,7 +427,7 @@
 	if(distance < 10)
 		sound_value = 100
 		to_chat(user,span_warning("Here...its definitely here!"))
-	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
+	user.playsound_local(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/rabbitlocator.ogg',sound_value)
 	COOLDOWN_START(src, locator_timer, 7 SECONDS)
 
 /obj/item/rabbit_locator/proc/get_minimum_distance(mob/user)

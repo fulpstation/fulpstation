@@ -78,7 +78,7 @@
 	sleeper.Sleeping(2 SECONDS)
 	sleep(3 SECONDS)
 	to_chat(owner, span_warning("You wake up in the Wonderland"))
-	playsound(owner, 'fulp_modules/features/antagonists/monster_hunter/sounds/wonderlandmusic.ogg',30)
+	owner.playsound_local(owner, 'fulp_modules/features/antagonists/monster_hunter/sounds/wonderlandmusic.ogg',30)
 	addtimer(CALLBACK(src, PROC_REF(return_to_station), owner), 1 MINUTES)
 	StartCooldown()
 
