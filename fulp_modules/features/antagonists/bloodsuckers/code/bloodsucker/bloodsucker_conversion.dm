@@ -34,9 +34,10 @@
 	if(!AmValidAntag(conversion_target))
 		to_chat(owner.current, span_danger("[conversion_target] resists the power of your blood to dominate their mind!"))
 		return FALSE
-	if(isnull(conversion_target.mind.enslaved_to) || (conversion_target.mind.enslaved_to == owner.current))
+	var/mob/living/master = conversion_target.mind.enslaved_to?.resolve()
+	if(!master || (master == owner.current))
 		return TRUE
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = conversion_target.mind.enslaved_to.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum && bloodsuckerdatum.broke_masquerade)
 		//vassal stealing
 		return TRUE

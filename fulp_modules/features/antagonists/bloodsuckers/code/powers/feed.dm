@@ -86,7 +86,7 @@
 		feed_timer = 2 SECONDS
 
 	owner.balloon_alert(owner, "feeding off [feed_target]...")
-	if(!do_mob(owner, feed_target, feed_timer, NONE, TRUE))
+	if(!do_after(owner, feed_timer, feed_target, NONE, TRUE))
 		owner.balloon_alert(owner, "interrupted!")
 		DeactivatePower()
 		return
