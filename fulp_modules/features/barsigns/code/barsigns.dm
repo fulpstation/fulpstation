@@ -31,8 +31,6 @@
 	icon = "bassproshots"
 	desc = "When the Nuke Ops all come down all they really wanna see is the bar by the kitchen down in Space Station 13."
 
-/datum/barsign/fulp/basspro
-
 /datum/barsign/fulp/franksmeatshop
 	name = "Franks Meat Shop"
 	icon = "franksmeatshop"
