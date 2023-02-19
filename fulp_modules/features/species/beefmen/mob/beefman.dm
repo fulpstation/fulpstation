@@ -127,11 +127,6 @@
 	else
 		user.adjust_beefman_bleeding(clamp((user.bodytemperature - 297.15) / 20 - searJuices, 0, 5))
 
-	// Replenish Blood Faster! (But only if you actually make blood)
-	var/bleed_rate = 0
-	for(var/obj/item/bodypart/all_bodyparts as anything in user.bodyparts)
-		bleed_rate += all_bodyparts.generic_bleedstacks
-
 /datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
 	// Salt HURTS
 	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
@@ -163,7 +158,7 @@
 	if(!bodyparts_to_add)
 		return
 
-	var/g = (source.physique == FEMALE) ? "f" : "m"
+	var/body_gender = (source.physique == FEMALE) ? "f" : "m"
 
 	for(var/layer in relevent_layers)
 		var/layertext = mutant_bodyparts_layertext(layer)
@@ -183,7 +178,7 @@
 			var/mutable_appearance/accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
 
 			if(accessory.gender_specific)
-				accessory_overlay.icon_state = "[g]_[bodypart]_[accessory.icon_state]_[layertext]"
+				accessory_overlay.icon_state = "[body_gender]_[bodypart]_[accessory.icon_state]_[layertext]"
 			else
 				accessory_overlay.icon_state = "m_[bodypart]_[accessory.icon_state]_[layertext]"
 
@@ -219,7 +214,7 @@
 			if(accessory.hasinner)
 				var/mutable_appearance/inner_accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
 				if(accessory.gender_specific)
-					inner_accessory_overlay.icon_state = "[g]_[bodypart]inner_[accessory.icon_state]_[layertext]"
+					inner_accessory_overlay.icon_state = "[body_gender]_[bodypart]inner_[accessory.icon_state]_[layertext]"
 				else
 					inner_accessory_overlay.icon_state = "m_[bodypart]inner_[accessory.icon_state]_[layertext]"
 

@@ -77,7 +77,7 @@
 	///List of objectives we have already checked
 	var/list/checked_objectives = list()
 	///Pool of rewards
-	var/reward_items = list(
+	var/list/reward_items = list(
 		/obj/item/card/emag,
 		/obj/item/card/emag/doorjack,
 		/obj/item/grenade/syndieminibomb,
@@ -129,7 +129,7 @@
 		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 		if(!terrorist)
 			return
-		for(var/datum/objective/obj in terrorist.objectives)
+		for(var/datum/objective/obj as anything in terrorist.objectives)
 			log_traitor("Objective: [obj.explanation_text], removed from [key_name(user)]")
 			terrorist.objectives -= obj
 		terrorist.objectives += reward_obj
@@ -421,7 +421,7 @@
 	location = get_turf(target)
 	. = ..()
 	var/obj/structure/cyborg_rift/rift = new /obj/structure/cyborg_rift(location)
-	rift.owner = terrorist.real_name
+	rift.owner_name = terrorist.real_name
 	playsound(rift, 'sound/vehicles/rocketlaunch.ogg', 100, TRUE)
 	notify_ghosts("An infiltrator has opened a cyborg rift!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Cyborg rift Opened")
 	var/datum/antagonist/traitor/infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
@@ -448,7 +448,7 @@
 	///How we already spawned a borg
 	var/count_borgs = FALSE
 	///name of the owner
-	var/owner
+	var/owner_name
 
 /datum/armor/cyborg_rift
 	melee = 100
@@ -478,8 +478,8 @@
 	borg.SetEmagged(1)
 	borg.set_connected_ai(null)
 	borg.laws = new /datum/ai_laws/syndicate_override
-	if(owner)
-		borg.set_zeroth_law("Aid [owner] with their tasks in exacting revenge against Nanotrasen.")
+	if(owner_name)
+		borg.set_zeroth_law("Aid [owner_name] with their tasks in exacting revenge against Nanotrasen.")
 	borg.laws.associate(src)
 	borg.key = user.key
 

@@ -763,8 +763,7 @@
 	if(src && choice && !user.incapacitated() && in_range(user,src))
 		icon_state = options[choice]
 		user.update_worn_mask()
-		for(var/all_selections in actions)
-			var/datum/action/mask_options = all_selections
+		for(var/datum/action/mask_options as anything in actions)
 			mask_options.build_all_button_icons()
 		to_chat(user, span_notice("Your Skull Mime Mask has now morphed into [choice]!"))
 		return TRUE

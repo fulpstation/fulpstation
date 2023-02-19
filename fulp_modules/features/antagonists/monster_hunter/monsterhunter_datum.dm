@@ -62,7 +62,7 @@
 	criminal.equip_in_one_of_slots(contract, slots, qdel_on_fail = FALSE)
 	RegisterSignal(src, COMSIG_GAIN_INSIGHT, PROC_REF(insight_gained))
 	RegisterSignal(src, COMSIG_BEASTIFY, PROC_REF(turn_beast))
-	for(var/i in 1 to 5 )
+	for(var/i in 1 to 5)
 		var/turf/rabbit_hole = get_safe_random_station_turf()
 		var/obj/effect/client_image_holder/white_rabbit/cretin =  new(rabbit_hole, owner.current)
 		cretin.hunter = src

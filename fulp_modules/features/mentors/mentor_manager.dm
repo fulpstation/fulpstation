@@ -48,19 +48,17 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 
 	switch(action)
 		if ("reply")
-			var/mob/M = request.owner?.mob
-			usr.client.cmd_mentor_pm(M)
+			var/mob/request_mob = request.owner?.mob
+			usr.client.cmd_mentor_pm(request_mob)
 			return TRUE
 		if ("follow")
-			var/mob/M = request.owner?.mob
-			usr.client.mentor_follow(M)
+			var/mob/request_mob = request.owner?.mob
+			usr.client.mentor_follow(request_mob)
 			return TRUE
 	return ..()
 
 /datum/request_manager/mentor/ui_data(mob/user)
-	. = list(
-		"requests" = list()
-	)
+	var/list/data = list("requests" = list())
 	for (var/ckey in requests)
 		for (var/datum/request/request as anything in requests[ckey])
 			if(request.req_type != REQUEST_MENTORHELP)
@@ -75,4 +73,5 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 				"timestamp" = request.timestamp,
 				"timestamp_str" = gameTimestamp(wtime = request.timestamp)
 			)
-			.["requests"] += list(data)
+			data["requests"] += list(data)
+	return data

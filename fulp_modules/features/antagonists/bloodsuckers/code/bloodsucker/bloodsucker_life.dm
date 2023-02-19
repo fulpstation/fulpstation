@@ -165,15 +165,14 @@
 	// Step 3
 	if(bloodsuckeruser.stat == DEAD)
 		bloodsuckeruser.revive()
-	for(var/i in bloodsuckeruser.all_wounds)
-		var/datum/wound/iter_wound = i
+	for(var/datum/wound/iter_wound as anything in bloodsuckeruser.all_wounds)
 		iter_wound.remove_wound()
 	// From [powers/panacea.dm]
-	var/list/bad_organs = list(
+	var/static/list/bad_organs = list(
 		bloodsuckeruser.getorgan(/obj/item/organ/internal/body_egg),
-		bloodsuckeruser.getorgan(/obj/item/organ/internal/zombie_infection))
-	for(var/tumors in bad_organs)
-		var/obj/item/organ/yucky_organs = tumors
+		bloodsuckeruser.getorgan(/obj/item/organ/internal/zombie_infection),
+	)
+	for(var/obj/item/organ/yucky_organs as anything in bad_organs)
 		if(!istype(yucky_organs))
 			continue
 		yucky_organs.Remove(bloodsuckeruser)

@@ -70,7 +70,7 @@
 /datum/action/cooldown/spell/rabbit_spawn/cast(atom/cast_on)
 	. = ..()
 	StartCooldown(360 SECONDS, 360 SECONDS)
-	for(var/i in 1 to 3 )
+	for(var/i in 1 to 3)
 		var/mob/living/simple_animal/hostile/killer_rabbit/rabbit = new /mob/living/simple_animal/hostile/killer_rabbit(owner.loc)
 		rabbit.GiveTarget(target)
 		rabbit.faction = owner.faction.Copy()

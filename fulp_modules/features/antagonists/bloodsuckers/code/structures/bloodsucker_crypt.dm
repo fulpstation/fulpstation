@@ -642,8 +642,7 @@
 /obj/structure/bloodsucker/bloodthrone/setDir(newdir)
 	. = ..()
 	if(has_buckled_mobs())
-		for(var/m in buckled_mobs)
-			var/mob/living/buckled_mob = m
+		for(var/mob/living/buckled_mob as anything in buckled_mobs)
 			buckled_mob.setDir(newdir)
 
 	if(has_buckled_mobs() && dir == NORTH)

@@ -27,22 +27,21 @@
 	if(dancefloor_exists)
 		dancefloor_exists = FALSE
 		for(var/i in 1 to dancefloor_turfs.len)
-			var/turf/T = dancefloor_turfs[i]
-			T.ChangeTurf(dancefloor_turfs_types[i], flags = CHANGETURF_INHERIT_AIR)
+			var/turf/turfs = dancefloor_turfs[i]
+			turfs.ChangeTurf(dancefloor_turfs_types[i], flags = CHANGETURF_INHERIT_AIR)
 	else
 		var/list/funky_turfs = RANGE_TURFS(1, owner)
 		for(var/turf/closed/solid in funky_turfs)
 			to_chat(owner, "<span class='warning'>You're too close to a wall.</span>")
 			return
 		dancefloor_exists = TRUE
-		var/i = 1
 		dancefloor_turfs.len = funky_turfs.len
 		dancefloor_turfs_types.len = funky_turfs.len
-		for(var/t in funky_turfs)
-			var/turf/T = t
-			dancefloor_turfs[i] = T
-			dancefloor_turfs_types[i] = T.type
-			T.ChangeTurf((i % 2 == 0) ? /turf/open/floor/light/colour_cycle/dancefloor_a : /turf/open/floor/light/colour_cycle/dancefloor_b, flags = CHANGETURF_INHERIT_AIR)
+		var/i = 1
+		for(var/turf/turfs as anything in funky_turfs)
+			dancefloor_turfs[i] = turfs
+			dancefloor_turfs_types[i] = turfs.type
+			turfs.ChangeTurf((i % 2 == 0) ? /turf/open/floor/light/colour_cycle/dancefloor_a : /turf/open/floor/light/colour_cycle/dancefloor_b, flags = CHANGETURF_INHERIT_AIR)
 			i++
 
 /datum/effect_system/smoke_spread/transparent/dancefloor_devil
