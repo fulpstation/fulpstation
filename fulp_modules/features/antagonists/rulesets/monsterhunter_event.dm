@@ -1,20 +1,21 @@
 ///List of antagonists that are considered 'Monsters' and their chance of being selected.
 GLOBAL_LIST_INIT(monster_antagonist_types, list(
-	/datum/antagonist/bloodsucker = 50,
-	/datum/antagonist/heretic = 50,
-	/datum/antagonist/changeling = 20,
+	/datum/antagonist/bloodsucker,
+	/datum/antagonist/heretic,
+	/datum/antagonist/changeling,
 ))
 
-#define MINIMUM_MONSTERS_REQUIRED 3
+#define MINIMUM_MONSTERS_REQUIRED 2
 
 //gives monsterhunters an icon in the antag selection panel
 /datum/dynamic_ruleset/midround/monsterhunter
 	name = "Monster Hunter"
 	antag_datum = /datum/antagonist/monsterhunter
-	midround_ruleset_style = MIDROUND_RULESET_STYLE_HEAVY
+	midround_ruleset_style = MIDROUND_RULESET_STYLE_LIGHT
 	antag_flag = ROLE_MONSTERHUNTER
-	weight = 5
-	cost = 15
+	weight = 8
+	minimum_round_time = 25 MINUTES
+	cost = 5
 	protected_roles = list(
 		JOB_CAPTAIN,
 		JOB_DETECTIVE,
@@ -48,39 +49,9 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		if((player.mind?.special_role || player.mind?.antag_datums?.len))
 			living_players -= player
 
-/datum/dynamic_ruleset/midround/monsterhunter/proc/generate_monster(list/attempted_list)
-	var/mob/living/monster = pick(attempted_list)
-	if(!monster)
-		return FALSE
-	attempted_list -= monster
-	var/datum/antagonist/antag_type = pick_weight(GLOB.monster_antagonist_types)
-	//gets the antag type without initializing it
-	var/list/profession = GLOB.antag_prototypes[initial(antag_type.antagpanel_category)]
-	var/datum/antagonist/specific = profession[1]
-	if(!specific.enabled_in_preferences(monster.mind))
-		return FALSE
-	if(!monster.mind.add_antag_datum(antag_type))
-		return FALSE
-	assigned += monster
-	living_players -= monster
-	message_admins("[ADMIN_LOOKUPFLW(monster)] was selected by the [name] ruleset and has been made into a Monster.")
-	log_game("DYNAMIC: [key_name(monster)] was selected by the [name] ruleset and has been made into a Monster.")
-	return TRUE
-
 /datum/dynamic_ruleset/midround/monsterhunter/ready(forced = FALSE)
 	if(required_candidates > living_players.len)
 		return FALSE
-	//check if the list is empty
-	if(!GLOB.antag_prototypes)
-		GLOB.antag_prototypes = list()
-		for(var/antag_type in subtypesof(/datum/antagonist))
-			var/datum/antagonist/A = new antag_type
-			var/cat_id = A.antagpanel_category
-			if(!GLOB.antag_prototypes[cat_id])
-				GLOB.antag_prototypes[cat_id] = list(A)
-			else
-				GLOB.antag_prototypes[cat_id] += A
-
 	var/count = 0
 	for(var/datum/antagonist/monster as anything in GLOB.antagonists)
 		if(!monster.owner)
@@ -92,20 +63,10 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 		if(GLOB.monster_antagonist_types.Find(monster.type))
 			count++
 
-	if((MINIMUM_MONSTERS_REQUIRED - count) + 1 > living_players.len)
+	if(MINIMUM_MONSTERS_REQUIRED > count)
+		message_admins("[name] ruleset has attempted to run, but there were not enough monsters!")
+		log_game("DYNAMIC: [name] ruleset has attempted to run, but there were not enough monsters!")
 		return FALSE
-	//don't continue endlessly if you just can't do it, otherwise you'll freeze/crash the whole game.
-	var/attempts
-	var/list/attempted_list = living_players.Copy()
-	while(count < MINIMUM_MONSTERS_REQUIRED && (attempts < 10))
-		if(living_players.len == 1 ) //this is our monster hunter incase something went wrong
-			break
-		if(!attempted_list.len)
-			break
-		if(!generate_monster(attempted_list))
-			attempts++
-		else
-			count++
 
 	return ..()
 
