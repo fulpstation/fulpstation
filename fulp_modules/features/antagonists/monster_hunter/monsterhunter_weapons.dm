@@ -423,7 +423,7 @@
 		to_chat(user,span_warning("You feel a strong hint..."))
 	if(distance >= 10 && distance < 20)
 		sound_value = 80
-		to_chat(user,span_warning("You feel an intense hint..."))
+		to_chat(user,span_warning("You feel a VERY strong hint..."))
 	if(distance < 10)
 		sound_value = 100
 		to_chat(user,span_warning("Here...its definitely here!"))
