@@ -343,8 +343,6 @@
 		/mob/living/simple_animal/hostile/guardian/punch/timestop,
 		/mob/living/simple_animal/hostile/guardian/punch,
 		/mob/living/simple_animal/hostile/gorilla/albino,
-		/mob/living/simple_animal/hostile/devil/arch_devil,
-		/mob/living/simple_animal/hostile/devil,
 	)
 
 /datum/unit_test/simple_animal_freeze/Run()
