@@ -22592,9 +22592,9 @@
 	},
 /obj/machinery/requests_console/directional/west{
 	department = "Science";
-	departmentType = 2;
 	name = "Science Requests Console";
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	supplies_requestable = 1
 	},
 /turf/open/floor/iron,
 /area/station/science/lab)
@@ -37258,9 +37258,9 @@
 /obj/machinery/light/small/directional/west,
 /obj/machinery/requests_console/directional/west{
 	department = "Robotics";
-	departmentType = 2;
 	name = "Robotics Lab Requests Console";
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	supplies_requestable = 1
 	},
 /turf/open/floor/iron/smooth_edge{
 	dir = 8
@@ -41085,24 +41085,6 @@
 /obj/effect/spawner/random/structure/girder,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
-"fQL" = (
-/obj/structure/cable,
-/obj/machinery/computer/records/security,
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 1;
-	name = "security red"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
-/turf/open/floor/iron/white,
-/area/station/science/lab)
 "fQS" = (
 /obj/structure/window{
 	dir = 1
@@ -42972,24 +42954,6 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "gXd" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
-	dir = 10
-	},
-/obj/effect/turf_decal/tile/neutral/fourcorners,
-/obj/machinery/requests_console/directional/north{
-	department = "Ordnance Lab";
-	name = "Ordnance Lab Requests Console";
-	receive_ore_updates = 1;
-	supplies_requestable = 1
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -46478,8 +46442,9 @@
 	},
 /obj/machinery/requests_console/directional/west{
 	department = "Security";
-	departmentType = 5;
-	name = "Security Requests Console"
+	name = "Security Requests Console";
+	assistance_requestable = 1;
+	anon_tips_receiver = 1
 	},
 /obj/effect/landmark/start/depsec/science,
 /turf/open/floor/iron/smooth,
@@ -51525,29 +51490,6 @@
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
-"lFN" = (
-/obj/machinery/modular_computer/console/preset/civilian,
-/obj/effect/turf_decal/siding/purple{
-	color = "#990099";
-	dir = 1;
-	name = "research purple"
-	},
-/obj/machinery/requests_console/directional/north{
-	department = "Robotics";
-	name = "Robotics RC";
-	receive_ore_updates = 1;
-	supplies_requestable = 1
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/iron/dark/small,
-/area/station/science/robotics/mechbay)
 "lFR" = (
 /obj/effect/turf_decal/siding/green,
 /obj/effect/turf_decal/siding/green{
@@ -58635,27 +58577,6 @@
 /turf/open/floor/plating,
 /area/station/security/warden)
 "ptH" = (
-/obj/structure/table,
-/obj/item/book/manual/wiki/security_space_law,
-/obj/item/radio/off,
-/obj/item/screwdriver,
-/obj/effect/turf_decal/siding/red{
-	color = "#FF0000";
-	dir = 6;
-	name = "security red"
-	},
-/obj/machinery/airalarm/directional/south,
-/obj/machinery/requests_console/directional/east{
-	department = "Security";
-	name = "Security Post RD";
-	assistance_requestable = 1;
-	anon_tips_receiver = 1
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/machinery/rnd/production/circuit_imprinter/department/science,
 /obj/effect/turf_decal/tile/purple/half/contrasted,
 /obj/effect/turf_decal/bot,
@@ -58816,22 +58737,6 @@
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos)
 "pvu" = (
-/obj/effect/turf_decal/siding/purple{
-	color = "#990099";
-	dir = 5;
-	name = "research purple"
-	},
-/obj/machinery/requests_console/directional/east{
-	department = "Science";
-	name = "Science Requests Console";
-	receive_ore_updates = 1;
-	supplies_requestable = 1
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 5
 	},
@@ -60751,7 +60656,7 @@
 	pixel_x = -17
 	},
 /obj/effect/turf_decal/tile/neutral/half/contrasted,
-/obj/machinery/computer/med_data/laptop,
+/obj/machinery/computer/records/medical/laptop,
 /turf/open/floor/iron/dark/textured,
 /area/station/science/genetics)
 "quK" = (
@@ -62453,8 +62358,9 @@
 /obj/machinery/requests_console/directional/south{
 	announcementConsole = null;
 	department = "Research Director's Desk";
-	departmentType = 5;
-	name = "Research Director's Requests Console"
+	name = "Research Director's Requests Console";
+	assistance_requestable = 1;
+	anon_tips_receiver = 1
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/command/heads_quarters/rd)
@@ -63595,27 +63501,6 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "rYA" = (
-/obj/effect/turf_decal/siding/purple{
-	color = "#990099";
-	dir = 6;
-	name = "research purple"
-	},
-/obj/machinery/light/directional/east,
-/obj/machinery/firealarm/directional/east,
-/obj/machinery/requests_console/directional/south{
-	announcementConsole = 1;
-	department = "Research Director's Desk";
-	name = "Research Director's RC";
-	receive_ore_updates = 1;
-	assistance_requestable = 1;
-	anon_tips_receiver = 1
-	},
-/obj/machinery/pdapainter/research,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/effect/turf_decal/tile/neutral/anticorner/contrasted,
 /obj/machinery/disposal/bin,
 /obj/effect/turf_decal/bot,
@@ -64424,7 +64309,7 @@
 /turf/open/floor/iron,
 /area/station/maintenance/department/science)
 "szU" = (
-/obj/machinery/computer/secure_data,
+/obj/machinery/computer/records/security,
 /obj/effect/turf_decal/siding/red/corner{
 	dir = 8
 	},
@@ -68307,9 +68192,9 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/machinery/requests_console/directional/north{
 	department = "Ordnance Lab";
-	departmentType = 2;
 	name = "Ordnance Lab Requests Console";
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	supplies_requestable = 1
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
@@ -119942,7 +119827,7 @@ buT
 gCt
 qNz
 dIC
-lFN
+fZl
 fZl
 fZl
 pkK
@@ -123290,7 +123175,7 @@ jqH
 jBr
 bxz
 qey
-fQL
+yiz
 vnC
 gFL
 ksT
