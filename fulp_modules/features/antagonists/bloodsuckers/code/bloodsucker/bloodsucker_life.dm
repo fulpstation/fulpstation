@@ -168,7 +168,7 @@
 	for(var/datum/wound/iter_wound as anything in bloodsuckeruser.all_wounds)
 		iter_wound.remove_wound()
 	// From [powers/panacea.dm]
-	var/static/list/bad_organs = list(
+	var/list/bad_organs = list(
 		bloodsuckeruser.getorgan(/obj/item/organ/internal/body_egg),
 		bloodsuckeruser.getorgan(/obj/item/organ/internal/zombie_infection),
 	)
