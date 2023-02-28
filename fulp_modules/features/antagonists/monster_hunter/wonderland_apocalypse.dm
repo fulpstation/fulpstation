@@ -107,6 +107,6 @@
 		return FALSE
 
 	enemy_spawned = TRUE
-	var/mob/living/simple_animal/hostile/red_rabbit/evil_rabbit = new (get_turf(src))
+	var/mob/living/basic/red_rabbit/evil_rabbit = new(get_turf(src))
 	evil_rabbit.key = user.key
 	to_chat(evil_rabbit, span_boldwarning("Destroy everything, spare no one."))
