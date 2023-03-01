@@ -6,7 +6,7 @@
 		used = FALSE
 		return
 	if(IS_BLOODSUCKER(user))
-		var/mob/living/simple_animal/hostile/guardian/standard/timestop/bloodsucker_guardian = new bloodsucker_guardian(user, theme)
+		var/mob/living/simple_animal/hostile/guardian/standard/timestop/bloodsucker_guardian = new(user, GUARDIAN_THEME_MAGIC)
 		bloodsucker_guardian.name = mob_name
 		bloodsucker_guardian.summoner = user
 		bloodsucker_guardian.key = candidate.key
