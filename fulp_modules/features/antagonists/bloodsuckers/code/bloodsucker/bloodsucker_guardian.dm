@@ -62,6 +62,6 @@
 
 /datum/action/cooldown/spell/timestop/guardian/Remove(mob/remove_from)
 	var/mob/living/simple_animal/hostile/guardian/standard/timestop/bloodsucker_guardian = owner
-	if(bloodsucker_guardian && istype(bloodsucker_guardian))
+	if(bloodsucker_guardian && istype(bloodsucker_guardian) && bloodsucker_guardian.summoner)
 		REMOVE_TRAIT(bloodsucker_guardian.summoner, TRAIT_TIME_STOP_IMMUNE, REF(src))
 	return ..()
