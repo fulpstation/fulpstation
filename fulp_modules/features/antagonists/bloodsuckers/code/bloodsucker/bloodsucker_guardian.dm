@@ -7,19 +7,14 @@
 		return
 	if(IS_BLOODSUCKER(user))
 		var/mob/living/simple_animal/hostile/guardian/standard/timestop/bloodsucker_guardian = new(user, GUARDIAN_THEME_MAGIC)
-		bloodsucker_guardian.name = mob_name
-		bloodsucker_guardian.summoner = user
+
+		bloodsucker_guardian.set_summoner(user, different_person = TRUE)
 		bloodsucker_guardian.key = candidate.key
-		bloodsucker_guardian.mind.enslave_mind_to_creator(user)
-		log_game("[key_name(user)] has summoned [key_name(bloodsucker_guardian)], a Timestop holoparasite.")
-		add_verb(user, list(
-			/mob/living/proc/guardian_comm,
-			/mob/living/proc/guardian_recall,
-			/mob/living/proc/guardian_reset,
-		))
-		to_chat(user, "[bloodsucker_guardian.magic_fluff_string]")
-		to_chat(user, span_holoparasite("<b>[bloodsucker_guardian.real_name]</b> has been summoned!"))
-		bloodsucker_guardian?.client.init_verbs()
+		user.log_message("has summoned [key_name(bloodsucker_guardian)], a [bloodsucker_guardian.creator_name] holoparasite.", LOG_GAME)
+		bloodsucker_guardian.log_message("was summoned as a [bloodsucker_guardian.creator_name] holoparasite.", LOG_GAME)
+		to_chat(user, bloodsucker_guardian.magic_fluff_string)
+		to_chat(user, replacetext(success_message, "%GUARDIAN", mob_name))
+		bloodsucker_guardian.client?.init_verbs()
 		return
 
 	// Call parent to deal with everyone else
