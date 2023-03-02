@@ -39,8 +39,8 @@
 			/mob/living/simple_animal/hostile/hivebot = list(1,1,3),
 			/mob/living/simple_animal/hostile/skeleton = list(1,1,2),
 			/mob/living/simple_animal/hostile/killertomato = list(1,1,2),
-			/mob/living/simple_animal/hostile/giant_spider/hunter/scrawny = list(1,2,2),
-			/mob/living/simple_animal/hostile/giant_spider/tarantula/scrawny = list(1,1,1),
+			/mob/living/basic/giant_spider/hunter/scrawny = list(1,2,2),
+			/mob/living/basic/giant_spider/tarantula/scrawny = list(1,1,1),
 			/mob/living/simple_animal/hostile/bear = list(1,1,1),
 		)
 

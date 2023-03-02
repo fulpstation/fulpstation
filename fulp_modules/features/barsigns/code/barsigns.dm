@@ -1,8 +1,8 @@
-/obj/structure/sign/barsign
+/obj/machinery/barsign
 	icon = 'fulp_modules/features/barsigns/icons/barsigns.dmi' //'icons/obj/barsigns.dmi'
 
 /// Redirect our barsigns to use OUR .dmi file instead.
-/obj/structure/sign/barsign/set_sign(datum/barsign/sign)
+/obj/machinery/barsign/set_sign(datum/barsign/sign)
 	. = ..()
 	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/barsigns.dmi'
 
@@ -20,16 +20,16 @@
 
 /// Adds the var to change the .dmi file used for barsigns.
 /datum/barsign
-	///Should we use our own .dmi file
+	///Boolean, if true then we'll use the Fulp barsign DMI file.
 	var/fulpbarsign = FALSE
 
 /// Barsigns!
 /datum/barsign/fulp
 	fulpbarsign = TRUE
+	hidden = FALSE
 	name = "Bass Pro Shots"
 	icon = "bassproshots"
 	desc = "When the Nuke Ops all come down all they really wanna see is the bar by the kitchen down in Space Station 13."
-	hidden = FALSE
 
 /datum/barsign/fulp/franksmeatshop
 	name = "Franks Meat Shop"

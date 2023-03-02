@@ -163,7 +163,7 @@
 	if(issilicon(living_target))
 		to_chat(user, span_danger("You realize that this machine cannot be vassalized, therefore it is useless to buckle them."))
 		return
-	if(do_mob(user, living_target, 5 SECONDS))
+	if(do_after(user, 5 SECONDS, living_target))
 		attach_victim(living_target, user)
 
 /// Attempt Release (Owner vs Non Owner)
@@ -171,7 +171,7 @@
 	. = ..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
-	if(!user.canUseTopic(src, be_close = TRUE))
+	if(!user.can_perform_action(src))
 		return
 	if(!has_buckled_mobs() || !isliving(user))
 		return
@@ -570,7 +570,7 @@
 		return
 
 	/// Good to go - Buckle them!
-	if(do_mob(user, target, 5 SECONDS))
+	if(do_after(user, 5 SECONDS, target))
 		attach_mob(target, user)
 
 /obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/target, mob/living/user)
