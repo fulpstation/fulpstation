@@ -58,18 +58,6 @@
 	else
 		traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
 
-/*
-/datum/antagonist/traitor/infiltrator/ui_static_data(mob/user)
-	var/list/data = ..()
-	data -= data["objectives"]
-	return data
-
-/datum/antagonist/traitor/infiltrator/ui_data(mob/user)
-	var/list/data = list()
-	data["objectives"] = get_objectives()
-	return data
-*/
-
 /datum/job/infiltrator
 	title = ROLE_INFILTRATOR
 
