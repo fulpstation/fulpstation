@@ -45,7 +45,7 @@
 	admin_selected = choice
 	return ..()
 
-/datum/antagonist/traitor/infiltrator/pick_employer(faction)
+/datum/antagonist/traitor/infiltrator/pick_employer()
 	if(admin_selected)
 		employer = admin_selected
 	else
