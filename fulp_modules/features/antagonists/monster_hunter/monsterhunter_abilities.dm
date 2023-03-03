@@ -1,5 +1,6 @@
 /datum/action/cooldown/paradox
 	name = "Paradox Rabbit"
+	desc = "The rabbit's movements will be translated onto you, ignoring any solid objects in your way."
 	button_icon = 'icons/mob/simple/rabbit.dmi'
 	button_icon_state = "rabbit_white_dead"
 	cooldown_time = 3 MINUTES
@@ -53,8 +54,8 @@
 
 /datum/action/cooldown/wonderland_drop
 	name = "To Wonderland"
-	button_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
-	button_icon_state = "killer_rabbit"
+	button_icon = 'icons/turf/floors.dmi'
+	button_icon_state = "junglegrass"
 	cooldown_time = 5 MINUTES
 	///where we will be teleporting the user too
 	var/obj/effect/landmark/wonderland_mark/landmark
@@ -78,7 +79,7 @@
 	sleeper.Sleeping(2 SECONDS)
 	sleep(3 SECONDS)
 	to_chat(owner, span_warning("You wake up in the Wonderland"))
-	playsound(owner, 'fulp_modules/features/antagonists/monster_hunter/sounds/wonderlandmusic.ogg',30)
+	owner.playsound_local(owner, 'fulp_modules/features/antagonists/monster_hunter/sounds/wonderlandmusic.ogg',30)
 	addtimer(CALLBACK(src, PROC_REF(return_to_station), owner), 1 MINUTES)
 	StartCooldown()
 
