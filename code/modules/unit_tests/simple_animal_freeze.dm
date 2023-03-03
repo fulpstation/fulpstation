@@ -320,8 +320,7 @@
 		// READ THE COMMENT ABOVE
 		// Fulp TGEdit here to add in some of the mobs that are affected by this test
 		// so that it ignores these mobs before we start to refactor them else TGU will never be completed
-		/mob/living/simple_animal/hostile/guardian/punch/timestop,
-		/mob/living/simple_animal/hostile/guardian/punch,
+		/mob/living/simple_animal/hostile/guardian/standard/timestop,
 		/mob/living/simple_animal/hostile/gorilla/albino,
 	)
 
