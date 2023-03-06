@@ -129,7 +129,6 @@
 	l_hand = /obj/item/tank/jetpack/oxygen
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/combat
-	r_pocket = /obj/item/tank/internals/emergency_oxygen
 
 
 /datum/antagonist/traitor/infiltrator/ui_static_data(mob/user)
