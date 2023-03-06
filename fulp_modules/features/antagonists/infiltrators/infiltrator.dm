@@ -7,7 +7,7 @@
 	antag_hud_name = "infil_hud"
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE
-	preview_outfit = /datum/outfit/infiltrator
+	preview_outfit = /datum/outfit/infilpreview
 	var/give_equipment = TRUE ///gives infiltrators equipment
 	var/admin_selected ///faction selected by admins if true
 
@@ -83,7 +83,7 @@
 		/obj/item/knife/combat/survival = 1,
 		/obj/item/infiltrator_radio = 1,
 	)
-	id = /obj/item/card/id/advanced
+	id = /obj/item/card/id/advanced/chameleon
 	id_trim = /datum/id_trim/chameleon/operative
 	l_hand = /obj/item/tank/jetpack/oxygen
 	shoes = /obj/item/clothing/shoes/jackboots
@@ -118,6 +118,19 @@
 	head = /obj/item/clothing/head/helmet/space/syndicate/black/orange
 	r_hand = /obj/item/aicard
 	l_pocket = /obj/item/grenade/c4/wormhole
+
+
+//just for preview on the antag pref menu
+/datum/outfit/infilpreview
+	name = "Infiltrator"
+	suit = /obj/item/clothing/suit/space/syndicate
+	head = /obj/item/clothing/head/helmet/space/syndicate
+	back = /obj/item/storage/backpack
+	l_hand = /obj/item/tank/jetpack/oxygen
+	shoes = /obj/item/clothing/shoes/jackboots
+	gloves = /obj/item/clothing/gloves/combat
+	r_pocket = /obj/item/tank/internals/emergency_oxygen
+
 
 /datum/antagonist/traitor/infiltrator/ui_static_data(mob/user)
 	var/list/data = ..()
