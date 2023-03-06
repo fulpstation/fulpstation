@@ -391,10 +391,9 @@
 	var/mob/living/carbon/user = owner.current
 	var/obj/item/organ/internal/eyes/user_eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(user_eyes)
-		user_eyes.flash_protect += 1
-		user_eyes.sight_flags = 0
-		user_eyes.see_in_dark = 2
-		user_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+		user_eyes.flash_protect = initial(user_eyes.flash_protect)
+		user_eyes.color_cutoffs = initial(user_eyes.color_cutoffs)
+		user_eyes.sight_flags = initial(user_eyes.sight_flags)
 	user.update_sight()
 
 /// Name shown on antag list

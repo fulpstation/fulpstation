@@ -29,12 +29,9 @@
 
 /datum/round_event/wonderlandapocalypse/start()
 	for(var/i = 1, i < 16, i++)
-		var/turf/targetloc = get_safe_random_station_turf()
-		var/datum/dimension_theme/wonderland/greenery = new()
-		new /obj/effect/anomaly/dimensional/wonderland(targetloc, null, FALSE, greenery)
+		new /obj/effect/anomaly/dimensional/wonderland(get_safe_random_station_turf(), null, FALSE)
 	for(var/i = 1, i < 4, i++)
-		var/turf/rabbitloc = get_safe_random_station_turf()
-		var/obj/structure/wonderland_rift/rift = new(rabbitloc)
+		var/obj/structure/wonderland_rift/rift = new(get_safe_random_station_turf())
 		notify_ghosts("A doorway to the wonderland has been opened!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Wonderland rift Opened")
 
 
@@ -44,30 +41,16 @@
 	immortal = TRUE
 	drops_core = FALSE
 
-/obj/effect/anomaly/dimensional/wonderland/Initialize(mapload, new_lifespan, drops_core, datum/dimension_theme/grasslands)
-	. = ..()
-	overlays += mutable_appearance('icons/effects/effects.dmi', "dimensional_overlay")
-
-	animate(src, transform = matrix()*0.85, time = 3, loop = -1)
-	animate(transform = matrix(), time = 3, loop = -1)
-	theme = grasslands
-
-
-/obj/effect/anomaly/dimensional/wonderland/prepare_area()
-	apply_theme_icon()
-	target_turfs = new()
-	var/list/turfs = spiral_range_turfs(range, src)
-	for (var/turf/turf in turfs)
-		if (theme.can_convert(turf))
-			target_turfs.Add(turf)
+/obj/effect/anomaly/dimensional/wonderland/Initialize(mapload, new_lifespan, drops_core)
+	INVOKE_ASYNC(src, PROC_REF(prepare_area), /datum/dimension_theme/wonderland)
+	return ..()
 
 /obj/effect/anomaly/dimensional/wonderland/relocate()
 	var/datum/anomaly_placer/placer = new()
 	var/area/new_area = placer.findValidArea()
 	var/turf/new_turf = placer.findValidTurf(new_area)
 	src.forceMove(new_turf)
-	prepare_area()
-
+	prepare_area(new_theme_path = /datum/dimension_theme/wonderland)
 
 /obj/structure/wonderland_rift
 	name = "Wonderland Door"
@@ -107,6 +90,6 @@
 		return FALSE
 
 	enemy_spawned = TRUE
-	var/mob/living/simple_animal/hostile/red_rabbit/evil_rabbit = new (get_turf(src))
+	var/mob/living/basic/red_rabbit/evil_rabbit = new(get_turf(src))
 	evil_rabbit.key = user.key
 	to_chat(evil_rabbit, span_boldwarning("Destroy everything, spare no one."))

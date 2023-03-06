@@ -72,7 +72,7 @@
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport, leaving nearby people bleeding and asleep."
 	power_explanation = "Level 5: Auspex:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
-		Click any area up to teleport there, ending the Power and causing people at your end location to fall asleep for 10 seconds."
+		Click any area up to teleport there, ending the Power and causing people at your end location to fall over in pain."
 	bloodcost = 25
 	cooldown = 8 SECONDS
 
@@ -108,13 +108,12 @@
 	for(var/mob/living/carbon/living_mob in range(1, targeted_turf)-user)
 		if(IS_BLOODSUCKER(living_mob) || IS_VASSAL(living_mob))
 			continue
-		if(level_current == 4)
+		if(level_current >= 4)
 			var/obj/item/bodypart/bodypart = pick(living_mob.bodyparts)
-			var/datum/wound/slash/critical/crit_wound = new
-			crit_wound.apply_wound(bodypart)
-			living_mob.adjustFireLoss(20)
-		if(level_current == 5)
-			living_mob.SetUnconscious(10 SECONDS)
+			bodypart.force_wound_upwards(/datum/wound/slash/critical)
+			living_mob.adjustBruteLoss(15)
+		if(level_current >= 5)
+			living_mob.Knockdown(10 SECONDS, ignore_canstun = TRUE)
 
 	do_teleport(owner, targeted_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
 	PowerActivatedSuccessfully()

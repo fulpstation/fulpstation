@@ -120,7 +120,7 @@
 
 /datum/action/bloodsucker/targeted/tremere/dominate/proc/attempt_mesmerize(mob/living/target, mob/living/user)
 	owner.balloon_alert(owner, "attempting to mesmerize.")
-	if(!do_mob(user, target, 3 SECONDS, NONE, TRUE))
+	if(!do_after(user, 3 SECONDS, target, NONE, TRUE))
 		return
 
 	PowerActivatedSuccessfully()
@@ -156,7 +156,7 @@
 
 /datum/action/bloodsucker/targeted/tremere/dominate/proc/attempt_vassalize(mob/living/target, mob/living/user)
 	owner.balloon_alert(owner, "attempting to vassalize.")
-	if(!do_mob(user, target, 6 SECONDS, NONE, TRUE))
+	if(!do_after(user, 6 SECONDS, target, NONE, TRUE))
 		return
 
 	if(IS_VASSAL(target))

@@ -144,8 +144,8 @@
 		/mob/living/basic/pet/dog/corgi/ian,
 		/mob/living/basic/pet/dog/corgi/puppy/ian,
 		/mob/living/basic/pet/dog/pug/mcgriff,
-		//mob/living/basic/carp/pet/lia,
-		/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
+		/mob/living/basic/carp/pet/lia,
+		/mob/living/basic/giant_spider/sgt_araneus,
 		/mob/living/simple_animal/pet/fox/renault,
  		/mob/living/simple_animal/pet/cat/runtime,
 		/mob/living/simple_animal/parrot/poly,
@@ -159,11 +159,11 @@
 		chosen_pet = pick(possible_target_pets)
 		target_pet = locate(chosen_pet) in GLOB.mob_living_list
 		if(!target_pet)
-			possible_target_pets -=  chosen_pet
+			possible_target_pets -= chosen_pet
 			continue
 		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/simple_animal/parrot/poly/ghost))
 			target_pet = null
-		possible_target_pets -=  chosen_pet
+		possible_target_pets -= chosen_pet
 
 	update_explanation_text()
 

@@ -1,4 +1,4 @@
-/mob/living/simple_animal/hostile/devil
+/mob/living/basic/devil
 	name = "True Devil"
 	desc = "A pile of infernal energy, taking a vaguely humanoid form."
 	icon = 'fulp_modules/features/mobs/32x64.dmi'
@@ -6,7 +6,6 @@
 	gender = NEUTER
 	health = 200
 	maxHealth = 200
-	obj_damage = 60
 	melee_damage_lower = 25
 	melee_damage_upper = 25
 	attack_verb_continuous = "slashes"
@@ -15,9 +14,18 @@
 	combat_mode = TRUE
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
-	del_on_death = TRUE
+	basic_mob_flags = DEL_ON_DEATH
 
-/mob/living/simple_animal/hostile/devil/arch_devil
+	///The dancefloor ability we give to the devil.
+	var/datum/action/cooldown/spell/summon_dancefloor/dancefloor_ability
+
+/mob/living/basic/devil/Initialize()
+	. = ..()
+	grant_all_languages()
+	dancefloor_ability = new()
+	dancefloor_ability.Grant(src)
+
+/mob/living/basic/devil/arch_devil
 	name = "Arch Devil"
 	desc = "A pile of infernal energy, taking a goatlike form."
 	icon_state = "arch_devil"

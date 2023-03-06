@@ -148,7 +148,7 @@
 	else if(istype(target_atom, /obj/structure/closet) && level_current >= 3)
 		var/obj/structure/closet/target_closet = target_atom
 		user.balloon_alert(user, "you prepare to bash [target_closet] open...")
-		if(!do_mob(user, target_closet, 2.5 SECONDS))
+		if(!do_after(user, 2.5 SECONDS, target_closet))
 			user.balloon_alert(user, "interrupted!")
 			return FALSE
 		target_closet.visible_message(span_danger("[target_closet] breaks open as [user] bashes it!"))
@@ -159,7 +159,7 @@
 		var/obj/machinery/door/target_airlock = target_atom
 		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
 		owner.balloon_alert(owner, "you prepare to tear open [target_airlock]...")
-		if(!do_mob(user, target_airlock, 2.5 SECONDS))
+		if(!do_after(user, 2.5 SECONDS, target_airlock))
 			user.balloon_alert(user, "interrupted!")
 			return FALSE
 		if(target_airlock.Adjacent(user))

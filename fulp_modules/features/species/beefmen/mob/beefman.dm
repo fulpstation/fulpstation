@@ -406,7 +406,7 @@
 		user.visible_message(
 			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
 			span_notice("You grab hold of your tongue and yank hard."))
-		if(!do_mob(user, target, 1 SECONDS))
+		if(!do_after(user, 1 SECONDS, target))
 			return FALSE
 		var/obj/item/food/meat/slab/meat = new /obj/item/food/meat/slab
 		tongue.Remove(user, special = TRUE)
@@ -416,7 +416,7 @@
 	user.visible_message(
 		span_notice("[user] grabs onto [p_their()] own [affecting.name] and pulls."),
 		span_notice("You grab hold of your [affecting.name] and yank hard."))
-	if(!do_mob(user, target))
+	if(!do_after(user, 3 SECONDS, target))
 		return FALSE
 	user.visible_message(
 		span_notice("[user]'s [affecting.name] comes right off in their hand."),
@@ -443,7 +443,7 @@
 		user.visible_message(
 			span_notice("[user] begins mashing [meat] into [beefboy]'s mouth."),
 			span_notice("You begin mashing [meat] into [beefboy]'s mouth."))
-		if(!do_mob(user, beefboy, 2 SECONDS))
+		if(!do_after(user, 2 SECONDS, beefboy))
 			return FALSE
 		user.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new tongue!"),
@@ -460,7 +460,7 @@
 		span_notice("[user] begins mashing [meat] into [beefboy]'s torso."),
 		span_notice("You begin mashing [meat] into [beefboy]'s torso."))
 	// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
-	if(!do_mob(user, beefboy, 2 SECONDS))
+	if(!do_after(user, 2 SECONDS, beefboy))
 		return FALSE
 	// Attach the part!
 	var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
