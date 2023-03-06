@@ -123,8 +123,8 @@
 //just for preview on the antag pref menu
 /datum/outfit/infilpreview
 	name = "Infiltrator"
-	suit = /obj/item/clothing/suit/space/syndicate
-	head = /obj/item/clothing/head/helmet/space/syndicate
+	suit = /obj/item/clothing/suit/space/syndicate/green
+	head = /obj/item/clothing/head/helmet/space/syndicate/green
 	back = /obj/item/storage/backpack
 	l_hand = /obj/item/tank/jetpack/oxygen
 	shoes = /obj/item/clothing/shoes/jackboots
