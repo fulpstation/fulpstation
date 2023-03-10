@@ -140,7 +140,6 @@
 	name = "Engineering yellow corner"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/engineering/general,
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
 "aaA" = (
@@ -219,7 +218,6 @@
 	name = "Engineering yellow corner"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/engineering/general,
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
 "aaI" = (
@@ -13708,7 +13706,6 @@
 	dir = 1;
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
 /obj/effect/mapping_helpers/airlock/access/any/engineering/general,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/fore)
@@ -13861,6 +13858,7 @@
 /area/station/maintenance/port/fore)
 "aQx" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/holopad,
 /turf/open/floor/wood,
 /area/station/service/lawoffice)
 "aQy" = (
@@ -14413,7 +14411,6 @@
 /turf/open/floor/carpet,
 /area/station/service/lawoffice)
 "aSr" = (
-/obj/machinery/holopad,
 /obj/effect/landmark/event_spawn,
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/wood{
@@ -17896,7 +17893,6 @@
 	dir = 1;
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
 /obj/effect/mapping_helpers/airlock/access/any/engineering/general,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/fore)
@@ -22137,6 +22133,7 @@
 "bsy" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/holopad,
 /turf/open/floor/wood,
 /area/station/service/lawoffice)
 "bsz" = (
@@ -29199,6 +29196,9 @@
 /area/station/command/heads_quarters/ce)
 "cfi" = (
 /obj/effect/spawner/random/maintenance/two,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "cfx" = (
@@ -31787,8 +31787,7 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "cCf" = (
@@ -31882,7 +31881,6 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
 /obj/effect/mapping_helpers/airlock/access/any/engineering/general,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/aft)
@@ -32686,7 +32684,6 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
 /obj/effect/mapping_helpers/airlock/access/any/engineering/general,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/port/aft)
@@ -34541,7 +34538,8 @@
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat/foyer";
 	name = "AI Foyer turret control";
-	pixel_y = -27
+	pixel_y = -27;
+	req_access = list("minisat")
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/circuit,
@@ -34677,7 +34675,8 @@
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat_interior";
 	name = "AI turret control";
-	pixel_x = 27
+	pixel_x = 27;
+	req_access = list("minisat")
 	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/foyer)
@@ -34808,8 +34807,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/mapping_helpers/airlock/access/any/command/ai_upload,
-/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
+/obj/effect/mapping_helpers/airlock/access/all/command/ai_upload,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/hallway)
 "cSs" = (
@@ -34907,7 +34905,8 @@
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat/atmos";
 	name = "Atmospherics Turret Control";
-	pixel_x = 27
+	pixel_x = 27;
+	req_access = list("minisat")
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -34950,7 +34949,8 @@
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat/service";
 	name = "Service Bay Turret Control";
-	pixel_x = -27
+	pixel_x = -27;
+	req_access = list("minisat")
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -35050,8 +35050,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/access/any/command/ai_upload,
-/obj/effect/mapping_helpers/airlock/access/any/command/minisat,
+/obj/effect/mapping_helpers/airlock/access/all/command/ai_upload,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/hallway)
 "cTp" = (
@@ -35059,7 +35058,8 @@
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat_interior";
 	name = "AI turret control";
-	pixel_y = 27
+	pixel_y = 27;
+	req_access = list("minisat")
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/circuit,
@@ -35992,8 +35992,7 @@
 	color = "#FFD700";
 	name = "Engineering yellow corner"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
-/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/aft)
 "cXV" = (
@@ -36760,6 +36759,13 @@
 /obj/item/radio/intercom/directional/west,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
+	},
+/obj/machinery/requests_console/directional/south{
+	announcementConsole = 1;
+	department = "Telecomms Admin";
+	name = "Telecomms Requests Console";
+	assistance_requestable = 1;
+	anon_tips_receiver = 1
 	},
 /turf/open/floor/iron,
 /area/station/tcommsat/computer)
@@ -38195,7 +38201,8 @@
 /obj/machinery/turretid{
 	control_area = "/area/station/ai_monitored/turret_protected/aisat/solars";
 	name = "AI solar control turret panel";
-	pixel_y = -27
+	pixel_y = -27;
+	req_access = list("minisat")
 	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/service)
@@ -39792,11 +39799,11 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "fdm" = (
+/obj/effect/turf_decal/tile/security/fourcorners,
 /obj/machinery/atmospherics/components/binary/pump/on{
 	dir = 4;
-	name = "O2 Air Mix Pump"
+	name = "N2 Air Mix Pump"
 	},
-/obj/effect/turf_decal/tile/security/fourcorners,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "fdw" = (
@@ -42350,6 +42357,8 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/maintenance/department/engine)
 "gEt" = (
@@ -44966,6 +44975,8 @@
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "hZk" = (
@@ -47074,6 +47085,7 @@
 /obj/effect/turf_decal/tile/command{
 	dir = 1
 	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron,
 /area/station/tcommsat/computer)
 "jhV" = (
@@ -48173,6 +48185,13 @@
 	},
 /obj/item/pen{
 	pixel_x = 6
+	},
+/obj/machinery/requests_console/directional/west{
+	announcementConsole = 1;
+	anon_tips_receiver = 1;
+	assistance_requestable = 1;
+	department = "Telecomms Admin";
+	name = "Telecomms Requests Console"
 	},
 /turf/open/floor/iron,
 /area/station/tcommsat/computer)
@@ -50445,7 +50464,7 @@
 	Uses = 0
 	},
 /obj/item/reagent_containers/dropper{
-	list_reagents = list(/datum/reagent/toxin/plasma = 4);
+	list_reagents = list(/datum/reagent/toxin/plasma=4);
 	pixel_x = -5;
 	pixel_y = -8
 	},
@@ -56176,6 +56195,7 @@
 /obj/effect/turf_decal/siding/white,
 /obj/structure/filingcabinet/chestdrawer,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
+/mob/living/simple_animal/parrot/poly,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/ce)
 "ofs" = (
@@ -56256,6 +56276,12 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/science/research)
+"ogb" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/iron,
+/area/station/maintenance/department/engine)
 "ogD" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -63748,11 +63774,11 @@
 /turf/open/floor/iron/dark/textured_large,
 /area/station/engineering/atmos/pumproom)
 "shX" = (
+/obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/machinery/atmospherics/components/binary/pump/on{
 	dir = 4;
-	name = "N2 Air Mix Pump"
+	name = "O2 Air Mix Pump"
 	},
-/obj/effect/turf_decal/tile/blue/fourcorners,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "sil" = (
@@ -63848,6 +63874,13 @@
 /obj/structure/cable,
 /turf/open/floor/iron/white/textured,
 /area/station/science/xenobiology)
+"ski" = (
+/obj/machinery/duct,
+/obj/effect/turf_decal/tile/neutral/opposingcorners,
+/obj/structure/cable,
+/obj/machinery/holopad,
+/turf/open/floor/iron,
+/area/station/security/prison/mess)
 "sld" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma{
 	dir = 8
@@ -64116,6 +64149,7 @@
 "suF" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/trash/garbage,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "sve" = (
@@ -64668,6 +64702,11 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/cmo)
+"sGQ" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/plating,
+/area/station/maintenance/department/engine)
 "sHo" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 10
@@ -68088,7 +68127,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/camera/directional/north{
 	c_tag = "Science - Firing Range";
-	network = list("ss13", "rd")
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron,
 /area/station/science/auxlab/firing_range)
@@ -95587,7 +95626,7 @@ aGl
 goa
 goa
 ivt
-mPf
+ski
 pDV
 wfA
 wJJ
@@ -99030,8 +99069,8 @@ dTQ
 bxJ
 iAG
 suF
-rsv
-uCW
+sGQ
+ogb
 hYK
 gEf
 oVU
