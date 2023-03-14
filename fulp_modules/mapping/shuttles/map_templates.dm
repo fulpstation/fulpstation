@@ -64,3 +64,11 @@
 
 /obj/docking_port/stationary/laborcamp_home/helio
 	roundstart_template = /datum/map_template/shuttle/labour/helio
+
+/**
+ * PODS
+ */
+/datum/map_template/shuttle/escape_pod/pubby
+	suffix = "pubby"
+	name = "escape pod (Pubby)"
+	description = "The Pubbystation monastery shuttle, but functions on Pubbystation."

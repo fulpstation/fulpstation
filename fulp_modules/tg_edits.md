@@ -40,6 +40,7 @@
 - _maps/selenestation.json
 - _maps/map_files/PubbyStation.dmm
 - _maps/pubbystation.json
+- _maps/shuttles/escape_pod_pubby.dmm
 
 ### TGUI
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
