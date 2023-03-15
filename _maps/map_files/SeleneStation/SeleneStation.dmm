@@ -765,6 +765,7 @@
 /obj/structure/table,
 /obj/machinery/syndicatebomb/training,
 /obj/item/screwdriver,
+/obj/item/wirecutters,
 /turf/open/floor/iron,
 /area/station/security/office)
 "ane" = (
@@ -9110,12 +9111,6 @@
 /obj/effect/decal/cleanable/glitter,
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
-"cXB" = (
-/obj/machinery/hydroponics/constructable,
-/obj/machinery/firealarm/directional/south,
-/obj/effect/turf_decal/tile/green/half/contrasted,
-/turf/open/floor/iron/white,
-/area/station/service/hydroponics)
 "cXG" = (
 /obj/structure/cable,
 /obj/machinery/power/terminal,
@@ -36889,6 +36884,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/brig)
+"mik" = (
+/obj/machinery/door/airlock/hydroponics/glass{
+	name = "Hydroponics"
+	},
+/obj/effect/mapping_helpers/airlock/access/all/service/hydroponics,
+/turf/open/floor/plating,
+/area/station/service/hydroponics)
 "mip" = (
 /obj/structure/chair{
 	dir = 8
@@ -45654,6 +45656,14 @@
 /obj/effect/spawner/random/structure/steam_vent,
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
+"pfq" = (
+/obj/machinery/hydroponics/constructable,
+/obj/effect/turf_decal/tile/green/half/contrasted{
+	dir = 8
+	},
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/iron/white,
+/area/station/service/hydroponics)
 "pfF" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
@@ -52291,7 +52301,6 @@
 /turf/open/floor/circuit/green/telecomms/mainframe,
 /area/station/tcommsat/server)
 "rui" = (
-/obj/machinery/airalarm/directional/south,
 /obj/structure/table,
 /obj/item/reagent_containers/cup/bottle/nutrient/ez,
 /obj/item/reagent_containers/cup/bottle/nutrient/ez,
@@ -68243,6 +68252,12 @@
 /obj/effect/turf_decal/tile/prison,
 /turf/open/floor/iron,
 /area/station/security/prison/mess)
+"wTo" = (
+/obj/machinery/hydroponics/constructable,
+/obj/effect/turf_decal/tile/green/half/contrasted,
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/iron/white,
+/area/station/service/hydroponics)
 "wTs" = (
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -97356,7 +97371,7 @@ wqB
 wCN
 yai
 nJO
-wCN
+pfq
 kVx
 hZp
 ebv
@@ -97615,7 +97630,7 @@ xFE
 xFE
 uIL
 tuc
-wZi
+mik
 gFp
 aAj
 soC
@@ -97871,8 +97886,8 @@ ldk
 tef
 xFE
 xFE
-nst
-wZi
+wTo
+hZp
 gFp
 aAj
 rUz
@@ -98386,7 +98401,7 @@ xjw
 xaT
 xFE
 rui
-hZp
+wZi
 eKO
 fnP
 dfS
@@ -98642,8 +98657,8 @@ cOq
 xjw
 xFE
 xFE
-cXB
-hZp
+nst
+wZi
 iuq
 lbM
 wPp
