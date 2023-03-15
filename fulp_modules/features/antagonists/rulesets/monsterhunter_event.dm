@@ -14,7 +14,6 @@ GLOBAL_LIST_INIT(monster_antagonist_types, list(
 	midround_ruleset_style = MIDROUND_RULESET_STYLE_LIGHT
 	antag_flag = ROLE_MONSTERHUNTER
 	weight = 8
-	minimum_round_time = 25 MINUTES
 	cost = 5
 	protected_roles = list(
 		JOB_CAPTAIN,
