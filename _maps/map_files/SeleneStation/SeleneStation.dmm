@@ -113,8 +113,6 @@
 /area/station/security/brig)
 "abf" = (
 /obj/structure/closet/toolcloset,
-/obj/item/clothing/gloves/color/yellow,
-/obj/item/storage/belt/utility,
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron/dark,
 /area/station/engineering/storage_shared)
@@ -1657,7 +1655,6 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aAB" = (
-/obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark/textured,
 /area/station/tcommsat/server)
 "aAE" = (
@@ -10927,11 +10924,13 @@
 /area/station/hallway/primary/aft)
 "dGz" = (
 /obj/structure/rack,
-/obj/item/lightreplacer{
-	pixel_y = 7
-	},
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
 	dir = 5
+	},
+/obj/item/mod/module/thermal_regulator,
+/obj/item/mod/module/plasma_stabilizer,
+/obj/item/lightreplacer{
+	pixel_y = 7
 	},
 /turf/open/floor/iron,
 /area/station/engineering/storage_shared)
@@ -12465,6 +12464,7 @@
 	dir = 1
 	},
 /obj/machinery/space_heater,
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron,
 /area/station/engineering/atmos/hfr_room)
 "egY" = (
@@ -23051,6 +23051,14 @@
 /obj/item/food/sashimi,
 /turf/open/floor/iron/white/smooth_half,
 /area/station/maintenance/starboard)
+"hLD" = (
+/obj/effect/turf_decal/tile/engineering/half{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/iron,
+/area/station/engineering/atmos)
 "hLE" = (
 /obj/machinery/door/poddoor/incinerator_atmos_main,
 /turf/open/floor/engine,
@@ -51277,6 +51285,10 @@
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
+"rdp" = (
+/obj/machinery/firealarm/directional/east,
+/turf/open/floor/iron,
+/area/station/engineering/lobby)
 "rdq" = (
 /obj/effect/spawner/random/engineering/canister,
 /obj/effect/turf_decal/trimline/blue/filled/warning{
@@ -52111,6 +52123,7 @@
 	c_tag = "Engineering - Telecomms Control";
 	network = list("ss13","engineering")
 	},
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark/textured,
 /area/station/tcommsat/computer)
 "rrq" = (
@@ -70517,6 +70530,7 @@
 /obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/visible{
 	dir = 4
 	},
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron,
 /area/station/engineering/supermatter/room)
 "xDS" = (
@@ -99182,7 +99196,7 @@ qrQ
 cUC
 pCb
 xAK
-rFe
+hLD
 wDH
 uFS
 azt
@@ -105349,7 +105363,7 @@ xIT
 eob
 vom
 xrt
-mtj
+rdp
 jxk
 tLe
 ihI
