@@ -558,13 +558,6 @@
 	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai)
-"acB" = (
-/obj/machinery/door/firedoor/heavy,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai)
 "acC" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -572,10 +565,6 @@
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai)
 "acD" = (
-/obj/machinery/camera/directional/north{
-	c_tag = "MiniSat AI Chamber South";
-	network = list("minisat")
-	},
 /obj/machinery/light/directional/north,
 /obj/machinery/flasher{
 	id = "AI";
@@ -2175,6 +2164,10 @@
 "air" = (
 /obj/machinery/recharge_station,
 /obj/effect/turf_decal/bot,
+/obj/machinery/button/door/directional/north{
+	id = "Equipment Room";
+	name = "Space Shutters Control"
+	},
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "ais" = (
@@ -10017,6 +10010,10 @@
 "aKw" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/machinery/door/poddoor/preopen{
+	id = "Equipment Room";
+	name = "Brig Shutters"
+	},
 /turf/open/floor/plating,
 /area/station/security/lockers)
 "aKz" = (
@@ -15692,12 +15689,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/central)
-"biy" = (
-/obj/machinery/door/firedoor/heavy,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai)
 "biC" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -43646,6 +43637,15 @@
 	},
 /turf/open/floor/iron/white/corner,
 /area/station/hallway/secondary/exit/departure_lounge)
+"pql" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/machinery/camera/directional/north{
+	c_tag = "MiniSat AI Chamber South";
+	network = list("minisat")
+	},
+/turf/open/floor/circuit,
+/area/station/ai_monitored/turret_protected/ai)
 "pqw" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -45826,10 +45826,6 @@
 	},
 /turf/open/floor/carpet,
 /area/station/commons/dorms)
-"rlV" = (
-/obj/machinery/door/firedoor/heavy,
-/turf/open/floor/iron/white,
-/area/station/ai_monitored/turret_protected/ai)
 "rmP" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -51464,6 +51460,10 @@
 "vRp" = (
 /obj/structure/cable,
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "Equipment Room";
+	name = "Brig Shutters"
+	},
 /turf/open/floor/plating,
 /area/station/security/lockers)
 "vRq" = (
@@ -53605,6 +53605,9 @@
 	dir = 8
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
+/obj/machinery/door/airlock/security{
+	name = "Equipment Room"
+	},
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "xxk" = (
@@ -86898,8 +86901,8 @@ bXg
 abO
 abO
 abO
-acB
-rlV
+acC
+abY
 abO
 add
 adk
@@ -87669,7 +87672,7 @@ acs
 abO
 abO
 abO
-adT
+pql
 abY
 acT
 add
@@ -87926,8 +87929,8 @@ bhU
 abO
 abO
 abO
-biy
-rlV
+adT
+abY
 abO
 add
 ado
