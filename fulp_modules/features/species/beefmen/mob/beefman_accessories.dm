@@ -27,7 +27,7 @@
 
 /datum/sprite_accessory/beef/mouth
 	use_static = TRUE
-	color_src = 0
+	color_src = null
 
 /datum/sprite_accessory/beef/mouth/frown
 	name = BEEF_MOUTH_FROWN
