@@ -333,6 +333,50 @@
 			ui.send_full_update(force = TRUE)
 			return
 
+/datum/antagonist/bloodsucker/roundend_report()
+	var/list/report = list()
+
+	// Vamp name
+	report += "<br><span class='header'><b>\[[return_full_name()]\]</b></span>"
+	report += printplayer(owner)
+	if(my_clan)
+		report += "They were part of the <b>[my_clan.name]</b>!"
+
+	// Default Report
+	var/objectives_complete = TRUE
+	if(objectives.len)
+		report += printobjectives(objectives)
+		for(var/datum/objective/objective in objectives)
+			if(objective.objective_name == "Optional Objective")
+				continue
+			if(!objective.check_completion())
+				objectives_complete = FALSE
+				break
+
+	// Now list their vassals
+	if(vassals.len)
+		report += "<span class='header'>Their Vassals were...</span>"
+		for(var/datum/antagonist/vassal/all_vassals as anything in vassals)
+			if(!all_vassals.owner)
+				continue
+			var/list/vassal_report = list()
+			vassal_report += "<b>[all_vassals.owner.name]</b>"
+
+			if(all_vassals.owner.assigned_role)
+				vassal_report += " the [all_vassals.owner.assigned_role.title]"
+			if(IS_FAVORITE_VASSAL(all_vassals.owner.current))
+				vassal_report += " and was the <b>Favorite Vassal</b>"
+			else if(IS_REVENGE_VASSAL(all_vassals.owner.current))
+				vassal_report += " and was the <b>Revenge Vassal</b>"
+			report += vassal_report.Join()
+
+	if(objectives.len == 0 || objectives_complete)
+		report += "<span class='greentext big'>The [name] was successful!</span>"
+	else
+		report += "<span class='redtext big'>The [name] has failed!</span>"
+
+	return report
+
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
 	for(var/datum/action/bloodsucker/all_powers as anything in all_bloodsucker_powers)
