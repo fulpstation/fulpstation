@@ -117,7 +117,7 @@
 		return
 	if(iscarbon(mesmerized_target))
 		owner.balloon_alert(owner, "successfully mesmerized [mesmerized_target].")
-		else if(level_current >= 2)
+		if(level_current >= 2)
 			ADD_TRAIT(mesmerized_target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		mesmerized_target.Immobilize(power_time)
 		mesmerized_target.adjust_silence(power_time)
