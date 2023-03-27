@@ -84,7 +84,7 @@
 	for(var/mob/living/hit_living in dview(1, get_turf(owner)) - owner)
 		if(hit.Find(hit_living))
 			continue
-		hit += all_targets
-		playsound(all_targets, "sound/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
-		all_targets.Knockdown(10 + level_current * 4)
-		all_targets.spin(10, 1)
+		hit += hit_living
+		playsound(hit_living, "sound/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
+		hit_living.Knockdown(10 + level_current * 4)
+		hit_living.spin(10, 1)
