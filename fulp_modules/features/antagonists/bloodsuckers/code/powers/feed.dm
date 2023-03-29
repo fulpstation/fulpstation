@@ -25,7 +25,7 @@
 	var/warning_target_bloodvol = BLOOD_VOLUME_MAX_LETHAL
 	///Reference to the target we've fed off of
 	var/datum/weakref/target_ref
-	///Are we feeding with aggresive grab or not?
+	///Are we feeding with passive grab or not?
 	var/silent_feed = TRUE
 
 /datum/action/bloodsucker/feed/CheckCanUse(mob/living/carbon/user, trigger_flags)
@@ -97,6 +97,7 @@
 			feed_target.Unconscious((5 + level_current) SECONDS)
 		if(!feed_target.density)
 			feed_target.Move(owner.loc)
+		silent_feed = FALSE
 	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
 		owner.visible_message(
 			span_warning("[owner] closes [owner.p_their()] mouth around [feed_target]'s neck!"),
