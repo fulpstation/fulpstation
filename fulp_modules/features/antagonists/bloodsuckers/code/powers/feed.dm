@@ -25,6 +25,8 @@
 	var/warning_target_bloodvol = BLOOD_VOLUME_MAX_LETHAL
 	///Reference to the target we've fed off of
 	var/datum/weakref/target_ref
+	///Are we feeding with aggresive grab or not?
+	var/silent_feed = TRUE
 
 /datum/action/bloodsucker/feed/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
@@ -92,7 +94,7 @@
 		return
 	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
 		if(!IS_BLOODSUCKER(feed_target) && !IS_VASSAL(feed_target) && !IS_MONSTERHUNTER(feed_target))
-			feed_target.Unconscious((5 SECONDS + level_current))
+			feed_target.Unconscious((5 + level_current) SECONDS)
 		if(!feed_target.density)
 			feed_target.Move(owner.loc)
 	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
@@ -131,7 +133,28 @@
 	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref.resolve()
 	if(!ContinueActive(user, feed_target))
-		owner.balloon_alert(owner, "interrupted!")
+		if(silent_feed)
+			owner.balloon_alert(owner, "interrupted...")
+		else
+			owner.balloon_alert(owner, "interrupted!")
+			user.visible_message(
+				span_warning("[user] is ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"),
+				span_warning("Your teeth are ripped from [feed_target]'s throat. [feed_target.p_their(TRUE)] blood sprays everywhere!"))
+			// Deal Damage to Target (should have been more careful!)
+			if(iscarbon(feed_target))
+				var/mob/living/carbon/carbon_target = feed_target
+				carbon_target.bleed(15)
+			playsound(get_turf(feed_target), 'sound/effects/splat.ogg', 40, TRUE)
+			if(ishuman(feed_target))
+				var/mob/living/carbon/human/target_user = feed_target
+				var/obj/item/bodypart/head_part = target_user.get_bodypart(BODY_ZONE_HEAD)
+				if(head_part)
+					head_part.generic_bleedstacks += 5
+			feed_target.add_splatter_floor(get_turf(feed_target))
+			user.add_mob_blood(feed_target) // Put target's blood on us. The donor goes in the ( )
+			feed_target.add_mob_blood(feed_target)
+			feed_target.apply_damage(10, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
+			INVOKE_ASYNC(feed_target, TYPE_PROC_REF(/mob, emote), "scream")
 		DeactivatePower()
 		return
 
