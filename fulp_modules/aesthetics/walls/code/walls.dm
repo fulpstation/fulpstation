@@ -1,0 +1,36 @@
+/turf/closed/wall
+	icon = 'fulp_modules/aesthetics/walls/icons/wall.dmi'
+	canSmoothWith = SMOOTH_GROUP_AIRLOCK + SMOOTH_GROUP_WINDOW_FULLTILE + SMOOTH_GROUP_WALLS
+
+/turf/closed/wall/r_wall
+	icon = 'fulp_modules/aesthetics/walls/icons/reinforced_wall.dmi'
+
+/turf/closed/wall/rust
+	icon = 'fulp_modules/aesthetics/walls/icons/wall.dmi'
+	icon_state = "wall-0"
+	base_icon_state = "wall"
+
+/turf/closed/wall/r_wall/rust
+	icon = 'fulp_modules/aesthetics/walls/icons/reinforced_wall.dmi'
+	icon_state = "reinforced_wall-0"
+	base_icon_state = "reinforced_wall"
+
+/turf/closed/wall/rust/New(loc, ...)
+	. = ..()
+	var/mutable_appearance/rust = mutable_appearance(icon, "rust")
+	add_overlay(rust)
+
+/turf/closed/wall/r_wall/rust/New(loc, ...)
+	. = ..()
+	var/mutable_appearance/rust = mutable_appearance(icon, "rust")
+	add_overlay(rust)
+
+/obj/structure/falsewall/material
+	icon = 'fulp_modules/aesthetics/walls/icons/material_wall.dmi'
+	icon_state = "wall-0"
+	base_icon_state = "wall"
+
+/turf/closed/wall/material
+	icon = 'fulp_modules/aesthetics/walls/icons/material_wall.dmi'
+	icon_state = "wall-0"
+	base_icon_state = "wall"
