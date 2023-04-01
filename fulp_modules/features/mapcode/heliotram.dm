@@ -58,6 +58,18 @@
 	new/obj/structure/showcase/machinery/oldpod/used(drop_location())
 	return ..()
 
+/obj/item/paper/guide/tram
+	name = "tram note"
+	default_raw_text = {"Conductor Note<br>
+	You are a tram conductor working for Nanotrasen, stationed onboard a state of the art research station.<br>
+	Here are 3 key rules to follow.<br>
+	1. Regardless of the circumstances, DO NOT abandon your workplace, the tram central station.<br>
+	2. You must charge anyone who wants to transfer from vertical line to horizontal line, no matter who they are.<br>
+	3. Try your best to stop ticket evader, do not use any lethal method unless really necessary.<br>
+	If you wish to recruit a helper, there is a set of spare equipment in the closet.<br>
+	- Centcom"}
+
+
 /datum/outfit/tramconductor
 	name = "Tram Conductor"
 	id = /obj/item/card/id/away/old/sec
