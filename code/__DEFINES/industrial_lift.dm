@@ -18,6 +18,10 @@
 #define MAIN_STATION_TRAM "main station tram"
 ///the specific_lift_id of the tram on the hilbert research station
 #define HILBERT_TRAM "tram_hilbert"
+///the specific_lift_id of the first tram on heliostation
+#define HELIO_TRAM1 "tram1_helio"
+///the specific_lift_id of the second tram on heliostation
+#define HELIO_TRAM2 "tram2_helio"
 
 // Defines for update_lift_doors
 #define OPEN_DOORS "open"
