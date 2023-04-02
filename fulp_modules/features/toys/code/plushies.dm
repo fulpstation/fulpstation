@@ -55,25 +55,25 @@
 	attack_verb_simple = list("jumpscare")
 	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)
 
-/obj/item/toy/plush/chica
+/obj/item/toy/plush/freddy/chica
 	name = "Chica plushie"
 	desc = "Despite saying let's eat on the bib, please do not attempt to feed the plush."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "chica"
-	inhand_icon_state = null
-	attack_verb_continuous = list("jumpscares")
-	attack_verb_simple = list("jumpscare")
-	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)
+
+/obj/item/toy/plush/freddy/foxy
+	name = "Foxy plushie"
+	desc = "It just wants a friend!"
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "foxy"
+
+/obj/item/toy/plush/freddy/bonnie
+	name = "Bonnie plushie"
+	desc = "A different purple guy."
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "bonnie"
 
 /obj/item/toy/plush/freddy/suicide_act(mob/living/carbon/user)
-	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
-	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
-	if(myhead)
-		myhead.dismember()
-	return(BRUTELOSS)
-
-/obj/item/toy/plush/chica/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
 	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
 	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
