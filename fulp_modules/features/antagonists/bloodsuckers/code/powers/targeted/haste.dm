@@ -20,7 +20,7 @@
 	target_range = 15
 	power_activates_immediately = TRUE
 	///List of all people hit by our power, so we don't hit them again.
-	var/list/hit
+	var/list/hit = list()
 
 /datum/action/bloodsucker/targeted/haste/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
@@ -48,7 +48,6 @@
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
 /datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/target_atom)
 	. = ..()
-	hit = list()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(on_move))
 	var/mob/living/user = owner
 	var/turf/targeted_turf = isturf(target_atom) ? target_atom : get_turf(target_atom)
@@ -78,7 +77,7 @@
 /datum/action/bloodsucker/targeted/haste/PowerActivatedSuccessfully()
 	. = ..()
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
-	hit = null
+	hit.Cut()
 
 /datum/action/bloodsucker/targeted/haste/proc/on_move()
 	for(var/mob/living/hit_living in dview(1, get_turf(owner)) - owner)
