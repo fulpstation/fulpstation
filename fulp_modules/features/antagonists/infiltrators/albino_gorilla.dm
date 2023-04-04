@@ -56,7 +56,6 @@
 	name = "Muddied Waters"
 	damage = 10
 	damage_type = BRUTE
-	nodamage = FALSE
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	icon_state = "trench_mud"
 
