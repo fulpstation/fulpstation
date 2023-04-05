@@ -90,7 +90,7 @@
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
-	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
+	var/obj/item/organ/internal/brain/has_brain = user.get_organ_slot(ORGAN_SLOT_BRAIN)
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	spec_updatehealth(user)
@@ -172,7 +172,7 @@
 			var/datum/sprite_accessory/accessory
 			switch(bodypart)
 				if("beef_eyes")
-					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
+					if(source.get_organ_slot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
 						accessory = GLOB.eyes_beefman[source.dna.features["beef_eyes"]]
 				if("beef_mouth")
 					accessory = GLOB.mouths_beefman[source.dna.features["beef_mouth"]]
@@ -399,7 +399,7 @@
 
 	// Pry it off...
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/tongue = user.getorgan(/obj/item/organ/internal/tongue)
+		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
 		if(!tongue)
 			to_chat("You do not have a tongue!")
 			return FALSE
@@ -436,7 +436,7 @@
 	if(!(target_zone in tearable_limbs))
 		return FALSE
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/tongue = user.getorgan(/obj/item/organ/internal/tongue)
+		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
 		if(tongue)
 			to_chat("You already have a tongue!")
 			return FALSE
