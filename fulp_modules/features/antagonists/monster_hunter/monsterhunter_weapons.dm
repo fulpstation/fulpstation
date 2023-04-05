@@ -45,7 +45,7 @@
 	on_force = 20
 	base_force = 17
 	light_system = MOVABLE_LIGHT
-	light_color = "#ff42ec"
+	light_color = "#55a6ab"
 	light_range = 2
 	light_power = 2
 	light_on = FALSE
@@ -120,7 +120,7 @@
 	light_system = MOVABLE_LIGHT
 	light_range = 2
 	light_power = 1
-	light_color = "#ff42ec"
+	light_color = "#477984"
 	damage_type = BURN
 	hitsound = 'sound/weapons/sear.ogg'
 	hitsound_wall = 'sound/weapons/effects/searwall.ogg'
