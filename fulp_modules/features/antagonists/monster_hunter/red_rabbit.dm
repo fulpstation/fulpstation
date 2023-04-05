@@ -19,7 +19,7 @@
 	melee_damage_lower = 40
 	obj_damage = 400
 
-	faction = list("rabbits")
+	faction = list(FACTION_RABBITS)
 	death_message = "succumbs to the moonlight."
 	death_sound = 'sound/effects/gravhit.ogg'
 	environment_smash = ENVIRONMENT_SMASH_WALLS

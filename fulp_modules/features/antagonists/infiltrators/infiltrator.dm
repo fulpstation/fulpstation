@@ -8,12 +8,16 @@
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE
 	preview_outfit = /datum/outfit/infiltrator
-	var/give_equipment = TRUE ///gives infiltrators equipment
-	var/admin_selected ///faction selected by admins if true
 
-/datum/job/infiltrator
-	title = ROLE_INFILTRATOR
-
+	///If set, this is the employer that Admins have set.
+	var/admin_selected
+	///List of all possible Employers that can be assigned.
+	var/static/list/possible_employers = list(
+		INFILTRATOR_FACTION_CORPORATE_CLIMBER,
+		INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM,
+		INFILTRATOR_FACTION_GORLEX_MARAUDERS,
+		INFILTRATOR_FACTION_SELF
+	)
 
 /datum/antagonist/traitor/infiltrator/proc/equip_infiltrator(mob/living/carbon/human/infiltrator = owner.current)
 	switch(employer)
@@ -26,9 +30,8 @@
 		if(INFILTRATOR_FACTION_SELF)
 			return infiltrator.equipOutfit(/datum/outfit/infiltrator/self)
 
-
 /datum/antagonist/traitor/infiltrator/on_gain()
-	..()
+	. = ..()
 	owner.current.mind.set_assigned_role(SSjob.GetJobType(/datum/job/infiltrator))
 	owner.current.mind.special_role = ROLE_INFILTRATOR
 	uplink_handler.has_progression = FALSE
@@ -36,38 +39,27 @@
 	uplink_handler.maximum_potential_objectives = 0
 
 /datum/antagonist/traitor/infiltrator/admin_add(datum/mind/new_owner, mob/admin)
-	// Should probably be moved somewhere better to make full use of it
-	var/list/possible_employers = list(
-		INFILTRATOR_FACTION_CORPORATE_CLIMBER,
-		INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM,
-		INFILTRATOR_FACTION_GORLEX_MARAUDERS,
-		INFILTRATOR_FACTION_SELF
-	)
-	var/choice = input("What affiliation would you like [new_owner] to have?", "Affiliation") in possible_employers
+	var/choice = tgui_input_list(admin, "What affiliation would you like [new_owner] to have?", "Affiliation", possible_employers)
 	if(!choice)
 		return
 	admin_selected = choice
-	message_admins("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [admin_selected] [name]")
-	log_admin("[key_name_admin(usr)] made [key_name_admin(new_owner)] into \a [admin_selected] [name]")
-	new_owner.add_antag_datum(src)
+	return ..()
 
-/datum/antagonist/traitor/infiltrator/pick_employer(faction)
+/datum/antagonist/traitor/infiltrator/pick_employer()
 	if(admin_selected)
 		employer = admin_selected
 	else
-		faction = prob(75) ? FACTION_SYNDICATE : FACTION_NANOTRASEN
-		if(faction == FACTION_NANOTRASEN)
-			employer = INFILTRATOR_FACTION_CORPORATE_CLIMBER
-		else
-			employer = pick(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM , INFILTRATOR_FACTION_GORLEX_MARAUDERS, INFILTRATOR_FACTION_SELF)
+		employer = pick(possible_employers)
 
-	if(give_equipment)
-		equip_infiltrator(owner.current)
+	equip_infiltrator(owner.current)
 	forge_traitor_objectives()
 	if(employer == INFILTRATOR_FACTION_SELF)
 		traitor_flavor = strings("infiltrator_self.json", "S.E.L.F", "fulp_modules/strings/infiltrator")
 	else
 		traitor_flavor = strings(TRAITOR_FLAVOR_FILE, employer)
+
+/datum/job/infiltrator
+	title = ROLE_INFILTRATOR
 
 /datum/outfit/infiltrator
 	name = "Infiltrator"
@@ -119,16 +111,6 @@
 	r_hand = /obj/item/aicard
 	l_pocket = /obj/item/grenade/c4/wormhole
 
-/datum/antagonist/traitor/infiltrator/ui_static_data(mob/user)
-	var/list/data = ..()
-	data -= data["objectives"]
-	return data
-
-/datum/antagonist/traitor/infiltrator/ui_data(mob/user)
-	var/list/data = list()
-	data["objectives"] = get_objectives()
-	return data
-
 /datum/antagonist/infiltrator_backup
 	name = "Infiltrator Reinforcement"
 	antagpanel_category = "Infiltrator"
@@ -140,7 +122,6 @@
 	show_to_ghosts = TRUE
 	///the owner of this kid
 	var/datum/antagonist/traitor/infiltrator/purchaser
-
 
 /datum/antagonist/infiltrator_backup/on_gain()
 	if(!purchaser)
@@ -154,7 +135,6 @@
 	var/mob/living/carbon/human/infiltrator = owner.current
 	infiltrator.equipOutfit(/datum/outfit/infiltrator_reinforcement)
 	return ..()
-
 
 /datum/outfit/infiltrator_reinforcement
 	name = "Infiltrator Reinforcement"

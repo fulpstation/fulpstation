@@ -134,6 +134,7 @@
 			terrorist.objectives -= obj
 		terrorist.objectives += reward_obj
 		log_traitor("[key_name(user)] has gained the objective [reward_obj.explanation_text]")
+		terrorist.update_static_data(user)
 
 
 /obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)
