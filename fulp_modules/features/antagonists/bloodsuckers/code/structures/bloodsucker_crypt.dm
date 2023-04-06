@@ -299,13 +299,13 @@
 			balloon_alert(user, "needs more persuasion...")
 			return
 
-		if(disloyalty_requires == VASSALIZATION_DISLOYAL)
+		if(disloyalty_requires)
 			balloon_alert(user, "has external loyalties! more persuasion required!")
 		else
 			balloon_alert(user, "ready for communion!")
 		return
 
-	if(!disloyalty_confirm && (disloyalty_requires == VASSALIZATION_DISLOYAL))
+	if(!disloyalty_confirm && disloyalty_requires)
 		if(!do_disloyalty(user, target))
 			return
 		else if(!disloyalty_confirm)
@@ -314,7 +314,7 @@
 			balloon_alert(user, "ready for communion!")
 		return
 
-	user.balloon_alert_to_viewers("smears blood...", "painting bloody marks...", )
+	user.balloon_alert_to_viewers("smears blood...", "painting bloody marks...")
 	if(!do_after(user, 5 SECONDS, target))
 		balloon_alert(user, "interrupted!")
 		return
@@ -402,7 +402,7 @@
 
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/user, mob/living/target)
 	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
-		return TRUE
+		return VASSALIZATION_DISLOYAL
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	return bloodsuckerdatum.AmValidAntag(target)
 

@@ -25,11 +25,11 @@
 #define BLOODSUCKER_RANK_UP_VASSAL "bloodsucker_rank_up_vassal"
 
 ///If someone passes all checks and can be vassalized
-#define VASSALIZATION_ALLOWED "allowed"
+#define VASSALIZATION_ALLOWED 0
 ///If someone has to accept vassalization
-#define VASSALIZATION_DISLOYAL "disloyal"
+#define VASSALIZATION_DISLOYAL 1
 ///If someone is not allowed under any circimstances to become a Vassal
-#define VASSALIZATION_BANNED "banned"
+#define VASSALIZATION_BANNED 2
 
 #define DANGER_LEVEL_FIRST_WARNING 1
 #define DANGER_LEVEL_SECOND_WARNING 2
