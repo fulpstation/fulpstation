@@ -56,7 +56,7 @@
 /datum/infil_corpitem/assault/sniper
 	name = "Sniper"
 	cost = 30
-	item = /obj/item/gun/ballistic/automatic/sniper_rifle
+	item = /obj/item/gun/ballistic/rifle/sniper_rifle
 	desc = "Smoke some fools from a distance!"
 
 

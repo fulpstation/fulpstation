@@ -46,13 +46,13 @@
 	first.linked_to = second
 	first.seer = owner
 	first.desc += " This one leads to [get_area(second)]."
-	first.name += " ([get_area(second)])."
+	first.name += " ([get_area(second)])"
 	created_firsts += first
 
 	second.linked_to = first
 	second.seer = owner
 	second.desc += " This one leads to [get_area(first)]."
-	second.name += " ([get_area(first)])."
+	second.name += " ([get_area(first)])"
 
 	// Delete Next Portal if it's time (it will remove its partner)
 	var/obj/effect/client_image_holder/phobetor/first_on_the_stack = created_firsts[1]
@@ -109,7 +109,7 @@
 	image_icon = 'fulp_modules/features/species/icons/phobetor_tear.dmi'
 	image_state = "phobetor_tear"
 	// Place this above shadows so it always glows.
-	image_layer = ABOVE_LIGHTING_PLANE
+	image_layer = ABOVE_MOB_LAYER
 
 	/// How long this will exist for
 	var/exist_length = 50 SECONDS
