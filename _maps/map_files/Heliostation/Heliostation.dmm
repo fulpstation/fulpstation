@@ -3268,8 +3268,8 @@
 	pixel_y = 5
 	},
 /obj/item/paper/pamphlet/gateway{
-	pixel_y = 3;
-	pixel_x = 4
+	pixel_x = 4;
+	pixel_y = 3
 	},
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
@@ -3365,9 +3365,9 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/door/poddoor/shutters{
+	dir = 1;
 	id = "teleshutter";
-	name = "Teleporter Access Shutter";
-	dir = 1
+	name = "Teleporter Access Shutter"
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/command/teleporter)
@@ -6313,16 +6313,16 @@
 	pixel_y = 5
 	},
 /obj/item/beacon{
-	pixel_y = 8;
-	pixel_x = 6
+	pixel_x = 6;
+	pixel_y = 8
 	},
 /obj/item/beacon{
-	pixel_y = 5;
-	pixel_x = 7
+	pixel_x = 7;
+	pixel_y = 5
 	},
 /obj/item/beacon{
-	pixel_y = 2;
-	pixel_x = 9
+	pixel_x = 9;
+	pixel_y = 2
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/teleporter)
@@ -13381,9 +13381,9 @@
 	id = "AI"
 	},
 /obj/machinery/door/window/brigdoor/left/directional/south{
+	dir = 4;
 	name = "AI Upload";
-	req_access = list("ai_upload");
-	dir = 4
+	req_access = list("ai_upload")
 	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
@@ -13399,16 +13399,16 @@
 /obj/machinery/button/door/directional/west{
 	id = "hopqueue";
 	name = "Queue Shutters Control";
-	req_access = list("hop");
 	pixel_x = -39;
-	pixel_y = 7
+	pixel_y = 7;
+	req_access = list("hop")
 	},
 /obj/machinery/button/door/directional/west{
 	id = "hopblast";
 	name = "Lockdown Blast Doors";
+	pixel_x = -25;
 	pixel_y = 7;
-	req_access = list("hop");
-	pixel_x = -25
+	req_access = list("hop")
 	},
 /obj/machinery/button/ticket_machine{
 	pixel_x = -25;
@@ -28724,8 +28724,8 @@
 	pixel_y = 7
 	},
 /obj/item/lipstick/random{
-	pixel_y = 7;
-	pixel_x = 1
+	pixel_x = 1;
+	pixel_y = 7
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -32989,10 +32989,10 @@
 	name = "security red"
 	},
 /obj/machinery/requests_console/directional/west{
-	department = "Security";
-	name = "Security Post RD";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Security";
+	name = "Security Post RD"
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint)
@@ -33219,9 +33219,9 @@
 	dir = 1
 	},
 /obj/machinery/door/poddoor/shutters{
+	dir = 1;
 	id = "evashutters";
-	name = "E.V.A. Storage Shutters";
-	dir = 1
+	name = "E.V.A. Storage Shutters"
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/ai_monitored/command/storage/eva)
@@ -33392,10 +33392,10 @@
 	},
 /obj/machinery/requests_console/directional/south{
 	announcementConsole = 1;
-	department = "Telecomms Admin";
-	name = "Telecomms Requests Console";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Telecomms Admin";
+	name = "Telecomms Requests Console"
 	},
 /turf/open/floor/iron,
 /area/station/tcommsat/computer)
@@ -37440,9 +37440,9 @@
 	dir = 8
 	},
 /obj/machinery/door/window/brigdoor/right/directional/north{
+	dir = 2;
 	name = "Core Modules";
-	req_access = list("ai_upload");
-	dir = 2
+	req_access = list("ai_upload")
 	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
@@ -38512,9 +38512,9 @@
 	},
 /obj/machinery/light/directional/north,
 /obj/machinery/requests_console/directional/west{
+	assistance_requestable = 1;
 	department = "Medbay";
-	name = "Medbay RC";
-	assistance_requestable = 1
+	name = "Medbay RC"
 	},
 /turf/open/floor/iron/white/textured,
 /area/station/medical/treatment_center)
@@ -39156,9 +39156,9 @@
 /area/station/engineering/atmos)
 "gsP" = (
 /obj/machinery/door/window/brigdoor/left/directional/north{
+	dir = 8;
 	name = "Captain's Desk";
-	req_access = list("captain");
-	dir = 8
+	req_access = list("captain")
 	},
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/wood,
@@ -41723,8 +41723,8 @@
 /obj/structure/table,
 /obj/structure/railing,
 /obj/item/storage/toolbox/mechanical{
-	pixel_y = 10;
-	pixel_x = -2
+	pixel_x = -2;
+	pixel_y = 10
 	},
 /obj/item/storage/toolbox/electrical{
 	pixel_x = 3
@@ -42898,8 +42898,8 @@
 	dir = 1
 	},
 /obj/machinery/camera/directional/west{
-	network = list("ss13","command");
-	c_tag = "Bridge - Port Access"
+	c_tag = "Bridge - Port Access";
+	network = list("ss13","command")
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/command/bridge)
@@ -44078,10 +44078,10 @@
 	dir = 1
 	},
 /obj/machinery/requests_console/directional/west{
-	department = "Security";
-	name = "Security Requests Console";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Security";
+	name = "Security Requests Console"
 	},
 /obj/effect/landmark/start/depsec/science,
 /turf/open/floor/iron/smooth,
@@ -44142,8 +44142,8 @@
 	},
 /obj/structure/table/wood,
 /obj/item/folder/blue{
-	pixel_y = 1;
-	pixel_x = 4
+	pixel_x = 4;
+	pixel_y = 1
 	},
 /obj/item/flashlight/lamp{
 	pixel_x = -4;
@@ -46649,16 +46649,16 @@
 	pixel_y = 12
 	},
 /obj/item/flashlight{
-	pixel_y = 7;
-	pixel_x = 1
+	pixel_x = 1;
+	pixel_y = 7
 	},
 /obj/structure/railing{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/neutral/full,
 /obj/item/flashlight{
-	pixel_y = 4;
-	pixel_x = 4
+	pixel_x = 4;
+	pixel_y = 4
 	},
 /obj/item/flashlight/flare{
 	pixel_x = -3;
@@ -47459,8 +47459,8 @@
 /obj/structure/table/wood,
 /obj/item/radio/intercom/directional/north,
 /obj/item/reagent_containers/cup/glass/bottle/wine{
-	pixel_y = 15;
-	pixel_x = -6
+	pixel_x = -6;
+	pixel_y = 15
 	},
 /obj/item/reagent_containers/cup/glass/drinkingglass/filled{
 	pixel_x = 1;
@@ -47718,8 +47718,8 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/structure/table/reinforced/rglass,
 /obj/item/folder/yellow{
-	pixel_y = 1;
-	pixel_x = 3
+	pixel_x = 3;
+	pixel_y = 1
 	},
 /obj/item/paper_bin{
 	pixel_x = -3;
@@ -48303,12 +48303,12 @@
 /obj/structure/table/reinforced,
 /obj/item/mail/junkmail,
 /obj/item/paper/fluff/junkmail_generic{
-	pixel_y = 4;
-	pixel_x = 2
+	pixel_x = 2;
+	pixel_y = 4
 	},
 /obj/item/paper/fluff/jobs/security/court_judgement{
-	pixel_y = -8;
-	pixel_x = 2
+	pixel_x = 2;
+	pixel_y = -8
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
@@ -48681,10 +48681,10 @@
 	name = "Custom Channel"
 	},
 /obj/machinery/requests_console/directional/east{
-	department = "AI";
-	pixel_y = -30;
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "AI";
+	pixel_y = -30
 	},
 /obj/machinery/newscaster/directional/west{
 	pixel_y = -28
@@ -49087,10 +49087,10 @@
 /obj/effect/turf_decal/trimline/blue/filled/line,
 /obj/machinery/requests_console/directional/south{
 	announcementConsole = 1;
-	department = "Bridge";
-	name = "Bridge RC";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Bridge";
+	name = "Bridge RC"
 	},
 /obj/machinery/light/dim/directional/south,
 /turf/open/floor/iron/dark,
@@ -49699,9 +49699,9 @@
 "lBl" = (
 /obj/structure/table/wood,
 /obj/machinery/door/window/brigdoor/left/directional/north{
+	dir = 8;
 	name = "Captain's Desk";
-	req_access = list("captain");
-	dir = 8
+	req_access = list("captain")
 	},
 /obj/item/folder/blue{
 	pixel_x = -2
@@ -49873,12 +49873,12 @@
 	pixel_y = 11
 	},
 /obj/item/multitool{
-	pixel_y = -2;
-	pixel_x = 1
+	pixel_x = 1;
+	pixel_y = -2
 	},
 /obj/item/multitool{
-	pixel_y = -9;
-	pixel_x = 7
+	pixel_x = 7;
+	pixel_y = -9
 	},
 /obj/effect/turf_decal/tile/neutral/full,
 /turf/open/floor/iron/dark/textured_large,
@@ -50430,10 +50430,10 @@
 	dir = 1
 	},
 /obj/machinery/requests_console/directional/west{
-	department = "Security";
-	name = "Security Post RD";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Security";
+	name = "Security Post RD"
 	},
 /obj/effect/landmark/start/depsec/medical,
 /obj/effect/turf_decal/tile/red/half/contrasted{
@@ -52175,8 +52175,8 @@
 	id = "bridgewindows";
 	name = "Bridge View Blast Doors";
 	pixel_x = -6;
-	req_access = list("command");
-	pixel_y = -25
+	pixel_y = -25;
+	req_access = list("command")
 	},
 /obj/machinery/button/door/directional/south{
 	id = "corporatelounge";
@@ -52187,16 +52187,16 @@
 /obj/machinery/button/door/directional/south{
 	id = "bridgedoors";
 	name = "Bridge Access Blast Doors";
-	req_access = list("command");
 	pixel_x = 8;
-	pixel_y = -25
+	pixel_y = -25;
+	req_access = list("command")
 	},
 /obj/machinery/button/door/directional/south{
 	id = "evashutters";
 	name = "E.V.A. Shutters";
-	req_access = list("command");
 	pixel_x = 8;
-	pixel_y = -37
+	pixel_y = -37;
+	req_access = list("command")
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/bridge)
@@ -55239,8 +55239,8 @@
 	},
 /obj/item/radio,
 /obj/item/flashlight{
-	pixel_y = 2;
-	pixel_x = 1
+	pixel_x = 1;
+	pixel_y = 2
 	},
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark,
@@ -58077,10 +58077,10 @@
 /obj/structure/bed/dogbed/lia,
 /obj/machinery/requests_console/directional/west{
 	announcementConsole = 1;
-	department = "Head of Security's Desk";
-	name = "Head of Security's Requests Console";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Head of Security's Desk";
+	name = "Head of Security's Requests Console"
 	},
 /mob/living/basic/carp/pet/lia,
 /turf/open/floor/wood,
@@ -59423,9 +59423,9 @@
 	},
 /obj/effect/turf_decal/delivery,
 /obj/machinery/requests_console/directional/west{
+	assistance_requestable = 1;
 	department = "Engineering";
 	name = "Engineering Requests Console";
-	assistance_requestable = 1;
 	supplies_requestable = 1
 	},
 /obj/structure/cable,
@@ -60779,9 +60779,9 @@
 /obj/machinery/modular_computer/console/preset/cargochat/medical,
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /obj/machinery/requests_console/directional/north{
+	assistance_requestable = 1;
 	department = "Medbay";
-	name = "Medbay RC";
-	assistance_requestable = 1
+	name = "Medbay RC"
 	},
 /turf/open/floor/iron/dark,
 /area/station/medical/storage)
@@ -61941,10 +61941,10 @@
 	},
 /obj/machinery/requests_console/directional/south{
 	announcementConsole = null;
-	department = "Research Director's Desk";
-	name = "Research Director's Requests Console";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Research Director's Desk";
+	name = "Research Director's Requests Console"
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/command/heads_quarters/rd)
@@ -62163,9 +62163,9 @@
 	dir = 1
 	},
 /obj/machinery/requests_console/directional/south{
+	announcementConsole = 1;
 	department = "Captain's Desk";
-	name = "Captain RC";
-	announcementConsole = 1
+	name = "Captain RC"
 	},
 /obj/machinery/light/dim/directional/south,
 /turf/open/floor/wood,
@@ -63082,8 +63082,8 @@
 	dir = 4
 	},
 /obj/machinery/requests_console/directional/east{
-	department = "Custodial";
-	assistance_requestable = 1
+	assistance_requestable = 1;
+	department = "Custodial"
 	},
 /turf/open/floor/iron,
 /area/station/service/janitor)
@@ -64498,8 +64498,8 @@
 /obj/machinery/button/door/directional/south{
 	id = "bridgedoors";
 	name = "Bridge Access Blast Doors";
-	req_access = list("command");
-	pixel_y = -39
+	pixel_y = -39;
+	req_access = list("command")
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/wood/tile,
@@ -66539,8 +66539,8 @@
 /obj/structure/window/reinforced,
 /obj/item/radio/intercom/directional/north{
 	broadcasting = 1;
-	listening = 0;
 	frequency = 1447;
+	listening = 0;
 	name = "AI Intercom"
 	},
 /obj/machinery/light/dim/directional/north,
@@ -67280,8 +67280,8 @@
 	pixel_y = 9
 	},
 /obj/item/food/grown/tobacco{
-	pixel_y = 5;
-	pixel_x = 2
+	pixel_x = 2;
+	pixel_y = 5
 	},
 /obj/machinery/newscaster/directional/south,
 /turf/open/floor/wood/tile,
@@ -68209,9 +68209,9 @@
 /area/station/security/checkpoint/customs)
 "uIG" = (
 /obj/machinery/requests_console/directional/north{
+	assistance_requestable = 1;
 	department = "Medbay";
-	name = "Medbay RC";
-	assistance_requestable = 1
+	name = "Medbay RC"
 	},
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
@@ -68738,8 +68738,8 @@
 /obj/effect/turf_decal/tile/neutral/full,
 /obj/effect/turf_decal/box/white,
 /obj/structure/mannequin/plastic{
-	name = "wax mannequin";
-	desc = "A mannequin covered in wax...with a bit of red?"
+	desc = "A mannequin covered in wax...with a bit of red?";
+	name = "wax mannequin"
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/railing{
@@ -68928,10 +68928,10 @@
 	},
 /obj/machinery/requests_console/directional/west{
 	announcementConsole = 1;
-	department = "Chief Medical Officer's Desk";
-	name = "CMO Requests Console";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Chief Medical Officer's Desk";
+	name = "CMO Requests Console"
 	},
 /obj/machinery/keycard_auth/directional/south{
 	pixel_x = 8
@@ -69673,11 +69673,11 @@
 /obj/structure/table/wood/fancy/royalblack,
 /obj/structure/window/reinforced,
 /obj/item/storage/toolbox/emergency/old{
-	pixel_y = 6;
-	pixel_x = -1;
 	desc = "You can tell that this toolbox is slightly more robost due to the fact that it is covered in dried blood.";
+	force = 15;
 	name = "The Most Robust Toolbox";
-	force = 15
+	pixel_x = -1;
+	pixel_y = 6
 	},
 /turf/open/floor/wood/large,
 /area/station/command/bridge)
@@ -70789,8 +70789,8 @@
 /obj/machinery/button/door/directional/south{
 	id = "bridgedoors";
 	name = "Bridge Access Blast Doors";
-	req_access = list("command");
-	pixel_y = -39
+	pixel_y = -39;
+	req_access = list("command")
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/wood/tile,
@@ -73684,10 +73684,10 @@
 "xsy" = (
 /obj/machinery/requests_console/directional/west{
 	announcementConsole = 1;
-	department = "Chief Engineer's Desk";
-	name = "Chief Engineer's RC";
+	anon_tips_receiver = 1;
 	assistance_requestable = 1;
-	anon_tips_receiver = 1
+	department = "Chief Engineer's Desk";
+	name = "Chief Engineer's RC"
 	},
 /obj/machinery/computer/apc_control{
 	dir = 4
@@ -75428,8 +75428,8 @@
 /area/station/science/breakroom)
 "ykW" = (
 /obj/structure/mannequin/plastic{
-	name = "wax mannequin";
-	desc = "A mannequin covered in wax...with a bit of red?"
+	desc = "A mannequin covered in wax...with a bit of red?";
+	name = "wax mannequin"
 	},
 /obj/effect/turf_decal/tile/neutral/full,
 /obj/effect/turf_decal/box/white,
