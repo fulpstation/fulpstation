@@ -558,13 +558,6 @@
 	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai)
-"acB" = (
-/obj/machinery/door/firedoor/heavy,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai)
 "acC" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -572,10 +565,6 @@
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai)
 "acD" = (
-/obj/machinery/camera/directional/north{
-	c_tag = "MiniSat AI Chamber South";
-	network = list("minisat")
-	},
 /obj/machinery/light/directional/north,
 /obj/machinery/flasher{
 	id = "AI";
@@ -2175,6 +2164,10 @@
 "air" = (
 /obj/machinery/recharge_station,
 /obj/effect/turf_decal/bot,
+/obj/machinery/button/door/directional/north{
+	id = "Equipment Room";
+	name = "Space Shutters Control"
+	},
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "ais" = (
@@ -8597,7 +8590,7 @@
 /obj/structure/urinal{
 	pixel_y = 32
 	},
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /turf/open/floor/iron/freezer,
 /area/station/commons/toilet/restrooms)
 "aEg" = (
@@ -8608,7 +8601,7 @@
 /area/station/commons/toilet/restrooms)
 "aEi" = (
 /obj/effect/landmark/blobstart,
-/obj/item/toy/beach_ball/holoball,
+/obj/item/toy/basketball,
 /turf/open/floor/plating,
 /area/station/commons/toilet/restrooms)
 "aEj" = (
@@ -10017,6 +10010,10 @@
 "aKw" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/machinery/door/poddoor/preopen{
+	id = "Equipment Room";
+	name = "Brig Shutters"
+	},
 /turf/open/floor/plating,
 /area/station/security/lockers)
 "aKz" = (
@@ -10277,7 +10274,7 @@
 	pixel_x = -12;
 	pixel_y = 2
 	},
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /obj/machinery/light_switch/directional/west,
 /turf/open/floor/iron/freezer,
 /area/station/commons/toilet/auxiliary)
@@ -11910,7 +11907,7 @@
 /turf/open/floor/wood,
 /area/station/service/bar)
 "aSQ" = (
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /obj/item/storage/box/beanbag,
 /obj/item/assembly/mousetrap,
 /obj/item/storage/box/mousetraps,
@@ -15692,12 +15689,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/central)
-"biy" = (
-/obj/machinery/door/firedoor/heavy,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai)
 "biC" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -26204,7 +26195,7 @@
 /area/station/maintenance/department/engine)
 "cbT" = (
 /obj/item/shovel,
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "cbV" = (
@@ -27234,7 +27225,7 @@
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/chapel/monastery)
 "cis" = (
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
@@ -30117,7 +30108,7 @@
 /turf/open/floor/plating,
 /area/station/service/abandoned_gambling_den)
 "cBq" = (
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /turf/open/floor/plating,
 /area/station/service/abandoned_gambling_den)
 "cBr" = (
@@ -30425,7 +30416,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/central)
 "cKA" = (
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /obj/effect/turf_decal/tile/purple/half/contrasted,
 /turf/open/floor/iron/white,
 /area/station/science/lab)
@@ -32631,7 +32622,7 @@
 /turf/open/floor/iron,
 /area/station/security/prison/work)
 "eUb" = (
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "eUe" = (
@@ -34721,7 +34712,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical/morgue)
 "gMF" = (
-/obj/item/toy/beach_ball/holoball,
+/obj/item/toy/basketball,
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 1
 	},
@@ -34986,7 +34977,7 @@
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/monastery)
 "hae" = (
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -42989,7 +42980,7 @@
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
 "oNY" = (
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -43479,7 +43470,7 @@
 /turf/open/floor/iron/dark,
 /area/station/medical/abandoned)
 "pif" = (
-/obj/structure/holohoop{
+/obj/structure/hoop{
 	dir = 8
 	},
 /obj/machinery/camera/directional/east{
@@ -43646,6 +43637,15 @@
 	},
 /turf/open/floor/iron/white/corner,
 /area/station/hallway/secondary/exit/departure_lounge)
+"pql" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/machinery/camera/directional/north{
+	c_tag = "MiniSat AI Chamber South";
+	network = list("minisat")
+	},
+/turf/open/floor/circuit,
+/area/station/ai_monitored/turret_protected/ai)
 "pqw" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -44418,7 +44418,7 @@
 /area/station/service/library/artgallery)
 "pYj" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/landmark/xeno_spawn,
+/obj/effect/landmark/generic_maintenance_landmark,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
@@ -45826,10 +45826,6 @@
 	},
 /turf/open/floor/carpet,
 /area/station/commons/dorms)
-"rlV" = (
-/obj/machinery/door/firedoor/heavy,
-/turf/open/floor/iron/white,
-/area/station/ai_monitored/turret_protected/ai)
 "rmP" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -51464,6 +51460,10 @@
 "vRp" = (
 /obj/structure/cable,
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "Equipment Room";
+	name = "Brig Shutters"
+	},
 /turf/open/floor/plating,
 /area/station/security/lockers)
 "vRq" = (
@@ -86898,8 +86898,8 @@ bXg
 abO
 abO
 abO
-acB
-rlV
+acC
+abY
 abO
 add
 adk
@@ -87669,7 +87669,7 @@ acs
 abO
 abO
 abO
-adT
+pql
 abY
 acT
 add
@@ -87926,8 +87926,8 @@ bhU
 abO
 abO
 abO
-biy
-rlV
+adT
+abY
 abO
 add
 ado

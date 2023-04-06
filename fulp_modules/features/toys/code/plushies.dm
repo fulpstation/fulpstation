@@ -20,7 +20,7 @@
 	icon_state = "supermatter"
 	light_range = 3
 	light_system = MOVABLE_LIGHT
-	color = LIGHT_COLOR_YELLOW
+	color = LIGHT_COLOR_DIM_YELLOW
 	attack_verb_continuous = list("dust")
 	attack_verb_simple = list("dust")
 	squeak_override = list('sound/effects/supermatter.ogg'= 1)

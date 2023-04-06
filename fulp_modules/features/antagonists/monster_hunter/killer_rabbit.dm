@@ -9,6 +9,7 @@
 	maxHealth = 5
 	melee_damage_lower = 5
 	melee_damage_upper = 5
+	faction = list(FACTION_RABBITS)
 	ai_controller = /datum/ai_controller/basic_controller/killer_rabbit
 	basic_mob_flags = DEL_ON_DEATH
 

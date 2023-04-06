@@ -138,7 +138,7 @@
 	name = "Safety Moth safety vest"
 	desc = "The standard issue safety vest belonging to Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/suits/utility.dmi'
-	worn_icon = 'icons/obj/clothing/suits/utility.dmi'
+	worn_icon = 'icons/mob/clothing/suits/utility.dmi'
 	icon_state = "hazard"
 	inhand_icon_state = null
 	flags_inv = null
@@ -153,7 +153,7 @@
 	name = "Safety Moth safety hardhat"
 	desc = "The standard issue safety hardhat belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/head/utility.dmi'
-	worn_icon = 'icons/obj/clothing/head/utility.dmi'
+	worn_icon = 'icons/mob/clothing/head/utility.dmi'
 	icon_state = "hardhat0_yellow"
 	resistance_flags = FIRE_PROOF
 	armor_type = /datum/armor/safety_moth
@@ -180,14 +180,14 @@
 	name = "Safety Moth medical jacket"
 	desc = "The standard issue safety jacket belonging to Safety Moth themselves. Functions like a hardsuit and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/suits/labcoat.dmi'
-	worn_icon = 'icons/obj/clothing/suits/labcoat.dmi'
+	worn_icon = 'icons/mob/clothing/suits/labcoat.dmi'
 	icon_state = "labcoat_paramedic"
 
 /obj/item/clothing/head/helmet/space/safety_moth/med
 	name = "Safety Moth medical cap"
 	desc = "The standard issue safety cap belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/head/hats.dmi'
-	worn_icon = 'icons/obj/clothing/head/hats.dmi'
+	worn_icon = 'icons/mob/clothing/head/hats.dmi'
 	icon_state = "paramedicsoft"
 
 //Sec
@@ -195,7 +195,7 @@
 	name = "Safety Moth riot suit"
 	desc = "The standard issue riot suit belonging to Safety Moth themselves. Functions like a hardsuit, resists shoves, and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/suits/armor.dmi'
-	worn_icon = 'icons/obj/clothing/suits/armor.dmi'
+	worn_icon = 'icons/mob/clothing/suits/armor.dmi'
 	icon_state = "riot"
 	inhand_icon_state = "swat_suit"
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCKS_SHOVE_KNOCKDOWN
@@ -204,10 +204,8 @@
 	name = "Safety Moth riot helmet"
 	desc = "The standard issue riot helmet belonging to Safety Moth themselves. Functions like a hardsuit helmet and offers superb protection against environmental hazards."
 	icon = 'icons/obj/clothing/head/helmet.dmi'
-	worn_icon = 'icons/obj/clothing/head/helmet.dmi'
+	worn_icon = 'icons/mob/clothing/head/helmet.dmi'
 	icon_state = "riot"
-
-
 
 /obj/item/clothing/suit/space/safety_moth/Initialize(mapload)
 	. = ..()
