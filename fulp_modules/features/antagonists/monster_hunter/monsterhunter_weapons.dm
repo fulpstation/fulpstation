@@ -355,6 +355,8 @@
 		return
 	if(!(slot & ITEM_SLOT_MASK))
 		return
+	if(!IS_MONSTERHUNTER(user))
+		return
 	paradox.Grant(user)
 	wonderland.Grant(user)
 

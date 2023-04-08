@@ -115,7 +115,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	owner.add_movespeed_modifier(/datum/movespeed_modifier/cursed_blood)
 
 	if(iscarbon(owner))
-		owner.reagents.add_reagent(/datum/reagent/medicine/adminordrazine, 15)
+		owner.reagents.add_reagent(/datum/reagent/medicine/blood_vial, 15)
 
 	return TRUE
 
@@ -124,6 +124,21 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/cursed_blood)
 
 
+/datum/reagent/medicine/blood_vial
+	name = "Blood Vial"
+	metabolization_rate = 0.4 * REAGENTS_METABOLISM
+
+/datum/reagent/medicine/blood_vial/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
+	if(affected_mob.health < 90 && affected_mob.health > 0)
+		affected_mob.adjustOxyLoss(-1 * REM * delta_time, FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+		affected_mob.adjustToxLoss(-1 * REM * delta_time, FALSE, required_biotype = affected_biotype)
+		affected_mob.adjustBruteLoss(-2 * REM * delta_time, FALSE, required_bodytype = affected_bodytype)
+		affected_mob.adjustFireLoss(-2 * REM * delta_time, FALSE, required_bodytype = affected_bodytype)
+
+	affected_mob.AdjustAllImmobility(-60  * REM * delta_time)
+	affected_mob.adjustStaminaLoss(-7 * REM * delta_time, FALSE, required_biotype = affected_biotype)
+	..()
+	. = TRUE
 
 /datum/movespeed_modifier/cursed_blood
 	multiplicative_slowdown = -0.6
