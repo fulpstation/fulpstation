@@ -40,4 +40,3 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	desc = "What is this doing here?"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	icon_state = "red_queen"
-
