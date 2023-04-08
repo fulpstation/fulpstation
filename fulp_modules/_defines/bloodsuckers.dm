@@ -1,6 +1,6 @@
-/**
- * Bloodsucker defines
- */
+///Uncomment this to enable testing of Bloodsucker features.
+//#define BLOODSUCKER_TESTING
+
 /// Determines Bloodsucker regeneration rate
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
 /// Cost to torture someone halfway, in blood. Called twice for full cost
