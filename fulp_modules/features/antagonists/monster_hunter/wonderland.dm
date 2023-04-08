@@ -40,3 +40,90 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	desc = "What is this doing here?"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	icon_state = "red_queen"
+
+/obj/structure/blood_fountain
+	name = "Blood Fountain"
+	desc = "It's completely still..."
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/blood_fountain.dmi'
+	icon_state = "blood_fountain"
+	plane = ABOVE_GAME_PLANE
+	anchored = TRUE
+	density = TRUE
+	bound_width = 64
+	bound_height = 64
+	resistance_flags = INDESTRUCTIBLE
+
+
+/obj/structure/blood_fountain/Initialize(mapload)
+	. = ..()
+	add_overlay("droplet")
+
+
+/obj/structure/blood_fountain/attackby(obj/item/bottle, mob/living/user, params)
+	if(!istype(bottle, /obj/item/blood_vial))
+		balloon_alert(user, "Liquid only compatible with a blood vial!")
+		return ..()
+	var/obj/item/blood_vial/vial = bottle
+	vial.fill_vial(user)
+
+/obj/item/blood_vial
+	name = "Blood Vial"
+	desc = "Used to collect samples of blood from the dead-still blood fountain"
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/blood_vial.dmi'
+	icon_state = "blood_vial_empty"
+	inhand_icon_state = "beaker"
+	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
+	w_class = WEIGHT_CLASS_TINY
+	item_flags = NOBLUDGEON
+	var/filled = FALSE ///does the bottle contain fluid
+
+/obj/item/blood_vial/proc/fill_vial(mob/living/user)
+	if(filled)
+		balloon_alert(user, "Vial already full!")
+		return
+	filled = TRUE
+	icon_state = "blood_vial"
+	update_appearance()
+
+
+/obj/item/blood_vial/attack_self(mob/living/user)
+	if(!filled)
+		balloon_alert(user, "Empty!")
+		return
+	filled = FALSE
+	user.apply_status_effect(/datum/status_effect/cursed_blood)
+	balloon_alert(user, "...The power")
+	icon_state = "blood_vial_empty"
+	update_appearance()
+	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/blood_vial_slurp.ogg',50)
+
+/datum/status_effect/cursed_blood
+	id = "Blood"
+	duration = 20 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/cursed_blood
+
+
+
+/atom/movable/screen/alert/status_effect/cursed_blood
+	name = "Cursed Blood"
+	desc = "Something foreign is coursing through your veins."
+
+/datum/status_effect/cursed_blood/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("You feel a great power surging through you"))
+	owner.add_movespeed_modifier(/datum/movespeed_modifier/cursed_blood)
+
+	if(iscarbon(owner))
+		owner.reagents.add_reagent(/datum/reagent/medicine/adminordrazine, 15)
+
+	return TRUE
+
+/datum/status_effect/cursed_blood/on_remove()
+	. = ..()
+	owner.remove_movespeed_modifier(/datum/movespeed_modifier/cursed_blood)
+
+
+
+/datum/movespeed_modifier/cursed_blood
+	multiplicative_slowdown = -0.6
