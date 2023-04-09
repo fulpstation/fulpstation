@@ -51,8 +51,6 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	if(!bloodsuckerdatum_power.coffin)
-		return FALSE
 
 	switch(teleporting_stage)
 		if(GOHOME_START)
