@@ -31304,7 +31304,13 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/tile/yellow/half/contrasted{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/iron/textured,
 /area/station/maintenance/department/science/xenobiology)
 "cxi" = (
 /obj/structure/cable,
@@ -32027,8 +32033,11 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/central)
 "cCQ" = (
-/obj/machinery/atmospherics/pipe/smart/simple/general/visible{
-	dir = 6
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
@@ -32777,9 +32786,13 @@
 /turf/open/space/basic,
 /area/station/solars/starboard/aft)
 "cHN" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+/obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
 	},
+/obj/machinery/door/airlock/command{
+	name = "Auxiliary E.V.A. Storage"
+	},
+/obj/effect/mapping_helpers/airlock/access/any/command/maintenance,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cHT" = (
@@ -32826,9 +32839,7 @@
 /turf/open/floor/iron/solarpanel/airless,
 /area/station/solars/starboard/aft)
 "cIg" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 8
-	},
+/obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cIh" = (
@@ -33365,7 +33376,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/mapping_helpers/airlock/access/any/science/maintenance,
 /obj/effect/mapping_helpers/airlock/unres,
-/turf/open/floor/catwalk_floor/iron_dark,
+/turf/open/floor/catwalk_floor/iron,
 /area/station/maintenance/department/science/xenobiology)
 "cMb" = (
 /obj/effect/turf_decal/stripes/corner{
@@ -33501,25 +33512,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "cNn" = (
-/obj/machinery/portable_atmospherics/canister,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cNo" = (
-/obj/machinery/atmospherics/components/trinary/mixer{
-	dir = 4;
-	name = "plasma mixer"
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cNp" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 8
-	},
-/turf/open/floor/plating,
+/turf/open/space/basic,
 /area/station/maintenance/department/science/xenobiology)
 "cNq" = (
 /obj/structure/bodycontainer/morgue{
@@ -33565,26 +33558,22 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
-/turf/open/floor/plating,
+/turf/open/floor/catwalk_floor/iron,
 /area/station/maintenance/department/science/xenobiology)
 "cNH" = (
 /turf/closed/wall,
 /area/station/service/kitchen/coldroom)
 "cNI" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 1
+/obj/structure/frame/machine{
+	anchored = 1
 	},
+/obj/item/stack/cable_coil/five,
+/obj/item/circuitboard/machine/suit_storage_unit,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cNJ" = (
 /turf/closed/wall/r_wall,
 /area/station/engineering/storage_shared)
-"cNK" = (
-/obj/machinery/atmospherics/components/trinary/filter{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "cNR" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -33605,27 +33594,8 @@
 	},
 /turf/open/floor/wood,
 /area/station/service/library)
-"cNW" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cNX" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "cNY" = (
-/obj/effect/landmark/blobstart,
-/obj/machinery/atmospherics/components/binary/valve{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cNZ" = (
-/obj/machinery/atmospherics/pipe/smart/manifold/general/visible{
-	dir = 1
-	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cOd" = (
@@ -33647,29 +33617,19 @@
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
-/turf/open/floor/plating,
+/turf/open/floor/catwalk_floor/iron,
 /area/station/maintenance/department/science/xenobiology)
 "cOi" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Auxiliary Gas Mixing"
-	},
-/obj/effect/mapping_helpers/airlock/abandoned,
-/obj/effect/mapping_helpers/airlock/access/any/engineering/maintenance,
-/obj/effect/mapping_helpers/airlock/unres{
-	dir = 4
+/obj/machinery/door/poddoor/shutters/window{
+	dir = 8;
+	id = "mainteva";
+	name = "E.V.A. Storage Shutters"
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cOk" = (
 /turf/closed/wall/r_wall,
 /area/station/engineering/atmos/hfr_room)
-"cOl" = (
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/smart/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "cOn" = (
 /obj/structure/closet/crate{
 	icon_state = "crateopen"
@@ -33722,33 +33682,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/auxlab/firing_range)
-"cOx" = (
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/smart/simple/general/visible{
-	dir = 5
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cOy" = (
-/obj/structure/sign/poster/official/random{
-	pixel_y = -30
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold/general/visible,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cOz" = (
-/obj/machinery/atmospherics/components/binary/valve{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cOA" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/heater{
-	dir = 8
-	},
-/obj/machinery/light/small/directional/south,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "cOD" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/junction{
@@ -33774,17 +33707,6 @@
 /obj/effect/spawner/random/maintenance,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cOS" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Maintenance Access"
-	},
-/obj/effect/mapping_helpers/airlock/abandoned,
-/obj/effect/mapping_helpers/airlock/access/any/engineering/maintenance,
-/obj/effect/mapping_helpers/airlock/unres{
-	dir = 4
-	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cOT" = (
@@ -33837,13 +33759,6 @@
 	dir = 1;
 	name = "Disposals Access";
 	req_access = list("maint_tunnels")
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
-"cPi" = (
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/smart/simple/general/visible{
-	dir = 10
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
@@ -33919,7 +33834,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/disposal)
 "cPs" = (
-/obj/machinery/atmospherics/components/binary/valve,
+/obj/machinery/suit_storage_unit/open,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cPt" = (
@@ -36261,10 +36176,10 @@
 /obj/effect/turf_decal/tile/yellow/opposingcorners{
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/effect/decal/cleanable/dirt,
 /obj/structure/sign/departments/engineering/directional/east,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
@@ -36348,7 +36263,13 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/tile/yellow/half/contrasted{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/iron/textured,
 /area/station/maintenance/department/science/xenobiology)
 "dhb" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -43877,7 +43798,7 @@
 /obj/effect/mapping_helpers/airlock/unres,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/turf/open/floor/catwalk_floor/iron_dark,
+/turf/open/floor/catwalk_floor/iron,
 /area/station/maintenance/department/science/xenobiology)
 "hnr" = (
 /obj/structure/sign/poster/official/walk{
@@ -44870,10 +44791,15 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/item/storage/box/lights/mixed,
 /obj/effect/turf_decal/bot,
-/obj/machinery/power/apc/auto_name/directional/south,
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
 /obj/structure/cable,
-/turf/open/floor/iron,
+/obj/effect/turf_decal/tile/yellow/half/contrasted{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/iron/textured,
 /area/station/maintenance/department/science/xenobiology)
 "hKb" = (
 /turf/open/floor/catwalk_floor/iron_smooth,
@@ -51354,7 +51280,13 @@
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/tile/yellow/half/contrasted{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/iron/textured,
 /area/station/maintenance/department/science/xenobiology)
 "lco" = (
 /obj/structure/cable,
@@ -55021,7 +54953,13 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/airalarm/directional/north,
 /obj/structure/loot_pinata,
-/turf/open/floor/plating,
+/obj/effect/turf_decal/tile/yellow/half/contrasted{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/iron/textured,
 /area/station/maintenance/department/science/xenobiology)
 "mZx" = (
 /obj/structure/table/reinforced,
@@ -66993,7 +66931,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/turf/open/floor/catwalk_floor/iron,
 /area/station/maintenance/department/science/xenobiology)
 "tiy" = (
 /obj/effect/turf_decal/bot,
@@ -72190,7 +72128,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
 	},
-/turf/open/floor/iron,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/iron/textured,
 /area/station/maintenance/department/science/xenobiology)
 "vSo" = (
 /obj/structure/table,
@@ -75083,12 +75024,6 @@
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/dark/textured_half,
 /area/station/science/xenobiology)
-"xuc" = (
-/obj/machinery/atmospherics/pipe/smart/simple/general/visible{
-	dir = 9
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/department/science/xenobiology)
 "xul" = (
 /obj/structure/table/reinforced,
 /obj/item/clipboard,
@@ -123605,9 +123540,9 @@ mYp
 vSk
 hJY
 ckj
-chq
-chq
-chq
+cCQ
+cCQ
+ckj
 ckj
 ckj
 ckj
@@ -123864,7 +123799,7 @@ ckj
 ckj
 chq
 chq
-chq
+sZr
 cJd
 iBI
 ctm
@@ -124124,7 +124059,7 @@ chq
 chq
 chq
 chq
-ctm
+cNn
 cPC
 cPT
 cQh
@@ -124379,7 +124314,7 @@ ckj
 chq
 chq
 chq
-sZr
+chq
 chq
 ckj
 gwm
@@ -124633,11 +124568,11 @@ hOm
 ckj
 ckj
 ckj
-ckj
+cHN
+cOi
 cOi
 ckj
 ckj
-cOS
 ckj
 ckj
 ckj
@@ -124888,11 +124823,11 @@ jdN
 qcb
 iQP
 ckj
-cNn
 chq
-cNW
-cPs
-cOx
+chq
+chq
+chq
+chq
 ckj
 cOT
 cPk
@@ -125145,11 +125080,11 @@ vUY
 tEH
 mFl
 ckj
-cNo
-cNI
-cNX
-cCQ
-cOy
+chq
+chq
+chq
+chq
+chq
 ckj
 cOU
 ktW
@@ -125402,11 +125337,11 @@ krD
 ahb
 azs
 ckj
-cNp
-cHN
+chq
+chq
 cNY
-cOl
-cOz
+chq
+chq
 ckj
 cOV
 ktW
@@ -125659,11 +125594,11 @@ wzP
 uVn
 jRb
 ckj
-cNW
-cNK
-cNZ
-xuc
-cOA
+chq
+chq
+chq
+chq
+chq
 ckj
 cOW
 ktW
@@ -125916,9 +125851,9 @@ ckj
 puI
 ckj
 ckj
-chq
+cPs
 cIg
-cPi
+chq
 cPs
 cNI
 ckj
@@ -126174,9 +126109,9 @@ aak
 aaa
 ckj
 ckj
-ctm
-ctm
-ctm
+ckj
+ckj
+ckj
 ckj
 ckj
 ckj
