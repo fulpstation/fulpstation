@@ -395,13 +395,11 @@
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/user, mob/living/target)
 #ifdef BLOODSUCKER_TESTING
 	if(!target || !target.mind)
-		balloon_alert(user, "target has no mind!")
-		return VASSALIZATION_BANNED
 #else
 	if(!target || !target.client)
+#endif
 		balloon_alert(user, "target has no mind!")
 		return VASSALIZATION_BANNED
-#endif
 
 	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
 		return VASSALIZATION_DISLOYAL
