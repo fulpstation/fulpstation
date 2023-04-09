@@ -1,7 +1,5 @@
 ## List of all TG edits:
 
-- _maps/_basemap.dm > Adds our maps to the list of playable maps
-
 - code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
 
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
