@@ -31800,11 +31800,7 @@
 /obj/machinery/flasher/directional/west{
 	id = "AI"
 	},
-/obj/structure/table,
-/obj/effect/spawner/round_default_module,
-/obj/item/ai_module/toy_ai{
-	pixel_y = 8
-	},
+/obj/machinery/porta_turret/ai,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "dSu" = (
@@ -33625,7 +33621,13 @@
 	},
 /obj/machinery/light/dim/directional/north,
 /obj/structure/cable,
-/obj/item/kirbyplants/random,
+/obj/structure/table,
+/obj/item/ai_module/supplied/freeform{
+	pixel_x = -2
+	},
+/obj/item/ai_module/reset{
+	pixel_y = 9
+	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "eLo" = (
@@ -42838,7 +42840,8 @@
 "jba" = (
 /obj/machinery/light/dim/directional/north,
 /obj/structure/cable,
-/obj/item/kirbyplants/random,
+/obj/structure/table,
+/obj/effect/spawner/round_default_module,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "jbc" = (
@@ -45013,7 +45016,10 @@
 "jWC" = (
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/structure/cable,
-/obj/item/kirbyplants/random,
+/obj/structure/table,
+/obj/item/ai_module/toy_ai{
+	pixel_y = 8
+	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "jWG" = (
@@ -50615,7 +50621,11 @@
 "mGV" = (
 /obj/machinery/airalarm/directional/south,
 /obj/structure/cable,
-/obj/item/kirbyplants/random,
+/obj/structure/table,
+/obj/item/aicard{
+	pixel_x = -3;
+	pixel_y = 4
+	},
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "mHh" = (
@@ -62804,11 +62814,6 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/station/engineering/gravity_generator)
-"snN" = (
-/obj/structure/lattice,
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space/nearstation)
 "snP" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/textured,
@@ -72052,6 +72057,15 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/white/textured,
 /area/station/medical/treatment_center)
+"wCl" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/machinery/door/poddoor/preopen{
+	id = "bridgewindows";
+	name = "Bridge View Blast Door"
+	},
+/turf/open/floor/plating,
+/area/station/ai_monitored/turret_protected/ai_upload)
 "wCv" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
@@ -74815,13 +74829,7 @@
 /obj/machinery/flasher/directional/east{
 	id = "AI"
 	},
-/obj/structure/table,
-/obj/item/ai_module/reset{
-	pixel_y = 9
-	},
-/obj/item/ai_module/supplied/freeform{
-	pixel_x = -2
-	},
+/obj/machinery/porta_turret/ai,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "xQs" = (
@@ -117338,7 +117346,7 @@ aak
 pNk
 nXM
 avX
-nXM
+wCl
 gou
 iGu
 aaa
@@ -120159,7 +120167,7 @@ aaa
 aak
 aaa
 aaa
-snN
+aak
 aaa
 nDU
 aaa
