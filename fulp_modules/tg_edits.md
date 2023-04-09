@@ -1,7 +1,5 @@
 ## List of all TG edits:
 
-- _maps/_basemap.dm > Adds our maps to the list of playable maps
-
 - code/__HELPERS/roundend.dm > Plays our roundend music instead
 
 - code/datums/greyscale/_greyscale_config.dm > Adds fulp_modules/strings/greyscale to the list of allowed locations for greyscale configs
