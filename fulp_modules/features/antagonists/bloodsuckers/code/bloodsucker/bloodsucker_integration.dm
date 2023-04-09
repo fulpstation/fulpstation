@@ -7,21 +7,25 @@
 // Prevents Bloodsuckers from getting affected by blood
 /mob/living/carbon/human/handle_blood(delta_time, times_fired)
 	if(mind && IS_BLOODSUCKER(src))
-		return
+		return FALSE
 	return ..()
 
 /datum/reagent/blood/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume, show_message=TRUE, touch_protection=0)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(exposed_mob)
-	if(bloodsuckerdatum)
-		bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
-		return
-	return ..()
+	if(!bloodsuckerdatum)
+		return ..()
+	bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
 
-/// Gives Curators their abilities
-/datum/outfit/job/curator/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
+
+/mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced)
 	. = ..()
 
-	ADD_TRAIT(user, TRAIT_BLOODSUCKER_HUNTER, JOB_TRAIT)
+	if(!mind)
+		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return
+	bloodsuckerdatum.bloodsucker_blood_volume -= amount
 
 /// Prevents using a Memento Mori
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
@@ -55,72 +59,6 @@
 		. += ""
 		. += "Blood Drank: [bloodsuckerdatum.total_blood_drank]"
 
-
-// INTEGRATION: Adding Procs and Datums to existing "classes" //
-
-// EXAMINING
-/mob/living/carbon/proc/ReturnVampExamine(mob/living/viewer)
-	if(!mind || !viewer.mind)
-		return ""
-	// Target must be a Vamp
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return ""
-	// Viewer is Target's Vassal?
-	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in bloodsuckerdatum.vassals)
-		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
-		var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
-		returnString += "\n"
-		return returnIcon + returnString
-	// Viewer not a Vamp AND not the target's vassal?
-	if(!viewer.mind.has_antag_datum((/datum/antagonist/bloodsucker)) && !(viewer in bloodsuckerdatum.vassals))
-		if(!(HAS_TRAIT(viewer, TRAIT_BLOODSUCKER_HUNTER) && bloodsuckerdatum.broke_masquerade))
-			return ""
-	// Default String
-	var/returnString = "\[<span class='warning'><EM>[bloodsuckerdatum.ReturnFullName()]</EM></span>\]"
-	var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
-
-	// In Disguise (Veil)?
-	//if (name_override != null)
-	//	returnString += "<span class='suicide'> ([real_name] in disguise!) </span>"
-
-	//returnString += "\n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
-	return returnIcon + returnString
-
-/mob/living/carbon/proc/ReturnVassalExamine(mob/living/viewer)
-	if(!mind || !viewer.mind)
-		return ""
-	// Target must be a Vassal
-	var/datum/antagonist/vassal/vassaldatum = mind.has_antag_datum(/datum/antagonist/vassal)
-	if(!vassaldatum)
-		return ""
-	// Default String
-	var/returnString = "\[<span class='warning'>"
-	var/returnIcon = ""
-	// Vassals and Bloodsuckers recognize eachother, while Monster Hunters can see Vassals.
-	if(IS_BLOODSUCKER(viewer) || IS_VASSAL(viewer) || IS_MONSTERHUNTER(viewer))
-		// Am I Viewer's Vassal?
-		if(vassaldatum?.master.owner == viewer.mind)
-			returnString += "This [dna.species.name] bears YOUR mark!"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
-		// Am I someone ELSE'S Vassal?
-		else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
-			returnString += "This [dna.species.name] bears the mark of <span class='boldwarning'>[vassaldatum.master.ReturnFullName()][vassaldatum.master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
-		// Are you serving the same master as I am?
-		else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassaldatum?.master.vassals)
-			returnString += "[p_they(TRUE)] bears the mark of your Master"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
-		// You serve a different Master than I do.
-		else
-			returnString += "[p_they(TRUE)] bears the mark of another Bloodsucker"
-			returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
-	else
-		return ""
-
-	returnString += "</span>\]" // \n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
-	return returnIcon + returnString
-
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"
 	suit = /obj/item/clothing/suit/costume/dracula
@@ -132,5 +70,4 @@
 	enrico.eye_color_left = "#663300"
 	enrico.eye_color_right = "#663300"
 
-	enrico.update_hair(is_creating = TRUE)
 	enrico.update_body(is_creating = TRUE)

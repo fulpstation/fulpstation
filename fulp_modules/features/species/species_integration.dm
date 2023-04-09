@@ -16,18 +16,6 @@
 
 
 /**
- * SPECIES OVERWRITE
- *
- * We add our own vars to Species for certain things, so it's done here.
- */
-
-/datum/species
-	var/bruising_desc = "bruising"
-	var/burns_desc = "burns"
-	var/cellulardamage_desc = "cellular damage"
-
-
-/**
  * CARBON INTEGRATION
  *
  * All overrides of mob/living and mob/living/carbon

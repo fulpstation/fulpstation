@@ -70,9 +70,9 @@
 
 /datum/component/bodycamera_holder/RegisterWithParent()
 	. = ..()
-	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, .proc/on_attackby)
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE_MORE, .proc/on_examine_more)
-	RegisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER), .proc/on_screwdriver_act)
+	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(on_attackby))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE_MORE, PROC_REF(on_examine_more))
+	RegisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER), PROC_REF(on_screwdriver_act))
 
 /datum/component/bodycamera_holder/UnregisterFromParent()
 	UnregisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER))
@@ -82,7 +82,7 @@
 	return ..()
 
 /datum/component/bodycamera_holder/proc/turn_camera_on(mob/living/user, obj/item/card)
-	RegisterSignal(parent, COMSIG_ITEM_POST_UNEQUIP, .proc/on_unequip)
+	RegisterSignal(parent, COMSIG_ITEM_POST_UNEQUIP, PROC_REF(on_unequip))
 	bodycamera_installed.turn_on(user, card)
 
 /datum/component/bodycamera_holder/proc/turn_camera_off(mob/living/user)
@@ -146,5 +146,5 @@
 	to_chat(user, span_warning("You remove the [bodycamera_installed] from [source]."))
 	playsound(source, 'sound/items/drill_use.ogg', tool.get_clamped_volume(), TRUE, -1)
 	bodycamera_installed.forceMove(user.loc)
-	INVOKE_ASYNC(user, /mob.proc/put_in_hands, bodycamera_installed)
+	INVOKE_ASYNC(user, TYPE_PROC_REF(/mob, put_in_hands), bodycamera_installed)
 	bodycamera_installed = null

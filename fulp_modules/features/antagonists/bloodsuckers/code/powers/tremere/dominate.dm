@@ -120,7 +120,7 @@
 
 /datum/action/bloodsucker/targeted/tremere/dominate/proc/attempt_mesmerize(mob/living/target, mob/living/user)
 	owner.balloon_alert(owner, "attempting to mesmerize.")
-	if(!do_mob(user, target, 3 SECONDS, NONE, TRUE))
+	if(!do_after(user, 3 SECONDS, target, NONE, TRUE))
 		return
 
 	PowerActivatedSuccessfully()
@@ -137,11 +137,11 @@
 		if(level_current >= 2)
 			ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 		if(level_current >= 3)
-			ADD_TRAIT(target, TRAIT_BLIND, BLOODSUCKER_TRAIT)
+			target.become_blind(BLOODSUCKER_TRAIT)
 		mesmerized.Immobilize(power_time)
 		mesmerized.next_move = world.time + power_time
 		mesmerized.notransform = TRUE
-		addtimer(CALLBACK(src, .proc/end_mesmerize, user, target), power_time)
+		addtimer(CALLBACK(src, PROC_REF(end_mesmerize), user, target), power_time)
 	if(issilicon(target))
 		var/mob/living/silicon/mesmerized = target
 		mesmerized.emp_act(EMP_HEAVY)
@@ -149,31 +149,33 @@
 
 /datum/action/bloodsucker/targeted/tremere/proc/end_mesmerize(mob/living/user, mob/living/target)
 	target.notransform = FALSE
-	REMOVE_TRAIT(target, TRAIT_BLIND, BLOODSUCKER_TRAIT)
+	target.cure_blind(BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	if(istype(user) && target.stat == CONSCIOUS && (target in view(6, get_turf(user))))
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/bloodsucker/targeted/tremere/dominate/proc/attempt_vassalize(mob/living/target, mob/living/user)
 	owner.balloon_alert(owner, "attempting to vassalize.")
-	if(!do_mob(user, target, 6 SECONDS, NONE, TRUE))
+	if(!do_after(user, 6 SECONDS, target, NONE, TRUE))
 		return
 
 	if(IS_VASSAL(target))
 		PowerActivatedSuccessfully()
 		to_chat(user, span_warning("We revive [target]!"))
 		target.mind.grab_ghost()
-		target.revive(full_heal = TRUE, admin_revive = TRUE)
+		target.revive(ADMIN_HEAL_ALL)
 		return
 	if(IS_MONSTERHUNTER(target))
 		to_chat(target, span_notice("Their body refuses to react..."))
 		return
-	if(!bloodsuckerdatum_power.attempt_turn_vassal(target, TRUE))
+	if(!bloodsuckerdatum_power.make_vassal(target))
 		return
 	PowerActivatedSuccessfully()
 	to_chat(user, span_warning("We revive [target]!"))
 	target.mind.grab_ghost()
-	target.revive(full_heal = TRUE, admin_revive = TRUE)
+	target.revive(ADMIN_HEAL_ALL)
+	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
+	vassaldatum.special_type = TREMERE_VASSAL //don't turn them into a favorite please
 	var/living_time
 	if(level_current == 4)
 		living_time = 5 MINUTES
@@ -181,11 +183,11 @@
 		ADD_TRAIT(target, TRAIT_DEAF, BLOODSUCKER_TRAIT)
 	else if(level_current == 5)
 		living_time = 8 MINUTES
-	addtimer(CALLBACK(src, .proc/end_possession, target), living_time)
+	addtimer(CALLBACK(src, PROC_REF(end_possession), target), living_time)
 
 /datum/action/bloodsucker/targeted/tremere/proc/end_possession(mob/living/user)
 	REMOVE_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_DEAF, BLOODSUCKER_TRAIT)
-	user.mind.remove_vassal()
-	to_chat(user, span_warning("You feel the Blood of your Master quickly flee!"))
+	user.mind.remove_antag_datum(/datum/antagonist/vassal)
+	to_chat(user, span_warning("You feel the Blood of your Master run out!"))
 	user.death()

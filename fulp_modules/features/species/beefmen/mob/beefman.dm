@@ -3,15 +3,12 @@
 	plural_form = "Beefmen"
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
-	say_mod = "gurgles"
 	sexes = FALSE
 	species_traits = list(
 		NOEYESPRITES,
 		NO_UNDERWEAR,
 		DYNCOLORS,
 		AGENDER,
-		HAS_FLESH,
-		HAS_BONE,
 	)
 	mutant_bodyparts = list(
 		"beef_color" = "#e73f4e",
@@ -43,9 +40,7 @@
 		OFFSET_NECK = list(0,3),
 	)
 
-	bruising_desc = "tenderizing"
-	burns_desc = "searing"
-	cellulardamage_desc = "meat degradation"
+	cellular_damage_desc = "meat degradation"
 
 	species_language_holder = /datum/language_holder/russian
 	mutanttongue = /obj/item/organ/internal/tongue/beefman
@@ -55,25 +50,22 @@
 	disliked_food = VEGETABLES | FRUIT | CLOTH
 	liked_food = RAW | MEAT | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
-	attack_verb = "meat"
 	payday_modifier = 0.75
 	speedmod = -0.2
 	armor = -20
-	punchdamagelow = 1
-	punchdamagehigh = 5
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
 	bodypart_overrides = list(
-		BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/beef,\
-		BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/beef,\
+		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/beef,\
+		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/beef,\
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/beef,\
-		BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/beef,\
-		BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/beef,\
+		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/beef,\
+		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/beef,\
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
 	)
-	deathsound = 'fulp_modules/features/species/sounds/beef_die.ogg'
-	attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
+
+	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
 	special_step_sounds = list(
 		'fulp_modules/features/species/sounds/footstep_splat1.ogg',
@@ -95,14 +87,13 @@
 
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
-	if(!user.dna.features["beef_color"]) // in case we're meant to be randomized.
-		randomize_beefman(user)
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
-
-	fixed_mut_color = user.dna.features["beef_color"]
-	var/obj/item/organ/internal/brain/has_brain = user.getorganslot(ORGAN_SLOT_BRAIN)
+	var/obj/item/organ/internal/brain/has_brain = user.get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(!user.dna.features["beef_color"])
+		randomize_features(user)
+	spec_updatehealth(user)
 	if(has_brain)
 		if(user.dna.features["beef_trauma"])
 			user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
@@ -113,10 +104,11 @@
 			continue
 		limb.update_limb(is_creating = TRUE)
 
-/proc/randomize_beefman(mob/living/carbon/human/human) // our version of randomize_human()
-	human.dna.features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
-	human.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
-	human.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
+/datum/species/beefman/randomize_features(mob/living/carbon/human/human_mob)
+	human_mob.dna.features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
+	human_mob.dna.species.fixed_mut_color = human_mob.dna.features["beef_color"]
+	human_mob.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
+	human_mob.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
 	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
@@ -180,7 +172,7 @@
 			var/datum/sprite_accessory/accessory
 			switch(bodypart)
 				if("beef_eyes")
-					if(source.getorganslot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
+					if(source.get_organ_slot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
 						accessory = GLOB.eyes_beefman[source.dna.features["beef_eyes"]]
 				if("beef_mouth")
 					accessory = GLOB.mouths_beefman[source.dna.features["beef_mouth"]]
@@ -242,6 +234,11 @@
 	source.apply_overlay(BODY_BEHIND_LAYER)
 	source.apply_overlay(BODY_ADJ_LAYER)
 	source.apply_overlay(BODY_FRONT_LAYER)
+
+/datum/species/beefman/spec_updatehealth(mob/living/carbon/human/beefman)
+	..()
+	fixed_mut_color = beefman.dna.features["beef_color"]
+	beefman.update_body()
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -402,14 +399,14 @@
 
 	// Pry it off...
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/tongue = user.getorgan(/obj/item/organ/internal/tongue)
+		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
 		if(!tongue)
 			to_chat("You do not have a tongue!")
 			return FALSE
 		user.visible_message(
 			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
 			span_notice("You grab hold of your tongue and yank hard."))
-		if(!do_mob(user, target, 1 SECONDS))
+		if(!do_after(user, 1 SECONDS, target))
 			return FALSE
 		var/obj/item/food/meat/slab/meat = new /obj/item/food/meat/slab
 		tongue.Remove(user, special = TRUE)
@@ -419,7 +416,7 @@
 	user.visible_message(
 		span_notice("[user] grabs onto [p_their()] own [affecting.name] and pulls."),
 		span_notice("You grab hold of your [affecting.name] and yank hard."))
-	if(!do_mob(user, target))
+	if(!do_after(user, 3 SECONDS, target))
 		return FALSE
 	user.visible_message(
 		span_notice("[user]'s [affecting.name] comes right off in their hand."),
@@ -439,14 +436,14 @@
 	if(!(target_zone in tearable_limbs))
 		return FALSE
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/tongue = user.getorgan(/obj/item/organ/internal/tongue)
+		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
 		if(tongue)
 			to_chat("You already have a tongue!")
 			return FALSE
 		user.visible_message(
 			span_notice("[user] begins mashing [meat] into [beefboy]'s mouth."),
 			span_notice("You begin mashing [meat] into [beefboy]'s mouth."))
-		if(!do_mob(user, beefboy, 2 SECONDS))
+		if(!do_after(user, 2 SECONDS, beefboy))
 			return FALSE
 		user.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new tongue!"),
@@ -463,14 +460,14 @@
 		span_notice("[user] begins mashing [meat] into [beefboy]'s torso."),
 		span_notice("You begin mashing [meat] into [beefboy]'s torso."))
 	// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
-	if(!do_mob(user, beefboy, 2 SECONDS))
+	if(!do_after(user, 2 SECONDS, beefboy))
 		return FALSE
 	// Attach the part!
 	var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
 	beefboy.visible_message(
 		span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
 		span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
-	new_bodypart.attach_limb(beefboy)
+	new_bodypart.try_attach_limb(beefboy)
 	new_bodypart.update_limb(is_creating = TRUE)
 	beefboy.update_body_parts()
 	new_bodypart.give_meat(beefboy, meat)

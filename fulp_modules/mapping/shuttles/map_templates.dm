@@ -15,10 +15,6 @@
 	suffix = "helio"
 	name = "cargo ferry (Helio)"
 
-/datum/map_template/shuttle/cargo/fulp/solitaire // Solitairestation
-	suffix = "solitaire"
-	name = "cargo ferry (Solitaire)"
-
 /**
  * ARRIVALS
  */
@@ -27,10 +23,6 @@
 /datum/map_template/shuttle/arrival/fulp/selene
 	suffix = "selene"
 	name = "arrival shuttle (Selene)"
-
-/datum/map_template/shuttle/arrival/fulp/solitaire // Solitairestation
-	suffix = "solitaire"
-	name = "arrival shuttle (Solitaire)"
 
 /**
  * MINING
@@ -47,10 +39,6 @@
 /datum/map_template/shuttle/ferry/fulp
 	prefix = "fulp_modules/mapping/shuttles/ferry/"
 
-/datum/map_template/shuttle/ferry/fulp/solitaire // Solitairestation
-	suffix = "solitaire"
-	name = "ferry (Solitaire)"
-
 /**
  * EMERGENCY SHUTTLE
  */
@@ -59,3 +47,21 @@
 	name = "Selene Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "The standard-issue escape shuttle for models of station this large. Will get you home in moderate style."
+
+/datum/map_template/shuttle/emergency/fulp/helio
+	suffix = "helio"
+	name = "Helio Station Emergency Shuttle"
+	credit_cost = CARGO_CRATE_VALUE * 4
+	description = "For when you're not quite ready to say goodbye to your home station. Big shuttle with lots of space."
+	admin_notes = "Comes with an inmortal barmaid and bardrone."
+
+/**
+ * LABOUR SHUTTLE
+ */
+
+/datum/map_template/shuttle/labour/helio
+	suffix = "helio"
+	name = "labour shuttle (Helio)"
+
+/obj/docking_port/stationary/laborcamp_home/helio
+	roundstart_template = /datum/map_template/shuttle/labour/helio

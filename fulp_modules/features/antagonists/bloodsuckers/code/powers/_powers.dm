@@ -2,10 +2,10 @@
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
 	//This is the FILE for the background icon
-	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	background_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	//This is the ICON_STATE for the background icon
 	background_icon_state = "vamp_power_off"
-	icon_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 	transparent_when_unavailable = TRUE
@@ -26,7 +26,7 @@
 	/// Requirement flags for checks
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	/// Who can purchase the Power
-	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|TREMERE_CAN_BUY|VASSAL_CAN_BUY|HUNTER_CAN_BUY
+	var/purchase_flags = NONE // BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER|TREMERE_CAN_BUY|VASSAL_CAN_BUY
 
 	// COOLDOWNS //
 	///Timer between Power uses.
@@ -58,7 +58,7 @@
 	bloodsuckerdatum_power = null
 	return ..()
 
-/datum/action/bloodsucker/IsAvailable()
+/datum/action/bloodsucker/IsAvailable(feedback = FALSE)
 	return COOLDOWN_FINISHED(src, bloodsucker_power_cooldown)
 
 /datum/action/bloodsucker/Grant(mob/user)
@@ -72,10 +72,10 @@
 	if(active && CheckCanDeactivate()) // Active? DEACTIVATE AND END!
 		DeactivatePower()
 		return FALSE
-	if(!CheckCanPayCost() || !CheckCanUse(owner))
+	if(!CheckCanPayCost() || !CheckCanUse(owner, trigger_flags))
 		return FALSE
 	PayCost()
-	ActivatePower()
+	ActivatePower(trigger_flags)
 	if(!(power_flags & BP_AM_TOGGLE) || !active)
 		StartCooldown()
 	return TRUE
@@ -88,16 +88,27 @@
 		owner.balloon_alert(owner, "power unavailable!")
 		to_chat(owner, "[src] on cooldown!")
 		return FALSE
+	if(!bloodsuckerdatum_power)
+		var/mob/living/living_owner = owner
+		if(living_owner.blood_volume < bloodcost)
+			to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
+			return FALSE
+		return TRUE
+
 	// Have enough blood? Bloodsuckers in a Frenzy don't need to pay them
-	if(bloodsuckerdatum_power?.frenzied)
+	if(bloodsuckerdatum_power.frenzied)
 		return TRUE
 	if(bloodsuckerdatum_power.bloodsucker_blood_volume < bloodcost)
 		to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 		return FALSE
 	return TRUE
 
+///Called when the Power is upgraded.
+/datum/action/bloodsucker/proc/upgrade_power()
+	level_current++
+
 ///Checks if the Power is available to use.
-/datum/action/bloodsucker/proc/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/proc/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	if(!owner)
 		return FALSE
 	if(!isliving(user))
@@ -111,7 +122,7 @@
 		to_chat(user, span_warning("You cannot use powers while in a Frenzy!"))
 		return FALSE
 	// Stake?
-	if((check_flags & BP_CANT_USE_WHILE_STAKED) && user.AmStaked())
+	if((check_flags & BP_CANT_USE_WHILE_STAKED) && user.am_staked())
 		to_chat(user, span_warning("You have a stake in your chest! Your powers are useless."))
 		return FALSE
 	// Conscious? -- We use our own (AB_CHECK_CONSCIOUS) here so we can control it more, like the error message.
@@ -123,7 +134,7 @@
 		to_chat(user, span_warning("Not while you're incapacitated!"))
 		return FALSE
 	// Constant Cost (out of blood)
-	if(constant_bloodcost > 0 && bloodsuckerdatum_power.bloodsucker_blood_volume <= 0)
+	if(constant_bloodcost > 0 && bloodsuckerdatum_power?.bloodsucker_blood_volume <= 0)
 		to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 		return FALSE
 	return TRUE
@@ -139,12 +150,12 @@
 
 	// Wait for cooldown
 	COOLDOWN_START(src, bloodsucker_power_cooldown, this_cooldown)
-	addtimer(CALLBACK(src, .proc/UpdateButtons), this_cooldown+(1 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(build_all_button_icons)), this_cooldown+(1 SECONDS))
 
 /datum/action/bloodsucker/proc/CheckCanDeactivate()
 	return TRUE
 
-/datum/action/bloodsucker/UpdateButton(atom/movable/screen/movable/action_button/button, status_only = FALSE, force = FALSE)
+/datum/action/bloodsucker/build_all_button_icons(atom/movable/screen/movable/action_button/button, update_flags = ALL, force = FALSE)
 	if(active)
 		background_icon_state = background_icon_state_on
 	else
@@ -154,6 +165,8 @@
 /datum/action/bloodsucker/proc/PayCost()
 	// Non-bloodsuckers will pay in other ways.
 	if(!bloodsuckerdatum_power)
+		var/mob/living/living_owner = owner
+		living_owner.blood_volume -= bloodcost
 		return
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 	if(bloodsuckerdatum_power.frenzied)
@@ -161,13 +174,13 @@
 	bloodsuckerdatum_power.bloodsucker_blood_volume -= bloodcost
 	bloodsuckerdatum_power.update_hud()
 
-/datum/action/bloodsucker/proc/ActivatePower()
+/datum/action/bloodsucker/proc/ActivatePower(trigger_flags)
 	active = TRUE
 	if(power_flags & BP_AM_TOGGLE)
 		START_PROCESSING(SSprocessing, src)
 
 	owner.log_message("used [src][bloodcost != 0 ? " at the cost of [bloodcost]" : ""].", LOG_ATTACK, color="red")
-	UpdateButtons()
+	build_all_button_icons()
 
 /datum/action/bloodsucker/proc/DeactivatePower()
 	if(power_flags & BP_AM_TOGGLE)
@@ -177,7 +190,7 @@
 		return
 	active = FALSE
 	StartCooldown()
-	UpdateButtons()
+	build_all_button_icons()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/bloodsucker/process(delta_time)
@@ -186,7 +199,11 @@
 		return FALSE
 	// We can keep this up (For now), so Pay Cost!
 	if(!(power_flags & BP_AM_COSTLESS_UNCONSCIOUS) && owner.stat != CONSCIOUS)
-		bloodsuckerdatum_power?.AddBloodVolume(-constant_bloodcost)
+		if(bloodsuckerdatum_power)
+			bloodsuckerdatum_power.AddBloodVolume(-constant_bloodcost)
+		else
+			var/mob/living/living_owner = owner
+			living_owner.blood_volume -= constant_bloodcost
 	return TRUE
 
 /// Checks to make sure this power can stay active

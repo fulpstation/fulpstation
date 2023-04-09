@@ -1,4 +1,4 @@
-/datum/antagonist/bloodsucker/proc/AssignClanAndBane()
+/datum/antagonist/bloodsucker/proc/assign_clan_and_bane()
 	if(my_clan)
 		return
 

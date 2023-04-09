@@ -17,7 +17,7 @@
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
-/datum/action/bloodsucker/fortitude/ActivatePower()
+/datum/action/bloodsucker/fortitude/ActivatePower(trigger_flags)
 	. = ..()
 	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(owner, span_notice("Your flesh, skin, and muscles become as steel."))
@@ -77,11 +77,3 @@
 		bloodsucker_user.toggle_move_intent()
 	owner.balloon_alert(owner, "fortitude turned off.")
 	return ..()
-
-/// Monster Hunter version
-/datum/action/bloodsucker/fortitude/hunter
-	name = "Flow"
-	desc = "Use the arts to Flow, giving shove and stun immunity, as well as brute, burn, dismember and pierce resistance. You cannot run while this is active."
-	purchase_flags = HUNTER_CAN_BUY
-	bloodcost = 0
-	constant_bloodcost = 0

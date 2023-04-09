@@ -83,7 +83,7 @@
 	bloodcost = 80
 	cooldown = 8 SECONDS
 
-/datum/action/bloodsucker/targeted/tremere/thaumaturgy/ActivatePower()
+/datum/action/bloodsucker/targeted/tremere/thaumaturgy/ActivatePower(trigger_flags)
 	. = ..()
 	owner.balloon_alert(owner, "you start thaumaturgy")
 	if(level_current >= 2) // Only if we're at least level 2.
@@ -117,7 +117,7 @@
 	magic_9ball.firer = user
 	magic_9ball.def_zone = ran_zone(user.zone_selected)
 	magic_9ball.preparePixelProjectile(target_atom, user)
-	INVOKE_ASYNC(magic_9ball, /obj/projectile.proc/fire)
+	INVOKE_ASYNC(magic_9ball, TYPE_PROC_REF(/obj/projectile, fire))
 	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
 	PowerActivatedSuccessfully()
 

@@ -3,22 +3,28 @@
 	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
 	button_icon_state = "power_lunge"
 	power_explanation = "Predatory Lunge:\n\
-		Click any player to, after a short delay, dash at them.\n\
+		Click any player to start spinning wildly and, after a short delay, dash at them.\n\
 		When lunging at someone, you will grab them, immediately starting off at aggressive.\n\
-		There is an exception to this, those wearing Riot gear, and Monster Hunters, will be passively grabbed instead.\n\
+		Riot gear and Monster Hunters are protected and will only be passively grabbed.\n\
 		You cannot use the Power if you are already grabbing someone, or are being grabbed.\n\
+		If you grab from behind, or from darkness (Cloak of Darkness works), you will knock the target down.\n\
 		If used on a dead body, will tear their heart out.\n\
 		Higher levels increase the knockdown dealt to enemies.\n\
-		At level 4, if you grab from behind or from darkness (Cloak of Darkness works), you will knock the target down."
-	power_flags = BP_AM_TOGGLE
+		At level 4, you will no longer spin, but you will be limited to tackling from only 6 tiles away."
+	power_flags = NONE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
 	cooldown = 10 SECONDS
-	target_range = 6
 	power_activates_immediately = FALSE
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/lunge/upgrade_power()
+	. = ..()
+	//range is lowered when you get stronger.
+	if(level_current > 3)
+		target_range = 6
+
+/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -53,28 +59,20 @@
 		return FALSE
 	return TRUE
 
+/datum/action/bloodsucker/targeted/lunge/CheckCanDeactivate()
+	return !(datum_flags & DF_ISPROCESSING) //only if you aren't lunging
+
 /datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
 	. = ..()
-	var/mob/living/user = owner
-	var/mob/living/carbon/target = target_atom
-	var/turf/targeted_turf = get_turf(target)
-
 	owner.face_atom(target_atom)
-	if(level_current <= 3 && !prepare_target_lunge(target_atom))
-		PowerActivatedSuccessfully()
+	if(level_current > 3)
+		do_lunge(target_atom)
 		return
 
-	ADD_TRAIT(user, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
-	var/safety = get_dist(user, targeted_turf) * 3 + 1
-	var/consequetive_failures = 0
-	while(--safety && !target.Adjacent(user))
-		if(!step_to(user, targeted_turf))
-			consequetive_failures++
-		if(consequetive_failures >= 3) // If 3 steps don't work, just stop.
-			break
-	lunge_end(target)
-	PowerActivatedSuccessfully()
+	prepare_target_lunge(target_atom)
+	return TRUE
 
+///Starts processing the power and prepares the lunge by spinning, calls lunge at the end of it.
 /datum/action/bloodsucker/targeted/lunge/proc/prepare_target_lunge(atom/target_atom)
 	START_PROCESSING(SSprocessing, src)
 	owner.balloon_alert(owner, "lunge started!")
@@ -87,13 +85,19 @@
 		var/y_offset = base_y + rand(-3, 3)
 		animate(pixel_x = x_offset, pixel_y = y_offset, time = 1)
 
-	if(!do_after(owner, 4 SECONDS, extra_checks = CALLBACK(src, .proc/CheckCanTarget, target_atom)))
-		animate(owner, pixel_x = base_x, pixel_y = base_y, time = 1)
-		STOP_PROCESSING(SSprocessing, src)
+	if(!do_after(owner, 4 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_SLOWDOWNS), extra_checks = CALLBACK(src, PROC_REF(CheckCanTarget), target_atom)))
+		end_target_lunge(base_x, base_y)
+
 		return FALSE
+
+	end_target_lunge()
+	do_lunge(target_atom)
+	return TRUE
+
+///When preparing to lunge ends, this clears it up.
+/datum/action/bloodsucker/targeted/lunge/proc/end_target_lunge(base_x, base_y)
 	animate(owner, pixel_x = base_x, pixel_y = base_y, time = 1)
 	STOP_PROCESSING(SSprocessing, src)
-	return TRUE
 
 /datum/action/bloodsucker/targeted/lunge/process()
 	if(prob(75))
@@ -102,14 +106,29 @@
 		return
 	do_smoke(0, owner.loc, smoke_type = /obj/effect/particle_effect/fluid/smoke/transparent)
 
-/datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom)
+///Actually lunges the target, then calls lunge end.
+/datum/action/bloodsucker/targeted/lunge/proc/do_lunge(atom/hit_atom)
+	var/turf/targeted_turf = get_turf(hit_atom)
+
+	var/safety = get_dist(owner, targeted_turf) * 3 + 1
+	var/consequetive_failures = 0
+	while(--safety && !hit_atom.Adjacent(owner))
+		if(!step_to(owner, targeted_turf))
+			consequetive_failures++
+		if(consequetive_failures >= 3) // If 3 steps don't work, just stop.
+			break
+
+	lunge_end(hit_atom, targeted_turf)
+
+/datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom, turf/target_turf)
+	PowerActivatedSuccessfully()
+	// Am I next to my target to start giving the effects?
+	if(!owner.Adjacent(hit_atom))
+		return
+
 	var/mob/living/user = owner
 	var/mob/living/carbon/target = hit_atom
-	var/turf/target_turf = get_turf(target)
 
-	// Am I next to my target to start giving the effects?
-	if(!user.Adjacent(target))
-		return
 	// Did I slip or get knocked unconscious?
 	if(user.body_position != STANDING_UP || user.incapacitated())
 		var/send_dir = get_dir(user, target_turf)
@@ -130,19 +149,19 @@
 		owner.visible_message(
 			span_warning("[owner] tears into [target]'s chest!"),
 			span_warning("You tear into [target]'s chest!"))
-		var/obj/item/organ/internal/heart/myheart_now = locate() in target.internal_organs
+
+		var/obj/item/organ/internal/heart/myheart_now = locate() in target.organs
 		if(myheart_now)
 			myheart_now.Remove(target)
 			user.put_in_hands(myheart_now)
-		return
 
-	//Grab now
-	target.grabbedby(owner)
-	target.grippedby(owner, instant = TRUE)
-	// Did we knock them down?
-	if(level_current >= 4 && (!is_source_facing_target(target, owner) || owner.alpha <= 40))
-		target.Knockdown(10 + level_current * 5)
-		target.Paralyze(0.1)
+	else
+		target.grabbedby(owner)
+		target.grippedby(owner, instant = TRUE)
+		// Did we knock them down?
+		if(!is_source_facing_target(target, owner) || owner.alpha <= 40)
+			target.Knockdown(10 + level_current * 5)
+			target.Paralyze(0.1)
 
 /datum/action/bloodsucker/targeted/lunge/DeactivatePower()
 	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)

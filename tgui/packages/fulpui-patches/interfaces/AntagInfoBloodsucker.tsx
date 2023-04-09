@@ -56,7 +56,7 @@ const ObjectivePrintout = (props: any, context: any) => {
 export const AntagInfoBloodsucker = (props: any, context: any) => {
   const [tab, setTab] = useLocalState(context, 'tab', 1);
   return (
-    <Window width={620} height={580}>
+    <Window width={620} height={580} theme="spookyconsole">
       <Window.Content>
         <Tabs>
           <Tabs.Tab
@@ -84,7 +84,7 @@ export const AntagInfoBloodsucker = (props: any, context: any) => {
 const BloodsuckerIntro = () => {
   return (
     <Stack vertical fill>
-      <Stack.Item minHeight="20rem">
+      <Stack.Item minHeight="16rem">
         <Section scrollable fill>
           <Stack vertical>
             <Stack.Item textColor="red" fontSize="20px">
@@ -125,17 +125,12 @@ const BloodsuckerIntro = () => {
         <Section fill title="Items">
           <Stack vertical>
             <Stack.Item>
-              <span>
-                Rest in a <b>Coffin</b> to claim it, and that area, as your
-                lair.
-              </span>
+              Rest in a <b>Coffin</b> to claim it, and that area, as your lair.
               <br />
-              <span>Examine your new structures to see how they function!</span>
+              Examine your new structures to see how they function!
               <br />
-              <span>
-                Medical and Genetic Analyzers can sell you out, your Masquerade
-                ability will hide your identity to prevent this.
-              </span>
+              Medical and Genetic Analyzers can sell you out, your Masquerade
+              ability will hide your identity to prevent this.
               <br />
             </Stack.Item>
             <Stack.Item>

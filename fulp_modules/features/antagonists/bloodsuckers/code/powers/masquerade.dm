@@ -23,12 +23,12 @@
 		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
 	check_flags = BP_CANT_USE_IN_FRENZY
-	purchase_flags = BLOODSUCKER_CAN_BUY
+	purchase_flags = BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER
 	bloodcost = 10
 	cooldown = 5 SECONDS
 	constant_bloodcost = 0.1
 
-/datum/action/bloodsucker/masquerade/ActivatePower()
+/datum/action/bloodsucker/masquerade/ActivatePower(trigger_flags)
 	. = ..()
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned on.")
@@ -43,10 +43,10 @@
 		REMOVE_TRAIT(user, traits, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 	// Handle organs
-	var/obj/item/organ/internal/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/internal/heart/vampheart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
-		vampheart.FakeStart()
-	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+		vampheart.fake_start_heart()
+	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = initial(eyes.flash_protect)
 
@@ -67,10 +67,10 @@
 	REMOVE_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 
 	// Handle organs
-	var/obj/item/organ/internal/heart/vampheart/vampheart = user.getorganslot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/internal/heart/vampheart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
 	if(istype(vampheart))
 		vampheart.Stop()
-	var/obj/item/organ/internal/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
 	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))

@@ -1,3 +1,6 @@
+///How much Blood it costs to live.
+#define BLOODSUCKER_PASSIVE_BLOOD_DRAIN 0.1
+
 /// Runs from COMSIG_LIVING_LIFE, handles Bloodsucker constant proccesses.
 /datum/antagonist/bloodsucker/proc/LifeTick()
 	SIGNAL_HANDLER
@@ -5,39 +8,30 @@
 	if(isbrain(owner.current))
 		return
 	if(!owner)
-		INVOKE_ASYNC(src, .proc/HandleDeath)
+		INVOKE_ASYNC(src, PROC_REF(HandleDeath))
 		return
+	if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		check_end_torpor()
 	// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		INVOKE_ASYNC(src, .proc/AddBloodVolume, passive_blood_drain) // -.1 currently
-	if(HandleHealing(1))
+		INVOKE_ASYNC(src, PROC_REF(AddBloodVolume), -BLOODSUCKER_PASSIVE_BLOOD_DRAIN) // -.1 currently
+	if(HandleHealing())
 		if((COOLDOWN_FINISHED(src, bloodsucker_spam_healing)) && bloodsucker_blood_volume > 0)
 			to_chat(owner.current, span_notice("The power of your blood begins knitting your wounds..."))
 			COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_HEALING)
 	// Standard Updates
-	INVOKE_ASYNC(src, .proc/HandleDeath)
-	INVOKE_ASYNC(src, .proc/HandleStarving)
-	INVOKE_ASYNC(src, .proc/HandleTorpor)
-	INVOKE_ASYNC(src, .proc/UpdateBlood)
+	INVOKE_ASYNC(src, PROC_REF(HandleDeath))
+	INVOKE_ASYNC(src, PROC_REF(HandleStarving))
+	INVOKE_ASYNC(src, PROC_REF(update_blood))
 
-	INVOKE_ASYNC(src, .proc/update_hud)
+	INVOKE_ASYNC(src, PROC_REF(update_hud))
 
 	if(my_clan)
 		SEND_SIGNAL(my_clan, BLOODSUCKER_HANDLE_LIFE, src)
 
-/datum/antagonist/bloodsucker/proc/on_examine(datum/source, mob/examiner, examine_text)
-	SIGNAL_HANDLER
-
-	if(!iscarbon(source))
-		return
-	var/mob/living/carbon/carbon_source = source
-	var/vamp_examine = carbon_source.ReturnVampExamine(examiner)
-	examine_text += vamp_examine
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//			BLOOD
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * ## BLOOD STUFF
+ */
 /datum/antagonist/bloodsucker/proc/AddBloodVolume(value)
 	bloodsucker_blood_volume = clamp(bloodsucker_blood_volume + value, 0, max_blood_volume)
 
@@ -49,7 +43,7 @@
 	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity, you will now enter Frenzy at [FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)] Blood."))
 
 /// mult: SILENT feed is 1/3 the amount
-/datum/antagonist/bloodsucker/proc/HandleFeeding(mob/living/carbon/target, mult=1, power_level)
+/datum/antagonist/bloodsucker/proc/handle_feeding(mob/living/carbon/target, mult=1, power_level)
 	// Starts at 15 (now 8 since we doubled the Feed time)
 	var/feed_amount = 15 + (power_level * 2)
 	var/blood_taken = min(feed_amount, target.blood_volume) * mult
@@ -73,21 +67,17 @@
 		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, 1) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 	total_blood_drank += blood_taken
-	if(frenzied)
-		frenzy_blood_drank += blood_taken
 	return blood_taken
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//			HEALING
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * ## HEALING
+ */
 
 /// Constantly runs on Bloodsucker's LifeTick, and is increased by being in Torpor/Coffins
 /datum/antagonist/bloodsucker/proc/HandleHealing(mult = 1)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
 	// Don't heal if I'm staked or on Masquerade (+ not in a Coffin). Masqueraded Bloodsuckers in a Coffin however, will heal.
-	if(owner.current.AmStaked() || (HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !HAS_TRAIT(owner.current, TRAIT_NODEATH)))
+	if(owner.current.am_staked() || (HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && !HAS_TRAIT(owner.current, TRAIT_NODEATH)))
 		return FALSE
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult, 0)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
@@ -125,12 +115,12 @@
 	var/limb_regen_cost = 50 * -costMult
 	var/mob/living/carbon/user = owner.current
 	var/list/missing = user.get_missing_limbs()
-	if(missing.len && user.blood_volume < limb_regen_cost + 5)
+	if(missing.len && (user.blood_volume < limb_regen_cost + 5))
 		return FALSE
-	for(var/targetLimbZone in missing) // 1) Find ONE Limb and regenerate it.
-		user.regenerate_limb(targetLimbZone, FALSE) // regenerate_limbs() <--- If you want to EXCLUDE certain parts, do it like this ----> regenerate_limbs(0, list("head"))
+	for(var/missing_limb in missing) //Find ONE Limb and regenerate it.
+		user.regenerate_limb(missing_limb, FALSE)
 		AddBloodVolume(limb_regen_cost)
-		var/obj/item/bodypart/missing_bodypart = user.get_bodypart(targetLimbZone) // 2) Limb returns Damaged
+		var/obj/item/bodypart/missing_bodypart = user.get_bodypart(missing_limb) // 2) Limb returns Damaged
 		missing_bodypart.brute_dam = 60
 		to_chat(user, span_notice("Your flesh knits as it regrows your [missing_bodypart]!"))
 		playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
@@ -147,50 +137,43 @@
  *	This is called on Bloodsucker's Assign, and when they end Torpor.
  */
 
-/datum/antagonist/bloodsucker/proc/HealVampireOrgans()
+/datum/antagonist/bloodsucker/proc/heal_vampire_organs()
 	var/mob/living/carbon/bloodsuckeruser = owner.current
 
-	// Step 1 - Fix basic things, husk and organs.
 	bloodsuckeruser.cure_husk()
-	bloodsuckeruser.regenerate_organs()
+	bloodsuckeruser.regenerate_organs(regenerate_existing = FALSE)
 
-	// Step 2 NOTE: Giving passive organ regeneration will cause Torpor to spam /datum/client_colour/monochrome at the Bloodsucker, permanently making them colorblind!
-	for(var/all_organs in bloodsuckeruser.internal_organs)
+	for(var/all_organs in bloodsuckeruser.organs)
 		var/obj/item/organ/organ = all_organs
-		organ.setOrganDamage(0)
-	var/obj/item/organ/internal/heart/current_heart = bloodsuckeruser.getorganslot(ORGAN_SLOT_HEART)
+		organ.set_organ_damage(0)
+	var/obj/item/organ/internal/heart/current_heart = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_HEART)
 	if(!istype(current_heart, /obj/item/organ/internal/heart/vampheart) && !istype(current_heart, /obj/item/organ/internal/heart/demon) && !istype(current_heart, /obj/item/organ/internal/heart/cursed))
 		qdel(current_heart)
 		var/obj/item/organ/internal/heart/vampheart/vampiric_heart = new
 		vampiric_heart.Insert(owner.current)
 		vampiric_heart.Stop()
-	var/obj/item/organ/internal/eyes/current_eyes = bloodsuckeruser.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/internal/eyes/current_eyes = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_EYES)
 	if(current_eyes)
 		current_eyes.flash_protect = max(initial(current_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
+		current_eyes.color_cutoffs = list(25, 8, 5)
 		current_eyes.sight_flags = SEE_MOBS
-		current_eyes.see_in_dark = 8
-		current_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	bloodsuckeruser.update_sight()
 
-	// Step 3
 	if(bloodsuckeruser.stat == DEAD)
-		bloodsuckeruser.revive(full_heal = FALSE, admin_revive = FALSE)
+		bloodsuckeruser.revive()
 	for(var/i in bloodsuckeruser.all_wounds)
 		var/datum/wound/iter_wound = i
 		iter_wound.remove_wound()
 	// From [powers/panacea.dm]
 	var/list/bad_organs = list(
-		bloodsuckeruser.getorgan(/obj/item/organ/internal/body_egg),
-		bloodsuckeruser.getorgan(/obj/item/organ/internal/zombie_infection))
+		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/body_egg),
+		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/zombie_infection))
 	for(var/tumors in bad_organs)
 		var/obj/item/organ/yucky_organs = tumors
 		if(!istype(yucky_organs))
 			continue
 		yucky_organs.Remove(bloodsuckeruser)
 		yucky_organs.forceMove(get_turf(bloodsuckeruser))
-
-	if(my_clan)
-		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, bloodsuckeruser)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -209,7 +192,7 @@
 		FinalDeath()
 		return
 	// Staked while "Temp Death" or Asleep
-	if(owner.current.StakeCanKillMe() && owner.current.AmStaked())
+	if(owner.current.StakeCanKillMe() && owner.current.am_staked())
 		FinalDeath()
 		return
 	// Not organic/living? (Zombie/Skeleton/Plasmaman)
@@ -221,7 +204,7 @@
 		var/mob/living/carbon/human/dead_bloodsucker = owner.current
 		if(!HAS_TRAIT(dead_bloodsucker, TRAIT_NODEATH))
 			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
-			Check_Begin_Torpor(TRUE)
+			check_begin_torpor(TRUE)
 
 /datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
 	// Nutrition - The amount of blood is how full we are.
@@ -238,7 +221,7 @@
 		owner.current.set_timed_status_effect(3 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	// BLOOD_VOLUME_SURVIVE: [122] - Blur Vision
 	if(bloodsucker_blood_volume < BLOOD_VOLUME_SURVIVE)
-		owner.current.blur_eyes(8 - 8 * (bloodsucker_blood_volume / BLOOD_VOLUME_BAD))
+		owner.current.set_eye_blur_if_lower((8 - 8 * (bloodsucker_blood_volume / BLOOD_VOLUME_BAD))*2 SECONDS)
 
 	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
 	if(bloodsucker_blood_volume < (FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)) && !frenzied)
@@ -254,92 +237,8 @@
 	else
 		additional_regen = 0.5
 
-/**
- * # Torpor
- *
- * Torpor is what deals with the Bloodsucker falling asleep, their healing, the effects, ect.
- * This is basically what Sol is meant to do to them, but they can also trigger it manually if they wish to heal, as Burn is only healed through Torpor.
- * You cannot manually exit Torpor, it is instead entered/exited by:
- *
- * Torpor is triggered by:
- * - Being in a Coffin while Sol is on, dealt with by /HandleTorpor()
- * - Entering a Coffin with more than 10 combined Brute/Burn damage, dealt with by /closet/crate/coffin/close() [bloodsucker_coffin.dm]
- * - Death, dealt with by /HandleDeath()
- * Torpor is ended by:
- * - Having less than 10 Brute damage while OUTSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
- * - Having less than 10 Brute & Burn Combined while INSIDE of your Coffin while it isnt Sol, dealt with by /HandleTorpor()
- * - Sol being over, dealt with by /sunlight/process() [bloodsucker_daylight.dm]
-*/
-
-/datum/antagonist/bloodsucker/proc/HandleTorpor()
-	if(!owner.current)
-		return
-	if(istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
-			/// Staked? Dont heal
-			if(owner.current.AmStaked())
-				to_chat(owner.current, span_userdanger("You are staked! Remove the offending weapon from your heart before sleeping."))
-				return
-			/// Otherwise, check if it's Sol, to enter Torpor.
-			if(clan.bloodsucker_sunlight.amDay)
-				Check_Begin_Torpor(TRUE)
-	if(HAS_TRAIT(owner.current, TRAIT_NODEATH)) // Check so I don't go insane.
-		Check_End_Torpor()
-
-/datum/antagonist/bloodsucker/proc/Check_Begin_Torpor(SkipChecks = FALSE)
-	/// Are we entering Torpor via Sol/Death? Then entering it isnt optional!
-	if(SkipChecks)
-		Torpor_Begin()
-		return
-	var/mob/living/carbon/user = owner.current
-	var/total_brute = user.getBruteLoss_nonProsthetic()
-	var/total_burn = user.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
-	/// Checks - Not daylight & Has more than 10 Brute/Burn & not already in Torpor
-	if(!clan.bloodsucker_sunlight.amDay && total_damage >= 10 && !HAS_TRAIT(owner.current, TRAIT_NODEATH))
-		Torpor_Begin()
-
-/datum/antagonist/bloodsucker/proc/Check_End_Torpor()
-	var/mob/living/carbon/user = owner.current
-	var/total_brute = user.getBruteLoss_nonProsthetic()
-	var/total_burn = user.getFireLoss_nonProsthetic()
-	var/total_damage = total_brute + total_burn
-	// You are in a Coffin, so instead we'll check TOTAL damage, here.
-	if(istype(user.loc, /obj/structure/closet/crate/coffin))
-		if(!clan.bloodsucker_sunlight.amDay && total_damage <= 10)
-			Torpor_End()
-	// You're not in a Coffin? We won't check for low Burn damage
-	else if(!clan.bloodsucker_sunlight.amDay && total_brute <= 10)
-		// You're under 10 brute, but over 200 Burn damage? Don't exit Torpor, to prevent spam revival/death. Only way out is healing that Burn.
-		if(total_burn >= 199)
-			return
-		Torpor_End()
-
-/datum/antagonist/bloodsucker/proc/Torpor_Begin()
-	to_chat(owner.current, span_notice("You enter the horrible slumber of deathless Torpor. You will heal until you are renewed."))
-	/// Force them to go to sleep
-	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	/// Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
-	owner.current.set_timed_status_effect(0 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-	/// Disable ALL Powers
-	DisableAllPowers()
-
-/datum/antagonist/bloodsucker/proc/Torpor_End()
-	owner.current.grab_ghost()
-	to_chat(owner.current, span_warning("You have recovered from Torpor."))
-	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	HealVampireOrgans()
-
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
-/datum/antagonist/bloodsucker/proc/UpdateBlood()
+/datum/antagonist/bloodsucker/proc/update_blood()
 	//If we're on Masquerade, we appear to have full blood, unless we are REALLY low, in which case we don't look as bad.
 	if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		switch(bloodsucker_blood_volume)
@@ -355,12 +254,12 @@
 
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
-	FreeAllVassals()
 	// If we have no body, end here.
 	if(!owner.current || dust_timer)
 		return
 
-	DisableAllPowers()
+	free_all_vassals()
+	DisableAllPowers(forced = TRUE)
 	if(!iscarbon(owner.current))
 		owner.current.gib(TRUE, FALSE, FALSE)
 		return
@@ -370,74 +269,24 @@
 	owner.current.unequip_everything()
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
-	// Elders get dusted, Fledglings get gibbed, Malkavians get soulsharded.
-	if(my_clan.get_clan() == CLAN_MALKAVIAN)
-		var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(user))
-		stone.capture_soul(user, forced = TRUE)
-		return
+
+	if(my_clan)
+		var/unique_death = SEND_SIGNAL(my_clan, BLOODSUCKER_FINAL_DEATH, owner.current)
+		if(unique_death & DONT_DUST)
+			return
+
+	// Elders get dusted, Fledglings get gibbed.
 	if(bloodsucker_level >= 4)
-		owner.current.visible_message(
-			span_warning("[owner.current]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
+		user.visible_message(
+			span_warning("[user]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
 			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 			span_hear("You hear a dry, crackling sound."))
-		dust_timer = addtimer(CALLBACK(owner.current, /mob/living.proc/dust), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+		dust_timer = addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, dust)), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 		return
-	owner.current.visible_message(
-		span_warning("[owner.current]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
+	user.visible_message(
+		span_warning("[user]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
 		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 		span_hear("<span class='italics'>You hear a wet, bursting sound."))
-	dust_timer = addtimer(CALLBACK(owner.current, /mob/living.proc/gib, TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+	dust_timer = addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, gib), TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 
-
-// Bloodsuckers moodlets //
-/datum/mood_event/drankblood
-	description = "<span class='nicegreen'>I have fed greedly from that which nourishes me.</span>\n"
-	mood_change = 10
-	timeout = 8 MINUTES
-
-/datum/mood_event/drankblood_bad
-	description = "<span class='boldwarning'>I drank the blood of a lesser creature. Disgusting.</span>\n"
-	mood_change = -4
-	timeout = 3 MINUTES
-
-/datum/mood_event/drankblood_dead
-	description = "<span class='boldwarning'>I drank dead blood. I am better than this.</span>\n"
-	mood_change = -7
-	timeout = 8 MINUTES
-
-/datum/mood_event/drankblood_synth
-	description = "<span class='boldwarning'>I drank synthetic blood. What is wrong with me?</span>\n"
-	mood_change = -7
-	timeout = 8 MINUTES
-
-/datum/mood_event/drankkilled
-	description = "<span class='boldwarning'>I fed off of a dead person. I feel... less human.</span>\n"
-	mood_change = -15
-	timeout = 10 MINUTES
-
-/datum/mood_event/madevamp
-	description = "<span class='boldwarning'>A mortal has reached an apotheosis- undeath- by my own hand.</span>\n"
-	mood_change = 15
-	timeout = 20 MINUTES
-
-/datum/mood_event/coffinsleep
-	description = "<span class='nicegreen'>I slept in a coffin during the day. I feel whole again.</span>\n"
-	mood_change = 10
-	timeout = 6 MINUTES
-
-/datum/mood_event/daylight_1
-	description = "<span class='boldwarning'>I slept poorly in a makeshift coffin during the day.</span>\n"
-	mood_change = -3
-	timeout = 6 MINUTES
-
-/datum/mood_event/daylight_2
-	description = "<span class='boldwarning'>I have been scorched by the unforgiving rays of the sun.</span>\n"
-	mood_change = -6
-	timeout = 6 MINUTES
-
-///Candelabrum's mood event to non Bloodsucker/Vassals
-/datum/mood_event/vampcandle
-	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>\n"
-	mood_change = -15
-	timeout = 5 MINUTES
-
+#undef BLOODSUCKER_PASSIVE_BLOOD_DRAIN

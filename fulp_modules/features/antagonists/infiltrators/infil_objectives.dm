@@ -19,10 +19,12 @@
 			killsec.update_explanation_text()
 			objectives += killsec
 
-			var/datum/objective/steal/steal_obj = new
-			steal_obj.owner = owner
-			steal_obj.find_target()
-			objectives += steal_obj
+			var/datum/objective/connect_uplink/uplink = new
+			uplink.owner = owner
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/infil_uplink/radio = infil.l_store
+			uplink.explanation_text = "Connect the Uplink Radio to HQ in [radio.connecting_zone]"
+			objectives += uplink
 
 		if(INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM)
 			for(var/i = 0, i < 2, i++)
@@ -36,22 +38,47 @@
 			kill.find_sci_target()
 			objectives += kill
 
-			var/datum/objective/assassinate/kill_head = new
-			kill_head.owner = owner
-			kill_head.find_head_target()
-			objectives += kill_head
+			var/datum/objective/gorillize/gorilla = new
+			gorilla.owner = owner
+			gorilla.find_target()
+			objectives += gorilla
+
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/gorilla_serum/serum = infil.l_store
+			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/infiltrator))
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
-			for(var/i = 0, i < rand(4,6) , i++)
+			for(var/i = 0, i < rand(3,5) , i++)
 				var/datum/objective/assassinate/assassinate = new
 				assassinate.owner = owner
 				assassinate.find_target()
 				objectives += assassinate
 
-			var/datum/objective/emag_console/emag = new
-			emag.owner = owner
-			emag.update_explanation_text()
-			objectives += emag
+			var/datum/objective/missiles/rocket = new
+			rocket.owner = owner
+			rocket.update_explanation_text()
+			objectives += rocket
+
+		if(INFILTRATOR_FACTION_SELF)
+			for(var/i = 0, i < 2 , i++)
+				var/datum/objective/assassinate/assassinate = new
+				assassinate.owner = owner
+				assassinate.find_target()
+				objectives += assassinate
+
+			var/datum/objective/cyborg_hack/hacking = new
+			hacking.owner = owner
+			hacking.update_explanation_text()
+			hacking.give_card()
+			objectives += hacking
+
+			var/datum/objective/summon_wormhole/wormhole = new
+			wormhole.owner = owner
+			var/mob/living/carbon/human/infil = owner.current
+			var/obj/item/grenade/c4/wormhole/bomb = infil.l_store
+			bomb.set_bombing_zone()
+			wormhole.explanation_text = "Summon a cyborg rift in [bomb.bombing_zone]!"
+			objectives += wormhole
 
 
 //Corporate Climber objectives
@@ -72,7 +99,7 @@
 		target = pick(possible_targets)
 
 	if(target?.current)
-		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]. as a threat to Nanotrasen, ensure they are eliminated."
+		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] as a Syndicate Agent, ensure they are eliminated."
 
 
 //advanced mulligan objective
@@ -93,7 +120,7 @@
 		var/mob/living/carbon/human/target_body = target.current
 		if(target_body && target_body.get_id_name() != target_real_name)
 			target_missing_id = 1
-		explanation_text = "Using Advanced Mulligan, escape with the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
+		explanation_text = "Using Advanced Mulligan, steal the identity of [target.name] the [target.assigned_role.title] while wearing their ID card!"
 
 /datum/objective/escape/escape_with_identity/infiltrator/check_completion()
 	if(!target || !target_real_name)
@@ -114,14 +141,14 @@
 
 /datum/objective/kill_pet/proc/find_pet_target()
 	var/list/possible_target_pets = list(
-		/mob/living/simple_animal/pet/dog/corgi/ian,
-		/mob/living/simple_animal/pet/dog/corgi/puppy/ian,
-		/mob/living/simple_animal/hostile/carp/lia,
-		/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
+		/mob/living/basic/pet/dog/corgi/ian,
+		/mob/living/basic/pet/dog/corgi/puppy/ian,
+		/mob/living/basic/pet/dog/pug/mcgriff,
+		/mob/living/basic/carp/pet/lia,
+		/mob/living/basic/giant_spider/sgt_araneus,
 		/mob/living/simple_animal/pet/fox/renault,
  		/mob/living/simple_animal/pet/cat/runtime,
 		/mob/living/simple_animal/parrot/poly,
-		/mob/living/simple_animal/pet/dog/pug/mcgriff,
 		/mob/living/simple_animal/sloth/paperwork,
 		/mob/living/simple_animal/sloth/citrus,
  	)
@@ -132,11 +159,11 @@
 		chosen_pet = pick(possible_target_pets)
 		target_pet = locate(chosen_pet) in GLOB.mob_living_list
 		if(!target_pet)
-			possible_target_pets -=  chosen_pet
+			possible_target_pets -= chosen_pet
 			continue
 		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/simple_animal/parrot/poly/ghost))
 			target_pet = null
-		possible_target_pets -=  chosen_pet
+		possible_target_pets -= chosen_pet
 
 	update_explanation_text()
 
@@ -182,34 +209,39 @@
 	if(target?.current)
 		explanation_text = "Make a stance against science's animal experimentation by assassinating [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]!"
 
-
-
-
-/datum/objective/assassinate/proc/find_head_target()
-	var/list/com_targets = SSjob.get_all_heads()
-	if(!com_targets.len)
-		find_target()
-		return
-	else
-		target = pick(com_targets)
-	update_explanation_text()
-
-
-//Mauradars Objectives
-
-//emagging emergency shuttle console
-
-/datum/objective/emag_console
-	name = "Emag the emergency shuttle console"
-	explanation_text = "Give the crew a bumpy ride back home by emagging the emergency shuttle console!"
+/datum/objective/gorillize
+	name = "Summon endangered gorilla"
 	admin_grantable = TRUE
+	var/target_role_type = FALSE
 
-/datum/objective/emag_console/check_completion()
-	var/check_emag = FALSE
-	for(var/obj/machinery/computer/emergency_shuttle/console in GLOB.machines)
-		if(console.obj_flags & EMAGGED)
-			check_emag = TRUE
-			break
+/datum/objective/gorillize/update_explanation_text()
+	if(target?.current)
+		explanation_text = "Inject [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] with the gorilla serum!"
 
-	return completed || check_emag
+// SELF objectives
+/datum/objective/cyborg_hack
+    name = "Emag Robot"
 
+/datum/objective/cyborg_hack/update_explanation_text()
+	explanation_text = "Steal a cyborg's data and subvert them by using your single-use silicon cryptographic sequencer on them!"
+
+/datum/objective/cyborg_hack/proc/give_card()
+	if(!owner)
+		return
+	var/mob/living/carbon/criminal = owner.current
+	var/obj/item/card/emag/silicon_hack/card = new(criminal)
+	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK)
+	criminal.equip_in_one_of_slots(card, slots)
+
+/datum/objective/missiles
+	name = "Missile Barrage"
+
+/datum/objective/missiles/update_explanation_text()
+		explanation_text = "Launch missiles towards the station by using the Missile Disk on a communications console and inserting it into the Large Handphone. "
+
+/datum/objective/summon_wormhole
+	name = "Summon a cyborg wormhole"
+
+
+/datum/objective/connect_uplink
+	name = "Connect uplink"

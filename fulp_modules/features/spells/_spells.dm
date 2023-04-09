@@ -6,7 +6,7 @@
 	school = SCHOOL_EVOCATION
 	cooldown_time = 5 SECONDS //5 seconds, so the smoke can't be spammed
 
-	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "funk"
 
 	var/list/dancefloor_turfs

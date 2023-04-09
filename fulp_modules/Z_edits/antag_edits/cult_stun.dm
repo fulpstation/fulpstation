@@ -30,7 +30,7 @@
 			victim.mob_light(_color = LIGHT_COLOR_HOLY_MAGIC, _range = 2, _duration = 100)
 			var/mutable_appearance/forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
 			victim.add_overlay(forbearance)
-			addtimer(CALLBACK(victim, /atom.proc/cut_overlay, forbearance), 100)
+			addtimer(CALLBACK(victim, TYPE_PROC_REF(/atom, cut_overlay), forbearance), 100)
 
 			if(istype(anti_magic_source, /obj/item))
 				var/obj/item/ams_object = anti_magic_source
@@ -64,7 +64,7 @@
 					silicon_victim.emp_act(EMP_HEAVY)
 				else if(iscarbon(target))
 					var/mob/living/carbon/carbon_target = victim
-					carbon_target.silent += 6
+					carbon_target.adjust_silence(6 SECONDS)
 					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/stutter)
 					carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/slurring/cult)
 					carbon_target.set_timed_status_effect(1.5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)

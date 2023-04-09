@@ -17,7 +17,7 @@
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/targeted/brawn/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.) // Default checks
 		return FALSE
@@ -49,7 +49,7 @@
 			span_warning("closet] tears apart as you bash it open from within!"),
 		)
 		to_chat(user, span_warning("We bash [closet] wide open!"))
-		addtimer(CALLBACK(src, .proc/break_closet, user, closet), 1)
+		addtimer(CALLBACK(src, PROC_REF(break_closet), user, closet), 1)
 		used = TRUE
 
 	// Remove both Handcuffs & Legcuffs
@@ -119,7 +119,9 @@
 	if(isliving(target_atom))
 		var/mob/living/target = target_atom
 		var/mob/living/carbon/carbonuser = user
-		var/hitStrength = carbonuser.dna.species.punchdamagehigh * 1.25 + 2
+		//You know what I'm just going to take the average of the user's limbs max damage instead of dealing with 2 hands
+		var/obj/item/bodypart/user_active_arm = carbonuser.get_active_hand()
+		var/hitStrength = user_active_arm.unarmed_damage_high * 1.25 + 2
 		// Knockdown!
 		var/powerlevel = min(5, 1 + level_current)
 		if(rand(5 + powerlevel) >= 5)
@@ -146,18 +148,18 @@
 	else if(istype(target_atom, /obj/structure/closet) && level_current >= 3)
 		var/obj/structure/closet/target_closet = target_atom
 		user.balloon_alert(user, "you prepare to bash [target_closet] open...")
-		if(!do_mob(user, target_closet, 2.5 SECONDS))
+		if(!do_after(user, 2.5 SECONDS, target_closet))
 			user.balloon_alert(user, "interrupted!")
 			return FALSE
 		target_closet.visible_message(span_danger("[target_closet] breaks open as [user] bashes it!"))
-		addtimer(CALLBACK(src, .proc/break_closet, user, target_closet), 1)
+		addtimer(CALLBACK(src, PROC_REF(break_closet), user, target_closet), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 	// Target Type: Door
 	else if(istype(target_atom, /obj/machinery/door) && level_current >= 4)
 		var/obj/machinery/door/target_airlock = target_atom
 		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
 		owner.balloon_alert(owner, "you prepare to tear open [target_airlock]...")
-		if(!do_mob(user, target_airlock, 2.5 SECONDS))
+		if(!do_after(user, 2.5 SECONDS, target_airlock))
 			user.balloon_alert(user, "interrupted!")
 			return FALSE
 		if(target_airlock.Adjacent(user))

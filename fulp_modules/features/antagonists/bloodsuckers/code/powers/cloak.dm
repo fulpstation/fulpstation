@@ -16,7 +16,7 @@
 	var/was_running
 
 /// Must have nobody around to see the cloak
-/datum/action/bloodsucker/cloak/CheckCanUse(mob/living/carbon/user)
+/datum/action/bloodsucker/cloak/CheckCanUse(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -25,7 +25,7 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/cloak/ActivatePower()
+/datum/action/bloodsucker/cloak/ActivatePower(trigger_flags)
 	. = ..()
 	var/mob/living/user = owner
 	was_running = (user.m_intent == MOVE_INTENT_RUN)

@@ -38,15 +38,12 @@
 
 /obj/effect/particle_effect/fluid/foam/Initialize(mapload)
 	. = ..()
+	if(slippery_foam)
+		AddComponent(/datum/component/slippery, 100)
 	create_reagents(1000, REAGENT_HOLDER_INSTANT_REACT)
 	playsound(src, 'sound/effects/bubbles2.ogg', 80, TRUE, -3)
 	AddElement(/datum/element/atmos_sensitive, mapload)
 	SSfoam.start_processing(src)
-
-/obj/effect/particle_effect/fluid/foam/ComponentInitialize()
-	. = ..()
-	if(slippery_foam)
-		AddComponent(/datum/component/slippery, 100)
 
 /obj/effect/particle_effect/fluid/foam/Destroy()
 	SSfoam.stop_processing(src)
@@ -195,6 +192,14 @@
 	SSfoam.queue_spread(foam)
 
 
+// Short-lived foam
+/// A foam variant which dissipates quickly.
+/obj/effect/particle_effect/fluid/foam/short_life
+	lifetime = 1 SECONDS
+
+/datum/effect_system/fluid_spread/foam/short
+	effect_type = /obj/effect/particle_effect/fluid/foam/short_life
+
 // Long lasting foam
 /// A foam variant which lasts for an extended amount of time.
 /obj/effect/particle_effect/fluid/foam/long_life
@@ -256,6 +261,9 @@
 		return
 	foaming.adjust_wet_stacks(2)
 
+/// A factory which produces firefighting foam
+/datum/effect_system/fluid_spread/foam/firefighting
+	effect_type = /obj/effect/particle_effect/fluid/foam/firefighting
 
 // Metal foam
 
@@ -431,3 +439,7 @@
 		potential_tinder.extinguish_mob()
 	for(var/obj/item/potential_tinder in location)
 		potential_tinder.extinguish()
+
+#undef MINIMUM_FOAM_DILUTION_RANGE
+#undef MINIMUM_FOAM_DILUTION
+#undef FOAM_REAGENT_SCALE

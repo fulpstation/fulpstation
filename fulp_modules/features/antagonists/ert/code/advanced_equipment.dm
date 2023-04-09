@@ -36,5 +36,6 @@
 	name = "insulated nitrile gloves"
 	desc = "Very pricy specialized combat gloves, thicker than latex. Transfers intimate paramedic knowledge into the user via nanochips, along with providing insulation."
 	icon_state = "nitrile"
-	inhand_icon_state = "nitrilegloves"
+	inhand_icon_state = "greyscale_gloves"
+	greyscale_colors = "#99eeff"
 	clothing_traits = list(TRAIT_QUICKER_CARRY, TRAIT_FASTMED)

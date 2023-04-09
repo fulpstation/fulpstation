@@ -8,7 +8,7 @@
  *	Level 5 - Cloak of Darkness until clicking an area, teleports the user to the selected area, causes nearby people to fall asleep.
  */
 
-// Look to /obj/effect/proc_holder/spell/pointed/void_blink for help.
+// Look to /datum/action/cooldown/spell/pointed/void_phase for help.
 
 /datum/action/bloodsucker/targeted/tremere/auspex
 	name = "Level 1: Auspex"
@@ -48,7 +48,7 @@
 		Click any area up to teleport there, ending the Power."
 	bloodcost = 15
 	cooldown = 8 SECONDS
-	target_range = 6
+	target_range = null
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced
 	name = "Level 4: Auspex"
@@ -63,7 +63,7 @@
 	background_icon_state_off = "tremere_power_gold_off"
 	bloodcost = 20
 	cooldown = 6 SECONDS
-	target_range = 6
+	target_range = null
 
 /datum/action/bloodsucker/targeted/tremere/auspex/advanced/two
 	name = "Level 5: Auspex"
@@ -72,10 +72,9 @@
 	desc = "Hide yourself within a Cloak of Darkness, click on an area to teleport, leaving nearby people bleeding and asleep."
 	power_explanation = "Level 5: Auspex:\n\
 		When Activated, you will be hidden in a Cloak of Darkness.\n\
-		Click any area up to teleport there, ending the Power and causing people at your end location to fall asleep for 10 seconds."
+		Click any area up to teleport there, ending the Power and causing people at your end location to fall over in pain."
 	bloodcost = 25
 	cooldown = 8 SECONDS
-
 
 /datum/action/bloodsucker/targeted/tremere/auspex/CheckValidTarget(atom/target_atom)
 	. = ..()
@@ -83,7 +82,7 @@
 		return FALSE
 	return isturf(target_atom)
 
-/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower()
+/datum/action/bloodsucker/targeted/tremere/auspex/ActivatePower(trigger_flags)
 	. = ..()
 	owner.AddElement(/datum/element/digitalcamo)
 	animate(owner, alpha = 15, time = 1 SECONDS)
@@ -109,13 +108,12 @@
 	for(var/mob/living/carbon/living_mob in range(1, targeted_turf)-user)
 		if(IS_BLOODSUCKER(living_mob) || IS_VASSAL(living_mob))
 			continue
-		if(level_current == 4)
+		if(level_current >= 4)
 			var/obj/item/bodypart/bodypart = pick(living_mob.bodyparts)
-			var/datum/wound/slash/critical/crit_wound = new
-			crit_wound.apply_wound(bodypart)
-			living_mob.adjustFireLoss(20)
-		if(level_current == 5)
-			living_mob.SetUnconscious(10 SECONDS)
+			bodypart.force_wound_upwards(/datum/wound/slash/critical)
+			living_mob.adjustBruteLoss(15)
+		if(level_current >= 5)
+			living_mob.Knockdown(10 SECONDS, ignore_canstun = TRUE)
 
 	do_teleport(owner, targeted_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
 	PowerActivatedSuccessfully()

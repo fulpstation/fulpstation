@@ -38,7 +38,7 @@
 		/obj/item/clothing/shoes/sneakers/black,
 		/obj/item/clothing/suit/toggle/suspenders,
 		/obj/item/clothing/under/rank/civilian/mime,
-		/obj/item/reagent_containers/food/drinks/bottle/bottleofnothing,
+		/obj/item/reagent_containers/cup/glass/bottle/bottleofnothing,
 		/obj/item/storage/backpack/mime,
 	)
 
@@ -46,11 +46,13 @@
 
 /datum/supply_pack/costumes_toys/fnaf_plushies
 	name = "Five Nights at Freddy's Plushy Crate"
-	desc = "A crate featuring the iconic Freddy and Chica from the Five Night's at Freddy's series."
+	desc = "A crate featuring the iconic four animatronics from the Five Night's at Freddy's series."
 	cost = CARGO_CRATE_VALUE * 2
 	contains = list(
-		/obj/item/toy/plush/freddy,
-		/obj/item/toy/plush/chica,
+		/obj/item/toy/plush/animatronic,
+		/obj/item/toy/plush/animatronic/chica,
+		/obj/item/toy/plush/animatronic/foxy,
+		/obj/item/toy/plush/animatronic/bonnie,
 	)
 	crate_name = "five nights at freddy's plushy crate"
 

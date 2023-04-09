@@ -8,6 +8,7 @@
 
 /obj/item/soulstone/bloodsucker
 	theme = THEME_WIZARD
+	required_role = /datum/antagonist/vassal //vassals can free their master
 
 /obj/item/soulstone/bloodsucker/init_shade(mob/living/carbon/human/victim, mob/user, message_user = FALSE, mob/shade_controller)
 	. = ..()
@@ -18,12 +19,7 @@
 	var/mob/dead/observer/chosen_ghost
 	chosen_ghost = victim.get_ghost(TRUE,TRUE) //Try to grab original owner's ghost first
 	if(!chosen_ghost || !chosen_ghost.client) //Failing that, we grab a ghosts
-		var/list/consenting_candidates = poll_ghost_candidates("Would you like to play as a Shade?", "Cultist", ROLE_CULTIST, 50, POLL_IGNORE_SHADE)
-		if(consenting_candidates.len)
-			chosen_ghost = pick(consenting_candidates)
-	if(!victim)
-		return FALSE
-	if(contents.len) //If they used the soulstone on someone else in the meantime
+		victim.dust()
 		return FALSE
 	victim.unequip_everything()
 	init_shade(victim, user, shade_controller = chosen_ghost)

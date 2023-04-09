@@ -64,6 +64,9 @@
 /obj/item/storage/box/halloween/edition_21
 	year = 2021
 
+/obj/item/storage/box/halloween/edition_22
+	year = 2022
+
 /**
  * Gift code
  */

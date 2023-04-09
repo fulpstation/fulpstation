@@ -34,8 +34,6 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 		ui.open()
 
 /datum/request_manager/mentor/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
-
 	// Only admins should be sending actions
 	if (!(usr.client in GLOB.mentors))
 		to_chat(usr, "You do not have permission to do this.", confidential = TRUE)
@@ -57,6 +55,7 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 			var/mob/M = request.owner?.mob
 			usr.client.mentor_follow(M)
 			return TRUE
+	return ..()
 
 /datum/request_manager/mentor/ui_data(mob/user)
 	. = list(

@@ -4,6 +4,12 @@
 #define SPECIES_BEEFMAN "beefman"
 
 /**
+* Beefman damage description defines
+*/
+#define BEEF_BRUTE_EXAMINE_TEXT "tenderizing"
+#define BEEF_BURN_EXAMINE_TEXT "searing"
+
+/**
  * Beefman color pref defines
  */
 #define BEEF_COLOR_VERY_RARE "Very Rare"

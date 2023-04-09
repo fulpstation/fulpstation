@@ -13,7 +13,7 @@
 		target.grabbedby(user)
 		target.grippedby(user, instant = TRUE)
 		return TRUE
-	..()
+	return ..()
 
 /**
  * # Status effect
@@ -52,7 +52,7 @@
 	bloodsuckerdatum = IS_BLOODSUCKER(user)
 
 	// Disable ALL Powers and notify their entry
-	bloodsuckerdatum.DisableAllPowers()
+	bloodsuckerdatum.DisableAllPowers(forced = TRUE)
 	to_chat(owner, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
 	to_chat(owner, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, have stun resistance, cannot speak, hear, or use any powers outside of Feed and Trespass (If you have it)."))
 	owner.balloon_alert(owner, "you enter a frenzy!")
@@ -77,8 +77,6 @@
 	if(user.handcuffed || user.legcuffed)
 		user.clear_cuffs(cuffs, TRUE)
 		user.clear_cuffs(legcuffs, TRUE)
-	// Keep track of how many times we've entered a Frenzy.
-	bloodsuckerdatum.frenzies += 1
 	bloodsuckerdatum.frenzied = TRUE
 	return ..()
 
