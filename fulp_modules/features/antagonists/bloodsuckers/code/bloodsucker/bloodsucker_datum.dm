@@ -375,7 +375,7 @@
 	else
 		report += "<span class='redtext big'>The [name] has failed!</span>"
 
-	return report
+	return report.Join("<br>")
 
 /datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
 	// Purchase Roundstart Powers
