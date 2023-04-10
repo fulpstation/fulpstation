@@ -81,6 +81,10 @@
 			objectives += wormhole
 
 
+/datum/antagonist/traitor/infiltrator/forge_ending_objective()
+	return
+
+
 //Corporate Climber objectives
 
 //Find Traitor target
