@@ -27,6 +27,13 @@
 	name = "Solar Flare Timer"
 	icon_state = "sunlight"
 	screen_loc = UI_SUNLIGHT_DISPLAY
+#ifdef BLOODSUCKER_TESTING
+	var/datum/controller/subsystem/sunlight/sunlight_subsystem
+
+/atom/movable/screen/bloodsucker/sunlight_counter/New(loc, ...)
+	. = ..()
+	sunlight_subsystem = SSsunlight
+#endif
 
 /// Update Blood Counter + Rank Counter
 /datum/antagonist/bloodsucker/proc/update_hud()
