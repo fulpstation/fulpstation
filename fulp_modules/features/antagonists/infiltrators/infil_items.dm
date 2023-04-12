@@ -523,6 +523,9 @@
 	antag_datum = /datum/antagonist/infiltrator_backup
 
 /obj/item/antag_spawner/nuke_ops/infiltrator_backup/attack_self(mob/user)
+	if(used)
+		return
+	used = TRUE
 	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 	if(!criminal)
 		return
@@ -531,12 +534,12 @@
 	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
 	var/list/infil_candidates = poll_ghost_candidates("Do you want to play as an infiltrator backup?", ROLE_INFILTRATOR, ROLE_INFILTRATOR, 150, POLL_IGNORE_SYNDICATE)
 	if(LAZYLEN(infil_candidates))
-		used = TRUE
 		var/mob/dead/observer/ghost = pick(infil_candidates)
 		spawn_antag(ghost.client, get_turf(src), "infiltrator", user.mind)
 		do_sparks(4, TRUE, src)
 		qdel(src)
 	else
+		used = FALSE
 		to_chat(user, span_warning("Unable to contact Corporate. Please wait and try again later."))
 
 /obj/item/antag_spawner/nuke_ops/infiltrator_backup/spawn_antag(client/C, turf/T, kind, datum/mind/user)
