@@ -55,6 +55,8 @@
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab = new
 
+	///The limit to how many vassals bloodsucker can own
+	var/limit = 3
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
 	///Special vassals I own, to not have double of the same type.
