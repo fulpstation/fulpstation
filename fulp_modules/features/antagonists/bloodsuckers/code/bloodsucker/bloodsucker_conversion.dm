@@ -39,7 +39,7 @@
 		return TRUE
 	var/vassals_amount = bloodsuckerdatum.vassals.len
 	if(vassals_amount >= limit)
-		to_chat(owner.current, span_danger("too many, dumbass!"))
+		to_chat(owner.current, span_danger("Your are unable to bring more than 3 vassals under your control!"))
 		return FALSE
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = master.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum && bloodsuckerdatum.broke_masquerade)
