@@ -1,9 +1,5 @@
 ## List of all TG edits:
 
-- _maps/_basemap.dm > Adds our maps to the list of playable maps
-
-- code/__DEFINES/role_preferences.dm > Bloodsuckers/Monster Hunters as antagonist preference options
-
 - code/datums/greyscale/_greyscale_config.dm > Adds fulp_modules/strings/greyscale to the list of allowed locations for greyscale configs
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
