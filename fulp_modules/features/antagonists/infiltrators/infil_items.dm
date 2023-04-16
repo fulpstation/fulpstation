@@ -224,9 +224,9 @@
 	if(!criminal)
 		to_chat(user, span_notice("You don't understand how this injector works."))
 		return
+	var/mob/living/carbon/human/man = victim
 	if(!ishuman(victim))
 		return
-	var/mob/living/carbon/human/man = victim
 	if(man != target.resolve())
 		to_chat(user, span_notice("The serum is not compatible with this entity."))
 		return
@@ -234,19 +234,24 @@
 		return
 	var/mob/dead/observer/chosen_ghost
 	if(man.stat == DEAD)
-		chosen_ghost = man.grab_ghost(TRUE,TRUE)
+		chosen_ghost = man.grab_ghost()
 	if((!chosen_ghost && man.stat == DEAD) || considered_afk(man.mind))
 		var/list/mob/dead/observer/candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
 		if(LAZYLEN(candidates))
 			chosen_ghost = pick(candidates)
 	var/mob/living/simple_animal/hostile/gorilla/albino/ape = new(get_turf(man))
 	if(chosen_ghost)
-		ape.key = chosen_ghost.key
+		if(chosen_ghost.mind)
+			chosen_ghost.mind.transfer_to(ape,  force_key_move = TRUE)
+
+		else
+			ape.key = chosen_ghost.key
 	else
 		ape.key = man.key
 
 	man.gib()
-	ape.mind.enslave_mind_to_creator(user)
+	if(ape.mind)
+		ape.mind.enslave_mind_to_creator(user)
 	used = TRUE
 	var/datum/objective/gorillize/crime = locate() in criminal.objectives
 	if(!crime)
