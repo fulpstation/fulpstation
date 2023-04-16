@@ -1,4 +1,9 @@
 // This is triggered in roundend.dm, so that we have some round-end music instead of just playing lobby music again.
+/client/playtitlemusic(vol = 85)
+	if(SSticker.current_state == GAME_STATE_FINISHED)
+		return playcreditsmusic(vol)
+	return ..()
+
 /client/proc/playcreditsmusic(vol = 85)
 	set waitfor = FALSE
 	if(prefs && (prefs.read_preference(/datum/preference/toggle/sound_lobby)) && !CONFIG_GET(flag/disallow_title_music))

@@ -1,7 +1,5 @@
 ## List of all TG edits:
 
-- code/__HELPERS/roundend.dm > Plays our roundend music instead
-
 - code/datums/greyscale/_greyscale_config.dm > Adds fulp_modules/strings/greyscale to the list of allowed locations for greyscale configs
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
