@@ -224,9 +224,9 @@
 	if(!criminal)
 		to_chat(user, span_notice("You don't understand how this injector works."))
 		return
-	var/mob/living/carbon/human/man = victim
 	if(!ishuman(victim))
 		return
+	var/mob/living/carbon/human/man = victim
 	if(man != target.resolve())
 		to_chat(user, span_notice("The serum is not compatible with this entity."))
 		return
