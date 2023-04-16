@@ -29,26 +29,7 @@
 	icon_state = "beef_tongue"
 	say_mod = "gurgles"
 	taste_sensitivity = 15
-	modifies_speech = TRUE
 	languages_native = list(/datum/language/russian)
-	var/static/list/languages_possible_meat = typecacheof(list(
-		/datum/language/common,
-		/datum/language/draconic,
-		/datum/language/codespeak,
-		/datum/language/monkey,
-		/datum/language/narsie,
-		/datum/language/beachbum,
-		/datum/language/aphasia,
-		/datum/language/piratespeak,
-		/datum/language/moffic,
-		/datum/language/sylvan,
-		/datum/language/shadowtongue,
-		/datum/language/terrum,
-		/datum/language/nekomimetic,
-		/datum/language/russian,
-		/datum/language/buzzwords,
-	))
 
-/obj/item/organ/internal/tongue/beefman/Initialize(mapload)
-    . = ..()
-    languages_possible = languages_possible_meat
+/obj/item/organ/internal/tongue/beefman/get_possible_languages()
+	return ..() + /datum/language/russian
