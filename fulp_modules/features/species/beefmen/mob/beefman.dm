@@ -10,21 +10,19 @@
 		DYNCOLORS,
 		AGENDER,
 	)
+
 	mutant_bodyparts = list(
 		"beef_color" = "#e73f4e",
 		"beef_eyes" = BEEF_EYES_OLIVES,
 		"beef_mouth" = BEEF_MOUTH_SMILE,
-		"beef_trauma" = /datum/brain_trauma/mild/phobia/strangers,
 	)
 	inherent_traits = list(
-		TRAIT_ADVANCEDTOOLUSER,
-		TRAIT_CAN_STRIP,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_GENELESS,
-		TRAIT_LITERATE,
 		TRAIT_RESISTCOLD,
 		TRAIT_SLEEPIMMUNE,
 	)
+
 	offset_features = list(
 		OFFSET_ID = list(0,2),
 		OFFSET_GLOVES = list(0,-4),
