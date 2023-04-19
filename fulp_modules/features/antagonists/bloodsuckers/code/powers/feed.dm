@@ -129,7 +129,7 @@
 	ADD_TRAIT(owner, TRAIT_IMMOBILIZED, FEED_TRAIT)
 	return ..()
 
-/datum/action/bloodsucker/feed/process(delta_time)
+/datum/action/bloodsucker/feed/process(seconds_per_tick)
 	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref.resolve()
 	if(!ContinueActive(user, feed_target))
