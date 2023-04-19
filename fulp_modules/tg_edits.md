@@ -7,7 +7,6 @@
 - code/modules/unit_tests/simple_animal_freeze.dm > Adds our fulp-related mobs so that they are ignored by the test.
 
 - tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
-- tgui/yarn.lock > Our lockfile is slightly different - we have an additional workspace package, "fulpui-patches"
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 

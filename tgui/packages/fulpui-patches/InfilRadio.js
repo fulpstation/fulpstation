@@ -1,6 +1,6 @@
-import { useBackend } from '../../tgui/backend';
-import { Box, Button, Section } from '../../tgui/components';
-import { Window } from '../../tgui/layouts';
+import { useBackend } from '../tgui/backend';
+import { Box, Button, Section } from '../tgui/components';
+import { Window } from '../tgui/layouts';
 
 export const InfilRadio = (props, context) => {
   const { act, data } = useBackend(context);

@@ -1,6 +1,6 @@
-import { useBackend } from '../../tgui/backend';
-import { Box, Button, Section, Stack, Icon } from '../../tgui/components';
-import { Window } from '../../tgui/layouts';
+import { useBackend } from '../tgui/backend';
+import { Box, Button, Section, Stack, Icon } from '../tgui/components';
+import { Window } from '../tgui/layouts';
 
 const HunterObjectives = (props, context) => {
   const { act, data } = useBackend(context);

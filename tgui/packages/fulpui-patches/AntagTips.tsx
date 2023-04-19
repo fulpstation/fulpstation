@@ -1,7 +1,7 @@
-import { useBackend } from 'tgui/backend';
+import { useBackend } from '../tgui/backend';
 import { classes } from 'common/react';
-import { Box, Flex, Stack, Divider, Section } from '../../tgui/components';
-import { Window } from '../../tgui/layouts';
+import { Box, Flex, Stack, Divider, Section } from '../tgui/components';
+import { Window } from '../tgui/layouts';
 
 type AntagTipInfo = {
   name: string;

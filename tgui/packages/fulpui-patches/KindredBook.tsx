@@ -1,6 +1,6 @@
-import { useBackend } from '../../tgui/backend';
-import { Collapsible, Table, Section } from '../../tgui/components';
-import { Window } from '../../tgui/layouts';
+import { useBackend } from '../tgui/backend';
+import { Collapsible, Table, Section } from '../tgui/components';
+import { Window } from '../tgui/layouts';
 
 type Data = {
   clans: ClanInfo[];
