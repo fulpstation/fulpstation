@@ -70,24 +70,24 @@
 
 /datum/action/cooldown/wonderland_drop/Activate()
 	StartCooldown(360 SECONDS, 360 SECONDS)
+	var/mob/living/sleeper = owner
 	if(!landmark)
 		return
-	original_loc = get_turf(owner)
+	original_loc = get_turf(sleeper)
 	var/turf/theplace = get_turf(landmark)
-	owner.forceMove(theplace)
-	var/mob/living/sleeper = owner
+	sleeper.forceMove(theplace)
 	sleeper.Sleeping(2 SECONDS)
 	sleep(3 SECONDS)
-	to_chat(owner, span_warning("You wake up in the Wonderland"))
-	owner.playsound_local(owner, 'fulp_modules/features/antagonists/monster_hunter/sounds/wonderlandmusic.ogg',30)
-	addtimer(CALLBACK(src, PROC_REF(return_to_station), owner), 1 MINUTES)
+	to_chat(sleeper, span_warning("You wake up in the Wonderland."))
+	owner.playsound_local(sleeper, 'fulp_modules/features/antagonists/monster_hunter/sounds/wonderlandmusic.ogg',10)
+	addtimer(CALLBACK(src, PROC_REF(return_to_station), sleeper), 1 MINUTES)
 	StartCooldown()
 
-/datum/action/cooldown/wonderland_drop/proc/return_to_station()
+/datum/action/cooldown/wonderland_drop/proc/return_to_station(mob/living/sleeper)
 	if(!original_loc)
 		return
-	owner.forceMove(original_loc)
-	to_chat(owner, span_warning("You feel like you wake up from a deep slumber, was it all a dream?"))
+	sleeper.forceMove(original_loc)
+	to_chat(sleeper, span_warning("You feel like you have woken up from a deep slumber, was it all a dream?"))
 	original_loc = null
 
 /datum/action/cooldown/spell/conjure_item/blood_silver
