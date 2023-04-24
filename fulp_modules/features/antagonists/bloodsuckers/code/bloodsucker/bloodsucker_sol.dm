@@ -6,7 +6,7 @@
 
 /// Start Sol, called when someone is assigned Bloodsucker
 /datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	var/list/existing_suckers = get_antag_minds(/datum/antagonist/bloodsucker) - src
+	var/list/existing_suckers = get_antag_minds(/datum/antagonist/bloodsucker) - owner
 	if(!length(existing_suckers))
 		message_admins("New Sol has been created due to Bloodsucker assignment.")
 		SSsunlight.can_fire = TRUE
