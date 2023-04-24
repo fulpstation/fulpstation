@@ -438,9 +438,14 @@
 		return
 	if(!hunter.rabbits.len)
 		return
+	var/obj/effect/selected_bunny
 	for(var/obj/effect/located as anything in hunter.rabbits)
 		if(get_dist(user,located) < dist)
 			dist = get_dist(user,located)
+			selected_bunny = located
+	var/z_difference = selected_bunny.z - user.z
+	if(dist < 50 && z_difference != 0)
+		to_chat(user,span_warning("[z_difference] [z_difference == 1 ? "floor" : "floors"] [selected_bunny.z > user.z ? "above" : "below"]..."))
 	return dist
 
 /obj/item/rabbit_locator/Destroy()

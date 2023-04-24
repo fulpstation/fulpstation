@@ -168,50 +168,6 @@
 	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
-//////////////////////////////////////////////////////////////////////////
-//			Monster Hunter Pinpointer
-//////////////////////////////////////////////////////////////////////////
-
-/// TAKEN FROM: /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
-/datum/status_effect/agent_pinpointer/hunter_edition
-	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
-	minimum_range = HUNTER_SCAN_MIN_DISTANCE
-	tick_interval = HUNTER_SCAN_PING_TIME
-	duration = 10 SECONDS
-	range_fuzz_factor = 5 //PINPOINTER_EXTRA_RANDOM_RANGE
-
-/atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
-	name = "Monster Tracking"
-	desc = "You always know where the hellspawn are."
-
-/datum/status_effect/agent_pinpointer/hunter_edition/scan_for_target()
-	var/turf/my_loc = get_turf(owner)
-
-	var/list/mob/living/carbon/monsters = list()
-	for(var/datum/antagonist/monster in GLOB.antagonists)
-		var/datum/mind/brain = monster.owner
-		if(brain == owner || !brain)
-			continue
-		if(IS_HERETIC(brain.current) || IS_BLOODSUCKER(brain.current) || IS_CULTIST(brain.current) || IS_WIZARD(brain.current))
-			monsters += brain
-		if(brain.has_antag_datum(/datum/antagonist/changeling))
-			monsters += brain
-		if(brain.has_antag_datum(/datum/antagonist/ashwalker))
-			monsters += brain
-
-	if(monsters.len)
-		/// Point at a 'random' monster, biasing heavily towards closer ones.
-		scan_target = pick_weight(monsters)
-		to_chat(owner, span_warning("You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b>"))
-	else
-		scan_target = null
-
-/datum/status_effect/agent_pinpointer/hunter_edition/Destroy()
-	if(scan_target)
-		to_chat(owner, span_notice("You've lost the trail."))
-	. = ..()
-
-
 /datum/antagonist/monsterhunter/proc/insight_gained()
 	SIGNAL_HANDLER
 
