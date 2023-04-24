@@ -317,10 +317,10 @@
 		/mob/living/simple_animal/soulscythe,
 		// DO NOT ADD NEW ENTRIES TO THIS LIST
 		// READ THE COMMENT ABOVE
-		// Fulp TGEdit here to add in some of the mobs that are affected by this test
-		// so that it ignores these mobs before we start to refactor them else TGU will never be completed
+		// Fulp edit - here to add in some of the mobs that are affected by this test.
 		/mob/living/simple_animal/hostile/guardian/standard/timestop,
 		/mob/living/simple_animal/hostile/gorilla/albino,
+		// Fulp edit END
 	)
 
 /datum/unit_test/simple_animal_freeze/Run()
