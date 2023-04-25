@@ -32,7 +32,8 @@
 
 /datum/bloodsucker_clan/nosferatu/handle_clan_life(datum/antagonist/bloodsucker/source)
 	. = ..()
-	bloodsuckerdatum.owner.current.blood_volume = BLOOD_VOLUME_SURVIVE
+	if(!HAS_TRAIT(owner.current, TRAIT_NOBLOOD))
+		bloodsuckerdatum.owner.current.blood_volume = BLOOD_VOLUME_SURVIVE
 
 /datum/bloodsucker_clan/nosferatu/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	ADD_TRAIT(vassaldatum.owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)

@@ -122,11 +122,11 @@
 	var/limb_regen_cost = 50 * -costMult
 	var/mob/living/carbon/user = owner.current
 	var/list/missing = user.get_missing_limbs()
-	if(missing.len && (user.blood_volume < limb_regen_cost + 5))
+	if(missing.len && (user.bloodsucker_blood_volume < limb_regen_cost + 5))
 		return FALSE
 	for(var/missing_limb in missing) //Find ONE Limb and regenerate it.
 		user.regenerate_limb(missing_limb, FALSE)
-		AddBloodVolume(limb_regen_cost)
+		AddBloodVolume(-limb_regen_cost)
 		var/obj/item/bodypart/missing_bodypart = user.get_bodypart(missing_limb) // 2) Limb returns Damaged
 		missing_bodypart.brute_dam = 60
 		to_chat(user, span_notice("Your flesh knits as it regrows your [missing_bodypart]!"))
@@ -239,6 +239,8 @@
 
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
 /datum/antagonist/bloodsucker/proc/update_blood()
+	if(HAS_TRAIT(owner.current, TRAIT_NOBLOOD))
+		return
 	//If we're on Masquerade, we appear to have full blood, unless we are REALLY low, in which case we don't look as bad.
 	if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		switch(bloodsucker_blood_volume)

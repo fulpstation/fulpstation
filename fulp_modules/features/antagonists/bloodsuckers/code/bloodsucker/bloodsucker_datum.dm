@@ -273,7 +273,8 @@
 /datum/antagonist/bloodsucker/farewell()
 	to_chat(owner.current, span_userdanger("<FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT>"))
 	// Refill with Blood so they don't instantly die.
-	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
+	if(!HAS_TRAIT(owner.current, TRAIT_NOBLOOD))
+		owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
 
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
