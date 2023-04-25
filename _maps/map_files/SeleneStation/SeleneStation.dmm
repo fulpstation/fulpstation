@@ -8017,8 +8017,13 @@
 	name = "Evidence Storage"
 	},
 /obj/effect/turf_decal/tile/security/opposingcorners,
-/obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
+/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 8
+	},
 /turf/open/floor/iron/dark,
 /area/station/security/interrogation)
 "cDl" = (
@@ -44453,6 +44458,7 @@
 	c_tag = "Security - Evidence";
 	network = list("ss13","security")
 	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /turf/open/floor/iron/dark,
 /area/station/security/interrogation)
 "oKK" = (
@@ -49028,14 +49034,14 @@
 /area/station/maintenance/department/engine)
 "qow" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
-	dir = 6
-	},
 /obj/effect/turf_decal/tile/security/anticorner{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/cyan/hidden/layer4{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/hidden/layer2{
+	dir = 1
 	},
 /turf/open/floor/iron,
 /area/station/security/brig)
@@ -49396,8 +49402,12 @@
 /area/station/maintenance/starboard/fore)
 "quH" = (
 /obj/effect/turf_decal/tile/security/anticorner,
-/obj/machinery/power/apc/auto_name/directional/south,
-/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
+	dir = 5
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/station/security/interrogation)
 "quL" = (
