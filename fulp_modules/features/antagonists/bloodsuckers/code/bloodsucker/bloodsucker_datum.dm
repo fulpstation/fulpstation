@@ -108,14 +108,6 @@
 		TRAIT_HARDLY_WOUNDED,
 	)
 
-/datum/antagonist/bloodsucker/can_be_owned(datum/mind/new_owner)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(!new_owner.can_make_bloodsucker())
-		return FALSE
-	return TRUE
-
 /**
  * Apply innate effects is everything given to the mob
  * When a body is tranferred, this is called on the new mob
@@ -126,6 +118,7 @@
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(current_mob, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(LifeTick))
+	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
 
@@ -147,7 +140,7 @@
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	UnregisterSignal(current_mob, list(COMSIG_LIVING_LIFE, COMSIG_PARENT_EXAMINE))
+	UnregisterSignal(current_mob, list(COMSIG_LIVING_LIFE, COMSIG_PARENT_EXAMINE, COMSIG_LIVING_DEATH))
 	handle_clown_mutation(current_mob, removing = FALSE)
 
 	if(current_mob.hud_used)
@@ -212,7 +205,8 @@
 
 	. = ..()
 	// Assign Powers
-	AssignStarterPowersAndStats()
+	give_starting_powers()
+	assign_starting_stats()
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
@@ -382,12 +376,13 @@
 
 	return report.Join("<br>")
 
-/datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	// Purchase Roundstart Powers
+/datum/antagonist/bloodsucker/proc/give_starting_powers()
 	for(var/datum/action/bloodsucker/all_powers as anything in all_bloodsucker_powers)
 		if(!(initial(all_powers.purchase_flags) & BLOODSUCKER_DEFAULT_POWER))
 			continue
 		BuyPower(new all_powers)
+
+/datum/antagonist/bloodsucker/proc/assign_starting_stats()
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))

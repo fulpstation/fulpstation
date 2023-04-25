@@ -30,17 +30,7 @@
 	broke_masquerade = TRUE
 	antag_hud_name = "masquerade_broken"
 	add_team_hud(owner.current)
-	for(var/mob/living/all_malkavians as anything in GLOB.bloodsucker_clan_members[CLAN_MALKAVIAN])
-		if(!isliving(all_malkavians))
-			continue
-		to_chat(all_malkavians, span_userdanger("[owner.current] has broken the Masquerade! Ensure [owner.current.p_they()] [owner.current.p_are()] eliminated at all costs!"))
-		var/datum/antagonist/bloodsucker/bloodsuckerdatum = all_malkavians.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-		var/datum/objective/assassinate/masquerade_objective = new /datum/objective/assassinate
-		masquerade_objective.target = owner.current
-		masquerade_objective.objective_name = "Clan Objective"
-		masquerade_objective.explanation_text = "Ensure [owner.current], who has broken the Masquerade, succumbs to Final Death."
-		bloodsuckerdatum.objectives += masquerade_objective
-		all_malkavians.mind.announce_objectives()
+	SEND_GLOBAL_SIGNAL(COMSIG_BLOODSUCKER_BROKE_MASQUERADE)
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
 /datum/antagonist/bloodsucker/proc/fix_masquerade()
@@ -79,11 +69,13 @@
 /datum/antagonist/bloodsucker/proc/RankDown()
 	bloodsucker_level_unspent--
 
-/datum/antagonist/bloodsucker/proc/remove_nondefault_powers()
+/datum/antagonist/bloodsucker/proc/remove_nondefault_powers(return_levels = FALSE)
 	for(var/datum/action/bloodsucker/power as anything in powers)
 		if(power.purchase_flags & BLOODSUCKER_DEFAULT_POWER)
 			continue
 		RemovePower(power)
+		if(return_levels)
+			bloodsucker_level_unspent++
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power as anything in powers)
@@ -101,7 +93,7 @@
 /datum/antagonist/bloodsucker/proc/SpendRank(mob/living/carbon/human/target, cost_rank = TRUE, blood_cost)
 	if(!owner || !owner.current || !owner.current.client || (cost_rank && bloodsucker_level_unspent <= 0))
 		return
-	SEND_SIGNAL(my_clan, BLOODSUCKER_RANK_UP, src, target, cost_rank, blood_cost)
+	SEND_SIGNAL(src, BLOODSUCKER_RANK_UP, target, cost_rank, blood_cost)
 
 /**
  * Called when a Bloodsucker reaches Final Death

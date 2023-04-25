@@ -2,7 +2,7 @@
 #define BLOODSUCKER_PASSIVE_BLOOD_DRAIN 0.1
 
 /// Runs from COMSIG_LIVING_LIFE, handles Bloodsucker constant proccesses.
-/datum/antagonist/bloodsucker/proc/LifeTick()
+/datum/antagonist/bloodsucker/proc/LifeTick(mob/living/source, seconds_per_tick, times_fired)
 	SIGNAL_HANDLER
 
 	if(isbrain(owner.current))
@@ -20,14 +20,21 @@
 			to_chat(owner.current, span_notice("The power of your blood begins knitting your wounds..."))
 			COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_HEALING)
 	// Standard Updates
-	INVOKE_ASYNC(src, PROC_REF(HandleDeath))
+	SEND_SIGNAL(src, COMSIG_BLOODSUCKER_ON_LIFETICK)
 	INVOKE_ASYNC(src, PROC_REF(HandleStarving))
 	INVOKE_ASYNC(src, PROC_REF(update_blood))
 
 	INVOKE_ASYNC(src, PROC_REF(update_hud))
 
-	if(my_clan)
-		SEND_SIGNAL(my_clan, BLOODSUCKER_HANDLE_LIFE, src)
+/datum/antagonist/bloodsucker/proc/on_death(mob/living/source, gibbed)
+	SIGNAL_HANDLER
+	INVOKE_ASYNC(src, PROC_REF(HandleDeath))
+	RegisterSignal(owner.current, COMSIG_LIVING_REVIVE, PROC_REF(on_revive))
+	RegisterSignal(src, COMSIG_BLOODSUCKER_ON_LIFETICK, PROC_REF(HandleDeath))
+
+/datum/antagonist/bloodsucker/proc/on_revive(mob/living/source)
+	UnregisterSignal(owner.current, COMSIG_LIVING_REVIVE)
+	UnregisterSignal(src, COMSIG_BLOODSUCKER_ON_LIFETICK)
 
 /**
  * ## BLOOD STUFF
@@ -143,8 +150,7 @@
 	bloodsuckeruser.cure_husk()
 	bloodsuckeruser.regenerate_organs(regenerate_existing = FALSE)
 
-	for(var/all_organs in bloodsuckeruser.organs)
-		var/obj/item/organ/organ = all_organs
+	for(var/obj/item/organ/organ as anything in bloodsuckeruser.organs)
 		organ.set_organ_damage(0)
 	var/obj/item/organ/internal/heart/current_heart = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_HEART)
 	if(!istype(current_heart, /obj/item/organ/internal/heart/vampheart) && !istype(current_heart, /obj/item/organ/internal/heart/demon) && !istype(current_heart, /obj/item/organ/internal/heart/cursed))
@@ -161,8 +167,7 @@
 
 	if(bloodsuckeruser.stat == DEAD)
 		bloodsuckeruser.revive()
-	for(var/i in bloodsuckeruser.all_wounds)
-		var/datum/wound/iter_wound = i
+	for(var/datum/wound/iter_wound as anything in bloodsuckeruser.all_wounds)
 		iter_wound.remove_wound()
 	// From [powers/panacea.dm]
 	var/list/bad_organs = list(
@@ -184,7 +189,7 @@
 /// FINAL DEATH
 /datum/antagonist/bloodsucker/proc/HandleDeath()
 	// Not "Alive"?
-	if(!owner.current || !get_turf(owner.current))
+	if(!owner.current)
 		FinalDeath()
 		return
 	// Fire Damage? (above double health)
@@ -195,16 +200,11 @@
 	if(owner.current.StakeCanKillMe() && owner.current.am_staked())
 		FinalDeath()
 		return
-	// Not organic/living? (Zombie/Skeleton/Plasmaman)
-	if(!(owner.current.mob_biotypes & MOB_ORGANIC))
-		FinalDeath()
-		return
 	// Temporary Death? Convert to Torpor.
-	if(owner.current.stat == DEAD)
-		var/mob/living/carbon/human/dead_bloodsucker = owner.current
-		if(!HAS_TRAIT(dead_bloodsucker, TRAIT_NODEATH))
-			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
-			check_begin_torpor(TRUE)
+	if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
+		return
+	to_chat(owner.current, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
+	check_begin_torpor(TRUE)
 
 /datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
 	// Nutrition - The amount of blood is how full we are.
@@ -270,10 +270,9 @@
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', 40, TRUE)
 
-	if(my_clan)
-		var/unique_death = SEND_SIGNAL(my_clan, BLOODSUCKER_FINAL_DEATH, owner.current)
-		if(unique_death & DONT_DUST)
-			return
+	var/unique_death = SEND_SIGNAL(src, BLOODSUCKER_FINAL_DEATH)
+	if(unique_death & DONT_DUST)
+		return
 
 	// Elders get dusted, Fledglings get gibbed.
 	if(bloodsucker_level >= 4)
