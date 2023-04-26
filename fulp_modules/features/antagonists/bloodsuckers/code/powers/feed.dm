@@ -34,7 +34,7 @@
 		return FALSE
 	if(target_ref) //already sucking blood.
 		return FALSE
-	if(user.is_mouth_covered() && !isplasmaman(owner.current))
+	if(user.is_mouth_covered() && !isplasmaman(user))
 		owner.balloon_alert(owner, "mouth covered!")
 		return FALSE
 	//Find target, it will alert what the problem is, if any.
