@@ -29,7 +29,6 @@
 	REMOVE_TRAIT(bloodsuckerdatum.owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 	return ..()
 
-
 /datum/bloodsucker_clan/nosferatu/handle_clan_life(datum/antagonist/bloodsucker/source)
 	. = ..()
 	if(!HAS_TRAIT(bloodsuckerdatum.owner.current, TRAIT_NOBLOOD))

@@ -6,8 +6,8 @@
 
 /// Taken from drinks.dm
 /obj/item/reagent_containers/blood/attack(mob/living/victim, mob/living/attacker, params)
-	if(!reagents.total_volume)
-		return ..()
+	if(!can_drink(victim, attacker))
+		return
 
 	if(victim != attacker)
 		if(!do_after(victim, 5 SECONDS, attacker))
@@ -19,7 +19,7 @@
 		playsound(victim.loc, 'sound/items/drink.ogg', 30, 1)
 		return TRUE
 
-	while(do_after(victim, 1 SECONDS, timed_action_flags = IGNORE_USER_LOC_CHANGE))
+	while(do_after(victim, 1 SECONDS, timed_action_flags = IGNORE_USER_LOC_CHANGE, extra_checks = CALLBACK(src, PROC_REF(can_drink)))
 		victim.visible_message(
 			span_notice("[victim] puts the [src] up to their mouth."),
 			span_notice("You take a sip from the [src]."),
@@ -29,6 +29,14 @@
 	return TRUE
 
 #undef BLOODBAG_GULP_SIZE
+
+/obj/item/reagent_containers/blood/proc/can_drink(mob/living/victim, mob/living/attacker)
+	if(!canconsume(victim, attacker))
+		return FALSE
+	if(!reagents || !reagents.total_volume)
+		to_chat(victim, span_warning("[src] is empty!"))
+		return FALSE
+	return TRUE
 
 ///Bloodbag of Bloodsucker blood (used by Vassals only)
 /obj/item/reagent_containers/blood/o_minus/bloodsucker

@@ -28,9 +28,9 @@
 
 	// TIMERS //
 	///Timer between alerts for Burn messages
-	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
+	COOLDOWN_DECLARE(bloodsucker_spam_sol_burn)
 	///Timer between alerts for Healing messages
-	COOLDOWN_DECLARE(static/bloodsucker_spam_healing)
+	COOLDOWN_DECLARE(bloodsucker_spam_healing)
 
 	///Used for assigning your name
 	var/bloodsucker_name
@@ -211,9 +211,9 @@
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	UnregisterSignal(SSsunlight, list(COMSIG_SOL_RANKUP_BLOODSUCKERS, COMSIG_SOL_NEAR_START, COMSIG_SOL_END, COMSIG_SOL_RISE_TICK, COMSIG_SOL_WARNING_GIVEN))
+	QDEL_NULL(my_clan) //clear clan first, Nosferatu will give them powers that we must clear.
 	ClearAllPowersAndStats()
 	check_cancel_sunlight() //check if sunlight should end
-	QDEL_NULL(my_clan)
 	return ..()
 
 /datum/antagonist/bloodsucker/on_body_transfer(mob/living/old_body, mob/living/new_body)

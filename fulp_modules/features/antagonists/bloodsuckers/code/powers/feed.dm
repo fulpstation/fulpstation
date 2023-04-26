@@ -34,10 +34,6 @@
 		return FALSE
 	if(target_ref) //already sucking blood.
 		return FALSE
-	if(!level_current)
-		owner.balloon_alert(owner, "too weak!")
-		to_chat(owner, span_warning("You can't use [src] until you level up."))
-		return FALSE
 	if(user.is_mouth_covered())
 		owner.balloon_alert(owner, "mouth covered!")
 		return FALSE
@@ -75,7 +71,7 @@
 	var/mob/living/feed_target = target_ref.resolve()
 	if(istype(feed_target, /mob/living/basic/mouse))
 		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))
-		if(bloodsuckerdatum_power.my_clan.blood_drink_type != BLOODSUCKER_DRINK_INHUMANELY)
+		if(bloodsuckerdatum_power.my_clan && bloodsuckerdatum_power.my_clan.blood_drink_type != BLOODSUCKER_DRINK_INHUMANELY)
 			var/mob/living/user = owner
 			user.add_mood_event("drankblood", /datum/mood_event/drankblood_bad)
 			bloodsuckerdatum_power.AddHumanityLost(1)
@@ -166,7 +162,7 @@
 	if(feed_strength_mult > 5 && feed_target.stat < DEAD)
 		user.add_mood_event("drankblood", /datum/mood_event/drankblood)
 	// Drank mindless as Ventrue? - BAD
-	if((bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY) && !feed_target.mind)
+	if((bloodsuckerdatum_power.my_clan && bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY) && !feed_target.mind)
 		user.add_mood_event("drankblood", /datum/mood_event/drankblood_bad)
 	if(feed_target.stat >= DEAD)
 		user.add_mood_event("drankblood", /datum/mood_event/drankblood_dead)
@@ -222,7 +218,7 @@
 
 /datum/action/bloodsucker/feed/proc/can_feed_from(mob/living/target, give_warnings = FALSE)
 	if(istype(target, /mob/living/basic/mouse))
-		if(bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY)
+		if(bloodsuckerdatum_power.my_clan && bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY)
 			if(give_warnings)
 				owner.balloon_alert(owner, "too disgusting!")
 			return FALSE

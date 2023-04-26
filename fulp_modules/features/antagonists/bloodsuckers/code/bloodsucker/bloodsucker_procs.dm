@@ -79,7 +79,7 @@
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
 	for(var/datum/action/bloodsucker/power as anything in powers)
-		if(istype(power, /datum/action/bloodsucker/targeted/tremere))
+		if(power.purchase_flags & TREMERE_CAN_BUY)
 			continue
 		power.upgrade_power()
 
