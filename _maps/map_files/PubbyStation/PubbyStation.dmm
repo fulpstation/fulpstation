@@ -11828,17 +11828,14 @@
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
 "aSI" = (
-/obj/machinery/chem_master/condimaster{
-	name = "CondiMaster Neo";
-	pixel_x = -4
-	},
 /obj/structure/cable,
+/obj/machinery/deepfryer,
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
 "aSJ" = (
-/obj/machinery/gibber,
 /obj/machinery/newscaster/directional/north,
 /obj/structure/cable,
+/obj/machinery/gibber,
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
 "aSL" = (
@@ -12278,8 +12275,8 @@
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
 "aUX" = (
-/obj/machinery/icecream_vat,
 /obj/machinery/light/directional/west,
+/obj/structure/kitchenspike,
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
 "aUZ" = (
@@ -12856,10 +12853,7 @@
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
 "aWU" = (
-/obj/structure/sink{
-	dir = 4;
-	pixel_x = -12
-	},
+/obj/structure/sink/directional/east,
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
 "aWW" = (
@@ -13395,9 +13389,9 @@
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "aYU" = (
-/obj/machinery/processor,
 /obj/machinery/light/directional/north,
 /obj/machinery/firealarm/directional/north,
+/obj/machinery/chem_master/condimaster,
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "aYX" = (
@@ -14143,12 +14137,8 @@
 /turf/open/floor/iron/dark,
 /area/station/service/hydroponics)
 "bce" = (
-/obj/structure/table,
-/obj/machinery/microwave{
-	pixel_x = -3;
-	pixel_y = 6
-	},
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/oven/range,
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "bcg" = (
@@ -14393,10 +14383,6 @@
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
-"bdp" = (
-/obj/machinery/oven,
-/turf/open/floor/iron/cafeteria,
-/area/station/service/kitchen)
 "bdq" = (
 /obj/structure/table,
 /obj/item/reagent_containers/cup/beaker/large,
@@ -14798,14 +14784,12 @@
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
 "bfp" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
-	},
 /obj/machinery/button/door/directional/west{
 	id = "kitchenwindowshutters";
 	name = "Kitchen Window Shutters Control";
 	req_access = list("kitchen")
 	},
+/obj/machinery/icecream_vat,
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "bfr" = (
@@ -28347,10 +28331,14 @@
 /turf/open/floor/iron/dark,
 /area/station/commons/lounge)
 "cpq" = (
-/obj/machinery/deepfryer,
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,
 /obj/machinery/light/directional/west,
+/obj/structure/table,
+/obj/machinery/microwave{
+	pixel_x = -3;
+	pixel_y = 6
+	},
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "cpt" = (
@@ -28358,8 +28346,12 @@
 /turf/open/floor/iron/dark,
 /area/station/commons/lounge)
 "cpu" = (
-/obj/machinery/deepfryer,
 /obj/machinery/newscaster/directional/west,
+/obj/structure/table,
+/obj/machinery/microwave{
+	pixel_x = -3;
+	pixel_y = 6
+	},
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "cpv" = (
@@ -35536,6 +35528,9 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
+"hJp" = (
+/turf/open/floor/iron/cafeteria,
+/area/station/service/kitchen)
 "hKU" = (
 /obj/structure/cable,
 /turf/open/floor/iron/dark/telecomms,
@@ -44011,6 +44006,7 @@
 	c_tag = "Kitchen Cold Room"
 	},
 /obj/structure/cable,
+/obj/machinery/deepfryer,
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen/coldroom)
 "pNe" = (
@@ -46041,14 +46037,13 @@
 /area/station/maintenance/department/science/xenobiology)
 "rxV" = (
 /obj/structure/table,
-/obj/machinery/microwave{
-	pixel_x = -3;
-	pixel_y = 6
-	},
 /obj/machinery/requests_console/directional/north{
 	department = "Kitchen";
 	name = "Kitchen Requests Console";
 	supplies_requestable = 1
+	},
+/obj/machinery/processor{
+	pixel_y = 6
 	},
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
@@ -83521,8 +83516,8 @@ afu
 bce
 gHR
 cpm
+hJp
 bcg
-bdp
 ber
 cpz
 bgk
