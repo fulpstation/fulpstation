@@ -21,7 +21,7 @@
 	power.Remove(owner.current)
 
 ///When a Bloodsucker breaks the Masquerade, they get their HUD icon changed, and Malkavian Bloodsuckers get alerted.
-/datum/antagonist/bloodsucker/proc/break_masquerade()
+/datum/antagonist/bloodsucker/proc/break_masquerade(mob/admin)
 	if(broke_masquerade)
 		return
 	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/sounds/lunge_warn.ogg', 100, FALSE, pressure_affected = FALSE)
@@ -33,7 +33,7 @@
 	SEND_GLOBAL_SIGNAL(COMSIG_BLOODSUCKER_BROKE_MASQUERADE)
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
-/datum/antagonist/bloodsucker/proc/fix_masquerade()
+/datum/antagonist/bloodsucker/proc/fix_masquerade(mob/admin)
 	if(!broke_masquerade)
 		return
 	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))

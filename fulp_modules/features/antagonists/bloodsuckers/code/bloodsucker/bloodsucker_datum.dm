@@ -134,7 +134,7 @@
 
 /**
  * Remove innate effects is everything given to the mob
- * When a body is tranferred, this is called on the new mob
+ * When a body is tranferred, this is called on the old mob.
  * while on_removal is called ONCE per ANTAG, this is called ONCE per BODY.
  */
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
@@ -181,6 +181,11 @@
 		.["Fix Masquerade"] = CALLBACK(src, PROC_REF(fix_masquerade))
 	else
 		.["Break Masquerade"] = CALLBACK(src, PROC_REF(break_masquerade))
+
+	if(my_clan)
+		.["Remove Clan"] = CALLBACK(src, PROC_REF(remove_clan))
+	else
+		.["Add Clan"] = CALLBACK(src, PROC_REF(admin_set_clan))
 
 ///Called when you get the antag datum, called only ONCE per antagonist.
 /datum/antagonist/bloodsucker/on_gain()
@@ -420,9 +425,6 @@
 		var/mob/living/carbon/human/user = owner.current
 		var/datum/species/user_species = user.dna.species
 		user_species.species_traits -= DRINKSBLOOD
-		// Clown
-		if(istype(user) && owner.assigned_role == "Clown")
-			user.dna.add_mutation(/datum/mutation/human/clumsy)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source. - This is because of unique cases like Nosferatu getting Ventcrawling.
 	for(var/all_status_traits in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
