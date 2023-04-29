@@ -1,5 +1,7 @@
 ## List of all TG edits:
 
+- README.md > Replaces it with our own readme
+
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
 - code/modules/unit_tests/simple_animal_freeze.dm > Adds our fulp-related mobs so that they are ignored by the test.
