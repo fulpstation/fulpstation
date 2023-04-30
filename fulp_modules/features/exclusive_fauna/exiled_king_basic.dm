@@ -244,7 +244,7 @@
 	return ..()
 
 /obj/structure/cthulu_rift/process(delta_time)
-	var/mob/living/overlord = squid.resolve()
+	var/mob/living/overlord = squid?.resolve()
 	if(!overlord)
 		qdel(src)
 		return
@@ -291,7 +291,7 @@
 
 /mob/living/basic/carp/cthulu/proc/damage_overlord()
 	SIGNAL_HANDLER
-	var/mob/living/overlord = leader.resolve()
+	var/mob/living/overlord = leader?.resolve()
 	if(!overlord)
 		return
 	overlord.apply_damage(maxHealth)
