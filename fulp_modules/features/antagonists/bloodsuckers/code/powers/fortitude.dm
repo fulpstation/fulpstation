@@ -41,7 +41,7 @@
 	if(was_running)
 		bloodsucker_user.toggle_move_intent()
 
-/datum/action/bloodsucker/fortitude/process(delta_time)
+/datum/action/bloodsucker/fortitude/process(seconds_per_tick)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)

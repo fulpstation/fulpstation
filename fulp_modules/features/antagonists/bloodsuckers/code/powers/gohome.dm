@@ -30,7 +30,7 @@
 	///The types of mobs that will drop post-teleportation.
 	var/static/list/spawning_mobs = list(
 		/mob/living/basic/mouse = 3,
-		/mob/living/simple_animal/hostile/retaliate/bat = 1,
+		/mob/living/basic/bat = 1,
 	)
 
 /datum/action/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user, trigger_flags)
@@ -47,7 +47,7 @@
 	. = ..()
 	owner.balloon_alert(owner, "preparing to teleport...")
 
-/datum/action/bloodsucker/gohome/process(delta_time)
+/datum/action/bloodsucker/gohome/process(seconds_per_tick)
 	. = ..()
 	if(!.)
 		return FALSE

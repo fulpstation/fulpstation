@@ -17,8 +17,7 @@
 			/obj/item/food/burger/cheese = 4,
 			/obj/item/food/eggsausage = 3,
 			/obj/item/food/nachos = 3,
-			/obj/item/food/soup/hotchili = 2,
-
+			/datum/reagent/consumable/nutriment/soup/hotchili = 2,
 		),
 	)
 	found_seat_lines = list(
