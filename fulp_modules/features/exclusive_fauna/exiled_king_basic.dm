@@ -1,0 +1,582 @@
+#define BB_KING_PORTAL "BB_king_portal"
+#define BB_KING_TENTACLE "BB_king_tentacle"
+#define BB_KING_SURROUND_TENTACLE "BB_king_surround_tentacle"
+#define BB_CHARGE_ABILITY "BB_charge_ability"
+#define BOSS_MEDAL_EXILED "Exiled Killer"
+#define EXILED_KING_SCORE "EXiled Killed"
+
+/mob/living/basic/exiled_king
+	name = "Exiled King"
+	desc = "and what army?"
+	health = 2500
+	maxHealth = 2500
+	attack_verb_continuous = "slaps"
+	light_range = 3
+	attack_verb_simple = "slap"
+	attack_sound = 'sound/magic/demon_attack1.ogg'
+	icon_state = "cthulu"
+	icon_living = "cthulu"
+	icon_dead = ""
+	health_doll_icon = "cthulu"
+	friendly_verb_continuous = "stares down"
+	friendly_verb_simple = "stare down"
+	combat_mode = TRUE
+	faction = list(FACTION_MINING, FACTION_BOSS)
+	unsuitable_atmos_damage = 0
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
+	icon = 'fulp_modules/features/exclusive_fauna/icons/96x96.dmi'
+	speak_emote = list("gurgles")
+	armour_penetration = 60
+	melee_damage_lower = 60
+	melee_damage_upper = 60
+	speed = 5
+	mob_size = MOB_SIZE_LARGE
+	pixel_x = -32
+	base_pixel_x = -32
+	maptext_height = 96
+	faction = list(FACTION_MINING, FACTION_BOSS)
+	maptext_width = 96
+	basic_mob_flags = DEL_ON_DEATH
+	death_message = "sinks into a pool of blood, fleeing the battle. You've won, for now... "
+	death_sound = 'sound/magic/enter_blood.ogg'
+	ai_controller = /datum/ai_controller/basic_controller/kraken
+	///achievement for killing
+	var/achievement_type = /datum/award/achievement/boss/king_slayer
+	///score of killings
+	var/score_achievement_type = /datum/award/score/king_score
+
+
+/mob/living/basic/exiled_king/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/gps, "Sunken Signal")
+	add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_ASHSTORM_IMMUNE), INNATE_TRAIT)
+	AddElement(/datum/element/simple_flying)
+	AddElement(/datum/element/crusher_loot, /obj/item/crusher_trophy/bileworm_spewlet, 15)
+	AddElement(/datum/element/death_drops, list(/obj/item/clothing/neck/cloak/squid))
+	var/datum/action/cooldown/mob_cooldown/summon_portal/fishes = new(src)
+	var/datum/action/cooldown/mob_cooldown/kraken_tentacle/tentacle = new(src)
+	var/datum/action/cooldown/mob_cooldown/tentacle_all_directions/all_directions = new(src)
+	fishes.Grant(src)
+	tentacle.Grant(src)
+	all_directions.Grant(src)
+	ai_controller.blackboard[BB_KING_PORTAL] = WEAKREF(fishes)
+	ai_controller.blackboard[BB_KING_TENTACLE] = WEAKREF(tentacle)
+	ai_controller.blackboard[BB_KING_SURROUND_TENTACLE] = WEAKREF(all_directions)
+
+/mob/living/basic/exiled_king/death(gibbed)
+	grant_achievement(achievement_type, score_achievement_type)
+	return ..()
+
+
+
+
+/datum/ai_controller/basic_controller/kraken
+	blackboard = list(
+		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+	)
+
+	ai_movement = /datum/ai_movement/basic_avoidance
+	idle_behavior = /datum/idle_behavior/idle_random_walk/less_walking
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/simple_find_target,
+		/datum/ai_planning_subtree/cthulu_attack/tentacles,
+		/datum/ai_planning_subtree/cthulu_attack/surround,
+		/datum/ai_planning_subtree/cthulu_attack/portal,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+	)
+
+/datum/ai_planning_subtree/cthulu_attack/tentacles
+	our_behavior = /datum/ai_behavior/cthulu_attack/tentacle
+
+/datum/ai_behavior/cthulu_attack/tentacle
+	action_cooldown = 4 SECONDS
+	ability_key = BB_KING_TENTACLE
+
+/datum/ai_planning_subtree/cthulu_attack/portal
+	our_behavior = /datum/ai_behavior/cthulu_attack/portal
+
+/datum/ai_behavior/cthulu_attack/portal
+	action_cooldown = 20 SECONDS
+	ability_key = BB_KING_PORTAL
+	validate_conditions = TRUE
+
+/datum/ai_planning_subtree/cthulu_attack/surround
+	our_behavior = /datum/ai_behavior/cthulu_attack/surround
+
+/datum/ai_behavior/cthulu_attack/surround
+	action_cooldown = 10 SECONDS
+	ability_key = BB_KING_SURROUND_TENTACLE
+
+/datum/ai_planning_subtree/cthulu_attack
+	var/datum/ai_behavior/our_behavior = /datum/ai_behavior/cthulu_attack
+
+/datum/ai_planning_subtree/cthulu_attack/SelectBehaviors(datum/ai_controller/controller, delta_time)
+	. = ..()
+	var/datum/weakref/weak_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+	var/atom/target = weak_target?.resolve()
+	if(!target || QDELETED(target))
+		return
+	controller.queue_behavior(our_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+
+
+/datum/ai_behavior/cthulu_attack
+	behavior_flags =  AI_BEHAVIOR_MOVE_AND_PERFORM
+	required_distance = 15
+	var/ability_key
+	var/validate_conditions = FALSE
+
+/datum/ai_behavior/cthulu_attack/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+	. = ..()
+	var/datum/weakref/weak_target = controller.blackboard[target_key]
+	var/atom/target = weak_target?.resolve()
+	if(!target)
+		return FALSE
+
+/datum/ai_behavior/cthulu_attack/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+	. = ..()
+	var/mob/living/basic/basic_mob = controller.pawn
+	var/datum/weakref/weak_target = controller.blackboard[target_key]
+	var/atom/target = weak_target?.resolve()
+	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
+
+	if(!targetting_datum.can_attack(basic_mob, target))
+		finish_action(controller, FALSE, target_key)
+		return
+
+	var/atom/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
+	var/atom/final_target = hiding_target ? hiding_target : target
+
+	if(!can_see(basic_mob, final_target, required_distance))
+		finish_action(controller, FALSE, target_key)
+		return
+
+	controller.blackboard[hiding_location_key] = WEAKREF(hiding_target)
+
+	var/datum/weakref/ability_weakref = controller.blackboard[ability_key]
+	var/datum/action/cooldown/mob_cooldown/ability = ability_weakref?.resolve()
+	if(isnull(ability))
+		return
+	if(validate_conditions)
+		alter_ability(ability, basic_mob)
+
+	ability.Activate(final_target)
+
+
+/datum/ai_behavior/cthulu_attack/proc/alter_ability(ability, mob/living/basic_mob)
+	return
+
+/datum/ai_behavior/cthulu_attack/portal/alter_ability(ability, mob/living/basic_mob)
+	var/datum/action/cooldown/mob_cooldown/summon_portal/portal = ability
+	if(basic_mob.health <= basic_mob.maxHealth / 2)
+		portal.creature = /mob/living/basic/carp/cthulu/mega
+		portal.number_of_mobs = 2
+
+	else
+		portal.creature = /mob/living/basic/carp/cthulu
+		portal.number_of_mobs = 2
+
+	if(prob(50))
+		portal.creature = /mob/living/basic/vanguard
+		portal.number_of_mobs = 1
+
+	return
+
+
+/datum/action/cooldown/mob_cooldown/summon_portal
+	name = "Summon Army"
+	button_icon = 'icons/obj/carp_rift.dmi'
+	button_icon_state = "carp_rift_carpspawn"
+	desc = "Summon your army to defend you."
+	cooldown_time = 3 SECONDS
+	///what abomination are we spawning
+	var/creature = /mob/living/basic/carp/cthulu
+	///how many
+	var/number_of_mobs = 2
+
+/datum/action/cooldown/mob_cooldown/summon_portal/Activate(atom/target_atom)
+	StartCooldown(360 SECONDS, 360 SECONDS)
+	create_portal()
+	StartCooldown()
+	return TRUE
+
+/datum/action/cooldown/mob_cooldown/summon_portal/proc/create_portal()
+	var/list/directions = GLOB.cardinals.Copy()
+	for(var/i in 1 to 2)
+		var/spawndir = pick_n_take(directions)
+		var/turf/place = get_step(owner, spawndir)
+		var/dense_check = FALSE
+		for(var/atom/content in place)
+			if(content.density)
+				dense_check = TRUE
+				break
+		if(dense_check)
+			continue
+		var/obj/structure/cthulu_rift/portal = new(place, number_of_mobs, creature)
+		portal.squid = WEAKREF(owner)
+
+/obj/structure/cthulu_rift
+	name = "carp rift"
+	desc = "gateway for the King's army."
+	armor_type = /datum/armor/structure_carp_rift
+	max_integrity = 500
+	icon = 'icons/obj/carp_rift.dmi'
+	icon_state = "carp_rift_carpspawn"
+	light_color = LIGHT_COLOR_PURPLE
+	light_range = 10
+	anchored = TRUE
+	density = FALSE
+	///how many mobs are we spawning
+	var/number_of_mobs = 2
+	///our overlord
+	var/datum/weakref/squid
+	///type of creature we are spawning
+	var/creature = /mob/living/basic/carp/cthulu
+
+/obj/structure/cthulu_rift/Initialize(mapload, number, create)
+	. = ..()
+	number_of_mobs = number
+	creature = create
+	START_PROCESSING(SSfastprocess, src)
+
+/obj/structure/cthulu_rift/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/structure/cthulu_rift/process(delta_time)
+	var/mob/living/overlord = squid.resolve()
+	if(!overlord)
+		qdel(src)
+		return
+	if(number_of_mobs <= 0)
+		qdel(src)
+		return
+	if(DT_PROB(60, delta_time))
+		new creature(loc, overlord)
+		number_of_mobs = number_of_mobs - 1
+
+/obj/structure/cthulu_rift/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	squid = null
+	return ..()
+
+/mob/living/basic/carp/cthulu
+	health = 50
+	maxHealth = 50
+	mob_size = MOB_SIZE_LARGE
+	///our overlord
+	var/datum/weakref/leader
+
+/mob/living/basic/carp/cthulu/mega
+	name = "Overlord's commander"
+	desc = "Higher ranked soldiers of the King's army."
+	icon = 'icons/mob/simple/broadMobs.dmi'
+	icon_state = "megacarp_greyscale"
+	icon_living = "megacarp_greyscale"
+	icon_dead = "megacarp_dead_greyscale"
+	greyscale_config = /datum/greyscale_config/carp_mega
+	icon_gib = "megacarp_gib"
+	health = 80
+	mob_size = MOB_SIZE_LARGE
+	maxHealth = 80
+
+
+/mob/living/basic/carp/cthulu/Initialize(mapload, mob/living/overlord)
+	. = ..()
+	if(overlord)
+		leader = WEAKREF(overlord)
+		faction = overlord.faction.Copy()
+	RegisterSignal(src, COMSIG_LIVING_DEATH, PROC_REF(damage_overlord))
+	QDEL_IN(src, 20 SECONDS)
+
+/mob/living/basic/carp/cthulu/proc/damage_overlord()
+	SIGNAL_HANDLER
+	var/mob/living/overlord = leader.resolve()
+	if(!overlord)
+		return
+	overlord.apply_damage(maxHealth)
+	leader= null
+
+/datum/action/cooldown/mob_cooldown/kraken_tentacle
+	name = "kraken tentacle"
+	button_icon = 'fulp_modules/features/exclusive_fauna/icons/effect.dmi'
+	button_icon_state = "squidarm"
+	desc = "Unleash tentacles towards the target."
+	cooldown_time = 3 SECONDS
+
+/datum/action/cooldown/mob_cooldown/kraken_tentacle/Activate(atom/target_atom)
+	StartCooldown(360 SECONDS, 360 SECONDS)
+	attack_sequence(target_atom)
+	StartCooldown()
+	return TRUE
+
+/datum/action/cooldown/mob_cooldown/kraken_tentacle/proc/attack_sequence(atom/target)
+	if(!target)
+		return
+	var/turf/ranged_turfs = get_ranged_target_turf_direct(owner, target, 15, 0)
+	var/list/turfs = (get_line(owner, ranged_turfs) - get_turf(owner))
+	for(var/turf/singular in turfs)
+		if(isclosedturf(singular))
+			break
+		var/direction = get_dir(owner, target)
+		var/check_existing_arm = FALSE
+		for(var/obj/effect/kraken_arm/arm in singular)
+			check_existing_arm = TRUE
+			break
+		if(!check_existing_arm)
+			new /obj/effect/kraken_arm/original(singular, direction)
+		sleep(0.175 SECONDS)
+
+/obj/effect/kraken_arm
+	name = "Kraken Arm"
+	icon = 'fulp_modules/features/exclusive_fauna/icons/effect.dmi'
+	icon_state = "squidarm"
+	layer = BELOW_MOB_LAYER
+	plane = GAME_PLANE
+	var/static/list/unaffected_types = typecacheof(list(
+		/mob/living/basic/exiled_king,
+		/mob/living/basic/carp/cthulu,
+		/mob/living/basic/carp/cthulu/mega,
+	))
+
+/obj/effect/kraken_arm/Initialize(mapload)
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(fell)), 0.05 SECONDS)
+	QDEL_IN(src, 1 SECONDS)
+
+/obj/effect/kraken_arm/proc/fell()
+	for(var/mob/living/man in loc)
+		if(man.type in unaffected_types)
+			continue
+		if(man.stat == DEAD)
+			continue
+		visible_message(span_danger("[man] gets smashed by the tentacles!"))
+		man.apply_damage(10, BRUTE, wound_bonus = CANT_WOUND)
+
+/obj/effect/kraken_arm/original
+
+/obj/effect/kraken_arm/original/Initialize(mapload, direction)
+	. = ..()
+	var/list/directions  = get_adjacent_directions(direction)
+	for(var/location in directions)
+		var/turf/place = get_step(src, location)
+		if(isclosedturf(place))
+			continue
+		var/check_existing_arm = FALSE
+		for(var/obj/effect/kraken_arm/arm in place)
+			check_existing_arm = TRUE
+			break
+		if(!check_existing_arm)
+			new /obj/effect/kraken_arm(place)
+
+/obj/effect/kraken_arm/original/proc/get_adjacent_directions(direction)
+	var/list/direcs
+	if(direction & NORTH || direction & SOUTH)
+		direcs = list(EAST, WEST)
+	if(direction & SOUTHWEST || direction & NORTHEAST)
+		direcs = list(NORTHWEST, SOUTHEAST)
+	if(direction & NORTHWEST || direction & SOUTHEAST)
+		direcs = list(NORTHEAST, SOUTHWEST)
+	if(direction & EAST || direction & WEST)
+		direcs = list(NORTH, SOUTH)
+	return direcs
+
+/obj/effect/kraken_arm/original/fell()
+	playsound(get_turf(src), 'sound/effects/meteorimpact.ogg', 100, TRUE)
+	..()
+
+
+/datum/action/cooldown/mob_cooldown/tentacle_all_directions
+	name = "All direction tentacles"
+	button_icon = 'fulp_modules/features/exclusive_fauna/icons/effect.dmi'
+	button_icon_state = "squidarm"
+	desc = "Allows you to shoot fire in all directions."
+	cooldown_time = 3 SECONDS
+	var/list/offsets = list(45,-45,90,-90,180,-180,225,-225)
+
+/datum/action/cooldown/mob_cooldown/tentacle_all_directions/Activate(atom/target_atom)
+	StartCooldown(360 SECONDS, 360 SECONDS)
+	attack_sequence(target_atom)
+	StartCooldown()
+	return TRUE
+
+/datum/action/cooldown/mob_cooldown/tentacle_all_directions/proc/attack_sequence(atom/target)
+	for(var/offset in offsets)
+		INVOKE_ASYNC(src, PROC_REF(throw_tentacles), target, offset)
+
+/datum/action/cooldown/mob_cooldown/tentacle_all_directions/proc/throw_tentacles(atom/target, offset)
+	var/turf/target_turf = get_turf_in_angle(offset, owner.loc , 15)
+	var/list/turfs = get_line(owner.loc, target_turf)
+	for(var/turf/singular in turfs)
+		if(isclosedturf(singular))
+			break
+		var/check_existing_arm = FALSE
+		for(var/obj/effect/kraken_arm/arm in singular)
+			check_existing_arm = TRUE
+			break
+		if(!check_existing_arm)
+			new /obj/effect/kraken_arm(singular)
+		playsound(singular, 'sound/effects/meteorimpact.ogg', 100, TRUE)
+		sleep(0.1 SECONDS)
+
+
+/mob/living/basic/vanguard
+	name = "king's vanguard"
+	desc = "vanguard of the king's army."
+	icon = 'fulp_modules/features/exclusive_fauna/icons/64x64.dmi'
+	icon_state = "vanguard"
+	icon_living = "vanguard"
+	icon_dead = "vanguard"
+	icon_gib = "vanguard"
+	health_doll_icon = "vanguard"
+	basic_mob_flags = DEL_ON_DEATH
+	mob_size = MOB_SIZE_LARGE
+	speed = 1
+	maxHealth = 200
+	health = 200
+	melee_damage_lower = 8
+	melee_damage_upper = 12
+	attack_verb_continuous = "bites"
+	attack_verb_simple = "bite"
+	attack_sound = 'sound/weapons/bite.ogg'
+	attack_vis_effect = ATTACK_EFFECT_BITE
+	faction = list(FACTION_HOSTILE)
+	mob_size = MOB_SIZE_LARGE
+	speak_emote = list("polls")
+	death_message = "crumbles to ashes!"
+	ai_controller = /datum/ai_controller/basic_controller/vanguard
+	var/datum/weakref/leader
+
+
+/mob/living/basic/vanguard/Initialize(mapload, mob/living/overlord)
+	. = ..()
+	if(overlord)
+		leader = WEAKREF(overlord)
+		faction = overlord.faction.Copy()
+	var/datum/action/cooldown/mob_cooldown/charge/vanguard/charge_ability = new(src)
+	charge_ability.Grant(src)
+	ai_controller.blackboard[BB_CHARGE_ABILITY] = WEAKREF(charge_ability)
+	QDEL_IN(src, 5 SECONDS)
+
+/datum/action/cooldown/mob_cooldown/charge/vanguard
+	charge_damage = 20
+	charge_delay = 0.7 SECONDS
+
+/datum/ai_controller/basic_controller/vanguard
+	blackboard = list(
+		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+	)
+
+	ai_movement = /datum/ai_movement/basic_avoidance
+	idle_behavior = /datum/idle_behavior/idle_random_walk/less_walking
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/simple_find_target,
+		/datum/ai_planning_subtree/ram_target,
+	)
+
+/datum/ai_planning_subtree/ram_target
+	var/datum/ai_behavior/ram/ram_behavior = /datum/ai_behavior/ram
+
+/datum/ai_planning_subtree/ram_target/SelectBehaviors(datum/ai_controller/controller, delta_time)
+	. = ..()
+	var/datum/weakref/weak_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+	var/atom/target = weak_target?.resolve()
+	if(!target || QDELETED(target))
+		return
+	controller.queue_behavior(ram_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+	return SUBTREE_RETURN_FINISH_PLANNING
+
+/datum/ai_behavior/ram
+	action_cooldown = 0.6 SECONDS
+	behavior_flags =  AI_BEHAVIOR_MOVE_AND_PERFORM
+	required_distance = 15
+
+/datum/ai_behavior/ram/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+	. = ..()
+	var/datum/weakref/weak_target = controller.blackboard[target_key]
+	var/atom/target = weak_target?.resolve()
+	if(!target)
+		return FALSE
+
+/datum/ai_behavior/ram/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+	. = ..()
+	var/mob/living/basic/basic_mob = controller.pawn
+	var/datum/weakref/weak_target = controller.blackboard[target_key]
+	var/atom/target = weak_target?.resolve()
+	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
+
+	if(!targetting_datum.can_attack(basic_mob, target))
+		finish_action(controller, FALSE, target_key)
+		return
+
+	var/atom/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
+	var/atom/final_target = hiding_target ? hiding_target : target
+
+	if(!can_see(basic_mob, final_target, required_distance))
+		finish_action(controller, FALSE, target_key)
+		return
+
+	controller.blackboard[hiding_location_key] = WEAKREF(hiding_target)
+
+	var/datum/weakref/ability_weakref = controller.blackboard[BB_CHARGE_ABILITY]
+	var/datum/action/cooldown/mob_cooldown/charge_ability = ability_weakref?.resolve()
+	if(isnull(charge_ability))
+		return
+
+	charge_ability.Activate(final_target)
+
+/datum/ai_behavior/basic_ranged_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
+	. = ..()
+	if(!succeeded)
+		controller.blackboard -= target_key
+		return
+
+/obj/item/clothing/neck/cloak/squid
+	name = "squid cloak"
+	desc = "It's all slimey and gooey..."
+	icon_state = "squid_cloak"
+	icon = 'fulp_modules/features/exclusive_fauna/icons/item_loot.dmi'
+	worn_icon = 'fulp_modules/features/exclusive_fauna/icons/item_loot_worn.dmi'
+	resistance_flags = FIRE_PROOF
+	worn_icon_state = "squid_cloak"
+	armor_type = /datum/armor/squid_cloak
+
+/datum/armor/squid_cloak
+	melee = 5
+	bullet = 5
+	laser = 5
+	energy = 5
+	bomb = 5
+	fire = 5
+	acid = 5
+
+/datum/award/achievement/boss/king_slayer
+	name = "King Slayer"
+	desc = "We eating sushi tonight"
+	database_id = BOSS_MEDAL_EXILED
+	icon = "service_okay"
+
+
+/datum/award/score/king_score
+	name = "Exiled Kings Killed"
+	desc = "You've killed HOW many?"
+	database_id = EXILED_KING_SCORE
+
+
+///stolen code from megafauna.dm to grant achievements
+/mob/living/basic/exiled_king/proc/grant_achievement(medaltype, scoretype, list/grant_achievement = list())
+	if(!achievement_type || (flags_1 & ADMIN_SPAWNED_1) || !SSachievements.achievements_enabled)
+		return FALSE
+	if(!grant_achievement.len)
+		for(var/mob/living/L in view(7,src))
+			grant_achievement += L
+	for(var/mob/living/L in grant_achievement)
+		if(L.stat || !L.client)
+			continue
+		L.add_mob_memory(/datum/memory/megafauna_slayer, antagonist = src)
+		L.client.give_award(/datum/award/achievement/boss/boss_killer, L)
+		L.client.give_award(achievement_type, L)
+		L.client.give_award(/datum/award/score/boss_score, L)
+		L.client.give_award(score_achievement_type, L)
+	return TRUE
+
