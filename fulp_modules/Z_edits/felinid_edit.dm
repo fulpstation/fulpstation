@@ -11,7 +11,7 @@
 
 /datum/species/human/felinid/on_species_gain(mob/living/carbon/felifriend, datum/species/old_species, pref_load)
 	. = ..()
-	if(istype(felifriend, /mob/living/carbon/human/dummy))
+	if(istype(felifriend, /mob/living/carbon/human/consistent) || isdummy(felifriend))
 		return
 	if(brain_damage_to_give)
 		felifriend.setOrganLoss(ORGAN_SLOT_BRAIN, brain_damage_to_give) //Fuck you

@@ -290,7 +290,7 @@
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 	if(!(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)))
 		return
-	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 20 SECONDS)
+	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 8 SECONDS)
 
 /obj/structure/rack/weaponsmith
 	name = "Weapon Forge"
@@ -354,6 +354,8 @@
 	if(!wonderland)
 		return
 	if(!(slot & ITEM_SLOT_MASK))
+		return
+	if(!IS_MONSTERHUNTER(user))
 		return
 	paradox.Grant(user)
 	wonderland.Grant(user)
