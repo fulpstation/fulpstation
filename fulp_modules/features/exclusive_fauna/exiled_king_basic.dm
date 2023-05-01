@@ -238,10 +238,6 @@
 	creature = create
 	START_PROCESSING(SSfastprocess, src)
 
-/obj/structure/cthulu_rift/Destroy()
-	STOP_PROCESSING(SSobj, src)
-	return ..()
-
 /obj/structure/cthulu_rift/process(seconds_per_tick)
 	var/mob/living/overlord = squid?.resolve()
 	if(!overlord)
@@ -444,6 +440,7 @@
 	speak_emote = list("polls")
 	death_message = "crumbles to ashes!"
 	ai_controller = /datum/ai_controller/basic_controller/vanguard
+	var/datum/action/cooldown/mob_cooldown/charge/vanguard/charge_ability
 	var/datum/weakref/leader
 
 
@@ -452,10 +449,14 @@
 	if(overlord)
 		leader = WEAKREF(overlord)
 		faction = overlord.faction.Copy()
-	var/datum/action/cooldown/mob_cooldown/charge/vanguard/charge_ability = new(src)
+	charge_ability = new /datum/action/cooldown/mob_cooldown/charge/vanguard(src)
 	charge_ability.Grant(src)
 	ai_controller.blackboard[BB_CHARGE_ABILITY] = WEAKREF(charge_ability)
 	QDEL_IN(src, 5 SECONDS)
+
+/mob/living/basic/vanguard/Destroy()
+	charge_ability.Remove(src)
+	return ..()
 
 /datum/action/cooldown/mob_cooldown/charge/vanguard
 	charge_damage = 20
