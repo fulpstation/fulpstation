@@ -126,7 +126,7 @@
 
 /datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
 	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
-		if(!dehydrated || DT_PROB(10, delta_time))
+		if(!dehydrated || SPT_PROB(10, delta_time))
 			to_chat(user, span_alert("Your beefy mouth tastes dry."))
 		dehydrated++
 	return ..()
