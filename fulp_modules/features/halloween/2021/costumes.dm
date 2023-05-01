@@ -304,7 +304,7 @@
 	if(user.get_item_by_slot(ITEM_SLOT_MASK) == src)
 		STOP_PROCESSING(SSobj, src)
 
-/obj/item/clothing/mask/costume_2021/breather_mask/process(delta_time)
+/obj/item/clothing/mask/costume_2021/breather_mask/process(seconds_per_tick)
 	var/mob/living/breather_boy = loc
 	if(prob(70))
 		return

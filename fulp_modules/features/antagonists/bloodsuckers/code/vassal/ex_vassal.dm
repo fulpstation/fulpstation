@@ -71,7 +71,7 @@
 
 	RegisterSignal(src, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
-/datum/antagonist/ex_vassal/proc/on_life(datum/source, delta_time, times_fired)
+/datum/antagonist/ex_vassal/proc/on_life(datum/source, seconds_per_tick, times_fired)
 	SIGNAL_HANDLER
 
 	if(COOLDOWN_TIMELEFT(src, blood_timer) <= BLOOD_TIMER_HALWAY + 2 && COOLDOWN_TIMELEFT(src, blood_timer) >= BLOOD_TIMER_HALWAY - 2) //just about halfway
