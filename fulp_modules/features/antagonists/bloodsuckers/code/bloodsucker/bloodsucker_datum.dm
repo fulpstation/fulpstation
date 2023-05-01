@@ -342,7 +342,7 @@
 	var/list/report = list()
 
 	// Vamp name
-	report += "<br><span class='header'><b>\[[return_full_name(TRUE)]\]</b></span>"
+	report += "<br><span class='header'><b>\[[return_full_name()]\]</b></span>"
 	report += printplayer(owner)
 	if(my_clan)
 		report += "They were part of the <b>[my_clan.name]</b>!"
