@@ -46,6 +46,8 @@
 	. = ..()
 	if(!.)
 		return
+	if(!active)
+		return
 	var/mob/living/carbon/user = owner
 	/// Prevents running while on Fortitude
 	if(user.m_intent != MOVE_INTENT_WALK)

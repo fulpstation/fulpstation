@@ -39,6 +39,8 @@
 	. = ..()
 	if(!.)
 		return
+	if(!active)
+		return
 	var/mob/living/user = owner
 	animate(user, alpha = max(25, owner.alpha - min(75, 10 + 5 * level_current)), time = 1.5 SECONDS)
 	// Prevents running while on Cloak of Darkness

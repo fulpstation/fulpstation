@@ -17,11 +17,7 @@
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 
-/datum/action/cooldown/bloodsucker/targeted/brawn/can_use(mob/living/carbon/user, trigger_flags)
-	. = ..()
-	if(!.) // Default checks
-		return FALSE
-
+/datum/action/cooldown/bloodsucker/targeted/brawn/ActivatePower(trigger_flags)
 	// Did we break out of our handcuffs?
 	if(break_restraints())
 		power_activated_sucessfully()
@@ -31,7 +27,7 @@
 		power_activated_sucessfully()
 		return FALSE
 	// Did neither, now we can PUNCH.
-	return TRUE
+	return ..()
 
 // Look at 'biodegrade.dm' for reference
 /datum/action/cooldown/bloodsucker/targeted/brawn/proc/break_restraints()

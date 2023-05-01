@@ -53,6 +53,9 @@
 	bloodsuckerdatum_power = null
 	return ..()
 
+/datum/action/cooldown/bloodsucker/IsAvailable(feedback = FALSE)
+	return next_use_time <= world.time
+
 /datum/action/cooldown/bloodsucker/Grant(mob/user)
 	. = ..()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(owner)
@@ -137,7 +140,7 @@
 	if(power_flags & BP_AM_STATIC_COOLDOWN)
 		cooldown_time = initial(cooldown_time)
 	else
-		cooldown_time = max(cooldown_time / 2, cooldown_time - (cooldown_time / 16 * (level_current-1)))
+		cooldown_time = max(initial(cooldown_time) / 2, initial(cooldown_time) - (initial(cooldown_time) / 16 * (level_current-1)))
 
 	return ..()
 
