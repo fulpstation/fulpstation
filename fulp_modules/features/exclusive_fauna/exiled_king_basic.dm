@@ -38,7 +38,7 @@
 	faction = list(FACTION_MINING, FACTION_BOSS)
 	maptext_width = 96
 	basic_mob_flags = DEL_ON_DEATH
-	death_message = "sinks into a pool of blood, fleeing the battle. You've won, for now... "
+	death_message = "the mad king is felled, no longer will he suffer. "
 	death_sound = 'sound/magic/enter_blood.ogg'
 	ai_controller = /datum/ai_controller/basic_controller/kraken
 	///achievement for killing
@@ -52,7 +52,6 @@
 	AddComponent(/datum/component/gps, "Sunken Signal")
 	add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_ASHSTORM_IMMUNE), INNATE_TRAIT)
 	AddElement(/datum/element/simple_flying)
-	AddElement(/datum/element/crusher_loot, /obj/item/crusher_trophy/bileworm_spewlet, 15)
 	AddElement(/datum/element/death_drops, list(/obj/item/clothing/neck/cloak/squid))
 	var/datum/action/cooldown/mob_cooldown/summon_portal/fishes = new(src)
 	var/datum/action/cooldown/mob_cooldown/kraken_tentacle/tentacle = new(src)
