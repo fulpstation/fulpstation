@@ -110,7 +110,7 @@
 /datum/ai_planning_subtree/cthulu_attack
 	var/datum/ai_behavior/our_behavior = /datum/ai_behavior/cthulu_attack
 
-/datum/ai_planning_subtree/cthulu_attack/SelectBehaviors(datum/ai_controller/controller, delta_time)
+/datum/ai_planning_subtree/cthulu_attack/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
 	var/datum/weakref/weak_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	var/atom/target = weak_target?.resolve()
@@ -132,7 +132,7 @@
 	if(!target)
 		return FALSE
 
-/datum/ai_behavior/cthulu_attack/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/cthulu_attack/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
 	var/mob/living/basic/basic_mob = controller.pawn
 	var/datum/weakref/weak_target = controller.blackboard[target_key]
@@ -242,7 +242,7 @@
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
-/obj/structure/cthulu_rift/process(delta_time)
+/obj/structure/cthulu_rift/process(seconds_per_tick)
 	var/mob/living/overlord = squid?.resolve()
 	if(!overlord)
 		qdel(src)
@@ -250,7 +250,7 @@
 	if(number_of_mobs <= 0)
 		qdel(src)
 		return
-	if(DT_PROB(60, delta_time))
+	if(SPT_PROB(60, seconds_per_tick))
 		new creature(loc, overlord)
 		number_of_mobs = number_of_mobs - 1
 
@@ -476,7 +476,7 @@
 /datum/ai_planning_subtree/ram_target
 	var/datum/ai_behavior/ram/ram_behavior = /datum/ai_behavior/ram
 
-/datum/ai_planning_subtree/ram_target/SelectBehaviors(datum/ai_controller/controller, delta_time)
+/datum/ai_planning_subtree/ram_target/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
 	var/datum/weakref/weak_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	var/atom/target = weak_target?.resolve()
@@ -497,7 +497,7 @@
 	if(!target)
 		return FALSE
 
-/datum/ai_behavior/ram/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/ram/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
 	var/mob/living/basic/basic_mob = controller.pawn
 	var/datum/weakref/weak_target = controller.blackboard[target_key]
