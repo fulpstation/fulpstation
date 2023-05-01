@@ -16,7 +16,7 @@
 	var/datum/antagonist/vassal/favorite/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal/favorite)
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/datum/action/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
 		if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
 			options[initial(power.name)] = power
 
@@ -38,7 +38,7 @@
 			return
 
 		// Good to go - Buy Power!
-		var/datum/action/bloodsucker/purchased_power = options[choice]
+		var/datum/action/cooldown/bloodsucker/purchased_power = options[choice]
 		vassaldatum.BuyPower(new purchased_power)
 		bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "taught [choice]!")
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You taught [target] how to use [choice]!"))
@@ -79,4 +79,4 @@
 
 /datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	to_chat(bloodsucker, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
-	vassaldatum.BuyPower(new /datum/action/bloodsucker/distress)
+	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/distress)

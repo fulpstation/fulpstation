@@ -5,13 +5,13 @@
  *	Tremere has quite a bit of unique things to it, so I thought it's own subtype would be nice
  */
 
-/datum/action/bloodsucker/targeted/tremere
+/datum/action/cooldown/bloodsucker/targeted/tremere
 	name = "Tremere Gift"
 	desc = "A Tremere exclusive gift."
 	button_icon_state = "power_auspex"
 	background_icon_state = "tremere_power_off"
-	background_icon_state_on = "tremere_power_on"
-	background_icon_state_off = "tremere_power_off"
+	active_background_icon_state = "tremere_power_on"
+	base_background_icon_state = "tremere_power_off"
 	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
 	background_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_tremere_bloodsucker.dmi'
 

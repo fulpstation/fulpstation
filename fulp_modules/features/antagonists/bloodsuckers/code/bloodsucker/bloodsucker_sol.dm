@@ -26,15 +26,15 @@
 ///Called when Sol is near starting.
 /datum/antagonist/bloodsucker/proc/sol_near_start(atom/source)
 	SIGNAL_HANDLER
-	if(bloodsucker_lair_area && !(locate(/datum/action/bloodsucker/gohome) in powers))
-		BuyPower(new /datum/action/bloodsucker/gohome)
+	if(bloodsucker_lair_area && !(locate(/datum/action/cooldown/bloodsucker/gohome) in powers))
+		BuyPower(new /datum/action/cooldown/bloodsucker/gohome)
 
 ///Called when Sol first ends.
 /datum/antagonist/bloodsucker/proc/on_sol_end(atom/source)
 	SIGNAL_HANDLER
 	check_end_torpor()
-	for(var/datum/action/bloodsucker/power in powers)
-		if(istype(power, /datum/action/bloodsucker/gohome))
+	for(var/datum/action/cooldown/bloodsucker/power in powers)
+		if(istype(power, /datum/action/cooldown/bloodsucker/gohome))
 			RemovePower(power)
 
 /// Cycle through all vamp antags and check if they're inside a closet.

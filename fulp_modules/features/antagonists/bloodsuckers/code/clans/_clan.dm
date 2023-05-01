@@ -127,7 +127,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 /datum/bloodsucker_clan/proc/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/datum/action/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
 		if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in bloodsuckerdatum.powers))
 			options[initial(power.name)] = power
 
@@ -153,7 +153,7 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
 			return
 
 		// Good to go - Buy Power!
-		var/datum/action/bloodsucker/purchased_power = options[choice]
+		var/datum/action/cooldown/bloodsucker/purchased_power = options[choice]
 		bloodsuckerdatum.BuyPower(new purchased_power)
 		bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "learned [choice]!")
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You have learned how to use [choice]!"))
@@ -244,4 +244,4 @@ GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
  */
 /datum/bloodsucker_clan/proc/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	SIGNAL_HANDLER
-	vassaldatum.BuyPower(new /datum/action/bloodsucker/targeted/brawn)
+	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/brawn)
