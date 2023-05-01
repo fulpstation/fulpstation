@@ -193,7 +193,7 @@
 	build_all_button_icons()
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
-/datum/action/bloodsucker/process(delta_time)
+/datum/action/bloodsucker/process(seconds_per_tick)
 	if(!ContinueActive(owner)) // We can't afford the Power? Deactivate it.
 		DeactivatePower()
 		return FALSE

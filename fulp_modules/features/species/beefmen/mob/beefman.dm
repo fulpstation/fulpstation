@@ -10,21 +10,19 @@
 		DYNCOLORS,
 		AGENDER,
 	)
+
 	mutant_bodyparts = list(
 		"beef_color" = "#e73f4e",
 		"beef_eyes" = BEEF_EYES_OLIVES,
 		"beef_mouth" = BEEF_MOUTH_SMILE,
-		"beef_trauma" = /datum/brain_trauma/mild/phobia/strangers,
 	)
 	inherent_traits = list(
-		TRAIT_ADVANCEDTOOLUSER,
-		TRAIT_CAN_STRIP,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_GENELESS,
-		TRAIT_LITERATE,
 		TRAIT_RESISTCOLD,
 		TRAIT_SLEEPIMMUNE,
 	)
+
 	offset_features = list(
 		OFFSET_ID = list(0,2),
 		OFFSET_GLOVES = list(0,-4),
@@ -37,12 +35,13 @@
 		OFFSET_FACE = list(0,3),
 		OFFSET_BELT = list(0,3),
 		OFFSET_SUIT = list(0,2),
+		OFFSET_UNIFORM = list(0,1),
 		OFFSET_NECK = list(0,3),
 	)
 
 	cellular_damage_desc = "meat degradation"
-
 	species_language_holder = /datum/language_holder/russian
+	mutantbrain = /obj/item/organ/internal/brain/beefman
 	mutanttongue = /obj/item/organ/internal/tongue/beefman
 	skinned_type = /obj/item/food/meatball
 	meat = /obj/item/food/meat/slab
@@ -77,7 +76,7 @@
 	///Dehydration caused by consuming Salt. Causes bleeding and affects how much they will bleed.
 	var/dehydrated = 0
 	///List of all limbs that can be removed and replaced at will.
-	var/list/tearable_limbs = list(
+	var/static/list/tearable_limbs = list(
 		BODY_ZONE_PRECISE_MOUTH,
 		BODY_ZONE_L_ARM,
 		BODY_ZONE_R_ARM,
@@ -90,14 +89,9 @@
 	. = ..()
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
-	var/obj/item/organ/internal/brain/has_brain = user.get_organ_slot(ORGAN_SLOT_BRAIN)
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	spec_updatehealth(user)
-	if(has_brain)
-		if(user.dna.features["beef_trauma"])
-			user.gain_trauma(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
-		user.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
@@ -109,11 +103,6 @@
 	human_mob.dna.species.fixed_mut_color = human_mob.dna.features["beef_color"]
 	human_mob.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
 	human_mob.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
-
-/datum/species/beefman/on_species_loss(mob/living/carbon/human/user, datum/species/new_species, pref_load)
-	user.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	user.cure_trauma_type(user.dna.features["beef_trauma"], TRAUMA_RESILIENCE_ABSOLUTE)
-	return ..()
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
@@ -132,11 +121,11 @@
 	for(var/obj/item/bodypart/all_bodyparts as anything in user.bodyparts)
 		bleed_rate += all_bodyparts.generic_bleedstacks
 
-/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
+/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, seconds_per_tick, times_fired)
 	// Salt HURTS
 	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
 		user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
-		if(DT_PROB(10, delta_time) || dehydrated == 0)
+		if(SPT_PROB(10, seconds_per_tick) || dehydrated == 0)
 			to_chat(user, span_alert("Your beefy mouth tastes dry."))
 		dehydrated++
 	// Regain BLOOD
