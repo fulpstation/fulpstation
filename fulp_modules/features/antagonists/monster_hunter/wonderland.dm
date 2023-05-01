@@ -135,8 +135,8 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 		affected_mob.adjustBruteLoss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
 		affected_mob.adjustFireLoss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
 
-	affected_mob.AdjustAllImmobility(-60  * REM * delta_time)
-	affected_mob.adjustStaminaLoss(-7 * REM * delta_time, FALSE, required_biotype = affected_biotype)
+	affected_mob.AdjustAllImmobility(-60  * REM * seconds_per_tick)
+	affected_mob.adjustStaminaLoss(-7 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
 	..()
 	. = TRUE
 
