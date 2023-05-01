@@ -34,7 +34,7 @@
 	user.AddElement(/datum/element/digitalcamo)
 	user.balloon_alert(user, "cloak turned on.")
 
-/datum/action/bloodsucker/cloak/process(delta_time)
+/datum/action/bloodsucker/cloak/process(seconds_per_tick)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)

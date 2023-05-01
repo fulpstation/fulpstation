@@ -1,13 +1,12 @@
 ## List of all TG edits:
 
-- code/datums/greyscale/_greyscale_config.dm > Adds fulp_modules/strings/greyscale to the list of allowed locations for greyscale configs
+- README.md > Replaces it with our own readme
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
 - code/modules/unit_tests/simple_animal_freeze.dm > Adds our fulp-related mobs so that they are ignored by the test.
 
 - tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
-- tgui/yarn.lock > Our lockfile is slightly different - we have an additional workspace package, "fulpui-patches"
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 

@@ -12,9 +12,9 @@
 		VENUE_RESTAURANT = list(
 			/obj/item/food/friedegg = 6,
 			/obj/item/food/bread/tofu = 5,
-			/obj/item/food/soup/hotchili = 3,
+			/datum/reagent/consumable/nutriment/soup/hotchili = 3,
 			/obj/item/food/nugget = 4,
-			/obj/item/food/soup/miso = 4,
+			/datum/reagent/consumable/nutriment/soup/miso = 4,
 			/obj/item/food/grilled_cheese_sandwich = 3,
 			/obj/item/food/spaghetti/boiledspaghetti = 3,
 			/obj/item/food/eggsausage = 3,

@@ -65,14 +65,14 @@ export const DmMapsIncludeTarget = new Juke.Target({
 });
 
 export const DmTarget = new Juke.Target({
-  parameters: [DefineParameter, DmVersionParameter],
+  parameters: [DefineParameter, DmVersionParameter, WarningParameter],
   dependsOn: ({ get }) => [
     get(DefineParameter).includes('ALL_MAPS') && DmMapsIncludeTarget,
   ],
   inputs: [
     '_maps/map_files/generic/**',
     'code/**',
-    // Fulp edit START - Build //Add our folder as part of dependecies, so the build doesn't fail if the only file edited is inside it.
+    // Fulp edit - Build //Add our folder as part of dependecies, so the build doesn't fail if the only file edited is inside it.
     "fulp_modules/**",
     // Fulp edit END
     'html/**',
@@ -100,7 +100,7 @@ export const DmTarget = new Juke.Target({
 });
 
 export const DmTestTarget = new Juke.Target({
-  parameters: [DefineParameter, DmVersionParameter],
+  parameters: [DefineParameter, DmVersionParameter, WarningParameter],
   dependsOn: ({ get }) => [
     get(DefineParameter).includes('ALL_MAPS') && DmMapsIncludeTarget,
   ],
@@ -134,7 +134,7 @@ export const DmTestTarget = new Juke.Target({
 });
 
 export const AutowikiTarget = new Juke.Target({
-  parameters: [DefineParameter, DmVersionParameter],
+  parameters: [DefineParameter, DmVersionParameter, WarningParameter],
   dependsOn: ({ get }) => [
     get(DefineParameter).includes('ALL_MAPS') && DmMapsIncludeTarget,
   ],
