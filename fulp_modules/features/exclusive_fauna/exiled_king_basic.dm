@@ -3,7 +3,8 @@
 #define BB_KING_SURROUND_TENTACLE "BB_king_surround_tentacle"
 #define BB_CHARGE_ABILITY "BB_charge_ability"
 #define BOSS_MEDAL_EXILED "Exiled Killer"
-#define EXILED_KING_SCORE "EXiled Killed"
+#define EXILED_KING_SCORE "Exiled Killed"
+#define BB_KING_TENTACLE_TRACK "BB_king_tentacle_track"
 
 /mob/living/basic/exiled_king
 	name = "Exiled King"
@@ -56,9 +57,12 @@
 	var/datum/action/cooldown/mob_cooldown/summon_portal/fishes = new(src)
 	var/datum/action/cooldown/mob_cooldown/kraken_tentacle/tentacle = new(src)
 	var/datum/action/cooldown/mob_cooldown/tentacle_all_directions/all_directions = new(src)
+	var/datum/action/cooldown/mob_cooldown/tentacle_track/tentacle_track = new(src)
+	tentacle_track.Grant(src)
 	fishes.Grant(src)
 	tentacle.Grant(src)
 	all_directions.Grant(src)
+	ai_controller.blackboard[BB_KING_TENTACLE_TRACK] = WEAKREF(tentacle_track)
 	ai_controller.blackboard[BB_KING_PORTAL] = WEAKREF(fishes)
 	ai_controller.blackboard[BB_KING_TENTACLE] = WEAKREF(tentacle)
 	ai_controller.blackboard[BB_KING_SURROUND_TENTACLE] = WEAKREF(all_directions)
@@ -82,9 +86,22 @@
 		/datum/ai_planning_subtree/cthulu_attack/tentacles,
 		/datum/ai_planning_subtree/cthulu_attack/surround,
 		/datum/ai_planning_subtree/cthulu_attack/portal,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+		/datum/ai_planning_subtree/cthulu_attack/track_victim,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu,
 	)
 
+
+/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu
+	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/cthulu
+
+/datum/ai_behavior/basic_melee_attack/cthulu
+	action_cooldown = 0.5 SECONDS
+/datum/ai_planning_subtree/cthulu_attack/track_victim
+	our_behavior = /datum/ai_behavior/cthulu_attack/track_victim
+
+/datum/ai_behavior/cthulu_attack/track_victim
+	action_cooldown = 20 SECONDS
+	ability_key = BB_KING_TENTACLE_TRACK
 /datum/ai_planning_subtree/cthulu_attack/tentacles
 	our_behavior = /datum/ai_behavior/cthulu_attack/tentacle
 
@@ -180,6 +197,31 @@
 		portal.number_of_mobs = 1
 
 	return
+
+
+/datum/action/cooldown/mob_cooldown/tentacle_track
+	name = "Tentacle Track"
+	button_icon = 'fulp_modules/features/exclusive_fauna/icons/effect_track.dmi'
+	button_icon_state = "kraken_tentacle_2"
+	desc = "Tentacles will chase your victim for some time."
+	cooldown_time = 3 SECONDS
+	///what abomination are we spawning
+	var/number_of_tentacles = 5
+
+/datum/action/cooldown/mob_cooldown/tentacle_track/Activate(atom/target_atom)
+	StartCooldown(360 SECONDS, 360 SECONDS)
+	INVOKE_ASYNC(src, PROC_REF(track_tentacle), target_atom)
+	StartCooldown()
+	return TRUE
+
+/datum/action/cooldown/mob_cooldown/tentacle_track/proc/track_tentacle(atom/target_atom)
+	if(!isliving(target_atom))
+		return
+	var/mob/living/victim = target_atom
+	for(var/i in 1 to number_of_tentacles)
+		var/turf/locale = get_turf(victim)
+		new /obj/effect/kraken_arm/track(locale)
+		sleep(3 SECONDS)
 
 
 /datum/action/cooldown/mob_cooldown/summon_portal
@@ -333,11 +375,21 @@
 		/mob/living/basic/carp/cthulu,
 		/mob/living/basic/carp/cthulu/mega,
 	))
+	var/delay_time = 0.05
+
+/obj/effect/kraken_arm/track
+	icon = 'fulp_modules/features/exclusive_fauna/icons/effect_track.dmi'
+	icon_state = "kraken_tentacle_2"
+	delay_time = 1.5
+
+/obj/effect/kraken_arm/track/fell()
+	playsound(get_turf(src), 'sound/effects/meteorimpact.ogg', 100, TRUE)
+	..()
 
 /obj/effect/kraken_arm/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(fell)), 0.05 SECONDS)
-	QDEL_IN(src, 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(fell)), delay_time)
+	QDEL_IN(src, 2 SECONDS)
 
 /obj/effect/kraken_arm/proc/fell()
 	for(var/mob/living/man in loc)
