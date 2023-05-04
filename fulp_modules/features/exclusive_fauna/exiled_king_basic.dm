@@ -140,7 +140,6 @@
 		return
 	controller.queue_behavior(our_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
 
-
 /datum/ai_behavior/cthulu_attack
 	behavior_flags =  AI_BEHAVIOR_MOVE_AND_PERFORM
 	required_distance = 15
@@ -451,6 +450,7 @@
 	button_icon_state = "squidarm"
 	desc = "Allows you to shoot fire in all directions."
 	cooldown_time = 3 SECONDS
+	///list of directions our tentacles spawn in
 	var/list/offsets = list(45,-45,90,-90,180,-180,225,-225)
 
 /datum/action/cooldown/mob_cooldown/tentacle_all_directions/Activate(atom/target_atom)
@@ -504,7 +504,9 @@
 	speak_emote = list("polls")
 	death_message = "crumbles to ashes!"
 	ai_controller = /datum/ai_controller/basic_controller/vanguard
+	///the charge ability
 	var/datum/action/cooldown/mob_cooldown/charge/vanguard/charge_ability
+	///our leader
 	var/datum/weakref/leader
 
 
