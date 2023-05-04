@@ -33,12 +33,17 @@
 	melee_damage_upper = 60
 	speed = 5
 	mob_size = MOB_SIZE_LARGE
+	move_resist = INFINITY
 	pixel_x = -32
 	base_pixel_x = -32
 	maptext_height = 96
-	faction = list(FACTION_MINING, FACTION_BOSS)
 	maptext_width = 96
+	sentience_type = SENTIENCE_BOSS
+	faction = list(FACTION_MINING, FACTION_BOSS)
 	basic_mob_flags = DEL_ON_DEATH
+	move_force = MOVE_FORCE_OVERPOWERING
+	move_resist = MOVE_FORCE_OVERPOWERING
+	pull_force = MOVE_FORCE_OVERPOWERING
 	death_message = "the mad king is felled, no longer will he suffer. "
 	death_sound = 'sound/magic/enter_blood.ogg'
 	ai_controller = /datum/ai_controller/basic_controller/kraken
@@ -201,12 +206,14 @@
 
 /datum/action/cooldown/mob_cooldown/tentacle_track
 	name = "Tentacle Track"
-	button_icon = 'fulp_modules/features/exclusive_fauna/icons/effect_track.dmi'
-	button_icon_state = "kraken_tentacle_2"
+	button_icon = 'icons/mob/actions/actions_items.dmi'
+	button_icon_state = "sniper_zoom"
 	desc = "Tentacles will chase your victim for some time."
 	cooldown_time = 3 SECONDS
 	///what abomination are we spawning
 	var/number_of_tentacles = 5
+	///type of tentacle we are summoning
+	var/tentacle = /obj/effect/kraken_arm/track
 
 /datum/action/cooldown/mob_cooldown/tentacle_track/Activate(atom/target_atom)
 	StartCooldown(360 SECONDS, 360 SECONDS)
@@ -220,7 +227,7 @@
 	var/mob/living/victim = target_atom
 	for(var/i in 1 to number_of_tentacles)
 		var/turf/locale = get_turf(victim)
-		new /obj/effect/kraken_arm/track(locale)
+		new tentacle(locale)
 		sleep(3 SECONDS)
 
 
@@ -375,6 +382,9 @@
 		/mob/living/basic/carp/cthulu,
 		/mob/living/basic/carp/cthulu/mega,
 	))
+	///damage we apply
+	var/damage = 10
+	///delay before damage
 	var/delay_time = 0.05
 
 /obj/effect/kraken_arm/track
@@ -398,7 +408,7 @@
 		if(man.stat == DEAD)
 			continue
 		visible_message(span_danger("[man] gets smashed by the tentacles!"))
-		man.apply_damage(10, BRUTE, wound_bonus = CANT_WOUND)
+		man.apply_damage(damage, BRUTE, wound_bonus = CANT_WOUND)
 	for(var/obj/structure/destroyed in loc)
 		destroyed.take_damage(150, BRUTE, MELEE, 1)
 
@@ -633,4 +643,42 @@
 		L.client.give_award(/datum/award/score/boss_score, L)
 		L.client.give_award(score_achievement_type, L)
 	return TRUE
+/obj/item/crusher_trophy/kraken_eye
+	name = "kraken's eye"
+	icon = 'fulp_modules/features/exclusive_fauna/icons/item_loot.dmi'
+	icon_state = "squid_eye"
+	desc = "A kraken's eye, how vile..."
+	denied_type = /obj/item/crusher_trophy/kraken_eye
+	///item ability that handles the effect
+	var/datum/action/cooldown/mob_cooldown/tentacle_track/trophy/ability
 
+
+/obj/effect/kraken_arm/track/trophy
+	damage = 25
+	delay_time = 0.5
+
+/datum/action/cooldown/mob_cooldown/tentacle_track/trophy
+	owner_has_control = FALSE
+
+/obj/item/crusher_trophy/kraken_eye/Initialize(mapload)
+	. = ..()
+	ability = new()
+
+/obj/item/crusher_trophy/kraken_eye/Destroy(force)
+	. = ..()
+	QDEL_NULL(ability)
+
+/obj/item/crusher_trophy/kraken_eye/add_to(obj/item/kinetic_crusher/crusher, mob/living/user)
+	. = ..()
+	if(.)
+		crusher.add_item_action(ability)
+
+/obj/item/crusher_trophy/kraken_eye/remove_from(obj/item/kinetic_crusher/crusher, mob/living/user)
+	. = ..()
+	crusher.remove_item_action(ability)
+
+/obj/item/crusher_trophy/kraken_eye/effect_desc()
+	return "mark detonation launches tentacles from the ground that damage the enemy."
+
+/obj/item/crusher_trophy/kraken_eye/on_mark_detonation(mob/living/target, mob/living/user)
+	ability.InterceptClickOn(user, null, target)
