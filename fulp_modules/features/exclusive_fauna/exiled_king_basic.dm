@@ -29,9 +29,9 @@
 	icon = 'fulp_modules/features/exclusive_fauna/icons/96x96.dmi'
 	speak_emote = list("gurgles")
 	armour_penetration = 60
-	melee_damage_lower = 60
-	melee_damage_upper = 60
-	speed = 5
+	melee_damage_lower = 30
+	melee_damage_upper = 30
+	speed = 7
 	mob_size = MOB_SIZE_LARGE
 	move_resist = INFINITY
 	pixel_x = -32
@@ -44,6 +44,9 @@
 	move_force = MOVE_FORCE_OVERPOWERING
 	move_resist = MOVE_FORCE_OVERPOWERING
 	pull_force = MOVE_FORCE_OVERPOWERING
+	layer = LARGE_MOB_LAYER
+	plane = GAME_PLANE_UPPER_FOV_HIDDEN
+	mouse_opacity = MOUSE_OPACITY_OPAQUE
 	death_message = "the mad king is felled, no longer will he suffer. "
 	death_sound = 'sound/magic/enter_blood.ogg'
 	ai_controller = /datum/ai_controller/basic_controller/kraken
@@ -58,6 +61,7 @@
 	AddComponent(/datum/component/gps, "Sunken Signal")
 	add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_ASHSTORM_IMMUNE), INNATE_TRAIT)
 	AddElement(/datum/element/simple_flying)
+	AddElement(/datum/element/crusher_loot, /obj/item/crusher_trophy/kraken_eye, 100, TRUE)
 	AddElement(/datum/element/death_drops, list(/obj/item/clothing/neck/cloak/squid))
 	var/datum/action/cooldown/mob_cooldown/summon_portal/fishes = new(src)
 	var/datum/action/cooldown/mob_cooldown/kraken_tentacle/tentacle = new(src)
@@ -92,9 +96,14 @@
 		/datum/ai_planning_subtree/cthulu_attack/surround,
 		/datum/ai_planning_subtree/cthulu_attack/portal,
 		/datum/ai_planning_subtree/cthulu_attack/track_victim,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu,
 	)
 
+/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu
+	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/cthulu
+
+/datum/ai_behavior/basic_melee_attack/cthulu
+	action_cooldown = 0.6 SECONDS
 /datum/ai_planning_subtree/cthulu_attack/track_victim
 	our_behavior = /datum/ai_behavior/cthulu_attack/track_victim
 
@@ -303,6 +312,8 @@
 	mob_size = MOB_SIZE_LARGE
 	///our overlord
 	var/datum/weakref/leader
+	melee_damage_lower = 12
+	melee_damage_upper = 12
 
 /mob/living/basic/carp/cthulu/mega
 	name = "Overlord's commander"
@@ -313,9 +324,9 @@
 	icon_dead = "megacarp_dead_greyscale"
 	greyscale_config = /datum/greyscale_config/carp_mega
 	icon_gib = "megacarp_gib"
-	health = 80
+	health = 70
+	maxHealth = 70
 	mob_size = MOB_SIZE_LARGE
-	maxHealth = 80
 
 
 /mob/living/basic/carp/cthulu/Initialize(mapload, mob/living/overlord)
@@ -376,7 +387,7 @@
 		/mob/living/basic/carp/cthulu/mega,
 	))
 	///damage we apply
-	var/damage = 20
+	var/damage = 10
 	///delay before damage
 	var/delay_time = 0.05
 
