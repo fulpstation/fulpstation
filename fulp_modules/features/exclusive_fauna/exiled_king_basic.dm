@@ -376,7 +376,7 @@
 		/mob/living/basic/carp/cthulu/mega,
 	))
 	///damage we apply
-	var/damage = 10
+	var/damage = 20
 	///delay before damage
 	var/delay_time = 0.05
 
