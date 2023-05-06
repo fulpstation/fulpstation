@@ -101,7 +101,7 @@
 
 
 /datum/ai_behavior/find_potential_targets/cthulu
-	vision_range = 6
+	vision_range = 7
 
 /datum/ai_planning_subtree/cthulu_find_target
 
