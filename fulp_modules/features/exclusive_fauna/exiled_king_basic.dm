@@ -91,13 +91,24 @@
 	ai_movement = /datum/ai_movement/basic_avoidance
 	idle_behavior = /datum/idle_behavior/idle_random_walk/less_walking
 	planning_subtrees = list(
-		/datum/ai_planning_subtree/simple_find_target,
+		/datum/ai_planning_subtree/cthulu_find_target,
 		/datum/ai_planning_subtree/cthulu_attack/tentacles,
 		/datum/ai_planning_subtree/cthulu_attack/surround,
 		/datum/ai_planning_subtree/cthulu_attack/portal,
 		/datum/ai_planning_subtree/cthulu_attack/track_victim,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu,
 	)
+
+
+/datum/ai_behavior/find_potential_targets/cthulu
+	vision_range = 6
+
+/datum/ai_planning_subtree/cthulu_find_target
+
+/datum/ai_planning_subtree/cthulu_find_target/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
+	. = ..()
+	controller.queue_behavior(/datum/ai_behavior/find_potential_targets/cthulu, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+
 
 /datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu
 	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/cthulu
