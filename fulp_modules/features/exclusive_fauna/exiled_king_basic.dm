@@ -92,15 +92,9 @@
 		/datum/ai_planning_subtree/cthulu_attack/surround,
 		/datum/ai_planning_subtree/cthulu_attack/portal,
 		/datum/ai_planning_subtree/cthulu_attack/track_victim,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 	)
 
-
-/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu
-	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/cthulu
-
-/datum/ai_behavior/basic_melee_attack/cthulu
-	action_cooldown = 0.5 SECONDS
 /datum/ai_planning_subtree/cthulu_attack/track_victim
 	our_behavior = /datum/ai_behavior/cthulu_attack/track_victim
 
