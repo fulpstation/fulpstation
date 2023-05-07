@@ -45,7 +45,6 @@
 		target.balloon_alert(target, "learned [choice]!")
 		to_chat(target, span_notice("Your master taught you how to use [choice]!"))
 
-	vassaldatum.LevelUpPowers()
 	vassaldatum.vassal_level++
 	switch(vassaldatum.vassal_level)
 		if(2)
@@ -76,6 +75,7 @@
 			vassaldatum.set_vassal_level(target)
 
 	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
+	vassaldatum.LevelUpPowers()
 
 /datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	to_chat(bloodsucker, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))

@@ -9,9 +9,13 @@
 
 ///Called when a Bloodsucker buys a power: (power)
 /datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
+	for(var/datum/action/bloodsucker/current_powers as anything in powers)
+		if(current_powers.type == power.type)
+			return FALSE
 	powers += power
 	power.Grant(owner.current)
 	log_uplink("[key_name(owner.current)] purchased [power].")
+	return TRUE
 
 ///Called when a Bloodsucker loses a power: (power)
 /datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
