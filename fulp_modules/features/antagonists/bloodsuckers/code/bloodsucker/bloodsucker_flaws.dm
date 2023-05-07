@@ -28,7 +28,7 @@
 	if(QDELETED(src) || QDELETED(owner.current))
 		return FALSE
 	if(!chosen_clan)
-		to_chat(owner.current, span_announce("You choose to remain ignorant, for now."))
+		to_chat(person_selecting, span_announce("You choose to remain ignorant, for now."))
 		return
 	my_clan = new chosen_clan(src)
 
