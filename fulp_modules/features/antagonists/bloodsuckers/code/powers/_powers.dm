@@ -86,7 +86,6 @@
 	// Cooldown?
 	if(!COOLDOWN_FINISHED(src, bloodsucker_power_cooldown))
 		owner.balloon_alert(owner, "power unavailable!")
-		to_chat(owner, "[src] on cooldown!")
 		return FALSE
 	if(!bloodsuckerdatum_power)
 		var/mob/living/living_owner = owner

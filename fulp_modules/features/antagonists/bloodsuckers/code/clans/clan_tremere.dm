@@ -13,12 +13,12 @@
 	. = ..()
 	bloodsuckerdatum.remove_nondefault_powers(return_levels = TRUE)
 	for(var/datum/action/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
-		if((initial(power.power_flags) & TREMERE_CAN_BUY) && initial(power.level_current) == 1)
+		if((initial(power.purchase_flags) & TREMERE_CAN_BUY) && initial(power.level_current) == 1)
 			bloodsuckerdatum.BuyPower(new power)
 
 /datum/bloodsucker_clan/tremere/Destroy(force)
 	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
-		if(power.power_flags & TREMERE_CAN_BUY)
+		if(power.purchase_flags & TREMERE_CAN_BUY)
 			bloodsuckerdatum.RemovePower(power)
 	return ..()
 
