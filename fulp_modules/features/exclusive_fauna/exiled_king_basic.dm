@@ -354,6 +354,15 @@
 	if(!overlord)
 		return
 	overlord.apply_damage(maxHealth)
+	var/datum/status_effect/crusher_damage/damage = src.has_status_effect(/datum/status_effect/crusher_damage)
+	var/datum/status_effect/crusher_damage/overlord_damage = overlord.has_status_effect(/datum/status_effect/crusher_damage)
+
+	if(damage && !overlord_damage)
+		overlord_damage = overlord.apply_status_effect(/datum/status_effect/crusher_damage)
+
+	if(damage)
+		overlord_damage.total_damage += damage.total_damage
+
 	leader= null
 
 /datum/action/cooldown/mob_cooldown/kraken_tentacle
