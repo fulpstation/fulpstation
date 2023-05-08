@@ -15,35 +15,6 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/mouth, GLOB.mouths_beefman)
 
 /**
- * CARBON INTEGRATION
- *
- * All overrides of mob/living and mob/living/carbon
- */
-/// Brute
-/mob/living/proc/getBruteLoss_nonProsthetic()
-	return getBruteLoss()
-
-/mob/living/carbon/getBruteLoss_nonProsthetic()
-	var/amount = 0
-	for(var/obj/item/bodypart/chosen_bodypart as anything in bodyparts)
-		if(!IS_ORGANIC_LIMB(chosen_bodypart))
-			continue
-		amount += chosen_bodypart.brute_dam
-	return amount
-
-/// Burn
-/mob/living/proc/getFireLoss_nonProsthetic()
-	return getFireLoss()
-
-/mob/living/carbon/getFireLoss_nonProsthetic()
-	var/amount = 0
-	for(var/obj/item/bodypart/chosen_bodypart as anything in bodyparts)
-		if(!IS_ORGANIC_LIMB(chosen_bodypart))
-			continue
-		amount += chosen_bodypart.burn_dam
-	return amount
-
-/**
  * Adds our species' prefs to consistent dummies for unit tests
  */
 /mob/living/carbon/human/dummy/consistent/setup_human_dna()

@@ -5,9 +5,6 @@
 	// Load Mentors
 	load_mentors()
 
-	// Load Fulp species datums
-	make_fulp_datum_references_lists()
-
 	GLOB.special_roles += list(
 		ROLE_BLOODSUCKER = 0,
 		ROLE_VAMPIRICACCIDENT = 0,
