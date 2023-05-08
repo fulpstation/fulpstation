@@ -51,6 +51,7 @@ GLOBAL_LIST_INIT(fulp_ban_list, list(
 
 // SPECIES //
 // Taken from ethereals (color_list_ethereal)
+// And _HELPERS/mobs.dm
 GLOBAL_LIST_INIT(color_list_beefman, list(
 	BEEF_COLOR_VERY_RARE = "#d93356",
 	BEEF_COLOR_RARE = "#da2e4a",
@@ -60,29 +61,15 @@ GLOBAL_LIST_INIT(color_list_beefman, list(
 	BEEF_COLOR_WELL_DONE = "#d36b75",
 ))
 
-// Taken from _HELPERS/mobs.dm
-GLOBAL_LIST_INIT(eyes_beefman, list(
-	BEEF_EYES_CAPERS,
-	BEEF_EYES_CLOVES,
-	BEEF_EYES_OLIVES,
-	BEEF_EYES_PEPPERCORNS,
-))
-
-GLOBAL_LIST_INIT(mouths_beefman, list(
-	BEEF_MOUTH_FROWN,
-	BEEF_MOUTH_DISSAPOINTED,
-	BEEF_MOUTH_GRIT,
-	BEEF_MOUTH_GRITTING_SMILE,
-	BEEF_MOUTH_SMILE,
-	BEEF_MOUTH_SMIRK,
-))
-
 GLOBAL_LIST_INIT(beefmen_traumas, list(
 	BEEF_TRAUMA_STRANGERS = /datum/brain_trauma/mild/phobia/strangers,
 	BEEF_TRAUMA_HALLUCINATIONS = /datum/brain_trauma/mild/hallucinations,
 	BEEF_TRAUMA_OCKY_ICKY = /datum/brain_trauma/mild/phobia/ocky_icky,
 	BEEF_TRAUMA_HYPNOTIC_STUPOR = /datum/brain_trauma/severe/hypnotic_stupor,
 ))
+
+GLOBAL_LIST_EMPTY(eyes_beefman)
+GLOBAL_LIST_EMPTY(mouths_beefman)
 
 GLOBAL_LIST_INIT(experiment_names, list(
 	"Experiment",
