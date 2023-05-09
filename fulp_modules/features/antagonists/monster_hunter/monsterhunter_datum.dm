@@ -182,7 +182,7 @@
 			for(var/datum/action/ability in obj.target.current.actions)
 				if(!ability)
 					continue
-				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
+				if(!istype(ability, /datum/action/changeling))
 					continue
 				description += "[ability.name], "
 
