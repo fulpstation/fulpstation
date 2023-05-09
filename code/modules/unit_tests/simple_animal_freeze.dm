@@ -318,7 +318,6 @@
 		// DO NOT ADD NEW ENTRIES TO THIS LIST
 		// READ THE COMMENT ABOVE
 		// Fulp edit - here to add in some of the mobs that are affected by this test.
-		/mob/living/simple_animal/hostile/guardian/standard/timestop,
 		/mob/living/simple_animal/hostile/gorilla/albino,
 		// Fulp edit END
 	)

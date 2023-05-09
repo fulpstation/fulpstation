@@ -1,6 +1,5 @@
 ///List of antagonists that are considered 'Monsters' and their chance of being selected.
 GLOBAL_LIST_INIT(monster_antagonist_types, list(
-	/datum/antagonist/bloodsucker,
 	/datum/antagonist/heretic,
 	/datum/antagonist/changeling,
 ))
