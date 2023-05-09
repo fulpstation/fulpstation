@@ -28,10 +28,10 @@
 	maximum_survivable_temperature = INFINITY
 	icon = 'fulp_modules/features/exclusive_fauna/icons/96x96.dmi'
 	speak_emote = list("gurgles")
-	armour_penetration = 60
-	melee_damage_lower = 30
-	melee_damage_upper = 30
-	speed = 7
+	armour_penetration = 40
+	melee_damage_lower = 15
+	melee_damage_upper = 15
+	speed = 4
 	mob_size = MOB_SIZE_LARGE
 	move_resist = INFINITY
 	pixel_x = -32
@@ -91,30 +91,15 @@
 	ai_movement = /datum/ai_movement/basic_avoidance
 	idle_behavior = /datum/idle_behavior/idle_random_walk/less_walking
 	planning_subtrees = list(
-		/datum/ai_planning_subtree/cthulu_find_target,
+		/datum/ai_planning_subtree/simple_find_target,
 		/datum/ai_planning_subtree/cthulu_attack/tentacles,
 		/datum/ai_planning_subtree/cthulu_attack/surround,
 		/datum/ai_planning_subtree/cthulu_attack/portal,
 		/datum/ai_planning_subtree/cthulu_attack/track_victim,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 	)
 
-
-/datum/ai_behavior/find_potential_targets/cthulu
-	vision_range = 7
-
-/datum/ai_planning_subtree/cthulu_find_target
-
-/datum/ai_planning_subtree/cthulu_find_target/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
-	. = ..()
-	controller.queue_behavior(/datum/ai_behavior/find_potential_targets/cthulu, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
-
-
-/datum/ai_planning_subtree/basic_melee_attack_subtree/cthulu
-	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/cthulu
-
-/datum/ai_behavior/basic_melee_attack/cthulu
-	action_cooldown = 0.6 SECONDS
 /datum/ai_planning_subtree/cthulu_attack/track_victim
 	our_behavior = /datum/ai_behavior/cthulu_attack/track_victim
 
@@ -155,7 +140,7 @@
 	controller.queue_behavior(our_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
 
 /datum/ai_behavior/cthulu_attack
-	behavior_flags =  AI_BEHAVIOR_MOVE_AND_PERFORM
+	behavior_flags =  AI_BEHAVIOR_MOVE_AND_PERFORM | AI_BEHAVIOR_KEEP_MOVE_TARGET_ON_FINISH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 	required_distance = 15
 	var/ability_key
 	var/validate_conditions = FALSE
@@ -192,13 +177,18 @@
 	if(isnull(ability))
 		return
 	if(validate_conditions)
-		alter_ability(ability, basic_mob)
+		if(!check_conditions(basic_mob, final_target)) //conditions before we execute the ability
+			return
+		alter_ability(ability, basic_mob) //how the ability is altered depending on conditions
 
 	ability.Activate(final_target)
 
 
 /datum/ai_behavior/cthulu_attack/proc/alter_ability(ability, mob/living/basic_mob)
 	return
+
+/datum/ai_behavior/cthulu_attack/proc/check_conditions(mob/living/basic_mob, atom/final_target)
+	return TRUE
 
 /datum/ai_behavior/cthulu_attack/portal/alter_ability(ability, mob/living/basic_mob)
 	var/datum/action/cooldown/mob_cooldown/summon_portal/portal = ability
@@ -222,7 +212,7 @@
 	button_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "sniper_zoom"
 	desc = "Tentacles will chase your victim for some time."
-	cooldown_time = 3 SECONDS
+	cooldown_time = 0 SECONDS
 	///what abomination are we spawning
 	var/number_of_tentacles = 5
 	///type of tentacle we are summoning
@@ -249,7 +239,7 @@
 	button_icon = 'icons/obj/carp_rift.dmi'
 	button_icon_state = "carp_rift_carpspawn"
 	desc = "Summon your army to defend you."
-	cooldown_time = 3 SECONDS
+	cooldown_time = 0 SECONDS
 	///what abomination are we spawning
 	var/creature = /mob/living/basic/carp/cthulu
 	///how many
@@ -370,7 +360,7 @@
 	button_icon = 'fulp_modules/features/exclusive_fauna/icons/effect.dmi'
 	button_icon_state = "squidarm"
 	desc = "Unleash tentacles towards the target."
-	cooldown_time = 3 SECONDS
+	cooldown_time = 0 SECONDS
 
 /datum/action/cooldown/mob_cooldown/kraken_tentacle/Activate(atom/target_atom)
 	StartCooldown(360 SECONDS, 360 SECONDS)
@@ -474,7 +464,7 @@
 	button_icon = 'fulp_modules/features/exclusive_fauna/icons/effect.dmi'
 	button_icon_state = "squidarm"
 	desc = "Allows you to shoot fire in all directions."
-	cooldown_time = 3 SECONDS
+	cooldown_time = 0 SECONDS
 	///list of directions our tentacles spawn in
 	var/list/offsets = list(45,-45,90,-90,180,-180,225,-225)
 
