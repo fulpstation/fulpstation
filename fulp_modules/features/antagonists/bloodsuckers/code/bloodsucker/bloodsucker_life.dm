@@ -28,7 +28,6 @@
 
 /datum/antagonist/bloodsucker/proc/on_death(mob/living/source, gibbed)
 	SIGNAL_HANDLER
-	INVOKE_ASYNC(src, PROC_REF(HandleDeath))
 	RegisterSignal(owner.current, COMSIG_LIVING_REVIVE, PROC_REF(on_revive))
 	RegisterSignal(src, COMSIG_BLOODSUCKER_ON_LIFETICK, PROC_REF(HandleDeath))
 
@@ -94,7 +93,7 @@
 	var/costMult = 1 // Coffin makes it cheaper
 	var/bruteheal = min(user.getBruteLoss_nonProsthetic(), actual_regen) // BRUTE: Always Heal
 	var/fireheal = 0 // BURN: Heal in Coffin while Fakedeath, or when damage above maxhealth (you can never fully heal fire)
-	/// Checks if you're in a coffin here, additionally checks for Torpor right below it.
+	// Checks if you're in a coffin here, additionally checks for Torpor right below it.
 	var/amInCoffin = istype(user.loc, /obj/structure/closet/crate/coffin)
 	if(amInCoffin && HAS_TRAIT(user, TRAIT_NODEATH))
 		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
@@ -109,6 +108,7 @@
 			return TRUE
 	// In Torpor, but not in a Coffin? Heal faster anyways.
 	else if(HAS_TRAIT(user, TRAIT_NODEATH))
+		fireheal = min(user.getFireLoss_nonProsthetic(), actual_regen) / 1.2 // 20% slower than being in a coffin
 		mult *= 3
 	// Heal if Damaged
 	if((bruteheal + fireheal > 0) && mult != 0) // Just a check? Don't heal/spend, and return.
@@ -257,9 +257,21 @@
 /// Gibs the Bloodsucker, roundremoving them.
 /datum/antagonist/bloodsucker/proc/FinalDeath()
 	// If we have no body, end here.
-	if(!owner.current || dust_timer)
+	if(!owner.current)
 		return
-
+	UnregisterSignal(src, list(
+		COMSIG_BLOODSUCKER_ON_LIFETICK,
+		COMSIG_LIVING_REVIVE,
+		COMSIG_LIVING_LIFE,
+		COMSIG_LIVING_DEATH,
+	))
+	UnregisterSignal(SSsunlight, list(
+		COMSIG_SOL_RANKUP_BLOODSUCKERS,
+		COMSIG_SOL_NEAR_START,
+		COMSIG_SOL_END,
+		COMSIG_SOL_RISE_TICK,
+		COMSIG_SOL_WARNING_GIVEN,
+	))
 	free_all_vassals()
 	DisableAllPowers(forced = TRUE)
 	if(!iscarbon(owner.current))
@@ -282,12 +294,12 @@
 			span_warning("[user]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
 			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 			span_hear("You hear a dry, crackling sound."))
-		dust_timer = addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, dust)), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, dust)), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 		return
 	user.visible_message(
 		span_warning("[user]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),
 		span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 		span_hear("<span class='italics'>You hear a wet, bursting sound."))
-	dust_timer = addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, gib), TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, gib), TRUE, FALSE, FALSE), 2 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 
 #undef BLOODSUCKER_PASSIVE_BLOOD_DRAIN

@@ -69,8 +69,6 @@
 	var/area/bloodsucker_lair_area
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
-	/// If we're currently getting dusted, we won't final death repeatedly.
-	var/dust_timer
 
 	///Blood display HUD
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
@@ -224,7 +222,8 @@
 /datum/antagonist/bloodsucker/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
 	for(var/datum/action/bloodsucker/all_powers as anything in powers)
-		all_powers.Remove(old_body)
+		if(old_body)
+			all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 	var/obj/item/bodypart/old_left_arm = old_body.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/old_right_arm = old_body.get_bodypart(BODY_ZONE_R_ARM)
@@ -232,7 +231,7 @@
 	var/old_left_arm_unarmed_damage_high
 	var/old_right_arm_unarmed_damage_low
 	var/old_right_arm_unarmed_damage_high
-	if(ishuman(old_body))
+	if(old_body && ishuman(old_body))
 		var/mob/living/carbon/human/old_user = old_body
 		var/datum/species/old_species = old_user.dna.species
 		old_species.species_traits -= DRINKSBLOOD
@@ -262,7 +261,8 @@
 
 	//Give Bloodsucker Traits
 	for(var/all_traits in bloodsucker_traits)
-		REMOVE_TRAIT(old_body, all_traits, BLOODSUCKER_TRAIT)
+		if(old_body)
+			REMOVE_TRAIT(old_body, all_traits, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(new_body, all_traits, BLOODSUCKER_TRAIT)
 
 /datum/antagonist/bloodsucker/greet()
