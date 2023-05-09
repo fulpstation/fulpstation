@@ -11,7 +11,6 @@
 	GLOB.special_roles += list(
 		ROLE_VAMPIRICACCIDENT = 0,
 		ROLE_MONSTERHUNTER = 0,
-		ROLE_INFILTRATOR = 0,
 	)
 
 
