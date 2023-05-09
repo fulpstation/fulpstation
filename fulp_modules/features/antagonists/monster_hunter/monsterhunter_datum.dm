@@ -52,6 +52,8 @@
 		CRASH("Failed to initialize wonderland!")
 
 	//Teach Stake crafting
+	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
+	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
 	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
@@ -73,6 +75,7 @@
 	return ..()
 
 
+
 /datum/antagonist/monsterhunter/on_removal()
 	UnregisterSignal(src, COMSIG_GAIN_INSIGHT)
 	UnregisterSignal(src, COMSIG_BEASTIFY)
@@ -88,7 +91,7 @@
 
 /datum/antagonist/monsterhunter/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/all_powers as anything in powers)
+	for(var/datum/action/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 
@@ -195,7 +198,7 @@
 			continue
 		if(victim.owner.current.stat == DEAD || victim.owner == owner)
 			continue
-		if(istype(victim, /datum/antagonist/changeling) || istype(victim, /datum/antagonist/heretic))
+		if(istype(victim, /datum/antagonist/changeling) || istype(victim, /datum/antagonist/heretic) || istype(victim, /datum/antagonist/bloodsucker))
 			possible_targets += victim.owner
 
 	for(var/i in 1 to 3) //we get 3 targets
