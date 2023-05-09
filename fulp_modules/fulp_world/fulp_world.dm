@@ -9,7 +9,9 @@
 	make_fulp_datum_references_lists()
 
 	GLOB.special_roles += list(
+		ROLE_BLOODSUCKER = 0,
 		ROLE_VAMPIRICACCIDENT = 0,
+		ROLE_BLOODSUCKERBREAKOUT = 0,
 		ROLE_MONSTERHUNTER = 0,
 		ROLE_INFILTRATOR = 0,
 	)
