@@ -313,8 +313,9 @@
 	mob_size = MOB_SIZE_LARGE
 	///our overlord
 	var/datum/weakref/leader
-	melee_damage_lower = 12
-	melee_damage_upper = 12
+	melee_damage_lower = 5
+	speed = 5
+	melee_damage_upper = 5
 
 /mob/living/basic/carp/cthulu/mega
 	name = "Overlord's commander"
@@ -364,7 +365,7 @@
 
 /datum/action/cooldown/mob_cooldown/kraken_tentacle/Activate(atom/target_atom)
 	StartCooldown(360 SECONDS, 360 SECONDS)
-	attack_sequence(target_atom)
+	INVOKE_ASYNC(src, PROC_REF(attack_sequence), target_atom)
 	StartCooldown()
 	return TRUE
 
