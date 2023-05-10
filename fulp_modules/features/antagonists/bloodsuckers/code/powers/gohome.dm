@@ -118,13 +118,9 @@
 	/// TELEPORT: Move to Coffin & Close it!
 	user.set_resting(TRUE, TRUE, FALSE)
 	do_teleport(owner, bloodsuckerdatum_power.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
-	user.Stun(3 SECONDS, TRUE)
-
-	// Puts me inside.
-	if(!bloodsuckerdatum_power.coffin.insert(owner))
-		// CLOSE LID: If fail, force me in.
-		bloodsuckerdatum_power.coffin.close(owner)
-		playsound(bloodsuckerdatum_power.coffin.loc, bloodsuckerdatum_power.coffin.close_sound, 15, 1, -3)
+	bloodsuckerdatum_power.coffin.close(owner)
+	bloodsuckerdatum_power.coffin.take_contents()
+	playsound(bloodsuckerdatum_power.coffin.loc, bloodsuckerdatum_power.coffin.close_sound, 15, 1, -3)
 
 	DeactivatePower()
 
