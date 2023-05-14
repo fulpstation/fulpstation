@@ -174,7 +174,11 @@
 	//Fill machine with a bag!
 	if(istype(I, /obj/item/storage/bag))
 		var/list/inserted = list()
+		//This code causes the grinder to prioritise taking food items before honeycombs, requires revision of atom_storage.remove_type func to process in parallel
 		if(I.atom_storage.remove_type(/obj/item/food/grown, src, limit - length(holdingitems), TRUE, FALSE, user, inserted))
+			for(var/i in inserted)
+				holdingitems[i] = TRUE
+		if(I.atom_storage.remove_type(/obj/item/reagent_containers/honeycomb, src, limit - length(holdingitems), TRUE, FALSE, user, inserted))
 			for(var/i in inserted)
 				holdingitems[i] = TRUE
 			if(!I.contents.len)
