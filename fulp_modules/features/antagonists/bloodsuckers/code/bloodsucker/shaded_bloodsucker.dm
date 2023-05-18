@@ -15,10 +15,15 @@
 	for(var/mob/shades in contents)
 		shades.mind.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
 
+/obj/item/soulstone/bloodsucker/capture_soul(mob/living/carbon/victim, mob/user, forced = FALSE, datum/antagonist/bloodsucker/bloodsuckerdatum)
+	. = ..()
+	for(var/mob/shades in contents)
+		var/datum/antagonist/shaded_bloodsucker/shaded_datum = shades.mind.has_antag_datum(/datum/antagonist/shaded_bloodsucker)
+		shaded_datum.objectives = bloodsuckerdatum.objectives
+
 /obj/item/soulstone/bloodsucker/get_ghost_to_replace_shade(mob/living/carbon/victim, mob/user)
-	var/mob/dead/observer/chosen_ghost
-	chosen_ghost = victim.get_ghost(TRUE,TRUE) //Try to grab original owner's ghost first
-	if(!chosen_ghost || !chosen_ghost.client) //Failing that, we grab a ghosts
+	var/mob/dead/observer/chosen_ghost = victim.get_ghost(FALSE, TRUE)
+	if(!chosen_ghost || !chosen_ghost.client)
 		victim.dust()
 		return FALSE
 	victim.unequip_everything()

@@ -41,7 +41,7 @@
 /// Cycle through all vamp antags and check if they're inside a closet.
 /datum/antagonist/bloodsucker/proc/handle_sol()
 	SIGNAL_HANDLER
-	if(!owner)
+	if(!owner || !owner.current)
 		return
 
 	if(!istype(owner.current.loc, /obj/structure))
@@ -164,6 +164,4 @@
 	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	heal_vampire_organs()
-
-	if(my_clan)
-		SEND_SIGNAL(my_clan, BLOODSUCKER_EXIT_TORPOR, owner.current)
+	SEND_SIGNAL(src, BLOODSUCKER_EXIT_TORPOR)
