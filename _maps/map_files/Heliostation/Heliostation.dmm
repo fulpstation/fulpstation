@@ -18641,10 +18641,17 @@
 /turf/open/floor/carpet,
 /area/station/service/bar)
 "bGB" = (
-/obj/structure/reagent_dispensers/watertank/high,
-/obj/effect/turf_decal/siding/green/end,
+/obj/effect/turf_decal/trimline/green/filled/shrink_cw{
+	dir = 4
+	},
+/obj/effect/turf_decal/trimline/green/filled/corner{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/brown/corner{
+	dir = 1
+	},
 /turf/open/floor/iron,
-/area/station/service/hydroponics)
+/area/station/hallway/secondary/service)
 "bGC" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -29290,17 +29297,10 @@
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "dgu" = (
-/obj/effect/turf_decal/trimline/green/filled/shrink_cw{
-	dir = 4
-	},
-/obj/effect/turf_decal/trimline/green/filled/corner{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/brown/corner{
-	dir = 1
-	},
+/obj/structure/reagent_dispensers/watertank/high,
+/obj/effect/turf_decal/siding/green/end,
 /turf/open/floor/iron,
-/area/station/hallway/secondary/service)
+/area/station/service/hydroponics)
 "dgy" = (
 /obj/structure/curtain,
 /obj/machinery/shower/directional/south,
@@ -44013,13 +44013,13 @@
 /area/station/science/ordnance/burnchamber)
 "jLa" = (
 /obj/effect/mapping_helpers/airlock/abandoned,
-/obj/machinery/door/airlock/glass{
-	name = "Maintenance"
-	},
 /obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/door/airlock/maintenance{
+	name = "Maintenance Access"
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/port/greater)
 "jLb" = (
@@ -103782,7 +103782,7 @@ gRT
 bGL
 bIb
 bJg
-bGB
+dgu
 bwW
 irJ
 nTJ
@@ -104299,7 +104299,7 @@ bIS
 bDu
 bxa
 jtX
-dgu
+bGB
 tji
 jGY
 mCA
