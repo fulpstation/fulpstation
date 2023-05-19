@@ -17950,9 +17950,17 @@
 /turf/open/floor/iron,
 /area/station/service/kitchen)
 "bDu" = (
-/obj/machinery/deepfryer,
 /obj/effect/turf_decal/siding/thinplating/light{
 	dir = 10
+	},
+/obj/structure/table,
+/obj/effect/spawner/random/food_or_drink/donkpockets{
+	pixel_x = -6;
+	pixel_y = 7
+	},
+/obj/effect/spawner/random/food_or_drink/donkpockets{
+	pixel_x = 4;
+	pixel_y = 3
 	},
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
@@ -18633,10 +18641,10 @@
 /turf/open/floor/carpet,
 /area/station/service/bar)
 "bGB" = (
-/obj/machinery/duct,
-/obj/effect/spawner/random/structure/furniture_parts,
-/turf/open/floor/catwalk_floor/iron_dark,
-/area/station/commons/toilet/auxiliary)
+/obj/structure/reagent_dispensers/watertank/high,
+/obj/effect/turf_decal/siding/green/end,
+/turf/open/floor/iron,
+/area/station/service/hydroponics)
 "bGC" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -19070,23 +19078,28 @@
 /obj/structure/table,
 /obj/item/book/manual/chef_recipes,
 /obj/item/book/manual/wiki/cooking_to_serve_man,
-/obj/effect/turf_decal/siding/thinplating/light{
-	dir = 10
-	},
 /obj/machinery/light/directional/west,
 /obj/machinery/button/door/directional/west{
 	id = "kitchenhydro";
 	name = "Service Shutter Control";
 	req_access = list("kitchen")
 	},
-/turf/open/floor/iron/cafeteria,
-/area/station/service/kitchen)
-"bIT" = (
-/obj/effect/turf_decal/siding/thinplating/light/corner{
+/obj/effect/turf_decal/siding/thinplating/light{
 	dir = 8
 	},
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
+"bIT" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/brown/warning{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/station/hallway/secondary/service)
 "bIU" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -19167,10 +19180,13 @@
 /area/station/maintenance/port/fore)
 "bJg" = (
 /obj/structure/reagent_dispensers/watertank/high,
-/obj/effect/turf_decal/siding/green{
-	dir = 6
-	},
 /obj/machinery/light/directional/east,
+/obj/effect/turf_decal/siding/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/green/corner{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
 "bJl" = (
@@ -20732,7 +20748,7 @@
 /obj/structure/safe/floor,
 /obj/effect/spawner/random/entertainment/money_large,
 /obj/effect/spawner/random/entertainment/coin,
-/turf/open/floor/wood/parquet,
+/turf/open/floor/plating,
 /area/station/service/abandoned_gambling_den)
 "bSf" = (
 /obj/machinery/vending/games,
@@ -29274,11 +29290,16 @@
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "dgu" = (
-/obj/effect/turf_decal/trimline/brown/warning{
+/obj/effect/turf_decal/trimline/green/filled/shrink_cw{
+	dir = 4
+	},
+/obj/effect/turf_decal/trimline/green/filled/corner{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/neutral/half/contrasted,
-/turf/open/floor/iron/dark,
+/obj/effect/turf_decal/trimline/brown/corner{
+	dir = 1
+	},
+/turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "dgy" = (
 /obj/structure/curtain,
@@ -39527,10 +39548,10 @@
 "hOJ" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/recharge_station,
-/obj/effect/turf_decal/tile/green/half/contrasted{
+/obj/item/radio/intercom/directional/east,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
 	},
-/obj/item/radio/intercom/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/service)
 "hOK" = (
@@ -40712,10 +40733,8 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "irJ" = (
-/obj/effect/turf_decal/trimline/brown/warning{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral/half/contrasted,
+/obj/machinery/modular_computer/console/preset/cargochat/service,
+/obj/effect/turf_decal/bot,
 /obj/machinery/status_display/evac/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/service)
@@ -43197,9 +43216,6 @@
 /obj/structure/table,
 /obj/item/paper_bin/carbon,
 /obj/item/pen,
-/obj/effect/turf_decal/trimline/brown/corner{
-	dir = 1
-	},
 /obj/effect/turf_decal/tile/neutral/half/contrasted,
 /obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron/dark,
@@ -43747,6 +43763,9 @@
 "jGY" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
+	},
+/obj/effect/turf_decal/trimline/green/filled/shrink_ccw{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
@@ -49295,9 +49314,10 @@
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "miN" = (
-/obj/machinery/modular_computer/console/preset/cargochat/service,
-/obj/effect/turf_decal/bot,
-/turf/open/floor/iron/dark,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/trimline/green,
+/turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "miP" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -50407,7 +50427,7 @@
 "mHh" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/rnd/production/techfab/department/service,
-/obj/effect/turf_decal/tile/green/half/contrasted{
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
@@ -53289,6 +53309,12 @@
 	dir = 4
 	},
 /obj/machinery/light/directional/west,
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/brown/warning{
+	dir = 1
+	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
 "nTK" = (
@@ -62803,8 +62829,6 @@
 "sdG" = (
 /obj/structure/table,
 /obj/item/reagent_containers/condiment/enzyme,
-/obj/effect/spawner/random/food_or_drink/donkpockets,
-/obj/effect/spawner/random/food_or_drink/donkpockets,
 /obj/effect/turf_decal/siding/thinplating/light{
 	dir = 8
 	},
@@ -65340,8 +65364,8 @@
 /turf/closed/wall,
 /area/station/security/medical)
 "tji" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 8
+/obj/effect/turf_decal/trimline/green/warning{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/service)
@@ -93482,7 +93506,7 @@ bKj
 bKj
 tGv
 bRT
-bGB
+bQv
 bRU
 bxJ
 uEk
@@ -103758,8 +103782,8 @@ gRT
 bGL
 bIb
 bJg
+bGB
 bwW
-miN
 irJ
 nTJ
 rfU
@@ -104016,10 +104040,10 @@ bxa
 bxa
 bxa
 bxa
+bxa
 sMh
-dgu
-mED
-mED
+bIT
+miN
 mED
 gCx
 wCA
@@ -104272,10 +104296,10 @@ bEZ
 bGt
 sdG
 bIS
-bxa
+bDu
 bxa
 jtX
-fpR
+dgu
 tji
 jGY
 mCA
@@ -104528,8 +104552,8 @@ byq
 byq
 bGu
 byq
-bIT
-bDu
+byq
+bMa
 bxa
 meI
 wpu
