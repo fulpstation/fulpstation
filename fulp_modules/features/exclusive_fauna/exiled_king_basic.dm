@@ -424,8 +424,9 @@
 			continue
 		visible_message(span_danger("[man] gets smashed by the tentacles!"))
 		man.apply_damage(damage, BRUTE, wound_bonus = CANT_WOUND)
-	for(var/obj/structure/destroyed in loc)
-		destroyed.take_damage(150, BRUTE, MELEE, 1)
+	for(var/obj/destroyed in loc)
+		if(istype(destroyed, /obj/structure) || istype(destroyed, /obj/machinery))
+			destroyed.take_damage(200, BRUTE, MELEE, 1)
 
 /obj/effect/kraken_arm/original
 
