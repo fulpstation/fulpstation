@@ -1,7 +1,7 @@
 /datum/bloodsucker_clan/ventrue
 	name = CLAN_VENTRUE
 	description = "The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. \n\
-		There is additionally no way to rank themselves up, instead will have to rank their Favorite vassal through a Persuasion Rack. \n\
+		There is additionally no way to rank themselves up, instead will have to rank their Favorite Vassal through a Persuasion Rack. \n\
 		The Favorite Vassal will slowly turn into a Bloodsucker this way, until they finally lose their last bits of Humanity."
 	clan_objective = /datum/objective/bloodsucker/embrace
 	join_icon_state = "ventrue"
@@ -10,7 +10,7 @@
 	rank_up_type = BLOODSUCKER_RANK_UP_VASSAL
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY
 
-/datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
+/datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	if(!target)
 		return ..()
 	var/datum/antagonist/vassal/favorite/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal/favorite)
@@ -45,7 +45,6 @@
 		target.balloon_alert(target, "learned [choice]!")
 		to_chat(target, span_notice("Your master taught you how to use [choice]!"))
 
-	vassaldatum.LevelUpPowers()
 	vassaldatum.vassal_level++
 	switch(vassaldatum.vassal_level)
 		if(2)
@@ -76,6 +75,7 @@
 			vassaldatum.set_vassal_level(target)
 
 	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
+	vassaldatum.LevelUpPowers()
 
 /datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	to_chat(bloodsucker, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))

@@ -8,7 +8,7 @@
 	frenzy_stun_immune = TRUE
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
 
-/datum/bloodsucker_clan/gangrel/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+/datum/bloodsucker_clan/gangrel/handle_clan_life(datum/antagonist/bloodsucker/source)
 	. = ..()
 	var/area/current_area = get_area(bloodsuckerdatum.owner.current)
 	if(istype(current_area, /area/station/service/chapel))

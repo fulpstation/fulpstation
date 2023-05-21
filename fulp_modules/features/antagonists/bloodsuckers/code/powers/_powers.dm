@@ -86,11 +86,10 @@
 	// Cooldown?
 	if(!COOLDOWN_FINISHED(src, bloodsucker_power_cooldown))
 		owner.balloon_alert(owner, "power unavailable!")
-		to_chat(owner, "[src] on cooldown!")
 		return FALSE
 	if(!bloodsuckerdatum_power)
 		var/mob/living/living_owner = owner
-		if(living_owner.blood_volume < bloodcost)
+		if(!HAS_TRAIT(living_owner, TRAIT_NOBLOOD) && living_owner.blood_volume < bloodcost)
 			to_chat(owner, span_warning("You need at least [bloodcost] blood to activate [name]"))
 			return FALSE
 		return TRUE
@@ -166,7 +165,8 @@
 	// Non-bloodsuckers will pay in other ways.
 	if(!bloodsuckerdatum_power)
 		var/mob/living/living_owner = owner
-		living_owner.blood_volume -= bloodcost
+		if(!HAS_TRAIT(living_owner, TRAIT_NOBLOOD))
+			living_owner.blood_volume -= bloodcost
 		return
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 	if(bloodsuckerdatum_power.frenzied)
@@ -203,7 +203,8 @@
 			bloodsuckerdatum_power.AddBloodVolume(-constant_bloodcost)
 		else
 			var/mob/living/living_owner = owner
-			living_owner.blood_volume -= constant_bloodcost
+			if(!HAS_TRAIT(living_owner, TRAIT_NOBLOOD))
+				living_owner.blood_volume -= constant_bloodcost
 	return TRUE
 
 /// Checks to make sure this power can stay active

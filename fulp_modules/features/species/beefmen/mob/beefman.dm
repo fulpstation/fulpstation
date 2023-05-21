@@ -1,3 +1,5 @@
+#define BEEFMAN_BLEEDOUT_LEVEL 298.15
+
 /datum/species/beefman
 	name = "Beefman"
 	plural_form = "Beefmen"
@@ -40,6 +42,9 @@
 	)
 
 	cellular_damage_desc = "meat degradation"
+	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
+	heatmod = 0.5
+
 	species_language_holder = /datum/language_holder/russian
 	mutantbrain = /obj/item/organ/internal/brain/beefman
 	mutanttongue = /obj/item/organ/internal/tongue/beefman
@@ -106,34 +111,24 @@
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
-	///How much we should bleed out, taking Burn damage into account.
 	var/searJuices = user.getFireLoss_nonProsthetic() / 30
+	if(dehydrated)
+		user.adjust_beefman_bleeding(clamp((user.bodytemperature - BEEFMAN_BLEEDOUT_LEVEL) / 20 - searJuices, 2, 10))
+		return dehydrated--
 
-	// Bleed out those juices by warmth, minus burn damage. If we are salted - bleed more
-	if(dehydrated > 0)
-		user.adjust_beefman_bleeding(clamp((user.bodytemperature - 297.15) / 20 - searJuices, 2, 10))
-		dehydrated -= 0.5
-	else
-		user.adjust_beefman_bleeding(clamp((user.bodytemperature - 297.15) / 20 - searJuices, 0, 5))
-
-	// Replenish Blood Faster! (But only if you actually make blood)
-	var/bleed_rate = 0
+	user.adjust_beefman_bleeding(clamp((user.bodytemperature - BEEFMAN_BLEEDOUT_LEVEL) / 20 - searJuices, 0, 5))
+	if(user.blood_volume >= BLOOD_VOLUME_NORMAL)
+		return
 	for(var/obj/item/bodypart/all_bodyparts as anything in user.bodyparts)
-		bleed_rate += all_bodyparts.generic_bleedstacks
+		if(all_bodyparts.generic_bleedstacks)
+			return
+	user.blood_volume += 4
 
-/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, seconds_per_tick, times_fired)
-	// Salt HURTS
+/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
 	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
-		user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
-		if(SPT_PROB(10, seconds_per_tick) || dehydrated == 0)
+		if(!dehydrated || SPT_PROB(10, delta_time))
 			to_chat(user, span_alert("Your beefy mouth tastes dry."))
 		dehydrated++
-	// Regain BLOOD
-	else if(istype(chem, /datum/reagent/consumable/nutriment))
-		if(user.blood_volume < BLOOD_VOLUME_NORMAL)
-			user.blood_volume += 5
-			user.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
-
 	return ..()
 
 /datum/species/beefman/handle_mutant_bodyparts(mob/living/carbon/human/source, forced_colour)
@@ -317,7 +312,7 @@
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "tint",
 			SPECIES_PERK_NAME = "Juice Bleeding",
-			SPECIES_PERK_DESC = "Beefmen will begin to bleed out when their temperature is above 24C, \
+			SPECIES_PERK_DESC = "Beefmen will begin to bleed out when their temperature is above [BEEFMAN_BLEEDOUT_LEVEL-T0C] Celsius, \
 				Though scaling burn damage will prevent the bleeding.",
 		),
 		list(
@@ -341,7 +336,7 @@
 
 ///When interacting with another person, you will bleed over them.
 /datum/species/beefman/proc/bleed_over_target(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	if(user != target && user.is_bleeding())
+	if(user != target)
 		target.add_mob_blood(user)
 
 // Taken from _HELPERS/mobs.dm
@@ -362,25 +357,22 @@
  */
 /datum/species/beefman/help(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	bleed_over_target(user, target)
-	..()
+	return ..()
 
 /datum/species/beefman/grab(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	bleed_over_target(user, target)
-	..()
+	return ..()
 
 /datum/species/beefman/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	bleed_over_target(user, target)
-	..()
+	return ..()
 
 /datum/species/beefman/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(user != target)
 		return ..()
 	var/target_zone = user.zone_selected
-	var/obj/item/bodypart/affecting = user.get_bodypart(check_zone(user.zone_selected))
+	var/obj/item/bodypart/affecting = user.get_bodypart(check_zone(target_zone))
 	if(!(target_zone in tearable_limbs) || !affecting)
-		return FALSE
-	if(user.handcuffed)
-		to_chat(user, span_alert("You can't get a good enough grip with your hands bound."))
 		return FALSE
 	if(!IS_ORGANIC_LIMB(affecting))
 		to_chat(user, "That thing is on there good. It's not coming off with a gentle tug.")
@@ -390,7 +382,6 @@
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
 		if(!tongue)
-			to_chat("You do not have a tongue!")
 			return FALSE
 		user.visible_message(
 			span_notice("[user] grabs onto [p_their()] own tongue and pulls."),
@@ -422,44 +413,35 @@
 	if(!istype(meat, /obj/item/food/meat/slab))
 		return ..()
 	var/target_zone = user.zone_selected
+	if(target_zone == BODY_ZONE_PRECISE_MOUTH && beefboy.get_organ_by_type(/obj/item/organ/internal/tongue))
+		return
+	affecting = beefboy.get_bodypart(check_zone(target_zone))
 	if(!(target_zone in tearable_limbs))
-		return FALSE
-	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
-		if(tongue)
-			to_chat("You already have a tongue!")
-			return FALSE
-		user.visible_message(
-			span_notice("[user] begins mashing [meat] into [beefboy]'s mouth."),
-			span_notice("You begin mashing [meat] into [beefboy]'s mouth."))
-		if(!do_after(user, 2 SECONDS, beefboy))
-			return FALSE
-		user.visible_message(
-			span_notice("The [meat] sprouts and becomes [beefboy]'s new tongue!"),
-			span_notice("The [meat] successfully fuses with your mouth!"))
-		var/obj/item/organ/internal/tongue/beefman/new_tongue
-		new_tongue = new()
-		new_tongue.Insert(user, special = TRUE)
-		qdel(meat)
-		playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
-		return TRUE
-	if(affecting)
-		return FALSE
+		return ..()
+	if(affecting && (!(target_zone == BODY_ZONE_PRECISE_MOUTH) || beefboy.get_organ_by_type(/obj/item/organ/internal/tongue)))
+		return
 	user.visible_message(
-		span_notice("[user] begins mashing [meat] into [beefboy]'s torso."),
-		span_notice("You begin mashing [meat] into [beefboy]'s torso."))
-	// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
+		span_notice("[user] begins mashing [meat] into [beefboy]."),
+		span_notice("You begin mashing [meat] into [beefboy]."))
+
 	if(!do_after(user, 2 SECONDS, beefboy))
 		return FALSE
-	// Attach the part!
-	var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone, FALSE)
-	beefboy.visible_message(
-		span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
-		span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
-	new_bodypart.try_attach_limb(beefboy)
-	new_bodypart.update_limb(is_creating = TRUE)
-	beefboy.update_body_parts()
-	new_bodypart.give_meat(beefboy, meat)
+
+	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
+		var/obj/item/organ/internal/tongue/beefman/new_tongue = new()
+		new_tongue.Insert(user, special = TRUE)
+		user.visible_message(
+			span_notice("The [meat] sprouts and becomes [beefboy]'s new [new_tongue.name]!"),
+			span_notice("The [meat] successfully fuses with your mouth!"))
+	else
+		var/obj/item/bodypart/new_bodypart = beefboy.newBodyPart(target_zone)
+		beefboy.visible_message(
+			span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
+			span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
+		new_bodypart.try_attach_limb(beefboy, special = TRUE)
+		new_bodypart.update_limb(is_creating = TRUE)
+		new_bodypart.give_meat(beefboy, meat)
+
 	qdel(meat)
 	playsound(get_turf(beefboy), 'fulp_modules/features/species/sounds/beef_grab.ogg', 50, 1)
 	return TRUE
@@ -554,8 +536,9 @@
 			new_sash = new /obj/item/clothing/under/bodysash()
 		if(JOB_PRISONER)
 			new_sash = new /obj/item/clothing/under/bodysash/prisoner()
-			var/obj/item/implant/tracking/tracking_implant = new /obj/item/implant/tracking
-			tracking_implant.implant(equipping, null, TRUE)
+			if(!visuals_only)
+				var/obj/item/implant/tracking/tracking_implant = new()
+				tracking_implant.implant(equipping, null, TRUE)
 		else
 			new_sash = new /obj/item/clothing/under/bodysash/civilian()
 
@@ -564,3 +547,5 @@
 	// Equip New
 	equipping.equip_to_slot_or_del(new_sash, ITEM_SLOT_ICLOTHING, TRUE) // TRUE is whether or not this is "INITIAL", as in startup
 	return ..()
+
+#undef BEEFMAN_BLEEDOUT_LEVEL
