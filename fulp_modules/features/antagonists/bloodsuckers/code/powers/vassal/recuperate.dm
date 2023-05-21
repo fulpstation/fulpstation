@@ -23,7 +23,6 @@
 		return FALSE
 	return TRUE
 
-
 /datum/action/bloodsucker/recuperate/ActivatePower(trigger_flags)
 	. = ..()
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
@@ -42,7 +41,7 @@
 	user.adjustBruteLoss(-2.5)
 	user.adjustToxLoss(-2, forced = TRUE)
 	// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
-	if(!(TRAIT_NOBLOOD in user.dna.species.species_traits))
+	if(!HAS_TRAIT(user, TRAIT_NOBLOOD))
 		user.blood_volume -= bloodcost
 		user.adjustFireLoss(-1.5)
 	// Stop Bleeding

@@ -256,7 +256,7 @@
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(buckled_carbons)
 	// Are they our Vassal, or Dead?
 	if(vassaldatum && (vassaldatum in bloodsuckerdatum.vassals))
-		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_MAKE_FAVORITE, bloodsuckerdatum, vassaldatum)
+		SEND_SIGNAL(src, BLOODSUCKER_PRE_MAKE_FAVORITE, bloodsuckerdatum, vassaldatum)
 		return
 
 	// Not our Vassal, but Alive & We're a Bloodsucker, good to torture!
@@ -275,19 +275,19 @@
 		var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 		if(!vassaldatum.master.broke_masquerade)
 			balloon_alert(user, "someone else's vassal!")
-			return
+			return FALSE
 
 	var/disloyalty_requires = RequireDisloyalty(user, target)
 	if(disloyalty_requires == VASSALIZATION_BANNED)
-		return
+		balloon_alert(user, "can't be vassalized!")
+		return FALSE
 
 	// Conversion Process
 	if(convert_progress)
 		balloon_alert(user, "spilling blood...")
 		bloodsuckerdatum.AddBloodVolume(-TORTURE_BLOOD_HALF_COST)
 		if(!do_torture(user, target))
-			balloon_alert(user, "interrupted!")
-			return
+			return FALSE
 		bloodsuckerdatum.AddBloodVolume(-TORTURE_BLOOD_HALF_COST)
 		// Prevent them from unbuckling themselves as long as we're torturing.
 		target.Paralyze(1 SECONDS)
@@ -307,7 +307,7 @@
 	if(!disloyalty_confirm && disloyalty_requires)
 		if(!do_disloyalty(user, target))
 			return
-		else if(!disloyalty_confirm)
+		if(!disloyalty_confirm)
 			balloon_alert(user, "refused persuasion!")
 		else
 			balloon_alert(user, "ready for communion!")
@@ -317,11 +317,11 @@
 	if(!do_after(user, 5 SECONDS, target))
 		balloon_alert(user, "interrupted!")
 		return
-	/// Convert to Vassal!
+	// Convert to Vassal!
 	bloodsuckerdatum.AddBloodVolume(-TORTURE_CONVERSION_COST)
 	if(bloodsuckerdatum.make_vassal(target))
 		remove_loyalties(target)
-		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MADE_VASSAL, user, target)
+		SEND_SIGNAL(src, BLOODSUCKER_MADE_VASSAL, user, target)
 
 /obj/structure/bloodsucker/vassalrack/proc/do_torture(mob/living/user, mob/living/carbon/target, mult = 1)
 	// Fifteen seconds if you aren't using anything. Shorter with weapons and such.
@@ -388,7 +388,6 @@
 		else
 			target.balloon_alert_to_viewers("stares defiantly", "refused vassalization!")
 	disloyalty_offered = FALSE
-
 	return TRUE
 
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/user, mob/living/target)
