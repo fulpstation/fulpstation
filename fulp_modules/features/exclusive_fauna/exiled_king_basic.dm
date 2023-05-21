@@ -7,8 +7,8 @@
 #define BB_KING_TENTACLE_TRACK "BB_king_tentacle_track"
 
 /mob/living/basic/exiled_king
-	name = "exiled king"
-	desc = "And what army?"
+	name = "Exiled King"
+	desc = "and what army?"
 	health = 2500
 	maxHealth = 2500
 	attack_verb_continuous = "slaps"
@@ -47,7 +47,7 @@
 	layer = LARGE_MOB_LAYER
 	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	mouse_opacity = MOUSE_OPACITY_OPAQUE
-	death_message = "the mad king is felled, no longer will he suffer. "
+	death_message = "the mad king has felled, no longer will he suffer. "
 	death_sound = 'sound/magic/enter_blood.ogg'
 	ai_controller = /datum/ai_controller/basic_controller/kraken
 	///achievement for killing
@@ -267,7 +267,7 @@
 		portal.squid = WEAKREF(owner)
 
 /obj/structure/cthulu_rift
-	name = "carp rift"
+	name = "cthulu's rift"
 	desc = "gateway for the King's army."
 	armor_type = /datum/armor/structure_carp_rift
 	max_integrity = 500
@@ -318,7 +318,7 @@
 	melee_damage_upper = 5
 
 /mob/living/basic/carp/cthulu/mega
-	name = "Overlord's commander"
+	name = "overlord's commander"
 	desc = "Higher ranked soldiers of the King's army."
 	icon = 'icons/mob/simple/broadMobs.dmi'
 	icon_state = "megacarp_greyscale"
@@ -387,7 +387,7 @@
 		sleep(0.175 SECONDS)
 
 /obj/effect/kraken_arm
-	name = "Kraken Arm"
+	name = "kraken arm"
 	icon = 'fulp_modules/features/exclusive_fauna/icons/effect.dmi'
 	icon_state = "squidarm"
 	layer = BELOW_MOB_LAYER
@@ -498,7 +498,7 @@
 
 /mob/living/basic/vanguard
 	name = "king's vanguard"
-	desc = "Vanguard of the king's army."
+	desc = "vanguard of the king's army."
 	icon = 'fulp_modules/features/exclusive_fauna/icons/64x64.dmi'
 	icon_state = "vanguard"
 	icon_living = "vanguard"
