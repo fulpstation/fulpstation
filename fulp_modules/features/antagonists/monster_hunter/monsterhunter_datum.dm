@@ -79,14 +79,13 @@
 	return ..()
 
 /datum/antagonist/monsterhunter/proc/grant_drop_ability(obj/item/tool)
-	var/datum/action/droppod_item/summon_contract = new
+	var/datum/action/droppod_item/summon_contract = new(tool)
 	if(istype(tool, /obj/item/rabbit_locator))
 		var/obj/item/rabbit_locator/locator = tool
 		locator.hunter = src
 	if(istype(tool, /obj/item/hunting_contract))
 		var/obj/item/hunting_contract/contract = tool
 		contract.owner = src
-	summon_contract.item_path = tool
 	summon_contract.Grant(owner.current)
 
 
@@ -252,6 +251,13 @@
 	button_icon_state = "beacon"
 	///path of item we are spawning
 	var/item_path
+
+/datum/action/droppod_item/New(obj/item/tool)
+	. = ..()
+	button_icon = tool.icon
+	button_icon_state = tool.icon_state
+	build_all_button_icons(UPDATE_BUTTON_ICON)
+	item_path = tool
 
 /datum/action/droppod_item/Trigger(trigger_flags)
 	. = ..()
