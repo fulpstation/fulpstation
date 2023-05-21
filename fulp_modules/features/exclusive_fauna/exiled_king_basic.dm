@@ -8,7 +8,7 @@
 
 /mob/living/basic/exiled_king
 	name = "exiled king"
-	desc = "and what army?"
+	desc = "And what army?"
 	health = 2500
 	maxHealth = 2500
 	attack_verb_continuous = "slaps"
