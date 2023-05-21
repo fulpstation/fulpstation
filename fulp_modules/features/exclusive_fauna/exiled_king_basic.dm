@@ -7,7 +7,7 @@
 #define BB_KING_TENTACLE_TRACK "BB_king_tentacle_track"
 
 /mob/living/basic/exiled_king
-	name = "Exiled King"
+	name = "exiled king"
 	desc = "and what army?"
 	health = 2500
 	maxHealth = 2500
