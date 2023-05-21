@@ -7,8 +7,8 @@
 #define BB_KING_TENTACLE_TRACK "BB_king_tentacle_track"
 
 /mob/living/basic/exiled_king
-	name = "Exiled King"
-	desc = "and what army?"
+	name = "exiled king"
+	desc = "And what army?"
 	health = 2500
 	maxHealth = 2500
 	attack_verb_continuous = "slaps"
@@ -498,7 +498,7 @@
 
 /mob/living/basic/vanguard
 	name = "king's vanguard"
-	desc = "vanguard of the king's army."
+	desc = "Vanguard of the king's army."
 	icon = 'fulp_modules/features/exclusive_fauna/icons/64x64.dmi'
 	icon_state = "vanguard"
 	icon_living = "vanguard"
