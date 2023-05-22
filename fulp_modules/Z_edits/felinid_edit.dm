@@ -9,16 +9,6 @@
 	brain_damage_to_give = 0
 	give_traumas = FALSE
 
-/datum/species/human/felinid/on_species_gain(mob/living/carbon/felifriend, datum/species/old_species, pref_load)
-	. = ..()
-	if(istype(felifriend, /mob/living/carbon/human/consistent) || isdummy(felifriend))
-		return
-	if(brain_damage_to_give)
-		felifriend.setOrganLoss(ORGAN_SLOT_BRAIN, brain_damage_to_give) //Fuck you
-	if(give_traumas)
-		felifriend.gain_trauma_type(BRAIN_TRAUMA_SEVERE, TRAUMA_RESILIENCE_LOBOTOMY) //Fuck you even more
-		felifriend.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_LOBOTOMY)
-
 /obj/item/clothing/head/costume/kitty
 	desc = "A pair of kitty ears. Meow! Prone to causing the user to behave more absent-minded."
 	equip_delay_other = 20 MINUTES

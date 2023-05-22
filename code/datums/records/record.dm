@@ -154,6 +154,8 @@
 	GLOB.manifest.locked += src
 
 /datum/record/locked/Destroy()
+	dna_ref = null
+	mind_ref = null
 	GLOB.manifest.locked -= src
 	return ..()
 
