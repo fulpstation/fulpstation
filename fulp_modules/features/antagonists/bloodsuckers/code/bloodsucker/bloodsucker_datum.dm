@@ -28,9 +28,9 @@
 
 	// TIMERS //
 	///Timer between alerts for Burn messages
-	COOLDOWN_DECLARE(static/bloodsucker_spam_sol_burn)
+	COOLDOWN_DECLARE(bloodsucker_spam_sol_burn)
 	///Timer between alerts for Healing messages
-	COOLDOWN_DECLARE(static/bloodsucker_spam_healing)
+	COOLDOWN_DECLARE(bloodsucker_spam_healing)
 
 	///Used for assigning your name
 	var/bloodsucker_name
@@ -69,8 +69,6 @@
 	var/area/bloodsucker_lair_area
 	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
-	/// If we're currently getting dusted, we won't final death repeatedly.
-	var/dust_timer
 
 	///Blood display HUD
 	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
@@ -108,14 +106,6 @@
 		TRAIT_HARDLY_WOUNDED,
 	)
 
-/datum/antagonist/bloodsucker/can_be_owned(datum/mind/new_owner)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(!new_owner.can_make_bloodsucker())
-		return FALSE
-	return TRUE
-
 /**
  * Apply innate effects is everything given to the mob
  * When a body is tranferred, this is called on the new mob
@@ -126,6 +116,7 @@
 	var/mob/living/current_mob = mob_override || owner.current
 	RegisterSignal(current_mob, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(LifeTick))
+	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
 	add_team_hud(current_mob)
 
@@ -141,13 +132,13 @@
 
 /**
  * Remove innate effects is everything given to the mob
- * When a body is tranferred, this is called on the new mob
+ * When a body is tranferred, this is called on the old mob.
  * while on_removal is called ONCE per ANTAG, this is called ONCE per BODY.
  */
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	UnregisterSignal(current_mob, list(COMSIG_LIVING_LIFE, COMSIG_PARENT_EXAMINE))
+	UnregisterSignal(current_mob, list(COMSIG_LIVING_LIFE, COMSIG_PARENT_EXAMINE, COMSIG_LIVING_DEATH))
 	handle_clown_mutation(current_mob, removing = FALSE)
 
 	if(current_mob.hud_used)
@@ -189,6 +180,11 @@
 	else
 		.["Break Masquerade"] = CALLBACK(src, PROC_REF(break_masquerade))
 
+	if(my_clan)
+		.["Remove Clan"] = CALLBACK(src, PROC_REF(remove_clan))
+	else
+		.["Add Clan"] = CALLBACK(src, PROC_REF(admin_set_clan))
+
 ///Called when you get the antag datum, called only ONCE per antagonist.
 /datum/antagonist/bloodsucker/on_gain()
 	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up))
@@ -212,20 +208,22 @@
 
 	. = ..()
 	// Assign Powers
-	AssignStarterPowersAndStats()
+	give_starting_powers()
+	assign_starting_stats()
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	UnregisterSignal(SSsunlight, list(COMSIG_SOL_RANKUP_BLOODSUCKERS, COMSIG_SOL_NEAR_START, COMSIG_SOL_END, COMSIG_SOL_RISE_TICK, COMSIG_SOL_WARNING_GIVEN))
+	QDEL_NULL(my_clan) //clear clan first, Nosferatu will give them powers that we must clear.
 	ClearAllPowersAndStats()
 	check_cancel_sunlight() //check if sunlight should end
-	QDEL_NULL(my_clan)
 	return ..()
 
 /datum/antagonist/bloodsucker/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
 	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
-		all_powers.Remove(old_body)
+		if(old_body)
+			all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 	var/obj/item/bodypart/old_left_arm = old_body.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/old_right_arm = old_body.get_bodypart(BODY_ZONE_R_ARM)
@@ -233,7 +231,7 @@
 	var/old_left_arm_unarmed_damage_high
 	var/old_right_arm_unarmed_damage_low
 	var/old_right_arm_unarmed_damage_high
-	if(ishuman(old_body))
+	if(old_body && ishuman(old_body))
 		var/mob/living/carbon/human/old_user = old_body
 		var/datum/species/old_species = old_user.dna.species
 		old_species.species_traits -= DRINKSBLOOD
@@ -263,7 +261,8 @@
 
 	//Give Bloodsucker Traits
 	for(var/all_traits in bloodsucker_traits)
-		REMOVE_TRAIT(old_body, all_traits, BLOODSUCKER_TRAIT)
+		if(old_body)
+			REMOVE_TRAIT(old_body, all_traits, BLOODSUCKER_TRAIT)
 		ADD_TRAIT(new_body, all_traits, BLOODSUCKER_TRAIT)
 
 /datum/antagonist/bloodsucker/greet()
@@ -279,7 +278,8 @@
 /datum/antagonist/bloodsucker/farewell()
 	to_chat(owner.current, span_userdanger("<FONT size = 3>With a snap, your curse has ended. You are no longer a Bloodsucker. You live once more!</FONT>"))
 	// Refill with Blood so they don't instantly die.
-	owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
+	if(!HAS_TRAIT(owner.current, TRAIT_NOBLOOD))
+		owner.current.blood_volume = max(owner.current.blood_volume, BLOOD_VOLUME_NORMAL)
 
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
@@ -382,12 +382,13 @@
 
 	return report.Join("<br>")
 
-/datum/antagonist/bloodsucker/proc/AssignStarterPowersAndStats()
-	// Purchase Roundstart Powers
+/datum/antagonist/bloodsucker/proc/give_starting_powers()
 	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in all_bloodsucker_powers)
 		if(!(initial(all_powers.purchase_flags) & BLOODSUCKER_DEFAULT_POWER))
 			continue
 		BuyPower(new all_powers)
+
+/datum/antagonist/bloodsucker/proc/assign_starting_stats()
 	//Traits: Species
 	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
@@ -424,9 +425,6 @@
 		var/mob/living/carbon/human/user = owner.current
 		var/datum/species/user_species = user.dna.species
 		user_species.species_traits -= DRINKSBLOOD
-		// Clown
-		if(istype(user) && owner.assigned_role == "Clown")
-			user.dna.add_mutation(/datum/mutation/human/clumsy)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source. - This is because of unique cases like Nosferatu getting Ventcrawling.
 	for(var/all_status_traits in owner.current.status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)

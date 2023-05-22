@@ -11,14 +11,18 @@
 
 /datum/bloodsucker_clan/tremere/New(mob/living/carbon/user)
 	. = ..()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	bloodsuckerdatum.remove_nondefault_powers()
-	bloodsuckerdatum.bloodsucker_level_unspent++
-	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/dominate)
-	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/auspex)
-	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy)
+	bloodsuckerdatum.remove_nondefault_powers(return_levels = TRUE)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
+		if((initial(power.purchase_flags) & TREMERE_CAN_BUY) && initial(power.level_current) == 1)
+			bloodsuckerdatum.BuyPower(new power)
 
-/datum/bloodsucker_clan/tremere/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+/datum/bloodsucker_clan/tremere/Destroy(force)
+	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+		if(power.purchase_flags & TREMERE_CAN_BUY)
+			bloodsuckerdatum.RemovePower(power)
+	return ..()
+
+/datum/bloodsucker_clan/tremere/handle_clan_life(datum/antagonist/bloodsucker/source)
 	. = ..()
 	var/area/current_area = get_area(bloodsuckerdatum.owner.current)
 	if(istype(current_area, /area/station/service/chapel))
@@ -27,7 +31,7 @@
 		bloodsuckerdatum.owner.current.adjust_fire_stacks(2)
 		bloodsuckerdatum.owner.current.ignite_mob()
 
-/datum/bloodsucker_clan/tremere/spend_rank(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
+/datum/bloodsucker_clan/tremere/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	// Purchase Power Prompt
 	var/list/options = list()
 	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/power as anything in bloodsuckerdatum.powers)
@@ -68,12 +72,11 @@
 
 	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
 
-/datum/bloodsucker_clan/tremere/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
+/datum/bloodsucker_clan/tremere/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	var/datum/action/cooldown/spell/shapeshift/bat/batform = new(vassaldatum.owner || vassaldatum.owner.current)
 	batform.Grant(vassaldatum.owner.current)
 
-/datum/bloodsucker_clan/tremere/on_vassal_made(atom/source, mob/living/user, mob/living/target)
+/datum/bloodsucker_clan/tremere/on_vassal_made(datum/antagonist/bloodsucker/source, mob/living/user, mob/living/target)
 	. = ..()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	to_chat(bloodsuckerdatum.owner.current, span_danger("You have now gained an additional Rank to spend!"))
 	bloodsuckerdatum.bloodsucker_level_unspent++

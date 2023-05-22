@@ -2022,7 +2022,7 @@
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "ahP" = (
-/obj/item/radio/intercom/directional/north,
+/obj/machinery/newscaster/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/service/bar)
 "ahR" = (
@@ -11661,6 +11661,11 @@
 /obj/item/coin/silver,
 /obj/item/stack/spacecash/c10,
 /obj/item/stack/spacecash/c100,
+/obj/machinery/requests_console/directional/west{
+	department = "Bar";
+	name = "Bar Requests console";
+	supplies_requestable = 1
+	},
 /turf/open/floor/wood,
 /area/station/service/bar)
 "aRR" = (
@@ -12325,7 +12330,11 @@
 "aVg" = (
 /obj/machinery/chem_dispenser/drinks/beer,
 /obj/structure/table,
-/obj/machinery/newscaster/directional/north,
+/obj/machinery/requests_console/directional/north{
+	name = "Bar Requests console";
+	supplies_requestable = 1;
+	department = "Bar"
+	},
 /turf/open/floor/iron/dark,
 /area/station/service/bar)
 "aVh" = (
@@ -12350,7 +12359,9 @@
 /obj/item/holosign_creator/robot_seat/bar{
 	pixel_y = -10
 	},
-/obj/machinery/light_switch/directional/north,
+/obj/machinery/light_switch/directional/north{
+	pixel_x = 8
+	},
 /turf/open/floor/iron/dark,
 /area/station/service/bar)
 "aVi" = (
@@ -12400,6 +12411,7 @@
 	name = "Bar Lockdown";
 	req_access = list("bar")
 	},
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/service/bar)
 "aVk" = (
@@ -12655,6 +12667,10 @@
 "aWm" = (
 /obj/structure/disposalpipe/segment,
 /obj/item/storage/box/drinkingglasses,
+/obj/item/radio/intercom/directional/east{
+	pixel_x = 29;
+	pixel_y = -3
+	},
 /turf/open/floor/iron/dark,
 /area/station/service/bar)
 "aWo" = (
@@ -14162,10 +14178,10 @@
 /area/station/service/kitchen)
 "bck" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/requests_console/directional/east{
-	department = "Bar";
-	name = "Bar Requests console";
-	supplies_requestable = 1
+/obj/machinery/chem_master/condimaster{
+	desc = "For Cocktails, Chemistry, and Catastrophe. - The HoochMaster Deluxe.";
+	name = "HoochMaster Deluxe";
+	pixel_x = -1
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/bar)
@@ -28270,7 +28286,6 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Bar Drinks"
 	},
-/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/service/bar)
 "cpf" = (
