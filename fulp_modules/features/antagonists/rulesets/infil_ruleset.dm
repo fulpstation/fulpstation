@@ -43,6 +43,7 @@
 /datum/round_event_control/missilegalore
 	name = "Missiles"
 	typepath = /datum/round_event/missilegalore
+	category = EVENT_CATEGORY_ENGINEERING
 	max_occurrences = 0
 	weight = 0
 

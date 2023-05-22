@@ -3,6 +3,7 @@
 	holidayID = HALLOWEEN
 	typepath = /datum/round_event/halloween_costumes
 	weight = 80 //super likely to happen
+	category = EVENT_CATEGORY_HOLIDAY
 	min_players = 1
 	max_occurrences = 1
 
