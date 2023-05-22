@@ -17,7 +17,7 @@
 			bloodsuckerdatum.BuyPower(new power)
 
 /datum/bloodsucker_clan/tremere/Destroy(force)
-	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+	for(var/datum/action/cooldown/bloodsucker/power in bloodsuckerdatum.powers)
 		if(power.purchase_flags & TREMERE_CAN_BUY)
 			bloodsuckerdatum.RemovePower(power)
 	return ..()

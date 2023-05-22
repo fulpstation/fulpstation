@@ -21,7 +21,7 @@
 	ADD_TRAIT(bloodsuckerdatum.owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 
 /datum/bloodsucker_clan/nosferatu/Destroy(force)
-	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+	for(var/datum/action/cooldown/bloodsucker/power in bloodsuckerdatum.powers)
 		bloodsuckerdatum.RemovePower(power)
 	bloodsuckerdatum.give_starting_powers()
 	bloodsuckerdatum.owner.current.remove_quirk(/datum/quirk/badback)
