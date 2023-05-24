@@ -48,12 +48,12 @@
  * Adds our species' prefs to consistent dummies for unit tests
  */
 /mob/living/carbon/human/consistent/setup_human_dna()
-	. = ..()
 	add_fulp_dna(src)
+	return ..()
 
 /mob/living/carbon/human/dummy/consistent/setup_human_dna()
-	. = ..()
 	add_fulp_dna(src)
+	return ..()
 
 /proc/add_fulp_dna(mob/living/carbon/human/target)
 	target.dna.features["beef_color"] = "#e73f4e"
