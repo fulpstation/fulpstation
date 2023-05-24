@@ -43,3 +43,19 @@
 			continue
 		amount += chosen_bodypart.burn_dam
 	return amount
+
+/**
+ * Adds our species' prefs to consistent dummies for unit tests
+ */
+/mob/living/carbon/human/consistent/setup_human_dna()
+	. = ..()
+	add_fulp_dna(src)
+
+/mob/living/carbon/human/dummy/consistent/setup_human_dna()
+	. = ..()
+	add_fulp_dna(src)
+
+/proc/add_fulp_dna(mob/living/carbon/human/target)
+	target.dna.features["beef_color"] = "#e73f4e"
+	target.dna.features["beef_eyes"] = BEEF_EYES_OLIVES
+	target.dna.features["beef_mouth"] = BEEF_MOUTH_SMILE
