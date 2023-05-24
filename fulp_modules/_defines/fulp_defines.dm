@@ -22,14 +22,6 @@
 ///Job define for the Beefmen Station (Space) Spawner
 #define ROLE_BEEFMAN_STATION "Beefman Station Inhabitant"
 
-/**
- * # PRISON DEFINES
- */
-#define ACCOUNT_PRISON "PRS"
-#define ACCOUNT_PRISON_NAME "Prison Budget"
-#define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
-#define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
-
 
 /**
  * # MISC

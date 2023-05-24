@@ -1,7 +1,6 @@
 
 /datum/job/prisoner
-	paycheck_department = ACCOUNT_PRISON
-	department_for_prefs = /datum/job_department/service
+	department_for_prefs = /datum/job_department/security
 	//Set to service so award_service() works
 	departments_list = list(
 		/datum/job_department/service,
