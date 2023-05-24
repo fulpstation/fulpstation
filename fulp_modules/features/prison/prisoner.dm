@@ -1,4 +1,3 @@
-
 /datum/job/prisoner
 	department_for_prefs = /datum/job_department/security
 	//Set to service so award_service() works
