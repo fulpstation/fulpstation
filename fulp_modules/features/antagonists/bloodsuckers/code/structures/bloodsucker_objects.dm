@@ -248,19 +248,16 @@
 	throw_speed = 1
 	throw_range = 10
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	///Boolean on whether the book is currently being used, so you can only use it on one person at a time.
 	var/in_use = FALSE
 
 /obj/item/book/kindred/Initialize()
 	. = ..()
 	AddComponent(/datum/component/stationloving, FALSE, TRUE)
 
-// Overwriting attackby to prevent cutting the book out
-/obj/item/book/kindred/attackby(obj/item/item, mob/user, params)
-	// Copied from '/obj/item/book/attackby(obj/item/item, mob/user, params)'
-	if((istype(item, /obj/item/knife) || item.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
-		to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [starting_title]."))
-		return
-	return ..()
+/obj/item/book/kindred/try_carve(obj/item/carving_item, mob/living/user, params)
+	to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [starting_title]."))
+	return FALSE
 
 ///Attacking someone with the book.
 /obj/item/book/kindred/afterattack(mob/living/target, mob/living/user, flag, params)
@@ -293,20 +290,17 @@
 	else
 		to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Bloodsucker."))
 
-/obj/item/book/kindred/on_read(mob/living/user)
-	ui_interact(user)
-
-/obj/item/book/kindred/ui_interact(mob/living/user, datum/tgui/ui)
+/obj/item/book/kindred/attack_self(mob/living/user)
 	if(user.mind && !HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
 		if(IS_BLOODSUCKER(user))
 			to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
-			return
-		to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
-		var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
-		user.set_eye_blur_if_lower(10 SECONDS)
-		eyes.apply_organ_damage(5)
+		else
+			to_chat(user, span_warning("You feel your eyes unable to read the boring texts..."))
+			user.set_eye_blur_if_lower(10 SECONDS)
 		return
+	ui_interact(user)
 
+/obj/item/book/kindred/ui_interact(mob/living/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "KindredBook", name)

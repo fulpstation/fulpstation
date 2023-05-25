@@ -368,7 +368,7 @@
 				return
 			used = TRUE
 			var/datum/round_event_control/missilegalore/missiles = new
-			missiles.runEvent()
+			missiles.run_event()
 			var/datum/antagonist/traitor/infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 			if(!terrorist)
 				return
