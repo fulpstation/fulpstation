@@ -12,8 +12,8 @@
 
 /datum/bloodsucker_clan/nosferatu/New(datum/antagonist/bloodsucker/owner_datum)
 	. = ..()
-	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
-		if(istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.powers)
+		if(istype(power, /datum/action/cooldown/bloodsucker/masquerade) || istype(power, /datum/action/cooldown/bloodsucker/veil))
 			bloodsuckerdatum.RemovePower(power)
 	if(!bloodsuckerdatum.owner.current.has_quirk(/datum/quirk/badback))
 		bloodsuckerdatum.owner.current.add_quirk(/datum/quirk/badback)
@@ -21,7 +21,7 @@
 	ADD_TRAIT(bloodsuckerdatum.owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 
 /datum/bloodsucker_clan/nosferatu/Destroy(force)
-	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
+	for(var/datum/action/cooldown/bloodsucker/power in bloodsuckerdatum.powers)
 		bloodsuckerdatum.RemovePower(power)
 	bloodsuckerdatum.give_starting_powers()
 	bloodsuckerdatum.owner.current.remove_quirk(/datum/quirk/badback)

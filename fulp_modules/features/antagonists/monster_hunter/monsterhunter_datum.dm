@@ -104,7 +104,7 @@
 
 /datum/antagonist/monsterhunter/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 
@@ -198,7 +198,7 @@
 			for(var/datum/action/ability in obj.target.current.actions)
 				if(!ability)
 					continue
-				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
+				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/cooldown/bloodsucker))
 					continue
 				description += "[ability.name], "
 
