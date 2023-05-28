@@ -40,13 +40,13 @@
 	return returnIcon + returnString
 
 /// Used when your Master teaches you a new Power.
-/datum/antagonist/vassal/proc/BuyPower(datum/action/bloodsucker/power)
+/datum/antagonist/vassal/proc/BuyPower(datum/action/cooldown/bloodsucker/power)
 	powers += power
 	power.Grant(owner.current)
 	log_uplink("[key_name(owner.current)] purchased [power].")
 
 /datum/antagonist/vassal/proc/LevelUpPowers()
-	for(var/datum/action/bloodsucker/power in powers)
+	for(var/datum/action/cooldown/bloodsucker/power in powers)
 		power.level_current++
 
 /// Called when we are made into the Favorite Vassal

@@ -3,7 +3,7 @@
  * Level 3: Stun People Passed
  */
 
-/datum/action/bloodsucker/targeted/haste
+/datum/action/cooldown/bloodsucker/targeted/haste
 	name = "Immortal Haste"
 	desc = "Dash somewhere with supernatural speed. Those nearby may be knocked away, stunned, or left empty-handed."
 	button_icon_state = "power_speed"
@@ -16,13 +16,13 @@
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 6
-	cooldown = 12 SECONDS
+	cooldown_time = 12 SECONDS
 	target_range = 15
 	power_activates_immediately = TRUE
 	///List of all people hit by our power, so we don't hit them again.
 	var/list/hit = list()
 
-/datum/action/bloodsucker/targeted/haste/CheckCanUse(mob/living/carbon/user, trigger_flags)
+/datum/action/cooldown/bloodsucker/targeted/haste/can_use(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -39,14 +39,14 @@
 	return TRUE
 
 /// Anything will do, if it's not me or my square
-/datum/action/bloodsucker/targeted/haste/CheckValidTarget(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/haste/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	return target_atom.loc != owner.loc
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
-/datum/action/bloodsucker/targeted/haste/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/haste/FireTargetedPower(atom/target_atom)
 	. = ..()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(on_move))
 	var/mob/living/user = owner
@@ -74,12 +74,12 @@
 		if(success) //don't sleep if we failed to move.
 			sleep(world.tick_lag)
 
-/datum/action/bloodsucker/targeted/haste/PowerActivatedSuccessfully()
+/datum/action/cooldown/bloodsucker/targeted/haste/power_activated_sucessfully()
 	. = ..()
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 	hit.Cut()
 
-/datum/action/bloodsucker/targeted/haste/proc/on_move()
+/datum/action/cooldown/bloodsucker/targeted/haste/proc/on_move()
 	for(var/mob/living/hit_living in dview(1, get_turf(owner)) - owner)
 		if(hit.Find(hit_living))
 			continue
