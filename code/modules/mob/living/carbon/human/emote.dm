@@ -68,7 +68,6 @@
 	if(!istype(user))
 		return
 
-
 	return user.dna.species.get_scream_sound(user)
 
 /datum/emote/living/carbon/human/scream/screech //If a human tries to screech it'll just scream.
