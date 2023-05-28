@@ -55,9 +55,13 @@
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
 	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
-	criminal.equip_in_one_of_slots(card, slots, qdel_on_fail = FALSE)
+	if(!criminal.equip_in_one_of_slots(card, slots))
+		var/obj/item/rabbit_locator/droppod_card = new()
+		grant_drop_ability(droppod_card)
 	var/obj/item/hunting_contract/contract = new(get_turf(criminal), src)
-	criminal.equip_in_one_of_slots(contract, slots, qdel_on_fail = FALSE)
+	if(!criminal.equip_in_one_of_slots(contract, slots))
+		var/obj/item/hunting_contract/droppod_contract = new()
+		grant_drop_ability(droppod_contract)
 	RegisterSignal(src, COMSIG_GAIN_INSIGHT, PROC_REF(insight_gained))
 	RegisterSignal(src, COMSIG_BEASTIFY, PROC_REF(turn_beast))
 	for(var/i in 1 to 5 )
@@ -72,6 +76,15 @@
 
 	return ..()
 
+/datum/antagonist/monsterhunter/proc/grant_drop_ability(obj/item/tool)
+	var/datum/action/droppod_item/summon_contract = new(tool)
+	if(istype(tool, /obj/item/rabbit_locator))
+		var/obj/item/rabbit_locator/locator = tool
+		locator.hunter = src
+	if(istype(tool, /obj/item/hunting_contract))
+		var/obj/item/hunting_contract/contract = tool
+		contract.owner = src
+	summon_contract.Grant(owner.current)
 
 
 /datum/antagonist/monsterhunter/on_removal()
@@ -89,7 +102,7 @@
 
 /datum/antagonist/monsterhunter/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 
@@ -183,7 +196,7 @@
 			for(var/datum/action/ability in obj.target.current.actions)
 				if(!ability)
 					continue
-				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
+				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/cooldown/bloodsucker))
 					continue
 				description += "[ability.name], "
 
@@ -229,3 +242,29 @@
 
 
 
+/datum/action/droppod_item
+	name = "Summon Monster Hunter tools"
+	desc = "Summon specific monster hunter tools that will aid us with our hunt."
+	button_icon = 'icons/obj/device.dmi'
+	button_icon_state = "beacon"
+	///path of item we are spawning
+	var/item_path
+
+/datum/action/droppod_item/New(obj/item/tool)
+	. = ..()
+	button_icon = tool.icon
+	button_icon_state = tool.icon_state
+	build_all_button_icons(UPDATE_BUTTON_ICON)
+	item_path = tool
+
+/datum/action/droppod_item/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return FALSE
+	podspawn(list(
+		"target" = get_turf(owner),
+		"style" = STYLE_SYNDICATE,
+		"spawn" = item_path,
+		))
+	qdel(src)
+	return TRUE

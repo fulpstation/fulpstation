@@ -44,7 +44,7 @@ export const HunterContract = (props, context) => {
   const { act, data } = useBackend(context);
   const { items = [], bought, number_of_rabbits } = data;
   return (
-    <Window width={670} height={400}>
+    <Window width={670} height={400} theme="spookyconsole">
       <Window.Content scrollable>
         <Section title="Hunter's Contract" />
         {
