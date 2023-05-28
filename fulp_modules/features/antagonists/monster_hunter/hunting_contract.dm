@@ -110,13 +110,13 @@
 	var/item
 
 /datum/hunter_weapons/threaded_cane
-	name = "threaded cane"
+	name = "Threaded cane"
 	desc = "cane made out of heavy metal, can transform into a whip to strike foes from afar."
 	item = /obj/item/melee/trick_weapon/threaded_cane
 
 
 /datum/hunter_weapons/hunter_axe
-	name = "hunter's axe"
+	name = "Hunter's axe"
 	desc = "simple axe for hunters that lean towards barbarian tactics, can transform into a double bladed axe."
 	item = /obj/item/melee/trick_weapon/hunter_axe
 
