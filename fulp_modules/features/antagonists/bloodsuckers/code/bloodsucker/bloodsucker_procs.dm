@@ -8,8 +8,8 @@
 		examine_text += vamp_examine
 
 ///Called when a Bloodsucker buys a power: (power)
-/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/bloodsucker/power)
-	for(var/datum/action/bloodsucker/current_powers as anything in powers)
+/datum/antagonist/bloodsucker/proc/BuyPower(datum/action/cooldown/bloodsucker/power)
+	for(var/datum/action/cooldown/bloodsucker/current_powers as anything in powers)
 		if(current_powers.type == power.type)
 			return FALSE
 	powers += power
@@ -18,7 +18,7 @@
 	return TRUE
 
 ///Called when a Bloodsucker loses a power: (power)
-/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/bloodsucker/power)
+/datum/antagonist/bloodsucker/proc/RemovePower(datum/action/cooldown/bloodsucker/power)
 	if(power.active)
 		power.DeactivatePower()
 	powers -= power
@@ -74,7 +74,7 @@
 	bloodsucker_level_unspent--
 
 /datum/antagonist/bloodsucker/proc/remove_nondefault_powers(return_levels = FALSE)
-	for(var/datum/action/bloodsucker/power as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
 		if(power.purchase_flags & BLOODSUCKER_DEFAULT_POWER)
 			continue
 		RemovePower(power)
@@ -82,14 +82,14 @@
 			bloodsucker_level_unspent++
 
 /datum/antagonist/bloodsucker/proc/LevelUpPowers()
-	for(var/datum/action/bloodsucker/power as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
 		if(power.purchase_flags & TREMERE_CAN_BUY)
 			continue
 		power.upgrade_power()
 
 ///Disables all powers, accounting for torpor
 /datum/antagonist/bloodsucker/proc/DisableAllPowers(forced = FALSE)
-	for(var/datum/action/bloodsucker/power as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
 		if(forced || ((power.check_flags & BP_CANT_USE_IN_TORPOR) && HAS_TRAIT(owner.current, TRAIT_NODEATH)))
 			if(power.active)
 				power.DeactivatePower()

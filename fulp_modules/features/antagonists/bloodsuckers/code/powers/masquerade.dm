@@ -10,7 +10,7 @@
  *	- Normal body temp -- remove Cold Blooded (return on deactivate)
  */
 
-/datum/action/bloodsucker/masquerade
+/datum/action/cooldown/bloodsucker/masquerade
 	name = "Masquerade"
 	desc = "Feign the vital signs of a mortal, and escape both casual and medical notice as the monster you truly are."
 	button_icon_state = "power_human"
@@ -25,10 +25,10 @@
 	check_flags = BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER
 	bloodcost = 10
-	cooldown = 5 SECONDS
+	cooldown_time = 5 SECONDS
 	constant_bloodcost = 0.1
 
-/datum/action/bloodsucker/masquerade/ActivatePower(trigger_flags)
+/datum/action/cooldown/bloodsucker/masquerade/ActivatePower(trigger_flags)
 	. = ..()
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned on.")
@@ -50,7 +50,7 @@
 	if(eyes)
 		eyes.flash_protect = initial(eyes.flash_protect)
 
-/datum/action/bloodsucker/masquerade/DeactivatePower()
+/datum/action/cooldown/bloodsucker/masquerade/DeactivatePower()
 	. = ..() // activate = FALSE
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned off.")

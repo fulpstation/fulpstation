@@ -1,4 +1,4 @@
-/datum/action/bloodsucker/fortitude
+/datum/action/cooldown/bloodsucker/fortitude
 	name = "Fortitude"
 	desc = "Withstand egregious physical wounds and walk away from attacks that would stun, pierce, and dismember lesser beings."
 	button_icon_state = "power_fortitude"
@@ -12,12 +12,12 @@
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 30
-	cooldown = 8 SECONDS
+	cooldown_time = 8 SECONDS
 	constant_bloodcost = 0.2
 	var/was_running
 	var/fortitude_resist // So we can raise and lower your brute resist based on what your level_current WAS.
 
-/datum/action/bloodsucker/fortitude/ActivatePower(trigger_flags)
+/datum/action/cooldown/bloodsucker/fortitude/ActivatePower(trigger_flags)
 	. = ..()
 	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(owner, span_notice("Your flesh, skin, and muscles become as steel."))
@@ -41,10 +41,12 @@
 	if(was_running)
 		bloodsucker_user.toggle_move_intent()
 
-/datum/action/bloodsucker/fortitude/process(seconds_per_tick)
+/datum/action/cooldown/bloodsucker/fortitude/process(seconds_per_tick)
 	// Checks that we can keep using this.
 	. = ..()
 	if(!.)
+		return
+	if(!active)
 		return
 	var/mob/living/carbon/user = owner
 	/// Prevents running while on Fortitude
@@ -56,7 +58,7 @@
 	if(user.buckled && istype(user.buckled, /obj/vehicle))
 		user.buckled.unbuckle_mob(src, force=TRUE)
 
-/datum/action/bloodsucker/fortitude/DeactivatePower()
+/datum/action/cooldown/bloodsucker/fortitude/DeactivatePower()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/bloodsucker_user = owner
