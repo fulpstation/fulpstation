@@ -12,8 +12,6 @@
 	var/being_used = FALSE
 	///the hunter this rabbit is tied to
 	var/datum/antagonist/monsterhunter/hunter
-	///is this rabbit selected to drop the mask?
-	var/drop_mask = FALSE
 	///is this rabbit selected to drop the gun?
 	var/drop_gun = FALSE
 
@@ -43,7 +41,7 @@
 	SIGNAL_HANDLER
 
 	new /obj/item/rabbit_eye(loc)
-	if(drop_mask)
+	if(hunter?.rabbits_spotted == 0) //our first bunny
 		new /obj/item/clothing/mask/cursed_rabbit(loc)
 	if(drop_gun)
 		new /obj/item/gun/ballistic/revolver/hunter_revolver(loc)

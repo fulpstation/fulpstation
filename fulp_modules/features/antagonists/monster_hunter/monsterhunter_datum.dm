@@ -18,6 +18,8 @@
 	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
 	///the red card tied to this trauma if any
 	var/obj/item/rabbit_locator/locator
+	///have we triggered the apocalypse
+	var/apocalypse = FALSE
 	tip_theme = "spookyconsole"
 	antag_tips = list(
 		"You are the Monster Hunter, hired to rid this station of several troublesome creatures.",
@@ -71,9 +73,7 @@
 		var/obj/effect/client_image_holder/white_rabbit/cretin =  new(rabbit_hole, owner.current)
 		cretin.hunter = src
 		rabbits += cretin
-	var/obj/effect/client_image_holder/white_rabbit/mask_holder = pick(rabbits)
 	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(rabbits)
-	mask_holder.drop_mask = TRUE
 	gun_holder.drop_gun = TRUE
 
 	return ..()
@@ -232,6 +232,7 @@
 /datum/antagonist/monsterhunter/proc/turn_beast()
 	SIGNAL_HANDLER
 
+	apocalypse = TRUE
 	var/datum/round_event_control/wonderlandapocalypse/invasion = new
 	invasion.runEvent()
 
@@ -242,6 +243,34 @@
 	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "monoclerabbit"
 
+
+/datum/antagonist/monsterhunter/roundend_report()
+	var/list/parts = list()
+
+	var/hunter_win = TRUE
+
+	parts += printplayer(owner)
+
+	if(length(objectives))
+		var/count = 1
+		for(var/datum/objective/objective as anything in objectives)
+			if(objective.check_completion())
+				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_greentext("Success!")]"
+			else
+				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_redtext("Fail.")]"
+				hunter_win = FALSE
+			count++
+
+	if(apocalypse)
+		parts += span_greentext(span_big("The apocalypse was unleashed upon the station!"))
+
+	else
+		if(hunter_win)
+			parts += span_greentext("The hunter has eliminated all their prey!")
+		else
+			parts += span_redtext("The hunter has not eliminated all their prey...")
+
+	return parts.Join("<br>")
 
 
 /datum/action/droppod_item
