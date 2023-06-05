@@ -99,7 +99,6 @@
 		TRAIT_NOSOFTCRIT,
 		TRAIT_NOHARDCRIT,
 		TRAIT_AGEUSIA,
-		TRAIT_NOPULSE,
 		TRAIT_COLDBLOODED,
 		TRAIT_VIRUSIMMUNE,
 		TRAIT_TOXIMMUNE,
@@ -214,8 +213,7 @@
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
 	UnregisterSignal(SSsunlight, list(COMSIG_SOL_RANKUP_BLOODSUCKERS, COMSIG_SOL_NEAR_START, COMSIG_SOL_END, COMSIG_SOL_RISE_TICK, COMSIG_SOL_WARNING_GIVEN))
-	QDEL_NULL(my_clan) //clear clan first, Nosferatu will give them powers that we must clear.
-	ClearAllPowersAndStats()
+	clear_powers_and_stats()
 	check_cancel_sunlight() //check if sunlight should end
 	return ..()
 
@@ -260,10 +258,9 @@
 		new_right_arm.unarmed_damage_high = old_right_arm_unarmed_damage_high
 
 	//Give Bloodsucker Traits
-	for(var/all_traits in bloodsucker_traits)
-		if(old_body)
-			REMOVE_TRAIT(old_body, all_traits, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(new_body, all_traits, BLOODSUCKER_TRAIT)
+	if(old_body)
+		old_body.remove_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
+	new_body.add_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
@@ -402,8 +399,7 @@
 		user_right_arm.unarmed_damage_low += 1 //lowest possible punch damage - 0
 		user_right_arm.unarmed_damage_high += 1 //highest possible punch damage - 9
 	//Give Bloodsucker Traits
-	for(var/all_traits in bloodsucker_traits)
-		ADD_TRAIT(owner.current, all_traits, BLOODSUCKER_TRAIT)
+	owner.current.add_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 	//Clear Addictions
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		owner.current.mind.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS)
@@ -416,7 +412,21 @@
 	/// Clear Disabilities & Organs
 	heal_vampire_organs()
 
-/datum/antagonist/bloodsucker/proc/ClearAllPowersAndStats()
+/**
+ * ##clear_power_and_stats()
+ *
+ * Removes all Bloodsucker related Powers/Stats changes, setting them back to pre-Bloodsucker
+ * Order of steps and reason why:
+ * Remove clan - Clans like Nosferatu give Powers on removal, we have to make sure this is given before removing Powers.
+ * Powers - Remove all Powers, so things like Masquerade are off.
+ * Species traits, Traits, MaxHealth, Language - Misc stuff, has no priority.
+ * Organs - At the bottom to ensure everything that changes them has reverted themselves already.
+ * Update Sight - Done after Eyes are regenerated.
+ */
+/datum/antagonist/bloodsucker/proc/clear_powers_and_stats()
+	// Remove clan first
+	if(my_clan)
+		QDEL_NULL(my_clan)
 	// Powers
 	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		RemovePower(all_powers)
@@ -425,17 +435,17 @@
 		var/mob/living/carbon/human/user = owner.current
 		var/datum/species/user_species = user.dna.species
 		user_species.species_traits -= DRINKSBLOOD
-	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source. - This is because of unique cases like Nosferatu getting Ventcrawling.
-	for(var/all_status_traits in owner.current.status_traits)
-		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
-	/// Update Health
-	owner.current.setMaxHealth(MAX_LIVING_HEALTH)
+	// Remove all bloodsucker traits
+	owner.current.remove_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
+	// Update Health
+	owner.current.setMaxHealth(initial(owner.current.maxHealth))
 	// Language
 	owner.current.remove_language(/datum/language/vampiric)
-	/// Heart
-	RemoveVampOrgans()
-	/// Eyes
+	// Heart & Eyes
 	var/mob/living/carbon/user = owner.current
+	var/obj/item/organ/internal/heart/newheart = owner.current.get_organ_slot(ORGAN_SLOT_HEART)
+	if(newheart)
+		newheart.beating = initial(newheart.beating)
 	var/obj/item/organ/internal/eyes/user_eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(user_eyes)
 		user_eyes.flash_protect = initial(user_eyes.flash_protect)

@@ -39,13 +39,11 @@
 	user.apply_status_effect(/datum/status_effect/masquerade)
 
 	// Handle Traits
-	for(var/traits in bloodsuckerdatum_power.bloodsucker_traits)
-		REMOVE_TRAIT(user, traits, BLOODSUCKER_TRAIT)
+	user.remove_traits(bloodsuckerdatum_power.bloodsucker_traits, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 	// Handle organs
-	var/obj/item/organ/internal/heart/vampheart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.fake_start_heart()
+	var/obj/item/organ/internal/heart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
+	vampheart.beating = TRUE
 	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = initial(eyes.flash_protect)
@@ -62,14 +60,12 @@
 		diseases.cure()
 
 	// Handle Traits
-	for(var/traits in bloodsuckerdatum_power.bloodsucker_traits)
-		ADD_TRAIT(user, traits, BLOODSUCKER_TRAIT)
+	user.add_traits(bloodsuckerdatum_power.bloodsucker_traits, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 
 	// Handle organs
-	var/obj/item/organ/internal/heart/vampheart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.Stop()
+	var/obj/item/organ/internal/heart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
+	vampheart.beating = FALSE
 	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)

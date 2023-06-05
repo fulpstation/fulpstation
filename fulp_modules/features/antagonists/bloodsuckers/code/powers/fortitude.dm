@@ -22,9 +22,7 @@
 	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(owner, span_notice("Your flesh, skin, and muscles become as steel."))
 	// Traits & Effects
-	ADD_TRAIT(owner, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
+	owner.add_traits(list(TRAIT_PIERCEIMMUNE, TRAIT_NODISMEMBER, TRAIT_PUSHIMMUNE), BLOODSUCKER_TRAIT)
 	if(level_current >= 4)
 		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT) // They'll get stun resistance + this, who cares.
 	var/mob/living/carbon/human/bloodsucker_user = owner
@@ -32,10 +30,6 @@
 		fortitude_resist = max(0.3, 0.7 - level_current * 0.1)
 		bloodsucker_user.physiology.brute_mod *= fortitude_resist
 		bloodsucker_user.physiology.stamina_mod *= fortitude_resist
-	if(IS_MONSTERHUNTER(owner))
-		bloodsucker_user.physiology.brute_mod *= 0.4
-		bloodsucker_user.physiology.burn_mod *= 0.4
-		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
 
 	was_running = (owner.m_intent == MOVE_INTENT_RUN)
 	if(was_running)
@@ -66,14 +60,8 @@
 		bloodsucker_user.physiology.brute_mod /= fortitude_resist
 		if(!HAS_TRAIT_FROM(bloodsucker_user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT))
 			bloodsucker_user.physiology.stamina_mod /= fortitude_resist
-	if(IS_MONSTERHUNTER(owner))
-		bloodsucker_user.physiology.brute_mod /= 0.4
-		bloodsucker_user.physiology.burn_mod /= 0.4
 	// Remove Traits & Effects
-	REMOVE_TRAIT(bloodsucker_user, TRAIT_PIERCEIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(bloodsucker_user, TRAIT_NODISMEMBER, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(bloodsucker_user, TRAIT_PUSHIMMUNE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(bloodsucker_user, TRAIT_STUNIMMUNE, BLOODSUCKER_TRAIT)
+	owner.remove_traits(list(TRAIT_PIERCEIMMUNE, TRAIT_NODISMEMBER, TRAIT_PUSHIMMUNE, TRAIT_STUNIMMUNE), BLOODSUCKER_TRAIT)
 
 	if(was_running && bloodsucker_user.m_intent == MOVE_INTENT_WALK)
 		bloodsucker_user.toggle_move_intent()
