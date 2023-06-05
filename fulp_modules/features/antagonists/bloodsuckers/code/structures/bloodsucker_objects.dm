@@ -48,30 +48,6 @@
 	if(user.mind.has_antag_datum(/datum/antagonist/ex_vassal) || user.mind.has_antag_datum(/datum/antagonist/vassal/revenge))
 		. += span_notice("Seems to be just about the same color as your Master's...")
 
-
-//////////////////////
-//      HEART       //
-//////////////////////
-
-/datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	var/obj/item/organ/internal/heart/newheart = owner.current.get_organ_slot(ORGAN_SLOT_HEART)
-	if(newheart)
-		qdel(newheart)
-	newheart = new()
-	newheart.Insert(owner.current)
-
-///Vampire heart, fake beats when needed.
-/obj/item/organ/internal/heart/vampheart
-	beating = FALSE
-
-/obj/item/organ/internal/heart/vampheart/Restart()
-	. = ..()
-	beating = FALSE
-
-/obj/item/organ/internal/heart/vampheart/proc/fake_start_heart()
-	// faking it
-	beating = TRUE
-
 //////////////////////
 //      STAKES      //
 //////////////////////
