@@ -1,8 +1,3 @@
-#define HUNTER_SCAN_MIN_DISTANCE 8
-#define HUNTER_SCAN_MAX_DISTANCE 15
-/// 5s update time
-#define HUNTER_SCAN_PING_TIME 20
-
 /datum/antagonist/monsterhunter
 	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
@@ -27,6 +22,8 @@
 		"You can upgrade your weapon in Wonderland by placing it on the weapon forge table and using a rabbit's eye on the table!",
 		"Only when all the rabbits are found and the monsters are terminated can we unleash the apocalypse."
 	)
+	///a list of our prey
+	var/list/datum/mind/prey = list()
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -225,7 +222,8 @@
 		var/datum/mind/target = pick(possible_targets)
 		possible_targets -= target
 		kill_monster.target = target
-		kill_monster.update_explanation_text()
+		prey += target
+		kill_monster.explanation_text = "A monster target is aboard the station, identify and eliminate this threat."
 		objectives += kill_monster
 
 
@@ -295,6 +293,7 @@
 		return
 	COOLDOWN_START(src, cooldown_last, cooldown_time)
 	var/mob/living/echolocator = parent
+	var/datum/antagonist/monsterhunter/hunter = echolocator.mind.has_antag_datum(/datum/antagonist/monsterhunter)
 	var/real_echo_range = echo_range
 	if(HAS_TRAIT(echolocator, TRAIT_ECHOLOCATION_EXTRA_RANGE))
 		real_echo_range += 2
@@ -315,7 +314,7 @@
 			continue
 		if(HAS_TRAIT_FROM(viewer, TRAIT_ECHOLOCATION_RECEIVER, echo_group))
 			receivers[current_time] += viewer
-		if(!IS_MONSTER(viewer))
+		if(!(viewer.mind in hunter?.prey) ) //take them out if they are not our prey
 			filtered -= viewer
 	for(var/atom/filtered_atom as anything in filtered)
 		show_image(saved_appearances["[filtered_atom.icon]-[filtered_atom.icon_state]"] || generate_appearance(filtered_atom), filtered_atom, current_time)
