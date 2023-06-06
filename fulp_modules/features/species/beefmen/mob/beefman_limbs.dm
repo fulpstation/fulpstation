@@ -84,6 +84,34 @@
 	is_dimorphic = FALSE
 	icon_state = "beefman_head"
 
+/obj/item/bodypart/head/beef/Initialize(mapload)
+	worn_ears_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_EARS,
+		offset_y = list("south" = 2),
+	)
+	worn_glasses_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_GLASSES,
+		offset_y = list("south" = 3),
+	)
+	worn_head_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HEAD,
+		offset_y = list("south" = 3),
+	)
+	worn_mask_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_FACEMASK,
+		offset_y = list("south" = 3),
+	)
+	worn_face_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_FACE,
+		offset_y = list("south" = 3),
+	)
+	return ..()
+
 /obj/item/bodypart/chest/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -94,6 +122,43 @@
 	is_dimorphic = FALSE
 	icon_state = "beefman_chest"
 
+/obj/item/bodypart/chest/beef/Initialize(mapload)
+	worn_uniform_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_UNIFORM,
+		offset_y = list("south" = 2),
+	)
+	worn_id_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_ID,
+		offset_y = list("south" = 2),
+	)
+	worn_suit_storage_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_S_STORE,
+		offset_y = list("south" = 2),
+	)
+	worn_belt_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_BELT,
+		offset_y = list("south" = 3),
+	)
+	worn_back_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_BACK,
+		offset_y = list("south" = 2),
+	)
+	worn_suit_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_SUIT,
+		offset_y = list("south" = 2),
+	)
+	worn_neck_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_NECK,
+		offset_y = list("south" = 2),
+	)
+	return ..()
 
 /obj/item/bodypart/arm/right/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
@@ -107,6 +172,19 @@
 	limb_id = SPECIES_BEEFMAN
 	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	icon_state = "beefman_r_arm"
+
+/obj/item/bodypart/arm/right/beef/Initialize(mapload)
+	worn_glove_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_GLOVES,
+		offset_y = list("south" = -4),
+	)
+	held_hand_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HELD,
+		offset_y = list("south" = -4),
+	)
+	return ..()
 
 /obj/item/bodypart/arm/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
@@ -128,6 +206,19 @@
 	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_l_arm"
+
+/obj/item/bodypart/arm/left/beef/Initialize(mapload)
+	worn_glove_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_GLOVES,
+		offset_y = list("south" = -4),
+	)
+	held_hand_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HELD,
+		offset_y = list("south" = -4),
+	)
+	return ..()
 
 /obj/item/bodypart/arm/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner

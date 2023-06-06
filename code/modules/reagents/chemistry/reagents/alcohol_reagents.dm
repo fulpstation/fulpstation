@@ -113,12 +113,9 @@
 	icon_state = "beerglass"
 
 	// Beer is a chemical composition of alcohol and various other things. It's a garbage nutrient but hey, it's still one. Also alcohol is bad, mmmkay?
-/datum/reagent/consumable/ethanol/beer/on_hydroponics_apply(obj/item/seeds/myseed, datum/reagents/chems, obj/machinery/hydroponics/mytray, mob/user)
-	if(!check_tray(chems, mytray))
-		return
-
-	mytray.adjust_plant_health(-round(chems.get_reagent_amount(type) * 0.05))
-	mytray.adjust_waterlevel(round(chems.get_reagent_amount(type) * 0.7))
+/datum/reagent/consumable/ethanol/beer/on_hydroponics_apply(obj/machinery/hydroponics/mytray, mob/user)
+	mytray.adjust_plant_health(-round(volume * 0.05))
+	mytray.adjust_waterlevel(round(volume * 0.7))
 
 /datum/reagent/consumable/ethanol/beer/light
 	name = "Light Beer"
@@ -877,7 +874,7 @@
 	color = "#bf707c" // rgb: 191,112,124
 	boozepwr = 55
 	quality = DRINK_GOOD
-	taste_description = "tomatoes with a hint of lime"
+	taste_description = "tomatoes with a hint of lime and liquid murder"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/glass_style/drinking_glass/bloody_mary
