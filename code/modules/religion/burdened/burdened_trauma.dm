@@ -6,7 +6,7 @@
 	gain_text = span_notice("You feel burdened!")
 	lose_text = span_warning("You no longer feel the need to burden yourself!")
 	random_gain = FALSE
-	/// goes from 0 to 9 (but can be beyond 9, just does nothing) and gives rewards. increased by disabling yourself with debuffs
+	/// goes from 0 to 6 (but can be beyond 6, just does nothing) and gives rewards. increased by disabling yourself with debuffs
 	var/burden_level = 0
 
 /datum/brain_trauma/special/burdened/on_gain()
@@ -63,55 +63,38 @@
 			to_chat(owner, span_warning("You feel no weight on your shoulders. You are not feeling [GLOB.deity]'s suffering."))
 		if(1)
 			if(increase)
-				to_chat(owner, span_notice("You begin to feel the scars on [GLOB.deity]. You must continue to burden yourself."))
-			else
-				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You are barely feeling [GLOB.deity]'s suffering."))
-		if(2)
-			if(increase)
 				to_chat(owner, span_notice("You have done well to understand [GLOB.deity]. You are almost at a breakthrough."))
 			else
 				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You have lost some universal truths."))
 				dna.remove_mutation(/datum/mutation/human/telepathy)
-				dna.remove_mutation(/datum/mutation/human/unintelligible)
 				owner.remove_filter("burden_outline")
-		if(3)
+		if(2)
 			if(increase)
 				to_chat(owner, span_notice("Your suffering is only a fraction of [GLOB.deity]'s, and yet the universal truths are coming to you."))
 				dna.add_mutation(/datum/mutation/human/telepathy)
-				dna.add_mutation(/datum/mutation/human/unintelligible)
 				owner.add_filter("burden_outline", 9, list("type" = "outline", "color" = "#6c6eff"))
 			else
 				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You feel like you're about to forget."))
-		if(4)
-			if(increase)
-				to_chat(owner, span_notice("It hurts, each ounce of pain a lesson told. How does [GLOB.deity] bear this weight?"))
-			else
-				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You're growing further from your goal."))
-		if(5)
+		if(3)
 			if(increase)
 				to_chat(owner, span_notice("Your body is a canvas of loss. You are almost at a breakthrough."))
 			else
 				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You have lost some universal truths."))
 				dna.remove_mutation(/datum/mutation/human/telekinesis)
 				dna.remove_mutation(/datum/mutation/human/mindreader)
-		if(6)
+		if(4)
 			if(increase)
 				to_chat(owner, span_notice("Your suffering is respectful, your scars immaculate. More universal truths are clear, but you do not fully understand yet."))
 				dna.add_mutation(/datum/mutation/human/telekinesis)
 				dna.add_mutation(/datum/mutation/human/mindreader)
 			else
 				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You feel like you're about to forget."))
-		if(7)
+		if(5)
 			if(increase)
-				to_chat(owner, span_notice("The weight on your shoulders is immense. [GLOB.deity] is shattered across the cosmos."))
-			else
-				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You're growing further from your goal."))
-		if(8)
-			if(increase)
-				to_chat(owner, span_notice("You're on the cusp of another breakthrough. [GLOB.deity] lost everything."))
+				to_chat(owner, span_notice("You're on the cusp of another breakthrough. [GLOB.deity] is shattered across the cosmos. [GLOB.deity] lost everything."))
 			else
 				to_chat(owner, span_warning("The weight on your shoulders feels lighter. You have lost some universal truths."))
-		if(9)
+		if(6)
 			if(increase)
 				to_chat(owner, span_notice("You have finally broken yourself enough to understand [GLOB.deity]. It's all so clear to you."))
 				var/mob/living/carbon/human/knower = owner

@@ -223,7 +223,7 @@
 	qdel(offering)
 	return TRUE
 
-#define GREEDY_HEAL_COST 50
+#define GREEDY_HEAL_COST 40
 
 /datum/religion_sect/greed
 	name = "Greedy God"
@@ -292,7 +292,7 @@
 		return FALSE
 	var/datum/brain_trauma/special/burdened/burden = burdened.has_trauma_type(/datum/brain_trauma/special/burdened)
 	if(burden)
-		return "You are at burden level [burden.burden_level]/9."
+		return "You are at burden level [burden.burden_level]/6."
 	return "You are not burdened."
 
 
