@@ -102,7 +102,7 @@
 
 /datum/antagonist/monsterhunter/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 
@@ -190,7 +190,6 @@
 		var/datum/antagonist/heretic/heretic_target = IS_HERETIC(obj.target.current)
 		if(heretic_target)
 			description = "your target [heretic_target.owner.current.real_name] follows the [heretic_target.heretic_path], dear hunter."
-
 		else
 			description = "O' hunter, your target [obj.target.current.real_name] bears these lethal abilities:  "
 			for(var/datum/action/ability in obj.target.current.actions)
@@ -229,18 +228,13 @@
 
 /datum/antagonist/monsterhunter/proc/turn_beast()
 	SIGNAL_HANDLER
-
 	var/datum/round_event_control/wonderlandapocalypse/invasion = new
-	invasion.runEvent()
-
-
+	invasion.run_event()
 
 /obj/item/clothing/mask/monster_preview_mask
 	name = "Monster Preview Mask"
 	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "monoclerabbit"
-
-
 
 /datum/action/droppod_item
 	name = "Summon Monster Hunter tools"

@@ -133,9 +133,10 @@
 
 /datum/ai_planning_subtree/cthulu_attack/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
-	var/datum/weakref/weak_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-	var/atom/target = weak_target?.resolve()
-	if(!target || QDELETED(target))
+	var/mob/living/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+	if (QDELETED(target))
+		return
+	if(!target)
 		return
 	controller.queue_behavior(our_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
 
@@ -147,16 +148,18 @@
 
 /datum/ai_behavior/cthulu_attack/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
-	var/datum/weakref/weak_target = controller.blackboard[target_key]
-	var/atom/target = weak_target?.resolve()
-	if(!target)
+	var/atom/target = controller.blackboard[target_key]
+	if (QDELETED(target))
+		return FALSE
+	if (!isliving(target))
 		return FALSE
 
 /datum/ai_behavior/cthulu_attack/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
 	var/mob/living/basic/basic_mob = controller.pawn
-	var/datum/weakref/weak_target = controller.blackboard[target_key]
-	var/atom/target = weak_target?.resolve()
+	var/atom/target = controller.blackboard[target_key]
+	if (QDELETED(target))
+		return
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!targetting_datum.can_attack(basic_mob, target))
@@ -562,8 +565,7 @@
 
 /datum/ai_planning_subtree/ram_target/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
-	var/datum/weakref/weak_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-	var/atom/target = weak_target?.resolve()
+	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	if(!target || QDELETED(target))
 		return
 	controller.queue_behavior(ram_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
@@ -576,16 +578,18 @@
 
 /datum/ai_behavior/ram/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
-	var/datum/weakref/weak_target = controller.blackboard[target_key]
-	var/atom/target = weak_target?.resolve()
-	if(!target)
+	var/atom/target = controller.blackboard[target_key]
+	if (QDELETED(target))
+		return FALSE
+	if (!isliving(target))
 		return FALSE
 
 /datum/ai_behavior/ram/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
 	var/mob/living/basic/basic_mob = controller.pawn
-	var/datum/weakref/weak_target = controller.blackboard[target_key]
-	var/atom/target = weak_target?.resolve()
+	var/atom/target = controller.blackboard[target_key]
+	if (QDELETED(target))
+		return FALSE
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!targetting_datum.can_attack(basic_mob, target))
