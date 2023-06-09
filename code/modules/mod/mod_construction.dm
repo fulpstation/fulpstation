@@ -51,6 +51,30 @@
 	new /obj/item/mod/core/standard(drop_location())
 	qdel(src)
 
+/obj/item/mod/construction/lavalandcore
+	name = "Plasma flower"
+	icon_state = "mode-core"
+	desc = "A strange flower from the desolate wastes of lavaland. It pulses with a strange purple glow.  \
+	Its shape is remarkably similar to that of a MOD core."
+
+/obj/item/mod/construction/lavalandcore/examine(mob/user)
+	. = ..()
+	. += span_notice("You could probably attach some <b>wires</b> to it...")
+
+/obj/item/mod/construction/lavalandcore/attackby(obj/item/P, mob/user, params)
+	if(istype(P, /obj/item/stack/cable_coil))
+		if(!P.tool_start_check(user, amount=2))
+			return
+
+		to_chat(user, span_notice("You start pushing the wires into the core..."))
+		if(!P.use_tool(src, user, 5 SECONDS, amount = 2, volume = 30))
+			return
+
+		to_chat(user, span_notice("You add the wires to the core"))
+		new /obj/item/mod/core/plasma/lavaland(drop_location())
+		qdel(src)
+
+
 /obj/item/mod/construction/plating
 	name = "MOD external plating"
 	desc = "External plating used to finish a MOD control unit."
