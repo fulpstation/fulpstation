@@ -54,7 +54,7 @@
 /obj/item/mod/construction/lavalandcore
 	name = "Plasma flower"
 	icon_state = "mode-plasma-flower"
-	desc = "A strange flower from the desolate wastes of lavaland. It pulses with a strange purple glow.  \
+	desc = "A strange flower from the desolate wastes of lavaland. It pulses with a bright purple glow.  \
 	Its shape is remarkably similar to that of a MOD core."
 
 /obj/item/mod/construction/lavalandcore/examine(mob/user)
