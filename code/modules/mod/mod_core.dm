@@ -355,3 +355,16 @@
 	add_charge(uses_needed * charge_given)
 	balloon_alert(user, "core refueled")
 	return TRUE
+
+
+/obj/item/mod/core/plasma/lavaland
+	name = "Plasma flower MOD core"
+	icon_state = "mod-core-plasma"
+	desc = "A strange flower from the desolate wastes of lavaland. It seems to pulse with a purple glow.  \
+	The wires coming out of it could be hooked into a MODsuit."
+
+	// Slightly better than the normal plasma core.
+	// Not super sure if this should just be the same, but will see.
+	maxcharge = 15000
+	charge = 15000
+
