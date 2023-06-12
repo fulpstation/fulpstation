@@ -179,15 +179,13 @@
 	var/living_time
 	if(level_current == 4)
 		living_time = 5 MINUTES
-		ADD_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-		ADD_TRAIT(target, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+		target.add_traits(list(TRAIT_MUTE, TRAIT_DEAF), BLOODSUCKER_TRAIT)
 	else if(level_current == 5)
 		living_time = 8 MINUTES
 	addtimer(CALLBACK(src, PROC_REF(end_possession), target), living_time)
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/proc/end_possession(mob/living/user)
-	REMOVE_TRAIT(user, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(user, TRAIT_DEAF, BLOODSUCKER_TRAIT)
+	user.remove_traits(list(TRAIT_MUTE, TRAIT_DEAF), BLOODSUCKER_TRAIT)
 	user.mind.remove_antag_datum(/datum/antagonist/vassal)
 	to_chat(user, span_warning("You feel the Blood of your Master run out!"))
 	user.death()
