@@ -182,10 +182,15 @@
 	SIGNAL_HANDLER
 
 	var/description
-	var/datum/objective/assassinate/obj
-	if(objectives.len)
-		obj = pick(objectives)
+	var/datum/objective/assassinate/hunter/obj
+	var/list/unchecked_objectives = list()
+	for(var/datum/objective/assassinate/hunter/goal in objectives)
+		if(!goal.discovered)
+			unchecked_objectives += goal
+	if(unchecked_objectives.len)
+		obj = pick(unchecked_objectives)
 	if(obj)
+		obj.uncover_target()
 		var/datum/antagonist/heretic/heretic_target = IS_HERETIC(obj.target.current)
 		if(heretic_target)
 			description = "your target [heretic_target.owner.current.real_name] follows the [heretic_target.heretic_path], dear hunter."
@@ -202,6 +207,17 @@
 	rabbits_spotted++
 	to_chat(owner.current,span_notice("[description]"))
 
+/datum/objective/assassinate/hunter
+	///has our target been discovered?
+	var/discovered = FALSE
+
+/datum/objective/assassinate/hunter/proc/uncover_target()
+	if(discovered)
+		return
+	discovered = !discovered
+	src.update_explanation_text()
+	to_chat(owner.current, span_userdanger("You have identified a monster, your objective list has been updated!"))
+
 /datum/antagonist/monsterhunter/proc/find_monster_targets()
 	var/list/possible_targets = list()
 	for(var/datum/antagonist/victim in GLOB.antagonists)
@@ -217,7 +233,7 @@
 	for(var/i in 1 to 3) //we get 3 targets
 		if(!(possible_targets.len))
 			break
-		var/datum/objective/assassinate/kill_monster = new
+		var/datum/objective/assassinate/hunter/kill_monster = new
 		kill_monster.owner = owner
 		var/datum/mind/target = pick(possible_targets)
 		possible_targets -= target
@@ -309,12 +325,19 @@
 	var/current_time = "[world.time]"
 	images[current_time] = list()
 	receivers[current_time] = list()
+	var/list/objectives_list = hunter.objectives
 	for(var/mob/living/viewer in filtered)
 		if(blocking_trait && HAS_TRAIT(viewer, blocking_trait))
 			continue
 		if(HAS_TRAIT_FROM(viewer, TRAIT_ECHOLOCATION_RECEIVER, echo_group))
 			receivers[current_time] += viewer
-		if(!(viewer.mind in hunter?.prey) ) //take them out if they are not our prey
+		var/remove_from_vision = TRUE
+		for(var/datum/objective/assassinate/hunter/goal in objectives_list) //take them out if they are not our prey
+			if(goal.target == viewer.mind)
+				goal.uncover_target()
+				remove_from_vision = FALSE
+				break
+		if(remove_from_vision)
 			filtered -= viewer
 	for(var/atom/filtered_atom as anything in filtered)
 		show_image(saved_appearances["[filtered_atom.icon]-[filtered_atom.icon_state]"] || generate_appearance(filtered_atom), filtered_atom, current_time)
