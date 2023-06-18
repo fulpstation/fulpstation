@@ -1,8 +1,3 @@
-#define HUNTER_SCAN_MIN_DISTANCE 8
-#define HUNTER_SCAN_MAX_DISTANCE 15
-/// 5s update time
-#define HUNTER_SCAN_PING_TIME 20
-
 /datum/antagonist/monsterhunter
 	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
@@ -27,6 +22,8 @@
 		"You can upgrade your weapon in Wonderland by placing it on the weapon forge table and using a rabbit's eye on the table!",
 		"Only when all the rabbits are found and the monsters are terminated can we unleash the apocalypse."
 	)
+	///a list of our prey
+	var/list/datum/mind/prey = list()
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -73,6 +70,8 @@
 	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(rabbits)
 	mask_holder.drop_mask = TRUE
 	gun_holder.drop_gun = TRUE
+	var/datum/action/cooldown/spell/track_monster/track = new
+	track.Grant(owner.current)
 
 	return ..()
 
@@ -183,10 +182,15 @@
 	SIGNAL_HANDLER
 
 	var/description
-	var/datum/objective/assassinate/obj
-	if(objectives.len)
-		obj = pick(objectives)
+	var/datum/objective/assassinate/hunter/obj
+	var/list/unchecked_objectives = list()
+	for(var/datum/objective/assassinate/hunter/goal in objectives)
+		if(!goal.discovered)
+			unchecked_objectives += goal
+	if(unchecked_objectives.len)
+		obj = pick(unchecked_objectives)
 	if(obj)
+		obj.uncover_target()
 		var/datum/antagonist/heretic/heretic_target = IS_HERETIC(obj.target.current)
 		if(heretic_target)
 			description = "your target [heretic_target.owner.current.real_name] follows the [heretic_target.heretic_path], dear hunter."
@@ -201,6 +205,17 @@
 
 	rabbits_spotted++
 	to_chat(owner.current,span_notice("[description]"))
+
+/datum/objective/assassinate/hunter
+	///has our target been discovered?
+	var/discovered = FALSE
+
+/datum/objective/assassinate/hunter/proc/uncover_target()
+	if(discovered)
+		return
+	discovered = !discovered
+	src.update_explanation_text()
+	to_chat(owner.current, span_userdanger("You have identified a monster, your objective list has been updated!"))
 
 /datum/antagonist/monsterhunter/proc/find_monster_targets()
 	var/list/possible_targets = list()
@@ -217,12 +232,13 @@
 	for(var/i in 1 to 3) //we get 3 targets
 		if(!(possible_targets.len))
 			break
-		var/datum/objective/assassinate/kill_monster = new
+		var/datum/objective/assassinate/hunter/kill_monster = new
 		kill_monster.owner = owner
 		var/datum/mind/target = pick(possible_targets)
 		possible_targets -= target
 		kill_monster.target = target
-		kill_monster.update_explanation_text()
+		prey += target
+		kill_monster.explanation_text = "A monster target is aboard the station, identify and eliminate this threat."
 		objectives += kill_monster
 
 
@@ -262,3 +278,78 @@
 		))
 	qdel(src)
 	return TRUE
+
+
+/datum/action/cooldown/spell/track_monster
+	name = "Hunter Vision"
+	desc = "Detect monsters within vicinity"
+	button_icon_state = "blind"
+	cooldown_time = 5 SECONDS
+	spell_requirements = NONE
+
+/datum/action/cooldown/spell/track_monster/cast(mob/living/carbon/cast_on)
+	. = ..()
+	cast_on.AddComponent(/datum/component/echolocation/monsterhunter, echo_group = "hunter")
+	addtimer(CALLBACK(src, PROC_REF(remove_vision), cast_on), 3 SECONDS)
+
+/datum/action/cooldown/spell/track_monster/proc/remove_vision(mob/living/carbon/cast_on)
+	qdel(cast_on.GetComponent(/datum/component/echolocation))
+
+
+/datum/component/echolocation/monsterhunter
+
+/datum/component/echolocation/monsterhunter/echolocate() //code stolen from echolocation to make it ignore non-monster mobs
+	if(!COOLDOWN_FINISHED(src, cooldown_last))
+		return
+	COOLDOWN_START(src, cooldown_last, cooldown_time)
+	var/mob/living/echolocator = parent
+	var/datum/antagonist/monsterhunter/hunter = echolocator.mind.has_antag_datum(/datum/antagonist/monsterhunter)
+	var/real_echo_range = echo_range
+	if(HAS_TRAIT(echolocator, TRAIT_ECHOLOCATION_EXTRA_RANGE))
+		real_echo_range += 2
+	var/list/filtered = list()
+	var/list/seen = dview(real_echo_range, get_turf(echolocator.client?.eye || echolocator), invis_flags = echolocator.see_invisible)
+	for(var/atom/seen_atom as anything in seen)
+		if(!seen_atom.alpha)
+			continue
+		if(allowed_paths[seen_atom.type])
+			filtered += seen_atom
+	if(!length(filtered))
+		return
+	var/current_time = "[world.time]"
+	images[current_time] = list()
+	receivers[current_time] = list()
+	var/list/objectives_list = hunter.objectives
+	for(var/mob/living/viewer in filtered)
+		if(blocking_trait && HAS_TRAIT(viewer, blocking_trait))
+			continue
+		if(HAS_TRAIT_FROM(viewer, TRAIT_ECHOLOCATION_RECEIVER, echo_group))
+			receivers[current_time] += viewer
+		var/remove_from_vision = TRUE
+		for(var/datum/objective/assassinate/hunter/goal in objectives_list) //take them out if they are not our prey
+			if(goal.target == viewer.mind)
+				goal.uncover_target()
+				remove_from_vision = FALSE
+				break
+		if(remove_from_vision)
+			filtered -= viewer
+	for(var/atom/filtered_atom as anything in filtered)
+		show_image(saved_appearances["[filtered_atom.icon]-[filtered_atom.icon_state]"] || generate_appearance(filtered_atom), filtered_atom, current_time)
+	addtimer(CALLBACK(src, PROC_REF(fade_images), current_time), image_expiry_time)
+
+/datum/component/echolocation/monsterhunter/generate_appearance(atom/input)
+	var/mutable_appearance/copied_appearance = new /mutable_appearance()
+	copied_appearance.appearance = input
+	if(istype(input, /mob/living))
+		copied_appearance.cut_overlays()
+		copied_appearance.icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
+		copied_appearance.icon_state = "white_rabbit"
+	copied_appearance.color = black_white_matrix
+	copied_appearance.filters += outline_filter(size = 1, color = COLOR_WHITE)
+	if(!images_are_static)
+		copied_appearance.pixel_x = 0
+		copied_appearance.pixel_y = 0
+		copied_appearance.transform = matrix()
+	if(!iscarbon(input))
+		saved_appearances["[input.icon]-[input.icon_state]"] = copied_appearance
+	return copied_appearance
