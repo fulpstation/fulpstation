@@ -373,7 +373,7 @@
 		if(!do_after(user, 1 SECONDS, target))
 			return FALSE
 		var/obj/item/food/meat/slab/meat = new /obj/item/food/meat/slab
-		tongue.Remove(user, special = TRUE)
+		tongue.Remove(user)
 		user.put_in_hands(meat)
 		playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_hit.ogg', 40, 1)
 		return TRUE
@@ -413,7 +413,7 @@
 
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/internal/tongue/beefman/new_tongue = new()
-		new_tongue.Insert(user, special = TRUE)
+		new_tongue.Insert(user)
 		user.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new [new_tongue.name]!"),
 			span_notice("The [meat] successfully fuses with your mouth!"))
