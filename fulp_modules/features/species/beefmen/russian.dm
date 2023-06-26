@@ -17,10 +17,12 @@
 /datum/language_holder/russian
 	understood_languages = list(
 		/datum/language/common = list(LANGUAGE_ATOM),
-		/datum/language/russian = list(LANGUAGE_ATOM))
+		/datum/language/russian = list(LANGUAGE_ATOM),
+	)
 	spoken_languages = list(
 		/datum/language/common = list(LANGUAGE_ATOM),
-		/datum/language/russian = list(LANGUAGE_ATOM))
+		/datum/language/russian = list(LANGUAGE_ATOM),
+	)
 
 /obj/item/organ/internal/tongue/beefman
 	name = "meaty tongue"

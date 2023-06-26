@@ -25,22 +25,6 @@
 		TRAIT_SLEEPIMMUNE,
 	)
 
-	offset_features = list(
-		OFFSET_ID = list(0,2),
-		OFFSET_GLOVES = list(0,-4),
-		OFFSET_GLASSES = list(0,3),
-		OFFSET_EARS = list(0,3),
-		OFFSET_SHOES = list(0,0),
-		OFFSET_S_STORE = list(0,2),
-		OFFSET_FACEMASK = list(0,3),
-		OFFSET_HEAD = list(0,3),
-		OFFSET_FACE = list(0,3),
-		OFFSET_BELT = list(0,3),
-		OFFSET_SUIT = list(0,2),
-		OFFSET_UNIFORM = list(0,1),
-		OFFSET_NECK = list(0,3),
-	)
-
 	cellular_damage_desc = "meat degradation"
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
