@@ -362,9 +362,7 @@
 		return
 	switch(action)
 		if("launch_missiles")
-			if(!disk)
-				return
-			if(used)
+			if(!disk || used)
 				return
 			used = TRUE
 			var/datum/round_event_control/missilegalore/missiles = new
@@ -376,8 +374,6 @@
 			if(!terrorism)
 				return
 			terrorism.completed = TRUE
-
-	return
 
 /obj/item/missilephone/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
