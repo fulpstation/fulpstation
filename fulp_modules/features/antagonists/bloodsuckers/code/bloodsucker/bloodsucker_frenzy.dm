@@ -35,7 +35,7 @@
 	duration = -1
 	tick_interval = 10
 	alert_type = /atom/movable/screen/alert/status_effect/frenzy
-	/// Store whether they were an advancedtooluser, to give the trait back upon exiting.
+	///Boolean on whether they were an AdvancedToolUser, to give the trait back upon exiting.
 	var/was_tooluser = FALSE
 	/// The stored Bloodsucker antag datum
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum
@@ -56,12 +56,7 @@
 	to_chat(owner, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
 	to_chat(owner, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly Aggresively grab, have stun resistance, cannot speak, hear, or use any powers outside of Feed and Trespass (If you have it)."))
 	owner.balloon_alert(owner, "you enter a frenzy!")
-
-	// Stamina resistances
-	if(bloodsuckerdatum.my_clan.frenzy_stun_immune)
-		ADD_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
-	else
-		user.physiology.stamina_mod *= 0.4
+	SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_ENTERS_FRENZY)
 
 	// Give the other Frenzy effects
 	owner.add_traits(list(TRAIT_MUTE, TRAIT_DEAF), FRENZY_TRAIT)
@@ -90,13 +85,7 @@
 	bloodsuckerdatum.frenzygrab.remove(user)
 	owner.remove_client_colour(/datum/client_colour/cursed_heart_blood)
 
-	if(bloodsuckerdatum.my_clan.frenzy_stun_immune)
-		REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
-	else
-		owner.set_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)
-		owner.Paralyze(2 SECONDS)
-		user.physiology.stamina_mod /= 0.4
-
+	SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_EXITS_FRENZY)
 	bloodsuckerdatum.frenzied = FALSE
 	return ..()
 

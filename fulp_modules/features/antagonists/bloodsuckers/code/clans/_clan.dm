@@ -25,8 +25,6 @@
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.
 	var/joinable_clan = TRUE
 
-	///Whether they become entirely stun immune when entering Frenzy.
-	var/frenzy_stun_immune = FALSE
 	///How we will drink blood using Feed.
 	var/blood_drink_type = BLOODSUCKER_DRINK_NORMAL
 
@@ -44,6 +42,9 @@
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_EXIT_TORPOR, PROC_REF(on_exit_torpor))
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_FINAL_DEATH, PROC_REF(on_final_death))
 
+	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_ENTERS_FRENZY, PROC_REF(on_enter_frenzy))
+	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_EXITS_FRENZY, PROC_REF(on_exit_frenzy))
+
 	give_clan_objective()
 
 /datum/bloodsucker_clan/Destroy(force)
@@ -55,10 +56,28 @@
 		BLOODSUCKER_MADE_VASSAL,
 		BLOODSUCKER_EXIT_TORPOR,
 		BLOODSUCKER_FINAL_DEATH,
+		BLOODSUCKER_ENTERS_FRENZY,
+		BLOODSUCKER_EXITS_FRENZY,
 	))
 	remove_clan_objective()
 	bloodsuckerdatum = null
 	return ..()
+
+/datum/bloodsucker_clan/proc/on_enter_frenzy(datum/antagonist/bloodsucker/source)
+	SIGNAL_HANDLER
+	var/mob/living/carbon/human/human_bloodsucker = bloodsuckerdatum.owner.current
+	if(!istype(human_bloodsucker))
+		return
+	human_bloodsucker.physiology.stamina_mod *= 0.4
+
+/datum/bloodsucker_clan/proc/on_exit_frenzy(datum/antagonist/bloodsucker/source)
+	SIGNAL_HANDLER
+	var/mob/living/carbon/human/human_bloodsucker = bloodsuckerdatum.owner.current
+	if(!istype(human_bloodsucker))
+		return
+	human_bloodsucker.set_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)
+	human_bloodsucker.Paralyze(2 SECONDS)
+	human_bloodsucker.physiology.stamina_mod /= 0.4
 
 /datum/bloodsucker_clan/proc/give_clan_objective()
 	if(isnull(clan_objective))

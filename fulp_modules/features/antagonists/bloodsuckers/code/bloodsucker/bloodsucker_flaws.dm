@@ -1,12 +1,16 @@
 /**
- * Gives Bloodsuckers the ability to choose a Clan
- * This will give them their benefits and downsides
- * This is selected through a radial menu over the player's body.
+ * Gives Bloodsuckers the ability to choose a Clan.
+ * If they are already in a Clan, or is in a Frenzy, they will not be able to do so.
+ * The arg is optional and should really only be an Admin setting a Clan for a player.
+ * If set however, it will give them the control of their Clan instead of the Bloodsucker.
+ * This is selected through a radial menu over the player's body, even when an Admin is setting it.
  * Args:
  * person_selecting - Mob override for stuff like Admins selecting someone's clan.
  */
 /datum/antagonist/bloodsucker/proc/assign_clan_and_bane(mob/person_selecting)
 	if(my_clan)
+		return
+	if(owner.current.has_status_effect(/datum/status_effect/frenzy))
 		return
 	if(!person_selecting)
 		person_selecting = owner.current
