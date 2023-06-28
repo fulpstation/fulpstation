@@ -25,8 +25,6 @@
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.
 	var/joinable_clan = TRUE
 
-	///How the Bloodsucker ranks up, if they do.
-	var/rank_up_type = BLOODSUCKER_RANK_UP_NORMAL
 	///Whether they become entirely stun immune when entering Frenzy.
 	var/frenzy_stun_immune = FALSE
 	///How we will drink blood using Feed.
@@ -39,7 +37,7 @@
 	RegisterSignal(bloodsuckerdatum, COMSIG_BLOODSUCKER_ON_LIFETICK, PROC_REF(handle_clan_life))
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_RANK_UP, PROC_REF(on_spend_rank))
 
-	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_PRE_MAKE_FAVORITE, PROC_REF(on_offer_favorite))
+	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_INTERACT_WITH_VASSAL, PROC_REF(on_interact_with_vassal))
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_MAKE_FAVORITE, PROC_REF(on_favorite_vassal))
 
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_MADE_VASSAL, PROC_REF(on_vassal_made))
@@ -52,7 +50,7 @@
 	UnregisterSignal(bloodsuckerdatum, list(
 		COMSIG_BLOODSUCKER_ON_LIFETICK,
 		BLOODSUCKER_RANK_UP,
-		BLOODSUCKER_PRE_MAKE_FAVORITE,
+		BLOODSUCKER_INTERACT_WITH_VASSAL,
 		BLOODSUCKER_MAKE_FAVORITE,
 		BLOODSUCKER_MADE_VASSAL,
 		BLOODSUCKER_EXIT_TORPOR,
@@ -200,12 +198,12 @@
  * bloodsuckerdatum - the antagonist datum of the Bloodsucker performing this.
  * vassaldatum - the antagonist datum of the Vassal being offered up.
  */
-/datum/bloodsucker_clan/proc/on_offer_favorite(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+/datum/bloodsucker_clan/proc/on_interact_with_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	SIGNAL_HANDLER
 
-	INVOKE_ASYNC(src, PROC_REF(offer_favorite), bloodsuckerdatum, vassaldatum)
+	INVOKE_ASYNC(src, PROC_REF(interact_with_vassal), bloodsuckerdatum, vassaldatum)
 
-/datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+/datum/bloodsucker_clan/proc/interact_with_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	if(vassaldatum.special_type)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return FALSE
@@ -237,6 +235,7 @@
 		return FALSE
 	vassaldatum.make_special(vassal_response)
 	bloodsuckerdatum.bloodsucker_blood_volume -= 150
+	return TRUE
 
 /**
  * Called when we are successfully turn a Vassal into a Favorite Vassal

@@ -1,19 +1,31 @@
+///The maximum level a Ventrue Bloodsucker can be, before they have to level up their vassal instead.
+#define VENTRUE_MAX_LEVEL 3
+///How much it costs for a Ventrue to rank up without a spare rank to spend.
+#define BLOODSUCKER_BLOOD_RANKUP_COST (550)
+
 /datum/bloodsucker_clan/ventrue
 	name = CLAN_VENTRUE
 	description = "The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. \n\
-		You may only level yourself up to Level 3, anything further will be ranks to spend on their Favorite Vassal through a Persuasion Rack. \n\
+		You may only level yourself up to Level %MAX_LEVEL%, anything further will be ranks to spend on their Favorite Vassal through a Persuasion Rack. \n\
 		The Favorite Vassal will slowly turn more Vampiric this way, until they finally lose their last bits of Humanity."
 	clan_objective = /datum/objective/bloodsucker/embrace
 	join_icon_state = "ventrue"
 	join_description = "Lose the ability to drink from mindless mobs, can't level up or gain new powers, \
 		instead you raise a vassal into a Bloodsucker."
-	rank_up_type = BLOODSUCKER_RANK_UP_VASSAL
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY
+
+/datum/bloodsucker_clan/ventrue/New(datum/antagonist/bloodsucker/owner_datum)
+	. = ..()
+	description = replacetext(description, "%MAX_LEVEL%", VENTRUE_MAX_LEVEL)
 
 /datum/bloodsucker_clan/ventrue/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	if(!target)
-		return ..()
+		if(bloodsuckerdatum.bloodsucker_level < VENTRUE_MAX_LEVEL)
+			return ..()
+		return FALSE
 	var/datum/antagonist/vassal/favorite/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal/favorite)
+	if(!vassaldatum)
+		return FALSE
 	// Purchase Power Prompt
 	var/list/options = list()
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
@@ -72,6 +84,32 @@
 	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
 	vassaldatum.LevelUpPowers()
 
+/datum/bloodsucker_clan/ventrue/interact_with_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
+	. = ..()
+	if(.)
+		return TRUE
+	if(!istype(vassaldatum))
+		return FALSE
+	if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
+		bloodsuckerdatum.SpendRank(vassaldatum.owner.current)
+		return TRUE
+	if(bloodsuckerdatum.bloodsucker_blood_volume >= BLOODSUCKER_BLOOD_RANKUP_COST)
+		// We don't have any ranks to spare? Let them upgrade... with enough Blood.
+		to_chat(bloodsuckerdatum.owner.current, span_warning("Do you wish to spend [BLOODSUCKER_BLOOD_RANKUP_COST] Blood to Rank [vassaldatum.owner.current] up?"))
+		var/static/list/rank_options = list(
+			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
+		)
+		var/rank_response = show_radial_menu(bloodsuckerdatum.owner.current, vassaldatum.owner.current, rank_options, radius = 36, require_near = TRUE)
+		if(rank_response == "Yes")
+			bloodsuckerdatum.SpendRank(vassaldatum.owner.current, cost_rank = FALSE, blood_cost = BLOODSUCKER_BLOOD_RANKUP_COST)
+		return TRUE
+	to_chat(bloodsuckerdatum.owner.current, span_danger("You don't have any levels or enough Blood to Rank [vassaldatum.owner.current] up with."))
+	return TRUE
+
 /datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
 	to_chat(bloodsucker, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
 	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/distress)
+
+#undef BLOODSUCKER_BLOOD_RANKUP_COST
+#undef VENTRUE_MAX_LEVEL

@@ -21,9 +21,6 @@
 ///Drinks blood from disgusting creatures without Humanity consequences.
 #define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
 
-#define BLOODSUCKER_RANK_UP_NORMAL "bloodsucker_rank_up_normal"
-#define BLOODSUCKER_RANK_UP_VASSAL "bloodsucker_rank_up_vassal"
-
 ///If someone passes all checks and can be vassalized
 #define VASSALIZATION_ALLOWED 0
 ///If someone has to accept vassalization
@@ -105,7 +102,7 @@
 #define BLOODSUCKER_RANK_UP "bloodsucker_rank_up"
 
 ///Called when a Bloodsucker attempts to make a Vassal into their Favorite.
-#define BLOODSUCKER_PRE_MAKE_FAVORITE "bloodsucker_pre_make_favorite"
+#define BLOODSUCKER_INTERACT_WITH_VASSAL "bloodsucker_interact_with_vassal"
 ///Called when a Bloodsucker makes a Vassal into their Favorite Vassal: (datum/vassal_datum, mob/master)
 #define BLOODSUCKER_MAKE_FAVORITE "bloodsucker_make_favorite"
 ///Called when a new Vassal is successfully made: (datum/bloodsucker_datum)

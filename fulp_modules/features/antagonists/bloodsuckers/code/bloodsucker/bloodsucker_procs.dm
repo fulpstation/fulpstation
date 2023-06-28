@@ -60,15 +60,12 @@
 		to_chat(owner.current, span_notice("You have gained a rank. Join a Clan to spend it."))
 		return
 	// Spend Rank Immediately?
-	if(my_clan.rank_up_type == BLOODSUCKER_RANK_UP_NORMAL)
-		if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
-			to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin that you have claimed to thicken your blood and become more powerful.</EM>"))
-			if(bloodsucker_level_unspent >= 2)
-				to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
-			return
-		SpendRank()
-	if(my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
-		to_chat(owner, span_announce("You have recieved a new Rank to level up your Favorite Vassal with!"))
+	if(!istype(owner.current.loc, /obj/structure/closet/crate/coffin))
+		to_chat(owner, span_notice("<EM>You have grown more ancient! Sleep in a coffin (or put your Favorite Vassal on a persuasion rack for Ventrue) that you have claimed to thicken your blood and become more powerful.</EM>"))
+		if(bloodsucker_level_unspent >= 2)
+			to_chat(owner, span_announce("Bloodsucker Tip: If you cannot find or steal a coffin to use, you can build one from wood or metal."))
+		return
+	SpendRank()
 
 /datum/antagonist/bloodsucker/proc/RankDown()
 	bloodsucker_level_unspent--
