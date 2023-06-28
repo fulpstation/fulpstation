@@ -37,6 +37,9 @@
 	my_clan = new chosen_clan(src)
 
 /datum/antagonist/bloodsucker/proc/remove_clan(mob/admin)
+	if(owner.current.has_status_effect(/datum/status_effect/frenzy))
+		to_chat(admin, span_announce("Removing a Bloodsucker from a Clan while they are in a Frenzy will break stuff, this action has been blocked."))
+		return
 	QDEL_NULL(my_clan)
 	to_chat(owner.current, span_announce("You have been forced out of your clan! You can re-enter one by regular means."))
 
