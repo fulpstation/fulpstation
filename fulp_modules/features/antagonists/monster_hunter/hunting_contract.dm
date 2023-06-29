@@ -71,6 +71,8 @@
 			. = TRUE
 			purchase(selected_item, usr)
 		if("claim_reward")
+			if(used_up)
+				return
 			if(!is_station_level(loc.z))
 				to_chat(usr,span_warning("The pull of the ice moon isn't strong enough here...."))
 				return
