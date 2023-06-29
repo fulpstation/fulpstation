@@ -72,17 +72,12 @@
 	repeatable = FALSE
 
 /datum/dynamic_ruleset/midround/bloodsucker/trim_candidates()
-	. = ..()
-	for(var/mob/living/player in living_players)
-		// Your assigned role doesn't change when you are turned into a silicon.
-		if(issilicon(player))
-			living_players -= player
-		// Only people on-station are allowed
-		else if(!is_station_level(player.z) || !is_mining_level(player.z))
-			living_players -= player
-		// We don't allow people with roles already
-		else if(player.mind.special_role || player.mind.antag_datums.len)
-			living_players -= player
+	candidates = living_players
+	for(var/mob/living/player in candidates)
+		if(!is_station_level(player.z))
+			candidates.Remove(player)
+		else if(player.mind && (player.mind.special_role || length(player.mind.antag_datums) > 0))
+			candidates.Remove(player)
 
 /datum/dynamic_ruleset/midround/bloodsucker/execute()
 	var/mob/selected_mobs = pick(living_players)

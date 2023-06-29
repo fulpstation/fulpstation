@@ -148,7 +148,10 @@
 /datum/antagonist/bloodsucker/proc/heal_vampire_organs()
 	var/mob/living/carbon/bloodsuckeruser = owner.current
 
-	bloodsuckeruser.cure_husk()
+	if(!bloodsuckeruser)
+		return
+
+	bloodsuckeruser.cure_husk(BURN)
 	bloodsuckeruser.regenerate_organs(regenerate_existing = FALSE)
 
 	for(var/obj/item/organ/organ as anything in bloodsuckeruser.organs)
