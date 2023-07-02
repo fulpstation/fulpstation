@@ -246,7 +246,6 @@
 		/mob/living/simple_animal/hostile/retaliate/nanotrasenpeace,
 		/mob/living/simple_animal/hostile/retaliate/nanotrasenpeace/ranged,
 		/mob/living/simple_animal/hostile/retaliate/snake,
-		/mob/living/simple_animal/hostile/retaliate/spaceman,
 		/mob/living/simple_animal/hostile/retaliate/trader,
 		/mob/living/simple_animal/hostile/retaliate/trader/mrbones,
 		/mob/living/simple_animal/hostile/skeleton,
@@ -298,10 +297,6 @@
 		/mob/living/simple_animal/soulscythe,
 		// DO NOT ADD NEW ENTRIES TO THIS LIST
 		// READ THE COMMENT ABOVE
-		// Fulp edit - here to add in some of the mobs that are affected by this test.
-		/mob/living/simple_animal/hostile/guardian/standard/timestop,
-		/mob/living/simple_animal/hostile/gorilla/albino,
-		// Fulp edit END
 	)
 
 /datum/unit_test/simple_animal_freeze/Run()
