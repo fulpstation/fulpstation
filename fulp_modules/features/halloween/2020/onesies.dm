@@ -55,17 +55,19 @@
 	desc = "Sleeping in these can prove hard since you essentially become your own night light."
 	icon_state = "onesie_ethereal0"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/ethereal
-
+	flags_inv = 0
+	actions_types = list(/datum/action/item_action/toggle_hood)
+	/// Whether the hood is flipped up
+	var/hood_up = FALSE
 	///Luminosity when the suit is on
 	var/brightness_on = 1
 	var/on = FALSE
-	flags_inv = 0
-	actions_types = list(/datum/action/item_action/toggle_hood)
 
-/obj/item/clothing/suit/hooded/onesie/ethereal/ToggleHood()
-	if(hood_up)
-		RemoveHood()
-		return
+
+
+
+/obj/item/clothing/suit/hooded/onesie/ethereal/on_hood_up(obj/item/clothing/head/hooded/hood)
+	. = ..()
 	if(ishuman(src.loc))
 		var/mob/living/carbon/human/user = src.loc
 		if(user.wear_suit != src)
@@ -81,6 +83,10 @@
 			for(var/all_selections in actions)
 				var/datum/action/onesie_options = all_selections
 				onesie_options.build_all_button_icons()
+
+/obj/item/clothing/suit/hooded/onesie/ethereal/on_hood_down(obj/item/clothing/head/hooded/hood)
+	. = ..()
+	hood_up = FALSE
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/proc/toggle_suit_light(mob/living/user)
 	on = !on
