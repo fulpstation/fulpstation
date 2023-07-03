@@ -236,6 +236,7 @@
 	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_r_leg"
+	speed_modifier = -0.1
 
 /obj/item/bodypart/leg/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
@@ -253,6 +254,7 @@
 	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_l_leg"
+	speed_modifier = -0.1
 
 /obj/item/bodypart/leg/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner

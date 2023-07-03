@@ -14,7 +14,6 @@
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|FEET
 	cold_protection = CHEST|GROIN|ARMS|LEGS|FEET
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
-	armor_type = /datum/armor/civilian_janitor
 
 /obj/item/clothing/head/hooded/onesie
 	name = "winter hood"
@@ -26,7 +25,6 @@
 	cold_protection = HEAD
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	flags_inv = HIDEHAIR|HIDEEARS
-	armor_type = /datum/armor/civilian_janitor
 
 ///Beefman onesie
 /obj/item/clothing/suit/hooded/onesie/beefman

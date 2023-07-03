@@ -158,7 +158,6 @@
 	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_guy"
 	hat_type = "guy"
-	armor_type = /datum/armor/civilian_janitor
 	resistance_flags = null
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
@@ -171,7 +170,6 @@
 	worn_icon = 'fulp_modules/features/halloween/2020/2020_icons_worn.dmi'
 	icon_state = "hardhat0_thomas"
 	hat_type = "thomas"
-	armor_type = /datum/armor/civilian_janitor
 	resistance_flags = null
 	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES

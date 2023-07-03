@@ -6,13 +6,6 @@
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
 	sexes = FALSE
-	species_traits = list(
-		NOEYESPRITES,
-		NO_UNDERWEAR,
-		DYNCOLORS,
-		AGENDER,
-	)
-
 	mutant_bodyparts = list(
 		"beef_color" = "#e73f4e",
 		"beef_eyes" = BEEF_EYES_OLIVES,
@@ -23,24 +16,20 @@
 		TRAIT_GENELESS,
 		TRAIT_RESISTCOLD,
 		TRAIT_SLEEPIMMUNE,
+		TRAIT_NO_UNDERWEAR,
+		TRAIT_MUTANT_COLORS,
+		TRAIT_AGENDER,
 	)
-
-	cellular_damage_desc = "meat degradation"
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
-
 	species_language_holder = /datum/language_holder/russian
 	mutantbrain = /obj/item/organ/internal/brain/beefman
 	mutanttongue = /obj/item/organ/internal/tongue/beefman
 	skinned_type = /obj/item/food/meatball
 	meat = /obj/item/food/meat/slab
-	toxic_food = DAIRY | PINEAPPLE
-	disliked_food = VEGETABLES | FRUIT | CLOTH
-	liked_food = RAW | MEAT | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	payday_modifier = 0.75
-	speedmod = -0.2
-	armor = -20
+	damage_modifier = -20
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
@@ -108,7 +97,7 @@
 			return
 	user.blood_volume += 4
 
-/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
+/datum/species/beefman/handle_chemical(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
 	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
 		if(!dehydrated || SPT_PROB(10, delta_time))
 			to_chat(user, span_alert("Your beefy mouth tastes dry."))
@@ -164,21 +153,21 @@
 			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
 				if(!forced_colour)
 					switch(accessory.color_src)
-						if(MUTCOLORS)
+						if(MUTANT_COLOR)
 							if(fixed_mut_color)
 								accessory_overlay.color = fixed_mut_color
 							else
 								accessory_overlay.color = source.dna.features["mcolor"]
-						if(HAIR)
+						if(HAIR_COLOR)
 							if(hair_color == "mutcolor")
 								accessory_overlay.color = source.dna.features["mcolor"]
 							else if(hair_color == "fixedmutcolor")
 								accessory_overlay.color = fixed_mut_color
 							else
 								accessory_overlay.color = source.hair_color
-						if(FACEHAIR)
+						if(FACIAL_HAIR_COLOR)
 							accessory_overlay.color = source.facial_hair_color
-						if(EYECOLOR)
+						if(EYE_COLOR)
 							accessory_overlay.color = source.eye_color_left
 				else
 					accessory_overlay.color = forced_colour
