@@ -83,6 +83,7 @@
 	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
 	is_dimorphic = FALSE
 	icon_state = "beefman_head"
+	head_flags = HEAD_HAIR
 
 /obj/item/bodypart/head/beef/Initialize(mapload)
 	worn_ears_offset = new(
