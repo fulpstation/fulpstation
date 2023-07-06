@@ -9,10 +9,13 @@
 	///the datum containing all weapons
 	var/list/datum/hunter_weapons/weapons = list()
 	///the weapon that we have purchased
-	var/selected_item
+	var/datum/hunter_weapons/selected_item
 	///the owner of this contract
 	var/datum/antagonist/monsterhunter/owner
-	///is the contract used up?
+
+	///Boolean on whether all objectives have been completed.
+	var/objectives_completed = FALSE
+	///Boolean on whether the contract has given it's final objective.
 	var/used_up = FALSE
 
 /obj/item/hunting_contract/Initialize(mapload, datum/antagonist/monsterhunter/hunter)
@@ -39,23 +42,22 @@
 	if(weapons.len)
 		for(var/datum/hunter_weapons/contraband as anything in weapons)
 			data["items"] += list(list(
-			"id" = contraband.type,
-			"name" = contraband.name,
-			"desc" = contraband.desc,
+				"id" = contraband.type,
+				"name" = contraband.name,
+				"desc" = contraband.desc,
 			))
-	var/check_completed = TRUE  ///determines if all objectives have been completed
 	if(owner)
-		for(var/datum/objective/obj as anything in owner.objectives)
-			data["objectives"] += list(list(
-			"explanation" = obj.explanation_text,
-			"completed" = (obj.check_completion()),
-			))
-			if(!(obj.check_completion()))
-				check_completed = FALSE
-		data["all_completed"] = check_completed
-		data["number_of_rabbits"] = owner.rabbits_spotted
 		data["rabbits_found"] = !(owner.rabbits.len)
 		data["used_up"] = used_up
+		var/objective_unfinished = FALSE
+		for(var/datum/objective/existing_objective as anything in owner.objectives)
+			var/completed = existing_objective.check_completion()
+			if(completed)
+				continue
+			data["objectives"] += list(list("explanation" = existing_objective.explanation_text))
+			objective_unfinished = TRUE
+		objectives_completed = !objective_unfinished
+		data["all_completed"] = objectives_completed
 	return data
 
 /obj/item/hunting_contract/ui_act(action, params)
@@ -66,15 +68,17 @@
 		if("select")
 			if(isnull(params["item"]))
 				return
-			var/item = text2path(params["item"])
+			var/datum/hunter_weapons/item = text2path(params["item"])
+			if(!ispath(item))
+				return
 			selected_item = item
 			. = TRUE
 			purchase(selected_item, usr)
 		if("claim_reward")
-			if(used_up)
+			if(!objectives_completed || length(owner.rabbits) || used_up)
 				return
 			if(!is_station_level(loc.z))
-				to_chat(usr,span_warning("The pull of the ice moon isn't strong enough here...."))
+				to_chat(usr, span_warning("The pull of the ice moon isn't strong enough here...."))
 				return
 			SEND_SIGNAL(owner, COMSIG_BEASTIFY)
 			used_up = TRUE

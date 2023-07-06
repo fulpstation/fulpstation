@@ -5,16 +5,6 @@
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_name = "obsessed"
 	preview_outfit = /datum/outfit/monsterhunter
-	var/list/datum/action/powers = list()
-	var/give_objectives = TRUE
-	///how many rabbits have we found
-	var/rabbits_spotted = 0
-	///the list of white rabbits
-	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
-	///the red card tied to this trauma if any
-	var/obj/item/rabbit_locator/locator
-	///have we triggered the apocalypse
-	var/apocalypse = FALSE
 	tip_theme = "spookyconsole"
 	antag_tips = list(
 		"You are the Monster Hunter, hired to rid this station of several troublesome creatures.",
@@ -24,8 +14,17 @@
 		"You can upgrade your weapon in Wonderland by placing it on the weapon forge table and using a rabbit's eye on the table!",
 		"Only when all the rabbits are found and the monsters are terminated can we unleash the apocalypse."
 	)
+
+	///how many rabbits have we found
+	var/rabbits_spotted = 0
+	///the list of white rabbits
+	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
+	///the red card tied to this trauma if any
+	var/obj/item/rabbit_locator/locator
 	///a list of our prey
 	var/list/datum/mind/prey = list()
+	///have we triggered the apocalypse
+	var/apocalypse = FALSE
 
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -41,8 +40,7 @@
 
 /datum/antagonist/monsterhunter/on_gain()
 	//Give Hunter Objective
-	if(give_objectives)
-		find_monster_targets()
+	find_monster_targets()
 	var/datum/map_template/wonderland/wonder = new()
 	if(!wonder.load_new_z())
 		message_admins("The wonderland failed to load.")
@@ -53,7 +51,7 @@
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
-	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
+	var/list/slots = list("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
 	if(!criminal.equip_in_one_of_slots(card, slots))
 		var/obj/item/rabbit_locator/droppod_card = new()
 		grant_drop_ability(droppod_card)
@@ -63,7 +61,7 @@
 		grant_drop_ability(droppod_contract)
 	RegisterSignal(src, COMSIG_GAIN_INSIGHT, PROC_REF(insight_gained))
 	RegisterSignal(src, COMSIG_BEASTIFY, PROC_REF(turn_beast))
-	for(var/i in 1 to 5 )
+	for(var/i in 1 to 5)
 		var/turf/rabbit_hole = get_safe_random_station_turf()
 		var/obj/effect/client_image_holder/white_rabbit/cretin =  new(rabbit_hole, owner.current)
 		cretin.hunter = src
@@ -72,7 +70,6 @@
 	gun_holder.drop_gun = TRUE
 	var/datum/action/cooldown/spell/track_monster/track = new
 	track.Grant(owner.current)
-
 	return ..()
 
 /datum/antagonist/monsterhunter/proc/grant_drop_ability(obj/item/tool)
@@ -85,7 +82,6 @@
 		contract.owner = src
 	summon_contract.Grant(owner.current)
 
-
 /datum/antagonist/monsterhunter/on_removal()
 	UnregisterSignal(src, COMSIG_GAIN_INSIGHT)
 	UnregisterSignal(src, COMSIG_BEASTIFY)
@@ -95,15 +91,8 @@
 	if(locator)
 		locator.hunter = null
 	locator = null
-	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
+	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer \a [name]."))
 	return ..()
-
-
-/datum/antagonist/monsterhunter/on_body_transfer(mob/living/old_body, mob/living/new_body)
-	. = ..()
-	for(var/datum/action/all_powers as anything in powers)
-		all_powers.Remove(old_body)
-		all_powers.Grant(new_body)
 
 /datum/antagonist/monsterhunter/get_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/hunter = new
@@ -175,7 +164,7 @@
 	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
 	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))
 	to_chat(owner.current, span_announce("In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection."))
-	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg', 75, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
 /datum/antagonist/monsterhunter/proc/insight_gained()
@@ -307,7 +296,7 @@
 		"target" = get_turf(owner),
 		"style" = STYLE_SYNDICATE,
 		"spawn" = item_path,
-		))
+	))
 	qdel(src)
 	return TRUE
 
