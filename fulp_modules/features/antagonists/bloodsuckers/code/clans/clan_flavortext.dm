@@ -5,8 +5,13 @@
 		Full Moons do not seem to have an effect, despite common-told stories. \n\
 		The Favorite Vassal turns into a Werewolf whenever their Master does."
 	joinable_clan = FALSE
-	frenzy_stun_immune = TRUE
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
+
+/datum/bloodsucker_clan/gangrel/on_enter_frenzy(datum/antagonist/bloodsucker/source)
+	ADD_TRAIT(bloodsuckerdatum.owner.current, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
+
+/datum/bloodsucker_clan/gangrel/on_exit_frenzy(datum/antagonist/bloodsucker/source)
+	REMOVE_TRAIT(bloodsuckerdatum.owner.current, TRAIT_STUNIMMUNE, FRENZY_TRAIT)
 
 /datum/bloodsucker_clan/gangrel/handle_clan_life(datum/antagonist/bloodsucker/source)
 	. = ..()
