@@ -8,12 +8,12 @@
  * Teleports them to their Coffin after a delay.
  * Makes them drop everything if someone witnesses the act.
  */
-/datum/action/bloodsucker/gohome
+/datum/action/cooldown/bloodsucker/gohome
 	name = "Vanishing Act"
 	desc = "As dawn aproaches, disperse into mist and return directly to your Lair.<br><b>WARNING:</b> You will drop <b>ALL</b> of your possessions if observed by mortals."
 	button_icon_state = "power_gohome"
-	background_icon_state_on = "vamp_power_off_oneshot"
-	background_icon_state_off = "vamp_power_off_oneshot"
+	active_background_icon_state = "vamp_power_off_oneshot"
+	base_background_icon_state = "vamp_power_off_oneshot"
 	power_explanation = "Vanishing Act: \n\
 		Activating Vanishing Act will, after a short delay, teleport the user to their Claimed Coffin. \n\
 		The power will cancel out if the Claimed Coffin is somehow destroyed. \n\
@@ -24,16 +24,16 @@
 	purchase_flags = NONE
 	bloodcost = 100
 	constant_bloodcost = 2
-	cooldown = 100 SECONDS
+	cooldown_time = 100 SECONDS
 	///What stage of the teleportation are we in
 	var/teleporting_stage = GOHOME_START
 	///The types of mobs that will drop post-teleportation.
 	var/static/list/spawning_mobs = list(
 		/mob/living/basic/mouse = 3,
-		/mob/living/simple_animal/hostile/retaliate/bat = 1,
+		/mob/living/basic/bat = 1,
 	)
 
-/datum/action/bloodsucker/gohome/CheckCanUse(mob/living/carbon/user, trigger_flags)
+/datum/action/cooldown/bloodsucker/gohome/can_use(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -43,15 +43,13 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/gohome/ActivatePower(trigger_flags)
+/datum/action/cooldown/bloodsucker/gohome/ActivatePower(trigger_flags)
 	. = ..()
 	owner.balloon_alert(owner, "preparing to teleport...")
 
-/datum/action/bloodsucker/gohome/process(delta_time)
+/datum/action/cooldown/bloodsucker/gohome/process(seconds_per_tick)
 	. = ..()
 	if(!.)
-		return FALSE
-	if(!bloodsuckerdatum_power.coffin)
 		return FALSE
 
 	switch(teleporting_stage)
@@ -65,7 +63,7 @@
 			INVOKE_ASYNC(src, PROC_REF(teleport_to_coffin), owner)
 	teleporting_stage++
 
-/datum/action/bloodsucker/gohome/ContinueActive(mob/living/user, mob/living/target)
+/datum/action/cooldown/bloodsucker/gohome/ContinueActive(mob/living/user, mob/living/target)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -77,12 +75,12 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
+/datum/action/cooldown/bloodsucker/gohome/proc/flicker_lights(flicker_range, beat_volume)
 	for(var/obj/machinery/light/nearby_lights in view(flicker_range, get_turf(owner)))
 		nearby_lights.flicker(5)
 	playsound(get_turf(owner), 'sound/effects/singlebeat.ogg', beat_volume, 1)
 
-/datum/action/bloodsucker/gohome/proc/teleport_to_coffin(mob/living/carbon/user)
+/datum/action/cooldown/bloodsucker/gohome/proc/teleport_to_coffin(mob/living/carbon/user)
 	var/drop_item = FALSE
 	var/turf/current_turf = get_turf(owner)
 	// If we aren't in the dark, anyone watching us will cause us to drop out stuff
@@ -120,13 +118,9 @@
 	/// TELEPORT: Move to Coffin & Close it!
 	user.set_resting(TRUE, TRUE, FALSE)
 	do_teleport(owner, bloodsuckerdatum_power.coffin, no_effects = TRUE, forced = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
-	user.Stun(3 SECONDS, TRUE)
-
-	// Puts me inside.
-	if(!bloodsuckerdatum_power.coffin.insert(owner))
-		// CLOSE LID: If fail, force me in.
-		bloodsuckerdatum_power.coffin.close(owner)
-		playsound(bloodsuckerdatum_power.coffin.loc, bloodsuckerdatum_power.coffin.close_sound, 15, 1, -3)
+	bloodsuckerdatum_power.coffin.close(owner)
+	bloodsuckerdatum_power.coffin.take_contents()
+	playsound(bloodsuckerdatum_power.coffin.loc, bloodsuckerdatum_power.coffin.close_sound, 15, 1, -3)
 
 	DeactivatePower()
 

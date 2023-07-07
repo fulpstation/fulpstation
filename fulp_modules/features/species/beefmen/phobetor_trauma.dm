@@ -19,7 +19,7 @@
 	for(var/obj/effect/client_image_holder/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
 
-/datum/brain_trauma/special/bluespace_prophet/phobetor/on_life(delta_time, times_fired)
+/datum/brain_trauma/special/bluespace_prophet/phobetor/on_life(seconds_per_tick, times_fired)
 	if(!COOLDOWN_FINISHED(src, portal_cooldown))
 		return
 	COOLDOWN_START(src, portal_cooldown, 10 SECONDS)

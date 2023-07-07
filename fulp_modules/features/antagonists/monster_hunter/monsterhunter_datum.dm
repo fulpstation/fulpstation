@@ -1,8 +1,3 @@
-#define HUNTER_SCAN_MIN_DISTANCE 8
-#define HUNTER_SCAN_MAX_DISTANCE 15
-/// 5s update time
-#define HUNTER_SCAN_PING_TIME 20
-
 /datum/antagonist/monsterhunter
 	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
@@ -10,14 +5,6 @@
 	job_rank = ROLE_MONSTERHUNTER
 	antag_hud_name = "obsessed"
 	preview_outfit = /datum/outfit/monsterhunter
-	var/list/datum/action/powers = list()
-	var/give_objectives = TRUE
-	///how many rabbits have we found
-	var/rabbits_spotted = 0
-	///the list of white rabbits
-	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
-	///the red card tied to this trauma if any
-	var/obj/item/rabbit_locator/locator
 	tip_theme = "spookyconsole"
 	antag_tips = list(
 		"You are the Monster Hunter, hired to rid this station of several troublesome creatures.",
@@ -28,24 +15,32 @@
 		"Only when all the rabbits are found and the monsters are terminated can we unleash the apocalypse."
 	)
 
+	///how many rabbits have we found
+	var/rabbits_spotted = 0
+	///the list of white rabbits
+	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
+	///the red card tied to this trauma if any
+	var/obj/item/rabbit_locator/locator
+	///a list of our prey
+	var/list/datum/mind/prey = list()
+	///have we triggered the apocalypse
+	var/apocalypse = FALSE
+
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	ADD_TRAIT(current_mob, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(current_mob, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
+	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
 	owner.unconvertable = TRUE
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	REMOVE_TRAIT(current_mob, TRAIT_NOSOFTCRIT, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(current_mob, TRAIT_NOCRITDAMAGE, BLOODSUCKER_TRAIT)
+	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
 	owner.unconvertable = FALSE
 
 /datum/antagonist/monsterhunter/on_gain()
 	//Give Hunter Objective
-	if(give_objectives)
-		find_monster_targets()
+	find_monster_targets()
 	var/datum/map_template/wonderland/wonder = new()
 	if(!wonder.load_new_z())
 		message_admins("The wonderland failed to load.")
@@ -56,25 +51,36 @@
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
-	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
-	criminal.equip_in_one_of_slots(card, slots, qdel_on_fail = FALSE)
+	var/list/slots = list("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
+	if(!criminal.equip_in_one_of_slots(card, slots))
+		var/obj/item/rabbit_locator/droppod_card = new()
+		grant_drop_ability(droppod_card)
 	var/obj/item/hunting_contract/contract = new(get_turf(criminal), src)
-	criminal.equip_in_one_of_slots(contract, slots, qdel_on_fail = FALSE)
+	if(!criminal.equip_in_one_of_slots(contract, slots))
+		var/obj/item/hunting_contract/droppod_contract = new()
+		grant_drop_ability(droppod_contract)
 	RegisterSignal(src, COMSIG_GAIN_INSIGHT, PROC_REF(insight_gained))
 	RegisterSignal(src, COMSIG_BEASTIFY, PROC_REF(turn_beast))
-	for(var/i in 1 to 5 )
+	for(var/i in 1 to 5)
 		var/turf/rabbit_hole = get_safe_random_station_turf()
 		var/obj/effect/client_image_holder/white_rabbit/cretin =  new(rabbit_hole, owner.current)
 		cretin.hunter = src
 		rabbits += cretin
-	var/obj/effect/client_image_holder/white_rabbit/mask_holder = pick(rabbits)
 	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(rabbits)
-	mask_holder.drop_mask = TRUE
 	gun_holder.drop_gun = TRUE
-
+	var/datum/action/cooldown/spell/track_monster/track = new
+	track.Grant(owner.current)
 	return ..()
 
-
+/datum/antagonist/monsterhunter/proc/grant_drop_ability(obj/item/tool)
+	var/datum/action/droppod_item/summon_contract = new(tool)
+	if(istype(tool, /obj/item/rabbit_locator))
+		var/obj/item/rabbit_locator/locator = tool
+		locator.hunter = src
+	if(istype(tool, /obj/item/hunting_contract))
+		var/obj/item/hunting_contract/contract = tool
+		contract.owner = src
+	summon_contract.Grant(owner.current)
 
 /datum/antagonist/monsterhunter/on_removal()
 	UnregisterSignal(src, COMSIG_GAIN_INSIGHT)
@@ -85,15 +91,8 @@
 	if(locator)
 		locator.hunter = null
 	locator = null
-	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
+	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer \a [name]."))
 	return ..()
-
-
-/datum/antagonist/monsterhunter/on_body_transfer(mob/living/old_body, mob/living/new_body)
-	. = ..()
-	for(var/datum/action/bloodsucker/all_powers as anything in powers)
-		all_powers.Remove(old_body)
-		all_powers.Grant(new_body)
 
 /datum/antagonist/monsterhunter/get_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/hunter = new
@@ -165,76 +164,47 @@
 	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
 	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))
 	to_chat(owner.current, span_announce("In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection."))
-	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg', 75, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
-
-//////////////////////////////////////////////////////////////////////////
-//			Monster Hunter Pinpointer
-//////////////////////////////////////////////////////////////////////////
-
-/// TAKEN FROM: /datum/action/changeling/pheromone_receptors    // pheromone_receptors.dm    for a version of tracking that Changelings have!
-/datum/status_effect/agent_pinpointer/hunter_edition
-	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
-	minimum_range = HUNTER_SCAN_MIN_DISTANCE
-	tick_interval = HUNTER_SCAN_PING_TIME
-	duration = 10 SECONDS
-	range_fuzz_factor = 5 //PINPOINTER_EXTRA_RANDOM_RANGE
-
-/atom/movable/screen/alert/status_effect/agent_pinpointer/hunter_edition
-	name = "Monster Tracking"
-	desc = "You always know where the hellspawn are."
-
-/datum/status_effect/agent_pinpointer/hunter_edition/scan_for_target()
-	var/turf/my_loc = get_turf(owner)
-
-	var/list/mob/living/carbon/monsters = list()
-	for(var/datum/antagonist/monster in GLOB.antagonists)
-		var/datum/mind/brain = monster.owner
-		if(brain == owner || !brain)
-			continue
-		if(IS_HERETIC(brain.current) || IS_BLOODSUCKER(brain.current) || IS_CULTIST(brain.current) || IS_WIZARD(brain.current))
-			monsters += brain
-		if(brain.has_antag_datum(/datum/antagonist/changeling))
-			monsters += brain
-		if(brain.has_antag_datum(/datum/antagonist/ashwalker))
-			monsters += brain
-
-	if(monsters.len)
-		/// Point at a 'random' monster, biasing heavily towards closer ones.
-		scan_target = pick_weight(monsters)
-		to_chat(owner, span_warning("You detect signs of monsters to the <b>[dir2text(get_dir(my_loc,get_turf(scan_target)))]!</b>"))
-	else
-		scan_target = null
-
-/datum/status_effect/agent_pinpointer/hunter_edition/Destroy()
-	if(scan_target)
-		to_chat(owner, span_notice("You've lost the trail."))
-	. = ..()
-
 
 /datum/antagonist/monsterhunter/proc/insight_gained()
 	SIGNAL_HANDLER
 
 	var/description
-	var/datum/objective/assassinate/obj
-	if(objectives.len)
-		obj = pick(objectives)
+	var/datum/objective/assassinate/hunter/obj
+	var/list/unchecked_objectives = list()
+	for(var/datum/objective/assassinate/hunter/goal in objectives)
+		if(!goal.discovered)
+			unchecked_objectives += goal
+	if(unchecked_objectives.len)
+		obj = pick(unchecked_objectives)
 	if(obj)
+		obj.uncover_target()
 		var/datum/antagonist/heretic/heretic_target = IS_HERETIC(obj.target.current)
 		if(heretic_target)
 			description = "your target [heretic_target.owner.current.real_name] follows the [heretic_target.heretic_path], dear hunter."
-
 		else
 			description = "O' hunter, your target [obj.target.current.real_name] bears these lethal abilities:  "
 			for(var/datum/action/ability in obj.target.current.actions)
 				if(!ability)
 					continue
-				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/bloodsucker))
+				if(!istype(ability, /datum/action/changeling) && !istype(ability, /datum/action/cooldown/bloodsucker))
 					continue
 				description += "[ability.name], "
 
 	rabbits_spotted++
 	to_chat(owner.current,span_notice("[description]"))
+
+/datum/objective/assassinate/hunter
+	///has our target been discovered?
+	var/discovered = FALSE
+
+/datum/objective/assassinate/hunter/proc/uncover_target()
+	if(discovered)
+		return
+	discovered = !discovered
+	src.update_explanation_text()
+	to_chat(owner.current, span_userdanger("You have identified a monster, your objective list has been updated!"))
 
 /datum/antagonist/monsterhunter/proc/find_monster_targets()
 	var/list/possible_targets = list()
@@ -251,22 +221,22 @@
 	for(var/i in 1 to 3) //we get 3 targets
 		if(!(possible_targets.len))
 			break
-		var/datum/objective/assassinate/kill_monster = new
+		var/datum/objective/assassinate/hunter/kill_monster = new
 		kill_monster.owner = owner
 		var/datum/mind/target = pick(possible_targets)
 		possible_targets -= target
 		kill_monster.target = target
-		kill_monster.update_explanation_text()
+		prey += target
+		kill_monster.explanation_text = "A monster target is aboard the station, identify and eliminate this threat."
 		objectives += kill_monster
 
 
 /datum/antagonist/monsterhunter/proc/turn_beast()
 	SIGNAL_HANDLER
 
+	apocalypse = TRUE
 	var/datum/round_event_control/wonderlandapocalypse/invasion = new
-	invasion.runEvent()
-
-
+	invasion.run_event()
 
 /obj/item/clothing/mask/monster_preview_mask
 	name = "Monster Preview Mask"
@@ -274,4 +244,133 @@
 	worn_icon_state = "monoclerabbit"
 
 
+/datum/antagonist/monsterhunter/roundend_report()
+	var/list/parts = list()
 
+	var/hunter_win = TRUE
+
+	parts += printplayer(owner)
+
+	if(length(objectives))
+		var/count = 1
+		for(var/datum/objective/objective as anything in objectives)
+			if(objective.check_completion())
+				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_greentext("Success!")]"
+			else
+				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_redtext("Fail.")]"
+				hunter_win = FALSE
+			count++
+
+	if(apocalypse)
+		parts += span_greentext(span_big("The apocalypse was unleashed upon the station!"))
+
+	else
+		if(hunter_win)
+			parts += span_greentext("The hunter has eliminated all their prey!")
+		else
+			parts += span_redtext("The hunter has not eliminated all their prey...")
+
+	return parts.Join("<br>")
+
+
+/datum/action/droppod_item
+	name = "Summon Monster Hunter tools"
+	desc = "Summon specific monster hunter tools that will aid us with our hunt."
+	button_icon = 'icons/obj/device.dmi'
+	button_icon_state = "beacon"
+	///path of item we are spawning
+	var/item_path
+
+/datum/action/droppod_item/New(obj/item/tool)
+	. = ..()
+	button_icon = tool.icon
+	button_icon_state = tool.icon_state
+	build_all_button_icons(UPDATE_BUTTON_ICON)
+	item_path = tool
+
+/datum/action/droppod_item/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return FALSE
+	podspawn(list(
+		"target" = get_turf(owner),
+		"style" = STYLE_SYNDICATE,
+		"spawn" = item_path,
+	))
+	qdel(src)
+	return TRUE
+
+
+/datum/action/cooldown/spell/track_monster
+	name = "Hunter Vision"
+	desc = "Detect monsters within vicinity"
+	button_icon_state = "blind"
+	cooldown_time = 5 SECONDS
+	spell_requirements = NONE
+
+/datum/action/cooldown/spell/track_monster/cast(mob/living/carbon/cast_on)
+	. = ..()
+	cast_on.AddComponent(/datum/component/echolocation/monsterhunter, echo_group = "hunter")
+	addtimer(CALLBACK(src, PROC_REF(remove_vision), cast_on), 3 SECONDS)
+
+/datum/action/cooldown/spell/track_monster/proc/remove_vision(mob/living/carbon/cast_on)
+	qdel(cast_on.GetComponent(/datum/component/echolocation))
+
+
+/datum/component/echolocation/monsterhunter
+
+/datum/component/echolocation/monsterhunter/echolocate() //code stolen from echolocation to make it ignore non-monster mobs
+	if(!COOLDOWN_FINISHED(src, cooldown_last))
+		return
+	COOLDOWN_START(src, cooldown_last, cooldown_time)
+	var/mob/living/echolocator = parent
+	var/datum/antagonist/monsterhunter/hunter = echolocator.mind.has_antag_datum(/datum/antagonist/monsterhunter)
+	var/real_echo_range = echo_range
+	if(HAS_TRAIT(echolocator, TRAIT_ECHOLOCATION_EXTRA_RANGE))
+		real_echo_range += 2
+	var/list/filtered = list()
+	var/list/seen = dview(real_echo_range, get_turf(echolocator.client?.eye || echolocator), invis_flags = echolocator.see_invisible)
+	for(var/atom/seen_atom as anything in seen)
+		if(!seen_atom.alpha)
+			continue
+		if(allowed_paths[seen_atom.type])
+			filtered += seen_atom
+	if(!length(filtered))
+		return
+	var/current_time = "[world.time]"
+	images[current_time] = list()
+	receivers[current_time] = list()
+	var/list/objectives_list = hunter.objectives
+	for(var/mob/living/viewer in filtered)
+		if(blocking_trait && HAS_TRAIT(viewer, blocking_trait))
+			continue
+		if(HAS_TRAIT_FROM(viewer, TRAIT_ECHOLOCATION_RECEIVER, echo_group))
+			receivers[current_time] += viewer
+		var/remove_from_vision = TRUE
+		for(var/datum/objective/assassinate/hunter/goal in objectives_list) //take them out if they are not our prey
+			if(goal.target == viewer.mind)
+				goal.uncover_target()
+				remove_from_vision = FALSE
+				break
+		if(remove_from_vision)
+			filtered -= viewer
+	for(var/atom/filtered_atom as anything in filtered)
+		show_image(saved_appearances["[filtered_atom.icon]-[filtered_atom.icon_state]"] || generate_appearance(filtered_atom), filtered_atom, current_time)
+	addtimer(CALLBACK(src, PROC_REF(fade_images), current_time), image_expiry_time)
+
+/datum/component/echolocation/monsterhunter/generate_appearance(atom/input)
+	var/mutable_appearance/copied_appearance = new /mutable_appearance()
+	copied_appearance.appearance = input
+	if(istype(input, /mob/living))
+		copied_appearance.cut_overlays()
+		copied_appearance.icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
+		copied_appearance.icon_state = "white_rabbit"
+	copied_appearance.color = black_white_matrix
+	copied_appearance.filters += outline_filter(size = 1, color = COLOR_WHITE)
+	if(!images_are_static)
+		copied_appearance.pixel_x = 0
+		copied_appearance.pixel_y = 0
+		copied_appearance.transform = matrix()
+	if(!iscarbon(input))
+		saved_appearances["[input.icon]-[input.icon_state]"] = copied_appearance
+	return copied_appearance

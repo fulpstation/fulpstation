@@ -10,22 +10,28 @@
 		lose your Masquerade ability, but gain the ability to Ventcrawl even while clothed."
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
 
-/datum/bloodsucker_clan/nosferatu/New(mob/living/carbon/user)
+/datum/bloodsucker_clan/nosferatu/New(datum/antagonist/bloodsucker/owner_datum)
 	. = ..()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	for(var/datum/action/bloodsucker/power in bloodsuckerdatum.powers)
-		if(istype(power, /datum/action/bloodsucker/masquerade) || istype(power, /datum/action/bloodsucker/veil))
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.powers)
+		if(istype(power, /datum/action/cooldown/bloodsucker/masquerade) || istype(power, /datum/action/cooldown/bloodsucker/veil))
 			bloodsuckerdatum.RemovePower(power)
-	if(!user.has_quirk(/datum/quirk/badback))
-		user.add_quirk(/datum/quirk/badback)
-	ADD_TRAIT(user, TRAIT_VENTCRAWLER_ALWAYS, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(user, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
+	if(!bloodsuckerdatum.owner.current.has_quirk(/datum/quirk/badback))
+		bloodsuckerdatum.owner.current.add_quirk(/datum/quirk/badback)
+	bloodsuckerdatum.owner.current.add_traits(list(TRAIT_VENTCRAWLER_ALWAYS, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
 
-/datum/bloodsucker_clan/nosferatu/handle_clan_life(atom/source, datum/antagonist/bloodsucker/bloodsuckerdatum)
+/datum/bloodsucker_clan/nosferatu/Destroy(force)
+	for(var/datum/action/cooldown/bloodsucker/power in bloodsuckerdatum.powers)
+		bloodsuckerdatum.RemovePower(power)
+	bloodsuckerdatum.give_starting_powers()
+	bloodsuckerdatum.owner.current.remove_quirk(/datum/quirk/badback)
+	bloodsuckerdatum.owner.current.remove_traits(list(TRAIT_VENTCRAWLER_ALWAYS, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
+	return ..()
+
+/datum/bloodsucker_clan/nosferatu/handle_clan_life(datum/antagonist/bloodsucker/source)
 	. = ..()
-	bloodsuckerdatum.owner.current.blood_volume = BLOOD_VOLUME_SURVIVE
+	if(!HAS_TRAIT(bloodsuckerdatum.owner.current, TRAIT_NOBLOOD))
+		bloodsuckerdatum.owner.current.blood_volume = BLOOD_VOLUME_SURVIVE
 
-/datum/bloodsucker_clan/nosferatu/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
-	ADD_TRAIT(vassaldatum.owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(vassaldatum.owner.current, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
+/datum/bloodsucker_clan/nosferatu/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+	vassaldatum.owner.current.add_traits(list(TRAIT_VENTCRAWLER_NUDE, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
 	to_chat(vassaldatum.owner.current, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))

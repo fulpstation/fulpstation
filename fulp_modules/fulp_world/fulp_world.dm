@@ -8,6 +8,14 @@
 	// Load Fulp species datums
 	make_fulp_datum_references_lists()
 
+	GLOB.special_roles += list(
+		ROLE_BLOODSUCKER = 0,
+		ROLE_VAMPIRICACCIDENT = 0,
+		ROLE_BLOODSUCKERBREAKOUT = 0,
+		ROLE_MONSTERHUNTER = 0,
+		ROLE_INFILTRATOR = 0,
+	)
+
 
 // DON'T CALL PARENT, we don't want to use TG's update_status here, only ours!
 /world/update_status()

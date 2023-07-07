@@ -41,9 +41,13 @@
 /mob/living/simple_animal/hostile/guardian/standard/timestop/Initialize(mapload, theme)
 	//Wizard Holoparasite theme, just to be more visibly stronger than regular ones
 	theme = GUARDIAN_THEME_MAGIC
+	return ..()
+
+/mob/living/simple_animal/hostile/guardian/standard/timestop/set_summoner(mob/living/to_who, different_person = FALSE)
 	. = ..()
 	var/datum/action/cooldown/spell/timestop/guardian/timestop_ability = new()
 	timestop_ability.Grant(src)
+	ADD_TRAIT(to_who, TRAIT_TIME_STOP_IMMUNE, REF(src))
 
 ///Guardian Timestop ability
 /datum/action/cooldown/spell/timestop/guardian
@@ -53,15 +57,3 @@
 	cooldown_time = 60 SECONDS
 	spell_requirements = NONE
 	invocation_type = INVOCATION_NONE
-
-/datum/action/cooldown/spell/timestop/guardian/Grant(mob/grant_to)
-	. = ..()
-	var/mob/living/simple_animal/hostile/guardian/standard/timestop/bloodsucker_guardian = owner
-	if(bloodsucker_guardian && istype(bloodsucker_guardian) && bloodsucker_guardian.summoner)
-		ADD_TRAIT(bloodsucker_guardian.summoner, TRAIT_TIME_STOP_IMMUNE, REF(src))
-
-/datum/action/cooldown/spell/timestop/guardian/Remove(mob/remove_from)
-	var/mob/living/simple_animal/hostile/guardian/standard/timestop/bloodsucker_guardian = owner
-	if(bloodsucker_guardian && istype(bloodsucker_guardian) && bloodsucker_guardian.summoner)
-		REMOVE_TRAIT(bloodsucker_guardian.summoner, TRAIT_TIME_STOP_IMMUNE, REF(src))
-	return ..()

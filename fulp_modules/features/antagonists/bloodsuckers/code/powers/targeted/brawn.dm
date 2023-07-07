@@ -1,4 +1,4 @@
-/datum/action/bloodsucker/targeted/brawn
+/datum/action/cooldown/bloodsucker/targeted/brawn
 	name = "Brawn"
 	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
 	button_icon_state = "power_strength"
@@ -12,29 +12,25 @@
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 8
-	cooldown = 9 SECONDS
+	cooldown_time = 9 SECONDS
 	target_range = 1
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanUse(mob/living/carbon/user, trigger_flags)
-	. = ..()
-	if(!.) // Default checks
-		return FALSE
-
+/datum/action/cooldown/bloodsucker/targeted/brawn/ActivatePower(trigger_flags)
 	// Did we break out of our handcuffs?
-	if(CheckBreakRestraints())
-		PowerActivatedSuccessfully()
+	if(break_restraints())
+		power_activated_sucessfully()
 		return FALSE
 	// Did we knock a grabber down? We can only do this while not also breaking restraints if strong enough.
-	if(level_current >= 3 && CheckEscapePuller())
-		PowerActivatedSuccessfully()
+	if(level_current >= 3 && escape_puller())
+		power_activated_sucessfully()
 		return FALSE
 	// Did neither, now we can PUNCH.
-	return TRUE
+	return ..()
 
 // Look at 'biodegrade.dm' for reference
-/datum/action/bloodsucker/targeted/brawn/proc/CheckBreakRestraints()
+/datum/action/cooldown/bloodsucker/targeted/brawn/proc/break_restraints()
 	var/mob/living/carbon/human/user = owner
 	///Only one form of shackles removed per use
 	var/used = FALSE
@@ -45,8 +41,8 @@
 		if(!istype(closet))
 			return FALSE
 		closet.visible_message(
-			span_warning("closet] tears apart as [user] bashes it open from within!"),
-			span_warning("closet] tears apart as you bash it open from within!"),
+			span_warning("[closet] tears apart as [user] bashes it open from within!"),
+			span_warning("[closet] tears apart as you bash it open from within!"),
 		)
 		to_chat(user, span_warning("We bash [closet] wide open!"))
 		addtimer(CALLBACK(src, PROC_REF(break_closet), user, closet), 1)
@@ -81,14 +77,14 @@
 	return used
 
 // This is its own proc because its done twice, to repeat code copypaste.
-/datum/action/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/closet)
+/datum/action/cooldown/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/closet)
 	if(closet)
 		closet.welded = FALSE
 		closet.locked = FALSE
 		closet.broken = TRUE
 		closet.open()
 
-/datum/action/bloodsucker/targeted/brawn/proc/CheckEscapePuller()
+/datum/action/cooldown/bloodsucker/targeted/brawn/proc/escape_puller()
 	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
 		return FALSE
 	var/mob/pulled_mob = owner.pulledby
@@ -112,7 +108,7 @@
 	owner.pulledby = null // It's already done, but JUST IN CASE.
 	return TRUE
 
-/datum/action/bloodsucker/targeted/brawn/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/brawn/FireTargetedPower(atom/target_atom)
 	. = ..()
 	var/mob/living/user = owner
 	// Target Type: Mob
@@ -153,11 +149,11 @@
 			return FALSE
 		target_closet.visible_message(span_danger("[target_closet] breaks open as [user] bashes it!"))
 		addtimer(CALLBACK(src, PROC_REF(break_closet), user, target_closet), 1)
-		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, TRUE, -1)
 	// Target Type: Door
 	else if(istype(target_atom, /obj/machinery/door) && level_current >= 4)
 		var/obj/machinery/door/target_airlock = target_atom
-		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, 1, -1)
+		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, TRUE, -1)
 		owner.balloon_alert(owner, "you prepare to tear open [target_airlock]...")
 		if(!do_after(user, 2.5 SECONDS, target_airlock))
 			user.balloon_alert(user, "interrupted!")
@@ -169,13 +165,13 @@
 			playsound(get_turf(target_airlock), 'sound/effects/bang.ogg', 30, 1, -1)
 			target_airlock.open(2) // open(2) is like a crowbar or jaws of life.
 
-/datum/action/bloodsucker/targeted/brawn/CheckValidTarget(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/brawn/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	return isliving(target_atom) || istype(target_atom, /obj/machinery/door) || istype(target_atom, /obj/structure/closet)
 
-/datum/action/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom)
 	// DEFAULT CHECKS (Distance)
 	. = ..()
 	if(!.) // Disable range notice for Brawn.

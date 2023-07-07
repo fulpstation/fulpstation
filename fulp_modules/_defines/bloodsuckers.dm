@@ -1,5 +1,11 @@
+///Uncomment this to enable testing of Bloodsucker features (such as vassalizing people with a mind instead of a client).
+//#define BLOODSUCKER_TESTING
+
+/// You have special interactions with Bloodsuckers
+#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
+
 /**
- * Bloodsucker defines
+ * Blood-level defines
  */
 /// Determines Bloodsucker regeneration rate
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
@@ -11,31 +17,16 @@
 #define FRENZY_THRESHOLD_ENTER 25
 /// Once blood is this high, will exit Frenzy
 #define FRENZY_THRESHOLD_EXIT 250
-/// You have special interactions with Bloodsuckers
-#define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
 
-///Drinks blood the normal Bloodsucker way.
-#define BLOODSUCKER_DRINK_NORMAL "bloodsucker_drink_normal"
-///Drinks blood but is snobby, refusing to drink from mindless
-#define BLOODSUCKER_DRINK_SNOBBY "bloodsucker_drink_snobby"
-///Drinks blood from disgusting creatures without Humanity consequences.
-#define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
-
-#define BLOODSUCKER_RANK_UP_NORMAL "bloodsucker_rank_up_normal"
-#define BLOODSUCKER_RANK_UP_VASSAL "bloodsucker_rank_up_vassal"
-
+/**
+ * Vassal defines
+ */
 ///If someone passes all checks and can be vassalized
-#define VASSALIZATION_ALLOWED "allowed"
+#define VASSALIZATION_ALLOWED 0
 ///If someone has to accept vassalization
-#define VASSALIZATION_DISLOYAL "disloyal"
+#define VASSALIZATION_DISLOYAL 1
 ///If someone is not allowed under any circimstances to become a Vassal
-#define VASSALIZATION_BANNED "banned"
-
-#define DANGER_LEVEL_FIRST_WARNING 1
-#define DANGER_LEVEL_SECOND_WARNING 2
-#define DANGER_LEVEL_THIRD_WARNING 3
-#define DANGER_LEVEL_SOL_ROSE 4
-#define DANGER_LEVEL_SOL_ENDED 5
+#define VASSALIZATION_BANNED 2
 
 /**
  * Cooldown defines
@@ -43,6 +34,9 @@
  */
 ///Spam prevention for healing messages.
 #define BLOODSUCKER_SPAM_HEALING (15 SECONDS)
+///Span prevention for Sol Masquerade messages.
+#define BLOODSUCKER_SPAM_MASQUERADE (60 SECONDS)
+
 ///Span prevention for Sol messages.
 #define BLOODSUCKER_SPAM_SOL (30 SECONDS)
 
@@ -96,30 +90,31 @@
 #define BP_AM_COSTLESS_UNCONSCIOUS (1<<3)
 
 /**
- * Signals
+ * Bloodsucker Signals
  */
 ///Called when a Bloodsucker ranks up: (datum/bloodsucker_datum, mob/owner, mob/target)
 #define BLOODSUCKER_RANK_UP "bloodsucker_rank_up"
-
-///Called when a Bloodsucker attempts to make a Vassal into their Favorite.
-#define BLOODSUCKER_PRE_MAKE_FAVORITE "bloodsucker_pre_make_favorite"
+///Called when a Bloodsucker interacts with a Vassal on their persuasion rack.
+#define BLOODSUCKER_INTERACT_WITH_VASSAL "bloodsucker_interact_with_vassal"
 ///Called when a Bloodsucker makes a Vassal into their Favorite Vassal: (datum/vassal_datum, mob/master)
 #define BLOODSUCKER_MAKE_FAVORITE "bloodsucker_make_favorite"
 ///Called when a new Vassal is successfully made: (datum/bloodsucker_datum)
 #define BLOODSUCKER_MADE_VASSAL "bloodsucker_made_vassal"
-
-///Called on Bloodsucker's LifeTick()
-#define BLOODSUCKER_HANDLE_LIFE "bloodsucker_handle_life"
 ///Called when a Bloodsucker exits Torpor.
 #define BLOODSUCKER_EXIT_TORPOR "bloodsucker_exit_torpor"
 ///Called when a Bloodsucker reaches Final Death.
 #define BLOODSUCKER_FINAL_DEATH "bloodsucker_final_death"
-
-///Whether the Bloodsucker should not be dusted when arriving Final Death
-#define DONT_DUST (1<<0)
+	///Whether the Bloodsucker should not be dusted when arriving Final Death
+	#define DONT_DUST (1<<0)
+///Called when a Bloodsucker breaks the Masquerade
+#define COMSIG_BLOODSUCKER_BROKE_MASQUERADE "comsig_bloodsucker_broke_masquerade"
+///Called when a Bloodsucker enters Frenzy
+#define BLOODSUCKER_ENTERS_FRENZY "bloodsucker_enters_frenzy"
+///Called when a Bloodsucker exits Frenzy
+#define BLOODSUCKER_EXITS_FRENZY "bloodsucker_exits_frenzy"
 
 /**
- * Sol signals
+ * Sol signals & Defines
  */
 #define COMSIG_SOL_RANKUP_BLOODSUCKERS "comsig_sol_rankup_bloodsuckers"
 #define COMSIG_SOL_RISE_TICK "comsig_sol_rise_tick"
@@ -127,3 +122,32 @@
 #define COMSIG_SOL_END "comsig_sol_end"
 ///Sent when a warning for Sol is meant to go out: (danger_level, vampire_warning_message, vassal_warning_message)
 #define COMSIG_SOL_WARNING_GIVEN "comsig_sol_warning_given"
+///Called on a Bloodsucker's Lifetick.
+#define COMSIG_BLOODSUCKER_ON_LIFETICK "comsig_bloodsucker_on_lifetick"
+
+#define DANGER_LEVEL_FIRST_WARNING 1
+#define DANGER_LEVEL_SECOND_WARNING 2
+#define DANGER_LEVEL_THIRD_WARNING 3
+#define DANGER_LEVEL_SOL_ROSE 4
+#define DANGER_LEVEL_SOL_ENDED 5
+
+/**
+ * Clan defines
+ *
+ * This is stuff that is used solely by Clans for clan-related activity.
+ */
+///Drinks blood the normal Bloodsucker way.
+#define BLOODSUCKER_DRINK_NORMAL "bloodsucker_drink_normal"
+///Drinks blood but is snobby, refusing to drink from mindless
+#define BLOODSUCKER_DRINK_SNOBBY "bloodsucker_drink_snobby"
+///Drinks blood from disgusting creatures without Humanity consequences.
+#define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
+
+/**
+ * Role defines
+ */
+#define ROLE_BLOODSUCKER "Bloodsucker"
+#define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
+#define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
+#define ROLE_MONSTERHUNTER "Monster Hunter"
+#define ROLE_INFILTRATOR "Infiltrator"

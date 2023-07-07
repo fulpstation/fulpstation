@@ -45,7 +45,7 @@
 	on_force = 20
 	base_force = 17
 	light_system = MOVABLE_LIGHT
-	light_color = "#ff42ec"
+	light_color = "#59b3c9"
 	light_range = 2
 	light_power = 2
 	light_on = FALSE
@@ -120,7 +120,7 @@
 	light_system = MOVABLE_LIGHT
 	light_range = 2
 	light_power = 1
-	light_color = "#ff42ec"
+	light_color = "#44acb1"
 	damage_type = BURN
 	hitsound = 'sound/weapons/sear.ogg'
 	hitsound_wall = 'sound/weapons/effects/searwall.ogg'
@@ -144,7 +144,6 @@
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 
-
 /obj/item/melee/trick_weapon/threaded_cane/Initialize(mapload)
 	. = ..()
 	force = base_force
@@ -153,18 +152,17 @@
 		throwforce_on = 10, \
 		throw_speed_on = throw_speed, \
 		sharpness_on = SHARP_EDGED, \
-		w_class_on = WEIGHT_CLASS_BULKY)
+		w_class_on = WEIGHT_CLASS_BULKY, \
+	)
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
 	RegisterSignal(src,WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
-
-
 
 /obj/item/melee/trick_weapon/threaded_cane/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
 	inhand_icon_state = active ? "chain" : "threaded_cane"
 	if(active)
-		playsound(src,'sound/magic/clockwork/fellowship_armory.ogg',50)
+		playsound(src, 'sound/magic/clockwork/fellowship_armory.ogg',50)
 	reach = active ? 2 : 1
 	enabled = active
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
@@ -290,7 +288,7 @@
 	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
 	if(!(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)))
 		return
-	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 20 SECONDS)
+	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 8 SECONDS)
 
 /obj/structure/rack/weaponsmith
 	name = "Weapon Forge"
@@ -354,6 +352,8 @@
 	if(!wonderland)
 		return
 	if(!(slot & ITEM_SLOT_MASK))
+		return
+	if(!IS_MONSTERHUNTER(user))
 		return
 	paradox.Grant(user)
 	wonderland.Grant(user)
@@ -436,9 +436,14 @@
 		return
 	if(!hunter.rabbits.len)
 		return
+	var/obj/effect/selected_bunny
 	for(var/obj/effect/located as anything in hunter.rabbits)
 		if(get_dist(user,located) < dist)
 			dist = get_dist(user,located)
+			selected_bunny = located
+	var/z_difference = abs(selected_bunny.z - user.z)
+	if(dist < 50 && z_difference != 0)
+		to_chat(user,span_warning("[z_difference] [z_difference == 1 ? "floor" : "floors"] [selected_bunny.z > user.z ? "above" : "below"]..."))
 	return dist
 
 /obj/item/rabbit_locator/Destroy()

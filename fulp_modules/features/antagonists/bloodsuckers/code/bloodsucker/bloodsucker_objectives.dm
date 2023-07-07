@@ -245,11 +245,10 @@
 	if(!bloodsuckerdatum)
 		return FALSE
 
-	for(var/mob/living/all_nosferatu as anything in GLOB.bloodsucker_clan_members[CLAN_NOSFERATU])
-		var/list/all_items = all_nosferatu.get_all_contents()
-		for(var/obj/items as anything in all_items)
-			if(istype(items, /obj/item/book/kindred))
-				return TRUE
+	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		var/obj/item/book/kindred/the_book = locate() in bloodsucker_minds.current.get_all_contents()
+		if(the_book)
+			return TRUE
 	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -265,7 +264,7 @@
 // WIN CONDITIONS?
 /datum/objective/bloodsucker/tremere_power/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	for(var/datum/action/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
+	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
 		if(tremere_powers.level_current >= 5)
 			return TRUE
 	return FALSE

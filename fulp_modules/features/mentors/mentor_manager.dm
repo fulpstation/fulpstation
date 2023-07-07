@@ -45,6 +45,8 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 		to_chat(usr, "Failed to find a request ID in your action, please report this", confidential = TRUE)
 		CRASH("Received an action without a request ID, this shouldn't happen!")
 	var/datum/request/request = !id ? null : requests_by_id[id]
+	if(isnull(request))
+		return
 
 	switch(action)
 		if ("reply")

@@ -1,6 +1,3 @@
-///How much it costs for a Ventrue to rank up without a spare rank to spend.
-#define BLOODSUCKER_BLOOD_RANKUP_COST (550)
-
 /obj/structure/bloodsucker
 	///Who owns this structure?
 	var/mob/living/owner
@@ -81,8 +78,8 @@
 		balloon_alert(user, "unbolt [src]?")
 		var/static/list/unclaim_options = list(
 			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no")
-			)
+			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
+		)
 		var/unclaim_response = show_radial_menu(user, src, unclaim_options, radius = 36, require_near = TRUE)
 		switch(unclaim_response)
 			if("Yes")
@@ -254,9 +251,9 @@
 		return
 
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(buckled_carbons)
-	// Are they our Vassal, or Dead?
+	// Are they our Vassal?
 	if(vassaldatum && (vassaldatum in bloodsuckerdatum.vassals))
-		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_PRE_MAKE_FAVORITE, bloodsuckerdatum, vassaldatum)
+		SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_INTERACT_WITH_VASSAL, vassaldatum)
 		return
 
 	// Not our Vassal, but Alive & We're a Bloodsucker, good to torture!
@@ -275,20 +272,19 @@
 		var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 		if(!vassaldatum.master.broke_masquerade)
 			balloon_alert(user, "someone else's vassal!")
-			return
+			return FALSE
 
 	var/disloyalty_requires = RequireDisloyalty(user, target)
 	if(disloyalty_requires == VASSALIZATION_BANNED)
 		balloon_alert(user, "can't be vassalized!")
-		return
+		return FALSE
 
 	// Conversion Process
 	if(convert_progress)
 		balloon_alert(user, "spilling blood...")
 		bloodsuckerdatum.AddBloodVolume(-TORTURE_BLOOD_HALF_COST)
 		if(!do_torture(user, target))
-			balloon_alert(user, "interrupted!")
-			return
+			return FALSE
 		bloodsuckerdatum.AddBloodVolume(-TORTURE_BLOOD_HALF_COST)
 		// Prevent them from unbuckling themselves as long as we're torturing.
 		target.Paralyze(1 SECONDS)
@@ -299,84 +295,76 @@
 			balloon_alert(user, "needs more persuasion...")
 			return
 
-		if(disloyalty_requires == VASSALIZATION_DISLOYAL)
+		if(disloyalty_requires)
 			balloon_alert(user, "has external loyalties! more persuasion required!")
 		else
 			balloon_alert(user, "ready for communion!")
 		return
 
-	if(!disloyalty_confirm && (disloyalty_requires == VASSALIZATION_DISLOYAL))
+	if(!disloyalty_confirm && disloyalty_requires)
 		if(!do_disloyalty(user, target))
 			return
-		else if(!disloyalty_confirm)
+		if(!disloyalty_confirm)
 			balloon_alert(user, "refused persuasion!")
 		else
 			balloon_alert(user, "ready for communion!")
 		return
 
-	user.balloon_alert_to_viewers("smears blood...", "painting bloody marks...", )
+	user.balloon_alert_to_viewers("smears blood...", "painting bloody marks...")
 	if(!do_after(user, 5 SECONDS, target))
 		balloon_alert(user, "interrupted!")
 		return
-	/// Convert to Vassal!
+	// Convert to Vassal!
 	bloodsuckerdatum.AddBloodVolume(-TORTURE_CONVERSION_COST)
 	if(bloodsuckerdatum.make_vassal(target))
 		remove_loyalties(target)
-		SEND_SIGNAL(bloodsuckerdatum.my_clan, BLOODSUCKER_MADE_VASSAL, user, target)
+		SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_MADE_VASSAL, user, target)
 
 /obj/structure/bloodsucker/vassalrack/proc/do_torture(mob/living/user, mob/living/carbon/target, mult = 1)
-	/// Fifteen seconds if you aren't using anything. Shorter with weapons and such.
+	// Fifteen seconds if you aren't using anything. Shorter with weapons and such.
 	var/torture_time = 15
 	var/torture_dmg_brute = 2
 	var/torture_dmg_burn = 0
-	/// Get Bodypart
-	var/target_string = ""
-	var/obj/item/bodypart/selected_bodypart = null
-	selected_bodypart = pick(target.bodyparts)
-	if(selected_bodypart)
-		target_string += selected_bodypart.name
-	/// Get Weapon
-	var/obj/item/held_item = user.get_active_held_item()
-	if(!istype(held_item))
-		held_item = user.get_inactive_held_item()
+	var/obj/item/bodypart/selected_bodypart = pick(target.bodyparts)
+	// Get Weapon
+	var/obj/item/held_item = user.get_inactive_held_item()
 	/// Weapon Bonus
 	if(held_item)
 		torture_time -= held_item.force / 4
-		torture_dmg_brute += held_item.force / 4
-		//torture_dmg_burn += I.
-		if(held_item.sharpness == SHARP_EDGED)
-			torture_time -= 2
-		else if(held_item.sharpness == SHARP_POINTY)
-			torture_time -= 3
-		/// This will hurt your eyes.
-		else if(held_item.tool_behaviour == TOOL_WELDER)
-			if(held_item.use_tool(src, user, 0, volume = 5))
-				torture_time -= 6
-				torture_dmg_burn += 5
-		held_item.play_tool_sound(target)
-	/// Minimum 5 seconds.
-	torture_time = max(50, torture_time * 10)
-	/// Now run process.
-	if(!do_after(user, torture_time * mult, target))
+		if(!held_item.use_tool(src, user, 0, volume = 5))
+			return
+		switch(held_item.damtype)
+			if(BRUTE)
+				torture_dmg_brute = held_item.force / 4
+				torture_dmg_burn = 0
+			if(BURN)
+				torture_dmg_brute = 0
+				torture_dmg_burn = held_item.force / 4
+		switch(held_item.sharpness)
+			if(SHARP_EDGED)
+				torture_time -= 2
+			if(SHARP_POINTY)
+				torture_time -= 3
+
+	// Minimum 5 seconds.
+	torture_time = max(5 SECONDS, torture_time * 10)
+	// Now run process.
+	if(!do_after(user, (torture_time * mult), target))
 		return FALSE
-	/// Success?
+
 	if(held_item)
-		playsound(loc, held_item.hitsound, 30, 1, -1)
 		held_item.play_tool_sound(target)
 	target.visible_message(
-		span_danger("[user] performs a ritual, spilling some of [target]'s blood from their [target_string] and shaking them up!"),
-		span_userdanger("[user] performs a ritual, spilling some blood from your [target_string], shaking you up!"),
-	)
+		span_danger("[user] performs a ritual, spilling some of [target]'s blood from their [selected_bodypart.name] and shaking them up!"),
+		span_userdanger("[user] performs a ritual, spilling some blood from your [selected_bodypart.name], shaking you up!"))
+
 	INVOKE_ASYNC(target, TYPE_PROC_REF(/mob, emote), "scream")
 	target.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = (selected_bodypart ? selected_bodypart.body_zone : null)) // take_overall_damage(6,0)
+	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = selected_bodypart.body_zone)
 	return TRUE
 
 /// Offer them the oppertunity to join now.
 /obj/structure/bloodsucker/vassalrack/proc/do_disloyalty(mob/living/user, mob/living/target)
-	if(!target || !target.client)
-		balloon_alert(user, "target has no mind!")
-		return FALSE
 	if(disloyalty_offered)
 		return FALSE
 
@@ -395,14 +383,21 @@
 		if("Accept")
 			disloyalty_confirm = TRUE
 		else
-			to_chat(target, span_notice("You refuse to give in! You <i>will not</i> break!"))
+			target.balloon_alert_to_viewers("stares defiantly", "refused vassalization!")
 	disloyalty_offered = FALSE
-
 	return TRUE
 
 /obj/structure/bloodsucker/vassalrack/proc/RequireDisloyalty(mob/living/user, mob/living/target)
+#ifdef BLOODSUCKER_TESTING
+	if(!target || !target.mind)
+#else
+	if(!target || !target.client)
+#endif
+		balloon_alert(user, "target has no mind!")
+		return VASSALIZATION_BANNED
+
 	if(HAS_TRAIT(target, TRAIT_MINDSHIELD))
-		return TRUE
+		return VASSALIZATION_DISLOYAL
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	return bloodsuckerdatum.AmValidAntag(target)
 
@@ -443,16 +438,6 @@
 	icon_state = "candelabrum[lit ? "_lit" : ""]"
 	return ..()
 
-/obj/structure/bloodsucker/candelabrum/examine(mob/user)
-	. = ..()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum || !bloodsuckerdatum.my_clan)
-		return
-	if(bloodsuckerdatum.my_clan.rank_up_type == BLOODSUCKER_RANK_UP_VASSAL)
-		. += span_cult("As part of the Ventrue Clan, you can Rank Up your Favorite Vassal.\n\
-		Drag your Vassal's sprite onto the Candelabrum to secure them in place. From there, Clicking will Rank them up, while Right-click will unbuckle, as long as you are in reach.\n\
-		Ranking up a Vassal will rank up what powers you currently have, and will allow you to choose what Power your Favorite Vassal will recieve.")
-
 /obj/structure/bloodsucker/candelabrum/bolt()
 	. = ..()
 	set_anchored(TRUE)
@@ -463,16 +448,13 @@
 	set_anchored(FALSE)
 	density = FALSE
 
-/obj/structure/bloodsucker/candelabrum/attack_hand_secondary(mob/user, modifiers)
+/obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+	if(!.)
 		return
-
-	if(!has_buckled_mobs() || !isliving(user))
-		return
-	var/mob/living/carbon/target = pick(buckled_mobs)
-	if(target)
-		unbuckle_mob(target, user)
+	if(anchored && (IS_VASSAL(user) || IS_BLOODSUCKER(user)))
+		toggle()
+	return ..()
 
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
 	lit = !lit
@@ -495,102 +477,6 @@
 			continue
 		nearly_people.adjust_hallucinations(5 SECONDS)
 		nearly_people.add_mood_event("vampcandle", /datum/mood_event/vampcandle)
-
-/*
- *	# Candelabrum Ventrue Stuff
- *
- *	Ventrue Bloodsuckers can buckle Vassals onto the Candelabrum to "Upgrade" them.
- *	This is limited to a Single vassal, called 'My Favorite Vassal'.
- *
- *	Most of this is just copied over from Persuasion Rack.
- */
-/obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user, list/modifiers)
-	. = ..()
-	if(!.)
-		return
-	if(!anchored)
-		return
-
-	if(IS_VASSAL(user))
-		toggle()
-		return
-
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	// Checks: We're Ventrue, they're Buckled & Alive.
-	if(!bloodsuckerdatum || !bloodsuckerdatum.my_clan)
-		return ..()
-
-	if(!has_buckled_mobs())
-		toggle()
-		return
-
-	if(bloodsuckerdatum.my_clan.rank_up_type != BLOODSUCKER_RANK_UP_VASSAL)
-		return
-	var/mob/living/carbon/target = pick(buckled_mobs)
-	if(target.stat >= HARD_CRIT)
-		unbuckle_mob(target)
-		return
-	// Are we spending a Rank?
-	if(!bloodsuckerdatum.bloodsucker_level_unspent <= 0)
-		bloodsuckerdatum.SpendRank(target)
-	else if(bloodsuckerdatum.bloodsucker_blood_volume >= BLOODSUCKER_BLOOD_RANKUP_COST)
-		// We don't have any ranks to spare? Let them upgrade... with enough Blood.
-		to_chat(user, span_warning("Do you wish to spend [BLOODSUCKER_BLOOD_RANKUP_COST] Blood to Rank [target] up?"))
-		var/static/list/rank_options = list(
-			"Yes" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_yes"),
-			"No" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_no"),
-		)
-		var/rank_response = show_radial_menu(user, target, rank_options, radius = 36, require_near = TRUE)
-		switch(rank_response)
-			if("Yes")
-				bloodsuckerdatum.SpendRank(target, cost_rank = FALSE, blood_cost = BLOODSUCKER_BLOOD_RANKUP_COST)
-				return
-	else
-		// Neither? Shame. Goodbye!
-		to_chat(user, span_danger("You don't have any levels or enough Blood to Rank [target] up with."))
-
-/// Buckling someone in
-/obj/structure/bloodsucker/candelabrum/MouseDrop_T(mob/living/target, mob/user)
-	if(!anchored && IS_BLOODSUCKER(user))
-		to_chat(user, span_danger("Until the candelabrum is secured in place, it cannot serve its purpose."))
-		return
-	/// Default checks
-	if(!target.Adjacent(src) || target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || target.buckled)
-		return
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	var/datum/antagonist/vassal/favorite_vassaldatum = IS_FAVORITE_VASSAL(target)
-	/// Are you even a Bloodsucker?
-	if(!bloodsuckerdatum || !favorite_vassaldatum || !bloodsuckerdatum.my_clan)
-		return
-	/// Are you part of Ventrue? No? Then go away.
-	if(bloodsuckerdatum.my_clan.rank_up_type != BLOODSUCKER_RANK_UP_VASSAL)
-		return
-	/// They are a Favorite vassal, but are they OUR Vassal?
-	if(!favorite_vassaldatum.master == bloodsuckerdatum)
-		return
-
-	/// Good to go - Buckle them!
-	if(do_after(user, 5 SECONDS, target))
-		attach_mob(target, user)
-
-/obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/target, mob/living/user)
-	user.visible_message(
-		span_notice("[user] lifts and buckles [target] onto the candelabrum."),
-		span_boldnotice("You buckle [target] onto the candelabrum."),
-	)
-
-	playsound(src.loc, 'sound/effects/pop_expl.ogg', 25, 1)
-	target.forceMove(get_turf(src))
-
-	if(!buckle_mob(target))
-		return
-	update_icon()
-
-/// Attempt Unbuckle
-/obj/structure/bloodsucker/candelabrum/unbuckle_mob(mob/living/buckled_mob, force = FALSE, can_fall = TRUE)
-	. = ..()
-	src.visible_message(span_danger("[buckled_mob][buckled_mob.stat==DEAD?"'s corpse":""] slides off of the candelabrum."))
-	update_icon()
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
@@ -704,5 +590,3 @@
 		to_chat(dead_mob, "[link] [rendered]")
 
 	speech_args[SPEECH_MESSAGE] = ""
-
-#undef BLOODSUCKER_BLOOD_RANKUP_COST

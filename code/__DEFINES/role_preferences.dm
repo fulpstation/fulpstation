@@ -42,6 +42,7 @@
 #define ROLE_HERETIC_SMUGGLER "Heretic Smuggler"
 #define ROLE_PROVOCATEUR "Provocateur"
 #define ROLE_SYNDICATE_INFILTRATOR "Syndicate Infiltrator"
+#define ROLE_STOWAWAY_CHANGELING "Stowaway Changeling"
 
 // Other roles
 #define ROLE_SYNDICATE "Syndicate"
@@ -99,13 +100,6 @@
 #define ROLE_BATTLECRUISER_CAPTAIN "Battlecruiser Captain"
 #define ROLE_VENUSHUMANTRAP "Venus Human Trap"
 
-// Fulp edit START - Bloodsuckers
-#define ROLE_BLOODSUCKER "Bloodsucker"
-#define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
-#define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
-#define ROLE_MONSTERHUNTER "Monster Hunter"
-#define ROLE_INFILTRATOR "Infiltrator"
-// Fulp edit END
 
 /// This defines the antagonists you can operate with in the settings.
 /// Keys are the antagonist, values are the number of days since the player's
@@ -148,18 +142,11 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_HERETIC_SMUGGLER = 0,
 	ROLE_PROVOCATEUR = 14,
 	ROLE_SYNDICATE_INFILTRATOR = 0,
+	ROLE_STOWAWAY_CHANGELING = 0,
 
 	// I'm not too sure why these are here, but they're not moving.
 	ROLE_PAI = 0,
 	ROLE_SENTIENCE = 0,
-
-	// Fulp edit START - Bloodsuckers
-	ROLE_BLOODSUCKER = 0,
-	ROLE_VAMPIRICACCIDENT = 0,
-	ROLE_BLOODSUCKERBREAKOUT = 0,
-	ROLE_MONSTERHUNTER = 0,
-	ROLE_INFILTRATOR = 0,
-	// Fulp edit END
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

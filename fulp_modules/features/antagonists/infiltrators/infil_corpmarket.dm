@@ -120,7 +120,7 @@
 	///current category we viewing on the ui
 	var/datum/corp_category/viewing_category
 	/// What item is the current uplink attempting to buy?
-	var/selected_item
+	var/datum/infil_corpitem/selected_item
 	///are we currently buying somth
 	var/buying
 	///the market we's connected to
@@ -132,7 +132,6 @@
 	///the area we need to be in to connect to HQ
 	var/area/connecting_zone
 
-
 /obj/item/infil_uplink/proc/set_connecting_zone()
 	for(var/sanity in 1 to 100)
 		var/area/selected_area = pick(get_sorted_areas())
@@ -141,8 +140,6 @@
 		connecting_zone = selected_area
 		break
 
-
-
 /obj/item/infil_uplink/Initialize(mapload)
 	. = ..()
 	set_connecting_zone()
@@ -150,9 +147,7 @@
 	market = new /datum/infil_corpmarket
 	viewing_category = market.category[1]
 
-
 /obj/item/infil_uplink/ui_interact(mob/living/user, datum/tgui/ui)
-
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		add_overlay("uplink_on")
@@ -179,11 +174,11 @@
 	if(viewing_category)
 		for(var/datum/infil_corpitem/contraband in viewing_category.item)
 			data["items"] += list(list(
-			"id" = contraband.type,
-			"name" = contraband.name,
-			"desc" = contraband.desc,
-			"cost" = contraband.cost,
-				))
+				"id" = contraband.type,
+				"name" = contraband.name,
+				"desc" = contraband.desc,
+				"cost" = contraband.cost,
+			))
 	return data
 
 /obj/item/infil_uplink/ui_act(action, params)
@@ -205,7 +200,9 @@
 		if("select")
 			if(isnull(params["item"]))
 				return
-			var/item = text2path(params["item"])
+			var/datum/infil_corpitem/item = text2path(params["item"])
+			if(!ispath(item))
+				return
 			selected_item = item
 			buying = TRUE
 			. = TRUE

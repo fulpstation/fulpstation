@@ -1,5 +1,5 @@
 /// Used by Vassals
-/datum/action/bloodsucker/recuperate
+/datum/action/cooldown/bloodsucker/recuperate
 	name = "Sanguine Recuperation"
 	desc = "Slowly heals you overtime using your master's blood, in exchange for some of your own blood and effort."
 	button_icon_state = "power_recup"
@@ -12,9 +12,9 @@
 	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = NONE
 	bloodcost = 1.5
-	cooldown = 10 SECONDS
+	cooldown_time = 10 SECONDS
 
-/datum/action/bloodsucker/recuperate/CheckCanUse(mob/living/carbon/user, trigger_flags)
+/datum/action/cooldown/bloodsucker/recuperate/can_use(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return
@@ -24,16 +24,18 @@
 	return TRUE
 
 
-/datum/action/bloodsucker/recuperate/ActivatePower(trigger_flags)
+/datum/action/cooldown/bloodsucker/recuperate/ActivatePower(trigger_flags)
 	. = ..()
 	to_chat(owner, span_notice("Your muscles clench as your master's immortal blood mixes with your own, knitting your wounds."))
 	owner.balloon_alert(owner, "recuperate turned on.")
 
-/datum/action/bloodsucker/recuperate/process(delta_time)
+/datum/action/cooldown/bloodsucker/recuperate/process(seconds_per_tick)
 	. = ..()
 	if(!.)
 		return
 
+	if(!active)
+		return
 	var/mob/living/carbon/user = owner
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	vassaldatum.master.AddBloodVolume(-1)
@@ -42,7 +44,7 @@
 	user.adjustBruteLoss(-2.5)
 	user.adjustToxLoss(-2, forced = TRUE)
 	// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
-	if(!(TRAIT_NOBLOOD in user.dna.species.species_traits))
+	if(!HAS_TRAIT(user, TRAIT_NOBLOOD))
 		user.blood_volume -= bloodcost
 		user.adjustFireLoss(-1.5)
 	// Stop Bleeding
@@ -50,7 +52,7 @@
 		for(var/obj/item/bodypart/part in user.bodyparts)
 			part.generic_bleedstacks--
 
-/datum/action/bloodsucker/recuperate/ContinueActive(mob/living/user, mob/living/target)
+/datum/action/cooldown/bloodsucker/recuperate/ContinueActive(mob/living/user, mob/living/target)
 	if(user.stat >= DEAD)
 		return FALSE
 	if(user.incapacitated())
@@ -58,6 +60,6 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/recuperate/DeactivatePower()
+/datum/action/cooldown/bloodsucker/recuperate/DeactivatePower()
 	owner.balloon_alert(owner, "recuperate turned off.")
 	return ..()

@@ -234,19 +234,24 @@
 		return
 	var/mob/dead/observer/chosen_ghost
 	if(man.stat == DEAD)
-		chosen_ghost = man.grab_ghost(TRUE,TRUE)
+		chosen_ghost = man.grab_ghost()
 	if((!chosen_ghost && man.stat == DEAD) || considered_afk(man.mind))
 		var/list/mob/dead/observer/candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
 		if(LAZYLEN(candidates))
 			chosen_ghost = pick(candidates)
 	var/mob/living/simple_animal/hostile/gorilla/albino/ape = new(get_turf(man))
 	if(chosen_ghost)
-		ape.key = chosen_ghost.key
+		if(chosen_ghost.mind)
+			chosen_ghost.mind.transfer_to(ape,  force_key_move = TRUE)
+
+		else
+			ape.key = chosen_ghost.key
 	else
 		ape.key = man.key
 
 	man.gib()
-	ape.mind.enslave_mind_to_creator(user)
+	if(ape.mind)
+		ape.mind.enslave_mind_to_creator(user)
 	used = TRUE
 	var/datum/objective/gorillize/crime = locate() in criminal.objectives
 	if(!crime)
@@ -357,13 +362,11 @@
 		return
 	switch(action)
 		if("launch_missiles")
-			if(!disk)
-				return
-			if(used)
+			if(!disk || used)
 				return
 			used = TRUE
 			var/datum/round_event_control/missilegalore/missiles = new
-			missiles.runEvent()
+			missiles.run_event()
 			var/datum/antagonist/traitor/infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 			if(!terrorist)
 				return
@@ -371,8 +374,6 @@
 			if(!terrorism)
 				return
 			terrorism.completed = TRUE
-
-	return
 
 /obj/item/missilephone/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -523,14 +524,16 @@
 	antag_datum = /datum/antagonist/infiltrator_backup
 
 /obj/item/antag_spawner/nuke_ops/infiltrator_backup/attack_self(mob/user)
+	if(used)
+		return
 	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 	if(!criminal)
-		return
-	if(!do_after(user, 5 SECONDS))
 		return
 	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
 	var/list/infil_candidates = poll_ghost_candidates("Do you want to play as an infiltrator backup?", ROLE_INFILTRATOR, ROLE_INFILTRATOR, 150, POLL_IGNORE_SYNDICATE)
 	if(LAZYLEN(infil_candidates))
+		if(QDELETED(src) || used)
+			return
 		used = TRUE
 		var/mob/dead/observer/ghost = pick(infil_candidates)
 		spawn_antag(ghost.client, get_turf(src), "infiltrator", user.mind)

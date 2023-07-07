@@ -1,22 +1,24 @@
-/datum/action/bloodsucker/vassal_blood
+/datum/action/cooldown/bloodsucker/vassal_blood
 	name = "Help Vassal"
-	desc = "Bring an ex-Vassal back into the fold. RMB: Check Vassal status."
+	desc = "Bring an ex-Vassal back into the fold, or create blood using a bag. RMB: Check Vassal status."
 	button_icon_state = "power_torpor"
 	power_explanation = "Help Vassal:\n\
 		Use this power while you have an ex-Vassal grabbed to bring them back into the fold. \
+		Use this power with a bloodbag in your hand to instead fill it with Vampiric Blood which \
+		can be used to reset ex-vassal deconversion timers. \
 		Right-Click will show the status of all Vassals."
 	power_flags = NONE
 	check_flags = NONE
 	purchase_flags = NONE
 	bloodcost = 10
-	cooldown = 10 SECONDS
+	cooldown_time = 10 SECONDS
 
 	///Bloodbag we have in our hands.
 	var/obj/item/reagent_containers/blood/bloodbag
 	///Weakref to a target we're bringing into the fold.
 	var/datum/weakref/target_ref
 
-/datum/action/bloodsucker/vassal_blood/CheckCanUse(mob/living/carbon/user, trigger_flags)
+/datum/action/cooldown/bloodsucker/vassal_blood/can_use(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -49,7 +51,7 @@
 	bloodbag = blood_bag
 	return TRUE
 
-/datum/action/bloodsucker/vassal_blood/ActivatePower(trigger_flags)
+/datum/action/cooldown/bloodsucker/vassal_blood/ActivatePower(trigger_flags)
 	. = ..()
 	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/vassal/revenge)
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)

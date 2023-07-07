@@ -52,7 +52,8 @@
 	suffix = "helio"
 	name = "Helio Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
-	description = "For when you're not quite ready to say goodbye to your home station. May cause damage to smaller stations."
+	description = "For when you're not quite ready to say goodbye to your home station. Big shuttle with lots of space."
+	admin_notes = "Comes with an inmortal barmaid and bardrone."
 
 /**
  * LABOUR SHUTTLE

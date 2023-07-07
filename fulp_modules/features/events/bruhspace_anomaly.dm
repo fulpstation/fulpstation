@@ -2,6 +2,7 @@
 	name = "Bruhspace Anomaly"
 	typepath = /datum/round_event/bruh_moment
 	weight = 10
+	category = EVENT_CATEGORY_ANOMALIES
 	max_occurrences = 1
 
 /datum/round_event/bruh_moment

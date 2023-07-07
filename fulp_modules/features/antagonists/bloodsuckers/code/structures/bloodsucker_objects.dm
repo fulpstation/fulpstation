@@ -6,8 +6,8 @@
 
 /// Taken from drinks.dm
 /obj/item/reagent_containers/blood/attack(mob/living/victim, mob/living/attacker, params)
-	if(!reagents.total_volume)
-		return ..()
+	if(!can_drink(victim, attacker))
+		return
 
 	if(victim != attacker)
 		if(!do_after(victim, 5 SECONDS, attacker))
@@ -19,7 +19,7 @@
 		playsound(victim.loc, 'sound/items/drink.ogg', 30, 1)
 		return TRUE
 
-	while(do_after(victim, 1 SECONDS, timed_action_flags = IGNORE_USER_LOC_CHANGE))
+	while(do_after(victim, 1 SECONDS, timed_action_flags = IGNORE_USER_LOC_CHANGE, extra_checks = CALLBACK(src, PROC_REF(can_drink), attacker, victim)))
 		victim.visible_message(
 			span_notice("[victim] puts the [src] up to their mouth."),
 			span_notice("You take a sip from the [src]."),
@@ -30,6 +30,14 @@
 
 #undef BLOODBAG_GULP_SIZE
 
+/obj/item/reagent_containers/blood/proc/can_drink(mob/living/victim, mob/living/attacker)
+	if(!canconsume(victim, attacker))
+		return FALSE
+	if(!reagents || !reagents.total_volume)
+		to_chat(victim, span_warning("[src] is empty!"))
+		return FALSE
+	return TRUE
+
 ///Bloodbag of Bloodsucker blood (used by Vassals only)
 /obj/item/reagent_containers/blood/o_minus/bloodsucker
 	name = "blood pack"
@@ -39,30 +47,6 @@
 	. = ..()
 	if(user.mind.has_antag_datum(/datum/antagonist/ex_vassal) || user.mind.has_antag_datum(/datum/antagonist/vassal/revenge))
 		. += span_notice("Seems to be just about the same color as your Master's...")
-
-
-//////////////////////
-//      HEART       //
-//////////////////////
-
-/datum/antagonist/bloodsucker/proc/RemoveVampOrgans()
-	var/obj/item/organ/internal/heart/newheart = owner.current.get_organ_slot(ORGAN_SLOT_HEART)
-	if(newheart)
-		qdel(newheart)
-	newheart = new()
-	newheart.Insert(owner.current)
-
-///Vampire heart, fake beats when needed.
-/obj/item/organ/internal/heart/vampheart
-	beating = FALSE
-
-/obj/item/organ/internal/heart/vampheart/Restart()
-	. = ..()
-	beating = FALSE
-
-/obj/item/organ/internal/heart/vampheart/proc/fake_start_heart()
-	// faking it
-	beating = TRUE
 
 //////////////////////
 //      STAKES      //
@@ -240,19 +224,16 @@
 	throw_speed = 1
 	throw_range = 10
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	///Boolean on whether the book is currently being used, so you can only use it on one person at a time.
 	var/in_use = FALSE
 
 /obj/item/book/kindred/Initialize()
 	. = ..()
 	AddComponent(/datum/component/stationloving, FALSE, TRUE)
 
-// Overwriting attackby to prevent cutting the book out
-/obj/item/book/kindred/attackby(obj/item/item, mob/user, params)
-	// Copied from '/obj/item/book/attackby(obj/item/item, mob/user, params)'
-	if((istype(item, /obj/item/knife) || item.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
-		to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [starting_title]."))
-		return
-	return ..()
+/obj/item/book/kindred/try_carve(obj/item/carving_item, mob/living/user, params)
+	to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [starting_title]."))
+	return FALSE
 
 ///Attacking someone with the book.
 /obj/item/book/kindred/afterattack(mob/living/target, mob/living/user, flag, params)
@@ -285,20 +266,17 @@
 	else
 		to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Bloodsucker."))
 
-/obj/item/book/kindred/on_read(mob/living/user)
-	ui_interact(user)
-
-/obj/item/book/kindred/ui_interact(mob/living/user, datum/tgui/ui)
+/obj/item/book/kindred/attack_self(mob/living/user)
 	if(user.mind && !HAS_TRAIT(user.mind, TRAIT_BLOODSUCKER_HUNTER))
 		if(IS_BLOODSUCKER(user))
 			to_chat(user, span_notice("[src] seems to be too complicated for you. It would be best to leave this for someone else to take."))
-			return
-		to_chat(user, span_warning("You feel your eyes burn as you begin to read through [src]!"))
-		var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
-		user.set_eye_blur_if_lower(10 SECONDS)
-		eyes.apply_organ_damage(5)
+		else
+			to_chat(user, span_warning("You feel your eyes unable to read the boring texts..."))
+			user.set_eye_blur_if_lower(10 SECONDS)
 		return
+	ui_interact(user)
 
+/obj/item/book/kindred/ui_interact(mob/living/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "KindredBook", name)

@@ -10,7 +10,7 @@
  *	- Normal body temp -- remove Cold Blooded (return on deactivate)
  */
 
-/datum/action/bloodsucker/masquerade
+/datum/action/cooldown/bloodsucker/masquerade
 	name = "Masquerade"
 	desc = "Feign the vital signs of a mortal, and escape both casual and medical notice as the monster you truly are."
 	button_icon_state = "power_human"
@@ -25,10 +25,10 @@
 	check_flags = BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER
 	bloodcost = 10
-	cooldown = 5 SECONDS
+	cooldown_time = 5 SECONDS
 	constant_bloodcost = 0.1
 
-/datum/action/bloodsucker/masquerade/ActivatePower(trigger_flags)
+/datum/action/cooldown/bloodsucker/masquerade/ActivatePower(trigger_flags)
 	. = ..()
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned on.")
@@ -39,18 +39,17 @@
 	user.apply_status_effect(/datum/status_effect/masquerade)
 
 	// Handle Traits
-	for(var/traits in bloodsuckerdatum_power.bloodsucker_traits)
-		REMOVE_TRAIT(user, traits, BLOODSUCKER_TRAIT)
+	user.remove_traits(bloodsuckerdatum_power.bloodsucker_traits, BLOODSUCKER_TRAIT)
 	ADD_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 	// Handle organs
-	var/obj/item/organ/internal/heart/vampheart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.fake_start_heart()
+	var/obj/item/organ/internal/heart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
+	if(vampheart)
+		vampheart.beating = TRUE
 	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = initial(eyes.flash_protect)
 
-/datum/action/bloodsucker/masquerade/DeactivatePower()
+/datum/action/cooldown/bloodsucker/masquerade/DeactivatePower()
 	. = ..() // activate = FALSE
 	var/mob/living/carbon/user = owner
 	owner.balloon_alert(owner, "masquerade turned off.")
@@ -62,14 +61,13 @@
 		diseases.cure()
 
 	// Handle Traits
-	for(var/traits in bloodsuckerdatum_power.bloodsucker_traits)
-		ADD_TRAIT(user, traits, BLOODSUCKER_TRAIT)
+	user.add_traits(bloodsuckerdatum_power.bloodsucker_traits, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(user, TRAIT_MASQUERADE, BLOODSUCKER_TRAIT)
 
 	// Handle organs
-	var/obj/item/organ/internal/heart/vampheart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
-	if(istype(vampheart))
-		vampheart.Stop()
+	var/obj/item/organ/internal/heart/vampheart = user.get_organ_slot(ORGAN_SLOT_HEART)
+	if(vampheart)
+		vampheart.beating = FALSE
 	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)

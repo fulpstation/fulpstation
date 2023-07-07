@@ -35,15 +35,15 @@
 
 /datum/antagonist/vassal/revenge/on_gain()
 	. = ..()
-	RegisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH, PROC_REF(on_master_death))
+	RegisterSignal(master, BLOODSUCKER_FINAL_DEATH, PROC_REF(on_master_death))
 
 /datum/antagonist/vassal/revenge/on_removal()
-	UnregisterSignal(master.my_clan, BLOODSUCKER_FINAL_DEATH)
+	UnregisterSignal(master, BLOODSUCKER_FINAL_DEATH)
 	return ..()
 
 /datum/antagonist/vassal/revenge/ui_static_data(mob/user)
 	var/list/data = list()
-	for(var/datum/action/bloodsucker/power as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
 		var/list/power_data = list()
 
 		power_data["power_name"] = power.name
@@ -54,15 +54,14 @@
 
 	return data + ..()
 
-/datum/antagonist/vassal/revenge/proc/on_master_death(datum/source, mob/living/carbon/master)
+/datum/antagonist/vassal/revenge/proc/on_master_death(datum/antagonist/bloodsucker/bloodsuckerdatum, mob/living/carbon/master)
 	SIGNAL_HANDLER
 
 	show_in_roundend = TRUE
 	for(var/datum/objective/all_objectives as anything in objectives)
 		objectives -= all_objectives
-	BuyPower(new /datum/action/bloodsucker/vassal_blood)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(master)
-	for(var/datum/action/bloodsucker/master_powers as anything in bloodsuckerdatum.powers)
+	BuyPower(new /datum/action/cooldown/bloodsucker/vassal_blood)
+	for(var/datum/action/cooldown/bloodsucker/master_powers as anything in bloodsuckerdatum.powers)
 		if(master_powers.purchase_flags & BLOODSUCKER_DEFAULT_POWER)
 			continue
 		master_powers.Grant(owner.current)
@@ -81,26 +80,3 @@
 	var/datum/action/antag_info/info_button = new(src)
 	info_button.Grant(owner.current)
 	info_button_ref = WEAKREF(info_button)
-
-/datum/antagonist/vassal/admin_add(datum/mind/new_owner, mob/admin)
-	var/list/datum/mind/possible_vampires = list()
-	for(var/datum/antagonist/bloodsucker/bloodsuckerdatums in GLOB.antagonists)
-		var/datum/mind/vamp = bloodsuckerdatums.owner
-		if(!vamp)
-			continue
-		if(!vamp.current)
-			continue
-		if(vamp.current.stat == DEAD)
-			continue
-		possible_vampires += vamp
-	if(!length(possible_vampires))
-		message_admins("[key_name_admin(usr)] tried vassalizing [key_name_admin(new_owner)], but there were no bloodsuckers!")
-		return
-	var/datum/mind/choice = input("Which bloodsucker should this vassal belong to?", "Bloodsucker") in possible_vampires
-	if(!choice)
-		return
-	log_admin("[key_name_admin(usr)] turned [key_name_admin(new_owner)] into a vassal of [key_name_admin(choice)]!")
-	var/datum/antagonist/bloodsucker/vampire = choice.has_antag_datum(/datum/antagonist/bloodsucker)
-	master = vampire
-	new_owner.add_antag_datum(src)
-	to_chat(choice, span_notice("Through divine intervention, you've gained a new vassal!"))
