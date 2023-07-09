@@ -24445,15 +24445,15 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cOi" = (
-/obj/machinery/door/airlock/wood/glass{
-	name = "Maintenance Access"
-	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/science/maintenance,
 /obj/structure/barricade/wooden,
 /obj/structure/cable,
+/obj/machinery/door/airlock/wood/glass{
+	name = "Maintenance Access"
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "cOk" = (
@@ -37806,14 +37806,14 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "hDk" = (
-/obj/machinery/door/airlock/wood/glass{
-	name = "Maintenance Access"
-	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/science/maintenance,
 /obj/structure/barricade/wooden,
+/obj/machinery/door/airlock/wood/glass{
+	name = "Maintenance Access"
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
 "hDp" = (
@@ -57195,10 +57195,15 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos/pumproom)
 "plC" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/turf/closed/wall,
-/area/station/maintenance/port)
+/obj/docking_port/stationary{
+	dwidth = 11;
+	height = 24;
+	name = "SS13: Whiteship dock";
+	shuttle_id = "whiteship_home";
+	width = 35
+	},
+/turf/open/space/basic,
+/area/space)
 "plJ" = (
 /obj/machinery/conveyor{
 	id = "garbage"
@@ -73213,17 +73218,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/port/greater)
-"vKy" = (
-/obj/docking_port/stationary{
-	dir = 2;
-	dwidth = 11;
-	height = 22;
-	name = "SS13: Whiteship dock";
-	shuttle_id = "whiteship_home";
-	width = 35
-	},
-/turf/open/space/basic,
-/area/space)
 "vKF" = (
 /obj/structure/table,
 /obj/item/stack/sheet/iron/fifty{
@@ -87732,7 +87726,7 @@ aaa
 aaa
 aaa
 aaa
-vKy
+aaa
 aaa
 aaa
 aaa
@@ -90053,7 +90047,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+plC
 bnI
 boZ
 boZ
