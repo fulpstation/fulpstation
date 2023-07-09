@@ -5,7 +5,7 @@
 //Currently only used by mutantparts so don't worry about hair and stuff.
 //This is the source that this accessory will get its color from. Default is MUTCOLOR, but can also be HAIR, FACEHAIR, EYECOLOR and 0 if none.
 /datum/sprite_accessory/beef/eyes
-	color_src = EYECOLOR
+	color_src = EYE_COLOR
 
 /datum/sprite_accessory/beef/eyes/capers
 	name = BEEF_EYES_CAPERS

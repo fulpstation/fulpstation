@@ -113,7 +113,7 @@
 /datum/antagonist/bloodsucker/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	RegisterSignal(current_mob, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(current_mob,COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(LifeTick))
 	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 	handle_clown_mutation(current_mob, mob_override ? null : "As a vampiric clown, you are no longer a danger to yourself. Your clownish nature has been subdued by your thirst for blood.")
@@ -137,7 +137,7 @@
 /datum/antagonist/bloodsucker/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	UnregisterSignal(current_mob, list(COMSIG_LIVING_LIFE, COMSIG_PARENT_EXAMINE, COMSIG_LIVING_DEATH))
+	UnregisterSignal(current_mob, list(COMSIG_LIVING_LIFE, COMSIG_ATOM_EXAMINE, COMSIG_LIVING_DEATH))
 	handle_clown_mutation(current_mob, removing = FALSE)
 
 	if(current_mob.hud_used)
@@ -231,8 +231,7 @@
 	var/old_right_arm_unarmed_damage_high
 	if(old_body && ishuman(old_body))
 		var/mob/living/carbon/human/old_user = old_body
-		var/datum/species/old_species = old_user.dna.species
-		old_species.species_traits -= DRINKSBLOOD
+		REMOVE_TRAIT(old_user, TRAIT_DRINKS_BLOOD, BLOODSUCKER_TRAIT)
 		//Keep track of what they were
 		old_left_arm_unarmed_damage_low = old_left_arm.unarmed_damage_low
 		old_left_arm_unarmed_damage_high = old_left_arm.unarmed_damage_high
@@ -245,8 +244,7 @@
 		old_right_arm.unarmed_damage_high = initial(old_right_arm.unarmed_damage_high)
 	if(ishuman(new_body))
 		var/mob/living/carbon/human/new_user = new_body
-		var/datum/species/new_species = new_user.dna.species
-		new_species.species_traits += DRINKSBLOOD
+		REMOVE_TRAIT(new_user, TRAIT_DRINKS_BLOOD, BLOODSUCKER_TRAIT)
 		var/obj/item/bodypart/new_left_arm
 		var/obj/item/bodypart/new_right_arm
 		//Give old punch damage values
@@ -389,12 +387,11 @@
 
 /datum/antagonist/bloodsucker/proc/assign_starting_stats()
 	//Traits: Species
-	var/mob/living/carbon/human/user = owner.current
 	if(ishuman(owner.current))
-		var/datum/species/user_species = user.dna.species
+		var/mob/living/carbon/human/user = owner.current
 		var/obj/item/bodypart/user_left_arm = user.get_bodypart(BODY_ZONE_L_ARM)
 		var/obj/item/bodypart/user_right_arm = user.get_bodypart(BODY_ZONE_R_ARM)
-		user_species.species_traits += DRINKSBLOOD
+		ADD_TRAIT(user, TRAIT_DRINKS_BLOOD, BLOODSUCKER_TRAIT)
 		user.dna?.remove_all_mutations()
 		user_left_arm.unarmed_damage_low += 1 //lowest possible punch damage - 0
 		user_left_arm.unarmed_damage_high += 1 //highest possible punch damage - 9
@@ -435,8 +432,7 @@
 	/// Stats
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/user = owner.current
-		var/datum/species/user_species = user.dna.species
-		user_species.species_traits -= DRINKSBLOOD
+		REMOVE_TRAIT(user, TRAIT_DRINKS_BLOOD, BLOODSUCKER_TRAIT)
 	// Remove all bloodsucker traits
 	owner.current.remove_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 	// Update Health

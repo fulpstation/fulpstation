@@ -332,7 +332,12 @@
 	desc = "Eat this, space pirates!"
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	icon_state = "ball"
-	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/arm_ball
+	///the ammo we are dropping
+	var/drop_type = /obj/item/ammo_casing/caseless/foam_dart/arm_ball
+
+/obj/projectile/bullet/reusable/foam_dart/arm_ball/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/projectile_drop, drop_type)
 
 ///Makes the firing automatic
 /obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon/shoot_live_shot(mob/living/user as mob|obj)
