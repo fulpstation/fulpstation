@@ -22,12 +22,12 @@
 			span_cultitalic("You attempt to stun [victim] with the spell!"),
 		)
 
-		user.mob_light(_color = LIGHT_COLOR_BLOOD_MAGIC, _range = 3, _duration = 2)
+		user.mob_light(color = LIGHT_COLOR_BLOOD_MAGIC, range = 3, duration = 2)
 
 		var/anti_magic_source = victim.can_block_magic()
 		if(anti_magic_source)
 
-			victim.mob_light(_color = LIGHT_COLOR_HOLY_MAGIC, _range = 2, _duration = 100)
+			victim.mob_light(color = LIGHT_COLOR_HOLY_MAGIC, range = 2, duration = 100)
 			var/mutable_appearance/forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
 			victim.add_overlay(forbearance)
 			addtimer(CALLBACK(victim, TYPE_PROC_REF(/atom, cut_overlay), forbearance), 100)
