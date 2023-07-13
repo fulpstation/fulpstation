@@ -82,7 +82,6 @@
 	/// Antagonists that cannot be Vassalized no matter what
 	var/static/list/vassal_banned_antags = list(
 		/datum/antagonist/bloodsucker,
-		/datum/antagonist/monsterhunter,
 		/datum/antagonist/changeling,
 		/datum/antagonist/cult,
 		/datum/antagonist/ert/safety_moth,

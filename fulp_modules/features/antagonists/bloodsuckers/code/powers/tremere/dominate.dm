@@ -125,9 +125,6 @@
 
 	power_activated_sucessfully()
 	var/power_time = 90 + level_current * 15
-	if(IS_MONSTERHUNTER(target))
-		to_chat(target, span_notice("You feel you something crawling under your skin, but it passes."))
-		return
 	if(HAS_TRAIT_FROM(target, TRAIT_MUTE, BLOODSUCKER_TRAIT))
 		owner.balloon_alert(owner, "[target] is already in some form of hypnotic gaze.")
 		return
@@ -164,9 +161,6 @@
 		to_chat(user, span_warning("We revive [target]!"))
 		target.mind.grab_ghost()
 		target.revive(ADMIN_HEAL_ALL)
-		return
-	if(IS_MONSTERHUNTER(target))
-		to_chat(target, span_notice("Their body refuses to react..."))
 		return
 	if(!bloodsuckerdatum_power.make_vassal(target))
 		return

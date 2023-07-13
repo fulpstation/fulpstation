@@ -291,38 +291,6 @@
 				return TRUE
 	return FALSE
 
-
-
-//////////////////////////////
-// MONSTERHUNTER OBJECTIVES //
-//////////////////////////////
-
-/datum/objective/bloodsucker/monsterhunter
-	name = "destroymonsters"
-
-// EXPLANATION
-/datum/objective/bloodsucker/monsterhunter/update_explanation_text()
-	. = ..()
-	explanation_text = "Destroy all monsters on [station_name()]."
-
-// WIN CONDITIONS?
-/datum/objective/bloodsucker/monsterhunter/check_completion()
-	var/list/datum/mind/monsters = list()
-	for(var/datum/antagonist/monster in GLOB.antagonists)
-		var/datum/mind/brain = monster.owner
-		if(!brain || brain == owner)
-			continue
-		if(brain.current.stat == DEAD)
-			continue
-		if(IS_HERETIC(brain.current) || IS_CULTIST(brain.current) || IS_BLOODSUCKER(brain.current) || IS_WIZARD(brain.current))
-			monsters += brain
-		if(brain.has_antag_datum(/datum/antagonist/changeling))
-			monsters += brain
-
-	return completed || !monsters.len
-
-
-
 //////////////////////////////
 //     VASSAL OBJECTIVES    //
 //////////////////////////////
