@@ -71,7 +71,7 @@
 	ears = /obj/item/radio/headset
 	back = /obj/item/storage/backpack
 	backpack_contents = list(
-		/obj/item/storage/box/survival/syndie = 1,
+		/obj/item/storage/box/survival/infil = 1,
 		/obj/item/knife/combat/survival = 1,
 		/obj/item/infiltrator_radio = 1,
 	)
@@ -146,6 +146,19 @@
 	ears = /obj/item/radio/headset
 	back = /obj/item/storage/backpack
 	backpack_contents = list(
-		/obj/item/storage/box/survival/syndie = 1,
+		/obj/item/storage/box/survival/infil = 1,
 		/obj/item/knife/combat/survival = 1,
 	)
+/obj/item/storage/box/survival/infil 
+	// This is just like /box/survival/syndie, but without the misleading paper about explosive implants.
+	name = "infiltration-ready survival box"
+	desc = "A box with the essentials for your infiltration. This one is labelled to contain an extended-capacity tank."
+	icon_state = "syndiebox"
+	illustration = "extendedtank"
+	mask_type = /obj/item/clothing/mask/gas/syndicate
+	internal_type = /obj/item/tank/internals/emergency_oxygen/engi
+	medipen_type = /obj/item/reagent_containers/hypospray/medipen/atropine
+
+/obj/item/storage/box/survival/infil/PopulateContents()
+	..()
+	new /obj/item/tool_parcel(src)
