@@ -27,15 +27,15 @@
 ///Called when Sol is near starting.
 /datum/antagonist/bloodsucker/proc/sol_near_start(atom/source)
 	SIGNAL_HANDLER
-	if(bloodsucker_lair_area && !(locate(/datum/action/bloodsucker/gohome) in powers))
-		BuyPower(new /datum/action/bloodsucker/gohome)
+	if(bloodsucker_lair_area && !(locate(/datum/action/cooldown/bloodsucker/gohome) in powers))
+		BuyPower(new /datum/action/cooldown/bloodsucker/gohome)
 
 ///Called when Sol first ends.
 /datum/antagonist/bloodsucker/proc/on_sol_end(atom/source)
 	SIGNAL_HANDLER
 	check_end_torpor()
-	for(var/datum/action/bloodsucker/power in powers)
-		if(istype(power, /datum/action/bloodsucker/gohome))
+	for(var/datum/action/cooldown/bloodsucker/power in powers)
+		if(istype(power, /datum/action/cooldown/bloodsucker/gohome))
 			RemovePower(power)
 
 /// Cycle through all vamp antags and check if they're inside a closet.
@@ -92,7 +92,7 @@
 		if(DANGER_LEVEL_THIRD_WARNING)
 			owner.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
 		if(DANGER_LEVEL_SOL_ROSE)
-			owner.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 100, 1)
+			owner.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 75, 1)
 		if(DANGER_LEVEL_SOL_ENDED)
 			owner.current.playsound_local(null, 'sound/misc/ghosty_wind.ogg', 90, 1)
 
@@ -131,9 +131,9 @@
 	var/total_burn = user.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn
 	if(total_burn >= 199)
-		return
+		return FALSE
 	if(SSsunlight.sunlight_active)
-		return
+		return FALSE
 	// You are in a Coffin, so instead we'll check TOTAL damage, here.
 	if(istype(user.loc, /obj/structure/closet/crate/coffin))
 		if(total_damage <= 10)
@@ -144,24 +144,19 @@
 
 /datum/antagonist/bloodsucker/proc/torpor_begin()
 	to_chat(owner.current, span_notice("You enter the horrible slumber of deathless Torpor. You will heal until you are renewed."))
-	/// Force them to go to sleep
+	// Force them to go to sleep
 	REMOVE_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
-	/// Without this, you'll just keep dying while you recover.
-	ADD_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
+	// Without this, you'll just keep dying while you recover.
+	owner.current.add_traits(list(TRAIT_NODEATH, TRAIT_FAKEDEATH, TRAIT_DEATHCOMA, TRAIT_RESISTLOWPRESSURE, TRAIT_RESISTHIGHPRESSURE), BLOODSUCKER_TRAIT)
 	owner.current.set_timed_status_effect(0 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-	/// Disable ALL Powers
+	// Disable ALL Powers
 	DisableAllPowers()
 
 /datum/antagonist/bloodsucker/proc/torpor_end()
 	owner.current.grab_ghost()
 	to_chat(owner.current, span_warning("You have recovered from Torpor."))
-	REMOVE_TRAIT(owner.current, TRAIT_RESISTLOWPRESSURE, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_DEATHCOMA, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_FAKEDEATH, BLOODSUCKER_TRAIT)
-	REMOVE_TRAIT(owner.current, TRAIT_NODEATH, BLOODSUCKER_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
+	owner.current.remove_traits(list(TRAIT_NODEATH, TRAIT_FAKEDEATH, TRAIT_DEATHCOMA, TRAIT_RESISTLOWPRESSURE, TRAIT_RESISTHIGHPRESSURE), BLOODSUCKER_TRAIT)
+	if(!HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
+		ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	heal_vampire_organs()
 	SEND_SIGNAL(src, BLOODSUCKER_EXIT_TORPOR)

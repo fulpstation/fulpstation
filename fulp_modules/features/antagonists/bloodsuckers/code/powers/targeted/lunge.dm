@@ -1,4 +1,4 @@
-/datum/action/bloodsucker/targeted/lunge
+/datum/action/cooldown/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
 	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
 	button_icon_state = "power_lunge"
@@ -15,16 +15,16 @@
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 10
-	cooldown = 10 SECONDS
+	cooldown_time = 10 SECONDS
 	power_activates_immediately = FALSE
 
-/datum/action/bloodsucker/targeted/lunge/upgrade_power()
+/datum/action/cooldown/bloodsucker/targeted/lunge/upgrade_power()
 	. = ..()
 	//range is lowered when you get stronger.
 	if(level_current > 3)
 		target_range = 6
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanUse(mob/living/carbon/user, trigger_flags)
+/datum/action/cooldown/bloodsucker/targeted/lunge/can_use(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -38,13 +38,13 @@
 	return TRUE
 
 /// Check: Are we lunging at a person?
-/datum/action/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/lunge/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
 	return isliving(target_atom)
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/lunge/CheckCanTarget(atom/target_atom)
 	// Default Checks
 	. = ..()
 	if(!.)
@@ -59,10 +59,10 @@
 		return FALSE
 	return TRUE
 
-/datum/action/bloodsucker/targeted/lunge/CheckCanDeactivate()
+/datum/action/cooldown/bloodsucker/targeted/lunge/can_deactivate()
 	return !(datum_flags & DF_ISPROCESSING) //only if you aren't lunging
 
-/datum/action/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/lunge/FireTargetedPower(atom/target_atom)
 	. = ..()
 	owner.face_atom(target_atom)
 	if(level_current > 3)
@@ -73,7 +73,7 @@
 	return TRUE
 
 ///Starts processing the power and prepares the lunge by spinning, calls lunge at the end of it.
-/datum/action/bloodsucker/targeted/lunge/proc/prepare_target_lunge(atom/target_atom)
+/datum/action/cooldown/bloodsucker/targeted/lunge/proc/prepare_target_lunge(atom/target_atom)
 	START_PROCESSING(SSprocessing, src)
 	owner.balloon_alert(owner, "lunge started!")
 	//animate them shake
@@ -95,11 +95,13 @@
 	return TRUE
 
 ///When preparing to lunge ends, this clears it up.
-/datum/action/bloodsucker/targeted/lunge/proc/end_target_lunge(base_x, base_y)
+/datum/action/cooldown/bloodsucker/targeted/lunge/proc/end_target_lunge(base_x, base_y)
 	animate(owner, pixel_x = base_x, pixel_y = base_y, time = 1)
 	STOP_PROCESSING(SSprocessing, src)
 
-/datum/action/bloodsucker/targeted/lunge/process()
+/datum/action/cooldown/bloodsucker/targeted/lunge/process()
+	if(!active) //If running SSfasprocess (on cooldown)
+		return ..() //Manage our cooldown timers
 	if(prob(75))
 		owner.spin(8, 1)
 		owner.balloon_alert_to_viewers("spins wildly!", "you spin!")
@@ -107,7 +109,7 @@
 	do_smoke(0, owner.loc, smoke_type = /obj/effect/particle_effect/fluid/smoke/transparent)
 
 ///Actually lunges the target, then calls lunge end.
-/datum/action/bloodsucker/targeted/lunge/proc/do_lunge(atom/hit_atom)
+/datum/action/cooldown/bloodsucker/targeted/lunge/proc/do_lunge(atom/hit_atom)
 	var/turf/targeted_turf = get_turf(hit_atom)
 
 	var/safety = get_dist(owner, targeted_turf) * 3 + 1
@@ -120,8 +122,8 @@
 
 	lunge_end(hit_atom, targeted_turf)
 
-/datum/action/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom, turf/target_turf)
-	PowerActivatedSuccessfully()
+/datum/action/cooldown/bloodsucker/targeted/lunge/proc/lunge_end(atom/hit_atom, turf/target_turf)
+	power_activated_sucessfully()
 	// Am I next to my target to start giving the effects?
 	if(!owner.Adjacent(hit_atom))
 		return
@@ -137,7 +139,7 @@
 		return
 	// Is my target a Monster hunter?
 	if(IS_MONSTERHUNTER(target) || target.is_shove_knockdown_blocked())
-		owner.balloon_alert(owner, "you get pushed away!")
+		owner.balloon_alert(owner, "pushed away!")
 		target.grabbedby(owner)
 		return
 
@@ -163,6 +165,6 @@
 			target.Knockdown(10 + level_current * 5)
 			target.Paralyze(0.1)
 
-/datum/action/bloodsucker/targeted/lunge/DeactivatePower()
+/datum/action/cooldown/bloodsucker/targeted/lunge/DeactivatePower()
 	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, BLOODSUCKER_TRAIT)
 	return ..()

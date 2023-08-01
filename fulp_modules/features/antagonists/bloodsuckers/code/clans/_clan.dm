@@ -25,10 +25,6 @@
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.
 	var/joinable_clan = TRUE
 
-	///How the Bloodsucker ranks up, if they do.
-	var/rank_up_type = BLOODSUCKER_RANK_UP_NORMAL
-	///Whether they become entirely stun immune when entering Frenzy.
-	var/frenzy_stun_immune = FALSE
 	///How we will drink blood using Feed.
 	var/blood_drink_type = BLOODSUCKER_DRINK_NORMAL
 
@@ -39,12 +35,15 @@
 	RegisterSignal(bloodsuckerdatum, COMSIG_BLOODSUCKER_ON_LIFETICK, PROC_REF(handle_clan_life))
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_RANK_UP, PROC_REF(on_spend_rank))
 
-	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_PRE_MAKE_FAVORITE, PROC_REF(on_offer_favorite))
+	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_INTERACT_WITH_VASSAL, PROC_REF(on_interact_with_vassal))
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_MAKE_FAVORITE, PROC_REF(on_favorite_vassal))
 
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_MADE_VASSAL, PROC_REF(on_vassal_made))
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_EXIT_TORPOR, PROC_REF(on_exit_torpor))
 	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_FINAL_DEATH, PROC_REF(on_final_death))
+
+	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_ENTERS_FRENZY, PROC_REF(on_enter_frenzy))
+	RegisterSignal(bloodsuckerdatum, BLOODSUCKER_EXITS_FRENZY, PROC_REF(on_exit_frenzy))
 
 	give_clan_objective()
 
@@ -52,15 +51,33 @@
 	UnregisterSignal(bloodsuckerdatum, list(
 		COMSIG_BLOODSUCKER_ON_LIFETICK,
 		BLOODSUCKER_RANK_UP,
-		BLOODSUCKER_PRE_MAKE_FAVORITE,
+		BLOODSUCKER_INTERACT_WITH_VASSAL,
 		BLOODSUCKER_MAKE_FAVORITE,
 		BLOODSUCKER_MADE_VASSAL,
 		BLOODSUCKER_EXIT_TORPOR,
 		BLOODSUCKER_FINAL_DEATH,
+		BLOODSUCKER_ENTERS_FRENZY,
+		BLOODSUCKER_EXITS_FRENZY,
 	))
 	remove_clan_objective()
 	bloodsuckerdatum = null
 	return ..()
+
+/datum/bloodsucker_clan/proc/on_enter_frenzy(datum/antagonist/bloodsucker/source)
+	SIGNAL_HANDLER
+	var/mob/living/carbon/human/human_bloodsucker = bloodsuckerdatum.owner.current
+	if(!istype(human_bloodsucker))
+		return
+	human_bloodsucker.physiology.stamina_mod *= 0.4
+
+/datum/bloodsucker_clan/proc/on_exit_frenzy(datum/antagonist/bloodsucker/source)
+	SIGNAL_HANDLER
+	var/mob/living/carbon/human/human_bloodsucker = bloodsuckerdatum.owner.current
+	if(!istype(human_bloodsucker))
+		return
+	human_bloodsucker.set_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)
+	human_bloodsucker.Paralyze(2 SECONDS)
+	human_bloodsucker.physiology.stamina_mod /= 0.4
 
 /datum/bloodsucker_clan/proc/give_clan_objective()
 	if(isnull(clan_objective))
@@ -129,7 +146,7 @@
 /datum/bloodsucker_clan/proc/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
 	// Purchase Power Prompt
 	var/list/options = list()
-	for(var/datum/action/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
 		if(initial(power.purchase_flags) & BLOODSUCKER_CAN_BUY && !(locate(power) in bloodsuckerdatum.powers))
 			options[initial(power.name)] = power
 
@@ -155,7 +172,7 @@
 			return
 
 		// Good to go - Buy Power!
-		var/datum/action/bloodsucker/purchased_power = options[choice]
+		var/datum/action/cooldown/bloodsucker/purchased_power = options[choice]
 		bloodsuckerdatum.BuyPower(new purchased_power)
 		bloodsuckerdatum.owner.current.balloon_alert(bloodsuckerdatum.owner.current, "learned [choice]!")
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You have learned how to use [choice]!"))
@@ -200,12 +217,12 @@
  * bloodsuckerdatum - the antagonist datum of the Bloodsucker performing this.
  * vassaldatum - the antagonist datum of the Vassal being offered up.
  */
-/datum/bloodsucker_clan/proc/on_offer_favorite(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+/datum/bloodsucker_clan/proc/on_interact_with_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	SIGNAL_HANDLER
 
-	INVOKE_ASYNC(src, PROC_REF(offer_favorite), bloodsuckerdatum, vassaldatum)
+	INVOKE_ASYNC(src, PROC_REF(interact_with_vassal), bloodsuckerdatum, vassaldatum)
 
-/datum/bloodsucker_clan/proc/offer_favorite(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+/datum/bloodsucker_clan/proc/interact_with_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	if(vassaldatum.special_type)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return FALSE
@@ -237,6 +254,7 @@
 		return FALSE
 	vassaldatum.make_special(vassal_response)
 	bloodsuckerdatum.bloodsucker_blood_volume -= 150
+	return TRUE
 
 /**
  * Called when we are successfully turn a Vassal into a Favorite Vassal
@@ -246,4 +264,4 @@
  */
 /datum/bloodsucker_clan/proc/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	SIGNAL_HANDLER
-	vassaldatum.BuyPower(new /datum/action/bloodsucker/targeted/brawn)
+	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/brawn)

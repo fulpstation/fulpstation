@@ -96,8 +96,9 @@
 	// Checks if you're in a coffin here, additionally checks for Torpor right below it.
 	var/amInCoffin = istype(user.loc, /obj/structure/closet/crate/coffin)
 	if(amInCoffin && HAS_TRAIT(user, TRAIT_NODEATH))
-		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-			to_chat(user, span_warning("You do not heal while your Masquerade ability is active."))
+		if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && (COOLDOWN_FINISHED(src, bloodsucker_spam_healing)))
+			to_chat(user, span_alert("You do not heal while your Masquerade ability is active."))
+			COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_MASQUERADE)
 			return
 		fireheal = min(user.getFireLoss_nonProsthetic(), actual_regen)
 		mult *= 5 // Increase multiplier if we're sleeping in a coffin.
@@ -147,17 +148,17 @@
 /datum/antagonist/bloodsucker/proc/heal_vampire_organs()
 	var/mob/living/carbon/bloodsuckeruser = owner.current
 
-	bloodsuckeruser.cure_husk()
+	if(!bloodsuckeruser)
+		return
+
+	bloodsuckeruser.cure_husk(BURN)
 	bloodsuckeruser.regenerate_organs(regenerate_existing = FALSE)
 
 	for(var/obj/item/organ/organ as anything in bloodsuckeruser.organs)
 		organ.set_organ_damage(0)
-	var/obj/item/organ/internal/heart/current_heart = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_HEART)
-	if(!istype(current_heart, /obj/item/organ/internal/heart/vampheart) && !istype(current_heart, /obj/item/organ/internal/heart/demon) && !istype(current_heart, /obj/item/organ/internal/heart/cursed))
-		qdel(current_heart)
-		var/obj/item/organ/internal/heart/vampheart/vampiric_heart = new
-		vampiric_heart.Insert(owner.current)
-		vampiric_heart.Stop()
+	if(!HAS_TRAIT(bloodsuckeruser, TRAIT_MASQUERADE))
+		var/obj/item/organ/internal/heart/current_heart = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_HEART)
+		current_heart.beating = FALSE
 	var/obj/item/organ/internal/eyes/current_eyes = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_EYES)
 	if(current_eyes)
 		current_eyes.flash_protect = max(initial(current_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)

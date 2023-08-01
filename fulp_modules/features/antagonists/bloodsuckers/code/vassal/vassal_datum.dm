@@ -81,7 +81,7 @@
 		examine_text += vassal_examine
 
 /datum/antagonist/vassal/on_gain()
-	RegisterSignal(owner.current, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(owner.current, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN, PROC_REF(give_warning))
 	/// Enslave them to their Master
 	if(!master || !istype(master, master))
@@ -94,7 +94,7 @@
 	owner.enslave_mind_to_creator(master.owner.current)
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
-	BuyPower(new /datum/action/bloodsucker/recuperate)
+	BuyPower(new /datum/action/cooldown/bloodsucker/recuperate)
 	/// Give Objectives
 	var/datum/objective/bloodsucker/vassal/vassal_objective = new
 	vassal_objective.owner = owner
@@ -105,7 +105,7 @@
 	return ..()
 
 /datum/antagonist/vassal/on_removal()
-	UnregisterSignal(owner.current, COMSIG_PARENT_EXAMINE)
+	UnregisterSignal(owner.current, COMSIG_ATOM_EXAMINE)
 	UnregisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN)
 	//Free them from their Master
 	if(master && master.owner)
@@ -114,11 +114,11 @@
 		master.vassals -= src
 		owner.enslaved_to = null
 	//Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source.
-	for(var/all_status_traits in owner.current.status_traits)
+	for(var/all_status_traits in owner.current._status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	//Remove Recuperate Power
 	while(powers.len)
-		var/datum/action/bloodsucker/power = pick(powers)
+		var/datum/action/cooldown/bloodsucker/power = pick(powers)
 		powers -= power
 		power.Remove(owner.current)
 	//Remove Language & Hud
@@ -127,7 +127,7 @@
 
 /datum/antagonist/vassal/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/bloodsucker/all_powers as anything in powers)
+	for(var/datum/action/cooldown/bloodsucker/all_powers as anything in powers)
 		all_powers.Remove(old_body)
 		all_powers.Grant(new_body)
 

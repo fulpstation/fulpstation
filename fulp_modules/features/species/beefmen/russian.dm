@@ -17,10 +17,12 @@
 /datum/language_holder/russian
 	understood_languages = list(
 		/datum/language/common = list(LANGUAGE_ATOM),
-		/datum/language/russian = list(LANGUAGE_ATOM))
+		/datum/language/russian = list(LANGUAGE_ATOM),
+	)
 	spoken_languages = list(
 		/datum/language/common = list(LANGUAGE_ATOM),
-		/datum/language/russian = list(LANGUAGE_ATOM))
+		/datum/language/russian = list(LANGUAGE_ATOM),
+	)
 
 /obj/item/organ/internal/tongue/beefman
 	name = "meaty tongue"
@@ -30,6 +32,9 @@
 	say_mod = "gurgles"
 	taste_sensitivity = 15
 	languages_native = list(/datum/language/russian)
+	disliked_foodtypes = VEGETABLES | FRUIT | CLOTH
+	liked_foodtypes = RAW | MEAT | FRIED
+	toxic_foodtypes = DAIRY | PINEAPPLE
 
 /obj/item/organ/internal/tongue/beefman/get_possible_languages()
 	return ..() + /datum/language/russian

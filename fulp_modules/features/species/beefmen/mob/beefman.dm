@@ -6,13 +6,6 @@
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
 	sexes = FALSE
-	species_traits = list(
-		NOEYESPRITES,
-		NO_UNDERWEAR,
-		DYNCOLORS,
-		AGENDER,
-	)
-
 	mutant_bodyparts = list(
 		"beef_color" = "#e73f4e",
 		"beef_eyes" = BEEF_EYES_OLIVES,
@@ -23,40 +16,20 @@
 		TRAIT_GENELESS,
 		TRAIT_RESISTCOLD,
 		TRAIT_SLEEPIMMUNE,
+		TRAIT_NO_UNDERWEAR,
+		TRAIT_MUTANT_COLORS,
+		TRAIT_AGENDER,
 	)
-
-	offset_features = list(
-		OFFSET_ID = list(0,2),
-		OFFSET_GLOVES = list(0,-4),
-		OFFSET_GLASSES = list(0,3),
-		OFFSET_EARS = list(0,3),
-		OFFSET_SHOES = list(0,0),
-		OFFSET_S_STORE = list(0,2),
-		OFFSET_FACEMASK = list(0,3),
-		OFFSET_HEAD = list(0,3),
-		OFFSET_FACE = list(0,3),
-		OFFSET_BELT = list(0,3),
-		OFFSET_SUIT = list(0,2),
-		OFFSET_UNIFORM = list(0,1),
-		OFFSET_NECK = list(0,3),
-	)
-
-	cellular_damage_desc = "meat degradation"
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
-
 	species_language_holder = /datum/language_holder/russian
 	mutantbrain = /obj/item/organ/internal/brain/beefman
 	mutanttongue = /obj/item/organ/internal/tongue/beefman
 	skinned_type = /obj/item/food/meatball
 	meat = /obj/item/food/meat/slab
-	toxic_food = DAIRY | PINEAPPLE
-	disliked_food = VEGETABLES | FRUIT | CLOTH
-	liked_food = RAW | MEAT | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	payday_modifier = 0.75
-	speedmod = -0.2
-	armor = -20
+	damage_modifier = -20
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
@@ -124,7 +97,7 @@
 			return
 	user.blood_volume += 4
 
-/datum/species/beefman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
+/datum/species/beefman/handle_chemical(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
 	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
 		if(!dehydrated || SPT_PROB(10, delta_time))
 			to_chat(user, span_alert("Your beefy mouth tastes dry."))
@@ -180,21 +153,21 @@
 			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
 				if(!forced_colour)
 					switch(accessory.color_src)
-						if(MUTCOLORS)
+						if(MUTANT_COLOR)
 							if(fixed_mut_color)
 								accessory_overlay.color = fixed_mut_color
 							else
 								accessory_overlay.color = source.dna.features["mcolor"]
-						if(HAIR)
+						if(HAIR_COLOR)
 							if(hair_color == "mutcolor")
 								accessory_overlay.color = source.dna.features["mcolor"]
 							else if(hair_color == "fixedmutcolor")
 								accessory_overlay.color = fixed_mut_color
 							else
 								accessory_overlay.color = source.hair_color
-						if(FACEHAIR)
+						if(FACIAL_HAIR_COLOR)
 							accessory_overlay.color = source.facial_hair_color
-						if(EYECOLOR)
+						if(EYE_COLOR)
 							accessory_overlay.color = source.eye_color_left
 				else
 					accessory_overlay.color = forced_colour
@@ -389,7 +362,7 @@
 		if(!do_after(user, 1 SECONDS, target))
 			return FALSE
 		var/obj/item/food/meat/slab/meat = new /obj/item/food/meat/slab
-		tongue.Remove(user, special = TRUE)
+		tongue.Remove(user)
 		user.put_in_hands(meat)
 		playsound(get_turf(user), 'fulp_modules/features/species/sounds/beef_hit.ogg', 40, 1)
 		return TRUE
@@ -429,7 +402,7 @@
 
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/internal/tongue/beefman/new_tongue = new()
-		new_tongue.Insert(user, special = TRUE)
+		new_tongue.Insert(user)
 		user.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new [new_tongue.name]!"),
 			span_notice("The [meat] successfully fuses with your mouth!"))
@@ -438,7 +411,7 @@
 		beefboy.visible_message(
 			span_notice("The meat sprouts digits and becomes [beefboy]'s new [new_bodypart.name]!"),
 			span_notice("The meat sprouts digits and becomes your new [new_bodypart.name]!"))
-		new_bodypart.try_attach_limb(beefboy, special = TRUE)
+		new_bodypart.try_attach_limb(beefboy)
 		new_bodypart.update_limb(is_creating = TRUE)
 		new_bodypart.give_meat(beefboy, meat)
 

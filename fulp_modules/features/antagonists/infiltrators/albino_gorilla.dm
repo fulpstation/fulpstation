@@ -91,9 +91,9 @@
 	creamface = mutable_appearance('fulp_modules/features/antagonists/infiltrators/icons/infils.dmi')
 
 	var/mob/living/carbon/human/man = parent
-	if(man.dna.species.bodytype & BODYTYPE_SNOUTED)
+	if(man.bodytype & BODYTYPE_SNOUTED)
 		creamface.icon_state = "muddied_lizard"
-	else if(man.dna.species.bodytype & BODYTYPE_MONKEY)
+	else if(man.bodytype & BODYTYPE_MONKEY)
 		creamface.icon_state = "muddied_monkey"
 	else
 		creamface.icon_state = "muddied_human"
