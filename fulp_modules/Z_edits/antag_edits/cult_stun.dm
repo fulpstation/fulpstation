@@ -4,11 +4,8 @@
  */
 
 /datum/action/innate/cult/blood_spell/stun
-	name = "Stun"
 	desc = "Empowers your hand to stun and mute a weak-minded victim on contact."
-	button_icon_state = "hand"
 	magic_path = "/obj/item/melee/blood_magic/fulpstun"
-	health_cost = 10
 
 /obj/item/melee/blood_magic/fulpstun/afterattack(mob/living/target, mob/living/carbon/user, proximity)
 	if(!isliving(target) || !proximity)
