@@ -132,7 +132,7 @@
 	color = "#4C3117"
 
 /obj/effect/turf_decal/siding/darkbrown/corner
-	icon_state = "siding_corner"
+	icon_state =  "siding_plain_corner"
 
 /obj/effect/turf_decal/siding/engineering
 	color = "#FFD700"
