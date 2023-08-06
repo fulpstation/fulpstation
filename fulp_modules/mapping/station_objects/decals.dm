@@ -126,7 +126,7 @@
 	color = "grey"
 
 /obj/effect/turf_decal/siding/grey/corner
-	icon_state = "siding_corner"
+	icon_state = "siding_plain_corner"
 
 /obj/effect/turf_decal/siding/darkbrown
 	color = "#4C3117"
