@@ -239,7 +239,7 @@
 
 /datum/action/cooldown/mob_cooldown/summon_portal
 	name = "Summon Army"
-	button_icon = 'icons/obj/carp_rift.dmi'
+	button_icon = 'icons/obj/anomaly.dmi'
 	button_icon_state = "carp_rift_carpspawn"
 	desc = "Summon your army to defend you."
 	cooldown_time = 0 SECONDS
@@ -274,7 +274,7 @@
 	desc = "gateway for the King's army."
 	armor_type = /datum/armor/structure_carp_rift
 	max_integrity = 500
-	icon = 'icons/obj/carp_rift.dmi'
+	icon = 'icons/obj/anomaly.dmi'
 	icon_state = "carp_rift_carpspawn"
 	light_color = LIGHT_COLOR_PURPLE
 	light_range = 10

@@ -28,7 +28,7 @@
 		if(anti_magic_source)
 
 			victim.mob_light(color = LIGHT_COLOR_HOLY_MAGIC, range = 2, duration = 100)
-			var/mutable_appearance/forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
+			var/mutable_appearance/forbearance = mutable_appearance('icons/mob/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
 			victim.add_overlay(forbearance)
 			addtimer(CALLBACK(victim, TYPE_PROC_REF(/atom, cut_overlay), forbearance), 100)
 

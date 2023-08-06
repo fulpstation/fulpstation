@@ -245,7 +245,7 @@
 	desc = "Does minimal damage but slows down the enemy."
 	icon_state = "revolver"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	initial_caliber = CALIBER_BLOODSILVER
 
 /datum/movespeed_modifier/silver_bullet
@@ -293,7 +293,7 @@
 /obj/structure/rack/weaponsmith
 	name = "Weapon Forge"
 	desc = "Fueled by the tears of rabbits."
-	icon = 'icons/obj/cult/structures.dmi'
+	icon = 'icons/obj/antags/cult/structures.dmi'
 	icon_state = "altar"
 	resistance_flags = INDESTRUCTIBLE
 

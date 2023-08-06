@@ -1,7 +1,7 @@
 /obj/item/hunting_contract
 	name = "\improper Hunter's Contract"
 	desc = "A contract detailing all the guidelines a good hunter needs."
-	icon = 'icons/obj/wizard.dmi'
+	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
 	///have we claimed our weapon?

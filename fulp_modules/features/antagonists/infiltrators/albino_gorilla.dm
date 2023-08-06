@@ -43,7 +43,7 @@
 	summon_radius = 2
 	summon_type = list(/obj/item/grown/bananapeel)
 	summon_amount = 10
-	button_icon = 'icons/obj/hydroponics/harvest.dmi'
+	button_icon = 'icons/obj/service/hydroponics/harvest.dmi'
 	button_icon_state = "banana_peel"
 
 /datum/action/cooldown/spell/conjure/banana/cast(atom/cast_on)
