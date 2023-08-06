@@ -138,7 +138,7 @@
 	color = "#FFD700"
 
 /obj/effect/turf_decal/siding/engineering/corner
-	icon_state = "siding_corner"
+	icon_state =  "siding_plain_corner"
 
 
 // Trimline
