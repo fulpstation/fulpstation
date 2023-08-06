@@ -25,7 +25,7 @@
 		else if(target.can_block_magic())
 			to_chat(user, span_warning("The spell had no effect!"))
 		else if(HAS_TRAIT(target, TRAIT_MINDSHIELD)) // Mindshield just re-directs the stun's spell from their brain to their body.
-			var/mob/living/carbon/carbon_target = victim
+			var/mob/living/carbon/carbon_target = target
 			to_chat(user, span_cultitalic("Our spell fails to brainwash their strong mind, tearing their skull open!"))
 			carbon_target.adjust_timed_status_effect(10 SECONDS, /datum/status_effect/speech/stutter)
 			carbon_target.set_timed_status_effect(1 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
