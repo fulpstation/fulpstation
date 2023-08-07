@@ -67,7 +67,7 @@
 	user.skin_tone = random_skin_tone()
 	user.hairstyle = random_hairstyle(user.gender)
 	user.facial_hairstyle = pick(random_facial_hairstyle(user.gender), "Shaved")
-	user.hair_color = random_short_color()
+	user.hair_color = "#[random_short_color()]"
 	user.facial_hair_color = user.hair_color
 	user.underwear = random_underwear(user.gender)
 	user.undershirt = random_undershirt(user.gender)
@@ -80,7 +80,6 @@
 	// Apply Appearance
 	user.update_body(is_creating = TRUE) // Outfit and underware, also body.
 	user.update_mutant_bodyparts() // Lizard tails etc
-	user.update_hair()
 	user.update_body_parts(update_limb_data = TRUE)
 
 	RegisterSignal(user, COMSIG_HUMAN_GET_VISIBLE_NAME, PROC_REF(return_disguise_name))
@@ -118,7 +117,6 @@
 
 	// Apply Appearance
 	user.update_body(is_creating = TRUE) // Outfit and underware, also body.
-	user.update_hair()
 	user.update_body_parts(update_limb_data = TRUE) // Body itself, maybe skin color?
 
 	cast_effect() // POOF

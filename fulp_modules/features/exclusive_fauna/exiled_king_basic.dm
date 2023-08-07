@@ -58,11 +58,12 @@
 
 /mob/living/basic/exiled_king/Initialize(mapload)
 	. = ..()
+	var/static/list/death_loot = list(/obj/item/clothing/neck/cloak/squid)
+	AddElement(/datum/element/death_drops, death_loot)
 	AddComponent(/datum/component/gps, "Sunken Signal")
 	add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_ASHSTORM_IMMUNE), INNATE_TRAIT)
 	AddElement(/datum/element/simple_flying)
 	AddElement(/datum/element/crusher_loot, /obj/item/crusher_trophy/kraken_eye, 100, TRUE)
-	AddElement(/datum/element/death_drops, list(/obj/item/clothing/neck/cloak/squid))
 	var/datum/action/cooldown/mob_cooldown/summon_portal/fishes = new(src)
 	var/datum/action/cooldown/mob_cooldown/kraken_tentacle/tentacle = new(src)
 	var/datum/action/cooldown/mob_cooldown/tentacle_all_directions/all_directions = new(src)
