@@ -28,8 +28,6 @@
 	//Regular version
 	else
 		for(var/client/mentor_clients in GLOB.mentors)
-			if(mentor_clients.is_afk())
-				continue
 			if(GLOB.deadmins[mentor_clients.ckey])
 				continue
 
