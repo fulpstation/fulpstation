@@ -57,7 +57,9 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1000)
 	build_path = /obj/item/holosign_creator/robot_seat/restaurant/prison
-	category = list("Equipment")
+	category = list(
+		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_SECURITY
+	)
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
 /datum/design/board/restaurant_portal/prison
@@ -65,7 +67,10 @@
 	desc = "The circuit board for a restaurant portal"
 	id = "prison_restaurant_portal"
 	build_path = /obj/item/circuitboard/machine/restaurant_portal/prison
-	category = list ("Misc. Machinery")
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SECURITY
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
 // Circuit board
 /obj/item/circuitboard/machine/restaurant_portal/prison
