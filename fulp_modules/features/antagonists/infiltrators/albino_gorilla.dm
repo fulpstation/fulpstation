@@ -43,7 +43,7 @@
 	summon_radius = 2
 	summon_type = list(/obj/item/grown/bananapeel)
 	summon_amount = 10
-	button_icon = 'icons/obj/hydroponics/harvest.dmi'
+	button_icon = 'icons/obj/service/hydroponics/harvest.dmi'
 	button_icon_state = "banana_peel"
 
 /datum/action/cooldown/spell/conjure/banana/cast(atom/cast_on)
@@ -88,16 +88,19 @@
 
 /datum/component/creamed/gorilla/Initialize()
 	SEND_SIGNAL(parent, COMSIG_MOB_CREAMED)
-	creamface = mutable_appearance('fulp_modules/features/antagonists/infiltrators/icons/infils.dmi')
+	bodypart_overlay = new /datum/bodypart_overlay/simple/muddied()
 
 	var/mob/living/carbon/human/man = parent
 	if(man.bodytype & BODYTYPE_SNOUTED)
-		creamface.icon_state = "muddied_lizard"
+		bodypart_overlay.icon_state = "muddied_lizard"
 	else if(man.bodytype & BODYTYPE_MONKEY)
-		creamface.icon_state = "muddied_monkey"
+		bodypart_overlay.icon_state = "muddied_monkey"
 	else
-		creamface.icon_state = "muddied_human"
+		bodypart_overlay.icon_state = "muddied_human"
 
 	var/atom/atom = parent
-	atom.add_overlay(creamface)
+	atom.add_overlay(normal_overlay)
 
+/datum/bodypart_overlay/simple/muddied
+	icon_state = "muddied_human"
+	layers = EXTERNAL_FRONT

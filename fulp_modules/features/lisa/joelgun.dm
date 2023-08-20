@@ -5,7 +5,7 @@
 	icon_state = "revolver"
 	name = "\improper Bolt Action pistol"
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet. Examine again for more information."
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
 	custom_premium_price = PAYCHECK_CREW * 2.5
 	///Cooldown between ability uses
 	var/used_ability = FALSE

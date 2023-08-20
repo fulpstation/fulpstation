@@ -1,10 +1,10 @@
 /obj/machinery/barsign
-	icon = 'fulp_modules/features/barsigns/icons/barsigns.dmi' //'icons/obj/barsigns.dmi'
+	icon = 'fulp_modules/features/barsigns/icons/barsigns.dmi' //'icons/obj/machines/barsigns.dmi'
 
 /// Redirect our barsigns to use OUR .dmi file instead.
 /obj/machinery/barsign/set_sign(datum/barsign/sign)
 	. = ..()
-	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/barsigns.dmi'
+	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/machines/barsigns.dmi'
 
 /**
  * So what exactly is going on here?

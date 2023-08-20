@@ -20,7 +20,7 @@
 /obj/vehicle/sealed/mecha
 	name = "exosuit"
 	desc = "Exosuit"
-	icon = 'icons/mecha/mecha.dmi'
+	icon = 'icons/mob/mecha.dmi'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_integrity = 300
 	armor_type = /datum/armor/sealed_mecha
@@ -66,7 +66,9 @@
 	///Just stop the mech from doing anything
 	var/completely_disabled = FALSE
 	///Whether this mech is allowed to move diagonally
-	var/allow_diagonal_movement = FALSE
+	var/allow_diagonal_movement = TRUE
+	///Whether this mech moves into a direct as soon as it goes to move. Basically, turn and step in the same key press.
+	var/pivot_step = FALSE
 	///Whether or not the mech destroys walls by running into it.
 	var/bumpsmash = FALSE
 

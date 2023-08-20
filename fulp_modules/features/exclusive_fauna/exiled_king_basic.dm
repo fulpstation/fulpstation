@@ -58,11 +58,12 @@
 
 /mob/living/basic/exiled_king/Initialize(mapload)
 	. = ..()
+	var/static/list/death_loot = list(/obj/item/clothing/neck/cloak/squid)
+	AddElement(/datum/element/death_drops, death_loot)
 	AddComponent(/datum/component/gps, "Sunken Signal")
 	add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_ASHSTORM_IMMUNE), INNATE_TRAIT)
 	AddElement(/datum/element/simple_flying)
 	AddElement(/datum/element/crusher_loot, /obj/item/crusher_trophy/kraken_eye, 100, TRUE)
-	AddElement(/datum/element/death_drops, list(/obj/item/clothing/neck/cloak/squid))
 	var/datum/action/cooldown/mob_cooldown/summon_portal/fishes = new(src)
 	var/datum/action/cooldown/mob_cooldown/kraken_tentacle/tentacle = new(src)
 	var/datum/action/cooldown/mob_cooldown/tentacle_all_directions/all_directions = new(src)
@@ -239,7 +240,7 @@
 
 /datum/action/cooldown/mob_cooldown/summon_portal
 	name = "Summon Army"
-	button_icon = 'icons/obj/carp_rift.dmi'
+	button_icon = 'icons/obj/anomaly.dmi'
 	button_icon_state = "carp_rift_carpspawn"
 	desc = "Summon your army to defend you."
 	cooldown_time = 0 SECONDS
@@ -274,7 +275,7 @@
 	desc = "gateway for the King's army."
 	armor_type = /datum/armor/structure_carp_rift
 	max_integrity = 500
-	icon = 'icons/obj/carp_rift.dmi'
+	icon = 'icons/obj/anomaly.dmi'
 	icon_state = "carp_rift_carpspawn"
 	light_color = LIGHT_COLOR_PURPLE
 	light_range = 10

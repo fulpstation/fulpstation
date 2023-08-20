@@ -305,7 +305,7 @@
 /obj/item/gun/ballistic/shotgun/toy/toy_arm_cannon
 	name = "foam force arm cannon"
 	desc = "A cheap foam-force replica. Ages 8+"
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/toy/arm_ball
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/toy/arm_ball
 	icon = 'fulp_modules/features/halloween/2019/2019_icons.dmi'
 	icon_state = "arm_cannon"
 	inhand_icon_state = "arm_cannon"

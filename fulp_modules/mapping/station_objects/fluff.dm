@@ -9,7 +9,7 @@
 	. = ..()
 	become_hearing_sensitive(trait_source = ROUNDSTART_TRAIT)
 
-/obj/structure/showcase/machinery/nanite_programmer/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
+/obj/structure/showcase/machinery/nanite_programmer/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list(), message_range = 0)
 	. = ..()
 	var/static/regex/when = regex("(?:^\\W*when|when\\W*$)", "i") //starts or ends with when
 	if(findtext(raw_message, when) && !istype(speaker, /obj/structure/showcase/machinery/nanite_programmer))

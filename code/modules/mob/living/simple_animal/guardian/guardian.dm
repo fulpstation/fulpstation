@@ -123,7 +123,6 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 			summoner.faction += "[REF(src)]"
 	remove_all_languages(LANGUAGE_MASTER)
 	copy_languages(to_who, LANGUAGE_MASTER) // make sure holoparasites speak same language as master
-	update_atom_languages()
 	RegisterSignal(to_who, COMSIG_MOVABLE_MOVED, PROC_REF(check_distance))
 	RegisterSignal(to_who, COMSIG_QDELETING, PROC_REF(on_summoner_deletion))
 	RegisterSignal(to_who, COMSIG_LIVING_DEATH, PROC_REF(on_summoner_death))
@@ -367,10 +366,10 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 		return ..()
 
 /mob/living/simple_animal/hostile/guardian/death(gibbed)
-	. = ..()
 	if(!QDELETED(summoner))
 		to_chat(summoner, span_bolddanger("Your [name] died somehow!"))
 		summoner.dust()
+	return ..()
 
 /mob/living/simple_animal/hostile/guardian/update_health_hud()
 	var/severity = 0
@@ -451,8 +450,8 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 
 	equipping.screen_loc = null // will get moved if inventory is visible
 	equipping.forceMove(src)
-	equipping.equipped(src, slot)
 	SET_PLANE_EXPLICIT(equipping, ABOVE_HUD_PLANE, src)
+	equipping.on_equipped(src, slot)
 
 /mob/living/simple_animal/hostile/guardian/proc/apply_overlay(cache_index)
 	if((. = guardian_overlays[cache_index]))
