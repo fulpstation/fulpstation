@@ -16,7 +16,10 @@
 		// Curator
 		JOB_CURATOR,
 	)
-	restricted_roles = list(JOB_AI, JOB_CYBORG)
+	restricted_roles = list(
+		JOB_AI,
+		JOB_CYBORG,
+	)
 	required_candidates = 1
 	weight = 5
 	cost = 10
@@ -33,6 +36,7 @@
 			break
 		var/mob/selected_mobs = pick_n_take(candidates)
 		assigned += selected_mobs.mind
+		selected_mobs.mind.special_role = ROLE_BLOODSUCKER
 		selected_mobs.mind.restricted_roles = restricted_roles
 		GLOB.pre_setup_antags += selected_mobs.mind
 	return TRUE
@@ -44,7 +48,6 @@
 			assigned -= candidate_minds
 			continue
 		GLOB.pre_setup_antags -= candidate_minds
-		candidate_minds.special_role = ROLE_BLOODSUCKER
 	return TRUE
 
 //////////////////////////////////////////////
@@ -64,7 +67,11 @@
 		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE,
 		JOB_CURATOR,
 	)
-	restricted_roles = list(JOB_AI, JOB_CYBORG, "Positronic Brain")
+	restricted_roles = list(
+		JOB_AI,
+		JOB_CYBORG,
+		ROLE_POSITRONIC_BRAIN,
+	)
 	required_candidates = 1
 	weight = 5
 	cost = 10
@@ -111,7 +118,10 @@
 		JOB_WARDEN, JOB_SECURITY_OFFICER, JOB_DETECTIVE,
 		JOB_CURATOR,
 	)
-	restricted_roles = list(JOB_AI, JOB_CYBORG)
+	restricted_roles = list(
+		JOB_AI,
+		JOB_CYBORG,
+	)
 	required_candidates = 1
 	weight = 5
 	cost = 10
