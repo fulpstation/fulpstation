@@ -105,7 +105,7 @@
 	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
 		tear.activate()
 
-/datum/brain_trauma/special/bluespace_prophet/phobetor/on_revive(full_heal_flags)
+/datum/brain_trauma/special/bluespace_prophet/phobetor/proc/on_revive(full_heal_flags)
 	SIGNAL_HANDLER
 	if(full_heal_flags & HEAL_TRAUMAS)
 		restore()
