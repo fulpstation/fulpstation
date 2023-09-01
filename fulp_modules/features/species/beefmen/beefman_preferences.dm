@@ -90,21 +90,3 @@
 
 /datum/preference/choiced/beefman_mouth/apply_to_human(mob/living/carbon/human/target, value)
 	target.dna.features["beef_mouth"] = value
-
-//Trauma
-/datum/preference/choiced/beefman_trauma
-	savefile_key = "feature_beef_trauma"
-	savefile_identifier = PREFERENCE_CHARACTER
-	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
-	randomize_by_default = FALSE
-	relevant_mutant_bodypart = "beef_trauma"
-
-/datum/preference/choiced/beefman_trauma/init_possible_values()
-	return assoc_to_keys(GLOB.beefmen_traumas)
-
-/datum/preference/choiced/beefman_trauma/apply_to_human(mob/living/carbon/human/target, value)
-	var/given_trauma = GLOB.beefmen_traumas[value]
-	target.dna.features["beef_trauma"] = given_trauma
-
-/datum/preference/choiced/beefman_trauma/create_default_value()
-	return "Strangers"
