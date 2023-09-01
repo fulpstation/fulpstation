@@ -16,10 +16,16 @@
 	///If true the tears we create will be semi-transparent and inactive.
 	var/burnt_out = FALSE
 
+///When the trauma is added to a mob.
+/datum/brain_trauma/special/bluespace_prophet/phobetor/on_gain()
+	. = ..()
+	RegisterSignal(owner, COMSIG_LIVING_REVIVE, PROC_REF(on_revive)) // We want to heal burn-out when we're ahealed and such and such.
+
 ///When the trauma is removed from a mob.
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
 	for(var/obj/effect/client_image_holder/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
+	UnregisterSignal(owner, COMSIG_LIVING_REVIVE)
 
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_life(seconds_per_tick, times_fired)
 	if(!COOLDOWN_FINISHED(src, portal_cooldown))
@@ -98,6 +104,11 @@
 
 	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
 		tear.activate()
+
+/datum/brain_trauma/special/bluespace_prophet/phobetor/on_revive(full_heal_flags)
+	SIGNAL_HANDLER
+	if(full_heal_flags & HEAL_TRAUMAS)
+		restore()
 
 /**
  * Used as a helper that checks if you can successfully teleport to a turf.
@@ -216,7 +227,7 @@
 		if(SANITY_INSANE to SANITY_CRAZY)
 			to_chat(user, span_notice("...but [span_bold("someone else")] does too."))
 			playsound(user, 'sound/hallucinations/i_see_you1.ogg', 50, TRUE)
-			user.adjust_hallucinations(60 SECONDS)
+			user.adjust_hallucinations(5 MINUTES)
 			user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_crash)
 			to_chat(user, span_userdanger("Foreign memories invade your mind!"))
 			trauma.burn_out()
@@ -224,17 +235,17 @@
 			if(prob(40))
 				to_chat(user, span_smallnoticeital("You feel like something was following you through [src]."))
 				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_major)
-				user.adjust_hallucinations(30 SECONDS)
+				user.adjust_hallucinations(2 MINUTE)
 		if(SANITY_UNSTABLE to SANITY_DISTURBED)
 			if(prob(33))
 				to_chat(user, span_smallnoticeital("...was that a person inside [src]?"))
 				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_major)
-				user.adjust_hallucinations(20 SECONDS)
+				user.adjust_hallucinations(1 MINUTE)
 		if(SANITY_DISTURBED to SANITY_NEUTRAL)
 			if(prob(25))
 				to_chat(user, span_smallnoticeital("You notice a shadow in the corner of your eye, for a moment."))
 				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_minor)
-				user.adjust_hallucinations(10 SECONDS)
+				user.adjust_hallucinations(30 SECONDS)
 		if(SANITY_NEUTRAL to SANITY_GREAT)
 			if(prob(10))
 				to_chat(user, span_smallnoticeital("The trip is never pleasant."))
