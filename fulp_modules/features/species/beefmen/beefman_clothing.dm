@@ -15,7 +15,7 @@
 	name = "captain's sash"
 	desc = "A simple assistant sash, slung from shoulder to hip."
 	icon_state = "captain_beef"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 0, ACID = 0, WOUND = 15)
+	armor_type = /datum/armor/clothing_under/rank_captain
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
 
@@ -24,7 +24,7 @@
 	name = "security's sash"
 	desc = "A \"tactical\" security sash for officers."
 	icon_state = "security"
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 30, ACID = 30, WOUND = 10)
+	armor_type = /datum/armor/clothing_under/rank_security
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
 
@@ -43,13 +43,6 @@
 	desc = "A sash for someone that mean business."
 	icon_state = "detective"
 
-/obj/item/clothing/under/bodysash/security/brigdoc
-	name = "brig physician's sash"
-	desc = "It's made of a special fiber that provides minor protection against biohazards and Close Quarters weaponry. It has a brig physician stripe on it."
-	icon_state = "brigdoc"
-	permeability_coefficient = 0.5
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 30, ACID = 30)
-
 /obj/item/clothing/under/bodysash/security/deputy
 	name = "deputy's sash"
 	desc = "An awe-inspiring \"tactical\" sash; because safety never takes a holiday."
@@ -60,8 +53,7 @@
 	name = "medical's sash"
 	desc = "A doctor's sash, It's made of a special fiber that provides minor protection against biohazards.."
 	icon_state = "medical"
-	permeability_coefficient = 0.5
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
+	armor_type = /datum/armor/clothing_under/civilian_janitor
 
 /obj/item/clothing/under/bodysash/medical/cmo
 	name = "chief medical officer's sash"
@@ -88,14 +80,14 @@
 	name = "engineer's sash"
 	desc = "It's an orange high visibility sash worn by engineers."
 	icon_state = "engineer"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 60, ACID = 20)
+	armor_type = /datum/armor/clothing_under/civilian_janitor
 	resistance_flags = NONE
 
 /obj/item/clothing/under/bodysash/engineer/ce
 	name = "chief engineer's sash"
 	desc = "It's a high visibility sash given to those engineers insane enough to achieve the rank of \"Chief Engineer\"."
 	icon_state = "ce"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 80, ACID = 40)
+	armor_type = /datum/armor/clothing_under/engineering_chief_engineer
 
 /obj/item/clothing/under/bodysash/engineer/atmos
 	name = "atmospherics technician's sash"
@@ -107,13 +99,12 @@
 	name = "research director's sash"
 	desc = "It's a sash worn by those with the know-how to achieve the position of \"Research Director\". Its fabric provides minor protection from biological contaminants."
 	icon_state = "rd"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, FIRE = 0, ACID = 35)
+	armor_type = /datum/armor/clothing_under/rnd_research_director
 
 /obj/item/clothing/under/bodysash/scientist
 	name = "scientist's sash"
 	desc = "It's made of a special fiber that provides minor \"protection\" against explosives. It has markings that denote the wearer as a scientist."
 	icon_state = "scientist"
-	permeability_coefficient = 0.5
 
 /obj/item/clothing/under/bodysash/roboticist
 	name = "roboticist's sash"
@@ -125,8 +116,7 @@
 	name = "geneticist's sash"
 	desc = "A geneticist's sash. It's made of a special fiber that gives special protection against biohazards."
 	icon_state = "geneticist"
-	permeability_coefficient = 0.5
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
+	armor_type = /datum/armor/clothing_under/civilian_janitor
 
 //Supply/Civilian
 /obj/item/clothing/under/bodysash/hop
@@ -148,7 +138,7 @@
 	name = "shaft miner's sash"
 	desc = "It's a snappy sash. It is very dirty."
 	icon_state = "miner"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 80, ACID = 0, WOUND = 10)
+	armor_type = /datum/armor/clothing_under/cargo_miner
 	resistance_flags = NONE
 
 /obj/item/clothing/under/bodysash/clown
@@ -203,13 +193,12 @@
 	name = "botanist's sash"
 	desc = "It's a sash designed to protect against minor plant-related hazards."
 	icon_state = "botanist"
-	permeability_coefficient = 0.5
 
 /obj/item/clothing/under/bodysash/janitor
 	name = "janitor's sash"
 	desc = "A janitor sash, slung from shoulder to hip. It has minor protection from biohazards."
 	icon_state = "janitor"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
+	armor_type = /datum/armor/clothing_under/civilian_janitor
 
 /obj/item/clothing/under/bodysash/psychologist
 	name = "psychologist's sash"

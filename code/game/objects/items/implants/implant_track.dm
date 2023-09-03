@@ -1,7 +1,8 @@
 /obj/item/implant/tracking
 	name = "tracking implant"
 	desc = "Track with this."
-	activated = FALSE
+	actions_types = null
+
 	///for how many deciseconds after user death will the implant work?
 	var/lifespan_postmortem = 6000
 	///will people implanted with this act as teleporter beacons?
@@ -17,7 +18,7 @@
 
 /obj/item/implant/tracking/c38/implant(mob/living/target, mob/user, silent, force)
 	. = ..()
-	timerid = QDEL_IN(src, lifespan)
+	timerid = QDEL_IN_STOPPABLE(src, lifespan)
 
 /obj/item/implant/tracking/c38/removed(mob/living/source, silent, special)
 	. = ..()

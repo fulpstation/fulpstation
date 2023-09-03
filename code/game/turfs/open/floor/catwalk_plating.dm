@@ -13,7 +13,6 @@
 	baseturfs = /turf/open/floor/plating
 	floor_tile = /obj/item/stack/tile/catwalk_tile
 	layer = CATWALK_LAYER
-	plane = GAME_PLANE
 	footstep = FOOTSTEP_CATWALK
 	overfloor_placed = TRUE
 	underfloor_accessibility = UNDERFLOOR_VISIBLE
@@ -29,20 +28,30 @@
 	underlays += catwalk_underlays[catwalk_type]
 	update_appearance()
 
+/turf/open/floor/catwalk_floor/examine(mob/user)
+	. = ..()
+
+	if(covered)
+		. += span_notice("You can <b>unscrew</b> it to reveal the contents beneath.")
+	else
+		. += span_notice("You can <b>screw</b> it to hide the contents beneath.")
+		. += span_notice("There's a <b>small crack</b> on the edge of it.")
+
 /turf/open/floor/catwalk_floor/screwdriver_act(mob/living/user, obj/item/tool)
 	. = ..()
 	covered = !covered
 	if(!covered)
 		underfloor_accessibility = UNDERFLOOR_INTERACTABLE
 		layer = TURF_LAYER
-		plane = FLOOR_PLANE
 		icon_state = "[catwalk_type]_below"
 	else
 		underfloor_accessibility = UNDERFLOOR_VISIBLE
 		layer = CATWALK_LAYER
-		plane = GAME_PLANE
 		icon_state = "[catwalk_type]_above"
+
+	levelupdate()
 	user.balloon_alert(user, "[!covered ? "cover removed" : "cover added"]")
+	tool.play_tool_sound(src)
 	update_appearance()
 
 /turf/open/floor/catwalk_floor/crowbar_act(mob/user, obj/item/crowbar)
@@ -57,7 +66,6 @@
 	icon_state = "iron_above"
 	floor_tile = /obj/item/stack/tile/catwalk_tile/iron
 	catwalk_type = "iron"
-
 
 /turf/open/floor/catwalk_floor/iron_white
 	name = "white plated catwalk floor"
@@ -83,8 +91,28 @@
 	floor_tile = /obj/item/stack/tile/catwalk_tile/titanium
 	catwalk_type = "titanium"
 
+
 /turf/open/floor/catwalk_floor/iron_smooth //the original green type
 	name = "smooth plated catwalk floor"
 	icon_state = "smoothiron_above"
 	floor_tile = /obj/item/stack/tile/catwalk_tile/iron_smooth
 	catwalk_type = "smoothiron"
+
+//Airless variants of the above
+/turf/open/floor/catwalk_floor/iron/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/catwalk_floor/iron_white/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/catwalk_floor/iron_dark/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/catwalk_floor/flat_white/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/catwalk_floor/titanium/Airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/catwalk_floor/iron_smooth/airless
+	initial_gas_mix = AIRLESS_ATMOS

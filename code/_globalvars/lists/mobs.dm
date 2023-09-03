@@ -57,6 +57,8 @@ GLOBAL_LIST_EMPTY(narcd_underages)
 
 GLOBAL_LIST_EMPTY(language_datum_instances)
 GLOBAL_LIST_EMPTY(all_languages)
+///List of all languages ("name" = type)
+GLOBAL_LIST_EMPTY(language_types_by_name)
 
 GLOBAL_LIST_EMPTY(sentient_disease_instances)
 
@@ -67,9 +69,9 @@ GLOBAL_LIST_EMPTY(mob_config_movespeed_type_lookup)
 GLOBAL_LIST_EMPTY(emote_list)
 
 GLOBAL_LIST_INIT(construct_radial_images, list(
-	CONSTRUCT_JUGGERNAUT = image(icon = 'icons/mob/cult.dmi', icon_state = "juggernaut"),
-	CONSTRUCT_WRAITH = image(icon = 'icons/mob/cult.dmi', icon_state = "wraith"),
-	CONSTRUCT_ARTIFICER = image(icon = 'icons/mob/cult.dmi', icon_state = "artificer")
+	CONSTRUCT_JUGGERNAUT = image(icon = 'icons/mob/nonhuman-player/cult.dmi', icon_state = "juggernaut"),
+	CONSTRUCT_WRAITH = image(icon = 'icons/mob/nonhuman-player/cult.dmi', icon_state = "wraith"),
+	CONSTRUCT_ARTIFICER = image(icon = 'icons/mob/nonhuman-player/cult.dmi', icon_state = "artificer")
 ))
 
 /proc/update_config_movespeed_type_lookup(update_mobs = TRUE)
@@ -110,9 +112,8 @@ GLOBAL_LIST_INIT(construct_radial_images, list(
 
 /proc/get_crewmember_minds()
 	var/list/minds = list()
-	for(var/data in GLOB.data_core.locked)
-		var/datum/data/record/record = data
-		var/datum/mind/mind = record.fields["mindref"]
+	for(var/datum/record/locked/target in GLOB.manifest.locked)
+		var/datum/mind/mind = target.mind_ref
 		if(mind)
 			minds += mind
 	return minds

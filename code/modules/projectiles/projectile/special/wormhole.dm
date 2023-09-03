@@ -1,9 +1,8 @@
 /obj/projectile/beam/wormhole
 	name = "bluespace beam"
 	icon_state = "spark"
-	hitsound = "sparks"
+	hitsound = SFX_SPARKS
 	damage = 0
-	nodamage = TRUE
 	pass_flags = PASSGLASS | PASSTABLE | PASSGRILLE | PASSMOB
 	//Weakref to the thing that shot us
 	var/datum/weakref/gun

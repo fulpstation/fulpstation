@@ -50,14 +50,16 @@
 			/turf/open/floor/engine/cult,
 			/turf/open/space,
 			/turf/open/lava,
-			/turf/open/chasm))
+			/turf/open/chasm,
+			/turf/open/misc/asteroid,
+		))
 		if(is_type_in_typecache(nearby_turf, blacklisted_pylon_turfs))
 			continue
 		validturfs |= nearby_turf
 
 	if(length(validturfs))
 		var/turf/converted_turf = pick(validturfs)
-		if(istype(converted_turf, /turf/open/floor/plating))
+		if(isplatingturf(converted_turf))
 			converted_turf.PlaceOnTop(/turf/open/floor/engine/cult, flags = CHANGETURF_INHERIT_AIR)
 		else
 			converted_turf.ChangeTurf(/turf/open/floor/engine/cult, flags = CHANGETURF_INHERIT_AIR)

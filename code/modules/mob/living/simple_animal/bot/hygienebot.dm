@@ -2,11 +2,11 @@
 /mob/living/simple_animal/bot/hygienebot
 	name = "\improper Hygienebot"
 	desc = "A flying cleaning robot, he'll chase down people who can't shower properly!"
-	icon = 'icons/mob/aibots.dmi'
+	icon = 'icons/mob/silicon/aibots.dmi'
 	icon_state = "hygienebot"
 	base_icon_state = "hygienebot"
 	pass_flags = PASSMOB | PASSFLAPS | PASSTABLE
-	layer = ABOVE_MOB_LAYER
+	layer = MOB_UPPER_LAYER
 	density = FALSE
 	anchored = FALSE
 	health = 100
@@ -15,10 +15,25 @@
 	maints_access_required = list(ACCESS_ROBOTICS, ACCESS_JANITOR)
 	radio_key = /obj/item/encryptionkey/headset_service
 	radio_channel = RADIO_CHANNEL_SERVICE //Service
-	bot_mode_flags = ~BOT_MODE_PAI_CONTROLLABLE
+	bot_mode_flags = ~BOT_MODE_CAN_BE_SAPIENT
 	bot_type = HYGIENE_BOT
 	hackables = "cleaning service protocols"
 	path_image_color = "#993299"
+
+	automated_announcements = list(
+		HYGIENEBOT_VOICED_UNHYGIENIC = 'sound/voice/hygienebot/unhygienicclient.ogg',
+		HYGIENEBOT_VOICED_ENJOY_DAY = 'sound/voice/hygienebot/cleanandtidy.ogg',
+		HYGIENEBOT_VOICED_THREAT_AIRLOCK = 'sound/voice/hygienebot/dragyouout.ogg',
+		HYGIENEBOT_VOICED_FOUL_SMELL = 'sound/voice/hygienebot/foulsmelling.ogg',
+		HYGIENEBOT_VOICED_TROGLODYTE = 'sound/voice/hygienebot/troglodyte.ogg',
+		HYGIENEBOT_VOICED_GREEN_CLOUD = 'sound/voice/hygienebot/greencloud.ogg',
+		HYGIENEBOT_VOICED_ARSEHOLE = 'sound/voice/hygienebot/letmeclean.ogg',
+		HYGIENEBOT_VOICED_THREAT_ARTERIES = 'sound/voice/hygienebot/cutarteries.ogg',
+		HYGIENEBOT_VOICED_STOP_RUNNING = 'sound/voice/hygienebot/stoprunning.ogg',
+		HYGIENEBOT_VOICED_FUCKING_FINALLY = 'sound/voice/hygienebot/finally.ogg',
+		HYGIENEBOT_VOICED_THANK_GOD = 'sound/voice/hygienebot/thankgod.ogg',
+		HYGIENEBOT_VOICED_DEGENERATE = 'sound/voice/hygienebot/degenerate.ogg',
+	)
 
 	///The human target the bot is trying to wash.
 	var/mob/living/carbon/human/target
@@ -46,17 +61,18 @@
 	access_card.add_access(jani_trim.access + jani_trim.wildcard_access)
 	prev_access = access_card.access.Copy()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
-/mob/living/simple_animal/bot/hygienebot/explode()
-	visible_message(span_boldannounce("[src] blows apart in a foamy explosion!"))
-	do_sparks(3, TRUE, src)
-	bot_mode_flags &= ~BOT_MODE_ON
-	new /obj/effect/particle_effect/foam(loc)
+	ADD_TRAIT(src, TRAIT_SPRAY_PAINTABLE, INNATE_TRAIT)
 
-	..()
+/mob/living/simple_animal/bot/hygienebot/explode()
+	var/datum/effect_system/fluid_spread/foam/foam = new
+	foam.set_up(2, holder = src, location = loc)
+	foam.start()
+
+	return ..()
 
 /mob/living/simple_animal/bot/hygienebot/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
@@ -95,6 +111,8 @@
 	if(washing)
 		do_wash(loc)
 		for(var/AM in loc)
+			if (AM == src)
+				continue
 			do_wash(AM)
 		if(isopenturf(loc) && !(bot_cover_flags & BOT_COVER_EMAGGED))
 			var/turf/open/tile = loc
@@ -124,8 +142,13 @@
 				if(target.loc == loc && isturf(target.loc)) //LADIES AND GENTLEMAN WE GOTEM PREPARE TO DUMP
 					start_washing()
 					if(mad)
-						speak("Well about fucking time you degenerate.", "Fucking finally.", "Thank god, you finally stopped.")
-						playsound(loc, 'sound/effects/hygienebot_angry.ogg', 60, 1)
+						var/static/list/relief = list(
+							HYGIENEBOT_VOICED_FUCKING_FINALLY,
+							HYGIENEBOT_VOICED_THANK_GOD,
+							HYGIENEBOT_VOICED_DEGENERATE,
+						)
+						speak(pick(relief))
+						playsound(loc, 'sound/effects/hygienebot_angry.ogg', 60, 1) //i think it should still make robot noises too
 						mad = FALSE
 					mode = BOT_SHOWERSTANCE
 				else
@@ -136,8 +159,17 @@
 						return
 					SSmove_manager.move_to(src, target, 0, currentspeed)
 					if(mad && prob(min(frustration * 2, 60)))
+						var/static/list/threats = list(
+							HYGIENEBOT_VOICED_THREAT_AIRLOCK,
+							HYGIENEBOT_VOICED_FOUL_SMELL,
+							HYGIENEBOT_VOICED_TROGLODYTE,
+							HYGIENEBOT_VOICED_GREEN_CLOUD,
+							HYGIENEBOT_VOICED_ARSEHOLE,
+							HYGIENEBOT_VOICED_THREAT_ARTERIES,
+							HYGIENEBOT_VOICED_STOP_RUNNING,
+						)
+						speak(pick(threats))
 						playsound(loc, 'sound/effects/hygienebot_angry.ogg', 60, 1)
-						speak(pick("Get back here you foul smelling fucker.", "STOP RUNNING OR I WILL CUT YOUR ARTERIES!", "Just fucking let me clean you you arsehole!", "STOP. RUNNING.", "Either you stop running or I will fucking drag you out of an airlock.", "I just want to fucking clean you you troglodyte.", "If you don't come back here I'll put a green cloud around you cunt."))
 					if((get_dist(src, target)) >= olddist)
 						frustration++
 					else
@@ -147,7 +179,7 @@
 
 		if(BOT_SHOWERSTANCE)
 			if(check_purity(target))
-				speak("Enjoy your clean and tidy day!")
+				speak(HYGIENEBOT_VOICED_ENJOY_DAY)
 				playsound(loc, 'sound/effects/hygienebot_happy.ogg', 60, 1)
 				back_to_idle()
 				return
@@ -171,13 +203,13 @@
 	frustration = 0
 	last_found = world.time
 	stop_washing()
-	INVOKE_ASYNC(src, .proc/handle_automated_action)
+	INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
 
 /mob/living/simple_animal/bot/hygienebot/proc/back_to_hunt()
 	frustration = 0
 	mode = BOT_HUNT
 	stop_washing()
-	INVOKE_ASYNC(src, .proc/handle_automated_action)
+	INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
 
 /mob/living/simple_animal/bot/hygienebot/proc/look_for_lowhygiene()
 	for (var/mob/living/carbon/human/H in view(7,src)) //Find the NEET
@@ -186,11 +218,11 @@
 		if(!check_purity(H)) //Theyre impure
 			target = H
 			oldtarget_name = H.name
-			speak("Unhygienic client found. Please stand still so I can clean you.")
+			speak(HYGIENEBOT_VOICED_UNHYGIENIC)
 			playsound(loc, 'sound/effects/hygienebot_happy.ogg', 60, 1)
 			visible_message("<b>[src]</b> points at [H.name]!")
 			mode = BOT_HUNT
-			INVOKE_ASYNC(src, .proc/handle_automated_action)
+			INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
 			break
 		else
 			continue
@@ -210,7 +242,7 @@
 	for(var/X in list(ITEM_SLOT_HEAD, ITEM_SLOT_MASK, ITEM_SLOT_ICLOTHING, ITEM_SLOT_OCLOTHING, ITEM_SLOT_FEET))
 
 		var/obj/item/I = L.get_item_by_slot(X)
-		if(I && HAS_BLOOD_DNA(I))
+		if(I && GET_ATOM_BLOOD_DNA_LENGTH(I))
 			return FALSE
 	return TRUE
 

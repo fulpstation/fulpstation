@@ -1,9 +1,9 @@
-import { Antagonist, Category } from "../base";
-import { multiline } from "common/string";
+import { Antagonist, Category } from '../base';
+import { multiline } from 'common/string';
 
 const Bloodsucker: Antagonist = {
-  key: "bloodsucker",
-  name: "Bloodsucker",
+  key: 'bloodsucker',
+  name: 'Bloodsucker',
   description: [
     multiline`
       After your death, you awaken to see yourself as an undead monster.

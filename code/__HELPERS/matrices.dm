@@ -1,3 +1,8 @@
+//Luma coefficients suggested for HDTVs. If you change these, make sure they add up to 1.
+#define LUMA_R 0.213
+#define LUMA_G 0.715
+#define LUMA_B 0.072
+
 /// Datum which stores information about a matrix decomposed with decompose().
 /datum/decompose_matrix
 	///?
@@ -38,30 +43,13 @@
 	. = new_angle - old_angle
 	Turn(.) //BYOND handles cases such as -270, 360, 540 etc. DOES NOT HANDLE 180 TURNS WELL, THEY TWEEN AND LOOK LIKE SHIT
 
-/atom/proc/SpinAnimation(speed = 10, loops = -1, clockwise = 1, segments = 3, parallel = TRUE)
-	if(!segments)
-		return
-	var/segment = 360/segments
-	if(!clockwise)
-		segment = -segment
-	var/list/matrices = list()
-	for(var/i in 1 to segments-1)
-		var/matrix/M = matrix(transform)
-		M.Turn(segment*i)
-		matrices += M
-	var/matrix/last = matrix(transform)
-	matrices += last
-
-	speed /= segments
-
-	if(parallel)
-		animate(src, transform = matrices[1], time = speed, loops , flags = ANIMATION_PARALLEL)
-	else
-		animate(src, transform = matrices[1], time = speed, loops)
-	for(var/i in 2 to segments) //2 because 1 is covered above
-		animate(transform = matrices[i], time = speed)
-		//doesn't have an object argument because this is "Stacking" with the animate call above
-		//3 billion% intentional
+/**
+ * Shear the transform on either or both axes.
+ * * x - X axis shearing
+ * * y - Y axis shearing
+ */
+/matrix/proc/Shear(x, y)
+	return Multiply(matrix(1, x, 0, y, 1, 0))
 
 //Dumps the matrix data in format a-f
 /matrix/proc/tolist()
@@ -194,7 +182,7 @@ round(cos_inv_third+sqrt3_sin, 0.001), round(cos_inv_third-sqrt3_sin, 0.001), ro
 	for(y in 1 to 5)
 		offset = (y-1)*4
 		for(x in 1 to 4)
-			output[offset+x] = round(A[offset+1]*B[x] + A[offset+2]*B[x+4] + A[offset+3]*B[x+8] + A[offset+4]*B[x+12]+(y==5?B[x+16]:0), 0.001)
+			output[offset+x] = round(A[offset+1]*B[x] + A[offset+2]*B[x+4] + A[offset+3]*B[x+8] + A[offset+4]*B[x+12]+(y == 5?B[x+16]:0), 0.001)
 	return output
 
 ///Converts RGB shorthands into RGBA matrices complete of constants rows (ergo a 20 keys list in byond).
@@ -233,3 +221,6 @@ round(cos_inv_third+sqrt3_sin, 0.001), round(cos_inv_third-sqrt3_sin, 0.001), ro
 		else
 			CRASH("Invalid/unsupported color format argument in color_to_full_rgba_matrix()")
 
+#undef LUMA_R
+#undef LUMA_G
+#undef LUMA_B

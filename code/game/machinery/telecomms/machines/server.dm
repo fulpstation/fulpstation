@@ -11,8 +11,7 @@
 	desc = "A machine used to store data and network statistics."
 	telecomms_type = /obj/machinery/telecomms/server
 	density = TRUE
-	use_power = IDLE_POWER_USE
-	idle_power_usage = 15
+	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 0.01
 	circuit = /obj/item/circuitboard/machine/telecomms/server
 	var/list/log_entries = list()
 	var/totaltraffic = 0 // gigabytes (if > 1024, divide by 1024 -> terrabytes)
@@ -29,31 +28,34 @@
 	if (log_entries.len >= 400)
 		log_entries.Cut(1, 2)
 
-	var/datum/comm_log_entry/log = new
-	log.parameters["mobtype"] = signal.virt.source.type
-	log.parameters["name"] = signal.data["name"]
-	log.parameters["job"] = signal.data["job"]
-	log.parameters["message"] = signal.data["message"]
-	log.parameters["language"] = signal.language
+	// Don't create a log if the frequency is banned from being logged
+	if(!(signal.frequency in banned_frequencies))
+		var/datum/comm_log_entry/log = new
+		log.parameters["mobtype"] = signal.virt.source.type
+		log.parameters["name"] = signal.data["name"]
+		log.parameters["job"] = signal.data["job"]
+		log.parameters["message"] = signal.data["message"]
+		log.parameters["language"] = signal.language
 
-	// If the signal is still compressed, make the log entry gibberish
-	var/compression = signal.data["compression"]
-	if(compression > 0)
-		log.input_type = "Corrupt File"
-		var/replace_characters = compression >= 20 ? TRUE : FALSE
-		log.parameters["name"] = Gibberish(signal.data["name"], replace_characters)
-		log.parameters["job"] = Gibberish(signal.data["job"], replace_characters)
-		log.parameters["message"] = Gibberish(signal.data["message"], replace_characters)
+		// If the signal is still compressed, make the log entry gibberish
+		var/compression = signal.data["compression"]
+		if(compression > 0)
+			log.input_type = "Corrupt File"
+			var/replace_characters = compression >= 20 ? TRUE : FALSE
+			log.parameters["name"] = Gibberish(signal.data["name"], replace_characters)
+			log.parameters["job"] = Gibberish(signal.data["job"], replace_characters)
+			log.parameters["message"] = Gibberish(signal.data["message"], replace_characters)
 
-	// Give the log a name and store it
-	var/identifier = num2text( rand(-1000,1000) + world.time )
-	log.name = "data packet ([md5(identifier)])"
-	log_entries.Add(log)
+		// Give the log a name and store it
+		var/identifier = num2text( rand(-1000,1000) + world.time )
+		log.name = "data packet ([md5(identifier)])"
+		log_entries.Add(log)
 
 	var/can_send = relay_information(signal, /obj/machinery/telecomms/hub)
 	if(!can_send)
 		relay_information(signal, /obj/machinery/telecomms/broadcaster)
 
+	use_power(idle_power_usage)
 
 // Simple log entry datum
 /datum/comm_log_entry

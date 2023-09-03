@@ -20,7 +20,7 @@
 	icon_state = "supermatter"
 	light_range = 3
 	light_system = MOVABLE_LIGHT
-	color = LIGHT_COLOR_YELLOW
+	color = LIGHT_COLOR_DIM_YELLOW
 	attack_verb_continuous = list("dust")
 	attack_verb_simple = list("dust")
 	squeak_override = list('sound/effects/supermatter.ogg'= 1)
@@ -33,47 +33,47 @@
 	attack_verb_continuous = list("flails at")
 	attack_verb_simple = list("flail at")
 	squeak_override = list('fulp_modules/features/toys/sound/pico.ogg'= 1)
-	custom_price = PAYCHECK_HARD
+	custom_price = PAYCHECK_COMMAND
 
 /obj/item/toy/plush/fly
 	name = "fly plushie"
 	desc = "A plushie depicting a despicable flyperson. It looks like a discontinued human plushie dropped in a teleporter."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "fly"
-	inhand_icon_state = "fly"
+	inhand_icon_state = null
 	attack_verb_continuous = list("buzzes", "swats")
 	attack_verb_simple = list("buzz", "swat")
 	squeak_override = list( 'sound/effects/snap.ogg'=1)
 
-/obj/item/toy/plush/freddy
+/obj/item/toy/plush/animatronic
 	name = "Freddy Fazbear plushie"
 	desc = "Don't look inside of the suit."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "freddy"
-	inhand_icon_state = "freddy"
+	inhand_icon_state = null
 	attack_verb_continuous = list("jumpscares")
 	attack_verb_simple = list("jumpscare")
 	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)
 
-/obj/item/toy/plush/chica
+/obj/item/toy/plush/animatronic/chica
 	name = "Chica plushie"
 	desc = "Despite saying let's eat on the bib, please do not attempt to feed the plush."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "chica"
-	inhand_icon_state = "chica"
-	attack_verb_continuous = list("jumpscares")
-	attack_verb_simple = list("jumpscare")
-	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)
 
-/obj/item/toy/plush/freddy/suicide_act(mob/living/carbon/user)
-	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
-	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
-	if(myhead)
-		myhead.dismember()
-	return(BRUTELOSS)
+/obj/item/toy/plush/animatronic/foxy
+	name = "Foxy plushie"
+	desc = "It just wants a friend!"
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "foxy"
 
-/obj/item/toy/plush/chica/suicide_act(mob/living/carbon/user)
+/obj/item/toy/plush/animatronic/bonnie
+	name = "Bonnie plushie"
+	desc = "A different purple guy."
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "bonnie"
+
+/obj/item/toy/plush/animatronic/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
 	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
 	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
@@ -87,3 +87,25 @@
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "beefman"
 	squeak_override = list('sound/effects/meatslap.ogg'=1)
+
+//Do your cooldown changes here.
+#define BEEFPLUSHIE_COOLDOWN_TIME (1 MINUTES)
+
+/obj/item/toy/plush/beefplushie/living
+	desc = "It looks oddly alive. You feel like you should pet it."
+	COOLDOWN_DECLARE(beefplushie_cooldown)
+
+//When used in hand.
+/obj/item/toy/plush/beefplushie/living/attack_self(mob/user)
+	. = ..()
+	if(!COOLDOWN_FINISHED(src, beefplushie_cooldown))
+		balloon_alert(user, "not ready yet!")
+		return
+	balloon_alert(user, "producing meat")
+	if(!do_after(user, 2 SECONDS, target = src))
+		return
+	playsound(src, "sound/effects/splat.ogg", 50)
+	user.put_in_hands(new /obj/item/food/meat/slab)
+	COOLDOWN_START(src, beefplushie_cooldown, BEEFPLUSHIE_COOLDOWN_TIME)
+
+#undef BEEFPLUSHIE_COOLDOWN_TIME

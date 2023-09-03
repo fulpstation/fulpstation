@@ -49,7 +49,7 @@
 
 /obj/item/bodypart/proc/drop_meat(mob/inOwner, dismembered = FALSE)
 	// Not Organic? ABORT! Robotic stays robotic, desnt delete and turn to meat.
-	if(status != BODYPART_ORGANIC)
+	if(!IS_ORGANIC_LIMB(src))
 		return FALSE
 	// If not 0% health, let's do it!
 	var/percentHealth = 1 - (brute_dam + burn_dam) / max_damage
@@ -65,10 +65,7 @@
 	// Apply my Reagents to Meat
 	if(inOwner.reagents && inOwner.reagents.total_volume)
 		inOwner.reagents.trans_to(new_meat, 20)	// Run transfer of 1 unit of reagent from them to me.
-
-	if(!dismembered)
-		inOwner.put_in_hands(new_meat)
-	. = new_meat
+	return new_meat
 
 
 /**
@@ -80,89 +77,205 @@
 /obj/item/bodypart/head/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	is_dimorphic = FALSE
+	icon_state = "beefman_head"
+	head_flags = HEAD_HAIR
+
+/obj/item/bodypart/head/beef/Initialize(mapload)
+	worn_ears_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_EARS,
+		offset_y = list("south" = 2),
+	)
+	worn_glasses_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_GLASSES,
+		offset_y = list("south" = 3),
+	)
+	worn_head_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HEAD,
+		offset_y = list("south" = 3),
+	)
+	worn_mask_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_FACEMASK,
+		offset_y = list("south" = 3),
+	)
+	worn_face_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_FACE,
+		offset_y = list("south" = 3),
+	)
+	return ..()
 
 /obj/item/bodypart/chest/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	is_dimorphic = FALSE
+	icon_state = "beefman_chest"
 
-/obj/item/bodypart/r_arm/beef
+/obj/item/bodypart/chest/beef/Initialize(mapload)
+	worn_uniform_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_UNIFORM,
+		offset_y = list("south" = 2),
+	)
+	worn_id_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_ID,
+		offset_y = list("south" = 2),
+	)
+	worn_suit_storage_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_S_STORE,
+		offset_y = list("south" = 2),
+	)
+	worn_belt_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_BELT,
+		offset_y = list("south" = 3),
+	)
+	worn_back_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_BACK,
+		offset_y = list("south" = 2),
+	)
+	worn_suit_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_SUIT,
+		offset_y = list("south" = 2),
+	)
+	worn_neck_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_NECK,
+		offset_y = list("south" = 2),
+	)
+	return ..()
+
+/obj/item/bodypart/arm/right/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
+	unarmed_attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
+	unarmed_attack_verb = "meat"
+	unarmed_damage_low = 1
+	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	limb_id = SPECIES_BEEFMAN
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	icon_state = "beefman_r_arm"
 
-/obj/item/bodypart/r_arm/beef/drop_limb(special)
+/obj/item/bodypart/arm/right/beef/Initialize(mapload)
+	worn_glove_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_GLOVES,
+		offset_y = list("south" = -4),
+	)
+	held_hand_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HELD,
+		offset_y = list("south" = -4),
+	)
+	return ..()
+
+/obj/item/bodypart/arm/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache)
 		qdel(src)
+		return new_meat
 
-/obj/item/bodypart/r_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
-
-/obj/item/bodypart/l_arm/beef
+/obj/item/bodypart/arm/left/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
+	unarmed_attack_sound = 'fulp_modules/features/species/sounds/beef_hit.ogg'
+	unarmed_attack_verb = "meat"
+	unarmed_damage_low = 1
+	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	limb_id = SPECIES_BEEFMAN
+	icon_state = "beefman_l_arm"
 
-/obj/item/bodypart/l_arm/beef/drop_limb(special)
+/obj/item/bodypart/arm/left/beef/Initialize(mapload)
+	worn_glove_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_GLOVES,
+		offset_y = list("south" = -4),
+	)
+	held_hand_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HELD,
+		offset_y = list("south" = -4),
+	)
+	return ..()
+
+/obj/item/bodypart/arm/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
+		return new_meat
 
-/obj/item/bodypart/l_arm/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
-
-/obj/item/bodypart/r_leg/beef
+/obj/item/bodypart/leg/right/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	limb_id = SPECIES_BEEFMAN
+	icon_state = "beefman_r_leg"
+	speed_modifier = -0.1
 
-/obj/item/bodypart/r_leg/beef/drop_limb(special)
+/obj/item/bodypart/leg/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
+		return new_meat
 
-/obj/item/bodypart/r_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
-
-/obj/item/bodypart/l_leg/beef
+/obj/item/bodypart/leg/left/beef
 	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
-	icon_robotic = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	limb_id = SPECIES_BEEFMAN
+	icon_state = "beefman_l_leg"
+	speed_modifier = -0.1
 
-/obj/item/bodypart/l_leg/beef/drop_limb(special)
+/obj/item/bodypart/leg/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
-	if(!special && drop_meat(owner_cache))
+	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		qdel(src)
+		return new_meat
 
-/obj/item/bodypart/l_leg/beef/dismember(dam_type = BRUTE, silent = TRUE)
-	var/mob/living/carbon/owner_cache = owner
-	..()
-	if(drop_meat(owner_cache, TRUE))
-		qdel(src)
+/mob/living/carbon/human/spread_bodyparts(skip_head = FALSE)
+	if(!isbeefman(src))
+		return ..()
+	for(var/obj/item/bodypart/bodypart in bodyparts)
+		bodypart.drop_limb()
+
+
+/obj/item/bodypart/update_limb(dropping_limb = FALSE, is_creating = FALSE)
+	. = ..()
+	if(owner.dna.species.id == SPECIES_BEEFMAN)
+		if(!IS_ORGANIC_LIMB(src))
+			icon_static = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
+		else
+			icon_static = initial(icon_static)

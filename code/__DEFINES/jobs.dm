@@ -6,13 +6,25 @@
 #define JOB_UNAVAILABLE_SLOTFULL 5
 /// Job unavailable due to incompatibility with an antag role.
 #define JOB_UNAVAILABLE_ANTAG_INCOMPAT 6
+/// Checks for character age.
+#define JOB_UNAVAILABLE_AGE 7
+
+/// Used when the `get_job_unavailable_error_message` proc can't make sense of a given code.
+#define GENERIC_JOB_UNAVAILABLE_ERROR "Error: Unknown job availability."
 
 #define DEFAULT_RELIGION "Christianity"
 #define DEFAULT_DEITY "Space Jesus"
 #define DEFAULT_BIBLE "Default Bible Name"
+#define DEFAULT_BIBLE_REPLACE(religion) "The Holy Book of [religion]"
 
 #define JOB_DISPLAY_ORDER_DEFAULT 0
 
+// Keys for jobconfig.toml
+#define JOB_CONFIG_PLAYTIME_REQUIREMENTS "Playtime Requirements"
+#define JOB_CONFIG_REQUIRED_ACCOUNT_AGE "Required Account Age"
+#define JOB_CONFIG_REQUIRED_CHARACTER_AGE "Required Character Age"
+#define JOB_CONFIG_SPAWN_POSITIONS "Spawn Positions"
+#define JOB_CONFIG_TOTAL_POSITIONS "Total Positions"
 
 /**
  * =======================
@@ -52,6 +64,7 @@
 #define JOB_STATION_ENGINEER "Station Engineer"
 #define JOB_ATMOSPHERIC_TECHNICIAN "Atmospheric Technician"
 //Medical
+#define JOB_CORONER "Coroner"
 #define JOB_MEDICAL_DOCTOR "Medical Doctor"
 #define JOB_PARAMEDIC "Paramedic"
 #define JOB_CHEMIST "Chemist"
@@ -76,14 +89,14 @@
 #define JOB_CHAPLAIN "Chaplain"
 #define JOB_PSYCHOLOGIST "Psychologist"
 //ERTs
+#define JOB_ERT_DEATHSQUAD "Death Commando"
 #define JOB_ERT_COMMANDER "Emergency Response Team Commander"
 #define JOB_ERT_OFFICER "Security Response Officer"
 #define JOB_ERT_ENGINEER "Engineering Response Officer"
 #define JOB_ERT_MEDICAL_DOCTOR "Medical Response Officer"
-#define JOB_ERT_CLOWN "Entertainment Response Officer"
 #define JOB_ERT_CHAPLAIN "Religious Response Officer"
 #define JOB_ERT_JANITOR "Janitorial Response Officer"
-#define JOB_ERT_DEATHSQUAD "Death Commando"
+#define JOB_ERT_CLOWN "Entertainment Response Officer"
 //CentCom
 #define JOB_CENTCOM "Central Command"
 #define JOB_CENTCOM_OFFICIAL "CentCom Official"
@@ -125,18 +138,19 @@
 #define JOB_DISPLAY_ORDER_PARAMEDIC 24
 #define JOB_DISPLAY_ORDER_CHEMIST 25
 #define JOB_DISPLAY_ORDER_VIROLOGIST 26
-#define JOB_DISPLAY_ORDER_RESEARCH_DIRECTOR 27
-#define JOB_DISPLAY_ORDER_SCIENTIST 28
-#define JOB_DISPLAY_ORDER_ROBOTICIST 29
-#define JOB_DISPLAY_ORDER_GENETICIST 30
-#define JOB_DISPLAY_ORDER_HEAD_OF_SECURITY 31
-#define JOB_DISPLAY_ORDER_WARDEN 32
-#define JOB_DISPLAY_ORDER_DETECTIVE 33
-#define JOB_DISPLAY_ORDER_SECURITY_OFFICER 34
-#define JOB_DISPLAY_ORDER_PRISONER 35
+#define JOB_DISPLAY_ORDER_CORONER 27
+#define JOB_DISPLAY_ORDER_RESEARCH_DIRECTOR 28
+#define JOB_DISPLAY_ORDER_SCIENTIST 29
+#define JOB_DISPLAY_ORDER_ROBOTICIST 30
+#define JOB_DISPLAY_ORDER_GENETICIST 31
+#define JOB_DISPLAY_ORDER_HEAD_OF_SECURITY 32
+#define JOB_DISPLAY_ORDER_WARDEN 33
+#define JOB_DISPLAY_ORDER_DETECTIVE 34
+#define JOB_DISPLAY_ORDER_SECURITY_OFFICER 35
+#define JOB_DISPLAY_ORDER_PRISONER 36
 
 
-#define DEPARTMENT_UNASSIGNED "No department assigned"
+#define DEPARTMENT_UNASSIGNED "No Department"
 
 #define DEPARTMENT_BITFLAG_SECURITY (1<<0)
 #define DEPARTMENT_SECURITY "Security"
@@ -176,7 +190,22 @@
 #define JOB_REOPEN_ON_ROUNDSTART_LOSS (1<<6)
 /// If the player with this job can have quirks assigned to him or not. Relevant for new player joinable jobs and roundstart antags.
 #define JOB_ASSIGN_QUIRKS (1<<7)
+/// Whether this job can be an intern.
+#define JOB_CAN_BE_INTERN (1<<8)
+/// This job cannot have more slots opened by the Head of Personnel (but admins or other random events can still do this).
+#define JOB_CANNOT_OPEN_SLOTS (1<<9)
 
+/// Combination flag for jobs which are considered regular crew members of the station.
+#define STATION_JOB_FLAGS (JOB_ANNOUNCE_ARRIVAL|JOB_CREW_MANIFEST|JOB_EQUIP_RANK|JOB_CREW_MEMBER|JOB_NEW_PLAYER_JOINABLE|JOB_REOPEN_ON_ROUNDSTART_LOSS|JOB_ASSIGN_QUIRKS|JOB_CAN_BE_INTERN)
 
 #define FACTION_NONE "None"
 #define FACTION_STATION "Station"
+
+// Variable macros used to declare who is the supervisor for a given job, announced to the player when they join as any given job.
+#define SUPERVISOR_CAPTAIN "the Captain"
+#define SUPERVISOR_CE "the Chief Engineer"
+#define SUPERVISOR_CMO "the Chief Medical Officer"
+#define SUPERVISOR_HOP "the Head of Personnel"
+#define SUPERVISOR_HOS "the Head of Security"
+#define SUPERVISOR_QM "the Quartermaster"
+#define SUPERVISOR_RD "the Research Director"

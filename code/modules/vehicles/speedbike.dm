@@ -1,6 +1,6 @@
 /obj/vehicle/ridden/speedbike
 	name = "Speedbike"
-	icon = 'icons/obj/bike.dmi'
+	icon = 'icons/obj/toys/bike.dmi'
 	icon_state = "speedbike_blue"
 	layer = LYING_MOB_LAYER
 	var/cover_iconstate = "cover_blue"
@@ -24,7 +24,7 @@
 /obj/vehicle/ridden/speedwagon
 	name = "BM Speedwagon"
 	desc = "Push it to the limit, walk along the razor's edge."
-	icon = 'icons/obj/car.dmi'
+	icon = 'icons/obj/toys/car.dmi'
 	icon_state = "speedwagon"
 	layer = LYING_MOB_LAYER
 	max_buckled_mobs = 4
@@ -60,7 +60,7 @@
 		visible_message(span_danger("[src] crashes into [rammed]!"))
 		playsound(src, 'sound/effects/bang.ogg', 50, TRUE)
 
-/obj/vehicle/ridden/speedwagon/Moved()
+/obj/vehicle/ridden/speedwagon/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change = TRUE)
 	. = ..()
 	if(!has_buckled_mobs())
 		return

@@ -1,6 +1,6 @@
 /datum/disease
 	//Flags
-	var/visibility_flags = 0
+	var/visibility_flags = NONE
 	var/disease_flags = CURABLE|CAN_CARRY|CAN_RESIST
 	var/spread_flags = DISEASE_SPREAD_AIRBORNE | DISEASE_SPREAD_CONTACT_FLUIDS | DISEASE_SPREAD_CONTACT_SKIN
 
@@ -17,6 +17,8 @@
 	var/max_stages = 0
 	/// The probability of this infection advancing a stage every second the cure is not present.
 	var/stage_prob = 2
+	/// How long this infection incubates (non-visible) before revealing itself
+	var/incubation_time = 0
 
 	//Other
 	var/list/viable_mobtypes = list() //typepaths of viable mobs
@@ -28,9 +30,10 @@
 	var/cure_chance = 4
 	var/carrier = FALSE //If our host is only a carrier
 	var/bypasses_immunity = FALSE //Does it skip species virus immunity check? Some things may diseases and not viruses
-	var/permeability_mod = 1
+	var/spreading_modifier = 1
 	var/severity = DISEASE_SEVERITY_NONTHREAT
-	var/list/required_organs = list()
+	/// If the disease requires an organ for the effects to function, robotic organs are immune to disease unless inorganic biology symptom is present
+	var/required_organ
 	var/needs_all_cures = TRUE
 	var/list/strain_data = list() //dna_spread special bullshit
 	var/infectable_biotypes = MOB_ORGANIC //if the disease can spread on organics, synthetics, or undead
@@ -61,22 +64,25 @@
 	var/turf/source_turf = get_turf(infectee)
 	log_virus("[key_name(infectee)] was infected by virus: [src.admin_details()] at [loc_name(source_turf)]")
 
-//Return a string for admin logging uses, should describe the disease in detail
-/datum/disease/proc/admin_details()
-	return "[src.name] : [src.type]"
+///Proc to process the disease and decide on whether to advance, cure or make the symptoms appear. Returns a boolean on whether to continue acting on the symptoms or not.
+/datum/disease/proc/stage_act(seconds_per_tick, times_fired)
+	var/slowdown = HAS_TRAIT(affected_mob, TRAIT_VIRUS_RESISTANCE) ? 0.5 : 1 // spaceacillin slows stage speed by 50%
 
-
-///Proc to process the disease and decide on whether to advance, cure or make the sympthoms appear. Returns a boolean on whether to continue acting on the symptoms or not.
-/datum/disease/proc/stage_act(delta_time, times_fired)
-	if(has_cure())
-		if(DT_PROB(cure_chance, delta_time))
-			update_stage(max(stage - 1, 1))
-
-		if(disease_flags & CURABLE && DT_PROB(cure_chance, delta_time))
-			cure()
+	if(required_organ)
+		if(!has_required_infectious_organ(affected_mob, required_organ))
 			return FALSE
 
-	else if(DT_PROB(stage_prob, delta_time))
+	if(has_cure())
+		if(disease_flags & CHRONIC && SPT_PROB(cure_chance, seconds_per_tick))
+			update_stage(1)
+			to_chat(affected_mob, span_notice("Your chronic illness is alleviated a little, though it can't be cured!"))
+			return
+		if(SPT_PROB(cure_chance, seconds_per_tick))
+			update_stage(max(stage - 1, 1))
+		if(disease_flags & CURABLE && SPT_PROB(cure_chance, seconds_per_tick))
+			cure()
+			return FALSE
+	else if(SPT_PROB(stage_prob*slowdown, seconds_per_tick))
 		update_stage(min(stage + 1, max_stages))
 
 	return !carrier
@@ -86,7 +92,7 @@
 	stage = new_stage
 
 /datum/disease/proc/has_cure()
-	if(!(disease_flags & CURABLE))
+	if(!(disease_flags & (CURABLE | CHRONIC)))
 		return FALSE
 
 	. = cures.len
@@ -104,7 +110,7 @@
 	if(!(spread_flags & DISEASE_SPREAD_AIRBORNE) && !force_spread)
 		return
 
-	if(affected_mob.reagents.has_reagent(/datum/reagent/medicine/spaceacillin) || (affected_mob.satiety > 0 && prob(affected_mob.satiety/10)))
+	if(HAS_TRAIT(affected_mob, TRAIT_VIRUS_RESISTANCE) || (affected_mob.satiety > 0 && prob(affected_mob.satiety/10)))
 		return
 
 	var/spread_range = 2
@@ -132,6 +138,8 @@
 
 
 /datum/disease/proc/cure(add_resistance = TRUE)
+	if(severity == DISEASE_SEVERITY_UNCURABLE) //aw man :(
+		return
 	if(affected_mob)
 		if(add_resistance && (disease_flags & CAN_RESIST))
 			LAZYOR(affected_mob.disease_resistances, GetDiseaseID())
@@ -146,8 +154,8 @@
 /datum/disease/proc/Copy()
 	//note that stage is not copied over - the copy starts over at stage 1
 	var/static/list/copy_vars = list("name", "visibility_flags", "disease_flags", "spread_flags", "form", "desc", "agent", "spread_text",
-									"cure_text", "max_stages", "stage_prob", "viable_mobtypes", "cures", "infectivity", "cure_chance",
-									"bypasses_immunity", "permeability_mod", "severity", "required_organs", "needs_all_cures", "strain_data",
+									"cure_text", "max_stages", "stage_prob", "incubation_time", "viable_mobtypes", "cures", "infectivity", "cure_chance",
+									"required_organ", "bypasses_immunity", "spreading_modifier", "severity", "needs_all_cures", "strain_data",
 									"infectable_biotypes", "process_dead")
 
 	var/datum/disease/D = copy_type ? new copy_type() : new type()
@@ -191,9 +199,26 @@
 
 	return FALSE
 
+/// Checks if the mob has the required organ and it's not robotic or affected by inorganic biology
+/datum/disease/proc/has_required_infectious_organ(mob/living/carbon/target, required_organ_slot)
+	if(!iscarbon(target))
+		return FALSE
+
+	var/obj/item/organ/target_organ = target.get_organ_slot(required_organ_slot)
+	if(!istype(target_organ))
+		return FALSE
+
+	// robotic organs are immune to disease unless 'inorganic biology' symptom is present
+	if(IS_ROBOTIC_ORGAN(target_organ) && !(infectable_biotypes & MOB_ROBOTIC))
+		return FALSE
+
+	return TRUE
+
 //Use this to compare severities
 /proc/get_disease_severity_value(severity)
 	switch(severity)
+		if(DISEASE_SEVERITY_UNCURABLE)
+			return 0
 		if(DISEASE_SEVERITY_POSITIVE)
 			return 1
 		if(DISEASE_SEVERITY_NONTHREAT)

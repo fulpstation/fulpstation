@@ -6,13 +6,14 @@
 /obj/machinery/power/energy_accumulator/tesla_coil
 	name = "tesla coil"
 	desc = "For the union!"
-	icon = 'icons/obj/tesla_engine/tesla_coil.dmi'
+	icon = 'icons/obj/machines/engine/tesla_coil.dmi'
 	icon_state = "coil0"
 
 	// Executing a traitor caught releasing tesla was never this fun!
 	can_buckle = TRUE
 	buckle_lying = 0
 	buckle_requires_restraints = TRUE
+	can_change_cable_layer = TRUE
 
 	circuit = /obj/item/circuitboard/machine/tesla_coil
 
@@ -36,15 +37,22 @@
 
 /obj/machinery/power/energy_accumulator/tesla_coil/Initialize(mapload)
 	. = ..()
-	wires = new /datum/wires/tesla_coil(src)
+	set_wires(new /datum/wires/tesla_coil(src))
+
+/obj/machinery/power/energy_accumulator/tesla_coil/cable_layer_change_checks(mob/living/user, obj/item/tool)
+	if(anchored)
+		balloon_alert(user, "unanchor first!")
+		return FALSE
+	return TRUE
 
 /obj/machinery/power/energy_accumulator/tesla_coil/RefreshParts()
+	. = ..()
 	var/power_multiplier = 0
 	zap_cooldown = 100
-	for(var/obj/item/stock_parts/capacitor/C in component_parts)
-		power_multiplier += C.rating
-		zap_cooldown -= (C.rating * 20)
-	input_power_multiplier = (0.85 * (power_multiplier / 4)) //Max out at 85% efficency.
+	for(var/datum/stock_part/capacitor/capacitor in component_parts)
+		power_multiplier += capacitor.tier
+		zap_cooldown -= (capacitor.tier * 20)
+	input_power_multiplier = max(1 * (power_multiplier / 8), 0.25) //Max out at 50% efficency.
 
 /obj/machinery/power/energy_accumulator/tesla_coil/examine(mob/user)
 	. = ..()
@@ -64,11 +72,13 @@
 			icon_state = "coil[anchored]"
 		update_cable_icons_on_turf(get_turf(src))
 
+/obj/machinery/power/energy_accumulator/tesla_coil/wrench_act(mob/living/user, obj/item/tool)
+	. = ..()
+	default_unfasten_wrench(user, tool)
+	return TOOL_ACT_TOOLTYPE_SUCCESS
+
 /obj/machinery/power/energy_accumulator/tesla_coil/attackby(obj/item/W, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "coil_open[anchored]", "coil[anchored]", W))
-		return
-
-	if(default_unfasten_wrench(user, W))
 		return
 
 	if(default_deconstruction_crowbar(W))
@@ -80,7 +90,7 @@
 
 	return ..()
 
-/obj/machinery/power/energy_accumulator/tesla_coil/process(delta_time)
+/obj/machinery/power/energy_accumulator/tesla_coil/process(seconds_per_tick)
 	. = ..()
 	zap_sound_volume = min(energy_to_joules(stored_energy)/200000, 100)
 	zap_sound_range = min(energy_to_joules(stored_energy)/4000000, 10)
@@ -88,8 +98,8 @@
 /obj/machinery/power/energy_accumulator/tesla_coil/zap_act(power, zap_flags)
 	if(!anchored || panel_open)
 		return ..()
-	obj_flags |= BEING_SHOCKED
-	addtimer(CALLBACK(src, .proc/reset_shocked), 1 SECONDS)
+	ADD_TRAIT(src, TRAIT_BEING_SHOCKED, WAS_SHOCKED)
+	addtimer(TRAIT_CALLBACK_REMOVE(src, TRAIT_BEING_SHOCKED, WAS_SHOCKED), 1 SECONDS)
 	flick("coilhit", src)
 	if(!(zap_flags & ZAP_GENERATES_POWER)) //Prevent infinite recursive power
 		return 0
@@ -114,7 +124,7 @@
 /obj/machinery/power/energy_accumulator/grounding_rod
 	name = "grounding rod"
 	desc = "Keeps an area from being fried by Edison's Bane."
-	icon = 'icons/obj/tesla_engine/tesla_coil.dmi'
+	icon = 'icons/obj/machines/engine/tesla_coil.dmi'
 	icon_state = "grounding_rod0"
 	anchored = FALSE
 	density = TRUE
@@ -142,11 +152,13 @@
 		else
 			icon_state = "grounding_rod[anchored]"
 
+/obj/machinery/power/energy_accumulator/grounding_rod/wrench_act(mob/living/user, obj/item/tool)
+	. = ..()
+	default_unfasten_wrench(user, tool)
+	return TOOL_ACT_TOOLTYPE_SUCCESS
+
 /obj/machinery/power/energy_accumulator/grounding_rod/attackby(obj/item/W, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "grounding_rod_open[anchored]", "grounding_rod[anchored]", W))
-		return
-
-	if(default_unfasten_wrench(user, W))
 		return
 
 	if(default_deconstruction_crowbar(W))

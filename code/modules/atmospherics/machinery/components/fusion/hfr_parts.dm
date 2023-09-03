@@ -3,8 +3,8 @@
  * The file also contain the guicode of the machine
  */
 /obj/machinery/atmospherics/components/unary/hypertorus
-	icon = 'icons/obj/atmospherics/components/hypertorus.dmi'
-	icon_state = "core"
+	icon = 'icons/obj/machines/atmospherics/hypertorus.dmi'
+	icon_state = "core_off"
 
 	name = "thermomachine"
 	desc = "Heats or cools gas in connected pipes."
@@ -49,9 +49,9 @@
 		return FALSE
 	if(user.combat_mode)
 		return FALSE
-	balloon_alert(user, "You start repairing the crack...")
-	if(tool.use_tool(src, user, 10 SECONDS, volume=30, amount=5))
-		balloon_alert(user, "You repaired the crack.")
+	balloon_alert(user, "repairing...")
+	if(tool.use_tool(src, user, 10 SECONDS, volume=30))
+		balloon_alert(user, "repaired")
 		cracked = FALSE
 		update_appearance()
 
@@ -90,9 +90,12 @@
 	crack.dir = dir
 	. += crack
 
+/obj/machinery/atmospherics/components/unary/hypertorus/update_layer()
+	return
+
 /obj/machinery/atmospherics/components/unary/hypertorus/fuel_input
 	name = "HFR fuel input port"
-	desc = "Input port for the Hypertorus Fusion Reactor, designed to take in only Hydrogen and Tritium in gas forms."
+	desc = "Input port for the Hypertorus Fusion Reactor, designed to take in fuels with the optimal fuel mix being a 50/50 split."
 	icon_state = "fuel_input_off"
 	icon_state_open = "fuel_input_open"
 	icon_state_off = "fuel_input_off"
@@ -123,8 +126,8 @@
 /obj/machinery/hypertorus
 	name = "hypertorus_core"
 	desc = "hypertorus_core"
-	icon = 'icons/obj/atmospherics/components/hypertorus.dmi'
-	icon_state = "core"
+	icon = 'icons/obj/machines/atmospherics/hypertorus.dmi'
+	icon_state = "core_off"
 	move_resist = INFINITY
 	anchored = TRUE
 	density = TRUE
@@ -178,7 +181,7 @@
 
 /obj/machinery/hypertorus/interface/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
-	var/turf/T = get_step(src,turn(dir,180))
+	var/turf/T = get_step(src,REVERSE_DIR(dir))
 	var/obj/machinery/atmospherics/components/unary/hypertorus/core/centre = locate() in T
 
 	if(!centre || !centre.check_part_connectivity())
@@ -404,11 +407,10 @@
 	icon_state_off = "corner_off"
 	icon_state_open = "corner_open"
 	icon_state_active = "corner_active"
-	dir = SOUTHEAST
 
 /obj/item/paper/guides/jobs/atmos/hypertorus
 	name = "paper- 'Quick guide to safe handling of the HFR'"
-	info = "<B>How to safely(TM) operate the Hypertorus</B><BR>\
+	default_raw_text = "<B>How to safely(TM) operate the Hypertorus</B><BR>\
 	-Build the machine as it�s shown in the main guide.<BR>\
 	-Make a 50/50 gasmix of tritium and hydrogen totalling around 2000 moles.<BR>\
 	-Start the machine, fill up the cooling loop with plasma/hypernoblium and use space or freezers to cool it.<BR>\
@@ -434,8 +436,8 @@
 /obj/item/hfr_box
 	name = "HFR box"
 	desc = "If you see this, call the police."
-	icon = 'icons/obj/atmospherics/components/hypertorus.dmi'
-	icon_state = "box"
+	icon = 'icons/obj/machines/atmospherics/hypertorus.dmi'
+	icon_state = "error"
 	///What kind of box are we handling?
 	var/box_type = "impossible"
 	///What's the path of the machine we making
@@ -456,14 +458,17 @@
 
 /obj/item/hfr_box/body/fuel_input
 	name = "HFR box fuel input"
+	icon_state = "box_fuel"
 	part_path = /obj/machinery/atmospherics/components/unary/hypertorus/fuel_input
 
 /obj/item/hfr_box/body/moderator_input
 	name = "HFR box moderator input"
+	icon_state = "box_moderator"
 	part_path = /obj/machinery/atmospherics/components/unary/hypertorus/moderator_input
 
 /obj/item/hfr_box/body/waste_output
 	name = "HFR box waste output"
+	icon_state = "box_waste"
 	part_path = /obj/machinery/atmospherics/components/unary/hypertorus/waste_output
 
 /obj/item/hfr_box/body/interface
@@ -484,6 +489,15 @@
 		var/direction = get_dir(src, box)
 		if(box.box_type == "corner")
 			if(ISDIAGONALDIR(direction))
+				switch(direction)
+					if(NORTHEAST)
+						direction = EAST
+					if(SOUTHEAST)
+						direction = SOUTH
+					if(SOUTHWEST)
+						direction = WEST
+					if(NORTHWEST)
+						direction = NORTH
 				box.dir = direction
 				parts |= box
 			continue

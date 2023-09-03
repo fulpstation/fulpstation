@@ -3,13 +3,16 @@
 	name = "chemical press"
 	desc = "A press that makes pills, patches and bottles."
 	icon_state = "pill_press"
+	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 2
+	///category for plumbing RCD
+	category="Storage"
 
 	///maximum size of a pill
 	var/max_pill_volume = 50
 	///maximum size of a patch
 	var/max_patch_volume = 40
 	///maximum size of a bottle
-	var/max_bottle_volume = 30
+	var/max_bottle_volume = 50
 	///current operating product (pills or patches)
 	var/product = "pill"
 	///the minimum size a pill or patch can be
@@ -42,24 +45,7 @@
 
 	AddComponent(/datum/component/plumbing/simple_demand, bolt, layer)
 
-	//expertly copypasted from chemmasters
-	var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/simple/pills)
-	pill_styles = list()
-	for (var/x in 1 to PILL_STYLE_COUNT)
-		var/list/SL = list()
-		SL["id"] = x
-		SL["class_name"] = assets.icon_class_name("pill[x]")
-		pill_styles += list(SL)
-	var/datum/asset/spritesheet/simple/patches_assets = get_asset_datum(/datum/asset/spritesheet/simple/patches)
-	patch_styles = list()
-	for (var/raw_patch_style in PATCH_STYLE_LIST)
-		//adding class_name for use in UI
-		var/list/patch_style = list()
-		patch_style["style"] = raw_patch_style
-		patch_style["class_name"] = patches_assets.icon_class_name(raw_patch_style)
-		patch_styles += list(patch_style)
-
-/obj/machinery/plumbing/pill_press/process()
+/obj/machinery/plumbing/pill_press/process(seconds_per_tick)
 	if(machine_stat & NOPOWER)
 		return
 	if(reagents.total_volume >= current_volume)
@@ -81,23 +67,42 @@
 			P.icon_state = patch_style
 			stored_products += P
 		else if (product == "bottle")
-			var/obj/item/reagent_containers/glass/bottle/P = new(src)
+			var/obj/item/reagent_containers/cup/bottle/P = new(src)
 			reagents.trans_to(P, current_volume)
 			P.name = trim("[product_name] bottle")
 			stored_products += P
 	if(stored_products.len)
 		var/pill_amount = 0
 		for(var/thing in loc)
-			if(!istype(thing, /obj/item/reagent_containers/glass/bottle) && !istype(thing, /obj/item/reagent_containers/pill))
+			if(!istype(thing, /obj/item/reagent_containers/cup/bottle) && !istype(thing, /obj/item/reagent_containers/pill))
 				continue
 			pill_amount++
 			if(pill_amount >= max_floor_products) //too much so just stop
 				break
-		if(pill_amount < max_floor_products)
+		if(pill_amount < max_floor_products && anchored)
 			var/atom/movable/AM = stored_products[1] //AM because forceMove is all we need
 			stored_products -= AM
 			AM.forceMove(drop_location())
 
+	use_power(active_power_usage * seconds_per_tick)
+
+/obj/machinery/plumbing/pill_press/proc/load_styles()
+	//expertly copypasted from chemmasters
+	var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/simple/pills)
+	pill_styles = list()
+	for (var/x in 1 to PILL_STYLE_COUNT)
+		var/list/SL = list()
+		SL["id"] = x
+		SL["class_name"] = assets.icon_class_name("pill[x]")
+		pill_styles += list(SL)
+	var/datum/asset/spritesheet/simple/patches_assets = get_asset_datum(/datum/asset/spritesheet/simple/patches)
+	patch_styles = list()
+	for (var/raw_patch_style in PATCH_STYLE_LIST)
+		//adding class_name for use in UI
+		var/list/patch_style = list()
+		patch_style["style"] = raw_patch_style
+		patch_style["class_name"] = patches_assets.icon_class_name(raw_patch_style)
+		patch_styles += list(patch_style)
 
 /obj/machinery/plumbing/pill_press/ui_assets(mob/user)
 	return list(
@@ -112,6 +117,8 @@
 		ui.open()
 
 /obj/machinery/plumbing/pill_press/ui_data(mob/user)
+	if(!pill_styles || !patch_styles)
+		load_styles()
 	var/list/data = list()
 	data["pill_style"] = pill_number
 	data["current_volume"] = current_volume
@@ -135,7 +142,11 @@
 		if("change_current_volume")
 			current_volume = clamp(text2num(params["volume"]), min_volume, max_volume)
 		if("change_product_name")
-			product_name = html_encode(params["name"])
+			var/formatted_name = html_encode(params["name"])
+			if (length(formatted_name) > MAX_NAME_LEN)
+				product_name = copytext(formatted_name, 1, MAX_NAME_LEN+1)
+			else
+				product_name = formatted_name
 		if("change_product")
 			product = params["product"]
 			if (product == "pill")

@@ -2,7 +2,6 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		/mob/living,
 		/obj/structure/blob,
 		/obj/effect/rune,
-		/obj/structure/spider/spiderling,
 		/obj/item/disk/nuclear,
 		/obj/machinery/nuclearbomb,
 		/obj/item/beacon,
@@ -29,10 +28,10 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		/obj/machinery/disposal,
 		/obj/structure/disposalpipe,
 		/obj/item/mail,
-		/obj/item/hilbertshotel,
 		/obj/machinery/camera,
 		/obj/item/gps,
-		/obj/structure/checkoutmachine
+		/obj/structure/checkoutmachine,
+		/obj/machinery/fax
 	)))
 
 /// How many goody orders we can fit in a lockbox before we upgrade to a crate
@@ -42,19 +41,12 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 
 /obj/docking_port/mobile/supply
 	name = "supply shuttle"
-	id = "supply"
+	shuttle_id = "cargo"
 	callTime = 600
 
 	dir = WEST
 	port_direction = EAST
-	width = 12
-	dwidth = 5
-	height = 7
 	movement_force = list("KNOCKDOWN" = 0, "THROW" = 0)
-
-
-	//Export categories for this run, this is set by console sending the shuttle.
-	var/export_categories = EXPORT_CARGO
 
 /obj/docking_port/mobile/supply/register()
 	. = ..()
@@ -80,13 +72,13 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 	return ..()
 
 /obj/docking_port/mobile/supply/initiate_docking()
-	if(getDockedId() == "supply_away") // Buy when we leave home.
+	if(getDockedId() == "cargo_away") // Buy when we leave home.
 		buy()
 		create_mail()
 	. = ..() // Fly/enter transit.
 	if(. != DOCKING_SUCCESS)
 		return
-	if(getDockedId() == "supply_away") // Sell when we get home
+	if(getDockedId() == "cargo_away") // Sell when we get home
 		sell()
 
 /obj/docking_port/mobile/supply/proc/buy()
@@ -97,12 +89,11 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 	var/list/misc_costs = list() //list of overall costs sustained by each buyer.
 
 	var/list/empty_turfs = list()
-	for(var/place in shuttle_areas)
-		var/area/shuttle/shuttle_area = place
-		for(var/turf/open/floor/T in shuttle_area)
-			if(T.is_blocked_turf())
+	for(var/area/shuttle/shuttle_area as anything in shuttle_areas)
+		for(var/turf/open/floor/shuttle_turf in shuttle_area)
+			if(shuttle_turf.is_blocked_turf())
 				continue
-			empty_turfs += T
+			empty_turfs += shuttle_turf
 
 	//quickly and greedily handle chef's grocery runs first, there are a few reasons why this isn't attached to the rest of cargo...
 	//but the biggest reason is that the chef requires produce to cook and do their job, and if they are using this system they
@@ -113,7 +104,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		investigate_log("Chef's [SSshuttle.chef_groceries.len] sized produce order arrived. Cost was deducted from orderer, not cargo.", INVESTIGATE_CARGO)
 		for(var/datum/orderable_item/item as anything in SSshuttle.chef_groceries)//every order
 			for(var/amt in 1 to SSshuttle.chef_groceries[item])//every order amount
-				new item.item_instance.type(grocery_crate)
+				new item.item_path(grocery_crate)
 		SSshuttle.chef_groceries.Cut() //This lets the console know it can order another round.
 
 	if(!SSshuttle.shopping_list.len)
@@ -133,7 +124,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		var/datum/bank_account/paying_for_this
 
 		//department orders EARN money for cargo, not the other way around
-		if(!spawning_order.department_destination)
+		if(!spawning_order.department_destination && spawning_order.charge_on_purchase)
 			if(spawning_order.paying_account) //Someone paid out of pocket
 				paying_for_this = spawning_order.paying_account
 				var/list/current_buyer_orders = goodies_by_buyer[spawning_order.paying_account] // so we can access the length a few lines down
@@ -147,15 +138,20 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 			else
 				paying_for_this = SSeconomy.get_dep_account(ACCOUNT_CAR)
 			if(paying_for_this)
-				if(!paying_for_this.adjust_money(-price))
+				if(!paying_for_this.adjust_money(-price, "Cargo: [spawning_order.pack.name]"))
 					if(spawning_order.paying_account)
 						paying_for_this.bank_card_talk("Cargo order #[spawning_order.id] rejected due to lack of funds. Credits required: [price]")
 					continue
 
 		if(spawning_order.paying_account)
+			paying_for_this = spawning_order.paying_account
 			if(spawning_order.pack.goody)
 				LAZYADD(goodies_by_buyer[spawning_order.paying_account], spawning_order)
-			paying_for_this.bank_card_talk("Cargo order #[spawning_order.id] has shipped. [price] credits have been charged to your bank account.")
+			var/reciever_message = "Cargo order #[spawning_order.id] has shipped."
+			if(spawning_order.charge_on_purchase)
+				reciever_message += " [price] credits have been charged to your bank account"
+			paying_for_this.bank_card_talk(reciever_message)
+			SSeconomy.track_purchase(paying_for_this, price, spawning_order.pack.name)
 			var/datum/bank_account/department/cargo = SSeconomy.get_dep_account(ACCOUNT_CAR)
 			cargo.adjust_money(price - spawning_order.pack.get_cost()) //Cargo gets the handling fee
 		value += spawning_order.pack.get_cost()
@@ -164,7 +160,8 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		QDEL_NULL(spawning_order.applied_coupon)
 
 		if(!spawning_order.pack.goody) //we handle goody crates below
-			spawning_order.generate(pick_n_take(empty_turfs))
+			var/obj/structure/closet/crate = spawning_order.generate(pick_n_take(empty_turfs))
+			crate.name += " - #[spawning_order.id]"
 
 		SSblackbox.record_feedback("nested tally", "cargo_imports", 1, list("[spawning_order.pack.get_cost()]", "[spawning_order.pack.name]"))
 
@@ -177,9 +174,9 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 
 	// we handle packing all the goodies last, since the type of crate we use depends on how many goodies they ordered. If it's more than GOODY_FREE_SHIPPING_MAX
 	// then we send it in a crate (including the CRATE_TAX cost), otherwise send it in a free shipping case
-	for(var/D in goodies_by_buyer)
-		var/list/buying_account_orders = goodies_by_buyer[D]
-		var/datum/bank_account/buying_account = D
+	for(var/buyer_key in goodies_by_buyer)
+		var/list/buying_account_orders = goodies_by_buyer[buyer_key]
+		var/datum/bank_account/buying_account = buyer_key
 		var/buyer = buying_account.account_holder
 
 		if(buying_account_orders.len > GOODY_FREE_SHIPPING_MAX) // no free shipping, send a crate
@@ -194,56 +191,56 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 			miscboxes[buyer].name = "goody case - purchased by [buyer]"
 		misc_contents[buyer] = list()
 
-		for(var/O in buying_account_orders)
-			var/datum/supply_order/our_order = O
+		for(var/datum/supply_order/our_order as anything in buying_account_orders)
 			for (var/item in our_order.pack.contains)
 				misc_contents[buyer] += item
 			misc_costs[buyer] += our_order.pack.cost
-			misc_order_num[buyer] = "[misc_order_num[buyer]]#[our_order.id]  "
+			misc_order_num[buyer] = "[misc_order_num[buyer]]#[our_order.id] "
 
-	for(var/I in miscboxes)
-		var/datum/supply_order/SO = new/datum/supply_order()
-		SO.id = misc_order_num[I]
-		SO.generateCombo(miscboxes[I], I, misc_contents[I], misc_costs[I])
-		qdel(SO)
+	for(var/miscbox in miscboxes)
+		var/datum/supply_order/order = new/datum/supply_order()
+		order.id = misc_order_num[miscbox]
+		order.generateCombo(miscboxes[miscbox], miscbox, misc_contents[miscbox], misc_costs[miscbox])
+		qdel(order)
 
 	SSeconomy.import_total += value
 	var/datum/bank_account/cargo_budget = SSeconomy.get_dep_account(ACCOUNT_CAR)
 	investigate_log("[purchases] orders in this shipment, worth [value] credits. [cargo_budget.account_balance] credits left.", INVESTIGATE_CARGO)
 
+/// Deletes and sells the items on the shuttle
 /obj/docking_port/mobile/supply/proc/sell()
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
-	var/presale_points = D.account_balance
+	var/datum/bank_account/cargo_budget = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	var/presale_points = cargo_budget.account_balance
 
 	if(!GLOB.exports_list.len) // No exports list? Generate it!
 		setupExports()
 
 	var/msg = ""
 
-	var/datum/export_report/ex = new
+	var/datum/export_report/report = new
 
-	for(var/place in shuttle_areas)
-		var/area/shuttle/shuttle_area = place
-		for(var/atom/movable/AM in shuttle_area)
-			if(iscameramob(AM))
+	for(var/area/shuttle/shuttle_area as anything in shuttle_areas)
+		for(var/atom/movable/exporting_atom in shuttle_area)
+			if(iscameramob(exporting_atom))
 				continue
-			if(!AM.anchored)
-				export_item_and_contents(AM, export_categories , dry_run = FALSE, external_report = ex)
+			if(exporting_atom.anchored)
+				continue
+			export_item_and_contents(exporting_atom, apply_elastic = TRUE, dry_run = FALSE, external_report = report)
 
-	if(ex.exported_atoms)
-		ex.exported_atoms += "." //ugh
+	if(report.exported_atoms)
+		report.exported_atoms += "." //ugh
 
-	for(var/datum/export/E in ex.total_amount)
-		var/export_text = E.total_printout(ex)
+	for(var/datum/export/exported_datum in report.total_amount)
+		var/export_text = exported_datum.total_printout(report)
 		if(!export_text)
 			continue
 
 		msg += export_text + "\n"
-		D.adjust_money(ex.total_value[E])
+		cargo_budget.adjust_money(report.total_value[exported_datum])
 
-	SSeconomy.export_total += (D.account_balance - presale_points)
+	SSeconomy.export_total += (cargo_budget.account_balance - presale_points)
 	SSshuttle.centcom_message = msg
-	investigate_log("Shuttle contents sold for [D.account_balance - presale_points] credits. Contents: [ex.exported_atoms ? ex.exported_atoms.Join(",") + "." : "none."] Message: [SSshuttle.centcom_message || "none."]", INVESTIGATE_CARGO)
+	investigate_log("contents sold for [cargo_budget.account_balance - presale_points] credits. Contents: [report.exported_atoms ? report.exported_atoms.Join(",") + "." : "none."] Message: [SSshuttle.centcom_message || "none."]", INVESTIGATE_CARGO)
 
 /*
 	Generates a box of mail depending on our exports and imports.
@@ -265,6 +262,18 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 			empty_turfs += shuttle_floor
 
 	new /obj/structure/closet/crate/mail/economy(pick(empty_turfs))
+
+/// Takes a supply pack, returns the amount we currently have on order (or OVER_ORDER_LIMIT if we are over the hardcap on orders of this type)
+/obj/docking_port/mobile/supply/proc/get_order_count(datum/supply_pack/ordering)
+	var/similar_count = 0
+	for(var/datum/supply_order/order as anything in (SSshuttle.shopping_list | SSshuttle.request_list))
+		if(order.pack == ordering)
+			similar_count += 1
+
+	if(similar_count >= CARGO_MAX_ORDER)
+		return OVER_ORDER_LIMIT
+
+	return similar_count
 
 #undef GOODY_FREE_SHIPPING_MAX
 #undef CRATE_TAX

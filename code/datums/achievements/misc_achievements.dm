@@ -108,6 +108,7 @@
 	name = "Look Out, Sir!"
 	desc = "Either awarded for making the ultimate sacrifice for your comrades, or a really dumb attempt at grenade jumping."
 	database_id = MEDAL_LOOKOUTSIR
+	icon = "martyr" // purple heart on an explosive danger warning sign (well, sort of)
 
 /datum/award/achievement/misc/gottem
 	name = "HA, GOTTEM"
@@ -150,6 +151,24 @@
 	desc = "Place of a different being, different time. Everything ends there... but maybe it is just the beginning?"
 	database_id = MEDAL_VOID_ASCENSION
 	icon = "voidascend"
+
+/datum/award/achievement/misc/blade_ascension
+	name = "Silver and Steel"
+	desc = "You've become the master of all duellists - the paragon of blades."
+	database_id = MEDAL_BLADE_ASCENSION
+	icon = "bladeascend"
+
+/datum/award/achievement/misc/cosmic_ascension
+	name = "It arrived"
+	desc = "You managed to teleport an entity on the station that really shouldn't be there."
+	database_id = MEDAL_COSMOS_ASCENSION
+	icon = "cosmicascend"
+
+/datum/award/achievement/misc/grand_ritual_finale
+	name = "Archmage"
+	desc = "Made a big impression on the station with your phenomenal cosmic power."
+	database_id = MEDAL_ARCHMAGE
+	icon = "archmage"
 
 /datum/award/achievement/misc/toolbox_soul
 	name = "SOUL'd Out"
@@ -198,3 +217,21 @@
 	desc = "Ignore the warning label on a springlock MODsuit."
 	database_id = MEDAL_SPRINGLOCK
 	icon = "springlock"
+
+/datum/award/achievement/misc/healthy
+	name = "The Picture of Health"
+	desc = "Don't be such a baby, it's just a heart attack. You've bounced back from worse!"
+	database_id = MEDAL_HEALTHY
+	icon = "picofhealth"
+
+/datum/award/achievement/misc/gods_wrath
+	name = "God's Wrath"
+	desc = "Did you think you could get away with defiling the word of God?"
+	database_id = MEDAL_GODS_WRATH
+	icon = "godswrath"
+
+/datum/award/achievement/misc/earthquake_victim
+	name = "A Nasty Fall"
+	desc = "...And the earth opened its mouth and swallowed them and their station- all the HOP's men and all their possessions."
+	database_id = MEDAL_EARTHQUAKE_VICTIM
+	icon = "earthquake"

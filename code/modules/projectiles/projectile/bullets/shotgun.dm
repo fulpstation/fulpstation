@@ -1,5 +1,6 @@
 /obj/projectile/bullet/shotgun_slug
 	name = "12g shotgun slug"
+	icon_state = "pellet"
 	damage = 50
 	sharpness = SHARP_POINTY
 	wound_bonus = 0
@@ -16,6 +17,7 @@
 
 /obj/projectile/bullet/shotgun_beanbag
 	name = "beanbag slug"
+	icon_state = "pellet"
 	damage = 10
 	stamina = 55
 	wound_bonus = 20
@@ -24,7 +26,13 @@
 
 /obj/projectile/bullet/incendiary/shotgun
 	name = "incendiary slug"
+	icon_state = "pellet"
 	damage = 20
+
+/obj/projectile/bullet/incendiary/shotgun/no_trail
+	name = "precision incendiary slug"
+	damage = 35
+	leaves_fire_trail = FALSE
 
 /obj/projectile/bullet/incendiary/shotgun/dragonsbreath
 	name = "dragonsbreath pellet"
@@ -34,35 +42,16 @@
 	name = "stunslug"
 	damage = 5
 	paralyze = 100
-	stutter = 5
-	jitter = 20
+	stutter = 10 SECONDS
+	jitter = 40 SECONDS
 	range = 7
 	icon_state = "spark"
 	color = "#FFFF00"
 	embedding = null
 
-/obj/projectile/bullet/shotgun_meteorslug
-	name = "meteorslug"
-	icon = 'icons/obj/meteor.dmi'
-	icon_state = "dust"
-	damage = 30
-	paralyze = 15
-	knockdown = 80
-	hitsound = 'sound/effects/meteorimpact.ogg'
-
-/obj/projectile/bullet/shotgun_meteorslug/on_hit(atom/target, blocked = FALSE)
-	. = ..()
-	if(ismovable(target))
-		var/atom/movable/M = target
-		var/atom/throw_target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
-		M.safe_throw_at(throw_target, 3, 2, force = MOVE_FORCE_EXTREMELY_STRONG)
-
-/obj/projectile/bullet/shotgun_meteorslug/Initialize(mapload)
-	. = ..()
-	SpinAnimation()
-
 /obj/projectile/bullet/shotgun_frag12
 	name ="frag12 slug"
+	icon_state = "pellet"
 	damage = 15
 	paralyze = 10
 
@@ -72,6 +61,7 @@
 	return BULLET_ACT_HIT
 
 /obj/projectile/bullet/pellet
+	icon_state = "pellet"
 	var/tile_dropoff = 0.45
 	var/tile_dropoff_s = 0.25
 
@@ -92,7 +82,7 @@
 	wound_falloff_tile = -2.5 // low damage + additional dropoff will already curb wounding potential anything past point blank
 
 /obj/projectile/bullet/pellet/shotgun_rubbershot
-	name = "rubbershot pellet"
+	name = "rubber shot pellet"
 	damage = 3
 	stamina = 11
 	sharpness = NONE
@@ -136,4 +126,14 @@
 // Mech Scattershot
 
 /obj/projectile/bullet/scattershot
+	icon_state = "pellet"
 	damage = 24
+
+//Breaching Ammo
+
+/obj/projectile/bullet/shotgun_breaching
+	name = "12g breaching round"
+	desc = "A breaching round designed to destroy airlocks and windows with only a few shots. Ineffective against other targets."
+	hitsound = 'sound/weapons/sonic_jackhammer.ogg'
+	damage = 5 //does shit damage to everything except doors and windows
+	demolition_mod = 200 //one shot to break a window or grille, or two shots to breach an airlock door

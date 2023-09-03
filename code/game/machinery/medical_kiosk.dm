@@ -18,7 +18,6 @@
 	icon = 'icons/obj/machines/medical_kiosk.dmi'
 	icon_state = "kiosk"
 	base_icon_state = "kiosk"
-	layer = ABOVE_MOB_LAYER
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/medical_kiosk
 	payment_department = ACCOUNT_MED
@@ -54,7 +53,7 @@
 
 	var/obj/item/card/id/card = paying.get_idcard(TRUE)
 	if(card?.registered_account?.account_job?.paycheck_department == payment_department)
-		use_power(20)
+		use_power(active_power_usage)
 		paying_customer = TRUE
 		say("Hello, esteemed medical staff!")
 		RefreshParts()
@@ -62,7 +61,7 @@
 	var/bonus_fee = pandemonium ? rand(10,30) : 0
 	if(attempt_charge(src, paying, bonus_fee) & COMPONENT_OBJ_CANCEL_CHARGE )
 		return
-	use_power(20)
+	use_power(active_power_usage)
 	paying_customer = TRUE
 	icon_state = "[base_icon_state]_active"
 	say("Thank you for your patronage!")
@@ -81,15 +80,16 @@
 	if(!is_operational)
 		icon_state = "[base_icon_state]_off"
 		return ..()
-	icon_state = "[base_icon_state][scan_active ? "active" : null]"
+	icon_state = "[base_icon_state][scan_active ? "_active" : null]"
 	return ..()
 
-/obj/machinery/medical_kiosk/wrench_act(mob/living/user, obj/item/I) //Allows for wrenching/unwrenching the machine.
+/obj/machinery/medical_kiosk/wrench_act(mob/living/user, obj/item/tool) //Allows for wrenching/unwrenching the machine.
 	..()
-	default_unfasten_wrench(user, I, time = 10)
-	return TRUE
+	default_unfasten_wrench(user, tool, time = 0.1 SECONDS)
+	return TOOL_ACT_TOOLTYPE_SUCCESS
 
 /obj/machinery/medical_kiosk/RefreshParts()
+	. = ..()
 	var/obj/item/circuitboard/machine/medical_kiosk/board = circuit
 	if(board)
 		active_price = board.custom_cost
@@ -125,7 +125,7 @@
 	return ..()
 
 /obj/machinery/medical_kiosk/AltClick(mob/living/carbon/user)
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE))
+	if(!istype(user) || !user.can_perform_action(src))
 		return
 	if(!scanner_wand)
 		to_chat(user, span_warning("The scanner wand is currently removed from the machine."))
@@ -143,17 +143,19 @@
 	qdel(scanner_wand)
 	return ..()
 
-/obj/machinery/medical_kiosk/emag_act(mob/user)
-	..()
+/obj/machinery/medical_kiosk/emag_act(mob/user, obj/item/card/emag/emag_card)
+	. = ..()
 	if(obj_flags & EMAGGED)
 		return
 	if(user)
-		user.visible_message(span_warning("[user] waves a suspicious card by the [src]'s biometric scanner!"),
-	span_notice("You overload the sensory electronics, the diagnostic readouts start jittering across the screen.."))
+		if (emag_card)
+			user.visible_message(span_warning("[user] waves a suspicious card by the [src]'s biometric scanner!"))
+		balloon_alert(user, "sensors overloaded")
 	obj_flags |= EMAGGED
 	var/obj/item/circuitboard/computer/cargo/board = circuit
 	board.obj_flags |= EMAGGED //Mirrors emag status onto the board as well.
 	pandemonium = TRUE
+	return TRUE
 
 /obj/machinery/medical_kiosk/examine(mob/user)
 	. = ..()
@@ -218,7 +220,7 @@
 			sickness = "Warning: Patient is harboring some form of viral disease. Seek further medical attention."
 			sickness_data = "\nName: [D.name].\nType: [D.spread_text].\nStage: [D.stage]/[D.max_stages].\nPossible Cure: [D.cure_text]"
 
-	if(patient.has_dna()) //Blood levels Information
+	if(!HAS_TRAIT(patient, TRAIT_GENELESS) && !HAS_TRAIT(patient, TRAIT_NOBLOOD)) //Blood levels Information
 		if(patient.is_bleeding())
 			bleed_status = "Patient is currently bleeding!"
 		if(blood_percent <= 80)
@@ -229,7 +231,7 @@
 
 	var/trauma_status = "Patient is free of unique brain trauma."
 	var/clone_loss = patient.getCloneLoss()
-	var/brain_loss = patient.getOrganLoss(ORGAN_SLOT_BRAIN)
+	var/brain_loss = patient.get_organ_loss(ORGAN_SLOT_BRAIN)
 	var/brain_status = "Brain patterns normal."
 	if(LAZYLEN(patient.get_traumas()))
 		var/list/trauma_text = list()
@@ -260,7 +262,7 @@
 			chemical_list += list(list("name" = reagent.name, "volume" = round(reagent.volume, 0.01)))
 			if(reagent.overdosed)
 				overdose_list += list(list("name" = reagent.name))
-	var/obj/item/organ/stomach/belly = patient.getorganslot(ORGAN_SLOT_STOMACH)
+	var/obj/item/organ/internal/stomach/belly = patient.get_organ_slot(ORGAN_SLOT_STOMACH)
 	if(belly?.reagents.reagent_list.len) //include the stomach contents if it exists
 		for(var/bile in belly.reagents.reagent_list)
 			var/datum/reagent/bit = bile
@@ -275,7 +277,7 @@
 	for(var/datum/addiction/addiction_type as anything in patient.mind.active_addictions)
 		addict_list += list(list("name" = initial(addiction_type.name)))
 
-	if (patient.hallucinating())
+	if (patient.has_status_effect(/datum/status_effect/hallucination))
 		hallucination_status = "Subject appears to be hallucinating. Suggested treatments: bedrest, mannitol or psicodine."
 
 	if(patient.stat == DEAD || HAS_TRAIT(patient, TRAIT_FAKEDEATH) || ((brute_loss+fire_loss+tox_loss+oxy_loss+clone_loss) >= 200))  //Patient status checks.
@@ -286,8 +288,16 @@
 		patient_status = "Injured"
 	else if((brute_loss+fire_loss+tox_loss+oxy_loss+clone_loss) >= 20)
 		patient_status = "Lightly Injured"
-	if(pandemonium || user.hallucinating())
-		patient_status = pick("The only kiosk is kiosk, but is the only patient, patient?", "Breathing manually.","Constact NTOS site admin.","97% carbon, 3% natural flavoring","The ebb and flow wears us all in time.","It's Lupus. You have Lupus.","Undergoing monkey disease.")
+	if(pandemonium || user.has_status_effect(/datum/status_effect/hallucination))
+		patient_status = pick(
+			"The only kiosk is kiosk, but is the only patient, patient?",
+			"Breathing manually.",
+			"Constact NTOS site admin.",
+			"97% carbon, 3% natural flavoring",
+			"The ebb and flow wears us all in time.",
+			"It's Lupus. You have Lupus.",
+			"Undergoing monkey disease.",
+		)
 
 	if((brain_loss) >= 100)   //Brain status checks.
 		brain_status = "Grave brain damage detected."
@@ -298,9 +308,9 @@
 	else if((brain_loss) >= 1)
 		brain_status = "Mild brain damage detected."  //You may have a miiiild case of severe brain damage.
 
-	if(pandemonium == TRUE)
+	if(pandemonium)
 		chaos_modifier = 1
-	else if (user.hallucinating())
+	else if(user.has_status_effect(/datum/status_effect/hallucination))
 		chaos_modifier = 0.3
 
 	data["kiosk_cost"] = active_price + (chaos_modifier * (rand(1,25)))
@@ -365,3 +375,9 @@
 			patient_ref = null
 			clearScans()
 			. = TRUE
+
+
+#undef KIOSK_SCANNING_GENERAL
+#undef KIOSK_SCANNING_NEURORAD
+#undef KIOSK_SCANNING_REAGENTS
+#undef KIOSK_SCANNING_SYMPTOMS

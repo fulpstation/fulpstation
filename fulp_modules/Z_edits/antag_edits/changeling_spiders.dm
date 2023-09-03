@@ -36,7 +36,7 @@
 		return FALSE
 
 	user.balloon_alert(user, "creating blood spider...")
-	if(!do_after(user, CHANGELING_BLOODSPIDER_CREATION_DELAY, user, NONE, TRUE, extra_checks = CALLBACK(src, .proc/has_spiders, user)))
+	if(!do_after(user, CHANGELING_BLOODSPIDER_CREATION_DELAY, user, NONE, TRUE, extra_checks = CALLBACK(src, PROC_REF(has_spiders), user)))
 		user.balloon_alert(user, "spider creation interrupted!")
 		return FALSE
 	user.balloon_alert(user, "spider created!")

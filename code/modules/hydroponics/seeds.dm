@@ -3,7 +3,7 @@
 // ********************************************************
 
 /obj/item/seeds
-	icon = 'icons/obj/hydroponics/seeds.dmi'
+	icon = 'icons/obj/service/hydroponics/seeds.dmi'
 	icon_state = "seed" // Unknown plant seed - these shouldn't exist in-game.
 	worn_icon_state = "seed"
 	w_class = WEIGHT_CLASS_TINY
@@ -17,13 +17,15 @@
 	/// Used to update icons. Should match the name in the sprites unless all icon_* are overridden.
 	var/species = ""
 	///the file that stores the sprites of the growing plant from this seed.
-	var/growing_icon = 'icons/obj/hydroponics/growing.dmi'
+	var/growing_icon = 'icons/obj/service/hydroponics/growing.dmi'
 	/// Used to override grow icon (default is `"[species]-grow"`). You can use one grow icon for multiple closely related plants with it.
 	var/icon_grow
 	/// Used to override dead icon (default is `"[species]-dead"`). You can use one dead icon for multiple closely related plants with it.
 	var/icon_dead
 	/// Used to override harvest icon (default is `"[species]-harvest"`). If null, plant will use `[icon_grow][growthstages]`.
 	var/icon_harvest
+	/// Used to offset the plant sprite so that it appears at proper height in the tray
+	var/plant_icon_offset = 8
 	/// How long before the plant begins to take damage from age.
 	var/lifespan = 25
 	/// Amount of health the plant has.
@@ -89,6 +91,15 @@
 		for(var/reag_id in reagents_add)
 			genes += new /datum/plant_gene/reagent(reag_id, reagents_add[reag_id])
 		reagents_from_genes() //quality coding
+
+	var/static/list/hovering_item_typechecks = list(
+		/obj/item/plant_analyzer = list(
+			SCREENTIP_CONTEXT_LMB = "Scan seed stats",
+			SCREENTIP_CONTEXT_RMB = "Scan seed chemicals"
+		),
+	)
+
+	AddElement(/datum/element/contextual_screentip_item_typechecks, hovering_item_typechecks)
 
 /obj/item/seeds/Destroy()
 	// No AS ANYTHING here, because the list/genes could have typepaths in it.
@@ -215,7 +226,7 @@
 			t_prod = new t_prod(output_loc, mutated_seed)
 			t_prod.transform = initial(t_prod.transform)
 			t_prod.transform *= TRANSFORM_USING_VARIABLE(t_prod.seed.potency, 100) + 0.5
-			ADD_TRAIT(t_prod, TRAIT_PLANT_WILDMUTATE, user)
+			ADD_TRAIT(t_prod, TRAIT_PLANT_WILDMUTATE, INNATE_TRAIT)
 			t_amount++
 			if(t_prod.seed)
 				t_prod.seed.set_instability(round(instability * 0.5))
@@ -266,11 +277,6 @@
 				data = list("blood_type" = "O-")
 			if(istype(grown_edible) && (rid == /datum/reagent/consumable/nutriment || rid == /datum/reagent/consumable/nutriment/vitamin))
 				data = grown_edible.tastes // apple tastes of apple.
-				//Handles the distillary trait, swaps nutriment and vitamins for that species brewable if it exists.
-				if(get_gene(/datum/plant_gene/trait/brewing) && grown_edible.distill_reagent)
-					T.reagents.add_reagent(grown_edible.distill_reagent, amount/2)
-					continue
-
 			T.reagents.add_reagent(rid, amount, data)
 
 		//Handles the juicing trait, swaps nutriment and vitamins for that species various juices if they exist. Mutually exclusive with distilling.
@@ -450,14 +456,14 @@
 		var/choice = tgui_input_list(usr, "What would you like to change?", "Seed Alteration", list("Plant Name", "Seed Description", "Product Description"))
 		if(isnull(choice))
 			return
-		if(!user.canUseTopic(src, BE_CLOSE))
+		if(!user.can_perform_action(src))
 			return
 		switch(choice)
 			if("Plant Name")
 				var/newplantname = reject_bad_text(tgui_input_text(user, "Write a new plant name", "Plant Name", plantname, 20))
 				if(isnull(newplantname))
 					return
-				if(!user.canUseTopic(src, BE_CLOSE))
+				if(!user.can_perform_action(src))
 					return
 				name = "[lowertext(newplantname)]"
 				plantname = newplantname
@@ -465,7 +471,7 @@
 				var/newdesc = tgui_input_text(user, "Write a new seed description", "Seed Description", desc, 180)
 				if(isnull(newdesc))
 					return
-				if(!user.canUseTopic(src, BE_CLOSE))
+				if(!user.can_perform_action(src))
 					return
 				desc = newdesc
 			if("Product Description")
@@ -474,7 +480,7 @@
 				var/newproductdesc = tgui_input_text(user, "Write a new product description", "Product Description", productdesc, 180)
 				if(isnull(newproductdesc))
 					return
-				if(!user.canUseTopic(src, BE_CLOSE))
+				if(!user.can_perform_action(src))
 					return
 				productdesc = newproductdesc
 
@@ -539,7 +545,7 @@
 /obj/item/seeds/proc/create_graft()
 	var/obj/item/graft/snip = new(loc, graft_gene)
 	snip.parent_name = plantname
-	snip.name += "([plantname])"
+	snip.name += " ([plantname])"
 
 	// Copy over stats so the graft can outlive its parent.
 	snip.lifespan = lifespan

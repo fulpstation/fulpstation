@@ -14,7 +14,7 @@
 	/// The rite currently being invoked
 	var/datum/religion_rites/performing_rite
 	///Sets the type for catalyst
-	var/catalyst_type = /obj/item/storage/book/bible
+	var/catalyst_type = /obj/item/book/bible
 	///Enables overide of COMPONENT_NO_AFTERATTACK, not recommended as it means you can potentially cause damage to the item using the catalyst.
 	var/force_catalyst_afterattack = FALSE
 	var/datum/callback/after_sect_select_cb
@@ -29,11 +29,11 @@
 		catalyst_type = override_catalyst_type
 
 /datum/component/religious_tool/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY,.proc/AttemptActions)
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/on_examine)
+	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(AttemptActions))
+	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 
 /datum/component/religious_tool/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_PARENT_ATTACKBY, COMSIG_PARENT_EXAMINE))
+	UnregisterSignal(parent, list(COMSIG_ATOM_ATTACKBY, COMSIG_ATOM_EXAMINE))
 
 /**
  * Sets the easy access variable to the global if it exists.
@@ -48,8 +48,6 @@
 		after_sect_select_cb.Invoke()
 	return TRUE
 
-
-
 /**
  * Since all of these involve attackby, we require mega proc. Handles Invocation, Sacrificing, And Selection of Sects.
  */
@@ -57,7 +55,7 @@
 	SIGNAL_HANDLER
 
 	if(istype(the_item, catalyst_type))
-		INVOKE_ASYNC(src, /datum.proc/ui_interact, user) //asynchronous to avoid sleeping in a signal
+		INVOKE_ASYNC(src, TYPE_PROC_REF(/datum, ui_interact), user) //asynchronous to avoid sleeping in a signal
 
 	/**********Sacrificing**********/
 	else if(operation_flags & RELIGION_TOOL_SACRIFICE)
@@ -112,6 +110,7 @@
 	switch(action)
 		if("sect_select")
 			select_sect(usr, params["path"])
+			return TRUE //they picked a sect lets update so some weird spammy shit doesn't happen
 		if("perform_rite")
 			perform_rite(usr, params["path"])
 
@@ -121,9 +120,9 @@
 		message_admins("[ADMIN_LOOKUPFLW(usr)] has tried to spawn an item when selecting a sect.")
 		return
 	if(user.mind.holy_role != HOLY_ROLE_HIGHPRIEST)
-		to_chat(user, "<span class='warning'>You are not the high priest, and therefore cannot select a religious sect.")
+		to_chat(user, span_warning("You are not the high priest, and therefore cannot select a religious sect."))
 		return
-	if(!user.canUseTopic(parent, BE_CLOSE, FALSE, NO_TK))
+	if(!user.can_perform_action(parent, FORBID_TELEKINESIS_REACH))
 		to_chat(user,span_warning("You cannot select a sect at this time."))
 		return
 	if(GLOB.religious_sect)
@@ -153,7 +152,7 @@
 	if(performing_rite)
 		to_chat(user, "<span class='notice'>There is a rite currently being performed here already.")
 		return
-	if(!user.canUseTopic(parent, BE_CLOSE, FALSE, NO_TK))
+	if(!user.can_perform_action(parent, FORBID_TELEKINESIS_REACH))
 		to_chat(user,span_warning("You are not close enough to perform the rite."))
 		return
 	performing_rite = new path(parent)
@@ -162,20 +161,17 @@
 	else
 		performing_rite.invoke_effect(user, parent)
 		easy_access_sect.adjust_favor(-performing_rite.favor_cost)
-		QDEL_NULL(performing_rite)
+		if(performing_rite.auto_delete)
+			QDEL_NULL(performing_rite)
+		else
+			performing_rite = null
 
 /**
  * Generates a list of available sects to the user. Intended to support custom-availability sects.
  */
 /datum/component/religious_tool/proc/generate_available_sects(mob/user)
 	var/list/sects_to_pick = list()
-	var/human_highpriest = ishuman(user)
-	var/mob/living/carbon/human/highpriest = user
 	for(var/path in subtypesof(/datum/religion_sect))
-		if(human_highpriest && initial(easy_access_sect.invalidating_qualities))
-			var/datum/species/highpriest_species = highpriest.dna.species
-			if(initial(easy_access_sect.invalidating_qualities) in highpriest_species.inherent_traits)
-				continue
 		var/list/sect = list()
 		var/datum/religion_sect/not_a_real_instance_rs = path
 		sect["name"] = initial(not_a_real_instance_rs.name)

@@ -1,4 +1,3 @@
-#define SCOOP_OFFSET 4
 #define SWEETENER_PER_SCOOP 10
 #define EXTRA_MAX_VOLUME_PER_SCOOP 20
 
@@ -55,14 +54,18 @@
 	src.y_offset = y_offset
 	src.sweetener = sweetener
 
-	RegisterSignal(owner, COMSIG_ITEM_ATTACK_OBJ, .proc/on_item_attack_obj)
-	RegisterSignal(owner, COMSIG_ATOM_UPDATE_OVERLAYS, .proc/on_update_overlays)
+	RegisterSignal(owner, COMSIG_ITEM_ATTACK_ATOM, PROC_REF(on_item_attack_obj))
+	RegisterSignal(owner, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(on_update_overlays))
 	if(change_name)
-		RegisterSignal(owner, COMSIG_ATOM_UPDATE_NAME, .proc/on_update_name)
+		RegisterSignal(owner, COMSIG_ATOM_UPDATE_NAME, PROC_REF(on_update_name))
 	if(!change_desc)
-		RegisterSignal(owner, COMSIG_PARENT_EXAMINE_MORE, .proc/on_examine_more)
+		RegisterSignal(owner, COMSIG_ATOM_EXAMINE_MORE, PROC_REF(on_examine_more))
 	else
-		RegisterSignal(owner, COMSIG_ATOM_UPDATE_DESC, .proc/on_update_desc)
+		RegisterSignal(owner, COMSIG_ATOM_UPDATE_DESC, PROC_REF(on_update_desc))
+
+	RegisterSignal(owner, COMSIG_ITEM_IS_CORRECT_CUSTOM_ORDER, PROC_REF(check_food_order))
+
+	RegisterSignal(owner, COMSIG_ITEM_SOLD_TO_CUSTOMER, PROC_REF(sell_ice_cream))
 
 	if(prefill_flavours)
 		for(var/entry in prefill_flavours)
@@ -111,11 +114,11 @@
 		var/key = scoops[1]
 		var/datum/ice_cream_flavour/flavour = GLOB.ice_cream_flavours[LAZYACCESS(special_scoops, key) || key]
 		if(flavour?.desc) //I scream.
-			examine_list += "[source.p_theyre(TRUE)] filled with scoops of [flavour ? flavour.name : "broken, unhappy"] icecream."
+			examine_list += "[source.p_Theyre()] filled with scoops of [flavour ? flavour.name : "broken, unhappy"] icecream."
 		else
-			examine_list += replacetext(replacetext("[source.p_theyre(TRUE)] [flavour.desc]", "$CONE_NAME", initial(source.name)), "$CUSTOM_NAME", key)
+			examine_list += replacetext(replacetext("[source.p_Theyre()] [flavour.desc]", "$CONE_NAME", initial(source.name)), "$CUSTOM_NAME", key)
 	else /// Many flavours.
-		examine_list += "[source.p_theyre(TRUE)] filled with scoops of [english_list(scoops)] icecream. That's as many as [scoops_len] scoops!"
+		examine_list += "[source.p_Theyre()] filled with scoops of [english_list(scoops)] icecream. That's as many as [scoops_len] scoops!"
 
 /datum/component/ice_cream_holder/proc/on_update_overlays(atom/source, list/new_overlays)
 	SIGNAL_HANDLER
@@ -125,11 +128,11 @@
 	for(var/i in 1 to length(scoop_overlays))
 		var/image/overlay = scoop_overlays[i]
 		if(istext(overlay))
-			overlay = image('icons/obj/kitchen.dmi', overlay)
+			overlay = image('icons/obj/service/kitchen.dmi', overlay)
 		overlay.pixel_x = x_offset
 		overlay.pixel_y = y_offset + added_offset
 		new_overlays += overlay
-		added_offset += SCOOP_OFFSET
+		added_offset += ICE_CREAM_SCOOP_OFFSET
 
 /// Attack the ice cream vat to get some ice cream. This will change as new ways of getting ice cream are added.
 /datum/component/ice_cream_holder/proc/on_item_attack_obj(obj/item/source, obj/target, mob/user)
@@ -143,12 +146,41 @@
 			if(flavour.add_flavour(src, dispenser.beaker?.reagents.total_volume ? dispenser.beaker.reagents : null))
 				dispenser.visible_message("[icon2html(dispenser, viewers(source))] [span_info("[user] scoops delicious [dispenser.selected_flavour] ice cream into [source].")]")
 				dispenser.product_types[dispenser.selected_flavour]--
-				INVOKE_ASYNC(dispenser, /obj/machinery/icecream_vat.proc/updateDialog)
+				INVOKE_ASYNC(dispenser, TYPE_PROC_REF(/obj/machinery/icecream_vat, updateDialog))
 		else
 			to_chat(user, span_warning("There is not enough ice cream left!"))
 	else
 		to_chat(user, span_warning("[source] can't hold anymore ice cream!"))
 	return COMPONENT_CANCEL_ATTACK_CHAIN
+
+/datum/component/ice_cream_holder/proc/check_food_order(obj/item/source, datum/custom_order/our_order)
+	SIGNAL_HANDLER
+	if(!istype(our_order, /datum/custom_order/icecream))
+		return FALSE
+	var/datum/custom_order/icecream/icecream_order = our_order
+	if(parent.type != icecream_order.cone_type) //check that the cone type matches
+		return FALSE
+
+	// We don't want to stop ice creams from being sold because of their order. we aren't that finnicky.
+	var/our_scoops = scoops.Copy()
+	sortTim(our_scoops, cmp = GLOBAL_PROC_REF(cmp_text_asc))
+
+	//Make sure the flavors and number of scoops match.
+	if(compare_list(our_scoops, icecream_order.wanted_flavors))
+		return COMPONENT_CORRECT_ORDER
+
+/datum/component/ice_cream_holder/proc/sell_ice_cream(obj/item/source, mob/living/simple_animal/robot_customer/sold_to)
+	SIGNAL_HANDLER
+
+	//the price of ice cream scales with the number of scoops. Yummy.
+	var/venue_price = length(scoops) * FOOD_PRICE_TRASH * 2
+
+	var/datum/venue/venue_to_pay = sold_to.ai_controller?.blackboard[BB_CUSTOMER_ATTENDING_VENUE]
+
+	new /obj/item/holochip(get_turf(source), venue_price)
+	venue_to_pay.total_income += venue_price
+	playsound(get_turf(source), 'sound/effects/cashregister.ogg', 60, TRUE)
+
 
 /////ICE CREAM FLAVOUR DATUM STUFF
 
@@ -250,7 +282,7 @@ GLOBAL_LIST_INIT_TYPED(ice_cream_flavours, /datum/ice_cream_flavour, init_ice_cr
 	icon_state = "icecream_mob"
 	desc = "filled with bright red ice cream. That's probably not strawberry..."
 	desc_prefix = "A suspicious $CONE_NAME"
-	reagent_type = /datum/reagent/liquidgibs
+	reagent_type = /datum/reagent/consumable/liquidgibs
 	hidden = TRUE
 
 /datum/ice_cream_flavour/custom
@@ -263,7 +295,7 @@ GLOBAL_LIST_INIT_TYPED(ice_cream_flavours, /datum/ice_cream_flavour, init_ice_cr
 /datum/ice_cream_flavour/custom/add_flavour(datum/component/ice_cream_holder/target, datum/reagents/R, custom_name)
 	if(!R || R.total_volume < 4) //consumable reagents have stronger taste so higher volume are required to allow non-food flavourings to break through better.
 		return GLOB.ice_cream_flavours[ICE_CREAM_BLAND].add_flavour(target) //Bland, sugary ice and milk.
-	var/image/flavoring = image('icons/obj/kitchen.dmi', "icecream_custom")
+	var/image/flavoring = image('icons/obj/service/kitchen.dmi', "icecream_custom")
 	var/datum/reagent/master = R.get_master_reagent()
 	custom_name = lowertext(master.name) // reagent names are capitalized, while items' aren't.
 	flavoring.color = master.color
@@ -277,6 +309,5 @@ GLOBAL_LIST_INIT_TYPED(ice_cream_flavours, /datum/ice_cream_flavour, init_ice_cr
 	desc = "filled with anemic, flavorless icecream. You wonder why this was ever scooped..."
 	hidden = TRUE
 
-#undef SCOOP_OFFSET
 #undef SWEETENER_PER_SCOOP
 #undef EXTRA_MAX_VOLUME_PER_SCOOP

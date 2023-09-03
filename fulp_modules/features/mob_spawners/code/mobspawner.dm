@@ -20,17 +20,26 @@
 /obj/effect/spawner/random_mob/maintenance
 	name = "maintenance mob spawner"
 	valid_mobs = list(
-			/mob/living/simple_animal/hostile/viscerator = list(1,2,4),
+			/mob/living/basic/viscerator = list(1,2,4),
 			/mob/living/basic/cow = list(1,1,2),
 			/mob/living/simple_animal/hostile/hivebot = list(1,1,3),
 			/mob/living/simple_animal/hostile/skeleton = list(1,1,2),
 			/mob/living/simple_animal/bot/medbot = list(1,1,1),
-			/mob/living/simple_animal/crab = list(1,1,3),
-			/mob/living/simple_animal/hostile/rat = list(1,1,2),
-			/mob/living/simple_animal/chicken = list(1,1,3),
-			/mob/living/simple_animal/hostile/killertomato = list(1,1,2)
+			/mob/living/basic/crab = list(1,1,3),
+			/mob/living/basic/mouse/rat = list(1,1,2),
 		)
 
+/obj/effect/spawner/random_mob/maintenance/hostile
+	name = "hostile maintenance mob spawner"
+	icon_state = "black_exclamation"
+	valid_mobs = list(
+			/mob/living/basic/viscerator = list(1,2,4),
+			/mob/living/simple_animal/hostile/hivebot = list(1,1,3),
+			/mob/living/simple_animal/hostile/skeleton = list(1,1,2),
+			/mob/living/basic/giant_spider/hunter/scrawny = list(1,2,2),
+			/mob/living/basic/giant_spider/tarantula/scrawny = list(1,1,1),
+			/mob/living/basic/bear = list(1,1,1),
+		)
 
 ///  code/__HELPERS/_lists.dm ///
 ///This version only works with associated lists where the value is a list containing 3 ints - pick_weight, min, and max. Returns list (array) where 1 is path and 2 is num

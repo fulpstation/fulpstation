@@ -12,7 +12,7 @@
 	yield = 4
 	potency = 20
 	instability = 30
-	growing_icon = 'icons/obj/hydroponics/growing_vegetables.dmi'
+	growing_icon = 'icons/obj/service/hydroponics/growing_vegetables.dmi'
 	icon_grow = "chili-grow" // Uses one growth icons set for all the subtypes
 	icon_dead = "chili-dead" // Same for the dead icon
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
@@ -105,5 +105,5 @@
 	icon_state = "bell_pepper"
 	foodtypes = FRUIT
 
-/obj/item/food/grown/bell_pepper/MakeBakeable()
-	AddComponent(/datum/component/bakeable, /obj/item/food/roasted_bell_pepper, rand(15 SECONDS, 35 SECONDS), TRUE, TRUE)
+/obj/item/food/grown/bell_pepper/make_bakeable()
+	AddComponent(/datum/component/bakeable, /obj/item/food/roasted_bell_pepper, rand(15 SECONDS, 25 SECONDS), TRUE, TRUE)

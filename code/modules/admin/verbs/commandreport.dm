@@ -30,7 +30,7 @@
 	if(!check_rights(R_ADMIN))
 		return
 
-	SSblackbox.record_feedback("tally", "admin_verb", 1, "Create Command Report") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Create Command Report") // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
 	var/datum/command_report_menu/tgui = new(usr)
 	tgui.ui_interact(usr)
 
@@ -99,8 +99,6 @@
 				custom_name = FALSE
 
 			command_name = params["updated_name"]
-		if("update_report_contents")
-			command_report_content = params["updated_contents"]
 		if("set_report_sound")
 			played_sound = params["picked_sound"]
 		if("toggle_announce")
@@ -109,9 +107,10 @@
 			if(!command_name)
 				to_chat(ui_user, span_danger("You can't send a report with no command name."))
 				return
-			if(!command_report_content)
+			if(!params["report"])
 				to_chat(ui_user, span_danger("You can't send a report with no contents."))
 				return
+			command_report_content = params["report"]
 			send_announcement()
 
 	return TRUE

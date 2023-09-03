@@ -1,11 +1,19 @@
 
-/mob/living/brain/Life(delta_time = SSMOBS_DT, times_fired)
+/mob/living/brain/Life(seconds_per_tick = SSMOBS_DT, times_fired)
 	if (notransform)
 		return
 	if(!loc)
 		return
+
+	if(!isnull(container))
+		if(!istype(container))
+			stack_trace("/mob/living/brain with container set, but container was not an MMI!")
+			container = null
+		if(!container.contains(src))
+			stack_trace("/mob/living/brain with container set, but we weren't inside of it!")
+			container = null
 	. = ..()
-	handle_emp_damage(delta_time, times_fired)
+	handle_emp_damage(seconds_per_tick, times_fired)
 
 /mob/living/brain/update_stat()
 	if(status_flags & GODMODE)
@@ -14,25 +22,19 @@
 		return
 	if(stat != DEAD)
 		death()
-	var/obj/item/organ/brain/BR
+	var/obj/item/organ/internal/brain/BR
 	if(container?.brain)
 		BR = container.brain
-	else if(istype(loc, /obj/item/organ/brain))
+	else if(istype(loc, /obj/item/organ/internal/brain))
 		BR = loc
 	if(BR)
-		BR.damage = BRAIN_DAMAGE_DEATH //beaten to a pulp
+		BR.set_organ_damage(BRAIN_DAMAGE_DEATH) //beaten to a pulp
 
-/mob/living/brain/proc/handle_emp_damage(delta_time, times_fired)
+/mob/living/brain/proc/handle_emp_damage(seconds_per_tick, times_fired)
 	if(!emp_damage)
 		return
 
 	if(stat == DEAD)
 		emp_damage = 0
 	else
-		emp_damage = max(emp_damage - (0.5 * delta_time), 0)
-
-/mob/living/brain/handle_traits(delta_time, times_fired)
-	return
-
-
-
+		emp_damage = max(emp_damage - (0.5 * seconds_per_tick), 0)

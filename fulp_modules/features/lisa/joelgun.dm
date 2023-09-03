@@ -5,13 +5,14 @@
 	icon_state = "revolver"
 	name = "\improper Bolt Action pistol"
 	desc = "The most powerful handgun in Olathe. It's best not to waste the only bullet. Examine again for more information."
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
-	custom_premium_price = PAYCHECK_HARD * 1.75
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/c22
+	custom_premium_price = PAYCHECK_CREW * 2.5
 	///Cooldown between ability uses
 	var/used_ability = FALSE
 
 /obj/item/gun/ballistic/revolver/joel/examine_more(mob/user)
-	. = list(span_warning("<i>You examine [src]'s instructions;</i>"))
+	. = ..()
+	. += list(span_warning("<i>You examine [src]'s instructions;</i>"))
 	. += list(
 		span_warning("Activate [src] in hand to use Gun Toss (If wearing Holster: Gun Flip),\n\
 		AltClick [src] to use Mind Games (If wearing Holster: Holster reveal),\n\
@@ -78,7 +79,7 @@
 	for(var/mob/living/victims in viewers(7, user))
 		victims.face_atom(user)
 		victims.do_alert_animation()
-	addtimer(CALLBACK(src, .proc/clear_cooldown), 6 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(clear_cooldown)), 6 SECONDS)
 
 /obj/item/gun/ballistic/revolver/joel/AltClick(mob/user)
 	if(used_ability)
@@ -113,7 +114,7 @@
 				victims.throw_at(throwtarget, 3, 2)
 
 	used_ability = TRUE
-	addtimer(CALLBACK(src, .proc/clear_cooldown), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(clear_cooldown)), 10 SECONDS)
 
 /obj/item/gun/ballistic/revolver/joel/attack_secondary(mob/living/victim, mob/living/user, params)
 	if(used_ability)
@@ -133,7 +134,7 @@
 	if(prob(50) && !velvet_check(victim))
 		victim.Stun(rand(10, 20))
 	used_ability = TRUE
-	addtimer(CALLBACK(src, .proc/clear_cooldown), 8 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(clear_cooldown)), 8 SECONDS)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/gun/ballistic/revolver/joel/afterattack(atom/target, mob/living/user, flag, params)
@@ -155,7 +156,7 @@
 	)
 	playsound(loc, 'fulp_modules/features/lisa/sounds/misdirect.ogg', 50, FALSE, -5)
 	used_ability = TRUE
-	addtimer(CALLBACK(src, .proc/clear_cooldown), 7 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(clear_cooldown)), 7 SECONDS)
 
 	if(!do_after(user, 0.4 SECONDS, target = src, progress = FALSE))
 		return

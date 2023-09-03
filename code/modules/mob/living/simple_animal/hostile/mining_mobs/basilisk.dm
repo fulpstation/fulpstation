@@ -2,7 +2,7 @@
 /mob/living/simple_animal/hostile/asteroid/basilisk
 	name = "basilisk"
 	desc = "A territorial beast, covered in a thick shell that absorbs energy. Its stare causes victims to freeze from the inside."
-	icon = 'icons/mob/lavaland/lavaland_monsters.dmi'
+	icon = 'icons/mob/simple/lavaland/lavaland_monsters.dmi'
 	icon_state = "Basilisk"
 	icon_living = "Basilisk"
 	icon_aggro = "Basilisk_alert"
@@ -42,8 +42,7 @@
 	icon_state = "ice_2"
 	damage = 10
 	damage_type = BURN
-	nodamage = FALSE
-	flag = ENERGY
+	armor_flag = ENERGY
 	temperature = -50 // Cools you down! per hit!
 	var/slowdown = TRUE //Determines if the projectile applies a slowdown status effect on carbons or not
 
@@ -58,7 +57,6 @@
 	icon_state= "chronobolt"
 	damage = 40
 	damage_type = BRUTE
-	nodamage = FALSE
 	temperature = 0
 	slowdown = FALSE
 
@@ -67,20 +65,23 @@
 	if(..()) //we have a target
 		var/atom/target_from = GET_TARGETS_FROM(src)
 		if(isliving(target) && !target.Adjacent(target_from) && ranged_cooldown <= world.time)//No more being shot at point blank or spammed with RNG beams
-			OpenFire(target)
+			INVOKE_ASYNC(src, PROC_REF(OpenFire), target)
 
 /mob/living/simple_animal/hostile/asteroid/basilisk/ex_act(severity, target)
 	switch(severity)
 		if(EXPLODE_DEVASTATE)
+			investigate_log("has been gibbed by an explosion.", INVESTIGATE_DEATHS)
 			gib()
 		if(EXPLODE_HEAVY)
 			adjustBruteLoss(140)
 		if(EXPLODE_LIGHT)
 			adjustBruteLoss(110)
 
+	return TRUE
+
 /mob/living/simple_animal/hostile/asteroid/basilisk/AttackingTarget()
 	. = ..()
-	if(lava_drinker && !warmed_up && istype(target, /turf/open/lava))
+	if(lava_drinker && !warmed_up && islava(target))
 		visible_message(span_warning("[src] begins to drink from [target]..."))
 		if(do_after(src, 70, target = target))
 			visible_message(span_warning("[src] begins to fire up!"))
@@ -89,7 +90,7 @@
 			set_varspeed(0)
 			warmed_up = TRUE
 			projectiletype = /obj/projectile/temp/basilisk/heated
-			addtimer(CALLBACK(src, .proc/cool_down), 3000)
+			addtimer(CALLBACK(src, PROC_REF(cool_down)), 3000)
 
 /mob/living/simple_animal/hostile/asteroid/basilisk/proc/cool_down()
 	visible_message(span_warning("[src] appears to be cooling down..."))
@@ -103,14 +104,14 @@
 /mob/living/simple_animal/hostile/asteroid/basilisk/watcher
 	name = "watcher"
 	desc = "A levitating, eye-like creature held aloft by winglike formations of sinew. A sharp spine of crystal protrudes from its body."
-	icon = 'icons/mob/lavaland/watcher.dmi'
+	icon = 'icons/mob/simple/lavaland/lavaland_monsters_wide.dmi'
 	icon_state = "watcher"
 	icon_living = "watcher"
 	icon_aggro = "watcher"
 	icon_dead = "watcher_dead"
 	health_doll_icon = "watcher"
-	pixel_x = -10
-	base_pixel_x = -10
+	pixel_x = -12
+	base_pixel_x = -12
 	throw_message = "bounces harmlessly off of"
 	melee_damage_lower = 15
 	melee_damage_upper = 15
@@ -134,7 +135,7 @@
 	. = ..()
 	AddElement(/datum/element/simple_flying)
 
-/mob/living/simple_animal/hostile/asteroid/basilisk/watcher/Life(delta_time = SSMOBS_DT, times_fired)
+/mob/living/simple_animal/hostile/asteroid/basilisk/watcher/Life(seconds_per_tick = SSMOBS_DT, times_fired)
 	. = ..()
 	if(stat == CONSCIOUS)
 		consume_bait()
@@ -193,7 +194,6 @@
 	icon_state = "lava"
 	damage = 5
 	damage_type = BURN
-	nodamage = FALSE
 	temperature = 200 // Heats you up! per hit!
 	slowdown = FALSE
 
@@ -203,12 +203,11 @@
 		var/mob/living/L = target
 		if (istype(L))
 			L.adjust_fire_stacks(0.1)
-			L.IgniteMob()
+			L.ignite_mob()
 
 /obj/projectile/temp/basilisk/icewing
 	damage = 5
 	damage_type = BURN
-	nodamage = FALSE
 
 /obj/projectile/temp/basilisk/icewing/on_hit(atom/target, blocked = FALSE)
 	. = ..()
@@ -218,4 +217,4 @@
 			L.apply_status_effect(/datum/status_effect/freon/watcher)
 
 /mob/living/simple_animal/hostile/asteroid/basilisk/watcher/tendril
-	fromtendril = TRUE
+	from_spawner = TRUE

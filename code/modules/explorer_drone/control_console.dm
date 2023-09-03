@@ -1,6 +1,7 @@
 /obj/machinery/computer/exodrone_control_console
 	name = "exploration drone control console"
 	desc = "control eploration drones from intersteller distances. Communication lag not included."
+	circuit = /obj/item/circuitboard/computer/exodrone_console
 	//Currently controlled drone
 	var/obj/item/exodrone/controlled_drone
 	/// Have we lost contact with the drone without disconnecting. Unset on user confirmation.
@@ -19,8 +20,8 @@
 		end_drone_control()
 		controlled_drone = drone
 		controlled_drone.controlled = TRUE
-		RegisterSignal(controlled_drone,COMSIG_PARENT_QDELETING,.proc/drone_destroyed)
-		RegisterSignal(controlled_drone,COMSIG_EXODRONE_STATUS_CHANGED,.proc/on_exodrone_status_changed)
+		RegisterSignal(controlled_drone,COMSIG_QDELETING, PROC_REF(drone_destroyed))
+		RegisterSignal(controlled_drone,COMSIG_EXODRONE_STATUS_CHANGED, PROC_REF(on_exodrone_status_changed))
 		update_icon()
 
 /obj/machinery/computer/exodrone_control_console/proc/on_exodrone_status_changed()
@@ -37,7 +38,7 @@
 /obj/machinery/computer/exodrone_control_console/proc/end_drone_control()
 	if(controlled_drone)
 		controlled_drone.controlled = FALSE
-		UnregisterSignal(controlled_drone,list(COMSIG_PARENT_QDELETING,COMSIG_EXODRONE_STATUS_CHANGED))
+		UnregisterSignal(controlled_drone,list(COMSIG_QDELETING,COMSIG_EXODRONE_STATUS_CHANGED))
 		controlled_drone = null
 		update_icon()
 

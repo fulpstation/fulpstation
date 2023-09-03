@@ -1,11 +1,5 @@
 <!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable. -->
 <!-- You can view Contributing.MD for a detailed description of the pull request process. -->
-<!--
-IMPORTANT: For large prs, make sure include in your title [IDB IGNORE] and/or [MDB IGNORE] to keep their bots from crashing. 
-MDB is especially important for large map changes
-Failure to do so could result in repoban
-If you need help please reach out on the discord!
--->
 
 ## About The Pull Request
 
@@ -13,7 +7,7 @@ If you need help please reach out on the discord!
 
 ## Why It's Good For The Game
 
-<!-- Please add a short description of why you think these changes would benefit the game. If you can't justify it in words, it might not be worth adding. -->
+<!-- Argue for the merits of your changes and how they benefit the game, especially if they are controversial and/or far reaching. If you can't actually explain WHY what you are doing will improve the game, then it probably isn't good for the game in the first place. -->
 
 ## Changelog
 
@@ -22,15 +16,12 @@ If you need help please reach out on the discord!
 :cl:
 add: Added new mechanics or gameplay changes
 add: Added more things
-expansion: Expands content of an existing feature
 del: Removed old things
 qol: made something easier to use
 balance: rebalanced something
 fix: fixed a few things
-soundadd: added a new sound thingy
-sounddel: removed an old sound thingy
-imageadd: added some icons and images
-imagedel: deleted some icons and images
+sound: added/modified/removed audio or sound effects
+image: added/modified/removed some icons or images
 spellcheck: fixed a few typos
 code: changed some code
 refactor: refactored some code

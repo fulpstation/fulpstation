@@ -1,11 +1,25 @@
-///Calculate the angle between two points and the west|east coordinate
+///Calculate the angle between two movables and the west|east coordinate
 /proc/get_angle(atom/movable/start, atom/movable/end)//For beams.
 	if(!start || !end)
 		return 0
-	var/dy
-	var/dx
-	dy=(32 * end.y + end.pixel_y) - (32 * start.y + start.pixel_y)
-	dx=(32 * end.x + end.pixel_x) - (32 * start.x + start.pixel_x)
+	var/dy =(32 * end.y + end.pixel_y) - (32 * start.y + start.pixel_y)
+	var/dx =(32 * end.x + end.pixel_x) - (32 * start.x + start.pixel_x)
+	return delta_to_angle(dx, dy)
+
+/// Calculate the angle produced by a pair of x and y deltas
+/proc/delta_to_angle(x, y)
+	if(!y)
+		return (x >= 0) ? 90 : 270
+	. = arctan(x/y)
+	if(y < 0)
+		. += 180
+	else if(x < 0)
+		. += 360
+
+/// Angle between two arbitrary points and horizontal line same as [/proc/get_angle]
+/proc/get_angle_raw(start_x, start_y, start_pixel_x, start_pixel_y, end_x, end_y, end_pixel_x, end_pixel_y)
+	var/dy = (32 * end_y + end_pixel_y) - (32 * start_y + start_pixel_y)
+	var/dx = (32 * end_x + end_pixel_x) - (32 * start_x + start_pixel_x)
 	if(!dy)
 		return (dx >= 0) ? 90 : 270
 	. = arctan(dx/dy)
@@ -70,6 +84,41 @@
 			line += locate(current_x_step, current_y_step, starting_z)
 	return line
 
+/**
+ * Get a list of turfs in a perimeter given the `center_atom` and `radius`.
+ * Automatically rounds down decimals and does not accept values less than positive 1 as they dont play well with it.
+ * Is efficient on large circles but ugly on small ones
+ * Uses [Jesko`s method to the midpoint circle Algorithm](https://en.wikipedia.org/wiki/Midpoint_circle_algorithm).
+ */
+/proc/get_perimeter(atom/center, radius)
+	if(radius < 1)
+		return
+	var/rounded_radius = round(radius)
+	var/x = center.x
+	var/y = center.y
+	var/z = center.z
+	var/t1 = rounded_radius/16
+	var/dx = rounded_radius
+	var/dy = 0
+	var/t2
+	var/list/perimeter = list()
+	while(dx >= dy)
+		perimeter += locate(x + dx, y + dy, z)
+		perimeter += locate(x - dx, y + dy, z)
+		perimeter += locate(x + dx, y - dy, z)
+		perimeter += locate(x - dx, y - dy, z)
+		perimeter += locate(x + dy, y + dx, z)
+		perimeter += locate(x - dy, y + dx, z)
+		perimeter += locate(x + dy, y - dx, z)
+		perimeter += locate(x - dy, y - dx, z)
+		dy += 1
+		t1 += dy
+		t2 = t1 - dx
+		if(t2 > 0)
+			t1 = t2
+			dx -= 1
+	return perimeter
+
 ///Format a power value in W, kW, MW, or GW.
 /proc/display_power(powerused)
 	if(powerused < 1000) //Less than a kW
@@ -106,7 +155,7 @@
 
 ///chances are 1:value. anyprob(1) will always return true
 /proc/anyprob(value)
-	return (rand(1,value)==value)
+	return (rand(1,value) == value)
 
 ///counts the number of bits in Byond's 16-bit width field, in constant time and memory!
 /proc/bit_count(bit_field)
@@ -133,3 +182,15 @@
 			return "centuple"
 		else //It gets too tedious to use latin prefixes from here.
 			return "[number]-tuple"
+
+/// Takes a value, and a threshold it has to at least match
+/// returns the correctly signed value max'd to the threshold
+/proc/at_least(new_value, threshold)
+	var/sign = SIGN(new_value)
+	// SIGN will return 0 if the value is 0, so we just go to the positive threshold
+	if(!sign)
+		return threshold
+	if(sign == 1)
+		return max(new_value, threshold)
+	if(sign == -1)
+		return min(new_value, threshold * -1)

@@ -1,16 +1,19 @@
 /obj/item/clothing/head/soft
 	name = "cargo cap"
-	desc = "It's a baseball hat in a tasteless yellow colour."
+	desc = "It's a baseball hat in a tasteful brown colour."
+	icon = 'icons/obj/clothing/head/hats.dmi'
+	worn_icon = 'icons/mob/clothing/head/hats.dmi'
 	icon_state = "cargosoft"
-	inhand_icon_state = "helmet"
+	inhand_icon_state = "greyscale_softcap" //todo wip
 	var/soft_type = "cargo"
+	var/soft_suffix = "soft"
 
 	dog_fashion = /datum/dog_fashion/head/cargo_tech
 
 	var/flipped = FALSE
 
 /obj/item/clothing/head/soft/dropped()
-	icon_state = "[soft_type]soft"
+	icon_state = "[soft_type][soft_suffix]"
 	flipped = FALSE
 	..()
 
@@ -23,7 +26,7 @@
 
 /obj/item/clothing/head/soft/AltClick(mob/user)
 	..()
-	if(user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, !iscyborg(user)))
+	if(user.can_perform_action(src, NEED_DEXTERITY))
 		flip(user)
 
 
@@ -31,12 +34,12 @@
 	if(!user.incapacitated())
 		flipped = !flipped
 		if(flipped)
-			icon_state = "[soft_type]soft_flipped"
+			icon_state = "[soft_type][soft_suffix]_flipped"
 			to_chat(user, span_notice("You flip the hat backwards."))
 		else
-			icon_state = "[soft_type]soft"
+			icon_state = "[soft_type][soft_suffix]"
 			to_chat(user, span_notice("You flip the hat back in normal position."))
-		usr.update_inv_head() //so our mob-overlays update
+		usr.update_worn_head() //so our mob-overlays update
 
 /obj/item/clothing/head/soft/examine(mob/user)
 	. = ..()
@@ -118,6 +121,7 @@
 	name = "rainbow cap"
 	desc = "It's a baseball hat in a bright rainbow of colors."
 	icon_state = "rainbowsoft"
+	inhand_icon_state = "rainbow_softcap"
 	soft_type = "rainbow"
 	dog_fashion = null
 
@@ -126,7 +130,7 @@
 	desc = "It's a robust baseball hat in tasteful red colour."
 	icon_state = "secsoft"
 	soft_type = "sec"
-	armor = list(MELEE = 30, BULLET = 25, LASER = 25, ENERGY = 35, BOMB = 25, BIO = 0, FIRE = 20, ACID = 50)
+	armor_type = /datum/armor/cosmetic_sec
 	strip_delay = 60
 	dog_fashion = null
 
@@ -136,3 +140,24 @@
 	icon_state = "paramedicsoft"
 	soft_type = "paramedic"
 	dog_fashion = null
+
+/obj/item/clothing/head/soft/fishing_hat
+	name = "legendary fishing hat"
+	desc = "An ancient relic of a bygone era of bountiful catches and endless rivers. Printed on the front is a poem:<i>\n\
+		Women Fear Me\n\
+		Fish Fear Me\n\
+		Men Turn Their Eyes Away From Me\n\
+		As I Walk No Beast Dares Make A Sound In My Presence\n\
+		I Am Alone On This Barren Earth.</i>"
+	icon_state = "fishing_hat"
+	soft_type = "fishing_hat"
+	inhand_icon_state = "fishing_hat"
+	soft_suffix = null
+	worn_y_offset = 5
+	clothing_flags = SNUG_FIT
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE
+	dog_fashion = null
+
+/obj/item/clothing/head/soft/fishing_hat/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/skill_reward, /datum/skill/fishing)

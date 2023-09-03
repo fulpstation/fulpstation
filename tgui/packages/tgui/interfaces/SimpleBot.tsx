@@ -1,21 +1,15 @@
-import { multiline } from '../../common/string';
-import { useBackend } from '../backend';
-import { Button, Icon, LabeledControls, NoticeBox, Section, Slider, Stack, Tooltip } from '../components';
-import { Window } from '../layouts';
+import { capitalizeAll, multiline } from 'common/string';
+import { useBackend } from 'tgui/backend';
+import { Button, Icon, LabeledControls, NoticeBox, Section, Slider, Stack, Tooltip } from 'tgui/components';
+import { Window } from 'tgui/layouts';
 
 type SimpleBotContext = {
   can_hack: number;
   locked: number;
   emagged: number;
   has_access: number;
-  pai: Pai;
   settings: Settings;
   custom_controls: Controls;
-};
-
-type Pai = {
-  allow_pai: number;
-  card_inserted: number;
 };
 
 type Settings = {
@@ -23,16 +17,20 @@ type Settings = {
   airplane_mode: number;
   maintenance_lock: number;
   patrol_station: number;
+  allow_possession: number;
+  possession_enabled: number;
+  has_personality: number;
+  pai_inserted: boolean;
 };
 
 type Controls = {
   [Control: string]: [Value: number];
 };
 
-export const SimpleBot = (_, context) => {
+export const SimpleBot = (props, context) => {
   const { data } = useBackend<SimpleBotContext>(context);
   const { can_hack, locked } = data;
-  const access = (!locked || can_hack);
+  const access = !locked || can_hack;
 
   return (
     <Window width={450} height={300}>
@@ -40,9 +38,7 @@ export const SimpleBot = (_, context) => {
         <Stack fill vertical>
           <Stack.Item>
             <Section title="Settings" buttons={<TabDisplay />}>
-              {!access
-                ? (<NoticeBox>Locked!</NoticeBox>)
-                : (<SettingsDisplay />)}
+              {!access ? <NoticeBox>Locked!</NoticeBox> : <SettingsDisplay />}
             </Section>
           </Stack.Item>
           {access && (
@@ -59,15 +55,22 @@ export const SimpleBot = (_, context) => {
 };
 
 /** Creates a lock button at the top of the controls */
-const TabDisplay = (_, context) => {
+const TabDisplay = (props, context) => {
   const { act, data } = useBackend<SimpleBotContext>(context);
-  const { can_hack, has_access, locked, pai } = data;
-  const { allow_pai } = pai;
+  const { can_hack, has_access, locked } = data;
+  const { allow_possession } = data.settings;
 
   return (
     <>
       {!!can_hack && <HackButton />}
-      {!!allow_pai && <PaiButton />}
+      {!!allow_possession && <PaiButton />}
+      <Button
+        color="transparent"
+        icon="fa-poll-h"
+        onClick={() => act('rename')}
+        tooltip="Update the bot's name registration.">
+        Rename
+      </Button>
       <Button
         color="transparent"
         disabled={!has_access && !can_hack}
@@ -82,7 +85,7 @@ const TabDisplay = (_, context) => {
 };
 
 /** If user is a bad silicon, they can press this button to hack the bot */
-const HackButton = (_, context) => {
+const HackButton = (props, context) => {
   const { act, data } = useBackend<SimpleBotContext>(context);
   const { can_hack, emagged } = data;
 
@@ -104,11 +107,11 @@ const HackButton = (_, context) => {
 };
 
 /** Creates a button indicating PAI status and offers the eject action */
-const PaiButton = (_, context) => {
+const PaiButton = (props, context) => {
   const { act, data } = useBackend<SimpleBotContext>(context);
-  const { card_inserted } = data.pai;
+  const { pai_inserted } = data.settings;
 
-  if (!card_inserted) {
+  if (!pai_inserted) {
     return (
       <Button
         color="transparent"
@@ -120,7 +123,7 @@ const PaiButton = (_, context) => {
   } else {
     return (
       <Button
-        disabled={!card_inserted}
+        disabled={!pai_inserted}
         icon="eject"
         onClick={() => act('eject_pai')}
         tooltip={multiline`Ejects the current PAI.`}>
@@ -131,10 +134,17 @@ const PaiButton = (_, context) => {
 };
 
 /** Displays the bot's standard settings: Power, patrol, etc. */
-const SettingsDisplay = (_, context) => {
+const SettingsDisplay = (props, context) => {
   const { act, data } = useBackend<SimpleBotContext>(context);
   const { settings } = data;
-  const { airplane_mode, patrol_station, power, maintenance_lock } = settings;
+  const {
+    airplane_mode,
+    patrol_station,
+    power,
+    maintenance_lock,
+    allow_possession,
+    possession_enabled,
+  } = settings;
 
   return (
     <LabeledControls>
@@ -189,6 +199,23 @@ const SettingsDisplay = (_, context) => {
           />
         </Tooltip>
       </LabeledControls.Item>
+      {allow_possession && (
+        <LabeledControls.Item label="Personality">
+          <Tooltip
+            content={
+              possession_enabled
+                ? 'Resets personality to factory default.'
+                : 'Enables download of a unique personality.'
+            }>
+            <Icon
+              size={2}
+              name="robot"
+              color={possession_enabled ? 'good' : 'gray'}
+              onClick={() => act('toggle_personality')}
+            />
+          </Tooltip>
+        </LabeledControls.Item>
+      )}
     </LabeledControls>
   );
 };
@@ -196,7 +223,7 @@ const SettingsDisplay = (_, context) => {
 /** Iterates over custom controls.
  * Calls the helper to identify which button to use.
  */
-const ControlsDisplay = (_, context) => {
+const ControlsDisplay = (props, context) => {
   const { data } = useBackend<SimpleBotContext>(context);
   const { custom_controls } = data;
 
@@ -207,10 +234,7 @@ const ControlsDisplay = (_, context) => {
           <LabeledControls.Item
             pb={2}
             key={control[0]}
-            label={control[0]
-              .replace('_', ' ')
-              .replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
-                letter.toUpperCase())}>
+            label={capitalizeAll(control[0].replace('_', ' '))}>
             <ControlHelper control={control} />
           </LabeledControls.Item>
         );
@@ -249,7 +273,7 @@ const ControlHelper = (props, context) => {
 };
 
 /** Small button to sync medbots with research. */
-const MedbotSync = (_, context) => {
+const MedbotSync = (props, context) => {
   const { act } = useBackend<SimpleBotContext>(context);
 
   return (
@@ -319,7 +343,12 @@ const FloorbotLine = (props, context) => {
         onClick={() => act('line_mode')}
         size={!control[1] ? 2 : 1.5}>
         {' '}
-        {control[1] ? control[1].toString().charAt(0).toUpperCase() : ''}
+        {control[1]
+          ? control[1]
+            .toString()
+            .charAt(0)
+            .toUpperCase()
+          : ''}
       </Icon>
     </Tooltip>
   );

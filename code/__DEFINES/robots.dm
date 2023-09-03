@@ -19,6 +19,14 @@
 ///Alert when a Cyborg gets disconnected from their AI.
 #define AI_NOTIFICATION_CYBORG_DISCONNECTED 5
 
+//transfer_ai() defines. Main proc in ai_core.dm
+///Downloading AI to InteliCard
+#define AI_TRANS_TO_CARD 1
+///Uploading AI from InteliCard
+#define AI_TRANS_FROM_CARD 2
+///Malfunctioning AI hijacking mecha
+#define AI_MECH_HACK 3
+
 /** Cyborg defines */
 
 /// Special value to reset cyborg's lamp_cooldown
@@ -78,8 +86,10 @@
 #define BOT_MODE_AUTOPATROL (1<<1)
 ///The Bot is currently allowed to be remote controlled by Silicon.
 #define BOT_MODE_REMOTE_ENABLED (1<<2)
-///The Bot is allowed to have a pAI placed in control of it.
-#define BOT_MODE_PAI_CONTROLLABLE (1<<3)
+///The Bot is allowed to have a ghost placed in control of it.
+#define BOT_MODE_CAN_BE_SAPIENT (1<<3)
+///The Bot is allowed to be possessed if it is present on mapload.
+#define BOT_MODE_ROUNDSTART_POSSESSION (1<<4)
 
 //Bot cover defines indicating the Bot's status
 ///The Bot's cover is open and can be modified/emagged by anyone.
@@ -113,51 +123,55 @@
 /// Vibe bots
 #define VIBE_BOT "Vibebot"
 
-//Mode defines. If you add a new one make sure you update mode_name in /mob/living/simple_animal/bot
-
 // General Bot modes //
 /// Idle
-#define BOT_IDLE 0
+#define BOT_IDLE "Idle"
 /// Found target, hunting
-#define BOT_HUNT 1
+#define BOT_HUNT "In Pursuit"
 /// Currently tipped over.
-#define BOT_TIPPED 2
+#define BOT_TIPPED "Tipped"
 /// Start patrol
-#define BOT_START_PATROL 3
+#define BOT_START_PATROL "Beginning Patrol"
 /// Patrolling
-#define BOT_PATROL 4
+#define BOT_PATROL "Patrolling"
 /// Summoned to a location
-#define BOT_SUMMON 5
+#define BOT_SUMMON "Summoned by PDA"
+/// Responding to a call from the AI
+#define BOT_RESPONDING "Proceeding to AI waypoint"
 /// Currently moving
-#define BOT_MOVING 6
+#define BOT_MOVING "Moving"
 
 // Unique modes //
 /// Secbot - At target, preparing to arrest
-#define BOT_PREP_ARREST 7
+#define BOT_PREP_ARREST "Preparing to Arrest"
 /// Secbot - Arresting target
-#define BOT_ARREST 8
+#define BOT_ARREST "Arresting"
 /// Cleanbot - Cleaning
-#define BOT_CLEANING 9
+#define BOT_CLEANING "Cleaning"
 /// Hygienebot - Cleaning unhygienic humans
-#define BOT_SHOWERSTANCE 10
+#define BOT_SHOWERSTANCE "Chasing filth"
 /// Floorbots - Repairing hull breaches
-#define BOT_REPAIRING 11
+#define BOT_REPAIRING "Repairing"
 /// Medibots - Healing people
-#define BOT_HEALING 12
-/// Responding to a call from the AI
-#define BOT_RESPONDING 13
+#define BOT_HEALING "Healing"
 /// MULEbot - Moving to deliver
-#define BOT_DELIVER 14
+#define BOT_DELIVER "Navigating to Delivery Location"
 /// MULEbot - Returning to home
-#define BOT_GO_HOME 15
+#define BOT_GO_HOME "Proceeding to work site"
 /// MULEbot - Blocked
-#define BOT_BLOCKED 16
+#define BOT_BLOCKED "No Route"
 /// MULEbot - Computing navigation
-#define BOT_NAV 17
+#define BOT_NAV "Unable to reach destination"
 /// MULEbot - Waiting for nav computation
-#define BOT_WAIT_FOR_NAV 18
+#define BOT_WAIT_FOR_NAV "Calculating navigation path"
 /// MULEbot - No destination beacon found (or no route)
-#define BOT_NO_ROUTE 19
+#define BOT_NO_ROUTE "Navigating to Home"
+
+//Secbot and ED209 judgement criteria bitflag values
+#define JUDGE_EMAGGED (1<<0)
+#define JUDGE_IDCHECK (1<<1)
+#define JUDGE_WEAPONCHECK (1<<2)
+#define JUDGE_RECORDCHECK (1<<3)
 
 //SecBOT defines on arresting
 ///Whether arrests should be broadcasted over the Security radio
@@ -171,6 +185,14 @@
 ///Whether we will stun & cuff or endlessly stun
 #define SECBOT_HANDCUFF_TARGET (1<<4)
 
+DEFINE_BITFIELD(security_mode_flags, list(
+	"SECBOT_DECLARE_ARRESTS" = SECBOT_DECLARE_ARRESTS,
+	"SECBOT_CHECK_IDS" = SECBOT_CHECK_IDS,
+	"SECBOT_CHECK_WEAPONS" = SECBOT_CHECK_WEAPONS,
+	"SECBOT_CHECK_RECORDS" = SECBOT_CHECK_RECORDS,
+	"SECBOT_HANDCUFF_TARGET" = SECBOT_HANDCUFF_TARGET,
+))
+
 //MedBOT defines
 ///Whether to declare if someone (we are healing) is in critical condition
 #define MEDBOT_DECLARE_CRIT (1<<0)
@@ -178,3 +200,100 @@
 #define MEDBOT_STATIONARY_MODE (1<<1)
 ///Whether the bot will randomly speak from time to time. This will not actually prevent all speech.
 #define MEDBOT_SPEAK_MODE (1<<2)
+
+DEFINE_BITFIELD(medical_mode_flags, list(
+	"MEDBOT_DECLARE_CRIT" = MEDBOT_DECLARE_CRIT,
+	"MEDBOT_STATIONARY_MODE" = MEDBOT_STATIONARY_MODE,
+	"MEDBOT_SPEAK_MODE" = MEDBOT_SPEAK_MODE,
+))
+
+//cleanBOT defines on what to clean
+#define CLEANBOT_CLEAN_BLOOD (1<<0)
+#define CLEANBOT_CLEAN_TRASH (1<<1)
+#define CLEANBOT_CLEAN_PESTS (1<<2)
+#define CLEANBOT_CLEAN_DRAWINGS (1<<3)
+
+DEFINE_BITFIELD(janitor_mode_flags, list(
+	"CLEANBOT_CLEAN_BLOOD" = CLEANBOT_CLEAN_BLOOD,
+	"CLEANBOT_CLEAN_TRASH" = CLEANBOT_CLEAN_TRASH,
+	"CLEANBOT_CLEAN_PESTS" = CLEANBOT_CLEAN_PESTS,
+	"CLEANBOT_CLEAN_DRAWINGS" = CLEANBOT_CLEAN_DRAWINGS,
+))
+
+//bot navigation beacon defines
+#define NAVBEACON_PATROL_MODE "patrol"
+#define NAVBEACON_PATROL_NEXT "next_patrol"
+#define NAVBEACON_DELIVERY_MODE "delivery"
+#define NAVBEACON_DELIVERY_DIRECTION "dir"
+
+// Defines for lines that bots can speak which also have corresponding voice lines
+
+#define ED209_VOICED_DOWN_WEAPONS "Please put down your weapon. You have 20 seconds to comply."
+
+#define HONKBOT_VOICED_HONK_HAPPY "Honk!"
+#define HONKBOT_VOICED_HONK_SAD "Honk..."
+
+#define BEEPSKY_VOICED_CRIMINAL_DETECTED "Criminal detected!"
+#define BEEPSKY_VOICED_FREEZE "Freeze, scumbag!"
+#define BEEPSKY_VOICED_JUSTICE "Prepare for justice!"
+#define BEEPSKY_VOICED_YOUR_MOVE "Your move, creep."
+#define BEEPSKY_VOICED_I_AM_THE_LAW "I am the law!"
+#define BEEPSKY_VOICED_SECURE_DAY "Have a secure day."
+
+#define FIREBOT_VOICED_FIRE_DETECTED "Fire detected!"
+#define FIREBOT_VOICED_STOP_DROP "Stop, drop and roll!"
+#define FIREBOT_VOICED_EXTINGUISHING "Extinguishing!"
+#define FIREBOT_VOICED_NO_FIRES "No fires detected."
+#define FIREBOT_VOICED_ONLY_YOU "Only you can prevent station fires."
+#define FIREBOT_VOICED_TEMPERATURE_NOMINAL "Temperature nominal."
+#define FIREBOT_VOICED_KEEP_COOL "Keep it cool."
+
+#define HYGIENEBOT_VOICED_UNHYGIENIC "Unhygienic client found. Please stand still so I can clean you."
+#define HYGIENEBOT_VOICED_ENJOY_DAY "Enjoy your clean and tidy day!"
+#define HYGIENEBOT_VOICED_THREAT_AIRLOCK "Either you stop running or I will fucking drag you out of an airlock."
+#define HYGIENEBOT_VOICED_FOUL_SMELL "Get back here you foul smelling fucker."
+#define HYGIENEBOT_VOICED_TROGLODYTE "I just want to fucking clean you you troglodyte."
+#define HYGIENEBOT_VOICED_GREEN_CLOUD "If you don't come back here I'll put a green cloud around you cunt."
+#define HYGIENEBOT_VOICED_ARSEHOLE "Just fucking let me clean you you arsehole!"
+#define HYGIENEBOT_VOICED_THREAT_ARTERIES "STOP RUNNING OR I WILL CUT YOUR ARTERIES!"
+#define HYGIENEBOT_VOICED_STOP_RUNNING "STOP. RUNNING."
+#define HYGIENEBOT_VOICED_FUCKING_FINALLY "Fucking finally."
+#define HYGIENEBOT_VOICED_THANK_GOD "Thank god, you finally stopped."
+#define HYGIENEBOT_VOICED_DEGENERATE "Well about fucking time you degenerate."
+
+#define MEDIBOT_VOICED_HOLD_ON "Hey! Hold on, I'm coming."
+#define MEDIBOT_VOICED_WANT_TO_HELP "Wait! I want to help!"
+#define MEDIBOT_VOICED_YOU_ARE_INJURED "You appear to be injured!"
+#define MEDIBOT_VOICED_ALL_PATCHED_UP "All patched up!"
+#define MEDIBOT_VOICED_APPLE_A_DAY "An apple a day keeps me away."
+#define MEDIBOT_VOICED_FEEL_BETTER "Feel better soon!"
+#define MEDIBOT_VOICED_STAY_WITH_ME	"No! Stay with me!"
+#define MEDIBOT_VOICED_LIVE	"Live, damnit! LIVE!"
+#define MEDIBOT_VOICED_NEVER_LOST "I...I've never lost a patient before. Not today, I mean."
+#define MEDIBOT_VOICED_DELICIOUS "Delicious!"
+#define MEDIBOT_VOICED_PLASTIC_SURGEON "I knew it, I should've been a plastic surgeon."
+#define MEDIBOT_VOICED_MASK_ON "Radar, put a mask on!"
+#define MEDIBOT_VOICED_ALWAYS_A_CATCH "There's always a catch, and I'm the best there is."
+#define MEDIBOT_VOICED_LIKE_FLIES "What kind of medbay is this? Everyone's dropping like flies."
+#define MEDIBOT_VOICED_SUFFER "Why are we still here? Just to suffer?"
+#define MEDIBOT_VOICED_FUCK_YOU	"Fuck you."
+#define MEDIBOT_VOICED_NOT_A_GAME "Turn off your computer. This is not a game."
+#define MEDIBOT_VOICED_IM_DIFFERENT	"I'm different!"
+#define MEDIBOT_VOICED_FOURTH_WALL "Close Dreamseeker.exe now. Or else."
+#define MEDIBOT_VOICED_SHINDEMASHOU	"Shindemashou."
+#define MEDIBOT_VOICED_WAIT	"Hey, wait..."
+#define MEDIBOT_VOICED_DONT	"Please don't..."
+#define MEDIBOT_VOICED_TRUSTED_YOU "I trusted you..."
+#define MEDIBOT_VOICED_NO_SAD "Nooo..."
+#define MEDIBOT_VOICED_OH_FUCK "Oh fuck-"
+#define MEDIBOT_VOICED_FORGIVE "I forgive you."
+#define MEDIBOT_VOICED_THANKS "Thank you!"
+#define MEDIBOT_VOICED_GOOD_PERSON "You are a good person."
+#define MEDIBOT_VOICED_BEHAVIOUR_REPORTED "Your behavior has been reported, have a nice day."
+#define MEDIBOT_VOICED_ASSISTANCE "I require assistance."
+#define MEDIBOT_VOICED_PUT_BACK	"Please put me back."
+#define MEDIBOT_VOICED_IM_SCARED "Please, I am scared!"
+#define MEDIBOT_VOICED_NEED_HELP "I don't like this, I need help!"
+#define MEDIBOT_VOICED_THIS_HURTS "This hurts, my pain is real!"
+#define MEDIBOT_VOICED_THE_END "Is this the end?"
+#define MEDIBOT_VOICED_NOOO	"Nooo!"

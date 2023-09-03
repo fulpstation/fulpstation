@@ -2,7 +2,7 @@
 /obj/singularity
 	name = "gravitational singularity"
 	desc = "A gravitational singularity."
-	icon = 'icons/obj/singularity.dmi'
+	icon = 'icons/obj/machines/engine/singularity.dmi'
 	icon_state = "singularity_s1"
 	anchored = TRUE
 	density = TRUE
@@ -12,14 +12,21 @@
 	light_range = 6
 	appearance_flags = LONG_GLIDE
 
+	/// the prepended string to the icon state (singularity_s1, dark_matter_s1, etc)
+	var/singularity_icon_variant = "singularity"
+
 	/// The singularity component itself.
 	/// A weak ref in case an admin removes the component to preserve the functionality.
 	var/datum/weakref/singularity_component
-
+	/// type of singularity component made
+	var/singularity_component_type = /datum/component/singularity
 	///Current singularity size, from 1 to 6
 	var/current_size = 1
 	///Current allowed size for the singulo
 	var/allowed_size = 1
+	///maximum size this singuloth can get to.
+	var/maximum_stage = STAGE_SIX
+
 	///How strong are we?
 	var/energy = 100
 	///Do we lose energy over time?
@@ -36,6 +43,10 @@
 	var/move_self = TRUE
 	///If the singularity has eaten a supermatter shard and can go to stage six
 	var/consumed_supermatter = FALSE
+	/// How long it's been since the singulo last acted, in seconds
+	var/time_since_act = 0
+	/// What the game tells ghosts when you make one
+	var/ghost_notification_message = "IT'S LOOSE"
 
 	flags_1 = SUPERMATTER_IGNORES_1
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
@@ -46,37 +57,37 @@
 
 	energy = starting_energy
 
-	START_PROCESSING(SSobj, src)
+	START_PROCESSING(SSsinguloprocess, src)
 	SSpoints_of_interest.make_point_of_interest(src)
 
 	var/datum/component/singularity/new_component = AddComponent(
-		/datum/component/singularity, \
-		consume_callback = CALLBACK(src, .proc/consume), \
+		singularity_component_type, \
+		consume_callback = CALLBACK(src, PROC_REF(consume)), \
 	)
 
 	singularity_component = WEAKREF(new_component)
 
 	expand(current_size)
 
-	for (var/obj/machinery/power/singularity_beacon/singu_beacon in GLOB.machines)
+	for (var/obj/machinery/power/singularity_beacon/singu_beacon as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/power/singularity_beacon))
 		if (singu_beacon.active)
 			new_component.target = singu_beacon
 			break
 
 	if (!mapload)
 		notify_ghosts(
-			"IT'S LOOSE",
+			ghost_notification_message,
 			source = src,
 			action = NOTIFY_ORBIT,
 			flashwindow = FALSE,
 			ghost_sound = 'sound/machines/warning-buzzer.ogg',
-			header = "IT'S LOOSE",
+			header = ghost_notification_message,
 			notify_volume = 75
 		)
 
 
 /obj/singularity/Destroy()
-	STOP_PROCESSING(SSobj, src)
+	STOP_PROCESSING(SSsinguloprocess, src)
 	return ..()
 
 /obj/singularity/attack_tk(mob/user)
@@ -100,7 +111,7 @@
 		rip_u.dismember(BURN) //nice try jedi
 		qdel(rip_u)
 		return
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/carbon_tk_part_two, jedi), 0.1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(carbon_tk_part_two), jedi), 0.1 SECONDS)
 
 /obj/singularity/proc/carbon_tk_part_two(mob/living/carbon/jedi)
 	if(QDELETED(jedi))
@@ -116,7 +127,7 @@
 			rip_u.dismember(BURN)
 			qdel(rip_u)
 		return
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/carbon_tk_part_three, jedi), 0.1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(carbon_tk_part_three), jedi), 0.1 SECONDS)
 
 /obj/singularity/proc/carbon_tk_part_three(mob/living/carbon/jedi)
 	if(QDELETED(jedi))
@@ -135,7 +146,7 @@
 	switch(severity)
 		if(EXPLODE_DEVASTATE)
 			if(current_size <= STAGE_TWO)
-				investigate_log("has been destroyed by a heavy explosion.", INVESTIGATE_SINGULO)
+				investigate_log("has been destroyed by a heavy explosion.", INVESTIGATE_ENGINE)
 				qdel(src)
 				return
 
@@ -145,18 +156,24 @@
 		if(EXPLODE_LIGHT)
 			energy -= round(((energy + 1) / 4), 1)
 
-/obj/singularity/process(delta_time)
+	return TRUE
+
+/obj/singularity/process(seconds_per_tick)
+	time_since_act += seconds_per_tick
+	if(time_since_act < 2)
+		return
+	time_since_act = 0
 	if(current_size >= STAGE_TWO)
 		if(prob(event_chance))
 			event()
-	dissipate(delta_time)
+	dissipate(seconds_per_tick)
 	check_energy()
 
-/obj/singularity/proc/dissipate(delta_time)
+/obj/singularity/proc/dissipate(seconds_per_tick)
 	if (!dissipate)
 		return
 
-	time_since_last_dissipiation += delta_time
+	time_since_last_dissipiation += seconds_per_tick
 
 	// Uses a while in case of especially long delta times
 	while (time_since_last_dissipiation >= dissipate_delay)
@@ -172,14 +189,21 @@
 	if(temp_allowed_size >= STAGE_SIX && !consumed_supermatter)
 		temp_allowed_size = STAGE_FIVE
 
+	//cap it off if the singuloth has a maximum stage
+	temp_allowed_size = min(temp_allowed_size, maximum_stage)
+
+	if(temp_allowed_size == maximum_stage)
+		//It cant go smaller due to e loss
+		dissipate = FALSE
+
 	var/new_grav_pull
 	var/new_consume_range
 
 	switch(temp_allowed_size)
 		if(STAGE_ONE)
 			current_size = STAGE_ONE
-			icon = 'icons/obj/singularity.dmi'
-			icon_state = "singularity_s1"
+			icon = 'icons/obj/machines/engine/singularity.dmi'
+			icon_state = "[singularity_icon_variant]_s1"
 			pixel_x = 0
 			pixel_y = 0
 			new_grav_pull = 4
@@ -191,7 +215,7 @@
 			if(check_cardinals_range(1, TRUE))
 				current_size = STAGE_TWO
 				icon = 'icons/effects/96x96.dmi'
-				icon_state = "singularity_s3"
+				icon_state = "[singularity_icon_variant]_s3"
 				pixel_x = -32
 				pixel_y = -32
 				new_grav_pull = 6
@@ -203,7 +227,7 @@
 			if(check_cardinals_range(2, TRUE))
 				current_size = STAGE_THREE
 				icon = 'icons/effects/160x160.dmi'
-				icon_state = "singularity_s5"
+				icon_state = "[singularity_icon_variant]_s5"
 				pixel_x = -64
 				pixel_y = -64
 				new_grav_pull = 8
@@ -215,7 +239,7 @@
 			if(check_cardinals_range(3, TRUE))
 				current_size = STAGE_FOUR
 				icon = 'icons/effects/224x224.dmi'
-				icon_state = "singularity_s7"
+				icon_state = "[singularity_icon_variant]_s7"
 				pixel_x = -96
 				pixel_y = -96
 				new_grav_pull = 10
@@ -226,7 +250,7 @@
 		if(STAGE_FIVE)//this one also lacks a check for gens because it eats everything
 			current_size = STAGE_FIVE
 			icon = 'icons/effects/288x288.dmi'
-			icon_state = "singularity_s9"
+			icon_state = "[singularity_icon_variant]_s9"
 			pixel_x = -128
 			pixel_y = -128
 			new_grav_pull = 10
@@ -235,7 +259,7 @@
 		if(STAGE_SIX) //This only happens if a stage 5 singulo consumes a supermatter shard.
 			current_size = STAGE_SIX
 			icon = 'icons/effects/352x352.dmi'
-			icon_state = "singularity_s11"
+			icon_state = "[singularity_icon_variant]_s11"
 			pixel_x = -160
 			pixel_y = -160
 			new_grav_pull = 15
@@ -251,7 +275,7 @@
 		resolved_singularity.singularity_size = current_size
 
 	if(current_size == allowed_size)
-		investigate_log("<font color='red'>grew to size [current_size]</font>", INVESTIGATE_SINGULO)
+		investigate_log("grew to size [current_size].", INVESTIGATE_ENGINE)
 		return TRUE
 	else if(current_size < (--temp_allowed_size))
 		expand(temp_allowed_size)
@@ -260,7 +284,7 @@
 
 /obj/singularity/proc/check_energy()
 	if(energy <= 0)
-		investigate_log("collapsed.", INVESTIGATE_SINGULO)
+		investigate_log("collapsed.", INVESTIGATE_ENGINE)
 		qdel(src)
 		return FALSE
 	switch(energy)//Some of these numbers might need to be changed up later -Mport
@@ -285,10 +309,13 @@
 	var/gain = thing.singularity_act(current_size, src)
 	energy += gain
 	if(istype(thing, /obj/machinery/power/supermatter_crystal) && !consumed_supermatter)
-		desc = "[initial(desc)] It glows fiercely with inner fire."
-		name = "supermatter-charged [initial(name)]"
-		consumed_supermatter = TRUE
-		set_light(10)
+		supermatter_upgrade()
+
+/obj/singularity/proc/supermatter_upgrade()
+	name = "supermatter-charged [initial(name)]"
+	desc = "[initial(desc)] It glows fiercely with inner fire."
+	consumed_supermatter = TRUE
+	set_light(10)
 
 /obj/singularity/proc/check_cardinals_range(steps, retry_with_move = FALSE)
 	. = length(GLOB.cardinals) //Should be 4.
@@ -329,10 +356,10 @@
 	var/dir2 = 0
 	var/dir3 = 0
 	switch(direction)
-		if(NORTH||SOUTH)
+		if(NORTH, SOUTH)
 			dir2 = 4
 			dir3 = 8
-		if(EAST||WEST)
+		if(EAST, WEST)
 			dir2 = 1
 			dir3 = 2
 	var/turf/other_turf = considered_turf
@@ -356,7 +383,7 @@
 /obj/singularity/proc/can_move(turf/considered_turf)
 	if(!considered_turf)
 		return FALSE
-	if((locate(/obj/machinery/field/containment) in considered_turf)||(locate(/obj/machinery/shieldwall) in considered_turf))
+	if((locate(/obj/machinery/field/containment) in considered_turf) || (locate(/obj/machinery/shieldwall) in considered_turf))
 		return FALSE
 	else if(locate(/obj/machinery/field/generator) in considered_turf)
 		var/obj/machinery/field/generator/check_generator = locate(/obj/machinery/field/generator) in considered_turf
@@ -390,7 +417,7 @@
 			span_userdanger("You feel an inner fire as your skin bursts into flames!")
 		)
 		burned_mob.adjust_fire_stacks(5)
-		burned_mob.IgniteMob()
+		burned_mob.ignite_mob()
 	return
 
 /obj/singularity/proc/mezzer()
@@ -405,7 +432,7 @@
 		var/mob/living/carbon/human/stunned_human = stunned_mob
 		if(istype(stunned_human.glasses, /obj/item/clothing/glasses/meson))
 			var/obj/item/clothing/glasses/meson/check_meson = stunned_human.glasses
-			if(check_meson.vision_flags == SEE_TURFS)
+			if(check_meson.vision_flags & SEE_TURFS)
 				to_chat(stunned_human, span_notice("You look directly into the [name], good thing you had your protective eyewear on!"))
 				continue
 
@@ -424,7 +451,7 @@
 /obj/singularity/singularity_act()
 	var/gain = (energy/2)
 	var/dist = max((current_size - 2),1)
-	investigate_log("has been destroyed by another singularity.", INVESTIGATE_SINGULO)
+	investigate_log("has been destroyed by another singularity.", INVESTIGATE_ENGINE)
 	explosion(
 		src,
 		devastation_range = dist,
@@ -435,7 +462,7 @@
 	return gain
 
 /obj/singularity/deadchat_plays(mode = DEMOCRACY_MODE, cooldown = 12 SECONDS)
-	. = AddComponent(/datum/component/deadchat_control/cardinal_movement, mode, list(), cooldown, CALLBACK(src, .proc/stop_deadchat_plays))
+	. = AddComponent(/datum/component/deadchat_control/cardinal_movement, mode, list(), cooldown, CALLBACK(src, PROC_REF(stop_deadchat_plays)))
 
 	if(. == COMPONENT_INCOMPATIBLE)
 		return

@@ -4,7 +4,7 @@
 /// This shouldn't be higher than the icon size, and generally you shouldn't be changing this, but it's here just in case.
 #define MAX_GLIDE_SIZE 32
 
-/// Compensating for time dialation
+/// Compensating for time dilation
 GLOBAL_VAR_INIT(glide_size_multiplier, 1.0)
 
 ///Broken down, here's what this does:
@@ -32,6 +32,22 @@ GLOBAL_VAR_INIT(glide_size_multiplier, 1.0)
 #define MOVEMENT_LOOP_START_FAST (1<<0)
 ///Do we not use the priority system?
 #define MOVEMENT_LOOP_IGNORE_PRIORITY (1<<1)
+///Should we override the loop's glide?
+#define MOVEMENT_LOOP_IGNORE_GLIDE (1<<2)
+///Should we not update our movables dir on move?
+#define MOVEMENT_LOOP_NO_DIR_UPDATE (1<<3)
+///Is the loop moving the movable outside its control, like it's an external force? e.g. footsteps won't play if enabled.
+#define MOVEMENT_LOOP_OUTSIDE_CONTROL (1<<4)
+
+/**
+ * Returns a bitfield containing flags both present in `flags` arg and the `processing_move_loop_flags` move_packet variable.
+ * Has no use outside of procs called within the movement proc chain.
+ */
+#define CHECK_MOVE_LOOP_FLAGS(movable, flags) (movable.move_packet ? (movable.move_packet.processing_move_loop_flags & (flags)) : NONE)
+
+//Index defines for movement bucket data packets
+#define MOVEMENT_BUCKET_TIME 1
+#define MOVEMENT_BUCKET_LIST 2
 
 /**
  * currently_z_moving defines. Higher numbers mean higher priority.
@@ -73,6 +89,8 @@ GLOBAL_VAR_INIT(glide_size_multiplier, 1.0)
 #define ZMOVE_VENTCRAWLING (1<<8)
 /// Includes movables that're either pulled by the source or mobs buckled to it in the list of moving movables.
 #define ZMOVE_INCLUDE_PULLED (1<<9)
+/// Skips check for whether the moving atom is anchored or not.
+#define ZMOVE_ALLOW_ANCHORED (1<<10)
 
 #define ZMOVE_CHECK_PULLS (ZMOVE_CHECK_PULLING|ZMOVE_CHECK_PULLEDBY)
 
@@ -82,3 +100,29 @@ GLOBAL_VAR_INIT(glide_size_multiplier, 1.0)
 #define ZMOVE_STAIRS_FLAGS (ZMOVE_CHECK_PULLEDBY|ZMOVE_ALLOW_BUCKLED)
 /// Used for falling down open space.
 #define ZMOVE_FALL_FLAGS (ZMOVE_FALL_CHECKS|ZMOVE_ALLOW_BUCKLED)
+
+//Diagonal movement is split into two cardinal moves
+/// The first step of the diagnonal movement
+#define FIRST_DIAG_STEP 1
+/// The second step of the diagnonal movement
+#define SECOND_DIAG_STEP 2
+
+/// Classic bluespace teleportation, requires a sender but no receiver
+#define TELEPORT_CHANNEL_BLUESPACE "bluespace"
+/// Quantum-based teleportation, requires both sender and receiver, but is free from normal disruption
+#define TELEPORT_CHANNEL_QUANTUM "quantum"
+/// Wormhole teleportation, is not disrupted by bluespace fluctuations but tends to be very random or unsafe
+#define TELEPORT_CHANNEL_WORMHOLE "wormhole"
+/// Magic teleportation, does whatever it wants (unless there's antimagic)
+#define TELEPORT_CHANNEL_MAGIC "magic"
+/// Cult teleportation, does whatever it wants (unless there's holiness)
+#define TELEPORT_CHANNEL_CULT "cult"
+/// Eigenstate teleportation, can do most things (that aren't in a teleport-prevented zone)
+#define TELEPORT_CHANNEL_EIGENSTATE "eigenstate"
+/// Anything else
+#define TELEPORT_CHANNEL_FREE "free"
+
+///Return values for moveloop Move()
+#define MOVELOOP_FAILURE 0
+#define MOVELOOP_SUCCESS 1
+#define MOVELOOP_NOT_READY 2
