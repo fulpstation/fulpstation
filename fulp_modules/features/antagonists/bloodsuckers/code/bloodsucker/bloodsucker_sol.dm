@@ -113,11 +113,18 @@
  * - Sol being over, dealt with by /sunlight/process() [bloodsucker_daylight.dm]
 */
 /datum/antagonist/bloodsucker/proc/check_begin_torpor(SkipChecks = FALSE)
+	var/mob/living/carbon/user = owner.current
+	/// Prevent Torpor whilst frenzied
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
+	if(bloodsuckerdatum.frenzied || (IS_DEAD_OR_INCAP(user) && bloodsuckerdatum.bloodsucker_blood_volume == 0))
+		to_chat(user, span_userdanger("Your frenzy prevents you from entering torpor!"))
+		return
 	/// Are we entering Torpor via Sol/Death? Then entering it isnt optional!
 	if(SkipChecks)
+		to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 		torpor_begin()
 		return
-	var/mob/living/carbon/user = owner.current
+
 	var/total_brute = user.getBruteLoss_nonProsthetic()
 	var/total_burn = user.getFireLoss_nonProsthetic()
 	var/total_damage = total_brute + total_burn

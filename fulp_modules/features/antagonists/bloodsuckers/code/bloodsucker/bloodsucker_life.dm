@@ -204,7 +204,6 @@
 	// Temporary Death? Convert to Torpor.
 	if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
 		return
-	to_chat(owner.current, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 	check_begin_torpor(TRUE)
 
 /datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
