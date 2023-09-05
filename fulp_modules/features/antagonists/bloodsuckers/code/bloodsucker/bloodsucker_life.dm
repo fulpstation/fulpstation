@@ -203,7 +203,6 @@
 	if(owner.current.stat == DEAD)
 		var/mob/living/carbon/human/dead_bloodsucker = owner.current
 		if(!HAS_TRAIT(dead_bloodsucker, TRAIT_NODEATH))
-			to_chat(dead_bloodsucker, span_danger("Your immortal body will not yet relinquish your soul to the abyss. You enter Torpor."))
 			check_begin_torpor(TRUE)
 
 /datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
