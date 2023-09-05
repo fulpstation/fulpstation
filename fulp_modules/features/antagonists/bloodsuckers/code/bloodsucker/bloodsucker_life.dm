@@ -10,7 +10,7 @@
 	if(!owner)
 		INVOKE_ASYNC(src, PROC_REF(HandleDeath))
 		return
-	if(HAS_TRAIT(owner.current, TRAIT_NODEATH))
+	if(HAS_TRAIT(owner.current, TRAIT_NODEATH) || bloodsucker_blood_volume == 0)
 		check_end_torpor()
 	// Deduct Blood
 	if(owner.current.stat == CONSCIOUS && !HAS_TRAIT(owner.current, TRAIT_IMMOBILIZED) && !HAS_TRAIT(owner.current, TRAIT_NODEATH))

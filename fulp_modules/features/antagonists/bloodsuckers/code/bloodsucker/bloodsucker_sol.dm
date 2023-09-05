@@ -114,9 +114,8 @@
 */
 /datum/antagonist/bloodsucker/proc/check_begin_torpor(SkipChecks = FALSE)
 	var/mob/living/carbon/user = owner.current
-	/// Prevent Torpor whilst frenzied
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
-	if(bloodsuckerdatum.frenzied || (IS_DEAD_OR_INCAP(user) && bloodsuckerdatum.bloodsucker_blood_volume == 0))
+	/// Prevent Torpor whilst frenzied.
+	if(frenzied || (IS_DEAD_OR_INCAP(user) && bloodsucker_blood_volume == 0))
 		to_chat(user, span_userdanger("Your frenzy prevents you from entering torpor!"))
 		return
 	/// Are we entering Torpor via Sol/Death? Then entering it isnt optional!
