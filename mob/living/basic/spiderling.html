@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;mob&#x2F;living&#x2F;basic&#x2F;spiderling - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="mob/living/basic/spiderling.html#var">Var Details</a> - <a href="mob/living/basic/spiderling.html#proc">Proc Details</a></header>
+<main>
+<h1>Spiderlings <aside>/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/<a href="mob/living/basic.html">basic</a>/<a href="mob/living/basic/spiderling.html">spiderling</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/mob/living/basic/space_fauna/spider/spiderlings/spiderling.dm#L8">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;basic&#x2F;space_fauna&#x2F;spider&#x2F;spiderlings&#x2F;spiderling.dm 8"/></a></h1>
+
+<p>Baby spiders that are generated through a variety of means (like botany for instance).
+Able to vent-crawl and eventually grow into a full fledged giant spider.</p><table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="mob/living/basic/spiderling.html#var/apply_spider_antag">apply_spider_antag</a></th><td>Simple boolean that determines if we should apply the spider antag to the player if they possess this mob. TRUE by default since we're always going to evolve into a spider that will have an antagonistic role.</td></tr>
+            <tr><th><a href="mob/living/basic/spiderling.html#var/directive">directive</a></th><td>The message that the mother left for our big strong selves.</td></tr>
+            <tr><th><a href="mob/living/basic/spiderling.html#var/grow_as">grow_as</a></th><td>The mob we will grow into.</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="mob/living/basic/spiderling.html#proc/grow_into_giant_spider">grow_into_giant_spider</a></th><td>Actually grows the spiderling into a giant spider. We have to do a bunch of unique behavior that really can't be genericized, so we have to override the component in this manner.</td></tr>
+            <tr><th><a href="mob/living/basic/spiderling.html#proc/ready_to_grow">ready_to_grow</a></th><td>Checks to see if we're ready to grow, primarily if we are on solid ground and not in a vent or something.
+The component will automagically grow us when we return TRUE and that threshold has been met.</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/apply_spider_antag"><aside class="declaration">var </aside>apply_spider_antag
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/mob/living/basic/space_fauna/spider/spiderlings/spiderling.dm#L47">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;basic&#x2F;space_fauna&#x2F;spider&#x2F;spiderlings&#x2F;spiderling.dm 47"/></a></h3>
+        <p>Simple boolean that determines if we should apply the spider antag to the player if they possess this mob. TRUE by default since we're always going to evolve into a spider that will have an antagonistic role.</p><h3 id="var/directive"><aside class="declaration">var </aside>directive
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/mob/living/basic/space_fauna/spider/spiderlings/spiderling.dm#L45">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;basic&#x2F;space_fauna&#x2F;spider&#x2F;spiderlings&#x2F;spiderling.dm 45"/></a></h3>
+        <p>The message that the mother left for our big strong selves.</p><h3 id="var/grow_as"><aside class="declaration">var </aside>grow_as
+            <aside>&ndash; /<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/<a href="mob/living/basic.html">basic</a>/<a href="mob/living/basic/giant_spider.html">giant_spider</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/mob/living/basic/space_fauna/spider/spiderlings/spiderling.dm#L43">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;basic&#x2F;space_fauna&#x2F;spider&#x2F;spiderlings&#x2F;spiderling.dm 43"/></a></h3>
+        <p>The mob we will grow into.</p><h2 id="proc">Proc Details</h2><h3 id="proc/grow_into_giant_spider"><aside class="declaration">proc </aside>grow_into_giant_spider<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/mob/living/basic/space_fauna/spider/spiderlings/spiderling.dm#L121">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;basic&#x2F;space_fauna&#x2F;spider&#x2F;spiderlings&#x2F;spiderling.dm 121"/></a></aside>
+        </h3>
+        <p>Actually grows the spiderling into a giant spider. We have to do a bunch of unique behavior that really can't be genericized, so we have to override the component in this manner.</p><h3 id="proc/ready_to_grow"><aside class="declaration">proc </aside>ready_to_grow<aside>() 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/mob/living/basic/space_fauna/spider/spiderlings/spiderling.dm#L114">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;basic&#x2F;space_fauna&#x2F;spider&#x2F;spiderlings&#x2F;spiderling.dm 114"/></a></aside>
+        </h3>
+        <p>Checks to see if we're ready to grow, primarily if we are on solid ground and not in a vent or something.
+The component will automagically grow us when we return TRUE and that threshold has been met.</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc">629e2d4</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/crates/dmdoc/README.md">dmdoc 1.7.3</a></footer>
+</body>
+</html>

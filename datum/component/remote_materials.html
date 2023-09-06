@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;datum&#x2F;component&#x2F;remote_materials - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="datum/component/remote_materials.html#var">Var Details</a> - <a href="datum/component/remote_materials.html#proc">Proc Details</a></header>
+<main>
+<h1>remote_materials <aside>/<a href="datum.html">datum</a>/<a href="datum/component.html">component</a>/<a href="datum/component/remote_materials.html">remote_materials</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L8">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 8"/></a></h1>
+
+<table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#var/_connect_to_silo">_connect_to_silo</a></th><td>Are we trying to to connect to remote ore silo or not</td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#var/_prepare_on_register">_prepare_on_register</a></th><td>Prepare storage when component is registered to parent. This allows local material container(if created) to be first in the component list so it gets GC'd properly</td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#var/allow_standalone">allow_standalone</a></th><td>Should we create a local storage if we can't connect to silo</td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#var/local_size">local_size</a></th><td>Local size of container when silo = null</td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#var/mat_container">mat_container</a></th><td>Material container. the value is either the silo or local</td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#var/mat_container_flags">mat_container_flags</a></th><td>Flags used when converting inserted materials into their component materials.</td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#var/silo">silo</a></th><td>The silo machine this container is connected to</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="datum/component/remote_materials.html#proc/eject_sheets">eject_sheets</a></th><td>Ejects the given material ref and logs it, or says out loud the problem.</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/_connect_to_silo"><aside class="declaration">var </aside>_connect_to_silo
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L30">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 30"/></a></h3>
+        <p>Are we trying to to connect to remote ore silo or not</p><h3 id="var/_prepare_on_register"><aside class="declaration">var </aside>_prepare_on_register
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L28">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 28"/></a></h3>
+        <p>Prepare storage when component is registered to parent. This allows local material container(if created) to be first in the component list so it gets GC'd properly</p><h3 id="var/allow_standalone"><aside class="declaration">var </aside>allow_standalone
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L19">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 19"/></a></h3>
+        <p>Should we create a local storage if we can't connect to silo</p><h3 id="var/local_size"><aside class="declaration">var </aside>local_size
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L21">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 21"/></a></h3>
+        <p>Local size of container when silo = null</p><h3 id="var/mat_container"><aside class="declaration">var </aside>mat_container
+            <aside>&ndash; /<a href="datum.html">datum</a>/<a href="datum/component.html">component</a>/<a href="datum/component/material_container.html">material_container</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L17">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 17"/></a></h3>
+        <p>Material container. the value is either the silo or local</p><h3 id="var/mat_container_flags"><aside class="declaration">var </aside>mat_container_flags
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L23">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 23"/></a></h3>
+        <p>Flags used when converting inserted materials into their component materials.</p><h3 id="var/silo"><aside class="declaration">var </aside>silo
+            <aside>&ndash; /<a href="obj.html">obj</a>/<a href="obj/machinery.html">machinery</a>/<a href="obj/machinery/ore_silo.html">ore_silo</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L15">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 15"/></a></h3>
+        <p>The silo machine this container is connected to</p><h2 id="proc">Proc Details</h2><h3 id="proc/eject_sheets"><aside class="declaration">proc </aside>eject_sheets<aside>(/<a href="datum.html">datum</a>/<a href="datum/material.html">material</a>/material_ref, eject_amount) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/datums/components/material/remote_materials.dm#L181">
+        <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;material&#x2F;remote_materials.dm 181"/></a></aside>
+        </h3>
+        <p>Ejects the given material ref and logs it, or says out loud the problem.</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc">629e2d4</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/crates/dmdoc/README.md">dmdoc 1.7.3</a></footer>
+</body>
+</html>

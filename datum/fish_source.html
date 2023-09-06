@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;datum&#x2F;fish_source - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="datum/fish_source.html#var">Var Details</a> - <a href="datum/fish_source.html#proc">Proc Details</a></header>
+<main>
+<h1>fish_source <aside>/<a href="datum.html">datum</a>/<a href="datum/fish_source.html">fish_source</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L24">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 24"/></a></h1>
+
+<p>Where the fish actually come from - every fishing spot has one assigned but multiple fishing holes can share single source, ie single shared one for ocean/lavaland river</p><table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="datum/fish_source.html#var/background">background</a></th><td>Background image name from /datum/asset/simple/fishing_minigame</td></tr>
+            <tr><th><a href="datum/fish_source.html#var/catalog_description">catalog_description</a></th><td>How the spot type is described in fish catalog section about fish sources, will be skipped if null</td></tr>
+            <tr><th><a href="datum/fish_source.html#var/duds">duds</a></th><td>Text shown as baloon alert when you roll a dud in the table</td></tr>
+            <tr><th><a href="datum/fish_source.html#var/fish_counts">fish_counts</a></th><td>If a key from fish_table is present here, that fish is availible in limited quantity and is reduced by one on successful fishing</td></tr>
+            <tr><th><a href="datum/fish_source.html#var/fish_table">fish_table</a></th><td>Fish catch weight table - these are relative weights</td></tr>
+            <tr><th><a href="datum/fish_source.html#var/fishing_difficulty">fishing_difficulty</a></th><td>Baseline difficulty for fishing in this spot</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/calculate_difficulty">calculate_difficulty</a></th><td>DIFFICULTY = (SPOT_BASE_VALUE + FISH_MODIFIER + ROD_MODIFIER + FAV/DISLIKED_BAIT_MODIFIER + TRAITS_ADDITIVE) * TRAITS_MULTIPLICATIVE , For non-fish it's just SPOT_BASE_VALUE</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/dispense_reward">dispense_reward</a></th><td>Gives out the reward if possible</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/get_modified_fish_table">get_modified_fish_table</a></th><td>Builds a fish weights table modified by bait/rod/user properties</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/interrupt_challenge">interrupt_challenge</a></th><td>Proc called when the challenge is interrupted within the fish source code.</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/is_matching_bait">is_matching_bait</a></th><td>Checks if bait matches identifier from fav/disliked bait list</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/on_challenge_completed">on_challenge_completed</a></th><td>Proc called when the COMSIG_FISHING_CHALLENGE_COMPLETED signal is sent.
+Check if we've succeeded. If so, write into memory and dispense the reward.</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/pre_challenge_started">pre_challenge_started</a></th><td>Used to register signals or add traits and the such right after conditions have been cleared
+and before the minigame starts.</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/reason_we_cant_fish">reason_we_cant_fish</a></th><td>Can we fish in this spot at all. Returns DENIAL_REASON or null if we're good to go</td></tr>
+            <tr><th><a href="datum/fish_source.html#proc/roll_reward">roll_reward</a></th><td>In case you want more complex rules for specific spots</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/background"><aside class="declaration">var </aside>background
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L36">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 36"/></a></h3>
+        <p>Background image name from /datum/asset/simple/fishing_minigame</p><h3 id="var/catalog_description"><aside class="declaration">var </aside>catalog_description
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L34">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 34"/></a></h3>
+        <p>How the spot type is described in fish catalog section about fish sources, will be skipped if null</p><h3 id="var/duds"><aside class="declaration">var </aside>duds
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L30">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 30"/></a></h3>
+        <p>Text shown as baloon alert when you roll a dud in the table</p><h3 id="var/fish_counts"><aside class="declaration">var </aside>fish_counts
+            <aside>&ndash; /list</aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L28">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 28"/></a></h3>
+        <p>If a key from fish_table is present here, that fish is availible in limited quantity and is reduced by one on successful fishing</p><h3 id="var/fish_table"><aside class="declaration">var </aside>fish_table
+            <aside>&ndash; /list</aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L26">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 26"/></a></h3>
+        <p>Fish catch weight table - these are relative weights</p><h3 id="var/fishing_difficulty"><aside class="declaration">var </aside>fishing_difficulty
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L32">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 32"/></a></h3>
+        <p>Baseline difficulty for fishing in this spot</p><h2 id="proc">Proc Details</h2><h3 id="proc/calculate_difficulty"><aside class="declaration">proc </aside>calculate_difficulty<aside>(result, /<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/<a href="obj/item/fishing_rod.html">fishing_rod</a>/rod, /<a href="mob.html">mob</a>/fisherman, /<a href="datum.html">datum</a>/<a href="datum/fishing_challenge.html">fishing_challenge</a>/challenge) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L44">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 44"/></a></aside>
+        </h3>
+        <p>DIFFICULTY = (SPOT_BASE_VALUE + FISH_MODIFIER + ROD_MODIFIER + FAV/DISLIKED_BAIT_MODIFIER + TRAITS_ADDITIVE) * TRAITS_MULTIPLICATIVE , For non-fish it's just SPOT_BASE_VALUE</p><h3 id="proc/dispense_reward"><aside class="declaration">proc </aside>dispense_reward<aside>(reward_path, /<a href="mob.html">mob</a>/fisherman, fishing_spot) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L117">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 117"/></a></aside>
+        </h3>
+        <p>Gives out the reward if possible</p><h3 id="proc/get_modified_fish_table"><aside class="declaration">proc </aside>get_modified_fish_table<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/<a href="obj/item/fishing_rod.html">fishing_rod</a>/rod, /<a href="mob.html">mob</a>/fisherman) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L178">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 178"/></a></aside>
+        </h3>
+        <p>Builds a fish weights table modified by bait/rod/user properties</p><h3 id="proc/interrupt_challenge"><aside class="declaration">proc </aside>interrupt_challenge<aside>(reason) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L99">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 99"/></a></aside>
+        </h3>
+        <p>Proc called when the challenge is interrupted within the fish source code.</p><h3 id="proc/is_matching_bait"><aside class="declaration">proc </aside>is_matching_bait<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/bait, identifier) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L161">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 161"/></a></aside>
+        </h3>
+        <p>Checks if bait matches identifier from fav/disliked bait list</p><h3 id="proc/on_challenge_completed"><aside class="declaration">proc </aside>on_challenge_completed<aside>(/<a href="datum.html">datum</a>/<a href="datum/fishing_challenge.html">fishing_challenge</a>/source, /<a href="mob.html">mob</a>/user, success, perfect) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L106">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 106"/></a></aside>
+        </h3>
+        <p>Proc called when the COMSIG_FISHING_CHALLENGE_COMPLETED signal is sent.
+Check if we've succeeded. If so, write into memory and dispense the reward.</p><h3 id="proc/pre_challenge_started"><aside class="declaration">proc </aside>pre_challenge_started<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/<a href="obj/item/fishing_rod.html">fishing_rod</a>/rod, /<a href="mob.html">mob</a>/user) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L95">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 95"/></a></aside>
+        </h3>
+        <p>Used to register signals or add traits and the such right after conditions have been cleared
+and before the minigame starts.</p><h3 id="proc/reason_we_cant_fish"><aside class="declaration">proc </aside>reason_we_cant_fish<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/<a href="obj/item/fishing_rod.html">fishing_rod</a>/rod, /<a href="mob.html">mob</a>/fisherman) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L39">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 39"/></a></aside>
+        </h3>
+        <p>Can we fish in this spot at all. Returns DENIAL_REASON or null if we're good to go</p><h3 id="proc/roll_reward"><aside class="declaration">proc </aside>roll_reward<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/<a href="obj/item/fishing_rod.html">fishing_rod</a>/rod, /<a href="mob.html">mob</a>/fisherman) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/fishing/sources/_fish_source.dm#L88">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;fishing&#x2F;sources&#x2F;_fish_source.dm 88"/></a></aside>
+        </h3>
+        <p>In case you want more complex rules for specific spots</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc">629e2d4</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/crates/dmdoc/README.md">dmdoc 1.7.3</a></footer>
+</body>
+</html>

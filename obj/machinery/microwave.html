@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;obj&#x2F;machinery&#x2F;microwave - &#x2F;tg&#x2F; Station 13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">&#x2F;tg&#x2F; Station 13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="obj/machinery/microwave.html#var">Var Details</a> - <a href="obj/machinery/microwave.html#proc">Proc Details</a></header>
+<main>
+<h1>microwave <aside>/<a href="obj.html">obj</a>/<a href="obj/machinery.html">machinery</a>/<a href="obj/machinery/microwave.html">microwave</a></aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L17">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 17"/></a></h1>
+
+<table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="obj/machinery/microwave.html#var/broken">broken</a></th><td>How broken is it? NOT_BROKEN, KINDA_BROKEN, REALLY_BROKEN</td></tr>
+            <tr><th><a href="obj/machinery/microwave.html#var/dirty">dirty</a></th><td>How dirty is it?</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="obj/machinery/microwave.html#proc/cook">cook</a></th><td>Begins the process of cooking the included ingredients.</td></tr>
+            <tr><th><a href="obj/machinery/microwave.html#proc/loop">loop</a></th><td>The actual cook loop started via [proc/start] or [proc/start_can_fail]</td></tr>
+            <tr><th><a href="obj/machinery/microwave.html#proc/loop_finish">loop_finish</a></th><td>Called when the loop is done successfully, no dirty mess or whatever</td></tr>
+            <tr><th><a href="obj/machinery/microwave.html#proc/start">start</a></th><td>The start of the cook loop</td></tr>
+            <tr><th><a href="obj/machinery/microwave.html#proc/start_can_fail">start_can_fail</a></th><td>The start of the cook loop, but can fail (result in a splat / dirty microwave)</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/broken"><aside class="declaration">var </aside>broken
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L36">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 36"/></a></h3>
+        <p>How broken is it? NOT_BROKEN, KINDA_BROKEN, REALLY_BROKEN</p><h3 id="var/dirty"><aside class="declaration">var </aside>dirty
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L33">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 33"/></a></h3>
+        <p>How dirty is it?</p><h2 id="proc">Proc Details</h2><h3 id="proc/cook"><aside class="declaration">proc </aside>cook<aside>(/<a href="mob.html">mob</a>/cooker) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L381">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 381"/></a></aside>
+        </h3>
+        <p>Begins the process of cooking the included ingredients.</p>
+<ul>
+<li>cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)</li>
+</ul><h3 id="proc/loop"><aside class="declaration">proc </aside>loop<aside>(type, time, wait, /<a href="mob.html">mob</a>/cooker) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L459">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 459"/></a></aside>
+        </h3>
+        <p>The actual cook loop started via [proc/start] or [proc/start_can_fail]</p>
+<ul>
+<li>type - the type of cooking, determined via how this iteration of loop is called, and determines the result</li>
+<li>time - how many loops are left, base case for recursion</li>
+<li>wait - deciseconds between loops</li>
+<li>cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)</li>
+</ul><h3 id="proc/loop_finish"><aside class="declaration">proc </aside>loop_finish<aside>(/<a href="mob.html">mob</a>/cooker) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L488">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 488"/></a></aside>
+        </h3>
+        <p>Called when the loop is done successfully, no dirty mess or whatever</p>
+<ul>
+<li>cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)</li>
+</ul><h3 id="proc/start"><aside class="declaration">proc </aside>start<aside>(/<a href="mob.html">mob</a>/cooker) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L431">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 431"/></a></aside>
+        </h3>
+        <p>The start of the cook loop</p>
+<ul>
+<li>cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)</li>
+</ul><h3 id="proc/start_can_fail"><aside class="declaration">proc </aside>start_can_fail<aside>(/<a href="mob.html">mob</a>/cooker) 
+        
+    
+            <a href="https://github.com/fulpstation/fulpstation/blob/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc/code/modules/food_and_drinks/machinery/microwave.dm#L440">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;food_and_drinks&#x2F;machinery&#x2F;microwave.dm 440"/></a></aside>
+        </h3>
+        <p>The start of the cook loop, but can fail (result in a splat / dirty microwave)</p>
+<ul>
+<li>cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)</li>
+</ul></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/fulpstation/fulpstation/tree/629e2d40b55cd98862d1c91ccc4f04e9286e1fdc">629e2d4</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/crates/dmdoc/README.md">dmdoc 1.7.3</a></footer>
+</body>
+</html>
