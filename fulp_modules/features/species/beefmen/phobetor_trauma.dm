@@ -100,7 +100,7 @@
 /datum/brain_trauma/special/bluespace_prophet/phobetor/proc/restore()
 	burnt_out = FALSE
 
-	to_chat(owner, span_notice("Your eyes open once more, and with them unseen pathways."))
+	to_chat(owner, span_hypnophrase("Your eyes open once more, and with them unseen pathways."))
 
 	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
 		tear.activate()
