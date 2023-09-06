@@ -124,7 +124,6 @@
 
 /obj/structure/closet/crate/necropolis/bubblegum/PopulateContents()
 	new /obj/item/clothing/suit/hooded/hostile_environment(src)
-	var/loot = rand(1,2)
 	new /obj/item/soulscythe(src)
 
 
