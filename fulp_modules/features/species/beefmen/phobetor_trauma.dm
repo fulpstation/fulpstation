@@ -89,7 +89,7 @@
 /datum/brain_trauma/special/bluespace_prophet/phobetor/proc/burn_out(timer = 5 MINUTES)
 	burnt_out = TRUE
 
-	to_chat(owner, span_warning("Your feel yourself slipping back into the sleepless dream."))
+	to_chat(owner, span_warning("You feel yourself slipping back into the sleepless dream."))
 
 	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
 		tear.deactivate()
