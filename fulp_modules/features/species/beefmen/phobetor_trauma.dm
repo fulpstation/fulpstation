@@ -202,30 +202,30 @@
 	if(user != seer || !linked_to)
 		return
 	if(!active)
-		to_chat(user, span_warning("Your connection to [src] is too faint to pass through it."))
+		user.balloon_alert(user, "Your connection to [src] is too faint to pass through it.")
 		return
 	if(user.loc != src.loc)
-		to_chat(user, "Step into the Tear before using it.")
+		user.balloon_alert(user, "Step into the Tear before using it.")
 		return
 	for(var/obj/item/implant/tracking/imp in user.implants)
 		if(imp)
-			to_chat(user, span_warning("[imp] gives you the sense that you're being watched."))
+			user.balloon_alert(user, "[imp] gives you the sense that you're being watched.")
 			return
 	// Is this, or linked, stream being watched?
 	if(check_location_seen(user, get_turf(user)))
-		to_chat(user, span_warning("Not while you're being watched."))
+		user.balloon_alert(user, "Not while you're being watched.")
 		return
 	if(check_location_seen(user, get_turf(linked_to)))
-		to_chat(user, span_warning("Your destination is being watched."))
+		user.balloon_alert(user, "Your destination is being watched.")
 		return
-	to_chat(user, span_notice("You slip unseen through [src]."))
+	user.balloon_alert(user, "You slip unseen through [src].")
 
 	var/mob/living/carbon/carbon_user = user
 	var/user_sanity = user.mob_mood.sanity
 	var/datum/brain_trauma/special/bluespace_prophet/phobetor/trauma = carbon_user.has_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor)
 	switch(user_sanity)
 		if(SANITY_INSANE to SANITY_CRAZY)
-			to_chat(user, span_notice("...but [span_bold("someone else")] does too."))
+			to_chat(user, span_notice("...but [span_bold("someone else")] crosses [src] too."))
 			playsound(user, 'sound/hallucinations/i_see_you1.ogg', 50, TRUE)
 			user.adjust_hallucinations(5 MINUTES)
 			user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_crash)
