@@ -460,30 +460,10 @@
 	return ..()
 
 /datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives()
-	// Claim a Lair Objective
-	var/datum/objective/bloodsucker/lair/lair_objective = new
-	lair_objective.owner = owner
-	objectives += lair_objective
-	// Survive Objective
 	var/datum/objective/survive/bloodsucker/survive_objective = new
 	survive_objective.owner = owner
 	objectives += survive_objective
 
-	// Objective 1: Vassalize a Head/Command, or a specific target
-	switch(rand(1, 3))
-		if(1) // Conversion Objective
-			var/datum/objective/bloodsucker/conversion/chosen_subtype = pick(subtypesof(/datum/objective/bloodsucker/conversion))
-			var/datum/objective/bloodsucker/conversion/conversion_objective = new chosen_subtype
-			conversion_objective.owner = owner
-			conversion_objective.objective_name = "Optional Objective"
-			objectives += conversion_objective
-		if(2) // Heart Thief Objective
-			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
-			heartthief_objective.owner = owner
-			heartthief_objective.objective_name = "Optional Objective"
-			objectives += heartthief_objective
-		if(3) // Drink Blood Objective
-			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
-			gourmand_objective.owner = owner
-			gourmand_objective.objective_name = "Optional Objective"
-			objectives += gourmand_objective
+	var/datum/objective/bloodsucker_lair/lair_objective = new
+	lair_objective.owner = owner
+	objectives += lair_objective

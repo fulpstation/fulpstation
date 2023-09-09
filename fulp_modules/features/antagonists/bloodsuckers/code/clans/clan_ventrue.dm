@@ -8,7 +8,7 @@
 	description = "The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. \n\
 		You may only level yourself up to Level %MAX_LEVEL%, anything further will be ranks to spend on their Favorite Vassal through a Persuasion Rack. \n\
 		The Favorite Vassal will slowly turn more Vampiric this way, until they finally lose their last bits of Humanity."
-	clan_objective = /datum/objective/bloodsucker/embrace
+	clan_objective = /datum/objective/ventrue_clan_objective
 	join_icon_state = "ventrue"
 	join_description = "Lose the ability to drink from mindless mobs, can't level up or gain new powers, \
 		instead you raise a vassal into a Bloodsucker."
@@ -113,3 +113,23 @@
 
 #undef BLOODSUCKER_BLOOD_RANKUP_COST
 #undef VENTRUE_MAX_LEVEL
+
+/**
+ * Clan Objective
+ * Ventrue's Clan objective is to upgrade the Favorite Vassal
+ * enough to make them a Bloodsucker.
+ */
+/datum/objective/ventrue_clan_objective
+	name = "embrace"
+	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker."
+	martyr_compatible = TRUE
+
+/datum/objective/ventrue_clan_objective/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
+		if(IS_FAVORITE_VASSAL(vassaldatum.owner.current))
+			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+				return TRUE
+	return FALSE

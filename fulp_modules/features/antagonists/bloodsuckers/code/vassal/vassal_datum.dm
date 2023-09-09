@@ -96,7 +96,7 @@
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/cooldown/bloodsucker/recuperate)
 	/// Give Objectives
-	var/datum/objective/bloodsucker/vassal/vassal_objective = new
+	var/datum/objective/vassal_objective/vassal_objective = new
 	vassal_objective.owner = owner
 	objectives += vassal_objective
 	/// Give Vampire Language & Hud
@@ -181,3 +181,11 @@
 	new_owner.add_antag_datum(src)
 	to_chat(choice, span_notice("Through divine intervention, you've gained a new vassal!"))
 
+/datum/objective/vassal_objective
+	name = "vassal objective"
+	explanation_text = "Help your Master with whatever is requested of you."
+	martyr_compatible = TRUE
+
+/datum/objective/vassal_objective/check_completion()
+	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
+	return antag_datum.master?.owner?.current?.stat != DEAD
