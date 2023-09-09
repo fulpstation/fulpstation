@@ -121,15 +121,16 @@
  */
 /datum/objective/ventrue_clan_objective
 	name = "embrace"
-	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker."
+	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker and keep them alive until the end."
 	martyr_compatible = TRUE
 
 /datum/objective/ventrue_clan_objective/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return FALSE
-	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
-		if(IS_FAVORITE_VASSAL(vassaldatum.owner.current))
-			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
-				return TRUE
+	for(var/datum/antagonist/vassal/vassaldatum as anything in bloodsuckerdatum.vassals)
+		if(!vassaldatum.owner || !vassaldatum.owner.current)
+			continue
+		if(IS_FAVORITE_VASSAL(vassaldatum.owner.current) && vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+			return TRUE
 	return FALSE

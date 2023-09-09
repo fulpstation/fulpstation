@@ -91,6 +91,8 @@
 
 /datum/objective/tremere_clan_objective/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
 	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
 		if(tremere_powers.level_current >= 5)
 			return TRUE

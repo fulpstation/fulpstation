@@ -45,12 +45,6 @@
 	explanation_text = "Ensure Nosferatu steals and keeps control over the Archive of the Kindred."
 
 /datum/objective/nosferatu_clan_objective/check_completion()
-	if(!owner.current)
-		return FALSE
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-
 	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
 		var/obj/item/book/kindred/the_book = locate() in bloodsucker_minds.current.get_all_contents()
 		if(the_book)
