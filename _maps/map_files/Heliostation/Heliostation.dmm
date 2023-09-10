@@ -20358,13 +20358,16 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "cer" = (
+/obj/machinery/status_display/ai/directional/south,
+/obj/structure/cable/layer3,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/effect/turf_decal/stripes/corner,
-/obj/machinery/status_display/ai/directional/south,
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/cable/layer3,
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai)
 "ces" = (
@@ -29935,19 +29938,11 @@
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
 "exc" = (
-/obj/machinery/light/small/directional/north,
-/obj/effect/turf_decal/bot,
-/obj/structure/rack,
-/obj/item/stack/cable_coil,
-/obj/item/t_scanner{
-	pixel_x = 7
+/obj/machinery/power/smes{
+	charge = 5e+006
 	},
-/obj/item/multitool{
-	pixel_x = -5;
-	pixel_y = -2
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/engine,
+/obj/structure/cable,
+/turf/open/floor/circuit/green,
 /area/station/ai_monitored/turret_protected/ai)
 "exj" = (
 /obj/structure/rack,
@@ -31086,6 +31081,9 @@
 "eTK" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/engine,
@@ -47872,22 +47870,24 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "lLE" = (
+/obj/machinery/flasher/directional/south{
+	id = "AI";
+	pixel_x = -10
+	},
+/obj/machinery/camera/directional/south{
+	c_tag = "AI Sat - Chamber South";
+	network = list("minisat")
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
-/obj/machinery/flasher/directional/south{
-	id = "AI";
-	pixel_x = -10
-	},
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/camera/directional/south{
-	c_tag = "AI Sat - Chamber South";
-	network = list("minisat")
-	},
-/obj/structure/cable,
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai)
 "lLI" = (
@@ -56700,11 +56700,20 @@
 /turf/open/floor/iron,
 /area/station/maintenance/aft/lesser)
 "pgr" = (
-/obj/machinery/power/smes{
-	charge = 5e+006
+/obj/machinery/light/small/directional/north,
+/obj/effect/turf_decal/bot,
+/obj/structure/rack,
+/obj/item/stack/cable_coil,
+/obj/item/t_scanner{
+	pixel_x = 7
+	},
+/obj/item/multitool{
+	pixel_x = -5;
+	pixel_y = -2
 	},
 /obj/structure/sign/warning/electric_shock/directional/south,
-/turf/open/floor/circuit/green,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai)
 "pgy" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
@@ -62274,6 +62283,12 @@
 /obj/effect/spawner/random/structure/crate,
 /turf/open/floor/plating,
 /area/station/maintenance/port/greater)
+"rqr" = (
+/obj/effect/turf_decal/trimline/yellow/filled/line{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/station/ai_monitored/turret_protected/ai)
 "rqA" = (
 /obj/machinery/atmospherics/pipe/smart/simple/purple/visible{
 	dir = 4
@@ -65381,10 +65396,15 @@
 /obj/machinery/ai_slipper{
 	uses = 10
 	},
+/obj/structure/cable/multilayer/connected,
+/obj/machinery/power/terminal{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/power/terminal,
-/obj/structure/cable/multilayer/connected,
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai)
 "sGL" = (
@@ -67193,6 +67213,10 @@
 "tqa" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
+	},
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/engine,
@@ -125391,7 +125415,7 @@ ouP
 wFV
 iZw
 ydo
-ydo
+rqr
 qdh
 jQA
 jQA
