@@ -50,10 +50,12 @@
 	bite_display = new /atom/movable/screen/werewolf/bite_button(null, werewolf_hud)
 	werewolf_hud.infodisplay += bite_display
 
-	werewolf_hud.show_hud(werewolf_hud.hud_version)
 
 	add_power(new /datum/action/cooldown/werewolf/bite)
+	add_power(new /datum/action/cooldown/werewolf/freedom)
 	add_power(new /datum/action/cooldown/werewolf/transform)
+
+	werewolf_hud.show_hud(werewolf_hud.hud_version)
 
 /datum/antagonist/werewolf/on_removal()
 	var/datum/hud/werewolf_hud = owner.current.hud_used
@@ -85,6 +87,7 @@
 	owner.current.add_traits(transformed_traits, WEREWOLF_TRAIT)
 	owner.current.AddComponent(/datum/component/mutant_hands, mutant_hand_path = /obj/item/mutant_hand/werewolf)
 	transformed = TRUE
+	SEND_SIGNAL(owner.current, WEREWOLF_TRANSFORMED)
 	return TRUE
 
 
@@ -96,6 +99,7 @@
 	owner.current.remove_traits(transformed_traits, WEREWOLF_TRAIT)
 	qdel(owner.current.GetComponent(/datum/component/mutant_hands))
 	transformed = FALSE
+	SEND_SIGNAL(owner.current, WEREWOLF_REVERTED)
 	return TRUE
 
 /datum/antagonist/werewolf/proc/toggle_transformation()

@@ -18,9 +18,26 @@
 
 /datum/action/cooldown/werewolf/Grant(mob/user)
 	. = ..()
+
+	RegisterSignal(owner, WEREWOLF_TRANSFORMED, PROC_REF(update_status_on_signal))
+	RegisterSignal(owner, WEREWOLF_REVERTED, PROC_REF(update_status_on_signal))
+
 	var/datum/antagonist/werewolf/werewolf_datum = IS_WEREWOLF(user)
 	if(werewolf_datum)
 		werewolf_datum_power = werewolf_datum
+
+/datum/action/cooldown/werewolf/Remove(mob/removed_from)
+	UnregisterSignal(owner, WEREWOLF_TRANSFORMED)
+	UnregisterSignal(owner, WEREWOLF_REVERTED)
+	return ..()
+
+/datum/action/cooldown/werewolf/IsAvailable(feedback)
+	. = ..()
+	if((check_flags & WP_TRANSFORM_REQUIRED) && !werewolf_datum_power.transformed)
+		if(feedback)
+			owner.balloon_alert(owner, "must be transformed!")
+		return FALSE
+	return .
 
 /datum/action/cooldown/werewolf/Destroy()
 	werewolf_datum_power = null
