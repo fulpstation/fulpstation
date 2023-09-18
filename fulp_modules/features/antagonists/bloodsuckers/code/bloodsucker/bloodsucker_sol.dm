@@ -4,18 +4,18 @@
  *	Sol is the sunlight, during this period, all Bloodsuckers must be in their coffin, else they burn.
  */
 
-/// Start Sol, called when someone is assigned Bloodsucker
+/// Start the sol system when the first bloodsucker or werewolf is created
 /datum/antagonist/bloodsucker/proc/check_start_sunlight()
-	var/list/existing_suckers = get_antag_minds(/datum/antagonist/bloodsucker) - owner
-	if(!length(existing_suckers))
-		message_admins("New Sol has been created due to Bloodsucker assignment.")
+	var/list/existing_monsters = (get_antag_minds(/datum/antagonist/bloodsucker) + get_antag_minds(/datum/antagonist/werewolf)) - owner
+	if(!length(existing_monsters))
+		message_admins("New Sol has been created due to Bloodsucker or Werewolf assignment.")
 		SSsunlight.can_fire = TRUE
 
-/// End Sol, if you're the last Bloodsucker
+/// End Sol when there are no remaining bloodsuckers or werewolves
 /datum/antagonist/bloodsucker/proc/check_cancel_sunlight()
-	var/list/existing_suckers = get_antag_minds(/datum/antagonist/bloodsucker) - owner
-	if(!length(existing_suckers))
-		message_admins("Sol has been deleted due to the lack of Bloodsuckers")
+	var/list/existing_monsters = (get_antag_minds(/datum/antagonist/bloodsucker) + get_antag_minds(/datum/antagonist/werewolf)) - owner
+	if(!length(existing_monsters))
+		message_admins("Sol has been deleted due to the lack of Bloodsuckers or Werewolves")
 		SSsunlight.can_fire = FALSE
 
 ///Ranks the Bloodsucker up, called by Sol.

@@ -50,6 +50,9 @@
 	bite_display = new /atom/movable/screen/werewolf/bite_button(null, werewolf_hud)
 	werewolf_hud.infodisplay += bite_display
 
+	RegisterSignal(SSsunlight, COMSIG_LUN_WARNING, PROC_REF(handle_lun_warnings))
+	RegisterSignal(SSsunlight, COMSIG_LUN_START, PROC_REF(handle_lun_start))
+	RegisterSignal(SSsunlight, COMSIG_LUN_END, PROC_REF(handle_lun_end))
 
 	add_power(new /datum/action/cooldown/werewolf/bite)
 	add_power(new /datum/action/cooldown/werewolf/freedom)
@@ -57,11 +60,19 @@
 
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
 
+	check_start_sol()
+
 /datum/antagonist/werewolf/on_removal()
 	var/datum/hud/werewolf_hud = owner.current.hud_used
 	werewolf_hud.infodisplay -= bite_display
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
 	remove_powers()
+	check_cancel_sol()
+
+	UnregisterSignal(SSsunlight, COMSIG_LUN_WARNING)
+	UnregisterSignal(SSsunlight, COMSIG_LUN_START)
+	UnregisterSignal(SSsunlight, COMSIG_LUN_END)
+
 	return ..()
 
 /datum/antagonist/werewolf/proc/add_power(datum/action/cooldown/werewolf/power)

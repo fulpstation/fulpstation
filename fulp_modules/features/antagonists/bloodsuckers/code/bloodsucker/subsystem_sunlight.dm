@@ -12,6 +12,16 @@
 ///How much time Sol can be 'off' by, keeping the time inconsistent.
 #define TIME_BLOODSUCKER_SOL_DELAY 90
 
+
+/// How long the moon is out
+#define TIME_WEREWOLF_MOON 60
+/// Time left to send an alert to werewolves about the full moon
+#define TIME_WEREWOLF_MOON_WARN 90
+/// Time left to send a final warning to werewolves. This is also when initial symptoms start to show
+#define TIME_WEREWOLF_MOON_FINAL_WARN 30
+
+
+
 SUBSYSTEM_DEF(sunlight)
 	name = "Sol"
 	can_fire = FALSE
@@ -25,8 +35,46 @@ SUBSYSTEM_DEF(sunlight)
 	///If Bloodsucker levels for the night has been given out yet.
 	var/issued_XP = FALSE
 
+	/// If moonlight stuff should be handled. This will be false when lun has passed, but sol has not yet
+	var/do_moonlight = TRUE
+	/// If the moon is currently out or not
+	var/moonlight_active = FALSE
+	/// When the moon will rise
+	var/moonlight_time = TIME_BLOODSUCKER_NIGHT / 2
+	/// How long until the moon sets
+	var/lun_ends = 0
+
 /datum/controller/subsystem/sunlight/fire(resumed = FALSE)
 	time_til_cycle--
+
+	if(do_moonlight)
+		if(moonlight_active)
+			if(lun_ends <= 0)
+				SEND_SIGNAL(src, COMSIG_LUN_END)
+				moonlight_active = FALSE
+				do_moonlight = FALSE
+				message_admins("WEREWOLF NOTICE: Full moon ended, next full moon will be determined after sol cycle restarts")
+			lun_ends--
+		else
+			var/time_til_moon = time_til_cycle - moonlight_time
+			switch(time_til_moon)
+				if(NONE)
+					// Moonrise
+					SEND_SIGNAL(src, COMSIG_LUN_START)
+					lun_ends = TIME_WEREWOLF_MOON
+					moonlight_active = TRUE
+
+				if(TIME_WEREWOLF_MOON_WARN)
+					warn_moonlight(
+						DANGER_LEVEL_FIRST_WARNING,
+						span_announce("The hair on the back of your neck stands straight up, and you know that <b>the full moon will rise in [TIME_WEREWOLF_MOON_WARN / 60] minutes.</b>")
+					)
+				if(TIME_WEREWOLF_MOON_FINAL_WARN)
+					warn_moonlight(
+						DANGER_LEVEL_SECOND_WARNING,
+						span_announce("As moonlight creeps into the station, your hair body hair begins growing rapidly. <b>You will fully transform in [TIME_WEREWOLF_MOON_FINAL_WARN] seconds!</b>")
+					)
+
 	if(sunlight_active)
 		if(time_til_cycle > 0)
 			SEND_SIGNAL(src, COMSIG_SOL_RISE_TICK)
@@ -45,7 +93,13 @@ SUBSYSTEM_DEF(sunlight)
 				vampire_warning_message = span_announce("The solar flare has ended, and the daylight danger has passed... for now."),
 				vassal_warning_message = span_announce("The solar flare has ended, and the daylight danger has passed... for now."),
 			)
-		return
+			// Start doing moonlight again, now that time_til_cycle has been recalculated
+			moonlight_cycle = time_til_cycle / 2
+			do_moonlight = TRUE
+			message_admins("WEREWOLF NOTICE: Full moon cycle reset, next full moon in [moonlight_cycle / 60] minutes")
+
+		// return
+
 
 	switch(time_til_cycle)
 		if(TIME_BLOODSUCKER_DAY_WARN)
@@ -80,6 +134,10 @@ SUBSYSTEM_DEF(sunlight)
 /datum/controller/subsystem/sunlight/proc/warn_daylight(danger_level, vampire_warning_message, vassal_warning_message)
 	SEND_SIGNAL(src, COMSIG_SOL_WARNING_GIVEN, danger_level, vampire_warning_message, vassal_warning_message)
 
+/datum/controller/subsystem/sunlight/proc/warn_moonlight(warning_level, werewolf_warning_message)
+	SEND_SIGNAL(src, COMSIG_LUN_WARNING, warning_level, werewolf_warning_message)
+
+
 #undef TIME_BLOODSUCKER_SOL_DELAY
 
 #undef TIME_BLOODSUCKER_DAY
@@ -87,3 +145,7 @@ SUBSYSTEM_DEF(sunlight)
 #undef TIME_BLOODSUCKER_DAY_WARN
 #undef TIME_BLOODSUCKER_DAY_FINAL_WARN
 #undef TIME_BLOODSUCKER_BURN_INTERVAL
+
+#undef TIME_WEREWOLF_MOON
+#undef TIME_WEREWOLF_MOON_WARN
+#undef TIME_WEREWOLF_MOON_FINAL_WARN

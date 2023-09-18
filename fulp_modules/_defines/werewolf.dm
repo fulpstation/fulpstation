@@ -23,3 +23,13 @@
 #define WEREWOLF_REVERTED "werewolf_reverted"
 /// Called when a werewolf consumes a body
 #define WEREWOLF_CONSUMED_BODY "werewolf_consumed_body"
+
+
+/*
+ * Moon cycle signals
+*/
+#define COMSIG_LUN_WARNING "comsig_lun_warning"
+#define COMSIG_LUN_RISE_TICK "comsig_lun_rise_tick"
+#define COMSIG_LUN_NEAR_START "comsig_lun_near_start"
+#define COMSIG_LUN_START "comsig_lun_start"
+#define COMSIG_LUN_END "comsig_lun_end"
