@@ -37,6 +37,8 @@
 		TRAIT_NOFLASH,
 		TRAIT_DISFIGURED,
 		TRAIT_SNOWSTORM_IMMUNE,
+		TRAIT_GIANT,
+		TRAIT_STUNIMMUNE
 	)
 	/// Traits the werewolf had before transformation, to be returned when reverted
 	var/list/original_traits

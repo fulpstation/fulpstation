@@ -94,9 +94,9 @@ SUBSYSTEM_DEF(sunlight)
 				vassal_warning_message = span_announce("The solar flare has ended, and the daylight danger has passed... for now."),
 			)
 			// Start doing moonlight again, now that time_til_cycle has been recalculated
-			moonlight_cycle = time_til_cycle / 2
+			moonlight_time = time_til_cycle / 2
 			do_moonlight = TRUE
-			message_admins("WEREWOLF NOTICE: Full moon cycle reset, next full moon in [moonlight_cycle / 60] minutes")
+			message_admins("WEREWOLF NOTICE: Full moon cycle reset, next full moon in [moonlight_time / 60] minutes")
 
 		// return
 
