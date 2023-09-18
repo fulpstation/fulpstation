@@ -4,7 +4,7 @@
 		Additionally, a whole new moveset is learned, built on Blood magic rather than Blood abilities, which are upgraded overtime. \n\
 		More ranks can be gained by Vassalizing crewmembers. \n\
 		The Favorite Vassal gains the Batform spell, being able to morph themselves at will."
-	clan_objective = /datum/objective/bloodsucker/tremere_power
+	clan_objective = /datum/objective/tremere_clan_objective
 	join_icon_state = "tremere"
 	join_description = "You will burn if you enter the Chapel, lose all default powers, \
 		but gain Blood Magic instead, powers you level up overtime."
@@ -80,3 +80,20 @@
 	. = ..()
 	to_chat(bloodsuckerdatum.owner.current, span_danger("You have now gained an additional Rank to spend!"))
 	bloodsuckerdatum.bloodsucker_level_unspent++
+
+/**
+ * Clan Objective
+ * Tremere's Clan objective is to upgrade a power to max
+ */
+/datum/objective/tremere_clan_objective
+	name = "tremerepower"
+	explanation_text = "Upgrade a Blood Magic power to the maximum level, remember that Vassalizing gives more Ranks!"
+
+/datum/objective/tremere_clan_objective/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
+		if(tremere_powers.level_current >= 5)
+			return TRUE
+	return FALSE
