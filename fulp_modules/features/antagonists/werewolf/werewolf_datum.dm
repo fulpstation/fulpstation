@@ -22,7 +22,7 @@
 	var/transformed = FALSE
 
 	/// All the powers we have available
-	var/list/datum/action/cooldown/werewolf/powers = list()
+	var/list/datum/action/cooldown/spell/werewolf/powers = list()
 	/// Traits the werewolf has while transformed
 	var/list/transformed_traits = list(
 		TRAIT_WEREWOLF_TRANSFORMED,
@@ -60,9 +60,9 @@
 	RegisterSignal(SSsunlight, COMSIG_LUN_START, PROC_REF(handle_lun_start))
 	RegisterSignal(SSsunlight, COMSIG_LUN_END, PROC_REF(handle_lun_end))
 
-	add_power(new /datum/action/cooldown/werewolf/bite)
-	add_power(new /datum/action/cooldown/werewolf/freedom)
-	add_power(new /datum/action/cooldown/werewolf/transform)
+	add_power(new /datum/action/cooldown/spell/werewolf/bite)
+	add_power(new /datum/action/cooldown/spell/werewolf/freedom)
+	add_power(new /datum/action/cooldown/spell/werewolf/transform)
 
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
 
@@ -82,18 +82,18 @@
 
 	return ..()
 
-/datum/antagonist/werewolf/proc/add_power(datum/action/cooldown/werewolf/power)
+/datum/antagonist/werewolf/proc/add_power(datum/action/cooldown/spell/werewolf/power)
 	power.Grant(owner.current)
 	powers += power
 
 
-/datum/antagonist/werewolf/proc/remove_power(datum/action/cooldown/werewolf/power)
+/datum/antagonist/werewolf/proc/remove_power(datum/action/cooldown/spell/werewolf/power)
 	power.Remove(owner.current)
 	powers -= power
 
 
 /datum/antagonist/werewolf/proc/remove_powers()
-	for(var/datum/action/cooldown/werewolf/power as anything in powers)
+	for(var/datum/action/cooldown/spell/werewolf/power as anything in powers)
 		remove_power(power)
 
 

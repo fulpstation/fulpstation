@@ -1,4 +1,4 @@
-/datum/action/cooldown/werewolf
+/datum/action/cooldown/spell/werewolf
 	name = "Werewolf power"
 	desc = "A werewolf power."
 	background_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
@@ -8,7 +8,8 @@
 	buttontooltipstyle = "cult"
 	transparent_when_unavailable = TRUE
 	cooldown_time = 2 SECONDS
-	check_flags = WP_TRANSFORM_REQUIRED
+	antimagic_flags = MAGIC_RESISTANCE_HOLY
+	spell_requirements = NONE
 
 	var/datum/antagonist/werewolf/werewolf_datum_power
 	/// Flags the ability has
@@ -16,7 +17,7 @@
 	/// Whether or not the ability is activated
 	var/active = FALSE
 
-/datum/action/cooldown/werewolf/Grant(mob/user)
+/datum/action/cooldown/spell/werewolf/Grant(mob/user)
 	. = ..()
 
 	RegisterSignal(owner, WEREWOLF_TRANSFORMED, PROC_REF(update_status_on_signal))
@@ -26,25 +27,25 @@
 	if(werewolf_datum)
 		werewolf_datum_power = werewolf_datum
 
-/datum/action/cooldown/werewolf/Remove(mob/removed_from)
+/datum/action/cooldown/spell/werewolf/Remove(mob/removed_from)
 	UnregisterSignal(owner, WEREWOLF_TRANSFORMED)
 	UnregisterSignal(owner, WEREWOLF_REVERTED)
 	return ..()
 
-/datum/action/cooldown/werewolf/IsAvailable(feedback)
+/datum/action/cooldown/spell/werewolf/IsAvailable(feedback)
 	. = ..()
-	if((check_flags & WP_TRANSFORM_REQUIRED) && !werewolf_datum_power.transformed)
+	if((power_flags & WP_TRANSFORM_REQUIRED) && !werewolf_datum_power?.transformed)
 		if(feedback)
 			owner.balloon_alert(owner, "must be transformed!")
 		return FALSE
 	return .
 
-/datum/action/cooldown/werewolf/Destroy()
+/datum/action/cooldown/spell/werewolf/Destroy()
 	werewolf_datum_power = null
 	return ..()
 
 /// Whether or not the power can be used by the mob
-/datum/action/cooldown/werewolf/proc/can_use(mob/living/carbon/user)
+/datum/action/cooldown/spell/werewolf/proc/can_use(mob/living/carbon/user)
 	if(!owner)
 		return FALSE
 	if(!IS_WEREWOLF(user))
@@ -57,16 +58,16 @@
 
 	return TRUE
 
-/datum/action/cooldown/werewolf/proc/activate_power()
+/datum/action/cooldown/spell/werewolf/proc/activate_power()
 	if(power_flags & WP_TOGGLED)
 		active = TRUE
 	return TRUE
 
-/datum/action/cooldown/werewolf/proc/deactivate_power()
+/datum/action/cooldown/spell/werewolf/proc/deactivate_power()
 	active = FALSE
 	return TRUE
 
-/datum/action/cooldown/werewolf/Trigger(trigger_flags, atom/target)
+/datum/action/cooldown/spell/werewolf/Trigger(trigger_flags, atom/target)
 	if(next_use_time <= world.time)
 		if(!can_use(usr))
 			return FALSE
