@@ -13,6 +13,11 @@
 		"You're a werewolf, nuff said.",
 		"This will be replaced with actual real tips later on."
 	)
+
+	/// Score, gained by eating bodies. Does not decrease
+	var/score = 0
+	/// Points, gained primarily by eating bodies. Can be used on powers
+	var/points = 0
 	/// Whether or not we're transformed
 	var/transformed = FALSE
 
@@ -117,7 +122,7 @@
 		return FALSE
 	if(!transformed)
 		return TRUE
-	// owner.current.remove_traits(transformed_traits, WEREWOLF_TRAIT)
+	owner.current.remove_traits(transformed_traits, WEREWOLF_TRAIT)
 	qdel(werewolf_tackler)
 	transformed = FALSE
 	SEND_SIGNAL(owner.current, WEREWOLF_REVERTED)
