@@ -20,6 +20,7 @@
 	var/list/datum/action/cooldown/werewolf/powers = list()
 	/// Traits the werewolf has while transformed
 	var/list/transformed_traits = list(
+		TRAIT_WEREWOLF_TRANSFORMED,
 		TRAIT_BATON_RESISTANCE,
 		TRAIT_ILLITERATE,
 		TRAIT_CHUNKYFINGERS,
@@ -40,11 +41,9 @@
 		TRAIT_GIANT,
 		TRAIT_STUNIMMUNE
 	)
-	/// Traits the werewolf had before transformation, to be returned when reverted
-	var/list/original_traits
 
 	var/atom/movable/screen/werewolf/bite_button/bite_display
-	var/datum/component/mutant_hands/werewolf_hands
+	var/datum/component/tackler/werewolf/werewolf_tackler
 
 /datum/antagonist/werewolf/on_gain()
 	. = ..()
@@ -68,6 +67,7 @@
 	var/datum/hud/werewolf_hud = owner.current.hud_used
 	werewolf_hud.infodisplay -= bite_display
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
+	revert_transformation()
 	remove_powers()
 	check_cancel_sol()
 
@@ -98,7 +98,15 @@
 	if(transformed)
 		return TRUE
 	owner.current.add_traits(transformed_traits, WEREWOLF_TRAIT)
-	owner.current.AddComponent(/datum/component/mutant_hands, mutant_hand_path = /obj/item/mutant_hand/werewolf)
+	werewolf_tackler = owner.current.AddComponent( \
+		/datum/component/tackler/werewolf, \
+		stamina_cost=WP_TACKLE_STAM_COST, \
+		base_knockdown = WP_TACKLE_BASE_KNOCKDOWN, \
+		range = WP_TACKLE_RANGE, \
+		speed = WP_TACKLE_SPEED, \
+		skill_mod = WP_TACKLE_SKILL_MOD, \
+		min_distance = WP_TACKLE_MIN_DIST \
+	)
 	transformed = TRUE
 	SEND_SIGNAL(owner.current, WEREWOLF_TRANSFORMED)
 	return TRUE
@@ -109,8 +117,8 @@
 		return FALSE
 	if(!transformed)
 		return TRUE
-	owner.current.remove_traits(transformed_traits, WEREWOLF_TRAIT)
-	qdel(owner.current.GetComponent(/datum/component/mutant_hands))
+	// owner.current.remove_traits(transformed_traits, WEREWOLF_TRAIT)
+	qdel(werewolf_tackler)
 	transformed = FALSE
 	SEND_SIGNAL(owner.current, WEREWOLF_REVERTED)
 	return TRUE

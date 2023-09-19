@@ -5,6 +5,9 @@
 // Role defines
 #define ROLE_WEREWOLF "Werewolf"
 
+// Applied when transformed, removed when reverted
+#define TRAIT_WEREWOLF_TRANSFORMED "werewolf_is_transformed"
+
 /*
  * Power defines
 */
@@ -13,6 +16,12 @@
 /// The power is a toggle
 #define WP_TOGGLED (1<<1)
 
+#define WP_TACKLE_STAM_COST 30
+#define WP_TACKLE_BASE_KNOCKDOWN 3 SECONDS
+#define WP_TACKLE_RANGE 5
+#define WP_TACKLE_SPEED 2
+#define WP_TACKLE_SKILL_MOD 5
+#define WP_TACKLE_MIN_DIST 3
 
 /*
  * Werewolf signals
