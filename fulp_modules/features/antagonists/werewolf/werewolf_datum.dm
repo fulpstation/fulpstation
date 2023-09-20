@@ -21,8 +21,10 @@
 	/// Whether or not we're transformed
 	var/transformed = FALSE
 
-	/// All the powers we have available
-	var/list/datum/action/cooldown/spell/werewolf/powers = list()
+	/// All the powers we have available always
+	var/list/datum/action/cooldown/spell/powers = list()
+	/// All the powers we have available when transformed
+	var/list/datum/action/cooldown/spell/transformed_powers = list()
 	/// Traits the werewolf has while transformed
 	var/list/transformed_traits = list(
 		TRAIT_WEREWOLF_TRANSFORMED,
@@ -59,10 +61,13 @@
 	RegisterSignal(SSsunlight, COMSIG_LUN_WARNING, PROC_REF(handle_lun_warnings))
 	RegisterSignal(SSsunlight, COMSIG_LUN_START, PROC_REF(handle_lun_start))
 	RegisterSignal(SSsunlight, COMSIG_LUN_END, PROC_REF(handle_lun_end))
+	RegisterSignal(owner.current, COMSIG_WEREWOLF_TRANSFORM_CAST, PROC_REF(handle_transform_cast))
+	RegisterSignal(owner.current, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, PROC_REF(pre_unarmed_attack))
 
-	add_power(new /datum/action/cooldown/spell/werewolf/bite)
-	add_power(new /datum/action/cooldown/spell/werewolf/freedom)
-	add_power(new /datum/action/cooldown/spell/werewolf/transform)
+	learn_power(new /datum/action/cooldown/spell/werewolf_transform)
+
+	learn_transformed_power(new /datum/action/cooldown/spell/touch/werewolf_bite)
+	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_freedom)
 
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
 
@@ -80,22 +85,39 @@
 	UnregisterSignal(SSsunlight, COMSIG_LUN_START)
 	UnregisterSignal(SSsunlight, COMSIG_LUN_END)
 
+	UnregisterSignal(owner.current, COMSIG_WEREWOLF_TRANSFORM_CAST)
+	UnregisterSignal(owner.current, COMSIG_HUMAN_EARLY_UNARMED_ATTACK)
+
 	return ..()
 
-/datum/antagonist/werewolf/proc/add_power(datum/action/cooldown/spell/werewolf/power)
-	power.Grant(owner.current)
+/datum/antagonist/werewolf/proc/learn_power(datum/action/cooldown/spell/power)
 	powers += power
+	power.Grant(owner.current)
 
-
-/datum/antagonist/werewolf/proc/remove_power(datum/action/cooldown/spell/werewolf/power)
-	power.Remove(owner.current)
+/datum/antagonist/werewolf/proc/unlearn_power(datum/action/cooldown/spell/power)
 	powers -= power
+	power.Remove(owner.current)
+
+/datum/antagonist/werewolf/proc/learn_transformed_power(datum/action/cooldown/spell/power)
+	transformed_powers += power
+	if(transformed)
+		power.Grant(owner.current)
+
+
+/datum/antagonist/werewolf/proc/unlearn_transformed_power(datum/action/cooldown/spell/power)
+	transformed_powers -= power
+	power.Remove(owner.current)
 
 
 /datum/antagonist/werewolf/proc/remove_powers()
-	for(var/datum/action/cooldown/spell/werewolf/power as anything in powers)
-		remove_power(power)
+	for(var/datum/action/cooldown/spell/power as anything in powers)
+		power.Remove(owner)
+	for(var/datum/action/cooldown/spell/power as anything in transformed_powers)
+		unlearn_transformed_power(power)
 
+/datum/antagonist/werewolf/proc/handle_transform_cast(atom/owner)
+	SIGNAL_HANDLER
+	toggle_transformation()
 
 /datum/antagonist/werewolf/proc/apply_transformation()
 	if(!owner?.current)
@@ -112,6 +134,9 @@
 		skill_mod = WP_TACKLE_SKILL_MOD, \
 		min_distance = WP_TACKLE_MIN_DIST \
 	)
+	for(var/datum/action/cooldown/spell/power as anything in transformed_powers)
+		power.Grant(owner.current)
+
 	transformed = TRUE
 	SEND_SIGNAL(owner.current, WEREWOLF_TRANSFORMED)
 	return TRUE
@@ -124,6 +149,8 @@
 		return TRUE
 	owner.current.remove_traits(transformed_traits, WEREWOLF_TRAIT)
 	qdel(werewolf_tackler)
+	for(var/datum/action/cooldown/spell/power as anything in transformed_powers)
+		power.Remove(owner.current)
 	transformed = FALSE
 	SEND_SIGNAL(owner.current, WEREWOLF_REVERTED)
 	return TRUE
@@ -137,5 +164,23 @@
 		apply_transformation()
 	return TRUE
 
+/datum/antagonist/werewolf/proc/pre_unarmed_attack(mob/living/carbon/attacker, atom/target, proximity, modifiers)
+	SIGNAL_HANDLER
+	if(!proximity)
+		return
+	if(!attacker.combat_mode || LAZYACCESS(modifiers, RIGHT_CLICK))
+		return
+	if(transformed)
+		attacker.do_attack_animation(target, ATTACK_EFFECT_CLAW)
+		attacker.changeNext_move(CLICK_CD_MELEE)
+		if(ismob(target))
+			var/mob/living/victim = target
+			attacker.visible_message( \
+				span_danger("[attacker] slashes [target] with their claws!"), \
+				span_danger("You slash [target] with your claws!"), \
+				span_danger("You hear the sounds of sharp claws meeting flesh!") \
+			)
+			victim.apply_damage(WEREWOLF_UNARMED_DAMAGE, BRUTE, attacker.zone_selected, wound_bonus = 2, bare_wound_bonus = 5, sharpness = SHARP_EDGED)
+			return COMPONENT_CANCEL_ATTACK_CHAIN
 
 

@@ -8,9 +8,11 @@
 // Applied when transformed, removed when reverted
 #define TRAIT_WEREWOLF_TRANSFORMED "werewolf_is_transformed"
 
+#define WEREWOLF_UNARMED_DAMAGE 30
 /*
  * Power defines
 */
+#define COMSIG_WEREWOLF_TRANSFORM_CAST "comsig_werewolf_transform_cast"
 /// Must be transformed to use
 #define WP_TRANSFORM_REQUIRED (1<<0)
 /// The power is a toggle

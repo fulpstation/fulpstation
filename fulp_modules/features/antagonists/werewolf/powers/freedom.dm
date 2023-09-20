@@ -1,15 +1,13 @@
-/datum/action/cooldown/spell/werewolf/freedom
+/datum/action/cooldown/spell/werewolf_freedom
 	name = "Freedom"
 	desc = "Break out of any cuffs restraining you"
 	button_icon = 'icons/hud/implants.dmi'
 	button_icon_state = "freedom"
-	power_flags = WP_TRANSFORM_REQUIRED
+	spell_requirements = NONE
 
-
-
-/datum/action/cooldown/spell/werewolf/freedom/activate_power()
+/datum/action/cooldown/spell/werewolf_freedom/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/carbon/target = owner
+	var/mob/living/carbon/target = cast_on
 	if(!iscarbon(target))
 		return FALSE
 	target.uncuff()
