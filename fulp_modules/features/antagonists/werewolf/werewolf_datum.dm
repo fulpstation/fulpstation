@@ -46,16 +46,13 @@
 		TRAIT_DISFIGURED,
 		TRAIT_SNOWSTORM_IMMUNE,
 		TRAIT_GIANT,
-		TRAIT_STUNIMMUNE
+		TRAIT_STUNIMMUNE,
+		TRAIT_PIERCEIMMUNE,
 	)
 
 	var/datum/action/cooldown/spell/shapeshift/werewolf_transform/transform_spell
 	var/atom/movable/screen/werewolf/bite_button/bite_display
 	var/datum/component/tackler/werewolf/werewolf_tackler
-	/// Old unarmed damage values for left arm. [1] = low, [2] = high
-	var/list/old_left_arm_unarmed_damage = list()
-	/// Old unarmed damage values for right arm. [1] = low, [2] = high
-	var/list/old_right_arm_unarmed_damage = list()
 
 /datum/antagonist/werewolf/on_gain()
 	. = ..()

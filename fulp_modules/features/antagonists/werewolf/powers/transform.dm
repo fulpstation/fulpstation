@@ -26,7 +26,13 @@
 		return
 	return ..()
 
-/datum/action/cooldown/spell/shapeshift/werewolf_transform/do_shapeshift(mob/living/caster)
+/datum/action/cooldown/spell/shapeshift/werewolf_transform/do_shapeshift(mob/living/carbon/caster)
+	if(caster.handcuffed || caster.legcuffed)
+		caster.uncuff()
+		caster.visible_message( \
+			span_danger("[caster] breaks free of their restraints as they transform!"), \
+			span_danger("You break free of your restraints as you transform"), \
+		)
 	var/mob/living/shifted_mob = ..()
 	werewolf_datum.werewolf_tackler = shifted_mob.AddComponent( \
 		/datum/component/tackler/werewolf, \
@@ -38,6 +44,8 @@
 		min_distance = WP_TACKLE_MIN_DIST \
 	)
 
+	shifted_mob.add_traits(werewolf_datum.transformed_traits, WEREWOLF_TRAIT)
+
 	for(var/datum/action/cooldown/spell/power as anything in werewolf_datum.transformed_powers)
 		power.Grant(shifted_mob)
 
@@ -45,7 +53,13 @@
 	SEND_SIGNAL(shifted_mob, WEREWOLF_TRANSFORMED)
 	return shifted_mob
 
-/datum/action/cooldown/spell/shapeshift/werewolf_transform/do_unshapeshift(mob/living/caster)
+/datum/action/cooldown/spell/shapeshift/werewolf_transform/do_unshapeshift(mob/living/carbon/caster)
+	if(caster.handcuffed || caster.legcuffed)
+		caster.uncuff()
+		caster.visible_message( \
+			span_notice("[caster] breaks free of their restraints as they transform!"), \
+			span_notice("You break free of your restraints as you transform"), \
+		)
 	qdel(werewolf_datum.werewolf_tackler)
 
 	for(var/datum/action/cooldown/spell/power as anything in werewolf_datum.transformed_powers)
