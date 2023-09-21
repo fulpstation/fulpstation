@@ -9,6 +9,8 @@
 #define TRAIT_WEREWOLF_TRANSFORMED "werewolf_is_transformed"
 
 #define WEREWOLF_UNARMED_DAMAGE 30
+#define WEREWOLF_UNARMED_WOUND_BONUS 2
+#define WEREWOLF_UNARMED_BARE_WOUND_BONUS 3
 /*
  * Power defines
 */

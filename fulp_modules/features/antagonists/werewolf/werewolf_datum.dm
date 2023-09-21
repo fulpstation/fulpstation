@@ -51,6 +51,10 @@
 
 	var/atom/movable/screen/werewolf/bite_button/bite_display
 	var/datum/component/tackler/werewolf/werewolf_tackler
+	/// Old unarmed damage values for left arm. [1] = low, [2] = high
+	var/list/old_left_arm_unarmed_damage = list()
+	/// Old unarmed damage values for right arm. [1] = low, [2] = high
+	var/list/old_right_arm_unarmed_damage = list()
 
 /datum/antagonist/werewolf/on_gain()
 	. = ..()
@@ -68,6 +72,7 @@
 
 	learn_transformed_power(new /datum/action/cooldown/spell/touch/werewolf_bite)
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_freedom)
+	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_claws)
 
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
 
@@ -111,7 +116,7 @@
 
 /datum/antagonist/werewolf/proc/remove_powers()
 	for(var/datum/action/cooldown/spell/power as anything in powers)
-		power.Remove(owner)
+		unlearn_power(power)
 	for(var/datum/action/cooldown/spell/power as anything in transformed_powers)
 		unlearn_transformed_power(power)
 
@@ -163,24 +168,3 @@
 	else
 		apply_transformation()
 	return TRUE
-
-/datum/antagonist/werewolf/proc/pre_unarmed_attack(mob/living/carbon/attacker, atom/target, proximity, modifiers)
-	SIGNAL_HANDLER
-	if(!proximity)
-		return
-	if(!attacker.combat_mode || LAZYACCESS(modifiers, RIGHT_CLICK))
-		return
-	if(transformed)
-		attacker.do_attack_animation(target, ATTACK_EFFECT_CLAW)
-		attacker.changeNext_move(CLICK_CD_MELEE)
-		if(ismob(target))
-			var/mob/living/victim = target
-			attacker.visible_message( \
-				span_danger("[attacker] slashes [target] with their claws!"), \
-				span_danger("You slash [target] with your claws!"), \
-				span_danger("You hear the sounds of sharp claws meeting flesh!") \
-			)
-			victim.apply_damage(WEREWOLF_UNARMED_DAMAGE, BRUTE, attacker.zone_selected, wound_bonus = 2, bare_wound_bonus = 5, sharpness = SHARP_EDGED)
-			return COMPONENT_CANCEL_ATTACK_CHAIN
-
-

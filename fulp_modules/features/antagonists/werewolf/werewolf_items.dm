@@ -2,7 +2,7 @@
 	name = "Werewolf claw"
 	desc = "The large, sharp claw of a werewolf!"
 	hitsound = 'sound/hallucinations/growl1.ogg'
-	force = 30
-	wound_bonus = 10
-	bare_wound_bonus = 10
+	force = WEREWOLF_UNARMED_DAMAGE
+	wound_bonus = WEREWOLF_UNARMED_WOUND_BONUS
+	bare_wound_bonus = WEREWOLF_UNARMED_BARE_WOUND_BONUS
 	sharpness = SHARP_EDGED
