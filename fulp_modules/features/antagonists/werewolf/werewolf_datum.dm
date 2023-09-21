@@ -49,6 +49,7 @@
 		TRAIT_STUNIMMUNE
 	)
 
+	var/datum/action/cooldown/spell/shapeshift/werewolf_transform/transform_spell
 	var/atom/movable/screen/werewolf/bite_button/bite_display
 	var/datum/component/tackler/werewolf/werewolf_tackler
 	/// Old unarmed damage values for left arm. [1] = low, [2] = high
@@ -66,9 +67,9 @@
 	RegisterSignal(SSsunlight, COMSIG_LUN_START, PROC_REF(handle_lun_start))
 	RegisterSignal(SSsunlight, COMSIG_LUN_END, PROC_REF(handle_lun_end))
 	RegisterSignal(owner.current, COMSIG_WEREWOLF_TRANSFORM_CAST, PROC_REF(handle_transform_cast))
-	RegisterSignal(owner.current, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, PROC_REF(pre_unarmed_attack))
 
-	learn_power(new /datum/action/cooldown/spell/werewolf_transform)
+	transform_spell = new /datum/action/cooldown/spell/shapeshift/werewolf_transform(src)
+	transform_spell.Grant(owner.current)
 
 	learn_transformed_power(new /datum/action/cooldown/spell/touch/werewolf_bite)
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_freedom)
@@ -86,12 +87,14 @@
 	remove_powers()
 	check_cancel_sol()
 
+	transform_spell.Remove(owner.current)
+	qdel(transform_spell)
+
 	UnregisterSignal(SSsunlight, COMSIG_LUN_WARNING)
 	UnregisterSignal(SSsunlight, COMSIG_LUN_START)
 	UnregisterSignal(SSsunlight, COMSIG_LUN_END)
 
 	UnregisterSignal(owner.current, COMSIG_WEREWOLF_TRANSFORM_CAST)
-	UnregisterSignal(owner.current, COMSIG_HUMAN_EARLY_UNARMED_ATTACK)
 
 	return ..()
 
@@ -129,35 +132,24 @@
 		return FALSE
 	if(transformed)
 		return TRUE
-	owner.current.add_traits(transformed_traits, WEREWOLF_TRAIT)
-	werewolf_tackler = owner.current.AddComponent( \
-		/datum/component/tackler/werewolf, \
-		stamina_cost=WP_TACKLE_STAM_COST, \
-		base_knockdown = WP_TACKLE_BASE_KNOCKDOWN, \
-		range = WP_TACKLE_RANGE, \
-		speed = WP_TACKLE_SPEED, \
-		skill_mod = WP_TACKLE_SKILL_MOD, \
-		min_distance = WP_TACKLE_MIN_DIST \
-	)
-	for(var/datum/action/cooldown/spell/power as anything in transformed_powers)
-		power.Grant(owner.current)
 
-	transformed = TRUE
-	SEND_SIGNAL(owner.current, WEREWOLF_TRANSFORMED)
+	if(owner.current.has_status_effect(/datum/status_effect/shapechange_mob))
+		return FALSE
+
+	transform_spell.cast(owner.current)
 	return TRUE
-
 
 /datum/antagonist/werewolf/proc/revert_transformation()
 	if(!owner?.current)
 		return FALSE
+
 	if(!transformed)
 		return TRUE
-	owner.current.remove_traits(transformed_traits, WEREWOLF_TRAIT)
-	qdel(werewolf_tackler)
-	for(var/datum/action/cooldown/spell/power as anything in transformed_powers)
-		power.Remove(owner.current)
-	transformed = FALSE
-	SEND_SIGNAL(owner.current, WEREWOLF_REVERTED)
+
+	if(!owner.current.has_status_effect(/datum/status_effect/shapechange_mob/from_spell))
+		return FALSE
+
+	transform_spell.cast(owner.current)
 	return TRUE
 
 /datum/antagonist/werewolf/proc/toggle_transformation()
