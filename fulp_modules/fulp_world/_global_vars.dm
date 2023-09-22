@@ -77,13 +77,6 @@ GLOBAL_LIST_INIT(mouths_beefman, list(
 	BEEF_MOUTH_SMIRK,
 ))
 
-GLOBAL_LIST_INIT(beefmen_traumas, list(
-	BEEF_TRAUMA_STRANGERS = /datum/brain_trauma/mild/phobia/strangers,
-	BEEF_TRAUMA_HALLUCINATIONS = /datum/brain_trauma/mild/hallucinations,
-	BEEF_TRAUMA_OCKY_ICKY = /datum/brain_trauma/mild/phobia/ocky_icky,
-	BEEF_TRAUMA_HYPNOTIC_STUPOR = /datum/brain_trauma/severe/hypnotic_stupor,
-))
-
 GLOBAL_LIST_INIT(experiment_names, list(
 	"Experiment",
 	"Attempt",
