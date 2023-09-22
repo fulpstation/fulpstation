@@ -53,6 +53,7 @@
 	var/datum/action/cooldown/spell/shapeshift/werewolf_transform/transform_spell
 	var/atom/movable/screen/werewolf/bite_button/bite_display
 	var/datum/component/tackler/werewolf/werewolf_tackler
+	var/list/consumed_mobs = list()
 
 /datum/antagonist/werewolf/on_gain()
 	. = ..()
@@ -68,7 +69,7 @@
 	transform_spell = new /datum/action/cooldown/spell/shapeshift/werewolf_transform(src)
 	transform_spell.Grant(owner.current)
 
-	learn_transformed_power(new /datum/action/cooldown/spell/touch/werewolf_bite)
+	learn_transformed_power(new /datum/action/cooldown/spell/touch/werewolf_bite(src))
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_freedom)
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_claws)
 

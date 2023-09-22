@@ -11,6 +11,7 @@
 #define WEREWOLF_UNARMED_DAMAGE 30
 #define WEREWOLF_UNARMED_WOUND_BONUS 2
 #define WEREWOLF_UNARMED_BARE_WOUND_BONUS 3
+
 /*
  * Power defines
 */
@@ -26,6 +27,10 @@
 #define WP_TACKLE_SPEED 2
 #define WP_TACKLE_SKILL_MOD 5
 #define WP_TACKLE_MIN_DIST 3
+
+#define WP_BITE_DAMAGE 40
+#define WP_BITE_WOUND_BONUS 1
+#define WP_BITE_BARE_WOUND_BONUS 2
 
 /*
  * Werewolf signals
