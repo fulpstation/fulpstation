@@ -65,6 +65,7 @@
 	RegisterSignal(SSsunlight, COMSIG_LUN_START, PROC_REF(handle_lun_start))
 	RegisterSignal(SSsunlight, COMSIG_LUN_END, PROC_REF(handle_lun_end))
 	RegisterSignal(owner.current, COMSIG_WEREWOLF_TRANSFORM_CAST, PROC_REF(handle_transform_cast))
+	RegisterSignal(owner.current, COMSIG_ATOM_EXAMINE, PROC_REF(pre_transform_examine))
 
 	transform_spell = new /datum/action/cooldown/spell/shapeshift/werewolf_transform(src)
 	transform_spell.Grant(owner.current)
@@ -91,6 +92,7 @@
 	UnregisterSignal(SSsunlight, COMSIG_LUN_WARNING)
 	UnregisterSignal(SSsunlight, COMSIG_LUN_START)
 	UnregisterSignal(SSsunlight, COMSIG_LUN_END)
+	UnregisterSignal(owner.current, COMSIG_ATOM_EXAMINE)
 
 	UnregisterSignal(owner.current, COMSIG_WEREWOLF_TRANSFORM_CAST)
 
@@ -158,3 +160,13 @@
 	else
 		apply_transformation()
 	return TRUE
+
+/datum/antagonist/werewolf/proc/pre_transform_examine(mob/living/carbon/source, mob/user, list/examine_list)
+	SIGNAL_HANDLER
+	var/obj/item/potential_cloth = source.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+	if(potential_cloth?.body_parts_covered & CHEST)
+		return
+	potential_cloth = source.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+	if(potential_cloth?.body_parts_covered & CHEST)
+		return
+	examine_list += span_boldwarning("Strange fur is growing rapidly on [source.p_their()] body!")

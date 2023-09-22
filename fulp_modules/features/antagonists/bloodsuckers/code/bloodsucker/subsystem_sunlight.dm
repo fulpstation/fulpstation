@@ -72,7 +72,7 @@ SUBSYSTEM_DEF(sunlight)
 				if(TIME_WEREWOLF_MOON_FINAL_WARN)
 					warn_moonlight(
 						DANGER_LEVEL_SECOND_WARNING,
-						span_announce("As moonlight creeps into the station, your hair body hair begins growing rapidly. <b>You will fully transform in [TIME_WEREWOLF_MOON_FINAL_WARN] seconds!</b>")
+						span_announce("As moonlight creeps into the station, fur begins growing rapidly on your body! <b>You will fully transform in [TIME_WEREWOLF_MOON_FINAL_WARN] seconds!</b>")
 					)
 
 	if(sunlight_active)

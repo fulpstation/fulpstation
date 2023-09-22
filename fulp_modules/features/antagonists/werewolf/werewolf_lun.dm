@@ -17,6 +17,10 @@
 	if(!owner)
 		return
 	to_chat(owner, werewolf_warning_message)
+	if(warning_level == DANGER_LEVEL_SECOND_WARNING)
+		RegisterSignal(owner.current, COMSIG_ATOM_EXAMINE, PROC_REF(pre_transform_examine))
+		owner.current.set_jitter_if_lower(30 SECONDS)
+
 
 /datum/antagonist/werewolf/proc/handle_lun_start(atom/source)
 	SIGNAL_HANDLER
@@ -25,3 +29,4 @@
 /datum/antagonist/werewolf/proc/handle_lun_end(atom/source)
 	SIGNAL_HANDLER
 	revert_transformation()
+	UnregisterSignal(owner.current, COMSIG_ATOM_EXAMINE)
