@@ -49,11 +49,17 @@
 		TRAIT_STUNIMMUNE,
 		TRAIT_PIERCEIMMUNE,
 	)
-
+	/// Werewolf's transform spell, kept seperate from their other powers
 	var/datum/action/cooldown/spell/shapeshift/werewolf_transform/transform_spell
-	var/atom/movable/screen/werewolf/bite_button/bite_display
+	/// Tackler component for the transformed werewolf
 	var/datum/component/tackler/werewolf/werewolf_tackler
+	/// List of mobs consumed by the werewolf's bite spell. Mobs are removed after they are revived
 	var/list/consumed_mobs = list()
+	/// Werewolf's den
+	var/area/werewolf_den_area
+	var/obj/effect/decal/werewolf_mark/den_mark
+
+	var/atom/movable/screen/werewolf/bite_button/bite_display
 
 /datum/antagonist/werewolf/on_gain()
 	. = ..()
@@ -73,6 +79,7 @@
 	learn_transformed_power(new /datum/action/cooldown/spell/touch/werewolf_bite(src))
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_freedom)
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_claws)
+	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_mark(src))
 
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
 
@@ -98,13 +105,16 @@
 
 	return ..()
 
+
 /datum/antagonist/werewolf/proc/learn_power(datum/action/cooldown/spell/power)
 	powers += power
 	power.Grant(owner.current)
 
+
 /datum/antagonist/werewolf/proc/unlearn_power(datum/action/cooldown/spell/power)
 	powers -= power
 	power.Remove(owner.current)
+
 
 /datum/antagonist/werewolf/proc/learn_transformed_power(datum/action/cooldown/spell/power)
 	transformed_powers += power
@@ -123,21 +133,24 @@
 	for(var/datum/action/cooldown/spell/power as anything in transformed_powers)
 		unlearn_transformed_power(power)
 
+
 /datum/antagonist/werewolf/proc/handle_transform_cast(atom/owner)
 	SIGNAL_HANDLER
 	toggle_transformation()
+
 
 /datum/antagonist/werewolf/proc/apply_transformation()
 	if(!owner?.current)
 		return FALSE
 	if(transformed)
 		return TRUE
-
+	// Don't try to transform if we're already shapeshifted
 	if(owner.current.has_status_effect(/datum/status_effect/shapechange_mob))
 		return FALSE
 
 	transform_spell.cast(owner.current)
 	return TRUE
+
 
 /datum/antagonist/werewolf/proc/revert_transformation()
 	if(!owner?.current)
@@ -145,12 +158,13 @@
 
 	if(!transformed)
 		return TRUE
-
+	// Don't try to revert if we're not shapeshifted
 	if(!owner.current.has_status_effect(/datum/status_effect/shapechange_mob/from_spell))
 		return FALSE
 
 	transform_spell.cast(owner.current)
 	return TRUE
+
 
 /datum/antagonist/werewolf/proc/toggle_transformation()
 	if(!owner?.current)
@@ -160,6 +174,7 @@
 	else
 		apply_transformation()
 	return TRUE
+
 
 /datum/antagonist/werewolf/proc/pre_transform_examine(mob/living/carbon/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER

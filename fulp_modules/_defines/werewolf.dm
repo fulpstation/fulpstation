@@ -1,6 +1,8 @@
 #define WEREWOLF_TRAIT "werewolf_trait"
 /// Has special interactions with werewolves
 #define TRAIT_WEREWOLF_HUNTER "werewolf_hunter"
+/// Can detect werewolf dens
+#define TRAIT_STRONG_SNIFFER
 
 // Role defines
 #define ROLE_WEREWOLF "Werewolf"
@@ -31,6 +33,8 @@
 #define WP_BITE_DAMAGE 40
 #define WP_BITE_WOUND_BONUS 1
 #define WP_BITE_BARE_WOUND_BONUS 2
+
+#define WP_MARK_TIME 3 SECONDS
 
 /*
  * Werewolf signals
