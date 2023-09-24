@@ -6,9 +6,6 @@
 	var/datum/antagonist/werewolf/owner_datum
 
 /obj/effect/decal/werewolf_mark/alternative
-	name = "Strange mark"
-	desc = "You get the feeling you don't want to be here..."
-	icon = 'fulp_modules/features/antagonists/werewolf/icons/decals.dmi'
 	icon_state = "mark_decal_alt"
 
 /obj/effect/decal/werewolf_mark/Initialize()
