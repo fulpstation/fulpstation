@@ -50,6 +50,9 @@
 					span_danger("You devour [carbon_target]!"), \
 				)
 				var/new_points = 2
+				if(get_area(caster) == werewolf_datum.werewolf_den_area)
+					to_chat(caster, span_notice("Meals are so much more enjoyable in the saftey of your den!"))
+					new_points += 1
 				if(!target.ckey)
 					to_chat(caster, span_notice("[target] would've tasted better if they had a soul..."))
 					new_points -= 1
