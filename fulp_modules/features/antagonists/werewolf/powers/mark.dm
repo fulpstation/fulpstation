@@ -29,6 +29,13 @@
 		examine_list += span_bolddanger("This marks this area as being claimed by another werewolf!")
 		return
 
+	if(IS_MONSTERHUNTER(user) || IS_BLOODSUCKER(user))
+		if(!owner_datum)
+			examine_list += span_notice("This mark was made by a werewolf, but the den has since been abandoned")
+			return
+		examine_list += span_bolddanger("This marks this area as being claimed by a werewolf!")
+		return
+
 /datum/action/cooldown/spell/werewolf_mark
 	name = "Mark"
 	desc = "Claim an area of the station as your den"
