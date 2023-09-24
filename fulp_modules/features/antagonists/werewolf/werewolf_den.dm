@@ -3,6 +3,7 @@
 	if(potential_den.outdoors)
 		to_chat(owner.current, span_warning("You can't make your den outside!"))
 		return FALSE
+
 	var/datum/antagonist/werewolf/ww_datum = is_werewolf_den(potential_den)
 	if(ww_datum)
 		if(ww_datum == src)
@@ -10,6 +11,7 @@
 			return FALSE
 		to_chat(owner.current, span_warning("This area has been claimed by another werewolf!"))
 		return FALSE
+
 	return TRUE
 
 /datum/antagonist/werewolf/proc/claim_area_as_den(area/potential_den)
@@ -19,12 +21,12 @@
 	unclaim_current_den()
 	// Set the new den area
 	werewolf_den_area = potential_den
-
 	RegisterSignal(potential_den, COMSIG_AREA_ENTERED, PROC_REF(on_den_entered))
 
 /datum/antagonist/werewolf/proc/unclaim_current_den()
 	if(!werewolf_den_area)
 		return
+
 	UnregisterSignal(werewolf_den_area, COMSIG_AREA_ENTERED)
 	werewolf_den_area = null
 
@@ -45,5 +47,6 @@
 		if(target == owner.current)
 			target.add_mood_event("werewolf_smell", /datum/mood_event/werewolf_den_positive)
 			return
+
 		if(HAS_TRAIT(target, TRAIT_STRONG_SNIFFER))
 			target.add_mood_event("werewolf_smell", /datum/mood_event/werewolf_den_negative)

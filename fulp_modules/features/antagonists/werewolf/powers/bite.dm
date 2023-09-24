@@ -36,9 +36,11 @@
 			blocked = target.run_armor_check(caster.zone_selected), \
 			sharpness = SHARP_POINTY \
 		)
+
 		if(target in werewolf_datum.consumed_mobs)
 			to_chat(caster, span_warning("There's nothing left in this body for you to consume!"))
 			return TRUE
+
 		if(target.stat == DEAD)
 			if(iscarbon(target))
 				var/mob/living/carbon/carbon_target = target
@@ -49,21 +51,26 @@
 					span_danger("[caster] devours [carbon_target]!"), \
 					span_danger("You devour [carbon_target]!"), \
 				)
+
 				var/new_points = 2
 				if(get_area(caster) == werewolf_datum.werewolf_den_area)
 					to_chat(caster, span_notice("Meals are so much more enjoyable in the saftey of your den!"))
 					new_points += 1
+
 				if(!target.ckey)
 					to_chat(caster, span_notice("[target] would've tasted better if they had a soul..."))
 					new_points -= 1
+
 				if(IS_BLOODSUCKER(target))
 					to_chat(caster, span_notice("[target]'s vampiric blood tastes delicious!"))
 					new_points += 1
 					werewolf_datum.werewolf_hunger -= 1
+
 				to_chat(caster, span_bold("Gained [new_points] point[new_points > 1 ? "s" : ""]"))
 				werewolf_datum.werewolf_hunger -= new_points
 				if(werewolf_datum.werewolf_hunger < 0)
 					werewolf_datum.werewolf_hunger = 0
+
 				werewolf_datum.consumed_mobs += target
 				RegisterSignal(target, COMSIG_LIVING_LIFE, PROC_REF(unregister_consumed_mob))
 
@@ -79,4 +86,5 @@
 	for(var/mob/target in werewolf_datum.consumed_mobs)
 		werewolf_datum.consumed_mobs -= target
 		UnregisterSignal(target, COMSIG_LIVING_LIFE)
+
 	return ..()

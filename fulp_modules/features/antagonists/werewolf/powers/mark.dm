@@ -26,6 +26,7 @@
 		if(!owner_datum)
 			examine_list += span_notice("This mark was made by another werewolf, but the den has since been abandoned")
 			return
+
 		examine_list += span_bolddanger("This marks this area as being claimed by another werewolf!")
 		return
 
@@ -33,6 +34,7 @@
 		if(!owner_datum)
 			examine_list += span_notice("This mark was made by a werewolf, but the den has since been abandoned")
 			return
+
 		examine_list += span_bolddanger("This marks this area as being claimed by a werewolf!")
 		return
 
@@ -45,6 +47,7 @@
 	var/casting = FALSE
 	var/obj/effect/decal/werewolf_mark/mark_decal
 
+
 /datum/action/cooldown/spell/werewolf_mark/New(antag_datum)
 	werewolf_datum = antag_datum
 	return ..()
@@ -53,14 +56,17 @@
 /datum/action/cooldown/spell/werewolf_mark/before_cast(mob/living/carbon/caster)
 	if(casting)
 		return SPELL_CANCEL_CAST
+
 	var/area/potential_den = get_area(caster)
 	if(!werewolf_datum.is_valid_den_area(potential_den))
 		return SPELL_CANCEL_CAST
+
 	to_chat(caster, span_notice("You begin marking [potential_den] as your den..."))
 	casting = TRUE
 	if(!do_after(caster, WP_MARK_TIME))
 		casting = FALSE
 		return SPELL_CANCEL_CAST
+
 	casting = FALSE
 	return ..()
 
@@ -74,4 +80,5 @@
 		mark_decal.owner_datum = null
 		mark_decal.desc = "It looks old and faded."
 	mark_decal = ww_mark
+
 	to_chat(caster, span_notice("You've successfully claimed [potential_den] as your den!"))

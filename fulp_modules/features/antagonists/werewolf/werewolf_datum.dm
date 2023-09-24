@@ -149,8 +149,10 @@
 /datum/antagonist/werewolf/proc/apply_transformation()
 	if(!owner?.current)
 		return FALSE
+
 	if(transformed)
 		return TRUE
+
 	// Don't try to transform if we're already shapeshifted
 	if(owner.current.has_status_effect(/datum/status_effect/shapechange_mob))
 		return FALSE
@@ -165,6 +167,7 @@
 
 	if(!transformed)
 		return TRUE
+
 	// Don't try to revert if we're not shapeshifted
 	if(!owner.current.has_status_effect(/datum/status_effect/shapechange_mob/from_spell))
 		return FALSE
@@ -188,9 +191,11 @@
 	var/obj/item/potential_cloth = source.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 	if(potential_cloth?.body_parts_covered & CHEST)
 		return
+
 	potential_cloth = source.get_item_by_slot(ITEM_SLOT_ICLOTHING)
 	if(potential_cloth?.body_parts_covered & CHEST)
 		return
+
 	examine_list += span_boldwarning("Strange fur is growing rapidly on [source.p_their()] body!")
 
 
@@ -198,6 +203,7 @@
 	var/mob/living/carbon/target = owner.current
 	var/duration = WEREWOLF_SICKNESS_BASE_TIME + rand(0, severity*WEREWOLF_SICKNESS_SEVERITY_MULT SECONDS)
 	var/message = span_notice("Luckily, transformation only took a minimal toll on your body")
+
 	if(severity >= 1)
 		target.set_eye_blur_if_lower(duration)
 	if(severity >= 2)

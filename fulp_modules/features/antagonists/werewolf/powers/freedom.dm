@@ -10,5 +10,6 @@
 	var/mob/living/carbon/target = cast_on
 	if(!iscarbon(target))
 		return FALSE
+
 	target.uncuff()
 	to_chat(owner, span_notice("You break free of your restraints!" ))

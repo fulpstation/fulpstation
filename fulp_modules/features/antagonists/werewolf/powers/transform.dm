@@ -9,22 +9,27 @@
 	var/datum/antagonist/werewolf/werewolf_datum
 	cooldown_time = 2 SECONDS
 
+
 /datum/action/cooldown/spell/shapeshift/werewolf_transform/New(datum/antagonist/werewolf/antag_datum)
 	werewolf_datum = antag_datum
 	return ..()
+
 
 /datum/action/cooldown/spell/shapeshift/werewolf_transform/proc/enable_button()
 	show_to_player = TRUE
 	ShowTo(owner)
 
+
 /datum/action/cooldown/spell/shapeshift/werewolf_transform/proc/disable_button()
 	show_to_player = FALSE
 	HideFrom(owner)
+
 
 /datum/action/cooldown/spell/shapeshift/werewolf_transform/ShowTo(mob/viewer)
 	if(!show_to_player)
 		return
 	return ..()
+
 
 /datum/action/cooldown/spell/shapeshift/werewolf_transform/do_shapeshift(mob/living/carbon/caster)
 	if(caster.handcuffed || caster.legcuffed)
@@ -33,6 +38,7 @@
 			span_danger("[caster] breaks free of their restraints as they transform!"), \
 			span_danger("You break free of your restraints as you transform"), \
 		)
+
 	var/mob/living/shifted_mob = ..()
 	werewolf_datum.werewolf_tackler = shifted_mob.AddComponent( \
 		/datum/component/tackler/werewolf, \
@@ -60,6 +66,7 @@
 			span_notice("[caster] breaks free of their restraints as they transform!"), \
 			span_notice("You break free of your restraints as you transform"), \
 		)
+
 	qdel(werewolf_datum.werewolf_tackler)
 
 	for(var/datum/action/cooldown/spell/power as anything in werewolf_datum.transformed_powers)
@@ -74,6 +81,7 @@
 	if(get_area(werewolf_datum.owner.current) == werewolf_datum.werewolf_den_area)
 		severity += WEREWOLF_SICKNESS_DEN_MODIFIER
 		to_chat(werewolf_datum.owner.current, span_notice("Reverting while inside your den lessens the toll on your body..."))
+
 	werewolf_datum.post_transform_effects(severity)
 	SEND_SIGNAL(werewolf_datum.owner.current, WEREWOLF_REVERTED)
 	return .
