@@ -29,13 +29,13 @@
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
+	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE, TRAIT_STRONG_SNIFFER), HUNTER_TRAIT)
 	owner.unconvertable = TRUE
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
+	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE, TRAIT_STRONG_SNIFFER), HUNTER_TRAIT)
 	owner.unconvertable = FALSE
 
 /datum/antagonist/monsterhunter/on_gain()
