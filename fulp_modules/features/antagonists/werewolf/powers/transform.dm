@@ -66,10 +66,14 @@
 		power.Remove(werewolf_datum.owner.current)
 
 	werewolf_datum.transformed = FALSE
-	werewolf_datum.werewolf_hunger += 3
+	werewolf_datum.werewolf_hunger += WEREWOLF_HUNGER_PER_TRANSFORM
 
 	. = ..()
 
-	werewolf_datum.post_transform_effects(1 + werewolf_datum.werewolf_hunger)
+	var/severity = 1 + werewolf_datum.werewolf_hunger
+	if(get_area(werewolf_datum.owner.current) == werewolf_datum.werewolf_den_area)
+		severity += WEREWOLF_SICKNESS_DEN_MODIFIER
+		to_chat(werewolf_datum.owner.current, span_notice("Reverting while inside your den lessens the toll on your body..."))
+	werewolf_datum.post_transform_effects(severity)
 	SEND_SIGNAL(werewolf_datum.owner.current, WEREWOLF_REVERTED)
 	return .

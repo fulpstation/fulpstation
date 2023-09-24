@@ -96,6 +96,7 @@
 	revert_transformation()
 	remove_powers()
 	check_cancel_sol()
+	REMOVE_TRAIT(owner.current, TRAIT_STRONG_SNIFFER, WEREWOLF_TRAIT)
 
 	transform_spell.Remove(owner.current)
 	qdel(transform_spell)
@@ -196,15 +197,19 @@
 /datum/antagonist/werewolf/proc/post_transform_effects(severity)
 	var/mob/living/carbon/target = owner.current
 	var/duration = WEREWOLF_SICKNESS_BASE_TIME + rand(0, severity*WEREWOLF_SICKNESS_SEVERITY_MULT SECONDS)
+	var/message = span_notice("Luckily, transformation only took a minimal toll on your body")
 	if(severity >= 1)
 		target.set_eye_blur_if_lower(duration)
 	if(severity >= 2)
-		target.set_confusion_if_lower(duration)
-	if(severity >= 3)
 		target.set_dizzy_if_lower(duration)
 	if(severity >= 4)
-		target.vomit()
+		target.set_confusion_if_lower(duration)
 	if(severity >= 5)
+		target.vomit()
+		message = span_warning("The transformation had a noticable toll on your body, and has left you feeling unwell")
+	if(severity >= 10)
 		target.adjust_timed_status_effect(10 SECONDS, /datum/status_effect/incapacitating/unconscious)
+		message = span_boldwarning("The transformation had a significant toll on your body, and the pain is too much to bear!")
 
+	to_chat(target, message)
 	return duration

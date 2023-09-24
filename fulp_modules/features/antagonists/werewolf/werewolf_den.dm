@@ -16,10 +16,17 @@
 	if(!is_valid_den_area(potential_den))
 		return FALSE
 
-	// Create the new den area
+	unclaim_current_den()
+	// Set the new den area
 	werewolf_den_area = potential_den
 
 	RegisterSignal(potential_den, COMSIG_AREA_ENTERED, PROC_REF(on_den_entered))
+
+/datum/antagonist/werewolf/proc/unclaim_current_den()
+	if(!werewolf_den_area)
+		return
+	UnregisterSignal(werewolf_den_area, COMSIG_AREA_ENTERED)
+	werewolf_den_area = null
 
 /datum/mood_event/werewolf_den_negative
 	description = "Ugh, it smells terrible in here!"
