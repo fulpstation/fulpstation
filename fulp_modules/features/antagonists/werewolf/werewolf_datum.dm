@@ -101,7 +101,7 @@
 	transform_spell.Remove(owner.current)
 	qdel(transform_spell)
 
-	// REMOVE_TRAIT(owner.current, TRAIT_STRONG_SNIFFER, WEREWOLF_TRAIT)
+	REMOVE_TRAIT(owner.current, TRAIT_STRONG_SNIFFER, WEREWOLF_TRAIT)
 
 	UnregisterSignal(SSsunlight, COMSIG_LUN_WARNING)
 	UnregisterSignal(SSsunlight, COMSIG_LUN_START)

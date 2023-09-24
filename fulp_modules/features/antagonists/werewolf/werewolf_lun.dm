@@ -1,7 +1,7 @@
 /// Start the sol system when the first bloodsucker or werewolf is created
 /datum/antagonist/werewolf/proc/check_start_sol()
 	var/list/existing_monsters = (get_antag_minds(/datum/antagonist/bloodsucker) + get_antag_minds(/datum/antagonist/werewolf)) - owner
-	if(!length(existing_monsters))
+	if(length(existing_monsters))
 		message_admins("New Sol has been created due to Bloodsucker or Werewolf assignment.")
 		SSsunlight.can_fire = TRUE
 
