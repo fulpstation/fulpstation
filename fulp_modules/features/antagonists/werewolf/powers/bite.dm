@@ -61,7 +61,7 @@
 					new_points += 1
 					werewolf_datum.werewolf_hunger -= 1
 				to_chat(caster, span_bold("Gained [new_points] point[new_points > 1 ? "s" : ""]"))
-				werewolf_datum.werewolf_hunger -= 1
+				werewolf_datum.werewolf_hunger -= new_points
 				if(werewolf_datum.werewolf_hunger < 0)
 					werewolf_datum.werewolf_hunger = 0
 				werewolf_datum.consumed_mobs += target
