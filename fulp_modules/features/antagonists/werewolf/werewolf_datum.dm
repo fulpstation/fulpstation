@@ -6,6 +6,7 @@
 	job_rank = ROLE_WEREWOLF
 	antag_hud_name = "werewolf"
 	show_name_in_check_antagonists = TRUE
+	ui_name = "AntagInfoWerewolf"
 	// Doesn't look like this is actually used anywhere but you never know
 	can_coexist_with_others = FALSE
 	tip_theme = "spookyconsole"
@@ -48,6 +49,7 @@
 		TRAIT_GIANT,
 		TRAIT_STUNIMMUNE,
 		TRAIT_PIERCEIMMUNE,
+		TRAIT_STRONG_SNIFFER
 	)
 	/// Werewolf's transform spell, kept seperate from their other powers
 	var/datum/action/cooldown/spell/shapeshift/werewolf_transform/transform_spell
@@ -58,7 +60,8 @@
 	/// Werewolf's den
 	var/area/werewolf_den_area
 	var/obj/effect/decal/werewolf_mark/den_mark
-
+	/// Increases after reverting, decreased by consuming corpses. Affects severity of post-transform effects
+	var/werewolf_hunger = 0
 	var/atom/movable/screen/werewolf/bite_button/bite_display
 
 /datum/antagonist/werewolf/on_gain()
@@ -66,6 +69,7 @@
 	var/datum/hud/werewolf_hud = owner.current.hud_used
 	bite_display = new /atom/movable/screen/werewolf/bite_button(null, werewolf_hud)
 	werewolf_hud.infodisplay += bite_display
+	ADD_TRAIT(owner.current, TRAIT_STRONG_SNIFFER, WEREWOLF_TRAIT)
 
 	RegisterSignal(SSsunlight, COMSIG_LUN_WARNING, PROC_REF(handle_lun_warnings))
 	RegisterSignal(SSsunlight, COMSIG_LUN_START, PROC_REF(handle_lun_start))
@@ -95,6 +99,8 @@
 
 	transform_spell.Remove(owner.current)
 	qdel(transform_spell)
+
+	// REMOVE_TRAIT(owner.current, TRAIT_STRONG_SNIFFER, WEREWOLF_TRAIT)
 
 	UnregisterSignal(SSsunlight, COMSIG_LUN_WARNING)
 	UnregisterSignal(SSsunlight, COMSIG_LUN_START)
@@ -185,3 +191,20 @@
 	if(potential_cloth?.body_parts_covered & CHEST)
 		return
 	examine_list += span_boldwarning("Strange fur is growing rapidly on [source.p_their()] body!")
+
+
+/datum/antagonist/werewolf/proc/post_transform_effects(severity)
+	var/mob/living/carbon/target = owner.current
+	var/duration = WEREWOLF_SICKNESS_BASE_TIME + rand(0, severity*WEREWOLF_SICKNESS_SEVERITY_MULT SECONDS)
+	if(severity >= 1)
+		target.set_eye_blur_if_lower(duration)
+	if(severity >= 2)
+		target.set_confusion_if_lower(duration)
+	if(severity >= 3)
+		target.set_dizzy_if_lower(duration)
+	if(severity >= 4)
+		target.vomit()
+	if(severity >= 5)
+		target.adjust_timed_status_effect(10 SECONDS, /datum/status_effect/incapacitating/unconscious)
+
+	return duration

@@ -66,5 +66,10 @@
 		power.Remove(werewolf_datum.owner.current)
 
 	werewolf_datum.transformed = FALSE
+	werewolf_datum.werewolf_hunger += 3
+
+	. = ..()
+
+	werewolf_datum.post_transform_effects(1 + werewolf_datum.werewolf_hunger)
 	SEND_SIGNAL(werewolf_datum.owner.current, WEREWOLF_REVERTED)
-	return ..()
+	return .

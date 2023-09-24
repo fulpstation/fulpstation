@@ -2,7 +2,7 @@
 /// Has special interactions with werewolves
 #define TRAIT_WEREWOLF_HUNTER "werewolf_hunter"
 /// Can detect werewolf dens
-#define TRAIT_STRONG_SNIFFER
+#define TRAIT_STRONG_SNIFFER "trait_strong_sniffer"
 
 // Role defines
 #define ROLE_WEREWOLF "Werewolf"
@@ -35,6 +35,9 @@
 #define WP_BITE_BARE_WOUND_BONUS 2
 
 #define WP_MARK_TIME 3 SECONDS
+
+#define WEREWOLF_SICKNESS_BASE_TIME 10 SECONDS
+#define WEREWOLF_SICKNESS_SEVERITY_MULT 3
 
 /*
  * Werewolf signals

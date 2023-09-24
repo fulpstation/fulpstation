@@ -22,6 +22,7 @@
 	var/mob/living/target = cast_on
 	return ismob(target)
 
+
 /datum/action/cooldown/spell/touch/werewolf_bite/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
 	caster.do_attack_animation(target, ATTACK_EFFECT_BITE)
 	if(isliving(victim))
@@ -55,8 +56,11 @@
 				if(IS_BLOODSUCKER(target))
 					to_chat(caster, span_notice("[target]'s vampiric blood tastes delicious!"))
 					new_points += 1
+					werewolf_datum.werewolf_hunger -= 1
 				to_chat(caster, span_bold("Gained [new_points] point[new_points > 1 ? "s" : ""]"))
-
+				werewolf_datum.werewolf_hunger -= 1
+				if(werewolf_datum.werewolf_hunger < 0)
+					werewolf_datum.werewolf_hunger = 0
 				werewolf_datum.consumed_mobs += target
 				RegisterSignal(target, COMSIG_LIVING_LIFE, PROC_REF(unregister_consumed_mob))
 

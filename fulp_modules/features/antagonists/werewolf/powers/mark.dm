@@ -15,16 +15,16 @@
 
 /obj/effect/decal/werewolf_mark/proc/handle_examine(atom/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
+	if(owner_datum.owner.current == user)
+		examine_list += span_notice("This mark was made by you.")
+		return
+
 	if(IS_WEREWOLF(user))
-		var/mob/living/carbon/ww = user
 		if(!owner_datum)
 			examine_list += span_notice("This mark was made by another werewolf, but the den has since been abandoned")
 			return
-		if(owner_datum.owner.current == ww)
-			examine_list += span_notice("This mark was made by you.")
-			return
 		examine_list += span_bolddanger("This marks this area as being claimed by another werewolf!")
-
+		return
 
 /datum/action/cooldown/spell/werewolf_mark
 	name = "Mark"
