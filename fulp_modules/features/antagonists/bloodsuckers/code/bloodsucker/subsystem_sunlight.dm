@@ -14,7 +14,7 @@
 
 
 /// How long the moon is out
-#define TIME_WEREWOLF_MOON 60
+#define TIME_WEREWOLF_MOON 90
 /// Time left to send an alert to werewolves about the full moon
 #define TIME_WEREWOLF_MOON_WARN 90
 /// Time left to send a final warning to werewolves. This is also when initial symptoms start to show
