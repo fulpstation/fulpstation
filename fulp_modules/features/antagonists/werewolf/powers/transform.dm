@@ -51,6 +51,7 @@
 	)
 
 	shifted_mob.add_traits(werewolf_datum.transformed_traits, WEREWOLF_TRAIT)
+	shifted_mob.set_species(/datum/species/werewolf)
 
 	for(var/datum/action/cooldown/spell/power as anything in werewolf_datum.transformed_powers)
 		power.Grant(shifted_mob)
