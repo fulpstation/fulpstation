@@ -1747,7 +1747,7 @@
 /turf/open/floor/iron/dark/textured,
 /area/station/security/prison/visit)
 "ain" = (
-/obj/structure/bed/roller,
+/obj/structure/bed/medical/emergency,
 /obj/effect/turf_decal/tile/blue/anticorner/contrasted{
 	dir = 8
 	},
@@ -5510,7 +5510,7 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 4
 	},
-/obj/structure/bed/roller,
+/obj/structure/bed/medical/emergency,
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
@@ -6653,7 +6653,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "aLP" = (
-/obj/structure/bed/roller,
+/obj/structure/bed/medical/emergency,
 /turf/open/floor/iron,
 /area/station/maintenance/port/fore)
 "aLR" = (
@@ -14698,7 +14698,6 @@
 /turf/open/floor/iron,
 /area/station/commons/lounge)
 "bqK" = (
-/obj/machinery/lapvend,
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron,
 /area/station/commons/lounge)
@@ -31357,7 +31356,7 @@
 "eYv" = (
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/all/science/xenobio,
-/obj/machinery/door/airlock/glass_large{
+/obj/machinery/door/airlock/multi_tile/public/glass{
 	name = "Xenobiology Lab"
 	},
 /obj/effect/turf_decal/trimline/purple/filled/line{
@@ -37044,7 +37043,7 @@
 	},
 /obj/structure/curtain/cloth,
 /obj/effect/decal/cleanable/blood/gibs/old,
-/obj/structure/bed/roller,
+/obj/structure/bed/medical/emergency,
 /turf/open/floor/iron/white,
 /area/station/medical/abandoned)
 "hpY" = (
@@ -38281,7 +38280,9 @@
 	dir = 4;
 	id = "garbage"
 	},
-/obj/machinery/recycler,
+/obj/machinery/recycler{
+	dir = 8
+	},
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -44693,7 +44694,7 @@
 /obj/effect/turf_decal/trimline/blue/line{
 	dir = 4
 	},
-/obj/structure/bed/roller,
+/obj/structure/bed/medical/emergency,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
 "kok" = (
@@ -48383,7 +48384,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
 "lRl" = (
-/mob/living/simple_animal/hostile/asteroid/basilisk{
+/mob/living/basic/mining/basilisk{
 	environment_smash = 0;
 	name = "baseclisk"
 	},
@@ -49028,7 +49029,7 @@
 /area/station/science/robotics/lab)
 "mfv" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/backpack/duffelbag/med/surgery,
+/obj/item/surgery_tray/full,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
 "mfJ" = (
@@ -52671,7 +52672,7 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "nCT" = (
-/obj/machinery/door/airlock/glass_large{
+/obj/machinery/door/airlock/multi_tile/public/glass{
 	name = "Experimentation Lab"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/science/research,
@@ -60459,7 +60460,6 @@
 /turf/open/floor/iron,
 /area/station/maintenance/port/greater)
 "qCF" = (
-/obj/machinery/lapvend,
 /obj/effect/turf_decal/tile/dark/half,
 /turf/open/floor/iron/white/textured_large,
 /area/station/science/lobby)
@@ -62636,7 +62636,7 @@
 "rsm" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/caution/stand_clear,
-/obj/machinery/door/airlock/glass_large{
+/obj/machinery/door/airlock/multi_tile/public/glass{
 	name = "Prison Cells"
 	},
 /turf/open/floor/iron/dark/textured,
@@ -62718,7 +62718,7 @@
 "rtS" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/caution/stand_clear,
-/obj/machinery/door/airlock/glass_large{
+/obj/machinery/door/airlock/multi_tile/public/glass{
 	name = "Mess Hall"
 	},
 /turf/open/floor/iron/dark/textured,
@@ -63766,11 +63766,11 @@
 	network = list("ss13","medbay")
 	},
 /obj/structure/table,
-/obj/item/roller,
-/obj/item/roller{
+/obj/item/emergency_bed,
+/obj/item/emergency_bed{
 	pixel_y = 5
 	},
-/obj/item/roller{
+/obj/item/emergency_bed{
 	pixel_y = 10
 	},
 /obj/effect/turf_decal/tile/neutral/anticorner/contrasted,
@@ -65514,9 +65514,6 @@
 /obj/item/computer_disk/engineering{
 	pixel_x = -2;
 	pixel_y = 4
-	},
-/obj/item/computer_disk/atmos{
-	pixel_y = 2
 	},
 /obj/item/paper/monitorkey{
 	pixel_x = 5;
@@ -70960,7 +70957,7 @@
 /obj/effect/turf_decal/caution/stand_clear{
 	dir = 1
 	},
-/obj/machinery/door/airlock/glass_large{
+/obj/machinery/door/airlock/multi_tile/public/glass{
 	name = "Prison Cells"
 	},
 /turf/open/floor/iron/dark/textured,
@@ -76756,7 +76753,7 @@
 /turf/open/floor/iron/dark/textured_large,
 /area/station/ai_monitored/command/storage/eva)
 "xjy" = (
-/obj/structure/bed/roller,
+/obj/structure/bed/medical/emergency,
 /obj/machinery/iv_drip,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)

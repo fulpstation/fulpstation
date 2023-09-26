@@ -23,9 +23,9 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 	SHOULD_CALL_PARENT(TRUE)
 	return list(ADDITIVE_FISHING_MOD = 0, MULTIPLICATIVE_FISHING_MOD = 1)
 
-/// Returns special minigame rules applied by this trait
-/datum/fish_trait/proc/minigame_mod(obj/item/fishing_rod/rod, mob/fisherman)
-	return list()
+/// Returns special minigame rules and effects applied by this trait
+/datum/fish_trait/proc/minigame_mod(obj/item/fishing_rod/rod, mob/fisherman, datum/fishing_challenge/minigame)
+	return
 
 /// Applies some special qualities to the fish that has been spawned
 /datum/fish_trait/proc/apply_to_fish(obj/item/fish/fish)
@@ -47,7 +47,7 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 	. = ..()
 	// Wary fish require transparent line or they're harder
 	if(!rod.line || !(rod.line.fishing_line_traits & FISHING_LINE_CLOAKED))
-		.[ADDITIVE_FISHING_MOD] = -FISH_TRAIT_MINOR_DIFFICULTY_BOOST
+		.[ADDITIVE_FISHING_MOD] += FISH_TRAIT_MINOR_DIFFICULTY_BOOST
 
 /datum/fish_trait/shiny_lover
 	name = "Shiny Lover"
@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 	. = ..()
 	// These fish are easier to catch with shiny lure
 	if(rod.hook && rod.hook.fishing_hook_traits & FISHING_HOOK_SHINY)
-		.[ADDITIVE_FISHING_MOD] = FISH_TRAIT_MINOR_DIFFICULTY_BOOST
+		.[ADDITIVE_FISHING_MOD] -= FISH_TRAIT_MINOR_DIFFICULTY_BOOST
 
 /datum/fish_trait/picky_eater
 	name = "Picky Eater"
@@ -65,7 +65,12 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 
 /datum/fish_trait/picky_eater/catch_weight_mod(obj/item/fishing_rod/rod, mob/fisherman)
 	. = ..()
-	if(!rod.bait || !(HAS_TRAIT(rod.bait, GOOD_QUALITY_BAIT_TRAIT) || HAS_TRAIT(rod.bait, GREAT_QUALITY_BAIT_TRAIT)))
+	if(!rod.bait)
+		.[MULTIPLICATIVE_FISHING_MOD] = 0
+		return
+	if(HAS_TRAIT(rod.bait, OMNI_BAIT_TRAIT))
+		return
+	if(HAS_TRAIT(rod.bait, TRAIT_GOOD_QUALITY_BAIT) || HAS_TRAIT(rod.bait, TRAIT_GREAT_QUALITY_BAIT))
 		.[MULTIPLICATIVE_FISHING_MOD] = 0
 
 
@@ -95,8 +100,8 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 	name = "Heavy"
 	catalog_description = "This fish tends to stay near the waterbed.";
 
-/datum/fish_trait/heavy/minigame_mod(obj/item/fishing_rod/rod, mob/fisherman)
-	return list(FISHING_MINIGAME_RULE_HEAVY_FISH)
+/datum/fish_trait/heavy/minigame_mod(obj/item/fishing_rod/rod, mob/fisherman, datum/fishing_challenge/minigame)
+	minigame.fish_idle_velocity -= 10
 
 /datum/fish_trait/carnivore
 	name = "Carnivore"
@@ -105,11 +110,17 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 
 /datum/fish_trait/carnivore/catch_weight_mod(obj/item/fishing_rod/rod, mob/fisherman)
 	. = ..()
-	.[MULTIPLICATIVE_FISHING_MOD] = 0
-	if(rod.bait && istype(rod.bait, /obj/item/food))
-		var/obj/item/food/food_bait = rod.bait
-		if(food_bait.foodtypes & MEAT)
-			.[MULTIPLICATIVE_FISHING_MOD] = 1
+	if(!rod.bait)
+		.[MULTIPLICATIVE_FISHING_MOD] = 0
+		return
+	if(HAS_TRAIT(rod.bait, OMNI_BAIT_TRAIT))
+		return
+	if(!istype(rod.bait, /obj/item/food))
+		.[MULTIPLICATIVE_FISHING_MOD] = 0
+		return
+	var/obj/item/food/food_bait = rod.bait
+	if(!(food_bait.foodtypes & MEAT))
+		.[MULTIPLICATIVE_FISHING_MOD] = 0
 
 /datum/fish_trait/vegan
 	name = "Herbivore"
@@ -118,9 +129,13 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 
 /datum/fish_trait/vegan/catch_weight_mod(obj/item/fishing_rod/rod, mob/fisherman)
 	. = ..()
-	.[MULTIPLICATIVE_FISHING_MOD] = 0
-	if(rod.bait && istype(rod.bait, /obj/item/food/grown))
-		.[MULTIPLICATIVE_FISHING_MOD] = 1
+	if(!rod.bait)
+		.[MULTIPLICATIVE_FISHING_MOD] = 0
+		return
+	if(HAS_TRAIT(rod.bait, OMNI_BAIT_TRAIT))
+		return
+	if(!istype(rod.bait, /obj/item/food/grown))
+		.[MULTIPLICATIVE_FISHING_MOD] = 0
 
 /datum/fish_trait/emulsijack
 	name = "Emulsifier"
@@ -154,7 +169,7 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 
 /datum/fish_trait/necrophage/proc/eat_dead_fishes(obj/item/fish/source, seconds_per_tick)
 	SIGNAL_HANDLER
-	if(world.time - source.last_feeding >= source.feeding_frequency || !isaquarium(source.loc))
+	if(world.time - source.last_feeding < source.feeding_frequency || !isaquarium(source.loc))
 		return
 	for(var/obj/item/fish/victim in source.loc)
 		if(victim.status != FISH_DEAD || victim == source || HAS_TRAIT(victim, TRAIT_YUCKY_FISH))
@@ -218,7 +233,7 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 
 /datum/fish_trait/predator/proc/eat_fishes(obj/item/fish/source, seconds_per_tick)
 	SIGNAL_HANDLER
-	if(world.time - source.last_feeding >= source.feeding_frequency || !isaquarium(source.loc))
+	if(world.time - source.last_feeding < source.feeding_frequency || !isaquarium(source.loc))
 		return
 	var/obj/structure/aquarium/aquarium = source.loc
 	for(var/obj/item/fish/victim in aquarium.get_fishes(TRUE, source))
@@ -323,8 +338,9 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 /datum/fish_trait/lubed/apply_to_fish(obj/item/fish/fish)
 	fish.AddComponent(/datum/component/slippery, 8 SECONDS, SLIDE|GALOSHES_DONT_HELP)
 
-/datum/fish_trait/lubed/minigame_mod(obj/item/fishing_rod/rod, mob/fisherman)
-	return list(FISHING_MINIGAME_RULE_LUBED_FISH)
+/datum/fish_trait/lubed/minigame_mod(obj/item/fishing_rod/rod, mob/fisherman, datum/fishing_challenge/minigame)
+	minigame.reeling_velocity *= 1.4
+	minigame.gravity_velocity *= 1.4
 
 /datum/fish_trait/amphibious
 	name = "Amphibious"
