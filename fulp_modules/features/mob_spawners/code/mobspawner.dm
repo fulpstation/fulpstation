@@ -36,8 +36,8 @@
 			/mob/living/basic/viscerator = list(1,2,4),
 			/mob/living/basic/hivebot = list(1,1,3),
 			/mob/living/simple_animal/hostile/skeleton = list(1,1,2),
-			/mob/living/basic/giant_spider/hunter/scrawny = list(1,2,2),
-			/mob/living/basic/giant_spider/tarantula/scrawny = list(1,1,1),
+			/mob/living/basic/spider/giant/hunter/scrawny = list(1,2,2),
+			/mob/living/basic/spider/giant/tarantula/scrawny = list(1,1,1),
 			/mob/living/basic/bear = list(1,1,1),
 		)
 
