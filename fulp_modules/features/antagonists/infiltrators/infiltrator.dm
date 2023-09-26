@@ -149,7 +149,7 @@
 		/obj/item/storage/box/survival/infil = 1,
 		/obj/item/knife/combat/survival = 1,
 	)
-/obj/item/storage/box/survival/infil 
+/obj/item/storage/box/survival/infil
 	// This is just like /box/survival/syndie, but without the misleading paper about explosive implants.
 	name = "infiltration-ready survival box"
 	desc = "A box with the essentials for your infiltration. This one is labelled to contain an extended-capacity tank."
@@ -161,4 +161,6 @@
 
 /obj/item/storage/box/survival/infil/PopulateContents()
 	..()
-	new /obj/item/tool_parcel(src)
+	new /obj/item/crowbar/red(src)
+	new /obj/item/screwdriver/red(src)
+	new /obj/item/weldingtool/mini(src)
