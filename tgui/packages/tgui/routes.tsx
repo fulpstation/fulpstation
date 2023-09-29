@@ -81,7 +81,9 @@ export const getRoutedComponent = (store: Store) => {
     const interfacePathBuilder = interfacePathBuilders.shift()!;
     const interfacePath = interfacePathBuilder(name);
     try {
-      esModule = getComponent(interfacePath); // Fulp edit - We use getComponent instead to make sure our files are read. //esModule = requireInterface(interfacePath);
+      // Fulp edit - We use getComponent instead to make sure our files are read
+      esModule = getComponent(interfacePath); // Replaces esModule = requireInterface(interfacePath);
+      // Fulp edit end
     } catch (err) {
       if (err.code !== 'MODULE_NOT_FOUND') {
         throw err;
