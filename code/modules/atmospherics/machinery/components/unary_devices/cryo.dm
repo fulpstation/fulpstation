@@ -224,8 +224,13 @@
 		beaker = null
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/update_icon_state()
-	icon_state = (state_open) ? "pod-open" : ((on && is_operational) ? "pod-on" : "pod-off")
-	return ..()
+    var/datum/gas_mixture/air1 = airs[1]
+    var/current_temperature = air1.temperature
+    if (current_temperature > 460)
+        icon_state = (state_open) ? "hotpod-open" : ((on && is_operational) ? "hotpod-on" : "hotpod-off")
+    else
+        icon_state = (state_open) ? "pod-open" : ((on && is_operational) ? "pod-on" : "pod-off")
+    return ..()
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/update_icon()
 	. = ..()
@@ -237,10 +242,19 @@
 		. += "pod-panel"
 	if(state_open)
 		return
-	if(on && is_operational)
-		. += mutable_appearance('icons/obj/medical/cryogenics.dmi', "cover-on", ABOVE_ALL_MOB_LAYER, src, plane = ABOVE_GAME_PLANE)
+
+	var/datum/gas_mixture/air1 = airs[1]
+	var/current_temperature = air1.temperature
+	if(current_temperature > 460)
+		if(on && is_operational)
+			. += mutable_appearance('icons/obj/medical/cryogenics.dmi', "hotcover-on", ABOVE_ALL_MOB_LAYER, src, plane = ABOVE_GAME_PLANE)
+		else
+			. += mutable_appearance('icons/obj/medical/cryogenics.dmi', "hotcover-off", ABOVE_ALL_MOB_LAYER, src, plane = ABOVE_GAME_PLANE)
 	else
-		. += mutable_appearance('icons/obj/medical/cryogenics.dmi', "cover-off", ABOVE_ALL_MOB_LAYER, src, plane = ABOVE_GAME_PLANE)
+		if(on && is_operational)
+			. += mutable_appearance('icons/obj/medical/cryogenics.dmi', "cover-on", ABOVE_ALL_MOB_LAYER, src, plane = ABOVE_GAME_PLANE)
+		else
+			. += mutable_appearance('icons/obj/medical/cryogenics.dmi', "cover-off", ABOVE_ALL_MOB_LAYER, src, plane = ABOVE_GAME_PLANE)
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/nap_violation(mob/violator)
 	open_machine()
@@ -372,20 +386,36 @@
 		to_chat(user, span_warning("[src]'s door won't budge!"))
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/open_machine(drop = FALSE, density_to_set = FALSE)
-	if(!state_open && !panel_open)
-		set_on(FALSE)
-	for(var/mob/M in contents) //only drop mobs
-		M.forceMove(get_turf(src))
-	set_occupant(null)
-	flick("pod-open-anim", src)
+	var/datum/gas_mixture/air1 = airs[1]
+	var/current_temperature = air1.temperature
+	if(current_temperature > 460)
+		if(!state_open && !panel_open)
+			set_on(FALSE)
+		for(var/mob/M in contents) //only drop mobs
+			M.forceMove(get_turf(src))
+		set_occupant(null)
+		flick("hotpod-open-anim", src)
+	else
+		if(!state_open && !panel_open)
+			set_on(FALSE)
+		for(var/mob/M in contents) //only drop mobs
+			M.forceMove(get_turf(src))
+		set_occupant(null)
+		flick("pod-open-anim", src)
 	return ..()
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/close_machine(mob/living/carbon/user, density_to_set = TRUE)
 	treating_wounds = FALSE
-	if((isnull(user) || istype(user)) && state_open && !panel_open)
-		flick("pod-close-anim", src)
-		..(user)
-		return occupant
+	var/datum/gas_mixture/air1 = airs[1]
+	var/current_temperature = air1.temperature
+	if(current_temperature > 460)
+		if((isnull(user) || istype(user)) && state_open && !panel_open)
+			flick("hotpod-close-anim", src)
+	else
+		if((isnull(user) || istype(user)) && state_open && !panel_open)
+			flick("pod-close-anim", src)
+	..(user)
+	return occupant
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/container_resist_act(mob/living/user)
 	user.changeNext_move(CLICK_CD_BREAKOUT)
@@ -520,29 +550,60 @@
 	. = ..()
 	if(.)
 		return
-	switch(action)
-		if("power")
-			if(on)
-				set_on(FALSE)
-			else if(!state_open)
-				set_on(TRUE)
-			. = TRUE
-		if("door")
-			if(state_open)
-				close_machine()
-			else
-				open_machine()
-			. = TRUE
-		if("autoeject")
-			autoeject = !autoeject
-			. = TRUE
-		if("ejectbeaker")
-			if(beaker)
-				beaker.forceMove(drop_location())
-				if(Adjacent(usr) && !issilicon(usr))
-					usr.put_in_hands(beaker)
-				beaker = null
+
+	var/datum/gas_mixture/air1 = airs[1]
+	var/current_temperature = air1.temperature
+
+	if(current_temperature > 460)
+		switch(action)
+			if("power")
+				if(on)
+					set_on(FALSE)
+				else if(!state_open)
+					set_on(TRUE)
 				. = TRUE
+			if("door")
+				if(state_open)
+					close_machine()
+				else
+					open_machine()
+				. = TRUE
+
+			if("autoeject")
+				autoeject = !autoeject
+				. = TRUE
+			if("ejectbeaker")
+				if(beaker)
+					beaker.forceMove(drop_location())
+					if(Adjacent(usr) && !issilicon(usr))
+						usr.put_in_hands(beaker)
+					beaker = null
+					. = TRUE
+	else
+		switch(action)
+			if("power")
+				if(on)
+					set_on(FALSE)
+				else if(!state_open)
+					set_on(TRUE)
+				. = TRUE
+			if("door")
+				if(state_open)
+					close_machine()
+				else
+					open_machine()
+				. = TRUE
+
+			if("autoeject")
+				autoeject = !autoeject
+				. = TRUE
+			if("ejectbeaker")
+				if(beaker)
+					beaker.forceMove(drop_location())
+					if(Adjacent(usr) && !issilicon(usr))
+						usr.put_in_hands(beaker)
+					beaker = null
+					. = TRUE
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/can_interact(mob/user)
 	return ..() && user.loc != src
