@@ -49,7 +49,7 @@
 		skill_mod = WP_TACKLE_SKILL_MOD, \
 		min_distance = WP_TACKLE_MIN_DIST \
 	)
-
+	shifted_mob.add_movespeed_modifier(/datum/movespeed_modifier/werewolf_base)
 	shifted_mob.add_traits(werewolf_datum.transformed_traits, WEREWOLF_TRAIT)
 	shifted_mob.set_species(/datum/species/werewolf)
 
@@ -73,6 +73,7 @@
 	for(var/datum/action/cooldown/spell/power as anything in werewolf_datum.transformed_powers)
 		power.Remove(werewolf_datum.owner.current)
 
+	caster.remove_movespeed_modifier(/datum/movespeed_modifier/werewolf_base)
 	werewolf_datum.transformed = FALSE
 	werewolf_datum.werewolf_hunger += WEREWOLF_HUNGER_PER_TRANSFORM
 

@@ -84,6 +84,7 @@
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_freedom)
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_claws)
 	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_mark(src))
+	learn_transformed_power(new /datum/action/cooldown/spell/werewolf_rush)
 
 	werewolf_hud.show_hud(werewolf_hud.hud_version)
 

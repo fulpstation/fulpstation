@@ -34,6 +34,8 @@
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 
 /datum/species/werewolf
+	name = "Werewolf"
+	no_equip_flags = ITEM_SLOT_MASK | ITEM_SLOT_OCLOTHING | ITEM_SLOT_GLOVES | ITEM_SLOT_FEET | ITEM_SLOT_ICLOTHING | ITEM_SLOT_SUITSTORE | ITEM_SLOT_BELT | ITEM_SLOT_EARS | ITEM_SLOT_HEAD
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/werewolf,
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/werewolf,
@@ -42,3 +44,7 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/werewolf,
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/werewolf,
 	)
+
+
+/datum/movespeed_modifier/werewolf_base
+	multiplicative_slowdown = -0.30
