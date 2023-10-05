@@ -30,6 +30,11 @@
 		return
 	return ..()
 
+/datum/action/cooldown/spell/shapeshift/werewolf_transform/cast(mob/living/caster)
+	if(!werewolf_datum.transformed && HAS_TRAIT(caster, TRAIT_WOLFSBANE_AFFLICTED))
+		to_chat(caster, span_bolddanger("Something inside you has halted your transformation!"))
+		return
+	return ..()
 
 /datum/action/cooldown/spell/shapeshift/werewolf_transform/do_shapeshift(mob/living/carbon/caster)
 	if(caster.handcuffed || caster.legcuffed)

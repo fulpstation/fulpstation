@@ -1,6 +1,8 @@
 /datum/reagent/toxin/aconitine
 	name = "Aconitine"
 	description = "Also known as wolfsbane or monkshood, aconitine is a strong toxin derived from the Wolf's bane plant."
+	taste_description = "foul bitterness"
+	taste_mult = 3
 	toxpwr = 2.5
 	mass = 646
 	ph = 13
@@ -15,6 +17,9 @@
 	// Has special interactions with werewolves
 	if(IS_WEREWOLF(affected_mob))
 		if(istype(affected_mob, /mob/living/carbon/human/werewolf))
+			if(current_cycle == 5)
+				to_chat(affected_mob, span_danger("Your body feels like it's about to collapse in on itself!"))
+				affected_mob.set_jitter_if_lower(5 SECONDS)
 			if(current_cycle >= 10)
 				to_chat(affected_mob, span_bolddanger("Something has forcefully reverted your transformation!"))
 				werewolf_datum.revert_transformation()

@@ -3,7 +3,8 @@
 #define TRAIT_WEREWOLF_HUNTER "werewolf_hunter"
 /// Can detect werewolf dens
 #define TRAIT_STRONG_SNIFFER "trait_strong_sniffer"
-
+/// Has wolfsbane in their system
+#define TRAIT_WOLFSBANE_AFFLICTED "wolfsbane_afflicted"
 // Role defines
 #define ROLE_WEREWOLF "Werewolf"
 
