@@ -15,6 +15,9 @@
 #define WEREWOLF_UNARMED_WOUND_BONUS 2
 #define WEREWOLF_UNARMED_BARE_WOUND_BONUS 3
 
+#define BODYPART_ID_WEREWOLF "werewolf"
+
+
 /*
  * Power defines
 */

@@ -3,8 +3,8 @@
 	desc = "Transform into werewolf form"
 	button_icon_state = "power_human"
 	spell_requirements = NONE
-	shapeshift_type = /mob/living/carbon/human/werewolf
-	possible_shapes = list(/mob/living/carbon/human/werewolf)
+	shapeshift_type = /mob/living/carbon/werewolf
+	possible_shapes = list(/mob/living/carbon/werewolf)
 	var/show_to_player = TRUE
 	var/datum/antagonist/werewolf/werewolf_datum
 	cooldown_time = 2 SECONDS
