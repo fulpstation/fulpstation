@@ -404,7 +404,7 @@
 /obj/item/storage/box/halloween/special/gnomed
 	illustration = "pumpkin"
 	costume_contents = list(
-		/obj/item/clothing/under/costume_2020/gnome,
+		/obj/item/clothing/under/costume_2020/gnomed,
 		/obj/item/clothing/head/costume_2020/gnome,
 		/obj/item/clothing/suit/costume_2020/gnome,
 		/obj/item/clothing/shoes/costume_2020/gnome,
