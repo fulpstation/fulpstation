@@ -162,6 +162,9 @@
 	. = ..()
 	created_on = world.time
 
+	AddElement(/datum/element/contextual_screentip_bare_hands, lmb_text = "Jump into the tear")
+	AddComponent(/datum/component/redirect_attack_hand_from_turf)
+
 /obj/effect/client_image_holder/phobetor/Destroy()
 	if(linked_to)
 		linked_to.linked_to = null
@@ -202,23 +205,22 @@
 	if(user != seer || !linked_to)
 		return
 	if(!active)
-		user.balloon_alert(user, "Your connection to [src] is too faint to pass through it.")
+		user.balloon_alert(user, "the tear is too faint!")
 		return
-	if(user.loc != src.loc)
-		user.balloon_alert(user, "Step into the Tear before using it.")
+	if(!in_range(usr, src))
 		return
 	for(var/obj/item/implant/tracking/imp in user.implants)
 		if(imp)
-			user.balloon_alert(user, "[imp] gives you the sense that you're being watched.")
+			user.balloon_alert(user, "something is watching you from inside!")
 			return
 	// Is this, or linked, stream being watched?
 	if(check_location_seen(user, get_turf(user)))
-		user.balloon_alert(user, "Not while you're being watched.")
+		user.balloon_alert(user, "not while you're being watched!")
 		return
 	if(check_location_seen(user, get_turf(linked_to)))
-		user.balloon_alert(user, "Your destination is being watched.")
+		user.balloon_alert(user, "the other side is being watched!")
 		return
-	user.balloon_alert(user, "You slip unseen through [src].")
+	user.balloon_alert(user, "slip into the tear")
 
 	var/mob/living/carbon/carbon_user = user
 	var/user_sanity = user.mob_mood.sanity
