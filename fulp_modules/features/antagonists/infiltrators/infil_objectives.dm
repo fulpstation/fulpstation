@@ -149,7 +149,7 @@
 		/mob/living/basic/pet/dog/corgi/puppy/ian,
 		/mob/living/basic/pet/dog/pug/mcgriff,
 		/mob/living/basic/carp/pet/lia,
-		/mob/living/basic/giant_spider/sgt_araneus,
+		/mob/living/basic/spider/giant/sgt_araneus,
 		/mob/living/basic/pet/fox/renault,
  		/mob/living/simple_animal/pet/cat/runtime,
 		/mob/living/simple_animal/parrot/poly,
