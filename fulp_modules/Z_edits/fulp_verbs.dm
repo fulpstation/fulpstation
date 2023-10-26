@@ -1,6 +1,6 @@
 /world/AVerbsDefault()
-	var/list/verbs = ..()
-	verbs.Add(
+	var/list/admin_verbs = ..()
+	admin_verbs.Add(
 		/client/proc/reload_mentors,
 	)
-	return list
+	return admin_verbs
