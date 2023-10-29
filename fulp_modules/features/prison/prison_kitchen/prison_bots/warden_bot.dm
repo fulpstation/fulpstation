@@ -12,7 +12,8 @@
 	orderable_objects = list(
 		VENUE_RESTAURANT = list(
 			/obj/item/food/donut/plain = 8,
-			/obj/item/food/poutine = 6,
+			/obj/item/food/butterdog = 6,
+			/obj/item/food/poutine = 4,
 			/obj/item/food/pie/applepie = 4,
 			/obj/item/food/burger/cheese = 4,
 			/obj/item/food/eggsausage = 3,

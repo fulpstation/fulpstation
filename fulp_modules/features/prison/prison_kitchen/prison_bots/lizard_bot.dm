@@ -10,14 +10,14 @@
 	self_defense_line = "I al oh se ahoah!"
 	orderable_objects = list(
 		VENUE_RESTAURANT = list(
-			/obj/item/food/grown/korta_nut = 5,
-			/obj/item/food/black_eggs = 4,
-			/obj/item/food/lizard_dumplings = 4,
+			/obj/item/food/black_eggs = 5,
+			/obj/item/food/lizard_dumplings = 5,
 			/obj/item/food/breadslice/root = 4,
 			/obj/item/food/bread/root = 3,
 			/obj/item/food/sauerkraut = 3,
 			/obj/item/food/patzikula = 3,
 			/obj/item/food/nectar_larvae = 2,
+			/obj/item/food/tiziran_sausage = 2,
 		),
 	)
 	found_seat_lines = list(
