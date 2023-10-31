@@ -405,7 +405,7 @@
 	illustration = "pumpkin"
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2020/gnome,
-		/obj/item/clothing/head/costume_2020/gnome,
+		/obj/item/clothing/head/costume_2020/gnome/gnomed,
 		/obj/item/clothing/suit/costume_2020/gnome,
 		/obj/item/clothing/shoes/costume_2020/gnome,
 	)
