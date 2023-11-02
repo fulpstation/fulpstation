@@ -1,7 +1,10 @@
 ///prototype for mining mobs
 /mob/living/basic/mining
+	icon = 'icons/mob/simple/lavaland/lavaland_monsters.dmi'
 	combat_mode = TRUE
+	status_flags = NONE //don't inherit standard basicmob flags
 	mob_size = MOB_SIZE_LARGE
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	faction = list(FACTION_MINING)
 	unsuitable_atmos_damage = 0
 	minimum_survivable_temperature = 0

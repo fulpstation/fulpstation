@@ -227,10 +227,10 @@
 /obj/structure/blob/zap_act(power, zap_flags)
 	if(overmind)
 		if(overmind.blobstrain.tesla_reaction(src, power))
-			take_damage(power * 0.0025, BURN, ENERGY)
+			take_damage(power * 3.125e-6, BURN, ENERGY)
 	else
-		take_damage(power * 0.0025, BURN, ENERGY)
-	power -= power * 0.0025 //You don't get to do it for free
+		take_damage(power * 3.125e-6, BURN, ENERGY)
+	power -= power * 2.5e-3 //You don't get to do it for free
 	return ..() //You don't get to do it for free
 
 /obj/structure/blob/extinguish()
@@ -293,7 +293,6 @@
 			damage_amount *= brute_resist
 		if(BURN)
 			damage_amount *= fire_resist
-		if(CLONE)
 		else
 			return 0
 	var/armor_protection = 0

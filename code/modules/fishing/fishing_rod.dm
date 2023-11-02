@@ -70,6 +70,20 @@
 	//Remove any leftover fishing lines
 	QDEL_LIST(fishing_lines)
 
+/obj/item/fishing_rod/examine(mob/user)
+	. = ..()
+	. += "<b>Right-Click</b> in your active hand to access its slots UI"
+	var/list/equipped_stuff = list()
+	if(line)
+		equipped_stuff += "[icon2html(line, user)] <b>[line.name]</b>"
+	if(hook)
+		equipped_stuff += "[icon2html(hook, user)] <b>[hook.name]</b>"
+	if(length(equipped_stuff))
+		. += span_notice("It has \a [english_list(equipped_stuff)] equipped.")
+	if(bait)
+		. += span_notice("\a [icon2html(bait, user)] <b>[bait]</b> is being used as bait.")
+	else
+		. += span_warning("It doesn't have any bait attached. Fishing will be more tedious!")
 
 /**
  * Catch weight modifier for the given fish_type (or FISHING_DUD)
@@ -103,11 +117,18 @@
 /obj/item/fishing_rod/proc/reason_we_cant_fish(datum/fish_source/target_fish_source)
 	return hook?.reason_we_cant_fish(target_fish_source)
 
-
-/obj/item/fishing_rod/proc/consume_bait()
-	if(bait)
-		QDEL_NULL(bait)
-		update_icon()
+/obj/item/fishing_rod/proc/consume_bait(atom/movable/reward)
+	// catching things that aren't fish or alive mobs doesn't consume baits.
+	if(isnull(reward) || isnull(bait))
+		return
+	if(isliving(reward))
+		var/mob/living/caught_mob = reward
+		if(caught_mob.stat == DEAD)
+			return
+	else if(!isfish(reward))
+		return
+	QDEL_NULL(bait)
+	update_icon()
 
 /obj/item/fishing_rod/interact(mob/user)
 	if(currently_hooked_item)
@@ -139,7 +160,7 @@
 	if(!istype(user))
 		return
 	var/beam_color = line?.line_color || default_line_color
-	var/datum/beam/fishing_line/fishing_line_beam = new(user, target, icon_state = "fishing_line", beam_color = beam_color, override_target_pixel_y = target_py)
+	var/datum/beam/fishing_line/fishing_line_beam = new(user, target, icon_state = "fishing_line", beam_color = beam_color,  emissive = FALSE, override_target_pixel_y = target_py)
 	fishing_line_beam.lefthand = user.get_held_index_of_item(src) % 2 == 1
 	RegisterSignal(fishing_line_beam, COMSIG_BEAM_BEFORE_DRAW, PROC_REF(check_los))
 	RegisterSignal(fishing_line_beam, COMSIG_QDELETING, PROC_REF(clear_line))
@@ -190,7 +211,7 @@
 	SIGNAL_HANDLER
 	. = NONE
 
-	if(!CheckToolReach(src, source.target, cast_range))
+	if(!isturf(source.origin.loc) || !isturf(source.target.loc) || !CheckToolReach(src, source.target, cast_range))
 		SEND_SIGNAL(source, COMSIG_FISHING_LINE_SNAPPED) //Stepped out of range or los interrupted
 		return BEAM_CANCEL_DRAW
 
@@ -250,16 +271,15 @@
 	var/line_color = line?.line_color || default_line_color
 	/// Line part by the rod, always visible
 	var/mutable_appearance/reel_appearance = mutable_appearance(icon, reel_overlay)
-	reel_appearance.color = line_color;
+	reel_appearance.color = line_color
 	. += reel_appearance
 
 	// Line & hook is also visible when only bait is equipped but it uses default appearances then
 	if(hook || bait)
 		var/mutable_appearance/line_overlay = mutable_appearance(icon, "line_overlay")
-		line_overlay.color = line_color;
+		line_overlay.color = line_color
 		. += line_overlay
-		var/mutable_appearance/hook_overlay = mutable_appearance(icon, hook?.rod_overlay_icon_state || "hook_overlay")
-		. += hook_overlay
+		. += hook?.rod_overlay_icon_state || "hook_overlay"
 
 	if(bait)
 		var/bait_state = "worm_overlay" //default to worm overlay for anything without specific one
@@ -338,7 +358,7 @@
 			if(!istype(item,/obj/item/fishing_line))
 				return FALSE
 		if(ROD_SLOT_BAIT)
-			if(!HAS_TRAIT(item, FISHING_BAIT_TRAIT))
+			if(!HAS_TRAIT(item, TRAIT_FISHING_BAIT))
 				return FALSE
 	return TRUE
 
@@ -428,6 +448,7 @@
 	category = CAT_TOOLS
 
 /obj/item/fishing_rod/telescopic
+	name = "telescopic fishing rod"
 	icon_state = "fishing_rod_telescopic"
 	desc = "A lightweight, ergonomic, easy to store telescopic fishing rod. "
 	inhand_icon_state = null
@@ -494,7 +515,7 @@
 	name = "master fishing rod"
 	desc = "The mythical rod of a lost fisher king. Said to be imbued with un-paralleled fishing power. There's writing on the back of the pole. \"中国航天制造\""
 	difficulty_modifier = -10
-	ui_description = "This rods makes fishing easy even for an absolute beginner."
+	ui_description = "This rod makes fishing easy even for an absolute beginner."
 	icon_state = "fishing_rod_master"
 	reel_overlay = "reel_master"
 	active_force = 13 //It's that sturdy
@@ -512,7 +533,7 @@
 	bait = infinite_supply_of_bait
 	update_icon()
 
-/obj/item/fishing_rod/tech/consume_bait()
+/obj/item/fishing_rod/tech/consume_bait(atom/movable/reward)
 	return
 
 /obj/item/fishing_rod/tech/use_slot(slot, mob/user, obj/item/new_item)
@@ -556,6 +577,31 @@
 	// Is the fishing rod held in left side hand
 	var/lefthand = FALSE
 
+	// Make these inline with final sprites
+	var/righthand_s_px = 13
+	var/righthand_s_py = 16
+
+	var/righthand_e_px = 18
+	var/righthand_e_py = 16
+
+	var/righthand_w_px = -20
+	var/righthand_w_py = 18
+
+	var/righthand_n_px = -14
+	var/righthand_n_py = 16
+
+	var/lefthand_s_px = -13
+	var/lefthand_s_py = 15
+
+	var/lefthand_e_px = 24
+	var/lefthand_e_py = 18
+
+	var/lefthand_w_px = -17
+	var/lefthand_w_py = 16
+
+	var/lefthand_n_px = 13
+	var/lefthand_n_py = 15
+
 /datum/beam/fishing_line/Start()
 	update_offsets(origin.dir)
 	. = ..()
@@ -584,29 +630,3 @@
 		if(NORTH)
 			override_origin_pixel_x = lefthand ? lefthand_n_px : righthand_n_px
 			override_origin_pixel_y = lefthand ? lefthand_n_py : righthand_n_py
-
-// Make these inline with final sprites
-/datum/beam/fishing_line
-	var/righthand_s_px = 13
-	var/righthand_s_py = 16
-
-	var/righthand_e_px = 18
-	var/righthand_e_py = 16
-
-	var/righthand_w_px = -20
-	var/righthand_w_py = 18
-
-	var/righthand_n_px = -14
-	var/righthand_n_py = 16
-
-	var/lefthand_s_px = -13
-	var/lefthand_s_py = 15
-
-	var/lefthand_e_px = 24
-	var/lefthand_e_py = 18
-
-	var/lefthand_w_px = -17
-	var/lefthand_w_py = 16
-
-	var/lefthand_n_px = 13
-	var/lefthand_n_py = 15

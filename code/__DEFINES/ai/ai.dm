@@ -22,16 +22,16 @@
 #define AI_BEHAVIOR_MOVE_AND_PERFORM (1<<2)
 ///Does finishing this task not null the current movement target?
 #define AI_BEHAVIOR_KEEP_MOVE_TARGET_ON_FINISH (1<<3)
-///Does finishing this task make the AI stop moving towards the target?
-#define AI_BEHAVIOR_KEEP_MOVING_TOWARDS_TARGET_ON_FINISH (1<<4)
 ///Does this behavior NOT block planning?
-#define AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION (1<<5)
+#define AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION (1<<4)
 
 ///AI flags
 /// Don't move if being pulled
 #define STOP_MOVING_WHEN_PULLED (1<<0)
 /// Continue processing even if dead
-#define CAN_ACT_WHILE_DEAD	(1<<1)
+#define CAN_ACT_WHILE_DEAD (1<<1)
+/// Stop processing while in a progress bar
+#define PAUSE_DURING_DO_AFTER (1<<2)
 
 //Base Subtree defines
 

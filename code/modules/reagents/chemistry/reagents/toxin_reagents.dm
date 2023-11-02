@@ -11,6 +11,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	///The amount of toxin damage this will cause when metabolized (also used to calculate liver damage)
 	var/toxpwr = 1.5
+	///The amount to multiply the liver damage this toxin does by (Handled solely in liver code)
+	var/liver_damage_multiplier = 1
 	///won't produce a pain message when processed by liver/life() if there isn't another non-silent toxin present if true
 	var/silent_toxin = FALSE
 	///The afflicted must be above this health value in order for the toxin to deal damage
@@ -62,8 +64,8 @@
 		exposed_mob.domutcheck()
 
 /datum/reagent/toxin/mutagen/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
-	affected_mob.adjustToxLoss(0.5 * seconds_per_tick * REM, required_biotype = affected_biotype)
-	return ..()
+	. = affected_mob.adjustToxLoss(0.5 * seconds_per_tick * REM, required_biotype = affected_biotype)
+	return ..() || . 
 
 /datum/reagent/toxin/mutagen/on_hydroponics_apply(obj/machinery/hydroponics/mytray, mob/user)
 	mytray.mutation_roll(user)
@@ -511,7 +513,8 @@
 		if(51 to INFINITY)
 			affected_mob.Sleeping(40 * REM * seconds_per_tick)
 			affected_mob.adjustToxLoss(1 * (current_cycle - 50) * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
-	return ..()
+			. = TRUE
+	return ..() || .
 
 /datum/reagent/toxin/coffeepowder
 	name = "Coffee Grounds"
@@ -557,7 +560,7 @@
 /datum/reagent/toxin/mutetoxin/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	// Gain approximately 12 seconds * creation purity seconds of silence every metabolism tick.
 	affected_mob.set_silence_if_lower(6 SECONDS * REM * normalise_creation_purity() * seconds_per_tick)
-	..()
+	return ..()
 
 /datum/reagent/toxin/staminatoxin
 	name = "Tirizene"
@@ -588,8 +591,8 @@
 		affected_mob.AddComponent(/datum/component/irradiated)
 	else
 		affected_mob.adjustToxLoss(1 * REM * seconds_per_tick, required_biotype = affected_biotype)
-
-	..()
+		. = TRUE
+	return ..() || .
 
 /datum/reagent/toxin/histamine
 	name = "Histamine"
@@ -902,9 +905,10 @@
 /datum/reagent/toxin/lipolicide/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	if(affected_mob.nutrition <= NUTRITION_LEVEL_STARVING)
 		affected_mob.adjustToxLoss(1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
+		. = TRUE
 	affected_mob.adjust_nutrition(-3 * REM * normalise_creation_purity() * seconds_per_tick) // making the chef more valuable, one meme trap at a time
 	affected_mob.overeatduration = 0
-	return ..()
+	return ..() || .
 
 /datum/reagent/toxin/coniine
 	name = "Coniine"
@@ -934,7 +938,12 @@
 /datum/reagent/toxin/spewium/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	.=..()
 	if(current_cycle >= 11 && SPT_PROB(min(30, current_cycle), seconds_per_tick))
-		affected_mob.vomit(10, prob(10), prob(50), rand(0,4), TRUE)
+		var/constructed_flags = (MOB_VOMIT_MESSAGE | MOB_VOMIT_HARM)
+		if(prob(10))
+			constructed_flags |= MOB_VOMIT_BLOOD
+		if(prob(50))
+			constructed_flags |= MOB_VOMIT_STUN
+		affected_mob.vomit(vomit_flags = constructed_flags, distance = rand(0,4))
 		for(var/datum/reagent/toxin/R in affected_mob.reagents.reagent_list)
 			if(R != src)
 				affected_mob.reagents.remove_reagent(R.type,1)
@@ -943,7 +952,7 @@
 	. = ..()
 	if(current_cycle >= 33 && SPT_PROB(7.5, seconds_per_tick))
 		affected_mob.spew_organ()
-		affected_mob.vomit(0, TRUE, TRUE, 4)
+		affected_mob.vomit(VOMIT_CATEGORY_BLOOD, lost_nutrition = 0, distance = 4)
 		to_chat(affected_mob, span_userdanger("You feel something lumpy come up as you vomit."))
 
 /datum/reagent/toxin/curare
@@ -1191,7 +1200,7 @@
 				affected_mob.manual_emote(pick("oofs silently.", "looks like [affected_mob.p_their()] bones hurt.", "grimaces, as though [affected_mob.p_their()] bones hurt."))
 			if(3)
 				to_chat(affected_mob, span_warning("Your bones hurt!"))
-	return ..()
+	return ..() || TRUE
 
 /datum/reagent/toxin/bonehurtingjuice/overdose_process(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	if(SPT_PROB(2, seconds_per_tick) && iscarbon(affected_mob)) //big oof
@@ -1245,21 +1254,23 @@
 /datum/reagent/toxin/leadacetate/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	affected_mob.adjustOrganLoss(ORGAN_SLOT_EARS, 1 * REM * seconds_per_tick)
 	affected_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, 1 * REM * seconds_per_tick)
+	. = TRUE
 	if(SPT_PROB(0.5, seconds_per_tick))
 		to_chat(affected_mob, span_notice("Ah, what was that? You thought you heard something..."))
 		affected_mob.adjust_confusion(5 SECONDS)
-	return ..()
-
+	return ..() || .
 /datum/reagent/toxin/hunterspider
 	name = "Spider Toxin"
 	description = "A toxic chemical produced by spiders to weaken prey."
 	health_required = 40
+	liver_damage_multiplier = 0
 
 /datum/reagent/toxin/viperspider
 	name = "Viper Spider Toxin"
 	toxpwr = 5
 	description = "An extremely toxic chemical produced by the rare viper spider. Brings their prey to the brink of death and causes hallucinations."
 	health_required = 10
+	liver_damage_multiplier = 0
 
 /datum/reagent/toxin/viperspider/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	affected_mob.adjust_hallucinations(10 SECONDS * REM * seconds_per_tick)

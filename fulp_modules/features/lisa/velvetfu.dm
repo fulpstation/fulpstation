@@ -144,7 +144,7 @@
 	A.adjustStaminaLoss(50)
 	if(prob(70))
 		var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
-		var/datum/wound/slash/moderate/crit_wound = new
+		var/datum/wound/slash/flesh/moderate/crit_wound = new
 		crit_wound.apply_wound(limb)
 	D.apply_damage(15, A.get_attack_type(), wound_bonus = CANT_WOUND)
 	playsound(get_turf(A), 'sound/weapons/slice.ogg', 50, TRUE, -1)
@@ -201,7 +201,7 @@
 	to_chat(A, span_danger("You swiftly and repeatedly slash at [D], truly a master attack!"))
 	A.adjustStaminaLoss(80)
 	var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
-	var/datum/wound/slash/moderate/crit_wound = new
+	var/datum/wound/slash/flesh/moderate/crit_wound = new
 	crit_wound.apply_wound(limb)
 	D.apply_damage(30, A.get_attack_type(), wound_bonus = CANT_WOUND)
 	playsound(get_turf(A), 'sound/weapons/bladeslice.ogg', 50, TRUE, -1)
