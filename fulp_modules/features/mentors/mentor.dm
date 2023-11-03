@@ -74,4 +74,20 @@ GLOBAL_PROTECT(mentor_href_token)
 		if(findtextEx(line, "#", 1, 2))
 			continue
 		new /datum/mentors(line)
+	for(var/client/admin in GLOB.admins)
+		admin.mentor_datum_set()
 
+/client/proc/reload_mentors()
+	set name = "Reload Mentors"
+	set category = "Mentor"
+
+	if(!src.holder)
+		return
+
+	var/confirm = tgui_alert(usr, "Are you sure you want to reload all mentors?", "Confirm", list("Yes", "No"))
+	if(confirm != "Yes")
+		return
+
+	load_mentors()
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Reload All Mentors") // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
+	message_admins("[key_name_admin(usr)] manually reloaded mentors")
