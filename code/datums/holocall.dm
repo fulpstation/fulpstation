@@ -269,9 +269,9 @@
 		switch(command)
 			if("DELAY")
 				var/delay_value = text2num(value)
-				if(!delay_value)
+				if(!isnum(delay_value))
 					continue
-				record.entries += list(list(HOLORECORD_DELAY,delay_value))
+				record.entries += list(list(HOLORECORD_DELAY, min(0.5 SECONDS, delay_value)))
 			if("NAME")
 				if(!record.caller_name)
 					record.caller_name = value
