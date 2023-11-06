@@ -111,6 +111,7 @@
 		update_appearance(UPDATE_ICON)
 
 	AddElement(/datum/element/empprotection, EMP_PROTECT_WIRES)
+	RegisterSignal(src, COMSIG_RADIO_NEW_MESSAGE, PROC_REF(new_message))
 
 /obj/item/radio/Destroy()
 	remove_radio_all(src) //Just to be sure
@@ -264,6 +265,10 @@
 		language = talking_movable.get_selected_language()
 	INVOKE_ASYNC(src, PROC_REF(talk_into_impl), talking_movable, message, channel, spans.Copy(), language, message_mods)
 	return ITALICS | REDUCE_RANGE
+
+/obj/item/radio/proc/new_message(datum/source, mob/living/user, message, channel)
+	SIGNAL_HANDLER
+	return COMPONENT_CANNOT_USE_RADIO
 
 /obj/item/radio/proc/talk_into_impl(atom/movable/talking_movable, message, channel, list/spans, datum/language/language, list/message_mods)
 	if(!on)
