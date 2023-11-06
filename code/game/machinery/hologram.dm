@@ -853,12 +853,20 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	var/mob/living/Impersonation
 	var/datum/holocall/HC
 
+/obj/effect/overlay/holo_pad_hologram/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_MOVABLE_USING_RADIO, PROC_REF(on_using_radio))
+
 /obj/effect/overlay/holo_pad_hologram/Destroy()
 	Impersonation = null
 	if(!QDELETED(HC))
 		HC.Disconnect(HC.calling_holopad)
 	HC = null
 	return ..()
+
+///Holopads can't use radios.
+/obj/effect/overlay/holo_pad_hologram/proc/on_using_radio(atom/movable/source, obj/item/radio/radio)
+	return COMPONENT_CANNOT_USE_RADIO
 
 /obj/effect/overlay/holo_pad_hologram/Process_Spacemove(movement_dir = 0, continuous_move = FALSE)
 	return TRUE
