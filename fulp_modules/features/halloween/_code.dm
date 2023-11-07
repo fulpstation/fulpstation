@@ -1,4 +1,4 @@
-GLOBAL_LIST_EMPTY(halloween_gifts)
+GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 
 /proc/populate_halloween_gifts()
 	var/list/valid_gifts = subtypesof(/obj/item/storage/box/halloween)
