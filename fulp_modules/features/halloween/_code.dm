@@ -115,6 +115,4 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 	if(!GLOB.halloween_gifts.len)
 		populate_halloween_gifts()
 
-	var/gift_type = pick(GLOB.halloween_gifts)
-
-	return gift_type
+	return pick(GLOB.halloween_gifts)
