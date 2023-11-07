@@ -3,7 +3,7 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 /proc/populate_halloween_gifts()
 	var/list/valid_gifts = subtypesof(/obj/item/storage/box/halloween)
 	for(var/obj/item/storage/box/halloween/halloween_box as anything in valid_gifts)
-		if(!initial(halloween_boxes.theme_name))
+		if(!initial(halloween_box.theme_name))
 			valid_gifts -= halloween_box
 
 	GLOB.halloween_gifts = valid_gifts
