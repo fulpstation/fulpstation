@@ -15,7 +15,7 @@
 			/datum/reagent/consumable/nutriment/soup/hotchili = 3,
 			/obj/item/food/nugget = 4,
 			/datum/reagent/consumable/nutriment/soup/miso = 4,
-			/obj/item/food/grilled_cheese_sandwich = 3,
+			/obj/item/food/sandwich/cheese/grilled = 3,
 			/obj/item/food/spaghetti/boiledspaghetti = 3,
 			/obj/item/food/eggsausage = 3,
 			/obj/item/food/burger/plain = 1,

@@ -14,7 +14,7 @@
 			/obj/item/food/donut/plain = 6,
 			/obj/item/food/burger/superbite = 6,
 			/obj/item/food/pizza/vegetable = 5,
-			/obj/item/food/grilled_cheese_sandwich = 5,
+			/obj/item/food/sandwich/cheese/grilled = 5,
 			/obj/item/food/pancakes = 5,
 			/obj/item/food/spaghetti/butternoodles = 4,
 			/obj/item/food/meatbun = 4,
