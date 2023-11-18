@@ -32,11 +32,6 @@
 	creator_icon = "standard"
 	playstyle_string = span_holoparasite("As a <b>time manipulation</b> type you can stop time and you have a damage multiplier instead of armor as-well as powerful melee attacks capable of smashing through walls.")
 
-/mob/living/basic/guardian/standard/timestop/Initialize(mapload, theme)
-	//Wizard Holoparasite theme, just to be more visibly stronger than regular ones
-	theme = GUARDIAN_THEME_MAGIC
-	return ..()
-
 /mob/living/basic/guardian/standard/timestop/set_summoner(mob/living/to_who, different_person = FALSE)
 	. = ..()
 	var/datum/action/cooldown/spell/timestop/guardian/timestop_ability = new()
