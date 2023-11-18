@@ -1,16 +1,14 @@
 ## List of all TG edits:
 
-- README.md > Replaces it with our own readme
+- code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
-- code/modules/unit_tests/simple_animal_freeze.dm > Adds our fulp-related mobs so that they are ignored by the test.
+- README.md > Replaces it with our own readme
 
 - tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
-
-- code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
 
 ## All Fulp files not contained within /fulp_modules/
 

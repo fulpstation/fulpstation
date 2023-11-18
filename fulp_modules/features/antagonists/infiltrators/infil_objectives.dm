@@ -151,10 +151,12 @@
 		/mob/living/basic/carp/pet/lia,
 		/mob/living/basic/spider/giant/sgt_araneus,
 		/mob/living/basic/pet/fox/renault,
- 		/mob/living/simple_animal/pet/cat/runtime,
+		/mob/living/basic/sloth/paperwork,
+		/mob/living/basic/sloth/citrus,
+
+		// le sad simple animals (let's kill them)
+		/mob/living/simple_animal/pet/cat/runtime,
 		/mob/living/simple_animal/parrot/poly,
-		/mob/living/simple_animal/sloth/paperwork,
-		/mob/living/simple_animal/sloth/citrus,
  	)
 
 	remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective

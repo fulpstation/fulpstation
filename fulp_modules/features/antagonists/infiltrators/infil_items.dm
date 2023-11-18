@@ -83,7 +83,7 @@
 		/obj/item/grenade/syndieminibomb,
 		/obj/item/grenade/c4/x4,
 		/obj/item/pen/edagger,
-		/obj/item/guardiancreator/tech/choose/traitor,
+		/obj/item/guardian_creator/tech,
 		/obj/item/jammer,
 		/obj/item/reagent_containers/hypospray/medipen/stimulants,
 		/obj/item/storage/box/syndie_kit/imp_stealth,
@@ -239,7 +239,7 @@
 		var/list/mob/dead/observer/candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
 		if(LAZYLEN(candidates))
 			chosen_ghost = pick(candidates)
-	var/mob/living/simple_animal/hostile/gorilla/albino/ape = new(get_turf(man))
+	var/mob/living/basic/gorilla/albino/ape = new(get_turf(man))
 	if(chosen_ghost)
 		if(chosen_ghost.mind)
 			chosen_ghost.mind.transfer_to(ape,  force_key_move = TRUE)
