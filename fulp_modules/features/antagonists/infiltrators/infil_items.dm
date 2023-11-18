@@ -76,6 +76,8 @@
 	var/objectives_complete = FALSE
 	///List of objectives we have already checked
 	var/list/checked_objectives = list()
+	///final objective picked
+	var/datum/final_objective/final_objective
 	///Pool of rewards
 	var/reward_items = list(
 		/obj/item/card/emag,
@@ -88,8 +90,6 @@
 		/obj/item/reagent_containers/hypospray/medipen/stimulants,
 		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
-	///final objective picked
-	var/datum/final_objective/final
 
 /obj/item/infiltrator_radio/Initialize(mapload)
 	. = ..()
@@ -100,8 +100,7 @@
 	var/list/obj = list()
 	for(var/objectives in subtypesof(/datum/final_objective))
 		obj += new objectives
-	final = pick(obj)
-
+	final_objective = pick(obj)
 
 /obj/item/infiltrator_radio/proc/check_reward_status(mob/living/user)
 	for(var/datum/objective/goal in user.mind.get_all_objectives())
@@ -124,7 +123,7 @@
 	if(checked_objectives.len == bitch.len)
 		objectives_complete = TRUE
 		var/datum/objective/reward_obj
-		reward_obj = new final.objective
+		reward_obj = new final_objective.objective
 		reward_obj.owner = user.mind
 		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 		if(!terrorist)
@@ -151,7 +150,7 @@
 	var/list/data = list()
 	data["check"] = check_reward_status(user)
 	data["completed"] = objectives_complete
-	data["final"] = final.description
+	data["final"] = final_objective.description
 	return data
 
 /obj/item/infiltrator_radio/ui_act(action, params)
@@ -425,7 +424,13 @@
 	var/obj/structure/cyborg_rift/rift = new /obj/structure/cyborg_rift(location)
 	rift.owner = terrorist.real_name
 	playsound(rift, 'sound/vehicles/rocketlaunch.ogg', 100, TRUE)
-	notify_ghosts("An infiltrator has opened a cyborg rift!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Cyborg rift Opened")
+	notify_ghosts(
+		message = "An Infiltrator has opened a Cyborg rift!",
+		source = rift,
+		action = NOTIFY_ORBIT,
+		notify_flags = NOTIFY_CATEGORY_NOFLASH,
+		header = "Cyborg Rift opened",
+	)
 	var/datum/antagonist/traitor/infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
 	if(!infil)
 		return

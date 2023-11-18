@@ -388,7 +388,7 @@
 		return
 	var/obj/item/bodypart/affecting = beefboy.get_bodypart(check_zone(target_zone))
 	if(!(target_zone in tearable_limbs))
-		return ..()
+		return
 	if(affecting && (!(target_zone == BODY_ZONE_PRECISE_MOUTH) || beefboy.get_organ_by_type(/obj/item/organ/internal/tongue)))
 		return
 	attacker.visible_message(
