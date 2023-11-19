@@ -1,4 +1,4 @@
-/datum/antagonist/traitor/infiltrator/forge_traitor_objectives()
+/datum/antagonist/traitor/fulp_infiltrator/forge_traitor_objectives()
 	if(!employer)
 		return
 	switch(employer)
@@ -45,7 +45,7 @@
 
 			var/mob/living/carbon/human/infil = owner.current
 			var/obj/item/gorilla_serum/serum = infil.l_store
-			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/infiltrator))
+			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator))
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			for(var/i = 0, i < rand(3,5) , i++)
@@ -81,7 +81,7 @@
 			objectives += wormhole
 
 
-/datum/antagonist/traitor/infiltrator/forge_ending_objective()
+/datum/antagonist/traitor/fulp_infiltrator/forge_ending_objective()
 	return
 
 

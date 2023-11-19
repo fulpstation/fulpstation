@@ -1,7 +1,7 @@
 /datum/dynamic_ruleset/midround/from_ghosts/infiltrator
 	name = "Infiltrator"
 	midround_ruleset_style = MIDROUND_RULESET_STYLE_LIGHT
-	antag_datum = /datum/antagonist/traitor/infiltrator
+	antag_datum = /datum/antagonist/traitor/fulp_infiltrator
 	antag_flag = ROLE_INFILTRATOR
 	enemy_roles = list(
 		JOB_CAPTAIN,
@@ -34,7 +34,7 @@
 
 	var/mob/living/carbon/human/infiltrator = new (pick(spawn_locs))
 	player_mind.transfer_to(infiltrator)
-	player_mind.add_antag_datum(/datum/antagonist/traitor/infiltrator)
+	player_mind.add_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 
 	message_admins("[ADMIN_LOOKUPFLW(infiltrator)] has been made into an infiltrator by the midround ruleset.")
 	log_game("DYNAMIC: [key_name(infiltrator)] was spawned as an infiltrator by the midround ruleset.")

@@ -125,7 +125,7 @@
 		var/datum/objective/reward_obj
 		reward_obj = new final_objective.objective
 		reward_obj.owner = user.mind
-		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+		var/datum/antagonist/traitor/fulp_infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 		if(!terrorist)
 			return
 		for(var/datum/objective/obj in terrorist.objectives)
@@ -137,7 +137,7 @@
 
 
 /obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)
-	if(!isobserver(user) && !user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator))
+	if(!isobserver(user) && !user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator))
 		to_chat(user, span_warning("The interface is covered with strange unintelligible encrypted symbols."))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -219,7 +219,7 @@
 	if(used)
 		to_chat(user, span_notice("[src] has been already used, you can't activate it again!"))
 		return
-	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!criminal)
 		to_chat(user, span_notice("You don't understand how this injector works."))
 		return
@@ -291,7 +291,7 @@
 	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
 	hack_card.use_charge(user)
 	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
-	var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!terrorist)
 		return
 	var/datum/objective/cyborg_hack/terrorism = locate() in terrorist.objectives
@@ -366,7 +366,7 @@
 			used = TRUE
 			var/datum/round_event_control/missilegalore/missiles = new
 			missiles.run_event()
-			var/datum/antagonist/traitor/infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+			var/datum/antagonist/traitor/fulp_infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 			if(!terrorist)
 				return
 			var/datum/objective/missiles/terrorism = locate() in terrorist.objectives
@@ -431,7 +431,7 @@
 		notify_flags = NOTIFY_CATEGORY_NOFLASH,
 		header = "Cyborg Rift opened",
 	)
-	var/datum/antagonist/traitor/infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!infil)
 		return
 	var/datum/objective/summon_wormhole/objective = locate() in infil.objectives
@@ -531,7 +531,7 @@
 /obj/item/antag_spawner/nuke_ops/infiltrator_backup/attack_self(mob/user)
 	if(used)
 		return
-	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!criminal)
 		return
 	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
@@ -559,7 +559,7 @@
 
 	antag_datum = new /datum/antagonist/infiltrator_backup
 	var/datum/antagonist/infiltrator_backup/datum = antag_datum
-	var/datum/antagonist/traitor/infiltrator/criminal = user.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/criminal = user.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	datum.purchaser = criminal
 	infil_mind.add_antag_datum(datum)
 	infil.forceMove(pod)
