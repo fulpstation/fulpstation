@@ -1,11 +1,3 @@
-/obj/machinery/barsign
-	icon = 'fulp_modules/features/barsigns/icons/barsigns.dmi' //'icons/obj/machines/barsigns.dmi'
-
-/// Redirect our barsigns to use OUR .dmi file instead.
-/obj/machinery/barsign/set_sign(datum/barsign/sign)
-	. = ..()
-	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/machines/barsigns.dmi'
-
 /**
  * So what exactly is going on here?
  *
@@ -17,6 +9,12 @@
  *
  * Of course, none of this would be needed if it weren't for TG hardcoding everything, and it would mean Ci actually matters. Sucks to suck.
  */
+/obj/machinery/barsign
+	icon = 'fulp_modules/features/barsigns/icons/barsigns.dmi' //'icons/obj/machines/barsigns.dmi'
+
+/obj/machinery/barsign/update_icon(updates=ALL)
+	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/machines/barsigns.dmi'
+	return ..()
 
 /// Adds the var to change the .dmi file used for barsigns.
 /datum/barsign
