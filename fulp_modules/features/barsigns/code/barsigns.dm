@@ -12,9 +12,10 @@
 /obj/machinery/barsign
 	icon = 'fulp_modules/features/barsigns/icons/barsigns.dmi' //'icons/obj/machines/barsigns.dmi'
 
-/obj/machinery/barsign/update_icon(updates=ALL)
+/// Redirect our barsigns to use OUR .dmi file instead.
+/obj/machinery/barsign/set_sign(datum/barsign/sign)
+	. = ..()
 	icon = sign.fulpbarsign ? 'fulp_modules/features/barsigns/icons/barsigns.dmi' : 'icons/obj/machines/barsigns.dmi'
-	return ..()
 
 /// Adds the var to change the .dmi file used for barsigns.
 /datum/barsign
