@@ -2044,10 +2044,6 @@
 "air" = (
 /obj/machinery/recharge_station,
 /obj/effect/turf_decal/bot,
-/obj/machinery/button/door/directional/north{
-	id = "Equipment Room";
-	name = "Space Shutters Control"
-	},
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "ais" = (
@@ -12368,6 +12364,18 @@
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
 /area/station/cargo/sorting)
+"aWA" = (
+/obj/machinery/computer/mech_bay_power_console,
+/obj/effect/turf_decal/bot,
+/obj/effect/turf_decal/tile/red/half/contrasted,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/obj/machinery/camera/directional/north{
+	c_tag = "Security Mech Bay"
+	},
+/turf/open/floor/iron/dark,
+/area/station/security/mechbay)
 "aWG" = (
 /obj/machinery/door_buttons/airlock_controller{
 	idExterior = "virology_airlock_exterior";
@@ -26983,6 +26991,7 @@
 	c_tag = "Brig Equipment Room"
 	},
 /obj/structure/cable,
+/obj/machinery/newscaster/directional/north,
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "cnN" = (
@@ -27009,6 +27018,10 @@
 /area/station/security/lockers)
 "cnV" = (
 /obj/structure/punching_bag,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "cnX" = (
@@ -28763,6 +28776,18 @@
 /obj/machinery/bookbinder,
 /turf/open/floor/iron/dark,
 /area/station/service/library)
+"cAI" = (
+/obj/machinery/door/poddoor/shutters{
+	dir = 8;
+	id = "secmechbay";
+	name = "Security Mech Bay Shutters"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "cAK" = (
 /turf/open/floor/iron/dark,
 /area/station/service/library)
@@ -30578,6 +30603,20 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/drone_bay)
+"ecV" = (
+/obj/machinery/door/poddoor/shutters{
+	dir = 8;
+	id = "secmechbay";
+	name = "Security Mech Bay Shutters"
+	},
+/obj/machinery/button/door/directional/north{
+	id = "secmechbay";
+	name = "Security Mech Garage Door Controls";
+	req_access = list("security")
+	},
+/obj/structure/cable,
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "edl" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -30694,6 +30733,14 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/drone_bay)
+"ejL" = (
+/obj/structure/table/reinforced,
+/obj/effect/spawner/random/engineering/tool{
+	pixel_x = 1;
+	pixel_y = 3
+	},
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "ekm" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -34168,6 +34215,13 @@
 /obj/effect/turf_decal/tile/purple/half/contrasted,
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
+"hkf" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "hkF" = (
 /obj/item/retractor,
 /obj/item/hemostat,
@@ -34332,6 +34386,9 @@
 /obj/structure/flora/bush/leavy/style_random,
 /turf/open/floor/grass,
 /area/station/hallway/primary/central/aft)
+"hvz" = (
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "hvF" = (
 /obj/structure/reagent_dispensers/watertank,
 /obj/effect/turf_decal/bot,
@@ -36335,6 +36392,13 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/office)
+"jtc" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "jtf" = (
 /obj/effect/turf_decal/tile/green/anticorner/contrasted,
 /turf/open/floor/iron/dark,
@@ -38442,6 +38506,14 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/freezer,
 /area/station/medical/virology)
+"lkX" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/turf/open/floor/plastic,
+/area/station/security/lockers)
 "llS" = (
 /obj/structure/water_source/puddle,
 /obj/structure/window/reinforced/spawner/directional/north,
@@ -38731,6 +38803,12 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/orange/visible,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
+"lvE" = (
+/obj/vehicle/ridden/secway,
+/obj/item/key/security,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plastic,
+/area/station/security/lockers)
 "lwT" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
@@ -40335,6 +40413,15 @@
 "naK" = (
 /turf/closed/wall,
 /area/station/hallway/secondary/exit)
+"naQ" = (
+/obj/structure/cable,
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "Equipment Room";
+	name = "Brig Shutters"
+	},
+/turf/open/floor/plating,
+/area/station/security/mechbay)
 "naX" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -40384,6 +40471,11 @@
 /obj/structure/rack,
 /turf/open/floor/iron,
 /area/station/cargo/drone_bay)
+"ndq" = (
+/obj/structure/rack,
+/obj/item/weldingtool,
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "ndt" = (
 /obj/structure/chair{
 	dir = 8
@@ -41636,6 +41728,13 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
+"okl" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "oko" = (
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 1
@@ -47225,6 +47324,16 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
+"sPh" = (
+/obj/vehicle/sealed/mecha/ripley/paddy/preset,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/obj/effect/turf_decal/bot,
+/obj/effect/turf_decal/tile/red/half/contrasted,
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/iron/dark,
+/area/station/security/mechbay)
 "sPU" = (
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/structure/cable,
@@ -48387,9 +48496,10 @@
 /turf/open/floor/iron,
 /area/station/ai_monitored/command/storage/eva)
 "tCJ" = (
-/obj/effect/turf_decal/bot,
-/obj/vehicle/ridden/secway,
-/obj/item/key/security,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "tCP" = (
@@ -48974,6 +49084,10 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
+"uep" = (
+/obj/structure/cable,
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "ueu" = (
 /obj/structure/table,
 /obj/item/stack/sheet/cardboard,
@@ -50798,6 +50912,13 @@
 "vEA" = (
 /turf/open/floor/carpet,
 /area/station/service/chapel)
+"vEZ" = (
+/obj/structure/table/reinforced,
+/obj/item/stack/cable_coil,
+/obj/machinery/power/apc/auto_name/directional/south,
+/obj/structure/cable,
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "vFs" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
@@ -51110,14 +51231,8 @@
 /turf/open/floor/iron,
 /area/station/engineering/storage_shared)
 "vRp" = (
-/obj/structure/cable,
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/preopen{
-	id = "Equipment Room";
-	name = "Brig Shutters"
-	},
-/turf/open/floor/plating,
-/area/station/security/lockers)
+/turf/closed/wall/r_wall,
+/area/station/security/mechbay)
 "vRq" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -51846,7 +51961,10 @@
 "wtp" = (
 /obj/machinery/suit_storage_unit/security,
 /obj/effect/turf_decal/bot,
-/obj/machinery/newscaster/directional/north,
+/obj/machinery/button/door/directional/north{
+	id = "Equipment Room";
+	name = "Space Shutters Control"
+	},
 /turf/open/floor/plastic,
 /area/station/security/lockers)
 "wtZ" = (
@@ -52250,6 +52368,13 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/security/brig)
+"wIg" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plastic,
+/area/station/security/mechbay)
 "wIX" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -53343,6 +53468,15 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/carpet,
 /area/station/commons/lounge)
+"xsw" = (
+/obj/machinery/mech_bay_recharge_port,
+/obj/effect/turf_decal/tile/red/half/contrasted,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/obj/machinery/light/directional/north,
+/turf/open/floor/iron/dark,
+/area/station/security/mechbay)
 "xsO" = (
 /obj/item/ectoplasm,
 /turf/open/floor/plating{
@@ -79884,7 +80018,7 @@ aaa
 aKw
 cnP
 aeB
-xjU
+lkX
 xjU
 xjU
 cTC
@@ -80398,8 +80532,8 @@ aaa
 dAa
 wtp
 anf
-aiq
-aiq
+tCJ
+lvE
 jzI
 kTl
 ajr
@@ -80909,12 +81043,12 @@ aaa
 aaa
 aaa
 aaa
-dAa
 vRp
 vRp
+ecV
+cAI
 vRp
-dAa
-dAa
+vRp
 abI
 ajs
 sip
@@ -81166,12 +81300,12 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+vRp
+aWA
+hkf
+okl
+ndq
+vRp
 abI
 ajs
 akb
@@ -81423,12 +81557,12 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-cFB
-aaa
-aaa
+vRp
+xsw
+wIg
+jtc
+vEZ
+vRp
 abI
 ajs
 akc
@@ -81680,12 +81814,12 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+vRp
+sPh
+uep
+hvz
+ejL
+vRp
 abI
 ajs
 akd
@@ -81937,12 +82071,12 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+vRp
+vRp
+naQ
+naQ
+vRp
+vRp
 abI
 ajs
 ake
@@ -82200,7 +82334,7 @@ aaa
 aaa
 aaa
 aaa
-aiR
+aaa
 ajs
 ajs
 akZ
@@ -85283,7 +85417,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+cFB
 aaa
 aaa
 aaa
