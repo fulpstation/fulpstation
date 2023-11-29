@@ -59,7 +59,7 @@
 		"Laasou ok zszsal. Uzaalo aahzeheuz eh e kizo elheza orhuluhashzu. Ar ohs a.",
 	)
 
-/datum/customer_data/xarsee/get_overlays(mob/living/simple_animal/robot_customer/customer)
+/datum/customer_data/xarsee/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
 	var/mutable_appearance/lizard_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "lizard_british")
 	lizard_clothes.appearance_flags = RESET_COLOR

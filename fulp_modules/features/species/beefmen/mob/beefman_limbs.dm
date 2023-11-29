@@ -273,9 +273,9 @@
 
 
 /obj/item/bodypart/update_limb(dropping_limb = FALSE, is_creating = FALSE)
-	. = ..()
 	if(owner?.dna.species.id == SPECIES_BEEFMAN)
 		if(!IS_ORGANIC_LIMB(src))
 			icon_static = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 		else
 			icon_static = initial(icon_static)
+	return ..()

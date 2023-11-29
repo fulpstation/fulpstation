@@ -52,7 +52,7 @@
 		"Squeak..",
 	)
 
-/datum/customer_data/rat/get_overlays(mob/living/simple_animal/robot_customer/customer)
+/datum/customer_data/rat/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
 	var/mutable_appearance/lizard_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "rat_british")
 	lizard_clothes.appearance_flags = RESET_COLOR

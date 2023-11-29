@@ -65,22 +65,25 @@
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
 	. = ..()
+	RegisterSignal(user, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_beefman_color))
+	RegisterSignal(user, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attack_by))
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
-	spec_updatehealth(user)
+	update_beefman_color(user)
 
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
 		limb.update_limb(is_creating = TRUE)
 
-/datum/species/beefman/randomize_features(mob/living/carbon/human/human_mob)
-	human_mob.dna.features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
-	human_mob.dna.species.fixed_mut_color = human_mob.dna.features["beef_color"]
-	human_mob.dna.features["beef_eyes"] = pick(GLOB.eyes_beefman)
-	human_mob.dna.features["beef_mouth"] = pick(GLOB.mouths_beefman)
+/datum/species/beefman/randomize_features()
+	var/list/features = ..()
+	features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
+	features["beef_eyes"] = pick(GLOB.eyes_beefman)
+	features["beef_mouth"] = pick(GLOB.mouths_beefman)
+	return features
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
@@ -192,10 +195,9 @@
 	source.apply_overlay(BODY_ADJ_LAYER)
 	source.apply_overlay(BODY_FRONT_LAYER)
 
-/datum/species/beefman/spec_updatehealth(mob/living/carbon/human/beefman)
-	..()
+/datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
+	SIGNAL_HANDLER
 	fixed_mut_color = beefman.dna.features["beef_color"]
-	beefman.update_body()
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -336,10 +338,6 @@
 	bleed_over_target(user, target)
 	return ..()
 
-/datum/species/beefman/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	bleed_over_target(user, target)
-	return ..()
-
 /datum/species/beefman/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(user != target)
 		return ..()
@@ -382,28 +380,28 @@
 		user.put_in_hands(dropped_meat)
 	return TRUE
 
-/datum/species/beefman/spec_attacked_by(obj/item/meat, mob/living/user, obj/item/bodypart/affecting, mob/living/carbon/human/beefboy)
+/datum/species/beefman/proc/on_attack_by(mob/living/carbon/human/beefboy, obj/item/meat, mob/living/carbon/human/attacker, params)
 	if(!istype(meat, /obj/item/food/meat/slab))
-		return ..()
-	var/target_zone = user.zone_selected
+		return
+	var/target_zone = attacker.zone_selected
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH && beefboy.get_organ_by_type(/obj/item/organ/internal/tongue))
 		return
-	affecting = beefboy.get_bodypart(check_zone(target_zone))
+	var/obj/item/bodypart/affecting = beefboy.get_bodypart(check_zone(target_zone))
 	if(!(target_zone in tearable_limbs))
-		return ..()
+		return
 	if(affecting && (!(target_zone == BODY_ZONE_PRECISE_MOUTH) || beefboy.get_organ_by_type(/obj/item/organ/internal/tongue)))
 		return
-	user.visible_message(
-		span_notice("[user] begins mashing [meat] into [beefboy]."),
+	attacker.visible_message(
+		span_notice("[attacker] begins mashing [meat] into [beefboy]."),
 		span_notice("You begin mashing [meat] into [beefboy]."))
 
-	if(!do_after(user, 2 SECONDS, beefboy))
+	if(!do_after(attacker, 2 SECONDS, beefboy))
 		return FALSE
 
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
 		var/obj/item/organ/internal/tongue/beefman/new_tongue = new()
-		new_tongue.Insert(user)
-		user.visible_message(
+		new_tongue.Insert(attacker)
+		attacker.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new [new_tongue.name]!"),
 			span_notice("The [meat] successfully fuses with your mouth!"))
 	else

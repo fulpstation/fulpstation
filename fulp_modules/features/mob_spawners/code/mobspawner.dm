@@ -23,7 +23,7 @@
 			/mob/living/basic/viscerator = list(1,2,4),
 			/mob/living/basic/cow = list(1,1,2),
 			/mob/living/basic/hivebot = list(1,1,3),
-			/mob/living/simple_animal/hostile/skeleton = list(1,1,2),
+			/mob/living/basic/skeleton = list(1,1,2),
 			/mob/living/simple_animal/bot/medbot = list(1,1,1),
 			/mob/living/basic/crab = list(1,1,3),
 			/mob/living/basic/mouse/rat = list(1,1,2),
@@ -35,7 +35,7 @@
 	valid_mobs = list(
 			/mob/living/basic/viscerator = list(1,2,4),
 			/mob/living/basic/hivebot = list(1,1,3),
-			/mob/living/simple_animal/hostile/skeleton = list(1,1,2),
+			/mob/living/basic/skeleton = list(1,1,2),
 			/mob/living/basic/spider/giant/hunter/scrawny = list(1,2,2),
 			/mob/living/basic/spider/giant/tarantula/scrawny = list(1,1,1),
 			/mob/living/basic/bear = list(1,1,1),

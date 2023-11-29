@@ -113,6 +113,21 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	throw_range = 5
 	armour_penetration = 35
 
+/obj/item/claymore/carrot
+	name = "carrot sword"
+	desc = "A full-sized carrot sword. Definitely \not\ good for the eyes, not anymore."
+	icon_state = "carrot_sword"
+	inhand_icon_state = "carrot_sword"
+	worn_icon_state = "carrot_sword"
+	flags_1 = NONE
+	force = 19
+	throwforce = 7
+	throw_speed = 3
+	throw_range = 7
+	armour_penetration = 5
+	block_chance = 10
+	resistance_flags = NONE
+
 /obj/item/claymore/highlander //ALL COMMENTS MADE REGARDING THIS SWORD MUST BE MADE IN ALL CAPS
 	desc = "<b><i>THERE CAN BE ONLY ONE, AND IT WILL BE YOU!!!</i></b>\nActivate it in your hand to point to the nearest victim."
 	flags_1 = CONDUCT_1
@@ -301,69 +316,6 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 
 /obj/item/katana/cursed //used by wizard events, see the tendril_loot.dm file for the miner one
 	slot_flags = null
-
-/obj/item/wirerod
-	name = "wired rod"
-	desc = "A rod with some wire wrapped around the top. It'd be easy to attach something to the top bit."
-	icon = 'icons/obj/weapons/spear.dmi'
-	icon_state = "wiredrod"
-	inhand_icon_state = "rods"
-	flags_1 = CONDUCT_1
-	force = 9
-	throwforce = 10
-	w_class = WEIGHT_CLASS_BULKY
-	custom_materials = list(/datum/material/iron= HALF_SHEET_MATERIAL_AMOUNT + SMALL_MATERIAL_AMOUNT * 1.5, /datum/material/glass= SMALL_MATERIAL_AMOUNT * 0.75)
-	attack_verb_continuous = list("hits", "bludgeons", "whacks", "bonks")
-	attack_verb_simple = list("hit", "bludgeon", "whack", "bonk")
-
-/obj/item/wirerod/Initialize(mapload)
-	. = ..()
-
-	var/static/list/hovering_item_typechecks = list(
-		/obj/item/shard = list(
-			SCREENTIP_CONTEXT_LMB = "Craft spear",
-		),
-
-		/obj/item/assembly/igniter = list(
-			SCREENTIP_CONTEXT_LMB = "Craft stunprod",
-		),
-	)
-
-	AddElement(/datum/element/contextual_screentip_item_typechecks, hovering_item_typechecks)
-
-/obj/item/wirerod/attackby(obj/item/attacking_item, mob/user, params)
-	if(istype(attacking_item, /obj/item/shard))
-		var/datum/crafting_recipe/recipe_to_use = /datum/crafting_recipe/spear
-		user.balloon_alert(user, "crafting spear...")
-		if(do_after(user, initial(recipe_to_use.time), src)) // we do initial work here to get the correct timer
-			var/obj/item/spear/crafted_spear = new /obj/item/spear()
-
-			remove_item_from_storage(user)
-			if (!user.transferItemToLoc(attacking_item, crafted_spear))
-				return
-			crafted_spear.CheckParts(list(attacking_item))
-			qdel(src)
-
-			user.put_in_hands(crafted_spear)
-			user.balloon_alert(user, "crafted spear")
-		return
-
-	if(isigniter(attacking_item) && !(HAS_TRAIT(attacking_item, TRAIT_NODROP)))
-		var/datum/crafting_recipe/recipe_to_use = /datum/crafting_recipe/stunprod
-		user.balloon_alert(user, "crafting cattleprod...")
-		if(do_after(user, initial(recipe_to_use.time), src))
-			var/obj/item/melee/baton/security/cattleprod/prod = new
-
-			remove_item_from_storage(user)
-
-			qdel(attacking_item)
-			qdel(src)
-
-			user.put_in_hands(prod)
-			user.balloon_alert(user, "crafted cattleprod")
-		return
-	return ..()
-
 
 /obj/item/throwing_star
 	name = "throwing star"
@@ -985,7 +937,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		if(isliving(target))
 			var/mob/living/bug = target
 			bug.investigate_log("has been splatted by a flyswatter.", INVESTIGATE_DEATHS)
-			bug.gib()
+			bug.gib(DROP_ALL_REMAINS)
 		else
 			qdel(target)
 		return
@@ -1162,7 +1114,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		if(living_target.stat == DEAD && prob(force*damage_mod*0.5))
 			living_target.visible_message(span_danger("[living_target] explodes in a shower of gore!"), blind_message = span_hear("You hear organic matter ripping and tearing!"))
 			living_target.investigate_log("has been gibbed by [src].", INVESTIGATE_DEATHS)
-			living_target.gib()
+			living_target.gib(DROP_ALL_REMAINS)
 			log_combat(user, living_target, "gibbed", src)
 	else if(target.uses_integrity)
 		target.take_damage(force*damage_mod*3, BRUTE, MELEE, FALSE, null, 50)

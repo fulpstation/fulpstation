@@ -67,7 +67,7 @@
 		"You can be quite boring.",
 	)
 
-/datum/customer_data/warden/get_overlays(mob/living/simple_animal/robot_customer/customer)
+/datum/customer_data/warden/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
 	var/mutable_appearance/warden_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "warden_italian")
 	warden_clothes.appearance_flags = RESET_COLOR
