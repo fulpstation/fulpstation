@@ -14,7 +14,7 @@
 			/obj/item/food/donut/plain = 6,
 			/obj/item/food/burger/superbite = 6,
 			/obj/item/food/pizza/vegetable = 5,
-			/obj/item/food/grilled_cheese_sandwich = 5,
+			/obj/item/food/sandwich/cheese/grilled = 5,
 			/obj/item/food/pancakes = 5,
 			/obj/item/food/spaghetti/butternoodles = 4,
 			/obj/item/food/meatbun = 4,
@@ -70,7 +70,7 @@
 		"...So I had to gib them before I could get authorization",
 	)
 
-/datum/customer_data/head_of_sec/get_overlays(mob/living/simple_animal/robot_customer/customer)
+/datum/customer_data/head_of_sec/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
 	var/mutable_appearance/hos_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "hos_british")
 	hos_clothes.appearance_flags = RESET_COLOR

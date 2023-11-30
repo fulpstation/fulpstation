@@ -12,7 +12,8 @@
 	orderable_objects = list(
 		VENUE_RESTAURANT = list(
 			/obj/item/food/donut/plain = 8,
-			/obj/item/food/poutine = 6,
+			/obj/item/food/butterdog = 6,
+			/obj/item/food/poutine = 4,
 			/obj/item/food/pie/applepie = 4,
 			/obj/item/food/burger/cheese = 4,
 			/obj/item/food/eggsausage = 3,
@@ -66,7 +67,7 @@
 		"You can be quite boring.",
 	)
 
-/datum/customer_data/warden/get_overlays(mob/living/simple_animal/robot_customer/customer)
+/datum/customer_data/warden/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
 	var/mutable_appearance/warden_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "warden_italian")
 	warden_clothes.appearance_flags = RESET_COLOR

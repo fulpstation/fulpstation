@@ -1,11 +1,10 @@
-/mob/living/simple_animal/hostile/gorilla/albino
+/mob/living/basic/gorilla/albino
 	name = "albino gorilla"
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/gorilla.dmi'
 	maxHealth = 170
 	health = 170
 
-
-/mob/living/simple_animal/hostile/gorilla/albino/Initialize(mapload)
+/mob/living/basic/gorilla/Initialize(mapload)
 	var/datum/action/cooldown/mob_cooldown/charge/gorilla/tackle = new(src)
 	tackle.Grant(src)
 	var/datum/action/cooldown/spell/conjure/banana/trap = new(src)
@@ -14,12 +13,13 @@
 	not_poop.Grant(src)
 	return ..()
 
-
+/**
+ * Charge ability
+ */
 /datum/action/cooldown/mob_cooldown/charge/gorilla
 	destroy_objects = FALSE
 	charge_past = 0
 	cooldown_time = 8 SECONDS
-
 
 /datum/action/cooldown/mob_cooldown/charge/gorilla/do_charge_indicator(atom/charger, atom/charge_target)
 	return
@@ -28,6 +28,9 @@
 	playsound(owner, 'sound/creatures/gorilla.ogg', 200, 1)
 	return ..()
 
+/**
+ * Conjure ability
+ */
 /datum/action/cooldown/spell/conjure/banana
 	name = "Monke Spin"
 	desc = "Throw slippery traps all around you."
@@ -51,7 +54,9 @@
 	owner.balloon_alert_to_viewers("throws bananas all around!", "you throw bananas!")
 	..()
 
-
+/**
+ * Mud projectile
+ */
 /obj/projectile/mud
 	name = "Muddied Waters"
 	damage = 10
@@ -71,7 +76,9 @@
 		if(ishuman(mob_target))
 			target.AddComponent(/datum/component/creamed/gorilla, src)
 
-
+/**
+ * Mud throw ability
+ */
 /datum/action/cooldown/spell/pointed/projectile/mud
 	name = "Mud"
 	desc = "Muddied waters from the heart of the Amazon forest."
@@ -84,6 +91,10 @@
 	button_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	button_icon_state = "trench_mud"
 
+/**
+ * Cream component
+ * This sucks ass
+ */
 /datum/component/creamed/gorilla
 
 /datum/component/creamed/gorilla/Initialize()

@@ -15,7 +15,7 @@
 			/datum/reagent/consumable/nutriment/soup/hotchili = 3,
 			/obj/item/food/nugget = 4,
 			/datum/reagent/consumable/nutriment/soup/miso = 4,
-			/obj/item/food/grilled_cheese_sandwich = 3,
+			/obj/item/food/sandwich/cheese/grilled = 3,
 			/obj/item/food/spaghetti/boiledspaghetti = 3,
 			/obj/item/food/eggsausage = 3,
 			/obj/item/food/burger/plain = 1,
@@ -64,7 +64,7 @@
 		"Turns out my bro was my sis.",
 	)
 
-/datum/customer_data/prisoner/get_overlays(mob/living/simple_animal/robot_customer/customer)
+/datum/customer_data/prisoner/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
 	var/mutable_appearance/prisoner_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "prisoner_japanese")
 	prisoner_clothes.appearance_flags = RESET_COLOR
