@@ -17370,6 +17370,7 @@
 /obj/machinery/camera/directional/south{
 	c_tag = "Security - Brig Front"
 	},
+/obj/machinery/light/directional/south,
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
 "fOO" = (
@@ -17382,6 +17383,10 @@
 	},
 /obj/machinery/door/window/right/directional/south{
 	name = "Warden's Desk"
+	},
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "wardenshutters";
+	name = "Warden Office Shutters"
 	},
 /turf/open/floor/iron,
 /area/station/security/warden)
@@ -25294,6 +25299,7 @@
 /area/station/maintenance/solars)
 "iAn" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/structure/cable,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "iAp" = (
@@ -26987,10 +26993,6 @@
 "jec" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
-/obj/machinery/camera/directional/east{
-	c_tag = "Security - Perma Sat Bay S";
-	network = list("ss13","security")
-	},
 /obj/effect/turf_decal/tile/security/anticorner,
 /turf/open/floor/iron,
 /area/station/security/prison/visit)
@@ -27968,6 +27970,14 @@
 	},
 /turf/open/floor/iron/textured,
 /area/station/security/prison/work)
+"juZ" = (
+/obj/machinery/button/door/directional/west{
+	id = "detprivacy";
+	name = "Privacy Shutters";
+	req_access = list("detective")
+	},
+/turf/open/floor/iron/grimy,
+/area/station/security/detectives_office)
 "jvb" = (
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment{
@@ -29568,6 +29578,7 @@
 /obj/effect/turf_decal/tile/command/anticorner{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "jVu" = (
@@ -35440,10 +35451,10 @@
 /turf/open/floor/iron/dark/textured_large,
 /area/station/science/ordnance/storage)
 "lOO" = (
-/obj/machinery/portable_atmospherics/scrubber,
 /obj/effect/turf_decal/tile/command/half{
 	dir = 8
 	},
+/obj/machinery/power/smes,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "lOQ" = (
@@ -35483,9 +35494,12 @@
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "lPm" = (
-/obj/machinery/portable_atmospherics/scrubber,
 /obj/machinery/light/directional/south,
-/turf/open/floor/circuit/green,
+/obj/machinery/power/terminal{
+	dir = 8
+	},
+/obj/machinery/power/port_gen/pacman,
+/turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "lPq" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
@@ -38703,6 +38717,15 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
+"mPS" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "cellshutters";
+	name = "Brig Shutters"
+	},
+/turf/open/floor/plating,
+/area/station/security/brig)
 "mQc" = (
 /obj/machinery/power/solar{
 	id = "permar";
@@ -39053,6 +39076,10 @@
 "mVA" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "wardenshutters";
+	name = "Warden Office Shutters"
+	},
 /turf/open/floor/plating,
 /area/station/security/warden)
 "mVK" = (
@@ -47795,6 +47822,15 @@
 /obj/machinery/telecomms/server/presets/science,
 /turf/open/floor/circuit/green/telecomms/mainframe,
 /area/station/tcommsat/server)
+"pZu" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "wardenshutters";
+	name = "Warden Office Shutters"
+	},
+/turf/open/floor/plating,
+/area/station/security/brig/entrance)
 "pZD" = (
 /obj/machinery/camera/directional/north{
 	c_tag = "AI - Outer Sat S";
@@ -51217,6 +51253,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/medical)
+"rji" = (
+/obj/effect/turf_decal/tile/command/half{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/iron/dark,
+/area/station/ai_monitored/turret_protected/aisat/atmos)
 "rjj" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
@@ -59915,6 +59958,7 @@
 	name = "Security Delivery";
 	req_access = list("security")
 	},
+/obj/machinery/light/small/directional/west,
 /turf/open/floor/plating,
 /area/station/security/office)
 "uig" = (
@@ -62400,6 +62444,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/light/directional/south,
 /turf/open/floor/iron,
 /area/station/security/office)
 "uZR" = (
@@ -62466,7 +62511,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/access/all/security/general,
+/obj/effect/mapping_helpers/airlock/access/all/security/brig,
 /turf/open/floor/iron,
 /area/station/security/lockers)
 "vbh" = (
@@ -62569,6 +62614,11 @@
 /area/station/science/xenobiology)
 "vdz" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	dir = 8;
+	id = "detprivacy";
+	name = "Detective's Office Shutters"
+	},
 /turf/open/floor/plating,
 /area/station/security/detectives_office)
 "vdA" = (
@@ -69541,6 +69591,20 @@
 /obj/machinery/button/door/directional/west{
 	id = "brigfront";
 	name = "Brig Blast Door";
+	req_access = list("armory")
+	},
+/obj/machinery/button/door/directional/west{
+	id = "cellshutters";
+	name = "Brig Cell Shutters";
+	pixel_x = -37;
+	pixel_y = 6;
+	req_access = list("armory")
+	},
+/obj/machinery/button/door/directional/west{
+	id = "wardenshutters";
+	name = "Warden Office Shutters";
+	pixel_x = -37;
+	pixel_y = -7;
 	req_access = list("armory")
 	},
 /turf/open/floor/iron/dark,
@@ -98880,7 +98944,7 @@ pNG
 uOX
 uwI
 rTc
-cKZ
+juZ
 nia
 gIR
 yju
@@ -98899,7 +98963,7 @@ mUs
 qCw
 nnC
 kzt
-qCw
+mPS
 kLs
 xdI
 eEX
@@ -99156,7 +99220,7 @@ btr
 yfI
 btr
 rHv
-qCw
+mPS
 kLs
 xdI
 mSs
@@ -99413,7 +99477,7 @@ jtw
 qCw
 odz
 kUn
-qCw
+mPS
 jCc
 xdI
 bzS
@@ -99927,7 +99991,7 @@ jtw
 qCw
 lMD
 bKf
-qCw
+mPS
 jsK
 xdI
 xcp
@@ -100184,7 +100248,7 @@ btr
 anT
 btr
 hbo
-qCw
+mPS
 kbb
 nPo
 kpp
@@ -100441,7 +100505,7 @@ jtw
 qCw
 wat
 pIR
-qCw
+mPS
 mIB
 xdI
 ldQ
@@ -100955,7 +101019,7 @@ jtw
 qCw
 sHy
 vWS
-qCw
+mPS
 mIB
 xdI
 cjp
@@ -101212,7 +101276,7 @@ btr
 jXu
 btr
 lYj
-qCw
+mPS
 aXd
 xdI
 lnY
@@ -101469,7 +101533,7 @@ jtw
 qCw
 odz
 dWg
-qCw
+mPS
 chR
 xdI
 dKp
@@ -101983,7 +102047,7 @@ jtw
 qCw
 iPp
 xMv
-qCw
+mPS
 fBm
 xdI
 piR
@@ -102240,7 +102304,7 @@ btr
 doI
 btr
 biu
-qCw
+mPS
 aXd
 xdI
 piR
@@ -102497,7 +102561,7 @@ tRo
 qCw
 wat
 sai
-qCw
+mPS
 lIa
 xdI
 piR
@@ -105067,7 +105131,7 @@ tVX
 giF
 giF
 giF
-giF
+pZu
 hzE
 xdI
 dnK
@@ -117564,7 +117628,7 @@ bqM
 hgq
 iAn
 jVt
-cnd
+rji
 lOO
 xfL
 xfL
