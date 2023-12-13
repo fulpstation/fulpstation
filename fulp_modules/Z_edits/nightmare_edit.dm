@@ -1,3 +1,5 @@
-//removes the nightmare's literacy, advanvedtooluser, and adds primitive.
-/obj/item/organ/internal/brain/shadow/nightmare
-	organ_traits = list(TRAIT_CAN_STRIP, TRAIT_PRIMITIVE)
+/obj/item/organ/internal/brain/shadow/nightmare/on_insert(mob/living/carbon/brain_owner)
+	if(brain_owner.mind?.has_antag_datum(/datum/antagonist/nightmare)) //Only affect actual nightmares.
+		//removes the nightmare's literacy, advanvedtooluser, and adds primitive.
+		organ_traits = list(TRAIT_CAN_STRIP, TRAIT_PRIMITIVE)
+	return ..()
