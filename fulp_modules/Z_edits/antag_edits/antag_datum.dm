@@ -1,5 +1,4 @@
 // Removing self-assigning objectives until we have a policy on that
-/datum/antagonist/New()
-	. = ..()
+/datum/antagonist
 	can_assign_self_objectives = FALSE
 
