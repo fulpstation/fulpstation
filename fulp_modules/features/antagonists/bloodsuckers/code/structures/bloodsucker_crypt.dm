@@ -124,8 +124,12 @@
 		They usually ensure that victims are handcuffed, to prevent them from running away.\n\
 		Their rituals take time, allowing us to disrupt it."
 
+#ifdef BLOODSUCKER_TESTING
+	var/convert_progress = 1
+#else
 	/// Resets on each new character to be added to the chair. Some effects should lower it...
 	var/convert_progress = 3
+#endif
 	/// Mindshielded and Antagonists willingly have to accept you as their Master.
 	var/disloyalty_confirm = FALSE
 	/// Prevents popup spam.
@@ -195,7 +199,7 @@
 	density = TRUE
 
 	// Set up Torture stuff now
-	convert_progress = 3
+	convert_progress = initial(convert_progress)
 	disloyalty_confirm = FALSE
 	disloyalty_offered = FALSE
 

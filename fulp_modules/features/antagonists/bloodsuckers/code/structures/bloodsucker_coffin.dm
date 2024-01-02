@@ -42,6 +42,7 @@
 	name = "black coffin"
 	desc = "For those departed who are not so dear."
 	icon_state = "coffin"
+	base_icon_state = "coffin"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	open_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_open.ogg'
 	close_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_close.ogg'
@@ -64,6 +65,7 @@
 	name = "secure coffin"
 	desc = "For those too scared of having their place of rest disturbed."
 	icon_state = "securecoffin"
+	base_icon_state = "securecoffin"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	open_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_open.ogg'
 	close_sound = 'fulp_modules/features/antagonists/bloodsuckers/sounds/coffin_close.ogg'
@@ -86,6 +88,7 @@
 	name = "meat coffin"
 	desc = "When you're ready to meat your maker, the steaks can never be too high."
 	icon_state = "meatcoffin"
+	base_icon_state = "meatcoffin"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	resistance_flags = FIRE_PROOF
 	open_sound = 'sound/effects/footstep/slime1.ogg'
@@ -108,6 +111,7 @@
 	name = "metal coffin"
 	desc = "A big metal sardine can inside of another big metal sardine can, in space."
 	icon_state = "metalcoffin"
+	base_icon_state = "metalcoffin"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 	open_sound = 'sound/effects/pressureplate.ogg'
