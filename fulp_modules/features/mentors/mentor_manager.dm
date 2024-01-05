@@ -34,7 +34,8 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 	return
 
 /datum/request_manager/mentor/proc/mentorhelp(client/requester, message)
-	request_for_client(requester, REQUEST_MENTORHELP, message)
+	var/sanitizied_message = copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN)
+	request_for_client(requester, REQUEST_MENTORHELP, sanitizied_message)
 
 /datum/request_manager/mentor/ui_interact(mob/user, datum/tgui/ui = null)
 	ui = SStgui.try_update_ui(user, src, ui)
