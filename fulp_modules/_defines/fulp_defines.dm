@@ -43,7 +43,6 @@
 #define INFILTRATOR_FACTION_ANIMAL_RIGHTS_CONSORTIUM "Animal Rights Consortium"
 #define INFILTRATOR_FACTION_GORLEX_MARAUDERS "Gorlex Marauders"
 #define INFILTRATOR_FACTION_SELF "S.E.L.F"
-#define REQUEST_MENTORHELP "request_mentorhelp"
 
 ///monsterhunter signals
 #define COMSIG_RABBIT_FOUND "rabbit_found"
