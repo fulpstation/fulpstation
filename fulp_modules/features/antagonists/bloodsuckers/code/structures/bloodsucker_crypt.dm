@@ -422,7 +422,6 @@
 	light_power = 3
 	light_range = 0 // to 2
 	density = FALSE
-	can_buckle = TRUE
 	anchored = FALSE
 	ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals.\n\
 		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
@@ -474,6 +473,7 @@
 
 /obj/structure/bloodsucker/candelabrum/process()
 	if(!lit)
+		STOP_PROCESSING(SSobj, src)
 		return
 	for(var/mob/living/carbon/nearly_people in viewers(7, src))
 		/// We dont want Bloodsuckers or Vassals affected by this

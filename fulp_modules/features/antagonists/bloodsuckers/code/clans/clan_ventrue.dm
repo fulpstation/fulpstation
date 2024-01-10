@@ -132,7 +132,7 @@
  */
 /datum/objective/ventrue_clan_objective
 	name = "embrace"
-	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker and keep them alive until the end."
+	explanation_text = "Use the Persuasion Rack to Rank your Favorite Vassal up enough to become a Bloodsucker and keep them alive until the end."
 	martyr_compatible = TRUE
 
 /datum/objective/ventrue_clan_objective/check_completion()
