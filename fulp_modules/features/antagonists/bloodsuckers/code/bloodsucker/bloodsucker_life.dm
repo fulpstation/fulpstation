@@ -21,7 +21,7 @@
 			COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_HEALING)
 	// Standard Updates
 	SEND_SIGNAL(src, COMSIG_BLOODSUCKER_ON_LIFETICK)
-	INVOKE_ASYNC(src, PROC_REF(HandleStarving))
+	INVOKE_ASYNC(src, PROC_REF(handle_bloodsucker_starving))
 	INVOKE_ASYNC(src, PROC_REF(update_blood))
 
 	INVOKE_ASYNC(src, PROC_REF(update_hud))
@@ -207,36 +207,43 @@
 		return
 	check_begin_torpor(TRUE)
 
-/datum/antagonist/bloodsucker/proc/HandleStarving() // I am thirsty for blood!
+/**
+ * #handle_bloodsucker_starving
+ *
+ * Part of Bloodsucker Life Tick, this will set the nutrition to match blood, as well as:
+ * 1 - Enter/Exit Frenzy if your Blood level is sufficient
+ * 2 - Give you jittering and blurry vision, visual indicators of low blood.
+ * 3 - Grant you additional regeneration depending on how much blood you have stored.
+ */
+/datum/antagonist/bloodsucker/proc/handle_bloodsucker_starving()
 	// Nutrition - The amount of blood is how full we are.
 	owner.current.set_nutrition(min(bloodsucker_blood_volume, NUTRITION_LEVEL_FED))
 
-	// BLOOD_VOLUME_GOOD: [336] - Pale
-//	handled in bloodsucker_integration.dm
+	//Entering and Exiting Frenzy, which depends on your Humanity level. Exiting requires +FRENZY_EXTRA_BLOOD_NEEDED than entering.
+	if(frenzied)
+		if(bloodsucker_blood_volume >= (frenzy_threshold + FRENZY_EXTRA_BLOOD_NEEDED))
+			owner.current.remove_status_effect(/datum/status_effect/frenzy)
+	else
+		if(bloodsucker_blood_volume < frenzy_threshold)
+			owner.current.apply_status_effect(/datum/status_effect/frenzy)
 
-	// BLOOD_VOLUME_EXIT: [250] - Exit Frenzy (If in one) This is high because we want enough to kill the poor soul they feed off of.
-	if(bloodsucker_blood_volume >= (frenzy_threshold + FRENZY_EXTRA_BLOOD_NEEDED) && frenzied)
-		owner.current.remove_status_effect(/datum/status_effect/frenzy)
-	// BLOOD_VOLUME_BAD: [224] - Jitter
+	//BLOOD_VOLUME_BAD: [224] - Jitter
 	if(bloodsucker_blood_volume < BLOOD_VOLUME_BAD && prob(0.5) && !HAS_TRAIT(owner.current, TRAIT_NODEATH) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
 		owner.current.set_timed_status_effect(3 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-	// BLOOD_VOLUME_SURVIVE: [122] - Blur Vision
-	if(bloodsucker_blood_volume < BLOOD_VOLUME_SURVIVE)
-		owner.current.set_eye_blur_if_lower((8 - 8 * (bloodsucker_blood_volume / BLOOD_VOLUME_BAD))*2 SECONDS)
 
-	// The more blood, the better the Regeneration, get too low blood, and you enter Frenzy.
-	if(bloodsucker_blood_volume < frenzy_threshold && !frenzied)
-		owner.current.apply_status_effect(/datum/status_effect/frenzy)
-	else if(bloodsucker_blood_volume < BLOOD_VOLUME_BAD)
-		additional_regen = 0.1
-	else if(bloodsucker_blood_volume < BLOOD_VOLUME_OKAY)
-		additional_regen = 0.2
-	else if(bloodsucker_blood_volume < BLOOD_VOLUME_NORMAL)
-		additional_regen = 0.3
-	else if(bloodsucker_blood_volume < BS_BLOOD_VOLUME_MAX_REGEN)
-		additional_regen = 0.4
-	else
-		additional_regen = 0.5
+	switch(bloodsucker_blood_volume)
+		if(0 to BLOOD_VOLUME_SURVIVE)
+			owner.current.set_eye_blur_if_lower((8 - 8 * (bloodsucker_blood_volume / BLOOD_VOLUME_BAD)) * 2 SECONDS)
+		if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
+			additional_regen = 0.1
+		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
+			additional_regen = 0.2
+		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_NORMAL)
+			additional_regen = 0.3
+		if(BLOOD_VOLUME_NORMAL to BS_BLOOD_VOLUME_MAX_REGEN)
+			additional_regen = 0.4
+		if(BS_BLOOD_VOLUME_MAX_REGEN to INFINITY)
+			additional_regen = 0.5
 
 /// Makes your blood_volume look like your bloodsucker blood, unless you're Masquerading.
 /datum/antagonist/bloodsucker/proc/update_blood()
