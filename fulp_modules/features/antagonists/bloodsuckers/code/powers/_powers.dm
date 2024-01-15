@@ -72,7 +72,7 @@
 	pay_cost()
 	ActivatePower(trigger_flags)
 	if(!(power_flags & BP_AM_TOGGLE) || !active)
-		StartCooldown()
+		DeactivatePower()
 	return TRUE
 
 /datum/action/cooldown/bloodsucker/proc/can_pay_cost()
@@ -128,9 +128,14 @@
 		to_chat(user, span_warning("Not while you're incapacitated!"))
 		return FALSE
 	// Constant Cost (out of blood)
-	if(constant_bloodcost > 0 && bloodsuckerdatum_power?.bloodsucker_blood_volume <= 0)
-		to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
-		return FALSE
+	if(constant_bloodcost > 0)
+		if(bloodsuckerdatum_power)
+			if(bloodsuckerdatum_power.bloodsucker_blood_volume <= 0)
+				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
+				return FALSE
+			else if(user.blood_volume <= 0)
+				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
+				return FALSE
 	return TRUE
 
 /// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
