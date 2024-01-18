@@ -1,7 +1,17 @@
-import { resolveAsset } from '../tgui/assets';
 import { BooleanLike } from 'common/react';
-import { useBackend, useLocalState } from '../tgui/backend';
-import { Box, Button, Divider, Dropdown, Section, Stack, Tabs } from '../tgui/components';
+import { useState } from 'react';
+
+import { resolveAsset } from '../tgui/assets';
+import { useBackend } from '../tgui/backend';
+import {
+  Box,
+  Button,
+  Divider,
+  Dropdown,
+  Section,
+  Stack,
+  Tabs,
+} from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 type Objective = {
@@ -35,8 +45,8 @@ type Info = {
   objectives: Objective[];
 };
 
-const ObjectivePrintout = (props: any, context: any) => {
-  const { data } = useBackend<Info>(context);
+const ObjectivePrintout = (props: any) => {
+  const { data } = useBackend<Info>();
   const { objectives } = data;
   return (
     <Stack vertical>
@@ -53,8 +63,8 @@ const ObjectivePrintout = (props: any, context: any) => {
   );
 };
 
-export const AntagInfoBloodsucker = (props: any, context: any) => {
-  const [tab, setTab] = useLocalState(context, 'tab', 1);
+export const AntagInfoBloodsucker = (props: any) => {
+  const [tab, setTab] = useState(1);
   return (
     <Window width={620} height={580} theme="spookyconsole">
       <Window.Content>
@@ -63,14 +73,16 @@ export const AntagInfoBloodsucker = (props: any, context: any) => {
             icon="list"
             lineHeight="23px"
             selected={tab === 1}
-            onClick={() => setTab(1)}>
+            onClick={() => setTab(1)}
+          >
             Introduction
           </Tabs.Tab>
           <Tabs.Tab
             icon="list"
             lineHeight="23px"
             selected={tab === 2}
-            onClick={() => setTab(2)}>
+            onClick={() => setTab(2)}
+          >
             Clan & Powers
           </Tabs.Tab>
         </Tabs>
@@ -147,8 +159,8 @@ const BloodsuckerIntro = () => {
   );
 };
 
-const BloodsuckerClan = (props: any, context: any) => {
-  const { act, data } = useBackend<BloodsuckerInformation>(context);
+const BloodsuckerClan = (props: any) => {
+  const { act, data } = useBackend<BloodsuckerInformation>();
   const { clan, in_clan } = data;
 
   if (!in_clan) {
@@ -186,8 +198,7 @@ const BloodsuckerClan = (props: any, context: any) => {
                     opacity={0.25}
                     src={resolveAsset(`bloodsucker.${ClanInfo.clan_icon}.png`)}
                     style={{
-                      '-ms-interpolation-mode': 'nearest-neighbor',
-                      'position': 'absolute',
+                      position: 'absolute',
                     }}
                   />
                   <Stack.Item fontSize="20px" textAlign="center">
@@ -207,18 +218,14 @@ const BloodsuckerClan = (props: any, context: any) => {
   );
 };
 
-const PowerSection = (props: any, context: any) => {
-  const { act, data } = useBackend<BloodsuckerInformation>(context);
+const PowerSection = (props: any) => {
+  const { act, data } = useBackend<BloodsuckerInformation>();
   const { power } = data;
   if (!power) {
     return <Section minHeight="220px" />;
   }
 
-  const [selectedPower, setSelectedPower] = useLocalState(
-    context,
-    'power',
-    power[0]
-  );
+  const [selectedPower, setSelectedPower] = useState(power[0]);
 
   return (
     <Section
@@ -233,7 +240,8 @@ const PowerSection = (props: any, context: any) => {
             'Select a Power using the dropdown menu for an in-depth explanation.'
           }
         />
-      }>
+      }
+    >
       <Stack>
         <Stack.Item grow>
           <Dropdown
@@ -243,7 +251,7 @@ const PowerSection = (props: any, context: any) => {
             options={power.map((powers) => powers.power_name)}
             onSelected={(powerName: string) =>
               setSelectedPower(
-                power.find((p) => p.power_name === powerName) || power[0]
+                power.find((p) => p.power_name === powerName) || power[0],
               )
             }
           />
@@ -255,10 +263,10 @@ const PowerSection = (props: any, context: any) => {
               src={resolveAsset(`bloodsucker.${selectedPower.power_icon}.png`)}
             />
           )}
-          <Divider Vertical />
+          <Divider />
         </Stack.Item>
         <Stack.Divider />
-        <Stack.Item scrollable grow={1} fontSize="16px">
+        <Stack.Item grow={1} fontSize="16px">
           {selectedPower && selectedPower.power_explanation}
         </Stack.Item>
       </Stack>

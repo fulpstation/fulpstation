@@ -3,9 +3,8 @@
 	desc = "FEED YOUR HEAD."
 	image_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	image_state = "white_rabbit"
-	image_layer = ABOVE_LIGHTING_PLANE
 	image_layer = ABOVE_MOB_LAYER
-	image_plane =  GAME_PLANE_UPPER
+	image_plane = ABOVE_LIGHTING_PLANE
 	///the rabbit's whisper
 	var/description
 	///has the rabbit already whispered?

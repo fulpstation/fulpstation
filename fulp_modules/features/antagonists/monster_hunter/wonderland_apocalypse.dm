@@ -35,12 +35,9 @@
 		notify_ghosts(
 			message = "A doorway to the wonderland has been opened!",
 			source = rift,
-			action = NOTIFY_ORBIT,
-			notify_flags = NOTIFY_CATEGORY_NOFLASH,
 			header = "Wonderland Rift opened",
+			notify_flags = NOTIFY_CATEGORY_NOFLASH,
 		)
-
-
 
 /obj/effect/anomaly/dimensional/wonderland
 	range = 5

@@ -155,8 +155,8 @@
 		/mob/living/basic/sloth/citrus,
 
 		// le sad simple animals (let's kill them)
-		/mob/living/simple_animal/pet/cat/runtime,
-		/mob/living/simple_animal/parrot/poly,
+		/mob/living/basic/pet/cat/runtime,
+		/mob/living/basic/parrot/poly,
  	)
 
 	remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
@@ -167,7 +167,7 @@
 		if(!target_pet)
 			possible_target_pets -= chosen_pet
 			continue
-		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/simple_animal/parrot/poly/ghost))
+		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/basic/parrot/poly/ghost))
 			target_pet = null
 		possible_target_pets -= chosen_pet
 

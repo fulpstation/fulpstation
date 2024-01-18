@@ -45,7 +45,6 @@
 	move_resist = MOVE_FORCE_OVERPOWERING
 	pull_force = MOVE_FORCE_OVERPOWERING
 	layer = LARGE_MOB_LAYER
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	mouse_opacity = MOUSE_OPACITY_OPAQUE
 	death_message = "the mad king has felled, no longer will he suffer. "
 	death_sound = 'sound/magic/enter_blood.ogg'

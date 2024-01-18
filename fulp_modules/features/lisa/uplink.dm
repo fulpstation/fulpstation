@@ -5,7 +5,7 @@
 			Has been modified to beam its knowledge directly into your eyes, removing the need for a TV."
 	item = /obj/item/book/granter/martial/velvetfu
 	cost = 8
-	restricted_roles = list("Janitor")
+	restricted_roles = list(JOB_JANITOR)
 
 /obj/item/book/granter/martial/velvetfu
 	martial = /datum/martial_art/velvetfu

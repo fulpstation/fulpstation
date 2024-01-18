@@ -235,7 +235,13 @@
 	if(man.stat == DEAD)
 		chosen_ghost = man.grab_ghost()
 	if((!chosen_ghost && man.stat == DEAD) || considered_afk(man.mind))
-		var/list/mob/dead/observer/candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
+		var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates(
+			question = "Would you like to play as a Syndicate Gorilla?",
+			role = ROLE_TRAITOR,
+			check_jobban = ROLE_TRAITOR,
+			poll_time = 5 SECONDS,
+			ignore_category = POLL_IGNORE_SYNDICATE,
+		)
 		if(LAZYLEN(candidates))
 			chosen_ghost = pick(candidates)
 	var/mob/living/basic/gorilla/albino/ape = new(get_turf(man))
@@ -425,11 +431,10 @@
 	rift.owner = terrorist.real_name
 	playsound(rift, 'sound/vehicles/rocketlaunch.ogg', 100, TRUE)
 	notify_ghosts(
-		message = "An Infiltrator has opened a Cyborg rift!",
+		"An Infiltrator has opened a Cyborg rift!",
 		source = rift,
-		action = NOTIFY_ORBIT,
-		notify_flags = NOTIFY_CATEGORY_NOFLASH,
 		header = "Cyborg Rift opened",
+		notify_flags = NOTIFY_CATEGORY_NOFLASH,
 	)
 	var/datum/antagonist/traitor/fulp_infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!infil)
@@ -535,7 +540,13 @@
 	if(!criminal)
 		return
 	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
-	var/list/infil_candidates = poll_ghost_candidates("Do you want to play as an infiltrator backup?", ROLE_INFILTRATOR, ROLE_INFILTRATOR, 150, POLL_IGNORE_SYNDICATE)
+	var/list/infil_candidates = SSpolling.poll_ghost_candidates(
+		question = "Do you want to play as an infiltrator backup?",
+		role = ROLE_INFILTRATOR,
+		check_jobban = ROLE_INFILTRATOR,
+		poll_time = 15 SECONDS,
+		ignore_category = POLL_IGNORE_SYNDICATE,
+	)
 	if(LAZYLEN(infil_candidates))
 		if(QDELETED(src) || used)
 			return

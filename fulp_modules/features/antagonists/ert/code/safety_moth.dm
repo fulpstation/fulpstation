@@ -198,7 +198,8 @@
 	worn_icon = 'icons/mob/clothing/suits/armor.dmi'
 	icon_state = "riot"
 	inhand_icon_state = "swat_suit"
-	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCKS_SHOVE_KNOCKDOWN
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
+	clothing_traits = list(TRAIT_SHOVE_KNOCKDOWN_BLOCKED)
 
 /obj/item/clothing/head/helmet/space/safety_moth/sec
 	name = "Safety Moth riot helmet"
