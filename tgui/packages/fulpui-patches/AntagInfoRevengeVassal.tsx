@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { resolveAsset } from '../tgui/assets';
 import { useBackend } from '../tgui/backend';
 import {
-  Box,
   Button,
   Divider,
   Dropdown,
+  Image,
   Section,
   Stack,
 } from '../tgui/components';
@@ -137,10 +137,9 @@ const PowerSection = (props: any) => {
             }
           />
           {selectedPower && (
-            <Box
+            <Image
               position="absolute"
               height="12rem"
-              as="img"
               src={resolveAsset(`bloodsucker.${selectedPower.power_icon}.png`)}
             />
           )}

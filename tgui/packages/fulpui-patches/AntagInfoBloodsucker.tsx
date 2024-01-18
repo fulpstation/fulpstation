@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
   Dropdown,
+  Image,
   Section,
   Stack,
   Tabs,
@@ -192,8 +193,7 @@ const BloodsuckerClan = (props: any) => {
             <Stack.Item>
               {clan.map((ClanInfo) => (
                 <>
-                  <Box
-                    as="img"
+                  <Image
                     height="20rem"
                     opacity={0.25}
                     src={resolveAsset(`bloodsucker.${ClanInfo.clan_icon}.png`)}
@@ -256,10 +256,9 @@ const PowerSection = (props: any) => {
             }
           />
           {selectedPower && (
-            <Box
+            <Image
               position="absolute"
               height="12rem"
-              as="img"
               src={resolveAsset(`bloodsucker.${selectedPower.power_icon}.png`)}
             />
           )}
