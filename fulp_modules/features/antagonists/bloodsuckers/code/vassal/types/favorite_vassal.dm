@@ -11,12 +11,22 @@
 	vassal_description = "The Favorite Vassal gets unique abilities over other Vassals depending on your Clan \
 		and becomes completely immune to Mindshields. If part of Ventrue, this is the Vassal you will rank up."
 
+	///The batform that some Favorite vassals get given by their Bloodsucker.
+	var/datum/action/cooldown/spell/shapeshift/bat/batform
 	///Bloodsucker levels, but for Vassals, used by Ventrue.
 	var/vassal_level
 
 /datum/antagonist/vassal/favorite/on_gain()
 	. = ..()
 	SEND_SIGNAL(master, BLOODSUCKER_MAKE_FAVORITE, src)
+
+/datum/antagonist/vassal/favorite/on_removal()
+	. = ..()
+	if(batform)
+		QDEL_NULL(batform)
+	var/mob/living/carbon/carbonowner = owner.current
+	carbonowner.cure_trauma_type(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
+	carbonowner.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/antagonist/vassal/favorite/pre_mindshield(mob/implanter, mob/living/mob_override)
 	return COMPONENT_MINDSHIELD_RESISTED
