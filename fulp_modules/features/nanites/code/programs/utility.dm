@@ -26,21 +26,6 @@
 		SEND_SIGNAL(M, COMSIG_NANITE_SET_CLOUD, cloud.get_value())
 	pulse_cooldown = world.time + 75
 
-/datum/nanite_program/monitoring
-	name = "Monitoring"
-	desc = "The nanites monitor the host's vitals and location, sending them to the suit sensor network."
-	rogue_types = list(/datum/nanite_program/toxic)
-
-/datum/nanite_program/monitoring/enable_passive_effect()
-	. = ..()
-	SSnanites.nanite_monitored_mobs |= host_mob
-	host_mob.hud_set_nanite_indicator()
-
-/datum/nanite_program/monitoring/disable_passive_effect()
-	. = ..()
-	SSnanites.nanite_monitored_mobs -= host_mob
-	host_mob.hud_set_nanite_indicator()
-
 /datum/nanite_program/self_scan
 	name = "Host Scan"
 	desc = "The nanites display a detailed readout of a body scan to the host."

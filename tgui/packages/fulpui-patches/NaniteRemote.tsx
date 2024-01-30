@@ -1,4 +1,5 @@
 import { useBackend } from '../tgui/backend';
+import { BooleanLike } from 'common/react';
 import { Button, LabeledList, NumberInput, Section, NoticeBox, Input, Table } from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
@@ -12,8 +13,27 @@ export const NaniteRemote = (props, context) => {
   );
 };
 
+type Data = {
+  code: number;
+  locked: BooleanLike;
+  mode: string;
+  program_name: string;
+  relay_code: number;
+  comms: string;
+  message: string;
+  saved_settings: SettingsData[];
+};
+
+type SettingsData = {
+  id: number;
+  name: string;
+  mode: string;
+  relay_code: number;
+  code: number;
+};
+
 export const NaniteRemoteContent = (props, context) => {
-  const { act, data } = useBackend(context);
+  const { act, data } = useBackend<Data>(context);
   const {
     code,
     locked,

@@ -15,7 +15,6 @@
 		"nanite_program_hub",
 		"nanite_cloud_control",
 		"relay_nanites",
-		"monitoring_nanites",
 		"research_nanites",
 		"researchplus_nanites",
 		"access_nanites",

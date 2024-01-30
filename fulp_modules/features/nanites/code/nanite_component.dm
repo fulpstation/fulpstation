@@ -56,7 +56,6 @@
 
 		start_time = world.time
 
-		host_mob.hud_set_nanite_indicator()
 		START_PROCESSING(SSnanites, src)
 
 		if(cloud_id && cloud_active)
@@ -120,8 +119,7 @@
 	STOP_PROCESSING(SSnanites, src)
 	QDEL_LIST(programs)
 	if(host_mob)
-		set_nanite_bar(TRUE)
-		host_mob.hud_set_nanite_indicator()
+		set_nanite_bar(remove = TRUE)
 	host_mob = null
 	linked_techweb = null
 	return ..()
@@ -140,7 +138,7 @@
 		if(cloud_id && cloud_active && world.time > next_sync)
 			cloud_sync()
 			next_sync = world.time + NANITE_SYNC_DELAY
-	set_nanite_bar()
+	set_nanite_bar(remove = FALSE)
 
 
 /datum/component/nanites/proc/delete_nanites()
@@ -209,15 +207,15 @@
 		INVOKE_ASYNC(src, PROC_REF(delete_nanites))
 
 /datum/component/nanites/proc/set_nanite_bar(remove = FALSE)
-	var/image/holder = host_mob.hud_list[DATA_HUD_DIAGNOSTIC_ADVANCED]
-	var/icon/I = icon(host_mob.icon, host_mob.icon_state, host_mob.dir)
-	holder.pixel_y = I.Height() - world.icon_size
-	holder_icon = 'fulp_modules/features/nanites/icons/nanite_hud.dmi'
+	var/image/holder = host_mob.hud_list[DIAG_HUD]
+	var/icon/hud_icon = icon(host_mob.icon, host_mob.icon_state, host_mob.dir)
+	holder.pixel_y = hud_icon.Height() - world.icon_size
 	holder.icon_state = null
 	if(remove || stealth)
 		return //bye icon
 	var/nanite_percent = (nanite_volume / max_nanites) * 100
 	nanite_percent = clamp(CEILING(nanite_percent, 10), 10, 100)
+	holder.icon = 'fulp_modules/features/nanites/icons/nanite_hud.dmi'
 	holder.icon_state = "nanites[nanite_percent]"
 
 /datum/component/nanites/proc/on_emp(datum/source, severity)
