@@ -1,5 +1,5 @@
 import { useBackend } from '../tgui/backend';
-import { Button, Dropdown, Grid, Input, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
+import { Button, Dropdown, Table, Input, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 const NaniteCodes = (props, context) => {
@@ -278,9 +278,9 @@ const NaniteProgrammerContent = (props, context) => {
         <Button icon="eject" content="Eject" onClick={() => act('eject')} />
       }>
       <Section title="Info" level={2}>
-        <Grid>
-          <Grid.Column>{desc}</Grid.Column>
-          <Grid.Column size={0.7}>
+        <Table>
+          <Table.Cell>{desc}</Table.Cell>
+          <Table.Cell size={0.7}>
             <LabeledList>
               <LabeledList.Item label="Use Rate">{use_rate}</LabeledList.Item>
               {!!can_trigger && (
@@ -294,8 +294,8 @@ const NaniteProgrammerContent = (props, context) => {
                 </>
               )}
             </LabeledList>
-          </Grid.Column>
-        </Grid>
+          </Table.Cell>
+        </Table>
       </Section>
       <Section
         title="Settings"
@@ -310,14 +310,14 @@ const NaniteProgrammerContent = (props, context) => {
             onClick={() => act('toggle_active')}
           />
         }>
-        <Grid>
-          <Grid.Column>
+        <Table>
+          <Table.Cell>
             <NaniteCodes />
-          </Grid.Column>
-          <Grid.Column>
+          </Table.Cell>
+          <Table.Cell>
             <NaniteDelays />
-          </Grid.Column>
-        </Grid>
+          </Table.Cell>
+        </Table>
         {!!has_extra_settings && (
           <Section title="Special" level={3}>
             <LabeledList>

@@ -106,6 +106,7 @@
 			disk_data["timer_shutdown"] = P.timer_shutdown / 10
 			disk_data["timer_trigger"] = P.timer_trigger / 10
 			disk_data["timer_trigger_delay"] = P.timer_trigger_delay / 10
+			disk_data["can_rule"] = FALSE
 
 			var/list/extra_settings = P.get_extra_settings_frontend()
 			disk_data["extra_settings"] = extra_settings
@@ -113,8 +114,7 @@
 				disk_data["has_extra_settings"] = TRUE
 			if(istype(P, /datum/nanite_program/sensor))
 				var/datum/nanite_program/sensor/sensor = P
-				if(sensor.can_rule)
-					disk_data["can_rule"] = TRUE
+				disk_data["can_rule"] = sensor.can_rule
 		data["disk"] = disk_data
 	else
 		data["has_disk"] = FALSE
@@ -172,8 +172,7 @@
 			data["cloud_programs"] = cloud_programs
 	else
 		var/list/backup_list = list()
-		for(var/X in cloud_backups)
-			var/datum/nanite_cloud_backup/backup = X
+		for(var/datum/nanite_cloud_backup/backup as anything in cloud_backups)
 			var/list/cloud_backup = list()
 			cloud_backup["cloud_id"] = backup.cloud_id
 			backup_list += list(cloud_backup)

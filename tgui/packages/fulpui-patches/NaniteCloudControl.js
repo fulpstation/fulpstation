@@ -1,5 +1,5 @@
 import { useBackend } from '../tgui/backend';
-import { Box, Button, Collapsible, Grid, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
+import { Box, Button, Collapsible, Table, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 const NaniteDiskBox = (props, context) => {
@@ -43,9 +43,9 @@ const NaniteInfoBox = (props, context) => {
           {activated ? 'Activated' : 'Deactivated'}
         </Box>
       }>
-      <Grid>
-        <Grid.Column mr={1}>{desc}</Grid.Column>
-        <Grid.Column size={0.5}>
+      <Table>
+        <Table.Cell mr={1}>{desc}</Table.Cell>
+        <Table.Cell size={0.5}>
           <LabeledList>
             <LabeledList.Item label="Use Rate">{use_rate}</LabeledList.Item>
             {!!can_trigger && (
@@ -59,10 +59,10 @@ const NaniteInfoBox = (props, context) => {
               </>
             )}
           </LabeledList>
-        </Grid.Column>
-      </Grid>
-      <Grid>
-        <Grid.Column>
+        </Table.Cell>
+      </Table>
+      <Table>
+        <Table.Cell>
           <Section title="Codes" level={3} mr={1}>
             <LabeledList>
               <LabeledList.Item label="Activation">
@@ -79,8 +79,8 @@ const NaniteInfoBox = (props, context) => {
               )}
             </LabeledList>
           </Section>
-        </Grid.Column>
-        <Grid.Column>
+        </Table.Cell>
+        <Table.Cell>
           <Section title="Delays" level={3} mr={1}>
             <LabeledList>
               <LabeledList.Item label="Restart">
@@ -101,8 +101,8 @@ const NaniteInfoBox = (props, context) => {
               )}
             </LabeledList>
           </Section>
-        </Grid.Column>
-      </Grid>
+        </Table.Cell>
+      </Table>
       <Section title="Extra Settings" level={3}>
         <LabeledList>
           {extra_settings.map((setting) => {

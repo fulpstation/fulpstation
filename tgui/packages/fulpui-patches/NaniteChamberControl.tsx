@@ -1,6 +1,51 @@
 import { useBackend } from '../tgui/backend';
-import { Box, Button, Collapsible, Grid, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
+import { BooleanLike } from 'common/react';
+import { Box, Button, Collapsible, Table, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
 import { Window } from '../tgui/layouts';
+
+type Data = {
+  status_msg: string;
+  locked: BooleanLike;
+  occupant_name: string;
+  has_nanites: BooleanLike;
+  nanite_volume: number;
+  regen_rate: number;
+  safety_threshold: number;
+  cloud_id: number;
+  scan_level: number;
+  mob_programs: MobData[];
+};
+
+type MobData = {
+  extra_settings: ExtraSettingsData[];
+  rules: RulesData[];
+  name: string;
+  desc: string;
+  activated: BooleanLike;
+  use_rate: number;
+  can_trigger: BooleanLike;
+  trigger_cost: number;
+  trigger_cooldown: number;
+  timer_trigger_delay: number;
+  timer_trigger: number;
+  timer_restart: number;
+  timer_shutdown: number;
+  has_extra_settings: BooleanLike;
+  activation_code: number;
+  deactivation_code: number;
+  kill_code: number;
+  trigger_code: number;
+  has_rules: BooleanLike;
+};
+
+type ExtraSettingsData = {
+  name: string;
+  value: string;
+};
+
+type RulesData = {
+  display: string;
+};
 
 export const NaniteChamberControl = (props, context) => {
   return (
@@ -13,7 +58,7 @@ export const NaniteChamberControl = (props, context) => {
 };
 
 const NaniteChamberControlContent = (props, context) => {
-  const { act, data } = useBackend(context);
+  const { act, data } = useBackend<Data>(context);
   const {
     status_msg,
     locked,
@@ -24,13 +69,12 @@ const NaniteChamberControlContent = (props, context) => {
     safety_threshold,
     cloud_id,
     scan_level,
+    mob_programs = [],
   } = data;
 
   if (status_msg) {
     return <NoticeBox textAlign="center">{status_msg}</NoticeBox>;
   }
-
-  const mob_programs = data.mob_programs || [];
 
   return (
     <Section
@@ -64,7 +108,6 @@ const NaniteChamberControlContent = (props, context) => {
         <>
           <Section
             title="Status"
-            level={2}
             buttons={
               <Button
                 icon="exclamation-triangle"
@@ -73,8 +116,8 @@ const NaniteChamberControlContent = (props, context) => {
                 onClick={() => act('remove_nanites')}
               />
             }>
-            <Grid>
-              <Grid.Column>
+            <Table>
+              <Table.Cell>
                 <LabeledList>
                   <LabeledList.Item label="Nanite Volume">
                     {nanite_volume}
@@ -83,8 +126,8 @@ const NaniteChamberControlContent = (props, context) => {
                     {regen_rate}
                   </LabeledList.Item>
                 </LabeledList>
-              </Grid.Column>
-              <Grid.Column>
+              </Table.Cell>
+              <Table.Cell>
                 <LabeledList>
                   <LabeledList.Item label="Safety Threshold">
                     <NumberInput
@@ -115,20 +158,20 @@ const NaniteChamberControlContent = (props, context) => {
                     />
                   </LabeledList.Item>
                 </LabeledList>
-              </Grid.Column>
-            </Grid>
+              </Table.Cell>
+            </Table>
           </Section>
-          <Section title="Programs" level={2}>
+          <Section title="Programs">
             {mob_programs.map((program) => {
               const extra_settings = program.extra_settings || [];
               const rules = program.rules || [];
               return (
                 <Collapsible key={program.name} title={program.name}>
                   <Section>
-                    <Grid>
-                      <Grid.Column>{program.desc}</Grid.Column>
+                    <Table>
+                      <Table.Cell>{program.desc}</Table.Cell>
                       {scan_level >= 2 && (
-                        <Grid.Column size={0.6}>
+                        <Table.Cell size={0.6}>
                           <LabeledList>
                             <LabeledList.Item label="Activation Status">
                               <Box color={program.activated ? 'good' : 'bad'}>
@@ -139,14 +182,14 @@ const NaniteChamberControlContent = (props, context) => {
                               {program.use_rate}/s
                             </LabeledList.Item>
                           </LabeledList>
-                        </Grid.Column>
+                        </Table.Cell>
                       )}
-                    </Grid>
+                    </Table>
                     {scan_level >= 2 && (
-                      <Grid>
+                      <Table>
                         {!!program.can_trigger && (
-                          <Grid.Column>
-                            <Section title="Triggers" level={2}>
+                          <Table.Cell>
+                            <Section title="Triggers">
                               <LabeledList>
                                 <LabeledList.Item label="Trigger Cost">
                                   {program.trigger_cost}
@@ -166,12 +209,12 @@ const NaniteChamberControlContent = (props, context) => {
                                 )}
                               </LabeledList>
                             </Section>
-                          </Grid.Column>
+                          </Table.Cell>
                         )}
                         {!!(
                           program.timer_restart || program.timer_shutdown
                         ) && (
-                          <Grid.Column>
+                          <Table.Cell>
                             <Section>
                               <LabeledList>
                                 {/* I mean, bruh, this indentation level
@@ -188,12 +231,12 @@ const NaniteChamberControlContent = (props, context) => {
                                 )}
                               </LabeledList>
                             </Section>
-                          </Grid.Column>
+                          </Table.Cell>
                         )}
-                      </Grid>
+                      </Table>
                     )}
                     {scan_level >= 3 && !!program.has_extra_settings && (
-                      <Section title="Extra Settings" level={2}>
+                      <Section title="Extra Settings">
                         <LabeledList>
                           {extra_settings.map((extra_setting) => (
                             <LabeledList.Item
@@ -206,9 +249,9 @@ const NaniteChamberControlContent = (props, context) => {
                       </Section>
                     )}
                     {scan_level >= 4 && (
-                      <Grid>
-                        <Grid.Column>
-                          <Section title="Codes" level={2}>
+                      <Table>
+                        <Table.Cell>
+                          <Section title="Codes">
                             <LabeledList>
                               {!!program.activation_code && (
                                 <LabeledList.Item label="Activation">
@@ -233,17 +276,17 @@ const NaniteChamberControlContent = (props, context) => {
                                 )}
                             </LabeledList>
                           </Section>
-                        </Grid.Column>
+                        </Table.Cell>
                         {program.has_rules && (
-                          <Grid.Column>
-                            <Section title="Rules" level={2}>
+                          <Table.Cell>
+                            <Section title="Rules">
                               {rules.map((rule) => (
                                 <Box key={rule.display}>{rule.display}</Box>
                               ))}
                             </Section>
-                          </Grid.Column>
+                          </Table.Cell>
                         )}
-                      </Grid>
+                      </Table>
                     )}
                   </Section>
                 </Collapsible>

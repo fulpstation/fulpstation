@@ -94,11 +94,14 @@
 /obj/machinery/nanite_program_hub/ui_static_data(mob/user)
 	var/list/data = list()
 	data["programs"] = list()
+	data["categories"] = list()
 	for(var/i in linked_techweb.researched_designs)
 		var/datum/design/nanites/D = SSresearch.techweb_design_by_id(i)
 		if(!istype(D))
 			continue
 		var/cat_name = D.category[1] //just put them in the first category fuck it
+		if(!(cat_name in data["categories"]))
+			data["categories"] += cat_name
 		if(isnull(data["programs"][cat_name]))
 			data["programs"][cat_name] = list()
 		var/list/program_design = list()

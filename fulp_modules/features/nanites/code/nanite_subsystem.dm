@@ -14,8 +14,7 @@ PROCESSING_SUBSYSTEM_DEF(nanites)
 	return TRUE
 
 /datum/controller/subsystem/processing/nanites/proc/get_cloud_backup(cloud_id, force = FALSE)
-	for(var/I in cloud_backups)
-		var/datum/nanite_cloud_backup/backup = I
+	for(var/datum/nanite_cloud_backup/backup as anything in cloud_backups)
 		if(!force && !check_hardware(backup))
 			return
 		if(backup.cloud_id == cloud_id)

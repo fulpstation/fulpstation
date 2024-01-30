@@ -212,6 +212,7 @@
 	var/image/holder = host_mob.hud_list[DATA_HUD_DIAGNOSTIC_ADVANCED]
 	var/icon/I = icon(host_mob.icon, host_mob.icon_state, host_mob.dir)
 	holder.pixel_y = I.Height() - world.icon_size
+	holder_icon = 'fulp_modules/features/nanites/icons/nanite_hud.dmi'
 	holder.icon_state = null
 	if(remove || stealth)
 		return //bye icon
