@@ -57,6 +57,7 @@
 
 		start_time = world.time
 
+		host_mob.hud_set_nanite_indicator()
 		START_PROCESSING(SSnanites, src)
 
 		if(cloud_id)
@@ -118,6 +119,7 @@
 	STOP_PROCESSING(SSnanites, src)
 	QDEL_LIST(programs)
 	if(host_mob)
+		host_mob.hud_set_nanite_indicator()
 		set_nanite_bar(remove = TRUE)
 	host_mob = null
 	linked_techweb = null
@@ -204,18 +206,6 @@
 	nanite_volume = clamp(nanite_volume + amount, 0, max_nanites)
 	if(nanite_volume <= 0) //oops we ran out
 		INVOKE_ASYNC(src, PROC_REF(delete_nanites))
-
-/datum/component/nanites/proc/set_nanite_bar(remove = FALSE)
-	var/image/holder = host_mob.hud_list[DIAG_HUD]
-	var/icon/hud_icon = icon(host_mob.icon, host_mob.icon_state, host_mob.dir)
-	holder.pixel_y = hud_icon.Height() - world.icon_size
-	holder.icon_state = null
-	if(remove || stealth)
-		return //bye icon
-	var/nanite_percent = (nanite_volume / max_nanites) * 100
-	nanite_percent = clamp(CEILING(nanite_percent, 10), 10, 100)
-	holder.icon = 'fulp_modules/features/nanites/icons/nanite_hud.dmi'
-	holder.icon_state = "nanites[nanite_percent]"
 
 /datum/component/nanites/proc/on_emp(datum/source, severity)
 	SIGNAL_HANDLER
@@ -348,8 +338,7 @@
 	SIGNAL_HANDLER
 
 	if(full_scan)
-		to_chat(user, span_info("================"))
-		to_chat(user, span_info("Nanites Detected"))
+		to_chat(user, span_boldnotice("Nanites Detected"))
 		to_chat(user, span_info("Saturation: [nanite_volume]/[max_nanites]"))
 		to_chat(user, span_info("Safety Threshold: [safety_threshold]"))
 		to_chat(user, span_info("Cloud ID: [cloud_id ? cloud_id : "None"]"))
