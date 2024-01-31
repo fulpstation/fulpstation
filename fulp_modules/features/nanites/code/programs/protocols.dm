@@ -60,7 +60,8 @@
 		/datum/reagent/silver,
 		/datum/reagent/mercury,
 		/datum/reagent/aluminium,
-		/datum/reagent/silicon)
+		/datum/reagent/silicon,
+	)
 
 /datum/nanite_program/protocol/tinker/check_conditions()
 	if(!nanites.host_mob.reagents)

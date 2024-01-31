@@ -79,22 +79,23 @@
 
 	update_static_data_for_all_viewers()
 
-/obj/machinery/nanite_program_hub/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/disk/nanite_program))
-		var/obj/item/disk/nanite_program/N = I
-		if(user.transferItemToLoc(N, src))
-			to_chat(user, span_notice("You insert [N] into [src]"))
-			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+/obj/machinery/nanite_program_hub/attackby(obj/item/weapon, mob/user, params)
+	if(istype(weapon, /obj/item/disk/nanite_program))
+		if(user.transferItemToLoc(weapon, src))
 			if(disk)
+				balloon_alert(user, "disk swapped")
 				eject(user)
-			disk = N
-	if(istype(I, /obj/item/multitool))
-		var/obj/item/multitool/multi = I
-		if(istype(multi.buffer, /obj/machinery/rnd/server))
-			connect_techweb(multi.buffer)
+			else
+				balloon_alert(user, "disk inserted")
+			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+			disk = weapon
 		return
-	else
-		..()
+	return ..()
+
+/obj/machinery/nanite_program_hub/multitool_act(mob/living/user, obj/item/multitool/tool)
+	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
+		connect_techweb(tool.buffer)
+	return TRUE
 
 /obj/machinery/nanite_program_hub/proc/eject(mob/living/user)
 	if(!disk)
@@ -103,11 +104,12 @@
 		disk.forceMove(drop_location())
 	disk = null
 
-/obj/machinery/nanite_program_hub/AltClick(mob/user)
+/obj/machinery/nanite_program_hub/attack_hand_secondary(mob/user, list/modifiers)
 	if(disk && user.can_perform_action(src, ALLOW_SILICON_REACH))
-		to_chat(user, span_notice("You take out [disk] from [src]."))
+		balloon_alert(user, "disk ejected")
 		eject(user)
-	return
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return ..()
 
 /obj/machinery/nanite_program_hub/ui_interact(mob/user, datum/tgui/ui)
 	if(!linked_techweb)
@@ -168,7 +170,7 @@
 	switch(action)
 		if("eject")
 			eject(usr)
-			. = TRUE
+			return TRUE
 		if("download")
 			if(!disk)
 				return
@@ -180,16 +182,17 @@
 			disk.program = new downloaded.program_type
 			disk.name = "[initial(disk.name)] \[[disk.program.name]\]"
 			playsound(src, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
-			. = TRUE
+			return TRUE
 		if("refresh")
 			update_static_data(usr)
-			. = TRUE
+			return TRUE
 		if("toggle_details")
 			detail_view = !detail_view
-			. = TRUE
+			return TRUE
 		if("clear")
 			if(disk && disk.program)
 				qdel(disk.program)
 				disk.program = null
 				disk.name = initial(disk.name)
-			. = TRUE
+				playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 25, FALSE)
+			return TRUE

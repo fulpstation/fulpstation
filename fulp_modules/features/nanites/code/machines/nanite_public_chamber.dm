@@ -103,10 +103,10 @@
 		if(busy)
 			icon_state = busy_icon_state
 		else
-			icon_state = initial(icon_state)+ "_occupied"
+			icon_state = initial(icon_state) + "_occupied"
 	else
 		//running
-		icon_state = initial(icon_state)+ (state_open ? "_open" : "")
+		icon_state = initial(icon_state) + (state_open ? "_open" : "")
 
 /obj/machinery/public_nanite_chamber/update_overlays()
 	. = ..()
@@ -159,34 +159,26 @@
 		)
 		open_machine()
 
-/obj/machinery/public_nanite_chamber/close_machine(mob/living/carbon/user, mob/living/attacker)
-	if(!state_open)
-		return FALSE
-
-	..()
-
-	. = TRUE
-
-	addtimer(CALLBACK(src, PROC_REF(try_inject_nanites), attacker), 30) //If someone is shoved in give them a chance to get out before the injection starts
-
-/obj/machinery/public_nanite_chamber/proc/try_inject_nanites(mob/living/attacker)
-	if(occupant)
-		var/mob/living/L = occupant
-		if(SEND_SIGNAL(L, COMSIG_HAS_NANITES))
-			var/datum/component/nanites/nanites = L.GetComponent(/datum/component/nanites)
-			if(nanites && nanites.cloud_id != cloud_id)
-				change_cloud(attacker)
-			return
-		if(L.mob_biotypes & (MOB_ORGANIC | MOB_UNDEAD))
-			inject_nanites(attacker)
-
-/obj/machinery/public_nanite_chamber/open_machine()
+/obj/machinery/public_nanite_chamber/open_machine(drop = TRUE, density_to_set = FALSE)
 	if(state_open)
 		return FALSE
+	return ..()
 
-	..()
+/obj/machinery/public_nanite_chamber/close_machine(atom/movable/target, density_to_set = TRUE)
+	if(!state_open)
+		return FALSE
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(try_inject_nanites), target), 30) //If someone is shoved in give them a chance to get out before the injection starts
 
-	return TRUE
+/obj/machinery/public_nanite_chamber/proc/try_inject_nanites(mob/living/target)
+	if(occupant)
+		var/mob/living/L = occupant
+		var/datum/component/nanites/nanites = L.GetComponent(/datum/component/nanites)
+		if(nanites && nanites.cloud_id != cloud_id)
+			change_cloud(target)
+			return
+		if(L.mob_biotypes & (MOB_ORGANIC | MOB_UNDEAD))
+			inject_nanites(target)
 
 /obj/machinery/public_nanite_chamber/relaymove(mob/living/user, direction)
 	if(user.stat || locked)
@@ -196,26 +188,22 @@
 		return
 	open_machine()
 
-/obj/machinery/public_nanite_chamber/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/multitool))
-		var/obj/item/multitool/multi = I
-		if(istype(multi.buffer, /obj/machinery/rnd/server))
-			var/obj/machinery/rnd/server/serv = multi.buffer
-			linked_techweb = serv.stored_research
-			visible_message("Linked to Server!")
-		return
+/obj/machinery/public_nanite_chamber/nanite_cloud_controller/multitool_act(mob/living/user, obj/item/multitool/tool)
+	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
+		linked_techweb = tool.buffer
+	return TRUE
 
-	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, I))//sent icon_state is irrelevant...
-		update_icon()//..since we're updating the icon here, since the scanner can be unpowered when opened/closed
-		return
-
-	if(default_pry_open(I))
-		return
-
-	if(default_deconstruction_crowbar(I))
-		return
-
+/obj/machinery/public_nanite_chamber/screwdriver_act(mob/living/user, obj/item/tool)
+	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
+		update_appearance()
+		return TOOL_ACT_TOOLTYPE_SUCCESS
 	return ..()
+
+/obj/machinery/public_nanite_chamber/crowbar_act(mob/living/user, obj/item/tool)
+	if(default_pry_open(tool) || default_deconstruction_crowbar(tool))
+		return TOOL_ACT_TOOLTYPE_SUCCESS
+	return ..()
+
 
 /obj/machinery/public_nanite_chamber/interact(mob/user)
 	toggle_open(user)

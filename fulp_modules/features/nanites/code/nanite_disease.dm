@@ -31,7 +31,7 @@
 		return
 	var/mob/living/carbon/M = A.affected_mob
 	SEND_SIGNAL(M, COMSIG_NANITE_ADJUST_VOLUME, 0.5 * power)
-	if(reverse_boost && SEND_SIGNAL(M, COMSIG_HAS_NANITES))
+	if(reverse_boost && M.GetComponent(/datum/component/nanites))
 		if(prob(A.stage_prob))
 			A.stage = min(A.stage + 1,A.max_stages)
 
@@ -68,7 +68,7 @@
 		return
 	var/mob/living/carbon/M = A.affected_mob
 	SEND_SIGNAL(M, COMSIG_NANITE_ADJUST_VOLUME, -0.4 * power)
-	if(reverse_boost && SEND_SIGNAL(M, COMSIG_HAS_NANITES))
+	if(reverse_boost && M.GetComponent(/datum/component/nanites))
 		if(prob(A.stage_prob))
 			A.stage = min(A.stage + 1,A.max_stages)
 

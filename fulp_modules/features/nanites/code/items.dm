@@ -14,7 +14,9 @@
 	desc = "A disk capable of storing nanite programs. Can be customized using a Nanite Programming Console."
 	icon = 'fulp_modules/features/nanites/icons/disk.dmi'
 	icon_state = "nanite"
+	///If set, this will come pre-installed with the disk on Initialize.
 	var/program_type
+	///The program currently uploaded into the disk.
 	var/datum/nanite_program/program
 
 /obj/item/disk/nanite_program/Initialize()

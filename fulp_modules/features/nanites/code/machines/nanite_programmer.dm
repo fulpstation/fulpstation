@@ -7,6 +7,7 @@
 	anchored = TRUE
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/nanite_programmer
+
 	COOLDOWN_DECLARE(nanite_programmer)
 	var/obj/item/disk/nanite_program/disk
 	var/datum/nanite_program/program
@@ -15,18 +16,19 @@
 	. = ..()
 	become_hearing_sensitive()
 
-/obj/machinery/nanite_programmer/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/disk/nanite_program))
-		var/obj/item/disk/nanite_program/N = I
-		if(user.transferItemToLoc(N, src))
-			to_chat(user, span_notice("You insert [N] into [src]"))
-			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+/obj/machinery/nanite_programmer/attackby(obj/item/weapon, mob/user, params)
+	if(istype(weapon, /obj/item/disk/nanite_program))
+		if(user.transferItemToLoc(weapon, src))
 			if(disk)
+				balloon_alert(user, "disk swapped")
 				eject(user)
-			disk = N
-			program = N.program
-	else
-		..()
+			else
+				balloon_alert(user, "disk inserted")
+			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+			disk = weapon
+			program = disk.program
+		return
+	return ..()
 
 /obj/machinery/nanite_programmer/proc/eject(mob/living/user)
 	if(!disk)
@@ -36,11 +38,12 @@
 	disk = null
 	program = null
 
-/obj/machinery/nanite_programmer/AltClick(mob/user)
+/obj/machinery/nanite_programmer/attack_hand_secondary(mob/user, list/modifiers)
 	if(disk && user.can_perform_action(src, ALLOW_SILICON_REACH))
-		to_chat(user, span_notice("You take out [disk] from [src]."))
+		balloon_alert(user, "disk ejected")
 		eject(user)
-	return
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return ..()
 
 /obj/machinery/nanite_programmer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

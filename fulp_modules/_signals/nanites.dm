@@ -1,6 +1,3 @@
-//Nanites
-///() returns TRUE if nanites are found
-#define COMSIG_HAS_NANITES "has_nanites"
 ///() returns TRUE if nanites have stealth
 #define COMSIG_NANITE_IS_STEALTHY "nanite_is_stealthy"
 ///() deletes the nanite component

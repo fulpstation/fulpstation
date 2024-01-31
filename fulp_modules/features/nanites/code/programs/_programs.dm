@@ -1,38 +1,47 @@
 /datum/nanite_program
+	///The name of the Nanite Program.
 	var/name = "Generic Nanite Program"
+	///The description of the nanite program for easy understanding.
 	var/desc = "Warn a coder if you can read this."
 
+	///The nanite program component we're connected to.
 	var/datum/component/nanites/nanites
+	///The person hosting this nanite program, if any.
 	var/mob/living/host_mob
 
-	var/use_rate = 0 			//Amount of nanites used while active
-	var/unique = TRUE			//If there can be more than one copy in the same nanites
-	var/can_trigger = FALSE		//If the nanites have a trigger function (used for the programming UI)
-	var/trigger_cost = 0		//Amount of nanites required to trigger
-	var/trigger_cooldown = 50	//Deciseconds required between each trigger activation
-	var/next_trigger = 0		//World time required for the next trigger activation
+	///How many nanites this uses while active.
+	var/use_rate = 0
+	///Boolean on whether there can have more than one of this nanite program in the same nanite component.
+	var/unique = TRUE
+	///Boolean on whether the nanite program has a trigger function.
+	var/can_trigger = FALSE
+	///Amount of nanites this uses when triggered.
+	var/trigger_cost = 0
+	///Dediseconds required between each trigger activation.
+	var/trigger_cooldown = 50
+	///World time required for the next trigger activation.
+	var/next_trigger = 0
 
+	///Special program flags.
+	///(NANITE_SHOCK_IMMUNE | NANITE_EMP_IMMUNE)
 	var/program_flags = NONE
-	var/passive_enabled = FALSE //If the nanites have an on/off-style effect, it's tracked by this var
+	///Boolean on whether the nanites have an on/off style effect.
+	var/passive_enabled = FALSE
 
-	var/list/rogue_types = list(/datum/nanite_program/glitch) //What this can turn into if it glitches.
-	//As a rule of thumb, these should be:
-	//A: simpler
-	//B: negative
-	//C: affecting the same parts of the body, roughly
-	//B is mostly a consequence of A: it's always going to be simpler to cause damage than to repair it, so a software bug will not randomly make the flesh eating
-	//nanites learn how to repair cells.
-	//Given enough glitch-swapping you'll end up with stuff like necrotic or toxic nanites, which are very simple as they just try to eat what's in front of them
-	//or just lie around polluting the blood
+	///What this program turns into if it glitches. This should be simpler, negative, waste of nanites, or affecting the same bodyparts. Generally.
+	var/list/rogue_types = list(/datum/nanite_program/glitch)
 
+	///Boolean whether the program is currently activated. Off programs won't proceess or have passive effects, but won't consume nanites.
+	var/activated = TRUE
 
-	//The following vars are customizable
-	var/activated = TRUE 			//If FALSE, the program won't process, disables passive effects, can't trigger and doesn't consume nanites
-
-	var/timer_restart = 0 			//When deactivated, the program will wait X deciseconds before self-reactivating. Also works if the program begins deactivated.
-	var/timer_shutdown = 0 			//When activated, the program will wait X deciseconds before self-deactivating. Also works if the program begins activated.
-	var/timer_trigger = 0			//[Trigger only] While active, the program will attempt to trigger once every x deciseconds.
-	var/timer_trigger_delay = 0				//[Trigger only] While active, the program will delay trigger signals by X deciseconds.
+	///How many deciseconds to wait upon deactivation before self-reactivating. Also works if the program begins deactivated.
+	var/timer_restart = 0
+	///How many deciseconds to wait upon activation before self-deactivating. Also works if the program begins activated.
+	var/timer_shutdown = 0
+	///While active, how many dediseconds before the program attempts to trigger itself.
+	var/timer_trigger = 0
+	///While active, how many dediseconds the program will deelay its trigger signals.
+	var/timer_trigger_delay = 0
 
 	//Indicates the next world.time tick where these timers will act
 	var/timer_restart_next = 0
@@ -40,20 +49,22 @@
 	var/timer_trigger_next = 0
 	var/timer_trigger_delay_next = 0
 
-	//Signal codes, these handle remote input to the nanites. If set to 0 they'll ignore signals.
-	var/activation_code 	= 0 	//Code that activates the program [1-9999]
-	var/deactivation_code 	= 0 	//Code that deactivates the program [1-9999]
-	var/kill_code 			= 0		//Code that permanently removes the program [1-9999]
-	var/trigger_code 		= 0 	//Code that triggers the program (if available) [1-9999]
+	///Code that activates the program when sent. [1-9999, 0 ignores signals]
+	var/activation_code = 0
+	///Code that deactivates the program [1-9999, 0 ignores signals]
+	var/deactivation_code = 0
+	///Code that permanently removes the program [1-9999, 0 ignores signals]
+	var/kill_code = 0
+	///Code that triggers the program (if available) [1-9999, 0 ignores signals]
+	var/trigger_code = 0
 
-	//Extra settings
-	///Don't ever override this or I will come to your house and stand menacingly behind a bush
-	VAR_FINAL/list/extra_settings = list()
-
-	//Rules
-	//Rules that automatically manage if the program's active without requiring separate sensor programs
+	///Boolean on whether all rules are required for positive condition or any of specified.
+	var/all_rules_required = TRUE
+	///Rules that automatically manage if the program's active without requiring separate sensor programs
 	var/list/datum/nanite_rule/rules = list()
-	var/all_rules_required = TRUE			//Whether all rules are required for positive condition or any of specified
+
+	///List of extra settings the nanite program is following.
+	VAR_FINAL/list/datum/nanite_extra_setting/extra_settings = list()
 
 /datum/nanite_program/New()
 	. = ..()
@@ -69,6 +80,7 @@
 		on_mob_remove()
 	if(nanites)
 		nanites.programs -= src
+	nanites = null
 	return ..()
 
 /datum/nanite_program/proc/copy()
@@ -301,17 +313,18 @@
 ///A nanite program containing a behaviour protocol. Only one protocol of each class can be active at once.
 /datum/nanite_program/protocol
 	name = "Nanite Protocol"
+	///If specified, a specific protocol the nanites are listed under.
+	///Selection: (NANITE_PROTOCOL_REPLICATION)
 	var/protocol_class = NONE
 
 /datum/nanite_program/protocol/check_conditions()
 	. = ..()
-	for(var/protocol in nanites.protocols)
-		var/datum/nanite_program/protocol/P = protocol
-		if(P != src && P.activated && P.protocol_class == protocol_class)
+	for(var/datum/nanite_program/protocol/protocol as anything in nanites.protocols)
+		if(protocol != src && protocol.activated && protocol.protocol_class == protocol_class)
 			return FALSE
 
 /datum/nanite_program/protocol/on_add(datum/component/nanites/_nanites)
-	..()
+	. = ..()
 	nanites.protocols += src
 
 /datum/nanite_program/protocol/Destroy()

@@ -27,20 +27,6 @@
 	program_type = /datum/nanite_program/viral
 	category = list("Utility Nanites")
 
-/datum/design/nanites/research
-	name = "Distributed Computing"
-	desc = "The nanites aid the research servers by performing a portion of its calculations, increasing research point generation."
-	id = "research_nanites"
-	program_type = /datum/nanite_program/research
-	category = list("Utility Nanites")
-
-/datum/design/nanites/researchplus
-	name = "Neural Network"
-	desc = "The nanites link the host's brains together forming a neural research network, that becomes more efficient with the amount of total hosts. Can be overloaded to increase research output."
-	id = "researchplus_nanites"
-	program_type = /datum/nanite_program/researchplus
-	category = list("Utility Nanites")
-
 /datum/design/nanites/self_scan
 	name = "Host Scan"
 	desc = "The nanites display a detailed readout of a body scan to the host."

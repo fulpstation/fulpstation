@@ -62,7 +62,6 @@
 			cloud_sync()
 
 /datum/component/nanites/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_HAS_NANITES, PROC_REF(confirm_nanites))
 	RegisterSignal(parent, COMSIG_NANITE_IS_STEALTHY, PROC_REF(check_stealth))
 	RegisterSignal(parent, COMSIG_NANITE_DELETE, PROC_REF(delete_nanites))
 	RegisterSignal(parent, COMSIG_NANITE_UI_DATA, PROC_REF(nanite_ui_data))
@@ -89,7 +88,6 @@
 
 /datum/component/nanites/UnregisterFromParent()
 	UnregisterSignal(parent, list(
-		COMSIG_HAS_NANITES,
 		COMSIG_NANITE_IS_STEALTHY,
 		COMSIG_NANITE_DELETE,
 		COMSIG_NANITE_UI_DATA,
@@ -338,11 +336,6 @@
 	SIGNAL_HANDLER
 
 	regen_rate = amount
-
-/datum/component/nanites/proc/confirm_nanites()
-	SIGNAL_HANDLER
-
-	return TRUE //yup i exist
 
 /datum/component/nanites/proc/get_data(list/nanite_data)
 	nanite_data["nanite_volume"] = nanite_volume

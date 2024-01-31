@@ -8,10 +8,15 @@
 	icon_keyboard = null
 	icon_screen = null
 
+	///The disk currently inserted into the cloud control.
 	var/obj/item/disk/nanite_program/disk
+	///The list of all cloud backups that we are a host to.
 	var/list/datum/nanite_cloud_backup/cloud_backups = list()
-	var/current_view = 0 //0 is the main menu, any other number is the page of the backup with that ID
+	///The current page we're viewing, 0 is the main menu, all others is their respective cloud backup ID.
+	var/current_view = 0
+	///The currently set Backup ID, if we create a new cloud backup it will take this ID if possible.
 	var/new_backup_id = 1
+	///The techweb we're linked to, required for the machine to work.
 	var/datum/techweb/linked_techweb
 
 /obj/machinery/computer/nanite_cloud_controller/Destroy()
@@ -25,41 +30,40 @@
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
 		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)
 
-/obj/machinery/computer/nanite_cloud_controller/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/disk/nanite_program))
-		var/obj/item/disk/nanite_program/N = I
-		if(user.transferItemToLoc(N, src))
-			to_chat(user, span_notice("You insert [N] into [src]."))
-			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+/obj/machinery/computer/nanite_cloud_controller/attackby(obj/item/weapon, mob/user, params)
+	if(istype(weapon, /obj/item/disk/nanite_program))
+		if(user.transferItemToLoc(weapon, src))
 			if(disk)
+				balloon_alert(user, "disk swapped")
 				eject(user)
-			disk = N
-			return
-	if(istype(I, /obj/item/multitool))
-		var/obj/item/multitool/multi = I
-		if(istype(multi.buffer, /obj/machinery/rnd/server))
-			var/obj/machinery/rnd/server/serv = multi.buffer
-			linked_techweb = serv.stored_research
-			visible_message("Linked to Server!")
+			else
+				balloon_alert(user, "disk inserted")
+			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+			disk = weapon
 		return
 	return ..()
 
-/obj/machinery/computer/nanite_cloud_controller/AltClick(mob/user)
+/obj/machinery/computer/nanite_cloud_controller/multitool_act(mob/living/user, obj/item/multitool/tool)
+	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
+		linked_techweb = tool.buffer
+	return TRUE
+
+/obj/machinery/computer/nanite_cloud_controller/attack_hand_secondary(mob/user, list/modifiers)
 	if(disk && user.can_perform_action(src, ALLOW_SILICON_REACH))
-		to_chat(user, span_notice("You take out [disk] from [src]."))
+		balloon_alert(user, "disk ejected")
 		eject(user)
-	return
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return ..()
 
 /obj/machinery/computer/nanite_cloud_controller/proc/eject(mob/living/user)
-	if(!disk)
+	if(!disk || !user)
 		return
 	if(!istype(user) || !Adjacent(user) ||!user.put_in_active_hand(disk))
 		disk.forceMove(drop_location())
 	disk = null
 
 /obj/machinery/computer/nanite_cloud_controller/proc/get_backup(cloud_id)
-	for(var/I in cloud_backups)
-		var/datum/nanite_cloud_backup/backup = I
+	for(var/datum/nanite_cloud_backup/backup as anything in cloud_backups)
 		if(backup.cloud_id == cloud_id)
 			return backup
 
@@ -68,10 +72,9 @@
 		to_chat(user, span_warning("Cloud ID already registered."))
 		return
 
-	var/datum/nanite_cloud_backup/backup = new(src)
+	var/datum/nanite_cloud_backup/backup = new(src, cloud_id)
 	var/datum/component/nanites/cloud_copy = backup.AddComponent(/datum/component/nanites, linked_techweb)
-	backup.cloud_id = cloud_id
-	backup.nanites = cloud_copy
+	backup.set_nanites(cloud_copy)
 	log_game("[key_name(user)] created a new nanite cloud backup with id #[cloud_id]")
 
 /obj/machinery/computer/nanite_cloud_controller/ui_interact(mob/user, datum/tgui/ui)
@@ -88,32 +91,32 @@
 	if(disk)
 		data["has_disk"] = TRUE
 		var/list/disk_data = list()
-		var/datum/nanite_program/P = disk.program
-		if(P)
+		var/datum/nanite_program/current_program = disk.program
+		if(current_program)
 			data["has_program"] = TRUE
-			disk_data["name"] = P.name
-			disk_data["desc"] = P.desc
-			disk_data["use_rate"] = P.use_rate
-			disk_data["can_trigger"] = P.can_trigger
-			disk_data["trigger_cost"] = P.trigger_cost
-			disk_data["trigger_cooldown"] = P.trigger_cooldown / 10
+			disk_data["name"] = current_program.name
+			disk_data["desc"] = current_program.desc
+			disk_data["use_rate"] = current_program.use_rate
+			disk_data["can_trigger"] = current_program.can_trigger
+			disk_data["trigger_cost"] = current_program.trigger_cost
+			disk_data["trigger_cooldown"] = current_program.trigger_cooldown / 10
 
-			disk_data["activated"] = P.activated
-			disk_data["activation_code"] = P.activation_code
-			disk_data["deactivation_code"] = P.deactivation_code
-			disk_data["kill_code"] = P.kill_code
-			disk_data["trigger_code"] = P.trigger_code
-			disk_data["timer_restart"] = P.timer_restart / 10
-			disk_data["timer_shutdown"] = P.timer_shutdown / 10
-			disk_data["timer_trigger"] = P.timer_trigger / 10
-			disk_data["timer_trigger_delay"] = P.timer_trigger_delay / 10
+			disk_data["activated"] = current_program.activated
+			disk_data["activation_code"] = current_program.activation_code
+			disk_data["deactivation_code"] = current_program.deactivation_code
+			disk_data["kill_code"] = current_program.kill_code
+			disk_data["trigger_code"] = current_program.trigger_code
+			disk_data["timer_restart"] = current_program.timer_restart / 10
+			disk_data["timer_shutdown"] = current_program.timer_shutdown / 10
+			disk_data["timer_trigger"] = current_program.timer_trigger / 10
+			disk_data["timer_trigger_delay"] = current_program.timer_trigger_delay / 10
 
-			var/list/extra_settings = P.get_extra_settings_frontend()
+			var/list/extra_settings = current_program.get_extra_settings_frontend()
 			disk_data["extra_settings"] = extra_settings
 			if(LAZYLEN(extra_settings))
 				disk_data["has_extra_settings"] = TRUE
-			if(istype(P, /datum/nanite_program/sensor))
-				var/datum/nanite_program/sensor/sensor = P
+			if(istype(current_program, /datum/nanite_program/sensor))
+				var/datum/nanite_program/sensor/sensor = current_program
 				data["can_rule"] = sensor.can_rule
 		data["disk_data"] = disk_data
 	else
@@ -129,45 +132,45 @@
 			data["cloud_backup"] = TRUE
 			var/list/cloud_programs = list()
 			var/id = 1
-			for(var/datum/nanite_program/P in nanites.programs)
-				var/list/cloud_program = list()
-				cloud_program["name"] = P.name
-				cloud_program["desc"] = P.desc
-				cloud_program["id"] = id
-				cloud_program["use_rate"] = P.use_rate
-				cloud_program["can_trigger"] = P.can_trigger
-				cloud_program["trigger_cost"] = P.trigger_cost
-				cloud_program["trigger_cooldown"] = P.trigger_cooldown / 10
-				cloud_program["activated"] = P.activated
-				cloud_program["timer_restart"] = P.timer_restart / 10
-				cloud_program["timer_shutdown"] = P.timer_shutdown / 10
-				cloud_program["timer_trigger"] = P.timer_trigger / 10
-				cloud_program["timer_trigger_delay"] = P.timer_trigger_delay / 10
+			for(var/datum/nanite_program/cloud_program as anything in nanites.programs)
+				var/list/cloud_program_data = list()
+				cloud_program_data["name"] = cloud_program.name
+				cloud_program_data["desc"] = cloud_program.desc
+				cloud_program_data["id"] = id
+				cloud_program_data["use_rate"] = cloud_program.use_rate
+				cloud_program_data["can_trigger"] = cloud_program.can_trigger
+				cloud_program_data["trigger_cost"] = cloud_program.trigger_cost
+				cloud_program_data["trigger_cooldown"] = cloud_program.trigger_cooldown / 10
+				cloud_program_data["activated"] = cloud_program.activated
+				cloud_program_data["timer_restart"] = cloud_program.timer_restart / 10
+				cloud_program_data["timer_shutdown"] = cloud_program.timer_shutdown / 10
+				cloud_program_data["timer_trigger"] = cloud_program.timer_trigger / 10
+				cloud_program_data["timer_trigger_delay"] = cloud_program.timer_trigger_delay / 10
 
-				cloud_program["activation_code"] = P.activation_code
-				cloud_program["deactivation_code"] = P.deactivation_code
-				cloud_program["kill_code"] = P.kill_code
-				cloud_program["trigger_code"] = P.trigger_code
+				cloud_program_data["activation_code"] = cloud_program.activation_code
+				cloud_program_data["deactivation_code"] = cloud_program.deactivation_code
+				cloud_program_data["kill_code"] = cloud_program.kill_code
+				cloud_program_data["trigger_code"] = cloud_program.trigger_code
 				var/list/rules = list()
 				var/rule_id = 1
-				for(var/datum/nanite_rule/nanite_rule as anything in P.rules)
+				for(var/datum/nanite_rule/nanite_rule as anything in cloud_program.rules)
 					var/list/rule = list()
 					rule["display"] = nanite_rule.display()
 					rule["program_id"] = id
 					rule["id"] = rule_id
 					rules += list(rule)
 					rule_id++
-				cloud_program["rules"] = rules
+				cloud_program_data["rules"] = rules
 				if(LAZYLEN(rules))
-					cloud_program["has_rules"] = TRUE
-				cloud_program["all_rules_required"] = P.all_rules_required
+					cloud_program_data["has_rules"] = TRUE
+				cloud_program_data["all_rules_required"] = cloud_program.all_rules_required
 
-				var/list/extra_settings = P.get_extra_settings_frontend()
-				cloud_program["extra_settings"] = extra_settings
+				var/list/extra_settings = cloud_program.get_extra_settings_frontend()
+				cloud_program_data["extra_settings"] = extra_settings
 				if(LAZYLEN(extra_settings))
-					cloud_program["has_extra_settings"] = TRUE
+					cloud_program_data["has_extra_settings"] = TRUE
 				id++
-				cloud_programs += list(cloud_program)
+				cloud_programs += list(cloud_program_data)
 			data["cloud_programs"] = cloud_programs
 	else
 		var/list/backup_list = list()
@@ -185,45 +188,49 @@
 	switch(action)
 		if("eject")
 			eject(usr)
-			. = TRUE
+			return TRUE
 		if("set_view")
 			current_view = text2num(params["view"])
-			. = TRUE
+			return TRUE
 		if("update_new_backup_value")
 			var/backup_value = text2num(params["value"])
 			new_backup_id = backup_value
+			return TRUE
 		if("create_backup")
 			var/cloud_id = new_backup_id
 			if(!isnull(cloud_id))
 				playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
 				cloud_id = clamp(round(cloud_id, 1),1,100)
 				generate_backup(cloud_id, usr)
-			. = TRUE
+			return TRUE
 		if("delete_backup")
 			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
-			if(backup)
-				playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
-				qdel(backup)
-				log_game("[key_name(usr)] deleted the nanite cloud backup #[current_view]")
-			. = TRUE
+			if(!backup)
+				return TRUE
+			playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+			qdel(backup)
+			log_game("[key_name(usr)] deleted the nanite cloud backup #[current_view]")
+			return TRUE
 		if("upload_program")
 			if(disk && disk.program)
 				var/datum/nanite_cloud_backup/backup = get_backup(current_view)
-				if(backup)
-					playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
-					var/datum/component/nanites/nanites = backup.nanites
-					nanites.add_program(null, disk.program.copy())
-					log_game("[key_name(usr)] uploaded program [disk.program.name] to cloud #[current_view]")
-			. = TRUE
-		if("remove_program")
-			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
-			if(backup)
+				if(!backup)
+					return TRUE
 				playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
 				var/datum/component/nanites/nanites = backup.nanites
-				var/datum/nanite_program/P = nanites.programs[text2num(params["program_id"])]
-				log_game("[key_name(usr)] deleted program [P.name] from cloud #[current_view]")
-				qdel(P)
-			. = TRUE
+				nanites.add_program(null, disk.program.copy())
+				log_game("[key_name(usr)] uploaded program [disk.program.name] to cloud #[current_view]")
+			return TRUE
+		if("remove_program")
+			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
+			if(!backup)
+				return TRUE
+			playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+			var/datum/component/nanites/nanites = backup.nanites
+			var/datum/nanite_program/cloud_program = nanites.programs[text2num(params["program_id"])]
+			log_game("[key_name(usr)] deleted program [cloud_program.name] from cloud #[current_view]")
+			qdel(cloud_program)
+			return TRUE
 		if("add_rule")
 			if(disk && disk.program && istype(disk.program, /datum/nanite_program/sensor))
 				var/datum/nanite_program/sensor/rule_template = disk.program
@@ -233,43 +240,51 @@
 				if(backup)
 					playsound(src, 'sound/machines/terminal_prompt.ogg', 50, 0)
 					var/datum/component/nanites/nanites = backup.nanites
-					var/datum/nanite_program/P = nanites.programs[text2num(params["program_id"])]
-					var/datum/nanite_rule/rule = rule_template.make_rule(P)
-
-					log_game("[key_name(usr)] added rule [rule.display()] to program [P.name] in cloud #[current_view]")
-			. = TRUE
+					var/datum/nanite_program/ruled_program = nanites.programs[text2num(params["program_id"])]
+					var/datum/nanite_rule/rule = rule_template.make_rule(ruled_program)
+					log_game("[key_name(usr)] added rule [rule.display()] to program [ruled_program.name] in cloud #[current_view]")
+			return TRUE
 		if("remove_rule")
 			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
-			if(backup)
-				playsound(src, 'sound/machines/terminal_prompt.ogg', 50, 0)
-				var/datum/component/nanites/nanites = backup.nanites
-				var/datum/nanite_program/P = nanites.programs[text2num(params["program_id"])]
-				var/datum/nanite_rule/rule = P.rules[text2num(params["rule_id"])]
-				rule.remove()
-
-				log_game("[key_name(usr)] removed rule [rule.display()] from program [P.name] in cloud #[current_view]")
-			. = TRUE
+			if(!backup)
+				return TRUE
+			playsound(src, 'sound/machines/terminal_prompt.ogg', 50, 0)
+			var/datum/component/nanites/nanites = backup.nanites
+			var/datum/nanite_program/ruleless_program = nanites.programs[text2num(params["program_id"])]
+			var/datum/nanite_rule/rule = ruleless_program.rules[text2num(params["rule_id"])]
+			rule.remove()
+			log_game("[key_name(usr)] removed rule [rule.display()] from program [ruleless_program.name] in cloud #[current_view]")
+			return TRUE
 		if("toggle_rule_logic")
 			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
-			if(backup)
-				playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
-				var/datum/component/nanites/nanites = backup.nanites
-				var/datum/nanite_program/P = nanites.programs[text2num(params["program_id"])]
-				P.all_rules_required = !P.all_rules_required
-				log_game("[key_name(usr)] edited rule logic for program [P.name] into [P.all_rules_required ? "All" : "Any"] in cloud #[current_view]")
-				. = TRUE
+			if(!backup)
+				return TRUE
+			playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+			var/datum/component/nanites/nanites = backup.nanites
+			var/datum/nanite_program/logical_program = nanites.programs[text2num(params["program_id"])]
+			logical_program.all_rules_required = !logical_program.all_rules_required
+			log_game("[key_name(usr)] edited rule logic for program [logical_program.name] into [logical_program.all_rules_required ? "All" : "Any"] in cloud #[current_view]")
+			return TRUE
 
 /datum/nanite_cloud_backup
+	///The ID the backup is set to that is shown in the cloud host.
 	var/cloud_id = 0
+	///The nanite component that the backup has, which handles listing programs and such.
 	var/datum/component/nanites/nanites
-	var/obj/machinery/computer/nanite_cloud_controller/storage
+	///The host of our nanites in the cloud.
+	var/obj/machinery/computer/nanite_cloud_controller/cloud_host
 
-/datum/nanite_cloud_backup/New(obj/machinery/computer/nanite_cloud_controller/_storage)
-	storage = _storage
-	storage.cloud_backups += src
+/datum/nanite_cloud_backup/New(obj/machinery/computer/nanite_cloud_controller/cloud_host_machine, cloud_host_id)
+	. = ..()
+	src.cloud_id = cloud_host_id
+	src.cloud_host = cloud_host_machine
+	cloud_host.cloud_backups += src
 	SSnanites.cloud_backups += src
 
+/datum/nanite_cloud_backup/proc/set_nanites(datum/component/nanites/cloud_copy)
+	src.nanites = cloud_copy
+
 /datum/nanite_cloud_backup/Destroy()
-	storage.cloud_backups -= src
+	cloud_host.cloud_backups -= src
 	SSnanites.cloud_backups -= src
 	return ..()

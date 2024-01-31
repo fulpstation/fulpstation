@@ -179,20 +179,15 @@
 		)
 		open_machine()
 
-/obj/machinery/nanite_chamber/close_machine(mob/living/carbon/user)
+/obj/machinery/nanite_chamber/close_machine(atom/movable/target, density_to_set = TRUE)
 	if(!state_open)
 		return FALSE
+	return ..()
 
-	..(user)
-	return TRUE
-
-/obj/machinery/nanite_chamber/open_machine()
+/obj/machinery/nanite_chamber/open_machine(drop = TRUE, density_to_set = FALSE)
 	if(state_open)
 		return FALSE
-
-	..()
-
-	return TRUE
+	return ..()
 
 /obj/machinery/nanite_chamber/relaymove(mob/living/user, direction)
 	if(user.stat || locked)
@@ -202,24 +197,21 @@
 		return
 	open_machine()
 
-/obj/machinery/nanite_chamber/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/multitool))
-		var/obj/item/multitool/multi = I
-		if(istype(multi.buffer, /obj/machinery/rnd/server))
-			var/obj/machinery/rnd/server/server = multi.buffer
-			linked_techweb = server.stored_research
-
-	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, I))//sent icon_state is irrelevant...
-		update_icon()//..since we're updating the icon here, since the scanner can be unpowered when opened/closed
-		return
-
-	if(default_pry_open(I))
-		return
-
-	if(default_deconstruction_crowbar(I))
-		return
-
+/obj/machinery/nanite_chamber/crowbar_act(mob/living/user, obj/item/tool)
+	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
+		update_appearance()
+		return TOOL_ACT_TOOLTYPE_SUCCESS
 	return ..()
+
+/obj/machinery/nanite_chamber/screwdriver_act(mob/living/user, obj/item/tool)
+	if(default_pry_open(tool) || default_deconstruction_crowbar(tool))
+		return TOOL_ACT_TOOLTYPE_SUCCESS
+	return ..()
+
+/obj/machinery/nanite_chamber/multitool_act(mob/living/user, obj/item/multitool/tool)
+	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
+		linked_techweb = tool.buffer
+	return TRUE
 
 /obj/machinery/nanite_chamber/interact(mob/user)
 	toggle_open(user)

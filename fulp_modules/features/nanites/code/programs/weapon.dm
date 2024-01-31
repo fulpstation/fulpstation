@@ -28,7 +28,7 @@
 		to_chat(host_mob, span_warning("You feel nauseous."))
 		if(iscarbon(host_mob))
 			var/mob/living/carbon/C = host_mob
-			C.vomit(20)
+			C.vomit(vomit_type = /obj/effect/decal/cleanable/vomit/nanites)
 
 /datum/nanite_program/memory_leak
 	name = "Memory Leak"
@@ -96,8 +96,6 @@
 	explosion(host_mob, dev_range, heavy_range, light_range)
 	qdel(nanites)
 
-//TODO make it defuse if triggered again
-
 /datum/nanite_program/heart_stop
 	name = "Heart-Stopper"
 	desc = "Stops the host's heart when triggered; restarts it if triggered again."
@@ -128,10 +126,6 @@
 
 /datum/nanite_program/emp/on_trigger(comm_message)
 	empulse(host_mob, 1, 2)
-
-/datum/nanite_program/pyro/active_effect()
-	host_mob.fire_stacks += 1
-	host_mob.ignite_mob()
 
 /datum/nanite_program/pyro
 	name = "Sub-Dermal Combustion"

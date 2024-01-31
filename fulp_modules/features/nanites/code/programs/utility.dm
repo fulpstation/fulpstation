@@ -133,53 +133,6 @@
 /datum/nanite_program/metabolic_synthesis/active_effect()
 	host_mob.adjust_nutrition(-0.5)
 
-/datum/nanite_program/research
-	name = "Distributed Computing"
-	desc = "The nanites aid the research servers by performing a portion of its calculations, increasing research point generation."
-	use_rate = 0.2
-	rogue_types = list(/datum/nanite_program/toxic)
-
-/datum/nanite_program/research/active_effect()
-	if(!iscarbon(host_mob))
-		return
-	var/points = 1
-	if(!host_mob.client) //less brainpower
-		points *= 0.25
-	nanites.linked_techweb.add_point_list(list(TECHWEB_POINT_TYPE_GENERIC = points))
-
-/datum/nanite_program/researchplus
-	name = "Neural Network"
-	desc = "The nanites link the host's brains together forming a neural research network, that becomes more efficient with the amount of total hosts."
-	use_rate = 0.3
-	rogue_types = list(/datum/nanite_program/brain_decay)
-
-/datum/nanite_program/researchplus/enable_passive_effect()
-	. = ..()
-	if(!iscarbon(host_mob))
-		return
-	if(host_mob.client)
-		SSnanites.neural_network_count++
-	else
-		SSnanites.neural_network_count += 0.25
-
-/datum/nanite_program/researchplus/disable_passive_effect()
-	. = ..()
-	if(!iscarbon(host_mob))
-		return
-	if(host_mob.client)
-		SSnanites.neural_network_count--
-	else
-		SSnanites.neural_network_count -= 0.25
-
-/datum/nanite_program/researchplus/active_effect()
-	if(!iscarbon(host_mob))
-		return
-	var/mob/living/carbon/C = host_mob
-	var/points = round(SSnanites.neural_network_count / 12, 0.1)
-	if(!C.client) //less brainpower
-		points *= 0.25
-	nanites.linked_techweb.add_point_list(list(TECHWEB_POINT_TYPE_GENERIC = points))
-
 /datum/nanite_program/access
 	name = "Subdermal ID"
 	desc = "The nanites store the host's ID access rights in a subdermal magnetic strip. Updates when triggered, copying the host's current access."
@@ -187,7 +140,8 @@
 	trigger_cost = 3
 	trigger_cooldown = 30
 	rogue_types = list(/datum/nanite_program/skin_decay)
-	var/access = list()
+	///List of all access that the Subdermal ID is currently holding onto.
+	var/list/access = list()
 
 //Syncs the nanites with the cumulative current mob's access level. Can potentially wipe existing access.
 /datum/nanite_program/access/on_trigger(comm_message)
@@ -250,7 +204,8 @@
 /datum/nanite_program/nanite_sting/on_trigger(comm_message)
 	var/list/mob/living/carbon/human/target_hosts = list()
 	for(var/mob/living/carbon/human/L in oview(1, host_mob))
-		if(!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) || SEND_SIGNAL(L, COMSIG_HAS_NANITES) || !L.Adjacent(host_mob))
+		var/datum/component/nanites/nanites = L.GetComponent(/datum/component/nanites)
+		if(!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) || nanites || !L.Adjacent(host_mob))
 			continue
 		target_hosts += L
 	if(!target_hosts.len)
