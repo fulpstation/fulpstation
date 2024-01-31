@@ -349,7 +349,7 @@
 
 	if(full_scan)
 		to_chat(user, span_info("================"))
-		to_chat(user, span_boldnotice("Nanites Detected"))
+		to_chat(user, span_info("Nanites Detected"))
 		to_chat(user, span_info("Saturation: [nanite_volume]/[max_nanites]"))
 		to_chat(user, span_info("Safety Threshold: [safety_threshold]"))
 		to_chat(user, span_info("Cloud ID: [cloud_id ? cloud_id : "None"]"))
