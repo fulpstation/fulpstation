@@ -1,20 +1,77 @@
 import { useBackend } from '../tgui/backend';
+import { BooleanLike } from 'common/react';
 import { Box, Button, Collapsible, Table, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
+type Data = {
+  has_disk: BooleanLike;
+  has_program: BooleanLike;
+  disk_data: ProgramData[];
+  new_backup_id: number;
+  current_view: number;
+  cloud_backup: BooleanLike;
+  can_rule: BooleanLike;
+  cloud_programs: ProgramData[];
+  cloud_backups: CloudBackupData[];
+};
+
+type ProgramData = {
+  name: string;
+  desc: string;
+  id: number;
+  use_rate: number;
+  can_trigger: BooleanLike;
+  trigger_cost: number;
+  trigger_cooldown: number;
+  activated: BooleanLike;
+  activation_code: number;
+  deactivation_code: number;
+  kill_code: number;
+  trigger_code: number;
+  timer_restart: number;
+  timer_shutdown: number;
+  timer_trigger: number;
+  timer_trigger_delay: number;
+  has_rules: BooleanLike;
+  all_rules_required: BooleanLike;
+  rules: RuleData[];
+  extra_settings: ExtraSettingsData[];
+  has_extra_settings: BooleanLike;
+};
+
+type ExtraSettingsData = {
+  name: string;
+  type: string;
+  value: string;
+  unit: string;
+  true_text: string;
+  false_text: string;
+};
+
+type RuleData = {
+  display: string;
+  program_id: number;
+  id: number;
+};
+
+type CloudBackupData = {
+  cloud_id: number;
+};
+
 const NaniteDiskBox = (props, context) => {
-  const { data } = useBackend(context);
-  const { has_disk, has_program, disk } = data;
+  const { data } = useBackend<Data>(context);
+  const { has_disk, has_program, disk_data } = data;
   if (!has_disk) {
     return <NoticeBox>No disk inserted</NoticeBox>;
   }
   if (!has_program) {
     return <NoticeBox>Inserted disk has no program</NoticeBox>;
   }
-  return <NaniteInfoBox program={disk} />;
+  return <NaniteInfoBox program={disk_data} />;
 };
 
 const NaniteInfoBox = (props, context) => {
+  const { act } = useBackend<Data>(context);
   const { program } = props;
   const {
     name,
@@ -32,12 +89,12 @@ const NaniteInfoBox = (props, context) => {
     timer_shutdown,
     timer_trigger,
     timer_trigger_delay,
+    extra_settings = [],
+    rules = [],
   } = program;
-  const extra_settings = program.extra_settings || [];
   return (
     <Section
       title={name}
-      level={2}
       buttons={
         <Box inline bold color={activated ? 'good' : 'bad'}>
           {activated ? 'Activated' : 'Deactivated'}
@@ -63,7 +120,7 @@ const NaniteInfoBox = (props, context) => {
       </Table>
       <Table>
         <Table.Cell>
-          <Section title="Codes" level={3} mr={1}>
+          <Section title="Codes" mr={1}>
             <LabeledList>
               <LabeledList.Item label="Activation">
                 {activation_code}
@@ -81,7 +138,7 @@ const NaniteInfoBox = (props, context) => {
           </Section>
         </Table.Cell>
         <Table.Cell>
-          <Section title="Delays" level={3} mr={1}>
+          <Section title="Delays" mr={1}>
             <LabeledList>
               <LabeledList.Item label="Restart">
                 {timer_restart} s
@@ -103,7 +160,7 @@ const NaniteInfoBox = (props, context) => {
           </Section>
         </Table.Cell>
       </Table>
-      <Section title="Extra Settings" level={3}>
+      <Section title="Extra Settings">
         <LabeledList>
           {extra_settings.map((setting) => {
             const naniteTypesDisplayMap = {
@@ -129,36 +186,16 @@ const NaniteInfoBox = (props, context) => {
   );
 };
 
-export const NaniteCloudBackupList = (props, context) => {
-  const { act, data } = useBackend(context);
-  const cloud_backups = data.cloud_backups || [];
-  return cloud_backups.map((backup) => (
-    <Button
-      fluid
-      key={backup.cloud_id}
-      content={'Backup #' + backup.cloud_id}
-      textAlign="center"
-      onClick={() =>
-        act('set_view', {
-          view: backup.cloud_id,
-        })
-      }
-    />
-  ));
-};
-
 const NaniteCloudBackupDetails = (props, context) => {
-  const { act, data } = useBackend(context);
-  const { current_view, disk, has_program, cloud_backup } = data;
-  const can_rule = (disk && disk.can_rule) || false;
+  const { act, data } = useBackend<Data>(context);
+  const { current_view, has_program, can_rule, cloud_backup, cloud_programs } =
+    data;
   if (!cloud_backup) {
     return <NoticeBox>ERROR: Backup not found</NoticeBox>;
   }
-  const cloud_programs = data.cloud_programs || [];
   return (
     <Section
       title={'Backup #' + current_view}
-      level={2}
       buttons={
         !!has_program && (
           <Button
@@ -170,7 +207,6 @@ const NaniteCloudBackupDetails = (props, context) => {
         )
       }>
       {cloud_programs.map((program) => {
-        const rules = program.rules || [];
         return (
           <Collapsible
             key={program.name}
@@ -188,61 +224,58 @@ const NaniteCloudBackupDetails = (props, context) => {
             }>
             <Section>
               <NaniteInfoBox program={program} />
-              {!!can_rule && (
-                <Section
-                  mt={-2}
-                  title="Rules"
-                  level={2}
-                  buttons={
-                    <>
-                      {!!can_rule && (
-                        <Button
-                          icon="plus"
-                          content="Add Rule from Disk"
-                          color="good"
-                          onClick={() =>
-                            act('add_rule', {
-                              program_id: program.id,
-                            })
-                          }
-                        />
-                      )}
+              <Section
+                mt={-2}
+                title="Rules"
+                buttons={
+                  <>
+                    {!!can_rule && (
                       <Button
-                        icon={
-                          program.all_rules_required ? 'check-double' : 'check'
-                        }
-                        content={
-                          program.all_rules_required ? 'Meet all' : 'Meet any'
-                        }
+                        icon="plus"
+                        content="Add Rule from Disk"
+                        color="good"
                         onClick={() =>
-                          act('toggle_rule_logic', {
+                          act('add_rule', {
                             program_id: program.id,
                           })
                         }
                       />
-                    </>
-                  }>
-                  {program.has_rules ? (
-                    rules.map((rule) => (
-                      <Box key={rule.display}>
-                        <Button
-                          icon="minus-circle"
-                          color="bad"
-                          onClick={() =>
-                            act('remove_rule', {
-                              program_id: program.id,
-                              rule_id: rule.id,
-                            })
-                          }
-                        />
-                        {rule.display}
-                      </Box>
-                    ))
-                  ) : (
-                    <Box color="bad">No Active Rules</Box>
-                  )}
-                </Section>
-              )}
+                    )}
+                    <Button
+                      icon={
+                        program.all_rules_required ? 'check-double' : 'check'
+                      }
+                      content={
+                        program.all_rules_required ? 'Meet all' : 'Meet any'
+                      }
+                      onClick={() =>
+                        act('toggle_rule_logic', {
+                          program_id: program.id,
+                        })
+                      }
+                    />
+                  </>
+                }>
+                {program.has_rules ? (
+                  program.rules.map((rule) => (
+                    <Box key={rule.display}>
+                      <Button
+                        icon="minus-circle"
+                        color="bad"
+                        onClick={() =>
+                          act('remove_rule', {
+                            program_id: program.id,
+                            rule_id: rule.id,
+                          })
+                        }
+                      />
+                      {rule.display}
+                    </Box>
+                  ))
+                ) : (
+                  <Box color="bad">No Active Rules</Box>
+                )}
+              </Section>
             </Section>
           </Collapsible>
         );
@@ -252,8 +285,8 @@ const NaniteCloudBackupDetails = (props, context) => {
 };
 
 export const NaniteCloudControl = (props, context) => {
-  const { act, data } = useBackend(context);
-  const { has_disk, current_view, new_backup_id } = data;
+  const { act, data } = useBackend<Data>(context);
+  const { has_disk, current_view, new_backup_id, cloud_backups } = data;
   return (
     <Window width={375} height={700} resizable>
       <Window.Content scrollable>
@@ -301,8 +334,20 @@ export const NaniteCloudControl = (props, context) => {
               </>
             )
           }>
-          {!data.current_view ? (
-            <NaniteCloudBackupList />
+          {!current_view ? (
+            cloud_backups.map((backup) => (
+              <Button
+                fluid
+                key={backup.cloud_id}
+                content={'Backup #' + backup.cloud_id}
+                textAlign="center"
+                onClick={() =>
+                  act('set_view', {
+                    view: backup.cloud_id,
+                  })
+                }
+              />
+            ))
           ) : (
             <NaniteCloudBackupDetails />
           )}

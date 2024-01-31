@@ -21,6 +21,8 @@
 		list(name = "Weaponized Nanites"),
 		list(name = "Protocols"),
 	)
+	///List of all unlocked nanite designs.
+	var/list/datum/design/nanites/cached_designs = list()
 
 /obj/machinery/nanite_program_hub/Destroy()
 	linked_techweb = null
@@ -30,6 +32,52 @@
 	. = ..()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
 		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)
+	if(linked_techweb)
+		on_connected_techweb()
+
+/obj/machinery/nanite_program_hub/proc/connect_techweb(datum/techweb/new_techweb)
+	if(linked_techweb)
+		UnregisterSignal(linked_techweb, list(COMSIG_TECHWEB_ADD_DESIGN))
+	linked_techweb = new_techweb
+	if(!isnull(linked_techweb))
+		on_connected_techweb()
+
+/obj/machinery/nanite_program_hub/proc/on_connected_techweb()
+	for (var/researched_design_id in linked_techweb.researched_designs)
+		var/datum/design/nanites/design = SSresearch.techweb_design_by_id(researched_design_id)
+		if (!ispath(design))
+			continue
+
+		cached_designs[design.program_type] = design.id
+
+	RegisterSignal(linked_techweb, COMSIG_TECHWEB_ADD_DESIGN, PROC_REF(on_research))
+
+/obj/machinery/nanite_program_hub/proc/on_research(datum/source, datum/design/nanites/added_design, custom)
+	SIGNAL_HANDLER
+	// We're probably going to get more than one update (design) at a time, so batch
+	// them together.
+	addtimer(CALLBACK(src, PROC_REF(update_menu_tech)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/**
+ * Updates the `final_sets` and `buildable_parts` for the current mecha fabricator.
+ */
+/obj/machinery/nanite_program_hub/proc/update_menu_tech()
+	var/previous_design_count = cached_designs.len
+
+	cached_designs.Cut()
+	for(var/v in linked_techweb.researched_designs)
+		var/datum/design/nanites/design = SSresearch.techweb_design_by_id(v)
+
+		if(istype(design))
+			cached_designs |= design
+
+	var/design_delta = cached_designs.len - previous_design_count
+
+	if(design_delta > 0)
+		say("Received [design_delta] new design[design_delta == 1 ? "" : "s"].")
+		playsound(src, 'sound/machines/twobeep_high.ogg', 50, TRUE)
+
+	update_static_data_for_all_viewers()
 
 /obj/machinery/nanite_program_hub/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/disk/nanite_program))
@@ -43,9 +91,7 @@
 	if(istype(I, /obj/item/multitool))
 		var/obj/item/multitool/multi = I
 		if(istype(multi.buffer, /obj/machinery/rnd/server))
-			var/obj/machinery/rnd/server/serv = multi.buffer
-			linked_techweb = serv.stored_research
-			visible_message("Linked to Server!")
+			connect_techweb(multi.buffer)
 		return
 	else
 		..()

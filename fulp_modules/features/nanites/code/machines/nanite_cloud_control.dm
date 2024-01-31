@@ -84,6 +84,7 @@
 /obj/machinery/computer/nanite_cloud_controller/ui_data()
 	var/list/data = list()
 
+	data["can_rule"] = FALSE
 	if(disk)
 		data["has_disk"] = TRUE
 		var/list/disk_data = list()
@@ -106,7 +107,6 @@
 			disk_data["timer_shutdown"] = P.timer_shutdown / 10
 			disk_data["timer_trigger"] = P.timer_trigger / 10
 			disk_data["timer_trigger_delay"] = P.timer_trigger_delay / 10
-			disk_data["can_rule"] = FALSE
 
 			var/list/extra_settings = P.get_extra_settings_frontend()
 			disk_data["extra_settings"] = extra_settings
@@ -114,8 +114,8 @@
 				disk_data["has_extra_settings"] = TRUE
 			if(istype(P, /datum/nanite_program/sensor))
 				var/datum/nanite_program/sensor/sensor = P
-				disk_data["can_rule"] = sensor.can_rule
-		data["disk"] = disk_data
+				data["can_rule"] = sensor.can_rule
+		data["disk_data"] = disk_data
 	else
 		data["has_disk"] = FALSE
 
@@ -150,8 +150,7 @@
 				cloud_program["trigger_code"] = P.trigger_code
 				var/list/rules = list()
 				var/rule_id = 1
-				for(var/X in P.rules)
-					var/datum/nanite_rule/nanite_rule = X
+				for(var/datum/nanite_rule/nanite_rule as anything in P.rules)
 					var/list/rule = list()
 					rule["display"] = nanite_rule.display()
 					rule["program_id"] = id
