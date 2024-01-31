@@ -1,4 +1,7 @@
+#define NANITE_DEFAULT_STARTING_VOLUME 100
 #define NANITE_DEFAULT_MAX_VOLUME 500
+#define NANITE_DEFAULT_REGEN_RATE 0.5
+#define NANITE_DEFAULT_SAFETY_THRESHOLD 50
 
 /datum/component/nanites
 	dupe_mode = COMPONENT_DUPE_UNIQUE_PASSARGS
@@ -7,13 +10,13 @@
 	var/mob/living/host_mob
 
 	///amount of nanites in the system, used as fuel for nanite programs
-	var/nanite_volume = 100
+	var/nanite_volume = NANITE_DEFAULT_STARTING_VOLUME
 	///maximum amount of nanites someone can have
 	var/max_nanites = NANITE_DEFAULT_MAX_VOLUME
 	///nanites generated per second
-	var/regen_rate = 0.5
+	var/regen_rate = NANITE_DEFAULT_REGEN_RATE
 	///how low nanites will get before they stop processing/triggering
-	var/safety_threshold = 50
+	var/safety_threshold = NANITE_DEFAULT_SAFETY_THRESHOLD
 	///0 if not connected to the cloud, 1-100 to set a determined cloud backup to draw from
 	var/cloud_id = 0
 	///if false, won't sync to the cloud
@@ -74,6 +77,7 @@
 	RegisterSignal(parent, COMSIG_NANITE_SET_SAFETY, PROC_REF(set_safety))
 	RegisterSignal(parent, COMSIG_NANITE_SET_REGEN, PROC_REF(set_regen))
 	RegisterSignal(parent, COMSIG_NANITE_ADD_PROGRAM, PROC_REF(add_program))
+	RegisterSignal(parent, COMSIG_LIVING_HEALTHSCAN, PROC_REF(on_healthscan))
 	RegisterSignal(parent, COMSIG_NANITE_SCAN, PROC_REF(nanite_scan))
 	RegisterSignal(parent, COMSIG_NANITE_SYNC, PROC_REF(sync))
 	if(isliving(parent))
@@ -100,6 +104,7 @@
 		COMSIG_NANITE_SET_SAFETY,
 		COMSIG_NANITE_SET_REGEN,
 		COMSIG_NANITE_ADD_PROGRAM,
+		COMSIG_LIVING_HEALTHSCAN,
 		COMSIG_NANITE_SCAN,
 		COMSIG_NANITE_SYNC,
 		COMSIG_ATOM_EMP_ACT,
@@ -350,29 +355,32 @@
 
 	nanite_programs |= programs
 
+/datum/component/nanites/proc/on_healthscan(datum/source, list/render_list, advanced, mob/user, mode)
+	SIGNAL_HANDLER
+	nanite_scan(source, user, full_scan = FALSE)
+
 /datum/component/nanites/proc/nanite_scan(datum/source, mob/user, full_scan)
 	SIGNAL_HANDLER
 
-	if(!full_scan)
-		if(!stealth)
-			to_chat(user, span_boldnotice("Nanites Detected"))
-			to_chat(user, span_notice("Saturation: [nanite_volume]/[max_nanites]"))
-			return TRUE
-	else
-		to_chat(user, span_info("NANITES DETECTED"))
-		to_chat(user, span_info("================"))
+	if(full_scan)
 		to_chat(user, span_info("Saturation: [nanite_volume]/[max_nanites]"))
 		to_chat(user, span_info("Safety Threshold: [safety_threshold]"))
 		to_chat(user, span_info("Cloud ID: [cloud_id ? cloud_id : "None"]"))
 		to_chat(user, span_info("Cloud Sync: [cloud_active ? "Active" : "Disabled"]"))
 		to_chat(user, span_info("================"))
 		to_chat(user, span_info("Program List:"))
-		if(!diagnostics)
-			to_chat(user, span_alert("Diagnostics Disabled"))
-		else
+		if(diagnostics)
 			for(var/datum/nanite_program/NP as anything in programs)
 				to_chat(user, span_info("<b>[NP.name]</b> | [NP.activated ? "Active" : "Inactive"]"))
+			return TRUE
+		to_chat(user, span_alert("Diagnostics Disabled"))
 		return TRUE
+
+	if(stealth)
+		return TRUE
+
+	to_chat(user, span_boldnotice("Nanites Detected"))
+	to_chat(user, span_notice("Saturation: [nanite_volume]/[max_nanites]"))
 
 /datum/component/nanites/proc/nanite_ui_data(datum/source, list/data, scan_level)
 	SIGNAL_HANDLER
@@ -433,4 +441,7 @@
 		mob_programs += list(mob_program)
 	data["mob_programs"] = mob_programs
 
+#undef NANITE_DEFAULT_STARTING_VOLUME
 #undef NANITE_DEFAULT_MAX_VOLUME
+#undef NANITE_DEFAULT_REGEN_RATE
+#undef NANITE_DEFAULT_SAFETY_THRESHOLD

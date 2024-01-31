@@ -14,14 +14,11 @@
 	throw_range = 7
 	custom_materials = list(/datum/material/iron=200)
 
-/obj/item/nanite_scanner/attack(mob/living/M, mob/living/carbon/human/user)
-	user.visible_message(
-		span_notice("[user] analyzes [M]'s nanites."),
-		span_notice("You analyze [M]'s nanites."),
-	)
-
+/obj/item/nanite_scanner/attack(mob/living/target_mob, mob/living/user, params)
 	add_fingerprint(user)
-
-	var/response = SEND_SIGNAL(M, COMSIG_NANITE_SCAN, user, TRUE)
+	user.visible_message(span_notice("[user] analyzes [target_mob]'s nanites."))
+	balloon_alert(user, "analyzing nanites")
+	playsound(user.loc, 'fulp_modules/features/nanites/sound/nanite_scan.mp3', 50)
+	var/response = SEND_SIGNAL(target_mob, COMSIG_NANITE_SCAN, user, TRUE)
 	if(!response)
 		to_chat(user, span_info("No nanites detected in the subject."))
