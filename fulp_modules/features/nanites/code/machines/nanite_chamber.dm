@@ -49,7 +49,7 @@
 	busy = status
 	busy_message = message
 	busy_icon_state = working_icon
-	update_icon()
+	update_appearance(UPDATE_ICON)
 
 /obj/machinery/nanite_chamber/proc/set_safety(threshold)
 	if(!occupant)
@@ -72,13 +72,13 @@
 	var/locked_state = locked
 	locked = TRUE
 
-	//TODO OMINOUS MACHINE SOUNDS
+	playsound(src, 'fulp_modules/features/nanites/sound/nanite_install.wav', 50)
 	set_busy(TRUE, "Initializing injection protocol...", "[initial(icon_state)]_raising")
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Analyzing host bio-structure...", "[initial(icon_state)]_active"),20)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Priming nanites...", "[initial(icon_state)]_active"),40)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Injecting...", "[initial(icon_state)]_active"),70)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Activating nanites...", "[initial(icon_state)]_falling"),110)
-	addtimer(CALLBACK(src, PROC_REF(complete_injection), locked_state),130)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Analyzing host bio-structure...", "[initial(icon_state)]_active"), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Priming nanites...", "[initial(icon_state)]_active"), 4 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Injecting...", "[initial(icon_state)]_active"), 7 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Activating nanites...", "[initial(icon_state)]_falling"), 11 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(complete_injection), locked_state), 13 SECONDS)
 
 /obj/machinery/nanite_chamber/proc/complete_injection(locked_state)
 	//TODO MACHINE DING
@@ -86,7 +86,7 @@
 	set_busy(FALSE)
 	if(!occupant || !linked_techweb)
 		return
-	occupant.AddComponent(/datum/component/nanites, linked_techweb, 100)
+	occupant.AddComponent(/datum/component/nanites, linked_techweb)
 
 /obj/machinery/nanite_chamber/proc/remove_nanites(datum/nanite_program/NP)
 	if(machine_stat & (NOPOWER|BROKEN))
@@ -99,13 +99,13 @@
 	var/locked_state = locked
 	locked = TRUE
 
-	//TODO OMINOUS MACHINE SOUNDS
+	playsound(src, 'fulp_modules/features/nanites/sound/nanite_install_short.mp3', 50)
 	set_busy(TRUE, "Initializing cleanup protocol...", "[initial(icon_state)]_raising")
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Analyzing host bio-structure...", "[initial(icon_state)]_active"),20)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Pinging nanites...", "[initial(icon_state)]_active"),40)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Initiating graceful self-destruct sequence...", "[initial(icon_state)]_active"),70)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Removing debris...", "[initial(icon_state)]_falling"),110)
-	addtimer(CALLBACK(src, PROC_REF(complete_removal), locked_state),130)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Analyzing host bio-structure...", "[initial(icon_state)]_active"), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Pinging nanites...", "[initial(icon_state)]_active"), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Initiating graceful self-destruct sequence...", "[initial(icon_state)]_active"), 3.5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Removing debris...", "[initial(icon_state)]_falling"), 6 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(complete_removal), locked_state), 6.5 SECONDS)
 
 /obj/machinery/nanite_chamber/proc/complete_removal(locked_state)
 	//TODO MACHINE DING
@@ -182,11 +182,13 @@
 /obj/machinery/nanite_chamber/close_machine(atom/movable/target, density_to_set = TRUE)
 	if(!state_open)
 		return FALSE
+	playsound(src, 'fulp_modules/features/nanites/sound/nanite_chamber.wav', 40)
 	return ..()
 
 /obj/machinery/nanite_chamber/open_machine(drop = TRUE, density_to_set = FALSE)
 	if(state_open)
 		return FALSE
+	playsound(src, 'fulp_modules/features/nanites/sound/nanite_chamber.wav', 40)
 	return ..()
 
 /obj/machinery/nanite_chamber/relaymove(mob/living/user, direction)

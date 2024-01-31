@@ -41,7 +41,7 @@
 
 /datum/component/nanites/Initialize(
 	datum/techweb/linked_techweb,
-	nanite_volume = 100,
+	nanite_volume = NANITE_DEFAULT_STARTING_VOLUME,
 	cloud_id = 0,
 )
 	if(!isliving(parent) && !istype(parent, /datum/nanite_cloud_backup))

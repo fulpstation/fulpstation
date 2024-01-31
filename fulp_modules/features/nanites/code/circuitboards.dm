@@ -36,26 +36,3 @@
 		/obj/item/stock_parts/micro_laser = 2,
 		/obj/item/stock_parts/scanning_module = 1,
 	)
-
-/obj/item/circuitboard/machine/public_nanite_chamber
-	name = "Public Nanite Chamber"
-	greyscale_colors = CIRCUIT_COLOR_SCIENCE
-	build_path = /obj/machinery/public_nanite_chamber
-	req_components = list(
-		/obj/item/stock_parts/micro_laser = 2,
-		/obj/item/stock_parts/servo = 1,
-	)
-	///The Cloud ID set that will carry over upon being built.
-	var/cloud_id = 1
-
-/obj/item/circuitboard/machine/public_nanite_chamber/multitool_act(mob/living/user)
-	. = ..()
-	var/new_cloud = tgui_input_number(user, "Set the public nanite chamber's Cloud ID (1-100).", "Cloud ID", cloud_id)
-	if(!new_cloud || (loc != user))
-		return
-	user.balloon_alert("ID set to [new_cloud]")
-	cloud_id = clamp(round(new_cloud, 1), 1, 100)
-
-/obj/item/circuitboard/machine/public_nanite_chamber/examine(mob/user)
-	. = ..()
-	. += "Cloud ID is currently set to [cloud_id]."
