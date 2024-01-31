@@ -48,12 +48,12 @@
 
 /datum/nanite_program/protocol/tinker
 	name = "Tinker Protocol"
-	desc = "Replication Protocol: the nanites learn to use metallic material in the host's bloodstream to speed up the replication process."
+	desc = "Replication Protocol: the nanites learn to use metallic material in the host's bloodstream and stomach to speed up the replication process."
 	use_rate = 0
 	rogue_types = list(/datum/nanite_program/necrotic)
 	protocol_class = NANITE_PROTOCOL_REPLICATION
 	var/boost = 2
-	var/list/valid_reagents = list(
+	var/list/datum/reagent/valid_reagents = list(
 		/datum/reagent/iron,
 		/datum/reagent/copper,
 		/datum/reagent/gold,
@@ -90,12 +90,10 @@
 	protocol_class = NANITE_PROTOCOL_REPLICATION
 	var/boost = 3
 
-
 /datum/nanite_program/protocol/offline/check_conditions()
 	if(nanites.host_mob.stat == CONSCIOUS)
 		return FALSE
 	return ..()
-
 
 /datum/nanite_program/protocol/offline/active_effect()
 	nanites.adjust_nanites(null, boost)

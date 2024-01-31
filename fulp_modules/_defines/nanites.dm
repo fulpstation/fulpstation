@@ -48,3 +48,11 @@
 #define NES_BUTTON_NAME "Button Name"
 #define NES_ICON "Icon"
 #define NES_COLOR "Color"
+
+#define NANITE_CATEGORY_UTILITIES "Utility Nanites"
+#define NANITE_CATEGORY_MEDICAL "Medical Nanites"
+#define NANITES_CATEGORY_SENSOR "Sensor Nanites"
+#define NANITES_CATEGORY_AUGMENTATION "Augmentation Nanites"
+#define NANITES_CATEGORY_SUPPRESSION "Suppression Nanites"
+#define NANITES_CATEGORY_WEAPONIZED "Weaponized Nanites"
+#define NANITES_CATEGORY_PROTOCOLS "Protocols"

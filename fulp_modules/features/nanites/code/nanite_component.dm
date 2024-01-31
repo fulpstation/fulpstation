@@ -19,8 +19,6 @@
 	var/safety_threshold = NANITE_DEFAULT_SAFETY_THRESHOLD
 	///0 if not connected to the cloud, 1-100 to set a determined cloud backup to draw from
 	var/cloud_id = 0
-	///if false, won't sync to the cloud
-	var/cloud_active = TRUE
 	///How long until the next sync to cloud
 	var/next_sync = 0
 	///All nanite programs in the user
@@ -61,7 +59,7 @@
 
 		START_PROCESSING(SSnanites, src)
 
-		if(cloud_id && cloud_active)
+		if(cloud_id)
 			cloud_sync()
 
 /datum/component/nanites/RegisterWithParent()
@@ -73,7 +71,6 @@
 	RegisterSignal(parent, COMSIG_NANITE_ADJUST_VOLUME, PROC_REF(adjust_nanites))
 	RegisterSignal(parent, COMSIG_NANITE_SET_MAX_VOLUME, PROC_REF(set_max_volume))
 	RegisterSignal(parent, COMSIG_NANITE_SET_CLOUD, PROC_REF(set_cloud))
-	RegisterSignal(parent, COMSIG_NANITE_SET_CLOUD_SYNC, PROC_REF(set_cloud_sync))
 	RegisterSignal(parent, COMSIG_NANITE_SET_SAFETY, PROC_REF(set_safety))
 	RegisterSignal(parent, COMSIG_NANITE_SET_REGEN, PROC_REF(set_regen))
 	RegisterSignal(parent, COMSIG_NANITE_ADD_PROGRAM, PROC_REF(add_program))
@@ -100,7 +97,6 @@
 		COMSIG_NANITE_ADJUST_VOLUME,
 		COMSIG_NANITE_SET_MAX_VOLUME,
 		COMSIG_NANITE_SET_CLOUD,
-		COMSIG_NANITE_SET_CLOUD_SYNC,
 		COMSIG_NANITE_SET_SAFETY,
 		COMSIG_NANITE_SET_REGEN,
 		COMSIG_NANITE_ADD_PROGRAM,
@@ -138,7 +134,7 @@
 		adjust_nanites(null, regen_rate)
 		for(var/datum/nanite_program/NP as anything in programs)
 			NP.on_process()
-		if(cloud_id && cloud_active && world.time > next_sync)
+		if(cloud_id && world.time > next_sync)
 			cloud_sync()
 			next_sync = world.time + NANITE_SYNC_DELAY
 	set_nanite_bar(remove = FALSE)
@@ -321,17 +317,6 @@
 
 	cloud_id = clamp(amount, 0, 100)
 
-/datum/component/nanites/proc/set_cloud_sync(datum/source, method)
-	SIGNAL_HANDLER
-
-	switch(method)
-		if(NANITE_CLOUD_TOGGLE)
-			cloud_active = !cloud_active
-		if(NANITE_CLOUD_DISABLE)
-			cloud_active = FALSE
-		if(NANITE_CLOUD_ENABLE)
-			cloud_active = TRUE
-
 /datum/component/nanites/proc/set_safety(datum/source, amount)
 	SIGNAL_HANDLER
 
@@ -363,10 +348,11 @@
 	SIGNAL_HANDLER
 
 	if(full_scan)
+		to_chat(user, span_info("================"))
+		to_chat(user, span_boldnotice("Nanites Detected"))
 		to_chat(user, span_info("Saturation: [nanite_volume]/[max_nanites]"))
 		to_chat(user, span_info("Safety Threshold: [safety_threshold]"))
 		to_chat(user, span_info("Cloud ID: [cloud_id ? cloud_id : "None"]"))
-		to_chat(user, span_info("Cloud Sync: [cloud_active ? "Active" : "Disabled"]"))
 		to_chat(user, span_info("================"))
 		to_chat(user, span_info("Program List:"))
 		if(diagnostics)
@@ -390,7 +376,6 @@
 	data["regen_rate"] = regen_rate
 	data["safety_threshold"] = safety_threshold
 	data["cloud_id"] = cloud_id
-	data["cloud_active"] = cloud_active
 	var/list/mob_programs = list()
 	var/id = 1
 	for(var/X in programs)

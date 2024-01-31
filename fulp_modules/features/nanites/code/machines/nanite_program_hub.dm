@@ -13,13 +13,13 @@
 	var/current_category = "Main"
 	var/detail_view = TRUE
 	var/categories = list(
-		list(name = "Utility Nanites"),
-		list(name = "Medical Nanites"),
-		list(name = "Sensor Nanites"),
-		list(name = "Augmentation Nanites"),
-		list(name = "Suppression Nanites"),
-		list(name = "Weaponized Nanites"),
-		list(name = "Protocols"),
+		list(name = NANITE_CATEGORY_UTILITIES),
+		list(name = NANITE_CATEGORY_MEDICAL),
+		list(name = NANITES_CATEGORY_SENSOR),
+		list(name = NANITES_CATEGORY_AUGMENTATION),
+		list(name = NANITES_CATEGORY_SUPPRESSION),
+		list(name = NANITES_CATEGORY_WEAPONIZED),
+		list(name = NANITES_CATEGORY_PROTOCOLS),
 	)
 	///List of all unlocked nanite designs.
 	var/list/datum/design/nanites/cached_designs = list()

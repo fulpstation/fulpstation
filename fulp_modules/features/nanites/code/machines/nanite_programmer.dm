@@ -8,8 +8,11 @@
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/nanite_programmer
 
-	COOLDOWN_DECLARE(nanite_programmer)
+	///The delay between 'when you code it' replies.
+	COOLDOWN_DECLARE(wyci_delay)
+	///The disk inserted into the machine that we hold and get the program of.
 	var/obj/item/disk/nanite_program/disk
+	///The program on the nanite disk that we are currently editing.
 	var/datum/nanite_program/program
 
 /obj/machinery/nanite_programmer/Initialize(mapload)
@@ -84,14 +87,15 @@
 	. = ..()
 	if(.)
 		return
+
 	switch(action)
 		if("eject")
 			eject(usr)
-			. = TRUE
+			return TRUE
 		if("toggle_active")
 			playsound(src, "terminal_type", 25, FALSE)
 			program.activated = !program.activated //we don't use the activation procs since we aren't in a mob
-			. = TRUE
+			return TRUE
 		if("set_code")
 			var/new_code = text2num(params["code"])
 			playsound(src, "terminal_type", 25, FALSE)
@@ -105,11 +109,11 @@
 					program.kill_code = clamp(round(new_code, 1),0,9999)
 				if("trigger")
 					program.trigger_code = clamp(round(new_code, 1),0,9999)
-			. = TRUE
+			return TRUE
 		if("set_extra_setting")
 			program.set_extra_setting(params["target_setting"], params["value"])
 			playsound(src, "terminal_type", 25, FALSE)
-			. = TRUE
+			return TRUE
 		if("set_restart_timer")
 			var/timer = text2num(params["delay"])
 			if(!isnull(timer))
@@ -117,7 +121,7 @@
 				timer = clamp(round(timer, 1), 0, 3600)
 				timer *= 10 //convert to deciseconds
 				program.timer_restart = timer
-			. = TRUE
+			return TRUE
 		if("set_shutdown_timer")
 			var/timer = text2num(params["delay"])
 			if(!isnull(timer))
@@ -125,7 +129,7 @@
 				timer = clamp(round(timer, 1), 0, 3600)
 				timer *= 10 //convert to deciseconds
 				program.timer_shutdown = timer
-			. = TRUE
+			return TRUE
 		if("set_trigger_timer")
 			var/timer = text2num(params["delay"])
 			if(!isnull(timer))
@@ -133,7 +137,7 @@
 				timer = clamp(round(timer, 1), 0, 3600)
 				timer *= 10 //convert to deciseconds
 				program.timer_trigger = timer
-			. = TRUE
+			return TRUE
 		if("set_timer_trigger_delay")
 			var/timer = text2num(params["delay"])
 			if(!isnull(timer))
@@ -141,11 +145,13 @@
 				timer = clamp(round(timer, 1), 0, 3600)
 				timer *= 10 //convert to deciseconds
 				program.timer_trigger_delay = timer
-			. = TRUE
+			return TRUE
 
-/obj/machinery/nanite_programmer/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
+/obj/machinery/nanite_programmer/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list(), message_range=0)
 	. = ..()
+	if(!COOLDOWN_FINISHED(src, wyci_delay))
+		return
 	var/static/regex/when = regex("(?:^\\W*when|when\\W*$)", "i") //starts or ends with when
-	if(findtext(raw_message, when) && !istype(speaker, /obj/machinery/nanite_programmer) && COOLDOWN_FINISHED(src, nanite_programmer))
+	if(findtext(raw_message, when) && !istype(speaker, /obj/machinery/nanite_programmer))
 		say("When you code it!!")
-		COOLDOWN_START(src, nanite_programmer, 5 SECONDS)
+		COOLDOWN_START(src, wyci_delay, 5 SECONDS)
