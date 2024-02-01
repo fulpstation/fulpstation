@@ -76,8 +76,8 @@
 	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Analyzing host bio-structure...", "[initial(icon_state)]_active"), 2 SECONDS)
 	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Priming nanites...", "[initial(icon_state)]_active"), 4 SECONDS)
 	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Injecting...", "[initial(icon_state)]_active"), 7 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Activating nanites...", "[initial(icon_state)]_falling"), 11 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(complete_injection), locked_state), 13 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Activating nanites...", "[initial(icon_state)]_falling"), 9 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(complete_injection), locked_state), 11 SECONDS)
 
 /obj/machinery/nanite_chamber/proc/complete_injection(locked_state)
 	//TODO MACHINE DING
@@ -87,7 +87,7 @@
 		return
 	occupant.AddComponent(/datum/component/nanites, linked_console.linked_techweb)
 
-/obj/machinery/nanite_chamber/proc/remove_nanites(datum/nanite_program/NP)
+/obj/machinery/nanite_chamber/proc/remove_nanites()
 	if(machine_stat & (NOPOWER|BROKEN))
 		return
 	if((machine_stat & MAINT) || panel_open)
@@ -100,11 +100,11 @@
 
 	playsound(src, 'fulp_modules/features/nanites/sound/nanite_install_short.mp3', 50)
 	set_busy(TRUE, "Initializing cleanup protocol...", "[initial(icon_state)]_raising")
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Analyzing host bio-structure...", "[initial(icon_state)]_active"), 1 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Pinging nanites...", "[initial(icon_state)]_active"), 2 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Initiating graceful self-destruct sequence...", "[initial(icon_state)]_active"), 3.5 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Removing debris...", "[initial(icon_state)]_falling"), 6 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(complete_removal), locked_state), 6.5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Analyzing host bio-structure...", "[initial(icon_state)]_active"), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Pinging nanites...", "[initial(icon_state)]_active"), 3 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Initiating graceful self-destruct sequence...", "[initial(icon_state)]_active"), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "Removing debris...", "[initial(icon_state)]_falling"), 7 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(complete_removal), locked_state), 9 SECONDS)
 
 /obj/machinery/nanite_chamber/proc/complete_removal(locked_state)
 	//TODO MACHINE DING
