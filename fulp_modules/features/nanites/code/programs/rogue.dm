@@ -70,16 +70,17 @@
 	rogue_types = list(/datum/nanite_program/brain_decay)
 
 /datum/nanite_program/brain_misfire/active_effect()
-	if(prob(10))
-		switch(rand(1,4))
-			if(1)
-				host_mob.set_hallucinations(1.5 SECONDS)
-			if(2)
-				host_mob.adjust_timed_status_effect(3 SECONDS, /datum/status_effect/confusion)
-			if(3)
-				host_mob.adjust_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness)
-			if(4)
-				host_mob.adjust_timed_status_effect(3 SECONDS, /datum/status_effect/speech/slurring/drunk)
+	if(!prob(10))
+		return
+	switch(rand(1,4))
+		if(1)
+			host_mob.set_hallucinations(1.5 SECONDS)
+		if(2)
+			host_mob.adjust_timed_status_effect(3 SECONDS, /datum/status_effect/confusion)
+		if(3)
+			host_mob.adjust_timed_status_effect(3 SECONDS, /datum/status_effect/dizziness)
+		if(4)
+			host_mob.adjust_timed_status_effect(3 SECONDS, /datum/status_effect/speech/slurring/drunk)
 
 //Generic skin-affecting programs will decay into this
 /datum/nanite_program/skin_decay
@@ -98,8 +99,7 @@
 
 		host_mob.visible_message(
 			"[can_scratch ? span_warning("[host_mob] scratches [host_mob.p_their()] [bodypart.name].") : ""]",
-			span_warning("Your [bodypart.name] itches. [can_scratch ? " You scratch it." : ""]"),
-		)
+			span_warning("Your [bodypart.name] itches. [can_scratch ? " You scratch it." : ""]"))
 
 //Generic nerve-affecting programs will decay into this
 /datum/nanite_program/nerve_decay
@@ -113,9 +113,11 @@
 	if(prob(5))
 		to_chat(host_mob, span_warning("You feel unbalanced!"))
 		host_mob.adjust_timed_status_effect(5 SECONDS, /datum/status_effect/confusion)
-	else if(prob(4))
+		return
+	if(prob(4))
 		to_chat(host_mob, span_warning("You can't feel your hands!"))
 		host_mob.drop_all_held_items()
-	else if(prob(4))
+		return
+	if(prob(4))
 		to_chat(host_mob, span_warning("You can't feel your legs!"))
 		host_mob.Paralyze(30)

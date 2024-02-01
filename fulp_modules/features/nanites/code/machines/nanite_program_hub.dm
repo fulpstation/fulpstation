@@ -8,25 +8,18 @@
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/nanite_program_hub
 
-	var/obj/item/disk/nanite_program/disk
-	var/datum/techweb/linked_techweb
-	var/current_category = "Main"
+	///Boolean on whether the UI should give a detailed view of everything.
 	var/detail_view = TRUE
-	var/categories = list(
-		list(name = NANITE_CATEGORY_UTILITIES),
-		list(name = NANITE_CATEGORY_MEDICAL),
-		list(name = NANITES_CATEGORY_SENSOR),
-		list(name = NANITES_CATEGORY_AUGMENTATION),
-		list(name = NANITES_CATEGORY_SUPPRESSION),
-		list(name = NANITES_CATEGORY_WEAPONIZED),
-		list(name = NANITES_CATEGORY_PROTOCOLS),
-	)
-	///List of all unlocked nanite designs.
+	///The disk currently inserted into the machine, that we upload programs onto.
+	var/obj/item/disk/nanite_program/inserted_disk
+	///The techweb we're connected to, and get designs from.
+	var/datum/techweb/linked_techweb
+	///List of all unlocked nanite designs, cached to only state when you receive a new one.
 	var/list/datum/design/nanites/cached_designs = list()
 
 /obj/machinery/nanite_program_hub/Destroy()
 	linked_techweb = null
-	. = ..()
+	return ..()
 
 /obj/machinery/nanite_program_hub/LateInitialize()
 	. = ..()
@@ -54,8 +47,7 @@
 
 /obj/machinery/nanite_program_hub/proc/on_research(datum/source, datum/design/nanites/added_design, custom)
 	SIGNAL_HANDLER
-	// We're probably going to get more than one update (design) at a time, so batch
-	// them together.
+	// We're probably going to get more than one update (design) at a time, so batch them together.
 	addtimer(CALLBACK(src, PROC_REF(update_menu_tech)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /**
@@ -80,17 +72,17 @@
 	update_static_data_for_all_viewers()
 
 /obj/machinery/nanite_program_hub/attackby(obj/item/weapon, mob/user, params)
-	if(istype(weapon, /obj/item/disk/nanite_program))
-		if(user.transferItemToLoc(weapon, src))
-			if(disk)
-				balloon_alert(user, "disk swapped")
-				eject(user)
-			else
-				balloon_alert(user, "disk inserted")
-			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
-			disk = weapon
+	if(!istype(weapon, /obj/item/disk/nanite_program))
+		return ..()
+	if(!user.transferItemToLoc(weapon, src))
 		return
-	return ..()
+	if(inserted_disk)
+		balloon_alert(user, "disk swapped")
+		eject(user)
+	else
+		balloon_alert(user, "disk inserted")
+	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+	inserted_disk = weapon
 
 /obj/machinery/nanite_program_hub/multitool_act(mob/living/user, obj/item/multitool/tool)
 	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
@@ -98,14 +90,14 @@
 	return TRUE
 
 /obj/machinery/nanite_program_hub/proc/eject(mob/living/user)
-	if(!disk)
+	if(!inserted_disk)
 		return
-	if(!istype(user) || !Adjacent(user) || !user.put_in_active_hand(disk))
-		disk.forceMove(drop_location())
-	disk = null
+	if(!istype(user) || !Adjacent(user) || !user.put_in_active_hand(inserted_disk))
+		inserted_disk.forceMove(drop_location())
+	inserted_disk = null
 
 /obj/machinery/nanite_program_hub/attack_hand_secondary(mob/user, list/modifiers)
-	if(disk && user.can_perform_action(src, ALLOW_SILICON_REACH))
+	if(inserted_disk && user.can_perform_action(src, ALLOW_SILICON_REACH))
 		balloon_alert(user, "disk ejected")
 		eject(user)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
@@ -123,10 +115,10 @@
 
 /obj/machinery/nanite_program_hub/ui_data()
 	var/list/data = list()
-	if(disk)
+	if(inserted_disk)
 		data["has_disk"] = TRUE
 		var/list/disk_data = list()
-		var/datum/nanite_program/P = disk.program
+		var/datum/nanite_program/P = inserted_disk.program
 		if(P)
 			data["has_program"] = TRUE
 			disk_data["name"] = P.name
@@ -172,15 +164,15 @@
 			eject(usr)
 			return TRUE
 		if("download")
-			if(!disk)
+			if(!inserted_disk)
 				return
 			var/datum/design/nanites/downloaded = linked_techweb.isDesignResearchedID(params["program_id"]) //check if it's a valid design
 			if(!istype(downloaded))
 				return
-			if(disk.program)
-				qdel(disk.program)
-			disk.program = new downloaded.program_type
-			disk.name = "[initial(disk.name)] \[[disk.program.name]\]"
+			if(inserted_disk.program)
+				qdel(inserted_disk.program)
+			inserted_disk.program = new downloaded.program_type
+			inserted_disk.name = "[initial(inserted_disk.name)] \[[inserted_disk.program.name]\]"
 			playsound(src, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
 			return TRUE
 		if("refresh")
@@ -190,9 +182,9 @@
 			detail_view = !detail_view
 			return TRUE
 		if("clear")
-			if(disk && disk.program)
-				qdel(disk.program)
-				disk.program = null
-				disk.name = initial(disk.name)
+			if(inserted_disk && inserted_disk.program)
+				qdel(inserted_disk.program)
+				inserted_disk.program = null
+				inserted_disk.name = initial(inserted_disk.name)
 				playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 25, FALSE)
 			return TRUE

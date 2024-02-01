@@ -8,11 +8,14 @@
 	name = "nanite remote control"
 	desc = "A device that can remotely control active nanites through wireless signals."
 	w_class = WEIGHT_CLASS_SMALL
-	req_access = list(ACCESS_SCIENCE)
+	req_access = list(ACCESS_RESEARCH)
 	icon = 'fulp_modules/features/nanites/icons/nanite_device.dmi'
 	icon_state = "nanite_remote"
+	base_icon_state = "nanite_remote"
 	item_flags = NOBLUDGEON
-	var/locked = FALSE //Can be locked, so it can be given to users with a set code and mode
+
+	///Boolean on whether the nanite remote has been locked, preventing changing of any setting.
+	var/locked = FALSE
 	var/mode = REMOTE_MODE_OFF
 	var/list/saved_settings = list()
 	var/last_id = 0
@@ -29,13 +32,12 @@
 	. = ..()
 	if(!user.can_perform_action(src))
 		return
-	if(locked)
-		if(allowed(user))
-			to_chat(user, span_notice("You unlock [src]."))
-			locked = FALSE
-			update_icon()
-		else
-			to_chat(user, span_warning("Access denied."))
+	if(allowed(user))
+		locked = !locked
+		user.balloon_alert(user, (locked ? "locked" : "unlocked"))
+		update_appearance(UPDATE_ICON)
+	else
+		user.balloon_alert(user, "access denied!")
 
 /obj/item/nanite_remote/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
@@ -44,33 +46,38 @@
 	obj_flags |= EMAGGED
 	if(locked)
 		locked = FALSE
-		update_icon()
+		update_appearance(UPDATE_ICON)
 
 /obj/item/nanite_remote/update_overlays()
 	. = ..()
 	if(obj_flags & EMAGGED)
-		. += "nanite_remote_emagged"
+		. += "[base_icon_state]_emagged"
 	if(locked)
-		. += "nanite_remote_locked"
+		. += "[base_icon_state]_locked"
 
-/obj/item/nanite_remote/afterattack(atom/target, mob/user, etc)
+/obj/item/nanite_remote/afterattack(atom/target, mob/user, proximity_flag, click_parameters, comms_message)
 	switch(mode)
 		if(REMOTE_MODE_OFF)
 			return
 		if(REMOTE_MODE_SELF)
 			to_chat(user, span_notice("You activate [src], signaling the nanites in your bloodstream."))
 			signal_mob(user, code, key_name(user))
+			return
 		if(REMOTE_MODE_TARGET)
 			if(isliving(target) && (get_dist(target, get_turf(src)) <= 7))
 				to_chat(user, span_notice("You activate [src], signaling the nanites inside [target]."))
 				signal_mob(target, code, key_name(user))
+				return
 		if(REMOTE_MODE_AOE)
 			to_chat(user, span_notice("You activate [src], signaling the nanites inside every host around you."))
 			for(var/mob/living/L in view(user, 7))
 				signal_mob(L, code, key_name(user))
+			return
 		if(REMOTE_MODE_RELAY)
 			to_chat(user, span_notice("You activate [src], signaling all connected relay nanites."))
 			signal_relay(code, relay_code, key_name(user))
+			return
+	return ..()
 
 /obj/item/nanite_remote/proc/signal_mob(mob/living/M, code, source)
 	SEND_SIGNAL(M, COMSIG_NANITE_SIGNAL, code, source)
@@ -110,7 +117,7 @@
 			if(!isnull(new_code))
 				new_code = clamp(round(new_code, 1),0,9999)
 				code = new_code
-			. = TRUE
+			return TRUE
 		if("set_relay_code")
 			if(locked)
 				return
@@ -118,10 +125,10 @@
 			if(!isnull(new_code))
 				new_code = clamp(round(new_code, 1),0,9999)
 				relay_code = new_code
-			. = TRUE
+			return TRUE
 		if("update_name")
 			current_program_name = params["name"]
-			. = TRUE
+			return TRUE
 		if("save")
 			if(locked)
 				return
@@ -132,9 +139,8 @@
 			new_save["code"] = code
 			new_save["mode"] = mode
 			new_save["relay_code"] = relay_code
-
 			saved_settings += list(new_save)
-			. = TRUE
+			return TRUE
 		if("load")
 			var/code_id = params["save_id"]
 			var/list/setting
@@ -146,7 +152,7 @@
 				code = setting["code"]
 				mode = setting["mode"]
 				relay_code = setting["relay_code"]
-			. = TRUE
+			return TRUE
 		if("remove_save")
 			if(locked)
 				return
@@ -155,17 +161,17 @@
 				if(setting["id"] == text2num(code_id))
 					saved_settings -= list(setting)
 					break
-			. = TRUE
+			return TRUE
 		if("select_mode")
 			if(locked)
 				return
 			mode = params["mode"]
-			. = TRUE
+			return TRUE
 		if("lock")
 			if(!(obj_flags & EMAGGED))
 				locked = TRUE
-				update_icon()
-			. = TRUE
+				update_appearance()
+			return TRUE
 
 
 /obj/item/nanite_remote/comm
@@ -174,7 +180,7 @@
 	icon_state = "nanite_comm_remote"
 	var/comm_message = ""
 
-/obj/item/nanite_remote/comm/afterattack(atom/target, mob/user, etc)
+/obj/item/nanite_remote/comm/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	switch(mode)
 		if(REMOTE_MODE_OFF)
 			return
@@ -197,8 +203,8 @@
 	SEND_SIGNAL(M, COMSIG_NANITE_COMM_SIGNAL, code, comm_message)
 
 /obj/item/nanite_remote/comm/signal_relay(code, relay_code, source)
-	for(var/datum/nanite_program/relay/N as anything in SSnanites.nanite_relays)
-		N.relay_comm_signal(code, relay_code, comm_message)
+	for(var/datum/nanite_program/relay/relay as anything in SSnanites.nanite_relays)
+		relay.relay_comm_signal(code, relay_code, comm_message)
 
 /obj/item/nanite_remote/comm/ui_data()
 	var/list/data = list()
@@ -210,7 +216,6 @@
 	data["locked"] = locked
 	data["saved_settings"] = saved_settings
 	data["program_name"] = current_program_name
-
 	return data
 
 /obj/item/nanite_remote/comm/ui_act(action, params)
@@ -225,7 +230,7 @@
 			if(!new_message)
 				return
 			comm_message = new_message
-			. = TRUE
+			return TRUE
 
 #undef REMOTE_MODE_OFF
 #undef REMOTE_MODE_SELF

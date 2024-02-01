@@ -11,7 +11,7 @@
 		return FALSE
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE,TRUE, status = BODYTYPE_ORGANIC)
+		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
 		if(!parts.len)
 			return FALSE
 	return ..()
@@ -19,7 +19,7 @@
 /datum/nanite_program/regenerative/active_effect()
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE,TRUE, status = BODYTYPE_ORGANIC)
+		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
 		if(!parts.len)
 			return
 		for(var/obj/item/bodypart/L in parts)
@@ -117,7 +117,7 @@
 
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE, TRUE, status = BODYTYPE_ROBOTIC)
+		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ROBOTIC)
 		if(!parts.len)
 			return FALSE
 	else
@@ -128,7 +128,7 @@
 /datum/nanite_program/repairing/active_effect(mob/living/M)
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE, TRUE, status = BODYTYPE_ROBOTIC)
+		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ROBOTIC)
 		if(!parts.len)
 			return
 		var/update = FALSE
@@ -172,7 +172,7 @@
 /datum/nanite_program/regenerative_advanced/active_effect()
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE,TRUE, status = BODYTYPE_ORGANIC)
+		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
 		if(!parts.len)
 			return
 		var/update = FALSE
@@ -217,28 +217,28 @@
 
 /datum/nanite_program/defib/on_trigger(comm_message)
 	host_mob.notify_ghost_cloning("Your heart is being defibrillated by nanites. Re-enter your corpse if you want to be revived!")
-	addtimer(CALLBACK(src, PROC_REF(zap)), 50)
+	addtimer(CALLBACK(src, PROC_REF(start_defibrilation)), 5 SECONDS)
 
 /datum/nanite_program/defib/proc/check_revivable()
-	if(!iscarbon(host_mob)) //nonstandard biology
+	if(!iscarbon(host_mob))
 		return FALSE
-	var/mob/living/carbon/C = host_mob
-	if(C.get_ghost())
-		return FALSE
-	return C.can_defib()
+	var/mob/living/carbon/carbon_host = host_mob
+	return carbon_host.can_defib()
 
-/datum/nanite_program/defib/proc/zap()
-	var/mob/living/carbon/C = host_mob
-	playsound(C, 'sound/machines/defib_charge.ogg', 50, FALSE)
-	sleep(30)
-	playsound(C, 'sound/machines/defib_zap.ogg', 50, FALSE)
+/datum/nanite_program/defib/proc/start_defibrilation()
+	playsound(host_mob, 'sound/machines/defib_charge.ogg', 50, FALSE)
+	addtimer(CALLBACK(src, PROC_REF(perform_defibrilation)), 3 SECONDS)
+
+/datum/nanite_program/defib/proc/perform_defibrilation()
+	var/mob/living/carbon/carbon_host = host_mob
+	playsound(carbon_host, 'sound/machines/defib_zap.ogg', 50, FALSE)
 	if(check_revivable())
-		playsound(C, 'sound/machines/defib_success.ogg', 50, FALSE)
-		C.set_heartattack(FALSE)
-		C.revive(full_heal = FALSE, admin_revive = FALSE)
-		C.emote("gasp")
-		C.set_timed_status_effect(10 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-		SEND_SIGNAL(C, COMSIG_LIVING_MINOR_SHOCK)
-		log_game("[C] has been successfully defibrillated by nanites.")
+		playsound(carbon_host, 'sound/machines/defib_success.ogg', 50, FALSE)
+		carbon_host.set_heartattack(FALSE)
+		carbon_host.revive()
+		carbon_host.emote("gasp")
+		carbon_host.set_timed_status_effect(10 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
+		SEND_SIGNAL(carbon_host, COMSIG_LIVING_MINOR_SHOCK)
+		log_game("[carbon_host] has been successfully defibrillated by nanites.")
 	else
-		playsound(C, 'sound/machines/defib_failed.ogg', 50, FALSE)
+		playsound(carbon_host, 'sound/machines/defib_failed.ogg', 50, FALSE)

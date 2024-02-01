@@ -1,29 +1,35 @@
 /obj/machinery/computer/nanite_chamber_control
 	name = "nanite chamber control console"
-	desc = "Controls a connected nanite chamber. Can inoculate nanites, load programs, and analyze existing nanite swarms."
+	desc = "Controls a connected nanite chamber. Can inoculate and destroy nanites or analyze existing nanite swarms within patients."
 	icon = 'fulp_modules/features/nanites/icons/computer.dmi'
 	icon_screen = "nanite_chamber_control"
 	icon_keyboard = null
 	circuit = /obj/item/circuitboard/computer/nanite_chamber_control
-	var/obj/machinery/nanite_chamber/chamber
-	var/obj/item/disk/nanite_program/disk
 
-/obj/machinery/computer/nanite_chamber_control/Initialize()
+	///The nanite chamber we're connected to, that we use to scan people and modify nanites.
+	var/obj/machinery/nanite_chamber/chamber
+	///The techweb that hosts the nanites we're injecting into people.
+	var/datum/techweb/linked_techweb
+
+/obj/machinery/computer/nanite_chamber_control/LateInitialize()
 	. = ..()
 	find_chamber()
+	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
+		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)
 
-/obj/machinery/computer/nanite_chamber_control/proc/find_chamber()
-	for(var/direction in GLOB.cardinals)
-		var/C = locate(/obj/machinery/nanite_chamber, get_step(src, direction))
-		if(C)
-			var/obj/machinery/nanite_chamber/NC = C
-			chamber = NC
-			NC.console = src
+/obj/machinery/computer/nanite_chamber_control/Destroy()
+	linked_techweb = null
+	return ..()
 
 /obj/machinery/computer/nanite_chamber_control/interact()
 	if(!chamber)
 		find_chamber()
-	..()
+	return ..()
+
+/obj/machinery/computer/nanite_chamber_control/multitool_act(mob/living/user, obj/item/multitool/tool)
+	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
+		linked_techweb = tool.buffer
+	return TRUE
 
 /obj/machinery/computer/nanite_chamber_control/ui_interact(mob/user, datum/tgui/ui)
 	. = ..()
@@ -35,6 +41,10 @@
 /obj/machinery/computer/nanite_chamber_control/ui_data()
 	var/list/data = list()
 
+	if(!linked_techweb)
+		data["status_msg"] = "No techweb detected."
+		return data
+
 	if(!chamber)
 		data["status_msg"] = "No chamber detected."
 		return data
@@ -43,9 +53,9 @@
 		data["status_msg"] = "No occupant detected."
 		return data
 
-	var/mob/living/L = chamber.occupant
+	var/mob/living/person_inside = chamber.occupant
 
-	if(!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
+	if(!(person_inside.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
 		data["status_msg"] = "Occupant not compatible with nanites."
 		return data
 
@@ -58,7 +68,7 @@
 	data["locked"] = chamber.locked
 	data["occupant_name"] = chamber.occupant.name
 
-	SEND_SIGNAL(L, COMSIG_NANITE_UI_DATA, data, chamber.scan_level)
+	SEND_SIGNAL(person_inside, COMSIG_NANITE_UI_DATA, data, chamber.scan_level)
 
 	return data
 
@@ -69,34 +79,44 @@
 	switch(action)
 		if("toggle_lock")
 			chamber.locked = !chamber.locked
-			chamber.update_icon()
-			. = TRUE
+			chamber.update_appearance(UPDATE_ICON)
+			return TRUE
 		if("set_safety")
 			var/threshold = text2num(params["value"])
 			if(!isnull(threshold))
-				chamber.set_safety(clamp(round(threshold, 1),0,500))
+				chamber.set_safety(clamp(round(threshold, 1), 0, 500))
 				playsound(src, "terminal_type", 25, FALSE)
 				log_game("[chamber.occupant]'s nanites' safety threshold was set to [threshold] by [key_name(usr)] via [src] at [AREACOORD(src)].")
-			. = TRUE
+			return TRUE
 		if("set_cloud")
 			var/cloud_id = text2num(params["value"])
 			if(!isnull(cloud_id))
-				chamber.set_cloud(clamp(round(cloud_id, 1),0,100))
+				chamber.set_cloud(clamp(round(cloud_id, 1), 0, 100))
 				playsound(src, "terminal_type", 25, FALSE)
 				log_game("[chamber.occupant]'s nanites' cloud id was set to [cloud_id] by [key_name(usr)] via [src] at [AREACOORD(src)].")
-			. = TRUE
+			return TRUE
 		if("connect_chamber")
 			find_chamber()
-			. = TRUE
+			return TRUE
 		if("remove_nanites")
 			playsound(src, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
 			chamber.remove_nanites()
 			log_combat(usr, chamber.occupant, "cleared nanites from", null, "via [src]")
 			log_game("[chamber.occupant]'s nanites were cleared by [key_name(usr)] via [src] at [AREACOORD(src)].")
-			. = TRUE
+			return TRUE
 		if("nanite_injection")
 			playsound(src, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
 			chamber.inject_nanites()
 			log_combat(usr, chamber.occupant, "injected", null, "with nanites via [src]")
 			log_game("[chamber.occupant] was injected with nanites by [key_name(usr)] via [src] at [AREACOORD(src)].")
-			. = TRUE
+			return TRUE
+
+///Looks in all directions for a nanite chamber to sync to.
+/obj/machinery/computer/nanite_chamber_control/proc/find_chamber()
+	for(var/direction in GLOB.cardinals)
+		var/found_chamber = locate(/obj/machinery/nanite_chamber, get_step(src, direction))
+		if(!found_chamber)
+			continue
+		var/obj/machinery/nanite_chamber/nanite_chamber = found_chamber
+		chamber = nanite_chamber
+		nanite_chamber.linked_console = src

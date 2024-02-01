@@ -20,26 +20,18 @@
 	become_hearing_sensitive()
 
 /obj/machinery/nanite_programmer/attackby(obj/item/weapon, mob/user, params)
-	if(istype(weapon, /obj/item/disk/nanite_program))
-		if(user.transferItemToLoc(weapon, src))
-			if(disk)
-				balloon_alert(user, "disk swapped")
-				eject(user)
-			else
-				balloon_alert(user, "disk inserted")
-			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
-			disk = weapon
-			program = disk.program
+	if(!istype(weapon, /obj/item/disk/nanite_program))
 		return
-	return ..()
-
-/obj/machinery/nanite_programmer/proc/eject(mob/living/user)
-	if(!disk)
+	if(!user.transferItemToLoc(weapon, src))
 		return
-	if(!istype(user) || !Adjacent(user) || !user.put_in_active_hand(disk))
-		disk.forceMove(drop_location())
-	disk = null
-	program = null
+	if(disk)
+		balloon_alert(user, "disk swapped")
+		eject(user)
+	else
+		balloon_alert(user, "disk inserted")
+	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+	disk = weapon
+	program = disk.program
 
 /obj/machinery/nanite_programmer/attack_hand_secondary(mob/user, list/modifiers)
 	if(disk && user.can_perform_action(src, ALLOW_SILICON_REACH))
@@ -47,6 +39,15 @@
 		eject(user)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	return ..()
+
+/obj/machinery/nanite_programmer/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list(), message_range=0)
+	. = ..()
+	if(!COOLDOWN_FINISHED(src, wyci_delay))
+		return
+	var/static/regex/when = regex("(?:^\\W*when|when\\W*$)", "i") //starts or ends with when
+	if(findtext(raw_message, when) && !istype(speaker, /obj/machinery/nanite_programmer))
+		say("When you code it!!")
+		COOLDOWN_START(src, wyci_delay, 5 SECONDS)
 
 /obj/machinery/nanite_programmer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -147,11 +148,10 @@
 				program.timer_trigger_delay = timer
 			return TRUE
 
-/obj/machinery/nanite_programmer/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list(), message_range=0)
-	. = ..()
-	if(!COOLDOWN_FINISHED(src, wyci_delay))
+/obj/machinery/nanite_programmer/proc/eject(mob/living/user)
+	if(!disk)
 		return
-	var/static/regex/when = regex("(?:^\\W*when|when\\W*$)", "i") //starts or ends with when
-	if(findtext(raw_message, when) && !istype(speaker, /obj/machinery/nanite_programmer))
-		say("When you code it!!")
-		COOLDOWN_START(src, wyci_delay, 5 SECONDS)
+	if(!istype(user) || !Adjacent(user) || !user.put_in_active_hand(disk))
+		disk.forceMove(drop_location())
+	disk = null
+	program = null

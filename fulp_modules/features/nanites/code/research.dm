@@ -21,7 +21,9 @@
 		"relay_repeater_nanites",
 		"red_diag_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 1000,
+	)
 
 /datum/techweb_node/nanite_smart
 	id = "nanite_smart"
@@ -39,7 +41,9 @@
 		"sensor_voice_nanites",
 		"voice_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 750)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 750,
+	)
 
 /datum/techweb_node/nanite_mesh
 	id = "nanite_mesh"
@@ -59,7 +63,9 @@
 		"emp_nanites",
 		"temperature_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 750)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 750,
+	)
 
 /datum/techweb_node/nanite_bio
 	id = "nanite_bio"
@@ -81,7 +87,9 @@
 		"sensor_damage_nanites",
 		"sensor_species_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 750)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 750,
+	)
 
 /datum/techweb_node/nanite_neural
 	id = "nanite_neural"
@@ -97,7 +105,9 @@
 		"good_mood_nanites",
 		"bad_mood_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 1500,
+	)
 
 /datum/techweb_node/nanite_synaptic
 	id = "nanite_synaptic"
@@ -116,7 +126,9 @@
 		"speech_nanites",
 		"hallucination_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 1500,
+	)
 
 /datum/techweb_node/nanite_harmonic
 	id = "nanite_harmonic"
@@ -136,7 +148,9 @@
 		"purging_plus_nanites",
 		"adrenaline_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2750)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 2750,
+	)
 
 /datum/techweb_node/nanite_combat
 	id = "nanite_military"
@@ -153,7 +167,9 @@
 		"viral_nanites",
 		"nanite_sting_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3500)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 3500,
+	)
 
 /datum/techweb_node/nanite_hazard
 	id = "nanite_hazard"
@@ -168,7 +184,9 @@
 		"mindcontrol_nanites",
 		"mitosis_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3500)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 3500,
+	)
 
 /datum/techweb_node/nanite_replication_protocols
 	id = "nanite_replication_protocols"
@@ -181,6 +199,25 @@
 		"tinker_nanites",
 		"offline_nanites",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 2000,
+	)
+	hidden = TRUE
+	experimental = TRUE
+
+/datum/techweb_node/nanite_storage_protocols
+	id = "nanite_storage_protocols"
+	display_name = "Nanite Storage Protocols"
+	description = "Protocols that overwrite the default nanite storage routine to achieve more efficiency or greater capacity."
+	prereq_ids = list("nanite_smart")
+	design_ids = list(
+		"free_range_nanites",
+		"hive_nanites",
+		"unsafe_storage_nanites",
+		"zip_nanites",
+	)
+	research_costs = list(
+		TECHWEB_POINT_TYPE_GENERIC = 1000,
+	)
 	hidden = TRUE
 	experimental = TRUE

@@ -13,8 +13,8 @@
 	greyscale_colors = CIRCUIT_COLOR_SCIENCE
 	build_path = /obj/machinery/nanite_chamber
 	req_components = list(
-		/obj/item/stock_parts/scanning_module = 2,
 		/obj/item/stock_parts/micro_laser = 2,
+		/obj/item/stock_parts/scanning_module = 1,
 		/obj/item/stock_parts/servo = 1,
 	)
 

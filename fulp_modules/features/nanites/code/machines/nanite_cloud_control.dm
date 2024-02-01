@@ -31,17 +31,17 @@
 		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)
 
 /obj/machinery/computer/nanite_cloud_controller/attackby(obj/item/weapon, mob/user, params)
-	if(istype(weapon, /obj/item/disk/nanite_program))
-		if(user.transferItemToLoc(weapon, src))
-			if(disk)
-				balloon_alert(user, "disk swapped")
-				eject(user)
-			else
-				balloon_alert(user, "disk inserted")
-			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
-			disk = weapon
+	if(!istype(weapon, /obj/item/disk/nanite_program))
+		return ..()
+	if(!user.transferItemToLoc(weapon, src))
 		return
-	return ..()
+	if(disk)
+		balloon_alert(user, "disk swapped")
+		eject(user)
+	else
+		balloon_alert(user, "disk inserted")
+	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+	disk = weapon
 
 /obj/machinery/computer/nanite_cloud_controller/multitool_act(mob/living/user, obj/item/multitool/tool)
 	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
@@ -265,26 +265,3 @@
 			logical_program.all_rules_required = !logical_program.all_rules_required
 			log_game("[key_name(usr)] edited rule logic for program [logical_program.name] into [logical_program.all_rules_required ? "All" : "Any"] in cloud #[current_view]")
 			return TRUE
-
-/datum/nanite_cloud_backup
-	///The ID the backup is set to that is shown in the cloud host.
-	var/cloud_id = 0
-	///The nanite component that the backup has, which handles listing programs and such.
-	var/datum/component/nanites/nanites
-	///The host of our nanites in the cloud.
-	var/obj/machinery/computer/nanite_cloud_controller/cloud_host
-
-/datum/nanite_cloud_backup/New(obj/machinery/computer/nanite_cloud_controller/cloud_host_machine, cloud_host_id)
-	. = ..()
-	src.cloud_id = cloud_host_id
-	src.cloud_host = cloud_host_machine
-	cloud_host.cloud_backups += src
-	SSnanites.cloud_backups += src
-
-/datum/nanite_cloud_backup/proc/set_nanites(datum/component/nanites/cloud_copy)
-	src.nanites = cloud_copy
-
-/datum/nanite_cloud_backup/Destroy()
-	cloud_host.cloud_backups -= src
-	SSnanites.cloud_backups -= src
-	return ..()

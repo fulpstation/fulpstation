@@ -28,7 +28,7 @@
 
 	///Separate list of protocol programs, to avoid looping through the whole programs list when cheking for conflicts
 	var/list/datum/nanite_program/protocol/protocols = list()
-	///Timestamp to when the nanites were first inserted in the host
+	///Timestamp to when the nanites were first inserted in the host, used in some protocols.
 	var/start_time = 0
 	///Prevents nanites from appearing on HUDs and health scans
 	var/stealth = FALSE
@@ -49,19 +49,20 @@
 	src.nanite_volume = nanite_volume
 	src.cloud_id = cloud_id
 
-	if(isliving(parent))
-		host_mob = parent
+	if(!isliving(parent))
+		return
 
-		if(!(host_mob.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD))) //Shouldn't happen, but this avoids HUD runtimes in case a silicon gets them somehow.
-			return COMPONENT_INCOMPATIBLE
+	host_mob = parent
+	if(!(host_mob.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD))) //Shouldn't happen, but this avoids HUD runtimes in case a silicon gets them somehow.
+		return COMPONENT_INCOMPATIBLE
 
-		start_time = world.time
+	start_time = world.time
 
-		host_mob.hud_set_nanite_indicator()
-		START_PROCESSING(SSnanites, src)
+	host_mob.hud_set_nanite_indicator()
+	START_PROCESSING(SSnanites, src)
 
-		if(cloud_id)
-			cloud_sync()
+	if(cloud_id)
+		cloud_sync()
 
 /datum/component/nanites/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_NANITE_IS_STEALTHY, PROC_REF(check_stealth))
@@ -167,25 +168,40 @@
 		add_program(null, SNP.copy())
 
 /datum/component/nanites/proc/cloud_sync()
-	if(cloud_id)
-		var/datum/nanite_cloud_backup/backup = SSnanites.get_cloud_backup(cloud_id)
-		if(backup)
-			var/datum/component/nanites/cloud_copy = backup.nanites
-			if(cloud_copy)
-				sync(null, cloud_copy)
-				return
-	//Without cloud syncing nanites can accumulate errors and/or defects
+	if(!cloud_id)
+		return attempt_corrupt()
+	var/datum/nanite_cloud_backup/backup = SSnanites.get_cloud_backup(cloud_id)
+	if(!backup)
+		return attempt_corrupt()
+	var/datum/component/nanites/cloud_copy = backup.nanites
+	if(!cloud_copy)
+		return attempt_corrupt()
+	sync(null, cloud_copy)
+
+///Rolls for a chance to corrupt your nanites.
+/datum/component/nanites/proc/attempt_corrupt()
 	if(prob(NANITE_FAILURE_CHANCE) && programs.len)
-		var/datum/nanite_program/NP = pick(programs)
-		NP.software_error()
+		var/datum/nanite_program/random_program = pick(programs)
+		random_program.software_error()
 
 /datum/component/nanites/proc/add_program(datum/source, datum/nanite_program/new_program, datum/nanite_program/source_program)
 	SIGNAL_HANDLER
 
-	for(var/X in programs)
-		var/datum/nanite_program/NP = X
-		if(NP.unique && NP.type == new_program.type)
-			qdel(NP)
+	if(istype(new_program, /datum/nanite_program/protocol))
+		var/datum/nanite_program/protocol/protocol_nanite = new_program
+		for(var/datum/nanite_program/protocol/other_protocols in programs)
+			//skip over the same type so it continues on to delete it later.
+			if(other_protocols.type != new_program.type)
+				continue
+			if(other_protocols.protocol_class != protocol_nanite.protocol_class)
+				continue
+			return COMPONENT_PROGRAM_NOT_INSTALLED
+
+	for(var/datum/nanite_program/all_program as anything in programs)
+		if(!all_program.unique || all_program.type != new_program.type)
+			continue
+		qdel(all_program)
+
 	if(programs.len >= max_programs)
 		return COMPONENT_PROGRAM_NOT_INSTALLED
 	if(source_program)
@@ -210,13 +226,12 @@
 /datum/component/nanites/proc/on_emp(datum/source, severity)
 	SIGNAL_HANDLER
 
-	nanite_volume *= (rand(60, 90) * 0.01)		//Lose 10-40% of nanites
-	adjust_nanites(null, -(rand(5, 50)))		//Lose 5-50 flat nanite volume
-	if(prob(40/severity))
+	nanite_volume *= (rand(60, 90) * 0.01) //Lose 10-40% of nanites
+	adjust_nanites(null, -(rand(5, 50))) //Lose 5-50 flat nanite volume
+	if(prob(40 / severity))
 		cloud_id = 0
-	for(var/X in programs)
-		var/datum/nanite_program/NP = X
-		NP.on_emp(severity)
+	for(var/datum/nanite_program/all_program as anything in programs)
+		all_program.on_emp(severity)
 
 
 /datum/component/nanites/proc/on_shock(datum/source, shock_damage, siemens_coeff = 1, flags = NONE)
@@ -236,9 +251,8 @@
 	SIGNAL_HANDLER
 
 	adjust_nanites(null, -(rand(5, 15))) //Lose 5-15 flat nanite volume
-	for(var/X in programs)
-		var/datum/nanite_program/NP = X
-		NP.on_minor_shock()
+	for(var/datum/nanite_program/all_program as anything in programs)
+		all_program.on_minor_shock()
 
 /datum/component/nanites/proc/check_stealth(datum/source)
 	SIGNAL_HANDLER
@@ -248,24 +262,20 @@
 /datum/component/nanites/proc/on_death(datum/source, gibbed)
 	SIGNAL_HANDLER
 
-	for(var/X in programs)
-		var/datum/nanite_program/NP = X
-		NP.on_death(gibbed)
+	for(var/datum/nanite_program/all_program as anything in programs)
+		all_program.on_death(gibbed)
 
 /datum/component/nanites/proc/receive_signal(datum/source, code, source = "an unidentified source")
 	SIGNAL_HANDLER
 
-	for(var/X in programs)
-		var/datum/nanite_program/NP = X
-		NP.receive_signal(code, source)
+	for(var/datum/nanite_program/all_program as anything in programs)
+		all_program.receive_signal(code, source)
 
 /datum/component/nanites/proc/receive_comm_signal(datum/source, comm_code, comm_message, comm_source = "an unidentified source")
 	SIGNAL_HANDLER
 
-	for(var/X in programs)
-		if(istype(X, /datum/nanite_program/comm))
-			var/datum/nanite_program/comm/NP = X
-			NP.receive_comm_signal(comm_code, comm_message, comm_source)
+	for(var/datum/nanite_program/comm/comm_program in programs)
+		comm_program.receive_comm_signal(comm_code, comm_message, comm_source)
 
 /datum/component/nanites/proc/check_viable_biotype()
 	SIGNAL_HANDLER
@@ -289,8 +299,6 @@
 		return ACCESS_ALLOWED
 
 	return ACCESS_DISALLOWED
-
-
 
 /datum/component/nanites/proc/set_volume(datum/source, amount)
 	SIGNAL_HANDLER
@@ -367,8 +375,7 @@
 	data["cloud_id"] = cloud_id
 	var/list/mob_programs = list()
 	var/id = 1
-	for(var/X in programs)
-		var/datum/nanite_program/P = X
+	for(var/datum/nanite_program/P as anything in programs)
 		var/list/mob_program = list()
 		mob_program["name"] = P.name
 		mob_program["desc"] = P.desc
