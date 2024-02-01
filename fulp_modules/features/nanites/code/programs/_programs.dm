@@ -86,7 +86,6 @@
 /datum/nanite_program/proc/copy()
 	var/datum/nanite_program/new_program = new type()
 	copy_programming(new_program, TRUE)
-
 	return new_program
 
 /datum/nanite_program/proc/copy_programming(datum/nanite_program/target, copy_activated = TRUE)
@@ -102,8 +101,7 @@
 	target.trigger_code = trigger_code
 
 	target.rules = list()
-	for(var/R in rules)
-		var/datum/nanite_rule/rule = R
+	for(var/datum/nanite_rule/rule as anything in rules)
 		rule.copy_to(target)
 	target.all_rules_required = all_rules_required
 
@@ -207,15 +205,14 @@
 //If false, disables active and passive effects, but doesn't consume nanites
 //Can be used to avoid consuming nanites for nothing
 /datum/nanite_program/proc/check_conditions()
-	if (!LAZYLEN(rules))
+	if(!LAZYLEN(rules))
 		return TRUE
-	for(var/R in rules)
-		var/datum/nanite_rule/rule = R
+	for(var/datum/nanite_rule/rule as anything in rules)
 		if(!all_rules_required && rule.check_rule())
 			return TRUE
 		if(all_rules_required && !rule.check_rule())
 			return FALSE
-	return all_rules_required ? TRUE : FALSE
+	return all_rules_required
 
 //Constantly procs as long as the program is active
 /datum/nanite_program/proc/active_effect()
