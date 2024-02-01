@@ -1,7 +1,3 @@
-//Programs that are generally useful for population control and non-harmful suppression.
-/**
- * Narcolepsy
- */
 /datum/nanite_program/sleepy
 	name = "Sleep Induction"
 	desc = "The nanites cause rapid narcolepsy when triggered."
@@ -15,9 +11,6 @@
 	host_mob.adjust_drowsiness(2 SECONDS)
 	addtimer(CALLBACK(host_mob, TYPE_PROC_REF(/mob/living, Sleeping), 200), rand(60,200))
 
-/**
- * Paralysis
- */
 /datum/nanite_program/paralyzing
 	name = "Paralysis"
 	desc = "The nanites force muscle contraction, effectively paralyzing the host."
@@ -35,9 +28,6 @@
 	. = ..()
 	to_chat(host_mob, span_notice("Your muscles relax, and you can move again."))
 
-/**
- * Electric Shock
- */
 /datum/nanite_program/shocking
 	name = "Electric Shock"
 	desc = "The nanites shock the host when triggered. Destroys a large amount of nanites!"
@@ -50,9 +40,6 @@
 /datum/nanite_program/shocking/on_trigger(comm_message)
 	host_mob.electrocute_act(rand(5,10), "shock nanites", 1, SHOCK_NOGLOVES)
 
-/**
- * Hardstun
- */
 /datum/nanite_program/stun
 	name = "Neural Shock"
 	desc = "The nanites pulse the host's nerves when triggered, inapacitating them for a short period."
@@ -65,9 +52,6 @@
 	playsound(host_mob, "sparks", 75, TRUE, -1, SHORT_RANGE_SOUND_EXTRARANGE)
 	host_mob.Paralyze(80)
 
-/**
- * Pacifism
- */
 /datum/nanite_program/pacifying
 	name = "Pacification"
 	desc = "The nanites suppress the aggression center of the brain, preventing the host from causing direct harm to others."
@@ -82,9 +66,6 @@
 	. = ..()
 	REMOVE_TRAIT(host_mob, TRAIT_PACIFISM, TRAIT_NANITES)
 
-/**
- * Blindness
- */
 /datum/nanite_program/blinding
 	name = "Blindness"
 	desc = "The nanites suppress the host's ocular nerves, blinding them while they're active."
@@ -99,9 +80,6 @@
 	. = ..()
 	host_mob.cure_blind(TRAIT_NANITES)
 
-/**
- * Mute
- */
 /datum/nanite_program/mute
 	name = "Mute"
 	desc = "The nanites suppress the host's speech, making them mute while they're active."
@@ -116,9 +94,6 @@
 	. = ..()
 	REMOVE_TRAIT(host_mob, TRAIT_MUTE, TRAIT_NANITES)
 
-/**
- * Fake Death
- */
 /datum/nanite_program/fake_death
 	name = "Death Simulation"
 	desc = "The nanites induce a death-like coma into the host, able to fool most medical scans."
@@ -134,10 +109,6 @@
 	. = ..()
 	host_mob.cure_fakedeath("nanites")
 
-/**
- * Radio Programs
- * Can receive transmissions from a nanite communication remote for customized messages
- */
 /datum/nanite_program/comm
 	can_trigger = TRUE
 	var/comm_message = ""
@@ -153,9 +124,6 @@
 		log_game("[host_mob]'s [name] nanite program was messaged by [comm_source] with comm code [signal_comm_code] and message '[comm_message]'.")
 		trigger(comm_message)
 
-/**
- * Forced Speech
- */
 /datum/nanite_program/comm/speech
 	name = "Forced Speech"
 	desc = "The nanites force the host to say a pre-programmed sentence when triggered."
@@ -184,9 +152,6 @@
 	to_chat(host_mob, span_warning("You feel compelled to speak..."))
 	host_mob.say(sent_message, forced = "nanite speech")
 
-/**
- * Skull Echo
- */
 /datum/nanite_program/comm/voice
 	name = "Skull Echo"
 	desc = "The nanites echo a synthesized message inside the host's skull."
@@ -208,9 +173,6 @@
 		return
 	to_chat(host_mob, "<i>You hear a strange, robotic voice in your head...</i> \"<span class='robot'>[sent_message]</span>\"")
 
-/**
- * Hallucination
- */
 /datum/nanite_program/comm/hallucination
 	name = "Hallucination"
 	desc = "The nanites make the host hallucinate something when triggered."
@@ -323,9 +285,6 @@
 			else
 				extra_settings.Remove(NES_HALLUCINATION_DETAIL)
 
-/**
- * Happiness mood boost
- */
 /datum/nanite_program/good_mood
 	name = "Happiness Enhancer"
 	desc = "The nanites synthesize serotonin inside the host's brain, creating an artificial sense of happiness."
@@ -344,9 +303,6 @@
 	. = ..()
 	host_mob.clear_mood_event("nanite_happy")
 
-/**
- * Happiness suppressor boost
- */
 /datum/nanite_program/bad_mood
 	name = "Happiness Suppressor"
 	desc = "The nanites suppress the production of serotonin inside the host's brain, creating an artificial state of depression."

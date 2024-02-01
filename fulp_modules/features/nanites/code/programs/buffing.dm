@@ -1,5 +1,3 @@
-//Programs that buff the host in generally passive ways.
-
 /datum/nanite_program/nervous
 	name = "Nerve Support"
 	desc = "The nanites act as a secondary nervous system, reducing the amount of time the host is stunned."

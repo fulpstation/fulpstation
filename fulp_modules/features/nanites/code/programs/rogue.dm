@@ -1,7 +1,3 @@
-//Programs generated through degradation of other complex programs.
-//They generally cause minor damage or annoyance.
-
-//Last stop of the error train
 /datum/nanite_program/glitch
 	name = "Glitch"
 	desc = "A heavy software corruption that causes nanites to gradually break down."
