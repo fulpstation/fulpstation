@@ -1,11 +1,20 @@
-import { useBackend } from '../tgui/backend';
 import { BooleanLike } from 'common/react';
-import { Button, LabeledList, NumberInput, Section, NoticeBox, Input, Table } from '../tgui/components';
+
+import { useBackend } from '../tgui/backend';
+import {
+  Button,
+  Input,
+  LabeledList,
+  NoticeBox,
+  NumberInput,
+  Section,
+  Table,
+} from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
-export const NaniteRemote = (props, context) => {
+export const NaniteRemote = (props) => {
   return (
-    <Window width={420} height={500} resizable>
+    <Window width={420} height={500}>
       <Window.Content scrollable>
         <NaniteRemoteContent />
       </Window.Content>
@@ -32,8 +41,8 @@ type SettingsData = {
   code: number;
 };
 
-export const NaniteRemoteContent = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+export const NaniteRemoteContent = (props) => {
+  const { act, data } = useBackend<Data>();
   const {
     code,
     locked,
@@ -61,7 +70,8 @@ export const NaniteRemoteContent = (props, context) => {
             content="Lock Interface"
             onClick={() => act('lock')}
           />
-        }>
+        }
+      >
         <LabeledList>
           <LabeledList.Item label="Name">
             <Input

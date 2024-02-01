@@ -1,6 +1,14 @@
 import { BooleanLike } from 'common/react';
+
 import { useBackend, useSharedState } from '../tgui/backend';
-import { Button, Flex, LabeledList, NoticeBox, Section, Tabs } from '../tgui/components';
+import {
+  Button,
+  Flex,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Tabs,
+} from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 type Data = {
@@ -24,7 +32,7 @@ type ProgramData = {
 };
 
 export const NaniteProgramHub = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+  const { act, data } = useBackend<Data>();
   const {
     detail_view,
     disk,
@@ -36,12 +44,11 @@ export const NaniteProgramHub = (props, context) => {
   const [selectedCategory, setSelectedCategory] = useSharedState(
     context,
     'category',
-    categories[0]
   );
   const programsInCategory = (programs && programs[selectedCategory]) || [];
 
   return (
-    <Window width={500} height={700} resizable>
+    <Window width={500} height={700}>
       <Window.Content scrollable>
         <Section
           title="Program Disk"
@@ -58,7 +65,8 @@ export const NaniteProgramHub = (props, context) => {
                 onClick={() => act('clear')}
               />
             </>
-          }>
+          }
+        >
           {has_disk ? (
             has_program ? (
               <LabeledList>
@@ -91,7 +99,8 @@ export const NaniteProgramHub = (props, context) => {
                 onClick={() => act('refresh')}
               />
             </>
-          }>
+          }
+        >
           {programs === null ? (
             <NoticeBox>No nanite programs are currently researched.</NoticeBox>
           ) : (
@@ -104,7 +113,8 @@ export const NaniteProgramHub = (props, context) => {
                       selected={category === selectedCategory}
                       onClick={() => {
                         setSelectedCategory(category);
-                      }}>
+                      }}
+                    >
                       {category.substring(0, category.length - 8)}
                     </Tabs.Tab>
                   ))}
@@ -127,7 +137,8 @@ export const NaniteProgramHub = (props, context) => {
                             })
                           }
                         />
-                      }>
+                      }
+                    >
                       {program.desc}
                     </Section>
                   ))

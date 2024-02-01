@@ -1,6 +1,16 @@
-import { useBackend } from '../tgui/backend';
 import { BooleanLike } from 'common/react';
-import { Box, Button, Collapsible, Table, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
+
+import { useBackend } from '../tgui/backend';
+import {
+  Box,
+  Button,
+  Collapsible,
+  LabeledList,
+  NoticeBox,
+  NumberInput,
+  Section,
+  Table,
+} from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 type Data = {
@@ -58,8 +68,8 @@ type CloudBackupData = {
   cloud_id: number;
 };
 
-const NaniteDiskBox = (props, context) => {
-  const { data } = useBackend<Data>(context);
+const NaniteDiskBox = (props) => {
+  const { data } = useBackend<Data>();
   const { has_disk, has_program, disk_data } = data;
   if (!has_disk) {
     return <NoticeBox>No disk inserted</NoticeBox>;
@@ -70,8 +80,8 @@ const NaniteDiskBox = (props, context) => {
   return <NaniteInfoBox program={disk_data} />;
 };
 
-const NaniteInfoBox = (props, context) => {
-  const { act } = useBackend<Data>(context);
+const NaniteInfoBox = (props) => {
+  const { act } = useBackend<Data>();
   const { program } = props;
   const {
     name,
@@ -99,7 +109,8 @@ const NaniteInfoBox = (props, context) => {
         <Box inline bold color={activated ? 'good' : 'bad'}>
           {activated ? 'Activated' : 'Deactivated'}
         </Box>
-      }>
+      }
+    >
       <Table>
         <Table.Cell mr={1}>{desc}</Table.Cell>
         <Table.Cell size={0.5}>
@@ -186,8 +197,8 @@ const NaniteInfoBox = (props, context) => {
   );
 };
 
-const NaniteCloudBackupDetails = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+const NaniteCloudBackupDetails = (props) => {
+  const { act, data } = useBackend<Data>();
   const { current_view, has_program, can_rule, cloud_backup, cloud_programs } =
     data;
   if (!cloud_backup) {
@@ -205,7 +216,8 @@ const NaniteCloudBackupDetails = (props, context) => {
             onClick={() => act('upload_program')}
           />
         )
-      }>
+      }
+    >
       {cloud_programs.map((program) => {
         return (
           <Collapsible
@@ -221,7 +233,8 @@ const NaniteCloudBackupDetails = (props, context) => {
                   })
                 }
               />
-            }>
+            }
+          >
             <Section>
               <NaniteInfoBox program={program} />
               <Section
@@ -255,7 +268,8 @@ const NaniteCloudBackupDetails = (props, context) => {
                       }
                     />
                   </>
-                }>
+                }
+              >
                 {program.has_rules ? (
                   program.rules.map((rule) => (
                     <Box key={rule.display}>
@@ -284,11 +298,11 @@ const NaniteCloudBackupDetails = (props, context) => {
   );
 };
 
-export const NaniteCloudControl = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+export const NaniteCloudControl = (props) => {
+  const { act, data } = useBackend<Data>();
   const { has_disk, current_view, new_backup_id, cloud_backups } = data;
   return (
-    <Window width={375} height={700} resizable>
+    <Window width={375} height={700}>
       <Window.Content scrollable>
         <Section
           title="Program Disk"
@@ -299,7 +313,8 @@ export const NaniteCloudControl = (props, context) => {
               disabled={!has_disk}
               onClick={() => act('eject')}
             />
-          }>
+          }
+        >
           <NaniteDiskBox />
         </Section>
         <Section
@@ -333,7 +348,8 @@ export const NaniteCloudControl = (props, context) => {
                 <Button icon="plus" onClick={() => act('create_backup')} />
               </>
             )
-          }>
+          }
+        >
           {!current_view ? (
             cloud_backups.map((backup) => (
               <Button

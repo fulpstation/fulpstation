@@ -1,6 +1,16 @@
-import { useBackend } from '../tgui/backend';
 import { BooleanLike } from 'common/react';
-import { Box, Button, Collapsible, Table, LabeledList, NoticeBox, NumberInput, Section } from '../tgui/components';
+
+import { useBackend } from '../tgui/backend';
+import {
+  Box,
+  Button,
+  Collapsible,
+  LabeledList,
+  NoticeBox,
+  NumberInput,
+  Section,
+  Table,
+} from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 type Data = {
@@ -47,9 +57,9 @@ type RulesData = {
   display: string;
 };
 
-export const NaniteChamberControl = (props, context) => {
+export const NaniteChamberControl = (props) => {
   return (
-    <Window width={380} height={570} resizable>
+    <Window width={380} height={570}>
       <Window.Content scrollable>
         <NaniteChamberControlContent />
       </Window.Content>
@@ -57,8 +67,8 @@ export const NaniteChamberControl = (props, context) => {
   );
 };
 
-const NaniteChamberControlContent = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+const NaniteChamberControlContent = (props) => {
+  const { act, data } = useBackend<Data>();
   const {
     status_msg,
     locked,
@@ -86,7 +96,8 @@ const NaniteChamberControlContent = (props, context) => {
           color={locked ? 'bad' : 'default'}
           onClick={() => act('toggle_lock')}
         />
-      }>
+      }
+    >
       {!has_nanites ? (
         <>
           <Box bold color="bad" textAlign="center" fontSize="30px" mb={1}>
@@ -115,7 +126,8 @@ const NaniteChamberControlContent = (props, context) => {
                 color="bad"
                 onClick={() => act('remove_nanites')}
               />
-            }>
+            }
+          >
             <Table>
               <Table.Cell>
                 <LabeledList>
@@ -241,7 +253,8 @@ const NaniteChamberControlContent = (props, context) => {
                           {extra_settings.map((extra_setting) => (
                             <LabeledList.Item
                               key={extra_setting.name}
-                              label={extra_setting.name}>
+                              label={extra_setting.name}
+                            >
                               {extra_setting.value}
                             </LabeledList.Item>
                           ))}
