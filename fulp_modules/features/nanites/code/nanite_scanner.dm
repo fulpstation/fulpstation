@@ -2,6 +2,7 @@
 	name = "nanite scanner"
 	icon = 'fulp_modules/features/nanites/icons/nanite_device.dmi'
 	icon_state = "nanite_scanner"
+	worn_icon_state = "electronic"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	desc = "A hand-held body scanner able to detect nanites and their programming."
