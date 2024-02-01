@@ -145,6 +145,7 @@
 		on_mob_add()
 
 /datum/nanite_program/proc/on_mob_add()
+	SHOULD_CALL_PARENT(TRUE)
 	host_mob = nanites.host_mob
 	if(activated) //apply activation effects depending on initial status; starts the restart and shutdown timers
 		activate()
@@ -152,6 +153,7 @@
 		deactivate()
 
 /datum/nanite_program/proc/on_mob_remove()
+	SHOULD_CALL_PARENT(TRUE)
 	return
 
 /datum/nanite_program/proc/toggle()

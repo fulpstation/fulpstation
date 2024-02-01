@@ -58,8 +58,7 @@
 /datum/nanite_program/sensor/relay_repeat/send_code()
 	var/datum/nanite_extra_setting/relay = extra_settings[NES_RELAY_CHANNEL]
 	if(activated && relay.get_value())
-		for(var/X in SSnanites.nanite_relays)
-			var/datum/nanite_program/relay/N = X
+		for(var/datum/nanite_program/relay/relays as anything in SSnanites.nanite_relays)
 			var/datum/nanite_extra_setting/code = extra_settings[NES_SENT_CODE]
 			N.relay_signal(code.get_value(), relay.get_value(), "a [name] program")
 
@@ -228,7 +227,7 @@
 	var/datum/nanite_extra_setting/direction = extra_settings[NES_DIRECTION]
 	var/datum/nanite_extra_setting/damage_type = extra_settings[NES_DAMAGE_TYPE]
 	var/datum/nanite_extra_setting/damage = extra_settings[NES_DAMAGE]
-	rule.above  =  direction.get_value()
+	rule.above = direction.get_value()
 	rule.threshold = damage.get_value()
 	rule.damage_type = damage_type.get_value()
 	return rule
@@ -248,6 +247,7 @@
 
 /datum/nanite_program/sensor/voice/on_mob_remove()
 	UnregisterSignal(host_mob, COMSIG_MOVABLE_HEAR, PROC_REF(on_hear))
+	return ..()
 
 /datum/nanite_program/sensor/voice/proc/on_hear(datum/source, list/hearing_args)
 	var/datum/nanite_extra_setting/sentence = extra_settings[NES_SENTENCE]
@@ -268,14 +268,15 @@
 	trigger_cost = 0
 	trigger_cooldown = 5
 
-	var/list/static/allowed_species = list(
+	///List of all species we can add special sensors for.
+	var/static/list/allowed_species = list(
 		"Human" = /datum/species/human,
 		"Lizard" = /datum/species/lizard,
 		"Moth" = /datum/species/moth,
 		"Ethereal" = /datum/species/ethereal,
+		"Beefeman" = /datum/species/beefman,
 		"Pod" = /datum/species/pod,
 		"Fly" = /datum/species/fly,
-		"Felinid" = /datum/species/human/felinid,
 		"Jelly" = /datum/species/jelly,
 	)
 

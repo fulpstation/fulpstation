@@ -10,20 +10,20 @@
 	if(!host_mob.getBruteLoss() && !host_mob.getFireLoss())
 		return FALSE
 	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
+		var/mob/living/carbon/host_carbon = host_mob
+		var/list/parts = host_carbon.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
 		if(!parts.len)
 			return FALSE
 	return ..()
 
 /datum/nanite_program/regenerative/active_effect()
 	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
+		var/mob/living/carbon/host_carbon = host_mob
+		var/list/parts = host_carbon.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
 		if(!parts.len)
 			return
-		for(var/obj/item/bodypart/L in parts)
-			if(L.heal_damage(0.5/parts.len, 0.5/parts.len, null, BODYTYPE_ORGANIC))
+		for(var/obj/item/bodypart/bodyparts as anything in parts)
+			if(bodyparts.heal_damage(0.5 / parts.len, 0.5 / parts.len, null, required_bodytype = BODYTYPE_ORGANIC))
 				host_mob.update_damage_overlays()
 	else
 		host_mob.adjustBruteLoss(-0.5, TRUE)
@@ -36,7 +36,7 @@
 	rogue_types = list(/datum/nanite_program/skin_decay)
 
 /datum/nanite_program/temperature/check_conditions()
-	if(host_mob.bodytemperature > (host_mob.get_body_temp_normal(apply_change=FALSE) - 30) && host_mob.bodytemperature < (host_mob.get_body_temp_normal(apply_change=FALSE) + 30))
+	if(host_mob.bodytemperature > (host_mob.get_body_temp_normal(apply_change = FALSE) - 30) && host_mob.bodytemperature < (host_mob.get_body_temp_normal(apply_change = FALSE) + 30))
 		return FALSE
 	return ..()
 
@@ -60,8 +60,8 @@
 
 /datum/nanite_program/purging/active_effect()
 	host_mob.adjustToxLoss(-1)
-	for(var/datum/reagent/R in host_mob.reagents.reagent_list)
-		host_mob.reagents.remove_reagent(R.type,1)
+	for(var/datum/reagent/reagents as anything in host_mob.reagents.reagent_list)
+		host_mob.reagents.remove_reagent(reagents.type, amount = 1)
 
 /datum/nanite_program/brain_heal
 	name = "Neural Regeneration"
@@ -72,8 +72,8 @@
 /datum/nanite_program/brain_heal/check_conditions()
 	var/problems = FALSE
 	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		if(length(C.get_traumas()))
+		var/mob/living/carbon/carbon_host = host_mob
+		if(length(carbon_host.get_traumas()))
 			problems = TRUE
 	if(host_mob.get_organ_loss(ORGAN_SLOT_BRAIN) > 0)
 		problems = TRUE
@@ -82,28 +82,34 @@
 /datum/nanite_program/brain_heal/active_effect()
 	host_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1)
 	if(iscarbon(host_mob) && prob(10))
-		var/mob/living/carbon/C = host_mob
-		C.cure_trauma_type(resilience = TRAUMA_RESILIENCE_BASIC)
+		var/mob/living/carbon/carbon_host = host_mob
+		carbon_host.cure_trauma_type(resilience = TRAUMA_RESILIENCE_BASIC)
+
+#define NANITE_BLOOD_RESTORE_DEFAULT 2
 
 /datum/nanite_program/blood_restoring
 	name = "Blood Regeneration"
 	desc = "The nanites stimulate and boost blood cell production in the host."
 	use_rate = 1
 	rogue_types = list(/datum/nanite_program/suffocating)
+	///The amount of blood that we restore every active effect tick.
+	var/blood_restore_amount = NANITE_BLOOD_RESTORE_DEFAULT
 
 /datum/nanite_program/blood_restoring/check_conditions()
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		if(C.blood_volume >= BLOOD_VOLUME_SAFE)
-			return FALSE
-	else
+	if(!iscarbon(host_mob))
+		return FALSE
+	var/mob/living/carbon/carbon_host = host_mob
+	if(carbon_host.blood_volume >= BLOOD_VOLUME_SAFE)
 		return FALSE
 	return ..()
 
 /datum/nanite_program/blood_restoring/active_effect()
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		C.blood_volume += 2
+	if(!iscarbon(host_mob))
+		return
+	var/mob/living/carbon/carbon_host = host_mob
+	carbon_host.blood_volume += blood_restore_amount
+
+#undef NANITE_BLOOD_RESTORE_DEFAULT
 
 /datum/nanite_program/repairing
 	name = "Mechanical Repair"
@@ -115,31 +121,32 @@
 	if(!host_mob.getBruteLoss() && !host_mob.getFireLoss())
 		return FALSE
 
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ROBOTIC)
-		if(!parts.len)
-			return FALSE
-	else
+	if(!iscarbon(host_mob))
 		if(!(host_mob.mob_biotypes & MOB_ROBOTIC))
 			return FALSE
+		return ..()
+
+	var/mob/living/carbon/carbon_host = host_mob
+	var/list/parts = carbon_host.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ROBOTIC)
+	if(!parts.len)
+		return FALSE
 	return ..()
 
 /datum/nanite_program/repairing/active_effect(mob/living/M)
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ROBOTIC)
-		if(!parts.len)
-			return
-		var/update = FALSE
-		for(var/obj/item/bodypart/L in parts)
-			if(L.heal_damage(1.5/parts.len, 1.5/parts.len, null, BODYTYPE_ROBOTIC)) //much faster than organic healing
-				update = TRUE
-		if(update)
-			host_mob.update_damage_overlays()
-	else
+	if(!iscarbon(host_mob))
 		host_mob.adjustBruteLoss(-1.5, TRUE)
 		host_mob.adjustFireLoss(-1.5, TRUE)
+		return
+	var/mob/living/carbon/carbon_host = host_mob
+	var/list/parts = carbon_host.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ROBOTIC)
+	if(!parts.len)
+		return
+	var/update = FALSE
+	for(var/obj/item/bodypart/bodypart as anything in parts)
+		if(bodypart.heal_damage(1.5 / parts.len, 1.5 / parts.len, null, BODYTYPE_ROBOTIC)) //much faster than organic healing
+			update = TRUE
+	if(update)
+		host_mob.update_damage_overlays()
 
 /datum/nanite_program/purging_advanced
 	name = "Selective Blood Purification"
@@ -150,7 +157,7 @@
 
 /datum/nanite_program/purging_advanced/check_conditions()
 	var/foreign_reagent = FALSE
-	for(var/datum/reagent/toxin/R in host_mob.reagents.reagent_list)
+	for(var/datum/reagent/toxin/toxic_reagents in host_mob.reagents.reagent_list)
 		foreign_reagent = TRUE
 		break
 	if(!host_mob.getToxLoss() && !foreign_reagent)
@@ -159,8 +166,8 @@
 
 /datum/nanite_program/purging_advanced/active_effect()
 	host_mob.adjustToxLoss(-1)
-	for(var/datum/reagent/toxin/R in host_mob.reagents.reagent_list)
-		host_mob.reagents.remove_reagent(R.type,1)
+	for(var/datum/reagent/toxin/toxic_reagents in host_mob.reagents.reagent_list)
+		host_mob.reagents.remove_reagent(toxic_reagents.type, 1)
 
 /datum/nanite_program/regenerative_advanced
 	name = "Bio-Reconstruction"
@@ -170,20 +177,20 @@
 	rogue_types = list(/datum/nanite_program/suffocating, /datum/nanite_program/necrotic)
 
 /datum/nanite_program/regenerative_advanced/active_effect()
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
-		if(!parts.len)
-			return
-		var/update = FALSE
-		for(var/obj/item/bodypart/L in parts)
-			if(L.heal_damage(3/parts.len, 3/parts.len, null, BODYTYPE_ORGANIC))
-				update = TRUE
-		if(update)
-			host_mob.update_damage_overlays()
-	else
+	if(!iscarbon(host_mob))
 		host_mob.adjustBruteLoss(-3, TRUE)
 		host_mob.adjustFireLoss(-3, TRUE)
+		return
+	var/mob/living/carbon/carbon_host = host_mob
+	var/list/parts = carbon_host.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
+	if(!parts.len)
+		return
+	var/update = FALSE
+	for(var/obj/item/bodypart/bodypart as anything in parts)
+		if(bodypart.heal_damage(3 / parts.len, 3 / parts.len, null, BODYTYPE_ORGANIC))
+			update = TRUE
+	if(update)
+		host_mob.update_damage_overlays()
 
 /datum/nanite_program/brain_heal_advanced
 	name = "Neural Reimaging"
@@ -194,8 +201,8 @@
 /datum/nanite_program/brain_heal_advanced/check_conditions()
 	var/problems = FALSE
 	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		if(length(C.get_traumas()))
+		var/mob/living/carbon/carbon_host = host_mob
+		if(length(carbon_host.get_traumas()))
 			problems = TRUE
 	if(host_mob.get_organ_loss(ORGAN_SLOT_BRAIN) > 0)
 		problems = TRUE
@@ -204,8 +211,8 @@
 /datum/nanite_program/brain_heal_advanced/active_effect()
 	host_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, -2)
 	if(iscarbon(host_mob) && prob(10))
-		var/mob/living/carbon/C = host_mob
-		C.cure_trauma_type(resilience = TRAUMA_RESILIENCE_LOBOTOMY)
+		var/mob/living/carbon/carbon_host = host_mob
+		carbon_host.cure_trauma_type(resilience = TRAUMA_RESILIENCE_LOBOTOMY)
 
 /datum/nanite_program/defib
 	name = "Defibrillation"
@@ -232,13 +239,13 @@
 /datum/nanite_program/defib/proc/perform_defibrilation()
 	var/mob/living/carbon/carbon_host = host_mob
 	playsound(carbon_host, 'sound/machines/defib_zap.ogg', 50, FALSE)
-	if(check_revivable())
-		playsound(carbon_host, 'sound/machines/defib_success.ogg', 50, FALSE)
-		carbon_host.set_heartattack(FALSE)
-		carbon_host.revive()
-		carbon_host.emote("gasp")
-		carbon_host.set_timed_status_effect(10 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-		SEND_SIGNAL(carbon_host, COMSIG_LIVING_MINOR_SHOCK)
-		log_game("[carbon_host] has been successfully defibrillated by nanites.")
-	else
+	if(!check_revivable())
 		playsound(carbon_host, 'sound/machines/defib_failed.ogg', 50, FALSE)
+		return
+	playsound(carbon_host, 'sound/machines/defib_success.ogg', 50, FALSE)
+	carbon_host.set_heartattack(FALSE)
+	carbon_host.revive()
+	carbon_host.emote("gasp")
+	carbon_host.set_timed_status_effect(10 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
+	SEND_SIGNAL(carbon_host, COMSIG_LIVING_MINOR_SHOCK)
+	log_game("[carbon_host] has been successfully defibrillated by nanites.")

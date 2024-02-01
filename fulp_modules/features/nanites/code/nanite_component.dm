@@ -26,7 +26,7 @@
 	///How many programs this user can have at once
 	var/max_programs = NANITE_PROGRAM_LIMIT
 
-	///Separate list of protocol programs, to avoid looping through the whole programs list when cheking for conflicts
+	///Separate list of protocol programs, to avoid looping through the whole programs list when checking for conflicts
 	var/list/datum/nanite_program/protocol/protocols = list()
 	///Timestamp to when the nanites were first inserted in the host, used in some protocols.
 	var/start_time = 0
@@ -189,7 +189,7 @@
 
 	if(istype(new_program, /datum/nanite_program/protocol))
 		var/datum/nanite_program/protocol/protocol_nanite = new_program
-		for(var/datum/nanite_program/protocol/other_protocols in programs)
+		for(var/datum/nanite_program/protocol/other_protocols as anything in protocols)
 			//skip over the same type so it continues on to delete it later.
 			if(other_protocols.type != new_program.type)
 				continue

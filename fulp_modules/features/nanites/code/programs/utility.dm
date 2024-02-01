@@ -4,27 +4,29 @@
 	desc = "The nanites constantly send encrypted signals attempting to forcefully copy their own programming into other nanite clusters, also overriding or disabling their cloud sync."
 	use_rate = 0.5
 	rogue_types = list(/datum/nanite_program/toxic)
-	var/pulse_cooldown = 0
+
+	///The cooldown between pulses.
+	COOLDOWN_DECLARE(pulse_cooldown)
 
 /datum/nanite_program/viral/register_extra_settings()
 	extra_settings[NES_PROGRAM_OVERWRITE] = new /datum/nanite_extra_setting/type("Add To", list("Overwrite", "Add To", "Ignore"))
 	extra_settings[NES_CLOUD_OVERWRITE] = new /datum/nanite_extra_setting/number(0, 0, 100)
 
 /datum/nanite_program/viral/active_effect()
-	if(world.time < pulse_cooldown)
+	if(!COOLDOWN_FINISHED(src, pulse_cooldown))
 		return
 	var/datum/nanite_extra_setting/program = extra_settings[NES_PROGRAM_OVERWRITE]
 	var/datum/nanite_extra_setting/cloud = extra_settings[NES_CLOUD_OVERWRITE]
-	for(var/mob/M in orange(host_mob, 5))
-		if(SEND_SIGNAL(M, COMSIG_NANITE_IS_STEALTHY))
+	for(var/mob/living/people_in_range in orange(host_mob, 5))
+		if(SEND_SIGNAL(people_in_range, COMSIG_NANITE_IS_STEALTHY))
 			continue
 		switch(program.get_value())
 			if("Overwrite")
-				SEND_SIGNAL(M, COMSIG_NANITE_SYNC, nanites, TRUE)
+				SEND_SIGNAL(people_in_range, COMSIG_NANITE_SYNC, nanites, TRUE)
 			if("Add To")
-				SEND_SIGNAL(M, COMSIG_NANITE_SYNC, nanites, FALSE)
-		SEND_SIGNAL(M, COMSIG_NANITE_SET_CLOUD, cloud.get_value())
-	pulse_cooldown = world.time + 75
+				SEND_SIGNAL(people_in_range, COMSIG_NANITE_SYNC, nanites, FALSE)
+		SEND_SIGNAL(people_in_range, COMSIG_NANITE_SET_CLOUD, cloud.get_value())
+	COOLDOWN_START(src, pulse_cooldown, 7.5 SECONDS)
 
 /datum/nanite_program/self_scan
 	name = "Host Scan"
@@ -68,7 +70,7 @@
 /datum/nanite_program/reduced_diagnostics
 	name = "Reduced Diagnostics"
 	desc = "Disables some high-cost diagnostics in the nanites, making them unable to communicate their program list to portable scanners. \
-	Doing so saves some power, slightly increasing their replication speed."
+		Doing so saves some power, slightly increasing their replication speed."
 	rogue_types = list(/datum/nanite_program/toxic)
 	use_rate = -0.1
 
@@ -101,8 +103,8 @@
 		return
 	if(!host_mob)
 		return
-	var/datum/nanite_extra_setting/NS = extra_settings[NES_RELAY_CHANNEL]
-	if(relay_code != NS.get_value())
+	var/datum/nanite_extra_setting/nanite_setting = extra_settings[NES_RELAY_CHANNEL]
+	if(relay_code != nanite_setting.get_value())
 		return
 	SEND_SIGNAL(host_mob, COMSIG_NANITE_SIGNAL, code, source)
 
@@ -111,8 +113,8 @@
 		return
 	if(!host_mob)
 		return
-	var/datum/nanite_extra_setting/NS = extra_settings[NES_RELAY_CHANNEL]
-	if(relay_code != NS.get_value())
+	var/datum/nanite_extra_setting/nanite_setting = extra_settings[NES_RELAY_CHANNEL]
+	if(relay_code != nanite_setting.get_value())
 		return
 	SEND_SIGNAL(host_mob, COMSIG_NANITE_COMM_SIGNAL, comm_code, comm_message)
 
@@ -154,13 +156,13 @@
 	if(current_item)
 		new_access += current_item.GetAccess()
 	if(ishuman(host_mob))
-		var/mob/living/carbon/human/H = host_mob
-		current_item = H.wear_id
+		var/mob/living/carbon/human/human_host = host_mob
+		current_item = human_host.wear_id
 		if(current_item)
 			new_access += current_item.GetAccess()
 	else if(isanimal(host_mob))
-		var/mob/living/simple_animal/A = host_mob
-		current_item = A.access_card
+		var/mob/living/simple_animal/animal_host = host_mob
+		current_item = animal_host.access_card
 		if(current_item)
 			new_access += current_item.GetAccess()
 	access = new_access
@@ -178,12 +180,12 @@
 		return
 	spread_cooldown = world.time + 50
 	var/list/mob/living/carbon/human/target_hosts = list()
-	for(var/mob/living/carbon/human/L in oview(5, host_mob))
+	for(var/mob/living/carbon/human/nearby_humans in oview(5, host_mob))
 		if(!prob(25))
 			continue
-		if(!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
+		if(!(nearby_humans.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
 			continue
-		target_hosts += L
+		target_hosts += nearby_humans
 	if(!target_hosts.len)
 		return
 	var/mob/living/carbon/human/infectee = pick(target_hosts)
@@ -203,11 +205,11 @@
 
 /datum/nanite_program/nanite_sting/on_trigger(comm_message)
 	var/list/mob/living/carbon/human/target_hosts = list()
-	for(var/mob/living/carbon/human/L in oview(1, host_mob))
-		var/datum/component/nanites/nanites = L.GetComponent(/datum/component/nanites)
-		if(!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) || nanites || !L.Adjacent(host_mob))
+	for(var/mob/living/carbon/human/nearby_humans in oview(1, host_mob))
+		var/datum/component/nanites/nanites = nearby_humans.GetComponent(/datum/component/nanites)
+		if(!(nearby_humans.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) || nanites || !nearby_humans.Adjacent(host_mob))
 			continue
-		target_hosts += L
+		target_hosts += nearby_humans
 	if(!target_hosts.len)
 		consume_nanites(-5)
 		return
@@ -264,8 +266,8 @@
 		button.Remove(host_mob)
 
 /datum/nanite_program/dermal_button/on_mob_remove()
-	. = ..()
 	qdel(button)
+	return ..()
 
 /datum/nanite_program/dermal_button/proc/press()
 	if(activated)

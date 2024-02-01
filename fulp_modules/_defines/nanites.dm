@@ -1,7 +1,9 @@
 ///Trait given by Nanites
 #define TRAIT_NANITES "Nanites"
 
+///The delay between sync attempts for nanites to the cloud, if it fails then it will start to corrupt.
 #define NANITE_SYNC_DELAY (30 SECONDS)
+///The max amount of nanite programs you can have in a cloud at once.
 #define NANITE_PROGRAM_LIMIT 20
 
 ///The chance at a Nanite program randomly failing when it cannot sync
@@ -9,10 +11,6 @@
 
 #define NANITE_SHOCK_IMMUNE (1<<0)
 #define NANITE_EMP_IMMUNE (1<<1)
-
-#define NANITE_CLOUD_TOGGLE 1
-#define NANITE_CLOUD_DISABLE 2
-#define NANITE_CLOUD_ENABLE 3
 
 ///Nanite Protocol types
 #define NANITE_PROTOCOL_REPLICATION "nanite_replication"

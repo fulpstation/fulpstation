@@ -232,7 +232,7 @@
 		"Fire",
 		"Shock",
 		"Plasma Flood",
-		"Random"
+		"Random",
 	)
 	extra_settings[NES_HALLUCINATION_TYPE] = new /datum/nanite_extra_setting/type("Message", options)
 	extra_settings[NES_HALLUCINATION_DETAIL] = new /datum/nanite_extra_setting/text("")

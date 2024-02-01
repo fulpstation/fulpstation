@@ -1,14 +1,9 @@
 /datum/nanite_program/protocol
 	name = "Nanite Protocol"
+
 	///If specified, you may only have one of these protocol types active at once.
 	///Selection: (NANITE_PROTOCOL_REPLICATION | NANITE_PROTOCOL_STORAGE)
 	var/protocol_class = NONE
-
-/datum/nanite_program/protocol/check_conditions()
-	. = ..()
-	for(var/datum/nanite_program/protocol/protocol as anything in nanites.protocols)
-		if(protocol != src && protocol.activated && protocol.protocol_class == protocol_class)
-			return FALSE
 
 /datum/nanite_program/protocol/on_add(datum/component/nanites/_nanites)
 	. = ..()

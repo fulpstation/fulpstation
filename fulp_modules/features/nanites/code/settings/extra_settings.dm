@@ -83,5 +83,5 @@
 		"value" = value,
 		"min" = min,
 		"max" = max,
-		"unit" = unit
+		"unit" = unit,
 	))
