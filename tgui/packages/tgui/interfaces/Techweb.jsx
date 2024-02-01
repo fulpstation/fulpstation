@@ -485,7 +485,14 @@ const TechNodeDetail = (props) => {
 
 const TechNode = (props) => {
   const { act, data } = useRemappedBackend();
-  const { node_cache, design_cache, experiments, points = [], nodes, point_types_abbreviations = [] } = data;
+  const {
+    node_cache,
+    design_cache,
+    experiments,
+    points = [],
+    nodes,
+    point_types_abbreviations = [],
+  } = data;
   const { node, nodetails, nocontrols } = props;
   const { id, can_unlock, tier } = node;
   const {
