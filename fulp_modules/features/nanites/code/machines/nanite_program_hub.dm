@@ -84,6 +84,16 @@
 	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
 	inserted_disk = weapon
 
+/obj/machinery/nanite_program_hub/crowbar_act(mob/living/user, obj/item/tool)
+	if(default_deconstruction_crowbar(tool))
+		return ITEM_INTERACT_SUCCESS
+	return ..()
+
+/obj/machinery/nanite_program_hub/screwdriver_act(mob/living/user, obj/item/tool)
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
+		return ITEM_INTERACT_SUCCESS
+	return ..()
+
 /obj/machinery/nanite_program_hub/multitool_act(mob/living/user, obj/item/multitool/tool)
 	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
 		connect_techweb(tool.buffer)

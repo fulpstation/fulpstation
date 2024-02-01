@@ -21,7 +21,7 @@
 
 /obj/machinery/nanite_programmer/attackby(obj/item/weapon, mob/user, params)
 	if(!istype(weapon, /obj/item/disk/nanite_program))
-		return
+		return ..()
 	if(!user.transferItemToLoc(weapon, src))
 		return
 	if(disk)
@@ -48,6 +48,16 @@
 	if(findtext(raw_message, when) && !istype(speaker, /obj/machinery/nanite_programmer))
 		say("When you code it!!")
 		COOLDOWN_START(src, wyci_delay, 5 SECONDS)
+
+/obj/machinery/nanite_programmer/crowbar_act(mob/living/user, obj/item/tool)
+	if(default_deconstruction_crowbar(tool))
+		return ITEM_INTERACT_SUCCESS
+	return ..()
+
+/obj/machinery/nanite_programmer/screwdriver_act(mob/living/user, obj/item/tool)
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
+		return ITEM_INTERACT_SUCCESS
+	return ..()
 
 /obj/machinery/nanite_programmer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

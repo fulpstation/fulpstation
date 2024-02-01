@@ -194,14 +194,14 @@
 		balloon_alert(user, "door won't budge!")
 
 /obj/machinery/nanite_chamber/crowbar_act(mob/living/user, obj/item/tool)
-	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
-		update_appearance()
-		return TOOL_ACT_TOOLTYPE_SUCCESS
+	if(default_pry_open(tool) || default_deconstruction_crowbar(tool))
+		return ITEM_INTERACT_SUCCESS
 	return ..()
 
 /obj/machinery/nanite_chamber/screwdriver_act(mob/living/user, obj/item/tool)
-	if(default_pry_open(tool) || default_deconstruction_crowbar(tool))
-		return TOOL_ACT_TOOLTYPE_SUCCESS
+	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
+		update_appearance()
+		return ITEM_INTERACT_SUCCESS
 	return ..()
 
 /obj/machinery/nanite_chamber/interact(mob/user)
