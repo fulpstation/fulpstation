@@ -54,7 +54,7 @@
 	log_mentor("Mentor PM: [key_name(src)]->[key_name(chosen_client)]: [msg]")
 
 	msg = emoji_parse(msg)
-	chosen_client << 'sound/items/bikehorn.ogg'
+	SEND_SOUND(chosen_client, 'sound/items/bikehorn.ogg')
 	if(chosen_client.is_mentor())
 		if(is_mentor())
 			/// Both are Mentors
