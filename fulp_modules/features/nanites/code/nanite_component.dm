@@ -135,13 +135,13 @@
 /datum/component/nanites/process()
 	if(!HAS_TRAIT(host_mob, TRAIT_STASIS))
 		adjust_nanites(null, regen_rate)
+		add_research()
 		for(var/datum/nanite_program/NP as anything in programs)
 			NP.on_process()
 		if(cloud_id && world.time > next_sync)
 			cloud_sync()
 			next_sync = world.time + NANITE_SYNC_DELAY
 	set_nanite_bar(remove = FALSE)
-
 
 /datum/component/nanites/proc/delete_nanites()
 	SIGNAL_HANDLER
@@ -154,18 +154,18 @@
 
 	var/list/programs_to_remove = programs.Copy()
 	var/list/programs_to_add = source.programs.Copy()
-	for(var/datum/nanite_program/NP as anything in programs)
-		for(var/datum/nanite_program/SNP as anything in programs_to_add)
-			if(NP.type == SNP.type)
-				programs_to_remove -= NP
-				programs_to_add -= SNP
-				SNP.copy_programming(NP, copy_activation)
+	for(var/datum/nanite_program/nanite_program as anything in programs)
+		for(var/datum/nanite_program/adding_program as anything in programs_to_add)
+			if(nanite_program.type == adding_program.type)
+				programs_to_remove -= nanite_program
+				programs_to_add -= adding_program
+				adding_program.copy_programming(nanite_program, copy_activation)
 				break
 	if(full_overwrite)
 		for(var/X in programs_to_remove)
 			qdel(X)
-	for(var/datum/nanite_program/SNP as anything in programs_to_add)
-		add_program(null, SNP.copy())
+	for(var/datum/nanite_program/adding_program as anything in programs_to_add)
+		add_program(null, adding_program.copy())
 
 /datum/component/nanites/proc/cloud_sync()
 	if(!cloud_id)
@@ -338,6 +338,17 @@
 
 	nanite_programs |= programs
 
+///Adds nanite research points to the linked techweb based on the host's status.
+/datum/component/nanites/proc/add_research()
+	if(host_mob.stat == DEAD)
+		return
+	var/research_value = NANITE_BASE_RESEARCH
+	if(!ishuman(host_mob) || ismonkey(host_mob))
+		research_value *= 0.4
+	if(!host_mob.client)
+		research_value *= 0.5
+	linked_techweb.add_point_list(list(TECHWEB_POINT_TYPE_NANITES = research_value))
+
 /datum/component/nanites/proc/on_healthscan(datum/source, list/render_list, advanced, mob/user, mode)
 	SIGNAL_HANDLER
 	nanite_scan(source, user, full_scan = FALSE)
@@ -375,25 +386,25 @@
 	data["cloud_id"] = cloud_id
 	var/list/mob_programs = list()
 	var/id = 1
-	for(var/datum/nanite_program/P as anything in programs)
+	for(var/datum/nanite_program/program as anything in programs)
 		var/list/mob_program = list()
-		mob_program["name"] = P.name
-		mob_program["desc"] = P.desc
+		mob_program["name"] = program.name
+		mob_program["desc"] = program.desc
 		mob_program["id"] = id
 
 		if(scan_level >= 2)
-			mob_program["activated"] = P.activated
-			mob_program["use_rate"] = P.use_rate
-			mob_program["can_trigger"] = P.can_trigger
-			mob_program["trigger_cost"] = P.trigger_cost
-			mob_program["trigger_cooldown"] = P.trigger_cooldown / 10
+			mob_program["activated"] = program.activated
+			mob_program["use_rate"] = program.use_rate
+			mob_program["can_trigger"] = program.can_trigger
+			mob_program["trigger_cost"] = program.trigger_cost
+			mob_program["trigger_cooldown"] = program.trigger_cooldown / 10
 
 		if(scan_level >= 3)
-			mob_program["timer_restart"] = P.timer_restart / 10
-			mob_program["timer_shutdown"] = P.timer_shutdown / 10
-			mob_program["timer_trigger"] = P.timer_trigger / 10
-			mob_program["timer_trigger_delay"] = P.timer_trigger_delay / 10
-			var/list/extra_settings = P.get_extra_settings_frontend()
+			mob_program["timer_restart"] = program.timer_restart / 10
+			mob_program["timer_shutdown"] = program.timer_shutdown / 10
+			mob_program["timer_trigger"] = program.timer_trigger / 10
+			mob_program["timer_trigger_delay"] = program.timer_trigger_delay / 10
+			var/list/extra_settings = program.get_extra_settings_frontend()
 			mob_program["extra_settings"] = extra_settings
 			if(LAZYLEN(extra_settings))
 				mob_program["has_extra_settings"] = TRUE
@@ -401,14 +412,13 @@
 				mob_program["has_extra_settings"] = FALSE
 
 		if(scan_level >= 4)
-			mob_program["activation_code"] = P.activation_code
-			mob_program["deactivation_code"] = P.deactivation_code
-			mob_program["kill_code"] = P.kill_code
-			mob_program["trigger_code"] = P.trigger_code
+			mob_program["activation_code"] = program.activation_code
+			mob_program["deactivation_code"] = program.deactivation_code
+			mob_program["kill_code"] = program.kill_code
+			mob_program["trigger_code"] = program.trigger_code
 			var/list/rules = list()
 			var/rule_id = 1
-			for(var/Z in P.rules)
-				var/datum/nanite_rule/nanite_rule = Z
+			for(var/datum/nanite_rule/nanite_rule as anything in program.rules)
 				var/list/rule = list()
 				rule["display"] = nanite_rule.display()
 				rule["program_id"] = id

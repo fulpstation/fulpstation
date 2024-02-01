@@ -43,6 +43,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 750,
+		TECHWEB_POINT_TYPE_NANITES = 500,
 	)
 
 /datum/techweb_node/nanite_mesh
@@ -65,6 +66,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 750,
+		TECHWEB_POINT_TYPE_NANITES = 500,
 	)
 
 /datum/techweb_node/nanite_bio
@@ -89,6 +91,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 750,
+		TECHWEB_POINT_TYPE_NANITES = 500,
 	)
 
 /datum/techweb_node/nanite_neural
@@ -107,6 +110,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 1500,
+		TECHWEB_POINT_TYPE_NANITES = 1000,
 	)
 
 /datum/techweb_node/nanite_synaptic
@@ -128,6 +132,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 1500,
+		TECHWEB_POINT_TYPE_NANITES = 1000,
 	)
 
 /datum/techweb_node/nanite_harmonic
@@ -150,6 +155,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 2750,
+		TECHWEB_POINT_TYPE_NANITES = 3000,
 	)
 
 /datum/techweb_node/nanite_combat
@@ -169,6 +175,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 3500,
+		TECHWEB_POINT_TYPE_NANITES = 2500,
 	)
 
 /datum/techweb_node/nanite_hazard
@@ -186,6 +193,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 3500,
+		TECHWEB_POINT_TYPE_NANITES = 4000,
 	)
 
 /datum/techweb_node/nanite_replication_protocols
@@ -201,6 +209,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 2000,
+		TECHWEB_POINT_TYPE_NANITES = 2500,
 	)
 	hidden = TRUE
 	experimental = TRUE
@@ -218,6 +227,7 @@
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 1000,
+		TECHWEB_POINT_TYPE_NANITES = 2500,
 	)
 	hidden = TRUE
 	experimental = TRUE

@@ -21,23 +21,3 @@
 	nanite_percent = clamp(CEILING(nanite_percent, 10), 10, 100)
 	holder.icon = 'fulp_modules/features/nanites/icons/nanite_hud.dmi'
 	holder.icon_state = "nanites[nanite_percent]"
-
-/mob/New()
-	hud_possible += list(NANITE_HUD, DIAG_NANITE_FULL_HUD)
-	return ..()
-
-/datum/atom_hud/data/human/medical/New()
-	. = ..()
-	hud_icons += list(NANITE_HUD)
-
-/datum/atom_hud/data/human/security/advanced/New()
-	. = ..()
-	hud_icons += list(NANITE_HUD)
-
-/datum/atom_hud/data/diagnostic/basic/New()
-	. = ..()
-	hud_icons += list(NANITE_HUD, DIAG_NANITE_FULL_HUD)
-
-/datum/atom_hud/data/diagnostic/advanced/New()
-	. = ..()
-	hud_icons += list(NANITE_HUD, DIAG_NANITE_FULL_HUD)
