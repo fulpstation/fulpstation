@@ -7,7 +7,12 @@
 
 // Station
 
-/area/service/lawoffice/upper
+/area/station/science/nanite
+	name = "Nanite Lab"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "nanite_lab"
+
+/area/station/service/lawoffice/upper
 	name = "\improper Upper Law Office"
 
 /area/station/ai_monitored/turret_protected/aisat/solars
