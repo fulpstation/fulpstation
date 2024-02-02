@@ -3096,8 +3096,9 @@
 /turf/open/floor/iron,
 /area/station/security/prison/mess)
 "baF" = (
-/obj/effect/landmark/blobstart,
 /obj/effect/turf_decal/box,
+/obj/structure/frame/machine,
+/obj/structure/sign/poster/contraband/random/directional/south,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "baG" = (
@@ -11225,7 +11226,6 @@
 /obj/item/paper_bin,
 /obj/item/folder/red,
 /obj/item/pen,
-/obj/item/radio/intercom/directional/west,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
@@ -11236,6 +11236,7 @@
 /obj/effect/turf_decal/tile/security/half{
 	dir = 8
 	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "dLS" = (
@@ -15884,11 +15885,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/item/storage/pill_bottle/maintenance_pill{
-	pixel_x = 4;
-	pixel_y = 7
-	},
-/obj/machinery/power/port_gen/pacman/pre_loaded,
+/obj/structure/filingcabinet,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "fqT" = (
@@ -19724,9 +19721,6 @@
 /turf/open/floor/iron/white,
 /area/station/science/ordnance)
 "gGN" = (
-/obj/structure/chair{
-	dir = 1
-	},
 /obj/machinery/light/small/directional/south,
 /obj/effect/turf_decal/tile/prison/opposingcorners,
 /turf/open/floor/iron/dark,
@@ -20012,10 +20006,32 @@
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "gKv" = (
+/obj/structure/closet/secure_closet{
+	icon_state = "science";
+	name = "Telescience Supplies"
+	},
+/obj/item/book/manual/wiki/telescience,
+/obj/item/stack/ore/bluespace_crystal{
+	pixel_x = -4;
+	pixel_y = 3
+	},
+/obj/item/circuitboard/machine/teleporter_hub{
+	pixel_x = 3;
+	pixel_y = 5
+	},
+/obj/item/circuitboard/computer/teleporter{
+	pixel_x = -1;
+	pixel_y = -5
+	},
+/obj/item/stack/cable_coil,
+/obj/effect/turf_decal/tile/purple,
+/obj/effect/turf_decal/tile/purple{
+	dir = 8
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/iron/white,
 /area/station/maintenance/department/science)
 "gKy" = (
 /obj/structure/table,
@@ -22139,9 +22155,15 @@
 /turf/open/floor/iron,
 /area/station/maintenance/port/aft)
 "hxc" = (
-/obj/structure/frame/machine,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science)
+/obj/effect/turf_decal/tile/prison/opposingcorners,
+/obj/structure/window/reinforced/spawner/directional/north{
+	layer = 2.9
+	},
+/obj/structure/chair{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/station/security/checkpoint/science)
 "hxe" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -32500,7 +32522,6 @@
 	pixel_y = 7
 	},
 /obj/machinery/light/broken/directional/north,
-/obj/machinery/power/port_gen/pacman/pre_loaded,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "kOW" = (
@@ -40694,14 +40715,12 @@
 /turf/open/floor/carpet/purple,
 /area/station/commons/dorms)
 "nvh" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/mapping_helpers/broken_floor,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/effect/turf_decal/tile/prison/opposingcorners,
+/obj/structure/chair{
+	dir = 8
 	},
-/obj/structure/filingcabinet,
-/turf/open/floor/plating,
-/area/station/maintenance/department/science)
+/turf/open/floor/iron/dark,
+/area/station/security/checkpoint/science)
 "nvl" = (
 /obj/machinery/dna_scannernew,
 /obj/machinery/light/directional/west,
@@ -42759,31 +42778,16 @@
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "oio" = (
-/obj/structure/closet/secure_closet{
-	icon_state = "science";
-	name = "Telescience Supplies"
+/obj/structure/window/reinforced/spawner/directional/north{
+	layer = 2.9
 	},
-/obj/item/book/manual/wiki/telescience,
-/obj/item/stack/ore/bluespace_crystal{
-	pixel_x = -4;
-	pixel_y = 3
+/obj/effect/turf_decal/tile/prison/opposingcorners,
+/obj/structure/closet/secure_closet/brig{
+	id = "scicell";
+	name = "Science Cell Locker"
 	},
-/obj/item/circuitboard/machine/teleporter_hub{
-	pixel_x = 3;
-	pixel_y = 5
-	},
-/obj/item/circuitboard/computer/teleporter{
-	pixel_x = -1;
-	pixel_y = -5
-	},
-/obj/item/stack/cable_coil,
-/obj/structure/sign/poster/contraband/random/directional/south,
-/obj/effect/turf_decal/tile/purple,
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
-	},
-/turf/open/floor/iron/white,
-/area/station/maintenance/department/science)
+/turf/open/floor/iron/dark,
+/area/station/security/checkpoint/science)
 "ois" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
@@ -46990,12 +46994,9 @@
 /turf/open/floor/iron/large,
 /area/station/science/ordnance)
 "pID" = (
-/obj/structure/chair{
-	dir = 1;
-	pixel_y = -2
-	},
 /obj/item/radio/intercom/directional/west,
 /obj/effect/turf_decal/tile/prison/opposingcorners,
+/obj/structure/rack,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "pIK" = (
@@ -52518,6 +52519,7 @@
 /obj/machinery/quantumpad,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/box,
+/obj/effect/landmark/blobstart,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "rFD" = (
@@ -55357,7 +55359,6 @@
 /area/station/service/library/printer)
 "sBm" = (
 /obj/structure/closet/secure_closet/security/science,
-/obj/machinery/firealarm/directional/south,
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/neutral{
@@ -59440,7 +59441,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/power/port_gen/pacman/pre_loaded,
+/obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "tYW" = (
@@ -60216,7 +60217,6 @@
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
 "umd" = (
-/obj/structure/rack,
 /obj/effect/turf_decal/tile/prison/opposingcorners,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
@@ -66246,17 +66246,6 @@
 /obj/effect/turf_decal/tile/prison/anticorner,
 /turf/open/floor/iron/dark,
 /area/station/security/prison)
-"wte" = (
-/obj/structure/window/reinforced/spawner/directional/north{
-	layer = 2.9
-	},
-/obj/structure/closet/secure_closet/brig{
-	id = "scicell";
-	name = "Science Cell Locker"
-	},
-/obj/effect/turf_decal/tile/prison/opposingcorners,
-/turf/open/floor/iron/dark,
-/area/station/security/checkpoint/science)
 "wtq" = (
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment{
@@ -67127,7 +67116,9 @@
 "wHS" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/sign/poster/contraband/random/directional/west,
-/obj/structure/frame/computer,
+/obj/structure/frame/computer{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "wHV" = (
@@ -112662,7 +112653,7 @@ tbO
 cXu
 fcZ
 lbt
-nHi
+oio
 pID
 utO
 cvK
@@ -113176,7 +113167,7 @@ pNs
 qeA
 rCb
 muv
-wte
+nHi
 umd
 utO
 ooi
@@ -113433,15 +113424,15 @@ nqJ
 fba
 xoB
 sBm
-uXQ
-uXQ
+hxc
+nvh
 utO
 jGg
 nXs
 xNj
 nPd
 phD
-ecS
+rxh
 qbU
 oWy
 wQv
@@ -113690,15 +113681,15 @@ uXQ
 uXQ
 xfI
 uXQ
-mbf
-mbf
+uXQ
+uXQ
 utO
 wQv
 wQv
 rJE
 wQv
 wQv
-wQv
+rxh
 kmR
 xNj
 wQv
@@ -113954,8 +113945,8 @@ ncU
 xNj
 eqs
 wHS
-hxc
 wQv
+rxh
 fum
 xNj
 wQv
@@ -114211,8 +114202,8 @@ kOV
 rFA
 iRR
 baF
-oio
 wQv
+rxh
 fum
 gwj
 wQv
@@ -114468,8 +114459,8 @@ fqH
 rJw
 tYG
 gKv
-nvh
 wQv
+rxh
 lIO
 eiP
 wQv
@@ -114726,7 +114717,7 @@ wQv
 wQv
 wQv
 wQv
-wQv
+ecS
 cvK
 rxh
 wQv
