@@ -1,7 +1,7 @@
 /obj/machinery/computer/nanite_cloud_controller
 	name = "nanite cloud controller"
 	desc = "Stores and controls nanite cloud backups."
-	icon = 'fulp_modules/features/nanites/icons/research.dmi'
+	icon = 'fulp_modules/features/nanites/icons/nanite_machines.dmi'
 	icon_state = "nanite_cloud_controller"
 	circuit = /obj/item/circuitboard/computer/nanite_cloud_controller
 	brightness_on = FALSE

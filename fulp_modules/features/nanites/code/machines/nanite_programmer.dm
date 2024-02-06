@@ -1,7 +1,7 @@
 /obj/machinery/nanite_programmer
 	name = "nanite programmer"
 	desc = "A device that can edit nanite program disks to adjust their functionality."
-	icon = 'fulp_modules/features/nanites/icons/research.dmi'
+	icon = 'fulp_modules/features/nanites/icons/nanite_machines.dmi'
 	icon_state = "nanite_programmer"
 	use_power = IDLE_POWER_USE
 	anchored = TRUE

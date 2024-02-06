@@ -4,7 +4,7 @@
 	name = "nanite chamber"
 	desc = "A device that can scan, reprogram, and inject nanites."
 	circuit = /obj/item/circuitboard/machine/nanite_chamber
-	icon = 'fulp_modules/features/nanites/icons/nanite_chamber.dmi'
+	icon = 'fulp_modules/features/nanites/icons/nanite_machines.dmi'
 	icon_state = "nanite_chamber"
 	base_icon_state = "nanite_chamber"
 	layer = ABOVE_WINDOW_LAYER
@@ -14,6 +14,8 @@
 	idle_power_usage = 50
 	active_power_usage = 300
 
+	///The icon file used post-initialize, the default icon is used solely so it shows up in the R&D console.
+	var/chamber_icon = 'fulp_modules/features/nanites/icons/nanite_chamber.dmi'
 	///The nanite chamber control machine we're synced to.
 	var/obj/machinery/computer/nanite_chamber_control/linked_console
 	///The level of the scanning module installed in the nanite chamber.
@@ -113,6 +115,10 @@
 	if(!occupant)
 		return
 	SEND_SIGNAL(occupant, COMSIG_NANITE_DELETE)
+
+/obj/machinery/nanite_chamber/update_icon(updates=ALL)
+	icon = chamber_icon
+	return ..()
 
 /obj/machinery/nanite_chamber/update_icon_state()
 	. = ..()
