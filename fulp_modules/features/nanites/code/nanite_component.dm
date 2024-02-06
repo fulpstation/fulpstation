@@ -3,6 +3,15 @@
 #define NANITE_DEFAULT_REGEN_RATE 0.5
 #define NANITE_DEFAULT_SAFETY_THRESHOLD 50
 
+///The default amount of nanite research points to generate per person per tick, if unmodified.
+#define NANITE_BASE_RESEARCH 1.5
+///The chance at a Nanite program randomly failing when it cannot sync
+#define NANITE_FAILURE_CHANCE 8
+///The max amount of nanite programs you can have in a cloud at once.
+#define NANITE_PROGRAM_LIMIT 20
+///The delay between sync attempts for nanites to the cloud, if it fails then it will start to corrupt.
+#define NANITE_SYNC_DELAY (30 SECONDS)
+
 /datum/component/nanites
 	dupe_mode = COMPONENT_DUPE_UNIQUE_PASSARGS
 
@@ -23,8 +32,6 @@
 	var/next_sync = 0
 	///All nanite programs in the user
 	var/list/datum/nanite_program/programs = list()
-	///How many programs this user can have at once
-	var/max_programs = NANITE_PROGRAM_LIMIT
 
 	///Separate list of protocol programs, to avoid looping through the whole programs list when checking for conflicts
 	var/list/datum/nanite_program/protocol/protocols = list()
@@ -136,8 +143,8 @@
 	if(!HAS_TRAIT(host_mob, TRAIT_STASIS))
 		adjust_nanites(null, regen_rate)
 		add_research()
-		for(var/datum/nanite_program/NP as anything in programs)
-			NP.on_process()
+		for(var/datum/nanite_program/active_programs as anything in programs)
+			active_programs.on_process()
 		if(cloud_id && world.time > next_sync)
 			cloud_sync()
 			next_sync = world.time + NANITE_SYNC_DELAY
@@ -202,7 +209,7 @@
 			continue
 		qdel(all_program)
 
-	if(programs.len >= max_programs)
+	if(programs.len >= NANITE_PROGRAM_LIMIT)
 		return COMPONENT_PROGRAM_NOT_INSTALLED
 	if(source_program)
 		source_program.copy_programming(new_program)
@@ -340,12 +347,10 @@
 
 ///Adds nanite research points to the linked techweb based on the host's status.
 /datum/component/nanites/proc/add_research()
-	if(host_mob.stat == DEAD)
+	if(host_mob.stat == DEAD || !host_mob.client)
 		return
 	var/research_value = NANITE_BASE_RESEARCH
-	if(!ishuman(host_mob) || ismonkey(host_mob))
-		research_value *= 0.4
-	if(!host_mob.client)
+	if(!ishuman(host_mob))
 		research_value *= 0.5
 	linked_techweb.add_point_list(list(TECHWEB_POINT_TYPE_NANITES = research_value))
 
@@ -436,3 +441,8 @@
 #undef NANITE_DEFAULT_MAX_VOLUME
 #undef NANITE_DEFAULT_REGEN_RATE
 #undef NANITE_DEFAULT_SAFETY_THRESHOLD
+
+#undef NANITE_BASE_RESEARCH
+#undef NANITE_FAILURE_CHANCE
+#undef NANITE_PROGRAM_LIMIT
+#undef NANITE_SYNC_DELAY

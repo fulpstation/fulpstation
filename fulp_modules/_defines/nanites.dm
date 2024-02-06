@@ -4,17 +4,6 @@
 ///Trait given by Nanites
 #define TRAIT_NANITES "Nanites"
 
-///The delay between sync attempts for nanites to the cloud, if it fails then it will start to corrupt.
-#define NANITE_SYNC_DELAY (30 SECONDS)
-///The max amount of nanite programs you can have in a cloud at once.
-#define NANITE_PROGRAM_LIMIT 20
-
-///The chance at a Nanite program randomly failing when it cannot sync
-#define NANITE_FAILURE_CHANCE 8
-
-///The default amount of nanite research points to generate per person per tick, if unmodified.
-#define NANITE_BASE_RESEARCH 3.5
-
 #define NANITE_SHOCK_IMMUNE (1<<0)
 #define NANITE_EMP_IMMUNE (1<<1)
 

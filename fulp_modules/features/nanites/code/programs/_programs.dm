@@ -200,9 +200,10 @@
 		if(!passive_enabled)
 			enable_passive_effect()
 		active_effect()
-	else
-		if(passive_enabled)
-			disable_passive_effect()
+		return
+
+	if(passive_enabled)
+		disable_passive_effect()
 
 //If false, disables active and passive effects, but doesn't consume nanites
 //Can be used to avoid consuming nanites for nothing
@@ -272,28 +273,47 @@
 /datum/nanite_program/proc/on_death()
 	return
 
-/datum/nanite_program/proc/software_error(type)
-	if(!type)
-		type = rand(1,5)
-	switch(type)
-		if(1)
+#define SOFTWARE_ERROR_DELETE 1
+#define SOFTWARE_ERROR_DEPROGRAM 2
+#define SOFTWARE_ERROR_TOGGLE 3
+#define SOFTWARE_ERROR_TRIGGER 4
+#define SOFTWARE_ERROR_ROGUE 5
+
+/datum/nanite_program/proc/software_error()
+	var/list/software_errors_weighted = list(
+		SOFTWARE_ERROR_DELETE = 1,
+		SOFTWARE_ERROR_DEPROGRAM = 2,
+		SOFTWARE_ERROR_TOGGLE = 2,
+		SOFTWARE_ERROR_TRIGGER = 2,
+		SOFTWARE_ERROR_ROGUE = 3,
+	)
+	var/error_type = pick_weight(software_errors_weighted)
+	switch(error_type)
+		if(SOFTWARE_ERROR_DELETE)
 			qdel(src) //kill switch
-			return
-		if(2) //deprogram codes
+		if(SOFTWARE_ERROR_DEPROGRAM) //deprogram codes
 			activation_code = 0
 			deactivation_code = 0
 			kill_code = 0
 			trigger_code = 0
-		if(3)
+		if(SOFTWARE_ERROR_TOGGLE)
 			toggle() //enable/disable
-		if(4)
+		if(SOFTWARE_ERROR_TRIGGER)
 			if(can_trigger)
 				trigger()
-		if(5) //Program is scrambled and does something different
+			else
+				toggle() //enable/disable
+		if(SOFTWARE_ERROR_ROGUE) //Program is scrambled and does something different
 			var/rogue_type = pick(rogue_types)
 			var/datum/nanite_program/rogue = new rogue_type
 			nanites.add_program(null, rogue, src)
 			qdel(src)
+
+#undef SOFTWARE_ERROR_DELETE
+#undef SOFTWARE_ERROR_DEPROGRAM
+#undef SOFTWARE_ERROR_TOGGLE
+#undef SOFTWARE_ERROR_TRIGGER
+#undef SOFTWARE_ERROR_ROGUE
 
 /datum/nanite_program/proc/receive_signal(code, source)
 	if(activation_code && code == activation_code && !activated)

@@ -46,18 +46,18 @@
 /datum/nanite_program/protocol/factory/on_process()
 	if(!activated || !check_conditions())
 		factory_efficiency = max(0, factory_efficiency - 5)
-	..()
+	return ..()
 
 /datum/nanite_program/protocol/factory/on_emp(severity)
-	..()
+	. = ..()
 	factory_efficiency = max(0, factory_efficiency - 300)
 
 /datum/nanite_program/protocol/factory/on_shock(shock_damage)
-	..()
+	. = ..()
 	factory_efficiency = max(0, factory_efficiency - 200)
 
 /datum/nanite_program/protocol/factory/on_minor_shock()
-	..()
+	. = ..()
 	factory_efficiency = max(0, factory_efficiency - 100)
 
 /datum/nanite_program/protocol/factory/active_effect()
