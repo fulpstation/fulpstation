@@ -28,7 +28,6 @@
 	can_trigger = TRUE
 	trigger_cost = 0
 	trigger_cooldown = 10
-	var/spent = FALSE
 
 /datum/nanite_program/sensor/repeat/register_extra_settings()
 	. = ..()
@@ -44,7 +43,6 @@
 	can_trigger = TRUE
 	trigger_cost = 0
 	trigger_cooldown = 10
-	var/spent = FALSE
 
 /datum/nanite_program/sensor/relay_repeat/register_extra_settings()
 	. = ..()
@@ -126,9 +124,8 @@
 	name = "Death Sensor"
 	desc = "The nanites receive a signal when they detect the host is dead."
 	can_rule = TRUE
-	var/spent = FALSE
 
-/datum/nanite_program/sensor/death/on_death()
+/datum/nanite_program/sensor/death/on_death(gibbed)
 	send_code()
 
 /datum/nanite_program/sensor/death/make_rule(datum/nanite_program/target)

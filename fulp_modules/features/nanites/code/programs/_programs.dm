@@ -270,7 +270,7 @@
 		if(prob(10))
 			software_error()
 
-/datum/nanite_program/proc/on_death()
+/datum/nanite_program/proc/on_death(gibbed)
 	return
 
 #define SOFTWARE_ERROR_DELETE 1
