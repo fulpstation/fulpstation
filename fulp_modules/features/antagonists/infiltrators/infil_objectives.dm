@@ -1,4 +1,4 @@
-/datum/antagonist/traitor/infiltrator/forge_traitor_objectives()
+/datum/antagonist/traitor/fulp_infiltrator/forge_traitor_objectives()
 	if(!employer)
 		return
 	switch(employer)
@@ -45,7 +45,7 @@
 
 			var/mob/living/carbon/human/infil = owner.current
 			var/obj/item/gorilla_serum/serum = infil.l_store
-			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/infiltrator))
+			serum.set_objective(owner.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator))
 
 		if(INFILTRATOR_FACTION_GORLEX_MARAUDERS)
 			for(var/i = 0, i < rand(3,5) , i++)
@@ -81,7 +81,7 @@
 			objectives += wormhole
 
 
-/datum/antagonist/traitor/infiltrator/forge_ending_objective()
+/datum/antagonist/traitor/fulp_infiltrator/forge_ending_objective()
 	return
 
 
@@ -149,12 +149,14 @@
 		/mob/living/basic/pet/dog/corgi/puppy/ian,
 		/mob/living/basic/pet/dog/pug/mcgriff,
 		/mob/living/basic/carp/pet/lia,
-		/mob/living/basic/giant_spider/sgt_araneus,
+		/mob/living/basic/spider/giant/sgt_araneus,
 		/mob/living/basic/pet/fox/renault,
- 		/mob/living/simple_animal/pet/cat/runtime,
-		/mob/living/simple_animal/parrot/poly,
-		/mob/living/simple_animal/sloth/paperwork,
-		/mob/living/simple_animal/sloth/citrus,
+		/mob/living/basic/sloth/paperwork,
+		/mob/living/basic/sloth/citrus,
+
+		// le sad simple animals (let's kill them)
+		/mob/living/basic/pet/cat/runtime,
+		/mob/living/basic/parrot/poly,
  	)
 
 	remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
@@ -165,7 +167,7 @@
 		if(!target_pet)
 			possible_target_pets -= chosen_pet
 			continue
-		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/simple_animal/parrot/poly/ghost))
+		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/basic/parrot/poly/ghost))
 			target_pet = null
 		possible_target_pets -= chosen_pet
 

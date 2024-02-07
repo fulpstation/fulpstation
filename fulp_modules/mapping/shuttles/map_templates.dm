@@ -47,6 +47,7 @@
 	name = "Selene Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "The standard-issue escape shuttle for models of station this large. Will get you home in moderate style."
+	occupancy_limit = "50"
 
 /datum/map_template/shuttle/emergency/fulp/helio
 	suffix = "helio"
@@ -54,6 +55,7 @@
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "For when you're not quite ready to say goodbye to your home station. Big shuttle with lots of space."
 	admin_notes = "Comes with an inmortal barmaid and bardrone."
+	occupancy_limit = "50"
 
 /**
  * LABOUR SHUTTLE
@@ -65,3 +67,7 @@
 
 /obj/docking_port/stationary/laborcamp_home/helio
 	roundstart_template = /datum/map_template/shuttle/labour/helio
+
+/datum/map_template/shuttle/labour/selene
+	suffix = "selene"
+	name = "labour shuttle (Selene)"

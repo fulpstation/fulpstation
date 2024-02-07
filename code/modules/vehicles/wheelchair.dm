@@ -30,7 +30,6 @@
 	if(!bell_attached)
 		return
 	initialize_controller_action_type(/datum/action/vehicle/ridden/wheelchair/bell, VEHICLE_CONTROL_DRIVE)
-	AddElement(/datum/element/noisy_movement, volume = 75)
 
 /obj/vehicle/ridden/wheelchair/Initialize(mapload)
 	. = ..()
@@ -38,6 +37,7 @@
 	wheels_overlay = image(icon, overlay_icon, ABOVE_MOB_LAYER)
 	ADD_TRAIT(src, TRAIT_NO_IMMOBILIZE, INNATE_TRAIT)
 	AddComponent(/datum/component/simple_rotation) //Since it's technically a chair I want it to have chair properties
+	AddElement(/datum/element/noisy_movement, volume = 75)
 
 /obj/vehicle/ridden/wheelchair/atom_destruction(damage_flag)
 	new /obj/item/stack/rods(drop_location(), 1)
@@ -52,15 +52,16 @@
 	. = ..()
 	update_appearance()
 
-/obj/vehicle/ridden/wheelchair/wrench_act(mob/living/user, obj/item/I) //Attackby should stop it attacking the wheelchair after moving away during decon
+/obj/vehicle/ridden/wheelchair/wrench_act(mob/living/user, obj/item/tool) //Attackby should stop it attacking the wheelchair after moving away during decon
 	..()
-	to_chat(user, span_notice("You begin to detach the wheels..."))
-	if(I.use_tool(src, user, 40, volume=50))
-		to_chat(user, span_notice("You detach the wheels and deconstruct the chair."))
-		new /obj/item/stack/rods(drop_location(), 6)
-		new /obj/item/stack/sheet/iron(drop_location(), 4)
-		qdel(src)
-	return TRUE
+	balloon_alert(user, "disassembling")
+	if(!tool.use_tool(src, user, 4 SECONDS, volume=50))
+		return ITEM_INTERACT_SUCCESS
+	to_chat(user, span_notice("You detach the wheels and deconstruct the chair."))
+	new /obj/item/stack/rods(drop_location(), 6)
+	new /obj/item/stack/sheet/iron(drop_location(), 4)
+	qdel(src)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/vehicle/ridden/wheelchair/AltClick(mob/user)
 	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation

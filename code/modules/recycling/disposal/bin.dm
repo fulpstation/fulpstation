@@ -61,7 +61,7 @@
 	RegisterSignal(src, COMSIG_RAT_INTERACT, PROC_REF(on_rat_rummage))
 	RegisterSignal(src, COMSIG_STORAGE_DUMP_CONTENT, PROC_REF(on_storage_dump))
 	var/static/list/loc_connections = list(
-		COMSIG_CARBON_DISARM_COLLIDE = PROC_REF(trash_carbon),
+		COMSIG_LIVING_DISARM_COLLIDE = PROC_REF(trash_living),
 		COMSIG_TURF_RECEIVE_SWEEPED_ITEMS = PROC_REF(ready_for_trash),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -88,8 +88,9 @@
 		trunk = null
 	return ..()
 
-/obj/machinery/disposal/handle_atom_del(atom/A)
-	if(A == stored && !QDELETED(src))
+/obj/machinery/disposal/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone == stored && !QDELETED(src))
 		stored = null
 		deconstruct(FALSE)
 
@@ -135,7 +136,7 @@
 		return ..()
 
 /// The regal rat spawns ratty treasures from the disposal
-/obj/machinery/disposal/proc/rat_rummage(mob/living/simple_animal/hostile/regalrat/king)
+/obj/machinery/disposal/proc/rat_rummage(mob/living/basic/regal_rat/king)
 	king.visible_message(span_warning("[king] starts rummaging through [src]."),span_notice("You rummage through [src]..."))
 	if (!do_after(king, 2 SECONDS, src, interaction_key = "regalrat"))
 		return
@@ -277,13 +278,15 @@
 
 /obj/machinery/disposal/deconstruct(disassembled = TRUE)
 	var/turf/T = loc
-	if(!(flags_1 & NODECONSTRUCT_1))
+	if(!(obj_flags & NO_DECONSTRUCTION))
 		if(stored)
-			stored.forceMove(T)
-			src.transfer_fingerprints_to(stored)
-			stored.set_anchored(FALSE)
-			stored.set_density(TRUE)
-			stored.update_appearance()
+			var/obj/structure/disposalconstruct/construct = stored
+			stored = null
+			construct.forceMove(T)
+			transfer_fingerprints_to(construct)
+			construct.set_anchored(FALSE)
+			construct.set_density(TRUE)
+			construct.update_appearance()
 	for(var/atom/movable/AM in src) //out, out, darned crowbar!
 		AM.forceMove(T)
 	..()
@@ -383,7 +386,8 @@
 
 /obj/machinery/disposal/bin/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	if(isitem(AM) && AM.CanEnterDisposals())
-		if((throwingdatum.thrower && HAS_TRAIT(throwingdatum.thrower, TRAIT_THROWINGARM)) || prob(75))
+		var/mob/thrower = throwingdatum?.get_thrower()
+		if((thrower && HAS_TRAIT(thrower, TRAIT_THROWINGARM)) || prob(75))
 			AM.forceMove(src)
 			visible_message(span_notice("[AM] lands in [src]."))
 			update_appearance()
@@ -398,13 +402,6 @@
 	full_pressure = FALSE
 	pressure_charging = TRUE
 	update_appearance()
-
-/obj/machinery/disposal/bin/update_appearance(updates)
-	. = ..()
-	if((machine_stat & (BROKEN|NOPOWER)) || panel_open)
-		luminosity = 0
-		return
-	luminosity = 1
 
 /obj/machinery/disposal/bin/update_overlays()
 	. = ..()
@@ -545,23 +542,26 @@
 	return
 
 /// Handles the signal for the rat king looking inside the disposal
-/obj/machinery/disposal/proc/on_rat_rummage(datum/source, mob/living/simple_animal/hostile/regalrat/king)
+/obj/machinery/disposal/proc/on_rat_rummage(datum/source, mob/living/basic/regal_rat/king)
 	SIGNAL_HANDLER
+	if(king.combat_mode)
+		return
 
 	INVOKE_ASYNC(src, TYPE_PROC_REF(/obj/machinery/disposal/, rat_rummage), king)
+	return COMPONENT_RAT_INTERACTED
 
 /// Handles a carbon mob getting shoved into the disposal bin
-/obj/machinery/disposal/proc/trash_carbon(datum/source, mob/living/carbon/shover, mob/living/carbon/target, shove_blocked)
+/obj/machinery/disposal/proc/trash_living(datum/source, mob/living/shover, mob/living/target, shove_flags, obj/item/weapon)
 	SIGNAL_HANDLER
-	if(!shove_blocked)
+	if((shove_flags & SHOVE_KNOCKDOWN_BLOCKED) || !(shove_flags & SHOVE_BLOCKED))
 		return
 	target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
 	target.forceMove(src)
 	target.visible_message(span_danger("[shover.name] shoves [target.name] into \the [src]!"),
-		span_userdanger("You're shoved into \the [src] by [target.name]!"), span_hear("You hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, src)
+		span_userdanger("You're shoved into \the [src] by [target.name]!"), span_hear("You hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, shover)
 	to_chat(src, span_danger("You shove [target.name] into \the [src]!"))
-	log_combat(shover, target, "shoved", "into [src] (disposal bin)")
-	return COMSIG_CARBON_SHOVE_HANDLED
+	log_combat(shover, target, "shoved", "into [src] (disposal bin)[weapon ? " with [weapon]" : ""]")
+	return COMSIG_LIVING_SHOVE_HANDLED
 
 ///Called when a push broom is trying to sweep items onto the turf this object is standing on. Garbage will be moved inside.
 /obj/machinery/disposal/proc/ready_for_trash(datum/source, obj/item/pushbroom/broom, mob/user, list/items_to_sweep)

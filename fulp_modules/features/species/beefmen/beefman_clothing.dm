@@ -13,7 +13,7 @@
 //Captain
 /obj/item/clothing/under/bodysash/captain
 	name = "captain's sash"
-	desc = "A simple assistant sash, slung from shoulder to hip."
+	desc = "A sash with gold markings denoting the rank of \"Captain\", slung from shoulder to hip."
 	icon_state = "captain_beef"
 	armor_type = /datum/armor/clothing_under/rank_captain
 	sensor_mode = SENSOR_COORDS
@@ -32,6 +32,7 @@
 	name = "head of security's sash"
 	desc = "A \"tactical\" security sash for the \"Head of Security\"."
 	icon_state = "hos"
+	armor_type = /datum/armor/clothing_under/security_head_of_security
 
 /obj/item/clothing/under/bodysash/security/warden
 	name = "warden's sash"
@@ -53,7 +54,7 @@
 	name = "medical's sash"
 	desc = "A doctor's sash, It's made of a special fiber that provides minor protection against biohazards.."
 	icon_state = "medical"
-	armor_type = /datum/armor/clothing_under/civilian_janitor
+	armor_type = /datum/armor/clothing_under/rank_medical
 
 /obj/item/clothing/under/bodysash/medical/cmo
 	name = "chief medical officer's sash"
@@ -64,6 +65,7 @@
 	name = "chemist's sash"
 	desc = "A chemist's sash. It's made of a special fiber that gives special protection against biohazards."
 	icon_state = "chemist"
+	armor_type = /datum/armor/clothing_under/medical_chemist
 
 /obj/item/clothing/under/bodysash/medical/virologist
 	name = "virologist's sash"
@@ -80,7 +82,7 @@
 	name = "engineer's sash"
 	desc = "It's an orange high visibility sash worn by engineers."
 	icon_state = "engineer"
-	armor_type = /datum/armor/clothing_under/civilian_janitor
+	armor_type = /datum/armor/clothing_under/rank_engineering
 	resistance_flags = NONE
 
 /obj/item/clothing/under/bodysash/engineer/ce
@@ -91,7 +93,7 @@
 
 /obj/item/clothing/under/bodysash/engineer/atmos
 	name = "atmospherics technician's sash"
-	desc = "It's a sash worn by atmospheric technicians. It has minor protection from fire."
+	desc = "It's a sash worn by atmospheric technicians."
 	icon_state = "atmos"
 
 //Science
@@ -103,20 +105,22 @@
 
 /obj/item/clothing/under/bodysash/scientist
 	name = "scientist's sash"
-	desc = "It's made of a special fiber that provides minor \"protection\" against explosives. It has markings that denote the wearer as a scientist."
+	desc = "It's made of a special fiber that provides minor \"protection\" against biohazards. It has markings that denote the wearer as a scientist."
 	icon_state = "scientist"
+	armor_type = /datum/armor/clothing_under/science
 
 /obj/item/clothing/under/bodysash/roboticist
 	name = "roboticist's sash"
 	desc = "It's a slimming black with reinforced seams; great for industrial work."
 	icon_state = "roboticist"
 	resistance_flags = NONE
+	armor_type = /datum/armor/clothing_under/science
 
 /obj/item/clothing/under/bodysash/geneticist
 	name = "geneticist's sash"
 	desc = "A geneticist's sash. It's made of a special fiber that gives special protection against biohazards."
 	icon_state = "geneticist"
-	armor_type = /datum/armor/clothing_under/civilian_janitor
+	armor_type = /datum/armor/clothing_under/science
 
 //Supply/Civilian
 /obj/item/clothing/under/bodysash/hop
@@ -193,6 +197,7 @@
 	name = "botanist's sash"
 	desc = "It's a sash designed to protect against minor plant-related hazards."
 	icon_state = "botanist"
+	armor_type = /datum/armor/clothing_under/civilian_hydroponics
 
 /obj/item/clothing/under/bodysash/janitor
 	name = "janitor's sash"

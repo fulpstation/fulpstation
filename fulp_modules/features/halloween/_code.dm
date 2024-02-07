@@ -1,3 +1,13 @@
+GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
+
+/proc/populate_halloween_gifts()
+	var/list/valid_gifts = subtypesof(/obj/item/storage/box/halloween)
+	for(var/obj/item/storage/box/halloween/halloween_box as anything in valid_gifts)
+		if(!initial(halloween_box.theme_name))
+			valid_gifts -= halloween_box
+
+	GLOB.halloween_gifts = valid_gifts
+
 /**
  * Choice beacon
  * Purchased at Cargo, allows you to order any Costume you want
@@ -9,12 +19,15 @@
 	icon_state = "gangtool-white"
 
 /obj/item/choice_beacon/halloween/generate_display_names()
-	var/list/halloween_costumes = list()
-	for(var/generated_options in subtypesof(/obj/item/storage/box/halloween))
-		var/obj/item/storage/box/halloween/halloween_boxes = generated_options
-		if(!(initial(halloween_boxes.theme_name)))
-			continue
-		halloween_costumes[initial(halloween_boxes.theme_name)] = halloween_boxes
+	var/static/list/halloween_costumes
+	if(!halloween_costumes)
+		if(!GLOB.halloween_gifts.len)
+			populate_halloween_gifts()
+
+		halloween_costumes = list()
+		for(var/obj/item/storage/box/halloween/halloween_boxes as anything in GLOB.halloween_gifts)
+			halloween_costumes[initial(halloween_boxes.theme_name)] = halloween_boxes
+
 	return halloween_costumes
 
 /obj/item/choice_beacon/halloween/spawn_option(obj/choice, mob/living/gifted_person)
@@ -24,9 +37,12 @@
 /// Debug delivery beacon with unlimited uses
 /obj/item/choice_beacon/halloween/debug
 	name = "debug halloween delivery beacon"
-	desc = "Summon up to 100 boxes of halloween costumes to help you get spooky."
+	desc = "A wonder of bluespace technology, capable of warping in an unlimited amount halloween costumes to help you get spooky."
 	uses = 100
 
+/obj/item/choice_beacon/halloween/debug/consume_use(obj/choice_path, mob/living/user)
+	uses++
+	return ..()
 
 /**
  * Storage box code
@@ -96,14 +112,7 @@
 	item.add_fingerprint(user)
 
 /obj/item/halloween_gift/proc/get_gift_type()
-	if(!GLOB.possible_gifts.len)
-		var/list/gift_types_list = subtypesof(/obj/item/storage/box/halloween)
-		for(var/generated_options in gift_types_list)
-			var/obj/item/item = generated_options
-			if((!initial(item.icon_state)) || (!initial(item.inhand_icon_state)) || (initial(item.item_flags) & ABSTRACT))
-				gift_types_list -= generated_options
-		GLOB.possible_gifts = gift_types_list
+	if(!GLOB.halloween_gifts.len)
+		populate_halloween_gifts()
 
-	var/gift_type = pick(GLOB.possible_gifts)
-
-	return gift_type
+	return pick(GLOB.halloween_gifts)

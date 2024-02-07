@@ -18,6 +18,7 @@
 	has_closed_overlay = FALSE
 	can_install_electronics = FALSE
 	paint_jobs = null
+	can_weld_shut = FALSE
 
 	var/foldedbag_path = /obj/item/bodybag
 	var/obj/item/bodybag/foldedbag_instance = null
@@ -191,8 +192,7 @@
 
 /obj/structure/closet/body_bag/environmental/Initialize(mapload)
 	. = ..()
-	for(var/trait in weather_protection)
-		ADD_TRAIT(src, trait, ROUNDSTART_TRAIT)
+	add_traits(weather_protection, INNATE_TRAIT)
 	refresh_air()
 
 /obj/structure/closet/body_bag/environmental/Destroy()

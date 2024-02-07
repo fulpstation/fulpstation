@@ -8,7 +8,7 @@
 	description = "The Ventrue Clan is extremely snobby with their meals, and refuse to drink blood from people without a mind. \n\
 		You may only level yourself up to Level %MAX_LEVEL%, anything further will be ranks to spend on their Favorite Vassal through a Persuasion Rack. \n\
 		The Favorite Vassal will slowly turn more Vampiric this way, until they finally lose their last bits of Humanity."
-	clan_objective = /datum/objective/bloodsucker/embrace
+	clan_objective = /datum/objective/ventrue_clan_objective
 	join_icon_state = "ventrue"
 	join_description = "Lose the ability to drink from mindless mobs, can't level up or gain new powers, \
 		instead you raise a vassal into a Bloodsucker."
@@ -24,13 +24,19 @@
 			return ..()
 		return FALSE
 	var/datum/antagonist/vassal/favorite/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal/favorite)
+	var/datum/antagonist/bloodsucker/vassal_bloodsuker_datum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!vassaldatum)
 		return FALSE
 	// Purchase Power Prompt
 	var/list/options = list()
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
-		if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
-			options[initial(power.name)] = power
+		if(!(initial(power.purchase_flags) & VASSAL_CAN_BUY))
+			continue
+		if(locate(power) in vassaldatum.powers)
+			continue
+		if(vassal_bloodsuker_datum && (locate(power) in vassal_bloodsuker_datum.powers))
+			continue
+		options[initial(power.name)] = power
 
 	if(options.len < 1)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You grow more ancient by the night!"))
@@ -75,11 +81,16 @@
 			target.add_traits(list(TRAIT_NOHARDCRIT, TRAIT_HARDLY_WOUNDED), BLOODSUCKER_TRAIT)
 			to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
 		if(6 to INFINITY)
-			if(!target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			if(!vassal_bloodsuker_datum)
+				if(vassaldatum.info_button_ref)
+					QDEL_NULL(vassaldatum.info_button_ref)
+				vassal_bloodsuker_datum = target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
+				vassal_bloodsuker_datum.my_clan = new /datum/bloodsucker_clan/vassal(src)
+
 				to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead."))
-				target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
 				bloodsuckerdatum.owner.current.add_mood_event("madevamp", /datum/mood_event/madevamp)
-			vassaldatum.set_vassal_level(target)
+
+			vassaldatum.set_vassal_level(vassal_bloodsuker_datum)
 
 	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
 	vassaldatum.LevelUpPowers()
@@ -113,3 +124,24 @@
 
 #undef BLOODSUCKER_BLOOD_RANKUP_COST
 #undef VENTRUE_MAX_LEVEL
+
+/**
+ * Clan Objective
+ * Ventrue's Clan objective is to upgrade the Favorite Vassal
+ * enough to make them a Bloodsucker.
+ */
+/datum/objective/ventrue_clan_objective
+	name = "embrace"
+	explanation_text = "Use the Persuasion Rack to Rank your Favorite Vassal up enough to become a Bloodsucker and keep them alive until the end."
+	martyr_compatible = TRUE
+
+/datum/objective/ventrue_clan_objective/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	for(var/datum/antagonist/vassal/vassaldatum as anything in bloodsuckerdatum.vassals)
+		if(!vassaldatum.owner || !vassaldatum.owner.current)
+			continue
+		if(IS_FAVORITE_VASSAL(vassaldatum.owner.current) && vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+			return TRUE
+	return FALSE

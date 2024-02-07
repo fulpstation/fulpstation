@@ -109,3 +109,18 @@
 	COOLDOWN_START(src, beefplushie_cooldown, BEEFPLUSHIE_COOLDOWN_TIME)
 
 #undef BEEFPLUSHIE_COOLDOWN_TIME
+
+/obj/item/toy/plush/EightZeroEight
+	name = "808"
+	desc = "A Rockstars companion turned into a marketable plushie."
+	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
+	icon_state = "808"
+	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	worn_icon_state = "808"
+	inhand_icon_state = "808"
+	lefthand_file = 'fulp_modules/features/halloween/2023/2023_icons_left.dmi'
+	righthand_file = 'fulp_modules/features/halloween/2023/2023_icons_right.dmi'
+	attack_verb_continuous = list("bops","beats")
+	attack_verb_simple = list("bop","beat")
+	squeak_override = list(
+		'sound/effects/meow1.ogg' = 1)

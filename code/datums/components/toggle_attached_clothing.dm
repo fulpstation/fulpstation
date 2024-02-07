@@ -78,13 +78,15 @@
 	if (!destroy_on_removal)
 		create_deployable()
 
-/datum/component/toggle_attached_clothing/Destroy(force, silent)
+/datum/component/toggle_attached_clothing/Destroy(force)
 	unequip_deployable()
 	QDEL_NULL(deployable)
 	QDEL_NULL(toggle_action)
-	QDEL_NULL(on_created)
-	QDEL_NULL(on_deployed)
-	QDEL_NULL(on_removed)
+	undeployed_overlay = null
+	pre_creation_check = null
+	on_created = null
+	on_deployed = null
+	on_removed = null
 	return ..()
 
 /// Toggle deployable when the UI button is clicked

@@ -32,9 +32,12 @@
 		new /obj/effect/anomaly/dimensional/wonderland(get_safe_random_station_turf(), null, FALSE)
 	for(var/i = 1, i < 4, i++)
 		var/obj/structure/wonderland_rift/rift = new(get_safe_random_station_turf())
-		notify_ghosts("A doorway to the wonderland has been opened!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Wonderland rift Opened")
-
-
+		notify_ghosts(
+			message = "A doorway to the wonderland has been opened!",
+			source = rift,
+			header = "Wonderland Rift opened",
+			notify_flags = NOTIFY_CATEGORY_NOFLASH,
+		)
 
 /obj/effect/anomaly/dimensional/wonderland
 	range = 5

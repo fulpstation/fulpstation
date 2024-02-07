@@ -56,8 +56,8 @@
 		/datum/component/material_container, \
 		list(/datum/material/iron, /datum/material/glass), \
 		SHEET_MATERIAL_AMOUNT * MAX_STACK_SIZE * 2, \
-		MATCONTAINER_EXAMINE|BREAKDOWN_FLAGS_DRONE_DISPENSER, \
-		allowed_items=/obj/item/stack \
+		MATCONTAINER_EXAMINE, \
+		allowed_items = /obj/item/stack \
 	)
 	materials.insert_amount_mat(starting_amount)
 	materials.precise_insertion = TRUE
@@ -130,7 +130,7 @@
 	glass_cost = 0
 	power_used = 0
 	cooldownTime = 10 //Only 1 second - hivebots are extremely weak
-	dispense_type = /mob/living/simple_animal/hostile/hivebot
+	dispense_type = /mob/living/basic/hivebot
 	begin_create_message = "closes and begins fabricating something within."
 	end_create_message = "slams open, revealing a hivebot!"
 	recharge_sound = null
@@ -152,7 +152,6 @@
 		. += span_warning("[recharging_text]")
 
 /obj/machinery/drone_dispenser/process()
-	..()
 	if((machine_stat & (NOPOWER|BROKEN)) || !anchored)
 		return
 
@@ -262,7 +261,7 @@
 		playsound(src, break_sound, 50, TRUE)
 
 /obj/machinery/drone_dispenser/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
+	if(!(obj_flags & NO_DECONSTRUCTION))
 		new /obj/item/stack/sheet/iron(loc, 5)
 	qdel(src)
 

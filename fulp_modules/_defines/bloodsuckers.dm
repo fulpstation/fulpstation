@@ -14,9 +14,9 @@
 /// Cost to convert someone after successful torture, in blood
 #define TORTURE_CONVERSION_COST 50
 /// Once blood is this low, will enter Frenzy
-#define FRENZY_THRESHOLD_ENTER 25
-/// Once blood is this high, will exit Frenzy
-#define FRENZY_THRESHOLD_EXIT 250
+#define FRENZY_MINIMUM_THRESHOLD_ENTER 25
+///Amount of blood on TOP of your frenzy limit you need to EXIT frenzy.
+#define FRENZY_EXTRA_BLOOD_NEEDED 50
 
 /**
  * Vassal defines
@@ -52,6 +52,7 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 #define CLAN_MALKAVIAN "Malkavian Clan"
 #define CLAN_TZIMISCE "Tzimisce Clan"
+#define CLAN_VASSAL "your Master"
 
 #define TREMERE_VASSAL "tremere_vassal"
 #define FAVORITE_VASSAL "favorite_vassal"

@@ -4,7 +4,7 @@
 		Additionally, has a permanent bad back and looks like a Bloodsucker upon a simple examine, and is entirely unidentifiable, \n\
 		they can fit in the vents regardless of their form and equipment. \n\
 		The Favorite Vassal is permanetly disfigured, and can also ventcrawl, but only while entirely nude."
-	clan_objective = /datum/objective/bloodsucker/kindred
+	clan_objective = /datum/objective/nosferatu_clan_objective
 	join_icon_state = "nosferatu"
 	join_description = "You are permanetly disfigured, look like a Bloodsucker to all who examine you, \
 		lose your Masquerade ability, but gain the ability to Ventcrawl even while clothed."
@@ -35,3 +35,18 @@
 /datum/bloodsucker_clan/nosferatu/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	vassaldatum.owner.current.add_traits(list(TRAIT_VENTCRAWLER_NUDE, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
 	to_chat(vassaldatum.owner.current, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
+
+/**
+ * Clan objective
+ * Nosferatu's objective is to steal the Curator's Archives of the Kindred.
+ */
+/datum/objective/nosferatu_clan_objective
+	name = "steal kindred"
+	explanation_text = "Ensure Nosferatu steals and keeps control over the Archive of the Kindred."
+
+/datum/objective/nosferatu_clan_objective/check_completion()
+	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))
+		var/obj/item/book/kindred/the_book = locate() in bloodsucker_minds.current.get_all_contents()
+		if(the_book)
+			return TRUE
+	return FALSE

@@ -80,7 +80,7 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
-	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT)
 	is_dimorphic = FALSE
 	icon_state = "beefman_head"
 	head_flags = HEAD_HAIR
@@ -119,7 +119,7 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
-	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT)
 	is_dimorphic = FALSE
 	icon_state = "beefman_chest"
 
@@ -171,7 +171,7 @@
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
 	limb_id = SPECIES_BEEFMAN
-	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT)
 	icon_state = "beefman_r_arm"
 
 /obj/item/bodypart/arm/right/beef/Initialize(mapload)
@@ -204,7 +204,7 @@
 	unarmed_damage_high = 5
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
-	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_l_arm"
 
@@ -234,7 +234,7 @@
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
-	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_r_leg"
 	speed_modifier = -0.1
@@ -252,7 +252,7 @@
 	icon_greyscale = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
 	heavy_brute_msg = "mincemeat"
 	heavy_burn_msg = "burned to a crisp"
-	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+	damage_examines = list(BRUTE = BEEF_BRUTE_EXAMINE_TEXT, BURN = BEEF_BURN_EXAMINE_TEXT)
 	limb_id = SPECIES_BEEFMAN
 	icon_state = "beefman_l_leg"
 	speed_modifier = -0.1
@@ -273,9 +273,9 @@
 
 
 /obj/item/bodypart/update_limb(dropping_limb = FALSE, is_creating = FALSE)
-	. = ..()
-	if(owner.dna.species.id == SPECIES_BEEFMAN)
+	if(owner?.dna.species.id == SPECIES_BEEFMAN)
 		if(!IS_ORGANIC_LIMB(src))
 			icon_static = 'fulp_modules/features/species/icons/mob/beefman_bodyparts_robotic.dmi'
 		else
 			icon_static = initial(icon_static)
+	return ..()

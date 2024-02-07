@@ -1,5 +1,5 @@
 import { useBackend } from '../tgui/backend';
-import { Collapsible, Table, Section } from '../tgui/components';
+import { Collapsible, Section, Table } from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 type Data = {
@@ -11,8 +11,8 @@ type ClanInfo = {
   clan_desc: string;
 };
 
-export const KindredBook = (props, context) => {
-  const { data } = useBackend<Data>(context);
+export const KindredBook = (props) => {
+  const { data } = useBackend<Data>();
   const { clans } = data;
   return (
     <Window width={410} height={460} theme="spookyconsole">

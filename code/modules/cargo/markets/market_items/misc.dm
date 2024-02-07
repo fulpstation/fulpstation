@@ -50,6 +50,14 @@
 	stock_max = 2
 	availability_prob = 30
 
+/datum/market_item/misc/shove_blocker
+	name = "MOD Bulwark Module"
+	desc = "You have no idea how much effort it took us to extract this module from that damn safeguard MODsuit last shift."
+	price_min = CARGO_CRATE_VALUE * 4
+	price_max = CARGO_CRATE_VALUE * 5.75
+	stock_max = 1
+	availability_prob = 25
+
 /datum/market_item/misc/holywater
 	name = "Flask of holy water"
 	desc = "Father Lootius' own brand of ready-made holy water."
@@ -121,3 +129,12 @@
 	stock_min = 3
 	stock_max = 8
 	availability_prob = 90
+
+/datum/market_item/misc/giant_wrench_parts
+	name = "Big Slappy parts"
+	desc = "Cheap illegal Big Slappy parts. The fastest and statistically most dangerous wrench."
+	item = /obj/item/weaponcrafting/giant_wrench
+	price_min = CARGO_CRATE_VALUE * 2
+	price_max = CARGO_CRATE_VALUE * 5
+	stock_max = 1
+	availability_prob = 25

@@ -132,7 +132,7 @@
 	damage = 20
 	var/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/bloodsucker_power
 
-/obj/projectile/magic/arcane_barrage/bloodsucker/on_hit(target)
+/obj/projectile/magic/arcane_barrage/bloodsucker/on_hit(atom/target, blocked = 0, pierce_hit)
 	if(istype(target, /obj/structure/closet) && bloodsucker_power.level_current >= 3)
 		var/obj/structure/closet/hit_closet = target
 		if(hit_closet)
@@ -147,16 +147,16 @@
 		hit_airlock.open(2)
 		qdel(src)
 		return BULLET_ACT_HIT
-	if(ismob(target))
+	if(blocked != 100 && ismob(target))
 		if(bloodsucker_power.level_current >= 4)
-			damage = 40
+			damage *= 2
 		if(bloodsucker_power.level_current >= 5)
 			var/mob/living/person_hit = target
 			person_hit.blood_volume -= 60
 			bloodsucker_power.bloodsuckerdatum_power.AddBloodVolume(60)
 		qdel(src)
 		return BULLET_ACT_HIT
-	. = ..()
+	return ..()
 
 /**
  *	# Blood Shield

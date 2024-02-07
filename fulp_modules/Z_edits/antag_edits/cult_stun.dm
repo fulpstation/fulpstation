@@ -31,7 +31,7 @@
 			carbon_target.set_timed_status_effect(1 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 			carbon_target.bleed(30)
 			var/obj/item/bodypart/head = carbon_target.get_bodypart(BODY_ZONE_HEAD)
-			var/datum/wound/slash/moderate/crit_wound = new
+			var/datum/wound/slash/flesh/moderate/crit_wound = new
 			crit_wound.apply_wound(head)
 		else
 			to_chat(user, span_cultitalic("In a brilliant flash of red, [target] falls to the ground!"))

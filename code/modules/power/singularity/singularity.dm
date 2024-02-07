@@ -48,6 +48,7 @@
 	/// What the game tells ghosts when you make one
 	var/ghost_notification_message = "IT'S LOOSE"
 
+	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF | PASSMACHINE | PASSSTRUCTURE | PASSDOORS
 	flags_1 = SUPERMATTER_IGNORES_1
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	obj_flags = CAN_BE_HIT | DANGEROUS_POSSESSION
@@ -78,13 +79,10 @@
 		notify_ghosts(
 			ghost_notification_message,
 			source = src,
-			action = NOTIFY_ORBIT,
-			flashwindow = FALSE,
-			ghost_sound = 'sound/machines/warning-buzzer.ogg',
 			header = ghost_notification_message,
-			notify_volume = 75
+			ghost_sound = 'sound/machines/warning-buzzer.ogg',
+			notify_volume = 75,
 		)
-
 
 /obj/singularity/Destroy()
 	STOP_PROCESSING(SSsinguloprocess, src)
@@ -265,6 +263,11 @@
 			new_grav_pull = 15
 			new_consume_range = 5
 			dissipate = FALSE
+
+	if(temp_allowed_size == STAGE_SIX)
+		AddComponent(/datum/component/vision_hurting)
+	else
+		qdel(GetComponent(/datum/component/vision_hurting))
 
 	var/datum/component/singularity/resolved_singularity = singularity_component.resolve()
 	if (!isnull(resolved_singularity))
@@ -475,3 +478,7 @@
 /obj/singularity/deadchat_controlled/Initialize(mapload, starting_energy)
 	. = ..()
 	deadchat_plays(mode = DEMOCRACY_MODE)
+
+/// Special singularity that spawns for shuttle events only
+/obj/singularity/shuttle_event
+	anchored = FALSE

@@ -2,7 +2,7 @@
  * # Custom Atom Component
  *
  * When added to an atom, item ingredients can be put into that.
- * The sprite is updated and reagents are transfered.
+ * The sprite is updated and reagents are transferred.
  *
  * If the component is added to something that is processed, creating new objects (being cut, for example),
  * the replacement type needs to also have the component. The ingredients will be copied over. Reagents are not
@@ -55,7 +55,7 @@
 			handle_fill(ingredient)
 
 
-/datum/component/customizable_reagent_holder/Destroy(force, silent)
+/datum/component/customizable_reagent_holder/Destroy(force)
 	QDEL_NULL(top_overlay)
 	return ..()
 

@@ -1,39 +1,92 @@
+/**
+ * Basically all of this is copied from adminwho with everything
+ * renamed to mentor instead.
+ * Please keep parity with that if possible.
+ */
+
 /client/verb/mentorwho()
 	set category = "Mentor"
 	set name = "Mentorwho"
 
-	var/msg = "<b>Current Mentors:</b>\n"
-	//Admin version
-	if(holder)
-		for(var/client/mentor_clients in GLOB.mentors)
-			if(GLOB.deadmins[mentor_clients.ckey])
-				msg += "\t[mentor_clients] is a Deadmin"
-			else if(mentor_clients.mentor_datum.is_contributor)
-				msg += "\t[mentor_clients] is a Contributor"
-			else
-				msg += "\t[mentor_clients] is a Mentor"
+	var/list/lines = list()
+	var/payload_string = generate_mentorwho_string()
+	var/header = "Current Mentors:"
 
-			if(isobserver(mentor_clients.mob))
-				msg += " - Observing"
-			else if(isnewplayer(mentor_clients.mob))
-				msg += " - Lobby"
-			else
-				msg += " - Playing"
+	lines += span_bold(header)
+	lines += payload_string
 
-			if(mentor_clients.is_afk())
-				msg += " (AFK)"
+	var/finalized_string = examine_block(jointext(lines, "\n"))
+	to_chat(src, finalized_string)
 
-			msg += "\n"
+/// Proc that returns a list of cliented mentors. Remember that this list can contain nulls!
+/// Also, will return null if we don't have any mentors.
+/proc/get_list_of_mentors()
+	var/returnable_list = list()
 
-	//Regular version
+	for(var/client/mentor_clients in GLOB.mentors)
+		returnable_list += mentor_clients
+
+	if(length(returnable_list) == 0)
+		return null
+
+	return returnable_list
+
+
+/// Proc that generates the applicable string to dispatch to the client for mentorwho.
+/client/proc/generate_mentorwho_string()
+	var/list/list_of_mentors = get_list_of_mentors()
+	if(isnull(list_of_mentors))
+		return
+
+	var/list/message_strings = list()
+	if(isnull(holder))
+		message_strings += get_general_mentorwho_information(list_of_mentors)
 	else
-		for(var/client/mentor_clients in GLOB.mentors)
-			if(GLOB.deadmins[mentor_clients.ckey])
-				continue
+		message_strings += get_sensitive_mentorwho_information(list_of_mentors)
 
-			if(mentor_clients.mentor_datum.is_contributor)
-				msg += "\t[mentor_clients] is a Contributor\n"
-			else
-				msg += "\t[mentor_clients] is a Mentor\n"
+	return jointext(message_strings, "\n")
 
-	to_chat(src, msg)
+/// Proc that gathers mentorwho information for a general player, which will only give information if an admin isn't AFK, and handles potential fakekeying.
+/// Will return a list of strings.
+/proc/get_general_mentorwho_information(list/checkable_mentors)
+	var/returnable_list = list()
+
+	for(var/client/mentor_client in checkable_mentors)
+		if(mentor_client.is_afk() || GLOB.deadmins[mentor_client.ckey])
+			continue //Don't show afk or fakekeyed mentors to mentorwho
+
+		if(mentor_client.mentor_datum.is_contributor)
+			returnable_list += "• [mentor_client] is a Contributor"
+		else
+			returnable_list += "• [mentor_client] is a Mentor"
+
+	return returnable_list
+
+/// Proc that gathers mentorwho information for mentors, which will contain information on if the admin is AFK, readied to join, etc. Only arg is a list of clients to use.
+/// Will return a list of strings.
+/proc/get_sensitive_mentorwho_information(list/checkable_mentors)
+	var/returnable_list = list()
+
+	for(var/client/mentor_client in checkable_mentors)
+		var/list/mentor_strings = list()
+
+		if(GLOB.deadmins[mentor_client.ckey])
+			mentor_strings += "\t[mentor_client] is a Deadmin"
+		else if(mentor_client.mentor_datum.is_contributor)
+			mentor_strings += "\t[mentor_client] is a Contributor"
+		else
+			mentor_strings += "\t[mentor_client] is a Mentor"
+
+		if(isobserver(mentor_client.mob))
+			mentor_strings += "- Observing"
+		else if(isnewplayer(mentor_client.mob))
+			mentor_strings += "- Lobby"
+		else
+			mentor_strings += "- Playing"
+
+		if(mentor_client.is_afk())
+			mentor_strings += "(AFK)"
+
+		returnable_list += jointext(mentor_strings, " ")
+
+	return returnable_list

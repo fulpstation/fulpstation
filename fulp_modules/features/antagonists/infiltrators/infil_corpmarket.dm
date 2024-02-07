@@ -214,7 +214,7 @@
 			if((get_area(usr) != connecting_zone))
 				to_chat(usr, span_notice("The signal isn't strong enough here to contact HQ!"))
 				return
-			var/datum/antagonist/traitor/infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+			var/datum/antagonist/traitor/fulp_infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 			if(!terrorist)
 				return
 			var/datum/objective/connect_uplink/terrorism = locate() in terrorist.objectives

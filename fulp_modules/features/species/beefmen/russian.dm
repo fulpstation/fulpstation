@@ -35,6 +35,3 @@
 	disliked_foodtypes = VEGETABLES | FRUIT | CLOTH
 	liked_foodtypes = RAW | MEAT | FRIED
 	toxic_foodtypes = DAIRY | PINEAPPLE
-
-/obj/item/organ/internal/tongue/beefman/get_possible_languages()
-	return ..() + /datum/language/russian

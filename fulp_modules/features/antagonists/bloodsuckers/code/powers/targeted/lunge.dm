@@ -133,12 +133,10 @@
 
 	// Did I slip or get knocked unconscious?
 	if(user.body_position != STANDING_UP || user.incapacitated())
-		var/send_dir = get_dir(user, target_turf)
-		new /datum/forced_movement(user, get_ranged_target_turf(user, send_dir, 1), 1, FALSE)
 		user.spin(10)
 		return
 	// Is my target a Monster hunter?
-	if(IS_MONSTERHUNTER(target) || target.is_shove_knockdown_blocked())
+	if(IS_MONSTERHUNTER(target) || HAS_TRAIT(target, TRAIT_SHOVE_KNOCKDOWN_BLOCKED))
 		owner.balloon_alert(owner, "pushed away!")
 		target.grabbedby(owner)
 		return
@@ -146,7 +144,7 @@
 	owner.balloon_alert(owner, "you lunge at [target]!")
 	if(target.stat == DEAD)
 		var/obj/item/bodypart/chest = target.get_bodypart(BODY_ZONE_CHEST)
-		var/datum/wound/slash/moderate/crit_wound = new
+		var/datum/wound/slash/flesh/moderate/crit_wound = new
 		crit_wound.apply_wound(chest)
 		owner.visible_message(
 			span_warning("[owner] tears into [target]'s chest!"),

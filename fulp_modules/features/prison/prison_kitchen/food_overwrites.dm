@@ -5,14 +5,15 @@
 /obj/item/food/friedegg
 	venue_value = FOOD_PRICE_TRASH
 
+/obj/item/food/butterdog
+	venue_value = FOOD_PRICE_CHEAP
+
 /**
  * Lizard food
  */
-/obj/item/food/grown/korta_nut
-	venue_value = FOOD_PRICE_CHEAP
 
 /obj/item/food/black_eggs
-	venue_value = FOOD_PRICE_TRASH
+	venue_value = FOOD_PRICE_CHEAP
 
 /obj/item/food/lizard_dumplings
 	venue_value = FOOD_PRICE_CHEAP
@@ -21,18 +22,21 @@
 	venue_value = FOOD_PRICE_CHEAP
 
 /obj/item/food/patzikula
-	venue_value = FOOD_PRICE_CHEAP
+	venue_value = FOOD_PRICE_NORMAL
 
 /obj/item/food/nectar_larvae
-	venue_value = FOOD_PRICE_NORMAL
+	venue_value = FOOD_PRICE_EXOTIC
+
+/obj/item/food/tiziran_sausage
+	venue_value = FOOD_PRICE_EXOTIC
 
 /**
  * Rat food
  */
-/obj/item/food/cheese
+/obj/item/food/cheese/wedge
 	venue_value = FOOD_PRICE_TRASH
 
-/obj/item/food/grilled_cheese_sandwich
+/obj/item/food/sandwich/cheese/grilled
 	venue_value = FOOD_PRICE_CHEAP
 
 /obj/item/food/cheese/wheel

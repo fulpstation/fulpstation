@@ -13,11 +13,19 @@
 
 	///Created tears, only checking the FIRST one, not the one it's created to link to.
 	var/list/created_firsts = list()
+	///If true the tears we create will be semi-transparent and inactive.
+	var/burnt_out = FALSE
+
+///When the trauma is added to a mob.
+/datum/brain_trauma/special/bluespace_prophet/phobetor/on_gain()
+	. = ..()
+	RegisterSignal(owner, COMSIG_LIVING_REVIVE, PROC_REF(on_revive)) // We want to heal burn-out when we're ahealed and such and such.
 
 ///When the trauma is removed from a mob.
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
 	for(var/obj/effect/client_image_holder/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
+	UnregisterSignal(owner, COMSIG_LIVING_REVIVE)
 
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_life(seconds_per_tick, times_fired)
 	if(!COOLDOWN_FINISHED(src, portal_cooldown))
@@ -54,6 +62,10 @@
 	second.desc += " This one leads to [get_area(first)]."
 	second.name += " ([get_area(first)])"
 
+	if(burnt_out)
+		first.deactivate()
+		second.deactivate()
+
 	// Delete Next Portal if it's time (it will remove its partner)
 	var/obj/effect/client_image_holder/phobetor/first_on_the_stack = created_firsts[1]
 	if(created_firsts.len && world.time >= first_on_the_stack.created_on + first_on_the_stack.exist_length)
@@ -73,6 +85,30 @@
 	if(check_turf_is_valid(target, check_floor))
 		return target
 	return FALSE
+
+/datum/brain_trauma/special/bluespace_prophet/phobetor/proc/burn_out(timer = 5 MINUTES)
+	burnt_out = TRUE
+
+	to_chat(owner, span_warning("You feel yourself slipping back into the sleepless dream."))
+
+	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
+		tear.deactivate()
+
+	if(timer)
+		addtimer(CALLBACK(src, PROC_REF(restore)), timer)
+
+/datum/brain_trauma/special/bluespace_prophet/phobetor/proc/restore()
+	burnt_out = FALSE
+
+	to_chat(owner, span_hypnophrase("Your eyes open once more, and with them unseen pathways."))
+
+	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
+		tear.activate()
+
+/datum/brain_trauma/special/bluespace_prophet/phobetor/proc/on_revive(full_heal_flags)
+	SIGNAL_HANDLER
+	if(full_heal_flags & HEAL_TRAUMAS)
+		restore()
 
 /**
  * Used as a helper that checks if you can successfully teleport to a turf.
@@ -119,10 +155,15 @@
 	var/obj/effect/client_image_holder/phobetor/linked_to
 	/// The person able to see this tear.
 	var/mob/living/carbon/seer
+	/// Whether we're interactable or not.
+	var/active = TRUE
 
 /obj/effect/client_image_holder/phobetor/Initialize()
 	. = ..()
 	created_on = world.time
+
+	AddElement(/datum/element/contextual_screentip_bare_hands, lmb_text = "Jump into the tear")
+	AddComponent(/datum/component/redirect_attack_hand_from_turf)
 
 /obj/effect/client_image_holder/phobetor/Destroy()
 	if(linked_to)
@@ -147,23 +188,121 @@
 		return TRUE
 	return FALSE
 
+/obj/effect/client_image_holder/phobetor/proc/activate()
+	active = TRUE
+	animate(src, alpha = 255, time = 1 SECONDS)
+	if(!linked_to.active)
+		linked_to.activate()
+
+
+/obj/effect/client_image_holder/phobetor/proc/deactivate()
+	active = FALSE
+	animate(src, alpha = 128, time = 1 SECONDS)
+	if(linked_to.active)
+		linked_to.deactivate()
+
 /obj/effect/client_image_holder/phobetor/attack_hand(mob/living/user, list/modifiers)
 	if(user != seer || !linked_to)
 		return
-	if(user.loc != src.loc)
-		to_chat(user, "Step into the Tear before using it.")
+	if(!active)
+		user.balloon_alert(user, "the tear is too faint!")
+		return
+	if(!in_range(usr, src))
 		return
 	for(var/obj/item/implant/tracking/imp in user.implants)
 		if(imp)
-			to_chat(user, span_warning("[imp] gives you the sense that you're being watched."))
+			user.balloon_alert(user, "something is watching you from inside!")
 			return
 	// Is this, or linked, stream being watched?
 	if(check_location_seen(user, get_turf(user)))
-		to_chat(user, span_warning("Not while you're being watched."))
+		user.balloon_alert(user, "not while you're being watched!")
 		return
 	if(check_location_seen(user, get_turf(linked_to)))
-		to_chat(user, span_warning("Your destination is being watched."))
+		user.balloon_alert(user, "the other side is being watched!")
 		return
-	to_chat(user, span_notice("You slip unseen through [src]."))
+	user.balloon_alert(user, "slip into the tear")
+
+	var/mob/living/carbon/carbon_user = user
+	var/user_sanity = user.mob_mood.sanity
+	var/datum/brain_trauma/special/bluespace_prophet/phobetor/trauma = carbon_user.has_trauma_type(/datum/brain_trauma/special/bluespace_prophet/phobetor)
+	switch(user_sanity)
+		if(SANITY_INSANE to SANITY_CRAZY)
+			to_chat(user, span_notice("...but [span_bold("someone else")] crosses [src] too."))
+			playsound(user, 'sound/hallucinations/i_see_you1.ogg', 50, TRUE)
+			user.adjust_hallucinations(5 MINUTES)
+			user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_crash)
+			to_chat(user, span_userdanger("Foreign memories invade your mind!"))
+			trauma.burn_out()
+		if(SANITY_CRAZY to SANITY_UNSTABLE)
+			if(prob(40))
+				to_chat(user, span_smallnoticeital("You feel like something was following you through [src]."))
+				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_major)
+				user.adjust_hallucinations(2 MINUTES)
+		if(SANITY_UNSTABLE to SANITY_DISTURBED)
+			if(prob(33))
+				to_chat(user, span_smallnoticeital("...was that a person inside [src]?"))
+				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_major)
+				user.adjust_hallucinations(1 MINUTES)
+		if(SANITY_DISTURBED to SANITY_NEUTRAL)
+			if(prob(25))
+				to_chat(user, span_smallnoticeital("You notice a shadow in the corner of your eye, for a moment."))
+				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_minor)
+				user.adjust_hallucinations(30 SECONDS)
+		if(SANITY_NEUTRAL to SANITY_GREAT)
+			if(prob(10))
+				to_chat(user, span_smallnoticeital("The trip is never pleasant."))
+				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_minor)
+	if(prob(5))
+		playsound(user, pick(GLOB.creepy_ambience), 50, TRUE)
 	user.playsound_local(null, 'sound/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
 	user.forceMove(get_turf(linked_to))
+
+
+/datum/mood_event/phobetor_minor
+	description = "There's something offputting about the tears."
+	mood_change = -2
+	timeout = 1 MINUTES
+
+/datum/mood_event/phobetor_minor/add_effects()
+	var/choice = rand(1, 3)
+	switch(choice)
+		if(1)
+			description = "The dreamscape seems gloomy today."
+		if(2)
+			description = "I've never liked the texture of the dream."
+		if(3)
+			description = "There's something offputting about the tears."
+
+/datum/mood_event/phobetor_major
+	description = "Something is stalking me through the tears."
+	mood_change = -6
+	timeout = 3 MINUTES
+
+/datum/mood_event/phobetor_major/add_effects()
+	var/choice = rand(1, 3)
+	switch(choice)
+		if(1)
+			description = "I wasn't alone in the dreamscape, I'm sure of it."
+		if(2)
+			description = "I'm being hunted. I can hear it crawl."
+		if(3)
+			description = "Something is stalking me through the tears."
+
+/datum/mood_event/phobetor_crash
+	description = "I can't close my eyes..."
+	mood_change = -10
+	timeout = 5 MINUTES
+
+/datum/mood_event/phobetor_crash/add_effects()
+	var/choice = rand(1, 5)
+	switch(choice)
+		if(1)
+			description = "They didn't bring food today..."
+		if(2)
+			description = "The sleep gas keeps rising... I can't breathe."
+		if(3)
+			description = "I can't close my eyes..."
+		if(4)
+			description = "The doctor keeps murmuring. I don't like it."
+		if(5)
+			description = "[random_unique_beefman_name()] hasn't woken up today. Or yesterday."

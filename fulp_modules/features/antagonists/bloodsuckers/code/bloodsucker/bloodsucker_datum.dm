@@ -46,7 +46,7 @@
 	///How many Masquerade Infractions do we have?
 	var/masquerade_infractions = 0
 	///Blood required to enter Frenzy
-	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
+	var/frenzy_threshold = FRENZY_MINIMUM_THRESHOLD_ENTER
 	///If we are currently in a Frenzy
 	var/frenzied = FALSE
 
@@ -441,7 +441,7 @@
 	var/mob/living/carbon/user = owner.current
 	var/obj/item/organ/internal/heart/newheart = owner.current.get_organ_slot(ORGAN_SLOT_HEART)
 	if(newheart)
-		newheart.beating = initial(newheart.beating)
+		newheart.Restart()
 	var/obj/item/organ/internal/eyes/user_eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(user_eyes)
 		user_eyes.flash_protect = initial(user_eyes.flash_protect)
@@ -461,30 +461,10 @@
 	return ..()
 
 /datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives()
-	// Claim a Lair Objective
-	var/datum/objective/bloodsucker/lair/lair_objective = new
-	lair_objective.owner = owner
-	objectives += lair_objective
-	// Survive Objective
 	var/datum/objective/survive/bloodsucker/survive_objective = new
 	survive_objective.owner = owner
 	objectives += survive_objective
 
-	// Objective 1: Vassalize a Head/Command, or a specific target
-	switch(rand(1, 3))
-		if(1) // Conversion Objective
-			var/datum/objective/bloodsucker/conversion/chosen_subtype = pick(subtypesof(/datum/objective/bloodsucker/conversion))
-			var/datum/objective/bloodsucker/conversion/conversion_objective = new chosen_subtype
-			conversion_objective.owner = owner
-			conversion_objective.objective_name = "Optional Objective"
-			objectives += conversion_objective
-		if(2) // Heart Thief Objective
-			var/datum/objective/bloodsucker/heartthief/heartthief_objective = new
-			heartthief_objective.owner = owner
-			heartthief_objective.objective_name = "Optional Objective"
-			objectives += heartthief_objective
-		if(3) // Drink Blood Objective
-			var/datum/objective/bloodsucker/gourmand/gourmand_objective = new
-			gourmand_objective.owner = owner
-			gourmand_objective.objective_name = "Optional Objective"
-			objectives += gourmand_objective
+	var/datum/objective/bloodsucker_lair/lair_objective = new
+	lair_objective.owner = owner
+	objectives += lair_objective

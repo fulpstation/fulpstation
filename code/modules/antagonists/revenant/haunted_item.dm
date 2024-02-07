@@ -34,7 +34,7 @@
 	if(istype(haunted_item.ai_controller, /datum/ai_controller/haunted)) // already spooky
 		return COMPONENT_INCOMPATIBLE
 
-	haunted_item.AddElement(/datum/element/haunted, haunt_color)
+	haunted_item.make_haunted(MAGIC_TRAIT, haunt_color)
 	if(isnull(haunted_item.ai_controller)) // failed to make spooky! don't go on
 		return COMPONENT_INCOMPATIBLE
 
@@ -65,13 +65,13 @@
 	src.types_which_dispell_us = types_which_dispell_us || default_dispell_types
 	src.despawn_message = despawn_message
 
-/datum/component/haunted_item/Destroy(force, silent)
+/datum/component/haunted_item/Destroy(force)
 	var/obj/item/haunted_item = parent
 	// Handle these two specifically in Destroy() instead of clear_haunting(),
 	// because we want to make sure they always get dealt with no matter how the component is removed
 	if(!isnull(pre_haunt_throwforce))
 		haunted_item.throwforce = pre_haunt_throwforce
-	haunted_item.RemoveElement(/datum/element/haunted)
+	haunted_item.remove_haunted(MAGIC_TRAIT)
 	return ..()
 
 /datum/component/haunted_item/RegisterWithParent()
@@ -113,8 +113,7 @@
  */
 
 /proc/haunt_outburst(epicenter, range, haunt_chance, duration = 1 MINUTES)
-	var/effect_area = range(range, epicenter)
-	for(var/obj/item/object_to_possess in effect_area)
+	for(var/obj/item/object_to_possess in range(range, epicenter))
 		if(!prob(haunt_chance))
 			continue
 		object_to_possess.AddComponent(/datum/component/haunted_item, \

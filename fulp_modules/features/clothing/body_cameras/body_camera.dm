@@ -48,11 +48,11 @@
 	builtin_bodycamera.c_tag = "-Body Camera: [(id_card.registered_name)] ([id_card.assignment])"
 	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
 	if(user)
-		user.balloon_alert(user, "bodycamera activated.")
+		user.balloon_alert(user, "bodycamera activated")
 
 /obj/item/bodycam_upgrade/proc/turn_off(mob/user)
 	if(user)
-		user.balloon_alert(user, "bodycamera deactivated.")
+		user.balloon_alert(user, "bodycamera deactivated")
 	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
 	QDEL_NULL(builtin_bodycamera)
 
@@ -109,12 +109,11 @@
 
 	if(istype(item, /obj/item/bodycam_upgrade))
 		if(bodycamera_installed)
-			to_chat(user, span_warning("We have already installed [bodycamera_installed] installed!"))
+			user.balloon_alert(user, "camera already installed!")
 			playsound(source, 'sound/machines/buzz-two.ogg', item.get_clamped_volume(), TRUE, -1)
 		else
 			item.forceMove(source)
 			bodycamera_installed = item
-			to_chat(user, span_warning("You install [item] into [source]."))
 			playsound(source, 'sound/items/drill_use.ogg', item.get_clamped_volume(), TRUE, -1)
 		return
 
@@ -126,7 +125,7 @@
 		return
 	var/obj/item/clothing/suit_slot = user.get_item_by_slot(clothingtype_required)
 	if(!istype(suit_slot))
-		to_chat(user, span_warning("You have to be wearing [source] to turn [bodycamera_installed] on!"))
+		user.balloon_alert(user, "must be wearing suit!")
 		return
 
 	//Do we have a camera on or off?
@@ -143,7 +142,6 @@
 		return
 	if(bodycamera_installed.is_on())
 		turn_camera_off(user)
-	to_chat(user, span_warning("You remove the [bodycamera_installed] from [source]."))
 	playsound(source, 'sound/items/drill_use.ogg', tool.get_clamped_volume(), TRUE, -1)
 	bodycamera_installed.forceMove(user.loc)
 	INVOKE_ASYNC(user, TYPE_PROC_REF(/mob, put_in_hands), bodycamera_installed)

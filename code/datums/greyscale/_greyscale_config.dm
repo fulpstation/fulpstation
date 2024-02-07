@@ -57,15 +57,17 @@
 	if(!json_config)
 		stack_trace("Greyscale config object [DebugName()] is missing a json configuration, make sure `json_config` has been assigned a value.")
 	string_json_config = "[json_config]"
-	if(findtext(string_json_config, "greyscale/json_configs/") == 0)
-		stack_trace("All greyscale json configuration files should be located within '/greyscale/json_configs/'")
+	// Fulp edit - Adding our greyscales folder to this check
+	if((findtext(string_json_config, "code/datums/greyscale/json_configs/") != 1) && (findtext(string_json_config, "fulp_modules/strings/greyscale/json_configs") != 1))
+		stack_trace("All greyscale json configuration files should be located within 'code/datums/greyscale/json_configs/' or 'fulp_modules/strings/greyscale/json_configs'")
+	// Fulp edit END
 	if(!icon_file)
 		stack_trace("Greyscale config object [DebugName()] is missing an icon file, make sure `icon_file` has been assigned a value.")
 	string_icon_file = "[icon_file]"
 	if(!name)
 		stack_trace("Greyscale config object [DebugName()] is missing a name, make sure `name` has been assigned a value.")
 
-/datum/greyscale_config/Destroy(force, ...)
+/datum/greyscale_config/Destroy(force)
 	if(!force)
 		return QDEL_HINT_LETMELIVE
 	return ..()
@@ -187,9 +189,9 @@
 
 /// Reads layer configurations to take out some useful overall information
 /datum/greyscale_config/proc/ReadMetadata()
-	var/icon/source = icon(icon_file)
-	height = source.Height()
-	width = source.Width()
+	var/list/icon_dimensions = get_icon_dimensions(icon_file)
+	height = icon_dimensions["width"]
+	width = icon_dimensions["height"]
 
 	var/list/datum/greyscale_layer/all_layers = list()
 	for(var/state in icon_states)

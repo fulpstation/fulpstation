@@ -27,10 +27,10 @@
 		return TRUE
 
 
-/client/proc/mentor_datum_set(admin)
+/client/proc/mentor_datum_set()
 	mentor_datum = GLOB.mentor_datums[ckey]
 	/// Admin with no mentor datum? let's fix that
-	if(!mentor_datum && check_rights_for(src, R_ADMIN,0))
+	if(!mentor_datum && check_rights_for(src, R_ADMIN, 0))
 		new /datum/mentors(ckey)
 	if(mentor_datum)
 		GLOB.mentors |= src
@@ -42,7 +42,7 @@
 		if(ckey in cdatums)
 			mentor_datum.is_contributor = TRUE
 
-/// Admins are Mentors, too
+///Verifies if the client is considered a Mentor, AKA has a Mentor datum or is an Admin.
 /client/proc/is_mentor()
-	if(mentor_datum || check_rights_for(src, R_ADMIN,0))
+	if(mentor_datum || check_rights_for(src, R_ADMIN, 0))
 		return TRUE

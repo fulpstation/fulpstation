@@ -45,7 +45,6 @@
 	move_resist = MOVE_FORCE_OVERPOWERING
 	pull_force = MOVE_FORCE_OVERPOWERING
 	layer = LARGE_MOB_LAYER
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	mouse_opacity = MOUSE_OPACITY_OPAQUE
 	death_message = "the mad king has felled, no longer will he suffer. "
 	death_sound = 'sound/magic/enter_blood.ogg'
@@ -86,7 +85,7 @@
 
 /datum/ai_controller/basic_controller/kraken
 	blackboard = list(
-		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
 	)
 
 	ai_movement = /datum/ai_movement/basic_avoidance
@@ -139,7 +138,7 @@
 		return
 	if(!target)
 		return
-	controller.queue_behavior(our_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+	controller.queue_behavior(our_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETING_STRATEGY, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
 
 /datum/ai_behavior/cthulu_attack
 	behavior_flags =  AI_BEHAVIOR_MOVE_AND_PERFORM | AI_BEHAVIOR_KEEP_MOVE_TARGET_ON_FINISH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
@@ -147,7 +146,7 @@
 	var/ability_key
 	var/validate_conditions = FALSE
 
-/datum/ai_behavior/cthulu_attack/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/cthulu_attack/setup(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	. = ..()
 	var/atom/target = controller.blackboard[target_key]
 	if (QDELETED(target))
@@ -155,19 +154,19 @@
 	if (!isliving(target))
 		return FALSE
 
-/datum/ai_behavior/cthulu_attack/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/cthulu_attack/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	. = ..()
 	var/mob/living/basic/basic_mob = controller.pawn
 	var/atom/target = controller.blackboard[target_key]
 	if (QDELETED(target))
 		return
-	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
+	var/datum/targeting_strategy/targeting_strategy = GET_TARGETING_STRATEGY(controller.blackboard[targeting_strategy_key])
 
-	if(!targetting_datum.can_attack(basic_mob, target))
+	if(!targeting_strategy.can_attack(basic_mob, target))
 		finish_action(controller, FALSE, target_key)
 		return
 
-	var/atom/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
+	var/atom/hiding_target = targeting_strategy.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
 	var/atom/final_target = hiding_target ? hiding_target : target
 
 	if(!can_see(basic_mob, final_target, required_distance))
@@ -551,7 +550,7 @@
 
 /datum/ai_controller/basic_controller/vanguard
 	blackboard = list(
-		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
 	)
 
 	ai_movement = /datum/ai_movement/basic_avoidance
@@ -569,7 +568,7 @@
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	if(!target || QDELETED(target))
 		return
-	controller.queue_behavior(ram_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+	controller.queue_behavior(ram_behavior, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETING_STRATEGY, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
 	return SUBTREE_RETURN_FINISH_PLANNING
 
 /datum/ai_behavior/ram
@@ -577,7 +576,7 @@
 	behavior_flags =  AI_BEHAVIOR_MOVE_AND_PERFORM
 	required_distance = 15
 
-/datum/ai_behavior/ram/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/ram/setup(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	. = ..()
 	var/atom/target = controller.blackboard[target_key]
 	if (QDELETED(target))
@@ -585,19 +584,19 @@
 	if (!isliving(target))
 		return FALSE
 
-/datum/ai_behavior/ram/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/ram/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	. = ..()
 	var/mob/living/basic/basic_mob = controller.pawn
 	var/atom/target = controller.blackboard[target_key]
 	if (QDELETED(target))
 		return FALSE
-	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
+	var/datum/targeting_strategy/targeting_strategy = GET_TARGETING_STRATEGY(controller.blackboard[targeting_strategy_key])
 
-	if(!targetting_datum.can_attack(basic_mob, target))
+	if(!targeting_strategy.can_attack(basic_mob, target))
 		finish_action(controller, FALSE, target_key)
 		return
 
-	var/atom/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
+	var/atom/hiding_target = targeting_strategy.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
 	var/atom/final_target = hiding_target ? hiding_target : target
 
 	if(!can_see(basic_mob, final_target, required_distance))
@@ -613,7 +612,7 @@
 
 	charge_ability.Activate(final_target)
 
-/datum/ai_behavior/basic_ranged_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/basic_ranged_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targeting_strategy_key, hiding_location_key)
 	. = ..()
 	if(!succeeded)
 		controller.blackboard -= target_key

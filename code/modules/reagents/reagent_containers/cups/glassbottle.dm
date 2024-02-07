@@ -40,6 +40,12 @@
 	tool_behaviour = TOOL_ROLLINGPIN // Used to knock out the Chef.
 	toolspeed = 1.3 //it's a little awkward to use, but it's a cylinder alright.
 
+/obj/item/reagent_containers/cup/glass/bottle/Initialize(mapload, vol)
+	. = ..()
+	AddComponent(/datum/component/slapcrafting,\
+		slapcraft_recipes = list(/datum/crafting_recipe/molotov)\
+	)
+
 /obj/item/reagent_containers/cup/glass/bottle/small
 	name = "small glass bottle"
 	desc = "This blank bottle is unyieldingly anonymous, offering no clues to its contents."
@@ -150,7 +156,7 @@
 		if(3)
 			intensity_state = "high"
 	///The froth fountain that we are sticking onto the bottle
-	var/mutable_appearance/froth = mutable_appearance(icon, "froth_bottle_[intensity_state]")
+	var/mutable_appearance/froth = mutable_appearance('icons/obj/drinks/drink_effects.dmi', "froth_bottle_[intensity_state]")
 	froth.pixel_x = offset_x
 	froth.pixel_y = offset_y
 	add_overlay(froth)
@@ -473,7 +479,7 @@
 
 /obj/item/reagent_containers/cup/glass/bottle/amaretto
 	name = "Luini Amaretto"
-	desc = "A gentle and syrup like drink, tastes of almonds and apricots"
+	desc = "A gentle, syrupy drink that tastes of almonds and apricots."
 	icon_state = "disaronno"
 	list_reagents = list(/datum/reagent/consumable/ethanol/amaretto = 100)
 
@@ -595,9 +601,11 @@
 	if(!do_after(user, 2 SECONDS, src)) //takes longer because you are supposed to take the foil off the bottle first
 		return
 
-	///The bonus to success chance that the user gets for being a command role
-	var/command_bonus = user.mind?.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND ? 20 : 0
-	///The bonus to success chance that the user gets for having a sabrage skillchip installed/otherwise having the trait through other means
+	//The bonus to success chance that the user gets for being a command role
+	var/obj/item/organ/internal/liver/liver = user.get_organ_slot(ORGAN_SLOT_LIVER)
+	var/command_bonus = (!isnull(liver) && HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM)) ? 20 : 0
+
+	//The bonus to success chance that the user gets for having a sabrage skillchip installed/otherwise having the trait through other means
 	var/skillchip_bonus = HAS_TRAIT(user, TRAIT_SABRAGE_PRO) ? 35 : 0
 	//calculate success chance. example: captain's sabre - 15 force = 75% chance
 	var/sabrage_chance = (attacking_item.force * sabrage_success_percentile) + command_bonus + skillchip_bonus
@@ -734,6 +742,30 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/mushi_kombucha = 30)
 	isGlass = FALSE
 
+/obj/item/reagent_containers/cup/glass/bottle/hakka_mate
+	name = "Hakka-Mate"
+	desc = "Hakka-Mate: it's an acquired taste."
+	icon_state = "hakka_mate_bottle"
+	list_reagents = list(/datum/reagent/consumable/hakka_mate = 30)
+
+/obj/item/reagent_containers/cup/glass/bottle/shochu
+	name = "Shu-Kouba Straight Shochu"
+	desc = "A boozier form of shochu designed for mixing. Comes straight from Mars' Dusty City itself, Shu-Kouba."
+	icon_state = "shochu_bottle"
+	list_reagents = list(/datum/reagent/consumable/ethanol/shochu = 100)
+
+/obj/item/reagent_containers/cup/glass/bottle/yuyake
+	name = "Moonlabor Yūyake"
+	desc = "The distilled essence of disco and flared pants, captured like lightning in a bottle."
+	icon_state = "yuyake_bottle"
+	list_reagents = list(/datum/reagent/consumable/ethanol/yuyake = 100)
+
+/obj/item/reagent_containers/cup/glass/bottle/coconut_rum
+	name = "Breezy Shoals Coconut Rum"
+	desc = "Live the breezy life with Breezy Shoals, made with only the *finest Caribbean rum."
+	icon_state = "coconut_rum_bottle"
+	list_reagents = list(/datum/reagent/consumable/ethanol/coconut_rum = 100)
+
 ////////////////////////// MOLOTOV ///////////////////////
 /obj/item/reagent_containers/cup/glass/bottle/molotov
 	name = "molotov cocktail"
@@ -773,10 +805,10 @@
 			if(istype(contained_reagent, accelerant_type))
 				firestarter = 1
 				break
+	..()
 	if(firestarter && active)
 		target.fire_act()
 		new /obj/effect/hotspot(get_turf(target))
-	..()
 
 /obj/item/reagent_containers/cup/glass/bottle/molotov/attackby(obj/item/I, mob/user, params)
 	if(I.get_temperature() && !active)

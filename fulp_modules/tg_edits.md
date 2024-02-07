@@ -1,10 +1,10 @@
 ## List of all TG edits:
 
-- README.md > Replaces it with our own readme
+- code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
-- code/modules/unit_tests/simple_animal_freeze.dm > Adds our fulp-related mobs so that they are ignored by the test.
+- README.md > Replaces it with our own readme
 
 - tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
 
@@ -38,5 +38,4 @@
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/ghostinfiltrator.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/monsterhunter.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
-- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/beefman_features.tsx
-- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/character_preferences/antag_tips.tsx
+- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/game_preferences/antag_tips.tsx

@@ -8,8 +8,6 @@
 	icon_state = "buffer"
 	pass_flags_self = PASSMACHINE | LETPASSTHROW // It looks short enough.
 	buffer = 200
-	///category for plumbing RCD
-	category="Synthesizers"
 
 	var/datum/buffer_net/buffer_net
 	var/activation_volume = 100
@@ -35,11 +33,11 @@
 	SIGNAL_HANDLER
 	if(!buffer_net)
 		return
-	if(reagents.total_volume + CHEMICAL_QUANTISATION_LEVEL >= activation_volume && mode == UNREADY)
+	if(reagents.total_volume >= activation_volume && mode == UNREADY)
 		mode = IDLE
 		buffer_net.check_active()
 
-	else if(reagents.total_volume + CHEMICAL_QUANTISATION_LEVEL < activation_volume && mode != UNREADY)
+	else if(reagents.total_volume < activation_volume && mode != UNREADY)
 		mode = UNREADY
 		buffer_net.check_active()
 

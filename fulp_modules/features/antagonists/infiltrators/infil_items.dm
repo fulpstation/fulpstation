@@ -76,6 +76,8 @@
 	var/objectives_complete = FALSE
 	///List of objectives we have already checked
 	var/list/checked_objectives = list()
+	///final objective picked
+	var/datum/final_objective/final_objective
 	///Pool of rewards
 	var/reward_items = list(
 		/obj/item/card/emag,
@@ -83,13 +85,11 @@
 		/obj/item/grenade/syndieminibomb,
 		/obj/item/grenade/c4/x4,
 		/obj/item/pen/edagger,
-		/obj/item/guardiancreator/tech/choose/traitor,
+		/obj/item/guardian_creator/tech,
 		/obj/item/jammer,
 		/obj/item/reagent_containers/hypospray/medipen/stimulants,
 		/obj/item/storage/box/syndie_kit/imp_stealth,
 	)
-	///final objective picked
-	var/datum/final_objective/final
 
 /obj/item/infiltrator_radio/Initialize(mapload)
 	. = ..()
@@ -100,8 +100,7 @@
 	var/list/obj = list()
 	for(var/objectives in subtypesof(/datum/final_objective))
 		obj += new objectives
-	final = pick(obj)
-
+	final_objective = pick(obj)
 
 /obj/item/infiltrator_radio/proc/check_reward_status(mob/living/user)
 	for(var/datum/objective/goal in user.mind.get_all_objectives())
@@ -124,9 +123,9 @@
 	if(checked_objectives.len == bitch.len)
 		objectives_complete = TRUE
 		var/datum/objective/reward_obj
-		reward_obj = new final.objective
+		reward_obj = new final_objective.objective
 		reward_obj.owner = user.mind
-		var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+		var/datum/antagonist/traitor/fulp_infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 		if(!terrorist)
 			return
 		for(var/datum/objective/obj in terrorist.objectives)
@@ -138,7 +137,7 @@
 
 
 /obj/item/infiltrator_radio/ui_interact(mob/user, datum/tgui/ui)
-	if(!isobserver(user) && !user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator))
+	if(!isobserver(user) && !user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator))
 		to_chat(user, span_warning("The interface is covered with strange unintelligible encrypted symbols."))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -151,7 +150,7 @@
 	var/list/data = list()
 	data["check"] = check_reward_status(user)
 	data["completed"] = objectives_complete
-	data["final"] = final.description
+	data["final"] = final_objective.description
 	return data
 
 /obj/item/infiltrator_radio/ui_act(action, params)
@@ -220,7 +219,7 @@
 	if(used)
 		to_chat(user, span_notice("[src] has been already used, you can't activate it again!"))
 		return
-	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!criminal)
 		to_chat(user, span_notice("You don't understand how this injector works."))
 		return
@@ -236,10 +235,16 @@
 	if(man.stat == DEAD)
 		chosen_ghost = man.grab_ghost()
 	if((!chosen_ghost && man.stat == DEAD) || considered_afk(man.mind))
-		var/list/mob/dead/observer/candidates = poll_ghost_candidates("Would you like to play as a Syndicate Gorilla?", "Syndicate", ROLE_TRAITOR , 5 SECONDS, POLL_IGNORE_SHADE)
+		var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates(
+			question = "Would you like to play as a Syndicate Gorilla?",
+			role = ROLE_TRAITOR,
+			check_jobban = ROLE_TRAITOR,
+			poll_time = 5 SECONDS,
+			ignore_category = POLL_IGNORE_SYNDICATE,
+		)
 		if(LAZYLEN(candidates))
 			chosen_ghost = pick(candidates)
-	var/mob/living/simple_animal/hostile/gorilla/albino/ape = new(get_turf(man))
+	var/mob/living/basic/gorilla/albino/ape = new(get_turf(man))
 	if(chosen_ghost)
 		if(chosen_ghost.mind)
 			chosen_ghost.mind.transfer_to(ape,  force_key_move = TRUE)
@@ -292,7 +297,7 @@
 	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
 	hack_card.use_charge(user)
 	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
-	var/datum/antagonist/traitor/infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!terrorist)
 		return
 	var/datum/objective/cyborg_hack/terrorism = locate() in terrorist.objectives
@@ -367,7 +372,7 @@
 			used = TRUE
 			var/datum/round_event_control/missilegalore/missiles = new
 			missiles.run_event()
-			var/datum/antagonist/traitor/infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+			var/datum/antagonist/traitor/fulp_infiltrator/terrorist = usr.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 			if(!terrorist)
 				return
 			var/datum/objective/missiles/terrorism = locate() in terrorist.objectives
@@ -425,8 +430,13 @@
 	var/obj/structure/cyborg_rift/rift = new /obj/structure/cyborg_rift(location)
 	rift.owner = terrorist.real_name
 	playsound(rift, 'sound/vehicles/rocketlaunch.ogg', 100, TRUE)
-	notify_ghosts("An infiltrator has opened a cyborg rift!", source = rift, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Cyborg rift Opened")
-	var/datum/antagonist/traitor/infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	notify_ghosts(
+		"An Infiltrator has opened a Cyborg rift!",
+		source = rift,
+		header = "Cyborg Rift opened",
+		notify_flags = NOTIFY_CATEGORY_NOFLASH,
+	)
+	var/datum/antagonist/traitor/fulp_infiltrator/infil = terrorist.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!infil)
 		return
 	var/datum/objective/summon_wormhole/objective = locate() in infil.objectives
@@ -526,11 +536,17 @@
 /obj/item/antag_spawner/nuke_ops/infiltrator_backup/attack_self(mob/user)
 	if(used)
 		return
-	var/datum/antagonist/traitor/infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/criminal = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!criminal)
 		return
 	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
-	var/list/infil_candidates = poll_ghost_candidates("Do you want to play as an infiltrator backup?", ROLE_INFILTRATOR, ROLE_INFILTRATOR, 150, POLL_IGNORE_SYNDICATE)
+	var/list/infil_candidates = SSpolling.poll_ghost_candidates(
+		question = "Do you want to play as an infiltrator backup?",
+		role = ROLE_INFILTRATOR,
+		check_jobban = ROLE_INFILTRATOR,
+		poll_time = 15 SECONDS,
+		ignore_category = POLL_IGNORE_SYNDICATE,
+	)
 	if(LAZYLEN(infil_candidates))
 		if(QDELETED(src) || used)
 			return
@@ -554,7 +570,7 @@
 
 	antag_datum = new /datum/antagonist/infiltrator_backup
 	var/datum/antagonist/infiltrator_backup/datum = antag_datum
-	var/datum/antagonist/traitor/infiltrator/criminal = user.has_antag_datum(/datum/antagonist/traitor/infiltrator)
+	var/datum/antagonist/traitor/fulp_infiltrator/criminal = user.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	datum.purchaser = criminal
 	infil_mind.add_antag_datum(datum)
 	infil.forceMove(pod)

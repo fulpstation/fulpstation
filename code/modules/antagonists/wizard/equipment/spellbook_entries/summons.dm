@@ -1,6 +1,6 @@
 // Ritual spells which affect the station at large
 /// How much threat we need to let these rituals happen on dynamic
-#define MINIMUM_THREAT_FOR_RITUALS 100
+#define MINIMUM_THREAT_FOR_RITUALS 98
 
 /datum/spellbook_entry/summon/ghosts
 	name = "Summon Ghosts"
@@ -20,9 +20,8 @@
 		There is a good chance that they will shoot each other first."
 
 /datum/spellbook_entry/summon/guns/can_be_purchased()
-	// Summon Guns requires 100 threat.
-	var/datum/game_mode/dynamic/mode = SSticker.mode
-	if(mode.threat_level < MINIMUM_THREAT_FOR_RITUALS)
+	// Summon Guns requires 98 threat.
+	if(SSdynamic.threat_level < MINIMUM_THREAT_FOR_RITUALS)
 		return FALSE
 	// Also must be config enabled
 	return !CONFIG_GET(flag/no_summon_guns)
@@ -38,9 +37,8 @@
 		why they aren't to be trusted with it at the same time."
 
 /datum/spellbook_entry/summon/magic/can_be_purchased()
-	// Summon Magic requires 100 threat.
-	var/datum/game_mode/dynamic/mode = SSticker.mode
-	if(mode.threat_level < MINIMUM_THREAT_FOR_RITUALS)
+	// Summon Magic requires 98 threat.
+	if(SSdynamic.threat_level < MINIMUM_THREAT_FOR_RITUALS)
 		return FALSE
 	// Also must be config enabled
 	return !CONFIG_GET(flag/no_summon_magic)
@@ -59,9 +57,8 @@
 	limit = 5 // Each purchase can intensify it.
 
 /datum/spellbook_entry/summon/events/can_be_purchased()
-	// Summon Events requires 100 threat.
-	var/datum/game_mode/dynamic/mode = SSticker.mode
-	if(mode.threat_level < MINIMUM_THREAT_FOR_RITUALS)
+	// Summon Events requires 98 threat.
+	if(SSdynamic.threat_level < MINIMUM_THREAT_FOR_RITUALS)
 		return FALSE
 	// Also, must be config enabled
 	return !CONFIG_GET(flag/no_summon_events)
@@ -138,8 +135,7 @@
 	return ..()
 
 /datum/spellbook_entry/summon/specific_spell/can_be_purchased()
-	var/datum/game_mode/dynamic/mode = SSticker.mode
-	if(mode.threat_level < MINIMUM_THREAT_FOR_RITUALS)
+	if(SSdynamic.threat_level < MINIMUM_THREAT_FOR_RITUALS)
 		return FALSE
 	if(GLOB.mass_teaching)
 		return FALSE

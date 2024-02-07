@@ -251,19 +251,19 @@
 				update_worn_undersuit()
 			update_worn_oversuit()
 	else if(I == w_uniform)
-		if(invdrop)
-			if(r_store)
-				dropItemToGround(r_store, TRUE) //Again, makes sense for pockets to drop.
-			if(l_store)
-				dropItemToGround(l_store, TRUE)
-			if(wear_id)
-				dropItemToGround(wear_id)
-			if(belt)
-				dropItemToGround(belt)
 		w_uniform = null
 		update_suit_sensors()
 		if(!QDELETED(src))
 			update_worn_undersuit()
+		if(invdrop)
+			if(r_store && !can_equip(r_store, ITEM_SLOT_RPOCKET, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(r_store, TRUE) //Again, makes sense for pockets to drop.
+			if(l_store && !can_equip(l_store, ITEM_SLOT_LPOCKET, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(l_store, TRUE)
+			if(wear_id && !can_equip(wear_id, ITEM_SLOT_ID, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(wear_id)
+			if(belt && !can_equip(belt, ITEM_SLOT_BELT, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(belt)
 	else if(I == gloves)
 		gloves = null
 		if(!QDELETED(src))
@@ -383,6 +383,22 @@
 		return 0
 
 	return O.equip(src, visualsOnly)
+
+
+///A version of equipOutfit that overrides passed in outfits with their entry on the species' outfit override registry
+/mob/living/carbon/human/proc/equip_species_outfit(outfit, visualsOnly = FALSE)
+	var/datum/outfit/outfit_to_equip
+
+	var/override_outfit_path = dna?.species.outfit_override_registry[outfit]
+	if(override_outfit_path)
+		outfit_to_equip = new override_outfit_path
+	else
+		outfit_to_equip = new outfit
+
+	if(isnull(outfit_to_equip))
+		return FALSE
+
+	return outfit_to_equip.equip(src, visualsOnly)
 
 
 //delete all equipment without dropping anything
