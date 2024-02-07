@@ -122,19 +122,31 @@
 	program = /datum/nanite_program/glitch
 
 /obj/item/disk/nanite_program/brain_misfire
-	program = /datum/nanite_program/pacifying
+	program = /datum/nanite_program/brain_misfire
 
 /obj/item/disk/nanite_program/skin_decay
-	program = /datum/nanite_program/pacifying
+	program = /datum/nanite_program/skin_decay
 
 /obj/item/disk/nanite_program/nerve_decay
-	program = /datum/nanite_program/pacifying
+	program = /datum/nanite_program/nerve_decay
 
 /obj/item/disk/nanite_program/refractive
 	program = /datum/nanite_program/refractive
 
 /obj/item/disk/nanite_program/conductive
-	program = /datum/nanite_program/pacifying
+	program = /datum/nanite_program/conductive
 
 /obj/item/disk/nanite_program/stun
 	program = /datum/nanite_program/stun
+
+/obj/item/disk/nanite_program/speech
+	program = /datum/nanite_program/comm/speech
+
+/obj/item/disk/nanite_program/voice
+	program = /datum/nanite_program/comm/voice
+
+/obj/item/disk/nanite_program/hallucination
+	program = /datum/nanite_program/comm/hallucination
+
+/obj/item/disk/nanite_program/mind_control
+	program = /datum/nanite_program/comm/mind_control

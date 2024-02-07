@@ -14,5 +14,5 @@
 	return list(list(
 		"name" = name,
 		"type" = setting_type,
-		"value" = value
+		"value" = value,
 	))

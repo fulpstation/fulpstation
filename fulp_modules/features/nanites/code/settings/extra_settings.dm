@@ -47,7 +47,7 @@
 		"type" = setting_type,
 		"value" = value,
 		"true_text" = true_text,
-		"false_text" = false_text
+		"false_text" = false_text,
 	))
 
 /**
