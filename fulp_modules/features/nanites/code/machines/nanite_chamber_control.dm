@@ -63,6 +63,7 @@
 		data["status_msg"] = chamber.busy_message
 		return data
 
+	data["has_nanites"] = FALSE
 	data["status_msg"] = null
 	data["scan_level"] = chamber.scan_level
 	data["locked"] = chamber.locked
