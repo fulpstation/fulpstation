@@ -145,8 +145,5 @@
 /obj/item/disk/nanite_program/voice
 	program = /datum/nanite_program/comm/voice
 
-/obj/item/disk/nanite_program/hallucination
-	program = /datum/nanite_program/comm/hallucination
-
 /obj/item/disk/nanite_program/mind_control
 	program = /datum/nanite_program/comm/mind_control

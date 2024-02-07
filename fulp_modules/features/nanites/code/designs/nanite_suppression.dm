@@ -68,13 +68,6 @@
 	category = list(NANITES_CATEGORY_SUPPRESSION)
 	program_type = /datum/nanite_program/comm/speech
 
-/datum/design/nanites/hallucination
-	name = "Hallucination"
-	desc = "The nanites make the host see and hear things that aren't real."
-	id = "hallucination_nanites"
-	category = list(NANITES_CATEGORY_SUPPRESSION)
-	program_type = /datum/nanite_program/comm/hallucination
-
 /datum/design/nanites/good_mood
 	name = "Happiness Enhancer"
 	desc = "The nanites synthesize serotonin inside the host's brain, creating an artificial sense of happiness."

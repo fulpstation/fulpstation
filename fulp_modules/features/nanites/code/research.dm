@@ -128,7 +128,6 @@
 		"sleep_nanites",
 		"mute_nanites",
 		"speech_nanites",
-		"hallucination_nanites",
 	)
 	research_costs = list(
 		TECHWEB_POINT_TYPE_GENERIC = 1500,
