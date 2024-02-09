@@ -13,5 +13,6 @@
 
 /datum/reagent/medicine/strange_reagent/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)
 	if(exposed_mob.mind && HAS_TRAIT(exposed_mob.mind, TRAIT_HELLBOUND))
+		exposed_mob.visible_message(span_warning("[exposed_mob]'s body does not react..."))
 		return
 	return ..()

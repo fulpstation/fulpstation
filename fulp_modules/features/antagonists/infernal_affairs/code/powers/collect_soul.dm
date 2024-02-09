@@ -49,26 +49,24 @@
 	cast_on.balloon_alert(owner, "no card on target...")
 	return SPELL_CANCEL_CAST
 
-/datum/action/cooldown/spell/pointed/collect_soul/InterceptClickOn(mob/living/caller, params, mob/target)
+/datum/action/cooldown/spell/pointed/collect_soul/cast(mob/cast_on)
 	. = ..()
-	if(!.)
-		return FALSE
 
-	for(var/obj/item/paper/devil_calling_card/card in target.get_all_contents())
+	for(var/obj/item/paper/devil_calling_card/card in cast_on.get_all_contents())
 		var/datum/antagonist/infernal_affairs/hunter_datum = card.signed_by_ref?.resolve()
 		if(!hunter_datum)
 			continue
 		//Ensures that the card holder is actually a target.
-		var/datum/antagonist/infernal_affairs/agent_datum = target.mind.has_antag_datum(/datum/antagonist/infernal_affairs)
+		var/datum/antagonist/infernal_affairs/agent_datum = cast_on.mind.has_antag_datum(/datum/antagonist/infernal_affairs)
 		if(hunter_datum.active_objective.target != agent_datum.owner)
 			continue
-		if(!do_after(caller, 10 SECONDS, target))
-			target.balloon_alert(caller, "interrupted!")
+		if(!do_after(owner, 10 SECONDS, cast_on))
+			cast_on.balloon_alert(owner, "interrupted!")
 			return FALSE
-		target.balloon_alert(caller, "soul ripped!")
+		cast_on.balloon_alert(owner, "soul ripped!")
 		agent_datum.soul_harvested(hunter_datum)
 		qdel(card)
 		return TRUE
 
-	target.balloon_alert(owner, "no card on target...")
+	cast_on.balloon_alert(owner, "no card on target...")
 	return FALSE
