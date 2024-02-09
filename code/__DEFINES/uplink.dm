@@ -19,3 +19,6 @@
 #define TRAITOR_DISCOUNT_BIG "big_discount"
 #define TRAITOR_DISCOUNT_AVERAGE "average_discount"
 #define TRAITOR_DISCOUNT_SMALL "small_discount"
+
+///Signal sent to a mob when they purchase an item from their uplink: (datum/uplink_handler/uplink_handler_source, atom/spawned_item, mob/user)
+#define COMSIG_ON_UPLINK_PURCHASE "comsig_on_uplink_purchase"

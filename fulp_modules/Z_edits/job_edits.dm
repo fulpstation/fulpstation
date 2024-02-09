@@ -80,6 +80,10 @@
 	exp_required_type = EXP_TYPE_CREW
 
 /** Service */
+/datum/job/head_of_personnel/New()
+	mind_traits += list(TRAIT_DEVIL_CONTRACT_IMMUNE)
+	return ..()
+
 /datum/job/bartender
 	total_positions = 2
 	spawn_positions = 2
@@ -109,12 +113,16 @@
 	spawn_positions = 1
 
 /datum/job/curator/New()
-	mind_traits += list(TRAIT_BLOODSUCKER_HUNTER)
+	mind_traits += list(TRAIT_BLOODSUCKER_HUNTER, TRAIT_DEVIL_CONTRACT_IMMUNE)
 	return ..()
 
 /datum/job/lawyer
 	total_positions = 4
 	spawn_positions = 2
+
+/datum/job/lawyer/New()
+	mind_traits += list(TRAIT_DEVIL_CONTRACT_IMMUNE)
+	return ..()
 
 /datum/job/chaplain
 	total_positions = 2

@@ -8,6 +8,10 @@
 #define IS_REVENGE_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal/revenge))
 ///Whether a mob is a Monster Hunter
 #define IS_MONSTERHUNTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/monsterhunter))
+///Whether a mob is an Infernal Agent
+#define IS_INFERNAL_AGENT(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/infernal_affairs))
+///Whether a mob is a Devil
+#define IS_DEVIL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/devil))
 
 ///Check if we are indeed a Beefman
 #define isbeefman(A) (is_species(A, /datum/species/beefman))

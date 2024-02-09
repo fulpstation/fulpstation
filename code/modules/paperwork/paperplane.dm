@@ -145,3 +145,4 @@
 	I = new plane_type(loc, src)
 	if(user.Adjacent(I))
 		user.put_in_hands(I)
+	return I

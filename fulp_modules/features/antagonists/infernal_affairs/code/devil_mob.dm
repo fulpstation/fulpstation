@@ -1,7 +1,7 @@
 /mob/living/basic/devil
 	name = "True Devil"
 	desc = "A pile of infernal energy, taking a vaguely humanoid form."
-	icon = 'fulp_modules/features/mobs/32x64.dmi'
+	icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/32x64.dmi'
 	icon_state = "true_devil"
 	gender = NEUTER
 	health = 200
@@ -16,14 +16,14 @@
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	basic_mob_flags = DEL_ON_DEATH
 
-	///The dancefloor ability we give to the devil.
-	var/datum/action/cooldown/spell/summon_dancefloor/dancefloor_ability
-
 /mob/living/basic/devil/Initialize()
 	. = ..()
 	grant_all_languages()
-	dancefloor_ability = new()
-	dancefloor_ability.Grant(src)
+	add_traits(list(TRAIT_ADVANCEDTOOLUSER, TRAIT_CAN_STRIP), ROUNDSTART_TRAIT)
+	AddElement(/datum/element/wall_tearer, allow_reinforced = FALSE)
+	AddElement(/datum/element/dextrous)
+	AddComponent(/datum/component/personal_crafting)
+	AddComponent(/datum/component/basic_inhands, y_offset = -1)
 
 /mob/living/basic/devil/arch_devil
 	name = "Arch Devil"

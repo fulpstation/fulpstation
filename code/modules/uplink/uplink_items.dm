@@ -129,12 +129,12 @@
 		A = spawn_path
 	if(refundable)
 		A.AddElement(/datum/element/uplink_reimburse, (refund_amount ? refund_amount : cost))
-	if(ishuman(user) && isitem(A))
-		var/mob/living/carbon/human/H = user
-		if(H.put_in_hands(A))
-			to_chat(H, span_boldnotice("[A] materializes into your hands!"))
-			return A
-	to_chat(user, span_boldnotice("[A] materializes onto the floor!"))
+	var/mob/living/carbon/human/H = user
+	if(istype(H) && isitem(A) && H.put_in_hands(A))
+		to_chat(H, span_boldnotice("[A] materializes into your hands!"))
+	else
+		to_chat(user, span_boldnotice("[A] materializes onto the floor!"))
+	SEND_SIGNAL(uplink_handler, COMSIG_ON_UPLINK_PURCHASE, A, user)
 	return A
 
 ///For special overrides if an item can be bought or not.

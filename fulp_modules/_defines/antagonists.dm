@@ -1,12 +1,14 @@
 ///Uncomment this to enable testing of Bloodsucker features (such as vassalizing people with a mind instead of a client).
 //#define BLOODSUCKER_TESTING
 
+/**
+ * BLOODSUCKER DEFINES
+ */
+
+
 /// You have special interactions with Bloodsuckers
 #define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
 
-/**
- * Blood-level defines
- */
 /// Determines Bloodsucker regeneration rate
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
 /// Cost to torture someone halfway, in blood. Called twice for full cost
@@ -18,9 +20,6 @@
 ///Amount of blood on TOP of your frenzy limit you need to EXIT frenzy.
 #define FRENZY_EXTRA_BLOOD_NEEDED 50
 
-/**
- * Vassal defines
- */
 ///If someone passes all checks and can be vassalized
 #define VASSALIZATION_ALLOWED 0
 ///If someone has to accept vassalization
@@ -28,21 +27,13 @@
 ///If someone is not allowed under any circimstances to become a Vassal
 #define VASSALIZATION_BANNED 2
 
-/**
- * Cooldown defines
- * Used in Cooldowns Bloodsuckers use to prevent spamming
- */
 ///Spam prevention for healing messages.
 #define BLOODSUCKER_SPAM_HEALING (15 SECONDS)
 ///Span prevention for Sol Masquerade messages.
 #define BLOODSUCKER_SPAM_MASQUERADE (60 SECONDS)
-
 ///Span prevention for Sol messages.
 #define BLOODSUCKER_SPAM_SOL (30 SECONDS)
 
-/**
- * Clan defines
- */
 #define CLAN_NONE "Caitiff"
 #define CLAN_BRUJAH "Brujah Clan"
 #define CLAN_TOREADOR "Toreador Clan"
@@ -58,9 +49,6 @@
 #define FAVORITE_VASSAL "favorite_vassal"
 #define REVENGE_VASSAL "revenge_vassal"
 
-/**
- * Power defines
- */
 /// This Power can't be used in Torpor
 #define BP_CANT_USE_IN_TORPOR (1<<0)
 /// This Power can't be used in Frenzy.
@@ -90,16 +78,17 @@
 /// This Power doesn't cost bloot to run while unconscious
 #define BP_AM_COSTLESS_UNCONSCIOUS (1<<3)
 
-/**
- * Sol signals & Defines
- */
+///Signal sent when Sol is at the period to rank all valid Bloodsuckers up.
 #define COMSIG_SOL_RANKUP_BLOODSUCKERS "comsig_sol_rankup_bloodsuckers"
+///Signal sent when Sol rises,
 #define COMSIG_SOL_RISE_TICK "comsig_sol_rise_tick"
+///Signal sent when Sol is about to start.
 #define COMSIG_SOL_NEAR_START "comsig_sol_near_start"
+///Signal sent when Sol ends.
 #define COMSIG_SOL_END "comsig_sol_end"
-///Sent when a warning for Sol is meant to go out: (danger_level, vampire_warning_message, vassal_warning_message)
+///Signal sent when a warning for Sol is meant to go out: (danger_level, vampire_warning_message, vassal_warning_message)
 #define COMSIG_SOL_WARNING_GIVEN "comsig_sol_warning_given"
-///Called on a Bloodsucker's Lifetick.
+///Signal sent to trigger a Bloodsucker's Lifetick.
 #define COMSIG_BLOODSUCKER_ON_LIFETICK "comsig_bloodsucker_on_lifetick"
 
 #define DANGER_LEVEL_FIRST_WARNING 1
@@ -108,23 +97,32 @@
 #define DANGER_LEVEL_SOL_ROSE 4
 #define DANGER_LEVEL_SOL_ENDED 5
 
-/**
- * Clan defines
- *
- * This is stuff that is used solely by Clans for clan-related activity.
- */
-///Drinks blood the normal Bloodsucker way.
+///Clan drinks blood the normal Bloodsucker way.
 #define BLOODSUCKER_DRINK_NORMAL "bloodsucker_drink_normal"
-///Drinks blood but is snobby, refusing to drink from mindless
+///Clan drinks blood but is snobby, refusing to drink from mindless
 #define BLOODSUCKER_DRINK_SNOBBY "bloodsucker_drink_snobby"
-///Drinks blood from disgusting creatures without Humanity consequences.
+///Clan drinks blood from disgusting creatures without Humanity consequences.
 #define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
 
-/**
- * Role defines
- */
 #define ROLE_BLOODSUCKER "Bloodsucker"
 #define ROLE_VAMPIRICACCIDENT "Vampiric Accident"
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
+
+
+/**
+ * INFILTRATOR DEFINES
+ */
+
 #define ROLE_INFILTRATOR "Infiltrator"
+
+/**
+ * DEVIL DEFINES
+ */
+
+///How many souls a Devil needs to 'Ascend'.
+#define DEVIL_SOULS_TO_ASCEND 8
+
+#define ROLE_INFERNAL_AFFAIRS "Infernal Affairs Agent"
+#define ROLE_INFERNAL_AFFAIRS_DEVIL "Infernal Devil"
+
