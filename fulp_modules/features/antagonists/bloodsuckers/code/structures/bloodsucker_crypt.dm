@@ -321,7 +321,8 @@
 	// Convert to Vassal!
 	bloodsuckerdatum.AddBloodVolume(-TORTURE_CONVERSION_COST)
 	if(bloodsuckerdatum.make_vassal(target))
-		remove_loyalties(target)
+		for(var/obj/item/implant/mindshield/implant in target.implants)
+			implant.removed(target, silent = TRUE)
 		SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_MADE_VASSAL, user, target)
 
 /obj/structure/bloodsucker/vassalrack/proc/do_torture(mob/living/user, mob/living/carbon/target, mult = 1)
@@ -404,12 +405,6 @@
 		return VASSALIZATION_DISLOYAL
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	return bloodsuckerdatum.AmValidAntag(target)
-
-/obj/structure/bloodsucker/vassalrack/proc/remove_loyalties(mob/living/target)
-	// Find Mind Implant & Destroy
-	for(var/obj/item/implant/all_implants as anything in target.implants)
-		if(all_implants.type == /obj/item/implant/mindshield)
-			all_implants.removed(target, silent = TRUE)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
