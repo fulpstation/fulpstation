@@ -12,7 +12,7 @@
 	return ..()
 
 /datum/reagent/medicine/strange_reagent/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)
-	if(HAS_TRAIT(exposed_mob.mind, TRAIT_HELLBOUND))
+	if(exposed_mob.mind && HAS_TRAIT(exposed_mob.mind, TRAIT_HELLBOUND))
 		return
 	return ..()
 

@@ -33,8 +33,8 @@
 	obtain_power(/datum/action/cooldown/spell/pointed/collect_soul)
 
 /datum/antagonist/devil/on_removal()
-	clear_power(/datum/action/cooldown/spell/conjure_item/summon_contract)
-	clear_power(/datum/action/cooldown/spell/pointed/collect_soul)
+	for(var/datum/action/all_powers as anything in devil_powers)
+		clear_power(all_powers)
 	if(src in SSinfernal_affairs.devils)
 		SSinfernal_affairs.devils -= src
 	return ..()
@@ -56,7 +56,7 @@
 /datum/antagonist/devil/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	UnregisterSignal(mob_override, list(COMSIG_LIVING_DEATH, COMSIG_LIVING_REVIVE))
+	UnregisterSignal(current_mob, list(COMSIG_LIVING_DEATH, COMSIG_LIVING_REVIVE))
 	if(current_mob.hud_used)
 		var/datum/hud/hud_used = current_mob.hud_used
 		hud_used.infodisplay -= soul_counter

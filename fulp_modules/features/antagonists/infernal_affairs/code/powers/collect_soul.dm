@@ -49,7 +49,7 @@
 	cast_on.balloon_alert(owner, "no card on target...")
 	return SPELL_CANCEL_CAST
 
-/datum/action/cooldown/spell/pointed/collect_soul/InterceptClickOn(mob/living/user, params, mob/living/target)
+/datum/action/cooldown/spell/pointed/collect_soul/InterceptClickOn(mob/living/caller, params, mob/target)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -62,10 +62,10 @@
 		var/datum/antagonist/infernal_affairs/agent_datum = target.mind.has_antag_datum(/datum/antagonist/infernal_affairs)
 		if(hunter_datum.active_objective.target != agent_datum.owner)
 			continue
-		if(!do_after(user, 10 SECONDS, target))
-			target.balloon_alert(user, "interrupted!")
+		if(!do_after(caller, 10 SECONDS, target))
+			target.balloon_alert(caller, "interrupted!")
 			return FALSE
-		target.balloon_alert(user, "soul ripped!")
+		target.balloon_alert(caller, "soul ripped!")
 		agent_datum.soul_harvested(hunter_datum)
 		qdel(card)
 		return TRUE

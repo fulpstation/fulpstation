@@ -61,22 +61,6 @@
 			return FALSE
 	return istype(target_atom)
 
-/// Click Target
-/datum/action/cooldown/bloodsucker/targeted/proc/click_with_power(atom/target_atom)
-	// CANCEL RANGED TARGET check
-	if(power_in_use || !CheckValidTarget(target_atom))
-		return FALSE
-	// Valid? (return true means DON'T cancel power!)
-	if(!can_pay_cost() || !can_use(owner) || !CheckCanTarget(target_atom))
-		return TRUE
-	power_in_use = TRUE // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
-	FireTargetedPower(target_atom) // We use this instead of ActivatePower(trigger_flags), which has no input
-	// Skip this part so we can return TRUE right away.
-	if(power_activates_immediately)
-		power_activated_sucessfully() // Mesmerize pays only after success.
-	power_in_use = FALSE
-	return TRUE
-
 /// Like ActivatePower, but specific to Targeted (and takes an atom input). We don't use ActivatePower for targeted.
 /datum/action/cooldown/bloodsucker/targeted/proc/FireTargetedPower(atom/target_atom)
 	log_combat(owner, target_atom, "used [name] on")
@@ -89,4 +73,16 @@
 	DeactivatePower()
 
 /datum/action/cooldown/bloodsucker/targeted/InterceptClickOn(mob/living/caller, params, atom/target)
-	click_with_power(target)
+	// CANCEL RANGED TARGET check
+	if(power_in_use || !CheckValidTarget(target))
+		return FALSE
+	// Valid? (return true means DON'T cancel power!)
+	if(!can_pay_cost() || !can_use(owner) || !CheckCanTarget(target))
+		return TRUE
+	power_in_use = TRUE // Lock us into this ability until it successfully fires off. Otherwise, we pay the blood even if we fail.
+	FireTargetedPower(target) // We use this instead of ActivatePower(trigger_flags), which has no input
+	// Skip this part so we can return TRUE right away.
+	if(power_activates_immediately)
+		power_activated_sucessfully() // Mesmerize pays only after success.
+	power_in_use = FALSE
+	return TRUE
