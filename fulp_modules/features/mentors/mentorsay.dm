@@ -28,7 +28,7 @@
 		msg = "<b><font color = #A097FE><span class='prefix'>HOP:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
 	else if(mentor_datum?.is_contributor)
 		msg = "<b><font color = #16abf9><span class='prefix'>CONTRIB:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
-	else if(check_rights_for(src, R_ADMIN, 0))
+	else if(holder)
 		msg = "<b><font color = #8A2BE2><span class='prefix'>STAFF:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
 	else
 		msg = "<b><font color = #E236D8><span class='prefix'>MENTOR:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
