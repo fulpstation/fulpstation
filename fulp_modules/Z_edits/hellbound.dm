@@ -15,12 +15,3 @@
 	if(exposed_mob.mind && HAS_TRAIT(exposed_mob.mind, TRAIT_HELLBOUND))
 		return
 	return ..()
-
-/*
-/mob/dead/observer/Initialize(mapload)
-	. = ..()
-	var/mob/body = loc
-	if(ismob(body))
-		if(HAS_TRAIT(body.mind, TRAIT_HELLBOUND)) // transfer if the body was killed due to suicide
-			can_reenter_corpse = FALSE
-*/
