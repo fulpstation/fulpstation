@@ -40,6 +40,9 @@
 	if(. & SPELL_CANCEL_CAST)
 		return .
 
+	if(HAS_TRAIT(cast_on, TRAIT_HELLBOUND))
+		cast_on.balloon_alert(owner, "soul already ripped!")
+		return SPELL_CANCEL_CAST
 	for(var/obj/item/paper/devil_calling_card/card in cast_on.get_all_contents())
 		var/datum/antagonist/infernal_affairs/hunter_datum = card.signed_by_ref?.resolve()
 		var/datum/antagonist/infernal_affairs/agent_datum = cast_on.mind.has_antag_datum(/datum/antagonist/infernal_affairs)
@@ -52,12 +55,12 @@
 /datum/action/cooldown/spell/pointed/collect_soul/cast(mob/cast_on)
 	. = ..()
 
+	var/datum/antagonist/infernal_affairs/agent_datum = cast_on.mind.has_antag_datum(/datum/antagonist/infernal_affairs)
 	for(var/obj/item/paper/devil_calling_card/card in cast_on.get_all_contents())
 		var/datum/antagonist/infernal_affairs/hunter_datum = card.signed_by_ref?.resolve()
 		if(!hunter_datum)
 			continue
 		//Ensures that the card holder is actually a target.
-		var/datum/antagonist/infernal_affairs/agent_datum = cast_on.mind.has_antag_datum(/datum/antagonist/infernal_affairs)
 		if(hunter_datum.active_objective.target != agent_datum.owner)
 			continue
 		if(!do_after(owner, 10 SECONDS, cast_on))
