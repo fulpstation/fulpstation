@@ -11,7 +11,7 @@
 	///Boolean on whether we're currently the last one standing.
 	var/last_one_standing = FALSE
 	///The pinpointer agents have that points them to the general direction of their targets.
-	var/datum/status_effect/agent_pinpointer/target_pinpointer
+	var/datum/status_effect/agent_pinpointer/devil_affairs/target_pinpointer
 	///reference to the uplink this traitor was given, if they were.
 	var/datum/weakref/uplink_ref
 	/// The uplink handler that this traitor belongs to.
@@ -162,3 +162,11 @@
 		sword.inhand_icon_state = "e_sword_on_red"
 		sword.worn_icon_state = "e_sword_on_red"
 		owner.update_held_items()
+
+/**
+ * Infernal Pinpointer
+ * It does not scan for a target, we set it manually by the
+ * Infernal Affairs Subsystem instead.
+ */
+/datum/status_effect/agent_pinpointer/devil_affairs/scan_for_target()
+	return
