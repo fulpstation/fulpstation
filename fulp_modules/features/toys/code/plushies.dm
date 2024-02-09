@@ -124,3 +124,12 @@
 	attack_verb_simple = list("bop","beat")
 	squeak_override = list(
 		'sound/effects/meow1.ogg' = 1)
+
+
+/obj/item/toy/plush/shrimp
+	name = "shrump plushie"
+	desc = "You're telling me THIS GUY fried my rice?"
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "shrimp"
+	attack_verb_continuous = list("shrimps", "skitters")
+	attack_verb_simple = list("shrimp","skitter")
