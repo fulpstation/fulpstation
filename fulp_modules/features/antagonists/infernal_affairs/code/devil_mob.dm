@@ -23,7 +23,7 @@
 	AddElement(/datum/element/wall_tearer, allow_reinforced = FALSE)
 	AddElement(/datum/element/dextrous)
 	AddComponent(/datum/component/personal_crafting)
-	AddComponent(/datum/component/basic_inhands, y_offset = -1)
+	AddComponent(/datum/component/basic_inhands, y_offset = -2, x_offset = -2)
 
 /mob/living/basic/devil/arch_devil
 	name = "Arch Devil"
