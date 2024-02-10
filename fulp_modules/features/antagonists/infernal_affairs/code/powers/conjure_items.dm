@@ -68,7 +68,7 @@
 	if(IS_INFERNAL_AGENT(user))
 		to_chat(user, span_notice("I know this paper, it serves no use for me anymore."))
 		return
-	if(HAS_TRAIT(user, TRAIT_DEVIL_CONTRACT_IMMUNE))
+	if(HAS_TRAIT(user.mind, TRAIT_DEVIL_CONTRACT_IMMUNE))
 		to_chat(user, span_warning("I've read this before... I'm not signing this shit!"))
 		return
 	if(possible_pen.sharpness == SHARP_POINTY)

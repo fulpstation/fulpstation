@@ -18,7 +18,7 @@
 
 /obj/item/book/codex_gigas/examine(mob/user)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_DEVIL_CONTRACT_IMMUNE))
+	if(HAS_TRAIT(user.mind, TRAIT_DEVIL_CONTRACT_IMMUNE))
 		if(inserted_record)
 			. += span_notice("It has a record in it, you can [EXAMINE_HINT("AltClick")] it to remove it.")
 		else
@@ -50,7 +50,7 @@
 		return
 	if(!user.can_read(src) || (target == user) || !ismob(target))
 		return
-	if(!HAS_TRAIT(user, TRAIT_DEVIL_CONTRACT_IMMUNE))
+	if(!HAS_TRAIT(user.mind, TRAIT_DEVIL_CONTRACT_IMMUNE))
 		return
 	user.balloon_alert(user, "taking notes...")
 	if(!do_after(user, 10 SECONDS, target))
@@ -59,7 +59,7 @@
 	stored_mind = target.mind
 
 /obj/item/book/codex_gigas/attack_self(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_DEVIL_CONTRACT_IMMUNE))
+	if(!HAS_TRAIT(user.mind, TRAIT_DEVIL_CONTRACT_IMMUNE))
 		to_chat(user, span_alert("The book is an unreadable mess..."))
 		return
 	if(!inserted_record)
