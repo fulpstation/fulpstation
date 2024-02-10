@@ -1,9 +1,3 @@
-//////////////////////////////////////////////
-//                                          //
-//            INFERNAL AFFAIRS              //
-//                                          //
-//////////////////////////////////////////////
-
 /datum/dynamic_ruleset/roundstart/infernal_affairs
 	name = "Devil Affairs"
 	antag_flag = ROLE_INFERNAL_AFFAIRS
@@ -23,30 +17,29 @@
 	restricted_roles = list(
 		JOB_AI,
 		JOB_CYBORG,
-		JOB_PERSONAL_AI,
 	)
 	required_candidates = 6
-	weight = 0
-	cost = 8
+	weight = 5
+	cost = 10
 	scaling_cost = 2
-	requirements = list(8,8,8,8,8,8,8,8,8,8)
+	requirements = list(10,10,10,10,10,10,10,10,10,10)
 	antag_cap = list("denominator" = 24, "offset" = 3)
 
 /datum/dynamic_ruleset/roundstart/infernal_affairs/pre_execute(population)
 	. = ..()
-	var/num_traitors= get_antag_cap(population)
+	var/num_traitors = get_antag_cap(population) * (scaled_times + 1)
 	for(var/affair_number = 1 to num_traitors)
 		if(candidates.len <= 0)
 			break
-		var/mob/M = pick_n_take(candidates)
+		var/mob/selected_mobs = pick_n_take(candidates)
 		if(!SSinfernal_affairs.devils.len)
 			var/datum/antagonist/devil/devil_agent = new()
-			M.mind.add_antag_datum(devil_agent)
-			M.mind.special_role = ROLE_INFERNAL_AFFAIRS_DEVIL
+			selected_mobs.mind.add_antag_datum(devil_agent)
+			selected_mobs.mind.special_role = ROLE_INFERNAL_AFFAIRS_DEVIL
 		else
-			assigned += M.mind
-			M.mind.special_role = ROLE_INFERNAL_AFFAIRS
-		M.mind.restricted_roles = restricted_roles
+			assigned += selected_mobs.mind
+			selected_mobs.mind.special_role = ROLE_INFERNAL_AFFAIRS
+		selected_mobs.mind.restricted_roles = restricted_roles
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/infernal_affairs/execute()
