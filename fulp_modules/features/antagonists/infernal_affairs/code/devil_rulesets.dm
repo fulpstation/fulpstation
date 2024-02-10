@@ -7,7 +7,6 @@
 /datum/dynamic_ruleset/roundstart/infernal_affairs
 	name = "Devil Affairs"
 	antag_flag = ROLE_INFERNAL_AFFAIRS
-	antag_flag_override = ROLE_BLOODSUCKER
 	antag_datum = /datum/antagonist/infernal_affairs
 	protected_roles = list(
 		JOB_CAPTAIN,
