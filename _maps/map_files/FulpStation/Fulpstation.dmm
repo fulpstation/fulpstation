@@ -413,6 +413,9 @@
 	id = "rdgene2";
 	name = "Genetics Lab Shutters"
 	},
+/obj/machinery/door/window/brigdoor/left/directional/east{
+	req_access = list("genetics")
+	},
 /turf/open/floor/iron/dark,
 /area/station/medical/medbay/lobby)
 "akA" = (
@@ -1772,6 +1775,10 @@
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/engine,
 /area/station/maintenance/disposal/incinerator)
+"bRm" = (
+/obj/machinery/door/airlock/external,
+/turf/open/floor/plating,
+/area/station/maintenance/department/engine)
 "bRx" = (
 /obj/effect/turf_decal/bot_red,
 /obj/effect/turf_decal/trimline/red/filled/line,
@@ -29561,9 +29568,21 @@
 /turf/open/floor/iron/showroomfloor,
 /area/station/medical/pharmacy)
 "qjv" = (
-/obj/machinery/door/airlock/external,
-/turf/open/floor/plating,
-/area/station/maintenance/department/engine)
+/obj/structure/table/reinforced,
+/obj/item/folder/white,
+/obj/item/pen,
+/obj/effect/turf_decal/tile/yellow/fourcorners,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/preopen{
+	dir = 4;
+	id = "chemlock";
+	name = "Pharmacy Shutters"
+	},
+/obj/machinery/door/window/brigdoor/right/directional/west{
+	req_access = list("chemistry")
+	},
+/turf/open/floor/iron/showroomfloor,
+/area/station/medical/pharmacy)
 "qjE" = (
 /turf/open/floor/carpet/royalblack,
 /area/station/service/chapel)
@@ -45628,6 +45647,9 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "rdgene2";
 	name = "Genetics Lab Shutters"
+	},
+/obj/machinery/door/window/brigdoor/left/directional/west{
+	req_access = list("genetics")
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
@@ -132223,9 +132245,9 @@ apz
 apz
 kcc
 jEr
-qjv
+bRm
 dwq
-qjv
+bRm
 iRT
 tzf
 qSR
@@ -144047,7 +144069,7 @@ gUj
 oec
 gUj
 oNJ
-pzR
+qjv
 qiY
 pzR
 oNJ
