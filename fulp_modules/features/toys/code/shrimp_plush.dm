@@ -20,7 +20,7 @@
 		return
 
 	var/obj/item/food/target_food = target
-	if(!findtext(intial(target.name), "fried rice"))
+	if(!findtext(initial(target.name), "fried rice"))
 		return
 
 	RegisterSignal(target_food, COMSIG_FOOD_EATEN, PROC_REF(on_eaten))
