@@ -1,6 +1,7 @@
-import { useBackend } from '../tgui/backend';
 import { classes } from 'common/react';
-import { Box, Flex, Stack, Divider, Section } from '../tgui/components';
+
+import { useBackend } from '../tgui/backend';
+import { Box, Divider, Flex, Section, Stack } from '../tgui/components';
 import { Window } from '../tgui/layouts';
 
 type AntagTipInfo = {
@@ -9,8 +10,8 @@ type AntagTipInfo = {
   antag_tips: string[];
 };
 
-export const AntagTips = (props, context) => {
-  const { act, data } = useBackend<AntagTipInfo>(context);
+export const AntagTips = (props) => {
+  const { act, data } = useBackend<AntagTipInfo>();
   const { theme, name, antag_tips } = data;
   const nameToUpperCase = (str: string) =>
     str.replace(/^\w/, (c) => c.toUpperCase());

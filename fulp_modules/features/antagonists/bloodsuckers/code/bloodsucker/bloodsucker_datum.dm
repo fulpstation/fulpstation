@@ -46,7 +46,7 @@
 	///How many Masquerade Infractions do we have?
 	var/masquerade_infractions = 0
 	///Blood required to enter Frenzy
-	var/frenzy_threshold = FRENZY_THRESHOLD_ENTER
+	var/frenzy_threshold = FRENZY_MINIMUM_THRESHOLD_ENTER
 	///If we are currently in a Frenzy
 	var/frenzied = FALSE
 

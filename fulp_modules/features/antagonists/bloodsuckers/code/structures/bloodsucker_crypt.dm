@@ -124,8 +124,12 @@
 		They usually ensure that victims are handcuffed, to prevent them from running away.\n\
 		Their rituals take time, allowing us to disrupt it."
 
+#ifdef BLOODSUCKER_TESTING
+	var/convert_progress = 1
+#else
 	/// Resets on each new character to be added to the chair. Some effects should lower it...
 	var/convert_progress = 3
+#endif
 	/// Mindshielded and Antagonists willingly have to accept you as their Master.
 	var/disloyalty_confirm = FALSE
 	/// Prevents popup spam.
@@ -195,7 +199,7 @@
 	density = TRUE
 
 	// Set up Torture stuff now
-	convert_progress = 3
+	convert_progress = initial(convert_progress)
 	disloyalty_confirm = FALSE
 	disloyalty_offered = FALSE
 
@@ -317,7 +321,8 @@
 	// Convert to Vassal!
 	bloodsuckerdatum.AddBloodVolume(-TORTURE_CONVERSION_COST)
 	if(bloodsuckerdatum.make_vassal(target))
-		remove_loyalties(target)
+		for(var/obj/item/implant/mindshield/implant in target.implants)
+			implant.removed(target, silent = TRUE)
 		SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_MADE_VASSAL, user, target)
 
 /obj/structure/bloodsucker/vassalrack/proc/do_torture(mob/living/user, mob/living/carbon/target, mult = 1)
@@ -401,12 +406,6 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	return bloodsuckerdatum.AmValidAntag(target)
 
-/obj/structure/bloodsucker/vassalrack/proc/remove_loyalties(mob/living/target)
-	// Find Mind Implant & Destroy
-	for(var/obj/item/implant/all_implants as anything in target.implants)
-		if(all_implants.type == /obj/item/implant/mindshield)
-			all_implants.removed(target, silent = TRUE)
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /obj/structure/bloodsucker/candelabrum
@@ -418,7 +417,6 @@
 	light_power = 3
 	light_range = 0 // to 2
 	density = FALSE
-	can_buckle = TRUE
 	anchored = FALSE
 	ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals.\n\
 		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
@@ -470,6 +468,7 @@
 
 /obj/structure/bloodsucker/candelabrum/process()
 	if(!lit)
+		STOP_PROCESSING(SSobj, src)
 		return
 	for(var/mob/living/carbon/nearly_people in viewers(7, src))
 		/// We dont want Bloodsuckers or Vassals affected by this

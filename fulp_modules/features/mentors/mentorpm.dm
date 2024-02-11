@@ -54,7 +54,7 @@
 	log_mentor("Mentor PM: [key_name(src)]->[key_name(chosen_client)]: [msg]")
 
 	msg = emoji_parse(msg)
-	chosen_client << 'sound/items/bikehorn.ogg'
+	SEND_SOUND(chosen_client, 'sound/items/bikehorn.ogg')
 	if(chosen_client.is_mentor())
 		if(is_mentor())
 			/// Both are Mentors
@@ -79,7 +79,7 @@
 
 	else
 		if(is_mentor())
-			/// Reciever is a Non-Mentor - Left unsorted so people that Mentorhelp with Mod chat off will still get it, otherwise they'll complain.
+			/// Receiver is a Non-Mentor - Left unsorted so people that Mentorhelp with Mod chat off will still get it, otherwise they'll complain.
 			to_chat(chosen_client, "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, chosen_client, TRUE, FALSE, FALSE)]</b>: [msg]</font>")
 			to_chat(src,
 				type = MESSAGE_TYPE_MODCHAT,
