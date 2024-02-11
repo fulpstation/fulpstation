@@ -13,7 +13,6 @@
 	if(proximity_flag && has_fried)
 		return
 
-
 	if(user.mind.assigned_role.title != JOB_COOK)
 		return
 
@@ -21,7 +20,7 @@
 		return
 
 	var/obj/item/food/target_food = target
-	if(!findtext(target.name, "fried rice"))
+	if(!findtext(intial(target.name), "fried rice"))
 		return
 
 	RegisterSignal(target_food, COMSIG_FOOD_EATEN, PROC_REF(on_eaten))
