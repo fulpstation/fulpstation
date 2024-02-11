@@ -7,16 +7,16 @@
 	light_color = COLOR_RED_LIGHT
 	block_chance = 50
 
-/obj/item/pitchfork/IsReflect(def_zone)
+/obj/item/pitchfork/demonic/IsReflect(def_zone)
 	return HAS_TRAIT(src, TRAIT_WIELDED)
 
-/obj/item/pitchfork/afterattack(mob/living/target, mob/user, proximity_flag, click_parameters)
+/obj/item/pitchfork/demonic/attack(mob/living/target, mob/living/user)
 	. = ..()
-	if(!HAS_TRAIT(src, TRAIT_WIELDED) || (user == target) || !isliving(target))
+	if(!HAS_TRAIT(src, TRAIT_WIELDED) || (user == target))
 		return
-	target.fire_stacks = 4
+	target.adjust_fire_stacks(4)
 	target.ignite_mob()
 
-/obj/item/pitchfork/suicide_act(mob/user)
+/obj/item/pitchfork/demonic/suicide_act(mob/user)
 	user.visible_message(span_suicide("[user] impales [user.p_them()]self in [user.p_their()] abdomen with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
 	return (BRUTELOSS)

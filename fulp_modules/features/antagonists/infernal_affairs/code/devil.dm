@@ -11,6 +11,16 @@
 	hud_icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/devil_antag_hud.dmi'
 	job_rank = ROLE_INFERNAL_AFFAIRS_DEVIL
 
+	tip_theme = "spookyconsole"
+	antag_tips = list(
+		"You are a Devil, collecting souls for your own personal wealth.",
+		"You can see the HUD of all Agents, work with them when they need to turn in a contract, and do not reveal yourself.",
+		"To turn in a kill, the person must have a calling card on them, which their hunter crafts by Alt-Clicking a paper.",
+		"On death, you will slowly heal yourself until fully fixed, then revive, unless your body is destroyed.",
+		"Try to stay low! You work best from the shadows, being open and about will get you caught and punish the Agents.",
+		"You win by collecting souls, which gives you powers until ascension."
+	)
+
 	///The amount of souls the devil has so far.
 	var/souls = 0
 	///List of Powers we currently have unlocked, sorted by typepath.
@@ -119,7 +129,7 @@
 
 	if((owner.current.getBruteLoss() + owner.current.getFireLoss()) > DEVIL_REVIVE_AMOUNT_REQUIRED)
 		return
-	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), FALSE, FALSE)
+	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), FALSE, excess_healing = 100)
 	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, grab_ghost))
 
 /**

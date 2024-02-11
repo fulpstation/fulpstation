@@ -8,6 +8,16 @@
 	preview_outfit = /datum/outfit/devil_affair_agent
 	ui_name = "AntagInfoInfernalAgent"
 
+	tip_theme = "syndicate"
+	antag_tips = list(
+		"You are an Infernal Affairs Agent, a poor soul who has been touched by the Devil.",
+		"You have been given an uplink to hunt down your target and turn them in to the Devil for reaping.",
+		"You always have a target, and are always being targeted, so watch your back.",
+		"You can immediately notice Devils and Devils will immediately notice you.",
+		"After killing a target, Alt-Click a paper to turn it into a calling card, this is required for Devils to turn in your target.",
+		"You gain Telecrystals after every kill, but if the Devil is dead then you will instead bypass all this (including the rewards).",
+	)
+
 	///Boolean on whether we're currently the last one standing.
 	var/last_one_standing = FALSE
 	///The pinpointer agents have that points them to the general direction of their targets.
