@@ -41,8 +41,8 @@
 /datum/dynamic_ruleset/roundstart/infernal_affairs/execute()
 	for (var/datum/mind/mind in assigned)
 		if(!length(SSinfernal_affairs.devils))
-			selected_mobs.mind.add_antag_datum(/datum/antagonist/devil)
-			selected_mobs.mind.special_role = ROLE_INFERNAL_AFFAIRS_DEVIL
+			mind.add_antag_datum(/datum/antagonist/devil)
+			mind.special_role = ROLE_INFERNAL_AFFAIRS_DEVIL
 		else
 			mind.add_antag_datum(antag_datum)
 		GLOB.pre_setup_antags -= mind
