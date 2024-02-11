@@ -59,6 +59,8 @@
 /datum/antag_tip
 	///Name of the Antagonist, used in the UI's title
 	var/name
+	///Name of the antag icon, which is just a sanitized name.
+	var/antag_icon
 	///Theme of the used UI
 	var/theme
 	///List of 'Antag tips' that is shown in the UI
@@ -66,7 +68,8 @@
 
 /datum/antag_tip/New(name, tip_theme, list/antag_tips)
 	. = ..()
-	src.name = lowertext(name)
+	src.name = name
+	src.antag_icon = sanitize_css_class_name(lowertext(name))
 	src.theme = tip_theme
 	src.antag_tips = antag_tips.Copy()
 
@@ -77,6 +80,7 @@
 	var/list/data = ..()
 
 	data["name"] = name
+	data["antag_icon"] = antag_icon
 	data["theme"] = theme
 	data["antag_tips"] = antag_tips
 
@@ -98,9 +102,8 @@
  * Antag tips that would be nice to have:
  * - Obsessed
  * - Blood Brother
- * - IAAs
  * - Infiltrators
- * - Thief
+ * - Fugitive/Fugitive Hunter
  */
 
 /datum/antagonist/abductor
@@ -183,7 +186,7 @@
 	tip_theme = "syndicate"
 	antag_tips = list(
 		"The syndicate has provided you with a disguised uplink. It can either be your PDA, your headset, your pen or an internal uplink.",
-		"Your uplink contains your objectives and tasks, select one and complete the instructions to get reputation and additional telecrystals.",
+		"Your uplink contains your objectives and tasks, select one and complete the instructions to get threat and additional telecrystals.",
 		"To utilize your PDA uplink, enter the messenger tab and set the ringtone as the code you have been provided.",
 		"To utilize your Headset uplink, change its frequency to the frequency provided.",
 		"To utilize the pen uplink, twist it to the first setting, then to the second one.",
@@ -205,7 +208,6 @@
 	)
 
 /datum/antagonist/wizard/apprentice
-	tip_theme = "wizard"
 	antag_tips = list(
 		"You are a wizard apprentice, summoned by your master.",
 		"Your primary objective is to help your master, depending on which spells they picked for you.",
@@ -224,5 +226,4 @@
 		"Teleport: Long cooldown spell that lets you teleport to any general area in the station.",
 		"Blink: Short cooldown spell that teleports you a few tiles away with a random pattern.",
 		"Ethereal Jaunt: A spell that manifests you away from the physical realm, allowing free movement for a few seconds past any structures.",
-
 	)

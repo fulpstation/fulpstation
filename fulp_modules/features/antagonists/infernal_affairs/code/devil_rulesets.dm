@@ -49,3 +49,12 @@
 
 	SSinfernal_affairs.update_objective_datums()
 	return TRUE
+
+//Here so devils have an antag tips icon, see /datum/asset/spritesheet/antagonists for more information
+/datum/dynamic_ruleset/devil
+	name = "Devil (Do not run)"
+	antag_flag = ROLE_INFERNAL_AFFAIRS_DEVIL
+	antag_datum = /datum/antagonist/devil
+	weight = 0
+	required_candidates = 100
+	cost = 100

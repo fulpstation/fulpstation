@@ -14,21 +14,26 @@
 	tip_theme = "spookyconsole"
 	antag_tips = list(
 		"You are a Devil, collecting souls for your own personal wealth.",
-		"You can see the HUD of all Agents, work with them when they need to turn in a contract, and do not reveal yourself.",
-		"To turn in a kill, the person must have a calling card on them, which their hunter crafts by Alt-Clicking a paper.",
-		"On death, you will slowly heal yourself until fully fixed, then revive, unless your body is destroyed.",
+		"You can see the HUD of all Agents, and they can see you; work with them when they need to turn in a contract, and do not reveal yourself.",
+		"To turn in a kill, the person must have a calling card on them, which their hunter crafts by Alt-Clicking a paper. Then you can use your Collect Soul ability on them to tear their soul out, completing the process.",
+		"If you die, you will slowly heal, then revive when possible, unless your body is destroyed.",
+		"As you collect souls, you will gain new powers until your ascension.",
+		"You can also create a limited amount of new agents using your Devil Contracts, which they must agree to individually.",
 		"Try to stay low! You work best from the shadows, being open and about will get you caught and punish the Agents.",
-		"You win by collecting souls, which gives you powers until ascension."
 	)
 
+	///Amount of contracts that has been signed, once you sign 4 you cannot can't make anymore.
+	var/contracts_signed = 0
 	///The amount of souls the devil has so far.
 	var/souls = 0
 	///List of Powers we currently have unlocked, sorted by typepath.
 	///This is so we don't have to init new powers we won't use if we already have it.
 	var/list/datum/action/devil_powers = list()
-
 	///Soul counter HUD given to Devils so they always know how many they have.
 	var/atom/movable/screen/devil_soul_counter/soul_counter
+
+/datum/antagonist/devil/get_preview_icon()
+	return finish_preview_icon(icon('fulp_modules/features/antagonists/infernal_affairs/icons/devil_cut.dmi', "true_devil"))
 
 /datum/antagonist/devil/on_gain()
 	var/datum/objective/devil_souls/devil_objective = new()
@@ -131,6 +136,13 @@
 		return
 	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), FALSE, excess_healing = 100)
 	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, grab_ghost))
+
+///Called when a Devil successfully gets a contract signed, removing the ability to make contracts if necessary and updating objectives.
+/datum/antagonist/devil/proc/on_contract_signed()
+	contracts_signed++
+	if(contracts_signed >= DEVIL_MAX_CONTRACTS)
+		clear_power(/datum/action/cooldown/spell/conjure_item/summon_contract)
+	SSinfernal_affairs.update_objective_datums()
 
 /**
  * ##update_souls_owned

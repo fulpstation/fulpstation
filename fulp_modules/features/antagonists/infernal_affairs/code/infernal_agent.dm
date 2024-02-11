@@ -10,16 +10,15 @@
 
 	tip_theme = "syndicate"
 	antag_tips = list(
-		"You are an Infernal Affairs Agent, a poor soul who has been touched by the Devil.",
+		"You are an Infernal Affairs Agent, a poor soul who has sold their soul to the Devil.",
 		"You have been given an uplink to hunt down your target and turn them in to the Devil for reaping.",
 		"You always have a target, and are always being targeted, so watch your back.",
-		"You can immediately notice Devils and Devils will immediately notice you.",
-		"After killing a target, Alt-Click a paper to turn it into a calling card, this is required for Devils to turn in your target.",
+		"You can see the Devil's HUDs to recognize them, and Devils can recognize you in return.",
+		"After killing a target, Alt-Click a paper to turn it into a calling card and plant it into your target, this is required for Devils to turn in your target.",
 		"You gain Telecrystals after every kill, but if the Devil is dead then you will instead bypass all this (including the rewards).",
+		"Once all targets are eliminated and you are the very last one, you will close the loop, and end it in a glorious death to celebrate your new home in the afterlife.",
 	)
 
-	///Boolean on whether we're currently the last one standing.
-	var/last_one_standing = FALSE
 	///The pinpointer agents have that points them to the general direction of their targets.
 	var/datum/status_effect/agent_pinpointer/devil_affairs/target_pinpointer
 	///reference to the uplink this traitor was given, if they were.
@@ -121,23 +120,21 @@
 
 ///Turns the agent into the last one standing.
 /datum/antagonist/infernal_affairs/proc/make_last_one_standing()
-	if(last_one_standing)
-		return
 	var/datum/objective/hijack/hijack_objective = new()
 	hijack_objective.owner = owner
 	objectives += hijack_objective
-	last_one_standing = TRUE
+	SSinfernal_affairs.last_one_standing = TRUE
 	QDEL_NULL(target_pinpointer)
 	update_static_data_for_all_viewers()
 
 /datum/antagonist/infernal_affairs/ui_data(mob/user)
 	var/list/data = ..()
-	data["last_one_standing"] = last_one_standing
+	data["last_one_standing"] = SSinfernal_affairs.last_one_standing
 	data["target_state"] = "Alive"
-	if(active_objective)
-		data["target_name"] = active_objective?.target.name || "Unknown"
-		data["target_job"] = active_objective?.target.assigned_role.title || "Unassigned"
-		switch(active_objective.target.current.stat)
+	if(active_objective && active_objective.target)
+		data["target_name"] = active_objective.target?.name || "Unknown"
+		data["target_job"] = active_objective.target?.assigned_role.title || "Unassigned"
+		switch(active_objective.target?.current.stat)
 			if(UNCONSCIOUS, HARD_CRIT)
 				data["target_state"] = "Unconscious"
 			if(DEAD)

@@ -123,6 +123,9 @@
 ///How many souls a Devil needs to 'Ascend'.
 #define DEVIL_SOULS_TO_ASCEND 8
 
+///How many contracts a devil can have signed max.
+#define DEVIL_MAX_CONTRACTS 4
+
 #define ROLE_INFERNAL_AFFAIRS "Infernal Affairs Agent"
-#define ROLE_INFERNAL_AFFAIRS_DEVIL "Infernal Devil"
+#define ROLE_INFERNAL_AFFAIRS_DEVIL "Devil"
 

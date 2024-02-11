@@ -45,7 +45,7 @@ const IntroductionSection = (props) => {
         <Stack.Item>
           Once turned in, you will be given a new target to hunt down. Be
           careful, as the Devil may have some similar contract with others as
-          well.
+          well, one of which may have your name on it.
         </Stack.Item>
       </Stack>
     </Section>
@@ -122,9 +122,9 @@ const UplinkSection = (props) => {
 
 export const AntagInfoInfernalAgent = (props) => {
   return (
-    <Window width={500} height={400} theme={'malfunction'}>
+    <Window width={500} height={420} theme={'malfunction'}>
       <Window.Content>
-        <Stack vertical fill>
+        <Stack vertical>
           <Stack.Item>
             <IntroductionSection />
           </Stack.Item>
