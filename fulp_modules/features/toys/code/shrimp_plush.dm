@@ -13,7 +13,8 @@
 	if(proximity_flag && has_fried)
 		return
 
-	if(!istype(user.mind.assigned_role, /datum/job/cook))
+
+	if(user.mind.assigned_role.title != JOB_COOK)
 		return
 
 	if(!istype(target, /obj/item/food))
