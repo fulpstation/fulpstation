@@ -32,19 +32,21 @@
 		if(candidates.len <= 0)
 			break
 		var/mob/selected_mobs = pick_n_take(candidates)
-		if(!SSinfernal_affairs.devils.len)
+		assigned += selected_mobs.mind
+		selected_mobs.mind.restricted_roles = restricted_roles
+		selected_mobs.mind.special_role = ROLE_INFERNAL_AFFAIRS
+		GLOB.pre_setup_antags += selected_mobs.mind
+	return TRUE
+
+/datum/dynamic_ruleset/roundstart/infernal_affairs/execute()
+	for (var/datum/mind/mind in assigned)
+		if(!length(SSinfernal_affairs.devils))
 			var/datum/antagonist/devil/devil_agent = new()
 			selected_mobs.mind.add_antag_datum(devil_agent)
 			selected_mobs.mind.special_role = ROLE_INFERNAL_AFFAIRS_DEVIL
 		else
-			assigned += selected_mobs.mind
-			selected_mobs.mind.special_role = ROLE_INFERNAL_AFFAIRS
-		selected_mobs.mind.restricted_roles = restricted_roles
-	return TRUE
+			mind.add_antag_datum(antag_datum)
+		GLOB.pre_setup_antags -= mind
 
-/datum/dynamic_ruleset/roundstart/infernal_affairs/execute()
-	. = ..()
-	if(!.)
-		return FALSE
 	SSinfernal_affairs.update_objective_datums()
 	return TRUE
