@@ -36,7 +36,7 @@
 	if(owner.assigned_role.title != JOB_LAWYER)
 		uplink_handler.telecrystals = 10
 
-	target_pinpointer = owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer)
+	target_pinpointer = owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/devil_affairs)
 	RegisterSignal(uplink_handler, COMSIG_ON_UPLINK_PURCHASE, PROC_REF(on_uplink_purchase))
 
 /datum/antagonist/infernal_affairs/on_removal()

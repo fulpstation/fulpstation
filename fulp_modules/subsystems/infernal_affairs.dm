@@ -29,7 +29,6 @@ SUBSYSTEM_DEF(infernal_affairs)
 	for(var/datum/antagonist/infernal_affairs/agents as anything in agent_datums)
 		if(!agents.active_objective)
 			agents.active_objective = new(src)
-			agents.target_pinpointer.scan_target = agents.active_objective.target.current
 		list_position++
 		if(list_position > agent_datums.len)
 			list_position = 1
