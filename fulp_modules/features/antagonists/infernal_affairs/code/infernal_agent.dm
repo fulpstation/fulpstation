@@ -7,6 +7,7 @@
 	job_rank = ROLE_INFERNAL_AFFAIRS
 	preview_outfit = /datum/outfit/devil_affair_agent
 	ui_name = "AntagInfoInfernalAgent"
+	show_in_roundend = FALSE
 
 	tip_theme = "syndicate"
 	antag_tips = list(
@@ -19,6 +20,8 @@
 		"Once all targets are eliminated and you are the very last one, you will close the loop, and end it in a glorious death to celebrate your new home in the afterlife.",
 	)
 
+	///The team datum all infernal affairs are added to for roundend reports.
+	var/static/datum/team/infernal_affairs/infernal_team
 	///The pinpointer agents have that points them to the general direction of their targets.
 	var/datum/status_effect/agent_pinpointer/devil_affairs/target_pinpointer
 	///reference to the uplink this traitor was given, if they were.
@@ -65,6 +68,16 @@
 	var/mob/living/current_mob = owner.current || mob_override
 	UnregisterSignal(current_mob, COMSIG_LIVING_DEATH)
 	return ..()
+
+/datum/antagonist/infernal_affairs/create_team(datum/team/infernal_affairs/daa_team)
+	if(daa_team)
+		infernal_team = daa_team
+	if(!infernal_team)
+		infernal_team = new
+	return infernal_team
+
+/datum/antagonist/infernal_affairs/get_team()
+	return infernal_team
 
 ///Handles affair agents when they die.
 ///If there are devils, update objectives to let them know they should hand the body in.

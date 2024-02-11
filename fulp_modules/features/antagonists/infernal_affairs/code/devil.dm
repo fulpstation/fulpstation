@@ -10,6 +10,7 @@
 	antag_hud_name = "devil"
 	hud_icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/devil_antag_hud.dmi'
 	job_rank = ROLE_INFERNAL_AFFAIRS_DEVIL
+	show_in_roundend = FALSE
 
 	tip_theme = "spookyconsole"
 	antag_tips = list(
