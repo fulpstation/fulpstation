@@ -22,7 +22,7 @@
 		examine_list += span_notice("This mark was made by you.")
 		return
 
-	if(IS_WEREWOLF(user))
+	if(IS_WEREWOLF_ANTAG(user))
 		if(!owner_datum)
 			examine_list += span_notice("This mark was made by another werewolf, but the den has since been abandoned")
 			return
