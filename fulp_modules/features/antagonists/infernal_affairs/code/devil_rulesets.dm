@@ -23,7 +23,7 @@
 	cost = 10
 	scaling_cost = 2
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	antag_cap = list("denominator" = 24)
+	antag_cap = list("denominator" = 24, "offset" = 2)
 
 /datum/dynamic_ruleset/roundstart/infernal_affairs/pre_execute(population)
 	. = ..()
@@ -39,13 +39,12 @@
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/infernal_affairs/execute()
-	for (var/datum/mind/mind in assigned)
-		if(!length(SSinfernal_affairs.devils))
-			mind.add_antag_datum(/datum/antagonist/devil)
-			mind.special_role = ROLE_INFERNAL_AFFAIRS_DEVIL
-		else
-			mind.add_antag_datum(antag_datum)
-		GLOB.pre_setup_antags -= mind
+	var/datum/mind/devil_mind = pick_n_take(assigned)
+	devil_mind.add_antag_datum(/datum/antagonist/devil)
+	devil_mind.special_role = ROLE_INFERNAL_AFFAIRS_DEVIL
+
+	for(var/datum/mind/assigned_player in assigned)
+		assigned_player.add_antag_datum(antag_datum)
 
 	SSinfernal_affairs.update_objective_datums()
 	return TRUE

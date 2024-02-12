@@ -35,8 +35,8 @@
 	var/list/obj/item/purchased_uplink_items = list()
 
 /datum/antagonist/infernal_affairs/on_gain(mob/living/mob_override)
-	. = ..()
 	SSinfernal_affairs.agent_datums += src
+	. = ..()
 	owner.give_uplink(silent = TRUE, antag_datum = src)
 	var/datum/component/uplink/uplink = owner.find_syndicate_uplink()
 	uplink_ref = WEAKREF(uplink)
