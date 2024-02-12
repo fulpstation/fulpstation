@@ -2,7 +2,7 @@
 	//You sold your soul, you can't be revived anymore.
 	if(HAS_TRAIT(mind, TRAIT_HELLBOUND))
 		return DEFIB_FAIL_BLACKLISTED
-	return
+	return ..()
 
 /mob/living/carbon/human/generate_death_examine_text()
 	var/t_His = p_Their()
