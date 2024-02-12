@@ -32,6 +32,7 @@ SUBSYSTEM_DEF(infernal_affairs)
 		if(!agents.active_objective)
 			log_game("[agents.owner.current] has been given a new active objective, being injected into the Infernal Affair system.")
 			agents.active_objective = new(src)
+			agents.target_pinpointer = agents.owner.current.apply_status_effect(/datum/status_effect/agent_pinpointer/devil_affairs)
 		list_position++
 		if(list_position > agent_datums.len)
 			list_position = 1
