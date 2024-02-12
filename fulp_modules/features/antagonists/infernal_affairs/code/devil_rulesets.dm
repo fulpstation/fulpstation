@@ -23,7 +23,7 @@
 	cost = 10
 	scaling_cost = 2
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	antag_cap = list("denominator" = 24, "offset" = 2)
+	antag_cap = list("denominator" = 24)
 
 /datum/dynamic_ruleset/roundstart/infernal_affairs/pre_execute(population)
 	. = ..()

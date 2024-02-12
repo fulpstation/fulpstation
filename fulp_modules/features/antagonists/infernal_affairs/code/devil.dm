@@ -37,6 +37,7 @@
 	return finish_preview_icon(icon('fulp_modules/features/antagonists/infernal_affairs/icons/devil_cut.dmi', "true_devil"))
 
 /datum/antagonist/devil/on_gain()
+	SSinfernal_affairs.devils += src
 	var/datum/objective/devil_souls/devil_objective = new()
 	devil_objective.owner = owner
 	devil_objective.update_explanation_text()
@@ -44,7 +45,6 @@
 
 	. = ..()
 
-	SSinfernal_affairs.devils += src
 	obtain_power(/datum/action/cooldown/spell/conjure_item/summon_contract)
 	obtain_power(/datum/action/cooldown/spell/pointed/collect_soul)
 
