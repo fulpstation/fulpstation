@@ -8,6 +8,7 @@
 	preview_outfit = /datum/outfit/devil_affair_agent
 	ui_name = "AntagInfoInfernalAgent"
 	show_in_roundend = FALSE
+	suicide_cry = "YOU WILL SEE MY SOUL IN HELL!!"
 
 	tip_theme = "syndicate"
 	antag_tips = list(
