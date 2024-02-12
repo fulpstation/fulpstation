@@ -51,6 +51,10 @@
 
 	RegisterSignal(uplink_handler, COMSIG_ON_UPLINK_PURCHASE, PROC_REF(on_uplink_purchase))
 
+/datum/antagonist/infernal_affairs/admin_add(datum/mind/new_owner, mob/admin)
+	. = ..()
+	SSinfernal_affairs.update_objective_datums()
+
 /datum/antagonist/infernal_affairs/on_removal()
 	. = ..()
 	SSinfernal_affairs.agent_datums -= src
