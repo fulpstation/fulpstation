@@ -141,6 +141,9 @@
 		"NOTE: Your Cult Stun spell will not have full effect on Mindshielded people -- consider using alternative tactics when dealing with them.",
 	)
 
+/datum/antagonist/cult/construct
+	antag_tips = null
+
 /datum/antagonist/heretic
 	antag_tips = list(
 		"Eldritch ancient energies surge through you! You have been provided with a Living Heart to start your quest.",

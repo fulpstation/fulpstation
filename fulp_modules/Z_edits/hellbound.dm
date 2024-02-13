@@ -16,3 +16,9 @@
 		exposed_mob.visible_message(span_warning("[exposed_mob]'s body does not react..."))
 		return
 	return ..()
+
+//devils can take their loved one's souls and be together forever ever after.
+/datum/objective/protect/check_completion()
+	if(HAS_TRAIT(target, TRAIT_HELLBOUND) && owner.has_antag_datum(/datum/antagonist/devil))
+		return TRUE
+	return ..()

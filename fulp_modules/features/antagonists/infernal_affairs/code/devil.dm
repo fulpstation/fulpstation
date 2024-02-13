@@ -12,6 +12,7 @@
 	job_rank = ROLE_INFERNAL_AFFAIRS_DEVIL
 	show_in_roundend = FALSE
 	suicide_cry = "OVER AND OUT, SEE YOU LATER SUCKERS!"
+	ui_name = "AntagInfoDevil"
 
 	tip_theme = "spookyconsole"
 	antag_tips = list(
@@ -24,8 +25,8 @@
 		"Try to stay low! You work best from the shadows, being open and about will get you caught and punish the Agents.",
 	)
 
-	///Amount of contracts that has been signed, once you sign 4 you cannot can't make anymore.
-	var/contracts_signed = 0
+	///The person currently the target of spells being performed on them by the Devil.
+	var/mob/living/carbon/human/spells_target
 	///The amount of souls the devil has so far.
 	var/souls = 0
 	///List of Powers we currently have unlocked, sorted by typepath.
@@ -46,10 +47,10 @@
 
 	. = ..()
 
-	obtain_power(/datum/action/cooldown/spell/conjure_item/summon_contract)
 	obtain_power(/datum/action/cooldown/spell/pointed/collect_soul)
 
 /datum/antagonist/devil/on_removal()
+	spells_target = null
 	for(var/datum/action/all_powers as anything in devil_powers)
 		clear_power(all_powers)
 	if(src in SSinfernal_affairs.devils)
@@ -110,6 +111,37 @@
 	if(souls)
 		.["Take Soul"] = CALLBACK(src, PROC_REF(update_souls_owned), -1)
 
+/datum/antagonist/devil/ui_data(mob/user)
+	var/list/data = ..()
+	data["agent_amount"] = length(SSinfernal_affairs.agent_datums)
+	data["souls_collected"] = souls
+
+	for(var/mob/living/carbon/human/all_agents as anything in SSinfernal_affairs.agent_icons)
+		var/list/agent_data = list()
+		agent_data["current_target"] = !!(all_agents == spells_target)
+		agent_data["agent_body_ref"] = REF(all_agents)
+		agent_data["agent_dead"] = !!HAS_TRAIT(all_agents, TRAIT_HELLBOUND)
+		agent_data["agent_name"] = all_agents.real_name
+		agent_data["agent_icon"] = SSinfernal_affairs.agent_icons[all_agents]
+		data["agents"] += list(agent_data)
+
+	return data
+
+/datum/antagonist/devil/ui_static_data(mob/user)
+	var/list/data = ..()
+	data["souls_to_ascend"] = DEVIL_SOULS_TO_ASCEND
+	return data
+
+/datum/antagonist/devil/ui_act(action, params)
+	. = ..()
+	switch(action)
+		if("set_target")
+			var/mob/living/carbon/human/new_target = locate(params["agent_body_ref"]) in GLOB.mob_list
+			if(!istype(new_target))
+				return
+			spells_target = new_target
+			return TRUE
+
 /datum/antagonist/devil/proc/on_hud_created(datum/source)
 	SIGNAL_HANDLER
 	var/datum/hud/devil_hud = owner.current.hud_used
@@ -141,13 +173,6 @@
 		return
 	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), FALSE, excess_healing = 100)
 	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, grab_ghost))
-
-///Called when a Devil successfully gets a contract signed, removing the ability to make contracts if necessary and updating objectives.
-/datum/antagonist/devil/proc/on_contract_signed()
-	contracts_signed++
-	if(contracts_signed >= DEVIL_MAX_CONTRACTS)
-		clear_power(/datum/action/cooldown/spell/conjure_item/summon_contract)
-	SSinfernal_affairs.update_objective_datums()
 
 /**
  * ##update_souls_owned

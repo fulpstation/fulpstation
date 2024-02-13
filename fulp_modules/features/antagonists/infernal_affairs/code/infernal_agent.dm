@@ -23,8 +23,6 @@
 
 	///The team datum all infernal affairs are added to for roundend reports.
 	var/static/datum/team/infernal_affairs/infernal_team
-	///The pinpointer agents have that points them to the general direction of their targets.
-	var/datum/status_effect/agent_pinpointer/devil_affairs/target_pinpointer
 	///reference to the uplink this traitor was given, if they were.
 	var/datum/weakref/uplink_ref
 	/// The uplink handler that this traitor belongs to.
@@ -59,7 +57,6 @@
 /datum/antagonist/infernal_affairs/on_removal()
 	. = ..()
 	SSinfernal_affairs.agent_datums -= src
-	QDEL_NULL(target_pinpointer)
 	remove_uplink()
 
 /datum/antagonist/infernal_affairs/apply_innate_effects(mob/living/mob_override)
@@ -85,14 +82,11 @@
 	return infernal_team
 
 ///Handles affair agents when they die.
-///If there are devils, update objectives to let them know they should hand the body in.
-///If there aren't, go straight to harvesting (without the rewards).
+///If there are devils, we'll leave it to them to take care of, otherwise take the soul.
 /datum/antagonist/infernal_affairs/proc/on_death(atom/source, gibbed)
 	SIGNAL_HANDLER
 	for(var/datum/antagonist/devil/living_devil as anything in SSinfernal_affairs.devils)
-		//we got a living devil around, go to them instead.
-		if(living_devil.owner.current)
-			SSinfernal_affairs.update_objective_datums()
+		if(living_devil.owner.current.stat != DEAD)
 			return
 	INVOKE_ASYNC(src, PROC_REF(soul_harvested))
 
@@ -141,8 +135,15 @@
 	var/datum/objective/hijack/hijack_objective = new()
 	hijack_objective.owner = owner
 	objectives += hijack_objective
-	SSinfernal_affairs.last_one_standing = TRUE
-	QDEL_NULL(target_pinpointer)
+	SSinfernal_affairs.last_one_standing = src
+	update_static_data_for_all_viewers()
+
+///Removes the agent as being the last one standing.
+/datum/antagonist/infernal_affairs/proc/remove_last_one_standing()
+	var/datum/objective/hijack/hijack_objective = locate() in objectives
+	objectives -= hijack_objective
+	qdel(hijack_objective)
+	SSinfernal_affairs.last_one_standing = null
 	update_static_data_for_all_viewers()
 
 /datum/antagonist/infernal_affairs/ui_data(mob/user)
@@ -187,11 +188,3 @@
 		sword.inhand_icon_state = "e_sword_on_red"
 		sword.worn_icon_state = "e_sword_on_red"
 		owner.update_held_items()
-
-/**
- * Infernal Pinpointer
- * It does not scan for a target, we set it manually by the
- * Infernal Affairs Subsystem instead.
- */
-/datum/status_effect/agent_pinpointer/devil_affairs/scan_for_target()
-	return
