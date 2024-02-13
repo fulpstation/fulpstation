@@ -62,8 +62,8 @@
 	//see IAAs since devils update themselves in `add_team_hud`
 	add_team_hud(current_mob, antag_to_check = /datum/antagonist/infernal_affairs)
 
-	RegisterSignal(mob_override, COMSIG_LIVING_DEATH, PROC_REF(on_death))
-	RegisterSignal(mob_override, COMSIG_LIVING_REVIVE, PROC_REF(on_revival))
+	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_death))
+	RegisterSignal(current_mob, COMSIG_LIVING_REVIVE, PROC_REF(on_revival))
 
 	if(current_mob.hud_used)
 		on_hud_created()
