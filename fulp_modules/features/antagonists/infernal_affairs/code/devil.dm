@@ -70,6 +70,8 @@
 	else
 		RegisterSignal(current_mob, COMSIG_MOB_HUD_CREATED, PROC_REF(on_hud_created))
 
+	owner.unconvertable = TRUE
+
 /datum/antagonist/devil/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
@@ -77,6 +79,7 @@
 	if(current_mob.hud_used)
 		var/datum/hud/hud_used = current_mob.hud_used
 		hud_used.infodisplay -= soul_counter
+	owner.unconvertable = initial(owner.unconvertable)
 	QDEL_NULL(soul_counter)
 
 /datum/antagonist/devil/add_team_hud(mob/target, antag_to_check)
