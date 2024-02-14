@@ -18,17 +18,18 @@
 		JOB_AI,
 		JOB_CYBORG,
 	)
+	minimum_players = 25
 	required_candidates = 6
 	weight = 5
 	cost = 15
 	scaling_cost = 4
 	requirements = list(10,10,10,10,10,10,10,10,10,10)
-	antag_cap = list("denominator" = 24, "offset" = 2)
+	antag_cap = list("denominator" = 15)
 
 /datum/dynamic_ruleset/roundstart/infernal_affairs/pre_execute(population)
 	. = ..()
-	var/num_traitors = min(5, get_antag_cap(population) * (scaled_times + 1))
-	for(var/affair_number = 1 to num_traitors)
+	var/num_agents = min(5, get_antag_cap(population) * (scaled_times + 1))
+	for(var/affair_number = 1 to num_agents)
 		if(candidates.len <= 0)
 			break
 		var/mob/selected_mobs = pick_n_take(candidates)
