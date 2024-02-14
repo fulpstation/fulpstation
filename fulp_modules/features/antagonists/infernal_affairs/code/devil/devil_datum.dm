@@ -258,6 +258,7 @@
 
 /obj/effect/temp_visual/devil
 	icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/bubblegum.dmi'
+	icon_state = "goingup"
 
 /obj/effect/temp_visual/devil/hand_open
 	icon_state = "goingup"
