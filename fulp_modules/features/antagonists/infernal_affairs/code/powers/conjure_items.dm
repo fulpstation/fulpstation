@@ -8,7 +8,7 @@
 	button_icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/actions_devil.dmi'
 	button_icon_state = "pitchfork"
 
-	school = SCHOOL_CONJURATION
+	school = SCHOOL_FORBIDDEN
 	invocation_type = INVOCATION_NONE
 
 	item_type = /obj/item/pitchfork/demonic
@@ -23,6 +23,7 @@
 	button_icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/actions_devil.dmi'
 	button_icon_state = "golden_violin"
 
+	school = SCHOOL_FORBIDDEN
 	invocation = "I aint have this much fun since Georgia."
 	invocation_type = INVOCATION_WHISPER
 

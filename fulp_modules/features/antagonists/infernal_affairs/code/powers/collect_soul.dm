@@ -8,7 +8,7 @@
 	button_icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/actions_devil.dmi'
 	button_icon_state = "soulcollect"
 
-	school = SCHOOL_TRANSMUTATION
+	school = SCHOOL_FORBIDDEN
 	invocation = "P'y y'ur de'ts"
 	invocation_type = INVOCATION_WHISPER
 

@@ -3,7 +3,7 @@
 	background_icon_state = "bg_demon"
 	overlay_icon_state = "ab_goldborder"
 
-	school = SCHOOL_EVOCATION
+	school = SCHOOL_FORBIDDEN
 	invocation = "W'lc'me 'o th' f're' pi's!"
 	invocation_type = INVOCATION_SHOUT
 

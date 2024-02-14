@@ -5,8 +5,8 @@
 	overlay_icon_state = "ab_goldborder"
 
 	spell_requirements = NONE
-	school = SCHOOL_EVOCATION
-	cooldown_time = 60 SECONDS
+	school = SCHOOL_FORBIDDEN
+	cooldown_time = 2 MINUTES
 
 	button_icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/actions_devil.dmi'
 	button_icon_state = "spell_default"
@@ -128,3 +128,21 @@ GLOBAL_LIST_INIT(devil_spells, setup_devil_spells())
 	to_chat(target, span_cultlarge("DEVIL WHISPER: [input]"))
 	return TRUE
 
+/**
+ * Swap Location
+ *
+ * Swaps location between you and an agent,
+ * in case either of you are stuck somewhere.
+ */
+/datum/devil_spell/swap_location
+	name = "Swap Location"
+	level_needed = 2
+
+/datum/devil_spell/swap_location/use_spell(datum/antagonist/devil/devil_datum, mob/living/carbon/human/target)
+	var/turf/devil_turf = get_turf(devil_datum.owner.current)
+	var/turf/agent_turf = get_turf(target)
+	do_teleport(devil_datum.owner.current, agent_turf, channel = TELEPORT_CHANNEL_CULT)
+	do_teleport(target, devil_turf, channel = TELEPORT_CHANNEL_CULT)
+	playsound(agent_turf, 'sound/magic/swap.ogg', 50, vary = TRUE)
+	playsound(devil_turf, 'sound/magic/swap.ogg', 50, vary = TRUE)
+	return TRUE
