@@ -184,7 +184,7 @@
 		return
 	var/mob/living/random_person = pick(GLOB.infernal_affair_manager.stored_humans)
 	GLOB.infernal_affair_manager.remove_agent(random_person)
-	random_person.revive(HEAL_ALL, force_grab_ghost = FALSE)
+	random_person.revive(HEAL_ALL, force_grab_ghost = FALSE) //we grab ghost later
 	random_person.forceMove(spawn_loc)
 	owner.transfer_to(random_person, force_key_move = TRUE)
 	update_souls_owned(-1)
@@ -198,7 +198,7 @@
 
 	if((owner.current.getBruteLoss() + owner.current.getFireLoss()) > DEVIL_REVIVE_AMOUNT_REQUIRED)
 		return
-	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), FALSE, excess_healing = 100)
+	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), HEAL_DAMAGE|HEAL_BODY)
 	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, grab_ghost))
 
 /**
