@@ -16,7 +16,7 @@
 	///The last chosen spell, which we use.
 	var/datum/devil_spell/last_used_spell
 
-/datum/action/cooldown/spell/devil_spells/Trigger(trigger_flags)
+/datum/action/cooldown/spell/devil_spells/Trigger(trigger_flags, atom/target)
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
 		use_recent_used_spell = TRUE
 	else
