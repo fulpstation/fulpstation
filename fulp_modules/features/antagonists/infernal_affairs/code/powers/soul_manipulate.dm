@@ -20,7 +20,7 @@
 	///Boolean on whether we have triggered this button with RMB to turn someone into an agent.
 	var/mesmerize_mode = FALSE
 
-/datum/action/cooldown/spell/pointed/collect_soul/InterceptClickOn(mob/user, params, atom/object)
+/datum/action/cooldown/spell/pointed/collect_soul/InterceptClickOn(mob/living/caller, params, atom/target)
 	var/list/modifiers = params2list(params)
 	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		mesmerize_mode = TRUE
