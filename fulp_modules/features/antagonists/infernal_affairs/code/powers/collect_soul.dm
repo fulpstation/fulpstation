@@ -43,7 +43,7 @@
 		target.balloon_alert(owner, "no mind!")
 		return FALSE
 	if(mesmerize_mode)
-		if(SSinfernal_affairs.agent_datums.len >= DEVIL_SOULS_TO_ASCEND)
+		if(GLOB.infernal_affair_manager.agent_datums.len >= DEVIL_SOULS_TO_ASCEND)
 			target.balloon_alert(owner, "too many agents!")
 			return FALSE
 		if(target.stat != CONSCIOUS)
@@ -103,7 +103,7 @@
 	target.remove_alt_appearance("collect_soul")
 	REMOVE_TRAIT(target, TRAIT_IMMOBILIZED, DEVIL_TRAIT)
 	target.mind.add_antag_datum(/datum/antagonist/infernal_affairs)
-	SSinfernal_affairs.update_objective_datums()
+	GLOB.infernal_affair_manager.update_objective_datums()
 
 ///Collects the soul of the target and rewards its killer.
 /datum/action/cooldown/spell/pointed/collect_soul/proc/harvest_soul(mob/living/target)

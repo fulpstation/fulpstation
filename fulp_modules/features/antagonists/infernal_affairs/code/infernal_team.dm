@@ -8,7 +8,7 @@
 	report += span_header("There were [name] running on the station:")
 
 	report += "<span class='neutraltext big'>The devils enjoying the entertainment over it all were:</span>"
-	for(var/datum/antagonist/devil/devil_antag as anything in SSinfernal_affairs.devils)
+	for(var/datum/antagonist/devil/devil_antag as anything in GLOB.infernal_affair_manager.devils)
 		report += printplayer(devil_antag.owner)
 		report += "Souls collected: [devil_antag.souls]"
 		report += printobjectives(devil_antag.objectives)

@@ -46,7 +46,7 @@
 	for(var/datum/mind/assigned_player in assigned)
 		assigned_player.add_antag_datum(antag_datum)
 
-	SSinfernal_affairs.update_objective_datums()
+	GLOB.infernal_affair_manager.update_objective_datums()
 	return TRUE
 
 //Here so devils have an antag tips icon, see /datum/asset/spritesheet/antagonists for more information

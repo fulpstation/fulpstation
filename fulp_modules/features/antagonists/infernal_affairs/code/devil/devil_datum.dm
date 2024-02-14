@@ -39,7 +39,7 @@
 	return finish_preview_icon(icon('fulp_modules/features/antagonists/infernal_affairs/icons/devil_cut.dmi', "true_devil"))
 
 /datum/antagonist/devil/on_gain()
-	SSinfernal_affairs.devils += src
+	GLOB.infernal_affair_manager.devils += src
 	var/datum/objective/devil_souls/devil_objective = new()
 	devil_objective.owner = owner
 	devil_objective.update_explanation_text()
@@ -54,8 +54,8 @@
 	spells_target = null
 	for(var/datum/action/all_powers as anything in devil_powers)
 		clear_power(all_powers)
-	if(src in SSinfernal_affairs.devils)
-		SSinfernal_affairs.devils -= src
+	if(src in GLOB.infernal_affair_manager.devils)
+		GLOB.infernal_affair_manager.devils -= src
 	return ..()
 
 /datum/antagonist/devil/apply_innate_effects(mob/living/mob_override)
@@ -89,7 +89,7 @@
 	var/datum/atom_hud/alternate_appearance/basic/has_antagonist/hud = team_hud_ref.resolve()
 
 	var/list/mob/living/mob_list = list()
-	for(var/datum/antagonist/devil/other_devils as anything in SSinfernal_affairs.devils)
+	for(var/datum/antagonist/devil/other_devils as anything in GLOB.infernal_affair_manager.devils)
 		mob_list += other_devils.owner.current
 
 	for (var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
@@ -114,10 +114,10 @@
 
 /datum/antagonist/devil/ui_data(mob/user)
 	var/list/data = ..()
-	data["agent_amount"] = length(SSinfernal_affairs.agent_datums)
+	data["agent_amount"] = length(GLOB.infernal_affair_manager.agent_datums)
 	data["souls_collected"] = souls
 
-	for(var/mob/living/carbon/human/all_agents as anything in SSinfernal_affairs.agent_icons)
+	for(var/mob/living/carbon/human/all_agents as anything in GLOB.infernal_affair_manager.agent_icons)
 		if(HAS_TRAIT(all_agents.mind, TRAIT_HELLBOUND))
 			continue
 		var/list/agent_data = list()
@@ -125,7 +125,7 @@
 		agent_data["agent_body_ref"] = REF(all_agents)
 		agent_data["agent_dead"] = (all_agents.stat == DEAD)
 		agent_data["agent_name"] = all_agents.real_name
-		agent_data["agent_icon"] = SSinfernal_affairs.agent_icons[all_agents]
+		agent_data["agent_icon"] = GLOB.infernal_affair_manager.agent_icons[all_agents]
 		data["agents"] += list(agent_data)
 
 	return data

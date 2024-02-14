@@ -34,7 +34,7 @@
 	var/list/obj/item/purchased_uplink_items = list()
 
 /datum/antagonist/infernal_affairs/on_gain(mob/living/mob_override)
-	SSinfernal_affairs.agent_datums += src
+	GLOB.infernal_affair_manager.agent_datums += src
 
 	. = ..()
 	owner.give_uplink(silent = TRUE, antag_datum = src)
@@ -52,11 +52,11 @@
 
 /datum/antagonist/infernal_affairs/admin_add(datum/mind/new_owner, mob/admin)
 	. = ..()
-	SSinfernal_affairs.update_objective_datums()
+	GLOB.infernal_affair_manager.update_objective_datums()
 
 /datum/antagonist/infernal_affairs/on_removal()
 	. = ..()
-	SSinfernal_affairs.agent_datums -= src
+	GLOB.infernal_affair_manager.agent_datums -= src
 	remove_uplink()
 
 /datum/antagonist/infernal_affairs/apply_innate_effects(mob/living/mob_override)
@@ -85,7 +85,7 @@
 ///If there are devils, we'll leave it to them to take care of, otherwise take the soul.
 /datum/antagonist/infernal_affairs/proc/on_death(atom/source, gibbed)
 	SIGNAL_HANDLER
-	for(var/datum/antagonist/devil/living_devil as anything in SSinfernal_affairs.devils)
+	for(var/datum/antagonist/devil/living_devil as anything in GLOB.infernal_affair_manager.devils)
 		if(living_devil.owner.current.stat != DEAD)
 			return
 	INVOKE_ASYNC(src, PROC_REF(soul_harvested))
@@ -109,20 +109,20 @@
  * on top of all misc effects like updating objectives and giving rewards.
  */
 /datum/antagonist/infernal_affairs/proc/soul_harvested(datum/antagonist/infernal_affairs/killer)
-	SSinfernal_affairs.agent_datums -= src
+	GLOB.infernal_affair_manager.agent_datums -= src
 	ADD_TRAIT(owner, TRAIT_HELLBOUND, DEVIL_TRAIT)
 	ADD_TRAIT(owner.current, TRAIT_DEFIB_BLACKLISTED, DEVIL_TRAIT)
 	QDEL_LIST(purchased_uplink_items)
 
 	//grant the soul to ALL devils, though without admin intervention there should only be one.
-	for(var/datum/antagonist/devil/devil as anything in SSinfernal_affairs.devils)
+	for(var/datum/antagonist/devil/devil as anything in GLOB.infernal_affair_manager.devils)
 		if(devil.owner.current)
 			devil.update_souls_owned(1)
 
 	if(killer && killer.owner.assigned_role.title != JOB_LAWYER)
 		killer.uplink_handler.telecrystals += rand(3,5)
 
-	SSinfernal_affairs.update_objective_datums()
+	GLOB.infernal_affair_manager.update_objective_datums()
 
 ///Removes the uplink from the agent, unregistering the proper signal.
 /datum/antagonist/infernal_affairs/proc/remove_uplink()
@@ -135,7 +135,7 @@
 	var/datum/objective/hijack/hijack_objective = new()
 	hijack_objective.owner = owner
 	objectives += hijack_objective
-	SSinfernal_affairs.last_one_standing = src
+	GLOB.infernal_affair_manager.last_one_standing = src
 	update_static_data_for_all_viewers()
 
 ///Removes the agent as being the last one standing.
@@ -143,12 +143,12 @@
 	var/datum/objective/hijack/hijack_objective = locate() in objectives
 	objectives -= hijack_objective
 	qdel(hijack_objective)
-	SSinfernal_affairs.last_one_standing = null
+	GLOB.infernal_affair_manager.last_one_standing = null
 	update_static_data_for_all_viewers()
 
 /datum/antagonist/infernal_affairs/ui_data(mob/user)
 	var/list/data = ..()
-	data["last_one_standing"] = SSinfernal_affairs.last_one_standing
+	data["last_one_standing"] = GLOB.infernal_affair_manager.last_one_standing
 	data["target_state"] = "Alive"
 	if(active_objective && active_objective.target)
 		data["target_name"] = active_objective.target?.name || "Unknown"

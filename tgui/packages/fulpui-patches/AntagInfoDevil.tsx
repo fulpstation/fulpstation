@@ -49,7 +49,7 @@ export const IntroSection = (props) => {
         <Box fontSize="24px" mb={1}>
           You are the Devil!
         </Box>
-        <Box>
+        <Box mb={1}>
           From the depths of hell you crawl, today you have assembled many
           people all of whom you rightfully own the soul to. Since merely
           killing people is boring, instead it is time for a game, a battle
@@ -91,11 +91,11 @@ export const AgentsSection = (props) => {
     <Section title="Agents">
       <Stack vertical>
         <Box>
-          The list of all agents currently in play, everyone has the person to
-          the right as their target (the last person having the first one as
-          their target). Clicking on a character will select them as the person
-          you are performing spells on, allowing you to give agents advantages
-          for any reason you see fit.
+          The list of agents in play, everyone has the person to the right as
+          their target (the last person looping around to the first). Clicking
+          on a character will select them as the person you are performing
+          spells on, allowing you to give agents advantages for any reason you
+          see fit.
         </Box>
         <Stack.Item>
           {agents.map((individual_agent, number) => (
@@ -115,7 +115,7 @@ export const AgentsSection = (props) => {
                   verticalAlign="middle"
                 />
                 {!!individual_agent.agent_dead && (
-                  <Button tooltip="OUT FOR THE COUNT" icon="skull" />
+                  <Button tooltip="READY FOR HARVEST" icon="skull" />
                 )}
                 <Box>{individual_agent.agent_name}</Box>
               </Stack.Item>
@@ -136,7 +136,7 @@ export const SoulsSection = (props) => {
         {agent_amount !== souls_to_ascend ? (
           <Box fontSize="14px" bold>
             There are not enough agents around for you to ascend. Make more
-            using your Contracts spell.
+            using your Soul Manipulation spell.
           </Box>
         ) : (
           <Box fontSize="18px" bold>

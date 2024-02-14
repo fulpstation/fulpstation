@@ -90,7 +90,7 @@ GLOBAL_LIST_INIT(devil_spells, setup_devil_spells())
 
 /datum/devil_spell/give_location/use_spell(datum/antagonist/devil/devil_datum, mob/living/carbon/human/target)
 	var/datum/antagonist/infernal_affairs/infernal_datum = IS_INFERNAL_AGENT(target)
-	if(!infernal_datum || SSinfernal_affairs.last_one_standing)
+	if(!infernal_datum || GLOB.infernal_affair_manager.last_one_standing)
 		return FALSE
 	var/mob/living/targets_target = infernal_datum.active_objective.target.current
 	var/target_area = get_area_name(targets_target)
