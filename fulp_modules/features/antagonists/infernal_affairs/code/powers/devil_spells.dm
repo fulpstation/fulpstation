@@ -141,6 +141,12 @@ GLOBAL_LIST_INIT(devil_spells, setup_devil_spells())
 /datum/devil_spell/swap_location/use_spell(datum/antagonist/devil/devil_datum, mob/living/carbon/human/target)
 	var/turf/devil_turf = get_turf(devil_datum.owner.current)
 	var/turf/agent_turf = get_turf(target)
+	if(!check_teleport_valid(devil_datum.owner.current, agent_turf, TELEPORT_CHANNEL_CULT))
+		devil_datum.owner.current.balloon_alert(devil_datum.owner.current, "your teleportation blocked!")
+		return FALSE
+	if(!check_teleport_valid(target, devil_turf, TELEPORT_CHANNEL_CULT))
+		devil_datum.owner.current.balloon_alert(devil_datum.owner.current, "target teleportation blocked!")
+		return FALSE
 	do_teleport(devil_datum.owner.current, agent_turf, channel = TELEPORT_CHANNEL_CULT)
 	do_teleport(target, devil_turf, channel = TELEPORT_CHANNEL_CULT)
 	playsound(agent_turf, 'sound/magic/swap.ogg', 50, vary = TRUE)
