@@ -44,7 +44,7 @@
 		target.balloon_alert(owner, "no mind!")
 		return FALSE
 	if(mesmerize_mode)
-		if(HAS_TRAIT(target, TRAIT_DEVIL_CONTRACT_IMMUNE))
+		if(HAS_TRAIT(target.mind, TRAIT_DEVIL_CONTRACT_IMMUNE))
 			target.balloon_alert(owner, "can't be converted!")
 			return FALSE
 		if(GLOB.infernal_affair_manager.agent_datums.len >= (devil_objective.souls_needed + 1))

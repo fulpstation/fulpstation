@@ -30,7 +30,7 @@
 	///The active objective this agent has to currently complete.
 	var/datum/objective/assassinate/internal/active_objective
 
-	///List of all items purchased by the agent, to consume on death.
+	///List of all items purchased by the agent, to consume on soul consumption.
 	var/list/obj/item/purchased_uplink_items = list()
 
 /datum/antagonist/infernal_affairs/on_gain(mob/living/mob_override)

@@ -29,9 +29,8 @@
 	var/mob/living/carbon/human/spells_target
 	///The amount of souls the devil has so far.
 	var/souls = 0
-	///List of Powers we currently have unlocked, sorted by typepath.
-	///This is so we don't have to init new powers we won't use if we already have it.
-	var/list/datum/action/devil_powers = list()
+	///Assoc List of Powers we currently have unlocked: [typepath = datum]
+	var/list/devil_powers = list()
 	///Soul counter HUD given to Devils so they always know how many they have.
 	var/atom/movable/screen/devil_soul_counter/soul_counter
 
@@ -53,10 +52,9 @@
 
 /datum/antagonist/devil/on_removal()
 	spells_target = null
-	for(var/datum/action/all_powers as anything in devil_powers)
+	for(var/all_powers in devil_powers)
 		clear_power(all_powers)
-	if(src in GLOB.infernal_affair_manager.devils)
-		GLOB.infernal_affair_manager.devils -= src
+	GLOB.infernal_affair_manager.devils -= src
 	return ..()
 
 /datum/antagonist/devil/apply_innate_effects(mob/living/mob_override)

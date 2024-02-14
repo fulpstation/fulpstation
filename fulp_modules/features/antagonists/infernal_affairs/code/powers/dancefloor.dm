@@ -34,16 +34,16 @@
 	else
 		var/list/funky_turfs = RANGE_TURFS(1, owner)
 		for(var/turf/closed/solid in funky_turfs)
-			to_chat(owner, "<span class='warning'>You're too close to a wall.</span>")
+			to_chat(owner, span_warning("You're too close to a wall."))
 			return
 		dancefloor_exists = TRUE
 		var/i = 1
 		dancefloor_turfs.len = funky_turfs.len
 		dancefloor_turfs_types.len = funky_turfs.len
-		for(var/turf/T as anything in funky_turfs)
-			dancefloor_turfs[i] = T
-			dancefloor_turfs_types[i] = T.type
-			T.ChangeTurf((i % 2 == 0) ? /turf/open/floor/light/colour_cycle/dancefloor_a : /turf/open/floor/light/colour_cycle/dancefloor_b, flags = CHANGETURF_INHERIT_AIR)
+		for(var/turf/nearby_turf as anything in funky_turfs)
+			dancefloor_turfs[i] = nearby_turf
+			dancefloor_turfs_types[i] = nearby_turf.type
+			nearby_turf.ChangeTurf((i % 2 == 0) ? /turf/open/floor/light/colour_cycle/dancefloor_a : /turf/open/floor/light/colour_cycle/dancefloor_b, flags = CHANGETURF_INHERIT_AIR)
 			i++
 
 /datum/effect_system/fluid_spread/smoke/transparent/dancefloor_devil
