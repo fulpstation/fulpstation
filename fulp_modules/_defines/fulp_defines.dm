@@ -54,8 +54,6 @@
 
 ///Trait for people unable to sign devil contracts
 #define TRAIT_DEVIL_CONTRACT_IMMUNE "devil_contract_immune"
-///Trait given to a mob's mind to indicate they can't be revived due to otherworldly events.
-#define TRAIT_HELLBOUND "hellbound"
 
 ///Source trait for Devil stuff.
 #define DEVIL_TRAIT "devil"

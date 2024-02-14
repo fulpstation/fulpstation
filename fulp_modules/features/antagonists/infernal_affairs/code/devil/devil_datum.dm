@@ -39,6 +39,7 @@
 	return finish_preview_icon(icon('fulp_modules/features/antagonists/infernal_affairs/icons/devil_cut.dmi', "true_devil"))
 
 /datum/antagonist/devil/on_gain()
+	SSmapping.lazy_load_template(LAZY_TEMPLATE_DEVIL_CELL)
 	GLOB.infernal_affair_manager.devils += src
 	var/datum/objective/devil_souls/devil_objective = new()
 	devil_objective.owner = owner
@@ -118,7 +119,7 @@
 	data["souls_collected"] = souls
 
 	for(var/mob/living/carbon/human/all_agents as anything in GLOB.infernal_affair_manager.agent_icons)
-		if(HAS_TRAIT(all_agents.mind, TRAIT_HELLBOUND))
+		if(all_agents in GLOB.infernal_affair_manager.stored_humans)
 			continue
 		var/list/agent_data = list()
 		agent_data["current_target"] = !!(all_agents == spells_target)
@@ -223,6 +224,31 @@
 /datum/antagonist/devil/proc/clear_power(datum/action/removed_power)
 	if(devil_powers[removed_power])
 		QDEL_NULL(devil_powers[removed_power])
+
+/obj/effect/temp_visual/devil
+	icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/bubblegum.dmi'
+
+/obj/effect/temp_visual/devil/hand_open
+	icon_state = "goingup"
+	duration = 9
+	///The person being eaten by the hands, which we move to nullspace and ghostize.
+	var/mob/living/food
+
+/obj/effect/temp_visual/devil/hand_open/New(loc, mob/living/new_food)
+	. = ..()
+	food = new_food
+
+/obj/effect/temp_visual/devil/hand_open/Destroy()
+	if(food)
+		food.ghostize(can_reenter_corpse = FALSE)
+		food.forceMove(get_turf(pick(GLOB.devil_cell_landmark)))
+	food = null
+	new /obj/effect/temp_visual/devil/hand_closed(loc)
+	return ..()
+
+/obj/effect/temp_visual/devil/hand_closed
+	icon_state = "goingdown"
+	duration = 9
 
 #undef DEVIL_LIFE_HEALING_AMOUNT
 #undef DEVIL_REVIVE_AMOUNT_REQUIRED

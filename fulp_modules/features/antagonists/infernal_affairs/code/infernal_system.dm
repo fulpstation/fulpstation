@@ -7,6 +7,8 @@ GLOBAL_DATUM_INIT(infernal_affair_manager, /datum/infernal_affair_manager, new)
  * Also keeps track of their Antag gear, to remove it when their soul is collected.
  */
 /datum/infernal_affair_manager
+	///List of all human corpses that have had their souls collected.
+	var/list/mob/living/carbon/human/stored_humans
 	///The datum of the last one standing, when there is one.
 	var/datum/antagonist/infernal_affairs/last_one_standing
 	///List of all devils in-game. There is supposed to have only one, so this is in-case admins do some wacky shit.
@@ -18,6 +20,7 @@ GLOBAL_DATUM_INIT(infernal_affair_manager, /datum/infernal_affair_manager, new)
 
 /datum/infernal_affair_manager/Destroy()
 	last_one_standing = null
+	QDEL_NULL(stored_humans)
 	LAZYNULL(agent_icons)
 	return ..()
 

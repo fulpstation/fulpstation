@@ -126,3 +126,5 @@
 #define ROLE_INFERNAL_AFFAIRS "Infernal Affairs Agent"
 #define ROLE_INFERNAL_AFFAIRS_DEVIL "Devil"
 
+///The lazyloading template of the holding cell we use for collected soul corpses.
+#define LAZY_TEMPLATE_DEVIL_CELL "DEVIL_HOLDINGCELL"

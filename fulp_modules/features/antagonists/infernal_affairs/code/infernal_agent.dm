@@ -110,8 +110,6 @@
  */
 /datum/antagonist/infernal_affairs/proc/soul_harvested(datum/antagonist/infernal_affairs/killer)
 	GLOB.infernal_affair_manager.agent_datums -= src
-	ADD_TRAIT(owner, TRAIT_HELLBOUND, DEVIL_TRAIT)
-	ADD_TRAIT(owner.current, TRAIT_DEFIB_BLACKLISTED, DEVIL_TRAIT)
 	QDEL_LIST(purchased_uplink_items)
 
 	//grant the soul to ALL devils, though without admin intervention there should only be one.
@@ -121,6 +119,9 @@
 
 	if(killer && killer.owner.assigned_role.title != JOB_LAWYER)
 		killer.uplink_handler.telecrystals += rand(3,5)
+
+	LAZYADD(GLOB.infernal_affair_manager.stored_humans, owner.current)
+	new /obj/effect/temp_visual/devil/hand_open(owner.current.loc, owner.current)
 
 	GLOB.infernal_affair_manager.update_objective_datums()
 

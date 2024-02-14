@@ -65,9 +65,6 @@
 	. = ..()
 	if(. & SPELL_CANCEL_CAST)
 		return .
-	if(HAS_TRAIT(cast_on, TRAIT_HELLBOUND))
-		cast_on.balloon_alert(owner, "soul already ripped!")
-		return SPELL_CANCEL_CAST
 	if(mesmerize_mode)
 		return .
 
@@ -118,7 +115,6 @@
 		if(!do_after(owner, 10 SECONDS, target))
 			target.balloon_alert(owner, "interrupted!")
 			return
-		target.balloon_alert(owner, "soul ripped!")
 		agent_datum.soul_harvested(hunter_datum)
 		qdel(card)
 		return TRUE
