@@ -5,3 +5,5 @@
 	desc = "Once the contract is signed, there might be going back."
 	database_id = DEVIL_ASCENSION_ACHIEVEMENT
 	icon = "swarmer"
+
+#undef DEVIL_ASCENSION_ACHIEVEMENT

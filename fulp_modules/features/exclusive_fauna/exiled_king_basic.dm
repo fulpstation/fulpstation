@@ -2,8 +2,6 @@
 #define BB_KING_TENTACLE "BB_king_tentacle"
 #define BB_KING_SURROUND_TENTACLE "BB_king_surround_tentacle"
 #define BB_CHARGE_ABILITY "BB_charge_ability"
-#define BOSS_MEDAL_EXILED "Exiled Killer"
-#define EXILED_KING_SCORE "Exiled Killed"
 #define BB_KING_TENTACLE_TRACK "BB_king_tentacle_track"
 
 /mob/living/basic/exiled_king
@@ -636,19 +634,6 @@
 	bomb = 5
 	fire = 5
 	acid = 5
-
-/datum/award/achievement/boss/king_slayer
-	name = "King Slayer"
-	desc = "We eating sushi tonight"
-	database_id = BOSS_MEDAL_EXILED
-	icon = "service_okay"
-
-
-/datum/award/score/king_score
-	name = "Exiled Kings Killed"
-	desc = "You've killed HOW many?"
-	database_id = EXILED_KING_SCORE
-
 
 ///stolen code from megafauna.dm to grant achievements
 /mob/living/basic/exiled_king/proc/grant_achievement(medaltype, scoretype, list/grant_achievement = list())
