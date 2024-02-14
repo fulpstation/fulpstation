@@ -67,6 +67,7 @@
 
 	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 	RegisterSignal(current_mob, COMSIG_LIVING_REVIVE, PROC_REF(on_revival))
+	RegisterSignal(current_mob, COMSIG_PREQDELETED, PROC_REF(on_host_destroy))
 
 	if(current_mob.hud_used)
 		on_hud_created()
@@ -78,7 +79,7 @@
 /datum/antagonist/devil/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	UnregisterSignal(current_mob, list(COMSIG_LIVING_DEATH, COMSIG_LIVING_REVIVE))
+	UnregisterSignal(current_mob, list(COMSIG_LIVING_DEATH, COMSIG_LIVING_REVIVE, COMSIG_PREQDELETED))
 	if(current_mob.hud_used)
 		var/datum/hud/hud_used = current_mob.hud_used
 		hud_used.infodisplay -= soul_counter
@@ -102,6 +103,10 @@
 ///Ensure their healing will follow through to their new body.
 /datum/antagonist/devil/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
+	for(var/datum/action/all_powers as anything in devil_powers)
+		if(old_body)
+			all_powers.Remove(old_body)
+		all_powers.Grant(new_body)
 	if(old_body.stat == DEAD)
 		UnregisterSignal(old_body, COMSIG_LIVING_LIFE)
 	if(new_body.stat == DEAD)
@@ -159,12 +164,28 @@
 ///Begins your healing process when you die.
 /datum/antagonist/devil/proc/on_death(atom/source, gibbed)
 	SIGNAL_HANDLER
+	if(gibbed)
+		return
 	RegisterSignal(source, COMSIG_LIVING_LIFE, PROC_REF(on_dead_life))
 
 ///Ends your healing process when you are revived
 /datum/antagonist/devil/proc/on_revival(atom/source, full_heal, admin_revive)
 	SIGNAL_HANDLER
 	UnregisterSignal(source, COMSIG_LIVING_LIFE)
+
+/datum/antagonist/devil/proc/on_host_destroy(atom/source, force)
+	SIGNAL_HANDLER
+	if(!LAZYLEN(GLOB.infernal_affair_manager.stored_humans))
+		return
+	var/turf/spawn_loc = find_maintenance_spawn(atmos_sensitive = TRUE)
+	if(!spawn_loc)
+		return
+	var/mob/living/random_person = pick(GLOB.infernal_affair_manager.stored_humans)
+	GLOB.infernal_affair_manager.remove_agent(random_person)
+	random_person.revive(HEAL_ALL, force_grab_ghost = FALSE)
+	random_person.forceMove(spawn_loc)
+	owner.transfer_to(random_person, force_key_move = TRUE)
+	update_souls_owned(-1)
 
 ///Called on Life, but only while you are dead. Handles slowly healing and coming back to life when eligible.
 /datum/antagonist/devil/proc/on_dead_life(atom/source, delta_time, times_fired)
@@ -216,14 +237,18 @@
 	if(new_power in devil_powers)
 		return
 	new_power = new new_power
-	devil_powers[new_power.type] = new_power
+	devil_powers += new_power
 	new_power.Grant(owner.current)
 	return TRUE
 
 ///Removes a power if it's in `devil_powers`, arg is the type.
 /datum/antagonist/devil/proc/clear_power(datum/action/removed_power)
-	if(devil_powers[removed_power])
-		QDEL_NULL(devil_powers[removed_power])
+	if(!(removed_power in devil_powers))
+		return
+	removed_power = devil_powers[removed_power]
+	devil_powers -= removed_power
+	removed_power.Remove(owner.current)
+	qdel(removed_power)
 
 /obj/effect/temp_visual/devil
 	icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/bubblegum.dmi'
@@ -234,16 +259,16 @@
 	///The person being eaten by the hands, which we move to nullspace and ghostize.
 	var/mob/living/food
 
-/obj/effect/temp_visual/devil/hand_open/New(loc, mob/living/new_food)
+/obj/effect/temp_visual/devil/hand_open/Initialize(mapload, mob/living/new_food)
 	. = ..()
 	food = new_food
 
-/obj/effect/temp_visual/devil/hand_open/Destroy()
+/obj/effect/temp_visual/devil/hand_open/Destroy(force)
 	if(food)
 		food.ghostize(can_reenter_corpse = FALSE)
 		food.forceMove(get_turf(pick(GLOB.devil_cell_landmark)))
 	food = null
-	new /obj/effect/temp_visual/devil/hand_closed(loc)
+	new /obj/effect/temp_visual/devil/hand_closed(get_turf(src))
 	return ..()
 
 /obj/effect/temp_visual/devil/hand_closed

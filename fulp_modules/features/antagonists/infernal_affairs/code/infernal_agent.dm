@@ -34,6 +34,7 @@
 	var/list/obj/item/purchased_uplink_items = list()
 
 /datum/antagonist/infernal_affairs/on_gain(mob/living/mob_override)
+	SSmapping.lazy_load_template(LAZY_TEMPLATE_DEVIL_CELL)
 	GLOB.infernal_affair_manager.agent_datums += src
 
 	. = ..()
@@ -120,8 +121,11 @@
 	if(killer && killer.owner.assigned_role.title != JOB_LAWYER)
 		killer.uplink_handler.telecrystals += rand(3,5)
 
+	remove_uplink()
+	QDEL_NULL(vassaldatum.info_button_ref)
+
 	LAZYADD(GLOB.infernal_affair_manager.stored_humans, owner.current)
-	new /obj/effect/temp_visual/devil/hand_open(owner.current.loc, owner.current)
+	new /obj/effect/temp_visual/devil/hand_open(get_turf(owner.current), owner.current)
 
 	GLOB.infernal_affair_manager.update_objective_datums()
 

@@ -23,6 +23,7 @@
 		power.DeactivatePower()
 	powers -= power
 	power.Remove(owner.current)
+	qdel(power)
 
 ///When a Bloodsucker breaks the Masquerade, they get their HUD icon changed, and Malkavian Bloodsuckers get alerted.
 /datum/antagonist/bloodsucker/proc/break_masquerade(mob/admin)

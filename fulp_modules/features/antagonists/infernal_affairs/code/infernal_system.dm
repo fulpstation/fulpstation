@@ -29,6 +29,11 @@ GLOBAL_DATUM_INIT(infernal_affair_manager, /datum/infernal_affair_manager, new)
 	target_image.overlays = target.overlays
 	LAZYSET(agent_icons, target, icon2base64(getFlatIcon(target_image)))
 
+/datum/infernal_affair_manager/proc/remove_agent(mob/living/carbon/human/target)
+	LAZYREMOVE(stored_humans, target)
+	LAZYREMOVE(agent_icons, target)
+	agent_datums -= src
+
 /**
  * Enters a for() loop for all agents while assigning their target to be the first available agent.
  *
