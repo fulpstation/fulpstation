@@ -108,7 +108,7 @@ export const AgentsSection = (props) => {
                   verticalAlign="middle"
                 />
                 {!!individual_agent.agent_dead && (
-                  <Button tooltip="OUT OF THE GAME" icon="skull" />
+                  <Button tooltip="OUT FOR THE COUNT" icon="skull" />
                 )}
                 <Box>{individual_agent.agent_name}</Box>
               </Stack.Item>

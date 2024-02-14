@@ -63,13 +63,16 @@
 		//Ensures that the card holder is actually a target.
 		if(hunter_datum.active_objective.target != agent_datum.owner)
 			continue
-		if(!do_after(owner, 10 SECONDS, cast_on))
-			cast_on.balloon_alert(owner, "interrupted!")
-			return FALSE
-		cast_on.balloon_alert(owner, "soul ripped!")
-		agent_datum.soul_harvested(hunter_datum)
-		qdel(card)
+		INVOKE_ASYNC(src, PROC_REF(harvest), cast_on, agent_datum, card, hunter_datum)
 		return TRUE
 
-	cast_on.balloon_alert(owner, "no card on target...")
+	cast_on.balloon_alert(owner, "no calling card!")
 	return FALSE
+
+/datum/action/cooldown/spell/pointed/collect_soul/proc/harvest(mob/target, datum/antagonist/infernal_affairs/target_datum, obj/item/paper/devil_calling_card/card, datum/antagonist/infernal_affairs/hunter_datum)
+	if(!do_after(owner, 10 SECONDS, target))
+		target.balloon_alert(owner, "interrupted!")
+		return
+	target.balloon_alert(owner, "soul ripped!")
+	target_datum.soul_harvested(hunter_datum)
+	qdel(card)

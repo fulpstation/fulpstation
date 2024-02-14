@@ -47,6 +47,7 @@
 
 	. = ..()
 
+	obtain_power(/datum/action/cooldown/spell/devil_spells)
 	obtain_power(/datum/action/cooldown/spell/pointed/collect_soul)
 
 /datum/antagonist/devil/on_removal()
@@ -117,10 +118,12 @@
 	data["souls_collected"] = souls
 
 	for(var/mob/living/carbon/human/all_agents as anything in SSinfernal_affairs.agent_icons)
+		if(HAS_TRAIT(all_agents.mind, TRAIT_HELLBOUND))
+			continue
 		var/list/agent_data = list()
 		agent_data["current_target"] = !!(all_agents == spells_target)
 		agent_data["agent_body_ref"] = REF(all_agents)
-		agent_data["agent_dead"] = !!HAS_TRAIT(all_agents, TRAIT_HELLBOUND)
+		agent_data["agent_dead"] = (all_agents.stat == DEAD)
 		agent_data["agent_name"] = all_agents.real_name
 		agent_data["agent_icon"] = SSinfernal_affairs.agent_icons[all_agents]
 		data["agents"] += list(agent_data)
