@@ -122,7 +122,7 @@
 		killer.uplink_handler.telecrystals += rand(3,5)
 
 	remove_uplink()
-	QDEL_NULL(vassaldatum.info_button_ref)
+	QDEL_NULL(info_button_ref)
 
 	LAZYADD(GLOB.infernal_affair_manager.stored_humans, owner.current)
 	new /obj/effect/temp_visual/devil/hand_open(get_turf(owner.current), owner.current)

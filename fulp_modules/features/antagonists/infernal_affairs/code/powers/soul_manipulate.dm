@@ -35,6 +35,7 @@
 	if(!.)
 		return FALSE
 	var/datum/antagonist/devil/devil_datum = owner.mind.has_antag_datum(/datum/antagonist/devil)
+	var/datum/objective/devil_souls/devil_objective = locate() in devil_datum.objectives
 	if(!devil_datum)
 		return FALSE
 	if(!target || !istype(target))
@@ -43,7 +44,10 @@
 		target.balloon_alert(owner, "no mind!")
 		return FALSE
 	if(mesmerize_mode)
-		if(GLOB.infernal_affair_manager.agent_datums.len >= DEVIL_SOULS_TO_ASCEND)
+		if(HAS_TRAIT(target, TRAIT_DEVIL_CONTRACT_IMMUNE))
+			target.balloon_alert(owner, "can't be converted!")
+			return FALSE
+		if(GLOB.infernal_affair_manager.agent_datums.len >= (devil_objective.souls_needed + 1))
 			target.balloon_alert(owner, "too many agents!")
 			return FALSE
 		if(target.stat != CONSCIOUS)

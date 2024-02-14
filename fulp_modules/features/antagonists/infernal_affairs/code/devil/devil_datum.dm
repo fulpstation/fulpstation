@@ -103,10 +103,11 @@
 ///Ensure their healing will follow through to their new body.
 /datum/antagonist/devil/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
-	for(var/datum/action/all_powers as anything in devil_powers)
+	for(var/power_type in devil_powers)
+		var/datum/action/moving_power = devil_powers[power_type]
 		if(old_body)
-			all_powers.Remove(old_body)
-		all_powers.Grant(new_body)
+			moving_power.Remove(old_body)
+		moving_power.Grant(new_body)
 	if(old_body.stat == DEAD)
 		UnregisterSignal(old_body, COMSIG_LIVING_LIFE)
 	if(new_body.stat == DEAD)
@@ -138,7 +139,8 @@
 
 /datum/antagonist/devil/ui_static_data(mob/user)
 	var/list/data = ..()
-	data["souls_to_ascend"] = DEVIL_SOULS_TO_ASCEND
+	var/datum/objective/devil_souls/devil_objective = locate() in objectives
+	data["souls_to_ascend"] = devil_objective.souls_needed
 	return data
 
 /datum/antagonist/devil/ui_act(action, params)
@@ -210,7 +212,7 @@
 	souls += souls_adding
 	if(soul_counter)
 		soul_counter.update_counter(souls)
-
+	var/datum/objective/devil_souls/devil_objective = locate() in objectives
 	switch(souls)
 		if(3)
 			clear_power(/datum/action/cooldown/spell/conjure_item/violin)
@@ -222,33 +224,37 @@
 			clear_power(/datum/action/cooldown/spell/jaunt/ethereal_jaunt/infernal_jaunt)
 		if(6)
 			obtain_power(/datum/action/cooldown/spell/jaunt/ethereal_jaunt/infernal_jaunt)
-		if(7)
-			clear_power(/datum/action/cooldown/spell/summon_dancefloor)
-			clear_power(/datum/action/cooldown/spell/pointed/projectile/fireball/hellish)
-			clear_power(/datum/action/cooldown/spell/shapeshift/devil)
-		if(DEVIL_SOULS_TO_ASCEND)
-			owner.current.client?.give_award(/datum/award/achievement/misc/devil_ascension, owner.current)
-			obtain_power(/datum/action/cooldown/spell/summon_dancefloor)
-			obtain_power(/datum/action/cooldown/spell/pointed/projectile/fireball/hellish)
-			obtain_power(/datum/action/cooldown/spell/shapeshift/devil)
+	if(!devil_objective)
+		WARNING("Devil has no objective to harvest souls, this removes their ability to ascend!")
+	//these can't be in switch because they are using a var.
+	if(souls == devil_objective.souls_needed - 1)
+		clear_power(/datum/action/cooldown/spell/summon_dancefloor)
+		clear_power(/datum/action/cooldown/spell/pointed/projectile/fireball/hellish)
+		clear_power(/datum/action/cooldown/spell/shapeshift/devil)
+	else if(souls == devil_objective.souls_needed)
+		owner.current.client?.give_award(/datum/award/achievement/misc/devil_ascension, owner.current)
+		obtain_power(/datum/action/cooldown/spell/summon_dancefloor)
+		obtain_power(/datum/action/cooldown/spell/pointed/projectile/fireball/hellish)
+		obtain_power(/datum/action/cooldown/spell/shapeshift/devil)
 
 ///Adds an action button to the owner of the antag and stores it in `devil_powers`
 /datum/antagonist/devil/proc/obtain_power(datum/action/new_power)
 	if(new_power in devil_powers)
-		return
+		return FALSE
 	new_power = new new_power
-	devil_powers += new_power
+	devil_powers[new_power.type] += new_power
 	new_power.Grant(owner.current)
 	return TRUE
 
 ///Removes a power if it's in `devil_powers`, arg is the type.
 /datum/antagonist/devil/proc/clear_power(datum/action/removed_power)
 	if(!(removed_power in devil_powers))
-		return
-	removed_power = devil_powers[removed_power]
+		return FALSE
+	var/datum/action/power_action = devil_powers[removed_power]
 	devil_powers -= removed_power
-	removed_power.Remove(owner.current)
-	qdel(removed_power)
+	power_action.Remove(owner.current)
+	qdel(power_action)
+	return TRUE
 
 /obj/effect/temp_visual/devil
 	icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/bubblegum.dmi'

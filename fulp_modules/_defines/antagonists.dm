@@ -120,7 +120,7 @@
  * DEVIL DEFINES
  */
 
-///How many souls a Devil needs to 'Ascend'.
+///Default amount of souls a Devil needs to 'Ascend', there can have this amount +1 Agents, allowing Devils a way to Ascend any round.
 #define DEVIL_SOULS_TO_ASCEND 8
 
 #define ROLE_INFERNAL_AFFAIRS "Infernal Affairs Agent"
