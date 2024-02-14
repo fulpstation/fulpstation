@@ -18,10 +18,10 @@
 	antag_tips = list(
 		"You are a Devil, collecting souls for your own personal wealth.",
 		"You can see the HUD of all Agents, and they can see you; work with them when they need to turn in a contract, and do not reveal yourself.",
-		"To turn in a kill, the person must have a calling card on them, which their hunter crafts by Alt-Clicking a paper. Then you can use your Collect Soul ability on them to tear their soul out, completing the process.",
+		"To turn in a kill, the person must have a calling card on them, which their hunter crafts by Alt-Clicking a paper. Then you can use your Soul Manipulate ability with Left-Click on them to tear their soul out, completing the process.",
 		"If you die, you will slowly heal, then revive when possible, unless your body is destroyed.",
 		"As you collect souls, you will gain new powers until your ascension.",
-		"You can also create a limited amount of new agents using your Devil Contracts, which they must agree to individually.",
+		"If there are not enough agents for you to Ascend with, you can use your Soul Manipulation ability with Right-Click to turn someone into an Agent, it requires they are not moved for a 30 second timer, so ensure they can't get external help!",
 		"Try to stay low! You work best from the shadows, being open and about will get you caught and punish the Agents.",
 	)
 
@@ -149,7 +149,7 @@
 	SIGNAL_HANDLER
 	var/datum/hud/devil_hud = owner.current.hud_used
 
-	soul_counter = new /atom/movable/screen/devil_soul_counter(devil_hud)
+	soul_counter = new /atom/movable/screen/devil_soul_counter(src, devil_hud)
 	devil_hud.infodisplay += soul_counter
 	soul_counter.update_counter(souls)
 
@@ -195,10 +195,10 @@
 		if(2)
 			obtain_power(/datum/action/cooldown/spell/conjure_item/violin)
 			clear_power(/datum/action/cooldown/spell/conjure_item/summon_pitchfork)
-		if(3)
+		if(4)
 			obtain_power(/datum/action/cooldown/spell/conjure_item/summon_pitchfork)
 			clear_power(/datum/action/cooldown/spell/jaunt/ethereal_jaunt/infernal_jaunt)
-		if(4)
+		if(5)
 			obtain_power(/datum/action/cooldown/spell/jaunt/ethereal_jaunt/infernal_jaunt)
 		if(7)
 			clear_power(/datum/action/cooldown/spell/summon_dancefloor)

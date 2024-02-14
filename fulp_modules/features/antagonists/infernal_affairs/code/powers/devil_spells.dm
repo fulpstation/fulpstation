@@ -1,12 +1,12 @@
 /datum/action/cooldown/spell/devil_spells
 	name = "Cast Spells"
-	desc = "LMB: Cast a spell on your current spell targete. RMB: Use the most recently used spell."
+	desc = "LMB: Cast a spell on your current spell target. RMB: Use the most recently used spell."
 	background_icon_state = "bg_demon"
 	overlay_icon_state = "ab_goldborder"
 
 	spell_requirements = NONE
 	school = SCHOOL_EVOCATION
-	cooldown_time = 5 SECONDS //5 seconds, so the smoke can't be spammed
+	cooldown_time = 60 SECONDS
 
 	button_icon = 'fulp_modules/features/antagonists/infernal_affairs/icons/actions_devil.dmi'
 	button_icon_state = "spell_default"
@@ -33,10 +33,6 @@
 	if(!devil_datum || !devil_datum.spells_target)
 		if(feedback)
 			owner.balloon_alert(owner, "no target set!")
-		return FALSE
-	if(!devil_datum.souls)
-		if(feedback)
-			owner.balloon_alert(owner, "no souls to use!")
 		return FALSE
 	return TRUE
 
@@ -85,6 +81,24 @@ GLOBAL_LIST_INIT(devil_spells, setup_devil_spells())
 	WARNING("Devil Spell [src] has no effect! This is a major bug and should be reported ASAP!")
 
 /**
+ * Give Target Location
+ * Tells the person the spell is being casted on, their target's real name and current location.
+ */
+/datum/devil_spell/give_location
+	name = "Give Target Location"
+	level_needed = 0
+
+/datum/devil_spell/give_location/use_spell(datum/antagonist/devil/devil_datum, mob/living/carbon/human/target)
+	var/datum/antagonist/infernal_affairs/infernal_datum = IS_INFERNAL_AGENT(target)
+	if(!infernal_datum || SSinfernal_affairs.last_one_standing)
+		return FALSE
+	var/mob/living/targets_target = infernal_datum.active_objective.target.current
+	var/target_area = get_area_name(targets_target)
+	to_chat(devil_datum.owner.current, span_cultlarge("DEVIL AID: Their target, [targets_target.real_name], is at [target_area]"))
+	to_chat(target, span_cultlarge("DEVIL AID: Your target, [targets_target.real_name], is at [target_area]"))
+	return TRUE
+
+/**
  * Whisper
  *
  * Lets you send a message to one of the Agents, in case you need to
@@ -106,7 +120,7 @@ GLOBAL_LIST_INIT(devil_spells, setup_devil_spells())
 
 	var/list/soft_filter_result = CAN_BYPASS_FILTER(devil_datum.owner.current) ? null : is_soft_ic_filtered(input)
 	if(soft_filter_result)
-		if(tgui_alert(devil_datum.owner.current,"Your message contains \"[soft_filter_result[CHAT_FILTER_INDEX_WORD]]\". \"[soft_filter_result[CHAT_FILTER_INDEX_REASON]]\", Are you sure you want to say it?", "Soft Blocked Word", list("Yes", "No")) != "Yes")
+		if(tgui_alert(devil_datum.owner.current, "Your message contains \"[soft_filter_result[CHAT_FILTER_INDEX_WORD]]\". \"[soft_filter_result[CHAT_FILTER_INDEX_REASON]]\", Are you sure you want to say it?", "Soft Blocked Word", list("Yes", "No")) != "Yes")
 			return FALSE
 		message_admins("[ADMIN_LOOKUPFLW(devil_datum.owner.current)] has passed the soft filter for \"[soft_filter_result[CHAT_FILTER_INDEX_WORD]]\" they may be using a disallowed term. Message: \"[html_encode(input)]\"")
 		log_admin_private("[key_name(devil_datum.owner.current)] has passed the soft filter for \"[soft_filter_result[CHAT_FILTER_INDEX_WORD]]\" they may be using a disallowed term. Message: \"[input]\"")

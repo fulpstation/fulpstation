@@ -30,6 +30,5 @@
 		return
 	hud.mymob.balloon_alert(usr, "souls owned: [devil_antag.souls]")
 
-
 #undef UI_DEVIL_SOUL_DISPLAY
 #undef ANTAG_MAPTEXT

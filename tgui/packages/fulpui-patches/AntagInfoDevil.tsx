@@ -41,23 +41,30 @@ export const AntagInfoDevil = (props) => {
 };
 
 export const IntroSection = (props) => {
+  const { act, data } = useBackend<Info>();
+  const { souls_to_ascend } = data;
   return (
     <Section>
       <Stack vertical>
         <Box fontSize="24px" mb={1}>
           You are the Devil!
         </Box>
-        <Collapsible title="General Information">
-          <Box>
-            From the depths of hell you crawl, today you have assembled many
-            people all of whom you rightfully own the soul to. Since merely
-            killing people is boring, instead it is time for a game, a battle
-            royale!
-          </Box>
+        <Box>
+          From the depths of hell you crawl, today you have assembled many
+          people all of whom you rightfully own the soul to. Since merely
+          killing people is boring, instead it is time for a game, a battle
+          royale!
+        </Box>
+        <Collapsible title="Soul Manipulation">
           <Box>
             All agents have to kill eachother and turn their corpses in to you
-            to reap some minor rewards, you can use your <b>Collect Soul</b>{' '}
-            ability to complete this process.
+            to reap some minor rewards, you can use your{' '}
+            <b>Soul Manipulation</b> ability to complete this process.
+          </Box>
+          <Box>
+            You can have a maximum of {souls_to_ascend} agents maximum, if you
+            have less then you can use your <b>Soul Manipulation</b>&amp;s
+            Right-Click ability to convert someone into an Agent.
           </Box>
         </Collapsible>
         <Collapsible title="Avoiding Getting Caught">
