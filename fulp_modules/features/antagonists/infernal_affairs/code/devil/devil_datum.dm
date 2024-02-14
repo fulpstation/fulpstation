@@ -198,7 +198,7 @@
 
 	if((owner.current.getBruteLoss() + owner.current.getFireLoss()) > DEVIL_REVIVE_AMOUNT_REQUIRED)
 		return
-	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), HEAL_DAMAGE|HEAL_BODY)
+	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, revive), HEAL_DAMAGE|HEAL_BODY, excess_healing = 100)
 	INVOKE_ASYNC(owner.current, TYPE_PROC_REF(/mob/living, grab_ghost))
 
 /**
