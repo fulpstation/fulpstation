@@ -262,6 +262,6 @@
  * bloodsuckerdatum - antagonist datum of the Bloodsucker who turned them into a Vassal.
  * vassaldatum - the antagonist datum of the Vassal being offered up.
  */
-/datum/bloodsucker_clan/proc/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+/datum/bloodsucker_clan/proc/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
 	SIGNAL_HANDLER
 	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/brawn)
