@@ -14211,6 +14211,11 @@
 	dir = 1
 	},
 /area/station/service/chapel)
+"bpu" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/iron,
+/area/station/hallway/secondary/exit/departure_lounge)
 "bpv" = (
 /obj/structure/sink/directional/east,
 /obj/effect/turf_decal/siding/thinplating/light{
@@ -14433,7 +14438,10 @@
 	name = "External Docking Port"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
-/turf/open/floor/iron,
+/obj/structure/cable,
+/turf/open/floor/iron/textured_edge{
+	dir = 4
+	},
 /area/station/security/checkpoint/escape)
 "bqm" = (
 /obj/effect/turf_decal/tile/green/anticorner/contrasted{
@@ -14455,7 +14463,9 @@
 	space_dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured_edge{
+	dir = 8
+	},
 /area/station/security/checkpoint/escape)
 "bqo" = (
 /obj/effect/landmark/start/depsec/medical,
@@ -15108,7 +15118,9 @@
 /obj/machinery/door/airlock/external{
 	name = "External Docking Port"
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured_edge{
+	dir = 4
+	},
 /area/station/hallway/secondary/exit/departure_lounge)
 "bst" = (
 /obj/structure/flora/bush/ferny/style_random,
@@ -16067,6 +16079,7 @@
 /obj/effect/turf_decal/arrows{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "bwI" = (
@@ -16279,7 +16292,9 @@
 	name = "External Docking Port";
 	space_dir = 4
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/textured_edge{
+	dir = 8
+	},
 /area/station/hallway/secondary/exit/departure_lounge)
 "bxG" = (
 /obj/structure/disposalpipe/segment{
@@ -17437,7 +17452,7 @@
 "bEm" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/camera/directional/south{
-	c_tag = "EVAC S";
+	c_tag = "Departures - Lounge S";
 	name = "Hallway Camera"
 	},
 /obj/item/radio/intercom/directional/south,
@@ -25776,6 +25791,11 @@
 /obj/structure/transit_tube/crossing,
 /turf/open/space/basic,
 /area/space/nearstation)
+"cTE" = (
+/turf/open/floor/iron/textured_half{
+	dir = 1
+	},
+/area/station/security/checkpoint/escape)
 "cTF" = (
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /obj/effect/decal/cleanable/dirt,
@@ -38389,7 +38409,7 @@
 /obj/effect/turf_decal/stripes/white/line,
 /obj/structure/sign/warning/vacuum/external/directional/east,
 /obj/machinery/camera/directional/east{
-	c_tag = "Secure EVAC";
+	c_tag = "Departures - Holding Area";
 	name = "Hallway Camera";
 	network = list("ss13","security")
 	},
@@ -39233,6 +39253,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/access/all/security/general,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "ijV" = (
@@ -46321,6 +46343,7 @@
 	dir = 8
 	},
 /obj/machinery/light_switch/directional/south,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
 "kUO" = (
@@ -47091,6 +47114,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/access/all/command/general,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/customs)
 "lnF" = (
@@ -52675,11 +52700,12 @@
 /area/station/maintenance/port/greater)
 "nBo" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
-/obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/structure/sign/departments/evac/directional/east,
-/obj/machinery/camera/directional/north,
+/obj/machinery/camera/directional/north{
+	c_tag = "Departures - Customs Line"
+	},
 /obj/structure/sign/poster/official/safety_report/directional/north,
-/turf/open/space/basic,
+/turf/open/floor/iron/dark,
 /area/station/hallway/secondary/exit/departure_lounge)
 "nBw" = (
 /obj/effect/turf_decal/trimline/red/filled/line{
@@ -54064,6 +54090,7 @@
 /obj/effect/turf_decal/trimline/blue/filled/shrink_cw,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/customs)
 "oba" = (
@@ -54122,6 +54149,11 @@
 /obj/effect/turf_decal/tile/neutral/full,
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/maintenance/disposal/incinerator)
+"ocj" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/iron,
+/area/station/hallway/secondary/exit/departure_lounge)
 "oco" = (
 /obj/item/folder/red{
 	pixel_x = 3
@@ -55217,6 +55249,12 @@
 /obj/machinery/portable_atmospherics/pump,
 /turf/open/floor/iron/textured_half,
 /area/station/maintenance/fore)
+"oxr" = (
+/obj/structure/cable,
+/turf/open/floor/iron/textured_half{
+	dir = 1
+	},
+/area/station/security/checkpoint/escape)
 "oxt" = (
 /obj/machinery/door/airlock/external{
 	name = "Labor Shuttle Airlock"
@@ -57518,7 +57556,7 @@
 	dir = 1
 	},
 /obj/machinery/camera/directional/north{
-	c_tag = "EVAC NE"
+	c_tag = "Departures - Lounge N"
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
@@ -58185,9 +58223,10 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "pDm" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/station/security/checkpoint/escape)
+/turf/open/floor/iron/textured_half{
+	dir = 1
+	},
+/area/station/hallway/secondary/exit/departure_lounge)
 "pDn" = (
 /obj/item/radio/intercom/directional/west,
 /obj/structure/chair{
@@ -61036,7 +61075,7 @@
 	},
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/camera/directional/east{
-	c_tag = "Customs EVAC";
+	c_tag = "Departures - Customs Post";
 	network = list("ss13","security")
 	},
 /turf/open/floor/iron/dark,
@@ -68819,7 +68858,7 @@
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/neutral/half/contrasted,
 /obj/machinery/camera/directional/north{
-	c_tag = "Secure EVAC";
+	c_tag = "Departures - Security Outpost";
 	network = list("ss13","security")
 	},
 /turf/open/floor/iron/dark/textured,
@@ -73735,6 +73774,7 @@
 "vOt" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/machinery/light/directional/north,
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/exit/departure_lounge)
 "vOw" = (
@@ -77200,6 +77240,7 @@
 	},
 /obj/item/paper_bin,
 /obj/item/pen,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/customs)
 "xki" = (
@@ -77737,6 +77778,8 @@
 	name = "Customs"
 	},
 /obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/access/all/command/general,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/customs)
 "xuU" = (
@@ -131168,7 +131211,7 @@ giY
 pBO
 ikI
 pcZ
-btF
+bpu
 nfd
 eKq
 brN
@@ -131425,7 +131468,7 @@ iRT
 bnF
 win
 cek
-btF
+ocj
 btF
 btF
 btF
@@ -133477,7 +133520,7 @@ aOG
 aOG
 bsp
 bsp
-pDm
+cek
 bql
 bsp
 bss
@@ -133734,18 +133777,18 @@ aaa
 aaa
 aak
 aaa
-pDm
-tbN
 cek
-jfH
+oxr
+cek
+pDm
 boU
 aaa
 aaa
 aaa
 boU
-jfH
+pDm
 boU
-jfH
+pDm
 boU
 aaa
 aaa
@@ -133991,18 +134034,18 @@ aaa
 aaa
 aak
 aak
+cek
+cTE
+cek
 pDm
-tbN
+boU
+aak
+aak
+aak
+boU
 pDm
-jfH
 boU
-aak
-aak
-aak
-boU
-jfH
-boU
-jfH
+pDm
 boU
 aak
 aak
@@ -134248,9 +134291,9 @@ aaa
 aaa
 aaa
 aaa
-pDm
+cek
 bqn
-pDm
+cek
 bxF
 boU
 aaa
