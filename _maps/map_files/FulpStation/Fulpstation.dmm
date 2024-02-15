@@ -1016,16 +1016,14 @@
 	name = "Kitchen Counter Shutters";
 	pixel_x = 6;
 	pixel_y = 28;
-	req_access = list("kitchen");
-	req_access_txt = null
+	req_access = list("kitchen")
 	},
 /obj/machinery/button/door/directional/north{
 	id = "kitchendelivery";
 	name = "Kitchen Delivery Shutters";
 	pixel_x = -6;
 	pixel_y = 28;
-	req_access = list("kitchen");
-	req_access_txt = null
+	req_access = list("kitchen")
 	},
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -5450,13 +5448,13 @@
 /area/station/security/courtroom)
 "cwP" = (
 /obj/docking_port/stationary{
-	height = 5;
-	name = "fulp arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/fulp;
-	shuttle_id = "arrival_fulp";
-	width = 15;
 	dir = 8;
-	dheight = 2
+	dwidth = 3;
+	height = 15;
+	name = "arrivals";
+	roundstart_template = /datum/map_template/shuttle/arrival/fulp/fulpstation;
+	shuttle_id = "arrival_stationary";
+	width = 7
 	},
 /turf/open/space/basic,
 /area/space)
@@ -9366,8 +9364,7 @@
 /obj/machinery/button/door/directional/south{
 	id = "barshutters";
 	name = "Bar Shutters";
-	req_access = list("bar");
-	req_access_txt = null
+	req_access = list("bar")
 	},
 /turf/open/floor/iron/checker,
 /area/station/service/bar)
@@ -12349,16 +12346,6 @@
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "fKI" = (
-/obj/effect/turf_decal/tile{
-	color = "#FF6700";
-	dir = 8;
-	name = "Prison Orange"
-	},
-/obj/effect/turf_decal/tile{
-	color = "#FF6700";
-	dir = 1;
-	name = "Prison Orange"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -13200,9 +13187,6 @@
 /obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/primary/port)
-"gfw" = (
-/turf/open/space/basic,
-/area/station/solars/starboard)
 "gfz" = (
 /obj/effect/landmark/blobstart,
 /turf/open/floor/plating,
@@ -19754,8 +19738,6 @@
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/hop)
 "juY" = (
-/obj/structure/table,
-/obj/structure/table/reinforced,
 /obj/item/circular_saw,
 /obj/item/cautery{
 	pixel_x = 4
@@ -19765,6 +19747,7 @@
 	dir = 4
 	},
 /obj/machinery/status_display/evac/directional/east,
+/obj/structure/table/reinforced,
 /turf/open/floor/iron,
 /area/station/science/robotics/lab)
 "jve" = (
@@ -21596,11 +21579,10 @@
 	},
 /area/station/engineering/atmos/office)
 "klW" = (
-/obj/structure/table,
-/obj/structure/table/reinforced,
 /obj/item/surgical_drapes,
 /obj/item/clothing/gloves/latex,
 /obj/effect/turf_decal/tile/purple/anticorner/contrasted,
+/obj/structure/table/reinforced,
 /turf/open/floor/iron,
 /area/station/science/robotics/lab)
 "kmT" = (
@@ -22864,10 +22846,8 @@
 /obj/machinery/door/airlock/engineering{
 	name = "Auxiliary Construction Storage"
 	},
-/obj/machinery/door/airlock/engineering{
-	name = "Auxiliary Construction Zone"
-	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/aux_base,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/station/construction/mining/aux_base)
 "kTB" = (
@@ -26403,8 +26383,6 @@
 /turf/open/floor/iron/white,
 /area/station/medical/storage)
 "mPi" = (
-/obj/structure/table,
-/obj/structure/table/reinforced,
 /obj/item/retractor,
 /obj/item/scalpel{
 	pixel_y = 12
@@ -26412,6 +26390,7 @@
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 4
 	},
+/obj/structure/table/reinforced,
 /turf/open/floor/iron,
 /area/station/science/robotics/lab)
 "mPo" = (
@@ -29603,7 +29582,6 @@
 /area/station/maintenance/port/fore)
 "osU" = (
 /obj/structure/lattice,
-/obj/structure/lattice,
 /obj/structure/marker_beacon/lime,
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -30235,16 +30213,12 @@
 /turf/open/floor/engine,
 /area/station/ai_monitored/command/storage/eva)
 "oHJ" = (
-/obj/machinery/door/airlock/command/glass{
-	name = "Bridge Access";
-	req_access_txt = "19"
-	},
+/obj/effect/mapping_helpers/airlock/access/any/command/hop,
+/obj/structure/cable,
 /obj/machinery/door/airlock/command{
 	name = "Head of Personnel";
 	req_access_txt = "57"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/command/hop,
-/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/command/bridge)
 "oHW" = (
@@ -31337,8 +31311,8 @@
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/hos)
 "plB" = (
-/obj/structure/window/reinforced/spawner,
 /obj/structure/cable,
+/obj/structure/window/reinforced/spawner/directional/south,
 /turf/open/floor/carpet/red,
 /area/station/command/bridge)
 "plI" = (
@@ -34325,8 +34299,8 @@
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "qQv" = (
-/obj/structure/window/reinforced/spawner/directional/west,
 /obj/structure/cable,
+/obj/structure/window/reinforced/spawner/directional/west,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/command/bridge)
 "qQE" = (
@@ -35868,7 +35842,7 @@
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/engineering/atmos/pumproom)
 "rCU" = (
-/obj/structure/window/reinforced/spawner,
+/obj/structure/window/reinforced/spawner/directional/south,
 /turf/open/floor/carpet/red,
 /area/station/command/bridge)
 "rDg" = (
@@ -36548,8 +36522,7 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/medical/glass{
-	name = "Pharmacy";
-	req_access_txt = null
+	name = "Pharmacy"
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -43011,8 +42984,7 @@
 /area/station/hallway/primary/central/aft)
 "voJ" = (
 /obj/machinery/door/airlock/medical/glass{
-	name = "Pharmacy";
-	req_access_txt = null
+	name = "Pharmacy"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/medical/general,
 /turf/open/floor/iron/white,
@@ -44181,12 +44153,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/freezer,
 /area/station/medical/cryo)
-"vUj" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/station/solars/starboard)
 "vUo" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/command{
@@ -44925,9 +44891,7 @@
 /turf/closed/wall,
 /area/station/service/chapel)
 "wle" = (
-/obj/structure/window/reinforced/spawner{
-	dir = 1
-	},
+/obj/structure/window/reinforced/spawner/directional/north,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/command/bridge)
 "wln" = (
@@ -48015,8 +47979,7 @@
 /obj/machinery/button/door/directional/south{
 	id = "chemlock";
 	name = "Pharmacy Lockdown";
-	req_access = list("pharmacy");
-	req_access_txt = null
+	req_access = list("pharmacy")
 	},
 /obj/effect/turf_decal/tile/yellow/full,
 /turf/open/floor/iron/white/textured_large,
@@ -70738,7 +70701,7 @@ vQV
 vQV
 vQV
 vQV
-vQV
+uTK
 cWK
 qWj
 qzC
@@ -70995,7 +70958,7 @@ vQV
 vQV
 vQV
 vQV
-uTK
+vQV
 gXj
 gXj
 dFM
@@ -81787,7 +81750,7 @@ bPf
 qMY
 xjj
 nri
-pkh
+nri
 nri
 mUR
 yiW
@@ -82045,7 +82008,7 @@ ttr
 xjj
 nri
 nri
-pkh
+nri
 mUR
 yiW
 mUR
@@ -90690,8 +90653,8 @@ vQV
 vQV
 vQV
 vQV
-gfw
-gfw
+vQV
+vQV
 vQV
 vQV
 vQV
@@ -93233,7 +93196,7 @@ vSR
 vSR
 nri
 nri
-pkh
+vQV
 nri
 nri
 nri
@@ -100465,7 +100428,7 @@ vLe
 vLe
 vLe
 qtS
-vUj
+vLe
 qtS
 vLe
 vLe
@@ -100561,8 +100524,8 @@ gSM
 gSM
 bGw
 bJm
-oAE
-gSM
+cmK
+bGw
 bJm
 jLe
 rYL
