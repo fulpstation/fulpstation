@@ -189,7 +189,7 @@
 	if(!target_hosts.len)
 		return
 	var/mob/living/carbon/human/infectee = pick(target_hosts)
-	if(!(infectee.wear_suit) || prob(100 - infectee.wear_suit.get_armor_rating(BIO)))
+	if(prob(100 - infectee.wear_suit.get_armor_rating(BIO)))
 		//this will potentially take over existing nanites!
 		infectee.AddComponent(/datum/component/nanites, null, 10)
 		SEND_SIGNAL(infectee, COMSIG_NANITE_SYNC, nanites)
@@ -214,7 +214,7 @@
 		consume_nanites(-5)
 		return
 	var/mob/living/carbon/human/infectee = pick(target_hosts)
-	if(!(infectee.wear_suit) || prob(100 - infectee.wear_suit.get_armor_rating(BIO)))
+	if(prob(100 - infectee.wear_suit.get_armor_rating(BIO)))
 		//unlike with Infective Exo-Locomotion, this can't take over existing nanites, because Nanite Sting only targets non-hosts.
 		infectee.AddComponent(/datum/component/nanites, null, 5)
 		SEND_SIGNAL(infectee, COMSIG_NANITE_SYNC, nanites)
