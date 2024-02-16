@@ -7,6 +7,10 @@
 
 // Station
 
+/area/station/service/hydroponics/kitchen
+	name = "\improper Kitchen Hydroponics"
+	icon_state = "hydro"
+
 /area/station/science/nanite
 	name = "Nanite Lab"
 	icon = 'fulp_modules/mapping/areas/icons.dmi'
