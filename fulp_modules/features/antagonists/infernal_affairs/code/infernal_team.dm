@@ -7,13 +7,13 @@
 
 	report += span_header("There were [name] running on the station:")
 
-	report += "<span class='neutraltext big'>The devils enjoying the entertainment over it all were:</span>"
+	report += "<b>The devils enjoying the entertainment over it all were:</b>"
 	for(var/datum/antagonist/devil/devil_antag as anything in GLOB.infernal_affair_manager.devils)
-		report += printplayer(devil_antag.owner)
-		report += "Souls collected: [devil_antag.souls]"
-		report += printobjectives(devil_antag.objectives)
+		report += "[printplayer(devil_antag.owner)]"
+		report += "<ul><b>Souls collected</b>: [devil_antag.souls]"
+		report += "[printobjectives(devil_antag.objectives)]</ul>"
 
-	report += "<span class='neutraltext big'>The [member_name] of the torturous experiments were:</span>"
+	report += "<b>The [member_name] of the torturous experiments were:</b>"
 	report += printplayerlist(members)
 
 	return "<div class='panel redborder'>[report.Join("<br>")]</div>"

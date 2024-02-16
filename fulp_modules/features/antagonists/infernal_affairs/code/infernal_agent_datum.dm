@@ -21,8 +21,6 @@
 		"Once all targets are eliminated and you are the very last one, you will close the loop, and end it in a glorious death to celebrate your new home in the afterlife.",
 	)
 
-	///The team datum all infernal affairs are added to for roundend reports.
-	var/static/datum/team/infernal_affairs/infernal_team
 	///reference to the uplink this traitor was given, if they were.
 	var/datum/weakref/uplink_ref
 	/// The uplink handler that this traitor belongs to.
@@ -74,13 +72,13 @@
 
 /datum/antagonist/infernal_affairs/create_team(datum/team/infernal_affairs/daa_team)
 	if(daa_team)
-		infernal_team = daa_team
-	if(!infernal_team)
-		infernal_team = new
-	return infernal_team
+		GLOB.infernal_affair_manager.infernal_team = daa_team
+	if(!GLOB.infernal_affair_manager.infernal_team)
+		GLOB.infernal_affair_manager.infernal_team = new
+	return GLOB.infernal_affair_manager.infernal_team
 
 /datum/antagonist/infernal_affairs/get_team()
-	return infernal_team
+	return GLOB.infernal_affair_manager.infernal_team
 
 ///Handles affair agents when they die.
 ///If there are devils, we'll leave it to them to take care of, otherwise take the soul.

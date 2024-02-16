@@ -7,6 +7,8 @@ GLOBAL_DATUM_INIT(infernal_affair_manager, /datum/infernal_affair_manager, new)
  * Also keeps track of their Antag gear, to remove it when their soul is collected.
  */
 /datum/infernal_affair_manager
+	///The team datum all infernal affairs are added to for roundend reports.
+	var/datum/team/infernal_affairs/infernal_team
 	///List of all human corpses that have had their souls collected.
 	var/list/mob/living/carbon/human/stored_humans
 	///The datum of the last one standing, when there is one.

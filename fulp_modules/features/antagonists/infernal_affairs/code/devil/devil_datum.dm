@@ -117,6 +117,16 @@
 	if(souls)
 		.["Take Soul"] = CALLBACK(src, PROC_REF(update_souls_owned), -1)
 
+/datum/antagonist/devil/create_team(datum/team/infernal_affairs/daa_team)
+	if(daa_team)
+		GLOB.infernal_affair_manager.infernal_team = daa_team
+	if(!GLOB.infernal_affair_manager.infernal_team)
+		GLOB.infernal_affair_manager.infernal_team = new
+	return GLOB.infernal_affair_manager.infernal_team
+
+/datum/antagonist/devil/get_team()
+	return GLOB.infernal_affair_manager.infernal_team
+
 /datum/antagonist/devil/ui_data(mob/user)
 	var/list/data = ..()
 	data["agent_amount"] = length(GLOB.infernal_affair_manager.agent_datums)
