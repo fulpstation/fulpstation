@@ -7,6 +7,13 @@
 /obj/structure/window/reinforced/spawner/directional/south,
 /turf/open/floor/plating/airless,
 /area/shuttle/supply)
+"c" = (
+/obj/machinery/conveyor{
+	id = "QMLoad2";
+	dir = 8
+	},
+/turf/open/floor/mineral/titanium/tiled/blue,
+/area/shuttle/supply)
 "l" = (
 /obj/machinery/power/shuttle_engine/heater{
 	dir = 4
@@ -16,7 +23,7 @@
 /turf/open/floor/plating/airless,
 /area/shuttle/supply)
 "m" = (
-/obj/machinery/conveyor{
+/obj/machinery/conveyor/inverted{
 	dir = 5;
 	id = "QMLoad2"
 	},
@@ -40,7 +47,8 @@
 /area/shuttle/supply)
 "w" = (
 /obj/machinery/conveyor_switch/oneway{
-	dir = 4
+	dir = 4;
+	id = "QMLoad"
 	},
 /turf/open/floor/mineral/titanium/tiled/blue,
 /area/shuttle/supply)
@@ -54,24 +62,31 @@
 /obj/structure/plasticflaps,
 /turf/open/floor/plating,
 /area/shuttle/supply)
+"E" = (
+/obj/machinery/conveyor_switch/oneway{
+	dir = 4;
+	id = "QMLoad2"
+	},
+/turf/open/floor/mineral/titanium/tiled/blue,
+/area/shuttle/supply)
 "H" = (
 /obj/machinery/conveyor{
 	dir = 8;
-	id = "packageExternal"
+	id = "QMLoad"
 	},
 /turf/open/floor/mineral/titanium/tiled/blue,
 /area/shuttle/supply)
 "I" = (
 /obj/machinery/conveyor{
-	dir = 4;
-	id = "garbage"
+	dir = 8;
+	id = "QMLoad2"
 	},
 /turf/open/floor/mineral/titanium/tiled/blue,
 /area/shuttle/supply)
 "N" = (
 /obj/machinery/conveyor/inverted{
 	dir = 6;
-	id = "garbage"
+	id = "QMLoad"
 	},
 /turf/open/floor/mineral/titanium/tiled/blue,
 /area/shuttle/supply)
@@ -146,7 +161,7 @@ V
 (8,1,1) = {"
 O
 z
-w
+E
 m
 C
 "}
@@ -161,7 +176,7 @@ O
 l
 z
 z
-I
+c
 a
 "}
 (11,1,1) = {"
