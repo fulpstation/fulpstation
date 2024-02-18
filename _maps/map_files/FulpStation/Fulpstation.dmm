@@ -4010,16 +4010,15 @@
 /area/station/service/library/printer)
 "bJh" = (
 /obj/machinery/door/airlock/command{
-	name = "Teleport Access";
-	req_one_access_txt = "17;19"
+	name = "Teleport Access"
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/landmark/navigate_destination/teleporter,
 /obj/structure/cable,
-/obj/effect/mapping_helpers/airlock/access/any/command/general,
-/turf/open/floor/plating,
+/obj/effect/mapping_helpers/airlock/access/all/command/teleporter,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "bJm" = (
 /obj/effect/turf_decal/tile/prison/half{
@@ -4127,6 +4126,7 @@
 /obj/effect/mapping_helpers/airlock/access/all/command/ai_upload,
 /obj/structure/cable/layer3,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
 /turf/open/floor/circuit/green,
 /area/station/ai_monitored/turret_protected/ai)
 "bLg" = (
@@ -5102,7 +5102,7 @@
 	dir = 8
 	},
 /obj/machinery/light_switch/directional/north,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "cjf" = (
 /obj/structure/cable,
@@ -5132,7 +5132,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "cjY" = (
 /obj/structure/cable,
@@ -5344,7 +5344,7 @@
 "coX" = (
 /obj/item/hand_tele,
 /obj/structure/table/reinforced,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "coZ" = (
 /obj/effect/turf_decal/trimline/red/filled/corner{
@@ -6940,12 +6940,6 @@
 /area/station/hallway/secondary/construction)
 "daG" = (
 /obj/structure/table,
-/obj/machinery/requests_console/directional/north{
-	department = "Robotics";
-	departmentType = 2;
-	name = "Robotics RC";
-	receive_ore_updates = 1
-	},
 /obj/item/mod/core/standard{
 	pixel_x = 4
 	},
@@ -6959,6 +6953,9 @@
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 1
 	},
+/obj/effect/mapping_helpers/requests_console/supplies,
+/obj/effect/mapping_helpers/requests_console/ore_update,
+/obj/machinery/requests_console/auto_name/directional/north,
 /turf/open/floor/iron/white,
 /area/station/science/robotics/lab)
 "daN" = (
@@ -8031,7 +8028,7 @@
 "dyD" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "dyQ" = (
 /obj/effect/turf_decal/tile/purple/half/contrasted{
@@ -11135,10 +11132,10 @@
 /area/station/commons/fitness/recreation)
 "eUj" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 1
-	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/wood/large,
 /area/station/medical/morgue)
 "eUl" = (
@@ -14214,7 +14211,7 @@
 	c_tag = "Command - Teleporter Room";
 	name = "camera"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "gpg" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
@@ -18600,7 +18597,7 @@
 /obj/machinery/computer/teleporter{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "iqI" = (
 /turf/open/floor/iron,
@@ -19078,6 +19075,7 @@
 /obj/effect/mapping_helpers/airlock/access/all/command/ai_upload,
 /obj/structure/cable/layer3,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
 /turf/open/floor/circuit/green,
 /area/station/ai_monitored/turret_protected/aisat/foyer)
 "iDH" = (
@@ -20915,14 +20913,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/surgery/aft)
-"jyA" = (
-/obj/effect/mapping_helpers/broken_floor,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/directional/west,
-/turf/open/floor/wood/large,
-/area/station/medical/morgue)
 "jyE" = (
 /obj/machinery/light/directional/west,
 /obj/effect/turf_decal/tile/neutral{
@@ -22114,10 +22104,8 @@
 /turf/open/floor/plating,
 /area/station/engineering/storage_shared)
 "jXe" = (
-/obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
 /turf/open/floor/wood/large,
 /area/station/medical/morgue)
 "jXg" = (
@@ -22469,9 +22457,9 @@
 	pixel_y = 2
 	},
 /obj/item/flashlight/lamp/green{
-	on = 0;
 	pixel_x = 6;
-	pixel_y = 15
+	pixel_y = 15;
+	start_on = 0
 	},
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/hos)
@@ -25853,13 +25841,10 @@
 /turf/open/floor/plating,
 /area/station/security/brig/hallway)
 "lLz" = (
-/obj/machinery/requests_console/directional/west{
-	department = "Genetics";
-	departmentType = 2;
-	name = "Genetics Requests Console"
-	},
 /obj/machinery/vending/wardrobe/gene_wardrobe,
 /obj/machinery/light/directional/west,
+/obj/effect/mapping_helpers/requests_console/supplies,
+/obj/machinery/requests_console/auto_name/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
 "lLE" = (
@@ -28356,9 +28341,7 @@
 /turf/open/space/basic,
 /area/station/solars/port/aft)
 "mYa" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/wood/large,
 /area/station/medical/morgue)
 "mYs" = (
@@ -29624,6 +29607,12 @@
 /obj/structure/table/wood/fancy/red,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/aft)
+"nCf" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/wood/large,
+/area/station/medical/morgue)
 "nCn" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -35823,11 +35812,6 @@
 	},
 /obj/item/hand_labeler,
 /obj/item/pen,
-/obj/machinery/requests_console/directional/east{
-	department = "Bar";
-	departmentType = null;
-	name = "Bar Requests Console"
-	},
 /obj/effect/mapping_helpers/requests_console/supplies,
 /turf/open/floor/iron/dark/textured,
 /area/station/service/bar)
@@ -36605,13 +36589,14 @@
 /turf/open/floor/iron,
 /area/station/service/janitor)
 "qXh" = (
-/obj/machinery/newscaster/directional/west,
 /obj/structure/closet/secure_closet/medical1,
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 4
 	},
+/obj/machinery/requests_console/auto_name/directional/west,
+/obj/effect/mapping_helpers/requests_console/supplies,
 /turf/open/floor/iron/dark/textured_edge{
 	dir = 8
 	},
@@ -39281,7 +39266,7 @@
 /area/station/cargo/drone_bay)
 "ski" = (
 /obj/machinery/teleport/hub,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "skp" = (
 /turf/open/floor/mineral/titanium/tiled,
@@ -39300,7 +39285,7 @@
 "skQ" = (
 /obj/machinery/light/small/directional/east,
 /obj/structure/cable,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "sld" = (
 /obj/structure/table,
@@ -40555,7 +40540,7 @@
 /obj/machinery/airalarm/directional/east,
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/structure/cable,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "sRV" = (
 /obj/structure/cable,
@@ -41712,7 +41697,6 @@
 /obj/effect/mapping_helpers/airlock/access/all/medical/coroner,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
 /turf/open/floor/wood/large,
 /area/station/medical/morgue)
 "twN" = (
@@ -42670,6 +42654,11 @@
 /obj/structure/lattice,
 /turf/closed/wall,
 /area/station/cargo/storage)
+"tXt" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/turf/closed/wall,
+/area/station/ai_monitored/turret_protected/aisat/foyer)
 "tXM" = (
 /obj/effect/turf_decal/trimline/blue/filled/corner{
 	dir = 1
@@ -44494,12 +44483,6 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
 "uRN" = (
-/obj/machinery/requests_console/directional/south{
-	department = "Chemistry";
-	departmentType = 2;
-	name = "Chemistry RC";
-	receive_ore_updates = 1
-	},
 /turf/open/floor/iron/white/smooth_corner{
 	dir = 1
 	},
@@ -45482,11 +45465,11 @@
 /area/station/security/office)
 "vos" = (
 /obj/machinery/door/airlock/command{
-	name = "Teleport Access";
-	req_one_access_txt = "17;19"
+	name = "Teleport Access"
 	},
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/any/command/general,
+/obj/effect/mapping_helpers/airlock/access/all/command/general,
+/obj/effect/mapping_helpers/airlock/access/all/command/teleporter,
 /turf/open/floor/plating,
 /area/station/command/bridge)
 "vou" = (
@@ -45975,7 +45958,6 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/effect/mapping_helpers/airlock/access/any/engineering/maintenance,
 /obj/structure/cable,
-/obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/mineral/titanium/tiled,
 /area/station/ai_monitored/command/nuke_storage)
 "vCq" = (
@@ -46848,7 +46830,7 @@
 /area/station/hallway/secondary/command)
 "vXP" = (
 /obj/structure/cable,
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/command/teleporter)
 "vXQ" = (
 /obj/structure/cable,
@@ -48255,6 +48237,9 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
+"wBA" = (
+/turf/open/floor/iron,
+/area/station/command/teleporter)
 "wBQ" = (
 /obj/structure/chair{
 	dir = 1
@@ -63960,7 +63945,7 @@ hnw
 kjA
 kjA
 kjA
-kjA
+tXt
 kjA
 iDj
 sbB
@@ -76287,7 +76272,7 @@ wtu
 vAV
 aZy
 nri
-tXq
+dFM
 dFM
 leC
 uqs
@@ -81122,7 +81107,7 @@ ltO
 avP
 jXe
 twH
-llL
+nCf
 exm
 exm
 riy
@@ -81679,8 +81664,8 @@ llG
 bJh
 cjw
 dyD
-gqM
-gqM
+wBA
+wBA
 tJG
 gqM
 fph
@@ -81888,7 +81873,7 @@ lQz
 xZl
 llL
 pqa
-jyA
+qGG
 llL
 dmU
 qGG
