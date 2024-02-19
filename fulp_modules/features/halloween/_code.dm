@@ -89,7 +89,6 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 /obj/item/storage/box/halloween/edition_24
 	year = 2024
 
-
 /**
  * Gift code
  */

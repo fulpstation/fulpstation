@@ -17,7 +17,7 @@ GLOBAL_PROTECT(mentor_href_token)
 	/// Are we a Contributor?
 	var/is_contributor = FALSE
 	///List of all contributors for special MSAY text.
-	var/static/list/contributor_list = world.file2list("[global.config.directory]/mentors.txt")
+	var/static/list/contributor_list = world.file2list("[global.config.directory]/contributors.txt")
 
 /datum/mentors/New(ckey)
 	if(!ckey)

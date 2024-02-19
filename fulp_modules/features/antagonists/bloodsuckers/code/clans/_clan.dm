@@ -24,6 +24,8 @@
 	var/join_description = "The default, Classic Bloodsucker."
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.
 	var/joinable_clan = TRUE
+	///Boolean on whether the clan shows up in the Archives of the Kindred.
+	var/shows_in_archives = TRUE
 
 	///How we will drink blood using Feed.
 	var/blood_drink_type = BLOODSUCKER_DRINK_NORMAL
