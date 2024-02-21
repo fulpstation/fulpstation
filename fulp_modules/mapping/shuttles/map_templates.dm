@@ -24,6 +24,10 @@
 	suffix = "selene"
 	name = "arrival shuttle (Selene)"
 
+/datum/map_template/shuttle/arrival/fulp/helio
+	suffix = "helio"
+	name = "arrival shuttle (Helio)"
+
 /**
  * MINING
  */

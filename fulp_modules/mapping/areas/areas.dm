@@ -35,6 +35,16 @@
 	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "prison_ext_safe"
 
+/area/station/hallway/secondary/entry/upper
+	name = "\improper Upper Arrival Shuttle Hallway"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "upper_entry"
+
+/area/station/hallway/secondary/entry/lower
+	name = "\improper Lower Arrival Shuttle Hallway"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "lower_entry"
+
 // Ruins
 
 /area/ruin/powered/beefcyto
