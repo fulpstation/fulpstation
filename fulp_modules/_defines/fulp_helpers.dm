@@ -5,7 +5,7 @@
 ///Whether a mob is a werewolf antag
 #define IS_WEREWOLF_ANTAG(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/werewolf))
 ///Wherther a mob is a werewolf mob
-#define IS_WEREWOLF_MOB(m) (istype(m, /mob/living/carbon/werewolf))
+#define IS_WEREWOLF_MOB(m) (istype(m, /mob/living/carbon/human/werewolf))
 ///Whether a mob is a Favorite Vassal
 #define IS_FAVORITE_VASSAL(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/vassal/favorite))
 ///Whether a mob is a Revenge Vassal

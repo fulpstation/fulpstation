@@ -32,7 +32,6 @@
 		TRAIT_BATON_RESISTANCE,
 		TRAIT_ILLITERATE,
 		TRAIT_CHUNKYFINGERS,
-		TRAIT_DISCOORDINATED_TOOL_USER,
 		TRAIT_FEARLESS,
 		TRAIT_SLEEPIMMUNE,
 		TRAIT_VIRUSIMMUNE,
@@ -48,7 +47,8 @@
 		TRAIT_GIANT,
 		TRAIT_STUNIMMUNE,
 		TRAIT_PIERCEIMMUNE,
-		TRAIT_STRONG_SNIFFER
+		TRAIT_STRONG_SNIFFER,
+		TRAIT_ADVANCEDTOOLUSER
 	)
 	/// Werewolf's transform spell, kept seperate from their other powers
 	var/datum/action/cooldown/spell/shapeshift/werewolf_transform/transform_spell

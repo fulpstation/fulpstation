@@ -1,3 +1,8 @@
+/datum/component/mutant_hands/werewolf
+
+/datum/component/mutant_hands/werewolf/Initialize(obj/item/mutant_hand_path = /obj/item/mutant_hand)
+	src.mutant_hand_path = mutant_hand_path
+
 /datum/action/cooldown/spell/werewolf_claws
 	name = "Claws"
 	desc = "Drop whatever you're holding to be able to attack with your sharp claws."
@@ -12,7 +17,7 @@
 	return ..()
 
 /datum/action/cooldown/spell/werewolf_claws/proc/extend()
-	claws_datum = owner.AddComponent(/datum/component/mutant_hands, mutant_hand_path = /obj/item/mutant_hand/werewolf)
+	claws_datum = owner.AddComponent(/datum/component/mutant_hands/werewolf, mutant_hand_path = /obj/item/mutant_hand/werewolf)
 	claws_out = TRUE
 
 /datum/action/cooldown/spell/werewolf_claws/proc/retract()

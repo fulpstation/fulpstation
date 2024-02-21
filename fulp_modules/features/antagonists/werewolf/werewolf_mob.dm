@@ -1,17 +1,7 @@
-/datum/species/werewolf
-	bodypart_overrides = list(
-		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/werewolf,
-		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/werewolf,
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/werewolf,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/werewolf,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/werewolf,
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/werewolf,
-	)
-
-/mob/living/carbon/werewolf
+/mob/living/carbon/human/werewolf
 	// hud_possible = list(HEALTH_HUD)
 	gender = NEUTER
-	dna = null
+	// dna = null
 	mob_size = MOB_SIZE_HUGE
 	icon = 'fulp_modules/features/antagonists/werewolf/icons/werwolf_mob.dmi'
 	icon_state = "werewolf"
@@ -25,24 +15,25 @@
 		/obj/item/bodypart/leg/left/werewolf,
 	)
 
+/mob/living/carbon/human/werewolf/Initialize(mapload)
+	. = ..()
+	qdel(GetComponent(/datum/component/personal_crafting))
+	icon_state = "werewolf"
+	hairstyle = "Bald"
+	underwear = "Nude"
+	underwear_color = "#000000"
+	undershirt = "Nude"
+	socks = "Nude"
+	facial_hairstyle = "Shaved"
 
-/mob/living/carbon/werewolf/Initialize(mapload)
-	create_bodyparts() //initialize bodyparts
-	create_internal_organs()
-	return ..()
+	eye_color_left = "#FF0000"
+	eye_color_right = "#FF0000"
 
-
-/mob/living/carbon/werewolf/create_internal_organs()
-	organs += new /obj/item/organ/internal/brain
-	organs += new /obj/item/organ/internal/heart
-	organs += new /obj/item/organ/internal/lungs
-	organs += new /obj/item/organ/internal/tongue
-	organs += new /obj/item/organ/internal/eyes
-	organs += new /obj/item/organ/internal/liver
-	organs += new /obj/item/organ/internal/ears
-	..()
 
 /obj/item/bodypart/head/werewolf
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_state = "alien_r_arm"
 	brute_modifier = WEREWOLF_LIMB_BRUTE_MODIFIER
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
@@ -54,11 +45,14 @@
 	max_damage = 500
 
 /obj/item/bodypart/chest/werewolf
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_state = "alien_r_arm"
 	brute_modifier = WEREWOLF_LIMB_BRUTE_MODIFIER
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 	limb_id = BODYPART_ID_WEREWOLF
-	bodytype = BODYTYPE_HUMANOID  | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
@@ -66,6 +60,9 @@
 	acceptable_bodytype = BODYTYPE_HUMANOID
 
 /obj/item/bodypart/arm/left/werewolf
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_state = "alien_r_arm"
 	brute_modifier = WEREWOLF_LIMB_BRUTE_MODIFIER
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
@@ -77,6 +74,9 @@
 	max_damage = 500
 
 /obj/item/bodypart/arm/right/werewolf
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_state = "alien_r_arm"
 	brute_modifier = WEREWOLF_LIMB_BRUTE_MODIFIER
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
@@ -88,6 +88,9 @@
 	max_damage = 500
 
 /obj/item/bodypart/leg/left/werewolf
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_state = "alien_r_arm"
 	brute_modifier = WEREWOLF_LIMB_BRUTE_MODIFIER
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
@@ -99,6 +102,9 @@
 	max_damage = 500
 
 /obj/item/bodypart/leg/right/werewolf
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_state = "alien_r_arm"
 	brute_modifier = WEREWOLF_LIMB_BRUTE_MODIFIER
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
