@@ -71,3 +71,7 @@
 
 /obj/docking_port/stationary/laborcamp_home/helio
 	roundstart_template = /datum/map_template/shuttle/labour/helio
+
+/datum/map_template/shuttle/labour/selene
+	suffix = "selene"
+	name = "labour shuttle (Selene)"

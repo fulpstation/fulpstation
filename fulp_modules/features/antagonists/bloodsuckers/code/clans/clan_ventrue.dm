@@ -24,19 +24,25 @@
 			return ..()
 		return FALSE
 	var/datum/antagonist/vassal/favorite/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal/favorite)
+	var/datum/antagonist/bloodsucker/vassal_bloodsuker_datum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!vassaldatum)
 		return FALSE
 	// Purchase Power Prompt
 	var/list/options = list()
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
-		if(initial(power.purchase_flags) & VASSAL_CAN_BUY && !(locate(power) in vassaldatum.powers))
-			options[initial(power.name)] = power
+		if(!(initial(power.purchase_flags) & VASSAL_CAN_BUY))
+			continue
+		if(locate(power) in vassaldatum.powers)
+			continue
+		if(vassal_bloodsuker_datum && (locate(power) in vassal_bloodsuker_datum.powers))
+			continue
+		options[initial(power.name)] = power
 
 	if(options.len < 1)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You grow more ancient by the night!"))
 	else
 		// Give them the UI to purchase a power.
-		var/choice = tgui_input_list(bloodsuckerdatum.owner.current, "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to recieve.", "Your Blood Thickens...", options)
+		var/choice = tgui_input_list(bloodsuckerdatum.owner.current, "You have the opportunity to level up your Favorite Vassal. Select a power you wish them to receive.", "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
 		if(cost_rank && bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			return
@@ -75,11 +81,16 @@
 			target.add_traits(list(TRAIT_NOHARDCRIT, TRAIT_HARDLY_WOUNDED), BLOODSUCKER_TRAIT)
 			to_chat(target, span_notice("You feel yourself able to take cuts and stabbings like it's nothing."))
 		if(6 to INFINITY)
-			if(!target.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+			if(!vassal_bloodsuker_datum)
+				if(vassaldatum.info_button_ref)
+					QDEL_NULL(vassaldatum.info_button_ref)
+				vassal_bloodsuker_datum = target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
+				vassal_bloodsuker_datum.my_clan = new /datum/bloodsucker_clan/vassal(src)
+
 				to_chat(target, span_notice("You feel your heart stop pumping for the last time as you begin to thirst for blood, you feel... dead."))
-				target.mind.add_antag_datum(/datum/antagonist/bloodsucker)
 				bloodsuckerdatum.owner.current.add_mood_event("madevamp", /datum/mood_event/madevamp)
-			vassaldatum.set_vassal_level(target)
+
+			vassaldatum.set_vassal_level(vassal_bloodsuker_datum)
 
 	finalize_spend_rank(bloodsuckerdatum, cost_rank, blood_cost)
 	vassaldatum.LevelUpPowers()
@@ -107,8 +118,8 @@
 	to_chat(bloodsuckerdatum.owner.current, span_danger("You don't have any levels or enough Blood to Rank [vassaldatum.owner.current] up with."))
 	return TRUE
 
-/datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/vassaldatum, mob/living/bloodsucker)
-	to_chat(bloodsucker, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
+/datum/bloodsucker_clan/ventrue/on_favorite_vassal(datum/source, datum/antagonist/vassal/favorite/vassaldatum)
+	to_chat(source, span_announce("* Bloodsucker Tip: You can now upgrade your Favorite Vassal by buckling them onto a Candelabrum!"))
 	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/distress)
 
 #undef BLOODSUCKER_BLOOD_RANKUP_COST
@@ -121,7 +132,7 @@
  */
 /datum/objective/ventrue_clan_objective
 	name = "embrace"
-	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker and keep them alive until the end."
+	explanation_text = "Use the Persuasion Rack to Rank your Favorite Vassal up enough to become a Bloodsucker and keep them alive until the end."
 	martyr_compatible = TRUE
 
 /datum/objective/ventrue_clan_objective/check_completion()

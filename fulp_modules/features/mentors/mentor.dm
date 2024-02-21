@@ -12,15 +12,21 @@ GLOBAL_PROTECT(mentor_href_token)
 	var/target
 	/// href token for Mentor commands, uses the same token used by Admins.
 	var/href_token
+	///The mob currently being followed with mfollow.
 	var/mob/following
 	/// Are we a Contributor?
 	var/is_contributor = FALSE
+	///List of all contributors for special MSAY text.
+	var/static/list/contributor_list = world.file2list("[global.config.directory]/contributors.txt")
 
 /datum/mentors/New(ckey)
 	if(!ckey)
 		QDEL_IN(src, 0)
 		throw EXCEPTION("Mentor datum created without a ckey")
 		return
+	link_mentor_datum(ckey)
+
+/datum/mentors/proc/link_mentor_datum(ckey)
 	target = ckey(ckey)
 	name = "[ckey]'s mentor datum"
 	href_token = GenerateToken()
@@ -31,19 +37,8 @@ GLOBAL_PROTECT(mentor_href_token)
 		owner.mentor_datum = src
 		owner.add_mentor_verbs()
 		GLOB.mentors += owner
-
-/datum/mentors/proc/CheckMentorHREF(href, href_list)
-	var/auth = href_list["mentor_token"]
-	. = auth && (auth == href_token || auth == GLOB.mentor_href_token)
-	if(.)
-		return
-	var/msg = !auth ? "no" : "a bad"
-	message_admins("[key_name_admin(usr)] clicked an href with [msg] authorization key!")
-	if(CONFIG_GET(flag/debug_admin_hrefs))
-		message_admins("Debug mode enabled, call not blocked. Please ask your coders to review this round's logs.")
-		log_world("UAH: [href]")
-		return TRUE
-	log_admin_private("[key_name(usr)] clicked an href with [msg] authorization key! [href]")
+	if(ckey in contributor_list)
+		is_contributor = TRUE
 
 /proc/RawMentorHrefToken(forceGlobal = FALSE)
 	var/tok = GLOB.mentor_href_token
@@ -61,6 +56,7 @@ GLOBAL_PROTECT(mentor_href_token)
 /proc/MentorHrefToken(forceGlobal = FALSE)
 	return "mentor_token=[RawMentorHrefToken(forceGlobal)]"
 
+///Loads all mentors from the mentors.txt file, setting admins as mentors as well.
 /proc/load_mentors()
 	GLOB.mentor_datums.Cut()
 	for(var/client/mentor_clients in GLOB.mentors)
@@ -75,7 +71,9 @@ GLOBAL_PROTECT(mentor_href_token)
 			continue
 		new /datum/mentors(line)
 	for(var/client/admin in GLOB.admins)
-		admin.mentor_datum_set()
+		//not a mentor, let's add them.
+		if(!GLOB.mentor_datums[admin.ckey])
+			new /datum/mentors(admin.ckey)
 
 /client/proc/reload_mentors()
 	set name = "Reload Mentors"

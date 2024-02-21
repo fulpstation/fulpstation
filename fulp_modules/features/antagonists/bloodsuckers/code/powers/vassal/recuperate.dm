@@ -9,20 +9,10 @@
 		If you aren't a bloodless race, you will additionally heal Burn damage.\n\
 		The power will cancel out if you are incapacitated or dead."
 	power_flags = BP_AM_TOGGLE
-	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	check_flags = BP_CANT_USE_WHILE_INCAPACITATED
 	purchase_flags = NONE
 	bloodcost = 1.5
 	cooldown_time = 10 SECONDS
-
-/datum/action/cooldown/bloodsucker/recuperate/can_use(mob/living/carbon/user, trigger_flags)
-	. = ..()
-	if(!.)
-		return
-	if(user.stat >= DEAD || user.incapacitated())
-		user.balloon_alert(user, "you are incapacitated...")
-		return FALSE
-	return TRUE
-
 
 /datum/action/cooldown/bloodsucker/recuperate/ActivatePower(trigger_flags)
 	. = ..()
