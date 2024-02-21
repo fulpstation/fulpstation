@@ -9,11 +9,9 @@
 
 /area/station/service/hydroponics/kitchen
 	name = "\improper Kitchen Hydroponics"
-	icon_state = "hydro"
 
 /area/station/engineering/atmos/crystallizer
 	name = "\improper Crystallizer"
-	icon_state = "atmos"
 
 /area/station/science/nanite
 	name = "Nanite Lab"
