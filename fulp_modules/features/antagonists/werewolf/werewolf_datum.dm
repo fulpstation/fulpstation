@@ -53,7 +53,7 @@
 	/// Werewolf's transform spell, kept seperate from their other powers
 	var/datum/action/cooldown/spell/shapeshift/werewolf_transform/transform_spell
 	/// Tackler component for the transformed werewolf
-	var/datum/component/tackler/werewolf/werewolf_tackler
+	var/datum/component/tackler/werewolf_tackler
 	/// List of mobs consumed by the werewolf's bite spell. Mobs are removed after they are revived
 	var/list/consumed_mobs = list()
 	/// Werewolf's den

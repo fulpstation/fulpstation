@@ -46,7 +46,7 @@
 
 	var/mob/living/shifted_mob = ..()
 	werewolf_datum.werewolf_tackler = shifted_mob.AddComponent( \
-		/datum/component/tackler/werewolf, \
+		/datum/component/tackler, \
 		stamina_cost = WP_TACKLE_STAM_COST, \
 		base_knockdown = WP_TACKLE_BASE_KNOCKDOWN, \
 		range = WP_TACKLE_RANGE, \
