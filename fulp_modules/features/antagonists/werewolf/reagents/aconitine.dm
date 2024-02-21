@@ -16,7 +16,7 @@
 
 	// Has special interactions with werewolves
 	if(IS_WEREWOLF_ANTAG(affected_mob))
-		if(istype(affected_mob, /mob/living/carbon/werewolf))
+		if(istype(affected_mob, /mob/living/carbon/human/werewolf))
 			if(current_cycle == 5)
 				to_chat(affected_mob, span_danger("Your body feels like it's about to collapse in on itself!"))
 				affected_mob.set_jitter_if_lower(5 SECONDS)
