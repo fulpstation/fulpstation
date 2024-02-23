@@ -5,11 +5,6 @@
 /**
  * CARGO
  */
-/datum/map_template/shuttle/cargo/fulp
-
-/datum/map_template/shuttle/cargo/fulp/fulpstation
-	suffix = "fulp"
-	name = "supply shuttle (Fulp)"
 
 /datum/map_template/shuttle/cargo/fulp/selene // Selenestation
 	suffix = "selene"
