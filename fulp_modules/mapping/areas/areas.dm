@@ -7,7 +7,7 @@
 
 // Station
 
-/area/station/ai_monitored/turret_protected/ai_upload_foyer
+/area/station/ai_monitored/turret_protected/ai_upload_foyer/command
 	name = "\improper AI Upload Command Entrance"
 
 
