@@ -7,6 +7,11 @@
 
 // Station
 
+/area/station/ai_monitored/turret_protected/command_entry
+	name = "\improper AI Upload Command Entrance"
+	icon_state = "ai_upload_foyer"
+
+
 /area/station/service/hydroponics/kitchen
 	name = "\improper Kitchen Hydroponics"
 

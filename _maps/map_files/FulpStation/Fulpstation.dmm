@@ -542,12 +542,6 @@
 /obj/effect/turf_decal/trimline/brown/filled/warning,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
-"alE" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/turf_decal/fulp/floor_directions/starboard,
-/turf/open/floor/iron,
-/area/station/hallway/primary/starboard)
 "alN" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
@@ -6086,6 +6080,12 @@
 	c_tag = "AI Upload - Hall Entry"
 	},
 /obj/item/radio/intercom/directional/east,
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching the ai_upload.";
+	name = "AI Upload Monitor";
+	network = list("aiupload");
+	pixel_y = 32
+	},
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "cEE" = (
@@ -23338,6 +23338,10 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
+"ktI" = (
+/obj/effect/turf_decal/fulp/floor_directions/starboard,
+/turf/open/floor/iron,
+/area/station/hallway/primary/starboard)
 "ktL" = (
 /obj/structure/table,
 /obj/item/stack/sheet/mineral/plasma,
@@ -28942,9 +28946,12 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine/atmos)
 "ndl" = (
-/obj/structure/closet/firecloset/full,
-/turf/open/floor/plating,
-/area/station/hallway/primary/port)
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/effect/turf_decal/fulp/floor_directions/aft,
+/turf/open/floor/iron,
+/area/station/hallway/primary/aft)
 "ndm" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
@@ -30444,6 +30451,13 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/aft/lesser)
+"nQr" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/fulp/floor_directions/aft,
+/turf/open/floor/iron,
+/area/station/hallway/primary/aft)
 "nQz" = (
 /obj/machinery/door/airlock/mining/glass{
 	name = "Cargo Bay"
@@ -31123,6 +31137,12 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/engineering/supermatter/room)
+"ofE" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/fulp/floor_directions/starboard,
+/turf/open/floor/iron,
+/area/station/hallway/primary/starboard)
 "ofT" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
@@ -31611,6 +31631,11 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
+"org" = (
+/obj/structure/closet/firecloset/full,
+/obj/structure/sign/warning/pods/directional/south,
+/turf/open/floor/plating,
+/area/station/hallway/primary/port)
 "ort" = (
 /obj/structure/closet/firecloset/full,
 /obj/item/radio/intercom/directional/east,
@@ -36040,13 +36065,6 @@
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/plating,
 /area/station/commons/storage/emergency/starboard)
-"qAu" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/disposalpipe/segment,
-/obj/effect/turf_decal/fulp/floor_directions/aft,
-/turf/open/floor/iron,
-/area/station/hallway/primary/aft)
 "qAN" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -39813,13 +39831,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/supermatter/room)
-"soA" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/obj/effect/turf_decal/fulp/floor_directions/aft,
-/turf/open/floor/iron,
-/area/station/hallway/primary/aft)
 "soB" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /obj/structure/cable,
@@ -45901,10 +45912,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/office)
-"voe" = (
-/obj/effect/turf_decal/fulp/floor_directions/starboard,
-/turf/open/floor/iron,
-/area/station/hallway/primary/starboard)
 "vos" = (
 /obj/machinery/door/airlock/command{
 	name = "Teleport Access"
@@ -49384,9 +49391,7 @@
 	name = "Escape Pod One";
 	space_dir = 1
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 42
-	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/effect/landmark/navigate_destination/dockescpod2,
 /turf/open/floor/plating,
 /area/station/hallway/primary/port)
@@ -67280,7 +67285,7 @@ jYT
 vkG
 seW
 pxp
-vQV
+pxp
 vQV
 vQV
 vQV
@@ -67536,7 +67541,7 @@ olm
 jYT
 wOp
 seW
-pxp
+org
 pxp
 pxp
 qOH
@@ -68563,7 +68568,7 @@ vUQ
 dYe
 pEe
 pEe
-ndl
+pEe
 lsJ
 iWb
 wGQ
@@ -78869,7 +78874,7 @@ nfB
 ocb
 ocb
 ocb
-soA
+ndl
 ocb
 ocb
 ocb
@@ -78878,7 +78883,7 @@ ocb
 nZf
 ocb
 ocb
-soA
+ndl
 xuC
 uxs
 gPF
@@ -79618,7 +79623,7 @@ gQt
 gQt
 gQt
 gQt
-qAu
+nQr
 jRJ
 bWf
 abp
@@ -89386,7 +89391,7 @@ pdA
 xcP
 bEN
 drb
-voe
+ktI
 lne
 lne
 lne
@@ -90184,7 +90189,7 @@ kAf
 bHA
 cfa
 xcP
-alE
+ofE
 lne
 bob
 hab
