@@ -198,7 +198,7 @@
 	icon_state = "trimline_shrink_ccw"
 
 /// aft/fore/port/star directional plaques
-//**
+//***
 
 /obj/effect/turf_decal/fulp
 	icon = 'fulp_modules/mapping/icons/mapping.dmi'
