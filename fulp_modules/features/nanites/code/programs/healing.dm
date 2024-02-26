@@ -29,7 +29,7 @@
 
 /datum/nanite_program/temperature
 	name = "Temperature Adjustment"
-	desc = "The nanites adjust the host's internal temperature to an ideal level."
+	desc = "The nanites adjust the host's internal temperature to an ideal level. Does not consume nanites if the host has a nominal temperature."
 	use_rate = 3.5
 	rogue_types = list(/datum/nanite_program/skin_decay)
 
