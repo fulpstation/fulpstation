@@ -1,17 +1,24 @@
 /obj/item/toy/plush/batong
 	name = "batong"
-	desc = "A cheaply made toy. Looks like it need some recharge maybe security can help you"
-	icon = 'fulp_modules/features/toys/icons/toys.dmi'
-	icon_state = "batong"
-	worn_icon_state = "baton"
-	inhand_icon_state = "baton"
-	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
-	slot_flags = ITEM_SLOT_BELT
+	desc = "A cheaply made toy. It looks uncharged, maybe security can help you."
+
+	icon = /obj/item/melee/baton/security::icon
+	icon_state = /obj/item/melee/baton/security::icon_state
+	worn_icon = /obj/item/melee/baton/security::worn_icon
+	worn_icon_state = /obj/item/melee/baton/security::worn_icon_state
+	inhand_icon_state = /obj/item/melee/baton/security::inhand_icon_state
+	lefthand_file = /obj/item/melee/baton/security::lefthand_file
+	righthand_file = /obj/item/melee/baton/security::righthand_file
+	slot_flags = /obj/item/melee/baton/security::slot_flags
+
 	attack_verb_continuous = list("Tries to recharge the batong in")
 	attack_verb_simple = list("try to recharge the baton in")
 	// "the monkey (958) Tries to recharge the batong in you in the chest with the batong" people wanted this.
-	squeak_override = list('fulp_modules/features/toys/sound/batong.ogg'= 1)
+	squeak_override = list('fulp_modules/features/toys/sound/batong.ogg' = 1)
+
+/obj/item/toy/plush/batong/Initialize(mapload)
+	. = ..()
+	add_filter("batong_outline", 1, list("type" = "outline", "color" = COLOR_RED, "size" = 1))
 
 /obj/item/toy/plush/supermatter
 	name = "Supermatter toy"
