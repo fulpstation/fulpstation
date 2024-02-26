@@ -51,7 +51,7 @@
 
 /obj/structure/closet/crate/solarpanel_medium/PopulateContents()
 	..()
-	for(var/i in 1 to 33)
+	for(var/i in 1 to 26)
 		new /obj/item/solar_assembly(src)
 	new /obj/item/electronics/tracker(src)
 	new /obj/item/stack/cable_coil(src)
