@@ -67,3 +67,53 @@
 /area/ruin/space/has_grav/powered/beef/atmos
 	name = "beef station atmos"
 	icon_state = "beef_station_atmos"
+
+
+
+
+/area/ruin/has_grav/prototype
+	requires_power = TRUE
+	outdoors = FALSE
+	power_light = FALSE
+	power_equip = FALSE
+	power_environ = FALSE
+
+/area/ruin/has_grav/prototype/Captain
+	name = "Prototype Captain's quarter"
+	icon_state = "blue"
+
+/area/ruin/has_grav/prototype/arrivals
+	name = "Prototype Arrivals"
+	icon_state = "hallP"
+
+/area/ruin/has_grav/prototype/hallway
+	name = "Prototype Main Hallway"
+	icon_state = "hallS"
+
+/area/ruin/has_grav/prototype/medsci
+	name = "Prototype Med-Sci"
+	icon_state = "green"
+
+/area/ruin/has_grav/prototype/botany
+	name = "Prototype Botany"
+	icon_state = "garden"
+
+/area/ruin/has_grav/prototype/engineering
+	name = "Prototype Engineering"
+	icon_state = "engi_storage"
+
+/area/ruin/has_grav/prototype/solars
+	name = "Prototype Solars"
+	icon_state = "engi_storage"
+
+/area/ruin/has_grav/prototype/kitchen
+	name = "Prototype Kitchen"
+	icon_state = "kitchen"
+
+/area/ruin/has_grav/prototype/brig
+	name = "Prototype Brig"
+	icon_state = "maint_brig"
+
+/area/ruin/has_grav/prototype/dorms
+	name = "Prototype Dormitories"
+	icon_state = "dorms"
