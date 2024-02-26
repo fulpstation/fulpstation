@@ -3,6 +3,7 @@
 	id = "prototype"
 	description = "Apparently one of the first stations built by Nanotrasen. Slated for reclaimation by the Syndicate."
 	suffix = "syndicate_engineer.dmm"
+	always_place = TRUE
 
 /obj/effect/mob_spawn/ghost_role/human/syndicate_engineer
 	name = "Syndicate Engineer Corps"
@@ -15,6 +16,11 @@
 	important_text = "Leaving the station is forbidden."
 	spawner_job_path = /datum/job/syndicate_engineer
 	outfit = /datum/outfit/syndicate_engineer
+
+/obj/effect/mob_spawn/ghost_role/human/syndicate_engineer/special(mob/living/new_spawn)
+	. = ..()
+	to_chat(new_spawn, "<b>You have been implanted with a bomb that will detonate if you stray too far from the station. Glory to the Syndicate.</b>")
+	new_spawn.AddComponent(/datum/component/stationstuck, PUNISHMENT_GIB, "You have left the vicinity of the Prototype Station. Your bomb implant has been triggered.")
 
 /datum/job/syndicate_engineer
 	title = ROLE_SYNDICATE_ENGINEER
@@ -31,7 +37,7 @@
 	back = /obj/item/storage/backpack
 	belt = /obj/item/storage/belt/utility/chief/full
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	internals_slot = ITEM_SLOT_DEX_STORAGE//SLOT_R_STORE
+	internals_slot = ITEM_SLOT_DEX_STORAGE // SLOT_R_STORE
 	id = /obj/item/card/id/advanced/chameleon
 	implants = list(/obj/item/implant/weapons_auth)
 	backpack_contents = list(/obj/item/storage/box/survival/syndie=1,\
@@ -44,6 +50,8 @@
 /obj/effect/mob_spawn/human/syndicate_engineer/Destroy()
 	new/obj/structure/fluff/empty_sleeper/syndicate(get_turf(src))
 	return ..()
+
+// We're giving them a special solar panel crate because the budget one doesn't have enough panels-- and I don't want to place 20 crates.
 
 /obj/structure/closet/crate/solarpanel_medium
 	name = "solar panel crate"
