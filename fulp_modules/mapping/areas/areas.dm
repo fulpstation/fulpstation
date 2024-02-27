@@ -80,40 +80,50 @@
 
 /area/ruin/has_grav/prototype/Captain
 	name = "Prototype Captain's quarter"
-	icon_state = "blue"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "captain"
 
 /area/ruin/has_grav/prototype/arrivals
 	name = "Prototype Arrivals"
-	icon_state = "hallP"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "entry"
 
 /area/ruin/has_grav/prototype/hallway
 	name = "Prototype Main Hallway"
-	icon_state = "hallS"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "hall"
 
 /area/ruin/has_grav/prototype/medsci
 	name = "Prototype Med-Sci"
-	icon_state = "green"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "medbay"
 
 /area/ruin/has_grav/prototype/botany
 	name = "Prototype Botany"
-	icon_state = "garden"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "hydro"
 
 /area/ruin/has_grav/prototype/engineering
 	name = "Prototype Engineering"
-	icon_state = "engi_storage"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "engie"
 
 /area/ruin/has_grav/prototype/solars
 	name = "Prototype Solars"
-	icon_state = "engi_storage"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "panels"
 
 /area/ruin/has_grav/prototype/kitchen
 	name = "Prototype Kitchen"
+	icon = 'icons/area/areas_station.dmi'
 	icon_state = "kitchen"
 
 /area/ruin/has_grav/prototype/brig
 	name = "Prototype Brig"
-	icon_state = "maint_brig"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "brig"
 
 /area/ruin/has_grav/prototype/dorms
 	name = "Prototype Dormitories"
+	icon = 'icons/area/areas_station.dmi'
 	icon_state = "dorms"
