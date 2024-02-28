@@ -3,6 +3,7 @@
 	id = "prototype"
 	description = "Apparently one of the first stations built by Nanotrasen. Slated for reclaimation by the Syndicate."
 	suffix = "syndicate_engineer.dmm"
+	always_place = TRUE
 
 /obj/effect/mob_spawn/ghost_role/human/syndicate_engineer
 	name = "Syndicate Engineer Corps"
