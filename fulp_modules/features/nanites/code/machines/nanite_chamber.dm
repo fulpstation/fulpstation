@@ -32,8 +32,8 @@
 	COOLDOWN_DECLARE(message_cooldown)
 
 /obj/machinery/nanite_chamber/Initialize(mapload)
-	. = ..()
 	occupant_typecache = GLOB.typecache_living
+	return ..()
 
 /obj/machinery/nanite_chamber/RefreshParts()
 	. = ..()
@@ -214,7 +214,7 @@
 	toggle_open(user)
 
 /obj/machinery/nanite_chamber/MouseDrop_T(mob/target, mob/user)
-	if(!user.can_perform_action(src, FORBID_TELEKINESIS_REACH) || !Adjacent(target) || !user.Adjacent(target))
+	if(!user.can_perform_action(src, FORBID_TELEKINESIS_REACH) || !Adjacent(target) || !user.Adjacent(target) || !(can_be_occupant(target)))
 		return
 	if(close_machine(target))
 		log_combat(user, target, "inserted", null, "into [src].")
