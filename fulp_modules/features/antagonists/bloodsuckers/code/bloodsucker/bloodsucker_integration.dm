@@ -15,8 +15,8 @@
 	if(!bloodsuckerdatum)
 		return ..()
 	var/blood_to_add = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
-    if((blood_to_add - bloodsuckerdatum.bloodsucker_blood_volume) > 0)
-        bloodsuckerdatum.AddBloodVolume(blood_to_add - bloodsuckerdatum.bloodsucker_blood_volume)
+	if((blood_to_add - bloodsuckerdatum.bloodsucker_blood_volume) > 0)
+		bloodsuckerdatum.AddBloodVolume(blood_to_add - bloodsuckerdatum.bloodsucker_blood_volume)
 
 /mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced)
 	. = ..()
