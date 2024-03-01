@@ -51,3 +51,6 @@
 
 ///Define for the 'Rabbits' Faction.
 #define FACTION_RABBITS "rabbits"
+
+//Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
+#define ROLE_SYNDICATE_ENGINEER "Syndicate Engineer"
