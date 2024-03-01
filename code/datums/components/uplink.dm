@@ -384,9 +384,9 @@
 			return COMPONENT_STOP_RINGTONE_CHANGE
 		return
 	locked = FALSE
-	if(ismob(source))
-		interact(null, source)
-		to_chat(source, span_hear("The computer softly beeps."))
+	if(ismob(user))
+		interact(null, user)
+		to_chat(user, span_hear("The computer softly beeps."))
 	return COMPONENT_STOP_RINGTONE_CHANGE
 
 /datum/component/uplink/proc/check_detonate()
