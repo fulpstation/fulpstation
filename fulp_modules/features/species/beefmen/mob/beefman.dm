@@ -334,10 +334,6 @@
 	bleed_over_target(user, target)
 	return ..()
 
-/datum/species/beefman/grab(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
-	bleed_over_target(user, target)
-	return ..()
-
 /datum/species/beefman/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(user != target)
 		return ..()
