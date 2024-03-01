@@ -55,15 +55,6 @@
 		)
 	return ..()
 
-	bodypart_overrides = list(
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/lizard,
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/lizard,
-		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/lizard,
-		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/lizard,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/lizard,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard,
-	)
-
 /datum/species/lizard/on_species_gain(mob/living/carbon/new_lizard, datum/species/old_species, pref_load)
 	. = ..()
 	if(ishuman(new_lizard))

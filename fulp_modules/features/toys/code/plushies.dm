@@ -19,7 +19,7 @@
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "supermatter"
 	light_range = 3
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	color = LIGHT_COLOR_DIM_YELLOW
 	attack_verb_continuous = list("dust")
 	attack_verb_simple = list("dust")
