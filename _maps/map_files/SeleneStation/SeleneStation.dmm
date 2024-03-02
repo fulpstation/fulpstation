@@ -1550,14 +1550,12 @@
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
 "ayz" = (
-/obj/machinery/door/window/left/directional/north{
-	icon_state = "right";
-	name = "First-Aid Supplies";
-	red_alert_access = 1;
-	req_access = list("medical")
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/effect/landmark/start/medical_doctor,
+/obj/machinery/door/window/right/directional/north{
+	name = "First-Aid Supplies";
+	req_access = list("medical")
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/storage)
 "ayA" = (
@@ -4781,11 +4779,6 @@
 /turf/open/floor/iron/dark,
 /area/station/science/research)
 "bBX" = (
-/obj/machinery/door/window{
-	dir = 8;
-	name = "Mass Driver";
-	req_access = list("chapel_office")
-	},
 /obj/machinery/computer/pod/old{
 	density = 0;
 	icon = 'icons/obj/airlock_machines.dmi';
@@ -4797,6 +4790,10 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/machinery/door/window/left/directional/west{
+	name = "Mass Driver";
+	req_access = list("chapel_office")
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
@@ -10650,8 +10647,7 @@
 /obj/machinery/door/window/left/directional/west{
 	name = "Warden's Desk"
 	},
-/obj/machinery/door/window/brigdoor/right/directional/north{
-	dir = 4;
+/obj/machinery/door/window/brigdoor/right/directional/east{
 	name = "Warden's Desk";
 	req_access = list("armory")
 	},
@@ -18451,8 +18447,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "ghw" = (
-/obj/machinery/door/window{
-	dir = 1;
+/obj/machinery/door/window/left/directional/north{
 	name = "AI Core Door"
 	},
 /turf/open/floor/circuit/green,
@@ -19576,15 +19571,13 @@
 /area/station/science/ordnance/burnchamber)
 "gCG" = (
 /obj/structure/table/wood,
-/obj/machinery/door/window{
-	base_state = "right";
-	dir = 8;
-	icon_state = "right";
-	name = "Captain's Desk"
-	},
 /obj/item/paper_bin/carbon,
 /obj/item/stamp/denied,
 /obj/item/stamp/head/captain,
+/obj/machinery/door/window/left/directional/west{
+	name = "Captain's Desk";
+	req_access = list("command")
+	},
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/captain)
 "gCN" = (
@@ -26756,12 +26749,11 @@
 /turf/open/floor/vault,
 /area/station/command/bridge)
 "iXN" = (
-/obj/machinery/door/window/left/directional/west{
-	icon_state = "right";
-	name = "Incoming Mail"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/window/left/directional/west{
+	name = "Incoming Mail"
 	},
 /turf/open/floor/plating,
 /area/station/cargo/sorting)
@@ -30811,13 +30803,12 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "knr" = (
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	id = "scicell";
-	name = "Science Cell";
-	req_access = list("brig")
-	},
 /obj/effect/turf_decal/tile/prison/opposingcorners,
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	name = "Science Cell";
+	req_access = list("brig");
+	id = "scicell"
+	},
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "knu" = (
@@ -37339,13 +37330,11 @@
 /obj/structure/window/reinforced/spawner/directional/east{
 	layer = 2.9
 	},
-/obj/machinery/door/window/right/directional/north{
-	base_state = "left";
-	icon_state = "left";
-	name = "Fitness Ring"
-	},
 /obj/effect/turf_decal/tile/red/anticorner/contrasted{
 	dir = 4
+	},
+/obj/machinery/door/window/left/directional/north{
+	name = "Fitness Ring"
 	},
 /turf/open/floor/iron/white,
 /area/station/commons/fitness)
@@ -41759,16 +41748,15 @@
 	dir = 4
 	},
 /obj/machinery/light/directional/south,
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	name = "Medbay Delivery";
-	req_access = list("medical")
-	},
 /obj/structure/window/reinforced/spawner/directional/east{
 	layer = 2.9
 	},
 /obj/effect/turf_decal/trimline/blue/warning{
 	dir = 5
+	},
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	name = "Medbay Delivery";
+	req_access = list("medical")
 	},
 /turf/open/floor/iron/dark,
 /area/station/medical/medbay)
@@ -45173,7 +45161,6 @@
 	},
 /obj/structure/table,
 /obj/machinery/door/window/left/directional/south{
-	icon_state = "right";
 	name = "First-Aid Supplies";
 	red_alert_access = 1;
 	req_access = list("medical")
@@ -47651,7 +47638,6 @@
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/machinery/door/window/right/directional/west{
 	base_state = "left";
-	icon_state = "left";
 	name = "Fitness Ring"
 	},
 /obj/effect/turf_decal/tile/red/anticorner/contrasted{
@@ -51630,13 +51616,6 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai)
 "rom" = (
-/obj/machinery/door/window{
-	base_state = "right";
-	dir = 8;
-	icon_state = "right";
-	name = "Captain's Desk";
-	req_access = list("command")
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
@@ -51645,6 +51624,10 @@
 	},
 /obj/structure/cable,
 /obj/machinery/light_switch/directional/north,
+/obj/machinery/door/window/left/directional/west{
+	name = "Captain's Desk";
+	req_access = list("command")
+	},
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/captain)
 "roG" = (
@@ -57414,13 +57397,6 @@
 "toP" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/window/brigdoor{
-	base_state = "rightsecure";
-	dir = 8;
-	icon_state = "rightsecure";
-	name = "Head of Personnel's Desk";
-	req_access = list("hop")
-	},
 /obj/machinery/door/window/left/directional/east{
 	name = "Reception Window"
 	},
@@ -57437,6 +57413,10 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/right/directional/west{
+	req_access = list("hop");
+	name = "Head of Personnel's Desk"
 	},
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/hop)
@@ -57873,15 +57853,14 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "tvx" = (
-/obj/machinery/door/window{
-	dir = 1;
-	name = "Theatre Stage"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
 /obj/machinery/status_display/evac/directional/west,
 /obj/effect/turf_decal/tile/bar/opposingcorners,
+/obj/machinery/door/window/left/directional/north{
+	name = "Theatre Stage"
+	},
 /turf/open/floor/iron/dark,
 /area/station/service/cafeteria)
 "tvJ" = (
@@ -61715,14 +61694,13 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "uNd" = (
-/obj/machinery/door/window/brigdoor{
-	dir = 8;
-	name = "Command Desk";
-	req_access = list("command")
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/command/half{
 	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/left/directional/west{
+	name = "Command Desk";
+	req_access = list("command")
 	},
 /turf/open/floor/vault,
 /area/station/command/bridge)
@@ -61859,15 +61837,14 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "uPd" = (
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	id = "medcell";
-	name = "Medical Cell";
-	req_access = list("brig")
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/security/half{
 	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	name = "Medical Cell";
+	req_access = list("brig");
+	id = "medcell"
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/medical)
@@ -66814,8 +66791,7 @@
 /area/station/medical/medbay/lobby)
 "wCu" = (
 /obj/structure/flora/bush/flowers_br/style_random,
-/obj/machinery/door/window{
-	dir = 8;
+/obj/machinery/door/window/left/directional/west{
 	name = "Garden Door"
 	},
 /turf/open/floor/grass,
@@ -70080,12 +70056,6 @@
 "xDy" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/window/right/directional/east{
-	base_state = "left";
-	icon_state = "left";
-	name = "Robotics Desk";
-	req_access = list("robotics")
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	dir = 8;
 	id = "robotics2";
@@ -70104,6 +70074,10 @@
 	pixel_y = -1
 	},
 /obj/effect/turf_decal/tile/science/opposingcorners,
+/obj/machinery/door/window/left/directional/east{
+	name = "Robotics Desk";
+	req_access = list("robotics")
+	},
 /turf/open/floor/iron/white,
 /area/station/science/robotics/lab)
 "xDK" = (

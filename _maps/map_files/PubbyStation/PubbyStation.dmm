@@ -4244,11 +4244,6 @@
 /area/station/security/office)
 "apK" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	name = "Armory Desk";
-	req_access = list("armory")
-	},
 /obj/machinery/door/window/left/directional/south{
 	name = "Reception Desk";
 	req_access = list("brig_entrance")
@@ -4262,6 +4257,10 @@
 	},
 /obj/structure/desk_bell{
 	pixel_x = -8
+	},
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	req_access = list("armory");
+	name = "Armory Desk"
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
@@ -8724,17 +8723,16 @@
 /area/station/command/heads_quarters/hop)
 "aFB" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	name = "Head of Personnel's Desk";
-	req_access = list("hop")
-	},
 /obj/machinery/door/window/left/directional/south{
 	name = "Reception Window"
 	},
 /obj/machinery/door/poddoor/preopen{
 	id = "hop";
 	name = "Privacy Shutters"
+	},
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	req_access = list("hop");
+	name = "Head of Personnel's Desk"
 	},
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/hop)
@@ -35729,12 +35727,11 @@
 /obj/machinery/door/window/left/directional/west{
 	name = "Reception Window"
 	},
-/obj/machinery/door/window/brigdoor{
-	dir = 4;
-	name = "Brig Control Desk";
-	req_access = list("brig_entrance")
-	},
 /obj/structure/cable,
+/obj/machinery/door/window/brigdoor/left/directional/east{
+	req_access = list("brig_entrance");
+	name = "Brig Control Desk"
+	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/supply)
 "iKi" = (
