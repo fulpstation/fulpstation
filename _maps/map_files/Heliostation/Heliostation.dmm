@@ -26303,6 +26303,9 @@
 	req_access = list("research");
 	name = "Containment Pen #1"
 	},
+/obj/machinery/door/window/left/directional/east{
+	name = "Outer Window"
+	},
 /turf/open/floor/iron/textured_half{
 	dir = 1
 	},
@@ -67419,14 +67422,13 @@
 /area/station/maintenance/aft/lesser)
 "sVG" = (
 /obj/structure/window/spawner/directional/north,
-/obj/machinery/door/window/left/directional/west{
-	icon_state = "right";
-	req_access = list("cargo")
-	},
 /obj/effect/turf_decal/delivery,
 /obj/effect/turf_decal/tile/brown/half/contrasted,
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/window/right/directional/west{
+	req_access = list("cargo")
 	},
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
@@ -70107,6 +70109,10 @@
 /obj/machinery/door/window/brigdoor/left/directional/north{
 	req_access = list("armory");
 	name = "Justice Chamber"
+	},
+/obj/machinery/door/window/right/directional/north{
+	name = "First-Aid Supplies";
+	req_access = list("medical")
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/security/execution/education)
