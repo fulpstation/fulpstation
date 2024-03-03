@@ -9262,8 +9262,8 @@
 /area/station/hallway/primary/central/fore)
 "aHO" = (
 /obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 5
+/obj/structure/disposalpipe/junction/flip{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
@@ -9738,6 +9738,7 @@
 	dir = 4
 	},
 /obj/effect/landmark/navigate_destination/tools,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "aKP" = (
@@ -9765,6 +9766,11 @@
 /area/station/commons/storage/primary)
 "aKR" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/window/left/directional/north,
+/obj/structure/window/spawner/directional/east,
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "aKT" = (
@@ -10201,13 +10207,13 @@
 /area/station/commons/storage/art)
 "aMY" = (
 /obj/structure/table,
-/obj/item/hand_labeler,
-/obj/item/weldingtool,
-/obj/item/weldingtool,
 /obj/machinery/camera/directional/west,
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 8
 	},
+/obj/item/storage/belt/utility,
+/obj/item/storage/belt/utility,
+/obj/item/storage/medkit/regular,
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "aMZ" = (
@@ -10223,6 +10229,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "aNb" = (
@@ -10753,6 +10760,9 @@
 /obj/machinery/airalarm/directional/south,
 /obj/structure/reagent_dispensers/fueltank,
 /obj/effect/turf_decal/tile/yellow/half/contrasted,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "aPB" = (
@@ -13604,7 +13614,8 @@
 	dir = 9
 	},
 /obj/machinery/disposal/delivery_chute{
-	dir = 4
+	dir = 4;
+	name = "Primary tool storage chute"
 	},
 /obj/structure/disposalpipe/trunk{
 	dir = 2
@@ -15926,6 +15937,13 @@
 /obj/effect/turf_decal/tile/red/opposingcorners,
 /turf/open/floor/iron,
 /area/station/science/breakroom)
+"blQ" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "blR" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/structure/chair/stool/bar/directional/east,
@@ -20831,6 +20849,13 @@
 /obj/effect/mapping_helpers/airalarm/mixingchamber_access,
 /turf/open/floor/iron/white,
 /area/station/science/ordnance/burnchamber)
+"bIM" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "bIN" = (
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 8
@@ -30620,7 +30645,8 @@
 	},
 /obj/machinery/light/directional/south,
 /obj/machinery/disposal/delivery_chute{
-	dir = 4
+	dir = 4;
+	name = "Primary tool storage chute"
 	},
 /obj/structure/disposalpipe/trunk{
 	dir = 2
@@ -31277,6 +31303,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
 "eKa" = (
@@ -31639,7 +31666,8 @@
 /area/space/nearstation)
 "eYM" = (
 /obj/machinery/disposal/delivery_chute{
-	dir = 4
+	dir = 4;
+	name = "Primary tool storage chute"
 	},
 /obj/structure/disposalpipe/trunk,
 /obj/effect/turf_decal/delivery,
@@ -33438,7 +33466,8 @@
 /area/station/science/xenobiology)
 "gBw" = (
 /obj/machinery/disposal/delivery_chute{
-	dir = 4
+	dir = 4;
+	name = "Primary tool storage chute"
 	},
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/structure/window/reinforced/spawner/directional/west,
@@ -35093,7 +35122,8 @@
 	dir = 8
 	},
 /obj/machinery/disposal/delivery_chute{
-	dir = 4
+	dir = 4;
+	name = "Primary tool storage chute"
 	},
 /obj/machinery/conveyor{
 	dir = 8;
@@ -45274,6 +45304,19 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
+"rbT" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "rch" = (
 /obj/structure/table/glass,
 /obj/item/clothing/gloves/latex,
@@ -49376,12 +49419,16 @@
 /turf/open/floor/iron/white,
 /area/station/medical/paramedic)
 "ulu" = (
-/obj/structure/table,
-/obj/item/storage/belt/utility,
-/obj/item/storage/belt/utility,
-/obj/item/storage/medkit/regular,
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 8
+	},
+/obj/machinery/disposal/delivery_chute{
+	dir = 4;
+	name = "Primary tool storage chute"
+	},
+/obj/structure/window/spawner/directional/north,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
@@ -51734,6 +51781,17 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction,
 /turf/open/floor/plating,
 /area/station/science/lab)
+"wgD" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "wha" = (
 /obj/structure/table/glass,
 /obj/item/folder/white{
@@ -80866,8 +80924,8 @@ aNm
 aGi
 biS
 aGX
-hRF
-krA
+blQ
+wgD
 eJq
 aKO
 aNa
@@ -81123,7 +81181,7 @@ oyF
 aKP
 aGj
 onX
-eTZ
+rbT
 ilz
 jhl
 aBi
@@ -81380,7 +81438,7 @@ aEw
 aFv
 biS
 aGX
-hRF
+bIM
 ilz
 vYG
 aBi
@@ -81637,7 +81695,7 @@ awR
 awR
 awR
 axi
-hRF
+bIM
 ilz
 aJM
 aBi
@@ -81894,7 +81952,7 @@ aEx
 aAx
 awR
 aHb
-hRF
+bIM
 ilz
 riB
 aKM
