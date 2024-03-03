@@ -176,9 +176,10 @@
 	var/spread_cooldown = 0
 
 /datum/nanite_program/spreading/active_effect()
-	if(spread_cooldown < world.time)
-		spread_cooldown = world.time + 50
+	if(spread_cooldown > world.time)
 		return
+	spread_cooldown = world.time + 50
+
 	var/list/mob/living/carbon/human/target_hosts = list()
 	for(var/mob/living/carbon/human/nearby_humans in oview(5, host_mob))
 		if(!prob(25))
