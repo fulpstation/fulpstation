@@ -57,3 +57,7 @@
 
 ///Source trait for Devil stuff.
 #define DEVIL_TRAIT "devil"
+
+//Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
+#define ROLE_SYNDICATE_ENGINEER "Syndicate Engineer"
+

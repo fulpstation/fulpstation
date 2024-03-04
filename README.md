@@ -40,7 +40,14 @@ After it finishes, you can then [setup the server](.github/guides/RUNNING_A_SERV
 
 [Documenting your code](.github/AUTODOC_GUIDE.md)
 
-[Policy configuration system](.github/POLICYCONFIG.md)
+**Building tgstation in DreamMaker directly is deprecated and might produce errors**, such as `'tgui.bundle.js': cannot find file`.
+
+**[How to compile in VSCode and other build options](tools/build/README.md).**
+
+## Contributors
+[Guides for Contributors](.github/CONTRIBUTING.md)
+
+[/tg/station HACKMD account](https://hackmd.io/@tgstation) - Design documentation here
 
 [Interested in some starting lore?](https://github.com/tgstation/common_core)
 
@@ -53,7 +60,7 @@ All code before [commit 333c566b88108de218d882840e61928a9b759d8f on 2014/31/12 a
 
 See LICENSE and GPLv3.txt for more details.
 
-The TGS DMAPI API is licensed as a subproject under the MIT license.
+The TGS DMAPI is licensed as a subproject under the MIT license.
 
 See the footer of [code/__DEFINES/tgs.dm](./code/__DEFINES/tgs.dm) and [code/modules/tgs/LICENSE](./code/modules/tgs/LICENSE) for the MIT license.
 

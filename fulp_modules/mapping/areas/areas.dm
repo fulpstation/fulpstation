@@ -39,6 +39,21 @@
 	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "prison_ext_safe"
 
+/area/station/hallway/secondary/entry/upper
+	name = "\improper Upper Arrival Shuttle Hallway"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "upper_entry"
+
+/area/station/hallway/secondary/entry/lower
+	name = "\improper Lower Arrival Shuttle Hallway"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "lower_entry"
+
+//centcom
+/area/centcom/devil_holding_cell
+	name = "Holding Cell"
+	has_gravity = STANDARD_GRAVITY
+
 // Ruins
 /area/ruin/powered/beefcyto
 	name = "Research Outpost"
@@ -63,7 +78,59 @@
 	name = "beef station atmos"
 	icon_state = "beef_station_atmos"
 
-//centcom
-/area/centcom/devil_holding_cell
-	name = "Holding Cell"
-	has_gravity = STANDARD_GRAVITY
+/area/ruin/has_grav/prototype
+	requires_power = TRUE
+	outdoors = FALSE
+	power_light = FALSE
+	power_equip = FALSE
+	power_environ = FALSE
+
+/area/ruin/has_grav/prototype/Captain
+	name = "Prototype Captain's quarter"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "captain"
+
+/area/ruin/has_grav/prototype/arrivals
+	name = "Prototype Arrivals"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "entry"
+
+/area/ruin/has_grav/prototype/hallway
+	name = "Prototype Main Hallway"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "hall"
+
+/area/ruin/has_grav/prototype/medsci
+	name = "Prototype Med-Sci"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "medbay"
+
+/area/ruin/has_grav/prototype/botany
+	name = "Prototype Botany"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "hydro"
+
+/area/ruin/has_grav/prototype/engineering
+	name = "Prototype Engineering"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "engie"
+
+/area/ruin/has_grav/prototype/solars
+	name = "Prototype Solars"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "panels"
+
+/area/ruin/has_grav/prototype/kitchen
+	name = "Prototype Kitchen"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "kitchen"
+
+/area/ruin/has_grav/prototype/brig
+	name = "Prototype Brig"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "brig"
+
+/area/ruin/has_grav/prototype/dorms
+	name = "Prototype Dormitories"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "dorms"
