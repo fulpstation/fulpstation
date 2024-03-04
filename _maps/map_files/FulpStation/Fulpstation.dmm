@@ -8,9 +8,8 @@
 /turf/open/floor/iron,
 /area/station/commons/storage/emergency/starboard)
 "aag" = (
-/obj/structure/table/wood,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/item/stamp/head/hos,
+/obj/machinery/modular_computer/preset/id,
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/hos)
 "aah" = (
@@ -13176,7 +13175,6 @@
 /area/station/maintenance/port/aft)
 "frJ" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/cable,
 /obj/machinery/door/window/right/directional/east{
 	base_state = "left";
 	dir = 8;
@@ -18300,6 +18298,9 @@
 /obj/structure/table,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/item/storage/backpack/duffelbag/sec{
+	pixel_y = 7
+	},
 /turf/open/floor/iron,
 /area/station/security/office)
 "huC" = (
@@ -21726,6 +21727,11 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron/cafeteria,
 /area/station/service/kitchen)
+"iZc" = (
+/obj/effect/spawner/random/maintenance,
+/obj/effect/spawner/random/engineering/flashlight,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard)
 "iZd" = (
 /turf/open/floor/plating,
 /area/station/maintenance/disposal)
@@ -23030,6 +23036,9 @@
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 1
 	},
+/obj/machinery/photocopier{
+	pixel_y = 3
+	},
 /turf/open/floor/iron,
 /area/station/security/office)
 "jDe" = (
@@ -23220,7 +23229,6 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/aft)
 "jGz" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 4
 	},
@@ -24505,6 +24513,7 @@
 	pixel_y = 15;
 	start_on = 0
 	},
+/obj/item/stamp/head/hos,
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/hos)
 "kfe" = (
@@ -26005,7 +26014,6 @@
 	},
 /obj/structure/plasticflaps/opaque,
 /obj/effect/turf_decal/bot,
-/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/maintenance/starboard/aft)
 "kMa" = (
@@ -34871,6 +34879,7 @@
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/north,
 /obj/effect/turf_decal/trimline/brown/warning,
+/obj/machinery/computer/order_console/mining,
 /turf/open/floor/iron/edge{
 	dir = 1
 	},
@@ -38735,6 +38744,9 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Security Break Room";
 	name = "camera"
+	},
+/obj/machinery/computer/security{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/station/security/office)
@@ -45617,7 +45629,6 @@
 /turf/open/floor/wood,
 /area/station/service/library/artgallery)
 "tsZ" = (
-/obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 5
 	},
@@ -47585,6 +47596,11 @@
 /obj/structure/closet/crate/secure/gear{
 	desc = "Contains the most important part of any Chef.";
 	name = "chef crate"
+	},
+/obj/item/storage/box/deputy,
+/obj/item/storage/box/evidence{
+	pixel_x = -5;
+	pixel_y = 12
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/starboard)
@@ -49793,9 +49809,6 @@
 /turf/open/floor/iron/dark,
 /area/station/security/detectives_office)
 "vnP" = (
-/obj/machinery/computer/security{
-	dir = 4
-	},
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 8
 	},
@@ -51947,6 +51960,12 @@
 /obj/structure/table,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/item/poster/random_official{
+	pixel_y = 13
+	},
+/obj/item/poster/random_official{
+	pixel_y = 5
+	},
 /turf/open/floor/iron,
 /area/station/security/office)
 "wkX" = (
@@ -96655,11 +96674,11 @@ irQ
 irQ
 tqB
 nyB
-tiv
+fZl
 vOy
 qbm
 sjn
-tiv
+fZl
 ehz
 aLf
 vLQ
@@ -98445,7 +98464,7 @@ jLc
 jLc
 jLc
 tnZ
-eWR
+iZc
 vuI
 lwD
 qFN
