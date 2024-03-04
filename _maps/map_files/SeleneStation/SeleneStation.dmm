@@ -1550,14 +1550,12 @@
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
 "ayz" = (
-/obj/machinery/door/window/left/directional/north{
-	icon_state = "right";
-	name = "First-Aid Supplies";
-	red_alert_access = 1;
-	req_access = list("medical")
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/effect/landmark/start/medical_doctor,
+/obj/machinery/door/window/right/directional/north{
+	name = "First-Aid Supplies";
+	req_access = list("medical")
+	},
 /turf/open/floor/iron/white,
 /area/station/medical/storage)
 "ayA" = (
@@ -3903,7 +3901,7 @@
 /area/station/security/prison/visit)
 "boD" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/machinery/light/small/directional/east,
 /obj/effect/landmark/start/hangover,
 /obj/item/pillow/random,
@@ -4781,11 +4779,6 @@
 /turf/open/floor/iron/dark,
 /area/station/science/research)
 "bBX" = (
-/obj/machinery/door/window{
-	dir = 8;
-	name = "Mass Driver";
-	req_access = list("chapel_office")
-	},
 /obj/machinery/computer/pod/old{
 	density = 0;
 	icon = 'icons/obj/airlock_machines.dmi';
@@ -4797,6 +4790,10 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/machinery/door/window/left/directional/west{
+	name = "Mass Driver";
+	req_access = list("chapel_office")
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
@@ -4968,7 +4965,7 @@
 /area/station/service/library)
 "bFc" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/machinery/light/small/directional/east,
 /obj/effect/landmark/start/hangover,
 /obj/item/pillow/random,
@@ -10650,8 +10647,7 @@
 /obj/machinery/door/window/left/directional/west{
 	name = "Warden's Desk"
 	},
-/obj/machinery/door/window/brigdoor/right/directional/north{
-	dir = 4;
+/obj/machinery/door/window/brigdoor/right/directional/east{
 	name = "Warden's Desk";
 	req_access = list("armory")
 	},
@@ -13250,7 +13246,7 @@
 /area/station/service/library)
 "evy" = (
 /obj/structure/table,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /turf/open/floor/iron,
 /area/station/maintenance/port/aft)
 "evA" = (
@@ -17059,8 +17055,8 @@
 "fKc" = (
 /obj/structure/closet/crate/grave,
 /obj/item/circuitboard/machine/circulator,
-/obj/item/circuitboard/machine/generator,
 /obj/item/circuitboard/machine/circulator,
+/obj/item/circuitboard/computer,
 /turf/open/floor/grass,
 /area/station/maintenance/starboard/aft)
 "fKh" = (
@@ -18451,8 +18447,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "ghw" = (
-/obj/machinery/door/window{
-	dir = 1;
+/obj/machinery/door/window/left/directional/north{
 	name = "AI Core Door"
 	},
 /turf/open/floor/circuit/green,
@@ -19576,15 +19571,13 @@
 /area/station/science/ordnance/burnchamber)
 "gCG" = (
 /obj/structure/table/wood,
-/obj/machinery/door/window{
-	base_state = "right";
-	dir = 8;
-	icon_state = "right";
-	name = "Captain's Desk"
-	},
 /obj/item/paper_bin/carbon,
 /obj/item/stamp/denied,
 /obj/item/stamp/head/captain,
+/obj/machinery/door/window/left/directional/west{
+	name = "Captain's Desk";
+	req_access = list("command")
+	},
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/captain)
 "gCN" = (
@@ -24251,7 +24244,7 @@
 /area/station/hallway/secondary/exit/departure_lounge)
 "ihl" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/machinery/light/small/directional/east,
 /obj/effect/landmark/start/hangover,
 /obj/item/pillow/random,
@@ -25617,7 +25610,7 @@
 /obj/structure/bed,
 /obj/effect/landmark/start/prisoner,
 /obj/machinery/light/small/directional/north,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/effect/turf_decal/tile/prison/anticorner{
 	dir = 1
 	},
@@ -26756,19 +26749,18 @@
 /turf/open/floor/vault,
 /area/station/command/bridge)
 "iXN" = (
-/obj/machinery/door/window/left/directional/west{
-	icon_state = "right";
-	name = "Incoming Mail"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/window/left/directional/west{
+	name = "Incoming Mail"
 	},
 /turf/open/floor/plating,
 /area/station/cargo/sorting)
 "iXW" = (
 /obj/machinery/airalarm/directional/north,
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/structure/curtain/cloth/fancy,
 /turf/open/floor/iron/grimy,
 /area/station/service/chapel/office)
@@ -27263,7 +27255,7 @@
 /area/station/engineering/atmos)
 "jih" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/machinery/light/small/directional/east,
 /obj/item/pillow/random,
 /turf/open/floor/carpet/blue,
@@ -30811,13 +30803,12 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
 "knr" = (
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	id = "scicell";
-	name = "Science Cell";
-	req_access = list("brig")
-	},
 /obj/effect/turf_decal/tile/prison/opposingcorners,
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	name = "Science Cell";
+	req_access = list("brig");
+	id = "scicell"
+	},
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "knu" = (
@@ -35462,10 +35453,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/commons/fitness)
-"lNC" = (
-/obj/item/valentine,
-/turf/open/floor/plating,
-/area/station/maintenance/fore)
 "lND" = (
 /obj/structure/disposalpipe/junction{
 	dir = 4
@@ -37343,13 +37330,11 @@
 /obj/structure/window/reinforced/spawner/directional/east{
 	layer = 2.9
 	},
-/obj/machinery/door/window/right/directional/north{
-	base_state = "left";
-	icon_state = "left";
-	name = "Fitness Ring"
-	},
 /obj/effect/turf_decal/tile/red/anticorner/contrasted{
 	dir = 4
+	},
+/obj/machinery/door/window/left/directional/north{
+	name = "Fitness Ring"
 	},
 /turf/open/floor/iron/white,
 /area/station/commons/fitness)
@@ -39925,9 +39910,16 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "njr" = (
-/obj/effect/landmark/start/shaft_miner,
 /obj/structure/sign/poster/official/safety_internals/directional/south,
 /obj/effect/turf_decal/tile/brown/half/contrasted,
+/obj/structure/rack,
+/obj/item/stack/conveyor/thirty,
+/obj/item/conveyor_switch_construct{
+	pixel_x = 10
+	},
+/obj/item/boulder_beacon{
+	pixel_x = -5
+	},
 /turf/open/floor/iron,
 /area/station/cargo/miningoffice)
 "njC" = (
@@ -41763,16 +41755,15 @@
 	dir = 4
 	},
 /obj/machinery/light/directional/south,
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	name = "Medbay Delivery";
-	req_access = list("medical")
-	},
 /obj/structure/window/reinforced/spawner/directional/east{
 	layer = 2.9
 	},
 /obj/effect/turf_decal/trimline/blue/warning{
 	dir = 5
+	},
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	name = "Medbay Delivery";
+	req_access = list("medical")
 	},
 /turf/open/floor/iron/dark,
 /area/station/medical/medbay)
@@ -44362,7 +44353,7 @@
 /area/station/science/xenobiology)
 "oMq" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/effect/turf_decal/tile/prison/anticorner{
 	dir = 4
 	},
@@ -45177,7 +45168,6 @@
 	},
 /obj/structure/table,
 /obj/machinery/door/window/left/directional/south{
-	icon_state = "right";
 	name = "First-Aid Supplies";
 	red_alert_access = 1;
 	req_access = list("medical")
@@ -45460,7 +45450,7 @@
 /obj/structure/chair/plastic{
 	dir = 4
 	},
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "phD" = (
@@ -47655,7 +47645,6 @@
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/machinery/door/window/right/directional/west{
 	base_state = "left";
-	icon_state = "left";
 	name = "Fitness Ring"
 	},
 /obj/effect/turf_decal/tile/red/anticorner/contrasted{
@@ -51634,13 +51623,6 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai)
 "rom" = (
-/obj/machinery/door/window{
-	base_state = "right";
-	dir = 8;
-	icon_state = "right";
-	name = "Captain's Desk";
-	req_access = list("command")
-	},
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 8
 	},
@@ -51649,6 +51631,10 @@
 	},
 /obj/structure/cable,
 /obj/machinery/light_switch/directional/north,
+/obj/machinery/door/window/left/directional/west{
+	name = "Captain's Desk";
+	req_access = list("command")
+	},
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/captain)
 "roG" = (
@@ -54022,6 +54008,12 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/station/science/xenobiology)
+"seX" = (
+/obj/machinery/atmospherics/pipe/smart/simple/cyan/hidden/layer4,
+/obj/structure/cable,
+/obj/effect/landmark/start/shaft_miner,
+/turf/open/floor/iron,
+/area/station/cargo/miningoffice)
 "sfp" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/green,
@@ -54477,7 +54469,7 @@
 "smG" = (
 /obj/structure/bed,
 /obj/effect/landmark/start/prisoner,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/effect/turf_decal/tile/prison/anticorner{
 	dir = 4
 	},
@@ -55154,13 +55146,13 @@
 /area/station/cargo/storage)
 "sxx" = (
 /obj/structure/closet/crate/trashcart/laundry,
-/obj/item/bedsheet/random,
-/obj/item/bedsheet/random,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
+/obj/effect/spawner/random/bedsheet,
+/obj/effect/spawner/random/bedsheet,
 /obj/effect/spawner/random/clothing/costume,
-/obj/item/bedsheet/random,
-/obj/item/bedsheet/random,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
+/obj/effect/spawner/random/bedsheet,
+/obj/effect/spawner/random/bedsheet,
 /obj/item/toy/crayon/blue,
 /obj/item/toy/crayon/orange,
 /obj/item/toy/crayon/yellow,
@@ -57418,13 +57410,6 @@
 "toP" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/window/brigdoor{
-	base_state = "rightsecure";
-	dir = 8;
-	icon_state = "rightsecure";
-	name = "Head of Personnel's Desk";
-	req_access = list("hop")
-	},
 /obj/machinery/door/window/left/directional/east{
 	name = "Reception Window"
 	},
@@ -57441,6 +57426,10 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/right/directional/west{
+	req_access = list("hop");
+	name = "Head of Personnel's Desk"
 	},
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/hop)
@@ -57877,15 +57866,14 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "tvx" = (
-/obj/machinery/door/window{
-	dir = 1;
-	name = "Theatre Stage"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
 /obj/machinery/status_display/evac/directional/west,
 /obj/effect/turf_decal/tile/bar/opposingcorners,
+/obj/machinery/door/window/left/directional/north{
+	name = "Theatre Stage"
+	},
 /turf/open/floor/iron/dark,
 /area/station/service/cafeteria)
 "tvJ" = (
@@ -59186,7 +59174,7 @@
 /area/station/hallway/primary/port)
 "tUY" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/machinery/light/small/directional/north,
 /obj/effect/landmark/start/hangover,
 /obj/item/pillow/random,
@@ -59538,7 +59526,7 @@
 /area/station/engineering/engine_smes)
 "uaH" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/machinery/light/small/directional/north,
 /obj/item/pillow/random,
 /turf/open/floor/carpet/orange,
@@ -59695,7 +59683,7 @@
 /area/station/construction)
 "ucA" = (
 /obj/structure/bed,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/machinery/light/small/directional/north,
 /obj/effect/landmark/start/hangover,
 /obj/item/pillow/random,
@@ -61719,14 +61707,13 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "uNd" = (
-/obj/machinery/door/window/brigdoor{
-	dir = 8;
-	name = "Command Desk";
-	req_access = list("command")
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/command/half{
 	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/left/directional/west{
+	name = "Command Desk";
+	req_access = list("command")
 	},
 /turf/open/floor/vault,
 /area/station/command/bridge)
@@ -61863,15 +61850,14 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "uPd" = (
-/obj/machinery/door/window/brigdoor{
-	dir = 1;
-	id = "medcell";
-	name = "Medical Cell";
-	req_access = list("brig")
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/security/half{
 	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	name = "Medical Cell";
+	req_access = list("brig");
+	id = "medcell"
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/medical)
@@ -65894,7 +65880,6 @@
 /obj/item/grenade/chem_grenade/glitter/pink,
 /obj/item/grenade/chem_grenade/glitter/white,
 /obj/effect/decal/cleanable/cobweb/cobweb2,
-/obj/item/valentine,
 /obj/item/clothing/head/utility/hardhat/reindeer,
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
@@ -66819,8 +66804,7 @@
 /area/station/medical/medbay/lobby)
 "wCu" = (
 /obj/structure/flora/bush/flowers_br/style_random,
-/obj/machinery/door/window{
-	dir = 8;
+/obj/machinery/door/window/left/directional/west{
 	name = "Garden Door"
 	},
 /turf/open/floor/grass,
@@ -70085,12 +70069,6 @@
 "xDy" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/window/right/directional/east{
-	base_state = "left";
-	icon_state = "left";
-	name = "Robotics Desk";
-	req_access = list("robotics")
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	dir = 8;
 	id = "robotics2";
@@ -70109,6 +70087,10 @@
 	pixel_y = -1
 	},
 /obj/effect/turf_decal/tile/science/opposingcorners,
+/obj/machinery/door/window/left/directional/east{
+	name = "Robotics Desk";
+	req_access = list("robotics")
+	},
 /turf/open/floor/iron/white,
 /area/station/science/robotics/lab)
 "xDK" = (
@@ -71893,7 +71875,7 @@
 /obj/structure/bed,
 /obj/machinery/light/small/directional/north,
 /obj/effect/spawner/random/contraband/prison,
-/obj/item/bedsheet/random,
+/obj/effect/spawner/random/bedsheet,
 /obj/effect/turf_decal/tile/prison/anticorner{
 	dir = 1
 	},
@@ -92349,7 +92331,7 @@ ncS
 mJt
 sTt
 hYk
-tcL
+seX
 tcL
 hWZ
 plj
@@ -94092,7 +94074,7 @@ vDp
 uOg
 wkW
 nwd
-lNC
+xSD
 cXA
 uOg
 pqK
