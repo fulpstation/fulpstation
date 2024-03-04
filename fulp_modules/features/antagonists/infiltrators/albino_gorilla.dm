@@ -102,9 +102,9 @@
 	bodypart_overlay = new /datum/bodypart_overlay/simple/muddied()
 
 	var/mob/living/carbon/human/man = parent
-	if(man.bodytype & BODYTYPE_SNOUTED)
+	if(man.bodytype & BODYSHAPE_SNOUTED)
 		bodypart_overlay.icon_state = "muddied_lizard"
-	else if(man.bodytype & BODYTYPE_MONKEY)
+	else if(man.bodytype & BODYSHAPE_MONKEY)
 		bodypart_overlay.icon_state = "muddied_monkey"
 	else
 		bodypart_overlay.icon_state = "muddied_human"

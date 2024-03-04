@@ -19,6 +19,7 @@
 #### Maps & Shuttles
 
 - _maps/map_files/Heliostation.dmm
+- _maps/shuttles/arrival_helio.dmm
 - _maps/shuttles/cargo_helio.dmm
 - _maps/shuttles/emergency_helio.dmm
 - _maps/shuttles/labour_helio.dmm
