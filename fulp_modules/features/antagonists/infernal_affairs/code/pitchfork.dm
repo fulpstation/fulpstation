@@ -1,7 +1,7 @@
 /obj/item/pitchfork/demonic
 	name = "demonic pitchfork"
 	desc = "A red pitchfork, it looks like the work of the devil. Sets people on fire and deflects, but isn't that great otherwise."
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_range = 3
 	light_power = 6
 	light_color = COLOR_RED_LIGHT

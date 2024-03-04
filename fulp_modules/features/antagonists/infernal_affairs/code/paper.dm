@@ -48,7 +48,7 @@
 	if(infernal_datum)
 		var/plane_response = tgui_input_list(user, "Do you wish for a plane or a calling card?", "Your Calling", list("Calling Card", "Airplane"))
 		if(plane_response == "Calling Card")
-			var/obj/item/paper/devil_calling_card/card = make_plane(user, I, /obj/item/paper/devil_calling_card)
+			var/obj/item/paper/devil_calling_card/card = make_plane(user, plane_type = /obj/item/paper/devil_calling_card)
 			card.signed_by_ref = WEAKREF(infernal_datum)
 			return
 	return ..()
