@@ -173,12 +173,12 @@
 			resulting in an extremely infective strain of nanites."
 	use_rate = 1.50
 	rogue_types = list(/datum/nanite_program/aggressive_replication, /datum/nanite_program/necrotic)
-	var/spread_cooldown = 0
+	COOLDOWN_DECLARE(spread_delay)
 
 /datum/nanite_program/spreading/active_effect()
-	if(spread_cooldown > world.time)
+	if(!COOLDOWN_FINISHED(src, spread_delay))
 		return
-	spread_cooldown = world.time + 50
+	COOLDOWN_START(src, spread_delay, 8 SECONDS)
 
 	var/list/mob/living/carbon/human/target_hosts = list()
 	for(var/mob/living/carbon/human/nearby_humans in oview(5, host_mob))
