@@ -19,6 +19,7 @@
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_MUTANT_COLORS,
 		TRAIT_AGENDER,
+		TRAIT_FIXED_HAIRCOLOR,
 	)
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
@@ -72,7 +73,7 @@
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	update_beefman_color(user)
-
+	fixed_hair_color = user.dna.features["beef_color"]
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
@@ -197,7 +198,11 @@
 
 /datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
 	SIGNAL_HANDLER
-	fixed_mut_color = beefman.dna.features["beef_color"]
+	var/my_color = beefman.dna.features["beef_color"]
+	if(isnull(my_color))
+		return
+	fixed_mut_color = my_color
+	fixed_hair_color = my_color
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -331,10 +336,6 @@
  * ATTACK PROCS
  */
 /datum/species/beefman/help(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
-	bleed_over_target(user, target)
-	return ..()
-
-/datum/species/beefman/grab(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	bleed_over_target(user, target)
 	return ..()
 
