@@ -2,6 +2,10 @@
 /world/New()
 	. = ..()
 
+	//we overwrite this cause it's currently broken. Remove it if it ever gets fixed
+	//issue: https://github.com/tgstation/tgstation/issues/81180
+	GLOB.timezoneOffset = 0
+
 	// Load Mentors
 	load_mentors()
 
