@@ -2779,6 +2779,7 @@
 "aVs" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/dark/smooth_corner,
 /area/station/ai_monitored/security/armory)
 "aVB" = (
@@ -4475,6 +4476,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/commons/dorms)
+"byf" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/turf/open/floor/iron,
+/area/station/security/office)
 "byh" = (
 /obj/structure/cable,
 /turf/open/floor/iron/white,
@@ -7163,6 +7171,9 @@
 "cqE" = (
 /obj/effect/turf_decal/tile/security/opposingcorners,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /turf/open/floor/iron,
 /area/station/security/office)
 "crb" = (
@@ -16709,6 +16720,9 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "fEV" = (
@@ -20315,6 +20329,9 @@
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/all/security/armory,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/ai_monitored/security/armory)
 "gQq" = (
@@ -30805,9 +30822,9 @@
 "knr" = (
 /obj/effect/turf_decal/tile/prison/opposingcorners,
 /obj/machinery/door/window/brigdoor/left/directional/north{
+	id = "scicell";
 	name = "Science Cell";
-	req_access = list("brig");
-	id = "scicell"
+	req_access = list("brig")
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
@@ -32284,6 +32301,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "kKS" = (
@@ -37544,6 +37562,9 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/effect/turf_decal/tile/red/half/contrasted,
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/security/warden)
 "mtj" = (
@@ -37728,6 +37749,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/security/office)
 "mwJ" = (
@@ -38534,6 +38556,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/mapping_helpers/airlock/access/all/security/armory,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "mKU" = (
@@ -46997,6 +47020,16 @@
 /obj/effect/turf_decal/box,
 /turf/open/floor/iron/large,
 /area/station/science/ordnance)
+"pIC" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/security/office)
 "pID" = (
 /obj/item/radio/intercom/directional/west,
 /obj/effect/turf_decal/tile/prison/opposingcorners,
@@ -48899,8 +48932,8 @@
 "qrA" = (
 /obj/machinery/nanite_programmer,
 /obj/machinery/camera/directional/north{
-	network = list("ss13","rd");
-	c_tag = "Science - Nanite Lab"
+	c_tag = "Science - Nanite Lab";
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark/herringbone,
 /area/station/science/nanite)
@@ -54550,8 +54583,8 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 10
+/obj/structure/disposalpipe/junction/flip{
+	dir = 8
 	},
 /turf/open/floor/iron,
 /area/station/security/warden)
@@ -57428,8 +57461,8 @@
 	dir = 1
 	},
 /obj/machinery/door/window/brigdoor/right/directional/west{
-	req_access = list("hop");
-	name = "Head of Personnel's Desk"
+	name = "Head of Personnel's Desk";
+	req_access = list("hop")
 	},
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/hop)
@@ -60768,7 +60801,7 @@
 "uut" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/structure/disposalpipe/segment{
-	dir = 4
+	dir = 10
 	},
 /turf/open/floor/iron,
 /area/station/security/office)
@@ -61855,9 +61888,9 @@
 	dir = 1
 	},
 /obj/machinery/door/window/brigdoor/left/directional/north{
+	id = "medcell";
 	name = "Medical Cell";
-	req_access = list("brig");
-	id = "medcell"
+	req_access = list("brig")
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/medical)
@@ -64725,6 +64758,8 @@
 /area/station/maintenance/department/engine)
 "vOZ" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/disposalpipe/sorting/mail/flip,
+/obj/effect/mapping_helpers/mail_sorting/security/hos_office,
 /turf/open/floor/iron,
 /area/station/security/office)
 "vPd" = (
@@ -67436,6 +67471,9 @@
 /obj/effect/spawner/random/armory/riot_shield,
 /obj/effect/turf_decal/tile/dark_red/half/contrasted{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 9
 	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
@@ -106971,7 +107009,7 @@ lJr
 rHQ
 kNh
 gWE
-lHF
+tyq
 mwy
 mKT
 kKR
@@ -107228,7 +107266,7 @@ lJr
 rHQ
 kNh
 hmw
-lHF
+pIC
 mPK
 gic
 htR
@@ -107485,7 +107523,7 @@ gPR
 tFH
 aYX
 uNW
-lHF
+pIC
 nYl
 uhW
 jLn
@@ -107742,7 +107780,7 @@ gPR
 gao
 uut
 vOZ
-lHF
+rUk
 kfK
 whI
 haU
@@ -107997,7 +108035,7 @@ fJN
 fJN
 fJN
 jfZ
-uut
+byf
 cqE
 lHF
 kfK
