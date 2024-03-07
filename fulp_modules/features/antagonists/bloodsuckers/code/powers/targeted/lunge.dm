@@ -136,7 +136,7 @@
 		user.spin(10)
 		return
 	// Is my target a Monster hunter?
-	if(IS_MONSTERHUNTER(target) || HAS_TRAIT(target, TRAIT_SHOVE_KNOCKDOWN_BLOCKED))
+	if(IS_MONSTERHUNTER(target) || HAS_TRAIT(target, TRAIT_BRAWLING_KNOCKDOWN_BLOCKED))
 		owner.balloon_alert(owner, "pushed away!")
 		target.grabbedby(owner)
 		return
