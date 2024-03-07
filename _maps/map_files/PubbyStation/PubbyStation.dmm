@@ -10683,6 +10683,15 @@
 /turf/open/floor/iron,
 /area/station/maintenance/department/cargo)
 "aPi" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/burnt_floor,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/station/cargo/miningfoundry)
 "aPn" = (
@@ -10907,11 +10916,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/burnt_floor,
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/turf/open/floor/plating,
+/turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "aQr" = (
 /obj/structure/chair{
@@ -11594,14 +11599,6 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aTr" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
-"aTv" = (
 /obj/effect/turf_decal/trimline/brown/filled/line,
 /obj/structure/table,
 /obj/machinery/conveyor_switch/oneway{
@@ -11610,6 +11607,13 @@
 	pixel_y = 8
 	},
 /turf/open/floor/iron,
+/area/station/cargo/storage)
+"aTv" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
 /area/station/cargo/storage)
 "aTw" = (
 /obj/structure/table,
@@ -13655,8 +13659,9 @@
 /turf/closed/wall,
 /area/station/cargo/miningdock)
 "bbJ" = (
-/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/firedoor,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "bbK" = (
@@ -13944,14 +13949,9 @@
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/qm)
 "bcV" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/obj/machinery/conveyor{
-	id = "CargoLoad2"
-	},
-/turf/open/floor/iron,
-/area/station/cargo/storage)
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/station/cargo/miningfoundry)
 "bcX" = (
 /obj/structure/sign/warning/vacuum/external/directional/south,
 /turf/open/floor/plating,
@@ -32913,17 +32913,10 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "gcq" = (
-/obj/effect/turf_decal/trimline/brown/filled/line,
-/obj/structure/plasticflaps/opaque,
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/disposal/delivery_chute{
-	dir = 8
-	},
-/obj/structure/disposalpipe/trunk{
-	dir = 4
-	},
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
-/area/station/cargo/storage)
+/area/station/cargo/miningfoundry)
 "gda" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -33787,19 +33780,8 @@
 /turf/open/floor/grass,
 /area/station/science/genetics)
 "gQa" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/effect/landmark/start/cargo_technician,
-/turf/open/floor/iron,
-/area/station/cargo/storage)
+/turf/open/floor/plating,
+/area/station/cargo/miningfoundry)
 "gQj" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/visible{
 	dir = 8
@@ -36510,11 +36492,18 @@
 /turf/open/floor/iron,
 /area/station/construction/mining/aux_base)
 "jBh" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/effect/landmark/start/cargo_technician,
+/turf/open/floor/iron,
 /area/station/cargo/storage)
 "jBn" = (
 /obj/structure/disposalpipe/segment{
@@ -37976,17 +37965,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron/white,
 /area/station/security/prison/mess)
-"kPZ" = (
-/obj/structure/rack,
-/obj/item/stack/conveyor/thirty,
-/obj/item/conveyor_switch_construct{
-	pixel_x = 10
-	},
-/obj/item/boulder_beacon{
-	pixel_x = -5
-	},
-/turf/open/floor/iron,
-/area/station/cargo/miningdock)
 "kQy" = (
 /obj/machinery/computer/records/medical,
 /obj/effect/turf_decal/tile/blue{
@@ -46033,11 +46011,17 @@
 /turf/open/floor/plating,
 /area/station/maintenance/disposal)
 "rCu" = (
-/obj/effect/turf_decal/delivery,
-/obj/machinery/door/firedoor,
-/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/trimline/brown/filled/line,
+/obj/structure/plasticflaps/opaque,
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/disposal/delivery_chute{
+	dir = 8
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
 /turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
+/area/station/cargo/storage)
 "rCR" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -51310,9 +51294,14 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/central)
 "vQz" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/station/cargo/miningfoundry)
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/obj/machinery/conveyor{
+	id = "CargoLoad2"
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "vQR" = (
 /obj/structure/cable,
 /obj/machinery/restaurant_portal/restaurant/prison,
@@ -95619,7 +95608,7 @@ baF
 bbK
 bcF
 gne
-kPZ
+hgV
 hgV
 pXH
 bhu
@@ -96123,8 +96112,8 @@ coL
 cCB
 cCB
 cCB
-aTv
-gQa
+aTr
+jBh
 sAD
 cCB
 cCB
@@ -96375,7 +96364,7 @@ uXX
 aEj
 aMw
 aQo
-rCu
+bbJ
 euT
 euT
 euT
@@ -96631,11 +96620,11 @@ uXX
 aEj
 aEj
 hhJ
-aPi
-bbJ
+gQa
+gcq
 cCB
 cCB
-bcV
+vQz
 iDV
 rgO
 myc
@@ -96890,9 +96879,9 @@ aOO
 xog
 pTJ
 cDa
-vQz
-vQz
-vQz
+bcV
+bcV
+bcV
 cDa
 aUA
 myc
@@ -97150,7 +97139,7 @@ bbO
 vBZ
 bfC
 oMH
-vQz
+bcV
 eZj
 myc
 evg
@@ -97401,13 +97390,13 @@ aEj
 tfz
 aNU
 aLk
+aPi
 aQp
-aTr
 vBZ
 vBZ
-aPi
-aPi
-vQz
+gQa
+gQa
+bcV
 eZj
 myc
 sAD
@@ -97658,14 +97647,14 @@ aEj
 lru
 aEj
 aLl
-aPi
+gQa
 mlI
 cCY
 jIM
 dqY
 ueu
-vQz
-gcq
+bcV
+rCu
 myc
 sAD
 rAP
@@ -97922,7 +97911,7 @@ aPU
 fQd
 ujf
 cDa
-jBh
+aTv
 iYH
 aTy
 bbG
