@@ -10911,12 +10911,7 @@
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "aQp" = (
-/obj/structure/table,
-/obj/machinery/conveyor_switch/oneway{
-	id = "CargoLoad";
-	name = "Foundry conveyors";
-	pixel_y = 8
-	},
+/obj/machinery/suit_storage_unit/industrial/loader,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "aQr" = (
@@ -13656,6 +13651,11 @@
 "bbJ" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/mining/glass{
+	name = "Cargo Bay"
+	},
+/obj/effect/mapping_helpers/airlock/access/any/supply/mining,
+/obj/effect/mapping_helpers/airlock/access/any/supply/general,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "bbK" = (
@@ -13663,7 +13663,14 @@
 /turf/open/floor/plating,
 /area/station/cargo/miningdock)
 "bbO" = (
-/obj/structure/closet/cardboard,
+/obj/structure/table,
+/obj/item/clothing/gloves/cargo_gauntlet{
+	pixel_y = 7
+	},
+/obj/item/clothing/gloves/cargo_gauntlet,
+/obj/item/clothing/gloves/cargo_gauntlet{
+	pixel_y = -7
+	},
 /turf/open/floor/plating,
 /area/station/cargo/miningfoundry)
 "bbP" = (
@@ -27128,7 +27135,6 @@
 /area/station/maintenance/central)
 "coL" = (
 /obj/machinery/light/directional/north,
-/obj/machinery/suit_storage_unit/industrial/loader,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "coP" = (
@@ -36141,14 +36147,6 @@
 	name = "Cargo Bay Requests Console"
 	},
 /obj/effect/mapping_helpers/requests_console/supplies,
-/obj/item/clothing/gloves/cargo_gauntlet{
-	pixel_y = -7
-	},
-/obj/item/clothing/gloves/cargo_gauntlet,
-/obj/item/clothing/gloves/cargo_gauntlet{
-	pixel_y = 7
-	},
-/obj/structure/table,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "jiD" = (
@@ -46001,6 +45999,11 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/mining/glass{
+	name = "Cargo Bay"
+	},
+/obj/effect/mapping_helpers/airlock/access/any/supply/mining,
+/obj/effect/mapping_helpers/airlock/access/any/supply/general,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "rCR" = (
@@ -49012,6 +49015,18 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
+"tYp" = (
+/obj/structure/railing{
+	dir = 4
+	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "CargoLoad";
+	name = "Foundry conveyors";
+	pixel_y = 8
+	},
+/obj/structure/table,
+/turf/open/floor/plating,
+/area/station/cargo/miningfoundry)
 "tYu" = (
 /obj/structure/rack,
 /obj/effect/spawner/random/maintenance,
@@ -97630,7 +97645,7 @@ aEj
 aLl
 cCY
 mlI
-cCY
+tYp
 ueu
 vQz
 eZj
