@@ -21,7 +21,7 @@
 	to_chat(new_spawn, "<b>You have been implanted with a bomb that will detonate if you stray too far from the station. Glory to the Syndicate.</b>")
 	new_spawn.AddComponent(/datum/component/stationstuck, PUNISHMENT_GIB, "You have left the vicinity of the Prototype Station. Your bomb implant has been triggered.")
 
-/obj/effect/mob_spawn/ghost_role/syndicate_engineer/Destroy()
+/obj/effect/mob_spawn/ghost_role/human/syndicate_engineer/Destroy()
 	new/obj/structure/fluff/empty_sleeper/syndicate(get_turf(src))
 	return ..()
 
