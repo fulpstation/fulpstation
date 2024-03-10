@@ -10911,13 +10911,14 @@
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "aQp" = (
-/obj/machinery/conveyor{
-	id = "CargoLoad2";
-	dir = 8
+/obj/structure/table,
+/obj/machinery/conveyor_switch/oneway{
+	id = "CargoLoad";
+	name = "Foundry conveyors";
+	pixel_y = 8
 	},
-/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/iron,
-/area/station/cargo/storage)
+/area/station/cargo/miningfoundry)
 "aQr" = (
 /obj/structure/chair{
 	dir = 8
@@ -11850,12 +11851,10 @@
 /area/station/cargo/storage)
 "aUA" = (
 /obj/machinery/conveyor{
-	dir = 9;
-	id = "CargoLoad2"
+	id = "CargoLoad2";
+	dir = 8
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
+/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aUG" = (
@@ -28056,7 +28055,7 @@
 	dir = 1
 	},
 /obj/machinery/door/window/left/directional/west{
-	name = "To deliveries";
+	name = "Deliveries";
 	req_access = list("shipping")
 	},
 /turf/open/floor/iron,
@@ -29076,6 +29075,16 @@
 	},
 /turf/open/floor/plating,
 /area/station/cargo/miningfoundry)
+"cDa" = (
+/obj/machinery/conveyor{
+	dir = 9;
+	id = "CargoLoad2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "cDc" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -29761,8 +29770,15 @@
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "dqY" = (
-/obj/machinery/camera/directional/east{
-	c_tag = "Cargo Bay"
+/obj/machinery/disposal/delivery_chute{
+	dir = 1
+	},
+/obj/structure/plasticflaps/opaque,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -31677,15 +31693,12 @@
 /turf/open/floor/iron/white,
 /area/station/security/prison/mess)
 "eZj" = (
-/obj/machinery/disposal/delivery_chute{
-	dir = 1
-	},
-/obj/structure/plasticflaps/opaque,
-/obj/structure/disposalpipe/trunk{
-	dir = 4
+/obj/machinery/conveyor{
+	id = "CargoLoad2";
+	dir = 6
 	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 6
+	dir = 5
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -32695,19 +32708,11 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "fQd" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
+/obj/machinery/camera/directional/east{
+	c_tag = "Cargo Bay"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/conveyor{
-	dir = 10;
-	id = "CargoUnload"
-	},
-/obj/machinery/bouldertech/refinery/smelter,
 /turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
+/area/station/cargo/storage)
 "fQy" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2{
 	dir = 1
@@ -32898,17 +32903,6 @@
 /obj/structure/closet,
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
-"gcq" = (
-/obj/machinery/conveyor{
-	dir = 5;
-	id = "CargoLoad2"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/obj/machinery/light/directional/north,
-/turf/open/floor/iron,
-/area/station/cargo/storage)
 "gda" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -35543,14 +35537,18 @@
 /turf/open/floor/iron,
 /area/station/medical/treatment_center)
 "iDV" = (
-/obj/structure/table,
-/obj/machinery/conveyor_switch/oneway{
-	id = "CargoLoad2";
-	name = "Cargo Load";
-	pixel_y = 8
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/conveyor{
+	id = "CargoLoad"
+	},
+/obj/machinery/bouldertech/refinery,
 /turf/open/floor/iron,
-/area/station/cargo/storage)
+/area/station/cargo/miningfoundry)
 "iDX" = (
 /obj/machinery/computer/slot_machine,
 /obj/machinery/bluespace_vendor/directional/north,
@@ -36599,16 +36597,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/commons/lounge)
-"jIM" = (
-/obj/machinery/conveyor{
-	id = "CargoLoad2";
-	dir = 6
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/iron,
-/area/station/cargo/storage)
 "jIU" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
@@ -40300,9 +40288,10 @@
 	dir = 4
 	},
 /obj/machinery/conveyor{
-	id = "CargoLoad"
+	dir = 10;
+	id = "CargoUnload"
 	},
-/obj/machinery/bouldertech/refinery,
+/obj/machinery/bouldertech/refinery/smelter,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "mTc" = (
@@ -40414,10 +40403,6 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
-"mZS" = (
-/turf/closed/wall,
-/turf/open/floor/plating,
-/area/station/cargo/miningfoundry)
 "naq" = (
 /obj/structure/disposaloutlet{
 	dir = 4
@@ -48214,9 +48199,16 @@
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
 "tpC" = (
-/turf/closed/wall,
-/turf/open/floor/plating,
-/area/station/command/heads_quarters/qm)
+/obj/machinery/conveyor{
+	dir = 5;
+	id = "CargoLoad2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/obj/machinery/light/directional/north,
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "tpI" = (
 /obj/structure/window/reinforced/spawner/directional/east,
 /obj/structure/lattice,
@@ -49359,12 +49351,12 @@
 "ujf" = (
 /obj/structure/table,
 /obj/machinery/conveyor_switch/oneway{
-	id = "CargoLoad";
-	name = "Foundry conveyors";
+	id = "CargoLoad2";
+	name = "Cargo Load";
 	pixel_y = 8
 	},
 /turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
+/area/station/cargo/storage)
 "ujj" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -95329,7 +95321,7 @@ wDZ
 aTo
 aTo
 aTo
-tpC
+wDZ
 aUz
 rvO
 ney
@@ -96100,7 +96092,7 @@ aEj
 coL
 cCB
 cCB
-iDV
+ujf
 aUz
 aTr
 sAD
@@ -96612,7 +96604,7 @@ hhJ
 gQa
 bbJ
 cCB
-dqY
+fQd
 cCB
 cCB
 rgO
@@ -96869,9 +96861,9 @@ xog
 pTJ
 jBh
 vQz
-mZS
-gcq
-aUA
+jBh
+tpC
+cDa
 aUz
 myc
 sAD
@@ -97125,10 +97117,10 @@ aOP
 aMy
 aSd
 bbO
-ujf
+aQp
 bfC
 oMH
-aQp
+aUA
 aUz
 myc
 evg
@@ -97385,7 +97377,7 @@ vBZ
 vBZ
 vQz
 oMH
-aQp
+aUA
 aUz
 myc
 sAD
@@ -97641,8 +97633,8 @@ mlI
 cCY
 ueu
 vQz
-jIM
 eZj
+dqY
 aUz
 myc
 sAD
@@ -97894,9 +97886,9 @@ lru
 aEj
 aPc
 aPU
-mSB
+iDV
 bcJ
-fQd
+mSB
 jBh
 bbG
 oCX
