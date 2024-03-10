@@ -10911,11 +10911,12 @@
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "aQp" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/machinery/conveyor{
+	id = "CargoLoad2";
+	dir = 8
 	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/iron,
 /area/station/cargo/storage)
 "aQr" = (
 /obj/structure/chair{
@@ -11595,6 +11596,10 @@
 /obj/item/stack/sheet/cardboard,
 /obj/item/stack/sheet/cardboard,
 /obj/item/stack/sheet/cardboard,
+/obj/machinery/camera/directional/east{
+	c_tag = "Cargo Bay";
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aTr" = (
@@ -11844,17 +11849,12 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aUA" = (
-/obj/effect/turf_decal/trimline/brown/filled/line,
-/obj/machinery/light/directional/north,
-/obj/machinery/status_display/supply{
-	dir = 4;
-	layer = 4;
-	pixel_y = 32
-	},
-/obj/effect/turf_decal/stripes/line,
 /obj/machinery/conveyor{
-	dir = 4;
+	dir = 9;
 	id = "CargoLoad2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -13920,7 +13920,6 @@
 	layer = 4;
 	pixel_x = 33
 	},
-/obj/machinery/bouldertech/refinery,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "bcK" = (
@@ -14490,14 +14489,7 @@
 /area/station/science/robotics/mechbay)
 "bfC" = (
 /obj/effect/mapping_helpers/broken_floor,
-/obj/structure/table,
-/obj/item/clothing/gloves/cargo_gauntlet{
-	pixel_y = 7
-	},
-/obj/item/clothing/gloves/cargo_gauntlet,
-/obj/item/clothing/gloves/cargo_gauntlet{
-	pixel_y = -7
-	},
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/station/cargo/miningfoundry)
 "bfH" = (
@@ -27137,6 +27129,7 @@
 /area/station/maintenance/central)
 "coL" = (
 /obj/machinery/light/directional/north,
+/obj/machinery/suit_storage_unit/industrial/loader,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "coP" = (
@@ -28063,7 +28056,7 @@
 	dir = 1
 	},
 /obj/machinery/door/window/left/directional/west{
-	name = "Deliveries";
+	name = "To deliveries";
 	req_access = list("shipping")
 	},
 /turf/open/floor/iron,
@@ -29083,15 +29076,6 @@
 	},
 /turf/open/floor/plating,
 /area/station/cargo/miningfoundry)
-"cDa" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/obj/machinery/conveyor{
-	id = "CargoLoad2"
-	},
-/turf/open/floor/iron,
-/area/station/cargo/storage)
 "cDc" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -29777,18 +29761,11 @@
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "dqY" = (
-/obj/structure/table,
-/obj/machinery/conveyor_switch/oneway{
-	id = "CargoLoad";
-	name = "Foundry conveyor";
-	pixel_y = 8
+/obj/machinery/camera/directional/east{
+	c_tag = "Cargo Bay"
 	},
-/obj/structure/railing{
-	dir = 4
-	},
-/obj/structure/railing/corner,
 /turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
+/area/station/cargo/storage)
 "dra" = (
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 6
@@ -31700,11 +31677,15 @@
 /turf/open/floor/iron/white,
 /area/station/security/prison/mess)
 "eZj" = (
-/obj/effect/turf_decal/trimline/brown/filled/line,
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "CargoLoad2"
+/obj/machinery/disposal/delivery_chute{
+	dir = 1
+	},
+/obj/structure/plasticflaps/opaque,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -32714,15 +32695,17 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "fQd" = (
-/obj/machinery/conveyor{
-	id = "CargoLoad"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/machinery/conveyor{
+	dir = 10;
+	id = "CargoUnload"
+	},
+/obj/machinery/bouldertech/refinery/smelter,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "fQy" = (
@@ -32916,13 +32899,14 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "gcq" = (
-/obj/effect/turf_decal/trimline/brown/filled/line,
-/obj/structure/table,
-/obj/machinery/conveyor_switch/oneway{
-	id = "CargoLoad2";
-	name = "Cargo Load";
-	pixel_y = 8
+/obj/machinery/conveyor{
+	dir = 5;
+	id = "CargoLoad2"
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "gda" = (
@@ -35559,14 +35543,11 @@
 /turf/open/floor/iron,
 /area/station/medical/treatment_center)
 "iDV" = (
-/obj/machinery/camera/directional/east{
-	c_tag = "Cargo Bay"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/conveyor{
-	id = "CargoLoad2"
+/obj/structure/table,
+/obj/machinery/conveyor_switch/oneway{
+	id = "CargoLoad2";
+	name = "Cargo Load";
+	pixel_y = 8
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -36162,6 +36143,14 @@
 	name = "Cargo Bay Requests Console"
 	},
 /obj/effect/mapping_helpers/requests_console/supplies,
+/obj/item/clothing/gloves/cargo_gauntlet{
+	pixel_y = -7
+	},
+/obj/item/clothing/gloves/cargo_gauntlet,
+/obj/item/clothing/gloves/cargo_gauntlet{
+	pixel_y = 7
+	},
+/obj/structure/table,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "jiD" = (
@@ -36611,11 +36600,15 @@
 /turf/open/floor/iron/dark,
 /area/station/commons/lounge)
 "jIM" = (
-/obj/structure/railing{
-	dir = 4
+/obj/machinery/conveyor{
+	id = "CargoLoad2";
+	dir = 6
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
 /turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
+/area/station/cargo/storage)
 "jIU" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
@@ -40300,17 +40293,18 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/chapel/monastery)
 "mSB" = (
-/obj/effect/turf_decal/trimline/brown/filled/line,
-/obj/structure/plasticflaps/opaque,
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/disposal/delivery_chute{
+/obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/disposalpipe/trunk{
+/obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/machinery/conveyor{
+	id = "CargoLoad"
+	},
+/obj/machinery/bouldertech/refinery,
 /turf/open/floor/iron,
-/area/station/cargo/storage)
+/area/station/cargo/miningfoundry)
 "mTc" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -40421,13 +40415,9 @@
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "mZS" = (
-/obj/effect/turf_decal/trimline/brown/filled/line,
-/obj/item/radio/intercom/directional/north,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/station/cargo/storage)
+/turf/closed/wall,
+/turf/open/floor/plating,
+/area/station/cargo/miningfoundry)
 "naq" = (
 /obj/structure/disposaloutlet{
 	dir = 4
@@ -41284,9 +41274,6 @@
 "nNk" = (
 /obj/effect/turf_decal/trimline/brown/filled/line{
 	dir = 6
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 9
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -42519,9 +42506,15 @@
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "oMH" = (
-/obj/machinery/suit_storage_unit/industrial/loader,
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "CargoLoad2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
+/area/station/cargo/storage)
 "oMN" = (
 /turf/open/floor/iron/stairs/left,
 /area/station/service/abandoned_gambling_den)
@@ -45333,7 +45326,9 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Drone Bay Ext."
 	},
-/obj/structure/disposalpipe/segment,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "rbT" = (
@@ -45440,13 +45435,6 @@
 "rgO" = (
 /obj/effect/turf_decal/trimline/brown/filled/line,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/machinery/conveyor/inverted{
-	dir = 9;
-	id = "CargoLoad2"
-	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "rhr" = (
@@ -48226,11 +48214,9 @@
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
 "tpC" = (
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
 /turf/closed/wall,
-/area/station/cargo/miningfoundry)
+/turf/open/floor/plating,
+/area/station/command/heads_quarters/qm)
 "tpI" = (
 /obj/structure/window/reinforced/spawner/directional/east,
 /obj/structure/lattice,
@@ -48571,7 +48557,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "tAm" = (
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -48585,6 +48570,7 @@
 /obj/machinery/status_display/ai{
 	pixel_x = 32
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "tAK" = (
@@ -49371,12 +49357,12 @@
 /turf/open/floor/wood,
 /area/station/maintenance/department/engine)
 "ujf" = (
-/obj/effect/turf_decal/stripes/end,
-/obj/machinery/conveyor{
-	dir = 10;
-	id = "CargoUnload"
+/obj/structure/table,
+/obj/machinery/conveyor_switch/oneway{
+	id = "CargoLoad";
+	name = "Foundry conveyors";
+	pixel_y = 8
 	},
-/obj/machinery/bouldertech/refinery/smelter,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "ujj" = (
@@ -95343,7 +95329,7 @@ wDZ
 aTo
 aTo
 aTo
-aTo
+tpC
 aUz
 rvO
 ney
@@ -96114,8 +96100,8 @@ aEj
 coL
 cCB
 cCB
-cCB
-gcq
+iDV
+aUz
 aTr
 sAD
 cCB
@@ -96626,9 +96612,9 @@ hhJ
 gQa
 bbJ
 cCB
+dqY
 cCB
-cDa
-iDV
+cCB
 rgO
 myc
 sAD
@@ -96883,10 +96869,10 @@ xog
 pTJ
 jBh
 vQz
-vQz
-vQz
-jBh
+mZS
+gcq
 aUA
+aUz
 myc
 sAD
 cCB
@@ -97139,11 +97125,11 @@ aOP
 aMy
 aSd
 bbO
-vBZ
+ujf
 bfC
 oMH
-vQz
-eZj
+aQp
+aUz
 myc
 evg
 cCB
@@ -97397,10 +97383,10 @@ aPi
 kPZ
 vBZ
 vBZ
-gQa
-gQa
 vQz
-eZj
+oMH
+aQp
+aUz
 myc
 sAD
 cCB
@@ -97650,14 +97636,14 @@ aEj
 lru
 aEj
 aLl
-gQa
+cCY
 mlI
 cCY
-jIM
-dqY
 ueu
 vQz
-mSB
+jIM
+eZj
+aUz
 myc
 sAD
 rAP
@@ -97908,13 +97894,13 @@ lru
 aEj
 aPc
 aPU
-aPU
+mSB
 bcJ
-aPU
 fQd
-ujf
 jBh
-aQp
+bbG
+oCX
+aTy
 iYH
 aTy
 bbG
@@ -98168,10 +98154,10 @@ aEj
 aEj
 aEj
 bdG
-jBh
-tpC
-jBh
-mZS
+cCB
+cCB
+baB
+aUz
 myc
 sAD
 gvM
