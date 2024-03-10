@@ -10908,6 +10908,11 @@
 /area/station/maintenance/department/cargo)
 "aQo" = (
 /obj/structure/disposalpipe/segment,
+/obj/machinery/button/door/directional/west{
+	id = "warehouse";
+	name = "Foundry shutters button";
+	req_access = list("cargo","mining")
+	},
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "aQp" = (
@@ -13651,11 +13656,10 @@
 "bbJ" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
-/obj/machinery/door/airlock/mining/glass{
-	name = "Cargo Bay"
+/obj/machinery/door/poddoor/shutters{
+	id = "warehouse";
+	name = "Warehouse Shutter"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/supply/mining,
-/obj/effect/mapping_helpers/airlock/access/any/supply/general,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "bbK" = (
@@ -27135,6 +27139,13 @@
 /area/station/maintenance/central)
 "coL" = (
 /obj/machinery/light/directional/north,
+/obj/machinery/button/door/directional/west{
+	id = "warehouse";
+	name = "Foundry shutter button";
+	pixel_x = 0;
+	pixel_y = 26;
+	req_access = list("cargo","mining")
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "coP" = (
@@ -45999,11 +46010,10 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/mining/glass{
-	name = "Cargo Bay"
+/obj/machinery/door/poddoor/shutters{
+	id = "warehouse";
+	name = "Wsarehouse Shutter"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/supply/mining,
-/obj/effect/mapping_helpers/airlock/access/any/supply/general,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "rCR" = (
