@@ -4486,6 +4486,12 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai_upload)
+"bMh" = (
+/obj/machinery/camera/directional/north{
+	c_tag = "Command - Bridge Fore/Port"
+	},
+/turf/open/floor/iron/dark/herringbone,
+/area/station/command/bridge)
 "bMk" = (
 /obj/machinery/light_switch/directional/west,
 /turf/closed/wall,
@@ -8690,8 +8696,11 @@
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "dye" = (
-/obj/machinery/button/ignition/incinerator/atmos,
-/turf/closed/wall/r_wall,
+/obj/structure/cable,
+/obj/machinery/computer/atmos_control/nocontrol/incinerator{
+	dir = 4
+	},
+/turf/open/floor/iron/dark,
 /area/station/maintenance/disposal/incinerator)
 "dyC" = (
 /obj/machinery/conveyor_switch/oneway{
@@ -11646,7 +11655,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/light/small/blacklight/directional/east,
 /obj/effect/turf_decal/trimline/red/filled/warning{
 	dir = 8
 	},
@@ -14848,9 +14856,6 @@
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/locked,
-/obj/item/food/egg{
-	pixel_y = -24
-	},
 /turf/open/floor/engine,
 /area/station/maintenance/disposal/incinerator)
 "gay" = (
@@ -15414,13 +15419,17 @@
 /turf/open/floor/engine/vacuum,
 /area/station/science/ordnance/burnchamber)
 "gmv" = (
-/obj/machinery/button/door/directional/north{
-	id = "hop2";
-	pixel_x = 8;
-	pixel_y = 32
+/obj/machinery/button/ignition/incinerator/atmos,
+/obj/machinery/button/door/incinerator_vent_atmos_main{
+	pixel_x = 9;
+	pixel_y = 8
 	},
-/turf/closed/wall,
-/area/station/maintenance/port/fore)
+/obj/machinery/button/door/incinerator_vent_atmos_aux{
+	pixel_y = -9;
+	pixel_x = 8
+	},
+/turf/closed/wall/r_wall,
+/area/station/maintenance/disposal/incinerator)
 "gmC" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -16346,6 +16355,11 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
+	},
+/obj/machinery/button/door/directional/south{
+	req_access = list("hydroponics");
+	name = "Service Shutter Control";
+	id = "hydro_service_left"
 	},
 /turf/open/floor/iron/edge,
 /area/station/service/hydroponics)
@@ -17973,6 +17987,9 @@
 /obj/machinery/light/directional/west,
 /obj/structure/disposalpipe/segment,
 /obj/structure/extinguisher_cabinet/directional/west,
+/obj/machinery/camera/directional/west{
+	c_tag = "Science - R&D Fore"
+	},
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "hii" = (
@@ -19201,9 +19218,6 @@
 /obj/machinery/computer/cargo/request{
 	dir = 1
 	},
-/obj/machinery/camera/directional/south{
-	c_tag = "Command - Bridge Aft"
-	},
 /turf/open/floor/iron/dark/herringbone,
 /area/station/command/bridge)
 "hMk" = (
@@ -20102,6 +20116,9 @@
 	dir = 8;
 	id = "mining"
 	},
+/obj/machinery/camera/directional/south{
+	c_tag = "Cargo - Mining Aft"
+	},
 /turf/open/floor/iron/textured_large,
 /area/station/cargo/miningdock)
 "igy" = (
@@ -20607,13 +20624,14 @@
 /turf/open/floor/iron,
 /area/station/maintenance/aft/upper)
 "iuB" = (
-/obj/machinery/computer/turbine_computer{
-	dir = 1;
-	mapping_id = "main_turbine"
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/camera/directional/west{
+	c_tag = "Cargo - Port"
 	},
-/obj/structure/cable,
-/turf/open/floor/iron/dark,
-/area/station/maintenance/disposal/incinerator)
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "iva" = (
 /obj/structure/closet/crate/silvercrate,
 /obj/machinery/status_display/ai/directional/north,
@@ -23803,6 +23821,9 @@
 "jMZ" = (
 /obj/effect/turf_decal/trimline/brown/filled/corner,
 /obj/structure/sign/poster/official/random/directional/west,
+/obj/machinery/camera/directional/south{
+	c_tag = "Cargo - Port Aft"
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "jNc" = (
@@ -24296,6 +24317,11 @@
 	},
 /turf/open/floor/iron,
 /area/station/commons/fitness)
+"jVn" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/chair/stool/directional/west,
+/turf/open/floor/iron/dark,
+/area/station/maintenance/disposal/incinerator)
 "jVG" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -26013,19 +26039,13 @@
 /turf/open/floor/plating,
 /area/station/security/checkpoint/escape)
 "kFf" = (
-/obj/structure/reagent_dispensers/watertank/high,
 /obj/effect/turf_decal/tile/green/half{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/green/half/contrasted{
 	dir = 4
 	},
-/obj/machinery/button/door/directional/west{
-	req_access = list("hydroponics");
-	id = "hydro_service_left";
-	name = "Service Shutter Control"
-	},
-/obj/item/reagent_containers/cup/watering_can,
+/obj/machinery/seed_extractor,
 /turf/open/floor/iron/corner{
 	dir = 4
 	},
@@ -26665,7 +26685,7 @@
 	},
 /obj/machinery/door/window/right/directional/north{
 	name = "Containment Pen 5";
-	req_access = list("rd")
+	req_access = list("research")
 	},
 /turf/open/floor/iron/textured_half{
 	dir = 1
@@ -33302,7 +33322,6 @@
 /area/station/maintenance/aft/lesser)
 "nQz" = (
 /obj/machinery/door/firedoor,
-/obj/structure/cable,
 /obj/structure/disposalpipe/segment,
 /obj/effect/mapping_helpers/airlock/access/all/supply/general,
 /obj/effect/turf_decal/tile/brown{
@@ -34061,9 +34080,6 @@
 /area/station/security/brig)
 "ogO" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/machinery/computer/atmos_control/nocontrol/incinerator{
-	dir = 1
-	},
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/disposal/incinerator)
@@ -35097,7 +35113,7 @@
 	},
 /obj/machinery/door/window/right/directional/north{
 	name = "Containment Pen 1";
-	req_access = list("rd")
+	req_access = list("research")
 	},
 /obj/machinery/door/window/right/directional/south{
 	name = "Containment Pen 1"
@@ -35141,7 +35157,7 @@
 	},
 /obj/machinery/door/window/right/directional/south{
 	name = "Containment Pen 2";
-	req_access = list("rd")
+	req_access = list("research")
 	},
 /obj/machinery/door/window/right/directional/north{
 	name = "Containment Pen 2"
@@ -35654,6 +35670,9 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/south,
+/obj/machinery/camera/directional/south{
+	c_tag = "Command - Bridge Aft"
+	},
 /turf/open/floor/iron/dark/herringbone,
 /area/station/command/bridge)
 "oNs" = (
@@ -36339,16 +36358,7 @@
 /area/station/ai_monitored/aisat/exterior)
 "pcJ" = (
 /obj/structure/cable,
-/obj/machinery/button/door/incinerator_vent_atmos_main{
-	pixel_x = -8;
-	pixel_y = 36
-	},
-/obj/machinery/button/door/incinerator_vent_atmos_aux{
-	pixel_x = -8;
-	pixel_y = 24
-	},
 /obj/machinery/light/directional/north,
-/obj/structure/chair/stool/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/disposal/incinerator)
 "pcK" = (
@@ -36395,7 +36405,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/mob/living/simple_animal/bot/secbot/beepsky,
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
 "pdD" = (
@@ -36720,7 +36729,7 @@
 /area/space/nearstation)
 "pkj" = (
 /obj/machinery/door/airlock/atmos{
-	name = "HFR Access"
+	name = "Turbine"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -40296,7 +40305,6 @@
 "qRA" = (
 /obj/effect/turf_decal/siding/wood/corner,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/duct,
 /turf/open/floor/wood,
@@ -40405,6 +40413,9 @@
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/brown/full,
 /obj/item/stack/sheet/mineral/sandbags,
+/obj/machinery/camera/directional/east{
+	c_tag = "Cargo - Mining Central"
+	},
 /turf/open/floor/iron/textured_large,
 /area/station/cargo/miningdock)
 "qTY" = (
@@ -41723,6 +41734,7 @@
 /obj/machinery/computer/slot_machine,
 /obj/machinery/computer/security/telescreen/entertainment/directional/south,
 /obj/effect/turf_decal/tile/bar/opposingcorners,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/commons/lounge)
 "rxH" = (
@@ -42072,7 +42084,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/red/fourcorners,
-/obj/machinery/light/small/directional/south,
+/obj/machinery/light/directional/south,
 /turf/open/floor/iron/white,
 /area/station/security/checkpoint/medical)
 "rDo" = (
@@ -44678,6 +44690,7 @@
 	dir = 4
 	},
 /obj/machinery/power/apc/auto_name/directional/south,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/commons/lounge)
 "sKh" = (
@@ -48949,8 +48962,9 @@
 /area/station/maintenance/department/cargo)
 "uKs" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden{
-	dir = 10
+/obj/machinery/computer/turbine_computer{
+	dir = 4;
+	mapping_id = "main_turbine"
 	},
 /turf/open/floor/iron/dark,
 /area/station/maintenance/disposal/incinerator)
@@ -49669,7 +49683,7 @@
 	},
 /obj/machinery/door/window/right/directional/south{
 	name = "Containment Pen 3";
-	req_access = list("rd")
+	req_access = list("research")
 	},
 /obj/machinery/door/window/right/directional/north{
 	name = "Containment Pen 3";
@@ -50091,7 +50105,7 @@
 	},
 /obj/machinery/door/window/right/directional/north{
 	name = "Containment Pen 4";
-	req_access = list("rd")
+	req_access = list("research")
 	},
 /turf/open/floor/iron/textured_half{
 	dir = 1
@@ -51361,6 +51375,7 @@
 	pixel_y = 10
 	},
 /obj/item/stamp/denied,
+/obj/item/dest_tagger,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "vKJ" = (
@@ -51647,7 +51662,8 @@
 /obj/effect/turf_decal/delivery,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/machinery/door/window/right/directional/north{
-	name = "Maximum Security Test Pen"
+	name = "Maximum Security Test Pen";
+	req_access = list("research")
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
@@ -53395,7 +53411,7 @@
 	},
 /obj/machinery/door/window/right/directional/north{
 	name = "Containment Pen 6";
-	req_access = list("rd")
+	req_access = list("research")
 	},
 /turf/open/floor/iron/textured_half{
 	dir = 1
@@ -53652,6 +53668,9 @@
 /obj/effect/landmark/start/hangover,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
+	},
+/obj/machinery/camera/directional/south{
+	c_tag = "Fore hallway - Kitchen"
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
@@ -54234,6 +54253,8 @@
 /obj/effect/turf_decal/trimline/green/filled/corner{
 	dir = 4
 	},
+/obj/structure/reagent_dispensers/watertank/high,
+/obj/item/reagent_containers/cup/watering_can,
 /turf/open/floor/iron/edge,
 /area/station/service/hydroponics)
 "wTH" = (
@@ -55323,6 +55344,13 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/cytology)
+"xtV" = (
+/obj/effect/turf_decal/tile/purple/fourcorners,
+/obj/machinery/camera/directional/east{
+	c_tag = "Science - R&D Central"
+	},
+/turf/open/floor/iron/white,
+/area/station/science/research)
 "xub" = (
 /obj/effect/turf_decal/bot/left,
 /turf/open/floor/engine,
@@ -57325,6 +57353,9 @@
 "ylV" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2{
 	dir = 1
+	},
+/obj/item/food/egg{
+	pixel_y = -24
 	},
 /turf/open/floor/engine,
 /area/station/maintenance/disposal/incinerator)
@@ -67244,7 +67275,7 @@ iyK
 ukp
 hMp
 uKs
-hMp
+dye
 hMp
 jXh
 dgb
@@ -67501,7 +67532,7 @@ pkj
 fWb
 sQf
 sQf
-dHc
+jVn
 fQq
 giv
 gLn
@@ -68529,7 +68560,7 @@ iyK
 iyK
 iyK
 gak
-iyK
+gmv
 iyK
 hqw
 iQu
@@ -69044,9 +69075,9 @@ apP
 iyK
 tnj
 iyK
-dye
+iyK
 pcJ
-iuB
+hMp
 iGm
 nri
 vQV
@@ -77302,7 +77333,7 @@ shC
 shC
 iPY
 shC
-shC
+iuB
 pcK
 jPx
 mqK
@@ -86734,7 +86765,7 @@ qsd
 qsd
 qsd
 qsd
-gmv
+qsd
 dEK
 nNI
 qsd
@@ -89867,7 +89898,7 @@ vkM
 aSz
 jSr
 gsm
-aBJ
+bMh
 aBJ
 aBJ
 acz
@@ -97012,7 +97043,7 @@ bse
 gIW
 mCd
 mCd
-cBu
+xtV
 qlz
 xvK
 qln
