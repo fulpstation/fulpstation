@@ -5432,6 +5432,10 @@
 /obj/effect/turf_decal/tile/yellow/fourcorners,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
+"chn" = (
+/obj/machinery/status_display/evac/directional/east,
+/turf/open/floor/iron/dark,
+/area/station/ai_monitored/turret_protected/aisat_interior)
 "chq" = (
 /obj/structure/cable,
 /turf/open/floor/iron/dark/telecomms,
@@ -20875,6 +20879,7 @@
 	charge = 5e+006
 	},
 /obj/structure/cable,
+/obj/machinery/status_display/ai/directional/east,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai)
 "iAv" = (
@@ -24210,6 +24215,10 @@
 	req_access = list("hop")
 	},
 /obj/item/stamp/head/hop,
+/obj/machinery/button/ticket_machine{
+	pixel_y = 33;
+	pixel_x = 6
+	},
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/hop)
 "jTn" = (
@@ -26334,6 +26343,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
 "kMG" = (
+/obj/machinery/status_display/ai/directional/south,
 /turf/open/floor/circuit/green,
 /area/station/ai_monitored/turret_protected/aisat/teleporter)
 "kMT" = (
@@ -27243,6 +27253,11 @@
 /obj/structure/cable,
 /turf/open/floor/circuit/green,
 /area/station/ai_monitored/turret_protected/ai)
+"lgN" = (
+/obj/machinery/porta_turret/ai,
+/obj/machinery/status_display/ai/directional/north,
+/turf/open/floor/iron/dark,
+/area/station/ai_monitored/turret_protected/aisat_interior)
 "lgQ" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -28347,6 +28362,7 @@
 /area/station/maintenance/starboard/aft)
 "lFe" = (
 /obj/machinery/airalarm/directional/south,
+/obj/machinery/status_display/ai/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "lFJ" = (
@@ -28599,6 +28615,7 @@
 /area/station/service/hydroponics/garden/monastery)
 "lNc" = (
 /obj/machinery/suit_storage_unit/industrial/loader,
+/obj/machinery/status_display/random_message/directional/south,
 /turf/open/floor/iron,
 /area/station/cargo/warehouse)
 "lNm" = (
@@ -28799,6 +28816,7 @@
 "lSq" = (
 /obj/machinery/computer/teleporter,
 /obj/structure/cable,
+/obj/machinery/status_display/ai/directional/north,
 /turf/open/floor/circuit/green,
 /area/station/ai_monitored/turret_protected/aisat/teleporter)
 "lSv" = (
@@ -31018,6 +31036,7 @@
 /obj/machinery/camera/directional/north{
 	name = "AI Chamber - North"
 	},
+/obj/machinery/status_display/ai/directional/north,
 /turf/open/floor/circuit/green,
 /area/station/ai_monitored/turret_protected/ai)
 "mQH" = (
@@ -32896,6 +32915,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/station/security/brig)
+"nGi" = (
+/obj/machinery/status_display/ai/directional/south,
+/turf/open/floor/circuit/green,
+/area/station/ai_monitored/turret_protected/ai)
 "nGr" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 8
@@ -37231,6 +37254,7 @@
 /obj/machinery/camera/directional/west{
 	name = "AI chamber - West"
 	},
+/obj/machinery/status_display/ai/directional/west,
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai)
 "puZ" = (
@@ -41028,7 +41052,8 @@
 	pixel_x = -25
 	},
 /obj/structure/bodycontainer/crematorium{
-	dir = 1
+	dir = 1;
+	id = "crematorium"
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel)
@@ -48815,6 +48840,10 @@
 /obj/effect/turf_decal/tile/neutral/diagonal_centre,
 /turf/open/floor/iron,
 /area/station/service/theater)
+"uHc" = (
+/obj/machinery/status_display/ai/directional/east,
+/turf/open/floor/iron/dark,
+/area/station/ai_monitored/turret_protected/aisat_interior)
 "uHg" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -53961,6 +53990,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos)
+"wLO" = (
+/obj/machinery/status_display/ai/directional/north,
+/turf/open/floor/circuit/green,
+/area/station/ai_monitored/turret_protected/ai)
 "wMh" = (
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
@@ -69103,14 +69136,14 @@ jPi
 jPi
 pkh
 nCL
-tQE
+lgN
 ipA
 qdH
 qdH
 tQE
 nCL
 nam
-aAj
+wLO
 hgo
 lTl
 lTl
@@ -69118,7 +69151,7 @@ lTl
 lTl
 lTl
 yeg
-aAj
+nGi
 nam
 nam
 pkh
@@ -70131,7 +70164,7 @@ jPi
 jPi
 pkh
 nCL
-tQE
+lgN
 qdH
 qdH
 qdH
@@ -70146,7 +70179,7 @@ gUM
 gUM
 qUx
 yeg
-aAj
+nGi
 nam
 nam
 clO
@@ -70389,9 +70422,9 @@ nri
 nri
 nCL
 nCL
-jXY
+chn
 vxB
-jXY
+uHc
 nCL
 nCL
 nam
