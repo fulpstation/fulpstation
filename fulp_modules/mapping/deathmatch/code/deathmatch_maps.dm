@@ -1,4 +1,4 @@
-/datum/lazy_template/deathmatch/pandamonium
+/fulp_modules/mapping/deathmatch/maps/pandamonium
 	name = "Pandamonium"
 	desc = "Release the beast in the panda way!"
 	max_players = 16
