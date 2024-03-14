@@ -5,7 +5,7 @@
  * Instead of messing with people's minds and using some random area, we make our own.
  */
 
-// Station
+// Station/
 
 /area/station/ai_monitored/turret_protected/ai_upload_foyer/command
 	name = "\improper AI Upload Command Entrance"
