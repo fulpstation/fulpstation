@@ -16,3 +16,16 @@
 	suit = /obj/item/clothing/suit/hooded/onesie/beefman
 	r_hand = /obj/item/gun/magic/hook
 	l_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
+
+/datum/outfit/deathmatch_loadout/masquerader
+	name = "Deathmatch: Masquerader"
+	display_name = "Masquerader"
+	desc = "Worth the stakes."
+	uniform = /obj/item/clothing/under/costume/draculass
+	suit = /obj/item/clothing/suit/costume_2021/alucard_suit
+	head = /obj/item/clothing/head/costume/powdered_wig
+	r_hand = /obj/item/melee/sabre
+
+/datum/outfit/deathmatch_loadout/masquerader(mob/living/carbon/human/equipped_on, visualsOnly=FALSE)
+	var/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two/battlers_key = new(equipped_on.mind || equipped_on)
+	battlers_key.Grant(equipped_on)
