@@ -18,6 +18,7 @@
 	allowed_loadouts = list(
 		/datum/outfit/deathmatch_loadout/assistant,
 		/datum/outfit/deathmatch_loadout/beeftide,
+		/datum/outfit/deathmatch_loadout/masquerader,
 		/datum/outfit/deathmatch_loadout/naked,
 	)
 	map_name = "heliocentric"

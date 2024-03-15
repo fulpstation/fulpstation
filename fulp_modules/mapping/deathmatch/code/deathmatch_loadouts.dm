@@ -26,6 +26,6 @@
 	head = /obj/item/clothing/head/costume/powdered_wig
 	r_hand = /obj/item/melee/sabre
 	
-	granted_spells = (
+	granted_spells = list(
 		/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two,
 		)
