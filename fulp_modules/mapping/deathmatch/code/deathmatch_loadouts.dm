@@ -7,3 +7,12 @@
 	shoes = /obj/item/clothing/shoes/sandal
 	r_hand = /obj/item/knife/combat
 	l_hand = /obj/item/shield/buckler
+
+/datum/outfit/deathmatch_loadout/beeftide
+	name = "Deathmatch: Beeftide"
+	display_name = "Beeftide"
+	desc = "Nice to meat you."
+	uniform = /obj/item/clothing/under/bodysash
+	suit = /obj/item/clothing/suit/hooded/onesie/beefman
+	r_hand = /obj/item/gun/magic/hook
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
