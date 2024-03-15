@@ -1,7 +1,7 @@
 /datum/lazy_template/deathmatch/fulp
 	map_dir = "fulp_modules/mapping/deathmatch/maps"
 
-/datum/lazy_template/deathmatch/pandamonium
+/datum/lazy_template/deathmatch/fulp/pandamonium
 	name = "Pandamonium"
 	desc = "Release the beast in the panda way!"
 	max_players = 16
@@ -12,7 +12,7 @@
 	map_name = "pandamonium"
 	key = "pandamonium"
 
-/datum/lazy_template/deathmatch/heliocentric
+/datum/lazy_template/deathmatch/fulp/heliocentric
 	name = "Heliocentric"
 	desc = "Nostalgic five-tile wide hallways."
 	max_players = 15
