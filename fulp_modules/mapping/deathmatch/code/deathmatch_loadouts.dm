@@ -42,7 +42,7 @@
 	name = "Deathmatch: Supervisor"
 	display_name = "Supervisor"
 	desc = "In charge of it all, right?"
-	eyes = /obj/item/clothing/glasses/sunglasses
+	glasses = /obj/item/clothing/glasses/sunglasses
 	uniform = /obj/item/clothing/under/rank/cargo/qm
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	r_hand = /obj/item/clipboard
