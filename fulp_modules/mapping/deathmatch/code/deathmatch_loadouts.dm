@@ -72,7 +72,7 @@
 	uniform = /obj/item/clothing/under/syndicate/tacticool
 	gloves = /obj/item/clothing/gloves/combat
 	back = /obj/item/mod/control/pre_equipped/nuclear
-	r_hand = /obj/item/gun/ballistic/shotgun/bulldog/unrestricted
+	r_hand = /obj/item/gun/ballistic/automatic/c20r
 	belt = /obj/item/gun/ballistic/automatic/pistol/clandestine
 	r_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
 	l_pocket = /obj/item/reagent_containers/hypospray/medipen/atropine
@@ -80,7 +80,7 @@
 
 	backpack_contents = list(
 		/obj/item/ammo_box/c10mm,
-		/obj/item/ammo_box/magazine/m12g = 2,
+		/obj/item/ammo_box/magazine/smgm45 = 2,
    	)
 
 /datum/outfit/deathmatch_loadout/dmpete
