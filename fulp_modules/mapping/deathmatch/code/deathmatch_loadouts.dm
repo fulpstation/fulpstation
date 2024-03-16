@@ -98,3 +98,33 @@
 	l_pocket = /obj/item/grenade/syndieminibomb
 	r_pocket = /obj/item/grenade/syndieminibomb
 	implants = list(/obj/item/implanter/explosive_macro)
+
+/datum/outfit/deathmatch_loadout/dmtider
+	name = "Deathmatch: Tider"
+	display_name = "Tider"
+	desc = "A very high power level Assistant."
+
+	back = /obj/item/melee/baton/security/cattleprod
+	r_hand = /obj/item/fireaxe
+	uniform = /obj/item/clothing/under/color/grey/ancient
+	mask = /obj/item/clothing/mask/gas
+	shoes = /obj/item/clothing/shoes/sneakers/black
+	gloves = /obj/item/clothing/gloves/cut
+	l_pocket = /obj/item/reagent_containers/pill/stimulant
+	r_pocket = /obj/item/stock_parts/cell/high
+	belt = /obj/item/storage/belt/utility/full
+
+/datum/outfit/deathmatch_loadout/dmabductor
+	name = "Deathmatch: Abductor"
+	display_name = "Abductor"
+	desc = "We come in peace."
+	
+	species_override = /datum/species/abductor
+	uniform = /obj/item/clothing/under/abductor
+	head = /obj/item/clothing/head/helmet/abductor
+	suit = /obj/item/clothing/suit/armor/abductor/vest
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/atropine
+	r_pocket = /obj/item/grenade/gluon
+	l_hand = /obj/item/gun/energy/alien
+	r_hand = /obj/item/gun/energy/alien
+	belt = /obj/item/gun/energy/shrink_ray
