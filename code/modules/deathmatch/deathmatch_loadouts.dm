@@ -15,7 +15,6 @@
 #ifdef UNIT_TESTS
 	return
 #endif
-
 	if(isdummy(user))
 		return
 
