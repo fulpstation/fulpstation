@@ -17,13 +17,15 @@
 	uniform = /obj/item/clothing/under/rank/security/head_of_security/alt
 	shoes = /obj/item/clothing/shoes/jackboots/sec
 	suit = /obj/item/clothing/suit/armor/hos/hos_formal
+	suit_store = /obj/item/gun/ballistic/shotgun/automatic/combat/compact
 	neck = /obj/item/bedsheet/hos
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/tackler/combat
-	back = /obj/item/gun/ballistic/shotgun/automatic/combat/compact
 	belt = /obj/item/gun/energy/e_gun/hos
 	r_hand = /obj/item/melee/baton/security/loaded
 	l_hand = /obj/item/shield/riot/tele
+	l_pocket = /obj/item/restraints/legcuffs/bola/energy
+	r_pocket = /obj/item/restraints/legcuffs/bola/energy
 	implants = list(/obj/item/implant/mindshield)
 
 /datum/outfit/deathmatch_loadout/dmcap
@@ -34,6 +36,7 @@
 	head = /obj/item/clothing/head/hats/caphat/parade
 	uniform = /obj/item/clothing/under/rank/captain
 	suit = /obj/item/clothing/suit/armor/vest/capcarapace/captains_formal
+	suit_store = /obj/item/gun/energy
 	shoes = /obj/item/clothing/shoes/laceup
 	neck = /obj/item/bedsheet/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
