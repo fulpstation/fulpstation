@@ -58,7 +58,7 @@
 	shoes = /obj/item/clothing/shoes/chameleon/noslip
 	glasses = /obj/item/clothing/glasses/thermal/syndi
 	gloves = /obj/item/clothing/gloves/combat
-	r_hand = /obj/item/gun/energy/recharge/ebow
+	suit_store = /obj/item/gun/energy/recharge/ebow
 	l_hand = /obj/item/melee/energy/sword
 	r_pocket = /obj/item/reagent_containers/hypospray/medipen/stimulants
 	l_pocket = /obj/item/ammo_box/a357
@@ -73,7 +73,7 @@
 	gloves = /obj/item/clothing/gloves/combat
 	back = /obj/item/mod/control/pre_equipped/nuclear
 	r_hand = /obj/item/gun/ballistic/shotgun/bulldog/unrestricted
-	l_hand = /obj/item/gun/ballistic/automatic/pistol/clandestine
+	belt = /obj/item/gun/ballistic/automatic/pistol/clandestine
 	r_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
 	l_pocket = /obj/item/reagent_containers/hypospray/medipen/atropine
 	implants = list(/obj/item/implant/explosive)
@@ -97,3 +97,4 @@
 	r_hand = /obj/item/sbeacondrop/bomb
 	l_pocket = /obj/item/grenade/syndieminibomb
 	r_pocket = /obj/item/grenade/syndieminibomb
+	implants = list(/obj/item/implanter/explosive_macro)
