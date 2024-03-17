@@ -4,7 +4,7 @@
 	maxHealth = 170
 	health = 170
 
-/mob/living/basic/gorilla/Initialize(mapload)
+/mob/living/basic/gorilla/albino/Initialize(mapload)
 	var/datum/action/cooldown/mob_cooldown/charge/gorilla/tackle = new(src)
 	tackle.Grant(src)
 	var/datum/action/cooldown/spell/conjure/banana/trap = new(src)
