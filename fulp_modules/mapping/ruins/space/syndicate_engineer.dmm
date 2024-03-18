@@ -14,12 +14,16 @@
 /area/ruin/has_grav/prototype/medsci)
 "ae" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/item/storage/box/lights/mixed{
+	pixel_x = 2;
+	pixel_y = 4
+	},
 /turf/open/floor/plating/airless,
 /area/ruin/has_grav/prototype/medsci)
 "af" = (
-/obj/structure/closet/secure_closet/freezer/meat,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/cobweb,
+/obj/structure/closet/secure_closet/freezer/meat/all_access,
 /turf/open/floor/iron/cafeteria/airless,
 /area/ruin/has_grav/prototype/kitchen)
 "ag" = (
@@ -152,11 +156,11 @@
 /turf/open/floor/wood/airless,
 /area/ruin/has_grav/prototype/Captain)
 "aB" = (
-/obj/structure/closet/secure_closet/freezer/fridge/open,
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/sign/poster/official/fruit_bowl{
 	pixel_y = 32
 	},
+/obj/structure/closet/secure_closet/freezer/fridge/all_access,
 /turf/open/floor/iron/cafeteria/airless,
 /area/ruin/has_grav/prototype/kitchen)
 "aC" = (
@@ -506,16 +510,13 @@
 /turf/open/floor/iron/airless,
 /area/ruin/has_grav/prototype/botany)
 "bF" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 8;
-	frequency = 1442;
-	id_tag = "syndie_lavaland_n2_out";
-	internal_pressure_bound = 5066;
-	name = "Air Out"
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/siphon/monitored/air_output{
+	dir = 8
 	},
 /turf/open/floor/engine/air,
 /area/ruin/has_grav/prototype/engineering)
 "bG" = (
+/obj/machinery/light/small/directional/east,
 /turf/open/floor/engine/air,
 /area/ruin/has_grav/prototype/engineering)
 "bH" = (
@@ -531,7 +532,7 @@
 /turf/open/floor/wood/airless,
 /area/ruin/has_grav/prototype/Captain)
 "bM" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/air_input{
 	dir = 8
 	},
 /turf/open/floor/engine/air,
@@ -575,6 +576,7 @@
 /obj/structure/closet/crate/science,
 /obj/item/circuitboard/machine/protolathe,
 /obj/item/storage/box/beakers,
+/obj/item/circuitboard/machine/circuit_imprinter,
 /turf/open/floor/plating/airless,
 /area/ruin/has_grav/prototype/hallway)
 "bT" = (
@@ -614,16 +616,13 @@
 /turf/open/floor/iron/showroomfloor/airless,
 /area/ruin/has_grav/prototype/hallway)
 "bY" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 8;
-	frequency = 1442;
-	id_tag = "syndie_lavaland_o2_out";
-	internal_pressure_bound = 5066;
-	name = "Oxygen Out"
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/oxygen_output{
+	dir = 8
 	},
 /turf/open/floor/engine/o2,
 /area/ruin/has_grav/prototype/engineering)
 "bZ" = (
+/obj/machinery/light/small/directional/east,
 /turf/open/floor/engine/o2,
 /area/ruin/has_grav/prototype/engineering)
 "ca" = (
@@ -678,7 +677,7 @@
 /turf/open/floor/wood/airless,
 /area/ruin/has_grav/prototype/Captain)
 "ch" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/oxygen_input{
 	dir = 8
 	},
 /turf/open/floor/engine/o2,
@@ -728,16 +727,13 @@
 /turf/open/floor/plating,
 /area/ruin/has_grav/prototype/engineering)
 "cw" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 8;
-	frequency = 1442;
-	id_tag = "syndie_lavaland_n2_out";
-	internal_pressure_bound = 5066;
-	name = "Nitrogen Out"
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/nitrogen_output{
+	dir = 8
 	},
 /turf/open/floor/engine/n2,
 /area/ruin/has_grav/prototype/engineering)
 "cx" = (
+/obj/machinery/light/small/directional/east,
 /turf/open/floor/engine/n2,
 /area/ruin/has_grav/prototype/engineering)
 "cy" = (
@@ -756,7 +752,7 @@
 /turf/template_noop,
 /area/template_noop)
 "cC" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+/obj/machinery/atmospherics/components/unary/outlet_injector/monitored/nitrogen_input{
 	dir = 8
 	},
 /turf/open/floor/engine/n2,
@@ -792,7 +788,7 @@
 /turf/open/floor/plating/airless,
 /area/ruin/has_grav/prototype/engineering)
 "cJ" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+/obj/machinery/atmospherics/components/unary/passive_vent{
 	dir = 1
 	},
 /turf/open/floor/plating,
@@ -1214,7 +1210,7 @@
 /turf/open/floor/iron/airless,
 /area/ruin/has_grav/prototype/engineering)
 "em" = (
-/obj/machinery/atmospherics/components/trinary/mixer/airmix/inverse{
+/obj/machinery/atmospherics/components/trinary/mixer/airmix{
 	dir = 1
 	},
 /turf/open/floor/plating/airless,
@@ -1224,9 +1220,13 @@
 /turf/open/floor/plating/airless,
 /area/ruin/has_grav/prototype/engineering)
 "ep" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible/layer4,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/green,
+/obj/machinery/computer/atmos_control/air_tank{
+	dir = 8
+	},
 /turf/open/floor/plating/airless,
-/area/ruin/has_grav/prototype/dorms)
+/area/ruin/has_grav/prototype/engineering)
 "er" = (
 /obj/machinery/door/airlock{
 	name = "Cabin 1"
@@ -1439,6 +1439,9 @@
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/iron/fifty,
 /turf/open/floor/iron/airless,
 /area/ruin/has_grav/prototype/engineering)
 "eV" = (
@@ -1607,7 +1610,6 @@
 /turf/open/floor/plating/airless,
 /area/ruin/has_grav/prototype/engineering)
 "fD" = (
-/obj/effect/gibspawner/human,
 /obj/item/clothing/suit/space/syndicate/black/red,
 /obj/item/clothing/head/helmet/space/syndicate/black/red,
 /obj/structure/lattice,
@@ -1686,6 +1688,7 @@
 /area/ruin/has_grav/prototype/hallway)
 "fS" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/air_sensor/oxygen_tank,
 /turf/open/floor/engine/o2,
 /area/ruin/has_grav/prototype/engineering)
 "fT" = (
@@ -1700,10 +1703,12 @@
 /area/ruin/has_grav/prototype/engineering)
 "fU" = (
 /obj/machinery/portable_atmospherics/canister/nitrogen,
+/obj/machinery/air_sensor/nitrogen_tank,
 /turf/open/floor/engine/n2,
 /area/ruin/has_grav/prototype/engineering)
 "fV" = (
 /obj/machinery/portable_atmospherics/canister/air,
+/obj/machinery/air_sensor/air_tank,
 /turf/open/floor/engine/air,
 /area/ruin/has_grav/prototype/engineering)
 "fW" = (
@@ -1923,7 +1928,7 @@
 "ng" = (
 /obj/structure/table,
 /obj/effect/decal/cleanable/dirt,
-/obj/item/trash/pistachios,
+/obj/effect/spawner/random/trash/food_packaging,
 /turf/open/floor/iron/airless,
 /area/ruin/has_grav/prototype/hallway)
 "nq" = (
@@ -2046,6 +2051,13 @@
 	},
 /turf/open/floor/mineral/plastitanium/airless,
 /area/ruin/has_grav/prototype/brig)
+"CD" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/computer/atmos_control/oxygen_tank{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/ruin/has_grav/prototype/engineering)
 "DP" = (
 /obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/visible{
 	dir = 4
@@ -2289,6 +2301,14 @@
 "Ux" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible,
+/obj/machinery/computer/atmos_control/nitrogen_tank{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/ruin/has_grav/prototype/engineering)
+"UE" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/space_heater,
 /turf/open/floor/plating/airless,
 /area/ruin/has_grav/prototype/engineering)
 "Vr" = (
@@ -2945,7 +2965,7 @@ eK
 fc
 dh
 ab
-ep
+Kf
 Jb
 ab
 aa
@@ -3415,7 +3435,7 @@ cd
 bU
 bi
 dL
-Nx
+sZ
 fj
 fj
 fj
@@ -3449,10 +3469,10 @@ VR
 bU
 bi
 dM
-sZ
-fj
+ep
+UE
 DY
-fj
+CD
 fj
 fC
 Ux
