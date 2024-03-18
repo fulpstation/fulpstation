@@ -23,7 +23,7 @@
 	)
 	map_name = "heliocentric"
 	key = "heliocentric"
-
+  
 /datum/lazy_template/deathmatch/industrial
 	name = "Industrial"
 	map_dir = "fulp_modules/mapping/deathmatch/maps"
