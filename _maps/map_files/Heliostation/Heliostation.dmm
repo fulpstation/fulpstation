@@ -5208,8 +5208,8 @@
 	dir = 4
 	},
 /obj/machinery/door/window/brigdoor/left/directional/west{
-	req_access = list("armory");
-	name = "Armory Desk"
+	name = "Armory Desk";
+	req_access = list("armory")
 	},
 /turf/open/floor/iron,
 /area/station/ai_monitored/security/armory)
@@ -7604,16 +7604,8 @@
 /turf/open/floor/wood,
 /area/station/service/lawoffice)
 "aPa" = (
-/obj/effect/turf_decal/tile/purple/half{
-	dir = 1
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/textured_edge{
-	dir = 1
-	},
+/obj/item/pinata,
+/turf/open/misc/dirt,
 /area/station/maintenance/department/science)
 "aPk" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -24338,8 +24330,8 @@
 /area/station/cargo/miningoffice)
 "cMd" = (
 /obj/machinery/conveyor{
-	id = "Foundryload";
-	dir = 4
+	dir = 4;
+	id = "Foundryload"
 	},
 /turf/open/floor/iron/dark,
 /area/station/cargo/miningoffice)
@@ -26205,8 +26197,8 @@
 	req_access = list("research")
 	},
 /obj/machinery/door/window/left/directional/east{
-	req_access = list("research");
-	name = "Containment Pen #1"
+	name = "Containment Pen #1";
+	req_access = list("research")
 	},
 /obj/machinery/door/window/left/directional/east{
 	name = "Outer Window"
@@ -26239,8 +26231,8 @@
 	req_access = list("research")
 	},
 /obj/machinery/door/window/left/directional/east{
-	req_access = list("research");
-	name = "Containment Pen #2"
+	name = "Containment Pen #2";
+	req_access = list("research")
 	},
 /turf/open/floor/iron/textured_half{
 	dir = 1
@@ -26738,8 +26730,8 @@
 /obj/item/radio/intercom/directional/south,
 /obj/item/radio/intercom/directional/south,
 /obj/machinery/conveyor{
-	id = "Foundryload";
-	dir = 3
+	dir = 3;
+	id = "Foundryload"
 	},
 /obj/machinery/bouldertech/refinery/smelter,
 /turf/open/floor/iron/dark,
@@ -27044,7 +27036,8 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
-/turf/open/floor/plating/rust,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/misc/dirt,
 /area/station/maintenance/department/science)
 "ddJ" = (
 /obj/structure/reagent_dispensers/watertank,
@@ -27115,10 +27108,10 @@
 /area/station/engineering/atmos/pumproom)
 "deO" = (
 /obj/machinery/conveyor_switch/oneway{
-	id = "Foundryload";
 	dir = 1;
-	pixel_y = null;
-	pixel_x = -8
+	id = "Foundryload";
+	pixel_x = -8;
+	pixel_y = null
 	},
 /obj/structure/railing/corner/end{
 	dir = 3
@@ -27923,12 +27916,10 @@
 /turf/open/floor/iron/dark,
 /area/station/command/teleporter)
 "dvK" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/broken_flooring/corner/directional/west,
 /obj/structure/chair/office/light{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/misc/dirt,
 /area/station/maintenance/department/science)
 "dws" = (
 /obj/effect/turf_decal/bot,
@@ -28437,7 +28428,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
-/turf/open/floor/iron,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "dHt" = (
 /obj/machinery/atmospherics/components/binary/pump{
@@ -30113,14 +30104,16 @@
 /turf/open/floor/plating,
 /area/station/medical/abandoned)
 "ewF" = (
-/obj/structure/showcase/machinery/nanite_cloud_controller,
-/obj/effect/turf_decal/tile/purple/anticorner/contrasted{
-	dir = 1
+/obj/item/phone{
+	pixel_x = -4;
+	pixel_y = -2
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+/obj/structure/table,
+/obj/item/stack/sheet/mineral/gold{
+	pixel_x = 6;
+	pixel_y = 7
 	},
-/turf/open/floor/iron/dark/textured,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "ewJ" = (
 /obj/effect/turf_decal/siding/thinplating/light{
@@ -32863,8 +32856,8 @@
 	req_access = list("research")
 	},
 /obj/machinery/door/window/left/directional/east{
-	req_access = list("research");
-	name = "Containment Pen #3"
+	name = "Containment Pen #3";
+	req_access = list("research")
 	},
 /turf/open/floor/iron/textured_half{
 	dir = 1
@@ -33337,8 +33330,8 @@
 	req_access = list("research")
 	},
 /obj/machinery/door/window/left/directional/east{
-	req_access = list("research");
-	name = "Containment Pen #4"
+	name = "Containment Pen #4";
+	req_access = list("research")
 	},
 /turf/open/floor/iron/textured_half{
 	dir = 1
@@ -33438,7 +33431,9 @@
 "fQq" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small/directional/west,
-/turf/open/floor/iron,
+/obj/effect/mapping_helpers/broken_floor,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "fQy" = (
 /obj/machinery/power/shieldwallgen/xenobiologyaccess,
@@ -34412,7 +34407,9 @@
 "gkr" = (
 /obj/structure/table,
 /obj/item/storage/box/disks,
-/turf/open/floor/iron,
+/obj/item/wrench,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "gkz" = (
 /obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible{
@@ -40239,7 +40236,7 @@
 /obj/item/stack/cable_coil/cut,
 /obj/item/shard,
 /obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "iwW" = (
 /obj/machinery/door/poddoor/preopen{
@@ -43845,7 +43842,7 @@
 /area/station/hallway/primary/central)
 "jOV" = (
 /obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "jOW" = (
 /obj/effect/turf_decal/trimline/blue/corner,
@@ -47192,8 +47189,9 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/storage_shared)
 "lge" = (
-/obj/structure/showcase/machinery/nanite_programmer,
-/turf/open/floor/iron/dark/textured,
+/obj/structure/loom,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "lgk" = (
 /obj/structure/chair/office{
@@ -50279,8 +50277,8 @@
 	req_access = list("research")
 	},
 /obj/machinery/door/window/left/directional/east{
-	req_access = list("research");
-	name = "Containment Pen #5"
+	name = "Containment Pen #5";
+	req_access = list("research")
 	},
 /turf/open/floor/iron/dark/textured_half{
 	dir = 1
@@ -50294,8 +50292,12 @@
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "mtm" = (
-/obj/structure/showcase/machinery/nanite_program_hub,
-/turf/open/floor/iron/dark/textured,
+/obj/item/scythe{
+	pixel_y = 12
+	},
+/obj/structure/table,
+/obj/item/clothing/head/costume/crown,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "mtB" = (
 /obj/effect/turf_decal/siding/wood{
@@ -51693,8 +51695,8 @@
 	dir = 4
 	},
 /obj/machinery/door/window/brigdoor/left/directional/west{
-	req_access = list("armory");
-	name = "Brig Control Desk"
+	name = "Brig Control Desk";
+	req_access = list("armory")
 	},
 /turf/open/floor/iron,
 /area/station/security/warden)
@@ -52644,7 +52646,8 @@
 "noG" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/plating/rust,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "noK" = (
 /obj/effect/turf_decal/stripes/line{
@@ -59854,7 +59857,9 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron,
+/obj/structure/trap/stun,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "qaS" = (
 /obj/structure/disposalpipe/junction/yjunction{
@@ -62605,8 +62610,8 @@
 	req_access = list("research")
 	},
 /obj/machinery/door/window/left/directional/east{
-	req_access = list("research");
-	name = "Containment Pen #6"
+	name = "Containment Pen #6";
+	req_access = list("research")
 	},
 /turf/open/floor/iron/dark/textured_half{
 	dir = 1
@@ -69514,7 +69519,7 @@
 "tLg" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/landmark/generic_maintenance_landmark,
-/turf/open/floor/iron/dark/textured_edge,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "tLi" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
@@ -69596,7 +69601,7 @@
 /obj/item/clipboard,
 /obj/item/pen,
 /obj/effect/spawner/random/maintenance,
-/turf/open/floor/iron,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "tMe" = (
 /obj/structure/chair/sofa/corp/right{
@@ -69761,14 +69766,10 @@
 /turf/open/floor/iron/dark,
 /area/station/command/teleporter)
 "tOS" = (
-/obj/structure/showcase/machinery/nanite_chamber,
-/obj/effect/turf_decal/tile/purple/anticorner/contrasted{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/iron/dark/textured,
+/obj/item/pitchfork,
+/obj/structure/table,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "tOW" = (
 /obj/effect/turf_decal/tile/blue/anticorner{
@@ -69954,8 +69955,8 @@
 	},
 /obj/structure/cable,
 /obj/machinery/door/window/brigdoor/left/directional/north{
-	req_access = list("armory");
-	name = "Justice Chamber"
+	name = "Justice Chamber";
+	req_access = list("armory")
 	},
 /obj/machinery/door/window/right/directional/north{
 	name = "First-Aid Supplies";
@@ -70101,8 +70102,9 @@
 /turf/open/floor/wood,
 /area/station/maintenance/aft/lesser)
 "tXm" = (
-/obj/item/wrench,
-/turf/open/floor/plating/rust,
+/obj/effect/mapping_helpers/broken_floor,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "tXo" = (
 /obj/structure/chair/office/light{
@@ -71500,6 +71502,12 @@
 /obj/effect/spawner/random/structure/girder,
 /turf/open/floor/plating,
 /area/station/maintenance/department/security/upper)
+"uCs" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/mannequin,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/wood,
+/area/station/maintenance/department/science)
 "uCS" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small/directional/south,
@@ -71722,8 +71730,8 @@
 /obj/item/nanite_remote,
 /obj/structure/rack,
 /obj/machinery/camera/directional/north{
-	network = list("ss13","rd");
-	c_tag = "Science - Nanite Lab"
+	c_tag = "Science - Nanite Lab";
+	network = list("ss13","rd")
 	},
 /turf/open/floor/iron/dark/herringbone,
 /area/station/science/nanite)
@@ -77674,7 +77682,8 @@
 "xcv" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/remains/robot,
-/turf/open/floor/iron/dark/textured_edge,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "xcw" = (
 /obj/structure/sign/warning/secure_area,
@@ -78771,7 +78780,8 @@
 "xwH" = (
 /obj/effect/decal/cleanable/cobweb,
 /obj/item/wallframe/camera,
-/turf/open/floor/plating,
+/obj/structure/mirror/broken/directional/north,
+/turf/open/floor/wood,
 /area/station/maintenance/department/science)
 "xxa" = (
 /obj/effect/mapping_helpers/broken_floor,
@@ -132630,7 +132640,7 @@ bJT
 hzN
 bIy
 xXJ
-poi
+uCs
 dHs
 dvK
 aPa
