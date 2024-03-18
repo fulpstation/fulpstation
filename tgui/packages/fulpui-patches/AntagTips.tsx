@@ -6,27 +6,30 @@ import { Window } from '../tgui/layouts';
 
 type AntagTipInfo = {
   name: string;
+  antag_icon: string;
   theme: string;
   antag_tips: string[];
 };
 
 export const AntagTips = (props) => {
   const { act, data } = useBackend<AntagTipInfo>();
-  const { theme, name, antag_tips } = data;
-  const nameToUpperCase = (str: string) =>
-    str.replace(/^\w/, (c) => c.toUpperCase());
+  const { theme, name, antag_icon, antag_tips } = data;
 
   return (
     <Window width={400} height={500} theme={theme}>
       <Window.Content scrollable>
         <Section>
           <Box bold inline p={2}>
-            You are the {nameToUpperCase(name)}!
+            You are the {name}!
           </Box>
           <Box
             opacity={0.4}
             position="absolute"
-            className={classes(['antagonists96x96', name, 'antagonist-icon'])}
+            className={classes([
+              'antagonists96x96',
+              antag_icon,
+              'antagonist-icon',
+            ])}
           />
           <Divider />
           <Stack mb={1}>

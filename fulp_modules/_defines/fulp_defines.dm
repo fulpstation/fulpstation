@@ -52,5 +52,12 @@
 ///Define for the 'Rabbits' Faction.
 #define FACTION_RABBITS "rabbits"
 
+///Trait for people unable to sign devil contracts
+#define TRAIT_DEVIL_CONTRACT_IMMUNE "devil_contract_immune"
+
+///Source trait for Devil stuff.
+#define DEVIL_TRAIT "devil"
+
 //Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
 #define ROLE_SYNDICATE_ENGINEER "Syndicate Engineer"
+

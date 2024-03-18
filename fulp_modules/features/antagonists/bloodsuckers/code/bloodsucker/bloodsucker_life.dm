@@ -173,7 +173,9 @@
 	// From [powers/panacea.dm]
 	var/list/bad_organs = list(
 		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/body_egg),
-		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/zombie_infection))
+		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/legion_tumour),
+		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/zombie_infection),
+	)
 	for(var/tumors in bad_organs)
 		var/obj/item/organ/yucky_organs = tumors
 		if(!istype(yucky_organs))

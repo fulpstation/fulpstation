@@ -2,8 +2,6 @@
 #define BB_KING_TENTACLE "BB_king_tentacle"
 #define BB_KING_SURROUND_TENTACLE "BB_king_surround_tentacle"
 #define BB_CHARGE_ABILITY "BB_charge_ability"
-#define BOSS_MEDAL_EXILED "Exiled Killer"
-#define EXILED_KING_SCORE "Exiled Killed"
 #define BB_KING_TENTACLE_TRACK "BB_king_tentacle_track"
 
 /mob/living/basic/exiled_king
@@ -637,20 +635,6 @@
 	fire = 5
 	acid = 5
 
-/datum/award/achievement/boss/king_slayer
-	name = "King Slayer"
-	desc = "We eating sushi tonight"
-	database_id = BOSS_MEDAL_EXILED
-	icon = 'fulp_modules/features/exclusive_fauna/icons/rewards.dmi'
-	icon_state = "exiled_king"
-
-
-/datum/award/score/king_score
-	name = "Exiled Kings Killed"
-	desc = "You've killed HOW many?"
-	database_id = EXILED_KING_SCORE
-
-
 ///stolen code from megafauna.dm to grant achievements
 /mob/living/basic/exiled_king/proc/grant_achievement(medaltype, scoretype, list/grant_achievement = list())
 	if(!achievement_type || (flags_1 & ADMIN_SPAWNED_1) || !SSachievements.achievements_enabled)
@@ -706,3 +690,9 @@
 
 /obj/item/crusher_trophy/kraken_eye/on_mark_detonation(mob/living/target, mob/living/user)
 	ability.InterceptClickOn(user, null, target)
+
+#undef BB_KING_PORTAL
+#undef BB_KING_TENTACLE
+#undef BB_KING_SURROUND_TENTACLE
+#undef BB_CHARGE_ABILITY
+#undef BB_KING_TENTACLE_TRACK

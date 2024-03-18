@@ -13,16 +13,11 @@ import {
   Stack,
   Tabs,
 } from '../tgui/components';
+import {
+  Objective,
+  ObjectivePrintout,
+} from '../tgui/interfaces/common/Objectives';
 import { Window } from '../tgui/layouts';
-
-type Objective = {
-  count: number;
-  name: string;
-  explanation: string;
-  complete: BooleanLike;
-  was_uncompleted: BooleanLike;
-  reward: number;
-};
 
 type BloodsuckerInformation = {
   clan: ClanInfo[];
@@ -44,24 +39,6 @@ type PowerInfo = {
 
 type Info = {
   objectives: Objective[];
-};
-
-const ObjectivePrintout = (props: any) => {
-  const { data } = useBackend<Info>();
-  const { objectives } = data;
-  return (
-    <Stack vertical>
-      <Stack.Item bold>Your current objectives:</Stack.Item>
-      <Stack.Item>
-        {(!objectives && 'None!') ||
-          objectives.map((objective) => (
-            <Stack.Item key={objective.count}>
-              #{objective.count}: {objective.explanation}
-            </Stack.Item>
-          ))}
-      </Stack.Item>
-    </Stack>
-  );
 };
 
 export const AntagInfoBloodsucker = (props: any) => {
@@ -95,6 +72,8 @@ export const AntagInfoBloodsucker = (props: any) => {
 };
 
 const BloodsuckerIntro = () => {
+  const { act, data } = useBackend<Info>();
+  const { objectives } = data;
   return (
     <Stack vertical fill>
       <Stack.Item minHeight="16rem">
@@ -105,7 +84,7 @@ const BloodsuckerIntro = () => {
               aboard Space Station 13
             </Stack.Item>
             <Stack.Item>
-              <ObjectivePrintout />
+              <ObjectivePrintout objectives={objectives} />
             </Stack.Item>
           </Stack>
         </Section>

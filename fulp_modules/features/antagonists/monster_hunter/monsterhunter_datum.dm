@@ -36,7 +36,7 @@
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
-	owner.unconvertable = FALSE
+	owner.unconvertable = initial(owner.unconvertable)
 
 /datum/antagonist/monsterhunter/on_gain()
 	//Give Hunter Objective
