@@ -1043,9 +1043,12 @@
 /turf/open/floor/iron,
 /area/station/security/prison/rec)
 "avi" = (
-/obj/structure/training_machine,
-/turf/open/floor/engine,
-/area/station/science/explab)
+/obj/machinery/door/airlock/maintenance{
+	name = "Robotics Maintenance"
+	},
+/obj/effect/mapping_helpers/airlock/access/all/science/robotics,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard/fore)
 "avj" = (
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/effect/turf_decal/tile/red/half/contrasted{
@@ -2344,7 +2347,7 @@
 /area/station/science/ordnance/burnchamber)
 "aVj" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Research Maintenance"
+	name = "Science Break Room Maintenance"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/science/general,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -6962,6 +6965,11 @@
 /obj/effect/turf_decal/trimline/purple/line{
 	dir = 8
 	},
+/obj/item/reagent_containers/cup/beaker,
+/obj/item/reagent_containers/cup/beaker{
+	pixel_x = -3
+	},
+/obj/item/reagent_containers/dropper,
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
 "cNM" = (
@@ -8629,6 +8637,9 @@
 /obj/machinery/door/window/left/directional/north{
 	req_access = list("science");
 	name = "Research Lab Desk"
+	},
+/obj/structure/desk_bell{
+	pixel_x = -8
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/lobby)
@@ -11014,12 +11025,6 @@
 /turf/open/floor/iron/diagonal,
 /area/station/service/theater)
 "eyf" = (
-/obj/structure/table,
-/obj/item/reagent_containers/cup/beaker,
-/obj/item/reagent_containers/cup/beaker{
-	pixel_x = -3
-	},
-/obj/item/reagent_containers/dropper,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/trimline/purple/filled/corner,
 /obj/effect/turf_decal/trimline/purple/line{
@@ -14699,7 +14704,9 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/door/airlock/maintenance,
+/obj/machinery/door/airlock/maintenance{
+	name = "Ordnance Maintenance"
+	},
 /obj/machinery/door/firedoor/heavy,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
@@ -17866,11 +17873,11 @@
 /area/station/science/genetics)
 "hfQ" = (
 /obj/effect/mapping_helpers/airlock/access/all/science/robotics,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "robotics-entrance"
-	},
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/research,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/iron/white/textured_large,
 /area/station/science/robotics/lab)
 "hfR" = (
@@ -24395,7 +24402,7 @@
 /area/station/engineering/atmos/crystallizer)
 "jWo" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Research Maintenance"
+	name = "Xenobiology Maintenance"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/science/maintenance,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -24908,11 +24915,11 @@
 /area/station/engineering/atmos)
 "kfK" = (
 /obj/effect/mapping_helpers/airlock/access/all/science/robotics,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "robotics-entrance"
-	},
 /obj/machinery/door/airlock/research/glass,
 /obj/machinery/door/firedoor,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/iron/white/textured_large,
 /area/station/science/robotics/lab)
 "kfV" = (
@@ -25632,15 +25639,22 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/bridge)
 "kuG" = (
-/obj/machinery/holopad,
-/obj/effect/turf_decal/bot,
-/obj/effect/landmark/event_spawn,
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 8
 	},
 /obj/effect/turf_decal/trimline/purple/line{
 	dir = 4
 	},
+/obj/structure/table,
+/obj/item/storage/box/disks{
+	pixel_x = 6;
+	pixel_y = 9
+	},
+/obj/item/radio/headset/headset_medsci{
+	pixel_x = -7;
+	pixel_y = 4
+	},
+/obj/item/toy/figure/geneticist,
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
 "kuN" = (
@@ -30786,6 +30800,7 @@
 /area/station/hallway/primary/central/aft)
 "mHA" = (
 /obj/machinery/dna_infuser,
+/obj/effect/turf_decal/bot,
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
 "mHB" = (
@@ -31545,7 +31560,7 @@
 /area/station/commons/dorms/laundry)
 "mYN" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Fore Maintenance"
+	name = "Testing Range Maintenance"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/science/general,
 /turf/open/floor/plating,
@@ -32224,7 +32239,7 @@
 /area/station/hallway/primary/central/fore)
 "nni" = (
 /obj/machinery/door/airlock/maintenance{
-	name = "Fore Maintenance"
+	name = "Xenobiology Maintenance"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -39412,8 +39427,12 @@
 	id = "rdgene2";
 	name = "Genetics Lab Shutters"
 	},
-/obj/machinery/door/window/brigdoor/left/directional/east{
-	req_access = list("genetics")
+/obj/machinery/door/window/left/directional/east{
+	req_access = list("genetics");
+	name = "Genetics Desk"
+	},
+/obj/structure/desk_bell{
+	pixel_x = -8
 	},
 /turf/open/floor/iron/dark,
 /area/station/medical/medbay/lobby)
@@ -43230,6 +43249,9 @@
 /obj/machinery/door/window/right/directional/east{
 	req_access = list("robotics")
 	},
+/obj/structure/desk_bell{
+	pixel_x = -8
+	},
 /turf/open/floor/plating,
 /area/station/science/robotics/lab)
 "sac" = (
@@ -46475,15 +46497,7 @@
 /area/station/security/prison/visit)
 "tuv" = (
 /obj/structure/table,
-/obj/item/radio/headset/headset_medsci{
-	pixel_x = -7;
-	pixel_y = 4
-	},
-/obj/item/toy/figure/geneticist,
-/obj/item/storage/box/disks{
-	pixel_x = 6;
-	pixel_y = 9
-	},
+/obj/item/infuser_book,
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
 "tuE" = (
@@ -56257,8 +56271,12 @@
 	id = "rdgene2";
 	name = "Genetics Lab Shutters"
 	},
-/obj/machinery/door/window/brigdoor/left/directional/west{
-	req_access = list("genetics")
+/obj/machinery/door/window/left/directional/west{
+	req_access = list("genetics");
+	name = "Genetics Desk"
+	},
+/obj/structure/desk_bell{
+	pixel_x = 6
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/genetics)
@@ -56477,14 +56495,16 @@
 /turf/open/floor/plating,
 /area/station/maintenance/aft/lesser)
 "xNh" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/obj/structure/sign/map/fulp/directions/fore{
-	pixel_x = -32
+/obj/effect/turf_decal/trimline/purple/filled/corner{
+	dir = 8
 	},
-/turf/open/floor/plating,
-/area/station/maintenance/starboard/fore)
+/obj/effect/turf_decal/trimline/purple/line{
+	dir = 5
+	},
+/obj/machinery/holopad,
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/iron/dark,
+/area/station/science/genetics)
 "xNp" = (
 /obj/structure/reflector/box,
 /turf/open/floor/plating,
@@ -92960,7 +92980,7 @@ eeK
 aQM
 gWU
 eBu
-avi
+eBu
 eBu
 tyE
 aNB
@@ -93487,7 +93507,7 @@ gjS
 wEk
 xwG
 ozK
-rhU
+xNh
 kuG
 dli
 mHA
@@ -95544,7 +95564,7 @@ vhe
 mtn
 vhI
 wPV
-wDj
+mtn
 kTk
 nKh
 mhh
@@ -95801,7 +95821,7 @@ ksE
 eqF
 kuq
 nkz
-iHC
+aCl
 eOG
 ixj
 pGi
@@ -96058,7 +96078,7 @@ dCg
 mtn
 bvB
 xzo
-wDj
+mtn
 ykQ
 uZn
 fBo
@@ -99907,7 +99927,7 @@ qln
 vfK
 qln
 qln
-qln
+avi
 qln
 qln
 dBx
@@ -100164,7 +100184,7 @@ jyl
 jyl
 jyl
 jyl
-xNh
+jyl
 jyl
 qln
 rTp
@@ -100421,7 +100441,7 @@ qln
 qln
 qln
 qln
-swz
+kxf
 jyl
 scO
 xwW
@@ -100670,15 +100690,15 @@ bAI
 tKU
 hDv
 rkT
-wOh
-kxf
+xvK
+swz
 jyl
 qln
 pqO
 gZo
 hiu
 qln
-xvK
+wOh
 gDo
 qln
 tMP
