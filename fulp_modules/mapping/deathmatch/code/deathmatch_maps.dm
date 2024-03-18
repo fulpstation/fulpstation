@@ -10,6 +10,20 @@
 	map_name = "pandamonium"
 	key = "pandamonium"
 
+/datum/lazy_template/deathmatch/heliocentric
+	name = "Heliocentric"
+	map_dir = "fulp_modules/mapping/deathmatch/maps"
+	desc = "Nostalgic five-tile wide hallways."
+	max_players = 15
+	allowed_loadouts = list(
+		/datum/outfit/deathmatch_loadout/assistant,
+		/datum/outfit/deathmatch_loadout/beeftide,
+		/datum/outfit/deathmatch_loadout/masquerader,
+		/datum/outfit/deathmatch_loadout/naked,
+	)
+	map_name = "heliocentric"
+	key = "heliocentric"
+
 /datum/lazy_template/deathmatch/wizardwars
 	name = "Wizard Federation HQ"
 	map_dir = "fulp_modules/mapping/deathmatch/maps"
