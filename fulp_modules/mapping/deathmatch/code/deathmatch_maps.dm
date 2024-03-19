@@ -36,6 +36,9 @@
 		/datum/outfit/deathmatch_loadout/dmnukie,
 		/datum/outfit/deathmatch_loadout/dmtider,
 		/datum/outfit/deathmatch_loadout/dmabductor,
+		/datum/outfit/deathmatch_loadout/dmchef,
+		/datum/outfit/deathmatch_loadout/dmclown,
+		/datum/outfit/deathmatch_loadout/dmmime,
 		/datum/outfit/deathmatch_loadout/dmpete,
 	)
 	map_name = "dm_finaldestination"

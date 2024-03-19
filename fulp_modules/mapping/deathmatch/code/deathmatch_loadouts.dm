@@ -58,7 +58,7 @@
 	head = /obj/item/clothing/head/hats/caphat/parade
 	uniform = /obj/item/clothing/under/rank/captain
 	suit = /obj/item/clothing/suit/armor/vest/capcarapace/captains_formal
-	suit_store = /obj/item/gun/energy
+	suit_store = /obj/item/gun/energy/e_gun
 	shoes = /obj/item/clothing/shoes/laceup
 	neck = /obj/item/bedsheet/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
@@ -94,7 +94,7 @@
 	uniform = /obj/item/clothing/under/syndicate/tacticool
 	gloves = /obj/item/clothing/gloves/combat
 	back = /obj/item/mod/control/pre_equipped/nuclear
-	r_hand = /obj/item/gun/ballistic/automatic/c20r
+	r_hand = /obj/item/gun/ballistic/automatic/c20r/unrestricted
 	belt = /obj/item/gun/ballistic/automatic/pistol/clandestine
 	r_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
 	l_pocket = /obj/item/reagent_containers/hypospray/medipen/atropine
@@ -110,6 +110,7 @@
 	display_name = "Disciple of Pete"
 	desc = "You took a lesson from Cuban Pete."
 
+	back = /obj/item/storage/backpack/santabag
 	head = /obj/item/clothing/head/collectable/petehat
 	uniform = /obj/item/clothing/under/pants/camo
 	suit = /obj/item/clothing/suit/costume/poncho
@@ -120,6 +121,9 @@
 	l_pocket = /obj/item/grenade/syndieminibomb
 	r_pocket = /obj/item/grenade/syndieminibomb
 	implants = list(/obj/item/implanter/explosive_macro)
+	backpack_contents = list(
+		/obj/item/assembly/signaler = 10,
+   	)
 
 /datum/outfit/deathmatch_loadout/dmtider
 	name = "Deathmatch: Tider"
@@ -150,3 +154,81 @@
 	l_hand = /obj/item/gun/energy/alien
 	r_hand = /obj/item/gun/energy/alien
 	belt = /obj/item/gun/energy/shrink_ray
+
+/datum/outfit/deathmatch_loadout/dmclown
+	name = "Deathmatch: Clown"
+	display_name = "Clown"
+	desc = "They were bound to show up sooner or later."
+
+	uniform = /datum/outfit/job/clown::uniform
+	belt = /datum/outfit/job/clown::belt
+	shoes = /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat
+	mask = /datum/outfit/job/clown::mask
+	r_hand = /obj/item/pneumatic_cannon/pie/selfcharge
+	l_hand = /obj/item/bikehorn/golden
+	back = /datum/outfit/job/clown::backpack
+	box = /obj/item/storage/box/hug/reverse_revolver
+	implants = list(/obj/item/implant/sad_trombone)
+	l_pocket = /obj/item/melee/energy/sword/bananium
+	r_pocket = /obj/item/shield/energy/bananium
+	gloves = /obj/item/clothing/gloves/tackler/rocket
+
+	backpack_contents = list(
+		/obj/item/paperplane/syndicate = 1,
+		/obj/item/restraints/legcuffs/bola/tactical = 1,
+		/obj/item/restraints/legcuffs/beartrap = 1,
+		/obj/item/food/grown/banana = 1,
+		/obj/item/food/pie/cream = 1,
+		/obj/item/dnainjector/clumsymut,
+		/obj/item/sbeacondrop/clownbomb,
+		)
+
+/datum/outfit/deathmatch_loadout/dmmime
+	name = "Deathmatch: Mime"
+	display_name = "Mime"
+	desc = "..."
+
+	uniform = /datum/outfit/job/mime::uniform
+	belt = /obj/item/food/baguette/combat
+	shoes = /datum/outfit/job/mime::shoes
+	mask = /datum/outfit/job/mime::mask
+	back = /datum/outfit/job/mime::backpack
+	l_pocket = /obj/item/toy/crayon/spraycan/mimecan
+	r_pocket = /obj/item/food/grown/banana/mime
+	neck = /datum/outfit/job/mime::neck
+	gloves = /datum/outfit/job/mime::gloves
+
+	backpack_contents = list(
+		/obj/item/gun/ballistic/automatic/pistol,
+		/obj/item/suppressor,
+		/obj/item/ammo_box/c9mm,
+		)
+
+	granted_spells = list(
+		/datum/action/cooldown/spell/vow_of_silence,
+		/datum/action/cooldown/spell/conjure/invisible_chair,
+		/datum/action/cooldown/spell/conjure/invisible_wall,
+		/datum/action/cooldown/spell/conjure_item/invisible_box,
+		/datum/action/cooldown/spell/forcewall/mime,
+		/datum/action/cooldown/spell/pointed/projectile/finger_guns,
+		)
+
+/datum/outfit/deathmatch_loadout/dmchef
+	name = "Deathmatch: Chef"
+	display_name = "Chef"
+	desc = "Let him cook."
+
+	belt = /obj/item/gun/magic/hook
+	uniform = /obj/item/clothing/under/costume/buttondown/slacks/service
+	suit = /obj/item/clothing/suit/toggle/chef
+	suit_store = /obj/item/knife/kitchen
+	head = /obj/item/clothing/head/utility/chefhat
+	mask = /obj/item/clothing/mask/fakemoustache/italian
+	r_hand = /obj/item/clothing/gloves/the_sleeping_carp
+	back = /obj/item/storage/backpack
+
+	backpack_contents = list(
+		/obj/item/pizzabox/bomb/armed = 3,
+		/obj/item/knife/butcher,
+		/obj/item/sharpener,
+	)
