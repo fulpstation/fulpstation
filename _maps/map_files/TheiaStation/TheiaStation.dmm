@@ -3833,6 +3833,10 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
 	},
+/obj/machinery/camera/directional/east{
+	c_tag = "Engineering - Supermatter Emitters";
+	network = list("ss13","engine")
+	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/supermatter/room)
 "bzm" = (
@@ -4830,11 +4834,6 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/aft)
 "bTa" = (
-/obj/machinery/camera/directional/north{
-	c_tag = "Engineering - Supermatter Emitters";
-	name = "engineering camera";
-	network = list("ss13","engine")
-	},
 /obj/effect/landmark/event_spawn,
 /obj/machinery/power/emitter{
 	dir = 8
@@ -5427,6 +5426,11 @@
 	},
 /obj/machinery/light_switch/directional/east,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
+/obj/machinery/camera/directional/east{
+	c_tag = "Engineering Supermatter Port";
+	name = "camera";
+	network = list("ss13","engine")
+	},
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "chk" = (
@@ -24314,6 +24318,10 @@
 	},
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/orange/visible,
+/obj/machinery/camera/directional/west{
+	c_tag = "Engineering Supermatter Starboard";
+	network = list("ss13","engine")
+	},
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "jUb" = (
@@ -25713,10 +25721,6 @@
 "kwk" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
-	},
-/obj/machinery/camera/directional/west{
-	c_tag = "Engineering Supermatter Starboard";
-	network = list("ss13","engine")
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/orange/visible,
 /turf/open/floor/engine,
@@ -41467,18 +41471,21 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "rmR" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/structure/table/reinforced,
+/obj/item/folder/white,
+/obj/item/pen,
+/obj/effect/turf_decal/tile/yellow/fourcorners,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/preopen{
+	dir = 4;
+	id = "chemlock";
+	name = "Pharmacy Shutters"
 	},
-/obj/machinery/camera/directional/east{
-	c_tag = "Engineering Supermatter Port";
-	name = "camera";
-	network = list("ss13","engine")
+/obj/machinery/door/window/right/directional/west{
+	req_access = list("pharmacy")
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
-/turf/open/floor/engine,
-/area/station/engineering/supermatter/room)
+/turf/open/floor/iron/showroomfloor,
+/area/station/medical/pharmacy)
 "rmT" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -43723,7 +43730,7 @@
 	id = "chemlock";
 	name = "Pharmacy Shutters"
 	},
-/obj/machinery/door/window/brigdoor/right/directional/west{
+/obj/machinery/door/window/left/directional/west{
 	req_access = list("pharmacy")
 	},
 /turf/open/floor/iron/showroomfloor,
@@ -47068,6 +47075,14 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/processing)
+"tJA" = (
+/obj/machinery/camera/directional/north{
+	c_tag = "Engineering - Supermatter Emitters";
+	name = "engineering camera";
+	network = list("ss13","engine")
+	},
+/turf/open/space/basic,
+/area/space)
 "tJF" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -75261,7 +75276,7 @@ qwf
 cgW
 eve
 hHn
-rmR
+hHn
 sDO
 hHn
 nzY
@@ -78592,7 +78607,7 @@ vQV
 vQV
 vQV
 vQV
-vQV
+tJA
 vQV
 nri
 nri
@@ -78849,7 +78864,7 @@ vQV
 vQV
 vQV
 vQV
-vQV
+tJA
 vQV
 vQV
 vQV
@@ -90431,7 +90446,7 @@ gZl
 rVN
 gZl
 rBU
-sjA
+rmR
 dtz
 sjA
 rBU
