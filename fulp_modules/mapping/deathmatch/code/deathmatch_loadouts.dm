@@ -85,7 +85,7 @@
 	suit_store = /obj/item/gun/energy/recharge/ebow
 	l_hand = /obj/item/melee/energy/sword
 	r_pocket = /obj/item/reagent_containers/hypospray/medipen/stimulants
-	l_pocket = /obj/item/ammo_box/a357
+	l_pocket = /obj/item/soap/syndie
 	belt = /obj/item/gun/ballistic/revolver/syndicate
 
 /datum/outfit/deathmatch_loadout/dmnukie
@@ -94,17 +94,18 @@
 	desc = "Gear afforded to Lone Operatives. Your mission is simple."
 
 	uniform = /obj/item/clothing/under/syndicate/tacticool
-	gloves = /obj/item/clothing/gloves/combat
+	gloves = /obj/item/clothing/gloves/krav_maga/combatglovesplus
 	back = /obj/item/mod/control/pre_equipped/nuclear
 	r_hand = /obj/item/gun/ballistic/automatic/c20r/unrestricted
 	belt = /obj/item/gun/ballistic/automatic/pistol/clandestine
-	r_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
+	r_pocket = /obj/item/reagent_containers/hypospray/medipen/stimulants
 	l_pocket = /obj/item/reagent_containers/hypospray/medipen/atropine
 	implants = list(/obj/item/implant/explosive)
 
 	backpack_contents = list(
 		/obj/item/ammo_box/c10mm,
 		/obj/item/ammo_box/magazine/smgm45 = 2,
+		/obj/item/pen/edagger,
    	)
 
 /datum/outfit/deathmatch_loadout/dmpete
@@ -138,7 +139,7 @@
 	mask = /obj/item/clothing/mask/gas
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	gloves = /obj/item/clothing/gloves/cut
-	l_pocket = /obj/item/reagent_containers/pill/stimulant
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
 	r_pocket = /obj/item/stock_parts/cell/high
 	belt = /obj/item/storage/belt/utility/full
 
@@ -164,7 +165,7 @@
 
 	uniform = /datum/outfit/job/clown::uniform
 	belt = /datum/outfit/job/clown::belt
-	shoes = /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat
+	shoes = /obj/item/clothing/shoes/clown_shoes/combat
 	mask = /datum/outfit/job/clown::mask
 	r_hand = /obj/item/pneumatic_cannon/pie/selfcharge
 	l_hand = /obj/item/bikehorn/golden
@@ -192,6 +193,7 @@
 
 	uniform = /datum/outfit/job/mime::uniform
 	belt = /obj/item/food/baguette/combat
+	head = /datum/outfit/job/mime::head
 	shoes = /datum/outfit/job/mime::shoes
 	mask = /datum/outfit/job/mime::mask
 	back = /datum/outfit/job/mime::backpack
@@ -208,9 +210,9 @@
 
 	granted_spells = list(
 		/datum/action/cooldown/spell/vow_of_silence,
+		/datum/action/cooldown/spell/conjure_item/invisible_box,
 		/datum/action/cooldown/spell/conjure/invisible_chair,
 		/datum/action/cooldown/spell/conjure/invisible_wall,
-		/datum/action/cooldown/spell/conjure_item/invisible_box,
 		/datum/action/cooldown/spell/forcewall/mime,
 		/datum/action/cooldown/spell/pointed/projectile/finger_guns,
 		)
