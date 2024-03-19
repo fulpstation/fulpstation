@@ -36,6 +36,7 @@
 	desc = "Finally, nobody to stop the power from going to your head."
 
 	head = /obj/item/clothing/head/hats/hos/beret
+	ears = 	ears = /obj/item/radio/headset/heads/hos/alt
 	uniform = /obj/item/clothing/under/rank/security/head_of_security/alt
 	shoes = /obj/item/clothing/shoes/jackboots/sec
 	suit = /obj/item/clothing/suit/armor/hos/hos_formal
@@ -46,7 +47,7 @@
 	belt = /obj/item/gun/energy/e_gun/hos
 	r_hand = /obj/item/melee/baton/security/loaded
 	l_hand = /obj/item/shield/riot/tele
-	l_pocket = /obj/item/restraints/legcuffs/bola/energy
+	l_pocket = /obj/item/grenade/flashbang
 	r_pocket = /obj/item/restraints/legcuffs/bola/energy
 	implants = list(/obj/item/implant/mindshield)
 
@@ -56,6 +57,7 @@
 	desc = "Draw your sword and show the syndicate scum no quarter."
 
 	head = /obj/item/clothing/head/hats/caphat/parade
+	ears = /obj/item/radio/headset/heads/captain/alt
 	uniform = /obj/item/clothing/under/rank/captain
 	suit = /obj/item/clothing/suit/armor/vest/capcarapace/captains_formal
 	suit_store = /obj/item/gun/energy/e_gun
