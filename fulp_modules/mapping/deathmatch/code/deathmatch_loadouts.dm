@@ -36,7 +36,7 @@
 	desc = "Finally, nobody to stop the power from going to your head."
 
 	head = /obj/item/clothing/head/hats/hos/beret
-	ears = 	ears = /obj/item/radio/headset/heads/hos/alt
+	ears = 	/obj/item/radio/headset/heads/hos/alt
 	uniform = /obj/item/clothing/under/rank/security/head_of_security/alt
 	shoes = /obj/item/clothing/shoes/jackboots/sec
 	suit = /obj/item/clothing/suit/armor/hos/hos_formal
