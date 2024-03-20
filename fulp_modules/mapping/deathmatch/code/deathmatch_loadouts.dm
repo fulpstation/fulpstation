@@ -197,15 +197,18 @@
 	shoes = /datum/outfit/job/mime::shoes
 	mask = /datum/outfit/job/mime::mask
 	back = /datum/outfit/job/mime::backpack
+	box = /datum/outfit/job/mime::box
 	l_pocket = /obj/item/toy/crayon/spraycan/mimecan
 	r_pocket = /obj/item/food/grown/banana/mime
 	neck = /datum/outfit/job/mime::neck
 	gloves = /datum/outfit/job/mime::gloves
 
 	backpack_contents = list(
+		/obj/item/reagent_containers/cup/glass/bottle/bottleofnothing,
 		/obj/item/gun/ballistic/automatic/pistol,
 		/obj/item/suppressor,
 		/obj/item/ammo_box/c9mm,
+		/obj/item/food/croissant/throwing = 2,
 		)
 
 	granted_spells = list(
