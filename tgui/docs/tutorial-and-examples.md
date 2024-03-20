@@ -127,7 +127,7 @@ import { useBackend } from '../backend';
 import { Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const SampleInterface = (props) => {
+export const SampleInterface = (props, context) => {
   const { act, data } = useBackend(context);
   // Extract `health` and `color` variables from the `data` object.
   const {
@@ -259,7 +259,7 @@ import { useBackend } from '../backend';
 import { Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const SampleInterface = (props) => {
+export const SampleInterface = (props, context) => {
   return (
     <Window resizable>
       <Window.Content scrollable>
@@ -269,7 +269,7 @@ export const SampleInterface = (props) => {
   );
 };
 
-const HealthStatus = (props) => {
+const HealthStatus = (props, context) => {
   const { act, data } = useBackend(context);
   const {
     user,
@@ -330,7 +330,7 @@ import { useBackend } from '../backend';
 import { Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const SampleInterface = (props) => {
+export const SampleInterface = (props, context) => {
   const { act, data } = useBackend(context);
   // Extract `health` and `color` variables from the `data` object.
   const {
