@@ -6,7 +6,7 @@
 
 - README.md > Replaces it with our own readme
 
-- tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
+- tgui/packages/tgui/routes.tsx > Add custom routing so fulp-specific interfaces can be found and loaded
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 
