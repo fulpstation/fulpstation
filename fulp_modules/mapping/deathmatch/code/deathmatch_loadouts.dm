@@ -29,4 +29,3 @@
 	granted_spells = list(
 		/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two,
 		)
-

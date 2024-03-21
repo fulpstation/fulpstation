@@ -23,4 +23,3 @@
 	)
 	map_name = "heliocentric"
 	key = "heliocentric"
-
