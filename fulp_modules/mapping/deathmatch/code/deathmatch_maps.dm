@@ -28,7 +28,7 @@
 	name = "Final Destination"
 	map_dir = "fulp_modules/_maps/deathmatch"
 	desc = "1v1v1v1, 1 Stock, No Items, Final Destination."
-	max_players = 4
+	max_players = 8
 	allowed_loadouts = list(
 		/datum/outfit/deathmatch_loadout/dmcap,
 		/datum/outfit/deathmatch_loadout/dmhos,
