@@ -10,13 +10,13 @@
  */
 
 /datum/map_template/ruin/icemoon/fulp
-	prefix = "fulp_modules/mapping/ruins/icemoon/"
+	prefix = "fulp_modules/_maps/RandomRuins/IceRuins/"
 
 /datum/map_template/ruin/icemoon/underground/fulp
-	prefix = "fulp_modules/mapping/ruins/icemoon/"
+	prefix = "fulp_modules/_maps/RandomRuins/IceRuins/"
 
 /datum/map_template/ruin/lavaland/fulp
-	prefix = "fulp_modules/mapping/ruins/lavaland/"
+	prefix = "fulp_modules/_maps/RandomRuins/lavaland/"
 
 /datum/map_template/ruin/space/fulp
-	prefix = "fulp_modules/mapping/ruins/space/"
+	prefix = "fulp_modules/_maps/RandomRuins/SpaceRuins/"
