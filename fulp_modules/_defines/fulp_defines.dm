@@ -23,18 +23,8 @@
 #define ROLE_BEEFMAN_STATION "Beefman Station Inhabitant"
 
 /**
- * # PRISON DEFINES
- */
-#define ACCOUNT_PRISON "PRS"
-#define ACCOUNT_PRISON_NAME "Prison Budget"
-#define PERMABRIG_SHUTTLE_OBJECTIVE_SUCCESS "Permabrig Success"
-#define PERMABRIG_SHUTTLE_OBJECTIVE_FAILURE "Permabrig Failure"
-
-
-/**
  * # MISC
  */
-
 ///Bullet Caliber for Joel's gun, used in 'joel_gun.dm'
 #define CALIBER_C22 ".c22"
 
