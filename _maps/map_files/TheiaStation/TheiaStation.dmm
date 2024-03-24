@@ -1159,6 +1159,9 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/brig)
+"awq" = (
+/turf/closed/wall/r_wall,
+/area/station/maintenance/department/engine/atmos)
 "awW" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 5
@@ -8387,6 +8390,11 @@
 "drx" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
+	},
+/obj/machinery/door/window/brigdoor/left/directional/west{
+	name = "Secondary AI Core Access";
+	req_access = list("ai_upload");
+	pixel_x = -4
 	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai)
@@ -33080,8 +33088,13 @@
 /turf/open/floor/iron,
 /area/station/science/ordnance/office)
 "nFQ" = (
-/turf/closed/wall/r_wall,
-/area/station/cargo/bitrunning/den)
+/obj/machinery/door/window/brigdoor/left/directional/west{
+	name = "Secondary AI Core Access";
+	req_access = list("ai_upload");
+	pixel_x = -4
+	},
+/turf/open/floor/iron/dark,
+/area/station/ai_monitored/turret_protected/ai)
 "nFX" = (
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
@@ -46386,6 +46399,9 @@
 "tqo" = (
 /turf/closed/wall/r_wall,
 /area/station/ai_monitored/turret_protected/ai_upload_foyer/command)
+"tqv" = (
+/turf/closed/wall,
+/area/station/engineering/transit_tube)
 "tqz" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/smart/simple/purple/visible{
@@ -52606,6 +52622,9 @@
 /obj/effect/turf_decal/tile/purple/anticorner/contrasted,
 /turf/open/floor/iron/dark,
 /area/station/science/cytology)
+"wdx" = (
+/turf/closed/wall,
+/area/station/cargo/drone_bay)
 "wdz" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 8
@@ -53683,6 +53702,9 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/any/engineering/maintenance/departmental,
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine/atmos)
 "wzr" = (
@@ -69200,7 +69222,7 @@ qUx
 pOj
 qUx
 pKn
-yeg
+nFQ
 rUh
 nam
 nam
@@ -71978,7 +72000,7 @@ vhc
 jAa
 bvs
 jEI
-bzm
+pzX
 nDt
 riY
 olm
@@ -72235,7 +72257,7 @@ ojX
 aZq
 exx
 hxY
-bzm
+pzX
 oIi
 juj
 tTC
@@ -72492,7 +72514,7 @@ jWh
 ooT
 ofn
 wnC
-bzm
+pzX
 jsu
 cLQ
 jYT
@@ -72749,12 +72771,12 @@ lOM
 ibk
 eOd
 awW
-bzm
+pzX
 oVZ
 dZW
 jYT
 vkG
-seW
+rwa
 pxp
 pxp
 pxp
@@ -73006,12 +73028,12 @@ cfg
 fAb
 cfg
 cfg
-cfg
+awq
 hrT
 olm
 jYT
 wOp
-seW
+rwa
 dhj
 hhR
 agC
@@ -73263,12 +73285,12 @@ qWv
 qWv
 qWv
 wxt
-cfg
+awq
 nmi
 bDF
 jYT
 vLZ
-seW
+rwa
 vFX
 pEe
 fyu
@@ -73520,11 +73542,11 @@ cfg
 leD
 cfg
 lAC
-cfg
+awq
 wAj
 hXO
 wAj
-seW
+rwa
 seW
 vFX
 jLf
@@ -74818,8 +74840,8 @@ aIg
 bcd
 iWb
 iWb
-iWb
-iWb
+tqv
+tqv
 vQV
 vQV
 vQV
@@ -74843,10 +74865,10 @@ vQV
 vQV
 kpq
 kpq
-fkR
-fkR
-fkR
-fkR
+kpq
+kpq
+kpq
+kpq
 vQV
 vQV
 vQV
@@ -75103,7 +75125,7 @@ ssX
 ssX
 ssX
 ePR
-fkR
+kpq
 vQV
 vQV
 vQV
@@ -75360,8 +75382,8 @@ ejh
 sYu
 spY
 fnD
-fkR
-fkR
+kpq
+kpq
 vQV
 mnu
 mnu
@@ -75607,7 +75629,7 @@ vpc
 sjZ
 uUC
 imk
-dTi
+wdx
 ejh
 ejh
 ejh
@@ -75618,7 +75640,7 @@ vJJ
 spY
 spY
 uKn
-fkR
+kpq
 vQV
 mnu
 kXz
@@ -75866,16 +75888,16 @@ fkR
 fkR
 fkR
 ejh
-kpq
-kpq
+fkR
+fkR
 qZw
-kpq
-kpq
+fkR
+fkR
 vJJ
 bXd
 spY
 rOm
-fkR
+kpq
 mnu
 mnu
 oDZ
@@ -76123,11 +76145,11 @@ spY
 spY
 spY
 spY
-kpq
+fkR
 uTA
 owR
 bsX
-nFQ
+tLC
 fkR
 fkR
 oKj
@@ -76384,7 +76406,7 @@ tLC
 iwt
 aHm
 lsB
-nFQ
+tLC
 iZo
 eAQ
 iGL
@@ -84863,8 +84885,8 @@ gQP
 gQP
 crs
 syt
-hab
-hab
+mUR
+mUR
 ryP
 mUR
 gdJ
@@ -85118,8 +85140,8 @@ cEj
 fZd
 dXR
 gQP
-hoK
-hoK
+pll
+pll
 mUR
 aIh
 cxj
