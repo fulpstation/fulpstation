@@ -64,53 +64,29 @@ SUBSYSTEM_DEF(overlays)
 
 /proc/iconstate2appearance(icon, iconstate)
 	var/static/image/stringbro = new()
-	var/list/icon_states_cache = SSoverlays.overlay_icon_state_caches
-	var/list/cached_icon = icon_states_cache[icon]
-	if (cached_icon)
-		var/cached_appearance = cached_icon["[iconstate]"]
-		if (cached_appearance)
-			return cached_appearance
 	stringbro.icon = icon
 	stringbro.icon_state = iconstate
-	if (!cached_icon) //not using the macro to save an associated lookup
-		cached_icon = list()
-		icon_states_cache[icon] = cached_icon
-	var/cached_appearance = stringbro.appearance
-	cached_icon["[iconstate]"] = cached_appearance
-	return cached_appearance
+	return stringbro.appearance
 
 /proc/icon2appearance(icon)
 	var/static/image/iconbro = new()
-	var/list/icon_cache = SSoverlays.overlay_icon_cache
-	. = icon_cache[icon]
-	if (!.)
-		iconbro.icon = icon
-		. = iconbro.appearance
-		icon_cache[icon] = .
+	iconbro.icon = icon
+	return iconbro.appearance
 
-/atom/proc/build_appearance_list(old_overlays)
-	var/static/image/appearance_bro = new()
-	var/list/new_overlays = list()
-	if (!islist(old_overlays))
-		old_overlays = list(old_overlays)
-	for (var/overlay in old_overlays)
+/atom/proc/build_appearance_list(list/build_overlays)
+	if (!islist(build_overlays))
+		build_overlays = list(build_overlays)
+	for (var/overlay in build_overlays)
 		if(!overlay)
+			build_overlays -= overlay
 			continue
 		if (istext(overlay))
-			new_overlays += iconstate2appearance(icon, overlay)
+			var/index = build_overlays.Find(overlay)
+			build_overlays[index] = iconstate2appearance(icon, overlay)
 		else if(isicon(overlay))
-			new_overlays += icon2appearance(overlay)
-		else
-			if(isloc(overlay))
-				var/atom/A = overlay
-				if (A.flags_1 & OVERLAY_QUEUED_1)
-					COMPILE_OVERLAYS(A)
-			appearance_bro.appearance = overlay //this works for images and atoms too!
-			if(!ispath(overlay))
-				var/image/I = overlay
-				appearance_bro.dir = I.dir
-			new_overlays += appearance_bro.appearance
-	return new_overlays
+			var/index = build_overlays.Find(overlay)
+			build_overlays[index] = icon2appearance(overlay)
+	return build_overlays
 
 #define NOT_QUEUED_ALREADY (!(flags_1 & OVERLAY_QUEUED_1))
 #define QUEUE_FOR_COMPILE flags_1 |= OVERLAY_QUEUED_1; SSoverlays.queue += src;

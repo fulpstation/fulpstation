@@ -212,8 +212,6 @@ BLIND     // can't see anything
 		if(H.w_uniform == src)
 			H.update_suit_sensors()
 
-	..()
-
 /obj/item/clothing/under/AltClick(mob/user)
 	if(..())
 		return 1
